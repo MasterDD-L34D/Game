@@ -20,6 +20,9 @@ updated: 2025-11-22
 - [Hub documentale](evo-tactics/README.md) — panoramica aggiornata, strumenti correlati e accesso rapido all'archivio log.
 - [Visione & Struttura](evo-tactics/guides/visione-struttura.md) — visione di prodotto, pilastri tattici e workflow di integrazione.
 - [Template PTPF](evo-tactics/guides/template-ptpf.md) — struttura compilabile con checklist per missioni, specie e loop telemetrici.
+- [Visione & Struttura (seed)](evo-tactics/guides/vision-and-structure-notes.md) — scaffold originale a supporto della guida consolidata.
+- [Template PTPF seed](evo-tactics/guides/ptpf-seed-template.md) — versione originaria di riferimento rapido.
+- [Codex seed](evo-tactics/guides/codex-readme.md) — indice veloce dei materiali Evo-Tactics e dei validator.
 - [Security & Ops Playbook](evo-tactics/guides/security-ops.md) — audit CI/locali, rotazioni credenziali e incident response.
 - [Integration Log (archivio)](archive/evo-tactics/integration-log.md) — cronologia DOC-01/DOC-02/DOC-03 conservata per riferimento storico.
 - [Archivio storico](archive/evo-tactics/README.md) — testo introduttivo pre-normalizzazione conservato per contesto.
@@ -32,12 +35,12 @@ updated: 2025-11-22
 - [Trait Reference & Glossario](catalog/trait_reference.md) — label/description approvate e sincronizzazione glossario/localizzazioni.
 - [Trait Reference Manual (omnibus)](trait_reference_manual.md) — indice dei capitoli tematici in `docs/traits-manuale/`.
 
-## Strumenti incoming
+## Strumenti incoming & template
 
-- [incoming/docs/obsidian_template.md](incoming/docs/obsidian_template.md) — vault suggerito per note locali.
+- [templates/obsidian_template.md](templates/obsidian_template.md) — vault suggerito per note locali.
 - [incoming/docs/yaml_validator.py](../incoming/docs/yaml_validator.py) — validazione dataset telemetrici.
 - [incoming/docs/bioma_encounters.yaml](../incoming/docs/bioma_encounters.yaml) — base encounter per sincronizzazione VC.
-- [incoming/lavoro_da_classificare/security.yml](../incoming/lavoro_da_classificare/security.yml) — workflow CI per audit Bandit/npm audit/gitleaks.
+- [incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/security.yml](../incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/security.yml) — workflow CI per audit Bandit/npm audit/gitleaks.
 
 ## Ops & analytics
 

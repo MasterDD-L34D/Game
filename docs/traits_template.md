@@ -7,6 +7,7 @@ all'indice aggregato `data/traits/index.json`.
 
 Guida operativa completa: [docs/traits_scheda_operativa.md](traits_scheda_operativa.md).
 Ritorno rapido alla guida autori: [README_HOWTO_AUTHOR_TRAIT.md](README_HOWTO_AUTHOR_TRAIT.md).
+Contesto Evo Pack v2 e mapping `trait_code → id`: [Guida Evo Tactics Pack v2](Guida_Evo_Tactics_Pack_v2.md).
 
 Gli obiettivi principali del template sono:
 

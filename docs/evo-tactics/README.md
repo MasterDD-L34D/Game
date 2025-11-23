@@ -18,18 +18,18 @@ design, telemetria e produzione.
 
 ## Documenti principali
 
-| Percorso | Contenuto |
-| --- | --- |
+| Percorso                                                     | Contenuto                                                                                                                         |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
 | [`guides/visione-struttura.md`](guides/visione-struttura.md) | Sintesi della visione di prodotto, dei pilastri tattici e della struttura ad anello che governa missioni, specie e loop di gioco. |
-| [`guides/template-ptpf.md`](guides/template-ptpf.md) | Template operativo PTPF con sezioni compilabili, esempi pratici e checklist di qualità per i deliverable Evo-Tactics. |
-| [`guides/security-ops.md`](guides/security-ops.md) | Playbook Security & Ops con workflow CI, audit locali e rotazione credenziali. |
+| [`guides/template-ptpf.md`](guides/template-ptpf.md)         | Template operativo PTPF con sezioni compilabili, esempi pratici e checklist di qualità per i deliverable Evo-Tactics.             |
+| [`guides/security-ops.md`](guides/security-ops.md)           | Playbook Security & Ops con workflow CI, audit locali e rotazione credenziali.                                                    |
 
 ## Processi operativi
 
 - **Validator e script**: consulta [`incoming/docs/yaml_validator.py`](../../incoming/docs/yaml_validator.py)
   e [`incoming/docs/auto_eval_from_yaml.py`](../../incoming/docs/auto_eval_from_yaml.py) per controllare i dataset.
 - **Template Obsidian**: il vault suggerito è disponibile in
-  [`incoming/docs/obsidian_template.md`](../incoming/docs/obsidian_template.md).
+  [`templates/obsidian_template.md`](../templates/obsidian_template.md).
 - **Telemetria**: la base YAML per gli encounter è in
   [`incoming/docs/bioma_encounters.yaml`](../../incoming/docs/bioma_encounters.yaml) ed è coerente con gli output del
   pack Evo-Tactics (`docs/evo-tactics-pack/catalog_data.json`).
