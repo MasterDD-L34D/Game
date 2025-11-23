@@ -19,37 +19,37 @@ Questa sezione raccoglie il flusso operativo consolidato e i comandi principali 
    - Imposta `VITE_TRAIT_DATA_SOURCE=remote` e `VITE_TRAIT_DATA_URL=../data/traits/index.json`.
    - Approfondimento: [STANDALONE Trait Editor](standalone-trait-editor.md).
 4. **Sincronizzare i report**
-   - Esegui `python tools/py/collect_trait_fields.py` per aggiornare `reports/trait_fields_by_type.json` e `reports/trait_texts.json`.
+   - Esegui `python tools/py/collect_trait_fields.py` per aggiornare `docs/reports/trait_fields_by_type.json` e `docs/reports/trait_texts.json`.
    - Propaga le localizzazioni con `python scripts/sync_trait_locales.py`.
 5. **Rigenerare indice, baseline e coverage**
    - `node scripts/build_trait_index.js --output data/traits/index.csv` e verifica che il CSV sia versionato/aggiornato.
    - `python tools/py/build_trait_baseline.py` e `python tools/py/report_trait_coverage.py` per aggiornare `data/derived/analysis/` (in particolare `trait_baseline.yaml` e `trait_coverage_report.json`).
 6. **Eseguire gli audit finali**
    - `python3 scripts/trait_audit.py --check`.
-   - Archivia i log in `logs/` (es. `logs/trait_audit.md`) come parte della PR e annota eventuali warning.
+   - Archivia i log in `logs/` (es. `docs/logs/trait_audit.md`) come parte della PR e annota eventuali warning.
 7. **Compilare la checklist PR**
    - Rivedi flag di completezza, localizzazioni, impatti su coverage/baseline.
    - Segui le checklist riportate in `README_HOWTO_AUTHOR_TRAIT.md` e `docs/contributing/traits.md`, riportando l'esito direttamente nella descrizione della PR.
 
 ## Strumenti e comandi principali
 
-| Obiettivo | Comando | Output |
-| --- | --- | --- |
-| Validazione schema trait | `python tools/py/trait_template_validator.py --summary` | Verifica campi obbligatori e restituisce riepiloghi per tipologia. |
-| Report campi & glossario | `python tools/py/collect_trait_fields.py --output reports/trait_fields_by_type.json --glossary-output reports/trait_texts.json` | Aggiorna report per famiglia e testi approvati. |
-| Sync localizzazioni | `python scripts/sync_trait_locales.py --language it --glossary data/core/traits/glossary.json` | Allinea `locales/<lingua>/traits.json`. |
-| Ricostruzione indice | `node scripts/build_trait_index.js --output data/traits/index.csv` | Genera indice con flag di completezza e metadati. |
-| Baseline & coverage | `python tools/py/build_trait_baseline.py ...` + `python tools/py/report_trait_coverage.py ...` | Aggiorna `data/derived/analysis/` e fallisce in strict se mancano collegamenti. |
-| Audit completo | `python3 scripts/trait_audit.py --check` | Produce/valida `logs/trait_audit.md` e pipeline di verifica finale. |
-| Anteprima editor standalone | `npm run dev` (da `Trait Editor/`, con `VITE_TRAIT_DATA_SOURCE`, `VITE_TRAIT_DATA_URL`) | Interfaccia AngularJS con sync remoto e fallback mock automatico. |
-| Verifica TraitDataService | `node scripts/simulate-trait-source.mjs` | Simula un fetch remoto riuscito e un fallimento forzato, mostrando il ritorno ai mock. |
+| Obiettivo                   | Comando                                                                                                                                   | Output                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Validazione schema trait    | `python tools/py/trait_template_validator.py --summary`                                                                                   | Verifica campi obbligatori e restituisce riepiloghi per tipologia.                     |
+| Report campi & glossario    | `python tools/py/collect_trait_fields.py --output docs/reports/trait_fields_by_type.json --glossary-output docs/reports/trait_texts.json` | Aggiorna report per famiglia e testi approvati.                                        |
+| Sync localizzazioni         | `python scripts/sync_trait_locales.py --language it --glossary data/core/traits/glossary.json`                                            | Allinea `locales/<lingua>/traits.json`.                                                |
+| Ricostruzione indice        | `node scripts/build_trait_index.js --output data/traits/index.csv`                                                                        | Genera indice con flag di completezza e metadati.                                      |
+| Baseline & coverage         | `python tools/py/build_trait_baseline.py ...` + `python tools/py/report_trait_coverage.py ...`                                            | Aggiorna `data/derived/analysis/` e fallisce in strict se mancano collegamenti.        |
+| Audit completo              | `python3 scripts/trait_audit.py --check`                                                                                                  | Produce/valida `docs/logs/trait_audit.md` e pipeline di verifica finale.               |
+| Anteprima editor standalone | `npm run dev` (da `Trait Editor/`, con `VITE_TRAIT_DATA_SOURCE`, `VITE_TRAIT_DATA_URL`)                                                   | Interfaccia AngularJS con sync remoto e fallback mock automatico.                      |
+| Verifica TraitDataService   | `node scripts/simulate-trait-source.mjs`                                                                                                  | Simula un fetch remoto riuscito e un fallimento forzato, mostrando il ritorno ai mock. |
 
 ## Checklist rapida
 
-- [ ] Glossario e report (`reports/trait_fields_by_type.json`, `reports/trait_texts.json`) aggiornati.
+- [ ] Glossario e report (`docs/reports/trait_fields_by_type.json`, `docs/reports/trait_texts.json`) aggiornati.
 - [ ] `data/traits/index.json` allineato con specie/eventi/ambiente.
 - [ ] Coverage e baseline rigenerate (`data/derived/analysis/trait_coverage_report.json`, `data/derived/analysis/trait_baseline.yaml`).
-- [ ] Log di audit salvati (`logs/trait_audit.md`).
+- [ ] Log di audit salvati (`docs/logs/trait_audit.md`).
 - [ ] Trait Editor standalone configurato sul dataset ufficiale (`VITE_TRAIT_DATA_SOURCE=remote`, `VITE_TRAIT_DATA_URL=../data/traits/index.json`).
 - [ ] Collegamenti cross-dataset aggiornati quando necessario (`docs/traits-manuale/04-collegamenti-cross-dataset.md`).
 

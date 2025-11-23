@@ -39,4 +39,12 @@ updated: 2025-11-22
 - [incoming/docs/bioma_encounters.yaml](../incoming/docs/bioma_encounters.yaml) — base encounter per sincronizzazione VC.
 - [incoming/lavoro_da_classificare/security.yml](../incoming/lavoro_da_classificare/security.yml) — workflow CI per audit Bandit/npm audit/gitleaks.
 
+## Ops & analytics
+
+- [Analytics Toolkit](analysis/analytics-toolkit.md) — rigenerazione dashboard trait, note interpretative e monitor sentience.
+- [Site audit](ops/site-audit.md) — checklist di verifica pagine statiche e fix di accessibilità.
+- [Diff workflow](ops/workflow_diff.md) — comparativa pipeline staging/prod per individuare gap di deploy.
+- [Playbook MongoDB](ops/handbook/mongodb.md) — linee guida operative per setup e manutenzione cluster Mongo.
+- [Walkthrough demo VC](presentations/walkthrough-demo-vc.md) — guida narrata per presentazioni HUD/SquadSync/export telemetria.
+
 Aggiorna questa pagina quando vengono aggiunti nuovi materiali o archiviati documenti esistenti, assicurandoti di mantenere coerenti i riferimenti incrociati.

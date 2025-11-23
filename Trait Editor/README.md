@@ -47,20 +47,20 @@ npm install
 
 ## Flussi di test e note di esecuzione
 
-| Comando | Esito | Note |
-| --- | --- | --- |
-| `npm install` | ✅ | L'ambiente risultava già allineato; l'esecuzione termina con lo stato "up to date". Npm mostra l'avviso `Unknown env config "http-proxy"`, sintomo di una variabile d'ambiente obsoleta che conviene rimuovere prima dei prossimi upgrade di npm.【ce75e8†L1-L2】【b3f4a1†L1-L5】 |
-| `npm run dev` | ⚠️ | Il dev server parte correttamente, ma il comando eredita lo stesso warning `Unknown env config "http-proxy"`. Interrompi con `CTRL+C` quando hai finito di testare. Ricorda di configurare le variabili `VITE_*` se vuoi collegarti al dataset remoto.【a76019†L1-L6】 |
-| `npm run build` | ❌ | L'operazione fallisce perché manca un `index.html` nella root del pacchetto; Vite non riesce a risolvere il modulo di ingresso e interrompe la build. Valuta di aggiungere il file (o aggiornare `build.rollupOptions.input`) prima di pubblicare.【83547a†L1-L4】【073449†L1-L11】 |
-| `npm run preview` | ⚠️ | Il server di anteprima si avvia comunque, ma riutilizza eventuali asset già presenti sotto `dist/`. Ferma il processo con `CTRL+C` e ricordati che serve una build valida per testare la versione prodotta.【2af6f3†L1-L6】【aa993a†L1-L4】【3c2019†L1-L1】 |
+| Comando           | Esito | Note                                                                                                                                                                                                                                                                                |
+| ----------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm install`     | ✅    | L'ambiente risultava già allineato; l'esecuzione termina con lo stato "up to date". Npm mostra l'avviso `Unknown env config "http-proxy"`, sintomo di una variabile d'ambiente obsoleta che conviene rimuovere prima dei prossimi upgrade di npm.【ce75e8†L1-L2】【b3f4a1†L1-L5】   |
+| `npm run dev`     | ⚠️    | Il dev server parte correttamente, ma il comando eredita lo stesso warning `Unknown env config "http-proxy"`. Interrompi con `CTRL+C` quando hai finito di testare. Ricorda di configurare le variabili `VITE_*` se vuoi collegarti al dataset remoto.【a76019†L1-L6】              |
+| `npm run build`   | ❌    | L'operazione fallisce perché manca un `index.html` nella root del pacchetto; Vite non riesce a risolvere il modulo di ingresso e interrompe la build. Valuta di aggiungere il file (o aggiornare `build.rollupOptions.input`) prima di pubblicare.【83547a†L1-L4】【073449†L1-L11】 |
+| `npm run preview` | ⚠️    | Il server di anteprima si avvia comunque, ma riutilizza eventuali asset già presenti sotto `dist/`. Ferma il processo con `CTRL+C` e ricordati che serve una build valida per testare la versione prodotta.【2af6f3†L1-L6】【aa993a†L1-L4】【3c2019†L1-L1】                         |
 
 ## Variabili d'ambiente `VITE_*`
 
-| Variabile | Default | Quando usarla |
-| --- | --- | --- |
-| `VITE_TRAIT_DATA_SOURCE` | `sample` | Scegli `remote` per istruire `TraitDataService` a leggere il dataset JSON reale. Qualunque altro valore o stringa vuota forza il fallback sui mock locali. |
-| `VITE_TRAIT_DATA_URL` | *(vuoto)* | Indirizzo del file JSON da caricare quando `VITE_TRAIT_DATA_SOURCE=remote`. Può essere un percorso relativo al progetto (`../data/traits/index.json`) oppure un URL assoluto. |
-| `VITE_BASE_PATH` | *(vuoto)* | Prefisso da applicare alle rotte quando l'app viene pubblicata sotto una sottocartella (es. `/trait-editor/`). La build accetta anche `BASE_PATH`, utile in ambienti che non supportano il prefisso `VITE_`. |
+| Variabile                | Default   | Quando usarla                                                                                                                                                                                                |
+| ------------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `VITE_TRAIT_DATA_SOURCE` | `sample`  | Scegli `remote` per istruire `TraitDataService` a leggere il dataset JSON reale. Qualunque altro valore o stringa vuota forza il fallback sui mock locali.                                                   |
+| `VITE_TRAIT_DATA_URL`    | _(vuoto)_ | Indirizzo del file JSON da caricare quando `VITE_TRAIT_DATA_SOURCE=remote`. Può essere un percorso relativo al progetto (`../data/traits/index.json`) oppure un URL assoluto.                                |
+| `VITE_BASE_PATH`         | _(vuoto)_ | Prefisso da applicare alle rotte quando l'app viene pubblicata sotto una sottocartella (es. `/trait-editor/`). La build accetta anche `BASE_PATH`, utile in ambienti che non supportano il prefisso `VITE_`. |
 
 Per applicarle temporaneamente:
 
@@ -84,7 +84,7 @@ Ricorda di aggiornare `VITE_BASE_PATH` o `BASE_PATH` quando distribuisci l'app i
 I capitoli [Workflow & strumenti](docs/workflow-strumenti.md) e [Manuale operativo](docs/manuale-operativo.md) indicano i controlli finali prima di chiudere una PR sui trait. Qui trovi un riepilogo rapido dei deliverable che dovrebbero risultare completati:
 
 1. **Rigenerazione indice/baseline/coverage** – assicurati che `data/traits/index.csv`, `data/derived/analysis/trait_baseline.yaml` e `data/derived/analysis/trait_coverage_report.json` riflettano l'ultima modifica.
-2. **Audit finale** – allega i log generati da `python3 scripts/trait_audit.py --check` in `logs/trait_audit.md` (o nel file specificato dallo script) e annota eventuali anomalie.
+2. **Audit finale** – allega i log generati da `python3 scripts/trait_audit.py --check` in `docs/logs/trait_audit.md` (o nel file specificato dallo script) e annota eventuali anomalie.
 3. **Checklist PR** – compila le checklist contributive (`README_HOWTO_AUTHOR_TRAIT.md`, `docs/contributing/traits.md`) e riportane lo stato nella descrizione della PR.
 
 Se qualcuno di questi artefatti non è aggiornato, torna sui passi corrispondenti del workflow prima di procedere alla revisione.

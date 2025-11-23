@@ -36,11 +36,11 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 - **Atlas (telemetria & dashboard)** – la webapp (`apps/dashboard/`) e le dashboard statiche in `docs/test-interface/` leggono gli snapshot `data/derived/` e i mock `apps/dashboard/public/data/`.
   Le variabili `VITE_*` armonizzano API live e fallback, mentre la configurazione `base` di Vite governa deploy statici e percorsi condivisi con Flow.
 - **Backend Idea Engine** – `apps/backend/` e `services/` espongono endpoint Express utilizzati sia dalla webapp (Flow/Atlas) sia dagli script CLI.
-  Dipende dai dataset `data/core/` e produce report in `reports/` e `packs/evo_tactics_pack/out/`.
-- **Dataset & pack** – `data/`, `packs/` e `reports/` raccolgono la fonte unica per specie, trait, biomi e analisi.
+  Dipende dai dataset `data/core/` e produce report in `docs/reports/` e `packs/evo_tactics_pack/out/`.
+- **Dataset & pack** – `data/`, `packs/` e `docs/reports/` raccolgono la fonte unica per specie, trait, biomi e analisi.
   Ogni aggiornamento dei dataset è propagato verso Flow (validator/orchestratore), Atlas (snapshot), backend (API) e documentazione (`docs/catalog/`).
 
-> Quando modifichi un settore, verifica le dipendenze a valle: ad esempio una variazione nei dataset implica rigenerare la webapp (`npm run webapp:deploy`, build + preview locale), aggiornare i report (`reports/`) e rieseguire i test backend (`npm run test:api`).
+> Quando modifichi un settore, verifica le dipendenze a valle: ad esempio una variazione nei dataset implica rigenerare la webapp (`npm run webapp:deploy`, build + preview locale), aggiornare i report (`docs/reports/`) e rieseguire i test backend (`npm run test:api`).
 
 ## Tour del repository
 
@@ -292,7 +292,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
        --json-out packs/evo_tactics_pack/out/validation/last_report.json \
        --html-out packs/evo_tactics_pack/out/validation/last_report.html
      ```
-  3. Controlla i log in `reports/incoming/` e `logs/traits_tracking.md`.
+  3. Controlla i log in `docs/reports/incoming/` e `docs/logs/traits_tracking.md`.
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
 - **Trait Editor standalone** (`Trait Editor/`): consulta [docs/trait-editor.md](docs/trait-editor.md) per setup, variabili `VITE_*`, script disponibili (`npm run dev`, `npm run build`, `npm run preview`) e workflow di deploy statico con dataset remoti.
 
@@ -333,24 +333,24 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - [x] Aggiunta test regressione sui percorsi mirror e sui metadati dei pool bioma.
 - [x] Aggiornamento finale della documentazione database post-validazione.
 
-> Aggiorna questa sezione al termine di ogni sprint database: annota data, commit di riferimento e risultati dei test in `logs/traits_tracking.md` e collega eventuali ticket Jira/Linear nel tracker interno.
+- Aggiorna questa sezione al termine di ogni sprint database: annota data, commit di riferimento e risultati dei test in `docs/logs/traits_tracking.md` e collega eventuali ticket Jira/Linear nel tracker interno.
 
 ## Storico aggiornamenti & archivio
 
 - **Release 2025-12-06 — HUD Smart Alerts & SquadSync bridge** — aggiornato il Canvas con mock HUD/SquadSync, integrata la dashboard canary (`tools/feedback/hud_canary_dashboard.yaml`) e instradati i feedback overlay su `#feedback-enhancements`. Include i nuovi tutorial rapidi overlay/adaptive e refresh del changelog centrale.【F:docs/Canvas/feature-updates.md†L23-L39】【F:tools/feedback/hud_canary_dashboard.yaml†L1-L53】【F:docs/tutorials/hud-overlay-quickstart.md†L1-L116】【F:docs/tutorials/adaptive-engine-quickstart.md†L1-L129】 Dettagli completi in [`docs/changelog.md`](docs/changelog.md#2025-12-06-hud-smart-alerts--squadsync-bridge).
 - **Release 2025-12-02 — Feedback & Tutorial boost** — integrazione changelog nel README, attivazione del modulo feedback con Slack `#feedback-enhancements` e nuovi tutorial multimediali. Dettagli completi in [`docs/changelog.md`](docs/changelog.md#2025-12-02-feedback--tutorial-boost).
 - **Suite Badlands riallineata (2025-11-16)** — i YAML aggiornati in `packs/evo_tactics_pack/data/species/badlands/` sono stati verificati con `python tools/py/report_trait_coverage.py` riportando `traits_with_species = 27/29` e nessuna regola senza specie (`rules_missing_species_total = 0`). Consulta `data/analysis/trait_coverage_report.json`, `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv` per il dettaglio e i pairing core/opzionali.
-- **Checklist rollout trait** — il log operativo [`logs/traits_tracking.md`](logs/traits_tracking.md) conserva le note di QA e i gate da rieseguire prima dei prossimi playtest; usa la sezione commenti per nuovi feedback rapidi e aggiorna la casella QA Lead entro le scadenze indicate.
+- **Checklist rollout trait** — il log operativo [`docs/logs/traits_tracking.md`](docs/logs/traits_tracking.md) conserva le note di QA e i gate da rieseguire prima dei prossimi playtest; usa la sezione commenti per nuovi feedback rapidi e aggiorna la casella QA Lead entro le scadenze indicate.
 - **Idea Engine — modulo feedback sempre attivo** — il widget embed (`docs/public/embed.js`) ora propone il modulo feedback anche offline, reindirizzando al canale `#feedback-enhancements` quando l'API non è configurata. Per la cronologia dettagliata consulta [`docs/ideas/changelog.md`](docs/ideas/changelog.md).
 
 ## Stato operativo & tracker
 
 - **Indice tracker & stato**: usa `docs/00-INDEX.md` per checklist quotidiane, log e roadmap; la sezione viene aggiornata automaticamente da [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py) tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml).
-- **Log di riferimento**: `logs/traits_tracking.md`, `logs/web_status.md` e i report in `reports/incoming/` documentano l'avanzamento tecnico delle ultime sessioni.
+- **Log di riferimento**: `docs/logs/traits_tracking.md`, `docs/logs/web_status.md` e i report in `docs/reports/incoming/` documentano l'avanzamento tecnico delle ultime sessioni.
 
 ### Recap operativo & prossimi step
 
-- [ ] Rivedi i log in `reports/incoming/validation/` e apri ticket per eventuali regressioni.
+- [ ] Rivedi i log in `docs/reports/incoming/validation/` e apri ticket per eventuali regressioni.
 - [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
 - [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
 - [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
@@ -373,13 +373,13 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Checklist**: consultare `docs/checklist/action-items.md`, `docs/checklist/milestones.md`, `docs/checklist/project-setup-todo.md` per stato avanzamento e task prioritari.
 - **Roadmap**: `docs/piani/roadmap.md` con milestone strategiche (telemetria VC, pacchetti PI, mating/nido).
 - **Idea Engine**: changelog e procedure in `docs/ideas/changelog.md`, `docs/ideas/index.html` e `docs/ideas/IDEAS_INDEX.md`.
-- **Log tematici**: `logs/traits_tracking.md`, `logs/web_status.md`, `logs/chatgpt_sync.log` per audit tecnici.
+- **Log tematici**: `docs/logs/traits_tracking.md`, `docs/logs/web_status.md`, `logs/chatgpt_sync.log` per audit tecnici.
 - **Tri-Sorgente (Roll + Personalità + Azioni)** — docs introduttive: [/docs/tri-sorgente/overview.md](docs/tri-sorgente/overview.md) • QA/KPI: [/docs/tri-sorgente/qa.md](docs/tri-sorgente/qa.md)
 
 ## Automazione & workflow
 
 - **Script principali**:
-  - `scripts/report_incoming.sh` – archivia i batch in `reports/incoming/` (usare `--destination sessione-YYYY-MM-DD`).
+  - `scripts/report_incoming.sh` – archivia i batch in `docs/reports/incoming/` (usare `--destination sessione-YYYY-MM-DD`).
   - `scripts/daily_tracker_refresh.py` – aggiorna automaticamente le sezioni tracker del README e dei log.
   - `scripts/build-idea-taxonomy.js` e `tools/drive/*.mjs` – generano/trasferiscono asset approvati verso Drive.
 - **Workflow CI** (`.github/workflows/`):
@@ -455,7 +455,7 @@ git push -u origin main
 ## In arrivo
 
 - **Feedback toolkit**: lancio del pacchetto `tools/feedback` con form centralizzato e workflow di triage automatizzato.
-- **Dashboard insight**: report settimanale generato da `tools/feedback/report_generator.py` e pubblicato in `reports/feedback/`.
+- **Dashboard insight**: report settimanale generato da `tools/feedback/report_generator.py` e pubblicato in `docs/reports/feedback/`.
 - **Documentazione aggiornata**: guide operative in `docs/process/feedback_collection_pipeline.md` e `docs/tutorials/feedback-form.md`.
 
 Condividi suggerimenti e richieste tramite il [form di feedback](docs/tutorials/feedback-form.md).

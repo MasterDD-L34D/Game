@@ -2,8 +2,5 @@
 
 set -e
 
-changed_files="$(git diff --cached --name-only --diff-filter=ACMR)"
-
-if [ -n "$changed_files" ]; then
-  echo "$changed_files" | xargs npx prettier --check --ignore-unknown
-fi
+git diff --cached --name-only --diff-filter=ACMR -z \
+  | xargs -0 npx prettier --check --ignore-unknown

@@ -12,7 +12,7 @@ batch secondo quanto descritto in `../../docs/incoming/lavoro_da_classificare/IN
 - I file trait vanno salvati in `data/external/evo/traits/` con ID `TR-####` e
   metadati completi.
 - I report derivati (es. cataloghi) devono essere pubblicati in
-  `reports/evo/`.
+  `docs/reports/evo/`.
 
 Sono presenti file segnaposto `.gitkeep` per mantenere la struttura nel controllo
 versione finché i dataset non saranno pronti.

@@ -212,7 +212,7 @@ tasks:
     depends_on:
       - TOL-01
     deliverables:
-      - ops/workflow_diff.md
+      - docs/ops/workflow_diff.md
     notes: 'Tabella aggiornata con differenze gh-pages/Lighthouse e segnalazione workflow security mancante.'
 
   - id: OPS-02

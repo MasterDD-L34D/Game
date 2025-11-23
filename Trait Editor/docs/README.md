@@ -15,7 +15,7 @@ I capitoli di riferimento restano pubblicati nel repository principale. Questo e
 - `docs/traits-manuale/06-standalone-trait-editor.md` – guida dedicata al pacchetto standalone (fonte di questa cartella).
 - `README_HOWTO_AUTHOR_TRAIT.md` – vademecum rapido per la redazione/aggiornamento dei trait.
 - `docs/contributing/traits.md` – linee guida contributive estese (richiamate dalle checklist).
-- `ops/handbook/mongodb.md` – note operative che includono i controlli sui dataset `traits` durante le validazioni dati.
+- `docs/ops/handbook/mongodb.md` – note operative che includono i controlli sui dataset `traits` durante le validazioni dati.
 
 Aggiorna questa sezione se emergono nuovi capitoli o workflow che impattano la manutenzione dei trait.
 
