@@ -1,9 +1,9 @@
 # REF_INCOMING_CATALOG – Catalogo incoming/backlog
 
 Versione: 0.3
-Data: 2025-12-17
-Owner: agente **archivist** (supporto: coordinator)
-Stato: PATCHSET-00 PROPOSTA – inventario iniziale
+Data: 2025-12-23
+Owner: Laura B. (riferimento 01A)
+Stato: PATCHSET-01A – inventario aggiornato
 
 ---
 
@@ -46,39 +46,44 @@ Stato: PATCHSET-00 PROPOSTA – inventario iniziale
 
 ## Inventario `incoming/`
 
-| Percorso / gruppo                                                                                                    | Tipo asset                                                          | Stato proposto                | Rischi / note ereditate (v0.2)                                 | Prossimo passo (allineato README)                                                                 |
-| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `incoming/evo_pacchetto_minimo*.zip` (v1–v8)                                                                         | pack zip versionati                                                 | DA_INTEGRARE                  | Duplicati tra versioni; rischio reimport legacy.               | Consolidare in un’unica versione e valutare versioni <=v4 per `incoming/legacy` dopo diff.        |
-| `incoming/evo-tactics-unified-*` (1.9.7–2.0.1)                                                                       | pack zip + tools                                                    | DA_INTEGRARE                  | Sovrapposizioni con core; versioni <2.0 potenzialmente legacy. | Etichettare <2.0 come legacy, verificare checksum e sovrapposizioni con core prima di promuovere. |
-| `incoming/evo-tactics-badlands*`, `evo_tactics_ecosystem_badlands.zip`, `evo_tactics_ecosystems_pack.zip`            | pack bioma/espansioni                                               | DA_INTEGRARE                  | Doppioni possibili con pack badlands ufficiali.                | Confrontare con maintainer biomi e decidere merge o legacy.                                       |
-| `incoming/evo-tactics-(final                                                                                         | merged)\*`, `EvoTactics_FullRepo_v1.0.zip`, `EvoTactics_DevKit.zip` | backup repo / bundle completi | STORICO                                                        | Backup non versionati; rischio reimport accidentali.                                              | Congelare come archivio freddo (`archive_cold`) mantenendo checksum. |
-| `incoming/evo_tactics_validator-pack_v1.5.zip`, `evo_tactics_param_synergy_v8_3.zip`, `evo_tactics_tables_v8_3.xlsx` | tool/validatori e tabelle parametri                                 | DA_INTEGRARE                  | Possibile disallineamento con pipeline bilanciamento.          | Integrare o marcare legacy dopo revisione pipeline e toolchain.                                   |
-| `incoming/ancestors_*` (zip/csv) e `ancestors_neurons_dump*`                                                         | dataset ancestors / reti neurali                                    | DA_INTEGRARE                  | Dati potenzialmente sensibili/duplicati; schema da validare.   | Verificare schema e checksum, poi decidere import o legacy.                                       |
-| `incoming/evo_sentience_*` e `sensienti_traits_v0.1.yaml`, `sentience_traits_v1.0.yaml`                              | sentience pack + trait YAML                                         | DA_INTEGRARE                  | Divergenze di nomenclatura trait.                              | Allineare con trait canonici via trait-curator prima di promuovere.                               |
-| `incoming/Ennagramma/` + `evo_enneagram_addon_v1.zip`                                                                | dataset enneagramma (CSV/JSON) e addon pack                         | DA_INTEGRARE                  | Versioni multiple possibili; rischio legacy post-merge.        | Sincronizzare con `docs/incoming/Ennagramma` e decidere versioni da archiviare.                   |
-| `incoming/Img/*.svg` (tipologie MBTI)                                                                                | asset grafici                                                       | DA_INTEGRARE                  | Licenza da confermare; possibili sostituzioni future.          | Verificare licenze e spostare in `incoming/legacy` se rimpiazzati da asset ufficiali.             |
-| `incoming/species/*.json` + `templates/*.schema.json`                                                                | draft specie e schemi                                               | DA_INTEGRARE                  | Schemi potenzialmente obsoleti.                                | Validare contro schemi correnti con species-curator e dev-tooling.                                |
-| `incoming/personality_module.v1.json`, `enneagramma_mechanics_registry.template.json`                                | moduli json                                                         | DA_INTEGRARE                  | Possibili conflitti di nomenclatura con moduli attivi.         | Controllare compatibilità e versioni prima di integrazione.                                       |
-| `incoming/idea_catalog.csv`, `IDEA-001_ecosistema_template.yaml`, `recon_meccaniche.json`                            | note/idee ecosistemi                                                | DA_INTEGRARE                  | Potenziali duplicati con pipeline design.                      | Integrare nel design flow o spostare in `incoming/legacy` se superati.                            |
-| `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py`                                    | hook / schema / script scansione                                    | DA_INTEGRARE                  | Riferimenti engine possibili obsoleti.                         | Allineare con engine corrente e mantenere solo binding compatibili.                               |
-| `incoming/docs/*` (script devkit)                                                                                    | script/validatori                                                   | STORICO                       | Residui DevKit possibili duplicati di `tools/`.                | Verificare duplicati e collocarli in `archive_cold` dopo snapshot.                                |
-| `incoming/lavoro_da_classificare/*` (sitemap, robots, yml)                                                           | asset sito / integrazione                                           | DA_INTEGRARE                  | Owner non definito; rischio fuori roadmap.                     | Nominare owner e decidere legacy se fuori roadmap.                                                |
-| `incoming/idea_intake_site_package.zip`, `generator.html`, `index*.html`, `last_report.*`, `logs_48354746845.zip`    | output report / pacchetti sito                                      | STORICO                       | Rumore da reportistica; rischi reimport.                       | Spostare in archivio freddo per preservare storico e ridurre rumore.                              |
-| `incoming/incoming_inventory.json`, `game_repo_map.json`, `compat_map*.json`, `pack_biome_jobs_v8_alt.json`          | mappe e inventari precedenti                                        | STORICO                       | Inventari non allineati con catalogo attuale.                  | Conservare in `archive_cold` dopo diff con catalogo 0.3.                                          |
-| `incoming/pathfinder/bestiary1e_index.csv`                                                                           | indice bestiario                                                    | DA_INTEGRARE                  | Licenza da verificare; mapping specie incerto.                 | Confermare licenza e creare mapping interno prima di uso.                                         |
-| `incoming/scripts/*.sh`/`*.py`                                                                                       | script backlog/validazione                                          | DA_INTEGRARE                  | Dipendenze potenzialmente rotte.                               | Testare e integrare oppure marcare legacy dopo verifica esecuzione.                               |
+<!-- prettier-ignore -->
+| Percorso | Tipo asset | Stato proposto | Rischi | Note |
+| --- | --- | --- | --- | --- |
+| `incoming/evo_pacchetto_minimo_v1..v8.zip` | pack baseline versionati | DA_INTEGRARE | Duplicati, possibili regressioni tra versioni. | Deduplicare e scegliere versione di riferimento; <=v4 candidati legacy. |
+| `incoming/evo-tactics-unified-*` (1.9.7–2.0.1, +tools) | pack unificati e tool | DA_INTEGRARE | Sovrapposizioni con core, versioni miste. | Allineare checksum; marcare <2.0 come legacy prima del merge. |
+| `incoming/evo-tactics-badlands*`, `evo_tactics_ecosystem_badlands.zip`, `evo_tactics_ecosystems_pack.zip` | pack bioma/espansioni | DA_INTEGRARE | Possibili doppioni con pack ufficiali. | Validare contenuti con maintainer biomi prima di includere. |
+| `incoming/evo-tactics-final*.zip`, `EvoTactics_FullRepo_v1.0.zip`, `EvoTactics_DevKit.zip`, `evo-tactics-merged*.zip`, `evo-tactics.zip` | backup/bundle repo | STORICO | Rischio reimport accidentale. | Congelare in archivio freddo con checksum. |
+| `incoming/evo_tactics_validator-pack_v1.5.zip`, `evo_tactics_param_synergy_v8_3.zip`, `evo_tactics_tables_v8_3.xlsx` | tool e tabelle parametri | DA_INTEGRARE | Misallineamento possibile con pipeline attuale. | Rieseguire validazioni e aggiornare riferimenti o marcare legacy. |
+| `incoming/ancestors_*`, `ancestors_neurons_dump*`, `Ancestors_Neurons_*` csv | dataset ancestors / reti neurali | DA_INTEGRARE | Dati duplicati/sensibili, schema da confermare. | Validare schema e consolidare le versioni pubblicabili. |
+| `incoming/evo_sentience_branch_layout_v0_1.zip`, `evo_sentience_rfc_pack_v0_1.zip`, `sensienti_traits_v0.1.yaml`, `sentience_traits_v1.0.yaml` | pack sentience e trait | DA_INTEGRARE | Divergenze di nomenclatura trait. | Allineare con trait canonici via trait-curator prima di promozione. |
+| `incoming/Ennagramma/`, `evo_enneagram_addon_v1.zip` | dataset enneagramma e addon | DA_INTEGRARE | Versioni multiple da normalizzare. | Sincronizzare con doc `docs/incoming/Ennagramma` e decidere legacy. |
+| `incoming/Img/*.svg` | asset grafici MBTI | DA_INTEGRARE | Licenza da confermare. | Raccogliere liberatorie/licenze prima dell’uso in pack. |
+| `incoming/species/*.json`, `incoming/templates/*.schema.json` | draft specie e schemi | DA_INTEGRARE | Schemi possibili obsoleti. | Validare con species-curator e aggiornare mapping. |
+| `incoming/personality_module.v1.json`, `enneagramma_mechanics_registry.template.json` | moduli JSON | DA_INTEGRARE | Conflitti di nomenclatura con moduli attivi. | Verificare compatibilità e versioning prima di integrazione. |
+| `incoming/idea_catalog.csv`, `IDEA-001_ecosistema_template.yaml`, `recon_meccaniche.json` | idee e note ecosistemi | DA_INTEGRARE | Possibili duplicati con pipeline design. | Collegare a ticket/patchset design e decidere legacy se superati. |
+| `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py` | hook/script/ schema engine | DA_INTEGRARE | Riferimenti engine forse obsoleti. | Allineare con engine corrente e scartare binding non compatibili. |
+| `incoming/docs/*` | script DevKit | STORICO | Duplicati potenziali di `tools/`. | Spostare in archive_cold dopo snapshot se sovrapposti. |
+| `incoming/lavoro_da_classificare/*` | asset sito, config e batch | DA_INTEGRARE | Owner non definito; scope roadmap incerto. | Nominare owner e decidere se integrare o marcare legacy. |
+| `incoming/idea_intake_site_package.zip`, `generator.html`, `index*.html`, `last_report.*`, `logs_48354746845.zip` | report/pacchetti sito | STORICO | Rumore da reportistica, rischio reimport. | Archiviare freddo mantenendo checksum. |
+| `incoming/incoming_inventory.json`, `game_repo_map.json`, `compat_map*.json`, `pack_biome_jobs_v8_alt.json` | inventari/mappe precedenti | STORICO | Non allineati al catalogo corrente. | Conservare come storico dopo diff con catalogo 0.3. |
+| `incoming/pathfinder/bestiary1e_index.csv` | indice bestiario | DA_INTEGRARE | Licenza e mapping specie incerti. | Confermare licenza e creare mapping interno prima dell’uso. |
+| `incoming/scripts/*.sh` / `incoming/scripts/*.py` | script backlog/validazione | DA_INTEGRARE | Dipendenze rotte/non tracciate. | Testare in ambiente isolato, poi integrare o marcare legacy. |
+| `incoming/decompressed/*` | estrazioni temporanee di pack | STORICO | Derivati non tracciati possono divergere. | Non usare come fonte canonica; rigenerare da archivi originali. |
 
 ## Inventario `docs/incoming/`
 
-| Percorso                                                                             | Tipo asset                       | Stato proposto | Rischi / note ereditate (v0.2)                          | Prossimo passo (allineato README)                               |
-| ------------------------------------------------------------------------------------ | -------------------------------- | -------------- | ------------------------------------------------------- | --------------------------------------------------------------- |
-| `docs/incoming/FEATURE_MAP_EVO_TACTICS.md`, `GAME_COMPAT_README.md`                  | mappe compatibilità / feature    | DA_INTEGRARE   | Possibile disallineamento con pack attuali.             | Aggiornare mappe e mantenere riferimento vivo nel catalogo.     |
-| `docs/incoming/MODELLI_RIF_EVO_TACTICS.md`                                           | modelli di riferimento           | DA_INTEGRARE   | Modelli forse superati rispetto alle versioni correnti. | Verificare allineamento e spostare in legacy se superati.       |
-| `docs/incoming/README_INTEGRAZIONE_MECCANICHE.md`, `README_SCAN_STAT_EVENTI.md`      | guideline integrazione/stat scan | DA_INTEGRARE   | Potrebbero non riflettere pipeline QA attuali.          | Sincronizzare con pipeline QA o marcare STORICO se sostituiti.  |
-| `docs/incoming/Ennagramma/README_ENNEAGRAMMA.md`                                     | guida dataset enneagramma        | DA_INTEGRARE   | Richiede coerenza con dataset `incoming/Ennagramma`.    | Collegare al dataset e valutare legacy dopo merge.              |
-| `docs/incoming/decompressed/README.md`                                               | note estrazioni                  | STORICO        | Log di estrazione senza uso operativo.                  | Candidare a `archive_cold` dopo snapshot.                       |
-| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`, `.../TASKS_BREAKDOWN.md` | piano e task backlog             | DA_INTEGRARE   | Owner non chiaro; possibile obsolescenza roadmap.       | Identificare owner e decidere se spostare in `incoming/legacy`. |
-| `docs/incoming/archive/INDEX.md`                                                     | indice archivio                  | STORICO        | Indice di archivio storico.                             | Mantenere solo come storico, candidare `archive_cold`.          |
+<!-- prettier-ignore -->
+| Percorso | Tipo asset | Stato proposto | Rischi | Note |
+| --- | --- | --- | --- | --- |
+| `docs/incoming/FEATURE_MAP_EVO_TACTICS.md`, `GAME_COMPAT_README.md` | mappe compatibilità/feature | DA_INTEGRARE | Probabile disallineamento con pack correnti. | Aggiornare rispetto agli ultimi pack e collegare al catalogo. |
+| `docs/incoming/MODELLI_RIF_EVO_TACTICS.md` | modelli di riferimento | DA_INTEGRARE | Possibile obsolescenza dei modelli. | Verificare contro schemi attuali e marcare legacy se superati. |
+| `docs/incoming/README_INTEGRAZIONE_MECCANICHE.md`, `README_SCAN_STAT_EVENTI.md` | linee guida integrazione/stat | DA_INTEGRARE | Potrebbero non riflettere pipeline QA attuale. | Sincronizzare con pipeline QA o spostare in storico. |
+| `docs/incoming/Ennagramma/README_ENNEAGRAMMA.md` | guida dataset enneagramma | DA_INTEGRARE | Deve essere coerente con dataset `incoming/Ennagramma`. | Allineare con il dataset prima di promuovere. |
+| `docs/incoming/decompressed/README.md` | note estrazioni | STORICO | Log operativo senza uso diretto. | Candidare ad archive_cold dopo snapshot. |
+| `docs/incoming/decompressed/*` (cartelle estratte) | estrazioni di archivi incoming | STORICO | Derivati non versionati dei pack. | Tenere solo come traccia operativa, rigenerare da sorgenti zip. |
+| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`, `.../TASKS_BREAKDOWN.md` | piani e task backlog | DA_INTEGRARE | Owner non definito; rischio fuori roadmap. | Identificare owner e aggiornare o spostare in legacy. |
+| `docs/incoming/lavoro_da_classificare/scripts/README.md` | note script backlog | DA_INTEGRARE | Potrebbe descrivere tool non mantenuti. | Verificare dipendenze prima di riesecuzione. |
+| `docs/incoming/archive/INDEX.md`, `archive/2025-11-15_evo_cleanup`, `archive/2025-12-19_inventory_cleanup`, `archive/documents` | archivio storico | STORICO | Materiale legacy già chiuso. | Mantenere come storico; eventuale spostamento in archive_cold. |
 
 ---
 
@@ -92,7 +97,9 @@ Stato: PATCHSET-00 PROPOSTA – inventario iniziale
 
 ## Changelog
 
+- 2025-12-23: versione 0.3 – tabelle normalizzate e allineate alle linee guida di triage senza rinominare/spostare asset.
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance rafforzati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-24: versione 0.3 – inventario arricchito con rischi e prossimi passi e prerequisiti PATCHSET-01A chiusi (archivist).
 - 2025-11-24: primo inventario con proposte di stato e candidati legacy/archive_cold (archivist).
+- 2025-11-23: versione 0.3 – ownership passata a Laura B. (01A) e inventario aggiornato con tabella per `incoming/` e `docs/incoming/`.
 - 2025-11-23: struttura iniziale del catalogo incoming (archivist).
