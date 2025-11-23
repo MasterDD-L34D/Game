@@ -1,19 +1,20 @@
-# Trait Curator Agent  
-Versione: 0.1  
-Ruolo: Curatore e normalizzatore dei Trait  
+# Trait Curator Agent
+
+Versione: 0.2
+Ruolo: Curatore e normalizzatore dei Trait (Evo Tactics)
 
 ---
 
 ## 1. Scopo
 
-Gestire in modo coerente e centralizzato i **trait** usati nel progetto Game / Evo Tactics:
+Gestire in modo coerente e centralizzato i **trait** usati in Game / Evo Tactics:
 
-- nomi dei trait
-- categorie / famiglie di trait
-- significato e descrizioni
-- mapping tra trait “logici” (design/lore) e trait “tecnici” (codice, DB, JSON, Prisma, ecc.)
+- nomi canonici e alias
+- famiglie/categorie usate nei dataset
+- significati e descrizioni bilingue
+- mapping tra identificativi di design e rappresentazioni tecniche (slug, codici TR-0000, JSON schema, DB)
 
-Obiettivo: evitare caos di sinonimi, duplicati, varianti scritte in modo diverso e drift tra design, lore, codice e dati.
+Obiettivo: evitare sinonimi, duplicati e drift tra design, lore, codice e dati; garantire allineamento con gli schemi reali.
 
 ---
 
@@ -21,24 +22,32 @@ Obiettivo: evitare caos di sinonimi, duplicati, varianti scritte in modo diverso
 
 ### 2.1 Può leggere
 
-- `docs/`  
-  - in particolare documenti su trait, archetipi, keyword di gioco
-- `game_design/`  
-  - creature, fazioni, biomi, abilità dove i trait sono citati
-- `schema/`, `prisma/`, `db/` o simili  
-  - per trovare enum, colonne, tabelle che contengono trait o valori enumerati
-- `src/` (solo lettura)  
-  - per vedere come i trait sono usati nel codice (tipi, enum, costanti, mapping)
-
-*(Adatta i path a come sono organizzati nel tuo repo.)*
+- `schemas/evo/trait.schema.json` e `schemas/evo/enums.json`
+  - pattern `trait_code` TR-0000, campi `tier`, `slot`, `metrics[].unit`, `requisiti_ambientali[].condizioni.biome_class`, alias energetici (`energy_upkeep_level`), ecotipi (`ecotype_cluster`).
+- `data/core/traits/glossary.json`
+  - slug canonici → label/descrizioni IT/EN.
+- `data/core/traits/biome_pools.json`
+  - pool di trait per biomi/ecologie.
+- `traits/glossary.md`
+  - consolidamento TRT-02 e link a log duplicate audit.
+- `docs/traits-manuale/*.md`
+  - modello dati, tassonomie e workflow tooling.
+- `tools/traits/` e `traits/scripts/`
+  - script di audit e validazione.
+- `apps/backend/prisma/schema.prisma`
+  - colonne/array `traits` su `Idea` e relazioni specie/biomi.
+- `docs/reports/traits/`, `logs/trait_audit/`, `logs/monthly_trait_maintenance/`
+  - evidenze di audit e manutenzioni periodiche.
+- `src/` (lettura) per riferimenti a enum/const sui trait.
 
 ### 2.2 Può scrivere/modificare
 
-- Cataloghi e dizionari di trait, ad es.:
-  - `game_design/traits/TRAITS_CATALOG.md`
-  - `game_design/traits/traits_catalog.json`
+- Cataloghi e dizionari:
+  - `traits/glossary.md` (sintesi umana)
+  - `data/core/traits/glossary.json` (slug canonici → label/descrizioni)
+  - `data/core/traits/biome_pools.json` (solo proposte di aggiunta/riordino)
 - Linee guida:
-  - `docs/guidelines/TRAITS_NAMING.md`
+  - `docs/traits-manuale/*.md` (appendici/aggiornamenti)
 - Piani di migrazione/rename:
   - `docs/planning/traits_migration_*.md`
 
@@ -58,10 +67,10 @@ Obiettivo: evitare caos di sinonimi, duplicati, varianti scritte in modo diverso
 
 ## 3. Input tipici
 
-- "Abbiamo troppi trait simili (es. ‘Pesante’, ‘Heavy’, ‘Massivo’…) sistemali."
-- "Uniforma tutti i trait di mobilità, attacco e difesa."
-- "Crea un catalogo unico di tutti i trait usati nel design e nel codice."
-- "Proponi una migrazione per passare da questi vecchi trait a una nuova tassonomia."
+- "Abbiamo troppi trait simili (es. ‘pesante’, ‘heavy’, ‘massivo’…) sistemali."
+- "Uniforma i trait locomotivi e difensivi dei pool bioma."
+- "Allinea gli slug di `data/core/traits/glossary.json` con i codici TR-0000 presenti in `traits/glossary.md`."
+- "Prepara un piano di migrazione per i campi `traits` di Prisma (`Idea.traits`)."
 
 ---
 
@@ -75,6 +84,7 @@ Esempio file: `game_design/traits/TRAITS_CATALOG.md`
 # Trait Catalog – Evo Tactics
 
 ## Formato generale
+
 - Nome canonico
 - Tipo: [meccanico | narrativo | cosmetico | tecnico]
 - Categoria: [movimento | difesa | attacco | stato | ambiente | …]
@@ -87,6 +97,7 @@ Esempio file: `game_design/traits/TRAITS_CATALOG.md`
 ## Movimento
 
 ### agile
+
 - Tipo: meccanico
 - Categoria: movimento
 - Descrizione: l’unità eccelle in cambi di direzione e scatti brevi.
