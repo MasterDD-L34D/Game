@@ -49,9 +49,9 @@
     "db:migrate:down": "python scripts/db/run_migrations.py down",
     "db:migrate:status": "python scripts/db/run_migrations.py status"
   },
-  "dependencies": {},
   "devDependencies": {
     "@playwright/test": "^1.48.2",
+    "ajv-cli": "^5.0.0",
     "husky": "^9.1.6",
     "mongodb-memory-server": "^10.1.4",
     "prettier": "^3.3.3",
