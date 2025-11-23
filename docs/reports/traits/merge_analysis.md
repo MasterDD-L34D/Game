@@ -9,7 +9,7 @@
   vuoto in `reports/traits/duplicates.csv` e log `reports/traits/audit_duplicates_TRT-01.md`
   (output CLI: "Nessun duplicato individuato.").
 - **Documentazione di supporto**: inventario normalizzato in
-  [`traits/glossary.md`](../../traits/glossary.md).
+  [`catalog/trait_reference.md`](../../catalog/trait_reference.md).
 
 ## Risultati principali
 
@@ -54,6 +54,6 @@ sufficiente per creare pacchetti tematici senza duplicazioni semantiche.
 
 - Pianificare il merge in `data/core/traits/glossary.json` applicando le
   raccomandazioni sopra.
-- Annotare le sinergie multiple in `traits/glossary.md` (se emergono nuove
-  dipendenze) e aprire un ticket per gestire eventuali conflitti non risolvibili
-  automaticamente.
+- Annotare le sinergie multiple in `catalog/trait_reference.md` (se emergono
+  nuove dipendenze) e aprire un ticket per gestire eventuali conflitti non
+  risolvibili automaticamente.
