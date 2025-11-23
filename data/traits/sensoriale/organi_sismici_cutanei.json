@@ -1,5 +1,6 @@
 {
   "id": "organi_sismici_cutanei",
+  "trait_code": "TR-1105",
   "label": "i18n:traits.organi_sismici_cutanei.label",
   "data_origin": "incoming_tr1100_pack",
   "famiglia_tipologia": "Sensoriale/Tatto-Vibro",

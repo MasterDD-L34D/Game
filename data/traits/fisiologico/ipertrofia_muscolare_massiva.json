@@ -1,5 +1,6 @@
 {
   "id": "ipertrofia_muscolare_massiva",
+  "trait_code": "TR-1103",
   "label": "i18n:traits.ipertrofia_muscolare_massiva.label",
   "data_origin": "incoming_tr1100_pack",
   "famiglia_tipologia": "Fisiologico/Metabolico",
