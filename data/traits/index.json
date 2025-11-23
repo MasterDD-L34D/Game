@@ -11923,6 +11923,302 @@
         "support"
       ],
       "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
+    },
+    "rostro_emostatico_litico": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "conflitti": [],
+      "data_origin": "incoming_tr1100_pack",
+      "famiglia_tipologia": "Offensivo/Perforante",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "id": "rostro_emostatico_litico",
+      "label": "Rostro Emostatico-Litico",
+      "mutazione_indotta": "Mascellare tubulare rigidizzato.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idraulico_a_pistoni"
+      ],
+      "slot": [],
+      "spinta_selettiva": "Predazione d'impatto a distanza ravvicinata.",
+      "tier": "T4",
+      "usage_tags": [],
+      "uso_funzione": "Inoculare tossine ed enzimi e aspirare fluidi.",
+      "metrics": [
+        {
+          "name": "velocita_proiettile",
+          "value": 120,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Puntura e retrazione in < 0.1 s",
+        "scene_prompt": "Filma in slow-motion tre attacchi su gel fluorescente"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178",
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      }
+    },
+    "scheletro_idraulico_a_pistoni": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "conflitti": [],
+      "data_origin": "incoming_tr1100_pack",
+      "famiglia_tipologia": "Locomotivo/Balistico",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "id": "scheletro_idraulico_a_pistoni",
+      "label": "Scheletro Idraulico a Pistoni",
+      "mutazione_indotta": "Ossa cave pressurizzate con fluido.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "sinergie": [
+        "rostro_emostatico_litico",
+        "ipertrofia_muscolare_massiva"
+      ],
+      "slot": [],
+      "spinta_selettiva": "Vincere fughe brevi con colpi-proiettile.",
+      "tier": "T4",
+      "usage_tags": [],
+      "uso_funzione": "Estendere rapidamente il cranio per colpire.",
+      "metrics": [
+        {
+          "name": "energia_impattiva",
+          "value": 1500,
+          "unit": "J"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Colpo tipo frusta su bersaglio a 2 m",
+        "scene_prompt": "Misura penetrazione in blocchi gel balistico"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      }
+    },
+    "ipertrofia_muscolare_massiva": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "conflitti": [
+        "organi_sismici_cutanei"
+      ],
+      "data_origin": "incoming_tr1100_pack",
+      "famiglia_tipologia": "Fisiologico/Metabolico",
+      "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
+      "id": "ipertrofia_muscolare_massiva",
+      "label": "Ipertrofia Muscolare Massiva",
+      "mutazione_indotta": "Fibre a sezione aumentata e mitocondri densi.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idraulico_a_pistoni"
+      ],
+      "slot": [],
+      "spinta_selettiva": "Selezione per cattura prede muscolose.",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Aumentare potenza e scatto.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 60,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Sprint 0–10 m < 2 s",
+        "scene_prompt": "Cronometra tre sprint; rileva FC post-sforzo"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      }
+    },
+    "ectotermia_dinamica": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "conflitti": [],
+      "data_origin": "incoming_tr1100_pack",
+      "famiglia_tipologia": "Fisiologico/Termico",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "id": "ectotermia_dinamica",
+      "label": "Ectotermia Dinamica",
+      "mutazione_indotta": "Microscosse isometriche per termogenesi rapida.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "sinergie": [
+        "ipertrofia_muscolare_massiva"
+      ],
+      "slot": [],
+      "spinta_selettiva": "Caccia all’alba/crepuscolo in climi freschi.",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Alzare temperatura per performance.",
+      "metrics": [
+        {
+          "name": "tolleranza_termica",
+          "value": 20,
+          "unit": "K"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Mantiene output a 10 Cel ambientali",
+        "scene_prompt": "Prova in camera fredda"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      }
+    },
+    "organi_sismici_cutanei": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "conflitti": [
+        "ipertrofia_muscolare_massiva"
+      ],
+      "data_origin": "incoming_tr1100_pack",
+      "famiglia_tipologia": "Sensoriale/Tatto-Vibro",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "id": "organi_sismici_cutanei",
+      "label": "Organi Sismici Cutanei",
+      "mutazione_indotta": "Squame con lamelle meccano-recettive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "sinergie": [
+        "rostro_emostatico_litico"
+      ],
+      "slot": [],
+      "spinta_selettiva": "Predazione in copertura e notturna.",
+      "tier": "T2",
+      "usage_tags": [],
+      "uso_funzione": "Percepire vibrazioni del suolo.",
+      "metrics": [
+        {
+          "name": "soglia_udito",
+          "value": 20,
+          "unit": "dB"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Individua passi entro 15 m",
+        "scene_prompt": "Sabbiera vibrata: segnala direzione corretta"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      }
     }
   },
   "types": {

@@ -3,7 +3,7 @@
   "label": "i18n:traits.corna_psico_conduttive.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Cognitivo/Sociale",
-  "fattore_mantenimento_energetico": "Basso",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
   "tier": "T3",
   "slot": [],
   "sinergie": [

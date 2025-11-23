@@ -195,3 +195,8 @@ piume_solari_fotovoltaiche,i18n:traits.piume_solari_fotovoltaiche.label,Tegument
 secrezione_rallentante_palmi,i18n:traits.secrezione_rallentante_palmi.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/secrezione_rallentante_palmi.json,,controllo_psionico,caverna_risonante,tank,true,false
 squame_rifrangenti_deserto,i18n:traits.squame_rifrangenti_deserto.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/squame_rifrangenti_deserto.json,,controllo_psionico,dune_cristalline,tank,true,false
 vello_condensatore_nebbie,i18n:traits.vello_condensatore_nebbie.label,Tegumentario/Idratazione,Idratazione,data/traits/tegumentario/vello_condensatore_nebbie.json,,controllo_psionico,foreste_nubose,sustain;tank,true,false
+rostro_emostatico_litico,i18n:traits.rostro_emostatico_litico.label,Offensivo/Perforante,Perforante,data/traits/offensivo/rostro_emostatico_litico.json,,incoming_tr1100_pack,terrestre,,true,false
+scheletro_idraulico_a_pistoni,i18n:traits.scheletro_idraulico_a_pistoni.label,Locomotivo/Balistico,Balistico,data/traits/locomotivo/scheletro_idraulico_a_pistoni.json,,incoming_tr1100_pack,terrestre,,true,false
+ipertrofia_muscolare_massiva,i18n:traits.ipertrofia_muscolare_massiva.label,Fisiologico/Metabolico,Metabolico,data/traits/fisiologico/ipertrofia_muscolare_massiva.json,,incoming_tr1100_pack,terrestre,,true,false
+ectotermia_dinamica,i18n:traits.ectotermia_dinamica.label,Fisiologico/Termico,Termico,data/traits/fisiologico/ectotermia_dinamica.json,,incoming_tr1100_pack,terrestre,,true,false
+organi_sismici_cutanei,i18n:traits.organi_sismici_cutanei.label,Sensoriale/Tatto-Vibro,Tatto-Vibro,data/traits/sensoriale/organi_sismici_cutanei.json,,incoming_tr1100_pack,terrestre,,true,false
