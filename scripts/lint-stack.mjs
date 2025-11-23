@@ -3,11 +3,11 @@ import { execSync, spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 
 const STACK_PATTERNS = [
-  /^apps\/backend\/(.+\.(?:c|m)?js)$/,
+  /^apps\/backend\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
   /^services\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
   /^tests\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
-  /^apps\/dashboard\/(.+\.(?:c|m)?js|.+\.(?:ts|tsx|vue))$/,
-  /^Trait Editor\/(.+\.(?:c|m)?js|.+\.(?:ts|tsx|vue))$/,
+  /^apps\/dashboard\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
+  /^Trait Editor\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
 ];
 
 const run = (command, options = {}) =>
