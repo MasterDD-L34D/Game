@@ -1,6 +1,6 @@
 # Trait Curator Agent
 
-Versione: 0.4
+Versione: 0.5
 Ruolo: Curatore e normalizzatore dei trait (Evo Tactics)
 
 ---
@@ -50,16 +50,18 @@ Governare il catalogo dei **trait** assicurando coerenza tra schema canonico, gl
 - Report di conformità schema e gap glossario/index (`docs/analysis/*.md`, `reports/traits/*.md|json`).
 - Piani di normalizzazione o merge (`docs/analysis/trait_merge_proposals.md`, `docs/planning/traits_migration_*.md`).
 - Note operative per l’editor/export e checklist di validazione (`Trait Editor/docs/*.md`, `docs/catalog/*.md|json|csv`).
+- Log di audit finale e conferma dei comandi eseguiti (validator, sync locale, rigenerazione baseline/coverage) da allegare alla PR.
 
 ---
 
 ## 5. Flusso operativo
 
-1. **Scan & validate**: confronta dataset con `config/schemas/trait.schema.json` e con gli script in `tools/traits/` (sync/evaluate).
+1. **Scan & validate**: confronta dataset con `config/schemas/trait.schema.json` e con gli script in `tools/traits/` (sync/evaluate), registrando gli esiti.
 2. **Cross-check**: incrocia sinergie, conflitti, requisiti ambientali e tassonomie con glossario, specie (`data/core/species.yaml`) e biomi (`data/core/biomes.yaml`, `biome_pools.json`).
 3. **Normalizza**: individua duplicati/alias, propone merge o rename documentati senza toccare gameplay.
 4. **Allinea editor/export**: aggiorna istruzioni del Trait Editor e verifica inventory/export (`docs/catalog/*.json|csv`, `publish_partner_export.py`).
-5. **Handoff**: deposita report/piani e coordina con **Species Curator** e **Biome & Ecosystem Curator** per le dipendenze.
+5. **Gatekeeper baseline/coverage**: richiede o avvia rigenerazione di baseline e coverage quando i trait o i requisiti ambientali cambiano; blocca la PR finché i log non sono completi.
+6. **Handoff**: deposita report/piani, allega checklist/log PR e coordina con **Species Curator** e **Biome & Ecosystem Curator** per le dipendenze.
 
 ---
 
@@ -78,6 +80,7 @@ Governare il catalogo dei **trait** assicurando coerenza tra schema canonico, gl
 - Non introdurre campi fuori schema; proporre prima aggiornamento schema.
 - Non rimuovere sinergie/conflitti senza verifica di reciprocità nei dataset.
 - Non pubblicare export partner senza glossario/inventory aggiornati.
+- Non approvare modifiche cross-dataset (species_affinity, biome_tags) senza log di validator, baseline e coverage allegati.
 
 ---
 
