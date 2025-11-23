@@ -1,0 +1,37 @@
+{
+  "coordinator": {
+    "description": "Coordina gli altri agenti e crea piani/roadmap.",
+    "definition_file": "agents/coordinator.md",
+    "profile_file": ".ai/coordinator/PROFILE.md"
+  },
+  "lore-designer": {
+    "description": "Gestisce lore, specie, biomi ed ecosistemi.",
+    "definition_file": "agents/lore-designer.md",
+    "profile_file": ".ai/lore-designer/PROFILE.md"
+  },
+  "balancer": {
+    "description": "Gestisce stats, costi e bilanciamento numerico (incl. effetti di biomi).",
+    "definition_file": "agents/balancer.md",
+    "profile_file": ".ai/balancer/PROFILE.md"
+  },
+  "asset-prep": {
+    "description": "Gestisce pipeline asset (immagini, schede) per unità e biomi.",
+    "definition_file": "agents/asset-prep.md",
+    "profile_file": ".ai/asset-prep/PROFILE.md"
+  },
+  "archivist": {
+    "description": "Organizza documentazione, indici e struttura file (specie, biomi, ecosistemi).",
+    "definition_file": "agents/archivist.md",
+    "profile_file": ".ai/archivist/PROFILE.md"
+  },
+  "dev-tooling": {
+    "description": "Gestisce script, tool e automazione tecnica.",
+    "definition_file": "agents/dev-tooling.md",
+    "profile_file": ".ai/dev-tooling/PROFILE.md"
+  },
+  "trait-curator": {
+    "description": "Cura, normalizza e cataloga i trait usati nel progetto.",
+    "definition_file": "agents/trait-curator.md",
+    "profile_file": ".ai/trait-curator/PROFILE.md"
+  }
+}
