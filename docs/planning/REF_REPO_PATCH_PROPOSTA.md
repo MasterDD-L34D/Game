@@ -9,39 +9,34 @@ Stato: PROPOSTA – patch da validare
 
 ## Obiettivo
 
-Tradurre il documento `REF_REPO_SCOPE` in un primo patchset operativo (PATCHSET-00) che non altera ancora i dati core ma prepara la struttura per i refactor successivi.
+Tradurre `REF_REPO_SCOPE` in **PATCHSET-00**: una proposta neutrale che non altera i dati core ma prepara la struttura di documentazione e cataloghi per i refactor successivi.
 
-## Ambito del patchset
+## Stato attuale
 
-- Documentazione: creare gli output di pianificazione elencati in `REF_REPO_SCOPE` (section 6.1), vuoti ma con scheletro condiviso.
-- Incoming/backlog: mappatura iniziale delle cartelle `incoming/` e `docs/incoming/` con README di stato.
-- Nessuna modifica a `data/core/**`, `packs/**` o tooling esistente (compatibilità Golden Path).
+- Deliverable proposti sono limitati a documentazione e mappature, senza toccare `data/core/**`, `packs/**` o tooling.
+- Gli stub richiesti in §6.1 di `REF_REPO_SCOPE` esistono ma vanno completati con sezioni operative.
+- Le cartelle `incoming/` e `docs/incoming/` sono solo censite; manca una tabella di stato condivisa.
 
-## Deliverable proposti (PATCHSET-00)
+## Rischi
 
-1. Stub dei documenti di pianificazione:
-   - `docs/planning/REF_REPO_SOURCES_OF_TRUTH.md`
-   - `docs/planning/REF_INCOMING_CATALOG.md`
-   - `docs/planning/REF_PACKS_AND_DERIVED.md`
-   - `docs/planning/REF_TOOLING_AND_CI.md`
-   - `docs/planning/REF_REPO_MIGRATION_PLAN.md`
-     Ogni file include: scopo, owner, stato (DRAFT), elenco sezioni da riempire.
+- Mancata approvazione o ambiguità di scope potrebbero bloccare PATCHSET-01/02.
+- Rischio di duplicare mappature se le tabelle di incoming non sono uniche e versionate.
+- Se gli owner non sono nominati per ogni deliverable, le sezioni restano senza manutenzione.
 
-2. Indicizzazione incoming/backlog:
-   - `incoming/README.md` con tabella INTEGRATO / DA_INTEGRARE / STORICO.
-   - `docs/incoming/README.md` con lo stesso schema e link alle fonti note.
+## Dipendenze
 
-## Motivazione
+- `REF_REPO_SCOPE` come bussola di perimetro e vincoli (STRICT MODE, Golden Path).
+- Coordinamento con `REF_REPO_MIGRATION_PLAN` per sequenziare PATCHSET-01/02.
+- Allineamento con `REF_INCOMING_CATALOG` e `REF_PACKS_AND_DERIVED` per evitare sovrapposizioni.
+- Coinvolgimento di coordinator, archivist e dev-tooling per convalida e rollout.
 
-- Rende espliciti gli output attesi (REF_REPO_SCOPE §6.1) prima di toccare dati o pack.
-- Crea un perimetro chiaro per il triage di incoming e derived senza introdurre regressioni.
-- Mantiene allineamento con STRICT MODE: tutto è preparato come patch proposta e può essere applicato/esteso in patchset successivi.
+## Prossimi passi
 
-## Passi successivi suggeriti
-
-- Approvare PATCHSET-00 come change-set neutrale (solo documentazione/stub).
-- Pianificare PATCHSET-01 per il censimento di `data/derived/**` e fixture test.
-- Pianificare PATCHSET-02 per la rigenerazione di `packs/evo_tactics_pack` a partire dai core.
+1. Validare formalmente PATCHSET-00 come change-set neutrale e approvare la struttura dei sei documenti di pianificazione.
+2. Popolare `REF_INCOMING_CATALOG` con la tabella di stato condivisa per `incoming/` e `docs/incoming/`, nominando un owner.
+3. Collegare `REF_REPO_SOURCES_OF_TRUTH` e `REF_PACKS_AND_DERIVED` con i percorsi canonici dei core e i criteri di derivazione.
+4. Allineare `REF_TOOLING_AND_CI` sugli impatti nulli di PATCHSET-00 e preparare la checklist di compatibilità per PATCHSET-01.
+5. Aggiornare `REF_REPO_MIGRATION_PLAN` con le exit/entry criteria e i trigger per passare da PATCHSET-00 a PATCHSET-01/02.
 
 ---
 
