@@ -362,7 +362,9 @@
       "spinta_selettiva",
       "testability",
       "tier",
-      "uso_funzione"
+      "uso_funzione",
+      "version",
+      "versioning"
     ]
   },
   "Fisiologico/Respiratorio": {
@@ -406,7 +408,9 @@
       "spinta_selettiva",
       "testability",
       "tier",
-      "uso_funzione"
+      "uso_funzione",
+      "version",
+      "versioning"
     ]
   },
   "Flessibile/Generico": {
@@ -521,7 +525,9 @@
       "spinta_selettiva",
       "testability",
       "tier",
-      "uso_funzione"
+      "uso_funzione",
+      "version",
+      "versioning"
     ]
   },
   "Locomotivo/Terrestre": {
@@ -975,7 +981,9 @@
       "spinta_selettiva",
       "testability",
       "tier",
-      "uso_funzione"
+      "uso_funzione",
+      "version",
+      "versioning"
     ]
   },
   "Offensivo/Termico": {
@@ -1351,7 +1359,9 @@
       "spinta_selettiva",
       "testability",
       "tier",
-      "uso_funzione"
+      "uso_funzione",
+      "version",
+      "versioning"
     ]
   },
   "Sensoriale/Uditivo-Olfattivo": {

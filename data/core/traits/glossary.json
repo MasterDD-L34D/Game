@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2025-11-22T15:10:41+00:00",
+  "updated_at": "2025-11-22T21:38:18+00:00",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -176,8 +176,8 @@
     "aura_di_dispersione_mentale": {
       "label_it": "Aura di Dispersione Mentale",
       "label_en": "Mental Dispersion Aura",
-      "description_it": "Indurre ansia e vertigini nei predatori.",
-      "description_en": "Impart anxiety and vertigo to predators."
+      "description_it": "Campo di odori avversivi ed emissioni deboli che induce ansia e vertigini nei predatori.",
+      "description_en": "Aversive odors and weak emissions that instill anxiety and vertigo in predators."
     },
     "aura_scudo_radianza": {
       "label_it": "Aura Scudo di Radianza",
@@ -560,14 +560,14 @@
     "corna_psico_conduttive": {
       "label_it": "Corna Psico-Conduttive",
       "label_en": "Psycho-Conductive Horns",
-      "description_it": "Trasmettere e ricevere segnali neurali lenti.",
-      "description_en": "Transmit and receive slow neural signals."
+      "description_it": "Corna piezo-neurotoniche che trasmettono e ricevono segnali neurali lenti per allerta di branco.",
+      "description_en": "Piezo-neurotonic horns sending and receiving slow neural signals for pack alerts."
     },
     "coscienza_dalveare_diffusa": {
       "label_it": "Coscienza d’Alveare Diffusa",
       "label_en": "Diffuse Hive Consciousness",
-      "description_it": "Fondere decisioni e memoria a breve termine.",
-      "description_en": "Merge decisions and short-term memory."
+      "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
+      "description_en": "Temporary inter-individual synaptic net merging decisions and short-term memory."
     },
     "criostasi_adattiva": {
       "label_en": "Adaptive Cryostasis",
@@ -1040,8 +1040,8 @@
     "metabolismo_di_condivisione_energetica": {
       "label_it": "Metabolismo di Condivisione Energetica",
       "label_en": "Shared Energy Metabolism",
-      "description_it": "Sostenere feriti o giovani con riserva collettiva.",
-      "description_en": "Support wounded or young with collective reserves."
+      "description_it": "Trasferimento di substrati via contatto per sostenere feriti o giovani con una riserva collettiva.",
+      "description_en": "Contact-based substrate transfer to sustain wounded or young with a collective reserve."
     },
     "midollo_antivibrazione": {
       "label_it": "Midollo Antivibrazione",
@@ -1310,8 +1310,8 @@
     "unghie_a_micro_adesione": {
       "label_it": "Unghie a Micro-Adesione",
       "label_en": "Micro-Adhesion Claws",
-      "description_it": "Aderire a superfici ripide.",
-      "description_en": "Adhere to steep surfaces."
+      "description_it": "Lamelle a micro-setole su zoccoli che aderiscono a superfici ripide per fughe verticali e pascolo.",
+      "description_en": "Micro-setae lamellae on hooves gripping steep surfaces for vertical escapes and browsing."
     },
     "vello_condensatore_nebbie": {
       "label_it": "Vello Condensatore di Nebbie",
