@@ -47,5 +47,14 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
+  },
+  "usage_tags": [],
+  "slot_profile": {},
+  "species_affinity": [],
+  "version": "1.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-23",
+    "author": "Master DD / GPT-5 Pro"
   }
 }
