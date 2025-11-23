@@ -1,0 +1,167 @@
+# Prompt: Refactor globale del repo Game / Evo Tactics
+# Uso: 
+#   codex --ask-for-approval=always --prompt-file docs/prompts/codex_refactor_global.txt
+#
+# Scopo:
+#   Avviare una sessione Codex in cui:
+#   - si attiva BOOT_PROFILE e tutto il sistema agenti
+#   - si usa STRICT MODE
+#   - si progetta ed esegue (a step) un refactor globale del repo:
+#       • ridurre file sparsi e duplicati
+#       • riordinare doc e dati
+#       • chiudere fronti aperti
+#       • allineare trait/specie/biomi/doc/codice
+#   - Codex propone sempre in coda 2–3 "prossimi comandi" utili presi dalla Command Library,
+#     così l'utente non deve ricordarsi tutto a memoria.
+
+
+### 1. BOOT: attiva sistema agenti e contesto
+
+Leggi e applica il profilo di avvio:
+
+.ai/BOOT_PROFILE.md
+
+Assicurati di aver caricato:
+- agent_constitution.md
+- agent.md
+- agents/agents_index.json
+- router.md
+- .ai/GLOBAL_PROFILE.md
+- docs/COMMAND_LIBRARY.md
+- docs/pipelines/GOLDEN_PATH.md
+- docs/PIPELINE_TEMPLATES.md
+
+Modalità da attivare per tutta la sessione:
+- STRICT MODE:
+  - niente modifiche implicite ai file
+  - sempre piano (3–7 punti) prima di eseguire qualsiasi task complesso
+  - self-critique alla fine dei task importanti
+- ROUTER AUTOMATICO:
+  - se vedo `AGENTE: <nome>` → uso quell’agente
+  - se NON vedo `AGENTE:` → scelgo io l’agente migliore, lo dichiaro esplicitamente, poi eseguo
+
+Conferma l’avvio con un messaggio breve che includa:
+- modalità attive (strict-mode, router-auto)
+- elenco agenti caricati (da agents/agents_index.json)
+
+
+### 2. Scopo di questa sessione
+
+Questa sessione è dedicata esclusivamente al:
+
+REFRACTOR GLOBALE DEL REPO "Game" / Evo Tactics
+
+Obiettivi principali:
+- individuare file e cartelle:
+  - inutilizzati
+  - duplicati
+  - WIP non integrati
+  - doc vecchie/confuse
+- proporre una nuova organizzazione per:
+  - docs/
+  - data/
+  - biomes/
+  - Trait Editor/
+  - tools/
+  - assets/
+- progettare alcune pipeline di refactor (per blocchi) e poi eseguirle in STRICT MODE:
+  - usando coordinator + archivist + dev-tooling + i curatori (trait/species/biome) quando serve
+- lavorare SEMPRE tramite:
+  - report
+  - proposte di merge/split cartelle
+  - patch_proposte (diff testuali)
+e NON modificare i file reali senza che l’utente lo chieda esplicitamente.
+
+
+### 3. Primo task: scan & pipeline di refactor
+
+Esegui i seguenti passi:
+
+1. Interpreta questo come comando della Command Library:
+
+   COMANDO: SCAN REPO PER AGENTI
+
+   Task:
+   - Scansiona il repo per trovare:
+     • doc importanti
+     • file duplicati
+     • cartelle WIP (draft, old, tmp, test, archive…)
+     • punti di disordine evidente (troppe varianti dello stesso concetto)
+
+2. Poi, come `coordinator`, usa:
+
+   COMANDO: PIPELINE_DESIGNER
+
+   per costruire una **PIPELINE DI REFACTOR GLOBALE**, con step del tipo:
+   - Fase 1: mappatura & clustering dei file
+   - Fase 2: proposta di nuova struttura per docs/ e data/
+   - Fase 3: pulizia trait/specie/biomi a livello macro
+   - Fase 4: pulizia strumenti (Trait Editor, tools/…)
+   - Fase 5: consolidamento cataloghi
+   - Fase 6: aggiornamento doc e indici
+   - Fase 7: patchset e execution plan
+
+   Per ogni step:
+   - agente principale
+   - input (file/cartelle reali)
+   - output (report, patch, piani)
+   - rischio (basso/medio/alto)
+
+3. NON applicare patch: limitati a:
+   - SCAN report
+   - pipeline di refactor globale
+
+
+### 4. Suggerimenti di comandi (aiuto intelligente integrato)
+
+Per semplificare la vita all’utente:
+
+- Alla fine di OGNI tua risposta in questa sessione:
+  - aggiungi sempre una sezione:
+
+    `### Suggerimenti prossimi comandi`
+
+    e proponi 2–3 comandi possibili presi da docs/COMMAND_LIBRARY.md, ad es.:
+    - `COMANDO: PIPELINE_EXECUTOR` (per eseguire lo Step X della pipeline)
+    - `COMANDO: PIPELINE_SIMULATOR` (per simulare la pipeline)
+    - `COMANDO: REFINE_AGENT` (se scopri che un agente va aggiornato)
+    - `COMANDO: APPLICA_PATCHSET_…` (quando siamo pronti alla fase patch)
+    - ecc.
+
+- Se l’utente scrive qualcosa come:
+  - "Non so cosa fare dopo"  
+  - "Suggerisci prossimi passi"  
+  allora interpreta SEMPRE questo come richiesta di aiutare a scegliere il prossimo comando, e:
+  - leggi docs/COMMAND_LIBRARY.md
+  - proponi i 2–3 comandi più sensati in base allo stato attuale.
+
+NON inventare comandi non definiti in docs/COMMAND_LIBRARY.md:
+- se manca un comando adatto, proponi come output:
+  - "Potremmo definire un nuovo comando per X" e spiegalo in linguaggio naturale.
+
+
+### 5. Regole per patch & modifiche reali
+
+- Per TUTTA questa sessione di refactor:
+  - NON modificare mai i file direttamente a meno che l’utente non ti dica
+    in modo esplicito qualcosa come:
+    - "Applica le patch"
+    - "Aggiorna i file"
+  - In tutti gli altri casi:
+    - genera patch/diff testuali
+    - genera report e piani
+
+- Quando generi patch:
+  - usa il formato:
+
+    --- PATCH N: path/to/file ---
+    ```diff
+    [diff]
+    ```
+
+  - e, se serve, suggerisci anche:
+    - branch da creare
+    - ordine di applicazione
+    - comandi CLI (git apply, lint, test…)
+
+[ FINE FILE ]
