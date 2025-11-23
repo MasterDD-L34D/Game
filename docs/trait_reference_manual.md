@@ -16,3 +16,4 @@ Questo file rappresenta il punto di ingresso unico per il manuale dei tratti. Il
 
 - Il manuale resta suddiviso in capitoli per compatibilità con le referenze storiche; questo indice fornisce il percorso canonico richiesto dalla struttura SSoT.
 - I riferimenti allo schema dei tratti e alle pipeline di validazione rimandano ai file in `packs/evo_tactics_pack/docs/catalog/` e agli script in `tools/py/`.
+- Per modifiche a slug/id o allo schema di template coordinarsi con il Trait Curator; per collegamenti specie-trait e requisiti ambientali rimandare rispettivamente a Species Curator e Biome & Ecosystem Curator.
