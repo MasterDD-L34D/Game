@@ -71,7 +71,7 @@ successiva e registrare eventuali task di follow-up in roadmap.
 - **Esito script**: ✅ `scripts/run_deploy_checks.sh`
   - Artefatti TypeScript già presenti in `tools/ts/dist`.
   - Bundle statico generato in `dist.ii91XC` con dataset `data/derived/mock/prod_snapshot`.
-- **Smoke test HTTP: server Python attivo su http://127.0.0.1:40839/**
+- **Smoke test HTTP**: dashboard servita da server Python locale (porta effimera; vedi `logs/tooling/generator_run_profile.json`).
   - Dataset copiato con 48 file totali.
   - Richieste principali completate senza errori (index.html e dashboard).
 - **Note**:
@@ -81,7 +81,7 @@ successiva e registrare eventuali task di follow-up in roadmap.
 - **Esito script**: ✅ `scripts/run_deploy_checks.sh`
   - Artefatti TypeScript già presenti in `tools/ts/dist`.
   - Bundle statico generato in `dist.X6KqNP` con dataset `data/derived/mock/prod_snapshot`.
-- **Smoke test HTTP: server Python attivo su http://127.0.0.1:57027/**
+- **Smoke test HTTP**: dashboard servita da server Python locale (porta effimera; vedi `logs/tooling/generator_run_profile.json`).
   - Trait generator: core=22 enriched_species=7 (time 10 ms).
   - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.
   - Report salvato in `logs/tooling/generator_run_profile.json`.
@@ -94,7 +94,7 @@ successiva e registrare eventuali task di follow-up in roadmap.
 - **Esito script**: ✅ `scripts/run_deploy_checks.sh`
   - Artefatti TypeScript già presenti in `tools/ts/dist`.
   - Bundle statico generato in `dist.CLHuOR` con dataset `data/derived/mock/prod_snapshot`.
-- **Smoke test HTTP: server Python attivo su http://127.0.0.1:45369/**
+- **Smoke test HTTP**: dashboard servita da server Python locale (porta effimera; vedi `logs/tooling/generator_run_profile.json`).
   - Trait generator: core=22 enriched_species=7 (time 10 ms).
   - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.
   - Report salvato in `logs/tooling/generator_run_profile.json`.
@@ -107,7 +107,7 @@ successiva e registrare eventuali task di follow-up in roadmap.
 - **Esito script**: ✅ `scripts/run_deploy_checks.sh`
   - Artefatti TypeScript già presenti in `tools/ts/dist`.
   - Bundle statico generato in `dist.i18ig7` con dataset `data`.
-- **Smoke test HTTP: server Python attivo su http://127.0.0.1:40457/**
+- **Smoke test HTTP**: dashboard servita da server Python locale (porta effimera; vedi `logs/tooling/generator_run_profile.json`).
   - Trait generator: core=30 enriched_species=12 (time 9 ms).
   - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.
   - Report salvato in `logs/tooling/generator_run_profile.json`.
@@ -123,7 +123,7 @@ Flow Shell go/no-go: REVIEW (3/5 ok · 2 warning · 0 fail)
 - **Esito script**: ✅ `scripts/run_deploy_checks.sh`
   - Artefatti TypeScript già presenti in `tools/ts/dist`.
   - Bundle statico generato in `dist.g7GYKo` con dataset `data`.
-- **Smoke test HTTP: server Python attivo su http://127.0.0.1:44517/**
+- **Smoke test HTTP**: dashboard servita da server Python locale (porta effimera; vedi `logs/tooling/generator_run_profile.json`).
   - Chromium Playwright inizializzato in `/tmp/tmp.zvedhqKIKW`.
   - Snapshot generation aggiornato in /workspace/Game/data/flow-shell/atlas-snapshot.json.
   - Trait generator: core=30 enriched_species=12 (time 14 ms).

@@ -2,8 +2,8 @@
 
 _Generato automaticamente da `tools/py/daily_pr_report.py`._
 
-| PR | Titolo | Autore | Merged (UTC) |
-| --- | --- | --- | --- |
+| PR                                                     | Titolo                                             | Autore         | Merged (UTC)         |
+| ------------------------------------------------------ | -------------------------------------------------- | -------------- | -------------------- |
 | [#693](https://github.com/MasterDD-L34D/Game/pull/693) | Update documentation for CLI subcommands and usage | @MasterDD-L34D | 2025-11-13T00:04:02Z |
 | [#694](https://github.com/MasterDD-L34D/Game/pull/694) | Update CLI smoke logging options and documentation | @MasterDD-L34D | 2025-11-13T19:08:18Z |
 
@@ -15,12 +15,17 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 - Link: https://github.com/MasterDD-L34D/Game/pull/693
 
 > ## Summary
+>
 > - align CLI documentation in the FAQ, support template, tutorial, and ADR with the current subcommands and flags, including the global profile option
 > - extend the main README and incoming guide with up-to-date `investigate` usage examples and notes on JSON/HTML outputs
+>
 > ## Testing
+>
 > - n/a
-> ------
-> [Codex Task](https://chatgpt.com/codex/tasks/task_e_69151806ab2c8328a45894be277e8d66)
+>
+> ---
+>
+> Codex Task (riferimento interno)
 
 ## #694 — Update CLI smoke logging options and documentation
 
@@ -30,10 +35,15 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 - Link: https://github.com/MasterDD-L34D/Game/pull/694
 
 > ## Summary
+>
 > - add `--label` and `--log-subdir` options to `scripts/cli_smoke.sh` so smoke runs can target predictable filenames and folders
 > - capture labeled snapshots alongside the timestamped log output and surface the new paths in the CLI message
 > - align README, ADRs, FAQs, roadmap, onboarding, and support templates with the generated log locations and usage guidance
+>
 > ## Testing
+>
 > - ./scripts/cli_smoke.sh --help
-> ------
-> [Codex Task](https://chatgpt.com/codex/tasks/task_e_6915207ea9508328bf58e9c6b181567e)
+>
+> ---
+>
+> Codex Task (riferimento interno)
