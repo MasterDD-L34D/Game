@@ -18,26 +18,39 @@ router, trait, specie e biomi del progetto Game / Evo Tactics.
   - docs/PIPELINE_TEMPLATES.md
 
 Note:
+
 - Base infrastrutturale OK.
 
 ---
 
-## Fase 1 – Trait System & Trait Curator
+## Fase 1 – Trait System & Curatori
 
-- [ ] Analisi completa doc trait (README_TRAITS, trait-editor, trait_reference_manual, ecc.)
-- [ ] Allineamento agents/trait-curator.md ai file reali
-- [ ] Allineamento species-curator e biome-ecosystem-curator
-- [ ] Disegno pipeline TRAIT specifica per Evo Tactics
-- [ ] Esecuzione test pipeline TRAIT su un caso reale
+- [x] Analisi completa trait system
+- [x] Aggiornati doc di riferimento
+- [x] Aggiornati agenti trait-curator / species-curator / biome-ecosystem-curator
+- [x] Allineata pipeline TRAIT in PIPELINE_TEMPLATES
+- [x] Promossa pipeline TRAIT standard ufficiale
 
 ---
 
-## Fase 2 – Specie, biomi, ecosistemi
+## Fase 2 – Specie & Biomi (COMPLETA)
 
-- [ ] Mappa delle sorgenti dati per specie / biomi
-- [ ] Revisione profili lore-designer / species-curator / biome-ecosystem-curator
-- [ ] Definizione Pipeline SPECIE_BIOMA adatta al repo
-- [ ] Test pipeline SPECIE_BIOMA su una feature reale
+- [x] 2A – Scan specie/biomi completato
+- [x] 2B – Refining agents (species-curator, biome-ecosystem-curator)
+- [x] 2C – Pipeline SPECIE+BIOMI standard creata e promossa
+- [x] 2D – Pipeline SPECIE+BIOMI eseguita (Steps 1–10)
+- [x] Step 1 – Kickoff
+- [x] Step 2 – Lore
+- [x] Step 3 – Scheda tecnica bioma
+- [x] Step 4 – Trait ambientali + temporanei
+- [x] Step 5 – Specie + trait_plan
+- [x] Step 6 – Bilanciamento
+- [x] Step 7 – Validazione incrociata dataset
+- [x] Step 8 – Asset & schede visual
+- [x] Step 9 – Archivist finale
+- [x] Step 10 – Piano esecutivo finale
+
+**Stato:** La feature “Frattura Abissale Sinaptica” è pienamente definita in sandbox e pronta per il passaggio
 
 ---
 
