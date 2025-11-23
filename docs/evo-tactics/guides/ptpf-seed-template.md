@@ -1,11 +1,25 @@
-**PTPF TEMPLATE — GAME DESIGN STRUCTURE**
-**Project:** Evo-Tactics
-**Version:** v1.0 · DriftLocked
+---
+title: Template PTPF seed (Evo-Tactics)
+description: Versione seed del template PTPF usato nelle prime iterazioni Evo-Tactics, da affiancare alla guida v2 e alla scheda operativa.
+tags:
+  - evo-tactics
+  - template
+  - ptpf
+updated: 2025-11-22
+---
+
+# Template PTPF — Seed originario
+
+**Project:** Evo-Tactics · **Version:** v1.0 · DriftLocked
+
+> Usa questo seed come promemoria dei blocchi originari PTPF. Per compilazioni aggiornate consulta anche la [scheda operativa trait](../../traits_scheda_operativa.md), la [Guida Evo Tactics Pack v2](../../Guida_Evo_Tactics_Pack_v2.md) e il template completo in [docs/evo-tactics/guides/template-ptpf.md](template-ptpf.md).
 
 ⸻
 
-### 1. 🎯 VISION & TONE  
+### 1. 🎯 VISION & TONE
+
 **Tag:** `@VISION_CORE`
+
 - Setting: Techno-biological, ecosystem instability
 - Factions: Hybrid teams (half-scientist, half-explorer)
 - Keywords: Adaptation, Evolution, Intelligence, Mutation
@@ -14,8 +28,10 @@
 
 ⸻
 
-### 2. 🧠 STRATEGIC CORE: Tactical System  
+### 2. 🧠 STRATEGIC CORE: Tactical System
+
 **Tag:** `@TACTICS_CORE`
+
 - Dashboard anchors: `PI Slots`, `Hook Patterns`, `Bias Vectors`
 - Tactical Outcomes: A/B/C packages, VC interaction nodes
 - Constraints:
@@ -25,8 +41,10 @@
 
 ⸻
 
-### 3. 🧬 FORM MANAGEMENT & CAPS  
+### 3. 🧬 FORM MANAGEMENT & CAPS
+
 **Tag:** `@FORM_ENGINE`
+
 - Packet types: Mutation packs A/B/C
 - Shape Biasing: form-balance mapped per bioma
 - Visibility:
@@ -36,8 +54,10 @@
 
 ⸻
 
-### 4. 🛰️ TELEMETRY SYSTEM  
+### 4. 🛰️ TELEMETRY SYSTEM
+
 **Tag:** `@VC_TRACK`
+
 - Input: Player behavior (choice logs, roll trends)
 - Output: Dynamic encounter shifts, VC compat tiers
 - Triggers:
@@ -47,8 +67,10 @@
 
 ⸻
 
-### 5. 🌱 BIOMA & ENCOUNTER ENGINE  
+### 5. 🌱 BIOMA & ENCOUNTER ENGINE
+
 **Tag:** `@BIOMA_ENGINE`
+
 - Generator: Bioma roll (fast table)
 - Spotlight: Mutations vs environment + synergy matrix
 - MBTI Compatibility Table:
@@ -57,8 +79,10 @@
 
 ⸻
 
-### 6. 🔁 PLAYTEST LOOP  
+### 6. 🔁 PLAYTEST LOOP
+
 **Tag:** `@PLAYTEST_CORE`
+
 - Iteration Tracker:
   - Loop ID
   - Stress Level
@@ -70,8 +94,10 @@
 
 ⸻
 
-### 7. 🔗 LINKING & TRACEABILITY  
+### 7. 🔗 LINKING & TRACEABILITY
+
 **Anchor Map:**
+
 - `@VISION_CORE` links → `@TACTICS_CORE`, `@FORM_ENGINE`
 - `@VC_TRACK` bi-directional with `@BIOMA_ENGINE`
 - `@PLAYTEST_CORE` hooks into all above for stress testing
@@ -80,7 +106,8 @@
 
 ⸻
 
-### 8. ⚠️ DRIFT GUARDS  
+### 8. ⚠️ DRIFT GUARDS
+
 - TONE LOCK: Never shift toward fantasy, steampunk, or comical
 - STRUCTURE LOCK: No freeform modules; always packetized
 - TELEMETRY LOCK: Changes must be YAML-valid and receipt-tagged
@@ -88,14 +115,17 @@
 ⸻
 
 ### 9. 📦 REPO TOOLS & EXTENSIONS (Recommended)
+
 **Tag:** `@REPO_TOOLS`
-- `/tools/obsidian-template.md` → For local knowledge base
-- `/scripts/yaml_validator.py` → Ensures YAML test data compliance
-- `/hooks/drift_check.js` → Pre-commit check: flags Δdrift or missing receipts
-- `/docs/README_structure.yaml` → Defines module dependencies and tag relations
-- `/telemetry/bioma_encounters.yaml` → Tracks outcomes by form+biome+MBTI
+
+- `docs/templates/obsidian_template.md` → Base per il vault locale
+- `incoming/docs/yaml_validator.py` → Ensures YAML test data compliance
+- `incoming/docs/drift_check.js` → Pre-commit check: flags Δdrift or missing receipts
+- `docs/structure_overview.md` → Sintesi relazioni moduli/asset
+- `incoming/docs/bioma_encounters.yaml` → Tracks outcomes by form+biome+MBTI
 
 **Suggested GitHub integrations:**
+
 - Obsidian Vault Sync
 - GitBook Docs rendering
 - DriftDelta Tracker badge (Echo-style summary)
@@ -103,4 +133,3 @@
 ⸻
 
 **[END TEMPLATE — Evo-Tactics PTPF Seed · v1.0]**
-
