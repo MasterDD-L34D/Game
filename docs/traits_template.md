@@ -41,14 +41,15 @@ rispettare le regole indicate e sono validati automaticamente dal comando
 | `slot`                            | array[string] | ciascun elemento `^[A-Z]$`, array vuoto consentito   | Slot occupati.                                                           |
 | `sinergie`                        | array[string] | elementi `^[a-z0-9_]+$`                              | Trait compatibili.                                                       |
 | `conflitti`                       | array[string] | elementi `^[a-z0-9_]+$`                              | Trait incompatibili.                                                     |
-| `data_origin`                     | string        | `^[a-z0-9_]+$`                                       | Fonte editoriale/glossario (es. `controllo_psionico`).                   |
 | `mutazione_indotta`               | string        | non vuota                                            | Sintesi dell'adattamento.                                                |
 | `uso_funzione`                    | string        | non vuota                                            | Funzione in gioco.                                                       |
 | `spinta_selettiva`                | string        | non vuota                                            | Motivazione evolutiva/tattica.                                           |
 
-Quando un campo testuale viene introdotto (es. `description`), ricordati di
-aggiungerlo al glossario e di eseguire `python scripts/sync_trait_locales.py`
-per riflettere la modifica nelle localizzazioni.
+`data_origin` è raccomandato per il tracciamento editoriale, ma non fa parte
+del set minimo richiesto dallo schema. Quando un campo testuale viene
+introdotto (es. `description`), ricordati di aggiungerlo al glossario e di
+eseguire `python scripts/sync_trait_locales.py` per riflettere la modifica
+nelle localizzazioni.
 
 ### Scheletro minimo
 
@@ -81,7 +82,7 @@ per riflettere la modifica nelle localizzazioni.
 | `debolezza`            | Stringa opzionale per limiti intrinseci o vulnerabilità.                                                                                                                             |
 | `sinergie_pi`          | Oggetto con `co_occorrenze`, `forme`, `tabelle_random`, `combo_totale`. Serve per gli strumenti di pianificazione PI.                                                                |
 
-> **Ricorda:** assegna sempre `data_origin` utilizzando gli slug pubblicati nel glossario editoriale (`docs/editorial/trait_sources.json`). Lo script `python tools/py/normalize_trait_style.py` può aggiornare i file esistenti, ma i trait nuovi devono già riferirsi alla sorgente corretta prima della PR.
+> **Ricorda:** se compili `data_origin`, usa gli slug pubblicati nel glossario editoriale (`docs/editorial/trait_sources.json`). Lo script `python tools/py/normalize_trait_style.py` può aggiornare i file esistenti, ma i trait nuovi dovrebbero riferirsi alla sorgente corretta prima della PR.
 
 ### Sezioni annidate
 

@@ -22,11 +22,16 @@ Per importare tratti da pacchetti Evo, usa la mappa di conversione in `traits_ev
 > - `testability.*` — osservabili e scenari di prova per rendere il tratto verificabile.
 > - Nota: questi campi non sono richiesti dai validator interni; se arrivano nei JSON del pack vanno tenuti solo quando rispettano lo schema base del repository.
 
+## Promemoria schema minimo
+
+- `id`, `label`, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`, `conflitti`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva` sono i campi obbligatori del validator.
+- `data_origin` è consigliato per il tracciamento editoriale, ma non richiesto dal JSON Schema.
+
 ## Identità e versioning
 
 - `id` — `snake_case`, uguale al nome file, deciso in design e immutabile. # fonte: vincolo schema `^[a-z0-9_]+$`
 - `label` — riferimento glossario `i18n:traits.<id>.label`, dopo registrazione IT/EN in `data/core/traits/glossary.json`. # fonte: glossario centralizzato
-- `data_origin` — slug editoriale da `docs/editorial/trait_sources.json`. # fonte: tabella sorgenti ufficiali
+- `data_origin` — slug editoriale da `docs/editorial/trait_sources.json` (raccomandato, non richiesto dallo schema). # fonte: tabella sorgenti ufficiali
 - `version` / `versioning.*` — opzionale, SemVer + autore/aggiornamenti per tracciabilità. # fonte: convenzione interna
 
 ## Classificazione e ruolo

@@ -101,5 +101,12 @@
       ]
     }
   },
-  "styleguide_generated_at": "2025-11-03T19:52:35Z"
+  "styleguide_generated_at": "2025-11-03T19:52:35Z",
+  "qa_validation": {
+    "run_at": "2025-11-23T04:43:57.547862+00:00",
+    "traits_validator": "ok",
+    "fields_report": "reports/trait_fields_by_type.json",
+    "locales_sync": "locales/it/traits.json",
+    "exceptions": []
+  }
 }
