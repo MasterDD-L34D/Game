@@ -50,10 +50,10 @@
       "http://purl.obolibrary.org/obo/ENVO_01000178"
     ]
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "versioning": {
     "created": "2025-11-04",
-    "updated": "2025-11-04",
+    "updated": "2025-11-23",
     "author": "Master DD / GPT-5 Pro"
   }
 }

@@ -14,7 +14,7 @@ per autori e reviewer e integra la documentazione tecnica presente in `docs/`.
 
 ### Compatibilità Evo Pack v2
 
-Per importare o riallineare tratti provenienti da pacchetti Evo, fai riferimento a `traits_evo_pack_alignment.md`, che mappa i campi Evo (`trait_code`, `testability`, `cost_profile`, metriche UCUM) sui campi obbligatori del repo (`id` snake_case, `label` i18n, `data_origin`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, ecc.) e descrive il flusso glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
+Per importare o riallineare tratti provenienti da pacchetti Evo, fai riferimento a `traits_evo_pack_alignment.md`, che mappa i campi Evo (`trait_code`, `testability`, `cost_profile`, metriche UCUM) sui campi minimi del repo (`id` snake_case, `label` i18n, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`, `conflitti`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`; `data_origin` è raccomandato) e descrive il flusso glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
 
 1. Identifica il ruolo narrativo e tattico del trait (slot, tier, macro-tipologia).
 2. Recupera i riferimenti dal [template dati](traits_template.md) e dai
@@ -38,7 +38,7 @@ Per importare o riallineare tratti provenienti da pacchetti Evo, fai riferimento
 ## 3. Compilare il file trait
 
 1. Duplica lo scheletro minimo dal template e salva in `data/traits/<tipologia>/<id>.json`.
-2. Popola i campi obbligatori (`id`, `label`, `famiglia_tipologia`, `tier`,
+2. Popola i campi obbligatori (`id`, `label`, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`,
    `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `sinergie`, `conflitti`).
    - Per sinergie/conflitti usa solo gli `id` repository (nessun `trait_code`), come indicato nel box di esempio della [Guida Evo](./Guida_Evo_Tactics_Pack_v2.md#avvertenza-migrazione-pack--%E2%86%92-repository-game).
    - I campi aggiuntivi del pack (`metrics`, `cost_profile`, `testability`, ecc.) restano facoltativi: portali nel repository solo se compatibili con lo schema base.

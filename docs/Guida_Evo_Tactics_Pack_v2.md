@@ -33,7 +33,7 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 >
 > - Flusso: aggiorna il glossario (`data/core/traits/glossary.json`), crea/aggiorna il file del tratto con `id` snake_case e riferimenti `label` i18n, poi lancia i validator/sync (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`).
 > - Naming: `trait_code` Evo diventa `id` snake_case coerente con il label (nome file JSON); il `label` del tratto punta a `i18n:traits.<id>.label` (e viene valorizzato nel glossario).
-> - Obbligatori nel repository: `id`, `label`, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`, `conflitti`, `data_origin`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva` (schema e regex in [scheda operativa](./traits_scheda_operativa.md) e [template](./traits_template.md)).
+> - Obbligatori nel repository (schema minimo): `id`, `label`, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`, `conflitti`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva` (schema e regex in [scheda operativa](./traits_scheda_operativa.md) e [template](./traits_template.md)). `data_origin` resta consigliato ma non fa parte del set minimo.
 > - Esempio minimo: `trait_code` `TR-0420` “Vortice Termico” → `id` `vortice_termico`; `label` nel file tratto: `i18n:traits.vortice_termico.label`; i campi `label_it`/`label_en` sono nel glossario.
 > - Riferimento completo alle regole e agli esempi in [docs/traits_evo_pack_alignment.md](./traits_evo_pack_alignment.md) per evitare ambiguità di naming.
 
@@ -41,14 +41,14 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 
 ## Specifiche standard v2
 
-> **Box campi obbligatori (repository ufficiale)**
+> **Box campi obbligatori (schema minimo del repository)**
 >
 > - **id**: snake_case allineato al nome file JSON e derivato dal `trait_code` (es. `TR-0420` → `vortice_termico`).
 > - **label**: puntare sempre a `i18n:traits.<id>.label` (la stringa localizzata sta nei file i18n/glossario, non nel tratto).
-> - **data_origin**: usare solo gli slug ufficiali (vedi tabella in `docs/traits_evo_pack_alignment.md`).
 > - **famiglia_tipologia**, **fattore_mantenimento_energetico**, **tier**, **slot**: classificazione e livello energetico di base.
 > - **sinergie**/**conflitti**: liste di `id` (non `trait_code`) per la compatibilità interna; evita alias TR-xxxx nei JSON del repository.
 > - **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
+> - **Nota su `data_origin`**: raccomandato per il tracciamento editoriale (slug da `docs/editorial/trait_sources.json`), ma non richiesto dallo schema minimo.
 > - Rimandi: [scheda operativa dei trait](./traits_scheda_operativa.md), [guida autore](./README_HOWTO_AUTHOR_TRAIT.md), [template dati](./traits_template.md) e [piano operativo prossimo ciclo](./next_steps_trait_migration.md).
 >
 > **Box campi opzionali/consigliati (Evo Pack v2)**
@@ -115,15 +115,17 @@ Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 
 > **Esempio sinergie/conflitti (pack → repo)**
 >
-> - Nel pack: `sinergie: ["condotto_laminare" (trait_code: TR-0421)]`, `conflitti: ["ipertermia_cronica" (trait_code: TR-0502)]`.
-> - Nel repository: usare solo gli `id` snake_case → `sinergie: ["condotto_laminare"]`, `conflitti: ["ipertermia_cronica"]`.
+> - Nel pack: `sinergie: ["TR-1102" ("Scheletro Idraulico a Pistoni")]`, `conflitti: ["TR-1103" ("Ipertrofia Muscolare Massiva")]`.
+> - Nel repository: usare solo gli `id` snake_case → `sinergie: ["scheletro_idraulico_a_pistoni"]`, `conflitti: ["ipertrofia_muscolare_massiva"]`.
 >
 > **Promemoria mapping**
 >
-> | trait_code | id (repository)      | Note                                           |
-> | ---------- | -------------------- | ---------------------------------------------- |
-> | TR-0421    | `condotto_laminare`  | usa sempre l'`id` snake_case nei file JSON     |
-> | TR-0502    | `ipertermia_cronica` | il `trait_code` resta solo come alias nel pack |
+> | trait_code | id (repository)                 | Note                                          |
+> | ---------- | ------------------------------- | --------------------------------------------- |
+> | TR-1101    | `rostro_emostatico_litico`      | alias TR solo nel pack, nel repo resta l'`id` |
+> | TR-1102    | `scheletro_idraulico_a_pistoni` | usa sempre l'`id` snake_case nei file JSON    |
+> | TR-1103    | `ipertrofia_muscolare_massiva`  | mantieni la conversione anche nei conflitti   |
+> | TR-1105    | `organi_sismici_cutanei`        | segue la stessa regola di conversione         |
 
 La definizione dei tratti deve evitare ridondanze: ogni tratto deve essere atomico, cioè con una funzione principale chiara e testabile. Per ogni super-abilità occorre indicare almeno un limite o contromisura (raffreddamento, saturazione, schermature, rumore di fondo…).
 
