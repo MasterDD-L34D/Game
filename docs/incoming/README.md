@@ -1,37 +1,14 @@
-# Incoming
+# Docs Incoming – Stato e triage (PATCHSET-00)
 
-Questa cartella raccoglie i materiali grezzi (appunti, PDF, zip, ecc.) che devono essere analizzati prima di essere integrati nel progetto.
+Schema di tracciamento per `docs/incoming/**`. Gli stati sono coerenti con `incoming/README.md`:
 
-## Generare i report
+- **INTEGRATO**, **DA_INTEGRARE**, **STORICO**.
 
-1. Posiziona in questa cartella i file o le directory che vuoi esaminare.
-2. Dal root del repository esegui lo script dedicato:
-   ```bash
-   ./scripts/report_incoming.sh
-   ```
-   Puoi passare argomenti aggiuntivi (ad esempio `--destination sessione-2024-05-19`) che verranno inoltrati al comando Python sottostante.
+| Fonte / descrizione | Percorso          | Stato        | Note / next-step                              |
+| ------------------- | ----------------- | ------------ | --------------------------------------------- |
+| _placeholder_       | docs/incoming/... | DA_INTEGRARE | Popolare durante il censimento (PATCHSET-01). |
 
-Lo script produce sia il report JSON sia quello HTML invocando `tools/py/game_cli.py`. I file vengono salvati nella directory `reports/incoming/<destinazione>/` con i nomi `report.json` e `report.html`. Se non specifichi una destinazione, viene usata automaticamente la sottocartella `reports/incoming/latest/`.
+Note:
 
-Se nella cartella sono presenti archivi `.zip`, lo script li estrae in una directory temporanea, esegue automaticamente i comandi
-
-```bash
-python tools/py/game_cli.py validate-datasets
-python tools/py/game_cli.py validate-ecosystem-pack
-```
-
-(il secondo solo quando il pack ecosistema è disponibile) e salva i log corrispondenti in `reports/incoming/validation/` assieme a un file `summary.txt` con gli esiti. Al termine, l'area temporanea viene ripulita automaticamente.
-
-Per evitare la creazione di file e ottenere solo l'output JSON su `stdout`, puoi lanciare:
-
-```bash
-./scripts/report_incoming.sh --destination -
-```
-
-Puoi anche eseguire direttamente il comando principale per le indagini:
-
-```bash
-python tools/py/game_cli.py investigate incoming --recursive --json --html --destination latest --max-preview 400
-```
-
-Il flag `--destination` accetta anche `-` per disabilitare la generazione di file sul disco, mentre `--max-preview` controlla la lunghezza delle anteprime testuali nel report.
+- Nessun riordino o archiviazione applicato in PATCHSET-00.
+- Tenere sincronizzato questo censimento con `docs/planning/REF_INCOMING_CATALOG.md`.
