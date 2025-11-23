@@ -96,7 +96,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69015594872c8332a8df52965d6fee22
+> Codex Task (riferimento interno)
 
 ## #247 — Replace trait dashboard screenshot with text log
 
@@ -118,7 +118,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901510985688332bad79fb413861cb3
+> Codex Task (riferimento interno)
 
 ## #248 — Fix taxonomy loading in production embed widget
 
@@ -138,7 +138,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901593f070483329bd932b5102f0f4d
+> Codex Task (riferimento interno)
 
 ## #249 — Fix taxonomy loading in production embed widget
 
@@ -158,7 +158,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69015c69030c833292f6ef8ab73595a8
+> Codex Task (riferimento interno)
 
 ## #250 — feat: align badlands species with trait suites
 
@@ -179,7 +179,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_68fe9f9a62f88332b73991f02d8decbe
+> Codex Task (riferimento interno)
 
 ## #251 — Implement slug taxonomy build pipeline for idea intake
 
@@ -201,7 +201,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69015d7031ec8332ac5705a845d7f651
+> Codex Task (riferimento interno)
 
 ## #253 — feat: add trait-based biome generation pipeline
 
@@ -222,7 +222,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901624dedc083328bbe8c46ea09a316
+> Codex Task (riferimento interno)
 
 ## #252 — Add intake feedback capture to idea engine
 
@@ -243,7 +243,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690164e090948332a1754efaf909f1f9
+> Codex Task (riferimento interno)
 
 ## #254 — feat: add species builder pipeline and species panel UI
 
@@ -266,7 +266,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69016794c3548332805e55cbfb05614b
+> Codex Task (riferimento interno)
 
 ## #255 — Make feedback updates atomic
 
@@ -286,7 +286,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901691798448332aba655f4eebc4e7e
+> Codex Task (riferimento interno)
 
 ## #256 — fix: align synthetic tier with builder threat tier
 
@@ -306,7 +306,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69016d1c15a48332b7dffada2d06d137
+> Codex Task (riferimento interno)
 
 ## #257 — Add Idea Engine changelog reminders and feedback CTA
 
@@ -327,7 +327,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69016ceb0fb08332b0f8ed5b04f108eb
+> Codex Task (riferimento interno)
 
 ## #258 — Add incoming report tooling
 
@@ -348,7 +348,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69016fc2aadc83328265615f3c992b99
+> Codex Task (riferimento interno)
 
 ## #260 — Add validation workflow to incoming report script
 
@@ -369,7 +369,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690172cbe40483329d726e18d614abb3
+> Codex Task (riferimento interno)
 
 ## #259 — Refactor ecosystem validation and add runtime service
 
@@ -391,7 +391,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69016f91b64483328938f8d9fb33aa24
+> Codex Task (riferimento interno)
 
 ## #261 — Adjust report incoming script to honor stdout mode
 
@@ -411,7 +411,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901780a44cc83328b2ac74895a02df8
+> Codex Task (riferimento interno)
 
 ## #263 — Add staging incoming CLI smoke profile and workflow
 
@@ -433,7 +433,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901774439e88332b4e3dd7983954ceb
+> Codex Task (riferimento interno)
 
 ## #264 — feat(webapp): add encounter generator templates and UI
 
@@ -454,7 +454,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69017a40f6ec83328cc7957ba5318b5b
+> Codex Task (riferimento interno)
 
 ## #265 — feat: manage drive sync approved assets
 
@@ -475,7 +475,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69017a6857848332a960919bf56aefce
+> Codex Task (riferimento interno)
 
 ## #262 — Fix standalone bootstrap for species validator CLI
 
@@ -495,7 +495,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901788901d08332b67bbe4694c5c306
+> Codex Task (riferimento interno)
 
 ## #266 — fix: enforce approved assets token requirement
 
@@ -515,7 +515,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69017dd178448332a3626389f13f68fa
+> Codex Task (riferimento interno)
 
 ## #267 — fix: align encounter slot quantity with selected species
 
@@ -535,7 +535,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69017dc5fba88332b88feea2c0bd67e0
+> Codex Task (riferimento interno)
 
 ## #268 — feat: orchestrate species generation pipeline
 
@@ -558,7 +558,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69017ce8ed8c8332915aad0384651e7c
+> Codex Task (riferimento interno)
 
 ## #269 — Add drive sync helper with safe dry-run fallback
 
@@ -581,7 +581,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69016cd5fd248332ae403a88ff442e85
+> Codex Task (riferimento interno)
 
 ## #270 — fix: return corrected blueprint in orchestrator result
 
@@ -601,7 +601,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901815c2f308332acec0d9171a3acb3
+> Codex Task (riferimento interno)
 
 ## #271 — feat: orchestrate webapp generator flow UI
 
@@ -622,7 +622,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690181a99f0c83328f1f40a966c4f23b
+> Codex Task (riferimento interno)
 
 ## #272 — Refactor species panel and add batch generation previews
 
@@ -644,7 +644,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690181f439b88332ba25c5cadc7e4422
+> Codex Task (riferimento interno)
 
 ## #273 — Add biome synthesis setup workflow and runtime validation UI
 
@@ -665,7 +665,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690185533dac833297687fba45878eba
+> Codex Task (riferimento interno)
 
 ## #275 — Fix biome synthesis payload to include connection endpoints
 
@@ -684,7 +684,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901881752088332a60674c1e31033d0
+> Codex Task (riferimento interno)
 
 ## #276 — Fix trait synergy reciprocity
 
@@ -704,7 +704,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901846d63608332889676022615e92d
+> Codex Task (riferimento interno)
 
 ## #277 — Add step-by-step encounter editor with live metrics and variant comparison
 
@@ -725,7 +725,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690185737bf48332b46a87b63e46ebec
+> Codex Task (riferimento interno)
 
 ## #278 — Populate psionic synergy metadata for evo tactics traits
 
@@ -745,7 +745,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69018d9860cc833282d14a1f7d906e16
+> Codex Task (riferimento interno)
 
 ## #279 — Add Quality & Release validations and publishing workflow UI
 
@@ -766,7 +766,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69018dedbd008332890b96e8efdcd27e
+> Codex Task (riferimento interno)
 
 ## #281 — Fix encounter metrics quantity scaling
 
@@ -787,7 +787,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690203b7f4f8833288b97e3233afb90b
+> Codex Task (riferimento interno)
 
 ## #282 — Ensure evo tactics synergies stay reciprocal
 
@@ -807,7 +807,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690203bd9dc08332b0d36b4284e11c92
+> Codex Task (riferimento interno)
 
 ## #283 — Add psionic biome species coverage
 
@@ -829,7 +829,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69018ece495c83328f28590119a2eca4
+> Codex Task (riferimento interno)
 
 ## #284 — Add quality release orchestration endpoints and UI
 
@@ -851,7 +851,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69020acfa1a8833284f5c57dd35bd48f
+> Codex Task (riferimento interno)
 
 ## #285 — Whitelist psionic spawn times and weather
 
@@ -871,7 +871,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69020be973648332ad8a4707f69f5e8b
+> Codex Task (riferimento interno)
 
 ## #286 — Populate trait slots with core/complementary taxonomy
 
@@ -892,7 +892,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69020b1245908332be83760da166db2d
+> Codex Task (riferimento interno)
 
 ## #287 — Add checklist/log index and update README guidance
 
@@ -912,7 +912,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902100a61b8833297377ed93710ecda
+> Codex Task (riferimento interno)
 
 ## #288 — Follow-up: keep slot letters and move taxonomy metadata
 
@@ -933,7 +933,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902117184c8833282e2877cce4c408f
+> Codex Task (riferimento interno)
 
 ## #289 — Add trait glossary descriptions and expose them in tooling
 
@@ -954,7 +954,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902148aa40c8332b13dc4a0f22af834
+> Codex Task (riferimento interno)
 
 ## #290 — Add macro-area progress dashboard summary
 
@@ -974,7 +974,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902142ce9fc833290964b6490681be4
+> Codex Task (riferimento interno)
 
 ## #292 — Adjust macro dashboard counts for nested checkboxes
 
@@ -995,7 +995,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902183eb7d88332904f298d087d5fcf
+> Codex Task (riferimento interno)
 
 ## #291 — docs: aggiungi tracker di stato alle checklist
 
@@ -1016,7 +1016,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690217c057008332be485aa5c956f5a5
+> Codex Task (riferimento interno)
 
 ## #294 — Enhance Pathfinder bestiary metadata
 
@@ -1037,7 +1037,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902185aa4a08332918ee61a8d693841
+> Codex Task (riferimento interno)
 
 ## #293 — Automatizza refresh giornaliero dei tracker e dello stato README
 
@@ -1059,7 +1059,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6901212e81cc8332851794967f5bb10e
+> Codex Task (riferimento interno)
 
 ## #296 — Fix telemetria checklist totals in dashboard
 
@@ -1079,7 +1079,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69021ef02b2c833291c695e0c44adc86
+> Codex Task (riferimento interno)
 
 ## #297 — Document incoming triage workflow and create supporting templates
 
@@ -1099,7 +1099,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690227fd06f48332b3bfc5a92ee2c50f
+> Codex Task (riferimento interno)
 
 ## #295 — Expand trait metadata coverage and gap reporting
 
@@ -1142,7 +1142,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690227fd06f48332b3bfc5a92ee2c50f
+> Codex Task (riferimento interno)
 
 ## #300 — Record first incoming triage session and backlog kickoff
 
@@ -1163,7 +1163,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690227fd06f48332b3bfc5a92ee2c50f
+> Codex Task (riferimento interno)
 
 ## #301 — Add summary report for Evo-Tactics showcase dossier
 
@@ -1183,7 +1183,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69022de9d35c8332b5dd1a4cdf543395
+> Codex Task (riferimento interno)
 
 ## #299 — Add planar ruins biome with translated Pathfinder species
 
@@ -1204,7 +1204,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69022e174f488332b54df62179e8a339
+> Codex Task (riferimento interno)
 
 ## #304 — Add Nebula atlas section and publishing workflow
 
@@ -1226,7 +1226,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69025d7d7ebc8332a3760a1f9fb8f1cc
+> Codex Task (riferimento interno)
 
 ## #305 — Split CI workflow into dedicated jobs
 
@@ -1246,7 +1246,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69025faba1448332a2edbace4cf5e255
+> Codex Task (riferimento interno)
 
 ## #306 — Build Mission Console bundle for GitHub Pages
 
@@ -1267,7 +1267,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690269e8eaf08332844aab173cfa9dcb
+> Codex Task (riferimento interno)
 
 ## #307 — Switch Mission Console router to hash history for GitHub Pages
 
@@ -1286,7 +1286,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69026c1423748332a6eee1147b5737d0
+> Codex Task (riferimento interno)
 
 ## #308 — Switch Mission Console router to hash history for GitHub Pages
 
@@ -1305,7 +1305,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69026d6508188332a770a21db8938a3c
+> Codex Task (riferimento interno)
 
 ## #310 — Remove base argument from hash history creation
 
@@ -1324,7 +1324,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902714958148332b79276e1d63e16e9
+> Codex Task (riferimento interno)
 
 ## #309 — Add paths filter gating to CI workflow
 
@@ -1344,7 +1344,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69026f28611c8332862718916ff43a2d
+> Codex Task (riferimento interno)
 
 ## #311 — Fix workflow gating dependencies
 
@@ -1364,7 +1364,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690272bd0aa083328ee1af3cba3d6960
+> Codex Task (riferimento interno)
 
 ## #312 — Add data health audit tooling and inventory report
 
@@ -1384,7 +1384,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69027347aa188332957ac2722f550165
+> Codex Task (riferimento interno)
 
 ## #314 — Document CI workflows and triggers
 
@@ -1404,7 +1404,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902778184348332b3067c07a679a876
+> Codex Task (riferimento interno)
 
 ## #313 — Add canonical data schemas and extend audit validation
 
@@ -1426,7 +1426,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902775eedc48332b65380c22d0307d3
+> Codex Task (riferimento interno)
 
 ## #315 — Add Pathfinder axis coverage analytics and roadmap
 
@@ -1447,7 +1447,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69027cab9e848332a0ddb5d8edaaa379
+> Codex Task (riferimento interno)
 
 ## #316 — Add CI documentation next steps for label automation
 
@@ -1466,7 +1466,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69027fa168808332ba73a89168fea878
+> Codex Task (riferimento interno)
 
 ## #317 — Add data QA workflow and publishing staging pipeline
 
@@ -1489,7 +1489,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69027f91306083328ce37ba9674c0380
+> Codex Task (riferimento interno)
 
 ## #318 — Refine CI workflow triggers
 
@@ -1510,7 +1510,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_69025d4927808332af8990995a4433b1
+> Codex Task (riferimento interno)
 
 ## #322 — Add recap and progress checklist section to README
 
@@ -1531,7 +1531,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902847320688332a77c26b5dd4acb2d
+> Codex Task (riferimento interno)
 
 ## #323 — Fix trait audit schema validation paths
 
@@ -1550,7 +1550,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_690281c7fb548332a179dd9e6e1465f9
+> Codex Task (riferimento interno)
 
 ## #325 — Refine README handoff for optimized instance
 
@@ -1571,4 +1571,4 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 >
 > ---
 >
-> https://chatgpt.com/codex/tasks/task_e_6902847320688332a77c26b5dd4acb2d
+> Codex Task (riferimento interno)

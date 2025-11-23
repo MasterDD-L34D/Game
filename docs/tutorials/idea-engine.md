@@ -17,7 +17,7 @@ Attivare il percorso completo dall'ideazione alla raccolta feedback con il widge
 1. **Avvia il backend** — esegui `npm run start:api` per esporre l'API su `http://0.0.0.0:3333` e verifica `GET /api/health` dal browser.
 2. **Configura il widget** — apri `docs/ideas/index.html`, imposta `window.IDEA_WIDGET_CONFIG.apiBase = "http://localhost:3333"` e, se necessario, `categoriesUrl` verso la tassonomia pubblicata.
 3. **Invia un'idea completa** — compila tutti i campi sfruttando i suggerimenti tassonomici; conferma l'invio con **Invia al backend** e salva il brief Codex generato.
-4. **Condividi feedback immediato** — utilizza il callout finale del report oppure apri direttamente il [modulo feedback](https://forms.gle/evoTacticsIdeaFeedback) per annotare follow-up.
+4. **Condividi feedback immediato** — utilizza il callout finale del report oppure apri direttamente il [modulo feedback](feedback-form.md) per annotare follow-up.
 5. **Sincronizza con il Support Hub** — archivia l'idea in `docs/ideas/IDEAS_INDEX.md` (workflow CI) e inoltra highlight nel canale `#feedback-enhancements` con link a `docs/ideas/index.html`.
 
 ## Prossimi passi

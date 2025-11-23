@@ -2,7 +2,7 @@
 - **Dataset**: `data/derived/mock/prod_snapshot/` (override via `?data-root`), duplicato anche sotto `data/derived/mock/prod_snapshot/data/` per compatibilità con la dashboard.
 - **Trait nuovi visibili**: il Dune Stalker mostra `Sensori Geomagnetici` nel blocco core e `Lamelle Termoforetiche` fra gli opzionali nella sezione "Trait plan prioritario" della dashboard.
 - **Verifica automatica**: `npm --prefix tools/ts run test:web` (Playwright) ✓ — include lo scenario `trait plan mostra i nuovi core/optional` che allega lo screenshot come artefatto di test e aggiorna il log `logs/tooling/trait-plan-dashboard.log`.
-- **Report collegati**: profilo generatore [`logs/tooling/generator_run_profile.json`](generator_run_profile.json) · output Playwright [`tools/ts/playwright-report.json`](../../tools/ts/playwright-report.json).
+- **Report collegati**: profilo generatore [`logs/tooling/generator_run_profile.json`](../../../logs/tooling/generator_run_profile.json) · output Playwright (artefatto CI, vedi [`tools/ts/scripts/run_playwright_tests.mjs`](../../../tools/ts/scripts/run_playwright_tests.mjs) per percorso e generazione).
 
 ```text
 # Trait plan snapshot

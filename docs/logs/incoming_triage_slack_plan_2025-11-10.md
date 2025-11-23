@@ -3,9 +3,9 @@
 Ciao caretakers :wave:,
 
 aggiorniamo il ciclo *Incoming Review* con focus sugli asset prioritari del report 2025-10-29. Qui trovate tutto il materiale di riferimento:
-- Backlog agentico: <https://github.com/example-org/Game/blob/main/docs/process/incoming_agent_backlog.md>
-- Registro sessioni & log: <https://github.com/example-org/Game/blob/main/docs/process/incoming_review_log.md>
-- Tabella di marcia / roadmap: <https://github.com/example-org/Game/blob/main/docs/piani/roadmap.md>
+- Backlog agentico: [docs/process/incoming_agent_backlog.md](../process/incoming_agent_backlog.md)
+- Registro sessioni & log: [docs/process/incoming_review_log.md](../process/incoming_review_log.md)
+- Tabella di marcia / roadmap: [docs/piani/roadmap.md](../piani/roadmap.md)
 
 **Highlights settimana 2025-11-10**
 1. `evo_pacchetto_minimo_v7` → rieseguire `./scripts/report_incoming.sh --destination sessione-2025-11-10` dopo il fix `unzip -o`; allegare i nuovi log alla card e aggiornare la colonna a `In validazione`.
