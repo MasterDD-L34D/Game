@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1403",
+  "id": "rete_filtro_polmonare",
   "label": "Rete Filtro-Polmonare",
   "famiglia_tipologia": "Fisiologico/Respiratorio",
   "fattore_mantenimento_energetico": "Medio",

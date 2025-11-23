@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1604",
+  "id": "moltiplicazione_per_fusione",
   "label": "Moltiplicazione per Fusione",
   "famiglia_tipologia": "Riproduttivo/Cicli",
   "fattore_mantenimento_energetico": "Basso",
@@ -29,7 +30,7 @@
     {
       "name": "tasso_propaguli",
       "value": 3,
-      "unit": "1/season"
+      "unit": "1/a"
     }
   ],
   "cost_profile": {

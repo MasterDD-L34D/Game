@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1105",
+  "id": "organi_sismici_cutanei",
   "label": "Organi Sismici Cutanei",
   "famiglia_tipologia": "Sensoriale/Tatto-Vibro",
   "fattore_mantenimento_energetico": "Basso",

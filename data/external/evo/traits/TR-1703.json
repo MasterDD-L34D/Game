@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1703",
+  "id": "campo_di_interferenza_acustica",
   "label": "Campo di Interferenza Acustica",
   "famiglia_tipologia": "Difensivo/Camuffamento",
   "fattore_mantenimento_energetico": "Basso",

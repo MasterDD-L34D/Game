@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1503",
+  "id": "articolazioni_a_leva_idraulica",
   "label": "Articolazioni a Leva Idraulica",
   "famiglia_tipologia": "Locomotivo/Terrestre",
   "fattore_mantenimento_energetico": "Medio",

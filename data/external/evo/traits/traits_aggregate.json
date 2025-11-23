@@ -55,7 +55,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "rostro_emostatico_litico"
     },
     {
       "trait_code": "TR-1102",
@@ -112,7 +113,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "scheletro_idraulico_a_pistoni"
     },
     {
       "trait_code": "TR-1103",
@@ -170,7 +172,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "ipertrofia_muscolare_massiva"
     },
     {
       "trait_code": "TR-1104",
@@ -226,7 +229,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "ectotermia_dinamica"
     },
     {
       "trait_code": "TR-1105",
@@ -284,7 +288,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "organi_sismici_cutanei"
     },
     {
       "trait_code": "TR-1201",
@@ -342,7 +347,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "pelage_idrorepellente_avanzato"
     },
     {
       "trait_code": "TR-1202",
@@ -398,7 +404,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "scudo_gluteale_cheratinizzato"
     },
     {
       "trait_code": "TR-1203",
@@ -454,7 +461,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "articolazioni_multiassiali"
     },
     {
       "trait_code": "TR-1204",
@@ -511,7 +519,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "coda_prensile_muscolare"
     },
     {
       "trait_code": "TR-1205",
@@ -567,7 +576,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "rostro_linguale_prensile"
     },
     {
       "trait_code": "TR-1301",
@@ -600,7 +610,7 @@
         {
           "name": "tasso_propaguli",
           "value": 50,
-          "unit": "1/season"
+          "unit": "1/a"
         }
       ],
       "cost_profile": {
@@ -623,7 +633,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "ermafroditismo_cronologico"
     },
     {
       "trait_code": "TR-1302",
@@ -679,7 +690,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "locomozione_miriapode_ibrida"
     },
     {
       "trait_code": "TR-1303",
@@ -737,7 +749,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "estroflessione_gastrica_acida"
     },
     {
       "trait_code": "TR-1304",
@@ -793,7 +806,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "artiglio_cinetico_a_urto"
     },
     {
       "trait_code": "TR-1305",
@@ -851,7 +865,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "sistemi_chimio_sonici"
     },
     {
       "trait_code": "TR-1401",
@@ -907,7 +922,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "scheletro_pneumatico_a_maglie"
     },
     {
       "trait_code": "TR-1402",
@@ -963,7 +979,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "cinghia_iper_ciliare"
     },
     {
       "trait_code": "TR-1403",
@@ -1019,7 +1036,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "rete_filtro_polmonare"
     },
     {
       "trait_code": "TR-1404",
@@ -1075,7 +1093,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "canto_infrasonico_tattico"
     },
     {
       "trait_code": "TR-1405",
@@ -1131,7 +1150,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "siero_anti_gelo_naturale"
     },
     {
       "trait_code": "TR-1501",
@@ -1188,7 +1208,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "zanne_idracida"
     },
     {
       "trait_code": "TR-1502",
@@ -1244,7 +1265,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "seta_conduttiva_elettrica"
     },
     {
       "trait_code": "TR-1503",
@@ -1300,7 +1322,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "articolazioni_a_leva_idraulica"
     },
     {
       "trait_code": "TR-1504",
@@ -1356,7 +1379,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "filtrazione_osmotica"
     },
     {
       "trait_code": "TR-1505",
@@ -1412,7 +1436,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "occhi_analizzatori_di_tensione"
     },
     {
       "trait_code": "TR-1601",
@@ -1468,7 +1493,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "membrana_plastica_continua"
     },
     {
       "trait_code": "TR-1602",
@@ -1524,7 +1550,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "flusso_ameboide_controllato"
     },
     {
       "trait_code": "TR-1603",
@@ -1580,7 +1607,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "fagocitosi_assorbente"
     },
     {
       "trait_code": "TR-1604",
@@ -1613,7 +1641,7 @@
         {
           "name": "tasso_propaguli",
           "value": 3,
-          "unit": "1/season"
+          "unit": "1/a"
         }
       ],
       "cost_profile": {
@@ -1636,7 +1664,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "moltiplicazione_per_fusione"
     },
     {
       "trait_code": "TR-1605",
@@ -1692,7 +1721,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "cisti_di_ibernazione_minerale"
     },
     {
       "trait_code": "TR-1701",
@@ -1749,7 +1779,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "ali_fono_risonanti"
     },
     {
       "trait_code": "TR-1702",
@@ -1805,7 +1836,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "cannone_sonico_a_raggio"
     },
     {
       "trait_code": "TR-1703",
@@ -1861,7 +1893,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "campo_di_interferenza_acustica"
     },
     {
       "trait_code": "TR-1704",
@@ -1917,7 +1950,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "cervello_a_bassa_latenza"
     },
     {
       "trait_code": "TR-1705",
@@ -1973,7 +2007,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "occhi_cinetici"
     },
     {
       "trait_code": "TR-1801",
@@ -2030,7 +2065,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "integumento_bipolare"
     },
     {
       "trait_code": "TR-1802",
@@ -2086,7 +2122,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "elettromagnete_biologico"
     },
     {
       "trait_code": "TR-1803",
@@ -2142,7 +2179,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "scivolamento_magnetico"
     },
     {
       "trait_code": "TR-1804",
@@ -2198,7 +2236,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "filtro_metallofago"
     },
     {
       "trait_code": "TR-1805",
@@ -2254,7 +2293,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "bozzolo_magnetico"
     },
     {
       "trait_code": "TR-1901",
@@ -2310,7 +2350,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "vello_di_assorbimento_totale"
     },
     {
       "trait_code": "TR-1902",
@@ -2366,7 +2407,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "visione_multi_spettrale_amplificata"
     },
     {
       "trait_code": "TR-1903",
@@ -2422,7 +2464,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "motore_biologico_silenzioso"
     },
     {
       "trait_code": "TR-1904",
@@ -2478,7 +2521,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "artigli_ipo_termici"
     },
     {
       "trait_code": "TR-1905",
@@ -2534,7 +2578,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "comunicazione_fotonica_coda_coda"
     },
     {
       "trait_code": "TR-2001",
@@ -2590,7 +2635,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "corna_psico_conduttive"
     },
     {
       "trait_code": "TR-2002",
@@ -2646,7 +2692,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "coscienza_d_alveare_diffusa"
     },
     {
       "trait_code": "TR-2003",
@@ -2702,7 +2749,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "aura_di_dispersione_mentale"
     },
     {
       "trait_code": "TR-2004",
@@ -2758,7 +2806,8 @@
         "created": "2025-11-04",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "metabolismo_di_condivisione_energetica"
     },
     {
       "trait_code": "TR-2005",
@@ -2814,7 +2863,14 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      }
+      },
+      "id": "unghie_a_micro_adesione"
     }
-  ]
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-23",
+    "updated": "2025-11-23",
+    "author": "GPT-5.1-Codex-Max"
+  }
 }

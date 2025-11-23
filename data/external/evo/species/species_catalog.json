@@ -49,7 +49,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "anguis_magnetica"
     },
     {
       "scientific_name": "Chemnotela toxica",
@@ -100,7 +101,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "chemnotela_toxica"
     },
     {
       "scientific_name": "Elastovaranus hydrus",
@@ -153,7 +155,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "elastovaranus_hydrus"
     },
     {
       "scientific_name": "Gulogluteus scutiger",
@@ -206,7 +209,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "gulogluteus_scutiger"
     },
     {
       "scientific_name": "Perfusuas pedes",
@@ -257,7 +261,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "perfusuas_pedes"
     },
     {
       "scientific_name": "Proteus plasma",
@@ -308,7 +313,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "proteus_plasma"
     },
     {
       "scientific_name": "Rupicapra sensoria",
@@ -356,7 +362,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "rupicapra_sensoria"
     },
     {
       "scientific_name": "Soniptera resonans",
@@ -407,7 +414,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "soniptera_resonans"
     },
     {
       "scientific_name": "Terracetus ambulator",
@@ -456,7 +464,8 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "terracetus_ambulator"
     },
     {
       "scientific_name": "Umbra alaris",
@@ -506,7 +515,14 @@
         "created": "2025-11-22",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      }
+      },
+      "id": "umbra_alaris"
     }
-  ]
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-23",
+    "updated": "2025-11-23",
+    "author": "GPT-5.1-Codex-Max"
+  }
 }

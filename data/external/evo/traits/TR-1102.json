@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1102",
+  "id": "scheletro_idraulico_a_pistoni",
   "label": "Scheletro Idraulico a Pistoni",
   "famiglia_tipologia": "Locomotivo/Balistico",
   "fattore_mantenimento_energetico": "Medio",

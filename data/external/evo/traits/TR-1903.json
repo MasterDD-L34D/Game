@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1903",
+  "id": "motore_biologico_silenzioso",
   "label": "Motore Biologico Silenzioso",
   "famiglia_tipologia": "Fisiologico/Metabolico",
   "fattore_mantenimento_energetico": "Basso",

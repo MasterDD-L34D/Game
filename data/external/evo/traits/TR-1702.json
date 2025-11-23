@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1702",
+  "id": "cannone_sonico_a_raggio",
   "label": "Cannone Sonico a Raggio",
   "famiglia_tipologia": "Offensivo/Controllo",
   "fattore_mantenimento_energetico": "Medio",

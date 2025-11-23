@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1602",
+  "id": "flusso_ameboide_controllato",
   "label": "Flusso Ameboide Controllato",
   "famiglia_tipologia": "Locomotivo/Terrestre",
   "fattore_mantenimento_energetico": "Basso",

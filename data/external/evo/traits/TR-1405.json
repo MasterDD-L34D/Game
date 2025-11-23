@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1405",
+  "id": "siero_anti_gelo_naturale",
   "label": "Siero Anti-Gelo Naturale",
   "famiglia_tipologia": "Fisiologico/Termico",
   "fattore_mantenimento_energetico": "Basso",

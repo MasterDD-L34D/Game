@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1603",
+  "id": "fagocitosi_assorbente",
   "label": "Fagocitosi Assorbente",
   "famiglia_tipologia": "Alimentazione/Digestione",
   "fattore_mantenimento_energetico": "Medio",

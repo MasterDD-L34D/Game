@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1305",
+  "id": "sistemi_chimio_sonici",
   "label": "Sistemi Chimio-Sonici",
   "famiglia_tipologia": "Sensoriale/Uditivo-Olfattivo",
   "fattore_mantenimento_energetico": "Basso",

@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1605",
+  "id": "cisti_di_ibernazione_minerale",
   "label": "Cisti di Ibernazione Minerale",
   "famiglia_tipologia": "Difensivo/Resistenze",
   "fattore_mantenimento_energetico": "Basso",

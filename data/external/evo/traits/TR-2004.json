@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-2004",
+  "id": "metabolismo_di_condivisione_energetica",
   "label": "Metabolismo di Condivisione Energetica",
   "famiglia_tipologia": "Fisiologico/Metabolico",
   "fattore_mantenimento_energetico": "Medio",

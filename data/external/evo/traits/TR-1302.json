@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1302",
+  "id": "locomozione_miriapode_ibrida",
   "label": "Locomozione Miriapode Ibrida",
   "famiglia_tipologia": "Locomotivo/Terrestre",
   "fattore_mantenimento_energetico": "Medio",
