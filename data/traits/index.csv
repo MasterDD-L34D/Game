@@ -196,7 +196,17 @@ secrezione_rallentante_palmi,i18n:traits.secrezione_rallentante_palmi.label,Tegu
 squame_rifrangenti_deserto,i18n:traits.squame_rifrangenti_deserto.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/squame_rifrangenti_deserto.json,,controllo_psionico,dune_cristalline,tank,true,false
 vello_condensatore_nebbie,i18n:traits.vello_condensatore_nebbie.label,Tegumentario/Idratazione,Idratazione,data/traits/tegumentario/vello_condensatore_nebbie.json,,controllo_psionico,foreste_nubose,sustain;tank,true,false
 rostro_emostatico_litico,i18n:traits.rostro_emostatico_litico.label,Offensivo/Perforante,Perforante,data/traits/offensivo/rostro_emostatico_litico.json,,incoming_tr1100_pack,terrestre,,true,false
-scheletro_idraulico_a_pistoni,i18n:traits.scheletro_idraulico_a_pistoni.label,Locomotivo/Balistico,Balistico,data/traits/locomotivo/scheletro_idraulico_a_pistoni.json,,incoming_tr1100_pack,terrestre,,true,false
+scheletro_idraulico_a_pistoni,Scheletro Idraulico a Pistoni,Locomotivo/Balistico,Balistico,data/traits/locomotivo/scheletro_idraulico_a_pistoni.json,,coverage_q4_2025,terrestre,,true,false
 ipertrofia_muscolare_massiva,i18n:traits.ipertrofia_muscolare_massiva.label,Fisiologico/Metabolico,Metabolico,data/traits/fisiologico/ipertrofia_muscolare_massiva.json,,incoming_tr1100_pack,terrestre,,true,false
 ectotermia_dinamica,i18n:traits.ectotermia_dinamica.label,Fisiologico/Termico,Termico,data/traits/fisiologico/ectotermia_dinamica.json,,incoming_tr1100_pack,terrestre,,true,false
 organi_sismici_cutanei,i18n:traits.organi_sismici_cutanei.label,Sensoriale/Tatto-Vibro,Tatto-Vibro,data/traits/sensoriale/organi_sismici_cutanei.json,,incoming_tr1100_pack,terrestre,,true,false
+ali_fono_risonanti,Ali Fono-Risonanti,Locomotivo/Aereo,Aereo,data/traits/locomotivo/ali_fono_risonanti.json,,coverage_q4_2025,terrestre,,true,false
+articolazioni_a_leva_idraulica,Articolazioni a Leva Idraulica,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/articolazioni_a_leva_idraulica.json,,coverage_q4_2025,terrestre,,true,false
+articolazioni_multiassiali,Articolazioni Multiassiali,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/articolazioni_multiassiali.json,,coverage_q4_2025,terrestre,,true,false
+cinghia_iper_ciliare,Cinghia Iper-Ciliare,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/cinghia_iper_ciliare.json,,coverage_q4_2025,terrestre,,true,false
+coda_prensile_muscolare,Coda Prensile Muscolare,Locomotivo/Arboricolo,Arboricolo,data/traits/locomotivo/coda_prensile_muscolare.json,,coverage_q4_2025,terrestre,,true,false
+flusso_ameboide_controllato,Flusso Ameboide Controllato,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/flusso_ameboide_controllato.json,,coverage_q4_2025,terrestre,,true,false
+locomozione_miriapode_ibrida,Locomozione Miriapode Ibrida,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/locomozione_miriapode_ibrida.json,,coverage_q4_2025,terrestre,,true,false
+scheletro_pneumatico_a_maglie,Scheletro Pneumatico a Maglie,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/scheletro_pneumatico_a_maglie.json,,coverage_q4_2025,terrestre,,true,false
+scivolamento_magnetico,Scivolamento Magnetico,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/scivolamento_magnetico.json,,coverage_q4_2025,terrestre,,true,false
+unghie_a_micro_adesione,Unghie a Micro-Adesione,Locomotivo/Arboricolo,Arboricolo,data/traits/locomotivo/unghie_a_micro_adesione.json,,coverage_q4_2025,terrestre,,true,false
