@@ -123,32 +123,62 @@ Alla fine:
 ```text
 COMANDO: PIPELINE_TRAIT_REFACTOR
 
-Obiettivo:
-Ripulire e normalizzare i trait relativi a:
-[es. "mobilità e difesa delle unità polpo mutaforma"]
+Pipeline di riferimento: docs/pipelines/PIPELINE_TRAIT_STANDARD.md
 
-Task:
-1. Usa **Trait Curator** per:
-   - scansionare e validare i dataset trait (`data/traits/index.json|csv`, `data/traits/species_affinity.json`, `data/traits/*/*.json`, `_drafts/`) contro schema/glossario (`config/schemas/trait.schema.json`, `data/core/traits/glossary.json`).
-   - proporre un catalogo consolidato (es. `docs/catalog/trait_reference.md`, `docs/catalog/traits_inventory.json`, eventuali piani in `docs/planning/traits_migration_*.md`).
-   - suggerire mapping/rename per trait duplicati o legacy con note operative per Trait Editor (`Trait Editor/docs/howto-author-trait.md`, `Trait Editor/src/utils/trait-helpers.ts`).
+Step ufficiali (eseguire in ordine):
+1. Audit e validazione dataset
+   - Agente: Trait Curator
+   - Input: data/traits/<famiglia>/*.json, data/traits/index.json, data/traits/species_affinity.json, config/schemas/trait.schema.json, data/core/traits/glossary.json
+   - Output: Validazione schema; Errori glossario; Duplicati/legacy; Note sinergie/conflitti mancanti
+   - Rischio: Medio
 
-2. Usa **Coordinator** per:
-   - trasformare i report del Trait Curator in un piano di migrazione end-to-end (task + agenti) con impatti su `data/core/traits/biome_pools.json`, `data/core/species.yaml` e documentazione (`docs/trait_reference_manual.md`, `docs/traits-manuale/`).
+2. Proposta di normalizzazione e mapping slug
+   - Agente: Trait Curator
+   - Input: Report audit (step 1); Trait Editor/docs/howto-author-trait.md; docs/trait_reference_manual.md
+   - Output: Piano mapping per slug e famiglie; Check-list per aggiornamenti glossario e locali
+   - Rischio: Alto
 
-3. Usa **Archivist** per:
-   - aggiornare/creare linee guida di naming e inventario (es. `docs/trait_reference_manual.md`, `docs/catalog/traits_quicklook.csv`) e registrare i report in `reports/traits/`.
+3. Consolidamento catalogo e draft aggiornamento
+   - Agente: Trait Curator
+   - Input: Mapping (step 2); Dataset; Indice e affinità esistenti
+   - Output: Draft inventario aggiornato; Note per Trait Editor su sinergie/slot; Elenco file da modificare
+   - Rischio: Medio
 
-4. (Opzionale) Usa **Dev-Tooling** per:
-   - proporre script di supporto (`tools/traits/*.py`) per cercare/sostituire slug, rigenerare index e validare trait.
+4. Allineamento specie collegate
+   - Agente: Species Curator
+   - Input: species_affinity.json; species.yaml; Mapping slug
+   - Output: Piano aggiornamento specie; Note onboarding
+   - Rischio: Medio
 
-Output atteso:
-- elenco degli step con:
-  - agenti coinvolti
-  - file da creare/aggiornare
-  - rischi e dipendenze.
+5. Revisione impatti su biomi e pool
+   - Agente: Biome & Ecosystem Curator
+   - Input: mapping slug e biome_tags; data/core/traits/biome_pools.json
+   - Output: Report copertura biomi; Note pool aggiornati; Draft requisiti ambientali
+   - Rischio: Medio
 
-NON eseguire ancora, definisci solo la pipeline TRAIT.
+6. Piano di migrazione end-to-end
+   - Agente: Coordinator
+   - Input: Output step 3–5; Schema/glossario
+   - Output: Roadmap migrazione; Task per agenti; Impatti cross-dataset
+   - Rischio: Basso
+
+7. Documentazione e archiviazione
+   - Agente: Archivist
+   - Input: Roadmap Coordinator; Report curatori
+   - Output: Aggiornamento trait_reference_manual.md; Aggiornamento traits_quicklook.csv; Archiviazione report
+   - Rischio: Basso
+
+8. Supporto tooling (opzionale)
+   - Agente: Dev-Tooling
+   - Input: Necessità emerse; Script in tools/traits
+   - Output: Script validazione batch; Script sostituzione slug; README operativo
+   - Rischio: Basso
+
+Uso:
+- Specifica la famiglia di trait prima di avviare la pipeline.
+- Comando di avvio:
+  COMANDO: PIPELINE_TRAIT_REFACTOR
+  Famiglia: <nome-famiglia>
 ```
 
 ---
