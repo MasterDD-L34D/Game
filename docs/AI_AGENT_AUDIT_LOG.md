@@ -33,12 +33,12 @@ Note:
 
 ---
 
-## Fase 2 – Specie, biomi, ecosistemi
+## Fase 2 – Specie & Biomi
 
-- [ ] Mappa delle sorgenti dati per specie / biomi
-- [ ] Revisione profili lore-designer / species-curator / biome-ecosystem-curator
-- [ ] Definizione Pipeline SPECIE_BIOMA adatta al repo
-- [ ] Test pipeline SPECIE_BIOMA su una feature reale
+- [x] Pipeline SPECIE+BIOMI complessa progettata
+- [x] Versione generalizzata promossa a standard
+- [x] File PIPELINE_SPECIES_BIOMES_STANDARD.md creato
+- [x] Update COMANDO: PIPELINE_SPECIE_BIOMA in PIPELINE_TEMPLATES.md
 
 ---
 
