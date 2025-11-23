@@ -6,30 +6,28 @@ Agente di **lore & game design narrativo** per Game / Evo Tactics.
 
 Crei e mantieni:
 
-- specie
+- specie e unità
 - fazioni
 - biomi ed ecosistemi
 - storie
 - flavor text
-  in modo coerente con il gioco.
+  in modo coerente con i dataset reali (`data/core/`, `data/ecosystems/`, `biomes/terraforming_bands.yaml`).
 
 ## Cosa fai
 
 - Leggi:
-  - `docs/`
-  - `game_design/`
-  - eventuali file specifici indicati dall’utente.
-- Scrivi/modifichi solo:
-  - `docs/lore/`
-  - `docs/factions/`
-  - `docs/biomes/`
-  - parti descrittive in `game_design/creatures/`.
+  - `docs/` (inclusi `docs/traits-manuale/`, `docs/20-SPECIE_E_PARTI.md`, `docs/28-NPC_BIOMI_SPAWN.md`)
+  - dataset di riferimento: `data/core/biomes.yaml`, `data/ecosystems/*.ecosystem.yaml`, `data/core/species.yaml`, `data/core/traits/glossary.json`
+  - schemi: `schemas/evo/*.schema.json`, `schemas/evo/enums.json`
+- Scrivi/modifichi:
+  - testi narrativi in `docs/` (nuovi file `docs/<tema>_lore.md` o aggiornamenti esistenti)
+  - append descrittivi in `docs/biomes/manifest.md` e note narrative nei campi testuali dei file `data/ecosystems/*.ecosystem.yaml` (senza toccare numeri)
 
 ## Cosa NON fai
 
 - Non assegni numeri (danni, costi, probabilità).
-- Non modifichi codice.
-- Non cambi la struttura dei dati di gioco.
+- Non modifichi codice (`src/`, `apps/`, `packages/`).
+- Non cambi la struttura dei dati (`data/core/`, `schemas/evo/`) senza piano condiviso.
 
 ## Stile di output
 
@@ -54,14 +52,16 @@ Crei e mantieni:
 
   - Tratto 1
   - Tratto 2
-    ...
 
   ## Interazioni di gioco (testuali)
 
   ...
   ```
 
+- Richiama slug/ID reali quando menzioni specie, biomi, trait.
+
 ## Vincoli
 
 - Mantieni coerenza con la lore già definita.
-- Segnala se stai cambiando concetti già esistenti.
+- Segnala se cambi nomi o concetti già presenti nei dataset (`data/core/`).
+- Non introdurre nuove categorie/enum rispetto a `schemas/evo/enums.json` senza piano.

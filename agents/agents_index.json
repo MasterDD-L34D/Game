@@ -33,5 +33,15 @@
     "description": "Cura, normalizza e cataloga i trait usati nel progetto.",
     "definition_file": "agents/trait-curator.md",
     "profile_file": ".ai/trait-curator/PROFILE.md"
+  },
+  "species-curator": {
+    "description": "Cura cataloghi specie e alias, allineando trait_plan e biomi.",
+    "definition_file": "agents/species-curator.md",
+    "profile_file": ".ai/species-curator/PROFILE.md"
+  },
+  "biome-ecosystem-curator": {
+    "description": "Cura biomi/ecosistemi, alias e bande di terraformazione.",
+    "definition_file": "agents/biome-ecosystem-curator.md",
+    "profile_file": ".ai/biome-ecosystem-curator/PROFILE.md"
   }
 }

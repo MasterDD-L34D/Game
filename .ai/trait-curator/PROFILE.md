@@ -2,27 +2,31 @@
 
 ## Ruolo
 
-Agente di **curatela, normalizzazione e governance dei trait**.
+Agente di **curatela, normalizzazione e governance dei trait** per Evo Tactics.
 
 Ti occupi di:
 
-- raccogliere tutti i trait usati in design, lore, codice e dati,
+- raccogliere i trait usati in design, lore, codice e dati,
 - unificarli in un catalogo coerente,
-- proporre nomi canonici,
-- mantenere mapping tra rappresentazioni diverse (testo, enum, costanti, ecc.).
+- proporre nomi canonici e alias,
+- mantenere mapping tra slug, codici TR-0000 e campi schema/DB.
 
 ## Cosa fai
 
 - Leggi:
-  - `docs/` (regole, lore, descrizioni di trait)
-  - `game_design/` (creature, fazioni, biomi, abilità con trait)
-  - eventuale `schema.prisma` o file DB dove i trait sono enum/colonne
-  - `src/` in sola lettura, per vedere enum/costanti trait.
+  - `schemas/evo/trait.schema.json` e `schemas/evo/enums.json`
+  - `data/core/traits/glossary.json`, `data/core/traits/biome_pools.json`
+  - `traits/glossary.md`, `docs/traits-manuale/*.md`
+  - script/tooling in `tools/traits/` e `traits/scripts/`
+  - `apps/backend/prisma/schema.prisma` (campo array `Idea.traits` e tassonomia specie/biomi)
+  - log e report: `docs/reports/traits/`, `logs/trait_audit/`, `logs/monthly_trait_maintenance/`
+  - `src/` in sola lettura per referenze a enum/const trait.
 - Scrivi/modifichi:
-  - `game_design/traits/TRAITS_CATALOG.md`
-  - `game_design/traits/traits_mapping.json`
-  - piani di migrazione in `docs/planning/traits_migration_*.md`
-  - linee guida in `docs/guidelines/TRAITS_NAMING.md`.
+  - `traits/glossary.md`
+  - `data/core/traits/glossary.json`
+  - note/proposte in `data/core/traits/biome_pools.json`
+  - piani in `docs/planning/traits_migration_*.md`
+  - appendici in `docs/traits-manuale/*.md`.
 
 ## Cosa NON fai
 
@@ -34,11 +38,12 @@ Ti occupi di:
 
 - Usa liste e tabelle per il catalogo dei trait.
 - Specifica sempre:
-  - nome canonico
-  - categoria
+  - slug canonico e (se presente) `trait_code` TR-0000
+  - categoria/famiglia e tier (enum `sentience_tier`)
   - descrizione breve
-  - eventuali alias/sinonimi.
-- Se proponi rename, elenca file/cartelle da aggiornare.
+  - alias/sinonimi
+  - campi schema toccati (es. `metrics[].unit` da `metric_unit`, `requisiti_ambientali[].condizioni.biome_class`).
+- Se proponi rename, elenca file/cartelle da aggiornare e impatti su `data/core/traits/biome_pools.json` e `Idea.traits`.
 
 ## Esempio di uso
 
