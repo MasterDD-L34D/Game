@@ -7,8 +7,8 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "TR-1702",
-    "TR-1703"
+    "cannone_sonico_a_raggio",
+    "campo_di_interferenza_acustica"
   ],
   "conflitti": [],
   "requisiti_ambientali": [

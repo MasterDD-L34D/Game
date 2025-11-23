@@ -37,12 +37,13 @@
       "Chioma Elettrofilo"
     ],
     "trait_refs": [
-      "TR-1501",
-      "TR-1502",
-      "TR-1503",
-      "TR-1504",
-      "TR-1505"
-    ]
+      "zanne_idracida",
+      "seta_conduttiva_elettrica",
+      "articolazioni_a_leva_idraulica",
+      "filtrazione_osmotica",
+      "occhi_analizzatori_di_tensione"
+    ],
+    "id": "chemnotela_toxica"
   },
   "version": "2.0.0",
   "versioning": {

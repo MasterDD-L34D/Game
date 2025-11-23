@@ -34,12 +34,13 @@
       "Dorsali Ventose"
     ],
     "trait_refs": [
-      "TR-2001",
-      "TR-2002",
-      "TR-2003",
-      "TR-2004",
-      "TR-2005"
-    ]
+      "corna_psico_conduttive",
+      "coscienza_d_alveare_diffusa",
+      "aura_di_dispersione_mentale",
+      "metabolismo_di_condivisione_energetica",
+      "unghie_a_micro_adesione"
+    ],
+    "id": "rupicapra_sensoria"
   },
   "version": "2.0.0",
   "versioning": {

@@ -38,18 +38,12 @@
         "Laguna Quieta"
       ],
       "trait_refs": [
-        "TR-1801",
-        "TR-1802",
-        "TR-1803",
-        "TR-1804",
-        "TR-1805"
+        "integumento_bipolare",
+        "elettromagnete_biologico",
+        "scivolamento_magnetico",
+        "filtro_metallofago",
+        "bozzolo_magnetico"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "anguis_magnetica"
     },
     {
@@ -90,18 +84,12 @@
         "Chioma Elettrofilo"
       ],
       "trait_refs": [
-        "TR-1501",
-        "TR-1502",
-        "TR-1503",
-        "TR-1504",
-        "TR-1505"
+        "zanne_idracida",
+        "seta_conduttiva_elettrica",
+        "articolazioni_a_leva_idraulica",
+        "filtrazione_osmotica",
+        "occhi_analizzatori_di_tensione"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "chemnotela_toxica"
     },
     {
@@ -144,18 +132,12 @@
         "Letti Fluviali"
       ],
       "trait_refs": [
-        "TR-1101",
-        "TR-1102",
-        "TR-1103",
-        "TR-1104",
-        "TR-1105"
+        "rostro_emostatico_litico",
+        "scheletro_idraulico_a_pistoni",
+        "ipertrofia_muscolare_massiva",
+        "ectotermia_dinamica",
+        "organi_sismici_cutanei"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "elastovaranus_hydrus"
     },
     {
@@ -198,18 +180,12 @@
         "Forre Umide"
       ],
       "trait_refs": [
-        "TR-1201",
-        "TR-1202",
-        "TR-1203",
-        "TR-1204",
-        "TR-1205"
+        "pelage_idrorepellente_avanzato",
+        "scudo_gluteale_cheratinizzato",
+        "articolazioni_multiassiali",
+        "coda_prensile_muscolare",
+        "rostro_linguale_prensile"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "gulogluteus_scutiger"
     },
     {
@@ -250,18 +226,12 @@
         "Radura Notturna"
       ],
       "trait_refs": [
-        "TR-1301",
-        "TR-1302",
-        "TR-1303",
-        "TR-1304",
-        "TR-1305"
+        "ermafroditismo_cronologico",
+        "locomozione_miriapode_ibrida",
+        "estroflessione_gastrica_acida",
+        "artiglio_cinetico_a_urto",
+        "sistemi_chimio_sonici"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "perfusuas_pedes"
     },
     {
@@ -302,18 +272,12 @@
         "Torrente Lento"
       ],
       "trait_refs": [
-        "TR-1601",
-        "TR-1602",
-        "TR-1603",
-        "TR-1604",
-        "TR-1605"
+        "membrana_plastica_continua",
+        "flusso_ameboide_controllato",
+        "fagocitosi_assorbente",
+        "moltiplicazione_per_fusione",
+        "cisti_di_ibernazione_minerale"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "proteus_plasma"
     },
     {
@@ -351,18 +315,12 @@
         "Dorsali Ventose"
       ],
       "trait_refs": [
-        "TR-2001",
-        "TR-2002",
-        "TR-2003",
-        "TR-2004",
-        "TR-2005"
+        "corna_psico_conduttive",
+        "coscienza_d_alveare_diffusa",
+        "aura_di_dispersione_mentale",
+        "metabolismo_di_condivisione_energetica",
+        "unghie_a_micro_adesione"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "rupicapra_sensoria"
     },
     {
@@ -403,18 +361,12 @@
         "Prateria Arbustiva"
       ],
       "trait_refs": [
-        "TR-1701",
-        "TR-1702",
-        "TR-1703",
-        "TR-1704",
-        "TR-1705"
+        "ali_fono_risonanti",
+        "cannone_sonico_a_raggio",
+        "campo_di_interferenza_acustica",
+        "cervello_a_bassa_latenza",
+        "occhi_cinetici"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "soniptera_resonans"
     },
     {
@@ -453,18 +405,12 @@
         "Savanicola Notturno"
       ],
       "trait_refs": [
-        "TR-1401",
-        "TR-1402",
-        "TR-1403",
-        "TR-1404",
-        "TR-1405"
+        "scheletro_pneumatico_a_maglie",
+        "cinghia_iper_ciliare",
+        "rete_filtro_polmonare",
+        "canto_infrasonico_tattico",
+        "siero_anti_gelo_naturale"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "terracetus_ambulator"
     },
     {
@@ -504,18 +450,12 @@
         "Canyon Notturno"
       ],
       "trait_refs": [
-        "TR-1901",
-        "TR-1902",
-        "TR-1903",
-        "TR-1904",
-        "TR-1905"
+        "vello_di_assorbimento_totale",
+        "visione_multi_spettrale_amplificata",
+        "motore_biologico_silenzioso",
+        "artigli_ipo_termici",
+        "comunicazione_fotonica_coda_coda"
       ],
-      "version": "2.0.0",
-      "versioning": {
-        "created": "2025-11-22",
-        "updated": "2025-11-22",
-        "author": "GPT-5.1-Codex-Max"
-      },
       "id": "umbra_alaris"
     }
   ],

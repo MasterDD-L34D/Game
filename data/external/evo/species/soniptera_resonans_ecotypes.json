@@ -10,11 +10,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1703",
           "metric": "spl_riduzione",
           "delta": 2,
           "unit": "dB",
-          "notes": "Colonne d’aria calda migliorano interferenza"
+          "notes": "Colonne d’aria calda migliorano interferenza",
+          "trait_id": "campo_di_interferenza_acustica"
         }
       ]
     },
@@ -27,11 +27,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1702",
           "metric": "dose_acustica",
           "delta": -10,
           "unit": "dB·s",
-          "notes": "Vegetazione disperde il fronte d’onda"
+          "notes": "Vegetazione disperde il fronte d’onda",
+          "trait_id": "cannone_sonico_a_raggio"
         }
       ]
     }
@@ -41,5 +41,6 @@
     "created": "2025-11-22",
     "updated": "2025-11-22",
     "author": "GPT-5.1-Codex-Max"
-  }
+  },
+  "species_id": "soniptera_resonans"
 }

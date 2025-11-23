@@ -2,13 +2,14 @@
   "traits": [
     {
       "trait_code": "TR-1101",
+      "id": "rostro_emostatico_litico",
       "label": "Rostro Emostatico-Litico",
       "famiglia_tipologia": "Offensivo/Perforante",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1102"
+        "scheletro_idraulico_a_pistoni"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -55,19 +56,19 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "rostro_emostatico_litico"
+      }
     },
     {
       "trait_code": "TR-1102",
+      "id": "scheletro_idraulico_a_pistoni",
       "label": "Scheletro Idraulico a Pistoni",
       "famiglia_tipologia": "Locomotivo/Balistico",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1101",
-        "TR-1103"
+        "rostro_emostatico_litico",
+        "ipertrofia_muscolare_massiva"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -113,21 +114,21 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "scheletro_idraulico_a_pistoni"
+      }
     },
     {
       "trait_code": "TR-1103",
+      "id": "ipertrofia_muscolare_massiva",
       "label": "Ipertrofia Muscolare Massiva",
       "famiglia_tipologia": "Fisiologico/Metabolico",
       "fattore_mantenimento_energetico": "Alto",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1102"
+        "scheletro_idraulico_a_pistoni"
       ],
       "conflitti": [
-        "TR-1105"
+        "organi_sismici_cutanei"
       ],
       "requisiti_ambientali": [
         {
@@ -172,18 +173,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "ipertrofia_muscolare_massiva"
+      }
     },
     {
       "trait_code": "TR-1104",
+      "id": "ectotermia_dinamica",
       "label": "Ectotermia Dinamica",
       "famiglia_tipologia": "Fisiologico/Termico",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1103"
+        "ipertrofia_muscolare_massiva"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -229,21 +230,21 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "ectotermia_dinamica"
+      }
     },
     {
       "trait_code": "TR-1105",
+      "id": "organi_sismici_cutanei",
       "label": "Organi Sismici Cutanei",
       "famiglia_tipologia": "Sensoriale/Tatto-Vibro",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1101"
+        "rostro_emostatico_litico"
       ],
       "conflitti": [
-        "TR-1103"
+        "ipertrofia_muscolare_massiva"
       ],
       "requisiti_ambientali": [
         {
@@ -288,19 +289,19 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "organi_sismici_cutanei"
+      }
     },
     {
       "trait_code": "TR-1201",
+      "id": "pelage_idrorepellente_avanzato",
       "label": "Pelage Idrorepellente Avanzato",
       "famiglia_tipologia": "Difensivo/Termoregolazione",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1202",
-        "TR-1204"
+        "scudo_gluteale_cheratinizzato",
+        "coda_prensile_muscolare"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -347,18 +348,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "pelage_idrorepellente_avanzato"
+      }
     },
     {
       "trait_code": "TR-1202",
+      "id": "scudo_gluteale_cheratinizzato",
       "label": "Scudo Gluteale Cheratinizzato",
       "famiglia_tipologia": "Difensivo/Corazza",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1201"
+        "pelage_idrorepellente_avanzato"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -404,18 +405,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "scudo_gluteale_cheratinizzato"
+      }
     },
     {
       "trait_code": "TR-1203",
+      "id": "articolazioni_multiassiali",
       "label": "Articolazioni Multiassiali",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1204"
+        "coda_prensile_muscolare"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -461,19 +462,19 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "articolazioni_multiassiali"
+      }
     },
     {
       "trait_code": "TR-1204",
+      "id": "coda_prensile_muscolare",
       "label": "Coda Prensile Muscolare",
       "famiglia_tipologia": "Locomotivo/Arboricolo",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1203",
-        "TR-1205"
+        "articolazioni_multiassiali",
+        "rostro_linguale_prensile"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -519,18 +520,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "coda_prensile_muscolare"
+      }
     },
     {
       "trait_code": "TR-1205",
+      "id": "rostro_linguale_prensile",
       "label": "Rostro Linguale Prensile",
       "famiglia_tipologia": "Manipolativo/Alimentare",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1204"
+        "coda_prensile_muscolare"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -576,18 +577,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "rostro_linguale_prensile"
+      }
     },
     {
       "trait_code": "TR-1301",
+      "id": "ermafroditismo_cronologico",
       "label": "Ermafroditismo Cronologico",
       "famiglia_tipologia": "Riproduttivo/Cicli",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1302"
+        "locomozione_miriapode_ibrida"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -633,18 +634,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "ermafroditismo_cronologico"
+      }
     },
     {
       "trait_code": "TR-1302",
+      "id": "locomozione_miriapode_ibrida",
       "label": "Locomozione Miriapode Ibrida",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1304"
+        "artiglio_cinetico_a_urto"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -690,21 +691,21 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "locomozione_miriapode_ibrida"
+      }
     },
     {
       "trait_code": "TR-1303",
+      "id": "estroflessione_gastrica_acida",
       "label": "Estroflessione Gastrica Acida",
       "famiglia_tipologia": "Offensivo/Chimico",
       "fattore_mantenimento_energetico": "Alto",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1304"
+        "artiglio_cinetico_a_urto"
       ],
       "conflitti": [
-        "TR-1305"
+        "sistemi_chimio_sonici"
       ],
       "requisiti_ambientali": [
         {
@@ -749,18 +750,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "estroflessione_gastrica_acida"
+      }
     },
     {
       "trait_code": "TR-1304",
+      "id": "artiglio_cinetico_a_urto",
       "label": "Artiglio Cinetico a Urto",
       "famiglia_tipologia": "Offensivo/Contusivo",
       "fattore_mantenimento_energetico": "Alto",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1302"
+        "locomozione_miriapode_ibrida"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -806,21 +807,21 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "artiglio_cinetico_a_urto"
+      }
     },
     {
       "trait_code": "TR-1305",
+      "id": "sistemi_chimio_sonici",
       "label": "Sistemi Chimio-Sonici",
       "famiglia_tipologia": "Sensoriale/Uditivo-Olfattivo",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1302"
+        "locomozione_miriapode_ibrida"
       ],
       "conflitti": [
-        "TR-1303"
+        "estroflessione_gastrica_acida"
       ],
       "requisiti_ambientali": [
         {
@@ -865,18 +866,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "sistemi_chimio_sonici"
+      }
     },
     {
       "trait_code": "TR-1401",
+      "id": "scheletro_pneumatico_a_maglie",
       "label": "Scheletro Pneumatico a Maglie",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1402"
+        "cinghia_iper_ciliare"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -922,18 +923,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "scheletro_pneumatico_a_maglie"
+      }
     },
     {
       "trait_code": "TR-1402",
+      "id": "cinghia_iper_ciliare",
       "label": "Cinghia Iper-Ciliare",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1401"
+        "scheletro_pneumatico_a_maglie"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -979,18 +980,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "cinghia_iper_ciliare"
+      }
     },
     {
       "trait_code": "TR-1403",
+      "id": "rete_filtro_polmonare",
       "label": "Rete Filtro-Polmonare",
       "famiglia_tipologia": "Fisiologico/Respiratorio",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1401"
+        "scheletro_pneumatico_a_maglie"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1036,18 +1037,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      },
-      "id": "rete_filtro_polmonare"
+      }
     },
     {
       "trait_code": "TR-1404",
+      "id": "canto_infrasonico_tattico",
       "label": "Canto Infrasonico Tattico",
       "famiglia_tipologia": "Offensivo/Controllo",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1401"
+        "scheletro_pneumatico_a_maglie"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1093,18 +1094,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "canto_infrasonico_tattico"
+      }
     },
     {
       "trait_code": "TR-1405",
+      "id": "siero_anti_gelo_naturale",
       "label": "Siero Anti-Gelo Naturale",
       "famiglia_tipologia": "Fisiologico/Termico",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1401"
+        "scheletro_pneumatico_a_maglie"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1150,19 +1151,19 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "siero_anti_gelo_naturale"
+      }
     },
     {
       "trait_code": "TR-1501",
+      "id": "zanne_idracida",
       "label": "Zanne Idracida",
       "famiglia_tipologia": "Offensivo/Chimico",
       "fattore_mantenimento_energetico": "Alto",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1502",
-        "TR-1503"
+        "seta_conduttiva_elettrica",
+        "articolazioni_a_leva_idraulica"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1208,18 +1209,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "zanne_idracida"
+      }
     },
     {
       "trait_code": "TR-1502",
+      "id": "seta_conduttiva_elettrica",
       "label": "Seta Conduttiva Elettrica",
       "famiglia_tipologia": "Offensivo/Elettrico",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1501"
+        "zanne_idracida"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1265,18 +1266,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "seta_conduttiva_elettrica"
+      }
     },
     {
       "trait_code": "TR-1503",
+      "id": "articolazioni_a_leva_idraulica",
       "label": "Articolazioni a Leva Idraulica",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1501"
+        "zanne_idracida"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1322,18 +1323,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "articolazioni_a_leva_idraulica"
+      }
     },
     {
       "trait_code": "TR-1504",
+      "id": "filtrazione_osmotica",
       "label": "Filtrazione Osmotica",
       "famiglia_tipologia": "Fisiologico/Idrico",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1501"
+        "zanne_idracida"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1379,18 +1380,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "filtrazione_osmotica"
+      }
     },
     {
       "trait_code": "TR-1505",
+      "id": "occhi_analizzatori_di_tensione",
       "label": "Occhi Analizzatori di Tensione",
       "famiglia_tipologia": "Sensoriale/Visivo",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1502"
+        "seta_conduttiva_elettrica"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1436,18 +1437,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "occhi_analizzatori_di_tensione"
+      }
     },
     {
       "trait_code": "TR-1601",
+      "id": "membrana_plastica_continua",
       "label": "Membrana Plastica Continua",
       "famiglia_tipologia": "Difensivo/Camuffamento",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1602"
+        "flusso_ameboide_controllato"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1493,18 +1494,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "membrana_plastica_continua"
+      }
     },
     {
       "trait_code": "TR-1602",
+      "id": "flusso_ameboide_controllato",
       "label": "Flusso Ameboide Controllato",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1601"
+        "membrana_plastica_continua"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1550,18 +1551,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "flusso_ameboide_controllato"
+      }
     },
     {
       "trait_code": "TR-1603",
+      "id": "fagocitosi_assorbente",
       "label": "Fagocitosi Assorbente",
       "famiglia_tipologia": "Alimentazione/Digestione",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1601"
+        "membrana_plastica_continua"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1607,18 +1608,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "fagocitosi_assorbente"
+      }
     },
     {
       "trait_code": "TR-1604",
+      "id": "moltiplicazione_per_fusione",
       "label": "Moltiplicazione per Fusione",
       "famiglia_tipologia": "Riproduttivo/Cicli",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1601"
+        "membrana_plastica_continua"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1664,18 +1665,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "moltiplicazione_per_fusione"
+      }
     },
     {
       "trait_code": "TR-1605",
+      "id": "cisti_di_ibernazione_minerale",
       "label": "Cisti di Ibernazione Minerale",
       "famiglia_tipologia": "Difensivo/Resistenze",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1604"
+        "moltiplicazione_per_fusione"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1721,19 +1722,19 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "cisti_di_ibernazione_minerale"
+      }
     },
     {
       "trait_code": "TR-1701",
+      "id": "ali_fono_risonanti",
       "label": "Ali Fono-Risonanti",
       "famiglia_tipologia": "Locomotivo/Aereo",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1702",
-        "TR-1703"
+        "cannone_sonico_a_raggio",
+        "campo_di_interferenza_acustica"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1779,18 +1780,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "ali_fono_risonanti"
+      }
     },
     {
       "trait_code": "TR-1702",
+      "id": "cannone_sonico_a_raggio",
       "label": "Cannone Sonico a Raggio",
       "famiglia_tipologia": "Offensivo/Controllo",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1701"
+        "ali_fono_risonanti"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1836,18 +1837,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "cannone_sonico_a_raggio"
+      }
     },
     {
       "trait_code": "TR-1703",
+      "id": "campo_di_interferenza_acustica",
       "label": "Campo di Interferenza Acustica",
       "famiglia_tipologia": "Difensivo/Camuffamento",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1701"
+        "ali_fono_risonanti"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1893,18 +1894,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      },
-      "id": "campo_di_interferenza_acustica"
+      }
     },
     {
       "trait_code": "TR-1704",
+      "id": "cervello_a_bassa_latenza",
       "label": "Cervello a Bassa Latenza",
       "famiglia_tipologia": "Cognitivo/Apprendimento",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1701"
+        "ali_fono_risonanti"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1950,18 +1951,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "cervello_a_bassa_latenza"
+      }
     },
     {
       "trait_code": "TR-1705",
+      "id": "occhi_cinetici",
       "label": "Occhi Cinetici",
       "famiglia_tipologia": "Sensoriale/Visivo",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1702"
+        "cannone_sonico_a_raggio"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2007,18 +2008,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "occhi_cinetici"
+      }
     },
     {
       "trait_code": "TR-1801",
+      "id": "integumento_bipolare",
       "label": "Integumento Bipolare",
       "famiglia_tipologia": "Sensoriale/Magneto-ricettivo",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1803"
+        "scivolamento_magnetico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2065,18 +2066,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "integumento_bipolare"
+      }
     },
     {
       "trait_code": "TR-1802",
+      "id": "elettromagnete_biologico",
       "label": "Elettromagnete Biologico",
       "famiglia_tipologia": "Offensivo/Elettrico",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-1801"
+        "integumento_bipolare"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2122,18 +2123,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "elettromagnete_biologico"
+      }
     },
     {
       "trait_code": "TR-1803",
+      "id": "scivolamento_magnetico",
       "label": "Scivolamento Magnetico",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1801"
+        "integumento_bipolare"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2179,18 +2180,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "scivolamento_magnetico"
+      }
     },
     {
       "trait_code": "TR-1804",
+      "id": "filtro_metallofago",
       "label": "Filtro Metallofago",
       "famiglia_tipologia": "Alimentazione/Digestione",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1802"
+        "elettromagnete_biologico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2236,18 +2237,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "filtro_metallofago"
+      }
     },
     {
       "trait_code": "TR-1805",
+      "id": "bozzolo_magnetico",
       "label": "Bozzolo Magnetico",
       "famiglia_tipologia": "Difensivo/Resistenze",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1801"
+        "integumento_bipolare"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2293,18 +2294,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "bozzolo_magnetico"
+      }
     },
     {
       "trait_code": "TR-1901",
+      "id": "vello_di_assorbimento_totale",
       "label": "Vello di Assorbimento Totale",
       "famiglia_tipologia": "Difensivo/Camuffamento",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1902"
+        "visione_multi_spettrale_amplificata"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2350,18 +2351,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "vello_di_assorbimento_totale"
+      }
     },
     {
       "trait_code": "TR-1902",
+      "id": "visione_multi_spettrale_amplificata",
       "label": "Visione Multi-Spettrale Amplificata",
       "famiglia_tipologia": "Sensoriale/Visivo",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1901"
+        "vello_di_assorbimento_totale"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2407,18 +2408,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "visione_multi_spettrale_amplificata"
+      }
     },
     {
       "trait_code": "TR-1903",
+      "id": "motore_biologico_silenzioso",
       "label": "Motore Biologico Silenzioso",
       "famiglia_tipologia": "Fisiologico/Metabolico",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1901"
+        "vello_di_assorbimento_totale"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2464,18 +2465,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "motore_biologico_silenzioso"
+      }
     },
     {
       "trait_code": "TR-1904",
+      "id": "artigli_ipo_termici",
       "label": "Artigli Ipo-Termici",
       "famiglia_tipologia": "Offensivo/Termico",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-1902"
+        "visione_multi_spettrale_amplificata"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2521,18 +2522,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "artigli_ipo_termici"
+      }
     },
     {
       "trait_code": "TR-1905",
+      "id": "comunicazione_fotonica_coda_coda",
       "label": "Comunicazione Fotonica Coda-Coda",
       "famiglia_tipologia": "Cognitivo/Sociale",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-1901"
+        "vello_di_assorbimento_totale"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2578,18 +2579,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "comunicazione_fotonica_coda_coda"
+      }
     },
     {
       "trait_code": "TR-2001",
+      "id": "corna_psico_conduttive",
       "label": "Corna Psico-Conduttive",
       "famiglia_tipologia": "Cognitivo/Sociale",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-2002"
+        "coscienza_d_alveare_diffusa"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2635,18 +2636,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "corna_psico_conduttive"
+      }
     },
     {
       "trait_code": "TR-2002",
+      "id": "coscienza_d_alveare_diffusa",
       "label": "Coscienza d’Alveare Diffusa",
       "famiglia_tipologia": "Cognitivo/Sociale",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "TR-2001"
+        "corna_psico_conduttive"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2692,18 +2693,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "coscienza_d_alveare_diffusa"
+      }
     },
     {
       "trait_code": "TR-2003",
+      "id": "aura_di_dispersione_mentale",
       "label": "Aura di Dispersione Mentale",
       "famiglia_tipologia": "Offensivo/Controllo",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-2001"
+        "corna_psico_conduttive"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2749,18 +2750,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "aura_di_dispersione_mentale"
+      }
     },
     {
       "trait_code": "TR-2004",
+      "id": "metabolismo_di_condivisione_energetica",
       "label": "Metabolismo di Condivisione Energetica",
       "famiglia_tipologia": "Fisiologico/Metabolico",
       "fattore_mantenimento_energetico": "Medio",
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "TR-2001"
+        "corna_psico_conduttive"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2806,18 +2807,18 @@
         "created": "2025-11-04",
         "updated": "2025-11-22",
         "author": "GPT-5.1-Codex-Max"
-      },
-      "id": "metabolismo_di_condivisione_energetica"
+      }
     },
     {
       "trait_code": "TR-2005",
+      "id": "unghie_a_micro_adesione",
       "label": "Unghie a Micro-Adesione",
       "famiglia_tipologia": "Locomotivo/Arboricolo",
       "fattore_mantenimento_energetico": "Basso",
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "TR-2001"
+        "corna_psico_conduttive"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2863,14 +2864,7 @@
         "created": "2025-11-04",
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
-      },
-      "id": "unghie_a_micro_adesione"
+      }
     }
-  ],
-  "version": "2.0.0",
-  "versioning": {
-    "created": "2025-11-23",
-    "updated": "2025-11-23",
-    "author": "GPT-5.1-Codex-Max"
-  }
+  ]
 }

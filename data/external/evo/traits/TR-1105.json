@@ -7,10 +7,10 @@
   "tier": "T2",
   "slot": [],
   "sinergie": [
-    "TR-1101"
+    "rostro_emostatico_litico"
   ],
   "conflitti": [
-    "TR-1103"
+    "ipertrofia_muscolare_massiva"
   ],
   "requisiti_ambientali": [
     {

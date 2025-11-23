@@ -37,12 +37,13 @@
       "Laguna Quieta"
     ],
     "trait_refs": [
-      "TR-1801",
-      "TR-1802",
-      "TR-1803",
-      "TR-1804",
-      "TR-1805"
-    ]
+      "integumento_bipolare",
+      "elettromagnete_biologico",
+      "scivolamento_magnetico",
+      "filtro_metallofago",
+      "bozzolo_magnetico"
+    ],
+    "id": "anguis_magnetica"
   },
   "version": "2.0.0",
   "versioning": {

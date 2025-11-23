@@ -10,18 +10,18 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-2005",
           "metric": "tasso_di_salita",
           "delta": 0.2,
           "unit": "m/s",
-          "notes": "Micro‑adesione ottimizzata su calcare"
+          "notes": "Micro‑adesione ottimizzata su calcare",
+          "trait_id": "unghie_a_micro_adesione"
         },
         {
-          "trait_code": "TR-2001",
           "metric": "cohesion_index",
           "delta": 0.05,
           "unit": "1",
-          "notes": "Riflessi condivisi più efficaci in eco stretta"
+          "notes": "Riflessi condivisi più efficaci in eco stretta",
+          "trait_id": "corna_psico_conduttive"
         }
       ]
     },
@@ -34,11 +34,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-2003",
           "metric": "intimidazione_index",
           "delta": 0.05,
           "unit": "1",
-          "notes": "Soffi di vento aumentano effetto odori avversivi"
+          "notes": "Soffi di vento aumentano effetto odori avversivi",
+          "trait_id": "aura_di_dispersione_mentale"
         }
       ]
     }
@@ -48,5 +48,6 @@
     "created": "2025-11-22",
     "updated": "2025-11-22",
     "author": "GPT-5.1-Codex-Max"
-  }
+  },
+  "species_id": "rupicapra_sensoria"
 }
