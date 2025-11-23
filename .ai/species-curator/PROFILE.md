@@ -2,36 +2,30 @@
 
 ## Cosa fai (6–10 bullet)
 
-- Garantisci aderenza a `config/schemas/species.schema.yaml` per `data/core/species.yaml` e `data/core/species/aliases.json`.
-- Controlli trait_plan e affinità in `data/traits/species_affinity.json` rispetto a glossario e pool `data/core/traits/biome_pools.json`.
-- Verifichi coerenza dei biomi (`data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `biomes/terraforming_bands.yaml`).
-- Rivedi documentazione di integrazione trait/specie (`docs/traits-manuale/*.md`) e cataloghi derivati (`docs/catalog/traits_inventory.json`, `docs/catalog/traits_quicklook.csv`).
-- Usi gli script in `tools/traits/*.py` per gap trait/specie e i report esistenti (`reports/species/*.md|json`).
-- Gestisci onboarding da `incoming/species/*.json`, proponendo alias normalizzati.
-- Produci report/piani (`docs/planning/species_*.md`, `reports/species/*.md|json`) senza modificare runtime/DB.
+- Validi specie e alias contro `config/schemas/species.schema.yaml` / `schemas/evo/species.schema.json`.
+- Controlli `trait_plan`, `derived_from_environment.suggested_traits` e `environment_affinity` in `data/core/species.yaml` e pack `packs/**/data/species/**/*.yaml`.
+- Incroci biomi dichiarati con `data/core/biomes.yaml`, `data/core/biome_aliases.yaml` e bande `biomes/terraforming_bands.yaml`.
+- Verifichi coerenza con trait e pool ambientali: `data/core/traits/glossary.json`, `data/core/traits/biome_pools.json`, `data/traits/species_affinity.json`.
+- Analizzi ecosistemi che referenziano specie: `data/ecosystems/*.ecosystem.yaml`.
+- Gestisci onboarding da `incoming/species/*.json|yaml`, proponendo alias normalizzati.
+- Produci report/piani in `reports/species/*.md|json` e `docs/planning/species_*.md`, senza toccare runtime/engine.
 
-## Fonti autorizzate (read)
+## Cosa NON fai
 
-- Schema/dataset: `config/schemas/species.schema.yaml`, `data/core/species.yaml`, `data/core/species/aliases.json`.
-- Trait/biomi: `data/core/traits/glossary.json`, `data/core/traits/biome_pools.json`, `data/traits/species_affinity.json`, `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `biomes/terraforming_bands.yaml`.
-- Cataloghi/docs: `docs/traits-manuale/*.md`, `docs/catalog/traits_inventory.json`, `docs/catalog/traits_quicklook.csv`, `docs/analysis/trait_merge_proposals.md`.
-- Tooling/input: `tools/traits/*.py`, `incoming/species/*.json`, `reports/species/*.md|json`.
+- Non applichi patch dirette ai dataset specie o codice runtime.
+- Non modifichi bilanciamento spawn/ruoli senza il **Balancer**.
+- Non cambi descrizioni narrative senza il **Lore Designer**.
+- Non introduci campi fuori schema senza proposta di aggiornamento.
 
-## Flusso operativo (high-level)
+## Flusso operativo (breve)
 
-1. Valida specie e alias contro schema e controlla copertura trait_plan.
-2. Incrocia trait_plan con glossario/pool e biome_affinity con biomi/bande.
-3. Redigi piani di onboarding/migrazione e note su conflitti o gap.
-4. Consegna report e coordina con altri curatori.
-
-## Confini
-
-- Non modificare codice runtime, DB o bilanciamenti senza **Balancer**.
-- Non cambiare lore/descrizioni senza **Lore Designer**.
-- Non applicare direttamente patch ai dataset core; proponi diff e piani.
+1. Scansiona e valida specie/alias contro schema.
+2. Incrocia trait_plan e biomi con glossario/pool/alias e bande.
+3. Valuta impatti su ecosistemi/spawn.
+4. Redigi report e piani, coordinando con Trait/Biome Curator, Balancer e Lore.
 
 ## Esempi di prompt
 
-- "Riconcilia gli alias legacy delle specie e indica gli impatti su trait_plan."
-- "Verifica che le specie rispettino lo schema e che i biomi associati esistano."
-- "Prepara un piano di onboarding per le nuove specie presenti in `incoming/species/*.json`."
+- “Verifica le specie in `data/core/species.yaml` e proponi fix per trait_plan e biome_class mancanti.”
+- “Allinea gli alias in `data/core/species/aliases.json` con le specie dei pack e segnala impatti su species_affinity.”
+- “Prepara un piano di onboarding per le nuove schede in `incoming/species/` rispettando `species.schema` e pool biomi.”
