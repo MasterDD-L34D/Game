@@ -1,9 +1,9 @@
 # REF_REPO_PATCH_PROPOSTA – Applicazione iniziale dello scope
 
-Versione: 0.2 (design completato)
-Data: 2025-11-24
+Versione: 0.3
+Data: 2025-12-17
 Owner: **Documentazione (referente umano: Laura B.)** – coordinamento con coordinator/dev-tooling
-Stato: PROPOSTA – patch da validare
+Stato: PATCHSET-00 PROPOSTA – patch da validare
 
 ---
 
@@ -57,4 +57,5 @@ La numerazione delle uscite successive resta agganciata alla sequenza 01A–03B 
 
 ## Changelog
 
+- 2025-12-17: versione 0.3 – design completato confermato, perimetro documentazione fissato, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH; prerequisiti di governance ribaditi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
 - 2025-11-23: prima proposta di patch basata su `REF_REPO_SCOPE` (archivist).

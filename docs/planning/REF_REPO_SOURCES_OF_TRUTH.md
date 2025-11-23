@@ -1,9 +1,9 @@
 # REF_REPO_SOURCES_OF_TRUTH – Canonico dati core
 
-Versione: 0.1 (bozza)
-Data: 2025-11-23
+Versione: 0.3
+Data: 2025-12-17
 Owner: agente **archivist** (supporto: trait-curator, species-curator, biome-ecosystem-curator)
-Stato: DRAFT – censimento sorgenti di verità
+Stato: PATCHSET-00 PROPOSTA – censimento sorgenti di verità
 
 ---
 
@@ -33,6 +33,12 @@ Stato: DRAFT – censimento sorgenti di verità
 - `REF_TOOLING_AND_CI` per legare i validatori ai percorsi core e alla CI.
 - Coordinamento con `REF_INCOMING_CATALOG` per evitare che materiale non classificato entri come sorgente di verità.
 
+## Prerequisiti di governance
+
+- Owner umano formalizzato per la custodia dei core (trait/specie/biomi) e registrato nel log di attività.
+- Branch dedicati per eventuali patch correttive su PATCHSET-00, separati dalle pipeline di feature.
+- Registrazione in `logs/agent_activity.md` di revisioni, approvazioni e triage sulle sorgenti di verità.
+
 ## Prossimi passi
 
 1. Redigere una tabella per dominio (trait, specie, biomi/ecosistemi) che indichi percorso canonico, formato e owner.
@@ -45,4 +51,5 @@ Stato: DRAFT – censimento sorgenti di verità
 
 ## Changelog
 
+- 2025-12-17: versione 0.3 – design completato, perimetro documentazione consolidato, numerazione 01A–03B bloccata e richiamo alle fasi GOLDEN_PATH; prerequisiti di governance esplicitati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-23: struttura iniziale e linee guida di censimento (archivist).

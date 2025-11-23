@@ -1,9 +1,9 @@
 # REF_REPO_SCOPE – Refactor globale repository Game / Evo Tactics
 
-Versione: 0.1 (bozza)
-Data: 2025-11-23
+Versione: 0.3
+Data: 2025-12-17
 Owner: agente **coordinator** (supporto: archivist, dev-tooling)
-Stato: DRAFT – bussola per le pipeline di refactor
+Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
 ---
 
@@ -44,6 +44,12 @@ Stato: DRAFT – bussola per le pipeline di refactor
 - Validatori/schema checker esistenti e workflow CI in `.github/workflows/**`.
 - Documenti collegati: `REF_REPO_PATCH_PROPOSTA`, `REF_REPO_SOURCES_OF_TRUTH`, `REF_INCOMING_CATALOG`, `REF_PACKS_AND_DERIVED`, `REF_TOOLING_AND_CI`, `REF_REPO_MIGRATION_PLAN`.
 
+## Prerequisiti di governance
+
+- Owner umano nominato per il ciclo PATCHSET-00 e registrato nei log di esecuzione.
+- Branch dedicati per ogni passo successivo, evitando merge diretti su `main` senza gate incrociati.
+- Logging delle attività e delle approvazioni in `logs/agent_activity.md` per audit e handoff.
+
 ## Prossimi passi
 
 1. Approvare questo scope come riferimento condiviso per tutte le PATCHSET e registrare variazioni nel changelog del file.
@@ -57,4 +63,5 @@ Stato: DRAFT – bussola per le pipeline di refactor
 
 ## Changelog
 
+- 2025-12-17: versione 0.3 – design completato, perimetro documentazione confermato, numerazione 01A–03B bloccata e riferimento alle fasi GOLDEN_PATH con prerequisiti di governance (owner umano, branch dedicati, logging) applicati a PATCHSET-00 (archivist).
 - 2025-11-23: versione iniziale del perimetro di refactor (coordinator).

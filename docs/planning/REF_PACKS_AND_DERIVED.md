@@ -3,7 +3,7 @@
 Versione: 0.3
 Data: 2025-11-24
 Owner: agente **archivist** (supporto: dev-tooling, coordinator)
-Stato: DRAFT – separazione core vs derived
+Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 
 ---
 
@@ -38,10 +38,17 @@ Stato: DRAFT – separazione core vs derived
 - **PATCHSET-01A – Catalogo incoming**: fornisce l'inventario dei sorgenti core da usare come input per rigenerare pack e fixture.
 - **PATCHSET-02A – Tooling di validazione**: abilita la modalità report/gate dei validator (pack e core) da eseguire prima e dopo la derivazione.
 
+## Prerequisiti di governance
+
+- Owner umano assegnato per il mantenimento di PATCHSET-00 e responsabile dell’allineamento pack/core.
+- Branch dedicati per testare rigenerazioni e validazioni dei pack prima di ogni merge su `main`.
+- Tracciamento in `logs/agent_activity.md` di esecuzioni, approvazioni e changelog pack/derived.
+
 ---
 
 ## Changelog
 
+- 2025-12-17: versione 0.3 – design completato per PATCHSET-00, perimetro documentazione confermato, numerazione 01A–03B bloccata con richiamo fasi GOLDEN_PATH e prerequisiti di governance (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-23: versione 0.1 – struttura iniziale separazione core vs derived (archivist).
 - 2025-11-23: versione 0.2 – prime tabelle di inventario e regola base di rigenerazione (archivist).
 - 2025-11-24: versione 0.3 – inventario ampliato con file/dir chiave, mappa tooling per ogni step e collegamento ai prerequisiti 01A/02A (archivist).

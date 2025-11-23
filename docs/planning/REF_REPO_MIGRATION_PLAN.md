@@ -1,9 +1,9 @@
 # REF_REPO_MIGRATION_PLAN – Sequenza patchset
 
-Versione: 0.3 (bozza)
-Data: 2025-11-24
+Versione: 0.3
+Data: 2025-12-17
 Owner: agente **coordinator** (supporto: archivist, dev-tooling)
-Stato: DRAFT – sequenziare i patchset con matrice dipendenze
+Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 
 ---
 
@@ -115,6 +115,7 @@ Compatibilità GOLDEN_PATH: la sequenza mantiene allineamento con le Fasi 1–4 
 
 ## Changelog
 
+- 2025-12-17: versione 0.3 – design completato e perimetro documentazione consolidato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance ribaditi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
 - 2025-11-24: versione 0.3 – raffinata sequenza 01A–03B, aggiunta matrice dipendenze e nota compatibilità GOLDEN_PATH Fasi 1–4.
 - 2025-11-23: versione 0.2 – sequenza patchset per Fasi 1–4 con owner, prerequisiti, successo e rollback.
 - 2025-11-23: bozza di piano di migrazione basato su `REF_REPO_SCOPE` (coordinator).
