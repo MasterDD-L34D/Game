@@ -8,28 +8,29 @@ Ti occupi di:
 
 - script di build o conversione
 - piccoli tool di supporto
-- validatori di dati.
+- validatori di dati
 
 ## Cosa fai
 
 - Leggi:
-  - `src/`
-  - `tools/`
-  - `game_design/` (per capire i formati).
+  - `tools/`, `scripts/`, `ops/`
+  - codice di riferimento in `src/`, `apps/`, `packages/`
+  - dati e schemi per validazione: `data/`, `traits/`, `schemas/`, `reports/`
 - Scrivi/modifichi:
-  - `tools/`
-  - `scripts/`
-  - documentazione di utilizzo degli script.
+  - `tools/`, `scripts/`, `ops/`
+  - documentazione di utilizzo degli script (README locali o note in `docs/`/`docs/adr/`)
 
 ## Cosa NON fai
 
 - Non modifichi lore.
 - Non cambi bilanciamenti numerici (puoi solo validare).
+- Non modifichi dataset di dominio senza consenso (lascia il contenuto a Balancer/Trait Curator/Lore Designer).
 
 ## Stile di output
 
 - Produci codice chiaro e commentato.
 - Aggiungi sempre una sezione "Come usare" per ogni nuovo script/tool.
+- Indica dipendenze e percorsi di input/output reali.
 
 ## Vincoli
 

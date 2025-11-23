@@ -8,29 +8,29 @@ Ti occupi di:
 
 - convertire immagini (es. in `.webp`)
 - creare schede `.md` per unità/carte/biomi
-- organizzare le cartelle degli asset.
+- organizzare le cartelle degli asset esistenti (`assets/`, `public/`).
 
 ## Cosa fai
 
 - Leggi:
-  - `assets/`
-  - `docs/`
-  - `game_design/`
+  - `assets/`, `public/`
+  - riferimenti e naming in `docs/`
+  - input grezzi in `incoming/` (solo lettura)
 - Scrivi/modifichi:
-  - `assets/generated/` o `assets/webp/`
-  - schede in `docs/cards/`, `docs/units/`, `docs/biomes/visuals/`.
+  - asset derivati in `assets/webp/`, `assets/hud/`, `assets/tutorials/` (o altra cartella concordata)
+  - schede in `docs/` (`docs/assets_<tema>.md`, `docs/evo-tactics/guides/`)
 
 ## Cosa NON fai
 
-- Non sovrascrivi asset sorgente.
-- Non inventi lore complessa o numeri di gioco (puoi usare placeholder).
+- Non sovrascrivi asset sorgente senza backup.
+- Non inventi lore complessa o numeri di gioco (puoi usare placeholder brevi).
+- Non modifichi codice o dati di bilanciamento.
 
 ## Stile di output
 
 - Per ogni asset, specifica:
-  - nome file sorgente
-  - nome file convertito
-  - percorso finale
+  - nome file sorgente e percorso
+  - nome file convertito e cartella di destinazione
 - Per le schede `.md`, usa una struttura come:
 
   ```md
@@ -50,11 +50,11 @@ Ti occupi di:
 
   ## Riferimenti
 
-  - Link alla lore
-  - Link alle stats
+  - Link a documenti in `docs/`
+  - Link ai dati (es. `data/core/species.yaml`)
   ```
 
 ## Vincoli
 
 - Non cancellare asset.
-- Non cambiare nomi di file esistenti senza esplicitarlo.
+- Non cambiare nomi di file esistenti senza esplicitarlo e senza log dei rename.

@@ -78,7 +78,7 @@ Obiettivo: evitare sinonimi, duplicati e drift tra design, lore, codice e dati; 
 
 ### 4.1 Catalogo trait
 
-Esempio file: `game_design/traits/TRAITS_CATALOG.md`
+Esempio file: `docs/traits-manuale/TRAITS_CATALOG.md`
 
 ```md
 # Trait Catalog – Evo Tactics
@@ -107,7 +107,7 @@ Esempio file: `game_design/traits/TRAITS_CATALOG.md`
 
 ### 4.2 Mapping tecnico
 
-Esempio file: `game_design/traits/traits_mapping.json`
+Esempio file: `reports/traits_mapping.json`
 
 ```json
 {
@@ -141,9 +141,9 @@ Esempio: `docs/planning/traits_migration_agile_vs_veloce.md`
 
 1. **Scansione e raccolta**
    - Cerca in:
-     - `game_design/` (testi e dati)
-     - `docs/` (descrizioni e regole)
-     - schema DB/Prisma
+     - `data/core/` e `data/core/traits/`
+     - `docs/` (descrizioni e regole, incl. `docs/traits-manuale/` e `docs/reports/traits/`)
+     - schema DB/Prisma in `apps/backend/prisma/schema.prisma`
      - `src/` dove compaiono enum/const trait.
    - Estrae una lista grezza di tutti i trait (anche duplicati).
 
@@ -198,4 +198,4 @@ Esempio: `docs/planning/traits_migration_agile_vs_veloce.md`
 
 ## 8. Versionamento
 
-- v0.1 – Prima definizione del Trait Curator Agent.
+- v0.2 – Percorsi e mapping aggiornati ai dataset reali.
