@@ -90,8 +90,8 @@ coda_stabilizzatrice_vortex,missing_in_external,0,0,0,0,0,,,,,,Coda Stabilizzatr
 colonne_vibromagnetiche,missing_in_external,0,0,0,0,0,,,,,,Colonne Vibromagnetiche,T1,pianificatore;tattiche_di_branco,caverna_risonante,0,0
 comunicazione_fotonica_coda_coda,missing_in_index,0,0,0,0,0,TR-1905,Comunicazione Fotonica Coda-Coda,T2,vello_di_assorbimento_totale,terrestre,,,,,0,0
 coralli_partner,missing_in_external,0,0,0,0,0,,,,,,Coralli Partner,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,reef_luminescente,0,0
-corna_psico_conduttive,missing_in_index,0,0,0,0,0,TR-2001,Corna Psico-Conduttive,T3,coscienza_dalveare_diffusa,terrestre,,,,,0,0
-coscienza_dalveare_diffusa,missing_in_index,0,0,0,0,0,TR-2002,Coscienza d’Alveare Diffusa,T4,corna_psico_conduttive,terrestre,,,,,0,0
+corna_psico_conduttive,missing_in_index,0,0,0,0,0,TR-2001,Corna Psico-Conduttive,T3,coscienza_d_alveare_diffusa,terrestre,,,,,0,0
+coscienza_d_alveare_diffusa,missing_in_index,0,0,0,0,0,TR-2002,Coscienza d’Alveare Diffusa,T4,corna_psico_conduttive,terrestre,,,,,0,0
 criostasi_adattiva,missing_in_external,0,0,0,0,0,,,,,,Criostasi,T1,cavita_risonanti_tundra,canopia_psionica_leggera;orbita_psionica_inversa,0,0
 cromofori_alert_acido,missing_in_external,0,0,0,0,0,,,,,,Cromofori Alert Acido,T1,scheletro_idro_regolante;struttura_elastica_amorfa,foresta_acida,0,0
 cuore_multicamera_bassa_pressione,missing_in_external,0,0,0,0,0,,,,,,Cuore Multicamera Bassa Pressione,T1,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa,0,0
