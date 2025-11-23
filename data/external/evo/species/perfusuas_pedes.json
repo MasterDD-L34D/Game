@@ -37,12 +37,13 @@
       "Radura Notturna"
     ],
     "trait_refs": [
-      "TR-1301",
-      "TR-1302",
-      "TR-1303",
-      "TR-1304",
-      "TR-1305"
-    ]
+      "ermafroditismo_cronologico",
+      "locomozione_miriapode_ibrida",
+      "estroflessione_gastrica_acida",
+      "artiglio_cinetico_a_urto",
+      "sistemi_chimio_sonici"
+    ],
+    "id": "perfusuas_pedes"
   },
   "version": "2.0.0",
   "versioning": {

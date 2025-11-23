@@ -39,12 +39,13 @@
       "Letti Fluviali"
     ],
     "trait_refs": [
-      "TR-1101",
-      "TR-1102",
-      "TR-1103",
-      "TR-1104",
-      "TR-1105"
-    ]
+      "rostro_emostatico_litico",
+      "scheletro_idraulico_a_pistoni",
+      "ipertrofia_muscolare_massiva",
+      "ectotermia_dinamica",
+      "organi_sismici_cutanei"
+    ],
+    "id": "elastovaranus_hydrus"
   },
   "version": "2.0.0",
   "versioning": {

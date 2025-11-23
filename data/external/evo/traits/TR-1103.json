@@ -7,10 +7,10 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "TR-1102"
+    "scheletro_idraulico_a_pistoni"
   ],
   "conflitti": [
-    "TR-1105"
+    "organi_sismici_cutanei"
   ],
   "requisiti_ambientali": [
     {

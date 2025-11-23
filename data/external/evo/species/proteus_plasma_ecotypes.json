@@ -8,11 +8,11 @@
       "envo_terms": [],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1605",
           "metric": "tolleranza_termica",
           "delta": 10,
           "unit": "K",
-          "notes": "Sedimenti silicatici ricchi"
+          "notes": "Sedimenti silicatici ricchi",
+          "trait_id": "cisti_di_ibernazione_minerale"
         }
       ]
     },
@@ -23,11 +23,11 @@
       "envo_terms": [],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1602",
           "metric": "raggio_di_volta",
           "delta": 0.05,
           "unit": "m",
-          "notes": "Flusso impone curve più larghe"
+          "notes": "Flusso impone curve più larghe",
+          "trait_id": "flusso_ameboide_controllato"
         }
       ]
     }
@@ -37,5 +37,6 @@
     "created": "2025-11-22",
     "updated": "2025-11-22",
     "author": "GPT-5.1-Codex-Max"
-  }
+  },
+  "species_id": "proteus_plasma"
 }

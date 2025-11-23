@@ -35,12 +35,13 @@
       "Savanicola Notturno"
     ],
     "trait_refs": [
-      "TR-1401",
-      "TR-1402",
-      "TR-1403",
-      "TR-1404",
-      "TR-1405"
-    ]
+      "scheletro_pneumatico_a_maglie",
+      "cinghia_iper_ciliare",
+      "rete_filtro_polmonare",
+      "canto_infrasonico_tattico",
+      "siero_anti_gelo_naturale"
+    ],
+    "id": "terracetus_ambulator"
   },
   "version": "2.0.0",
   "versioning": {

@@ -10,11 +10,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1802",
           "metric": "corrente_picco",
           "delta": -3,
           "unit": "A",
-          "notes": "Salinità alta riduce efficacia scarica"
+          "notes": "Salinità alta riduce efficacia scarica",
+          "trait_id": "elettromagnete_biologico"
         }
       ]
     },
@@ -27,11 +27,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1803",
           "metric": "velocita_max",
           "delta": 0.5,
           "unit": "m/s",
-          "notes": "Fondo limo favorisce scivolamento"
+          "notes": "Fondo limo favorisce scivolamento",
+          "trait_id": "scivolamento_magnetico"
         }
       ]
     }
@@ -41,5 +41,6 @@
     "created": "2025-11-22",
     "updated": "2025-11-22",
     "author": "GPT-5.1-Codex-Max"
-  }
+  },
+  "species_id": "anguis_magnetica"
 }

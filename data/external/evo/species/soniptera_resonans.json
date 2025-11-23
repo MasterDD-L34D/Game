@@ -37,12 +37,13 @@
       "Prateria Arbustiva"
     ],
     "trait_refs": [
-      "TR-1701",
-      "TR-1702",
-      "TR-1703",
-      "TR-1704",
-      "TR-1705"
-    ]
+      "ali_fono_risonanti",
+      "cannone_sonico_a_raggio",
+      "campo_di_interferenza_acustica",
+      "cervello_a_bassa_latenza",
+      "occhi_cinetici"
+    ],
+    "id": "soniptera_resonans"
   },
   "version": "2.0.0",
   "versioning": {

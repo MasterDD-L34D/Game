@@ -7,10 +7,10 @@
   "tier": "T4",
   "slot": [],
   "sinergie": [
-    "TR-1304"
+    "artiglio_cinetico_a_urto"
   ],
   "conflitti": [
-    "TR-1305"
+    "sistemi_chimio_sonici"
   ],
   "requisiti_ambientali": [
     {

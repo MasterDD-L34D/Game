@@ -10,11 +10,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1901",
           "metric": "trasmittanza_ottica",
           "delta": -0.0002,
           "unit": "1",
-          "notes": "Piume più scure in chioma fitta"
+          "notes": "Piume più scure in chioma fitta",
+          "trait_id": "vello_di_assorbimento_totale"
         }
       ]
     },
@@ -27,11 +27,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1904",
           "metric": "temperatura_effetto",
           "delta": -5,
           "unit": "Cel",
-          "notes": "Aria secca aumenta shock termico"
+          "notes": "Aria secca aumenta shock termico",
+          "trait_id": "artigli_ipo_termici"
         }
       ]
     }
@@ -41,5 +41,6 @@
     "created": "2025-11-22",
     "updated": "2025-11-22",
     "author": "GPT-5.1-Codex-Max"
-  }
+  },
+  "species_id": "umbra_alaris"
 }

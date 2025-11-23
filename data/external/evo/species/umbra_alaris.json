@@ -36,12 +36,13 @@
       "Canyon Notturno"
     ],
     "trait_refs": [
-      "TR-1901",
-      "TR-1902",
-      "TR-1903",
-      "TR-1904",
-      "TR-1905"
-    ]
+      "vello_di_assorbimento_totale",
+      "visione_multi_spettrale_amplificata",
+      "motore_biologico_silenzioso",
+      "artigli_ipo_termici",
+      "comunicazione_fotonica_coda_coda"
+    ],
+    "id": "umbra_alaris"
   },
   "version": "2.0.0",
   "versioning": {

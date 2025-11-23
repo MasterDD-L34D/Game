@@ -7,10 +7,10 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "TR-1302"
+    "locomozione_miriapode_ibrida"
   ],
   "conflitti": [
-    "TR-1303"
+    "estroflessione_gastrica_acida"
   ],
   "requisiti_ambientali": [
     {

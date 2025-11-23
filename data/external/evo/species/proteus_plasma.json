@@ -37,12 +37,13 @@
       "Torrente Lento"
     ],
     "trait_refs": [
-      "TR-1601",
-      "TR-1602",
-      "TR-1603",
-      "TR-1604",
-      "TR-1605"
-    ]
+      "membrana_plastica_continua",
+      "flusso_ameboide_controllato",
+      "fagocitosi_assorbente",
+      "moltiplicazione_per_fusione",
+      "cisti_di_ibernazione_minerale"
+    ],
+    "id": "proteus_plasma"
   },
   "version": "2.0.0",
   "versioning": {

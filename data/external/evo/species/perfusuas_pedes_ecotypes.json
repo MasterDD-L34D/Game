@@ -10,18 +10,18 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1305",
           "metric": "banda_uditiva_max",
           "delta": 10000,
           "unit": "Hz",
-          "notes": "Echi corti in gallerie strette"
+          "notes": "Echi corti in gallerie strette",
+          "trait_id": "sistemi_chimio_sonici"
         },
         {
-          "trait_code": "TR-1302",
           "metric": "velocita_max",
           "delta": -0.3,
           "unit": "m/s",
-          "notes": "Terreno scivoloso"
+          "notes": "Terreno scivoloso",
+          "trait_id": "locomozione_miriapode_ibrida"
         }
       ]
     },
@@ -34,11 +34,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1304",
           "metric": "energia_impattiva",
           "delta": 100,
           "unit": "J",
-          "notes": "Aria secca favorisce velocità del colpo"
+          "notes": "Aria secca favorisce velocità del colpo",
+          "trait_id": "artiglio_cinetico_a_urto"
         }
       ]
     }
@@ -48,5 +48,6 @@
     "created": "2025-11-22",
     "updated": "2025-11-22",
     "author": "GPT-5.1-Codex-Max"
-  }
+  },
+  "species_id": "perfusuas_pedes"
 }

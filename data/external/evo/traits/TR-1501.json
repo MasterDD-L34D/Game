@@ -7,8 +7,8 @@
   "tier": "T4",
   "slot": [],
   "sinergie": [
-    "TR-1502",
-    "TR-1503"
+    "seta_conduttiva_elettrica",
+    "articolazioni_a_leva_idraulica"
   ],
   "conflitti": [],
   "requisiti_ambientali": [

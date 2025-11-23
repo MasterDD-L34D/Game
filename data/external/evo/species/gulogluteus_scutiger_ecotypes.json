@@ -10,18 +10,18 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1204",
           "metric": "salto_verticale",
           "delta": 0.2,
           "unit": "m",
-          "notes": "Ramificazioni fitte favoriscono spinta"
+          "notes": "Ramificazioni fitte favoriscono spinta",
+          "trait_id": "coda_prensile_muscolare"
         },
         {
-          "trait_code": "TR-1201",
           "metric": "res_termica",
           "delta": -0.01,
           "unit": "K/W",
-          "notes": "Olio più fluido in microclima umido"
+          "notes": "Olio più fluido in microclima umido",
+          "trait_id": "pelage_idrorepellente_avanzato"
         }
       ]
     },
@@ -34,18 +34,18 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1203",
           "metric": "accelerazione_0_10",
           "delta": -0.3,
           "unit": "m/s2",
-          "notes": "Fango riduce accelerazione"
+          "notes": "Fango riduce accelerazione",
+          "trait_id": "articolazioni_multiassiali"
         },
         {
-          "trait_code": "TR-1202",
           "metric": "spessore_corazza",
           "delta": 5,
           "unit": "mm",
-          "notes": "Depositi minerali aumentano spessore"
+          "notes": "Depositi minerali aumentano spessore",
+          "trait_id": "scudo_gluteale_cheratinizzato"
         }
       ]
     }
@@ -55,5 +55,6 @@
     "created": "2025-11-22",
     "updated": "2025-11-22",
     "author": "GPT-5.1-Codex-Max"
-  }
+  },
+  "species_id": "gulogluteus_scutiger"
 }

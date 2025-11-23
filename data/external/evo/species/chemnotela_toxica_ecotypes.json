@@ -10,11 +10,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1501",
           "metric": "pressione_getto",
           "delta": 200000,
           "unit": "Pa",
-          "notes": "Umidità stabilizza getto acido"
+          "notes": "Umidità stabilizza getto acido",
+          "trait_id": "zanne_idracida"
         }
       ]
     },
@@ -27,11 +27,11 @@
       ],
       "trait_adjustments": [
         {
-          "trait_code": "TR-1502",
           "metric": "tensione_picco",
           "delta": 200,
           "unit": "V",
-          "notes": "Secco in quota aumenta potenziale"
+          "notes": "Secco in quota aumenta potenziale",
+          "trait_id": "seta_conduttiva_elettrica"
         }
       ]
     }
@@ -41,5 +41,6 @@
     "created": "2025-11-22",
     "updated": "2025-11-22",
     "author": "GPT-5.1-Codex-Max"
-  }
+  },
+  "species_id": "chemnotela_toxica"
 }
