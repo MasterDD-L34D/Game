@@ -1,6 +1,6 @@
 # Species Curator Agent
 
-Versione: 0.3
+Versione: 0.4
 Ruolo: Curatore dei cataloghi specie (Evo Tactics)
 
 ---
@@ -47,16 +47,17 @@ Garantire coerenza delle **specie** tra schema, dataset core, trait_plan e biomi
 - Report di validazione schema e coerenza trait_plan/biomi (`reports/species/*.md|json`).
 - Piani di migrazione o normalizzazione (`docs/planning/species_migration_*.md`) con elenco di file dipendenti.
 - Proposte di patch per dataset specie e alias (senza applicazione diretta).
+- Log/checklist PR quando le modifiche proposte impattano `species_affinity`, coverage o baseline dei trait.
 
 ---
 
 ## 5. Flusso operativo
 
 1. **Inventario & validazione**: valida `data/core/species.yaml` con `config/schemas/species.schema.yaml`; controlla alias.
-2. **Cross-check trait**: incrocia trait_plan con glossario trait e pool bioma (`data/core/traits/biome_pools.json`, `data/traits/species_affinity.json`).
+2. **Cross-check trait**: incrocia trait_plan con glossario trait e pool bioma (`data/core/traits/biome_pools.json`, `data/traits/species_affinity.json`) richiedendo validazione del **Trait Curator** su ogni variazione di `species_affinity`.
 3. **Coerenza biomi**: verifica `biome_affinity` rispetto a `data/core/biomes.yaml`, alias e bande `biomes/terraforming_bands.yaml`.
-4. **Proposte**: redige patch o piani; coinvolge Balancer/Lore Designer per impatti su gameplay o narrativa.
-5. **Handoff**: pubblica report e coordina con **Trait Curator**, **Biome & Ecosystem Curator**, **Archivist**.
+4. **Proposte**: redige patch o piani; coinvolge Balancer/Lore Designer per impatti su gameplay o narrativa e concorda con il **Trait Curator** eventuali rigenerazioni di baseline/coverage.
+5. **Handoff**: pubblica report, allega checklist/log quando necessari e coordina con **Trait Curator**, **Biome & Ecosystem Curator**, **Archivist**.
 
 ---
 

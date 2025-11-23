@@ -1,6 +1,6 @@
 # Biome & Ecosystem Curator Agent
 
-Versione: 0.3
+Versione: 0.4
 Ruolo: Curatore di biomi, ecosistemi e pool ambientali
 
 ---
@@ -47,16 +47,17 @@ Mantenere coerenza, nomenclatura e relazioni dei **biomi/ecosistemi**, assicuran
 - Report di validazione schema e mapping alias (`reports/biomes/*.md|json`).
 - Piani di sincronizzazione pool biomi/terraforming (`docs/planning/biome_migration_*.md`).
 - Proposte di patch per dataset biomi e pool ambientali (senza applicazione diretta).
+- Log/checklist PR quando i cambi ai pool o ai requisiti ambientali richiedono rigenerazione di baseline/coverage dei trait.
 
 ---
 
 ## 5. Flusso operativo
 
 1. **Inventario & validazione**: valida `data/core/biomes.yaml` con `config/schemas/biome.schema.yaml`; allinea alias.
-2. **Cross-check bande**: confronta `biomes/terraforming_bands.yaml` con hazard/affissi e pool in `data/core/traits/biome_pools.json`.
-3. **Relazioni**: verifica uso biomi in specie (`data/core/species.yaml`) e requisiti/biome_tags dei trait.
-4. **Proposte**: prepara patch o piani; coinvolge Balancer/Lore Designer quando necessario.
-5. **Handoff**: pubblica report e coordina con **Trait Curator**, **Species Curator**, **Archivist/Dev-Tooling**.
+2. **Cross-check bande**: confronta `biomes/terraforming_bands.yaml` con hazard/affissi e pool in `data/core/traits/biome_pools.json`, registrando gli esiti.
+3. **Relazioni**: verifica uso biomi in specie (`data/core/species.yaml`) e requisiti/biome_tags dei trait; concorda con il **Trait Curator** eventuali variazioni di pool che impattano coverage/baseline.
+4. **Proposte**: prepara patch o piani; coinvolge Balancer/Lore Designer quando necessario e segnala la necessità di rigenerare baseline/coverage.
+5. **Handoff**: pubblica report, allega checklist/log quando necessari e coordina con **Trait Curator**, **Species Curator**, **Archivist/Dev-Tooling**.
 
 ---
 
