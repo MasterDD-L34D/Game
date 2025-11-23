@@ -1,11 +1,13 @@
 # Proposte merge trait Evo
 
 ## Sintesi esecuzione
+
 - Copiati 50 JSON da `incoming/lavoro_da_classificare/traits/` in `data/external/evo/traits/`, verificando corrispondenza tra `trait_code` e nome file.
 - Eseguito `python incoming/lavoro_da_classificare/scripts/trait_review.py --input data/external/evo/traits/ --baseline data/core/traits/glossary.json --out reports/evo/traits_anomalies.csv` dopo aver esteso lo script con modalità di confronto `--input/--baseline/--out`.
 - Il CSV risultante non evidenzia duplicati con il glossario esistente; tutte le righe marcate con `action=add`.
 
 ## Nuovi slug generati
+
 - `rostro_emostatico_litico` ← TR-1101 Rostro Emostatico-Litico
 - `scheletro_idraulico_a_pistoni` ← TR-1102 Scheletro Idraulico a Pistoni
 - `ipertrofia_muscolare_massiva` ← TR-1103 Ipertrofia Muscolare Massiva
@@ -52,19 +54,22 @@
 - `artigli_ipo_termici` ← TR-1904 Artigli Ipo-Termici
 - `comunicazione_fotonica_coda_coda` ← TR-1905 Comunicazione Fotonica Coda-Coda
 - `corna_psico_conduttive` ← TR-2001 Corna Psico-Conduttive
-- `coscienza_dalveare_diffusa` ← TR-2002 Coscienza d’Alveare Diffusa
+- `coscienza_d_alveare_diffusa` ← TR-2002 Coscienza d’Alveare Diffusa
 - `aura_di_dispersione_mentale` ← TR-2003 Aura di Dispersione Mentale
 - `metabolismo_di_condivisione_energetica` ← TR-2004 Metabolismo di Condivisione Energetica
 - `unghie_a_micro_adesione` ← TR-2005 Unghie a Micro-Adesione
 
 ## Aggiornamenti glossario
+
 - Aggiunti 50 nuovi entry in `data/core/traits/glossary.json` con traduzioni inglesi sintetiche derivate dalla funzione d’uso.
 - Ordinamento alfabetico confermato con slug snake_case e timestamp `updated_at` aggiornato.
 
 ## Esiti verifica duplicati
+
 - Nessuna collisione con slug o label esistenti nel glossario core.
 - `reports/evo/traits_anomalies.csv` conservato come log di revisione con `action=add` per ciascun trait.
 
 ## Prossimi passi suggeriti
+
 - Validare le nuove descrizioni nel game design meeting dedicato.
 - Pianificare traduzioni estese (lore) in `docs/evo-tactics/` ora che il glossario è completo.

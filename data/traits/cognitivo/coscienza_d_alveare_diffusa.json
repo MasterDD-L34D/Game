@@ -1,6 +1,6 @@
 {
-  "id": "coscienza_dalveare_diffusa",
-  "label": "i18n:traits.coscienza_dalveare_diffusa.label",
+  "id": "coscienza_d_alveare_diffusa",
+  "label": "i18n:traits.coscienza_d_alveare_diffusa.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Cognitivo/Sociale",
   "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
@@ -10,9 +10,9 @@
     "corna_psico_conduttive"
   ],
   "conflitti": [],
-  "mutazione_indotta": "i18n:traits.coscienza_dalveare_diffusa.mutazione_indotta",
-  "uso_funzione": "i18n:traits.coscienza_dalveare_diffusa.uso_funzione",
-  "spinta_selettiva": "i18n:traits.coscienza_dalveare_diffusa.spinta_selettiva",
+  "mutazione_indotta": "i18n:traits.coscienza_d_alveare_diffusa.mutazione_indotta",
+  "uso_funzione": "i18n:traits.coscienza_d_alveare_diffusa.uso_funzione",
+  "spinta_selettiva": "i18n:traits.coscienza_d_alveare_diffusa.spinta_selettiva",
   "metrics": [
     {
       "name": "tempo_apprendimento",

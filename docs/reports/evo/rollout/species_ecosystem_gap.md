@@ -34,7 +34,7 @@ Report generato da `tools/py/report_evo_species_ecosystem.py` consolidando il ca
 | Gulogluteus scutiger | T1 | — | 2 | 0 | articolazioni_multiassiali, coda_prensile_muscolare, pelage_idrorepellente_avanzato, rostro_linguale_prensile, scudo_gluteale_cheratinizzato | — | — | 0 |
 | Perfusuas pedes | T3 | — | 1 | 1 | artiglio_cinetico_a_urto, ermafroditismo_cronologico, estroflessione_gastrica_acida, locomozione_miriapode_ibrida, sistemi_chimio_sonici | — | — | 0 |
 | Proteus plasma | T0 | — | 0 | 2 | cisti_di_ibernazione_minerale, fagocitosi_assorbente, flusso_ameboide_controllato, membrana_plastica_continua, moltiplicazione_per_fusione | — | — | 0 |
-| Rupicapra sensoria | T2 | — | 2 | 0 | aura_di_dispersione_mentale, corna_psico_conduttive, coscienza_dalveare_diffusa, metabolismo_di_condivisione_energetica, unghie_a_micro_adesione | — | — | 0 |
+| Rupicapra sensoria | T2 | — | 2 | 0 | aura_di_dispersione_mentale, corna_psico_conduttive, coscienza_d_alveare_diffusa, metabolismo_di_condivisione_energetica, unghie_a_micro_adesione | — | — | 0 |
 | Soniptera resonans | T1 | — | 2 | 0 | ali_fono_risonanti, campo_di_interferenza_acustica, cannone_sonico_a_raggio, cervello_a_bassa_latenza, occhi_cinetici | — | — | 0 |
 | Terracetus ambulator | T0 | — | 2 | 0 | canto_infrasonico_tattico, cinghia_iper_ciliare, rete_filtro_polmonare, scheletro_pneumatico_a_maglie, siero_anti_gelo_naturale | — | — | 0 |
 | Umbra alaris | T1 | — | 2 | 0 | artigli_ipo_termici, comunicazione_fotonica_coda_coda, motore_biologico_silenzioso, vello_di_assorbimento_totale, visione_multi_spettrale_amplificata | — | — | 0 |
