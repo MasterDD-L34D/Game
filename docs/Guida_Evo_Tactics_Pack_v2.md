@@ -47,7 +47,7 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 > - **label**: puntare sempre a `i18n:traits.<id>.label` (la stringa localizzata sta nei file i18n/glossario, non nel tratto).
 > - **data_origin**: usare solo gli slug ufficiali (vedi tabella in `docs/traits_evo_pack_alignment.md`).
 > - **famiglia_tipologia**, **fattore_mantenimento_energetico**, **tier**, **slot**: classificazione e livello energetico di base.
-> - **sinergie**/**conflitti**: liste di `id` (non `trait_code`) per la compatibilità interna.
+> - **sinergie**/**conflitti**: liste di `id` (non `trait_code`) per la compatibilità interna; evita alias TR-xxxx nei JSON del repository.
 > - **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
 > - Rimandi: [scheda operativa dei trait](./traits_scheda_operativa.md), [guida autore](./README_HOWTO_AUTHOR_TRAIT.md), [template dati](./traits_template.md) e [piano operativo prossimo ciclo](./next_steps_trait_migration.md).
 >
@@ -57,6 +57,7 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 > - **cost_profile**: suggerito per indicare i costi energetici (`rest`/`burst`/`sustained`).
 > - **testability**: raccomandato per fornire `observable` e `scene_prompt`, utile nei pacchetti ma non richiesto dai validator del repository.
 > - Altri campi estesi (es. `applicability`, `completion_flags`) restano facoltativi per il repository: se usati nel pack, convertili solo se compatibili con lo schema [riassunto nel template](./traits_template.md#schema-base-obbligatorio).
+> - Nota: questi campi aggiuntivi non diventano obbligatori nei file `data/traits/*.json`; rimuovili o mantienili solo se lo schema li supporta senza deroghe ai requisiti minimi sopra.
 >
 > **Esempio mappatura `trait_code` → `id`/`label`**
 >

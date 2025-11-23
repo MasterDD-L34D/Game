@@ -20,6 +20,7 @@ Per importare tratti da pacchetti Evo, usa la mappa di conversione in `traits_ev
 > - `metrics[]` — array di misure UCUM per quantificare prestazioni/condizioni.
 > - `cost_profile.*` — costi energetici numerici (`rest`, `burst`, `sustained`) se disponibili.
 > - `testability.*` — osservabili e scenari di prova per rendere il tratto verificabile.
+> - Nota: questi campi non sono richiesti dai validator interni; se arrivano nei JSON del pack vanno tenuti solo quando rispettano lo schema base del repository.
 
 ## Identità e versioning
 
@@ -40,7 +41,7 @@ Per importare tratti da pacchetti Evo, usa la mappa di conversione in `traits_ev
 
 ## Relazioni e sinergie
 
-- `sinergie` / `conflitti` — array di ID trait compatibili/incompatibili (slug esistenti). # schema
+- `sinergie` / `conflitti` — array di ID trait compatibili/incompatibili (slug esistenti, niente `trait_code`). # schema — esempio pratico nel box sinergie/conflitti della [Guida Evo](Guida_Evo_Tactics_Pack_v2.md#avvertenza-migrazione-pack--%E2%86%92-repository-game)
 - `sinergie_pi.*` — co-occorrenze/combo/tabelle random per strumenti PI. # opzionale
 - `species_affinity[]` — `species_id`, ruoli, peso; solo se c’è relazione specie-trait. # modello esteso
 

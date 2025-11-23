@@ -40,6 +40,8 @@ Per importare o riallineare tratti provenienti da pacchetti Evo, fai riferimento
 1. Duplica lo scheletro minimo dal template e salva in `data/traits/<tipologia>/<id>.json`.
 2. Popola i campi obbligatori (`id`, `label`, `famiglia_tipologia`, `tier`,
    `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `sinergie`, `conflitti`).
+   - Per sinergie/conflitti usa solo gli `id` repository (nessun `trait_code`), come indicato nel box di esempio della [Guida Evo](./Guida_Evo_Tactics_Pack_v2.md#avvertenza-migrazione-pack--%E2%86%92-repository-game).
+   - I campi aggiuntivi del pack (`metrics`, `cost_profile`, `testability`, ecc.) restano facoltativi: portali nel repository solo se compatibili con lo schema base.
 3. Inserisci i testi come stringhe reali **solo** se stai creando il trait da
    zero; al termine eseguirai lo script di sincronizzazione che li convertirà in
    riferimenti `i18n:traits.<id>.<campo>`.
