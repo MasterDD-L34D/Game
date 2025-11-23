@@ -13,3 +13,7 @@ Report snapshots:
   2251 reports/trait_texts.json
   4190 total
 Locales diff: none (sync reported no updates)
+=== Trait batch validation 2025-11-23T04:27:20Z ===
+Trait codes missing conversion: 0 (TR-2002 → coscienza_d_alveare_diffusa completato)
+Indice e glossary sincronizzati; validazione schema OK.
+Batch conclusi: 2025-11-23 import; In coda: nessuno (turno locale chiuso).

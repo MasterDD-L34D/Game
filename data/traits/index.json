@@ -12219,6 +12219,2626 @@
           "http://purl.obolibrary.org/obo/ENVO_01000178"
         ]
       }
+    },
+    "ali_fono_risonanti": {
+      "id": "ali_fono_risonanti",
+      "label": "Ali Fono-Risonanti",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Aereo",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "cannone_sonico_a_raggio",
+        "campo_di_interferenza_acustica"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Venature come corde vibranti controllate.",
+      "uso_funzione": "Generare ampia banda sonora in volo.",
+      "spinta_selettiva": "Mappatura ambiente e segnalazione.",
+      "metrics": [
+        {
+          "name": "dose_acustica",
+          "value": 100,
+          "unit": "dB·s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Varia frequenza 1–40 kHz",
+        "scene_prompt": "Spettrogramma durante manovre"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Generare ampia banda sonora in volo.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "articolazioni_a_leva_idraulica": {
+      "id": "articolazioni_a_leva_idraulica",
+      "label": "Articolazioni a Leva Idraulica",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "zanne_idracida"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Camere pressurizzate nelle giunture.",
+      "uso_funzione": "Amplificare salto e spinta delle zampe.",
+      "spinta_selettiva": "Aggancio rapido su prede/rami.",
+      "metrics": [
+        {
+          "name": "salto_verticale",
+          "value": 3.5,
+          "unit": "m"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Supera ostacolo 3 m",
+        "scene_prompt": "Video-analisi del salto"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Amplificare salto e spinta delle zampe.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "articolazioni_multiassiali": {
+      "id": "articolazioni_multiassiali",
+      "label": "Articolazioni Multiassiali",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "coda_prensile_muscolare"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Glenoidi/acetaboli ampliati, cartilagini elastiche.",
+      "uso_funzione": "Ruotare arti per manovre strette",
+      "spinta_selettiva": "Arrampicata su tronchi umidi/scogliere",
+      "metrics": [
+        {
+          "name": "accelerazione_0_10",
+          "value": 4.2,
+          "unit": "m/s2"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Pivot a 180° in corridoio 1 m",
+        "scene_prompt": "Traccia cono di sterzata su terreno bagnato"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Ruotare arti per manovre strette.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "artigli_ipo_termici": {
+      "id": "artigli_ipo_termici",
+      "label": "Artigli Ipo-Termici",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Termico",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "visione_multi_spettrale_amplificata"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Reazioni endo-termiche locali in guaine artigli.",
+      "uso_funzione": "Indurre shock da freddo localizzato.",
+      "spinta_selettiva": "Immobilizzazione rapida senza sangue.",
+      "metrics": [
+        {
+          "name": "temperatura_fiato",
+          "value": -20,
+          "unit": "Cel"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Riduce T cutanea di 10 Cel in 2 s",
+        "scene_prompt": "Termocamera su preda simulata"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Indurre shock da freddo localizzato.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "artiglio_cinetico_a_urto": {
+      "id": "artiglio_cinetico_a_urto",
+      "label": "Artiglio Cinetico a Urto",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Contusivo",
+      "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "locomozione_miriapode_ibrida"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Appendice scattante tipo mantide pavone.",
+      "uso_funzione": "Infliggere onda d’urto e frattura.",
+      "spinta_selettiva": "Neutralizzare rapidamente prede corazzate.",
+      "metrics": [
+        {
+          "name": "energia_impattiva",
+          "value": 800,
+          "unit": "J"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Frattura tibia su osso bovino in prova",
+        "scene_prompt": "Misura impulso con accelerometro"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Infliggere onda d’urto e frattura.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "aura_di_dispersione_mentale": {
+      "id": "aura_di_dispersione_mentale",
+      "label": "Aura di Dispersione Mentale",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Controllo",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "corna_psico_conduttive"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Emissioni EM deboli e odori avversivi coordinati.",
+      "uso_funzione": "Indurre ansia/vertigini nei predatori.",
+      "spinta_selettiva": "Deterrenza senza scontro fisico.",
+      "metrics": [
+        {
+          "name": "intimidazione_index",
+          "value": 0.8,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Predatore abbandona inseguimento",
+        "scene_prompt": "Osserva risposta etologica di canidi"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Campo di odori avversivi ed emissioni deboli che induce ansia e vertigini nei predatori.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "bozzolo_magnetico": {
+      "id": "bozzolo_magnetico",
+      "label": "Bozzolo Magnetico",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Difensivo/Resistenze",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "integumento_bipolare"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Campo isolante stazionario a bassa frequenza.",
+      "uso_funzione": "Schermarsi da EM esterni.",
+      "spinta_selettiva": "Riposo profondo e protezione da predatori elettrorecettivi.",
+      "metrics": [
+        {
+          "name": "campo_magnetico",
+          "value": 0.2,
+          "unit": "T"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Schermatura 10 dB EM a 0.5 m",
+        "scene_prompt": "Misura attenuazione con gaussmetro"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Schermarsi da campi elettromagnetici esterni.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "campo_di_interferenza_acustica": {
+      "id": "campo_di_interferenza_acustica",
+      "label": "Campo di Interferenza Acustica",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Difensivo/Camuffamento",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "ali_fono_risonanti"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
+      "uso_funzione": "Mascherare posizione/velocità.",
+      "spinta_selettiva": "Evasione da pipistrelli/rapaci.",
+      "metrics": [
+        {
+          "name": "SPL_riduzione",
+          "value": 18,
+          "unit": "dB"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Interferisce con ecolocalizzazione",
+        "scene_prompt": "Test radar acustico in galleria del vento"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Mascherare posizione e velocità.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "cannone_sonico_a_raggio": {
+      "id": "cannone_sonico_a_raggio",
+      "label": "Cannone Sonico a Raggio",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Controllo",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "ali_fono_risonanti"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Risonanza focale su membrana alare.",
+      "uso_funzione": "Stordire/ferire con raggio sonoro.",
+      "spinta_selettiva": "Caccia rapida su sciami/uccelli piccoli.",
+      "metrics": [
+        {
+          "name": "dose_acustica",
+          "value": 140,
+          "unit": "dB·s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Stordisce pollo in 2 s a 3 m",
+        "scene_prompt": "Misura SPL puntuale + risposta preda"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Stordire o ferire con un raggio sonoro.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "canto_infrasonico_tattico": {
+      "id": "canto_infrasonico_tattico",
+      "label": "Canto Infrasonico Tattico",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Controllo",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "scheletro_pneumatico_a_maglie"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Corde vocali modificate a bassa frequenza.",
+      "uso_funzione": "Disorientare predatori e comunicare a distanza.",
+      "spinta_selettiva": "Coordinamento di branco e deterrenza.",
+      "metrics": [
+        {
+          "name": "dose_acustica",
+          "value": 120,
+          "unit": "dB·s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Predatore desiste entro 30 s",
+        "scene_prompt": "Fonometro e risposta comportamentale"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Disorientare predatori e comunicare a distanza.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "cervello_a_bassa_latenza": {
+      "id": "cervello_a_bassa_latenza",
+      "label": "Cervello a Bassa Latenza",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Cognitivo/Apprendimento",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "ali_fono_risonanti"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Circuiti neurali a tempi di integrazione ridotti.",
+      "uso_funzione": "Eseguire manovre ad alta frequenza.",
+      "spinta_selettiva": "Predazione aerea in stormi.",
+      "metrics": [
+        {
+          "name": "tempo_apprendimento",
+          "value": 30,
+          "unit": "s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Apprende traiettorie in < 1 min",
+        "scene_prompt": "Task di tracking in volo"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Eseguire manovre ad alta frequenza.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "cinghia_iper_ciliare": {
+      "id": "cinghia_iper_ciliare",
+      "label": "Cinghia Iper-Ciliare",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "scheletro_pneumatico_a_maglie"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Ciglia muscolari ventrali a tappeto mobile.",
+      "uso_funzione": "Traslare il corpo su terreni piani/ruvidi.",
+      "spinta_selettiva": "Ridurre necessità di arti portanti tradizionali.",
+      "metrics": [
+        {
+          "name": "velocita_max",
+          "value": 1.2,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Percorre 100 m su ghiaia in < 90 s",
+        "scene_prompt": "Rileva tracce ciliate su impronte"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Traslare il corpo su terreni piani o ruvidi.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "cisti_di_ibernazione_minerale": {
+      "id": "cisti_di_ibernazione_minerale",
+      "label": "Cisti di Ibernazione Minerale",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Difensivo/Resistenze",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "moltiplicazione_per_fusione"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Parete silicea a prova di calore/pressione.",
+      "uso_funzione": "Entra in stasi in condizioni avverse.",
+      "spinta_selettiva": "Sopravvivenza a lungo termine.",
+      "metrics": [
+        {
+          "name": "tolleranza_termica",
+          "value": 120,
+          "unit": "K"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Sopravvive a 80 Cel per 10 min",
+        "scene_prompt": "Test termico/pressione con risveglio successivo"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Entrare in stasi in condizioni avverse.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "coda_prensile_muscolare": {
+      "id": "coda_prensile_muscolare",
+      "label": "Coda Prensile Muscolare",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Arboricolo",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "articolazioni_multiassiali",
+        "rostro_linguale_prensile"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Fasci caudali spiralizzati, vertebre con verticilli.",
+      "uso_funzione": "Appendere e contro-bilanciare",
+      "spinta_selettiva": "Foraggiamento in chioma; attraversamento gole",
+      "metrics": [
+        {
+          "name": "salto_verticale",
+          "value": 1.8,
+          "unit": "m"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Sospensione 30 s su ramo standard",
+        "scene_prompt": "Cronometrare appensione su trave 6 cm"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Appendere e controbilanciarsi.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "comunicazione_fotonica_coda_coda": {
+      "id": "comunicazione_fotonica_coda_coda",
+      "label": "Comunicazione Fotonica Coda-Coda",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Cognitivo/Sociale",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "vello_di_assorbimento_totale"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Piume codali con bioluminescenza debole.",
+      "uso_funzione": "Scambiare impulsi luminosi tattili.",
+      "spinta_selettiva": "Coordinamento silente in stormo.",
+      "metrics": [
+        {
+          "name": "cohesion_index",
+          "value": 0.85,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Esegue virate sincronizzate",
+        "scene_prompt": "Riprese IR e analisi di coesione"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Scambiare impulsi luminosi tattili.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "corna_psico_conduttive": {
+      "id": "corna_psico_conduttive",
+      "label": "Corna Psico-Conduttive",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Cognitivo/Sociale",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "coscienza_d_alveare_diffusa"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Tessuti piezo-neurotonici nelle corna.",
+      "uso_funzione": "Trasmettere/ricevere segnali neurali lenti.",
+      "spinta_selettiva": "Allerta precoce e tattiche di branco.",
+      "metrics": [
+        {
+          "name": "cohesion_index",
+          "value": 0.9,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Allerta sincrona in < 1 s",
+        "scene_prompt": "EEG di gruppo durante stimolo"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Corna piezo-neurotoniche che trasmettono e ricevono segnali neurali lenti per allerta di branco.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "coscienza_d_alveare_diffusa": {
+      "id": "coscienza_d_alveare_diffusa",
+      "label": "Coscienza d’Alveare Diffusa",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Cognitivo/Sociale",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "corna_psico_conduttive"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Rete sinaptica inter-individuo temporanea.",
+      "uso_funzione": "Fondere decisioni e memoria a breve termine.",
+      "spinta_selettiva": "Evasione collettiva e pianificazione rapida.",
+      "metrics": [
+        {
+          "name": "tempo_apprendimento",
+          "value": 10,
+          "unit": "s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Risoluzione labirinto condivisa",
+        "scene_prompt": "Task cooperativo con marker cranici"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "elettromagnete_biologico": {
+      "id": "elettromagnete_biologico",
+      "label": "Elettromagnete Biologico",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Elettrico",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "integumento_bipolare"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Organo elettrico a pacchetti sincro.",
+      "uso_funzione": "Interferire con sistema nervoso preda.",
+      "spinta_selettiva": "Immobilizzare pesci e piccoli rettili.",
+      "metrics": [
+        {
+          "name": "corrente_picco",
+          "value": 15,
+          "unit": "A"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Stordisce tilapia a 1 m",
+        "scene_prompt": "Misura corrente in impulso su sonda"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Interferire con il sistema nervoso della preda.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "ermafroditismo_cronologico": {
+      "id": "ermafroditismo_cronologico",
+      "label": "Ermafroditismo Cronologico",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Riproduttivo/Cicli",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "locomozione_miriapode_ibrida"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Rimodellamento gonadico sequenziale.",
+      "uso_funzione": "Cambiare sesso dopo 1–2 incubazioni.",
+      "spinta_selettiva": "Ottimizzare successo riproduttivo in densità variabile.",
+      "metrics": [
+        {
+          "name": "tasso_propaguli",
+          "value": 50,
+          "unit": "1/season"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Ciclo documentato su due stagioni",
+        "scene_prompt": "Registro di incubazione con campionamenti ormonali"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Cambiare sesso dopo 1–2 incubazioni.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "estroflessione_gastrica_acida": {
+      "id": "estroflessione_gastrica_acida",
+      "label": "Estroflessione Gastrica Acida",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Chimico",
+      "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "artiglio_cinetico_a_urto"
+      ],
+      "conflitti": [
+        "sistemi_chimio_sonici"
+      ],
+      "mutazione_indotta": "Sacca digestiva everted con enzimi proteolitici.",
+      "uso_funzione": "Liquefare tessuti su contatto e aspirare.",
+      "spinta_selettiva": "Cattura prede più grandi con rischio minimo.",
+      "metrics": [
+        {
+          "name": "pressione_getto",
+          "value": 50000,
+          "unit": "Pa"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Disgrega 1 kg gel proteico in < 60 s",
+        "scene_prompt": "Versa su supporto standard e misura tempo liquefazione"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Liquefare tessuti al contatto e aspirarli.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "fagocitosi_assorbente": {
+      "id": "fagocitosi_assorbente",
+      "label": "Fagocitosi Assorbente",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Alimentazione/Digestione",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "membrana_plastica_continua"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Invaginazione membranaria a vacuolo digestivo.",
+      "uso_funzione": "Inglobare e digerire biomassa intera.",
+      "spinta_selettiva": "Dieta onnivora opportunista.",
+      "metrics": [
+        {
+          "name": "volume_ingestione",
+          "value": 5,
+          "unit": "L"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Assorbe 1 L di gel in < 30 s",
+        "scene_prompt": "Misura variazione massa dopo contatto prolungato"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Inglobare e digerire biomassa intera.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "filtrazione_osmotica": {
+      "id": "filtrazione_osmotica",
+      "label": "Filtrazione Osmotica",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Fisiologico/Idrico",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "zanne_idracida"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Reni a multi-stadio con escrezione selettiva.",
+      "uso_funzione": "Neutralizzare tossine autogenerate.",
+      "spinta_selettiva": "Sopravvivere all’autointossicazione.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 15,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Emivita tossine ridotta del 50%",
+        "scene_prompt": "Analisi ematica dopo somministrazione standard"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Neutralizzare tossine autogenerate.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "filtro_metallofago": {
+      "id": "filtro_metallofago",
+      "label": "Filtro Metallofago",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Alimentazione/Digestione",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "elettromagnete_biologico"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Assorbimento selettivo di micro-metalli.",
+      "uso_funzione": "Sostenere organi elettrogeni.",
+      "spinta_selettiva": "Metabolismo efficiente in acque povere.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 12,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Livelli Fe plasmatico stabili",
+        "scene_prompt": "Profilo ematico su dieta priva di Fe"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Sostenere organi elettrogeni.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "flusso_ameboide_controllato": {
+      "id": "flusso_ameboide_controllato",
+      "label": "Flusso Ameboide Controllato",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "membrana_plastica_continua"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Pseudopodi coordinati a pressione interna.",
+      "uso_funzione": "Scivolare/risalire superfici lisce.",
+      "spinta_selettiva": "Ricerca cibo in interstizi umidi.",
+      "metrics": [
+        {
+          "name": "raggio_di_volta",
+          "value": 0.1,
+          "unit": "m"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Curva stretta in tubo 20 cm",
+        "scene_prompt": "Traccia percorso in labirinto cilindrico"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Scivolare o risalire superfici lisce.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "integumento_bipolare": {
+      "id": "integumento_bipolare",
+      "label": "Integumento Bipolare",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Sensoriale/Magneto-ricettivo",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "scivolamento_magnetico"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Cristalli di magnetite dermici con neuriti afferenti.",
+      "uso_funzione": "Orientarsi su linee di campo.",
+      "spinta_selettiva": "Migrazioni precise e caccia notturna.",
+      "metrics": [
+        {
+          "name": "sens_magnetica",
+          "value": 1e-06,
+          "unit": "T"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Mantiene rotta con EM artificiale",
+        "scene_prompt": "Labirinto con bobine Helmholtz"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000304",
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Orientarsi lungo le linee di campo.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "locomozione_miriapode_ibrida": {
+      "id": "locomozione_miriapode_ibrida",
+      "label": "Locomozione Miriapode Ibrida",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "artiglio_cinetico_a_urto"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "50–100 paia di arti segmentati.",
+      "uso_funzione": "Aderire e arrampicare su qualsiasi superficie.",
+      "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
+      "metrics": [
+        {
+          "name": "velocita_max",
+          "value": 2.5,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Scala parete 3 m in < 10 s",
+        "scene_prompt": "Cronometra arrampicata su pannello 80°"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Aderire e arrampicare su qualsiasi superficie.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "membrana_plastica_continua": {
+      "id": "membrana_plastica_continua",
+      "label": "Membrana Plastica Continua",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Difensivo/Camuffamento",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "flusso_ameboide_controllato"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Struttura citoscheletrica rimodulabile.",
+      "uso_funzione": "Assumere forme e densità diverse.",
+      "spinta_selettiva": "Elusione predatori e passaggio micro-fessure.",
+      "metrics": [
+        {
+          "name": "rilevabilita_visiva",
+          "value": 0.2,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Forma blob semitrasparente in 3 s",
+        "scene_prompt": "Documenta transito in fessura 5 mm"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Assumere forme e densità diverse.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "metabolismo_di_condivisione_energetica": {
+      "id": "metabolismo_di_condivisione_energetica",
+      "label": "Metabolismo di Condivisione Energetica",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Fisiologico/Metabolico",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "corna_psico_conduttive"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Trasferimento di substrati via contatto/derma.",
+      "uso_funzione": "Sostenere feriti/giovani con riserva collettiva.",
+      "spinta_selettiva": "Massimizzare sopravvivenza del branco.",
+      "metrics": [
+        {
+          "name": "consumo_o2",
+          "value": 50,
+          "unit": "L/min"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Ripristino FC di infortunato accelerato",
+        "scene_prompt": "Misura lattato prima/dopo contatto"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Trasferimento di substrati via contatto per sostenere feriti o giovani con una riserva collettiva.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "moltiplicazione_per_fusione": {
+      "id": "moltiplicazione_per_fusione",
+      "label": "Moltiplicazione per Fusione",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Riproduttivo/Cicli",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "membrana_plastica_continua"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Scissione binaria e fusione selettiva.",
+      "uso_funzione": "Aumentare massa/intelligenza unendo unità.",
+      "spinta_selettiva": "Resilienza in condizioni variabili.",
+      "metrics": [
+        {
+          "name": "tasso_propaguli",
+          "value": 3,
+          "unit": "1/season"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Raddoppio massa in 24 h",
+        "scene_prompt": "Time-lapse di scissione e fusione"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "description": "Aumentare massa e intelligenza unendo unità.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "motore_biologico_silenzioso": {
+      "id": "motore_biologico_silenzioso",
+      "label": "Motore Biologico Silenzioso",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Fisiologico/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "vello_di_assorbimento_totale"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Tendini frangi-rumore + piume a bordo seghettato.",
+      "uso_funzione": "Volo prolungato a bassissimo SPL.",
+      "spinta_selettiva": "Caccia persistente con sorpresa tattica.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 8,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "SPL < 20 dB a 5 m in volo",
+        "scene_prompt": "Misura sonoro in tunnel"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Garantire volo prolungato a bassissimo SPL.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "occhi_analizzatori_di_tensione": {
+      "id": "occhi_analizzatori_di_tensione",
+      "label": "Occhi Analizzatori di Tensione",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "seta_conduttiva_elettrica"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Retina sensibile alla polarizzazione.",
+      "uso_funzione": "Leggere tensioni nella seta e pattern di stress.",
+      "spinta_selettiva": "Ottimizzare riparazioni e trappole.",
+      "metrics": [
+        {
+          "name": "acuita_visiva",
+          "value": 0.92,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Rileva filo scarico vs carico",
+        "scene_prompt": "Test scelta su trame con diversa polarizzazione"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Leggere tensioni nella seta e pattern di stress.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "occhi_cinetici": {
+      "id": "occhi_cinetici",
+      "label": "Occhi Cinetici",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "cannone_sonico_a_raggio"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
+      "uso_funzione": "Vedere il suono come pattern d’aria.",
+      "spinta_selettiva": "Allineamento col cannone sonico.",
+      "metrics": [
+        {
+          "name": "acuita_visiva",
+          "value": 0.8,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Riconosce vortici davanti al raggio",
+        "scene_prompt": "Strobo fumo + valutazione traiettoria"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Vedere il suono come pattern d’aria.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "pelage_idrorepellente_avanzato": {
+      "id": "pelage_idrorepellente_avanzato",
+      "label": "Pelage Idrorepellente Avanzato",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Difensivo/Termoregolazione",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "scudo_gluteale_cheratinizzato",
+        "coda_prensile_muscolare"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Ghiandole olocrine con olio ad alta densità.",
+      "uso_funzione": "Isolare e galleggiare",
+      "spinta_selettiva": "Foraggiamento anfibio e notturno in climi umidi.",
+      "metrics": [
+        {
+          "name": "res_termica",
+          "value": 0.08,
+          "unit": "K/W"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Mantello asciutto dopo immersione 2 min",
+        "scene_prompt": "Pesare prima/dopo immersione in acqua dolce"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873",
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Isolare e galleggiare.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "rete_filtro_polmonare": {
+      "id": "rete_filtro_polmonare",
+      "label": "Rete Filtro-Polmonare",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Fisiologico/Respiratorio",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "scheletro_pneumatico_a_maglie"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Ghiandole parenchimali filtranti in sacche polmonari.",
+      "uso_funzione": "Assorbire nutrienti aerodispersi.",
+      "spinta_selettiva": "Sussistenza in ambienti poveri di vegetazione.",
+      "metrics": [
+        {
+          "name": "consumo_O2",
+          "value": 800,
+          "unit": "L/min"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Incremento massa senza ingesta solida",
+        "scene_prompt": "Camera aerosol con micro-fitoplancton"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Assorbire nutrienti aerodispersi.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "rostro_linguale_prensile": {
+      "id": "rostro_linguale_prensile",
+      "label": "Rostro Linguale Prensile",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Manipolativo/Alimentare",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "coda_prensile_muscolare"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Lingua muscolare adesiva con ioide esteso.",
+      "uso_funzione": "Afferrrare/manipolare a lungo raggio",
+      "spinta_selettiva": "Accesso a risorse in cavità/altezza senza muovere il corpo",
+      "metrics": [
+        {
+          "name": "lunghezza_estensione",
+          "value": 2.0,
+          "unit": "m"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Estrae oggetto a 2 m in 3 s",
+        "scene_prompt": "Recupero uovo da cavità senza frattura"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Afferrare e manipolare a lungo raggio.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "scheletro_pneumatico_a_maglie": {
+      "id": "scheletro_pneumatico_a_maglie",
+      "label": "Scheletro Pneumatico a Maglie",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "cinghia_iper_ciliare"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Ossa porose con alveoli d’aria.",
+      "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti.",
+      "spinta_selettiva": "Transito terrestre di megafauna fuori dall’acqua.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 20,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Spostamento 5 km senza affaticamento eccessivo",
+        "scene_prompt": "Test su piastra di forza per massa apparente"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Alleggerire il carico per spostamenti lenti ma costanti.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "scivolamento_magnetico": {
+      "id": "scivolamento_magnetico",
+      "label": "Scivolamento Magnetico",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "integumento_bipolare"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Rivestimento paramagnetico + micro-vibrazioni.",
+      "uso_funzione": "Ridurre attrito e scivolare.",
+      "spinta_selettiva": "Traslazione silente su superfici variabili.",
+      "metrics": [
+        {
+          "name": "velocita_max",
+          "value": 4.0,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Percorre 50 m su sabbia in 20 s",
+        "scene_prompt": "Cronometra su tre substrati diversi"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000304"
+        ]
+      },
+      "description": "Ridurre attrito e scivolare.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "scudo_gluteale_cheratinizzato": {
+      "id": "scudo_gluteale_cheratinizzato",
+      "label": "Scudo Gluteale Cheratinizzato",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Difensivo/Corazza",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "pelage_idrorepellente_avanzato"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Placca subdermica cheratino-ossea su eminenze glutee.",
+      "uso_funzione": "Assorbire impatti posteriori",
+      "spinta_selettiva": "Predatori d’agguato; lotte in tana stretta",
+      "metrics": [
+        {
+          "name": "spessore_corazza",
+          "value": 35,
+          "unit": "mm"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Resiste a morso medio senza lesioni",
+        "scene_prompt": "Pressare su dinamometro dorsale"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Assorbire impatti posteriori.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "seta_conduttiva_elettrica": {
+      "id": "seta_conduttiva_elettrica",
+      "label": "Seta Conduttiva Elettrica",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Elettrico",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "zanne_idracida"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Seta con nano-metalli piezoresponsivi.",
+      "uso_funzione": "Stordire con scariche nella tela.",
+      "spinta_selettiva": "Cattura prede veloci con trappola attiva.",
+      "metrics": [
+        {
+          "name": "tensione_picco",
+          "value": 1200,
+          "unit": "V"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Scarica a impulso su sonda",
+        "scene_prompt": "Misura tensione su rete 1×1 m"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Stordire con scariche nella tela.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "siero_anti_gelo_naturale": {
+      "id": "siero_anti_gelo_naturale",
+      "label": "Siero Anti-Gelo Naturale",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Fisiologico/Termico",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "scheletro_pneumatico_a_maglie"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Proteine antigelo circolanti.",
+      "uso_funzione": "Impedire cristallizzazione a basse temperature.",
+      "spinta_selettiva": "Migrazione notturna in steppe fredde.",
+      "metrics": [
+        {
+          "name": "tolleranza_termica",
+          "value": 60,
+          "unit": "K"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Mantiene mobilità a −20 Cel",
+        "scene_prompt": "Camera climatica con prova motoria"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Impedire la cristallizzazione a basse temperature.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "sistemi_chimio_sonici": {
+      "id": "sistemi_chimio_sonici",
+      "label": "Sistemi Chimio-Sonici",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Sensoriale/Uditivo-Olfattivo",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "locomozione_miriapode_ibrida"
+      ],
+      "conflitti": [
+        "estroflessione_gastrica_acida"
+      ],
+      "mutazione_indotta": "Echolocazione + spruzzi feromonali orientativi.",
+      "uso_funzione": "Mappare spazio e correnti d’aria senza vista.",
+      "spinta_selettiva": "Caccia in buio totale e gallerie fumose.",
+      "metrics": [
+        {
+          "name": "banda_uditiva_max",
+          "value": 120000,
+          "unit": "Hz"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Evita ostacoli a 10 m in fumo denso",
+        "scene_prompt": "Tunnel con curve cieche + generatore di fumo"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Mappare spazio e correnti d’aria senza vista.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "unghie_a_micro_adesione": {
+      "id": "unghie_a_micro_adesione",
+      "label": "Unghie a Micro-Adesione",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Arboricolo",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "corna_psico_conduttive"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Lamelle a micro-setole tipo geco su zoccoli.",
+      "uso_funzione": "Aderire a superfici ripide.",
+      "spinta_selettiva": "Fuga verticale e pascolo in cenge.",
+      "metrics": [
+        {
+          "name": "tasso_di_salita",
+          "value": 1.2,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Scala parete 10 m inclinata 75°",
+        "scene_prompt": "Cronometra salita su lastra liscia"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "description": "Lamelle a micro-setole su zoccoli che aderiscono a superfici ripide per fughe verticali e pascolo.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "vello_di_assorbimento_totale": {
+      "id": "vello_di_assorbimento_totale",
+      "label": "Vello di Assorbimento Totale",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Difensivo/Camuffamento",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "visione_multi_spettrale_amplificata"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Nano-strutture piumari tipo vantablack biologico.",
+      "uso_funzione": "Assorbire quasi tutta la luce incidente.",
+      "spinta_selettiva": "Caccia e fuga in oscurità totale.",
+      "metrics": [
+        {
+          "name": "trasmittanza_ottica",
+          "value": 0.001,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Indistinguibile a 5 m al buio",
+        "scene_prompt": "Fotometro: luce riflessa vs piuma standard"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Assorbire quasi tutta la luce incidente.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "visione_multi_spettrale_amplificata": {
+      "id": "visione_multi_spettrale_amplificata",
+      "label": "Visione Multi-Spettrale Amplificata",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "vello_di_assorbimento_totale"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Bastoncelli potenziati + recettori IR/UV.",
+      "uso_funzione": "Vedere in luminanza estremamente bassa.",
+      "spinta_selettiva": "Predazione su prede a sangue caldo.",
+      "metrics": [
+        {
+          "name": "acuita_visiva",
+          "value": 0.95,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Rileva topo a 30 m al chiaro di luna",
+        "scene_prompt": "Prova campo notturna con target termico"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Vedere in luminanza estremamente bassa.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
+    },
+    "zanne_idracida": {
+      "id": "zanne_idracida",
+      "label": "Zanne Idracida",
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Offensivo/Chimico",
+      "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "seta_conduttiva_elettrica",
+        "articolazioni_a_leva_idraulica"
+      ],
+      "conflitti": [],
+      "mutazione_indotta": "Ghiandole acido-termiche nei cheliceri.",
+      "uso_funzione": "Corrodere tessuti e metalli.",
+      "spinta_selettiva": "Predazione su prede in corazza minerale.",
+      "metrics": [
+        {
+          "name": "pressione_getto",
+          "value": 1000000,
+          "unit": "Pa"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Perfora lamina d’alluminio 1 mm",
+        "scene_prompt": "Spruzzo controllato su pannello metallico"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "description": "Corrodere tessuti e metalli.",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      }
     }
   },
   "types": {
