@@ -116,6 +116,13 @@ Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 >
 > - Nel pack: `sinergie: ["condotto_laminare" (trait_code: TR-0421)]`, `conflitti: ["ipertermia_cronica" (trait_code: TR-0502)]`.
 > - Nel repository: usare solo gli `id` snake_case → `sinergie: ["condotto_laminare"]`, `conflitti: ["ipertermia_cronica"]`.
+>
+> **Promemoria mapping**
+>
+> | trait_code | id (repository)      | Note                                           |
+> | ---------- | -------------------- | ---------------------------------------------- |
+> | TR-0421    | `condotto_laminare`  | usa sempre l'`id` snake_case nei file JSON     |
+> | TR-0502    | `ipertermia_cronica` | il `trait_code` resta solo come alias nel pack |
 
 La definizione dei tratti deve evitare ridondanze: ogni tratto deve essere atomico, cioè con una funzione principale chiara e testabile. Per ogni super-abilità occorre indicare almeno un limite o contromisura (raffreddamento, saturazione, schermature, rumore di fondo…).
 
@@ -168,8 +175,8 @@ Per aggiornare schede esistenti alla versione v2 si consiglia di seguire questa 
    - “Idrorepellente” → “Pelage Idrorepellente”
    - “Cheratinoso” → “Cheratinizzato”.
 
-4. **Compilare testabilità e costi**  
-   Inserire campi `observable`, `scene_prompt` e `cost_profile` realistici per ogni tratto. Specificare sinergie e conflitti tramite codici.
+4. **Compilare testabilità e costi**
+   Nel pack arricchire, se disponibili, `observable`/`scene_prompt` (`testability`) e `cost_profile`; nel repository restano facoltativi. Specificare sinergie e conflitti tramite `id`.
 
 5. **Aggiungere versioning**  
    Per ogni file, introdurre la chiave `version` (SemVer) e la sezione `versioning` con date e autore.
@@ -341,11 +348,11 @@ La guida rapida per l’autore di tratti fornisce una checklist operativa per sc
   - definire la mutazione da cui deriva (`mutazione_indotta`),
   - definire la spinta selettiva (`spinta_selettiva`),
   - associare ambienti ENVO (`applicability.envo_terms`) e requisiti ambientali,
-  - impostare i costi (`fattore_mantenimento_energetico`, `cost_profile`),
+  - impostare i costi (`fattore_mantenimento_energetico`, facoltativo `cost_profile` nel pack),
   - definire i limiti (`limits`) e i trigger di attivazione,
-  - definire almeno una metrica UCUM (`metrics[{name,value,unit}]`),
+  - aggiungere una metrica UCUM (`metrics[{name,value,unit}]`) se disponibile nel pack (opzionale per il repository),
   - indicare sinergie e conflitti con altri tratti (`sinergie`, `conflitti`),
-  - compilare la testabilità (`observable`, `scene_prompt`),
+  - compilare la testabilità (`observable`, `scene_prompt`) se serve al materiale del pack (opzionale per il repository),
   - chiudere con `versioning` SemVer e date ISO.
 
 - **Validazione & CI**
@@ -360,19 +367,19 @@ La guida rapida per l’autore di tratti fornisce una checklist operativa per sc
 Questo documento definisce che cos’è un trait (unità atomica riusabile di funzionalità e morfologia) e descrive in modo approfondito i campi obbligatori e opzionali. Tra i punti chiave:
 
 - **Dizionario campi**
-  - il trait deve sempre contenere:
-    - `trait_code`,
-    - `label`,
+  - campi minimi per il repository (come da [scheda operativa](./traits_scheda_operativa.md)):
+    - `id`, `label` i18n,
     - `famiglia_tipologia`,
     - `fattore_mantenimento_energetico`,
     - `tier`,
+    - `slot` (può essere vuoto ma il campo va mantenuto),
+    - `sinergie`, `conflitti`,
+    - `data_origin`,
     - `mutazione_indotta`,
     - `uso_funzione`,
-    - `spinta_selettiva`,
-    - `sinergie`,
-    - `version`,
-    - `versioning`.
-  - altri campi sono opzionali ma consigliati (`slot`, `limits`, `output_effects`, `testability`, `cost_profile`, `applicability`, `requisiti_ambientali`...).
+    - `spinta_selettiva`.
+  - campi aggiuntivi del pack (da rimuovere prima dell'import): `trait_code`, `label_it/en`, eventuali `description_it/en` inline.
+  - campi opzionali/consigliati: `metrics`, `cost_profile`, `testability`, `version`/`versioning`, `slot_profile`, `limits`, `output_effects`, `applicability`, `requisiti_ambientali`, `compatibility` (solo per release di transizione).
 
 - **Tassonomia funzionale**
   - sistema di cluster:
