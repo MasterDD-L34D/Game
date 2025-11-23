@@ -4,8 +4,8 @@ import { existsSync } from 'node:fs';
 
 const STACK_PATTERNS = [
   /^apps\/backend\/(.+\.(?:c|m)?js)$/,
-  /^services\/(.+\.(?:c|m)?js)$/,
-  /^tests\/(.+\.(?:c|m)?js)$/,
+  /^services\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
+  /^tests\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
   /^apps\/dashboard\/(.+\.(?:c|m)?js|.+\.(?:ts|tsx|vue))$/,
   /^Trait Editor\/(.+\.(?:c|m)?js|.+\.(?:ts|tsx|vue))$/,
 ];
