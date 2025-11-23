@@ -28,21 +28,23 @@ La sezione finale del file raccoglie inoltre le tabelle condivise:
 
 ## Biomi attualmente definiti (dataset `data/core/biomes.yaml`)
 
-| ID canonico         | Etichetta             | Hazard severity | Diff/Mod | Hook narrativi |
-|---------------------|-----------------------|-----------------|----------|----------------|
-| `savana`            | Savana Ionizzata      | medium          | 2 / 1    | 2              |
-| `caverna`           | Caverna Risonante     | high            | 3 / 2    | 2              |
-| `palude`            | Palude Tossica        | medium          | 3 / 1    | 2              |
-| `canyons_risonanti` | Canyons Risonanti     | high            | 4 / 2    | 2              |
-| `foresta_miceliale` | Foresta Miceliale     | medium          | 3 / 2    | 2              |
-| `atollo_obsidiana`  | Atollo Obsidiana      | high            | 4 / 3    | 2              |
-| `stratosfera_tempestosa` | Stratosfera Tempestosa | high      | 5 / 4    | 2              |
-| `mezzanotte_orbitale` | Mezzanotte Orbitale | high            | 4 / 3    | 2              |
+| ID canonico              | Etichetta              | Hazard severity | Diff/Mod | Hook narrativi |
+| ------------------------ | ---------------------- | --------------- | -------- | -------------- |
+| `savana`                 | Savana Ionizzata       | medium          | 2 / 1    | 2              |
+| `caverna`                | Caverna Risonante      | high            | 3 / 2    | 2              |
+| `palude`                 | Palude Tossica         | medium          | 3 / 1    | 2              |
+| `canyons_risonanti`      | Canyons Risonanti      | high            | 4 / 2    | 2              |
+| `foresta_miceliale`      | Foresta Miceliale      | medium          | 3 / 2    | 2              |
+| `atollo_obsidiana`       | Atollo Obsidiana       | high            | 4 / 3    | 2              |
+| `stratosfera_tempestosa` | Stratosfera Tempestosa | high            | 5 / 4    | 2              |
+| `mezzanotte_orbitale`    | Mezzanotte Orbitale    | high            | 4 / 3    | 2              |
 
 Tutte le voci includono i blocchi obbligatori (`hazard`, `npc_archetypes`, `narrative.hooks`). I valori `Diff/Mod`
 riportano rispettivamente `diff_base` e `mod_biome`, mentre la colonna dei hook indica il numero di spunti narrativi
 presenti. In assenza di `vc_adapt_refs` espliciti, la dashboard userà le raccomandazioni predefinite basate sulla
 severità dell'hazard.
+
+- **Frattura Abissale Sinaptica** — Bioma abissale stratificato in tre livelli (Cresta Fotofase, Soglia Crepuscolare, Frattura Nera) attraversato da correnti elettroluminescenti che applicano trait temporanei. Pool dedicati: fotofase_synaptic_ridge, crepuscolo_synapse_bloom, frattura_void_choir. Alias: sinaptic_trench, trench_sinaptico_profondo, scarpata_fotofase.
 
 ## Alias legacy e merge dei dataset
 
