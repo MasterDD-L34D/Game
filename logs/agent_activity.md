@@ -1,5 +1,10 @@
 # Agent activity log
 
+## 2026-02-09 – RIAPERTURA-2026-01A (registrazione preliminare)
+- Owner: Master DD (approvatore umano) con agente archivist per il logging in STRICT MODE.
+- File toccati: `logs/agent_activity.md` (registrazione ID passo prima di ulteriori modifiche; nessun altro file aggiornato).
+- Rischi residui e coerenza README: nessun rischio tecnico rilevato; README invariati e coerenti.
+
 ## 2026-02-08 – triage incoming 01A con etichette legacy/storico
 - Owner: Master DD (approvatore umano) con agente archivist per l’aggiornamento delle tabelle.
 - File toccati: `incoming/README.md` (split baseline/unified con marcatura **LEGACY** vs **DA_INTEGRARE**, aggiunti `incoming/docs/*` e `incoming/pathfinder/bestiary1e_index.csv`), `docs/incoming/README.md` (stati ammessi allineati includendo **LEGACY**).
