@@ -1,6 +1,6 @@
 # REF_REPO_MIGRATION_PLAN – PATCHSET-00
 
-Versione: 0.4 (sequenza 01A–03B con trigger espliciti)
+Versione: 0.5 (gestione conflitti PR + sequenza 01A–03B)
 Data: 2025-11-23
 Owner: Laura B. (supporto: coordinator, dev-tooling)
 Stato: DRAFT – sequenza 01A–03B in attesa di approvazione
@@ -24,9 +24,15 @@ Stato: DRAFT – sequenza 01A–03B in attesa di approvazione
 
 ## Governance
 
-- Stato corrente: PATCHSET-00 in PROPOSTA, versione 0.4 design-completato e inventario 01A pronto.
+- Stato corrente: PATCHSET-00 in PROPOSTA, versione 0.5 (design completato, governance anti-conflict attiva) e inventario 01A pronto.
 - Owner umano: Laura B.; agenti di supporto: coordinator, dev-tooling.
 - Logging: `logs/agent_activity.md` per ogni avanzamento e per i test dry-run di 03A.
+
+### Gestione conflitti PR (gate pre-esecuzione)
+
+- Prima di portare 01A–03B in esecuzione o aggiornare un PR, riallineare il branch con `main` (merge/rebase) e registrare l’operazione in `logs/agent_activity.md`.
+- In caso di conflitti nei documenti di planning, risolvere localmente e aggiungere una nota nel relativo `Changelog` (es. “conflitto risolto con main @<commit>”).
+- Se il conflitto tocca dati/tooling, sospendere l’esecuzione e chiedere gate umano extra prima di procedere con 02B/03B.
 
 ## Checklist di uscita/ingresso
 
@@ -37,6 +43,7 @@ Stato: DRAFT – sequenza 01A–03B in attesa di approvazione
 
 ## Changelog
 
+- v0.5 – Inserita sezione di gestione conflitti PR con riallineamento a `main`, logging e gate aggiuntivi per dati/tooling.
 - v0.4 – Trigger e checklist ingresso/uscita esplicitati; ribaditi branch/gate/log e stato PROPOSTA v0.4.
 - v0.3 – Sequenza 01A–03B formalizzata con dipendenze/trigger, criteri di successo e rollback; governance ribadita.
 - v0.2 – Stato design completato, numerazione PATCHSET-00 allineata a 01A–03B.
