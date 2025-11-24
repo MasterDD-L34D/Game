@@ -2,7 +2,7 @@
 
 Versione: 0.5
 Data: 2025-12-30
-Owner: agente **coordinator** (supporto: archivist, dev-tooling)
+Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
 Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
 ---
@@ -46,7 +46,7 @@ Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
 ## Prerequisiti di governance
 
-- Owner umano nominato per il ciclo PATCHSET-00 e registrato nei log di esecuzione.
+- Owner umano nominato per il ciclo PATCHSET-00 (Master DD) e registrato nei log di esecuzione; approvazione esplicita di Master DD richiesta per i gate 01A–01C.
 - Branch dedicati per ogni passo successivo, evitando merge diretti su `main` senza gate incrociati.
 - Logging delle attività e delle approvazioni in `logs/agent_activity.md` per audit e handoff.
 

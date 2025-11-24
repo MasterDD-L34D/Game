@@ -2,7 +2,7 @@
 
 Versione: 0.5
 Data: 2025-12-30
-Owner: **Documentazione (referente umano: Laura B.)** – coordinamento con coordinator/dev-tooling
+Owner: **Master DD (owner umano)** – coordinamento con coordinator/dev-tooling
 Stato: PATCHSET-00 PROPOSTA – patch da validare
 
 ---
@@ -44,14 +44,15 @@ La numerazione delle uscite successive resta agganciata alla sequenza 01A–03B 
 - Ogni PATCHSET applicativa deve partire da un branch dedicato per garantire tracciabilità e rollback controllato.
 - Loggare le attività dell’agente su `logs/agent_activity.md` per mantenere audit trail e handoff tra owner umani.
 - Ogni documento di pianificazione deve riportare l’owner umano responsabile e l’aggiornamento va registrato nel log quando la numerazione 01A–03B cambia di stato.
+- Master DD agisce come approvatore umano per 01A–01C (strict mode), valida i freeze, gap list e assegnazioni prima di propagare modifiche ad altri reference.
 
 ## Prossimi passi
 
-1. Validare formalmente PATCHSET-00 come change-set neutrale e approvare la struttura dei sei documenti di pianificazione. **Owner umano:** Laura B. (coordinator in supporto) – riferimento 01A.
-2. Popolare `REF_INCOMING_CATALOG` con la tabella di stato condivisa per `incoming/` e `docs/incoming/`, nominando un owner umano di riferimento (Laura B.) e collegando la voce di stato alla fase 01B/02A.
-3. Collegare `REF_REPO_SOURCES_OF_TRUTH` e `REF_PACKS_AND_DERIVED` con i percorsi canonici dei core e i criteri di derivazione. **Owner umano:** Laura B. (supporto dev-tooling) – allineamento con 02B.
-4. Allineare `REF_TOOLING_AND_CI` sugli impatti nulli di PATCHSET-00 e preparare la checklist di compatibilità per PATCHSET-01. **Owner umano:** Laura B. – riferimento 03A.
-5. Aggiornare `REF_REPO_MIGRATION_PLAN` con le exit/entry criteria e i trigger per passare da PATCHSET-00 a PATCHSET-01/02 (sequenza 01A–03B). **Owner umano:** Laura B. con coordinator/dev-tooling.
+1. Validare formalmente PATCHSET-00 come change-set neutrale e approvare la struttura dei sei documenti di pianificazione. **Owner umano:** Master DD (coordinator in supporto) – riferimento 01A.
+2. Popolare `REF_INCOMING_CATALOG` con la tabella di stato condivisa per `incoming/` e `docs/incoming/`, nominando un owner umano di riferimento (Master DD) e collegando la voce di stato alla fase 01B/02A.
+3. Collegare `REF_REPO_SOURCES_OF_TRUTH` e `REF_PACKS_AND_DERIVED` con i percorsi canonici dei core e i criteri di derivazione. **Owner umano:** Master DD (supporto dev-tooling) – allineamento con 02B.
+4. Allineare `REF_TOOLING_AND_CI` sugli impatti nulli di PATCHSET-00 e preparare la checklist di compatibilità per PATCHSET-01. **Owner umano:** Master DD – riferimento 03A.
+5. Aggiornare `REF_REPO_MIGRATION_PLAN` con le exit/entry criteria e i trigger per passare da PATCHSET-00 a PATCHSET-01/02 (sequenza 01A–03B). **Owner umano:** Master DD con coordinator/dev-tooling.
 
 ---
 

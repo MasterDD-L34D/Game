@@ -2,7 +2,7 @@
 
 Versione: 0.5
 Data: 2025-12-30
-Owner: Laura B. (riferimento 01A)
+Owner: **Master DD (owner umano 01A)** con supporto archivist
 Stato: PATCHSET-01A – inventario aggiornato
 
 ---
@@ -34,9 +34,10 @@ Stato: PATCHSET-01A – inventario aggiornato
 
 ## Prerequisiti di governance
 
-- Owner umano identificato per la manutenzione del catalogo PATCHSET-00 e registrato in `logs/agent_activity.md`.
+- Owner umano identificato per la manutenzione del catalogo PATCHSET-00 (Master DD) e registrato in `logs/agent_activity.md`.
 - Branch dedicati per lavorare su triage incoming senza impattare `main` finché le tabelle non sono validate.
 - Log degli aggiornamenti di numerazione 01A–03B e delle approvazioni di triage nel file di audit centrale.
+- Master DD approva e logga in STRICT MODE ogni passaggio di stato 01A (congelamento ingressi, gap list, assegnazione owner) prima di propagare aggiornamenti ai documenti collegati.
 
 ### Stato prerequisiti PATCHSET-01A
 
@@ -94,6 +95,38 @@ Stato: PATCHSET-01A – inventario aggiornato
 3. Aggiornare `incoming/README.md` e `docs/incoming/README.md` dopo ogni triage incrementale per mantenere lo stato allineato.
 4. Definire regole minime di accettazione (formato, checksum, schema) prima di muovere una fonte da DA_INTEGRARE a INTEGRATO.
 5. Integrare la tabella nel flusso di PATCHSET successivi e mantenerla sincronizzata con `docs/incoming/README.md`.
+
+### Step operativo 01A (STRICT MODE, owner Master DD)
+
+- **Freeze ingressi (approvato)**: finestra 2025-11-24 → 2025-11-27 approvata da Master DD; durante il freeze i nuovi drop vanno in `incoming/_holding` con log in `logs/agent_activity.md` e nota di approvazione del batch.
+- **Gap list + owner**: stilare elenco puntuale delle fonti senza mapping verso core/derived, nominando un owner di dominio per ciascuna voce e collegando il ticket/patchset di presa in carico; integrare ogni riga con la nota di approvazione Master DD prima di sbloccare 01B/01C.
+- **Allineamento README**: per ogni batch di triage approvato, aggiornare in coppia `incoming/README.md` e `docs/incoming/README.md`, includendo riferimento al ticket/patchset; riportare l’esito nel log centrale.
+- **Uscita 01A → 01B/01C**: pubblicare la gap list approvata da Master DD e chiudere il freeze (loggando data/ora); solo dopo, permettere a 01B/01C di usare il catalogo come fonte stabile, consegnando a species-curator una copia della gap list con ticket/owner per il kickoff 01B.
+- **Pacchetto di handoff per 01B (species-curator)**: includere gap list approvata (ticket/owner), snapshot tabelle incoming, link ai README aggiornati e nota di rischio per le voci borderline. Loggare in `logs/agent_activity.md` la consegna dell’handoff con riferimento al branch/commit.
+
+#### Piano operativo multi-agente 01A (routing automatico attivo)
+
+- **coordinator**: guida il freeze, raccoglie l’approvazione di Master DD e verifica che la gap list sia completa di owner/ticket prima del passaggio a 01B/01C.
+- **archivist**: esegue il censimento durante il freeze, aggiorna le tabelle di questo reference e propone gli aggiornamenti dei README in batch coesi (nessuno spostamento file).
+- **dev-tooling**: supporta la verifica di checksum e di eventuali script elencati nella gap list; prepara note di compatibilità da collegare ai ticket.
+- **asset-prep**: fornisce metadati/licenze per asset grafici e pack, così da sbloccare le voci marcate DA_INTEGRARE.
+- **handoff**: ogni aggiornamento di tabella/README approvato da Master DD va loggato in `logs/agent_activity.md` con riferimento a ticket/patchset, chiudendo l’azione 01A corrispondente.
+
+#### Finestra freeze (approvata Master DD)
+
+| Inizio     | Fine       | Responsabili                                    | Note operative                                                                                                                                                      |
+| ---------- | ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2025-11-24 | 2025-11-27 | archivist + coordinator, approvazione Master DD | Freeze soft su `incoming/**` e `docs/incoming/**`; nuovi drop vanno parcheggiati in `incoming/_holding` con log in `logs/agent_activity.md` e nota di approvazione. |
+
+#### Gap list 01A (bozza, in attesa di approvazione Master DD)
+
+| Fonte                                                                             | Missing mapping                                        | Owner proposto                                            | Ticket/Note                                                                                   |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------ | --------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `incoming/lavoro_da_classificare/*`                                               | Nessun mapping verso core/derived né owner di dominio. | coordinator + owner dominio da nominare                   | Richiede ticket triage e assegnazione dominio (traits/specie/biomi/tooling).                  |
+| `incoming/ancestors_*` CSV / `Ancestors_Neurons_*`                                | Schema e sensibilità dati non mappati ai dataset core. | species-curator (supporto dev-tooling per sanitizzazione) | Validare schema contro `data/core/species`; aprire ticket per redazione dataset pubblicabile. |
+| `incoming/evo_tactics_validator-pack_v1.5.zip` e `..._param_synergy_v8_3.zip`     | Tabelle parametri non collegate ai pack core/derived.  | balancer + dev-tooling                                    | Servono ticket per riconcilio parametri con pipeline attuale prima di promozione.             |
+| `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py` | Bindings engine non allineati agli ID correnti.        | dev-tooling                                               | Ticket per revisione compatibilità engine + eventuale refactor schema.                        |
+| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`                        | Piano integrazione senza legame a patchset/ticket.     | coordinator + archivist                                   | Collegare a patchset 01A o archiviare; servono ticket di presa in carico.                     |
 
 ## Changelog
 
