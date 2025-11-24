@@ -1,6 +1,6 @@
 # Docs Incoming – Stato e triage (PATCHSET-01)
 
-Schema di tracciamento per `docs/incoming/**`. Stati: **INTEGRATO**, **DA_INTEGRARE**, **STORICO**. Dettaglio completo in `docs/planning/REF_INCOMING_CATALOG.md`. Owner 01A (catalogo): Laura B.
+Schema di tracciamento per `docs/incoming/**`. Stati: **INTEGRATO**, **DA_INTEGRARE**, **LEGACY**, **STORICO**. Dettaglio completo in `docs/planning/REF_INCOMING_CATALOG.md`. Owner 01A (catalogo): Laura B.
 
 Linee guida minime:
 
