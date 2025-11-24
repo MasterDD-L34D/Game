@@ -32,3 +32,4 @@ Note:
 
 - Nessuno spostamento o archiviazione applicato in questo step; i candidati `legacy`/`archive_cold` sono solo proposte.
 - Usare lo stesso stato sia qui sia in `docs/incoming/README.md` per tenere sincronizzato il triage.
+- 2026-02-07: gap list 01A aggiornata con ticket proposti **[TKT-01A-*]** per ogni voce aperta (placeholder da aprire e loggare con approvazione Master DD); `incoming/_holding` risulta assente (nessun batch da integrare/archiviare) e va loggato qualunque nuovo drop prima dell’ingestione.

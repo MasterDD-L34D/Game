@@ -122,13 +122,17 @@ Stato: PATCHSET-01A – inventario aggiornato
 
 #### Gap list 01A (bozza, in attesa di approvazione Master DD)
 
-| Fonte                                                                             | Missing mapping                                        | Owner proposto                                            | Ticket/Note                                                                                   |
-| --------------------------------------------------------------------------------- | ------------------------------------------------------ | --------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `incoming/lavoro_da_classificare/*`                                               | Nessun mapping verso core/derived né owner di dominio. | coordinator + owner dominio da nominare                   | Richiede ticket triage e assegnazione dominio (traits/specie/biomi/tooling).                  |
-| `incoming/ancestors_*` CSV / `Ancestors_Neurons_*`                                | Schema e sensibilità dati non mappati ai dataset core. | species-curator (supporto dev-tooling per sanitizzazione) | Validare schema contro `data/core/species`; aprire ticket per redazione dataset pubblicabile. |
-| `incoming/evo_tactics_validator-pack_v1.5.zip` e `..._param_synergy_v8_3.zip`     | Tabelle parametri non collegate ai pack core/derived.  | balancer + dev-tooling                                    | Servono ticket per riconcilio parametri con pipeline attuale prima di promozione.             |
-| `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py` | Bindings engine non allineati agli ID correnti.        | dev-tooling                                               | Ticket per revisione compatibilità engine + eventuale refactor schema.                        |
-| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`                        | Piano integrazione senza legame a patchset/ticket.     | coordinator + archivist                                   | Collegare a patchset 01A o archiviare; servono ticket di presa in carico.                     |
+| Fonte                                                                             | Missing mapping                                        | Owner proposto                                            | Ticket/Note                                                                                                        |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `incoming/lavoro_da_classificare/*`                                               | Nessun mapping verso core/derived né owner di dominio. | coordinator + owner dominio da nominare                   | Ticket proposto **[TKT-01A-LDC]** da aprire per triage e assegnazione dominio (traits/specie/biomi/tooling).       |
+| `incoming/ancestors_*` CSV / `Ancestors_Neurons_*`                                | Schema e sensibilità dati non mappati ai dataset core. | species-curator (supporto dev-tooling per sanitizzazione) | Ticket proposto **[TKT-01A-ANC]** per validare schema contro `data/core/species` e definire versione pubblicabile. |
+| `incoming/evo_tactics_validator-pack_v1.5.zip` e `..._param_synergy_v8_3.zip`     | Tabelle parametri non collegate ai pack core/derived.  | balancer + dev-tooling                                    | Ticket proposto **[TKT-01A-PARAM]** per riconciliare parametri con pipeline attuale prima di promozione.           |
+| `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py` | Bindings engine non allineati agli ID correnti.        | dev-tooling                                               | Ticket proposto **[TKT-01A-ENGINE]** per revisione compatibilità engine + eventuale refactor schema.               |
+| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`                        | Piano integrazione senza legame a patchset/ticket.     | coordinator + archivist                                   | Ticket proposto **[TKT-01A-DOCS]** per collegare a patchset 01A o archiviare con presa in carico.                  |
+
+**Stato ticket:** le sigle **[TKT-01A-*]** sono placeholder proposti; l’apertura e la registrazione ufficiale dei ticket restano da completare e vanno loggate con approvazione Master DD prima di sbloccare 01B/01C.
+
+**Ispezione `incoming/_holding` (2026-02-07):** cartella non presente; nessun batch da integrare o archiviare, in attesa di eventuali drop futuri da loggare prima dell’ingestione.
 
 ## Changelog
 

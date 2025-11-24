@@ -21,3 +21,4 @@ Note:
 
 - Nessuno spostamento o rinomina applicato; le azioni legacy/archive_cold restano da pianificare.
 - Tenere la tabella sincronizzata con `incoming/README.md` e il catalogo di pianificazione.
+- 2026-02-07: gap list 01A aggiornata con ticket proposti **[TKT-01A-*]** sulle voci aperte (placeholder da aprire e loggare con approvazione Master DD); `incoming/_holding` non presente (nessun batch attivo) e ogni nuovo drop va loggato prima di eventuale ingestione.

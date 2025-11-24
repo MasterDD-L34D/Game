@@ -61,3 +61,11 @@
 - Freeze incoming: finestra soft 2025-11-24 → 2025-11-27 in `REF_INCOMING_CATALOG` risultata scaduta; decisione attuale (in attesa di conferma Master DD): nessun freeze attivo, nuova approvazione richiesta prima di riattivare blocchi su `incoming/**` e `docs/incoming/**`.
 - Ticketing: nessun ticket 01A–03B rintracciato nel repository; serve aprire/aggiornare ticket per gap list, readiness agenti e follow-up freeze.
 - Prossimi passi: raccogliere conferma on-call trait/species/balancer, allineare README incoming al catalogo 01A dopo approvazione Master DD e registrare chiusura “RIAPERTURA-2026-01”.
+
+## 2026-02-07 – Kickoff PATCHSET-00 e readiness 01A (coordinator)
+- Kickoff 15' eseguito (scope PATCHSET-00) ribadendo i trigger Fase 1→3 da `REF_REPO_MIGRATION_PLAN` e confermando che il flusso attivo resta su 01A prima di avviare 01B/01C.
+- Gap list 01A aggiornata in `REF_INCOMING_CATALOG` con ticket proposti **[TKT-01A-LDC]**, **[TKT-01A-ANC]**, **[TKT-01A-PARAM]**, **[TKT-01A-ENGINE]**, **[TKT-01A-DOCS]`; `incoming/_holding` non trovato (nessun batch da integrare/archiviare) e richiesto logging per futuri drop.
+- Readiness confermate con ticket associati: species-curator per sanitizzazione dataset ancestors (**[TKT-01A-ANC]**), trait-curator per normalizzazione nomenclature aperte su `incoming/lavoro_da_classificare/*` (**[TKT-01A-LDC]**), dev-tooling per revisione binding/parametri (**[TKT-01A-ENGINE]**, **[TKT-01A-PARAM]**). Ticket da aprire/collegare in pipeline di triage.
+- Stato ticket: le sigle **[TKT-01A-*]** sono placeholder proposti; apertura e tracciamento ufficiale richiedono conferma Master DD prima di passare a 01B/01C.
+- README sincronizzati (`incoming/README.md`, `docs/incoming/README.md`) con nota sui ticket 01A proposti e sull'assenza di batch in `_holding`.
+- Chiusura “RIAPERTURA-2026-01” registrata e passaggio operativo verso pipeline 01A in STRICT MODE, mantenendo freeze inattivo finché non arriva nuova approvazione.
