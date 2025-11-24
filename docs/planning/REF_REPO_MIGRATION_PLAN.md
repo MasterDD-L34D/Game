@@ -62,6 +62,13 @@ Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 - **Rollback:** ripristino configurazioni CI precedenti e rollback di eventuali esperimenti di hook non promossi; rimozione di pipeline pilota.
 - **Note rischio (Fase 2 → 3):** modifiche premature ai workflow potrebbero bloccare pipeline esistenti → usare branch isolati e flag di sicurezza (report-only).
 
+### Nota readiness 01B/01C (2026-02-07)
+
+- **On-call 01B (core/derived):** species-curator (lead), trait-curator (nomenclature/trait mapping), balancer (priorità P0/P1/P2), archivist (cross-check catalogo 01A), coordinator (gate/log). Input di kickoff: gap list 01A approvata con ticket **[TKT-01A-LDC]**, **[TKT-01A-ANC]**, **[TKT-01A-PARAM]**, **[TKT-01A-ENGINE]**, **[TKT-01A-DOCS]** registrati nei README incoming.
+- **On-call 01C (tooling/CI):** dev-tooling (lead) con coordinator per priorità; readiness limitata a inventario e modalità **report-only**. Nessun rollout abilitato finché 01A–01B non sono loggati con approvazione Master DD.
+- **Ticket attivi/placeholder:** **[TKT-01A-*]** da aprire/formalizzare; usare gli stessi ID nel log di `logs/agent_activity.md`, in `docs/planning/REF_INCOMING_CATALOG.md`, `incoming/README.md` e `docs/incoming/README.md` per mantenere il tracciamento coerente.
+- **Rischi aperti:** freeze non riattivato (nuova approvazione richiesta), possibile desincronizzazione tra catalogo e README se si aggiungono batch senza loggare; inventario validator 01C solo consultivo → esecuzione in **report-only** obbligatoria fino al via libera 02A.
+
 ### Fase 3 (tooling/validazione)
 
 **PATCHSET-02A – Tooling di validazione**
