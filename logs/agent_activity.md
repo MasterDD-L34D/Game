@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2026-02-10 – PATCHSET-02A baseline validator (report-only)
+- Owner: Master DD (approvatore umano) con agente dev-tooling; ticket di tracciamento: **[TKT-02A-VALIDATOR]** (report-only).
+- Avvio: esecuzione consultiva checklist 02A su branch `work` senza modifiche ai workflow CI (schema-only, trait audit, trait style check).
+- Publishing report: baseline registrata in `docs/planning/02A_validator_report.md` con esiti negativi su schema biomi, sinergie mancanti e lint i18n; nessun artefatto committato.
+- Richiesta: via libera di Master DD per procedere ai gate 03A usando questi esiti come baseline (validator in modalità report-only già pronti per ri-run in CI).
+
 ## 2026-02-09 – RIAPERTURA-2026-01A (registrazione preliminare)
 - Owner: Master DD (approvatore umano) con agente archivist per il logging in STRICT MODE.
 - File toccati: `logs/agent_activity.md` (registrazione ID passo prima di ulteriori modifiche; nessun altro file aggiornato).
