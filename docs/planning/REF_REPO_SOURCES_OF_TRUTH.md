@@ -1,7 +1,7 @@
 # REF_REPO_SOURCES_OF_TRUTH – Canonico dati core
 
-Versione: 0.3
-Data: 2025-12-17
+Versione: 0.5
+Data: 2025-12-30
 Owner: agente **archivist** (supporto: trait-curator, species-curator, biome-ecosystem-curator)
 Stato: PATCHSET-00 PROPOSTA – censimento sorgenti di verità
 
@@ -64,5 +64,6 @@ Stato: PATCHSET-00 PROPOSTA – censimento sorgenti di verità
 
 ## Changelog
 
+- 2025-12-30: versione 0.5 – intestazione riallineata al report v0.5, confermata la numerazione 01A–03B e il perimetro delle sorgenti canoniche.
 - 2025-12-17: versione 0.3 – design completato, perimetro documentazione consolidato, numerazione 01A–03B bloccata e richiamo alle fasi GOLDEN_PATH; prerequisiti di governance esplicitati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-23: struttura iniziale e linee guida di censimento (archivist).

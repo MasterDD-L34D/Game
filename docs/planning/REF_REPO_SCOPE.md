@@ -1,7 +1,7 @@
 # REF_REPO_SCOPE – Refactor globale repository Game / Evo Tactics
 
-Versione: 0.3
-Data: 2025-12-17
+Versione: 0.5
+Data: 2025-12-30
 Owner: agente **coordinator** (supporto: archivist, dev-tooling)
 Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
@@ -63,5 +63,6 @@ Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
 ## Changelog
 
+- 2025-12-30: versione 0.5 – intestazione riallineata al report v0.5, confermata la numerazione 01A–03B e lo scope come bussola per le patch successive.
 - 2025-12-17: versione 0.3 – design completato, perimetro documentazione confermato, numerazione 01A–03B bloccata e riferimento alle fasi GOLDEN_PATH con prerequisiti di governance (owner umano, branch dedicati, logging) applicati a PATCHSET-00 (archivist).
 - 2025-11-23: versione iniziale del perimetro di refactor (coordinator).

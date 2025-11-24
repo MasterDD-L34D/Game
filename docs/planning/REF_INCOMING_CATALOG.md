@@ -1,7 +1,7 @@
 # REF_INCOMING_CATALOG – Catalogo incoming/backlog
 
-Versione: 0.3
-Data: 2025-12-23
+Versione: 0.5
+Data: 2025-12-30
 Owner: Laura B. (riferimento 01A)
 Stato: PATCHSET-01A – inventario aggiornato
 
@@ -97,6 +97,7 @@ Stato: PATCHSET-01A – inventario aggiornato
 
 ## Changelog
 
+- 2025-12-30: versione 0.5 – intestazione sincronizzata al report v0.5, mantenendo PATCHSET-01A e le tabelle di triage come baseline ufficiale.
 - 2025-12-23: versione 0.3 – tabelle normalizzate e allineate alle linee guida di triage senza rinominare/spostare asset.
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance rafforzati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-24: versione 0.3 – inventario arricchito con rischi e prossimi passi e prerequisiti PATCHSET-01A chiusi (archivist).

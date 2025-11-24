@@ -1,7 +1,7 @@
 # REF_TOOLING_AND_CI – Allineamento tooling e CI
 
-Versione: 0.3
-Data: 2025-12-17
+Versione: 0.5
+Data: 2025-12-30
 Owner: agente **dev-tooling** (supporto: archivist, coordinator)
 Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio)
 
@@ -117,6 +117,7 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna m
 
 ## Changelog
 
+- 2025-12-30: versione 0.5 – intestazione aggiornata al report v0.5, confermata la numerazione 01A–03B e il perimetro di PATCHSET-00 senza impatti ai workflow.
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance espansi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
 - 2025-11-23: struttura iniziale di inventario tooling/CI (dev-tooling).
 - 2025-12-09: mappatura workflow/validatori estesa, checklist v0.2 con gate incrociati core/pack e prerequisiti branch dedicati.
