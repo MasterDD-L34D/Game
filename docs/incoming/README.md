@@ -1,6 +1,6 @@
 # Docs Incoming – Stato e triage (PATCHSET-01)
 
-Schema di tracciamento per `docs/incoming/**`. Stati: **INTEGRATO**, **DA_INTEGRARE**, **STORICO**. Dettaglio completo in `docs/planning/REF_INCOMING_CATALOG.md`.
+Schema di tracciamento per `docs/incoming/**`. Stati: **INTEGRATO**, **DA_INTEGRARE**, **STORICO**. Dettaglio completo in `docs/planning/REF_INCOMING_CATALOG.md`. Owner 01A (catalogo): Laura B.
 
 Linee guida minime:
 
@@ -10,6 +10,7 @@ Linee guida minime:
 | Fonte / descrizione                | Percorso                                                                             | Stato        | Note / next-step                                                             |
 | ---------------------------------- | ------------------------------------------------------------------------------------ | ------------ | ---------------------------------------------------------------------------- |
 | Mappe compat/feature               | `docs/incoming/FEATURE_MAP_EVO_TACTICS.md`, `GAME_COMPAT_README.md`                  | DA_INTEGRARE | Aggiornare rispetto ai pack correnti; allineare con catalogo incoming.       |
+| Modelli di riferimento             | `docs/incoming/MODELLI_RIF_EVO_TACTICS.md`                                           | DA_INTEGRARE | Verificare contro schemi attuali; marcare legacy se superati.                |
 | Linee guida integrazione/stat scan | `docs/incoming/README_INTEGRAZIONE_MECCANICHE.md`, `README_SCAN_STAT_EVENTI.md`      | DA_INTEGRARE | Sincronizzare con pipeline QA e doc ufficiale; se superate, marcare STORICO. |
 | Documenti enneagramma              | `docs/incoming/Ennagramma/README_ENNEAGRAMMA.md`                                     | DA_INTEGRARE | Collegare al dataset in `incoming/Ennagramma/`; valutare legacy dopo merge.  |
 | Archivio/estrazioni                | `docs/incoming/decompressed/README.md`, `docs/incoming/archive/INDEX.md`             | STORICO      | Log/indice storico; candidati archive_cold dopo snapshot.                    |
