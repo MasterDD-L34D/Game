@@ -1,5 +1,10 @@
 # Agent activity log
 
+## 2026-02-08 – triage incoming 01A con etichette legacy/storico
+- Owner: Master DD (approvatore umano) con agente archivist per l’aggiornamento delle tabelle.
+- File toccati: `incoming/README.md` (split baseline/unified con marcatura **LEGACY** vs **DA_INTEGRARE**, aggiunti `incoming/docs/*` e `incoming/pathfinder/bestiary1e_index.csv`), `docs/incoming/README.md` (stati ammessi allineati includendo **LEGACY**).
+- Rischi e note: servono diff/checksum per scegliere la baseline dei pack legacy vs DA_INTEGRARE; `incoming/docs/*` va verificato contro `tools/` prima di eventuali rimozioni; l’indice Pathfinder richiede conferma licenza/mapping specie prima di uso; mantenere sincronizzati catalogo e README durante ulteriori triage.
+
 # 2026-02-07 – RIAPERTURA-2026-01 follow-up (gap list 01A + readiness 01B/01C)
 - Owner: Master DD (approvatore umano) con agente coordinator; supporto archivist (gap list), dev-tooling (inventario tooling/CI), species-curator (readiness 01B), trait-curator/balancer on-call.
 - Decisioni freeze: nessun freeze attivo; la finestra 2025-11-24 → 2025-11-27 resta chiusa, nuova approvazione richiesta prima di bloccare `incoming/**` e `docs/incoming/**`.
