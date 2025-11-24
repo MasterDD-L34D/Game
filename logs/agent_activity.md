@@ -1,5 +1,12 @@
 # Agent activity log
 
+## 2026-02-11 – Piano freeze fase 3→4 (03A/03B)
+- Owner: Master DD (approvatore umano) con agente coordinator; supporto species/trait/balancer per 03A e archivist/asset-prep per 03B.
+- Branch creati: `patch/03A-core-derived`, `patch/03B-incoming-cleanup` (dedicati a rollout 03A/03B, niente merge su `main`).
+- Piano freeze: blocco merge non urgenti su core/derived/incoming durante 03A–03B; sblocco solo con validator 02A in pass (report-only), snapshot core/derived + backup incoming etichettato e approvazione Master DD registrata.
+- Checklist di merge: 03A richiede log validator 02A + changelog/rollback script; transizione a 03B dopo backup incoming e redirect in bozza; uscita freeze con smoke 02A su link/redirect e via libera Master DD in log.
+- Revert readiness: snapshot core/derived e backup incoming puntati per rollback; in caso di regressioni 02A sospendere 03B e ripristinare stato post-02A.
+
 ## 2026-02-10 – PATCHSET-02A baseline validator (report-only)
 - Owner: Master DD (approvatore umano) con agente dev-tooling; ticket di tracciamento: **[TKT-02A-VALIDATOR]** (report-only).
 - Avvio: esecuzione consultiva checklist 02A su branch `work` senza modifiche ai workflow CI (schema-only, trait audit, trait style check).

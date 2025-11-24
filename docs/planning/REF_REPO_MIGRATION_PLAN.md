@@ -103,6 +103,34 @@ Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 - **Rollback:** ripristino snapshot incoming pre-pulizia; rollback delle entry di archivio aggiunte; ripristino redirect originari.
 - **Note rischio (Fase 4 conclusiva):** perdita di referenze storiche → mantenere copia read-only del catalogo precedente e checklist post-pulizia.
 
+#### Freeze fase 3→4 e unlock 03A/03B
+
+- **Finestra di freeze proposta (approvazione Master DD obbligatoria):** blocco merge non urgenti su `core/**`, `derived/**`, `incoming/**` e `docs/incoming/**` per la durata del rollout 03A–03B. Attivazione con avviso in `logs/agent_activity.md`, fine prevista dopo chiusura checklist 03B.
+- **Condizioni di sblocco (trigger fase 3→4 della matrice):**
+  - Validator 02A rieseguito in modalità **report-only** su branch `patch/03A-core-derived` con fixture/baseline aggiornate e log archiviato.
+  - Snapshot dei pack core/derived e backup incoming etichettato prima di qualsiasi merge, con percorso di ripristino documentato.
+  - Approvazione esplicita di Master DD sui due branch dedicati (`patch/03A-core-derived`, `patch/03B-incoming-cleanup`) e sull’uscita dal freeze.
+
+#### Checklist di merge (03A core/derived → 03B cleanup incoming)
+
+1. **Pre-merge 03A**
+   - Validator 02A in pass (report-only) con log allegato al merge request.
+   - Changelog e script di rollback generati per i pack toccati; snapshot core/derived registrato.
+   - Master DD approva il merge del branch `patch/03A-core-derived`.
+2. **Transizione verso 03B**
+   - Backup/snapshot di `incoming/**` effettuato e referenziato per eventuale revert.
+   - Redirect e indicizzazioni preparati in bozza (nessuna rimozione finché il backup non è confermato leggibile).
+3. **Merge 03B e uscita freeze**
+   - Verifica post-merge link/redirect e riesecuzione rapida validator 02A (smoke) per rilevare regressioni sulle dipendenze incoming ↔ core/derived.
+   - Master DD registra via libera allo sblocco e chiusura della finestra di freeze in `logs/agent_activity.md`.
+
+#### Criteri di successo e rollback 03A/03B (Fase 4)
+
+- **Successo 03A:** patch core/derived applicate con validator 02A in pass, changelog e rollback script pubblicati; freeze ancora attivo per passare a 03B.
+- **Rollback 03A:** revert via script + ripristino snapshot core/derived precedente; se il validator 02A segnala regressioni, sospendere merge 03B e tornare a stato post-02A.
+- **Successo 03B:** incoming ripulito con log di elementi spostati/archiviati, redirect verificati e backup accessibile; checklist post-pulizia archiviata.
+- **Rollback 03B:** ripristino backup incoming pre-pulizia e riattivazione redirect originali; riesecuzione validator 02A (smoke) per confermare ritorno allo stato stabile.
+
 ---
 
 ## Matrice dipendenze e trigger di fase
