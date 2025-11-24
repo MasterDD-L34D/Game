@@ -118,6 +118,8 @@ Stato: PATCHSET-01A – inventario aggiornato
 | ---------- | ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2025-11-24 | 2025-11-27 | archivist + coordinator, approvazione Master DD | Freeze soft su `incoming/**` e `docs/incoming/**`; nuovi drop vanno parcheggiati in `incoming/_holding` con log in `logs/agent_activity.md` e nota di approvazione. |
 
+**2026-02-07 (RIAPERTURA-2026-01):** la finestra sopra risulta chiusa; nessun freeze attivo al momento. Necessaria nuova approvazione di Master DD per riattivare blocchi o aprire una finestra aggiornata.
+
 #### Gap list 01A (bozza, in attesa di approvazione Master DD)
 
 | Fonte                                                                             | Missing mapping                                        | Owner proposto                                            | Ticket/Note                                                                                   |

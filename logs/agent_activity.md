@@ -54,3 +54,10 @@
 - Owner: agente coordinator (supporto archivist/dev-tooling per 01A–01C)
 - Azioni: riletti `REF_REPO_SCOPE` e `REF_REPO_MIGRATION_PLAN`, confermato stato PATCHSET-00 e sequenza 01A–03B; preparato riavvio in STRICT MODE.
 - Prossimi passi immediati: confermare owner umano per 01A–01C, congelare nuovi ingressi in `incoming/**` durante il censimento, aggiornare `REF_INCOMING_CATALOG` con gap list e assegnatari, poi validare matrice core/derived (01B) e inventario tooling/CI (01C).
+
+## 2026-02-07 – RIAPERTURA-2026-01 (riattivazione 01A–03B)
+- Owner: Master DD (approvatore umano) con agente coordinator; archivist attivato per 01A; trait/species/balancer non ancora confermati on-call (richiesta di conferma inviata).
+- Azioni: rilette `REF_REPO_SCOPE` e `REF_REPO_MIGRATION_PLAN` senza variazioni ai gate 01A/01B/01C; creati branch dedicati `patchset/01A-catalogo-incoming`, `patchset/01B-core-vs-derived`, `patchset/01C-tooling-ci`, `patchset/02A-validator`, `patchset/03A-core-derived-patch`, `patchset/03B-pulizia-incoming` per evitare uso di `main`.
+- Freeze incoming: finestra soft 2025-11-24 → 2025-11-27 in `REF_INCOMING_CATALOG` risultata scaduta; decisione attuale (in attesa di conferma Master DD): nessun freeze attivo, nuova approvazione richiesta prima di riattivare blocchi su `incoming/**` e `docs/incoming/**`.
+- Ticketing: nessun ticket 01A–03B rintracciato nel repository; serve aprire/aggiornare ticket per gap list, readiness agenti e follow-up freeze.
+- Prossimi passi: raccogliere conferma on-call trait/species/balancer, allineare README incoming al catalogo 01A dopo approvazione Master DD e registrare chiusura “RIAPERTURA-2026-01”.
