@@ -1,5 +1,11 @@
 # Agent activity log
 
+# 2026-02-07 – RIAPERTURA-2026-01 follow-up (gap list 01A + readiness 01B/01C)
+- Owner: Master DD (approvatore umano) con agente coordinator; supporto archivist (gap list), dev-tooling (inventario tooling/CI), species-curator (readiness 01B), trait-curator/balancer on-call.
+- Decisioni freeze: nessun freeze attivo; la finestra 2025-11-24 → 2025-11-27 resta chiusa, nuova approvazione richiesta prima di bloccare `incoming/**` e `docs/incoming/**`.
+- File toccati: `docs/planning/REF_INCOMING_CATALOG.md` (gap list 01A collegata ai README), `incoming/README.md` e `docs/incoming/README.md` (note su ticket/owner e handoff 01B), `docs/planning/REF_REPO_MIGRATION_PLAN.md` (nota readiness 01B/01C con agenti on-call e ticket attivi), `docs/planning/REF_TOOLING_AND_CI.md` (inventario workflow CI/script locale in modalità report-only).
+- Rischi residui e azioni: freeze non riattivato (richiede approvazione Master DD prima di nuovi drop); README incoming potrebbero desincronizzarsi se si aggiungono batch senza loggare ticket/owner → aggiornare in coppia catalogo+README a ogni triage; inventario validator/workflow marcato “report-only” finché non viene approvato rollout 02A/01C → mantenere esecuzione consultiva e aprire ticket prima di abilitarlo.
+
 ## 2025-11-24 – piano operativo 01B e handoff 01A
 - Owner: Master DD (approvatore umano) con agente coordinator; species-curator lead per 01B.
 - Azioni: preparato in `REF_REPO_MIGRATION_PLAN` la checklist operativa 01B (kickoff, raccolta input, matrice preliminare senza patch, gate di uscita) con routing agenti e log richiesto; aggiunto in `REF_INCOMING_CATALOG` il pacchetto di handoff 01A→01B (gap list approvata, snapshot tabelle, README aggiornati, nota rischi) da loggare al momento della consegna.

@@ -49,6 +49,20 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna m
 4. Identificare fixture `data/derived/**` critiche per i test e pianificare la loro sostituzione con versioni rigenerate dai core.
 5. Proporre aggiornamenti incrementali ai workflow CI, allineandoli con i patchset definiti nel piano di migrazione.
 
+## Inventario workflow/script (modalità report-only – 2026-02-07)
+
+| Voce                 | Percorso                                                      | Stato       | Note                                                                                                                                                                        |
+| -------------------- | ------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CI orchestrazione    | `.github/workflows/ci.yml`                                    | report-only | Include `scripts/cli_smoke.sh`, `scripts/build_trait_index.js`, `tools/py/validate_datasets.py`; mantenere consultivo finché 01C non approvato.                             |
+| Audit dati core/pack | `.github/workflows/data-quality.yml`                          | report-only | Usa `scripts/trait_audit.py --check`, `scripts/build_trait_index.js`, `tools/py/report_trait_coverage.py`, `tools/audit/data_health.py`; nessun gating su core/pack attivo. |
+| Validazione trait    | `.github/workflows/validate_traits.yml`                       | report-only | `tools/py/trait_template_validator.py --summary`, `scripts/build_trait_index.js`, `scripts/trait_style_check.js`; esecuzione solo informativa.                              |
+| Schema checker       | `.github/workflows/schema-validate.yml`                       | report-only | `tools/ajv-wrapper.sh`, `tools/py/yaml_lint.py` su `schemas/**` e `config/schemas/*.json`; nessuna modifica a schema.                                                       |
+| Naming registri      | `.github/workflows/validate-naming.yml`                       | report-only | `tools/py/validate_registry_naming.py` contro glossario core; mantenere in sola lettura.                                                                                    |
+| Smoke CLI/core-pack  | `scripts/cli_smoke.sh`                                        | report-only | Da usare con `--core-root data/core --pack-root dist/packs/evo_tactics_pack` in dry-run; loggare esiti, senza pubblicare artefatti.                                         |
+| Validator dataset    | `tools/py/validate_datasets.py`                               | report-only | Esecuzione con `--schemas-only` o `--pack` in staging; vietato committare output/artefatti.                                                                                 |
+| Trait audit/coverage | `scripts/trait_audit.py`, `tools/py/report_trait_coverage.py` | report-only | Solo consultivo su core/pack; includere nei log 01C senza cambiare dataset.                                                                                                 |
+| Trait style check    | `scripts/trait_style_check.js`                                | report-only | Lint su `data/traits/**` o core/pack mirror; output locale non commit.                                                                                                      |
+
 ---
 
 ## Mappatura workflow CI (`.github/workflows/**`)
