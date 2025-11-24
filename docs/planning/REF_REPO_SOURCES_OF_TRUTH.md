@@ -49,6 +49,19 @@ Stato: PATCHSET-00 PROPOSTA – censimento sorgenti di verità
 
 ---
 
+## Percorsi canonici e criteri di verità
+
+| Dominio                   | Core canonico                                                                                                                 | Derived/pack ammessi                                                                                                                           | Criterio di verità (core vs derived)                                                                                                                                                 |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Trait                     | `data/core/traits/glossary.json` (anagrafica), `data/core/traits/biome_pools.json` (pool ambientali)                          | Cataloghi pack (`packs/evo_tactics_pack/docs/catalog/*.json`), report QA (`data/derived/analysis/trait_*`), descrittivi `traits/**`            | Core = unica sorgente id/slug e pool validati via ALIENA/UCUM; derived devono essere rigenerati dai core e riportare versione/timestamp; documentazione è derivata e non fa testo.   |
+| Specie                    | `data/core/species.yaml`, `data/core/species/aliases.json`                                                                    | Dataset pack (`packs/evo_tactics_pack/data/species.yaml`), snapshot/mock (`data/derived/mock/**/species.yaml`)                                 | Core = unica lista specie e alias; derived ammessi solo se generati da core (o arricchiti) e marcati con checksum sorgente; alias pack devono riflettere `aliases.json`.             |
+| Biomi/Ecosistemi/Foodweb  | `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `data/ecosystems/*.ecosystem.yaml`, `biomes/terraforming_bands.yaml` | Pack ecosistemi/foodweb (`packs/evo_tactics_pack/data/ecosystems/*.yaml`, `data/foodwebs/*.yaml`), report analisi (`data/derived/analysis/**`) | Core = biomi e bande di terraformazione validati ALIENA; ecosistemi pack devono essere sincronizzati con core (specie/biomi) e annotare script/versione usata; report solo derivati. |
+| Telemetria/funzioni gioco | `data/core/telemetry.yaml`, `data/core/game_functions.yaml`, `data/core/mating.yaml`, missioni (`data/core/missions/*.yaml`)  | Mock/snapshot (`data/derived/mock/**`), report progression (`data/derived/analysis/progression/*.json` / `*.csv`)                              | Core = parametri e missioni ufficiali; derived usabili per QA solo se rigenerati da core con log comando; mock sono derivati e non modificano la verità dei core.                    |
+
+**Regola generale**: il core è verità unica (ALIENA/UCUM + validator repo). Tutto ciò che vive fuori da `data/core/**` è derivato o documentazione; va rigenerato dai core e accompagnato da timestamp/versione git e log del comando usato. Nessuna modifica manuale ai derived senza backport nei core.
+
+---
+
 ## Changelog
 
 - 2025-12-17: versione 0.3 – design completato, perimetro documentazione consolidato, numerazione 01A–03B bloccata e richiamo alle fasi GOLDEN_PATH; prerequisiti di governance esplicitati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
