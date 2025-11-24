@@ -3,7 +3,7 @@
 Versione: 0.3
 Data: 2025-12-17
 Owner: agente **dev-tooling** (supporto: archivist, coordinator)
-Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto
+Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio)
 
 ---
 
@@ -53,13 +53,13 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto
 
 ## Mappatura workflow CI (`.github/workflows/**`)
 
-- **ci.yml** → orchestration principale con `paths-filter` per job ts/cli/python/data/deploy/styleguide/stack/site_audit; tocca `scripts/cli_smoke.sh`, `scripts/build_trait_index.js`, `tools/py/validate_datasets.py`.
-- **data-quality.yml** → audit dati core/pack: `tools/py/validate_datasets.py`, `scripts/trait_audit.py --check`, `scripts/build_trait_index.js`, `tools/py/report_trait_coverage.py`, `tools/audit/data_health.py` (usa `data/core/**`, `packs/evo_tactics_pack/**`).
-- **validate_traits.yml** → validazione trait catalog (`tools/py/trait_template_validator.py --summary`, `scripts/build_trait_index.js`, trait coverage, `scripts/trait_style_check.js`, `tools/py/trait_health.py` se abilitato).
-- **schema-validate.yml** → verifica formale degli schemi JSON/YAML in `schemas/*.json`, `schemas/core/**`, `schemas/evo/**`, `schemas/quality/**`, `config/schemas/*.json`, `schemas/card_schema.yaml`, `schemas/roll_table_schema.yaml` via `jsonschema` / `ajv-wrapper.sh`.
-- **validate-naming.yml** → controllo naming registri (`tools/py/validate_registry_naming.py` + registri pack `packs/evo_tactics_pack/tools/config/registries/**`).
-- Workflow di servizio (`data-quality.yml`, `traits-monthly-maintenance.yml`, `traits-sync.yml`, `qa-*.yml`, `incoming-smoke.yml`, `evo-*.yml`, `daily-*.yml`, `qa-*.yml`, `hud.yml`, `lighthouse.yml`, `gh-pages.yml`, `telemetry-export.yml`, `search-index.yml`, `idea-intake-index.yml`, `qa-reports.yml`, `qa-kpi-monitor.yml`, `qa-export.yml`, `update-evo-tracker.yml`, `evo-rollout-status.yml`): refresh tracker, sync trait, export KPI/report, rollout status, idea intake, search index, HUD/lighthouse, deploy test interface, telemetry export, pubblicazione siti. Da riallineare dove consumano dataset derived o pack (`data/derived/**`, `packs/evo_tactics_pack/docs/catalog/**`).
-- Workflow chatGPT/e2e/deploy (`chatgpt_sync.yml`, `e2e.yml`, `deploy-test-interface.yml`, `incoming-smoke.yml`, `hud.yml`, `lighthouse.yml`): verificare dipendenze su snapshot/pack e smoke contro `data/core/**`.
+- **ci.yml** → orchestrazione principale con `paths-filter` per job ts/cli/python/data/deploy/styleguide/stack/site_audit; tocca `scripts/cli_smoke.sh`, `scripts/build_trait_index.js`, `tools/py/validate_datasets.py` e verifica che i job dati puntino a `data/core/**` prima di generare derived.
+- **data-quality.yml** → audit dati core/pack: `tools/py/validate_datasets.py`, `scripts/trait_audit.py --check`, `scripts/build_trait_index.js`, `tools/py/report_trait_coverage.py`, `tools/audit/data_health.py` (usa `data/core/**`, `packs/evo_tactics_pack/**`); deve rimanere in sola lettura sui core durante PATCHSET-00.
+- **validate_traits.yml** → validazione trait catalog (`tools/py/trait_template_validator.py --summary`, `scripts/build_trait_index.js`, trait coverage, `scripts/trait_style_check.js`, `tools/py/trait_health.py` se abilitato) con ingressi da `data/core/traits/**` e overlay pack.
+- **schema-validate.yml** → verifica formale degli schemi JSON/YAML in `schemas/*.json`, `schemas/core/**`, `schemas/evo/**`, `schemas/quality/**`, `config/schemas/*.json`, `schemas/card_schema.yaml`, `schemas/roll_table_schema.yaml` via `jsonschema` / `ajv-wrapper.sh`; include lint YAML per i draft 2020.
+- **validate-naming.yml** → controllo naming registri (`tools/py/validate_registry_naming.py` + registri pack `packs/evo_tactics_pack/tools/config/registries/**`) con glossary core come fonte.
+- Workflow di servizio (`traits-monthly-maintenance.yml`, `traits-sync.yml`, `qa-*.yml`, `incoming-smoke.yml`, `evo-*.yml`, `daily-*.yml`, `hud.yml`, `lighthouse.yml`, `gh-pages.yml`, `telemetry-export.yml`, `search-index.yml`, `idea-intake-index.yml`, `qa-reports.yml`, `qa-kpi-monitor.yml`, `qa-export.yml`, `update-evo-tracker.yml`, `evo-rollout-status.yml`): refresh tracker, sync trait, export KPI/report, rollout status, idea intake, search index, HUD/lighthouse, deploy test interface, telemetry export, pubblicazione siti. Segnalare eventuali consumi di snapshot (`data/derived/**`) o pack statici `packs/evo_tactics_pack/docs/catalog/**` da rimuovere nei patchset successivi.
+- Workflow chatGPT/e2e/deploy (`chatgpt_sync.yml`, `e2e.yml`, `deploy-test-interface.yml`, `incoming-smoke.yml`, `hud.yml`, `lighthouse.yml`): verificare dipendenze su snapshot/pack e smoke contro `data/core/**`; nessun cambio workflow in PATCHSET-00.
 
 ## Validator e schema checker (percorsi e comandi)
 
@@ -70,7 +70,7 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto
 - `tools/py/report_trait_coverage.py --strict --glossary data/core/traits/glossary.json --pack-root packs/evo_tactics_pack`: coverage trait vs env/species (usa pack cataloghi rigenerati).
 - `tools/py/validate_registry_naming.py`: incrocia registri pack (`packs/evo_tactics_pack/tools/config/registries/*.yaml`) con glossario core/pack.
 - `tools/audit/data_health.py`, `tools/traits/check_biome_feature.py`, `tools/traits.py`: validazioni su `data/core/**` (biomi, species, glossary) e mirror pack.
-- Schemi: `schemas/core/**`, `schemas/evo/**`, `schemas/quality/**`, `config/schemas/*.json`, `schemas/card_schema.yaml`, `schemas/roll_table_schema.yaml` (validazione Draft2020 + lint YAML via `schema-validate.yml` o `tools/py/yaml_lint.py`).
+- Schemi: `schemas/core/**`, `schemas/evo/**`, `schemas/quality/**`, `config/schemas/*.json`, `schemas/card_schema.yaml`, `schemas/roll_table_schema.yaml` (validazione Draft2020 + lint YAML via `schema-validate.yml` o `tools/py/yaml_lint.py`). Ogni schema tocca core/pack indirettamente tramite template trait/species/biome.
 
 ## Test e fixture che toccano core/pack
 
@@ -86,6 +86,24 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto
 - Estendere `schema-validate.yml` per includere `config/schemas/*.json` e `schemas/**` (core/evo/quality) garantendo Draft2020 e lint YAML (es. `ajv-wrapper.sh` o `pyyaml` check) sugli schemi `.yaml`.
 - Allineare test pack (`tests/scripts/test_seed_evo_generator.py`, validators runtime) a leggere i core come fonte, rigenerando cataloghi pack via pipeline invece di usare fixture statiche in `packs/evo_tactics_pack/docs/catalog/**`.
 - Agganciare workflow di sync/maintenance (traits-monthly-maintenance.yml, traits-sync.yml, qa-export.yml, qa-kpi-monitor.yml) al prodotto dei core rigenerati, evitando che consumino snapshot manuali.
+
+## Checklist operativa 02A (solo verifica, senza modifiche ai workflow)
+
+- **Schema checker** (solo consultivo):
+  - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack`
+  - `bash tools/ajv-wrapper.sh schemas/**/*.json`
+  - `python tools/py/yaml_lint.py schemas schemas/core schemas/evo schemas/quality config/schemas`
+- **Lint dati core**:
+  - `python scripts/trait_audit.py --check --core-root data/core`
+  - `python scripts/trait_audit.py --check --core-root data/core --pack-root packs/evo_tactics_pack/data`
+  - `node scripts/trait_style_check.js --output-json /tmp/trait_style.json --fail-on error`
+- **Rigenerazione pack simulata** (senza commit artifact):
+  - `node scripts/build_evo_tactics_pack_dist.mjs --source data/core --out /tmp/dist/packs/evo_tactics_pack`
+  - `node scripts/update_evo_pack_catalog.js --pack /tmp/dist/packs/evo_tactics_pack`
+  - `python tools/py/validate_datasets.py --pack /tmp/dist/packs/evo_tactics_pack`
+  - `python tools/py/validate_registry_naming.py --registries packs/evo_tactics_pack/tools/config/registries --glossary data/core/traits/glossary.json`
+  - `bash scripts/cli_smoke.sh --core-root data/core --pack-root /tmp/dist/packs/evo_tactics_pack`
+  - Archiviare solo report temporanei, senza aggiornare workflow o commit artefatti.
 
 ## Checklist automatica PATCHSET-01 (gate incrociati core ↔ pack)
 

@@ -22,7 +22,7 @@
   includere glossario e checklist sincronizzata.
 - Note di rilascio aggiornate con canali di comunicazione e monitoraggio post-rollout, includendo reminder per `docs/publishing_calendar.md`.
 - Guida Evo Tactics Pack v2: verificati campi obbligatori con la scheda operativa, ribadita opzionalità di `metrics`/`cost_profile`/`testability`, esempi sinergie/conflitti aggiornati con `id` repository e promemoria mapping.
-- Reference tooling/CI (`docs/planning/REF_TOOLING_AND_CI.md`) aggiornata alla v0.2 con mappatura workflow/validatori e checklist di gating core ↔ pack.
+- Reference tooling/CI (`docs/planning/REF_TOOLING_AND_CI.md`) aggiornata (owner Laura B., riferimento 03A) con mappa workflow/validatori core ↔ pack e checklist 02A (schema-checker, lint dati, rigenerazione pack simulata) senza modifiche ai workflow.
 
 ### Fixed
 
