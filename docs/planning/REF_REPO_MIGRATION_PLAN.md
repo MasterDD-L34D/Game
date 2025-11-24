@@ -1,6 +1,6 @@
 # REF_REPO_MIGRATION_PLAN – PATCHSET-00
 
-Versione: 0.5 (gestione conflitti PR + sequenza 01A–03B)
+Versione: 0.6 (allineamento post-conflitto; sequenza 01A–03B confermata)
 Data: 2025-11-23
 Owner: Laura B. (supporto: coordinator, dev-tooling)
 Stato: DRAFT – sequenza 01A–03B in attesa di approvazione
@@ -43,6 +43,8 @@ Stato: DRAFT – sequenza 01A–03B in attesa di approvazione
 
 ## Changelog
 
+- v0.6 – Allineamento con lo stato corrente del repository dopo la risoluzione dei conflitti; confermati gate pre-01A–03B (branch dedicati,
+  log obbligatorio, verifica `main` prima di esecuzione).
 - v0.5 – Inserita sezione di gestione conflitti PR con riallineamento a `main`, logging e gate aggiuntivi per dati/tooling.
 - v0.4 – Trigger e checklist ingresso/uscita esplicitati; ribaditi branch/gate/log e stato PROPOSTA v0.4.
 - v0.3 – Sequenza 01A–03B formalizzata con dipendenze/trigger, criteri di successo e rollback; governance ribadita.

@@ -1,6 +1,6 @@
 # REF_REPO_PATCH_PROPOSTA – Applicazione iniziale dello scope
 
-Versione: 0.5 (governance anti-conflict aggiunta, 01A–03B pronti a partire)
+Versione: 0.6 (allineamento post-conflitto con stato repo corrente, 01A–03B pronti a partire)
 Data: 2025-11-23
 Owner: Laura B. (coordination con coordinator/dev-tooling)
 Stato: PROPOSTA – PATCHSET-00 pronta per approvazione ed esecuzione guidata 01A–03B
@@ -59,6 +59,8 @@ Tradurre `REF_REPO_SCOPE` in un primo patchset operativo (PATCHSET-00) che prepa
 
 ## Changelog
 
+- v0.6 – Confermato allineamento con lo stato attuale del repository dopo la risoluzione dei conflitti; nessun cambio di scope, solo
+  ribadita la necessità di branch dedicati e log in `logs/agent_activity.md` prima di avviare 01A–03B.
 - v0.5 – Aggiunta sezione di gestione conflitti PR con riallineamento a `main`, log obbligatorio e gate extra per dati/tooling.
 - v0.4 – Stato PROPOSTA confermato per avvio 01A–03B; governance e logging ribaditi; inventario 01A pronto (link ai README e catalogo aggiornato).
 - v0.3 – Allineamento al report 0.2: PATCHSET-00 design completato, governance esplicitata (branch dedicati, logging, owner Laura B.), stato PROPOSTA in attesa di approvazione 01A–03B.

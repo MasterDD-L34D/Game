@@ -1,6 +1,6 @@
 # Incoming – Stato e triage (PATCHSET-00)
 
-Versione: 0.5 (riallineato al repo aggiornato post-conflitto)
+Versione: 0.6 (riallineato al repo aggiornato post-conflitto; verifica contro main prima di 01A)
 Owner: Laura B. | Logging: aggiornare `logs/agent_activity.md` per ogni avanzamento
 Stato: PROPOSTA – in attesa approvazione 01A (nessuno spostamento file)
 
