@@ -1,7 +1,7 @@
 # REF_PACKS_AND_DERIVED – Pack, snapshot e fixture
 
-Versione: 0.3
-Data: 2025-11-24
+Versione: 0.5
+Data: 2025-12-30
 Owner: agente **archivist** (supporto: dev-tooling, coordinator)
 Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 
@@ -56,6 +56,7 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 
 ## Changelog
 
+- 2025-12-30: versione 0.5 – intestazione aggiornata al report v0.5, confermata la separazione core/derived e la numerazione 01A–03B senza modifiche al perimetro.
 - 2025-12-17: versione 0.3 – design completato per PATCHSET-00, perimetro documentazione confermato, numerazione 01A–03B bloccata con richiamo fasi GOLDEN_PATH e prerequisiti di governance (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-23: versione 0.1 – struttura iniziale separazione core vs derived (archivist).
 - 2025-11-23: versione 0.2 – prime tabelle di inventario e regola base di rigenerazione (archivist).
