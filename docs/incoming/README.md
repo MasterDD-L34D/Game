@@ -1,37 +1,22 @@
-# Incoming
+# Docs Incoming – Stato e triage (PATCHSET-00)
 
-Questa cartella raccoglie i materiali grezzi (appunti, PDF, zip, ecc.) che devono essere analizzati prima di essere integrati nel progetto.
+Owner: Laura B. | Logging: aggiornare `logs/agent_activity.md` per ogni avanzamento
+Stato: PROPOSTA – in attesa approvazione 01A
 
-## Generare i report
+Schema di tracciamento per `docs/incoming/**` coerente con `incoming/README.md`.
+Stati: **INTEGRATO**, **DA_INTEGRARE**, **STORICO**.
 
-1. Posiziona in questa cartella i file o le directory che vuoi esaminare.
-2. Dal root del repository esegui lo script dedicato:
-   ```bash
-   ./scripts/report_incoming.sh
-   ```
-   Puoi passare argomenti aggiuntivi (ad esempio `--destination sessione-2024-05-19`) che verranno inoltrati al comando Python sottostante.
+| Fonte / descrizione       | Percorso                                          | Stato        | Note / next-step                                                    |
+| ------------------------- | ------------------------------------------------- | ------------ | ------------------------------------------------------------------- |
+| Feature map               | `docs/incoming/FEATURE_MAP_EVO_TACTICS.md`        | DA_INTEGRARE | Allineare con roadmap/README principali; decidere merge/archivio.   |
+| Compatibilità engine/game | `docs/incoming/GAME_COMPAT_README.md`             | DA_INTEGRARE | Verificare riferimenti aggiornati; consolidare in doc ufficiali.    |
+| Integrazione meccaniche   | `docs/incoming/README_INTEGRAZIONE_MECCANICHE.md` | DA_INTEGRARE | Collegare a Golden Path; evitare duplicati con scope/core.          |
+| Cartella decompressed     | `docs/incoming/decompressed/`                     | DA_INTEGRARE | Contenuto misto; richiede catalogo mirato.                          |
+| Sezione Ennagramma        | `docs/incoming/Ennagramma/`                       | DA_INTEGRARE | Valutare rilevanza per trait/biome; decidere integrazione/archivio. |
+| Cartella da classificare  | `docs/incoming/lavoro_da_classificare/`           | DA_INTEGRARE | Review manuale, assegnare stato.                                    |
+| Archivio storico          | `docs/incoming/archive/`                          | STORICO      | Isolare; nessun movimento in PATCHSET-00.                           |
 
-Lo script produce sia il report JSON sia quello HTML invocando `tools/py/game_cli.py`. I file vengono salvati nella directory `reports/incoming/<destinazione>/` con i nomi `report.json` e `report.html`. Se non specifichi una destinazione, viene usata automaticamente la sottocartella `reports/incoming/latest/`.
+Note operative:
 
-Se nella cartella sono presenti archivi `.zip`, lo script li estrae in una directory temporanea, esegue automaticamente i comandi
-
-```bash
-python tools/py/game_cli.py validate-datasets
-python tools/py/game_cli.py validate-ecosystem-pack
-```
-
-(il secondo solo quando il pack ecosistema è disponibile) e salva i log corrispondenti in `reports/incoming/validation/` assieme a un file `summary.txt` con gli esiti. Al termine, l'area temporanea viene ripulita automaticamente.
-
-Per evitare la creazione di file e ottenere solo l'output JSON su `stdout`, puoi lanciare:
-
-```bash
-./scripts/report_incoming.sh --destination -
-```
-
-Puoi anche eseguire direttamente il comando principale per le indagini:
-
-```bash
-python tools/py/game_cli.py investigate incoming --recursive --json --html --destination latest --max-preview 400
-```
-
-Il flag `--destination` accetta anche `-` per disabilitare la generazione di file sul disco, mentre `--max-preview` controlla la lunghezza delle anteprime testuali nel report.
+- Non spostare/archiviare in PATCHSET-00; solo etichettatura e note.
+- Allineare le note con `docs/planning/REF_INCOMING_CATALOG.md` e i log di fase (es. “01A approvata”).
