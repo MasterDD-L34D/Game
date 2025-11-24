@@ -2,7 +2,7 @@
 
 Versione: 0.5
 Data: 2025-12-30
-Owner: agente **coordinator** (supporto: archivist, dev-tooling)
+Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
 Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 
 ---
@@ -27,22 +27,30 @@ Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 **PATCHSET-01A – Catalogo incoming**
 
 - **Owner:** archivist (supporto: asset-prep per reperimento asset e metadati).
-- **Prerequisiti:** approvazione PATCHSET-00; accesso all’elenco completo incoming (`REF_INCOMING_CATALOG`); calendario di freezing per evitare ingressi durante il censimento.
+- **Prerequisiti:** approvazione PATCHSET-00; accesso all’elenco completo incoming (`REF_INCOMING_CATALOG`); finestra di freezing approvata da Master DD per evitare ingressi durante il censimento.
 - **Criteri di successo (Fase 1):**
   - Tabella incoming consolidata con stato (usato/duplicato/da archiviare) e link alla fonte, firmata da coordinator.
   - Gap list per elementi senza mapping verso core/derived con owner proposti per la presa in carico.
+- **Prossimo step operativo:** usare routing automatico: coordinator → esegue freeze già approvato con Master DD e chiude gap list con ticket/owner; archivist → aggiorna tabelle/README durante il freeze; dev-tooling/asset-prep → supportano checksum/metadati. Loggare in `logs/agent_activity.md` ogni batch approvato (freeze + gap list) prima di sbloccare 01B/01C.
 - **Rollback:** ripristino tabella incoming precedente + annullamento link se il catalogo introduce ambiguità; riattivazione di eventuali ingressi congelati.
 - **Note rischio (Fase 1):** rischio conflitti di nomenclatura e drifting durante il censimento → usare alias temporanei documentati e snapshot quotidiani.
 
 **PATCHSET-01B – Core vs Derived**
 
 - **Owner:** species-curator (supporto: trait-curator per mapping dei trait e archivist per fonti storiche).
-- **Prerequisiti:** completamento 01A; `REF_REPO_SOURCES_OF_TRUTH` validato; definizione soglie P0/P1/P2 concordate con balancer.
-- **Criteri di successo (Fase 2):**
-  - Matrice core/derived aggiornata con dipendenze, priorità P0/P1/P2 e nota su fixture critiche.
-  - Lista fixture che devono restare “core” e quelle promuovibili a “derived”, con rationale sintetico.
-- **Rollback:** reintegro matrice precedente; revert dei tag core/derived nei file di riferimento e rimozione di flag temporanei.
-- **Note rischio (Fase 2):** incoerenze tra pack legacy e definizioni core → prevedere flag temporanei per i casi borderline e richiesta di arbitration al coordinator.
+  - **Prerequisiti:** completamento 01A; `REF_REPO_SOURCES_OF_TRUTH` validato; definizione soglie P0/P1/P2 concordate con balancer.
+  - **Criteri di successo (Fase 2):**
+    - Matrice core/derived aggiornata con dipendenze, priorità P0/P1/P2 e nota su fixture critiche.
+    - Lista fixture che devono restare “core” e quelle promuovibili a “derived”, con rationale sintetico.
+- **Prossimo step operativo:** avvio 01B in STRICT MODE con species-curator: raccogliere la gap list 01A approvata da Master DD, definire la matrice core/derived preliminare (senza applicare patch) e loggare in `logs/agent_activity.md` l’avvio con ticket collegati; ogni voce borderline deve riportare owner e nota su fixture critiche prima di passare alla validazione finale.
+  - **Checklist operativa 01B (STRICT MODE):**
+    1. **Kickoff**: species-curator riceve la gap list 01A approvata (con ticket/owner) e conferma il perimetro di lavoro in `logs/agent_activity.md` (citando i ticket). Owner umano: Master DD.
+    2. **Raccolta input**: collegare `REF_REPO_SOURCES_OF_TRUTH` e materiale incoming stabile, marcando in tabella le fonti che richiedono triage condiviso con trait-curator/balancer.
+    3. **Matrice preliminare**: compilare una matrice core/derived **senza patch** con tre colonne minime: `asset`, `proposta core/derived`, `rationale + rischio/fixture`. Segnalare i casi borderline con flag temporaneo e owner di dominio.
+    4. **Gate di uscita 01B (Fase 2)**: loggare in `logs/agent_activity.md` la matrice preliminare pubblicata (link al commit/branch) e il via libera Master DD per procedere a validazione finale/01C. Nessuna modifica ai pack in questa fase.
+  - **Routing agenti 01B:** species-curator (lead) per la matrice; trait-curator per i trait condivisi/derivati; balancer per priorità P0/P1/P2 e fixture critiche; archivist per cross-check con catalogo 01A; coordinator per governance/gate.
+  - **Rollback:** reintegro matrice precedente; revert dei tag core/derived nei file di riferimento e rimozione di flag temporanei.
+  - **Note rischio (Fase 2):** incoerenze tra pack legacy e definizioni core → prevedere flag temporanei per i casi borderline e richiesta di arbitration al coordinator.
 
 **PATCHSET-01C – Catalogo tooling/CI (baseline)**
 
@@ -114,7 +122,7 @@ Compatibilità GOLDEN_PATH: la sequenza mantiene allineamento con le Fasi 1–4 
 
 ## Prerequisiti generali prima di procedere
 
-- Conferma owner umano per i patchset 02A+ (tooling) e 03A+ (patch applicative) e per l’attivazione di ogni passaggio di fase.
+- Conferma owner umano per i patchset 02A+ (tooling) e 03A+ (patch applicative) e per l’attivazione di ogni passaggio di fase; Master DD approva e registra gli sblocchi 01A–01C.
 - Branch dedicati per ogni patchset, gate di review incrociato tra agenti (coordinator + owner di fase) e piano di freeze per ridurre conflitti.
 - Log centralizzato in `logs/agent_activity.md` per tracking di rischi, rollback e approvazioni, aggiornato a ogni trigger di fase.
 
