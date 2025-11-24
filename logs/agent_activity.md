@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2026-02-12 – RIAPERTURA-2026-02 (checkpoint 03A/03B dopo baseline 02A)
+- Owner: Master DD (approvatore umano) con agente archivist; routing 03A/03B in STRICT MODE.
+- File da aggiornare: `incoming/README.md`, `docs/incoming/README.md`, eventuali note in `docs/planning/REF_PLANNING_RIPRESA_2026.md` (stato gate e ticket/patchset collegati). Nessuna modifica ad altri pacchetti/dataset.
+- Rischi: freeze soft su `incoming/**` e `docs/incoming/**` ancora in attesa di conferma; possibile desincronizzazione catalogo/README se nuove fonti arrivano senza ticket; 02A resta in modalità report-only → non abilitare rollout CI senza nuovo via libera Master DD.
+
+
 ## 2026-02-11 – Piano freeze fase 3→4 (03A/03B)
 - Owner: Master DD (approvatore umano) con agente coordinator; supporto species/trait/balancer per 03A e archivist/asset-prep per 03B.
 - Branch creati: `patch/03A-core-derived`, `patch/03B-incoming-cleanup` (dedicati a rollout 03A/03B, niente merge su `main`).

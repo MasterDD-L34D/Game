@@ -23,6 +23,7 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 - **Log:** verificare ultima voce in `logs/agent_activity.md`; aprire nuova entry con ID “RIAPERTURA-2026-01” prima di modificare tabelle.
 - **Allineamento reference:** ristudiare `REF_REPO_SCOPE` e `REF_REPO_MIGRATION_PLAN` per validare che i gate 01A/01B/01C non richiedano aggiornamenti preliminari.
 - **Stato ticketing:** verificare ticket aperti per 01A–03B e chiudere/aggiornare quelli già superati prima di pianificare nuovi step.
+- **Aggiornamento 2026-02-12:** aperto checkpoint **RIAPERTURA-2026-02** (patchset 03A/03B) dopo esito baseline 02A in modalità report-only; freeze soft su `incoming/**` e `docs/incoming/**` ancora da confermare con Master DD, README incoming/docs allineati e tracciati nel log.
 
 ## Checklist di riapertura (48h)
 

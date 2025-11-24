@@ -23,3 +23,4 @@ Note:
 - Tenere la tabella sincronizzata con `incoming/README.md` e il catalogo di pianificazione.
 - 2026-02-07: gap list 01A aggiornata con ticket proposti **[TKT-01A-*]** sulle voci aperte (placeholder da aprire e loggare con approvazione Master DD); `incoming/_holding` non presente (nessun batch attivo) e ogni nuovo drop va loggato prima di eventuale ingestione.
 - Handoff 01A → 01B: gap list e ticket sono specchiati in `incoming/README.md` e `docs/planning/REF_INCOMING_CATALOG.md`; species-curator è on-call per 01B con supporto trait-curator/balancer per i casi borderline core/derived.
+- 2026-02-12: checkpoint **RIAPERTURA-2026-02** per patchset 03A/03B registrato in `logs/agent_activity.md` dopo gate 02A (report-only); freeze soft ancora da confermare con Master DD e nessuna riapertura automatica dei validator CI.
