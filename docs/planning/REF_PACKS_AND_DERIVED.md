@@ -38,6 +38,14 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 - **PATCHSET-01A – Catalogo incoming**: fornisce l'inventario dei sorgenti core da usare come input per rigenerare pack e fixture.
 - **PATCHSET-02A – Tooling di validazione**: abilita la modalità report/gate dei validator (pack e core) da eseguire prima e dopo la derivazione.
 
+## Mappa sintetica core → derived/pack (gap noti)
+
+| Ambito                      | Input core canonico                                                                                                        | Output/derivati mirati                                                                                                                                | Script/tool dichiarati                                                                                                                                         | Gap da chiudere                                                                                 |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `data/core/**`              | Specie (`data/core/species.yaml`), biomi (`data/core/biomes.yaml`), trait (`data/core/traits/*.json`), missioni/telemetria | Pack dataset (`packs/evo_tactics_pack/data/**`), cataloghi pack (`packs/evo_tactics_pack/docs/catalog/*.json`), fixture/mock (`data/derived/mock/**`) | `scripts/update_evo_pack_catalog.js`, `scripts/sync_evo_pack_assets.js`, `packs/evo_tactics_pack/tools/py/derive_*`, `scripts/build_evo_tactics_pack_dist.mjs` | Manca sync automatica core→pack; fixture `data/derived/test-fixtures/minimal` senza generatore. |
+| `data/derived/**`           | Core + parametri QA                                                                                                        | Report analitici (`data/derived/analysis/**`), snapshot (`data/derived/mock/**`), export (`data/derived/exports/**`)                                  | `rsync` per `mock/prod_snapshot`; nessun tool consolidato per `analysis/**`                                                                                    | Script assenti per coverage/progression; export QA non tracciati da workflow.                   |
+| `packs/evo_tactics_pack/**` | Core + configurazioni pack                                                                                                 | Dataset pack, cataloghi, validator output (`out/validation/*`)                                                                                        | `packs/evo_tactics_pack/tools/py/run_all_validators.py`, tool Python `derive_*`, build/preview script `.mjs`                                                   | Pipeline ufficiale non orchestraita; validator non legati a gating CI (dip. 02A).               |
+
 ## Prerequisiti di governance
 
 - Owner umano assegnato per il mantenimento di PATCHSET-00 e responsabile dell’allineamento pack/core.
@@ -108,7 +116,7 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 
 1. **Input canonici**: `data/core/**` (specie, traits, biomi, telemetry, missions) + configurazioni `tools/config`/`packs/evo_tactics_pack/tools/config` quando applicabile (dipendenza PATCHSET-01A per catalogo completo).
 2. **Pre-check**: validare gli input core con validator/schema esistenti (`scripts/validate.sh`, `scripts/validate-dataset.cjs`, validator Python del pack in modalità report-only – PATCHSET-02A) e bloccare rigenerazione in caso di errori.
-3. **Pipeline di derivazione** (step + copertura tooling attuale):
+3. **Pipeline di derivazione** (input core → output pack/fixture), con script/tool esistenti:
    - a) **Allineare dataset pack** da core → `packs/evo_tactics_pack/data/**`: _gap_ (manca script di sync core→pack; oggi manuale).
    - b) **Derivare trait/env cross-biome** → `packs/evo_tactics_pack/tools/py/derive_env_traits_v1_0.py`, `derive_crossbiome_traits_v1_0.py`: script esistenti ma non orchestrati in pipeline.
    - c) **Arricchire catalogo pack** → `scripts/update_evo_pack_catalog.js` (usa dati pack + meta ecosistemi) e `scripts/sync_evo_pack_assets.js` (asset correlati).
