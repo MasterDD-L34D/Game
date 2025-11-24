@@ -1,6 +1,6 @@
 # REF_INCOMING_CATALOG – PATCHSET-00
 
-Versione: 0.4 (censimento mirato 01A-ready)
+Versione: 0.5 (riallineato al repo aggiornato, 01A ready post-conflitto)
 Data: 2025-11-23
 Owner: Laura B. (supporto: coordinator)
 Stato: DRAFT – inventario mirato pronto per approvazione 01A
@@ -41,6 +41,7 @@ Catalogare le fonti in `incoming/**` e `docs/incoming/**`, assegnando stato (INT
 
 ## Changelog
 
+- v0.5 – Riallineamento con il repo aggiornato post-conflitto: confermati asset reali, governance (branch/log) e ready-state 01A.
 - v0.4 – Inventario mirato con riferimenti a file concreti di `incoming/` e `docs/incoming/` per attivare 01A; confermati owner e governance (branch dedicati, logging).
 - v0.3 – Inventario preliminare aggiunto, owner Laura B., governance (branch dedicati, logging) richiamata; stato 01A in attesa di approvazione.
 - v0.2 – Report 0.2 recepito (design completato, perimetro documentazione).

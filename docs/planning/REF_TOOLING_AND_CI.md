@@ -1,6 +1,6 @@
 # REF_TOOLING_AND_CI – PATCHSET-00
 
-Versione: 0.4 (checklist 02A/03A pronta)
+Versione: 0.5 (riallineato al repo aggiornato; checklist 02A/03A confermata post-conflitto)
 Data: 2025-11-23
 Owner: Laura B. (supporto: dev-tooling)
 Stato: DRAFT – ready per checklist 02A/03A
@@ -33,6 +33,7 @@ Mappare workflow CI, validatori e script che toccano core/pack, definendo la che
 
 ## Changelog
 
+- v0.5 – Riallineamento post-conflitto con repo aggiornato; checklist 02A/03A confermata e governance (branch/log) ribadita.
 - v0.4 – Checklist arricchita con branch/gate, riferimenti a script noti e logging per 02A/03A.
 - v0.3 – Stato CI/tooling esplicitato, checklist proposta per 02A/03A, governance ribadita.
 - v0.2 – Design completato, in attesa approvazione PATCHSET-00.

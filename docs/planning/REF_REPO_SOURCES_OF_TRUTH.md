@@ -1,6 +1,6 @@
 # REF_REPO_SOURCES_OF_TRUTH – PATCHSET-00
 
-Versione: 0.4 (allineamento 01B-ready)
+Versione: 0.5 (riallineato al repo aggiornato; percorsi canonici confermati post-conflitto)
 Data: 2025-11-23
 Owner: Laura B. (supporto: trait-curator, species-curator, biome-ecosystem-curator)
 Stato: DRAFT – in attesa di approvazione 01B/02B
@@ -33,6 +33,7 @@ Definire le sorgenti di verità per trait, specie, biomi/ecosistemi e schemi cor
 
 ## Changelog
 
+- v0.5 – Riallineamento con repo aggiornato e conflitti risolti; percorsi canonici confermati per readiness 01B/02B.
 - v0.4 – Azioni preparatorie per 01B/02B esplicitate con logging e collegamento al catalogo incoming; governance ereditata (branch dedicati, owner umano).
 - v0.3 – Percorsi canonici esplicitati, criteri di verità e rischi collegati alle fasi 01B/02B; governance (branch/log) ereditata da 0.2.
 - v0.2 – Stato design completato, in attesa approvazione PATCHSET-00.

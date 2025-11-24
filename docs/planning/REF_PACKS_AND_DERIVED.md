@@ -1,6 +1,6 @@
 # REF_PACKS_AND_DERIVED – PATCHSET-00
 
-Versione: 0.4 (allineamento 01B/02B)
+Versione: 0.5 (riallineato al repo aggiornato, pronto per 01B/02B post-conflitto)
 Data: 2025-11-23
 Owner: Laura B. (supporto: coordinator, dev-tooling)
 Stato: DRAFT – pronto per estensioni 01B/02B
@@ -32,6 +32,7 @@ Mappare relazione tra core, derived e pack, distinguendo le sorgenti di verità 
 
 ## Changelog
 
+- v0.5 – Riallineamento post-conflitto con repo aggiornato; confermati percorsi e regola di rigenerazione per readiness 01B/02B.
 - v0.4 – Collegati pack/derived con catalogo incoming v0.4; indicati log e mapping script per 02A/02B.
 - v0.3 – Mappatura core/derived/pack consolidata, regola di rigenerazione proposta, riferimenti a 01B/02B.
 - v0.2 – Stato design completato, in attesa approvazione PATCHSET-00.
