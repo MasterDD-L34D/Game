@@ -249,3 +249,12 @@
 - Azioni: ripristinati valori testuali inline di `fattore_mantenimento_energetico` per `ali_fono_risonanti`, `cannone_sonico_a_raggio`, `campo_di_interferenza_acustica`, `occhi_cinetici`; reso il validator stile (`traitStyleGuide`) coerente con `NON_LOCALISED_FIELDS` di `scripts/sync_trait_locales.py` per evitare conversioni a i18n.
 - Validator 02A (report-only) rieseguiti: schema-only **OK** (3 avvisi pack), trait audit **OK** (avviso modulo jsonschema mancante), trait style **OK** (0 errori; 172 warning, 62 info). Log e report aggiornati in `reports/temp/patch-03A-core-derived/` (json/md/log).
 - Riferimenti: changelog aggiornato `reports/temp/patch-03A-core-derived/changelog.md`, rollback `reports/temp/patch-03A-core-derived/rollback.md`. Merge subordinato all'approvazione finale di Master DD.
+
+## 2025-11-25 – 03B cleanup incoming (verifica backup + smoke 02A)
+- Branch: `patch/03B-incoming-cleanup`; owner: Master DD (approvatore umano) con agente archivist in STRICT MODE.
+- Azioni: verificata integrità dei bundle in `incoming/archive_cold/backups/2025-11-25/` con `sha256sum -c manifest.sha256` (tutti **OK**) e riallineati redirect/README 03B senza toccare `data/core/**` o `data/derived/**`.
+- Smoke 02A (report-only):
+  - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS (3 avvisi pack).
+  - `python scripts/trait_audit.py --check` → PASS (schema skip per jsonschema mancante; nessuna regressione).
+  - `node scripts/trait_style_check.js --output-json reports/temp/patch-03B-incoming-cleanup/trait_style.json --fail-on error` → PASS (0 errori; 172 warning, 62 info; solo suggerimenti stilistici preesistenti).
+- Esito: redirect e manifest 03B validati; via libera Master DD per chiudere il freeze soft su `incoming/**`/`docs/incoming/**` dopo merge.

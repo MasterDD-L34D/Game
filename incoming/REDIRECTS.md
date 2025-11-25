@@ -14,5 +14,6 @@ di estrarre o reimportare materiale.
 Note operative:
 
 - Nessuno spostamento su `data/core/**` o `data/derived/**`.
+- 2025-11-25: redirect verificati dopo controllo checksum (`manifest.sha256` → OK).
 - Le verifiche di integrità vanno loggate in `logs/agent_activity.md` con
   approvazione Master DD.
