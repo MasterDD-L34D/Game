@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.echi_risonanti.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
   "id": "echi_risonanti",
   "label": "i18n:traits.echi_risonanti.label",
   "mutazione_indotta": "i18n:traits.echi_risonanti.mutazione_indotta",
