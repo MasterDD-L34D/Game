@@ -1,5 +1,15 @@
 # Agent activity log
 
+# 2025-11-25 – Richiesta freeze 2025-11-25T15:00Z e snapshot/backup eseguiti
+- Step ID: FREEZE-REQUEST-2025-11-25T1500Z; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE.
+- Finestra freeze richiesta: **2025-11-25T15:00Z → 2025-11-27T15:00Z** su `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**`; sblocco subordinato a via libera Master DD o rollback dedicato.
+- Snapshot/backup creati in `reports/backups/2025-11-25T1500Z_freeze/` (checksum in `manifest.txt`):
+  - `core_snapshot_2025-11-25T1500Z.tar.gz` — sha256 `ca398fe09b2761c0b6354921e5491d24aa75d16640fb21f0736fa424694c834e`
+  - `derived_snapshot_2025-11-25T1500Z.tar.gz` — sha256 `b75661be3c2216844d38d3de9412cc8bc7a03eed16ec01ab1288723147000068`
+  - `incoming_backup_2025-11-25T1500Z.tar.gz` — sha256 `4905044b6be251b85ba9026c4668728bafae2bafe3b5d716e155e5013288d64d`
+  - `docs_incoming_backup_2025-11-25T1500Z.tar.gz` — sha256 `967eba521fe915f0c0bf18c633ffcfed3423ad3204d1a199cfe52a2850573ccb`
+- Owner rollback: Master DD; ripristino consentito tramite estrazione puntuale degli archivi sopra elencati.
+
 ## 2025-11-25 – Rerun validator 02A (report-only su patch/03A-core-derived)
 - Step ID: 02A-VALIDATOR-RERUN-2025-11-25; ticket: **[TKT-02A-VALIDATOR]**; owner: Master DD (approvatore umano) con agente dev-tooling in STRICT MODE.
 - Branch: `patch/03A-core-derived`; scopo: riesecuzione validator 02A senza modifiche ai workflow CI, con log temporanei dedicati.
