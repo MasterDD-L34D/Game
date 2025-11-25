@@ -40,3 +40,4 @@ Note:
 - 2026-02-07: gap list 01A aggiornata con ticket proposti **[TKT-01A-*]** per ogni voce aperta (placeholder da aprire e loggare con approvazione Master DD); `incoming/_holding` risulta assente (nessun batch da integrare/archiviare) e va loggato qualunque nuovo drop prima dell’ingestione.
 - Handoff 01A → 01B: le voci della gap list sono tracciate anche in `docs/planning/REF_INCOMING_CATALOG.md` e `docs/incoming/README.md`; species-curator è on-call per 01B (matrice core/derived) usando i ticket **[TKT-01A-*]** come input di kickoff.
 - 2026-02-12: aperto checkpoint **RIAPERTURA-2026-02** (patchset 03A/03B) dopo baseline 02A in modalità report-only; freeze soft su `incoming/**`/`docs/incoming/**` ancora in attesa di approvazione Master DD. README sincronizzati col catalogo e ticket/gate tracciati in log.
+- 2025-11-25: verificati i bundle di backup in `archive_cold/backups/2025-11-25/` con `sha256sum -c manifest.sha256` (OK) e confermati i redirect 03B.

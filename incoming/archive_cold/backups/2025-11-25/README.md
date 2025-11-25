@@ -13,3 +13,8 @@ Contiene i bundle completi del repository e DevKit spostati dal buffer `incoming
 I checksum ufficiali sono nel manifest `reports/backups/2025-11-25_freeze/manifest.txt`
 (campo `incoming_backup_2025-11-25.tar.gz`). Usare solo per audit/rollback, non
 per ingest diretta.
+
+## Verifiche integrità
+
+- 2025-11-25: `sha256sum -c manifest.sha256` → **OK** per tutti i bundle elencati.
+  (verifica locale allineata al manifest freeze).
