@@ -12228,11 +12228,11 @@
         "has_biome": true,
         "has_data_origin": true,
         "has_species_link": false,
-        "has_usage_tags": false
+        "has_usage_tags": true
       },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Aereo",
-      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "fattore_mantenimento_energetico": "i18n:traits.ali_fono_risonanti.fattore_mantenimento_energetico",
       "id": "ali_fono_risonanti",
       "label": "Ali Fono-Risonanti",
       "mutazione_indotta": "Venature come corde vibranti controllate.",
@@ -12252,12 +12252,20 @@
       "sinergie": [
         "cannone_sonico_a_raggio",
         "campo_di_interferenza_acustica",
-        "cervello_a_bassa_latenza"
+        "cervello_a_bassa_latenza",
+        "occhi_cinetici"
       ],
       "slot": [],
+      "slot_profile": {
+        "core": "locomotivo",
+        "complementare": "sensoriale"
+      },
       "spinta_selettiva": "Mappatura ambiente e segnalazione.",
       "tier": "T3",
-      "usage_tags": [],
+      "usage_tags": [
+        "scout",
+        "controller"
+      ],
       "uso_funzione": "Generare ampia banda sonora in volo.",
       "metrics": [
         {
@@ -12638,12 +12646,13 @@
       "label": "Campo di Interferenza Acustica",
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Difensivo/Camuffamento",
-      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "fattore_mantenimento_energetico": "i18n:traits.campo_di_interferenza_acustica.fattore_mantenimento_energetico",
       "tier": "T3",
       "slot": [],
       "sinergie": [
         "ali_fono_risonanti",
-        "occhi_cinetici"
+        "occhi_cinetici",
+        "cannone_sonico_a_raggio"
       ],
       "conflitti": [],
       "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
@@ -12689,7 +12698,15 @@
         "has_biome": true,
         "has_data_origin": true,
         "has_species_link": false,
-        "has_usage_tags": false
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "controller",
+        "support"
+      ],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "controllo"
       }
     },
     "cannone_sonico_a_raggio": {
@@ -12697,12 +12714,13 @@
       "label": "Cannone Sonico a Raggio",
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Offensivo/Controllo",
-      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "fattore_mantenimento_energetico": "i18n:traits.cannone_sonico_a_raggio.fattore_mantenimento_energetico",
       "tier": "T4",
       "slot": [],
       "sinergie": [
         "ali_fono_risonanti",
-        "occhi_cinetici"
+        "occhi_cinetici",
+        "campo_di_interferenza_acustica"
       ],
       "conflitti": [],
       "mutazione_indotta": "Risonanza focale su membrana alare.",
@@ -12748,7 +12766,15 @@
         "has_biome": true,
         "has_data_origin": true,
         "has_species_link": false,
-        "has_usage_tags": false
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker",
+        "controller"
+      ],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "controllo"
       }
     },
     "canto_infrasonico_tattico": {
@@ -14053,12 +14079,13 @@
       "label": "Occhi Cinetici",
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Sensoriale/Visivo",
-      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "fattore_mantenimento_energetico": "i18n:traits.occhi_cinetici.fattore_mantenimento_energetico",
       "tier": "T2",
       "slot": [],
       "sinergie": [
         "cannone_sonico_a_raggio",
-        "campo_di_interferenza_acustica"
+        "campo_di_interferenza_acustica",
+        "ali_fono_risonanti"
       ],
       "conflitti": [],
       "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
@@ -14104,7 +14131,15 @@
         "has_biome": true,
         "has_data_origin": true,
         "has_species_link": false,
-        "has_usage_tags": false
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "supporto"
       }
     },
     "pelage_idrorepellente_avanzato": {
