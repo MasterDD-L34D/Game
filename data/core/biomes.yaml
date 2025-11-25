@@ -666,7 +666,7 @@ biomes:
       - Stabilizzare i corridoi luminosi della Cresta Fotofase prima delle maree di spore.
       - Recuperare dati memetici nella Soglia Crepuscolare senza innescare eclissi sinaptiche.
       - Disinnescare il Canto dello Strappo nella Frattura Nera o accordarsi con il Leviatano Risonante.
-  vc_adapt:
+vc_adapt:
   aggro_high:
     add_control: 1
     add_guardia: 1
