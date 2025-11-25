@@ -88,7 +88,8 @@
   - `reports/backups/2025-11-25_freeze/docs_incoming_backup_2025-11-25.tar.gz` — sha256 `c6f6cf435f7ce22326e8cbfbb34f0ee8029daae5f4ff55b6ee41a468f904840c`
 - Owner rollback: Master DD; ripristino consentito tramite estrazione degli archivi sopra elencati.
 
-  Nota: gli archivi sono custoditi off-repo (policy anti-binary PR); in git restano solo manifest/checksum e il percorso logico.
+  Nota: gli archivi sono custoditi off-repo (policy anti-binary PR); in git restano solo manifest/checksum e il percorso logico
+  documentato in `reports/backups/2025-11-25_freeze/MANIFEST.md` dopo la rimozione delle copie binarie dal repository.
 
 ## 2025-11-26 – kickoff operativo 01A (freeze + gap list)
 - Owner: Master DD (approvatore umano) con agente coordinator.

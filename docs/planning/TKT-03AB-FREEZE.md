@@ -18,7 +18,8 @@ Freeze straordinario richiesto per proteggere `core/**`, `derived/**`, `incoming
 ## Artefatti di snapshot/backup
 
 - Archivi custoditi off-repo (policy anti-binary in PR). Percorso logico: `reports/backups/2025-11-25_freeze/`.
-- Manifests:
+- Manifest versionato: `reports/backups/2025-11-25_freeze/MANIFEST.md`.
+- Archivi rimossi dal repository git e conservati solo off-repo con i checksum seguenti:
   - `core_snapshot_2025-11-25.tar.gz` — sha256 `f42ac8a30fffafa4a6178602cf578474fe2c0c03b6c26a664fec5dc04aeabe17`
   - `derived_snapshot_2025-11-25.tar.gz` — sha256 `e9552e270b16af35731156dc04888df4d590f6677624fc9a9232e0e3c43b675b`
   - `incoming_backup_2025-11-25.tar.gz` — sha256 `44fca4ef9f02871394f3b57fa665998aa748a169f32fb3baac93ef97f373a626`

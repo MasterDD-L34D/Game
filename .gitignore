@@ -22,6 +22,8 @@ logs/monthly_trait_maintenance/trait_style_*.md
 reports/backups/**/*.tar.gz
 reports/backups/**/*.tgz
 reports/backups/**/*.zip
+reports/backups/**/*.tar
 !reports/backups/**/README.md
+!reports/backups/**/MANIFEST.md
 .local/
 .docker-prisma-bootstrapped
