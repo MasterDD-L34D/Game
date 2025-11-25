@@ -3,16 +3,23 @@
 const SLUG_PATTERN = /^[a-z0-9_]+$/;
 const TIER_PATTERN = /^T[0-9]$/;
 
+// Mantieni allineato con scripts/sync_trait_locales.py::NON_LOCALISED_FIELDS.
+const NON_LOCALISED_FIELDS = new Set(['fattore_mantenimento_energetico']);
+const ENERGY_FACTOR_DEFAULTS = {
+  basso: 'mantenimento passivo o trascurabile',
+  medio: 'manutenzione periodica o situazionale',
+  alto: 'apporto costante o consumo continuo',
+};
+
 const I18N_FIELDS = [
   'label',
   'mutazione_indotta',
   'uso_funzione',
   'spinta_selettiva',
   'debolezza',
-  'fattore_mantenimento_energetico',
-];
+].filter((field) => !NON_LOCALISED_FIELDS.has(field));
 
-const SOFT_I18N_FIELDS = new Set(['debolezza', 'fattore_mantenimento_energetico']);
+const SOFT_I18N_FIELDS = new Set(['debolezza']);
 
 const SEVERITY_ORDER = {
   info: 0,
@@ -71,6 +78,75 @@ function checkI18nFields(trait, suggestions, traitId) {
         severity,
         message: `Allinea \`${field}\` al namespace i18n del tratto (${expectedPrefix}...).`,
         fix: traitId ? { type: 'set', value: `${expectedPrefix}${field}` } : undefined,
+      });
+    }
+  });
+}
+
+function normaliseEnergyFactor(value) {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const text = value.trim();
+  if (!text) {
+    return null;
+  }
+
+  const match = text.match(/^(basso|medio|alto)(\s*\((.*)\))?$/i);
+  if (!match) {
+    return text;
+  }
+
+  const level = match[1].toLowerCase();
+  const detail = match[3];
+  if (detail && detail.trim()) {
+    return `${level.charAt(0).toUpperCase()}${level.slice(1)} (${detail.trim()})`;
+  }
+
+  const defaultDetail = ENERGY_FACTOR_DEFAULTS[level];
+  if (defaultDetail) {
+    return `${level.charAt(0).toUpperCase()}${level.slice(1)} (${defaultDetail})`;
+  }
+
+  return `${level.charAt(0).toUpperCase()}${level.slice(1)}`;
+}
+
+function checkNonLocalisedFields(trait, suggestions) {
+  NON_LOCALISED_FIELDS.forEach((field) => {
+    const pointer = normalisePath([field]);
+    const value = trait[field];
+    if (value === undefined) {
+      return;
+    }
+
+    if (typeof value !== 'string' || !value.trim()) {
+      addSuggestion(suggestions, {
+        path: pointer,
+        severity: 'warning',
+        message: `Il campo \`${field}\` deve contenere testo inline (es. "Basso (mantenimento passivo o trascurabile)").`,
+        fix: { type: 'set', note: 'Inserisci un valore testuale non i18n.' },
+      });
+      return;
+    }
+
+    if (value.startsWith('i18n:traits.')) {
+      addSuggestion(suggestions, {
+        path: pointer,
+        severity: 'warning',
+        message: `\`${field}\` è nella whitelist NON_LOCALISED_FIELDS: usa il testo inline invece di una chiave i18n.`,
+        fix: { type: 'set', note: 'Sostituisci con il valore testuale definitivo.' },
+      });
+      return;
+    }
+
+    const normalised = normaliseEnergyFactor(value);
+    if (typeof normalised === 'string' && normalised !== value.trim()) {
+      addSuggestion(suggestions, {
+        path: pointer,
+        severity: 'info',
+        message: `Normalizza \`${field}\` (${value.trim()}) → ${normalised}.`,
+        fix: { type: 'set', value: normalised },
       });
     }
   });
@@ -393,6 +469,7 @@ function evaluateTraitStyle(traitInput, options = {}) {
   if (traitId) {
     checkI18nFields(trait, suggestions, traitId);
   }
+  checkNonLocalisedFields(trait, suggestions);
   checkTier(trait, suggestions);
   checkSlugArray(trait, suggestions, 'sinergie');
   checkSlugArray(trait, suggestions, 'conflitti');
@@ -417,5 +494,6 @@ function evaluateTraitStyle(traitInput, options = {}) {
 module.exports = {
   evaluateTraitStyle,
   I18N_FIELDS,
+  NON_LOCALISED_FIELDS,
   SEVERITY_ORDER,
 };
