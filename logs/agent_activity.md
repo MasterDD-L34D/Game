@@ -1,5 +1,12 @@
 # Agent activity log
 
+## 2026-02-17 – Redirect/backup validation 03B (freeze chiuso)
+- Step ID: 03B-REDIRECT-VALIDATION-2026-02-17; owner: Master DD (approvatore umano) con agente archivist.
+- Branch: `patch/03B-incoming-cleanup`; scope: verifica integrità backup incoming e redazione redirect/indici senza toccare `data/core/**` o `data/derived/**`.
+- Azioni: calcolati checksum locali dei bundle backup in `incoming/archive_cold/backups/2025-11-25/manifest.sha256` (rif. manifest S3), redatto `incoming/REDIRECTS.md` e aggiornati indici (`incoming/archive_cold/README.md`, `docs/incoming/archive/INDEX.md`).
+- Smoke 02A (report-only post-redirect): `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS (3 avvisi pack); `python scripts/trait_audit.py --check` → WARNING per jsonschema mancante ma nessuna regressione; `node scripts/trait_style_check.js --output-json reports/temp/patch-03B-incoming-cleanup/2026-02-17/trait_style.json --fail-on error` → PASS (0 errori / 403 warning / 62 info). Log salvati in `reports/temp/patch-03B-incoming-cleanup/2026-02-17/`.
+- Freeze 03A/03B: Master DD approva uscita freeze dopo smoke positivo e redirect verificati; pronto il merge di `patch/03B-incoming-cleanup`.
+
 ## 2026-02-16 – Patchset 03A sinergie/i18n (validator 02A report-only)
 - Branch: `patch/03A-core-derived`; owner: Master DD (approvatore umano) con agente coordinator/dev-tooling in STRICT MODE.
 - Azioni: rese reciproche le sinergie bloccanti del `trait_audit`, aggiunti i campi descrittivi i18n ai trait della frattura_abissale_sinaptica e sincronizzato `data/traits/index.json` con i dataset sorgente.
