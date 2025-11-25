@@ -3,7 +3,7 @@
   "label": "i18n:traits.ali_fono_risonanti.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Locomotivo/Aereo",
-  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "fattore_mantenimento_energetico": "i18n:traits.ali_fono_risonanti.fattore_mantenimento_energetico",
   "tier": "T3",
   "slot": [],
   "sinergie": [

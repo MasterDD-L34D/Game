@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.mucose_aderenza_sonica.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
   "id": "mucose_aderenza_sonica",
   "label": "i18n:traits.mucose_aderenza_sonica.label",
   "mutazione_indotta": "i18n:traits.mucose_aderenza_sonica.mutazione_indotta",

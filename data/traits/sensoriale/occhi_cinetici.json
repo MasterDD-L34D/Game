@@ -3,7 +3,7 @@
   "label": "i18n:traits.occhi_cinetici.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Sensoriale/Visivo",
-  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "fattore_mantenimento_energetico": "i18n:traits.occhi_cinetici.fattore_mantenimento_energetico",
   "tier": "T2",
   "slot": [],
   "sinergie": [
