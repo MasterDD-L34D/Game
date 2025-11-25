@@ -133,7 +133,8 @@ Questa sezione riassume dove siamo e il prossimo passo da eseguire, in coerenza 
 
 - **Documentazione**: pipeline simulatore/ottimizzatore/executor, checklist operativa e template di log già definiti in questo file.
 - **Pre-flight**: pronta la checklist per allineare branch, validator report-only, snapshot/backup in staging, redirect plan e approvazioni draft.
-- **Prossima azione operativa**: avviare il kickoff **02A in report-only** su `patch/03A-core-derived`, raccogliendo log `TKT-02A-VALIDATOR` e mantenendo in parallelo le preparazioni (approvazioni draft, snapshot/backup in staging, redirect plan) prima di procedere al freeze ufficiale.
+- **Checkpoint transizione → 03B**: backup/redirect pronti e confermati in report-only (`reports/backups/2026-02-20_incoming_backup/README.md`, `reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`). Smoke 02A post-merge registrato nella stessa cartella.
+- **Prossima azione operativa**: chiudere il gate di sblocco freeze dopo approvazione Master DD, usando i log smoke 02A più recenti come supporto e aggiornando `logs/agent_activity.md`.
 
 ## Pre-flight (prima del kickoff 02A)
 Esegui questa checklist prima di avviare il ciclo ottimizzato:
