@@ -1,0 +1,7 @@
+Trait style: 465 suggerimenti (error=276, warning=127, info=62) su 225 file
+  - [ERROR] ali_fono_risonanti /debolezza :: Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.ali_fono_risonanti.debolezza).
+  - [ERROR] ali_fono_risonanti /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.ali_fono_risonanti....).
+  - [ERROR] ali_fulminee /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.ali_fulminee....).
+  - [ERROR] ali_ioniche /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.ali_ioniche....).
+  - [ERROR] ali_membrana_sonica /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.ali_membrana_sonica....).
+  … altri 460 suggerimenti
