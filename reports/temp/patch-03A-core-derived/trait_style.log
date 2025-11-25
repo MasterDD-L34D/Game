@@ -1,7 +1,7 @@
-Trait style: 465 suggerimenti (error=0, warning=403, info=62) su 225 file
+Trait style: 234 suggerimenti (error=0, warning=172, info=62) su 225 file
   - [WARNING] ali_fono_risonanti /debolezza :: Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.ali_fono_risonanti.debolezza).
-  - [WARNING] ali_fono_risonanti /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.ali_fono_risonanti....).
-  - [WARNING] ali_fono_risonanti /slot_profile/complementare :: Compila il campo `complementare` in slot_profile (es. "metabolico").
-  - [WARNING] ali_fono_risonanti /slot_profile/core :: Compila il campo `core` in slot_profile (es. "metabolico").
-  - [WARNING] ali_fono_risonanti /usage_tags :: Popola almeno un usage tag dal vocabolario ufficiale (breaker, controller, scout, support, sustain, tank).
-  … altri 460 suggerimenti
+  - [WARNING] antenne_plasmatiche_tempesta /requisiti_ambientali/0/meta/tier :: Allinea meta.tier (—) al tier del tratto (T3).
+  - [WARNING] articolazioni_a_leva_idraulica /debolezza :: Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.articolazioni_a_leva_idraulica.debolezza).
+  - [WARNING] articolazioni_a_leva_idraulica /slot_profile/complementare :: Compila il campo `complementare` in slot_profile (es. "metabolico").
+  - [WARNING] articolazioni_a_leva_idraulica /slot_profile/core :: Compila il campo `core` in slot_profile (es. "metabolico").
+  … altri 229 suggerimenti

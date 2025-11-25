@@ -202,3 +202,15 @@
 - Stato ticket: le sigle **[TKT-01A-*]** sono placeholder proposti; apertura e tracciamento ufficiale richiedono conferma Master DD prima di passare a 01B/01C.
 - README sincronizzati (`incoming/README.md`, `docs/incoming/README.md`) con nota sui ticket 01A proposti e sull'assenza di batch in `_holding`.
 - Chiusura “RIAPERTURA-2026-01” registrata e passaggio operativo verso pipeline 01A in STRICT MODE, mantenendo freeze inattivo finché non arriva nuova approvazione.
+
+## 2026-02-18 – Patchset 03A (cluster sonoro + validator 02A report-only)
+- Step ID: 03A-SONIC-VALIDATOR-2026-02-18; branch: `patch/03A-core-derived`; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE.
+- Azioni: corretti i trait sonori (`ali_fono_risonanti`, `cannone_sonico_a_raggio`, `campo_di_interferenza_acustica`, `occhi_cinetici`) aggiungendo chiavi i18n su `fattore_mantenimento_energetico`, usage tags e slot_profile coerenti; sinergie rese reciproche in JSON e index.
+- Validator 02A (report-only): `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS (3 avvisi pack); `python scripts/trait_audit.py --check` → PASS (solo warning modulo jsonschema); `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on error` → PASS (0 errori / 393 warning / 62 info). Log aggiornati in `reports/temp/patch-03A-core-derived/{schema_only.log,trait_audit.log,trait_style.log}`.
+- Documentazione: changelog `reports/temp/patch-03A-core-derived/changelog.md` e rollback `reports/temp/patch-03A-core-derived/rollback.md` aggiornati (snapshot di riferimento 2025-11-25). Merge subordinato ad approvazione finale di Master DD.
+
+## 2026-02-19 – 03A sonic cluster hotfix (fattore_mantenimento_energetico)
+- Step ID: 03A-SONIC-NONLOCAL-2026-02-19; branch `patch/03A-core-derived`; owner: Master DD (approvatore), agente trait-curator/dev-tooling in STRICT MODE.
+- Azioni: ripristinati valori testuali inline di `fattore_mantenimento_energetico` per `ali_fono_risonanti`, `cannone_sonico_a_raggio`, `campo_di_interferenza_acustica`, `occhi_cinetici`; reso il validator stile (`traitStyleGuide`) coerente con `NON_LOCALISED_FIELDS` di `scripts/sync_trait_locales.py` per evitare conversioni a i18n.
+- Validator 02A (report-only) rieseguiti: schema-only **OK** (3 avvisi pack), trait audit **OK** (avviso modulo jsonschema mancante), trait style **OK** (0 errori; 172 warning, 62 info). Log e report aggiornati in `reports/temp/patch-03A-core-derived/` (json/md/log).
+- Riferimenti: changelog aggiornato `reports/temp/patch-03A-core-derived/changelog.md`, rollback `reports/temp/patch-03A-core-derived/rollback.md`. Merge subordinato all'approvazione finale di Master DD.

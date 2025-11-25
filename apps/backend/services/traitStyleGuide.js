@@ -3,16 +3,12 @@
 const SLUG_PATTERN = /^[a-z0-9_]+$/;
 const TIER_PATTERN = /^T[0-9]$/;
 
-const I18N_FIELDS = [
-  'label',
-  'mutazione_indotta',
-  'uso_funzione',
-  'spinta_selettiva',
-  'debolezza',
-  'fattore_mantenimento_energetico',
-];
+const I18N_FIELDS = ['label', 'mutazione_indotta', 'uso_funzione', 'spinta_selettiva', 'debolezza'];
 
-const SOFT_I18N_FIELDS = new Set(['debolezza', 'fattore_mantenimento_energetico']);
+// Campi che devono rimanere testuali inline e non convertiti in i18n
+const NON_LOCALISED_FIELDS = new Set(['fattore_mantenimento_energetico']);
+
+const SOFT_I18N_FIELDS = new Set(['debolezza']);
 
 const SEVERITY_ORDER = {
   info: 0,
@@ -49,6 +45,36 @@ function addSuggestion(bucket, suggestion) {
 }
 
 function checkI18nFields(trait, suggestions, traitId) {
+  NON_LOCALISED_FIELDS.forEach((field) => {
+    const pointer = normalisePath([field]);
+    const value = trait[field];
+    if (value === undefined) {
+      return;
+    }
+    if (typeof value !== 'string' || !value.trim()) {
+      addSuggestion(suggestions, {
+        path: pointer,
+        severity: 'warning',
+        message: `Il campo \`${field}\` deve restare testuale inline (es. "Basso/Medio/Alto" con nota descrittiva).`,
+        fix: {
+          type: 'set',
+          note: 'Inserisci un valore testuale coerente con il fattore energetico.',
+        },
+      });
+      return;
+    }
+    if (value.startsWith('i18n:traits.')) {
+      addSuggestion(suggestions, {
+        path: pointer,
+        severity: 'info',
+        message: `\`${field}\` è trattato come campo non localizzato: usa un valore testuale invece di una chiave i18n.`,
+        fix: traitId
+          ? { type: 'set', value: `Basso (mantenimento passivo o trascurabile)` }
+          : { type: 'set', note: 'Sostituisci la chiave i18n con il valore testuale pertinente.' },
+      });
+    }
+  });
+
   I18N_FIELDS.forEach((field) => {
     const pointer = normalisePath([field]);
     const value = trait[field];

@@ -12228,7 +12228,7 @@
         "has_biome": true,
         "has_data_origin": true,
         "has_species_link": false,
-        "has_usage_tags": false
+        "has_usage_tags": true
       },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Aereo",
@@ -12252,12 +12252,20 @@
       "sinergie": [
         "cannone_sonico_a_raggio",
         "campo_di_interferenza_acustica",
-        "cervello_a_bassa_latenza"
+        "cervello_a_bassa_latenza",
+        "occhi_cinetici"
       ],
       "slot": [],
+      "slot_profile": {
+        "core": "locomotivo",
+        "complementare": "sensoriale"
+      },
       "spinta_selettiva": "Mappatura ambiente e segnalazione.",
       "tier": "T3",
-      "usage_tags": [],
+      "usage_tags": [
+        "scout",
+        "controller"
+      ],
       "uso_funzione": "Generare ampia banda sonora in volo.",
       "metrics": [
         {
@@ -12643,7 +12651,8 @@
       "slot": [],
       "sinergie": [
         "ali_fono_risonanti",
-        "occhi_cinetici"
+        "occhi_cinetici",
+        "cannone_sonico_a_raggio"
       ],
       "conflitti": [],
       "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
@@ -12689,7 +12698,15 @@
         "has_biome": true,
         "has_data_origin": true,
         "has_species_link": false,
-        "has_usage_tags": false
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "controller",
+        "support"
+      ],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "controllo"
       }
     },
     "cannone_sonico_a_raggio": {
@@ -12702,7 +12719,8 @@
       "slot": [],
       "sinergie": [
         "ali_fono_risonanti",
-        "occhi_cinetici"
+        "occhi_cinetici",
+        "campo_di_interferenza_acustica"
       ],
       "conflitti": [],
       "mutazione_indotta": "Risonanza focale su membrana alare.",
@@ -12748,7 +12766,15 @@
         "has_biome": true,
         "has_data_origin": true,
         "has_species_link": false,
-        "has_usage_tags": false
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker",
+        "controller"
+      ],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "controllo"
       }
     },
     "canto_infrasonico_tattico": {
@@ -14058,7 +14084,8 @@
       "slot": [],
       "sinergie": [
         "cannone_sonico_a_raggio",
-        "campo_di_interferenza_acustica"
+        "campo_di_interferenza_acustica",
+        "ali_fono_risonanti"
       ],
       "conflitti": [],
       "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
@@ -14104,7 +14131,15 @@
         "has_biome": true,
         "has_data_origin": true,
         "has_species_link": false,
-        "has_usage_tags": false
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "supporto"
       }
     },
     "pelage_idrorepellente_avanzato": {

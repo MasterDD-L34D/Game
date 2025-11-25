@@ -1,1 +1,2 @@
-Report scritto in /workspace/Game/logs/trait_audit.md
+Validazione schemi saltata (modulo 'jsonschema' assente). Skipping verifica report schema.
+Audit dei tratti: nessuna regressione rilevata.

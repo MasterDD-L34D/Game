@@ -8,7 +8,8 @@
   "slot": [],
   "sinergie": [
     "ali_fono_risonanti",
-    "occhi_cinetici"
+    "occhi_cinetici",
+    "campo_di_interferenza_acustica"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.cannone_sonico_a_raggio.mutazione_indotta",
@@ -48,5 +49,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000178"
     ]
+  },
+  "usage_tags": [
+    "breaker",
+    "controller"
+  ],
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "controllo"
   }
 }

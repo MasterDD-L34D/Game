@@ -9,7 +9,8 @@
   "sinergie": [
     "cannone_sonico_a_raggio",
     "campo_di_interferenza_acustica",
-    "cervello_a_bassa_latenza"
+    "cervello_a_bassa_latenza",
+    "occhi_cinetici"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.ali_fono_risonanti.mutazione_indotta",
@@ -50,8 +51,14 @@
       "http://purl.obolibrary.org/obo/ENVO_01000178"
     ]
   },
-  "usage_tags": [],
-  "slot_profile": {},
+  "usage_tags": [
+    "scout",
+    "controller"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "sensoriale"
+  },
   "species_affinity": [],
   "version": "1.0.0",
   "versioning": {
