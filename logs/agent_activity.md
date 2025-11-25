@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2026-02-18 – Patchset 03A correzioni mirate 02A (report-only)
+- Branch: `patch/03A-core-derived`; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE.
+- Attività: sinergie del cluster sonoro verificate in bidirezionalità e normalizzati i valori inline di `fattore_mantenimento_energetico` nei payload (`ali_fono_risonanti`, `cannone_sonico_a_raggio`, `campo_di_interferenza_acustica`, `occhi_cinetici`) e in `data/traits/index.json` secondo le regole i18n/stile 02A.
+- Validator 02A (report-only): `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS (3 avvisi pack); `python scripts/trait_audit.py --check` → PASS (warning modulo jsonschema mancante); `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on error` → PASS (0 errori / 172 warning / 62 info). Log: `reports/temp/patch-03A-core-derived/{schema_only.log,trait_audit.log,trait_style.log}`.
+- Documentazione: changelog aggiornato in `reports/temp/patch-03A-core-derived/changelog.md`; rollback pronto in `reports/temp/patch-03A-core-derived/rollback.md` (snapshot freeze 2025-11-25). Merge subordinato al via libera di Master DD post-review.
+
 ## 2025-11-25 – Freeze Master DD 2028Z (blocca merge non urgenti + snapshot/backup)
 - Step ID: FREEZE-REQUEST-2025-11-25T2028Z; ticket: **[TKT-FREEZE-2025-11-25-2028]**; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE.
 - Via libera Master DD registrato per blocco dei merge non urgenti sui percorsi sotto indicati.

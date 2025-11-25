@@ -12,12 +12,11 @@
    ```bash
    tar -xzf /path/to/core_snapshot_2025-11-25.tar.gz -C /workspace/Game --overwrite
    tar -xzf /path/to/derived_snapshot_2025-11-25.tar.gz -C /workspace/Game --overwrite
-   git checkout -- data/core/biomes.yaml data/traits/index.json data/traits/index.csv \
+   git checkout -- data/core/biomes.yaml data/traits/index.json \
      data/traits/locomotivo/ali_fono_risonanti.json \
      data/traits/offensivo/cannone_sonico_a_raggio.json \
      data/traits/difensivo/campo_di_interferenza_acustica.json \
-     data/traits/sensoriale/occhi_cinetici.json \
-     apps/backend/services/traitStyleGuide.js
+     data/traits/sensoriale/occhi_cinetici.json
    ```
 2. **Ripristino incoming/docs** (se necessario)
    ```bash
