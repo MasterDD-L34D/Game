@@ -1,5 +1,14 @@
 # Agent activity log
 
+## 2025-11-25 – Verifica backup incoming e bozza redirect
+- Step ID: INCOMING-BACKUP-VALIDATION-2025-11-25; ticket: **[TKT-INCOMING-BACKUP]** (da aprire); owner: Master DD (approvatore umano) con agente archivist.
+- Esito backup: manifesto `reports/backups/2025-11-25_freeze/manifest.txt` conferma percorso `s3://evo-backups/game/2025-11-25_freeze/incoming_backup_2025-11-25.tar.gz` con sha256 `44fca4ef9f02871394f3b57fa665998aa748a169f32fb3baac93ef97f373a626`; archivio non presente nel repo → checksum non rieseguito, ultima verifica registrata 2025-11-25 (sha256 su S3). Inclusa nota gemella per `docs_incoming_backup_2025-11-25.tar.gz` (sha256 `c6f6cf435f7ce22326e8cbfbb34f0ee8029daa5f4ff55b6ee41a468f904840c`).
+- Bozza redirect/indice (nessun file toccato):
+  - **Archive freddo backup repo** → `incoming/evo-tactics-final*`, `EvoTactics_FullRepo_v1.0.zip`, `EvoTactics_DevKit.zip`, `evo-tactics-merged*`, `evo-tactics.zip` → redirect proposto verso `archive_cold/incoming/backups/2025-11-25/` con riferimento al manifest S3.
+  - **Script DevKit duplicati** → `incoming/docs/*`, `incoming/decompressed/*` → redirect proposto verso `archive_cold/incoming/devkit_scripts/2025-11-25/` dopo diff con `tools/`.
+  - **Inventari storici** → `incoming/incoming_inventory.json`, `compat_map*.json`, `game_repo_map.json`, `pack_biome_jobs_v8_alt.json` → redirect proposto verso `archive_cold/incoming/inventory/2025-11-25/` mantenendo copia referenziata in `docs/planning/REF_INCOMING_CATALOG.md`.
+- Prossimi passi: aprire **[TKT-INCOMING-BACKUP]** per la rihash degli archivi off-repo e approvazione Master DD; schedulare applicazione redirect in 03B assieme a archivist + dev-tooling (validazione checksum su S3 prima di movimentare).
+
 ## 2026-02-14 – Patchset 03A ready for merge (validator 02A in pass)
 - Step ID: 03A-VALIDATOR-RERUN-2026-02-14; owner: Master DD (approvatore umano) con agente coordinator/dev-tooling.
 - Branch: `patch/03A-core-derived` (STRICT MODE).
