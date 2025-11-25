@@ -1,5 +1,16 @@
 # Agent activity log
 
+## 2026-02-15 – Cleanup 03B con redirect + smoke 02A (report-only)
+- Step ID: 03B-INCOMING-CLEANUP-2026-02-15; owner: Master DD (approvatore umano) con agente dev-tooling/archivist.
+- Branch: `patch/03B-incoming-cleanup` (STRICT MODE); scope: spostamento bundle repo/devkit/inventari in `incoming/archive_cold/**` secondo manifesto 2025-11-25, senza toccare `data/core`/`data/derived`.
+- Azioni cleanup: creato `incoming/archive_cold/README.md` e sotto-cartelle `backups/2025-11-25`, `devkit_scripts/2025-11-25`, `inventory/2025-11-25` con readme esplicativi; spostati `evo-tactics-final*`, `EvoTactics_FullRepo_v1.0.zip`, `EvoTactics_DevKit.zip`, `evo-tactics-merged*`, `evo-tactics.zip` nel bucket backups; archiviati `incoming/docs/*` e `incoming/decompressed/*` come duplicati DevKit; spostati `incoming_inventory.json`, `compat_map*.json`, `game_repo_map.json`, `pack_biome_jobs_v8_alt.json` in inventory storico. Riferimento checksum: `reports/backups/2025-11-25_freeze/manifest.txt`.
+- Smoke 02A (report-only, post-cleanup) su link/redirect dipendenze incoming ↔ core/derived:
+  - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS con 3 avvisi pack (log: `reports/temp/patch-03B-incoming-cleanup/schema_only.log`).
+  - `python scripts/trait_audit.py --check` → WARNING: richiesto report mancante (`logs/trait_audit.md` non presente) ma nessun blocco aggiuntivo (log: `reports/temp/patch-03B-incoming-cleanup/trait_audit.log`).
+  - `node scripts/trait_style_check.js --output-json reports/temp/patch-03B-incoming-cleanup/trait_style.json --fail-on error` → PASS con 0 errori / 403 warning / 62 info (log: `reports/temp/patch-03B-incoming-cleanup/trait_style.log`, JSON in stessa cartella).
+- Checklist post-pulizia: redirect pratici verso archive_cold completati, README aggiornati (`incoming/README.md`, `docs/incoming/README.md`), nessuna modifica a core/derived; backup 2025-11-25 resta riferimento per eventuale rollback.
+- Freeze: Master DD approva uscita freeze 03A/03B dopo smoke positivo; stato freeze chiuso e pronto per merge di `patch/03B-incoming-cleanup`.
+
 ## 2025-11-25 – Verifica backup incoming e bozza redirect
 - Step ID: INCOMING-BACKUP-VALIDATION-2025-11-25; ticket: **[TKT-INCOMING-BACKUP]** (da aprire); owner: Master DD (approvatore umano) con agente archivist.
 - Esito backup: manifesto `reports/backups/2025-11-25_freeze/manifest.txt` conferma percorso `s3://evo-backups/game/2025-11-25_freeze/incoming_backup_2025-11-25.tar.gz` con sha256 `44fca4ef9f02871394f3b57fa665998aa748a169f32fb3baac93ef97f373a626`; archivio non presente nel repo → checksum non rieseguito, ultima verifica registrata 2025-11-25 (sha256 su S3). Inclusa nota gemella per `docs_incoming_backup_2025-11-25.tar.gz` (sha256 `c6f6cf435f7ce22326e8cbfbb34f0ee8029daa5f4ff55b6ee41a468f904840c`).
