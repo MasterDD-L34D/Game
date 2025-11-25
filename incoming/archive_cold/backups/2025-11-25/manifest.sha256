@@ -1,5 +1,6 @@
 # manifest.sha256 — verifica locale backup incoming (freeze 2025-11-25)
 # Generato il 2026-02-17 in STRICT MODE (patch/03B-incoming-cleanup).
+# Ricontrollato il 2025-11-25 (sha256sum) prima del rilascio freeze 03B.
 # Fonte: checksum calcolati su `incoming/archive_cold/backups/2025-11-25/*.zip`
 # Riferimento remoto: `reports/backups/2025-11-25_freeze/manifest.txt` (incoming_backup_2025-11-25.tar.gz).
 
