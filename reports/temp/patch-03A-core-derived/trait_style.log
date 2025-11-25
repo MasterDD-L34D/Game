@@ -1,7 +1,7 @@
-Trait style: 455 suggerimenti (error=0, warning=393, info=62) su 225 file
+Trait style: 234 suggerimenti (error=0, warning=172, info=62) su 225 file
   - [WARNING] ali_fono_risonanti /debolezza :: Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.ali_fono_risonanti.debolezza).
-  - [WARNING] ali_fulminee /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.ali_fulminee....).
-  - [WARNING] ali_ioniche /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.ali_ioniche....).
-  - [WARNING] ali_membrana_sonica /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.ali_membrana_sonica....).
-  - [WARNING] antenne_dustsense /fattore_mantenimento_energetico :: Allinea `fattore_mantenimento_energetico` al namespace i18n del tratto (i18n:traits.antenne_dustsense....).
-  … altri 450 suggerimenti
+  - [WARNING] antenne_plasmatiche_tempesta /requisiti_ambientali/0/meta/tier :: Allinea meta.tier (—) al tier del tratto (T3).
+  - [WARNING] articolazioni_a_leva_idraulica /debolezza :: Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.articolazioni_a_leva_idraulica.debolezza).
+  - [WARNING] articolazioni_a_leva_idraulica /slot_profile/complementare :: Compila il campo `complementare` in slot_profile (es. "metabolico").
+  - [WARNING] articolazioni_a_leva_idraulica /slot_profile/core :: Compila il campo `core` in slot_profile (es. "metabolico").
+  … altri 229 suggerimenti
