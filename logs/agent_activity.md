@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2025-11-25 – Rerun validator 02A (report-only su patch/03A-core-derived)
+- Step ID: 02A-VALIDATOR-RERUN-2025-11-25; ticket: **[TKT-02A-VALIDATOR]**; owner: Master DD (approvatore umano) con agente dev-tooling in STRICT MODE.
+- Branch: `patch/03A-core-derived`; scopo: riesecuzione validator 02A senza modifiche ai workflow CI, con log temporanei dedicati.
+- Comandi: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS con 3 avvisi pack (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25/schema_only.log`); `python scripts/trait_audit.py --check` → WARNING per report mancante `logs/trait_audit.md` (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25/trait_audit.log`); `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/rerun-2025-11-25/trait_style.json --fail-on error` → PASS con 0 errori / 403 warning / 62 info (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25/trait_style.log`, JSON: `.../trait_style.json`).
+- Note: output salvati in `reports/temp/patch-03A-core-derived/rerun-2025-11-25/` come artefatti temporanei; esiti allineati alla baseline di `docs/planning/02A_validator_report.md`.
+
 ## 2026-02-15 – Cleanup 03B con redirect + smoke 02A (report-only)
 - Step ID: 03B-INCOMING-CLEANUP-2026-02-15; owner: Master DD (approvatore umano) con agente dev-tooling/archivist.
 - Branch: `patch/03B-incoming-cleanup` (STRICT MODE); scope: spostamento bundle repo/devkit/inventari in `incoming/archive_cold/**` secondo manifesto 2025-11-25, senza toccare `data/core`/`data/derived`.
