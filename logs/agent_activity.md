@@ -264,6 +264,12 @@
 - Validator 02A (report-only) rieseguiti: schema-only **OK** (3 avvisi pack), trait audit **OK** (avviso modulo jsonschema mancante), trait style **OK** (0 errori; 172 warning, 62 info). Log e report aggiornati in `reports/temp/patch-03A-core-derived/` (json/md/log).
 - Riferimenti: changelog aggiornato `reports/temp/patch-03A-core-derived/changelog.md`, rollback `reports/temp/patch-03A-core-derived/rollback.md`. Merge subordinato all'approvazione finale di Master DD.
 
+## 2026-02-20 – 03A sonic cluster debolezze + rerun 02A (report-only)
+- Step ID: 03A-SONIC-WEAKNESS-2026-02-20; branch `patch/03A-core-derived`; owner: Master DD (approvatore umano) con agente dev-tooling in STRICT MODE.
+- Azioni: aggiunte chiavi `debolezza` con testi dedicati ai trait sonori (`ali_fono_risonanti`, `cannone_sonico_a_raggio`, `campo_di_interferenza_acustica`, `occhi_cinetici`) e allineati `data/traits/index.json` e `locales/it/traits.json`; aggiornato il report `trait_style.md` e il rollback pack 03A.
+- Validator 02A (report-only): `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → **OK** (3 avvisi pack); `python scripts/trait_audit.py --check` → **OK** (warning modulo jsonschema mancante); `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on error` → **OK** (0 errori; 168 warning; 62 info). Log salvati in `reports/temp/patch-03A-core-derived/` e copia in `.../rerun-2025-11-25T23-27-06Z/`.
+- Richiesta: approvazione **Master DD** per il merge di `patch/03A-core-derived` con changelog/rollback aggiornati e validatori 02A in pass (report-only).
+
 ## 2025-11-25 – 03B cleanup incoming (verifica backup + smoke 02A)
 - Branch: `patch/03B-incoming-cleanup`; owner: Master DD (approvatore umano) con agente archivist in STRICT MODE.
 - Azioni: verificata integrità dei bundle in `incoming/archive_cold/backups/2025-11-25/` con `sha256sum -c manifest.sha256` (tutti **OK**) e riallineati redirect/README 03B senza toccare `data/core/**` o `data/derived/**`.
