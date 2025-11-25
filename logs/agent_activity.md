@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2026-02-13 – Runbook 02A→03B pubblicato
+- Owner: Master DD (approvatore umano) con agente coordinator; supporto archivist/dev-tooling.
+- Azioni: pubblicato `docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md` con sequenza operativa 02A (report-only) → 03A/03B, includendo log/approvals, freeze fase 3→4 e requisiti di backup/rollback.
+- Prossimi passi: rieseguire validator 02A in report-only sul branch `patch/03A-core-derived`, registrare freeze approvato con snapshot/backup e avviare 03A/03B secondo runbook; nessuna modifica ai pack/incoming finché il freeze non è loggato.
+
+
 ## 2026-02-12 – RIAPERTURA-2026-02 (checkpoint 03A/03B dopo baseline 02A)
 - Owner: Master DD (approvatore umano) con agente archivist; routing 03A/03B in STRICT MODE.
 - File da aggiornare: `incoming/README.md`, `docs/incoming/README.md`, eventuali note in `docs/planning/REF_PLANNING_RIPRESA_2026.md` (stato gate e ticket/patchset collegati). Nessuna modifica ad altri pacchetti/dataset.
