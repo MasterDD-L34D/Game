@@ -1,5 +1,11 @@
 # Agent activity log
 
+# 2026-02-14 – Rerun validator 02A (report-only su patch/03A-core-derived)
+- Step ID: 02A-RERUN-VALIDATOR-2026-02-14; ticket: **[TKT-02A-VALIDATOR]**; owner: Master DD (approvatore umano) con agente dev-tooling.
+- Comandi: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack`; `python scripts/trait_audit.py --check`; `node scripts/trait_style_check.js --output-json /tmp/trait_style.json --fail-on error`.
+- Report: log console salvati in `reports/temp/patch-03A-core-derived/schema_only.log`, `reports/temp/patch-03A-core-derived/trait_audit.log`, `reports/temp/patch-03A-core-derived/trait_style.log`; JSON: `reports/temp/patch-03A-core-derived/trait_style.json`.
+- Note: esecuzione in STRICT MODE senza modifiche ai workflow CI; esiti allineati alla baseline 02A (errori schema biomi, sinergie mancanti, lint i18n stile trait).
+
 ## 2026-02-13 – Runbook 02A→03B pubblicato
 - Owner: Master DD (approvatore umano) con agente coordinator; supporto archivist/dev-tooling.
 - Azioni: pubblicato `docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md` con sequenza operativa 02A (report-only) → 03A/03B, includendo log/approvals, freeze fase 3→4 e requisiti di backup/rollback.

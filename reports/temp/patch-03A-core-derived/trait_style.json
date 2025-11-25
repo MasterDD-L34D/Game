@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2025-11-25T11:47:54.341Z",
+  "totalTraits": 225,
+  "totalIssues": 465,
+  "counts": {
+    "info": 62,
+    "warning": 127,
+    "error": 276
+  },
+  "traitsWithIssues": 225
+}
