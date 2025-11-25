@@ -7,7 +7,8 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "locomozione_miriapode_ibrida"
+    "locomozione_miriapode_ibrida",
+    "estroflessione_gastrica_acida"
   ],
   "conflitti": [
     "estroflessione_gastrica_acida"

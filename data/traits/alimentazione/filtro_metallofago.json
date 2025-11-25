@@ -7,7 +7,8 @@
   "tier": "T2",
   "slot": [],
   "sinergie": [
-    "elettromagnete_biologico"
+    "elettromagnete_biologico",
+    "bozzolo_magnetico"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.filtro_metallofago.mutazione_indotta",

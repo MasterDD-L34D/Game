@@ -7,7 +7,8 @@
   "tier": "T2",
   "slot": [],
   "sinergie": [
-    "moltiplicazione_per_fusione"
+    "moltiplicazione_per_fusione",
+    "fagocitosi_assorbente"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.cisti_di_ibernazione_minerale.mutazione_indotta",

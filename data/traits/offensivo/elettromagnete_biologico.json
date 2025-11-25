@@ -7,7 +7,8 @@
   "tier": "T4",
   "slot": [],
   "sinergie": [
-    "integumento_bipolare"
+    "integumento_bipolare",
+    "filtro_metallofago"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.elettromagnete_biologico.mutazione_indotta",

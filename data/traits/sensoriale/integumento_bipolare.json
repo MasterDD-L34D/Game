@@ -7,7 +7,9 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "scivolamento_magnetico"
+    "scivolamento_magnetico",
+    "bozzolo_magnetico",
+    "elettromagnete_biologico"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.integumento_bipolare.mutazione_indotta",

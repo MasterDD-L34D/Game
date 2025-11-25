@@ -7,7 +7,8 @@
   "tier": "T2",
   "slot": [],
   "sinergie": [
-    "seta_conduttiva_elettrica"
+    "seta_conduttiva_elettrica",
+    "articolazioni_a_leva_idraulica"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.occhi_analizzatori_di_tensione.mutazione_indotta",

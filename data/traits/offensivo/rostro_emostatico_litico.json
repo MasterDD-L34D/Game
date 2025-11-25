@@ -7,7 +7,9 @@
   "tier": "T4",
   "slot": [],
   "sinergie": [
-    "scheletro_idraulico_a_pistoni"
+    "organi_sismici_cutanei",
+    "scheletro_idraulico_a_pistoni",
+    "ectotermia_dinamica"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.rostro_emostatico_litico.mutazione_indotta",

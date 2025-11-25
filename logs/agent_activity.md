@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2026-02-16 – Patchset 03A sinergie/i18n (validator 02A report-only)
+- Branch: `patch/03A-core-derived`; owner: Master DD (approvatore umano) con agente coordinator/dev-tooling in STRICT MODE.
+- Azioni: rese reciproche le sinergie bloccanti del `trait_audit`, aggiunti i campi descrittivi i18n ai trait della frattura_abissale_sinaptica e sincronizzato `data/traits/index.json` con i dataset sorgente.
+- Validator 02A (report-only): `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS (3 avvisi pack); `python scripts/trait_audit.py` → PASS (solo warning modulo jsonschema); `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on error` → PASS (0 errori / 403 warning). Log: `reports/temp/patch-03A-core-derived/schema_only.log`, `reports/temp/patch-03A-core-derived/trait_audit.log`, `reports/temp/patch-03A-core-derived/trait_style.log`.
+- Documentazione: changelog aggiornato `reports/temp/patch-03A-core-derived/changelog.md`, rollback `reports/temp/patch-03A-core-derived/rollback.md` (snapshot freeze 2025-11-25). Approvazione Master DD richiesta prima del merge finale.
+
 # 2025-11-25 – Richiesta freeze 2025-11-25T15:00Z e snapshot/backup eseguiti
 - Step ID: FREEZE-REQUEST-2025-11-25T1500Z; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE.
 - Finestra freeze richiesta: **2025-11-25T15:00Z → 2025-11-27T15:00Z** su `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**`; sblocco subordinato a via libera Master DD o rollback dedicato.
