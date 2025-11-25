@@ -10,6 +10,18 @@
   - `docs_incoming_backup_2025-11-25T1724Z.tar.gz` — sha256 `b40e4cc9945d180a4a440a9f3c2386ec622fde121a601424ec2bded3f9520d5a`
 - Owner rollback: Master DD; ripristino tramite archivi sopra elencati (manifest registrato) con eventuale ticket di sblocco annotato nel log prima del merge.
 
+## 2025-11-25 – Patchset 03B cleanup intake + sblocco freeze
+- Step ID: 03B-INCOMING-CLEANUP-2025-11-25; owner: Master DD (approvatore umano) con agente archivist in STRICT MODE.
+- Branch: `patch/03B-incoming-cleanup`; scope: archiviazione report/pacchetti sito intake e verifica backup/redirect senza toccare `data/core/**` o `data/derived/**`.
+- Azioni:
+  - Verifica sha256 dei bundle backup in `incoming/archive_cold/backups/2025-11-25/manifest.sha256` → **OK** (allineati al manifest `reports/backups/2025-11-25_freeze/manifest.txt`).
+  - Spostati `idea_intake_site_package.zip`, `generator.html`, `index*.html`, `last_report.*`, `logs_48354746845.zip`, `species_index.html` in `incoming/archive_cold/reports/2025-11-25_site/` con manifest `manifest.sha256` e README; aggiornati `incoming/REDIRECTS.md`, `docs/incoming/archive/INDEX.md`, `incoming/README.md`, `incoming/archive_cold/README.md`.
+- Smoke 02A (report-only post-merge 03B):
+  - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS (3 avvisi pack).
+  - `python scripts/trait_audit.py --check` → WARNING modulo `jsonschema` mancante; nessuna regressione sui tratti.
+  - `node scripts/trait_style_check.js --output-json reports/temp/patch-03B-incoming-cleanup/trait_style.json --fail-on error` → PASS (0 errori / 176 warning / 66 info).
+- Verifica redirect/link: confermata raggiungibilità dei nuovi percorsi di archivio e dei manifest locali; Master DD autorizza uscita dal freeze 03B dopo smoke positivo.
+
 ## 2026-02-17 – Redirect/backup validation 03B (freeze chiuso)
 - Step ID: 03B-REDIRECT-VALIDATION-2026-02-17; owner: Master DD (approvatore umano) con agente archivist.
 - Branch: `patch/03B-incoming-cleanup`; scope: verifica integrità backup incoming e redazione redirect/indici senza toccare `data/core/**` o `data/derived/**`.

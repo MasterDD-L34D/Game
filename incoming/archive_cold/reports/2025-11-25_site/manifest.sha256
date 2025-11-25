@@ -1,0 +1,13 @@
+# manifest.sha256 — report intake (cleanup 03B, freeze 2025-11-25)
+# Generato il 2025-11-25 in STRICT MODE (patch/03B-incoming-cleanup).
+# Fonte: pacchetti HTML/ZIP spostati da `incoming/` in archiviazione fredda.
+# Riferimento remoto: `reports/backups/2025-11-25_freeze/manifest.txt` (incoming_backup_2025-11-25.tar.gz).
+
+863f98c6cb4780da6ab2dcac093b2cc60fec4bfae38c186894d66e53898485ec  generator.html
+de741456bcb358f3cbe2ae31b4521306ec62f04d4510c5b0ed4f0c4fa68e4ff9  idea_intake_site_package.zip
+b9f5ab2cd1b2a198a83737c1578a19703075e9bf1204a2d1b848a659cb9f69b4  index (1).html
+8166ad8f58ed2f54af068e1032b363727d5465c526a44f36a6795530d015d8cd  index.html
+8f319c4331cf063ad22dd39dcf65319ace81e3af22e0912f546e7ecf91ee7730  last_report.html
+c2384fe14ccce3106cc1182ff7191d83bbd560c722bfe7a6d22e59d7c7ea4b2c  last_report.json
+4e0cd4443206538580616b39bc87e49d5ef14133c8a297952b21ba423789e25e  logs_48354746845.zip
+e8a55e63bafa93db4e0728c395e252aee8e79dcecbee55f4ea56923b5d117ac6  species_index.html
