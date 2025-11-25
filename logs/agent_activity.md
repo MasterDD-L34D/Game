@@ -1,5 +1,15 @@
 # Agent activity log
 
+## 2025-11-25 – Freeze Master DD 1724Z (blocca merge non urgenti + snapshot/backup)
+- Step ID: FREEZE-REQUEST-2025-11-25T1724Z; ticket: **[TKT-FREEZE-2025-11-25-1724]**; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE.
+- Finestra freeze: **2025-11-25T17:30Z → 2025-11-27T17:30Z** su `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**`; merge non urgenti sospesi fino a via libera Master DD o rollback dedicato.
+- Snapshot/backup etichettati 2025-11-25T1724Z in `reports/backups/2025-11-25T1724Z_masterdd_freeze/` (manifest: `manifest.sha256`):
+  - `core_snapshot_2025-11-25T1724Z.tar.gz` — sha256 `a20b73d3eed4556b4a4a1b9025789493f882adf0ffd9916e733c3482f85a885f`
+  - `derived_snapshot_2025-11-25T1724Z.tar.gz` — sha256 `e8d5f747952f42677619f08f1810f62f4a2b0f21a2a19766c9367f1d7cd61d3d`
+  - `incoming_backup_2025-11-25T1724Z.tar.gz` — sha256 `034c6d4a4e4ada80cbc46def215eb70fa7070115ea289bb8974d4a29ba67f69f`
+  - `docs_incoming_backup_2025-11-25T1724Z.tar.gz` — sha256 `b40e4cc9945d180a4a440a9f3c2386ec622fde121a601424ec2bded3f9520d5a`
+- Owner rollback: Master DD; ripristino tramite archivi sopra elencati (manifest registrato) con eventuale ticket di sblocco annotato nel log prima del merge.
+
 ## 2026-02-17 – Redirect/backup validation 03B (freeze chiuso)
 - Step ID: 03B-REDIRECT-VALIDATION-2026-02-17; owner: Master DD (approvatore umano) con agente archivist.
 - Branch: `patch/03B-incoming-cleanup`; scope: verifica integrità backup incoming e redazione redirect/indici senza toccare `data/core/**` o `data/derived/**`.
