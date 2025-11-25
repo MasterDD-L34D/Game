@@ -77,6 +77,19 @@
 - Azioni: definito routing automatico per 01A: coordinator guida freeze/gap list con Master DD; archivist gestisce aggiornamenti tabelle/README durante il freeze; dev-tooling fornisce verifiche checksum/script; asset-prep cura metadati/licenze per asset grafici/pack.
 - Prossimi passi immediati: loggare ogni batch approvato (freeze, gap list, aggiornamento README) in `logs/agent_activity.md` con ticket/patchset collegati prima dello sblocco 01B/01C.
 
+## 2025-11-25 – Freeze 03AB approvato con snapshot/backup
+- Owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE.
+- Ticket: **[TKT-03AB-FREEZE]** aperto in `docs/planning/TKT-03AB-FREEZE.md`.
+- Finestra freeze: 2025-11-25T12:05Z → 2025-11-27T12:05Z su `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**`; sblocco solo previa autorizzazione Master DD o rollback.
+- Snapshot/backup etichettati 2025-11-25:
+  - `reports/backups/2025-11-25_freeze/core_snapshot_2025-11-25.tar.gz` — sha256 `f42ac8a30fffafa4a6178602cf578474fe2c0c03b6c26a664fec5dc04aeabe17`
+  - `reports/backups/2025-11-25_freeze/derived_snapshot_2025-11-25.tar.gz` — sha256 `e9552e270b16af35731156dc04888df4d590f6677624fc9a9232e0e3c43b675b`
+  - `reports/backups/2025-11-25_freeze/incoming_backup_2025-11-25.tar.gz` — sha256 `44fca4ef9f02871394f3b57fa665998aa748a169f32fb3baac93ef97f373a626`
+  - `reports/backups/2025-11-25_freeze/docs_incoming_backup_2025-11-25.tar.gz` — sha256 `c6f6cf435f7ce22326e8cbfbb34f0ee8029daae5f4ff55b6ee41a468f904840c`
+- Owner rollback: Master DD; ripristino consentito tramite estrazione degli archivi sopra elencati.
+
+  Nota: gli archivi sono custoditi off-repo (policy anti-binary PR); in git restano solo manifest/checksum e il percorso logico.
+
 ## 2025-11-26 – kickoff operativo 01A (freeze + gap list)
 - Owner: Master DD (approvatore umano) con agente coordinator.
 - Azioni: avviato il prossimo step 01A richiedendo finestra di freeze su `incoming/**` e `docs/incoming/**`, con registrazione obbligatoria nel log e in `REF_INCOMING_CATALOG`; preparata la gap list con owner e ticket come prerequisito per 01B/01C.

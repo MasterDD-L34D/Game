@@ -18,5 +18,10 @@ reports/trait_balance/*.png
 reports/trait_style/
 logs/monthly_trait_maintenance/trait_style_*.json
 logs/monthly_trait_maintenance/trait_style_*.md
+# Backup archives (tracked off-repo)
+reports/backups/**/*.tar.gz
+reports/backups/**/*.tgz
+reports/backups/**/*.zip
+!reports/backups/**/README.md
 .local/
 .docker-prisma-bootstrapped
