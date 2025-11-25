@@ -3,7 +3,7 @@
   "label": "i18n:traits.campo_di_interferenza_acustica.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Difensivo/Camuffamento",
-  "fattore_mantenimento_energetico": "i18n:traits.campo_di_interferenza_acustica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (rumore bianco a fase variabile)",
   "tier": "T3",
   "slot": [],
   "sinergie": [

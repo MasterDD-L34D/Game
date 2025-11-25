@@ -3,7 +3,7 @@
   "label": "i18n:traits.cannone_sonico_a_raggio.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Offensivo/Controllo",
-  "fattore_mantenimento_energetico": "i18n:traits.cannone_sonico_a_raggio.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (scarica focalizzata con ricarica)",
   "tier": "T4",
   "slot": [],
   "sinergie": [
