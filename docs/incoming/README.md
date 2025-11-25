@@ -13,13 +13,13 @@ Linee guida minime:
 | Modelli di riferimento             | `docs/incoming/MODELLI_RIF_EVO_TACTICS.md`                                           | DA_INTEGRARE | Verificare contro schemi attuali; marcare legacy se superati.                |
 | Linee guida integrazione/stat scan | `docs/incoming/README_INTEGRAZIONE_MECCANICHE.md`, `README_SCAN_STAT_EVENTI.md`      | DA_INTEGRARE | Sincronizzare con pipeline QA e doc ufficiale; se superate, marcare STORICO. |
 | Documenti enneagramma              | `docs/incoming/Ennagramma/README_ENNEAGRAMMA.md`                                     | DA_INTEGRARE | Collegare al dataset in `incoming/Ennagramma/`; valutare legacy dopo merge.  |
-| Archivio/estrazioni                | `docs/incoming/decompressed/README.md`, `docs/incoming/archive/INDEX.md`             | STORICO      | Log/indice storico; candidati archive_cold dopo snapshot.                    |
+| Archivio/estrazioni                | `docs/incoming/decompressed/README.md`, `docs/incoming/archive/INDEX.md`             | STORICO      | Log/indice storico; counterpart incoming archiviato in `incoming/archive_cold/devkit_scripts/2025-11-25/`. |
 | Piani backlog                      | `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`, `.../TASKS_BREAKDOWN.md` | DA_INTEGRARE | Identificare owner; se non più in roadmap spostare in `incoming/legacy`.     |
 | Script backlog                     | `docs/incoming/lavoro_da_classificare/scripts/README.md`                             | DA_INTEGRARE | Verificare dipendenze prima di riesecuzione.                                 |
 
 Note:
 
-- Nessuno spostamento o rinomina applicato; le azioni legacy/archive_cold restano da pianificare.
+- Spostamento eseguito per i duplicati DevKit e inventari (freeze 2025-11-25) verso `incoming/archive_cold/**` con riferimento a `reports/backups/2025-11-25_freeze/manifest.txt`.
 - Tenere la tabella sincronizzata con `incoming/README.md` e il catalogo di pianificazione.
 - 2026-02-07: gap list 01A aggiornata con ticket proposti **[TKT-01A-*]** sulle voci aperte (placeholder da aprire e loggare con approvazione Master DD); `incoming/_holding` non presente (nessun batch attivo) e ogni nuovo drop va loggato prima di eventuale ingestione.
 - Handoff 01A → 01B: gap list e ticket sono specchiati in `incoming/README.md` e `docs/planning/REF_INCOMING_CATALOG.md`; species-curator è on-call per 01B con supporto trait-curator/balancer per i casi borderline core/derived.
