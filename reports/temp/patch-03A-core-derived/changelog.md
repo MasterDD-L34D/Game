@@ -14,6 +14,7 @@
 - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → **OK** (3 avvisi pack). Log: `reports/temp/patch-03A-core-derived/schema_only.log`.
 - `python scripts/trait_audit.py` → **OK** (nessun blocco, solo warning sul modulo jsonschema mancante). Log: `reports/temp/patch-03A-core-derived/trait_audit.log`.
 - `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on error` → **OK** (0 errori; 172 warning, 62 info). Log: `reports/temp/patch-03A-core-derived/trait_style.log`; JSON: `reports/temp/patch-03A-core-derived/trait_style.json`.
+- `2025-11-25T22:46Z` rerun **report-only** (schema-only, trait audit, trait style) per `TKT-02A-VALIDATOR`, salvato in `reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/` con copie aggiornate nei percorsi canonici (`.../schema_only.log`, `.../trait_audit.log`, `.../trait_style.log`, `.../trait_style.json`). Esiti: schema-only **OK** (3 avvisi pack), trait audit **OK** (warning modulo jsonschema mancante), trait style **OK** (0 errori; 172 warning; 62 info).
 
 ## Note operative
 - Nessun artefatto generato fuori da `reports/temp/patch-03A-core-derived/`.
