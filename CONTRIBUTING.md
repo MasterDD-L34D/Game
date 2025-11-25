@@ -50,6 +50,22 @@ Per eseguire uno script in un workspace specifico puoi usare `npm run <script>
 - Per script specifici (CLI, QA report, esportazioni) consulta le directory
   `tools/ts`, `tools/py` e `scripts/` oppure la documentazione dedicata.
 
+## Backup, manifest e rollback
+
+Segui queste regole quando lavori con snapshot o backup:
+
+1. **Non committare archivi binari** in `reports/backups/**`: caricali in storage
+   esterno mantenendo il percorso logico `reports/backups/<label>/` e registra il
+   checksum (`sha256sum`) e l'URL nel manifest.
+2. **Aggiorna il manifest** testuale (`reports/backups/<label>/manifest.txt`):
+   per ogni archivio compila i campi `Archive`, `SHA256`, `Location`, `On-call`,
+   `Last verified` e logga l'attività in `logs/agent_activity.md`.
+3. **Rollback**: recupera gli URL dal manifest, verifica i checksum in una
+   workspace temporanea (`sha256sum -c manifest.txt`), applica il ripristino in
+   sandbox/staging senza committare artefatti e aggiorna `Last verified` + log.
+4. Consulta il runbook `docs/planning/REF_BACKUP_AND_ROLLBACK.md` per i dettagli
+   e le note operative aggiornate.
+
 ## Flusso PR e collegamento con la CI
 
 1. Crea una branch descrittiva e collega eventuali issue.

@@ -20,6 +20,7 @@
     "test:backend": "npm run test:api",
     "test:stack": "bash scripts/test-stack.sh",
     "lint:stack": "node scripts/lint-stack.mjs",
+    "lint:backups": "node tools/check_backups_binary.js",
     "lint:lighthouse": "lhci autorun --config=./config/lighthouse/evo.lighthouserc.json",
     "schema:lint": "python tools/automation/evo_schema_lint.py schemas/evo",
     "ci:stack": "npm run lint:stack && npm run test:backend && npm run test --workspace apps/dashboard && VITE_BASE_PATH=./ npm run build --workspace apps/dashboard",
