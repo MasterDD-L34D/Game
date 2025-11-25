@@ -1,4 +1,23 @@
-ca398fe09b2761c0b6354921e5491d24aa75d16640fb21f0736fa424694c834e  reports/backups/2025-11-25T1500Z_freeze/core_snapshot_2025-11-25T1500Z.tar.gz
-b75661be3c2216844d38d3de9412cc8bc7a03eed16ec01ab1288723147000068  reports/backups/2025-11-25T1500Z_freeze/derived_snapshot_2025-11-25T1500Z.tar.gz
-967eba521fe915f0c0bf18c633ffcfed3423ad3204d1a199cfe52a2850573ccb  reports/backups/2025-11-25T1500Z_freeze/docs_incoming_backup_2025-11-25T1500Z.tar.gz
-4905044b6be251b85ba9026c4668728bafae2bafe3b5d716e155e5013288d64d  reports/backups/2025-11-25T1500Z_freeze/incoming_backup_2025-11-25T1500Z.tar.gz
+Archive: core_snapshot_2025-11-25T1500Z.tar.gz
+SHA256: ca398fe09b2761c0b6354921e5491d24aa75d16640fb21f0736fa424694c834e
+Location: s3://evo-backups/game/2025-11-25T1500Z_freeze/core_snapshot_2025-11-25T1500Z.tar.gz
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-11-25 (sha256sum)
+
+Archive: derived_snapshot_2025-11-25T1500Z.tar.gz
+SHA256: b75661be3c2216844d38d3de9412cc8bc7a03eed16ec01ab1288723147000068
+Location: s3://evo-backups/game/2025-11-25T1500Z_freeze/derived_snapshot_2025-11-25T1500Z.tar.gz
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-11-25 (sha256sum)
+
+Archive: docs_incoming_backup_2025-11-25T1500Z.tar.gz
+SHA256: 967eba521fe915f0c0bf18c633ffcfed3423ad3204d1a199cfe52a2850573ccb
+Location: s3://evo-backups/game/2025-11-25T1500Z_freeze/docs_incoming_backup_2025-11-25T1500Z.tar.gz
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-11-25 (sha256sum)
+
+Archive: incoming_backup_2025-11-25T1500Z.tar.gz
+SHA256: 4905044b6be251b85ba9026c4668728bafae2bafe3b5d716e155e5013288d64d
+Location: s3://evo-backups/game/2025-11-25T1500Z_freeze/incoming_backup_2025-11-25T1500Z.tar.gz
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-11-25 (sha256sum)
