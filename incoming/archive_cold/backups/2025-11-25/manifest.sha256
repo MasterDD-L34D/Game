@@ -1,0 +1,12 @@
+# manifest.sha256 — verifica locale backup incoming (freeze 2025-11-25)
+# Generato il 2026-02-17 in STRICT MODE (patch/03B-incoming-cleanup).
+# Fonte: checksum calcolati su `incoming/archive_cold/backups/2025-11-25/*.zip`
+# Riferimento remoto: `reports/backups/2025-11-25_freeze/manifest.txt` (incoming_backup_2025-11-25.tar.gz).
+
+7fe1036b727c824bcea5d5a2c99af2d089b3e853a2afac0fe060036de48940db  EvoTactics_DevKit.zip
+a6e9c0d60bfda0675b387fb5aaaa23588455fed4b1ed97c1bb331d7a22a67e25  EvoTactics_FullRepo_v1.0.zip
+b085477fad56e3928551aa1a89e4ef31be58e29224c05e6ff3b77edad2c0ee2d  evo-tactics-final (1).zip
+b085477fad56e3928551aa1a89e4ef31be58e29224c05e6ff3b77edad2c0ee2d  evo-tactics-final.zip
+6cdbbb075c0cc5862f94b8daf5a8f485a8ed5c4fa698df06ef04ca06e547e0c3  evo-tactics-merged.zip
+801804d0991a6e806465c113d434ba5efbf8ff2c8f672b069aeb82d2350c4e24  evo-tactics.zip
+4c13b20132836cc40844aedb5c45e37e032575ba855672e52e924d874b1fa2c1  evo_tactics_merged_final.zip
