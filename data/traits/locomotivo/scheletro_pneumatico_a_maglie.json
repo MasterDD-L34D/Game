@@ -7,7 +7,10 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "cinghia_iper_ciliare"
+    "cinghia_iper_ciliare",
+    "canto_infrasonico_tattico",
+    "rete_filtro_polmonare",
+    "siero_anti_gelo_naturale"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.scheletro_pneumatico_a_maglie.mutazione_indotta",

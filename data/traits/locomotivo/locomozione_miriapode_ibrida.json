@@ -7,7 +7,9 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "artiglio_cinetico_a_urto"
+    "artiglio_cinetico_a_urto",
+    "ermafroditismo_cronologico",
+    "sistemi_chimio_sonici"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.locomozione_miriapode_ibrida.mutazione_indotta",

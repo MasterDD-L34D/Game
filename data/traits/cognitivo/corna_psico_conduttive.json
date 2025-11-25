@@ -7,7 +7,10 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "coscienza_d_alveare_diffusa"
+    "coscienza_d_alveare_diffusa",
+    "aura_di_dispersione_mentale",
+    "metabolismo_di_condivisione_energetica",
+    "unghie_a_micro_adesione"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.corna_psico_conduttive.mutazione_indotta",

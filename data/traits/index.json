@@ -11952,7 +11952,9 @@
         }
       ],
       "sinergie": [
-        "scheletro_idraulico_a_pistoni"
+        "organi_sismici_cutanei",
+        "scheletro_idraulico_a_pistoni",
+        "ectotermia_dinamica"
       ],
       "slot": [],
       "spinta_selettiva": "Predazione d'impatto a distanza ravvicinata.",
@@ -12071,6 +12073,7 @@
         }
       ],
       "sinergie": [
+        "ectotermia_dinamica",
         "scheletro_idraulico_a_pistoni"
       ],
       "slot": [],
@@ -12129,7 +12132,8 @@
         }
       ],
       "sinergie": [
-        "ipertrofia_muscolare_massiva"
+        "ipertrofia_muscolare_massiva",
+        "rostro_emostatico_litico"
       ],
       "slot": [],
       "spinta_selettiva": "Caccia all’alba/crepuscolo in climi freschi.",
@@ -12247,7 +12251,8 @@
       ],
       "sinergie": [
         "cannone_sonico_a_raggio",
-        "campo_di_interferenza_acustica"
+        "campo_di_interferenza_acustica",
+        "cervello_a_bassa_latenza"
       ],
       "slot": [],
       "spinta_selettiva": "Mappatura ambiente e segnalazione.",
@@ -12304,7 +12309,8 @@
         }
       ],
       "sinergie": [
-        "zanne_idracida"
+        "zanne_idracida",
+        "occhi_analizzatori_di_tensione"
       ],
       "slot": [],
       "spinta_selettiva": "Aggancio rapido su prede/rami.",
@@ -12400,7 +12406,9 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "visione_multi_spettrale_amplificata"
+        "visione_multi_spettrale_amplificata",
+        "comunicazione_fotonica_coda_coda",
+        "motore_biologico_silenzioso"
       ],
       "conflitti": [],
       "mutazione_indotta": "Reazioni endo-termiche locali in guaine artigli.",
@@ -12458,7 +12466,8 @@
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "locomozione_miriapode_ibrida"
+        "locomozione_miriapode_ibrida",
+        "estroflessione_gastrica_acida"
       ],
       "conflitti": [],
       "mutazione_indotta": "Appendice scattante tipo mantide pavone.",
@@ -12574,7 +12583,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "integumento_bipolare"
+        "integumento_bipolare",
+        "filtro_metallofago"
       ],
       "conflitti": [],
       "mutazione_indotta": "Campo isolante stazionario a bassa frequenza.",
@@ -12632,7 +12642,8 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "ali_fono_risonanti"
+        "ali_fono_risonanti",
+        "occhi_cinetici"
       ],
       "conflitti": [],
       "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
@@ -12690,7 +12701,8 @@
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "ali_fono_risonanti"
+        "ali_fono_risonanti",
+        "occhi_cinetici"
       ],
       "conflitti": [],
       "mutazione_indotta": "Risonanza focale su membrana alare.",
@@ -12921,7 +12933,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "moltiplicazione_per_fusione"
+        "moltiplicazione_per_fusione",
+        "fagocitosi_assorbente"
       ],
       "conflitti": [],
       "mutazione_indotta": "Parete silicea a prova di calore/pressione.",
@@ -12998,7 +13011,8 @@
       ],
       "sinergie": [
         "articolazioni_multiassiali",
-        "rostro_linguale_prensile"
+        "rostro_linguale_prensile",
+        "pelage_idrorepellente_avanzato"
       ],
       "slot": [],
       "spinta_selettiva": "Foraggiamento in chioma; attraversamento gole",
@@ -13037,7 +13051,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "vello_di_assorbimento_totale"
+        "vello_di_assorbimento_totale",
+        "artigli_ipo_termici"
       ],
       "conflitti": [],
       "mutazione_indotta": "Piume codali con bioluminescenza debole.",
@@ -13095,7 +13110,10 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "coscienza_d_alveare_diffusa"
+        "coscienza_d_alveare_diffusa",
+        "aura_di_dispersione_mentale",
+        "metabolismo_di_condivisione_energetica",
+        "unghie_a_micro_adesione"
       ],
       "conflitti": [],
       "mutazione_indotta": "Tessuti piezo-neurotonici nelle corna.",
@@ -13211,7 +13229,8 @@
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "integumento_bipolare"
+        "integumento_bipolare",
+        "filtro_metallofago"
       ],
       "conflitti": [],
       "mutazione_indotta": "Organo elettrico a pacchetti sincro.",
@@ -13269,7 +13288,8 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "locomozione_miriapode_ibrida"
+        "locomozione_miriapode_ibrida",
+        "estroflessione_gastrica_acida"
       ],
       "conflitti": [],
       "mutazione_indotta": "Rimodellamento gonadico sequenziale.",
@@ -13327,7 +13347,9 @@
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "artiglio_cinetico_a_urto"
+        "artiglio_cinetico_a_urto",
+        "ermafroditismo_cronologico",
+        "sistemi_chimio_sonici"
       ],
       "conflitti": [
         "sistemi_chimio_sonici"
@@ -13387,7 +13409,8 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "membrana_plastica_continua"
+        "membrana_plastica_continua",
+        "cisti_di_ibernazione_minerale"
       ],
       "conflitti": [],
       "mutazione_indotta": "Invaginazione membranaria a vacuolo digestivo.",
@@ -13503,7 +13526,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "elettromagnete_biologico"
+        "elettromagnete_biologico",
+        "bozzolo_magnetico"
       ],
       "conflitti": [],
       "mutazione_indotta": "Assorbimento selettivo di micro-metalli.",
@@ -13618,7 +13642,9 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "scivolamento_magnetico"
+        "scivolamento_magnetico",
+        "bozzolo_magnetico",
+        "elettromagnete_biologico"
       ],
       "conflitti": [],
       "mutazione_indotta": "Cristalli di magnetite dermici con neuriti afferenti.",
@@ -13695,7 +13721,9 @@
         }
       ],
       "sinergie": [
-        "artiglio_cinetico_a_urto"
+        "artiglio_cinetico_a_urto",
+        "ermafroditismo_cronologico",
+        "sistemi_chimio_sonici"
       ],
       "slot": [],
       "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
@@ -13734,7 +13762,9 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "flusso_ameboide_controllato"
+        "flusso_ameboide_controllato",
+        "fagocitosi_assorbente",
+        "moltiplicazione_per_fusione"
       ],
       "conflitti": [],
       "mutazione_indotta": "Struttura citoscheletrica rimodulabile.",
@@ -13850,6 +13880,7 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
+        "cisti_di_ibernazione_minerale",
         "membrana_plastica_continua"
       ],
       "conflitti": [],
@@ -13908,7 +13939,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "vello_di_assorbimento_totale"
+        "vello_di_assorbimento_totale",
+        "artigli_ipo_termici"
       ],
       "conflitti": [],
       "mutazione_indotta": "Tendini frangi-rumore + piume a bordo seghettato.",
@@ -13966,7 +13998,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "seta_conduttiva_elettrica"
+        "seta_conduttiva_elettrica",
+        "articolazioni_a_leva_idraulica"
       ],
       "conflitti": [],
       "mutazione_indotta": "Retina sensibile alla polarizzazione.",
@@ -14024,7 +14057,8 @@
       "tier": "T2",
       "slot": [],
       "sinergie": [
-        "cannone_sonico_a_raggio"
+        "cannone_sonico_a_raggio",
+        "campo_di_interferenza_acustica"
       ],
       "conflitti": [],
       "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
@@ -14276,7 +14310,10 @@
         }
       ],
       "sinergie": [
-        "cinghia_iper_ciliare"
+        "cinghia_iper_ciliare",
+        "canto_infrasonico_tattico",
+        "rete_filtro_polmonare",
+        "siero_anti_gelo_naturale"
       ],
       "slot": [],
       "spinta_selettiva": "Transito terrestre di megafauna fuori dall’acqua.",
@@ -14430,7 +14467,8 @@
       "tier": "T4",
       "slot": [],
       "sinergie": [
-        "zanne_idracida"
+        "zanne_idracida",
+        "occhi_analizzatori_di_tensione"
       ],
       "conflitti": [],
       "mutazione_indotta": "Seta con nano-metalli piezoresponsivi.",
@@ -14546,7 +14584,8 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "locomozione_miriapode_ibrida"
+        "locomozione_miriapode_ibrida",
+        "estroflessione_gastrica_acida"
       ],
       "conflitti": [
         "estroflessione_gastrica_acida"
@@ -14663,7 +14702,9 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "visione_multi_spettrale_amplificata"
+        "visione_multi_spettrale_amplificata",
+        "comunicazione_fotonica_coda_coda",
+        "motore_biologico_silenzioso"
       ],
       "conflitti": [],
       "mutazione_indotta": "Nano-strutture piumari tipo vantablack biologico.",
@@ -14721,7 +14762,8 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "vello_di_assorbimento_totale"
+        "vello_di_assorbimento_totale",
+        "artigli_ipo_termici"
       ],
       "conflitti": [],
       "mutazione_indotta": "Bastoncelli potenziati + recettori IR/UV.",
@@ -14780,7 +14822,8 @@
       "slot": [],
       "sinergie": [
         "seta_conduttiva_elettrica",
-        "articolazioni_a_leva_idraulica"
+        "articolazioni_a_leva_idraulica",
+        "filtrazione_osmotica"
       ],
       "conflitti": [],
       "mutazione_indotta": "Ghiandole acido-termiche nei cheliceri.",
@@ -14829,33 +14872,704 @@
         "has_usage_tags": false
       }
     },
-    "coralli_sinaptici_fotofase": { "id": "coralli_sinaptici_fotofase", "label": "Coralli Sinaptici Fotofase", "famiglia_tipologia": "Ambiente/Supporto", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "fonte": "env_to_traits", "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1", "notes": "Cresta Fotofase" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "sinergie": [] },
-    "membrane_fotoconvoglianti": { "id": "membrane_fotoconvoglianti", "label": "Membrane Fotoconvoglianti", "famiglia_tipologia": "Difesa/Elettrico", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "conflitti": ["affaticamento_oculare"] },
-    "nodi_sinaptici_superficiali": { "id": "nodi_sinaptici_superficiali", "label": "Nodi Sinaptici Superficiali", "famiglia_tipologia": "Supporto/Sensore", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "sinergie": [] },
-    "impulsi_bioluminescenti": { "id": "impulsi_bioluminescenti", "label": "Impulsi Bioluminescenti", "famiglia_tipologia": "Offensivo/Illuminazione", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "sinergie": [] },
-    "filamenti_guidalampo": { "id": "filamenti_guidalampo", "label": "Filamenti Guidalampo", "famiglia_tipologia": "Mobilità/Logistica", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true } },
-    "sensori_planctonici": { "id": "sensori_planctonici", "label": "Sensori Planctonici", "famiglia_tipologia": "Analisi", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "sinergie": [] },
-    "squame_diffusori_ionici": { "id": "squame_diffusori_ionici", "label": "Squame Diffusori Ionici", "famiglia_tipologia": "Difesa/Elettrico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "conflitti": ["overcharge_cronico"] },
-    "nebbia_mnesica": { "id": "nebbia_mnesica", "label": "Nebbia Mnesica", "famiglia_tipologia": "Controllo", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "conflitti": ["immunoscossa"], "sinergie": [] },
-    "lobi_risonanti_crepuscolo": { "id": "lobi_risonanti_crepuscolo", "label": "Lobi Risonanti Crepuscolo", "famiglia_tipologia": "Supporto/Risonanza", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": [] },
-    "placca_diffusione_foschia": { "id": "placca_diffusione_foschia", "label": "Placca di Diffusione Foschia", "famiglia_tipologia": "Difesa/Aura", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": [] },
-    "spicole_canalizzatrici": { "id": "spicole_canalizzatrici", "label": "Spicole Canalizzatrici", "famiglia_tipologia": "Offensivo/Assorbimento", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": [] },
-    "secrezioni_antistatiche": { "id": "secrezioni_antistatiche", "label": "Secrezioni Antistatiche", "famiglia_tipologia": "Difensivo/Elettrico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "conflitti": ["corrosione_instabile"] },
-    "organi_metacronici": { "id": "organi_metacronici", "label": "Organi Metacronici", "famiglia_tipologia": "Supporto/Sequenziamento", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": [] },
-    "ghiandole_mnemoniche": { "id": "ghiandole_mnemoniche", "label": "Ghiandole Mnemoniche", "famiglia_tipologia": "Supporto/Copia", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": [] },
-    "camere_risonanza_abyssal": { "id": "camere_risonanza_abyssal", "label": "Camere di Risonanza Abyssal", "famiglia_tipologia": "Supporto/Risonanza", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "sinergie": [] },
-    "corazze_ferro_magnetico": { "id": "corazze_ferro_magnetico", "label": "Corazze Ferro-Magnetico", "famiglia_tipologia": "Difesa/Magnetico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": [], "conflitti": ["ossidazione_rapida"] },
-    "bioantenne_gravitiche": { "id": "bioantenne_gravitiche", "label": "Bioantenne Gravitiche", "famiglia_tipologia": "Sensore/Gravitazionale", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": [] },
-    "emettitori_voidsong": { "id": "emettitori_voidsong", "label": "Emettitori Voidsong", "famiglia_tipologia": "Supporto/Anomalia", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": [] },
-    "emolinfa_conducente": { "id": "emolinfa_conducente", "label": "Emolinfa Conducente", "famiglia_tipologia": "Supporto/Energetico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": [] },
-    "placche_pressioniche": { "id": "placche_pressioniche", "label": "Placche Pressioniche", "famiglia_tipologia": "Difesa/Pressione", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": [] },
-    "filamenti_echo": { "id": "filamenti_echo", "label": "Filamenti Echo", "famiglia_tipologia": "Supporto/Risonanza", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": [] },
-    "scintilla_sinaptica": { "id": "scintilla_sinaptica", "label": "Scintilla Sinaptica", "famiglia_tipologia": "Temp/Elettrico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "sinergie": [], "tipo": "temp" },
-    "riverbero_memetico": { "id": "riverbero_memetico", "label": "Riverbero Memetico", "famiglia_tipologia": "Temp/Psionico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": [], "tipo": "temp" },
-    "pelle_piezo_satura": { "id": "pelle_piezo_satura", "label": "Pelle Piezo-Satura", "famiglia_tipologia": "Temp/Difesa", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": [], "tipo": "temp" },
-    "canto_risonante": { "id": "canto_risonante", "label": "Canto Risonante", "famiglia_tipologia": "Temp/Risonanza", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "sinergie": [], "tipo": "temp" },
-    "vortice_nera_flash": { "id": "vortice_nera_flash", "label": "Vortice Nera Flash", "famiglia_tipologia": "Temp/Movimento", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": [], "conflitti": ["stress_spike"], "tipo": "temp" }
+    "coralli_sinaptici_fotofase": {
+      "id": "coralli_sinaptici_fotofase",
+      "label": "Coralli Sinaptici Fotofase",
+      "famiglia_tipologia": "Ambiente/Supporto",
+      "data_origin": "frattura_abissale_sinaptica",
+      "requisiti_ambientali": [
+        {
+          "fonte": "env_to_traits",
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1",
+            "notes": "Cresta Fotofase"
+          }
+        }
+      ],
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.coralli_sinaptici_fotofase.mutazione_indotta",
+      "uso_funzione": "i18n:traits.coralli_sinaptici_fotofase.uso_funzione",
+      "spinta_selettiva": "i18n:traits.coralli_sinaptici_fotofase.spinta_selettiva"
     },
+    "membrane_fotoconvoglianti": {
+      "id": "membrane_fotoconvoglianti",
+      "label": "Membrane Fotoconvoglianti",
+      "famiglia_tipologia": "Difesa/Elettrico",
+      "data_origin": "frattura_abissale_sinaptica",
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1"
+          }
+        }
+      ],
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [
+        "affaticamento_oculare"
+      ],
+      "mutazione_indotta": "i18n:traits.membrane_fotoconvoglianti.mutazione_indotta",
+      "uso_funzione": "i18n:traits.membrane_fotoconvoglianti.uso_funzione",
+      "spinta_selettiva": "i18n:traits.membrane_fotoconvoglianti.spinta_selettiva"
+    },
+    "nodi_sinaptici_superficiali": {
+      "id": "nodi_sinaptici_superficiali",
+      "label": "Nodi Sinaptici Superficiali",
+      "famiglia_tipologia": "Supporto/Sensore",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.nodi_sinaptici_superficiali.mutazione_indotta",
+      "uso_funzione": "i18n:traits.nodi_sinaptici_superficiali.uso_funzione",
+      "spinta_selettiva": "i18n:traits.nodi_sinaptici_superficiali.spinta_selettiva"
+    },
+    "impulsi_bioluminescenti": {
+      "id": "impulsi_bioluminescenti",
+      "label": "Impulsi Bioluminescenti",
+      "famiglia_tipologia": "Offensivo/Illuminazione",
+      "data_origin": "frattura_abissale_sinaptica",
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1"
+          }
+        }
+      ],
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.impulsi_bioluminescenti.mutazione_indotta",
+      "uso_funzione": "i18n:traits.impulsi_bioluminescenti.uso_funzione",
+      "spinta_selettiva": "i18n:traits.impulsi_bioluminescenti.spinta_selettiva"
+    },
+    "filamenti_guidalampo": {
+      "id": "filamenti_guidalampo",
+      "label": "Filamenti Guidalampo",
+      "famiglia_tipologia": "Mobilità/Logistica",
+      "data_origin": "frattura_abissale_sinaptica",
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1"
+          }
+        }
+      ],
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "mutazione_indotta": "i18n:traits.filamenti_guidalampo.mutazione_indotta",
+      "uso_funzione": "i18n:traits.filamenti_guidalampo.uso_funzione",
+      "spinta_selettiva": "i18n:traits.filamenti_guidalampo.spinta_selettiva"
+    },
+    "sensori_planctonici": {
+      "id": "sensori_planctonici",
+      "label": "Sensori Planctonici",
+      "famiglia_tipologia": "Analisi",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.sensori_planctonici.mutazione_indotta",
+      "uso_funzione": "i18n:traits.sensori_planctonici.uso_funzione",
+      "spinta_selettiva": "i18n:traits.sensori_planctonici.spinta_selettiva"
+    },
+    "squame_diffusori_ionici": {
+      "id": "squame_diffusori_ionici",
+      "label": "Squame Diffusori Ionici",
+      "famiglia_tipologia": "Difesa/Elettrico",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1"
+          }
+        }
+      ],
+      "conflitti": [
+        "overcharge_cronico"
+      ],
+      "mutazione_indotta": "i18n:traits.squame_diffusori_ionici.mutazione_indotta",
+      "uso_funzione": "i18n:traits.squame_diffusori_ionici.uso_funzione",
+      "spinta_selettiva": "i18n:traits.squame_diffusori_ionici.spinta_selettiva"
+    },
+    "nebbia_mnesica": {
+      "id": "nebbia_mnesica",
+      "label": "Nebbia Mnesica",
+      "famiglia_tipologia": "Controllo",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T2"
+          }
+        }
+      ],
+      "conflitti": [
+        "immunoscossa"
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.nebbia_mnesica.mutazione_indotta",
+      "uso_funzione": "i18n:traits.nebbia_mnesica.uso_funzione",
+      "spinta_selettiva": "i18n:traits.nebbia_mnesica.spinta_selettiva"
+    },
+    "lobi_risonanti_crepuscolo": {
+      "id": "lobi_risonanti_crepuscolo",
+      "label": "Lobi Risonanti Crepuscolo",
+      "famiglia_tipologia": "Supporto/Risonanza",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.lobi_risonanti_crepuscolo.mutazione_indotta",
+      "uso_funzione": "i18n:traits.lobi_risonanti_crepuscolo.uso_funzione",
+      "spinta_selettiva": "i18n:traits.lobi_risonanti_crepuscolo.spinta_selettiva"
+    },
+    "placca_diffusione_foschia": {
+      "id": "placca_diffusione_foschia",
+      "label": "Placca di Diffusione Foschia",
+      "famiglia_tipologia": "Difesa/Aura",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.placca_diffusione_foschia.mutazione_indotta",
+      "uso_funzione": "i18n:traits.placca_diffusione_foschia.uso_funzione",
+      "spinta_selettiva": "i18n:traits.placca_diffusione_foschia.spinta_selettiva"
+    },
+    "spicole_canalizzatrici": {
+      "id": "spicole_canalizzatrici",
+      "label": "Spicole Canalizzatrici",
+      "famiglia_tipologia": "Offensivo/Assorbimento",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.spicole_canalizzatrici.mutazione_indotta",
+      "uso_funzione": "i18n:traits.spicole_canalizzatrici.uso_funzione",
+      "spinta_selettiva": "i18n:traits.spicole_canalizzatrici.spinta_selettiva"
+    },
+    "secrezioni_antistatiche": {
+      "id": "secrezioni_antistatiche",
+      "label": "Secrezioni Antistatiche",
+      "famiglia_tipologia": "Difensivo/Elettrico",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T2"
+          }
+        }
+      ],
+      "conflitti": [
+        "corrosione_instabile"
+      ],
+      "mutazione_indotta": "i18n:traits.secrezioni_antistatiche.mutazione_indotta",
+      "uso_funzione": "i18n:traits.secrezioni_antistatiche.uso_funzione",
+      "spinta_selettiva": "i18n:traits.secrezioni_antistatiche.spinta_selettiva"
+    },
+    "organi_metacronici": {
+      "id": "organi_metacronici",
+      "label": "Organi Metacronici",
+      "famiglia_tipologia": "Supporto/Sequenziamento",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.organi_metacronici.mutazione_indotta",
+      "uso_funzione": "i18n:traits.organi_metacronici.uso_funzione",
+      "spinta_selettiva": "i18n:traits.organi_metacronici.spinta_selettiva"
+    },
+    "ghiandole_mnemoniche": {
+      "id": "ghiandole_mnemoniche",
+      "label": "Ghiandole Mnemoniche",
+      "famiglia_tipologia": "Supporto/Copia",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.ghiandole_mnemoniche.mutazione_indotta",
+      "uso_funzione": "i18n:traits.ghiandole_mnemoniche.uso_funzione",
+      "spinta_selettiva": "i18n:traits.ghiandole_mnemoniche.spinta_selettiva"
+    },
+    "camere_risonanza_abyssal": {
+      "id": "camere_risonanza_abyssal",
+      "label": "Camere di Risonanza Abyssal",
+      "famiglia_tipologia": "Supporto/Risonanza",
+      "data_origin": "frattura_abissale_sinaptica",
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.camere_risonanza_abyssal.mutazione_indotta",
+      "uso_funzione": "i18n:traits.camere_risonanza_abyssal.uso_funzione",
+      "spinta_selettiva": "i18n:traits.camere_risonanza_abyssal.spinta_selettiva"
+    },
+    "corazze_ferro_magnetico": {
+      "id": "corazze_ferro_magnetico",
+      "label": "Corazze Ferro-Magnetico",
+      "famiglia_tipologia": "Difesa/Magnetico",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [],
+      "conflitti": [
+        "ossidazione_rapida"
+      ],
+      "mutazione_indotta": "i18n:traits.corazze_ferro_magnetico.mutazione_indotta",
+      "uso_funzione": "i18n:traits.corazze_ferro_magnetico.uso_funzione",
+      "spinta_selettiva": "i18n:traits.corazze_ferro_magnetico.spinta_selettiva"
+    },
+    "bioantenne_gravitiche": {
+      "id": "bioantenne_gravitiche",
+      "label": "Bioantenne Gravitiche",
+      "famiglia_tipologia": "Sensore/Gravitazionale",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.bioantenne_gravitiche.mutazione_indotta",
+      "uso_funzione": "i18n:traits.bioantenne_gravitiche.uso_funzione",
+      "spinta_selettiva": "i18n:traits.bioantenne_gravitiche.spinta_selettiva"
+    },
+    "emettitori_voidsong": {
+      "id": "emettitori_voidsong",
+      "label": "Emettitori Voidsong",
+      "famiglia_tipologia": "Supporto/Anomalia",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.emettitori_voidsong.mutazione_indotta",
+      "uso_funzione": "i18n:traits.emettitori_voidsong.uso_funzione",
+      "spinta_selettiva": "i18n:traits.emettitori_voidsong.spinta_selettiva"
+    },
+    "emolinfa_conducente": {
+      "id": "emolinfa_conducente",
+      "label": "Emolinfa Conducente",
+      "famiglia_tipologia": "Supporto/Energetico",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.emolinfa_conducente.mutazione_indotta",
+      "uso_funzione": "i18n:traits.emolinfa_conducente.uso_funzione",
+      "spinta_selettiva": "i18n:traits.emolinfa_conducente.spinta_selettiva"
+    },
+    "placche_pressioniche": {
+      "id": "placche_pressioniche",
+      "label": "Placche Pressioniche",
+      "famiglia_tipologia": "Difesa/Pressione",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.placche_pressioniche.mutazione_indotta",
+      "uso_funzione": "i18n:traits.placche_pressioniche.uso_funzione",
+      "spinta_selettiva": "i18n:traits.placche_pressioniche.spinta_selettiva"
+    },
+    "filamenti_echo": {
+      "id": "filamenti_echo",
+      "label": "Filamenti Echo",
+      "famiglia_tipologia": "Supporto/Risonanza",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [],
+      "mutazione_indotta": "i18n:traits.filamenti_echo.mutazione_indotta",
+      "uso_funzione": "i18n:traits.filamenti_echo.uso_funzione",
+      "spinta_selettiva": "i18n:traits.filamenti_echo.spinta_selettiva"
+    },
+    "scintilla_sinaptica": {
+      "id": "scintilla_sinaptica",
+      "label": "Scintilla Sinaptica",
+      "famiglia_tipologia": "Temp/Elettrico",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [],
+      "tipo": "temp",
+      "mutazione_indotta": "i18n:traits.scintilla_sinaptica.mutazione_indotta",
+      "uso_funzione": "i18n:traits.scintilla_sinaptica.uso_funzione",
+      "spinta_selettiva": "i18n:traits.scintilla_sinaptica.spinta_selettiva"
+    },
+    "riverbero_memetico": {
+      "id": "riverbero_memetico",
+      "label": "Riverbero Memetico",
+      "famiglia_tipologia": "Temp/Psionico",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [],
+      "tipo": "temp",
+      "mutazione_indotta": "i18n:traits.riverbero_memetico.mutazione_indotta",
+      "uso_funzione": "i18n:traits.riverbero_memetico.uso_funzione",
+      "spinta_selettiva": "i18n:traits.riverbero_memetico.spinta_selettiva"
+    },
+    "pelle_piezo_satura": {
+      "id": "pelle_piezo_satura",
+      "label": "Pelle Piezo-Satura",
+      "famiglia_tipologia": "Temp/Difesa",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [],
+      "tipo": "temp",
+      "mutazione_indotta": "i18n:traits.pelle_piezo_satura.mutazione_indotta",
+      "uso_funzione": "i18n:traits.pelle_piezo_satura.uso_funzione",
+      "spinta_selettiva": "i18n:traits.pelle_piezo_satura.spinta_selettiva"
+    },
+    "canto_risonante": {
+      "id": "canto_risonante",
+      "label": "Canto Risonante",
+      "famiglia_tipologia": "Temp/Risonanza",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [],
+      "tipo": "temp",
+      "mutazione_indotta": "i18n:traits.canto_risonante.mutazione_indotta",
+      "uso_funzione": "i18n:traits.canto_risonante.uso_funzione",
+      "spinta_selettiva": "i18n:traits.canto_risonante.spinta_selettiva"
+    },
+    "vortice_nera_flash": {
+      "id": "vortice_nera_flash",
+      "label": "Vortice Nera Flash",
+      "famiglia_tipologia": "Temp/Movimento",
+      "data_origin": "frattura_abissale_sinaptica",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "requisiti_ambientali": [
+        {
+          "condizioni": {
+            "biome_class": "frattura_abissale_sinaptica"
+          },
+          "meta": {
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [],
+      "conflitti": [
+        "stress_spike"
+      ],
+      "tipo": "temp",
+      "mutazione_indotta": "i18n:traits.vortice_nera_flash.mutazione_indotta",
+      "uso_funzione": "i18n:traits.vortice_nera_flash.uso_funzione",
+      "spinta_selettiva": "i18n:traits.vortice_nera_flash.spinta_selettiva"
+    }
+  },
   "types": {
     "difensivo": {
       "query": {

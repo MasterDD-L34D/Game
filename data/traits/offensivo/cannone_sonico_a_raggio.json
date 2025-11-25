@@ -7,7 +7,8 @@
   "tier": "T4",
   "slot": [],
   "sinergie": [
-    "ali_fono_risonanti"
+    "ali_fono_risonanti",
+    "occhi_cinetici"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.cannone_sonico_a_raggio.mutazione_indotta",

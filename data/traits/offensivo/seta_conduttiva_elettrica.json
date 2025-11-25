@@ -7,7 +7,8 @@
   "tier": "T4",
   "slot": [],
   "sinergie": [
-    "zanne_idracida"
+    "zanne_idracida",
+    "occhi_analizzatori_di_tensione"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.seta_conduttiva_elettrica.mutazione_indotta",

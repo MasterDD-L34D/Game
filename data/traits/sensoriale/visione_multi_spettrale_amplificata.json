@@ -7,7 +7,8 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "vello_di_assorbimento_totale"
+    "vello_di_assorbimento_totale",
+    "artigli_ipo_termici"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.visione_multi_spettrale_amplificata.mutazione_indotta",

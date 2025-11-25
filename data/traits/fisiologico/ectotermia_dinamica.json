@@ -7,7 +7,8 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "ipertrofia_muscolare_massiva"
+    "ipertrofia_muscolare_massiva",
+    "rostro_emostatico_litico"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.ectotermia_dinamica.mutazione_indotta",

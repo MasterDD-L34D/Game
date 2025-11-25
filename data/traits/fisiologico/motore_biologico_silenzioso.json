@@ -7,7 +7,8 @@
   "tier": "T2",
   "slot": [],
   "sinergie": [
-    "vello_di_assorbimento_totale"
+    "vello_di_assorbimento_totale",
+    "artigli_ipo_termici"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.motore_biologico_silenzioso.mutazione_indotta",

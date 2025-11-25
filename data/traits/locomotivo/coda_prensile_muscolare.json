@@ -8,7 +8,8 @@
   "slot": [],
   "sinergie": [
     "articolazioni_multiassiali",
-    "rostro_linguale_prensile"
+    "rostro_linguale_prensile",
+    "pelage_idrorepellente_avanzato"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.coda_prensile_muscolare.mutazione_indotta",

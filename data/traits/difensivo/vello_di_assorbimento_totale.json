@@ -7,7 +7,9 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "visione_multi_spettrale_amplificata"
+    "visione_multi_spettrale_amplificata",
+    "comunicazione_fotonica_coda_coda",
+    "motore_biologico_silenzioso"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.vello_di_assorbimento_totale.mutazione_indotta",

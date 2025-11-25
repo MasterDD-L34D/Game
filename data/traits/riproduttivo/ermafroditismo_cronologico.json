@@ -7,7 +7,8 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "locomozione_miriapode_ibrida"
+    "locomozione_miriapode_ibrida",
+    "estroflessione_gastrica_acida"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.ermafroditismo_cronologico.mutazione_indotta",
