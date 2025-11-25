@@ -12,6 +12,8 @@ const I18N_FIELDS = [
   'fattore_mantenimento_energetico',
 ];
 
+const SOFT_I18N_FIELDS = new Set(['debolezza', 'fattore_mantenimento_energetico']);
+
 const SEVERITY_ORDER = {
   info: 0,
   warning: 1,
@@ -50,10 +52,11 @@ function checkI18nFields(trait, suggestions, traitId) {
   I18N_FIELDS.forEach((field) => {
     const pointer = normalisePath([field]);
     const value = trait[field];
+    const severity = SOFT_I18N_FIELDS.has(field) ? 'warning' : 'error';
     if (typeof value !== 'string' || !value.trim()) {
       addSuggestion(suggestions, {
         path: pointer,
-        severity: 'error',
+        severity,
         message: `Il campo \`${field}\` deve usare una chiave i18n dedicata (i18n:traits.${traitId || 'trait'}.${field}).`,
         fix: traitId
           ? { type: 'set', value: `i18n:traits.${traitId}.${field}` }
@@ -65,7 +68,7 @@ function checkI18nFields(trait, suggestions, traitId) {
     if (!value.startsWith(expectedPrefix)) {
       addSuggestion(suggestions, {
         path: pointer,
-        severity: 'error',
+        severity,
         message: `Allinea \`${field}\` al namespace i18n del tratto (${expectedPrefix}...).`,
         fix: traitId ? { type: 'set', value: `${expectedPrefix}${field}` } : undefined,
       });

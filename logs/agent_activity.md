@@ -1,6 +1,14 @@
 # Agent activity log
 
-# 2026-02-14 – Rerun validator 02A (report-only su patch/03A-core-derived)
+## 2026-02-14 – Patchset 03A ready for merge (validator 02A in pass)
+- Step ID: 03A-VALIDATOR-RERUN-2026-02-14; owner: Master DD (approvatore umano) con agente coordinator/dev-tooling.
+- Branch: `patch/03A-core-derived` (STRICT MODE).
+- Comandi: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack`; `python scripts/trait_audit.py --check`; `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on error`.
+- Esito: **PASS** (schema-only ok con 3 avvisi pack, trait audit senza blocchi, trait style 0 errori / 403 warning). Log: `reports/temp/patch-03A-core-derived/schema_only.log`, `reports/temp/patch-03A-core-derived/trait_audit.log`, `reports/temp/patch-03A-core-derived/trait_style.log`.
+- Documentazione: changelog `reports/temp/patch-03A-core-derived/changelog.md`; rollback `reports/temp/patch-03A-core-derived/rollback.md` (snapshot 2025-11-25_freeze).
+- Note: via libera **Master DD** al merge 03A richiesto; freeze 03A/03B invariato in attesa di approvazione.
+
+## 2026-02-14 – Rerun validator 02A (report-only su patch/03A-core-derived)
 - Step ID: 02A-RERUN-VALIDATOR-2026-02-14; ticket: **[TKT-02A-VALIDATOR]**; owner: Master DD (approvatore umano) con agente dev-tooling.
 - Comandi: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack`; `python scripts/trait_audit.py --check`; `node scripts/trait_style_check.js --output-json /tmp/trait_style.json --fail-on error`.
 - Report: log console salvati in `reports/temp/patch-03A-core-derived/schema_only.log`, `reports/temp/patch-03A-core-derived/trait_audit.log`, `reports/temp/patch-03A-core-derived/trait_style.log`; JSON: `reports/temp/patch-03A-core-derived/trait_style.json`.
