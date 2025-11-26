@@ -57,6 +57,9 @@ except AttributeError:  # pragma: no cover - legacy compatibility
     class RefResolutionError(Exception):
         """Fallback error when jsonschema does not expose RefResolutionError."""
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.append(str(REPO_ROOT))
+
 from tools.automation import configure_logging, get_logger
 
 
