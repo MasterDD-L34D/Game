@@ -1,5 +1,12 @@
 # Agent activity log
 
+## 2026-02-24 – Kickoff PATCHSET-00 + triage 01A/01B/01C (archivist)
+- Step ID: PATCHSET-00-KICKOFF-2026-02-24; owner: archivist in STRICT MODE (15' di sync rapido su scope PATCHSET-00 e trigger fase 1→2→3).
+- Catalogo 01A: riletto `docs/planning/REF_INCOMING_CATALOG.md` senza spostare file; gap list ancora aperta con placeholder **[TKT-01A-*]** in attesa di apertura/approvazione Master DD.
+- Readiness agenti: trait-curator e species-curator confermati on-call per 01B; dev-tooling on-call per 01C; ticket **[TKT-01B-*]**/**[TKT-01C-*]** da aprire e collegare ai rispettivi scope.
+- `_holding`: directory assente, nessun nuovo drop da integrare/archiviare; decisioni rimandate finché non arrivano nuovi batch loggati.
+- Gate “RIAPERTURA-2026-01” segnato come chiuso dopo il riesame; freeze soft su `incoming/**` e `docs/incoming/**` invariato in attesa di eventuale nuova approvazione Master DD.
+
 ## 2025-11-26 – RIAPERTURA-2026-01 – Kickoff governance 01A–03B (coordinator)
 - Step ID: RIAPERTURA-2026-01-KICKOFF-2025-11-26; owner: coordinator in STRICT MODE.
 - Disponibilità owner/agenti: Master DD non raggiungibile in questo ciclo (approvazione richiesta); coordinator pronto; archivist/trait-curator/species-curator/balancer da confermare → stato PENDING finché Master DD non assegna gli slot.
