@@ -1,5 +1,28 @@
 # Agent activity log
 
+# 2025-11-26 – Tabella gap 01A consolidata (archivist)
+- Step ID: 01A-GAP-TABLE-2025-11-26; owner: archivist in STRICT MODE.
+- Azione: tabella unica con sezioni **DA_INTEGRARE/LEGACY/STORICO** aggiornata su gap list 01A (nessuno spostamento di pack: solo etichettatura/report). Fonti allineate a `docs/planning/REF_INCOMING_CATALOG.md` e README incoming.
+- Tabella gap 01A (ID, fonte, pack, versione, stato, rischio, next step):
+
+  | Sezione       | ID gap        | Fonte / descrizione                                                                       | Pack                    | Versione           | Stato        | Rischio sintetico                                  | Next step                                                                                          |
+  | ------------- | ------------- | ----------------------------------------------------------------------------------------- | ----------------------- | ------------------ | ------------ | -------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+  | DA_INTEGRARE  | GAP-01A-001   | `incoming/lavoro_da_classificare/*`                                                        | lavoro_da_classificare  | vari batch         | DA_INTEGRARE | Scope e owner non definiti → rischio di ingest errato | Aprire **[TKT-01A-LDC]**, nominare owner dominio e sincronizzare `incoming/README.md` + `docs/incoming/README.md`. |
+  | DA_INTEGRARE  | GAP-01A-002   | `incoming/ancestors_*` / `Ancestors_Neurons_*` (CSV reti neurali)                          | ancestors datasets      | snapshot non versionati | DA_INTEGRARE | Dati sensibili/schema incerto → rischio compliance    | Aprire **[TKT-01A-ANC]**, validare schema/licenza contro `data/core/species` e definire versione pubblicabile.      |
+  | DA_INTEGRARE  | GAP-01A-003   | `evo_tactics_validator-pack_v1.5.zip`, `evo_tactics_param_synergy_v8_3.zip`, `...tables`   | validator/parametri     | v1.5 / v8.3        | DA_INTEGRARE | Parametri divergenti → rischio incoerenza bilanciamento | Aprire **[TKT-01A-PARAM]**, riconciliare con pipeline bilanciamento e decidere se marcare legacy.                  |
+  | DA_INTEGRARE  | GAP-01A-004   | `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py`          | hook engine             | bozze miste        | DA_INTEGRARE | Binding obsoleti → rischio regressione engine         | Aprire **[TKT-01A-ENGINE]**, riesaminare compatibilità ID engine senza eseguire script.                            |
+  | DA_INTEGRARE  | GAP-01A-005   | `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`                                 | doc integrazione        | n.d.               | DA_INTEGRARE | Documento non legato a ticket → rischio disallineamento | Aprire **[TKT-01A-DOCS]**, collegare a patchset 01A o archiviare con approvazione Master DD.                       |
+  | LEGACY        | —             | Nessun gap aperto in sezione LEGACY (solo etichettatura esistente, nessun pack spostato).  | —                       | —                  | LEGACY       | —                                                | —                                                                                                    |
+  | STORICO       | —             | Nessun gap aperto in sezione STORICO; catalogo archiviato invariato.                       | —                       | —                  | STORICO      | —                                                | —                                                                                                    |
+
+- Note rischio sintetiche (categoria / impatto / mitigazione):
+  - GAP-01A-001: Categoria **processo**; impatto medio (ingest errato o duplicazioni); mitigazione → ticket **[TKT-01A-LDC]**, owner designato e update README in parallelo.
+  - GAP-01A-002: Categoria **compliance/dati**; impatto alto (schema/licenza non conformi); mitigazione → validazione schema/licenza con species-curator e sanificazione prima di pubblicare.
+  - GAP-01A-003: Categoria **tecnica/bilanciamento**; impatto medio-alto (parametri incoerenti con pipeline attuale); mitigazione → riconciliare contro pipeline balancer, marcare legacy se non compatibili.
+  - GAP-01A-004: Categoria **tecnica/engine**; impatto medio (binding obsoleti, regressioni eventi); mitigazione → revisione dev-tooling senza esecuzione script, aggiornare schema engine o archiviare.
+  - GAP-01A-005: Categoria **processo/documentazione**; impatto medio (disallineamento piani vs patchset); mitigazione → legare a patchset 01A con approvazione Master DD o spostare in legacy.
+- Validazione: confermato che nessun pack è stato spostato o rinominato in questo step; aggiornamento limitato a etichettatura/reporting nel log con riferimenti a gap list 01A.
+
 ## 2026-02-24 – Kickoff PATCHSET-00 + triage 01A/01B/01C (archivist)
 - Step ID: PATCHSET-00-KICKOFF-2026-02-24; owner: archivist in STRICT MODE (15' di sync rapido su scope PATCHSET-00 e trigger fase 1→2→3).
 - Catalogo 01A: riletto `docs/planning/REF_INCOMING_CATALOG.md` senza spostare file; gap list ancora aperta con placeholder **[TKT-01A-*]** in attesa di apertura/approvazione Master DD.
