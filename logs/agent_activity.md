@@ -1,5 +1,12 @@
 # Agent activity log
 
+# 2025-11-26 – Trigger PIPELINE_SIMULATOR 02A→freeze→03A→03B (dev-tooling)
+- Step ID: PIPELINE-SIMULATOR-RUN-2025-11-26; owner: agente dev-tooling in STRICT MODE; timestamp trigger 2025-11-26T14:32Z su branch locale `work`.
+- Pre-check: confermata chiusura freeze con approvazione Master DD e sblocco registrato in `logs/agent_activity.md` (entry `UNFREEZE-02A-APPROVED-2026-02-21`); validator 02A in pass usando l'audit bundle 2026-02-21/23 già archiviato.
+- Parametri PIPELINE_SIMULATOR: LOG_ID=`TKT-02A-VALIDATOR`, LOG_DIR=`logs`, CYCLE_COUNT=1; override BRANCH_03A=`patch/03A-core-derived` e BRANCH_03B=`patch/03B-incoming-cleanup` (risolti su `work` per assenza patch locali); override/log path riutilizzati dal bundle: report `reports/temp/patch-03A-core-derived/` e `reports/temp/patch-03B-incoming-cleanup/2026-02-20/`, audit bundle `logs/audit-bundle.tar.gz`.
+- Esecuzione trigger: `./scripts/run_pipeline_cycle.sh --cycles 1` con log in `logs/`; audit bundle rigenerato in `logs/audit-bundle.tar.gz`; output schema/style in `logs/TKT-02A-VALIDATOR*.log`.
+- Warning rilevati: fallback automatico dei branch su `work` (patch non presenti localmente), avviso npm `Unknown env config "http-proxy"`, DeprecationWarning di jsonschema/RefResolver; nessun errore bloccante.
+
 ## 2026-02-23 – Ripristino audit bundle + dipendenza jsonschema (dev-tooling)
 - Step ID: AUDIT-BUNDLE-RESTORE-2026-02-23; owner: agente dev-tooling in STRICT MODE.
 - Dipendenze: installato `jsonschema` (pip, venv locale) e riallineato il vincolo minimo in `requirements-dev.txt` (>=4.25.1) per gli audit Python (`scripts/trait_audit.py`, pipeline 02A/03A/03B).
