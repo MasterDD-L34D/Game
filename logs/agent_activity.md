@@ -1,5 +1,10 @@
 # Agent activity log
 
+## 2026-03-13 – Kickoff 01B core/derived + mandato inventario workflow CI (coordinator)
+- Step: `[01B-KICKOFF-MATRIX-2026-03-13] owner=coordinator (approvatore Master DD); files=logs/agent_activity.md, incoming/README.md, docs/incoming/README.md; rischio=medio (documentazione/processo); note=Kickoff rapido con species-curator usando i ticket **[TKT-01A-001]** … **[TKT-01A-005]** come input per costruire la matrice core/derived (fase 01B) e definire blocchi derived borderline con trait-curator/balancer in supporto.`
+- Step: `[01C-WF-INVENTORY-2026-03-13] owner=dev-tooling (approvatore Master DD); files=logs/agent_activity.md; rischio=basso (ricognizione/script); note=Incaricato dev-tooling di raccogliere inventario di workflow CI e script legati ai pack incoming senza eseguire pipeline o validatori.`
+- Note: README `incoming/` e `docs/incoming/` da aggiornare dopo approvazione Master DD con esito del kickoff e dell’inventario (nessun cambio di freeze o pipeline attivata).
+
 ## 2026-03-12 – Apertura ticket reali gap list 01A + shortlist kickoff (archivist)
 - Step: `[TICKETS-01A-OPEN-2026-03-12] owner=archivist (approvatore Master DD); files=docs/planning/REF_INCOMING_CATALOG.md, incoming/README.md, logs/agent_activity.md; rischio=medio (documentazione/ownership); note=Aperti i ticket **[TKT-01A-001]** … **[TKT-01A-005]** per tutte le voci della gap list 01A e sincronizzati i riferimenti nei README; registrata shortlist kickoff 01B/01C (ticket **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]**) con rischi/dipendenze. Fase=01A→01B/01C.`
 

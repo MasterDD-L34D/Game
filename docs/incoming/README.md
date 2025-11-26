@@ -21,6 +21,7 @@ Note:
 
 - Spostamento eseguito per i duplicati DevKit e inventari (freeze 2025-11-25) verso `incoming/archive_cold/**` con riferimento a `reports/backups/2025-11-25_freeze/manifest.txt`.
 - Tenere la tabella sincronizzata con `incoming/README.md` e il catalogo di pianificazione.
+- 2026-03-13: kickoff 01B con species-curator per matrice core/derived su ticket **[TKT-01A-001]** … **[TKT-01A-005]**; dev-tooling incaricato di inventariare workflow CI/script incoming senza eseguire pipeline. Aggiornamento README dopo approvazione Master DD (vedi `logs/agent_activity.md`).
 - 2026-03-10: riesame gate **RIAPERTURA-2026-01** con Master DD (ticket **[TKT-01A-DOCS]**): soft freeze su `incoming/**`/`docs/incoming/**` confermato e finestra di sblocco rinviata a **2026-03-12 09:00 UTC**. Nessun `_holding` o drop nuovo; restano consentiti solo update documentali finché non arriva via libera sull’ingest.
 - 2026-02-07: gap list 01A aggiornata con ticket proposti **[TKT-01A-*]** sulle voci aperte (placeholder da aprire e loggare con approvazione Master DD); `incoming/_holding` non presente (nessun batch attivo) e ogni nuovo drop va loggato prima di eventuale ingestione.
 - Handoff 01A → 01B: gap list e ticket sono specchiati in `incoming/README.md` e `docs/planning/REF_INCOMING_CATALOG.md`; species-curator è on-call per 01B con supporto trait-curator/balancer per i casi borderline core/derived.
