@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-03-20 – RIAPERTURA-2026-01 – Disponibilità 01B/01C (coordinator)
+- Step: `[RIAPERTURA-2026-01-AVAIL-01B01C-2026-03-20] owner=coordinator (approvatore Master DD); files=logs/RIAPERTURA-2026-01-note.md, logs/agent_activity.md, incoming/README.md, docs/incoming/README.md, reports/audit/readiness-01c-ci-inventory.md; rischio=basso (documentazione/ricognizione); note=Registrata nota di disponibilità 01B/01C in modalità report-only per species-curator/trait-curator (matrice core/derived, ticket TKT-01B-001/002) e dev-tooling (inventario workflow CI/script, ticket TKT-01C-001/002) con riferimento all’inventario readiness 01C e senza esecuzione di validator. README incoming/docs_incoming allineati al log RIAPERTURA-2026-01.`
+
 # 2026-03-19 – RIAPERTURA-2026-01 micro-step log (archivist)
 - Step: `[RIAPERTURA-2026-01-INIT-2026-03-19] owner=Master DD (agente archivist); files=logs/agent_activity.md; rischio=medio (riapertura gate 01A–03B); note=Registrata riapertura con scope 01A–03B e rischio stimato condiviso con Master DD; confermato routing archivist/coordinator per la tracciatura del gate.`
 - Step: `[RIAPERTURA-2026-01-KICKOFF-2026-03-19] owner=archivist (approvatore Master DD); files=logs/agent_activity.md; rischio=basso (brief/documentazione); note=Kickoff completato con checklist micro-step (freeze, gap list, readiness, README) e conferma che tutti gli aggiornamenti restano in STRICT MODE su branch/log dedicati.`

@@ -36,6 +36,7 @@ Linee guida minime:
 Note:
 
 - 2026-03-19: log **RIAPERTURA-2026-01** (micro-step archivist) riconferma soft freeze su `incoming/**` e `docs/incoming/**`, con gap list 01A allineata a `docs/planning/REF_INCOMING_CATALOG.md` e ticket **[TKT-01A-001]** … **[TKT-01A-005]** (alias **[TKT-01A-DOCS]** per la voce documentazione) tracciati in `logs/agent_activity.md`; nessuno spostamento file autorizzato.
+- 2026-03-20: nota **RIAPERTURA-2026-01** aggiornata con disponibilità species-curator/trait-curator per 01B e dev-tooling per 01C in modalità report-only; ticket **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** confermati e riferimenti in `logs/RIAPERTURA-2026-01-note.md` e `reports/audit/readiness-01c-ci-inventory.md`.
 - Redirect/indici del cleanup 03B riepilogati in `incoming/REDIRECTS.md`.
 - Spostamento effettuato (freeze 2025-11-25) verso `incoming/archive_cold/**` per bundle repo, script DevKit duplicati e inventari storici; riferimenti e checksum in `reports/backups/2025-11-25_freeze/manifest.txt`.
 - Usare lo stesso stato sia qui sia in `docs/incoming/README.md` per tenere sincronizzato il triage.
