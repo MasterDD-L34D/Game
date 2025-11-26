@@ -1,5 +1,12 @@
 # Agent activity log
 
+## 2025-11-26 – RIAPERTURA-2026-01 – Kickoff governance 01A–03B (coordinator)
+- Step ID: RIAPERTURA-2026-01-KICKOFF-2025-11-26; owner: coordinator in STRICT MODE.
+- Disponibilità owner/agenti: Master DD non raggiungibile in questo ciclo (approvazione richiesta); coordinator pronto; archivist/trait-curator/species-curator/balancer da confermare → stato PENDING finché Master DD non assegna gli slot.
+- Branch dedicati 01A–03B: creati da HEAD `work` i branch `patch/01A-incoming-catalog`, `patch/01B-core-derived-matrix`, `patch/01C-tooling-ci-catalog`, `patch/02A-validation-tooling`, `patch/03A-core-derived`, `patch/03B-incoming-cleanup` (nessun checkout su `main`).
+- Stato freeze `incoming/**` e `docs/incoming/**`: confermata nota di freeze soft ancora in attesa di approvazione Master DD (README incoming); richiesta di riapertura da sottoporre a Master DD prima di qualsiasi ingest/cleanup (nessuno sblocco effettuato).
+- Riesame gate 01A–01C (REF_REPO_SCOPE/MIGRATION_PLAN): prerequisiti invariati, trigger GOLDEN_PATH confermati; ticket aperti da formalizzare **[TKT-01A-*]** per catalogo/gap list, **[TKT-01B-*]** per matrice core/derived, **[TKT-01C-*]** per inventario tooling; ticket chiusi: nessuno. Necessaria approvazione Master DD per avanzare ai gate 01A–01C.
+
 # 2025-11-26 – Trigger PIPELINE_SIMULATOR 02A→freeze→03A→03B (dev-tooling)
 - Step ID: PIPELINE-SIMULATOR-RUN-2025-11-26; owner: agente dev-tooling in STRICT MODE; timestamp trigger 2025-11-26T14:32Z su branch locale `work`.
 - Pre-check: confermata chiusura freeze con approvazione Master DD e sblocco registrato in `logs/agent_activity.md` (entry `UNFREEZE-02A-APPROVED-2026-02-21`); validator 02A in pass usando l'audit bundle 2026-02-21/23 già archiviato.
