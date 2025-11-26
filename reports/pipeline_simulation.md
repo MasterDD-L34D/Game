@@ -181,51 +181,34 @@ Usa questa checklist per **avviare ora** il nuovo ciclo dopo il pacchetto di aud
 8. **Audit rapido** – Aggiorna il pacchetto di audit con log/artefatti del nuovo giro e archivialo prima di passare al ciclo successivo.
 
 ## Script pronto all'uso (bash)
-Blocca i passaggi chiave in un'unica esecuzione. Mantieni i validator in **report-only** e registra whitelist e approvazioni nei log.
+Per avviare subito il ciclo, usa il wrapper di radice `./run_pipeline_cycle.sh` (richiama automaticamente `scripts/run_pipeline_cycle.sh`). Mantiene i validator in **report-only**, registra whitelist e approvazioni e crea il bundle di audit finale.
+
+Esempi d'uso:
 
 ```bash
-#!/usr/bin/env bash
-set -euo pipefail
+# esecuzione con impostazioni di default (branch 03A/03B di riferimento e LOG_ID=TKT-02A-VALIDATOR)
+./run_pipeline_cycle.sh
 
-BRANCH_03A=patch/03A-core-derived
-BRANCH_03B=patch/03B-incoming-cleanup
-LOG_ID=TKT-02A-VALIDATOR
+# override di branch, log directory e patch 03A da applicare prima del rerun di 02A
+BRANCH_03A=my/branch-03A BRANCH_03B=my/branch-03B LOG_DIR=custom_logs \
+  PATCH_FILE=patches/03A.diff ./run_pipeline_cycle.sh
 
-mkdir -p logs
+# esecuzione di due cicli consecutivi con LOG_ID di base e suffisso -c1/-c2 sui log
+./run_pipeline_cycle.sh --cycles 2
 
-# 1) Kickoff 02A (report-only)
-git switch "$BRANCH_03A"
-npm run schema:lint | tee "logs/${LOG_ID}.schema.log"
-node scripts/trait_style_check.js | tee "logs/${LOG_ID}.style.log"
-# Se hai un audit/trait tool aggiuntivo, eseguilo qui (solo report) e annota whitelist nel log.
+# modalità "prepare-only" per allineare log/branch senza eseguire la pipeline
+./run_pipeline_cycle.sh --prepare-only
 
-# 2) Preparazioni in parallelo (nessuna attivazione)
-echo "[draft approvals + staging snapshot/backup + redirect plan]" >> logs/pipeline_preparations.log
-
-# 3) Freeze 3→4 ufficiale
-echo "[freeze 3→4 attivato: approvazione Master DD, backup/snapshot attivi, redirect plan chiuso]" >> logs/freeze.log
-
-# 4) Patch 03A + rerun 02A
-# (sostituisci <patch-file> con la tua patch 03A)
-# git apply <patch-file>
-npm run schema:lint | tee "logs/${LOG_ID}.post03A.schema.log"
-node scripts/trait_style_check.js | tee "logs/${LOG_ID}.post03A.style.log"
-echo "[changelog + rollback legati allo snapshot; richiesta approvazione merge Master DD inviata]" >> logs/03A.log
-
-# 5) Transizione + 03B (cleanup/redirect + smoke 02A post-merge)
-git switch "$BRANCH_03B"
-echo "[checkpoint transizione: backup/redirect pronti]" >> logs/transizione.log
-# Inserisci qui i comandi di cleanup/redirect specifici del branch 03B
-npm run schema:lint | tee "logs/${LOG_ID}.post03B.schema.log"
-node scripts/trait_style_check.js | tee "logs/${LOG_ID}.post03B.style.log"
-echo "[smoke 02A post-merge completato]" >> logs/03B.log
-
-# 6) Sblocco + trigger riavvio
-echo "[sblocco freeze: smoke 02A ok, approvazione finale Master DD registrata]" >> logs/unfreeze.log
-# Aggiorna README solo dopo il log, se richiesto dal processo interno.
-echo "[trigger riavvio PIPELINE_SIMULATOR con baseline aggiornate]" >> logs/restart.log
-
-# 7) Audit rapido
-tar -czf logs/audit-bundle.tar.gz logs/${LOG_ID}*.log logs/freeze.log logs/03A.log logs/transizione.log logs/03B.log logs/unfreeze.log logs/restart.log
-echo "Pipeline completata. Audit bundle: logs/audit-bundle.tar.gz"
+# modalità "status-only" per leggere il file di stato e verificare audit bundle senza eseguire la pipeline
+./run_pipeline_cycle.sh --status-only
 ```
+
+Suggerimenti operativi:
+- `./scripts/run_pipeline_cycle.sh --help` mostra i parametri disponibili (branch, LOG_ID, LOG_DIR, patch 03A, `--cycles`) senza eseguire la pipeline.
+- Lo script richiede i binari `git`, `npm`, `node` e `tar`, si porta automaticamente nella radice del repo Git, registra il branch corrente per ripristinarlo a fine esecuzione e crea la directory `logs` (o quella indicata da `LOG_DIR`).
+- Se il branch richiesto per 03A/03B non esiste localmente, il runner torna sul branch corrente e logga il fallback nel file di stato, così puoi comunque eseguire la pipeline senza interromperla. Con `--prepare-only` puoi risolvere branch/log/configurazione e popolare il file di stato senza lanciare i gate della pipeline.
+- Con `--status-only` leggi direttamente il file di stato (per default `LOG_DIR/pipeline_status.log`) mostrando gli ultimi aggiornamenti, l'ultimo marcatore di ciclo registrato e la presenza dell'audit bundle in `LOG_DIR`.
+- Con `CYCLE_COUNT` o `--cycles` > 1, i log di schema/style/notes sono suffissati con `-cN` per preservare ogni run; il bundle di audit raccoglie tutti i log che iniziano con `LOG_ID`.
+- Ogni fase aggiorna automaticamente un file di stato per ciclo (default: `LOG_DIR/pipeline_status.log`); puoi sovrascriverlo con `STATUS_FILE=/percorso/personalizzato ./run_pipeline_cycle.sh`. Il tracker include la configurazione iniziale (branch/log/patch/log_id/cicli), il **phase plan** ordinato (1→6) e i marker di inizio/completamento per ogni fase di ciascun ciclo.
+- In caso di errore, il runner registra nel file di stato la fase corrente e l'exit code, poi prova a ripristinare il branch originale prima di uscire: usa queste note per riprendere l'esecuzione dal punto corretto.
+- Il bundle di audit viene creato solo se i log esistono; in caso contrario, lo script avvisa senza interrompere il ciclo.
