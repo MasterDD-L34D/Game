@@ -133,8 +133,7 @@ Questa sezione riassume dove siamo e il prossimo passo da eseguire, in coerenza 
 
 - **Documentazione**: pipeline simulatore/ottimizzatore/executor, checklist operativa e template di log già definiti in questo file.
 - **Pre-flight**: pronta la checklist per allineare branch, validator report-only, snapshot/backup in staging, redirect plan e approvazioni draft.
-- **Checkpoint transizione → 03B**: backup/redirect pronti e confermati in report-only (`reports/backups/2026-02-20_incoming_backup/README.md`, `reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`). Smoke 02A post-merge registrato nella stessa cartella.
-- **Prossima azione operativa**: chiudere il gate di sblocco freeze dopo approvazione Master DD, usando i log smoke 02A più recenti come supporto e aggiornando `logs/agent_activity.md`.
+- **Prossima azione operativa**: avviare il kickoff **02A in report-only** su `patch/03A-core-derived`, raccogliendo log `TKT-02A-VALIDATOR` e mantenendo in parallelo le preparazioni (approvazioni draft, snapshot/backup in staging, redirect plan) prima di procedere al freeze ufficiale.
 
 ## Pre-flight (prima del kickoff 02A)
 Esegui questa checklist prima di avviare il ciclo ottimizzato:
@@ -152,3 +151,19 @@ Per chiudere il ciclo e riavviare la simulazione:
 1. **Audit bundle** – Archivia in un pacchetto unico: log freeze/sblocco, report 02A (run iniziale e post-merge), changelog+rollback 03A legati allo snapshot, backup/redirect instructions 03B, esito smoke 02A post-merge.
 2. **Allineamento artefatti** – Aggiorna snapshot/backup/redirect plan per la baseline successiva, ricollegando patch 03A e cleanup 03B ai nuovi ID artefatto.
 3. **Trigger riavvio** – Riavvia PIPELINE_SIMULATOR sulla sequenza 02A→freeze→03A→transizione→03B→sblocco usando le baseline rinnovate; azzera o rinnova la whitelist 02A se cambiata.
+
+## Stato esecuzione corrente (post-report)
+Usa questo tracker per verificare cosa è stato completato e cosa resta da fare dopo l'ultimo ciclo dichiarato:
+
+- ✅ Kickoff 02A in report-only su `patch/03A-core-derived` con log `TKT-02A-VALIDATOR` e whitelist salvate.
+- ✅ Preparazioni parallele senza attivazioni: approvazioni Master DD in bozza, snapshot/backup in staging, redirect plan steso.
+- ✅ Freeze 3→4 ufficiale con backup attivati, redirect plan chiuso e approvazione Master DD registrata.
+- ✅ Patch 03A applicate con changelog+rollback legati allo snapshot, rerun 02A eseguito e richiesta approvazione merge inviata.
+- ✅ Transizione e 03B completati: checkpoint con backup/redirect pronti, cleanup/redirect su `patch/03B-incoming-cleanup`, smoke 02A post-merge loggato.
+- ✅ Sblocco freeze con approvazione finale e trigger di riavvio attivato.
+- ✅ Pacchetto di audit compilato con log freeze/sblocco, report 02A, changelog+rollback 03A, istruzioni backup/redirect 03B e esito smoke 02A.
+
+### Prossimi passi raccomandati
+1. **Riallinea le baseline** – Se gli artefatti (snapshot/backup/redirect) sono cambiati dopo l'ultimo giro, aggiorna gli ID nelle checklist e rinnova la whitelist 02A per il prossimo ciclo.
+2. **Rilancia il simulatore** – Esegui nuovamente la sequenza 02A→freeze→03A→transizione→03B→sblocco usando le baseline aggiornate per verificare che i log e le approvazioni siano coerenti con il nuovo stato.
+3. **Verifica QA post-riavvio** – Controlla che i log di riavvio includano ID/timestamp coerenti e che il pacchetto di audit sia archiviato con i nuovi riferimenti prima di chiudere il ciclo.
