@@ -12236,6 +12236,7 @@
       "id": "ali_fono_risonanti",
       "label": "Ali Fono-Risonanti",
       "mutazione_indotta": "Venature come corde vibranti controllate.",
+      "debolezza": "Le membrane si lacerano o si ghiacciano facilmente riducendo la risonanza.",
       "requisiti_ambientali": [
         {
           "capacita_richieste": [],
@@ -12656,6 +12657,7 @@
       ],
       "conflitti": [],
       "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
+      "debolezza": "Saturazione prolungata rompe la coerenza del rumore bianco e rivela la fonte.",
       "uso_funzione": "Mascherare posizione/velocità.",
       "spinta_selettiva": "Evasione da pipistrelli/rapaci.",
       "metrics": [
@@ -12724,6 +12726,7 @@
       ],
       "conflitti": [],
       "mutazione_indotta": "Risonanza focale su membrana alare.",
+      "debolezza": "I risonatori si surriscaldano e deviano il fascio senza cicli di raffreddamento.",
       "uso_funzione": "Stordire/ferire con raggio sonoro.",
       "spinta_selettiva": "Caccia rapida su sciami/uccelli piccoli.",
       "metrics": [
@@ -14089,6 +14092,7 @@
       ],
       "conflitti": [],
       "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
+      "debolezza": "I micro-attuatori si saturano di polveri, rallentando la messa a fuoco.",
       "uso_funzione": "Vedere il suono come pattern d’aria.",
       "spinta_selettiva": "Allineamento col cannone sonico.",
       "metrics": [

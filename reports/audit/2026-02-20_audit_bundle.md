@@ -1,0 +1,36 @@
+# Audit bundle 02A → 03A/03B (ciclo 2026-02-20)
+
+## Scopo
+Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A→03A→03B e preparare il riavvio successivo. Il bundle è testuale e punta agli artefatti già versionati (log, changelog, rollback, istruzioni backup/redirect) senza introdurre binari.
+
+## Indice artefatti
+- **Log freeze/sblocco**
+  - Freeze 03AB (2025-11-25) registrato in `logs/agent_activity.md` con snapshot/core/derived/incoming e owner Master DD.
+  - Sblocco finale ancora da registrare: usare lo stesso log (`logs/agent_activity.md`) per documentare approvazione Master DD e ripristino del ciclo.
+- **Report 02A – baseline (pre-03A)**
+  - Validatori 02A in report-only per `patch/03A-core-derived`: `reports/temp/patch-03A-core-derived/{schema_only.log,trait_audit.log,trait_style.log,trait_style.json}` e appendici `trait_style.md`/`changelog.md`.
+  - Rerun dedicati (report-only) per TKT-02A con copie in `reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/` e `.../rerun-2025-11-25T23-27-06Z/`.
+- **Report 02A – post-merge (smoke 03B)**
+  - Output smoke 02A in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` (`schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json`).
+- **Changelog + rollback 03A**
+  - Changelog: `reports/temp/patch-03A-core-derived/changelog.md`.
+  - Pacchetto rollback: `reports/temp/patch-03A-core-derived/rollback.md` (agganciato allo snapshot 2025-11-25).
+- **Backup/redirect 03B**
+  - Istruzioni di backup/restore incoming: `reports/backups/2026-02-20_incoming_backup/README.md`.
+  - Piano redirect e rischi: `reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`.
+
+## Uso pratico (riavvio ciclo)
+1. **Verifica log** – Aggiorna `logs/agent_activity.md` con la chiusura freeze/sblocco citando approvazione Master DD e l’esito smoke 02A post-merge.
+2. **Conferma baseline** – Riesamina i log 02A baseline e le whitelist 02A presenti nei rerun 2025-11-25 per allineare i validator al nuovo ciclo.
+3. **Validazione post-merge** – Conserva gli output smoke 02A del 2026-02-20 come riferimento iniziale per il prossimo ciclo; riesegui se cambiano gli input core/pack.
+4. **Ripristino rapido** – In caso di regressione, applica il rollback 03A seguendo `reports/temp/patch-03A-core-derived/rollback.md` e, per incoming, le istruzioni di `reports/backups/2026-02-20_incoming_backup/README.md`.
+5. **Trigger riavvio** – Dopo lo sblocco e il log finale, rilancia la sequenza 02A→freeze→03A→03B tramite PIPELINE_SIMULATOR/GOLDEN_PATH con i riferimenti sopra come baseline.
+
+## Checklist di copertura
+- [x] Log freeze referenziati
+- [ ] Log sblocco registrato
+- [x] Report 02A iniziale
+- [x] Report 02A post-merge (smoke)
+- [x] Changelog + rollback 03A
+- [x] Istruzioni backup/redirect 03B
+- [ ] Trigger riavvio eseguito

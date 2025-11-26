@@ -4,6 +4,7 @@
   "fallback": null,
   "entries": {
     "ali_fono_risonanti": {
+      "debolezza": "Le membrane si lacerano o si ghiacciano facilmente riducendo la risonanza.",
       "description": "Generare ampia banda sonora in volo.",
       "label": "Ali Fono-Risonanti",
       "mutazione_indotta": "Venature come corde vibranti controllate.",
@@ -401,6 +402,7 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
     },
     "campo_di_interferenza_acustica": {
+      "debolezza": "Saturazione prolungata rompe la coerenza del rumore bianco e rivela la fonte.",
       "description": "Mascherare posizione e velocità.",
       "label": "Campo di Interferenza Acustica",
       "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
@@ -408,6 +410,7 @@
       "uso_funzione": "Mascherare posizione/velocità."
     },
     "cannone_sonico_a_raggio": {
+      "debolezza": "I risonatori si surriscaldano e deviano il fascio senza cicli di raffreddamento.",
       "description": "Stordire o ferire con un raggio sonoro.",
       "label": "Cannone Sonico a Raggio",
       "mutazione_indotta": "Risonanza focale su membrana alare.",
@@ -1493,6 +1496,7 @@
       "uso_funzione": "Leggere tensioni nella seta e pattern di stress."
     },
     "occhi_cinetici": {
+      "debolezza": "I micro-attuatori si saturano di polveri, rallentando la messa a fuoco.",
       "description": "Vedere il suono come pattern d’aria.",
       "label": "Occhi Cinetici",
       "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",

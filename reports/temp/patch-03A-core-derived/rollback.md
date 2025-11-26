@@ -16,7 +16,9 @@
      data/traits/locomotivo/ali_fono_risonanti.json \
      data/traits/offensivo/cannone_sonico_a_raggio.json \
      data/traits/difensivo/campo_di_interferenza_acustica.json \
-     data/traits/sensoriale/occhi_cinetici.json
+     data/traits/sensoriale/occhi_cinetici.json \
+     locales/it/traits.json \
+     reports/temp/patch-03A-core-derived/trait_style.md
    ```
 2. **Ripristino incoming/docs** (se necessario)
    ```bash
