@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-03-17 – Verifica riapertura 2026-01 (archivist)
+- Step: `[RIAPERTURA-2026-01-DECISION-2026-03-17] owner=archivist (approvatore Master DD); files=docs/planning/REF_INCOMING_CATALOG.md, incoming/README.md, logs/agent_activity.md; rischio=basso (documentazione/ricognizione); note=Riletta la sezione freeze in REF_INCOMING_CATALOG (finestra 2025-11-24 → 2025-11-27 chiusa; RIAPERTURA-2026-01 marcata come chiusa al 2026-02-07, nessun freeze attivo). Verificato `incoming/_holding`: directory assente, nessun drop da integrare/riportare. Decisione=archiviare gate RIAPERTURA-2026-01 finché l’owner non conferma nuova finestra; esito comunicato all’owner 01A (Laura B.) prima di toccare tabelle o spostare file.`
+
 ## 2026-03-16 – Kickoff riapertura 2026-01 (coordinator)
 - Step: `[RIAPERTURA-2026-01-KICKOFF-2026-03-16] owner=coordinator (approvatore Master DD); files=logs/agent_activity.md; rischio=basso (pianificazione/brief); note=Riunione 15' con Master DD+coordinator+archivist: ripassati trigger/gate REF_REPO_MIGRATION_PLAN e REF_PLANNING_RIPRESA_2026 §Checklist; scope/owner: Master DD approva freeze/unfreeze e gate; coordinator guida kickoff, routing agenti e log; archivist cura stato catalogo 01A/gap list e README mirati; species/trait-curator preparano matrice core/derived 01B e flag borderline; dev-tooling inventario workflow/CI 01C in report-only; freeze soft `incoming/**` e `docs/incoming/**` da riconfermare nel log RIAPERTURA-2026-01 con branch dedicati 01A–03B.`
 
