@@ -1,5 +1,14 @@
 # Agent activity log
 
+## 2026-02-26 – Log 01A report + link audit (archivist)
+- Step ID: LOG-01A-REPORT-2026-02-26; owner: Master DD (approvatore umano) con agente archivist in STRICT MODE.
+- Azioni: pubblicato bundle audit 02A→03A/03B con log freeze/sblocco e validatori in modalità report-only, senza nuove esecuzioni.
+- Riferimenti: vedere `reports/audit/2026-02-20_audit_bundle.md`.
+
+| Data       | Ticket          | Descrizione                          | Link report                                            |
+| ---------- | --------------- | ------------------------------------ | ------------------------------------------------------ |
+| 2026-02-26 | [TKT-01A-DOCS]  | Log 01A + bundle audit 02A→03A/03B   | [Audit bundle 2026-02-20](../reports/audit/2026-02-20_audit_bundle.md) |
+
 ## 2026-02-25 – Memo stato freeze incoming (archivist)
 - Step ID: FREEZE-STATUS-2026-02-25; owner: archivist in STRICT MODE (verifica richieste 01A/01B/01C).
 - Esito: nessun hard freeze attivo; il ciclo 02A→03A→03B risulta sbloccato dal log del 2026-02-21 con approvazione Master DD e riavvio PIPELINE_SIMULATOR.
