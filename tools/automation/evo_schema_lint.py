@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Dict, Iterable, List, Sequence
 
@@ -12,14 +13,17 @@ from jsonschema import (
     RefResolver,
     SchemaError,
     exceptions as jsonschema_exceptions,
-    validator_for,
 )
+from jsonschema.validators import validator_for
 
 try:
     RefResolutionError = jsonschema_exceptions.RefResolutionError
 except AttributeError:  # pragma: no cover - legacy compatibility
     class RefResolutionError(Exception):
         """Fallback error when jsonschema does not expose RefResolutionError."""
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.append(str(REPO_ROOT))
 
 from tools.automation import configure_logging, get_logger
 
