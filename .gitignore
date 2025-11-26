@@ -6,6 +6,16 @@ docs/presentations/showcase/dist/
 logs/qa/
 logs/visual_runs/
 logs/visual_baseline/
+# Validator pipeline run artifacts
+logs/TKT-02A-VALIDATOR*.log
+logs/audit-bundle.tar.gz
+logs/03A.log
+logs/03B.log
+logs/freeze.log
+logs/pipeline_preparations.log
+logs/restart.log
+logs/transizione.log
+logs/unfreeze.log
 node_modules/
 data/idea_engine.db
 
