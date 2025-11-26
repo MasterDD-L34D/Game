@@ -6,7 +6,7 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 ## Indice artefatti
 - **Log freeze/sblocco**
   - Freeze 03AB (2025-11-25) registrato in `logs/agent_activity.md` con snapshot/core/derived/incoming e owner Master DD.
-  - Sblocco finale ancora da registrare: usare lo stesso log (`logs/agent_activity.md`) per documentare approvazione Master DD e ripristino del ciclo.
+  - Sblocco finale registrato il 2026-02-21 in `logs/agent_activity.md` (step `UNFREEZE-02A-APPROVED-2026-02-21`) con approvazione Master DD, riallineamento backup/redirect e trigger PIPELINE_SIMULATOR della sequenza 02A→freeze→03A→03B.
 - **Report 02A – baseline (pre-03A)**
   - Validatori 02A in report-only per `patch/03A-core-derived`: `reports/temp/patch-03A-core-derived/{schema_only.log,trait_audit.log,trait_style.log,trait_style.json}` e appendici `trait_style.md`/`changelog.md`.
   - Rerun dedicati (report-only) per TKT-02A con copie in `reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/` e `.../rerun-2025-11-25T23-27-06Z/`.
@@ -20,17 +20,22 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
   - Piano redirect e rischi: `reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`.
 
 ## Uso pratico (riavvio ciclo)
-1. **Verifica log** – Aggiorna `logs/agent_activity.md` con la chiusura freeze/sblocco citando approvazione Master DD e l’esito smoke 02A post-merge.
+1. **Verifica log** – `logs/agent_activity.md` contiene la chiusura freeze/sblocco del 2026-02-21 con approvazione Master DD e trigger PIPELINE_SIMULATOR (step `UNFREEZE-02A-APPROVED-2026-02-21`).
 2. **Conferma baseline** – Riesamina i log 02A baseline e le whitelist 02A presenti nei rerun 2025-11-25 per allineare i validator al nuovo ciclo.
 3. **Validazione post-merge** – Conserva gli output smoke 02A del 2026-02-20 come riferimento iniziale per il prossimo ciclo; riesegui se cambiano gli input core/pack.
 4. **Ripristino rapido** – In caso di regressione, applica il rollback 03A seguendo `reports/temp/patch-03A-core-derived/rollback.md` e, per incoming, le istruzioni di `reports/backups/2026-02-20_incoming_backup/README.md`.
-5. **Trigger riavvio** – Dopo lo sblocco e il log finale, rilancia la sequenza 02A→freeze→03A→03B tramite PIPELINE_SIMULATOR/GOLDEN_PATH con i riferimenti sopra come baseline.
+5. **Trigger riavvio** – La sequenza 02A→freeze→03A→03B è stata già rilanciata via PIPELINE_SIMULATOR nella finestra di sblocco 2026-02-21; mantenere questa baseline per i prossimi rerun e ricollegare eventuali override di branch/log al nuovo ciclo.
+
+## Readiness check (prossimo ciclo)
+- **Dipendenza `jsonschema`**: richiesta per `scripts/trait_audit.py`; confermare presenza del pacchetto Python nel venv locale prima del rerun (warning pregresso risolto installando `jsonschema`).
+- **Override di branch/log**: usare i percorsi già referenziati (`reports/temp/patch-03A-core-derived/`, `reports/temp/patch-03B-incoming-cleanup/2026-02-20/`) come baseline; documentare ogni override in `logs/agent_activity.md`.
+- **Audit bundle**: il presente file resta la fonte testuale; l’archivio completo è in `logs/audit-bundle.tar.gz`.
 
 ## Checklist di copertura
 - [x] Log freeze referenziati
-- [ ] Log sblocco registrato
+- [x] Log sblocco registrato
 - [x] Report 02A iniziale
 - [x] Report 02A post-merge (smoke)
 - [x] Changelog + rollback 03A
 - [x] Istruzioni backup/redirect 03B
-- [ ] Trigger riavvio eseguito
+- [x] Trigger riavvio eseguito
