@@ -167,3 +167,15 @@ Usa questo tracker per verificare cosa è stato completato e cosa resta da fare 
 1. **Riallinea le baseline** – Se gli artefatti (snapshot/backup/redirect) sono cambiati dopo l'ultimo giro, aggiorna gli ID nelle checklist e rinnova la whitelist 02A per il prossimo ciclo.
 2. **Rilancia il simulatore** – Esegui nuovamente la sequenza 02A→freeze→03A→transizione→03B→sblocco usando le baseline aggiornate per verificare che i log e le approvazioni siano coerenti con il nuovo stato.
 3. **Verifica QA post-riavvio** – Controlla che i log di riavvio includano ID/timestamp coerenti e che il pacchetto di audit sia archiviato con i nuovi riferimenti prima di chiudere il ciclo.
+
+## Sequenza di riavvio pronta all'uso (kickoff immediato)
+Usa questa checklist per **avviare ora** il nuovo ciclo dopo il pacchetto di audit:
+
+1. **Allinea artefatti** – Aggiorna ID di snapshot/backup/redirect nel log book e nella whitelist 02A; conferma che i branch `patch/03A-core-derived` e `patch/03B-incoming-cleanup` puntino alle baseline corrette.
+2. **Kickoff 02A (report-only)** – Avvia subito 02A su `patch/03A-core-derived`, salva output temporanei, whitelist e log collegato a `TKT-02A-VALIDATOR`.
+3. **Preparazioni in parallelo** – Mentre gira 02A, finalizza il redirect plan, valida gli snapshot/backup in staging (senza attivarli) e raccogli le approvazioni Master DD in bozza.
+4. **Freeze ufficiale** – Attiva i backup, chiudi il redirect plan e registra il log di freeze con approvazione Master DD.
+5. **03A + rerun 02A** – Applica le patch minime 03A con changelog/rollback legati allo snapshot, riesegui 02A in report-only e invia la richiesta di approvazione merge.
+6. **Transizione e 03B** – Esegui il checkpoint di transizione, poi cleanup/redirect su `patch/03B-incoming-cleanup`; aggiorna il backup incoming e logga lo smoke 02A post-merge.
+7. **Sblocco e trigger** – Chiudi il freeze dopo smoke 02A positivo e approvazione finale; aggiorna il README dopo il log e attiva il trigger di riavvio con i nuovi ID artefatto.
+8. **Audit rapido** – Aggiorna il pacchetto di audit con log/artefatti del nuovo giro e archivialo prima di passare al ciclo successivo.
