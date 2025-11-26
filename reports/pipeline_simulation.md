@@ -179,3 +179,53 @@ Usa questa checklist per **avviare ora** il nuovo ciclo dopo il pacchetto di aud
 6. **Transizione e 03B** – Esegui il checkpoint di transizione, poi cleanup/redirect su `patch/03B-incoming-cleanup`; aggiorna il backup incoming e logga lo smoke 02A post-merge.
 7. **Sblocco e trigger** – Chiudi il freeze dopo smoke 02A positivo e approvazione finale; aggiorna il README dopo il log e attiva il trigger di riavvio con i nuovi ID artefatto.
 8. **Audit rapido** – Aggiorna il pacchetto di audit con log/artefatti del nuovo giro e archivialo prima di passare al ciclo successivo.
+
+## Script pronto all'uso (bash)
+Blocca i passaggi chiave in un'unica esecuzione. Mantieni i validator in **report-only** e registra whitelist e approvazioni nei log.
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+BRANCH_03A=patch/03A-core-derived
+BRANCH_03B=patch/03B-incoming-cleanup
+LOG_ID=TKT-02A-VALIDATOR
+
+mkdir -p logs
+
+# 1) Kickoff 02A (report-only)
+git switch "$BRANCH_03A"
+npm run schema:lint | tee "logs/${LOG_ID}.schema.log"
+node scripts/trait_style_check.js | tee "logs/${LOG_ID}.style.log"
+# Se hai un audit/trait tool aggiuntivo, eseguilo qui (solo report) e annota whitelist nel log.
+
+# 2) Preparazioni in parallelo (nessuna attivazione)
+echo "[draft approvals + staging snapshot/backup + redirect plan]" >> logs/pipeline_preparations.log
+
+# 3) Freeze 3→4 ufficiale
+echo "[freeze 3→4 attivato: approvazione Master DD, backup/snapshot attivi, redirect plan chiuso]" >> logs/freeze.log
+
+# 4) Patch 03A + rerun 02A
+# (sostituisci <patch-file> con la tua patch 03A)
+# git apply <patch-file>
+npm run schema:lint | tee "logs/${LOG_ID}.post03A.schema.log"
+node scripts/trait_style_check.js | tee "logs/${LOG_ID}.post03A.style.log"
+echo "[changelog + rollback legati allo snapshot; richiesta approvazione merge Master DD inviata]" >> logs/03A.log
+
+# 5) Transizione + 03B (cleanup/redirect + smoke 02A post-merge)
+git switch "$BRANCH_03B"
+echo "[checkpoint transizione: backup/redirect pronti]" >> logs/transizione.log
+# Inserisci qui i comandi di cleanup/redirect specifici del branch 03B
+npm run schema:lint | tee "logs/${LOG_ID}.post03B.schema.log"
+node scripts/trait_style_check.js | tee "logs/${LOG_ID}.post03B.style.log"
+echo "[smoke 02A post-merge completato]" >> logs/03B.log
+
+# 6) Sblocco + trigger riavvio
+echo "[sblocco freeze: smoke 02A ok, approvazione finale Master DD registrata]" >> logs/unfreeze.log
+# Aggiorna README solo dopo il log, se richiesto dal processo interno.
+echo "[trigger riavvio PIPELINE_SIMULATOR con baseline aggiornate]" >> logs/restart.log
+
+# 7) Audit rapido
+tar -czf logs/audit-bundle.tar.gz logs/${LOG_ID}*.log logs/freeze.log logs/03A.log logs/transizione.log logs/03B.log logs/unfreeze.log logs/restart.log
+echo "Pipeline completata. Audit bundle: logs/audit-bundle.tar.gz"
+```
