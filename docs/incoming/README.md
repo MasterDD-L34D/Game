@@ -20,6 +20,7 @@ Linee guida minime:
 Note:
 
 - 2026-03-19: log **RIAPERTURA-2026-01** (micro-step archivist) riconferma soft freeze su `incoming/**` e `docs/incoming/**`, gap list 01A allineata a `docs/planning/REF_INCOMING_CATALOG.md` e ticket **[TKT-01A-001]** … **[TKT-01A-005]** (alias **[TKT-01A-DOCS]** per la voce documentazione) registrati in `logs/agent_activity.md`; nessuno spostamento file autorizzato.
+- 2026-03-20: nota **RIAPERTURA-2026-01** aggiornata con disponibilità species-curator/trait-curator (01B) e dev-tooling (01C) in modalità report-only, con ticket **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** e riferimenti in `logs/RIAPERTURA-2026-01-note.md` e `reports/audit/readiness-01c-ci-inventory.md`.
 - Spostamento eseguito per i duplicati DevKit e inventari (freeze 2025-11-25) verso `incoming/archive_cold/**` con riferimento a `reports/backups/2025-11-25_freeze/manifest.txt`.
 - Tenere la tabella sincronizzata con `incoming/README.md` e il catalogo di pianificazione.
 - 2026-03-13: kickoff 01B con species-curator per matrice core/derived su ticket **[TKT-01A-001]** … **[TKT-01A-005]**; dev-tooling incaricato di inventariare workflow CI/script incoming senza eseguire pipeline. Aggiornamento README dopo approvazione Master DD (vedi `logs/agent_activity.md`).
