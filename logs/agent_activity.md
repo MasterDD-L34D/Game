@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-03-16 – Kickoff riapertura 2026-01 (coordinator)
+- Step: `[RIAPERTURA-2026-01-KICKOFF-2026-03-16] owner=coordinator (approvatore Master DD); files=logs/agent_activity.md; rischio=basso (pianificazione/brief); note=Riunione 15' con Master DD+coordinator+archivist: ripassati trigger/gate REF_REPO_MIGRATION_PLAN e REF_PLANNING_RIPRESA_2026 §Checklist; scope/owner: Master DD approva freeze/unfreeze e gate; coordinator guida kickoff, routing agenti e log; archivist cura stato catalogo 01A/gap list e README mirati; species/trait-curator preparano matrice core/derived 01B e flag borderline; dev-tooling inventario workflow/CI 01C in report-only; freeze soft `incoming/**` e `docs/incoming/**` da riconfermare nel log RIAPERTURA-2026-01 con branch dedicati 01A–03B.`
+
 ## 2026-03-15 – Verifica completamento task + rerun docs-generator (coordinator)
 - Step: `[VERIFICA-CHIUSURA-2026-03-15] owner=coordinator (approvatore Master DD); files=incoming/README.md, docs/incoming/README.md, docs/planning/REF_INCOMING_CATALOG.md, logs/agent_activity.md; rischio=basso (documentazione/verifica); note=Ricontrollato che le attività proposte (sblocco soft freeze, ticket 01A/01B/01C aperti e handoff 01A→01B/01C) risultino loggate e allineate tra catalogo e README; confermata assenza di nuovi drop/_holding e finestra soft freeze mantenuta al 2026-03-12 09:00 UTC.`
 - Step: `[TEST-DOCS-GEN-2026-03-15] owner=coordinator (approvatore Master DD); files=logs/agent_activity.md; rischio=basso (QA test); note=Rieseguito `npm run test:docs-generator`: 9 file test / 38 test passati; warning attesi su fetch Nebula/catalogo e biome worker simulati.`
