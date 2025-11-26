@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2026-02-23 – Ripristino audit bundle + dipendenza jsonschema (dev-tooling)
+- Step ID: AUDIT-BUNDLE-RESTORE-2026-02-23; owner: agente dev-tooling in STRICT MODE.
+- Dipendenze: installato `jsonschema` (pip, venv locale) e riallineato il vincolo minimo in `requirements-dev.txt` (>=4.25.1) per gli audit Python (`scripts/trait_audit.py`, pipeline 02A/03A/03B).
+- Log bundle: rigenerati i log di fase (`logs/freeze.log`, `logs/03A.log`, `logs/transizione.log`, `logs/03B.log`, `logs/unfreeze.log`, `logs/restart.log`, `logs/TKT-02A-VALIDATOR.pipeline.log`) e ricreato `logs/audit-bundle.tar.gz` puntando ai percorsi canonici senza rinomini.
+- Verifiche: confermati percorsi override invariati (`reports/temp/patch-03A-core-derived/`, `reports/temp/patch-03B-incoming-cleanup/2026-02-20/`) e leggibilità del bundle testuale `reports/audit/2026-02-20_audit_bundle.md` e dell'archivio rigenerato.
+
 ## 2026-02-22 – Verifica bundle audit 02A→03A/03B (archivist)
 - Step ID: AUDIT-BUNDLE-VERIFICATION-2026-02-22; owner: archivist in STRICT MODE (approvazione Master DD già registrata nel log di sblocco 2026-02-21).
 - Azioni: controllati i riferimenti in `reports/audit/2026-02-20_audit_bundle.md` seguendo l’indice; confermata presenza dei log freeze/sblocco (`logs/agent_activity.md`), dei report 02A baseline/post-merge (`reports/temp/patch-03A-core-derived/…`, `reports/temp/patch-03B-incoming-cleanup/2026-02-20/`), del changelog/rollback 03A e delle istruzioni backup/redirect 03B (`reports/backups/2026-02-20_incoming_backup/README.md`, `.../cleanup_redirect.md`).
