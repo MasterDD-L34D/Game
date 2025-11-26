@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2025-11-26 – Pipeline cycle 02A→03A→03B completato (dev-tooling)
+- Step ID: PIPELINE-CYCLE-02A-03B-2025-11-26; owner: agente dev-tooling in STRICT MODE con approvatore Master DD.
+- Prerequisiti: installato il modulo Python `jsonschema` (pip) dopo errore di dipendenza durante l'avvio della pipeline.
+- Azioni: eseguito `./scripts/run_pipeline_cycle.sh` su branch fallback `work` (LOG_ID=TKT-02A-VALIDATOR) con fase 02A→03A→03B completa; lint schema **OK** (solo DeprecationWarning jsonschema), trait_style_check con 0 errori / 168 warning / 62 info; audit bundle generato in `logs/audit-bundle.tar.gz`.
+- Note: warning npm su config `http-proxy`; pipeline_status.log aggiornato automaticamente dalle fasi (Kickoff → Preparazioni parallele → Freeze → Patch 03A + rerun 02A → Transizione + 03B → Sblocco + trigger riavvio).
+
 ## 2026-02-21 – Audit bundle 02A→03A/03B archiviato (archivist)
 - Step ID: AUDIT-BUNDLE-02A-03B-2026-02-21; owner: archivist con approvazione Master DD richiesta per l’uso in produzione.
 - Azioni: raccolti log freeze/sblocco, report 02A (baseline e smoke post-merge), changelog/rollback 03A e istruzioni backup/redirect 03B nel pacchetto testuale `reports/audit/2026-02-20_audit_bundle.md`.
