@@ -5,15 +5,51 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
+from importlib import metadata
 from pathlib import Path
 from typing import Dict, Iterable, List, Sequence
 
-from jsonschema import (
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = PROJECT_ROOT.resolve()
+
+
+def _prefer_installed_jsonschema() -> None:
+    """Ensure the vendored stub is not loaded when the real package is available."""
+
+    try:
+        metadata.version("jsonschema")
+    except metadata.PackageNotFoundError as exc:
+        raise SystemExit(
+            "Modulo Python 'jsonschema' non installato. Esegui 'pip install -r requirements-dev.txt'."
+        ) from exc
+
+    cleaned_path = []
+    for entry in sys.path:
+        try:
+            resolved = Path(entry or ".").resolve()
+        except Exception:
+            cleaned_path.append(entry)
+            continue
+        if resolved == REPO_ROOT:
+            continue
+        cleaned_path.append(entry)
+    cleaned_path.append(str(REPO_ROOT))
+    sys.path[:] = cleaned_path
+
+
+_prefer_installed_jsonschema()
+
+from jsonschema import (  # type: ignore[import-not-found]
     RefResolver,
     SchemaError,
     exceptions as jsonschema_exceptions,
-    validator_for,
 )
+try:
+    from jsonschema import validator_for  # type: ignore[no-redef]
+except ImportError:  # jsonschema>=4.23 removes validator_for from top-level
+    from jsonschema.validators import validator_for  # type: ignore[assignment]
 
 try:
     RefResolutionError = jsonschema_exceptions.RefResolutionError

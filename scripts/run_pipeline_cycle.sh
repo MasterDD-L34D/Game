@@ -85,6 +85,27 @@ require_command() {
   fi
 }
 
+require_python_module() {
+  local module="$1"
+  if ! python - "$module" <<'PY'
+import importlib.metadata
+import sys
+
+module = sys.argv[1]
+
+try:
+    importlib.metadata.version(module)
+except importlib.metadata.PackageNotFoundError:
+    raise SystemExit(
+        f"Modulo Python mancante: {module}. Esegui 'pip install -r requirements-dev.txt' prima di lanciare la pipeline."
+    )
+PY
+  then
+    echo "Dipendenza Python non soddisfatta: ${module}" >&2
+    exit 1
+  fi
+}
+
 enter_repo_root() {
   REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
   if [[ -z "$REPO_ROOT" ]]; then
@@ -113,7 +134,7 @@ resolve_branch_or_fallback() {
   if branch_exists "$requested"; then
     echo "$requested"
   else
-    append_log "$STATUS_FILE" "${label}_fallback: ${requested} -> ${fallback} (branch non trovato, uso fallback)"
+    append_log "$STATUS_FILE" "${label}_fallback: ${requested} -> ${fallback} (branch non trovato, uso fallback)" >/dev/null
     echo "$fallback"
   fi
 }
@@ -264,9 +285,11 @@ main() {
     exit 0
   fi
 
+  require_command python
   require_command npm
   require_command node
   require_command tar
+  require_python_module jsonschema
 
   trap on_error ERR
 
