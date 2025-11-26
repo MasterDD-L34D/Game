@@ -35,14 +35,23 @@ Linee guida minime:
 
 Note:
 
+- 2026-03-19: log **RIAPERTURA-2026-01** (micro-step archivist) riconferma soft freeze su `incoming/**` e `docs/incoming/**`, con gap list 01A allineata a `docs/planning/REF_INCOMING_CATALOG.md` e ticket **[TKT-01A-001]** … **[TKT-01A-005]** (alias **[TKT-01A-DOCS]** per la voce documentazione) tracciati in `logs/agent_activity.md`; nessuno spostamento file autorizzato.
 - Redirect/indici del cleanup 03B riepilogati in `incoming/REDIRECTS.md`.
 - Spostamento effettuato (freeze 2025-11-25) verso `incoming/archive_cold/**` per bundle repo, script DevKit duplicati e inventari storici; riferimenti e checksum in `reports/backups/2025-11-25_freeze/manifest.txt`.
 - Usare lo stesso stato sia qui sia in `docs/incoming/README.md` per tenere sincronizzato il triage.
 - 2026-03-13: kickoff 01B con species-curator per matrice core/derived usando ticket **[TKT-01A-001]** … **[TKT-01A-005]**; dev-tooling incaricato di inventariare workflow CI/script incoming senza eseguire pipeline. Aggiornamento README dopo approvazione Master DD (vedi `logs/agent_activity.md`).
-- 2026-03-10: riesame gate **RIAPERTURA-2026-01** con Master DD (ticket **[TKT-01A-005]**): soft freeze su `incoming/**`/`docs/incoming/**` confermato e rinvio dello sblocco a **2026-03-12 09:00 UTC**. Nessun `_holding` o drop nuovo; restano consentiti solo update documentali finché non arriva via libera sull’ingest.
+- 2026-03-10: riesame gate **RIAPERTURA-2026-01** con Master DD (ticket **[TKT-01A-005]** / **[TKT-01A-DOCS]**): soft freeze su `incoming/**`/`docs/incoming/**` confermato e finestra provvisoria di sblocco rimandata; vedere riesame 2026-03-19 per stato corrente.
 - 2026-02-07: gap list 01A aggiornata con ticket aperti **[TKT-01A-001]** … **[TKT-01A-005]** (registrati con approvazione Master DD); `incoming/_holding` risulta assente (nessun batch da integrare/archiviare) e va loggato qualunque nuovo drop prima dell’ingestione.
 - Handoff 01A → 01B: le voci della gap list sono tracciate anche in `docs/planning/REF_INCOMING_CATALOG.md` e `docs/incoming/README.md`; species-curator è on-call per 01B (matrice core/derived) usando i ticket **[TKT-01A-001]** … **[TKT-01A-005]** come input di kickoff.
 - 2026-02-12: aperto checkpoint **RIAPERTURA-2026-02** (patchset 03A/03B) dopo baseline 02A in modalità report-only; freeze soft su `incoming/**`/`docs/incoming/**` ancora in attesa di approvazione Master DD. README sincronizzati col catalogo e ticket/gate tracciati in log.
 - 2026-02-24: kickoff rapido PATCHSET-00 (15') per ribadire trigger fase 1→2→3; gap list 01A riletta con ticket aperti **[TKT-01A-001]** … **[TKT-01A-005]**. `_holding` ancora assente (nessun drop da integrare/archiviare). Readiness: trait-curator/species-curator on-call per 01B, dev-tooling on-call per 01C; shortlist kickoff: **[TKT-01B-001]** (matrice core/derived), **[TKT-01B-002]** (trait sentience/enneagramma), **[TKT-01C-001]** (validator parametri), **[TKT-01C-002]** (hook/script engine) da loggare con approvazione Master DD.
 - 2026-02-26: registrato log 01A con pubblicazione del bundle audit 02A→03A/03B (report-only, nessuna nuova esecuzione); dettagli in `logs/agent_activity.md` e link diretto [reports/audit/2026-02-20_audit_bundle.md](../reports/audit/2026-02-20_audit_bundle.md).
 - 2025-11-25: verificati i bundle di backup in `archive_cold/backups/2025-11-25/` con `sha256sum -c manifest.sha256` (OK) e confermati i redirect 03B.
+
+Gap list 01A (sincronizzata con `docs/planning/REF_INCOMING_CATALOG.md` e log **RIAPERTURA-2026-01**):
+
+- **[TKT-01A-001]** – `incoming/lavoro_da_classificare/*`: assenza mapping/owner → nominare owner dominio prima di ingest.
+- **[TKT-01A-002]** – `incoming/ancestors_*` / `Ancestors_Neurons_*`: validare schema/licenza e sanificare versioni pubblicabili.
+- **[TKT-01A-003]** – `evo_tactics_validator-pack_v1.5.zip`, `evo_tactics_param_synergy_v8_3.zip`, `evo_tactics_tables_v8_3.xlsx`: riconciliare parametri con pipeline bilanciamento, possibile legacy se fuori sync.
+- **[TKT-01A-004]** – `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py`: riesaminare compatibilità ID engine senza eseguire script.
+- **[TKT-01A-005]** / **[TKT-01A-DOCS]** – `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`: collegare a patchset 01A o archiviare con approvazione Master DD.
