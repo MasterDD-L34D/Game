@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-03-12 – Apertura ticket reali gap list 01A + shortlist kickoff (archivist)
+- Step: `[TICKETS-01A-OPEN-2026-03-12] owner=archivist (approvatore Master DD); files=docs/planning/REF_INCOMING_CATALOG.md, incoming/README.md, logs/agent_activity.md; rischio=medio (documentazione/ownership); note=Aperti i ticket **[TKT-01A-001]** … **[TKT-01A-005]** per tutte le voci della gap list 01A e sincronizzati i riferimenti nei README; registrata shortlist kickoff 01B/01C (ticket **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]**) con rischi/dipendenze. Fase=01A→01B/01C.`
+
 ## 2026-03-10 – Verifica gate RIAPERTURA-2026-01 e finestra sblocco rinviata (archivist)
 - Step: `[RIAPERTURA-2026-01-RECHECK-2026-03-10] owner=Master DD (approvatore umano) + archivist; files=logs/agent_activity.md, incoming/README.md, docs/incoming/README.md; rischio=basso (documentazione/stato freeze); note=Confermato da Master DD che lo sblocco soft di incoming/** e docs/incoming/** (ticket [TKT-01A-DOCS]) resta rinviato: nessun nuovo drop/_holding, autorizzati solo update documentali. Nuova finestra provvisoria di sblocco fissata a 2026-03-12 09:00 UTC con stessa limitazione di permessi.`
 
