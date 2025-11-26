@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-03-10 – Verifica gate RIAPERTURA-2026-01 e finestra sblocco rinviata (archivist)
+- Step: `[RIAPERTURA-2026-01-RECHECK-2026-03-10] owner=Master DD (approvatore umano) + archivist; files=logs/agent_activity.md, incoming/README.md, docs/incoming/README.md; rischio=basso (documentazione/stato freeze); note=Confermato da Master DD che lo sblocco soft di incoming/** e docs/incoming/** (ticket [TKT-01A-DOCS]) resta rinviato: nessun nuovo drop/_holding, autorizzati solo update documentali. Nuova finestra provvisoria di sblocco fissata a 2026-03-12 09:00 UTC con stessa limitazione di permessi.`
+
 ## 2025-11-26 – Setup formato sintetico + checkpoint conflitti (archivist)
 - Step: `[LOG-FMT-2025-11-26] owner=archivist (STRICT MODE); files=logs/agent_activity.md; rischio=basso (documentazione/processo).`
 - Formato sintetico obbligatorio per ogni micro-step: `[ID] owner=<agente/approvatore>; files=<percorsi toccati>; rischio=<basso/medio/alto>; note=<azioni/impatti/riferimenti>`. Usare questo formato su tutte le nuove voci, mantenendo le entry legacy come storico.
