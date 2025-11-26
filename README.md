@@ -350,6 +350,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ### Recap operativo & prossimi step
 
+- [x] Sblocco freeze 3→4 registrato dopo smoke 02A positivo e approvazione finale Master DD; log `logs/agent_activity.md` aggiornato con snapshot/backup/redirect riallineati e whitelist 02A rinnovata; trigger PIPELINE_SIMULATOR riavviato (sequenza 02A→freeze→03A→transizione→03B→sblocco) sulle baseline correnti.
 - [ ] Rivedi i log in `docs/reports/incoming/validation/` e apri ticket per eventuali regressioni.
 - [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
 - [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.

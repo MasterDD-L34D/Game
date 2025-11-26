@@ -1,5 +1,12 @@
 # Agent activity log
 
+## 2026-02-21 – Sblocco freeze + trigger PIPELINE_SIMULATOR (coordinator)
+- Step ID: UNFREEZE-02A-APPROVED-2026-02-21; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE; branch coinvolti `patch/03A-core-derived` e `patch/03B-incoming-cleanup`.
+- Prerequisiti verificati: smoke 02A più recente in pass (report-only) e approvazione finale Master DD registrata; nessun delta aperto su validator schema/trait/style.
+- Snapshot/backup/redirect: riallineati ai baseline core/derived e incoming (snapshot 2025-11-25 per 03A, backup/redirect 2025-11-25 per 03B) con nota di ricollegamento alle patch correnti.
+- Whitelist 02A aggiornata/azzerata per il nuovo ciclo, collegata ai log `reports/temp/patch-03A-core-derived/` e `reports/temp/patch-03B-incoming-cleanup/`.
+- Trigger riavvio: avviato PIPELINE_SIMULATOR sulla sequenza 02A→freeze→03A→transizione→03B→sblocco con baseline rinnovate; README sincronizzato dopo il log per tracciare sblocco e trigger.
+
 ## 2026-02-20 – Checkpoint transizione 03B + smoke 02A (report-only)
 - Step ID: 03B-TRANSITION-CHECKPOINT-2026-02-20; owner: coordinator + dev-tooling (approvatore richiesto: Master DD). Modalità STRICT MODE.
 - Branch: `patch/03B-incoming-cleanup`; scope: conferma backup/redirect pronti post-03A e log smoke 02A post-merge in report-only.
