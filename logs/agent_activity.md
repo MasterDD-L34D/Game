@@ -1,5 +1,13 @@
 # Agent activity log
 
+## 2026-03-15 – Verifica completamento task + rerun docs-generator (coordinator)
+- Step: `[VERIFICA-CHIUSURA-2026-03-15] owner=coordinator (approvatore Master DD); files=incoming/README.md, docs/incoming/README.md, docs/planning/REF_INCOMING_CATALOG.md, logs/agent_activity.md; rischio=basso (documentazione/verifica); note=Ricontrollato che le attività proposte (sblocco soft freeze, ticket 01A/01B/01C aperti e handoff 01A→01B/01C) risultino loggate e allineate tra catalogo e README; confermata assenza di nuovi drop/_holding e finestra soft freeze mantenuta al 2026-03-12 09:00 UTC.`
+- Step: `[TEST-DOCS-GEN-2026-03-15] owner=coordinator (approvatore Master DD); files=logs/agent_activity.md; rischio=basso (QA test); note=Rieseguito `npm run test:docs-generator`: 9 file test / 38 test passati; warning attesi su fetch Nebula/catalogo e biome worker simulati.`
+
+## 2026-03-14 – Verifica stato planning + test docs-generator (coordinator)
+- Step: `[VERIFICA-PLANNING-2026-03-14] owner=coordinator (approvatore Master DD); files=incoming/README.md, docs/incoming/README.md, docs/planning/REF_INCOMING_CATALOG.md, logs/agent_activity.md; rischio=basso (documentazione/verifica); note=Controllato che le note di freeze e i ticket 01A/01B/01C nei README siano allineati al catalogo; finestra di sblocco soft ancora fissata al 2026-03-12 09:00 UTC; `_holding` assente.`
+- Step: `[TEST-DOCS-GEN-2026-03-14] owner=coordinator (approvatore Master DD); files=logs/agent_activity.md; rischio=basso (QA test); note=Eseguito `npm run test:docs-generator`: 9 file test / 38 test passati; warning attesi sulle fetch simulate del catalogo/Nebula e biome worker in ambiente di test.`
+
 ## 2026-03-13 – Kickoff 01B core/derived + mandato inventario workflow CI (coordinator)
 - Step: `[01B-KICKOFF-MATRIX-2026-03-13] owner=coordinator (approvatore Master DD); files=logs/agent_activity.md, incoming/README.md, docs/incoming/README.md; rischio=medio (documentazione/processo); note=Kickoff rapido con species-curator usando i ticket **[TKT-01A-001]** … **[TKT-01A-005]** come input per costruire la matrice core/derived (fase 01B) e definire blocchi derived borderline con trait-curator/balancer in supporto.`
 - Step: `[01C-WF-INVENTORY-2026-03-13] owner=dev-tooling (approvatore Master DD); files=logs/agent_activity.md; rischio=basso (ricognizione/script); note=Incaricato dev-tooling di raccogliere inventario di workflow CI e script legati ai pack incoming senza eseguire pipeline o validatori.`
