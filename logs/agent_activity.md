@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2026-03-05 – Approvazione Master DD su log 01A + note README (archivist)
+- Step ID: LOG-01A-APPROVAL-2026-03-05; owner: Master DD (approvatore umano) con agente archivist in STRICT MODE.
+- Azioni: rieseguito check freeze su `incoming/**` e `docs/incoming/**` (nessun `_holding`, nessun nuovo drop) e confermato che il soft freeze resta attivo; autorizzato l’aggiornamento delle note README + log 01A con finestra di sblocco pianificata **2026-03-08 09:00 UTC**.
+- Ticket: **[TKT-01A-DOCS]** (riferimento per gap list e allineamento README); nessun file spostato/ingestito.
+- Esito: README `incoming/` e `docs/incoming/` aggiornati con la conferma di approvazione Master DD e la data di sblocco pianificata; log 01A riallineato al ticket di tracciamento.
+
 ## 2026-03-01 – Richiamo log 01A verso bundle audit (archivist)
 - Step ID: LOG-01A-AUDIT-2026-03-01; owner: archivist in STRICT MODE.
 - Azioni: registrato collegamento esplicito al bundle audit 02A→03A/03B per tracciamento 01A senza eseguire nuove pipeline o modifiche di freeze.
