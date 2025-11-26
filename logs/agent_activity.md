@@ -1,5 +1,11 @@
 # Agent activity log
 
+## 2026-02-25 – Memo stato freeze incoming (archivist)
+- Step ID: FREEZE-STATUS-2026-02-25; owner: archivist in STRICT MODE (verifica richieste 01A/01B/01C).
+- Esito: nessun hard freeze attivo; il ciclo 02A→03A→03B risulta sbloccato dal log del 2026-02-21 con approvazione Master DD e riavvio PIPELINE_SIMULATOR.
+- Stato corrente: soft freeze ancora attivo su `incoming/**` e `docs/incoming/**` in attesa di nuova approvazione Master DD; gate “RIAPERTURA-2026-01” già marcato come chiuso e non riaperto.
+- README `incoming/` e `docs/incoming/` confermano assenza di nuovi drop (`_holding` non presente) e freeze soft in sospeso; readiness: trait-curator/species-curator on-call per 01B, dev-tooling on-call per 01C; ticket **[TKT-01A-*]**, **[TKT-01B-*]**, **[TKT-01C-*]** da aprire con approvazione Master DD.
+
 # 2025-11-26 – Tabella gap 01A consolidata (archivist)
 - Step ID: 01A-GAP-TABLE-2025-11-26; owner: archivist in STRICT MODE.
 - Azione: tabella unica con sezioni **DA_INTEGRARE/LEGACY/STORICO** aggiornata su gap list 01A (nessuno spostamento di pack: solo etichettatura/report). Fonti allineate a `docs/planning/REF_INCOMING_CATALOG.md` e README incoming.
