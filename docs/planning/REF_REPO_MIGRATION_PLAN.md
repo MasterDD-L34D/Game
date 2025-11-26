@@ -22,6 +22,18 @@ Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 
 ## Sequenza patchset
 
+### Tracking responsabilità (01A–01C)
+
+<!-- prettier-ignore -->
+| Deliverable | Owner (responsabile) | Due-date | Stato |
+| --- | --- | --- | --- |
+| Log attività 01A ([logs/agent_activity.md](../../logs/agent_activity.md)) | archivist + coordinator (approvazione Master DD) | Da confermare con Master DD | In corso: aggiornamento batch congelati/freeze e gap list 01A registrati nel log centrale. |
+| Gap list 01A approvata ([REF_INCOMING_CATALOG](./REF_INCOMING_CATALOG.md#gap-list-01a-bozza-in-attesa-di-approvazione-master-dd)) | Master DD (approvazione) + coordinator/archivist | TBD – serve nuova data di consegna | In attesa di approvazione Master DD; necessario per sbloccare kickoff 01B/01C. |
+| Readiness 01B/01C ([nota readiness](#nota-readiness-01b01c-2026-02-07)) | species-curator (lead 01B), trait-curator, balancer, archivist, coordinator | Dopo gap list approvata | On-call registrata il 2026-02-07; in stand-by finché non arriva il via libera Master DD su 01A. |
+| Inventario tooling/CI 01C ([REF_TOOLING_AND_CI](./REF_TOOLING_AND_CI.md#inventario-workflowscript-modalita-report-only--2026-02-07)) | dev-tooling (lead 01C) + coordinator | Successivo a via libera 01A/01B | Report-only: inventario CI/script pronto ma non eseguibile finché 01A–01B non risultano chiusi. |
+
+> Condividere la tabella con Master DD e gli owner indicati per confermare responsabilità e scadenze prima di avanzare.
+
 ### Fase 1–2 (analisi/catalogo)
 
 **PATCHSET-01A – Catalogo incoming**
