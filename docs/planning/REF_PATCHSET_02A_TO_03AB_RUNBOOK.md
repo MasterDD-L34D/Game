@@ -49,6 +49,11 @@ Stato: PIANO ESECUTIVO – sequenza operativa dal baseline 02A al rollout 03A/03
 - **Validator:** mantenere modalità report-only fino al via libera per rollout; allegare output sintetico nel log e collegare ai comandi usati.
 - **Rollback:** indicare script/percorso di rollback per 03A; per 03B, percorso backup incoming + istruzioni di ripristino redirect.
 
+## Audit bundle e riavvio
+
+- Conservare il pacchetto di audit in `reports/audit/2026-02-20_audit_bundle.md`, che aggrega log freeze/sblocco, report 02A (baseline e smoke post-merge), changelog/rollback 03A e istruzioni backup/redirect 03B.
+- Usare il bundle come checkpoint per il ciclo successivo: completare il log di sblocco, rieseguire PIPELINE_SIMULATOR sulla sequenza 02A→freeze→03A→03B e aggiornare eventuali whitelist 02A prima di nuovi patchset.
+
 ## Rischi e mitigazioni rapide
 
 - **Freeze non formalizzato:** rischio ingressi non tracciati → non avviare patch senza log di freeze approvato.

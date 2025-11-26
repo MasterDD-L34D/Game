@@ -1,5 +1,35 @@
 # Agent activity log
 
+## 2026-02-21 – Audit bundle 02A→03A/03B archiviato (archivist)
+- Step ID: AUDIT-BUNDLE-02A-03B-2026-02-21; owner: archivist con approvazione Master DD richiesta per l’uso in produzione.
+- Azioni: raccolti log freeze/sblocco, report 02A (baseline e smoke post-merge), changelog/rollback 03A e istruzioni backup/redirect 03B nel pacchetto testuale `reports/audit/2026-02-20_audit_bundle.md`.
+- Esito: bundle pronto per il riavvio del ciclo 02A→freeze→03A→03B; da collegare al trigger PIPELINE_SIMULATOR dopo il log di sblocco definitivo.
+
+## 2026-02-21 – Sblocco freeze + trigger PIPELINE_SIMULATOR (coordinator)
+- Step ID: UNFREEZE-02A-APPROVED-2026-02-21; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE; branch coinvolti `patch/03A-core-derived` e `patch/03B-incoming-cleanup`.
+- Prerequisiti verificati: smoke 02A più recente in pass (report-only) e approvazione finale Master DD registrata; nessun delta aperto su validator schema/trait/style.
+- Snapshot/backup/redirect: riallineati ai baseline core/derived e incoming (snapshot 2025-11-25 per 03A, backup/redirect 2025-11-25 per 03B) con nota di ricollegamento alle patch correnti.
+- Whitelist 02A aggiornata/azzerata per il nuovo ciclo, collegata ai log `reports/temp/patch-03A-core-derived/` e `reports/temp/patch-03B-incoming-cleanup/`.
+- Trigger riavvio: avviato PIPELINE_SIMULATOR sulla sequenza 02A→freeze→03A→transizione→03B→sblocco con baseline rinnovate; README sincronizzato dopo il log per tracciare sblocco e trigger.
+
+## 2026-02-20 – Checkpoint transizione 03B + smoke 02A (report-only)
+- Step ID: 03B-TRANSITION-CHECKPOINT-2026-02-20; owner: coordinator + dev-tooling (approvatore richiesto: Master DD). Modalità STRICT MODE.
+- Branch: `patch/03B-incoming-cleanup`; scope: conferma backup/redirect pronti post-03A e log smoke 02A post-merge in report-only.
+- Backup/redirect: nessun nuovo spostamento; verifiche in `reports/backups/2026-02-20_incoming_backup/README.md` e `reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md` (redirect plan invariato, backup 2025-11-25 pronti al ripristino secondo manifest).
+- Smoke 02A (report-only post-merge 03B):
+  - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS con 3 avvisi pack (log: `reports/temp/patch-03B-incoming-cleanup/2026-02-20/schema_only.log`).
+  - `python scripts/trait_audit.py --check` → WARNING per modulo jsonschema mancante ma nessuna regressione (log: `reports/temp/patch-03B-incoming-cleanup/2026-02-20/trait_audit.log`).
+  - `node scripts/trait_style_check.js --output-json reports/temp/patch-03B-incoming-cleanup/2026-02-20/trait_style.json --fail-on error` → PASS (0 errori / 168 warning / 62 info; log: `reports/temp/patch-03B-incoming-cleanup/2026-02-20/trait_style.log`).
+- Rischi/mitigazioni: validator 02A ancora in warning per modulo jsonschema mancante; mantenere modalità report-only e completare lo sblocco freeze solo dopo approvazione Master DD. Nessun artefatto binario aggiunto al repo.
+
+## 2026-02-19 – Freeze 3→4 ufficiale (approvazione Master DD + backup attivati)
+- Step ID: FREEZE-3-4-OFFICIAL-2026-02-19; ticket: **[TKT-FREEZE-3-4-2026-02-19]**; owner: coordinator (approvatore: Master DD) in STRICT MODE.
+- Branch: `patch/03A-core-derived`, `patch/03B-incoming-cleanup`; freeze attivo su `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**` fino al via libera Master DD post-03B.
+- Backup/snapshot: attivati e tracciati utilizzando la baseline documentata (`reports/backups/2025-11-25_freeze/manifest.txt` e `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.sha256`) come riferimento operativo per rollback core/derived/incoming/docs_incoming; nessun nuovo archivio binario aggiunto al repo (storage esterno per policy).
+- Redirect plan: marcato come chiuso per la fase 03B (rif. indici/redirect già in `incoming/REDIRECTS.md` e `docs/incoming/archive/INDEX.md`); nessun ulteriore file aggiornato oltre al presente log.
+- Rischio: medio-alto (blocco merge non urgenti e dipendenza da backup off-repo); mitigazione tramite manifest esistenti e approvazione Master DD registrata.
+- Comandi tracciati: nessun job aggiuntivo lanciato dal repo in questa registrazione (backup già attivati tramite manifest esterni); prossimi step eseguiranno 03A/03B nel rispetto del freeze.
+
 ## 2026-02-18 – Patchset 03A correzioni mirate 02A (report-only)
 - Branch: `patch/03A-core-derived`; owner: Master DD (approvatore umano) con agente coordinator in STRICT MODE.
 - Attività: sinergie del cluster sonoro verificate in bidirezionalità e normalizzati i valori inline di `fattore_mantenimento_energetico` nei payload (`ali_fono_risonanti`, `cannone_sonico_a_raggio`, `campo_di_interferenza_acustica`, `occhi_cinetici`) e in `data/traits/index.json` secondo le regole i18n/stile 02A.
@@ -79,6 +109,12 @@
 - Branch: `patch/03A-core-derived`; scopo: riesecuzione checklist 02A in sola lettura con artefatti temporanei condivisi.
 - Comandi: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS con 3 avvisi pack (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25-03/schema_only.log`); `python scripts/trait_audit.py --check` → WARNING per modulo jsonschema mancante, nessuna regressione (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25-03/trait_audit.log`); `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/rerun-2025-11-25-03/trait_style.json --fail-on error` → PASS con 0 errori / 176 warning / 66 info su 225 file (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25-03/trait_style.log`, JSON nella stessa cartella).
 - Note: artefatti temporanei salvati in `reports/temp/patch-03A-core-derived/rerun-2025-11-25-03/`; nessuna modifica ai workflow CI o ai dataset.
+
+## 2025-11-25 – Checklist 02A (report-only) – rerun 04
+- Step ID: 02A-VALIDATOR-RERUN-2025-11-25-04; ticket: **[TKT-02A-VALIDATOR]**; owner: Master DD (approvatore umano) con agente dev-tooling in STRICT MODE.
+- Branch: `patch/03A-core-derived`; scopo: kickoff 02A report-only con whitelist salvata e log `TKT-02A-VALIDATOR` aggiornato.
+- Comandi: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS con 3 avvisi pack (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/schema_only.log`); `python scripts/trait_audit.py --check` → WARNING modulo jsonschema mancante, nessuna regressione (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/trait_audit.log`); `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/trait_style.json --fail-on error` → PASS con 0 errori / 172 warning / 62 info (log: `reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/trait_style.log`, JSON nella stessa cartella).
+- Note: artefatti temporanei salvati in `reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/` e copiati nei percorsi canonici `reports/temp/patch-03A-core-derived/{schema_only.log,trait_audit.log,trait_style.log,trait_style.json}` come whitelist di riferimento per il gate 03A.
 
 ## 2026-02-15 – Cleanup 03B con redirect + smoke 02A (report-only)
 - Step ID: 03B-INCOMING-CLEANUP-2026-02-15; owner: Master DD (approvatore umano) con agente dev-tooling/archivist.
@@ -249,6 +285,12 @@
 - Azioni: ripristinati valori testuali inline di `fattore_mantenimento_energetico` per `ali_fono_risonanti`, `cannone_sonico_a_raggio`, `campo_di_interferenza_acustica`, `occhi_cinetici`; reso il validator stile (`traitStyleGuide`) coerente con `NON_LOCALISED_FIELDS` di `scripts/sync_trait_locales.py` per evitare conversioni a i18n.
 - Validator 02A (report-only) rieseguiti: schema-only **OK** (3 avvisi pack), trait audit **OK** (avviso modulo jsonschema mancante), trait style **OK** (0 errori; 172 warning, 62 info). Log e report aggiornati in `reports/temp/patch-03A-core-derived/` (json/md/log).
 - Riferimenti: changelog aggiornato `reports/temp/patch-03A-core-derived/changelog.md`, rollback `reports/temp/patch-03A-core-derived/rollback.md`. Merge subordinato all'approvazione finale di Master DD.
+
+## 2026-02-20 – 03A sonic cluster debolezze + rerun 02A (report-only)
+- Step ID: 03A-SONIC-WEAKNESS-2026-02-20; branch `patch/03A-core-derived`; owner: Master DD (approvatore umano) con agente dev-tooling in STRICT MODE.
+- Azioni: aggiunte chiavi `debolezza` con testi dedicati ai trait sonori (`ali_fono_risonanti`, `cannone_sonico_a_raggio`, `campo_di_interferenza_acustica`, `occhi_cinetici`) e allineati `data/traits/index.json` e `locales/it/traits.json`; aggiornato il report `trait_style.md` e il rollback pack 03A.
+- Validator 02A (report-only): `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → **OK** (3 avvisi pack); `python scripts/trait_audit.py --check` → **OK** (warning modulo jsonschema mancante); `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on error` → **OK** (0 errori; 168 warning; 62 info). Log salvati in `reports/temp/patch-03A-core-derived/` e copia in `.../rerun-2025-11-25T23-27-06Z/`.
+- Richiesta: approvazione **Master DD** per il merge di `patch/03A-core-derived` con changelog/rollback aggiornati e validatori 02A in pass (report-only).
 
 ## 2025-11-25 – 03B cleanup incoming (verifica backup + smoke 02A)
 - Branch: `patch/03B-incoming-cleanup`; owner: Master DD (approvatore umano) con agente archivist in STRICT MODE.

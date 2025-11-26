@@ -1,14 +1,13 @@
 # Trait style guide report
 
-Generato: 2025-11-25T19:01:39.254Z
+Generato: 2025-11-25T23:27:11.280Z
 Totale trait analizzati: 225
-Totale suggerimenti: 234
-Breakdown: error=0, warning=172, info=62
+Totale suggerimenti: 230
+Breakdown: error=0, warning=168, info=62
 Trait con suggerimenti: 104
 
 ## ali_fono_risonanti
 
-- **WARNING** — Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.ali_fono_risonanti.debolezza). (_data/traits/locomotivo/ali_fono_risonanti.json → /debolezza_ )
 - **INFO** — Compila le note descrivendo perché il tratto si attiva in questo bioma. (_data/traits/locomotivo/ali_fono_risonanti.json → /requisiti_ambientali/0/meta/notes_ )
 
 ## antenne_plasmatiche_tempesta
@@ -73,12 +72,10 @@ Trait con suggerimenti: 104
 
 ## campo_di_interferenza_acustica
 
-- **WARNING** — Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.campo_di_interferenza_acustica.debolezza). (_data/traits/difensivo/campo_di_interferenza_acustica.json → /debolezza_ )
 - **INFO** — Compila le note descrivendo perché il tratto si attiva in questo bioma. (_data/traits/difensivo/campo_di_interferenza_acustica.json → /requisiti_ambientali/0/meta/notes_ )
 
 ## cannone_sonico_a_raggio
 
-- **WARNING** — Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.cannone_sonico_a_raggio.debolezza). (_data/traits/offensivo/cannone_sonico_a_raggio.json → /debolezza_ )
 - **INFO** — Compila le note descrivendo perché il tratto si attiva in questo bioma. (_data/traits/offensivo/cannone_sonico_a_raggio.json → /requisiti_ambientali/0/meta/notes_ )
 
 ## canto_infrasonico_tattico
@@ -334,7 +331,6 @@ Trait con suggerimenti: 104
 
 ## occhi_cinetici
 
-- **WARNING** — Il campo `debolezza` deve usare una chiave i18n dedicata (i18n:traits.occhi_cinetici.debolezza). (_data/traits/sensoriale/occhi_cinetici.json → /debolezza_ )
 - **INFO** — Compila le note descrivendo perché il tratto si attiva in questo bioma. (_data/traits/sensoriale/occhi_cinetici.json → /requisiti_ambientali/0/meta/notes_ )
 
 ## occhi_cristallo_modulare
