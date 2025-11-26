@@ -1,5 +1,12 @@
 # Agent activity log
 
+## 2025-11-26 – Setup formato sintetico + checkpoint conflitti (archivist)
+- Step: `[LOG-FMT-2025-11-26] owner=archivist (STRICT MODE); files=logs/agent_activity.md; rischio=basso (documentazione/processo).`
+- Formato sintetico obbligatorio per ogni micro-step: `[ID] owner=<agente/approvatore>; files=<percorsi toccati>; rischio=<basso/medio/alto>; note=<azioni/impatti/riferimenti>`. Usare questo formato su tutte le nuove voci, mantenendo le entry legacy come storico.
+- Freeze/unfreeze/archiviazione: ogni decisione deve essere legata a ticket/patchset con approvazione Master DD e riportare nel campo note l'ID di ticket/patchset usato per l'autorizzazione.
+- Checkpoint conflitti documentali: verificare coerenza tra README/log/indici prima di procedere; in caso di conflitto fermare l'attività e aprire issue al coordinator con ID dedicato nel log (formato sintetico).
+- Aggiornamenti README: pianificare dopo l'esito dei gate (Golden Path o equivalenti), mantenendo allineamento con note di freeze e gap list; loggare i passaggi con il formato sintetico e riferimenti ai gate chiusi.
+
 ## 2026-03-05 – Approvazione Master DD su log 01A + note README (archivist)
 - Step ID: LOG-01A-APPROVAL-2026-03-05; owner: Master DD (approvatore umano) con agente archivist in STRICT MODE.
 - Azioni: rieseguito check freeze su `incoming/**` e `docs/incoming/**` (nessun `_holding`, nessun nuovo drop) e confermato che il soft freeze resta attivo; autorizzato l’aggiornamento delle note README + log 01A con finestra di sblocco pianificata **2026-03-08 09:00 UTC**.
