@@ -19,6 +19,15 @@ logs/unfreeze.log
 node_modules/
 data/idea_engine.db
 
+# Pipeline orchestrator outputs
+logs/pipeline_status.log
+logs/audit-bundle.tar.gz
+logs/*.log
+
+# Python bytecode caches
+jsonschema/__pycache__/
+tools/automation/__pycache__/
+
 # Generated UI artifacts
 logs/tooling/*.png
 
