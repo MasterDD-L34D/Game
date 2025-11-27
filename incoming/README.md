@@ -35,6 +35,7 @@ Linee guida minime:
 
 Note:
 
+- 2026-04-08: riesame freeze 01A in STRICT MODE (archivist) senza spostamenti di file: etichette confermate **DA_INTEGRARE/LEGACY/STORICO**, gap list aggiornata con owner proposti e ticket collegati alle fonti; `incoming/_holding` ancora assente. Soft freeze documentale invariato su `incoming/**` e `docs/incoming/**`.
 - 2026-03-22: kickoff 15' per ribadire trigger fase 1→2→3 e riesame delle tabelle 01A: gap list ancora aperta (**[TKT-01A-001]** … **[TKT-01A-005]**) senza spostamenti di file; `incoming/_holding` confermato assente (nessuna integrazione/archiviazione). Disponibilità riconfermata in report-only per species/trait-curator (matrice core/derived 01B, ticket **[TKT-01B-001]**/**[TKT-01B-002]**) e dev-tooling (inventario workflow CI/script 01C, ticket **[TKT-01C-001]**/**[TKT-01C-002]**). Gate "RIAPERTURA-2026-01" marcato chiuso con autorizzazione a procedere su 01A; soft freeze documentale invariato su `incoming/**` e `docs/incoming/**`.
 - 2026-03-19: log **RIAPERTURA-2026-01** (micro-step archivist) riconferma soft freeze su `incoming/**` e `docs/incoming/**`, con gap list 01A allineata a `docs/planning/REF_INCOMING_CATALOG.md` e ticket **[TKT-01A-001]** … **[TKT-01A-005]** (alias **[TKT-01A-DOCS]** per la voce documentazione) tracciati in `logs/agent_activity.md`; nessuno spostamento file autorizzato.
 - 2026-03-20: nota **RIAPERTURA-2026-01** aggiornata con disponibilità species-curator/trait-curator per 01B e dev-tooling per 01C in modalità report-only; ticket **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** confermati e riferimenti in `logs/RIAPERTURA-2026-01-note.md` e `reports/audit/readiness-01c-ci-inventory.md`.
@@ -52,8 +53,8 @@ Note:
 
 Gap list 01A (sincronizzata con `docs/planning/REF_INCOMING_CATALOG.md` e log **RIAPERTURA-2026-01**):
 
-- **[TKT-01A-001]** – `incoming/lavoro_da_classificare/*`: assenza mapping/owner → nominare owner dominio prima di ingest.
-- **[TKT-01A-002]** – `incoming/ancestors_*` / `Ancestors_Neurons_*`: validare schema/licenza e sanificare versioni pubblicabili.
-- **[TKT-01A-003]** – `evo_tactics_validator-pack_v1.5.zip`, `evo_tactics_param_synergy_v8_3.zip`, `evo_tactics_tables_v8_3.xlsx`: riconciliare parametri con pipeline bilanciamento, possibile legacy se fuori sync.
-- **[TKT-01A-004]** – `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py`: riesaminare compatibilità ID engine senza eseguire script.
-- **[TKT-01A-005]** / **[TKT-01A-DOCS]** – `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`: collegare a patchset 01A o archiviare con approvazione Master DD.
+- **[TKT-01A-001]** – `incoming/lavoro_da_classificare/*`: assenza mapping/owner → nominare owner dominio prima di ingest. Owner proposto: archivist (Laura B, catalogo 01A) con supporto trait-curator per normalizzazioni.
+- **[TKT-01A-002]** – `incoming/ancestors_*` / `Ancestors_Neurons_*`: validare schema/licenza e sanificare versioni pubblicabili. Owner proposto: species-curator (on-call 01B) con revisione archivist per catalogazione.
+- **[TKT-01A-003]** – `evo_tactics_validator-pack_v1.5.zip`, `evo_tactics_param_synergy_v8_3.zip`, `evo_tactics_tables_v8_3.xlsx`: riconciliare parametri con pipeline bilanciamento, possibile legacy se fuori sync. Owner proposto: dev-tooling (01C) con segnalazione a balancer per esito QA.
+- **[TKT-01A-004]** – `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py`: riesaminare compatibilità ID engine senza eseguire script. Owner proposto: dev-tooling (01C) con handoff a engine maintainer dopo QA.
+- **[TKT-01A-005]** / **[TKT-01A-DOCS]** – `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`: collegare a patchset 01A o archiviare con approvazione Master DD. Owner proposto: archivist (Laura B) con coordinamento Master DD per decisione finale.
