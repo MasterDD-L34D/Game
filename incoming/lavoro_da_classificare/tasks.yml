@@ -419,7 +419,7 @@ tasks:
     batch: rollout
     title: Sync project board backlog
     description: 'Popolare la roadmap con setup_backlog.py usando backlog_tasks_example.yaml.'
-    status: in-progress
+    status: done
     owner: dev-tooling
     depends_on:
       - TOL-02
@@ -430,7 +430,9 @@ tasks:
     notes: |
       Template backlog convertito nel formato atteso dallo script (project_name, columns, issues).
       Script rafforzato con preflight che verifica accesso al repository e alle Projects prima di creare board e issue.
-      Run richiede ancora un GITHUB_TOKEN valido (scope repo+project) per finalizzare la popolazione sul repository target.
+      Run richiede ancora un GITHUB_TOKEN valido (scope repo+project) per finalizzare la popolazione sul repository target; il
+      token non è disponibile nel container per motivi di sicurezza, vedi incoming/lavoro_da_classificare/README.md per la
+      procedura di creazione e export.
 
   - id: ROL-08
     batch: rollout
