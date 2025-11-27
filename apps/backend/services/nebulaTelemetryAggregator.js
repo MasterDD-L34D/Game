@@ -345,7 +345,7 @@ function buildIncidentTimeline(records, days = DEFAULT_TIMELINE_DAYS) {
     const bucketDate = new Date(now);
     bucketDate.setUTCDate(bucketDate.getUTCDate() - offset);
     const key = bucketDate.toISOString().slice(0, 10);
-    const bucket = { date: key, total: 0, highPriority: 0 };
+    const bucket = { date: key, total: 0, highPriority: 0, sentienceIndex: {} };
     buckets.push(bucket);
     bucketMap.set(key, bucket);
   }
@@ -371,6 +371,8 @@ function buildIncidentTimeline(records, days = DEFAULT_TIMELINE_DAYS) {
     if (priority === 'high') {
       bucket.highPriority += 1;
     }
+    const sentienceIndex = String(record?.sentience_index || record?.sentienceIndex || 'Unknown');
+    bucket.sentienceIndex[sentienceIndex] = (bucket.sentienceIndex[sentienceIndex] || 0) + 1;
   }
   return buckets;
 }
