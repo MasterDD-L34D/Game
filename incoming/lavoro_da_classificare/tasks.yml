@@ -347,7 +347,7 @@ tasks:
     batch: rollout
     title: Allineamento indice trait Evo
     description: 'Mappare i trait `missing_in_index` con gli ID legacy e aggiornare il glossario.'
-    status: in-progress
+    status: done
     owner: gameplay-data
     depends_on:
       - TRT-02
@@ -356,18 +356,16 @@ tasks:
       - reports/evo/rollout/traits_gap.csv
     commands:
       - python tools/traits/sync_missing_index.py --source reports/evo/rollout/traits_gap.csv --dest data/core/traits/glossary.json
-    notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`. Sincronizzazione 2025-11-27 con slug deduplicati nel glossario.'
+    notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`. Gap azzerato dopo import TR-2002 e classificazione `traits_aggregate` come legacy-only (sync 2025-11-27).'
 
     telemetry:
-      last_sync: 2025-11-27T13:30:28+00:00
-      progress: 99
+      last_sync: 2025-11-27T14:58:54+00:00
+      progress: 100
       metric:
         label: Trait missing_in_index
-        open_items: 2
-        total_items: 253
-      samples:
-        - coscienza_dalveare_diffusa
-        - traits_aggregate
+        open_items: 0
+        total_items: 252
+      samples: []
 
   - id: ROL-05
     batch: rollout
@@ -382,17 +380,17 @@ tasks:
       - reports/evo/rollout/traits_gap.csv
     notes: |
       Deriva dall’analisi `missing_in_external` e fornisce export normalizzato per partner tooling.
-      - Export rigenerato dopo la chiusura di ROL-04: CSV UTF-8 con intestazione `slug,label_it,label_en,tier,external_code,status` (RFC4180, separatore `,`, newline LF) e 204 righe totali.
-        - I 202 slug precedentemente segnalati come `missing_in_external` sono stati verificati e marcati `legacy_only`; restano solo 2 slug `missing_in_index` in coda a ROL-04.
+      - Export rigenerato dopo la chiusura di ROL-04: CSV UTF-8 con intestazione `slug,label_it,label_en,tier,external_code,status` (RFC4180, separatore `,`, newline LF) senza righe pendenti.
+        - Tutti i 202 slug precedentemente segnalati sono stati validati e classificati (`legacy_only`), con gap `missing_in_index` chiusi su ROL-04.
       - Output locale condiviso con il team partner-success (nessun upload S3 richiesto) per la validazione finale; gap esterni azzerati dopo verifica.
 
     telemetry:
-      last_sync: 2026-02-22T12:00:00+00:00
+      last_sync: 2025-11-27T14:58:54+00:00
       progress: 100
       metric:
         label: Trait missing_in_external
         open_items: 0
-        total_items: 253
+        total_items: 252
       samples:
         - ali_fulminee
         - ali_ioniche
