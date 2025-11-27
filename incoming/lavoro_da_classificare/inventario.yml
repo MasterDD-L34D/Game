@@ -398,8 +398,18 @@ inventario:
     dimensione_byte: 7474
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_guide.md
-    verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
+  - percorso: reports/temp/patch-03B-incoming-cleanup/2026-02-20
+    tipo: directory
+    dimensione_byte: 2393
+    note: 'Smoke 02A per batch 03B: schema-only ok (14 controlli, 3 avvisi), trait audit senza regressioni, trait style con 230 suggerimenti (0 errori).'
+    stato: validato
+    verifica: reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md
+  - percorso: incoming/lavoro_da_classificare/backlog_tasks_example.yaml
+    tipo: file
+    dimensione_byte: 1791
+    note: Template backlog copiato dall'archivio per l'esecuzione di setup_backlog.py.
+    stato: validato
+    verifica: incoming/scripts/setup_backlog.py
   - percorso: evo_tactics_guide.md
     tipo: file
     dimensione_byte: 53169

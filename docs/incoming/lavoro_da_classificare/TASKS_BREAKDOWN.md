@@ -132,6 +132,21 @@ chiudere il batch corrispondente.
       _Output_: mockup in `docs/wireframes/` con pagina descrittiva.
       _Note_: immagine spostata in `docs/wireframes/evo/` e documentata in `docs/wireframes/evo/mockup_evo_tactics.md`.
 
+## Batch `rollout`
+
+- [x] **ROL-06 – Smoke 03B inventario**
+      _Owner_: qa
+      _Output_: log smoke in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` + voci inventario.
+      _Passi_: rieseguire schema-only, trait audit e trait style in modalità report-only.
+      _Note_: 14 controlli schema con 3 warning minori, trait audit senza regressioni, 230 suggerimenti style (0 errori) registrati; inventario aggiornato a stato `validato`.
+
+- [ ] **ROL-07 – Sync project board backlog**
+      _Owner_: dev-tooling
+      _Output_: board popolata con `setup_backlog.py` usando `backlog_tasks_example.yaml`.
+      _Passi_: esportare template dall'archivio, impostare variabili `REPO`/`GITHUB_TOKEN`/`BACKLOG_FILE`, eseguire script.
+      _Bloccanti_: richiede `GITHUB_TOKEN` con permessi project/issue.
+      _Note_: template copiato in `incoming/lavoro_da_classificare/backlog_tasks_example.yaml`; esecuzione sospesa finché non vengono forniti i segreti.
+
 ---
 
 Aggiornare questo file (e `tasks.yml`) al termine di ogni attività per rendere
