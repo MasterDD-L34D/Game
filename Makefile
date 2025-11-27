@@ -115,16 +115,16 @@ evo-batch-run:
 		EVO_TASKS_FILE="${EVO_TASKS_FILE}"
 
 evo-validate:
-        @if [ -d "${EVO_VALIDATE_SPECIES}" ]; then \
-                bash ${EVO_VALIDATE_SCRIPT} --dataset "${EVO_VALIDATE_SPECIES}" --schema schemas/evo/species.schema.json; \
-        else \
-                echo "Skipping species validation: directory not found (${EVO_VALIDATE_SPECIES})"; \
-        fi
-        @if [ -d "${EVO_VALIDATE_TRAITS}" ]; then \
-                bash ${EVO_VALIDATE_SCRIPT} --dataset "${EVO_VALIDATE_TRAITS}" --schema schemas/evo/trait.schema.json; \
-        else \
-                echo "Skipping traits validation: directory not found (${EVO_VALIDATE_TRAITS})"; \
-        fi
+	@if [ -d "${EVO_VALIDATE_SPECIES}" ]; then \
+		bash ${EVO_VALIDATE_SCRIPT} --dataset "${EVO_VALIDATE_SPECIES}" --schema schemas/evo/species.schema.json; \
+	else \
+		echo "Skipping species validation: directory not found (${EVO_VALIDATE_SPECIES})"; \
+	fi
+	@if [ -d "${EVO_VALIDATE_TRAITS}" ]; then \
+		bash ${EVO_VALIDATE_SCRIPT} --dataset "${EVO_VALIDATE_TRAITS}" --schema schemas/evo/trait.schema.json; \
+	else \
+		echo "Skipping traits validation: directory not found (${EVO_VALIDATE_TRAITS})"; \
+	fi
 
 evo-backlog:
 	@if [ -z "${EVO_BACKLOG_FILE}" ]; then \
@@ -140,16 +140,16 @@ evo-backlog:
 	$(PYTHON) ${EVO_BACKLOG_SCRIPT}
 
 traits-review:
-        @if [ -n "${TRAITS_REVIEW_INPUT}" ]; then \
-                $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --input "${TRAITS_REVIEW_INPUT}" --baseline "${TRAITS_REVIEW_BASELINE}" --out "${TRAITS_REVIEW_OUT}"; \
-        else \
-                $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --glossary "${TRAITS_REVIEW_GLOSSARY}" --outdir "${TRAITS_REVIEW_OUTDIR}"; \
-        fi
-        @if [ -d "${SPECIES_SUMMARY_ROOT}" ]; then \
-                $(PYTHON) ${SPECIES_SUMMARY_SCRIPT} --root "${SPECIES_SUMMARY_ROOT}" --output "${SPECIES_SUMMARY_OUT}"; \
-        else \
-                echo "Skipping species summary: directory not found (${SPECIES_SUMMARY_ROOT})"; \
-        fi
+	@if [ -n "${TRAITS_REVIEW_INPUT}" ]; then \
+		$(PYTHON) ${TRAITS_REVIEW_SCRIPT} --input "${TRAITS_REVIEW_INPUT}" --baseline "${TRAITS_REVIEW_BASELINE}" --out "${TRAITS_REVIEW_OUT}"; \
+	else \
+		$(PYTHON) ${TRAITS_REVIEW_SCRIPT} --glossary "${TRAITS_REVIEW_GLOSSARY}" --outdir "${TRAITS_REVIEW_OUTDIR}"; \
+	fi
+	@if [ -d "${SPECIES_SUMMARY_ROOT}" ]; then \
+		$(PYTHON) ${SPECIES_SUMMARY_SCRIPT} --root "${SPECIES_SUMMARY_ROOT}" --output "${SPECIES_SUMMARY_OUT}";\
+	else \
+		echo "Skipping species summary: directory not found (${SPECIES_SUMMARY_ROOT})"; \
+	fi
 
 update-tracker:
 	$(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)
