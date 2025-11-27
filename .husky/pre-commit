@@ -2,6 +2,13 @@
 
 set -e
 
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$branch" = "main" ]; then
+  echo "[pre-commit] Commit on 'main' is blocked. Please use a patch branch (01A–03B) or 'work'." >&2
+  exit 1
+fi
+
 git diff --cached --name-only --diff-filter=ACMR -z \
   | xargs -0 npx prettier --check --ignore-unknown
 
