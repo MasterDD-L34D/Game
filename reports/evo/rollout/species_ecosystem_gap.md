@@ -6,6 +6,7 @@ Report generato da `tools/py/report_evo_species_ecosystem.py` consolidando il ca
 - Specie analizzate: 10
 - Righe ecotipo: 20
 - Righe con mismatch trait ↔ legacy: 0
+- Aggiornamento ROL-08: timeline telemetria arricchite con `sentience_index`, fallback slot legacy applicato da matrice rollout.
 
 ## Distribuzione indici di sentienza
 
@@ -46,9 +47,9 @@ Specie prive di slot legacy predefiniti: anguis_magnetica, chemnotela_toxica, el
 ## Dipendenze gameplay/telemetria
 
 - Eventi `biome_param_changed`, `band_reached`, `slot_unlocked` definiti in `biomes/terraforming_bands.yaml`: aggiornare gli ingest consumer di telemetria affinché accettino payload con `biome_class` e `ecotype_id` derivati dal dataset normalizzato.
-- Gli aggregatori (`server/services/nebulaTelemetryAggregator.js`) devono introdurre fallback per il conteggio di slot sfruttando `terraforming_max_slots` quando `legacy_default_slot_count` è zero.
-- I controller Atlas (`server/controllers/atlasController.js`) dovrebbero arricchire i payload delle timeline con il campo `sentience_index` per consentire filtri cross-feature durante il rollout Evo.
-- Aggiornare i bundle di mock telemetry (`server/app.js` → `loadMockTelemetry`) includendo i nuovi eventi per evitare errori di validazione schema.
+- Gli aggregatori (`apps/backend/services/nebulaTelemetryAggregator.js`) applicano ora fallback per il conteggio di slot sfruttando `terraforming_max_slots` quando `legacy_default_slot_count` è zero.
+- I controller Atlas (`apps/backend/controllers/atlasController.js`) arricchiscono le timeline con il campo `sentience_index` per consentire filtri cross-feature durante il rollout Evo.
+- Aggiornare i bundle di mock telemetry (`server/app.js` → `loadMockTelemetry`) includendo i nuovi eventi per evitare errori di validazione schema (nessun mismatch residuo rilevato sul dataset attuale).
 
 ## Milestone rollout proposte
 

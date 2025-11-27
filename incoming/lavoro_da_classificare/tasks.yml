@@ -434,7 +434,7 @@ tasks:
     batch: rollout
     title: Piano rollout specie/ecotipi
     description: 'Sequenziare le milestone di attivazione specie e aggiornare i consumer telemetria.'
-    status: at-risk
+    status: done
     owner: gameplay-ops
     depends_on:
       - SPEC-03
@@ -443,6 +443,9 @@ tasks:
       - apps/backend/services/nebulaTelemetryAggregator.js
       - apps/backend/controllers/atlasController.js
     notes: 'Integra fallback slot legacy, arricchisce payload timeline con sentience_index e allinea mock telemetry.'
+
+    qa:
+      smoke_test: 'Verifica /nebula/atlas e /nebula/atlas/telemetry con timeline arricchita (sentience_index) e fallback slot da matrice rollout.'
 
     telemetry:
       last_sync: 2025-11-27T13:18:57+00:00
