@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2025-11-23T02:12:53+00:00",
+  "updated_at": "2025-11-27T12:52:56.066604+00:00",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -1510,6 +1510,12 @@
       "label_en": "Black Vortex Flash",
       "description_it": "Implosione luminosa seguita da vuoto e teletrasporto breve (temp).",
       "description_en": "Luminous implosion followed by void and short teleport (temp)."
+    },
+    "coscienza_dalveare_diffusa": {
+      "label_it": "Coscienza d’Alveare Diffusa",
+      "label_en": "Coscienza d’Alveare Diffusa",
+      "description_it": "Fondere decisioni e memoria a breve termine.",
+      "description_en": "Fondere decisioni e memoria a breve termine."
     }
   }
 }
