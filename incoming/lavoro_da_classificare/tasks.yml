@@ -321,7 +321,7 @@ tasks:
     batch: rollout
     title: Snapshot playbook Evo mancanti
     description: 'Produrre versioni archivio per i playbook senza controparte legacy.'
-    status: in-progress
+    status: done
     owner: security-pmo
     depends_on:
       - ROL-01
@@ -332,16 +332,16 @@ tasks:
     notes: 'Estrarre le copie consolidate dei playbook security/PMO e versionarle nell’archivio storico con changelog.'
 
     telemetry:
-      last_sync: 2025-10-29T14:20:44+00:00
-      progress: 99
+      last_sync: 2025-12-19T00:00:00+00:00
+      progress: 100
       metric:
         label: Playbook da archiviare
-        open_items: 3
+        open_items: 0
         total_items: 218
       samples:
-        - docs/evo-tactics/guides/security-ops.md
-        - docs/evo-tactics/guides/template-ptpf.md
-        - docs/evo-tactics/guides/visione-struttura.md
+        - docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_security_ops.md
+        - docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md
+        - docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md
 
   - id: ROL-04
     batch: rollout
