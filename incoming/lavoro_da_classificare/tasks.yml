@@ -417,7 +417,7 @@ tasks:
     batch: rollout
     title: Sync project board backlog
     description: 'Popolare la roadmap con setup_backlog.py usando backlog_tasks_example.yaml.'
-    status: done
+    status: in-progress
     owner: dev-tooling
     depends_on:
       - TOL-02
@@ -431,6 +431,8 @@ tasks:
       Run richiede ancora un GITHUB_TOKEN valido (scope repo+project) per finalizzare la popolazione sul repository target; il
       token non è disponibile nel container per motivi di sicurezza, vedi incoming/lavoro_da_classificare/README.md per la
       procedura di creazione e export.
+      Esecuzione 2025-11-27 fallita con GitHub API 401 (Bad credentials) usando token placeholder; necessario fornire un GITHUB_TOKEN
+      valido con scope repo+project e ripetere il comando. Log: reports/setup_backlog_20251127_201830.log.
 
   - id: ROL-08
     batch: rollout
