@@ -2,6 +2,10 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 
 const { atlasDataset } = require('../../../data/nebula/atlasDataset.js');
+const {
+  loadSpeciesRolloutMatrix,
+  applySpeciesRollout,
+} = require('../services/nebulaTelemetryAggregator.js');
 const { SchemaValidationError } = require('../middleware/schemaValidator');
 const featureFlagsConfig = require('../../../config/featureFlags.json');
 
@@ -25,6 +29,16 @@ const DEFAULT_GENERATOR_TELEMETRY = path.resolve(
   'logs',
   'tooling',
   'generator_run_profile.json',
+);
+const DEFAULT_SPECIES_MATRIX = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'reports',
+  'evo',
+  'rollout',
+  'species_ecosystem_matrix.csv',
 );
 
 function cloneDataset() {
@@ -319,9 +333,33 @@ function buildGeneratorPayload(dataset, generatorProfile) {
 function createAtlasLoader(options = {}) {
   const telemetryPath = options.telemetryPath || DEFAULT_TELEMETRY_EXPORT;
   const generatorPath = options.generatorTelemetryPath || DEFAULT_GENERATOR_TELEMETRY;
+  const speciesMatrixPath =
+    options.speciesMatrixPath || options.speciesRolloutMatrixPath || DEFAULT_SPECIES_MATRIX;
+  const logger = normaliseRolloutLogger(options.logger);
+
+  let speciesRolloutCache = null;
+
+  async function loadSpeciesRollout() {
+    if (!speciesMatrixPath) {
+      return new Map();
+    }
+    if (speciesRolloutCache) {
+      return speciesRolloutCache;
+    }
+    try {
+      speciesRolloutCache = await loadSpeciesRolloutMatrix(speciesMatrixPath, logger);
+      return speciesRolloutCache;
+    } catch (error) {
+      logger.warn('[atlas-controller] impossibile caricare matrice rollout specie', error);
+      speciesRolloutCache = new Map();
+      return speciesRolloutCache;
+    }
+  }
 
   return async function loadAtlasData() {
     const dataset = cloneDataset();
+    const speciesRollout = await loadSpeciesRollout();
+    applySpeciesRollout(dataset?.species, speciesRollout);
     const records = await loadTelemetryRecords(telemetryPath).catch((error) => {
       console.warn('[atlas-controller] impossibile caricare telemetria', error);
       return [];
@@ -757,5 +795,7 @@ module.exports = {
     evaluateNebulaRollout,
     extractRolloutContext,
     getNebulaRolloutFlag,
+    loadSpeciesRolloutMatrix,
+    applySpeciesRollout,
   },
 };

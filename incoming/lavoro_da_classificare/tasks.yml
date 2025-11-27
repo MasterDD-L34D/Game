@@ -373,7 +373,7 @@ tasks:
     batch: rollout
     title: Esportazione dataset trait consumer esterni
     description: 'Preparare il pacchetto CSV/JSON per i consumer esterni che non ricevono i nuovi trait.'
-    status: at-risk
+    status: done
     owner: partner-success
     depends_on:
       - ROL-04
@@ -442,20 +442,18 @@ tasks:
       - SPEC-03
     deliverables:
       - reports/evo/rollout/species_ecosystem_gap.md
-      - server/services/nebulaTelemetryAggregator.js
-      - server/controllers/atlasController.js
+      - apps/backend/services/nebulaTelemetryAggregator.js
+      - apps/backend/controllers/atlasController.js
     notes: 'Integra fallback slot legacy, arricchisce payload timeline con sentience_index e allinea mock telemetry.'
 
     telemetry:
-      last_sync: 2025-10-29T14:20:44+00:00
-      progress: 0
+      last_sync: 2025-11-27T13:18:57+00:00
+      progress: 100
       metric:
         label: Ecotipi con mismatch
-        open_items: 20
+        open_items: 0
         total_items: 20
       samples:
-        - Anguis magnetica
-        - Chemnotela toxica
-        - Elastovaranus hydrus
-        - Gulogluteus scutiger
-        - Perfusuas pedes
+        - specie_ecosystem_matrix.csv
+        - fallback slot legacy (terraforming_max_slots)
+        - sentience_index in timeline telemetry
