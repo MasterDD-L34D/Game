@@ -145,7 +145,7 @@ chiudere il batch corrispondente.
       _Output_: board popolata con `setup_backlog.py` usando `backlog_tasks_example.yaml`.
       _Passi_: esportare template dall'archivio, impostare variabili `REPO`/`GITHUB_TOKEN`/`BACKLOG_FILE`, eseguire script.
       _Bloccanti_: richiede `GITHUB_TOKEN` con permessi project/issue.
-      _Note_: template copiato in `incoming/lavoro_da_classificare/backlog_tasks_example.yaml`; esecuzione sospesa finché non vengono forniti i segreti.
+      _Note_: template copiato in `incoming/lavoro_da_classificare/backlog_tasks_example.yaml`; script aggiornato con preflight per verificare REPO e token prima di creare Projects/issue. Necessario PAT repo+project valido per la run finale sul repository target.
 
 ---
 

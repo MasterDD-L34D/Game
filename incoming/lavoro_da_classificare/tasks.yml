@@ -427,8 +427,8 @@ tasks:
       - python incoming/scripts/setup_backlog.py
     notes: |
       Template backlog convertito nel formato atteso dallo script (project_name, columns, issues).
-      Tentata esecuzione con REPO=MasterDD-L34D/Game e BACKLOG_FILE impostato al nuovo template ma la GitHub API ha restituito 404 (token placeholder, project non creato).
-      Richiesto rerun con GITHUB_TOKEN valido e repository accessibile; la pipeline resta attiva in attesa del token corretto.
+      Script rafforzato con preflight che verifica accesso al repository e alle Projects prima di creare board e issue.
+      Run richiede ancora un GITHUB_TOKEN valido (scope repo+project) per finalizzare la popolazione sul repository target.
 
   - id: ROL-08
     batch: rollout
