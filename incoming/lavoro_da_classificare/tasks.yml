@@ -401,6 +401,37 @@ tasks:
 
   - id: ROL-06
     batch: rollout
+    title: Smoke 03B inventario
+    description: 'Rieseguire schema-only, trait audit e trait style in modalità report-only per il batch 03B.'
+    status: done
+    owner: qa
+    depends_on:
+      - OPS-03
+    deliverables:
+      - reports/temp/patch-03B-incoming-cleanup/2026-02-20/
+      - incoming/lavoro_da_classificare/inventario.yml
+    commands:
+      - bash incoming/scripts/validate.sh --smoke-only
+    notes: '14 controlli schema con 3 warning, trait audit senza regressioni, 230 suggerimenti style (0 errori); inventario aggiornato a stato validato.'
+
+  - id: ROL-07
+    batch: rollout
+    title: Sync project board backlog
+    description: 'Popolare la roadmap con setup_backlog.py usando backlog_tasks_example.yaml.'
+    status: blocked
+    owner: dev-tooling
+    depends_on:
+      - TOL-02
+    deliverables:
+      - incoming/lavoro_da_classificare/backlog_tasks_example.yaml
+    commands:
+      - python incoming/scripts/setup_backlog.py
+    blockers:
+      - 'Richiede GITHUB_TOKEN con permessi repo+project e variabili REPO/BACKLOG_FILE impostate.'
+    notes: 'Template backlog copiato dall’archivio; esecuzione sospesa in attesa dei segreti per GitHub API.'
+
+  - id: ROL-08
+    batch: rollout
     title: Piano rollout specie/ecotipi
     description: 'Sequenziare le milestone di attivazione specie e aggiornare i consumer telemetria.'
     status: at-risk
