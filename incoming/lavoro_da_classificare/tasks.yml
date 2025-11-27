@@ -347,7 +347,7 @@ tasks:
     batch: rollout
     title: Allineamento indice trait Evo
     description: 'Mappare i trait `missing_in_index` con gli ID legacy e aggiornare il glossario.'
-    status: in-progress
+    status: done
     owner: gameplay-data
     depends_on:
       - TRT-02
@@ -356,18 +356,16 @@ tasks:
       - reports/evo/rollout/traits_gap.csv
     commands:
       - python tools/traits/sync_missing_index.py --source reports/evo/rollout/traits_gap.csv --dest data/core/traits/glossary.json
-    notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`.'
+    notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`. Sincronizzazione 2025-11-27 con slug deduplicati nel glossario.'
 
     telemetry:
-      last_sync: 2025-11-27T12:41:18+00:00
-      progress: 99
+      last_sync: 2025-11-27T13:30:28+00:00
+      progress: 100
       metric:
         label: Trait missing_in_index
-        open_items: 2
+        open_items: 0
         total_items: 225
-      samples:
-        - coscienza_dalveare_diffusa
-        - traits_aggregate
+      samples: []
 
   - id: ROL-05
     batch: rollout
@@ -383,7 +381,7 @@ tasks:
     notes: |
       Deriva dall’analisi `missing_in_external` e fornisce export normalizzato per partner tooling.
       - Export rigenerato dopo la chiusura di ROL-04: CSV UTF-8 con intestazione `slug,label_it,label_en,tier,external_code,status` (RFC4180, separatore `,`, newline LF) e 204 righe totali.
-      - `traits_gap.csv` aggiornato per i `missing_in_external` (202 occorrenze; `missing_in_index`: 2) a partire dal dataset normalizzato.
+        - `traits_gap.csv` aggiornato per i `missing_in_external` (202 occorrenze; `missing_in_index`: 0) a partire dal dataset normalizzato.
       - Output condiviso con il team partner-success per validazione finale.
 
     telemetry:
