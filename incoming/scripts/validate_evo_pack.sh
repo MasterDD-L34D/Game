@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 usage() {
   cat <<USAGE
 Usage: $0 --dataset <dataset> --schema <schema-path>
@@ -47,11 +49,13 @@ resolve_dataset() {
   local dataset_key="$1"
   case "$dataset_key" in
     evo-species)
-      echo "data/external/evo/species"
+      echo "${REPO_ROOT}/data/external/evo/species"
       ;;
     *)
       if [[ -d "$dataset_key" ]]; then
-        echo "$dataset_key"
+        echo "$(cd "$dataset_key" && pwd)"
+      elif [[ -d "${REPO_ROOT}/${dataset_key}" ]]; then
+        echo "$(cd "${REPO_ROOT}/${dataset_key}" && pwd)"
       else
         echo "Unknown dataset: $dataset_key" >&2
         exit 1
@@ -64,6 +68,15 @@ DATA_DIR=$(resolve_dataset "$DATASET")
 
 if [[ ! -d "$DATA_DIR" ]]; then
   echo "Dataset directory not found: $DATA_DIR" >&2
+  exit 1
+fi
+
+if [[ -f "$SCHEMA" ]]; then
+  SCHEMA_PATH=$(cd "$(dirname "$SCHEMA")" && pwd)/"$(basename "$SCHEMA")"
+elif [[ -f "${REPO_ROOT}/${SCHEMA}" ]]; then
+  SCHEMA_PATH="${REPO_ROOT}/${SCHEMA}"
+else
+  echo "Schema file not found: $SCHEMA" >&2
   exit 1
 fi
 
@@ -82,4 +95,4 @@ if [[ ${#FILES[@]} -eq 0 ]]; then
   exit 1
 fi
 
-node scripts/validate-dataset.cjs "$SCHEMA" "${FILES[@]}"
+node "${REPO_ROOT}/scripts/validate-dataset.cjs" "$SCHEMA_PATH" "${FILES[@]}"

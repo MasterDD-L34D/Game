@@ -8,7 +8,7 @@ EVO_AUTOMATION := $(PYTHON) -m tools.automation.evo_batch_runner
 EVO_TRACKER_UPDATE := $(PYTHON) -m tools.automation.update_tracker_registry
 EVO_SCHEMA_LINT := $(PYTHON) -m tools.automation.evo_schema_lint
 SITE_AUDIT_CMD := $(PYTHON) ops/site-audit/run_suite.py
-EVO_VALIDATE_SCRIPT := incoming/scripts/validate.sh
+EVO_VALIDATE_SCRIPT := incoming/scripts/validate_evo_pack.sh
 EVO_VALIDATE_AJV ?= tools/ajv-wrapper.sh
 EVO_VALIDATE_TRAITS ?= incoming/traits
 EVO_VALIDATE_SPECIES ?= incoming/species
@@ -22,6 +22,9 @@ TRAITS_REVIEW_OUTDIR ?= reports/evo
 TRAITS_REVIEW_INPUT ?=
 TRAITS_REVIEW_BASELINE ?= data/core/traits/glossary.json
 TRAITS_REVIEW_OUT ?= reports/evo/traits_review.csv
+SPECIES_SUMMARY_SCRIPT := incoming/scripts/species_summary_script.py
+SPECIES_SUMMARY_ROOT ?= data/external/evo/species
+SPECIES_SUMMARY_OUT ?= reports/evo/species_summary.csv
 
 EVO_BATCH ?= all
 EVO_FLAGS ?=
@@ -112,11 +115,16 @@ evo-batch-run:
 		EVO_TASKS_FILE="${EVO_TASKS_FILE}"
 
 evo-validate:
-	AJV="${EVO_VALIDATE_AJV}" \
-	EVO_TEMPLATES_DIR="${EVO_VALIDATE_TEMPLATES}" \
-	EVO_TRAITS_DIR="${EVO_VALIDATE_TRAITS}" \
-	EVO_SPECIES_DIR="${EVO_VALIDATE_SPECIES}" \
-	bash ${EVO_VALIDATE_SCRIPT}
+        @if [ -d "${EVO_VALIDATE_SPECIES}" ]; then \
+                bash ${EVO_VALIDATE_SCRIPT} --dataset "${EVO_VALIDATE_SPECIES}" --schema schemas/evo/species.schema.json; \
+        else \
+                echo "Skipping species validation: directory not found (${EVO_VALIDATE_SPECIES})"; \
+        fi
+        @if [ -d "${EVO_VALIDATE_TRAITS}" ]; then \
+                bash ${EVO_VALIDATE_SCRIPT} --dataset "${EVO_VALIDATE_TRAITS}" --schema schemas/evo/trait.schema.json; \
+        else \
+                echo "Skipping traits validation: directory not found (${EVO_VALIDATE_TRAITS})"; \
+        fi
 
 evo-backlog:
 	@if [ -z "${EVO_BACKLOG_FILE}" ]; then \
@@ -132,11 +140,16 @@ evo-backlog:
 	$(PYTHON) ${EVO_BACKLOG_SCRIPT}
 
 traits-review:
-	@if [ -n "${TRAITS_REVIEW_INPUT}" ]; then \
-	        $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --input "${TRAITS_REVIEW_INPUT}" --baseline "${TRAITS_REVIEW_BASELINE}" --out "${TRAITS_REVIEW_OUT}"; \
-	else \
-	        $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --glossary "${TRAITS_REVIEW_GLOSSARY}" --outdir "${TRAITS_REVIEW_OUTDIR}"; \
-	fi
+        @if [ -n "${TRAITS_REVIEW_INPUT}" ]; then \
+                $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --input "${TRAITS_REVIEW_INPUT}" --baseline "${TRAITS_REVIEW_BASELINE}" --out "${TRAITS_REVIEW_OUT}"; \
+        else \
+                $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --glossary "${TRAITS_REVIEW_GLOSSARY}" --outdir "${TRAITS_REVIEW_OUTDIR}"; \
+        fi
+        @if [ -d "${SPECIES_SUMMARY_ROOT}" ]; then \
+                $(PYTHON) ${SPECIES_SUMMARY_SCRIPT} --root "${SPECIES_SUMMARY_ROOT}" --output "${SPECIES_SUMMARY_OUT}"; \
+        else \
+                echo "Skipping species summary: directory not found (${SPECIES_SUMMARY_ROOT})"; \
+        fi
 
 update-tracker:
 	$(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)

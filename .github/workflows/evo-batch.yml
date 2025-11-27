@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       batch:
-        description: "Batch da eseguire"
+        description: 'Batch da eseguire'
         required: true
         type: choice
         options:
@@ -16,12 +16,12 @@ on:
           - ops_ci
           - frontend
       execute:
-        description: "Eseguire i comandi (false = dry-run)"
+        description: 'Eseguire i comandi (false = dry-run)'
         required: false
         type: boolean
         default: false
       ignore_errors:
-        description: "Ignora errori dei comandi"
+        description: 'Ignora errori dei comandi'
         required: false
         type: boolean
         default: false
@@ -45,15 +45,18 @@ jobs:
         run: pip install -r requirements-dev.txt
 
       - name: Plan batch
+        working-directory: ${{ github.workspace }}
         run: |
           python tools/automation/evo_batch_runner.py plan --batch "$BATCH"
 
       - name: Execute batch
         if: ${{ inputs.execute == true }}
+        working-directory: ${{ github.workspace }}
         run: |
           python tools/automation/evo_batch_runner.py run --batch "$BATCH" --execute $IGNORE_ERRORS_FLAG
 
       - name: Dry-run summary
         if: ${{ inputs.execute == false }}
+        working-directory: ${{ github.workspace }}
         run: |
           python tools/automation/evo_batch_runner.py run --batch "$BATCH" $IGNORE_ERRORS_FLAG

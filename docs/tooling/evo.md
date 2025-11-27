@@ -79,20 +79,15 @@ Il comando è disponibile anche tramite `make evo-lint` (variabili opzionali
 
 ## Validazione dei pacchetti incoming
 
-- Script: `incoming/scripts/validate.sh`
+- Script: `incoming/scripts/validate_evo_pack.sh`
 - Obiettivo: eseguire la validazione AJV dei trait e delle specie provenienti
-  dai drop `incoming/`.
-- Variabili supportate:
-  - `AJV` o `EVO_VALIDATE_AJV`: comando AJV da utilizzare (default `ajv`).
-  - `EVO_TEMPLATES_DIR`: directory degli schemi (default
-    `incoming/templates`).
-  - `EVO_TRAITS_DIR`: directory dei trait JSON (default `incoming/traits`).
-  - `EVO_SPECIES_DIR`: directory delle specie JSON (default `incoming/species`).
-- Output: messaggi di stato su stdout/stderr; interruzione immediata in caso di
-  errori di validazione. File mancanti producono un warning non bloccante.
-- Target Makefile: `make evo-validate` propaga automaticamente le variabili di
-  default, consentendo override (ad esempio
-  `make evo-validate EVO_TRAITS_DIR=data/external/evo/traits`).
+  dai drop `incoming/` o dal pacchetto Evo esterno.
+- Parametri: richiede `--dataset` (cartella con i JSON) e `--schema`
+  (percorso allo schema), risolvendo automaticamente i percorsi relativi al
+  repository.
+- Target Makefile: `make evo-validate` lancia due passaggi (specie e trait)
+  usando `EVO_VALIDATE_SPECIES` e `EVO_VALIDATE_TRAITS` come cartelle sorgente
+  e salta automaticamente quelli mancanti.
 
 ## Automazione backlog GitHub
 
@@ -121,7 +116,8 @@ EVO_BACKLOG_FILE=backlog.yaml` che reindirizza le variabili richieste allo
 - Target Makefile: `make traits-review` esegue la modalità legacy
   (`TRAITS_REVIEW_GLOSSARY`, `TRAITS_REVIEW_OUTDIR` sovrascrivibili). Passando
   `TRAITS_REVIEW_INPUT=/path TRAITS_REVIEW_OUT=report.csv` il target commuta
-  automaticamente in modalità confronto.
+  automaticamente in modalità confronto e genera inoltre un CSV di riepilogo
+  specie tramite `SPECIES_SUMMARY_ROOT`/`SPECIES_SUMMARY_OUT`.
 
 ## Make target di supporto
 

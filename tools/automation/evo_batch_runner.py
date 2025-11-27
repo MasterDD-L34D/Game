@@ -27,6 +27,7 @@ from tools.automation import configure_logging, get_logger
 
 
 LOGGER = get_logger(__name__)
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 # Status names considered to be completed and therefore eligible to unblock
 # dependent tasks. The tracker currently uses lowercase strings.
@@ -61,8 +62,9 @@ class TaskRegistry:
     """Loads and queries task information."""
 
     def __init__(self, tasks_file: Path) -> None:
-        self.tasks_file = tasks_file
-        self._data = self._load_yaml(tasks_file)
+        resolved = tasks_file if tasks_file.is_absolute() else REPO_ROOT / tasks_file
+        self.tasks_file = resolved
+        self._data = self._load_yaml(resolved)
         self._tasks: Dict[str, Task] = self._parse_tasks(self._data)
 
     @staticmethod
@@ -203,7 +205,7 @@ def run_command(command: str, execute: bool, ignore_errors: bool) -> bool:
         return True
     LOGGER.info("  → %s", command)
     try:
-        subprocess.run(command, shell=True, check=True)
+        subprocess.run(command, shell=True, check=True, cwd=str(REPO_ROOT))
         return True
     except subprocess.CalledProcessError as exc:
         LOGGER.error("  ✖ command failed with exit code %s", exc.returncode)
@@ -379,7 +381,12 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     """Return the parsed CLI arguments."""
 
     parser = build_parser()
-    return parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    if args.tasks_file and not args.tasks_file.is_absolute():
+        args.tasks_file = (REPO_ROOT / args.tasks_file).resolve()
+    elif args.tasks_file:
+        args.tasks_file = args.tasks_file.resolve()
+    return args
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:

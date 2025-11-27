@@ -100,7 +100,7 @@ tasks:
     deliverables:
       - reports/incoming/species_validation.log
     commands:
-      - ./scripts/validate.sh --dataset evo-species --schema schemas/evo/species.schema.json
+      - ./incoming/scripts/validate_evo_pack.sh --dataset evo-species --schema schemas/evo/species.schema.json
     notes: 'Log SPEC-01 aggiornato; QA `reports/evo/qa/dataset.log` rigenerato con `make evo-validate` (AJV=tools/ajv-wrapper.sh) su 5 trait; directory species attualmente vuota.'
 
   - id: SPEC-02
@@ -114,7 +114,7 @@ tasks:
     deliverables:
       - reports/evo/species_summary.md
     commands:
-      - python incoming/lavoro_da_classificare/species_summary_script.py --input data/external/evo/species/ --output reports/evo/species_summary.md
+      - python incoming/scripts/species_summary_script.py --root data/external/evo/species/ --output reports/evo/species_summary.csv
     notes: 'Report Markdown con conteggi specie/ecotipi e dettaglio biome; confronto con baseline `reports/evo/species_summary.md` senza differenze.'
 
   - id: SPEC-03
@@ -140,7 +140,7 @@ tasks:
     deliverables:
       - reports/evo/traits_anomalies.csv
     commands:
-      - python incoming/lavoro_da_classificare/scripts/trait_review.py
+      - python incoming/scripts/trait_review.py
     notes: 'Script esteso con modalità `--input/--baseline/--out`; CSV rigenerato e righe segnate come `action=add`, invariato rispetto a `reports/evo/traits_anomalies.csv`.'
 
   - id: TRT-02
