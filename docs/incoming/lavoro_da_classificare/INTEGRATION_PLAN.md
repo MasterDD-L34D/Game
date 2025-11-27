@@ -19,41 +19,107 @@ in contributi pronti per il branch principale del repository.
 
 ## Batches proposti
 
-| Batch | Scope | Destinazione finale | Dipendenze | Bloccanti |
-| --- | --- | --- | --- | --- |
-| `documentation` | `docs/`, `README*`, guide in PDF/DOCX | `docs/evo-tactics/` + `docs/security/` + `docs/guides/` | Nessuna, solo revisione contenuti | Conversione dei DOCX/PDF in Markdown stabile |
-| `data-models` | `templates/*.schema.json`, `data/aliases/*.json` | `schemas/` e `data/core/species/aliases.json` | Richiede conferma campi con gameplay | Allineare enum/field con versioni in `schemas/` |
-| `species_ecotypes` | `species/*.json`, `ecotypes/*.json`, `species_catalog.md/json` | Nuova cartella `data/external/evo/species/` + indice in `data/external/evo/species_catalog.json` | Dipende da `data-models` | Validazione contro schema v2, aggiornare alias |
-| `traits` | `traits/*.json`, `traits_aggregate.json`, `trait_review.*`, `trait_merge_proposals.md` | `data/external/evo/traits/` + merge in `data/core/traits/glossary.json` | Dipende da `data-models` | Duplicati vs. glossario esistente, conflitti ID `TR-*` |
-| `tooling` | `scripts/*.py`, `scripts/validate.sh`, `setup_backlog.py`, `species_summary_script.py` | `incoming/scripts/` + `tools/automation/` (nuova) | Nessuna | Configurare variabili ambiente, evitare duplicati con `incoming/scripts` |
-| `ops_ci` | `workflows/*.yml`, `ops/site-audit/*`, `security.yml`, `init_security_checks.sh` | `.github/workflows/`, `ops/site-audit/` (armonizzare con esistente) | Dipende da `tooling` | Verificare compatibilità CI esistente, segreti GitHub |
-| `frontend` | `tests/playwright/*`, `lighthouserc.json`, `proposed_sitemap.xml`, `proposed_routes.csv`, `mockup_evo_tactics.png` | `tests/playwright/evo/`, `config/lighthouse/` | Dipende da `ops_ci` | Richiede assets frontend aggiornati |
+| Batch              | Scope                                                                                                              | Destinazione finale                                                                              | Dipendenze                           | Bloccanti                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------ | ------------------------------------------------------------------------ |
+| `documentation`    | `docs/`, `README*`, guide in PDF/DOCX                                                                              | `docs/evo-tactics/` + `docs/security/` + `docs/guides/`                                          | Nessuna, solo revisione contenuti    | Conversione dei DOCX/PDF in Markdown stabile                             |
+| `data-models`      | `templates/*.schema.json`, `data/aliases/*.json`                                                                   | `schemas/` e `data/core/species/aliases.json`                                                    | Richiede conferma campi con gameplay | Allineare enum/field con versioni in `schemas/`                          |
+| `species_ecotypes` | `species/*.json`, `ecotypes/*.json`, `species_catalog.md/json`                                                     | Nuova cartella `data/external/evo/species/` + indice in `data/external/evo/species_catalog.json` | Dipende da `data-models`             | Validazione contro schema v2, aggiornare alias                           |
+| `traits`           | `traits/*.json`, `traits_aggregate.json`, `trait_review.*`, `trait_merge_proposals.md`                             | `data/external/evo/traits/` + merge in `data/core/traits/glossary.json`                          | Dipende da `data-models`             | Duplicati vs. glossario esistente, conflitti ID `TR-*`                   |
+| `tooling`          | `scripts/*.py`, `scripts/validate.sh`, `setup_backlog.py`, `species_summary_script.py`                             | `incoming/scripts/` + `tools/automation/` (nuova)                                                | Nessuna                              | Configurare variabili ambiente, evitare duplicati con `incoming/scripts` |
+| `ops_ci`           | `workflows/*.yml`, `ops/site-audit/*`, `security.yml`, `init_security_checks.sh`                                   | `.github/workflows/`, `ops/site-audit/` (armonizzare con esistente)                              | Dipende da `tooling`                 | Verificare compatibilità CI esistente, segreti GitHub                    |
+| `frontend`         | `tests/playwright/*`, `lighthouserc.json`, `proposed_sitemap.xml`, `proposed_routes.csv`, `mockup_evo_tactics.png` | `tests/playwright/evo/`, `config/lighthouse/`                                                    | Dipende da `ops_ci`                  | Richiede assets frontend aggiornati                                      |
+
+## Validazione per batch
+
+### `documentation`
+
+- **Scope/Destinazione**: confermati i target `docs/evo-tactics/`, `docs/security/`, `docs/guides/` con consolidamento di README e guide operative.
+- **Dipendenze**: nessuna; può sbloccare altre squadre fornendo terminologia condivisa.
+- **Blocchi/varianti**: conversione DOCX/PDF → Markdown stabile (preferire pandoc); verificare duplicati con `home/oai/share/...` e annotarli in `inventario.yml`.
+- **Esito**: approvato con azione di conversione tracciata.
+
+### `data-models`
+
+- **Scope/Destinazione**: confermati `schemas/` e `data/core/species/aliases.json` come output; mantenere compatibilità con JSON Schema v2.
+- **Dipendenze**: richiede conferma con gameplay per enum/field; propedeutico a `species_ecotypes` e `traits`.
+- **Blocchi/varianti**: allineare enum e campi agli schemi presenti; prevedere migrazione dei template se emergono campi opzionali.
+- **Esito**: approvazione condizionata al confronto rapido con gameplay owner.
+
+### `species_ecotypes`
+
+- **Scope/Destinazione**: nuova cartella `data/external/evo/species/` più indice `data/external/evo/species_catalog.json` confermati.
+- **Dipendenze**: dipende da `data-models` (schema v2) e dagli alias specie aggiornati.
+- **Blocchi/varianti**: eseguire validazione contro schema v2; aggiornare alias; usare report `species_analysis_report.md` per tracciare correzioni.
+- **Esito**: approvato dopo validazione schema e alias.
+
+### `traits`
+
+- **Scope/Destinazione**: confermati `data/external/evo/traits/` e merge su `data/core/traits/glossary.json`.
+- **Dipendenze**: dipende da `data-models` per campi/enum condivisi.
+- **Blocchi/varianti**: rimuovere duplicati e conflitti ID `TR-*`; usare `trait_review.*` come fonte di confronto prima del merge.
+- **Esito**: approvazione condizionata a deduplica e normalizzazione ID.
+
+### `tooling`
+
+- **Scope/Destinazione**: confermati `incoming/scripts/` e nuova `tools/automation/` per runner/validatori.
+- **Dipendenze**: nessuna; fornisce base per `ops_ci`.
+- **Blocchi/varianti**: verificare variabili ambiente e ridurre duplicati con script già presenti; prevedere target `make`/`just` per integrazione CI.
+- **Esito**: approvato con hardening variabili e naming script.
+
+### `ops_ci`
+
+- **Scope/Destinazione**: `.github/workflows/` e `ops/site-audit/` da armonizzare.
+- **Dipendenze**: richiede `tooling` per percorsi e script condivisi.
+- **Blocchi/varianti**: controllare compatibilità con workflow esistenti e la presenza dei segreti GitHub; pianificare rollout graduale (workflow disabilitato → abilitato dopo smoke test).
+- **Esito**: approvazione condizionata a smoke test e verifica segreti.
+
+### `frontend`
+
+- **Scope/Destinazione**: confermati `tests/playwright/evo/` e `config/lighthouse/`.
+- **Dipendenze**: dipende da `ops_ci` (pipeline di esecuzione test) e dagli asset frontend aggiornati.
+- **Blocchi/varianti**: assicurare che i mockup e le rotte proposte siano allineati al sitemap definitivo; validare asset di test prima del commit finale.
+- **Esito**: approvato dopo allineamento asset e disponibilità pipeline.
+
+## Sequenza di esecuzione raccomandata
+
+1. `documentation` — sblocca terminologia e riferimenti condivisi.
+2. `data-models` — stabilizza schema e alias di base.
+3. `traits` — normalizza ID e glossary usando schema definitivo.
+4. `species_ecotypes` — importa dataset validati e indicizza catalogo.
+5. `tooling` — consolida script usati dai workflow successivi.
+6. `ops_ci` — aggiorna workflow sfruttando gli script consolidati.
+7. `frontend` — integra test e configurazioni dipendenti dalla CI.
+
+## Esito della revisione
+
+- Tutti i batch sono **approvati** con note esecutive; richiedono le azioni puntuali indicate nei blocchi/varianti prima del merge.
+- Sequenza proposta coerente con dipendenze dichiarate; eventuale parallelizzazione: `documentation` può procedere in anticipo, mentre `traits` e `species_ecotypes` possono sovrapporsi dopo la chiusura di `data-models`.
 
 ## Note sui duplicati
 
-* La gerarchia `home/oai/share/evo_tactics_game_creatures_traits_package/`
+- La gerarchia `home/oai/share/evo_tactics_game_creatures_traits_package/`
   duplica quasi tutto il contenuto principale. Durante la revisione mantenere
   solo la copia in radice e segnare nel file `inventario.yml` le voci duplicate
   come "archiviate" una volta validata l'equivalenza.
-* `backlog/backlog_tasks_example.yaml` coincide con il file a livello radice:
+- `backlog/backlog_tasks_example.yaml` coincide con il file a livello radice:
   usiamo la copia radice come sorgente e rimuoviamo la duplicata a import
   completato.
 
 ## Automazioni disponibili
 
-* `scripts/validate.sh` — esegue la validazione JSON Schema per specie e trait
+- `scripts/validate.sh` — esegue la validazione JSON Schema per specie e trait
   usando `ajv`. Da spostare in `incoming/scripts/validate_evo_pack.sh` con
   percorsi aggiornati.
-* `trait_review.py` e `species_summary_script.py` — generano report CSV/Markdown
+- `trait_review.py` e `species_summary_script.py` — generano report CSV/Markdown
   allineati con l'inventario; prevedere un target `make traits-review` nella
   radice del progetto per integrarli in CI.
-* `setup_backlog.py` — automatizza la creazione di project board/issue GitHub.
+- `setup_backlog.py` — automatizza la creazione di project board/issue GitHub.
   Richiede token personale; valutare se convertirlo in comando `just` o script
   `npm` per facilitare gli stakeholder.
-* Workflow in `workflows/` — replicano pipeline (schema-validate, e2e,
+- Workflow in `workflows/` — replicano pipeline (schema-validate, e2e,
   lighthouse, security). Confrontarli con `.github/workflows/` e migrare le
   sezioni mancanti.
-* `tools/automation/evo_batch_runner.py` — orchestration script che permette di
+- `tools/automation/evo_batch_runner.py` — orchestration script che permette di
   lanciare in dry-run o in esecuzione reale i comandi definiti nei batch di
   `tasks.yml`. È disponibile anche un workflow GitHub manuale (`Run Evo Batch`)
   per avviare gli stessi step via UI, mantenendo traccia dell'esecuzione.
@@ -62,7 +128,7 @@ in contributi pronti per il branch principale del repository.
 
 1. Convalidare le strutture JSON con `scripts/validate.sh` allineando i path.
 2. Documentare l'esito della verifica nel file `inventario.yml` (`stato:
-   validato`) per i blocchi completati.
+validato`) per i blocchi completati.
 3. Per ogni batch:
    - spostare i file nella destinazione indicata,
    - aprire PR dedicata con riferimento a `integration_batches.yml`,
@@ -79,10 +145,10 @@ in contributi pronti per il branch principale del repository.
 
 ## Uscite attese per l'import finale
 
-* Nuovi dataset `data/external/evo/` con specie e trait normalizzati.
-* Documentazione consolidata sotto `docs/evo-tactics/` e `docs/security/`.
-* Workflow CI aggiornati in `.github/workflows/` e Playwright test installati.
-* Report aggiornati nella directory `reports/` con link dal `README.md`.
+- Nuovi dataset `data/external/evo/` con specie e trait normalizzati.
+- Documentazione consolidata sotto `docs/evo-tactics/` e `docs/security/`.
+- Workflow CI aggiornati in `.github/workflows/` e Playwright test installati.
+- Report aggiornati nella directory `reports/` con link dal `README.md`.
 
 Tenendo traccia di questi passi è possibile completare l'integrazione della
 cartella senza ulteriori interventi manuali esterni.
