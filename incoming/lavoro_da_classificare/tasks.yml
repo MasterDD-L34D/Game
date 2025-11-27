@@ -380,15 +380,19 @@ tasks:
     deliverables:
       - reports/evo/rollout/traits_external_sync.csv
       - reports/evo/rollout/traits_gap.csv
-    notes: 'Deriva dall’analisi `missing_in_external` e fornisce export normalizzato per partner tooling.'
+    notes: |
+      Deriva dall’analisi `missing_in_external` e fornisce export normalizzato per partner tooling.
+      - Export rigenerato dopo la chiusura di ROL-04: CSV UTF-8 con intestazione `slug,label_it,label_en,tier,external_code,status` (RFC4180, separatore `,`, newline LF) e 204 righe totali.
+      - `traits_gap.csv` aggiornato per i `missing_in_external` (202 occorrenze; `missing_in_index`: 2) a partire dal dataset normalizzato.
+      - Output condiviso con il team partner-success per validazione finale.
 
     telemetry:
-      last_sync: 2025-10-29T14:20:44+00:00
-      progress: 23
+      last_sync: 2025-11-27T00:00:00+00:00
+      progress: 20
       metric:
         label: Trait missing_in_external
-        open_items: 174
-        total_items: 225
+        open_items: 202
+        total_items: 253
       samples:
         - ali_fulminee
         - ali_ioniche
