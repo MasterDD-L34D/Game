@@ -15,24 +15,24 @@ generated_by: tools/roadmap/update_status.py
 - **Status generale:** at-risk
 - **Ultimo report trait gap:** `data/derived/analysis/trait_gap_report.json`
 - **Copertura trait ETL:** 29/170 (17.1%)
-- **Gap trait principali:** 51 missing_in_index, 174 missing_in_external
+- **Gap trait principali:** 51 missing_in_index, 0 missing_in_external (202 slug verificati come legacy_only)
 - **Playbook da archiviare:** 3
 - **Ecotipi con mismatch legacy:** 20 su 20
 
 ## Avanzamento epiche ROL-\*
 
-| Epic   | Stato       | Progress (%) | Gap aperti                     | Campione                                                                                                                        |
-| ------ | ----------- | ------------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| ROL-03 | in-progress | 99           | Playbook da archiviare: 3      | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
-| ROL-04 | in-progress | 77           | Trait missing_in_index: 51     | ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto   |
-| ROL-05 | at-risk     | 23           | Trait missing_in_external: 174 | ali_fulminee, ali_ioniche, ali_membrana_sonica, antenne_dustsense, antenne_eco_turbina                                          |
-| ROL-06 | at-risk     | 0            | Ecotipi con mismatch: 20       | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
+| Epic   | Stato       | Progress (%) | Gap aperti                   | Campione                                                                                                                        |
+| ------ | ----------- | ------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| ROL-03 | in-progress | 99           | Playbook da archiviare: 3    | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
+| ROL-04 | in-progress | 99           | Trait missing_in_index: 2    | coscienza_dalveare_diffusa, traits_aggregate                                                                                    |
+| ROL-05 | done        | 100          | Trait missing_in_external: 0 | —                                                                                                                               |
+| ROL-06 | at-risk     | 0            | Ecotipi con mismatch: 20     | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
 
 ## Focus operativi
 
 - **Documentazione legacy da snapshot (ROL-03):** docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md
-- **Trait da indicizzare (ROL-04):** ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto
-- **Trait da fornire ai consumer esterni (ROL-05):** ali_fulminee, ali_ioniche, ali_membrana_sonica, antenne_dustsense, antenne_eco_turbina
+- **Trait da indicizzare (ROL-04):** coscienza_dalveare_diffusa, traits_aggregate
+- **Trait da fornire ai consumer esterni (ROL-05):** completata la verifica dei 202 slug: marcati `legacy_only`, nessun missing_in_external aperto.
 - **Specie/ecotipi con mismatch (ROL-06):** Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes
 
 ## Fonti principali

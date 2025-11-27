@@ -19,32 +19,23 @@
     {
       "id": "ROL-04",
       "status": "in-progress",
-      "progress": 77,
+      "progress": 99,
       "metric_label": "Trait missing_in_index",
-      "open_items": 51,
-      "total_items": 225,
+      "open_items": 2,
+      "total_items": 253,
       "samples": [
-        "ali_fono_risonanti",
-        "articolazioni_a_leva_idraulica",
-        "articolazioni_multiassiali",
-        "artigli_ipo_termici",
-        "artiglio_cinetico_a_urto"
+        "coscienza_dalveare_diffusa",
+        "traits_aggregate"
       ]
     },
     {
       "id": "ROL-05",
-      "status": "at-risk",
-      "progress": 23,
+      "status": "done",
+      "progress": 100,
       "metric_label": "Trait missing_in_external",
-      "open_items": 174,
-      "total_items": 225,
-      "samples": [
-        "ali_fulminee",
-        "ali_ioniche",
-        "ali_membrana_sonica",
-        "antenne_dustsense",
-        "antenne_eco_turbina"
-      ]
+      "open_items": 0,
+      "total_items": 253,
+      "samples": []
     },
     {
       "id": "ROL-06",
