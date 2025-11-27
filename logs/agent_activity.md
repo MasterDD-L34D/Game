@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-04-09 – Gate uscita 01B matrice core/derived (species-curator)
+- Step: `[01B-GATE-EXIT-2026-04-09] owner=species-curator (approvatore richiesto: Master DD); files=docs/planning/REF_CORE_DERIVED_MATRIX.md, logs/agent_activity.md; rischio=basso (documentazione/triage); note=Matrice 01B aggiornata a v0.2 usando REF_REPO_SOURCES_OF_TRUTH e catalogo stabile per le fonti gap list **[TKT-01A-001]** … **[TKT-01A-005]**: proposta core/derived con fixture richieste, flag borderline con co-triage trait-curator/balancer/archivist e blocco Pending su `incoming/lavoro_da_classificare/*`. Bozza pubblicata sul branch `patch/01B-core-derived-matrix`; richiesta via libera Master DD per chiudere il gate 01B e procedere agli step successivi. Ticket 01B collegati: **[TKT-01B-001]**/**[TKT-01B-002]**.`
+
 ## 2026-04-08 – Freeze 01A: etichettatura tabelle + owner gap list (archivist)
 - Step: `[FREEZE-01A-TRIAGE-2026-04-08] owner=archivist (approvatore Master DD); files=incoming/README.md, docs/incoming/README.md, logs/agent_activity.md; rischio=basso (documentazione/triage); note=Riesaminate tabelle incoming in STRICT MODE durante freeze: etichette **DA_INTEGRARE/LEGACY/STORICO** confermate senza spostamenti file; `_holding` ancora assente. Gap list 01A aggiornata con owner proposti e ticket collegati alle fonti (Laura B per catalogo 01A; species-curator per dataset ancestors; dev-tooling per validator/engine; archivist+Master DD per documento 01A-DOCS). Soft freeze documentale su `incoming/**` e `docs/incoming/**` invariato.`
 
