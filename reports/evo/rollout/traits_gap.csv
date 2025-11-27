@@ -97,7 +97,7 @@ coralli_sinaptici_fotofase,missing_in_external,0,0,0,0,0,,,,,,Coralli Sinaptici 
 corazze_ferro_magnetico,missing_in_external,0,0,0,0,0,,,,,,Corazze Ferro-Magnetico,,,frattura_abissale_sinaptica,0,0
 corna_psico_conduttive,mismatch,0,0,1,0,0,TR-2001,Corna Psico-Conduttive,T3,coscienza_d_alveare_diffusa,terrestre,Corna Psico-Conduttive,T3,aura_di_dispersione_mentale;coscienza_d_alveare_diffusa;metabolismo_di_condivisione_energetica;unghie_a_micro_adesione,terrestre,0,0
 coscienza_d_alveare_diffusa,missing_in_external,0,0,0,0,0,,,,,,Coscienza d’Alveare Diffusa,T4,corna_psico_conduttive,terrestre,0,0
-coscienza_dalveare_diffusa,match,0,0,0,0,0,TR-2002,Coscienza d’Alveare Diffusa,T4,corna_psico_conduttive,terrestre,Coscienza d’Alveare Diffusa,T4,,,0,0
+coscienza_dalveare_diffusa,missing_in_index,0,0,0,0,0,TR-2002,Coscienza d’Alveare Diffusa,T4,corna_psico_conduttive,terrestre,,,,,0,0
 criostasi_adattiva,missing_in_external,0,0,0,0,0,,,,,,Criostasi,T1,cavita_risonanti_tundra,canopia_psionica_leggera;orbita_psionica_inversa,0,0
 cromofori_alert_acido,missing_in_external,0,0,0,0,0,,,,,,Cromofori Alert Acido,T1,scheletro_idro_regolante;struttura_elastica_amorfa,foresta_acida,0,0
 cuore_multicamera_bassa_pressione,missing_in_external,0,0,0,0,0,,,,,,Cuore Multicamera Bassa Pressione,T1,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa,0,0
@@ -242,7 +242,7 @@ squame_diffusori_ionici,missing_in_external,0,0,0,0,0,,,,,,Squame Diffusori Ioni
 squame_rifrangenti_deserto,missing_in_external,0,0,0,0,0,,,,,,Squame Rifrangenti del Deserto,T2,respiro_a_scoppio,dune_cristalline,0,0
 struttura_elastica_amorfa,missing_in_external,0,0,0,0,0,,,,,,"Struttura elastica, allungabile, amorfa, retrattile",T1,antenne_tesla;artigli_sette_vie;artigli_vetrificati;branchie_dual_mode;capillari_criogenici;cartilagini_pseudometalliche;cisti_iperbariche;cromofori_alert_acido;denti_tuning_fork;filamenti_magnetotrofi;ghiandole_condensa_ozono;ghiandole_nebbia_ionica;lamine_filtranti_aeree;membrane_pneumatofori;mimetismo_cromatico_passivo;sacche_galleggianti_ascensoriali;scheletro_idro_regolante,canopia_psionica_leggera;falde_magnetiche_psioniche,0,0
 tattiche_di_branco,missing_in_external,0,0,0,0,0,,,,,,Tattiche di Branco,T1,antenne_microonde_cavernose;artigli_radice;artigli_sette_vie;biofilm_glow;camere_mirage;cartilagini_desertiche;ciste_riduttive;colonne_vibromagnetiche;denti_ossidoferro;epidermide_dielettrica;ghiaccio_piezoelettrico;ghiandole_minerali;lamelle_shear;membrane_captura_rugiada,,0,0
-traits_aggregate,match,0,0,0,0,0,traits_aggregate,,,,,traits_aggregate,,,,0,0
+traits_aggregate,missing_in_index,0,0,0,0,0,traits_aggregate,,,,,,,,,0,0
 unghie_a_micro_adesione,match,0,0,0,0,0,TR-2005,Unghie a Micro-Adesione,T2,corna_psico_conduttive,terrestre,Unghie a Micro-Adesione,T2,corna_psico_conduttive,terrestre,0,0
 vello_condensatore_nebbie,missing_in_external,0,0,0,0,0,,,,,,Vello Condensatore di Nebbie,T1,bulbi_radici_permafrost,foreste_nubose,0,0
 vello_di_assorbimento_totale,mismatch,0,0,1,0,0,TR-1901,Vello di Assorbimento Totale,T3,visione_multi_spettrale_amplificata,terrestre,Vello di Assorbimento Totale,T3,comunicazione_fotonica_coda_coda;motore_biologico_silenzioso;visione_multi_spettrale_amplificata,terrestre,0,0
