@@ -1,0 +1,254 @@
+slug,status,name_mismatch,tier_mismatch,synergy_mismatch,env_mismatch,legacy_flag_mismatch,external_code,external_label,external_tier,external_synergies,external_envs,legacy_label,legacy_tier,legacy_synergies,legacy_envs,duplicate_flag,merge_conflict_flag
+ali_fono_risonanti,mismatch,0,0,1,0,0,TR-1701,Ali Fono-Risonanti,T3,campo_di_interferenza_acustica;cannone_sonico_a_raggio,terrestre,Ali Fono-Risonanti,T3,campo_di_interferenza_acustica;cannone_sonico_a_raggio;cervello_a_bassa_latenza;occhi_cinetici,terrestre,0,0
+ali_fulminee,missing_in_external,0,0,0,0,0,,,,,,Ali Fulminee,T1,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa,0,0
+ali_ioniche,missing_in_external,0,0,0,0,0,,,,,,Ali Ioniche,T1,coda_frusta_cinetica;zampe_a_molla,canopia_ionica,0,0
+ali_membrana_sonica,missing_in_external,0,0,0,0,0,,,,,,Ali Membrana Sonica,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,caverna_risonante,0,0
+antenne_dustsense,missing_in_external,0,0,0,0,0,,,,,,Antenne Dustsense,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,pianura_salina_iperarida,0,0
+antenne_eco_turbina,missing_in_external,0,0,0,0,0,,,,,,Antenne Eco Turbina,T1,empatia_coordinativa;risonanza_di_branco,dorsale_termale_tropicale,0,0
+antenne_flusso_mareale,missing_in_external,0,0,0,0,0,,,,,,Antenne Flusso Mareale,T1,coda_frusta_cinetica;sangue_piroforico,laguna_bioreattiva,0,0
+antenne_microonde_cavernose,missing_in_external,0,0,0,0,0,,,,,,Antenne Microonde Cavernose,T1,pianificatore;tattiche_di_branco,caverna_risonante,0,0
+antenne_plasmatiche_tempesta,missing_in_external,0,0,0,0,0,,,,,,Antenne Plasmatiche di Tempesta,T3,carapace_luminiscente_abissale;focus_frazionato;risonanza_di_branco;sinapsi_coraline_polifoniche,cicloni_psionici,0,0
+antenne_reagenti,missing_in_external,0,0,0,0,0,,,,,,Antenne Reagenti,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,foresta_acida,0,0
+antenne_tesla,missing_in_external,0,0,0,0,0,,,,,,Antenne Tesla,T1,scheletro_idro_regolante;struttura_elastica_amorfa,canopia_ionica,0,0
+antenne_waveguide,missing_in_external,0,0,0,0,0,,,,,,Antenne Waveguide,T1,focus_frazionato;sinapsi_coraline_polifoniche,reef_luminescente,0,0
+antenne_wideband,missing_in_external,0,0,0,0,0,,,,,,Antenne Wideband,T1,coda_frusta_cinetica;zampe_a_molla,steppe_algoritmiche,0,0
+appendici_risonanti_marea,missing_in_external,0,0,0,0,0,,,,,,Appendici Risonanti Marea,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,laguna_bioreattiva,0,0
+appendici_thermotattiche,missing_in_external,0,0,0,0,0,,,,,,Appendici Thermotattiche,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,abisso_vulcanico,0,0
+armatura_pietra_planare,missing_in_external,0,0,0,0,0,,,,,,Armatura di Pietra Planare,T2,carapace_fase_variabile,rovine_planari,0,0
+articolazioni_a_leva_idraulica,mismatch,0,0,1,0,0,TR-1503,Articolazioni a Leva Idraulica,T3,zanne_idracida,terrestre,Articolazioni a Leva Idraulica,T3,occhi_analizzatori_di_tensione;zanne_idracida,terrestre,0,0
+articolazioni_multiassiali,match,0,0,0,0,0,TR-1203,Articolazioni Multiassiali,T3,coda_prensile_muscolare,terrestre,Articolazioni Multiassiali,T3,coda_prensile_muscolare,terrestre,0,0
+artigli_acidofagi,missing_in_external,0,0,0,0,0,,,,,,Artigli Acidofagi,T1,empatia_coordinativa;risonanza_di_branco,foresta_acida,0,0
+artigli_induzione,missing_in_external,0,0,0,0,0,,,,,,Artigli Induzione,T1,coda_frusta_cinetica;sangue_piroforico,canopia_ionica,0,0
+artigli_ipo_termici,mismatch,0,0,1,0,0,TR-1904,Artigli Ipo-Termici,T3,visione_multi_spettrale_amplificata,terrestre,Artigli Ipo-Termici,T3,comunicazione_fotonica_coda_coda;motore_biologico_silenzioso;visione_multi_spettrale_amplificata,terrestre,0,0
+artigli_radice,missing_in_external,0,0,0,0,0,,,,,,Artigli Radice,T1,pianificatore;tattiche_di_branco,mangrovieto_cinetico,0,0
+artigli_scivolo_silente,missing_in_external,0,0,0,0,0,,,,,,Artigli Scivolo Silente,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,caverna_risonante,0,0
+artigli_sette_vie,missing_in_external,0,0,0,0,0,,,,,,Artigli a Sette Vie,T1,coda_frusta_cinetica;mimetismo_cromatico_passivo;struttura_elastica_amorfa;tattiche_di_branco,caverna_risonante,0,0
+artigli_sghiaccio_glaciale,missing_in_external,0,0,0,0,0,,,,,,Artigli Sghiaccio Glaciale,T2,cartilagine_flessotermica_venti;sonno_emisferico_alternato;zampe_a_molla,calotte_glaciali,0,0
+artigli_vetrificati,missing_in_external,0,0,0,0,0,,,,,,Artigli Vetrificati,T1,scheletro_idro_regolante;struttura_elastica_amorfa,caldera_glaciale,0,0
+artiglio_cinetico_a_urto,mismatch,0,0,1,0,0,TR-1304,Artiglio Cinetico a Urto,T4,locomozione_miriapode_ibrida,terrestre,Artiglio Cinetico a Urto,T4,estroflessione_gastrica_acida;locomozione_miriapode_ibrida,terrestre,0,0
+aura_di_dispersione_mentale,match,0,0,0,0,0,TR-2003,Aura di Dispersione Mentale,T3,corna_psico_conduttive,terrestre,Aura di Dispersione Mentale,T3,corna_psico_conduttive,terrestre,0,0
+aura_scudo_radianza,missing_in_external,0,0,0,0,0,,,,,,Aura Scudo di Radianza,T3,empatia_coordinativa;risonanza_di_branco,rovine_planari,0,0
+baffi_mareomotori,missing_in_external,0,0,0,0,0,,,,,,Baffi Mareomotori,T1,focus_frazionato;sinapsi_coraline_polifoniche,mangrovieto_cinetico,0,0
+barbigli_sensori_plasma,missing_in_external,0,0,0,0,0,,,,,,Barbigli Sensori Plasma,T1,coda_frusta_cinetica;zampe_a_molla,stratosfera_tempestosa,0,0
+barriere_miasma_glaciale,missing_in_external,0,0,0,0,0,,,,,,Barriere Miasma Glaciale,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,caldera_glaciale,0,0
+batteri_endosimbionti_chemio,missing_in_external,0,0,0,0,0,,,,,,Batteri Endosimbionti Chemio,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,abisso_vulcanico,0,0
+batteri_termofili_endosimbiosi,missing_in_external,0,0,0,0,0,,,,,,Batteri Termofili Endosimbiosi,T1,empatia_coordinativa;risonanza_di_branco,dorsale_termale_tropicale,0,0
+bioantenne_gravitiche,missing_in_external,0,0,0,0,0,,,,,,Bioantenne Gravitiche,,,frattura_abissale_sinaptica,0,0
+biochip_memoria,missing_in_external,0,0,0,0,0,,,,,,Biochip Memoria,T1,coda_frusta_cinetica;sangue_piroforico,steppe_algoritmiche,0,0
+biofilm_glow,missing_in_external,0,0,0,0,0,,,,,,Biofilm Glow,T1,pianificatore;tattiche_di_branco,reef_luminescente,0,0
+biofilm_iperarido,missing_in_external,0,0,0,0,0,,,,,,Biofilm Iperarido,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,pianura_salina_iperarida,0,0
+bozzolo_magnetico,mismatch,0,0,1,0,0,TR-1805,Bozzolo Magnetico,T2,integumento_bipolare,terrestre,Bozzolo Magnetico,T2,filtro_metallofago;integumento_bipolare,terrestre,0,0
+branchie_dual_mode,missing_in_external,0,0,0,0,0,,,,,,Branchie Dual Mode,T1,scheletro_idro_regolante;struttura_elastica_amorfa,laguna_bioreattiva,0,0
+branchie_eoliche,missing_in_external,0,0,0,0,0,,,,,,Branchie Eoliche,T1,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa,0,0
+branchie_metalloidi,missing_in_external,0,0,0,0,0,,,,,,Branchie Metalloidi,T1,coda_frusta_cinetica;zampe_a_molla,abisso_vulcanico,0,0
+branchie_microfiltri,missing_in_external,0,0,0,0,0,,,,,,Branchie Microfiltri,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,reef_luminescente,0,0
+branchie_osmotiche_salmastra,missing_in_external,0,0,0,0,0,,,,,,Branchie Osmotiche Salmastre,T2,mucillagine_simbionte_mangrovie;scheletro_idro_regolante,delta_salmastri,0,0
+branchie_solfatiche,missing_in_external,0,0,0,0,0,,,,,,Branchie Solfatiche,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,caldera_glaciale,0,0
+branchie_turbina,missing_in_external,0,0,0,0,0,,,,,,Branchie Turbina,T1,empatia_coordinativa;risonanza_di_branco,dorsale_termale_tropicale,0,0
+bulbi_radici_permafrost,missing_in_external,0,0,0,0,0,,,,,,Bulbi Radici del Permafrost,T2,chioma_parassita_canopica;nodi_micorrizici_oracolari;vello_condensatore_nebbie,permafrost_psionico,0,0
+camere_anticorrosione,missing_in_external,0,0,0,0,0,,,,,,Camere Anticorrosione,T1,coda_frusta_cinetica;sangue_piroforico,foresta_acida,0,0
+camere_mirage,missing_in_external,0,0,0,0,0,,,,,,Camere Mirage,T1,pianificatore;tattiche_di_branco,pianura_salina_iperarida,0,0
+camere_nutrienti_vent,missing_in_external,0,0,0,0,0,,,,,,Camere Nutrienti Vent,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,dorsale_termale_tropicale,0,0
+camere_risonanza_abyssal,missing_in_external,0,0,0,0,0,,,,,,Camere di Risonanza Abyssal,,,frattura_abissale_sinaptica,0,0
+campo_di_interferenza_acustica,mismatch,0,0,1,0,0,TR-1703,Campo di Interferenza Acustica,T3,ali_fono_risonanti,terrestre,Campo di Interferenza Acustica,T3,ali_fono_risonanti;cannone_sonico_a_raggio;occhi_cinetici,terrestre,0,0
+cannone_sonico_a_raggio,mismatch,0,0,1,0,0,TR-1702,Cannone Sonico a Raggio,T4,ali_fono_risonanti,terrestre,Cannone Sonico a Raggio,T4,ali_fono_risonanti;campo_di_interferenza_acustica;occhi_cinetici,terrestre,0,0
+canto_infrasonico_tattico,match,0,0,0,0,0,TR-1404,Canto Infrasonico Tattico,T4,scheletro_pneumatico_a_maglie,terrestre,Canto Infrasonico Tattico,T4,scheletro_pneumatico_a_maglie,terrestre,0,0
+canto_risonante,missing_in_external,0,0,0,0,0,,,,,,Canto Risonante,,,frattura_abissale_sinaptica,0,0
+capillari_criogenici,missing_in_external,0,0,0,0,0,,,,,,Capillari Criogenici,T1,scheletro_idro_regolante;struttura_elastica_amorfa,caldera_glaciale,0,0
+capillari_fluoridici,missing_in_external,0,0,0,0,0,,,,,,Capillari Fluoridici,T1,focus_frazionato;sinapsi_coraline_polifoniche,foresta_acida,0,0
+capillari_fotovoltaici,missing_in_external,0,0,0,0,0,,,,,,Capillari Fotovoltaici,T1,coda_frusta_cinetica;zampe_a_molla,canopia_ionica,0,0
+capsule_paracadute,missing_in_external,0,0,0,0,0,,,,,,Capsule Paracadute,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,stratosfera_tempestosa,0,0
+carapace_fase_variabile,missing_in_external,0,0,0,0,0,,,,,,Carapace a Variazione di Fase,T1,ali_membrana_sonica;appendici_risonanti_marea;armatura_pietra_planare;barriere_miasma_glaciale;branchie_microfiltri;capsule_paracadute;cartilagine_flessotermica_venti;circolazione_bifasica;coda_coppia_retroattiva;cute_resistente_sali;enzimi_antipredatori_algali;filtri_planctonici;ghiandole_fango_coesivo;giunti_antitorsione;lingua_cristallina;mantello_meteoritico;mucose_barofile;sensori_geomagnetici,canopia_psionica_leggera;falde_magnetiche_psioniche,0,0
+carapace_luminiscente_abissale,missing_in_external,0,0,0,0,0,,,,,,Carapace Luminiscente Abissale,T3,antenne_plasmatiche_tempesta;risonanza_di_branco;sinapsi_coraline_polifoniche,abisso_luminescente,0,0
+carapace_segmenti_logici,missing_in_external,0,0,0,0,0,,,,,,Carapace Segmenti Logici,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,steppe_algoritmiche,0,0
+carapaci_ferruginosi,missing_in_external,0,0,0,0,0,,,,,,Carapaci Ferruginosi,T1,empatia_coordinativa;risonanza_di_branco,abisso_vulcanico,0,0
+cartilagine_flessotermica_venti,missing_in_external,0,0,0,0,0,,,,,,Cartilagine Flessotermica dei Venti,T2,artigli_sghiaccio_glaciale;carapace_fase_variabile;sacche_galleggianti_ascensoriali;zoccoli_risonanti_steppe,gole_ventose,0,0
+cartilagini_biofibre,missing_in_external,0,0,0,0,0,,,,,,Cartilagini Biofibre,T1,coda_frusta_cinetica;sangue_piroforico,reef_luminescente,0,0
+cartilagini_desertiche,missing_in_external,0,0,0,0,0,,,,,,Cartilagini Desertiche,T1,pianificatore;tattiche_di_branco,pianura_salina_iperarida,0,0
+cartilagini_flessoacustiche,missing_in_external,0,0,0,0,0,,,,,,Cartilagini Flessoacustiche,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,caverna_risonante,0,0
+cartilagini_pseudometalliche,missing_in_external,0,0,0,0,0,,,,,,Cartilagini Pseudometalliche,T1,scheletro_idro_regolante;struttura_elastica_amorfa,abisso_vulcanico,0,0
+cavita_risonanti_tundra,missing_in_external,0,0,0,0,0,,,,,,Cavità Risonanti della Tundra,T1,criostasi_adattiva;eco_interno_riflesso;empatia_coordinativa;risonanza_di_branco,tundra_risonante,0,0
+cervelletto_equilibrio_statico,missing_in_external,0,0,0,0,0,,,,,,Cervelletto Equilibrio Statico,T1,focus_frazionato;sinapsi_coraline_polifoniche,canopia_ionica,0,0
+cervello_a_bassa_latenza,match,0,0,0,0,0,TR-1704,Cervello a Bassa Latenza,T3,ali_fono_risonanti,terrestre,Cervello a Bassa Latenza,T3,ali_fono_risonanti,terrestre,0,0
+chemiorecettori_bromuro,missing_in_external,0,0,0,0,0,,,,,,Chemiorecettori Bromuro,T1,coda_frusta_cinetica;zampe_a_molla,pianura_salina_iperarida,0,0
+chioma_parassita_canopica,missing_in_external,0,0,0,0,0,,,,,,Chioma Parassita Canopica,T1,bulbi_radici_permafrost;nodi_micorrizici_oracolari,canopie_sospese,0,0
+cinghia_iper_ciliare,match,0,0,0,0,0,TR-1402,Cinghia Iper-Ciliare,T3,scheletro_pneumatico_a_maglie,terrestre,Cinghia Iper-Ciliare,T3,scheletro_pneumatico_a_maglie,terrestre,0,0
+circolazione_bifasica,missing_in_external,0,0,0,0,0,,,,,,Circolazione Bifasica,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,caldera_glaciale,0,0
+circolazione_bifasica_palude,missing_in_external,0,0,0,0,0,,,,,,Circolazione Bifasica di Palude,T2,mucillagine_simbionte_mangrovie,paludi_gas_luminescenti,0,0
+circolazione_cooling_loop,missing_in_external,0,0,0,0,0,,,,,,Circolazione Cooling Loop,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,steppe_algoritmiche,0,0
+circolazione_doppia,missing_in_external,0,0,0,0,0,,,,,,Circolazione Doppia,T1,empatia_coordinativa;risonanza_di_branco,dorsale_termale_tropicale,0,0
+circolazione_supercritica,missing_in_external,0,0,0,0,0,,,,,,Circolazione Supercritica,T1,coda_frusta_cinetica;sangue_piroforico,abisso_vulcanico,0,0
+ciste_riduttive,missing_in_external,0,0,0,0,0,,,,,,Ciste Riduttive,T1,pianificatore;tattiche_di_branco,laguna_bioreattiva,0,0
+ciste_salmastre,missing_in_external,0,0,0,0,0,,,,,,Ciste Salmastre,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,pianura_salina_iperarida,0,0
+cisti_di_ibernazione_minerale,mismatch,0,0,1,0,0,TR-1605,Cisti di Ibernazione Minerale,T2,moltiplicazione_per_fusione,terrestre,Cisti di Ibernazione Minerale,T2,fagocitosi_assorbente;moltiplicazione_per_fusione,terrestre,0,0
+cisti_iperbariche,missing_in_external,0,0,0,0,0,,,,,,Cisti Iperbariche,T1,scheletro_idro_regolante;struttura_elastica_amorfa,abisso_vulcanico,0,0
+coda_balanciere,missing_in_external,0,0,0,0,0,,,,,,Coda Balanciere,T1,focus_frazionato;sinapsi_coraline_polifoniche,caverna_risonante,0,0
+coda_contrappeso,missing_in_external,0,0,0,0,0,,,,,,Coda Contrappeso,T1,coda_frusta_cinetica;zampe_a_molla,mangrovieto_cinetico,0,0
+coda_coppia_retroattiva,missing_in_external,0,0,0,0,0,,,,,,Coda Coppia Retroattiva,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,steppe_algoritmiche,0,0
+coda_frusta_cinetica,missing_in_external,0,0,0,0,0,,,,,,Coda a Frusta Cinetica,T1,ali_ioniche;antenne_flusso_mareale;antenne_wideband;artigli_induzione;artigli_sette_vie;barbigli_sensori_plasma;biochip_memoria;branchie_metalloidi;camere_anticorrosione;capillari_fotovoltaici;cartilagini_biofibre;chemiorecettori_bromuro;circolazione_supercritica;coda_contrappeso;coda_stabilizzatrice_vortex;cuscinetti_elettrostatici;denti_chelatanti;enzimi_antifase_termica;enzimi_metanoossidanti;filamenti_termoconduzione;foliaggio_spugna;ghiandole_fango_calde;ghiandole_iodoattive;ghiandole_ventosa;gusci_magnesio;linfa_tampone;mantelli_geotermici;mucose_aderenza_sonica,falde_magnetiche_psioniche;orbita_psionica_inversa,0,0
+coda_prensile_muscolare,mismatch,0,0,1,0,0,TR-1204,Coda Prensile Muscolare,T3,articolazioni_multiassiali;rostro_linguale_prensile,terrestre,Coda Prensile Muscolare,T3,articolazioni_multiassiali;pelage_idrorepellente_avanzato;rostro_linguale_prensile,terrestre,0,0
+coda_stabilizzatrice_filo,missing_in_external,0,0,0,0,0,,,,,,Coda Stabilizzatrice Filo,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,canopia_ionica,0,0
+coda_stabilizzatrice_geiser,missing_in_external,0,0,0,0,0,,,,,,Coda Stabilizzatrice Geiser,T1,empatia_coordinativa;risonanza_di_branco,dorsale_termale_tropicale,0,0
+coda_stabilizzatrice_vortex,missing_in_external,0,0,0,0,0,,,,,,Coda Stabilizzatrice Vortex,T1,coda_frusta_cinetica;sangue_piroforico,stratosfera_tempestosa,0,0
+colonne_vibromagnetiche,missing_in_external,0,0,0,0,0,,,,,,Colonne Vibromagnetiche,T1,pianificatore;tattiche_di_branco,caverna_risonante,0,0
+comunicazione_fotonica_coda_coda,mismatch,0,0,1,0,0,TR-1905,Comunicazione Fotonica Coda-Coda,T2,vello_di_assorbimento_totale,terrestre,Comunicazione Fotonica Coda-Coda,T2,artigli_ipo_termici;vello_di_assorbimento_totale,terrestre,0,0
+coralli_partner,missing_in_external,0,0,0,0,0,,,,,,Coralli Partner,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,reef_luminescente,0,0
+coralli_sinaptici_fotofase,missing_in_external,0,0,0,0,0,,,,,,Coralli Sinaptici Fotofase,,,frattura_abissale_sinaptica,0,0
+corazze_ferro_magnetico,missing_in_external,0,0,0,0,0,,,,,,Corazze Ferro-Magnetico,,,frattura_abissale_sinaptica,0,0
+corna_psico_conduttive,mismatch,0,0,1,0,0,TR-2001,Corna Psico-Conduttive,T3,coscienza_d_alveare_diffusa,terrestre,Corna Psico-Conduttive,T3,aura_di_dispersione_mentale;coscienza_d_alveare_diffusa;metabolismo_di_condivisione_energetica;unghie_a_micro_adesione,terrestre,0,0
+coscienza_d_alveare_diffusa,missing_in_external,0,0,0,0,0,,,,,,Coscienza d’Alveare Diffusa,T4,corna_psico_conduttive,terrestre,0,0
+coscienza_dalveare_diffusa,missing_in_index,0,0,0,0,0,TR-2002,Coscienza d’Alveare Diffusa,T4,corna_psico_conduttive,terrestre,,,,,0,0
+criostasi_adattiva,missing_in_external,0,0,0,0,0,,,,,,Criostasi,T1,cavita_risonanti_tundra,canopia_psionica_leggera;orbita_psionica_inversa,0,0
+cromofori_alert_acido,missing_in_external,0,0,0,0,0,,,,,,Cromofori Alert Acido,T1,scheletro_idro_regolante;struttura_elastica_amorfa,foresta_acida,0,0
+cuore_multicamera_bassa_pressione,missing_in_external,0,0,0,0,0,,,,,,Cuore Multicamera Bassa Pressione,T1,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa,0,0
+cuscinetti_elettrostatici,missing_in_external,0,0,0,0,0,,,,,,Cuscinetti Elettrostatici,T1,coda_frusta_cinetica;zampe_a_molla,pianura_salina_iperarida,0,0
+cute_resistente_sali,missing_in_external,0,0,0,0,0,,,,,,Cute Resistente Sali,T2,carapace_fase_variabile;mimetismo_cromatico_passivo,badlands,0,0
+cuticole_cerose,missing_in_external,0,0,0,0,0,,,,,,Cuticole Cerose,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,,0,0
+cuticole_neutralizzanti,missing_in_external,0,0,0,0,0,,,,,,Cuticole Neutralizzanti,T1,empatia_coordinativa;risonanza_di_branco,foresta_acida,0,0
+denti_chelatanti,missing_in_external,0,0,0,0,0,,,,,,Denti Chelatanti,T1,coda_frusta_cinetica;sangue_piroforico,foresta_acida,0,0
+denti_ossidoferro,missing_in_external,0,0,0,0,0,,,,,,Denti Ossidoferro,T1,pianificatore;tattiche_di_branco,abisso_vulcanico,0,0
+denti_silice_termici,missing_in_external,0,0,0,0,0,,,,,,Denti Silice Termici,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,dorsale_termale_tropicale,0,0
+denti_tuning_fork,missing_in_external,0,0,0,0,0,,,,,,Denti Tuning Fork,T1,scheletro_idro_regolante;struttura_elastica_amorfa,caverna_risonante,0,0
+echi_risonanti,missing_in_external,0,0,0,0,0,,,,,,Echi Risonanti,T1,focus_frazionato;sinapsi_coraline_polifoniche,caverna_risonante,0,0
+eco_interno_riflesso,missing_in_external,0,0,0,0,0,,,,,,Riflesso dell'Eco Interno,T2,cavita_risonanti_tundra;olfatto_risonanza_magnetica;sensori_geomagnetici,canopia_psionica_leggera;falde_magnetiche_psioniche,0,0
+ectotermia_dinamica,mismatch,0,0,1,0,0,TR-1104,Ectotermia Dinamica,T3,ipertrofia_muscolare_massiva,terrestre,Ectotermia Dinamica,T3,ipertrofia_muscolare_massiva;rostro_emostatico_litico,terrestre,0,0
+elettromagnete_biologico,mismatch,0,0,1,0,0,TR-1802,Elettromagnete Biologico,T4,integumento_bipolare,terrestre,Elettromagnete Biologico,T4,filtro_metallofago;integumento_bipolare,terrestre,0,0
+emettitori_voidsong,missing_in_external,0,0,0,0,0,,,,,,Emettitori Voidsong,,,frattura_abissale_sinaptica,0,0
+emolinfa_conducente,missing_in_external,0,0,0,0,0,,,,,,Emolinfa Conducente,,,frattura_abissale_sinaptica,0,0
+empatia_coordinativa,missing_in_external,0,0,0,0,0,,,,,,Empatia Coordinativa,T1,antenne_eco_turbina;artigli_acidofagi;aura_scudo_radianza;batteri_termofili_endosimbiosi;branchie_turbina;carapaci_ferruginosi;cavita_risonanti_tundra;circolazione_doppia;coda_stabilizzatrice_geiser;cuticole_neutralizzanti;enzimi_chelatori_rapidi;foliage_fotocatodico;ghiandole_inchiostro_luce;gusci_criovetro;luminescenza_hydrotermica,,0,0
+enzimi_antifase_termica,missing_in_external,0,0,0,0,0,,,,,,Enzimi Antifase Termica,T1,coda_frusta_cinetica;zampe_a_molla,caldera_glaciale,0,0
+enzimi_antipredatori_algali,missing_in_external,0,0,0,0,0,,,,,,Enzimi Antipredatori Algali,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,reef_luminescente,0,0
+enzimi_chelanti,missing_in_external,0,0,0,0,0,,,,,,Enzimi Chelanti,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,,0,0
+enzimi_chelatori_rapidi,missing_in_external,0,0,0,0,0,,,,,,Enzimi Chelatori Rapidi,T1,empatia_coordinativa;risonanza_di_branco,foresta_acida,0,0
+enzimi_metanoossidanti,missing_in_external,0,0,0,0,0,,,,,,Enzimi Metanoossidanti,T1,coda_frusta_cinetica;sangue_piroforico,abisso_vulcanico,0,0
+epidermide_dielettrica,missing_in_external,0,0,0,0,0,,,,,,Epidermide Dielettrica,T1,pianificatore;tattiche_di_branco,stratosfera_tempestosa,0,0
+epitelio_fosforescente,missing_in_external,0,0,0,0,0,,,,,,Epitelio Fosforescente,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,reef_luminescente,0,0
+ermafroditismo_cronologico,mismatch,0,0,1,0,0,TR-1301,Ermafroditismo Cronologico,T3,locomozione_miriapode_ibrida,terrestre,Ermafroditismo Cronologico,T3,estroflessione_gastrica_acida;locomozione_miriapode_ibrida,terrestre,0,0
+estroflessione_gastrica_acida,mismatch,0,0,1,0,0,TR-1303,Estroflessione Gastrica Acida,T4,artiglio_cinetico_a_urto,terrestre,Estroflessione Gastrica Acida,T4,artiglio_cinetico_a_urto;ermafroditismo_cronologico;sistemi_chimio_sonici,terrestre,0,0
+fagocitosi_assorbente,mismatch,0,0,1,0,0,TR-1603,Fagocitosi Assorbente,T3,membrana_plastica_continua,terrestre,Fagocitosi Assorbente,T3,cisti_di_ibernazione_minerale;membrana_plastica_continua,terrestre,0,0
+filamenti_digestivi_compattanti,missing_in_external,0,0,0,0,0,,,,,,Filamento materiali digeriti,T2,antenne_dustsense;appendici_thermotattiche;batteri_endosimbionti_chemio;branchie_solfatiche;carapace_segmenti_logici;circolazione_cooling_loop;coda_stabilizzatrice_filo;cuticole_cerose;enzimi_chelanti;flagelli_ancoranti;ghiandole_grafene;grassi_termici;luminescenza_aurorale;ventriglio_gastroliti,caverna_risonante;falde_magnetiche_psioniche,0,0
+filamenti_echo,missing_in_external,0,0,0,0,0,,,,,,Filamenti Echo,,,frattura_abissale_sinaptica,0,0
+filamenti_guidalampo,missing_in_external,0,0,0,0,0,,,,,,Filamenti Guidalampo,,,frattura_abissale_sinaptica,0,0
+filamenti_magnetotrofi,missing_in_external,0,0,0,0,0,,,,,,Filamenti Magnetotrofi,T1,scheletro_idro_regolante;struttura_elastica_amorfa,abisso_vulcanico,0,0
+filamenti_superconduttivi,missing_in_external,0,0,0,0,0,,,,,,Filamenti Superconduttivi,T1,focus_frazionato;sinapsi_coraline_polifoniche,caldera_glaciale,0,0
+filamenti_termoconduzione,missing_in_external,0,0,0,0,0,,,,,,Filamenti Termoconduzione,T1,coda_frusta_cinetica;zampe_a_molla,dorsale_termale_tropicale,0,0
+filtrazione_osmotica,match,0,0,0,0,0,TR-1504,Filtrazione Osmotica,T2,zanne_idracida,terrestre,Filtrazione Osmotica,T2,zanne_idracida,terrestre,0,0
+filtri_planctonici,missing_in_external,0,0,0,0,0,,,,,,Filtri Planctonici,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,laguna_bioreattiva,0,0
+filtro_metallofago,mismatch,0,0,1,0,0,TR-1804,Filtro Metallofago,T2,elettromagnete_biologico,terrestre,Filtro Metallofago,T2,bozzolo_magnetico;elettromagnete_biologico,terrestre,0,0
+flagelli_ancoranti,missing_in_external,0,0,0,0,0,,,,,,Flagelli Ancoranti,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,laguna_bioreattiva,0,0
+flusso_ameboide_controllato,match,0,0,0,0,0,TR-1602,Flusso Ameboide Controllato,T2,membrana_plastica_continua,terrestre,Flusso Ameboide Controllato,T2,membrana_plastica_continua,terrestre,0,0
+focus_frazionato,missing_in_external,0,0,0,0,0,,,,,,Focus Frazionato,T1,ali_fulminee;antenne_plasmatiche_tempesta;antenne_waveguide;baffi_mareomotori;branchie_eoliche;capillari_fluoridici;cervelletto_equilibrio_statico;coda_balanciere;cuore_multicamera_bassa_pressione;echi_risonanti;filamenti_superconduttivi;frusta_fiammeggiante;ghiandole_eco_mappanti;ghiandole_resina_conduttiva;lamine_scudo_silice;midollo_antivibrazione,,0,0
+foliage_fotocatodico,missing_in_external,0,0,0,0,0,,,,,,Foliage Fotocatodico,T1,empatia_coordinativa;risonanza_di_branco,foresta_acida,0,0
+foliaggio_spugna,missing_in_external,0,0,0,0,0,,,,,,Foliaggio Spugna,T1,coda_frusta_cinetica;sangue_piroforico,mangrovieto_cinetico,0,0
+frusta_fiammeggiante,missing_in_external,0,0,0,0,0,,,,,,Frusta Fiammeggiante,T2,focus_frazionato;mantello_meteoritico,rovine_planari,0,0
+ghiaccio_piezoelettrico,missing_in_external,0,0,0,0,0,,,,,,Ghiaccio Piezoelettrico,T1,pianificatore;tattiche_di_branco,caldera_glaciale,0,0
+ghiandola_caustica,missing_in_external,0,0,0,0,0,,,,,,Ghiandola Caustica,T1,,,0,0
+ghiandole_cambio_salino,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Cambio Salino,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,laguna_bioreattiva,0,0
+ghiandole_condensa_ozono,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Condensa Ozono,T1,scheletro_idro_regolante;struttura_elastica_amorfa,stratosfera_tempestosa,0,0
+ghiandole_eco_mappanti,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Eco Mappanti,T1,focus_frazionato;sinapsi_coraline_polifoniche,caverna_risonante,0,0
+ghiandole_fango_calde,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Fango Calde,T1,coda_frusta_cinetica;zampe_a_molla,abisso_vulcanico,0,0
+ghiandole_fango_coesivo,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Fango Coesivo,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,mangrovieto_cinetico,0,0
+ghiandole_grafene,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Grafene,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,steppe_algoritmiche,0,0
+ghiandole_inchiostro_luce,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Inchiostro Luce,T1,empatia_coordinativa;risonanza_di_branco,reef_luminescente,0,0
+ghiandole_iodoattive,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Iodoattive,T1,coda_frusta_cinetica;sangue_piroforico,pianura_salina_iperarida,0,0
+ghiandole_minerali,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Minerali,T1,pianificatore;tattiche_di_branco,dorsale_termale_tropicale,0,0
+ghiandole_mnemoniche,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Mnemoniche,,,frattura_abissale_sinaptica,0,0
+ghiandole_nebbia_acida,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Nebbia Acida,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,foresta_acida,0,0
+ghiandole_nebbia_ionica,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Nebbia Ionica,T1,scheletro_idro_regolante;struttura_elastica_amorfa,canopia_ionica,0,0
+ghiandole_resina_conduttiva,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Resina Conduttiva,T1,focus_frazionato;sinapsi_coraline_polifoniche,canopia_ionica,0,0
+ghiandole_ventosa,missing_in_external,0,0,0,0,0,,,,,,Ghiandole Ventosa,T1,coda_frusta_cinetica;zampe_a_molla,caldera_glaciale,0,0
+giunti_antitorsione,missing_in_external,0,0,0,0,0,,,,,,Giunti Antitorsione,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,mangrovieto_cinetico,0,0
+grassi_termici,missing_in_external,0,0,0,0,0,,,,,,Grassi Termici,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,,0,0
+gusci_criovetro,missing_in_external,0,0,0,0,0,,,,,,Gusci Criovetro,T1,empatia_coordinativa;risonanza_di_branco,caldera_glaciale,0,0
+gusci_magnesio,missing_in_external,0,0,0,0,0,,,,,,Gusci Magnesio,T1,coda_frusta_cinetica;sangue_piroforico,dorsale_termale_tropicale,0,0
+impulsi_bioluminescenti,missing_in_external,0,0,0,0,0,,,,,,Impulsi Bioluminescenti,,,frattura_abissale_sinaptica,0,0
+integumento_bipolare,mismatch,0,0,1,0,0,TR-1801,Integumento Bipolare,T3,scivolamento_magnetico,terrestre,Integumento Bipolare,T3,bozzolo_magnetico;elettromagnete_biologico;scivolamento_magnetico,terrestre,0,0
+ipertrofia_muscolare_massiva,mismatch,0,0,1,0,0,TR-1103,Ipertrofia Muscolare Massiva,T3,scheletro_idraulico_a_pistoni,terrestre,Ipertrofia Muscolare Massiva,T3,ectotermia_dinamica;scheletro_idraulico_a_pistoni,terrestre,0,0
+lamelle_shear,missing_in_external,0,0,0,0,0,,,,,,Lamelle Shear,T1,pianificatore;tattiche_di_branco,stratosfera_tempestosa,0,0
+lamelle_sincroniche,missing_in_external,0,0,0,0,0,,,,,,Lamelle Sincroniche,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,steppe_algoritmiche,0,0
+lamelle_termoforetiche,missing_in_external,0,0,0,0,0,,,,,,Lamelle Termoforetiche,T2,sangue_piroforico,sorgenti_geotermiche,0,0
+lamine_filtranti_aeree,missing_in_external,0,0,0,0,0,,,,,,Lamine Filtranti Aeree,T1,scheletro_idro_regolante;struttura_elastica_amorfa,mangrovieto_cinetico,0,0
+lamine_scudo_silice,missing_in_external,0,0,0,0,0,,,,,,Lamine Scudo Silice,T1,focus_frazionato;sinapsi_coraline_polifoniche,dorsale_termale_tropicale,0,0
+linfa_tampone,missing_in_external,0,0,0,0,0,,,,,,Linfa Tampone,T1,coda_frusta_cinetica;zampe_a_molla,foresta_acida,0,0
+lingua_cristallina,missing_in_external,0,0,0,0,0,,,,,,Lingua Cristallina,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,pianura_salina_iperarida,0,0
+lingua_tattile_trama,missing_in_external,0,0,0,0,0,,,,,,Lingua Tattile Trama-Sensibile,T1,olfatto_risonanza_magnetica,caverna_risonante,0,0
+lobi_risonanti_crepuscolo,missing_in_external,0,0,0,0,0,,,,,,Lobi Risonanti Crepuscolo,,,frattura_abissale_sinaptica,0,0
+locomozione_miriapode_ibrida,mismatch,0,0,1,0,0,TR-1302,Locomozione Miriapode Ibrida,T3,artiglio_cinetico_a_urto,terrestre,Locomozione Miriapode Ibrida,T3,artiglio_cinetico_a_urto;ermafroditismo_cronologico;sistemi_chimio_sonici,terrestre,0,0
+luminescenza_aurorale,missing_in_external,0,0,0,0,0,,,,,,Luminescenza Aurorale,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,caldera_glaciale,0,0
+luminescenza_hydrotermica,missing_in_external,0,0,0,0,0,,,,,,Luminescenza Hydrotermica,T1,empatia_coordinativa;risonanza_di_branco,abisso_vulcanico,0,0
+mantelli_geotermici,missing_in_external,0,0,0,0,0,,,,,,Mantelli Geotermici,T1,coda_frusta_cinetica;sangue_piroforico,caldera_glaciale,0,0
+mantello_meteoritico,missing_in_external,0,0,0,0,0,,,,,,Mantello Meteoritico,T3,carapace_fase_variabile;frusta_fiammeggiante,rovine_planari,0,0
+membrana_plastica_continua,mismatch,0,0,1,0,0,TR-1601,Membrana Plastica Continua,T3,flusso_ameboide_controllato,terrestre,Membrana Plastica Continua,T3,fagocitosi_assorbente;flusso_ameboide_controllato;moltiplicazione_per_fusione,terrestre,0,0
+membrane_captura_rugiada,missing_in_external,0,0,0,0,0,,,,,,Membrane Captura Rugiada,T1,pianificatore;tattiche_di_branco,pianura_salina_iperarida,0,0
+membrane_eliofiltranti,missing_in_external,0,0,0,0,0,,,,,,Membrane Eliofiltranti,T2,piume_solari_fotovoltaiche;polmoni_cristallini_alta_quota,laghi_alcalini,0,0
+membrane_fotoconvoglianti,missing_in_external,0,0,0,0,0,,,,,,Membrane Fotoconvoglianti,,,frattura_abissale_sinaptica,0,0
+membrane_planata_vectored,missing_in_external,0,0,0,0,0,,,,,,Membrane Planata Vectored,T1,mucillagine_simbionte_mangrovie;nodi_micorrizici_oracolari,canopia_ionica,0,0
+membrane_pneumatofori,missing_in_external,0,0,0,0,0,,,,,,Membrane Pneumatofori,T1,scheletro_idro_regolante;struttura_elastica_amorfa,mangrovieto_cinetico,0,0
+metabolismo_di_condivisione_energetica,match,0,0,0,0,0,TR-2004,Metabolismo di Condivisione Energetica,T3,corna_psico_conduttive,terrestre,Metabolismo di Condivisione Energetica,T3,corna_psico_conduttive,terrestre,0,0
+midollo_antivibrazione,missing_in_external,0,0,0,0,0,,,,,,Midollo Antivibrazione,T1,focus_frazionato;sinapsi_coraline_polifoniche,caverna_risonante,0,0
+mimetismo_cromatico_passivo,missing_in_external,0,0,0,0,0,,,,,,Ghiandole di Mimetismo Cromatico Passivo,T1,ali_membrana_sonica;appendici_risonanti_marea;artigli_sette_vie;barriere_miasma_glaciale;branchie_microfiltri;capsule_paracadute;circolazione_bifasica;coda_coppia_retroattiva;cute_resistente_sali;enzimi_antipredatori_algali;filtri_planctonici;ghiandole_fango_coesivo;giunti_antitorsione;lingua_cristallina;mucose_barofile;struttura_elastica_amorfa,canopia_psionica_leggera;falde_magnetiche_psioniche,0,0
+moltiplicazione_per_fusione,mismatch,0,0,1,0,0,TR-1604,Moltiplicazione per Fusione,T2,membrana_plastica_continua,terrestre,Moltiplicazione per Fusione,T2,cisti_di_ibernazione_minerale;membrana_plastica_continua,terrestre,0,0
+motore_biologico_silenzioso,mismatch,0,0,1,0,0,TR-1903,Motore Biologico Silenzioso,T2,vello_di_assorbimento_totale,terrestre,Motore Biologico Silenzioso,T2,artigli_ipo_termici;vello_di_assorbimento_totale,terrestre,0,0
+mucillagine_simbionte_mangrovie,missing_in_external,0,0,0,0,0,,,,,,Mucillagine Simbionte delle Mangrovie,T1,antenne_reagenti;artigli_scivolo_silente;biofilm_iperarido;branchie_osmotiche_salmastra;camere_nutrienti_vent;cartilagini_flessoacustiche;circolazione_bifasica_palude;ciste_salmastre;coralli_partner;denti_silice_termici;epitelio_fosforescente;ghiandole_cambio_salino;ghiandole_nebbia_acida;lamelle_sincroniche;membrane_planata_vectored;nodi_micorrizici_oracolari,mangrovie_risonanti,0,0
+mucose_aderenza_sonica,missing_in_external,0,0,0,0,0,,,,,,Mucose Aderenza Sonica,T1,coda_frusta_cinetica;zampe_a_molla,caverna_risonante,0,0
+mucose_barofile,missing_in_external,0,0,0,0,0,,,,,,Mucose Barofile,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,abisso_vulcanico,0,0
+nebbia_mnesica,missing_in_external,0,0,0,0,0,,,,,,Nebbia Mnesica,,,frattura_abissale_sinaptica,0,0
+nodi_micorrizici_oracolari,missing_in_external,0,0,0,0,0,,,,,,Nodi Micorrizici Oracolari,T3,antenne_reagenti;artigli_scivolo_silente;biofilm_iperarido;bulbi_radici_permafrost;camere_nutrienti_vent;cartilagini_flessoacustiche;chioma_parassita_canopica;ciste_salmastre;coralli_partner;denti_silice_termici;epitelio_fosforescente;ghiandole_cambio_salino;ghiandole_nebbia_acida;lamelle_sincroniche;membrane_planata_vectored;mucillagine_simbionte_mangrovie,reti_micorriziche,0,0
+nodi_sinaptici_superficiali,missing_in_external,0,0,0,0,0,,,,,,Nodi Sinaptici Superficiali,,,frattura_abissale_sinaptica,0,0
+nucleo_ovomotore_rotante,missing_in_external,0,0,0,0,0,,,,,,"Uovo rotaia, uovo grande e uova piccole dentro...",T1,,caverna_risonante,0,0
+occhi_analizzatori_di_tensione,mismatch,0,0,1,0,0,TR-1505,Occhi Analizzatori di Tensione,T2,seta_conduttiva_elettrica,terrestre,Occhi Analizzatori di Tensione,T2,articolazioni_a_leva_idraulica;seta_conduttiva_elettrica,terrestre,0,0
+occhi_cinetici,mismatch,0,0,1,0,0,TR-1705,Occhi Cinetici,T2,cannone_sonico_a_raggio,terrestre,Occhi Cinetici,T2,ali_fono_risonanti;campo_di_interferenza_acustica;cannone_sonico_a_raggio,terrestre,0,0
+occhi_cristallo_modulare,missing_in_external,0,0,0,0,0,,,,,,Occhi di Cristallo Modulare,T2,,,0,0
+occhi_infrarosso_composti,missing_in_external,0,0,0,0,0,,,,,,Occhi Composti ad Infrarosso,T1,sonno_emisferico_alternato,caverna_risonante,0,0
+olfatto_risonanza_magnetica,missing_in_external,0,0,0,0,0,,,,,,Olfatto di Risonanza Magnetica,T2,eco_interno_riflesso;lingua_tattile_trama,falde_magnetiche_psioniche;orbita_psionica_inversa,0,0
+organi_metacronici,missing_in_external,0,0,0,0,0,,,,,,Organi Metacronici,,,frattura_abissale_sinaptica,0,0
+organi_sismici_cutanei,match,0,0,0,0,0,TR-1105,Organi Sismici Cutanei,T2,rostro_emostatico_litico,terrestre,Organi Sismici Cutanei,T2,rostro_emostatico_litico,terrestre,0,0
+pathfinder,missing_in_external,0,0,0,0,0,,,,,,Pathfinder,T1,,,0,0
+pelage_idrorepellente_avanzato,match,0,0,0,0,0,TR-1201,Pelage Idrorepellente Avanzato,T2,coda_prensile_muscolare;scudo_gluteale_cheratinizzato,terrestre,Pelage Idrorepellente Avanzato,T2,coda_prensile_muscolare;scudo_gluteale_cheratinizzato,terrestre,0,0
+pelle_piezo_satura,missing_in_external,0,0,0,0,0,,,,,,Pelle Piezo-Satura,,,frattura_abissale_sinaptica,0,0
+pianificatore,missing_in_external,0,0,0,0,0,,,,,,Pianificatore,T1,antenne_microonde_cavernose;artigli_radice;biofilm_glow;camere_mirage;cartilagini_desertiche;ciste_riduttive;colonne_vibromagnetiche;denti_ossidoferro;epidermide_dielettrica;ghiaccio_piezoelettrico;ghiandole_minerali;lamelle_shear;membrane_captura_rugiada,,0,0
+piume_solari_fotovoltaiche,missing_in_external,0,0,0,0,0,,,,,,Piume Solari Fotovoltaiche,T2,membrane_eliofiltranti;sacche_spore_stratosferiche,altipiani_solari,0,0
+placca_diffusione_foschia,missing_in_external,0,0,0,0,0,,,,,,Placca di Diffusione Foschia,,,frattura_abissale_sinaptica,0,0
+placche_pressioniche,missing_in_external,0,0,0,0,0,,,,,,Placche Pressioniche,,,frattura_abissale_sinaptica,0,0
+polmoni_cristallini_alta_quota,missing_in_external,0,0,0,0,0,,,,,,Polmoni Cristallini d'Alta Quota,T2,membrane_eliofiltranti,picchi_cristallini,0,0
+random,missing_in_external,0,0,0,0,0,,,,,,Trait Random,T1,,,0,0
+respiro_a_scoppio,missing_in_external,0,0,0,0,0,,,,,,Respiro a scoppio,T1,sacche_galleggianti_ascensoriali;squame_rifrangenti_deserto,caverna_risonante,0,0
+rete_filtro_polmonare,match,0,0,0,0,0,TR-1403,Rete Filtro-Polmonare,T3,scheletro_pneumatico_a_maglie,terrestre,Rete Filtro-Polmonare,T3,scheletro_pneumatico_a_maglie,terrestre,0,0
+risonanza_di_branco,missing_in_external,0,0,0,0,0,,,,,,Risonanza di Branco,T1,antenne_eco_turbina;antenne_plasmatiche_tempesta;artigli_acidofagi;aura_scudo_radianza;batteri_termofili_endosimbiosi;branchie_turbina;carapace_luminiscente_abissale;carapaci_ferruginosi;cavita_risonanti_tundra;circolazione_doppia;coda_stabilizzatrice_geiser;cuticole_neutralizzanti;enzimi_chelatori_rapidi;foliage_fotocatodico;ghiandole_inchiostro_luce;gusci_criovetro;luminescenza_hydrotermica,,0,0
+riverbero_memetico,missing_in_external,0,0,0,0,0,,,,,,Riverbero Memetico,,,frattura_abissale_sinaptica,0,0
+rostro_emostatico_litico,mismatch,0,0,1,0,0,TR-1101,Rostro Emostatico-Litico,T4,scheletro_idraulico_a_pistoni,terrestre,Rostro Emostatico-Litico,T4,ectotermia_dinamica;organi_sismici_cutanei;scheletro_idraulico_a_pistoni,terrestre,0,0
+rostro_linguale_prensile,match,0,0,0,0,0,TR-1205,Rostro Linguale Prensile,T3,coda_prensile_muscolare,terrestre,Rostro Linguale Prensile,T3,coda_prensile_muscolare,terrestre,0,0
+sacche_galleggianti_ascensoriali,missing_in_external,0,0,0,0,0,,,,,,Sacche galleggianti ascensoriali,T1,cartilagine_flessotermica_venti;respiro_a_scoppio;scheletro_idro_regolante;struttura_elastica_amorfa,canopia_psionica_leggera;orbita_psionica_inversa,0,0
+sacche_spore_stratosferiche,missing_in_external,0,0,0,0,0,,,,,,Sacche di Spore Stratosferiche,T3,piume_solari_fotovoltaiche,stratosfera_portante,0,0
+sangue_piroforico,missing_in_external,0,0,0,0,0,,,,,,Sangue che prende fuoco a contatto con l'ossigeno,T1,antenne_flusso_mareale;artigli_induzione;biochip_memoria;camere_anticorrosione;cartilagini_biofibre;circolazione_supercritica;coda_stabilizzatrice_vortex;denti_chelatanti;enzimi_metanoossidanti;foliaggio_spugna;ghiandole_iodoattive;gusci_magnesio;lamelle_termoforetiche;mantelli_geotermici,caverna_risonante,0,0
+scheletro_idraulico_a_pistoni,match,0,0,0,0,0,TR-1102,Scheletro Idraulico a Pistoni,T4,ipertrofia_muscolare_massiva;rostro_emostatico_litico,terrestre,Scheletro Idraulico a Pistoni,T4,ipertrofia_muscolare_massiva;rostro_emostatico_litico,terrestre,0,0
+scheletro_idro_regolante,missing_in_external,0,0,0,0,0,,,,,,Scheletro Idro-Regolante,T1,antenne_tesla;artigli_vetrificati;branchie_dual_mode;branchie_osmotiche_salmastra;capillari_criogenici;cartilagini_pseudometalliche;cisti_iperbariche;cromofori_alert_acido;denti_tuning_fork;filamenti_magnetotrofi;ghiandole_condensa_ozono;ghiandole_nebbia_ionica;lamine_filtranti_aeree;membrane_pneumatofori;sacche_galleggianti_ascensoriali;struttura_elastica_amorfa,caverna_risonante,0,0
+scheletro_pneumatico_a_maglie,mismatch,0,0,1,0,0,TR-1401,Scheletro Pneumatico a Maglie,T3,cinghia_iper_ciliare,terrestre,Scheletro Pneumatico a Maglie,T3,canto_infrasonico_tattico;cinghia_iper_ciliare;rete_filtro_polmonare;siero_anti_gelo_naturale,terrestre,0,0
+scintilla_sinaptica,missing_in_external,0,0,0,0,0,,,,,,Scintilla Sinaptica,,,frattura_abissale_sinaptica,0,0
+scivolamento_magnetico,match,0,0,0,0,0,TR-1803,Scivolamento Magnetico,T3,integumento_bipolare,terrestre,Scivolamento Magnetico,T3,integumento_bipolare,terrestre,0,0
+scudo_gluteale_cheratinizzato,match,0,0,0,0,0,TR-1202,Scudo Gluteale Cheratinizzato,T3,pelage_idrorepellente_avanzato,terrestre,Scudo Gluteale Cheratinizzato,T3,pelage_idrorepellente_avanzato,terrestre,0,0
+secrezione_rallentante_palmi,missing_in_external,0,0,0,0,0,,,,,,Mani secernano liquido rallentante,T1,,caverna_risonante,0,0
+secrezioni_antistatiche,missing_in_external,0,0,0,0,0,,,,,,Secrezioni Antistatiche,,,frattura_abissale_sinaptica,0,0
+sensori_geomagnetici,missing_in_external,0,0,0,0,0,,,,,,Sensori Geomagnetici,T1,carapace_fase_variabile;eco_interno_riflesso,pianure_magnetiche,0,0
+sensori_planctonici,missing_in_external,0,0,0,0,0,,,,,,Sensori Planctonici,,,frattura_abissale_sinaptica,0,0
+seta_conduttiva_elettrica,mismatch,0,0,1,0,0,TR-1502,Seta Conduttiva Elettrica,T4,zanne_idracida,terrestre,Seta Conduttiva Elettrica,T4,occhi_analizzatori_di_tensione;zanne_idracida,terrestre,0,0
+siero_anti_gelo_naturale,match,0,0,0,0,0,TR-1405,Siero Anti-Gelo Naturale,T2,scheletro_pneumatico_a_maglie,terrestre,Siero Anti-Gelo Naturale,T2,scheletro_pneumatico_a_maglie,terrestre,0,0
+sinapsi_coraline_polifoniche,missing_in_external,0,0,0,0,0,,,,,,Sinapsi Coraline Polifoniche,T2,ali_fulminee;antenne_plasmatiche_tempesta;antenne_waveguide;baffi_mareomotori;branchie_eoliche;capillari_fluoridici;carapace_luminiscente_abissale;cervelletto_equilibrio_statico;coda_balanciere;cuore_multicamera_bassa_pressione;echi_risonanti;filamenti_superconduttivi;ghiandole_eco_mappanti;ghiandole_resina_conduttiva;lamine_scudo_silice;midollo_antivibrazione,barriere_coralline_psioniche,0,0
+sistemi_chimio_sonici,mismatch,0,0,1,0,0,TR-1305,Sistemi Chimio-Sonici,T3,locomozione_miriapode_ibrida,terrestre,Sistemi Chimio-Sonici,T3,estroflessione_gastrica_acida;locomozione_miriapode_ibrida,terrestre,0,0
+sonno_emisferico_alternato,missing_in_external,0,0,0,0,0,,,,,,Dormire con solo metà cervello alla volta,T1,artigli_sghiaccio_glaciale;occhi_infrarosso_composti,caverna_risonante,0,0
+spicole_canalizzatrici,missing_in_external,0,0,0,0,0,,,,,,Spicole Canalizzatrici,,,frattura_abissale_sinaptica,0,0
+spore_psichiche_silenziate,missing_in_external,0,0,0,0,0,,,,,,Spora Psichica Silenziosa,T1,,caverna_risonante,0,0
+squame_diffusori_ionici,missing_in_external,0,0,0,0,0,,,,,,Squame Diffusori Ionici,,,frattura_abissale_sinaptica,0,0
+squame_rifrangenti_deserto,missing_in_external,0,0,0,0,0,,,,,,Squame Rifrangenti del Deserto,T2,respiro_a_scoppio,dune_cristalline,0,0
+struttura_elastica_amorfa,missing_in_external,0,0,0,0,0,,,,,,"Struttura elastica, allungabile, amorfa, retrattile",T1,antenne_tesla;artigli_sette_vie;artigli_vetrificati;branchie_dual_mode;capillari_criogenici;cartilagini_pseudometalliche;cisti_iperbariche;cromofori_alert_acido;denti_tuning_fork;filamenti_magnetotrofi;ghiandole_condensa_ozono;ghiandole_nebbia_ionica;lamine_filtranti_aeree;membrane_pneumatofori;mimetismo_cromatico_passivo;sacche_galleggianti_ascensoriali;scheletro_idro_regolante,canopia_psionica_leggera;falde_magnetiche_psioniche,0,0
+tattiche_di_branco,missing_in_external,0,0,0,0,0,,,,,,Tattiche di Branco,T1,antenne_microonde_cavernose;artigli_radice;artigli_sette_vie;biofilm_glow;camere_mirage;cartilagini_desertiche;ciste_riduttive;colonne_vibromagnetiche;denti_ossidoferro;epidermide_dielettrica;ghiaccio_piezoelettrico;ghiandole_minerali;lamelle_shear;membrane_captura_rugiada,,0,0
+traits_aggregate,missing_in_index,0,0,0,0,0,traits_aggregate,,,,,,,,,0,0
+unghie_a_micro_adesione,match,0,0,0,0,0,TR-2005,Unghie a Micro-Adesione,T2,corna_psico_conduttive,terrestre,Unghie a Micro-Adesione,T2,corna_psico_conduttive,terrestre,0,0
+vello_condensatore_nebbie,missing_in_external,0,0,0,0,0,,,,,,Vello Condensatore di Nebbie,T1,bulbi_radici_permafrost,foreste_nubose,0,0
+vello_di_assorbimento_totale,mismatch,0,0,1,0,0,TR-1901,Vello di Assorbimento Totale,T3,visione_multi_spettrale_amplificata,terrestre,Vello di Assorbimento Totale,T3,comunicazione_fotonica_coda_coda;motore_biologico_silenzioso;visione_multi_spettrale_amplificata,terrestre,0,0
+ventriglio_gastroliti,missing_in_external,0,0,0,0,0,,,,,,"Denti sonci (ciottoli/sassi), ti nutri di tutto",T1,antenne_dustsense;appendici_thermotattiche;batteri_endosimbionti_chemio;branchie_solfatiche;carapace_segmenti_logici;circolazione_cooling_loop;coda_stabilizzatrice_filo;cuticole_cerose;enzimi_chelanti;filamenti_digestivi_compattanti;flagelli_ancoranti;ghiandole_grafene;grassi_termici;luminescenza_aurorale,caverna_risonante,0,0
+visione_multi_spettrale_amplificata,mismatch,0,0,1,0,0,TR-1902,Visione Multi-Spettrale Amplificata,T3,vello_di_assorbimento_totale,terrestre,Visione Multi-Spettrale Amplificata,T3,artigli_ipo_termici;vello_di_assorbimento_totale,terrestre,0,0
+vortice_nera_flash,missing_in_external,0,0,0,0,0,,,,,,Vortice Nera Flash,,,frattura_abissale_sinaptica,0,0
+zampe_a_molla,missing_in_external,0,0,0,0,0,,,,,,Zampe a Molla,T1,ali_ioniche;antenne_wideband;artigli_sghiaccio_glaciale;barbigli_sensori_plasma;branchie_metalloidi;capillari_fotovoltaici;chemiorecettori_bromuro;coda_contrappeso;cuscinetti_elettrostatici;enzimi_antifase_termica;filamenti_termoconduzione;ghiandole_fango_calde;ghiandole_ventosa;linfa_tampone;mucose_aderenza_sonica,,0,0
+zanne_idracida,mismatch,0,0,1,0,0,TR-1501,Zanne Idracida,T4,articolazioni_a_leva_idraulica;seta_conduttiva_elettrica,terrestre,Zanne Idracida,T4,articolazioni_a_leva_idraulica;filtrazione_osmotica;seta_conduttiva_elettrica,terrestre,0,0
+zoccoli_risonanti_steppe,missing_in_external,0,0,0,0,0,,,,,,Zoccoli Risonanti delle Steppe,T1,cartilagine_flessotermica_venti,steppe_risonanti,0,0
