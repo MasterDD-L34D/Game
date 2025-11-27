@@ -381,12 +381,12 @@ tasks:
     notes: |
       Deriva dall’analisi `missing_in_external` e fornisce export normalizzato per partner tooling.
       - Export rigenerato dopo la chiusura di ROL-04: CSV UTF-8 con intestazione `slug,label_it,label_en,tier,external_code,status` (RFC4180, separatore `,`, newline LF) e 204 righe totali.
-        - `traits_gap.csv` aggiornato per i `missing_in_external` (202 occorrenze; `missing_in_index`: 0) a partire dal dataset normalizzato.
-      - Output condiviso con il team partner-success per validazione finale.
+        - `traits_gap.csv` aggiornato sui `missing_in_external` residui (202 occorrenze) con segnalazione dei soli `missing_in_index` rimasti (2 slug).
+      - Output locale condiviso con il team partner-success (nessun upload S3 richiesto) per la validazione finale.
 
     telemetry:
-      last_sync: 2025-11-27T00:00:00+00:00
-      progress: 20
+      last_sync: 2025-11-27T13:38:24+00:00
+      progress: 100
       metric:
         label: Trait missing_in_external
         open_items: 202
