@@ -861,4 +861,6 @@ module.exports = {
     timelineDays: DEFAULT_TIMELINE_DAYS,
     orchestratorMaxEvents: DEFAULT_ORCHESTRATOR_MAX_EVENTS,
   },
+  loadSpeciesRolloutMatrix,
+  applySpeciesRollout,
 };
