@@ -21,6 +21,9 @@ updated: 2025-12-19
 | `../archive/documents/Guida Ai tratti 3 Evo tact.docx` | `docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md` | Conversione DOCX → Markdown normalizzato |
 | `../archive/documents/Guida Ai tratti 3 database.docx` | `docs/evo-tactics/guida-ai-tratti-3-database.md` | Conversione DOCX → Markdown normalizzato |
 | `../archive/documents/Integrazioni V2.docx` | `docs/evo-tactics/integrazioni-v2.md` | Conversione DOCX → Markdown normalizzato |
+| `docs/evo-tactics/guides/security-ops.md` | `docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_security_ops.md` | Snapshot archivio con frontmatter e changelog (inventory cleanup 19/12/2025). |
+| `docs/evo-tactics/guides/template-ptpf.md` | `docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md` | Snapshot archivio con frontmatter e changelog (inventory cleanup 19/12/2025). |
+| `docs/evo-tactics/guides/visione-struttura.md` | `docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md` | Snapshot archivio con frontmatter e changelog (inventory cleanup 19/12/2025). |
 
 L’elenco completo degli asset inventariati con le rispettive destinazioni è stato serializzato in `reports/evo/rollout/documentation_diff.json` per consentire filtri aggiuntivi e correlazioni future con i batch di rollout.【F:incoming/lavoro_da_classificare/inventario.yml†L216-L260】【F:reports/evo/rollout/documentation_diff.json†L1094-L1149】
 
@@ -30,13 +33,13 @@ L’automazione `scripts/evo_tactics_metadata_diff.py` confronta le copie consol
 
 - Le versioni archiviate in `docs/incoming/archive/2025-12-19_inventory_cleanup/` non contengono frontmatter YAML (`title`, `description`, `tags`, `updated`), mentre le copie consolidate sì.【F:reports/evo/rollout/documentation_diff.json†L1096-L1118】
 - Le guide consolidate hanno introdotto ancore semantiche esplicite (`{#...}`) per tutte le sezioni e sottosezioni, assenti nelle controparti archiviate. Il diff registra oltre 20 nuove ancore per ciascuna guida principale, facilitando i deep-link nelle wiki interne.【F:reports/evo/rollout/documentation_diff.json†L1119-L1149】
-- Tre documenti operativi (`guides/security-ops.md`, `guides/template-ptpf.md`, `guides/visione-struttura.md`) non hanno ancora un match nell’archivio storicizzato: il dato emerge nella sezione `unmatched` del report JSON, indicando che non esiste una copia legacy con cui confrontare metadati e ancore.【F:reports/evo/rollout/documentation_diff.json†L1366-L1369】
+- Le snapshot archivio per i playbook operativi (`security-ops`, `template-ptpf`, `visione-struttura`) sono state aggiunte in `docs/incoming/archive/2025-12-19_inventory_cleanup/`, chiudendo il gap precedentemente rilevato nella sezione `unmatched` del diff.【F:docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_security_ops.md†L1-L73】【F:docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md†L1-L73】【F:docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md†L1-L73】
 
 ## Gap e impatti sui consumer
 
 1. **Ricerca e indicizzazione** – L’assenza di frontmatter nei documenti storici impedisce ai motori di ricerca interni (docs hub, wiki, Obsidian) di esporre i contenuti Evo-Tactics via filtri per tag o date. I team che ancora consultano gli archivi rischiano di utilizzare versioni non aggiornate o di non trovare il documento corretto.
 2. **Deep-link e navigazione** – Senza ancore stabili, i link da dashboard Notion/wiki puntano a sezioni non deterministiche, causando errori 404 in strumenti di documentazione che generano slug automaticamente. I consumer (design, QA, telemetria) non possono condividere riferimenti precisi alle checklist operative.
-3. **Copertura incompleta** – L’assenza di controparti archiviate per i playbook (Security & Ops, Template PTPF, Visione) lascia un buco di conformità: i team di sicurezza e PMO non hanno uno storico da confrontare per audit o regressioni di processo.
+3. **Copertura incompleta (risolta)** – Le nuove snapshot archivio dei playbook (Security & Ops, Template PTPF, Visione) chiudono il buco di conformità fornendo uno storico consultabile per audit e regressioni di processo.
 
 ## Priorità di rollout
 
