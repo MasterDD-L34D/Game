@@ -14,8 +14,8 @@ workflow_run: —
 | Indicatore                | Valore |
 | ------------------------- | ------ |
 | Playbook da archiviare    | 3      |
-| Trait missing_in_index    | 51     |
-| Trait missing_in_external | 174    |
+| Trait missing_in_index    | 2      |
+| Trait missing_in_external | 0      |
 | Ecotipi con mismatch      | 20     |
 
 ## Workflow & integrazioni

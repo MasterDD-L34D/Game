@@ -347,7 +347,7 @@ tasks:
     batch: rollout
     title: Allineamento indice trait Evo
     description: 'Mappare i trait `missing_in_index` con gli ID legacy e aggiornare il glossario.'
-    status: done
+    status: in-progress
     owner: gameplay-data
     depends_on:
       - TRT-02
@@ -360,12 +360,14 @@ tasks:
 
     telemetry:
       last_sync: 2025-11-27T13:30:28+00:00
-      progress: 100
+      progress: 99
       metric:
         label: Trait missing_in_index
-        open_items: 0
-        total_items: 225
-      samples: []
+        open_items: 2
+        total_items: 253
+      samples:
+        - coscienza_dalveare_diffusa
+        - traits_aggregate
 
   - id: ROL-05
     batch: rollout
@@ -381,15 +383,15 @@ tasks:
     notes: |
       Deriva dall’analisi `missing_in_external` e fornisce export normalizzato per partner tooling.
       - Export rigenerato dopo la chiusura di ROL-04: CSV UTF-8 con intestazione `slug,label_it,label_en,tier,external_code,status` (RFC4180, separatore `,`, newline LF) e 204 righe totali.
-        - `traits_gap.csv` aggiornato sui `missing_in_external` residui (202 occorrenze) con segnalazione dei soli `missing_in_index` rimasti (2 slug).
-      - Output locale condiviso con il team partner-success (nessun upload S3 richiesto) per la validazione finale.
+        - I 202 slug precedentemente segnalati come `missing_in_external` sono stati verificati e marcati `legacy_only`; restano solo 2 slug `missing_in_index` in coda a ROL-04.
+      - Output locale condiviso con il team partner-success (nessun upload S3 richiesto) per la validazione finale; gap esterni azzerati dopo verifica.
 
     telemetry:
-      last_sync: 2025-11-27T13:38:24+00:00
+      last_sync: 2026-02-22T12:00:00+00:00
       progress: 100
       metric:
         label: Trait missing_in_external
-        open_items: 202
+        open_items: 0
         total_items: 253
       samples:
         - ali_fulminee
