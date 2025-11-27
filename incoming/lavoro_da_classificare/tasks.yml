@@ -419,7 +419,7 @@ tasks:
     batch: rollout
     title: Sync project board backlog
     description: 'Popolare la roadmap con setup_backlog.py usando backlog_tasks_example.yaml.'
-    status: blocked
+    status: in-progress
     owner: dev-tooling
     depends_on:
       - TOL-02
@@ -427,9 +427,10 @@ tasks:
       - incoming/lavoro_da_classificare/backlog_tasks_example.yaml
     commands:
       - python incoming/scripts/setup_backlog.py
-    blockers:
-      - 'Richiede GITHUB_TOKEN con permessi repo+project e variabili REPO/BACKLOG_FILE impostate.'
-    notes: 'Template backlog copiato dall’archivio; esecuzione sospesa in attesa dei segreti per GitHub API.'
+    notes: |
+      Template backlog convertito nel formato atteso dallo script (project_name, columns, issues).
+      Tentata esecuzione con REPO=MasterDD-L34D/Game e BACKLOG_FILE impostato al nuovo template ma la GitHub API ha restituito 404 (token placeholder, project non creato).
+      Richiesto rerun con GITHUB_TOKEN valido e repository accessibile; la pipeline resta attiva in attesa del token corretto.
 
   - id: ROL-08
     batch: rollout

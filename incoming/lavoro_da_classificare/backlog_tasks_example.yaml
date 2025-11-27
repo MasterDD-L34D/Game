@@ -1,35 +1,39 @@
-# Esempio di definizione backlog per Evo‑Tactics
-# Questo file può essere usato come input per lo script setup_backlog.py.
-# Ogni categoria contiene un elenco di attività con un identificatore, un titolo e una descrizione.
-categories:
-  dataset:
-    - id: DS1
-      title: Validare dataset MBTI/Enneagramma
-      description: Eseguire script di validazione per garantire coerenza e completezza dei tratti nei dataset di personalità.
-    - id: DS2
-      title: Aggiornare glossario tratti
-      description: Applicare le correzioni individuate dalla revisione sistematica al file glossario.json.
-  cli:
-    - id: CLI1
-      title: Implementare comando di generazione profili
-      description: Aggiungere un comando alla CLI (Python/TypeScript) che consenta la creazione e validazione dei profili giocatore.
-  backend:
-    - id: BE1
-      title: Creare endpoint API per telemetria incrementale
-      description: Esporre un endpoint REST che permetta al frontend di inviare dati di telemetria in modo incrementale.
-  webapp:
-    - id: FE1
-      title: Introdurre HUD telemetrico nel frontend
-      description: Integrare l’overlay HUD smart nel prototipo WebGL/Vite secondo le specifiche di design.
-  qa:
-    - id: QA1
-      title: Ampliare suite di test Playwright
-      description: Aggiungere scenari di test end‑to‑end per coprire le nuove funzionalità HUD e telemetria.
-  security:
-    - id: SEC1
-      title: Integrare workflow di sicurezza
-      description: Creare il workflow security.yml ed eseguire scansioni SAST, dipendenze e segreti ad ogni PR.
-  documentation:
-    - id: DOC1
-      title: Consolidare la documentazione tecnica
-      description: Aggiornare e centralizzare i documenti in docs/, includendo GDD, documentazione di sicurezza e guide di installazione.
+project_name: Evo‑Tactics Roadmap
+columns:
+  - Backlog
+  - In Progress
+  - Review QA
+  - Done
+issues:
+  - title: '[DS1] Validare dataset MBTI/Enneagramma'
+    body: 'Eseguire script di validazione per garantire coerenza e completezza dei tratti nei dataset di personalità.'
+    labels: ['dataset']
+    column: 'Backlog'
+  - title: '[DS2] Aggiornare glossario tratti'
+    body: 'Applicare le correzioni individuate dalla revisione sistematica al file glossario.json.'
+    labels: ['dataset']
+    column: 'Backlog'
+  - title: '[CLI1] Implementare comando di generazione profili'
+    body: 'Aggiungere un comando alla CLI (Python/TypeScript) che consenta la creazione e validazione dei profili giocatore.'
+    labels: ['cli']
+    column: 'Backlog'
+  - title: '[BE1] Creare endpoint API per telemetria incrementale'
+    body: 'Esporre un endpoint REST che permetta al frontend di inviare dati di telemetria in modo incrementale.'
+    labels: ['backend', 'telemetria']
+    column: 'Backlog'
+  - title: '[FE1] Introdurre HUD telemetrico nel frontend'
+    body: 'Integrare l’overlay HUD smart nel prototipo WebGL/Vite secondo le specifiche di design.'
+    labels: ['frontend', 'hud']
+    column: 'Backlog'
+  - title: '[QA1] Ampliare suite di test Playwright'
+    body: 'Aggiungere scenari di test end‑to‑end per coprire le nuove funzionalità HUD e telemetria.'
+    labels: ['qa', 'playwright']
+    column: 'Backlog'
+  - title: '[SEC1] Integrare workflow di sicurezza'
+    body: 'Creare il workflow security.yml ed eseguire scansioni SAST, dipendenze e segreti ad ogni PR.'
+    labels: ['security']
+    column: 'Backlog'
+  - title: '[DOC1] Consolidare la documentazione tecnica'
+    body: 'Aggiornare e centralizzare i documenti in docs/, includendo GDD, documentazione di sicurezza e guide di installazione.'
+    labels: ['documentation']
+    column: 'Backlog'
