@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-04-10 – Inventario CI/script derived+incoming (dev-tooling)
+- Step: `[01C-CI-INVENTORY-2026-04-10] owner=dev-tooling (approvatore richiesto: Master DD); files=reports/audit/2026-04-10_ci-script-report.md, logs/agent_activity.md; rischio=basso (report-only); note=Aggiornato inventario CI/script su pack/incoming/derived con proposta di controlli mancanti (drift derived, gating incoming dispatch, coverage registri pack) senza abilitare esecuzioni. Riferimenti branch dedicati: patch/01C-tooling-ci-catalog per follow-up CI, patch/03A-core-derived e patch/03B-incoming-cleanup per pipeline 02A→03A→03B in modalità report-only.`
+
 ## 2026-04-09 – Gate uscita 01B matrice core/derived (species-curator)
 - Step: `[01B-GATE-EXIT-2026-04-09] owner=species-curator (approvatore richiesto: Master DD); files=docs/planning/REF_CORE_DERIVED_MATRIX.md, logs/agent_activity.md; rischio=basso (documentazione/triage); note=Matrice 01B aggiornata a v0.2 usando REF_REPO_SOURCES_OF_TRUTH e catalogo stabile per le fonti gap list **[TKT-01A-001]** … **[TKT-01A-005]**: proposta core/derived con fixture richieste, flag borderline con co-triage trait-curator/balancer/archivist e blocco Pending su `incoming/lavoro_da_classificare/*`. Bozza pubblicata sul branch `patch/01B-core-derived-matrix`; richiesta via libera Master DD per chiudere il gate 01B e procedere agli step successivi. Ticket 01B collegati: **[TKT-01B-001]**/**[TKT-01B-002]**.`
 
