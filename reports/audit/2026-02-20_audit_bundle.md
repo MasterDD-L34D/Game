@@ -13,6 +13,7 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
   - Rerun 02A report-only 2025-11-28T15:44Z su `patch/03A-core-derived` con log `schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json` salvati nei percorsi canonici `reports/temp/patch-03A-core-derived/` e mirrorati in `reports/temp/patch-03A-core-derived/rerun-2025-11-28T15-44-05Z/`.
 - **Report 02A – post-merge (smoke 03B)**
   - Output smoke 02A in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` (`schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json`).
+  - Rerun 2026-04-27 (report-only) su `patch/03B-incoming-cleanup`: `schema_only.log` riporta 14 controlli con 3 avvisi complessivi; `trait_audit.log` segnala l’assenza del precedente `reports/schema_validation.json` (nessun output aggiuntivo); `trait_style.log` produce 62 suggerimenti informativi senza errori o warning.
 - **Changelog + rollback 03A**
   - Changelog: `reports/temp/patch-03A-core-derived/changelog.md`.
   - Pacchetto rollback: `reports/temp/patch-03A-core-derived/rollback.md` (agganciato allo snapshot 2025-11-25).

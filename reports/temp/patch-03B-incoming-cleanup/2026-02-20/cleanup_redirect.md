@@ -16,3 +16,9 @@
 ## Note operative
 - Nessun nuovo artefatto binario aggiunto; redirect pronti per l’eventuale switch post-approvazione Master DD.
 - Output smoke 02A associato a questa verifica è salvato nella stessa cartella (`schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json`).
+
+## Aggiornamento 2026-04-27
+- Verificati i manifest backup storici prima del cleanup: `reports/backups/2025-11-25_freeze/manifest.txt` e `incoming/archive_cold/backups/2025-11-25/manifest.sha256` (nessun drift rilevato).
+- Confermata la tabella redirect in `incoming/REDIRECTS.md` senza nuove righe o modifiche: rimane l’archiviazione in `incoming/archive_cold/**` per bundle repo, devkit e inventari storici.
+- Nessun file spostato in questo giro di cleanup; le note di triage restano allineate con `docs/incoming/archive/INDEX.md`.
+- Smoke 02A rieseguito su `patch/03B-incoming-cleanup` con i log aggiornati in questa directory (schema/trait/style) per supportare la chiusura del freeze con approvazione Master DD.
