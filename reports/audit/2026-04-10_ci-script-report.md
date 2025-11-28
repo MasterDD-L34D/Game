@@ -1,14 +1,21 @@
-# Inventario CI e script locali – 2026-04-10 (dev-tooling, report-only)
+# Inventario CI e script locali – 2026-04-10 (dev-tooling, approved by Master DD)
+
+Stato approvazione: **approved by Master DD** (branch di roll-out `patch/01C-tooling-ci-catalog`).
+
+Transizioni di modalità:
+- Passano da report-only a **enforcing (gating PR)**: `data-quality.yml`, `validate_traits.yml`, `schema-validate.yml`.
+- Restano **report-only** (consultivi): `validate-naming.yml`.
+- Restano **disattivati/solo dispatch manuale**: `incoming-smoke.yml` (non schedulato sulle PR).
 
 ## Workflow CI attivi (focus pack/incoming/derived)
 
 | Nome | Percorso | Trigger/Input | Output/Artefatti | Owner | Impatto pack |
 | ---- | -------- | ------------- | ---------------- | ----- | ------------ |
-| Data audit e validation | .github/workflows/data-quality.yml | PR su data/**, packs/**, tool di audit | Valida dataset YAML/JSON, esegue trait audit e genera coverage/metriche con upload artefatti (reports/**, data/derived/analysis, logs/trait_audit) | dev-tooling | Controllo dati core/pack e derived; non modifica pack ma blocca PR se audit fallisce |
-| Validate Trait Catalog | .github/workflows/validate_traits.yml | Push/PR su data/traits, schema trait, tools/py | Costruisce indice e coverage trait, esegue lint stile e carica report (reports/**, data/derived/analysis) | dev-tooling | Garantisce coerenza trait e derived; gating PR su regressioni trait |
-| Validate registry naming | .github/workflows/validate-naming.yml | Push/PR su registri pack e scanner correlati | Esegue scanner naming Python per slug/registri del pack | dev-tooling | Protegge naming pack/registri; nessun artefatto |
-| Schema validate | .github/workflows/schema-validate.yml | Push/PR su schemas/**, dispatch manuale | Verifica struttura JSON Schema con jsonschema Draft2020-12 | dev-tooling | Riduce rischio schema invalido usato da CLI/validator |
-| Incoming CLI smoke | .github/workflows/incoming-smoke.yml | Dispatch manuale con input opzionali data-root/pack-root | Esegue profile CLI `staging_incoming` e carica `incoming-smoke-logs` da logs/incoming_smoke | dev-tooling | Smoke non bloccante su pacchetti incoming decompressi; non attivo su PR |
+| Data audit e validation | .github/workflows/data-quality.yml | PR su data/**, packs/**, tool di audit | Valida dataset YAML/JS ON, esegue trait audit e genera coverage/metriche con upload artefatti (reports/**, data/derived/analysis, logs/trait_audit) | dev-tooling | **Enforcing** su core/pack (blocca PR se audit fallisce); derived solo report |
+| Validate Trait Catalog | .github/workflows/validate_traits.yml | Push/PR su data/traits, schema trait, tools/py | Costruisce indice e coverage trait, esegue lint stile e carica report (reports/**, data/derived/analysis) | dev-tooling | **Enforcing** su regressioni trait/core; derived come artefatti |
+| Validate registry naming | .github/workflows/validate-naming.yml | Push/PR su registri pack e scanner correlati | Esegue scanner naming Python per slug/registri del pack | dev-tooling | **Report-only** (consultivo su registri pack/slug) |
+| Schema validate | .github/workflows/schema-validate.yml | Push/PR su schemas/**, dispatch manuale | Verifica struttura JSON Schema con jsonschema Draft2020-12 | dev-tooling | **Enforcing** su regressioni schema/lint |
+| Incoming CLI smoke | .github/workflows/incoming-smoke.yml | Dispatch manuale con input opzionali data-root/pack-root | Esegue profile CLI `staging_incoming` e carica `incoming-smoke-logs` da logs/incoming_smoke | dev-tooling | **Disattivato** (solo dispatch manuale, nessun gating PR) |
 
 ## Script locali con I/O (report-only)
 
