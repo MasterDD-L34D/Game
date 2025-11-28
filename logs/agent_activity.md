@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-04-26 – Conferma consultivo validate-naming 01C (dev-tooling)
+- Step: `[01C-NAMING-CONSULTIVE-2026-04-26] owner=dev-tooling (approvatore Master DD); files=docs/planning/REF_TOOLING_AND_CI.md, .github/workflows/validate-naming.yml, logs/agent_activity.md; rischio=basso (config CI); note=Confermato stato consultivo di `validate-naming.yml`: precedente=consultivo (report-only), nuovo=consultivo (report-only) con gate PR disattivato e trigger limitati a push su `patch/01C-tooling-ci-catalog` + `workflow_dispatch`. Evidenze CI: nessuna sequenza di **3 run verdi consecutivi** disponibile sul branch 01C, matrice core/derived ancora instabile; mantenuto monitoraggio continuo e pronto rollback (riattivazione consultiva già attiva) in caso di falsi positivi/negativi.
+
 ## 2026-04-25 – Firma Master DD e verifica manifest freeze 03AB (archivist)
 - Step: `[03A-UNLOCK-CHECKPOINT-2026-04-25] owner=archivist (approvatore Master DD); files=docs/planning/TKT-03AB-FREEZE.md, reports/audit/2026-02-20_audit_bundle.md, reports/backups/2025-11-25_freeze/manifest.txt, reports/backups/2025-11-25T1500Z_freeze/manifest.txt, reports/backups/2025-11-25T1724Z_masterdd_freeze/manifest.txt, reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt, logs/agent_activity.md; rischio=basso (documentazione/freeze); note=Registrata la firma Master DD per avviare la patch 03A con checkpoint intermedio pianificato prima della fase 03B. Verificati i manifest richiamati da TKT-03AB-FREEZE: checksum e percorsi s3 combaciano con il ticket e con l’indice dell’audit bundle; nessun drift rilevato. Il runbook 02A→03A/03B resta la fonte di sequenza, con i log 02A già legati ai percorsi 03A/03B e pronti per il checkpoint post-03A pre-03B.`
 
