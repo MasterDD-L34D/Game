@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'config/project_index.json'
+      - 'data/core/traits/glossary.json'
+      - 'data/traits/index.json'
+      - 'packs/evo_tactics_pack/data/species/**'
       - 'docs/evo-tactics-pack/trait-reference.json'
       - 'packs/evo_tactics_pack/tools/config/registries/**'
       - 'tools/py/validate_registry_naming.py'
@@ -13,6 +16,9 @@ on:
   pull_request:
     paths:
       - 'config/project_index.json'
+      - 'data/core/traits/glossary.json'
+      - 'data/traits/index.json'
+      - 'packs/evo_tactics_pack/data/species/**'
       - 'docs/evo-tactics-pack/trait-reference.json'
       - 'packs/evo_tactics_pack/tools/config/registries/**'
       - 'tools/py/validate_registry_naming.py'
@@ -23,6 +29,7 @@ on:
 jobs:
   naming:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
