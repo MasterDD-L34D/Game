@@ -34,6 +34,17 @@ Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 
 > Condividere la tabella con Master DD e gli owner indicati per confermare responsabilità e scadenze prima di avanzare.
 
+### Gate numerati con entry/exit criteria, trigger e rollback (01A–03B)
+
+| Gate                                | Entry criteria (ingresso)                                                                                                 | Exit criteria (uscita)                                                                                                               | Trigger di avanzamento                                                                                   | Checklist di rollback                                                                                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **01A – Catalogo incoming**         | PATCHSET-00 approvato; finestra di freezing incoming concordata con Master DD; accesso completo a `REF_INCOMING_CATALOG`. | Tabella incoming consolidata con gap list 01A firmata da coordinator; ingressi congelati documentati.                                | Master DD approva gap list 01A e la chiusura della tabella incoming nel log attività.                    | Ripristino tabella incoming precedente; riapertura ingressi congelati; annullamento link e alias temporanei introdotti.                       |
+| **01B – Core vs Derived**           | Gap list 01A approvata/loggata; `REF_REPO_SOURCES_OF_TRUTH` validato; soglie P0/P1/P2 confermate con balancer.            | Matrice core/derived preliminare pubblicata in branch dedicato con ticket e owner; log di pubblicazione in `logs/agent_activity.md`. | Master DD approva la matrice preliminare e autorizza la validazione finale/01C.                          | Revert della matrice core/derived pubblicata; rimozione flag temporanei; ripristino tag core/derived precedenti nei documenti di riferimento. |
+| **01C – Inventario tooling/CI**     | 01A–01B loggati con approvazione; inventario workflow esistente raccolto; slot CI prenotato per test report-only.         | Catalogo tooling/CI pubblicato con controlli mancanti e piano di rollout progressivo (report-only); owner e priorità esplicite.      | Master DD con coordinator abilitano l’esecuzione report-only e chiudono il gate 01C nel log attività.    | Ripristino configurazioni CI precedenti; disattivazione di hook pilota; rollback di pipeline sperimentali non promosse.                       |
+| **02A – Validator report-only**     | Matrice 01B consolidata; inventario 01C pronto; branch validator con fixture/baseline aggiornate.                         | Validator eseguito in modalità report-only con log archiviato; esiti condivisi con owner 03A.                                        | Master DD approva l’esito del validator e autorizza l’apertura del freeze 03A/03B.                       | Revert delle modifiche del branch validator; ripristino fixture/baseline precedenti; sospensione dell’apertura freeze.                        |
+| **03A – Patch core/derived**        | Freeze fase 3→4 attivo; validator 02A in pass; branch `patch/03A-core-derived` pronto con changelog/rollback script.      | Patch core/derived mergeata con validator in pass; snapshot core/derived archiviato; freeze ancora attivo per 03B.                   | Master DD approva il merge 03A e conferma il mantenimento del freeze per procedere a 03B.                | Esecuzione script di revert generati; ripristino snapshot core/derived; disabilitazione del validator nuovo se blocca il deploy.              |
+| **03B – Pulizia incoming/archivio** | Freeze confermato post-03A; backup/snapshot incoming etichettato; mapping incoming ↔ core/derived stabile.               | Incoming ripulito/archiviato con redirect verificati; checklist post-pulizia registrata; freeze chiuso.                              | Master DD approva il merge `patch/03B-incoming-cleanup` e registra l’uscita dal freeze nel log attività. | Ripristino backup incoming; rollback redirect e entry di archivio aggiunte; riesecuzione validator 02A (smoke) per confermare stabilità.      |
+
 ### Fase 1–2 (analisi/catalogo)
 
 **PATCHSET-01A – Catalogo incoming**
@@ -170,10 +181,10 @@ Compatibilità GOLDEN_PATH: la sequenza mantiene allineamento con le Fasi 1–4 
 
 ### Trigger di passaggio fase (riassunto)
 
-- **Passaggio Fase 1 → 2:** catalogo incoming (01A) chiuso con gap list assegnata e congelamento ingressi formalizzato.
-- **Passaggio Fase 2 → 3:** matrice core/derived validata (01B) e catalogo tooling/CI con piano rollout (01C) pubblicati con owner e gate incrociati.
-- **Passaggio Fase 3 → 4:** validator stabile in modalità report-only con fixture e baseline (02A) + finestra freeze approvata dall’owner umano.
-- **Completamento Fase 4:** applicazione patch core/derived (03A) in pass e pulizia incoming/archivio (03B) con redirect verificati e log in `logs/agent_activity.md`.
+- **Passaggio Fase 1 → 2:** Master DD approva la gap list 01A e la chiusura della tabella incoming; congelamento ingressi formalizzato e loggato.
+- **Passaggio Fase 2 → 3:** Master DD approva la matrice core/derived 01B e il catalogo tooling/CI 01C (modalità report-only) con owner e gate incrociati registrati nel log attività.
+- **Passaggio Fase 3 → 4:** Master DD valida l’esecuzione del validator 02A (report-only) con fixture/baseline aggiornate e apre la finestra di freeze.
+- **Completamento Fase 4:** Master DD approva i merge 03A e 03B, verifica redirect e log aggiornati in `logs/agent_activity.md` e registra l’uscita dal freeze.
 
 ---
 
@@ -182,6 +193,25 @@ Compatibilità GOLDEN_PATH: la sequenza mantiene allineamento con le Fasi 1–4 
 - Conferma owner umano per i patchset 02A+ (tooling) e 03A+ (patch applicative) e per l’attivazione di ogni passaggio di fase; Master DD approva e registra gli sblocchi 01A–01C.
 - Branch dedicati per ogni patchset, gate di review incrociato tra agenti (coordinator + owner di fase) e piano di freeze per ridurre conflitti.
 - Log centralizzato in `logs/agent_activity.md` per tracking di rischi, rollback e approvazioni, aggiornato a ogni trigger di fase.
+
+---
+
+## Checklist di rollback 01A–03B (operativa)
+
+- **01A:** ripristinare la tabella incoming precedente, riaprire gli ingressi congelati, annullare alias temporanei e link introdotti durante il censimento.
+- **01B:** ripristinare i tag core/derived precedenti nei documenti di riferimento, rimuovere flag temporanei e revert della matrice pubblicata nel branch dedicato.
+- **01C:** disattivare hook pilota, ripristinare configurazioni CI precedenti, rimuovere pipeline sperimentali o script report-only non promossi.
+- **02A:** revert del branch validator, ripristino delle fixture/baseline precedenti e sospensione dell’apertura freeze se aperta condizionatamente.
+- **03A:** eseguire gli script di revert generati, ripristinare lo snapshot core/derived e disabilitare il validator nuovo se blocca il deploy.
+- **03B:** ripristinare il backup incoming pre-pulizia, rollback di redirect e entry di archivio aggiunte, rieseguire il validator 02A (smoke) per confermare la stabilità.
+
+---
+
+## Audit e conferme finali
+
+- **Log attività:** tutte le approvazioni, trigger di fase e pubblicazioni di branch devono essere registrate in `logs/agent_activity.md` con riferimento ai ticket (`TKT-01A-*`, branch 03A/03B, esecuzioni 02A) e agli snapshot eseguiti.
+- **Documenti collegati:** richiamare `docs/planning/REF_INCOMING_CATALOG.md` per la gap list 01A, `docs/planning/REF_REPO_SOURCES_OF_TRUTH.md` per le fonti core/derived e `docs/planning/REF_TOOLING_AND_CI.md` per l’inventario 01C.
+- **Conferma Master DD:** richiedere conferma finale a Master DD dopo il merge di 03B e la verifica dei redirect, usando il log attività come audit trail definitivo prima di chiudere la fase 4.
 
 ---
 
