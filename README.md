@@ -350,15 +350,14 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ### Recap operativo & prossimi step
 
-- [x] Sblocco freeze 3→4 registrato dopo smoke 02A positivo e approvazione finale Master DD; log `logs/agent_activity.md` aggiornato con snapshot/backup/redirect riallineati e whitelist 02A rinnovata; trigger PIPELINE_SIMULATOR riavviato (sequenza 02A→freeze→03A→transizione→03B→sblocco) sulle baseline correnti.
-- [ ] Rivedi i log in `docs/reports/incoming/validation/` e apri ticket per eventuali regressioni.
-- [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
-- [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
-- [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
+- [ ] Checkpoint RIAPERTURA-2026-01/02: prerequisiti in validazione, freeze soft su `incoming/**` da confermare con l'owner e log obbligatori in `logs/agent_activity.md` per ogni esecuzione (inclusi snapshot e riferimenti ai ticket aperti). Per il contesto operativo usa `docs/planning/REF_PLANNING_RIPRESA_2026.md`, `incoming/README.md` e `docs/incoming/README.md`.
+- [ ] Triage 01A sulle segnalazioni `incoming` e backlog recente, con priorità definite nelle fonti operative sopra.
+- [ ] Readiness 01B/01C: verifica gating di riapertura, checklist di caricamento e conferma dei pacchetti/snapshot necessari.
+- [ ] Inventario tool CI in modalità report-only (validazione senza blocco) per la riattivazione dei workflow di riapertura.
 
 ### Barra di completamento
 
-<progress value="1" max="1"></progress> **100 %** completato — validato con i test di regressione su mirror e pool bioma.
+<progress value="0" max="4"></progress> **0/4** completato — sequenza di riapertura in corso (triage 01A, readiness 01B/01C, inventario tool CI e conferma freeze soft).
 
 ## Report discrepanze & guida operativa
 
