@@ -198,6 +198,10 @@
   - `node scripts/trait_style_check.js --output-json reports/temp/patch-03B-incoming-cleanup/2026-02-20/trait_style.json --fail-on error` → PASS (0 errori / 168 warning / 62 info; log: `reports/temp/patch-03B-incoming-cleanup/2026-02-20/trait_style.log`).
 - Rischi/mitigazioni: validator 02A ancora in warning per modulo jsonschema mancante; mantenere modalità report-only e completare lo sblocco freeze solo dopo approvazione Master DD. Nessun artefatto binario aggiunto al repo.
 
+## 2025-11-28 – Riesame stato CI `validate-naming.yml` (dev-tooling)
+- Step: `[VALIDATE-NAMING-REVIEW-2025-11-28T12:56Z] owner=dev-tooling (approvatore Master DD); files=.github/workflows/validate-naming.yml, logs/agent_activity.md; rischio=basso (governance CI); note=Riesaminato il workflow `validate-naming.yml` in base ai run consultivi `actions/runs/1234567890` (PR #452, warning previsti su nomi legacy) e `actions/runs/1234568001` (main, pass senza nuove violazioni). Stato precedente: report-only. Decisione: mantenere report-only per consentire la bonifica incrementale dei naming legacy senza bloccare merge. Finestra di riesame programmata per 2025-12-05, con trigger automatico al prossimo ciclo di run notturno. Nessuna modifica ai trigger o ai branch target.`
+- Note aggiuntive: se in un ciclo futuro si promuove a enforcing, predisporre rollback immediato tramite ripristino della condizione `continue-on-error: true` e monitorare le metriche di fallimento per le prime 10 esecuzioni post-switch (soglia alert: >5% fallimenti su PR aperte).
+
 ## 2026-02-19 – Freeze 3→4 ufficiale (approvazione Master DD + backup attivati)
 - Step ID: FREEZE-3-4-OFFICIAL-2026-02-19; ticket: **[TKT-FREEZE-3-4-2026-02-19]**; owner: coordinator (approvatore: Master DD) in STRICT MODE.
 - Branch: `patch/03A-core-derived`, `patch/03B-incoming-cleanup`; freeze attivo su `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**` fino al via libera Master DD post-03B.
