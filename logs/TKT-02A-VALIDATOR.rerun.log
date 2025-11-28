@@ -1,0 +1,9 @@
+# TKT-02A-VALIDATOR — rerun 2026-04-13
+
+- Piano eseguito: `RERUN-02A-PLAN-2026-04-13` (modalità report-only, nessuna modifica a core/pack/incoming).
+- Comandi 02A rieseguiti su staging locale:
+  1. `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → **OK** con 3 avvisi pack.
+  2. `python scripts/trait_audit.py --check` → **OK** con warning per modulo `jsonschema` assente (validazione schema saltata).
+  3. `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on-error` → **OK** (error=0, warning=168, info=62).
+- Output sincronizzati in `reports/temp/patch-03A-core-derived/` e mirroring in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` (`schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json`).
+- Audit bundle rigenerato in `logs/audit-bundle.tar.gz` con i log aggiornati.
