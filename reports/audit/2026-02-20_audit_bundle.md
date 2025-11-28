@@ -40,8 +40,8 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 - [x] Istruzioni backup/redirect 03B
 - [x] Trigger riavvio eseguito
 
-## Appendice rerun 2026-04-XX (solo testuale)
-- Log operativi: sblocco registrato in [`logs/agent_activity.md` (entry UNFREEZE-02A-APPROVED-2026-02-21)](../../logs/agent_activity.md#2026-02-21--sblocco-freeze--trigger-pipeline_simulator-coordinator) e rerun 02A (report-only) in [`logs/agent_activity.md` (03A sonic cluster debolezze + rerun 02A)](../../logs/agent_activity.md#2026-02-20--03a-sonic-cluster-debolezze--rerun-02a-report-only).
+## Appendice rerun 2026-04-17 (solo testuale)
+- Log operativi: sblocco registrato in [`logs/agent_activity.md` (entry UNFREEZE-02A-APPROVED-2026-02-21)](../../logs/agent_activity.md#2026-02-21--sblocco-freeze--trigger-pipeline_simulator-coordinator) e rerun 02A (report-only) in [`logs/agent_activity.md` (03A sonic cluster debolezze + rerun 02A)](../../logs/agent_activity.md#2026-02-20--03a-sonic-cluster-debolezze--rerun-02a-report-only); verifica 2026-04-17 registrata in [`logs/agent_activity.md` (03A-READINESS-CHECK-2026-04-17)](../../logs/agent_activity.md#2026-04-17--verifica-log-02a-e-mirror-03a03b-archivist).
 - Log rerun schema/trait/style 03A (report-only) in `reports/temp/patch-03A-core-derived/`:
   - `schema_only.log` — sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`.
   - `trait_audit.log` — sha256 `a4bfc3b7ac4d77dc4998c88930383fc49c4939d1093298323653643eb5d89277`.
@@ -53,6 +53,9 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
   - `trait_style.log` — sha256 `1ac8496f3f4a1fb340026a93b6608a3d713c9edbacf715dc3e7e91ac19460c6d`.
   - `trait_style.json` — sha256 `bfea3a033eb43e86c0368af196e0803df17270c937350ae26f13b1dd053e3d4e`.
 - Nessun tarball o artefatto binario aggiunto: i checksum sono testuali e i log restano nei percorsi già indicizzati.
+- Note verifica 2026-04-17:
+  - La sequenza del runbook `REF_PATCHSET_02A_TO_03AB_RUNBOOK.md` è rispettata: i log 02A (schema_only/trait_audit/trait_style) rieseguiti il 2026-04-13 sono presenti e specchiati nei percorsi 03A/03B senza delta nei contenuti.
+  - Discrepanza: l’archivio dichiarato `logs/audit-bundle.tar.gz` non è presente in repository; necessario rigenerarlo o caricarlo prima di avviare patch 03A/03B.
 
 ### Mini-checklist rerun 2026-04-XX
 - [x] Log freeze/sblocco
