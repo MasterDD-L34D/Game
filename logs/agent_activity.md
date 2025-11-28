@@ -473,3 +473,8 @@
   - `python scripts/trait_audit.py --check` → PASS (schema skip per jsonschema mancante; nessuna regressione).
   - `node scripts/trait_style_check.js --output-json reports/temp/patch-03B-incoming-cleanup/trait_style.json --fail-on error` → PASS (0 errori; 172 warning, 62 info; solo suggerimenti stilistici preesistenti).
 - Esito: redirect e manifest 03B validati; via libera Master DD per chiudere il freeze soft su `incoming/**`/`docs/incoming/**` dopo merge.
+
+## 2025-11-28 – Audit manifest backup rollback 03A/03B (archivist)
+- Verificate le cartelle `reports/backups/2025-11-25T1500Z_freeze`, `.../2025-11-25T1724Z_masterdd_freeze`, `.../2025-11-25T2028Z_masterdd_freeze` e confermati i checksum presenti (revisionati i manifest *.sha256 senza ricalcolo).
+- Normalizzati i `manifest.txt` con campi Location/On-call/Last verified e nota sull'uso per rollback 03A/03B per i bundle `incoming` e `docs_incoming` in S3 `evo-backups`.
+- Nessun binario aggiunto; verifica documentata come review dei manifest (checksum non ricalcolati).
