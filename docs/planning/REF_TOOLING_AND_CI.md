@@ -52,6 +52,10 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna m
 ## Ordine di abilitazione CI (Master DD – 2026-04-12)
 
 - Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit).
+- Nota decisionale (report-only vs enforcing):
+  - **Report-only**: mantenere `validate-naming.yml` e gli step dei workflow in modalità consultiva su trigger `pull_request` + `push` per raccogliere metriche di stabilità (matrice core/derived) senza bloccare merge; validazione glossari/registi limitata ai registri trait/species core e ai registri pack (`packs/evo_tactics_pack/tools/config/registries/**`) per misurare falsi positivi.
+  - **Enforcing**: passaggio vincolante sui medesimi trigger `pull_request` + `push` quando (i) la matrice core/derived è stabile, (ii) esistono **3 run verdi consecutivi** su `patch/01C-tooling-ci-catalog`, (iii) è stato monitorato e documentato il tasso di falsi positivi/negativi nei log operativi; includere i glossari core e pack come source-of-truth nei job di naming/schema.
+  - Impatti attesi sui trigger: nessun trigger aggiuntivo, ma il passaggio a enforcing rende bloccanti i gate PR; su `push` restano consultivi finché il branch di prova non viene promosso.
 - Sequenza approvata:
   1. Abilitare **enforcing** su `data-quality.yml` (audit core/pack) e `validate_traits.yml` (catalogo trait, lint, coverage) come gate PR.
   2. Portare **schema-validate.yml** in enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
@@ -70,6 +74,7 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna m
 
 - Ogni passaggio di stato (consultivo → enforcing, disattivato → attivo) deve essere registrato in `logs/agent_activity.md` e nel changelog del branch `patch/01C-tooling-ci-catalog` con: data/ora UTC, workflow, stato precedente, stato nuovo, owner che approva, evidenze di monitoraggio (esecuzioni verdi, metriche).
 - Le note di log devono citare eventuali rollback o eccezioni temporanee e includere link ai run CI di riferimento.
+- Punto decisionale Master DD: prima di cambiare lo stato di un workflow, verificare che i log operativi riportino la stabilità della matrice core/derived, le **3 esecuzioni verdi consecutive** e l’analisi dei falsi positivi; l’approvazione deve essere tracciata e collegata ai run CI del branch `patch/01C-tooling-ci-catalog`.
 
 ## Inventario workflow/script (modalità report-only – 2026-02-07)
 
