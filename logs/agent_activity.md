@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-04-11 – Via libera Master DD gate uscita 01B (archivist)
+- Step: `[01B-GATE-EXIT-2026-04-09] owner=archivist (approvatore Master DD); files=docs/planning/REF_CORE_DERIVED_MATRIX.md, logs/agent_activity.md, incoming/README.md, docs/incoming/README.md; rischio=basso (documentazione/chiusura gate); note=Master DD approva la matrice core/derived v0.2 e autorizza la chiusura del gate 01B su branch `patch/01B-core-derived-matrix` con handoff verso fase 02A. README incoming/docs_incoming aggiornati per segnalare chiusura gate 01B e avvio 02A.`
+
 ## 2026-04-10 – Inventario CI/script derived+incoming (dev-tooling)
 - Step: `[01C-CI-INVENTORY-2026-04-10] owner=dev-tooling (approvatore richiesto: Master DD); files=reports/audit/2026-04-10_ci-script-report.md, logs/agent_activity.md; rischio=basso (report-only); note=Aggiornato inventario CI/script su pack/incoming/derived con proposta di controlli mancanti (drift derived, gating incoming dispatch, coverage registri pack) senza abilitare esecuzioni. Riferimenti branch dedicati: patch/01C-tooling-ci-catalog per follow-up CI, patch/03A-core-derived e patch/03B-incoming-cleanup per pipeline 02A→03A→03B in modalità report-only.`
 
