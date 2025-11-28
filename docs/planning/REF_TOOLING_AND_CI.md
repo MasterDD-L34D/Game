@@ -1,9 +1,9 @@
 # REF_TOOLING_AND_CI – Allineamento tooling e CI
 
-Versione: 0.5
-Data: 2025-12-30
+Versione: 0.6
+Data: 2026-04-22
 Owner: agente **dev-tooling** (supporto: archivist, coordinator)
-Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio; `validate-naming.yml` confermato report-only con trigger `push`/`workflow_dispatch` e gate PR disattivato finché la matrice core/derived non è stabilizzata)
+Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio; `validate-naming.yml` confermato report-only con trigger `push`/`workflow_dispatch` e gate PR disattivato finché la matrice core/derived non è stabilizzata). **Nota smoke**: ogni aggiornamento consultivo richiede solo riesecuzione smoke (report-only) di workflow/validator dichiarati sotto, senza alterare `data/core/**`, `data/derived/**` o tooling.
 
 ---
 
@@ -153,18 +153,36 @@ Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna
   - `bash scripts/cli_smoke.sh --core-root data/core --pack-root /tmp/dist/packs/evo_tactics_pack`
   - Archiviare solo report temporanei, senza aggiornare workflow o commit artefatti.
 
-## Checklist automatica PATCHSET-01 (gate incrociati core ↔ pack)
+## Smoke PATCHSET-00 (solo consultivo, senza modifica dati/tooling)
 
-- **Schema**: `python -m jsonschema --version` (pre-flight) + `python tools/py/trait_template_validator.py --summary` + validazione schemi JSON/YAML (`python tools/py/validate_datasets.py --schemas-only`, `python tools/py/validate_export.py --check-telemetry data/core/telemetry.yaml`, `bash tools/ajv-wrapper.sh schemas/**/*.json`). Target proposti: `make schema-validate` / job `schema-validate.yml`.
-- **Lint dati core**: `python scripts/trait_audit.py --check --core-root data/core`, `python tools/py/report_trait_coverage.py --strict --glossary data/core/traits/glossary.json --pack-root dist/packs/evo_tactics_pack`, `node scripts/trait_style_check.js --output-json /tmp/trait_style.json --fail-on error`, `python tools/audit/data_health.py --core-root data/core --pack-root dist/packs/evo_tactics_pack`. Target: `make data-lint` (o step `data-quality` dedicato) vincolato al branch core.
-- **Rigenerazione pack**: `node scripts/build_evo_tactics_pack_dist.mjs --source data/core --out dist/packs/evo_tactics_pack` → `node scripts/update_evo_pack_catalog.js --pack dist/packs/evo_tactics_pack` → `python tools/py/validate_datasets.py --pack dist/packs/evo_tactics_pack` → `python tools/py/validate_registry_naming.py --registries packs/evo_tactics_pack/tools/config/registries --glossary data/core/traits/glossary.json`. Target: `make pack-regenerate` su branch `tooling-ci/pack-regeneration`.
-- **Smoke/CLI**: `bash scripts/cli_smoke.sh --core-root data/core --pack-root dist/packs/evo_tactics_pack` (verifica path e asset); opzionale `python tools/audit/data_health.py --core-root data/core --pack-root dist/packs/evo_tactics_pack`. Target: `make cli-smoke`/job `ci.yml` (gate cross-branch).
-- **Artefatti/report**: pubblicare `reports/trait_progress.md`, `data/derived/analysis/trait_coverage_report.json`, `dist/packs/evo_tactics_pack/**` come artifact CI per revisione; allegare digest a PR di merge incrociato.
+- **Workflow da rieseguire come smoke** (report-only, nessun gate PR):
+  - `schema-validate.yml` → limita il controllo a `schemas/**/*.json`, `schemas/**/*.yaml`, `config/schemas/*.json` (percorsi canonici in `REF_REPO_SOURCES_OF_TRUTH`), senza toccare `data/core/**`.
+  - `validate-naming.yml` → confermato report-only su `push`/`workflow_dispatch`, verifica registri pack `packs/evo_tactics_pack/tools/config/registries/**` rispetto a `data/core/traits/glossary.json`.
+  - `data-quality.yml` (solo step read-only) → esecuzione consultiva di `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` per allineamento a percorsi canonici/derived (vedi `REF_PACKS_AND_DERIVED`).
+  - Validatori manuali smoke: `python scripts/trait_audit.py --check --core-root data/core` + `bash tools/ajv-wrapper.sh schemas/**/*.json` per confermare che nessuna modifica ai core/derived sia introdotta.
+
+## Checklist automatica PATCHSET-01 (gate incrociati core ↔ pack, con owner)
+
+| Ambito               | Comando esatto                                                                                                                                      | Owner (esecuzione/approvazione)        | Note e riferimenti core/derived                                                                                 |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Schema (core)        | `python tools/py/trait_template_validator.py --summary`                                                                                             | dev-tooling (run) / archivist (review) | Input canonico: `data/core/traits/**`; schema da `schemas/evo/trait.schema.json` (`REF_REPO_SOURCES_OF_TRUTH`). |
+| Schema esteso        | `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack`                                      | dev-tooling / archivist                | Copre core + pack derived; percorso pack in `REF_PACKS_AND_DERIVED`.                                            |
+| Lint dati core       | `python scripts/trait_audit.py --check --core-root data/core`                                                                                       | trait-curator / dev-tooling            | Percorso canonico `data/core/**`; nessun write su derived.                                                      |
+| Lint stile traits    | `node scripts/trait_style_check.js --output-json /tmp/trait_style.json --fail-on error`                                                             | trait-curator / dev-tooling            | Usa `data/core/traits/**`; report temporaneo non commit.                                                        |
+| Coverage core+pack   | `python tools/py/report_trait_coverage.py --strict --glossary data/core/traits/glossary.json --pack-root dist/packs/evo_tactics_pack`               | trait-curator / dev-tooling            | Richiede pack rigenerato in `dist/packs/evo_tactics_pack` (derived controllato in `REF_PACKS_AND_DERIVED`).     |
+| Health check dati    | `python tools/audit/data_health.py --core-root data/core --pack-root dist/packs/evo_tactics_pack`                                                   | dev-tooling / archivist                | Smoke su core e derived rigenerati (nessun write).                                                              |
+| Build pack           | `node scripts/build_evo_tactics_pack_dist.mjs --source data/core --out dist/packs/evo_tactics_pack`                                                 | dev-tooling / archivist                | Input canonico `data/core/**`; output derived in `dist/packs/evo_tactics_pack`.                                 |
+| Cataloghi pack       | `node scripts/update_evo_pack_catalog.js --pack dist/packs/evo_tactics_pack`                                                                        | dev-tooling / archivist                | Derived dichiarati in `REF_PACKS_AND_DERIVED`; non commit se consultivo.                                        |
+| Validator pack       | `python tools/py/validate_datasets.py --pack dist/packs/evo_tactics_pack`                                                                           | dev-tooling / archivist                | Lega derived pack a core; output solo report.                                                                   |
+| Naming registri pack | `python tools/py/validate_registry_naming.py --registries packs/evo_tactics_pack/tools/config/registries --glossary data/core/traits/glossary.json` | dev-tooling / archivist                | Incrocia registri pack (derived) con glossario core (canonico).                                                 |
+| Smoke CLI            | `bash scripts/cli_smoke.sh --core-root data/core --pack-root dist/packs/evo_tactics_pack`                                                           | dev-tooling / coordinator              | Verifica end-to-end usando core canonici e pack derived rigenerati.                                             |
+| Artefatti/report     | Pubblicare come artifact CI: `reports/trait_progress.md`, `data/derived/analysis/trait_coverage_report.json`, `dist/packs/evo_tactics_pack/**`      | dev-tooling / archivist                | Derived tracciati; nessun commit diretto su PATCHSET-01.                                                        |
 
 ---
 
 ## Changelog
 
+- 2026-04-22: versione 0.6 – aggiunta nota smoke per PATCHSET-00 (nessuna modifica dati/tooling), checklist PATCHSET-01 con comandi/owner e riferimenti ai percorsi canonici (`REF_REPO_SOURCES_OF_TRUTH`) e derived (`REF_PACKS_AND_DERIVED`).
 - 2025-12-30: versione 0.5 – intestazione aggiornata al report v0.5, confermata la numerazione 01A–03B e il perimetro di PATCHSET-00 senza impatti ai workflow.
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance espansi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
 - 2025-11-23: struttura iniziale di inventario tooling/CI (dev-tooling).
