@@ -1,7 +1,7 @@
 # Audit bundle 02A → 03A/03B (ciclo 2026-02-20)
 
 ## Scopo
-Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A→03A→03B e preparare il riavvio successivo. Il bundle è testuale e punta agli artefatti già versionati (log, changelog, rollback, istruzioni backup/redirect) senza introdurre binari.
+Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A→03A→03B e preparare il riavvio successivo. Il bundle è esclusivamente testuale, punta agli artefatti già versionati (log, changelog, rollback, istruzioni backup/redirect) e sostituisce definitivamente l'uso di archivi binari.
 
 ## Indice artefatti
 - **Log freeze/sblocco**
@@ -29,7 +29,7 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 ## Readiness check (prossimo ciclo)
 - **Dipendenza `jsonschema`**: richiesta per `scripts/trait_audit.py`; confermare presenza del pacchetto Python nel venv locale prima del rerun (warning pregresso risolto installando `jsonschema`).
 - **Override di branch/log**: usare i percorsi già referenziati (`reports/temp/patch-03A-core-derived/`, `reports/temp/patch-03B-incoming-cleanup/2026-02-20/`) come baseline; documentare ogni override in `logs/agent_activity.md`.
-- **Audit bundle**: il presente file resta la fonte testuale; l’archivio completo è in `logs/audit-bundle.tar.gz`.
+- **Audit bundle**: il presente file è la sola fonte; il precedente archivio binario (`logs/audit-bundle.tar.gz`) è deprecato e non è richiesto per l'avvio dei cicli 03A/03B.
 
 ## Checklist di copertura
 - [x] Log freeze referenziati
@@ -56,7 +56,7 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 - Nessun tarball o artefatto binario aggiunto: i checksum sono testuali e i log restano nei percorsi già indicizzati.
 - Note verifica 2026-04-17:
   - La sequenza del runbook `REF_PATCHSET_02A_TO_03AB_RUNBOOK.md` è rispettata: i log 02A (schema_only/trait_audit/trait_style) rieseguiti il 2026-04-13 sono presenti e specchiati nei percorsi 03A/03B senza delta nei contenuti.
-  - Discrepanza: l’archivio dichiarato `logs/audit-bundle.tar.gz` non è presente in repository; necessario rigenerarlo o caricarlo prima di avviare patch 03A/03B.
+- L’archivio binario `logs/audit-bundle.tar.gz` è stato ritirato: la documentazione rimane solo in formato testuale e non è necessario alcun tarball per avviare le patch 03A/03B.
 
 ### Mini-checklist rerun 2026-04-XX
 - [x] Log freeze/sblocco
