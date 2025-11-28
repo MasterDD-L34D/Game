@@ -3,7 +3,7 @@
 Versione: 0.5
 Data: 2025-12-30
 Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
-Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
+Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata, gate 03A/03B approvati a log maggio 2026; restano da completare 01B/01C e consolidare 02A.
 
 ---
 
@@ -27,10 +27,10 @@ Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 <!-- prettier-ignore -->
 | Deliverable | Owner (responsabile) | Due-date | Stato |
 | --- | --- | --- | --- |
-| Log attività 01A ([logs/agent_activity.md](../../logs/agent_activity.md)) | archivist + coordinator (approvazione Master DD) | Da confermare con Master DD | In corso: aggiornamento batch congelati/freeze e gap list 01A registrati nel log centrale. |
-| Gap list 01A approvata ([REF_INCOMING_CATALOG](./REF_INCOMING_CATALOG.md#gap-list-01a-bozza-in-attesa-di-approvazione-master-dd)) | Master DD (approvazione) + coordinator/archivist | TBD – serve nuova data di consegna | In attesa di approvazione Master DD; necessario per sbloccare kickoff 01B/01C. |
-| Readiness 01B/01C ([nota readiness](#nota-readiness-01b01c-2026-02-07)) | species-curator (lead 01B), trait-curator, balancer, archivist, coordinator | Dopo gap list approvata | On-call registrata il 2026-02-07; in stand-by finché non arriva il via libera Master DD su 01A. |
-| Inventario tooling/CI 01C ([REF_TOOLING_AND_CI](./REF_TOOLING_AND_CI.md#inventario-workflowscript-modalita-report-only--2026-02-07)) | dev-tooling (lead 01C) + coordinator | Successivo a via libera 01A/01B | Report-only: inventario CI/script pronto ma non eseguibile finché 01A–01B non risultano chiusi. |
+| Log attività 01A ([logs/agent_activity.md](../../logs/agent_activity.md)) | archivist + coordinator (approvazione Master DD) | Da confermare con Master DD | Allineato ai log di maggio 2026: gap list 01A catalogata e freeze/gate 03A–03B approvati e registrati. |
+| Gap list 01A approvata ([REF_INCOMING_CATALOG](./REF_INCOMING_CATALOG.md#gap-list-01a-bozza-in-attesa-di-approvazione-master-dd)) | Master DD (approvazione) + coordinator/archivist | TBD – serve nuova data di consegna | Gap list 01A catalogata e approvata a log (entry 2026-05-05), resta la programmazione di follow-up 01B/01C. |
+| Readiness 01B/01C ([nota readiness](#nota-readiness-01b01c-2026-02-07)) | species-curator (lead 01B), trait-curator, balancer, archivist, coordinator | Dopo gap list approvata | On-call registrata il 2026-02-07; in attesa di nuova finestra operativa dopo le approvazioni di maggio 2026. |
+| Inventario tooling/CI 01C ([REF_TOOLING_AND_CI](./REF_TOOLING_AND_CI.md#inventario-workflowscript-modalita-report-only--2026-02-07)) | dev-tooling (lead 01C) + coordinator | Successivo a via libera 01A/01B | Report-only: inventario CI/script pronto; si attende consolidamento 01B prima dell’esecuzione piena. |
 
 > Condividere la tabella con Master DD e gli owner indicati per confermare responsabilità e scadenze prima di avanzare.
 
@@ -44,6 +44,15 @@ Stato: PATCHSET-00 PROPOSTA – sequenziare i patchset con matrice dipendenze
 | **02A – Validator report-only**     | Matrice 01B consolidata; inventario 01C pronto; branch validator con fixture/baseline aggiornate.                         | Validator eseguito in modalità report-only con log archiviato; esiti condivisi con owner 03A.                                        | Master DD approva l’esito del validator e autorizza l’apertura del freeze 03A/03B.                       | Revert delle modifiche del branch validator; ripristino fixture/baseline precedenti; sospensione dell’apertura freeze.                        |
 | **03A – Patch core/derived**        | Freeze fase 3→4 attivo; validator 02A in pass; branch `patch/03A-core-derived` pronto con changelog/rollback script.      | Patch core/derived mergeata con validator in pass; snapshot core/derived archiviato; freeze ancora attivo per 03B.                   | Master DD approva il merge 03A e conferma il mantenimento del freeze per procedere a 03B.                | Esecuzione script di revert generati; ripristino snapshot core/derived; disabilitazione del validator nuovo se blocca il deploy.              |
 | **03B – Pulizia incoming/archivio** | Freeze confermato post-03A; backup/snapshot incoming etichettato; mapping incoming ↔ core/derived stabile.               | Incoming ripulito/archiviato con redirect verificati; checklist post-pulizia registrata; freeze chiuso.                              | Master DD approva il merge `patch/03B-incoming-cleanup` e registra l’uscita dal freeze nel log attività. | Ripristino backup incoming; rollback redirect e entry di archivio aggiunte; riesecuzione validator 02A (smoke) per confermare stabilità.      |
+
+**Stato gate (log maggio 2026):**
+
+- **01A:** gap list catalogata e approvata in `logs/agent_activity.md` (entry 2026-05-05); restano aperti i follow-up su ticket 01B/01C.
+- **01B:** in attesa della matrice preliminare; readiness registrata ma nessun log di approvazione a maggio 2026.
+- **01C:** inventario in modalità report-only; esecuzione piena sospesa finché 01B non è consolidato.
+- **02A:** rerun schema-only registrati (2026-05-01/02) ma gate finale ancora in modalità report-only.
+- **03A:** gate approvato con validator in pass (log 2026-05-01 e 2026-05-02, firma Master DD); freeze mantenuto per 03B.
+- **03B:** cleanup documentale approvato con smoke schema-only e chiusura freeze (log 2026-05-02), in attesa di monitoraggio post-merge.
 
 ### Fase 1–2 (analisi/catalogo)
 
@@ -217,6 +226,7 @@ Compatibilità GOLDEN_PATH: la sequenza mantiene allineamento con le Fasi 1–4 
 
 ## Changelog
 
+- 2026-05-06: allineato lo stato 01A–03B agli update log di maggio 2026 (`logs/agent_activity.md`), marcando le approvazioni di gate 03A/03B e la catalogazione gap list 01A con note di avanzamento e attività ancora aperte.
 - 2025-12-30: versione 0.5 – intestazione aggiornata al report v0.5, confermate le dipendenze 01A–03B e i trigger di fase GOLDEN_PATH senza variazioni alla sequenza.
 - 2025-12-17: versione 0.4 – matrice dipendenze con trigger di fase GOLDEN_PATH, criteri/rollback/rischi allineati per 01A–03B e prerequisiti generali ampliati (branch dedicati, gate incrociati, logging fase per fase).
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione consolidato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance ribaditi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
