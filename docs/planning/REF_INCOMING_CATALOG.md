@@ -45,6 +45,21 @@ Stato: PATCHSET-01A – inventario aggiornato
 
 ---
 
+## Segmentazione buffer/legacy/archive_cold (REF_REPO_SCOPE)
+
+| Percorso                                | Segmento                   | Stato        | Owner umano | Ticket/Patchset                          | Fase |
+| --------------------------------------- | -------------------------- | ------------ | ----------- | ---------------------------------------- | ---- |
+| `incoming/` (pack e dataset attivi)     | buffer backlog             | DA_INTEGRARE | Master DD   | **[TKT-01B-001]** (matrice core/derived) | 01B  |
+| `incoming/lavoro_da_classificare/`      | buffer backlog             | DA_INTEGRARE | Master DD   | **[TKT-01A-001]** (gap list)             | 01B  |
+| `incoming/archive/`                     | legacy (warm archive)      | STORICO      | Master DD   | —                                        | 02A  |
+| `incoming/archive_cold/`                | archive_cold (immutabile)  | STORICO      | Master DD   | —                                        | 02A  |
+| `docs/incoming/` (linee guida e mappe)  | buffer documentale         | DA_INTEGRARE | Master DD   | **[TKT-01A-005]** (piani integrazione)   | 01B  |
+| `docs/incoming/lavoro_da_classificare/` | buffer documentale         | DA_INTEGRARE | Master DD   | **[TKT-01A-005]**                        | 01B  |
+| `docs/incoming/decompressed/`           | legacy (derivati estratti) | STORICO      | Master DD   | —                                        | 02A  |
+| `docs/incoming/archive/`                | archive_cold documentale   | STORICO      | Master DD   | —                                        | 02A  |
+
+Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORICO** e riprendono la segmentazione `buffer → legacy → archive_cold` di `REF_REPO_SCOPE`; ogni riga è allineata ai gate 01B (handoff verso species/trait curators) o 02A (validator/report-only) per il collegamento ai ticket esistenti.
+
 ## Inventario `incoming/`
 
 <!-- prettier-ignore -->

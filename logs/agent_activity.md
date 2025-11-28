@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-05-05 – Segmentazione incoming 01B/02A (archivist)
+- Step: `[REF-INCOMING-CATALOG-TABLE-2026-05-05] owner=archivist (approvatore Master DD); files=docs/planning/REF_INCOMING_CATALOG.md, logs/agent_activity.md; rischio=basso (documentazione/catalogo); note=aggiunta tabella di stato con segmentazione buffer/legacy/archive_cold per `incoming/**` e `docs/incoming/**`, collegata ai gate 01B/02A e ai ticket **[TKT-01A-001]**, **[TKT-01A-005]**, **[TKT-01B-001]** senza spostamenti di file.`
+
 ## 2026-05-03 – Registrazione finestra freeze 03AB (archivist)
 - Step: `[TKT-03AB-FREEZE-WINDOW-2026-05-03] owner=archivist (approvatore Master DD); files=docs/planning/TKT-03AB-FREEZE.md, PULL_REQUEST_TEMPLATE.md, docs/incoming/decompressed/evo_sentience_branch_layout_v0_1/.github/pull_request_template.md, logs/agent_activity.md; rischio=basso (documentazione/freeze); note=Registrata nel canale operativo la finestra 2025-11-25T12:05Z→2025-11-27T12:05Z con blocco su data/core/**, data/derived/**, incoming/**, docs/incoming/**; checklist PR/branch aggiornate per ricordare il divieto salvo rollback autorizzati; nessuna eccezione richiesta a Master DD.`
 
