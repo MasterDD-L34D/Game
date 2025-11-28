@@ -3,7 +3,7 @@
 Versione: 0.5
 Data: 2025-12-30
 Owner: agente **dev-tooling** (supporto: archivist, coordinator)
-Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio; `validate-naming.yml` mantenuto report-only finché la matrice core/derived non è stabilizzata)
+Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio; `validate-naming.yml` confermato report-only con trigger `push`/`workflow_dispatch` e gate PR disattivato finché la matrice core/derived non è stabilizzata)
 
 ---
 
@@ -53,6 +53,7 @@ Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna
 
 - Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit).
 - **Decisione 2026-04-20**: `validate-naming.yml` resta in modalità consultiva per raccogliere metriche di stabilità finché la matrice core/derived non è stabilizzata. La pipeline gira su `push` del branch `patch/01C-tooling-ci-catalog` e via `workflow_dispatch` per run controllati; il trigger PR è disattivato per evitare blocchi.
+- **Verifica 2026-04-26**: confermata la modalità consultiva e il gate PR disattivato su `patch/01C-tooling-ci-catalog`; nessuna sequenza di 3 run verdi consecutivi disponibile, monitoraggio continuo finché la matrice core/derived non è stabile.
 - **Condizioni per promuovere a enforcing**:
   - matrice core/derived stabilizzata e allineata con gli scope 03A/03B;
   - almeno **3 run consecutivi verdi** su `patch/01C-tooling-ci-catalog` con falsi positivi/negativi monitorati;
