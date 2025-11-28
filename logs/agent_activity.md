@@ -219,6 +219,12 @@
 ## 2025-11-28 – Validator 02A rerun patch/03A-core-derived (report-only)
 - Step ID: RERUN-02A-2025-11-28T15:44Z; owner: dev-tooling (approvatore Master DD); branch: `patch/03A-core-derived`; stato: **report-only** agganciato a `reports/audit/2026-02-20_audit_bundle.md`.
 - Log prodotti e percorsi: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → PASS con 3 avvisi pack (`reports/temp/patch-03A-core-derived/schema_only.log` + copia `.../rerun-2025-11-28T15-44-05Z/schema_only.log`); `python scripts/trait_audit.py` → WARNING per modulo jsonschema non installato (`reports/temp/patch-03A-core-derived/trait_audit.log` + copia `.../rerun-2025-11-28T15-44-05Z/trait_audit.log`); `node scripts/trait_style_check.js --output-json .../trait_style.json --fail-on error` → PASS (0 errori; 168 warning; 62 info) con output `reports/temp/patch-03A-core-derived/{trait_style.log,trait_style.json}` e mirror in `.../rerun-2025-11-28T15-44-05Z/`.
+
+## 2025-11-28 – Gate 03A in uscita con validator 02A in pass (dev-tooling)
+- Step ID: 03A-GATE-EXIT-2025-11-28T16:18Z; owner: Master DD (approvatore umano) con agente dev-tooling; branch: `patch/03A-core-derived` in STRICT MODE.
+- Validator 02A (report-only) rieseguiti e salvati in `reports/temp/patch-03A-core-derived/rerun-2025-11-28/`: schema-only **OK** con 3 avvisi pack (`schema_only.log` + copia canonica), trait audit **OK** con warning modulo jsonschema assente (`trait_audit.log` + copia canonica), trait style **OK** (0 errori; 62 info) con JSON/log `trait_style.{json,log}` specchiati anche in `reports/temp/patch-03A-core-derived/`.
+- Documentazione aggiornata: changelog `reports/temp/patch-03A-core-derived/changelog.md` e rollback `reports/temp/patch-03A-core-derived/rollback.md` riallineati allo snapshot `reports/backups/2025-11-25T2028Z_masterdd_freeze/` (manifest approvato da Master DD).
+- Gate di uscita 03A registrato con validator in pass e materiali di rollback pronti; firma Master DD applicata per l’handoff verso 03B.
 - Note: esecuzione solo di audit testuale (nessuna modifica ai dataset); artefatti limitati alle cartelle di report 03A già indicizzate nell’audit bundle testuale.
 
 ## 2025-11-28 – Riesame stato CI `validate-naming.yml` (dev-tooling)
