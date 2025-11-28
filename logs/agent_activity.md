@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-05-06 – Allineamento fonti core/pack (archivist)
+- Step: `[REF-SOURCES-PACKS-2026-05-06] owner=archivist (approvatore Master DD); files=docs/planning/REF_REPO_SOURCES_OF_TRUTH.md, docs/planning/REF_PACKS_AND_DERIVED.md, logs/agent_activity.md; rischio=basso (documentazione/cataloghi); note=Aggiornata tabella canonica per trait/specie/biomi/telemetria con link a schemi ALIENA/UCUM e cross-link reciproco a REF_PACKS_AND_DERIVED; mappati generatori pack/derived con requisiti di checksum/log e verificata assenza di percorsi duplicati in data/core/**, packs/**, data/derived/**.`
+
 ## 2026-05-05 – Segmentazione incoming 01B/02A (archivist)
 - Step: `[REF-INCOMING-CATALOG-TABLE-2026-05-05] owner=archivist (approvatore Master DD); files=docs/planning/REF_INCOMING_CATALOG.md, logs/agent_activity.md; rischio=basso (documentazione/catalogo); note=aggiunta tabella di stato con segmentazione buffer/legacy/archive_cold per `incoming/**` e `docs/incoming/**`, collegata ai gate 01B/02A e ai ticket **[TKT-01A-001]**, **[TKT-01A-005]**, **[TKT-01B-001]** senza spostamenti di file.`
 
