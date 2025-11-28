@@ -17,7 +17,8 @@
       "fonte": "env_to_traits",
       "meta": {
         "expansion": "controllo_psionico",
-        "notes": "Gole oceaniche illuminate da coralli psionici e scariche elettrostatiche."
+        "notes": "Gole oceaniche illuminate da coralli psionici e scariche elettrostatiche.",
+        "tier": "T3"
       }
     }
   ],

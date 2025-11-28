@@ -15,7 +15,8 @@
       "fonte": "env_to_traits",
       "meta": {
         "expansion": "controllo_psionico",
-        "notes": "Distese pianeggianti con vortici geomagnetici da sfruttare per la navigazione."
+        "notes": "Distese pianeggianti con vortici geomagnetici da sfruttare per la navigazione.",
+        "tier": "T1"
       }
     }
   ],

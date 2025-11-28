@@ -15,5 +15,13 @@
     "has_biome": false,
     "has_species_link": false,
     "has_data_origin": true
-  }
+  },
+  "slot_profile": {
+    "core": "sensoriale",
+    "complementare": "visivo"
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "debolezza": "i18n:traits.occhi_cristallo_modulare.debolezza"
 }

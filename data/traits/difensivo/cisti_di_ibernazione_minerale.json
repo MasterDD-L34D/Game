@@ -48,5 +48,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_00000873"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "difensivo",
+    "complementare": "resistenze"
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.cisti_di_ibernazione_minerale.debolezza"
 }

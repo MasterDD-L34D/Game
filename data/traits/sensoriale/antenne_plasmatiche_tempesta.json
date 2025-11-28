@@ -15,7 +15,8 @@
       "fonte": "env_to_traits",
       "meta": {
         "expansion": "controllo_psionico",
-        "notes": "Occhi di tempesta permanenti che concentrano elettricità e onde psioniche."
+        "notes": "Occhi di tempesta permanenti che concentrano elettricità e onde psioniche.",
+        "tier": "T3"
       }
     }
   ],

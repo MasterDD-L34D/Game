@@ -47,5 +47,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "idrico"
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.filtrazione_osmotica.debolezza"
 }

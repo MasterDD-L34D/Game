@@ -49,5 +49,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "chimico"
+  },
+  "usage_tags": [
+    "breaker"
+  ],
+  "debolezza": "i18n:traits.zanne_idracida.debolezza"
 }

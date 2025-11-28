@@ -16,7 +16,7 @@
   "metrics": [
     {
       "name": "lunghezza_estensione",
-      "value": 2.0,
+      "value": 2,
       "unit": "m"
     }
   ],
@@ -47,5 +47,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "manipolativo",
+    "complementare": "alimentare"
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.rostro_linguale_prensile.debolezza"
 }

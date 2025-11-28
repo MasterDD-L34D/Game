@@ -17,7 +17,8 @@
       "fonte": "env_to_traits",
       "meta": {
         "expansion": "controllo_psionico",
-        "notes": "Scogliere viventi che rispondono a canti psionici e onde sonore."
+        "notes": "Scogliere viventi che rispondono a canti psionici e onde sonore.",
+        "tier": "T2"
       }
     }
   ],

@@ -47,5 +47,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000178"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "cognitivo",
+    "complementare": "sociale"
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.coscienza_d_alveare_diffusa.debolezza"
 }

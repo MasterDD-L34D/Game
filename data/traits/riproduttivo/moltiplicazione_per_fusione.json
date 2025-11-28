@@ -48,5 +48,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_00000873"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "riproduttivo",
+    "complementare": "cicli"
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.moltiplicazione_per_fusione.debolezza"
 }

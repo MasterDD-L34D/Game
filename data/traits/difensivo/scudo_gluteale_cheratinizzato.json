@@ -47,5 +47,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "difensivo",
+    "complementare": "corazza"
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.scudo_gluteale_cheratinizzato.debolezza"
 }
