@@ -38,3 +38,5 @@
 ## Note
 - Gli archivi sono off-repo: aggiornare i percorsi reali in base allo storage utilizzato.
 - La procedura non tocca pack/incoming se non richiesto; per un rollback parziale limitarsi a `git checkout -- <file>`.
+- Verifica schema-only 2026-05-01: i log `schema_only_2026-05-01.log` e `schema_only_2026-05-01_gate.log` confermano che il rollback non è stato necessario; mantengono la stessa sequenza di 14 controlli / 3 avvisi pack.
+- Verifica schema-only 2026-05-02: i log `schema_only_2026-05-02.log` e `schema_only_2026-05-02_gate.log` (sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`) confermano coerenza con la baseline precedente; rollback non attivato.
