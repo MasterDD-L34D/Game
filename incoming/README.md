@@ -35,6 +35,8 @@ Linee guida minime:
 
 Note:
 
+- 2026-04-13: soft freeze documentale su `incoming/**` e `docs/incoming/**` confermato fino alla chiusura 03B (branch `patch/03B-incoming-cleanup`, controlli core su `patch/03A-core-derived`). Nessun merge/spostamento; solo report-only. Previsto rerun 02A report-only con validator schema/trait/style nei log `reports/temp/patch-03A-core-derived/` e specchio `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` prima di qualsiasi sblocco.
+
 - 2026-04-11: gate 01B chiuso con approvazione Master DD sulla matrice core/derived v0.2 (`patch/01B-core-derived-matrix`); handoff avviato verso fase 02A con README sincronizzati.
 
 - 2026-04-08: riesame freeze 01A in STRICT MODE (archivist) senza spostamenti di file: etichette confermate **DA_INTEGRARE/LEGACY/STORICO**, gap list aggiornata con owner proposti e ticket collegati alle fonti; `incoming/_holding` ancora assente. Soft freeze documentale invariato su `incoming/**` e `docs/incoming/**`.
