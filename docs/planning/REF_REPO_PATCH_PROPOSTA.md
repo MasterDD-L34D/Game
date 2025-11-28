@@ -11,6 +11,8 @@ Stato: PATCHSET-00 PROPOSTA – patch da validare
 
 Tradurre `REF_REPO_SCOPE` in **PATCHSET-00**: una proposta neutrale che non altera i dati core ma prepara la struttura di documentazione e cataloghi per i refactor successivi.
 
+Lo scope è confermato neutrale: limita le attività a documentazione/cataloghi senza modificare `data/core/**`, `packs/**` o tooling esistente.
+
 La numerazione delle uscite successive resta agganciata alla sequenza 01A–03B per il rollout graduale dopo approvazione.
 
 ## Numerazione e riferimenti
@@ -25,6 +27,7 @@ La numerazione delle uscite successive resta agganciata alla sequenza 01A–03B 
 - Deliverable proposti sono limitati a documentazione e mappature, senza toccare `data/core/**`, `packs/**` o tooling.
 - Gli stub richiesti in §6.1 di `REF_REPO_SCOPE` esistono ma vanno completati con sezioni operative.
 - Le cartelle `incoming/` e `docs/incoming/` sono solo censite; manca una tabella di stato condivisa.
+- **01A approvata il 2025-11-28 da Master DD (owner umano)** con ambito neutrale confermato e blocco dei merge diretti su `main` fino al superamento del gate previsto.
 
 ## Rischi
 
@@ -42,6 +45,7 @@ La numerazione delle uscite successive resta agganciata alla sequenza 01A–03B 
 ## Prerequisiti generali
 
 - Ogni PATCHSET applicativa deve partire da un branch dedicato per garantire tracciabilità e rollback controllato.
+- Per PATCHSET-00 è attivo il branch dedicato `patch/PATCHSET-00` (originato da `work`) e il merge diretto su `main` è bloccato fino al superamento del gate 01A.
 - Loggare le attività dell’agente su `logs/agent_activity.md` per mantenere audit trail e handoff tra owner umani.
 - Ogni documento di pianificazione deve riportare l’owner umano responsabile e l’aggiornamento va registrato nel log quando la numerazione 01A–03B cambia di stato.
 - Master DD agisce come approvatore umano per 01A–01C (strict mode), valida i freeze, gap list e assegnazioni prima di propagare modifiche ad altri reference.
@@ -60,4 +64,5 @@ La numerazione delle uscite successive resta agganciata alla sequenza 01A–03B 
 
 - 2025-12-30: versione 0.5 – allineamento al report v0.5 con intestazione aggiornata e conferma del ruolo di PATCHSET-00 come proposta neutrale per la sequenza 01A–03B.
 - 2025-12-17: versione 0.3 – design completato confermato, perimetro documentazione fissato, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH; prerequisiti di governance ribaditi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
+- 2025-11-28: approvazione 01A (Master DD) su PATCHSET-00 con conferma di scope neutrale e blocco dei merge diretti su `main` fino al gate superato; creato branch dedicato `patch/PATCHSET-00` da `work`.
 - 2025-11-23: prima proposta di patch basata su `REF_REPO_SCOPE` (archivist).
