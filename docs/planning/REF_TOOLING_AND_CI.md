@@ -49,6 +49,16 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna m
 4. Identificare fixture `data/derived/**` critiche per i test e pianificare la loro sostituzione con versioni rigenerate dai core.
 5. Proporre aggiornamenti incrementali ai workflow CI, allineandoli con i patchset definiti nel piano di migrazione.
 
+## Ordine di abilitazione CI (Master DD – 2026-04-12)
+
+- Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit).
+- Sequenza approvata:
+  1. Abilitare **enforcing** su `data-quality.yml` (audit core/pack) e `validate_traits.yml` (catalogo trait, lint, coverage) come gate PR.
+  2. Portare **schema-validate.yml** in enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
+  3. Mantenere **validate-naming.yml** in **report-only** finché la matrice core/derived non è stabile; convergere a enforcing solo dopo l’allineamento delle registrazioni pack.
+  4. Lasciare **incoming-smoke.yml** **disattivato/solo dispatch manuale** (nessun trigger PR) fino a quando non vengono definiti i check automatici su nuovi drop.
+- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (proposta step opzionale in `validate_traits.yml`), gating incoming ancora limitato a uso manuale di `scripts/report_incoming.sh`.
+
 ## Inventario workflow/script (modalità report-only – 2026-02-07)
 
 | Voce                 | Percorso                                                      | Stato       | Note                                                                                                                                                                        |

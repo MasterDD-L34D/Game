@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-04-12 – Attivazione CI 01C (dev-tooling)
+- Step: `[01C-CI-ACTIVATION-2026-04-12] owner=dev-tooling (approvatore Master DD); files=reports/audit/2026-04-10_ci-script-report.md, logs/agent_activity.md, docs/planning/REF_TOOLING_AND_CI.md; rischio=medio (attivazione gating CI); note=Master DD approva il passaggio di `data-quality.yml`, `validate_traits.yml` e `schema-validate.yml` da report-only a enforcing con branch `patch/01C-tooling-ci-catalog`; `validate-naming.yml` resta consultivo, `incoming-smoke.yml` resta disattivato/dispatch manuale. Ordine di abilitazione documentato in REF_TOOLING_AND_CI con reminder su derived drift e incoming gating ancora mancanti.`
+
 ## 2026-04-11 – Via libera Master DD gate uscita 01B (archivist)
 - Step: `[01B-GATE-EXIT-2026-04-09] owner=archivist (approvatore Master DD); files=docs/planning/REF_CORE_DERIVED_MATRIX.md, logs/agent_activity.md, incoming/README.md, docs/incoming/README.md; rischio=basso (documentazione/chiusura gate); note=Master DD approva la matrice core/derived v0.2 e autorizza la chiusura del gate 01B su branch `patch/01B-core-derived-matrix` con handoff verso fase 02A. README incoming/docs_incoming aggiornati per segnalare chiusura gate 01B e avvio 02A.`
 
