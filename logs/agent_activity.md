@@ -156,7 +156,12 @@
 - Stato corrente: soft freeze ancora attivo su `incoming/**` e `docs/incoming/**` in attesa di nuova approvazione Master DD; gate “RIAPERTURA-2026-01” già marcato come chiuso e non riaperto.
 - README `incoming/` e `docs/incoming/` confermano assenza di nuovi drop (`_holding` non presente) e freeze soft in sospeso; readiness: trait-curator/species-curator on-call per 01B, dev-tooling on-call per 01C; ticket **[TKT-01A-*]**, **[TKT-01B-*]**, **[TKT-01C-*]** da aprire con approvazione Master DD.
 
-# 2025-11-26 – Tabella gap 01A consolidata (archivist)
+## 2025-11-28 – Approvazione 01A PATCHSET-00 (archivist)
+- Step ID: PATCHSET-00-01A-APPROVED-2025-11-28; owner: archivist in STRICT MODE con approvazione umana Master DD.
+- Azioni: confermato che PATCHSET-00 resta neutrale (solo documentazione/cataloghi) e registrata l’approvazione 01A con data/owner nel reference; creato il branch dedicato `patch/PATCHSET-00` da `work` e annotato il blocco dei merge diretti su `main` fino al superamento del gate.
+- Riferimenti: `docs/planning/REF_REPO_PATCH_PROPOSTA.md`, `logs/agent_activity.md`.
+
+## 2025-11-26 – Tabella gap 01A consolidata (archivist)
 - Step ID: 01A-GAP-TABLE-2025-11-26; owner: archivist in STRICT MODE.
 - Azione: tabella unica con sezioni **DA_INTEGRARE/LEGACY/STORICO** aggiornata su gap list 01A (nessuno spostamento di pack: solo etichettatura/report). Fonti allineate a `docs/planning/REF_INCOMING_CATALOG.md` e README incoming.
 - Tabella gap 01A (ID, fonte, pack, versione, stato, rischio, next step):
