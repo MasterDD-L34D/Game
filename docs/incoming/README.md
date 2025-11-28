@@ -19,6 +19,8 @@ Linee guida minime:
 
 Note:
 
+- 2026-04-11: gate 01B chiuso con approvazione Master DD sulla matrice core/derived v0.2 (`patch/01B-core-derived-matrix`); handoff avviato verso fase 02A con README sincronizzati.
+
 - 2026-04-08: riesame freeze 01A in STRICT MODE (archivist) senza spostamenti di file: etichette confermate **DA_INTEGRARE/LEGACY/STORICO**, gap list aggiornata con owner proposti e ticket collegati alle fonti; `incoming/_holding` ancora assente. Soft freeze documentale invariato su `incoming/**` e `docs/incoming/**`.
 - 2026-03-22: kickoff 15' per ribadire trigger fase 1→2→3 e riesame delle tabelle 01A: gap list ancora aperta (**[TKT-01A-001]** … **[TKT-01A-005]**) senza spostamenti di file; `incoming/_holding` confermato assente (nessuna integrazione/archiviazione). Disponibilità riconfermata in report-only per species/trait-curator (matrice core/derived 01B, ticket **[TKT-01B-001]**/**[TKT-01B-002]**) e dev-tooling (inventario workflow CI/script 01C, ticket **[TKT-01C-001]**/**[TKT-01C-002]**). Gate "RIAPERTURA-2026-01" marcato chiuso con autorizzazione a procedere su 01A; soft freeze documentale invariato su `incoming/**` e `docs/incoming/**`.
 - 2026-03-19: log **RIAPERTURA-2026-01** (micro-step archivist) riconferma soft freeze su `incoming/**` e `docs/incoming/**`, gap list 01A allineata a `docs/planning/REF_INCOMING_CATALOG.md` e ticket **[TKT-01A-001]** … **[TKT-01A-005]** (alias **[TKT-01A-DOCS]** per la voce documentazione) registrati in `logs/agent_activity.md`; nessuno spostamento file autorizzato.

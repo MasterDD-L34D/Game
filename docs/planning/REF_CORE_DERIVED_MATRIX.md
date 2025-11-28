@@ -1,7 +1,7 @@
 # REF_CORE_DERIVED_MATRIX – Matrice 01B (core vs derived)
 
-Versione: 0.2
-Data: 2026-04-09
+Versione: 0.2 (APPROVATA)
+Data: 2026-04-09 (via libera Master DD)
 Scope: specie e trait legati alla gap list 01A aggiornata
 Owner operativo: species-curator (lead 01B) con trait-curator per nomenclatura/mapping trait
 
