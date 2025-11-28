@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-04-27 – Firma Master DD e transizione freeze 03A/03B a patch (archivist)
+- Step: `[03A03B-FREEZE-PATCH-2026-04-27] owner=archivist (firma Master DD); files=logs/agent_activity.md, docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md, reports/audit/2026-02-20_audit_bundle.md; rischio=basso (documentazione/freeze); note=Registrata la firma Master DD che converte il freeze 03A/03B da stato report-only a finestra operativa di patch sui branch `patch/03A-core-derived` e `patch/03B-incoming-cleanup`. Condizioni di merge ribadite: ultimo rerun validator 02A in pass, rollback/backup pronti (manifest confermati), redirect attivi senza drift. Finestra operativa aperta come da sequenza in REF_PATCHSET_02A_TO_03AB_RUNBOOK con audit collegato a reports/audit/2026-02-20_audit_bundle.md.`
+
 ## 2026-04-26 – Conferma consultivo validate-naming 01C (dev-tooling)
 - Step: `[01C-NAMING-CONSULTIVE-2026-04-26] owner=dev-tooling (approvatore Master DD); files=docs/planning/REF_TOOLING_AND_CI.md, .github/workflows/validate-naming.yml, logs/agent_activity.md; rischio=basso (config CI); note=Confermato stato consultivo di `validate-naming.yml`: precedente=consultivo (report-only), nuovo=consultivo (report-only) con gate PR disattivato e trigger limitati a push su `patch/01C-tooling-ci-catalog` + `workflow_dispatch`. Evidenze CI: nessuna sequenza di **3 run verdi consecutivi** disponibile sul branch 01C, matrice core/derived ancora instabile; mantenuto monitoraggio continuo e pronto rollback (riattivazione consultiva già attiva) in caso di falsi positivi/negativi.
 
