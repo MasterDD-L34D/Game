@@ -42,6 +42,20 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 - [x] Istruzioni backup/redirect 03B
 - [x] Trigger riavvio eseguito
 
+## Step 2026-04-28 (rerun 02A → gate 03A → checkpoint 03B)
+- **Rerun 02A (report-only)** — log consolidato in `logs/TKT-02A-VALIDATOR.rerun.log` (sha256 `31e07dde55ebd94ab1c31ba59f36a261e09a50b8f72083ef4d50cd8c925d44bb`) e copie specchiate in `reports/temp/patch-03A-core-derived/`:
+  - `schema_only.log` — sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`.
+  - `trait_audit.log` — sha256 `a4bfc3b7ac4d77dc4998c88930383fc49c4939d1093298323653643eb5d89277`.
+  - `trait_style.log` — sha256 `abd65d68ce177386a7fd7c7a1f25ac66dadfabe6f2aeb85364b0a54d04b9ed02`.
+  - `trait_style.json` — sha256 `c8637e02f78c5b0d1ac701bcc9ffb8396aee85e2ab50901f144db80618657050`.
+- **Gate 03A (pre-merge)** — validazione del branch `patch/03A-core-derived` basata sugli stessi log di rerun 02A (checksum sopra) e sugli artefatti di controllo (`changelog.md`, `rollback.md`) già presenti in `reports/temp/patch-03A-core-derived/`; nessun tarball richiesto.
+- **Checkpoint 03B (post-03A)** — mirror dei log in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` con checksum allineati al gate 03A:
+  - `schema_only.log` — sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`.
+  - `trait_audit.log` — sha256 `5a1f64d7be8872c48562730e9d5ac584cdf200e9eb10ee1f4c6d5ce15653aa4e`.
+  - `trait_style.log` — sha256 `abd65d68ce177386a7fd7c7a1f25ac66dadfabe6f2aeb85364b0a54d04b9ed02`.
+  - `trait_style.json` — sha256 `cf6a425b78356efae638740a32dd5c1cd8b6e27243f83052a10fc25749018afa`.
+- **Stato tarball** — confermato che l’audit rimane solo testuale; nessun archivio binario aggiunto o richiesto.
+
 ## Appendice rerun 2026-04-17 (solo testuale)
 - Log operativi: sblocco registrato in [`logs/agent_activity.md` (entry UNFREEZE-02A-APPROVED-2026-02-21)](../../logs/agent_activity.md#2026-02-21--sblocco-freeze--trigger-pipeline_simulator-coordinator) e rerun 02A (report-only) in [`logs/agent_activity.md` (03A sonic cluster debolezze + rerun 02A)](../../logs/agent_activity.md#2026-02-20--03a-sonic-cluster-debolezze--rerun-02a-report-only); verifica 2026-04-17 registrata in [`logs/agent_activity.md` (03A-READINESS-CHECK-2026-04-17)](../../logs/agent_activity.md#2026-04-17--verifica-log-02a-e-mirror-03a03b-archivist).
 - Riferimenti runbook/log 02A: sequenza copiata dal runbook [`docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md`](../../docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md); log 02A pianificati in [`logs/agent_activity.md` (RERUN-02A-PLAN-2026-04-13)](../../logs/agent_activity.md#2026-04-13--freeze-03b-confermato--piano-rerun-02a-archivist) ed eseguiti in [`logs/agent_activity.md` (RERUN-02A-EXEC-2026-04-13)](../../logs/agent_activity.md#2026-04-13--freeze-03b-confermato--piano-rerun-02a-archivist); output consolidato in `logs/TKT-02A-VALIDATOR.rerun.log` allineato ai percorsi 03A/03B.
