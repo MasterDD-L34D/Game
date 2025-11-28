@@ -50,5 +50,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "sensoriale",
+    "complementare": "uditivoolfattivo"
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "debolezza": "i18n:traits.sistemi_chimio_sonici.debolezza"
 }

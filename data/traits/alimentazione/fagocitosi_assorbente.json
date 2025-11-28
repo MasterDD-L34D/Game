@@ -47,5 +47,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_00000873"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "alimentazione",
+    "complementare": "digestione"
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.fagocitosi_assorbente.debolezza"
 }

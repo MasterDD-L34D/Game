@@ -17,7 +17,8 @@
       "fonte": "env_to_traits",
       "meta": {
         "expansion": "controllo_psionico",
-        "notes": "Catene montuose sospese dove i cristalli amplificano l'aria rarefatta."
+        "notes": "Catene montuose sospese dove i cristalli amplificano l'aria rarefatta.",
+        "tier": "T2"
       }
     }
   ],

@@ -50,13 +50,19 @@
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
   },
-  "usage_tags": [],
-  "slot_profile": {},
+  "usage_tags": [
+    "scout"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "arboricolo"
+  },
   "species_affinity": [],
   "version": "1.0.0",
   "versioning": {
     "created": "2025-11-04",
     "updated": "2025-11-23",
     "author": "Master DD / GPT-5 Pro"
-  }
+  },
+  "debolezza": "i18n:traits.coda_prensile_muscolare.debolezza"
 }

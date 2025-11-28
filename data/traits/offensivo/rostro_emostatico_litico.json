@@ -56,5 +56,13 @@
     "created": "2025-11-04",
     "updated": "2025-11-23",
     "author": "Master DD / GPT-5 Pro"
-  }
+  },
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "perforante"
+  },
+  "usage_tags": [
+    "breaker"
+  ],
+  "debolezza": "i18n:traits.rostro_emostatico_litico.debolezza"
 }

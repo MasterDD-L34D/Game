@@ -49,5 +49,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_00000873"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "difensivo",
+    "complementare": "camuffamento"
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.membrana_plastica_continua.debolezza"
 }

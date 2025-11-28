@@ -16,7 +16,7 @@
   "metrics": [
     {
       "name": "velocita_max",
-      "value": 4.0,
+      "value": 4,
       "unit": "m/s"
     }
   ],
@@ -48,13 +48,19 @@
       "http://purl.obolibrary.org/obo/ENVO_00000304"
     ]
   },
-  "usage_tags": [],
-  "slot_profile": {},
+  "usage_tags": [
+    "scout"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "terrestre"
+  },
   "species_affinity": [],
   "version": "1.0.0",
   "versioning": {
     "created": "2025-11-04",
     "updated": "2025-11-23",
     "author": "Master DD / GPT-5 Pro"
-  }
+  },
+  "debolezza": "i18n:traits.scivolamento_magnetico.debolezza"
 }

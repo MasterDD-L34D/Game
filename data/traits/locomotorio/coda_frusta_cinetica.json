@@ -16,7 +16,7 @@
       "meta": {
         "expansion": "controllo_psionico",
         "notes": "Corridore T2 per intercettare campi magnetici psionici sulle dorsali.",
-        "tier": "T2"
+        "tier": "T1"
       }
     },
     {
@@ -28,7 +28,7 @@
       "meta": {
         "expansion": "controllo_psionico",
         "notes": "Variante T3 calibrata alle camere di gravità invertita e ai flussi orbitali.",
-        "tier": "T3"
+        "tier": "T1"
       }
     }
   ],

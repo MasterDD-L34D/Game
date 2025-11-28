@@ -56,5 +56,13 @@
     "created": "2025-11-04",
     "updated": "2025-11-23",
     "author": "Master DD / GPT-5 Pro"
-  }
+  },
+  "slot_profile": {
+    "core": "fisiologico",
+    "complementare": "metabolico"
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.ipertrofia_muscolare_massiva.debolezza"
 }

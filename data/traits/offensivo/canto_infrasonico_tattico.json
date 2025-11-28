@@ -47,5 +47,13 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000178"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "controllo"
+  },
+  "usage_tags": [
+    "breaker"
+  ],
+  "debolezza": "i18n:traits.canto_infrasonico_tattico.debolezza"
 }

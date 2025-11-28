@@ -49,5 +49,13 @@
       "http://purl.obolibrary.org/obo/ENVO_00000873",
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
-  }
+  },
+  "slot_profile": {
+    "core": "difensivo",
+    "complementare": "termoregolazione"
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.pelage_idrorepellente_avanzato.debolezza"
 }

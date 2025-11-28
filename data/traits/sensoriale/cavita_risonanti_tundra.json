@@ -15,7 +15,8 @@
       "fonte": "env_to_traits",
       "meta": {
         "expansion": "controllo_psionico",
-        "notes": "Steppe gelate che trasmettono vibrazioni psioniche a chilometri di distanza."
+        "notes": "Steppe gelate che trasmettono vibrazioni psioniche a chilometri di distanza.",
+        "tier": "T1"
       }
     }
   ],
