@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-04-20 – Stato consultivo validate-naming 01C (dev-tooling)
+- Step: `[01C-NAMING-CONSULTIVE-2026-04-20] owner=dev-tooling (approvatore Master DD); files=docs/planning/REF_TOOLING_AND_CI.md, .github/workflows/validate-naming.yml, logs/agent_activity.md; rischio=basso (config CI); note=Aggiornato stato `validate-naming.yml`: precedente=trigger push+pull_request (potenziale gate PR), nuovo=consultivo su push `patch/01C-tooling-ci-catalog` + `workflow_dispatch` con step `continue-on-error` e nota consultiva. Evidenze CI: matrice core/derived non ancora stabilizzata e nessuna serie di 3 run verdi consecutivi su branch 01C → mantenuto consultivo. Prossima verifica programmata dopo raccolta run su branch 01C (target entro 2026-04-27) o alla stabilizzazione della matrice core/derived.`
+
 ## 2026-04-19 – Stato freeze mirato 03A/03B (archivist)
 - Step: `[03A03B-FREEZE-STATUS-2026-04-19] owner=archivist (approvatore richiesto: Master DD); files=logs/agent_activity.md, logs/TKT-02A-VALIDATOR.rerun.log, reports/audit/2026-02-20_audit_bundle.md; rischio=basso (documentazione/freeze); note=Firma Master DD registrata per questo checkpoint: freeze ora in modalità mirata (aperto solo a log/report) sui branch 'patch/03A-core-derived' e 'patch/03B-incoming-cleanup'. Condizioni di merge ribadite: ultimo rerun validator 02A in pass (log TKT-02A-VALIDATOR.rerun), changelog/rollback pronti all'uso, backup/redirect confermati dai manifest storici. Riferimento audit testuale: reports/audit/2026-02-20_audit_bundle.md; archiviazione tar opzionale da rigenerare solo su richiesta. Finestra operativa: 03A avviabile dopo conferma slot Master DD, 03B successivo al checkpoint post-03A mantenendo redirect/backup attivi.`
 

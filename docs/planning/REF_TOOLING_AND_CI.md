@@ -3,7 +3,7 @@
 Versione: 0.5
 Data: 2025-12-30
 Owner: agente **dev-tooling** (supporto: archivist, coordinator)
-Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio)
+Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio; `validate-naming.yml` mantenuto report-only finché la matrice core/derived non è stabilizzata)
 
 ---
 
@@ -52,10 +52,16 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna m
 ## Ordine di abilitazione CI (Master DD – 2026-04-12)
 
 - Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit).
+- **Decisione 2026-04-20**: `validate-naming.yml` resta in modalità consultiva per raccogliere metriche di stabilità finché la matrice core/derived non è stabilizzata. La pipeline gira su `push` del branch `patch/01C-tooling-ci-catalog` e via `workflow_dispatch` per run controllati; il trigger PR è disattivato per evitare blocchi.
+- **Condizioni per promuovere a enforcing**:
+  - matrice core/derived stabilizzata e allineata con gli scope 03A/03B;
+  - almeno **3 run consecutivi verdi** su `patch/01C-tooling-ci-catalog` con falsi positivi/negativi monitorati;
+  - approvazione esplicita Master DD e log operativo aggiornato con piano di rollback (ripristino consultivo o disattivazione trigger PR in caso di regressioni);
+  - conferma che glossari/registri pack puntino alle fonti core aggiornate senza drift.
 - Nota decisionale (report-only vs enforcing):
-  - **Report-only**: mantenere `validate-naming.yml` e gli step dei workflow in modalità consultiva su trigger `pull_request` + `push` per raccogliere metriche di stabilità (matrice core/derived) senza bloccare merge; validazione glossari/registi limitata ai registri trait/species core e ai registri pack (`packs/evo_tactics_pack/tools/config/registries/**`) per misurare falsi positivi.
-  - **Enforcing**: passaggio vincolante sui medesimi trigger `pull_request` + `push` quando (i) la matrice core/derived è stabile, (ii) esistono **3 run verdi consecutivi** su `patch/01C-tooling-ci-catalog`, (iii) è stato monitorato e documentato il tasso di falsi positivi/negativi nei log operativi; includere i glossari core e pack come source-of-truth nei job di naming/schema.
-  - Impatti attesi sui trigger: nessun trigger aggiuntivo, ma il passaggio a enforcing rende bloccanti i gate PR; su `push` restano consultivi finché il branch di prova non viene promosso.
+  - **Report-only**: mantenere `validate-naming.yml` consultivo su `push` del branch `patch/01C-tooling-ci-catalog` e tramite `workflow_dispatch` per raccolta metriche, con step non bloccanti e senza gate PR; validazione glossari/registi limitata ai registri trait/species core e ai registri pack (`packs/evo_tactics_pack/tools/config/registries/**`) per misurare falsi positivi.
+  - **Enforcing**: passaggio vincolante (riattivando il trigger `pull_request` e rimuovendo continue-on-error) quando (i) la matrice core/derived è stabile, (ii) esistono **3 run verdi consecutivi** su `patch/01C-tooling-ci-catalog`, (iii) è stato monitorato e documentato il tasso di falsi positivi/negativi nei log operativi; includere i glossari core e pack come source-of-truth nei job di naming/schema.
+  - Impatti attesi sui trigger: nessun trigger aggiuntivo; il passaggio a enforcing rende bloccanti i gate PR e può essere revocato tornando a trigger solo `push`/`workflow_dispatch` in caso di regressioni.
 - Sequenza approvata:
   1. Abilitare **enforcing** su `data-quality.yml` (audit core/pack) e `validate_traits.yml` (catalogo trait, lint, coverage) come gate PR.
   2. Portare **schema-validate.yml** in enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
