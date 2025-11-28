@@ -10,6 +10,7 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 - **Report 02A – baseline (pre-03A)**
   - Validatori 02A in report-only per `patch/03A-core-derived`: `reports/temp/patch-03A-core-derived/{schema_only.log,trait_audit.log,trait_style.log,trait_style.json}` e appendici `trait_style.md`/`changelog.md`.
   - Rerun dedicati (report-only) per TKT-02A con copie in `reports/temp/patch-03A-core-derived/rerun-2025-11-25-04/` e `.../rerun-2025-11-25T23-27-06Z/`.
+  - Rerun 02A report-only 2025-11-28T15:44Z su `patch/03A-core-derived` con log `schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json` salvati nei percorsi canonici `reports/temp/patch-03A-core-derived/` e mirrorati in `reports/temp/patch-03A-core-derived/rerun-2025-11-28T15-44-05Z/`.
 - **Report 02A – post-merge (smoke 03B)**
   - Output smoke 02A in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` (`schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json`).
 - **Changelog + rollback 03A**
@@ -43,6 +44,7 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 ## Appendice rerun 2026-04-17 (solo testuale)
 - Log operativi: sblocco registrato in [`logs/agent_activity.md` (entry UNFREEZE-02A-APPROVED-2026-02-21)](../../logs/agent_activity.md#2026-02-21--sblocco-freeze--trigger-pipeline_simulator-coordinator) e rerun 02A (report-only) in [`logs/agent_activity.md` (03A sonic cluster debolezze + rerun 02A)](../../logs/agent_activity.md#2026-02-20--03a-sonic-cluster-debolezze--rerun-02a-report-only); verifica 2026-04-17 registrata in [`logs/agent_activity.md` (03A-READINESS-CHECK-2026-04-17)](../../logs/agent_activity.md#2026-04-17--verifica-log-02a-e-mirror-03a03b-archivist).
 - Riferimenti runbook/log 02A: sequenza copiata dal runbook [`docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md`](../../docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md); log 02A pianificati in [`logs/agent_activity.md` (RERUN-02A-PLAN-2026-04-13)](../../logs/agent_activity.md#2026-04-13--freeze-03b-confermato--piano-rerun-02a-archivist) ed eseguiti in [`logs/agent_activity.md` (RERUN-02A-EXEC-2026-04-13)](../../logs/agent_activity.md#2026-04-13--freeze-03b-confermato--piano-rerun-02a-archivist); output consolidato in `logs/TKT-02A-VALIDATOR.rerun.log` allineato ai percorsi 03A/03B.
+- Rerun aggiuntivo 02A (report-only) 2025-11-28T15:44Z su `patch/03A-core-derived`: log `schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json` disponibili in `reports/temp/patch-03A-core-derived/` e specchiati in `reports/temp/patch-03A-core-derived/rerun-2025-11-28T15-44-05Z/` (warning jsonschema mancante su trait audit).
 - Log rerun schema/trait/style 03A (report-only) in `reports/temp/patch-03A-core-derived/`:
   - `schema_only.log` — sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`.
   - `trait_audit.log` — sha256 `a4bfc3b7ac4d77dc4998c88930383fc49c4939d1093298323653643eb5d89277`.
