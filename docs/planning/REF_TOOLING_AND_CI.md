@@ -55,9 +55,21 @@ Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto (nessuna m
 - Sequenza approvata:
   1. Abilitare **enforcing** su `data-quality.yml` (audit core/pack) e `validate_traits.yml` (catalogo trait, lint, coverage) come gate PR.
   2. Portare **schema-validate.yml** in enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
-  3. Mantenere **validate-naming.yml** in **report-only** finché la matrice core/derived non è stabile; convergere a enforcing solo dopo l’allineamento delle registrazioni pack.
-  4. Lasciare **incoming-smoke.yml** **disattivato/solo dispatch manuale** (nessun trigger PR) fino a quando non vengono definiti i check automatici su nuovi drop.
+  3. Mantenere **validate-naming.yml** in **report-only** finché la matrice core/derived non è stabile; convergere a enforcing solo dopo l’allineamento delle registrazioni pack e previa conferma esplicita.
+  4. Lasciare **incoming-smoke.yml** **disattivato/solo dispatch manuale** (nessun trigger PR) fino a quando non vengono definiti i check automatici su nuovi drop e arriva un via libera esplicito.
 - Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (proposta step opzionale in `validate_traits.yml`), gating incoming ancora limitato a uso manuale di `scripts/report_incoming.sh`.
+
+### Criteri di monitoraggio e promozione
+
+- Richiedere almeno **3 esecuzioni consecutive verdi** su `patch/01C-tooling-ci-catalog` per ciascun workflow prima del passaggio a enforcing.
+- Monitorare e allegare agli update PR: tasso di failure per categoria (schema, naming, audit), falsi positivi/negativi noti e delta tempo di esecuzione rispetto allo stato consultivo.
+- Documentare eventuali esclusioni temporanee o percorsi ignorati (core vs derived) nei log operativi prima di promuovere un workflow.
+- Per `validate-naming.yml` e `incoming-smoke.yml`, non rimuovere i guardrail finché non è stato esplicitamente autorizzato (owner dati + owner CI) e tracciato nel log operativo.
+
+### Log operativo sui cambi di stato
+
+- Ogni passaggio di stato (consultivo → enforcing, disattivato → attivo) deve essere registrato in `logs/agent_activity.md` e nel changelog del branch `patch/01C-tooling-ci-catalog` con: data/ora UTC, workflow, stato precedente, stato nuovo, owner che approva, evidenze di monitoraggio (esecuzioni verdi, metriche).
+- Le note di log devono citare eventuali rollback o eccezioni temporanee e includere link ai run CI di riferimento.
 
 ## Inventario workflow/script (modalità report-only – 2026-02-07)
 
