@@ -15188,7 +15188,7 @@
     "sensori_planctonici": {
       "id": "sensori_planctonici",
       "label": "Sensori Planctonici",
-      "famiglia_tipologia": "Analisi",
+      "famiglia_tipologia": "Analisi/Sensori Planctonici",
       "data_origin": "frattura_abissale_sinaptica",
       "completion_flags": {
         "has_biome": true,
@@ -15242,7 +15242,7 @@
     "nebbia_mnesica": {
       "id": "nebbia_mnesica",
       "label": "Nebbia Mnesica",
-      "famiglia_tipologia": "Controllo",
+      "famiglia_tipologia": "Controllo/Mnesica",
       "data_origin": "frattura_abissale_sinaptica",
       "completion_flags": {
         "has_biome": true,
