@@ -1,9 +1,9 @@
 # REF_REPO_MIGRATION_PLAN – Sequenza patchset
 
-Versione: 0.5
-Data: 2025-12-30
+Versione: 0.6
+Data: 2026-05-08
 Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
-Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata, gate 01B approvato (Master DD, log 2026-04-11 su branch `patch/01B-core-derived-matrix`), 01C attivato; gate 03A/03B approvati a log maggio 2026; resta da consolidare 02A.
+Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01C approvati (log 2026-04-11/12 su branch `patch/01B-core-derived-matrix`); gate 03A/03B approvati (log 2026-05-01/02); unico gate aperto 02A (validator report-only da consolidare). Finestra freeze 03A/03B chiusa a log 2026-05-02 (cfr. `logs/agent_activity.md`).
 
 ---
 
@@ -47,12 +47,12 @@ Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata, gate 01B approvato (Mas
 
 **Stato gate (log maggio 2026):**
 
-- **01A:** gap list catalogata e approvata in `logs/agent_activity.md` (entry 2026-05-05); restano aperti i follow-up su ticket 01B/01C.
-- **01B:** approvato da Master DD (log 2026-04-11) su branch `patch/01B-core-derived-matrix`, con handoff verso 02A.
-- **01C:** inventario attivato (log 2026-04-12) con gating report-only/enforcing in attesa della finestra 02A.
-- **02A:** rerun schema-only registrati (2026-05-01/02) ma gate finale ancora in modalità report-only.
-- **03A:** gate approvato con validator in pass (log 2026-05-01 e 2026-05-02, firma Master DD); freeze mantenuto per 03B.
-- **03B:** cleanup documentale approvato con smoke schema-only e chiusura freeze (log 2026-05-02), in attesa di monitoraggio post-merge.
+- **01A:** gap list catalogata e approvata (log 2026-05-05 in `logs/agent_activity.md`).
+- **01B:** approvato da Master DD (log 2026-04-11) su branch `patch/01B-core-derived-matrix`.
+- **01C:** inventario tooling/CI approvato e attivato (log 2026-04-12), pronto per supportare 02A.
+- **02A:** unico gate ancora aperto; rerun schema-only 2026-05-01/02 in modalità report-only, da consolidare per l’uscita dal gate.
+- **03A:** approvato con validator in pass (log 2026-05-01 e 2026-05-02, firma Master DD).
+- **03B:** approvato e freeze 03A/03B chiuso con smoke schema-only (log 2026-05-02), monitoraggio post-merge in corso.
 
 ### Fase 1–2 (analisi/catalogo)
 
@@ -226,6 +226,7 @@ Compatibilità GOLDEN_PATH: la sequenza mantiene allineamento con le Fasi 1–4 
 
 ## Changelog
 
+- 2026-05-08: aggiornato l’header con versione/data 2026 e stato gate (01A/01B/01C e 03A/03B approvati, 02A unico aperto) in coerenza con i log 2026-04-11/12 (`patch/01B-core-derived-matrix`) e 2026-05-01/02 (gate 03A/03B, chiusura freeze in `logs/agent_activity.md`).
 - 2026-05-07: allineato lo stato 01B/01C ai log del 2026-04-11/12 (`logs/agent_activity.md`), con referenza al branch `patch/01B-core-derived-matrix` e aggiornamento delle dipendenze verso 02A/03A/03B sugli ultimi log.
 - 2026-05-06: allineato lo stato 01A–03B agli update log di maggio 2026 (`logs/agent_activity.md`), marcando le approvazioni di gate 03A/03B e la catalogazione gap list 01A con note di avanzamento e attività ancora aperte.
 - 2025-12-30: versione 0.5 – intestazione aggiornata al report v0.5, confermate le dipendenze 01A–03B e i trigger di fase GOLDEN_PATH senza variazioni alla sequenza.
