@@ -1,0 +1,31 @@
+{
+  "id": "organi_metacronici",
+  "label": "i18n:traits.organi_metacronici.label",
+  "data_origin": "frattura_abissale_sinaptica",
+  "famiglia_tipologia": "Supporto/Sequenziamento",
+  "fattore_mantenimento_energetico": "i18n:traits.organi_metacronici.fattore_mantenimento_energetico",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.organi_metacronici.mutazione_indotta",
+  "uso_funzione": "i18n:traits.organi_metacronici.uso_funzione",
+  "spinta_selettiva": "i18n:traits.organi_metacronici.spinta_selettiva",
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "frattura_abissale_sinaptica"
+      },
+      "fonte": "frattura_abissale_sinaptica",
+      "meta": {
+        "tier": "T2"
+      }
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_data_origin": true,
+    "has_species_link": true,
+    "has_usage_tags": true
+  }
+}
