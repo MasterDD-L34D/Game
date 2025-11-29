@@ -394,7 +394,8 @@
       ],
       "sinergie": [
         "pianificatore",
-        "tattiche_di_branco"
+        "tattiche_di_branco",
+        "pathfinder"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1892,7 +1893,10 @@
       ],
       "sinergie": [
         "pianificatore",
-        "tattiche_di_branco"
+        "tattiche_di_branco",
+        "secrezione_rallentante_palmi",
+        "pathfinder",
+        "random"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -2570,7 +2574,9 @@
       ],
       "sinergie": [
         "pianificatore",
-        "tattiche_di_branco"
+        "tattiche_di_branco",
+        "pathfinder",
+        "random"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -4134,7 +4140,8 @@
       ],
       "sinergie": [
         "pianificatore",
-        "tattiche_di_branco"
+        "tattiche_di_branco",
+        "secrezione_rallentante_palmi"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -4314,7 +4321,9 @@
       ],
       "sinergie": [
         "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
+        "sinapsi_coraline_polifoniche",
+        "occhi_cristallo_modulare",
+        "nucleo_ovomotore_rotante"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -4819,7 +4828,9 @@
       ],
       "sinergie": [
         "pianificatore",
-        "tattiche_di_branco"
+        "tattiche_di_branco",
+        "pathfinder",
+        "random"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -5677,7 +5688,8 @@
       ],
       "sinergie": [
         "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
+        "sinapsi_coraline_polifoniche",
+        "occhi_cristallo_modulare"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -5855,7 +5867,8 @@
         "ghiandole_inchiostro_luce",
         "gusci_criovetro",
         "luminescenza_hydrotermica",
-        "aura_scudo_radianza"
+        "aura_scudo_radianza",
+        "spore_psichiche_silenziate"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -6077,7 +6090,8 @@
       "requisiti_ambientali": [],
       "sinergie": [
         "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
+        "ventriglio_gastroliti",
+        "ghiandola_caustica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -6823,7 +6837,9 @@
         "ghiandole_resina_conduttiva",
         "lamine_scudo_silice",
         "midollo_antivibrazione",
-        "frusta_fiammeggiante"
+        "frusta_fiammeggiante",
+        "spore_psichiche_silenziate",
+        "random"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -7139,7 +7155,8 @@
       ],
       "sinergie": [
         "pianificatore",
-        "tattiche_di_branco"
+        "tattiche_di_branco",
+        "pathfinder"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -8315,7 +8332,8 @@
       ],
       "sinergie": [
         "pianificatore",
-        "tattiche_di_branco"
+        "tattiche_di_branco",
+        "secrezione_rallentante_palmi"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -9093,7 +9111,8 @@
       ],
       "sinergie": [
         "pianificatore",
-        "tattiche_di_branco"
+        "tattiche_di_branco",
+        "pathfinder"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -9333,7 +9352,8 @@
       ],
       "sinergie": [
         "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
+        "sinapsi_coraline_polifoniche",
+        "occhi_cristallo_modulare"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -10192,7 +10212,8 @@
         "ghiaccio_piezoelettrico",
         "ghiandole_minerali",
         "lamelle_shear",
-        "membrane_captura_rugiada"
+        "membrane_captura_rugiada",
+        "random"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -10462,7 +10483,8 @@
       ],
       "sinergie": [
         "sacche_galleggianti_ascensoriali",
-        "squame_rifrangenti_deserto"
+        "squame_rifrangenti_deserto",
+        "ghiandola_caustica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -11678,7 +11700,9 @@
         "ghiaccio_piezoelettrico",
         "ghiandole_minerali",
         "lamelle_shear",
-        "membrane_captura_rugiada"
+        "membrane_captura_rugiada",
+        "spore_psichiche_silenziate",
+        "random"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -12761,7 +12785,9 @@
       "sinergie": [
         "ali_fono_risonanti",
         "occhi_cinetici",
-        "cannone_sonico_a_raggio"
+        "cannone_sonico_a_raggio",
+        "ghiandola_caustica",
+        "spore_psichiche_silenziate"
       ],
       "conflitti": [],
       "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
@@ -12955,7 +12981,8 @@
       "tier": "T3",
       "slot": [],
       "sinergie": [
-        "ali_fono_risonanti"
+        "ali_fono_risonanti",
+        "spore_psichiche_silenziate"
       ],
       "conflitti": [],
       "mutazione_indotta": "Circuiti neurali a tempi di integrazione ridotti.",
@@ -13740,7 +13767,8 @@
         }
       ],
       "sinergie": [
-        "membrana_plastica_continua"
+        "membrana_plastica_continua",
+        "nucleo_ovomotore_rotante"
       ],
       "slot": [],
       "spinta_selettiva": "Ricerca cibo in interstizi umidi.",
@@ -13860,7 +13888,8 @@
       "sinergie": [
         "artiglio_cinetico_a_urto",
         "ermafroditismo_cronologico",
-        "sistemi_chimio_sonici"
+        "sistemi_chimio_sonici",
+        "nucleo_ovomotore_rotante"
       ],
       "slot": [],
       "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
@@ -13901,7 +13930,8 @@
       "sinergie": [
         "flusso_ameboide_controllato",
         "fagocitosi_assorbente",
-        "moltiplicazione_per_fusione"
+        "moltiplicazione_per_fusione",
+        "secrezione_rallentante_palmi"
       ],
       "conflitti": [],
       "mutazione_indotta": "Struttura citoscheletrica rimodulabile.",
@@ -14196,7 +14226,8 @@
       "sinergie": [
         "cannone_sonico_a_raggio",
         "campo_di_interferenza_acustica",
-        "ali_fono_risonanti"
+        "ali_fono_risonanti",
+        "occhi_cristallo_modulare"
       ],
       "conflitti": [],
       "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
@@ -14732,7 +14763,8 @@
       "slot": [],
       "sinergie": [
         "locomozione_miriapode_ibrida",
-        "estroflessione_gastrica_acida"
+        "estroflessione_gastrica_acida",
+        "ghiandola_caustica"
       ],
       "conflitti": [
         "estroflessione_gastrica_acida"
@@ -14910,7 +14942,8 @@
       "slot": [],
       "sinergie": [
         "vello_di_assorbimento_totale",
-        "artigli_ipo_termici"
+        "artigli_ipo_termici",
+        "occhi_cristallo_modulare"
       ],
       "conflitti": [],
       "mutazione_indotta": "Bastoncelli potenziati + recettori IR/UV.",
