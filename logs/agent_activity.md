@@ -1,5 +1,15 @@
 # Agent activity log
 
+## Template freeze fase 3→4
+- Step: `[FREEZE-03A03B-<YYYY-MM-DDThhmmZ>] owner=<coordinator|archivist> (approvatore Master DD); branch=patch/03A-core-derived, patch/03B-incoming-cleanup;
+  snapshot=<path data/core/** + data/derived/**> (checksum+storage); backup_incoming=<path incoming/** + docs/incoming/**> (manifest+checksum);
+  freeze_window=<start→end UTC>; rollback=<responsabile + link dry-run>; note=<esiti validator/report-only, redirect, approvazioni>`
+- Loggare sempre:
+  - timestamp UTC e owner (coordinator per rollback, archivist per verifica documentale).
+  - Percorsi snapshot core/derived e backup incoming con checksum/manifest.
+  - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
+  - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
+
 ## 2026-05-06 – Allineamento fonti core/pack (archivist)
 - Step: `[REF-SOURCES-PACKS-2026-05-06] owner=archivist (approvatore Master DD); files=docs/planning/REF_REPO_SOURCES_OF_TRUTH.md, docs/planning/REF_PACKS_AND_DERIVED.md, logs/agent_activity.md; rischio=basso (documentazione/cataloghi); note=Aggiornata tabella canonica per trait/specie/biomi/telemetria con link a schemi ALIENA/UCUM e cross-link reciproco a REF_PACKS_AND_DERIVED; mappati generatori pack/derived con requisiti di checksum/log e verificata assenza di percorsi duplicati in data/core/**, packs/**, data/derived/**.`
 
