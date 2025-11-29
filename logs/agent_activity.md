@@ -558,3 +558,9 @@
 - Verificate le cartelle `reports/backups/2025-11-25T1500Z_freeze`, `.../2025-11-25T1724Z_masterdd_freeze`, `.../2025-11-25T2028Z_masterdd_freeze` e confermati i checksum presenti (revisionati i manifest *.sha256 senza ricalcolo).
 - Normalizzati i `manifest.txt` con campi Location/On-call/Last verified e nota sull'uso per rollback 03A/03B per i bundle `incoming` e `docs_incoming` in S3 `evo-backups`.
 - Nessun binario aggiunto; verifica documentata come review dei manifest (checksum non ricalcolati).
+
+## 2025-11-29 – Freeze backup 03A/03B (dev-tooling)
+- Branch: `patch/03A-core-derived` + `patch/03B-incoming-cleanup`; freeze aperto con snapshot allineato a `main` su core/derived e backup incoming.
+- Backup: archivi tar.gz creati in `/tmp/2025-11-29T0525Z_freeze_03A-03B/` (core, derived, incoming) con checksum in `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`; nessun binario aggiunto al repo.
+- Dry-run rollback: validator 02A report-only **OK** — schema-only (0 avvisi), trait audit (**jsonschema mancante** → schema skip, nessuna regressione), trait style (0 suggerimenti). Log in `reports/temp/patch-03A-03B-freeze/`.
+- Owner/contatti: dev-tooling operativo; approvatore umano Master DD; on-call restore backups-oncall@game.internal (pager 4242).
