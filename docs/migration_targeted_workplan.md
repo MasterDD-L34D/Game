@@ -45,10 +45,23 @@ Questo piano elenca le attività operative a "lavori mirati" per avviare subito 
    - Uscita: checklist freeze compilata e rollback testato a secco.
 
 3. **Applicazione patch 03A (core/derived)** (owner: coordinator + dev-tooling)
+   - Prerequisiti: 02A verde (tutti i validator in pass e log archiviati in `logs/`).
    - Applicare le patch su core/derived solo dopo il pass verde di 02A.
    - Pubblicare changelog e includere i comandi di rollback rapidi.
-   - Uscita: validazioni 02A verdi post-patch e changelog archiviato.
-
+   - Checklist applicazione patch core/derived:
+     - [ ] Confermare riferimenti commit/patchset e snapshot disponibili.
+     - [ ] Applicare patch su `data/core/` e `data/derived/` seguendo l'ordine dei diff dichiarato.
+     - [ ] Rieseguire smoke locale delle patch (lint/schema veloce) prima di validazioni complete.
+     - [ ] Aggiornare changelog utilizzando il template sotto.
+     - [ ] Registrare comandi di rollback rapidi testati a secco.
+   - Template changelog (linkabile):
+     - Titolo: `Changelog 03A – core/derived`
+     - Campi: **Scope**, **Patchset applicato (commit/PR)**, **Data/Owner**, **Validator eseguiti** (con link ai log), **Rollback rapido** (comandi e note), **Note aggiuntive**.
+   - Sezione comandi di rollback rapidi (da mantenere aggiornata con esempio eseguibile):
+     - `git checkout <snapshot_pre_03A> -- data/core/ data/derived/`
+     - `git revert <commit_patch_03A>` (se applicato come commit singolo)
+     - Ripristino log: `cp reports/temp/patch-03A-core-derived/*.log logs/`
+   - Punto di controllo post-patch: rieseguire i validator 02A (`validate_datasets.py --schemas-only`, `trait_audit --check`, `trait_style_check`), allegare gli output aggiornati in `logs/` e ottenere firma Master DD per il pass verde.
 4. **Pulizia incoming 03B con redirect** (owner: archivist + asset-prep)
    - Ripulire/archiviare incoming dopo backup; verificare redirect/link e rieseguire validator 02A in smoke.
    - Chiudere il freeze registrando approvazione Master DD nel log attività.
