@@ -22,14 +22,26 @@
       }
     }
   ],
-  "sinergie": [],
+  "sinergie": [
+    "coda_balanciere",
+    "locomozione_miriapode_ibrida",
+    "flusso_ameboide_controllato"
+  ],
   "sinergie_pi": {
-    "co_occorrenze": [],
-    "combo_totale": 0,
-    "forme": [],
+    "co_occorrenze": [
+      "starter_bioma",
+      "sigillo_forma"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "ESFP",
+      "ISTP"
+    ],
     "tabelle_random": []
   },
-  "slot": [],
+  "slot": [
+    "C"
+  ],
   "slot_profile": {
     "complementare": "locomotorio",
     "core": "riproduttivo"
@@ -41,9 +53,25 @@
     "scout",
     "support"
   ],
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "marilith-vault",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
+    }
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false,
+    "has_species_link": true,
     "has_usage_tags": true,
     "has_data_origin": true
   },

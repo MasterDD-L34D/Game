@@ -22,14 +22,30 @@
       }
     }
   ],
-  "sinergie": [],
+  "sinergie": [
+    "focus_frazionato",
+    "empatia_coordinativa",
+    "cervello_a_bassa_latenza",
+    "tattiche_di_branco",
+    "campo_di_interferenza_acustica"
+  ],
   "sinergie_pi": {
-    "co_occorrenze": [],
-    "combo_totale": 0,
-    "forme": [],
+    "co_occorrenze": [
+      "cap_pt",
+      "starter_bioma",
+      "job_ability:invoker/sincronia"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "INFJ",
+      "INTJ"
+    ],
     "tabelle_random": []
   },
-  "slot": [],
+  "slot": [
+    "B",
+    "C"
+  ],
   "slot_profile": {
     "complementare": "psichico",
     "core": "escretorio"
@@ -41,9 +57,25 @@
     "controller",
     "sustain"
   ],
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "banshee-risonante",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "synergy"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
+    }
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false,
+    "has_species_link": true,
     "has_usage_tags": true,
     "has_data_origin": true
   },

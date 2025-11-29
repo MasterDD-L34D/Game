@@ -19,16 +19,26 @@
       }
     }
   ],
-  "sinergie": [],
+  "sinergie": [
+    "antenne_microonde_cavernose",
+    "biofilm_glow",
+    "camere_mirage",
+    "colonne_vibromagnetiche",
+    "membrane_captura_rugiada",
+    "ghiaccio_piezoelettrico"
+  ],
   "sinergie_pi": {
     "co_occorrenze": [
       "PE",
       "cap_pt",
-      "starter_bioma"
+      "starter_bioma",
+      "guardia_situazionale"
     ],
-    "combo_totale": 1,
+    "combo_totale": 3,
     "forme": [
-      "ENFP"
+      "ENFP",
+      "ESTP",
+      "ISTP"
     ],
     "tabelle_random": []
   },
@@ -48,9 +58,25 @@
     "support"
   ],
   "data_origin": "controllo_psionico",
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 1
+    }
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false,
+    "has_species_link": true,
     "has_usage_tags": true,
     "has_data_origin": true
   },

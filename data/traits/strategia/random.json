@@ -19,16 +19,26 @@
       }
     }
   ],
-  "sinergie": [],
+  "sinergie": [
+    "pianificatore",
+    "focus_frazionato",
+    "tattiche_di_branco",
+    "camere_mirage",
+    "biofilm_glow",
+    "colonne_vibromagnetiche"
+  ],
   "sinergie_pi": {
     "co_occorrenze": [
       "cap_pt",
       "guardia_situazionale",
-      "job_ability:random"
+      "job_ability:random",
+      "starter_bioma"
     ],
-    "combo_totale": 2,
+    "combo_totale": 3,
     "forme": [
-      "NEUTRA"
+      "ENFP",
+      "ENTP",
+      "ISTP"
     ],
     "tabelle_random": []
   },
@@ -51,6 +61,20 @@
       ],
       "species_id": "sentinella-radice",
       "weight": 1
+    },
+    {
+      "roles": [
+        "synergy"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "orbital-ascendant",
+      "weight": 2
     }
   ],
   "spinta_selettiva": "i18n:traits.random.spinta_selettiva",

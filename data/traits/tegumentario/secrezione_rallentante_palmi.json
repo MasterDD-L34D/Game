@@ -23,14 +23,27 @@
       }
     }
   ],
-  "sinergie": [],
+  "sinergie": [
+    "ciste_riduttive",
+    "biofilm_glow",
+    "membrana_plastica_continua",
+    "lamelle_shear"
+  ],
   "sinergie_pi": {
-    "co_occorrenze": [],
-    "combo_totale": 0,
-    "forme": [],
+    "co_occorrenze": [
+      "guardia_situazionale",
+      "starter_bioma"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "ISFJ",
+      "ISTJ"
+    ],
     "tabelle_random": []
   },
-  "slot": [],
+  "slot": [
+    "B"
+  ],
   "slot_profile": {
     "complementare": "difensivo",
     "core": "tegumentario"
@@ -41,9 +54,25 @@
   "usage_tags": [
     "tank"
   ],
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "laguna-bioreattiva-trait-keeper",
+      "weight": 2
+    }
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false,
+    "has_species_link": true,
     "has_usage_tags": true,
     "has_data_origin": true
   },

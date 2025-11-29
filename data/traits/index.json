@@ -5259,7 +5259,7 @@
     },
     "cuticole_cerose": {
       "completion_flags": {
-        "has_biome": false,
+        "has_biome": true,
         "has_data_origin": true,
         "has_species_link": true,
         "has_usage_tags": true
@@ -7184,15 +7184,22 @@
       "label": "Ghiandola Caustica",
       "mutazione_indotta": "Sintesi rapida di composti caustici nei moduli d'attacco.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "enzimi_chelanti",
+        "respiro_a_scoppio",
+        "campo_di_interferenza_acustica",
+        "sistemi_chimio_sonici"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
-          "guardia_situazionale"
+          "guardia_situazionale",
+          "sigillo_forma"
         ],
-        "combo_totale": 1,
+        "combo_totale": 2,
         "forme": [
-          "ISTP"
+          "ISTP",
+          "ESTP"
         ],
         "tabelle_random": []
       },
@@ -7206,16 +7213,16 @@
       "species_affinity": [
         {
           "roles": [
-            "optional"
+            "core"
           ],
-          "species_id": "blight-micotico",
-          "weight": 1
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "weight": 3
         },
         {
           "roles": [
             "optional"
           ],
-          "species_id": "slag-veil-ambusher",
+          "species_id": "sentinella-radice",
           "weight": 1
         }
       ],
@@ -9775,14 +9782,26 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "coda_balanciere",
+        "locomozione_miriapode_ibrida",
+        "flusso_ameboide_controllato"
+      ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
+        "co_occorrenze": [
+          "starter_bioma",
+          "sigillo_forma"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "ESFP",
+          "ISTP"
+        ],
         "tabelle_random": []
       },
-      "slot": [],
+      "slot": [
+        "C"
+      ],
       "slot_profile": {
         "complementare": "locomotorio",
         "core": "riproduttivo"
@@ -9790,41 +9809,17 @@
       "species_affinity": [
         {
           "roles": [
-            "core",
-            "optional"
+            "core"
           ],
-          "species_id": "magnet-fathom-surveyor",
-          "weight": 4
-        },
-        {
-          "roles": [
-            "core",
-            "optional"
-          ],
-          "species_id": "orbital-ascendant",
-          "weight": 4
-        },
-        {
-          "roles": [
-            "core",
-            "optional"
-          ],
-          "species_id": "sand-burrower",
-          "weight": 4
+          "species_id": "marilith-vault",
+          "weight": 3
         },
         {
           "roles": [
             "optional"
           ],
-          "species_id": "caverna-risonante-trait-keeper",
-          "weight": 1
-        },
-        {
-          "roles": [
-            "optional"
-          ],
-          "species_id": "rust-scavenger",
-          "weight": 1
+          "species_id": "psionic-canopy-scout",
+          "weight": 2
         }
       ],
       "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
@@ -9905,8 +9900,8 @@
       "completion_flags": {
         "has_biome": false,
         "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
+        "has_species_link": true,
+        "has_usage_tags": true
       },
       "conflitti": [],
       "data_origin": "pathfinder_dataset",
@@ -9915,11 +9910,51 @@
       "id": "occhi_cristallo_modulare",
       "label": "Occhi di Cristallo Modulare",
       "mutazione_indotta": "L'organo visivo si fraziona in lenti di cristallo sostituibili che modulano spettro e messa a fuoco in tempo reale.",
-      "sinergie": [],
-      "slot": [],
+      "sinergie": [
+        "occhi_cinetici",
+        "visione_multi_spettrale_amplificata",
+        "echi_risonanti",
+        "coda_balanciere",
+        "midollo_antivibrazione"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "sigillo_forma",
+          "starter_bioma"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "INTP",
+          "ISTP",
+          "ISTJ"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "B"
+      ],
       "spinta_selettiva": "Garantire riconoscimento rapido di minacce e risorse in scenari multibioma mantenendo resilienza a bagliori o accecamenti mirati.",
       "tier": "T2",
-      "usage_tags": [],
+      "usage_tags": [
+        "scout"
+      ],
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "orbital-ascendant",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "psionic-canopy-scout",
+          "weight": 2
+        }
+      ],
       "uso_funzione": "Amplifica la raccolta dati a lunga distanza e consente di passare rapidamente da zoom tattici a panoramiche ambientali senza perdita di dettaglio."
     },
     "olfatto_risonanza_magnetica": {
@@ -10074,16 +10109,26 @@
       "label": "Pathfinder",
       "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_microonde_cavernose",
+        "biofilm_glow",
+        "camere_mirage",
+        "colonne_vibromagnetiche",
+        "membrane_captura_rugiada",
+        "ghiaccio_piezoelettrico"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
           "cap_pt",
-          "starter_bioma"
+          "starter_bioma",
+          "guardia_situazionale"
         ],
-        "combo_totale": 1,
+        "combo_totale": 3,
         "forme": [
-          "ENFP"
+          "ENFP",
+          "ESTP",
+          "ISTP"
         ],
         "tabelle_random": []
       },
@@ -10095,6 +10140,13 @@
         "core": "strategia"
       },
       "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "psionic-canopy-scout",
+          "weight": 3
+        },
         {
           "roles": [
             "optional"
@@ -10318,16 +10370,26 @@
       "label": "Trait Random",
       "mutazione_indotta": "Selezione casuale da pool controllata per esperimenti di build.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "pianificatore",
+        "focus_frazionato",
+        "tattiche_di_branco",
+        "camere_mirage",
+        "biofilm_glow",
+        "colonne_vibromagnetiche"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "cap_pt",
           "guardia_situazionale",
-          "job_ability:random"
+          "job_ability:random",
+          "starter_bioma"
         ],
-        "combo_totale": 2,
+        "combo_totale": 3,
         "forme": [
-          "NEUTRA"
+          "ENFP",
+          "ENTP",
+          "ISTP"
         ],
         "tabelle_random": []
       },
@@ -10346,6 +10408,20 @@
           ],
           "species_id": "sentinella-radice",
           "weight": 1
+        },
+        {
+          "roles": [
+            "synergy"
+          ],
+          "species_id": "psionic-canopy-scout",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "orbital-ascendant",
+          "weight": 2
         }
       ],
       "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
@@ -11010,14 +11086,27 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "ciste_riduttive",
+        "biofilm_glow",
+        "membrana_plastica_continua",
+        "lamelle_shear"
+      ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
+        "co_occorrenze": [
+          "guardia_situazionale",
+          "starter_bioma"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "ISFJ",
+          "ISTJ"
+        ],
         "tabelle_random": []
       },
-      "slot": [],
+      "slot": [
+        "B"
+      ],
       "slot_profile": {
         "complementare": "difensivo",
         "core": "tegumentario"
@@ -11025,18 +11114,17 @@
       "species_affinity": [
         {
           "roles": [
-            "core",
-            "optional"
+            "core"
           ],
-          "species_id": "ferrocolonia-magnetotattica",
-          "weight": 4
+          "species_id": "sentinella-radice",
+          "weight": 3
         },
         {
           "roles": [
             "optional"
           ],
-          "species_id": "caverna-risonante-trait-keeper",
-          "weight": 1
+          "species_id": "laguna-bioreattiva-trait-keeper",
+          "weight": 2
         }
       ],
       "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
@@ -11302,14 +11390,30 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "focus_frazionato",
+        "empatia_coordinativa",
+        "cervello_a_bassa_latenza",
+        "tattiche_di_branco",
+        "campo_di_interferenza_acustica"
+      ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
+        "co_occorrenze": [
+          "cap_pt",
+          "starter_bioma",
+          "job_ability:invoker/sincronia"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "INFJ",
+          "INTJ"
+        ],
         "tabelle_random": []
       },
-      "slot": [],
+      "slot": [
+        "B",
+        "C"
+      ],
       "slot_profile": {
         "complementare": "psichico",
         "core": "escretorio"
@@ -11317,32 +11421,17 @@
       "species_affinity": [
         {
           "roles": [
-            "core",
-            "optional"
+            "core"
           ],
-          "species_id": "nano-rust-bloom",
-          "weight": 4
+          "species_id": "banshee-risonante",
+          "weight": 3
         },
         {
           "roles": [
-            "optional"
+            "synergy"
           ],
-          "species_id": "blight-micotico",
-          "weight": 1
-        },
-        {
-          "roles": [
-            "optional"
-          ],
-          "species_id": "caverna-risonante-trait-keeper",
-          "weight": 1
-        },
-        {
-          "roles": [
-            "optional"
-          ],
-          "species_id": "thaw-rot",
-          "weight": 1
+          "species_id": "psionic-canopy-scout",
+          "weight": 2
         }
       ],
       "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
@@ -12227,7 +12316,7 @@
       "completion_flags": {
         "has_biome": true,
         "has_data_origin": true,
-        "has_species_link": false,
+        "has_species_link": true,
         "has_usage_tags": true
       },
       "data_origin": "coverage_q4_2025",
@@ -12246,7 +12335,7 @@
           "fonte": "envo_mapping",
           "meta": {
             "tier": "T3",
-            "notes": ""
+            "notes": "Le ali richiedono correnti asciutte e aperture per modulare fasci sonori a lungo raggio."
           }
         }
       ],
@@ -12256,7 +12345,10 @@
         "cervello_a_bassa_latenza",
         "occhi_cinetici"
       ],
-      "slot": [],
+      "slot": [
+        "A",
+        "C"
+      ],
       "slot_profile": {
         "core": "locomotivo",
         "complementare": "sensoriale"
@@ -12289,7 +12381,23 @@
         "envo_terms": [
           "http://purl.obolibrary.org/obo/ENVO_01000178"
         ]
-      }
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "psionic-canopy-scout",
+          "weight": 2
+        }
+      ]
     },
     "articolazioni_a_leva_idraulica": {
       "completion_flags": {
