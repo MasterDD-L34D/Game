@@ -18,7 +18,7 @@
   "metrics": [
     {
       "name": "sens_magnetica",
-      "value": 0.000001,
+      "value": 1e-06,
       "unit": "T"
     }
   ],
@@ -40,7 +40,7 @@
       "fonte": "envo_mapping",
       "meta": {
         "tier": "T3",
-        "notes": ""
+        "notes": "Il mantello polarizzato disperde calore e cariche in climi terrestri secchi o tempeste di polvere."
       }
     }
   ],
