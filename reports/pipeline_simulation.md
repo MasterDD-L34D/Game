@@ -26,10 +26,10 @@ Questa sintesi documenta la sequenza richiesta per PIPELINE_SIMULATOR, la varian
    - Conferma superamento gate di uscita 03A e approvazione Master DD.  
    - Rischio: basso-medio.
 
-5. **03B — cleanup + redirect**  
-   - Pulizia branch `patch/03B-incoming-cleanup`, verifica redirect e backup incoming con istruzioni di ripristino.  
-   - Esegui smoke 02A post-merge in report-only.  
-   - Dipendenze: transizione ok, backup/redirect preparati.  
+5. **03B — cleanup + redirect**
+   - Pulizia branch `patch/03B-incoming-cleanup` con checklist: backup incoming aggiornato, redirect/link verificati, istruzioni di ripristino pronte.
+   - Esegui smoke 02A post-merge in report-only e allega il report di redirect aggiornato.
+   - Dipendenze: transizione ok, backup/redirect preparati.
    - Rischio: medio (disallineamento redirect).
 
 6. **Sblocco freeze**  
@@ -59,7 +59,7 @@ Esegui i punti nell'ordine indicato, usando in parallelo solo le preparazioni de
 3. **Freeze 3→4 ufficiale** – Attiva backup, registra il freeze con log completo e collega i preparativi (snapshot/redirect plan). Richiedi e registra approvazione Master DD.
 4. **Patch 03A + validazione** – Applica patch minime 03A con changelog e pacchetto rollback legati allo snapshot; rerun 02A in report-only; invia richiesta di approvazione Master DD per il merge.
 5. **Transizione verso 03B** – Gate di uscita 03A superati e approvati: conferma backup/redirect pronti, pianifica lo switch e logga il checkpoint.
-6. **03B cleanup e redirect** – Su `patch/03B-incoming-cleanup`, esegui cleanup/redirect, aggiorna backup incoming con istruzioni di ripristino, quindi smoke 02A post-merge in report-only con log dell'esito.
+6. **03B cleanup e redirect** – Su `patch/03B-incoming-cleanup`, esegui cleanup/redirect con checklist (backup incoming aggiornato, redirect/link verificati, istruzioni di ripristino), quindi smoke 02A post-merge in report-only con log dell'esito e report di redirect allegato.
 7. **Sblocco e riavvio** – Sblocca il freeze dopo smoke 02A positivo e approvazione finale Master DD; aggiorna README solo dopo il log; attiva il trigger di riavvio (vedi sezione dedicata) e riallinea snapshot/backup per il ciclo successivo.
 
 ## PIPELINE_EXECUTOR (batch & gate)
@@ -68,7 +68,7 @@ Esegui i punti nell'ordine indicato, usando in parallelo solo le preparazioni de
 - **Batch 4–5**: checkpoint transizione verso 03B (backup/redirect pronti, gate 03A confermati); esegui cleanup su `patch/03B-incoming-cleanup`, verifica redirect e backup incoming, quindi smoke 02A post-merge in report-only con log esito.
 - **Step 6**: chiudi e sblocca il freeze solo dopo smoke 02A positivo e approvazione Master DD registrata; aggiorna README solo dopo il log (ID/owner/branch/file/rischi/ticket/comandi), poi trigger del ciclo successivo.
 
-**Quality/Safety**: log obbligatorio prima/dopo ogni micro-step; validator sempre in report-only finché non arriva il via libera; documentare whitelist temporanee 02A; associare patch 03A a snapshot core/derived e 03B a backup incoming/redirect; evitare compressione dei controlli.
+**Quality/Safety**: log obbligatorio prima/dopo ogni micro-step; validator sempre in report-only finché non arriva il via libera; documentare whitelist temporanee 02A; associare patch 03A a snapshot core/derived e 03B a backup incoming/redirect; evitare compressione dei controlli; includere nel log il report di redirect 03B e il log di chiusura freeze con approvazione Master DD.
 
 ## Sequenza operativa pronta all’uso (come procedere)
 Usa questa checklist per eseguire subito i passi consigliati. Tutti i punti prevedono log con ID/owner/branch/file/rischi/ticket/comandi.
@@ -77,7 +77,7 @@ Usa questa checklist per eseguire subito i passi consigliati. Tutti i punti prev
 2) **Apri o riconferma il freeze 3→4**: registra approvazione Master DD, attiva snapshot/backup e archivia il log di freeze.
 3) **Applica le patch 03A minime** con changelog + rollback legati allo snapshot; riesegui 02A in report-only; invia richiesta di approvazione Master DD per il merge.
 4) **Esegui il checkpoint di transizione**: verifica che backup/redirect siano pronti, conferma il superamento dei gate di uscita 03A e documenta il piano di switch.
-5) **Completa 03B** su `patch/03B-incoming-cleanup`: cleanup + redirect verificati, backup incoming aggiornato con istruzioni di ripristino, quindi smoke 02A post-merge in report-only con log dell’esito.
+5) **Completa 03B** su `patch/03B-incoming-cleanup`: usa la checklist (backup incoming aggiornato, redirect/link verificati, istruzioni di ripristino) e chiudi con smoke 02A post-merge in report-only, allegando il report di redirect e log dell’esito.
 6) **Sblocca il freeze** solo dopo smoke 02A positivo e approvazione Master DD registrata; aggiorna README dopo il log e attiva il trigger di riavvio.
 7) **Riavvia la simulazione** sull’intera sequenza (02A→freeze→03A→transizione→03B→sblocco) aggiornando branch/artefatti se le baseline sono cambiate. Allinea la whitelist 02A, ricollega patch 03A allo snapshot aggiornato e 03B al backup/redirect rivisti.
 
@@ -116,7 +116,7 @@ Usa questa mini-checklist per avviare subito il ciclo ottimizzato senza perdere 
 2. **Preparazioni in parallelo** – In parallelo al punto 1, redigi il redirect plan e predisponi snapshot/backup in staging (non attivarli); raccogli approvazioni Master DD in bozza. Nessun merge né attivazione in questa fase.
 3. **Freeze 3→4 ufficiale** – Attiva i backup, chiudi il redirect plan, registra approvazione Master DD e il log completo del freeze (ID/owner/branch/file/rischi/ticket/comandi).
 4. **03A + rerun 02A** – Applica patch minime 03A con changelog e pacchetto rollback legati allo snapshot, riesegui 02A in report-only e invia la richiesta formale di approvazione Master DD per il merge.
-5. **Transizione e 03B** – Dopo l’ok su 03A, logga il checkpoint di transizione (backup/redirect pronti), quindi esegui cleanup/redirect su `patch/03B-incoming-cleanup` con backup incoming aggiornato e smoke 02A post-merge loggato.
+5. **Transizione e 03B** – Dopo l’ok su 03A, logga il checkpoint di transizione (backup/redirect pronti), quindi esegui cleanup/redirect su `patch/03B-incoming-cleanup` seguendo la checklist (backup incoming aggiornato, redirect/link verificati, istruzioni di ripristino) e chiudi con smoke 02A post-merge loggato e report di redirect allegato.
 6. **Sblocco + trigger** – Sblocca il freeze solo con smoke 02A positivo e approvazione finale; aggiorna README dopo il log e riavvia la sequenza con i nuovi snapshot/backup.
 
 ### Template di log consigliato (per ogni step)
@@ -127,6 +127,11 @@ Usa questa mini-checklist per avviare subito il ciclo ottimizzato senza perdere 
 - **Snapshot/backup associati** (ID, percorso, timestamp)
 - **Whitelist temporanee 02A** (se applicate)
 - **Esito e follow-up** (incluso trigger di riavvio, se rilevante)
+- **Report allegati**: report redirect 03B (esito link/redirect e istruzioni di ripristino) e log di chiusura freeze con approvazione Master DD.
+
+## Owners raccomandati e formato report archiviati in `logs/`
+- **Owners**: archivist (responsabile primaria) per checklist, log e report; asset-prep come co-owner per la verifica di redirect/link.
+- **Formato report**: archivia in `logs/` file Markdown nominati `LOG_ID-YYYYMMDD-03B-redirect.md` con sezioni `Contesto`, `Checklist 03B` (backup incoming, redirect/link, istruzioni ripristino), `Smoke 02A` (esito e log collegati), `Approvazioni` (inclusa chiusura freeze con Master DD) e `Follow-up`.
 
 ## Stato rispetto al piano iniziale
 Questa sezione riassume dove siamo e il prossimo passo da eseguire, in coerenza con le ottimizzazioni concordate:
@@ -176,7 +181,7 @@ Usa questa checklist per **avviare ora** il nuovo ciclo dopo il pacchetto di aud
 3. **Preparazioni in parallelo** – Mentre gira 02A, finalizza il redirect plan, valida gli snapshot/backup in staging (senza attivarli) e raccogli le approvazioni Master DD in bozza.
 4. **Freeze ufficiale** – Attiva i backup, chiudi il redirect plan e registra il log di freeze con approvazione Master DD.
 5. **03A + rerun 02A** – Applica le patch minime 03A con changelog/rollback legati allo snapshot, riesegui 02A in report-only e invia la richiesta di approvazione merge.
-6. **Transizione e 03B** – Esegui il checkpoint di transizione, poi cleanup/redirect su `patch/03B-incoming-cleanup`; aggiorna il backup incoming e logga lo smoke 02A post-merge.
+6. **Transizione e 03B** – Esegui il checkpoint di transizione, poi cleanup/redirect su `patch/03B-incoming-cleanup` seguendo la checklist (backup incoming aggiornato, redirect/link verificati, istruzioni di ripristino); aggiorna il backup incoming e logga lo smoke 02A post-merge con il report di redirect allegato.
 7. **Sblocco e trigger** – Chiudi il freeze dopo smoke 02A positivo e approvazione finale; aggiorna il README dopo il log e attiva il trigger di riavvio con i nuovi ID artefatto.
 8. **Audit rapido** – Aggiorna il pacchetto di audit con log/artefatti del nuovo giro e archivialo prima di passare al ciclo successivo.
 
