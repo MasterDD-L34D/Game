@@ -1,0 +1,31 @@
+{
+  "id": "impulsi_bioluminescenti",
+  "label": "i18n:traits.impulsi_bioluminescenti.label",
+  "data_origin": "frattura_abissale_sinaptica",
+  "famiglia_tipologia": "Offensivo/Illuminazione",
+  "fattore_mantenimento_energetico": "i18n:traits.impulsi_bioluminescenti.fattore_mantenimento_energetico",
+  "tier": "T1",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.impulsi_bioluminescenti.mutazione_indotta",
+  "uso_funzione": "i18n:traits.impulsi_bioluminescenti.uso_funzione",
+  "spinta_selettiva": "i18n:traits.impulsi_bioluminescenti.spinta_selettiva",
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "frattura_abissale_sinaptica"
+      },
+      "fonte": "frattura_abissale_sinaptica",
+      "meta": {
+        "tier": "T1"
+      }
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_data_origin": true,
+    "has_species_link": true,
+    "has_usage_tags": true
+  }
+}

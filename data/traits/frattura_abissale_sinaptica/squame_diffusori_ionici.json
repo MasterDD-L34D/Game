@@ -1,0 +1,33 @@
+{
+  "id": "squame_diffusori_ionici",
+  "label": "i18n:traits.squame_diffusori_ionici.label",
+  "data_origin": "frattura_abissale_sinaptica",
+  "famiglia_tipologia": "Difesa/Elettrico",
+  "fattore_mantenimento_energetico": "i18n:traits.squame_diffusori_ionici.fattore_mantenimento_energetico",
+  "tier": "T1",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [
+    "overcharge_cronico"
+  ],
+  "mutazione_indotta": "i18n:traits.squame_diffusori_ionici.mutazione_indotta",
+  "uso_funzione": "i18n:traits.squame_diffusori_ionici.uso_funzione",
+  "spinta_selettiva": "i18n:traits.squame_diffusori_ionici.spinta_selettiva",
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "frattura_abissale_sinaptica"
+      },
+      "fonte": "frattura_abissale_sinaptica",
+      "meta": {
+        "tier": "T1"
+      }
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_data_origin": true,
+    "has_species_link": false,
+    "has_usage_tags": true
+  }
+}

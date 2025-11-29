@@ -1,0 +1,31 @@
+{
+  "id": "canto_risonante",
+  "label": "i18n:traits.canto_risonante.label",
+  "data_origin": "frattura_abissale_sinaptica",
+  "famiglia_tipologia": "Temporaneo/Risonanza",
+  "fattore_mantenimento_energetico": "i18n:traits.canto_risonante.fattore_mantenimento_energetico",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.canto_risonante.mutazione_indotta",
+  "uso_funzione": "i18n:traits.canto_risonante.uso_funzione",
+  "spinta_selettiva": "i18n:traits.canto_risonante.spinta_selettiva",
+  "requisiti_ambientali": [
+    {
+      "condizioni": {
+        "biome_class": "frattura_abissale_sinaptica"
+      },
+      "fonte": "frattura_abissale_sinaptica",
+      "meta": {
+        "tier": "T3"
+      }
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_data_origin": true,
+    "has_species_link": true,
+    "has_usage_tags": true
+  }
+}
