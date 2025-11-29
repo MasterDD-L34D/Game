@@ -4,8 +4,30 @@
   "famiglia_tipologia": "Sensoriale/Visivo",
   "fattore_mantenimento_energetico": "Moderato (Attivo)",
   "tier": "T2",
-  "slot": [],
-  "sinergie": [],
+  "slot": [
+    "A",
+    "B"
+  ],
+  "sinergie": [
+    "occhi_cinetici",
+    "visione_multi_spettrale_amplificata",
+    "echi_risonanti",
+    "coda_balanciere",
+    "midollo_antivibrazione"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "sigillo_forma",
+      "starter_bioma"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "INTP",
+      "ISTP",
+      "ISTJ"
+    ],
+    "tabelle_random": []
+  },
   "conflitti": [],
   "data_origin": "pathfinder_dataset",
   "mutazione_indotta": "i18n:traits.occhi_cristallo_modulare.mutazione_indotta",
@@ -13,7 +35,7 @@
   "spinta_selettiva": "i18n:traits.occhi_cristallo_modulare.spinta_selettiva",
   "completion_flags": {
     "has_biome": false,
-    "has_species_link": false,
+    "has_species_link": true,
     "has_data_origin": true
   },
   "slot_profile": {
@@ -22,6 +44,22 @@
   },
   "usage_tags": [
     "scout"
+  ],
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "orbital-ascendant",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
+    }
   ],
   "debolezza": "i18n:traits.occhi_cristallo_modulare.debolezza"
 }

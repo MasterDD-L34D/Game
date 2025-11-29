@@ -6,7 +6,10 @@
   "famiglia_tipologia": "Locomotivo/Aereo",
   "fattore_mantenimento_energetico": "Medio (risonanza ad ampio spettro)",
   "tier": "T3",
-  "slot": [],
+  "slot": [
+    "A",
+    "C"
+  ],
   "sinergie": [
     "cannone_sonico_a_raggio",
     "campo_di_interferenza_acustica",
@@ -42,7 +45,7 @@
       "fonte": "envo_mapping",
       "meta": {
         "tier": "T3",
-        "notes": ""
+        "notes": "Le ali richiedono correnti asciutte e aperture per modulare fasci sonori a lungo raggio."
       }
     }
   ],
@@ -60,7 +63,22 @@
     "core": "locomotivo",
     "complementare": "sensoriale"
   },
-  "species_affinity": [],
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "banshee-risonante",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
+    }
+  ],
   "version": "1.0.0",
   "versioning": {
     "created": "2025-11-04",

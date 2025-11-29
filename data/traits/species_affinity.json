@@ -56,6 +56,22 @@
       "weight": 1
     }
   ],
+  "ali_fono_risonanti": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "banshee-risonante",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
+    }
+  ],
   "ali_solari_fotoni": [
     {
       "roles": [
@@ -1626,16 +1642,16 @@
   "ghiandola_caustica": [
     {
       "roles": [
-        "optional"
+        "core"
       ],
-      "species_id": "blight-micotico",
-      "weight": 1
+      "species_id": "laguna-bioreattiva-trait-keeper",
+      "weight": 3
     },
     {
       "roles": [
         "optional"
       ],
-      "species_id": "slag-veil-ambusher",
+      "species_id": "sentinella-radice",
       "weight": 1
     }
   ],
@@ -2266,41 +2282,17 @@
   "nucleo_ovomotore_rotante": [
     {
       "roles": [
-        "core",
-        "optional"
+        "core"
       ],
-      "species_id": "magnet-fathom-surveyor",
-      "weight": 4
-    },
-    {
-      "roles": [
-        "core",
-        "optional"
-      ],
-      "species_id": "orbital-ascendant",
-      "weight": 4
-    },
-    {
-      "roles": [
-        "core",
-        "optional"
-      ],
-      "species_id": "sand-burrower",
-      "weight": 4
+      "species_id": "marilith-vault",
+      "weight": 3
     },
     {
       "roles": [
         "optional"
       ],
-      "species_id": "caverna-risonante-trait-keeper",
-      "weight": 1
-    },
-    {
-      "roles": [
-        "optional"
-      ],
-      "species_id": "rust-scavenger",
-      "weight": 1
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
     }
   ],
   "occhi_infrarosso_composti": [
@@ -2318,6 +2310,22 @@
       ],
       "species_id": "caverna-risonante-trait-keeper",
       "weight": 1
+    }
+  ],
+  "occhi_cristallo_modulare": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "orbital-ascendant",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
     }
   ],
   "olfatto_risonanza_magnetica": [
@@ -2487,6 +2495,22 @@
         "optional"
       ],
       "species_id": "global-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "pathfinder": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
       "weight": 1
     }
   ],
@@ -2710,6 +2734,29 @@
       ],
       "species_id": "treant-portale",
       "weight": 3
+    }
+  ],
+  "random": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "synergy"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "orbital-ascendant",
+      "weight": 2
     }
   ],
   "respiro_a_scoppio": [
@@ -3040,18 +3087,17 @@
   "secrezione_rallentante_palmi": [
     {
       "roles": [
-        "core",
-        "optional"
+        "core"
       ],
-      "species_id": "ferrocolonia-magnetotattica",
-      "weight": 4
+      "species_id": "sentinella-radice",
+      "weight": 3
     },
     {
       "roles": [
         "optional"
       ],
-      "species_id": "caverna-risonante-trait-keeper",
-      "weight": 1
+      "species_id": "laguna-bioreattiva-trait-keeper",
+      "weight": 2
     }
   ],
   "sensori_chimici": [
@@ -3129,32 +3175,17 @@
   "spore_psichiche_silenziate": [
     {
       "roles": [
-        "core",
-        "optional"
+        "core"
       ],
-      "species_id": "nano-rust-bloom",
-      "weight": 4
+      "species_id": "banshee-risonante",
+      "weight": 3
     },
     {
       "roles": [
-        "optional"
+        "synergy"
       ],
-      "species_id": "blight-micotico",
-      "weight": 1
-    },
-    {
-      "roles": [
-        "optional"
-      ],
-      "species_id": "caverna-risonante-trait-keeper",
-      "weight": 1
-    },
-    {
-      "roles": [
-        "optional"
-      ],
-      "species_id": "thaw-rot",
-      "weight": 1
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
     }
   ],
   "squame_rifrangenti_deserto": [

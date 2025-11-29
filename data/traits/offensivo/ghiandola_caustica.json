@@ -19,15 +19,22 @@
       }
     }
   ],
-  "sinergie": [],
+  "sinergie": [
+    "enzimi_chelanti",
+    "respiro_a_scoppio",
+    "campo_di_interferenza_acustica",
+    "sistemi_chimio_sonici"
+  ],
   "sinergie_pi": {
     "co_occorrenze": [
       "PE",
-      "guardia_situazionale"
+      "guardia_situazionale",
+      "sigillo_forma"
     ],
-    "combo_totale": 1,
+    "combo_totale": 2,
     "forme": [
-      "ISTP"
+      "ISTP",
+      "ESTP"
     ],
     "tabelle_random": []
   },
@@ -38,6 +45,22 @@
     "complementare": "assalto",
     "core": "offensivo"
   },
+  "species_affinity": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "laguna-bioreattiva-trait-keeper",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 1
+    }
+  ],
   "spinta_selettiva": "i18n:traits.ghiandola_caustica.spinta_selettiva",
   "tier": "T1",
   "uso_funzione": "i18n:traits.ghiandola_caustica.uso_funzione",
@@ -46,7 +69,7 @@
   ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false,
+    "has_species_link": true,
     "has_usage_tags": true,
     "has_data_origin": true
   },
