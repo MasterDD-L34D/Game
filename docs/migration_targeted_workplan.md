@@ -72,6 +72,17 @@ Questo piano elenca le attività operative a "lavori mirati" per avviare subito 
    - Mantenere `validate-naming` consultivo finché non è stabile la matrice core/derived; poi proporre passaggio a enforcing con rollback plan.
    - Uscita: memo con stato gate CI e decisione su enforcement.
 
+   | Check CI        | Branch                       | Esito atteso | Run/Log CI                                               | Note                                 |
+   | --------------- | ---------------------------- | ------------ | -------------------------------------------------------- | ------------------------------------ |
+   | data-quality    | patch/01C-tooling-ci-catalog | Verde        | Vedi log in `logs/ci_patch-01C-tooling-ci-catalog.md`    | Tracking run 1–3 e link CI esterni.  |
+   | validate_traits | patch/01C-tooling-ci-catalog | Verde        | Vedi log in `logs/ci_patch-01C-tooling-ci-catalog.md`    | Run allineata ai dati core/derived.  |
+   | schema-validate | patch/01C-tooling-ci-catalog | Verde        | Vedi log in `logs/ci_patch-01C-tooling-ci-catalog.md`    | Run completa su catalogo CI tooling. |
+   | validate-naming | patch/01C-tooling-ci-catalog | Consultivo   | Documentato in `logs/ci_patch-01C-tooling-ci-catalog.md` | Enforcing solo dopo matrice stabile. |
+   - Nota enforcement `validate-naming`:
+     - Stato attuale: **consultivo** (mantenere fino a stabilizzazione matrice core/derived).
+     - Decisione finale: **[da compilare]**.
+     - Rollback plan: **[da compilare]** (includere comando/commit per disabilitare enforcement e ripristinare configurazione attuale).
+
 6. **Allineamento trait/biomi post-migrazione** (owner: trait-curator + balancer)
    - Applicare pipeline trait (conversione, coverage, locale sync) e migrazione v1→v2 secondo il piano operativo trait.
    - Eseguire QA finale (validator, link checker) e aggiornare documentazione/indici.
