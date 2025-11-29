@@ -1,3 +1,54 @@
+vc_adapt:
+  aggro_high:
+    add_control: 1
+    add_guardia: 1
+  cohesion_high:
+    add_knockback: 1
+  setup_high:
+    add_disarmers: 1
+  explore_high:
+    add_ambushers: 1
+  risk_high:
+    add_burst: 1
+    reduce_armor: 1
+mutations:
+  SG_max: 3
+  t0_table_d12:
+  - Adrenalina
+  - Fasici
+  - Spine
+  - Cromatofori
+  - Tendini
+  - EcoFlash
+  - SangueGelido
+  - Chelazione
+  - MicroDroni
+  - RisonanzaMentale
+  - ZanneSottili
+  - Immunoscossa
+  t1_table_d8:
+  - LamelleAcide
+  - Cartilagine
+  - SensiTermici
+  - FibreCorte
+  - GhiandolaFeroce
+  - OmbraRadente
+  - PlaccaCristallina
+  - EcoBranco
+frequencies:
+  trap_trigger:
+    t0: 0.6
+    t1: 0.2
+    none: 0.2
+  crit_event:
+    t0: 0.4
+    t1: 0.1
+    none: 0.5
+  rovine_planari:
+    t0: 0.25
+    t1: 0.55
+    none: 0.2
+
 biomes:
   abisso_vulcanico:
     label: Abisso Vulcanico
@@ -666,53 +717,3 @@ biomes:
       - Stabilizzare i corridoi luminosi della Cresta Fotofase prima delle maree di spore.
       - Recuperare dati memetici nella Soglia Crepuscolare senza innescare eclissi sinaptiche.
       - Disinnescare il Canto dello Strappo nella Frattura Nera o accordarsi con il Leviatano Risonante.
-vc_adapt:
-  aggro_high:
-    add_control: 1
-    add_guardia: 1
-  cohesion_high:
-    add_knockback: 1
-  setup_high:
-    add_disarmers: 1
-  explore_high:
-    add_ambushers: 1
-  risk_high:
-    add_burst: 1
-    reduce_armor: 1
-mutations:
-  SG_max: 3
-  t0_table_d12:
-  - Adrenalina
-  - Fasici
-  - Spine
-  - Cromatofori
-  - Tendini
-  - EcoFlash
-  - SangueGelido
-  - Chelazione
-  - MicroDroni
-  - RisonanzaMentale
-  - ZanneSottili
-  - Immunoscossa
-  t1_table_d8:
-  - LamelleAcide
-  - Cartilagine
-  - SensiTermici
-  - FibreCorte
-  - GhiandolaFeroce
-  - OmbraRadente
-  - PlaccaCristallina
-  - EcoBranco
-frequencies:
-  trap_trigger:
-    t0: 0.6
-    t1: 0.2
-    none: 0.2
-  crit_event:
-    t0: 0.4
-    t1: 0.1
-    none: 0.5
-  rovine_planari:
-    t0: 0.25
-    t1: 0.55
-    none: 0.2
