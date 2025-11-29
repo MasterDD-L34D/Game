@@ -20,8 +20,13 @@ Stato: PIANO ESECUTIVO – sequenza operativa dal baseline 02A al rollout 03A/03
 
 2. **Aprire/riconfermare freeze fase 3→4**
    - Scope: blocco merge non urgenti su `core/**`, `derived/**`, `incoming/**`, `docs/incoming/**` durante 03A/03B.
-   - Prerequisiti: approvazione Master DD, snapshot core/derived + backup incoming etichettato.
-   - Deliverable: entry log con finestra freeze, percorso snapshot/backup e responsabili rollback.
+   - Prerequisiti: approvazione Master DD pre-freeze, snapshot core/derived + backup incoming etichettato.
+   - Procedura standard:
+     1. Registrare finestra freeze e owner (coordinator + archivist) in `logs/agent_activity.md` con timestamp UTC.
+     2. Allegare percorsi snapshot `data/core/**` e `data/derived/**`, branch `patch/03A-core-derived`, checksum e storage.
+     3. Allegare backup `incoming/**` e `docs/incoming/**` con manifest e branch `patch/03B-incoming-cleanup` associato.
+     4. Indicare responsabile rollback (coordinator) e verifica archivist sul ripristino.
+   - Deliverable: entry log con finestra freeze, percorsi snapshot/backup e responsabili rollback.
 
 3. **Esecuzione 03A – patch core/derived**
    - Branch: `patch/03A-core-derived`; owner coordinator con species/trait-curator + balancer.
@@ -39,7 +44,12 @@ Stato: PIANO ESECUTIVO – sequenza operativa dal baseline 02A al rollout 03A/03
 
 6. **Chiusura e sblocco freeze**
    - Condizioni: validator 02A (smoke) ok, redirect/link verificati, log completato.
-   - Aggiornare `logs/agent_activity.md` con via libera Master DD e stato freeze chiuso.
+   - Checklist di chiusura (dry-run rollback):
+     - Eseguire dry-run di rollback 03A su copia snapshot core/derived e loggare esito.
+     - Eseguire dry-run di ripristino backup incoming/redirect e loggare esito.
+     - Validare che i branch `patch/03A-core-derived` e `patch/03B-incoming-cleanup` siano puliti da change locali non loggati.
+   - Aggiornare `logs/agent_activity.md` con via libera Master DD e stato freeze chiuso, includendo timestamp e owner.
+   - Registrare l’approvazione finale di Master DD (firma) come gate di uscita del freeze fase 3→4.
 
 ## Checklist operative per ogni passo
 
