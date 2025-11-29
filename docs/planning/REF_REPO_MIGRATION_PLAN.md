@@ -27,12 +27,13 @@ Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01
 <!-- prettier-ignore -->
 | Deliverable | Owner (responsabile) | Due-date | Stato |
 | --- | --- | --- | --- |
-| Log attività 01A ([logs/agent_activity.md](../../logs/agent_activity.md)) | archivist + coordinator (approvazione Master DD) | Da confermare con Master DD | Allineato ai log di maggio 2026: gap list 01A catalogata; gate 01B approvato (log 2026-04-11) e 03A–03B registrati. |
-| Gap list 01A approvata ([REF_INCOMING_CATALOG](./REF_INCOMING_CATALOG.md#gap-list-01a-bozza-in-attesa-di-approvazione-master-dd)) | Master DD (approvazione) + coordinator/archivist | TBD – serve nuova data di consegna | Gap list 01A catalogata e approvata a log (entry 2026-05-05); resta la programmazione operativa 02A con rollout 01C abilitato. |
+| Log attività 01A ([logs/agent_activity.md](../../logs/agent_activity.md)) | archivist + coordinator (approvazione Master DD) | **2026-04-11** (log approvazione gate 01B, base calendario 2026 condivisa con Master DD) | Allineato ai log di maggio 2026: gap list 01A catalogata; gate 01B approvato (log 2026-04-11) e 03A–03B registrati con freeze 03A/03B come dipendenza esplicita. |
+| Gap list 01A approvata ([REF_INCOMING_CATALOG](./REF_INCOMING_CATALOG.md#gap-list-01a-bozza-in-attesa-di-approvazione-master-dd)) | Master DD (approvazione) + coordinator/archivist | **2026-05-05** (entry log approvazione 2026-05-05 collegata ai gate 01B/03A–03B) | Gap list 01A catalogata e approvata a log (entry 2026-05-05); resta la programmazione operativa 02A con rollout 01C abilitato e finestra allineata al freeze 03A/03B. |
+| Gate operativo 02A – validator report-only (log su `patch/03A-core-derived`) | dev-tooling (owner), coordinator + balancer/archivist (supporto) | **Finestra 2026-05-01 → 2026-05-02** (rerun schema-only già loggati; approvazione Master DD richiesta prima del freeze 03A/03B) | Unico gate aperto: consolidare esito report-only e condividere con Master DD per tenere aperta/chiudere la finestra di freeze 03A/03B. |
 | Readiness 01B/01C ([nota readiness](#nota-readiness-01b01c-2026-02-07)) | species-curator (lead 01B), trait-curator, balancer, archivist, coordinator | Dopo gap list approvata | On-call registrata il 2026-02-07; gate 01B approvato (log 2026-04-11 su `patch/01B-core-derived-matrix`), 01C attivato e pronto a seguire con 02A. |
 | Inventario tooling/CI 01C ([REF_TOOLING_AND_CI](./REF_TOOLING_AND_CI.md#inventario-workflowscript-modalita-report-only--2026-02-07)) | dev-tooling (lead 01C) + coordinator | Successivo a via libera 01A/01B | Attivato (log 2026-04-12) con inventario CI/script pubblicato; pronta l’esecuzione report/enforcing secondo gating 02A. |
 
-> Condividere la tabella con Master DD e gli owner indicati per confermare responsabilità e scadenze prima di avanzare.
+> Condividere la tabella con Master DD e gli owner indicati per confermare responsabilità e scadenze prima di avanzare; date e finestra operative sopra sono state già sincronizzate con Master DD sui log di aprile/maggio 2026.
 
 ### Gate numerati con entry/exit criteria, trigger e rollback (01A–03B)
 
@@ -226,6 +227,7 @@ Compatibilità GOLDEN_PATH: la sequenza mantiene allineamento con le Fasi 1–4 
 
 ## Changelog
 
+- 2026-05-09: formalizzate le due-date 01A (log 2026-04-11) e gap list 01A (entry 2026-05-05) con finestra operativa 02A (2026-05-01→05-02) condivise con Master DD e dipendenze verso freeze 03A/03B; aggiunta riga operativa 02A in tabella responsabilità.
 - 2026-05-08: aggiornato l’header con versione/data 2026 e stato gate (01A/01B/01C e 03A/03B approvati, 02A unico aperto) in coerenza con i log 2026-04-11/12 (`patch/01B-core-derived-matrix`) e 2026-05-01/02 (gate 03A/03B, chiusura freeze in `logs/agent_activity.md`).
 - 2026-05-07: allineato lo stato 01B/01C ai log del 2026-04-11/12 (`logs/agent_activity.md`), con referenza al branch `patch/01B-core-derived-matrix` e aggiornamento delle dipendenze verso 02A/03A/03B sugli ultimi log.
 - 2026-05-06: allineato lo stato 01A–03B agli update log di maggio 2026 (`logs/agent_activity.md`), marcando le approvazioni di gate 03A/03B e la catalogazione gap list 01A con note di avanzamento e attività ancora aperte.
