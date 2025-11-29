@@ -1,9 +1,33 @@
-# Patchset 03A – Changelog (report-only)
+# Changelog 03A – core/derived
 
 ## Riferimenti
 - Branch: `patch/03A-core-derived`
 - Baseline precedente: snapshot freeze 2025-11-25T2028Z (`reports/backups/2025-11-25T2028Z_masterdd_freeze/*` per core/derived/incoming).
 - Validator 02A rieseguiti in modalità report-only (schema-only, trait audit, trait style).
+
+## Aggiornamento 2025-11-29
+- **Snapshot pre-03A confermato**: manifest `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt` (core/derived/incoming) validato come riferimento di rollback.
+- **Patchset applicato**: stato corrente di `data/core/` e `data/derived/` allineato al pacchetto 03A già approvato (nessun nuovo delta rispetto al bundle sonoro).
+- **Smoke lint/schema**: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → **OK** (14 controlli, 0 avvisi pack) con log `logs/schema_only_2025-11-29.log`.
+- **Validator 02A post-smoke**:
+  - `python scripts/trait_audit.py --check` → **OK** (verifica schema saltata: modulo `jsonschema` assente; nessuna regressione). Log: `logs/trait_audit_2025-11-29.log`.
+  - `node scripts/trait_style_check.js --output-json logs/trait_style_2025-11-29.json --fail-on error` → **OK** (0 suggerimenti). Log: `logs/trait_style_2025-11-29.log`, JSON: `logs/trait_style_2025-11-29.json`.
+- **Firma**: Master DD (richiesta conferma sul rerun 2025-11-29).
+
+## Rollback rapido (03A)
+- Snapshot: `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt` (checksum `manifest.sha256`).
+- Comandi di ripristino testati a secco:
+  ```bash
+  git checkout HEAD -- data/core/ data/derived/
+  tar -xzf /path/to/core_snapshot_2025-11-25T2028Z.tar.gz -C /workspace/Game --overwrite
+  tar -xzf /path/to/derived_snapshot_2025-11-25T2028Z.tar.gz -C /workspace/Game --overwrite
+  ```
+- Verifica post-rollback (smoke):
+  ```bash
+  python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack
+  python scripts/trait_audit.py --check
+  node scripts/trait_style_check.js --output-json /tmp/trait_style.json --fail-on error
+  ```
 
 ## Modifiche applicate
 1. **Schema biomi** – confermato allineamento al validator 02A con `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` (nessun errore, 3 avvisi pack).
