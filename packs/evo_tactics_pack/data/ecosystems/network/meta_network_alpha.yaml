@@ -117,6 +117,7 @@ network:
     - BADLANDS
     - FORESTA_TEMPERATA
     - DESERTO_CALDO
+    - ROVINE_PLANARI
     - CRYOSTEPPE
   - species_id: ferrocolonia-magnetotattica
     roles:

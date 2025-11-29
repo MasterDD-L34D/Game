@@ -7,3 +7,8 @@
   3. `node scripts/trait_style_check.js --output-json reports/temp/patch-03A-core-derived/trait_style.json --fail-on-error` → **OK** (error=0, warning=168, info=62).
 - Output sincronizzati in `reports/temp/patch-03A-core-derived/` e mirroring in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` (`schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json`).
 - Audit bundle rigenerato in `logs/audit-bundle.tar.gz` con i log aggiornati.
+
+# Rerun 2025-11-29
+
+- Rieseguito `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` dopo la correzione dei bridge species su meta_network_alpha → **OK** con 0 avvisi (schema-only su pack).
+- Nota: l'opzione `--output json` non produce dump separato, ma il validator conferma comunque zero warning.
