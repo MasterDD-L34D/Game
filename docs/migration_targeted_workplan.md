@@ -88,6 +88,19 @@ Questo piano elenca le attività operative a "lavori mirati" per avviare subito 
    - Eseguire QA finale (validator, link checker) e aggiornare documentazione/indici.
    - Uscita: report QA finale e indicizzazione aggiornata.
 
+   **Checklist post-migrazione (esecuzione pipeline trait + QA + indici)**
+   - [ ] Pipeline trait eseguita end-to-end con evidenza dei tre step: **conversione**, **coverage**, **locale sync** (owner: trait-curator; supporto balancer per verifiche numeriche).
+   - [ ] QA finale completato:
+     - [ ] Validator di riferimento eseguiti (es. `validate_traits`, `validate_datasets.py --schemas-only` se applicabile) con log archiviati.
+     - [ ] Link checker su documentazione/indici completato con esito verde o lista fix allegata.
+   - [ ] Aggiornamento indici/documentazione completato con percorsi espliciti:
+     - [ ] Indice trait aggiornato (es. `traits/index.md` o `docs/traits/index.md`).
+     - [ ] Indice biomi aggiornato (es. `biomes/index.md` o `docs/biomes/index.md`).
+     - [ ] Altri indici correlati (es. `docs/migrations/README.md` o sommari locali) con riferimenti ai nuovi path.
+   - [ ] Field di controllo:
+     - URL indici aggiornati: **\*\*\*\***\_\_\_\_**\*\*\*\***
+     - Report QA finale allegato (percorso file o URL): **\*\*\*\***\_\_\_\_**\*\*\*\***
+
 ## Note operative
 
 - Modalità STRICT attiva: ogni step richiede log dell'esecuzione e owner dichiarato.
