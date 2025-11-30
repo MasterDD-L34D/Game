@@ -51,3 +51,14 @@ Pipeline instanziata dal modello `docs/pipelines/PIPELINE_SPECIES_BIOMES_STANDAR
     - Input (file reali): output step 1-9; ops/ci/pipeline.md; Makefile
     - Output attesi: roadmap di implementazione con assegnazione agenti, checklist CI/tooling e merge finale per il pacchetto Frattura Abissale Sinaptica
     - Rischio: Basso
+
+## Avvio sequenziale step 3–10
+
+1. Step 3 → biome-ecosystem-curator (parte dagli output narrativi dello step 2 e genera scheda bioma/livelli).
+2. Step 4 → trait-curator (consuma la scheda bioma dello step 3 per modellare pool e trait temporanei/correnti).
+3. Step 5 → species-curator (usa pool e requisiti ambientali degli step 3–4 per definire trait_plan/affinity delle specie).
+4. Step 6 → balancer (riceve valori da step 3–5 per calibrare forme dinamiche e buff/debuff delle correnti).
+5. Step 7 → coordinator (valida cross-dataset incrociando output 3–6 e prepara lista patch sui dataset core).
+6. Step 8 → asset-prep (sfrutta narrativa e parametri 2–6 per card/illustrazioni e naming coerente).
+7. Step 9 → archivist (documenta e archivia decisioni usando gli output consolidati 1–8).
+8. Step 10 → coordinator (chiude con roadmap esecutiva, gating CI e piano merge basato sugli output 1–9).
