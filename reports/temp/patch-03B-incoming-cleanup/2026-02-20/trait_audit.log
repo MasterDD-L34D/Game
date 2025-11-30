@@ -1,1 +1,4 @@
-Report schema mancante (/workspace/Game/reports/schema_validation.json). Eseguire lo script senza --check per generarlo.
+# Trait Data Audit
+
+- Errori bloccanti: 0
+- Warning: 0
