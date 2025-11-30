@@ -53,9 +53,11 @@ derived_from_environment:
     - mimetismo_cromatico_passivo
     - sacche_galleggianti_ascensoriali
     - struttura_elastica_amorfa
+    - occhi_cristallo_modulare
   optional_traits:
     - olfatto_risonanza_magnetica
     - spore_psichiche_silenziate
+    - occhi_cristallo_modulare
   synergy_traits:
     - pathfinder
     - pianificatore
@@ -76,6 +78,7 @@ genetic_traits:
     - struttura_elastica_amorfa
   optional:
     - olfatto_risonanza_magnetica
+    - occhi_cristallo_modulare
   synergy: []
 mate_synergy: []
 jobs_synergy: []

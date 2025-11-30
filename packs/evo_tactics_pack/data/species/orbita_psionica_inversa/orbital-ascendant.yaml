@@ -52,6 +52,7 @@ derived_from_environment:
     - nucleo_ovomotore_rotante
     - olfatto_risonanza_magnetica
     - sacche_galleggianti_ascensoriali
+    - occhi_cristallo_modulare
   optional_traits:
     - criostasi_adattiva
     - eco_interno_riflesso
@@ -73,6 +74,7 @@ genetic_traits:
     - nucleo_ovomotore_rotante
     - olfatto_risonanza_magnetica
     - sacche_galleggianti_ascensoriali
+    - occhi_cristallo_modulare
   optional:
     - criostasi_adattiva
     - eco_interno_riflesso
