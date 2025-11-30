@@ -9,10 +9,26 @@ on:
       pack-root:
         description: Percorso relativo alla directory del pack ecosistemi (default incoming/decompressed/latest/packs/evo_tactics_pack)
         required: false
+  pull_request:
+    paths:
+      - 'incoming/**'
+      - 'docs/incoming/**'
+      - 'scripts/cli_smoke.sh'
+      - 'config/cli/staging_incoming.yaml'
+      - '.github/workflows/incoming-smoke.yml'
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: incoming-smoke-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
