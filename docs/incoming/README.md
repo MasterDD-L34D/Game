@@ -19,6 +19,8 @@ Linee guida minime:
 
 Note:
 
+- 2025-11-30: freeze documentale attivo 2025-11-30T21:21Z → 2025-12-07T18:00Z su `incoming/**` e `docs/incoming/**`, registrato nel log `[FREEZE-INCOMING-2025-11-30]` in `logs/agent_activity.md`; parcheggio obbligatorio dei nuovi drop in `incoming/_holding` senza toccare i file esistenti. Riapertura da loggare come `[UNFREEZE-INCOMING-2025-12-07]` previa approvazione Master DD; `_holding` attualmente assente (nessun drop da integrare/archiviare).
+
 - 2026-07-08: freeze documentale approvato da Master DD attivo 2026-07-08T09:00Z → 2026-07-15T18:00Z su `incoming/**` e `docs/incoming/**`; i nuovi drop vanno parcheggiati in `incoming/_holding` con log e ticket in `logs/agent_activity.md`. Attivazione registrata alle 09:15Z, disattivazione programmata alle 18:00Z salvo estensioni approvate.
 
 - 2026-05-09: esito verifica owner 01B/01C (archivist, approvatore Master DD): species-curator conferma drop sanificato `ancestors_neurons_dump_v3` per TKT-01B-001 (licenza in pending) e riceve handoff con trait-curator per matrice 01B; trait-curator on-call per alias sentience/enneagramma su TKT-01B-002; dev-tooling marca i pack parametri v1.5/v8_3 LEGACY (TKT-01C-001) e chiede refactor dei binding su event-map engine v2.3 (TKT-01C-002), segnalando a Master DD il blocco su `scan_engine_idents.py` finché non arriva l’ID map aggiornata.

@@ -10,6 +10,9 @@
   - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 
+## 2025-11-30 – Freeze incoming 12-07 (archivist)
+- Step: `[FREEZE-INCOMING-2025-11-30] owner=archivist (approvatore Master DD); files=logs/agent_activity.md,incoming/README.md,docs/incoming/README.md; scope=incoming/**,docs/incoming/**; freeze_window=2025-11-30T21:21Z→2025-12-07T18:00Z; parking=incoming/_holding; rischio=basso (documentazione/freeze); note=Freeze documentale attivato in STRICT MODE con parcheggio obbligatorio in `_holding` e senza spostare file; riapertura da loggare con ID `[UNFREEZE-INCOMING-2025-12-07]` previo ok Master DD; verifica `_holding`: directory assente, nessun drop da integrare/archiviare (file lasciati intatti).`
+
 ## 2026-07-08 – Freeze incoming 07-15 (archivist)
 - Step: `[FREEZE-INCOMING-2026-07-08] owner=archivist (approvatore Master DD); files=logs/agent_activity.md,incoming/README.md,docs/incoming/README.md,docs/planning/REF_INCOMING_CATALOG.md; scope=incoming/**,docs/incoming/**; freeze_window=2026-07-08T09:00Z→2026-07-15T18:00Z; parking=incoming/_holding; rischio=basso (documentazione/freeze); note=Freeze attivato 2026-07-08T09:15Z su richiesta Master DD; nuovi drop devono essere parcheggiati in `incoming/_holding` con log e ticket; disattivazione programmata 2026-07-15T18:00Z salvo estensioni approvate.`
 
