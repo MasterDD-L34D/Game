@@ -19,6 +19,7 @@ Linee guida minime:
 
 Note:
 
+- 2026-05-09: esito verifica owner 01B/01C (archivist, approvatore Master DD): species-curator conferma drop sanificato `ancestors_neurons_dump_v3` per TKT-01B-001 (licenza in pending) e riceve handoff con trait-curator per matrice 01B; trait-curator on-call per alias sentience/enneagramma su TKT-01B-002; dev-tooling marca i pack parametri v1.5/v8_3 LEGACY (TKT-01C-001) e chiede refactor dei binding su event-map engine v2.3 (TKT-01C-002), segnalando a Master DD il blocco su `scan_engine_idents.py` finché non arriva l’ID map aggiornata.
 - 2026-05-02: cleanup 03B chiuso con firma Master DD; freeze documentale su `incoming/**` e `docs/incoming/**` dismesso dopo il checkpoint con smoke schema-only (14 controlli, 3 avvisi pack) e redirect confermati (`reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`). Baseline validator 02A schema-only 2026-05-01/02 registrata in `reports/audit/2026-02-20_audit_bundle.md`. Nuovi drop richiedono apertura di una nuova finestra freeze e log dedicato in `logs/agent_activity.md`.
 
 - 2026-04-13: soft freeze documentale su `incoming/**` e `docs/incoming/**` confermato fino alla chiusura 03B (branch `patch/03B-incoming-cleanup`, controlli core su `patch/03A-core-derived`). Nessun merge/spostamento; solo report-only. Previsto rerun 02A report-only con validator schema/trait/style nei log `reports/temp/patch-03A-core-derived/` e specchio `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` prima di qualsiasi sblocco.
