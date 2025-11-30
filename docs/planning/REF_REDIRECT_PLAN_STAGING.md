@@ -21,15 +21,16 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 
 ### Mapping (da compilare)
 
-| ID   | Source (staging)     | Target                    | Tipo redirect | Owner       | Ticket            | Note                                                                                                                                                                                                                                                              |
-| ---- | -------------------- | ------------------------- | ------------- | ----------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | TKT-03B-REDIR-001 | Target presente in staging (`data/core/species.yaml`), nessun loop. Dipendenze: `config/data_path_redirects.json` + `scripts/data_layout_migration.py`. Analytics: conteggio 301 nei log di accesso staging. Config unica.                                        |
-| R-02 | `<path/vecchio>`     | `<path/nuovo>`            | 301 / 302     | archivist   | TKT-03B-REDIR-002 | Slot da completare dopo validazione; mantenere verifica staging e note analytics come per le altre righe.                                                                                                                                                         |
+<!-- prettier-ignore -->
+| ID   | Source (staging)     | Target                    | Tipo redirect | Owner       | Ticket            | Note |
+| ---- | -------------------- | ------------------------- | ------------- | ----------- | ----------------- | ---- |
+| R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | TKT-03B-REDIR-001 | Target presente in staging (`data/core/species.yaml`), nessun loop. Dipendenze: `config/data_path_redirects.json` + `scripts/data_layout_migration.py`. Analytics: conteggio 301 nei log di accesso staging. Config unica. |
+| R-02 | `<path/vecchio>`     | `<path/nuovo>`            | 301 / 302     | archivist   | TKT-03B-REDIR-002 | Slot da completare dopo validazione; mantenere verifica staging e note analytics come per le altre righe. |
 | R-03 | `/data/analysis`     | `/data/derived/analysis`  | 302           | dev-tooling | TKT-03B-REDIR-003 | Target presente in staging (`data/derived/analysis/`), nessun cascade. Dipendenze: `config/data_path_redirects.json` + pipeline di ingest che referenzia `data/derived`. Analytics: monitorare hit 302 nei log staging. Config condivisa, nessuna patch multipla. |
 
 Note operative:
 
-- Annotare per ogni riga l’ownership (dev-tooling/archivist) e il ticket di riferimento.
+- Annotare per ogni riga l'ownership (dev-tooling/archivist) e il ticket di riferimento.
 - Validare che i target esistano in staging e che non introducano loop/cascate.
 - Indicare se il redirect può essere consolidato in config unica (es. file di routing) o necessita patch multiple.
 
@@ -67,3 +68,30 @@ Note operative:
 - Popolare la tabella mapping con i path effettivi e assegnare owner per riga.
 - Agganciare i ticket/link di approvazione Master DD nelle note del log.
 - Preparare script di verifica automatica (dev-tooling) per smoke test dei redirect su staging.
+
+## Smoke test redirect automatizzato (staging)
+
+- Script: `scripts/redirect_smoke_test.py` (Python 3, nessuna dipendenza esterna). Legge la tabella di mapping di questo documento e valida HTTP status + header `Location` verso un host parametrico.
+- Comando base (staging):
+
+  ```bash
+  python scripts/redirect_smoke_test.py \
+    --host https://staging.example.com \
+    --environment staging \
+    --output reports/redirect-smoke.json
+  ```
+
+- Parametri:
+  - `--host`: host da testare (con schema). Obbligatorio.
+  - `--environment`: label salvata nel report JSON (default: `staging`).
+  - `--mapping`: percorso alternativo al file di mapping, se necessario.
+  - `--timeout`: timeout HTTP in secondi (default: `5.0`).
+  - `--output`: percorso del report JSON (crea cartelle se assenti). Allega l’esito al ticket di go-live.
+
+- Interpretazione esiti:
+  - `PASS`: status HTTP e `Location` corrispondono a quanto indicato nel mapping.
+  - `FAIL`: lo status o la `Location` non corrispondono al mapping; bloccare il go-live finché non è risolto.
+  - `SKIP`: riga di mapping incompleta (placeholder o status mancante); completare il dato prima del test finale.
+  - `ERROR`: problemi di rete/timeout/parsing; riprovare o verificare la raggiungibilità dell’host.
+
+- Exit code: 0 se nessun `FAIL`/`ERROR`, altrimenti 1. I risultati dettagliati vengono stampati su stdout e (se indicato) nel file JSON.
