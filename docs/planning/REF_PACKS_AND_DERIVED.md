@@ -90,13 +90,13 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 
 ### `data/derived/**`
 
-| Percorso / file chiave                                                                                                                                    | Relazione di derivazione                                                                                               | Lacune note                                                                                    |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `data/derived/analysis/trait_coverage_matrix.csv`, `trait_env_mapping.json`, `trait_coverage_report.json`, `trait_gap_report.json`, `trait_baseline.yaml` | Dovrebbero essere calcolati da `data/core/traits/**` (più specie core) per analisi QA di copertura/gap.                | Script di generazione non documentato; mancano timestamp/owner e collegamento ai test.         |
-| `data/derived/analysis/progression/skydock_siege_xp*.{csv,json}`                                                                                          | Snapshot analitico presumibilmente derivato da `data/core/missions/skydock_siege.yaml`.                                | Nessuna procedura per rigenerare i report; rischio divergenza con missione core.               |
-| `data/derived/exports/qa-telemetry-export.json`, `data/derived/exports/*conversation.json`                                                                | Export conversazioni/telemetria da sessioni QA, probabilmente generate da strumenti esterni.                           | Origine e formato non documentati; non chiaro se rigenerabili o solo archivi.                  |
-| `data/derived/mock/prod_snapshot/*` (biomes, species, telemetry, mating, packs)                                                                           | Snapshot manuale della directory `data/` tramite rsync come fallback deploy.                                           | Rigenerazione descritta solo in README con comando rsync; manca versione/controllo integrità.  |
-| `data/derived/test-fixtures/minimal/*`                                                                                                                    | Dataset sintetico per test frontend (`docs/test-interface`); dovrebbe essere estratto in modo deterministico dai core. | Procedura di aggiornamento non documentata; necessaria nota sugli impatti sui test end-to-end. |
+| Percorso / file chiave                                                                                                                                    | Relazione di derivazione                                                                                               | Lacune note                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `data/derived/analysis/trait_coverage_matrix.csv`, `trait_env_mapping.json`, `trait_coverage_report.json`, `trait_gap_report.json`, `trait_baseline.yaml` | Dovrebbero essere calcolati da `data/core/traits/**` (più specie core) per analisi QA di copertura/gap.                | Generatore tracciato in `scripts/generate_derived_analysis.py` con README e checksum.         |
+| `data/derived/analysis/progression/skydock_siege_xp*.{csv,json}`                                                                                          | Snapshot analitico derivato da `data/core/missions/skydock_siege.yaml`.                                                | Rigenerazione codificata in `scripts/generate_derived_analysis.py` + checksum in README.      |
+| `data/derived/exports/qa-telemetry-export.json`, `data/derived/exports/*conversation.json`                                                                | Export conversazioni/telemetria da sessioni QA, probabilmente generate da strumenti esterni.                           | Origine e formato non documentati; non chiaro se rigenerabili o solo archivi.                 |
+| `data/derived/mock/prod_snapshot/*` (biomes, species, telemetry, mating, packs)                                                                           | Snapshot manuale della directory `data/` tramite rsync come fallback deploy.                                           | Rigenerazione descritta solo in README con comando rsync; manca versione/controllo integrità. |
+| `data/derived/test-fixtures/minimal/*`                                                                                                                    | Dataset sintetico per test frontend (`docs/test-interface`); dovrebbe essere estratto in modo deterministico dai core. | Generatore `scripts/generate_minimal_fixture.py` + README con checksum e commit di origine.   |
 
 ### `packs/evo_tactics_pack/**`
 
@@ -113,14 +113,12 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 
 ## Derived rigenerabili e tooling
 
-- `packs/evo_tactics_pack/docs/catalog/*.json` → rigenerabili usando script Node esistenti:
-  - `scripts/update_evo_pack_catalog.js` (arricchisce catalogo partendo dai dati del pack e metadati ecosistemi).
-  - `scripts/sync_evo_pack_assets.js` (sincronizza asset collegati ai dati del pack).
-  - `scripts/build_evo_tactics_pack_dist.mjs` / `scripts/preview_evo_tactics_pack_dist.mjs` (impacchettano il pack per distribuzione/anteprima).
-- Validator pack (specie/ecosistemi/foodweb) eseguibili con `packs/evo_tactics_pack/tools/py/run_all_validators.py`; risultato atteso in `packs/evo_tactics_pack/out/validation/`.
+- Pipeline unica `scripts/evo_pack_pipeline.py --core-root data/core --pack-root packs/evo_tactics_pack` che orchestra sync core→pack, derivazione env_traits, aggiornamento catalogo, build dist e validator.
+- `packs/evo_tactics_pack/docs/catalog/*.json` → rigenerabili tramite pipeline o direttamente con `scripts/update_evo_pack_catalog.js` + `scripts/sync_evo_pack_assets.js` e build (`scripts/build_evo_tactics_pack_dist.mjs` / `scripts/preview_evo_tactics_pack_dist.mjs`).
+- Validator pack (specie/ecosistemi/foodweb) eseguibili con `packs/evo_tactics_pack/tools/py/run_all_validators.py`; risultato atteso in `packs/evo_tactics_pack/out/validation/` (richiamato dalla pipeline).
 - Snapshot mock `data/derived/mock/prod_snapshot/*` → rigenerabili manualmente via `rsync -a --exclude 'mock' data/ data/derived/mock/prod_snapshot/` come da README.
-- Dataset `data/derived/test-fixtures/minimal` → rigenerazione da definire; necessita script/templating che estragga subset coerente da core (da creare).
-- Report `data/derived/analysis/**` (trait coverage/gap, progression) → nessuno script individuato in `scripts/` o `tools/`; servono generatori dedicati (es. `scripts/analysis/trait_coverage` e `scripts/analysis/progression_skydock`) per ridurre rischio divergenza.
+- Dataset `data/derived/test-fixtures/minimal` → rigenerazione documentata tramite `scripts/generate_minimal_fixture.py` con checksum in README locale.
+- Report `data/derived/analysis/**` (trait coverage/gap, progression) → rigenerabili con `scripts/generate_derived_analysis.py` (output e checksum documentati in `data/derived/analysis/README.md`).
 
 ---
 
@@ -129,13 +127,13 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 1. **Input canonici**: `data/core/**` (specie, traits, biomi, telemetry, missions) + configurazioni `tools/config`/`packs/evo_tactics_pack/tools/config` quando applicabile (dipendenza PATCHSET-01A per catalogo completo).
 2. **Pre-check**: validare gli input core con validator/schema esistenti (`scripts/validate.sh`, `scripts/validate-dataset.cjs`, validator Python del pack in modalità report-only – PATCHSET-02A) e bloccare rigenerazione in caso di errori.
 3. **Pipeline di derivazione** (input core → output pack/fixture), con script/tool esistenti:
-   - a) **Allineare dataset pack** da core → `packs/evo_tactics_pack/data/**`: _gap_ (manca script di sync core→pack; oggi manuale).
-   - b) **Derivare trait/env cross-biome** → `packs/evo_tactics_pack/tools/py/derive_env_traits_v1_0.py`, `derive_crossbiome_traits_v1_0.py`: script esistenti ma non orchestrati in pipeline.
-   - c) **Arricchire catalogo pack** → `scripts/update_evo_pack_catalog.js` (usa dati pack + meta ecosistemi) e `scripts/sync_evo_pack_assets.js` (asset correlati).
-   - d) **Build/anteprima distributivo** → `scripts/build_evo_tactics_pack_dist.mjs` o `scripts/preview_evo_tactics_pack_dist.mjs`.
+   - a) **Allineare dataset pack** da core → `packs/evo_tactics_pack/data/**`: eseguire `scripts/evo_pack_pipeline.py` (step sync) con parametri `--core-root`/`--pack-root`.
+   - b) **Derivare trait/env cross-biome** → parte della pipeline (`derive_env_traits_v1_0.py`, `derive_crossbiome_traits_v1_0.py`); output in `packs/evo_tactics_pack/out/env_traits/`.
+   - c) **Arricchire catalogo pack** → `scripts/evo_pack_pipeline.py` richiama `scripts/update_evo_pack_catalog.js` e `scripts/sync_evo_pack_assets.js`.
+   - d) **Build/anteprima distributivo** → `scripts/evo_pack_pipeline.py` include `scripts/build_evo_tactics_pack_dist.mjs` (anteprima via `scripts/preview_evo_tactics_pack_dist.mjs`).
    - e) **Validator pack** → `packs/evo_tactics_pack/tools/py/run_all_validators.py` (esegue regole in `validators/rules/`); output in `out/validation/` (Prereq PATCHSET-02A per gating CI).
-   - f) **Fixture/snapshot** → `rsync` per `data/derived/mock/prod_snapshot/` (fallback deploy); _gap_ per generare dataset sintetici `data/derived/test-fixtures/minimal/` da core.
-   - g) **Report analitici** (`data/derived/analysis/**`) → _gap_ totale: servono script dedicati per trait coverage e progression.
+   - f) **Fixture/snapshot** → `rsync` per `data/derived/mock/prod_snapshot/` (fallback deploy); dataset sintetici `data/derived/test-fixtures/minimal/` rigenerabili con `scripts/generate_minimal_fixture.py`.
+   - g) **Report analitici** (`data/derived/analysis/**`) → generatori `scripts/generate_derived_analysis.py` (coverage + progression) con checksum in README.
 4. **Output**: pack aggiornato (`packs/evo_tactics_pack/data/**` + `docs/catalog/**`), fixture (`data/derived/test-fixtures/**`), snapshot (`data/derived/mock/**`), report (`data/derived/analysis/**`). Ogni output deve includere log di comando e timestamp nel README locale.
 5. **Tracciabilità**: registrare comando, versione git e checksum principali nel README di ciascuna cartella derived/pack; allegare report validator in `out/validation/` e linkarlo nella documentazione.
 6. **Gate CI**: integrare la pipeline in CI dopo validazione manuale del flusso, facendo fallire build se gli output non sono aggiornati rispetto ai core o se i validator del pack falliscono (allineato con PATCHSET-02A).
