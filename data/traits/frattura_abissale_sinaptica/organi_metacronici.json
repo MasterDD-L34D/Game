@@ -3,7 +3,7 @@
   "label": "i18n:traits.organi_metacronici.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Supporto/Sequenziamento",
-  "fattore_mantenimento_energetico": "i18n:traits.organi_metacronici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio-alto: gli organi forzano riallineamenti temporali frequenti.",
   "tier": "T2",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T2"
+        "tier": "T2",
+        "notes": "Attivi nella soglia crepuscolare per riallineare cicli quando la foschia resetta i timer sinaptici."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.organi_metacronici.debolezza"
 }

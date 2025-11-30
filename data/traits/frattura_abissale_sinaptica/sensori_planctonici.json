@@ -3,7 +3,7 @@
   "label": "i18n:traits.sensori_planctonici.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Analisi/Sensori Planctonici",
-  "fattore_mantenimento_energetico": "i18n:traits.sensori_planctonici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso: sensori passivi sfruttano bioilluminazione del plancton.",
   "tier": "T1",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T1"
+        "tier": "T1",
+        "notes": "Attivi sulla cresta fotofase seguendo le scie del plancton mnesico illuminato."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": false,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "debolezza": "i18n:traits.sensori_planctonici.debolezza"
 }

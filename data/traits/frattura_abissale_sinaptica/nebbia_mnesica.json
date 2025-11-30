@@ -3,7 +3,7 @@
   "label": "i18n:traits.nebbia_mnesica.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Controllo/Memoria",
-  "fattore_mantenimento_energetico": "i18n:traits.nebbia_mnesica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio: l'aerosol memetico richiede rinnovo continuo.",
   "tier": "T2",
   "slot": [],
   "sinergie": [],
@@ -20,7 +20,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T2"
+        "tier": "T2",
+        "notes": "Attiva nella soglia crepuscolare dove la foschia memetica disorienta e va rinnovata."
       }
     }
   ],
@@ -29,5 +30,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.nebbia_mnesica.debolezza"
 }

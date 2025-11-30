@@ -3,7 +3,7 @@
   "label": "i18n:traits.secrezioni_antistatiche.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Difesa/Antistatico",
-  "fattore_mantenimento_energetico": "i18n:traits.secrezioni_antistatiche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio-basso: il sebo conduttivo va rinnovato per scaricare statico.",
   "tier": "T2",
   "slot": [],
   "sinergie": [],
@@ -20,7 +20,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T2"
+        "tier": "T2",
+        "notes": "Attive nella soglia crepuscolare per proteggere dall'accumulo ionico delle nebbie intermittenti."
       }
     }
   ],
@@ -29,5 +30,9 @@
     "has_data_origin": true,
     "has_species_link": false,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.secrezioni_antistatiche.debolezza"
 }

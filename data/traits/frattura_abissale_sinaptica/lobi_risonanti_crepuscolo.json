@@ -3,7 +3,7 @@
   "label": "i18n:traits.lobi_risonanti_crepuscolo.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Risonanza/Crepuscolo",
-  "fattore_mantenimento_energetico": "i18n:traits.lobi_risonanti_crepuscolo.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio: i lobi mantengono fase con le onde psioniche circostanti.",
   "tier": "T2",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T2"
+        "tier": "T2",
+        "notes": "Attivi nella soglia crepuscolare per aprire canali risonanti dentro la foschia mnesica."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.lobi_risonanti_crepuscolo.debolezza"
 }

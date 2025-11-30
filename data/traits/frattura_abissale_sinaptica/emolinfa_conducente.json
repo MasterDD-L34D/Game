@@ -3,7 +3,7 @@
   "label": "i18n:traits.emolinfa_conducente.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Supporto/Energetico",
-  "fattore_mantenimento_energetico": "i18n:traits.emolinfa_conducente.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio: la circolazione elettrolitica deve restare fluida per scaricare energia.",
   "tier": "T3",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T3"
+        "tier": "T3",
+        "notes": "Attiva nella frattura nera per drenare le scariche magnetiche accumulate."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "sustain"
+  ],
+  "debolezza": "i18n:traits.emolinfa_conducente.debolezza"
 }
