@@ -9,7 +9,8 @@
   "sinergie": [
     "flusso_ameboide_controllato",
     "fagocitosi_assorbente",
-    "moltiplicazione_per_fusione"
+    "moltiplicazione_per_fusione",
+    "secrezione_rallentante_palmi"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.membrana_plastica_continua.mutazione_indotta",

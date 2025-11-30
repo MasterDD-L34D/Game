@@ -7,7 +7,8 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "visione_multi_spettrale_amplificata"
+    "visione_multi_spettrale_amplificata",
+    "motore_biologico_silenzioso"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.artigli_ipo_termici.mutazione_indotta",

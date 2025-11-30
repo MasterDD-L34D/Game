@@ -33,7 +33,8 @@
     "ghiaccio_piezoelettrico",
     "ghiandole_minerali",
     "lamelle_shear",
-    "membrane_captura_rugiada"
+    "membrane_captura_rugiada",
+    "random"
   ],
   "sinergie_pi": {
     "co_occorrenze": [
