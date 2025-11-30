@@ -135,6 +135,14 @@ evo-backlog:
 		echo "Errore: impostare EVO_BACKLOG_REPO=<owner/repo>."; \
 		exit 1; \
 	fi
+	@if [ -z "${BACKLOG_PAT}${GITHUB_TOKEN}" ]; then \
+		echo "Errore: impostare BACKLOG_PAT con un PAT GitHub (scope repo, workflow, project)."; \
+		exit 1; \
+	fi
+	@case "${BACKLOG_PAT:-${GITHUB_TOKEN}}" in \
+		ghp_*|github_pat_*) ;; \
+		*) echo "Errore: BACKLOG_PAT deve essere un PAT (prefisso ghp_/github_pat_)."; exit 1;; \
+	esac
 	BACKLOG_FILE="${EVO_BACKLOG_FILE}" \
 	REPO="${EVO_BACKLOG_REPO}" \
 	$(PYTHON) ${EVO_BACKLOG_SCRIPT}
