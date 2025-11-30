@@ -15,6 +15,18 @@ on:
       - 'tools/py/game_utils/env_traits_scanner.py'
       - 'tools/py/scan_env_traits.py'
       - '.github/workflows/validate-naming.yml'
+  pull_request:
+    paths:
+      - 'config/project_index.json'
+      - 'data/core/traits/glossary.json'
+      - 'data/traits/index.json'
+      - 'packs/evo_tactics_pack/data/species/**'
+      - 'docs/evo-tactics-pack/trait-reference.json'
+      - 'packs/evo_tactics_pack/tools/config/registries/**'
+      - 'tools/py/validate_registry_naming.py'
+      - 'tools/py/game_utils/env_traits_scanner.py'
+      - 'tools/py/scan_env_traits.py'
+      - '.github/workflows/validate-naming.yml'
   workflow_dispatch:
 
 jobs:
@@ -29,6 +41,5 @@ jobs:
         run: pip install -r tools/py/requirements.txt
       - name: Validate registry naming
         run: python tools/py/validate_registry_naming.py
-        continue-on-error: true
       - name: Consultivo
-        run: echo "Validate registry naming eseguito in modalità consultiva (no gate PR); usare il log per monitorare falsi positivi/negativi."
+        run: echo "Validate registry naming eseguito come gate PR; usare il log per monitorare eventuali falsi positivi/negativi."

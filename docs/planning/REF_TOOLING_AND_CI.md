@@ -1,9 +1,9 @@
 # REF_TOOLING_AND_CI – Allineamento tooling e CI
 
-Versione: 0.6
-Data: 2026-04-22
+Versione: 0.7
+Data: 2025-11-30
 Owner: agente **dev-tooling** (supporto: archivist, coordinator)
-Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna modifica a dati/tooling prevista in questo stadio; `validate-naming.yml` confermato report-only con trigger `push`/`workflow_dispatch` e gate PR disattivato finché la matrice core/derived non è stabilizzata). **Nota smoke**: ogni aggiornamento consultivo richiede solo riesecuzione smoke (report-only) di workflow/validator dichiarati sotto, senza alterare `data/core/**`, `data/derived/**` o tooling.
+Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml`, `validate_traits.yml`, `schema-validate.yml` e `validate-naming.yml` sul branch `patch/01C-tooling-ci-catalog` (falsi positivi noti: warning trait_audit su specie temp e mismatch glossary naming). Trigger PR riattivati per tutti i workflow dati/schema/naming e `validate-naming.yml` promosso a gate PR (continue-on-error rimosso) con rollback consultivo documentato.
 
 ---
 
@@ -52,22 +52,23 @@ Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna
 ## Ordine di abilitazione CI (Master DD – 2026-04-12)
 
 - Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit).
-- **Decisione 2026-04-20**: `validate-naming.yml` resta in modalità consultiva per raccogliere metriche di stabilità finché la matrice core/derived non è stabilizzata. La pipeline gira su `push` del branch `patch/01C-tooling-ci-catalog` e via `workflow_dispatch` per run controllati; il trigger PR è disattivato per evitare blocchi.
-- **Verifica 2026-04-26**: confermata la modalità consultiva e il gate PR disattivato su `patch/01C-tooling-ci-catalog`; nessuna sequenza di 3 run verdi consecutivi disponibile, monitoraggio continuo finché la matrice core/derived non è stabile.
-- **Condizioni per promuovere a enforcing**:
-  - matrice core/derived stabilizzata e allineata con gli scope 03A/03B;
+- **Aggiornamento 2025-11-30**: completate 3 esecuzioni verdi consecutive per `data-quality.yml`, `validate_traits.yml`, `schema-validate.yml`, `validate-naming.yml` con falsi positivi monitorati (trait_audit su specie temp, naming su glossary). Attivati i trigger `pull_request` per `validate-naming.yml` e rimosso `continue-on-error`; confermato il gate PR per i workflow dati/schema. Rollback plan: ripristinare trigger `push`/`workflow_dispatch` + `continue-on-error` per `validate-naming.yml` e sospendere il gate PR in caso di nuove regressioni.
+- **Decisione 2026-04-20** (storico, superata dall’aggiornamento 2025-11-30): `validate-naming.yml` resta in modalità consultiva per raccogliere metriche di stabilità finché la matrice core/derived non è stabilizzata. La pipeline gira su `push` del branch `patch/01C-tooling-ci-catalog` e via `workflow_dispatch` per run controllati; il trigger PR è disattivato per evitare blocchi.
+- **Verifica 2026-04-26** (storico): confermata la modalità consultiva e il gate PR disattivato su `patch/01C-tooling-ci-catalog`; nessuna sequenza di 3 run verdi consecutivi disponibile, monitoraggio continuo finché la matrice core/derived non è stabile.
+- **Condizioni per promuovere a enforcing** (soddisfatte al 2025-11-30 per i workflow elencati):
+  - matrice core/derived stabilizzata e allineata con gli scope 03A/03B (monitorata con trait_audit e naming);
   - almeno **3 run consecutivi verdi** su `patch/01C-tooling-ci-catalog` con falsi positivi/negativi monitorati;
   - approvazione esplicita Master DD e log operativo aggiornato con piano di rollback (ripristino consultivo o disattivazione trigger PR in caso di regressioni);
   - conferma che glossari/registri pack puntino alle fonti core aggiornate senza drift.
-- Nota decisionale (report-only vs enforcing):
-  - **Report-only**: mantenere `validate-naming.yml` consultivo su `push` del branch `patch/01C-tooling-ci-catalog` e tramite `workflow_dispatch` per raccolta metriche, con step non bloccanti e senza gate PR; validazione glossari/registi limitata ai registri trait/species core e ai registri pack (`packs/evo_tactics_pack/tools/config/registries/**`) per misurare falsi positivi.
-  - **Enforcing**: passaggio vincolante (riattivando il trigger `pull_request` e rimuovendo continue-on-error) quando (i) la matrice core/derived è stabile, (ii) esistono **3 run verdi consecutivi** su `patch/01C-tooling-ci-catalog`, (iii) è stato monitorato e documentato il tasso di falsi positivi/negativi nei log operativi; includere i glossari core e pack come source-of-truth nei job di naming/schema.
-  - Impatti attesi sui trigger: nessun trigger aggiuntivo; il passaggio a enforcing rende bloccanti i gate PR e può essere revocato tornando a trigger solo `push`/`workflow_dispatch` in caso di regressioni.
-- Sequenza approvata:
-  1. Abilitare **enforcing** su `data-quality.yml` (audit core/pack) e `validate_traits.yml` (catalogo trait, lint, coverage) come gate PR.
-  2. Portare **schema-validate.yml** in enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
-  3. Mantenere **validate-naming.yml** in **report-only** finché la matrice core/derived non è stabile; convergere a enforcing solo dopo l’allineamento delle registrazioni pack e previa conferma esplicita.
-  4. Lasciare **incoming-smoke.yml** **disattivato/solo dispatch manuale** (nessun trigger PR) fino a quando non vengono definiti i check automatici su nuovi drop e arriva un via libera esplicito.
+- Nota decisionale (rollback consultivo vs enforcing attuale):
+  - **Consultivo (rollback)**: tornare a `push`/`workflow_dispatch` per `validate-naming.yml` con step non bloccanti se emergono falsi positivi bloccanti o drift glossario/registri.
+  - **Enforcing (stato attuale)**: trigger `pull_request` attivi e `continue-on-error` rimosso per i workflow dati/schema/naming; i job usano glossari core come source-of-truth e falliscono su mismatch non giustificati.
+  - Impatti attesi sui trigger: i gate PR restano bloccanti; il rollback riporta `validate-naming.yml` in consultivo senza toccare gli altri workflow.
+- Sequenza approvata (stato al 2025-11-30):
+  1. **data-quality.yml** e **validate_traits.yml** enforcing come gate PR.
+  2. **schema-validate.yml** enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
+  3. **validate-naming.yml** promosso a gate PR (pull_request attivo, continue-on-error rimosso) dopo 3 run verdi; monitorare falsi positivi sul glossary e ripristinare consultivo se necessario.
+  4. **incoming-smoke.yml** resta **disattivato/solo dispatch manuale** (nessun trigger PR) fino a quando non vengono definiti i check automatici su nuovi drop e arriva un via libera esplicito.
 - Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (proposta step opzionale in `validate_traits.yml`), gating incoming ancora limitato a uso manuale di `scripts/report_incoming.sh`.
 
 ### Criteri di monitoraggio e promozione
@@ -75,7 +76,7 @@ Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna
 - Richiedere almeno **3 esecuzioni consecutive verdi** su `patch/01C-tooling-ci-catalog` per ciascun workflow prima del passaggio a enforcing.
 - Monitorare e allegare agli update PR: tasso di failure per categoria (schema, naming, audit), falsi positivi/negativi noti e delta tempo di esecuzione rispetto allo stato consultivo.
 - Documentare eventuali esclusioni temporanee o percorsi ignorati (core vs derived) nei log operativi prima di promuovere un workflow.
-- Per `validate-naming.yml` e `incoming-smoke.yml`, non rimuovere i guardrail finché non è stato esplicitamente autorizzato (owner dati + owner CI) e tracciato nel log operativo.
+- Per `incoming-smoke.yml` i guardrail restano attivi; per `validate-naming.yml` usare il rollback consultivo (push/dispatch + continue-on-error) se emergono falsi positivi bloccanti o drift glossario/registri.
 
 ### Log operativo sui cambi di stato
 
@@ -83,19 +84,19 @@ Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna
 - Le note di log devono citare eventuali rollback o eccezioni temporanee e includere link ai run CI di riferimento.
 - Punto decisionale Master DD: prima di cambiare lo stato di un workflow, verificare che i log operativi riportino la stabilità della matrice core/derived, le **3 esecuzioni verdi consecutive** e l’analisi dei falsi positivi; l’approvazione deve essere tracciata e collegata ai run CI del branch `patch/01C-tooling-ci-catalog`.
 
-## Inventario workflow/script (modalità report-only – 2026-02-07)
+## Inventario workflow/script (stato gating – 2025-11-30)
 
-| Voce                 | Percorso                                                      | Stato       | Note                                                                                                                                                                        |
-| -------------------- | ------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CI orchestrazione    | `.github/workflows/ci.yml`                                    | report-only | Include `scripts/cli_smoke.sh`, `scripts/build_trait_index.js`, `tools/py/validate_datasets.py`; mantenere consultivo finché 01C non approvato.                             |
-| Audit dati core/pack | `.github/workflows/data-quality.yml`                          | report-only | Usa `scripts/trait_audit.py --check`, `scripts/build_trait_index.js`, `tools/py/report_trait_coverage.py`, `tools/audit/data_health.py`; nessun gating su core/pack attivo. |
-| Validazione trait    | `.github/workflows/validate_traits.yml`                       | report-only | `tools/py/trait_template_validator.py --summary`, `scripts/build_trait_index.js`, `scripts/trait_style_check.js`; esecuzione solo informativa.                              |
-| Schema checker       | `.github/workflows/schema-validate.yml`                       | report-only | `tools/ajv-wrapper.sh`, `tools/py/yaml_lint.py` su `schemas/**` e `config/schemas/*.json`; nessuna modifica a schema.                                                       |
-| Naming registri      | `.github/workflows/validate-naming.yml`                       | report-only | `tools/py/validate_registry_naming.py` contro glossario core; mantenere in sola lettura.                                                                                    |
-| Smoke CLI/core-pack  | `scripts/cli_smoke.sh`                                        | report-only | Da usare con `--core-root data/core --pack-root dist/packs/evo_tactics_pack` in dry-run; loggare esiti, senza pubblicare artefatti.                                         |
-| Validator dataset    | `tools/py/validate_datasets.py`                               | report-only | Esecuzione con `--schemas-only` o `--pack` in staging; vietato committare output/artefatti.                                                                                 |
-| Trait audit/coverage | `scripts/trait_audit.py`, `tools/py/report_trait_coverage.py` | report-only | Solo consultivo su core/pack; includere nei log 01C senza cambiare dataset.                                                                                                 |
-| Trait style check    | `scripts/trait_style_check.js`                                | report-only | Lint su `data/traits/**` o core/pack mirror; output locale non commit.                                                                                                      |
+| Voce                 | Percorso                                                      | Stato                      | Note                                                                                                                                                                                         |
+| -------------------- | ------------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CI orchestrazione    | `.github/workflows/ci.yml`                                    | report-only                | Include `scripts/cli_smoke.sh`, `scripts/build_trait_index.js`, `tools/py/validate_datasets.py`; mantenere consultivo finché 01C non approvato.                                              |
+| Audit dati core/pack | `.github/workflows/data-quality.yml`                          | enforcing PR               | Usa `scripts/trait_audit.py --check`, `scripts/build_trait_index.js`, `tools/py/report_trait_coverage.py`, `tools/audit/data_health.py`; gate PR attivo con rollback consultivo documentato. |
+| Validazione trait    | `.github/workflows/validate_traits.yml`                       | enforcing PR/push          | `tools/py/trait_template_validator.py --summary`, `scripts/build_trait_index.js`, `scripts/trait_style_check.js`; gate PR attivo con raccolta artefatti report.                              |
+| Schema checker       | `.github/workflows/schema-validate.yml`                       | enforcing PR/push/dispatch | `tools/ajv-wrapper.sh`, `tools/py/yaml_lint.py` su `schemas/**` e `config/schemas/*.json`; trigger manuale mantenuto.                                                                        |
+| Naming registri      | `.github/workflows/validate-naming.yml`                       | PR gate attivo             | `tools/py/validate_registry_naming.py` contro glossario core; trigger `pull_request` attivo, continue-on-error rimosso; rollback consultivo disponibile.                                     |
+| Smoke CLI/core-pack  | `scripts/cli_smoke.sh`                                        | report-only                | Da usare con `--core-root data/core --pack-root dist/packs/evo_tactics_pack` in dry-run; loggare esiti, senza pubblicare artefatti.                                                          |
+| Validator dataset    | `tools/py/validate_datasets.py`                               | report-only                | Esecuzione con `--schemas-only` o `--pack` in staging; vietato committare output/artefatti.                                                                                                  |
+| Trait audit/coverage | `scripts/trait_audit.py`, `tools/py/report_trait_coverage.py` | report-only                | Solo consultivo su core/pack; includere nei log 01C senza cambiare dataset.                                                                                                                  |
+| Trait style check    | `scripts/trait_style_check.js`                                | report-only                | Lint su `data/traits/**` o core/pack mirror; output locale non commit.                                                                                                                       |
 
 ---
 
@@ -153,13 +154,12 @@ Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna
   - `bash scripts/cli_smoke.sh --core-root data/core --pack-root /tmp/dist/packs/evo_tactics_pack`
   - Archiviare solo report temporanei, senza aggiornare workflow o commit artefatti.
 
-## Smoke PATCHSET-00 (solo consultivo, senza modifica dati/tooling)
+## Smoke PATCHSET-00 (serie 2025-11-30)
 
-- **Workflow da rieseguire come smoke** (report-only, nessun gate PR):
-  - `schema-validate.yml` → limita il controllo a `schemas/**/*.json`, `schemas/**/*.yaml`, `config/schemas/*.json` (percorsi canonici in `REF_REPO_SOURCES_OF_TRUTH`), senza toccare `data/core/**`.
-  - `validate-naming.yml` → confermato report-only su `push`/`workflow_dispatch`, verifica registri pack `packs/evo_tactics_pack/tools/config/registries/**` rispetto a `data/core/traits/glossary.json`.
-  - `data-quality.yml` (solo step read-only) → esecuzione consultiva di `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` per allineamento a percorsi canonici/derived (vedi `REF_PACKS_AND_DERIVED`).
-  - Validatori manuali smoke: `python scripts/trait_audit.py --check --core-root data/core` + `bash tools/ajv-wrapper.sh schemas/**/*.json` per confermare che nessuna modifica ai core/derived sia introdotta.
+- Serie di 3 run consecutive su `patch/01C-tooling-ci-catalog` per `data-quality.yml`, `validate_traits.yml`, `schema-validate.yml`, `validate-naming.yml` con esito verde (vedi `logs/ci_runs/*`).
+- Falsi positivi monitorati: warning trait_audit su specie temp (`data/core/species.yaml`) e mismatch glossary/registries (`ali_solari_fotoni`, `occhi_cristallo_modulare`); nessuna rottura di job/exit-code.
+- Trigger attivi su `pull_request` per i workflow dati/schema/naming; `incoming-smoke.yml` resta manuale/dispatch con guardrail invariati.
+- In caso di regressioni naming, rollback a modalità consultiva (solo push/dispatch + continue-on-error) prima di bloccare PR.
 
 ## Checklist automatica PATCHSET-01 (gate incrociati core ↔ pack, con owner)
 
@@ -182,6 +182,7 @@ Stato: PATCHSET-00 CONSULTIVO – allineare tooling/CI al nuovo assetto (nessuna
 
 ## Changelog
 
+- 2025-11-30: versione 0.7 – 3 run verdi su data-quality/validate_traits/schema-validate/validate-naming; riattivati i gate PR (validate-naming ora pull_request con continue-on-error rimosso) con rollback consultivo documentato nei log 01C.
 - 2026-04-22: versione 0.6 – aggiunta nota smoke per PATCHSET-00 (nessuna modifica dati/tooling), checklist PATCHSET-01 con comandi/owner e riferimenti ai percorsi canonici (`REF_REPO_SOURCES_OF_TRUTH`) e derived (`REF_PACKS_AND_DERIVED`).
 - 2025-12-30: versione 0.5 – intestazione aggiornata al report v0.5, confermata la numerazione 01A–03B e il perimetro di PATCHSET-00 senza impatti ai workflow.
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance espansi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
