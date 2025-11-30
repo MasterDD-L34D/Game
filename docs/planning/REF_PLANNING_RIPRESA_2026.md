@@ -24,6 +24,7 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 - **Allineamento reference:** ristudiare `REF_REPO_SCOPE` e `REF_REPO_MIGRATION_PLAN` per validare che i gate 01A/01B/01C non richiedano aggiornamenti preliminari.
 - **Stato ticketing:** verificare ticket aperti per 01A–03B e chiudere/aggiornare quelli già superati prima di pianificare nuovi step.
 - **Aggiornamento 2026-02-12:** aperto checkpoint **RIAPERTURA-2026-02** (patchset 03A/03B) dopo esito baseline 02A in modalità report-only; freeze soft su `incoming/**` e `docs/incoming/**` ancora da confermare con Master DD, README incoming/docs allineati e tracciati nel log.
+- **Aggiornamento 2026-05-08:** rerun 02A schema-only 2026-05-01/02 loggati in `reports/audit/2026-02-20_audit_bundle.md` e usati come base per i gate 03A/03B; cleanup 03B chiuso con firma Master DD (log 2026-05-02) e freeze documentale dismesso. Per nuovi drop incoming serve aprire una nuova finestra freeze approvata e registrare il kickoff nel log `agent_activity.md` con riferimento a README aggiornati.
 
 ## Checklist di riapertura (48h)
 
@@ -33,6 +34,13 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 4. **Validare freeze + holding:** controllare se esistono nuovi drop in `incoming/_holding`; loggare decisione (integrare o archiviare) senza muovere file.
 5. **Aggiornare README mirati:** se emergono variazioni, sincronizzare solo `incoming/README.md` e `docs/incoming/README.md` con note di stato e ticket.
 6. **Gate di uscita riapertura:** una volta chiusi i punti 1–5, loggare in `logs/agent_activity.md` “RIAPERTURA-2026-01 chiusa” e passare alla pipeline 01A.
+
+### Note operative 2026-05-08 (post 03A/03B)
+
+- Baseline validator: usare i log schema-only 2026-05-01/02 (report-only) e i mirror 03B in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` come riferimento unico per il prossimo ciclo.
+- Freeze: la finestra 03B documentale è stata chiusa con firma Master DD al 2026-05-02; prima di nuovi drop aprire un nuovo freeze (template in `logs/agent_activity.md`).
+- Documentazione: README `incoming/` e `docs/incoming/` sincronizzati sullo stato post-freeze; mantenere la coerenza con `reports/audit/2026-02-20_audit_bundle.md` per redirect/backup.
+- Azione successiva: richiesta conferma Master DD per riaprire il ciclo con nuovi batch o per mantenere lo stato di sola consultazione.
 
 ### Ruoli e responsabilità durante la riapertura
 

@@ -10,6 +10,9 @@
   - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 
+## 2026-05-08 – Allineamento planning 03A/03B e note riaperture (archivist)
+- Step: `[PLANNING-ALIGN-2026-05-08] owner=archivist (approvatore Master DD); files=docs/planning/REF_PLANNING_RIPRESA_2026.md, incoming/README.md, docs/incoming/README.md, reports/audit/2026-02-20_audit_bundle.md, logs/agent_activity.md; rischio=basso (documentazione/freeze); note=Allineati i reference di ripresa con gli esiti dei rerun 02A schema-only (log 2026-05-01/02) e con la chiusura del cleanup 03B firmata Master DD. README incoming/docs aggiornati per riflettere che il freeze 03B documentale è chiuso al 2026-05-02 e che per nuovi drop servirà una finestra approvata. L’audit bundle annota il checkpoint finale 03B e mantiene come baseline i log specchiati 03A/03B; prossimi passi: conferma Master DD sull’apertura del ciclo successivo e nuova finestra freeze se entrano nuovi batch incoming.`
+
 ## 2026-05-06 – Allineamento fonti core/pack (archivist)
 - Step: `[REF-SOURCES-PACKS-2026-05-06] owner=archivist (approvatore Master DD); files=docs/planning/REF_REPO_SOURCES_OF_TRUTH.md, docs/planning/REF_PACKS_AND_DERIVED.md, logs/agent_activity.md; rischio=basso (documentazione/cataloghi); note=Aggiornata tabella canonica per trait/specie/biomi/telemetria con link a schemi ALIENA/UCUM e cross-link reciproco a REF_PACKS_AND_DERIVED; mappati generatori pack/derived con requisiti di checksum/log e verificata assenza di percorsi duplicati in data/core/**, packs/**, data/derived/**.`
 

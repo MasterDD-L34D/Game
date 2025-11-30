@@ -42,6 +42,12 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 - [x] Istruzioni backup/redirect 03B
 - [x] Trigger riavvio eseguito
 
+## Aggiornamento 2026-05-08 (allineamento pianificazione)
+
+- Freeze 03B: finestra documentale chiusa con firma Master DD al 2026-05-02 (`logs/agent_activity.md`), redirect invariati e backup confermati sui manifest 2025-11-25 e sul README 2026-02-20; nuovi drop richiedono l’apertura di un freeze dedicato prima di qualsiasi ingest.
+- Validator: baseline schema-only 2026-05-01/02 in `reports/temp/patch-03A-core-derived/` e mirror 03B in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` restano il riferimento per il prossimo ciclo 03A/03B.
+- Documentazione: README `incoming/` e `docs/incoming/` aggiornati con lo stato post-cleanup e collegati al presente bundle; runbook e log di riapertura puntano a questa sezione per aprire eventuali nuove finestre.
+
 ## Step 2026-04-28 (rerun 02A → gate 03A → checkpoint 03B)
 - **Rerun 02A (report-only)** — log consolidato in `logs/TKT-02A-VALIDATOR.rerun.log` (sha256 `31e07dde55ebd94ab1c31ba59f36a261e09a50b8f72083ef4d50cd8c925d44bb`) e copie specchiate in `reports/temp/patch-03A-core-derived/`:
   - `schema_only.log` — sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`.
