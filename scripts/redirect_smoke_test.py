@@ -1,259 +1,302 @@
-#!/usr/bin/env python3
-"""Redirect smoke test runner for staging/go-live validation.
+"""Redirect smoke test tool for staging and other environments.
 
-Reads the redirect mapping table from the staging planning document, performs
-HTTP requests against a configurable host, and reports pass/fail/skip results
-alongside an optional JSON report for ticket attachments.
+Uso rapido (staging):
+    python scripts/redirect_smoke_test.py \
+        --host https://staging.example.com \
+        --environment staging \
+        --output reports/redirect-smoke.json
+
+Il comando legge il mapping dei redirect da ``docs/planning/REF_REDIRECT_PLAN_STAGING.md``
+(di default) oppure da un file alternativo passato con ``--mapping``. Esegue richieste
+HTTP verso i percorsi indicati senza seguire i redirect, confrontando status code e
+header ``Location``. I risultati vengono stampati su stdout e, se richiesto, salvati
+in JSON (inclusi i casi ``SKIP``/``ERROR``). L'exit code è 0 solo quando non sono
+presenti esiti ``FAIL`` o ``ERROR``.
+
+Per i ticket #1204/#1205 archiviare i report generati (es. ``reports/redirect-smoke.json``)
+in ``reports/`` o in una sottocartella dedicata (es. ``reports/redirects/``) e allegarli
+ai rispettivi ticket di go-live.
 """
 from __future__ import annotations
 
 import argparse
-import datetime as _dt
-import http.client
 import json
-from pathlib import Path
-import re
-import sys
-import urllib.parse
-from typing import Dict, List, Optional
-
-DEFAULT_MAPPING_PATH = Path("docs/planning/REF_REDIRECT_PLAN_STAGING.md")
-USER_AGENT = "redirect-smoke-test/1.0"
+import os
+import socket
+from dataclasses import dataclass
+from http.client import HTTPConnection, HTTPSConnection, HTTPResponse
+from typing import Dict, List, Optional, Tuple
+from urllib.parse import urlparse, urljoin
 
 
-def _normalize_host(host: str) -> str:
-    parsed = urllib.parse.urlparse(host)
-    if not parsed.scheme:
-        parsed = urllib.parse.urlparse(f"https://{host}")
-    if not parsed.netloc:
-        raise ValueError(f"Host '{host}' is not valid. Provide a host such as https://staging.example.com")
-    return urllib.parse.urlunparse((parsed.scheme, parsed.netloc, "", "", "", ""))
+DEFAULT_MAPPING_PATH = "docs/planning/REF_REDIRECT_PLAN_STAGING.md"
+DEFAULT_TIMEOUT = 5.0
 
 
-def _parse_statuses(raw: str) -> List[int]:
-    statuses: List[int] = []
-    for token in re.split(r"[,/]|\\s+", raw):
-        token = token.strip()
-        if token.isdigit():
-            statuses.append(int(token))
-    return statuses
+@dataclass
+class RedirectEntry:
+    identifier: str
+    source: str
+    target: str
+    expected_status: Optional[int]
+    raw_status: str
 
 
-def _parse_mapping_table(path: Path) -> List[Dict[str, str]]:
-    lines = path.read_text(encoding="utf-8").splitlines()
+@dataclass
+class RedirectResult:
+    identifier: str
+    source: str
+    target: str
+    expected_status: Optional[int]
+    actual_status: Optional[int]
+    expected_location: Optional[str]
+    actual_location: Optional[str]
+    outcome: str
+    message: str
+
+
+class NoRedirectHTTPConnection:
+    def __init__(self, scheme: str, netloc: str, timeout: float) -> None:
+        self.scheme = scheme
+        self.netloc = netloc
+        self.timeout = timeout
+        if scheme == "https":
+            self._conn = HTTPSConnection(netloc, timeout=timeout)
+        else:
+            self._conn = HTTPConnection(netloc, timeout=timeout)
+
+    def request(self, method: str, url: str) -> HTTPResponse:
+        self._conn.request(method, url, headers={"User-Agent": "redirect-smoke-test"})
+        return self._conn.getresponse()
+
+    def close(self) -> None:
+        self._conn.close()
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Smoke test per redirect HTTP")
+    parser.add_argument("--host", required=True, help="Host di destinazione con schema (es. https://staging.example.com)")
+    parser.add_argument("--environment", default="staging", help="Etichetta ambiente salvata nel report")
+    parser.add_argument("--mapping", default=DEFAULT_MAPPING_PATH, help="Percorso del file di mapping (Markdown)")
+    parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT, help="Timeout HTTP in secondi")
+    parser.add_argument("--output", help="Percorso file JSON per salvare il report")
+    return parser.parse_args()
+
+
+def normalize_path(path: str) -> str:
+    normalized = path.strip()
+    if not normalized.startswith("/"):
+        normalized = "/" + normalized
+    return normalized
+
+
+def parse_mapping(file_path: str) -> List[RedirectEntry]:
+    entries: List[RedirectEntry] = []
+    with open(file_path, "r", encoding="utf-8") as handle:
+        lines = handle.readlines()
+
     in_table = False
-    rows: List[Dict[str, str]] = []
-
     for line in lines:
-        stripped = line.strip()
-        if stripped.startswith("| ID") and "Source" in stripped and "Target" in stripped:
+        if line.startswith("| ID"):
             in_table = True
             continue
         if not in_table:
             continue
-        if not stripped.startswith("|"):
-            if rows:
-                break
+        if not line.startswith("|"):
+            break
+        cells = [cell.strip().strip("`") for cell in line.strip().split("|")[1:-1]]
+        if not cells or cells[0].startswith("----"):
             continue
-        if re.match(r"^\|\s*-", stripped):
-            continue
-
-        cells = [cell.strip().strip("`") for cell in stripped.strip("|").split("|")]
-        if len(cells) < 7:
-            continue
-
-        row = {
-            "id": cells[0],
-            "source": cells[1],
-            "target": cells[2],
-            "status": cells[3],
-            "owner": cells[4],
-            "ticket": cells[5],
-            "note": cells[6],
-            "expected_statuses": _parse_statuses(cells[3]),
-        }
-        rows.append(row)
-
-    if not rows:
-        raise ValueError(f"No mapping rows found in {path}")
-    return rows
-
-
-def _build_path(base_url: str, path: str) -> str:
-    base = base_url.rstrip("/") + "/"
-    return urllib.parse.urljoin(base, path.lstrip("/"))
-
-
-def _normalized_location(location: Optional[str], base_url: str) -> Optional[str]:
-    if not location:
-        return None
-    parsed = urllib.parse.urlparse(location)
-    if parsed.scheme and parsed.netloc:
-        return parsed.path or "/"
-    return urllib.parse.urlparse(_build_path(base_url, location)).path or "/"
-
-
-def _request_once(url: str, timeout: float) -> Dict[str, Optional[str]]:
-    parsed = urllib.parse.urlparse(url)
-    connection_cls = http.client.HTTPSConnection if parsed.scheme == "https" else http.client.HTTPConnection
-    path = parsed.path or "/"
-    if parsed.query:
-        path = f"{path}?{parsed.query}"
-
-    connection = connection_cls(parsed.hostname, parsed.port, timeout=timeout)
-    try:
-        connection.request(
-            "GET",
-            path,
-            headers={"User-Agent": USER_AGENT},
+        identifier = cells[0] if len(cells) > 0 else ""
+        source = cells[1] if len(cells) > 1 else ""
+        target = cells[2] if len(cells) > 2 else ""
+        status_cell = cells[3] if len(cells) > 3 else ""
+        source_path = normalize_path(source) if source else ""
+        target_path = normalize_path(target) if target else ""
+        status_digits = status_cell.split()[0] if status_cell else ""
+        expected_status = int(status_digits) if status_digits.isdigit() else None
+        entries.append(
+            RedirectEntry(
+                identifier=identifier,
+                source=source_path,
+                target=target_path,
+                expected_status=expected_status,
+                raw_status=status_cell,
+            )
         )
-        response = connection.getresponse()
-        body = response.read()  # noqa: F841 - ensure the response is fully consumed
-        return {
-            "status": response.status,
-            "location": response.getheader("Location"),
-        }
+    return entries
+
+
+def needs_skip(entry: RedirectEntry) -> Tuple[bool, str]:
+    if not entry.source or not entry.target:
+        return True, "Source o target mancante"
+    if entry.expected_status is None:
+        return True, "Status mancante o non numerico"
+    if "<" in entry.source or "<" in entry.target:
+        return True, "Placeholder nel mapping"
+    return False, ""
+
+
+def build_expected_location(host: str, target: str) -> str:
+    base = host.rstrip("/")
+    return base + normalize_path(target)
+
+
+def fetch_redirect(host: str, path: str, timeout: float) -> Tuple[Optional[int], Optional[str], Optional[str]]:
+    parsed = urlparse(host)
+    if not parsed.scheme or not parsed.netloc:
+        raise ValueError(f"Host non valido: {host}")
+
+    connection = NoRedirectHTTPConnection(parsed.scheme, parsed.netloc, timeout)
+    combined_path = urljoin(parsed.path if parsed.path else "/", path.lstrip("/"))
+    try:
+        response = connection.request("GET", combined_path)
+        status = response.status
+        location = response.getheader("Location")
+        return status, location, None
+    except (socket.timeout, OSError) as exc:
+        return None, None, str(exc)
     finally:
         connection.close()
 
 
-def _evaluate_row(row: Dict[str, str], base_host: str, timeout: float) -> Dict[str, object]:
-    source = row["source"]
-    target = row["target"]
-    expected_statuses = row["expected_statuses"]
+def evaluate_entry(entry: RedirectEntry, host: str, timeout: float) -> RedirectResult:
+    skip, reason = needs_skip(entry)
+    expected_location = build_expected_location(host, entry.target) if not skip else None
 
-    if "<" in source or "<" in target or not expected_statuses:
-        return {
-            "id": row["id"],
-            "result": "skip",
-            "reason": "Mapping incomplete (placeholder or missing expected status)",
-            "source": source,
-            "target_expected": target,
-            "expected_statuses": expected_statuses,
-        }
+    if skip:
+        return RedirectResult(
+            identifier=entry.identifier,
+            source=entry.source,
+            target=entry.target,
+            expected_status=entry.expected_status,
+            actual_status=None,
+            expected_location=expected_location,
+            actual_location=None,
+            outcome="SKIP",
+            message=reason,
+        )
 
-    url = _build_path(base_host, source)
     try:
-        outcome = _request_once(url, timeout)
-    except Exception as exc:  # noqa: BLE001
-        return {
-            "id": row["id"],
-            "result": "error",
-            "source": source,
-            "target_expected": target,
-            "expected_statuses": expected_statuses,
-            "error": str(exc),
-        }
-
-    actual_status = int(outcome["status"])
-    actual_location = outcome["location"]
-    normalized_expected = _normalized_location(target, base_host)
-    normalized_actual = _normalized_location(actual_location, base_host)
-
-    status_ok = actual_status in expected_statuses
-    location_ok = normalized_actual == normalized_expected
-
-    result = "pass" if status_ok and location_ok else "fail"
-
-    return {
-        "id": row["id"],
-        "result": result,
-        "source": source,
-        "target_expected": target,
-        "expected_statuses": expected_statuses,
-        "status_received": actual_status,
-        "location_received": actual_location,
-        "normalized_expected": normalized_expected,
-        "normalized_received": normalized_actual,
-        "status_match": status_ok,
-        "location_match": location_ok,
-        "note": row.get("note"),
-    }
-
-
-def _summarize(results: List[Dict[str, object]]) -> Dict[str, int]:
-    summary = {"total": len(results), "pass": 0, "fail": 0, "skip": 0, "error": 0}
-    for res in results:
-        result = res.get("result")
-        if result in summary:
-            summary[result] += 1
-    return summary
-
-
-def _print_result(res: Dict[str, object]) -> None:
-    base = f"[{res['result'].upper()}] {res['id']} {res.get('source')}"
-    if res["result"] == "pass":
-        print(
-            f"{base} -> {res.get('status_received')} to {res.get('location_received') or '-'} (expected {res.get('expected_statuses')} to {res.get('target_expected')})"
+        status, location, error = fetch_redirect(host, entry.source, timeout)
+    except ValueError as exc:
+        return RedirectResult(
+            identifier=entry.identifier,
+            source=entry.source,
+            target=entry.target,
+            expected_status=entry.expected_status,
+            actual_status=None,
+            expected_location=expected_location,
+            actual_location=None,
+            outcome="ERROR",
+            message=str(exc),
         )
-    elif res["result"] == "fail":
-        print(
-            f"{base} -> {res.get('status_received')} to {res.get('location_received') or '-'}; expected {res.get('expected_statuses')} and {res.get('target_expected')}"
+
+    if error:
+        return RedirectResult(
+            identifier=entry.identifier,
+            source=entry.source,
+            target=entry.target,
+            expected_status=entry.expected_status,
+            actual_status=status,
+            expected_location=expected_location,
+            actual_location=location,
+            outcome="ERROR",
+            message=error,
         )
-    elif res["result"] == "skip":
-        print(f"{base} skipped: {res.get('reason')}")
+
+    status_ok = status == entry.expected_status
+    location_ok = False
+    message_parts = []
+
+    if location:
+        parsed_location = urlparse(location)
+        if parsed_location.scheme and parsed_location.netloc:
+            location_ok = parsed_location.path == entry.target or location == expected_location
+        else:
+            location_ok = normalize_path(location) == entry.target
     else:
-        print(f"{base} error: {res.get('error')}")
+        message_parts.append("Header Location assente")
+
+    if not status_ok:
+        message_parts.append(f"Status atteso {entry.expected_status}, ottenuto {status}")
+    if status_ok and not location_ok:
+        message_parts.append("Location inattesa")
+
+    outcome = "PASS" if (status_ok and location_ok) else "FAIL"
+    if outcome == "PASS":
+        message_parts.append("Redirect conforme")
+    elif not message_parts:
+        message_parts.append("Esito non conforme")
+
+    return RedirectResult(
+        identifier=entry.identifier,
+        source=entry.source,
+        target=entry.target,
+        expected_status=entry.expected_status,
+        actual_status=status,
+        expected_location=expected_location,
+        actual_location=location,
+        outcome=outcome,
+        message="; ".join(message_parts),
+    )
 
 
-def run(mapping_path: Path, host: str, environment: str, timeout: float, output: Optional[Path]) -> int:
-    base_host = _normalize_host(host)
-    rows = _parse_mapping_table(mapping_path)
-    results = [_evaluate_row(row, base_host, timeout) for row in rows]
-    summary = _summarize(results)
-
-    print(f"Redirect smoke test for {environment} @ {base_host}")
-    for res in results:
-        _print_result(res)
-    print(f"Summary: {summary}")
-
-    report = {
+def generate_report(host: str, environment: str, results: List[RedirectResult]) -> Dict:
+    summary = {
+        "total": len(results),
+        "pass": sum(1 for r in results if r.outcome == "PASS"),
+        "fail": sum(1 for r in results if r.outcome == "FAIL"),
+        "skip": sum(1 for r in results if r.outcome == "SKIP"),
+        "error": sum(1 for r in results if r.outcome == "ERROR"),
+    }
+    return {
+        "host": host,
         "environment": environment,
-        "host": base_host,
-        "generated_at": _dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
-        "mapping_source": str(mapping_path),
         "summary": summary,
-        "results": results,
+        "results": [r.__dict__ for r in results],
     }
 
-    if output:
-        output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-        print(f"Report written to {output}")
 
-    return 0 if summary["fail"] == 0 and summary["error"] == 0 else 1
+def print_results(results: List[RedirectResult]) -> None:
+    for result in results:
+        prefix = f"[{result.outcome}] {result.identifier}"
+        detail = f"{result.source} -> {result.target}"
+        message = result.message
+        print(f"{prefix}: {detail} | {message}")
 
 
-def main(argv: Optional[List[str]] = None) -> int:
-    parser = argparse.ArgumentParser(
-        description=(
-            "Run a redirect smoke test against staging/go-live mapping. "
-            "Reads the mapping table from the planning doc and validates HTTP status + Location headers."
+def print_summary(summary: Dict[str, int]) -> None:
+    print(
+        "\nTotale: {total} | PASS: {pass} | FAIL: {fail} | SKIP: {skip} | ERROR: {error}".format(
+            **summary
         )
     )
-    parser.add_argument(
-        "--mapping",
-        type=Path,
-        default=DEFAULT_MAPPING_PATH,
-        help="Path to the markdown file containing the redirect mapping table (default: %(default)s)",
-    )
-    parser.add_argument("--host", required=True, help="Base host to query (e.g. https://staging.example.com)")
-    parser.add_argument(
-        "--environment",
-        default="staging",
-        help="Environment label stored in the report (default: %(default)s)",
-    )
-    parser.add_argument("--timeout", type=float, default=5.0, help="HTTP client timeout in seconds (default: %(default)s)")
-    parser.add_argument("--output", type=Path, help="Optional path for the JSON report to attach to tickets")
 
-    args = parser.parse_args(argv)
 
+def main() -> int:
+    args = parse_args()
     try:
-        return run(args.mapping, args.host, args.environment, args.timeout, args.output)
-    except Exception as exc:  # noqa: BLE001
-        print(f"Error: {exc}", file=sys.stderr)
+        entries = parse_mapping(args.mapping)
+    except OSError as exc:
+        print(f"Impossibile leggere il mapping '{args.mapping}': {exc}")
         return 1
+    results = [evaluate_entry(entry, args.host, args.timeout) for entry in entries]
+
+    report = generate_report(args.host, args.environment, results)
+    print_results(results)
+    print_summary(report["summary"])
+
+    if args.output:
+        directory = os.path.dirname(args.output) or "."
+        os.makedirs(directory, exist_ok=True)
+        with open(args.output, "w", encoding="utf-8") as handle:
+            json.dump(report, handle, indent=2, ensure_ascii=False)
+        print(f"Report salvato in {args.output}")
+
+    exit_code = 1 if any(r.outcome in {"FAIL", "ERROR"} for r in results) else 0
+    return exit_code
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())
