@@ -2,15 +2,18 @@
 
 Report derivati rigenerabili dal core e dal pack Evo Tactics.
 
-## Ultima rigenerazione
+## Prerequisiti e fonti (vedi `docs/planning/REF_PACKS_AND_DERIVED.md`)
+- Patchset di riferimento: **PATCHSET-01A** (catalogo incoming) e **PATCHSET-02A** (tooling di validazione) per garantire input core validati.
+- Input canonici: `data/core/traits/*.json`, `data/core/species.yaml`, `data/core/missions/skydock_siege.yaml`, configurazioni pack (`packs/evo_tactics_pack/tools/config/*.yaml`) quando richieste dagli script.
+- Validatori consigliati prima/dopo la rigenerazione: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` e `python scripts/trait_audit.py --check`.
 
+## Ultima rigenerazione
 - Comando: `python scripts/generate_derived_analysis.py --core-root /workspace/Game/data/core --pack-root /workspace/Game/packs/evo_tactics_pack --log-tag PIPELINE-EVO-PACK-2025-11-30-R2 --update-readme`
 - Commit sorgente: `a16f7e96e9def7d9f593a99f043ec87df96c28d1`
 - Manifest con checksum: `data/derived/analysis/manifest.json`
 - Log operativo: `logs/agent_activity.md` → `[PIPELINE-EVO-PACK-2025-11-30-R2]`
 
 ## Output attesi
-
 - `trait_coverage_report.json`
 - `trait_coverage_matrix.csv`
 - `trait_gap_report.json`
@@ -21,7 +24,6 @@ Report derivati rigenerabili dal core e dal pack Evo Tactics.
 - `progression/skydock_siege_xp_profiles.csv`
 
 ## Checksum (sha256)
-
 | File | sha256 |
 | --- | --- |
 | `data/derived/analysis/trait_coverage_report.json` | `a2068172cd13636b53e8871ca6716726c096300efc74dcb2a34997e38c453d9c` |

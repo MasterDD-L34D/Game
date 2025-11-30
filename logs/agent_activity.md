@@ -588,3 +588,8 @@
 ## 2025-11-30 – Pipeline pack/derived (dev-tooling)
 - Step: `[PIPELINE-EVO-PACK-2026-06-03] owner=dev-tooling (approvatore Master DD); core_root=/workspace/Game/data/core; pack_root=/workspace/Game/packs/evo_tactics_pack; rischio=medio (rigenerazione pack/derived); note=sync core→pack (species/biomes/mating/telemetry); validator pack; sync core→pack post-validator (manifest sha256); refs=docs/planning/REF_TOOLING_AND_CI.md`
 
+
+## 2025-11-30 – Derived inventory (analysis/exports/mock)
+- Step ID: DERIVED-DOC-INVENTORY-2025-11-30; branch: `main`; owner: archivist (STRICT MODE).
+- Azioni: allineati README di `data/derived/analysis`, `data/derived/exports` e `data/derived/mock` ai prerequisiti `REF_PACKS_AND_DERIVED` con comandi di rigenerazione, input canonici e checksum; creato `data/derived/mock/VERSION` e manifest `manifest-prod_snapshot.sha256` post-rsync.
+- Note: nessuna rigenerazione dei dataset core; checksum verificati con `sha256sum` sugli artifact esistenti.
