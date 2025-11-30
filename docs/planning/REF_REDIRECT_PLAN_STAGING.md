@@ -95,3 +95,13 @@ Note operative:
   - `ERROR`: problemi di rete/timeout/parsing; riprovare o verificare la raggiungibilità dell’host.
 
 - Exit code: 0 se nessun `FAIL`/`ERROR`, altrimenti 1. I risultati dettagliati vengono stampati su stdout e (se indicato) nel file JSON.
+- Lancio consigliato su staging:
+
+  ```bash
+  python scripts/redirect_smoke_test.py \
+    --host https://staging.example.com \
+    --environment staging \
+    --output reports/redirects/redirect-smoke-staging.json
+  ```
+
+- Conservare i report generati in `reports/` (es. `reports/redirects/redirect-smoke-staging.json`) e allegarli ai ticket #1204 (finestra di attivazione) e #1205 (go-live redirect).
