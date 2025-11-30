@@ -582,3 +582,6 @@
 - Backup: archivi tar.gz creati in `/tmp/2025-11-29T0525Z_freeze_03A-03B/` (core, derived, incoming) con checksum in `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`; nessun binario aggiunto al repo.
 - Dry-run rollback: validator 02A report-only **OK** — schema-only (0 avvisi), trait audit (**jsonschema mancante** → schema skip, nessuna regressione), trait style (0 suggerimenti). Log in `reports/temp/patch-03A-03B-freeze/`.
 - Owner/contatti: dev-tooling operativo; approvatore umano Master DD; on-call restore backups-oncall@game.internal (pager 4242).
+## 2025-11-30 – Pipeline pack/derived (dev-tooling)
+- Step: `[PIPELINE-EVO-PACK-2026-06-03] owner=dev-tooling (approvatore Master DD); core_root=/workspace/Game/data/core; pack_root=/workspace/Game/packs/evo_tactics_pack; rischio=medio (rigenerazione pack/derived); note=sync core→pack (species/biomes/mating/telemetry); validator pack; sync core→pack post-validator (manifest sha256); refs=docs/planning/REF_TOOLING_AND_CI.md`
+
