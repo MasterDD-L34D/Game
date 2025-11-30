@@ -54,13 +54,13 @@ Note operative:
 
 ## Log approvazioni – draft
 
-| Step                         | Owner/Approvatore       | Stato | Note                                              |
-| ---------------------------- | ----------------------- | ----- | ------------------------------------------------- |
-| Validazione mapping redirect | Master DD               | Draft | Elenco redirect R-xx con impatto e note analytics |
-| Backup core/derived staging  | Master DD / Dev-tooling | Draft | Manifest allegato + checksum verificati           |
-| Ok a finestra di attivazione | Master DD               | Draft | Slot approvato + eventuale roll-forward           |
-| Go-live redirect             | Master DD               | Draft | "Go" finale dopo smoke test                       |
-| Rollback (se necessario)     | Master DD + Dev-tooling | Draft | Piano di ripristino e log esiti                   |
+| Step                         | Owner/Approvatore       | Stato    | Note                                                                                                                                                                  |
+| ---------------------------- | ----------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Validazione mapping redirect | Master DD               | Approved | Ticket Master DD: [#1201](https://github.com/MasterDD-L34D/Game/issues/1201). Approvati R-01 e R-03 con note analytics consolidate; R-02 in attesa di payload finale. |
+| Backup core/derived staging  | Master DD / Dev-tooling | Approved | Ticket Master DD: [#1203](https://github.com/MasterDD-L34D/Game/issues/1203). Manifest e checksum verificati su staging; link al bucket in nota operativa del ticket. |
+| Ok a finestra di attivazione | Master DD               | Draft    | Ticket Master DD aperto: [#1204](https://github.com/MasterDD-L34D/Game/issues/1204). Mancano esito smoke-test redirect e conferma overlap con freeze QA.              |
+| Go-live redirect             | Master DD               | Draft    | Ticket Master DD aperto: [#1205](https://github.com/MasterDD-L34D/Game/issues/1205). Prerequisiti: checklist smoke-test + log analytics T-24h rispetto a go-live.     |
+| Rollback (se necessario)     | Master DD + Dev-tooling | Draft    | Ticket Master DD aperto: [#1206](https://github.com/MasterDD-L34D/Game/issues/1206). Da allegare runbook rollback e log di ripristino simulato su staging.            |
 
 ## TODO prima dell’attivazione
 
