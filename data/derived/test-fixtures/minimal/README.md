@@ -3,13 +3,12 @@
 Questo dataset riproduce un set ridotto di sorgenti (`packs`, `telemetry`, `biomes`, `mating`, `species`) per verificare
 l'interfaccia `docs/test-interface` senza dipendere dai dati completi di produzione.
 
-## Comando di generazione
+## Ultima rigenerazione
 
-```bash
-python scripts/generate_minimal_fixture.py --root data/derived/test-fixtures/minimal
-```
-
-- Commit di origine (ultima rigenerazione): `8e958f913312fd75960ff08580f731f4b9c50a49`
+- Comando: `python scripts/generate_minimal_fixture.py --root data/derived/test-fixtures/minimal`
+- Commit sorgente: `2c48bc8d0bce6bcb469befc1bd436813869e5f5c`
+- Manifest con checksum: `data/derived/test-fixtures/minimal/manifest.json`
+- Log operativo: `logs/agent_activity.md` → `[PIPELINE-EVO-PACK-2025-11-30]`
 
 ## Contenuto
 
@@ -41,8 +40,8 @@ python scripts/generate_minimal_fixture.py --root data/derived/test-fixtures/min
 
 | File | sha256 |
 | --- | --- |
-| `data/packs.yaml` | `8d6988ee2747c54c6fc70d0c3bba2f72e1765f797d7e337baab82d3160d2e31e` |
-| `data/core/telemetry.yaml` | `ea76ac25807c13d5682027acd6f5fec857ababa7456c7e9d7addde07393f32a3` |
-| `data/core/biomes.yaml` | `432f99794e7babb942fa8b408c6335a0c894082161ee329a246415006fa18540` |
-| `data/core/mating.yaml` | `2a6fbe41ac33e07b2eb7a57d7f76ce1cc403d056225aa483b010ad4b1719cc72` |
-| `data/core/species.yaml` | `02dfa4bb190cb082b314f11d581765a9814b7fc27ffad996f77b7ae2d985e3d3` |
+| `data/packs.yaml` | `a5593c4840dd06213b3305909eacd02a197a8c7b3356d2547966d9bd497d9296` |
+| `data/core/telemetry.yaml` | `56f0267112f8fbb7aec589ceda1398eae716e3c2a59779a5d165fc15ba0d1a68` |
+| `data/core/biomes.yaml` | `e427eae6cbe22f3118cdb4cb0b60d743b0439f42f094568a351c44f84aa627bd` |
+| `data/core/mating.yaml` | `d6f4f0ab4f745f5bd36fdf1e3ed4d2b6f1e3eb74a4e7b414b34ee99e89f8e61d` |
+| `data/core/species.yaml` | `4c03bd9eec4d4be87780d053b50d36c7d0cc88ef681eaf81118cf591e6ba8bd5` |

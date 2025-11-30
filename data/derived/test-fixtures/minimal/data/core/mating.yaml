@@ -1,9 +1,9 @@
 compat_forme:
   sentinel_proto:
     compatible:
-      - sentinel_proto
+    - sentinel_proto
     incompatible:
-      - sentinel_shadow
+    - sentinel_shadow
 base_scores:
   sentinel_proto:
     empathy: 2

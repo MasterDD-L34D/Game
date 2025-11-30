@@ -12,15 +12,31 @@ const path = require('node:path');
 const yaml = require('js-yaml');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
-const PACK_ROOT = path.join(REPO_ROOT, 'packs', 'evo_tactics_pack');
+const DEFAULT_PACK_ROOT = path.join(REPO_ROOT, 'packs', 'evo_tactics_pack');
+
+function parseArgs(argv) {
+  const args = { packRoot: DEFAULT_PACK_ROOT, metaEcosystem: null };
+  for (let index = 0; index < argv.length; index += 1) {
+    const current = argv[index];
+    if (current === '--pack-root' && argv[index + 1]) {
+      args.packRoot = path.resolve(argv[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (current === '--meta-ecosystem' && argv[index + 1]) {
+      args.metaEcosystem = path.resolve(argv[index + 1]);
+      index += 1;
+    }
+  }
+  return args;
+}
+
+const { packRoot, metaEcosystem } = parseArgs(process.argv.slice(2));
+const PACK_ROOT = packRoot;
 const PACK_DOCS_DIR = path.join(PACK_ROOT, 'docs', 'catalog');
 const CATALOG_PATH = path.join(PACK_DOCS_DIR, 'catalog_data.json');
-const META_ECOSYSTEM_PATH = path.join(
-  PACK_ROOT,
-  'data',
-  'ecosistemi',
-  'meta_ecosistema_alpha.yaml',
-);
+const META_ECOSYSTEM_PATH =
+  metaEcosystem || path.join(PACK_ROOT, 'data', 'ecosistemi', 'meta_ecosistema_alpha.yaml');
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));

@@ -9,7 +9,7 @@
     {
       "cmd": "/root/.pyenv/versions/3.11.12/bin/python /workspace/Game/packs/evo_tactics_pack/tools/py/validate_cross_foodweb_v1_0.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/network/meta_network_alpha.yaml",
       "code": 0,
-      "stdout": "INFO: evento in BADLANDS può propagare verso FORESTA_TEMPERATA tramite corridor (primavera/autunno)\nINFO: evento in BADLANDS può propagare verso DESERTO_CALDO tramite corridor (estate)\nINFO: evento in FORESTA_TEMPERATA può propagare verso CRYOSTEPPE tramite seasonal_bridge (inverno)",
+      "stdout": "",
       "stderr": ""
     },
     {
@@ -32,30 +32,6 @@
     },
     {
       "cmd": "/root/.pyenv/versions/3.11.12/bin/python /workspace/Game/packs/evo_tactics_pack/tools/py/validate_bioma_v1_1.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
-      "code": 0,
-      "stdout": "",
-      "stderr": ""
-    },
-    {
-      "cmd": "/root/.pyenv/versions/3.11.12/bin/python /workspace/Game/packs/evo_tactics_pack/tools/py/validate_species_v1_7.py --species-root /workspace/Game/packs/evo_tactics_pack/data/species/badlands --config /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml --registries /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
-      "code": 0,
-      "stdout": "",
-      "stderr": ""
-    },
-    {
-      "cmd": "/root/.pyenv/versions/3.11.12/bin/python /workspace/Game/packs/evo_tactics_pack/tools/py/validate_species_v1_7.py --species-root /workspace/Game/packs/evo_tactics_pack/data/species/foresta_temperata --config /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml --registries /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
-      "code": 0,
-      "stdout": "",
-      "stderr": ""
-    },
-    {
-      "cmd": "/root/.pyenv/versions/3.11.12/bin/python /workspace/Game/packs/evo_tactics_pack/tools/py/validate_species_v1_7.py --species-root /workspace/Game/packs/evo_tactics_pack/data/species/deserto_caldo --config /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml --registries /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
-      "code": 0,
-      "stdout": "",
-      "stderr": ""
-    },
-    {
-      "cmd": "/root/.pyenv/versions/3.11.12/bin/python /workspace/Game/packs/evo_tactics_pack/tools/py/validate_species_v1_7.py --species-root /workspace/Game/packs/evo_tactics_pack/data/species/cryosteppe --config /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml --registries /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
       "code": 0,
       "stdout": "",
       "stderr": ""

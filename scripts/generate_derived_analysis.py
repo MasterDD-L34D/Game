@@ -10,6 +10,9 @@ Il comando usa gli script esistenti del repository per produrre:
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -23,9 +26,32 @@ class GenerationError(RuntimeError):
 
 
 def run_command(command: list[str], cwd: Path | None = None) -> None:
-    result = subprocess.run(command, cwd=cwd, check=False)
+    env = dict(os.environ)
+    env.setdefault("PYTHONHASHSEED", "0")
+    result = subprocess.run(command, cwd=cwd, check=False, env=env)
     if result.returncode != 0:
         raise GenerationError(f"Comando fallito ({result.returncode}): {' '.join(command)}")
+
+
+def sha256sum(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(8192), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def current_commit() -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+    return result.stdout.strip()
 
 
 def generate_trait_coverage(pack_root: Path) -> None:
@@ -66,6 +92,32 @@ def generate_progression(core_root: Path) -> None:
     run_command(command)
 
 
+def write_manifest(
+    outputs: list[Path],
+    core_root: Path,
+    pack_root: Path,
+    command: str,
+) -> None:
+    manifest = {
+        "core_root": str(core_root),
+        "pack_root": str(pack_root),
+        "command": command,
+        "commit": current_commit(),
+        "artifacts": {},
+    }
+
+    for path in outputs:
+        if path.exists():
+            manifest["artifacts"][str(path)] = sha256sum(path)
+
+    target = ANALYSIS_ROOT / "manifest.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--core-root", type=Path, default=DEFAULT_CORE_ROOT)
@@ -82,6 +134,23 @@ def main() -> int:
 
     print("▶ Generazione progression")
     generate_progression(core_root)
+
+    outputs = [
+        ANALYSIS_ROOT / "trait_coverage_report.json",
+        ANALYSIS_ROOT / "trait_coverage_matrix.csv",
+        ANALYSIS_ROOT / "trait_gap_report.json",
+        ANALYSIS_ROOT / "trait_baseline.yaml",
+        ANALYSIS_ROOT / "trait_env_mapping.json",
+        ANALYSIS_ROOT / "progression" / "skydock_siege_xp.json",
+        ANALYSIS_ROOT / "progression" / "skydock_siege_xp_summary.csv",
+        ANALYSIS_ROOT / "progression" / "skydock_siege_xp_profiles.csv",
+    ]
+
+    command = (
+        f"python scripts/generate_derived_analysis.py --core-root {core_root} "
+        f"--pack-root {pack_root}"
+    )
+    write_manifest(outputs, core_root, pack_root, command)
 
     print("✔ Report analysis aggiornati in data/derived/analysis")
     return 0

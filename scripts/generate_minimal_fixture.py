@@ -4,7 +4,10 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -129,12 +132,34 @@ def dump_yaml(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(yaml.safe_dump(payload, sort_keys=False, allow_unicode=True), encoding="utf-8")
 
 
+def sha256sum(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(8192), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def current_commit() -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+    return result.stdout.strip()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=FIXTURE_ROOT)
     args = parser.parse_args()
 
     root = args.root.resolve()
+    os.environ.setdefault("PYTHONHASHSEED", "0")
 
     dump_yaml(root / "data" / "packs.yaml", PACKS_PAYLOAD)
     dump_yaml(root / "data" / "core" / "telemetry.yaml", TELEMETRY_PAYLOAD)
@@ -142,9 +167,20 @@ def main() -> int:
     dump_yaml(root / "data" / "core" / "mating.yaml", MATING_PAYLOAD)
     dump_yaml(root / "data" / "core" / "species.yaml", SPECIES_PAYLOAD)
 
+    outputs = [
+        root / "data" / "packs.yaml",
+        root / "data" / "core" / "telemetry.yaml",
+        root / "data" / "core" / "biomes.yaml",
+        root / "data" / "core" / "mating.yaml",
+        root / "data" / "core" / "species.yaml",
+    ]
+
     manifest = {
         "generated_by": "scripts/generate_minimal_fixture.py",
         "root": str(root),
+        "command": f"python scripts/generate_minimal_fixture.py --root {root}",
+        "commit": current_commit(),
+        "artifacts": {str(path): sha256sum(path) for path in outputs if path.exists()},
     }
     (root / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
