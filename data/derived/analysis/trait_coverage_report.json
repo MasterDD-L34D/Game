@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-11-29T14:17:55+00:00",
+  "generated_at": "2025-11-30T05:16:19+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "data/traits/index.json",
@@ -11,10 +11,10 @@
   "summary": {
     "traits_total": 251,
     "traits_with_rules": 147,
-    "traits_with_species": 172,
+    "traits_with_species": 173,
     "traits_with_affinity": 0,
     "rule_combos_total": 177,
-    "species_combos_total": 391,
+    "species_combos_total": 393,
     "rules_missing_species_total": 0,
     "affinity_missing_species_total": 0,
     "affinity_missing_matrix_total": 0,
@@ -51,6 +51,7 @@
       "mucillagine_simbionte_mangrovie",
       "nodi_micorrizici_oracolari",
       "nucleo_ovomotore_rotante",
+      "occhi_cristallo_modulare",
       "occhi_infrarosso_composti",
       "piume_solari_fotovoltaiche",
       "polmoni_cristallini_alta_quota",
@@ -7902,12 +7903,38 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 2,
+        "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       }

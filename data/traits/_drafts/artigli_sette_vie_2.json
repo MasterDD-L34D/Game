@@ -1,6 +1,6 @@
 {
-  "id": "coda_a_frusta_cinetica",
-  "label": "i18n:traits.coda_a_frusta_cinetica.label",
+  "id": "artigli_sette_vie_2",
+  "label": "i18n:traits.artigli_sette_vie_2.label",
   "famiglia_tipologia": "TODO/import_esterno",
   "fattore_mantenimento_energetico": "Da definire (import esterno)",
   "tier": "T1",
@@ -11,9 +11,9 @@
   },
   "sinergie": [],
   "conflitti": [],
-  "mutazione_indotta": "i18n:traits.coda_a_frusta_cinetica.mutazione_indotta",
-  "uso_funzione": "i18n:traits.coda_a_frusta_cinetica.uso_funzione",
-  "spinta_selettiva": "i18n:traits.coda_a_frusta_cinetica.spinta_selettiva",
+  "mutazione_indotta": "i18n:traits.artigli_sette_vie_2.mutazione_indotta",
+  "uso_funzione": "i18n:traits.artigli_sette_vie_2.uso_funzione",
+  "spinta_selettiva": "i18n:traits.artigli_sette_vie_2.spinta_selettiva",
   "completion_flags": {
     "external_source": true
   },

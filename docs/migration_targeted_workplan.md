@@ -98,8 +98,8 @@ Questo piano elenca le attività operative a "lavori mirati" per avviare subito 
      - [ ] Indice biomi aggiornato (es. `biomes/index.md` o `docs/biomes/index.md`).
      - [ ] Altri indici correlati (es. `docs/migrations/README.md` o sommari locali) con riferimenti ai nuovi path.
    - [ ] Field di controllo:
-     - URL indici aggiornati: **\*\*\*\***\_\_\_\_**\*\*\*\***
-     - Report QA finale allegato (percorso file o URL): **\*\*\*\***\_\_\_\_**\*\*\*\***
+     - URL indici aggiornati: `docs/catalog/trait_reference.md`; `docs/biomes.md`
+     - Report QA finale allegato (percorso file o URL): `logs/trait_pipeline_20251130T051614Z/README.md`
 
 ## Note operative
 

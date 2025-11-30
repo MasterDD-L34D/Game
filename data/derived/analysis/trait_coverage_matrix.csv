@@ -325,6 +325,8 @@ nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rot
 nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,falde_magnetiche_psioniche,scavenger_corazzato,0,1
 nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,orbita_psionica_inversa,,1,1
 nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,orbita_psionica_inversa,volatore_planatore,0,1
+occhi_cristallo_modulare,,,canopia_psionica_leggera,volatore_planatore,0,1
+occhi_cristallo_modulare,,,orbita_psionica_inversa,volatore_planatore,0,1
 occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,caverna_risonante,cursoriale_quadrupede,0,1
 occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,dorsale_termale_tropicale,volatore_planatore,1,1
 olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
