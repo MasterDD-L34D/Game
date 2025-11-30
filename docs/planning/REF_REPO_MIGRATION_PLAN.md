@@ -51,6 +51,7 @@ Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01
 - **01A:** gap list catalogata e approvata (log 2026-05-05 in `logs/agent_activity.md`).
 - **01B:** approvato da Master DD (log 2026-04-11) e kickoff rieseguito 2026-07-09 su branch `patch/01B-core-derived-matrix` per consolidare matrice core/derived post-gap list 01A.
 - **01C:** inventario tooling/CI approvato (log 2026-04-12) e confermato report-only 2026-07-09 su branch `patch/01C-tooling-ci-catalog`, supporta i rerun 02A.
+- **2025-11-30T23:12Z (readiness check):** Master DD conferma finestra freeze documentale 2026-07-08T09:00Z→2026-07-15T18:00Z come baseline readiness per 01B/01C in modalità report-only, con owner invariati e ticket attivi **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]**; via libera a procedere con pipeline/patchset successivi mantenendo logging STRICT MODE.
 - **02A:** chiuso con validatori schema/trait/style in pass e approvazione Master DD (log 2025-11-30 su `patch/03A-core-derived`); readiness rerun report-only annunciata 2026-07-09 con trigger/rollback confermati.
 - **03A:** approvato con validator in pass (log 2026-05-01 e 2026-05-02, firma Master DD) e ora sbloccato dalla chiusura 02A.
 - **03B:** approvato e freeze 03A/03B chiuso con smoke schema-only (log 2026-05-02), monitoraggio post-merge in corso.
