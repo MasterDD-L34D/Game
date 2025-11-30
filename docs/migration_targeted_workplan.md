@@ -92,17 +92,17 @@ Questo piano elenca le attività operative a "lavori mirati" per avviare subito 
    - Uscita: report QA finale e indicizzazione aggiornata.
 
    **Checklist post-migrazione (esecuzione pipeline trait + QA + indici)**
-   - [x] Pipeline trait eseguita end-to-end con evidenza dei tre step: **conversione**, **coverage**, **locale sync** (log in `logs/trait_pipeline_20251130T051614Z/{conversion.log,coverage.log,locale_sync.log}`).
+   - [x] Pipeline trait eseguita end-to-end con evidenza dei tre step: **conversione**, **coverage**, **locale sync** (rerun 2025-11-30 13:59 UTC, log in `logs/trait_pipeline_20251130T135906Z/{conversion.log,coverage.log,locale_sync.log}`).
    - [x] QA finale completato:
-     - [x] Validator di riferimento eseguiti con log archiviati (`logs/trait_pipeline_20251130T051614Z/validator.log`).
-     - [x] Link checker su documentazione/indici completato con esito verde (`logs/trait_pipeline_20251130T051614Z/link_checker.log`).
+     - [x] Validator di riferimento eseguiti con log archiviati (`logs/trait_pipeline_20251130T135906Z/validator.log`).
+     - [x] Link checker su documentazione/indici completato con esito verde (`logs/trait_pipeline_20251130T135906Z/link_checker.log`, warning npm su env config non bloccante).
    - [x] Aggiornamento indici/documentazione completato con percorsi espliciti:
      - [x] Indice trait aggiornato (es. `traits/index.md` o `docs/traits/index.md`).
      - [x] Indice biomi aggiornato (es. `biomes/index.md` o `docs/biomes.md`).
      - [x] Altri indici correlati (es. `docs/migrations/README.md` o sommari locali) con riferimenti ai nuovi path.
    - [x] Field di controllo:
      - URL indici aggiornati: `docs/catalog/trait_reference.md`; `docs/biomes.md`
-     - Report QA finale allegato (percorso file o URL): `logs/trait_pipeline_20251130T051614Z/README.md`
+     - Report QA finale allegato (percorso file o URL): `logs/trait_pipeline_20251130T135906Z/README.md`
 
 ## Note operative
 
