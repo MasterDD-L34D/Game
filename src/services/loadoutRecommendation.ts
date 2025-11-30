@@ -166,7 +166,8 @@ const LOADOUT_BLUEPRINTS: LoadoutBlueprint[] = [
   },
 ];
 
-const clamp = (value: number, min: number, max: number): number => Math.min(max, Math.max(min, value));
+const clamp = (value: number, min: number, max: number): number =>
+  Math.min(max, Math.max(min, value));
 
 const directionFor = (value: number): ImpactDirection => {
   if (value > 0.0001) return 'positive';
@@ -296,7 +297,8 @@ const evaluateBlueprint = (
   }
 
   const skillNormalized = toNormalizedDelta(context.skillRating, 1500, 600);
-  const skillContribution = skillNormalized * blueprint.weights.skill * (variant === 'personalized' ? 1 : 0.5);
+  const skillContribution =
+    skillNormalized * blueprint.weights.skill * (variant === 'personalized' ? 1 : 0.5);
   if (skillContribution !== 0) {
     score += skillContribution;
     contributions.push(
@@ -310,7 +312,8 @@ const evaluateBlueprint = (
   }
 
   const sessionNormalized = toNormalizedDelta(context.sessionsPlayed, 40, 60);
-  const sessionContribution = sessionNormalized * blueprint.weights.sessions * personalizationFactor;
+  const sessionContribution =
+    sessionNormalized * blueprint.weights.sessions * personalizationFactor;
   if (sessionContribution !== 0) {
     score += sessionContribution;
     contributions.push(
@@ -323,7 +326,11 @@ const evaluateBlueprint = (
     );
   }
 
-  const objectiveNormalized = toNormalizedDelta(context.objectiveRate, blueprint.targetObjectiveRate, 0.25);
+  const objectiveNormalized = toNormalizedDelta(
+    context.objectiveRate,
+    blueprint.targetObjectiveRate,
+    0.25,
+  );
   const objectiveContribution =
     objectiveNormalized * blueprint.weights.objective * (variant === 'personalized' ? 1 : 0);
   if (objectiveContribution !== 0) {
@@ -338,7 +345,11 @@ const evaluateBlueprint = (
     );
   }
 
-  const survivalNormalized = toNormalizedDelta(context.avgTimeAlive, blueprint.targetAvgTimeAlive, 180);
+  const survivalNormalized = toNormalizedDelta(
+    context.avgTimeAlive,
+    blueprint.targetAvgTimeAlive,
+    180,
+  );
   const survivalContribution =
     survivalNormalized * blueprint.weights.avgTimeAlive * (variant === 'personalized' ? 1 : 0.25);
   if (survivalContribution !== 0) {
@@ -397,15 +408,25 @@ export interface LoadoutRecommendationResponse {
   readonly recommendations: LoadoutRecommendationResult[];
 }
 
-const validateRequest = (payload: Partial<LoadoutRecommendationRequest>): payload is LoadoutRecommendationRequest => {
+const validateRequest = (
+  payload: Partial<LoadoutRecommendationRequest>,
+): payload is LoadoutRecommendationRequest => {
+  const isFiniteNumber = (value: unknown): value is number =>
+    typeof value === 'number' && Number.isFinite(value);
+
   return (
     typeof payload === 'object' &&
     payload !== null &&
     typeof payload.map === 'string' &&
-    typeof payload.skillRating === 'number' &&
-    typeof payload.sessionsPlayed === 'number' &&
-    typeof payload.avgTimeAlive === 'number' &&
-    typeof payload.objectiveRate === 'number' &&
+    isFiniteNumber(payload.skillRating) &&
+    payload.skillRating >= 0 &&
+    isFiniteNumber(payload.sessionsPlayed) &&
+    payload.sessionsPlayed >= 0 &&
+    isFiniteNumber(payload.avgTimeAlive) &&
+    payload.avgTimeAlive >= 0 &&
+    isFiniteNumber(payload.objectiveRate) &&
+    payload.objectiveRate >= 0 &&
+    payload.objectiveRate <= 1 &&
     typeof payload.preferredPlaystyle === 'string'
   );
 };
@@ -415,7 +436,11 @@ export function createLoadoutRecommendationRouter(): Router {
 
   router.post('/loadout/recommendations', (request: Request, response: Response) => {
     if (!validateRequest(request.body)) {
-      response.status(400).json({ error: 'Payload non valido per le raccomandazioni loadout.' });
+      response.status(400).json({
+        // Campi numerici richiesti: finiti, non negativi e objectiveRate tra 0 e 1.
+        error:
+          'Payload non valido per le raccomandazioni loadout: i campi numerici devono essere finiti e non negativi (objectiveRate compreso tra 0 e 1).',
+      });
       return;
     }
 
