@@ -3,7 +3,7 @@
   "label": "i18n:traits.vortice_nera_flash.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Temporaneo/Traslazione",
-  "fattore_mantenimento_energetico": "i18n:traits.vortice_nera_flash.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto: compressione e rilascio di energia gravitofotica ad alto consumo.",
   "tier": "T3",
   "slot": [],
   "sinergie": [],
@@ -20,7 +20,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T3"
+        "tier": "T3",
+        "notes": "Attivo nella frattura nera quando le correnti collassano in micro-implosioni gravitofotiche."
       }
     }
   ],
@@ -29,5 +30,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "breaker"
+  ],
+  "debolezza": "i18n:traits.vortice_nera_flash.debolezza"
 }

@@ -3,7 +3,7 @@
   "label": "i18n:traits.filamenti_echo.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Supporto/Risonanza",
-  "fattore_mantenimento_energetico": "i18n:traits.filamenti_echo.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso: vibrazioni passive mantengono l'eco di riferimento.",
   "tier": "T3",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T3"
+        "tier": "T3",
+        "notes": "Attivi nella frattura nera per mantenere la frequenza di riferimento tra i cori."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.filamenti_echo.debolezza"
 }

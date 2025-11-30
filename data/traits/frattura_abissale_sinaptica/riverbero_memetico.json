@@ -3,7 +3,7 @@
   "label": "i18n:traits.riverbero_memetico.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Temporaneo/Memoria",
-  "fattore_mantenimento_energetico": "i18n:traits.riverbero_memetico.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio: serve buffer cognitivo per replicare pattern mentali.",
   "tier": "T3",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T3"
+        "tier": "T3",
+        "notes": "Attivo nella soglia crepuscolare dove gli echi memetici si moltiplicano nelle correnti lente."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.riverbero_memetico.debolezza"
 }

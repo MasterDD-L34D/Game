@@ -3,7 +3,7 @@
   "label": "i18n:traits.camere_risonanza_abyssal.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Supporto/Risonanza",
-  "fattore_mantenimento_energetico": "i18n:traits.camere_risonanza_abyssal.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto: le camere devono mantenere risonanza profonda sotto carico costante.",
   "tier": "T3",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T3"
+        "tier": "T3",
+        "notes": "Attive nella frattura nera per stabilizzare le risonanze voidsong sotto shear gravitazionale."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.camere_risonanza_abyssal.debolezza"
 }

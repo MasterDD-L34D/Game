@@ -3,7 +3,7 @@
   "label": "i18n:traits.nodi_sinaptici_superficiali.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Supporto/Sensore",
-  "fattore_mantenimento_energetico": "i18n:traits.nodi_sinaptici_superficiali.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso: i nodi sfruttano correnti locali per tenersi attivi.",
   "tier": "T1",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T1"
+        "tier": "T1",
+        "notes": "Attivi sulla cresta fotofase come nodi di instradamento per messaggeri e barriere coralline."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": false,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.nodi_sinaptici_superficiali.debolezza"
 }

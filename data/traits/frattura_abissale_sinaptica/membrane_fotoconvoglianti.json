@@ -3,7 +3,7 @@
   "label": "i18n:traits.membrane_fotoconvoglianti.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Difesa/Elettrico",
-  "fattore_mantenimento_energetico": "i18n:traits.membrane_fotoconvoglianti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso: le membrane convogliano la luce residua con minima dispersione.",
   "tier": "T1",
   "slot": [],
   "sinergie": [],
@@ -20,7 +20,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T1"
+        "tier": "T1",
+        "notes": "Attive sulla cresta fotofase per convogliare e smorzare i picchi di luce superficiale."
       }
     }
   ],
@@ -29,5 +30,9 @@
     "has_data_origin": true,
     "has_species_link": false,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.membrane_fotoconvoglianti.debolezza"
 }

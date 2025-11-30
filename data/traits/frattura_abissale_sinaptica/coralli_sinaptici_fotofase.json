@@ -3,7 +3,7 @@
   "label": "i18n:traits.coralli_sinaptici_fotofase.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Ambiente/Supporto",
-  "fattore_mantenimento_energetico": "i18n:traits.coralli_sinaptici_fotofase.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso: il nutrimento fotico mantiene attive le sinapsi coralline.",
   "tier": "T1",
   "slot": [],
   "sinergie": [],
@@ -19,7 +19,7 @@
       "fonte": "env_to_traits",
       "meta": {
         "tier": "T1",
-        "notes": "Cresta Fotofase"
+        "notes": "Attivi sulla cresta fotofase, nutriti dalla luce residua e dalle correnti superficiali."
       }
     }
   ],
@@ -28,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": false,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.coralli_sinaptici_fotofase.debolezza"
 }

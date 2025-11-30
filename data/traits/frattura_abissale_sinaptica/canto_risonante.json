@@ -3,7 +3,7 @@
   "label": "i18n:traits.canto_risonante.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Temporaneo/Risonanza",
-  "fattore_mantenimento_energetico": "i18n:traits.canto_risonante.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio: richiede cori coordinati e frequenze sostenute nel tempo.",
   "tier": "T3",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T3"
+        "tier": "T3",
+        "notes": "Attivo quando le correnti elettroluminescenti richiedono un coro che sincronizzi l'intero branco."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": true,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "support"
+  ],
+  "debolezza": "i18n:traits.canto_risonante.debolezza"
 }

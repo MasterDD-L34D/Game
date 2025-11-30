@@ -3,7 +3,7 @@
   "label": "i18n:traits.squame_diffusori_ionici.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Difesa/Elettrico",
-  "fattore_mantenimento_energetico": "i18n:traits.squame_diffusori_ionici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio: le squame si polarizzano per disperdere cariche.",
   "tier": "T1",
   "slot": [],
   "sinergie": [],
@@ -20,7 +20,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T1"
+        "tier": "T1",
+        "notes": "Attive sulla cresta fotofase per dissipare i picchi elettrici superficiali."
       }
     }
   ],
@@ -29,5 +30,9 @@
     "has_data_origin": true,
     "has_species_link": false,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.squame_diffusori_ionici.debolezza"
 }

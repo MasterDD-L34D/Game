@@ -3,7 +3,7 @@
   "label": "i18n:traits.corazze_ferro_magnetico.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Difesa/Magnetico",
-  "fattore_mantenimento_energetico": "i18n:traits.corazze_ferro_magnetico.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio-alto: i campi magnetici devono restare alimentati per respingere lo shear.",
   "tier": "T3",
   "slot": [],
   "sinergie": [],
@@ -20,7 +20,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T3"
+        "tier": "T3",
+        "notes": "Attive nella frattura nera per schermare pressione e campi magnetici irregolari."
       }
     }
   ],
@@ -29,5 +30,9 @@
     "has_data_origin": true,
     "has_species_link": false,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "tank"
+  ],
+  "debolezza": "i18n:traits.corazze_ferro_magnetico.debolezza"
 }

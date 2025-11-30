@@ -3,7 +3,7 @@
   "label": "i18n:traits.filamenti_guidalampo.label",
   "data_origin": "frattura_abissale_sinaptica",
   "famiglia_tipologia": "Mobilità/Logistica",
-  "fattore_mantenimento_energetico": "i18n:traits.filamenti_guidalampo.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio-basso: impulsi fotici guidati richiedono modulazione costante.",
   "tier": "T1",
   "slot": [],
   "sinergie": [],
@@ -18,7 +18,8 @@
       },
       "fonte": "frattura_abissale_sinaptica",
       "meta": {
-        "tier": "T1"
+        "tier": "T1",
+        "notes": "Attivi sulla cresta fotofase per tracciare rotte sicure lungo i corridoi luminosi."
       }
     }
   ],
@@ -27,5 +28,9 @@
     "has_data_origin": true,
     "has_species_link": false,
     "has_usage_tags": true
-  }
+  },
+  "usage_tags": [
+    "scout"
+  ],
+  "debolezza": "i18n:traits.filamenti_guidalampo.debolezza"
 }
