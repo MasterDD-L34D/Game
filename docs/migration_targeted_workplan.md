@@ -24,19 +24,19 @@ Questo piano elenca le attività operative a "lavori mirati" per avviare subito 
   - [x] Correzione schema applicata (tracce in diff e note su sinergie/affinità completate).
   - [x] Allineamento i18n/trait eseguito (stile e localizzazione uniformati).
   - [x] `validate_datasets.py --schemas-only` eseguito.
-  - [x] `trait_audit --check` eseguito.
+  - [x] `trait_audit --check` eseguito (report-only, schema-check disabilitato per jsonschema mancante).
   - [x] `trait_style_check` eseguito.
-  - [x] Log allegati (percorso obbligatorio in `logs/`): `logs/schema_only_2026-05-02.log`, `logs/trait_audit_2026-05-02.log`, `logs/trait_style_2026-05-02.log`, `logs/TKT-02A-VALIDATOR.rerun.log`.
+  - [x] Log allegati (percorso obbligatorio in `logs/`): `logs/schema_only_20251130T134317Z.log`, `logs/trait_audit_20251130T134317Z.log`, `logs/trait_style_20251130T134317Z.log`, `logs/TKT-02A-VALIDATOR.rerun.log`.
   - [x] Firma Master DD: Master DD
 
-#### Stato ultima riesecuzione (2026-05-02 00:00 UTC)
+#### Stato ultima riesecuzione (2025-11-30 13:43 UTC)
 
-- [x] Correzione schema applicata → **OK** (validator schema-only in pass, solo 3 avvisi pack attesi).
-- [x] Allineamento i18n/trait eseguito → **OK** (stile uniforme, solo 62 suggerimenti informativi su note bioma).
-- [x] `validate_datasets.py --schemas-only` eseguito → log: `logs/schema_only_2026-05-02.log` (copia corrente in `logs/`, fonte in `reports/temp/patch-03A-core-derived/`).
-- [x] `trait_audit --check` eseguito → log: `logs/trait_audit_2026-05-02.log` (copia corrente in `logs/`, fonte in `reports/temp/patch-03A-core-derived/`).
-- [x] `trait_style_check` eseguito → log: `logs/trait_style_2026-05-02.log` (copia corrente in `logs/`, fonte in `reports/temp/patch-03A-core-derived/`).
-- [x] Log allegati → `logs/TKT-02A-VALIDATOR.rerun.log` + log correnti in `logs/` e copie canoniche in `reports/temp/patch-03A-core-derived/`.
+- [x] Correzione schema applicata → **OK** (`validate_datasets.py --schemas-only` in pass, 0 avvisi residui).
+- [x] Allineamento i18n/trait eseguito → **OK** (stile uniforme, nessun suggerimento residuo nel check stile).
+- [x] `validate_datasets.py --schemas-only` eseguito → log: `logs/schema_only_20251130T134317Z.log` (copia corrente in `logs/`, fonte in `reports/temp/patch-03A-core-derived/`).
+- [x] `trait_audit --check` eseguito → log: `logs/trait_audit_20251130T134317Z.log` (copia corrente in `logs/`, fonte in `reports/temp/patch-03A-core-derived/`); warning: controllo schema saltato per modulo `jsonschema` non installato.
+- [x] `trait_style_check` eseguito → log: `logs/trait_style_20251130T134317Z.log` (copia corrente in `logs/`, fonte in `reports/temp/patch-03A-core-derived/`).
+- [x] Log allegati → `logs/TKT-02A-VALIDATOR.rerun.log` + log correnti in `logs/` e copie canoniche in `reports/temp/patch-03A-core-derived/` (inclusi report JSON/MD del check stile aggiornati).
 - [x] Firma Master DD → Master DD
 
 2. **Preparazione freeze e snapshot per 03A/03B** (owner: coordinator + archivist)
