@@ -10,6 +10,9 @@
   - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 
+## 2026-07-05 – incoming-smoke PR gate (dev-tooling)
+- Step: `[01C-CI-INCOMING-2026-07-05] owner=dev-tooling (approvatore Master DD); files=.github/workflows/incoming-smoke.yml, docs/ci.md, docs/planning/REF_TOOLING_AND_CI.md, logs/agent_activity.md; rischio=basso (attivazione progressiva CI); note=Attivato trigger pull_request filtrato sui percorsi incoming con guardrail (timeout 30m, concurrency cancel-in-progress, permessi ridotti) mantenendo `workflow_dispatch` manuale; documentati prerequisiti asset decompressi e piano di rollback a sola modalità dispatch.`
+
 ## 2026-05-10 – Cataloghi/asset checksum pipeline (dev-tooling)
 - Step: `[PIPELINE-EVO-PACK-CHECKSUM-2026-05-10] owner=dev-tooling (approvatore Master DD); files=scripts/evo_pack_pipeline.py, packs/evo_tactics_pack/docs/catalog/README.md, docs/planning/REF_PACKS_AND_DERIVED.md; rischio=basso (documentazione/script); note=Introdotta scrittura manifest sha256 per cataloghi/asset in packs/evo_tactics_pack/out/catalog/catalog_checksums.sha256 con logging automatico in logs/agent_activity.md via pipeline --log-activity; checklist pre/post-run cataloghi/asset pubblicata in README e referenziata da REF_PACKS_AND_DERIVED; refs=docs/planning/REF_TOOLING_AND_CI.md`
 

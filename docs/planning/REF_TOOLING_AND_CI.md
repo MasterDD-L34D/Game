@@ -68,8 +68,8 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
   1. **data-quality.yml** e **validate_traits.yml** enforcing come gate PR.
   2. **schema-validate.yml** enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
   3. **validate-naming.yml** promosso a gate PR (pull_request attivo, continue-on-error rimosso) dopo 3 run verdi; monitorare falsi positivi sul glossary e ripristinare consultivo se necessario.
-  4. **incoming-smoke.yml** resta **disattivato/solo dispatch manuale** (nessun trigger PR) fino a quando non vengono definiti i check automatici su nuovi drop e arriva un via libera esplicito.
-- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (ora coperto da audit checksum consultivo), gating incoming ancora limitato a uso manuale di `scripts/report_incoming.sh`.
+  4. **incoming-smoke.yml** attivo su **pull_request** con filtro `incoming/**` + `workflow_dispatch` manuale; guardrail attivi (timeout, concurrency, permessi ridotti). Rollback: rimuovere il trigger PR e tornare a sola modalità dispatch se emergono regressioni.
+- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (ora coperto da audit checksum consultivo); gating incoming ancora limitato al profilo smoke (paths `incoming/**`) + eventuale uso manuale di `scripts/report_incoming.sh` per triage.
 
 ### Audit checksum derived (consultivo → enforcing)
 
@@ -87,7 +87,7 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
 - Richiedere almeno **3 esecuzioni consecutive verdi** su `patch/01C-tooling-ci-catalog` per ciascun workflow prima del passaggio a enforcing.
 - Monitorare e allegare agli update PR: tasso di failure per categoria (schema, naming, audit), falsi positivi/negativi noti e delta tempo di esecuzione rispetto allo stato consultivo.
 - Documentare eventuali esclusioni temporanee o percorsi ignorati (core vs derived) nei log operativi prima di promuovere un workflow.
-- Per `incoming-smoke.yml` i guardrail restano attivi; per `validate-naming.yml` usare il rollback consultivo (push/dispatch + continue-on-error) se emergono falsi positivi bloccanti o drift glossario/registri.
+- Per `incoming-smoke.yml` restano i guardrail su timeout/concurrency/permessi; rollback previsto: disattivare il trigger `pull_request` mantenendo `workflow_dispatch`. Per `validate-naming.yml` usare il rollback consultivo (push/dispatch + continue-on-error) se emergono falsi positivi bloccanti o drift glossario/registri.
 
 ### Log operativo sui cambi di stato
 
@@ -118,8 +118,8 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
 - **validate_traits.yml** → validazione trait catalog (`tools/py/trait_template_validator.py --summary`, `scripts/build_trait_index.js`, trait coverage, `scripts/trait_style_check.js`, `tools/py/trait_health.py` se abilitato) con ingressi da `data/core/traits/**` e overlay pack.
 - **schema-validate.yml** → verifica formale degli schemi JSON/YAML in `schemas/*.json`, `schemas/core/**`, `schemas/evo/**`, `schemas/quality/**`, `config/schemas/*.json`, `schemas/card_schema.yaml`, `schemas/roll_table_schema.yaml` via `jsonschema` / `ajv-wrapper.sh`; include lint YAML per i draft 2020.
 - **validate-naming.yml** → controllo naming registri (`tools/py/validate_registry_naming.py` + registri pack `packs/evo_tactics_pack/tools/config/registries/**`) con glossary core come fonte.
-- Workflow di servizio (`traits-monthly-maintenance.yml`, `traits-sync.yml`, `qa-*.yml`, `incoming-smoke.yml`, `evo-*.yml`, `daily-*.yml`, `hud.yml`, `lighthouse.yml`, `gh-pages.yml`, `telemetry-export.yml`, `search-index.yml`, `idea-intake-index.yml`, `qa-reports.yml`, `qa-kpi-monitor.yml`, `qa-export.yml`, `update-evo-tracker.yml`, `evo-rollout-status.yml`): refresh tracker, sync trait, export KPI/report, rollout status, idea intake, search index, HUD/lighthouse, deploy test interface, telemetry export, pubblicazione siti. Segnalare eventuali consumi di snapshot (`data/derived/**`) o pack statici `packs/evo_tactics_pack/docs/catalog/**` da rimuovere nei patchset successivi.
-- Workflow chatGPT/e2e/deploy (`chatgpt_sync.yml`, `e2e.yml`, `deploy-test-interface.yml`, `incoming-smoke.yml`, `hud.yml`, `lighthouse.yml`): verificare dipendenze su snapshot/pack e smoke contro `data/core/**`; nessun cambio workflow in PATCHSET-00.
+- Workflow di servizio (`traits-monthly-maintenance.yml`, `traits-sync.yml`, `qa-*.yml`, `incoming-smoke.yml`, `evo-*.yml`, `daily-*.yml`, `hud.yml`, `lighthouse.yml`, `gh-pages.yml`, `telemetry-export.yml`, `search-index.yml`, `idea-intake-index.yml`, `qa-reports.yml`, `qa-kpi-monitor.yml`, `qa-export.yml`, `update-evo-tracker.yml`, `evo-rollout-status.yml`): refresh tracker, sync trait, export KPI/report, rollout status, idea intake, search index, HUD/lighthouse, deploy test interface, telemetry export, pubblicazione siti. Segnalare eventuali consumi di snapshot (`data/derived/**`) o pack statici `packs/evo_tactics_pack/docs/catalog/**` da rimuovere nei patchset successivi. **incoming-smoke** ora gira automaticamente sulle PR limitate a percorsi incoming.
+- Workflow chatGPT/e2e/deploy (`chatgpt_sync.yml`, `e2e.yml`, `deploy-test-interface.yml`, `incoming-smoke.yml`, `hud.yml`, `lighthouse.yml`): verificare dipendenze su snapshot/pack e smoke contro `data/core/**`; nessun cambio workflow in PATCHSET-00 oltre all'attivazione PR limitata di `incoming-smoke.yml`.
 
 ## Validator e schema checker (percorsi e comandi)
 
@@ -169,7 +169,7 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
 
 - Serie di 3 run consecutive su `patch/01C-tooling-ci-catalog` per `data-quality.yml`, `validate_traits.yml`, `schema-validate.yml`, `validate-naming.yml` con esito verde (vedi `logs/ci_runs/*`).
 - Falsi positivi monitorati: warning trait_audit su specie temp (`data/core/species.yaml`) e mismatch glossary/registries (`ali_solari_fotoni`, `occhi_cristallo_modulare`); nessuna rottura di job/exit-code.
-- Trigger attivi su `pull_request` per i workflow dati/schema/naming; `incoming-smoke.yml` resta manuale/dispatch con guardrail invariati.
+- Trigger attivi su `pull_request` per i workflow dati/schema/naming e **incoming-smoke.yml** (paths `incoming/**` + note collegate); `incoming-smoke.yml` mantiene anche il dispatch manuale con gli stessi guardrail.
 - In caso di regressioni naming, rollback a modalità consultiva (solo push/dispatch + continue-on-error) prima di bloccare PR.
 
 ## Checklist automatica PATCHSET-01 (gate incrociati core ↔ pack, con owner)
