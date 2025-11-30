@@ -35,6 +35,8 @@ Linee guida minime:
 
 Note:
 
+- 2026-07-08: freeze documentale approvato da Master DD attivo 2026-07-08T09:00Z → 2026-07-15T18:00Z su `incoming/**` e `docs/incoming/**`; nuovi drop vanno parcheggiati in `incoming/_holding` con log e ticket in `logs/agent_activity.md`. Attivazione registrata alle 09:15Z, disattivazione programmata alle 18:00Z salvo estensioni approvate.
+
 - 2026-05-09: esito verifica owner 01B/01C (archivist, approvatore Master DD): species-curator conferma drop sanificato `ancestors_neurons_dump_v3` (TKT-01B-001) con licenza in pending e handoff a species/trait-curator per matrice 01B; trait-curator on-call su TKT-01B-002 per alias sentience/enneagramma; dev-tooling marca `evo_tactics_validator-pack_v1.5` / `_param_synergy_v8_3` LEGACY (TKT-01C-001) e richiede refactor hook su event-map engine v2.3 (TKT-01C-002), segnalando a Master DD il blocco su `scan_engine_idents.py`.
 - 2026-05-02: cleanup 03B chiuso con firma Master DD; freeze documentale su `incoming/**` e `docs/incoming/**` dismesso dopo il checkpoint con smoke schema-only (14 controlli, 3 avvisi pack) e redirect confermati (`reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`). Baseline validator 02A schema-only 2026-05-01/02 registrata in `reports/audit/2026-02-20_audit_bundle.md`. Nuovi drop richiedono apertura di una nuova finestra freeze e log dedicato in `logs/agent_activity.md`.
 

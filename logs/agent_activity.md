@@ -10,6 +10,9 @@
   - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 
+## 2026-07-08 – Freeze incoming 07-15 (archivist)
+- Step: `[FREEZE-INCOMING-2026-07-08] owner=archivist (approvatore Master DD); files=logs/agent_activity.md,incoming/README.md,docs/incoming/README.md,docs/planning/REF_INCOMING_CATALOG.md; scope=incoming/**,docs/incoming/**; freeze_window=2026-07-08T09:00Z→2026-07-15T18:00Z; parking=incoming/_holding; rischio=basso (documentazione/freeze); note=Freeze attivato 2026-07-08T09:15Z su richiesta Master DD; nuovi drop devono essere parcheggiati in `incoming/_holding` con log e ticket; disattivazione programmata 2026-07-15T18:00Z salvo estensioni approvate.`
+
 ## 2026-07-05 – incoming-smoke PR gate (dev-tooling)
 - Step: `[01C-CI-INCOMING-2026-07-05] owner=dev-tooling (approvatore Master DD); files=.github/workflows/incoming-smoke.yml, docs/ci.md, docs/planning/REF_TOOLING_AND_CI.md, logs/agent_activity.md; rischio=basso (attivazione progressiva CI); note=Attivato trigger pull_request filtrato sui percorsi incoming con guardrail (timeout 30m, concurrency cancel-in-progress, permessi ridotti) mantenendo `workflow_dispatch` manuale; documentati prerequisiti asset decompressi e piano di rollback a sola modalità dispatch.`
 
