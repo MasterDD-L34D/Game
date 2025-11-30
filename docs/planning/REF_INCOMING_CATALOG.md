@@ -129,11 +129,12 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 
 #### Finestra freeze (approvata Master DD)
 
-| Inizio     | Fine       | Responsabili                                    | Note operative                                                                                                                                                      |
-| ---------- | ---------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2025-11-24 | 2025-11-27 | archivist + coordinator, approvazione Master DD | Freeze soft su `incoming/**` e `docs/incoming/**`; nuovi drop vanno parcheggiati in `incoming/_holding` con log in `logs/agent_activity.md` e nota di approvazione. |
+| Inizio     | Fine       | Responsabili                                    | Note operative                                                                                                                                                                                                                    |
+| ---------- | ---------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2025-11-24 | 2025-11-27 | archivist + coordinator, approvazione Master DD | Freeze soft su `incoming/**` e `docs/incoming/**`; nuovi drop vanno parcheggiati in `incoming/_holding` con log in `logs/agent_activity.md` e nota di approvazione.                                                               |
+| 2026-07-08 | 2026-07-15 | archivist (approvazione Master DD)              | Freeze documentale attivo 2026-07-08T09:00Z → 2026-07-15T18:00Z su `incoming/**` e `docs/incoming/**`; nuovi drop parcheggiati in `incoming/_holding` con log/ticket e riferimento al timestamp di attivazione 2026-07-08T09:15Z. |
 
-**2026-02-07 (RIAPERTURA-2026-01):** la finestra sopra risulta chiusa; nessun freeze attivo al momento. Necessaria nuova approvazione di Master DD per riattivare blocchi o aprire una finestra aggiornata.
+**Stato freeze (2026-07-08):** finestra documentale attiva con approvazione Master DD e disattivazione programmata 2026-07-15T18:00Z salvo estensioni. Ogni nuovo drop va parcheggiato in `incoming/_holding` e loggato in `logs/agent_activity.md` con ticket di riferimento.
 
 #### Gap list 01A (bozza, in attesa di approvazione Master DD)
 
