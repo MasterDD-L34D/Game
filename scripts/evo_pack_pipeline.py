@@ -157,6 +157,31 @@ def _snapshot_tree(root: Path) -> tuple[str, list[str]]:
     return digest, entries
 
 
+def _write_catalog_checksums(pack_root: Path) -> tuple[str, Path]:
+    catalog_root = pack_root / "docs" / "catalog"
+    if not catalog_root.exists():
+        raise PipelineError(f"Catalogo non trovato: {catalog_root}")
+
+    checksum, entries = _snapshot_tree(catalog_root)
+    manifest_dir = pack_root / "out" / "catalog"
+    manifest_dir.mkdir(parents=True, exist_ok=True)
+    manifest_path = manifest_dir / "catalog_checksums.sha256"
+
+    header = [
+        "# catalog/asset sha256 manifest",
+        f"timestamp: {datetime.now(timezone.utc).isoformat()}",
+        f"pack_root: {pack_root}",
+        f"catalog_root: {catalog_root}",
+        f"git_commit: {_git_rev()}",
+        f"catalog_checksum: {checksum}",
+        "",
+    ]
+
+    manifest_path.write_text("\n".join(header + entries) + "\n", encoding="utf-8")
+    print(f"✔ Manifest cataloghi/asset scritto in {manifest_path}")
+    return checksum, manifest_path
+
+
 def _git_rev() -> str:
     result = subprocess.run(
         ["git", "rev-parse", "HEAD"],
@@ -230,10 +255,15 @@ def append_activity_log(
     core_root: Path,
     pack_root: Path,
     steps: list[str],
+    checksums: dict[str, str] | None = None,
 ) -> None:
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     header = f"## {timestamp} – Pipeline pack/derived (dev-tooling)"
-    note = "; ".join(steps)
+    note_parts = list(steps)
+    if checksums:
+        checksum_str = ", ".join(f"{key}={value}" for key, value in checksums.items())
+        note_parts.append(f"checksums: {checksum_str}")
+    note = "; ".join(note_parts)
     body = (
         f"- Step: `[{tag}] owner=dev-tooling (approvatore Master DD); "
         f"core_root={core_root}; pack_root={pack_root}; rischio=medio (rigenerazione pack/derived); "
@@ -299,6 +329,7 @@ def main() -> int:
     tag = args.log_tag or f"PIPELINE-EVO-PACK-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
 
     executed_steps: list[str] = []
+    checksums: dict[str, str] = {}
 
     if args.sync_validate_only:
         args.skip_env = True
@@ -325,6 +356,10 @@ def main() -> int:
         print("▶ Aggiornamento catalogo pack")
         update_catalog(pack_root)
         executed_steps.append("cataloghi pack")
+
+        catalog_checksum, manifest_path = _write_catalog_checksums(pack_root)
+        executed_steps.append("manifest checksum cataloghi/asset")
+        checksums["catalog+asset"] = f"{catalog_checksum} (manifest={manifest_path})"
 
     if not args.skip_build:
         print("▶ Build distributivo pack")
@@ -357,6 +392,7 @@ def main() -> int:
             core_root,
             pack_root,
             executed_steps,
+            checksums,
         )
 
     print("✔ Pipeline completata")

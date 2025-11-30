@@ -116,6 +116,7 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 - Pipeline unica `scripts/evo_pack_pipeline.py --core-root data/core --pack-root packs/evo_tactics_pack` che orchestra sync core→pack, derivazione env_traits, aggiornamento catalogo, build dist e validator.
 - `packs/evo_tactics_pack/docs/catalog/*.json` → rigenerabili tramite pipeline o direttamente con `scripts/update_evo_pack_catalog.js` + `scripts/sync_evo_pack_assets.js` e build (`scripts/build_evo_tactics_pack_dist.mjs` / `scripts/preview_evo_tactics_pack_dist.mjs`).
 - Validator pack (specie/ecosistemi/foodweb) eseguibili con `packs/evo_tactics_pack/tools/py/run_all_validators.py`; risultato atteso in `packs/evo_tactics_pack/out/validation/` (richiamato dalla pipeline).
+- Checklist pre/post-run cataloghi/asset e manifest sha256: vedi `packs/evo_tactics_pack/docs/catalog/README.md`.
 - Snapshot mock `data/derived/mock/prod_snapshot/*` → rigenerabili manualmente via `rsync -a --exclude 'mock' data/ data/derived/mock/prod_snapshot/` come da README.
 - Dataset `data/derived/test-fixtures/minimal` → rigenerazione documentata tramite `scripts/generate_minimal_fixture.py` con checksum in README locale.
 - Report `data/derived/analysis/**` (trait coverage/gap, progression) → rigenerabili con `scripts/generate_derived_analysis.py` (output e checksum documentati in `data/derived/analysis/README.md`).
