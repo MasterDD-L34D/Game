@@ -7,7 +7,8 @@
   "tier": "T3",
   "slot": [],
   "sinergie": [
-    "membrana_plastica_continua"
+    "membrana_plastica_continua",
+    "cisti_di_ibernazione_minerale"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.fagocitosi_assorbente.mutazione_indotta",

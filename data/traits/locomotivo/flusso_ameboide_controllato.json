@@ -7,7 +7,8 @@
   "tier": "T2",
   "slot": [],
   "sinergie": [
-    "membrana_plastica_continua"
+    "membrana_plastica_continua",
+    "nucleo_ovomotore_rotante"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.flusso_ameboide_controllato.mutazione_indotta",

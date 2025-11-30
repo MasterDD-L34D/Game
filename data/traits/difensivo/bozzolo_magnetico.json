@@ -7,7 +7,8 @@
   "tier": "T2",
   "slot": [],
   "sinergie": [
-    "integumento_bipolare"
+    "integumento_bipolare",
+    "filtro_metallofago"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.bozzolo_magnetico.mutazione_indotta",

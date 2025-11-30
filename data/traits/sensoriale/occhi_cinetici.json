@@ -10,7 +10,8 @@
   "sinergie": [
     "cannone_sonico_a_raggio",
     "campo_di_interferenza_acustica",
-    "ali_fono_risonanti"
+    "ali_fono_risonanti",
+    "occhi_cristallo_modulare"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.occhi_cinetici.mutazione_indotta",

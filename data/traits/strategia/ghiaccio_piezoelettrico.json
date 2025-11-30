@@ -22,7 +22,8 @@
   ],
   "sinergie": [
     "pianificatore",
-    "tattiche_di_branco"
+    "tattiche_di_branco",
+    "pathfinder"
   ],
   "sinergie_pi": {
     "co_occorrenze": [],

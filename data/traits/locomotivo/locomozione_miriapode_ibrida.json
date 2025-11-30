@@ -9,7 +9,8 @@
   "sinergie": [
     "artiglio_cinetico_a_urto",
     "ermafroditismo_cronologico",
-    "sistemi_chimio_sonici"
+    "sistemi_chimio_sonici",
+    "nucleo_ovomotore_rotante"
   ],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.locomozione_miriapode_ibrida.mutazione_indotta",
