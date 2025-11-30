@@ -25,6 +25,7 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 - **Stato ticketing:** verificare ticket aperti per 01A–03B e chiudere/aggiornare quelli già superati prima di pianificare nuovi step.
 - **Aggiornamento 2026-02-12:** aperto checkpoint **RIAPERTURA-2026-02** (patchset 03A/03B) dopo esito baseline 02A in modalità report-only; freeze soft su `incoming/**` e `docs/incoming/**` ancora da confermare con Master DD, README incoming/docs allineati e tracciati nel log.
 - **Aggiornamento 2026-05-08:** rerun 02A schema-only 2026-05-01/02 loggati in `reports/audit/2026-02-20_audit_bundle.md` e usati come base per i gate 03A/03B; cleanup 03B chiuso con firma Master DD (log 2026-05-02) e freeze documentale dismesso. Per nuovi drop incoming serve aprire una nuova finestra freeze approvata e registrare il kickoff nel log `agent_activity.md` con riferimento a README aggiornati.
+- **Aggiornamento 2026-07-10:** finestra di freeze documentale 2026-07-08 → 2026-07-15 registrata su log **RIAPERTURA-2026-01**; readiness 01B/01C marcata **report-only** su branch `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` con ticket attivi **TKT-01B-001/002** e **TKT-01C-001/002** riallineati a `REF_REPO_MIGRATION_PLAN`.
 
 ## Checklist di riapertura (48h)
 
@@ -32,8 +33,9 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 2. **Stato catalogo incoming (archivist):** rileggere tabelle 01A e segnare gap list aperte; niente spostamenti file.
 3. **Readiness owner per 01B/01C:** raccogliere conferma species-curator/trait-curator/dev-tooling su disponibilità e ticket aperti.
 4. **Validare freeze + holding:** controllare se esistono nuovi drop in `incoming/_holding`; loggare decisione (integrare o archiviare) senza muovere file.
-5. **Aggiornare README mirati:** se emergono variazioni, sincronizzare solo `incoming/README.md` e `docs/incoming/README.md` con note di stato e ticket.
-6. **Gate di uscita riapertura:** una volta chiusi i punti 1–5, loggare in `logs/agent_activity.md` “RIAPERTURA-2026-01 chiusa” e passare alla pipeline 01A.
+5. **Verificare unfreeze + sync log/README:** confermare lo sblocco della finestra 2026-07-08 → 2026-07-15, aggiornare `logs/agent_activity.md` (entry **RIAPERTURA-2026-01**) e sincronizzare `incoming/README.md` e `docs/incoming/README.md` con lo stato post-freeze.
+6. **Aggiornare README mirati:** se emergono variazioni, sincronizzare solo `incoming/README.md` e `docs/incoming/README.md` con note di stato e ticket.
+7. **Gate di uscita riapertura:** una volta chiusi i punti 1–6, loggare in `logs/agent_activity.md` “RIAPERTURA-2026-01 chiusa” e passare alla pipeline 01A.
 
 ### Note operative 2026-05-08 (post 03A/03B)
 
@@ -41,6 +43,12 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 - Freeze: la finestra 03B documentale è stata chiusa con firma Master DD al 2026-05-02; prima di nuovi drop aprire un nuovo freeze (template in `logs/agent_activity.md`).
 - Documentazione: README `incoming/` e `docs/incoming/` sincronizzati sullo stato post-freeze; mantenere la coerenza con `reports/audit/2026-02-20_audit_bundle.md` per redirect/backup.
 - Azione successiva: richiesta conferma Master DD per riaprire il ciclo con nuovi batch o per mantenere lo stato di sola consultazione.
+
+### Nota operativa 2026-07-10 (freeze luglio 2026)
+
+- Finestra freeze 2026-07-08 → 2026-07-15 attiva per incoming/docs con stato loggato in `logs/agent_activity.md` (**RIAPERTURA-2026-01**).
+- Readiness 01B/01C confermata in modalità **report-only** su `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog`, legata ai ticket **TKT-01B-001/002** e **TKT-01C-001/002**.
+- Allineamento a `REF_REPO_MIGRATION_PLAN`: seguire i trigger 01B/01C → 02A usando i branch dedicati; nessuna modifica ai pack finché il freeze non viene sbloccato e annotato nel log.
 
 ### Ruoli e responsabilità durante la riapertura
 
