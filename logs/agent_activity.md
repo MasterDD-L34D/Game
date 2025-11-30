@@ -10,6 +10,10 @@
   - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 
+## 2025-11-30 – Chiusura gate 02A e sblocco 03A/03B (dev-tooling)
+- Step: `[RERUN-02A-EXEC-2025-11-30] owner=dev-tooling (firma Master DD); branch=patch/03A-core-derived; files=reports/temp/patch-03A-core-derived/rerun-2025-11-30/{schema_only.log,trait_audit.log,trait_style.log,trait_style.json}; freeze=03A/03B (report-only mirror); note=Rerun 02A schema-only (14 controlli, 0 avvisi pack), trait_audit --check (warning atteso modulo jsonschema assente), trait_style_check (0 suggerimenti) archiviati e firmati Master DD.`
+- Step: `[GATE-02A-CLOSE-2025-11-30] owner=dev-tooling (approvatore Master DD); branch=patch/03A-core-derived; files=logs/agent_activity.md, reports/temp/patch-03A-core-derived/rerun-2025-11-30/; freeze=03A/03B sbloccato; note=Gate 02A marcato chiuso con log specchiati e autorizzazione Master DD a procedere con 03A/03B secondo i log 2026-05-01/02.`
+
 ## 2026-05-08 – Allineamento planning 03A/03B e note riaperture (archivist)
 - Step: `[PLANNING-ALIGN-2026-05-08] owner=archivist (approvatore Master DD); files=docs/planning/REF_PLANNING_RIPRESA_2026.md, incoming/README.md, docs/incoming/README.md, reports/audit/2026-02-20_audit_bundle.md, logs/agent_activity.md; rischio=basso (documentazione/freeze); note=Allineati i reference di ripresa con gli esiti dei rerun 02A schema-only (log 2026-05-01/02) e con la chiusura del cleanup 03B firmata Master DD. README incoming/docs aggiornati per riflettere che il freeze 03B documentale è chiuso al 2026-05-02 e che per nuovi drop servirà una finestra approvata. L’audit bundle annota il checkpoint finale 03B e mantiene come baseline i log specchiati 03A/03B; prossimi passi: conferma Master DD sull’apertura del ciclo successivo e nuova finestra freeze se entrano nuovi batch incoming.`
 
