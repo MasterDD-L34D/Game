@@ -95,14 +95,18 @@ Il comando è disponibile anche tramite `make evo-lint` (variabili opzionali
 - Obiettivo: creare un project board e popolare le colonne/issue leggendo un
   file YAML.
 - Variabili richieste:
-  - `GITHUB_TOKEN`: token con permessi `repo` e `project`.
+  - `BACKLOG_PAT`: PAT GitHub con scope **`repo`**, **`workflow`** e
+    **`project`** (fallback `GITHUB_TOKEN` solo se è un PAT con prefisso
+    `ghp_`/`github_pat_`).
   - `EVO_BACKLOG_REPO`/`REPO`: repository di destinazione (`org/repo`).
   - `EVO_BACKLOG_FILE`/`BACKLOG_FILE`: percorso del backlog YAML.
 - File YAML atteso: chiavi `project_name`, `columns` e `issues` (con titolo,
   body, label opzionali e colonna di destinazione).
+- Flag utili: `--dry-run` valida token e YAML senza chiamare l'API GitHub
+  (utile per verifiche locali).
 - Target Makefile: `make evo-backlog EVO_BACKLOG_REPO=org/repo \
 EVO_BACKLOG_FILE=backlog.yaml` che reindirizza le variabili richieste allo
-  script.
+  script e fallisce immediatamente se il token non è un PAT valido.
 
 ## Revisione dei trait
 
