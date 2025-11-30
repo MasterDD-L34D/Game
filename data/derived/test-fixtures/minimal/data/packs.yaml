@@ -1,32 +1,32 @@
 forms:
   sentinel_proto:
-    name: "Sentinel Proto"
-    role: "Vanguardia di test"
+    name: Sentinel Proto
+    role: Vanguardia di test
     tags:
-      - demo
-      - starter
-    summary: "Forma dimostrativa per validare la dashboard."
+    - demo
+    - starter
+    summary: Forma dimostrativa per validare la dashboard.
     compatibility:
       likes:
-        - "Condivisione dati con squadre esplorative"
+      - Condivisione dati con squadre esplorative
       neutrals:
-        - "Missioni di supporto"
+      - Missioni di supporto
       dislikes:
-        - "Operazioni clandestine prolungate"
+      - Operazioni clandestine prolungate
       strengths:
-        - "Analisi rapida del territorio"
+      - Analisi rapida del territorio
       stress_triggers:
-        - "Oscurità prolungata"
+      - Oscurità prolungata
       collaboration_hooks:
-        - "Offri materiale di studio prima delle missioni"
+      - Offri materiale di studio prima delle missioni
       base_scores:
         like: 3
         neutral: 2
         dislike: 1
     bias_d12:
-      1: "Tattiche difensive"
-      6: "Asset di rilevamento"
-      12: "Riserve energetiche" 
+      1: Tattiche difensive
+      6: Asset di rilevamento
+      12: Riserve energetiche
 pi_shop:
   costs:
     moduli_di_base: 3
@@ -36,11 +36,11 @@ pi_shop:
     max_richieste: 1
   budget_curve:
     early:
-      - "1 slot di supporto"
+    - 1 slot di supporto
     mid:
-      - "+1 slot tattico"
+    - +1 slot tattico
     late:
-      - "Sblocco sinergia Aurora"
+    - Sblocco sinergia Aurora
 random_general_d20:
-  - "Rinvenuto un manufatto aurorale custodito da un sentinel."
-  - "Richiesta urgente di supporto logistico dalla base mobile."
+- Rinvenuto un manufatto aurorale custodito da un sentinel.
+- Richiesta urgente di supporto logistico dalla base mobile.

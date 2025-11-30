@@ -1,12 +1,12 @@
-id: ferrocolonia-magnetotattica
+id: archon-solare
 environment_affinity:
   multibiome:
-  - BADLANDS
+  - ROVINE_PLANARI
 derived_from_environment:
   jobs_bias:
-  - warden
+  - skirmisher
 network_bridge_roles:
-- ingegnere_ecosistema
-- sentinella
+- dispersore_ponte
+- impollinatore
 biomes_add:
-- BADLANDS
+- ROVINE_PLANARI

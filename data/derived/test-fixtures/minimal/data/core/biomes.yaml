@@ -1,16 +1,16 @@
 biomes:
   aurora_grove:
-    label: "Bosco Aurora"
-    tier: "1"
-    summary: "Bioma compatto per verificare le anteprime."
+    label: Bosco Aurora
+    tier: '1'
+    summary: Bioma compatto per verificare le anteprime.
     features:
-      - "Foliage luminescente"
-      - "Campi magnetici stabili"
+    - Foliage luminescente
+    - Campi magnetici stabili
     diff_base: 1
     mod_biome: 0
     affixes: []
     hazard:
-      description: "TODO: definire hazard specifico per la fixture."
+      description: 'TODO: definire hazard specifico per la fixture.'
       severity: low
       stress_modifiers:
         exposure: 0.0
@@ -24,9 +24,9 @@ biomes:
         support: 0.4
         overrun: 0.6
     narrative:
-      tone: "TBD"
+      tone: TBD
       hooks:
-        - "TODO: gancio narrativo di esempio per la fixture."
+      - 'TODO: gancio narrativo di esempio per la fixture.'
 vc_adapt:
   demo: {}
 mutations: {}

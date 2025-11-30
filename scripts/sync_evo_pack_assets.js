@@ -11,12 +11,54 @@ const path = require('node:path');
 const { readJsonFile, writeJsonFile } = require('./utils/jsonio');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
-const PACK_DOCS_DIR = path.join(REPO_ROOT, 'packs', 'evo_tactics_pack', 'docs', 'catalog');
-const DOCS_TARGET = path.join(REPO_ROOT, 'docs', 'evo-tactics-pack');
-const PUBLIC_TARGET = path.join(REPO_ROOT, 'public', 'docs', 'evo-tactics-pack');
+const DEFAULT_PACK_ROOT = path.join(REPO_ROOT, 'packs', 'evo_tactics_pack');
+const DEFAULT_DOCS_TARGET = path.join(REPO_ROOT, 'docs', 'evo-tactics-pack');
+const DEFAULT_PUBLIC_TARGET = path.join(REPO_ROOT, 'public', 'docs', 'evo-tactics-pack');
 
-const PATH_PREFIX_SOURCE = '../../data/';
-const PATH_PREFIX_TARGET = '../../packs/evo_tactics_pack/data/';
+function ensurePosix(value) {
+  return value.split(path.sep).join('/');
+}
+
+function parseArgs(argv) {
+  const args = {
+    packRoot: DEFAULT_PACK_ROOT,
+    docsTarget: DEFAULT_DOCS_TARGET,
+    publicTarget: DEFAULT_PUBLIC_TARGET,
+  };
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const current = argv[index];
+    if (current === '--pack-root' && argv[index + 1]) {
+      args.packRoot = path.resolve(argv[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (current === '--docs-target' && argv[index + 1]) {
+      args.docsTarget = path.resolve(argv[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (current === '--public-target' && argv[index + 1]) {
+      args.publicTarget = path.resolve(argv[index + 1]);
+      index += 1;
+    }
+  }
+
+  return args;
+}
+
+const { packRoot, docsTarget, publicTarget } = parseArgs(process.argv.slice(2));
+
+const PACK_DOCS_DIR = path.join(packRoot, 'docs', 'catalog');
+const DOCS_TARGET = docsTarget;
+const PUBLIC_TARGET = publicTarget;
+
+const PATH_PREFIX_SOURCE = ensurePosix(
+  path.relative(DOCS_TARGET, path.join(REPO_ROOT, 'data')) + '/',
+);
+const PATH_PREFIX_TARGET = ensurePosix(
+  path.relative(DOCS_TARGET, path.join(packRoot, 'data')) + '/',
+);
 
 const ASSET_MAP = [
   { source: 'catalog_data.json', targets: ['catalog_data.json'], rewritePaths: true },

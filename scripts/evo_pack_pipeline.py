@@ -3,7 +3,7 @@
 
 Esegue in sequenza:
 1) sync dati core -> pack (specie, biomi, mating, telemetry);
-2) derivazione suggerimenti trait ambientali;
+2) derivazione suggerimenti trait ambientali e cross-biome;
 3) aggiornamento catalogo pack;
 4) build distributivo statico;
 5) validatori del pack con report HTML/JSON.
@@ -19,6 +19,7 @@ from pathlib import Path
 
 DEFAULT_CORE_ROOT = Path("data/core")
 DEFAULT_PACK_ROOT = Path("packs/evo_tactics_pack")
+REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 class PipelineError(RuntimeError):
@@ -26,6 +27,7 @@ class PipelineError(RuntimeError):
 
 
 def run_command(command: list[str], cwd: Path | None = None) -> None:
+    print(f"$ {' '.join(str(part) for part in command)}")
     result = subprocess.run(command, cwd=cwd, check=False)
     if result.returncode != 0:
         raise PipelineError(f"Comando fallito ({result.returncode}): {' '.join(command)}")
@@ -60,7 +62,7 @@ def sync_core(core_root: Path, pack_root: Path) -> None:
 def derive_env_traits(pack_root: Path) -> None:
     registries_dir = pack_root / "tools" / "config" / "registries"
     species_dir = pack_root / "data" / "species"
-    out_dir = pack_root / "out" / "env_traits"
+    out_dir = pack_root / "out" / "patches"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     ecosystem_dir = pack_root / "data" / "ecosystems"
@@ -82,17 +84,35 @@ def derive_env_traits(pack_root: Path) -> None:
             str(registries_dir),
             str(target_dir),
         ]
-        run_command(command)
+        run_command(command, cwd=REPO_ROOT)
         print(f"✔ Derivati env_traits per {ecosystem.name} -> {target_dir}")
 
 
+def derive_crossbiome_traits(pack_root: Path) -> None:
+    network = pack_root / "data" / "ecosystems" / "network" / "meta_network_alpha.yaml"
+    if not network.exists():
+        raise PipelineError(f"Network meta mancante: {network}")
+
+    out_dir = pack_root / "out" / "patches" / "network"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    command = [
+        "python",
+        str(pack_root / "tools" / "py" / "derive_crossbiome_traits_v1_0.py"),
+        str(network),
+        str(out_dir),
+    ]
+    run_command(command, cwd=REPO_ROOT)
+    print(f"✔ Patch cross-biome generate in {out_dir}")
+
+
 def update_catalog(pack_root: Path) -> None:
-    run_command(["node", "scripts/update_evo_pack_catalog.js"])
-    run_command(["node", "scripts/sync_evo_pack_assets.js"])
+    run_command(["node", "scripts/update_evo_pack_catalog.js", "--pack-root", str(pack_root)], cwd=REPO_ROOT)
+    run_command(["node", "scripts/sync_evo_pack_assets.js", "--pack-root", str(pack_root)], cwd=REPO_ROOT)
 
 
 def build_dist(pack_root: Path) -> None:
-    run_command(["node", "scripts/build_evo_tactics_pack_dist.mjs"])
+    run_command(["node", "scripts/build_evo_tactics_pack_dist.mjs", "--pack-root", str(pack_root)], cwd=REPO_ROOT)
 
 
 def run_validators(pack_root: Path) -> None:
@@ -108,7 +128,7 @@ def run_validators(pack_root: Path) -> None:
         "--html-out",
         str(html_out),
     ]
-    run_command(command)
+    run_command(command, cwd=REPO_ROOT)
 
 
 def main() -> int:
@@ -117,6 +137,12 @@ def main() -> int:
     parser.add_argument("--pack-root", type=Path, default=DEFAULT_PACK_ROOT)
     parser.add_argument(
         "--skip-build", action="store_true", help="Salta la build del distributivo"
+    )
+    parser.add_argument(
+        "--skip-env", action="store_true", help="Salta la derivazione env traits"
+    )
+    parser.add_argument(
+        "--skip-cross", action="store_true", help="Salta la derivazione cross-biome"
     )
     parser.add_argument(
         "--skip-validators",
@@ -131,8 +157,13 @@ def main() -> int:
     print(f"▶ Sync core -> pack ({core_root} → {pack_root})")
     sync_core(core_root, pack_root)
 
-    print("▶ Derivazione env_traits")
-    derive_env_traits(pack_root)
+    if not args.skip_env:
+        print("▶ Derivazione env_traits")
+        derive_env_traits(pack_root)
+
+    if not args.skip_cross:
+        print("▶ Derivazione cross-biome")
+        derive_crossbiome_traits(pack_root)
 
     print("▶ Aggiornamento catalogo pack")
     update_catalog(pack_root)

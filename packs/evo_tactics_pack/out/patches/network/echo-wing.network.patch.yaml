@@ -5,6 +5,7 @@ environment_affinity:
   - CRYOSTEPPE
   - DESERTO_CALDO
   - FORESTA_TEMPERATA
+  - ROVINE_PLANARI
 derived_from_environment:
   jobs_bias:
   - skirmisher
@@ -12,6 +13,8 @@ network_bridge_roles:
 - dispersore_ponte
 - impollinatore
 biomes_add:
-- CRYOSTEPPE
-- DESERTO_CALDO
+- BADLANDS
 - FORESTA_TEMPERATA
+- DESERTO_CALDO
+- ROVINE_PLANARI
+- CRYOSTEPPE
