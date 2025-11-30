@@ -5,10 +5,10 @@ l'interfaccia `docs/test-interface` senza dipendere dai dati completi di produzi
 
 ## Ultima rigenerazione
 
-- Comando: `python scripts/generate_minimal_fixture.py --root data/derived/test-fixtures/minimal`
-- Commit sorgente: `2c48bc8d0bce6bcb469befc1bd436813869e5f5c`
+- Comando: `python scripts/generate_minimal_fixture.py --root /workspace/Game/data/derived/test-fixtures/minimal --log-tag PIPELINE-EVO-PACK-2025-11-30-R2 --update-readme`
+- Commit sorgente: `a16f7e96e9def7d9f593a99f043ec87df96c28d1`
 - Manifest con checksum: `data/derived/test-fixtures/minimal/manifest.json`
-- Log operativo: `logs/agent_activity.md` → `[PIPELINE-EVO-PACK-2025-11-30]`
+- Log operativo: `logs/agent_activity.md` → `[PIPELINE-EVO-PACK-2025-11-30-R2]`
 
 ## Contenuto
 
@@ -40,8 +40,8 @@ l'interfaccia `docs/test-interface` senza dipendere dai dati completi di produzi
 
 | File | sha256 |
 | --- | --- |
-| `data/packs.yaml` | `a5593c4840dd06213b3305909eacd02a197a8c7b3356d2547966d9bd497d9296` |
-| `data/core/telemetry.yaml` | `56f0267112f8fbb7aec589ceda1398eae716e3c2a59779a5d165fc15ba0d1a68` |
-| `data/core/biomes.yaml` | `e427eae6cbe22f3118cdb4cb0b60d743b0439f42f094568a351c44f84aa627bd` |
-| `data/core/mating.yaml` | `d6f4f0ab4f745f5bd36fdf1e3ed4d2b6f1e3eb74a4e7b414b34ee99e89f8e61d` |
-| `data/core/species.yaml` | `4c03bd9eec4d4be87780d053b50d36c7d0cc88ef681eaf81118cf591e6ba8bd5` |
+| `data/derived/test-fixtures/minimal/data/packs.yaml` | `a5593c4840dd06213b3305909eacd02a197a8c7b3356d2547966d9bd497d9296` |
+| `data/derived/test-fixtures/minimal/data/core/telemetry.yaml` | `56f0267112f8fbb7aec589ceda1398eae716e3c2a59779a5d165fc15ba0d1a68` |
+| `data/derived/test-fixtures/minimal/data/core/biomes.yaml` | `e427eae6cbe22f3118cdb4cb0b60d743b0439f42f094568a351c44f84aa627bd` |
+| `data/derived/test-fixtures/minimal/data/core/mating.yaml` | `d6f4f0ab4f745f5bd36fdf1e3ed4d2b6f1e3eb74a4e7b414b34ee99e89f8e61d` |
+| `data/derived/test-fixtures/minimal/data/core/species.yaml` | `4c03bd9eec4d4be87780d053b50d36c7d0cc88ef681eaf81118cf591e6ba8bd5` |

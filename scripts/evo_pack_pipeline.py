@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
 """Pipeline di rigenerazione per Evo Tactics Pack.
 
-Esegue in sequenza:
+Sequenza predefinita allineata a `docs/planning/REF_TOOLING_AND_CI.md`:
+
 1) sync dati core -> pack (specie, biomi, mating, telemetry);
 2) derivazione suggerimenti trait ambientali e cross-biome;
 3) aggiornamento catalogo pack;
-4) build distributivo statico;
-5) validatori del pack con report HTML/JSON.
+4) build distributivo statico (preview dist);
+5) validatori del pack con report HTML/JSON;
+6) generatori deterministici dei derived opzionali (analysis, minimal fixture);
+7) log operativi opzionali per `logs/agent_activity.md`.
 """
 
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -28,7 +33,9 @@ class PipelineError(RuntimeError):
 
 def run_command(command: list[str], cwd: Path | None = None) -> None:
     print(f"$ {' '.join(str(part) for part in command)}")
-    result = subprocess.run(command, cwd=cwd, check=False)
+    env = dict(os.environ)
+    env.setdefault("PYTHONHASHSEED", "0")
+    result = subprocess.run(command, cwd=cwd, check=False, env=env)
     if result.returncode != 0:
         raise PipelineError(f"Comando fallito ({result.returncode}): {' '.join(command)}")
 
@@ -131,6 +138,62 @@ def run_validators(pack_root: Path) -> None:
     run_command(command, cwd=REPO_ROOT)
 
 
+def generate_analysis(core_root: Path, pack_root: Path) -> None:
+    run_command(
+        [
+            "python",
+            "scripts/generate_derived_analysis.py",
+            "--core-root",
+            str(core_root),
+            "--pack-root",
+            str(pack_root),
+            "--update-readme",
+        ],
+        cwd=REPO_ROOT,
+    )
+
+
+def generate_minimal_fixture() -> None:
+    run_command(
+        [
+            "python",
+            "scripts/generate_minimal_fixture.py",
+            "--root",
+            str(Path("data/derived/test-fixtures/minimal")),
+            "--update-readme",
+        ],
+        cwd=REPO_ROOT,
+    )
+
+
+def append_activity_log(log_path: Path, tag: str, core_root: Path, pack_root: Path, include_derived: bool) -> None:
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    header = f"## {timestamp} – Pipeline pack/derived (dev-tooling)"
+    note_parts = [
+        "sync core→pack (species/biomes/mating/telemetry)",
+        "derive env + cross-biome",
+        "cataloghi pack",
+        "build dist",
+        "validator pack",
+    ]
+    if include_derived:
+        note_parts.append("derived analysis + fixture minimal rigenerate")
+    note = "; ".join(note_parts)
+    body = (
+        f"- Step: `[{tag}] owner=dev-tooling (approvatore Master DD); "
+        f"core_root={core_root}; pack_root={pack_root}; rischio=medio (rigenerazione pack/derived); "
+        f"note={note}; refs=docs/planning/REF_TOOLING_AND_CI.md`"
+    )
+
+    payload = f"{header}\n{body}\n"
+    existing = log_path.read_text(encoding="utf-8") if log_path.exists() else "# Agent activity log\n\n"
+    if existing.endswith("\n"):
+        updated = existing + payload + "\n"
+    else:
+        updated = existing + "\n" + payload + "\n"
+    log_path.write_text(updated, encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--core-root", type=Path, default=DEFAULT_CORE_ROOT)
@@ -149,10 +212,31 @@ def main() -> int:
         action="store_true",
         help="Salta l'esecuzione dei validator del pack",
     )
+    parser.add_argument(
+        "--with-analysis",
+        action="store_true",
+        help="Rigenera i derived di analysis (coverage/progression) con README",
+    )
+    parser.add_argument(
+        "--with-minimal-fixture",
+        action="store_true",
+        help="Rigenera la fixture deterministica minimal con manifest/README",
+    )
+    parser.add_argument(
+        "--log-activity",
+        action="store_true",
+        help="Appende un entry standard a logs/agent_activity.md",
+    )
+    parser.add_argument(
+        "--log-tag",
+        default=None,
+        help="Tag da usare nell'entry di logs/agent_activity.md (default auto)",
+    )
     args = parser.parse_args()
 
     core_root = args.core_root.resolve()
     pack_root = args.pack_root.resolve()
+    tag = args.log_tag or f"PIPELINE-EVO-PACK-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
 
     print(f"▶ Sync core -> pack ({core_root} → {pack_root})")
     sync_core(core_root, pack_root)
@@ -175,6 +259,24 @@ def main() -> int:
     if not args.skip_validators:
         print("▶ Validator pack")
         run_validators(pack_root)
+
+    if args.with_analysis:
+        print("▶ Derived analysis (coverage/progression)")
+        generate_analysis(core_root, pack_root)
+
+    if args.with_minimal_fixture:
+        print("▶ Fixture di test minimal")
+        generate_minimal_fixture()
+
+    if args.log_activity:
+        print("▶ Log operativo")
+        append_activity_log(
+            REPO_ROOT / "logs" / "agent_activity.md",
+            tag,
+            core_root,
+            pack_root,
+            args.with_analysis or args.with_minimal_fixture,
+        )
 
     print("✔ Pipeline completata")
     return 0

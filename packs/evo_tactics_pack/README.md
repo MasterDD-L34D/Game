@@ -39,8 +39,8 @@ python packs/evo_tactics_pack/tools/py/run_all_validators.py \
 
 ## Rigenerazione e log
 
-- Pipeline: `python scripts/evo_pack_pipeline.py --core-root data/core --pack-root packs/evo_tactics_pack` (sync core→pack, derive env/cross-biome, cataloghi, dist, validator).
-- Ultima esecuzione: `logs/agent_activity.md` → `[PIPELINE-EVO-PACK-2025-11-30]` (commit `2c48bc8d0bce6bcb469befc1bd436813869e5f5c`, report in `out/validation/last_report.{json,html}`).
+- Pipeline: `python scripts/evo_pack_pipeline.py --core-root data/core --pack-root packs/evo_tactics_pack --with-analysis --with-minimal-fixture --log-activity` (sync core→pack, derive env/cross-biome, cataloghi, dist, validator, derived deterministici e log).
+- Ultima esecuzione: `logs/agent_activity.md` → `[PIPELINE-EVO-PACK-2025-11-30-R2]` (commit `a16f7e96e9def7d9f593a99f043ec87df96c28d1`, report in `out/validation/last_report.{json,html}`).
 - Derivati correlati: `packs/evo_tactics_pack/out/patches/**` (env/cross-biome), `data/derived/analysis/manifest.json`, `data/derived/test-fixtures/minimal/manifest.json` con checksum tracciati.
 
 ## Dataset NPG reattivi
