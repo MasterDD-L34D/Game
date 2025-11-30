@@ -28,11 +28,12 @@ Il comando fallisce al primo errore critico di ciascun step ma continua a esegui
 ### Risultato ultimo run
 
 - ✅ Validazioni schema/coerenza (script python dedicato).
-- ❌ `npm run style:check` segnala debito tecnico preesistente (465 suggerimenti, 276 errori) su trait legacy non legati alla Frattura Abissale.
-- ⚠️ `evaluate_internal` / `sync_missing_index` non eseguiti per assenza di `reports/evo/rollout/traits_gap.csv` (step mantenuti nel pipeline come skip controllati).
+- ✅ `npm run style:check` (nessun suggerimento: debito tecnico legacy azzerato in questo pacchetto).
+- ✅ `evaluate_internal` / `sync_missing_index` eseguiti (read-only, nessuna anomalia); output salvati in `reports/evo/rollout/frattura_abissale_traits_eval.{csv,json}`.
 
 ## Note operative
 
 - Il pipeline si basa sui dataset già applicati dalla patch Frattura Abissale; non crea/modifica file.
 - Per un pacchetto completo CI, concatenare dopo il run: `npm run lint:stack && npm run test:stack`.
 - In caso di modifiche future ai trait, aggiornare la lista di slugs in `scripts/qa/frattura_abissale_validations.py`.
+- Classificazione issue: nessun blocco per il pacchetto Frattura Abissale; nessun residuo di debito storico sui trait valutati in questo run.
