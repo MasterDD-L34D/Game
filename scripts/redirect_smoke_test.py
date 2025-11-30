@@ -107,9 +107,12 @@ def parse_mapping(file_path: str) -> List[RedirectEntry]:
         cells = [cell.strip().strip("`") for cell in line.strip().split("|")[1:-1]]
         if not cells or cells[0].startswith("----"):
             continue
-        identifier, source, target, status_cell = cells[0], cells[1], cells[2], cells[3]
-        source_path = normalize_path(source)
-        target_path = normalize_path(target)
+        identifier = cells[0] if len(cells) > 0 else ""
+        source = cells[1] if len(cells) > 1 else ""
+        target = cells[2] if len(cells) > 2 else ""
+        status_cell = cells[3] if len(cells) > 3 else ""
+        source_path = normalize_path(source) if source else ""
+        target_path = normalize_path(target) if target else ""
         status_digits = status_cell.split()[0] if status_cell else ""
         expected_status = int(status_digits) if status_digits.isdigit() else None
         entries.append(
@@ -125,6 +128,8 @@ def parse_mapping(file_path: str) -> List[RedirectEntry]:
 
 
 def needs_skip(entry: RedirectEntry) -> Tuple[bool, str]:
+    if not entry.source or not entry.target:
+        return True, "Source o target mancante"
     if entry.expected_status is None:
         return True, "Status mancante o non numerico"
     if "<" in entry.source or "<" in entry.target:
@@ -238,16 +243,17 @@ def evaluate_entry(entry: RedirectEntry, host: str, timeout: float) -> RedirectR
 
 
 def generate_report(host: str, environment: str, results: List[RedirectResult]) -> Dict:
+    summary = {
+        "total": len(results),
+        "pass": sum(1 for r in results if r.outcome == "PASS"),
+        "fail": sum(1 for r in results if r.outcome == "FAIL"),
+        "skip": sum(1 for r in results if r.outcome == "SKIP"),
+        "error": sum(1 for r in results if r.outcome == "ERROR"),
+    }
     return {
         "host": host,
         "environment": environment,
-        "summary": {
-            "total": len(results),
-            "pass": sum(1 for r in results if r.outcome == "PASS"),
-            "fail": sum(1 for r in results if r.outcome == "FAIL"),
-            "skip": sum(1 for r in results if r.outcome == "SKIP"),
-            "error": sum(1 for r in results if r.outcome == "ERROR"),
-        },
+        "summary": summary,
         "results": [r.__dict__ for r in results],
     }
 
@@ -260,13 +266,26 @@ def print_results(results: List[RedirectResult]) -> None:
         print(f"{prefix}: {detail} | {message}")
 
 
+def print_summary(summary: Dict[str, int]) -> None:
+    print(
+        "\nTotale: {total} | PASS: {pass} | FAIL: {fail} | SKIP: {skip} | ERROR: {error}".format(
+            **summary
+        )
+    )
+
+
 def main() -> int:
     args = parse_args()
-    entries = parse_mapping(args.mapping)
+    try:
+        entries = parse_mapping(args.mapping)
+    except OSError as exc:
+        print(f"Impossibile leggere il mapping '{args.mapping}': {exc}")
+        return 1
     results = [evaluate_entry(entry, args.host, args.timeout) for entry in entries]
 
     report = generate_report(args.host, args.environment, results)
     print_results(results)
+    print_summary(report["summary"])
 
     if args.output:
         directory = os.path.dirname(args.output) or "."

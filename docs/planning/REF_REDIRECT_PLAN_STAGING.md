@@ -91,7 +91,7 @@ Note operative:
 - Interpretazione esiti:
   - `PASS`: status HTTP e `Location` corrispondono a quanto indicato nel mapping.
   - `FAIL`: lo status o la `Location` non corrispondono al mapping; bloccare il go-live finché non è risolto.
-  - `SKIP`: riga di mapping incompleta (placeholder o status mancante); completare il dato prima del test finale.
+  - `SKIP`: riga di mapping incompleta (placeholder, status mancante o source/target vuoti); completare il dato prima del test finale.
   - `ERROR`: problemi di rete/timeout/parsing; riprovare o verificare la raggiungibilità dell’host.
 
 - Exit code: 0 se nessun `FAIL`/`ERROR`, altrimenti 1. I risultati dettagliati vengono stampati su stdout e (se indicato) nel file JSON.
@@ -104,4 +104,4 @@ Note operative:
     --output reports/redirects/redirect-smoke-staging.json
   ```
 
-- Conservare i report generati in `reports/` (es. `reports/redirects/redirect-smoke-staging.json`) e allegarli ai ticket #1204 (finestra di attivazione) e #1205 (go-live redirect).
+- Conservare i report generati in `reports/` (es. `reports/redirects/redirect-smoke-staging.json`) e allegarli ai ticket #1204 (finestra di attivazione) e #1205 (go-live redirect). Lo script stampa anche un riepilogo finale PASS/FAIL/SKIP/ERROR.
