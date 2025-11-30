@@ -10,6 +10,9 @@
   - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 
+## 2026-05-10 – Cataloghi/asset checksum pipeline (dev-tooling)
+- Step: `[PIPELINE-EVO-PACK-CHECKSUM-2026-05-10] owner=dev-tooling (approvatore Master DD); files=scripts/evo_pack_pipeline.py, packs/evo_tactics_pack/docs/catalog/README.md, docs/planning/REF_PACKS_AND_DERIVED.md; rischio=basso (documentazione/script); note=Introdotta scrittura manifest sha256 per cataloghi/asset in packs/evo_tactics_pack/out/catalog/catalog_checksums.sha256 con logging automatico in logs/agent_activity.md via pipeline --log-activity; checklist pre/post-run cataloghi/asset pubblicata in README e referenziata da REF_PACKS_AND_DERIVED; refs=docs/planning/REF_TOOLING_AND_CI.md`
+
 ## 2026-05-09 – Verifica owner 01B/01C (ancestors/parametri/hook)
 - Step: `[TKT-01B01C-OWNER-2026-05-09] owner=archivist (approvatore Master DD); files=incoming/README.md, docs/incoming/README.md, docs/planning/REF_INCOMING_CATALOG.md, logs/agent_activity.md; rischio=basso (documentazione triage); note=Raccolte decisioni owner: species-curator conferma drop sanificato `ancestors_neurons_dump_v3` (licenza pending) per TKT-01B-001 con handoff a species/trait-curator; trait-curator on-call per alias sentience/enneagramma (TKT-01B-002); dev-tooling marca i pack parametri v1.5/v8_3 LEGACY/read-only (TKT-01C-001) e richiede rebase hook su event-map engine v2.3 con blocco `scan_engine_idents.py` segnalato a Master DD (TKT-01C-002).`
 
