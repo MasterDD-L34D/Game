@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/species/echo_wing",
+      "destination": "/bestiario/echo-wing",
+      "permanent": true
+    },
+    {
+      "source": "/rules/synergies",
+      "destination": "/regole/synergies",
+      "permanent": true
+    },
+    {
+      "source": "/weapons/arc-rod",
+      "destination": "/equipaggiamento/armi/arc-rod",
+      "permanent": true
+    }
+  ]
+}

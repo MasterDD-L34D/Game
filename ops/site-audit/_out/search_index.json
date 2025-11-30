@@ -141,17 +141,17 @@
       "tags": []
     },
     {
-      "title": "Parts Scaling",
-      "path": "/tratti/parts-scaling",
-      "type": "tratti",
-      "summary": "",
-      "tags": []
-    },
-    {
       "title": "Glossary",
       "path": "/tratti/glossary",
       "type": "tratti",
       "summary": "Questo documento raccoglie i risultati del controllo duplicati (`TRT-01`) e normalizza i cinquanta nuovi trait consegnati nel pacchetto `incoming/lavoro_da_classificare/traits`. I dati sono stati nuovamente",
+      "tags": []
+    },
+    {
+      "title": "Parts Scaling",
+      "path": "/tratti/parts-scaling",
+      "type": "tratti",
+      "summary": "",
       "tags": []
     },
     {
@@ -169,13 +169,6 @@
       "tags": []
     },
     {
-      "title": "Nome Carta",
-      "path": "/api/schemas/card_schema.yaml",
-      "type": "api",
-      "summary": "",
-      "tags": []
-    },
-    {
       "title": "Nome voce",
       "path": "/api/schemas/roll_table_schema.yaml",
       "type": "api",
@@ -183,22 +176,8 @@
       "tags": []
     },
     {
-      "title": "Species.Schema",
-      "path": "/api/schemas/species.schema.json",
-      "type": "api",
-      "summary": "",
-      "tags": []
-    },
-    {
-      "title": "Enums",
-      "path": "/api/schemas/enums.json",
-      "type": "api",
-      "summary": "",
-      "tags": []
-    },
-    {
-      "title": "Trait.Schema",
-      "path": "/api/schemas/trait.schema.json",
+      "title": "Nome Carta",
+      "path": "/api/schemas/card_schema.yaml",
       "type": "api",
       "summary": "",
       "tags": []
@@ -213,6 +192,27 @@
     {
       "title": "Suggestion.Schema",
       "path": "/api/schemas/suggestion.schema.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Enums",
+      "path": "/api/schemas/enums.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Species.Schema",
+      "path": "/api/schemas/species.schema.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Trait.Schema",
+      "path": "/api/schemas/trait.schema.json",
       "type": "api",
       "summary": "",
       "tags": []

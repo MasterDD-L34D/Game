@@ -1,0 +1,4 @@
+# Example server block snippets for redirects
+location = /species/echo_wing { return 301 /bestiario/echo-wing; }
+location = /rules/synergies { return 301 /regole/synergies; }
+location = /weapons/arc-rod { return 301 /equipaggiamento/armi/arc-rod; }

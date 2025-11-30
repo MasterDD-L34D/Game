@@ -1,0 +1,32 @@
+section,title,path,source_file
+Toplevel,Home,/,
+Toplevel,About,/about,
+Toplevel,API Schemas,/api/schemas,
+Toplevel,Bestiario,/bestiario,
+Toplevel,Biomi,/biomi,
+Toplevel,Changelog,/changelog,
+Toplevel,Contribuisci,/contribuisci,
+Toplevel,Quickstart GM,/docs/quickstart-gm,
+Toplevel,Download,/download,
+Toplevel,Equipaggiamento,/equipaggiamento,
+Toplevel,Generatore,/generatore,
+Toplevel,Manovre (Surge),/manovre,
+Toplevel,Modulo Personalità: Enneagramma,/moduli/enneagramma,
+Toplevel,Morph,/morph,
+Toplevel,Privacy,/privacy,
+Toplevel,Regole,/regole,
+Toplevel,Ruoli,/ruoli,
+Toplevel,Telemetria,/telemetria,
+Toplevel,Tratti,/tratti,
+api,Nome Carta,/api/schemas/card_schema.yaml,schemas/card_schema.yaml
+api,Enums,/api/schemas/enums.json,schemas/core/enums.json
+api,Esempio Tabella,/api/schemas/roll_table_schema.yaml,schemas/roll_table_schema.yaml
+api,Species.Schema,/api/schemas/species.schema.json,schemas/evo/species.schema.json
+api,Suggestion.Schema,/api/schemas/suggestion.schema.json,schemas/quality/suggestion.schema.json
+api,Suggestions-Apply-Request.Schema,/api/schemas/suggestions-apply-request.schema.json,schemas/quality/suggestions-apply-request.schema.json
+api,Trait.Schema,/api/schemas/trait.schema.json,schemas/evo/trait.schema.json
+biomi,Terraforming Bands,/biomi/terraforming-bands,biomes/terraforming_bands.yaml
+regole,Build Budget,/regole/build-budget,rules/build_budget.yaml
+regole,Seme,/regole/stages,rules/stages.yaml
+tratti,Glossary,/tratti/glossary,traits/glossary.md
+tratti,Parts Scaling,/tratti/parts-scaling,traits/parts_scaling.yaml

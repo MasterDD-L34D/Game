@@ -10,6 +10,9 @@
   - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 
+## 2026-05-07 – Backup incoming + redirect report + smoke 02A (dev-tooling)
+- Step: `[03B-UNFREEZE-REDIRECT-2026-05-07] owner=dev-tooling (firma Master DD); branch=patch/03B-incoming-cleanup; files=reports/backups/2025-11-30_incoming_backup/README.md (/tmp/incoming_20251130T034435Z.tar.gz, sha256 95f4b777d18f6899048b926c4daffbcabb21062f5953abbb8b0add42c2052f31), ops/site-audit/REPORT_site_audit.md, ops/site-audit/_out/{routes.csv,link_report.csv}, public/{search_index.json,structured-data.json}, {sitemap.xml,robots.txt,netlify.toml,nginx.conf.sample,redirects.txt,vercel.json}, reports/temp/patch-03B-incoming-cleanup/2026-02-20/{schema_only_20251130_smoke.log,trait_style_20251130.md,trait_style_20251130.json,trait_audit.log}, logs/trait_audit.md; freeze=03B chiuso (incoming/redirect); note=Eseguito backup completo di `incoming/` con manifest testuale, pulite le directory di output e rigenerati sitemap/redirect/link report; smoke validator 02A post-cleanup: schema-only OK (14 controlli, 0 avvisi), trait audit in blocco per jsonschema mancante e trait assenti già noti, trait style con 129 suggerimenti (0 errori). Report redirect allegato e approvazione Master DD registrata per lo sblocco.
+
 ## 2026-05-06 – Allineamento fonti core/pack (archivist)
 - Step: `[REF-SOURCES-PACKS-2026-05-06] owner=archivist (approvatore Master DD); files=docs/planning/REF_REPO_SOURCES_OF_TRUTH.md, docs/planning/REF_PACKS_AND_DERIVED.md, logs/agent_activity.md; rischio=basso (documentazione/cataloghi); note=Aggiornata tabella canonica per trait/specie/biomi/telemetria con link a schemi ALIENA/UCUM e cross-link reciproco a REF_PACKS_AND_DERIVED; mappati generatori pack/derived con requisiti di checksum/log e verificata assenza di percorsi duplicati in data/core/**, packs/**, data/derived/**.`
 

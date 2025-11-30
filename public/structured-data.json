@@ -1,0 +1,19 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://example.invalid",
+    "name": "Gioco Evo Tactics",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://example.invalid/cerca?q={query}",
+      "query-input": "required name=query"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Gioco Evo Tactics",
+    "url": "https://example.invalid"
+  }
+]
