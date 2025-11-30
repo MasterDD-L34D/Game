@@ -55,10 +55,10 @@ app compagne.
   curva minacce.
 
 ### Evoluzione Tratti Base — Dune Stalker
-- **Core Tier 1**: Artigli a Sette Vie + Struttura Elastica Amorfa + Scheletro Idro-Regolante.
+- **Core Tier 1**: Artigli Sette Vie + Struttura Elastica Amorfa + Scheletro Idro-Regolante.
   Mantengono mobilità verticale nelle cavità iper-saline e garantiscono difesa strutturale
   quando la squadra opera su terreni granulari instabili.
-- **Opzionali Tier 1**: Coda a Frusta Cinetica, Sacche Galleggianti Ascensoriali e Criostasi.
+- **Opzionali Tier 1**: Coda Frusta Cinetica, Sacche Galleggianti Ascensoriali e Criostasi Adattiva.
   Consentono burst di controllo (frusta), mobilità verticale in ambienti caverna e cicli di
   ibernazione rapida durante tempeste prolungate.
 - **Sinergie Tier 1**: Focus Frazionato, Risonanza di Branco e Tattiche di Branco. Queste

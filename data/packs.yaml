@@ -115,11 +115,11 @@ forms:
     bias_d12: {A: "1-4", B: "5-8", C: "9-12"}
   COPERTURA_ALFA:
     A: [trait_T3:ali_fono_risonanti, modulo_tattico, PE]
-    B: [trait_T2:occhi_di_cristallo_modulare, guardia_situazionale, cap_pt]
+    B: [trait_T2:occhi_cristallo_modulare, guardia_situazionale, cap_pt]
     C: [trait_T1:spore_psichiche_silenziate, starter_bioma, PE]
     bias_d12: {A: "1-4", B: "5-8", C: "9-12"}
   COPERTURA_BETA:
-    A: [trait_T2:occhi_di_cristallo_modulare, sigillo_forma, PE]
+    A: [trait_T2:occhi_cristallo_modulare, sigillo_forma, PE]
     B: [trait_T1:secrezione_rallentante_palmi, guardia_situazionale, PE]
     C: [trait_T3:ali_fono_risonanti, cap_pt, PE]
     bias_d12: {A: "1-4", B: "5-8", C: "9-12"}
