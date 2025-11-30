@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import hashlib
 import shutil
 import subprocess
 from datetime import datetime, timezone
@@ -138,6 +139,63 @@ def run_validators(pack_root: Path) -> None:
     run_command(command, cwd=REPO_ROOT)
 
 
+def _hash_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(8192), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _snapshot_tree(root: Path) -> tuple[str, list[str]]:
+    entries: list[str] = []
+    for file_path in sorted(root.rglob("*")):
+        if file_path.is_file():
+            rel = file_path.relative_to(root)
+            entries.append(f"{_hash_file(file_path)}  {rel}")
+    digest = hashlib.sha256("\n".join(entries).encode("utf-8")).hexdigest()
+    return digest, entries
+
+
+def _git_rev() -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return "UNKNOWN"
+    return result.stdout.strip()
+
+
+def sync_core_with_report(core_root: Path, pack_root: Path) -> Path:
+    print("▶ Sync core -> pack (post-validator)")
+    sync_core(core_root, pack_root)
+
+    data_root = pack_root / "data"
+    checksum, entries = _snapshot_tree(data_root)
+
+    out_dir = pack_root / "out" / "validation"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    report_path = out_dir / "core_sync.sha256"
+
+    header = [
+        "# core → pack sync manifest",
+        f"timestamp: {datetime.now(timezone.utc).isoformat()}",
+        f"core_root: {core_root}",
+        f"pack_root: {pack_root}",
+        f"git_commit: {_git_rev()}",
+        f"data_checksum: {checksum}",
+        "",
+    ]
+    report_path.write_text("\n".join(header + entries) + "\n", encoding="utf-8")
+
+    print(f"✔ Sync core -> pack completato ({report_path})")
+    return report_path
+
+
 def generate_analysis(core_root: Path, pack_root: Path) -> None:
     run_command(
         [
@@ -166,19 +224,16 @@ def generate_minimal_fixture() -> None:
     )
 
 
-def append_activity_log(log_path: Path, tag: str, core_root: Path, pack_root: Path, include_derived: bool) -> None:
+def append_activity_log(
+    log_path: Path,
+    tag: str,
+    core_root: Path,
+    pack_root: Path,
+    steps: list[str],
+) -> None:
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     header = f"## {timestamp} – Pipeline pack/derived (dev-tooling)"
-    note_parts = [
-        "sync core→pack (species/biomes/mating/telemetry)",
-        "derive env + cross-biome",
-        "cataloghi pack",
-        "build dist",
-        "validator pack",
-    ]
-    if include_derived:
-        note_parts.append("derived analysis + fixture minimal rigenerate")
-    note = "; ".join(note_parts)
+    note = "; ".join(steps)
     body = (
         f"- Step: `[{tag}] owner=dev-tooling (approvatore Master DD); "
         f"core_root={core_root}; pack_root={pack_root}; rischio=medio (rigenerazione pack/derived); "
@@ -213,6 +268,11 @@ def main() -> int:
         help="Salta l'esecuzione dei validator del pack",
     )
     parser.add_argument(
+        "--sync-validate-only",
+        action="store_true",
+        help="Esegui solo sync core→pack e validator (più sync post-validator)",
+    )
+    parser.add_argument(
         "--with-analysis",
         action="store_true",
         help="Rigenera i derived di analysis (coverage/progression) con README",
@@ -238,35 +298,56 @@ def main() -> int:
     pack_root = args.pack_root.resolve()
     tag = args.log_tag or f"PIPELINE-EVO-PACK-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
 
+    executed_steps: list[str] = []
+
+    if args.sync_validate_only:
+        args.skip_env = True
+        args.skip_cross = True
+        args.skip_build = True
+        args.with_analysis = False
+        args.with_minimal_fixture = False
+
     print(f"▶ Sync core -> pack ({core_root} → {pack_root})")
     sync_core(core_root, pack_root)
+    executed_steps.append("sync core→pack (species/biomes/mating/telemetry)")
 
     if not args.skip_env:
         print("▶ Derivazione env_traits")
         derive_env_traits(pack_root)
+        executed_steps.append("derive env traits")
 
     if not args.skip_cross:
         print("▶ Derivazione cross-biome")
         derive_crossbiome_traits(pack_root)
+        executed_steps.append("derive cross-biome")
 
-    print("▶ Aggiornamento catalogo pack")
-    update_catalog(pack_root)
+    if not args.sync_validate_only:
+        print("▶ Aggiornamento catalogo pack")
+        update_catalog(pack_root)
+        executed_steps.append("cataloghi pack")
 
     if not args.skip_build:
         print("▶ Build distributivo pack")
         build_dist(pack_root)
+        executed_steps.append("build dist pack")
 
     if not args.skip_validators:
         print("▶ Validator pack")
         run_validators(pack_root)
+        executed_steps.append("validator pack")
+
+        sync_core_with_report(core_root, pack_root)
+        executed_steps.append("sync core→pack post-validator (manifest sha256)")
 
     if args.with_analysis:
         print("▶ Derived analysis (coverage/progression)")
         generate_analysis(core_root, pack_root)
+        executed_steps.append("derived analysis")
 
     if args.with_minimal_fixture:
         print("▶ Fixture di test minimal")
         generate_minimal_fixture()
+        executed_steps.append("fixture minimal deterministica")
 
     if args.log_activity:
         print("▶ Log operativo")
@@ -275,7 +356,7 @@ def main() -> int:
             tag,
             core_root,
             pack_root,
-            args.with_analysis or args.with_minimal_fixture,
+            executed_steps,
         )
 
     print("✔ Pipeline completata")
