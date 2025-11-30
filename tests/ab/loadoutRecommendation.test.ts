@@ -117,6 +117,10 @@ describe('Loadout recommendation experiment', () => {
   describe('validazione input', () => {
     const expectedError =
       'Payload non valido per le raccomandazioni loadout: i campi numerici devono essere finiti e non negativi (objectiveRate compreso tra 0 e 1).';
+    const playstyleError =
+      'Stile di gioco non supportato: deve essere uno tra aggressive, balanced, support, skirmisher.';
+    const mapError =
+      'Mappa non supportata per le raccomandazioni: valori ammessi Fungal Labyrinth, Nebula Outpost, Azure Ruins, Crimson Dunes.';
 
     const executeRoute = (body: unknown) => {
       const router = createLoadoutRecommendationRouter();
@@ -171,6 +175,22 @@ describe('Loadout recommendation experiment', () => {
       const response = executeRoute(invalidPayload);
       assert.strictEqual(response.statusCode, 400);
       assert.deepStrictEqual(response.body, { error: expectedError });
+    });
+
+    it('rifiuta playstyle non previsti', async () => {
+      const basePayload = makeContext();
+      const response = executeRoute({ ...basePayload, preferredPlaystyle: 'sniper' as never });
+
+      assert.strictEqual(response.statusCode, 400);
+      assert.deepStrictEqual(response.body, { error: playstyleError });
+    });
+
+    it('rifiuta mappe non supportate dai blueprint', async () => {
+      const basePayload = makeContext();
+      const response = executeRoute({ ...basePayload, map: 'Unknown Citadel' });
+
+      assert.strictEqual(response.statusCode, 400);
+      assert.deepStrictEqual(response.body, { error: mapError });
     });
   });
 });

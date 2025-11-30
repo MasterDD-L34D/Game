@@ -2,6 +2,12 @@ import type { Request, Response } from 'express';
 import { Router } from 'express';
 
 type LoadoutPlaystyle = 'aggressive' | 'balanced' | 'support' | 'skirmisher';
+const SUPPORTED_PLAYSTYLES: readonly LoadoutPlaystyle[] = [
+  'aggressive',
+  'balanced',
+  'support',
+  'skirmisher',
+];
 
 type ImpactDirection = 'positive' | 'negative' | 'neutral';
 
@@ -165,6 +171,11 @@ const LOADOUT_BLUEPRINTS: LoadoutBlueprint[] = [
     targetAvgTimeAlive: 195,
   },
 ];
+
+const SUPPORTED_MAPS = LOADOUT_BLUEPRINTS.reduce<Set<string>>((accumulator, blueprint) => {
+  Object.keys(blueprint.mapSynergy ?? {}).forEach((map) => accumulator.add(map));
+  return accumulator;
+}, new Set<string>());
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(max, Math.max(min, value));
@@ -410,41 +421,59 @@ export interface LoadoutRecommendationResponse {
 
 const validateRequest = (
   payload: Partial<LoadoutRecommendationRequest>,
-): payload is LoadoutRecommendationRequest => {
+): { value: LoadoutRecommendationRequest } | { error: string } => {
   const isFiniteNumber = (value: unknown): value is number =>
     typeof value === 'number' && Number.isFinite(value);
 
-  return (
-    typeof payload === 'object' &&
-    payload !== null &&
-    typeof payload.map === 'string' &&
-    isFiniteNumber(payload.skillRating) &&
-    payload.skillRating >= 0 &&
-    isFiniteNumber(payload.sessionsPlayed) &&
-    payload.sessionsPlayed >= 0 &&
-    isFiniteNumber(payload.avgTimeAlive) &&
-    payload.avgTimeAlive >= 0 &&
-    isFiniteNumber(payload.objectiveRate) &&
-    payload.objectiveRate >= 0 &&
-    payload.objectiveRate <= 1 &&
-    typeof payload.preferredPlaystyle === 'string'
-  );
+  if (
+    !(
+      typeof payload === 'object' &&
+      payload !== null &&
+      typeof payload.map === 'string' &&
+      isFiniteNumber(payload.skillRating) &&
+      payload.skillRating >= 0 &&
+      isFiniteNumber(payload.sessionsPlayed) &&
+      payload.sessionsPlayed >= 0 &&
+      isFiniteNumber(payload.avgTimeAlive) &&
+      payload.avgTimeAlive >= 0 &&
+      isFiniteNumber(payload.objectiveRate) &&
+      payload.objectiveRate >= 0 &&
+      payload.objectiveRate <= 1 &&
+      typeof payload.preferredPlaystyle === 'string'
+    )
+  ) {
+    return {
+      error:
+        'Payload non valido per le raccomandazioni loadout: i campi numerici devono essere finiti e non negativi (objectiveRate compreso tra 0 e 1).',
+    };
+  }
+
+  if (!SUPPORTED_PLAYSTYLES.includes(payload.preferredPlaystyle)) {
+    return {
+      error: `Stile di gioco non supportato: deve essere uno tra ${SUPPORTED_PLAYSTYLES.join(', ')}.`,
+    };
+  }
+
+  if (!SUPPORTED_MAPS.has(payload.map)) {
+    return {
+      error: `Mappa non supportata per le raccomandazioni: valori ammessi ${Array.from(SUPPORTED_MAPS).join(', ')}.`,
+    };
+  }
+
+  return { value: payload };
 };
 
 export function createLoadoutRecommendationRouter(): Router {
   const router = Router();
 
   router.post('/loadout/recommendations', (request: Request, response: Response) => {
-    if (!validateRequest(request.body)) {
-      response.status(400).json({
-        // Campi numerici richiesti: finiti, non negativi e objectiveRate tra 0 e 1.
-        error:
-          'Payload non valido per le raccomandazioni loadout: i campi numerici devono essere finiti e non negativi (objectiveRate compreso tra 0 e 1).',
-      });
+    const validation = validateRequest(request.body);
+    if (validation.error) {
+      response.status(400).json({ error: validation.error });
       return;
     }
 
-    const context = request.body;
+    const context = validation.value;
     const variant = assignVariant(context.playerId, context.skillRating);
     const recommendations = rankLoadouts(context, variant, 3);
 
