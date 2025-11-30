@@ -33,6 +33,8 @@ logs/tooling/*.png
 
 # Generated analytics outputs
 reports/trait_balance/*.png
+# Derived checksum reports (CI artifacts)
+reports/derived_checksums/
 # Generated trait style reports
 reports/trait_style/
 logs/monthly_trait_maintenance/trait_style_*.json

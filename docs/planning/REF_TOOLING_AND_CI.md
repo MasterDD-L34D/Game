@@ -69,7 +69,18 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
   2. **schema-validate.yml** enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
   3. **validate-naming.yml** promosso a gate PR (pull_request attivo, continue-on-error rimosso) dopo 3 run verdi; monitorare falsi positivi sul glossary e ripristinare consultivo se necessario.
   4. **incoming-smoke.yml** resta **disattivato/solo dispatch manuale** (nessun trigger PR) fino a quando non vengono definiti i check automatici su nuovi drop e arriva un via libera esplicito.
-- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (proposta step opzionale in `validate_traits.yml`), gating incoming ancora limitato a uso manuale di `scripts/report_incoming.sh`.
+- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (ora coperto da audit checksum consultivo), gating incoming ancora limitato a uso manuale di `scripts/report_incoming.sh`.
+
+### Audit checksum derived (consultivo → enforcing)
+
+- **Workflow**: `.github/workflows/derived_checksum.yml` (job `derived-checksum`).
+- **Scope**: ricalcola i checksum sha256 dei derived principali (`data/derived/analysis/**`, `data/derived/exports/**`) e li confronta con `manifest.json`/README; output in `reports/derived_checksums/report.{md,json}` pubblicato come artifact.
+- **Modalità attuale**: consultiva (`continue-on-error: true`), trigger `pull_request`/`push` sui percorsi `data/derived/**` e documentazione collegata; non blocca i gate PR.
+- **Condizioni per renderlo bloccante**:
+  - almeno **3 run consecutivi verdi** sul branch di sperimentazione (`tooling-ci/derived-checksum` o equivalente), con mismatch gestiti/risolti;
+  - approvazione owner umano (Master DD) e log operativo aggiornato in `logs/agent_activity.md` con piano di rollback;
+  - rimozione di `continue-on-error` e (se necessario) promozione a matrix PR con check obbligatorio.
+- **Uso manuale/analisi**: l’artifact contiene per ogni file derived lo stato `match/mismatch/missing` confrontando sia il manifest sia la tabella README; può essere allegato alle discussioni PR per decidere se rigenerare gli artifact o aggiornare i reference.
 
 ### Criteri di monitoraggio e promozione
 
