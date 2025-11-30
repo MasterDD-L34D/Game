@@ -45,7 +45,7 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
 
 1. Elencare i workflow CI e gli script rilevanti con input, output, dipendenze e owner.
 2. Mappare quali validatori/schema-checker usano core vs derived e verificare la presenza degli schemi aggiornati.
-3. Definire una checklist minima per la rigenerazione dei pack (comandi, prerequisiti, validazioni) da integrare in CI o documentazione.
+3. Definire una checklist minima per la rigenerazione dei pack (comandi, prerequisiti, validazioni) da integrare in CI o documentazione (ora coperta da `scripts/evo_pack_pipeline.py`).
 4. Identificare fixture `data/derived/**` critiche per i test e pianificare la loro sostituzione con versioni rigenerate dai core.
 5. Proporre aggiornamenti incrementali ai workflow CI, allineandoli con i patchset definiti nel piano di migrazione.
 
