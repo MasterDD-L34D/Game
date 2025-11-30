@@ -593,3 +593,8 @@
 - Step ID: DERIVED-DOC-INVENTORY-2025-11-30; branch: `main`; owner: archivist (STRICT MODE).
 - Azioni: allineati README di `data/derived/analysis`, `data/derived/exports` e `data/derived/mock` ai prerequisiti `REF_PACKS_AND_DERIVED` con comandi di rigenerazione, input canonici e checksum; creato `data/derived/mock/VERSION` e manifest `manifest-prod_snapshot.sha256` post-rsync.
 - Note: nessuna rigenerazione dei dataset core; checksum verificati con `sha256sum` sugli artifact esistenti.
+## 2026-07-01 – Derived checksum audit (report-only)
+- Branch: `main`; owner: dev-tooling (STRICT MODE).
+- Azioni: aggiunto script `tools/py/check_derived_checksums.py` che ricalcola i checksum sha256 dei derived principali (analysis/exports) confrontandoli con manifest/README e produce report markdown/json in `reports/derived_checksums/`. Creato workflow consultivo `.github/workflows/derived_checksum.yml` con artifact pubblicato e `continue-on-error: true`.
+- Condizioni di promozione a gate PR: 3 run verdi consecutivi su branch di sperimentazione, approvazione Master DD con piano di rollback in `logs/agent_activity.md`, rimozione `continue-on-error` e (se richiesto) check obbligatorio PR.
+

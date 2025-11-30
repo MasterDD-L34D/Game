@@ -1,0 +1,41 @@
+name: Derived checksum audit (report-only)
+
+on:
+  pull_request:
+    paths:
+      - 'data/derived/**'
+      - 'tools/py/check_derived_checksums.py'
+      - 'docs/planning/REF_TOOLING_AND_CI.md'
+      - 'logs/agent_activity.md'
+  push:
+    paths:
+      - 'data/derived/**'
+      - 'tools/py/check_derived_checksums.py'
+      - 'docs/planning/REF_TOOLING_AND_CI.md'
+      - 'logs/agent_activity.md'
+
+jobs:
+  derived-checksum:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: requirements-dev.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Run derived checksum audit (report-only)
+        run: python tools/py/check_derived_checksums.py --output-dir reports/derived_checksums
+      - name: Upload checksum audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: derived-checksum-audit-${{ github.run_id }}
+          path: reports/derived_checksums/
+          if-no-files-found: warn
