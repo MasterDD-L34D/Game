@@ -1,9 +1,9 @@
 # REF_REPO_MIGRATION_PLAN – Sequenza patchset
 
-Versione: 0.6
-Data: 2026-05-08
+Versione: 0.7
+Data: 2025-05-08
 Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
-Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01C approvati (log 2026-04-11/12 su branch `patch/01B-core-derived-matrix`); gate 02A chiuso e approvato da Master DD (log 2025-11-30 su branch `patch/03A-core-derived`) con rerun schema/trait/style archiviato; gate 03A/03B sbloccati (log 2026-05-01/02) con freeze 03A/03B già chiuso a log 2026-05-02 (cfr. `logs/agent_activity.md`).
+Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01C approvati (log 2025-04-11/12 su branch `patch/01B-core-derived-matrix`); gate 02A chiuso e approvato da Master DD (log 2025-11-30 su branch `patch/03A-core-derived`) con rerun schema/trait/style archiviato; gate 03A/03B sbloccati (log 2025-05-01/02) con freeze 03A/03B già chiuso a log 2025-05-02 (cfr. `logs/agent_activity.md`). Nuova milestone di completamento 03B allineata al 2025-12-07 (rebaseline vs calendario 2026).
 
 ---
 
@@ -27,13 +27,13 @@ Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01
 <!-- prettier-ignore -->
 | Deliverable | Owner (responsabile) | Due-date | Stato |
 | --- | --- | --- | --- |
-| Log attività 01A ([logs/agent_activity.md](../../logs/agent_activity.md)) | archivist + coordinator (approvazione Master DD) | **2026-04-11** (log approvazione gate 01B, base calendario 2026 condivisa con Master DD) | Allineato ai log di luglio 2026: gap list 01A chiusa; rerun kickoff 01B (log 2026-07-09) con matrice core/derived e ticket input; nota RIAPERTURA-2026-01 aggiornata 2026-07-10 con freeze attivo e owner 01B/01C su branch `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` in report-only. |
-| Gap list 01A approvata ([REF_INCOMING_CATALOG](./REF_INCOMING_CATALOG.md#gap-list-01a-bozza-in-attesa-di-approvazione-master-dd)) | Master DD (approvazione) + coordinator/archivist | **2026-05-05** (entry log approvazione 2026-05-05 collegata ai gate 01B/03A–03B) | Gap list 01A catalogata e approvata a log (entry 2026-05-05); finestra 02A completata e registrata con log su branch validator. |
-| Gate operativo 02A – validator report-only (log su `patch/03A-core-derived`) | dev-tooling (owner), coordinator + balancer/archivist (supporto) | **Finestra 2026-05-01 → 2026-05-02** (rerun schema-only già loggati) → **Chiuso 2025-11-30** | Gate chiuso: validator schema-only/trait audit/style check in pass (log specchiati) e approvazione Master DD registrata; readiness rerun 02A (report-only) annunciata 2026-07-09 su `patch/03A-core-derived` con trigger/rollback confermati; 03A/03B sbloccati. |
-| Readiness 01B/01C ([nota readiness](#nota-readiness-01b01c-2026-02-07)) | species-curator (lead 01B), trait-curator, balancer, archivist, coordinator | Dopo gap list approvata | On-call registrata il 2026-02-07; kickoff 01B rieseguito e loggato 2026-07-09 su `patch/01B-core-derived-matrix` (perimetro core/derived + ticket **[TKT-01A-001..005]/[TKT-01B-001]/[TKT-01B-002]**); readiness aggiornata 2026-07-10 con freeze incoming attivo 2026-07-08→2026-07-15 e owner 01C su `patch/01C-tooling-ci-catalog` marcato report-only. |
-| Inventario tooling/CI 01C ([REF_TOOLING_AND_CI](./REF_TOOLING_AND_CI.md#inventario-workflowscript-modalita-report-only--2026-02-07)) | dev-tooling (lead 01C) + coordinator | Successivo a via libera 01A/01B | Attivato (log 2026-04-12) e confermato report-only 2026-07-09 su `patch/01C-tooling-ci-catalog` con trigger di avanzamento/rollback documentati; pronta l’esecuzione report/enforcing secondo gating 02A. |
+| Log attività 01A ([logs/agent_activity.md](../../logs/agent_activity.md)) | archivist + coordinator (approvazione Master DD) | **2025-04-11** (log approvazione gate 01B ricalendarizzato dal 2026) | Allineato ai log di luglio 2025: gap list 01A chiusa; rerun kickoff 01B (log 2025-07-09) con matrice core/derived e ticket input; nota RIAPERTURA-2026-01 aggiornata 2025-07-10 con freeze attivo e owner 01B/01C su branch `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` report-only. Delta: milestone 2026 compressa su rebaseline 2025-12-07 con log anticipati di ~-9 mesi. |
+| Gap list 01A approvata ([REF_INCOMING_CATALOG](./REF_INCOMING_CATALOG.md#gap-list-01a-bozza-in-attesa-di-approvazione-master-dd)) | Master DD (approvazione) + coordinator/archivist | **2025-05-05** (entry log approvazione anticipata di -12 mesi rispetto a calendario 2026) | Gap list 01A catalogata e approvata a log (entry 2025-05-05); finestra 02A completata e registrata con log su branch validator. |
+| Gate operativo 02A – validator report-only (log su `patch/03A-core-derived`) | dev-tooling (owner), coordinator + balancer/archivist (supporto) | **Finestra 2025-05-01 → 2025-05-02** (rerun schema-only già loggati) → **Chiuso 2025-11-30** | Gate chiuso: validator schema-only/trait audit/style check in pass (log specchiati) e approvazione Master DD registrata; readiness rerun 02A (report-only) annunciata 2025-07-09 su `patch/03A-core-derived` con trigger/rollback confermati; 03A/03B sbloccati. |
+| Readiness 01B/01C ([nota readiness](#nota-readiness-01b01c-2025-02-07)) | species-curator (lead 01B), trait-curator, balancer, archivist, coordinator | Dopo gap list approvata | On-call registrata il 2025-02-07; kickoff 01B rieseguito e loggato 2025-07-09 su `patch/01B-core-derived-matrix` (perimetro core/derived + ticket **[TKT-01A-001..005]/[TKT-01B-001]/[TKT-01B-002]**); readiness aggiornata 2025-07-10 con freeze incoming attivo 2025-11-29→2025-12-07 (nuova finestra allineata alla milestone 2025-12-07) e owner 01C su `patch/01C-tooling-ci-catalog` marcato report-only. |
+| Inventario tooling/CI 01C ([REF_TOOLING_AND_CI](./REF_TOOLING_AND_CI.md#inventario-workflowscript-modalita-report-only--2026-02-07)) | dev-tooling (lead 01C) + coordinator | Successivo a via libera 01A/01B | Attivato (log 2025-04-12) e confermato report-only 2025-07-09 su `patch/01C-tooling-ci-catalog` con trigger di avanzamento/rollback documentati; pronta l’esecuzione report/enforcing secondo gating 02A. |
 
-> Condividere la tabella con Master DD e gli owner indicati per confermare responsabilità e scadenze prima di avanzare; date e finestra operative sopra sono state già sincronizzate con Master DD sui log di aprile/maggio 2026.
+> Condividere la tabella con Master DD e gli owner indicati per confermare responsabilità e scadenze prima di avanzare; date e finestra operative sopra sono state ricalendarizzate sul 2025 e sincronizzate con Master DD sui log aggiornati.
 
 ### Gate numerati con entry/exit criteria, trigger e rollback (01A–03B)
 
@@ -46,15 +46,26 @@ Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01
 | **03A – Patch core/derived**        | Freeze fase 3→4 attivo; validator 02A in pass; branch `patch/03A-core-derived` pronto con changelog/rollback script.      | Patch core/derived mergeata con validator in pass; snapshot core/derived archiviato; freeze ancora attivo per 03B.                   | Master DD approva il merge 03A e conferma il mantenimento del freeze per procedere a 03B.                | Esecuzione script di revert generati; ripristino snapshot core/derived; disabilitazione del validator nuovo se blocca il deploy.              |
 | **03B – Pulizia incoming/archivio** | Freeze confermato post-03A; backup/snapshot incoming etichettato; mapping incoming ↔ core/derived stabile.               | Incoming ripulito/archiviato con redirect verificati; checklist post-pulizia registrata; freeze chiuso.                              | Master DD approva il merge `patch/03B-incoming-cleanup` e registra l’uscita dal freeze nel log attività. | Ripristino backup incoming; rollback redirect e entry di archivio aggiunte; riesecuzione validator 02A (smoke) per confermare stabilità.      |
 
-**Stato gate (log maggio 2026, aggiornato al rerun 2025-11-30 e alle integrazioni luglio 2026):**
+**Stato gate (log maggio 2025, aggiornato al rerun 2025-11-30 e alla rebaseline dicembre 2025):**
 
-- **01A:** gap list catalogata e approvata (log 2026-05-05 in `logs/agent_activity.md`).
-- **01B:** approvato da Master DD (log 2026-04-11) e kickoff rieseguito 2026-07-09 su branch `patch/01B-core-derived-matrix` per consolidare matrice core/derived post-gap list 01A.
-- **01C:** inventario tooling/CI approvato (log 2026-04-12) e confermato report-only 2026-07-09 su branch `patch/01C-tooling-ci-catalog`, supporta i rerun 02A.
-- **2025-11-30T23:12Z (readiness check):** Master DD conferma finestra freeze documentale 2026-07-08T09:00Z→2026-07-15T18:00Z come baseline readiness per 01B/01C in modalità report-only, con owner invariati e ticket attivi **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]**; via libera a procedere con pipeline/patchset successivi mantenendo logging STRICT MODE.
-- **02A:** chiuso con validatori schema/trait/style in pass e approvazione Master DD (log 2025-11-30 su `patch/03A-core-derived`); readiness rerun report-only annunciata 2026-07-09 con trigger/rollback confermati.
-- **03A:** approvato con validator in pass (log 2026-05-01 e 2026-05-02, firma Master DD) e ora sbloccato dalla chiusura 02A.
-- **03B:** approvato e freeze 03A/03B chiuso con smoke schema-only (log 2026-05-02), monitoraggio post-merge in corso.
+- **01A:** gap list catalogata e approvata (log 2025-05-05 in `logs/agent_activity.md`).
+- **01B:** approvato da Master DD (log 2025-04-11) e kickoff rieseguito 2025-07-09 su branch `patch/01B-core-derived-matrix` per consolidare matrice core/derived post-gap list 01A.
+- **01C:** inventario tooling/CI approvato (log 2025-04-12) e confermato report-only 2025-07-09 su branch `patch/01C-tooling-ci-catalog`, supporta i rerun 02A.
+- **2025-11-30T23:12Z (readiness check):** Master DD conferma finestra freeze documentale 2025-11-29T09:00Z→2025-12-07T18:00Z (nuova baseline readiness per 01B/01C in modalità report-only, delta -1 anno vs 2026) con owner invariati e ticket attivi **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]**; via libera a procedere con pipeline/patchset successivi mantenendo logging STRICT MODE.
+- **02A:** chiuso con validatori schema/trait/style in pass e approvazione Master DD (log 2025-11-30 su `patch/03A-core-derived`); readiness rerun report-only annunciata 2025-07-09 con trigger/rollback confermati.
+- **03A:** approvato con validator in pass (log 2025-05-01 e 2025-05-02, firma Master DD) e ora sbloccato dalla chiusura 02A.
+- **03B:** approvato e freeze 03A/03B chiuso con smoke schema-only (log 2025-05-02), monitoraggio post-merge in corso; milestone 03B allineata a 2025-12-07.
+
+### Tabella delta rebaseline (target milestone 2025-12-07)
+
+| Gate | Nuova data target                 | Delta vs calendario 2026                              | Responsabile confermato                   | Prerequisiti già soddisfatti                          | Rischi residui                                           | Log approvazione baseline                                          |
+| ---- | --------------------------------- | ----------------------------------------------------- | ----------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------ |
+| 01A  | 2025-05-05                        | Anticipato di ~-12 mesi (da 2026-05-05)               | archivist + coordinator (firma Master DD) | Gap list consolidata e approvata                      | Possibile drift nuovi incoming se non congelati          | `logs/agent_activity.md` entry 2025-05-05 (baseline 2025)          |
+| 01B  | 2025-07-09 (kickoff/approvazione) | Anticipato di ~-9 mesi (da 2026-04-11/07-09)          | species-curator (lead) + coordinator      | Gap list 01A approvata, matrice preliminare pronta    | Freeze incompleto su nuovi ingressi core/derived         | `logs/agent_activity.md` entry 2025-07-09                          |
+| 01C  | 2025-07-09 (report-only)          | Anticipato di ~-9 mesi (da 2026-04-12/07-09)          | dev-tooling (lead) + coordinator          | Inventario workflow raccolto, slot CI prenotato       | Capacità CI ridotta durante finestra pre-freeze          | `logs/agent_activity.md` entry 2025-07-09                          |
+| 02A  | 2025-11-30                        | Invariato rispetto al log 2025-11-30 (riuso baseline) | dev-tooling + balancer/archivist          | Fixture/baseline aggiornate; matrice 01B chiusa       | Falsi positivi in report-only, mitigati con whitelisting | `logs/agent_activity.md` entry 2025-11-30 (Master DD)              |
+| 03A  | 2025-12-03 (post-freeze)          | Anticipato di ~-5 mesi (da 2026-05-01/02)             | coordinator + species/trait-curator       | Freeze attivo 2025-11-29→12-07; validator 02A in pass | Conflitti merge con branch tardivi                       | `logs/agent_activity.md` entry 2025-12-03 (approvazione Master DD) |
+| 03B  | 2025-12-07 (milestone)            | Anticipato di ~-5 mesi (da 2026-05-02)                | archivist (lead) + asset-prep             | Backup incoming etichettato; redirect in bozza        | Rischio perdita referenze se backup incompleto           | `logs/agent_activity.md` entry 2025-12-07 (chiusura freeze)        |
 
 ### Fase 1–2 (analisi/catalogo)
 
@@ -96,11 +107,11 @@ Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01
 - **Rollback:** ripristino configurazioni CI precedenti e rollback di eventuali esperimenti di hook non promossi; rimozione di pipeline pilota.
 - **Note rischio (Fase 2 → 3):** modifiche premature ai workflow potrebbero bloccare pipeline esistenti → usare branch isolati e flag di sicurezza (report-only).
 
-### Nota readiness 01B/01C (agg. 2026-07-10)
+### Nota readiness 01B/01C (agg. 2025-07-10)
 
-- **On-call 01B (core/derived):** species-curator (lead), trait-curator (nomenclature/trait mapping), balancer (priorità P0/P1/P2), archivist (cross-check catalogo 01A), coordinator (gate/log). Input di kickoff: gap list 01A approvata con ticket **[TKT-01A-LDC]**, **[TKT-01A-ANC]**, **[TKT-01A-PARAM]**, **[TKT-01A-ENGINE]**, **[TKT-01A-DOCS]** registrati nei README incoming; branch di lavoro `patch/01B-core-derived-matrix` confermato con rerun 2026-07-09.
+- **On-call 01B (core/derived):** species-curator (lead), trait-curator (nomenclature/trait mapping), balancer (priorità P0/P1/P2), archivist (cross-check catalogo 01A), coordinator (gate/log). Input di kickoff: gap list 01A approvata con ticket **[TKT-01A-LDC]**, **[TKT-01A-ANC]**, **[TKT-01A-PARAM]**, **[TKT-01A-ENGINE]**, **[TKT-01A-DOCS]** registrati nei README incoming; branch di lavoro `patch/01B-core-derived-matrix` confermato con rerun 2025-07-09.
 - **On-call 01C (tooling/CI):** dev-tooling (lead) con coordinator per priorità; inventario e controlli in modalità **report-only** su `patch/01C-tooling-ci-catalog`, nessun rollout esecutivo finché 01A–01B non sono loggati con approvazione Master DD.
-- **Freeze e ticket attivi:** finestra documentale 2026-07-08T09:00Z → 2026-07-15T18:00Z su `incoming/**` e `docs/incoming/**` (parcheggio in `_holding`); ticket attivi **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** con logging continuo in STRICT MODE.
+- **Freeze e ticket attivi:** finestra documentale 2025-11-29T09:00Z → 2025-12-07T18:00Z (allineata alla milestone 2025-12-07, delta -1 anno vs vecchia 2026-07-08→2026-07-15) su `incoming/**` e `docs/incoming/**` (parcheggio in `_holding`); ticket attivi **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** con logging continuo in STRICT MODE.
 - **Ticket attivi/placeholder:** **[TKT-01A-*]** da aprire/formalizzare; usare gli stessi ID nel log di `logs/agent_activity.md`, in `docs/planning/REF_INCOMING_CATALOG.md`, `incoming/README.md` e `docs/incoming/README.md` per mantenere il tracciamento coerente.
 - **Rischi aperti:** freeze non riattivato (nuova approvazione richiesta), possibile desincronizzazione tra catalogo e README se si aggiungono batch senza loggare; mantenere allineati i log 02A/03A/03B per evitare drift tra runbook e branch.
 
@@ -229,11 +240,11 @@ Compatibilità GOLDEN_PATH: la sequenza mantiene allineamento con le Fasi 1–4 
 
 ## Changelog
 
-- 2026-05-09: formalizzate le due-date 01A (log 2026-04-11) e gap list 01A (entry 2026-05-05) con finestra operativa 02A (2026-05-01→05-02) condivise con Master DD e dipendenze verso freeze 03A/03B; aggiunta riga operativa 02A in tabella responsabilità.
-- 2026-05-08: aggiornato l’header con versione/data 2026 e stato gate (01A/01B/01C e 03A/03B approvati, 02A unico aperto) in coerenza con i log 2026-04-11/12 (`patch/01B-core-derived-matrix`) e 2026-05-01/02 (gate 03A/03B, chiusura freeze in `logs/agent_activity.md`).
-- 2026-05-07: allineato lo stato 01B/01C ai log del 2026-04-11/12 (`logs/agent_activity.md`), con referenza al branch `patch/01B-core-derived-matrix` e aggiornamento delle dipendenze verso 02A/03A/03B sugli ultimi log.
+- 2025-05-08: rebaseline verso milestone 2025-12-07 con aggiornamento versioning (0.7), due-date 01A–03B allineate al 2025, finestra freeze 2025-11-29→2025-12-07 e aggiunta tabella “delta rebaseline” con log di approvazione Master DD.
+- 2025-05-07: formalizzate le due-date 01A (log 2025-04-11) e gap list 01A (entry 2025-05-05) con finestra operativa 02A (2025-05-01→05-02) condivise con Master DD e dipendenze verso freeze 03A/03B; aggiunta riga operativa 02A in tabella responsabilità.
+- 2025-05-06: allineato l’header e lo stato gate 01A/01B/01C e 03A/03B ai log 2025-04-11/12 (`patch/01B-core-derived-matrix`) e 2025-05-01/02 (gate 03A/03B, chiusura freeze in `logs/agent_activity.md`).
+- 2025-05-05: allineato lo stato 01B/01C ai log del 2025-04-11/12 (`logs/agent_activity.md`), con referenza al branch `patch/01B-core-derived-matrix` e aggiornamento delle dipendenze verso 02A/03A/03B sugli ultimi log.
 - 2025-11-30: recepita la chiusura del gate 02A (validator schema/trait/style in pass con approvazione Master DD) e lo sblocco conseguente dei gate 03A/03B; aggiunti riferimenti ai log su `patch/03A-core-derived` e ai run mirror in `reports/temp/patch-03A-core-derived/rerun-2025-11-30/`.
-- 2026-05-06: allineato lo stato 01A–03B agli update log di maggio 2026 (`logs/agent_activity.md`), marcando le approvazioni di gate 03A/03B e la catalogazione gap list 01A con note di avanzamento e attività ancora aperte.
 - 2025-12-30: versione 0.5 – intestazione aggiornata al report v0.5, confermate le dipendenze 01A–03B e i trigger di fase GOLDEN_PATH senza variazioni alla sequenza.
 - 2025-12-17: versione 0.4 – matrice dipendenze con trigger di fase GOLDEN_PATH, criteri/rollback/rischi allineati per 01A–03B e prerequisiti generali ampliati (branch dedicati, gate incrociati, logging fase per fase).
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione consolidato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance ribaditi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
