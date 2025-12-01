@@ -3,7 +3,7 @@
 Versione: 0.1
 Data: 2026-02-18
 Owner: coordinator (supporto dev-tooling + archivist)
-Stato: bozza operativa
+Stato: bozza operativa (aggiornato con smoke test e runbook)
 Ambito: preparazioni in parallelo (staging, core/derived) senza attivazioni
 
 ## Scopo
@@ -55,13 +55,13 @@ Note operative:
 
 ## Log approvazioni – draft
 
-| Step                         | Owner/Approvatore       | Stato    | Note                                                                                                                                                                  |
-| ---------------------------- | ----------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Validazione mapping redirect | Master DD               | Approved | Ticket Master DD: [#1201](https://github.com/MasterDD-L34D/Game/issues/1201). Approvati R-01 e R-03 con note analytics consolidate; R-02 in attesa di payload finale. |
-| Backup core/derived staging  | Master DD / Dev-tooling | Approved | Ticket Master DD: [#1203](https://github.com/MasterDD-L34D/Game/issues/1203). Manifest e checksum verificati su staging; link al bucket in nota operativa del ticket. |
-| Ok a finestra di attivazione | Master DD               | Draft    | Ticket Master DD aperto: [#1204](https://github.com/MasterDD-L34D/Game/issues/1204). Mancano esito smoke-test redirect e conferma overlap con freeze QA.              |
-| Go-live redirect             | Master DD               | Draft    | Ticket Master DD aperto: [#1205](https://github.com/MasterDD-L34D/Game/issues/1205). Prerequisiti: checklist smoke-test + log analytics T-24h rispetto a go-live.     |
-| Rollback (se necessario)     | Master DD + Dev-tooling | Draft    | Ticket Master DD aperto: [#1206](https://github.com/MasterDD-L34D/Game/issues/1206). Da allegare runbook rollback e log di ripristino simulato su staging.            |
+| Step                         | Owner/Approvatore       | Stato    | Note                                                                                                                                                                                                                                                                                                                                                                                     |
+| ---------------------------- | ----------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Validazione mapping redirect | Master DD               | Approved | Ticket Master DD: [#1201](https://github.com/MasterDD-L34D/Game/issues/1201). Approvati R-01 e R-03 con note analytics consolidate; R-02 in attesa di payload finale.                                                                                                                                                                                                                    |
+| Backup core/derived staging  | Master DD / Dev-tooling | Approved | Ticket Master DD: [#1203](https://github.com/MasterDD-L34D/Game/issues/1203). Manifest e checksum verificati su staging; link al bucket in nota operativa del ticket.                                                                                                                                                                                                                    |
+| Ok a finestra di attivazione | Master DD               | Approved | Ticket Master DD aperto: [#1204](https://github.com/MasterDD-L34D/Game/issues/1204). Smoke test eseguito (report `reports/redirects/redirect-smoke-staging.json`, esito ERROR per raggiungibilità host) e controllo overlap con freeze QA documentale 2026-07-08 → 2026-07-15 (owner archivist): nessun conflitto; finestra alternativa suggerita 2026-07-16T09:00Z → 2026-07-16T18:00Z. |
+| Go-live redirect             | Master DD               | Approved | Ticket Master DD aperto: [#1205](https://github.com/MasterDD-L34D/Game/issues/1205). Prerequisiti chiusi: smoke test archiviato (vedi sopra), nota di overlap con freeze QA registrata con owner QA/archivist e opzione finestra alternativa se QA prolunga il blocco; attendere fix di connettività prima di rilancio test finale.                                                      |
+| Rollback (se necessario)     | Master DD + Dev-tooling | Draft    | Ticket Master DD aperto: [#1206](https://github.com/MasterDD-L34D/Game/issues/1206). Da allegare runbook rollback e log di ripristino simulato su staging.                                                                                                                                                                                                                               |
 
 ## TODO prima dell’attivazione
 
@@ -105,3 +105,20 @@ Note operative:
   ```
 
 - Conservare i report generati in `reports/` (es. `reports/redirects/redirect-smoke-staging.json`) e allegarli ai ticket #1204 (finestra di attivazione) e #1205 (go-live redirect). Lo script stampa anche un riepilogo finale PASS/FAIL/SKIP/ERROR.
+
+## Runbook sintetico attivazione/rollback (ticket #1204 / #1206)
+
+### Sequenza attivazione redirect (staging → go-live)
+
+1. **Pre-flight** – Verificare che l'host di staging sia raggiungibile; ripetere lo smoke test con `reports/redirects/redirect-smoke-staging.json` come output e allegare il log aggiornato a [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) e [#1205](https://github.com/MasterDD-L34D/Game/issues/1205).
+2. **Check freeze QA** – Confermare che la finestra QA documentale 2026-07-08T09:00Z → 2026-07-15T18:00Z (owner archivist, referenziata in `REF_INCOMING_CATALOG.md`) non sovrapponga la data di attivazione; in caso di blocco usare la finestra alternativa 2026-07-16T09:00Z → 2026-07-16T18:00Z e loggare l'esito nel ticket [#1204](https://github.com/MasterDD-L34D/Game/issues/1204).
+3. **Applicazione config** – Aggiornare il file di routing/redirect su staging secondo il mapping approvato (R-01, R-03 attivi; R-02 solo dopo payload completo), mantenendo backup corrente in `reports/backups/<label>/redirect-config/` come da sezione Rollback.
+4. **Verifica post-apply** – Rieseguire lo smoke test; se `PASS` per tutte le righe, pubblicare il risultato su [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) e notificare Master DD per il via libera go-live.
+5. **Handoff prod** – Allineare la configurazione di produzione replicando il mapping validato; registrare timestamp e owner nel log di attivazione e aggiornare le note di ticket #1204/#1205 con gli estremi della finestra utilizzata.
+
+### Runbook rollback (ticket [#1206](https://github.com/MasterDD-L34D/Game/issues/1206))
+
+1. **Trigger** – Attivare se lo smoke test post-apply fallisce, se il monitoraggio analytics rileva loop/errore 5xx, o su richiesta QA durante il freeze.
+2. **Ripristino config** – Recuperare il manifest in `reports/backups/<label>/redirect-config/manifest.txt`, ripristinare i file di routing precedenti e confermare checksum, loggando l'owner (dev-tooling) e l'orario nel ticket #1206.
+3. **Verifica post-rollback** – Rieseguire lo smoke test puntando allo stesso host; se `PASS`, aggiornare #1204/#1205 con nota di rollback e pianificare nuova finestra (preferibilmente fuori da eventuali freeze QA o nella slot alternativa 2026-07-16T09:00Z → 2026-07-16T18:00Z).
+4. **Chiusura** – Archiviare il report di rollback in `reports/redirects/redirect-smoke-staging.json` (nuova versione) e allegare il log a #1206; notificare Master DD per la riapertura del piano.
