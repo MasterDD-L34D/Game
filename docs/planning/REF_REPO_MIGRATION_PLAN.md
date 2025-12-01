@@ -11,6 +11,10 @@ Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; g
 - `[REDIR-SMOKE-2025-12-08T1100Z]` – smoke redirect **PASS** su host `http://localhost:8000` (`reports/redirects/redirect-smoke-staging.json`), ticket #1204/#1205 aggiornati a Approved, #1206 in Draft; mapping TKT-03B-001 allineato alla milestone 07/12/2025.
 - `[03A03B-ADVANCE-2025-12-08T1130Z]` – avanzamento 03A/03B con freeze attivo: TKT-03A-001 e TKT-03B-001 marcati Ready con allegati di riferimento (02A remediation + smoke redirect); milestone operativa confermata al 07/12/2025 con finestra alternativa 2025-12-09 per rollback.
 
+**Aggiornamento log 2026-07-23:**
+
+- `[03A03B-CHECKPOINT-2026-07-23T0930Z]` – checkpoint pre-merge 03A/03B con allegati validator 02A (`reports/02A_validator_rerun.md`) e smoke redirect (`reports/redirects/redirect-smoke-staging.json`) in **PASS**: TKT-03A-001 e TKT-03B-001 confermati Ready; ticket #1204/#1205 in Approved, #1206 in Draft per rollback. Freeze 03A/03B 2025-11-29→2025-12-07 confermato, finestra alternativa 2025-12-09 pronta per rollback.
+
 > **Approvazione Master DD – baseline patchset pronta per esecuzione** \
 > Timestamp log: **2025-05-02 / 2025-11-30** \
 > Riferimenti: `logs/agent_activity.md` (entry freeze 03A/03B 2025-05-02, readiness 2025-11-30 su `patch/03A-core-derived`) \
