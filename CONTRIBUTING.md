@@ -69,11 +69,17 @@ Segui queste regole quando lavori con snapshot o backup:
 ## Flusso PR e collegamento con la CI
 
 1. Crea una branch descrittiva e collega eventuali issue.
-2. Applica le checklist pertinenti (QA, telemetria, web) citate in
+2. Apri la PR solo dopo che il **validator di release è PASS senza regressioni**
+   (allega il report): eventuali regressioni bloccano il merge.
+3. Assicurati che l'approvazione del **Master DD** sia documentata (link a
+   commento/issue) prima del merge.
+4. Applica le checklist pertinenti (QA, telemetria, web) citate in
    `docs/process/traits_checklist.md` e allega log significativi nella PR.
-3. Verifica in locale `npm run format:check`, `npm run test` e,
+5. Includi nella PR un **changelog** delle modifiche e un **piano di rollback
+   03A** (link o allegato nella sezione Note del template).
+6. Verifica in locale `npm run format:check`, `npm run test` e,
    per modifiche front-end, `npm run build`/`npm run preview`.
-4. Le pipeline CI rilanciano test, build Vite con base relativa e uno
+7. Le pipeline CI rilanciano test, build Vite con base relativa e uno
    smoke-test del preview server; assicurati che la tua PR non rompa questi
    step.
 
