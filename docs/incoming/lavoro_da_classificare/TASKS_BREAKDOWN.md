@@ -4,7 +4,7 @@ Questo file traduce l'`INTEGRATION_PLAN.md` in attività granulari e
 assegnabili. Ogni sezione indica obiettivi, deliverable e comandi chiave per
 chiudere il batch corrispondente.
 
-**Owner di dominio (01B)**: archivist (Laura B) con supporto species-curator e
+**Owner di dominio (01B)**: archivist (Master DD) con supporto species-curator e
 trait-curator per l'handoff matrice core/derived e allineamento trait
 sentience/enneagramma. Milestone attiva: **01B** in report-only.
 

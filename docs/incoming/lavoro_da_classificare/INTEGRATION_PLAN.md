@@ -5,7 +5,7 @@ l'import del pacchetto Evo‑Tactics presente nella cartella
 `incoming/lavoro_da_classificare/`. L'obiettivo è convertire il materiale grezzo
 in contributi pronti per il branch principale del repository.
 
-**Owner di dominio (01B)**: archivist (Laura B) con supporto species-curator e
+**Owner di dominio (01B)**: archivist (Master DD) con supporto species-curator e
 trait-curator per l'handoff di matrice core/derived e allineamento trait
 sentience/enneagramma. Milestone: **01B** in modalità report-only.
 
