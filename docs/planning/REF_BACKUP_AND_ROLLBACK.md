@@ -27,6 +27,11 @@ Stato: operativo
 3. Applica il restore solo in sandbox/staging, seguendo le note operative collegate (es. ripristino pack o dataset) e senza committare gli artefatti.
 4. Dopo il ripristino aggiorna `Last verified` nel manifest, registra l'azione in `logs/agent_activity.md` e allega l'esito (pass/fail) nel ticket di incidente.
 
+### Readiness (post-merge e smoke)
+
+- Mantieni sempre pronti script e changelog di rollback per core/derived (vedi `reports/temp/patch-03A-core-derived/rollback.md` e `reports/temp/patch-03A-core-derived/changelog.md`) e per il ripristino dei redirect incoming (vedi `reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`).
+- Se un post-merge fallisce, applica subito lo snapshot corrispondente (core/derived + incoming/redirect) in staging, riattiva i redirect originali e riesegui i validator smoke (`python tools/py/validate_datasets.py --schemas-only ...` + redirect smoke) per confermare la stabilità prima di riaprire la finestra.
+
 ## Controlli automatici
 
 - Il pre-commit blocca nuovi binari sotto `reports/backups/**` e suggerisce di spostarli off-repo e committare solo il manifest.
