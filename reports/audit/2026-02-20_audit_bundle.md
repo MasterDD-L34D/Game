@@ -48,6 +48,13 @@ Raccogliere in un unico punto i riferimenti operativi per chiudere il ciclo 02A�
 - Validator: baseline schema-only 2026-05-01/02 in `reports/temp/patch-03A-core-derived/` e mirror 03B in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` restano il riferimento per il prossimo ciclo 03A/03B.
 - Documentazione: README `incoming/` e `docs/incoming/` aggiornati con lo stato post-cleanup e collegati al presente bundle; runbook e log di riapertura puntano a questa sezione per aprire eventuali nuove finestre.
 
+## Step 2026-07-20 (checkpoint merge 03A/03B + gate CI)
+- **Validator 02A** — baseline schema-only 2026-05-01/02 in `reports/temp/patch-03A-core-derived/` (`schema_only_2026-05-02.log` e `schema_only_2026-05-02_gate.log`, sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`) con mirror 03B in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/`; mantenerli in modalità report-only finché non arriva il via libera Master DD.
+- **Freeze e rollback** — core/derived restano sotto freeze operativo: rollback rapido via `reports/temp/patch-03A-core-derived/rollback.md` e manifest `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt`; per incoming, usare `reports/backups/2026-02-20_incoming_backup/README.md` e `incoming/archive_cold/backups/2025-11-25/manifest.sha256` come percorso di ripristino.
+- **Checkpoint merge 03A** — branch `patch/03A-core-derived` pronto al merge con changelog/rollback aggiornati; richiesta l’approvazione finale Master DD prima di sbloccare il freeze core/derived e promuovere i log schema-only 2026-05-01/02 a gate enforcing.
+- **Checkpoint merge 03B** — cleanup confermato con redirect invariati (vedi `reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`) e smoke schema-only 2026-05-02 (`schema_only_2026-05-02_smoke.log`) allineato al gate 03A; dipende dai manifest di backup 2025-11-25 e dal README 2026-02-20 per i rollback.
+- **Gate CI consultivi** — workflow `derived_checksum.yml` resta report-only (`continue-on-error: true`) finché non completate tre run verdi consecutive e firma Master DD per la promozione a enforcing; i validator 02A rimangono consultivi sui branch patch/03A-03B finché non viene autorizzato il merge.
+
 ## Step 2026-04-28 (rerun 02A → gate 03A → checkpoint 03B)
 - **Rerun 02A (report-only)** — log consolidato in `logs/TKT-02A-VALIDATOR.rerun.log` (sha256 `31e07dde55ebd94ab1c31ba59f36a261e09a50b8f72083ef4d50cd8c925d44bb`) e copie specchiate in `reports/temp/patch-03A-core-derived/`:
   - `schema_only.log` — sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`.
