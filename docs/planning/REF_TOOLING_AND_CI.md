@@ -49,27 +49,33 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
 4. Identificare fixture `data/derived/**` critiche per i test e pianificare la loro sostituzione con versioni rigenerate dai core.
 5. Proporre aggiornamenti incrementali ai workflow CI, allineandoli con i patchset definiti nel piano di migrazione.
 
-## Ordine di abilitazione CI (Master DD – 2026-04-12)
+## Ordine di abilitazione CI (Master DD – 2025-12-07)
 
-- Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit).
-- **Aggiornamento 2025-11-30**: completate 3 esecuzioni verdi consecutive per `data-quality.yml`, `validate_traits.yml`, `schema-validate.yml`, `validate-naming.yml` con falsi positivi monitorati (trait_audit su specie temp, naming su glossary). Attivati i trigger `pull_request` per `validate-naming.yml` e rimosso `continue-on-error`; confermato il gate PR per i workflow dati/schema. Rollback plan: ripristinare trigger `push`/`workflow_dispatch` + `continue-on-error` per `validate-naming.yml` e sospendere il gate PR in caso di nuove regressioni.
-- **Decisione 2026-04-20** (storico, superata dall’aggiornamento 2025-11-30): `validate-naming.yml` resta in modalità consultiva per raccogliere metriche di stabilità finché la matrice core/derived non è stabilizzata. La pipeline gira su `push` del branch `patch/01C-tooling-ci-catalog` e via `workflow_dispatch` per run controllati; il trigger PR è disattivato per evitare blocchi.
-- **Verifica 2026-04-26** (storico): confermata la modalità consultiva e il gate PR disattivato su `patch/01C-tooling-ci-catalog`; nessuna sequenza di 3 run verdi consecutivi disponibile, monitoraggio continuo finché la matrice core/derived non è stabile.
-- **Condizioni per promuovere a enforcing** (soddisfatte al 2025-11-30 per i workflow elencati):
-  - matrice core/derived stabilizzata e allineata con gli scope 03A/03B (monitorata con trait_audit e naming);
-  - almeno **3 run consecutivi verdi** su `patch/01C-tooling-ci-catalog` con falsi positivi/negativi monitorati;
-  - approvazione esplicita Master DD e log operativo aggiornato con piano di rollback (ripristino consultivo o disattivazione trigger PR in caso di regressioni);
-  - conferma che glossari/registri pack puntino alle fonti core aggiornate senza drift.
-- Nota decisionale (rollback consultivo vs enforcing attuale):
-  - **Consultivo (rollback)**: tornare a `push`/`workflow_dispatch` per `validate-naming.yml` con step non bloccanti se emergono falsi positivi bloccanti o drift glossario/registri.
+- Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit) con milestone anticipata alla data del **07/12/2025**. Approvazione Master DD rilasciata sui run del 30/11/2025 per chiudere la sequenza prima del checkpoint 2026.
+- Sequenza 2025 (stato attivo):
+  1. **data-quality.yml** e **validate_traits.yml** enforcing come gate PR (`pull_request` attivo) basati sui 3 run verdi consecutivi del 30/11/2025; rollback: reimpostare `continue-on-error` e limitare i trigger a `push`/`workflow_dispatch` se riemergono drift su core.
+  2. **schema-validate.yml** enforcing su variazioni schema/lint (core + config/schemas) con trigger `pull_request` e approvazione Master DD aggiornata al 07/12/2025; rollback: sospendere l’obbligatorietà del check e tornare a dispatch manuale.
+  3. **validate-naming.yml** promosso a gate PR (`pull_request` attivo, `continue-on-error` rimosso) dopo 3 run verdi; rollback consultivo documentato (riattivare solo `push`/`workflow_dispatch`, ripristinare `continue-on-error`).
+  4. **incoming-smoke.yml** attivo su `pull_request` con filtro `incoming/**` + `workflow_dispatch` manuale; rollback: rimuovere il trigger PR e mantenere solo il dispatch se i guardrail smoke bloccano in modo improprio.
+- Decisioni storiche mantenute solo per audit (non operative):
+  - **Decisione 2026-04-20**: `validate-naming.yml` in modalità consultiva con PR disattivato su `patch/01C-tooling-ci-catalog` (superata dalla promozione del 30/11/2025).
+  - **Verifica 2026-04-26**: conferma dello stato consultivo e assenza di 3 run verdi consecutivi (archiviata, sostituita dalla milestone 07/12/2025).
+- Condizioni di promozione ora soddisfatte (allineate ai run 2025): matrice core/derived stabile sugli scope 03A/03B, **3 run consecutivi verdi** su `patch/01C-tooling-ci-catalog`, approvazione Master DD + piano di rollback documentato, glossari/registri pack puntati alle fonti core.
+- Nota decisionale aggiornata (rollback consultivo vs enforcing attuale):
+  - **Consultivo (rollback)**: tornare a `push`/`workflow_dispatch` per `validate-naming.yml` con step non bloccanti se emergono falsi positivi bloccanti o drift glossario/registri, mantenendo invariati gli altri gate.
   - **Enforcing (stato attuale)**: trigger `pull_request` attivi e `continue-on-error` rimosso per i workflow dati/schema/naming; i job usano glossari core come source-of-truth e falliscono su mismatch non giustificati.
-  - Impatti attesi sui trigger: i gate PR restano bloccanti; il rollback riporta `validate-naming.yml` in consultivo senza toccare gli altri workflow.
-- Sequenza approvata (stato al 2025-11-30):
-  1. **data-quality.yml** e **validate_traits.yml** enforcing come gate PR.
-  2. **schema-validate.yml** enforcing su variazioni schema/lint (core + config/schemas) prima dei merge.
-  3. **validate-naming.yml** promosso a gate PR (pull_request attivo, continue-on-error rimosso) dopo 3 run verdi; monitorare falsi positivi sul glossary e ripristinare consultivo se necessario.
-  4. **incoming-smoke.yml** attivo su **pull_request** con filtro `incoming/**` + `workflow_dispatch` manuale; guardrail attivi (timeout, concurrency, permessi ridotti). Rollback: rimuovere il trigger PR e tornare a sola modalità dispatch se emergono regressioni.
-- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (ora coperto da audit checksum consultivo); gating incoming ancora limitato al profilo smoke (paths `incoming/**`) + eventuale uso manuale di `scripts/report_incoming.sh` per triage.
+- Tabella delta (checkpoint 2026 → milestone 07/12/2025):
+
+  | Workflow             | Vecchia data/stato (2026)                                                  | Nuova data/stato (2025-12-07)                                                              |
+  | -------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+  | data-quality.yml     | 2026-04-12 previsto gate PR, attivazione subordinata a 3 run verdi         | 2025-11-30 enforcing PR gate dopo 3 run verdi; rollback: consultivo con push/dispatch      |
+  | validate_traits.yml  | 2026-04-12 previsto gate PR, attivazione subordinata a 3 run verdi         | 2025-11-30 enforcing PR gate dopo 3 run verdi; rollback: consultivo con push/dispatch      |
+  | schema-validate.yml  | 2026-04-12 enforcing pianificato su schema/lint con trigger in valutazione | 2025-11-30 enforcing PR gate; approvazione Master DD registrata per milestone 07/12/2025   |
+  | validate-naming.yml  | 2026-04-20 consultivo (push/dispatch, PR disattivo, continue-on-error)     | 2025-11-30 enforcing PR gate, `continue-on-error` rimosso; rollback consultivo documentato |
+  | incoming-smoke.yml   | 2026-04-12 smoke consultivo su dispatch manuale                            | 2025-11-30 PR + dispatch con guardrail; rollback: solo dispatch                            |
+  | derived_checksum.yml | 2026-04-12 consultivo (continue-on-error, push/PR su derived)              | 2025-12-07 consultivo invariato ma allineato ai trigger 2025 e pronto per promozione       |
+
+- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (coperto da audit checksum consultivo); gating incoming ancora limitato al profilo smoke (paths `incoming/**`) + eventuale uso manuale di `scripts/report_incoming.sh` per triage.
 
 ### Audit checksum derived (consultivo → enforcing)
 
