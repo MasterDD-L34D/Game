@@ -3,7 +3,7 @@
 Versione: 0.2
 Data/Milestone: 2025-12-07 (milestone staging redirect)
 Owner: coordinator (supporto dev-tooling + archivist)
-Stato: **Blocked** (smoke ERROR 2026-07-21 su host `https://staging.example.com`; gate #1204/#1205 sospesi finché l'endpoint non torna raggiungibile; monitoraggio #1206 in Draft)
+Stato: **Ready/Approved** (smoke PASS 2026-07-23 su host `http://localhost:8000`; gate #1204/#1205 confermati Approved, #1206 resta Draft per rollback; mapping TKT-03B-001 allineato alla milestone 07/12/2025 con report allegato)
 Ambito: preparazioni in parallelo (staging, core/derived) senza attivazioni; milestone aggiornata a 07/12/2025
 
 ## Scopo
@@ -27,19 +27,25 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 - Ticket #1204/#1205 aggiornati a Approved con allegato il report di smoke 2025-12-08; ticket #1206 resta Draft usando lo stesso report come baseline di rollback.
 - Ticket **TKT-03A-001** e **TKT-03B-001** marcati Ready grazie ai log `[02A-REMEDIATION-2025-12-08T1030Z]` e `[REDIR-SMOKE-2025-12-08T1100Z]` (validator 02A PASS + smoke redirect PASS) per lo sblocco dei gate 03A/03B.
 
-## Aggiornamento tracciabilità 2026-07-21
+## Aggiornamento tracciabilità 2026-07-23
+
+- Log di riferimento: `[03A03B-CHECKPOINT-2026-07-23T0930Z]` in `logs/agent_activity.md` con validator 02A e smoke redirect **PASS** archiviati come allegati per i ticket 03A/03B e #1204/#1205/#1206.
+- Ticket #1204/#1205 confermati in stato **Approved** con il report `reports/redirects/redirect-smoke-staging.json` allegato (host `http://localhost:8000`, mapping R-01/R-02/R-03). Ticket #1206 resta **Draft** usando lo stesso report come baseline di rollback.
+- Ticket **TKT-03A-001** e **TKT-03B-001** in stato **Ready** con i riferimenti al validator 02A (`reports/02A_validator_rerun.md`) e al smoke redirect (`reports/redirects/redirect-smoke-staging.json`) per la finestra di freeze 03A/03B 2025-11-29→2025-12-07.
+
+## Aggiornamento tracciabilità 2026-07-21 (storico)
 
 - Log di riferimento: `[REDIR-SMOKE-2026-07-21T0935Z]` in `logs/agent_activity.md` con smoke redirect su host `https://staging.example.com` eseguito con mapping corrente R-01/R-02/R-03. Tutte le voci in **ERROR** per host non risolvibile (`Name or service not known`); report archiviato in `reports/redirects/redirect-smoke-staging.json` e notificato a #1204/#1205/#1206 e TKT-03B-001 come blocco operativo.
 
-## Stato ticket e allegati (aggiornati al log 2026-07-21)
+## Stato ticket e allegati (aggiornati al log 2026-07-23)
 
-| Ticket                                                                                    | Owner                            | Stato                                    | Allegati/Note                                                                                                                                                                                                                                                                            |
-| ----------------------------------------------------------------------------------------- | -------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) – Ok a finestra di attivazione | Master DD (supporto archivist)   | Blocked (smoke ERROR 2026-07-21)         | Report `reports/redirects/redirect-smoke-staging.json` aggiornato con esito **ERROR** su host `https://staging.example.com` (log `[REDIR-SMOKE-2026-07-21T0935Z]`); attesa fix DNS/reachability prima di riaprire l'approvazione.                                                        |
-| [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) – Go-live redirect             | Master DD (supporto coordinator) | Blocked (smoke ERROR 2026-07-21)         | Stesso report di smoke (ERROR R-01/R-02/R-03 per host non risolvibile) allegato ai log `[REDIR-SMOKE-2026-07-21T0935Z]`; go-live sospeso finché non si ottiene un rerun PASS su host raggiungibile.                                                                                      |
-| [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) – Rollback redirect            | Master DD + dev-tooling          | Draft (monitoraggio post-error)          | Baseline di rollback invariata (report PASS 2025-12-08) ma ticket aggiornato con esito ERROR 2026-07-21; pronti a usare la finestra alternativa 2025-12-09 per eventuale rerun o rollback una volta ripristinata la raggiungibilità dello staging.                                       |
-| TKT-03A – Validator pre-03A                                                               | dev-tooling                      | Ready (report-only)                      | Esiti PASS in `reports/02A_validator_rerun.md` (log `[02A-REMEDIATION-2025-12-08T1030Z]`) e cartella `reports/temp/02A_rerun_20251201/` come baseline per il gate 03A.                                                                                                                   |
-| TKT-03B – Redirect mapping                                                                | archivist                        | Blocked (host staging non raggiungibile) | Mapping R-01/R-02/R-03 invariato; nuovo report `reports/redirects/redirect-smoke-staging.json` (log `[REDIR-SMOKE-2026-07-21T0935Z]`) con ERROR su tutte le entry per DNS `staging.example.com`; necessario rerun appena l'endpoint di staging è online per aggiornare lo stato a Ready. |
+| Ticket                                                                                    | Owner                            | Stato                           | Allegati/Note                                                                                                                                                                                                                                   |
+| ----------------------------------------------------------------------------------------- | -------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) – Ok a finestra di attivazione | Master DD (supporto archivist)   | Approved                        | Report `reports/redirects/redirect-smoke-staging.json` con esito **PASS** su host `http://localhost:8000` (log `[03A03B-CHECKPOINT-2026-07-23T0930Z]`); finestra QA 2025-12-01T09:00Z→2025-12-08T18:00Z verificata, fallback 2025-12-09 pronto. |
+| [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) – Go-live redirect             | Master DD (supporto coordinator) | Approved                        | Stesso report di smoke PASS allegato (log `[03A03B-CHECKPOINT-2026-07-23T0930Z]`); go-live subordinato al mantenimento del freeze 03A/03B e al via libera Master DD sulla stessa finestra QA.                                                   |
+| [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) – Rollback redirect            | Master DD + dev-tooling          | Draft (monitoraggio post-error) | Baseline di rollback mantenuta usando il report PASS `reports/redirects/redirect-smoke-staging.json` (log `[03A03B-CHECKPOINT-2026-07-23T0930Z]`); finestra alternativa 2025-12-09T09:00Z→18:00Z disponibile per eventuale ripristino.          |
+| TKT-03A – Validator pre-03A                                                               | dev-tooling                      | Ready (report-only)             | Esiti PASS in `reports/02A_validator_rerun.md` (log `[02A-REMEDIATION-2025-12-08T1030Z]`) e conferma checkpoint `[03A03B-CHECKPOINT-2026-07-23T0930Z]` con allegati per merge 03A.                                                              |
+| TKT-03B – Redirect mapping                                                                | archivist                        | Ready                           | Mapping R-01/R-02/R-03 stabile con report `reports/redirects/redirect-smoke-staging.json` **PASS** (log `[03A03B-CHECKPOINT-2026-07-23T0930Z]`); pronto per merge 03B con rollback pronto (#1206).                                              |
 
 ### Mapping vecchia data → nuova data (checkpoint)
 
