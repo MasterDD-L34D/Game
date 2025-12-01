@@ -17,6 +17,14 @@
 - Nessun nuovo artefatto binario aggiunto; redirect pronti per l’eventuale switch post-approvazione Master DD.
 - Output smoke 02A associato a questa verifica è salvato nella stessa cartella (`schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json`).
 
+## Ripristino rapido redirect (post-merge fail)
+- Backup di riferimento: `reports/backups/2025-11-25_freeze/manifest.txt` + `incoming/archive_cold/backups/2025-11-25/manifest.sha256` (percorsi e checksum già verificati).
+- Script/changelog pronti: usare questa scheda con `incoming/REDIRECTS.md` come fonte canonica per ripristinare le entry originali; i delta core/derived hanno il rollback in `reports/temp/patch-03A-core-derived/rollback.md`.
+- Procedura sintetica:
+  1. Ripristina lo snapshot incoming/redirect dal manifest sopra in staging (no commit) e riallinea `incoming/REDIRECTS.md` alla versione archiviata.
+  2. Riesegui i validator smoke: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` (per dipendenze incoming ↔ core/derived) e lo smoke redirect documentato in `reports/redirects/redirect-smoke-staging.json`.
+  3. Registra l’esito in `logs/agent_activity.md` e nel ticket collegato prima di riaprire la finestra di merge.
+
 ## Aggiornamento 2026-04-27
 - Verificati i manifest backup storici prima del cleanup: `reports/backups/2025-11-25_freeze/manifest.txt` e `incoming/archive_cold/backups/2025-11-25/manifest.sha256` (nessun drift rilevato).
 - Confermata la tabella redirect in `incoming/REDIRECTS.md` senza nuove righe o modifiche: rimane l’archiviazione in `incoming/archive_cold/**` per bundle repo, devkit e inventari storici.
