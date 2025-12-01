@@ -18,6 +18,7 @@ per il buffer `incoming/` senza aggiungere archivi binari al repository.
 ## Stato verifiche
 - Nessun ricalcolo checksum eseguito in questa registrazione (report-only); ultima verifica nota: 2025-11-25.
 - Smoke 02A post-merge 03B aggiornato in `reports/temp/patch-03B-incoming-cleanup/2026-02-20/`.
+- 2025-12-01: post-merge 03A rieseguito controllo di coerenza redirect/manifest senza re-upload; riferimento ai backup S3 invariato (`reports/backups/2025-11-25_freeze/manifest.txt`). Log smoke mirror 03B in `reports/temp/patch-03B-incoming-cleanup/2025-12-01-smoke/`.
 
 ## Contatti
 - Owner operativo: coordinator + dev-tooling.

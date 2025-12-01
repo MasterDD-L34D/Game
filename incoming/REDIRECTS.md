@@ -15,5 +15,6 @@ Note operative:
 
 - Nessuno spostamento su `data/core/**` o `data/derived/**`.
 - 2025-11-25: redirect verificati dopo controllo checksum (`manifest.sha256` → OK).
+- 2025-12-01: post-merge 03A confermata la tabella redirect senza aggiungere nuovi archivi; esiti smoke mirror 03B in `reports/temp/patch-03B-incoming-cleanup/2025-12-01-smoke/` per fallback rapido.
 - Le verifiche di integrità vanno loggate in `logs/agent_activity.md` con
   approvazione Master DD.
