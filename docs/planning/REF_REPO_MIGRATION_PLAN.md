@@ -5,6 +5,12 @@ Data: 2025-05-08
 Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
 Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; gate 01B/01C approvati (log 2025-04-11/12 su branch `patch/01B-core-derived-matrix`); gate 02A chiuso e approvato da Master DD (log 2025-11-30 su branch `patch/03A-core-derived`) con rerun schema/trait/style archiviato; gate 03A/03B chiusi con firma Master DD (log 2025-05-01/02, freeze 03A/03B chiuso a log 2025-05-02, cfr. `logs/agent_activity.md`). Milestone finale 03B confermata al 2025-12-07 (rebaseline rispetto al calendario 2026).
 
+**Aggiornamento log 2025-12-08:**
+
+- `[02A-REMEDIATION-2025-12-08T1030Z]` – remediation validator 02A **PASS** (report `reports/02A_validator_rerun.md` + bundle `reports/temp/02A_rerun_20251201/`) e TKT-03A-001 aggiornato con stato gate 02A=Approved.
+- `[REDIR-SMOKE-2025-12-08T1100Z]` – smoke redirect **PASS** su host `http://localhost:8000` (`reports/redirects/redirect-smoke-staging.json`), ticket #1204/#1205 aggiornati a Approved, #1206 in Draft; mapping TKT-03B-001 allineato alla milestone 07/12/2025.
+- `[03A03B-ADVANCE-2025-12-08T1130Z]` – avanzamento 03A/03B con freeze attivo: TKT-03A-001 e TKT-03B-001 marcati Ready con allegati di riferimento (02A remediation + smoke redirect); milestone operativa confermata al 07/12/2025 con finestra alternativa 2025-12-09 per rollback.
+
 > **Approvazione Master DD – baseline patchset pronta per esecuzione** \
 > Timestamp log: **2025-05-02 / 2025-11-30** \
 > Riferimenti: `logs/agent_activity.md` (entry freeze 03A/03B 2025-05-02, readiness 2025-11-30 su `patch/03A-core-derived`) \
@@ -14,9 +20,9 @@ Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; g
 
 ## Next actions esecutive (milestone 2025-12-07)
 
-- **Branch attivi:** `patch/03A-core-derived` (rollout patch core/derived con validator già in pass) e `patch/03B-incoming-cleanup` (pulizia/archivio incoming post-snapshot). Ticket attivi: **[TKT-03A-001]** (merge core/derived con rollback script), **[TKT-03B-001]** (redirect e checklist post-pulizia).
+- **Branch attivi:** `patch/03A-core-derived` (rollout patch core/derived con validator già in pass) e `patch/03B-incoming-cleanup` (pulizia/archivio incoming post-snapshot). Ticket attivi: **[TKT-03A-001]** (merge core/derived con rollback script, stato Ready con log `[02A-REMEDIATION-2025-12-08T1030Z]` allegato) e **[TKT-03B-001]** (redirect e checklist post-pulizia, stato Ready con smoke `[REDIR-SMOKE-2025-12-08T1100Z]` allegato). Ticket #1204/#1205 Approved; #1206 in Draft con stesso report di baseline.
 - **Criteri di stop:** bloccare merge se il validator 02A (report-only) segnala regressioni o se i redirect incoming generano link rotti; mantenere freeze su `core/**`, `derived/**`, `incoming/**` fino a riesecuzione smoke e firma Master DD.
-- **Criteri di rollback:** ripristinare snapshot core/derived e backup incoming etichettati pre-merge; riattivare redirect originali e rieseguire validator 02A (smoke) per confermare ritorno allo stato stabile.
+- **Criteri di rollback:** ripristinare snapshot core/derived e backup incoming etichettati pre-merge; riattivare redirect originali e rieseguire validator 02A (smoke) per confermare ritorno allo stato stabile. Finestra alternativa di rollback: 2025-12-09T09:00Z → 2025-12-09T18:00Z.
 
 ---
 
@@ -42,7 +48,7 @@ Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; g
 | --- | --- | --- | --- |
 | Log attività 01A ([logs/agent_activity.md](../../logs/agent_activity.md)) | archivist + coordinator (approvazione Master DD) | **2025-04-11** (log approvazione gate 01B ricalendarizzato dal 2026) | Allineato ai log di luglio 2025: gap list 01A chiusa; rerun kickoff 01B (log 2025-07-09) con matrice core/derived e ticket input; nota RIAPERTURA-2026-01 aggiornata 2025-07-10 con freeze attivo e owner 01B/01C su branch `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` report-only. Delta: milestone 2026 compressa su rebaseline 2025-12-07 con log anticipati di ~-9 mesi. |
 | Gap list 01A approvata ([REF_INCOMING_CATALOG](./REF_INCOMING_CATALOG.md#gap-list-01a-bozza-in-attesa-di-approvazione-master-dd)) | Master DD (approvazione) + coordinator/archivist | **2025-05-05** (entry log approvazione anticipata di -12 mesi rispetto a calendario 2026) | Gap list 01A catalogata e approvata a log (entry 2025-05-05); finestra 02A completata e registrata con log su branch validator. |
-| Gate operativo 02A – validator report-only (log su `patch/03A-core-derived`) | dev-tooling (owner), coordinator + balancer/archivist (supporto) | **Finestra 2025-05-01 → 2025-05-02** (rerun schema-only già loggati) → **Chiuso 2025-11-30** | Gate chiuso: validator schema-only/trait audit/style check in pass (log specchiati) e approvazione Master DD registrata; readiness rerun 02A (report-only) annunciata 2025-07-09 su `patch/03A-core-derived` con trigger/rollback confermati; 03A/03B sbloccati. |
+| Gate operativo 02A – validator report-only (log su `patch/03A-core-derived`) | dev-tooling (owner), coordinator + balancer/archivist (supporto) | **Finestra 2025-05-01 → 2025-05-02** (rerun schema-only già loggati) → **Chiuso 2025-11-30** | Gate chiuso: validator schema-only/trait audit/style check in pass (log specchiati) e approvazione Master DD registrata; remediation 02A **PASS** a log `[02A-REMEDIATION-2025-12-08T1030Z]` (report `reports/02A_validator_rerun.md` + bundle `reports/temp/02A_rerun_20251201/`) allegata a TKT-03A-001 come baseline per merge 03A; 03A/03B sbloccati. |
 | Readiness 01B/01C ([nota readiness](#nota-readiness-01b01c-2025-02-07)) | species-curator (lead 01B), trait-curator, balancer, archivist, coordinator | Dopo gap list approvata | On-call registrata il 2025-02-07; kickoff 01B rieseguito e loggato 2025-07-09 su `patch/01B-core-derived-matrix` (perimetro core/derived + ticket **[TKT-01A-001..005]/[TKT-01B-001]/[TKT-01B-002]**); readiness aggiornata 2025-07-10 con freeze incoming attivo 2025-11-29→2025-12-07 (nuova finestra allineata alla milestone 2025-12-07) e owner 01C su `patch/01C-tooling-ci-catalog` marcato report-only. |
 | Inventario tooling/CI 01C ([REF_TOOLING_AND_CI](./REF_TOOLING_AND_CI.md#inventario-workflowscript-modalita-report-only--2026-02-07)) | dev-tooling (lead 01C) + coordinator | Successivo a via libera 01A/01B | Attivato (log 2025-04-12) e confermato report-only 2025-07-09 su `patch/01C-tooling-ci-catalog` con trigger di avanzamento/rollback documentati; pronta l’esecuzione report/enforcing secondo gating 02A. |
 
