@@ -1,0 +1,46 @@
+{
+  "host": "https://example.com",
+  "environment": "staging",
+  "summary": {
+    "total": 3,
+    "pass": 0,
+    "fail": 0,
+    "skip": 1,
+    "error": 2
+  },
+  "results": [
+    {
+      "identifier": "R-01",
+      "source": "/data/species.yaml",
+      "target": "/data/core/species.yaml",
+      "expected_status": 301,
+      "actual_status": null,
+      "expected_location": "https://example.com/data/core/species.yaml",
+      "actual_location": null,
+      "outcome": "ERROR",
+      "message": "[Errno 101] Network is unreachable"
+    },
+    {
+      "identifier": "R-02",
+      "source": "/<path/vecchio>",
+      "target": "/<path/nuovo>",
+      "expected_status": 301,
+      "actual_status": null,
+      "expected_location": null,
+      "actual_location": null,
+      "outcome": "SKIP",
+      "message": "Placeholder nel mapping"
+    },
+    {
+      "identifier": "R-03",
+      "source": "/data/analysis",
+      "target": "/data/derived/analysis",
+      "expected_status": 302,
+      "actual_status": null,
+      "expected_location": "https://example.com/data/derived/analysis",
+      "actual_location": null,
+      "outcome": "ERROR",
+      "message": "[Errno 101] Network is unreachable"
+    }
+  ]
+}
