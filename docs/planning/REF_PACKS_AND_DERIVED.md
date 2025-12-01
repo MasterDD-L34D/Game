@@ -1,9 +1,10 @@
 # REF_PACKS_AND_DERIVED – Pack, snapshot e fixture
 
-Versione: 0.5
-Data: 2025-12-30
+Versione: 0.6
+Data: 2025-12-07
 Owner: agente **archivist** (supporto: dev-tooling, coordinator)
-Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
+Stato: GATE 01A→03B in corso – pianificazione go-live derivazioni/pack
+Delta vs 2025-12-30: milestone anticipata al 07/12, stato aggiornato sui gate effettivi, aggiunta timeline compressed con owner e rigenerazioni + mappatura checkpoint per blocchi aperti (sync core→pack, generatori/fixture mancanti).
 
 ---
 
@@ -145,6 +146,18 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 - Per modifiche a `data/core/hud/layout.yaml` o ai consumer HUD ricordare il canary **`hud.yml`**; verificare build overlay e flag smart alerts.
 - Dopo rigenerazioni pack (ecosistemi, foodweb, tabelle core) ri-eseguire i validator pack (`packs/evo_tactics_pack/tools/py/run_all_validators.py`) e includere gli output nei log CI correlati.
 
+## Timeline compressed (owner, rigenerazioni, pipeline CI pre go-live 07/12)
+
+| Ambito / Output                                                  | Owner                   | Rigenerazione prevista (T- rispetto go-live) | Pipeline da lanciare                                        |
+| ---------------------------------------------------------------- | ----------------------- | -------------------------------------------- | ----------------------------------------------------------- |
+| Pack ecosistemi/foodweb (`packs/.../ecosystems`, `.../foodwebs`) | archivist → dev-tooling | T-7 (2025-11-30)                             | `data-quality.yml`, `qa-reports.yml`                        |
+| Pack mating/telemetry/game_functions (`packs/.../data/*.yaml`)   | archivist → dev-tooling | T-6 (2025-12-01)                             | `data-quality.yml`, `qa-reports.yml`, `hud.yml` (telemetry) |
+| Cataloghi pack (`packs/evo_tactics_pack/docs/catalog/*.json`)    | archivist → coordinator | T-5 (2025-12-02)                             | `data-quality.yml`, `qa-reports.yml`                        |
+| Fixture minimal (`data/derived/test-fixtures/minimal/**`)        | dev-tooling             | T-4 (2025-12-03)                             | `data-quality.yml`, `qa-reports.yml`, `hud.yml` (front QA)  |
+| Snapshot mock prod (`data/derived/mock/prod_snapshot/**`)        | coordinator             | T-3 (2025-12-04)                             | `data-quality.yml`                                          |
+| Report derived analysis (coverage/progression)                   | archivist               | T-2 (2025-12-05)                             | `data-quality.yml`, `qa-reports.yml`                        |
+| HUD overlay/layout consumer                                      | dev-tooling             | T-2 (2025-12-05)                             | `hud.yml`, `data-quality.yml` (asset refs)                  |
+
 ---
 
 ## Regola standard di rigenerazione (proposta)
@@ -162,3 +175,20 @@ Stato: PATCHSET-00 PROPOSTA – separazione core vs derived
 4. **Output**: pack aggiornato (`packs/evo_tactics_pack/data/**` + `docs/catalog/**`), fixture (`data/derived/test-fixtures/**`), snapshot (`data/derived/mock/**`), report (`data/derived/analysis/**`). Ogni output deve includere log di comando e timestamp nel README locale.
 5. **Tracciabilità**: registrare comando, versione git e checksum principali nel README di ciascuna cartella derived/pack; allegare report validator in `out/validation/` e linkarlo nella documentazione.
 6. **Gate CI**: integrare la pipeline in CI dopo validazione manuale del flusso, facendo fallire build se gli output non sono aggiornati rispetto ai core o se i validator del pack falliscono (allineato con PATCHSET-02A).
+
+---
+
+## Gate 01A–03B e checkpoint per blocchi aperti
+
+- **01A – Catalogo core e input di verità**
+  - Blocco: sync core→pack non automatizzato.
+  - Checkpoint da eseguire: catalogare commit sorgente in `REF_REPO_SOURCES_OF_TRUTH`, fissare mapping core→pack nella pipeline `scripts/evo_pack_pipeline.py` (flag sync attivo), loggare esito in README pack.
+  - Checkpoint da archiviare: snapshot degli input core usati (hash `data/core/**`).
+- **02A – Validator/report in modalità gate**
+  - Blocco: validator pack non legati a CI + generatori mancanti per fixture minimal.
+  - Checkpoint da eseguire: abilitare `packs/evo_tactics_pack/tools/py/run_all_validators.py` in `data-quality.yml`/`qa-reports.yml`; ripristinare generatori `scripts/generate_minimal_fixture.py` e `scripts/generate_derived_analysis.py` con log e checksum aggiornati.
+  - Checkpoint da archiviare: ultimo `out/validation/last_report.json` e README fixture/minimal con timestamp rigenerazione.
+- **03B – Go-live pack/derived**
+  - Blocco: coverage rigenerazioni (ecosistemi/foodweb, telemetry/game_functions, snapshot mock) da chiudere prima del 07/12.
+  - Checkpoint da eseguire: eseguire timeline compressed (righe sopra) con conferma pipeline CI verdi e note di comando; pubblicare matrice delle rigenerazioni in `reports/` o appendice al README pack.
+  - Checkpoint da archiviare: log CI `data-quality`, `qa-reports`, `hud` relativi alle esecuzioni T-7→T-2, più manifest sha256 per pack e derived.
