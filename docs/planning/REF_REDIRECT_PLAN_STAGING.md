@@ -124,7 +124,7 @@ Note operative:
 ### Sequenza attivazione redirect (staging → go-live)
 
 1. **Pre-flight** – Verificare che l'host di staging sia raggiungibile; ripetere lo smoke test con `reports/redirects/redirect-smoke-staging.json` come output e allegare il log aggiornato a [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) e [#1205](https://github.com/MasterDD-L34D/Game/issues/1205).
-2. **Check freeze QA** – Confermare che la finestra QA documentale 2025-07-08T09:00Z → 2025-07-15T18:00Z (owner archivist, approvata da Master DD e referenziata in `REF_INCOMING_CATALOG.md`) non sovrapponga la data di attivazione; in caso di blocco usare la finestra alternativa 2025-07-16T09:00Z → 2025-07-16T18:00Z e loggare l'esito nel ticket [#1204](https://github.com/MasterDD-L34D/Game/issues/1204).
+2. **Check freeze QA** – Confermare che la finestra QA documentale 2025-12-01T09:00Z → 2025-12-08T18:00Z (owner archivist, approvata da Master DD e referenziata in `REF_INCOMING_CATALOG.md`) non sovrapponga la data di attivazione; in caso di blocco usare la finestra alternativa 2025-12-09T09:00Z → 2025-12-09T18:00Z e loggare l'esito nei ticket [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) e [#1205](https://github.com/MasterDD-L34D/Game/issues/1205).
 3. **Applicazione config** – Aggiornare il file di routing/redirect su staging secondo il mapping approvato (R-01, R-03 attivi; R-02 solo dopo payload completo), mantenendo backup corrente in `reports/backups/<label>/redirect-config/` come da sezione Rollback.
 4. **Verifica post-apply** – Rieseguire lo smoke test; se `PASS` per tutte le righe, pubblicare il risultato su [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) e notificare Master DD per il via libera go-live.
 5. **Handoff prod** – Allineare la configurazione di produzione replicando il mapping validato; registrare timestamp e owner nel log di attivazione e aggiornare le note di ticket #1204/#1205 con gli estremi della finestra utilizzata.
@@ -133,7 +133,7 @@ Note operative:
 
 1. **Trigger** – Attivare se lo smoke test post-apply fallisce, se il monitoraggio analytics rileva loop/errore 5xx, o su richiesta QA durante il freeze.
 2. **Ripristino config** – Recuperare il manifest in `reports/backups/<label>/redirect-config/manifest.txt`, ripristinare i file di routing precedenti e confermare checksum, loggando l'owner (dev-tooling) e l'orario nel ticket #1206.
-3. **Verifica post-rollback** – Rieseguire lo smoke test puntando allo stesso host; se `PASS`, aggiornare #1204/#1205 con nota di rollback e pianificare nuova finestra (preferibilmente fuori da eventuali freeze QA o nella slot alternativa 2025-07-16T09:00Z → 2025-07-16T18:00Z).
+3. **Verifica post-rollback** – Rieseguire lo smoke test puntando allo stesso host; se `PASS`, aggiornare #1204/#1205 con nota di rollback e pianificare nuova finestra (preferibilmente fuori da eventuali freeze QA o nella slot alternativa 2025-12-09T09:00Z → 2025-12-09T18:00Z approvata da Master DD).
 4. **Chiusura** – Archiviare il report di rollback in `reports/redirects/redirect-smoke-staging.json` (nuova versione) e allegare il log a #1206; notificare Master DD per la riapertura del piano.
 
 ### Rilancio smoke test e criteri di rientro dei gate
