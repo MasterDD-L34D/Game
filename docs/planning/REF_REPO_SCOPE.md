@@ -3,7 +3,7 @@
 Versione: 0.6
 Data: 2025-12-07 (milestone target)
 Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
-Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
+Stato: PATCHSET-00 APPROVATA – baseline allineata alla milestone 07/12/2025 con approvazione Master DD e gate 01A chiuso
 
 ---
 
@@ -46,7 +46,7 @@ Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
 ## Prerequisiti di governance
 
-- Owner umano nominato per il ciclo PATCHSET-00 (Master DD) e registrato nei log di esecuzione; **gate 01A approvato**, **01B in revisione** e **01C pianificato** con approvazione richiesta prima di qualsiasi merge verso `main`.
+- Owner umano nominato per il ciclo PATCHSET-00 (Master DD) e registrato nei log di esecuzione; baseline approvata con **gate 01A chiuso**, **01B in revisione** e **01C pianificato** con approvazione richiesta prima di qualsiasi merge verso `main`.
 - Branch dedicati per ogni passo successivo, evitando merge diretti su `main` senza gate incrociati.
 - Logging delle attività e delle approvazioni in `logs/agent_activity.md` per audit e handoff.
 
@@ -56,17 +56,18 @@ Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
 ## Prossimi passi
 
-1. Approvare questo scope come riferimento condiviso per tutte le PATCHSET entro 2025-12-07 e registrare variazioni nel changelog. **Owner umano:** Master DD – branch `patch/PATCHSET-00`.
-2. Completare i documenti di pianificazione elencati in §6.1 (sources of truth, incoming, pack/derived, tooling/CI, migration plan) collegandoli ai gate 01B–01C. **Owner umano:** Master DD – branch `patch/PATCHSET-00-docs`.
-3. Definire le etichette di stato e la segmentazione di `incoming/**` e `docs/incoming/**` insieme al censimento iniziale, chiudendo 01B. **Owner umano:** Master DD – branch `patch/PATCHSET-00-incoming`.
-4. Mappare i percorsi canonici dei core e le regole di derivazione dei pack in coordinamento con trait/species/biome curators per preparare 01C. **Owner umano:** Master DD (supporto curators/dev-tooling) – branch `patch/PATCHSET-00-sources`.
-5. Inventariare tooling/CI e validatori per pianificare gli adeguamenti senza regressioni, mantenendo compatibilità prima del passaggio a PATCHSET-01. **Owner umano:** Master DD – branch `patch/PATCHSET-00-tooling`.
-6. Preparare PATCHSET numerati con scope limitato, rischi noti e strategia di rollback coerente con Golden Path, includendo i trigger di approvazione 01C. **Owner umano:** Master DD – branch `patch/PATCHSET-00-migration`.
+1. Eseguire le attività operative previste da questo scope (baseline già approvata) entro 2025-12-07, mantenendo aggiornato il changelog. **Owner umano:** Master DD – branch attivo `patch/PATCHSET-00` con ticket 01B/01C collegati.
+2. Portare a chiusura i documenti di pianificazione elencati in §6.1 (sources of truth, incoming, pack/derived, tooling/CI, migration plan) come deliverable operativi per 01B–01C. **Owner umano:** Master DD – branch attivo `patch/PATCHSET-00-docs`; rollback: ripristino dei documenti precedenti e lock del branch.
+3. Consolidare etichette di stato e segmentazione di `incoming/**` e `docs/incoming/**` insieme al censimento iniziale per chiudere 01B. **Owner umano:** Master DD – branch attivo `patch/PATCHSET-00-incoming`; rollback: revert dedicato sul branch e riallineamento etichette in log 01B.
+4. Mappare percorsi canonici dei core e regole di derivazione dei pack in coordinamento con trait/species/biome curators per preparare 01C. **Owner umano:** Master DD (supporto curators/dev-tooling) – branch attivo `patch/PATCHSET-00-sources`; rollback: reintroduzione snapshot precedente dei mapping e nota di blocco in log 01C.
+5. Inventariare tooling/CI e validatori per adeguamenti senza regressioni prima del passaggio a PATCHSET-01. **Owner umano:** Master DD – branch attivo `patch/PATCHSET-00-tooling`; rollback: revert delle modifiche CI/tooling e ripristino configurazioni note in log 01C.
+6. Preparare PATCHSET numerati con scope limitato, rischi noti e strategia di rollback coerente con Golden Path, includendo i trigger di approvazione 01C. **Owner umano:** Master DD – branch attivo `patch/PATCHSET-00-migration`; rollback: abort del merge, ripristino branch e aggiornamento log di gate 01C.
 
 ---
 
 ## Changelog
 
+- 2025-12-07 10:30 UTC: baseline PATCHSET-00 approvata da Master DD con gate 01A chiuso; riferimenti log/ticket: approvazione 01A registrata in `logs/agent_activity.md` (ticket 01A), consegne operative 01B/01C collegate ai ticket dedicati e agli aggiornamenti log 01B–01C.
 - 2025-12-07: versione 0.6 – milestone anticipata al 07/12/2025 con stato gate 01A approvato / 01B in revisione / 01C pianificato, delta di riallocazione e prossimi passi compressi entro la data target.
 - 2025-12-30: versione 0.5 – intestazione riallineata al report v0.5, confermata la numerazione 01A–03B e lo scope come bussola per le patch successive.
 - 2025-12-17: versione 0.3 – design completato, perimetro documentazione confermato, numerazione 01A–03B bloccata e riferimento alle fasi GOLDEN_PATH con prerequisiti di governance (owner umano, branch dedicati, logging) applicati a PATCHSET-00 (archivist).
