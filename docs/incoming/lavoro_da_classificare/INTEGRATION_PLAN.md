@@ -5,6 +5,14 @@ l'import del pacchetto Evo‑Tactics presente nella cartella
 `incoming/lavoro_da_classificare/`. L'obiettivo è convertire il materiale grezzo
 in contributi pronti per il branch principale del repository.
 
+**Owner di dominio (01B)**: archivist (Laura B) con supporto species-curator e
+trait-curator per l'handoff di matrice core/derived e allineamento trait
+sentience/enneagramma. Milestone: **01B** in modalità report-only.
+
+**Patchset/branch attivi**: `patch/01B-core-derived-matrix` (handoff
+species/trait-curator) e `patch/01A-docs-catalogo` per la sincronizzazione del
+catalogo; loggare ogni avanzamento in `logs/agent_activity.md`.
+
 ## Obiettivi di alto livello
 
 1. **Consolidare la documentazione** in `docs/` e allinearla con le guide

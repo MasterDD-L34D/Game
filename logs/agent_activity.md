@@ -198,6 +198,9 @@
 - Formato sintetico obbligatorio per ogni micro-step: `[ID] owner=<agente/approvatore>; files=<percorsi toccati>; rischio=<basso/medio/alto>; note=<azioni/impatti/riferimenti>`. Usare questo formato su tutte le nuove voci, mantenendo le entry legacy come storico.
 - Freeze/unfreeze/archiviazione: ogni decisione deve essere legata a ticket/patchset con approvazione Master DD e riportare nel campo note l'ID di ticket/patchset usato per l'autorizzazione.
 - Checkpoint conflitti documentali: verificare coerenza tra README/log/indici prima di procedere; in caso di conflitto fermare l'attività e aprire issue al coordinator con ID dedicato nel log (formato sintetico).
+
+## 2026-07-16 – Assegnazione owner 01B catalogo `lavoro_da_classificare` (archivist)
+- Step: `[ASSIGN-01B-LAVORO-2026-07-16] owner=archivist (approvatore Master DD); files=docs/planning/REF_INCOMING_CATALOG.md,docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md,docs/incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md,logs/agent_activity.md; rischio=basso (documentazione/handoff); note=Aggiornati owner di dominio e ticket per `incoming/lavoro_da_classificare/*` e `docs/incoming/lavoro_da_classificare/*` collegando i ticket **[TKT-01A-001]**/**[TKT-01A-005]** all’handoff **01B** (**[TKT-01B-001]**, **[TKT-01B-002]**) su branch `patch/01B-core-derived-matrix` (report-only) e sincronizzando piano/task documentali; catalogo marcato fonte stabile per riuso 01B.`
 - Aggiornamenti README: pianificare dopo l'esito dei gate (Golden Path o equivalenti), mantenendo allineamento con note di freeze e gap list; loggare i passaggi con il formato sintetico e riferimenti ai gate chiusi.
 
 ## 2026-03-05 – Approvazione Master DD su log 01A + note README (archivist)

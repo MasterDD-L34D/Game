@@ -4,6 +4,15 @@ Questo file traduce l'`INTEGRATION_PLAN.md` in attività granulari e
 assegnabili. Ogni sezione indica obiettivi, deliverable e comandi chiave per
 chiudere il batch corrispondente.
 
+**Owner di dominio (01B)**: archivist (Laura B) con supporto species-curator e
+trait-curator per l'handoff matrice core/derived e allineamento trait
+sentience/enneagramma. Milestone attiva: **01B** in report-only.
+
+**Patchset/branch attivi**: `patch/01B-core-derived-matrix` per la matrice
+core/derived e `patch/01A-docs-catalogo` per la sincronizzazione documentale;
+ogni avanzamento va loggato in `logs/agent_activity.md` usando il formato
+sintetico.
+
 > Stato corrente aggiornabile tramite checkmark; sincronizzare anche con
 > `tasks.yml` per l'automazione di report o creazione issue. Il runner
 > `python tools/automation/evo_batch_runner.py` consente di lanciare in locale i
