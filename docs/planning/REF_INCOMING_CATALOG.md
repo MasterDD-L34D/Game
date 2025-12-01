@@ -1,9 +1,9 @@
 # REF_INCOMING_CATALOG – Catalogo incoming/backlog
 
-Versione: 0.5
-Data: 2025-12-30
-Owner: **Master DD (owner umano 01A)** con supporto archivist
-Stato: PATCHSET-01A – inventario aggiornato
+Versione: 0.6
+Data: 2025-12-07
+Owner: **Master DD (owner umano 01A–01C)** con supporto archivist
+Stato: Baseline 07/12/2025 – 01A chiuso, 01B/01C in report-only allineati ai gate aggiornati
 
 ---
 
@@ -32,16 +32,18 @@ Stato: PATCHSET-01A – inventario aggiornato
 - `REF_REPO_MIGRATION_PLAN` per schedulare quando integrare/archiviare ciascuna fonte.
 - Supporto di coordinator per priorità e di dev-tooling per eventuali script di import/validazione.
 
-## Prerequisiti di governance
+## Prerequisiti di governance (baseline 07/12/2025)
 
-- Owner umano identificato per la manutenzione del catalogo PATCHSET-00 (Master DD) e registrato in `logs/agent_activity.md`.
-- Branch dedicati per lavorare su triage incoming senza impattare `main` finché le tabelle non sono validate.
-- Log degli aggiornamenti di numerazione 01A–03B e delle approvazioni di triage nel file di audit centrale.
-- Master DD approva e logga in STRICT MODE ogni passaggio di stato 01A (congelamento ingressi, gap list, assegnazione owner) prima di propagare aggiornamenti ai documenti collegati.
+- Owner umano confermato: Master DD mantiene la responsabilità 01A–01C, con registrazione aggiornata in `logs/agent_activity.md` datata 07/12/2025 (delta vs v0.5 post-milestone: ownership estesa oltre 01A e retrodatata rispetto al checkpoint 30/12/2025).
+- Branch dedicati e congelati fino al nuovo kickoff: triage 01B su `patch/01B-core-derived-matrix` e 01C su `patch/01C-tooling-ci-catalog`, mantenuti in report-only fino alla chiusura roadmap <07/12/2025 (delta: le attività precedentemente previste post-30/12/2025 sono anticipate e limitate a update documentali).
+- Logging e audit: ogni riallineamento 01A→01B→01C deve essere loggato in STRICT MODE nel file di audit centrale con riferimento al gate e al ticket collegato (delta: aggiunta nota di riallineamento 07/12/2025 rispetto al log 0.5 post-milestone).
+- Master DD approva e logga ogni passaggio di stato (congelamento ingressi, gap list, assegnazione owner, handoff 01B/01C) prima di propagare aggiornamenti ai documenti collegati, con nota di conformità al calendario 07/12/2025.
+
+**Allineamento gate 01A–01C (07/12/2025):** 01A congelato e consegnato; 01B (species/trait-curator) opera in report-only sui branch dedicati; 01C (dev-tooling) mantiene i tool legacy/bloccati fino al rebase event-map v2.3, con tutti i passaggi loggati.
 
 ### Stato prerequisiti PATCHSET-01A
 
-- Prerequisiti chiusi: catalogo incoming consolidato e allineato con `incoming/README.md` e `docs/incoming/README.md`.
+- Prerequisiti chiusi: catalogo incoming consolidato e allineato con `incoming/README.md` e `docs/incoming/README.md` (riesame 07/12/2025 confermato da Master DD).
 
 ---
 
@@ -103,13 +105,13 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 
 ---
 
-## Prossimi passi
+## Prossimi passi (roadmap compressa <07/12/2025)
 
-1. Validare checksum/versioni per decidere quali pack marcare `legacy` o `archive_cold` (no spostamenti in questo step).
-2. Collegare ogni fonte prioritaria a ticket/patchset e assegnare owner di dominio (traits/specie/biomi/tooling).
-3. Aggiornare `incoming/README.md` e `docs/incoming/README.md` dopo ogni triage incrementale per mantenere lo stato allineato.
-4. Definire regole minime di accettazione (formato, checksum, schema) prima di muovere una fonte da DA_INTEGRARE a INTEGRATO.
-5. Integrare la tabella nel flusso di PATCHSET successivi e mantenerla sincronizzata con `docs/incoming/README.md`.
+1. **05/12 – Archivist + Master DD (TKT-01B-001 / TKT-01C-001):** validare checksum/versioni e marcare legacy/archive_cold le fonti duplicate senza spostamenti fisici; log in `logs/agent_activity.md` con riferimento gate 01A.
+2. **05/12 – Coordinator + Archivist (TKT-01A-005):** collegare ogni fonte prioritaria a ticket/patchset e assegnare owner di dominio, aggiornando `incoming/README.md` e `docs/incoming/README.md` in coppia.
+3. **06/12 – Species-curator + Trait-curator (TKT-01B-001 / TKT-01B-002):** consolidare gap list e alias map per sentience/enneagramma, consegnando snapshot e mapping ai branch `patch/01B-core-derived-matrix`.
+4. **06/12 – Dev-tooling (TKT-01C-001 / TKT-01C-002):** ricalibrare note su tool/validatori e hook engine, mantenendo stato report-only fino a rebase event-map v2.3; blocchi segnalati a Master DD.
+5. **07/12 – Master DD (sign-off 01A→01B/01C):** verifica finale del log STRICT MODE, chiusura triage e autorizzazione handoff ai branch dedicati, con delta rispetto a v0.5 post-milestone registrato nel file di audit.
 
 ### Step operativo 01A (STRICT MODE, owner Master DD)
 
@@ -169,6 +171,7 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 
 ## Changelog
 
+- 2025-12-07: versione 0.6 – baseline anticipata al 07/12/2025 con allineamento gate 01A–01C, governance aggiornata (owner/branch/logging) e roadmap compressa pre-handoff.
 - 2025-12-30: versione 0.5 – intestazione sincronizzata al report v0.5, mantenendo PATCHSET-01A e le tabelle di triage come baseline ufficiale.
 - 2025-12-23: versione 0.3 – tabelle normalizzate e allineate alle linee guida di triage senza rinominare/spostare asset.
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance rafforzati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
