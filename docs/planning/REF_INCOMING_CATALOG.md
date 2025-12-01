@@ -1,9 +1,9 @@
 # REF_INCOMING_CATALOG – Catalogo incoming/backlog
 
 Versione: 0.6
-Data: 2025-12-07
+Data: 2025-12-07 (baseline retrodatata rispetto al checkpoint 30/12/2025)
 Owner: **Master DD (owner umano 01A–01C)** con supporto archivist
-Stato: Baseline 07/12/2025 – 01A chiuso, 01B/01C in report-only allineati ai gate aggiornati
+Stato: Baseline 07/12/2025 – 01A chiuso, 01B/01C in report-only allineati ai gate aggiornati e ai branch dedicati
 
 ---
 
@@ -40,6 +40,8 @@ Stato: Baseline 07/12/2025 – 01A chiuso, 01B/01C in report-only allineati ai g
 - Master DD approva e logga ogni passaggio di stato (congelamento ingressi, gap list, assegnazione owner, handoff 01B/01C) prima di propagare aggiornamenti ai documenti collegati, con nota di conformità al calendario 07/12/2025.
 
 **Allineamento gate 01A–01C (07/12/2025):** 01A congelato e consegnato; 01B (species/trait-curator) opera in report-only sui branch dedicati; 01C (dev-tooling) mantiene i tool legacy/bloccati fino al rebase event-map v2.3, con tutti i passaggi loggati.
+
+**Delta sintetico vs versione 0.5 (post-milestone 30/12/2025):** ownership ampliata 01A→01C con registrazione anticipata al 07/12; branch 01B/01C spostati in report-only pre-07/12 anziché post-30/12; logging obbligatorio di ogni riallineamento 01A→01B→01C prima di riaprire i branch.
 
 ### Stato prerequisiti PATCHSET-01A
 
@@ -105,7 +107,7 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 
 ---
 
-## Prossimi passi (roadmap compressa <07/12/2025)
+## Prossimi passi (roadmap compressa <07/12/2025, allineata ai gate 01A–01C)
 
 1. **05/12 – Archivist + Master DD (TKT-01B-001 / TKT-01C-001):** validare checksum/versioni e marcare legacy/archive_cold le fonti duplicate senza spostamenti fisici; log in `logs/agent_activity.md` con riferimento gate 01A.
 2. **05/12 – Coordinator + Archivist (TKT-01A-005):** collegare ogni fonte prioritaria a ticket/patchset e assegnare owner di dominio, aggiornando `incoming/README.md` e `docs/incoming/README.md` in coppia.
@@ -171,7 +173,7 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 
 ## Changelog
 
-- 2025-12-07: versione 0.6 – baseline anticipata al 07/12/2025 con allineamento gate 01A–01C, governance aggiornata (owner/branch/logging) e roadmap compressa pre-handoff.
+- 2025-12-07: versione 0.6 – baseline retrodatata al 07/12/2025 (pre-milestone 30/12) con allineamento gate 01A–01C, governance aggiornata (owner/branch/logging) e roadmap compressa pre-handoff.
 - 2025-12-30: versione 0.5 – intestazione sincronizzata al report v0.5, mantenendo PATCHSET-01A e le tabelle di triage come baseline ufficiale.
 - 2025-12-23: versione 0.3 – tabelle normalizzate e allineate alle linee guida di triage senza rinominare/spostare asset.
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance rafforzati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
