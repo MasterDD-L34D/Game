@@ -3,7 +3,20 @@
 Versione: 0.7
 Data: 2025-05-08
 Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
-Stato: PATCHSET-00 PROPOSTA – gap list 01A catalogata e approvata; gate 01B/01C approvati (log 2025-04-11/12 su branch `patch/01B-core-derived-matrix`); gate 02A chiuso e approvato da Master DD (log 2025-11-30 su branch `patch/03A-core-derived`) con rerun schema/trait/style archiviato; gate 03A/03B sbloccati (log 2025-05-01/02) con freeze 03A/03B già chiuso a log 2025-05-02 (cfr. `logs/agent_activity.md`). Nuova milestone di completamento 03B allineata al 2025-12-07 (rebaseline vs calendario 2026).
+Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; gate 01B/01C approvati (log 2025-04-11/12 su branch `patch/01B-core-derived-matrix`); gate 02A chiuso e approvato da Master DD (log 2025-11-30 su branch `patch/03A-core-derived`) con rerun schema/trait/style archiviato; gate 03A/03B chiusi con firma Master DD (log 2025-05-01/02, freeze 03A/03B chiuso a log 2025-05-02, cfr. `logs/agent_activity.md`). Milestone finale 03B confermata al 2025-12-07 (rebaseline rispetto al calendario 2026).
+
+> **Approvazione Master DD – baseline patchset pronta per esecuzione** \
+> Timestamp log: **2025-05-02 / 2025-11-30** \
+> Riferimenti: `logs/agent_activity.md` (entry freeze 03A/03B 2025-05-02, readiness 2025-11-30 su `patch/03A-core-derived`) \
+> Esito: sequenza 01A–03B firmata e pronta all’esecuzione patch secondo gating GOLDEN_PATH (nessun blocco aperto).
+
+---
+
+## Next actions esecutive (milestone 2025-12-07)
+
+- **Branch attivi:** `patch/03A-core-derived` (rollout patch core/derived con validator già in pass) e `patch/03B-incoming-cleanup` (pulizia/archivio incoming post-snapshot). Ticket attivi: **[TKT-03A-001]** (merge core/derived con rollback script), **[TKT-03B-001]** (redirect e checklist post-pulizia).
+- **Criteri di stop:** bloccare merge se il validator 02A (report-only) segnala regressioni o se i redirect incoming generano link rotti; mantenere freeze su `core/**`, `derived/**`, `incoming/**` fino a riesecuzione smoke e firma Master DD.
+- **Criteri di rollback:** ripristinare snapshot core/derived e backup incoming etichettati pre-merge; riattivare redirect originali e rieseguire validator 02A (smoke) per confermare ritorno allo stato stabile.
 
 ---
 
