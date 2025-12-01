@@ -2,22 +2,22 @@ Archive: core_snapshot_2025-11-25T2028Z.tar.gz
 SHA256: 77b3e95abc1e5c2376251c8aa59670d6dd52aa4b52ce36e110e3954262c141f2
 Location: s3://evo-backups/game/2025-11-25T2028Z_masterdd_freeze/core_snapshot_2025-11-25T2028Z.tar.gz
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-11-28 (manifest review of manifest.sha256; checksum from original run, not recomputed)
+Last verified: 2025-12-01 (manifest review; checksum originale 2025-11-25 non ricalcolato)
 
 Archive: derived_snapshot_2025-11-25T2028Z.tar.gz
 SHA256: 1caee01ccc871cd7daf1a585456d1d0f8a89b2669ab312668dec6d196768e03a
 Location: s3://evo-backups/game/2025-11-25T2028Z_masterdd_freeze/derived_snapshot_2025-11-25T2028Z.tar.gz
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-11-28 (manifest review of manifest.sha256; checksum from original run, not recomputed)
+Last verified: 2025-12-01 (manifest review; checksum originale 2025-11-25 non ricalcolato)
 
 Archive: docs_incoming_backup_2025-11-25T2028Z.tar.gz
 SHA256: 4154ad3326340203052a0f6b770ae71549859525856a1affe98ea36b8d0a9236
 Location: s3://evo-backups/game/2025-11-25T2028Z_masterdd_freeze/docs_incoming_backup_2025-11-25T2028Z.tar.gz
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-11-28 (manifest review of manifest.sha256; checksum from original run, not recomputed; required for rollback 03A/03B)
+Last verified: 2025-12-01 (manifest review; checksum originale 2025-11-25 non ricalcolato; required for rollback 03A/03B)
 
 Archive: incoming_backup_2025-11-25T2028Z.tar.gz
 SHA256: aa0bdcce913fd31e5caf6caa189327770f31ba135ab7a0e614b3ae632e8f2268
 Location: s3://evo-backups/game/2025-11-25T2028Z_masterdd_freeze/incoming_backup_2025-11-25T2028Z.tar.gz
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-11-28 (manifest review of manifest.sha256; checksum from original run, not recomputed; required for rollback 03A/03B)
+Last verified: 2025-12-01 (manifest review; checksum originale 2025-11-25 non ricalcolato; required for rollback 03A/03B)
