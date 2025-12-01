@@ -38,7 +38,7 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 | ID   | Source (staging)     | Target                    | Tipo redirect | Owner       | Ticket            | Note |
 | ---- | -------------------- | ------------------------- | ------------- | ----------- | ----------------- | ---- |
 | R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | TKT-03B-REDIR-001 | Target presente in staging (`data/core/species.yaml`), nessun loop. Dipendenze: `config/data_path_redirects.json` + `scripts/data_layout_migration.py`. Analytics: conteggio 301 nei log di accesso staging. Config unica. |
-| R-02 | `<path/vecchio>`     | `<path/nuovo>`            | 301 / 302     | archivist   | TKT-03B-REDIR-002 | Slot da completare dopo validazione; mantenere verifica staging e note analytics come per le altre righe. |
+| R-02 | `/data/traits`       | `/data/core/traits`       | 301           | archivist   | TKT-03B-REDIR-002 | Target presente in staging (`data/core/traits/`), nessun loop/cascade. Config unica `config/data_path_redirects.json` con redirect mirror a R-01/R-03; analytics: conteggio 301 nei log di accesso staging come per R-01/R-03. |
 | R-03 | `/data/analysis`     | `/data/derived/analysis`  | 302           | dev-tooling | TKT-03B-REDIR-003 | Target presente in staging (`data/derived/analysis/`), nessun cascade. Dipendenze: `config/data_path_redirects.json` + pipeline di ingest che referenzia `data/derived`. Analytics: monitorare hit 302 nei log staging. Config condivisa, nessuna patch multipla. |
 
 Note operative:
