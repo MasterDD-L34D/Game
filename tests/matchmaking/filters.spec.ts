@@ -75,6 +75,35 @@ describe('Matchmaking — combinazione filtri', () => {
     );
   });
 
+  it('propaga un AbortSignal al fetch per permettere la cancellazione', async () => {
+    const receivedSignals: Array<AbortSignal | null | undefined> = [];
+    const fetchStub: typeof fetch = async (_input, init) => {
+      receivedSignals.push(init?.signal);
+      return {
+        ok: true,
+        status: 200,
+        json: async () => [
+          {
+            id: 'match-003',
+            region: 'EU',
+            mode: 'ranked',
+            playersInQueue: 200,
+            averageWaitTime: 45,
+            updatedAt: new Date().toISOString(),
+          },
+        ],
+      } as unknown as Response;
+    };
+
+    const controller = new AbortController();
+    const client = new MatchmakingClient({ fetch: fetchStub });
+
+    await client.fetchSummaries({ region: 'EU' }, { signal: controller.signal });
+
+    assert.strictEqual(receivedSignals.length, 1, 'il client deve inoltrare il segnale');
+    assert.strictEqual(receivedSignals[0], controller.signal, 'il segnale deve essere invariato');
+  });
+
   it('mantiene immutabile il payload restituito dalla cache', async () => {
     let currentTime = 1000;
     let fetchCount = 0;

@@ -27,6 +27,10 @@ export interface MatchmakingClientOptions {
   readonly now?: () => number;
 }
 
+export interface FetchSummariesOptions {
+  readonly signal?: AbortSignal;
+}
+
 interface CacheEntry {
   expiresAt: number;
   payload: MatchmakingSummary[];
@@ -122,7 +126,10 @@ export class MatchmakingClient {
     this.cache.delete(this.getCacheKey(filters));
   }
 
-  async fetchSummaries(filters: MatchmakingFilter = {}): Promise<MatchmakingSummary[]> {
+  async fetchSummaries(
+    filters: MatchmakingFilter = {},
+    options: FetchSummariesOptions = {},
+  ): Promise<MatchmakingSummary[]> {
     const key = this.getCacheKey(filters);
     const currentTime = this.now();
     const cached = this.cache.get(key);
@@ -134,6 +141,7 @@ export class MatchmakingClient {
     const url = `${this.baseUrl}${buildQueryString(filters)}`;
     const response = await this.fetcher(url, {
       headers: { Accept: 'application/json' },
+      signal: options.signal,
     });
 
     if (!response.ok) {
