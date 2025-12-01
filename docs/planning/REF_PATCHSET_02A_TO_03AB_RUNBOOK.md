@@ -1,28 +1,28 @@
 # PATCHSET-02A → 03A/03B – Runbook operativo
 
 Versione: 0.1
-Data: 2026-02-13
+Data: 2025-05-08
 Owner: **Master DD (approvatore umano)** con agente coordinator (supporto: dev-tooling, archivist, species/trait-curator)
 Stato: PIANO ESECUTIVO – sequenza operativa dal baseline 02A al rollout 03A/03B
 
 ## Contesto
 
-- Baseline 02A in modalità report-only già acquisita su branch `work` (vedi `docs/planning/02A_validator_report.md`).
-- Freeze fase 3→4 e branch dedicati `patch/03A-core-derived`, `patch/03B-incoming-cleanup` registrati in `logs/agent_activity.md` (2026-02-11).
+- Baseline 02A in modalità report-only già acquisita su branch `work` (vedi `docs/planning/02A_validator_report.md`). Rerun readiness 2025-07-09 su `patch/03A-core-derived` (log `logs/agent_activity.md`).
+- Freeze fase 3→4 e branch dedicati `patch/03A-core-derived`, `patch/03B-incoming-cleanup` registrati in `logs/agent_activity.md` (finestra 2025-11-29→2025-12-07, log 2025-11-30 con owner e ticket attivi).
 - Obiettivo: preparare l’esecuzione coordinata di 03A (patch core/derived) e 03B (pulizia incoming) mantenendo validator in report-only finché non arriva via libera Master DD.
 
 ## Sequenza rapida
 
 1. **Rieseguire 02A in report-only sul branch 03A**
-   - Branch: `patch/03A-core-derived`.
+   - Branch: `patch/03A-core-derived` (rerun readiness loggata 2025-07-09 con trigger/rollback confermati).
    - Comandi: riutilizza checklist di `02A_validator_report.md` (schema-only, trait audit, trait style check) con output solo su log temporanei.
-   - Deliverable: log in `logs/agent_activity.md` con esito e link ai report temporanei.
+   - Deliverable: log in `logs/agent_activity.md` con esito, ticket associati al rerun 02A e link ai report temporanei (richiamo al log 2025-07-09).
 
 2. **Aprire/riconfermare freeze fase 3→4**
    - Scope: blocco merge non urgenti su `core/**`, `derived/**`, `incoming/**`, `docs/incoming/**` durante 03A/03B.
-   - Prerequisiti: approvazione Master DD pre-freeze, snapshot core/derived + backup incoming etichettato.
+   - Prerequisiti: approvazione Master DD pre-freeze, snapshot core/derived + backup incoming etichettato (finestra 2025-11-29→2025-12-07 già comunicata e loggata 2025-11-30 con ticket attivi).
    - Procedura standard:
-     1. Registrare finestra freeze e owner (coordinator + archivist) in `logs/agent_activity.md` con timestamp UTC.
+     1. Registrare finestra freeze e owner (coordinator + archivist) in `logs/agent_activity.md` con timestamp UTC (richiamo esplicito al log 2025-11-30 per freeze 2025-11-29→2025-12-07).
      2. Allegare percorsi snapshot `data/core/**` e `data/derived/**`, branch `patch/03A-core-derived`, checksum e storage.
      3. Allegare backup `incoming/**` e `docs/incoming/**` con manifest e branch `patch/03B-incoming-cleanup` associato.
      4. Indicare responsabile rollback (coordinator) e verifica archivist sul ripristino.
@@ -35,7 +35,7 @@ Stato: PIANO ESECUTIVO – sequenza operativa dal baseline 02A al rollout 03A/03
 
 4. **Transizione verso 03B**
    - Checkpoint: backup/snapshot `incoming/**` confermato leggibile; redirect e indicizzazioni preparati in bozza.
-   - Loggare in `logs/agent_activity.md` il punto di stato con riferimento ai file di backup e ai redirect proposti.
+   - Loggare in `logs/agent_activity.md` il punto di stato con riferimento ai file di backup e ai redirect proposti (agganciato ai log gate 03A/03B del 2025-05-01/02).
 
 5. **Esecuzione 03B – pulizia incoming/archivio**
    - Branch: `patch/03B-incoming-cleanup`; owner archivist con asset-prep.
@@ -61,8 +61,8 @@ Stato: PIANO ESECUTIVO – sequenza operativa dal baseline 02A al rollout 03A/03
 
 ## Audit bundle e riavvio
 
-- Conservare il pacchetto di audit in `reports/audit/2026-02-20_audit_bundle.md`, che aggrega log freeze/sblocco, report 02A (baseline e smoke post-merge), changelog/rollback 03A e istruzioni backup/redirect 03B.
-- Usare il bundle come checkpoint per il ciclo successivo: completare il log di sblocco, rieseguire PIPELINE_SIMULATOR sulla sequenza 02A→freeze→03A→03B e aggiornare eventuali whitelist 02A prima di nuovi patchset.
+- Conservare il pacchetto di audit in `reports/audit/2025-04-08_audit_bundle.md`, che aggrega log freeze/sblocco (finestra 2025-11-29→2025-12-07 e log 2025-11-30), report 02A (baseline e smoke post-merge), changelog/rollback 03A e istruzioni backup/redirect 03B.
+- Usare il bundle come checkpoint per il ciclo successivo: completare il log di sblocco, rieseguire PIPELINE_SIMULATOR sulla sequenza 02A→freeze→03A→03B e aggiornare eventuali whitelist 02A prima di nuovi patchset, annotando un delta per evitare riuso di checkpoint 2026.
 
 ## Rischi e mitigazioni rapide
 
@@ -75,4 +75,4 @@ Stato: PIANO ESECUTIVO – sequenza operativa dal baseline 02A al rollout 03A/03
 
 - Sequenza e trigger di fase: `docs/planning/REF_REPO_MIGRATION_PLAN.md` (sezioni 02A–03B e freeze fase 3→4).
 - Baseline validator: `docs/planning/02A_validator_report.md`.
-- Log operativo e freeze: `logs/agent_activity.md` (entry 2026-02-10, 2026-02-11).
+- Log operativo e freeze: `logs/agent_activity.md` (entry 2025-07-09 per rerun 02A, 2025-11-30 per freeze 03A/03B, 2025-05-01/02 per gate 03A/03B).
