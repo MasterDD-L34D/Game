@@ -14,3 +14,4 @@
 - Organizzare l'archivio per anno/mese (`incoming/archive/YYYY/MM/`).
 - Inserire eventuali asset derivati (documenti estratti) nella stessa cartella con README locale.
 - Quando un asset viene recuperato dall'archivio, segnare la riga come **Ripreso** e linkare a issue/PR gestite dall'agente owner.
+- 2025-12-01: confermata la coerenza dei redirect 03B post-merge 03A senza spostamenti aggiuntivi; checkpoint smoke mirror 03B in `reports/temp/patch-03B-incoming-cleanup/2025-12-01-smoke/` a supporto di eventuali ripristini.
