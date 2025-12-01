@@ -5,6 +5,13 @@
 - Baseline precedente: snapshot freeze 2025-11-25T2028Z (`reports/backups/2025-11-25T2028Z_masterdd_freeze/*` per core/derived/incoming).
 - Validator 02A rieseguiti in modalità report-only (schema-only, trait audit, trait style).
 
+## Aggiornamento 2025-12-01
+- **Rerun 02A (report-only)**: eseguiti i tre validator su staging locale con log in `reports/temp/patch-03A-core-derived/rerun-2025-12-01/` (copie canoniche aggiornate in root cartella).
+  - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → **OK** (10 controlli pack, 0 avvisi).
+  - `python scripts/trait_audit.py --check` → **OK** (nessuna regressione; validazione schema saltata per modulo `jsonschema` assente).
+  - `node scripts/trait_style_check.js --output-json ... --fail-on error` → **OK** (0 suggerimenti; error=0, warning=0, info=0 su 251 file).
+- **Mirroring 03B**: log duplicati in `reports/temp/patch-03B-incoming-cleanup/2025-12-01/` e file canonici della cartella 03B per allineare lo stato dei redirect.
+
 ## Aggiornamento 2025-11-29
 - **Snapshot pre-03A confermato**: manifest `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt` (core/derived/incoming) validato come riferimento di rollback.
 - **Patchset applicato**: stato corrente di `data/core/` e `data/derived/` allineato al pacchetto 03A già approvato (nessun nuovo delta rispetto al bundle sonoro).
@@ -47,6 +54,7 @@
 - `2025-11-28T16:18Z` rerun **report-only** post-correzioni 03A con salvataggio in `reports/temp/patch-03A-core-derived/rerun-2025-11-28/`. Esiti: schema-only **OK** (3 avvisi pack), trait audit **OK** (warning modulo jsonschema mancante), trait style **OK** (0 errori; 62 info).
 - `2026-05-01T17:35Z` rerun **report-only** schema-only per refresh gate 03A: log `reports/temp/patch-03A-core-derived/schema_only_2026-05-01.log` e `schema_only_2026-05-01_gate.log` (14 controlli, 3 avvisi pack; nessun errore).
 - `2026-05-02T17:48Z` rerun **report-only** schema-only per gate 03A: log `reports/temp/patch-03A-core-derived/schema_only_2026-05-02.log` e `schema_only_2026-05-02_gate.log` (14 controlli, 3 avvisi pack; nessun errore; sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`).
+- `2025-12-01T19:08Z` rerun **report-only** per refresh 02A: log in `reports/temp/patch-03A-core-derived/rerun-2025-12-01/` più copie canoniche (`schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json`). Esiti: schema-only **OK** (10 controlli pack, 0 avvisi), trait audit **OK** (warning modulo jsonschema assente), trait style **OK** (0 suggerimenti; error=0, warning=0, info=0 su 251 file). Mirroring in `reports/temp/patch-03B-incoming-cleanup/2025-12-01/`.
 
 ## Note operative
 - Nessun artefatto generato fuori da `reports/temp/patch-03A-core-derived/`.
