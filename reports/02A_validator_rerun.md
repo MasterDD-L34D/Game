@@ -20,3 +20,10 @@
   - Esito: PASS (0 suggerimenti su 251 file).【F:reports/temp/02A_rerun_20251201T152424Z/trait_style.log†L1】
 
 I log completi sono archiviati in `reports/temp/02A_rerun_20251201T152424Z/` e costituiscono la baseline PASS per lo sblocco merge 03A/03B.
+
+## Rerun 2025-12-01T18:25Z (report-only)
+
+- **Config pipeline** — `scripts/run_pipeline_cycle.sh --prepare-only` seguito da esecuzione completa con `LOG_ID=TKT-02A-VALIDATOR`.
+  - Branch 03A/03B non trovati, fallback su `work`; `CYCLE_COUNT` bloccato a 1 per il rerun singolo.【F:logs/pipeline_status.log†L1-L10】
+- **Esecuzione** — ciclo 1/1 completato su `work` con Kickoff 02A, freeze ufficiale, patch 03A con rerun 02A, transizione 03B e sblocco freeze.【F:logs/pipeline_status.log†L10-L23】
+- **Artifact** — generato `logs/audit-bundle.tar.gz` per allegato nota di rilascio (include stato finale e audit).【F:logs/pipeline_status.log†L22-L23】
