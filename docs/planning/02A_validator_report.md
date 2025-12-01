@@ -48,3 +48,7 @@
 - Obiettivo: rieseguire i tre validator (schema/trait/style) in modalità report-only per confermare le correzioni e sbloccare il gate 03A.
 - Comandi previsti: stessi comandi baseline con output indirizzato a `reports/02A_validator_rerun.md`.
 - Log atteso: per ciascun validator, stato `PASS` oppure elenco errori residui con timestamp; il file di log sarà archiviato in `reports/02A_validator_rerun.md` e referenziato da questo documento.
+
+### Aggiornamento stato rerun
+
+- **2025-12-01T15:24Z (report-only)** — schema-only, trait audit e trait style in PASS; log archiviati in `reports/temp/02A_rerun_20251201T152424Z/` e riepilogati in `reports/02A_validator_rerun.md`.【F:reports/02A_validator_rerun.md†L13-L22】
