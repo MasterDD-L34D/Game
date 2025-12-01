@@ -1,7 +1,7 @@
 # REF_REPO_SCOPE – Refactor globale repository Game / Evo Tactics
 
-Versione: 0.5
-Data: 2025-12-30
+Versione: 0.6
+Data: 2025-12-07 (milestone target)
 Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
 Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
@@ -46,23 +46,28 @@ Stato: PATCHSET-00 PROPOSTA – bussola per le pipeline di refactor
 
 ## Prerequisiti di governance
 
-- Owner umano nominato per il ciclo PATCHSET-00 (Master DD) e registrato nei log di esecuzione; approvazione esplicita di Master DD richiesta per i gate 01A–01C.
+- Owner umano nominato per il ciclo PATCHSET-00 (Master DD) e registrato nei log di esecuzione; **gate 01A approvato**, **01B in revisione** e **01C pianificato** con approvazione richiesta prima di qualsiasi merge verso `main`.
 - Branch dedicati per ogni passo successivo, evitando merge diretti su `main` senza gate incrociati.
 - Logging delle attività e delle approvazioni in `logs/agent_activity.md` per audit e handoff.
 
+## Nota di delta
+
+- Milestone riallineata da 2025-12-30 a **2025-12-07** con compressione delle attività 01B–01C; il gate 01A già approvato resta il riferimento per mantenere lo scope neutrale e validare i collegamenti con i ticket collegati.
+
 ## Prossimi passi
 
-1. Approvare questo scope come riferimento condiviso per tutte le PATCHSET e registrare variazioni nel changelog del file.
-2. Completare i documenti di pianificazione elencati in §6.1 (sources of truth, incoming, pack/derived, tooling/CI, migration plan).
-3. Definire le etichette di stato e la segmentazione di `incoming/**` e `docs/incoming/**` insieme al censimento iniziale.
-4. Mappare i percorsi canonici dei core e le regole di derivazione dei pack in coordinamento con trait/species/biome curators.
-5. Inventariare tooling/CI e validatori per pianificare gli adeguamenti senza regressioni.
-6. Preparare PATCHSET numerati con scope limitato, rischi noti e strategia di rollback coerente con Golden Path.
+1. Approvare questo scope come riferimento condiviso per tutte le PATCHSET entro 2025-12-07 e registrare variazioni nel changelog. **Owner umano:** Master DD – branch `patch/PATCHSET-00`.
+2. Completare i documenti di pianificazione elencati in §6.1 (sources of truth, incoming, pack/derived, tooling/CI, migration plan) collegandoli ai gate 01B–01C. **Owner umano:** Master DD – branch `patch/PATCHSET-00-docs`.
+3. Definire le etichette di stato e la segmentazione di `incoming/**` e `docs/incoming/**` insieme al censimento iniziale, chiudendo 01B. **Owner umano:** Master DD – branch `patch/PATCHSET-00-incoming`.
+4. Mappare i percorsi canonici dei core e le regole di derivazione dei pack in coordinamento con trait/species/biome curators per preparare 01C. **Owner umano:** Master DD (supporto curators/dev-tooling) – branch `patch/PATCHSET-00-sources`.
+5. Inventariare tooling/CI e validatori per pianificare gli adeguamenti senza regressioni, mantenendo compatibilità prima del passaggio a PATCHSET-01. **Owner umano:** Master DD – branch `patch/PATCHSET-00-tooling`.
+6. Preparare PATCHSET numerati con scope limitato, rischi noti e strategia di rollback coerente con Golden Path, includendo i trigger di approvazione 01C. **Owner umano:** Master DD – branch `patch/PATCHSET-00-migration`.
 
 ---
 
 ## Changelog
 
+- 2025-12-07: versione 0.6 – milestone anticipata al 07/12/2025 con stato gate 01A approvato / 01B in revisione / 01C pianificato, delta di riallocazione e prossimi passi compressi entro la data target.
 - 2025-12-30: versione 0.5 – intestazione riallineata al report v0.5, confermata la numerazione 01A–03B e lo scope come bussola per le patch successive.
 - 2025-12-17: versione 0.3 – design completato, perimetro documentazione confermato, numerazione 01A–03B bloccata e riferimento alle fasi GOLDEN_PATH con prerequisiti di governance (owner umano, branch dedicati, logging) applicati a PATCHSET-00 (archivist).
 - 2025-11-23: versione iniziale del perimetro di refactor (coordinator).

@@ -1,7 +1,7 @@
 # REF_REPO_PATCH_PROPOSTA – Applicazione iniziale dello scope
 
-Versione: 0.5
-Data: 2025-12-30
+Versione: 0.6
+Data: 2025-12-07 (milestone target)
 Owner: **Master DD (owner umano)** – coordinamento con coordinator/dev-tooling
 Stato: PATCHSET-00 PROPOSTA – patch da validare
 
@@ -23,11 +23,15 @@ La numerazione delle uscite successive resta agganciata alla sequenza 01A–03B 
 
 ## Stato attuale
 
-- **0.2 completato (design)**; in attesa di approvazione per esecuzione delle fasi 01A–03B.
+- **0.2 completato (design)**; milestone riallineata al 2025-12-07 per completare la sequenza 01A–01C.
 - Deliverable proposti sono limitati a documentazione e mappature, senza toccare `data/core/**`, `packs/**` o tooling.
 - Gli stub richiesti in §6.1 di `REF_REPO_SCOPE` esistono ma vanno completati con sezioni operative.
 - Le cartelle `incoming/` e `docs/incoming/` sono solo censite; manca una tabella di stato condivisa.
-- **01A approvata il 2025-11-28 da Master DD (owner umano)** con ambito neutrale confermato e blocco dei merge diretti su `main` fino al superamento del gate previsto.
+- **Gate 01A approvato il 2025-11-28 da Master DD (owner umano)** con ambito neutrale confermato e blocco dei merge diretti su `main`; **01B in revisione** con perimetro invariato; **01C pianificato** per chiusura entro milestone.
+
+## Nota di delta
+
+- Riallineata la milestone da 2025-12-30 a **2025-12-07** per anticipare l’approvazione di 01B–01C; le attività già approvate (ticket/gate 01A) restano valide e fungono da prerequisito per la compressione del calendario.
 
 ## Rischi
 
@@ -52,16 +56,17 @@ La numerazione delle uscite successive resta agganciata alla sequenza 01A–03B 
 
 ## Prossimi passi
 
-1. Validare formalmente PATCHSET-00 come change-set neutrale e approvare la struttura dei sei documenti di pianificazione. **Owner umano:** Master DD (coordinator in supporto) – riferimento 01A.
-2. Popolare `REF_INCOMING_CATALOG` con la tabella di stato condivisa per `incoming/` e `docs/incoming/`, nominando un owner umano di riferimento (Master DD) e collegando la voce di stato alla fase 01B/02A.
-3. Collegare `REF_REPO_SOURCES_OF_TRUTH` e `REF_PACKS_AND_DERIVED` con i percorsi canonici dei core e i criteri di derivazione. **Owner umano:** Master DD (supporto dev-tooling) – allineamento con 02B.
-4. Allineare `REF_TOOLING_AND_CI` sugli impatti nulli di PATCHSET-00 e preparare la checklist di compatibilità per PATCHSET-01. **Owner umano:** Master DD – riferimento 03A.
-5. Aggiornare `REF_REPO_MIGRATION_PLAN` con le exit/entry criteria e i trigger per passare da PATCHSET-00 a PATCHSET-01/02 (sequenza 01A–03B). **Owner umano:** Master DD con coordinator/dev-tooling.
+1. Formalizzare l’approvazione di PATCHSET-00 con la struttura dei sei documenti di pianificazione entro 2025-12-07. **Owner umano:** Master DD (coordinator in supporto) – riferimento 01A; branch: `patch/PATCHSET-00`.
+2. Popolare `REF_INCOMING_CATALOG` con la tabella di stato condivisa per `incoming/` e `docs/incoming/`, collegando ogni entry al gate 01B. **Owner umano:** Master DD – branch dedicato `patch/PATCHSET-00-incoming`.
+3. Collegare `REF_REPO_SOURCES_OF_TRUTH` e `REF_PACKS_AND_DERIVED` con i percorsi canonici dei core e i criteri di derivazione, bloccando le deroghe prima di 01C. **Owner umano:** Master DD (supporto dev-tooling) – branch `patch/PATCHSET-00-sources`.
+4. Allineare `REF_TOOLING_AND_CI` sugli impatti nulli di PATCHSET-00 e preparare la checklist di compatibilità per PATCHSET-01. **Owner umano:** Master DD – branch `patch/PATCHSET-00-tooling`.
+5. Aggiornare `REF_REPO_MIGRATION_PLAN` con le exit/entry criteria e i trigger per passare da PATCHSET-00 a PATCHSET-01/02 (sequenza 01A–03B) entro milestone. **Owner umano:** Master DD con coordinator/dev-tooling – branch `patch/PATCHSET-00-migration`.
 
 ---
 
 ## Changelog
 
+- 2025-12-07: versione 0.6 – milestone anticipata al 07/12/2025, stato gate 01A approvato / 01B in revisione / 01C pianificato, con delta di riallocazione e prossimi passi compressi.
 - 2025-12-30: versione 0.5 – allineamento al report v0.5 con intestazione aggiornata e conferma del ruolo di PATCHSET-00 come proposta neutrale per la sequenza 01A–03B.
 - 2025-12-17: versione 0.3 – design completato confermato, perimetro documentazione fissato, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH; prerequisiti di governance ribaditi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
 - 2025-11-28: approvazione 01A (Master DD) su PATCHSET-00 con conferma di scope neutrale e blocco dei merge diretti su `main` fino al gate superato; creato branch dedicato `patch/PATCHSET-00` da `work`.
