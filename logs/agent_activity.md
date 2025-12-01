@@ -11,6 +11,10 @@
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 - Per le finestre 03A/03B 2025-11-29→2025-12-07 usare i manifest di riferimento `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` e i checkpoint Master DD (`reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `...1724Z...`, `...2028Z...`). Ogni nuova verifica o restore va registrata con il formato sintetico sopra, includendo ticket e approvazione Master DD nel campo note.
 
+## 2026-07-18 – Stato gating CI e rischi residui (dev-tooling)
+- Step: `[01C-CI-GATING-2026-07-18] owner=dev-tooling (approvatore Master DD); files=docs/planning/REF_TOOLING_AND_CI.md,logs/agent_activity.md; rischio=basso (documentazione/ricognizione); note=Aggiornata sezione Stato attuale/inventario con owner, ultimi run 30/11/2025, dipendenze core/derived e gate PR attivi; registrate azioni aperte **[TKT-01C-003]** (falsi positivi trait_audit/registries, monitoraggio consultivo) e **[TKT-01C-004]** (drift derived monitorato via derived_checksum report-only) con piano di rollback consultivo invariato.`
+
+
 ## 2026-07-17 – Aggiornamento finestra QA redirect (archivist)
 - Step: `[REDIR-QA-WINDOW-2026-07-17] owner=archivist (approvatore Master DD); files=docs/planning/REF_REDIRECT_PLAN_STAGING.md,logs/agent_activity.md; rischio=basso (documentazione/QA window); note=Aggiornata la sequenza di attivazione redirect per usare la finestra QA documentale principale 2025-12-01T09:00Z→2025-12-08T18:00Z con slot alternativa 2025-12-09T09:00Z→2025-12-09T18:00Z. Allineate note di overlap e rollback alla timeline 2025 per i ticket #1204/#1205, confermando approvazione Master DD e rimozione delle date luglio 2025 per evitare riusi errati.`
 
