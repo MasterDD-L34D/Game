@@ -3,7 +3,7 @@
 Versione: 0.2
 Data/Milestone: 2025-12-07 (milestone staging redirect)
 Owner: coordinator (supporto dev-tooling + archivist)
-Stato: Draft/Blocked (smoke test ERROR su raggiungibilità host, gate allineati alla finestra QA 2025 e bloccati finché non torna PASS)
+Stato: Ready/Approved (smoke PASS 2025-12-07 su host `http://localhost:8000`; gate allineati alla finestra QA 2025 e pronti al go-live salvo rollback richiesto)
 Ambito: preparazioni in parallelo (staging, core/derived) senza attivazioni; milestone aggiornata a 07/12/2025
 
 ## Scopo
@@ -15,6 +15,21 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 - Il checkpoint 2026-02-18 è stato ritirato: la milestone operativa passa a **07/12/2025** per evitare il riuso di finestre storiche.
 - I gate (attivazione e go-live) sono riallineati alle finestre QA documentale 2025 e devono restare bloccati finché lo smoke test non torna **PASS** sul nuovo host di staging.
 - I riferimenti operativi (ticket #1204 e #1205) puntano ora alla milestone 2025 e richiedono di allegare i report aggiornati.
+
+## Aggiornamento tracciabilità 2025-12-07
+
+- Log di riferimento: `[REDIR-VALIDATOR-SMOKE-2025-12-07T0900Z]` in `logs/agent_activity.md` con allegati `reports/02A_validator_rerun.md` (validator 02A PASS) e `reports/redirects/redirect-smoke-staging.json` (smoke PASS R-01/R-02/R-03 su `http://localhost:8000`).
+- Finestra QA documentale 2025-12-01T09:00Z → 2025-12-08T18:00Z verificata senza overlap; slot alternativa 2025-12-09T09:00Z → 2025-12-09T18:00Z pronta per fallback e da riusare anche per eventuale rollback ticket #1206.
+
+## Stato ticket e allegati (allineati al log 2025-12-07)
+
+| Ticket                                                                                    | Owner                            | Stato               | Allegati/Note                                                                                                                                                                                                           |
+| ----------------------------------------------------------------------------------------- | -------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) – Ok a finestra di attivazione | Master DD (supporto archivist)   | Approved            | Report `reports/redirects/redirect-smoke-staging.json` (PASS 2025-12-07) allegato; riferito nel log `[REDIR-VALIDATOR-SMOKE-2025-12-07T0900Z]`. Nessun overlap con finestra QA principale; fallback 2025-12-09 pronto.  |
+| [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) – Go-live redirect             | Master DD (supporto coordinator) | Approved            | Stesso report di smoke PASS 2025-12-07 allegato; milestone 2025-12-08 allineata; riferimento al log `[REDIR-VALIDATOR-SMOKE-2025-12-07T0900Z]` per tracciabilità.                                                       |
+| [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) – Rollback redirect            | Master DD + dev-tooling          | Draft               | Baseline di rollback collegata al report `reports/redirects/redirect-smoke-staging.json` (PASS) e finestra alternativa 2025-12-09; attivazione del runbook vincolata al log `[REDIR-VALIDATOR-SMOKE-2025-12-07T0900Z]`. |
+| TKT-03A – Validator pre-03A                                                               | dev-tooling                      | Ready (report-only) | Esiti PASS in `reports/02A_validator_rerun.md` (log `[REDIR-VALIDATOR-SMOKE-2025-12-07T0900Z]`) e cartella `reports/temp/02A_rerun_20251201/` come baseline per il gate 03A.                                            |
+| TKT-03B – Redirect mapping                                                                | archivist                        | Ready               | Mapping R-01/R-02/R-03 confermato con smoke PASS (`reports/redirects/redirect-smoke-staging.json`); log `[REDIR-VALIDATOR-SMOKE-2025-12-07T0900Z]` come riferimento di stato.                                           |
 
 ### Mapping vecchia data → nuova data (checkpoint)
 
