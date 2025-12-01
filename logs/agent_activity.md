@@ -11,6 +11,9 @@
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
 - Per le finestre 03A/03B 2025-11-29→2025-12-07 usare i manifest di riferimento `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` e i checkpoint Master DD (`reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `...1724Z...`, `...2028Z...`). Ogni nuova verifica o restore va registrata con il formato sintetico sopra, includendo ticket e approvazione Master DD nel campo note.
 
+## 2026-07-17 – Aggiornamento finestra QA redirect (archivist)
+- Step: `[REDIR-QA-WINDOW-2026-07-17] owner=archivist (approvatore Master DD); files=docs/planning/REF_REDIRECT_PLAN_STAGING.md,logs/agent_activity.md; rischio=basso (documentazione/QA window); note=Aggiornata la sequenza di attivazione redirect per usare la finestra QA documentale principale 2025-12-01T09:00Z→2025-12-08T18:00Z con slot alternativa 2025-12-09T09:00Z→2025-12-09T18:00Z. Allineate note di overlap e rollback alla timeline 2025 per i ticket #1204/#1205, confermando approvazione Master DD e rimozione delle date luglio 2025 per evitare riusi errati.`
+
 ## 2026-07-16 – Redirect R-02 staging completato (archivist)
 - Step: `[REDIR-R02-STAGING-2026-07-16] owner=archivist (approvatore Master DD); files=docs/planning/REF_REDIRECT_PLAN_STAGING.md, config/data_path_redirects.json, logs/agent_activity.md; rischio=basso (documentazione/redirect); note=Completata riga R-02 con source `/data/traits` → target `/data/core/traits` (301) su ticket **[TKT-03B-REDIR-002]**. Target verificato presente su staging (`data/core/traits/`), nessun loop/cascade rilevato rispetto alla config di routing. Note analytics allineate a R-01/R-03: monitorare hit 301 nei log di accesso staging; allegato al ticket per sblocco fase di attivazione.`
 
