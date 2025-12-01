@@ -1,9 +1,9 @@
 # REF_REPO_SOURCES_OF_TRUTH – Canonico dati core
 
-Versione: 0.5
-Data: 2025-12-30
+Versione: 0.6
+Data: 2025-12-07 (milestone 07/12/2025)
 Owner: agente **archivist** (supporto: trait-curator, species-curator, biome-ecosystem-curator)
-Stato: PATCHSET-00 PROPOSTA – censimento sorgenti di verità
+Stato: PATCHSET-00 APPROVATO – gate 01A–01C chiusi
 
 ---
 
@@ -53,12 +53,12 @@ Stato: PATCHSET-00 PROPOSTA – censimento sorgenti di verità
 
 ### Tabella dominio → core canonico
 
-| Dominio                      | Percorsi core canonici                                                                                                        | Schema/validator di riferimento                                                                                                                      | Derived/pack ammessi                                                                                                                           | Criterio di verità (core vs derived)                                                                                                                                     |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Trait                        | `data/core/traits/glossary.json` (anagrafica), `data/core/traits/biome_pools.json` (pool ambientali)                          | `schemas/evo/trait.schema.json` + enum `schemas/core/enums.json` (metriche UCUM); validator ALIENA (report-only)                                     | Cataloghi pack (`packs/evo_tactics_pack/docs/catalog/*.json`), report QA (`data/derived/analysis/trait_*`), descrittivi `traits/**`            | Core = unica sorgente id/slug e pool validati; derived rigenerati dai core con versione/timestamp; documentazione è derivata e non fa testo.                             |
-| Specie                       | `data/core/species.yaml`, `data/core/species/aliases.json`                                                                    | `schemas/evo/species.schema.json` + enum `schemas/core/enums.json`; validator pack/specie in `packs/evo_tactics_pack/tools/py/run_all_validators.py` | Dataset pack (`packs/evo_tactics_pack/data/species.yaml`), snapshot/mock (`data/derived/mock/**/species.yaml`)                                 | Core = unica lista specie e alias; derived ammessi solo se generati da core (o arricchiti) e marcati con checksum sorgente; alias pack devono riflettere `aliases.json`. |
-| Biomi/Ecosistemi/Foodweb     | `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `data/ecosystems/*.ecosystem.yaml`, `biomes/terraforming_bands.yaml` | Validator ecosistemi/foodweb in `packs/evo_tactics_pack/tools/py/run_all_validators.py`; enum `schemas/core/enums.json` per biomi                    | Pack ecosistemi/foodweb (`packs/evo_tactics_pack/data/ecosystems/*.yaml`, `data/foodwebs/*.yaml`), report analisi (`data/derived/analysis/**`) | Core = biomi e bande di terraformazione validati; ecosistemi pack sincronizzati con core specie/biomi e con log di script/versione; report solo derivati.                |
-| Telemetria/funzioni/missioni | `data/core/telemetry.yaml`, `data/core/game_functions.yaml`, `data/core/mating.yaml`, missioni (`data/core/missions/*.yaml`)  | Validator pack (report) e schema UCUM per unità; configurazioni HUD in `data/core/hud/`                                                              | Mock/snapshot (`data/derived/mock/**`), report progression (`data/derived/analysis/progression/*.json` / `*.csv`)                              | Core = parametri e missioni ufficiali; derived usabili per QA solo se rigenerati da core con log comando; mock non modificano la verità dei core.                        |
+| Dominio                      | Percorsi core canonici                                                                                                              | Owner (custode)                                | Validator/Schema (ALIENA/UCUM)                                                                                                | Derived/pack ammessi                                                                                                               | Conformità e log richiesti                                                                                                                                     |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Trait                        | `data/core/traits/glossary.json` (anagrafica); `data/core/traits/biome_pools.json` (pool ambientali)                                | archivist (supporto trait-curator)             | `schemas/evo/trait.schema.json` + `schemas/core/enums.json` (unità UCUM); validator ALIENA report-only                        | Cataloghi pack `packs/evo_tactics_pack/docs/catalog/*.json`; report QA `data/derived/analysis/trait_*`; descrittivi `traits/**`    | Core unica per id/slug/pool; derived rigenerati dai core con versione/timestamp; log validazione e rigenerazione in `logs/agent_activity.md`.                  |
+| Specie                       | `data/core/species.yaml`; `data/core/species/aliases.json`                                                                          | archivist (supporto species-curator)           | `schemas/evo/species.schema.json` + `schemas/core/enums.json`; `packs/evo_tactics_pack/tools/py/run_all_validators.py`        | Dataset pack `packs/evo_tactics_pack/data/species.yaml`; snapshot/mock `data/derived/mock/**/species.yaml`                         | Core unica per specie/alias; derived ammessi solo se generati dai core e marcati con checksum sorgente; log script/commit in `logs/agent_activity.md`.         |
+| Biomi/Ecosistemi/Foodweb     | `data/core/biomes.yaml`; `data/core/biome_aliases.yaml`; `data/ecosystems/*.ecosystem.yaml`; `biomes/terraforming_bands.yaml`       | archivist (supporto biome-ecosystem-curator)   | Validator ecosistemi/foodweb `packs/evo_tactics_pack/tools/py/run_all_validators.py`; enum `schemas/core/enums.json` (ALIENA) | Pack ecosistemi/foodweb `packs/evo_tactics_pack/data/ecosystems/*.yaml`; `data/foodwebs/*.yaml`; report `data/derived/analysis/**` | Core biomi e bande terraformazione validati; derived sincronizzati a specie/biomi core con log script/versione e nota UCUM/ALIENA in `logs/agent_activity.md`. |
+| Telemetria/funzioni/missioni | `data/core/telemetry.yaml`; `data/core/game_functions.yaml`; `data/core/mating.yaml`; `data/core/missions/*.yaml`; `data/core/hud/` | archivist (supporto dev-tooling per validator) | Validator pack (report) + schema UCUM per unità operative; referenza enum in `schemas/core/enums.json`                        | Mock/snapshot `data/derived/mock/**`; report progression `data/derived/analysis/progression/*.json` / `*.csv`                      | Core parametri e missioni ufficiali; derived usabili per QA solo se rigenerati dai core con log comando/commit e conferma UCUM in `logs/agent_activity.md`.    |
 
 ### Note operative
 
@@ -68,10 +68,19 @@ Stato: PATCHSET-00 PROPOSTA – censimento sorgenti di verità
 
 **Regola generale**: il core è verità unica (ALIENA/UCUM + validator repo). Tutto ciò che vive fuori da `data/core/**` è derivato o documentazione; va rigenerato dai core e accompagnato da timestamp/versione git e log del comando usato. Nessuna modifica manuale ai derived senza backport nei core.
 
+## Go-live checklist
+
+Prima di usare i core nei patchset correnti, completare tutti i controlli seguenti (loggare risultati ed eventuali eccezioni in `logs/agent_activity.md`):
+
+- Eseguire la validazione schema/ALIENA/UCUM sui percorsi core con `packs/evo_tactics_pack/tools/py/run_all_validators.py` e confermare i commit di riferimento.
+- Controllare duplicati o divergence tra core e derived (trait/specie/biomi/telemetria) e allineare gli alias/enum se necessario.
+- Registrare in `logs/agent_activity.md` il dettaglio dei controlli, includendo hash commit, versioni schema e comandi eseguiti per rigenerare derived o cataloghi.
+
 ---
 
 ## Changelog
 
+- 2025-12-07: versione 0.6 – milestone 07/12/2025, gate 01A–01C approvati, tabella dominio→core consolidata con owner/validator, aggiunta checklist go-live.
 - 2025-12-30: versione 0.5 – intestazione riallineata al report v0.5, confermata la numerazione 01A–03B e il perimetro delle sorgenti canoniche.
 - 2025-12-17: versione 0.3 – design completato, perimetro documentazione consolidato, numerazione 01A–03B bloccata e richiamo alle fasi GOLDEN_PATH; prerequisiti di governance esplicitati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-23: struttura iniziale e linee guida di censimento (archivist).
