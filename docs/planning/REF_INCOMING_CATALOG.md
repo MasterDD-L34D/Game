@@ -47,16 +47,16 @@ Stato: PATCHSET-01A – inventario aggiornato
 
 ## Segmentazione buffer/legacy/archive_cold (REF_REPO_SCOPE)
 
-| Percorso                                | Segmento                   | Stato        | Owner umano | Ticket/Patchset                          | Fase |
-| --------------------------------------- | -------------------------- | ------------ | ----------- | ---------------------------------------- | ---- |
-| `incoming/` (pack e dataset attivi)     | buffer backlog             | DA_INTEGRARE | Master DD   | **[TKT-01B-001]** (matrice core/derived) | 01B  |
-| `incoming/lavoro_da_classificare/`      | buffer backlog             | DA_INTEGRARE | Master DD   | **[TKT-01A-001]** (gap list)             | 01B  |
-| `incoming/archive/`                     | legacy (warm archive)      | STORICO      | Master DD   | —                                        | 02A  |
-| `incoming/archive_cold/`                | archive_cold (immutabile)  | STORICO      | Master DD   | —                                        | 02A  |
-| `docs/incoming/` (linee guida e mappe)  | buffer documentale         | DA_INTEGRARE | Master DD   | **[TKT-01A-005]** (piani integrazione)   | 01B  |
-| `docs/incoming/lavoro_da_classificare/` | buffer documentale         | DA_INTEGRARE | Master DD   | **[TKT-01A-005]**                        | 01B  |
-| `docs/incoming/decompressed/`           | legacy (derivati estratti) | STORICO      | Master DD   | —                                        | 02A  |
-| `docs/incoming/archive/`                | archive_cold documentale   | STORICO      | Master DD   | —                                        | 02A  |
+| Percorso                                | Segmento                   | Stato        | Owner umano                                          | Ticket/Patchset                                                                      | Fase |
+| --------------------------------------- | -------------------------- | ------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------------ | ---- |
+| `incoming/` (pack e dataset attivi)     | buffer backlog             | DA_INTEGRARE | Master DD                                            | **[TKT-01B-001]** (matrice core/derived)                                             | 01B  |
+| `incoming/lavoro_da_classificare/`      | buffer backlog             | DA_INTEGRARE | archivist (Master DD, handoff species/trait-curator) | **[TKT-01A-001]** (gap list) / **[TKT-01B-001]** (matrice core/derived)              | 01B  |
+| `incoming/archive/`                     | legacy (warm archive)      | STORICO      | Master DD                                            | —                                                                                    | 02A  |
+| `incoming/archive_cold/`                | archive_cold (immutabile)  | STORICO      | Master DD                                            | —                                                                                    | 02A  |
+| `docs/incoming/` (linee guida e mappe)  | buffer documentale         | DA_INTEGRARE | Master DD                                            | **[TKT-01A-005]** (piani integrazione)                                               | 01B  |
+| `docs/incoming/lavoro_da_classificare/` | buffer documentale         | DA_INTEGRARE | archivist (Master DD, dominio catalogo)              | **[TKT-01A-005]** (piano integrazione) / **[TKT-01B-002]** (handoff trait/sentience) | 01B  |
+| `docs/incoming/decompressed/`           | legacy (derivati estratti) | STORICO      | Master DD                                            | —                                                                                    | 02A  |
+| `docs/incoming/archive/`                | archive_cold documentale   | STORICO      | Master DD                                            | —                                                                                    | 02A  |
 
 Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORICO** e riprendono la segmentazione `buffer → legacy → archive_cold` di `REF_REPO_SCOPE`; ogni riga è allineata ai gate 01B (handoff verso species/trait curators) o 02A (validator/report-only) per il collegamento ai ticket esistenti.
 
@@ -79,7 +79,7 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 | `incoming/idea_catalog.csv`, `IDEA-001_ecosistema_template.yaml`, `recon_meccaniche.json` | idee e note ecosistemi | DA_INTEGRARE | Possibili duplicati con pipeline design. | Collegare a ticket/patchset design e decidere legacy se superati. |
 | `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py` | hook/script/ schema engine | DA_INTEGRARE | Dev-tooling (TKT-01C-002): rebase su event-map engine v2.3; non eseguire `scan_engine_idents.py`. | Blocchi borderline segnalati a Master DD se 01B richiede nuovi eventi; consegna hook puliti a species/trait-curator. |
 | `incoming/docs/*` | script DevKit | STORICO | Duplicati potenziali di `tools/`. | Spostare in archive_cold dopo snapshot se sovrapposti. |
-| `incoming/lavoro_da_classificare/*` | asset sito, config e batch | DA_INTEGRARE | Owner non definito; scope roadmap incerto. | Nominare owner e decidere se integrare o marcare legacy. |
+| `incoming/lavoro_da_classificare/*` | asset sito, config e batch | DA_INTEGRARE | archivist (Master DD, handoff species/trait-curator) | Collegato a **[TKT-01A-001]** → handoff **[TKT-01B-001]**/**[TKT-01B-002]** su `patch/01B-core-derived-matrix`. |
 | `incoming/idea_intake_site_package.zip`, `generator.html`, `index*.html`, `last_report.*`, `logs_48354746845.zip` | report/pacchetti sito | STORICO | Rumore da reportistica, rischio reimport. | Archiviare freddo mantenendo checksum. |
 | `incoming/incoming_inventory.json`, `game_repo_map.json`, `compat_map*.json`, `pack_biome_jobs_v8_alt.json` | inventari/mappe precedenti | STORICO | Non allineati al catalogo corrente. | Conservare come storico dopo diff con catalogo 0.3. |
 | `incoming/pathfinder/bestiary1e_index.csv` | indice bestiario | DA_INTEGRARE | Licenza e mapping specie incerti. | Confermare licenza e creare mapping interno prima dell’uso. |
@@ -97,7 +97,7 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 | `docs/incoming/Ennagramma/README_ENNEAGRAMMA.md` | guida dataset enneagramma | DA_INTEGRARE | Deve essere coerente con dataset `incoming/Ennagramma`. | Allineare con il dataset prima di promuovere. |
 | `docs/incoming/decompressed/README.md` | note estrazioni | STORICO | Log operativo senza uso diretto. | Candidare ad archive_cold dopo snapshot. |
 | `docs/incoming/decompressed/*` (cartelle estratte) | estrazioni di archivi incoming | STORICO | Derivati non versionati dei pack. | Tenere solo come traccia operativa, rigenerare da sorgenti zip. |
-| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`, `.../TASKS_BREAKDOWN.md` | piani e task backlog | DA_INTEGRARE | Owner non definito; rischio fuori roadmap. | Identificare owner e aggiornare o spostare in legacy. |
+| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`, `.../TASKS_BREAKDOWN.md` | piani e task backlog | DA_INTEGRARE | archivist (Master DD, dominio catalogo) | Allineare a **[TKT-01A-005]** con riferimenti **01B** (**[TKT-01B-001]**/**[TKT-01B-002]**) e branch `patch/01B-core-derived-matrix`. |
 | `docs/incoming/lavoro_da_classificare/scripts/README.md` | note script backlog | DA_INTEGRARE | Potrebbe descrivere tool non mantenuti. | Verificare dipendenze prima di riesecuzione. |
 | `docs/incoming/archive/INDEX.md`, `archive/2025-11-15_evo_cleanup`, `archive/2025-12-19_inventory_cleanup`, `archive/documents` | archivio storico | STORICO | Materiale legacy già chiuso. | Mantenere come storico; eventuale spostamento in archive_cold. |
 
@@ -140,11 +140,11 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 
 | Fonte                                                                             | Missing mapping                                        | Owner proposto                                            | Ticket/Note                                                                                                                                                                                                         |
 | --------------------------------------------------------------------------------- | ------------------------------------------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `incoming/lavoro_da_classificare/*`                                               | Nessun mapping verso core/derived né owner di dominio. | archivist (Laura B, supporto trait-curator)               | Ticket **[TKT-01A-001]** – Outcome **INTEGRARE** (triage + mapping owner) **CHIUSO** con approvazione Master DD; note allineate ai README incoming/docs e consegna a 01B.                                           |
+| `incoming/lavoro_da_classificare/*`                                               | Nessun mapping verso core/derived né owner di dominio. | archivist (Master DD, supporto trait-curator)             | Ticket **[TKT-01A-001]** – Outcome **INTEGRARE** (triage + mapping owner) **CHIUSO** con approvazione Master DD; note allineate ai README incoming/docs e consegna a 01B.                                           |
 | `incoming/ancestors_*` CSV / `Ancestors_Neurons_*`                                | Schema e sensibilità dati non mappati ai dataset core. | species-curator (supporto dev-tooling per sanitizzazione) | Ticket **[TKT-01A-002]** – Outcome **INTEGRARE** drop sanificato `ancestors_neurons_dump_v3` **CHIUSO** con approvazione Master DD; legacy precedenti da archiviare dopo review e handoff 01B.                      |
 | `incoming/evo_tactics_validator-pack_v1.5.zip` e `..._param_synergy_v8_3.zip`     | Tabelle parametri non collegate ai pack core/derived.  | dev-tooling (supporto balancer)                           | Ticket **[TKT-01A-003]** – Outcome **LEGACY** (read-only fino a nuova baseline parametri) **CHIUSO** con approvazione Master DD; nota riflessa nei README incoming/docs e consegna 01C.                             |
 | `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py` | Bindings engine non allineati agli ID correnti.        | dev-tooling                                               | Ticket **[TKT-01A-004]** – Outcome **INTEGRARE** dopo rebase su event-map engine v2.3 **CHIUSO** con approvazione Master DD; blocco su `scan_engine_idents.py` da mantenere finché non sbloccato, consegna 01C/01B. |
-| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`                        | Piano integrazione senza legame a patchset/ticket.     | archivist (Laura B)                                       | Ticket **[TKT-01A-005]** – Outcome **INTEGRARE** (allineare piano a patchset 01A / ticket collegati) **CHIUSO** con approvazione Master DD; note sincronizzate nei README e pacchetto handoff 01B/01C.              |
+| `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`                        | Piano integrazione senza legame a patchset/ticket.     | archivist (Master DD)                                     | Ticket **[TKT-01A-005]** – Outcome **INTEGRARE** (allineare piano a patchset 01A / ticket collegati) **CHIUSO** con approvazione Master DD; note sincronizzate nei README e pacchetto handoff 01B/01C.              |
 
 **Stato ticket:** i ticket **[TKT-01A-001]** … **[TKT-01A-005]** sono **CHIUSI** con outcome approvati da Master DD; handoff verso 01B/01C in report-only su `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` (registrati nel log centrale).
 
@@ -174,5 +174,5 @@ Le etichette di stato seguono la convenzione **INTEGRATO / DA_INTEGRARE / STORIC
 - 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance rafforzati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-24: versione 0.3 – inventario arricchito con rischi e prossimi passi e prerequisiti PATCHSET-01A chiusi (archivist).
 - 2025-11-24: primo inventario con proposte di stato e candidati legacy/archive_cold (archivist).
-- 2025-11-23: versione 0.3 – ownership passata a Laura B. (01A) e inventario aggiornato con tabella per `incoming/` e `docs/incoming/`.
+- 2025-11-23: versione 0.3 – ownership passata a Master DD. (01A) e inventario aggiornato con tabella per `incoming/` e `docs/incoming/`.
 - 2025-11-23: struttura iniziale del catalogo incoming (archivist).
