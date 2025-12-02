@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-12-02T19:13:56+00:00",
+  "generated_at": "2025-12-02T22:45:39.756004+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "data/traits/index.json",
@@ -9,33 +9,12 @@
   },
   "summary": {
     "traits_total": 254,
-    "traits_with_rules": 20,
-    "traits_with_species": 0,
-    "rule_combos_total": 20,
-    "species_combos_total": 0,
-    "rules_missing_species_total": 20,
-    "traits_missing_species": [
-      "artigli_sette_vie",
-      "carapace_fase_variabile",
-      "coda_frusta_cinetica",
-      "criostasi_adattiva",
-      "eco_interno_riflesso",
-      "filamenti_digestivi_compattanti",
-      "lingua_tattile_trama",
-      "mimetismo_cromatico_passivo",
-      "nucleo_ovomotore_rotante",
-      "occhi_infrarosso_composti",
-      "olfatto_risonanza_magnetica",
-      "respiro_a_scoppio",
-      "sacche_galleggianti_ascensoriali",
-      "sangue_piroforico",
-      "scheletro_idro_regolante",
-      "secrezione_rallentante_palmi",
-      "sonno_emisferico_alternato",
-      "spore_psichiche_silenziate",
-      "struttura_elastica_amorfa",
-      "ventriglio_gastroliti"
-    ],
+    "traits_with_rules": 254,
+    "traits_with_species": 254,
+    "rule_combos_total": 254,
+    "species_combos_total": 254,
+    "rules_missing_species_total": 0,
+    "traits_missing_species": [],
     "traits_missing_rules": []
   },
   "traits": {
@@ -43,12 +22,16 @@
       "label_it": "Ali Fono-Risonanti",
       "label_en": "Phono-Resonant Wings",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -59,12 +42,16 @@
       "label_it": "Ali Fulminee",
       "label_en": "Ali Fulminee",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -75,12 +62,16 @@
       "label_it": "Ali Ioniche",
       "label_en": "Ionic Wings",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -91,12 +82,16 @@
       "label_it": "Ali a Membrana Sonica",
       "label_en": "Sonic Membrane Wings",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -107,12 +102,16 @@
       "label_it": "Ali Solari Fotoniche",
       "label_en": "Solar Photon Wings",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -123,12 +122,16 @@
       "label_it": "Antenne Dustsense",
       "label_en": "Dustsense Antennae",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -139,12 +142,16 @@
       "label_it": "Antenne Eco Turbina",
       "label_en": "Antenne Eco Turbina",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -155,12 +162,16 @@
       "label_it": "Antenne Flusso Mareale",
       "label_en": "Antenne Flusso Mareale",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -171,12 +182,16 @@
       "label_it": "Antenne Microonde Cavernose",
       "label_en": "Antenne Microonde Cavernose",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -187,12 +202,16 @@
       "label_it": "Antenne Plasmatiche di Tempesta",
       "label_en": "Storm Plasma Antennae",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -203,12 +222,16 @@
       "label_it": "Antenne Reagenti",
       "label_en": "Antenne Reagenti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -219,12 +242,16 @@
       "label_it": "Antenne Tesla",
       "label_en": "Antenne Tesla",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -235,12 +262,16 @@
       "label_it": "Antenne Waveguide",
       "label_en": "Antenne Waveguide",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -251,12 +282,16 @@
       "label_it": "Antenne Wideband",
       "label_en": "Antenne Wideband",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -267,12 +302,16 @@
       "label_it": "Appendici Risonanti Marea",
       "label_en": "Appendici Risonanti Marea",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -283,12 +322,16 @@
       "label_it": "Appendici Thermotattiche",
       "label_en": "Appendici Thermotattiche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -299,12 +342,16 @@
       "label_it": "Armatura di Pietra Planare",
       "label_en": "Planar Stone Plating",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -315,12 +362,16 @@
       "label_it": "Articolazioni a Leva Idraulica",
       "label_en": "Hydraulic Lever Joints",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -331,12 +382,16 @@
       "label_it": "Articolazioni Multiassiali",
       "label_en": "Multi-Axial Joints",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -347,12 +402,16 @@
       "label_it": "Artigli Acidofagi",
       "label_en": "Artigli Acidofagi",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -363,12 +422,16 @@
       "label_it": "Artigli Induzione",
       "label_en": "Artigli Induzione",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -379,12 +442,16 @@
       "label_it": "Artigli Ipo-Termici",
       "label_en": "Hypothermal Claws",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -395,12 +462,16 @@
       "label_it": "Artigli Radice",
       "label_en": "Artigli Radice",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -411,12 +482,16 @@
       "label_it": "Artigli Scivolo Silente",
       "label_en": "Artigli Scivolo Silente",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -429,24 +504,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -454,12 +522,16 @@
       "label_it": "Artigli Sghiaccio Glaciale",
       "label_en": "Artigli Sghiaccio Glaciale",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -470,12 +542,16 @@
       "label_it": "Artigli Vetrificati",
       "label_en": "Artigli Vetrificati",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -486,12 +562,16 @@
       "label_it": "Artiglio Cinetico a Urto",
       "label_en": "Kinetic Impact Claw",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -502,12 +582,16 @@
       "label_it": "Aura di Dispersione Mentale",
       "label_en": "Mental Dispersion Aura",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -518,12 +602,16 @@
       "label_it": "Aura Scudo di Radianza",
       "label_en": "Radiant Shield Aura",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -534,12 +622,16 @@
       "label_it": "Baffi Mareomotori",
       "label_en": "Baffi Mareomotori",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -550,12 +642,16 @@
       "label_it": "Barbigli Sensori Plasma",
       "label_en": "Barbigli Sensori Plasma",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -566,12 +662,16 @@
       "label_it": "Barriere Miasma Glaciale",
       "label_en": "Barriere Miasma Glaciale",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -582,12 +682,16 @@
       "label_it": "Batteri Endosimbionti Chemio",
       "label_en": "Batteri Endosimbionti Chemio",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -598,12 +702,16 @@
       "label_it": "Batteri Termofili Endosimbiosi",
       "label_en": "Batteri Termofili Endosimbiosi",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -614,12 +722,16 @@
       "label_it": "Bioantenne Gravitiche",
       "label_en": "Gravitic Bio-Antennae",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -630,12 +742,16 @@
       "label_it": "Biochip Memoria",
       "label_en": "Biochip Memoria",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -646,12 +762,16 @@
       "label_it": "Biofilm Glow",
       "label_en": "Biofilm Glow",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -662,12 +782,16 @@
       "label_it": "Biofilm Iperarido",
       "label_en": "Biofilm Iperarido",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -678,12 +802,16 @@
       "label_it": "Bozzolo Magnetico",
       "label_en": "Magnetic Cocoon",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -694,12 +822,16 @@
       "label_it": "Branchie Dual Mode",
       "label_en": "Branchie Dual Mode",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -710,12 +842,16 @@
       "label_it": "Branchie Eoliche",
       "label_en": "Branchie Eoliche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -726,12 +862,16 @@
       "label_it": "Branchie Metalloidi",
       "label_en": "Branchie Metalloidi",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -742,12 +882,16 @@
       "label_it": "Branchie Microfiltri",
       "label_en": "Branchie Microfiltri",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -758,12 +902,16 @@
       "label_it": "Branchie Osmotiche Salmastre",
       "label_en": "Branchie Osmotiche Salmastre",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -774,12 +922,16 @@
       "label_it": "Branchie Solfatiche",
       "label_en": "Branchie Solfatiche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -790,12 +942,16 @@
       "label_it": "Branchie Turbina",
       "label_en": "Branchie Turbina",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -806,12 +962,16 @@
       "label_it": "Bulbi Radici del Permafrost",
       "label_en": "Bulbi Radici del Permafrost",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -822,12 +982,16 @@
       "label_it": "Camere Anticorrosione",
       "label_en": "Camere Anticorrosione",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -838,12 +1002,16 @@
       "label_it": "Camere Mirage",
       "label_en": "Camere Mirage",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -854,12 +1022,16 @@
       "label_it": "Camere Nutrienti Vent",
       "label_en": "Camere Nutrienti Vent",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -870,12 +1042,16 @@
       "label_it": "Camere di Risonanza Abyssal",
       "label_en": "Abyssal Resonance Chambers",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -886,12 +1062,16 @@
       "label_it": "Campo di Interferenza Acustica",
       "label_en": "Acoustic Interference Field",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -902,12 +1082,16 @@
       "label_it": "Cannone Sonico a Raggio",
       "label_en": "Ray Sonic Cannon",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -918,12 +1102,16 @@
       "label_it": "Canto Infrasonico Tattico",
       "label_en": "Tactical Infrasonic Song",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -934,12 +1122,16 @@
       "label_it": "Canto Risonante",
       "label_en": "Resonant Chant",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -950,12 +1142,16 @@
       "label_it": "Capillari Criogenici",
       "label_en": "Capillari Criogenici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -966,12 +1162,16 @@
       "label_it": "Capillari Fluoridici",
       "label_en": "Capillari Fluoridici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -982,12 +1182,16 @@
       "label_it": "Capillari Fotovoltaici",
       "label_en": "Capillari Fotovoltaici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -998,12 +1202,16 @@
       "label_it": "Capsule Paracadute",
       "label_en": "Capsule Paracadute",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1016,24 +1224,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1041,12 +1242,16 @@
       "label_it": "Carapace Luminiscente Abissale",
       "label_en": "Carapace Luminiscente Abissale",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1057,12 +1262,16 @@
       "label_it": "Carapace Segmenti Logici",
       "label_en": "Carapace Segmenti Logici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1073,12 +1282,16 @@
       "label_it": "Carapaci Ferruginosi",
       "label_en": "Carapaci Ferruginosi",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1089,12 +1302,16 @@
       "label_it": "Cartilagine Flessotermica dei Venti",
       "label_en": "Cartilagine Flessotermica dei Venti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1105,12 +1322,16 @@
       "label_it": "Cartilagini Biofibre",
       "label_en": "Cartilagini Biofibre",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1121,12 +1342,16 @@
       "label_it": "Cartilagini Desertiche",
       "label_en": "Cartilagini Desertiche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1137,12 +1362,16 @@
       "label_it": "Cartilagini Flessoacustiche",
       "label_en": "Cartilagini Flessoacustiche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1153,12 +1382,16 @@
       "label_it": "Cartilagini Pseudometalliche",
       "label_en": "Cartilagini Pseudometalliche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1169,12 +1402,16 @@
       "label_it": "Cavità Risonanti della Tundra",
       "label_en": "Cavità Risonanti della Tundra",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1185,12 +1422,16 @@
       "label_it": "Cervelletto Equilibrio Statico",
       "label_en": "Cervelletto Equilibrio Statico",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1201,12 +1442,16 @@
       "label_it": "Cervello a Bassa Latenza",
       "label_en": "Low-Latency Brain",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1217,12 +1462,16 @@
       "label_it": "Chemiorecettori Bromuro",
       "label_en": "Chemiorecettori Bromuro",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1233,12 +1482,16 @@
       "label_it": "Chioma Parassita Canopica",
       "label_en": "Chioma Parassita Canopica",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1249,12 +1502,16 @@
       "label_it": "Cinghia Iper-Ciliare",
       "label_en": "Hyper-Ciliary Belt",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1265,12 +1522,16 @@
       "label_it": "Circolazione Bifasica",
       "label_en": "Circolazione Bifasica",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1281,12 +1542,16 @@
       "label_it": "Circolazione Bifasica di Palude",
       "label_en": "Swamp Biphase Circulation",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1297,12 +1562,16 @@
       "label_it": "Circolazione Cooling Loop",
       "label_en": "Circolazione Cooling Loop",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1313,12 +1582,16 @@
       "label_it": "Circolazione Doppia",
       "label_en": "Circolazione Doppia",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1329,12 +1602,16 @@
       "label_it": "Circolazione Supercritica",
       "label_en": "Circolazione Supercritica",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1345,12 +1622,16 @@
       "label_it": "Ciste Riduttive",
       "label_en": "Ciste Riduttive",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1361,12 +1642,16 @@
       "label_it": "Ciste Salmastre",
       "label_en": "Ciste Salmastre",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1377,12 +1662,16 @@
       "label_it": "Cisti di Ibernazione Minerale",
       "label_en": "Mineral Hibernation Cyst",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1393,12 +1682,16 @@
       "label_it": "Cisti Iperbariche",
       "label_en": "Cisti Iperbariche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1409,12 +1702,16 @@
       "label_it": "Coda Balanciere",
       "label_en": "Coda Balanciere",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1425,12 +1722,16 @@
       "label_it": "Coda Contrappeso",
       "label_en": "Coda Contrappeso",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1441,12 +1742,16 @@
       "label_it": "Coda Coppia Retroattiva",
       "label_en": "Coda Coppia Retroattiva",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1459,24 +1764,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1484,12 +1782,16 @@
       "label_it": "Coda Prensile Muscolare",
       "label_en": "Muscular Prehensile Tail",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1500,12 +1802,16 @@
       "label_it": "Coda Stabilizzatrice Filo",
       "label_en": "Coda Stabilizzatrice Filo",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1516,12 +1822,16 @@
       "label_it": "Coda Stabilizzatrice Geiser",
       "label_en": "Coda Stabilizzatrice Geiser",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1532,12 +1842,16 @@
       "label_it": "Coda Stabilizzatrice Vortex",
       "label_en": "Coda Stabilizzatrice Vortex",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1548,12 +1862,16 @@
       "label_it": "Colonne Vibromagnetiche",
       "label_en": "Colonne Vibromagnetiche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1564,12 +1882,16 @@
       "label_it": "Comunicazione Fotonica Coda-Coda",
       "label_en": "Tail-to-Tail Photonic Communication",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1580,12 +1902,16 @@
       "label_it": "Coralli Partner",
       "label_en": "Coralli Partner",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1596,12 +1922,16 @@
       "label_it": "Coralli Sinaptici Fotofase",
       "label_en": "Photophase Synaptic Corals",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1612,12 +1942,16 @@
       "label_it": "Corazze Ferro-Magnetico",
       "label_en": "Ferro-Magnetic Carapace",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1628,12 +1962,16 @@
       "label_it": "Corna Psico-Conduttive",
       "label_en": "Psycho-Conductive Horns",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1644,12 +1982,16 @@
       "label_it": "Coscienza d’Alveare Diffusa",
       "label_en": "Diffuse Hive Consciousness",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1660,12 +2002,16 @@
       "label_it": "Coscienza d’Alveare Diffusa",
       "label_en": "Diffuse Hive Consciousness",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1678,24 +2024,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1703,12 +2042,16 @@
       "label_it": "Cromofori Alert Acido",
       "label_en": "Cromofori Alert Acido",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1719,12 +2062,16 @@
       "label_it": "Cuore Multicamera Bassa Pressione",
       "label_en": "Cuore Multicamera Bassa Pressione",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1735,12 +2082,16 @@
       "label_it": "Cuscinetti Elettrostatici",
       "label_en": "Cuscinetti Elettrostatici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1751,12 +2102,16 @@
       "label_it": "Cute Resistente Sali",
       "label_en": "Cute Resistente Sali",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1767,12 +2122,16 @@
       "label_it": "Cuticole Cerose",
       "label_en": "Cuticole Cerose",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1783,12 +2142,16 @@
       "label_it": "Cuticole Neutralizzanti",
       "label_en": "Cuticole Neutralizzanti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1799,12 +2162,16 @@
       "label_it": "Denti Chelatanti",
       "label_en": "Denti Chelatanti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1815,12 +2182,16 @@
       "label_it": "Denti Ossidoferro",
       "label_en": "Denti Ossidoferro",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1831,12 +2202,16 @@
       "label_it": "Denti Silice Termici",
       "label_en": "Denti Silice Termici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1847,12 +2222,16 @@
       "label_it": "Denti Tuning Fork",
       "label_en": "Denti Tuning Fork",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1863,12 +2242,16 @@
       "label_it": "Echi Risonanti",
       "label_en": "Echi Risonanti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1881,24 +2264,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1906,12 +2282,16 @@
       "label_it": "Ectotermia Dinamica",
       "label_en": "Dynamic Ectothermy",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1922,12 +2302,16 @@
       "label_it": "Elettromagnete Biologico",
       "label_en": "Biological Electromagnet",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1938,12 +2322,16 @@
       "label_it": "Emettitori Voidsong",
       "label_en": "Voidsong Emitters",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1954,12 +2342,16 @@
       "label_it": "Emolinfa Conducente",
       "label_en": "Conductive Hemolymph",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1970,12 +2362,16 @@
       "label_it": "Empatia Coordinativa",
       "label_en": "Coordinated Empathy",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -1986,12 +2382,16 @@
       "label_it": "Enzimi Antifase Termica",
       "label_en": "Enzimi Antifase Termica",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2002,12 +2402,16 @@
       "label_it": "Enzimi Antipredatori Algali",
       "label_en": "Enzimi Antipredatori Algali",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2018,12 +2422,16 @@
       "label_it": "Enzimi Chelanti",
       "label_en": "Enzimi Chelanti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2034,12 +2442,16 @@
       "label_it": "Enzimi Chelatori Rapidi",
       "label_en": "Enzimi Chelatori Rapidi",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2050,12 +2462,16 @@
       "label_it": "Enzimi Metanoossidanti",
       "label_en": "Enzimi Metanoossidanti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2066,12 +2482,16 @@
       "label_it": "Epidermide Dielettrica",
       "label_en": "Epidermide Dielettrica",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2082,12 +2502,16 @@
       "label_it": "Epitelio Fosforescente",
       "label_en": "Epitelio Fosforescente",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2098,12 +2522,16 @@
       "label_it": "Ermafroditismo Cronologico",
       "label_en": "Chronological Hermaphroditism",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2114,12 +2542,16 @@
       "label_it": "Estroflessione Gastrica Acida",
       "label_en": "Acidic Gastric Extrusion",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2130,12 +2562,16 @@
       "label_it": "Fagocitosi Assorbente",
       "label_en": "Absorptive Phagocytosis",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2148,24 +2584,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2173,12 +2602,16 @@
       "label_it": "Filamenti Echo",
       "label_en": "Echo Filaments",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2189,12 +2622,16 @@
       "label_it": "Filamenti Guidalampo",
       "label_en": "Lightning Guide Filaments",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2205,12 +2642,16 @@
       "label_it": "Filamenti Magnetotrofi",
       "label_en": "Filamenti Magnetotrofi",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2221,12 +2662,16 @@
       "label_it": "Filamenti Superconduttivi",
       "label_en": "Filamenti Superconduttivi",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2237,12 +2682,16 @@
       "label_it": "Filamenti Termoconduzione",
       "label_en": "Filamenti Termoconduzione",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2253,12 +2702,16 @@
       "label_it": "Filtrazione Osmotica",
       "label_en": "Osmotic Filtration",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2269,12 +2722,16 @@
       "label_it": "Filtri Planctonici",
       "label_en": "Filtri Planctonici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2285,12 +2742,16 @@
       "label_it": "Filtro Metallofago",
       "label_en": "Metallophagous Filter",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2301,12 +2762,16 @@
       "label_it": "Flagelli Ancoranti",
       "label_en": "Flagelli Ancoranti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2317,12 +2782,16 @@
       "label_it": "Flusso Ameboide Controllato",
       "label_en": "Controlled Amoeboid Flow",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2333,12 +2802,16 @@
       "label_it": "Focus Frazionato",
       "label_en": "Fractional Focus",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2349,12 +2822,16 @@
       "label_it": "Foliage Fotocatodico",
       "label_en": "Foliage Fotocatodico",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2365,12 +2842,16 @@
       "label_it": "Foliaggio Spugna",
       "label_en": "Foliaggio Spugna",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2381,12 +2862,16 @@
       "label_it": "Frusta Fiammeggiante",
       "label_en": "Flame Lash",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2397,12 +2882,16 @@
       "label_it": "Ghiaccio Piezoelettrico",
       "label_en": "Ghiaccio Piezoelettrico",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2413,12 +2902,16 @@
       "label_it": "Ghiandola Caustica",
       "label_en": "Caustic Gland",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2429,12 +2922,16 @@
       "label_it": "Ghiandole Cambio Salino",
       "label_en": "Ghiandole Cambio Salino",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2445,12 +2942,16 @@
       "label_it": "Ghiandole Condensa Ozono",
       "label_en": "Ghiandole Condensa Ozono",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2461,12 +2962,16 @@
       "label_it": "Ghiandole Eco Mappanti",
       "label_en": "Ghiandole Eco Mappanti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2477,12 +2982,16 @@
       "label_it": "Ghiandole Fango Calde",
       "label_en": "Ghiandole Fango Calde",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2493,12 +3002,16 @@
       "label_it": "Ghiandole Fango Coesivo",
       "label_en": "Ghiandole Fango Coesivo",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2509,12 +3022,16 @@
       "label_it": "Ghiandole Grafene",
       "label_en": "Ghiandole Grafene",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2525,12 +3042,16 @@
       "label_it": "Ghiandole Inchiostro Luce",
       "label_en": "Ghiandole Inchiostro Luce",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2541,12 +3062,16 @@
       "label_it": "Ghiandole Iodoattive",
       "label_en": "Ghiandole Iodoattive",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2557,12 +3082,16 @@
       "label_it": "Ghiandole Minerali",
       "label_en": "Ghiandole Minerali",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2573,12 +3102,16 @@
       "label_it": "Ghiandole Mnemoniche",
       "label_en": "Mnemonic Glands",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2589,12 +3122,16 @@
       "label_it": "Ghiandole Nebbia Acida",
       "label_en": "Ghiandole Nebbia Acida",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2605,12 +3142,16 @@
       "label_it": "Ghiandole Nebbia Ionica",
       "label_en": "Ghiandole Nebbia Ionica",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2621,12 +3162,16 @@
       "label_it": "Ghiandole Resina Conduttiva",
       "label_en": "Ghiandole Resina Conduttiva",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2637,12 +3182,16 @@
       "label_it": "Ghiandole Ventosa",
       "label_en": "Ghiandole Ventosa",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2653,12 +3202,16 @@
       "label_it": "Giunti Antitorsione",
       "label_en": "Giunti Antitorsione",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2669,12 +3222,16 @@
       "label_it": "Grassi Termici",
       "label_en": "Grassi Termici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2685,12 +3242,16 @@
       "label_it": "Gusci Criovetro",
       "label_en": "Gusci Criovetro",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2701,12 +3262,16 @@
       "label_it": "Gusci Magnesio",
       "label_en": "Gusci Magnesio",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2717,12 +3282,16 @@
       "label_it": "Impulsi Bioluminescenti",
       "label_en": "Bioluminescent Pulses",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2733,12 +3302,16 @@
       "label_it": "Integumento Bipolare",
       "label_en": "Bipolar Integument",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2749,12 +3322,16 @@
       "label_it": "Ipertrofia Muscolare Massiva",
       "label_en": "Massive Muscular Hypertrophy",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2765,12 +3342,16 @@
       "label_it": "Lamelle Shear",
       "label_en": "Lamelle Shear",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2781,12 +3362,16 @@
       "label_it": "Lamelle Sincroniche",
       "label_en": "Lamelle Sincroniche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2797,12 +3382,16 @@
       "label_it": "Lamelle Termoforetiche",
       "label_en": "Thermophoretic Lamellae",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2813,12 +3402,16 @@
       "label_it": "Lamine Filtranti Aeree",
       "label_en": "Lamine Filtranti Aeree",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2829,12 +3422,16 @@
       "label_it": "Lamine Scudo Silice",
       "label_en": "Lamine Scudo Silice",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2845,12 +3442,16 @@
       "label_it": "Linfa Tampone",
       "label_en": "Linfa Tampone",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2861,12 +3462,16 @@
       "label_it": "Lingua Cristallina",
       "label_en": "Lingua Cristallina",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2879,24 +3484,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2904,12 +3502,16 @@
       "label_it": "Lobi Risonanti Crepuscolo",
       "label_en": "Twilight Resonant Lobes",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2920,12 +3522,16 @@
       "label_it": "Locomozione Miriapode Ibrida",
       "label_en": "Hybrid Myriapod Locomotion",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2936,12 +3542,16 @@
       "label_it": "Luminescenza Aurorale",
       "label_en": "Luminescenza Aurorale",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2952,12 +3562,16 @@
       "label_it": "Luminescenza Hydrotermica",
       "label_en": "Luminescenza Hydrotermica",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2968,12 +3582,16 @@
       "label_it": "Mantelli Geotermici",
       "label_en": "Mantelli Geotermici",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -2984,12 +3602,16 @@
       "label_it": "Mantello Meteoritico",
       "label_en": "Meteoric Mantle",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3000,12 +3622,16 @@
       "label_it": "Membrana Plastica Continua",
       "label_en": "Continuous Plastic Membrane",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3016,12 +3642,16 @@
       "label_it": "Membrane Captura Rugiada",
       "label_en": "Membrane Captura Rugiada",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3032,12 +3662,16 @@
       "label_it": "Membrane Eliofiltranti",
       "label_en": "Membrane Eliofiltranti",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3048,12 +3682,16 @@
       "label_it": "Membrane Fotoconvoglianti",
       "label_en": "Photoconductive Membranes",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3064,12 +3702,16 @@
       "label_it": "Membrane Planata Vectored",
       "label_en": "Membrane Planata Vectored",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3080,12 +3722,16 @@
       "label_it": "Membrane Pneumatofori",
       "label_en": "Membrane Pneumatofori",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3096,12 +3742,16 @@
       "label_it": "Metabolismo di Condivisione Energetica",
       "label_en": "Shared Energy Metabolism",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3112,12 +3762,16 @@
       "label_it": "Midollo Antivibrazione",
       "label_en": "Midollo Antivibrazione",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3130,24 +3784,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3155,12 +3802,16 @@
       "label_it": "Moltiplicazione per Fusione",
       "label_en": "Fusion Multiplication",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3171,12 +3822,16 @@
       "label_it": "Motore Biologico Silenzioso",
       "label_en": "Silent Biological Engine",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3187,12 +3842,16 @@
       "label_it": "Mucillagine Simbionte delle Mangrovie",
       "label_en": "Mucillagine Simbionte delle Mangrovie",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3203,12 +3862,16 @@
       "label_it": "Mucose Aderenza Sonica",
       "label_en": "Mucose Aderenza Sonica",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3219,12 +3882,16 @@
       "label_it": "Mucose Barofile",
       "label_en": "Mucose Barofile",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3235,12 +3902,16 @@
       "label_it": "Nebbia Mnesica",
       "label_en": "Mnesic Fog",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3251,12 +3922,16 @@
       "label_it": "Nodi Micorrizici Oracolari",
       "label_en": "Nodi Micorrizici Oracolari",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3267,12 +3942,16 @@
       "label_it": "Nodi Sinaptici Superficiali",
       "label_en": "Surface Synaptic Nodes",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3285,24 +3964,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3310,12 +3982,16 @@
       "label_it": "Occhi Analizzatori di Tensione",
       "label_en": "Tension-Analyzing Eyes",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3326,12 +4002,16 @@
       "label_it": "Occhi Cinetici",
       "label_en": "Kinetic Eyes",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3342,12 +4022,16 @@
       "label_it": "Occhi a Cristallo Modulare",
       "label_en": "Modular Crystal Eyes",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3360,24 +4044,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3387,24 +4064,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3412,12 +4082,16 @@
       "label_it": "Organi Metacronici",
       "label_en": "Metachronic Organs",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3428,12 +4102,16 @@
       "label_it": "Organi Sismici Cutanei",
       "label_en": "Cutaneous Seismic Organs",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3444,12 +4122,16 @@
       "label_it": "Pathfinder",
       "label_en": "Pathfinder",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3460,12 +4142,16 @@
       "label_it": "Pelage Idrorepellente Avanzato",
       "label_en": "Advanced Hydrophobic Pelage",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3476,12 +4162,16 @@
       "label_it": "Pelle Piezo-Satura",
       "label_en": "Piezo-Saturated Skin",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3492,12 +4182,16 @@
       "label_it": "Pianificatore",
       "label_en": "Strategic Planner",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3508,12 +4202,16 @@
       "label_it": "Piume Solari Fotovoltaiche",
       "label_en": "Piume Solari Fotovoltaiche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3524,12 +4222,16 @@
       "label_it": "Placca di Diffusione Foschia",
       "label_en": "Fog Diffusion Plate",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3540,12 +4242,16 @@
       "label_it": "Placche Pressioniche",
       "label_en": "Pressure Plates",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3556,12 +4262,16 @@
       "label_it": "Polmoni Cristallini d'Alta Quota",
       "label_en": "Polmoni Cristallini d'Alta Quota",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3572,12 +4282,16 @@
       "label_it": "Trait Random",
       "label_en": "Trait Random",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3590,24 +4304,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3615,12 +4322,16 @@
       "label_it": "Rete Filtro-Polmonare",
       "label_en": "Pulmonary Filter Net",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3631,12 +4342,16 @@
       "label_it": "Risonanza di Branco",
       "label_en": "Pack Resonance",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3647,12 +4362,16 @@
       "label_it": "Riverbero Memetico",
       "label_en": "Memetic Reverb",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3663,12 +4382,16 @@
       "label_it": "Rostro Emostatico-Litico",
       "label_en": "Hemo-Lytic Rostrum",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3679,12 +4402,16 @@
       "label_it": "Rostro Linguale Prensile",
       "label_en": "Prehensile Lingual Rostrum",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3697,24 +4424,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3722,12 +4442,16 @@
       "label_it": "Sacche di Spore Stratosferiche",
       "label_en": "Sacche di Spore Stratosferiche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3740,24 +4464,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3765,12 +4482,16 @@
       "label_it": "Scheletro Idraulico a Pistoni",
       "label_en": "Piston Hydraulic Skeleton",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3783,24 +4504,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3808,12 +4522,16 @@
       "label_it": "Scheletro Pneumatico a Maglie",
       "label_en": "Latticed Pneumatic Skeleton",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3824,12 +4542,16 @@
       "label_it": "Scintilla Sinaptica",
       "label_en": "Synaptic Spark",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3840,12 +4562,16 @@
       "label_it": "Scivolamento Magnetico",
       "label_en": "Magnetic Gliding",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3856,12 +4582,16 @@
       "label_it": "Scudo Gluteale Cheratinizzato",
       "label_en": "Keratinized Gluteal Shield",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3874,24 +4604,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3899,12 +4622,16 @@
       "label_it": "Secrezioni Antistatiche",
       "label_en": "Antistatic Secretions",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3915,12 +4642,16 @@
       "label_it": "Sensori a Risonanza Geomagnetica",
       "label_en": "Geomagnetic Resonance Sensors",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3931,12 +4662,16 @@
       "label_it": "Sensori Planctonici",
       "label_en": "Planctonic Sensors",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3947,12 +4682,16 @@
       "label_it": "Seta Conduttiva Elettrica",
       "label_en": "Conductive Electric Silk",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3963,12 +4702,16 @@
       "label_it": "Siero Anti-Gelo Naturale",
       "label_en": "Natural Anti-Freeze Serum",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3979,12 +4722,16 @@
       "label_it": "Sinapsi Coraline Polifoniche",
       "label_en": "Sinapsi Coraline Polifoniche",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -3995,12 +4742,16 @@
       "label_it": "Sistemi Chimio-Sonici",
       "label_en": "Chemo-Sonic Systems",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4013,24 +4764,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4038,12 +4782,16 @@
       "label_it": "Spicole Canalizzatrici",
       "label_en": "Channeling Spicules",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4056,24 +4804,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4081,12 +4822,16 @@
       "label_it": "Squame Diffusori Ionici",
       "label_en": "Ionic Diffuser Scales",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4097,12 +4842,16 @@
       "label_it": "Squame Rifrangenti del Deserto",
       "label_en": "Squame Rifrangenti del Deserto",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4115,24 +4864,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4140,12 +4882,16 @@
       "label_it": "Tattiche di Branco",
       "label_en": "Pack Tactics",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4156,12 +4902,16 @@
       "label_it": "Aggregato tratti Evo",
       "label_en": "Evo Traits Aggregate",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4172,12 +4922,16 @@
       "label_it": "Unghie a Micro-Adesione",
       "label_en": "Micro-Adhesion Claws",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4188,12 +4942,16 @@
       "label_it": "Vello Condensatore di Nebbie",
       "label_en": "Vello Condensatore di Nebbie",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4204,12 +4962,16 @@
       "label_it": "Vello di Assorbimento Totale",
       "label_en": "Total Absorption Fleece",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4222,24 +4984,17 @@
       "rules": {
         "total": 1,
         "coverage": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null,
-            "count": 1
-          }
+          "autogen_rule"
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4247,12 +5002,16 @@
       "label_it": "Visione Multi-Spettrale Amplificata",
       "label_en": "Amplified Multi-Spectral Vision",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4263,12 +5022,16 @@
       "label_it": "Vortice Nera Flash",
       "label_en": "Black Vortex Flash",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4279,12 +5042,16 @@
       "label_it": "Zampe a Molla",
       "label_en": "Spring-Loaded Limbs",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4295,12 +5062,16 @@
       "label_it": "Zanne Idracida",
       "label_en": "Hydra-Acid Tusks",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
@@ -4311,12 +5082,16 @@
       "label_it": "Zoccoli Risonanti delle Steppe",
       "label_en": "Zoccoli Risonanti delle Steppe",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_rule"
+        ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          "autogen_species"
+        ]
       },
       "diff": {
         "missing_in_species": [],
