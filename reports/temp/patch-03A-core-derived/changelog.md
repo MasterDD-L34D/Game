@@ -5,6 +5,12 @@
 - Baseline precedente: snapshot freeze 2025-11-25T2028Z (`reports/backups/2025-11-25T2028Z_masterdd_freeze/*` per core/derived/incoming).
 - Validator 02A rieseguiti in modalità report-only (schema-only, trait audit, trait style).
 
+## Aggiornamento 2025-12-03
+- **Verifica manifest con Master DD**: confermata la copertura di `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `reports/backups/2025-11-25T1724Z_masterdd_freeze/manifest.txt`, `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt` e `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` per rollback 03A/03B.
+- **Remediation 03A autorizzata**: via libera Master DD per applicare le remediation su core/derived partendo dai manifest sopra; mantenere 03B fermo e pianificare rebase dopo i validator 03A.
+- **Validator richiesti**: rieseguire 02A schema-only su `patch/03A-core-derived` post-remediation prima di qualsiasi merge; registrare checksum/log in `reports/temp/patch-03A-core-derived/` e mirror 03B.
+- **Flusso 03B**: `patch/03B-incoming-cleanup` resta bloccato fino a esiti verdi 03A; rebase su 03A obbligatorio, nessun merge diretto su `main`.
+
 ## Aggiornamento 2025-12-01
 - **Rerun 02A (report-only)**: eseguiti i tre validator su staging locale con log in `reports/temp/patch-03A-core-derived/rerun-2025-12-01/` (copie canoniche aggiornate in root cartella).
   - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → **OK** (10 controlli pack, 0 avvisi).
