@@ -1,4 +1,6 @@
 {
+  "schema_version": "1.0",
+  "trait_glossary": "data/core/traits/glossary.json",
   "traits": {
     "fagocitosi_assorbente": {
       "id": "fagocitosi_assorbente",
@@ -9349,8 +9351,43 @@
       "mutazione_indotta": "i18n:traits.occhi_cristallo_modulare.mutazione_indotta",
       "uso_funzione": "i18n:traits.occhi_cristallo_modulare.uso_funzione",
       "spinta_selettiva": "i18n:traits.occhi_cristallo_modulare.spinta_selettiva",
+      "metrics": [
+        {
+          "name": "risoluzione_modulare",
+          "value": 0.87,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Ricalibra i cristalli oculari in meno di 2 s",
+        "scene_prompt": "Sequenza di riassetto visivo in microgravità simulata"
+      },
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mezzanotte_orbitale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "tier": "T2",
+            "notes": "Ottimizzato per piattaforme orbitali con gravità variabile e flare elettromagnetici."
+          }
+        }
+      ],
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000524"
+        ]
+      },
       "completion_flags": {
-        "has_biome": false,
+        "has_biome": true,
         "has_species_link": true,
         "has_data_origin": true
       },

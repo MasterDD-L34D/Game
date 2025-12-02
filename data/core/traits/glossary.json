@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2025-11-27T15:16:00.779546+00:00",
+  "updated_at": "2025-12-02T02:01:17Z",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -28,12 +28,6 @@
       "label_en": "Sonic Membrane Wings",
       "description_it": "Piastre vibranti che dissipano energia e attenuano impatti corrosivi.",
       "description_en": "Vibrating plates that dissipate energy and blunt corrosive impacts."
-    },
-    "ali_solari_fotoni": {
-      "label_it": "Ali Solari Fotoniche",
-      "label_en": "Photonic Solar Wings",
-      "description_it": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza.",
-      "description_en": "Photovoltaic plumage converting light into thrust and radiant shielding."
     },
     "antenne_dustsense": {
       "label_it": "Antenne Dustsense",
@@ -1102,6 +1096,12 @@
       "label_en": "Tension-Analyzing Eyes",
       "description_it": "Leggere tensioni nella seta e pattern di stress.",
       "description_en": "Read strand tension and stress patterns."
+    },
+    "occhi_cristallo_modulare": {
+      "label_it": "Occhi a Cristallo Modulare",
+      "label_en": "Modular Crystal Eyes",
+      "description_it": "Prismi sovrapposti che riallineano il fuoco tra spettro visibile e ionico, utili in microgravità variabile.",
+      "description_en": "Layered prisms retuning focus across visible and ionic spectra, useful in variable microgravity."
     },
     "occhi_cinetici": {
       "label_it": "Occhi Cinetici",

@@ -83,58 +83,70 @@ species:
         rationale: >-
           Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline
           in cui si rifugia il branco durante le tempeste desertiche.
-  - id: polpo-araldo-sinaptico
+  - id: polpo_araldo_sinaptico
     display_name: Polpo Araldo Sinaptico
     estimated_weight: 14
     weight_budget: 14
     biome_affinity: frattura_abissale_sinaptica
-    default_parts: {}
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
     trait_plan:
       core: [impulsi_bioluminescenti, nodi_sinaptici_superficiali, membrane_fotoconvoglianti, lobi_risonanti_crepuscolo]
-      optional: [filamenti_guidalampo, sensori_planctonici, ghiandole_mnemoniche, secrezioni_antistatiche]
-      temp: [scintilla_sinaptica, canto_risonante]
-    synergy_hints:
-      role: keystone
-      notes: "Buff area luminescenti, riduzione glare; limitare stacking advantage a 2."
+      optional: [filamenti_guidalampo, sensori_planctonici, ghiandole_mnemoniche, secrezioni_antistatiche, scintilla_sinaptica, canto_risonante]
+      synergies: [impulsi_bioluminescenti]
+    synergy_hints: []
 
-  - id: sciame-larve-neurali
+  - id: sciame_larve_neurali
     display_name: Sciame di Larve Neurali
     estimated_weight: 9
     weight_budget: 10
     biome_affinity: frattura_abissale_sinaptica
-    default_parts: {}
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
     trait_plan:
       core: [nebbia_mnesica, lobi_risonanti_crepuscolo, ghiandole_mnemoniche, organi_metacronici]
-      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo]
-      temp: [riverbero_memetico, vortice_nera_flash]
-    synergy_hints:
-      role: threat
-      notes: "Swarm memetico che ruba buff; cap 1 buff/cluster, durata 2 turni."
+      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo, riverbero_memetico, vortice_nera_flash]
+      synergies: [lobi_risonanti_crepuscolo]
+    synergy_hints: []
 
-  - id: leviatano-risonante
+  - id: leviatano_risonante
     display_name: Leviatano Risonante
     estimated_weight: 28
     weight_budget: 30
     biome_affinity: frattura_abissale_sinaptica
-    default_parts: {}
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
     trait_plan:
       core: [camere_risonanza_abyssal, emettitori_voidsong, corazze_ferro_magnetico, bioantenne_gravitiche]
-      optional: [emolinfa_conducente, placche_pressioniche, filamenti_echo, spicole_canalizzatrici, lobi_risonanti_crepuscolo]
-      temp: [pelle_piezo_satura, canto_risonante, vortice_nera_flash]
-    synergy_hints:
-      role: apex
-      notes: "Forma armonica/shear; switch gratuito 1/encounter da corrente, costo stress 0.05 per switch manuale."
+      optional: [emolinfa_conducente, placche_pressioniche, filamenti_echo, spicole_canalizzatrici, lobi_risonanti_crepuscolo, pelle_piezo_satura, canto_risonante, vortice_nera_flash]
+      synergies: [emettitori_voidsong]
+    synergy_hints: []
 
-  - id: simbionte-corallino-riflesso
+  - id: simbionte_corallino_riflesso
     display_name: Simbionte Corallino Riflesso
     estimated_weight: 15
     weight_budget: 15
     biome_affinity: frattura_abissale_sinaptica
-    default_parts: {}
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
     trait_plan:
       core: [coralli_sinaptici_fotofase, membrane_fotoconvoglianti, placca_diffusione_foschia, organi_metacronici, nodi_sinaptici_superficiali]
-      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente]
-      temp: [scintilla_sinaptica, riverbero_memetico, canto_risonante]
-    synergy_hints:
-      role: flex
-      notes: "Copia partial-trait al 50–75% per 2 turni, 1 slot temp, cooldown 3 turni."
+      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante]
+      synergies: [coralli_sinaptici_fotofase]
+    synergy_hints: []
