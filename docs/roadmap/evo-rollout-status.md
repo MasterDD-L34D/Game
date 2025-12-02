@@ -1,6 +1,6 @@
 ---
 title: Evo-Tactics rollout status
-updated: 2025-12-21
+updated: 2025-12-02
 generated_by: tools/roadmap/update_status.py
 ---
 
@@ -10,29 +10,29 @@ generated_by: tools/roadmap/update_status.py
 
 ## Snapshot settimanale
 
-- **Data riferimento:** 2025-12-21
+- **Data riferimento:** 2025-12-02
 - **Owner aggiornamento:** Gameplay Ops · Evo rollout crew
-- **Status generale:** at-risk (verifica archivi e tracker completata per ROL-03)
+- **Status generale:** at-risk
 - **Ultimo report trait gap:** `data/derived/analysis/trait_gap_report.json`
-- **Copertura trait ETL:** 29/170 (17.1%)
-- **Gap trait principali:** 51 missing_in_index, 0 missing_in_external (202 slug verificati come legacy_only)
-- **Playbook da archiviare:** 0
-- **Ecotipi con mismatch legacy:** 20 su 20
+- **Copertura trait ETL:** 29/254 (11.4%)
+- **Gap trait principali:** 0 missing_in_index, 203 missing_in_external
+- **Playbook da archiviare:** 3
+- **Ecotipi con mismatch legacy:** 0 su 20
 
 ## Avanzamento epiche ROL-\*
 
-| Epic   | Stato       | Progress (%) | Gap aperti                   | Campione                                                                                                                                                |
-| ------ | ----------- | ------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ROL-03 | done        | 100          | Playbook archiviati          | docs/archive/evo-tactics/guides/security-ops.md, docs/archive/evo-tactics/guides/template-ptpf.md, docs/archive/evo-tactics/guides/visione-struttura.md |
-| ROL-04 | in-progress | 99           | Trait missing_in_index: 2    | coscienza_dalveare_diffusa, traits_aggregate                                                                                                            |
-| ROL-05 | done        | 100          | Trait missing_in_external: 0 | —                                                                                                                                                       |
-| ROL-06 | at-risk     | 0            | Ecotipi con mismatch: 20     | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                                        |
+| Epic   | Stato       | Progress (%) | Gap aperti                     | Campione                                                                                                                        |
+| ------ | ----------- | ------------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| ROL-03 | in-progress | 99           | Playbook da archiviare: 3      | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
+| ROL-04 | done        | 100          | Trait missing_in_index: 0      | —                                                                                                                               |
+| ROL-05 | at-risk     | 20           | Trait missing_in_external: 203 | ali_fulminee, ali_ioniche, ali_membrana_sonica, ali_solari_fotoni, antenne_dustsense                                            |
+| ROL-06 | done        | 100          | Ecotipi con mismatch: 0        | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
 
 ## Focus operativi
 
-- **Documentazione legacy archiviata (ROL-03):** docs/archive/evo-tactics/guides/security-ops.md, docs/archive/evo-tactics/guides/template-ptpf.md, docs/archive/evo-tactics/guides/visione-struttura.md (snapshot inventario: `docs/incoming/archive/2025-12-19_inventory_cleanup/`).
-- **Trait da indicizzare (ROL-04):** coscienza_dalveare_diffusa, traits_aggregate
-- **Trait da fornire ai consumer esterni (ROL-05):** completata la verifica dei 202 slug: marcati `legacy_only`, nessun missing_in_external aperto.
+- **Documentazione legacy da snapshot (ROL-03):** docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md
+- **Trait da indicizzare (ROL-04):** —
+- **Trait da fornire ai consumer esterni (ROL-05):** ali_fulminee, ali_ioniche, ali_membrana_sonica, ali_solari_fotoni, antenne_dustsense
 - **Specie/ecotipi con mismatch (ROL-06):** Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes
 
 ## Fonti principali

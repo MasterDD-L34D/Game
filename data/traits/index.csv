@@ -14,6 +14,7 @@ cervello_a_bassa_latenza,i18n:traits.cervello_a_bassa_latenza.label,Cognitivo/Ap
 comunicazione_fotonica_coda_coda,i18n:traits.comunicazione_fotonica_coda_coda.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/comunicazione_fotonica_coda_coda.json,,coverage_q4_2025,,controller,true,false
 corna_psico_conduttive,i18n:traits.corna_psico_conduttive.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/corna_psico_conduttive.json,,coverage_q4_2025,,controller,true,false
 coscienza_d_alveare_diffusa,i18n:traits.coscienza_d_alveare_diffusa.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/coscienza_d_alveare_diffusa.json,,coverage_q4_2025,,controller,true,false
+coscienza_dalveare_diffusa,i18n:traits.coscienza_d_alveare_diffusa.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/coscienza_dalveare_diffusa.json,,coverage_q4_2025,,controller,true,false
 ali_membrana_sonica,i18n:traits.ali_membrana_sonica.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/ali_membrana_sonica.json,,coverage_q4_2025,caverna_risonante,tank,true,false
 appendici_risonanti_marea,i18n:traits.appendici_risonanti_marea.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/appendici_risonanti_marea.json,,coverage_q4_2025,laguna_bioreattiva,tank,true,false
 barriere_miasma_glaciale,i18n:traits.barriere_miasma_glaciale.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/barriere_miasma_glaciale.json,,coverage_q4_2025,caldera_glaciale,tank,true,false
@@ -257,5 +258,6 @@ risonanza_di_branco,i18n:traits.risonanza_di_branco.label,Supporto/Coordinativo,
 mimetismo_cromatico_passivo,i18n:traits.mimetismo_cromatico_passivo.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/mimetismo_cromatico_passivo.json,,controllo_psionico,canopia_psionica_leggera;falde_magnetiche_psioniche,tank,true,false
 piume_solari_fotovoltaiche,i18n:traits.piume_solari_fotovoltaiche.label,Tegumentario/Energetico,Energetico,data/traits/tegumentario/piume_solari_fotovoltaiche.json,,controllo_psionico,altipiani_solari,sustain;tank,true,false
 secrezione_rallentante_palmi,i18n:traits.secrezione_rallentante_palmi.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/secrezione_rallentante_palmi.json,,controllo_psionico,caverna_risonante,tank,true,true
+traits_aggregate,Aggregato tratti Evo,Meta/Dataset,Catalogo,data/external/evo/traits/traits_aggregate.json,,external_evo_pack,,catalogo,false,false
 squame_rifrangenti_deserto,i18n:traits.squame_rifrangenti_deserto.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/squame_rifrangenti_deserto.json,,controllo_psionico,dune_cristalline,tank,true,false
 vello_condensatore_nebbie,i18n:traits.vello_condensatore_nebbie.label,Tegumentario/Idratazione,Idratazione,data/traits/tegumentario/vello_condensatore_nebbie.json,,controllo_psionico,foreste_nubose,sustain;tank,true,false
