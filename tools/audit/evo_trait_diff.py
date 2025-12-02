@@ -33,6 +33,7 @@ GRAPH_OUTPUT = OUTPUT_DIR / "traits_gap.svg"
 
 ENV_KEYS = ("biome_class", "biome_subclass", "environment")
 LEGACY_DATA_ORIGINS = {"pathfinder_dataset", "controllo_psionico"}
+TRAIT_CODE_PATTERN = re.compile(r"^TR-\d{4}$")
 
 
 def slugify(value: str) -> str:
@@ -89,21 +90,33 @@ def extract_env_biomes(requirements: Sequence[dict]) -> Tuple[str, ...]:
 def load_external_traits(directory: Path) -> Tuple[List[TraitRecord], Dict[str, str]]:
     records: List[TraitRecord] = []
     code_to_slug: Dict[str, str] = {}
+    seen_slugs: set[str] = set()
 
-    for path in sorted(directory.glob("*.json")):
-        data = load_json(path)
-        label = (data.get("label") or "").strip()
-        trait_code = data.get("trait_code") or path.stem
-        slug = slugify(label or trait_code)
+    def add_record(payload: dict, default_code: str) -> None:
+        label = (payload.get("label") or "").strip()
+        trait_code = payload.get("trait_code") or payload.get("id") or default_code
+        slug_source: Optional[str]
+        if trait_code and not TRAIT_CODE_PATTERN.match(trait_code):
+            slug_source = trait_code
+        elif payload.get("id"):
+            slug_source = str(payload["id"])
+        elif label:
+            slug_source = label
+        else:
+            slug_source = trait_code
+        slug = slugify(slug_source)
+        if slug in seen_slugs:
+            return
+        seen_slugs.add(slug)
         code_to_slug[trait_code] = slug
-        tier = data.get("tier")
-        requirements = data.get("requisiti_ambientali") or []
+        tier = payload.get("tier")
+        requirements = payload.get("requisiti_ambientali") or []
         env_biomes = extract_env_biomes(requirements)
         sinergie_refs = tuple(
-            code for code in (data.get("sinergie") or []) if isinstance(code, str) and code.strip()
+            code for code in (payload.get("sinergie") or []) if isinstance(code, str) and code.strip()
         )
         legacy_flag = False
-        versioning = data.get("versioning") or {}
+        versioning = payload.get("versioning") or {}
         if isinstance(versioning, dict):
             status = str(versioning.get("status") or "").lower().strip()
             legacy_flag = status == "legacy" or bool(versioning.get("legacy"))
@@ -119,6 +132,15 @@ def load_external_traits(directory: Path) -> Tuple[List[TraitRecord], Dict[str, 
             raw_synergy_refs=sinergie_refs,
         )
         records.append(record)
+
+    for path in sorted(directory.glob("*.json")):
+        data = load_json(path)
+        if isinstance(data, dict) and isinstance(data.get("traits"), list):
+            for entry in data["traits"]:
+                if isinstance(entry, dict):
+                    add_record(entry, path.stem)
+        elif isinstance(data, dict):
+            add_record(data, path.stem)
 
     for record in records:
         converted: List[str] = []
