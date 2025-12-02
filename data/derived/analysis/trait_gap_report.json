@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-12-02T15:16:28+00:00",
+  "generated_at": "2025-12-02T18:35:20+00:00",
   "sources": {
     "etl_report": "data/derived/mock/prod_snapshot/analysis/trait_coverage_report.json",
     "trait_reference": "data/traits/index.json",
