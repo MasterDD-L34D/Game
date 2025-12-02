@@ -43,9 +43,11 @@ SPECIES_GAP_MD = REPO_ROOT / "reports/evo/rollout/species_ecosystem_gap.md"
 class TraitsGapMetrics:
     missing_in_index: int
     missing_in_external: int
+    mismatch: int
     total_rows: int
     samples_missing_in_index: List[str]
     samples_missing_in_external: List[str]
+    samples_mismatch: List[str]
 
 
 @dataclass
@@ -173,9 +175,11 @@ def load_traits_gap_metrics(path: Path = TRAITS_GAP_CSV) -> TraitsGapMetrics:
     return TraitsGapMetrics(
         missing_in_index=counts.get("missing_in_index", 0),
         missing_in_external=counts.get("missing_in_external", 0),
+        mismatch=counts.get("mismatch", 0),
         total_rows=total_rows,
         samples_missing_in_index=samples.get("missing_in_index", []),
         samples_missing_in_external=samples.get("missing_in_external", []),
+        samples_mismatch=samples.get("mismatch", []),
     )
 
 
@@ -235,6 +239,13 @@ def derive_epic_statuses(
     documentation_metrics: DocumentationMetrics,
     species_metrics: SpeciesGapMetrics,
 ) -> List[EpicStatus]:
+    # Gap trait: consideriamo sia i missing espliciti sia i mismatch per allineare
+    # le percentuali con gli snapshot attuali.
+    traits_gap_for_index = traits_metrics.missing_in_index + traits_metrics.mismatch
+    traits_gap_for_external = traits_metrics.missing_in_external + traits_metrics.mismatch
+    index_samples = traits_metrics.samples_missing_in_index or traits_metrics.samples_mismatch
+    external_samples = traits_metrics.samples_missing_in_external or traits_metrics.samples_mismatch
+
     epic_data = [
         {
             "id": "ROL-03",
@@ -246,18 +257,18 @@ def derive_epic_statuses(
         },
         {
             "id": "ROL-04",
-            "metric_label": "Trait missing_in_index",
-            "open_items": traits_metrics.missing_in_index,
+            "metric_label": "Trait da allineare (index)",
+            "open_items": traits_gap_for_index,
             "total": traits_metrics.total_rows,
-            "samples": traits_metrics.samples_missing_in_index,
+            "samples": index_samples,
             "threshold": 75,
         },
         {
             "id": "ROL-05",
-            "metric_label": "Trait missing_in_external",
-            "open_items": traits_metrics.missing_in_external,
+            "metric_label": "Trait da allineare (external)",
+            "open_items": traits_gap_for_external,
             "total": traits_metrics.total_rows,
-            "samples": traits_metrics.samples_missing_in_external,
+            "samples": external_samples,
             "threshold": 75,
         },
         {
@@ -327,10 +338,20 @@ def write_status_markdown(
     etl_total = trait_summary.get("etl_traits_total")
 
     coverage_line = "—"
-    if reference_total and etl_total is not None:
-        coverage_pct = (etl_total / reference_total) * 100 if reference_total else 0
-        coverage_line = f"{etl_total}/{reference_total} ({coverage_pct:.1f}%)"
-    traits_missing_line = f"{traits_metrics.missing_in_index} missing_in_index, {traits_metrics.missing_in_external} missing_in_external"
+    resolved_total = reference_total if isinstance(reference_total, (int, float)) else None
+    missing_in_etl = coverage if isinstance(coverage, (int, float)) else None
+    if resolved_total is not None:
+        covered = resolved_total - (missing_in_etl or 0)
+        covered = max(0, covered)
+        coverage_pct = (covered / resolved_total) * 100 if resolved_total else 0
+        coverage_line = f"{covered}/{resolved_total} ({coverage_pct:.1f}%)"
+    traits_missing_line = (
+        f"{traits_metrics.missing_in_index} missing_in_index, "
+        f"{traits_metrics.missing_in_external} missing_in_external, "
+        f"{traits_metrics.mismatch} mismatch"
+    )
+    index_samples = traits_metrics.samples_missing_in_index or traits_metrics.samples_mismatch
+    external_samples = traits_metrics.samples_missing_in_external or traits_metrics.samples_mismatch
 
     content = dedent(
         f"""\
@@ -384,8 +405,8 @@ def write_status_markdown(
         - `data/derived/analysis/trait_gap_report.json`
         """.format(
             doc_samples=format_samples(doc_metrics.samples_unmatched),
-            index_samples=format_samples(traits_metrics.samples_missing_in_index),
-            external_samples=format_samples(traits_metrics.samples_missing_in_external),
+            index_samples=format_samples(index_samples),
+            external_samples=format_samples(external_samples),
             species_samples=format_samples(species_metrics.samples_species),
         )
     )
@@ -498,6 +519,8 @@ def write_weekly_template(
     filename = f"evo-weekly-{date_ref.strftime('%Y%m%d')}.md"
     path = directory / filename
     workflow_line = workflow_url or "—"
+    gap_index = traits_metrics.missing_in_index + traits_metrics.mismatch
+    gap_external = traits_metrics.missing_in_external + traits_metrics.mismatch
     content = dedent(
         """\
         ---
@@ -543,8 +566,8 @@ def write_weekly_template(
         date_ref=date_ref.isoformat(),
         workflow_line=workflow_line,
         doc_open=doc_metrics.unmatched,
-        index_open=traits_metrics.missing_in_index,
-        external_open=traits_metrics.missing_in_external,
+        index_open=gap_index,
+        external_open=gap_external,
         species_open=species_metrics.mismatched_rows,
     )
     path.write_text(content)
