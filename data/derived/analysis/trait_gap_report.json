@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-12-02T18:35:20+00:00",
+  "generated_at": "2025-12-02T19:14:01+00:00",
   "sources": {
     "etl_report": "data/derived/mock/prod_snapshot/analysis/trait_coverage_report.json",
     "trait_reference": "data/traits/index.json",
@@ -8,7 +8,7 @@
   },
   "summary": {
     "reference_traits_total": 254,
-    "etl_traits_total": 29,
+    "etl_traits_total": 254,
     "traits_missing_in_etl": 234,
     "traits_missing_in_reference": 0,
     "axes_total": 9,

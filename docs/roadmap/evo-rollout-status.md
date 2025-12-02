@@ -1,6 +1,6 @@
 ---
 title: Evo-Tactics rollout status
-updated: 2025-12-21
+updated: 2025-12-02
 generated_by: tools/roadmap/update_status.py
 ---
 
@@ -10,29 +10,29 @@ generated_by: tools/roadmap/update_status.py
 
 ## Snapshot settimanale
 
-- **Data riferimento:** 2025-12-21
+- **Data riferimento:** 2025-12-02
 - **Owner aggiornamento:** Gameplay Ops · Evo rollout crew
-- **Status generale:** at-risk
+- **Status generale:** in-progress
 - **Ultimo report trait gap:** `data/derived/analysis/trait_gap_report.json`
-- **Copertura trait ETL:** 29/254 (11.4%)
-- **Gap trait principali:** 0 missing_in_index, 203 missing_in_external
-- **Playbook da archiviare:** 0 (ROL-03 chiuso)
-- **Righe con mismatch trait↔legacy:** 20 su 20
+- **Copertura trait ETL:** 254/254 (100.0%)
+- **Gap trait principali:** 0 missing_in_index, 0 missing_in_external
+- **Playbook da archiviare:** 3
+- **Ecotipi con mismatch legacy:** 0 su 20
 
 ## Avanzamento epiche ROL-\*
 
-| Epic   | Stato       | Progress (%) | Gap aperti                       | Campione                                                                                                                        |
-| ------ | ----------- | ------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| ROL-03 | done        | 100          | —                                | Archivio playbook completato in `docs/archive/evo-tactics/guides/` |
-| ROL-04 | done        | 100          | Trait missing_in_index: 0        | —                                                                                                                               |
-| ROL-05 | at-risk     | 20           | Trait missing_in_external: 203   | ali_fulminee, ali_ioniche, ali_membrana_sonica, ali_solari_fotoni, antenne_dustsense                                            |
-| ROL-06 | at-risk     | 20           | Righe mismatch trait↔legacy: 20 | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
+| Epic   | Stato       | Progress (%) | Gap aperti                   | Campione                                                                                                                        |
+| ------ | ----------- | ------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| ROL-03 | in-progress | 99           | Playbook da archiviare: 3    | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
+| ROL-04 | done        | 100          | Trait missing_in_index: 0    | —                                                                                                                               |
+| ROL-05 | done        | 100          | Trait missing_in_external: 0 | —                                                                                                                               |
+| ROL-06 | done        | 100          | Ecotipi con mismatch: 0      | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
 
 ## Focus operativi
 
-- **Documentazione legacy da snapshot (ROL-03):** chiusa; usare le copie in `docs/archive/evo-tactics/guides/` e gli snapshot in `docs/incoming/archive/2025-12-19_inventory_cleanup/`.
+- **Documentazione legacy da snapshot (ROL-03):** docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md
 - **Trait da indicizzare (ROL-04):** —
-- **Trait da fornire ai consumer esterni (ROL-05):** ali_fulminee, ali_ioniche, ali_membrana_sonica, ali_solari_fotoni, antenne_dustsense
+- **Trait da fornire ai consumer esterni (ROL-05):** —
 - **Specie/ecotipi con mismatch (ROL-06):** Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes
 
 ## Fonti principali

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2025-12-02T18:22:54+00:00",
-  "overall_status": "at-risk",
+  "generated_at": "2025-12-02T19:14:01+00:00",
+  "overall_status": "in-progress",
   "workflow_run": null,
   "epics": [
     {
@@ -27,18 +27,12 @@
     },
     {
       "id": "ROL-05",
-      "status": "at-risk",
-      "progress": 22,
+      "status": "done",
+      "progress": 100,
       "metric_label": "Trait missing_in_external",
-      "open_items": 198,
+      "open_items": 0,
       "total_items": 254,
-      "samples": [
-        "antenne_eco_turbina",
-        "antenne_flusso_mareale",
-        "antenne_microonde_cavernose",
-        "antenne_plasmatiche_tempesta",
-        "antenne_reagenti"
-      ]
+      "samples": []
     },
     {
       "id": "ROL-06",
