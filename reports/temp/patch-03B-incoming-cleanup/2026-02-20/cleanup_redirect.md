@@ -48,3 +48,8 @@
 - Confermati come fonti i manifest `reports/backups/2025-11-25_freeze/manifest.txt` e `incoming/archive_cold/backups/2025-11-25/manifest.sha256` insieme al README `reports/backups/2026-02-20_incoming_backup/README.md`.
 - Smoke 02A schema-only rieseguito post-merge: log `schema_only_2026-05-02_smoke.log` (14 controlli, 3 avvisi pack) salvato in questa directory con checksum testuale.
 - Freeze 03B chiuso con firma Master DD: finestra operativa terminata senza modifiche a redirect o backup.
+
+## Aggiornamento 2026-07-26
+- Cleanup/redirect pianificato rieseguito in report-only su `patch/03B-incoming-cleanup`: nessun nuovo spostamento; tabella `incoming/REDIRECTS.md` e indici di archivio confermati sui manifest `reports/backups/2025-11-25_freeze/manifest.txt` e `incoming/archive_cold/backups/2025-11-25/manifest.sha256`.
+- Smoke 02A schema-only rilanciato con il comando `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack`; log aggiornato in `reports/temp/patch-03B-incoming-cleanup/schema_only.log` (10 controlli, 0 avvisi) per la finestra di cleanup.
+- Firma Master DD registrata per la chiusura del giro di cleanup/redirect senza variazioni ai percorsi o ai backup di riferimento.
