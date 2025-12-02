@@ -12,7 +12,7 @@ updated: 2025-11-22
 
 **Project:** Evo-Tactics · **Version:** v1.0 · DriftLocked
 
-> Usa questo seed come promemoria dei blocchi originari PTPF. Per compilazioni aggiornate consulta anche la [scheda operativa trait](../../traits_scheda_operativa.md), la [Guida Evo Tactics Pack v2](../../Guida_Evo_Tactics_Pack_v2.md) e il template completo in [docs/evo-tactics/guides/template-ptpf.md](template-ptpf.md).
+> Usa questo seed come promemoria dei blocchi originari PTPF. Per compilazioni aggiornate consulta anche la [scheda operativa trait](../../traits_scheda_operativa.md), la [Guida Evo Tactics Pack v2](../../Guida_Evo_Tactics_Pack_v2.md) e il template completo archiviato in [docs/archive/evo-tactics/guides/template-ptpf.md](../../archive/evo-tactics/guides/template-ptpf.md).
 
 ⸻
 

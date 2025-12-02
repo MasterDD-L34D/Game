@@ -5,7 +5,7 @@ tags:
   - evo-tactics
   - documentazione
   - integrazione
-updated: 2025-11-14
+updated: 2025-12-21
 ---
 
 # Evo-Tactics — Hub Documentale
@@ -16,13 +16,17 @@ catalog (`docs/evo-tactics-pack/`). Ogni documento include metadati YAML,
 collegamenti incrociati e note operative per favorire l'onboarding dei team di
 design, telemetria e produzione.
 
-## Documenti principali
+## Documenti principali (archiviati)
 
-| Percorso                                                     | Contenuto                                                                                                                         |
-| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| [`guides/visione-struttura.md`](guides/visione-struttura.md) | Sintesi della visione di prodotto, dei pilastri tattici e della struttura ad anello che governa missioni, specie e loop di gioco. |
-| [`guides/template-ptpf.md`](guides/template-ptpf.md)         | Template operativo PTPF con sezioni compilabili, esempi pratici e checklist di qualità per i deliverable Evo-Tactics.             |
-| [`guides/security-ops.md`](guides/security-ops.md)           | Playbook Security & Ops con workflow CI, audit locali e rotazione credenziali.                                                    |
+I playbook 2025 sono stati archiviati a completamento di **ROL-03**. Utilizza le
+copie storiche nella sezione `docs/archive/evo-tactics/guides/` oppure gli
+snapshot inventario in `docs/incoming/archive/2025-12-19_inventory_cleanup/`.
+
+| Percorso archivio                                                                                          | Stato               |
+| ---------------------------------------------------------------------------------------------------------- | ------------------- |
+| [`../archive/evo-tactics/guides/visione-struttura.md`](../archive/evo-tactics/guides/visione-struttura.md) | archiviato (ROL-03) |
+| [`../archive/evo-tactics/guides/template-ptpf.md`](../archive/evo-tactics/guides/template-ptpf.md)         | archiviato (ROL-03) |
+| [`../archive/evo-tactics/guides/security-ops.md`](../archive/evo-tactics/guides/security-ops.md)           | archiviato (ROL-03) |
 
 ## Processi operativi
 
@@ -34,8 +38,8 @@ design, telemetria e produzione.
   [`incoming/docs/bioma_encounters.yaml`](../../incoming/docs/bioma_encounters.yaml) ed è coerente con gli output del
   pack Evo-Tactics (`docs/evo-tactics-pack/catalog_data.json`).
 - **Security & Ops**: per audit, rotazioni e incident response fai riferimento a
-  [`guides/security-ops.md`](guides/security-ops.md) e ai report generati in
-  `reports/security/`.
+  [`docs/archive/evo-tactics/guides/security-ops.md`](../archive/evo-tactics/guides/security-ops.md)
+  e ai report generati in `reports/security/`.
 
 ## Collegamenti rapidi
 
@@ -46,4 +50,4 @@ design, telemetria e produzione.
 
 ## Registro interventi
 
-Il registro dettagliato delle attività è stato consolidato nell'archivio storico: consulta [`docs/archive/evo-tactics/integration-log.md`](../archive/evo-tactics/integration-log.md) per lo storico completo DOC-01/DOC-02/DOC-03. L'ultima voce registrata (2025-11-13 · DOC-02) documenta l'estensione di `docs/INDEX.md` con il playbook Security & Ops.
+Il registro dettagliato delle attività è stato consolidato nell'archivio storico: consulta [`docs/archive/evo-tactics/integration-log.md`](../archive/evo-tactics/integration-log.md) per lo storico completo DOC-01/DOC-02/DOC-03. L'ultima voce registrata (2025-12-21 · ROL-03) conferma la verifica dei link di archivio e l'allineamento del tracker rollout dopo la chiusura dei playbook 2025.

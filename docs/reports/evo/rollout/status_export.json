@@ -1,19 +1,19 @@
 {
-  "generated_at": "2025-10-29T14:20:44+00:00",
+  "generated_at": "2025-12-21T09:30:00+00:00",
   "overall_status": "at-risk",
   "workflow_run": null,
   "epics": [
     {
       "id": "ROL-03",
-      "status": "in-progress",
-      "progress": 99,
+      "status": "done",
+      "progress": 100,
       "metric_label": "Playbook da archiviare",
-      "open_items": 3,
+      "open_items": 0,
       "total_items": 218,
       "samples": [
-        "docs/evo-tactics/guides/security-ops.md",
-        "docs/evo-tactics/guides/template-ptpf.md",
-        "docs/evo-tactics/guides/visione-struttura.md"
+        "docs/archive/evo-tactics/guides/security-ops.md",
+        "docs/archive/evo-tactics/guides/template-ptpf.md",
+        "docs/archive/evo-tactics/guides/visione-struttura.md"
       ]
     },
     {

@@ -25,6 +25,6 @@ reperibili in `../../incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_cla
 Fino al completamento della migrazione, utilizzare questa directory come punto
 unico di raccolta delle decisioni di sicurezza.
 
-> **Nota archivio 2025-11-13:** il contenuto operativo è stato sostituito da
-> [`docs/evo-tactics/guides/security-ops.md`](../../evo-tactics/guides/security-ops.md)
-> nell'ambito di DOC-03.
+> **Nota archivio 2025-12-02:** il contenuto operativo è stato spostato in
+> [`docs/archive/evo-tactics/guides/security-ops.md`](guides/security-ops.md)
+> nell'ambito della chiusura ROL-03.

@@ -4,7 +4,7 @@ description: Mappa di navigazione aggiornata della documentazione principale con
 tags:
   - documentazione
   - indice
-updated: 2025-11-22
+updated: 2025-12-19
 ---
 
 # Indice Documentazione
@@ -18,12 +18,12 @@ updated: 2025-11-22
 ## Evo-Tactics
 
 - [Hub documentale](evo-tactics/README.md) — panoramica aggiornata, strumenti correlati e accesso rapido all'archivio log.
-- [Visione & Struttura](evo-tactics/guides/visione-struttura.md) — visione di prodotto, pilastri tattici e workflow di integrazione.
-- [Template PTPF](evo-tactics/guides/template-ptpf.md) — struttura compilabile con checklist per missioni, specie e loop telemetrici.
+- [Visione & Struttura (archivio)](archive/evo-tactics/guides/visione-struttura.md) — archiviato (ROL-03); conserva la visione di prodotto, i pilastri tattici e il workflow di integrazione.
+- [Template PTPF (archivio)](archive/evo-tactics/guides/template-ptpf.md) — archiviato (ROL-03); usa il seed storico in `guides/ptpf-seed-template.md` se serve un canvas rapido.
 - [Visione & Struttura (seed)](evo-tactics/guides/vision-and-structure-notes.md) — scaffold originale a supporto della guida consolidata.
 - [Template PTPF seed](evo-tactics/guides/ptpf-seed-template.md) — versione originaria di riferimento rapido.
 - [Codex seed](evo-tactics/guides/codex-readme.md) — indice veloce dei materiali Evo-Tactics e dei validator.
-- [Security & Ops Playbook](evo-tactics/guides/security-ops.md) — audit CI/locali, rotazioni credenziali e incident response.
+- [Security & Ops Playbook (archivio)](archive/evo-tactics/guides/security-ops.md) — archiviato (ROL-03); include workflow audit, rotazioni credenziali e incident response.
 - [Integration Log (archivio)](archive/evo-tactics/integration-log.md) — cronologia DOC-01/DOC-02/DOC-03 conservata per riferimento storico.
 - [Archivio storico](archive/evo-tactics/README.md) — testo introduttivo pre-normalizzazione conservato per contesto.
 
