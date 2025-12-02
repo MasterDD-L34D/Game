@@ -17,16 +17,16 @@ generated_by: tools/roadmap/update_status.py
 - **Copertura trait ETL:** 29/254 (11.4%)
 - **Gap trait principali:** 0 missing_in_index, 203 missing_in_external
 - **Playbook da archiviare:** 3
-- **Ecotipi con mismatch legacy:** 0 su 20
+- **Righe con mismatch trait↔legacy:** 20 su 20
 
 ## Avanzamento epiche ROL-\*
 
-| Epic   | Stato       | Progress (%) | Gap aperti                     | Campione                                                                                                                        |
-| ------ | ----------- | ------------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| ROL-03 | in-progress | 99           | Playbook da archiviare: 3      | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
-| ROL-04 | done        | 100          | Trait missing_in_index: 0      | —                                                                                                                               |
-| ROL-05 | at-risk     | 20           | Trait missing_in_external: 203 | ali_fulminee, ali_ioniche, ali_membrana_sonica, ali_solari_fotoni, antenne_dustsense                                            |
-| ROL-06 | done        | 100          | Ecotipi con mismatch: 0        | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
+| Epic   | Stato       | Progress (%) | Gap aperti                       | Campione                                                                                                                        |
+| ------ | ----------- | ------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| ROL-03 | in-progress | 99           | Playbook da archiviare: 3        | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
+| ROL-04 | done        | 100          | Trait missing_in_index: 0        | —                                                                                                                               |
+| ROL-05 | at-risk     | 20           | Trait missing_in_external: 203   | ali_fulminee, ali_ioniche, ali_membrana_sonica, ali_solari_fotoni, antenne_dustsense                                            |
+| ROL-06 | at-risk     | 20           | Righe mismatch trait↔legacy: 20 | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
 
 ## Focus operativi
 
