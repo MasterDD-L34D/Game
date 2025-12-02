@@ -53,6 +53,7 @@
   - [Prontuario metriche UCUM](appendici/prontuario_metriche_ucum.md)
   - [Style guide naming (Specie & Tratti)](appendici/STYLE_GUIDE_NAMING.md)
   - [Metodo A.L.I.E.N.A. — documento integrato](appendici/ALIENA_documento_integrato.md)
+  - [Sandbox — concept/trait/bilanciamento (draft)](appendici/sandbox/README.md)
 
 ## Automazioni & CI
 

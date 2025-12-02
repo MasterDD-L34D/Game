@@ -35,6 +35,11 @@ updated: 2025-11-22
 - [Trait Reference & Glossario](catalog/trait_reference.md) — label/description approvate e sincronizzazione glossario/localizzazioni.
 - [Trait Reference Manual (omnibus)](trait_reference_manual.md) — indice dei capitoli tematici in `docs/traits-manuale/`.
 
+## Appendici
+
+- [Appendici canoniche](appendici/) — canvas storici, prontuario UCUM e style guide naming.
+- [Sandbox — concept/trait/bilanciamento (draft)](appendici/sandbox/README.md) — collegamento rapido ai concept narrativi in sandbox e alle note di trait/bilanciamento.
+
 ## Strumenti incoming & template
 
 - [templates/obsidian_template.md](templates/obsidian_template.md) — vault suggerito per note locali.
