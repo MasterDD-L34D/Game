@@ -1,10 +1,10 @@
 slug,status,name_mismatch,tier_mismatch,synergy_mismatch,env_mismatch,legacy_flag_mismatch,external_code,external_label,external_tier,external_synergies,external_envs,legacy_label,legacy_tier,legacy_synergies,legacy_envs,duplicate_flag,merge_conflict_flag
 ali_fono_risonanti,mismatch,1,0,1,0,0,TR-1701,Ali Fono-Risonanti,T3,campo_di_interferenza_acustica;cannone_sonico_a_raggio,terrestre,i18n:traits.ali_fono_risonanti.label,T3,campo_di_interferenza_acustica;cannone_sonico_a_raggio;cervello_a_bassa_latenza;occhi_cinetici,terrestre,0,0
-ali_fulminee,missing_in_external,0,0,0,0,0,,,,,,i18n:traits.ali_fulminee.label,T1,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa,0,0
-ali_ioniche,missing_in_external,0,0,0,0,0,,,,,,i18n:traits.ali_ioniche.label,T1,coda_frusta_cinetica;zampe_a_molla,canopia_ionica,0,0
-ali_membrana_sonica,missing_in_external,0,0,0,0,0,,,,,,i18n:traits.ali_membrana_sonica.label,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,caverna_risonante,0,0
-ali_solari_fotoni,missing_in_external,0,0,0,0,0,,,,,,i18n:traits.ali_solari_fotoni.label,T2,antenne_tesla;cervello_a_bassa_latenza;occhi_cristallo_modulare,terrestre,0,0
-antenne_dustsense,missing_in_external,0,0,0,0,0,,,,,,i18n:traits.antenne_dustsense.label,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,pianura_salina_iperarida,0,0
+ali_fulminee,mismatch,1,0,0,0,0,TR-2006,Ali Fulminee,T1,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa,i18n:traits.ali_fulminee.label,T1,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa,0,0
+ali_ioniche,mismatch,1,0,0,0,0,TR-2007,Ali Ioniche,T1,coda_frusta_cinetica;zampe_a_molla,canopia_ionica,i18n:traits.ali_ioniche.label,T1,coda_frusta_cinetica;zampe_a_molla,canopia_ionica,0,0
+ali_membrana_sonica,mismatch,1,0,0,0,0,TR-2008,Ali Membrana Sonica,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,caverna_risonante,i18n:traits.ali_membrana_sonica.label,T1,carapace_fase_variabile;mimetismo_cromatico_passivo,caverna_risonante,0,0
+ali_solari_fotoni,mismatch,1,0,0,0,0,TR-2009,Ali Solari Fotoni,T2,antenne_tesla;cervello_a_bassa_latenza;occhi_cristallo_modulare,terrestre,i18n:traits.ali_solari_fotoni.label,T2,antenne_tesla;cervello_a_bassa_latenza;occhi_cristallo_modulare,terrestre,0,0
+antenne_dustsense,mismatch,1,0,0,0,0,TR-2010,Antenne Dustsense,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,pianura_salina_iperarida,i18n:traits.antenne_dustsense.label,T1,filamenti_digestivi_compattanti;ventriglio_gastroliti,pianura_salina_iperarida,0,0
 antenne_eco_turbina,missing_in_external,0,0,0,0,0,,,,,,i18n:traits.antenne_eco_turbina.label,T1,empatia_coordinativa;risonanza_di_branco,dorsale_termale_tropicale,0,0
 antenne_flusso_mareale,missing_in_external,0,0,0,0,0,,,,,,i18n:traits.antenne_flusso_mareale.label,T1,coda_frusta_cinetica;sangue_piroforico,laguna_bioreattiva,0,0
 antenne_microonde_cavernose,missing_in_external,0,0,0,0,0,,,,,,i18n:traits.antenne_microonde_cavernose.label,T1,pathfinder;pianificatore;tattiche_di_branco,caverna_risonante,0,0

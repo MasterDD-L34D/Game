@@ -1,0 +1,46 @@
+{
+  "trait_code": "TR-2006",
+  "id": "ali_fulminee",
+  "label": "Ali Fulminee",
+  "famiglia_tipologia": "Sensoriale/Analitico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "tier": "T1",
+  "slot": [],
+  "sinergie": [
+    "focus_frazionato",
+    "sinapsi_coraline_polifoniche"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "stratosfera_tempestosa"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Ali Fulminee ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "mutazione_indotta": "Ali laminari elettrificate che leggono pattern ionici.",
+  "uso_funzione": "Decodificare micro-scariche e correnti psioniche turbolente.",
+  "spinta_selettiva": "Sopravvivenza e coordinamento in stratosfere cariche.",
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Basso",
+    "sustained": "Basso"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": []
+  },
+  "version": "2.0.1",
+  "versioning": {
+    "created": "2026-08-22",
+    "updated": "2026-08-22",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}
