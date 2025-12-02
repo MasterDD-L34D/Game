@@ -7,6 +7,7 @@ Freeze straordinario richiesto per proteggere `core/**`, `derived/**`, `incoming
 ## Approvals
 
 - Master DD (approvatore umano) – 2025-11-25T12:05Z
+- Master DD (approvatore umano) – 2025-12-02T13:58Z (chiusura freeze 03AB post triade/smoke PASS; merge 03A→03B→main autorizzato)
 - Agente: coordinator (esecuzione in STRICT MODE)
 
 ## Finestra di freeze
@@ -14,6 +15,12 @@ Freeze straordinario richiesto per proteggere `core/**`, `derived/**`, `incoming
 - Start: 2025-11-25T12:05Z
 - End: 2025-11-27T12:05Z
 - Scope: blocco merge/patch su `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**`, salvo interventi di rollback autorizzati.
+
+## Stato 2025-12-02
+
+- Triade Frattura Abissale + smoke rieseguite via `bash scripts/qa/run_frattura_abissale_pipeline.sh`: **PASS** (schema/coerenza, trait style 0 suggerimenti, evaluate+sync in dry-run senza modifiche).
+- Master DD approva i gate triade/smoke e autorizza il merge sequenziale `patch/03A-core-derived` → `patch/03B-incoming-cleanup` → `main`, dichiarando chiuso il freeze 03AB.
+- Manifest di backup confermati per la chiusura e archiviati come riferimento: `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, `reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `reports/backups/2025-11-25T1724Z_masterdd_freeze/manifest.txt`, `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt`.
 
 ## Artefatti di snapshot/backup
 
