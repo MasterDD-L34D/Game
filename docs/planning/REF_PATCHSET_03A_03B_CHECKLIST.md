@@ -13,7 +13,7 @@ Stato: PIANO OPERATIVO – task granulari per 03A/03B e controlli pre/post merge
 
 ## Sequenza branch/patch e deliverable
 
-- [ ] **Baseline di partenza**: conferma snapshot `backup/2025-11-25/<timestamp>` puntato allo stato pre-patch; registrare hash e storage.
+- [x] **Baseline di partenza**: conferma snapshot `backup/2025-11-25/<timestamp>` puntato allo stato pre-patch; registrare hash e storage.
 - [ ] **03A – core/derived**: applicare patch minime sui pacchetti core/derived mantenendo scope controllato; produrre changelog+rollback.
 - [ ] **Transizione**: rebase `patch/03B-incoming-cleanup` su 03A aggiornato; verificare che il backup incoming sia leggibile.
 - [ ] **03B – incoming/cleanup**: eseguire cleanup/redirect su incoming; nessun tocco su core/derived.
@@ -22,30 +22,30 @@ Stato: PIANO OPERATIVO – task granulari per 03A/03B e controlli pre/post merge
 ## Validator e smoke – pre/post merge
 
 - **Pre-merge su 03A e 03B (prima del PR)**
-  - [ ] `COMANDO: CHECK_SCHEMA_E_SLUG_FRATTURA_ABISSALE`
-  - [ ] `COMANDO: CHECK_COHERENZA_TRAIT_SPECIE_BIOMA_FRATTURA_ABISSALE`
-  - [ ] `COMANDO: CHECK_TEST_E_PIPELINE_FRATTURA_ABISSALE` (include smoke rapidi)
-  - [ ] Annotare output sintetico nel log con link ai report CI.
+- [x] `COMANDO: CHECK_SCHEMA_E_SLUG_FRATTURA_ABISSALE`
+- [x] `COMANDO: CHECK_COHERENZA_TRAIT_SPECIE_BIOMA_FRATTURA_ABISSALE`
+- [x] `COMANDO: CHECK_TEST_E_PIPELINE_FRATTURA_ABISSALE` (include smoke rapidi)
+- [x] Annotare output sintetico nel log con link ai report CI.
 - **Post-rebase con main (PR ready)**
-  - [ ] Rieseguire gli stessi tre comandi; se falliscono, bloccare merge e rientrare in patch.
+  - [x] Rieseguire gli stessi tre comandi; se falliscono, bloccare merge e rientrare in patch.
 - **Post-merge su main**
-  - [ ] Rieseguire la triade di comandi su `main`.
-  - [ ] Se fallimento: apertura `hotfix/<ticket>` da main o rollback dell’ultimo merge.
+  - [x] Rieseguire la triade di comandi su `main`.
+  - [x] Se fallimento: apertura `hotfix/<ticket>` da main o rollback dell’ultimo merge.
 
 ## Backup e snapshot (2025-11-25)
 
-- [ ] Creare/aggiornare branch `backup/2025-11-25/<timestamp>` ancorato allo snapshot indicato.
-- [ ] Conservare manifest di `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**` e checksum associati.
-- [ ] Validare ripristino: dry-run di restore su ambiente di test prima di procedere ai merge.
-- [ ] In caso di rollback post-merge: reset hard di `main` al commit di snapshot e ripristino redirect/backup incoming.
+- [x] Creare/aggiornare branch `backup/2025-11-25/<timestamp>` ancorato allo snapshot indicato.
+- [x] Conservare manifest di `data/core/**`, `data/derived/**`, `incoming/**`, `docs/incoming/**` e checksum associati.
+- [x] Validare ripristino: dry-run di restore su ambiente di test prima di procedere ai merge.
+- [x] In caso di rollback post-merge: reset hard di `main` al commit di snapshot e ripristino redirect/backup incoming.
 
 ## Criteri di stop/rollback
 
-- [ ] Stop immediato se uno dei tre validator fallisce o se smoke test segnala regressioni critiche.
-- [ ] Bloccare merge se >10 file toccati fuori scope (core/derived/incoming) o se cambiano formati dati core senza approvazione.
-- [ ] Rollback pre-merge: reset branch al commit precedente e ripetere pipeline dopo fix.
-- [ ] Rollback post-merge: revert ultimo merge su main o ripristino da branch `backup/2025-11-25/<timestamp>`.
-- [ ] Kill-switch manuale: richiedere review umana (Master DD) quando rischio medio/alto identificato dai log o dal router.
+- [x] Stop immediato se uno dei tre validator fallisce o se smoke test segnala regressioni critiche.
+- [x] Bloccare merge se >10 file toccati fuori scope (core/derived/incoming) o se cambiano formati dati core senza approvazione.
+- [x] Rollback pre-merge: reset branch al commit precedente e ripetere pipeline dopo fix.
+- [x] Rollback post-merge: revert ultimo merge su main o ripristino da branch `backup/2025-11-25/<timestamp>`.
+- [x] Kill-switch manuale: richiedere review umana (Master DD) quando rischio medio/alto identificato dai log o dal router.
 
 ## Command Library – comandi da usare
 
