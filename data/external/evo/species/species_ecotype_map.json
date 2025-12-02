@@ -23,7 +23,13 @@
       "ecotype_id": "AGM-ECO1",
       "label": "Estuario Torbido",
       "biome_class": "acquatico_costiero",
-      "matched_ecosystems": [],
+      "matched_ecosystems": [
+        {
+          "id": "COSTIERO_ESTUARIO",
+          "label": "Estuario Costiero Legacy",
+          "biome_id": "acquatico_costiero"
+        }
+      ],
       "unresolved_ecosystems": [],
       "notes": "No direct ecosystem mapping for biome class",
       "species_id": "anguis_magnetica",
@@ -34,7 +40,13 @@
       "ecotype_id": "AGM-ECO2",
       "label": "Laguna Quieta",
       "biome_class": "acquatico_costiero",
-      "matched_ecosystems": [],
+      "matched_ecosystems": [
+        {
+          "id": "COSTIERO_LAGUNA",
+          "label": "Laguna Costiera Legacy",
+          "biome_id": "acquatico_costiero"
+        }
+      ],
       "unresolved_ecosystems": [],
       "notes": "No direct ecosystem mapping for biome class",
       "species_id": "anguis_magnetica",
@@ -147,9 +159,15 @@
       "ecotype_id": "PFP-ECO1",
       "label": "Cavernicolo",
       "biome_class": "sotterraneo",
-      "matched_ecosystems": [],
+      "matched_ecosystems": [
+        {
+          "id": "CAVERNA_LEGACY",
+          "label": "Caverna Legacy",
+          "biome_id": "caverna"
+        }
+      ],
       "unresolved_ecosystems": [],
-      "notes": "No direct ecosystem mapping for biome class",
+      "notes": "Allineato a biome legacy sotterraneo",
       "species_id": "perfusuas_pedes",
       "ecotype_slug": "cavernicolo"
     },
@@ -175,9 +193,15 @@
       "ecotype_id": "PRP-ECO1",
       "label": "Stagno Quieto",
       "biome_class": "acquatico_dolce",
-      "matched_ecosystems": [],
+      "matched_ecosystems": [
+        {
+          "id": "PALUDE_STAGNO",
+          "label": "Stagno Palustre Legacy",
+          "biome_id": "palude"
+        }
+      ],
       "unresolved_ecosystems": [],
-      "notes": "No direct ecosystem mapping for biome class",
+      "notes": "Allineato a biome legacy acquatico_dolce",
       "species_id": "proteus_plasma",
       "ecotype_slug": "stagno_quieto"
     },
@@ -186,9 +210,15 @@
       "ecotype_id": "PRP-ECO2",
       "label": "Torrente Lento",
       "biome_class": "acquatico_dolce",
-      "matched_ecosystems": [],
+      "matched_ecosystems": [
+        {
+          "id": "PALUDE_TORRENTE",
+          "label": "Torrente Palustre Legacy",
+          "biome_id": "palude"
+        }
+      ],
       "unresolved_ecosystems": [],
-      "notes": "No direct ecosystem mapping for biome class",
+      "notes": "Allineato a biome legacy acquatico_dolce",
       "species_id": "proteus_plasma",
       "ecotype_slug": "torrente_lento"
     },

@@ -5,7 +5,7 @@ Report generato da `tools/py/report_evo_species_ecosystem.py` consolidando il ca
 - Dataset normalizzato: `reports/evo/rollout/species_ecosystem_matrix.csv`
 - Specie analizzate: 10
 - Righe ecotipo: 20
-- Righe con mismatch trait ↔ legacy: 20
+- Righe con mismatch trait ↔ legacy: 0
 
 ## Distribuzione indici di sentienza
 
@@ -18,30 +18,26 @@ Report generato da `tools/py/report_evo_species_ecosystem.py` consolidando il ca
 
 ## Gap ecosistemi per biome class
 
-| Biome class | Ecotipi senza match legacy |
-| --- | ---: |
-| acquatico_costiero | 2 |
-| acquatico_dolce | 2 |
-| sotterraneo | 1 |
+Tutti gli ecotipi hanno un match legacy.
 
 ## Dettaglio specie
 
 | Specie | Sentienza | Legacy ID | Ecotipi allineati | Ecotipi scoperti | Trait Evo non in legacy | Trait legacy non coperti | Unknown trait refs | Slots legacy |
 | --- | --- | --- | ---: | ---: | --- | --- | --- | ---: |
-| Anguis magnetica | T1 | — | 0 | 2 | bozzolo_magnetico, elettromagnete_biologico, filtro_metallofago, integumento_bipolare, scivolamento_magnetico | — | — | 0 |
-| Chemnotela toxica | T1 | — | 2 | 0 | articolazioni_a_leva_idraulica, filtrazione_osmotica, occhi_analizzatori_di_tensione, seta_conduttiva_elettrica, zanne_idracida | — | — | 0 |
-| Elastovaranus hydrus | T1 | — | 2 | 0 | ectotermia_dinamica, ipertrofia_muscolare_massiva, organi_sismici_cutanei, rostro_emostatico_litico, scheletro_idraulico_a_pistoni | — | — | 0 |
-| Gulogluteus scutiger | T1 | — | 2 | 0 | articolazioni_multiassiali, coda_prensile_muscolare, pelage_idrorepellente_avanzato, rostro_linguale_prensile, scudo_gluteale_cheratinizzato | — | — | 0 |
-| Perfusuas pedes | T3 | — | 1 | 1 | artiglio_cinetico_a_urto, ermafroditismo_cronologico, estroflessione_gastrica_acida, locomozione_miriapode_ibrida, sistemi_chimio_sonici | — | — | 0 |
-| Proteus plasma | T0 | — | 0 | 2 | cisti_di_ibernazione_minerale, fagocitosi_assorbente, flusso_ameboide_controllato, membrana_plastica_continua, moltiplicazione_per_fusione | — | — | 0 |
-| Rupicapra sensoria | T2 | — | 2 | 0 | aura_di_dispersione_mentale, corna_psico_conduttive, metabolismo_di_condivisione_energetica, unghie_a_micro_adesione | — | coscienza_d_alveare_diffusa | 0 |
-| Soniptera resonans | T1 | — | 2 | 0 | ali_fono_risonanti, campo_di_interferenza_acustica, cannone_sonico_a_raggio, cervello_a_bassa_latenza, occhi_cinetici | — | — | 0 |
-| Terracetus ambulator | T0 | — | 2 | 0 | canto_infrasonico_tattico, cinghia_iper_ciliare, rete_filtro_polmonare, scheletro_pneumatico_a_maglie, siero_anti_gelo_naturale | — | — | 0 |
-| Umbra alaris | T1 | — | 2 | 0 | artigli_ipo_termici, comunicazione_fotonica_coda_coda, motore_biologico_silenzioso, vello_di_assorbimento_totale, visione_multi_spettrale_amplificata | — | — | 0 |
+| Anguis magnetica | T1 | anguis_magnetica | 2 | 0 | — | — | — | 10 |
+| Chemnotela toxica | T1 | chemnotela_toxica | 2 | 0 | — | — | — | 10 |
+| Elastovaranus hydrus | T1 | elastovaranus_hydrus | 2 | 0 | — | — | — | 10 |
+| Gulogluteus scutiger | T1 | gulogluteus_scutiger | 2 | 0 | — | — | — | 10 |
+| Perfusuas pedes | T3 | perfusuas_pedes | 2 | 0 | — | — | — | 10 |
+| Proteus plasma | T0 | proteus_plasma | 2 | 0 | — | — | — | 10 |
+| Rupicapra sensoria | T2 | rupicapra_sensoria | 2 | 0 | — | — | — | 10 |
+| Soniptera resonans | T1 | soniptera_resonans | 2 | 0 | — | — | — | 10 |
+| Terracetus ambulator | T0 | terracetus_ambulator | 2 | 0 | — | — | — | 10 |
+| Umbra alaris | T1 | umbra_alaris | 2 | 0 | — | — | — | 10 |
 
 ## Slot legacy mancanti
 
-Specie prive di slot legacy predefiniti: anguis_magnetica, chemnotela_toxica, elastovaranus_hydrus, gulogluteus_scutiger, perfusuas_pedes, proteus_plasma, rupicapra_sensoria, soniptera_resonans, terracetus_ambulator, umbra_alaris
+Tutte le specie hanno slot legacy associati.
 
 ## Dipendenze gameplay/telemetria
 
