@@ -60,3 +60,7 @@ Stato: PIANO OPERATIVO – task granulari per 03A/03B e controlli pre/post merge
 - [ ] `logs/agent_activity.md` – loggare ogni step (pre/post validator, backup, merge, rollback).
 - [ ] `docs/planning/` – questo documento e eventuali appendici di dettaglio per patch/validator.
 - [ ] `reports/audit/**` – allegare report finali e manifest backup quando disponibili.
+
+## Aggiornamento validator 2025-12-02T1344Z (report-only)
+
+- dev-tooling (firma Master DD) ha rieseguito la triade 02A + Frattura Abissale in modalità report su `patch/03A-core-derived` e mirror `patch/03B-incoming-cleanup`: schema-only PASS (10 controlli, 0 avvisi), trait_audit PASS con skip jsonschema atteso, trait_style PASS (0 suggerimenti), pipeline Frattura Abissale PASS (schema/coerenza + tooling evaluate/sync in dry-run, nessuna modifica dati; warn npm http-proxy noto). Log in `reports/temp/patch-03A-core-derived/2025-12-02T134447Z/` e copia specchiata in `reports/temp/patch-03B-incoming-cleanup/2025-12-02T134447Z/`; entry registrata in `logs/agent_activity.md`.
