@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-11-30T15:37:14+00:00",
+  "generated_at": "2025-12-02T02:04:04+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "data/traits/index.json",
@@ -5700,10 +5700,10 @@
       }
     },
     "occhi_cristallo_modulare": {
-      "label_it": null,
-      "label_en": null,
-      "description_it": null,
-      "description_en": null,
+      "label_it": "Occhi a Cristallo Modulare",
+      "label_en": "Modular Crystal Eyes",
+      "description_it": "Prismi sovrapposti che riallineano il fuoco tra spettro visibile e ionico, utili in microgravità variabile.",
+      "description_en": "Layered prisms retuning focus across visible and ionic spectra, useful in variable microgravity.",
       "rules": {
         "total": 0,
         "coverage": []
