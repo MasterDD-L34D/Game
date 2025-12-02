@@ -12,8 +12,8 @@ updated: 2025-11-22
 
 ## 📂 Root Vault
 
-- `guides/visione-struttura.md` → link ai core loop e blocchi principali.
-- `guides/template-ptpf.md` + seed [`guides/ptpf-seed-template.md`](../evo-tactics/guides/ptpf-seed-template.md) → moduli + tag `@TEMPLATE_CORE`.
+- `archive/evo-tactics/guides/visione-struttura.md` → link ai core loop e blocchi principali (archivio ROL-03).
+- `archive/evo-tactics/guides/template-ptpf.md` + seed [`guides/ptpf-seed-template.md`](../evo-tactics/guides/ptpf-seed-template.md) → moduli + tag `@TEMPLATE_CORE` (archivio ROL-03).
 - `TELEMETRY_LOGS` → note YAML validate.
 - `PLAYTEST_RESULTS` → snapshot + delta.
 
@@ -43,7 +43,7 @@ updated: 2025-11-22
 - `docs/templates/obsidian_template.md` → base vault locale (questo file).
 - `incoming/docs/yaml_validator.py` → validatore YAML.
 - `incoming/docs/drift_check.js` → check pre-commit per incoerenze.
-- `docs/evo-tactics/guides/visione-struttura.md` → mappa relazioni moduli.
+- `docs/archive/evo-tactics/guides/visione-struttura.md` → mappa relazioni moduli (archivio ROL-03).
 - `incoming/docs/bioma_encounters.yaml` → tracciamento outcomes.
 
 ---

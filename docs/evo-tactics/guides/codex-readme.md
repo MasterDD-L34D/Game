@@ -14,8 +14,8 @@ updated: 2025-11-22
 
 ## 📁 Contenuti principali
 
-- 🧭 [Visione & Struttura Generale](visione-struttura.md)
-- 🧬 [Template PTPF Game Design](template-ptpf.md) con seed storico ([ptpf-seed](ptpf-seed-template.md)).
+- 🧭 [Visione & Struttura Generale (archivio)](../../archive/evo-tactics/guides/visione-struttura.md)
+- 🧬 [Template PTPF Game Design (archivio)](../../archive/evo-tactics/guides/template-ptpf.md) con seed storico ([ptpf-seed](ptpf-seed-template.md)).
 - 📈 [Dataset telemetria/bioma](../../../incoming/docs/bioma_encounters.yaml) e validator YAML ([incoming/docs/yaml_validator.py](../../../incoming/docs/yaml_validator.py)).
 - ♻️ [Integrazioni Evo v2](../integrazioni-v2.md) e log storico (`docs/archive/evo-tactics/integration-log.md`).
 

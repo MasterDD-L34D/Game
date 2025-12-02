@@ -10,7 +10,7 @@ updated: 2025-11-22
 
 # Evo-Tactics · Visione & Struttura (seed)
 
-> Queste note catturano il primo scaffold concettuale. Per la versione consolidata rimanda alla [guida Visione & Struttura](visione-struttura.md) e, per i requisiti sui trait, alla [scheda operativa](../../traits_scheda_operativa.md) e al [template dati](../../traits_template.md).
+> Queste note catturano il primo scaffold concettuale. Per la versione consolidata rimanda alla [guida Visione & Struttura (archivio)](../../archive/evo-tactics/guides/visione-struttura.md) e, per i requisiti sui trait, alla [scheda operativa](../../traits_scheda_operativa.md) e al [template dati](../../traits_template.md).
 
 ## 🎮 Sistema consigliato per progettazione giochi — strutturale + concettuale
 
