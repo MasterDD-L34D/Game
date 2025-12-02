@@ -38,11 +38,11 @@
         "Laguna Quieta"
       ],
       "trait_refs": [
-        "integumento_bipolare",
-        "elettromagnete_biologico",
-        "scivolamento_magnetico",
-        "filtro_metallofago",
-        "bozzolo_magnetico"
+        "TR-1801",
+        "TR-1802",
+        "TR-1803",
+        "TR-1804",
+        "TR-1805"
       ],
       "id": "anguis_magnetica"
     },
@@ -84,11 +84,11 @@
         "Chioma Elettrofilo"
       ],
       "trait_refs": [
-        "zanne_idracida",
-        "seta_conduttiva_elettrica",
-        "articolazioni_a_leva_idraulica",
-        "filtrazione_osmotica",
-        "occhi_analizzatori_di_tensione"
+        "TR-1501",
+        "TR-1502",
+        "TR-1503",
+        "TR-1504",
+        "TR-1505"
       ],
       "id": "chemnotela_toxica"
     },
@@ -132,11 +132,11 @@
         "Letti Fluviali"
       ],
       "trait_refs": [
-        "rostro_emostatico_litico",
-        "scheletro_idraulico_a_pistoni",
-        "ipertrofia_muscolare_massiva",
-        "ectotermia_dinamica",
-        "organi_sismici_cutanei"
+        "TR-1101",
+        "TR-1102",
+        "TR-1103",
+        "TR-1104",
+        "TR-1105"
       ],
       "id": "elastovaranus_hydrus"
     },
@@ -180,11 +180,11 @@
         "Forre Umide"
       ],
       "trait_refs": [
-        "pelage_idrorepellente_avanzato",
-        "scudo_gluteale_cheratinizzato",
-        "articolazioni_multiassiali",
-        "coda_prensile_muscolare",
-        "rostro_linguale_prensile"
+        "TR-1201",
+        "TR-1202",
+        "TR-1203",
+        "TR-1204",
+        "TR-1205"
       ],
       "id": "gulogluteus_scutiger"
     },
@@ -226,11 +226,11 @@
         "Radura Notturna"
       ],
       "trait_refs": [
-        "ermafroditismo_cronologico",
-        "locomozione_miriapode_ibrida",
-        "estroflessione_gastrica_acida",
-        "artiglio_cinetico_a_urto",
-        "sistemi_chimio_sonici"
+        "TR-1301",
+        "TR-1302",
+        "TR-1303",
+        "TR-1304",
+        "TR-1305"
       ],
       "id": "perfusuas_pedes"
     },
@@ -272,11 +272,11 @@
         "Torrente Lento"
       ],
       "trait_refs": [
-        "membrana_plastica_continua",
-        "flusso_ameboide_controllato",
-        "fagocitosi_assorbente",
-        "moltiplicazione_per_fusione",
-        "cisti_di_ibernazione_minerale"
+        "TR-1601",
+        "TR-1602",
+        "TR-1603",
+        "TR-1604",
+        "TR-1605"
       ],
       "id": "proteus_plasma"
     },
@@ -315,11 +315,11 @@
         "Dorsali Ventose"
       ],
       "trait_refs": [
-        "corna_psico_conduttive",
+        "TR-2001",
         "coscienza_d_alveare_diffusa",
-        "aura_di_dispersione_mentale",
-        "metabolismo_di_condivisione_energetica",
-        "unghie_a_micro_adesione"
+        "TR-2003",
+        "TR-2004",
+        "TR-2005"
       ],
       "id": "rupicapra_sensoria"
     },
@@ -361,11 +361,11 @@
         "Prateria Arbustiva"
       ],
       "trait_refs": [
-        "ali_fono_risonanti",
-        "cannone_sonico_a_raggio",
-        "campo_di_interferenza_acustica",
-        "cervello_a_bassa_latenza",
-        "occhi_cinetici"
+        "TR-1701",
+        "TR-1702",
+        "TR-1703",
+        "TR-1704",
+        "TR-1705"
       ],
       "id": "soniptera_resonans"
     },
@@ -405,11 +405,11 @@
         "Savanicola Notturno"
       ],
       "trait_refs": [
-        "scheletro_pneumatico_a_maglie",
-        "cinghia_iper_ciliare",
-        "rete_filtro_polmonare",
-        "canto_infrasonico_tattico",
-        "siero_anti_gelo_naturale"
+        "TR-1401",
+        "TR-1402",
+        "TR-1403",
+        "TR-1404",
+        "TR-1405"
       ],
       "id": "terracetus_ambulator"
     },
@@ -450,11 +450,11 @@
         "Canyon Notturno"
       ],
       "trait_refs": [
-        "vello_di_assorbimento_totale",
-        "visione_multi_spettrale_amplificata",
-        "motore_biologico_silenzioso",
-        "artigli_ipo_termici",
-        "comunicazione_fotonica_coda_coda"
+        "TR-1901",
+        "TR-1902",
+        "TR-1903",
+        "TR-1904",
+        "TR-1905"
       ],
       "id": "umbra_alaris"
     }
