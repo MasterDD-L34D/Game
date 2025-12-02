@@ -68,8 +68,8 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 
 ### Aggiornamenti ticket 03A/03B
 
-- **03A** – Validator 02A schema-only rerun in **PASS** con manifest confermati (vedi `logs/ci_runs/freezer_validator_2026-07-24.log`). Next step: full matrix post-merge per chiudere gate enforcing su branch `patch/03A-core-derived`. 【F:logs/ci_runs/freezer_validator_2026-07-24.log†L1-L10】
-- **03B** – Smoke redirect staging in **PASS** su `http://localhost:8000` (report `reports/redirects/redirect-smoke-2026-07-24.json`). Next step: rieseguire smoke dopo eventuali rebase su incoming e mantenere manifest di rollback sincronizzati. 【F:reports/redirects/redirect-smoke-2026-07-24.json†L1-L11】
+- **03A** – Validator 02A schema-only rerun in **PASS** con manifest confermati (vedi `logs/ci_runs/freezer_validator_2026-07-24.log`). Gate chiuso con firma Master DD e freeze 03AB terminato; rollback pronto grazie ai manifest archiviati (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, checkpoint Master DD). 【F:logs/ci_runs/freezer_validator_2026-07-24.log†L1-L10】【F:logs/agent_activity.md†L6-L10】
+- **03B** – Smoke redirect staging in **PASS** su `http://localhost:8000` (report `reports/redirects/redirect-smoke-2026-07-24.json`). Gate chiuso con firma Master DD, freeze 03AB dichiarato chiuso e rollback pronto con manifest referenziati (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, checkpoint Master DD). 【F:reports/redirects/redirect-smoke-2026-07-24.json†L1-L11】【F:logs/agent_activity.md†L6-L10】
 
 ### Come mantenere aggiornato l'inventario (fino al 07/12/2025)
 
