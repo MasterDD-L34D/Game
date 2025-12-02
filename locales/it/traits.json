@@ -30,7 +30,7 @@
     "ali_membrana_sonica": {
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "description": "Piastre vibranti che dissipano energia e attenuano impatti corrosivi.",
-      "label": "Ali a Membrana Sonica",
+      "label": "Ali Membrana Sonica",
       "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
@@ -38,7 +38,7 @@
     "ali_solari_fotoni": {
       "debolezza": "Prestazioni ridotte in ombra prolungata o con polveri che schermano i pannelli.",
       "description": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza.",
-      "label": "Ali Solari Fotoniche",
+      "label": "Ali Solari Fotoni",
       "mutazione_indotta": "innesta piumaggi a strati fotonici con condotti di accumulo irradiativo.",
       "spinta_selettiva": "Sfruttare l'irraggiamento costante per copertura e manovre a lungo raggio.",
       "uso_funzione": "Converte luce in spinta e genera scudi radianti per la squadra."
@@ -1530,7 +1530,7 @@
       "uso_funzione": "Vedere il suono come pattern d’aria."
     },
     "occhi_cristallo_modulare": {
-      "label": "Occhi di Cristallo Modulare",
+      "label": "Occhi a Cristallo Modulare",
       "mutazione_indotta": "L'organo visivo si fraziona in lenti di cristallo sostituibili che modulano spettro e messa a fuoco in tempo reale.",
       "spinta_selettiva": "Garantire riconoscimento rapido di minacce e risorse in scenari multibioma mantenendo resilienza a bagliori o accecamenti mirati.",
       "uso_funzione": "Amplifica la raccolta dati a lunga distanza e consente di passare rapidamente da zoom tattici a panoramiche ambientali senza perdita di dettaglio."
@@ -1920,6 +1920,9 @@
       "mutazione_indotta": "Placche cornee cave che emettono onde sismiche ritmiche al contatto con il terreno.",
       "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
       "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
+    },
+    "coscienza_dalveare_diffusa": {
+      "label": "Coscienza d’Alveare Diffusa"
     }
   }
 }
