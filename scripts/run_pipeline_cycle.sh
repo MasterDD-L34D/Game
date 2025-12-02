@@ -42,6 +42,10 @@ PREPARE_ONLY=false
 STATUS_ONLY=false
 PHASE_PLAN=""
 CURRENT_PHASE="setup"
+REDIRECT_HOST=${REDIRECT_HOST:-http://localhost:8000}
+REDIRECT_MAPPING=${REDIRECT_MAPPING:-docs/planning/REF_REDIRECT_PLAN_STAGING.md}
+REDIRECT_OUTPUT=${REDIRECT_OUTPUT:-reports/redirects/redirect-smoke-staging.json}
+REDIRECT_ENVIRONMENT=${REDIRECT_ENVIRONMENT:-staging}
 
 parse_args() {
   while [[ $# -gt 0 ]]; do
@@ -179,6 +183,18 @@ run_and_log() {
   "$@" | tee -a "$log_file"
 }
 
+run_redirect_smoke() {
+  local log_file="$LOG_DIR/redirect_smoke.log"
+  append_log "$log_file" "Esecuzione redirect smoke: host=${REDIRECT_HOST} mapping=${REDIRECT_MAPPING} output=${REDIRECT_OUTPUT} env=${REDIRECT_ENVIRONMENT}"
+  run_and_log "$log_file" python scripts/redirect_smoke_test.py \
+    --host "$REDIRECT_HOST" \
+    --mapping "$REDIRECT_MAPPING" \
+    --output "$REDIRECT_OUTPUT" \
+    --environment "$REDIRECT_ENVIRONMENT"
+  append_log "$STATUS_FILE" "redirect_smoke: host=${REDIRECT_HOST} mapping=${REDIRECT_MAPPING} output=${REDIRECT_OUTPUT}"
+  status_update "Redirect smoke completato (output=${REDIRECT_OUTPUT})"
+}
+
 append_log() {
   local log_file="$1"
   shift
@@ -240,6 +256,7 @@ transition_and_03B() {
   # Inserisci qui eventuali comandi di cleanup/redirect specifici del branch 03B.
   run_and_log "$LOG_DIR/${CURRENT_LOG_ID}.post03B.schema.log" npm run schema:lint
   run_and_log "$LOG_DIR/${CURRENT_LOG_ID}.post03B.style.log" node scripts/trait_style_check.js
+  run_redirect_smoke
   append_log "$LOG_DIR/03B.log" "smoke 02A post-merge completato"
   status_update "Transizione e 03B completati (cleanup/redirect + smoke 02A post-merge)"
 }
