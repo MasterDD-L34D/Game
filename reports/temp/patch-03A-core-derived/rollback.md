@@ -40,3 +40,4 @@
 - La procedura non tocca pack/incoming se non richiesto; per un rollback parziale limitarsi a `git checkout -- <file>`.
 - Verifica schema-only 2026-05-01: i log `schema_only_2026-05-01.log` e `schema_only_2026-05-01_gate.log` confermano che il rollback non è stato necessario; mantengono la stessa sequenza di 14 controlli / 3 avvisi pack.
 - Verifica schema-only 2026-05-02: i log `schema_only_2026-05-02.log` e `schema_only_2026-05-02_gate.log` (sha256 `805d6a88ae39f76fc1ad9dd9a7f26cbe26a91019c63c9bdf32aba74390cb59ec`) confermano coerenza con la baseline precedente; rollback non attivato.
+- Dry-run 2025-12-02: rehearsal senza estrarre archivi S3, usando solo `git checkout` sui file 03A indicati sopra per validare la procedura; manifest di riferimento riletti (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`).

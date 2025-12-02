@@ -11,6 +11,11 @@
 - **Validator richiesti**: rieseguire 02A schema-only su `patch/03A-core-derived` post-remediation prima di qualsiasi merge; registrare checksum/log in `reports/temp/patch-03A-core-derived/` e mirror 03B.
 - **Flusso 03B**: `patch/03B-incoming-cleanup` resta bloccato fino a esiti verdi 03A; rebase su 03A obbligatorio, nessun merge diretto su `main`.
 
+## Aggiornamento 2025-12-02
+- **Validator 02A (report-only)**: rieseguiti su `patch/03A-core-derived` (`2025-12-02T11:42Z`) con esiti **OK** — schema-only (10 controlli pack, 0 avvisi), trait audit (**jsonschema mancante**, schema skip) e trait style (0 suggerimenti su 251 file). Log canonici aggiornati in `reports/temp/patch-03A-core-derived/schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json` e copia puntuale in `reports/temp/patch-03A-core-derived/rerun-2025-12-02T114219Z/`.
+- **Manifest e dry-run restore**: riletti i manifest `reports/backups/2025-11-25_freeze/manifest.txt` e `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` per confermare percorsi/sha256 di core, derived e incoming; prova di ripristino (senza estrazione archivi S3) effettuata seguendo `rollback.md` con `git checkout` mirato ai file 03A come rehearsal.
+- **Mirroring 03B**: duplicati i log dello smoke 02A in `reports/temp/patch-03B-incoming-cleanup/2025-12-02/` e aggiornati i canonici di cartella 03B per supportare il rebase post-merge.
+
 ## Aggiornamento 2025-12-01
 - **Rerun 02A (report-only)**: eseguiti i tre validator su staging locale con log in `reports/temp/patch-03A-core-derived/rerun-2025-12-01/` (copie canoniche aggiornate in root cartella).
   - `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` → **OK** (10 controlli pack, 0 avvisi).

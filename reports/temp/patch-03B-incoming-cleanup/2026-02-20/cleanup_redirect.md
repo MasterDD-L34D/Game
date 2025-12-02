@@ -25,6 +25,12 @@
   2. Riesegui i validator smoke: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` (per dipendenze incoming ↔ core/derived) e lo smoke redirect documentato in `reports/redirects/redirect-smoke-staging.json`.
   3. Registra l’esito in `logs/agent_activity.md` e nel ticket collegato prima di riaprire la finestra di merge.
 
+## Aggiornamento 2025-12-02
+- Verifica manifest: riletti `reports/backups/2025-11-25_freeze/manifest.txt` e `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` come fonti primarie per core/derived/incoming; confermati i checksum dichiarati senza estrazioni dagli archivi.
+- Smoke 02A (report-only): log aggiornati in `reports/temp/patch-03B-incoming-cleanup/2025-12-02/` (schema-only: 10 controlli pack, 0 avvisi; trait audit: schema skip per jsonschema mancante; trait style: 0 suggerimenti su 251 file). Copie canoniche nella root di cartella 03B riallineate.
+- Dry-run restore: rehearsal senza estrarre archivi, replicando le istruzioni di `reports/temp/patch-03A-core-derived/rollback.md` per ripristinare eventuali redirect e core/derived correlati in staging.
+- Rebase: branch 03B riallineato allo stato di `patch/03A-core-derived` post-validator per l'apertura PR verso `main` senza delta non validati.
+
 ## Aggiornamento 2026-04-27
 - Verificati i manifest backup storici prima del cleanup: `reports/backups/2025-11-25_freeze/manifest.txt` e `incoming/archive_cold/backups/2025-11-25/manifest.sha256` (nessun drift rilevato).
 - Confermata la tabella redirect in `incoming/REDIRECTS.md` senza nuove righe o modifiche: rimane l’archiviazione in `incoming/archive_cold/**` per bundle repo, devkit e inventari storici.
