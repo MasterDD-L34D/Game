@@ -150,3 +150,223 @@ species:
       optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante]
       synergies: [coralli_sinaptici_fotofase]
     synergy_hints: []
+
+  - id: anguis_magnetica
+    display_name: Anguis Magnetica
+    estimated_weight: 9
+    weight_budget: 10
+    biome_affinity: acquatico_costiero
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - integumento_bipolare
+        - elettromagnete_biologico
+        - scivolamento_magnetico
+        - filtro_metallofago
+        - bozzolo_magnetico
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: chemnotela_toxica
+    display_name: Chemnotela Toxica
+    estimated_weight: 11
+    weight_budget: 12
+    biome_affinity: terrestre_forestale
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - zanne_idracida
+        - seta_conduttiva_elettrica
+        - articolazioni_a_leva_idraulica
+        - filtrazione_osmotica
+        - occhi_analizzatori_di_tensione
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: elastovaranus_hydrus
+    display_name: Elastovaranus Hydrus
+    estimated_weight: 12
+    weight_budget: 12
+    biome_affinity: terrestre_pianeggiante
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - rostro_emostatico_litico
+        - scheletro_idraulico_a_pistoni
+        - ipertrofia_muscolare_massiva
+        - ectotermia_dinamica
+        - organi_sismici_cutanei
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: gulogluteus_scutiger
+    display_name: Gulogluteus Scutiger
+    estimated_weight: 10
+    weight_budget: 10
+    biome_affinity: terrestre_roccioso
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - pelage_idrorepellente_avanzato
+        - scudo_gluteale_cheratinizzato
+        - articolazioni_multiassiali
+        - coda_prensile_muscolare
+        - rostro_linguale_prensile
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: perfusuas_pedes
+    display_name: Perfusuas Pedes
+    estimated_weight: 13
+    weight_budget: 13
+    biome_affinity: sotterraneo
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - ermafroditismo_cronologico
+        - locomozione_miriapode_ibrida
+        - estroflessione_gastrica_acida
+        - artiglio_cinetico_a_urto
+        - sistemi_chimio_sonici
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: proteus_plasma
+    display_name: Proteus Plasma
+    estimated_weight: 8
+    weight_budget: 8
+    biome_affinity: acquatico_dolce
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - membrana_plastica_continua
+        - flusso_ameboide_controllato
+        - fagocitosi_assorbente
+        - moltiplicazione_per_fusione
+        - cisti_di_ibernazione_minerale
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: rupicapra_sensoria
+    display_name: Rupicapra Sensoria
+    estimated_weight: 16
+    weight_budget: 16
+    biome_affinity: terrestre_montano
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - corna_psico_conduttive
+        - aura_di_dispersione_mentale
+        - metabolismo_di_condivisione_energetica
+        - unghie_a_micro_adesione
+        - coscienza_d_alveare_diffusa
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: soniptera_resonans
+    display_name: Soniptera Resonans
+    estimated_weight: 7
+    weight_budget: 8
+    biome_affinity: terrestre_forestale
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - ali_fono_risonanti
+        - cannone_sonico_a_raggio
+        - campo_di_interferenza_acustica
+        - cervello_a_bassa_latenza
+        - occhi_cinetici
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: terracetus_ambulator
+    display_name: Terracetus Ambulator
+    estimated_weight: 14
+    weight_budget: 14
+    biome_affinity: terrestre_pianeggiante
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - scheletro_pneumatico_a_maglie
+        - cinghia_iper_ciliare
+        - rete_filtro_polmonare
+        - canto_infrasonico_tattico
+        - siero_anti_gelo_naturale
+      optional: []
+      synergies: []
+    synergy_hints: []
+
+  - id: umbra_alaris
+    display_name: Umbra Alaris
+    estimated_weight: 6
+    weight_budget: 7
+    biome_affinity: terrestre_umido
+    default_parts:
+      locomotion: burrower
+      metabolism: sand_digest
+      offense: [sand_claws]
+      defense: [heat_scales]
+      senses: [echolocation]
+    trait_plan:
+      core:
+        - vello_di_assorbimento_totale
+        - visione_multi_spettrale_amplificata
+        - motore_biologico_silenzioso
+        - artigli_ipo_termici
+        - comunicazione_fotonica_coda_coda
+      optional: []
+      synergies: []
+    synergy_hints: []
