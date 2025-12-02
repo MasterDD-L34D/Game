@@ -132,7 +132,8 @@
       "slot": [],
       "sinergie": [
         "ali_fono_risonanti",
-        "spore_psichiche_silenziate"
+        "spore_psichiche_silenziate",
+        "ali_solari_fotoni"
       ],
       "conflitti": [],
       "mutazione_indotta": "i18n:traits.cervello_a_bassa_latenza.mutazione_indotta",
@@ -9428,7 +9429,8 @@
         "visione_multi_spettrale_amplificata",
         "echi_risonanti",
         "coda_balanciere",
-        "midollo_antivibrazione"
+        "midollo_antivibrazione",
+        "ali_solari_fotoni"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -12129,7 +12131,8 @@
       ],
       "sinergie": [
         "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
+        "struttura_elastica_amorfa",
+        "ali_solari_fotoni"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],

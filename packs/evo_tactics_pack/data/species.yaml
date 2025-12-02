@@ -70,6 +70,7 @@ species:
         - scheletro_idro_regolante
         - sensori_geomagnetici
       optional:
+        - ali_solari_fotoni
         - coda_frusta_cinetica
         - sacche_galleggianti_ascensoriali
         - criostasi_adattiva

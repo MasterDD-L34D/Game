@@ -128,3 +128,8 @@ forms:
     B: [trait_T1:spore_psichiche_silenziate, cap_pt, PE]
     C: [trait_T1:nucleo_ovomotore_rotante, starter_bioma, PE]
     bias_d12: {A: "1-4", B: "5-8", C: "9-12"}
+  COPERTURA_SOLARE:
+    A: [trait_T2:ali_solari_fotoni, guardia_situazionale, PE]
+    B: [job_ability:invoker/sincronia, cap_pt, PE]
+    C: [trait_T2:ali_solari_fotoni, starter_bioma, PE]
+    bias_d12: {A: "1-4", B: "5-8", C: "9-12"}

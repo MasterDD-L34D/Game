@@ -5,6 +5,12 @@
 - Baseline precedente: snapshot freeze 2025-11-25T2028Z (`reports/backups/2025-11-25T2028Z_masterdd_freeze/*` per core/derived/incoming).
 - Validator 02A rieseguiti in modalità report-only (schema-only, trait audit, trait style).
 
+## Aggiornamento 2025-12-02 (post-fix ali_solari_fotoni)
+- **Sinergie reciprocate + slot pack**: il tratto `ali_solari_fotoni` ora ha sinergie reciproche con `cervello_a_bassa_latenza`, `occhi_cristallo_modulare` e `antenne_tesla`; aggiunta la forma pack `COPERTURA_SOLARE` in `data/packs.yaml` (slot A e C) per eliminare i warning di slot non referenziati.
+- **Validator 02A (report-only)**: eseguiti su `patch/03A-core-derived` con log canonici aggiornati in `reports/temp/patch-03A-core-derived/schema_only.log`, `trait_audit.log`, `trait_style.log`, `trait_style.json` e copia in `reports/temp/patch-03A-core-derived/rerun-2025-12-02T125400Z/` (schema-only 10 controlli, 0 avvisi; trait audit **OK** con skip jsonschema; trait style 0 suggerimenti). Mirroring per 03B in `reports/temp/patch-03B-incoming-cleanup/2025-12-02T125400Z/`.
+- **Triade Frattura Abissale**: `bash scripts/qa/run_frattura_abissale_pipeline.sh` → PASS (schema/coerenza, trait style, evaluate e sync dry-run) con log `reports/temp/patch-03A-core-derived/frattura_abissale_pipeline_2025-12-02T125400Z.log` (copia in `reports/temp/patch-03A-core-derived/rerun-2025-12-02T125400Z/` e mirror 03B).
+- **Via libera Master DD**: confermata approvazione per chiudere la remediation 03A e procedere al rebase 03B dopo merge.
+
 ## Aggiornamento 2025-12-03
 - **Verifica manifest con Master DD**: confermata la copertura di `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `reports/backups/2025-11-25T1724Z_masterdd_freeze/manifest.txt`, `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt` e `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` per rollback 03A/03B.
 - **Remediation 03A autorizzata**: via libera Master DD per applicare le remediation su core/derived partendo dai manifest sopra; mantenere 03B fermo e pianificare rebase dopo i validator 03A.
