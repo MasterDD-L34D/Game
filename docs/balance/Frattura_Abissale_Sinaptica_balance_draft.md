@@ -13,39 +13,49 @@ description: 'Output balancer: numeri proposti per le 4 specie, forme dinamiche 
 6. Quantificare i trait temporanei da corrente (durata/intensità/stack) e bloccare interazioni vietate.
 7. Fornire note per Step 7 su validazioni cross-dataset (schemi, alias, coerenza tra pool e trait_plan).
 
+## Assunzioni di bilanciamento
+
+- Referenza di potenza: role_templates tier 2–5 del TV/d20, con CD controllo 14–17 e danni single-target per boss 2d12 baseline.
+- Economy: 1 AP per switch forma o attivazioni di stato; stress scala come metrica di rischio (0–1) con breakpoints 0.25/0.5/0.75.
+- Biomi: buff luminosi e correnti sono trattati come temp_trait; stacking limitato per prevenire power creep e loop di copia.
+
 ## Parametri specie (strict-mode, non scrivere nei dataset)
 
 ### Polpo Araldo Sinaptico (support, tier 3 keystone)
 
-- **HP / Armor / Resist:** 90–110 HP; Armor 4–6 (biologica conduttiva); Resist: elettrico +20%, psionico +10%, fisico 0.
-- **Attacco/Abilità:** attacco base 1d8+3 elettrico (melee tentacolare); abilità di buff area scaling su WIS/CON con coeff 0.6; CD effetti bioluminescenti 14–15.
-- **Slot (core/support/temp):** 3 core, 3 support, 1 temp (dedicato a scintilla_sinaptica o canto_risonante).
-- **Pesatura difficoltà (tier):** Tier 3 (keystone) allineato al pool fotofase_synaptic_ridge.
-- **Effetti numerici dal bioma:** buff luminosi stackano max 2 volte; correnti concedono 1 temp_trait attivo; glow advantage dura 2 turni, cooldown 3.
+| metrica                | valore base                                                                                 | range PT (sicurezza) | note                                             |
+| ---------------------- | ------------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------------ |
+| HP / Armor / Resist    | 100 HP / Armor 5 / Resist: elettro +20%, psionico +10%, fisico 0                            | 95–110 HP; Armor 4–6 | margine per build più tanky con parti conduttive |
+| Attacco base / abilità | 1d8+3 elettrico; abilità AoE coeff 0.6 su WIS/CON; CD 14                                    | CD 14–15             | coeff 0.6 mantiene utility senza burst           |
+| Slot core/support/temp | 3 / 3 / 1 (slot temp riservato a scintilla_sinaptica o canto_risonante)                     | invariato            |                                                  |
+| Impatto bioma          | buff luminosi stack ≤2; glow advantage dura 2 turni (CD 3); 1 temp_trait da correnti attivo | range 1–2 stack      | evita cumulazioni oltre +15% efficacia media     |
 
 ### Sciame di Larve Neurali (swarm, tier 3 threat)
 
-- **HP / Armor / Resist:** 45–60 HP per unità cluster; Armor 2–3; Resist: mentale +15%, elettrico +10%, fisico -10% (fragile), fuoco -15%.
-- **Attacco/Abilità:** attacchi rapidi 1d6+2 (triplo strike a MoS alto); abilità furto buff CD 15 con coeff 0.5 su INT; applica 1 stack di stress 0.05 su successo.
-- **Slot (core/support/temp):** 4 core, 2 support, 1 temp (riverbero_memetico o vortice_nera_flash).
-- **Pesatura difficoltà (tier):** Tier 3 threat in linea con crepuscolo_synapse_bloom.
-- **Effetti numerici dal bioma:** può sequestrare 1 buff/cluster attivo (max 2 totali); duplicazione ridotta al 50%; durata buff rubato 2 turni; cooldown furto 3 turni; se sovraccarico (≥3 stack), subisce 0.05 stress/turno.
+| metrica                | valore base                                                                                                       | range PT (sicurezza)                    | note                               |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ---------------------------------- |
+| HP / Armor / Resist    | 55 HP per cluster; Armor 2; Resist: mentale +15%, elettrico +10%, fisico -10%, fuoco -15%                         | 50–60 HP; Armor 2–3                     | cluster fragile, vulnerabile a AoE |
+| Attacco base / abilità | triplo strike 1d6+2; furto buff CD 15 coeff 0.5 su INT; applica 1 stack stress 0.05 on hit                        | CD 15–16; stress 0.04–0.06              | stress limita spam di buff rubati  |
+| Slot core/support/temp | 4 / 2 / 1 (riverbero_memetico o vortice_nera_flash)                                                               | invariato                               |                                    |
+| Impatto bioma          | sequestra 1 buff/cluster (max 2 totali); duplicazione efficacia 50%; durata buff rubato 2 turni; cooldown furto 3 | stress self-tick 0.05/turno se ≥3 stack | evita runaway stacking             |
 
 ### Leviatano Risonante (boss, tier 5 apex)
 
-- **HP / Armor / Resist:** 280–320 HP; Armor 10–12 (placche pressioni); Resist: fisico +20%, elettrico +30%, gravità +30%, psionico +15%.
-- **Attacco/Abilità:** attacchi principali 2d12+6 (danno elettrico/gravitazionale); abilità d’onda con coeff 0.75 su CON/INT; aura risonante impone SV CD 17 (stress 0.08) ogni 2 turni.
-- **Slot (core/support/temp):** 4 core, 4 support, 2 temp (pelle_piezo_satura + canto_risonante/vortice_nera_flash in base alla forma).
-- **Pesatura difficoltà (tier):** Tier 5 apex coerente con frattura_void_choir.
-- **Effetti numerici dal bioma:** ottiene +10% danno elettrico e +1 DR vs shear in Frattura Nera; corrente attiva permette 1 switch forma senza costo (cooldown 4 turni minimo).
+| metrica                | valore base                                                                                                       | range PT (sicurezza)       | note                                    |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------- | --------------------------------------- |
+| HP / Armor / Resist    | 300 HP; Armor 11; Resist: fisico +20%, elettrico +30%, gravità +30%, psionico +15%                                | 290–320 HP; Armor 10–12    | regolabile in base al party level       |
+| Attacco base / abilità | 2d12+6 elettrico/gravitazionale; abilità d’onda coeff 0.75 su CON/INT; aura SV CD 17 (stress 0.08) ogni 2 turni   | CD 17–18; stress 0.07–0.09 | 2d12+6 = 13–30 dmg, coerente con apex   |
+| Slot core/support/temp | 4 / 4 / 2 (pelle_piezo_satura + canto_risonante/vortice_nera_flash)                                               | invariato                  |                                         |
+| Impatto bioma          | +10% danno elettrico e +1 DR vs shear in Frattura Nera; 1 switch forma free se corrente attiva (cooldown 4 turni) | +8–12% danno               | switch free limitato da cooldown minimo |
 
 ### Simbionte Corallino Riflesso (ibrido, tier 3–4 flex)
 
-- **HP / Armor / Resist:** 95–115 HP; Armor 5–7; Resist: elettrico +15%, psionico +15%, fisico +5%, gravità 0.
-- **Attacco/Abilità:** attacco medio 1d10+3 (taglio/ionico); abilità copia trait con CD 15 e coeff 0.55 su INT; copia ridotta al 50–75% efficacia per 2 turni.
-- **Slot (core/support/temp):** 3 core, 3 support, 1 temp (scintilla_sinaptica o riverbero_memetico per copia rapida).
-- **Pesatura difficoltà (tier):** Tier 3.5 (tra keystone e threat) per gestire copia e supporto.
-- **Effetti numerici dal bioma:** può mantenere 1 trait copiato alla volta; ricopiazione richiede cooldown 3 turni; se copia un temp_trait, l’effetto è limitato al 50% e dura max 1 turno.
+| metrica                | valore base                                                                                                      | range PT (sicurezza)           | note                                       |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------ | ------------------------------------------ |
+| HP / Armor / Resist    | 105 HP; Armor 6; Resist: elettrico +15%, psionico +15%, fisico +5%, gravità 0                                    | 95–115 HP; Armor 5–7           | flessibile tra frontline leggera e support |
+| Attacco base / abilità | 1d10+3 taglio/ionico; copia trait CD 15 coeff 0.55 su INT; efficacia copia 60%                                   | CD 15–16; efficacia 50–75%     | baseline 60% evita super-scaling           |
+| Slot core/support/temp | 3 / 3 / 1 (scintilla_sinaptica o riverbero_memetico)                                                             | invariato                      |                                            |
+| Impatto bioma          | mantiene 1 trait copiato alla volta; ricopia cooldown 3 turni; se copia temp_trait efficacia 50% per 1 turno max | efficacia 45–60% su temp_trait | previene abusi di copia catena             |
 
 ## Leviatano Risonante – Forma variabile
 
@@ -71,17 +81,17 @@ description: 'Output balancer: numeri proposti per le 4 specie, forme dinamiche 
 
 ## Parametri numerici dei trait temporanei (correnti)
 
-| trait_temp          | durata  | intensità (effetto)                                   | limite stack | interazioni proibite                                                                             |
-| ------------------- | ------- | ----------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------ |
-| scintilla_sinaptica | 2 turni | +1 priorità reazioni, +5% crit su abilità elettriche  | 2            | non cumulabile con boost iniziativa da altre fonti; niente duplicazione da riverbero_memetico    |
-| riverbero_memetico  | 1 turno | duplica prossimo buff positivo ma -10% difesa mentale | 1            | non duplica buff già duplicati; vietato su canto_risonante e pelle_piezo_satura                  |
-| pelle_piezo_satura  | 3 turni | -15% danni fisici, 5 danni elettrici da contatto      | 1            | non stacka con altre riduzioni fisiche >10%; se attivo con Armonica riduce durata a 2 turni      |
-| canto_risonante     | 2 turni | vantaggio concentrazione, -0.02 stress incoming       | 1            | non cumulabile con altri effetti di vantaggio concentrazione; riverbero_memetico non applicabile |
-| vortice_nera_flash  | 1 turno | teletrasporto 1 cella, azzera minaccia, +5 stress     | 1            | no loop di teletrasporto; non può essere copiato più volte dal Simbionte nel medesimo incontro   |
+| trait_temp          | durata  | intensità (effetto)                                                              | limite stack | interazioni proibite                                                                             |
+| ------------------- | ------- | -------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------ |
+| scintilla_sinaptica | 2 turni | +1 priorità reazioni, +5% crit su abilità elettriche                             | 2            | non cumulabile con boost iniziativa; no duplicazione da riverbero_memetico                       |
+| riverbero_memetico  | 1 turno | duplica prossimo buff positivo (cap 120% del valore base) ma -10% difesa mentale | 1            | non duplica buff già duplicati; vietato su canto_risonante e pelle_piezo_satura                  |
+| pelle_piezo_satura  | 3 turni | -15% danni fisici, 5 danni elettrici da contatto                                 | 1            | no stack con altre riduzioni fisiche >10%; se attivo con Armonica durata 2 turni                 |
+| canto_risonante     | 2 turni | vantaggio concentrazione, -0.02 stress incoming                                  | 1            | non cumulabile con altri effetti di vantaggio concentrazione; riverbero_memetico non applicabile |
+| vortice_nera_flash  | 1 turno | teletrasporto 1 cella, azzera minaccia, +5 stress                                | 1            | no loop di teletrasporto; il Simbionte non può copiarlo più di 1 volta/encounter                 |
 
 ## Self-critique
 
-- **Coerenza con sistema D20 TV:** i range seguono tier e CD tipici (14–17 per controllo, danni 1–2d12 per boss), ma vanno validati con game_functions e PT economy.
-- **Rischi di power creep:** stacking di buff luminosi + concentrazione può alzare troppo la difesa del gruppo; limitati stack e durata, ma serve ribilanciare dopo playtest.
-- **Vulnerabilità numeriche:** Sciame fragile a danni fisici/ustione; Leviatano può risultare eccessivo in Shear se non si applicano i costi di stress; Simbionte potrebbe abusare di copie se i cooldown non sono rigidi.
+- **Coerenza con sistema D20 TV:** valori ancorati a tier e CD 14–18; danni boss 2d12+6 coerenti con apex, ma da validare con game_functions e PT economy.
+- **Rischi di power creep:** stacking luminoso + concentrazione può alzare troppo la difesa; limite stack=2 e cap 120% su duplicazioni mitigano ma va retestato.
+- **Vulnerabilità numeriche:** Sciame resta fragile a AoE fisiche/ustione; Leviatano rischia burst in Shear se stress non scala; Simbionte può abusare copia se cooldown ignorato.
 - **Note per Step 7:** verificare compatibilità con data/core/game_functions.yaml (stress, DR, CD); allineare tier con role_templates dei pool; aggiungere controlli su glossary/index per evitare trait_temp duplicati.
