@@ -83,7 +83,7 @@ species:
         rationale: >-
           Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline
           in cui si rifugia il branco durante le tempeste desertiche.
-  - id: polpo-araldo-sinaptico
+  - id: polpo_araldo_sinaptico
     display_name: Polpo Araldo Sinaptico
     estimated_weight: 14
     weight_budget: 14
@@ -97,7 +97,7 @@ species:
       role: keystone
       notes: "Buff area luminescenti, riduzione glare; limitare stacking advantage a 2."
 
-  - id: sciame-larve-neurali
+  - id: sciame_larve_neurali
     display_name: Sciame di Larve Neurali
     estimated_weight: 9
     weight_budget: 10
@@ -111,7 +111,7 @@ species:
       role: threat
       notes: "Swarm memetico che ruba buff; cap 1 buff/cluster, durata 2 turni."
 
-  - id: leviatano-risonante
+  - id: leviatano_risonante
     display_name: Leviatano Risonante
     estimated_weight: 28
     weight_budget: 30
@@ -125,7 +125,7 @@ species:
       role: apex
       notes: "Forma armonica/shear; switch gratuito 1/encounter da corrente, costo stress 0.05 per switch manuale."
 
-  - id: simbionte-corallino-riflesso
+  - id: simbionte_corallino_riflesso
     display_name: Simbionte Corallino Riflesso
     estimated_weight: 15
     weight_budget: 15

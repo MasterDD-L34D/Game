@@ -25,10 +25,10 @@ POOL_IDS = [
     "frattura_void_choir",
 ]
 SPECIES_IDS = [
-    "polpo-araldo-sinaptico",
-    "sciame-larve-neurali",
-    "leviatano-risonante",
-    "simbionte-corallino-riflesso",
+    "polpo_araldo_sinaptico",
+    "sciame_larve_neurali",
+    "leviatano_risonante",
+    "simbionte_corallino_riflesso",
 ]
 TEMP_TRAITS = [
     "scintilla_sinaptica",

@@ -281,44 +281,44 @@ description: 'Blocchi di patch testuali derivati dalla pipeline SPECIE+BIOMI; no
 ```diff
 @@
 +"coralli_sinaptici_fotofase": [
-+  { "roles": ["core"], "species_id": "polpo-araldo-sinaptico", "weight": 3 }
++  { "roles": ["core"], "species_id": "polpo_araldo_sinaptico", "weight": 3 }
 +],
 +"impulsi_bioluminescenti": [
-+  { "roles": ["core"], "species_id": "polpo-araldo-sinaptico", "weight": 3 },
-+  { "roles": ["core"], "species_id": "leviatano-risonante", "weight": 2 }
++  { "roles": ["core"], "species_id": "polpo_araldo_sinaptico", "weight": 3 },
++  { "roles": ["core"], "species_id": "leviatano_risonante", "weight": 2 }
 +],
 +"nebbia_mnesica": [
-+  { "roles": ["core"], "species_id": "sciame-larve-neurali", "weight": 3 }
++  { "roles": ["core"], "species_id": "sciame_larve_neurali", "weight": 3 }
 +],
 +"lobi_risonanti_crepuscolo": [
-+  { "roles": ["core"], "species_id": "polpo-araldo-sinaptico", "weight": 1 },
-+  { "roles": ["core"], "species_id": "leviatano-risonante", "weight": 1 },
-+  { "roles": ["core"], "species_id": "simbionte-corallino-riflesso", "weight": 2 }
++  { "roles": ["core"], "species_id": "polpo_araldo_sinaptico", "weight": 1 },
++  { "roles": ["core"], "species_id": "leviatano_risonante", "weight": 1 },
++  { "roles": ["core"], "species_id": "simbionte_corallino_riflesso", "weight": 2 }
 +],
 +"camere_risonanza_abyssal": [
-+  { "roles": ["core"], "species_id": "leviatano-risonante", "weight": 4 }
++  { "roles": ["core"], "species_id": "leviatano_risonante", "weight": 4 }
 +],
 +"emettitori_voidsong": [
-+  { "roles": ["core"], "species_id": "leviatano-risonante", "weight": 3 }
++  { "roles": ["core"], "species_id": "leviatano_risonante", "weight": 3 }
 +],
 +"scintilla_sinaptica": [
-+  { "roles": ["temp"], "species_id": "polpo-araldo-sinaptico", "weight": 2 },
-+  { "roles": ["temp"], "species_id": "simbionte-corallino-riflesso", "weight": 1 }
++  { "roles": ["temp"], "species_id": "polpo_araldo_sinaptico", "weight": 2 },
++  { "roles": ["temp"], "species_id": "simbionte_corallino_riflesso", "weight": 1 }
 +],
 +"canto_risonante": [
-+  { "roles": ["temp"], "species_id": "polpo-araldo-sinaptico", "weight": 1 },
-+  { "roles": ["temp"], "species_id": "leviatano-risonante", "weight": 2 }
++  { "roles": ["temp"], "species_id": "polpo_araldo_sinaptico", "weight": 1 },
++  { "roles": ["temp"], "species_id": "leviatano_risonante", "weight": 2 }
 +],
 +"riverbero_memetico": [
-+  { "roles": ["temp"], "species_id": "sciame-larve-neurali", "weight": 2 },
-+  { "roles": ["temp"], "species_id": "simbionte-corallino-riflesso", "weight": 1 }
++  { "roles": ["temp"], "species_id": "sciame_larve_neurali", "weight": 2 },
++  { "roles": ["temp"], "species_id": "simbionte_corallino_riflesso", "weight": 1 }
 +],
 +"vortice_nera_flash": [
-+  { "roles": ["temp"], "species_id": "sciame-larve-neurali", "weight": 1 },
-+  { "roles": ["temp"], "species_id": "leviatano-risonante", "weight": 1 }
++  { "roles": ["temp"], "species_id": "sciame_larve_neurali", "weight": 1 },
++  { "roles": ["temp"], "species_id": "leviatano_risonante", "weight": 1 }
 +],
 +"pelle_piezo_satura": [
-+  { "roles": ["temp"], "species_id": "leviatano-risonante", "weight": 2 }
++  { "roles": ["temp"], "species_id": "leviatano_risonante", "weight": 2 }
 +]
 ```
 
@@ -327,7 +327,7 @@ description: 'Blocchi di patch testuali derivati dalla pipeline SPECIE+BIOMI; no
 @@ species:
    - id: dune_stalker
      ...
-+  - id: polpo-araldo-sinaptico
++  - id: polpo_araldo_sinaptico
 +    display_name: Polpo Araldo Sinaptico
 +    estimated_weight: 14
 +    weight_budget: 14
@@ -341,7 +341,7 @@ description: 'Blocchi di patch testuali derivati dalla pipeline SPECIE+BIOMI; no
 +      role: keystone
 +      notes: "Buff area luminescenti, riduzione glare; limitare stacking advantage a 2."
 +
-+  - id: sciame-larve-neurali
++  - id: sciame_larve_neurali
 +    display_name: Sciame di Larve Neurali
 +    estimated_weight: 9
 +    weight_budget: 10
@@ -355,7 +355,7 @@ description: 'Blocchi di patch testuali derivati dalla pipeline SPECIE+BIOMI; no
 +      role: threat
 +      notes: "Swarm memetico che ruba buff; cap 1 buff/cluster, durata 2 turni."
 +
-+  - id: leviatano-risonante
++  - id: leviatano_risonante
 +    display_name: Leviatano Risonante
 +    estimated_weight: 28
 +    weight_budget: 30
@@ -369,7 +369,7 @@ description: 'Blocchi di patch testuali derivati dalla pipeline SPECIE+BIOMI; no
 +      role: apex
 +      notes: "Forma armonica/shear; switch gratuito 1/encounter da corrente, costo stress 0.05 per switch manuale."
 +
-+  - id: simbionte-corallino-riflesso
++  - id: simbionte_corallino_riflesso
 +    display_name: Simbionte Corallino Riflesso
 +    estimated_weight: 15
 +    weight_budget: 15
