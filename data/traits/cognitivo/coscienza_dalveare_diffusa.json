@@ -1,0 +1,62 @@
+{
+  "id": "coscienza_dalveare_diffusa",
+  "label": "i18n:traits.coscienza_d_alveare_diffusa.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Cognitivo/Sociale",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "corna_psico_conduttive"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.coscienza_d_alveare_diffusa.mutazione_indotta",
+  "uso_funzione": "i18n:traits.coscienza_d_alveare_diffusa.uso_funzione",
+  "spinta_selettiva": "i18n:traits.coscienza_d_alveare_diffusa.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "tempo_apprendimento",
+      "value": 10,
+      "unit": "s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Risoluzione labirinto condivisa",
+    "scene_prompt": "Task cooperativo con marker cranici"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": "La rete alveare si ancora a tane e corridoi terrestri, mantenendo contatto fisico e ottico fra nodi."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "slot_profile": {
+    "core": "cognitivo",
+    "complementare": "sociale"
+  },
+  "usage_tags": [
+    "controller"
+  ],
+  "debolezza": "i18n:traits.coscienza_d_alveare_diffusa.debolezza",
+  "aliases": [
+    "coscienza_d_alveare_diffusa"
+  ]
+}

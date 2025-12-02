@@ -1516,6 +1516,18 @@
       "label_en": "Black Vortex Flash",
       "description_it": "Implosione luminosa seguita da vuoto e teletrasporto breve (temp).",
       "description_en": "Luminous implosion followed by void and short teleport (temp)."
+    },
+    "coscienza_dalveare_diffusa": {
+      "label_it": "Coscienza d’Alveare Diffusa",
+      "label_en": "Diffuse Hive Consciousness",
+      "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
+      "description_en": "Temporary inter-individual synaptic net merging decisions and short-term memory."
+    },
+    "traits_aggregate": {
+      "label_it": "Aggregato tratti Evo",
+      "label_en": "Evo Traits Aggregate",
+      "description_it": "Dump normalizzato dei trait Evo (TR-*) per allineare indice legacy e QA.",
+      "description_en": "Normalized Evo trait dump (TR-*) used to align legacy index and QA."
     }
   }
 }
