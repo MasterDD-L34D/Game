@@ -35,6 +35,14 @@
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
     },
+    "ali_solari_fotoni": {
+      "debolezza": "Prestazioni ridotte in ombra prolungata o con polveri che schermano i pannelli.",
+      "description": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza.",
+      "label": "Ali Solari Fotoniche",
+      "mutazione_indotta": "innesta piumaggi a strati fotonici con condotti di accumulo irradiativo.",
+      "spinta_selettiva": "Sfruttare l'irraggiamento costante per copertura e manovre a lungo raggio.",
+      "uso_funzione": "Converte luce in spinta e genera scudi radianti per la squadra."
+    },
     "antenne_dustsense": {
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "description": "Ricettori stratificati che stabilizzano l’assorbimento multi-fonte in deserti ionici.",

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2025-12-02T02:01:17Z",
+  "updated_at": "2026-07-24T12:00:00Z",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -28,6 +28,12 @@
       "label_en": "Sonic Membrane Wings",
       "description_it": "Piastre vibranti che dissipano energia e attenuano impatti corrosivi.",
       "description_en": "Vibrating plates that dissipate energy and blunt corrosive impacts."
+    },
+    "ali_solari_fotoni": {
+      "label_it": "Ali Solari Fotoniche",
+      "label_en": "Solar Photon Wings",
+      "description_it": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza.",
+      "description_en": "Photovoltaic feathers that convert light into thrust and radiant shielding."
     },
     "antenne_dustsense": {
       "label_it": "Antenne Dustsense",
