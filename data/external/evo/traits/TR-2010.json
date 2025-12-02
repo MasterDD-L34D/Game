@@ -1,0 +1,46 @@
+{
+  "trait_code": "TR-2010",
+  "id": "antenne_dustsense",
+  "label": "Antenne Dustsense",
+  "famiglia_tipologia": "Digestivo/Metabolico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "tier": "T1",
+  "slot": [],
+  "sinergie": [
+    "filamenti_digestivi_compattanti",
+    "ventriglio_gastroliti"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "pianura_salina_iperarida"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Antenne Dustsense ottimizza le operazioni metabolico nelle condizioni di pianura salina iperarida.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "mutazione_indotta": "Ricettori stratificati che filtrano polveri ioniche.",
+  "uso_funzione": "Stabilizzare assorbimento multi-fonte in deserti ionici.",
+  "spinta_selettiva": "Nutrizione efficiente in pianure saline iperaride.",
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Basso",
+    "sustained": "Basso"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": []
+  },
+  "version": "2.0.1",
+  "versioning": {
+    "created": "2026-08-22",
+    "updated": "2026-08-22",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

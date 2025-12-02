@@ -49,6 +49,11 @@ external_evo,coscienza_dalveare_diffusa,TR-2002,Coscienza d’Alveare Diffusa,T4
 external_evo,aura_di_dispersione_mentale,TR-2003,Aura di Dispersione Mentale,T3,0,,corna_psico_conduttive,terrestre
 external_evo,metabolismo_di_condivisione_energetica,TR-2004,Metabolismo di Condivisione Energetica,T3,0,,corna_psico_conduttive,terrestre
 external_evo,unghie_a_micro_adesione,TR-2005,Unghie a Micro-Adesione,T2,0,,corna_psico_conduttive,terrestre
+external_evo,ali_fulminee,TR-2006,Ali Fulminee,T1,0,,focus_frazionato;sinapsi_coraline_polifoniche,stratosfera_tempestosa
+external_evo,ali_ioniche,TR-2007,Ali Ioniche,T1,0,,coda_frusta_cinetica;zampe_a_molla,canopia_ionica
+external_evo,ali_membrana_sonica,TR-2008,Ali Membrana Sonica,T1,0,,carapace_fase_variabile;mimetismo_cromatico_passivo,caverna_risonante
+external_evo,ali_solari_fotoni,TR-2009,Ali Solari Fotoni,T2,0,,antenne_tesla;cervello_a_bassa_latenza;occhi_cristallo_modulare,terrestre
+external_evo,antenne_dustsense,TR-2010,Antenne Dustsense,T1,0,,filamenti_digestivi_compattanti;ventriglio_gastroliti,pianura_salina_iperarida
 external_evo,traits_aggregate,traits_aggregate,,,0,,,
 legacy_index,fagocitosi_assorbente,,i18n:traits.fagocitosi_assorbente.label,T3,0,coverage_q4_2025,cisti_di_ibernazione_minerale;membrana_plastica_continua,terrestre
 legacy_index,filtro_metallofago,,i18n:traits.filtro_metallofago.label,T2,0,coverage_q4_2025,bozzolo_magnetico;elettromagnete_biologico,terrestre

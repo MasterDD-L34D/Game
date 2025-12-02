@@ -1,0 +1,46 @@
+{
+  "trait_code": "TR-2007",
+  "id": "ali_ioniche",
+  "label": "Ali Ioniche",
+  "famiglia_tipologia": "Locomotorio/Mobilità",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "tier": "T1",
+  "slot": [],
+  "sinergie": [
+    "coda_frusta_cinetica",
+    "zampe_a_molla"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_ionica"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Ali Ioniche ottimizza le operazioni locomotorio nelle condizioni di canopia ionica.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "mutazione_indotta": "Membrane propulsive che rilasciano micro-scariche direzionali.",
+  "uso_funzione": "Imprimere scatti controllati e stabilità in canopie ioniche.",
+  "spinta_selettiva": "Mobilità rapida in correnti elettrostatiche instabili.",
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": []
+  },
+  "version": "2.0.1",
+  "versioning": {
+    "created": "2026-08-22",
+    "updated": "2026-08-22",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

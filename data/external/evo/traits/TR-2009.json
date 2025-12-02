@@ -1,0 +1,49 @@
+{
+  "trait_code": "TR-2009",
+  "id": "ali_solari_fotoni",
+  "label": "Ali Solari Fotoni",
+  "famiglia_tipologia": "Locomotivo/Aereo",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T2",
+  "slot": [
+    "A",
+    "C"
+  ],
+  "sinergie": [
+    "cervello_a_bassa_latenza",
+    "occhi_cristallo_modulare",
+    "antenne_tesla"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "notes": "Richiede esposizione solare costante per massimizzare spinta e schermature.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "mutazione_indotta": "Piume fotovoltaiche con rete di accumulo radiante.",
+  "uso_funzione": "Convertire luce in spinta e in schermature riflettenti.",
+  "spinta_selettiva": "Volo prolungato e protezione in ambienti ad alta radianza.",
+  "cost_profile": {
+    "rest": "Medio",
+    "burst": "Medio",
+    "sustained": "Medio"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": []
+  },
+  "version": "2.0.1",
+  "versioning": {
+    "created": "2026-08-22",
+    "updated": "2026-08-22",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

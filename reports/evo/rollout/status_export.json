@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-02T15:16:28+00:00",
+  "generated_at": "2025-12-02T18:22:54+00:00",
   "overall_status": "at-risk",
   "workflow_run": null,
   "epics": [
@@ -28,16 +28,16 @@
     {
       "id": "ROL-05",
       "status": "at-risk",
-      "progress": 20,
+      "progress": 22,
       "metric_label": "Trait missing_in_external",
-      "open_items": 203,
+      "open_items": 198,
       "total_items": 254,
       "samples": [
-        "ali_fulminee",
-        "ali_ioniche",
-        "ali_membrana_sonica",
-        "ali_solari_fotoni",
-        "antenne_dustsense"
+        "antenne_eco_turbina",
+        "antenne_flusso_mareale",
+        "antenne_microonde_cavernose",
+        "antenne_plasmatiche_tempesta",
+        "antenne_reagenti"
       ]
     },
     {

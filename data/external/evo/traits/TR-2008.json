@@ -1,0 +1,46 @@
+{
+  "trait_code": "TR-2008",
+  "id": "ali_membrana_sonica",
+  "label": "Ali Membrana Sonica",
+  "famiglia_tipologia": "Tegumentario/Difensivo",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+  "tier": "T1",
+  "slot": [],
+  "sinergie": [
+    "carapace_fase_variabile",
+    "mimetismo_cromatico_passivo"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Ali Membrana Sonica ottimizza le operazioni difensivo nelle condizioni di caverna risonante.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "mutazione_indotta": "Piastre vibranti che disperdono onde e impatti corrosivi.",
+  "uso_funzione": "Smorzare vibrazioni e deviare attacchi acustici sotterranei.",
+  "spinta_selettiva": "Difesa attiva in cavità risonanti e ambienti corrosivi.",
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Basso",
+    "sustained": "Basso"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": []
+  },
+  "version": "2.0.1",
+  "versioning": {
+    "created": "2026-08-22",
+    "updated": "2026-08-22",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

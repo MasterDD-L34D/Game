@@ -2865,6 +2865,239 @@
         "updated": "2025-11-04",
         "author": "Master DD / GPT-5 Pro"
       }
+    },
+    {
+      "trait_code": "TR-2006",
+      "id": "ali_fulminee",
+      "label": "Ali Fulminee",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ali Fulminee ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "mutazione_indotta": "Ali laminari elettrificate che leggono pattern ionici.",
+      "uso_funzione": "Decodificare micro-scariche e correnti psioniche turbolente.",
+      "spinta_selettiva": "Sopravvivenza e coordinamento in stratosfere cariche.",
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Basso",
+        "sustained": "Basso"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": []
+      },
+      "version": "2.0.1",
+      "versioning": {
+        "created": "2026-08-22",
+        "updated": "2026-08-22",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2007",
+      "id": "ali_ioniche",
+      "label": "Ali Ioniche",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ali Ioniche ottimizza le operazioni locomotorio nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "mutazione_indotta": "Membrane propulsive che rilasciano micro-scariche direzionali.",
+      "uso_funzione": "Imprimere scatti controllati e stabilità in canopie ioniche.",
+      "spinta_selettiva": "Mobilità rapida in correnti elettrostatiche instabili.",
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": []
+      },
+      "version": "2.0.1",
+      "versioning": {
+        "created": "2026-08-22",
+        "updated": "2026-08-22",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2008",
+      "id": "ali_membrana_sonica",
+      "label": "Ali Membrana Sonica",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ali Membrana Sonica ottimizza le operazioni difensivo nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "mutazione_indotta": "Piastre vibranti che disperdono onde e impatti corrosivi.",
+      "uso_funzione": "Smorzare vibrazioni e deviare attacchi acustici sotterranei.",
+      "spinta_selettiva": "Difesa attiva in cavità risonanti e ambienti corrosivi.",
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Basso",
+        "sustained": "Basso"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": []
+      },
+      "version": "2.0.1",
+      "versioning": {
+        "created": "2026-08-22",
+        "updated": "2026-08-22",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2009",
+      "id": "ali_solari_fotoni",
+      "label": "Ali Solari Fotoni",
+      "famiglia_tipologia": "Locomotivo/Aereo",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "tier": "T2",
+      "slot": [
+        "A",
+        "C"
+      ],
+      "sinergie": [
+        "cervello_a_bassa_latenza",
+        "occhi_cristallo_modulare",
+        "antenne_tesla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "notes": "Richiede esposizione solare costante per massimizzare spinta e schermature.",
+            "tier": "T2"
+          }
+        }
+      ],
+      "mutazione_indotta": "Piume fotovoltaiche con rete di accumulo radiante.",
+      "uso_funzione": "Convertire luce in spinta e in schermature riflettenti.",
+      "spinta_selettiva": "Volo prolungato e protezione in ambienti ad alta radianza.",
+      "cost_profile": {
+        "rest": "Medio",
+        "burst": "Medio",
+        "sustained": "Medio"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": []
+      },
+      "version": "2.0.1",
+      "versioning": {
+        "created": "2026-08-22",
+        "updated": "2026-08-22",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2010",
+      "id": "antenne_dustsense",
+      "label": "Antenne Dustsense",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Antenne Dustsense ottimizza le operazioni metabolico nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "mutazione_indotta": "Ricettori stratificati che filtrano polveri ioniche.",
+      "uso_funzione": "Stabilizzare assorbimento multi-fonte in deserti ionici.",
+      "spinta_selettiva": "Nutrizione efficiente in pianure saline iperaride.",
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Basso",
+        "sustained": "Basso"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": []
+      },
+      "version": "2.0.1",
+      "versioning": {
+        "created": "2026-08-22",
+        "updated": "2026-08-22",
+        "author": "Master DD / GPT-5 Pro"
+      }
     }
   ]
 }
