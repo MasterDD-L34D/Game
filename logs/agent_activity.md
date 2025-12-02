@@ -4,7 +4,7 @@
 - Step: `[FREEZE-03A03B-<YYYY-MM-DDThhmmZ>] owner=<coordinator|archivist> (approvatore Master DD); branch=patch/03A-core-derived, patch/03B-incoming-cleanup;
   snapshot=<path data/core/** + data/derived/**> (checksum+storage); backup_incoming=<path incoming/** + docs/incoming/**> (manifest+checksum);
   freeze_window=<start→end UTC>; rollback=<responsabile + link dry-run>; note=<esiti validator/report-only, redirect, approvazioni>`
-- Loggare sempre:
+  - Loggare sempre:
   - timestamp UTC e owner (coordinator per rollback, archivist per verifica documentale).
   - Percorsi snapshot core/derived e backup incoming con checksum/manifest.
   - Esito dry-run rollback (core/derived) e dry-run ripristino backup/redirect prima della chiusura.
@@ -38,6 +38,9 @@
 
 ## 2025-12-01 – Verifica snapshot core/derived + backup incoming pre-merge (dev-tooling)
 - Step: `[FREEZE-03A03B-2025-12-01T2106Z] owner=dev-tooling (approvatore Master DD); branch=patch/03A-core-derived,patch/03B-incoming-cleanup; freeze=core/derived/incoming (report-only, pre-merge); checkpoint_snapshot=reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt (core/derived/incoming) + reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt (baseline rollback S3); note=manifest review 2025-12-01 senza ricalcolo checksum; confermati on-call backups-oncall@game.internal e uso rollback pack 03A/03B in attesa via libera finale Master DD.`
+
+## 2026-07-25 – Rebase 03B su 03A e verifica redirect (dev-tooling)
+- Step: `[03B-REBASE-REDIRECT-2026-07-25T0000Z] owner=dev-tooling (firma Master DD); branch=03A,patch/03B-incoming-cleanup; files=logs/agent_activity.md,incoming/REDIRECTS.md,reports/backups/2025-11-25_freeze/manifest.txt,incoming/archive_cold/backups/2025-11-25/manifest.sha256,incoming/archive_cold/reports/2025-11-25_site/manifest.sha256; snapshot=reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt (incoming) + reports/backups/2025-11-25_freeze/manifest.txt (incoming backup baseline); freeze_window=2025-11-29T09:00Z→2025-12-07T18:00Z; rollback=backup incoming 2025-11-25 + manifest sha256 locali; rischio=basso (rebase+verifica redirect); note=Rebase patch/03B-incoming-cleanup su branch 03A aggiornato completato senza conflitti (fast-forward). Confermata coerenza tra tabella redirect e manifest: `incoming/REDIRECTS.md` puntato a manifest 2025-11-25 presenti e leggibili, checksum locali per backup incoming e pacchetti HTML/site verificati (`manifest.sha256` in `incoming/archive_cold/backups/2025-11-25/` e `incoming/archive_cold/reports/2025-11-25_site/`). Master DD approva il via libera al cleanup dopo verifica.`
 
 ## 2026-07-21 – Smoke redirect staging non raggiungibile (dev-tooling)
 - Step: `[REDIR-SMOKE-2026-07-21T0935Z] owner=dev-tooling (approvatore Master DD); files=logs/agent_activity.md,reports/redirects/redirect-smoke-staging.json,docs/planning/REF_REDIRECT_PLAN_STAGING.md; rischio=medio (connettività staging); note=Smoke redirect eseguito su host `https://staging.example.com` con mapping R-01/R-02/R-03: tutte le righe in **ERROR** per DNS "Name or service not known". Report aggiornato (`reports/redirects/redirect-smoke-staging.json`) pubblicato su TKT-03B-001 e stato ticket #1204/#1205 spostato a Blocked; #1206 resta Draft con monitoraggio rollback/finestra alternativa 2025-12-09.`
