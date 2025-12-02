@@ -347,7 +347,7 @@ tasks:
     batch: rollout
     title: Allineamento indice trait Evo
     description: 'Mappare i trait `missing_in_index` con gli ID legacy e aggiornare il glossario.'
-    status: done
+    status: at-risk
     owner: gameplay-data
     depends_on:
       - TRT-02
@@ -360,19 +360,23 @@ tasks:
 
     telemetry:
       last_sync: 2025-12-02T19:14:01+00:00
-      progress: 100
+      progress: 0
       metric:
-        label: Trait missing_in_index
-        open_items: 0
+        label: Trait da allineare (index)
+        open_items: 253
         total_items: 254
       samples:
-        - Nessun elemento
+        - ali_fono_risonanti
+        - ali_fulminee
+        - ali_ioniche
+        - ali_membrana_sonica
+        - ali_solari_fotoni
 
   - id: ROL-05
     batch: rollout
     title: Esportazione dataset trait consumer esterni
     description: 'Preparare il pacchetto CSV/JSON per i consumer esterni che non ricevono i nuovi trait.'
-    status: done
+    status: at-risk
     owner: partner-success
     depends_on:
       - ROL-04
@@ -387,13 +391,17 @@ tasks:
 
     telemetry:
       last_sync: 2025-12-02T19:14:01+00:00
-      progress: 100
+      progress: 0
       metric:
-        label: Trait missing_in_external
-        open_items: 0
+        label: Trait da allineare (external)
+        open_items: 253
         total_items: 254
       samples:
-        - Nessun elemento
+        - ali_fono_risonanti
+        - ali_fulminee
+        - ali_ioniche
+        - ali_membrana_sonica
+        - ali_solari_fotoni
 
   - id: ROL-06
     batch: rollout
