@@ -27,10 +27,10 @@
     },
     {
       "id": "ROL-05",
-      "status": "done",
-      "progress": 100,
-      "metric_label": "Trait missing_in_external",
-      "open_items": 0,
+      "status": "in-progress",
+      "progress": 8,
+      "metric_label": "Trait rule coverage gap",
+      "open_items": 234,
       "total_items": 254,
       "samples": []
     },
