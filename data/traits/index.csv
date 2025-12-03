@@ -14,7 +14,7 @@ cervello_a_bassa_latenza,i18n:traits.cervello_a_bassa_latenza.label,Cognitivo/Ap
 comunicazione_fotonica_coda_coda,i18n:traits.comunicazione_fotonica_coda_coda.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/comunicazione_fotonica_coda_coda.json,,coverage_q4_2025,,controller,true,false
 corna_psico_conduttive,i18n:traits.corna_psico_conduttive.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/corna_psico_conduttive.json,,coverage_q4_2025,,controller,true,false
 coscienza_d_alveare_diffusa,i18n:traits.coscienza_d_alveare_diffusa.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/coscienza_d_alveare_diffusa.json,,coverage_q4_2025,,controller,true,false
-coscienza_dalveare_diffusa,i18n:traits.coscienza_d_alveare_diffusa.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/coscienza_dalveare_diffusa.json,,coverage_q4_2025,,controller,true,false
+coscienza_dalveare_diffusa,i18n:traits.coscienza_dalveare_diffusa.label,Cognitivo/Sociale,Sociale,data/traits/cognitivo/coscienza_dalveare_diffusa.json,,coverage_q4_2025,,controller,true,false
 ali_membrana_sonica,i18n:traits.ali_membrana_sonica.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/ali_membrana_sonica.json,,coverage_q4_2025,caverna_risonante,tank,true,false
 appendici_risonanti_marea,i18n:traits.appendici_risonanti_marea.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/appendici_risonanti_marea.json,,coverage_q4_2025,laguna_bioreattiva,tank,true,false
 barriere_miasma_glaciale,i18n:traits.barriere_miasma_glaciale.label,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/barriere_miasma_glaciale.json,,coverage_q4_2025,caldera_glaciale,tank,true,false
