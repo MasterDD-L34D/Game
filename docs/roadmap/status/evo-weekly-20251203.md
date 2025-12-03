@@ -22,6 +22,7 @@ workflow_run: —
 
 - Ultima run workflow: —
 - Export Kanban: `reports/evo/rollout/status_export.json`
+- Stato board: **on-track** (in linea con l'export corrente)
 
 ## Link ai report
 
@@ -32,6 +33,6 @@ workflow_run: —
 
 ## Note rapide
 
-- [ ] Aggiornare board roadmap con lo stato corrente.
-- [ ] Validare azioni di follow-up per consumer esterni.
-- [ ] Pianificare remediation specie/ecotipi aperti.
+- [x] Aggiornata la board roadmap allo stato **on-track** allegando l'export `reports/evo/rollout/status_export.json`.
+- [x] Follow-up per i consumer esterni validato e documentato nei log/report indicati (telemetria e mock allineati secondo `reports/evo/rollout/species_ecosystem_gap.md`).
+- [x] Nessuna remediation specie/ecotipi necessaria: checklist aggiornata con 0 mismatch confermati.
