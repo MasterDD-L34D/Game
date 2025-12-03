@@ -321,7 +321,7 @@ tasks:
     batch: rollout
     title: Snapshot playbook Evo mancanti
     description: 'Produrre versioni archivio per i playbook senza controparte legacy.'
-    status: in-progress
+    status: done
     owner: security-pmo
     depends_on:
       - ROL-01
@@ -332,16 +332,14 @@ tasks:
     notes: 'Estrarre le copie consolidate dei playbook security/PMO e versionarle nell’archivio storico con changelog.'
 
     telemetry:
-      last_sync: 2025-12-03T01:06:51+00:00
-      progress: 99
+      last_sync: 2025-12-03T01:48:09+00:00
+      progress: 100
       metric:
         label: Playbook da archiviare
-        open_items: 3
-        total_items: 218
+        open_items: 0
+        total_items: 221
       samples:
-        - docs/evo-tactics/guides/security-ops.md
-        - docs/evo-tactics/guides/template-ptpf.md
-        - docs/evo-tactics/guides/visione-struttura.md
+        - Nessun elemento
 
   - id: ROL-04
     batch: rollout
@@ -359,7 +357,7 @@ tasks:
     notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`. Gap azzerato dopo import TR-2002 e classificazione `traits_aggregate` come legacy-only (sync 2025-11-27).'
 
     telemetry:
-      last_sync: 2025-12-03T01:06:51+00:00
+      last_sync: 2025-12-03T01:48:09+00:00
       progress: 100
       metric:
         label: Trait da allineare (index)
@@ -386,7 +384,7 @@ tasks:
       - Output locale condiviso con il team partner-success (nessun upload S3 richiesto) per la validazione finale; gap esterni azzerati dopo verifica.
 
     telemetry:
-      last_sync: 2025-12-03T01:06:51+00:00
+      last_sync: 2025-12-03T01:48:09+00:00
       progress: 100
       metric:
         label: Trait da allineare (external)
@@ -411,7 +409,7 @@ tasks:
     notes: '14 controlli schema con 3 warning, trait audit senza regressioni, 230 suggerimenti style (0 errori); inventario aggiornato a stato validato.'
 
     telemetry:
-      last_sync: 2025-12-03T01:06:51+00:00
+      last_sync: 2025-12-03T01:48:09+00:00
       progress: 100
       metric:
         label: Ecotipi con mismatch

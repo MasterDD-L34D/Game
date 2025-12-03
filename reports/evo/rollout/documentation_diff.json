@@ -1089,6 +1089,21 @@
       "source": "docs/wireframes/evo/mockup_evo_tactics.md",
       "destination": "docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/evo/mockup_evo_tactics.md",
       "note": "Pagina descrittiva del mockup Evo con punti chiave della console"
+    },
+    {
+      "source": "docs/evo-tactics/guides/security-ops.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_security_ops.md",
+      "note": "Playbook Security & Ops archiviato; stub mantiene redirect verso archivio e snapshot inventario."
+    },
+    {
+      "source": "docs/evo-tactics/guides/template-ptpf.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md",
+      "note": "Template PTPF archiviato; stub informativo con link a copia consolidata."
+    },
+    {
+      "source": "docs/evo-tactics/guides/visione-struttura.md",
+      "destination": "docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md",
+      "note": "Guida Visione & Struttura archiviata; mantenuto stub con riferimenti operativi."
     }
   ],
   "diffs": [
@@ -1342,9 +1357,5 @@
       "anchors_removed": []
     }
   ],
-  "unmatched": [
-    "docs/evo-tactics/guides/security-ops.md",
-    "docs/evo-tactics/guides/template-ptpf.md",
-    "docs/evo-tactics/guides/visione-struttura.md"
-  ]
+  "unmatched": []
 }
