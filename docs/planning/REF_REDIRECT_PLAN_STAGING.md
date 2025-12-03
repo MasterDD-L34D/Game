@@ -3,7 +3,7 @@
 Versione: 0.2
 Data/Milestone: 2025-12-07 (milestone staging redirect)
 Owner: coordinator (supporto dev-tooling + archivist)
-Stato: **Ready/Approved** (smoke PASS 2026-07-23 su host `http://localhost:8000`; gate #1204/#1205 confermati Approved, #1206 resta Draft per rollback; mapping TKT-03B-001 allineato alla milestone 07/12/2025 con report allegato; freeze 03AB chiuso con firma Master DD e manifest archiviati)
+Stato: **Ready/Approved** (smoke PASS 2026-07-23 su host `http://localhost:8000`; gate #1204/#1205 confermati Approved; #1206 aggiornato a **Ready** dopo simulazione rollback `[ROLLBACK-SIM-2026-09-07T1200Z]`; mapping TKT-03B-001 allineato alla milestone 07/12/2025 con report allegato; freeze 03AB chiuso con firma Master DD e manifest archiviati)
 Ambito: preparazioni in parallelo (staging, core/derived) senza attivazioni; milestone aggiornata a 07/12/2025
 
 ## Scopo
@@ -24,7 +24,7 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 ## Aggiornamento tracciabilità 2025-12-08
 
 - Log di riferimento: `[REDIR-SMOKE-2025-12-08T1100Z]` in `logs/agent_activity.md` con smoke test **PASS** su `http://localhost:8000` (report riutilizzato `reports/redirects/redirect-smoke-staging.json`) e milestone confermata al 07/12/2025.
-- Ticket #1204/#1205 aggiornati a Approved con allegato il report di smoke 2025-12-08; ticket #1206 resta Draft usando lo stesso report come baseline di rollback.
+- Ticket #1204/#1205 aggiornati a Approved con allegato il report di smoke 2025-12-08; ticket #1206 era in Draft usando lo stesso report come baseline di rollback, ora marcato **Ready** dopo il log `[ROLLBACK-SIM-2026-09-07T1200Z]`.
 - Ticket **TKT-03A-001** e **TKT-03B-001** marcati Ready grazie ai log `[02A-REMEDIATION-2025-12-08T1030Z]` e `[REDIR-SMOKE-2025-12-08T1100Z]` (validator 02A PASS + smoke redirect PASS) per lo sblocco dei gate 03A/03B.
 
 ## Aggiornamento tracciabilità 2025-12-03 (refresh mapping e smoke)
@@ -35,14 +35,20 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 ## Aggiornamento tracciabilità 2026-07-23
 
 - Log di riferimento: `[03A03B-CHECKPOINT-2026-07-23T0930Z]` in `logs/agent_activity.md` con validator 02A e smoke redirect **PASS** archiviati come allegati per i ticket 03A/03B e #1204/#1205/#1206.
-- Ticket #1204/#1205 confermati in stato **Approved** con il report `reports/redirects/redirect-smoke-staging.json` allegato (host `http://localhost:8000`, mapping R-01/R-02/R-03). Ticket #1206 resta **Draft** usando lo stesso report come baseline di rollback.
+- Ticket #1204/#1205 confermati in stato **Approved** con il report `reports/redirects/redirect-smoke-staging.json` allegato (host `http://localhost:8000`, mapping R-01/R-02/R-03). Ticket #1206 era **Draft** usando lo stesso report come baseline di rollback, ora **Ready** dopo `[ROLLBACK-SIM-2026-09-07T1200Z]`.
 - Ticket **TKT-03A-001** e **TKT-03B-001** in stato **Ready** con i riferimenti al validator 02A (`reports/02A_validator_rerun.md`) e al smoke redirect (`reports/redirects/redirect-smoke-staging.json`) per la finestra di freeze 03A/03B 2025-11-29→2025-12-07.
 
 ## Aggiornamento tracciabilità 2026-07-26
 
 - Log di riferimento: `[FREEZE-03A03B-CLOSE-2026-07-26T1200Z]` in `logs/agent_activity.md` con backup post-merge e rollback ready.
 - Firma Master DD registrata per la chiusura del freeze 03AB; manifest archiviati e referenziati (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, checkpoint Master DD) per eventuale ripristino.
-- Ticket **TKT-03A-001** e **TKT-03B-001** aggiornati: validator schema-only PASS (`logs/ci_runs/freezer_validator_2026-07-24.log`) e smoke redirect PASS (`reports/redirects/redirect-smoke-2026-07-24.json`) con gate chiusi e rollback pronto (ticket #1206 in Draft ma con pacchetto manifest pronto).
+- Ticket **TKT-03A-001** e **TKT-03B-001** aggiornati: validator schema-only PASS (`logs/ci_runs/freezer_validator_2026-07-24.log`) e smoke redirect PASS (`reports/redirects/redirect-smoke-2026-07-24.json`) con gate chiusi e rollback pronto (ticket #1206 in Ready grazie alla simulazione `[ROLLBACK-SIM-2026-09-07T1200Z]`).
+
+## Aggiornamento tracciabilità 2026-09-07
+
+- Log di riferimento: `[ROLLBACK-SIM-2026-09-07T1200Z]` in `logs/agent_activity.md` con simulazione di rollback staging basata sui manifest `reports/backups/2025-11-25_freeze/manifest.txt` e `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` (checksum verificati via `sha256sum -c`).
+- Runbook rollback aggiornato in questa pagina con sequenza dettagliata, preferenza tar.gz per restore completo e zip staging rapido 2025-11-29T0525Z.
+- Smoke test post-rollback **PASS** su `http://localhost:8000` con output `reports/redirects/redirect-smoke-staging.json`; ticket #1206 avanzato a **Ready** e allineato con i ticket #1204/#1205.
 
 ## Aggiornamento tracciabilità 2026-07-21 (storico)
 
@@ -50,13 +56,13 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 
 ## Stato ticket e allegati (aggiornati al log 2026-07-26)
 
-| Ticket                                                                                    | Owner                            | Stato                  | Allegati/Note                                                                                                                                                                                                                                                                                                                                                                                      |
-| ----------------------------------------------------------------------------------------- | -------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) – Ok a finestra di attivazione | Master DD (supporto archivist)   | Approved               | Report `reports/redirects/redirect-smoke-staging.json` con esito **PASS** su host `http://localhost:8000` (log `[03A03B-CHECKPOINT-2026-07-23T0930Z]`); finestra QA 2025-12-01T09:00Z→2025-12-08T18:00Z verificata, fallback 2025-12-09 pronto.                                                                                                                                                    |
-| [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) – Go-live redirect             | Master DD (supporto coordinator) | Approved               | Stesso report di smoke PASS allegato (log `[03A03B-CHECKPOINT-2026-07-23T0930Z]`); go-live subordinato al mantenimento del freeze 03A/03B e al via libera Master DD sulla stessa finestra QA.                                                                                                                                                                                                      |
-| [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) – Rollback redirect            | Master DD + dev-tooling          | Draft (rollback ready) | Baseline di rollback aggiornata con manifest archiviati (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, checkpoint Master DD) e report PASS `reports/redirects/redirect-smoke-staging.json` (log `[FREEZE-03A03B-CLOSE-2026-07-26T1200Z]`). Finestra alternativa 2025-12-09T09:00Z→18:00Z disponibile per eventuale ripristino. |
-| TKT-03A – Validator pre-03A                                                               | dev-tooling                      | Ready                  | Esiti PASS in `reports/02A_validator_rerun.md` e `logs/ci_runs/freezer_validator_2026-07-24.log` con firma Master DD e freeze 03AB chiuso (log `[FREEZE-03A03B-CLOSE-2026-07-26T1200Z]`).                                                                                                                                                                                                          |
-| TKT-03B – Redirect mapping                                                                | archivist                        | Ready                  | Mapping R-01/R-02/R-03 stabile con report `reports/redirects/redirect-smoke-staging.json` **PASS** e gate chiusi con firma Master DD; rollback pronto con manifest referenziati (log `[FREEZE-03A03B-CLOSE-2026-07-26T1200Z]`).                                                                                                                                                                    |
+| Ticket                                                                                    | Owner                            | Stato    | Allegati/Note                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ----------------------------------------------------------------------------------------- | -------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) – Ok a finestra di attivazione | Master DD (supporto archivist)   | Approved | Report `reports/redirects/redirect-smoke-staging.json` con esito **PASS** su host `http://localhost:8000` (log `[03A03B-CHECKPOINT-2026-07-23T0930Z]`); finestra QA 2025-12-01T09:00Z→2025-12-08T18:00Z verificata, fallback 2025-12-09 pronto.                                                                                                                                                                            |
+| [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) – Go-live redirect             | Master DD (supporto coordinator) | Approved | Stesso report di smoke PASS allegato (log `[03A03B-CHECKPOINT-2026-07-23T0930Z]`); go-live subordinato al mantenimento del freeze 03A/03B e al via libera Master DD sulla stessa finestra QA.                                                                                                                                                                                                                              |
+| [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) – Rollback redirect            | Master DD + dev-tooling          | Ready    | Baseline di rollback aggiornata con manifest archiviati (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`), log di simulazione `[ROLLBACK-SIM-2026-09-07T1200Z]` (checksum PASS) e report smoke post-restore `reports/redirects/redirect-smoke-staging.json` **PASS**. Finestra alternativa 2025-12-09T09:00Z→18:00Z disponibile per eventuale ripristino. |
+| TKT-03A – Validator pre-03A                                                               | dev-tooling                      | Ready    | Esiti PASS in `reports/02A_validator_rerun.md` e `logs/ci_runs/freezer_validator_2026-07-24.log` con firma Master DD e freeze 03AB chiuso (log `[FREEZE-03A03B-CLOSE-2026-07-26T1200Z]`).                                                                                                                                                                                                                                  |
+| TKT-03B – Redirect mapping                                                                | archivist                        | Ready    | Mapping R-01/R-02/R-03 stabile con report `reports/redirects/redirect-smoke-staging.json` **PASS** e gate chiusi con firma Master DD; rollback pronto con manifest referenziati (log `[FREEZE-03A03B-CLOSE-2026-07-26T1200Z]`).                                                                                                                                                                                            |
 
 ### Mapping vecchia data → nuova data (checkpoint)
 
@@ -116,7 +122,7 @@ Note operative:
 | Backup core/derived staging  | Master DD / Dev-tooling | Approved | Ticket Master DD: [#1203](https://github.com/MasterDD-L34D/Game/issues/1203). Manifest e checksum verificati su staging; link al bucket in nota operativa del ticket.                                                                                                                                                                                        |
 | Ok a finestra di attivazione | Master DD               | Approved | Ticket Master DD [#1204](https://github.com/MasterDD-L34D/Game/issues/1204). Smoke test `reports/redirects/redirect-smoke-staging.json` **PASS** su nuovo host staging (`http://localhost:8000`) con mapping R-01/R-02/R-03; overlap QA documentale 2025-12-01T09:00Z → 2025-12-08T18:00Z verificato senza conflitti, fallback 2025-12-09 valido.            |
 | Go-live redirect             | Master DD               | Approved | Ticket Master DD [#1205](https://github.com/MasterDD-L34D/Game/issues/1205). Prerequisiti chiusi: smoke test PASS su host staging aggiornato (`http://localhost:8000`) e finestra QA 2025 confermata senza overlap (slot alternativa 2025-12-09 pronta). Report allegato (`reports/redirects/redirect-smoke-staging.json`) e milestone 2025-12-08 allineata. |
-| Rollback (se necessario)     | Master DD + Dev-tooling | Draft    | Ticket Master DD aperto: [#1206](https://github.com/MasterDD-L34D/Game/issues/1206). Da allegare runbook rollback e log di ripristino simulato su staging.                                                                                                                                                                                                   |
+| Rollback (se necessario)     | Master DD + Dev-tooling | Ready    | Ticket Master DD [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) avanzato a **Ready** dopo simulazione su staging (`[ROLLBACK-SIM-2026-09-07T1200Z]`) con runbook allegato e smoke test post-restore **PASS**.                                                                                                                                    |
 
 ## TODO prima dell’attivazione
 
@@ -173,12 +179,38 @@ Note operative:
 4. **Verifica post-apply** – Rieseguire lo smoke test; se `PASS` per tutte le righe, pubblicare il risultato su [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) e notificare Master DD per il via libera go-live.
 5. **Handoff prod** – Allineare la configurazione di produzione replicando il mapping validato; registrare timestamp e owner nel log di attivazione e aggiornare le note di ticket #1204/#1205 con gli estremi della finestra utilizzata.
 
-### Runbook rollback (ticket [#1206](https://github.com/MasterDD-L34D/Game/issues/1206))
+### Runbook rollback dettagliato (ticket [#1206](https://github.com/MasterDD-L34D/Game/issues/1206))
 
-1. **Trigger** – Attivare se lo smoke test post-apply fallisce, se il monitoraggio analytics rileva loop/errore 5xx, o su richiesta QA durante il freeze.
-2. **Ripristino config** – Recuperare il manifest in `reports/backups/<label>/redirect-config/manifest.txt`, ripristinare i file di routing precedenti e confermare checksum, loggando l'owner (dev-tooling) e l'orario nel ticket #1206.
-3. **Verifica post-rollback** – Rieseguire lo smoke test puntando allo stesso host; se `PASS`, aggiornare #1204/#1205 con nota di rollback e pianificare nuova finestra (preferibilmente fuori da eventuali freeze QA o nella slot alternativa 2025-12-09T09:00Z → 2025-12-09T18:00Z approvata da Master DD).
-4. **Chiusura** – Archiviare il report di rollback in `reports/redirects/redirect-smoke-staging.json` (nuova versione) e allegare il log a #1206; notificare Master DD per la riapertura del piano.
+**Prerequisiti e manifest**
+
+- Backup freeze 2025-11-25 (core/derived/incoming/docs incoming):
+  - `reports/backups/2025-11-25_freeze/manifest.txt` – checksum chiave:
+    - core tar: `d986100a5440aea18658d6a22600cd403ba9fcfb6db4473dc9dd70227d43b984` (preferito per restore, zip mirror `0d8cae8c6f81e934c2739a10a235da8ca81f012f8d269cab361d2b4c43992707`).
+    - derived tar: `283e3b2f50514446dd9843a069ed089bd79f470bbcb0cdb3caab1a6b96c45355` (zip mirror `7544d832d494c712063e73b20291f080c42de7a83f6c1a176871174ca79ef9ea`).
+    - incoming tar: `043c20b99dc565a3f3e354959f2dd273183435001583c009133d4c4c7fd2a619` (zip mirror `e0809a1c3ba17339c4b2f92d8a3ef9b11b6d70b7f93c0e92f5b2c75e6160f12d`).
+    - docs incoming tar: `c5475c1c32813b2feb861768480c1a851dbc7667e9c54bf642fea873d0201a9c` (zip mirror `3d437f07451bfeccdefda9e6ac95bfad3195f75756d8cc7a794f6a2a8dcb7770`).
+- Backup freeze 2025-11-29T0525Z (slot rapido staging):
+  - `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` – checksum ready:
+    - core zip: `63e038ec2e79016ce37753b6c96914c3703c7cc2b58972d1b22f657db0e6755e` @ `/tmp/2025-11-29T0525Z_freeze_03A-03B/data-core-2025-11-29T0525Z_freeze_03A-03B.zip`.
+    - derived zip: `1c3bdb0e9af8f5916d2e2883aac1ca025983680bc20d149dcdd7e50bf541d7bd` @ `/tmp/2025-11-29T0525Z_freeze_03A-03B/data-derived-2025-11-29T0525Z_freeze_03A-03B.zip`.
+    - incoming zip: `aa75ce79543116d458fc60866095fd187b45db294e752218aac88d8ea94730f7` @ `/tmp/2025-11-29T0525Z_freeze_03A-03B/incoming-2025-11-29T0525Z_freeze_03A-03B.zip`.
+
+**Sequenza operativa (staging)**
+
+1. **Trigger** – Attivare se lo smoke test post-apply fallisce, se il monitoraggio analytics rileva loop/errore 5xx, o su richiesta QA durante il freeze. Notificare Master DD e aprire ticket #1206 in modalità rollback.
+2. **Preparazione ambiente** – Allestire staging in `/tmp/rollback_staging_<timestamp>`; montare i manifest in sola lettura (`reports/backups/2025-11-25_freeze/manifest.txt` + `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`).
+3. **Verifica checksum** – Eseguire `sha256sum -c manifest.txt` nella directory del backup scelto. Se uno dei checksum fallisce, bloccare il rollback e richiedere rigenerazione artefatti (script `scripts/backup/rebuild_freeze_2025_11_25.sh`).
+4. **Ripristino config redirect** – Usare il pacchetto rapido 2025-11-29T0525Z per ripristinare i file di routing (core/derived/incoming) in staging, mantenendo copia dei file correnti in `/tmp/rollback_staging_<timestamp>/pre`. Applicare eventuali delta di configurazione (payload R-01/R-02/R-03) solo dopo conferma checksum.
+5. **Ripristino completo (fallback)** – Se il pacchetto rapido fallisce o è incompleto, ripristinare dal freeze 2025-11-25 decomprimendo i tar.gz preferiti (core/derived/incoming/docs incoming) e riallineando owner/permessi secondo il manifest.
+6. **Verifica post-rollback** – Rieseguire lo smoke test:
+   ```bash
+   python scripts/redirect_smoke_test.py \
+     --host http://localhost:8000 \
+     --environment staging \
+     --output reports/redirects/redirect-smoke-staging.json
+   ```
+   Se l’esito è `PASS`, registrare timestamp, host e owner nel log (`logs/agent_activity.md`, tag #1206) e allegare il report aggiornato ai ticket #1204/#1205.
+7. **Chiusura** – Aggiornare lo stato di #1206 a **Ready** nel presente documento e nel log, includendo link al runbook usato e ai manifest verificati. Notificare Master DD con i riferimenti al checksum eseguito e allo smoke test post-rollback.
 
 ### Rilancio smoke test e criteri di rientro dei gate
 
