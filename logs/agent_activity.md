@@ -11,6 +11,9 @@
   - Riferimento alla firma finale Master DD che chiude il freeze 3→4.
   - Per le finestre 03A/03B 2025-11-29→2025-12-07 usare i manifest di riferimento `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` e i checkpoint Master DD (`reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `...1724Z...`, `...2028Z...`). Ogni nuova verifica o restore va registrata con il formato sintetico sopra, includendo ticket e approvazione Master DD nel campo note.
 
+## 2026-09-05 – Redirect mapping e smoke test (dev-tooling)
+- Step: `[REDIR-SMOKE-2026-09-05T1200Z] owner=dev-tooling (approvatore Master DD); files=docs/planning/REF_REDIRECT_PLAN_STAGING.md,scripts/redirect_smoke_test.py,reports/redirects/redirect-smoke-staging.json,logs/agent_activity.md; esito=PASS; note=Tabella mapping R-01/R-02/R-03 completata con owner e ticket #1204/#1205/#1206 collegati; script redirect_smoke_test.py configurato con default di output in reports/redirects/; smoke test eseguito su http://localhost:8000 con esiti PASS e report archiviato. Owner notificati: dev-tooling (R-01, R-03) e archivist (R-02) via presente log.`
+
 ## 2026-08-27 – Mapping redirect staging e smoke test (archivist)
 - Step: `[REDIR-MAPPING-2026-08-27T1200Z] owner=archivist (STRICT MODE); files=docs/planning/REF_REDIRECT_PLAN_STAGING.md,logs/agent_activity.md; esito=PASS; note=Tabella mapping R-01/R-02/R-03 compilata con source/target definitivi, owner e ticket #1204/#1205 con rollback #1206. Aggiornata sezione smoke test: comando staging python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json; report da archiviare in reports/redirects/ e da allegare ai ticket #1204/#1205 (baseline rollback #1206).`
 
