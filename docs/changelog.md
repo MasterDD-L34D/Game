@@ -16,6 +16,7 @@
 - Piano di rollout trait (`docs/process/trait_rollout_plan.md`) con fasi, checklist e calendario versioni condivisi con i team coinvolti.
 - Calendario training per il team di gioco e canali di monitoraggio dedicati (`#trait-rollout`, report settimanali).
 - Appendice sandbox draft (`docs/appendici/sandbox/README.md`) con collegamenti ai concept narrativi e agli hook di trait/bilanciamento.
+- Nota di chiusura post-merge (2025-12-03, owner archivist) per la triade Frattura Abissale su `main`, con log PASS `reports/temp/main/frattura_abissale_pipeline_20251203T031847Z.log`/`frattura_abissale_pipeline_20251203T032252Z.log`, manifest di backup `reports/backups/2025-11-25_freeze/manifest.txt` e `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, e prove di restore/dry-run documentate in `reports/audit/2025-12-02_frattura_abissale_validators.md`.
 
 ### Changed
 
