@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-12-02T02:04:04+00:00",
+  "generated_at": "2025-12-03T00:19:34+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "data/traits/index.json",
@@ -9,7 +9,7 @@
     "species_affinity": null
   },
   "summary": {
-    "traits_total": 251,
+    "traits_total": 254,
     "traits_with_rules": 147,
     "traits_with_species": 0,
     "traits_with_affinity": 0,
@@ -278,6 +278,26 @@
             "morphotype": null
           }
         ],
+        "missing_in_rules": [],
+        "missing_in_affinity": [],
+        "missing_in_matrix": []
+      }
+    },
+    "ali_solari_fotoni": {
+      "label_it": "Ali Solari Fotoniche",
+      "label_en": "Solar Photon Wings",
+      "description_it": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza.",
+      "description_en": "Photovoltaic feathers that convert light into thrust and radiant shielding.",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2844,6 +2864,26 @@
       }
     },
     "coscienza_d_alveare_diffusa": {
+      "label_it": "Coscienza d’Alveare Diffusa",
+      "label_en": "Diffuse Hive Consciousness",
+      "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
+      "description_en": "Temporary inter-individual synaptic net merging decisions and short-term memory.",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": [],
+        "missing_in_affinity": [],
+        "missing_in_matrix": []
+      }
+    },
+    "coscienza_dalveare_diffusa": {
       "label_it": "Coscienza d’Alveare Diffusa",
       "label_en": "Diffuse Hive Consciousness",
       "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
@@ -6872,6 +6912,26 @@
             "morphotype": null
           }
         ],
+        "missing_in_rules": [],
+        "missing_in_affinity": [],
+        "missing_in_matrix": []
+      }
+    },
+    "traits_aggregate": {
+      "label_it": "Aggregato tratti Evo",
+      "label_en": "Evo Traits Aggregate",
+      "description_it": "Dump normalizzato dei trait Evo (TR-*) per allineare indice legacy e QA.",
+      "description_en": "Normalized Evo trait dump (TR-*) used to align legacy index and QA.",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
