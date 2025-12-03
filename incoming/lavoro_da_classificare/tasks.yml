@@ -332,7 +332,7 @@ tasks:
     notes: 'Estrarre le copie consolidate dei playbook security/PMO e versionarle nell’archivio storico con changelog.'
 
     telemetry:
-      last_sync: 2025-12-02T19:14:01+00:00
+      last_sync: 2025-12-02T22:45:39.756004+00:00
       progress: 99
       metric:
         label: Playbook da archiviare
@@ -347,7 +347,7 @@ tasks:
     batch: rollout
     title: Allineamento indice trait Evo
     description: 'Mappare i trait `missing_in_index` con gli ID legacy e aggiornare il glossario.'
-    status: at-risk
+    status: done
     owner: gameplay-data
     depends_on:
       - TRT-02
@@ -359,24 +359,20 @@ tasks:
     notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`. Gap azzerato dopo import TR-2002 e classificazione `traits_aggregate` come legacy-only (sync 2025-11-27).'
 
     telemetry:
-      last_sync: 2025-12-02T19:14:01+00:00
-      progress: 0
+      last_sync: 2025-12-02T22:45:39.756004+00:00
+      progress: 100
       metric:
         label: Trait da allineare (index)
-        open_items: 253
+        open_items: 0
         total_items: 254
       samples:
-        - ali_fono_risonanti
-        - ali_fulminee
-        - ali_ioniche
-        - ali_membrana_sonica
-        - ali_solari_fotoni
+        - Nessun elemento
 
   - id: ROL-05
     batch: rollout
     title: Esportazione dataset trait consumer esterni
     description: 'Preparare il pacchetto CSV/JSON per i consumer esterni che non ricevono i nuovi trait.'
-    status: at-risk
+    status: done
     owner: partner-success
     depends_on:
       - ROL-04
@@ -390,18 +386,14 @@ tasks:
       - Output locale condiviso con il team partner-success (nessun upload S3 richiesto) per la validazione finale; gap esterni azzerati dopo verifica.
 
     telemetry:
-      last_sync: 2025-12-02T19:14:01+00:00
-      progress: 0
+      last_sync: 2025-12-02T22:45:39.756004+00:00
+      progress: 100
       metric:
         label: Trait da allineare (external)
-        open_items: 253
+        open_items: 0
         total_items: 254
       samples:
-        - ali_fono_risonanti
-        - ali_fulminee
-        - ali_ioniche
-        - ali_membrana_sonica
-        - ali_solari_fotoni
+        - Nessun elemento
 
   - id: ROL-06
     batch: rollout
@@ -419,7 +411,7 @@ tasks:
     notes: '14 controlli schema con 3 warning, trait audit senza regressioni, 230 suggerimenti style (0 errori); inventario aggiornato a stato validato.'
 
     telemetry:
-      last_sync: 2025-12-02T19:14:01+00:00
+      last_sync: 2025-12-02T22:45:39.756004+00:00
       progress: 100
       metric:
         label: Ecotipi con mismatch
