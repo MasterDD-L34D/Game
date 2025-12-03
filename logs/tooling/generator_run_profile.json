@@ -1,101 +1,633 @@
 {
-  "generated_at": "2025-11-02T00:56:26Z",
+  "generated_at": "2025-12-03T01:47:58Z",
   "status": "success",
   "data_root": "data/core",
   "matrix_path": "docs/catalog/species_trait_matrix.json",
   "inventory_path": "docs/catalog/traits_inventory.json",
   "metrics": {
-    "generation_time_ms": 9,
-    "matrix_entries": 27,
-    "species_total": 23,
-    "event_total": 4,
-    "core_traits_total": 30,
-    "optional_traits_total": 17,
-    "synergy_traits_total": 8,
-    "dataset_species_total": 1,
-    "species_with_trait_plan": 1,
-    "enriched_species": 12,
-    "expected_core_traits": 4
+    "generation_time_ms": 29,
+    "matrix_entries": 79,
+    "species_total": 74,
+    "event_total": 5,
+    "core_traits_total": 188,
+    "optional_traits_total": 206,
+    "synergy_traits_total": 10,
+    "dataset_species_total": 15,
+    "species_with_trait_plan": 15,
+    "enriched_species": 74,
+    "expected_core_traits": 30
   },
   "core_traits": [
+    "adattamento_volo",
+    "ali_fulminee",
+    "ali_ioniche",
+    "ali_membrana_sonica",
+    "antenne_dustsense",
+    "antenne_eco_turbina",
+    "antenne_flusso_mareale",
+    "antenne_microonde_cavernose",
+    "antenne_plasmatiche_tempesta",
+    "antenne_reagenti",
+    "antenne_tesla",
+    "antenne_waveguide",
+    "antenne_wideband",
+    "appendici_risonanti_marea",
+    "appendici_thermotattiche",
+    "armatura_pietra_planare",
+    "artigli_acidofagi",
+    "artigli_induzione",
+    "artigli_radice",
+    "artigli_scivolo_silente",
     "artigli_sette_vie",
+    "artigli_sghiaccio_glaciale",
+    "artigli_vetrificati",
+    "assenza_respirazione",
+    "aura_scudo_radianza",
+    "baffi_mareomotori",
+    "barbigli_sensori_plasma",
+    "barriere_miasma_glaciale",
+    "batteri_endosimbionti_chemio",
+    "batteri_termofili_endosimbiosi",
+    "biochip_memoria",
+    "biofilm_glow",
+    "biofilm_iperarido",
+    "branchie_dual_mode",
+    "branchie_eoliche",
+    "branchie_metalloidi",
+    "branchie_microfiltri",
+    "branchie_osmotiche_salmastra",
+    "branchie_solfatiche",
+    "branchie_turbina",
+    "bulbi_radici_permafrost",
+    "camere_anticorrosione",
+    "camere_mirage",
+    "camere_nutrienti_vent",
+    "capillari_criogenici",
+    "capillari_fluoridici",
+    "capillari_fotovoltaici",
+    "capsule_paracadute",
+    "carapace_fase_variabile",
+    "carapace_luminiscente_abissale",
+    "carapace_segmenti_logici",
+    "carapaci_ferruginosi",
+    "cartilagine_flessotermica_venti",
+    "cartilagini_biofibre",
+    "cartilagini_desertiche",
+    "cartilagini_flessoacustiche",
+    "cartilagini_pseudometalliche",
+    "cavita_risonanti_tundra",
+    "cervelletto_equilibrio_statico",
+    "chemiorecettori_bromuro",
+    "chioma_parassita_canopica",
+    "ciclo_vitale_anomalo",
+    "ciclo_vitale_completo",
+    "circolazione_bifasica",
+    "circolazione_bifasica_palude",
+    "circolazione_cooling_loop",
+    "circolazione_doppia",
+    "circolazione_supercritica",
+    "ciste_riduttive",
+    "ciste_salmastre",
+    "cisti_iperbariche",
+    "coda_balanciere",
+    "coda_contrappeso",
+    "coda_coppia_retroattiva",
     "coda_frusta_cinetica",
+    "coda_stabilizzatrice_filo",
+    "coda_stabilizzatrice_geiser",
+    "coda_stabilizzatrice_vortex",
+    "colonne_vibromagnetiche",
+    "coralli_partner",
+    "criostasi_adattiva",
+    "cromofori_alert_acido",
+    "cuore_multicamera_bassa_pressione",
+    "cuscinetti_elettrostatici",
     "cute_resistente_sali",
     "cuticole_cerose",
+    "cuticole_neutralizzanti",
+    "denti_chelatanti",
+    "denti_ossidoferro",
+    "denti_silice_termici",
+    "denti_tuning_fork",
+    "echi_risonanti",
     "eco_interno_riflesso",
     "empatia_coordinativa",
+    "enzimi_antifase_termica",
+    "enzimi_antipredatori_algali",
     "enzimi_chelanti",
+    "enzimi_chelatori_rapidi",
+    "enzimi_metanoossidanti",
+    "epidermide_dielettrica",
+    "epitelio_fosforescente",
     "filamenti_digestivi_compattanti",
+    "filamenti_magnetotrofi",
+    "filamenti_superconduttivi",
+    "filamenti_termoconduzione",
+    "filtri_planctonici",
+    "fisiologia_predatoria",
+    "flagelli_ancoranti",
+    "focus_frazionato",
+    "foliage_fotocatodico",
+    "foliaggio_spugna",
+    "frusta_fiammeggiante",
+    "ghiaccio_piezoelettrico",
+    "ghiandola_caustica",
+    "ghiandole_cambio_salino",
+    "ghiandole_condensa_ozono",
+    "ghiandole_eco_mappanti",
+    "ghiandole_fango_calde",
+    "ghiandole_fango_coesivo",
+    "ghiandole_grafene",
+    "ghiandole_inchiostro_luce",
+    "ghiandole_iodoattive",
+    "ghiandole_minerali",
+    "ghiandole_nebbia_acida",
+    "ghiandole_nebbia_ionica",
+    "ghiandole_resina_conduttiva",
+    "ghiandole_ventosa",
+    "giunti_antitorsione",
     "grassi_termici",
+    "gusci_criovetro",
+    "gusci_magnesio",
+    "lamelle_shear",
+    "lamelle_sincroniche",
+    "lamelle_termoforetiche",
+    "lamine_filtranti_aeree",
+    "lamine_scudo_silice",
+    "linfa_tampone",
+    "lingua_cristallina",
+    "lingua_tattile_trama",
+    "luminescenza_aurorale",
+    "luminescenza_hydrotermica",
+    "mantelli_geotermici",
+    "mantello_meteoritico",
+    "membrane_captura_rugiada",
+    "membrane_eliofiltranti",
+    "membrane_planata_vectored",
+    "membrane_pneumatofori",
+    "metabolismo_attivo",
+    "metabolismo_sostentato",
+    "midollo_antivibrazione",
     "mimetismo_cromatico_passivo",
+    "mucillagine_simbionte_mangrovie",
+    "mucose_aderenza_sonica",
+    "mucose_barofile",
+    "nodi_micorrizici_oracolari",
     "nucleo_ovomotore_rotante",
     "occhi_infrarosso_composti",
     "olfatto_risonanza_magnetica",
+    "origine_artificiale",
+    "pathfinder",
     "pelli_anti_ustione",
     "pelli_cave",
     "pelli_fitte",
+    "pianificatore",
     "pigmenti_aurorali",
     "pigmenti_termici",
+    "piume_solari_fotovoltaiche",
+    "polmoni_cristallini_alta_quota",
     "proteine_shock_termico",
+    "respirazione_biologica",
     "respiro_a_scoppio",
     "reti_capillari_radici",
+    "risonanza_di_branco",
     "sacche_galleggianti_ascensoriali",
+    "sacche_spore_stratosferiche",
     "sangue_piroforico",
     "scheletro_idro_regolante",
     "secrezione_rallentante_palmi",
     "sensori_geomagnetici",
+    "sinapsi_coraline_polifoniche",
     "sonno_emisferico_alternato",
     "spore_psichiche_silenziate",
+    "squame_rifrangenti_deserto",
     "struttura_elastica_amorfa",
-    "ventriglio_gastroliti"
+    "tattiche_di_branco",
+    "vello_condensatore_nebbie",
+    "ventriglio_gastroliti",
+    "zoccoli_risonanti_steppe"
   ],
   "optional_traits": [
+    "ali_fulminee",
+    "ali_ioniche",
+    "ali_membrana_sonica",
+    "ali_solari_fotoni",
+    "antenne_dustsense",
+    "antenne_eco_turbina",
+    "antenne_flusso_mareale",
+    "antenne_microonde_cavernose",
+    "antenne_plasmatiche_tempesta",
+    "antenne_reagenti",
+    "antenne_tesla",
+    "antenne_waveguide",
+    "antenne_wideband",
+    "appendici_risonanti_marea",
+    "appendici_thermotattiche",
+    "armatura_pietra_planare",
+    "artigli_acidofagi",
+    "artigli_induzione",
+    "artigli_psionici",
+    "artigli_radice",
+    "artigli_scivolo_silente",
+    "artigli_sette_vie",
+    "artigli_sghiaccio_glaciale",
+    "artigli_vetrificati",
+    "aura_scudo_radianza",
+    "baffi_mareomotori",
+    "barbigli_sensori_plasma",
+    "barriere_miasma_glaciale",
+    "batteri_endosimbionti_chemio",
+    "batteri_termofili_endosimbiosi",
+    "biochip_memoria",
+    "biofilm_glow",
+    "biofilm_iperarido",
+    "branchie_dual_mode",
+    "branchie_eoliche",
+    "branchie_metalloidi",
+    "branchie_microfiltri",
+    "branchie_osmotiche_salmastra",
+    "branchie_solfatiche",
+    "branchie_turbina",
+    "bulbi_radici_permafrost",
+    "camere_anticorrosione",
+    "camere_mirage",
+    "camere_nutrienti_vent",
+    "campo_di_fase",
+    "capillari_criogenici",
+    "capillari_fluoridici",
+    "capillari_fotovoltaici",
+    "capsule_paracadute",
     "carapace_fase_variabile",
+    "carapace_luminiscente_abissale",
+    "carapace_segmenti_logici",
+    "carapaci_ferruginosi",
+    "cartilagine_flessotermica_venti",
+    "cartilagini_biofibre",
+    "cartilagini_desertiche",
+    "cartilagini_flessoacustiche",
+    "cartilagini_pseudometalliche",
+    "cavita_risonanti_tundra",
+    "cervelletto_equilibrio_statico",
+    "chemiorecettori_bromuro",
+    "chioma_parassita_canopica",
+    "circolazione_bifasica",
+    "circolazione_bifasica_palude",
+    "circolazione_cooling_loop",
+    "circolazione_doppia",
+    "circolazione_supercritica",
+    "ciste_riduttive",
+    "ciste_salmastre",
+    "cisti_iperbariche",
+    "coda_balanciere",
+    "coda_contrappeso",
+    "coda_coppia_retroattiva",
     "coda_frusta_cinetica",
+    "coda_stabilizzatrice_filo",
+    "coda_stabilizzatrice_geiser",
+    "coda_stabilizzatrice_vortex",
+    "colonne_vibromagnetiche",
+    "coralli_partner",
+    "corteccia_memetica",
     "criostasi_adattiva",
+    "cromofori_alert_acido",
+    "cuore_multicamera_bassa_pressione",
+    "cuscinetti_elettrostatici",
+    "cute_resistente_sali",
+    "cuticole_cerose",
+    "cuticole_neutralizzanti",
+    "denti_chelatanti",
+    "denti_ossidoferro",
+    "denti_silice_termici",
+    "denti_tuning_fork",
+    "echi_risonanti",
+    "eco_interno_riflesso",
+    "eco_sismico",
+    "empatia_coordinativa",
+    "enzimi_antifase_termica",
+    "enzimi_antipredatori_algali",
+    "enzimi_chelanti",
+    "enzimi_chelatori_rapidi",
+    "enzimi_metanoossidanti",
+    "epidermide_dielettrica",
+    "epitelio_fosforescente",
+    "filamenti_digestivi_compattanti",
+    "filamenti_magnetotrofi",
+    "filamenti_superconduttivi",
+    "filamenti_termoconduzione",
+    "filtri_bioattivi",
+    "filtri_planctonici",
+    "flagelli_ancoranti",
     "focus_frazionato",
+    "foliage_fotocatodico",
+    "foliaggio_spugna",
+    "fotosintesi_bifase",
+    "frusta_fiammeggiante",
+    "ghiaccio_piezoelettrico",
     "ghiandola_caustica",
+    "ghiandole_cambio_salino",
+    "ghiandole_condensa_ozono",
+    "ghiandole_eco_mappanti",
+    "ghiandole_fango_calde",
+    "ghiandole_fango_coesivo",
+    "ghiandole_grafene",
+    "ghiandole_inchiostro_luce",
+    "ghiandole_iodoattive",
+    "ghiandole_minerali",
+    "ghiandole_nebbia_acida",
+    "ghiandole_nebbia_ionica",
+    "ghiandole_nettare_memetico",
+    "ghiandole_resina_conduttiva",
+    "ghiandole_ventosa",
+    "giunti_antitorsione",
+    "grassi_termici",
+    "gusci_criovetro",
+    "gusci_magnesio",
+    "intangibilita_parziale",
+    "lamelle_shear",
+    "lamelle_sincroniche",
     "lamelle_termoforetiche",
+    "lamenti_diradanti",
+    "lamine_filtranti_aeree",
+    "lamine_scudo_silice",
+    "linfa_tampone",
+    "lingua_cristallina",
     "lingua_tattile_trama",
+    "luminescenza_aurorale",
+    "luminescenza_hydrotermica",
+    "mantelli_geotermici",
+    "mantello_meteoritico",
+    "maschera_illusoria",
+    "matrice_antimagia",
+    "membrane_captura_rugiada",
+    "membrane_eliofiltranti",
+    "membrane_osmotiche",
+    "membrane_planata_vectored",
+    "membrane_pneumatofori",
+    "midollo_antivibrazione",
+    "mimetismo_cromatico_passivo",
+    "mucillagine_simbionte_mangrovie",
+    "mucose_aderenza_sonica",
+    "mucose_barofile",
+    "nodi_micorrizici_oracolari",
+    "nodi_micotici",
+    "nuclei_di_controllo",
     "nucleo_ovomotore_rotante",
     "occhi_infrarosso_composti",
     "olfatto_risonanza_magnetica",
+    "pathfinder",
+    "pelli_anti_ustione",
+    "pelli_cave",
+    "pelli_fitte",
+    "pianificatore",
+    "pigmenti_aurorali",
+    "pigmenti_termici",
+    "piume_solari_fotovoltaiche",
+    "polmoni_cristallini_alta_quota",
+    "proboscide_polifaga",
+    "proteine_shock_termico",
+    "radici_ancora_planare",
+    "random",
     "respiro_a_scoppio",
+    "reti_capillari_radici",
+    "riflessi_preternaturali",
+    "rinforzi_modulari",
+    "risonanza_di_branco",
     "sacche_galleggianti_ascensoriali",
+    "sacche_spore_stratosferiche",
     "sangue_piroforico",
     "scheletro_idro_regolante",
+    "secrezione_rallentante_palmi",
+    "secrezioni_antisepsi",
+    "sensori_chimici",
+    "sensori_geomagnetici",
+    "sinapsi_coraline_polifoniche",
+    "sinapsi_riflettenti",
+    "sonno_emisferico_alternato",
     "spore_psichiche_silenziate",
+    "squame_rifrangenti_deserto",
+    "struttura_elastica_amorfa",
+    "tattiche_di_branco",
+    "tessuti_adattivi",
+    "vello_condensatore_nebbie",
     "ventriglio_gastroliti",
-    "zampe_a_molla"
+    "visione_spettrale",
+    "voce_spettrale",
+    "zampe_a_molla",
+    "zoccoli_risonanti_steppe"
   ],
   "synergy_traits": [
+    "Strategist",
+    "architetto",
     "empatia_coordinativa",
     "focus_frazionato",
-    "pathfinder",
-    "pianificatore",
     "risonanza_di_branco",
     "scheletro_idro_regolante",
+    "sinergizzatore_team",
     "struttura_elastica_amorfa",
+    "support",
     "tattiche_di_branco"
   ],
   "missing_core_traits": [],
   "entries": [
     {
+      "id": "abisso-luminescente-trait-keeper",
+      "type": "species",
+      "display_name": "Abisso Luminescente Trait Keeper",
+      "core_traits": [
+        "carapace_luminiscente_abissale"
+      ],
+      "optional_traits": [
+        "carapace_luminiscente_abissale"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "abisso-vulcanico-trait-keeper",
+      "type": "species",
+      "display_name": "Volcanic Abyss Trait Keeper",
+      "core_traits": [
+        "appendici_thermotattiche",
+        "batteri_endosimbionti_chemio",
+        "branchie_metalloidi",
+        "carapaci_ferruginosi",
+        "cartilagini_pseudometalliche",
+        "circolazione_supercritica",
+        "cisti_iperbariche",
+        "denti_ossidoferro",
+        "enzimi_metanoossidanti",
+        "filamenti_magnetotrofi",
+        "ghiandole_fango_calde",
+        "luminescenza_hydrotermica",
+        "mucose_barofile"
+      ],
+      "optional_traits": [
+        "appendici_thermotattiche",
+        "batteri_endosimbionti_chemio",
+        "branchie_metalloidi",
+        "carapaci_ferruginosi",
+        "cartilagini_pseudometalliche",
+        "circolazione_supercritica",
+        "cisti_iperbariche",
+        "denti_ossidoferro",
+        "enzimi_metanoossidanti",
+        "filamenti_magnetotrofi",
+        "ghiandole_fango_calde",
+        "luminescenza_hydrotermica",
+        "mucose_barofile"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "altipiani-solari-trait-keeper",
+      "type": "species",
+      "display_name": "Altipiani Solari Trait Keeper",
+      "core_traits": [
+        "piume_solari_fotovoltaiche"
+      ],
+      "optional_traits": [
+        "piume_solari_fotovoltaiche"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "archon-solare",
+      "type": "species",
+      "display_name": "Archon Solare Custode",
+      "core_traits": [
+        "adattamento_volo",
+        "aura_scudo_radianza",
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica"
+      ],
+      "optional_traits": [
+        "ali_solari_fotoni",
+        "aura_scudo_radianza",
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "lamelle_termoforetiche",
+        "risonanza_di_branco",
+        "visione_spettrale"
+      ],
+      "synergy_traits": [
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "risonanza_di_branco"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml"
+      ]
+    },
+    {
+      "id": "aurora-bridge-runner",
+      "type": "species",
+      "display_name": "Aurora Bridge Runner",
+      "core_traits": [
+        "eco_interno_riflesso",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "optional_traits": [
+        "eco_interno_riflesso",
+        "lingua_tattile_trama",
+        "mimetismo_cromatico_passivo",
+        "occhi_infrarosso_composti",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "synergy_traits": [
+        "support"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"
+      ]
+    },
+    {
       "id": "aurora-gull",
       "type": "species",
       "display_name": "Gabbiano d’Aurora",
       "core_traits": [
-        "cuticole_cerose",
-        "grassi_termici",
-        "pelli_cave",
-        "pigmenti_aurorali",
-        "proteine_shock_termico",
-        "reti_capillari_radici"
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "sonno_emisferico_alternato"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "occhi_infrarosso_composti",
+        "sacche_galleggianti_ascensoriali",
+        "sonno_emisferico_alternato"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
+      ]
+    },
+    {
+      "id": "badlands-trait-keeper",
+      "type": "species",
+      "display_name": "Badlands Trait Keeper",
+      "core_traits": [
+        "cute_resistente_sali"
+      ],
+      "optional_traits": [
+        "cute_resistente_sali"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "balor-fission",
+      "type": "species",
+      "display_name": "Balor a Fissione",
+      "core_traits": [
+        "adattamento_volo",
+        "ciclo_vitale_completo",
+        "frusta_fiammeggiante",
+        "mantello_meteoritico",
+        "metabolismo_attivo",
+        "respirazione_biologica"
+      ],
+      "optional_traits": [
+        "armatura_pietra_planare",
+        "artigli_sette_vie",
+        "carapace_fase_variabile",
+        "criostasi_adattiva",
+        "empatia_coordinativa",
+        "frusta_fiammeggiante",
+        "mantello_meteoritico",
+        "tattiche_di_branco"
+      ],
+      "synergy_traits": [
+        "focus_frazionato"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml"
+      ]
+    },
+    {
+      "id": "barriere-coralline-psioniche-trait-keeper",
+      "type": "species",
+      "display_name": "Barriere Coralline Psioniche Trait Keeper",
+      "core_traits": [
+        "sinapsi_coraline_polifoniche"
+      ],
+      "optional_traits": [
+        "sinapsi_coraline_polifoniche"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml"
       ]
     },
     {
@@ -103,12 +635,44 @@
       "type": "species",
       "display_name": "Blight Micotico",
       "core_traits": [
-        "pelli_fitte"
+        "ghiandola_caustica",
+        "lingua_tattile_trama",
+        "spore_psichiche_silenziate"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "filamenti_digestivi_compattanti",
+        "ghiandola_caustica",
+        "lingua_tattile_trama",
+        "mimetismo_cromatico_passivo",
+        "spore_psichiche_silenziate"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
+      ]
+    },
+    {
+      "id": "bulette-fase",
+      "type": "species",
+      "display_name": "Bulette di Fase",
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "fisiologia_predatoria",
+        "metabolismo_attivo",
+        "respirazione_biologica"
+      ],
+      "optional_traits": [
+        "armatura_pietra_planare",
+        "carapace_fase_variabile",
+        "coda_frusta_cinetica",
+        "lamelle_termoforetiche",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante",
+        "sensori_geomagnetici"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml"
       ]
     },
     {
@@ -123,17 +687,7 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "optional_traits": [],
-      "synergy_traits": [],
-      "sources": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
-      ]
-    },
-    {
-      "id": "cryo-lynx",
-      "type": "species",
-      "display_name": "Cryo Lynx",
-      "core_traits": [
+      "optional_traits": [
         "cuticole_cerose",
         "grassi_termici",
         "pelli_cave",
@@ -141,10 +695,320 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "optional_traits": [],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
+      ]
+    },
+    {
+      "id": "caldera-glaciale-trait-keeper",
+      "type": "species",
+      "display_name": "Glacial Caldera Trait Keeper",
+      "core_traits": [
+        "artigli_vetrificati",
+        "barriere_miasma_glaciale",
+        "branchie_solfatiche",
+        "capillari_criogenici",
+        "circolazione_bifasica",
+        "enzimi_antifase_termica",
+        "filamenti_superconduttivi",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_ventosa",
+        "gusci_criovetro",
+        "luminescenza_aurorale",
+        "mantelli_geotermici"
+      ],
+      "optional_traits": [
+        "artigli_vetrificati",
+        "barriere_miasma_glaciale",
+        "branchie_solfatiche",
+        "capillari_criogenici",
+        "circolazione_bifasica",
+        "enzimi_antifase_termica",
+        "filamenti_superconduttivi",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_ventosa",
+        "gusci_criovetro",
+        "luminescenza_aurorale",
+        "mantelli_geotermici"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "calotte-glaciali-trait-keeper",
+      "type": "species",
+      "display_name": "Calotte Glaciali Trait Keeper",
+      "core_traits": [
+        "artigli_sghiaccio_glaciale"
+      ],
+      "optional_traits": [
+        "artigli_sghiaccio_glaciale"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "canopia-ionica-trait-keeper",
+      "type": "species",
+      "display_name": "Ionic Canopy Trait Keeper",
+      "core_traits": [
+        "ali_ioniche",
+        "antenne_tesla",
+        "artigli_induzione",
+        "capillari_fotovoltaici",
+        "cervelletto_equilibrio_statico",
+        "coda_stabilizzatrice_filo",
+        "ghiandole_nebbia_ionica",
+        "ghiandole_resina_conduttiva",
+        "membrane_planata_vectored"
+      ],
+      "optional_traits": [
+        "ali_ioniche",
+        "antenne_tesla",
+        "artigli_induzione",
+        "capillari_fotovoltaici",
+        "cervelletto_equilibrio_statico",
+        "coda_stabilizzatrice_filo",
+        "ghiandole_nebbia_ionica",
+        "ghiandole_resina_conduttiva",
+        "membrane_planata_vectored"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "canopia-psionica-leggera-trait-keeper",
+      "type": "species",
+      "display_name": "Canopia Psionica Leggera Trait Keeper",
+      "core_traits": [
+        "carapace_fase_variabile",
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
+      ],
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "canopie-sospese-trait-keeper",
+      "type": "species",
+      "display_name": "Canopie Sospese Trait Keeper",
+      "core_traits": [
+        "chioma_parassita_canopica"
+      ],
+      "optional_traits": [
+        "chioma_parassita_canopica"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "caverna-risonante-trait-keeper",
+      "type": "species",
+      "display_name": "Resonant Cavern Trait Keeper",
+      "core_traits": [
+        "ali_membrana_sonica",
+        "antenne_microonde_cavernose",
+        "artigli_scivolo_silente",
+        "artigli_sette_vie",
+        "cartilagini_flessoacustiche",
+        "coda_balanciere",
+        "colonne_vibromagnetiche",
+        "denti_tuning_fork",
+        "echi_risonanti",
+        "filamenti_digestivi_compattanti",
+        "ghiandole_eco_mappanti",
+        "lingua_tattile_trama",
+        "midollo_antivibrazione",
+        "mucose_aderenza_sonica",
+        "nucleo_ovomotore_rotante",
+        "occhi_infrarosso_composti",
+        "respiro_a_scoppio",
+        "sangue_piroforico",
+        "scheletro_idro_regolante",
+        "secrezione_rallentante_palmi",
+        "sonno_emisferico_alternato",
+        "spore_psichiche_silenziate",
+        "ventriglio_gastroliti"
+      ],
+      "optional_traits": [
+        "ali_membrana_sonica",
+        "antenne_microonde_cavernose",
+        "artigli_scivolo_silente",
+        "artigli_sette_vie",
+        "cartilagini_flessoacustiche",
+        "coda_balanciere",
+        "colonne_vibromagnetiche",
+        "denti_tuning_fork",
+        "echi_risonanti",
+        "filamenti_digestivi_compattanti",
+        "ghiandole_eco_mappanti",
+        "lingua_tattile_trama",
+        "midollo_antivibrazione",
+        "mucose_aderenza_sonica",
+        "nucleo_ovomotore_rotante",
+        "occhi_infrarosso_composti",
+        "respiro_a_scoppio",
+        "sangue_piroforico",
+        "scheletro_idro_regolante",
+        "secrezione_rallentante_palmi",
+        "sonno_emisferico_alternato",
+        "spore_psichiche_silenziate",
+        "ventriglio_gastroliti"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "cicloni-psionici-trait-keeper",
+      "type": "species",
+      "display_name": "Cicloni Psionici Trait Keeper",
+      "core_traits": [
+        "antenne_plasmatiche_tempesta"
+      ],
+      "optional_traits": [
+        "antenne_plasmatiche_tempesta"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "couatl-aurora",
+      "type": "species",
+      "display_name": "Couatl Aurora Custode",
+      "core_traits": [
+        "adattamento_volo",
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica"
+      ],
+      "optional_traits": [
+        "ali_solari_fotoni",
+        "artigli_sette_vie",
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "ghiandole_nettare_memetico",
+        "lamelle_termoforetiche",
+        "occhi_infrarosso_composti",
+        "sensori_geomagnetici"
+      ],
+      "synergy_traits": [
+        "focus_frazionato",
+        "risonanza_di_branco"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml"
+      ]
+    },
+    {
+      "id": "cryo-lynx",
+      "type": "species",
+      "display_name": "Cryo Lynx",
+      "core_traits": [
+        "artigli_sette_vie",
+        "carapace_fase_variabile",
+        "olfatto_risonanza_magnetica"
+      ],
+      "optional_traits": [
+        "artigli_sette_vie",
+        "carapace_fase_variabile",
+        "criostasi_adattiva",
+        "olfatto_risonanza_magnetica",
+        "zampe_a_molla"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
+      ]
+    },
+    {
+      "id": "delta-salmastri-trait-keeper",
+      "type": "species",
+      "display_name": "Delta Salmastri Trait Keeper",
+      "core_traits": [
+        "branchie_osmotiche_salmastra"
+      ],
+      "optional_traits": [
+        "branchie_osmotiche_salmastra"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "dorsale-termale-tropicale-trait-keeper",
+      "type": "species",
+      "display_name": "Tropical Thermal Ridge Trait Keeper",
+      "core_traits": [
+        "antenne_eco_turbina",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "camere_nutrienti_vent",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "denti_silice_termici",
+        "filamenti_termoconduzione",
+        "ghiandole_minerali",
+        "gusci_magnesio",
+        "lamine_scudo_silice"
+      ],
+      "optional_traits": [
+        "antenne_eco_turbina",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "camere_nutrienti_vent",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "denti_silice_termici",
+        "filamenti_termoconduzione",
+        "ghiandole_minerali",
+        "gusci_magnesio",
+        "lamine_scudo_silice"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "dune-cristalline-trait-keeper",
+      "type": "species",
+      "display_name": "Dune Cristalline Trait Keeper",
+      "core_traits": [
+        "squame_rifrangenti_deserto"
+      ],
+      "optional_traits": [
+        "squame_rifrangenti_deserto"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml"
       ]
     },
     {
@@ -153,15 +1017,19 @@
       "display_name": "Dune Stalker",
       "core_traits": [
         "artigli_sette_vie",
+        "coda_frusta_cinetica",
         "scheletro_idro_regolante",
-        "sensori_geomagnetici",
         "struttura_elastica_amorfa"
       ],
       "optional_traits": [
+        "artigli_sette_vie",
         "coda_frusta_cinetica",
         "criostasi_adattiva",
-        "lamelle_termoforetiche",
-        "sacche_galleggianti_ascensoriali"
+        "olfatto_risonanza_magnetica",
+        "respiro_a_scoppio",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
       ],
       "synergy_traits": [
         "focus_frazionato",
@@ -169,7 +1037,7 @@
         "tattiche_di_branco"
       ],
       "sources": [
-        "data/core/species.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
       ]
     },
     {
@@ -182,12 +1050,42 @@
         "sonno_emisferico_alternato"
       ],
       "optional_traits": [
+        "eco_interno_riflesso",
         "lingua_tattile_trama",
-        "sacche_galleggianti_ascensoriali"
+        "occhi_infrarosso_composti",
+        "sacche_galleggianti_ascensoriali",
+        "sonno_emisferico_alternato"
       ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+      ]
+    },
+    {
+      "id": "falde-magnetiche-psioniche-trait-keeper",
+      "type": "species",
+      "display_name": "Falde Magnetiche Psioniche Trait Keeper",
+      "core_traits": [
+        "carapace_fase_variabile",
+        "coda_frusta_cinetica",
+        "eco_interno_riflesso",
+        "filamenti_digestivi_compattanti",
+        "mimetismo_cromatico_passivo",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "coda_frusta_cinetica",
+        "eco_interno_riflesso",
+        "filamenti_digestivi_compattanti",
+        "mimetismo_cromatico_passivo",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml"
       ]
     },
     {
@@ -201,11 +1099,200 @@
       ],
       "optional_traits": [
         "lingua_tattile_trama",
+        "mimetismo_cromatico_passivo",
+        "sangue_piroforico",
+        "secrezione_rallentante_palmi",
         "ventriglio_gastroliti"
+      ],
+      "synergy_traits": [
+        "architetto",
+        "sinergizzatore_team"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
+      ]
+    },
+    {
+      "id": "foresta-acida-trait-keeper",
+      "type": "species",
+      "display_name": "Acidic Rainforest Trait Keeper",
+      "core_traits": [
+        "antenne_reagenti",
+        "artigli_acidofagi",
+        "camere_anticorrosione",
+        "capillari_fluoridici",
+        "cromofori_alert_acido",
+        "cuticole_neutralizzanti",
+        "denti_chelatanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_nebbia_acida",
+        "linfa_tampone"
+      ],
+      "optional_traits": [
+        "antenne_reagenti",
+        "artigli_acidofagi",
+        "camere_anticorrosione",
+        "capillari_fluoridici",
+        "cromofori_alert_acido",
+        "cuticole_neutralizzanti",
+        "denti_chelatanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_nebbia_acida",
+        "linfa_tampone"
       ],
       "synergy_traits": [],
       "sources": [
-        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
+        "packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "foreste-nubose-trait-keeper",
+      "type": "species",
+      "display_name": "Foreste Nubose Trait Keeper",
+      "core_traits": [
+        "vello_condensatore_nebbie"
+      ],
+      "optional_traits": [
+        "vello_condensatore_nebbie"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "global-trait-keeper",
+      "type": "species",
+      "display_name": "Global Trait Keeper",
+      "core_traits": [
+        "cute_resistente_sali",
+        "cuticole_cerose",
+        "enzimi_chelanti",
+        "grassi_termici",
+        "pelli_cave",
+        "pelli_fitte",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "optional_traits": [
+        "cute_resistente_sali",
+        "cuticole_cerose",
+        "enzimi_chelanti",
+        "grassi_termici",
+        "pelli_cave",
+        "pelli_fitte",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/global/global-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "glowcap-weaver",
+      "type": "species",
+      "display_name": "Glowcap Weaver",
+      "core_traits": [
+        "empatia_coordinativa",
+        "filamenti_digestivi_compattanti",
+        "struttura_elastica_amorfa"
+      ],
+      "optional_traits": [
+        "empatia_coordinativa",
+        "filamenti_digestivi_compattanti",
+        "focus_frazionato",
+        "lingua_tattile_trama",
+        "struttura_elastica_amorfa"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
+      ]
+    },
+    {
+      "id": "gole-ventose-trait-keeper",
+      "type": "species",
+      "display_name": "Gole Ventose Trait Keeper",
+      "core_traits": [
+        "cartilagine_flessotermica_venti"
+      ],
+      "optional_traits": [
+        "cartilagine_flessotermica_venti"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "golem-runico",
+      "type": "species",
+      "display_name": "Golem Runico Custodiale",
+      "core_traits": [
+        "armatura_pietra_planare",
+        "assenza_respirazione",
+        "ciclo_vitale_anomalo",
+        "metabolismo_sostentato",
+        "origine_artificiale"
+      ],
+      "optional_traits": [
+        "armatura_pietra_planare",
+        "campo_di_fase",
+        "carapace_fase_variabile",
+        "matrice_antimagia",
+        "nuclei_di_controllo",
+        "rinforzi_modulari"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml"
+      ]
+    },
+    {
+      "id": "laghi-alcalini-trait-keeper",
+      "type": "species",
+      "display_name": "Laghi Alcalini Trait Keeper",
+      "core_traits": [
+        "membrane_eliofiltranti"
+      ],
+      "optional_traits": [
+        "membrane_eliofiltranti"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "laguna-bioreattiva-trait-keeper",
+      "type": "species",
+      "display_name": "Bioreactive Lagoon Trait Keeper",
+      "core_traits": [
+        "antenne_flusso_mareale",
+        "appendici_risonanti_marea",
+        "branchie_dual_mode",
+        "ciste_riduttive",
+        "filtri_planctonici",
+        "flagelli_ancoranti",
+        "ghiandole_cambio_salino"
+      ],
+      "optional_traits": [
+        "antenne_flusso_mareale",
+        "appendici_risonanti_marea",
+        "branchie_dual_mode",
+        "ciste_riduttive",
+        "filtri_planctonici",
+        "flagelli_ancoranti",
+        "ghiandole_cambio_salino"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml"
       ]
     },
     {
@@ -213,12 +1300,160 @@
       "type": "species",
       "display_name": "Lupo della Foresta",
       "core_traits": [
-        "pelli_fitte"
+        "empatia_coordinativa",
+        "risonanza_di_branco",
+        "tattiche_di_branco"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "occhi_infrarosso_composti",
+        "risonanza_di_branco",
+        "tattiche_di_branco"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
+      ]
+    },
+    {
+      "id": "magnet-fathom-surveyor",
+      "type": "species",
+      "display_name": "Magnet Fathom Surveyor",
+      "core_traits": [
+        "filamenti_digestivi_compattanti",
+        "nucleo_ovomotore_rotante",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "optional_traits": [
+        "filamenti_digestivi_compattanti",
+        "lamelle_termoforetiche",
+        "nucleo_ovomotore_rotante",
+        "olfatto_risonanza_magnetica",
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml"
+      ]
+    },
+    {
+      "id": "magneto-ridge-hunter",
+      "type": "species",
+      "display_name": "Magneto Ridge Hunter",
+      "core_traits": [
+        "artigli_sette_vie",
+        "coda_frusta_cinetica",
+        "scheletro_idro_regolante"
+      ],
+      "optional_traits": [
+        "artigli_sette_vie",
+        "coda_frusta_cinetica",
+        "olfatto_risonanza_magnetica",
+        "respiro_a_scoppio",
+        "scheletro_idro_regolante"
+      ],
+      "synergy_traits": [
+        "struttura_elastica_amorfa",
+        "tattiche_di_branco"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
+      ]
+    },
+    {
+      "id": "mangrovie-risonanti-trait-keeper",
+      "type": "species",
+      "display_name": "Mangrovie Risonanti Trait Keeper",
+      "core_traits": [
+        "mucillagine_simbionte_mangrovie"
+      ],
+      "optional_traits": [
+        "mucillagine_simbionte_mangrovie"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "mangrovieto-cinetico-trait-keeper",
+      "type": "species",
+      "display_name": "Kinetic Mangrove Trait Keeper",
+      "core_traits": [
+        "artigli_radice",
+        "baffi_mareomotori",
+        "coda_contrappeso",
+        "foliaggio_spugna",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori"
+      ],
+      "optional_traits": [
+        "artigli_radice",
+        "baffi_mareomotori",
+        "coda_contrappeso",
+        "foliaggio_spugna",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "marilith-vault",
+      "type": "species",
+      "display_name": "Marilith delle Volte",
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "focus_frazionato",
+        "frusta_fiammeggiante",
+        "mantello_meteoritico",
+        "metabolismo_attivo",
+        "respirazione_biologica"
+      ],
+      "optional_traits": [
+        "artigli_sette_vie",
+        "coda_frusta_cinetica",
+        "empatia_coordinativa",
+        "riflessi_preternaturali",
+        "sensori_geomagnetici",
+        "tessuti_adattivi",
+        "visione_spettrale"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml"
+      ]
+    },
+    {
+      "id": "myco-spire-warden",
+      "type": "species",
+      "display_name": "Myco Spire warden",
+      "core_traits": [
+        "empatia_coordinativa",
+        "filamenti_digestivi_compattanti",
+        "struttura_elastica_amorfa"
+      ],
+      "optional_traits": [
+        "empatia_coordinativa",
+        "filamenti_digestivi_compattanti",
+        "focus_frazionato",
+        "spore_psichiche_silenziate",
+        "struttura_elastica_amorfa"
+      ],
+      "synergy_traits": [
+        "Strategist"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
       ]
     },
     {
@@ -232,7 +1467,10 @@
       ],
       "optional_traits": [
         "carapace_fase_variabile",
-        "sangue_piroforico"
+        "filamenti_digestivi_compattanti",
+        "sangue_piroforico",
+        "scheletro_idro_regolante",
+        "spore_psichiche_silenziate"
       ],
       "synergy_traits": [],
       "sources": [
@@ -251,10 +1489,291 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
+      ]
+    },
+    {
+      "id": "orbita-psionica-inversa-trait-keeper",
+      "type": "species",
+      "display_name": "Orbita Psionica Inversa Trait Keeper",
+      "core_traits": [
+        "coda_frusta_cinetica",
+        "criostasi_adattiva",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "optional_traits": [
+        "coda_frusta_cinetica",
+        "criostasi_adattiva",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "orbital-ascendant",
+      "type": "species",
+      "display_name": "Orbital Ascendant",
+      "core_traits": [
+        "focus_frazionato",
+        "nucleo_ovomotore_rotante",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "optional_traits": [
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "focus_frazionato",
+        "nucleo_ovomotore_rotante",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml"
+      ]
+    },
+    {
+      "id": "otyugh-sentinella",
+      "type": "species",
+      "display_name": "Otyugh Sentinella delle Fogne Astrali",
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica"
+      ],
+      "optional_traits": [
+        "artigli_sette_vie",
+        "carapace_fase_variabile",
+        "filtri_bioattivi",
+        "lamelle_termoforetiche",
+        "membrane_osmotiche",
+        "nodi_micotici",
+        "proboscide_polifaga",
+        "secrezioni_antisepsi",
+        "sensori_chimici"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml"
+      ]
+    },
+    {
+      "id": "paludi-gas-luminescenti-trait-keeper",
+      "type": "species",
+      "display_name": "Paludi Gas Luminescenti Trait Keeper",
+      "core_traits": [
+        "circolazione_bifasica_palude"
+      ],
+      "optional_traits": [
+        "circolazione_bifasica_palude"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "permafrost-psionico-trait-keeper",
+      "type": "species",
+      "display_name": "Permafrost Psionico Trait Keeper",
+      "core_traits": [
+        "bulbi_radici_permafrost"
+      ],
+      "optional_traits": [
+        "bulbi_radici_permafrost"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "pianura-salina-iperarida-trait-keeper",
+      "type": "species",
+      "display_name": "Hyperarid Salt Flat Trait Keeper",
+      "core_traits": [
+        "antenne_dustsense",
+        "biofilm_iperarido",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "chemiorecettori_bromuro",
+        "ciste_salmastre",
+        "cuscinetti_elettrostatici",
+        "ghiandole_iodoattive",
+        "lingua_cristallina",
+        "membrane_captura_rugiada"
+      ],
+      "optional_traits": [
+        "antenne_dustsense",
+        "biofilm_iperarido",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "chemiorecettori_bromuro",
+        "ciste_salmastre",
+        "cuscinetti_elettrostatici",
+        "ghiandole_iodoattive",
+        "lingua_cristallina",
+        "membrane_captura_rugiada"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "pianure-magnetiche-trait-keeper",
+      "type": "species",
+      "display_name": "Pianure Magnetiche Trait Keeper",
+      "core_traits": [
+        "sensori_geomagnetici"
+      ],
+      "optional_traits": [
+        "sensori_geomagnetici"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "picchi-cristallini-trait-keeper",
+      "type": "species",
+      "display_name": "Picchi Cristallini Trait Keeper",
+      "core_traits": [
+        "polmoni_cristallini_alta_quota"
+      ],
+      "optional_traits": [
+        "polmoni_cristallini_alta_quota"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "psionic-canopy-scout",
+      "type": "species",
+      "display_name": "Psionic Canopy Scout",
+      "core_traits": [
+        "focus_frazionato",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
+      ],
+      "optional_traits": [
+        "focus_frazionato",
+        "mimetismo_cromatico_passivo",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali",
+        "spore_psichiche_silenziate",
+        "struttura_elastica_amorfa"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml"
+      ]
+    },
+    {
+      "id": "rakshasa-corte",
+      "type": "species",
+      "display_name": "Rakshasa della Corte Spezzata",
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica"
+      ],
+      "optional_traits": [
+        "artigli_psionici",
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "maschera_illusoria",
+        "sinapsi_riflettenti",
+        "tessuti_adattivi"
+      ],
+      "synergy_traits": [
+        "risonanza_di_branco"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml"
+      ]
+    },
+    {
+      "id": "reef-luminescente-trait-keeper",
+      "type": "species",
+      "display_name": "Luminescent Reef Trait Keeper",
+      "core_traits": [
+        "antenne_waveguide",
+        "biofilm_glow",
+        "branchie_microfiltri",
+        "cartilagini_biofibre",
+        "coralli_partner",
+        "enzimi_antipredatori_algali",
+        "epitelio_fosforescente",
+        "ghiandole_inchiostro_luce"
+      ],
+      "optional_traits": [
+        "antenne_waveguide",
+        "biofilm_glow",
+        "branchie_microfiltri",
+        "cartilagini_biofibre",
+        "coralli_partner",
+        "enzimi_antipredatori_algali",
+        "epitelio_fosforescente",
+        "ghiandole_inchiostro_luce"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "resonant-claw-hunter",
+      "type": "species",
+      "display_name": "Resonant Claw Hunter",
+      "core_traits": [
+        "artigli_sette_vie"
+      ],
+      "optional_traits": [
+        "artigli_sette_vie",
+        "cartilagini_flessoacustiche",
+        "eco_interno_riflesso",
+        "lingua_tattile_trama",
+        "midollo_antivibrazione",
+        "mimetismo_cromatico_passivo",
+        "occhi_infrarosso_composti"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml"
+      ]
+    },
+    {
+      "id": "reti-micorriziche-trait-keeper",
+      "type": "species",
+      "display_name": "Reti Micorriziche Trait Keeper",
+      "core_traits": [
+        "nodi_micorrizici_oracolari"
+      ],
+      "optional_traits": [
+        "nodi_micorrizici_oracolari"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml"
       ]
     },
     {
@@ -267,8 +1786,11 @@
         "ventriglio_gastroliti"
       ],
       "optional_traits": [
+        "filamenti_digestivi_compattanti",
         "nucleo_ovomotore_rotante",
-        "scheletro_idro_regolante"
+        "respiro_a_scoppio",
+        "scheletro_idro_regolante",
+        "ventriglio_gastroliti"
       ],
       "synergy_traits": [],
       "sources": [
@@ -286,6 +1808,9 @@
       ],
       "optional_traits": [
         "carapace_fase_variabile",
+        "nucleo_ovomotore_rotante",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante",
         "zampe_a_molla"
       ],
       "synergy_traits": [],
@@ -298,9 +1823,17 @@
       "type": "species",
       "display_name": "Sentinella Radice",
       "core_traits": [
-        "pelli_fitte"
+        "focus_frazionato",
+        "pathfinder",
+        "pianificatore"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "pathfinder",
+        "pianificatore",
+        "random"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
@@ -318,10 +1851,83 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
+      ]
+    },
+    {
+      "id": "slag-veil-ambusher",
+      "type": "species",
+      "display_name": "Slag Veil Ambusher",
+      "core_traits": [
+        "coda_frusta_cinetica",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "optional_traits": [
+        "coda_frusta_cinetica",
+        "ghiandola_caustica",
+        "olfatto_risonanza_magnetica",
+        "respiro_a_scoppio",
+        "struttura_elastica_amorfa"
+      ],
+      "synergy_traits": [
+        "scheletro_idro_regolante",
+        "tattiche_di_branco"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
+      ]
+    },
+    {
+      "id": "sorgenti-geotermiche-trait-keeper",
+      "type": "species",
+      "display_name": "Sorgenti Geotermiche Trait Keeper",
+      "core_traits": [
+        "lamelle_termoforetiche"
+      ],
+      "optional_traits": [
+        "lamelle_termoforetiche"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "steppe-algoritmiche-trait-keeper",
+      "type": "species",
+      "display_name": "Algorithmic Steppe Trait Keeper",
+      "core_traits": [
+        "antenne_wideband",
+        "biochip_memoria",
+        "carapace_segmenti_logici",
+        "circolazione_cooling_loop",
+        "coda_coppia_retroattiva",
+        "ghiandole_grafene",
+        "lamelle_sincroniche"
+      ],
+      "optional_traits": [
+        "antenne_wideband",
+        "biochip_memoria",
+        "carapace_segmenti_logici",
+        "circolazione_cooling_loop",
+        "coda_coppia_retroattiva",
+        "ghiandole_grafene",
+        "lamelle_sincroniche"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml"
       ]
     },
     {
@@ -329,17 +1935,81 @@
       "type": "species",
       "display_name": "Bisonte Nano della Steppa",
       "core_traits": [
-        "cuticole_cerose",
-        "grassi_termici",
-        "pelli_cave",
-        "pigmenti_aurorali",
-        "proteine_shock_termico",
-        "reti_capillari_radici"
+        "respiro_a_scoppio",
+        "scheletro_idro_regolante",
+        "ventriglio_gastroliti"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "respiro_a_scoppio",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante",
+        "ventriglio_gastroliti"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
+      ]
+    },
+    {
+      "id": "steppe-risonanti-trait-keeper",
+      "type": "species",
+      "display_name": "Steppe Risonanti Trait Keeper",
+      "core_traits": [
+        "zoccoli_risonanti_steppe"
+      ],
+      "optional_traits": [
+        "zoccoli_risonanti_steppe"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "stratosfera-portante-trait-keeper",
+      "type": "species",
+      "display_name": "Stratosfera Portante Trait Keeper",
+      "core_traits": [
+        "sacche_spore_stratosferiche"
+      ],
+      "optional_traits": [
+        "sacche_spore_stratosferiche"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml"
+      ]
+    },
+    {
+      "id": "stratosfera-tempestosa-trait-keeper",
+      "type": "species",
+      "display_name": "Tempestuous Stratosphere Trait Keeper",
+      "core_traits": [
+        "ali_fulminee",
+        "barbigli_sensori_plasma",
+        "branchie_eoliche",
+        "capsule_paracadute",
+        "coda_stabilizzatrice_vortex",
+        "cuore_multicamera_bassa_pressione",
+        "epidermide_dielettrica",
+        "ghiandole_condensa_ozono",
+        "lamelle_shear"
+      ],
+      "optional_traits": [
+        "ali_fulminee",
+        "barbigli_sensori_plasma",
+        "branchie_eoliche",
+        "capsule_paracadute",
+        "coda_stabilizzatrice_vortex",
+        "cuore_multicamera_bassa_pressione",
+        "epidermide_dielettrica",
+        "ghiandole_condensa_ozono",
+        "lamelle_shear"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml"
       ]
     },
     {
@@ -347,14 +2017,17 @@
       "type": "species",
       "display_name": "Thaw Rot",
       "core_traits": [
-        "cuticole_cerose",
-        "grassi_termici",
-        "pelli_cave",
-        "pigmenti_aurorali",
-        "proteine_shock_termico",
-        "reti_capillari_radici"
+        "filamenti_digestivi_compattanti",
+        "sangue_piroforico",
+        "spore_psichiche_silenziate"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "eco_interno_riflesso",
+        "filamenti_digestivi_compattanti",
+        "sangue_piroforico",
+        "secrezione_rallentante_palmi",
+        "spore_psichiche_silenziate"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
@@ -372,115 +2045,57 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
       ]
     },
     {
-      "id": "magneto-ridge-hunter",
+      "id": "treant-portale",
       "type": "species",
-      "display_name": "Magneto Ridge Hunter",
+      "display_name": "Treant dei Portali Antichi",
       "core_traits": [
-        "artigli_sette_vie",
-        "coda_frusta_cinetica",
-        "scheletro_idro_regolante"
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica"
       ],
       "optional_traits": [
-        "olfatto_risonanza_magnetica",
-        "respiro_a_scoppio"
+        "armatura_pietra_planare",
+        "corteccia_memetica",
+        "fotosintesi_bifase",
+        "nodi_micotici",
+        "pigmenti_aurorali",
+        "radici_ancora_planare",
+        "reti_capillari_radici"
       ],
       "synergy_traits": [
-        "struttura_elastica_amorfa",
-        "tattiche_di_branco"
-      ],
-      "sources": [
-        "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
-      ]
-    },
-    {
-      "id": "slag-veil-ambusher",
-      "type": "species",
-      "display_name": "Slag Veil Ambusher",
-      "core_traits": [
-        "coda_frusta_cinetica",
-        "olfatto_risonanza_magnetica",
-        "struttura_elastica_amorfa"
-      ],
-      "optional_traits": [
-        "ghiandola_caustica",
-        "respiro_a_scoppio"
-      ],
-      "synergy_traits": [
-        "scheletro_idro_regolante",
-        "tattiche_di_branco"
-      ],
-      "sources": [
-        "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
-      ]
-    },
-    {
-      "id": "myco-spire-warden",
-      "type": "species",
-      "display_name": "Myco Spire Warden",
-      "core_traits": [
-        "empatia_coordinativa",
-        "filamenti_digestivi_compattanti",
-        "struttura_elastica_amorfa"
-      ],
-      "optional_traits": [
-        "focus_frazionato",
-        "spore_psichiche_silenziate"
-      ],
-      "synergy_traits": [
-        "pathfinder",
-        "pianificatore"
-      ],
-      "sources": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
-      ]
-    },
-    {
-      "id": "glowcap-weaver",
-      "type": "species",
-      "display_name": "Glowcap Weaver",
-      "core_traits": [
-        "empatia_coordinativa",
-        "filamenti_digestivi_compattanti",
-        "struttura_elastica_amorfa"
-      ],
-      "optional_traits": [
-        "focus_frazionato",
-        "lingua_tattile_trama"
-      ],
-      "synergy_traits": [
-        "pathfinder",
-        "pianificatore"
-      ],
-      "sources": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
-      ]
-    },
-    {
-      "id": "aurora-bridge-runner",
-      "type": "species",
-      "display_name": "Aurora Bridge Runner",
-      "core_traits": [
-        "eco_interno_riflesso",
-        "mimetismo_cromatico_passivo",
-        "sacche_galleggianti_ascensoriali"
-      ],
-      "optional_traits": [
-        "lingua_tattile_trama",
-        "occhi_infrarosso_composti"
-      ],
-      "synergy_traits": [
-        "empatia_coordinativa",
         "risonanza_di_branco"
       ],
       "sources": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"
+        "packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml"
+      ]
+    },
+    {
+      "id": "tundra-risonante-trait-keeper",
+      "type": "species",
+      "display_name": "Tundra Risonante Trait Keeper",
+      "core_traits": [
+        "cavita_risonanti_tundra"
+      ],
+      "optional_traits": [
+        "cavita_risonanti_tundra"
+      ],
+      "synergy_traits": [],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml"
       ]
     },
     {
@@ -493,15 +2108,42 @@
         "sacche_galleggianti_ascensoriali"
       ],
       "optional_traits": [
+        "eco_interno_riflesso",
         "lingua_tattile_trama",
-        "occhi_infrarosso_composti"
+        "mimetismo_cromatico_passivo",
+        "occhi_infrarosso_composti",
+        "sacche_galleggianti_ascensoriali"
       ],
-      "synergy_traits": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
+      ]
+    },
+    {
+      "id": "banshee-risonante",
+      "type": "event",
+      "display_name": "Banshee Risonante",
+      "core_traits": [
+        "adattamento_volo",
+        "assenza_respirazione",
+        "ciclo_vitale_anomalo",
+        "metabolismo_sostentato",
+        "origine_artificiale",
+        "risonanza_di_branco"
+      ],
+      "optional_traits": [
+        "eco_sismico",
+        "focus_frazionato",
+        "intangibilita_parziale",
+        "lamenti_diradanti",
+        "risonanza_di_branco",
+        "voce_spettrale"
+      ],
+      "synergy_traits": [
+        "focus_frazionato"
+      ],
+      "sources": [
+        "packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml"
       ]
     },
     {
@@ -516,7 +2158,14 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
@@ -534,7 +2183,14 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
@@ -547,7 +2203,9 @@
       "core_traits": [
         "pelli_fitte"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "pelli_fitte"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml"
@@ -563,7 +2221,12 @@
         "pelli_anti_ustione",
         "pigmenti_termici"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
@@ -571,340 +2234,2055 @@
     }
   ],
   "trait_usage": {
-    "artigli_sette_vie": {
+    "Strategist": {
+      "core": [],
+      "optional": [],
+      "synergy": [
+        "myco-spire-warden"
+      ]
+    },
+    "adattamento_volo": {
       "core": [
-        "dune-stalker",
-        "magneto-ridge-hunter"
+        "archon-solare",
+        "balor-fission",
+        "banshee-risonante",
+        "couatl-aurora"
       ],
       "optional": [],
       "synergy": []
     },
-    "carapace_fase_variabile": {
+    "ali_fulminee": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ali_ioniche": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ali_membrana_sonica": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ali_solari_fotoni": {
       "core": [],
       "optional": [
+        "archon-solare",
+        "couatl-aurora"
+      ],
+      "synergy": []
+    },
+    "antenne_dustsense": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "antenne_eco_turbina": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "antenne_flusso_mareale": {
+      "core": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "optional": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "antenne_microonde_cavernose": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "antenne_plasmatiche_tempesta": {
+      "core": [
+        "cicloni-psionici-trait-keeper"
+      ],
+      "optional": [
+        "cicloni-psionici-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "antenne_reagenti": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "antenne_tesla": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "antenne_waveguide": {
+      "core": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "antenne_wideband": {
+      "core": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "optional": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "appendici_risonanti_marea": {
+      "core": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "optional": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "appendici_thermotattiche": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "architetto": {
+      "core": [],
+      "optional": [],
+      "synergy": [
+        "ferrocolonia-magnetotattica"
+      ]
+    },
+    "armatura_pietra_planare": {
+      "core": [
+        "golem-runico"
+      ],
+      "optional": [
+        "balor-fission",
+        "bulette-fase",
+        "golem-runico",
+        "treant-portale"
+      ],
+      "synergy": []
+    },
+    "artigli_acidofagi": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "artigli_induzione": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "artigli_psionici": {
+      "core": [],
+      "optional": [
+        "rakshasa-corte"
+      ],
+      "synergy": []
+    },
+    "artigli_radice": {
+      "core": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "optional": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "artigli_scivolo_silente": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "artigli_sette_vie": {
+      "core": [
+        "caverna-risonante-trait-keeper",
+        "cryo-lynx",
+        "dune-stalker",
+        "magneto-ridge-hunter",
+        "resonant-claw-hunter"
+      ],
+      "optional": [
+        "balor-fission",
+        "caverna-risonante-trait-keeper",
+        "couatl-aurora",
+        "cryo-lynx",
+        "dune-stalker",
+        "magneto-ridge-hunter",
+        "marilith-vault",
+        "otyugh-sentinella",
+        "resonant-claw-hunter"
+      ],
+      "synergy": []
+    },
+    "artigli_sghiaccio_glaciale": {
+      "core": [
+        "calotte-glaciali-trait-keeper"
+      ],
+      "optional": [
+        "calotte-glaciali-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "artigli_vetrificati": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "assenza_respirazione": {
+      "core": [
+        "banshee-risonante",
+        "golem-runico"
+      ],
+      "optional": [],
+      "synergy": []
+    },
+    "aura_scudo_radianza": {
+      "core": [
+        "archon-solare"
+      ],
+      "optional": [
+        "archon-solare"
+      ],
+      "synergy": []
+    },
+    "baffi_mareomotori": {
+      "core": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "optional": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "barbigli_sensori_plasma": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "barriere_miasma_glaciale": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "batteri_endosimbionti_chemio": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "batteri_termofili_endosimbiosi": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "biochip_memoria": {
+      "core": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "optional": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "biofilm_glow": {
+      "core": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "biofilm_iperarido": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "branchie_dual_mode": {
+      "core": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "optional": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "branchie_eoliche": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "branchie_metalloidi": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "branchie_microfiltri": {
+      "core": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "branchie_osmotiche_salmastra": {
+      "core": [
+        "delta-salmastri-trait-keeper"
+      ],
+      "optional": [
+        "delta-salmastri-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "branchie_solfatiche": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "branchie_turbina": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "bulbi_radici_permafrost": {
+      "core": [
+        "permafrost-psionico-trait-keeper"
+      ],
+      "optional": [
+        "permafrost-psionico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "camere_anticorrosione": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "camere_mirage": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "camere_nutrienti_vent": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "campo_di_fase": {
+      "core": [],
+      "optional": [
+        "golem-runico"
+      ],
+      "synergy": []
+    },
+    "capillari_criogenici": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "capillari_fluoridici": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "capillari_fotovoltaici": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "capsule_paracadute": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "carapace_fase_variabile": {
+      "core": [
+        "canopia-psionica-leggera-trait-keeper",
+        "cryo-lynx",
+        "falde-magnetiche-psioniche-trait-keeper"
+      ],
+      "optional": [
+        "balor-fission",
+        "bulette-fase",
+        "canopia-psionica-leggera-trait-keeper",
+        "cryo-lynx",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "golem-runico",
         "nano-rust-bloom",
-        "sand-burrower"
+        "otyugh-sentinella",
+        "sand-burrower",
+        "steppe-bison-mini"
+      ],
+      "synergy": []
+    },
+    "carapace_luminiscente_abissale": {
+      "core": [
+        "abisso-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "abisso-luminescente-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "carapace_segmenti_logici": {
+      "core": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "optional": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "carapaci_ferruginosi": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cartilagine_flessotermica_venti": {
+      "core": [
+        "gole-ventose-trait-keeper"
+      ],
+      "optional": [
+        "gole-ventose-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cartilagini_biofibre": {
+      "core": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cartilagini_desertiche": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cartilagini_flessoacustiche": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper",
+        "resonant-claw-hunter"
+      ],
+      "synergy": []
+    },
+    "cartilagini_pseudometalliche": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cavita_risonanti_tundra": {
+      "core": [
+        "tundra-risonante-trait-keeper"
+      ],
+      "optional": [
+        "tundra-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cervelletto_equilibrio_statico": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "chemiorecettori_bromuro": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "chioma_parassita_canopica": {
+      "core": [
+        "canopie-sospese-trait-keeper"
+      ],
+      "optional": [
+        "canopie-sospese-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ciclo_vitale_anomalo": {
+      "core": [
+        "banshee-risonante",
+        "golem-runico"
+      ],
+      "optional": [],
+      "synergy": []
+    },
+    "ciclo_vitale_completo": {
+      "core": [
+        "archon-solare",
+        "balor-fission",
+        "bulette-fase",
+        "couatl-aurora",
+        "marilith-vault",
+        "otyugh-sentinella",
+        "rakshasa-corte",
+        "treant-portale"
+      ],
+      "optional": [],
+      "synergy": []
+    },
+    "circolazione_bifasica": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "circolazione_bifasica_palude": {
+      "core": [
+        "paludi-gas-luminescenti-trait-keeper"
+      ],
+      "optional": [
+        "paludi-gas-luminescenti-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "circolazione_cooling_loop": {
+      "core": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "optional": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "circolazione_doppia": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "circolazione_supercritica": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ciste_riduttive": {
+      "core": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "optional": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ciste_salmastre": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cisti_iperbariche": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "coda_balanciere": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "coda_contrappeso": {
+      "core": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "optional": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "coda_coppia_retroattiva": {
+      "core": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "optional": [
+        "steppe-algoritmiche-trait-keeper"
       ],
       "synergy": []
     },
     "coda_frusta_cinetica": {
       "core": [
+        "dune-stalker",
+        "falde-magnetiche-psioniche-trait-keeper",
         "magneto-ridge-hunter",
+        "orbita-psionica-inversa-trait-keeper",
         "slag-veil-ambusher"
       ],
       "optional": [
-        "dune-stalker"
+        "bulette-fase",
+        "dune-stalker",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "magneto-ridge-hunter",
+        "marilith-vault",
+        "orbita-psionica-inversa-trait-keeper",
+        "slag-veil-ambusher"
+      ],
+      "synergy": []
+    },
+    "coda_stabilizzatrice_filo": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "coda_stabilizzatrice_geiser": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "coda_stabilizzatrice_vortex": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "colonne_vibromagnetiche": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "coralli_partner": {
+      "core": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "corteccia_memetica": {
+      "core": [],
+      "optional": [
+        "treant-portale"
       ],
       "synergy": []
     },
     "criostasi_adattiva": {
-      "core": [],
+      "core": [
+        "aurora-gull",
+        "canopia-psionica-leggera-trait-keeper",
+        "orbita-psionica-inversa-trait-keeper"
+      ],
       "optional": [
-        "dune-stalker"
+        "aurora-gull",
+        "balor-fission",
+        "canopia-psionica-leggera-trait-keeper",
+        "cryo-lynx",
+        "dune-stalker",
+        "orbita-psionica-inversa-trait-keeper",
+        "orbital-ascendant"
+      ],
+      "synergy": []
+    },
+    "cromofori_alert_acido": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cuore_multicamera_bassa_pressione": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "cuscinetti_elettrostatici": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
       ],
       "synergy": []
     },
     "cute_resistente_sali": {
       "core": [
-        "evento-tempesta-ferrosa"
+        "badlands-trait-keeper",
+        "evento-tempesta-ferrosa",
+        "global-trait-keeper"
       ],
-      "optional": [],
+      "optional": [
+        "badlands-trait-keeper",
+        "evento-tempesta-ferrosa",
+        "global-trait-keeper"
+      ],
       "synergy": []
     },
     "cuticole_cerose": {
       "core": [
-        "aurora-gull",
         "cactus-weaver",
-        "cryo-lynx",
         "evento-brinastorm",
         "evento-ondata-termica",
+        "global-trait-keeper",
         "noctule-termico",
         "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
         "thermo-raptor"
       ],
-      "optional": [],
+      "optional": [
+        "cactus-weaver",
+        "evento-brinastorm",
+        "evento-ondata-termica",
+        "global-trait-keeper",
+        "noctule-termico",
+        "silica-bloom",
+        "thermo-raptor"
+      ],
+      "synergy": []
+    },
+    "cuticole_neutralizzanti": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "denti_chelatanti": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "denti_ossidoferro": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "denti_silice_termici": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "denti_tuning_fork": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "echi_risonanti": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
       "synergy": []
     },
     "eco_interno_riflesso": {
       "core": [
         "aurora-bridge-runner",
+        "aurora-gull",
+        "canopia-psionica-leggera-trait-keeper",
         "echo-wing",
+        "falde-magnetiche-psioniche-trait-keeper",
         "zephyr-spore-courier"
       ],
-      "optional": [],
+      "optional": [
+        "aurora-bridge-runner",
+        "aurora-gull",
+        "canopia-psionica-leggera-trait-keeper",
+        "echo-wing",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "orbital-ascendant",
+        "resonant-claw-hunter",
+        "thaw-rot",
+        "zephyr-spore-courier"
+      ],
+      "synergy": []
+    },
+    "eco_sismico": {
+      "core": [],
+      "optional": [
+        "banshee-risonante"
+      ],
       "synergy": []
     },
     "empatia_coordinativa": {
       "core": [
         "glowcap-weaver",
+        "lupus-temperatus",
         "myco-spire-warden"
       ],
-      "optional": [],
+      "optional": [
+        "archon-solare",
+        "balor-fission",
+        "couatl-aurora",
+        "glowcap-weaver",
+        "lupus-temperatus",
+        "marilith-vault",
+        "myco-spire-warden",
+        "rakshasa-corte",
+        "sentinella-radice"
+      ],
       "synergy": [
-        "aurora-bridge-runner",
-        "zephyr-spore-courier"
+        "archon-solare"
       ]
+    },
+    "enzimi_antifase_termica": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "enzimi_antipredatori_algali": {
+      "core": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "synergy": []
     },
     "enzimi_chelanti": {
       "core": [
-        "evento-tempesta-ferrosa"
+        "evento-tempesta-ferrosa",
+        "global-trait-keeper"
       ],
-      "optional": [],
+      "optional": [
+        "evento-tempesta-ferrosa",
+        "global-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "enzimi_chelatori_rapidi": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "enzimi_metanoossidanti": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "epidermide_dielettrica": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "epitelio_fosforescente": {
+      "core": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "reef-luminescente-trait-keeper"
+      ],
       "synergy": []
     },
     "filamenti_digestivi_compattanti": {
       "core": [
+        "caverna-risonante-trait-keeper",
+        "falde-magnetiche-psioniche-trait-keeper",
         "glowcap-weaver",
+        "magnet-fathom-surveyor",
         "myco-spire-warden",
         "nano-rust-bloom",
-        "rust-scavenger"
+        "rust-scavenger",
+        "thaw-rot"
+      ],
+      "optional": [
+        "blight-micotico",
+        "caverna-risonante-trait-keeper",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "glowcap-weaver",
+        "magnet-fathom-surveyor",
+        "myco-spire-warden",
+        "nano-rust-bloom",
+        "rust-scavenger",
+        "thaw-rot"
+      ],
+      "synergy": []
+    },
+    "filamenti_magnetotrofi": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "filamenti_superconduttivi": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "filamenti_termoconduzione": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "filtri_bioattivi": {
+      "core": [],
+      "optional": [
+        "otyugh-sentinella"
+      ],
+      "synergy": []
+    },
+    "filtri_planctonici": {
+      "core": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "optional": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "fisiologia_predatoria": {
+      "core": [
+        "bulette-fase"
       ],
       "optional": [],
       "synergy": []
     },
-    "focus_frazionato": {
-      "core": [],
+    "flagelli_ancoranti": {
+      "core": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
       "optional": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "focus_frazionato": {
+      "core": [
+        "marilith-vault",
+        "orbital-ascendant",
+        "psionic-canopy-scout",
+        "sentinella-radice"
+      ],
+      "optional": [
+        "archon-solare",
+        "banshee-risonante",
+        "couatl-aurora",
         "glowcap-weaver",
-        "myco-spire-warden"
+        "lupus-temperatus",
+        "myco-spire-warden",
+        "orbital-ascendant",
+        "psionic-canopy-scout",
+        "rakshasa-corte",
+        "sentinella-radice"
       ],
       "synergy": [
+        "archon-solare",
+        "balor-fission",
+        "banshee-risonante",
+        "couatl-aurora",
         "dune-stalker"
       ]
     },
-    "ghiandola_caustica": {
+    "foliage_fotocatodico": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "foliaggio_spugna": {
+      "core": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "optional": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "fotosintesi_bifase": {
       "core": [],
       "optional": [
+        "treant-portale"
+      ],
+      "synergy": []
+    },
+    "frusta_fiammeggiante": {
+      "core": [
+        "balor-fission",
+        "marilith-vault"
+      ],
+      "optional": [
+        "balor-fission"
+      ],
+      "synergy": []
+    },
+    "ghiaccio_piezoelettrico": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandola_caustica": {
+      "core": [
+        "blight-micotico"
+      ],
+      "optional": [
+        "blight-micotico",
         "slag-veil-ambusher"
+      ],
+      "synergy": []
+    },
+    "ghiandole_cambio_salino": {
+      "core": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "optional": [
+        "laguna-bioreattiva-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_condensa_ozono": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_eco_mappanti": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_fango_calde": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_fango_coesivo": {
+      "core": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "optional": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_grafene": {
+      "core": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "optional": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_inchiostro_luce": {
+      "core": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "optional": [
+        "reef-luminescente-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_iodoattive": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_minerali": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_nebbia_acida": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_nebbia_ionica": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_nettare_memetico": {
+      "core": [],
+      "optional": [
+        "couatl-aurora"
+      ],
+      "synergy": []
+    },
+    "ghiandole_resina_conduttiva": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ghiandole_ventosa": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "giunti_antitorsione": {
+      "core": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "optional": [
+        "mangrovieto-cinetico-trait-keeper"
       ],
       "synergy": []
     },
     "grassi_termici": {
       "core": [
-        "aurora-gull",
         "cactus-weaver",
-        "cryo-lynx",
         "evento-brinastorm",
         "evento-ondata-termica",
+        "global-trait-keeper",
         "noctule-termico",
         "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
         "thermo-raptor"
       ],
-      "optional": [],
+      "optional": [
+        "cactus-weaver",
+        "evento-brinastorm",
+        "evento-ondata-termica",
+        "global-trait-keeper",
+        "noctule-termico",
+        "silica-bloom",
+        "thermo-raptor"
+      ],
+      "synergy": []
+    },
+    "gusci_criovetro": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "gusci_magnesio": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "intangibilita_parziale": {
+      "core": [],
+      "optional": [
+        "banshee-risonante"
+      ],
+      "synergy": []
+    },
+    "lamelle_shear": {
+      "core": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-tempestosa-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "lamelle_sincroniche": {
+      "core": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
+      "optional": [
+        "steppe-algoritmiche-trait-keeper"
+      ],
       "synergy": []
     },
     "lamelle_termoforetiche": {
+      "core": [
+        "sorgenti-geotermiche-trait-keeper"
+      ],
+      "optional": [
+        "archon-solare",
+        "bulette-fase",
+        "couatl-aurora",
+        "magnet-fathom-surveyor",
+        "otyugh-sentinella",
+        "sorgenti-geotermiche-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "lamenti_diradanti": {
       "core": [],
       "optional": [
-        "dune-stalker"
+        "banshee-risonante"
+      ],
+      "synergy": []
+    },
+    "lamine_filtranti_aeree": {
+      "core": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "optional": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "lamine_scudo_silice": {
+      "core": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "optional": [
+        "dorsale-termale-tropicale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "linfa_tampone": {
+      "core": [
+        "foresta-acida-trait-keeper"
+      ],
+      "optional": [
+        "foresta-acida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "lingua_cristallina": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
       ],
       "synergy": []
     },
     "lingua_tattile_trama": {
-      "core": [],
+      "core": [
+        "blight-micotico",
+        "caverna-risonante-trait-keeper"
+      ],
       "optional": [
         "aurora-bridge-runner",
+        "blight-micotico",
+        "caverna-risonante-trait-keeper",
         "echo-wing",
         "ferrocolonia-magnetotattica",
         "glowcap-weaver",
+        "resonant-claw-hunter",
         "zephyr-spore-courier"
+      ],
+      "synergy": []
+    },
+    "luminescenza_aurorale": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "luminescenza_hydrotermica": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "mantelli_geotermici": {
+      "core": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "optional": [
+        "caldera-glaciale-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "mantello_meteoritico": {
+      "core": [
+        "balor-fission",
+        "marilith-vault"
+      ],
+      "optional": [
+        "balor-fission"
+      ],
+      "synergy": []
+    },
+    "maschera_illusoria": {
+      "core": [],
+      "optional": [
+        "rakshasa-corte"
+      ],
+      "synergy": []
+    },
+    "matrice_antimagia": {
+      "core": [],
+      "optional": [
+        "golem-runico"
+      ],
+      "synergy": []
+    },
+    "membrane_captura_rugiada": {
+      "core": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "optional": [
+        "pianura-salina-iperarida-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "membrane_eliofiltranti": {
+      "core": [
+        "laghi-alcalini-trait-keeper"
+      ],
+      "optional": [
+        "laghi-alcalini-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "membrane_osmotiche": {
+      "core": [],
+      "optional": [
+        "otyugh-sentinella"
+      ],
+      "synergy": []
+    },
+    "membrane_planata_vectored": {
+      "core": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "optional": [
+        "canopia-ionica-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "membrane_pneumatofori": {
+      "core": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "optional": [
+        "mangrovieto-cinetico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "metabolismo_attivo": {
+      "core": [
+        "archon-solare",
+        "balor-fission",
+        "bulette-fase",
+        "couatl-aurora",
+        "marilith-vault",
+        "otyugh-sentinella",
+        "rakshasa-corte",
+        "treant-portale"
+      ],
+      "optional": [],
+      "synergy": []
+    },
+    "metabolismo_sostentato": {
+      "core": [
+        "banshee-risonante",
+        "golem-runico"
+      ],
+      "optional": [],
+      "synergy": []
+    },
+    "midollo_antivibrazione": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper",
+        "resonant-claw-hunter"
       ],
       "synergy": []
     },
     "mimetismo_cromatico_passivo": {
       "core": [
         "aurora-bridge-runner",
+        "canopia-psionica-leggera-trait-keeper",
+        "falde-magnetiche-psioniche-trait-keeper",
         "ferrocolonia-magnetotattica",
+        "psionic-canopy-scout",
         "zephyr-spore-courier"
       ],
-      "optional": [],
+      "optional": [
+        "aurora-bridge-runner",
+        "blight-micotico",
+        "canopia-psionica-leggera-trait-keeper",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "ferrocolonia-magnetotattica",
+        "psionic-canopy-scout",
+        "resonant-claw-hunter",
+        "zephyr-spore-courier"
+      ],
+      "synergy": []
+    },
+    "mucillagine_simbionte_mangrovie": {
+      "core": [
+        "mangrovie-risonanti-trait-keeper"
+      ],
+      "optional": [
+        "mangrovie-risonanti-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "mucose_aderenza_sonica": {
+      "core": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "mucose_barofile": {
+      "core": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "optional": [
+        "abisso-vulcanico-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "nodi_micorrizici_oracolari": {
+      "core": [
+        "reti-micorriziche-trait-keeper"
+      ],
+      "optional": [
+        "reti-micorriziche-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "nodi_micotici": {
+      "core": [],
+      "optional": [
+        "otyugh-sentinella",
+        "treant-portale"
+      ],
+      "synergy": []
+    },
+    "nuclei_di_controllo": {
+      "core": [],
+      "optional": [
+        "golem-runico"
+      ],
       "synergy": []
     },
     "nucleo_ovomotore_rotante": {
       "core": [
+        "caverna-risonante-trait-keeper",
+        "magnet-fathom-surveyor",
+        "orbital-ascendant",
         "sand-burrower"
       ],
       "optional": [
-        "rust-scavenger"
+        "caverna-risonante-trait-keeper",
+        "magnet-fathom-surveyor",
+        "orbital-ascendant",
+        "rust-scavenger",
+        "sand-burrower"
       ],
       "synergy": []
     },
     "occhi_infrarosso_composti": {
       "core": [
+        "caverna-risonante-trait-keeper",
         "echo-wing"
       ],
       "optional": [
         "aurora-bridge-runner",
+        "aurora-gull",
+        "caverna-risonante-trait-keeper",
+        "couatl-aurora",
+        "echo-wing",
+        "lupus-temperatus",
+        "resonant-claw-hunter",
         "zephyr-spore-courier"
       ],
       "synergy": []
     },
     "olfatto_risonanza_magnetica": {
       "core": [
+        "cryo-lynx",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "magnet-fathom-surveyor",
+        "orbita-psionica-inversa-trait-keeper",
+        "orbital-ascendant",
         "slag-veil-ambusher"
       ],
       "optional": [
-        "magneto-ridge-hunter"
+        "cryo-lynx",
+        "dune-stalker",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "magnet-fathom-surveyor",
+        "magneto-ridge-hunter",
+        "orbita-psionica-inversa-trait-keeper",
+        "orbital-ascendant",
+        "psionic-canopy-scout",
+        "slag-veil-ambusher"
       ],
       "synergy": []
     },
-    "pathfinder": {
-      "core": [],
+    "origine_artificiale": {
+      "core": [
+        "banshee-risonante",
+        "golem-runico"
+      ],
       "optional": [],
-      "synergy": [
-        "glowcap-weaver",
-        "myco-spire-warden"
-      ]
+      "synergy": []
+    },
+    "pathfinder": {
+      "core": [
+        "sentinella-radice"
+      ],
+      "optional": [
+        "sentinella-radice"
+      ],
+      "synergy": []
     },
     "pelli_anti_ustione": {
       "core": [
         "evento-tempesta-ferrosa"
       ],
-      "optional": [],
+      "optional": [
+        "evento-tempesta-ferrosa"
+      ],
       "synergy": []
     },
     "pelli_cave": {
       "core": [
-        "aurora-gull",
         "cactus-weaver",
-        "cryo-lynx",
         "evento-brinastorm",
         "evento-ondata-termica",
+        "global-trait-keeper",
         "noctule-termico",
         "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
         "thermo-raptor"
       ],
-      "optional": [],
+      "optional": [
+        "cactus-weaver",
+        "evento-brinastorm",
+        "evento-ondata-termica",
+        "global-trait-keeper",
+        "noctule-termico",
+        "silica-bloom",
+        "thermo-raptor"
+      ],
       "synergy": []
     },
     "pelli_fitte": {
       "core": [
-        "blight-micotico",
         "evento-seme-uragano",
-        "lupus-temperatus",
-        "sentinella-radice"
+        "global-trait-keeper"
       ],
-      "optional": [],
+      "optional": [
+        "evento-seme-uragano",
+        "global-trait-keeper"
+      ],
       "synergy": []
     },
     "pianificatore": {
-      "core": [],
-      "optional": [],
-      "synergy": [
-        "glowcap-weaver",
-        "myco-spire-warden"
-      ]
+      "core": [
+        "sentinella-radice"
+      ],
+      "optional": [
+        "sentinella-radice"
+      ],
+      "synergy": []
     },
     "pigmenti_aurorali": {
       "core": [
-        "aurora-gull",
         "cactus-weaver",
-        "cryo-lynx",
         "evento-brinastorm",
         "evento-ondata-termica",
+        "global-trait-keeper",
         "noctule-termico",
         "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
         "thermo-raptor"
       ],
-      "optional": [],
+      "optional": [
+        "cactus-weaver",
+        "evento-brinastorm",
+        "evento-ondata-termica",
+        "global-trait-keeper",
+        "noctule-termico",
+        "silica-bloom",
+        "thermo-raptor",
+        "treant-portale"
+      ],
       "synergy": []
     },
     "pigmenti_termici": {
       "core": [
         "evento-tempesta-ferrosa"
       ],
-      "optional": [],
+      "optional": [
+        "evento-tempesta-ferrosa"
+      ],
+      "synergy": []
+    },
+    "piume_solari_fotovoltaiche": {
+      "core": [
+        "altipiani-solari-trait-keeper"
+      ],
+      "optional": [
+        "altipiani-solari-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "polmoni_cristallini_alta_quota": {
+      "core": [
+        "picchi-cristallini-trait-keeper"
+      ],
+      "optional": [
+        "picchi-cristallini-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "proboscide_polifaga": {
+      "core": [],
+      "optional": [
+        "otyugh-sentinella"
+      ],
       "synergy": []
     },
     "proteine_shock_termico": {
       "core": [
-        "aurora-gull",
         "cactus-weaver",
-        "cryo-lynx",
         "evento-brinastorm",
         "evento-ondata-termica",
+        "global-trait-keeper",
         "noctule-termico",
         "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
         "thermo-raptor"
+      ],
+      "optional": [
+        "cactus-weaver",
+        "evento-brinastorm",
+        "evento-ondata-termica",
+        "global-trait-keeper",
+        "noctule-termico",
+        "silica-bloom",
+        "thermo-raptor"
+      ],
+      "synergy": []
+    },
+    "radici_ancora_planare": {
+      "core": [],
+      "optional": [
+        "treant-portale"
+      ],
+      "synergy": []
+    },
+    "random": {
+      "core": [],
+      "optional": [
+        "sentinella-radice"
+      ],
+      "synergy": []
+    },
+    "respirazione_biologica": {
+      "core": [
+        "archon-solare",
+        "balor-fission",
+        "bulette-fase",
+        "couatl-aurora",
+        "marilith-vault",
+        "otyugh-sentinella",
+        "rakshasa-corte",
+        "treant-portale"
       ],
       "optional": [],
       "synergy": []
     },
     "respiro_a_scoppio": {
       "core": [
-        "rust-scavenger"
+        "caverna-risonante-trait-keeper",
+        "rust-scavenger",
+        "steppe-bison-mini"
       ],
       "optional": [
+        "caverna-risonante-trait-keeper",
+        "dune-stalker",
         "magneto-ridge-hunter",
-        "slag-veil-ambusher"
+        "rust-scavenger",
+        "slag-veil-ambusher",
+        "steppe-bison-mini"
       ],
       "synergy": []
     },
     "reti_capillari_radici": {
       "core": [
-        "aurora-gull",
         "cactus-weaver",
-        "cryo-lynx",
         "evento-brinastorm",
         "evento-ondata-termica",
+        "global-trait-keeper",
         "noctule-termico",
         "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
         "thermo-raptor"
       ],
-      "optional": [],
+      "optional": [
+        "cactus-weaver",
+        "evento-brinastorm",
+        "evento-ondata-termica",
+        "global-trait-keeper",
+        "noctule-termico",
+        "silica-bloom",
+        "thermo-raptor",
+        "treant-portale"
+      ],
+      "synergy": []
+    },
+    "riflessi_preternaturali": {
+      "core": [],
+      "optional": [
+        "marilith-vault"
+      ],
+      "synergy": []
+    },
+    "rinforzi_modulari": {
+      "core": [],
+      "optional": [
+        "golem-runico"
+      ],
       "synergy": []
     },
     "risonanza_di_branco": {
-      "core": [],
-      "optional": [],
+      "core": [
+        "banshee-risonante",
+        "lupus-temperatus"
+      ],
+      "optional": [
+        "archon-solare",
+        "banshee-risonante",
+        "lupus-temperatus"
+      ],
       "synergy": [
-        "aurora-bridge-runner",
+        "archon-solare",
+        "couatl-aurora",
         "dune-stalker",
-        "zephyr-spore-courier"
+        "rakshasa-corte",
+        "treant-portale"
       ]
     },
     "sacche_galleggianti_ascensoriali": {
       "core": [
         "aurora-bridge-runner",
+        "canopia-psionica-leggera-trait-keeper",
+        "orbita-psionica-inversa-trait-keeper",
+        "orbital-ascendant",
+        "psionic-canopy-scout",
         "sand-burrower",
         "zephyr-spore-courier"
       ],
       "optional": [
+        "aurora-bridge-runner",
+        "aurora-gull",
+        "bulette-fase",
+        "canopia-psionica-leggera-trait-keeper",
         "dune-stalker",
-        "echo-wing"
+        "echo-wing",
+        "orbita-psionica-inversa-trait-keeper",
+        "orbital-ascendant",
+        "psionic-canopy-scout",
+        "sand-burrower",
+        "steppe-bison-mini",
+        "zephyr-spore-courier"
+      ],
+      "synergy": []
+    },
+    "sacche_spore_stratosferiche": {
+      "core": [
+        "stratosfera-portante-trait-keeper"
+      ],
+      "optional": [
+        "stratosfera-portante-trait-keeper"
       ],
       "synergy": []
     },
     "sangue_piroforico": {
       "core": [
-        "ferrocolonia-magnetotattica"
+        "caverna-risonante-trait-keeper",
+        "ferrocolonia-magnetotattica",
+        "thaw-rot"
       ],
       "optional": [
-        "nano-rust-bloom"
+        "caverna-risonante-trait-keeper",
+        "ferrocolonia-magnetotattica",
+        "nano-rust-bloom",
+        "thaw-rot"
       ],
       "synergy": []
     },
     "scheletro_idro_regolante": {
       "core": [
+        "caverna-risonante-trait-keeper",
         "dune-stalker",
         "magneto-ridge-hunter",
         "nano-rust-bloom",
-        "sand-burrower"
+        "sand-burrower",
+        "steppe-bison-mini"
       ],
       "optional": [
-        "rust-scavenger"
+        "bulette-fase",
+        "caverna-risonante-trait-keeper",
+        "dune-stalker",
+        "magnet-fathom-surveyor",
+        "magneto-ridge-hunter",
+        "nano-rust-bloom",
+        "rust-scavenger",
+        "sand-burrower",
+        "steppe-bison-mini"
       ],
       "synergy": [
         "slag-veil-ambusher"
@@ -912,123 +4290,292 @@
     },
     "secrezione_rallentante_palmi": {
       "core": [
+        "caverna-risonante-trait-keeper",
         "ferrocolonia-magnetotattica"
       ],
-      "optional": [],
+      "optional": [
+        "caverna-risonante-trait-keeper",
+        "ferrocolonia-magnetotattica",
+        "thaw-rot"
+      ],
+      "synergy": []
+    },
+    "secrezioni_antisepsi": {
+      "core": [],
+      "optional": [
+        "otyugh-sentinella"
+      ],
+      "synergy": []
+    },
+    "sensori_chimici": {
+      "core": [],
+      "optional": [
+        "otyugh-sentinella"
+      ],
       "synergy": []
     },
     "sensori_geomagnetici": {
       "core": [
-        "dune-stalker"
+        "pianure-magnetiche-trait-keeper"
       ],
-      "optional": [],
+      "optional": [
+        "bulette-fase",
+        "couatl-aurora",
+        "marilith-vault",
+        "pianure-magnetiche-trait-keeper"
+      ],
       "synergy": []
+    },
+    "sinapsi_coraline_polifoniche": {
+      "core": [
+        "barriere-coralline-psioniche-trait-keeper"
+      ],
+      "optional": [
+        "barriere-coralline-psioniche-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "sinapsi_riflettenti": {
+      "core": [],
+      "optional": [
+        "rakshasa-corte"
+      ],
+      "synergy": []
+    },
+    "sinergizzatore_team": {
+      "core": [],
+      "optional": [],
+      "synergy": [
+        "ferrocolonia-magnetotattica"
+      ]
     },
     "sonno_emisferico_alternato": {
       "core": [
+        "aurora-gull",
+        "caverna-risonante-trait-keeper",
         "echo-wing"
       ],
-      "optional": [],
+      "optional": [
+        "aurora-gull",
+        "caverna-risonante-trait-keeper",
+        "echo-wing"
+      ],
       "synergy": []
     },
     "spore_psichiche_silenziate": {
       "core": [
-        "nano-rust-bloom"
+        "blight-micotico",
+        "caverna-risonante-trait-keeper",
+        "nano-rust-bloom",
+        "thaw-rot"
       ],
       "optional": [
-        "myco-spire-warden"
+        "blight-micotico",
+        "caverna-risonante-trait-keeper",
+        "myco-spire-warden",
+        "nano-rust-bloom",
+        "psionic-canopy-scout",
+        "thaw-rot"
+      ],
+      "synergy": []
+    },
+    "squame_rifrangenti_deserto": {
+      "core": [
+        "dune-cristalline-trait-keeper"
+      ],
+      "optional": [
+        "dune-cristalline-trait-keeper"
       ],
       "synergy": []
     },
     "struttura_elastica_amorfa": {
       "core": [
+        "canopia-psionica-leggera-trait-keeper",
         "dune-stalker",
+        "falde-magnetiche-psioniche-trait-keeper",
         "glowcap-weaver",
+        "magnet-fathom-surveyor",
         "myco-spire-warden",
+        "psionic-canopy-scout",
         "slag-veil-ambusher"
       ],
-      "optional": [],
+      "optional": [
+        "canopia-psionica-leggera-trait-keeper",
+        "dune-stalker",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "glowcap-weaver",
+        "magnet-fathom-surveyor",
+        "myco-spire-warden",
+        "psionic-canopy-scout",
+        "slag-veil-ambusher"
+      ],
       "synergy": [
         "magneto-ridge-hunter"
       ]
     },
-    "tattiche_di_branco": {
+    "support": {
       "core": [],
       "optional": [],
+      "synergy": [
+        "aurora-bridge-runner"
+      ]
+    },
+    "tattiche_di_branco": {
+      "core": [
+        "lupus-temperatus"
+      ],
+      "optional": [
+        "balor-fission",
+        "lupus-temperatus"
+      ],
       "synergy": [
         "dune-stalker",
         "magneto-ridge-hunter",
         "slag-veil-ambusher"
       ]
     },
-    "ventriglio_gastroliti": {
+    "tessuti_adattivi": {
+      "core": [],
+      "optional": [
+        "marilith-vault",
+        "rakshasa-corte"
+      ],
+      "synergy": []
+    },
+    "vello_condensatore_nebbie": {
       "core": [
-        "rust-scavenger"
+        "foreste-nubose-trait-keeper"
       ],
       "optional": [
-        "ferrocolonia-magnetotattica"
+        "foreste-nubose-trait-keeper"
+      ],
+      "synergy": []
+    },
+    "ventriglio_gastroliti": {
+      "core": [
+        "caverna-risonante-trait-keeper",
+        "rust-scavenger",
+        "steppe-bison-mini"
+      ],
+      "optional": [
+        "caverna-risonante-trait-keeper",
+        "ferrocolonia-magnetotattica",
+        "rust-scavenger",
+        "steppe-bison-mini"
+      ],
+      "synergy": []
+    },
+    "visione_spettrale": {
+      "core": [],
+      "optional": [
+        "archon-solare",
+        "marilith-vault"
+      ],
+      "synergy": []
+    },
+    "voce_spettrale": {
+      "core": [],
+      "optional": [
+        "banshee-risonante"
       ],
       "synergy": []
     },
     "zampe_a_molla": {
       "core": [],
       "optional": [
+        "cryo-lynx",
         "sand-burrower"
+      ],
+      "synergy": []
+    },
+    "zoccoli_risonanti_steppe": {
+      "core": [
+        "steppe-risonanti-trait-keeper"
+      ],
+      "optional": [
+        "steppe-risonanti-trait-keeper"
       ],
       "synergy": []
     }
   },
   "highlights": [
     {
-      "trait": "cuticole_cerose",
+      "trait": "sacche_galleggianti_ascensoriali",
       "core_refs": [
-        "aurora-gull",
-        "cactus-weaver",
-        "cryo-lynx",
-        "evento-brinastorm",
-        "evento-ondata-termica",
-        "noctule-termico",
-        "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
-        "thermo-raptor"
+        "aurora-bridge-runner",
+        "canopia-psionica-leggera-trait-keeper",
+        "orbita-psionica-inversa-trait-keeper",
+        "orbital-ascendant",
+        "psionic-canopy-scout",
+        "sand-burrower",
+        "zephyr-spore-courier"
       ],
-      "optional_refs": [],
+      "optional_refs": [
+        "aurora-bridge-runner",
+        "aurora-gull",
+        "bulette-fase",
+        "canopia-psionica-leggera-trait-keeper",
+        "dune-stalker",
+        "echo-wing",
+        "orbita-psionica-inversa-trait-keeper",
+        "orbital-ascendant",
+        "psionic-canopy-scout",
+        "sand-burrower",
+        "steppe-bison-mini",
+        "zephyr-spore-courier"
+      ],
       "synergy_refs": []
     },
     {
-      "trait": "grassi_termici",
+      "trait": "filamenti_digestivi_compattanti",
       "core_refs": [
-        "aurora-gull",
-        "cactus-weaver",
-        "cryo-lynx",
-        "evento-brinastorm",
-        "evento-ondata-termica",
-        "noctule-termico",
-        "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
-        "thermo-raptor"
+        "caverna-risonante-trait-keeper",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "glowcap-weaver",
+        "magnet-fathom-surveyor",
+        "myco-spire-warden",
+        "nano-rust-bloom",
+        "rust-scavenger",
+        "thaw-rot"
       ],
-      "optional_refs": [],
+      "optional_refs": [
+        "blight-micotico",
+        "caverna-risonante-trait-keeper",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "glowcap-weaver",
+        "magnet-fathom-surveyor",
+        "myco-spire-warden",
+        "nano-rust-bloom",
+        "rust-scavenger",
+        "thaw-rot"
+      ],
       "synergy_refs": []
     },
     {
-      "trait": "pelli_cave",
+      "trait": "struttura_elastica_amorfa",
       "core_refs": [
-        "aurora-gull",
-        "cactus-weaver",
-        "cryo-lynx",
-        "evento-brinastorm",
-        "evento-ondata-termica",
-        "noctule-termico",
-        "silica-bloom",
-        "steppe-bison-mini",
-        "thaw-rot",
-        "thermo-raptor"
+        "canopia-psionica-leggera-trait-keeper",
+        "dune-stalker",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "glowcap-weaver",
+        "magnet-fathom-surveyor",
+        "myco-spire-warden",
+        "psionic-canopy-scout",
+        "slag-veil-ambusher"
       ],
-      "optional_refs": [],
-      "synergy_refs": []
+      "optional_refs": [
+        "canopia-psionica-leggera-trait-keeper",
+        "dune-stalker",
+        "falde-magnetiche-psioniche-trait-keeper",
+        "glowcap-weaver",
+        "magnet-fathom-surveyor",
+        "myco-spire-warden",
+        "psionic-canopy-scout",
+        "slag-veil-ambusher"
+      ],
+      "synergy_refs": [
+        "magneto-ridge-hunter"
+      ]
     }
   ]
 }

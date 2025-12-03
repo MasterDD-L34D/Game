@@ -29,6 +29,22 @@
       "weight": 3
     }
   ],
+  "ali_fono_risonanti": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "banshee-risonante",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 2
+    }
+  ],
   "ali_fulminee": [
     {
       "roles": [
@@ -54,22 +70,6 @@
       ],
       "species_id": "caverna-risonante-trait-keeper",
       "weight": 1
-    }
-  ],
-  "ali_fono_risonanti": [
-    {
-      "roles": [
-        "core"
-      ],
-      "species_id": "banshee-risonante",
-      "weight": 3
-    },
-    {
-      "roles": [
-        "optional"
-      ],
-      "species_id": "psionic-canopy-scout",
-      "weight": 2
     }
   ],
   "ali_solari_fotoni": [
@@ -218,6 +218,24 @@
       "weight": 1
     }
   ],
+  "articolazioni_a_leva_idraulica": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "articolazioni_multiassiali": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "artigli_acidofagi": [
     {
       "roles": [
@@ -233,6 +251,15 @@
         "optional"
       ],
       "species_id": "canopia-ionica-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "artigli_ipo_termici": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -348,6 +375,15 @@
       "weight": 1
     }
   ],
+  "artiglio_cinetico_a_urto": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "assenza_respirazione": [
     {
       "roles": [
@@ -362,6 +398,15 @@
       ],
       "species_id": "golem-runico",
       "weight": 3
+    }
+  ],
+  "aura_di_dispersione_mentale": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
     }
   ],
   "aura_scudo_radianza": [
@@ -419,6 +464,15 @@
       "weight": 1
     }
   ],
+  "bioantenne_gravitiche": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "biochip_memoria": [
     {
       "roles": [
@@ -443,6 +497,15 @@
         "optional"
       ],
       "species_id": "pianura-salina-iperarida-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "bozzolo_magnetico": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -543,6 +606,58 @@
       ],
       "species_id": "dorsale-termale-tropicale-trait-keeper",
       "weight": 1
+    }
+  ],
+  "camere_risonanza_abyssal": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "leviatano_risonante",
+      "weight": 4
+    }
+  ],
+  "campo_di_interferenza_acustica": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "cannone_sonico_a_raggio": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "canto_infrasonico_tattico": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "canto_risonante": [
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "polpo_araldo_sinaptico",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "leviatano_risonante",
+      "weight": 2
     }
   ],
   "capillari_criogenici": [
@@ -736,6 +851,15 @@
       "weight": 1
     }
   ],
+  "cervello_a_bassa_latenza": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "chemiorecettori_bromuro": [
     {
       "roles": [
@@ -828,6 +952,15 @@
       "weight": 3
     }
   ],
+  "cinghia_iper_ciliare": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "circolazione_bifasica": [
     {
       "roles": [
@@ -888,6 +1021,15 @@
         "optional"
       ],
       "species_id": "pianura-salina-iperarida-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "cisti_di_ibernazione_minerale": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -981,6 +1123,15 @@
       "weight": 1
     }
   ],
+  "coda_prensile_muscolare": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "coda_stabilizzatrice_filo": [
     {
       "roles": [
@@ -1017,6 +1168,15 @@
       "weight": 1
     }
   ],
+  "comunicazione_fotonica_coda_coda": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "coralli_partner": [
     {
       "roles": [
@@ -1026,12 +1186,57 @@
       "weight": 1
     }
   ],
+  "coralli_sinaptici_fotofase": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "polpo_araldo_sinaptico",
+      "weight": 3
+    }
+  ],
+  "corazze_ferro_magnetico": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "corna_psico_conduttive": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "corteccia_memetica": [
     {
       "roles": [
         "optional"
       ],
       "species_id": "treant-portale",
+      "weight": 1
+    }
+  ],
+  "coscienza_d_alveare_diffusa": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "coscienza_dalveare_diffusa": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -1282,6 +1487,42 @@
       "weight": 1
     }
   ],
+  "ectotermia_dinamica": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "elettromagnete_biologico": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "emettitori_voidsong": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "leviatano_risonante",
+      "weight": 3
+    }
+  ],
+  "emolinfa_conducente": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "empatia_coordinativa": [
     {
       "roles": [
@@ -1411,6 +1652,33 @@
       "weight": 1
     }
   ],
+  "ermafroditismo_cronologico": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "estroflessione_gastrica_acida": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "fagocitosi_assorbente": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "filamenti_digestivi_compattanti": [
     {
       "roles": [
@@ -1472,6 +1740,24 @@
       "weight": 1
     }
   ],
+  "filamenti_echo": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "filamenti_guidalampo": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "filamenti_magnetotrofi": [
     {
       "roles": [
@@ -1499,6 +1785,15 @@
       "weight": 1
     }
   ],
+  "filtrazione_osmotica": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "filtri_bioattivi": [
     {
       "roles": [
@@ -1517,6 +1812,15 @@
       "weight": 1
     }
   ],
+  "filtro_metallofago": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "fisiologia_predatoria": [
     {
       "roles": [
@@ -1532,6 +1836,15 @@
         "optional"
       ],
       "species_id": "laguna-bioreattiva-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "flusso_ameboide_controllato": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -1736,6 +2049,15 @@
       "weight": 1
     }
   ],
+  "ghiandole_mnemoniche": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "ghiandole_nebbia_acida": [
     {
       "roles": [
@@ -1859,12 +2181,46 @@
       "weight": 1
     }
   ],
+  "impulsi_bioluminescenti": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "polpo_araldo_sinaptico",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "leviatano_risonante",
+      "weight": 2
+    }
+  ],
   "intangibilita_parziale": [
     {
       "roles": [
         "optional"
       ],
       "species_id": "banshee-risonante",
+      "weight": 1
+    }
+  ],
+  "integumento_bipolare": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "ipertrofia_muscolare_massiva": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -1998,6 +2354,38 @@
       "weight": 1
     }
   ],
+  "lobi_risonanti_crepuscolo": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "polpo_araldo_sinaptico",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "leviatano_risonante",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "simbionte_corallino_riflesso",
+      "weight": 2
+    }
+  ],
+  "locomozione_miriapode_ibrida": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "luminescenza_aurorale": [
     {
       "roles": [
@@ -2060,6 +2448,15 @@
       "weight": 1
     }
   ],
+  "membrana_plastica_continua": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "membrane_captura_rugiada": [
     {
       "roles": [
@@ -2075,6 +2472,15 @@
         "optional"
       ],
       "species_id": "laghi-alcalini-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "membrane_fotoconvoglianti": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -2163,6 +2569,15 @@
       "weight": 3
     }
   ],
+  "metabolismo_di_condivisione_energetica": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "metabolismo_sostentato": [
     {
       "roles": [
@@ -2234,6 +2649,24 @@
       "weight": 1
     }
   ],
+  "moltiplicazione_per_fusione": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "motore_biologico_silenzioso": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "mucillagine_simbionte_mangrovie": [
     {
       "roles": [
@@ -2261,12 +2694,30 @@
       "weight": 1
     }
   ],
+  "nebbia_mnesica": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "sciame_larve_neurali",
+      "weight": 3
+    }
+  ],
   "nodi_micorrizici_oracolari": [
     {
       "roles": [
         "optional"
       ],
       "species_id": "reti-micorriziche-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "nodi_sinaptici_superficiali": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -2295,20 +2746,21 @@
       "weight": 2
     }
   ],
-  "occhi_infrarosso_composti": [
+  "occhi_analizzatori_di_tensione": [
     {
       "roles": [
-        "core",
-        "optional"
+        "core"
       ],
-      "species_id": "echo-wing",
-      "weight": 4
-    },
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "occhi_cinetici": [
     {
       "roles": [
-        "optional"
+        "core"
       ],
-      "species_id": "caverna-risonante-trait-keeper",
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -2326,6 +2778,23 @@
       ],
       "species_id": "psionic-canopy-scout",
       "weight": 2
+    }
+  ],
+  "occhi_infrarosso_composti": [
+    {
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "species_id": "echo-wing",
+      "weight": 4
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "caverna-risonante-trait-keeper",
+      "weight": 1
     }
   ],
   "olfatto_risonanza_magnetica": [
@@ -2396,6 +2865,24 @@
       "weight": 1
     }
   ],
+  "organi_metacronici": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "organi_sismici_cutanei": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "origine_artificiale": [
     {
       "roles": [
@@ -2415,10 +2902,35 @@
   "pathfinder": [
     {
       "roles": [
+        "core"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 3
+    },
+    {
+      "roles": [
         "optional"
       ],
       "species_id": "sentinella-radice",
       "weight": 1
+    }
+  ],
+  "pelage_idrorepellente_avanzato": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "pelle_piezo_satura": [
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "leviatano_risonante",
+      "weight": 2
     }
   ],
   "pelli_anti_ustione": [
@@ -2495,22 +3007,6 @@
         "optional"
       ],
       "species_id": "global-trait-keeper",
-      "weight": 1
-    }
-  ],
-  "pathfinder": [
-    {
-      "roles": [
-        "core"
-      ],
-      "species_id": "psionic-canopy-scout",
-      "weight": 3
-    },
-    {
-      "roles": [
-        "optional"
-      ],
-      "species_id": "sentinella-radice",
       "weight": 1
     }
   ],
@@ -2600,6 +3096,24 @@
       "weight": 1
     }
   ],
+  "placca_diffusione_foschia": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "placche_pressioniche": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "polmoni_cristallini_alta_quota": [
     {
       "roles": [
@@ -2678,6 +3192,29 @@
       "weight": 1
     }
   ],
+  "random": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "synergy"
+      ],
+      "species_id": "psionic-canopy-scout",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "orbital-ascendant",
+      "weight": 2
+    }
+  ],
   "respirazione_biologica": [
     {
       "roles": [
@@ -2736,29 +3273,6 @@
       "weight": 3
     }
   ],
-  "random": [
-    {
-      "roles": [
-        "optional"
-      ],
-      "species_id": "sentinella-radice",
-      "weight": 1
-    },
-    {
-      "roles": [
-        "synergy"
-      ],
-      "species_id": "psionic-canopy-scout",
-      "weight": 3
-    },
-    {
-      "roles": [
-        "optional"
-      ],
-      "species_id": "orbital-ascendant",
-      "weight": 2
-    }
-  ],
   "respiro_a_scoppio": [
     {
       "roles": [
@@ -2801,6 +3315,15 @@
         "optional"
       ],
       "species_id": "steppe-bison-mini",
+      "weight": 1
+    }
+  ],
+  "rete_filtro_polmonare": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -2907,6 +3430,40 @@
       "weight": 1
     }
   ],
+  "riverbero_memetico": [
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "sciame_larve_neurali",
+      "weight": 2
+    },
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "simbionte_corallino_riflesso",
+      "weight": 1
+    }
+  ],
+  "rostro_emostatico_litico": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "rostro_linguale_prensile": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "sacche_galleggianti_ascensoriali": [
     {
       "roles": [
@@ -3008,6 +3565,15 @@
       "weight": 1
     }
   ],
+  "scheletro_idraulico_a_pistoni": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "scheletro_idro_regolante": [
     {
       "roles": [
@@ -3084,6 +3650,49 @@
       "weight": 1
     }
   ],
+  "scheletro_pneumatico_a_maglie": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "scintilla_sinaptica": [
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "polpo_araldo_sinaptico",
+      "weight": 2
+    },
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "simbionte_corallino_riflesso",
+      "weight": 1
+    }
+  ],
+  "scivolamento_magnetico": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "scudo_gluteale_cheratinizzato": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "secrezione_rallentante_palmi": [
     {
       "roles": [
@@ -3098,6 +3707,15 @@
       ],
       "species_id": "laguna-bioreattiva-trait-keeper",
       "weight": 2
+    }
+  ],
+  "secrezioni_antistatiche": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
     }
   ],
   "sensori_chimici": [
@@ -3139,12 +3757,48 @@
       "weight": 1
     }
   ],
+  "sensori_planctonici": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "seta_conduttiva_elettrica": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "siero_anti_gelo_naturale": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "sinapsi_coraline_polifoniche": [
     {
       "roles": [
         "optional"
       ],
       "species_id": "barriere-coralline-psioniche-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "sistemi_chimio_sonici": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -3172,6 +3826,15 @@
       "weight": 1
     }
   ],
+  "spicole_canalizzatrici": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "spore_psichiche_silenziate": [
     {
       "roles": [
@@ -3186,6 +3849,15 @@
       ],
       "species_id": "psionic-canopy-scout",
       "weight": 2
+    }
+  ],
+  "squame_diffusori_ionici": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
     }
   ],
   "squame_rifrangenti_deserto": [
@@ -3298,12 +3970,39 @@
       "weight": 1
     }
   ],
+  "traits_aggregate": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
+  "unghie_a_micro_adesione": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "vello_condensatore_nebbie": [
     {
       "roles": [
         "optional"
       ],
       "species_id": "foreste-nubose-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "vello_di_assorbimento_totale": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -3338,6 +4037,15 @@
       "weight": 1
     }
   ],
+  "visione_multi_spettrale_amplificata": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
+      "weight": 1
+    }
+  ],
   "visione_spettrale": [
     {
       "roles": [
@@ -3363,12 +4071,37 @@
       "weight": 1
     }
   ],
+  "vortice_nera_flash": [
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "sciame_larve_neurali",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "temp"
+      ],
+      "species_id": "leviatano_risonante",
+      "weight": 1
+    }
+  ],
   "zampe_a_molla": [
     {
       "roles": [
         "optional"
       ],
       "species_id": "sand-burrower",
+      "weight": 1
+    }
+  ],
+  "zanne_idracida": [
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "autogen_trait_carrier",
       "weight": 1
     }
   ],
@@ -3380,45 +4113,5 @@
       "species_id": "steppe-risonanti-trait-keeper",
       "weight": 1
     }
-  ],
-  "coralli_sinaptici_fotofase": [
-    { "roles": ["core"], "species_id": "polpo_araldo_sinaptico", "weight": 3 }
-  ],
-  "impulsi_bioluminescenti": [
-    { "roles": ["core"], "species_id": "polpo_araldo_sinaptico", "weight": 3 },
-    { "roles": ["core"], "species_id": "leviatano_risonante", "weight": 2 }
-  ],
-  "nebbia_mnesica": [
-    { "roles": ["core"], "species_id": "sciame_larve_neurali", "weight": 3 }
-  ],
-  "lobi_risonanti_crepuscolo": [
-    { "roles": ["core"], "species_id": "polpo_araldo_sinaptico", "weight": 1 },
-    { "roles": ["core"], "species_id": "leviatano_risonante", "weight": 1 },
-    { "roles": ["core"], "species_id": "simbionte_corallino_riflesso", "weight": 2 }
-  ],
-  "camere_risonanza_abyssal": [
-    { "roles": ["core"], "species_id": "leviatano_risonante", "weight": 4 }
-  ],
-  "emettitori_voidsong": [
-    { "roles": ["core"], "species_id": "leviatano_risonante", "weight": 3 }
-  ],
-  "scintilla_sinaptica": [
-    { "roles": ["temp"], "species_id": "polpo_araldo_sinaptico", "weight": 2 },
-    { "roles": ["temp"], "species_id": "simbionte_corallino_riflesso", "weight": 1 }
-  ],
-  "canto_risonante": [
-    { "roles": ["temp"], "species_id": "polpo_araldo_sinaptico", "weight": 1 },
-    { "roles": ["temp"], "species_id": "leviatano_risonante", "weight": 2 }
-  ],
-  "riverbero_memetico": [
-    { "roles": ["temp"], "species_id": "sciame_larve_neurali", "weight": 2 },
-    { "roles": ["temp"], "species_id": "simbionte_corallino_riflesso", "weight": 1 }
-  ],
-  "vortice_nera_flash": [
-    { "roles": ["temp"], "species_id": "sciame_larve_neurali", "weight": 1 },
-    { "roles": ["temp"], "species_id": "leviatano_risonante", "weight": 1 }
-  ],
-  "pelle_piezo_satura": [
-    { "roles": ["temp"], "species_id": "leviatano_risonante", "weight": 2 }
   ]
 }

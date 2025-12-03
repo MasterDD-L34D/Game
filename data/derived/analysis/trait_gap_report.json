@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-12-03T01:34:45+00:00",
+  "generated_at": "2025-12-03T01:48:09+00:00",
   "sources": {
     "etl_report": "data/derived/analysis/trait_coverage_report.json",
     "trait_reference": "data/traits/index.json",
@@ -145,7 +145,7 @@
       "axis": "altro",
       "label": "Ali Solari Fotoniche",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "appendici_risonanti_marea": {
@@ -214,8 +214,8 @@
     "cute_resistente_sali": {
       "axis": "difensivo",
       "label": "Cute Resistente Sali",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 2,
+      "species_total": 6,
       "covered": true
     },
     "enzimi_antipredatori_algali": {
@@ -292,35 +292,35 @@
       "axis": "altro",
       "label": "Armatura di Pietra Planare",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 4,
       "covered": true
     },
     "mantello_meteoritico": {
       "axis": "altro",
       "label": "Mantello Meteoritico",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "filamenti_digestivi_compattanti": {
       "axis": "metabolico",
       "label": "Filamenti Digestivi Compattanti",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 4,
+      "species_total": 32,
       "covered": true
     },
     "ventriglio_gastroliti": {
       "axis": "metabolico",
       "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 2,
+      "species_total": 8,
       "covered": true
     },
     "spore_psichiche_silenziate": {
       "axis": "metabolico",
       "label": "Spora Psichica Silenziosa",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 3,
+      "species_total": 6,
       "covered": true
     },
     "ectotermia_dinamica": {
@@ -390,7 +390,7 @@
       "axis": "altro",
       "label": "Canto Risonante",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "coralli_sinaptici_fotofase": {
@@ -446,14 +446,14 @@
       "axis": "offensivo",
       "label": "Impulsi Bioluminescenti",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "lobi_risonanti_crepuscolo": {
       "axis": "altro",
       "label": "Lobi Risonanti Crepuscolo",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 3,
       "covered": true
     },
     "membrane_fotoconvoglianti": {
@@ -509,14 +509,14 @@
       "axis": "altro",
       "label": "Riverbero Memetico",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "scintilla_sinaptica": {
       "axis": "altro",
       "label": "Scintilla Sinaptica",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "secrezioni_antistatiche": {
@@ -551,21 +551,21 @@
       "axis": "altro",
       "label": "Vortice Nera Flash",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "sacche_galleggianti_ascensoriali": {
       "axis": "supporto",
       "label": "Sacche galleggianti ascensoriali",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 4,
+      "species_total": 32,
       "covered": true
     },
     "ali_fono_risonanti": {
       "axis": "altro",
       "label": "Ali Fono-Risonanti",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "articolazioni_a_leva_idraulica": {
@@ -655,8 +655,8 @@
     "artigli_sette_vie": {
       "axis": "locomotorio",
       "label": "Artigli a Sette Vie",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 3,
+      "species_total": 27,
       "covered": true
     },
     "artigli_sghiaccio_glaciale": {
@@ -712,7 +712,7 @@
       "axis": "locomotorio",
       "label": "Coda a Frusta Cinetica",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 7,
       "covered": true
     },
     "cuscinetti_elettrostatici": {
@@ -845,21 +845,21 @@
       "axis": "metabolico",
       "label": "Criostasi",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 4,
       "covered": true
     },
     "cuticole_cerose": {
       "axis": "metabolico",
       "label": "Cuticole Cerose",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 7,
       "covered": true
     },
     "enzimi_chelanti": {
       "axis": "metabolico",
       "label": "Enzimi Chelanti",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "flagelli_ancoranti": {
@@ -880,7 +880,7 @@
       "axis": "metabolico",
       "label": "Grassi Termici",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 7,
       "covered": true
     },
     "luminescenza_aurorale": {
@@ -893,8 +893,8 @@
     "sonno_emisferico_alternato": {
       "axis": "strategia",
       "label": "Dormire con solo metà cervello alla volta",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 2,
+      "species_total": 6,
       "covered": true
     },
     "antenne_flusso_mareale": {
@@ -1020,14 +1020,14 @@
       "axis": "offensivo",
       "label": "Frusta Fiammeggiante",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "ghiandola_caustica": {
       "axis": "offensivo",
       "label": "Ghiandola Caustica",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "ghiandole_iodoattive": {
@@ -1061,8 +1061,8 @@
     "sangue_piroforico": {
       "axis": "offensivo",
       "label": "Sangue che prende fuoco a contatto con l'ossigeno",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 2,
+      "species_total": 8,
       "covered": true
     },
     "seta_conduttiva_elettrica": {
@@ -1090,7 +1090,7 @@
       "axis": "metabolico",
       "label": "Lamelle Termoforetiche",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 5,
       "covered": true
     },
     "membrane_eliofiltranti": {
@@ -1110,8 +1110,8 @@
     "respiro_a_scoppio": {
       "axis": "metabolico",
       "label": "Respiro a scoppio",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 2,
+      "species_total": 12,
       "covered": true
     },
     "ermafroditismo_cronologico": {
@@ -1131,8 +1131,8 @@
     "nucleo_ovomotore_rotante": {
       "axis": "simbiotico",
       "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 3,
+      "species_total": 6,
       "covered": true
     },
     "ali_fulminee": {
@@ -1215,8 +1215,8 @@
     "eco_interno_riflesso": {
       "axis": "sensoriale",
       "label": "Riflesso dell'Eco Interno",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 2,
+      "species_total": 14,
       "covered": true
     },
     "filamenti_superconduttivi": {
@@ -1258,7 +1258,7 @@
       "axis": "sensoriale",
       "label": "Lingua Tattile Trama-Sensibile",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 4,
       "covered": true
     },
     "midollo_antivibrazione": {
@@ -1286,21 +1286,21 @@
       "axis": "sensoriale",
       "label": "Occhi a Cristallo Modulare",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "occhi_infrarosso_composti": {
       "axis": "sensoriale",
       "label": "Occhi Composti ad Infrarosso",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "olfatto_risonanza_magnetica": {
       "axis": "sensoriale",
       "label": "Olfatto di Risonanza Magnetica",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 4,
+      "species_total": 36,
       "covered": true
     },
     "organi_sismici_cutanei": {
@@ -1314,7 +1314,7 @@
       "axis": "sensoriale",
       "label": "Sensori a Risonanza Geomagnetica",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 4,
       "covered": true
     },
     "sistemi_chimio_sonici": {
@@ -1530,8 +1530,8 @@
     "focus_frazionato": {
       "axis": "strategia",
       "label": "Focus Frazionato",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 3,
+      "species_total": 24,
       "covered": true
     },
     "ghiaccio_piezoelettrico": {
@@ -1566,7 +1566,7 @@
       "axis": "strategia",
       "label": "Pathfinder",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "pianificatore": {
@@ -1580,14 +1580,14 @@
       "axis": "strategia",
       "label": "Trait Random",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 3,
       "covered": true
     },
     "tattiche_di_branco": {
       "axis": "strategia",
       "label": "Tattiche di Branco",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 3,
       "covered": true
     },
     "antenne_tesla": {
@@ -1622,7 +1622,7 @@
       "axis": "strutturale",
       "label": "Carapace a Variazione di Fase",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 9,
       "covered": true
     },
     "carapace_luminiscente_abissale": {
@@ -1698,15 +1698,15 @@
     "scheletro_idro_regolante": {
       "axis": "strutturale",
       "label": "Scheletro Idro-Regolante",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 3,
+      "species_total": 30,
       "covered": true
     },
     "struttura_elastica_amorfa": {
       "axis": "strutturale",
       "label": "Struttura elastica, allungabile, amorfa, retrattile",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 4,
+      "species_total": 36,
       "covered": true
     },
     "antenne_eco_turbina": {
@@ -1776,7 +1776,7 @@
       "axis": "supporto",
       "label": "Empatia Coordinativa",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 8,
       "covered": true
     },
     "enzimi_chelatori_rapidi": {
@@ -1818,14 +1818,14 @@
       "axis": "supporto",
       "label": "Risonanza di Branco",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 6,
       "covered": true
     },
     "mimetismo_cromatico_passivo": {
       "axis": "difensivo",
       "label": "Ghiandole di Mimetismo Cromatico Passivo",
-      "rules_total": 1,
-      "species_total": 1,
+      "rules_total": 3,
+      "species_total": 18,
       "covered": true
     },
     "piume_solari_fotovoltaiche": {
@@ -1839,7 +1839,7 @@
       "axis": "difensivo",
       "label": "Mani secernano liquido rallentante",
       "rules_total": 1,
-      "species_total": 1,
+      "species_total": 2,
       "covered": true
     },
     "squame_rifrangenti_deserto": {

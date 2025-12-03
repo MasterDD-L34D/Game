@@ -5,9 +5,9 @@
   "commit": "eb6b91d512db038d75f1cc7458a2221499b4e767",
   "log_tag": null,
   "artifacts": {
-    "data/derived/analysis/trait_coverage_report.json": "c9639c4ae1a5217dc30267bd491e33a1bc4d41dc396ac3626c5f931356696340",
-    "data/derived/analysis/trait_coverage_matrix.csv": "1afc7d635ddc7266c7f1c1311a8992205e027005aed331f0dfc0600930d04bd8",
-    "data/derived/analysis/trait_gap_report.json": "214c9115d38f53ccbec3758e3c4817b8a8ab0e0457f828b49e399628fe5138e6",
+    "data/derived/analysis/trait_coverage_report.json": "44e015594e68022042a04b81f3edc23615f7df290752913e655ab0dfdbea4080",
+    "data/derived/analysis/trait_coverage_matrix.csv": "888ed896ec6036b5bae35aec7c6036832230dab8bc1868139e09dd196b6eab31",
+    "data/derived/analysis/trait_gap_report.json": "a0ef558023bba99f39cdd6c8c173c7e77d60a8ede00b16cf4225a7ad693227c2",
     "data/derived/analysis/trait_baseline.yaml": "1b7658a544435d522bda9e119ee6959f0b6b65a70bcf09665bec9d5cf2a23254",
     "data/derived/analysis/trait_env_mapping.json": "8b0c0e07c8fca118707efe948092992d2dece80996ad9c270a6a56b3ba851ddc",
     "data/derived/analysis/progression/skydock_siege_xp.json": "8f3014f01c7124dec2599e1bb3fa07375def5f95336ba269cceaba3cb035243d",
