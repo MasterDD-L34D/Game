@@ -1,0 +1,728 @@
+{
+  "scanned_files": [
+    "incoming/sensienti_traits_v0.1.yaml",
+    "incoming/enneagramma_mechanics_registry.template.json",
+    "incoming/scan_engine_idents.py",
+    "incoming/README.md",
+    "incoming/personality_module.v1.json",
+    "incoming/engine_events.schema.json",
+    "incoming/REDIRECTS.md",
+    "incoming/sentience_traits_v1.0.yaml",
+    "incoming/recon_meccaniche.json",
+    "incoming/IDEA-001_ecosistema_template.yaml",
+    "incoming/hook_bindings.ts",
+    "incoming/templates/species.schema.json",
+    "incoming/templates/trait.schema.json",
+    "incoming/archive_cold/README.md",
+    "incoming/archive_cold/reports/2025-11-25_site/README.md",
+    "incoming/archive_cold/reports/2025-11-25_site/last_report.json",
+    "incoming/archive_cold/backups/2025-11-25/README.md",
+    "incoming/archive_cold/inventory/2025-11-25/game_repo_map.json",
+    "incoming/archive_cold/inventory/2025-11-25/pack_biome_jobs_v8_alt.json",
+    "incoming/archive_cold/inventory/2025-11-25/README.md",
+    "incoming/archive_cold/inventory/2025-11-25/compat_map (1).json",
+    "incoming/archive_cold/inventory/2025-11-25/incoming_inventory.json",
+    "incoming/archive_cold/inventory/2025-11-25/compat_map.json",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/README.md",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/docs/ascii_matrix_methods.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/docs/yaml_validator.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/docs/drift_check.js",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/docs/bioma_encounters.yaml",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/docs/auto_eval_from_yaml.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/tools/devkit/ascii_matrix_methods.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/scripts/yaml_validator.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/scripts/drift_check.js",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/scripts/auto_eval_from_yaml.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_FullRepo_v1.0/telemetry/bioma_encounters.yaml",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/data/forms.yaml",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/data/species.yaml",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/ts/validate_forms.ts",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/ts/package.json",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/ts/validate_species.ts",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/py/validate_species.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo-tactics/tools/py/validate_forms.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/ascii_matrix_methods.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/yaml_validator.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/drift_check.js",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/bioma_encounters.yaml",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/EvoTactics_DevKit/auto_eval_from_yaml.py",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/enneagramma_schema.json",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/personality_module.v1.json",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/pg_enneagram_template.yaml",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/enneagramma_dataset.json",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/hook_bindings.ts",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_enneagram_addon_v1/compat_map.json",
+    "incoming/archive_cold/devkit_scripts/2025-11-25/decompressed/evo_sentience_rfc_pack_v0_1/data/traits_sensienza.yaml",
+    "incoming/Ennagramma/enneagramma_dataset.json",
+    "incoming/tests/playwright/playwright.config.ts",
+    "incoming/tests/playwright/package.json",
+    "incoming/tests/playwright/generator.spec.ts",
+    "incoming/tests/playwright/nav.spec.ts",
+    "incoming/scripts/update_tracker_registry.py",
+    "incoming/scripts/species_summary_script.py",
+    "incoming/scripts/trait_review.py",
+    "incoming/scripts/setup_backlog.py",
+    "incoming/lavoro_da_classificare/README.md",
+    "incoming/lavoro_da_classificare/integration_batches.yml",
+    "incoming/lavoro_da_classificare/lighthouserc.json",
+    "incoming/lavoro_da_classificare/backlog_tasks_example.yaml",
+    "incoming/lavoro_da_classificare/inventario.yml",
+    "incoming/lavoro_da_classificare/tasks.yml",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1101.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2002.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1601.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1203.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1702.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1105.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2001.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2003.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1802.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/traits_aggregate.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1103.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1902.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1602.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1202.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2005.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1502.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1301.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1305.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1703.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1402.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1204.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1304.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1104.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1801.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1405.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1205.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1603.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1505.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1401.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1605.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1303.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1803.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1901.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1905.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1403.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1503.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1302.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1904.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1705.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1704.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1804.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1504.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1903.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1201.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1701.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1805.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1404.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1102.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1501.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1604.json",
+    "incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2004.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/soniptera_resonans.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/terracetus_ambulator.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/elastovaranus_hydrus.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/gulogluteus_scutiger.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/anguis_magnetica.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/chemnotela_toxica.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/species_catalog.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/rupicapra_sensoria.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/perfusuas_pedes.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/umbra_alaris.json",
+    "incoming/archive/2025-11-15_evo_cleanup/species/proteus_plasma.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/new_traits_proposals.yaml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog_tasks_example.yaml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/security.yml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data/aliases/species_aliases.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/species.schema.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/trait.schema.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/ecotypes_index.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/master.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/lighthouse.yml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/schema-validate.yml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/gh-pages.yml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/search-index.yml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/e2e.yml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/security.yml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog/backlog_tasks_example.yaml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/playwright.config.ts",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/package.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/generator.spec.ts",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/nav.spec.ts",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/update_tracker_registry.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/species_summary_script.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/trait_review.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/setup_backlog.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.yaml",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/route_mapping.json",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_sitemap.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/report_links.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/check_links.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_redirects.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/common.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_search_index.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_structured_data.py",
+    "incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/config/tracker_registry_update_example.yaml",
+    "incoming/species/soniptera_resonans.json",
+    "incoming/species/terracetus_ambulator.json",
+    "incoming/species/elastovaranus_hydrus.json",
+    "incoming/species/gulogluteus_scutiger.json",
+    "incoming/species/anguis_magnetica.json",
+    "incoming/species/chemnotela_toxica.json",
+    "incoming/species/rupicapra_sensoria.json",
+    "incoming/species/perfusuas_pedes.json",
+    "incoming/species/umbra_alaris.json",
+    "incoming/species/proteus_plasma.json",
+    "incoming/ops/site-audit/redirects_map.yaml",
+    "incoming/ops/site-audit/redirects_map.json",
+    "incoming/ops/site-audit/route_mapping.json",
+    "incoming/ops/site-audit/build_sitemap.py",
+    "incoming/ops/site-audit/report_links.py",
+    "incoming/ops/site-audit/check_links.py",
+    "incoming/ops/site-audit/build_redirects.py",
+    "incoming/ops/site-audit/common.py",
+    "incoming/ops/site-audit/generate_search_index.py",
+    "incoming/ops/site-audit/generate_structured_data.py"
+  ],
+  "stats": [
+    {
+      "name": "burst",
+      "count": 156
+    },
+    {
+      "name": "supporto",
+      "count": 30
+    },
+    {
+      "name": "melee_damage",
+      "count": 24
+    },
+    {
+      "name": "paura",
+      "count": 23
+    },
+    {
+      "name": "on_damage_taken_then_counter",
+      "count": 20
+    },
+    {
+      "name": "counter",
+      "count": 19
+    },
+    {
+      "name": "bond_aura",
+      "count": 16
+    },
+    {
+      "name": "burst_damage",
+      "count": 16
+    },
+    {
+      "name": "support",
+      "count": 15
+    },
+    {
+      "name": "hashpath",
+      "count": 12
+    },
+    {
+      "name": "support_power",
+      "count": 12
+    },
+    {
+      "name": "limit_per_encounter",
+      "count": 11
+    },
+    {
+      "name": "atk_melee_damage",
+      "count": 10
+    },
+    {
+      "name": "atk_ranged_damage",
+      "count": 10
+    },
+    {
+      "name": "burst_anaerobic",
+      "count": 10
+    },
+    {
+      "name": "hpmax",
+      "count": 10
+    },
+    {
+      "name": "ranged_damage",
+      "count": 10
+    },
+    {
+      "name": "solo",
+      "count": 10
+    },
+    {
+      "name": "evasion",
+      "count": 9
+    },
+    {
+      "name": "initiative",
+      "count": 9
+    },
+    {
+      "name": "stealth",
+      "count": 9
+    },
+    {
+      "name": "aura_radius",
+      "count": 8
+    },
+    {
+      "name": "charisma_checks",
+      "count": 8
+    },
+    {
+      "name": "counter_chance",
+      "count": 8
+    },
+    {
+      "name": "hp_max",
+      "count": 8
+    },
+    {
+      "name": "on_initiative_win",
+      "count": 8
+    },
+    {
+      "name": "on_skill_check_under_pressure",
+      "count": 8
+    },
+    {
+      "name": "on_stealth_start",
+      "count": 8
+    },
+    {
+      "name": "skill_success",
+      "count": 8
+    },
+    {
+      "name": "stamina_regen",
+      "count": 8
+    },
+    {
+      "name": "base_damage",
+      "count": 7
+    },
+    {
+      "name": "known_counters",
+      "count": 7
+    },
+    {
+      "name": "aura",
+      "count": 6
+    },
+    {
+      "name": "counters",
+      "count": 6
+    },
+    {
+      "name": "dodge",
+      "count": 6
+    },
+    {
+      "name": "evasione",
+      "count": 6
+    },
+    {
+      "name": "add_flat_initiative",
+      "count": 5
+    },
+    {
+      "name": "alpha_damage",
+      "count": 5
+    },
+    {
+      "name": "aurarange",
+      "count": 5
+    },
+    {
+      "name": "energy_regen",
+      "count": 5
+    },
+    {
+      "name": "evasionrate",
+      "count": 5
+    },
+    {
+      "name": "health_max",
+      "count": 5
+    },
+    {
+      "name": "independent_bonus",
+      "count": 5
+    },
+    {
+      "name": "initiative_adv",
+      "count": 5
+    },
+    {
+      "name": "initiative_advantage",
+      "count": 5
+    },
+    {
+      "name": "initiativescore",
+      "count": 5
+    },
+    {
+      "name": "link_aura",
+      "count": 5
+    },
+    {
+      "name": "max_hp",
+      "count": 5
+    },
+    {
+      "name": "melee_dmg",
+      "count": 5
+    },
+    {
+      "name": "on_bond_range",
+      "count": 5
+    },
+    {
+      "name": "on_damage_spike",
+      "count": 5
+    },
+    {
+      "name": "on_enter_stealth",
+      "count": 5
+    },
+    {
+      "name": "on_hit_then_counter",
+      "count": 5
+    },
+    {
+      "name": "on_skill_check_high_dc",
+      "count": 5
+    },
+    {
+      "name": "on_skill_clutch",
+      "count": 5
+    },
+    {
+      "name": "on_solo_state",
+      "count": 5
+    },
+    {
+      "name": "on_win_initiative",
+      "count": 5
+    },
+    {
+      "name": "per_encounter_activation",
+      "count": 5
+    },
+    {
+      "name": "ranged_dmg",
+      "count": 5
+    },
+    {
+      "name": "skill",
+      "count": 5
+    },
+    {
+      "name": "skill_check_bonus",
+      "count": 5
+    },
+    {
+      "name": "skill_success_rate",
+      "count": 5
+    },
+    {
+      "name": "solo_bonus",
+      "count": 5
+    },
+    {
+      "name": "stealth_score",
+      "count": 5
+    },
+    {
+      "name": "teamauraradius",
+      "count": 5
+    },
+    {
+      "name": "bioma_encounters.yaml",
+      "count": 4
+    },
+    {
+      "name": "hp",
+      "count": 4
+    },
+    {
+      "name": "counters_reference",
+      "count": 3
+    },
+    {
+      "name": "once_per_encounter",
+      "count": 3
+    },
+    {
+      "name": "triad.core_emotion.paura",
+      "count": 3
+    },
+    {
+      "name": "until_end_of_encounter",
+      "count": 3
+    },
+    {
+      "name": "compute_known_counters",
+      "count": 2
+    },
+    {
+      "name": "computeknowncounters",
+      "count": 2
+    },
+    {
+      "name": "ghp_",
+      "count": 2
+    },
+    {
+      "name": "ghp_xxx",
+      "count": 2
+    },
+    {
+      "name": "knowncounters",
+      "count": 2
+    },
+    {
+      "name": "pkg_aura_arm_adj",
+      "count": 2
+    },
+    {
+      "name": "ranged",
+      "count": 2
+    },
+    {
+      "name": "bond",
+      "count": 1
+    },
+    {
+      "name": "charisma",
+      "count": 1
+    },
+    {
+      "name": "damage",
+      "count": 1
+    },
+    {
+      "name": "encounter",
+      "count": 1
+    },
+    {
+      "name": "energy",
+      "count": 1
+    },
+    {
+      "name": "health",
+      "count": 1
+    },
+    {
+      "name": "hp_bonus",
+      "count": 1
+    },
+    {
+      "name": "independent",
+      "count": 1
+    },
+    {
+      "name": "interaural",
+      "count": 1
+    },
+    {
+      "name": "item.counter",
+      "count": 1
+    },
+    {
+      "name": "item.counters",
+      "count": 1
+    },
+    {
+      "name": "melee",
+      "count": 1
+    },
+    {
+      "name": "paura.",
+      "count": 1
+    },
+    {
+      "name": "s.known_counters",
+      "count": 1
+    },
+    {
+      "name": "stamina",
+      "count": 1
+    },
+    {
+      "name": "supporto.",
+      "count": 1
+    },
+    {
+      "name": "x",
+      "count": 1
+    }
+  ],
+  "events": [
+    {
+      "name": "on_adjacent_ally",
+      "count": 10
+    },
+    {
+      "name": "on_damage_taken_then_counter",
+      "count": 10
+    },
+    {
+      "name": "on_setback",
+      "count": 10
+    },
+    {
+      "name": "on_ally_downed",
+      "count": 8
+    },
+    {
+      "name": "on_ambush_initiated",
+      "count": 8
+    },
+    {
+      "name": "on_coordinate_action",
+      "count": 8
+    },
+    {
+      "name": "on_finisher_hit",
+      "count": 8
+    },
+    {
+      "name": "on_first_blood_received",
+      "count": 8
+    },
+    {
+      "name": "on_goal_blocked",
+      "count": 8
+    },
+    {
+      "name": "on_initiative_win",
+      "count": 8
+    },
+    {
+      "name": "on_isolation",
+      "count": 8
+    },
+    {
+      "name": "on_skill_check_under_pressure",
+      "count": 8
+    },
+    {
+      "name": "on_stealth_start",
+      "count": 8
+    },
+    {
+      "name": "on_ally_close",
+      "count": 5
+    },
+    {
+      "name": "on_ally_down",
+      "count": 5
+    },
+    {
+      "name": "on_ally_ko",
+      "count": 5
+    },
+    {
+      "name": "on_ambush",
+      "count": 5
+    },
+    {
+      "name": "on_bond_range",
+      "count": 5
+    },
+    {
+      "name": "on_damage_spike",
+      "count": 5
+    },
+    {
+      "name": "on_enter_stealth",
+      "count": 5
+    },
+    {
+      "name": "on_fail_check",
+      "count": 5
+    },
+    {
+      "name": "on_first_blood",
+      "count": 5
+    },
+    {
+      "name": "on_first_hit_taken",
+      "count": 5
+    },
+    {
+      "name": "on_help_action",
+      "count": 5
+    },
+    {
+      "name": "on_hit_then_counter",
+      "count": 5
+    },
+    {
+      "name": "on_interrupt",
+      "count": 5
+    },
+    {
+      "name": "on_no_ally_near",
+      "count": 5
+    },
+    {
+      "name": "on_objective_denied",
+      "count": 5
+    },
+    {
+      "name": "on_objective_loss",
+      "count": 5
+    },
+    {
+      "name": "on_skill_check_high_dc",
+      "count": 5
+    },
+    {
+      "name": "on_skill_clutch",
+      "count": 5
+    },
+    {
+      "name": "on_solo_state",
+      "count": 5
+    },
+    {
+      "name": "on_surprise_round",
+      "count": 5
+    },
+    {
+      "name": "on_team_action",
+      "count": 5
+    },
+    {
+      "name": "on_win_initiative",
+      "count": 5
+    },
+    {
+      "name": "on_new_area_discovered",
+      "count": 4
+    },
+    {
+      "name": "on_",
+      "count": 2
+    },
+    {
+      "name": "on_xxx",
+      "count": 2
+    },
+    {
+      "name": "onXxx",
+      "count": 1
+    }
+  ]
+}
