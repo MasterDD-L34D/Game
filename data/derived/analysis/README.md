@@ -26,9 +26,9 @@ Report derivati rigenerabili dal core e dal pack Evo Tactics.
 ## Checksum (sha256)
 | File | sha256 |
 | --- | --- |
-| `data/derived/analysis/trait_coverage_report.json` | `a2068172cd13636b53e8871ca6716726c096300efc74dcb2a34997e38c453d9c` |
-| `data/derived/analysis/trait_coverage_matrix.csv` | `0cd248b081aa784343a8d5a60a67354eb64529c014c4abb8e776e14ff0237d54` |
-| `data/derived/analysis/trait_gap_report.json` | `8f540003265fabc479c7fdc02640eae01a288bf7974f9c92c7d028425298ef69` |
+| `data/derived/analysis/trait_coverage_report.json` | `c9639c4ae1a5217dc30267bd491e33a1bc4d41dc396ac3626c5f931356696340` |
+| `data/derived/analysis/trait_coverage_matrix.csv` | `1afc7d635ddc7266c7f1c1311a8992205e027005aed331f0dfc0600930d04bd8` |
+| `data/derived/analysis/trait_gap_report.json` | `214c9115d38f53ccbec3758e3c4817b8a8ab0e0457f828b49e399628fe5138e6` |
 | `data/derived/analysis/trait_baseline.yaml` | `cffcc2bfdda2989d7168af898b899c6f4f33e06da7311400906a38751925e07a` |
 | `data/derived/analysis/trait_env_mapping.json` | `8b0c0e07c8fca118707efe948092992d2dece80996ad9c270a6a56b3ba851ddc` |
 | `data/derived/analysis/progression/skydock_siege_xp.json` | `8f3014f01c7124dec2599e1bb3fa07375def5f95336ba269cceaba3cb035243d` |

@@ -14,19 +14,19 @@ generated_by: tools/roadmap/update_status.py
 - **Owner aggiornamento:** Gameplay Ops · Evo rollout crew
 - **Status generale:** in-progress
 - **Ultimo report trait gap:** `data/derived/analysis/trait_gap_report.json`
-- **Copertura trait ETL:** 147/254 (57.9%)
+- **Copertura trait ETL:** 254/254 (100.0%)
 - **Gap trait principali:** 0 missing_in_index, 0 missing_in_external, 0 mismatch
 - **Playbook da archiviare:** 3
 - **Ecotipi con mismatch legacy:** 0 su 20
 
-## Avanzamento epiche ROL-*
+## Avanzamento epiche ROL-\*
 
-| Epic | Stato | Progress (%) | Gap aperti | Campione |
-| ---- | ----- | ------------ | ---------- | -------- |
-| ROL-03 | in-progress | 99 | Playbook da archiviare: 3 | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
-| ROL-04 | done | 100 | Trait da allineare (index): 0 | — |
-| ROL-05 | done | 100 | Trait da allineare (external): 0 | — |
-| ROL-06 | done | 100 | Ecotipi con mismatch: 0 | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes |
+| Epic   | Stato       | Progress (%) | Gap aperti                       | Campione                                                                                                                        |
+| ------ | ----------- | ------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| ROL-03 | in-progress | 99           | Playbook da archiviare: 3        | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
+| ROL-04 | done        | 100          | Trait da allineare (index): 0    | —                                                                                                                               |
+| ROL-05 | done        | 100          | Trait da allineare (external): 0 | —                                                                                                                               |
+| ROL-06 | done        | 100          | Ecotipi con mismatch: 0          | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
 
 ## Focus operativi
 
