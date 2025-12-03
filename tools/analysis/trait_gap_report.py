@@ -131,7 +131,6 @@ def main(argv: list[str] | None = None) -> int:
         "traits_missing_coverage": [],
     }
 
-    missing_in_etl: list[dict[str, Any]] = []
     coverage_details: dict[str, dict[str, Any]] = {}
 
     for trait_id, entry in reference_traits.items():
@@ -173,11 +172,19 @@ def main(argv: list[str] | None = None) -> int:
                 "id": trait_id,
                 "label": label_it,
             })
-            missing_in_etl.append({"id": trait_id, "label": label_it, "axis": axis_key})
 
-    missing_in_reference = [
+    missing_in_etl = sorted(
+        (
+            {"id": trait_id, "label": detail["label"], "axis": detail["axis"]}
+            for trait_id, detail in coverage_details.items()
+            if not detail["covered"]
+        ),
+        key=lambda item: item["id"],
+    )
+
+    missing_in_reference = sorted(
         trait_id for trait_id in etl_traits.keys() if trait_id not in reference_traits
-    ]
+    )
 
     axes_with_coverage = {
         key
@@ -190,6 +197,7 @@ def main(argv: list[str] | None = None) -> int:
         "etl_traits_total": len(etl_traits),
         "traits_missing_in_etl": len(missing_in_etl),
         "traits_missing_in_reference": len(missing_in_reference),
+        "traits_with_coverage": len(reference_traits) - len(missing_in_etl),
         "axes_total": len(AXES),
         "axes_with_coverage": len(axes_with_coverage),
     }
@@ -213,8 +221,8 @@ def main(argv: list[str] | None = None) -> int:
         "summary": summary,
         "axes": axis_summary,
         "missing": {
-            "in_etl": sorted(missing_in_etl, key=lambda item: item["id"]),
-            "in_reference": sorted(missing_in_reference),
+            "in_etl": missing_in_etl,
+            "in_reference": missing_in_reference,
         },
         "details": coverage_details,
     }
