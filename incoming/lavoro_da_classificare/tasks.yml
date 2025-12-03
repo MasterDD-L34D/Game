@@ -332,7 +332,7 @@ tasks:
     notes: 'Estrarre le copie consolidate dei playbook security/PMO e versionarle nell’archivio storico con changelog.'
 
     telemetry:
-      last_sync: 2025-12-03T00:20:12+00:00
+      last_sync: 2025-12-03T01:06:51+00:00
       progress: 99
       metric:
         label: Playbook da archiviare
@@ -359,7 +359,7 @@ tasks:
     notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`. Gap azzerato dopo import TR-2002 e classificazione `traits_aggregate` come legacy-only (sync 2025-11-27).'
 
     telemetry:
-      last_sync: 2025-12-03T00:20:12+00:00
+      last_sync: 2025-12-03T01:06:51+00:00
       progress: 100
       metric:
         label: Trait da allineare (index)
@@ -386,7 +386,7 @@ tasks:
       - Output locale condiviso con il team partner-success (nessun upload S3 richiesto) per la validazione finale; gap esterni azzerati dopo verifica.
 
     telemetry:
-      last_sync: 2025-12-03T00:20:12+00:00
+      last_sync: 2025-12-03T01:06:51+00:00
       progress: 100
       metric:
         label: Trait da allineare (external)
@@ -411,7 +411,7 @@ tasks:
     notes: '14 controlli schema con 3 warning, trait audit senza regressioni, 230 suggerimenti style (0 errori); inventario aggiornato a stato validato.'
 
     telemetry:
-      last_sync: 2025-12-03T00:20:12+00:00
+      last_sync: 2025-12-03T01:06:51+00:00
       progress: 100
       metric:
         label: Ecotipi con mismatch
