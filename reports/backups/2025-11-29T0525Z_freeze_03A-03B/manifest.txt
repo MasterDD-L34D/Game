@@ -1,17 +1,17 @@
-Archive: data-core-2025-11-29T0525Z_freeze_03A-03B.tar.gz
+Archive: data-core-2025-11-29T0525Z_freeze_03A-03B.zip
 SHA256: 55c320f4c7dd2743ac1c21a89f347f596d6bd22abea1b6915427c3f0e66fa3f4
-Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-core-2025-11-29T0525Z_freeze_03A-03B.tar.gz
+Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-core-2025-11-29T0525Z_freeze_03A-03B.zip
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (FAIL: archivi assenti in /tmp/2025-11-29T0525Z_freeze_03A-03B; checksum non verificato)
+Last verified: 2025-12-03 (FAIL: archive path missing locally; no download source available; staging=/tmp/backup_verification_2025-12-03/2025-11-29T0525Z_freeze_03A-03B; checksum/restore non eseguiti; formato zip adottato per policy no-binary)
 
-Archive: data-derived-2025-11-29T0525Z_freeze_03A-03B.tar.gz
+Archive: data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
 SHA256: 8a5f49c9e5bf3ec438921e56982fb816f89a7aeb47c3350db5b3e1203e28562a
-Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-derived-2025-11-29T0525Z_freeze_03A-03B.tar.gz
+Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (FAIL: archivi assenti in /tmp/2025-11-29T0525Z_freeze_03A-03B; checksum non verificato)
+Last verified: 2025-12-03 (FAIL: archive path missing locally; no download source available; staging=/tmp/backup_verification_2025-12-03/2025-11-29T0525Z_freeze_03A-03B; checksum/restore non eseguiti; formato zip adottato per policy no-binary)
 
-Archive: incoming-2025-11-29T0525Z_freeze_03A-03B.tar.gz
+Archive: incoming-2025-11-29T0525Z_freeze_03A-03B.zip
 SHA256: cf28c8f8f73a0f0fdd1453b36ce6bfc48a5548fc5c92217db968f3e7f310af4c
-Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/incoming-2025-11-29T0525Z_freeze_03A-03B.tar.gz
+Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/incoming-2025-11-29T0525Z_freeze_03A-03B.zip
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (FAIL: archivi assenti in /tmp/2025-11-29T0525Z_freeze_03A-03B; checksum non verificato)
+Last verified: 2025-12-03 (FAIL: archive path missing locally; no download source available; staging=/tmp/backup_verification_2025-12-03/2025-11-29T0525Z_freeze_03A-03B; checksum/restore non eseguiti; formato zip adottato per policy no-binary)
