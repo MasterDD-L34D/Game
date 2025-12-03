@@ -24,3 +24,23 @@ archiviati gli artefatti.
   alle pipeline di backup.
 - Aggiornare data e note di verifica direttamente nel manifest e registrare eventuali incident in
   `logs/agent_activity.md`.
+
+## Freeze 2025-11-25 (rebuild on-demand)
+
+- Requisito: working tree pulito e dipendenze standard presenti (`rsync`, Python 3, `gzip`, `tar`).
+- Elenchi sorgenti versionati e checksum stabili sono in `reports/backups/2025-11-25_freeze/source_lists/`
+  (`*.txt` + `*.sha256`).
+- Rigenera gli artefatti deterministici (tar.gz e zip) e lo staging locale con:
+
+  ```bash
+  scripts/backup/rebuild_freeze_2025_11_25.sh
+  ```
+
+- Verifica che i file di inventario non siano stati alterati prima del rebuild:
+
+  ```bash
+  (cd reports/backups/2025-11-25_freeze && sha256sum -c source_lists/*.sha256)
+  ```
+
+- Gli archivi risultanti sono creati in `reports/backups/2025-11-25_freeze/staging/artifacts/` e **non vanno
+  committati**; il manifest punta allo script e ai checksum perché l’artefatto si genera on-demand dal repository.
