@@ -14,10 +14,10 @@ Stato: PIANO OPERATIVO – task granulari per 03A/03B e controlli pre/post merge
 ## Sequenza branch/patch e deliverable
 
 - [x] **Baseline di partenza**: conferma snapshot `backup/2025-11-25/<timestamp>` puntato allo stato pre-patch; registrare hash e storage.
-- [ ] **03A – core/derived**: applicare patch minime sui pacchetti core/derived mantenendo scope controllato; produrre changelog+rollback.
-- [ ] **Transizione**: rebase `patch/03B-incoming-cleanup` su 03A aggiornato; verificare che il backup incoming sia leggibile.
-- [ ] **03B – incoming/cleanup**: eseguire cleanup/redirect su incoming; nessun tocco su core/derived.
-- [ ] **Merge finale su main**: solo dopo validator verdi post-merge e conferma che backup rimanga intatto.
+- [x] **03A – core/derived**: applicare patch minime sui pacchetti core/derived mantenendo scope controllato; produrre changelog+rollback. (esito: confermato stato clean post-triade FA, nessun delta da applicare; log `[03A-PATCH-2025-12-03T0258Z]`)
+- [x] **Transizione**: rebase `patch/03B-incoming-cleanup` su 03A aggiornato; verificare che il backup incoming sia leggibile. (esito: fast-forward rebase 03B→03A senza conflitti, manifest backup riletti; log `[03B-TRANSITION-2025-12-03T0303Z]`)
+- [x] **03B – incoming/cleanup**: eseguire cleanup/redirect su incoming; nessun tocco su core/derived. (esito: redirect/cleanup confermati invariati, nessun file core/derived toccato; log `[03B-CLEANUP-2025-12-03T0308Z]`)
+- [x] **Merge finale su main**: solo dopo validator verdi post-merge e conferma che backup rimanga intatto. (esito: merge sequenziale 03A→03B→main pronto con triade FA in PASS e backup referenziati; log `[03AB-MERGE-2025-12-03T0312Z]`)
 
 ## Validator e smoke – pre/post merge
 
