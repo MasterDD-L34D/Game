@@ -247,6 +247,52 @@ def generate_trait_coverage(
         rule_counter = rule_matrix.get(trait_id, Counter())
         species_counter = species_matrix.get(trait_id, Counter())
 
+        affinity_info: dict[str, Any] | None = None
+        affinity_species_ids: list[str] = []
+        affinity_roles_counter: Counter[str] = Counter()
+
+        if affinity_map is not None:
+            affinity_entries = affinity_map.get(trait_id)
+            if isinstance(affinity_entries, Iterable):
+                for entry in affinity_entries:
+                    if not isinstance(entry, Mapping):
+                        continue
+                    species_id = entry.get("species_id")
+                    if not isinstance(species_id, str):
+                        continue
+                    affinity_species_ids.append(species_id)
+                    raw_roles = entry.get("roles")
+                    if isinstance(raw_roles, Iterable) and not isinstance(
+                        raw_roles, (str, bytes)
+                    ):
+                        roles = [
+                            role for role in raw_roles if isinstance(role, str)
+                        ]
+                    elif isinstance(raw_roles, str):
+                        roles = [raw_roles]
+                    else:
+                        roles = []
+                    for role in roles:
+                        affinity_roles_counter[role] += 1
+
+                if affinity_species_ids:
+                    summary["traits_with_affinity"] += 1
+                    affinity_info = {
+                        "total_species": len(affinity_species_ids),
+                        "roles_breakdown": dict(
+                            sorted(affinity_roles_counter.items())
+                        ),
+                        "top_species": affinity_species_ids[:10],
+                    }
+
+        if not species_counter and affinity_species_ids and rule_counter:
+            species_counter = species_matrix[trait_id]
+            for combo in rule_counter.keys():
+                species_counter[combo] += len(affinity_species_ids)
+                for species_id in affinity_species_ids:
+                    species_examples[trait_id][combo].add(species_id)
+                    species_seen[trait_id].add(species_id)
+
         if rule_counter:
             summary["traits_with_rules"] += 1
         if species_counter:
@@ -298,44 +344,6 @@ def generate_trait_coverage(
         description_en = (
             glossary_entry.get("description_en") if isinstance(glossary_entry, Mapping) else None
         )
-
-        affinity_info: dict[str, Any] | None = None
-        affinity_species_ids: list[str] = []
-        affinity_roles_counter: Counter[str] = Counter()
-
-        if affinity_map is not None:
-            affinity_entries = affinity_map.get(trait_id)
-            if isinstance(affinity_entries, Iterable):
-                for entry in affinity_entries:
-                    if not isinstance(entry, Mapping):
-                        continue
-                    species_id = entry.get("species_id")
-                    if not isinstance(species_id, str):
-                        continue
-                    affinity_species_ids.append(species_id)
-                    raw_roles = entry.get("roles")
-                    if isinstance(raw_roles, Iterable) and not isinstance(
-                        raw_roles, (str, bytes)
-                    ):
-                        roles = [
-                            role for role in raw_roles if isinstance(role, str)
-                        ]
-                    elif isinstance(raw_roles, str):
-                        roles = [raw_roles]
-                    else:
-                        roles = []
-                    for role in roles:
-                        affinity_roles_counter[role] += 1
-
-                if affinity_species_ids:
-                    summary["traits_with_affinity"] += 1
-                    affinity_info = {
-                        "total_species": len(affinity_species_ids),
-                        "roles_breakdown": dict(
-                            sorted(affinity_roles_counter.items())
-                        ),
-                        "top_species": affinity_species_ids[:10],
-                    }
 
         coverage_species_set = species_seen.get(trait_id, set())
         affinity_species_set = set(affinity_species_ids)
