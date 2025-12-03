@@ -27,6 +27,11 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 - Ticket #1204/#1205 aggiornati a Approved con allegato il report di smoke 2025-12-08; ticket #1206 resta Draft usando lo stesso report come baseline di rollback.
 - Ticket **TKT-03A-001** e **TKT-03B-001** marcati Ready grazie ai log `[02A-REMEDIATION-2025-12-08T1030Z]` e `[REDIR-SMOKE-2025-12-08T1100Z]` (validator 02A PASS + smoke redirect PASS) per lo sblocco dei gate 03A/03B.
 
+## Aggiornamento tracciabilità 2025-12-03 (refresh mapping e smoke)
+
+- Tabella mapping popolata con owner per riga e link diretti ai ticket Master DD #1204/#1205/#1206.
+- Smoke test rieseguito su host `http://localhost:8000` con esito **PASS** per R-01/R-02/R-03 utilizzando `scripts/redirect_smoke_test.py`; report salvato in `reports/redirects/redirect-smoke-staging.json` per allegati #1204/#1205 e baseline rollback #1206.
+
 ## Aggiornamento tracciabilità 2026-07-23
 
 - Log di riferimento: `[03A03B-CHECKPOINT-2026-07-23T0930Z]` in `logs/agent_activity.md` con validator 02A e smoke redirect **PASS** archiviati come allegati per i ticket 03A/03B e #1204/#1205/#1206.
@@ -72,11 +77,11 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 ### Mapping (definitivo)
 
 <!-- prettier-ignore -->
-| ID   | Source (staging)     | Target                    | Tipo redirect | Owner       | Ticket            | Note |
-| ---- | -------------------- | ------------------------- | ------------- | ----------- | ----------------- | ---- |
-| R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | #1204/#1205/#1206 + TKT-03B-REDIR-001 | Target presente in staging (`data/core/species.yaml`), nessun loop. Dipendenze: `config/data_path_redirects.json` + `scripts/data_layout_migration.py`. Analytics: conteggio 301 nei log di accesso staging. Config unica con allegato report smoke in `reports/redirects/redirect-smoke-staging.json` per #1204/#1205 (baseline rollback #1206, log collegato `[REDIR-SMOKE-2026-09-05T1200Z]`). |
-| R-02 | `/data/traits`       | `/data/core/traits`       | 301           | archivist   | #1204/#1205/#1206 + TKT-03B-REDIR-002 | Payload definitivo su host `http://localhost:8000` (staging): target presente in `data/core/traits/`, nessun loop/cascade. Config unica `config/data_path_redirects.json` con redirect mirror a R-01/R-03; analytics: conteggio 301 nei log di accesso staging. Allegare report `reports/redirects/redirect-smoke-staging.json` ai ticket #1204/#1205 e baseline rollback #1206 (log `[REDIR-SMOKE-2026-09-05T1200Z]`, owner archivist per i path core). |
-| R-03 | `/data/analysis`     | `/data/derived/analysis`  | 302           | dev-tooling | #1204/#1205/#1206 + TKT-03B-REDIR-003 | Target presente in staging (`data/derived/analysis/`), nessun cascade. Dipendenze: `config/data_path_redirects.json` + pipeline di ingest che referenzia `data/derived`. Analytics: monitorare hit 302 nei log staging. Config condivisa, nessuna patch multipla; report `reports/redirects/redirect-smoke-staging.json` collegato a #1204/#1205 e come baseline rollback #1206 (log `[REDIR-SMOKE-2026-09-05T1200Z]`). |
+| ID   | Source (staging)     | Target                    | Tipo redirect | Owner       | Ticket Master DD                                                                                            | Note |
+| ---- | -------------------- | ------------------------- | ------------- | ----------- | ----------------------------------------------------------------------------------------------------------- | ---- |
+| R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target presente (`data/core/species.yaml`), nessun loop. Config unica `config/data_path_redirects.json` + `scripts/data_layout_migration.py`; analytics: conteggio 301 nei log staging. Report smoke `reports/redirects/redirect-smoke-staging.json` allegato (baseline rollback #1206). |
+| R-02 | `/data/traits`       | `/data/core/traits`       | 301           | archivist   | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target su host `http://localhost:8000` in `data/core/traits/`, nessun loop/cascade. Config unica `config/data_path_redirects.json` in mirror R-01/R-03; conteggio 301 nei log staging. Report smoke `reports/redirects/redirect-smoke-staging.json` allegato per #1204/#1205, baseline rollback #1206. |
+| R-03 | `/data/analysis`     | `/data/derived/analysis`  | 302           | dev-tooling | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target `data/derived/analysis/`, nessun cascade. Config condivisa `config/data_path_redirects.json` + pipeline ingest `data/derived`; monitorare hit 302 nei log staging. Report `reports/redirects/redirect-smoke-staging.json` allegato a #1204/#1205, baseline rollback #1206. |
 
 Note operative:
 
@@ -115,9 +120,9 @@ Note operative:
 
 ## TODO prima dell’attivazione
 
-- Popolare la tabella mapping con i path effettivi e assegnare owner per riga.
-- Agganciare i ticket/link di approvazione Master DD nelle note del log.
-- Preparare script di verifica automatica (dev-tooling) per smoke test dei redirect su staging.
+- [x] Popolare la tabella mapping con i path effettivi e assegnare owner per riga (owner e ticket Master DD collegati).
+- [x] Agganciare i ticket/link di approvazione Master DD nelle note del log (sezione mapping aggiornata con #1204/#1205/#1206).
+- [x] Preparare script di verifica automatica (dev-tooling) per smoke test dei redirect su staging e salvare report in `reports/redirects/redirect-smoke-staging.json` (ultima esecuzione **PASS** su `http://localhost:8000`).
 
 ## Smoke test redirect automatizzato (staging)
 
@@ -155,6 +160,8 @@ Note operative:
   ```
 
 - Conservare i report generati in `reports/` (es. `reports/redirects/redirect-smoke-staging.json`) e allegarli ai ticket #1204 (finestra di attivazione) e #1205 (go-live redirect). Lo script stampa anche un riepilogo finale PASS/FAIL/SKIP/ERROR.
+
+- Ultima esecuzione (2025-12-03T21:28Z): host `http://localhost:8000`, tutti i mapping **PASS**; report aggiornato `reports/redirects/redirect-smoke-staging.json` pronto per allegati #1204/#1205 e baseline rollback #1206.
 
 ## Runbook sintetico attivazione/rollback (ticket #1204 / #1206)
 
