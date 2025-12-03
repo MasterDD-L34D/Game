@@ -2,7 +2,7 @@ Archive: core_snapshot_2025-11-25.zip
 SHA256: 0d8cae8c6f81e934c2739a10a235da8ca81f012f8d269cab361d2b4c43992707
 Location: scripts/backup/rebuild_freeze_2025_11_25.sh (liste: reports/backups/2025-11-25_freeze/source_lists/data_core_files.sha256; artefatto generato on-demand)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03T1854Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c reports/backups/2025-11-25_freeze/source_lists/*.sha256; artefatti deterministici in reports/backups/2025-11-25_freeze/staging/artifacts non committati)
+Last verified: 2025-12-03T1934Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c tar.gz core/derived/incoming/docs_incoming e liste; artefatti generati in reports/backups/2025-11-25_freeze/staging/artifacts e rimossi dopo il dry-run, rigenerabili on-demand)
 Tar archive: core_snapshot_2025-11-25.tar.gz
 Tar SHA256: d986100a5440aea18658d6a22600cd403ba9fcfb6db4473dc9dd70227d43b984
 Tar SHA256 file: reports/backups/2025-11-25_freeze/source_lists/core_snapshot_2025-11-25.tar.gz.sha256 (verifica: sha256sum -c <file>)
@@ -12,7 +12,7 @@ Archive: derived_snapshot_2025-11-25.zip
 SHA256: 7544d832d494c712063e73b20291f080c42de7a83f6c1a176871174ca79ef9ea
 Location: scripts/backup/rebuild_freeze_2025_11_25.sh (liste: reports/backups/2025-11-25_freeze/source_lists/data_derived_files.sha256; artefatto generato on-demand)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03T1854Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c reports/backups/2025-11-25_freeze/source_lists/*.sha256; artefatti deterministici in reports/backups/2025-11-25_freeze/staging/artifacts non committati)
+Last verified: 2025-12-03T1934Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c tar.gz core/derived/incoming/docs_incoming e liste; artefatti generati in reports/backups/2025-11-25_freeze/staging/artifacts e rimossi dopo il dry-run, rigenerabili on-demand)
 Tar archive: derived_snapshot_2025-11-25.tar.gz
 Tar SHA256: 283e3b2f50514446dd9843a069ed089bd79f470bbcb0cdb3caab1a6b96c45355
 Tar SHA256 file: reports/backups/2025-11-25_freeze/source_lists/derived_snapshot_2025-11-25.tar.gz.sha256 (verifica: sha256sum -c <file>)
@@ -22,7 +22,7 @@ Archive: incoming_backup_2025-11-25.zip
 SHA256: e0809a1c3ba17339c4b2f92d8a3ef9b11b6d70b7f93c0e92f5b2c75e6160f12d
 Location: scripts/backup/rebuild_freeze_2025_11_25.sh (liste: reports/backups/2025-11-25_freeze/source_lists/incoming_files.sha256; artefatto generato on-demand)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03T1854Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c reports/backups/2025-11-25_freeze/source_lists/*.sha256; artefatti deterministici in reports/backups/2025-11-25_freeze/staging/artifacts non committati)
+Last verified: 2025-12-03T1934Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c tar.gz core/derived/incoming/docs_incoming e liste; artefatti generati in reports/backups/2025-11-25_freeze/staging/artifacts e rimossi dopo il dry-run, rigenerabili on-demand)
 Tar archive: incoming_backup_2025-11-25.tar.gz
 Tar SHA256: 043c20b99dc565a3f3e354959f2dd273183435001583c009133d4c4c7fd2a619
 Tar SHA256 file: reports/backups/2025-11-25_freeze/source_lists/incoming_backup_2025-11-25.tar.gz.sha256 (verifica: sha256sum -c <file>)
@@ -32,7 +32,7 @@ Archive: docs_incoming_backup_2025-11-25.zip
 SHA256: 3d437f07451bfeccdefda9e6ac95bfad3195f75756d8cc7a794f6a2a8dcb7770
 Location: scripts/backup/rebuild_freeze_2025_11_25.sh (liste: reports/backups/2025-11-25_freeze/source_lists/docs_incoming_files.sha256; artefatto generato on-demand)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03T1854Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c reports/backups/2025-11-25_freeze/source_lists/*.sha256; artefatti deterministici in reports/backups/2025-11-25_freeze/staging/artifacts non committati)
+Last verified: 2025-12-03T1934Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c tar.gz core/derived/incoming/docs_incoming e liste; artefatti generati in reports/backups/2025-11-25_freeze/staging/artifacts e rimossi dopo il dry-run, rigenerabili on-demand)
 Tar archive: docs_incoming_backup_2025-11-25.tar.gz
 Tar SHA256: c5475c1c32813b2feb861768480c1a851dbc7667e9c54bf642fea873d0201a9c
 Tar SHA256 file: reports/backups/2025-11-25_freeze/source_lists/docs_incoming_backup_2025-11-25.tar.gz.sha256 (verifica: sha256sum -c <file>)
