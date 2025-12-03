@@ -8,10 +8,10 @@ Report derivati rigenerabili dal core e dal pack Evo Tactics.
 - Validatori consigliati prima/dopo la rigenerazione: `python tools/py/validate_datasets.py --schemas-only --core-root data/core --pack-root packs/evo_tactics_pack` e `python scripts/trait_audit.py --check`.
 
 ## Ultima rigenerazione
-- Comando: `python scripts/generate_derived_analysis.py --core-root /workspace/Game/data/core --pack-root /workspace/Game/packs/evo_tactics_pack --log-tag PIPELINE-EVO-PACK-2025-11-30-R2 --update-readme`
-- Commit sorgente: `a16f7e96e9def7d9f593a99f043ec87df96c28d1`
+- Comando: `python tools/analysis/trait_gap_report.py --etl-report data/derived/analysis/trait_coverage_report.json --trait-reference data/traits/index.json --trait-glossary data/core/traits/glossary.json --out data/derived/analysis/trait_gap_report.json`
+- Commit sorgente: `b13c11d4a3632abd28852530b0cdc536ee2193f3`
 - Manifest con checksum: `data/derived/analysis/manifest.json`
-- Log operativo: `logs/agent_activity.md` → `[PIPELINE-EVO-PACK-2025-11-30-R2]`
+- Log operativo: `logs/agent_activity.md` → `[TRAIT-GAP-SUMMARY-FIX]`
 
 ## Output attesi
 - `trait_coverage_report.json`
@@ -28,7 +28,7 @@ Report derivati rigenerabili dal core e dal pack Evo Tactics.
 | --- | --- |
 | `data/derived/analysis/trait_coverage_report.json` | `a2068172cd13636b53e8871ca6716726c096300efc74dcb2a34997e38c453d9c` |
 | `data/derived/analysis/trait_coverage_matrix.csv` | `0cd248b081aa784343a8d5a60a67354eb64529c014c4abb8e776e14ff0237d54` |
-| `data/derived/analysis/trait_gap_report.json` | `a62142bc9ae5211b46ffea3d9485124adcd6cc3a0dca91443479cbab9af51d93` |
+| `data/derived/analysis/trait_gap_report.json` | `8f540003265fabc479c7fdc02640eae01a288bf7974f9c92c7d028425298ef69` |
 | `data/derived/analysis/trait_baseline.yaml` | `cffcc2bfdda2989d7168af898b899c6f4f33e06da7311400906a38751925e07a` |
 | `data/derived/analysis/trait_env_mapping.json` | `8b0c0e07c8fca118707efe948092992d2dece80996ad9c270a6a56b3ba851ddc` |
 | `data/derived/analysis/progression/skydock_siege_xp.json` | `8f3014f01c7124dec2599e1bb3fa07375def5f95336ba269cceaba3cb035243d` |
