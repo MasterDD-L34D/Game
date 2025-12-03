@@ -7,6 +7,7 @@ const { createGenerationSnapshotHandler } = require('../../apps/backend/routes/g
 const {
   createGenerationSnapshotStore,
 } = require('../../apps/backend/services/generationSnapshotStore');
+const { SchemaValidationError } = require('../../apps/backend/middleware/schemaValidator');
 const { createMockFs } = require('../helpers/mockFs');
 
 test('generationSnapshotHandler gestisce richieste concorrenti con patch coerenti', async () => {
@@ -112,4 +113,51 @@ test('generationSnapshotHandler gestisce richieste concorrenti con patch coerent
 
   assert.ok(fsMock.__files.has(datasetPath));
   assert.ok(!fsMock.__files.has(`${datasetPath}.lock`));
+});
+
+test('generationSnapshotHandler non aggiorna lo store se la validazione fallisce', async () => {
+  const datasetPath = '/data/flow-shell/atlas-snapshot.json';
+  const dataset = {
+    overview: { completion: { completed: 0, total: 0 } },
+    species: { curated: 2, shortlist: ['alpha'] },
+  };
+
+  let applyPatchCalls = 0;
+  const snapshotStore = {
+    async getSnapshot() {
+      return dataset;
+    },
+    async applyPatch() {
+      applyPatchCalls += 1;
+    },
+  };
+
+  const schemaValidator = {
+    validate(schemaId, payload) {
+      assert.equal(schemaId, 'snapshot-schema');
+      assert.ok(payload?.species?.curated);
+      throw new SchemaValidationError('invalid snapshot', [
+        { instancePath: '/species', message: 'bad species status' },
+      ]);
+    },
+  };
+
+  const handler = createGenerationSnapshotHandler({
+    datasetPath,
+    snapshotStore,
+    schemaValidator,
+    validationSchemaId: 'snapshot-schema',
+  });
+
+  const app = express();
+  app.use(express.json());
+  app.get('/api/v1/generation/snapshot', handler);
+
+  const response = await request(app)
+    .get('/api/v1/generation/snapshot')
+    .query({ speciesStatus: JSON.stringify({ curated: 5 }) })
+    .expect(500);
+
+  assert.equal(response.body.error, 'Snapshot non conforme allo schema');
+  assert.equal(applyPatchCalls, 0);
 });
