@@ -2,9 +2,9 @@
 
 Uso rapido (staging):
     python scripts/redirect_smoke_test.py \
-        --host https://staging.example.com \
+        --host http://localhost:8000 \
         --environment staging \
-        --output reports/redirect-smoke.json
+        --output reports/redirects/redirect-smoke-staging.json
 
 Il comando legge il mapping dei redirect da ``docs/planning/REF_REDIRECT_PLAN_STAGING.md``
 (di default) oppure da un file alternativo passato con ``--mapping``. Esegue richieste
@@ -13,7 +13,7 @@ header ``Location``. I risultati vengono stampati su stdout e, se richiesto, sal
 in JSON (inclusi i casi ``SKIP``/``ERROR``). L'exit code è 0 solo quando non sono
 presenti esiti ``FAIL`` o ``ERROR``.
 
-Per i ticket #1204/#1205 archiviare i report generati (es. ``reports/redirect-smoke.json``)
+Per i ticket #1204/#1205 archiviare i report generati (es. ``reports/redirects/redirect-smoke-staging.json``)
 in ``reports/`` o in una sottocartella dedicata (es. ``reports/redirects/``) e allegarli
 ai rispettivi ticket di go-live.
 """
