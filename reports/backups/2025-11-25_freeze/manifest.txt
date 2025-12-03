@@ -2,22 +2,22 @@ Archive: core_snapshot_2025-11-25.zip
 SHA256: 0d8cae8c6f81e934c2739a10a235da8ca81f012f8d269cab361d2b4c43992707
 Location: scripts/backup/rebuild_freeze_2025_11_25.sh (liste: reports/backups/2025-11-25_freeze/source_lists/data_core_files.sha256; artefatto generato on-demand)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (ON-DEMAND: rigenerazione locale con script e liste versionate; zip/tar deterministici non versionati né su S3)
+Last verified: 2025-12-03T1854Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c reports/backups/2025-11-25_freeze/source_lists/*.sha256; artefatti deterministici in reports/backups/2025-11-25_freeze/staging/artifacts non committati)
 
 Archive: derived_snapshot_2025-11-25.zip
 SHA256: 7544d832d494c712063e73b20291f080c42de7a83f6c1a176871174ca79ef9ea
 Location: scripts/backup/rebuild_freeze_2025_11_25.sh (liste: reports/backups/2025-11-25_freeze/source_lists/data_derived_files.sha256; artefatto generato on-demand)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (ON-DEMAND: rigenerazione locale con script e liste versionate; zip/tar deterministici non versionati né su S3)
+Last verified: 2025-12-03T1854Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c reports/backups/2025-11-25_freeze/source_lists/*.sha256; artefatti deterministici in reports/backups/2025-11-25_freeze/staging/artifacts non committati)
 
 Archive: incoming_backup_2025-11-25.zip
 SHA256: e0809a1c3ba17339c4b2f92d8a3ef9b11b6d70b7f93c0e92f5b2c75e6160f12d
 Location: scripts/backup/rebuild_freeze_2025_11_25.sh (liste: reports/backups/2025-11-25_freeze/source_lists/incoming_files.sha256; artefatto generato on-demand)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (ON-DEMAND: rigenerazione locale con script e liste versionate; zip/tar deterministici non versionati né su S3)
+Last verified: 2025-12-03T1854Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c reports/backups/2025-11-25_freeze/source_lists/*.sha256; artefatti deterministici in reports/backups/2025-11-25_freeze/staging/artifacts non committati)
 
 Archive: docs_incoming_backup_2025-11-25.zip
 SHA256: 3d437f07451bfeccdefda9e6ac95bfad3195f75756d8cc7a794f6a2a8dcb7770
 Location: scripts/backup/rebuild_freeze_2025_11_25.sh (liste: reports/backups/2025-11-25_freeze/source_lists/docs_incoming_files.sha256; artefatto generato on-demand)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (ON-DEMAND: rigenerazione locale con script e liste versionate; zip/tar deterministici non versionati né su S3)
+Last verified: 2025-12-03T1854Z (PASS: rebuild via scripts/backup/rebuild_freeze_2025_11_25.sh + sha256sum -c reports/backups/2025-11-25_freeze/source_lists/*.sha256; artefatti deterministici in reports/backups/2025-11-25_freeze/staging/artifacts non committati)
