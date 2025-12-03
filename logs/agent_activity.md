@@ -12,6 +12,14 @@
   - Per le finestre 03A/03B 2025-11-29→2025-12-07 usare i manifest di riferimento `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` e i checkpoint Master DD (`reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `...1724Z...`, `...2028Z...`). Ogni nuova verifica o restore va registrata con il formato sintetico sopra, includendo ticket e approvazione Master DD nel campo note.
 
 
+## 2025-12-03 – Allineamento manifest backup a formato zip (dev-tooling)
+- Step: `[BACKUP-MANIFEST-2025-12-03T1238Z] owner=dev-tooling (approvatore Master DD); files=reports/backups/2025-11-25_freeze/manifest.txt,reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt,logs/agent_activity.md; esito=FAIL (solo documentazione, archivi non scaricati); note=aggiornati i manifest sostituendo i riferimenti *.tar.gz con gli equivalenti *.zip e annotata la policy no-binary; percorsi S3 e staging invariati in attesa di recuperare gli artifact.`
+
+
+## 2025-12-03 – Verifica backup freeze 2025-11-25 e 2025-11-29T0525Z (dev-tooling)
+- Step: `[BACKUP-VERIFY-2025-12-03T1231Z] owner=dev-tooling (approvatore Master DD); files=reports/backups/2025-11-25_freeze/manifest.txt,reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt,logs/agent_activity.md; staging=/tmp/backup_verification_2025-12-03; esito=FAIL (archivi non scaricati: S3 richiede credenziali e i path locali /tmp/2025-11-29T0525Z_freeze_03A-03B/ non esistono); note=installato awscli e tentato `aws s3 cp` su core_snapshot_2025-11-25.tar.gz → "Unable to locate credentials"; checksum e dry-run restore core/derived/incoming (incl. docs incoming) non eseguiti; manifest aggiornati con data/esito e riferimento allo staging.`
+
+
 ## 2025-12-03 – Verifica checksum backup freeze 03A/03B (dev-tooling)
 - Step: `[BACKUP-CHECKSUM-2025-12-03T1200Z] owner=dev-tooling (approvatore Master DD); branch=main; files=reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt,logs/agent_activity.md; esito=FAIL (archivi locali mancanti); note=Eseguito sha256sum -c sui tre archivi elencati nel manifest usando i percorsi /tmp/2025-11-29T0525Z_freeze_03A-03B/*.tar.gz: tutti i checksum falliti perché i file non sono presenti. Manifest aggiornato con data verifica e stato FAIL; ripristino bloccato finché gli artifact non vengono recuperati.`
 
