@@ -1,0 +1,11 @@
+data/core/biome_aliases.yaml
+data/core/biomes.yaml
+data/core/game_functions.yaml
+data/core/hud/layout.yaml
+data/core/mating.yaml
+data/core/missions/skydock_siege.yaml
+data/core/species.yaml
+data/core/species/aliases.json
+data/core/telemetry.yaml
+data/core/traits/biome_pools.json
+data/core/traits/glossary.json
