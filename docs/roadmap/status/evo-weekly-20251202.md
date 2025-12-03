@@ -1,6 +1,6 @@
 ---
 title: Evo rollout weekly status
-generated: 2025-12-02T19:14:01+00:00
+generated: 2025-12-02T22:45:39.756004+00:00
 reference_date: 2025-12-02
 workflow_run: —
 ---
@@ -14,8 +14,8 @@ workflow_run: —
 | Indicatore                | Valore |
 | ------------------------- | ------ |
 | Playbook da archiviare    | 3      |
-| Trait missing_in_index    | 253    |
-| Trait missing_in_external | 253    |
+| Trait missing_in_index    | 0      |
+| Trait missing_in_external | 0      |
 | Ecotipi con mismatch      | 0      |
 
 ## Workflow & integrazioni
