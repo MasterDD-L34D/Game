@@ -234,33 +234,19 @@ function createGenerationSnapshotHandler(options = {}) {
         }
       }
 
+      const patch = {};
+      if (runtimeSummary) {
+        patch.runtime = runtimeSummary;
+      }
+      if (speciesStatusUpdate) {
+        patch.speciesStatus = speciesStatusUpdate;
+      }
+
       const snapshot = buildSnapshot({
         dataset: datasetForSnapshot,
         diagnostics,
         runtime: runtimeSummary,
       });
-
-      if (snapshotStore && typeof snapshotStore.applyPatch === 'function') {
-        const patch = {};
-        if (runtimeSummary) {
-          patch.runtime = runtimeSummary;
-        }
-        if (speciesStatusUpdate) {
-          patch.speciesStatus = speciesStatusUpdate;
-        }
-        if (Object.keys(patch).length) {
-          try {
-            await snapshotStore.applyPatch(patch);
-          } catch (storeError) {
-            console.warn('[generation-snapshot] salvataggio snapshot fallito', storeError);
-          }
-        }
-      } else if (speciesStatusUpdate && datasetCache) {
-        datasetCache.species = {
-          ...(datasetCache.species || {}),
-          ...speciesStatusUpdate,
-        };
-      }
 
       const validationError = validateSnapshotPayload(
         snapshot,
@@ -276,6 +262,24 @@ function createGenerationSnapshotHandler(options = {}) {
           details: validationError.details || [],
         });
         return;
+      }
+
+      if (snapshotStore && typeof snapshotStore.applyPatch === 'function') {
+        if (Object.keys(patch).length) {
+          try {
+            await snapshotStore.applyPatch(patch);
+          } catch (storeError) {
+            console.warn(
+              '[generation-snapshot] salvataggio snapshot post-validazione fallito',
+              storeError,
+            );
+          }
+        }
+      } else if (speciesStatusUpdate && datasetCache) {
+        datasetCache.species = {
+          ...(datasetCache.species || {}),
+          ...speciesStatusUpdate,
+        };
       }
 
       res.json(snapshot);
