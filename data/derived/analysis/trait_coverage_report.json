@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-12-03T00:19:34+00:00",
+  "generated_at": "2025-12-03T00:35:38+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "data/traits/index.json",
@@ -10,80 +10,115 @@
   },
   "summary": {
     "traits_total": 254,
-    "traits_with_rules": 147,
+    "traits_with_rules": 254,
     "traits_with_species": 0,
     "traits_with_affinity": 0,
-    "rule_combos_total": 177,
+    "rule_combos_total": 284,
     "species_combos_total": 0,
-    "rules_missing_species_total": 177,
+    "rules_missing_species_total": 284,
     "affinity_missing_species_total": 0,
     "affinity_missing_matrix_total": 0,
     "traits_missing_species": [
+      "ali_fono_risonanti",
       "ali_fulminee",
       "ali_ioniche",
       "ali_membrana_sonica",
+      "ali_solari_fotoni",
       "antenne_dustsense",
       "antenne_eco_turbina",
       "antenne_flusso_mareale",
       "antenne_microonde_cavernose",
+      "antenne_plasmatiche_tempesta",
       "antenne_reagenti",
       "antenne_tesla",
       "antenne_waveguide",
       "antenne_wideband",
       "appendici_risonanti_marea",
       "appendici_thermotattiche",
+      "armatura_pietra_planare",
+      "articolazioni_a_leva_idraulica",
+      "articolazioni_multiassiali",
       "artigli_acidofagi",
       "artigli_induzione",
+      "artigli_ipo_termici",
       "artigli_radice",
       "artigli_scivolo_silente",
       "artigli_sette_vie",
+      "artigli_sghiaccio_glaciale",
       "artigli_vetrificati",
+      "artiglio_cinetico_a_urto",
+      "aura_di_dispersione_mentale",
+      "aura_scudo_radianza",
       "baffi_mareomotori",
       "barbigli_sensori_plasma",
       "barriere_miasma_glaciale",
       "batteri_endosimbionti_chemio",
       "batteri_termofili_endosimbiosi",
+      "bioantenne_gravitiche",
       "biochip_memoria",
       "biofilm_glow",
       "biofilm_iperarido",
+      "bozzolo_magnetico",
       "branchie_dual_mode",
       "branchie_eoliche",
       "branchie_metalloidi",
       "branchie_microfiltri",
+      "branchie_osmotiche_salmastra",
       "branchie_solfatiche",
       "branchie_turbina",
+      "bulbi_radici_permafrost",
       "camere_anticorrosione",
       "camere_mirage",
       "camere_nutrienti_vent",
+      "camere_risonanza_abyssal",
+      "campo_di_interferenza_acustica",
+      "cannone_sonico_a_raggio",
+      "canto_infrasonico_tattico",
+      "canto_risonante",
       "capillari_criogenici",
       "capillari_fluoridici",
       "capillari_fotovoltaici",
       "capsule_paracadute",
       "carapace_fase_variabile",
+      "carapace_luminiscente_abissale",
       "carapace_segmenti_logici",
       "carapaci_ferruginosi",
+      "cartilagine_flessotermica_venti",
       "cartilagini_biofibre",
       "cartilagini_desertiche",
       "cartilagini_flessoacustiche",
       "cartilagini_pseudometalliche",
+      "cavita_risonanti_tundra",
       "cervelletto_equilibrio_statico",
+      "cervello_a_bassa_latenza",
       "chemiorecettori_bromuro",
+      "chioma_parassita_canopica",
+      "cinghia_iper_ciliare",
       "circolazione_bifasica",
+      "circolazione_bifasica_palude",
       "circolazione_cooling_loop",
       "circolazione_doppia",
       "circolazione_supercritica",
       "ciste_riduttive",
       "ciste_salmastre",
+      "cisti_di_ibernazione_minerale",
       "cisti_iperbariche",
       "coda_balanciere",
       "coda_contrappeso",
       "coda_coppia_retroattiva",
       "coda_frusta_cinetica",
+      "coda_prensile_muscolare",
       "coda_stabilizzatrice_filo",
       "coda_stabilizzatrice_geiser",
       "coda_stabilizzatrice_vortex",
       "colonne_vibromagnetiche",
+      "comunicazione_fotonica_coda_coda",
       "coralli_partner",
+      "coralli_sinaptici_fotofase",
+      "corazze_ferro_magnetico",
+      "corna_psico_conduttive",
+      "coscienza_d_alveare_diffusa",
+      "coscienza_dalveare_diffusa",
       "criostasi_adattiva",
       "cromofori_alert_acido",
       "cuore_multicamera_bassa_pressione",
@@ -97,6 +132,10 @@
       "denti_tuning_fork",
       "echi_risonanti",
       "eco_interno_riflesso",
+      "ectotermia_dinamica",
+      "elettromagnete_biologico",
+      "emettitori_voidsong",
+      "emolinfa_conducente",
       "empatia_coordinativa",
       "enzimi_antifase_termica",
       "enzimi_antipredatori_algali",
@@ -105,15 +144,24 @@
       "enzimi_metanoossidanti",
       "epidermide_dielettrica",
       "epitelio_fosforescente",
+      "ermafroditismo_cronologico",
+      "estroflessione_gastrica_acida",
+      "fagocitosi_assorbente",
       "filamenti_digestivi_compattanti",
+      "filamenti_echo",
+      "filamenti_guidalampo",
       "filamenti_magnetotrofi",
       "filamenti_superconduttivi",
       "filamenti_termoconduzione",
+      "filtrazione_osmotica",
       "filtri_planctonici",
+      "filtro_metallofago",
       "flagelli_ancoranti",
+      "flusso_ameboide_controllato",
       "focus_frazionato",
       "foliage_fotocatodico",
       "foliaggio_spugna",
+      "frusta_fiammeggiante",
       "ghiaccio_piezoelettrico",
       "ghiandola_caustica",
       "ghiandole_cambio_salino",
@@ -125,6 +173,7 @@
       "ghiandole_inchiostro_luce",
       "ghiandole_iodoattive",
       "ghiandole_minerali",
+      "ghiandole_mnemoniche",
       "ghiandole_nebbia_acida",
       "ghiandole_nebbia_ionica",
       "ghiandole_resina_conduttiva",
@@ -133,39 +182,97 @@
       "grassi_termici",
       "gusci_criovetro",
       "gusci_magnesio",
+      "impulsi_bioluminescenti",
+      "integumento_bipolare",
+      "ipertrofia_muscolare_massiva",
       "lamelle_shear",
       "lamelle_sincroniche",
+      "lamelle_termoforetiche",
       "lamine_filtranti_aeree",
       "lamine_scudo_silice",
       "linfa_tampone",
       "lingua_cristallina",
       "lingua_tattile_trama",
+      "lobi_risonanti_crepuscolo",
+      "locomozione_miriapode_ibrida",
       "luminescenza_aurorale",
       "luminescenza_hydrotermica",
       "mantelli_geotermici",
+      "mantello_meteoritico",
+      "membrana_plastica_continua",
       "membrane_captura_rugiada",
+      "membrane_eliofiltranti",
+      "membrane_fotoconvoglianti",
       "membrane_planata_vectored",
       "membrane_pneumatofori",
+      "metabolismo_di_condivisione_energetica",
       "midollo_antivibrazione",
       "mimetismo_cromatico_passivo",
+      "moltiplicazione_per_fusione",
+      "motore_biologico_silenzioso",
+      "mucillagine_simbionte_mangrovie",
       "mucose_aderenza_sonica",
       "mucose_barofile",
+      "nebbia_mnesica",
+      "nodi_micorrizici_oracolari",
+      "nodi_sinaptici_superficiali",
       "nucleo_ovomotore_rotante",
+      "occhi_analizzatori_di_tensione",
+      "occhi_cinetici",
+      "occhi_cristallo_modulare",
       "occhi_infrarosso_composti",
       "olfatto_risonanza_magnetica",
+      "organi_metacronici",
+      "organi_sismici_cutanei",
       "pathfinder",
+      "pelage_idrorepellente_avanzato",
+      "pelle_piezo_satura",
       "pianificatore",
+      "piume_solari_fotovoltaiche",
+      "placca_diffusione_foschia",
+      "placche_pressioniche",
+      "polmoni_cristallini_alta_quota",
+      "random",
       "respiro_a_scoppio",
+      "rete_filtro_polmonare",
       "risonanza_di_branco",
+      "riverbero_memetico",
+      "rostro_emostatico_litico",
+      "rostro_linguale_prensile",
       "sacche_galleggianti_ascensoriali",
+      "sacche_spore_stratosferiche",
       "sangue_piroforico",
+      "scheletro_idraulico_a_pistoni",
       "scheletro_idro_regolante",
+      "scheletro_pneumatico_a_maglie",
+      "scintilla_sinaptica",
+      "scivolamento_magnetico",
+      "scudo_gluteale_cheratinizzato",
       "secrezione_rallentante_palmi",
+      "secrezioni_antistatiche",
+      "sensori_geomagnetici",
+      "sensori_planctonici",
+      "seta_conduttiva_elettrica",
+      "siero_anti_gelo_naturale",
+      "sinapsi_coraline_polifoniche",
+      "sistemi_chimio_sonici",
       "sonno_emisferico_alternato",
+      "spicole_canalizzatrici",
       "spore_psichiche_silenziate",
+      "squame_diffusori_ionici",
+      "squame_rifrangenti_deserto",
       "struttura_elastica_amorfa",
       "tattiche_di_branco",
-      "ventriglio_gastroliti"
+      "traits_aggregate",
+      "unghie_a_micro_adesione",
+      "vello_condensatore_nebbie",
+      "vello_di_assorbimento_totale",
+      "ventriglio_gastroliti",
+      "visione_multi_spettrale_amplificata",
+      "vortice_nera_flash",
+      "zampe_a_molla",
+      "zanne_idracida",
+      "zoccoli_risonanti_steppe"
     ],
     "traits_missing_rules": []
   },
@@ -176,15 +283,26 @@
       "description_it": "Generare ampia banda sonora in volo.",
       "description_en": "Generate a wide sonic band while flying.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -289,15 +407,26 @@
       "description_it": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza.",
       "description_en": "Photovoltaic feathers that convert light into thrust and radiant shielding.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -433,15 +562,26 @@
       "description_it": "Convoglia fulmini atmosferici in attacchi mirati o scudi ionici.",
       "description_en": "Channels storm lightning into psionic strikes or shields.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -639,15 +779,26 @@
       "description_it": "Corazza risonante scolpita da roccia extradimensionale che smorza onde d'urto.",
       "description_en": "Resonant plating carved from extradimensional stone that dampens shockwaves.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -659,15 +810,26 @@
       "description_it": "Amplificare salto e spinta delle zampe.",
       "description_en": "Amplify leaps and leg thrusts.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -679,15 +841,26 @@
       "description_it": "Ruotare arti per manovre strette.",
       "description_en": "Rotate limbs for tight maneuvers.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -761,15 +934,26 @@
       "description_it": "Indurre shock da freddo localizzato.",
       "description_en": "Induce localized cold shock.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -892,15 +1076,26 @@
       "description_it": "Falangi criogeniche che congelano e fissano il bersaglio al contatto.",
       "description_en": "Cryogenic claws that freeze and pin targets on contact.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -943,15 +1138,26 @@
       "description_it": "Infliggere onda d’urto e frattura.",
       "description_en": "Deliver shockwaves that fracture targets.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -963,15 +1169,26 @@
       "description_it": "Campo di odori avversivi ed emissioni deboli che induce ansia e vertigini nei predatori.",
       "description_en": "Aversive odors and weak emissions that instill anxiety and vertigo in predators.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -983,15 +1200,26 @@
       "description_it": "Campo fotoplasmatico che devia danni planari e sincronizza i battiti della squadra.",
       "description_en": "Photoplasmic field that deflects planar damage while syncing squad vitals.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1158,15 +1386,26 @@
       "description_it": "Antenne che leggono shear gravitazionali e li convertono in segnali.",
       "description_en": "Antennae reading gravitic shear and converting to signals.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1271,15 +1510,26 @@
       "description_it": "Schermarsi da campi elettromagnetici esterni.",
       "description_en": "Shield against external electromagnetic fields.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1415,15 +1665,26 @@
       "description_it": "Branchie psioniche che filtrano sali e tossine in acque variabili.",
       "description_en": "Psionic gills filtering salts and toxins in shifting waters.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1497,15 +1758,26 @@
       "description_it": "Bulbi radice che rilasciano calore e nutrimento alle unità connesse.",
       "description_en": "Root bulbs releasing heat and stores to linked allies.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1610,15 +1882,26 @@
       "description_it": "Caverne interne che amplificano onde elettriche/gravitazionali.",
       "description_en": "Internal caverns amplifying electric/gravitational waves.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1630,15 +1913,26 @@
       "description_it": "Mascherare posizione e velocità.",
       "description_en": "Mask position and velocity.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1650,15 +1944,26 @@
       "description_it": "Stordire o ferire con un raggio sonoro.",
       "description_en": "Stun or injure targets with a sonic beam.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1670,15 +1975,26 @@
       "description_it": "Disorientare predatori e comunicare a distanza.",
       "description_en": "Disorient predators and communicate at range.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1690,15 +2006,26 @@
       "description_it": "Frequenze che armonizzano il gruppo e riducono stress (temp).",
       "description_en": "Frequencies harmonising the squad and reducing stress (temp).",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1865,15 +2192,26 @@
       "description_it": "Guscio bioluminescente che confonde i predatori nelle profondità.",
       "description_en": "Bioluminescent shell confusing predators in abyssal dark.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -1947,15 +2285,26 @@
       "description_it": "Cartilagine termoreattiva che ottimizza virate e planate aeree.",
       "description_en": "Thermo-reactive cartilage optimizing aerial turns.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2091,15 +2440,26 @@
       "description_it": "Camere toraciche che proiettano richiami a lunga distanza nel gelo.",
       "description_en": "Chest chambers projecting long-range calls through tundra frost.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2142,15 +2502,26 @@
       "description_it": "Eseguire manovre ad alta frequenza.",
       "description_en": "Execute high-frequency maneuvers.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2193,15 +2564,26 @@
       "description_it": "Filamenti parassiti che creano corsie energetiche nella canopia.",
       "description_en": "Parasitic tendrils weaving energy lanes through canopy.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2213,15 +2595,26 @@
       "description_it": "Traslare il corpo su terreni piani o ruvidi.",
       "description_en": "Translate the body across smooth or rough ground.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2264,15 +2657,26 @@
       "description_it": "Doppio circuito sanguigno che separa ossigeno e agenti tossici in ambienti stagnanti.",
       "description_en": "Dual blood circuits separating oxygen flow from toxins in stagnant wetlands.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2439,15 +2843,26 @@
       "description_it": "Entrare in stasi in condizioni avverse.",
       "description_en": "Enter stasis under harsh conditions.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2614,15 +3029,26 @@
       "description_it": "Appendere e controbilanciarsi.",
       "description_en": "Hang and counterbalance weight.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2758,15 +3184,26 @@
       "description_it": "Scambiare impulsi luminosi tattili.",
       "description_en": "Exchange tactile light pulses.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2809,15 +3246,26 @@
       "description_it": "Barriere bioelettriche che canalizzano luce e impulsi.",
       "description_en": "Bioelectric coral ridges channeling light and impulses.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2829,15 +3277,26 @@
       "description_it": "Placche ferrose che guidano campi magnetici profondi.",
       "description_en": "Iron plates guiding deep magnetic fields.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2849,15 +3308,26 @@
       "description_it": "Corna piezo-neurotoniche che trasmettono e ricevono segnali neurali lenti per allerta di branco.",
       "description_en": "Piezo-neurotonic horns sending and receiving slow neural signals for pack alerts.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2869,15 +3339,26 @@
       "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
       "description_en": "Temporary inter-individual synaptic net merging decisions and short-term memory.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -2889,15 +3370,26 @@
       "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
       "description_en": "Temporary inter-individual synaptic net merging decisions and short-term memory.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3330,15 +3822,26 @@
       "description_it": "Microscosse isometriche che innalzano in fretta la temperatura corporea per picchi prestazionali in climi freschi.",
       "description_en": "Isometric micro-shivers that quickly elevate body temperature for performance peaks in cool climates.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3350,15 +3853,26 @@
       "description_it": "Interferire con il sistema nervoso della preda.",
       "description_en": "Disrupt prey nervous systems.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3370,15 +3884,26 @@
       "description_it": "Organi che emettono cori a frequenze profonde per stabilizzare lo shear.",
       "description_en": "Organs emitting deep choruses to stabilise shear.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3390,15 +3915,26 @@
       "description_it": "Fluido che accumula carica e drena energia nemica.",
       "description_en": "Fluid storing charge and draining enemy energy.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3658,15 +4194,26 @@
       "description_it": "Cambiare sesso dopo 1–2 incubazioni.",
       "description_en": "Change sex after one or two incubations.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3678,15 +4225,26 @@
       "description_it": "Liquefare tessuti al contatto e aspirarli.",
       "description_en": "Liquefy tissues on contact and siphon them.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3698,15 +4256,26 @@
       "description_it": "Inglobare e digerire biomassa intera.",
       "description_en": "Engulf and digest entire biomass.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3776,15 +4345,26 @@
       "description_it": "Filamenti che rilanciano frequenze di squadra e attenuano shear.",
       "description_en": "Filaments relaying squad frequencies and softening shear.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3796,15 +4376,26 @@
       "description_it": "Filamenti che tracciano rotte sicure nelle correnti.",
       "description_en": "Filaments plotting safe routes through currents.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3909,15 +4500,26 @@
       "description_it": "Neutralizzare tossine autogenerate.",
       "description_en": "Neutralize self-generated toxins.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -3960,15 +4562,26 @@
       "description_it": "Sostenere organi elettrogeni.",
       "description_en": "Sustain electrogenic organs.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -4011,15 +4624,26 @@
       "description_it": "Scivolare o risalire superfici lisce.",
       "description_en": "Slide or climb along smooth surfaces.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -4142,15 +4766,26 @@
       "description_it": "Appendice di plasma vincolato capace di arpionare e incendiare bersagli.",
       "description_en": "Bound plasma appendage that can hook and ignite targets.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -4503,15 +5138,26 @@
       "description_it": "Secrezioni che trattengono copie attenuate di buff.",
       "description_en": "Secretions holding attenuated buff copies.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -4771,15 +5417,26 @@
       "description_it": "Scariche ritmiche che abbagliano e sincronizzano alleati.",
       "description_en": "Rhythmic flashes that dazzle foes and sync allies.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -4791,15 +5448,26 @@
       "description_it": "Orientarsi lungo le linee di campo.",
       "description_en": "Orient along magnetic field lines.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -4811,15 +5479,26 @@
       "description_it": "Fibre a sezione aumentata e mitocondri densi che sprigionano potenza e scatto sostenendo sforzi brevi.",
       "description_en": "Broadened fibres with dense mitochondria that unleash power and acceleration while enduring short bursts.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -4893,15 +5572,26 @@
       "description_it": "Lamelle respiratorie che deviano gas estremi con gradienti termici.",
       "description_en": "Respiratory lamellae deflect extreme gases via heat gradients.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5068,15 +5758,26 @@
       "description_it": "Camere risonanti che filtrano segnali instabili.",
       "description_en": "Resonant chambers filtering unstable signals.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5088,15 +5789,26 @@
       "description_it": "Aderire e arrampicare su qualsiasi superficie.",
       "description_en": "Grip and climb on nearly any surface.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5201,15 +5913,26 @@
       "description_it": "Strati ablativi rigeneranti che vaporizzano l'impatto convertendolo in impulso termico.",
       "description_en": "Regenerating ablative layers that vaporize impacts into thermal pulses.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5221,15 +5944,26 @@
       "description_it": "Assumere forme e densità diverse.",
       "description_en": "Adopt different shapes and densities.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5272,15 +6006,26 @@
       "description_it": "Membrane traslucide che schermano radiazioni e patogeni sospesi.",
       "description_en": "Translucent membranes screening radiation and airborne pathogens.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5292,15 +6037,26 @@
       "description_it": "Tessuti che trasportano cariche luminose tra nodi sinaptici.",
       "description_en": "Tissues that ferry luminous charge between synaptic nodes.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5374,15 +6130,26 @@
       "description_it": "Trasferimento di substrati via contatto per sostenere feriti o giovani con una riserva collettiva.",
       "description_en": "Contact-based substrate transfer to sustain wounded or young with a collective reserve.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5474,15 +6241,26 @@
       "description_it": "Aumentare massa e intelligenza unendo unità.",
       "description_en": "Grow mass and intellect by merging units.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5494,15 +6272,26 @@
       "description_it": "Garantire volo prolungato a bassissimo SPL.",
       "description_en": "Maintain extended flight at ultra-low sound pressure.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5514,15 +6303,26 @@
       "description_it": "Mucosa simbionte che assorbe veleni e sigilla ferite palustri.",
       "description_en": "Symbiotic mucus absorbing poisons and sealing swamp wounds.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5596,15 +6396,26 @@
       "description_it": "Foschia psionica che offusca memorie e orientamento.",
       "description_en": "Psionic mist that blurs memory and orientation.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5616,15 +6427,26 @@
       "description_it": "Nodi micorrizici che anticipano minacce tramite segnali fungini.",
       "description_en": "Mycorrhizal nodes foreseeing threats via fungal signals.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5636,15 +6458,26 @@
       "description_it": "Reticolo di nodi che amplificano segnali superficiali.",
       "description_en": "Node lattice amplifying surface signals.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5705,15 +6538,26 @@
       "description_it": "Leggere tensioni nella seta e pattern di stress.",
       "description_en": "Read strand tension and stress patterns.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5725,15 +6569,26 @@
       "description_it": "Vedere il suono come pattern d’aria.",
       "description_en": "See sound as patterns in the air.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5745,15 +6600,26 @@
       "description_it": "Prismi sovrapposti che riallineano il fuoco tra spettro visibile e ionico, utili in microgravità variabile.",
       "description_en": "Layered prisms retuning focus across visible and ionic spectra, useful in variable microgravity.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5854,15 +6720,26 @@
       "description_it": "Organi che sequenziano furti di buff in catena.",
       "description_en": "Organs sequencing chained buff thefts.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5874,15 +6751,26 @@
       "description_it": "Lamelle meccano-recettive nelle squame che percepiscono vibrazioni del suolo e movimenti occultati.",
       "description_en": "Mechano-receptive lamellae in the scales sensing ground vibrations and hidden movements.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5925,15 +6813,26 @@
       "description_it": "Isolare e galleggiare.",
       "description_en": "Insulate the body and stay afloat.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5945,15 +6844,26 @@
       "description_it": "Dermide che accumula carica piezoelettrica e riflette colpi (temp).",
       "description_en": "Dermis storing piezo charge and reflecting blows (temp).",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -5996,15 +6906,26 @@
       "description_it": "Piumaggio fotovoltaico che immagazzina luce per lunghe missioni.",
       "description_en": "Photovoltaic plumage storing sunlight for long sorties.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6016,15 +6937,26 @@
       "description_it": "Placche che diffondono e attenuano cariche erratiche.",
       "description_en": "Plates diffusing and attenuating erratic charges.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6036,15 +6968,26 @@
       "description_it": "Strati che disperdono pressione abissale e riducono trauma.",
       "description_en": "Layers dispersing abyssal pressure and reducing trauma.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6056,15 +6999,26 @@
       "description_it": "Polmoni cristallini che concentrano ossigeno rarefatto in quota.",
       "description_en": "Crystalline lungs concentrating thin high-altitude oxygen.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6076,15 +7030,26 @@
       "description_it": "Slot sperimentale che estrae tratti casuali dal pool controllato.",
       "description_en": "Experimental slot drawing random traits from a curated pool.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6136,15 +7101,26 @@
       "description_it": "Assorbire nutrienti aerodispersi.",
       "description_en": "Absorb nutrients suspended in the air.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6187,15 +7163,26 @@
       "description_it": "Eco cognitivo che duplica buff a potenza ridotta (temp).",
       "description_en": "Cognitive echo duplicating buffs at reduced power (temp).",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6207,15 +7194,26 @@
       "description_it": "Rostro tubulare rigidizzato che inocula tossine ed enzimi e aspira fluidi dopo l’impatto.",
       "description_en": "Reinforced tubular rostrum that injects toxins and enzymes, then draws fluids after impact.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6227,15 +7225,26 @@
       "description_it": "Afferrare e manipolare a lungo raggio.",
       "description_en": "Grab and manipulate at long reach.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6305,15 +7314,26 @@
       "description_it": "Vescicole stratosferiche che disperdono spore di supporto a lungo.",
       "description_en": "Stratospheric vesicles dispersing long-range support spores.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6365,15 +7385,26 @@
       "description_it": "Ossa cave pressurizzate che scattano pistoni cranici per colpi-proiettile rapidissimi.",
       "description_en": "Pressurised hollow bones that fire cranial pistons for ultra-fast projectile blows.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6434,15 +7465,26 @@
       "description_it": "Alleggerire il carico per spostamenti lenti ma costanti.",
       "description_en": "Lighten the load for slow, steady travel.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6454,15 +7496,26 @@
       "description_it": "Scarica leggera che illumina connessioni e riflessi (temp).",
       "description_en": "Light discharge illuminating connections and reflexes (temp).",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6474,15 +7527,26 @@
       "description_it": "Ridurre attrito e scivolare.",
       "description_en": "Reduce friction to glide.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6494,15 +7558,26 @@
       "description_it": "Assorbire impatti posteriori.",
       "description_en": "Absorb impacts from the rear.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6545,15 +7620,26 @@
       "description_it": "Film protettivo che disperde accumuli elettrici.",
       "description_en": "Protective film dispersing electrical build-up.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6565,15 +7651,26 @@
       "description_it": "Cristalli cranici che mappano corridoi geomagnetici invisibili.",
       "description_en": "Cranial crystals mapping invisible geomagnetic corridors.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6585,15 +7682,26 @@
       "description_it": "Sensori diffusi che leggono pattern di plancton memetico.",
       "description_en": "Distributed sensors reading memetic plankton patterns.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6605,15 +7713,26 @@
       "description_it": "Stordire con scariche nella tela.",
       "description_en": "Stun prey with charges woven into the web.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6625,15 +7744,26 @@
       "description_it": "Impedire la cristallizzazione a basse temperature.",
       "description_en": "Prevent crystallization at low temperatures.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6645,15 +7775,26 @@
       "description_it": "Sinapsi coralline che trasmettono ordini tramite armoniche marine.",
       "description_en": "Coralline synapses relaying orders through marine harmonics.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6665,15 +7806,26 @@
       "description_it": "Mappare spazio e correnti d’aria senza vista.",
       "description_en": "Map space and airflow without sight.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6725,15 +7877,26 @@
       "description_it": "Spine che assorbono buff e li reindirizzano.",
       "description_en": "Spines absorbing buffs and redirecting them.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6794,15 +7957,26 @@
       "description_it": "Squame che disperdono cariche e riducono glare.",
       "description_en": "Scales dispersing charge and reducing glare.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6814,15 +7988,26 @@
       "description_it": "Scaglie cristalline che diffondono calore e creano miraggi.",
       "description_en": "Crystal scales diffusing heat and casting mirages.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6923,15 +8108,26 @@
       "description_it": "Dump normalizzato dei trait Evo (TR-*) per allineare indice legacy e QA.",
       "description_en": "Normalized Evo trait dump (TR-*) used to align legacy index and QA.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6943,15 +8139,26 @@
       "description_it": "Lamelle a micro-setole su zoccoli che aderiscono a superfici ripide per fughe verticali e pascolo.",
       "description_en": "Micro-setae lamellae on hooves gripping steep surfaces for vertical escapes and browsing.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6963,15 +8170,26 @@
       "description_it": "Vello capillare che condensa nebbia in riserve idriche mobili.",
       "description_en": "Capillary fleece condensing fog into mobile water reserves.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -6983,15 +8201,26 @@
       "description_it": "Assorbire quasi tutta la luce incidente.",
       "description_en": "Absorb nearly all incoming light.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -7043,15 +8272,26 @@
       "description_it": "Vedere in luminanza estremamente bassa.",
       "description_en": "See under extremely low luminance.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -7063,15 +8303,26 @@
       "description_it": "Implosione luminosa seguita da vuoto e teletrasporto breve (temp).",
       "description_en": "Luminous implosion followed by void and short teleport (temp).",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -7083,15 +8334,26 @@
       "description_it": "Arti a molla che accumulano energia per balzi di riposizionamento.",
       "description_en": "Spring-loaded limbs storing energy for repositioning leaps.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -7103,15 +8365,26 @@
       "description_it": "Corrodere tessuti e metalli.",
       "description_en": "Corrode tissues and even metals.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
@@ -7123,15 +8396,26 @@
       "description_it": "Zoccoli cavi che inviano onde ritmiche al branco sulle steppe.",
       "description_en": "Hollow hooves sending rhythmic waves across the steppe pack.",
       "rules": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
       },
       "species": {
         "total": 0,
         "coverage": []
       },
       "diff": {
-        "missing_in_species": [],
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
