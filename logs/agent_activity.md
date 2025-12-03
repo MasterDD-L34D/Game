@@ -12,6 +12,10 @@
   - Per le finestre 03A/03B 2025-11-29→2025-12-07 usare i manifest di riferimento `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` e i checkpoint Master DD (`reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `...1724Z...`, `...2028Z...`). Ogni nuova verifica o restore va registrata con il formato sintetico sopra, includendo ticket e approvazione Master DD nel campo note.
 
 
+## 2025-12-03 – Verifica checksum backup freeze 03A/03B (dev-tooling)
+- Step: `[BACKUP-CHECKSUM-2025-12-03T1200Z] owner=dev-tooling (approvatore Master DD); branch=main; files=reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt,logs/agent_activity.md; esito=FAIL (archivi locali mancanti); note=Eseguito sha256sum -c sui tre archivi elencati nel manifest usando i percorsi /tmp/2025-11-29T0525Z_freeze_03A-03B/*.tar.gz: tutti i checksum falliti perché i file non sono presenti. Manifest aggiornato con data verifica e stato FAIL; ripristino bloccato finché gli artifact non vengono recuperati.`
+
+
 ## 2025-12-03 – Triade Frattura Abissale post-merge main (archivist)
 - Step: `[TRIADE-MAIN-2025-12-03T1012Z] owner=archivist (approvatore Master DD); branch=main; files=reports/temp/main/frattura_abissale_pipeline_20251203T031847Z.log,reports/temp/main/frattura_abissale_pipeline_20251203T032252Z.log,reports/temp/main/frattura_abissale_triade_post_merge.md,logs/agent_activity.md,docs/changelog.md; snapshot=reports/backups/2025-11-25_freeze/manifest.txt + reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt; dry_run_restore=OK (git checkout su backup/2025-11-25/20251202T013259Z, tar restore previsto da manifest); esito=PASS (triade validator/smoke post-merge su main, rerun di conferma PASS); note=handoff con link agli audit `reports/audit/2025-12-02_frattura_abissale_validators*.md` e istruzioni di rollback rapido in reports/temp/main/frattura_abissale_triade_post_merge.md.`
 
