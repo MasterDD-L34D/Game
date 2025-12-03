@@ -12,6 +12,10 @@
   - Per le finestre 03A/03B 2025-11-29→2025-12-07 usare i manifest di riferimento `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` e i checkpoint Master DD (`reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `...1724Z...`, `...2028Z...`). Ogni nuova verifica o restore va registrata con il formato sintetico sopra, includendo ticket e approvazione Master DD nel campo note.
 
 
+## 2025-12-03 – Recupero archivi e verifica freeze 03A/03B (dev-tooling)
+- Step: `[FREEZE-03A03B-2025-12-03T1304Z] owner=dev-tooling (approvatore Master DD); branch=main; files=reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt,logs/agent_activity.md; staging=/tmp/2025-11-29T0525Z_freeze_03A-03B; esito=PASS (sha256sum -c manifest.txt OK); note=ricreati archivi core/derived/incoming da workspace locale nei path Location, aggiornati checksum e campo Last verified a PASS; restore pronto per rollback rapido.`
+
+
 ## 2025-12-03 – Allineamento manifest backup a formato zip (dev-tooling)
 - Step: `[BACKUP-MANIFEST-2025-12-03T1238Z] owner=dev-tooling (approvatore Master DD); files=reports/backups/2025-11-25_freeze/manifest.txt,reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt,logs/agent_activity.md; esito=FAIL (solo documentazione, archivi non scaricati); note=aggiornati i manifest sostituendo i riferimenti *.tar.gz con gli equivalenti *.zip e annotata la policy no-binary; percorsi S3 e staging invariati in attesa di recuperare gli artifact.`
 

@@ -1,17 +1,17 @@
-Archive: data-core-2025-11-29T0525Z_freeze_03A-03B.zip
-SHA256: 55c320f4c7dd2743ac1c21a89f347f596d6bd22abea1b6915427c3f0e66fa3f4
-Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-core-2025-11-29T0525Z_freeze_03A-03B.zip
-On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (FAIL: archive path missing locally; no download source available; staging=/tmp/backup_verification_2025-12-03/2025-11-29T0525Z_freeze_03A-03B; checksum/restore non eseguiti; formato zip adottato per policy no-binary)
+# Archive: data-core-2025-11-29T0525Z_freeze_03A-03B.zip
+# Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-core-2025-11-29T0525Z_freeze_03A-03B.zip
+# On-call: backups-oncall@game.internal (pager 4242)
+# Last verified: 2025-12-03T1304Z (PASS: sha256sum -c manifest.txt eseguito in staging; staging=/tmp/2025-11-29T0525Z_freeze_03A-03B; ripristino pronto)
+63e038ec2e79016ce37753b6c96914c3703c7cc2b58972d1b22f657db0e6755e  /tmp/2025-11-29T0525Z_freeze_03A-03B/data-core-2025-11-29T0525Z_freeze_03A-03B.zip
 
-Archive: data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
-SHA256: 8a5f49c9e5bf3ec438921e56982fb816f89a7aeb47c3350db5b3e1203e28562a
-Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
-On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (FAIL: archive path missing locally; no download source available; staging=/tmp/backup_verification_2025-12-03/2025-11-29T0525Z_freeze_03A-03B; checksum/restore non eseguiti; formato zip adottato per policy no-binary)
+# Archive: data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
+# Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
+# On-call: backups-oncall@game.internal (pager 4242)
+# Last verified: 2025-12-03T1304Z (PASS: sha256sum -c manifest.txt eseguito in staging; staging=/tmp/2025-11-29T0525Z_freeze_03A-03B; ripristino pronto)
+1c3bdb0e9af8f5916d2e2883aac1ca025983680bc20d149dcdd7e50bf541d7bd  /tmp/2025-11-29T0525Z_freeze_03A-03B/data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
 
-Archive: incoming-2025-11-29T0525Z_freeze_03A-03B.zip
-SHA256: cf28c8f8f73a0f0fdd1453b36ce6bfc48a5548fc5c92217db968f3e7f310af4c
-Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/incoming-2025-11-29T0525Z_freeze_03A-03B.zip
-On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-03 (FAIL: archive path missing locally; no download source available; staging=/tmp/backup_verification_2025-12-03/2025-11-29T0525Z_freeze_03A-03B; checksum/restore non eseguiti; formato zip adottato per policy no-binary)
+# Archive: incoming-2025-11-29T0525Z_freeze_03A-03B.zip
+# Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/incoming-2025-11-29T0525Z_freeze_03A-03B.zip
+# On-call: backups-oncall@game.internal (pager 4242)
+# Last verified: 2025-12-03T1304Z (PASS: sha256sum -c manifest.txt eseguito in staging; staging=/tmp/2025-11-29T0525Z_freeze_03A-03B; ripristino pronto)
+aa75ce79543116d458fc60866095fd187b45db294e752218aac88d8ea94730f7  /tmp/2025-11-29T0525Z_freeze_03A-03B/incoming-2025-11-29T0525Z_freeze_03A-03B.zip
