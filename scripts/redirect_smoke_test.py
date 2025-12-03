@@ -31,6 +31,7 @@ from urllib.parse import urlparse, urljoin
 
 DEFAULT_MAPPING_PATH = "docs/planning/REF_REDIRECT_PLAN_STAGING.md"
 DEFAULT_TIMEOUT = 5.0
+DEFAULT_OUTPUT_PATH = "reports/redirects/redirect-smoke-staging.json"
 
 
 @dataclass
@@ -79,7 +80,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--environment", default="staging", help="Etichetta ambiente salvata nel report")
     parser.add_argument("--mapping", default=DEFAULT_MAPPING_PATH, help="Percorso del file di mapping (Markdown)")
     parser.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT, help="Timeout HTTP in secondi")
-    parser.add_argument("--output", help="Percorso file JSON per salvare il report")
+    parser.add_argument(
+        "--output",
+        default=DEFAULT_OUTPUT_PATH,
+        help=(
+            "Percorso file JSON per salvare il report; default: "
+            f"{DEFAULT_OUTPUT_PATH}"
+        ),
+    )
     return parser.parse_args()
 
 

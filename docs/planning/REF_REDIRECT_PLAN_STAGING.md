@@ -74,9 +74,9 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 <!-- prettier-ignore -->
 | ID   | Source (staging)     | Target                    | Tipo redirect | Owner       | Ticket            | Note |
 | ---- | -------------------- | ------------------------- | ------------- | ----------- | ----------------- | ---- |
-| R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | #1204/#1205/#1206 + TKT-03B-REDIR-001 | Target presente in staging (`data/core/species.yaml`), nessun loop. Dipendenze: `config/data_path_redirects.json` + `scripts/data_layout_migration.py`. Analytics: conteggio 301 nei log di accesso staging. Config unica con allegato report smoke in `reports/redirects/redirect-smoke-staging.json` per #1204/#1205 (rollback #1206). |
-| R-02 | `/data/traits`       | `/data/core/traits`       | 301           | archivist   | #1204/#1205/#1206 + TKT-03B-REDIR-002 | Payload definitivo su host `http://localhost:8000` (staging): target presente in `data/core/traits/`, nessun loop/cascade. Config unica `config/data_path_redirects.json` con redirect mirror a R-01/R-03; analytics: conteggio 301 nei log di accesso staging. Allegare report `reports/redirects/redirect-smoke-staging.json` ai ticket #1204/#1205 e baseline rollback #1206. |
-| R-03 | `/data/analysis`     | `/data/derived/analysis`  | 302           | dev-tooling | #1204/#1205/#1206 + TKT-03B-REDIR-003 | Target presente in staging (`data/derived/analysis/`), nessun cascade. Dipendenze: `config/data_path_redirects.json` + pipeline di ingest che referenzia `data/derived`. Analytics: monitorare hit 302 nei log staging. Config condivisa, nessuna patch multipla; report `reports/redirects/redirect-smoke-staging.json` collegato a #1204/#1205 e come baseline rollback #1206. |
+| R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | #1204/#1205/#1206 + TKT-03B-REDIR-001 | Target presente in staging (`data/core/species.yaml`), nessun loop. Dipendenze: `config/data_path_redirects.json` + `scripts/data_layout_migration.py`. Analytics: conteggio 301 nei log di accesso staging. Config unica con allegato report smoke in `reports/redirects/redirect-smoke-staging.json` per #1204/#1205 (baseline rollback #1206, log collegato `[REDIR-SMOKE-2026-09-05T1200Z]`). |
+| R-02 | `/data/traits`       | `/data/core/traits`       | 301           | archivist   | #1204/#1205/#1206 + TKT-03B-REDIR-002 | Payload definitivo su host `http://localhost:8000` (staging): target presente in `data/core/traits/`, nessun loop/cascade. Config unica `config/data_path_redirects.json` con redirect mirror a R-01/R-03; analytics: conteggio 301 nei log di accesso staging. Allegare report `reports/redirects/redirect-smoke-staging.json` ai ticket #1204/#1205 e baseline rollback #1206 (log `[REDIR-SMOKE-2026-09-05T1200Z]`, owner archivist per i path core). |
+| R-03 | `/data/analysis`     | `/data/derived/analysis`  | 302           | dev-tooling | #1204/#1205/#1206 + TKT-03B-REDIR-003 | Target presente in staging (`data/derived/analysis/`), nessun cascade. Dipendenze: `config/data_path_redirects.json` + pipeline di ingest che referenzia `data/derived`. Analytics: monitorare hit 302 nei log staging. Config condivisa, nessuna patch multipla; report `reports/redirects/redirect-smoke-staging.json` collegato a #1204/#1205 e come baseline rollback #1206 (log `[REDIR-SMOKE-2026-09-05T1200Z]`). |
 
 Note operative:
 
@@ -136,7 +136,7 @@ Note operative:
   - `--environment`: label salvata nel report JSON (default: `staging`).
   - `--mapping`: percorso alternativo al file di mapping, se necessario.
   - `--timeout`: timeout HTTP in secondi (default: `5.0`).
-  - `--output`: percorso del report JSON (crea cartelle se assenti) in `reports/redirects/`. Allegare l’esito ai ticket #1204/#1205 e includerlo come baseline rollback #1206.
+  - `--output`: percorso del report JSON (crea cartelle se assenti) in `reports/redirects/`. Default preimpostato: `reports/redirects/redirect-smoke-staging.json`. Allegare l’esito ai ticket #1204/#1205 e includerlo come baseline rollback #1206.
 
 - Interpretazione esiti:
   - `PASS`: status HTTP e `Location` corrispondono a quanto indicato nel mapping.
