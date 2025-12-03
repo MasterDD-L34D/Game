@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-12-03T01:18:36+00:00",
+  "generated_at": "2025-12-03T01:34:45+00:00",
   "sources": {
     "etl_report": "data/derived/analysis/trait_coverage_report.json",
     "trait_reference": "data/traits/index.json",
@@ -12,8 +12,8 @@
     "traits_missing_in_etl": 0,
     "traits_missing_in_reference": 0,
     "traits_with_coverage": 254,
-    "axes_total": 9,
-    "axes_with_coverage": 9
+    "axes_total": 10,
+    "axes_with_coverage": 10
   },
   "axes": {
     "sensoriale": {

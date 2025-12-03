@@ -186,20 +186,21 @@ def main(argv: list[str] | None = None) -> int:
         trait_id for trait_id in etl_traits.keys() if trait_id not in reference_traits
     )
 
-    axes_with_coverage = {
-        key
-        for key, info in axis_summary.items()
-        if info["covered_traits"] > 0 and key != AXIS_UNKNOWN[0]
+    axes_with_data = {
+        key: info for key, info in axis_summary.items() if info["total_traits"] > 0
     }
-
     summary = {
         "reference_traits_total": len(reference_traits),
         "etl_traits_total": len(etl_traits),
         "traits_missing_in_etl": len(missing_in_etl),
         "traits_missing_in_reference": len(missing_in_reference),
-        "traits_with_coverage": len(reference_traits) - len(missing_in_etl),
-        "axes_total": len(AXES),
-        "axes_with_coverage": len(axes_with_coverage),
+        "traits_with_coverage": sum(
+            1 for detail in coverage_details.values() if detail["covered"]
+        ),
+        "axes_total": len(axes_with_data),
+        "axes_with_coverage": sum(
+            1 for info in axes_with_data.values() if info["covered_traits"] > 0
+        ),
     }
 
     for info in axis_summary.values():
