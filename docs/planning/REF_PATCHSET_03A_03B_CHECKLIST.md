@@ -50,21 +50,23 @@ Stato: PIANO OPERATIVO – task granulari per 03A/03B e controlli pre/post merge
 ## Command Library – comandi da usare
 
 - [x] `COMANDO: PIPELINE_DESIGNER` per orchestrare varianti di sequenza se servono deviazioni controllate (richiamato nei gate `[03A03B-GATE-2025-12-02T1358Z]` e nei run di transizione con manifest `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`).
-- [x] `COMANDO: PIPELINE_EXECUTOR` o `COMANDO: PIPELINE_SIMULATOR` per dry-run/esecuzione degli step documentati (sequenze su patch 03A/03B riportate in `logs/agent_activity.md` con run `[03A-PATCH-2025-12-03T0258Z]` e `[03B-TRANSITION-2025-12-03T0303Z]`).
-- [x] `COMANDO: CHECK_SCHEMA_E_SLUG_FRATTURA_ABISSALE` per validare schemi/slug (esecuzione registrata in `[03A-TRIADE-2025-12-03T0305Z]` con log `reports/temp/patch-03A-core-derived/frattura_abissale_triade_20251203T030508Z.log`).
+- [x] `COMANDO: PIPELINE_EXECUTOR` o `COMANDO: PIPELINE_SIMULATOR` per dry-run/esecuzione degli step documentati (sequenze su patch 03A/03B riportate in `logs/agent_activity.md` con run `[03A-PATCH-2025-12-03T0258Z]`, `[03B-TRANSITION-2025-12-03T0303Z]`, `[03B-CLEANUP-2025-12-03T0308Z]` e `[03AB-MERGE-2025-12-03T0312Z]`, ognuno con owner/esito e manifest di riferimento indicati nel log).
+- [x] `COMANDO: CHECK_SCHEMA_E_SLUG_FRATTURA_ABISSALE` per validare schemi/slug (esecuzione registrata in `[03A-TRIADE-2025-12-03T0305Z]` con log `reports/temp/patch-03A-core-derived/frattura_abissale_triade_20251203T030508Z.log` e entry dedicata in `logs/agent_activity.md`).
 - [x] `COMANDO: CHECK_COHERENZA_TRAIT_SPECIE_BIOMA_FRATTURA_ABISSALE` per coerenza trait/specie/bioma (vedi stesso run `[03A-TRIADE-2025-12-03T0305Z]` e riferimenti manifest backup sopra).
-- [x] `COMANDO: CHECK_TEST_E_PIPELINE_FRATTURA_ABISSALE` per test CI e smoke rapidi (già in PASS nel gate `[03A03B-GATE-2025-12-02T1358Z]` e ripetuto nella triade `[03A-TRIADE-2025-12-03T0305Z]`).
+- [x] `COMANDO: CHECK_TEST_E_PIPELINE_FRATTURA_ABISSALE` per test CI e smoke rapidi (già in PASS nel gate `[03A03B-GATE-2025-12-02T1358Z]` registrato in `logs/agent_activity.md` e ripetuto nella triade `[03A-TRIADE-2025-12-03T0305Z]`).
 
 ## Registrazione e file da toccare
 
 - [x] `logs/agent_activity.md` – loggare ogni step (pre/post validator, backup, merge, rollback) con riferimenti ai manifest `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` e log triade `reports/temp/patch-03A-core-derived/frattura_abissale_triade_20251203T030508Z.log`.
-- [x] `docs/planning/` – questo documento e eventuali appendici di dettaglio per patch/validator (aggiornato dopo i run `[03A-PATCH-2025-12-03T0258Z]`, `[03B-TRANSITION-2025-12-03T0303Z]`, `[03AB-MERGE-2025-12-03T0312Z]`).
-- [x] `reports/audit/**` – allegare report finali e manifest backup quando disponibili (bundle e manifest citati nei gate `[03A03B-GATE-2025-12-02T1358Z]` e nei checkpoint backup `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`).
+- [x] `docs/planning/` – questo documento e eventuali appendici di dettaglio per patch/validator (aggiornato dopo i run `[03A-PATCH-2025-12-03T0258Z]`, `[03B-TRANSITION-2025-12-03T0303Z]`, `[03B-CLEANUP-2025-12-03T0308Z]`, `[03AB-MERGE-2025-12-03T0312Z]` registrati in `logs/agent_activity.md`).
+- [x] `reports/audit/**` – allegare report finali e manifest backup quando disponibili (bundle e manifest citati nei gate `[03A03B-GATE-2025-12-02T1358Z]` e nei checkpoint backup `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, con esiti/owner tracciati in `logs/agent_activity.md`).
 
 ### Note su run recenti (riferimento a `logs/agent_activity.md`)
 
 - `[03A-TRIADE-2025-12-03T0305Z]` owner=dev-tooling – triade Frattura Abissale in fail controllato con log `reports/temp/patch-03A-core-derived/frattura_abissale_triade_20251203T030508Z.log` e manifest backup per rollback.
 - `[03A03B-GATE-2025-12-02T1358Z]` owner=coordinator – gate PASS triade/smoke su 03A/03B con manifest `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`.
+
+**Sintesi finale (2025-12-03 – archivist)**: checklist riesaminata con log/manifest allineati e pronta per handoff operativo.
 
 ## Aggiornamento validator 2025-12-02T1344Z (report-only)
 
