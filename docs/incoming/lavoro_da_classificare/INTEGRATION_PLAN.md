@@ -9,6 +9,10 @@ in contributi pronti per il branch principale del repository.
 trait-curator per l'handoff di matrice core/derived e allineamento trait
 sentience/enneagramma. Milestone: **01B** in modalità report-only.
 
+**Decisione stato (catalogo 01B)**: mantenere questo piano attivo e
+aggiornarlo nel perimetro 01B (report-only) invece di archiviarlo; la scelta è
+registrata in `docs/planning/REF_REPO_MIGRATION_PLAN.md` e nel log attività.
+
 **Patchset/branch attivi**: `patch/01B-core-derived-matrix` (handoff
 species/trait-curator) e `patch/01A-docs-catalogo` per la sincronizzazione del
 catalogo; loggare ogni avanzamento in `logs/agent_activity.md`.
