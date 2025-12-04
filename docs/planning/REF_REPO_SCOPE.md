@@ -50,6 +50,11 @@ Stato: PATCHSET-00 APPROVATA – baseline allineata alla milestone 07/12/2025 co
 - Branch dedicati per ogni passo successivo, evitando merge diretti su `main` senza gate incrociati.
 - Logging delle attività e delle approvazioni in `logs/agent_activity.md` per audit e handoff.
 
+### Stato ticket 01B/01C al 07/12/2025 (compressione calendario)
+
+- **Kickoff 01B (report-only):** owner species/trait-curator in handoff da archivist su branch `patch/01B-core-derived-matrix`, freeze documentale 2025-11-29T09:00Z→2025-12-07T18:00Z chiuso; ultimo log `[01B-KICKOFF-2025-12-07T1500Z]` in `logs/agent_activity.md` con ticket **[TKT-01B-001]**/**[TKT-01B-002]** riallineati a `incoming/README.md` e `docs/planning/REF_INCOMING_CATALOG.md`.
+- **Handoff 01C (report-only):** owner dev-tooling su branch `patch/01C-tooling-ci-catalog` per inventario CI/tooling senza rollout esecutivi; freeze documentale 2025-11-29T09:00Z→2025-12-07T18:00Z chiuso; ultimo log `[01C-HANDOFF-2025-12-07T1515Z]` in `logs/agent_activity.md` con ticket **[TKT-01C-001]**/**[TKT-01C-002]** collegati a parametri legacy e hook/event-map v2.3.
+
 ## Nota di delta
 
 - Milestone riallineata da 2025-12-30 a **2025-12-07** con compressione delle attività 01B–01C; il gate 01A già approvato resta il riferimento per mantenere lo scope neutrale e validare i collegamenti con i ticket collegati.
@@ -67,6 +72,7 @@ Stato: PATCHSET-00 APPROVATA – baseline allineata alla milestone 07/12/2025 co
 
 ## Changelog
 
+- 2025-12-07 15:15 UTC: aggiunti log di kickoff/hand-off compressi 01B/01C (branch `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog`) con freeze documentale 2025-11-29→2025-12-07 chiuso, riallineati a `logs/agent_activity.md` e `REF_INCOMING_CATALOG`.
 - 2025-12-07 10:30 UTC: baseline PATCHSET-00 approvata da Master DD con gate 01A chiuso; riferimenti log/ticket: approvazione 01A registrata in `logs/agent_activity.md` (ticket 01A), consegne operative 01B/01C collegate ai ticket dedicati e agli aggiornamenti log 01B–01C.
 - 2025-12-07: versione 0.6 – milestone anticipata al 07/12/2025 con stato gate 01A approvato / 01B in revisione / 01C pianificato, delta di riallocazione e prossimi passi compressi entro la data target.
 - 2025-12-30: versione 0.5 – intestazione riallineata al report v0.5, confermata la numerazione 01A–03B e lo scope come bussola per le patch successive.
