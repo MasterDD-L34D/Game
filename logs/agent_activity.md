@@ -1,5 +1,9 @@
 # Agent activity log
 
+## 2026-09-11 – Chiusura fix 01B/01C (archivist)
+- Step: `[01B-CLOSE-FIX-2026-09-11T1200Z] owner=archivist (approvatore Master DD); branch=patch/01B-core-derived-matrix; files=docs/planning/REF_REPO_MIGRATION_PLAN.md,logs/agent_activity.md; modalità=report-only; ticket=[TKT-01B-001],[TKT-01B-002]; esito=PASS; note=Registrati fix documentali 01B su matrice core/derived in consultivo, nessuna patch sui dati; confermato con Master DD che il freeze documentale 2025-11-29→2025-12-07 resta chiuso e usato come baseline; handoff finale allineato al tracking responsabilità.]
+- Step: `[01C-CLOSE-FIX-2026-09-11T1200Z] owner=archivist (approvatore Master DD); branch=patch/01C-tooling-ci-catalog; files=docs/planning/REF_REPO_MIGRATION_PLAN.md,logs/agent_activity.md; modalità=report-only; ticket=[TKT-01C-001],[TKT-01C-002]; esito=PASS; note=Catalogo tooling/CI aggiornato in report-only con checklist di rollback confermata; freeze documentale 2025-11-29→2025-12-07 confermato chiuso, nessuna riapertura; log condiviso con Master DD per firma finale.]
+
 # 2026-09-10 – Kickoff/handoff 01C report-only (archivist)
 - Step: `[01C-KICKOFF-HANDOFF-2026-09-10T1200Z] owner=archivist (approvatore Master DD); branch=patch/01C-tooling-ci-catalog; files=docs/planning/REF_REPO_MIGRATION_PLAN.md,logs/agent_activity.md; modalità=report-only; esito=PASS; note=Verificati owner e ticket **[TKT-01C-001]**/**[TKT-01C-002]** su `patch/01C-tooling-ci-catalog` (lead dev-tooling, supporto coordinator) nel tracking responsabilità di REF_REPO_MIGRATION_PLAN.md; confermato che le finestre freeze 2025-11-29→2025-12-07 risultano chiuse e loggate. Kickoff/handoff operativo in STRICT MODE, nessuna run consultiva abilitata prima del via libera di Master DD; report condiviso con Master DD e owner 01C per mantenere stato report-only.`
 
