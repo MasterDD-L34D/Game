@@ -43,6 +43,13 @@ Stato: Baseline 07/12/2025 – 01A chiuso, 01B/01C in report-only allineati ai g
 
 **Delta sintetico vs versione 0.5 (post-milestone 30/12/2025):** ownership ampliata 01A→01C con registrazione anticipata al 07/12; branch 01B/01C spostati in report-only pre-07/12 anziché post-30/12; logging obbligatorio di ogni riallineamento 01A→01B→01C prima di riaprire i branch.
 
+### Allineamento pending/borderline 2026-09-09
+
+- Licenza `ancestors_*` ancora pending su **[TKT-01B-001]** (species-curator owner); mantenere uso bloccato dei dataset fino al via libera legale e alla pubblicazione del dump sanificato definitivo.
+- Hook/event-map engine (**[TKT-01C-002]**) bloccati fino al rebase su event-map v2.3 e alla rigenerazione di `scan_engine_idents.py`; dev-tooling owner con alert a Master DD se persiste il blocco.
+- `incoming/lavoro_da_classificare/*` e `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md` restano in handoff 01B (archivist lead, controllo species/trait-curator) con note di triage/alias da non usare fuori contesto; mantenere logging STRICT MODE su ogni riuso.
+- Note operative sincronizzate con `REF_CORE_DERIVED_MATRIX` (sezione note) e `logs/agent_activity.md` (rilettura blocchi/sblocchi 2026-09-09).
+
 ### Stato prerequisiti PATCHSET-01A
 
 - Prerequisiti chiusi: catalogo incoming consolidato e allineato con `incoming/README.md` e `docs/incoming/README.md` (riesame 07/12/2025 confermato da Master DD).

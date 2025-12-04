@@ -45,3 +45,4 @@ Delta vs calendario 2026: anticipato il go-live al 07/12/2025 (rispetto alla fin
 - Quando un asset passa da derived/pending a core, registrare la decisione (owner, ticket) e includere nota su fixture critiche e compatibilità con validator.
 - Borderline = richiede co-triage (trait-curator/balancer/archivist) e validazione Master DD prima di promozione.
 - Punto di ingresso post-rebaseline: usare `incoming/README.md` per aggiornare i cataloghi e registrare ogni attività correlata in `logs/agent_activity.md` con riferimento ai ticket 01B.
+- Allineamento pending/borderline 2026-09-09: confermato blocco licenza `ancestors_*` (TKT-01B-001, species-curator lead), mantenuto blocco hook/event-map v2.3 (`scan_engine_idents.py`, TKT-01C-002, dev-tooling owner) e handoff `lavoro_da_classificare` (TKT-01A-001 → 01B) in carico archivist con controllo species/trait-curator; note sincronizzate con `REF_INCOMING_CATALOG` e log centrale.
