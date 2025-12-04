@@ -3,10 +3,10 @@
 Versione: 0.2
 Data/Milestone: 2025-12-07 (milestone staging redirect)
 Owner: coordinator (supporto dev-tooling + archivist)
-Stato: **Ready/Approved** (ultimo smoke `[REDIR-SMOKE-2025-12-08T1100Z]` **PASS** su host `http://localhost:8000`, report [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json) allegato ai ticket #1204/#1205 e #1206 ora Ready/Approved; host ripristinato dopo l'errore 2025-12-04). Mapping TKT-03B-001 allineato alla milestone 07/12/2025 con report/log allegati; freeze 03AB chiuso con firma Master DD e manifest archiviati.
+Stato: **Ready/Approved** (ultimo smoke `[REDIR-SMOKE-2026-09-08T1200Z]` **PASS** su host `http://localhost:8000`, report [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json) allegato ai ticket #1204/#1205 e #1206 ora Ready/Approved; host ripristinato dopo il fallimento CONNECTION REFUSED nello stesso slot). Mapping TKT-03B-001 allineato alla milestone 07/12/2025 con report/log allegati; freeze 03AB chiuso con firma Master DD e manifest archiviati.
 Ambito: preparazioni in parallelo (staging, core/derived) senza attivazioni; milestone aggiornata a 07/12/2025
 
-**Nota allineamento log/report 2025-12-08T1100Z:** ultimo smoke **PASS** su `http://localhost:8000` con log in [logs/agent_activity.md](../../logs/agent_activity.md) (`[REDIR-SMOKE-2025-12-08T1100Z]`) e output [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json); ticket #1204/#1205 in **Approved** e #1206 in **Ready/Approved** sulla stessa baseline (host OK).
+**Nota allineamento log/report 2026-09-08T1200Z:** ultimo smoke **PASS** su `http://localhost:8000` con log in [logs/agent_activity.md](../../logs/agent_activity.md) (`[REDIR-SMOKE-2026-09-08T1200Z]`, rerun dopo errore Connection refused) e output [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json); ticket #1204/#1205 in **Approved** e #1206 in **Ready/Approved** sulla stessa baseline (host OK, fallback pronto su 2025-12-09T09:00Z→18:00Z).
 
 **Nota di sintesi baseline valida:** lo stato **Ready/Approved** è ancorato esclusivamente alla combinazione validator 02A **PASS** (report [reports/02A_validator_rerun.md](../../reports/02A_validator_rerun.md), log `[02A-REMEDIATION-2025-12-08T1030Z]` in [logs/agent_activity.md](../../logs/agent_activity.md)) + smoke redirect **PASS** (report [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json), log `[REDIR-SMOKE-2025-12-08T1100Z]`). Prima di qualsiasi nuovo gate o cambio stato, rieseguire lo smoke su `http://localhost:8000`, aggiornare il report e loggare l'esito; non utilizzare report obsoleti per confermare Ready/Approved.
 
@@ -19,11 +19,6 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 - Il checkpoint 2026-02-18 è stato ritirato: la milestone operativa passa a **07/12/2025** per evitare il riuso di finestre storiche.
 - I gate (attivazione e go-live) sono riallineati alle finestre QA documentale 2025 e devono restare bloccati finché lo smoke test non torna **PASS** sul nuovo host di staging.
 - I riferimenti operativi (ticket #1204 e #1205) puntano ora alla milestone 2025 e richiedono di allegare i report aggiornati.
-
-## Aggiornamento tracciabilità 2026-09-08
-
-- Log di riferimento: `[REDIR-SMOKE-2026-09-08T1200Z]` in `logs/agent_activity.md` con esecuzione `python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json` e esito **PASS** per R-01/R-02/R-03.
-- Il report `reports/redirects/redirect-smoke-staging.json` è stato allegato a [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) confermando il gate di attivazione sbloccato e a [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) come baseline di rollback pronta. Nessun errore residuo su staging.
 
 ## Aggiornamento tracciabilità 2026-09-09
 
@@ -72,9 +67,9 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 
 ## Aggiornamento tracciabilità 2026-09-08
 
-- Log di riferimento: `[REDIR-SMOKE-2026-09-08T1200Z]` in `logs/agent_activity.md` con smoke test eseguito via `python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json`.
-- Esito **ERROR** (Connection refused) su tutte le voci R-01/R-02/R-03: host `http://localhost:8000` non raggiungibile. Report allegato in `reports/redirects/redirect-smoke-staging.json` e notificato ai ticket #1204 (finestra attivazione) e #1206 (rollback baseline).
-- Richiesta riapertura host staging e rerun smoke prima di procedere con i gate #1204/#1205; mantenere il report corrente come evidenza del blocco.
+- Log di riferimento: `[REDIR-SMOKE-2026-09-08T1200Z]` in `logs/agent_activity.md` (prima esecuzione dev-tooling **ERROR** per Connection refused, rerun archivist **PASS** su `http://localhost:8000`) con comando `python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json`.
+- Esito finale **PASS** su R-01/R-02/R-03, report `reports/redirects/redirect-smoke-staging.json` allegato ai ticket #1204/#1205 (attivazione/go-live) e #1206 (baseline rollback) con nota del blocco iniziale risolto nello stesso slot.
+- Richiesta: mantenere il report PASS come baseline operativa e conservare nel log l’esito iniziale **ERROR** per storico e monitoraggio host; finestra QA 2025-12-01T09:00Z→2025-12-08T18:00Z e fallback 2025-12-09T09:00Z→18:00Z restano vincolanti per i gate.
 
 ## Aggiornamento tracciabilità 2026-07-21 (storico)
 
@@ -111,9 +106,9 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 <!-- prettier-ignore -->
 | ID   | Source (staging)     | Target                    | Tipo redirect | Owner       | Ticket Master DD                                                                                            | Note |
 | ---- | -------------------- | ------------------------- | ------------- | ----------- | ----------------------------------------------------------------------------------------------------------- | ---- |
-| R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target presente (`data/core/species.yaml`), nessun loop. Config unica `config/data_path_redirects.json` + `scripts/data_layout_migration.py`; analytics: conteggio 301 nei log staging. Ultimo smoke (2026-09-08) in **ERROR** per Connection refused su `http://localhost:8000`; report `reports/redirects/redirect-smoke-staging.json` allegato a #1204/#1206. |
-| R-02 | `/data/traits`       | `/data/core/traits`       | 301           | archivist   | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target su host `http://localhost:8000` in `data/core/traits/`, nessun loop/cascade. Config unica `config/data_path_redirects.json` in mirror R-01/R-03; conteggio 301 nei log staging. Ultimo smoke (2026-09-08) in **ERROR** per Connection refused; report allegato a #1204/#1206 in attesa di rerun. |
-| R-03 | `/data/analysis`     | `/data/derived/analysis`  | 302           | dev-tooling | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target `data/derived/analysis/`, nessun cascade. Config condivisa `config/data_path_redirects.json` + pipeline ingest `data/derived`; monitorare hit 302 nei log staging. Ultimo smoke (2026-09-08) in **ERROR** per Connection refused; report `reports/redirects/redirect-smoke-staging.json` allegato a #1204/#1206. |
+| R-01 | `/data/species.yaml` | `/data/core/species.yaml` | 301           | dev-tooling | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target presente (`data/core/species.yaml`), nessun loop. Config unica `config/data_path_redirects.json` + `scripts/data_layout_migration.py`; analytics: conteggio 301 nei log staging. Ultimo smoke (2026-09-08) **PASS** su `http://localhost:8000` dopo fix Connection refused nello stesso slot; report `reports/redirects/redirect-smoke-staging.json` allegato a #1204/#1206. |
+| R-02 | `/data/traits`       | `/data/core/traits`       | 301           | archivist   | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target su host `http://localhost:8000` in `data/core/traits/`, nessun loop/cascade. Config unica `config/data_path_redirects.json` in mirror R-01/R-03; conteggio 301 nei log staging. Ultimo smoke (2026-09-08) **PASS** dopo errore Connection refused iniziale; report allegato a #1204/#1206 come baseline e storico error incluso. |
+| R-03 | `/data/analysis`     | `/data/derived/analysis`  | 302           | dev-tooling | [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) · [#1205](https://github.com/MasterDD-L34D/Game/issues/1205) · [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) | Target `data/derived/analysis/`, nessun cascade. Config condivisa `config/data_path_redirects.json` + pipeline ingest `data/derived`; monitorare hit 302 nei log staging. Ultimo smoke (2026-09-08) **PASS** con nota del blocco Connection refused precedente; report `reports/redirects/redirect-smoke-staging.json` allegato a #1204/#1206. |
 
 Note operative:
 

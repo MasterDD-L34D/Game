@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-09-12 – Conciliazione log smoke/rollback/validator con note ticket (archivist)
+- Step: `[REDIR-LOG-RECON-2026-09-12T1200Z] owner=archivist (approvatore Master DD); files=logs/agent_activity.md,logs/redirect_log_reconciliation_2026-09-12.md,docs/planning/REF_REPO_MIGRATION_PLAN.md,docs/planning/REF_REDIRECT_PLAN_STAGING.md; esito=PASS; note=Allineati i reference redirect ai log 2026-09-08 (smoke ERROR → PASS su http://localhost:8000) e al rollback 2026-09-07; tabella mapping aggiornata a esito PASS; QA window 2025-12-01T09:00Z→2025-12-08T18:00Z con fallback 2025-12-09T09:00Z→18:00Z ribadita per i ticket #1204/#1205/#1206.`
+
 ## 2026-09-11 – Chiusura fix 01B/01C (archivist)
 - Step: `[01B-CLOSE-FIX-2026-09-11T1200Z] owner=archivist (approvatore Master DD); branch=patch/01B-core-derived-matrix; files=docs/planning/REF_REPO_MIGRATION_PLAN.md,logs/agent_activity.md; modalità=report-only; ticket=[TKT-01B-001],[TKT-01B-002]; esito=PASS; note=Registrati fix documentali 01B su matrice core/derived in consultivo, nessuna patch sui dati; confermato con Master DD che il freeze documentale 2025-11-29→2025-12-07 resta chiuso e usato come baseline; handoff finale allineato al tracking responsabilità.]
 - Step: `[01C-CLOSE-FIX-2026-09-11T1200Z] owner=archivist (approvatore Master DD); branch=patch/01C-tooling-ci-catalog; files=docs/planning/REF_REPO_MIGRATION_PLAN.md,logs/agent_activity.md; modalità=report-only; ticket=[TKT-01C-001],[TKT-01C-002]; esito=PASS; note=Catalogo tooling/CI aggiornato in report-only con checklist di rollback confermata; freeze documentale 2025-11-29→2025-12-07 confermato chiuso, nessuna riapertura; log condiviso con Master DD per firma finale.]
