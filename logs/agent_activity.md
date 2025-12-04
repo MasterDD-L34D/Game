@@ -1,5 +1,8 @@
 # Agent activity log
 
+# 2026-09-10 – Kickoff/handoff 01C report-only (archivist)
+- Step: `[01C-KICKOFF-HANDOFF-2026-09-10T1200Z] owner=archivist (approvatore Master DD); branch=patch/01C-tooling-ci-catalog; files=docs/planning/REF_REPO_MIGRATION_PLAN.md,logs/agent_activity.md; modalità=report-only; esito=PASS; note=Verificati owner e ticket **[TKT-01C-001]**/**[TKT-01C-002]** su `patch/01C-tooling-ci-catalog` (lead dev-tooling, supporto coordinator) nel tracking responsabilità di REF_REPO_MIGRATION_PLAN.md; confermato che le finestre freeze 2025-11-29→2025-12-07 risultano chiuse e loggate. Kickoff/handoff operativo in STRICT MODE, nessuna run consultiva abilitata prima del via libera di Master DD; report condiviso con Master DD e owner 01C per mantenere stato report-only.`
+
 ## 2026-09-09 – Allineamento pending/borderline 01B (archivist)
 - Step: `[PENDING-BORDERLINE-2026-09-09T1200Z] owner=archivist (coordinamento species-curator/trait-curator; approvatore Master DD); files=docs/planning/REF_CORE_DERIVED_MATRIX.md,docs/planning/REF_INCOMING_CATALOG.md,logs/agent_activity.md; esito=PASS; note=Verificati blocchi pending/borderline: licenza `ancestors_*` ancora pending su TKT-01B-001 (uso bloccato); hook/event-map v2.3 con `scan_engine_idents.py` bloccato (TKT-01C-002, dev-tooling owner) finché non arriva ID map aggiornata; handoff `lavoro_da_classificare` confermato in 01B con controllo species/trait-curator e no riuso fuori contesto. Note operative aggiornate nei due reference e log sincronizzato.`
 
