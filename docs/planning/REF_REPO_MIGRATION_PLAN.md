@@ -15,6 +15,11 @@ Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; g
 
 - `[03A03B-CHECKPOINT-2026-07-23T0930Z]` – checkpoint pre-merge 03A/03B con allegati validator 02A (`reports/02A_validator_rerun.md`) e smoke redirect (`reports/redirects/redirect-smoke-staging.json`) in **PASS**: TKT-03A-001 e TKT-03B-001 confermati Ready; ticket #1204/#1205 in Approved, #1206 in Draft per rollback. Freeze 03A/03B 2025-11-29→2025-12-07 confermato, finestra alternativa 2025-12-09 pronta per rollback.
 
+**Aggiornamento log 2026-07-24:**
+
+- `[03A03B-FREEZE-ROLLBACK-2026-07-24T0900Z]` – coordinator con Master DD conferma che il freeze 03A/03B su `core/**`, `derived/**`, `incoming/**` resta attivo fino al completamento del rerun 02A (report-only) e della successiva firma: finestra rollback 2025-12-09T09:00Z→2025-12-09T18:00Z mantenuta come piano di emergenza.
+- `[BACKUP-02A-VERIFY-2026-07-24T0915Z]` – dev-tooling verifica i manifest `reports/backups/2025-11-25_freeze/manifest.txt` e `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` per rollback rapido e prepara il rerun validator 02A in modalità **report-only** usando il pacchetto `reports/02A_validator_rerun.md` + `reports/temp/02A_rerun_20251201/`; nessuna nuova esecuzione per ambiente offline, stato condiviso con Master DD.
+
 > **Approvazione Master DD – baseline patchset pronta per esecuzione** \
 > Timestamp log: **2025-05-02 / 2025-11-30** \
 > Riferimenti: `logs/agent_activity.md` (entry freeze 03A/03B 2025-05-02, readiness 2025-11-30 su `patch/03A-core-derived`) \
