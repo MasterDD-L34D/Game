@@ -23,6 +23,12 @@ Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; g
 - `[03A03B-FREEZE-ROLLBACK-2026-07-24T0900Z]` – coordinator con Master DD conferma che il freeze 03A/03B su `core/**`, `derived/**`, `incoming/**` resta attivo fino al completamento del rerun 02A (report-only) e della successiva firma: finestra rollback 2025-12-09T09:00Z→2025-12-09T18:00Z mantenuta come piano di emergenza.
 - `[BACKUP-02A-VERIFY-2026-07-24T0915Z]` – dev-tooling verifica i manifest `reports/backups/2025-11-25_freeze/manifest.txt` e `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` per rollback rapido e prepara il rerun validator 02A in modalità **report-only** usando il pacchetto `reports/02A_validator_rerun.md` + `reports/temp/02A_rerun_20251201/`; nessuna nuova esecuzione per ambiente offline, stato condiviso con Master DD.
 
+**Raccomandazioni operative 2025-12-04 (gate 02A/03A/03B):**
+
+- Conservare lo stato **Approved** di **TKT-03A-001** solo se i tre log in [reports/temp/02A_rerun_20251201/](../../reports/temp/02A_rerun_20251201/) restano **PASS** come da [reports/02A_validator_rerun.md](../../reports/02A_validator_rerun.md); eventuali FAIL/ERROR richiedono rerun report-only su `patch/03A-core-derived` e blocco merge 03A/03B finché i risultati non tornano verdi.
+- In assenza di regressioni, notificare Master DD con i link ai report sopra e mantenere il freeze 03A/03B aperto solo se è in corso un rerun; se il rerun non è necessario, lasciare i merge sbloccati ma registrare ogni controllo in [logs/agent_activity.md](../../logs/agent_activity.md) con riferimento al ticket.
+- Qualsiasi rerun successivo deve replicare i comandi elencati in `reports/02A_validator_rerun.md` (schema-only, trait audit, trait style) e salvare gli output in una nuova cartella `reports/temp/patch-03A-core-derived/` con timestamp ISO, con nota esplicita sul rischio e sulla finestra di rollback attiva.
+
 > **Approvazione Master DD – baseline patchset pronta per esecuzione** \
 > Timestamp log: **2025-05-02 / 2025-11-30** \
 > Riferimenti: `logs/agent_activity.md` (entry freeze 03A/03B 2025-05-02, readiness 2025-11-30 su `patch/03A-core-derived`) \
