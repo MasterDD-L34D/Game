@@ -67,6 +67,7 @@ Stato: PATCHSET-00 APPROVATA – baseline allineata alla milestone 07/12/2025 co
 
 ## Changelog
 
+- 2026-09-11: registrata chiusura/fix 01B/01C in modalità report-only con conferma freeze documentale 2025-11-29→2025-12-07 chiuso, link a `logs/agent_activity.md` e aggiornamento di `REF_REPO_MIGRATION_PLAN`.
 - 2025-12-07 10:30 UTC: baseline PATCHSET-00 approvata da Master DD con gate 01A chiuso; riferimenti log/ticket: approvazione 01A registrata in `logs/agent_activity.md` (ticket 01A), consegne operative 01B/01C collegate ai ticket dedicati e agli aggiornamenti log 01B–01C.
 - 2025-12-07: versione 0.6 – milestone anticipata al 07/12/2025 con stato gate 01A approvato / 01B in revisione / 01C pianificato, delta di riallocazione e prossimi passi compressi entro la data target.
 - 2025-12-30: versione 0.5 – intestazione riallineata al report v0.5, confermata la numerazione 01A–03B e lo scope come bussola per le patch successive.
