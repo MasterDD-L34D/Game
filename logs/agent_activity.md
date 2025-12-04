@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-09-09 – Allineamento pending/borderline 01B (archivist)
+- Step: `[PENDING-BORDERLINE-2026-09-09T1200Z] owner=archivist (coordinamento species-curator/trait-curator; approvatore Master DD); files=docs/planning/REF_CORE_DERIVED_MATRIX.md,docs/planning/REF_INCOMING_CATALOG.md,logs/agent_activity.md; esito=PASS; note=Verificati blocchi pending/borderline: licenza `ancestors_*` ancora pending su TKT-01B-001 (uso bloccato); hook/event-map v2.3 con `scan_engine_idents.py` bloccato (TKT-01C-002, dev-tooling owner) finché non arriva ID map aggiornata; handoff `lavoro_da_classificare` confermato in 01B con controllo species/trait-curator e no riuso fuori contesto. Note operative aggiornate nei due reference e log sincronizzato.`
+
 ## Template freeze fase 3→4
 - Step: `[FREEZE-03A03B-<YYYY-MM-DDThhmmZ>] owner=<coordinator|archivist> (approvatore Master DD); branch=patch/03A-core-derived, patch/03B-incoming-cleanup;
   snapshot=<path data/core/** + data/derived/**> (checksum+storage); backup_incoming=<path incoming/** + docs/incoming/**> (manifest+checksum);
