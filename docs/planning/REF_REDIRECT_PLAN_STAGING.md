@@ -8,6 +8,8 @@ Ambito: preparazioni in parallelo (staging, core/derived) senza attivazioni; mil
 
 **Nota allineamento log/report 2025-12-08T1100Z:** ultimo smoke **PASS** su `http://localhost:8000` con log in [logs/agent_activity.md](../../logs/agent_activity.md) (`[REDIR-SMOKE-2025-12-08T1100Z]`) e output [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json); ticket #1204/#1205 in **Approved** e #1206 in **Ready/Approved** sulla stessa baseline (host OK).
 
+**Nota di sintesi baseline valida:** lo stato **Ready/Approved** è ancorato esclusivamente alla combinazione validator 02A **PASS** (report [reports/02A_validator_rerun.md](../../reports/02A_validator_rerun.md), log `[02A-REMEDIATION-2025-12-08T1030Z]` in [logs/agent_activity.md](../../logs/agent_activity.md)) + smoke redirect **PASS** (report [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json), log `[REDIR-SMOKE-2025-12-08T1100Z]`). Prima di qualsiasi nuovo gate o cambio stato, rieseguire lo smoke su `http://localhost:8000`, aggiornare il report e loggare l'esito; non utilizzare report obsoleti per confermare Ready/Approved.
+
 ## Scopo
 
 Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/backup di core/derived su staging e raccogliendo le approvazioni Master DD in bozza, senza attivare i redirect in questa fase.
