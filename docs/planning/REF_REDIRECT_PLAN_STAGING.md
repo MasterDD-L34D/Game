@@ -21,6 +21,11 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 - Log di riferimento: `[REDIR-SMOKE-2026-09-08T1200Z]` in `logs/agent_activity.md` con esecuzione `python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json` e esito **PASS** per R-01/R-02/R-03.
 - Il report `reports/redirects/redirect-smoke-staging.json` è stato allegato a [#1204](https://github.com/MasterDD-L34D/Game/issues/1204) confermando il gate di attivazione sbloccato e a [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) come baseline di rollback pronta. Nessun errore residuo su staging.
 
+## Aggiornamento tracciabilità 2026-09-09
+
+- Manifest redirect config staging (`reports/backups/2025-12-01_redirect_staging/redirect-config/manifest.txt`) verificato alle **2026-09-09T10:30Z** (`sha256sum -c` + `tar -tzf` dal pacchetto S3) e simulazione di restore in `/tmp/redirect-config-2025-12-01.restore_demo/` **PASS** con permessi/layout coerenti.
+- Ticket [#1206](https://github.com/MasterDD-L34D/Game/issues/1206) aggiornato **Ready/PASS** al **2026-09-09T10:35Z** con evidenza della simulazione di restore e link al manifest aggiornato.
+
 ## Aggiornamento tracciabilità 2025-12-07
 
 - Log di riferimento: `[REDIR-VALIDATOR-SMOKE-2025-12-07T0900Z]` in `logs/agent_activity.md` con allegati `reports/02A_validator_rerun.md` (validator 02A PASS) e `reports/redirects/redirect-smoke-staging.json` (smoke PASS R-01/R-02/R-03 su `http://localhost:8000`).
@@ -200,6 +205,8 @@ Note operative:
 
 **Prerequisiti e manifest**
 
+- Backup redirect config staging (redirect-config 2025-12-01):
+  - `reports/backups/2025-12-01_redirect_staging/redirect-config/manifest.txt` – verificato 2026-09-09T10:30Z (`sha256sum -c` + `tar -tzf` dal pacchetto S3) con simulazione di restore in `/tmp/redirect-config-2025-12-01.restore_demo/`; ticket #1206 aggiornato Ready/PASS alle 2026-09-09T10:35Z.
 - Backup freeze 2025-11-25 (core/derived/incoming/docs incoming):
   - `reports/backups/2025-11-25_freeze/manifest.txt` – checksum chiave:
     - core tar: `d986100a5440aea18658d6a22600cd403ba9fcfb6db4473dc9dd70227d43b984` (preferito per restore, zip mirror `0d8cae8c6f81e934c2739a10a235da8ca81f012f8d269cab361d2b4c43992707`).
@@ -215,7 +222,7 @@ Note operative:
 **Sequenza operativa (staging)**
 
 1. **Trigger** – Attivare se lo smoke test post-apply fallisce, se il monitoraggio analytics rileva loop/errore 5xx, o su richiesta QA durante il freeze. Notificare Master DD e aprire ticket #1206 in modalità rollback.
-2. **Preparazione ambiente** – Allestire staging in `/tmp/rollback_staging_<timestamp>`; montare i manifest in sola lettura (`reports/backups/2025-11-25_freeze/manifest.txt` + `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`).
+2. **Preparazione ambiente** – Allestire staging in `/tmp/rollback_staging_<timestamp>`; montare i manifest in sola lettura (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, `reports/backups/2025-12-01_redirect_staging/redirect-config/manifest.txt`).
 3. **Verifica checksum** – Eseguire `sha256sum -c manifest.txt` nella directory del backup scelto. Se uno dei checksum fallisce, bloccare il rollback e richiedere rigenerazione artefatti (script `scripts/backup/rebuild_freeze_2025_11_25.sh`).
 4. **Ripristino config redirect** – Usare il pacchetto rapido 2025-11-29T0525Z per ripristinare i file di routing (core/derived/incoming) in staging, mantenendo copia dei file correnti in `/tmp/rollback_staging_<timestamp>/pre`. Applicare eventuali delta di configurazione (payload R-01/R-02/R-03) solo dopo conferma checksum.
 5. **Ripristino completo (fallback)** – Se il pacchetto rapido fallisce o è incompleto, ripristinare dal freeze 2025-11-25 decomprimendo i tar.gz preferiti (core/derived/incoming/docs incoming) e riallineando owner/permessi secondo il manifest.
