@@ -11,6 +11,7 @@ Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; g
 
 - `[02A-REMEDIATION-2025-12-08T1030Z]` – remediation validator 02A **PASS** (report `reports/02A_validator_rerun.md` + bundle `reports/temp/02A_rerun_20251201/`) e TKT-03A-001 aggiornato con stato gate 02A=Approved.
 - `[REDIR-SMOKE-2025-12-08T1100Z]` – smoke redirect **PASS** su host `http://localhost:8000` (`reports/redirects/redirect-smoke-staging.json`), ticket #1204/#1205 in Approved e #1206 avanzato a Ready/Approved dopo rerun (host ripristinato); mapping TKT-03B-001 allineato alla milestone 07/12/2025.
+- **Aggiornamento redirect (staging)** – l’ultimo smoke (`reports/redirects/redirect-smoke-staging.json`) è fallito per connessione rifiutata: assegnare follow-up a archivist (lead) con supporto dev-tooling e tracciare su **TKT-03B-001**. Prima del rerun, riconfermare i manifest di backup `reports/backups/2025-12-01_redirect_staging/redirect-config/manifest.txt` e `reports/backups/2025-11-25_freeze/manifest.txt`.
 - `[03A03B-ADVANCE-2025-12-08T1130Z]` – avanzamento 03A/03B con freeze attivo: TKT-03A-001 e TKT-03B-001 marcati Ready con allegati di riferimento (02A remediation + smoke redirect); milestone operativa confermata al 07/12/2025 con finestra alternativa 2025-12-09 per rollback.
 
 **Aggiornamento log 2026-07-23:**
