@@ -5,15 +5,17 @@ Data: 2025-05-08
 Owner: **Master DD (owner umano)** con agente coordinator (supporto: archivist, dev-tooling)
 Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; gate 01B/01C approvati (log 2025-04-11/12 su branch `patch/01B-core-derived-matrix`); gate 02A chiuso e approvato da Master DD (log 2025-11-30 su branch `patch/03A-core-derived`) con rerun schema/trait/style archiviato; gate 03A/03B chiusi con firma Master DD (log 2025-05-01/02, freeze 03A/03B chiuso a log 2025-05-02, cfr. `logs/agent_activity.md`). Milestone finale 03B confermata al 2025-12-07 (rebaseline rispetto al calendario 2026).
 
+**Nota allineamento smoke redirect 2025-12-08T1100Z:** ultimo smoke **PASS** su host `http://localhost:8000` con log `[REDIR-SMOKE-2025-12-08T1100Z]` in [logs/agent_activity.md](../../logs/agent_activity.md) e report [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json); ticket #1204/#1205 restano **Approved**, #1206 avanzato a **Ready/Approved** come baseline di rollback (host ripristinato).
+
 **Aggiornamento log 2025-12-08:**
 
 - `[02A-REMEDIATION-2025-12-08T1030Z]` – remediation validator 02A **PASS** (report `reports/02A_validator_rerun.md` + bundle `reports/temp/02A_rerun_20251201/`) e TKT-03A-001 aggiornato con stato gate 02A=Approved.
-- `[REDIR-SMOKE-2025-12-08T1100Z]` – smoke redirect **PASS** su host `http://localhost:8000` (`reports/redirects/redirect-smoke-staging.json`), ticket #1204/#1205 aggiornati a Approved, #1206 in Draft; mapping TKT-03B-001 allineato alla milestone 07/12/2025.
+- `[REDIR-SMOKE-2025-12-08T1100Z]` – smoke redirect **PASS** su host `http://localhost:8000` (`reports/redirects/redirect-smoke-staging.json`), ticket #1204/#1205 in Approved e #1206 avanzato a Ready/Approved dopo rerun (host ripristinato); mapping TKT-03B-001 allineato alla milestone 07/12/2025.
 - `[03A03B-ADVANCE-2025-12-08T1130Z]` – avanzamento 03A/03B con freeze attivo: TKT-03A-001 e TKT-03B-001 marcati Ready con allegati di riferimento (02A remediation + smoke redirect); milestone operativa confermata al 07/12/2025 con finestra alternativa 2025-12-09 per rollback.
 
 **Aggiornamento log 2026-07-23:**
 
-- `[03A03B-CHECKPOINT-2026-07-23T0930Z]` – checkpoint pre-merge 03A/03B con allegati validator 02A (`reports/02A_validator_rerun.md`) e smoke redirect (`reports/redirects/redirect-smoke-staging.json`) in **PASS**: TKT-03A-001 e TKT-03B-001 confermati Ready; ticket #1204/#1205 in Approved, #1206 in Draft per rollback. Freeze 03A/03B 2025-11-29→2025-12-07 confermato, finestra alternativa 2025-12-09 pronta per rollback.
+- `[03A03B-CHECKPOINT-2026-07-23T0930Z]` – checkpoint pre-merge 03A/03B con allegati validator 02A (`reports/02A_validator_rerun.md`) e smoke redirect (`reports/redirects/redirect-smoke-staging.json`) in **PASS**: TKT-03A-001 e TKT-03B-001 confermati Ready; ticket #1204/#1205 in Approved, #1206 consolidato Ready/Approved per rollback sulla baseline smoke 2025-12-08. Freeze 03A/03B 2025-11-29→2025-12-07 confermato, finestra alternativa 2025-12-09 pronta per rollback.
 
 **Aggiornamento log 2026-07-24:**
 
@@ -29,7 +31,7 @@ Stato: PATCHSET-00 BASELINE APPROVATA – gap list 01A catalogata e approvata; g
 
 ## Next actions esecutive (milestone 2025-12-07)
 
-- **Branch attivi:** `patch/03A-core-derived` (rollout patch core/derived con validator già in pass) e `patch/03B-incoming-cleanup` (pulizia/archivio incoming post-snapshot). Ticket attivi: **[TKT-03A-001]** (merge core/derived con rollback script, stato Ready con log `[02A-REMEDIATION-2025-12-08T1030Z]` allegato) e **[TKT-03B-001]** (redirect e checklist post-pulizia, stato Ready con smoke `[REDIR-SMOKE-2025-12-08T1100Z]` allegato). Ticket #1204/#1205 Approved; #1206 in Draft con stesso report di baseline.
+- **Branch attivi:** `patch/03A-core-derived` (rollout patch core/derived con validator già in pass) e `patch/03B-incoming-cleanup` (pulizia/archivio incoming post-snapshot). Ticket attivi: **[TKT-03A-001]** (merge core/derived con rollback script, stato Ready con log `[02A-REMEDIATION-2025-12-08T1030Z]` allegato) e **[TKT-03B-001]** (redirect e checklist post-pulizia, stato Ready con smoke `[REDIR-SMOKE-2025-12-08T1100Z]` allegato). Ticket #1204/#1205 Approved; #1206 Ready/Approved con lo stesso report di baseline.
 - **Criteri di stop:** bloccare merge se il validator 02A (report-only) segnala regressioni o se i redirect incoming generano link rotti; mantenere freeze su `core/**`, `derived/**`, `incoming/**` fino a riesecuzione smoke e firma Master DD.
 - **Criteri di rollback:** ripristinare snapshot core/derived e backup incoming etichettati pre-merge; riattivare redirect originali e rieseguire validator 02A (smoke) per confermare ritorno allo stato stabile. Finestra alternativa di rollback: 2025-12-09T09:00Z → 2025-12-09T18:00Z.
 
