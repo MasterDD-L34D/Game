@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-09-14 – Riesame smoke redirect + gate 03A/03B (archivist)
+- Step: `[REDIR-SMOKE-2026-09-14T1200Z] owner=archivist (approvatore Master DD); branch=patch/03B-incoming-cleanup; files=reports/redirects/redirect-smoke-staging.json,logs/agent_activity.md,docs/planning/REF_REDIRECT_PLAN_STAGING.md; esito=ERROR; note=Riesaminato lo smoke staging: tutti i redirect R-01/R-02/R-03 in ERROR (Connection refused) su http://localhost:8000, nessun PASS registrato. Allegato ai ticket #1204/#1205/#1206 e **[TKT-03B-001]**; richiesto rerun smoke su host ripristinato prima di sbloccare merge verso milestone 2025-12-07 e gate 03B. Gate 03A resta pronto con validator 02A PASS; 03B bloccato finché il listener non torna attivo.`
+
 ## 2026-09-12 – Conciliazione log smoke/rollback/validator con note ticket (archivist)
 - Step: `[REDIR-LOG-RECON-2026-09-12T1200Z] owner=archivist (approvatore Master DD); files=logs/agent_activity.md,logs/redirect_log_reconciliation_2026-09-12.md,docs/planning/REF_REPO_MIGRATION_PLAN.md,docs/planning/REF_REDIRECT_PLAN_STAGING.md; esito=PASS; note=Allineati i reference redirect ai log 2026-09-08 (smoke ERROR → PASS su http://localhost:8000) e al rollback 2026-09-07; tabella mapping aggiornata a esito PASS; QA window 2025-12-01T09:00Z→2025-12-08T18:00Z con fallback 2025-12-09T09:00Z→18:00Z ribadita per i ticket #1204/#1205/#1206.`
 
