@@ -1,8 +1,8 @@
 # Validator parametri (report-only)
 
 {
-  "timestamp_utc": "2025-12-03T20:53:41.078747Z",
-  "validator_note": "Controllo integrit\u00e0/sha256 pacchetti parametri (legacy, nessun unzip interattivo).",
+  "timestamp_utc": "2025-12-04T21:56:35Z",
+  "validator_note": "Controllo integrità/sha256 pacchetti parametri (legacy, nessun unzip interattivo). Rilettura 2025-12-04: checksum confermati su asset presenti, confermata assenza del validator-pack v1.5.",
   "records": [
     {
       "path": "incoming/evo_tactics_validator-pack_v1.5.zip",
@@ -23,6 +23,13 @@
       "integrity": "n/a (xlsx)"
     }
   ],
+  "verification": {
+    "checked_at": "2025-12-04T21:56:35Z",
+    "notes": [
+      "Checksum ricalcolati localmente; combaciano con i valori registrati per param_synergy_v8_3 e tables_v8_3.",
+      "Validator-pack v1.5 non presente nel buffer incoming: richiede recupero o conferma di deprecazione (owner dev-tooling)."
+    ]
+  },
   "commands": [
     "python incoming/scan_engine_idents.py --root incoming --out reports/temp/engine_ids/incoming_scan.json"
   ]

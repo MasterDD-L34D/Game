@@ -37,6 +37,27 @@ Delta vs calendario 2026: anticipato il go-live al 07/12/2025 (rispetto alla fin
 - Verifica 2025-12-04: riletti i tre fixture (ancestors_sanitized, param_validator, engine_id_diff) confermando checksum/alias invariati e nessun nuovo blocco da aggiungere alla matrice 01B.
 - Handoff 01A → 01B: consegne documentate in `logs/agent_activity.md`; pronto passaggio 01B con materiale derived bloccato da policy (nessuna patch ai core) e validatori legacy marcati report-only.
 
+### Verifica fixture e checksum (2025-12-04)
+
+- `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv` presente con sha256 `c15276f4e2654b9ccc8c27f80baea183b56ed9c8e7831ae75947d5107cecf23a` (match con `.sha256`), uso consentito solo post-sanificazione/privacy check TKT-01B-001.
+- `incoming/evo_tactics_param_synergy_v8_3.zip` (sha256 `66d630a78fb3cb7ed30f460ac2168b06b0f79ca40dc0d4ea5ef0bee56c79e6bf`) e `incoming/evo_tactics_tables_v8_3.xlsx` (sha256 `86c616aa3f716765972a7814dfeec7073aebffc5c49ddc454827e5baae2b8e35`) confermati; `incoming/evo_tactics_validator-pack_v1.5.zip` assente → follow-up dev-tooling/ balancer su recupero o deprecazione (log aggiornato in `reports/audit/2025-12-03_param_validator.md`).
+- `reports/temp/engine_ids/incoming_scan.json` (sha256 `5dc0fe3f8ee0ee71238799a40ab350f8702614401e1c85733bea3aa49d1192f7`) e diff `reports/audit/2025-12-03_engine_id_diff.md` (sha256 `a62d84e99d87e439d8d2b820a61da0bc747b1a8dd113082242f8bbd5d50ddda9`) riesaminati: confermato allineamento rispetto alla scansione 01B, da rigenerare solo dopo rebase event-map v2.3.
+
+### Prerequisiti di sanitizzazione/validazione e owner
+
+<!-- prettier-ignore -->
+| Area | Prerequisiti | Owner / co-triage | Note operative |
+| --- | --- | --- | --- |
+| Schema/privacy (ancestors) | Dump sanificato con checksum pubblicato, verifica legal/licenza pending TKT-01B-001 prima di ogni uso derived/core. | species-curator (lead) + dev-tooling per checksum + archivist per log | Bloccare nuovi drop finché non arriva OK legale; mantenere `.sha256` accoppiato al CSV sanificato. |
+| Parametri/validator legacy | Recupero o dismissione `evo_tactics_validator-pack_v1.5.zip`; mantenere checksum per `param_synergy_v8_3.zip` e `tables_v8_3.xlsx` in uso read-only per diff. | dev-tooling (lead) + balancer (coerenza numerica) + trait-curator (alias trait se riusati) | Nessuna esecuzione interattiva dei validator legacy; se recuperato il pack v1.5, loggare sha256 e aggiornare `reports/audit/2025-12-03_param_validator.md`. |
+| ID engine / event-map | Snapshot/diff aggiornati rispetto a `data/core/telemetry.yaml`, rigenerare dopo rebase event-map v2.3 e prima di ogni riuso di hook/bindings. | dev-tooling (lead) + balancer/species-curator in co-triage su trigger specie/trait | Tenere sincronizzati `incoming_scan.json` e `2025-12-03_engine_id_diff.md`; loggare ogni rerun in `logs/agent_activity.md`. |
+
+### Follow-up aperti (handoff coordinato)
+
+- **species-curator:** chiudere pending licenza TKT-01B-001 sugli `ancestors_*`, confermando che la versione sanificata con checksum sopra indicato resta l’unica ammessa; aggiornare note privacy se arrivano nuovi dump.
+- **trait-curator:** validare eventuali alias/rename emersi dai pack parametri v8_3 o dagli hook engine prima di riuso; segnalare conflitti con `data/core/traits/**` per matrice derived.
+- **dev-tooling:** recuperare/confermare deprecazione del `evo_tactics_validator-pack_v1.5.zip` e registrare sha256 se reperito; programmare rerun di `scan_engine_idents.py` dopo rebase event-map v2.3 e loggare in audit.
+
 ### Note operative
 
 - La matrice resta **preliminare**: nessuna modifica ai pack core/derived finché i ticket 01A non sono formalmente aperti e approvati da Master DD.
