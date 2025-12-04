@@ -34,6 +34,7 @@ Delta vs calendario 2026: anticipato il go-live al 07/12/2025 (rispetto alla fin
 
 - Triage completati: ticket [TKT-01A-001] chiuso con assegnazioni species-curator/trait-curator loggate; [TKT-01A-002] e [TKT-01A-003] coperti da fixture aggiornate (dump sanificato + log parametri).
 - Fixture/log aggiornati: dump sanificato `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv` con checksum, controllo integrità pacchetti parametri in `reports/audit/2025-12-03_param_validator.md`, scan ID engine in `reports/temp/engine_ids/incoming_scan.json` + diff `reports/audit/2025-12-03_engine_id_diff.md`.
+- Verifica 2025-12-04: riletti i tre fixture (ancestors_sanitized, param_validator, engine_id_diff) confermando checksum/alias invariati e nessun nuovo blocco da aggiungere alla matrice 01B.
 - Handoff 01A → 01B: consegne documentate in `logs/agent_activity.md`; pronto passaggio 01B con materiale derived bloccato da policy (nessuna patch ai core) e validatori legacy marcati report-only.
 
 ### Note operative
