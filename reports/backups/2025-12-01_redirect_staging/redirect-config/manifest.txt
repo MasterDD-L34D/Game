@@ -2,4 +2,5 @@ Archive: redirect-config-2025-12-01.tar.gz
 SHA256: 8301a4df915786ce0562f83656b382087f4db523a74aad9a30eca7e9f1427037
 Location: s3://evo-backups/game/2025-12-01_redirect_staging/redirect-config/redirect-config-2025-12-01.tar.gz
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2025-12-01T19:00Z (checksum calcolato da /tmp/redirect-config-2025-12-01.tar.gz prima dell'upload; staging host http://localhost:8000)
+Last verified: 2026-09-09T10:30Z (PASS: scaricato `redirect-config-2025-12-01.tar.gz` da s3://evo-backups/game/2025-12-01_redirect_staging/redirect-config/, sha256sum -c rispetto al manifest, tar -tzf e confronto struttura con staging)
+Restore simulation: /tmp/redirect-config-2025-12-01.restore_demo/ (estrazione dry-run, permessi ok); ticket #1206 aggiornato con esito PASS e timestamp 2026-09-09T10:35Z
