@@ -32,6 +32,38 @@ Questi workflow espongono `workflow_dispatch` e possono essere avviati via CLI:
 - `traits-sync.yml`
 - `validate-naming.yml`
 
+### Dispatch multiplo (PowerShell)
+
+Usa questo ciclo solo per i workflow senza input obbligatori:
+
+```powershell
+$workflows = @(
+  "chatgpt_sync.yml",
+  "daily-pr-summary.yml",
+  "daily-tracker-refresh.yml",
+  "deploy-test-interface.yml",
+  "e2e.yml",
+  "evo-doc-backfill.yml",
+  "evo-rollout-status.yml",
+  "gh-pages.yml",
+  "hud.yml",
+  "incoming-smoke.yml",
+  "lighthouse.yml",
+  "qa-export.yml",
+  "qa-kpi-monitor.yml",
+  "qa-reports.yml",
+  "schema-validate.yml",
+  "search-index.yml",
+  "traits-monthly-maintenance.yml",
+  "traits-sync.yml",
+  "validate-naming.yml"
+)
+
+foreach ($w in $workflows) {
+  gh workflow run $w
+}
+```
+
 ## Esempi di dispatch
 
 ### Workflow senza input obbligatori
