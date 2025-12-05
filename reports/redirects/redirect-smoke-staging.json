@@ -16,7 +16,7 @@
       "expected_status": 301,
       "actual_status": 301,
       "expected_location": "http://localhost:8000/data/core/species.yaml",
-      "actual_location": "/data/core/species.yaml",
+      "actual_location": "http://localhost:8000/data/core/species.yaml",
       "outcome": "PASS",
       "message": "Redirect conforme"
     },
@@ -27,7 +27,7 @@
       "expected_status": 301,
       "actual_status": 301,
       "expected_location": "http://localhost:8000/data/core/traits",
-      "actual_location": "/data/core/traits",
+      "actual_location": "http://localhost:8000/data/core/traits",
       "outcome": "PASS",
       "message": "Redirect conforme"
     },
@@ -38,7 +38,7 @@
       "expected_status": 302,
       "actual_status": 302,
       "expected_location": "http://localhost:8000/data/derived/analysis",
-      "actual_location": "/data/derived/analysis",
+      "actual_location": "http://localhost:8000/data/derived/analysis",
       "outcome": "PASS",
       "message": "Redirect conforme"
     }
