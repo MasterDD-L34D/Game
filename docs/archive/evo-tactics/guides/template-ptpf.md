@@ -1,6 +1,6 @@
 ---
-title: Template PTPF Evo-Tactics
-description: Struttura PTPF per mantenere coerenza tattica, drift lock e telemetria nel progetto Evo-Tactics.
+title: Template PTPF Evo-Tactics (archiviato)
+description: Il template PTPF operativo è stato spostato nell'archivio Evo-Tactics a completamento di ROL-03.
 tags:
   - evo-tactics
   - template
@@ -10,10 +10,6 @@ updated: 2025-12-02
 ---
 
 # Template — Game Design Structure (PTPF)
-
-> **Nota archivio ROL-03 (2025-12-02):** il template operativo è stato spostato
-> in `docs/archive/evo-tactics/guides/` con copia di inventario in
-> `docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md`.
 
 Questo template fornisce i campi minimi da compilare quando si introdurrà un nuovo
 modulo Evo-Tactics (missione, specie, rituale di telemetria). Ogni sezione include
@@ -25,12 +21,12 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 
 ## 1. Vision & Tone
 
-| Campo                 | Descrizione                                                | Esempio                                      |
-| --------------------- | ---------------------------------------------------------- | -------------------------------------------- |
-| **Tag**               | Identificatore univoco (`@VISION_CORE`, `@MISSION_ARC_X`). | `@VISION_CORE`                               |
+| Campo                 | Descrizione                                                | Esempio    |
+| --------------------- | ---------------------------------------------------------- | ----------------------------------------- |
+| **Tag**               | Identificatore univoco (`@VISION_CORE`, `@MISSION_ARC_X`). | `@VISION_CORE`    |
 | **Setting**           | Contesto narrativo/ambientale.                             | "Recupero di biosfere sintetiche orbitanti"  |
 | **Esperienza target** | Sensazioni ricercate dal team.                             | "Pressione costante, collaborazione tattica" |
-| **Tone guardrail**    | Elementi da evitare.                                       | "No elementi fantasy, no comic relief"       |
+| **Tone guardrail**    | Elementi da evitare.                                       | "No elementi fantasy, no comic relief"    |
 
 **Checklist**
 
@@ -39,12 +35,12 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 
 ## 2. Tactical System
 
-| Campo                 | Descrizione                           | Esempio Evo-Tactics                                                                                                        |
-| --------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| **Dashboard anchors** | Widget o viste UI da aggiornare.      | `Encounter Timeline`, `VC Alert Panel`, `Loadout Slots`.                                                                   |
-| **Outcome attesi**    | Risultati misurabili.                 | "Ridurre drift medio < 0.16" (ref `reports/trait_balance_summary.md`).                                                     |
+| Campo                 | Descrizione                           | Esempio Evo-Tactics                                                             |
+| --------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Dashboard anchors** | Widget o viste UI da aggiornare.      | `Encounter Timeline`, `VC Alert Panel`, `Loadout Slots`.                                                             |
+| **Outcome attesi**    | Risultati misurabili.                 | "Ridurre drift medio < 0.16" (ref `reports/trait_balance_summary.md`).                                              |
 | **Vincoli**           | Limiti hard (slot PI, rarità, timer). | "Max 2 trait `@VC_ALERT` per missione", timer 12' (coordinato con `docs/mission-console/data/flow/validators/biome.json`). |
-| **Rehydration**       | Processo per reiniettare i dati.      | Pipeline `incoming/docs/bioma_encounters.yaml` → aggiornamento `packs/evo_tactics_pack/data/species.yaml`.                 |
+| **Rehydration**       | Processo per reiniettare i dati.      | Pipeline `incoming/docs/bioma_encounters.yaml` → aggiornamento `packs/evo_tactics_pack/data/species.yaml`.           |
 
 **Checklist**
 
@@ -53,8 +49,8 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 
 ## 3. Form & Mutation Management
 
-| Campo             | Descrizione                                     | Esempio Evo-Tactics                                                                                                 |
-| ----------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Campo             | Descrizione                                     | Esempio Evo-Tactics                                                            |
+| ----------------- | ----------------------------------------------- | ------------------------------------------------------------------------------ |
 | **Packet Types**  | Gruppi di mutazioni coinvolte.                  | `Mutation Pack C` (sinergia Support/Analyst) definito in `packs/evo_tactics_pack/data/species.yaml`.                |
 | **Shape Biasing** | Regole per distribuzione delle forme per bioma. | Matrice `biomes/terraforming_bands.yaml` con pesi 0.2/0.35/0.45.                                                    |
 | **Visibility**    | Come i giocatori percepiscono i limiti.         | Dashboard `docs/mission-console/index.html` + diagnostica `docs/mission-console/data/flow/traits/diagnostics.json`. |
@@ -67,10 +63,10 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 
 ## 4. Telemetry & VC Tracking
 
-| Campo                | Descrizione                | Esempio Evo-Tactics                                                                                                              |
-| -------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Campo                | Descrizione                | Esempio Evo-Tactics                                                       |
+| -------------------- | -------------------------- | ------------------------------------------------------------------------ |
 | **Input**            | Fonti dati operative.      | Export `reports/trait_progress.md`, dataset `reports/pathfinder_trait_gap.csv`.                                                  |
-| **Output**           | Report o trigger generati. | Ticket `QA-VC-214` + diff `reports/daily_tracker_summary.json`.                                                                  |
+| **Output**           | Report o trigger generati. | Ticket `QA-VC-214` + diff `reports/daily_tracker_summary.json`.                                                       |
 | **Alert Thresholds** | Valori soglia e azioni.    | Drift > 0.18 → attivare `scripts/api/telemetry_alerts.py`; adozione trait < 55% → aggiornare `reports/trait_balance_summary.md`. |
 | **Review Mode**      | Strumenti di analisi.      | Dashboard `analytics/dashboards/campaignProgress.vue`, CLI `incoming/docs/yaml_validator.py`.                                    |
 
@@ -81,8 +77,8 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 
 ## 5. Encounter & Biome Engine
 
-| Campo                  | Descrizione                              | Esempio Evo-Tactics                                                                                     |
-| ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Campo                  | Descrizione                              | Esempio Evo-Tactics                                              |
+| ---------------------- | ---------------------------------------- | ---------------------------------------------------------------- |
 | **Generator**          | Algoritmo o script usato.                | `docs/mission-console/data/flow/generation/species.json` (seed `mission-helix-023`).                    |
 | **Spotlight**          | Focus meccanico.                         | Scontro "Cavitation Rift" che premia mutazioni Aquatic Support.                                         |
 | **Compatibilità MBTI** | Mappatura missione ↔ profili giocatore. | Vanguard → ENTJ, Support → INFJ (ref `docs/evo-tactics-pack/species-index.json`).                       |
@@ -95,8 +91,8 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 
 ## 6. Playtest Loop
 
-| Campo                 | Descrizione                          | Esempio Evo-Tactics                                                                                                                 |
-| --------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Campo                 | Descrizione                          | Esempio Evo-Tactics                                                                     |
+| --------------------- | ------------------------------------ | -------------------------------------------------------------------------------------- |
 | **Iteration Tracker** | Parametri registrati.                | Loop `PT-EVO-019`, `stress_level: 0.63`, `mutation_stability: 0.78`.                                                                |
 | **Routine**           | Sequenza di test automatici/manuali. | `npm run docs:lint`, `scripts/run_playtest_ci.sh`, sessione manuale 30'.                                                            |
 | **Entry Criteria**    | Requisiti iniziali.                  | Catalogo sincronizzato (`docs/evo-tactics-pack/catalog_data.json`) e seed `docs/mission-console/data/flow/generation/species.json`. |
@@ -129,5 +125,9 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 - `/docs/structure_overview.md` — mappa generale per cross-repo linking.
 - `/docs/evo-tactics-pack/README.md` — riepilogo degli asset sincronizzati.
 - `/incoming/lavoro_da_classificare/init_security_checks.sh` — audit sicurezza per i deploy Evo-Tactics.
+
+## Changelog
+
+- 2025-12-19: Snapshot archiviato dal file `docs/evo-tactics/guides/template-ptpf.md` e portato nell'archivio storico con meta aggiornati per l'inventory cleanup.
 
 **[END TEMPLATE — Evo-Tactics PTPF Seed · v1.1]**

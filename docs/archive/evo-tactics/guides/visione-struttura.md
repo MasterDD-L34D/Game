@@ -6,14 +6,10 @@ tags:
   - visione
   - struttura
 archived: true
-updated: 2025-12-02
+updated: 2025-12-19
 ---
 
 # Evo-Tactics · Visione & Struttura Concettuale
-
-> **Nota archivio ROL-03 (2025-12-02):** la guida è stata spostata in
-> `docs/archive/evo-tactics/guides/` con snapshot di inventario in
-> `docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md`.
 
 Questa guida descrive la visione condivisa del progetto Evo-Tactics e la struttura
 che governa i flussi di gioco, dalla generazione delle missioni fino alla
@@ -65,7 +61,7 @@ PTPF.
 ## 5. Playtest & Metriche
 
 - **Playtest Loop**
-  - Identificatore: `PT-EVO-021` con link a [`docs/playtest/SESSION-2025-11-12.md`](../../playtest/SESSION-2025-11-12.md).
+  - Identificatore: `PT-EVO-021` con link a [`docs/playtest/SESSION-2025-11-12.md`](../../../playtest/SESSION-2025-11-12.md).
   - Parametri da tracciare: `stress_level`, `mutation_stability`, `encounter_delta`.
   - Checklist: replicare almeno due missioni per livello di difficoltà, verificare
     la presenza di tutorial inline per nuove specie.
@@ -102,5 +98,9 @@ PTPF.
 
 - Annotare gli esiti delle rotazioni in `reports/qa-changelog.md` per garantire tracciabilità.
 - In caso di incident response, collegare i ticket Ops al registro `reports/daily_tracker_summary.json` con tag `SEC-EVO`.
+
+## Changelog
+
+- 2025-12-19: Snapshot archiviato dal file `docs/evo-tactics/guides/visione-struttura.md` e registrato nell'archivio storico con meta aggiornati per l'inventory cleanup.
 
 **[END: Visione & Struttura · Evo-Tactics]**

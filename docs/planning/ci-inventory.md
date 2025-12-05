@@ -83,10 +83,11 @@ Per i workflow che non hanno ancora log archiviati, seguire la guida standard: [
 ### Come mantenere aggiornato l'inventario (fino al 07/12/2025)
 
 - Ogni lunedì verifica nuovi log in `logs/ci_runs` (o artefatti CI) e aggiorna la colonna “Ultimo run” con data/esito e link ai log corrispondenti.
-- Se mancano log, lancia i workflow manuali con `gh workflow run <file.yml> --ref <branch>` o attiva i `workflow_dispatch` dal repository.
+- Se mancano log, lancia i workflow manuali con `gh workflow run <file.yml> --ref <branch>` solo per i file con trigger `workflow_dispatch` e passando gli input obbligatori (es. `evo-batch.yml -f batch=<valore>`). Usa un PAT con scope `workflow` e `read:org` autorizzato SSO quando richiesto.
 - Mantieni il semaforo go-live coerente con l’ultimo esito (verde se run completo <7 giorni e verde, giallo se log assente/vecchio, rosso se KO o step critici mancanti).
 - Aggiorna le note con blocchi e retry pianificati, archiviando eventuali artefatti aggiuntivi in `logs/ci_runs` o `logs/visual_runs`.
 - Esegui un controllo incrociato settimanale con i responsabili (owner colonna) per confermare retry e scadenze prima delle milestone di rilascio.
+- Se usi la CLI, dopo il dispatch controlla i log con `gh run list --workflow <file.yml> --limit <n>` e scaricali con `gh run download <id> --dir logs/ci_runs`, sostituendo i placeholder con valori reali.
 
 ## Script locali citati
 

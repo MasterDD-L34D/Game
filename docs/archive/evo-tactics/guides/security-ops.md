@@ -1,32 +1,28 @@
 ---
-title: Evo-Tactics · Security & Ops Playbook
-description: Linee guida operative per audit, rotazione credenziali e response collegati al pacchetto Evo-Tactics.
+title: Evo-Tactics · Security & Ops Playbook (archiviato)
+description: Il playbook Security & Ops è stato spostato nell'archivio Evo-Tactics come parte del rollout ROL-03.
 tags:
   - evo-tactics
   - security
   - operations
 archived: true
-updated: 2025-12-02
+updated: 2025-12-19
 ---
 
 # Security & Ops Playbook — Evo-Tactics
 
-> **Nota archivio ROL-03 (2025-12-02):** questo playbook è stato spostato nella
-> sezione `docs/archive/evo-tactics/guides/` e mantiene i riferimenti alle
-> snapshot inventory in `docs/incoming/archive/2025-12-19_inventory_cleanup/`.
-
 Questa guida consolida i controlli di sicurezza e le procedure operative dedicate al
 pacchetto Evo-Tactics. Le indicazioni estendono la visione tattica descritta in
-[`guides/visione-struttura.md`](visione-struttura.md) e sostituiscono il precedente
+[`playbook_visione_struttura.md`](playbook_visione_struttura.md) e sostituiscono il precedente
 placeholder generale.
 
 ## 1. Scope & Responsabilità
 
-| Squadra                  | Ruolo                                       | Artefatti collegati                                                                                        |
-| ------------------------ | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **Design Ops**           | Garantire coerenza dei deliverable.         | `docs/evo-tactics/README.md`, `docs/evo-tactics-pack/README.md`.                                           |
+| Squadra                  | Ruolo                                       | Artefatti collegati                                                      |
+| ------------------------ | ------------------------------------------- | ------------------------------------------------------------------------ |
+| **Design Ops**           | Garantire coerenza dei deliverable.         | `docs/evo-tactics/README.md`, `docs/evo-tactics-pack/README.md`.         |
 | **Security Engineering** | Esegue auditing e secret scanning.          | `incoming/lavoro_da_classificare/security.yml`, `incoming/lavoro_da_classificare/init_security_checks.sh`. |
-| **Support/QA Bridge**    | Gestisce rotazione token e validazioni CLI. | `config/cli/support.yaml`, `docs/support/token-rotation.md`.                                               |
+| **Support/QA Bridge**    | Gestisce rotazione token e validazioni CLI. | `config/cli/support.yaml`, `docs/support/token-rotation.md`.             |
 
 ## 2. Workflow di validazione
 
@@ -44,12 +40,12 @@ placeholder generale.
 
 ## 3. Controlli applicativi
 
-| Controllo                | Obiettivo                                     | Script/Documento                                                                                            |
-| ------------------------ | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Controllo                | Obiettivo                                     | Script/Documento                                                         |
+| ------------------------ | --------------------------------------------- | ------------------------------------------------------------------------ |
 | **Static Analysis**      | Individuare regressioni Python/Node.          | `incoming/lavoro_da_classificare/security.yml`, `reports/trait_balance_summary.md` (per correlare impatti). |
-| **Trait Drift Alerting** | Normalizzare soglie e payload.                | `scripts/api/telemetry_alerts.py`, `reports/daily_tracker_summary.json`.                                    |
-| **Vault & Token Ops**    | Assicurare rotazione settimanale dei segreti. | `docs/support/token-rotation.md`, `config/cli/support.yaml`.                                                |
-| **Dataset Integrity**    | Validare YAML/JSON condivisi.                 | `incoming/docs/yaml_validator.py`, `reports/pathfinder_trait_gap.csv`.                                      |
+| **Trait Drift Alerting** | Normalizzare soglie e payload.                | `scripts/api/telemetry_alerts.py`, `reports/daily_tracker_summary.json`.  |
+| **Vault & Token Ops**    | Assicurare rotazione settimanale dei segreti. | `docs/support/token-rotation.md`, `config/cli/support.yaml`.             |
+| **Dataset Integrity**    | Validare YAML/JSON condivisi.                 | `incoming/docs/yaml_validator.py`, `reports/pathfinder_trait_gap.csv`.    |
 
 ## 4. Incident Response
 
@@ -57,7 +53,7 @@ placeholder generale.
   `reports/qa-changelog.md`.
 - Collegare i log prodotti dagli script (`reports/security/*.json`) agli spazi
   condivisi, indicando riferimenti commit.
-- Aggiornare il registro [`docs/archive/evo-tactics/integration-log.md`](../../archive/evo-tactics/integration-log.md)
+- Aggiornare il registro [`docs/archive/evo-tactics/integration-log.md`](../../../archive/evo-tactics/integration-log.md)
   con il numero attività (DOC-XX) e le follow-up note.
 
 ## 5. Checklist di rilascio
@@ -69,5 +65,10 @@ placeholder generale.
 - [ ] Documentare il turno di rotazione su `docs/support/token-rotation.md`.
 - [ ] Archiviare eventuali placeholder rimossi in `docs/archive/evo-tactics/` con
       nota motivazionale.
+
+## Changelog
+
+- 2025-12-19: Snapshot archiviato dal file `docs/evo-tactics/guides/security-ops.md`,
+  ripristinando il frontmatter e aggiungendo cronologia per l'inventory cleanup 2025-12-19.
 
 **[END · Security & Ops Playbook]**

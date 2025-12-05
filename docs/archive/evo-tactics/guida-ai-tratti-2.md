@@ -1,16 +1,16 @@
 ---
-title: Evo-Tactics · Guida ai Tratti (Scenario Evo-Tactics)
-description: Versione focalizzata sulle sinergie in missione e sulle integrazioni Evo-Tactics del pacchetto tratti.
+title: Evo-Tactics · Guida ai Tratti (Parte 2)
+description: Approfondimento su governance dei tratti, migrazione v2.1 e controllo qualità del pacchetto Evo-Tactics.
 tags:
   - evo-tactics
   - traits
-  - gameplay
+archived: true
 updated: 2025-11-11
 ---
 
-# Guida ai Tratti Evo-Tactics · Scenario e Missioni {#evo-guida-ai-tratti-3-evo-tactics}
+# Guida ai Tratti Evo-Tactics · Approfondimenti Operativi {#evo-guida-ai-tratti-2}
 
-## Introduzione {#evo-guida-ai-tratti-3-evo-tactics-introduzione}
+## Introduzione {#evo-guida-ai-tratti-2-introduzione}
 
 Questa guida raccoglie tutto il materiale creato durante la
 conversazione e lo organizza in un unico documento operativo per il
@@ -35,7 +35,7 @@ La guida è pensata per essere salvata nella cartella `docs/` del
 progetto e offre un punto di partenza unificato per chiunque voglia
 contribuire o consultare il database criptozoologico.
 
-## Specifiche standard v2 {#evo-guida-ai-tratti-3-evo-tactics-specifiche-standard-v2}
+## Specifiche standard v2 {#evo-guida-ai-tratti-2-specifiche-standard-v2}
 
 Le schede creatura sono strutturate secondo due schemi JSON (schema
 specie e schema tratto). Ogni **Specie** (file in `species/`) deve
@@ -122,7 +122,7 @@ essere **atomico**, cioè con una funzione principale chiara e testabile.
 Per ogni super‑abilità occorre indicare almeno un limite o contromisura
 (raffreddamento, saturazione, schermature, rumore di fondo…).
 
-## Guida allo stile {#evo-guida-ai-tratti-3-evo-tactics-guida-allo-stile}
+## Guida allo stile {#evo-guida-ai-tratti-2-guida-allo-stile}
 
 Per rendere il database coerente, si seguono regole precise per nomi e
 descrizioni:
@@ -156,7 +156,7 @@ descrizioni:
     funzione: se due tratti fanno esattamente la stessa cosa, rivedere
     la definizione.
 
-## Pipeline di migrazione (v1 → v2) {#evo-guida-ai-tratti-3-evo-tactics-pipeline-di-migrazione-v1-v2}
+## Pipeline di migrazione (v1 → v2) {#evo-guida-ai-tratti-2-pipeline-di-migrazione-v1-v2}
 
 Per aggiornare schede esistenti alla versione v2 si consiglia di seguire
 questa procedura:
@@ -184,7 +184,7 @@ Seguendo questa pipeline, le schede esistenti possono essere migrate
 senza perdere informazioni e diventando compatibili con gli strumenti
 del pacchetto v2.
 
-### Validazione nel repository Game {#evo-guida-ai-tratti-3-evo-tactics-validazione-nel-repository-game}
+### Validazione nel repository Game {#evo-guida-ai-tratti-2-validazione-nel-repository-game}
 
 Nel repository Game i controlli vanno eseguiti con la toolchain Python, che copre sia struttura dati sia glossari/localizzazioni:
 
@@ -194,7 +194,7 @@ Nel repository Game i controlli vanno eseguiti con la toolchain Python, che copr
 
 Ricorrere a `scripts/validate.sh`/`ajv` solo per validare pacchetti esterni; per i file che entrano in repository usare i comandi Python sopra.
 
-## Struttura del pacchetto {#evo-guida-ai-tratti-3-evo-tactics-struttura-del-pacchetto}
+## Struttura del pacchetto {#evo-guida-ai-tratti-2-struttura-del-pacchetto}
 
 Il pacchetto completo è organizzato in cartelle:
 
@@ -229,7 +229,7 @@ fornisce statistiche (numero di specie, tratti per classe macro,
 breakdown per tier), percorsi agli schemi e un elenco dei tratti
 embedded dentro ogni specie.
 
-## Ecotipi e varianti {#evo-guida-ai-tratti-3-evo-tactics-ecotipi-e-varianti}
+## Ecotipi e varianti {#evo-guida-ai-tratti-2-ecotipi-e-varianti}
 
 Gli **ecotipi** permettono di declinare una stessa specie in varianti
 locali adattate a contesti specifici. Ogni file in `ecotypes/` specifica
@@ -256,7 +256,7 @@ Fluviali”); i dettagli dell’ecotipo sono nel file corrispondente in
 3.  Definire i `trait_adjustments` coerenti con l’ambiente e le
     pressioni selettive locali.
 
-## Strumenti di validazione e QA {#evo-guida-ai-tratti-3-evo-tactics-strumenti-di-validazione-e-qa}
+## Strumenti di validazione e QA {#evo-guida-ai-tratti-2-strumenti-di-validazione-e-qa}
 
 Per garantire la coerenza del database si consiglia di eseguire
 regolarmente il controllo di qualità:
@@ -272,7 +272,7 @@ regolarmente il controllo di qualità:
   che ricorda di compilare testabilità, sinergie/conflitti, versioning,
   ecotipi e alias.
 
-## Prossimi passi e raccomandazioni {#evo-guida-ai-tratti-3-evo-tactics-prossimi-passi-e-raccomandazioni}
+## Prossimi passi e raccomandazioni {#evo-guida-ai-tratti-2-prossimi-passi-e-raccomandazioni}
 
 1.  **Mergiare i pacchetti**: integrare le cartelle `docs/`,
     `templates/`, `species/`, `traits/`, `data/` e `scripts/` nel
@@ -295,7 +295,7 @@ regolarmente il controllo di qualità:
     `versioning.created/updated`. Le modifiche devono essere annotate
     nei commit o nei changelog per facilitare la tracciabilità.
 
-## Conclusione {#evo-guida-ai-tratti-3-evo-tactics-conclusione}
+## Conclusione {#evo-guida-ai-tratti-2-conclusione}
 
 Il **Evo Tactics Pack v2** fornisce un sistema coerente, estensibile e
 verificabile per la creazione e la gestione di creature criptozoologiche
@@ -306,7 +306,7 @@ consente di adattare rapidamente il materiale a nuovi ambienti narrativi
 o di gioco, mantenendo al contempo un forte controllo sulla coerenza
 biologica e meccanica.
 
-## Documentazione integrativa del pacchetto {#evo-guida-ai-tratti-3-evo-tactics-documentazione-integrativa-del-pacchetto}
+## Documentazione integrativa del pacchetto {#evo-guida-ai-tratti-2-documentazione-integrativa-del-pacchetto}
 
 Oltre alle specifiche e alle regole descritte sopra, il pacchetto
 include tre documenti di supporto che definiscono in dettaglio le
@@ -315,7 +315,7 @@ misura. Poiché questo documento viene distribuito senza il pacchetto
 fisico, se ne riassumono qui i contenuti fondamentali, così da non
 perdere nessuna informazione essenziale.
 
-### How‑to autore trait (estratto) {#evo-guida-ai-tratti-3-evo-tactics-howto-autore-trait-estratto}
+### How‑to autore trait (estratto) {#evo-guida-ai-tratti-2-howto-autore-trait-estratto}
 
 La guida rapida per l’autore di tratti fornisce una checklist operativa
 per scrivere un nuovo trait in pochi minuti. I punti principali
@@ -339,7 +339,7 @@ includono:
   del versioning. Prima di aprire una PR è consigliato eseguire il
   validator.
 
-### Guida completa ai trait (estratto) {#evo-guida-ai-tratti-3-evo-tactics-guida-completa-ai-trait-estratto}
+### Guida completa ai trait (estratto) {#evo-guida-ai-tratti-2-guida-completa-ai-trait-estratto}
 
 Questo documento definisce che cos’è un trait (unità atomica riusabile
 di funzionalità e morfologia) e descrive in modo approfondito i campi
@@ -371,7 +371,7 @@ obbligatori e opzionali. Tra i punti chiave:
   MAJOR/MINOR/PATCH, importanza dei changelog, e integrazione del
   validator nella CI.
 
-### Prontuario metriche & UCUM (estratto) {#evo-guida-ai-tratti-3-evo-tactics-prontuario-metriche-ucum-estratto}
+### Prontuario metriche & UCUM (estratto) {#evo-guida-ai-tratti-2-prontuario-metriche-ucum-estratto}
 
 Questa tabella consultiva raggruppa le metriche più comuni per cluster
 funzionali e indica le unità UCUM consigliate. Alcuni esempi:
@@ -399,7 +399,7 @@ Il prontuario include anche una mini‑tabella con i codici UCUM più usati
 e note pratiche su come trattare unità non SI (°C → `Cel`, litri → `L`)
 e su quando usare valori dimensionless.
 
-## Schede delle specie e dei loro tratti {#evo-guida-ai-tratti-3-evo-tactics-schede-delle-specie-e-dei-loro-tratti}
+## Schede delle specie e dei loro tratti {#evo-guida-ai-tratti-2-schede-delle-specie-e-dei-loro-tratti}
 
 In assenza del pacchetto, questa sezione fornisce una panoramica delle
 dieci creature definite nel progetto, con i loro tratti principali. Per
@@ -407,7 +407,7 @@ ogni specie vengono indicati il nome scientifico, i nomi volgari, la
 classificazione macro, una descrizione sintetica, la firma funzionale e
 un elenco dei tratti con struttura morfologica e funzione primaria.
 
-### 1. _Elastovaranus hydrus_ — Viverna‑Elastico {#evo-guida-ai-tratti-3-evo-tactics-1-elastovaranus-hydrus-vivernaelastico}
+### 1. _Elastovaranus hydrus_ — Viverna‑Elastico {#evo-guida-ai-tratti-2-1-elastovaranus-hydrus-vivernaelastico}
 
 **Classificazione:** Reptilia; predatore delle savane calde con gole
 rocciose e letti fluviali stagionali.
@@ -457,7 +457,7 @@ precisi.
   tossine naturali; funzione primaria: proteggersi da
   auto‑intossicazione e tossine altrui.
 
-### 2. _Gulogluteus scutiger_ — Ghiotton‑Scudo {#evo-guida-ai-tratti-3-evo-tactics-2-gulogluteus-scutiger-ghiottonscudo}
+### 2. _Gulogluteus scutiger_ — Ghiotton‑Scudo {#evo-guida-ai-tratti-2-2-gulogluteus-scutiger-ghiottonscudo}
 
 **Classificazione:** Mammalia; onnivoro tassiforme che vive in ambienti
 umidi, foreste paludose e argini fluviali.
@@ -510,7 +510,7 @@ vivaci.
   recettori capaci di rilevare vibrazioni del terreno e individuare
   prede sotterranee; funzione primaria: percepire vibrazioni e minacce.
 
-### 3. _Perfusuas pedes_ — Zannapiedi {#evo-guida-ai-tratti-3-evo-tactics-3-perfusuas-pedes-zannapiedi}
+### 3. _Perfusuas pedes_ — Zannapiedi {#evo-guida-ai-tratti-2-3-perfusuas-pedes-zannapiedi}
 
 **Classificazione:** ibrido artropode‑mammifero; predatore parassita che
 vive in caverne umide e radure forestali notturne.
@@ -560,7 +560,7 @@ l’animale spesso trasporta una creatura ospite immobilizzata.
   occhi e interprete cognitivo; funzione primaria: ottenere percezioni e
   guida mentale dall’ospite.
 
-### 4. _Terracetus ambulator_ — Megattera Terrestre {#evo-guida-ai-tratti-3-evo-tactics-4-terracetus-ambulator-megattera-terrestre}
+### 4. _Terracetus ambulator_ — Megattera Terrestre {#evo-guida-ai-tratti-2-4-terracetus-ambulator-megattera-terrestre}
 
 **Classificazione:** Mammalia; erbivoro gigante che vive in pianure
 aperte e savane ventilate.
@@ -594,7 +594,7 @@ testa massiccia con piccole aperture nasali.
   la formazione di cristalli di ghiaccio nei tessuti, consentendo la
   sopravvivenza in climi estremi; funzione primaria: resistere al gelo.
 
-### 5. _Chemnotela toxica_ — Aracnide Alchemico {#evo-guida-ai-tratti-3-evo-tactics-5-chemnotela-toxica-aracnide-alchemico}
+### 5. _Chemnotela toxica_ — Aracnide Alchemico {#evo-guida-ai-tratti-2-5-chemnotela-toxica-aracnide-alchemico}
 
 **Classificazione:** Arthropoda; predatore esperto di chimica, vive in
 radure acide e chiome bagnate.
@@ -627,7 +627,7 @@ alcuni specializzati per vedere la tensione nelle tele.
   polarizzazione della luce, distinguendo la propria seta e rilevando
   fessure; funzione primaria: rilevare tensioni e navigare nelle tele.
 
-### 6. _Proteus plasma_ — Mutaforma Cellulare {#evo-guida-ai-tratti-3-evo-tactics-6-proteus-plasma-mutaforma-cellulare}
+### 6. _Proteus plasma_ — Mutaforma Cellulare {#evo-guida-ai-tratti-2-6-proteus-plasma-mutaforma-cellulare}
 
 **Classificazione:** organismo primitivo; può essere unicellulare o un
 piccolo collettivo di cellule pluripotenti; vive in stagni quieti e
@@ -664,7 +664,7 @@ ibernazione; non possiede organi distinti.
   resistono a calore e pressione; funzione primaria: entrare in stasi e
   proteggersi.
 
-### 7. _Soniptera resonans_ — Libellula Sonica {#evo-guida-ai-tratti-3-evo-tactics-7-soniptera-resonans-libellula-sonica}
+### 7. _Soniptera resonans_ — Libellula Sonica {#evo-guida-ai-tratti-2-7-soniptera-resonans-libellula-sonica}
 
 **Classificazione:** Insecta; insetto volante di grandi dimensioni che
 abita oasi termiche e praterie arbustive.
@@ -698,7 +698,7 @@ che cangiano alla luce.
   distorsioni dell’aria generate dalle onde sonore e dalle vibrazioni;
   funzione primaria: vedere il suono.
 
-### 8. _Anguis magnetica_ — Anguilla Geomagnetica {#evo-guida-ai-tratti-3-evo-tactics-8-anguis-magnetica-anguilla-geomagnetica}
+### 8. _Anguis magnetica_ — Anguilla Geomagnetica {#evo-guida-ai-tratti-2-8-anguis-magnetica-anguilla-geomagnetica}
 
 **Classificazione:** rettile/pesce serpiforme; vive in estuari torbidi e
 lagune tranquille; sfrutta il magnetismo terrestre.
@@ -735,7 +735,7 @@ movimento silenzioso; occhi piccoli; comportamenti lenti e furtivi.
   elettromagnetiche esterne; funzione primaria: ibernarsi e schermarsi
   dalle minacce.
 
-### 9. _Umbra alaris_ — Uccello Ombra {#evo-guida-ai-tratti-3-evo-tactics-9-umbra-alaris-uccello-ombra}
+### 9. _Umbra alaris_ — Uccello Ombra {#evo-guida-ai-tratti-2-9-umbra-alaris-uccello-ombra}
 
 **Classificazione:** Aves; predatore notturno che vive in foreste dense,
 canyons ombrosi e ambienti rocciosi.
@@ -772,7 +772,7 @@ la comunicazione.
   comunicazione stealth con altri individui; funzione primaria:
   comunicare senza fare rumore.
 
-### 10. _Rupicapra sensoria_ — Camoscio Psionico {#evo-guida-ai-tratti-3-evo-tactics-10-rupicapra-sensoria-camoscio-psionico}
+### 10. _Rupicapra sensoria_ — Camoscio Psionico {#evo-guida-ai-tratti-2-10-rupicapra-sensoria-camoscio-psionico}
 
 **Classificazione:** Mammalia; erbivoro montano che vive su cenge
 calcaree e dorsali ventose.
@@ -806,7 +806,7 @@ micro‑adesive; occhi acuti; atteggiamento attento e cooperativo.
   simili a quelle del geco che permettono adere a pareti lisce e rocce
   verticali; funzione primaria: arrampicarsi con trazione superiore.
 
-## Ecotipi e varianti ecologiche {#evo-guida-ai-tratti-3-evo-tactics-ecotipi-e-varianti-ecologiche}
+## Ecotipi e varianti ecologiche {#evo-guida-ai-tratti-2-ecotipi-e-varianti-ecologiche}
 
 Le creature del **Evo Tactics Pack v2** non sono statiche: ogni specie
 può sviluppare varianti locali denominate **ecotipi** quando si adatta a
@@ -871,7 +871,7 @@ Per ogni specie le etichette degli ecotipi sono elencate nel campo
 `ecotypes` del file specie, mentre i dettagli e i delta metrici sono nel
 file dedicato in `ecotypes/<genus_species>_ecotypes.json`.
 
-## Catalogo master e indici {#evo-guida-ai-tratti-3-evo-tactics-catalogo-master-e-indici}
+## Catalogo master e indici {#evo-guida-ai-tratti-2-catalogo-master-e-indici}
 
 Nel pacchetto v2 è incluso un **catalogo master**
 (`catalog/master.json`) che aggrega tutte le specie e tutti i tratti in
@@ -903,7 +903,7 @@ applicare modifiche ecotipiche, costruire filtri o statistiche. È buona
 norma aggiornare sempre il catalogo master quando si aggiunge o modifica
 una specie o un tratto.
 
-## Uso del pacchetto e prossimi passi {#evo-guida-ai-tratti-3-evo-tactics-uso-del-pacchetto-e-prossimi-passi}
+## Uso del pacchetto e prossimi passi {#evo-guida-ai-tratti-2-uso-del-pacchetto-e-prossimi-passi}
 
 Per integrare o espandere il **Evo Tactics Pack v2** nel tuo progetto,
 procedi in questo modo:
@@ -937,7 +937,7 @@ espandere il bestiario in modo coerente, mantenendo la compatibilità con
 l’ecosistema Evo Tactics e offrendo ai giocatori o agli utilizzatori un
 universo criptozoologico ricco, strutturato e bilanciato.
 
-## Integrazione con lo schema canonico e la Track di Senzienza (v2.1) {#evo-guida-ai-tratti-3-evo-tactics-integrazione-con-lo-schema-canonico-e-la-track-di-senzienza-v2-1}
+## Integrazione con lo schema canonico e la Track di Senzienza (v2.1) {#evo-guida-ai-tratti-2-integrazione-con-lo-schema-canonico-e-la-track-di-senzienza-v2-1}
 
 Negli ultimi aggiornamenti del progetto Evo Tactics, oltre allo schema
 v2 per specie e tratti descritto in questa guida, è stato introdotto un
@@ -946,7 +946,7 @@ _species‑agnostici_ e una **Sentience Track** che regola l’accesso ai
 poteri sociali e cognitivi. Questa sezione riassume i punti chiave
 dell’integrazione:
 
-### Stato target e struttura file (SSoT) {#evo-guida-ai-tratti-3-evo-tactics-stato-target-e-struttura-file-ssot}
+### Stato target e struttura file (SSoT) {#evo-guida-ai-tratti-2-stato-target-e-struttura-file-ssot}
 
 Il _single‑source‑of‑truth_ (SSoT) per Evo Tactics prevede una struttura
 di repository suddivisa in documentazione, pacchetti e strumenti. In
@@ -973,7 +973,7 @@ particolare:
 - Le workflow CI (`.github/workflows/`) garantiranno che ogni PR validi
   i JSON secondo gli schemi (es. `validate_traits.yml`).
 
-### Mappatura e regole di convergenza {#evo-guida-ai-tratti-3-evo-tactics-mappatura-e-regole-di-convergenza}
+### Mappatura e regole di convergenza {#evo-guida-ai-tratti-2-mappatura-e-regole-di-convergenza}
 
 Le regole di convergenza tra il _Crypto Template_ usato finora e lo
 schema canonico sono le seguenti:
@@ -999,7 +999,7 @@ schema canonico sono le seguenti:
     del campo `compatibility` come alias di `sinergie`/`conflitti`;
     questo verrà deprecato nella release successiva.
 
-### Sentience Track T1–T6 {#evo-guida-ai-tratti-3-evo-tactics-sentience-track-t1t6}
+### Sentience Track T1–T6 {#evo-guida-ai-tratti-2-sentience-track-t1t6}
 
 La _Sentience Track_ è un sistema parallelo che definisce il livello di
 coscienza di una creatura su una scala da T1 (reattivo/primordiale) a T6
@@ -1012,7 +1012,7 @@ requisito. La versione canonicamente descritta nel file
 `sentience_track.json` fornisce linee guida su quali categorie
 funzionali richiedano gating (ad esempio, social/language → T≥4).
 
-### Passi operativi per la migrazione {#evo-guida-ai-tratti-3-evo-tactics-passi-operativi-per-la-migrazione}
+### Passi operativi per la migrazione {#evo-guida-ai-tratti-2-passi-operativi-per-la-migrazione}
 
 Per integrare i dati esistenti nel nuovo schema canonico:
 
@@ -1039,7 +1039,7 @@ Per integrare i dati esistenti nel nuovo schema canonico:
     normalizzazione, mapping e QA di questi neuroni entro il secondo
     sprint di sviluppo.
 
-### Roadmap e gate di qualità {#evo-guida-ai-tratti-3-evo-tactics-roadmap-e-gate-di-qualita}
+### Roadmap e gate di qualità {#evo-guida-ai-tratti-2-roadmap-e-gate-di-qualita}
 
 Il progetto prevede due sprint:
 
@@ -1056,7 +1056,7 @@ secondo gli schemi, uso corretto di UCUM ed ENVO, versioning SemVer,
 gating di senzienza consistente, assenza di conflitti o duplicati, e
 testabilità compilata.
 
-### Conclusioni e prospettive {#evo-guida-ai-tratti-3-evo-tactics-conclusioni-e-prospettive}
+### Conclusioni e prospettive {#evo-guida-ai-tratti-2-conclusioni-e-prospettive}
 
 Questa integrazione amplia l’universo Evo Tactics in direzione di un
 sistema modulare, riusabile e governato da standard aperti. La

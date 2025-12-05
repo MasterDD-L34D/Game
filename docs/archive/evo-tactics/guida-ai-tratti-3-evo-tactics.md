@@ -5,6 +5,7 @@ tags:
   - evo-tactics
   - traits
   - gameplay
+archived: true
 updated: 2025-11-11
 ---
 
