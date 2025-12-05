@@ -5,6 +5,8 @@ Data/Milestone: 2025-12-07 (milestone staging redirect)
 Owner: coordinator (supporto dev-tooling + archivist)
 Stato: **Ready/Approved** (ultimo smoke `[REDIR-SMOKE-2026-09-08T1200Z]` **PASS** su host `http://localhost:8000`, report [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json) allegato ai ticket #1204/#1205 e #1206 ora Ready/Approved; host ripristinato dopo il fallimento CONNECTION REFUSED nello stesso slot). Mapping TKT-03B-001 allineato alla milestone 07/12/2025 con report/log allegati; freeze 03AB chiuso con firma Master DD e manifest archiviati.
 
+**Nota ripristino 2026-09-15T12:00Z:** simulazione di rollback su staging **PASS** usando i manifest `reports/backups/2025-12-01_redirect_staging/redirect-config/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, `reports/backups/2025-11-25_freeze/manifest.txt` con verifiche `sha256sum -c` e restore dry-run. Smoke test post-restore **PASS** con `python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json`; ticket #1206 spostato da Draft a Ready e loggato (`logs/agent_activity.md`, tag `[ROLLBACK-SIM-2026-09-15T1200Z]`).
+
 **Nota validazione 2025-12-05T10:07Z:** tabella mapping compilata con owner per riga e link diretti ai ticket Master DD (#1204/#1205/#1206); smoke test rieseguito con `python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json` con esito **PASS** (report aggiornato in `reports/redirects/redirect-smoke-staging.json`).
 Ambito: preparazioni in parallelo (staging, core/derived) senza attivazioni; milestone aggiornata a 07/12/2025
 
@@ -21,6 +23,15 @@ Preparare un piano di redirect con mapping e rollback, predisponendo snapshot/ba
 - Il checkpoint 2026-02-18 è stato ritirato: la milestone operativa passa a **07/12/2025** per evitare il riuso di finestre storiche.
 - I gate (attivazione e go-live) sono riallineati alle finestre QA documentale 2025 e devono restare bloccati finché lo smoke test non torna **PASS** sul nuovo host di staging.
 - I riferimenti operativi (ticket #1204 e #1205) puntano ora alla milestone 2025 e richiedono di allegare i report aggiornati.
+
+## Aggiornamento tracciabilità 2026-09-15
+
+- Simulazione di rollback staging (`/tmp/rollback_staging_20260915`) completata con verifiche `sha256sum -c` sui manifest:
+  - `reports/backups/2025-12-01_redirect_staging/redirect-config/manifest.txt` (archive `redirect-config-2025-12-01.tar.gz`, SHA256 `8301a4df915786ce0562f83656b382087f4db523a74aad9a30eca7e9f1427037`).
+  - `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` (zip core/derived/incoming, SHA256 rispettivamente `63e038ec2e79016ce37753b6c96914c3703c7cc2b58972d1b22f657db0e6755e`, `1c3bdb0e9af8f5916d2e2883aac1ca025983680bc20d149dcdd7e50bf541d7bd`, `aa75ce79543116d458fc60866095fd187b45db294e752218aac88d8ea94730f7`).
+  - `reports/backups/2025-11-25_freeze/manifest.txt` (tar preferiti core/derived/incoming/docs incoming con SHA256 `d986100a5440aea18658d6a22600cd403ba9fcfb6db4473dc9dd70227d43b984`, `283e3b2f50514446dd9843a069ed089bd79f470bbcb0cdb3caab1a6b96c45355`, `043c20b99dc565a3f3e354959f2dd273183435001583c009133d4c4c7fd2a619`, `c5475c1c32813b2feb861768480c1a851dbc7667e9c54bf642fea873d0201a9c`).
+- Restore dry-run **PASS**: ripristino redirect-config da pacchetto 2025-12-01 + fallback dati da slot rapido 2025-11-29T0525Z; nessun drift permessi rilevato.
+- Smoke test post-restore **PASS** su `http://localhost:8000` (`reports/redirects/redirect-smoke-staging.json` aggiornato) con log `[ROLLBACK-SIM-2026-09-15T1200Z]` in `logs/agent_activity.md`; ticket #1206 spostato da Draft a Ready con runbook aggiornato.
 
 ## Aggiornamento tracciabilità 2026-09-09
 
@@ -236,6 +247,31 @@ Note operative:
    ```
    Se l’esito è `PASS`, registrare timestamp, host e owner nel log (`logs/agent_activity.md`, tag #1206) e allegare il report aggiornato ai ticket #1204/#1205.
 7. **Chiusura** – Aggiornare lo stato di #1206 a **Ready** nel presente documento e nel log, includendo link al runbook usato e ai manifest verificati. Notificare Master DD con i riferimenti al checksum eseguito e allo smoke test post-rollback.
+
+### Runbook di ripristino guidato – simulazione 2026-09-15T12:00Z
+
+**Obiettivo:** ripristinare rapidamente la configurazione redirect e i dataset core/derived/incoming su staging usando i backup documentati (ticket #1206) e validare lo stato Ready tramite smoke test.
+
+1. **Scarico/aggancio manifest**
+   - Redirect config: `reports/backups/2025-12-01_redirect_staging/redirect-config/manifest.txt` (SHA256 `8301a4df915786ce0562f83656b382087f4db523a74aad9a30eca7e9f1427037`).
+   - Freeze rapido 2025-11-29T0525Z: `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` (core/derived/incoming SHA256 `63e038ec2e79016ce37753b6c96914c3703c7cc2b58972d1b22f657db0e6755e`, `1c3bdb0e9af8f5916d2e2883aac1ca025983680bc20d149dcdd7e50bf541d7bd`, `aa75ce79543116d458fc60866095fd187b45db294e752218aac88d8ea94730f7`).
+   - Freeze completo 2025-11-25: `reports/backups/2025-11-25_freeze/manifest.txt` (tar core/derived/incoming/docs incoming SHA256 `d986100a5440aea18658d6a22600cd403ba9fcfb6db4473dc9dd70227d43b984`, `283e3b2f50514446dd9843a069ed089bd79f470bbcb0cdb3caab1a6b96c45355`, `043c20b99dc565a3f3e354959f2dd273183435001583c009133d4c4c7fd2a619`, `c5475c1c32813b2feb861768480c1a851dbc7667e9c54bf642fea873d0201a9c`).
+2. **Verifica checksum** – Per ogni manifest eseguire nella relativa directory:
+   ```bash
+   sha256sum -c manifest.txt
+   ```
+   Se una voce fallisce, sospendere il ripristino e rigenerare l’artefatto con `scripts/backup/rebuild_freeze_2025_11_25.sh` (o rigenerare il pacchetto redirect-config da S3).
+3. **Ripristino config redirect** – Estrarre `redirect-config-2025-12-01.tar.gz` in `/tmp/rollback_staging_20260915/redirect-config/` e sincronizzare i file di routing con staging (`config/data_path_redirects.json`, eventuali payload R-01/R-02/R-03) mantenendo una copia in `/tmp/rollback_staging_20260915/pre/`.
+4. **Ripristino dataset** – Se serve ripristino dati, usare prima gli zip rapidi 2025-11-29T0525Z per core/derived/incoming; in caso di problemi ripetere con i tar.gz del freeze 2025-11-25 per preservare mtime/permessi.
+5. **Smoke post-restore** – Lanciare:
+   ```bash
+   python scripts/redirect_smoke_test.py \\
+     --host http://localhost:8000 \\
+     --environment staging \\
+     --output reports/redirects/redirect-smoke-staging.json
+   ```
+   Registrare l’esito nel log `[ROLLBACK-SIM-2026-09-15T1200Z]` con host, owner e riferimenti ai manifest verificati.
+6. **Aggiornamento ticket** – Allegare report e log ai ticket #1204/#1205 e aggiornare #1206 a **Ready** (stato post-rollback confermato) citando i manifest e i checksum utilizzati.
 
 ### Rilancio smoke test e criteri di rientro dei gate
 
