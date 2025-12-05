@@ -4,6 +4,8 @@ Versione: 0.2
 Data/Milestone: 2025-12-07 (milestone staging redirect)
 Owner: coordinator (supporto dev-tooling + archivist)
 Stato: **Ready/Approved** (ultimo smoke `[REDIR-SMOKE-2026-09-08T1200Z]` **PASS** su host `http://localhost:8000`, report [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json) allegato ai ticket #1204/#1205 e #1206 ora Ready/Approved; host ripristinato dopo il fallimento CONNECTION REFUSED nello stesso slot). Mapping TKT-03B-001 allineato alla milestone 07/12/2025 con report/log allegati; freeze 03AB chiuso con firma Master DD e manifest archiviati.
+
+**Nota validazione 2025-12-05T10:07Z:** tabella mapping compilata con owner per riga e link diretti ai ticket Master DD (#1204/#1205/#1206); smoke test rieseguito con `python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json` con esito **PASS** (report aggiornato in `reports/redirects/redirect-smoke-staging.json`).
 Ambito: preparazioni in parallelo (staging, core/derived) senza attivazioni; milestone aggiornata a 07/12/2025
 
 **Nota allineamento log/report 2026-09-08T1200Z:** ultimo smoke **PASS** su `http://localhost:8000` con log in [logs/agent_activity.md](../../logs/agent_activity.md) (`[REDIR-SMOKE-2026-09-08T1200Z]`, rerun dopo errore Connection refused) e output [reports/redirects/redirect-smoke-staging.json](../../reports/redirects/redirect-smoke-staging.json); ticket #1204/#1205 in **Approved** e #1206 in **Ready/Approved** sulla stessa baseline (host OK, fallback pronto su 2025-12-09T09:00Z→18:00Z).
@@ -188,7 +190,7 @@ Note operative:
 
 - Conservare i report generati in `reports/` (es. `reports/redirects/redirect-smoke-staging.json`) e allegarli ai ticket #1204 (finestra di attivazione) e #1205 (go-live redirect). Lo script stampa anche un riepilogo finale PASS/FAIL/SKIP/ERROR.
 
-- Ultima esecuzione (2025-12-03T21:28Z): host `http://localhost:8000`, tutti i mapping **PASS**; report aggiornato `reports/redirects/redirect-smoke-staging.json` pronto per allegati #1204/#1205 e baseline rollback #1206.
+- Ultima esecuzione (2025-12-05T10:07Z): host `http://localhost:8000`, tutti i mapping **PASS**; report aggiornato `reports/redirects/redirect-smoke-staging.json` pronto per allegati #1204/#1205 e baseline rollback #1206.
 
 ## Runbook sintetico attivazione/rollback (ticket #1204 / #1206)
 
