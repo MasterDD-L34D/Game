@@ -184,7 +184,7 @@ Seguendo questa pipeline, le schede esistenti possono essere migrate
 senza perdere informazioni e diventando compatibili con gli strumenti
 del pacchetto v2.
 
-### Validazione nel repository Game
+### Validazione nel repository Game {#evo-guida-ai-tratti-2-validazione-nel-repository-game}
 
 Nel repository Game i controlli vanno eseguiti con la toolchain Python, che copre sia struttura dati sia glossari/localizzazioni:
 

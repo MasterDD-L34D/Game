@@ -20,6 +20,7 @@ docs/evo-tactics/guida-ai-tratti-1.md,evo-guida-ai-tratti-1-guida-completa-ai-tr
 docs/evo-tactics/guida-ai-tratti-1.md,evo-guida-ai-tratti-1-howto-autore-trait-estratto,/docs/evo-tactics/guida-ai-tratti-1#evo-guida-ai-tratti-1-howto-autore-trait-estratto
 docs/evo-tactics/guida-ai-tratti-1.md,evo-guida-ai-tratti-1-introduzione,/docs/evo-tactics/guida-ai-tratti-1#evo-guida-ai-tratti-1-introduzione
 docs/evo-tactics/guida-ai-tratti-1.md,evo-guida-ai-tratti-1-pipeline-di-migrazione-v1-v2,/docs/evo-tactics/guida-ai-tratti-1#evo-guida-ai-tratti-1-pipeline-di-migrazione-v1-v2
+docs/evo-tactics/guida-ai-tratti-1.md,evo-guida-ai-tratti-1-validazione-nel-repository-game,/docs/evo-tactics/guida-ai-tratti-1#evo-guida-ai-tratti-1-validazione-nel-repository-game
 docs/evo-tactics/guida-ai-tratti-1.md,evo-guida-ai-tratti-1-prontuario-metriche-ucum-estratto,/docs/evo-tactics/guida-ai-tratti-1#evo-guida-ai-tratti-1-prontuario-metriche-ucum-estratto
 docs/evo-tactics/guida-ai-tratti-1.md,evo-guida-ai-tratti-1-prossimi-passi-e-raccomandazioni,/docs/evo-tactics/guida-ai-tratti-1#evo-guida-ai-tratti-1-prossimi-passi-e-raccomandazioni
 docs/evo-tactics/guida-ai-tratti-1.md,evo-guida-ai-tratti-1-schede-delle-specie-e-dei-loro-tratti,/docs/evo-tactics/guida-ai-tratti-1#evo-guida-ai-tratti-1-schede-delle-specie-e-dei-loro-tratti
@@ -52,6 +53,7 @@ docs/evo-tactics/guida-ai-tratti-2.md,evo-guida-ai-tratti-2-introduzione,/docs/e
 docs/evo-tactics/guida-ai-tratti-2.md,evo-guida-ai-tratti-2-mappatura-e-regole-di-convergenza,/docs/evo-tactics/guida-ai-tratti-2#evo-guida-ai-tratti-2-mappatura-e-regole-di-convergenza
 docs/evo-tactics/guida-ai-tratti-2.md,evo-guida-ai-tratti-2-passi-operativi-per-la-migrazione,/docs/evo-tactics/guida-ai-tratti-2#evo-guida-ai-tratti-2-passi-operativi-per-la-migrazione
 docs/evo-tactics/guida-ai-tratti-2.md,evo-guida-ai-tratti-2-pipeline-di-migrazione-v1-v2,/docs/evo-tactics/guida-ai-tratti-2#evo-guida-ai-tratti-2-pipeline-di-migrazione-v1-v2
+docs/evo-tactics/guida-ai-tratti-2.md,evo-guida-ai-tratti-2-validazione-nel-repository-game,/docs/evo-tactics/guida-ai-tratti-2#evo-guida-ai-tratti-2-validazione-nel-repository-game
 docs/evo-tactics/guida-ai-tratti-2.md,evo-guida-ai-tratti-2-prontuario-metriche-ucum-estratto,/docs/evo-tactics/guida-ai-tratti-2#evo-guida-ai-tratti-2-prontuario-metriche-ucum-estratto
 docs/evo-tactics/guida-ai-tratti-2.md,evo-guida-ai-tratti-2-prossimi-passi-e-raccomandazioni,/docs/evo-tactics/guida-ai-tratti-2#evo-guida-ai-tratti-2-prossimi-passi-e-raccomandazioni
 docs/evo-tactics/guida-ai-tratti-2.md,evo-guida-ai-tratti-2-roadmap-e-gate-di-qualita,/docs/evo-tactics/guida-ai-tratti-2#evo-guida-ai-tratti-2-roadmap-e-gate-di-qualita
@@ -100,6 +102,7 @@ docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md,evo-guida-ai-tratti-3-evo-tact
 docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md,evo-guida-ai-tratti-3-evo-tactics-mappatura-e-regole-di-convergenza,/docs/evo-tactics/guida-ai-tratti-3-evo-tactics#evo-guida-ai-tratti-3-evo-tactics-mappatura-e-regole-di-convergenza
 docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md,evo-guida-ai-tratti-3-evo-tactics-passi-operativi-per-la-migrazione,/docs/evo-tactics/guida-ai-tratti-3-evo-tactics#evo-guida-ai-tratti-3-evo-tactics-passi-operativi-per-la-migrazione
 docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md,evo-guida-ai-tratti-3-evo-tactics-pipeline-di-migrazione-v1-v2,/docs/evo-tactics/guida-ai-tratti-3-evo-tactics#evo-guida-ai-tratti-3-evo-tactics-pipeline-di-migrazione-v1-v2
+docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md,evo-guida-ai-tratti-3-evo-tactics-validazione-nel-repository-game,/docs/evo-tactics/guida-ai-tratti-3-evo-tactics#evo-guida-ai-tratti-3-evo-tactics-validazione-nel-repository-game
 docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md,evo-guida-ai-tratti-3-evo-tactics-prontuario-metriche-ucum-estratto,/docs/evo-tactics/guida-ai-tratti-3-evo-tactics#evo-guida-ai-tratti-3-evo-tactics-prontuario-metriche-ucum-estratto
 docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md,evo-guida-ai-tratti-3-evo-tactics-prossimi-passi-e-raccomandazioni,/docs/evo-tactics/guida-ai-tratti-3-evo-tactics#evo-guida-ai-tratti-3-evo-tactics-prossimi-passi-e-raccomandazioni
 docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md,evo-guida-ai-tratti-3-evo-tactics-roadmap-e-gate-di-qualita,/docs/evo-tactics/guida-ai-tratti-3-evo-tactics#evo-guida-ai-tratti-3-evo-tactics-roadmap-e-gate-di-qualita
@@ -131,6 +134,7 @@ docs/evo-tactics/integrazioni-v2.md,evo-integrazioni-v2-guida-completa-ai-trait-
 docs/evo-tactics/integrazioni-v2.md,evo-integrazioni-v2-howto-autore-trait-estratto,/docs/evo-tactics/integrazioni-v2#evo-integrazioni-v2-howto-autore-trait-estratto
 docs/evo-tactics/integrazioni-v2.md,evo-integrazioni-v2-introduzione,/docs/evo-tactics/integrazioni-v2#evo-integrazioni-v2-introduzione
 docs/evo-tactics/integrazioni-v2.md,evo-integrazioni-v2-pipeline-di-migrazione-v1-v2,/docs/evo-tactics/integrazioni-v2#evo-integrazioni-v2-pipeline-di-migrazione-v1-v2
+docs/evo-tactics/integrazioni-v2.md,evo-integrazioni-v2-validazione-nel-repository-game,/docs/evo-tactics/integrazioni-v2#evo-integrazioni-v2-validazione-nel-repository-game
 docs/evo-tactics/integrazioni-v2.md,evo-integrazioni-v2-prontuario-metriche-ucum-estratto,/docs/evo-tactics/integrazioni-v2#evo-integrazioni-v2-prontuario-metriche-ucum-estratto
 docs/evo-tactics/integrazioni-v2.md,evo-integrazioni-v2-prossimi-passi-e-raccomandazioni,/docs/evo-tactics/integrazioni-v2#evo-integrazioni-v2-prossimi-passi-e-raccomandazioni
 docs/evo-tactics/integrazioni-v2.md,evo-integrazioni-v2-schede-delle-specie-e-dei-loro-tratti,/docs/evo-tactics/integrazioni-v2#evo-integrazioni-v2-schede-delle-specie-e-dei-loro-tratti
