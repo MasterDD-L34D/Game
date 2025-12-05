@@ -22,11 +22,19 @@ I playbook 2025 sono stati archiviati a completamento di **ROL-03**. Utilizza le
 copie storiche nella sezione `docs/archive/evo-tactics/guides/` oppure gli
 snapshot inventario in `docs/incoming/archive/2025-12-19_inventory_cleanup/`.
 
-| Percorso archivio                                                                                          | Stato               |
-| ---------------------------------------------------------------------------------------------------------- | ------------------- |
-| [`../archive/evo-tactics/guides/visione-struttura.md`](../archive/evo-tactics/guides/visione-struttura.md) | archiviato (ROL-03) |
-| [`../archive/evo-tactics/guides/template-ptpf.md`](../archive/evo-tactics/guides/template-ptpf.md)         | archiviato (ROL-03) |
-| [`../archive/evo-tactics/guides/security-ops.md`](../archive/evo-tactics/guides/security-ops.md)           | archiviato (ROL-03) |
+| Percorso archivio                                                                                                  | Stato               |
+| ------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| [`../archive/evo-tactics/guida-ai-tratti-1.md`](../archive/evo-tactics/guida-ai-tratti-1.md)                       | archiviato (ROL-03) |
+| [`../archive/evo-tactics/guida-ai-tratti-2.md`](../archive/evo-tactics/guida-ai-tratti-2.md)                       | archiviato (ROL-03) |
+| [`../archive/evo-tactics/guida-ai-tratti-3-database.md`](../archive/evo-tactics/guida-ai-tratti-3-database.md)     | archiviato (ROL-03) |
+| [`../archive/evo-tactics/guida-ai-tratti-3-evo-tactics.md`](../archive/evo-tactics/guida-ai-tratti-3-evo-tactics.md) | archiviato (ROL-03) |
+| [`../archive/evo-tactics/integrazioni-v2.md`](../archive/evo-tactics/integrazioni-v2.md)                           | archiviato (ROL-03) |
+| [`../archive/evo-tactics/guides/codex-readme.md`](../archive/evo-tactics/guides/codex-readme.md)                   | archiviato (seed)   |
+| [`../archive/evo-tactics/guides/ptpf-seed-template.md`](../archive/evo-tactics/guides/ptpf-seed-template.md)       | archiviato (seed)   |
+| [`../archive/evo-tactics/guides/security-ops.md`](../archive/evo-tactics/guides/security-ops.md)                   | archiviato (ROL-03) |
+| [`../archive/evo-tactics/guides/template-ptpf.md`](../archive/evo-tactics/guides/template-ptpf.md)                 | archiviato (ROL-03) |
+| [`../archive/evo-tactics/guides/vision-and-structure-notes.md`](../archive/evo-tactics/guides/vision-and-structure-notes.md) | archiviato (seed)   |
+| [`../archive/evo-tactics/guides/visione-struttura.md`](../archive/evo-tactics/guides/visione-struttura.md)         | archiviato (ROL-03) |
 
 ## Processi operativi
 
