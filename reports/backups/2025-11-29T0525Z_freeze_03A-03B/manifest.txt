@@ -1,17 +1,9 @@
-# Archive: data-core-2025-11-29T0525Z_freeze_03A-03B.zip
-# Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-core-2025-11-29T0525Z_freeze_03A-03B.zip
-# On-call: backups-oncall@game.internal (pager 4242)
-# Last verified: 2025-12-03T1304Z (PASS: sha256sum -c manifest.txt eseguito in staging; staging=/tmp/2025-11-29T0525Z_freeze_03A-03B; ripristino pronto)
-63e038ec2e79016ce37753b6c96914c3703c7cc2b58972d1b22f657db0e6755e  /tmp/2025-11-29T0525Z_freeze_03A-03B/data-core-2025-11-29T0525Z_freeze_03A-03B.zip
-
-# Archive: data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
-# Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
-# On-call: backups-oncall@game.internal (pager 4242)
-# Last verified: 2025-12-03T1304Z (PASS: sha256sum -c manifest.txt eseguito in staging; staging=/tmp/2025-11-29T0525Z_freeze_03A-03B; ripristino pronto)
-1c3bdb0e9af8f5916d2e2883aac1ca025983680bc20d149dcdd7e50bf541d7bd  /tmp/2025-11-29T0525Z_freeze_03A-03B/data-derived-2025-11-29T0525Z_freeze_03A-03B.zip
-
-# Archive: incoming-2025-11-29T0525Z_freeze_03A-03B.zip
-# Location: /tmp/2025-11-29T0525Z_freeze_03A-03B/incoming-2025-11-29T0525Z_freeze_03A-03B.zip
-# On-call: backups-oncall@game.internal (pager 4242)
-# Last verified: 2025-12-03T1304Z (PASS: sha256sum -c manifest.txt eseguito in staging; staging=/tmp/2025-11-29T0525Z_freeze_03A-03B; ripristino pronto)
-aa75ce79543116d458fc60866095fd187b45db294e752218aac88d8ea94730f7  /tmp/2025-11-29T0525Z_freeze_03A-03B/incoming-2025-11-29T0525Z_freeze_03A-03B.zip
+Mode: archive-less (03A/03B) — tar/zip dismessi
+Inventory: reports/backups/2025-11-29T0525Z_freeze_03A-03B/inventory.md
+Components:
+- docs/planning/REF_CORE_DERIVED_MATRIX.md — SHA256 364e642861bc4a5b61a345aafb853275bfe2bb74263b2046fa5db7a7f8158946
+- reports/redirects/redirect-smoke-staging.json — baseline redirect smoke (PASS atteso)
+- logs/agent_activity.md — log operativo con policy archive-less
+On-call: backups-oncall@game.internal (pager 4242)
+Last verified: 2025-12-05T12:00Z (policy update → verificare hash testo + smoke; nessun download archivi)
+Restore: rinfrescare gli asset testuali sopra, rieseguire smoke/validator e loggare in logs/agent_activity.md; notificare ticket #1203/#1206 con riferimento a inventory.md

@@ -1,6 +1,8 @@
-Archive: redirect-config-2025-12-01.tar.gz
-SHA256: 8301a4df915786ce0562f83656b382087f4db523a74aad9a30eca7e9f1427037
-Location: s3://evo-backups/game/2025-12-01_redirect_staging/redirect-config/redirect-config-2025-12-01.tar.gz
+Mode: archive-less (tar/zip dismessi)
+Inventory: reports/backups/2025-12-01_redirect_staging/redirect-config/inventory.md
+Components:
+- config/data_path_redirects.json — SHA256 1a1cac0594b4fccde2639b0d0a1ac0ed57d3435db2737fc2d9d51e6b22df45ff
+- docs/planning/REF_REDIRECT_PLAN_STAGING.md — mapping/rollback plan (no archive download)
 On-call: backups-oncall@game.internal (pager 4242)
-Last verified: 2026-09-09T10:30Z (PASS: scaricato `redirect-config-2025-12-01.tar.gz` da s3://evo-backups/game/2025-12-01_redirect_staging/redirect-config/, sha256sum -c rispetto al manifest, tar -tzf e confronto struttura con staging)
-Restore simulation: /tmp/redirect-config-2025-12-01.restore_demo/ (estrazione dry-run, permessi ok); ticket #1206 aggiornato con esito PASS e timestamp 2026-09-09T10:35Z
+Last verified: 2025-12-05T12:00Z (policy update → tar/zip non più richiesti; verificare hash testo + smoke test)
+Restore: distribuire `config/data_path_redirects.json` con hash sopra e rieseguire `python scripts/redirect_smoke_test.py --host http://localhost:8000 --environment staging --output reports/redirects/redirect-smoke-staging.json`; loggare esito in logs/agent_activity.md e aggiornare ticket #1203/#1206
