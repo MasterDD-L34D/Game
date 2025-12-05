@@ -34,7 +34,7 @@ Questi workflow espongono `workflow_dispatch` e possono essere avviati via CLI:
 
 ### Dispatch multiplo (PowerShell)
 
-Usa questo ciclo solo per i workflow senza input obbligatori:
+Usa questo ciclo solo per i workflow con `workflow_dispatch` e senza input obbligatori:
 
 ```powershell
 $workflows = @(
@@ -84,4 +84,4 @@ gh workflow run evo-batch.yml -f batch=<valore> [-f execute=true] [-f ignore_err
 
 - Rimuovi il PAT dal keychain/credential manager dopo l'uso per ridurre l'esposizione.
 - I workflow privi di `workflow_dispatch` vanno eseguiti esclusivamente tramite i loro trigger nativi (push, schedule o dipendenze da altri workflow).
-- Verifica e scarica i log con `gh run list --workflow <nome-workflow>` e `gh run download <run-id>`.
+- Verifica e scarica i log con `gh run list --workflow <nome-workflow>` e `gh run download <run-id>` sostituendo `<nome-workflow>` e `<run-id>` con valori reali.
