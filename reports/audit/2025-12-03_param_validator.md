@@ -1,14 +1,14 @@
 # Validator parametri (report-only)
 
 {
-  "timestamp_utc": "2025-12-04T21:56:35Z",
-  "validator_note": "Controllo integrità/sha256 pacchetti parametri (legacy, nessun unzip interattivo). Rilettura 2025-12-04: checksum confermati su asset presenti, confermata assenza del validator-pack v1.5.",
+  "timestamp_utc": "2026-09-16T00:00:00Z",
+  "validator_note": "Controllo integrità/sha256 pacchetti parametri (legacy, nessun unzip interattivo). Rilettura 2026-09-16: recuperato il validator-pack v1.5 con naming a trattino, checksum registrato e confermata modalità read-only.",
   "records": [
     {
-      "path": "incoming/evo_tactics_validator-pack_v1.5.zip",
-      "status": "missing",
-      "sha256": null,
-      "integrity": null
+      "path": "incoming/evo-tactics-validator-pack-v1.5.zip",
+      "status": "present",
+      "sha256": "76a6835938cca04dbc308e6461af2abbaaedc7ee67e16a605c4ffdbf4d7ba5ed",
+      "integrity": "ok"
     },
     {
       "path": "incoming/evo_tactics_param_synergy_v8_3.zip",
@@ -24,10 +24,10 @@
     }
   ],
   "verification": {
-    "checked_at": "2025-12-04T21:56:35Z",
+    "checked_at": "2026-09-16T00:00:00Z",
     "notes": [
       "Checksum ricalcolati localmente; combaciano con i valori registrati per param_synergy_v8_3 e tables_v8_3.",
-      "Validator-pack v1.5 non presente nel buffer incoming: richiede recupero o conferma di deprecazione (owner dev-tooling)."
+      "Validator-pack v1.5 presente come drop hyphen-case: registrato sha256 e confermato uso legacy/read-only."
     ]
   },
   "commands": [
