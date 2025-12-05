@@ -43,6 +43,13 @@ Log sandbox per la Fase 4: consolidare validator e simulator report-only, applic
   - Revisione congiunta dev-tooling + balancer + curator (trait/specie) dei report e delle deviazioni, con esito chiaro (pass/hold/fix).
   - Validazione coordinator/archivist che attesti l'aderenza a STRICT MODE, la tracciabilità completa e la presenza dei prerequisiti per fasi 5–7.
 
+## Checklist validazione e tracciabilità
+- Link ai report validator (schema dry-run) e simulator (report-only) utilizzati per il gate, con posizione in `reports/**`.
+- Mapping dei finding verso trait/specie/biomi coinvolti, indicando slug o identificativi usati nei mapping/curve di Fase 2–3.
+- Decisione di gate (pass/hold/fix) per ciascun blocco, con owner responsabile, data di review ed eventuale scadenza per la chiusura.
+- Azioni correttive pianificate (patch, retuning, re-run) con next step, owner e finestra temporale.
+- Riferimenti ai dataset e agli script eseguiti (percorso, commit, parametri) per garantire tracciabilità e ripetibilità dei report.
+
 ## Azioni immediate
 1. Raccolta dei report validator schema (dry-run) e simulator (report-only) prodotti in Fasi 2–3; verificare dataset/parametri usati.
 2. Aggregare esiti in un log unico indicando mapping/curve di riferimento, failure/warning e suggerimenti di fix o follow-up.
