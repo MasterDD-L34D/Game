@@ -1,0 +1,123 @@
+name: Log harvester
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.LOG_HARVEST_PAT != '' && secrets.LOG_HARVEST_PAT || secrets.GH_TOKEN != '' && secrets.GH_TOKEN || github.token }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve latest workflow runs
+        id: resolve
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ env.GH_TOKEN }}
+          script: |
+            const workflows = [
+              { id: 'ci.yml', label: 'CI', target: 'logs/ci_runs' },
+              { id: 'e2e.yml', label: 'E2E Tests', target: 'logs/ci_runs' },
+              { id: 'daily-pr-summary.yml', label: 'Daily PR Summary', target: 'logs/ci_runs' },
+              { id: 'daily-tracker-refresh.yml', label: 'Daily tracker refresh', target: 'logs/ci_runs' },
+              { id: 'data-quality.yml', label: 'Data audit and validation', target: 'logs/ci_runs' },
+              { id: 'deploy-test-interface.yml', label: 'Deploy site', target: 'logs/ci_runs' },
+              { id: 'idea-intake-index.yml', label: 'Idea Intake Index', target: 'logs/ci_runs' },
+              { id: 'incoming-smoke.yml', label: 'Incoming CLI smoke', target: 'logs/incoming_smoke' },
+              { id: 'schema-validate.yml', label: 'Validate JSON Schemas', target: 'logs/ci_runs' },
+              { id: 'validate-naming.yml', label: 'Validate registry naming', target: 'logs/ci_runs' },
+              { id: 'validate_traits.yml', label: 'Validate Trait Catalog', target: 'logs/ci_runs' },
+              { id: 'qa-kpi-monitor.yml', label: 'QA KPI & Visual Monitor', target: 'logs/visual_runs' },
+              { id: 'qa-export.yml', label: 'QA export manual', target: 'logs/ci_runs' },
+              { id: 'qa-reports.yml', label: 'QA reports', target: 'logs/ci_runs' },
+              { id: 'telemetry-export.yml', label: 'Telemetry export', target: 'logs/ci_runs' },
+              { id: 'search-index.yml', label: 'Build Search Index', target: 'logs/ci_runs' },
+              { id: 'hud.yml', label: 'HUD Canary', target: 'logs/visual_runs' },
+              { id: 'lighthouse.yml', label: 'Lighthouse CI', target: 'logs/visual_runs' },
+              { id: 'update-evo-tracker.yml', label: 'Update Evo tracker (check)', target: 'logs/ci_runs' },
+              { id: 'traits-sync.yml', label: 'Sync Evo traits glossary', target: 'logs/ci_runs' },
+              { id: 'evo-batch.yml', label: 'Run Evo Batch', target: 'logs/ci_runs' },
+              { id: 'evo-doc-backfill.yml', label: 'Evo documentation archive sync', target: 'logs/ci_runs' },
+              { id: 'evo-rollout-status.yml', label: 'Evo rollout status sync', target: 'logs/ci_runs' },
+            ];
+
+            const runs = [];
+            for (const wf of workflows) {
+              const resp = await github.rest.actions.listWorkflowRuns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: wf.id,
+                per_page: 1,
+              });
+              const run = resp.data.workflow_runs?.[0];
+              if (!run) {
+                core.warning(`Nessun run trovato per ${wf.id}`);
+                continue;
+              }
+              runs.push({
+                ...wf,
+                runId: run.id,
+                runName: run.name || wf.label,
+                htmlUrl: run.html_url,
+              });
+            }
+
+            core.setOutput('runs', JSON.stringify(runs));
+
+      - name: Download latest logs and artifacts
+        id: download
+        env:
+          RUNS: ${{ steps.resolve.outputs.runs }}
+        run: |
+          set -eo pipefail
+          runs_json="${RUNS:-[]}" || true
+          echo "$runs_json" | jq -e . >/tmp/runs.json
+
+          while IFS= read -r row; do
+            run_id=$(echo "$row" | jq -r '.runId')
+            target=$(echo "$row" | jq -r '.target')
+            label=$(echo "$row" | jq -r '.label')
+
+            mkdir -p "$target"
+            if gh run download "$run_id" --dir "$target"; then
+              echo "Scaricato run $run_id in $target"
+            else
+              echo "::warning::Download fallito per ${label:-workflow sconosciuto} (${run_id})"
+            fi
+          done < <(jq -c '.[]' /tmp/runs.json)
+
+      - name: Commit harvested logs if updated
+        id: commit
+        run: |
+          set -eo pipefail
+          if [ -z "$(git status --porcelain=1 logs)" ]; then
+            echo "changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          branch="log-harvest-$(date +%Y%m%d%H%M%S)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add logs
+          git commit -m "chore: harvest ci logs"
+          git push origin "$branch"
+
+          echo "changes=true" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Upload logs bundle
+        if: steps.commit.outputs.changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-bundle
+          path: logs
