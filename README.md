@@ -63,19 +63,28 @@ evo-tactics/
 ## Setup rapido
 
 1. **Clona il repository** e posizionati nella root.
-2. **Dipendenze Node (root + tools/ts + dashboard)**:
+2. **Installa GitHub CLI (`gh`)** per poter usare i workflow CI e gli script di automazione:
+   ```bash
+   # macOS (Homebrew)
+   brew install gh
+
+   # Debian/Ubuntu
+   sudo apt update && sudo apt install gh
+   ```
+   Autenticati con un PAT che includa gli scope `workflow` e `read:org`, autorizzato via SSO dove richiesto (puoi seguire la guida in `docs/workflows/gh-cli-manual-dispatch.md`).
+3. **Dipendenze Node (root + tools/ts + dashboard)**:
    ```bash
    npm install
    npm --prefix tools/ts install
    npm --prefix apps/dashboard install
    ```
-3. **Dipendenze Python**:
+4. **Dipendenze Python**:
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
    pip install -r tools/py/requirements.txt
    ```
-4. (Facoltativo) Esporta variabili condivise per ambienti ottimizzati:
+5. (Facoltativo) Esporta variabili condivise per ambienti ottimizzati:
    ```bash
    export GAME_MODE=optimized
    export PYTHONPATH=tools/py
