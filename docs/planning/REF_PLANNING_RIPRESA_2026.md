@@ -3,7 +3,7 @@
 Versione: 0.2
 Data: 2025-02-03
 Owner: **Master DD (owner umano)** con agente archivist (routing automatico attivo)
-Stato: NOTE OPERATIVE – checklist per riattivare PATCHSET-01A → 03B (timeline 2025)
+Stato: COMPLETATO – vedere sezione “Esito 2026-09-17” per il riepilogo log
 
 > **Nota delta (timeline 2025):** tutte le milestone 2026 sono riallineate alla roadmap che chiude **domenica 07/12/2025** (formato DD/MM/AAAA). La tabella di mapping sottostante esplicita vecchia data → nuova data, con ticket e owner per ogni aggiornamento, per evitare l’uso involontario del calendario obsoleto.
 
@@ -20,6 +20,12 @@ Stato: NOTE OPERATIVE – checklist per riattivare PATCHSET-01A → 03B (timelin
 
 Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza introdurre nuove fonti dati o variazioni di scope rispetto ai reference già approvati.
 
+## Esito 2026-09-17
+
+- **Apertura:** log `[RIAPERTURA-2025-02-OPEN-2026-09-17T0900Z]` su `logs/agent_activity.md` con freeze 2025-10-06T09:00Z→2025-10-13T18:00Z sbloccato e `_holding` assente.
+- **Kickoff:** log `[RIAPERTURA-2025-02-KICKOFF-2026-09-17T0915Z]` con sincronizzazione README e conferma rischio residuo su `scan_engine_idents.py` e licenze/redirect.
+- **Chiusura:** log `[RIAPERTURA-2025-02-CLOSE-2026-09-17T0930Z]` con esito PASS e autorizzazione a proseguire sulla pipeline 01A in STRICT MODE.
+
 ---
 
 ## Obiettivi
@@ -34,7 +40,7 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 - **Owner e agenti:** Master DD conferma disponibilità; coordinator e archivist attivi per il kickoff; trait/species/balancer reperibili on-call per i gate 01A–03B rebaselinati nel 2025.
 - **Branch di lavoro:** creare/aggiornare branch dedicati per 01A–03B; nessun commit diretto su `main`.
 - **Freeze:** il freeze documentale finale per incoming/docs è pianificato **06/10/2025 → 13/10/2025**; confermare attivazione con Master DD prima di aprire nuovi drop.
-- **Log:** verificare ultima voce in `logs/agent_activity.md`; aprire nuova entry con ID **RIAPERTURA-2025-02** prima di toccare tabelle e usare l’ID per ogni gate 01A–03B.
+- **Log:** verificare ultima voce in `logs/agent_activity.md`; usare l’entry esistente **RIAPERTURA-2025-02** aperta alle `2026-09-17T09:00Z` prima di toccare tabelle e usare l’ID per ogni gate 01A–03B.
 - **Allineamento reference:** rileggere `REF_REPO_SCOPE` e `REF_REPO_MIGRATION_PLAN` per assicurare che 01A/01B/01C seguano i trigger 2025 già approvati e che 02A → 03B usino i nuovi checkpoint.
 - **Stato ticketing:** riallineare i ticket 01A–03B ai codici 2025 (TKT-PLAN-01A-03B, TKT-03A-READY, TKT-03A-BASELINE, TKT-03B-CLEANUP, TKT-FREEZE-OCT25) chiudendo i riferimenti 2026 superati.
 - **Aggiornamento 2025-04-04:** aperto checkpoint **RIAPERTURA-2025-04** (patchset 03A/03B) dopo esito baseline 02A in modalità report-only; freeze soft su `incoming/**` e `docs/incoming/**` ancora da confermare con Master DD, README incoming/docs allineati e tracciati nel log.
@@ -50,6 +56,10 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 5. **Verificare unfreeze + sync log/README:** confermare lo sblocco della finestra **06/10/2025 → 13/10/2025**, aggiornare `logs/agent_activity.md` (entry **RIAPERTURA-2025-02**) e sincronizzare `incoming/README.md` e `docs/incoming/README.md` con lo stato post-freeze.
 6. **Aggiornare README mirati:** se emergono variazioni, sincronizzare solo `incoming/README.md` e `docs/incoming/README.md` con note di stato e ticket 2025.
 7. **Gate di uscita riapertura:** una volta chiusi i punti 1–6, loggare in `logs/agent_activity.md` “RIAPERTURA-2025-02 chiusa” e passare alla pipeline 01A.
+
+### Follow-up
+
+- In base alla chiusura `[RIAPERTURA-2025-02-CLOSE-2026-09-17T0930Z]`, proseguire con la pipeline 01A in STRICT MODE.
 
 ### Note operative 2025-08-29 (post 03A/03B)
 
@@ -105,3 +115,4 @@ Deliverable minimi post-checklist:
 
 - 2026-01-02: versione 0.1 – checkpoint di riapertura per riprendere i patchset 01A–03B senza modificare lo scope di riferimento.
 - 2025-02-03: versione 0.2 – riallineo timeline ai gate 2025 con chiusura al 07/12/2025, mapping completo e aggiornamento freeze/log/ticket.
+- 2026-09-17: versione 0.2 aggiornato – registrato esito completato (apertura/kickoff/chiusura RIAPERTURA-2025-02) e follow-up verso pipeline 01A.
