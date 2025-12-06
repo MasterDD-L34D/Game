@@ -226,7 +226,7 @@ process_workflow() {
     if [[ "${WAIT_FOR_COMPLETION:-0}" == "1" ]]; then
       sleep 5
       local latest_run
-      latest_run=$(gh run list --workflow "$workflow" --limit 1 --json databaseId --template '{{range .}}{{.databaseId}}{{"\n"}}{{end}}')
+      latest_run=$(gh run list --workflow "$workflow" --limit 1 --json databaseId --jq '.[0].databaseId')
       if [[ -n "$latest_run" ]]; then
         maybe_wait_for_completion "$workflow" "$latest_run"
       fi
@@ -237,7 +237,7 @@ process_workflow() {
   fi
 
   local run_info
-  run_info=$(gh run list --workflow "$workflow" --limit 1 --json databaseId,status,conclusion --template '{{range .}}{{.databaseId}}\t{{.status}}\t{{.conclusion}}{{"\n"}}{{end}}')
+  run_info=$(gh run list --workflow "$workflow" --limit 1 --json databaseId,status,conclusion --jq '.[0] | [(.databaseId|tostring), .status, (.conclusion // "")] | @tsv')
 
   if [[ -z "$run_info" ]]; then
     echo "[warn] No runs found for $workflow"
@@ -245,7 +245,7 @@ process_workflow() {
   fi
 
   local run_id status conclusion
-  read -r run_id status conclusion <<<"$run_info"
+  IFS=$'\t' read -r run_id status conclusion <<<"$run_info"
 
   local workflow_base
   workflow_base=$(workflow_basename "$workflow")
