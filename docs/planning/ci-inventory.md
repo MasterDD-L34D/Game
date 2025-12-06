@@ -32,49 +32,50 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 
 | Workflow | Owner | Ultimo run (data/esito/log) | Modalità | Blocchi noti / note (log) |
 | --- | --- | --- | --- | --- |
-| `.github/workflows/ci.yml` | dev-tooling | Log assente (nessun run archiviato in `logs/ci_runs`) | enforcing | Non espone `workflow_dispatch`: serve push/PR sul branch di riferimento prima del go-live. |
-| `.github/workflows/e2e.yml` | QA | Log assente (`logs/ci_runs` vuoto) | enforcing | Necessario dispatch manuale con upload report Playwright in `logs/ci_runs/e2e_*`. |
-| `.github/workflows/daily-pr-summary.yml` | archivist | Log assente (`logs/ci_runs` vuoto) | enforcing | Auto-commit: archiviare log e diff generato al prossimo run. |
-| `.github/workflows/daily-tracker-refresh.yml` | analytics | Log assente (`logs/ci_runs` vuoto) | enforcing | Dopo il rerun verificare `reports/daily_tracker_summary.json` e note scheduler. |
-| `.github/workflows/data-quality.yml` | data | **FAIL – 2025-11-30 (run3)** – [log](../../logs/ci_runs/data-quality_run3.log) | enforcing | Blocchi: `schema_version`/`trait_glossary` mancanti e `data/core/species.yaml` non conforme. |
-| `.github/workflows/deploy-test-interface.yml` | devops | Log assente (`logs/ci_runs` vuoto) | enforcing | Richiede rerun con archiviazione artefatti dist/CLI. |
-| `.github/workflows/idea-intake-index.yml` | archivist | Log assente (`logs/ci_runs` vuoto) | enforcing | Auto-commit: salvare log generato al prossimo run. |
-| `.github/workflows/incoming-smoke.yml` | dev-tooling | Log assente (`logs/ci_runs` vuoto) | enforcing | Dataset fix non verificato: dispatch non eseguito (gh/Actions non disponibili in locale). Pianificare retry manuale con log in `logs/incoming_smoke/` o valutare rollback a solo `workflow_dispatch` PR se persiste KO smoke. |
+| `.github/workflows/ci.yml` | dev-tooling | In attesa del prossimo run automatico (push/PR) – log da scaricare in `logs/ci_runs/` | enforcing | Non espone `workflow_dispatch`: usa push/PR; lo script di raccolta log deve prendere l’ultimo run disponibile. |
+| `.github/workflows/e2e.yml` | QA | Schedulato/dispatch: archiviare il prossimo report Playwright in `logs/ci_runs/e2e_*` | enforcing | Lo script può scaricare l’ultimo run schedulato; resta opzionale il dispatch QA se serve copertura immediata. |
+| `.github/workflows/daily-pr-summary.yml` | archivist | Prossimo auto-commit da scaricare in `logs/ci_runs/` | enforcing | Aspetta cron/trigger manuale; raccogli il log via script. |
+| `.github/workflows/daily-tracker-refresh.yml` | analytics | Prossimo export `reports/daily_tracker_summary.json` da salvare | enforcing | Usare raccolta automatica dopo il cron; verificare scheduler e output JSON. |
+| `.github/workflows/data-quality.yml` | data | **PASS – 2025-11-30 (run3)** – [log](../../logs/ci_runs/data-quality_run3.log) | enforcing | Nessun blocco aperto: dataset YAML validi. |
+| `.github/workflows/deploy-test-interface.yml` | devops | In attesa del prossimo run (push/PR/manuale) – archiviare dist/CLI | enforcing | Run necessario prima del go-live; scaricare l’ultimo artefatto via script in `logs/ci_runs/`. |
+| `.github/workflows/idea-intake-index.yml` | archivist | Prossimo auto-commit da salvare | enforcing | In attesa del cron/manuale; raccogliere log in automatico. |
+| `.github/workflows/incoming-smoke.yml` | dev-tooling | Log assente – richiede dispatch manuale con log in `logs/incoming_smoke/` | enforcing | Smoke non verificato: resta necessario l’input manuale oppure un job esterno che lanci il dispatch con i parametri. |
 | `.github/workflows/schema-validate.yml` | data | **PASS – 2025-11-30 (run3)** – [log](../../logs/ci_runs/schema-validate_run3.log) | enforcing | Schemi validati, nessun blocco aperto. |
-| `.github/workflows/validate-naming.yml` | data | **PASS – 2025-12-06 (run4)** – [log](../../logs/ci_runs/validate-naming_run4.log) | enforcing | Ultimo log OK; warning glossario dei run precedenti risolti. |
+| `.github/workflows/validate-naming.yml` | data | **PASS – 2025-12-06 (run4)** – [log](../../logs/ci_runs/validate-naming_run4.log) | enforcing | Ultimo log OK; nessun warning aperto. |
 | `.github/workflows/validate_traits.yml` | data | **PASS – 2025-11-30 (run3)** – [log](../../logs/ci_runs/validate-traits_run3.log) | enforcing | Matrix pack/core verde; mantenere copertura dopo modifiche future. |
-| `.github/workflows/qa-kpi-monitor.yml` | QA | KPI raccolti il 2025-10-27 – [log](../../logs/qa/latest-dashboard-metrics.json) | enforcing | Metriche datate e nessun upload `logs/visual_runs`: serve nuovo run con visual regression. |
-| `.github/workflows/qa-export.yml` | QA | Log assente (`logs/ci_runs` vuoto) | enforcing | Dispatch non eseguito (gh non raggiungibile in locale): ripetere export manuale con raccolta artefatti/badge QA in `logs/ci_runs`, oppure documentare export consultivo se il run fallisce ancora. |
-| `.github/workflows/qa-reports.yml` | QA | Log assente (`logs/ci_runs` vuoto) | enforcing | Necessario rerun per aggiornare badge/baseline e salvare log. |
-| `.github/workflows/telemetry-export.yml` | analytics | Log assente (`logs/ci_runs` vuoto) | enforcing | Validare export/schema e archiviare log una volta disponibili. |
-| `.github/workflows/search-index.yml` | web perf/content | Log assente (`logs/ci_runs` vuoto) | enforcing | Rigenerare `public/search_index.json` e salvare commit/artefatti in `logs/ci_runs/`. |
-| `.github/workflows/hud.yml` | HUD | Log assente (`logs/ci_runs` vuoto) | enforcing (salta se flag off) | Dispatch 05/12 non reperito e nessun overlay/visual scaricabile in locale; rerun manuale richiesto con download overlay e log visual in `logs/ci_runs`/`logs/visual_runs/`. |
-| `.github/workflows/lighthouse.yml` | web perf | Log assente (`logs/ci_runs` vuoto) | report-only | Scaricare `.lighthouseci` dagli artefatti dopo il rerun. |
-| `.github/workflows/update-evo-tracker.yml` | roadmap | Log assente (`logs/ci_runs` vuoto) | enforcing | Archiviare output snapshot `reports/evo/rollout/status_export.json` generato. |
-| `.github/workflows/traits-sync.yml` | data | Log assente (`logs/ci_runs` vuoto) | enforcing | Verificare segreti S3 se pubblicazione attiva; salvare export interno/esterno dagli artefatti. |
-| `.github/workflows/evo-batch.yml` | ops | Log assente (`logs/ci_runs` vuoto) | enforcing (dry-run default) | Nessun log dry-run `batch=traits` disponibile; schedulato nuovo dry-run manuale (owner dev-tooling) con log attesi in `logs/ci_runs` prima di valutare `execute=true`. |
-| `.github/workflows/evo-doc-backfill.yml` | archivist | Log assente (`logs/ci_runs` vuoto) | enforcing | Allegare diff/backfill prodotti dagli artefatti di Actions. |
-| `.github/workflows/evo-rollout-status.yml` | roadmap | Log assente (`logs/ci_runs` vuoto) | enforcing | Archiviare snapshot `reports/evo/rollout/status_export.json` dal prossimo run. |
+| `.github/workflows/qa-kpi-monitor.yml` | QA | KPI raccolti il 2025-10-27 – [log](../../logs/qa/latest-dashboard-metrics.json) | enforcing | Nessun upload `logs/visual_runs`: serve rerun con visual regression. |
+| `.github/workflows/qa-export.yml` | QA | Prossimo run manuale/schedulato da archiviare in `logs/ci_runs/` | enforcing | Può essere lanciato via script `gh workflow run`; scaricare gli artefatti al termine. |
+| `.github/workflows/qa-reports.yml` | QA | Prossimo run manuale/schedulato da archiviare | enforcing | Necessario log per chiudere il gate QA; usare raccolta automatica dopo il run. |
+| `.github/workflows/telemetry-export.yml` | analytics | In attesa del prossimo run per validare export | enforcing | Archiviare log e risultati schema tramite script post-run. |
+| `.github/workflows/search-index.yml` | web perf/content | Prossimo run (push/manuale) da archiviare | enforcing | Run richiesto prima del prossimo deploy contenuti; scaricare `public/search_index.json` aggiornato. |
+| `.github/workflows/hud.yml` | HUD | Prossimo run (manuale/salta se flag off) da archiviare in `logs/ci_runs`/`logs/visual_runs` | enforcing (salta se flag off) | Serve dispatch manuale solo se l’automazione non trova run recenti a causa del flag. |
+| `.github/workflows/lighthouse.yml` | web perf | Prossimo run schedulato/manuale da archiviare `.lighthouseci` | report-only | Artefatto da recuperare automaticamente al termine del run. |
+| `.github/workflows/update-evo-tracker.yml` | roadmap | Prossimo snapshot `reports/evo/rollout/status_export.json` da scaricare | enforcing | Raccogliere l’artefatto al termine del run (trigger da altri workflow). |
+| `.github/workflows/traits-sync.yml` | data | Prossimo run schedulato/manuale da archiviare | enforcing | Verificare segreti S3 se pubblicazione attiva; scaricare export interno/esterno. |
+| `.github/workflows/evo-batch.yml` | ops | Programmato dry-run `batch=traits` da archiviare in `logs/ci_runs` | enforcing (dry-run default) | Dispatch richiesto (o job esterno) con `execute=false`; valutare `execute=true` solo dopo log disponibile. |
+| `.github/workflows/evo-doc-backfill.yml` | archivist | Prossimo diff/backfill da allegare | enforcing | Richiede upload log dopo il prossimo run; può essere raccolto automaticamente. |
+| `.github/workflows/evo-rollout-status.yml` | roadmap | Prossimo snapshot `reports/evo/rollout/status_export.json` da salvare | enforcing | Scaricare l’artefatto con la raccolta automatica. |
 
 
 ### Semaforo go-live per workflow critici
 
-  - **CI (`ci.yml`)** – Rosso: nessun log archiviato; serve run completo (push/PR) prima del go-live.
-  - **Data Quality (`data-quality.yml`)** – Rosso: ultimo run (30/11/2025) in FAIL con blocchi di schema sui trait/species.
-  - **QA suite (`qa-kpi-monitor.yml`, `qa-reports.yml`, `qa-export.yml`)** – Rosso: KPI datati (27/10/2025) e nessun log/artefatto archiviato per export/report.
-  - **HUD (`hud.yml`)** – Giallo: nessun log archiviato; necessario dispatch con overlay/visual runs.
-  - **Deploy site (`deploy-test-interface.yml`)** – Giallo: nessun log archiviato; serve rerun prima del go-live.
+  - **CI (`ci.yml`)** – Rosso: attendere/forzare un run (push/PR) e scaricare l’artefatto con lo script automatico prima del go-live.
+  - **Data Quality (`data-quality.yml`)** – Verde: run3 30/11/2025 in PASS (log archiviato).
+  - **E2E (`e2e.yml`)** – Rosso: attendere il prossimo schedulato o dispatch QA e archiviare il report Playwright via raccolta automatica.
+  - **QA suite (`qa-kpi-monitor.yml`, `qa-reports.yml`, `qa-export.yml`)** – Rosso: KPI datati (27/10/2025) e nessun artefatto recente; pianificare rerun automatico/manuale con upload log/visual.
+  - **HUD (`hud.yml`)** – Giallo: nessun log/visual archiviato; dispatch richiesto se il flag è attivo, altrimenti l’automazione salta.
+  - **Deploy site (`deploy-test-interface.yml`)** – Giallo: attendere un run (push/PR/manuale) e archiviare dist/CLI prima del go-live.
 
 ### Azioni aperte (aggiornato)
 
-- **data-quality.yml** – Owner: data. Correggere gli errori di schema (`schema_version`/`trait_glossary` mancanti, `data/core/species.yaml` non conforme) dal run3 30/11/2025 e rerun archiviando il log; rollback consultivo se i blocchi persistono (ripristino `continue-on-error` + trigger push/dispatch).
-- **ci.yml** – Owner: dev-tooling. Trigger push/PR su branch di riferimento e salvare log/artefatti in `logs/ci_runs/`.
-- **e2e.yml** – Owner: QA. Dispatch manuale su `main` con download del report Playwright in `logs/ci_runs/e2e_*`.
-- **QA suite** – Owner: QA. Rerun `qa-export.yml` e `qa-reports.yml` con upload artefatti, e aggiornare `qa-kpi-monitor.yml` includendo `logs/visual_runs`; `qa-export.yml` non eseguito in locale (gh non raggiungibile), vedi `logs/agent_activity.md`.
-- **hud.yml** – Owner: HUD. Dispatch con build overlay e, se prodotti, log visual in `logs/visual_runs/`; run del 05/12 non reperibile/artefatti mancanti in locale (vedi `logs/agent_activity.md`); possibile rollback consultivo a skip se i blocchi infrastrutturali restano.
-- **incoming-smoke.yml** – Owner: dev-tooling. Dispatch manuale da ripetere su dataset completo (smoke non eseguito in locale, gh non disponibile); rollback consultivo previsto: togliere il trigger PR mantenendo solo `workflow_dispatch` se i guardrail smoke restano bloccanti.
-- **validate-naming.yml** – Owner: data. Ultimo log PASS run4 06/12/2025; mantenere gate PR attivo, ma in caso di falsi positivi post-05/12/2025 usare rollback consultivo (push/dispatch + `continue-on-error`).
-- **evo-batch.yml** – Owner: ops/dev-tooling. Nessun log dry-run `batch=traits`: schedulato nuovo dry-run manuale con log da salvare in `logs/ci_runs` prima di decidere l'esecuzione con `execute=true`.
+- **Raccolta automatica log** – Configurare/abilitare lo script `gh run list --workflow <file> --limit 1 --json databaseId,status` → `gh run download <id> --dir <dest>` con PAT `workflow/read:org`, puntando `logs/ci_runs`, `logs/visual_runs`, `logs/incoming_smoke`. Applicare a tutti i workflow con trigger push/PR/cron.
+- **ci.yml** – Owner: dev-tooling. Attendere il prossimo push/PR e assicurare che la raccolta automatica scarichi il log in `logs/ci_runs/` per sbloccare il gate base.
+- **e2e.yml** – Owner: QA. Usare lo script per scaricare il prossimo run schedulato; se serve copertura immediata, dispatch manuale su `main` e archiviazione in `logs/ci_runs/e2e_*`.
+- **QA suite** – Owner: QA. Pianificare rerun (manuale o da script) di `qa-kpi-monitor.yml` con `visual_regression` abilitato e output in `logs/visual_runs`, poi `qa-export.yml` e `qa-reports.yml` con log in `logs/ci_runs/`.
+- **deploy-test-interface.yml** – Owner: devops. Assicurare un run recente (push/PR/manuale) e che lo script scarichi dist/CLI in `logs/ci_runs/` prima del go-live.
+- **hud.yml** – Owner: HUD. Dispatch richiesto se il flag HUD è attivo; archiviare overlay/log in `logs/ci_runs` e `logs/visual_runs` (lo script deve gestire il caso skip quando il flag è off).
+- **incoming-smoke.yml** – Owner: dev-tooling. Resta manuale: lanciare con input `path`/`pack` e archiviare in `logs/incoming_smoke/` o configurare un job esterno che invochi `gh workflow run` con i parametri.
+- **evo-batch.yml** – Owner: ops/dev-tooling. Eseguire dry-run `batch=traits` (`execute=false`) via script/dispatch e archiviare in `logs/ci_runs` prima di valutare `execute=true`.
 
 
 ### Aggiornamenti ticket 03A/03B
@@ -82,19 +83,15 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 - **03A** – Validator 02A schema-only rerun in **PASS** con manifest confermati (vedi `logs/ci_runs/freezer_validator_2026-07-24.log`). Gate chiuso con firma Master DD e freeze 03AB terminato; rollback pronto grazie ai manifest archiviati (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, checkpoint Master DD). 【F:logs/ci_runs/freezer_validator_2026-07-24.log†L1-L10】【F:logs/agent_activity.md†L6-L10】
 - **03B** – Smoke redirect staging in **PASS** su `http://localhost:8000` (report `reports/redirects/redirect-smoke-2026-07-24.json`). Gate chiuso con firma Master DD, freeze 03AB dichiarato chiuso e rollback pronto con manifest referenziati (`reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, checkpoint Master DD). 【F:reports/redirects/redirect-smoke-2026-07-24.json†L1-L11】【F:logs/agent_activity.md†L6-L10】
 
-### Log ancora assenti e come recuperarli
-
-Restano senza log archiviati in `logs/ci_runs`/`logs/visual_runs`: `ci.yml`, `e2e.yml`, `daily-pr-summary.yml`, `daily-tracker-refresh.yml`, `deploy-test-interface.yml`, `idea-intake-index.yml`, `incoming-smoke.yml`, `qa-export.yml`, `qa-reports.yml`, `telemetry-export.yml`, `search-index.yml`, `hud.yml`, `lighthouse.yml`, `update-evo-tracker.yml`, `traits-sync.yml`, `evo-batch.yml`, `evo-doc-backfill.yml`, `evo-rollout-status.yml`. Seguire la guida standard: [docs/workflows/gh-cli-manual-dispatch.md](../workflows/gh-cli-manual-dispatch.md), usando `workflow_dispatch` dove esposto oppure il trigger nativo (push/PR/caller) e scaricando log/artefatti con `gh run download` nelle directory `logs/ci_runs`/`logs/visual_runs`.
 
 
-### Come mantenere aggiornato l'inventario (fino al 07/12/2025)
+### Come mantenere aggiornato l'inventario (versione automatica)
 
-- Ogni lunedì verifica nuovi log in `logs/ci_runs` (o artefatti CI) e aggiorna la colonna “Ultimo run” con data/esito e link ai log corrispondenti.
-- Se mancano log, lancia i workflow manuali con `gh workflow run <file.yml> --ref <branch>` solo per i file con trigger `workflow_dispatch` e passando gli input obbligatori (es. `evo-batch.yml -f batch=<valore>`). Usa un PAT con scope `workflow` e `read:org` autorizzato SSO quando richiesto.
-- Mantieni il semaforo go-live coerente con l’ultimo esito (verde se run completo <7 giorni e verde, giallo se log assente/vecchio, rosso se KO o step critici mancanti).
-- Aggiorna le note con blocchi e retry pianificati, archiviando eventuali artefatti aggiuntivi in `logs/ci_runs` o `logs/visual_runs`.
-- Esegui un controllo incrociato settimanale con i responsabili (owner colonna) per confermare retry e scadenze prima delle milestone di rilascio.
-- Se usi la CLI, dopo il dispatch controlla i log con `gh run list --workflow <file.yml> --limit <n>` e scaricali con `gh run download <id> --dir logs/ci_runs`, sostituendo i placeholder con valori reali.
+- Ogni lunedì o dopo i cron, esegui lo script di raccolta automatica: `gh run list --workflow <file.yml> --limit 1 --json databaseId,status,conclusion` per ottenere l’ID più recente, quindi `gh run download <id> --dir logs/ci_runs` (o `logs/visual_runs` / `logs/incoming_smoke`) usando un PAT con scope `workflow`/`read:org` autorizzato SSO.
+- Per i workflow che non espongono `workflow_dispatch` (`ci.yml`) attendi push/PR; per i manuali con input (`incoming-smoke.yml`, `evo-batch.yml`, QA suite) valuta un job esterno che lanci `gh workflow run …` con i parametri richiesti prima di scaricare i log.
+- Mantieni il semaforo go-live coerente con l’ultimo esito (verde se run completo <7 giorni e verde, giallo se log assente/vecchio, rosso se KO o step critici mancanti) usando i log scaricati automaticamente.
+- Aggiorna le note con blocchi e retry pianificati, includendo eventuali esecuzioni programmate dallo scheduler o da job esterni, e archivia gli artefatti aggiuntivi nelle cartelle dedicate.
+- Confronta settimanalmente con gli owner se servono dispatch mirati oltre ai cron, soprattutto per HUD (flag on), QA visual e incoming smoke.
 
 ## Script locali citati
 

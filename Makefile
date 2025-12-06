@@ -1,7 +1,8 @@
 .PHONY: sitemap links report search redirects structured audit \
-	evo-tactics-pack dev-stack test-stack ci-stack \
-	evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint \
-	evo-help evo-validate evo-backlog traits-review update-tracker
+        evo-tactics-pack dev-stack test-stack ci-stack \
+        evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint \
+        evo-help evo-validate evo-backlog traits-review update-tracker \
+        ci-log-harvest
 
 PYTHON ?= python3
 EVO_AUTOMATION := $(PYTHON) -m tools.automation.evo_batch_runner
@@ -38,6 +39,7 @@ EVO_VERBOSE ?=
 EVO_VERBOSE_FLAG := $(strip $(if $(filter 1 true yes on,$(EVO_VERBOSE)),--verbose,))
 TRACKER_CHECK ?=
 TRACKER_CHECK_FLAG := $(strip $(if $(filter 1 true yes on,$(TRACKER_CHECK)),--check,))
+CI_LOG_HARVEST_CONFIG ?=
 
 sitemap:
 	python ops/site-audit/build_sitemap.py
@@ -160,4 +162,7 @@ traits-review:
 	fi
 
 update-tracker:
-	$(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)
+        $(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)
+
+ci-log-harvest:
+        bash scripts/ci_log_harvest.sh $(if $(CI_LOG_HARVEST_CONFIG),--config "${CI_LOG_HARVEST_CONFIG}",)
