@@ -165,5 +165,9 @@ update-tracker:
         $(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)
 
 ci-log-harvest:
-	command -v gh >/dev/null 2>&1 || { echo "GitHub CLI (gh) non trovata: installa 'brew install gh' o 'sudo apt update && sudo apt install gh' e autentica un PAT con scope workflow/read:org (SSO se richiesto)."; exit 1; }
-	bash scripts/ci_log_harvest.sh $(if $(CI_LOG_HARVEST_CONFIG),--config "${CI_LOG_HARVEST_CONFIG}",)
+        command -v gh >/dev/null 2>&1 || { echo "GitHub CLI (gh) non trovata: installa 'brew install gh' o 'sudo apt update && sudo apt install gh'."; exit 1; }
+        @if [ -z "${CI_LOG_PAT}${LOG_HARVEST_PAT}${GH_TOKEN}${GITHUB_TOKEN}" ]; then \
+                echo "Impostare CI_LOG_PAT (consigliato) o LOG_HARVEST_PAT/GH_TOKEN con un PAT GitHub (workflow, read:org, repo admin) autenticato SSO."; \
+                exit 1; \
+        fi
+        bash scripts/ci_log_harvest.sh $(if $(CI_LOG_HARVEST_CONFIG),--config "${CI_LOG_HARVEST_CONFIG}",)

@@ -4,7 +4,7 @@ Questo documento centralizza i comandi per scaricare i log/artefatti dei workflo
 
 ## Prerequisiti
 
-- GitHub CLI (`gh`) installato e autenticato con un PAT che abbia scope `workflow` e `read:org`, autorizzato via SSO.
+- GitHub CLI (`gh`) installato e autenticato con un PAT che abbia scope `workflow`, `read:org` **e** permessi repo/admin, autorizzato via SSO. Salvalo come secret `CI_LOG_PAT` (preferito) o `LOG_HARVEST_PAT` e rendilo disponibile come `GH_TOKEN`/`GITHUB_TOKEN` per l’automazione.
 - Accesso di rete a GitHub Actions.
 - Permessi di scrittura locali nelle cartelle di destinazione (`logs/ci_runs`, `logs/visual_runs`, `logs/incoming_smoke`).
 
@@ -18,7 +18,7 @@ brew install gh
 sudo apt update && sudo apt install gh
 ```
 
-Autenticati con un PAT che includa gli scope `workflow` e `read:org`, autorizzato via SSO dove richiesto; consulta `docs/workflows/gh-cli-manual-dispatch.md` per i passaggi.
+Autenticati con un PAT che includa gli scope `workflow` e `read:org` più permessi repo/admin, autorizzato via SSO dove richiesto; consulta `docs/workflows/gh-cli-manual-dispatch.md` per i passaggi.
 
 ## Workflow coperti e destinazioni standard
 
@@ -47,8 +47,8 @@ Per workflow non elencati qui (es. `data-quality.yml`, `schema-validate.yml`, `v
   - Formato: `workflow_file|destinazione|modalità|dispatch_inputs`
   - Modalità: `auto` (solo download) oppure `manual` (skip di default, dispatch se `DISPATCH_MANUAL=1`).
 - Per ogni workflow esegue:
-  1. `gh run list --workflow <file> --limit 1 --json databaseId,status,conclusion` per prendere l’ultimo run.
-  2. Se il run è `completed`, scarica gli artefatti con `gh run download <id> --dir <destinazione>`.
+  1. `gh run list --workflow <file> --limit 1 --json databaseId,status,conclusion` per prendere l’ultimo run (autenticato con `GH_TOKEN` impostato dal PAT dei secret sopra).
+  2. Se il run è `completed`, salva la pagina HTML del run, scarica i log zipped via API (`.../runs/<id>/logs`) e scarica gli artefatti sia estratti sia come archivio `.zip` (`gh run download --archive`).
   3. Per i manuali, se `DISPATCH_MANUAL=1`, lancia `gh workflow run <file> --ref <branch> <dispatch_inputs>`; opzionale attesa con `WAIT_FOR_COMPLETION=1`.
 
 ### Esempi d’uso
