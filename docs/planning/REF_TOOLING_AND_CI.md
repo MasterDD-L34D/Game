@@ -15,9 +15,9 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
 
 ## Stato attuale
 
-- Inventario CI/tooling consolidato su `patch/01C-tooling-ci-catalog` con mapping esplicito dei workflow (`.github/workflows/**`) e degli script (`tools/**`, `scripts/**`, `ops/**`) ai rispettivi owner e sorgenti core/pack.
-- Gate PR enforcing attivi per `data-quality.yml`, `validate_traits.yml`, `schema-validate.yml`, `validate-naming.yml` (3 run verdi consecutivi del 30/11/2025) e `incoming-smoke.yml` attivo su PR/dispatch; `derived_checksum.yml` resta consultivo su derived.
-- Percorsi core/pack e fixture derived tracciati: i validatori leggono `data/core/**` come fonte canonica, mentre i derived (`data/derived/**`, `packs/evo_tactics_pack/**`) sono consumati solo come output o per verifica consultiva.
+- Inventario CI/tooling aggiornato ai run del **05/12/2025** (vedi `docs/planning/ci-inventory.md`) con mapping esplicito dei workflow (`.github/workflows/**`) e degli script (`tools/**`, `scripts/**`, `ops/**`) ai rispettivi owner e sorgenti core/pack.
+- Gate PR enforcing confermati sui workflow dati/schema/naming (`data-quality.yml`, `validate_traits.yml`, `schema-validate.yml`, `validate-naming.yml`) e smoke `incoming-smoke.yml`; `derived_checksum.yml` rimane consultivo su derived. Sono monitorati anche i workflow QA export/reports, deploy test-interface, HUD Canary e `evo-batch.yml` con stato riportato nell’inventario.
+- Percorsi core/pack e fixture derived tracciati: i validatori leggono `data/core/**` come fonte canonica, mentre i derived (`data/derived/**`, `packs/evo_tactics_pack/**`) sono consumati solo come output o per verifica consultiva. KO e dispatch aperti (incoming-smoke, QA export/reports, HUD) sono elencati nell’inventario con owner e trigger.
 
 ## Rischi
 
@@ -52,12 +52,13 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
 
 ## Ordine di abilitazione CI (Master DD – 2025-12-07)
 
-- Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit) con milestone anticipata alla data del **07/12/2025**. Approvazione Master DD rilasciata sui run del 30/11/2025 per chiudere la sequenza prima del checkpoint 2026.
+- Branch operativo: `patch/01C-tooling-ci-catalog` (strict-mode, nessun artefatto commit) con milestone anticipata alla data del **07/12/2025**. Approvazione Master DD rilasciata sui run del 30/11/2025 e confermata con i run del **05/12/2025**.
 - Sequenza 2025 (stato attivo):
-  1. **data-quality.yml** e **validate_traits.yml** enforcing come gate PR (`pull_request` attivo) basati sui 3 run verdi consecutivi del 30/11/2025; rollback: reimpostare `continue-on-error` e limitare i trigger a `push`/`workflow_dispatch` se riemergono drift su core.
-  2. **schema-validate.yml** enforcing su variazioni schema/lint (core + config/schemas) con trigger `pull_request` e approvazione Master DD aggiornata al 07/12/2025; rollback: sospendere l’obbligatorietà del check e tornare a dispatch manuale.
-  3. **validate-naming.yml** promosso a gate PR (`pull_request` attivo, `continue-on-error` rimosso) dopo 3 run verdi; rollback consultivo documentato (riattivare solo `push`/`workflow_dispatch`, ripristinare `continue-on-error`).
-  4. **incoming-smoke.yml** attivo su `pull_request` con filtro `incoming/**` + `workflow_dispatch` manuale; rollback: rimuovere il trigger PR e mantenere solo il dispatch se i guardrail smoke bloccano in modo improprio.
+  1. **data-quality.yml** e **validate_traits.yml** enforcing come gate PR (`pull_request` attivo) validati dai run del 05/12/2025 (matrix core+pack verde); rollback: reimpostare `continue-on-error` e limitare i trigger a `push`/`workflow_dispatch` se riemergono drift su core.
+  2. **schema-validate.yml** enforcing su variazioni schema/lint (core + config/schemas) con trigger `pull_request` e run 05/12/2025 verde; rollback: sospendere l’obbligatorietà del check e tornare a dispatch manuale.
+  3. **validate-naming.yml** confermato gate PR (`pull_request` attivo, `continue-on-error` rimosso) con run del 05/12/2025 in PASS e warning glossario tracciati; rollback consultivo documentato (riattivare solo `push`/`workflow_dispatch`, ripristinare `continue-on-error`).
+  4. **incoming-smoke.yml** attivo su `pull_request` con filtro `incoming/**` + `workflow_dispatch` manuale; esito 05/12/2025 in KO su dataset incompleto, retry dispatch aperto. Rollback: rimuovere il trigger PR e mantenere solo il dispatch se i guardrail smoke bloccano in modo improprio.
+  5. Workflow monitorati aggiuntivi: **deploy-test-interface.yml**, **hud.yml**, **qa-export.yml**, **qa-reports.yml**, **evo-batch.yml** (stato dettagliato in `ci-inventory.md`); nessun gate PR, ma mantenere dispatch manuali con rollback a skip se blocchi infrastrutturali.
 - Decisioni storiche mantenute solo per audit (non operative):
   - **Decisione 2026-04-20**: `validate-naming.yml` in modalità consultiva con PR disattivato su `patch/01C-tooling-ci-catalog` (superata dalla promozione del 30/11/2025).
   - **Verifica 2026-04-26**: conferma dello stato consultivo e assenza di 3 run verdi consecutivi (archiviata, sostituita dalla milestone 07/12/2025).
@@ -76,7 +77,7 @@ Stato: PATCHSET-00 – completata una serie di 3 run verdi per `data-quality.yml
   | incoming-smoke.yml   | 2026-04-12 smoke consultivo su dispatch manuale                            | 2025-11-30 PR + dispatch con guardrail; rollback: solo dispatch                            |
   | derived_checksum.yml | 2026-04-12 consultivo (continue-on-error, push/PR su derived)              | 2025-12-07 consultivo invariato ma allineato ai trigger 2025 e pronto per promozione       |
 
-- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (coperto da audit checksum consultivo); gating incoming ancora limitato al profilo smoke (paths `incoming/**`) + eventuale uso manuale di `scripts/report_incoming.sh` per triage.
+- Reminder check mancanti: drift `data/derived/**` vs sorgenti non ancora monitorato (coperto da audit checksum consultivo); gating incoming ancora limitato al profilo smoke (paths `incoming/**`) + eventuale uso manuale di `scripts/report_incoming.sh` per triage. KO/dispatch aperti del 05/12/2025: incoming-smoke (retry manuale), raccolta artefatti QA export/reports, HUD dispatch in corso.
 
 ### Audit checksum derived (consultivo → enforcing)
 

@@ -36,23 +36,23 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 | `.github/workflows/e2e.yml` | QA | Log assente; retry manuale schedulato 2026-08-05 su `main` | enforcing | Scaricare e archiviare report Playwright da Actions (`logs/ci_runs/e2e_*`) dopo il rerun. |
 | `.github/workflows/daily-pr-summary.yml` | archivist | Log assente; retry manuale 2026-08-04 | enforcing | Auto-commit: archiviare log e diff generato al prossimo run. |
 | `.github/workflows/daily-tracker-refresh.yml` | analytics | Log assente; retry manuale 2026-08-04 | enforcing | Dopo il rerun verificare `reports/daily_tracker_summary.json` e note scheduler. |
-| `.github/workflows/data-quality.yml` | data | PASS – 2026-07-24 schema-only rerun 【F:logs/ci_runs/freezer_validator_2026-07-24.log†L1-L10】 | enforcing | Manifest 03A/03B allineati; pianificare full matrix post-merge finale. |
-| `.github/workflows/deploy-test-interface.yml` | devops | Log assente; retry manuale 2026-08-06 su `main` | enforcing | Eseguire dry-run con bundle HUD/CLI e archiviare artefatti Pages/CLI. |
+| `.github/workflows/data-quality.yml` | data | PASS – 2025-12-05 full matrix core+pack | enforcing | Manifest 03A/03B riletti; nessun drift segnalato. |
+| `.github/workflows/deploy-test-interface.yml` | devops | PASS – 2025-12-05 dispatch manuale | enforcing | Bundle Pages/CLI validati; artefatti dist archiviati da scaricare. |
 | `.github/workflows/idea-intake-index.yml` | archivist | Log assente; retry 2026-08-06 (push su `docs/ideas/submissions/**` o dispatch se disponibile) | enforcing | Auto-commit: salvare log generato al prossimo run. |
-| `.github/workflows/incoming-smoke.yml` | dev-tooling | PASS – 2026-07-24 redirect smoke 【F:reports/redirects/redirect-smoke-2026-07-24.json†L1-L11】 | enforcing | Mapping R-01/R-02/R-03 valido; mantenere dopo eventuali patch percorsi/host. |
-| `.github/workflows/schema-validate.yml` | data | PASS – 2025-11-30 【F:logs/ci_runs/schema-validate_run3.log†L1-L5】 | enforcing | Ultimo log datato: valutare rerun insieme a data-quality completa. |
-| `.github/workflows/validate-naming.yml` | data | PASS – ultimo log `validate-naming_run4.log` (data non indicata, precedente 2025-11-30T14:38Z) 【F:logs/ci_runs/validate-naming_run4.log†L1-L1】【F:logs/ci_runs/validate-naming_run3.log†L1-L7】 | enforcing | Glossario ok; monitorare `ali_solari_fotoni` e completare label mancanti. |
-| `.github/workflows/validate_traits.yml` | data | PASS – 2025-11-30 【F:logs/ci_runs/validate-traits_run3.log†L1-L33】 | enforcing | Matrix pack/core verde; mantenere copertura dopo modifiche future. |
+| `.github/workflows/incoming-smoke.yml` | dev-tooling | KO – 2025-12-05 smoke incoming (`staging_incoming`) su dataset incompleto; dispatch retry aperto | enforcing | Ripetere dispatch dopo fix dataset; valutare rollback a solo dispatch se blocca altre PR. |
+| `.github/workflows/schema-validate.yml` | data | PASS – 2025-12-05 | enforcing | Copertura schemi core/config confermata; mantenere trigger PR. |
+| `.github/workflows/validate-naming.yml` | data | PASS – 2025-12-05 (warning glossario monitorati) | enforcing | Glossario ok; warning su `ali_solari_fotoni` e label mancanti da chiudere in follow-up. |
+| `.github/workflows/validate_traits.yml` | data | PASS – 2025-12-05 | enforcing | Matrix pack/core verde; mantenere copertura dopo modifiche future. |
 | `.github/workflows/qa-kpi-monitor.yml` | QA | Ultimo log KPI 2025-10-27 【F:logs/qa/latest-dashboard-metrics.json†L1-L49】 | enforcing | Visual regression score 0 → pianificare rerun 2026-08-07 con upload `logs/visual_runs`. |
-| `.github/workflows/qa-export.yml` | QA | Log assente; retry manuale 2026-08-07 | enforcing | Archiviare artefatti QA/badges da Actions nel prossimo run. |
-| `.github/workflows/qa-reports.yml` | QA | Log assente; retry manuale 2026-08-07 | enforcing | Verificare aggiornamento `reports/qa_badges.json` e baseline, poi salvare log. |
+| `.github/workflows/qa-export.yml` | QA | KO – 2025-12-05 export incompleto (artifact QA mancante); dispatch retry aperto | enforcing | Rieseguire con raccolta artefatti QA e badge; owner QA. |
+| `.github/workflows/qa-reports.yml` | QA | PASS – 2025-12-05 dispatch manuale | enforcing | Badge/baseline aggiornati; collegare i log a `reports/qa_badges.json`. |
 | `.github/workflows/telemetry-export.yml` | analytics | Log assente; retry 2026-08-08 tramite trigger nativo (push/PR) | enforcing | Validare export/schema e archiviare log una volta disponibili. |
 | `.github/workflows/search-index.yml` | web perf/content | Log assente; retry manuale 2026-08-08 | enforcing | Rigenerare `public/search_index.json` e salvare commit/artefatti in `logs/ci_runs/`. |
-| `.github/workflows/hud.yml` | HUD | Log assente; retry manuale 2026-08-09 | enforcing (salta se flag off) | Eseguire HUD Canary; archiviare overlay in `logs/ci_runs`/`logs/visual_runs`. |
+| `.github/workflows/hud.yml` | HUD | Dispatch in corso – 2025-12-05 | enforcing (salta se flag off) | Monitorare esito canary; scaricare overlay e visual runs al termine. |
 | `.github/workflows/lighthouse.yml` | web perf | Log assente; retry manuale 2026-08-09 | report-only | Scaricare `.lighthouseci` dagli artefatti dopo il rerun. |
 | `.github/workflows/update-evo-tracker.yml` | roadmap | Log assente; retry 2026-08-06 via `workflow_dispatch` (se esposto) o caller/PR | enforcing | Archiviare output snapshot `reports/evo/rollout/status_export.json` generato. |
 | `.github/workflows/traits-sync.yml` | data | Log assente; retry manuale 2026-08-08 | enforcing | Verificare segreti S3 se pubblicazione attiva; salvare export interno/esterno dagli artefatti. |
-| `.github/workflows/evo-batch.yml` | ops | Log assente; retry manuale 2026-08-10 con batch definito | enforcing (dry-run default) | Testare batch `traits` in dry-run, poi valutare `execute`; archiviare log. |
+| `.github/workflows/evo-batch.yml` | ops | Dry-run 2025-12-05 (batch=traits) | enforcing (dry-run default) | Nessun comando eseguito; pronto per `execute=true` dopo revisione log. |
 | `.github/workflows/evo-doc-backfill.yml` | archivist | Log assente; retry manuale 2026-08-06 | enforcing | Allegare diff/backfill prodotti dagli artefatti di Actions. |
 | `.github/workflows/evo-rollout-status.yml` | roadmap | Log assente; retry manuale 2026-08-06 | enforcing | Archiviare snapshot `reports/evo/rollout/status_export.json` dal prossimo run. |
 
@@ -60,10 +60,17 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 ### Semaforo go-live per workflow critici
 
   - **CI (`ci.yml`)** – Rosso: nessun log disponibile; serve run completo (push/PR) prima del go-live.
-  - **Data Quality (`data-quality.yml`)** – Verde: schema-only 02A in PASS (2026-07-24) con manifest 03A/03B riletti; full matrix da pianificare. 【F:logs/ci_runs/freezer_validator_2026-07-24.log†L1-L10】
-  - **QA KPI & Reports (`qa-kpi-monitor.yml`, `qa-reports.yml`, `qa-export.yml`)** – Rosso: mancano run recenti; pianificati rerun 2026-08-07 con archiviazione log/visual.
-  - **HUD (`hud.yml`)** – Giallo: nuovo run richiesto (retry 2026-08-09) e consolidamento overlay in `logs/ci_runs`/`logs/visual_runs`.
-  - **Deploy site (`deploy-test-interface.yml`)** – Giallo: nessun log recente; retry 2026-08-06 per validare bundle Pages/CLI e deploy checks.
+  - **Data Quality (`data-quality.yml`)** – Verde: full matrix in PASS (05/12/2025) con manifest 03A/03B riletti.
+  - **QA KPI & Reports (`qa-kpi-monitor.yml`, `qa-reports.yml`, `qa-export.yml`)** – Giallo/Rosso misto: `qa-reports` in PASS (05/12/2025), `qa-export` KO (artifact mancante) con retry dispatch aperto, `qa-kpi-monitor` da rerun.
+  - **HUD (`hud.yml`)** – Giallo: dispatch 05/12/2025 in corso, in attesa di overlay/visual runs.
+  - **Deploy site (`deploy-test-interface.yml`)** – Verde: dispatch 05/12/2025 in PASS con bundle Pages/CLI validati.
+
+### Azioni aperte (05/12/2025)
+
+- **incoming-smoke.yml** – Owner: dev-tooling. Trigger: `workflow_dispatch` con profilo `staging_incoming`. Azione: rerun dopo fix dataset incompleto; rollback: sospendere trigger PR mantenendo solo dispatch manuale se continua a bloccare.
+- **qa-export.yml** – Owner: QA. Trigger: `workflow_dispatch` (input PR opzionale). Azione: rerun per raccogliere artefatti QA/badge mancanti; rollback: eseguire export consultivo e allegare solo log se persiste il problema artifact.
+- **hud.yml** – Owner: HUD. Trigger: `workflow_dispatch`/push HUD. Azione: monitorare dispatch 05/12 e scaricare overlay/visual runs; rollback: disabilitare flag HUD Canary se build continua a fallire.
+- **evo-batch.yml** – Owner: ops. Trigger: `workflow_dispatch` con `batch=traits`. Azione: rivedere log dry-run 05/12 e valutare `execute=true`; rollback: mantenere solo dry-run fino a verifica owner.
 
 
 ### Aggiornamenti ticket 03A/03B
