@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Harvest the latest CI/QA workflow run artifacts into the local logs/ directories.
 # Requirements:
-# - GitHub CLI (`gh`) authenticated with a PAT that has `workflow` and `read:org` scopes.
+# - GitHub CLI (`gh`) authenticated with a PAT that has `workflow`, `read:org`, and repo admin permissions.
 # - Network access to GitHub.
 #
 # Usage:
@@ -35,6 +35,15 @@ USAGE
 
 command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required." >&2; exit 1; }
 
+pick_token() {
+  local token="${CI_LOG_PAT:-${LOG_HARVEST_PAT:-${GH_TOKEN:-${GITHUB_TOKEN:-}}}}"
+  if [[ -z "$token" ]]; then
+    echo "Error: set CI_LOG_PAT (preferred), LOG_HARVEST_PAT, GH_TOKEN, or GITHUB_TOKEN with a PAT that includes workflow/read:org and repo admin access." >&2
+    exit 1
+  fi
+  export GH_TOKEN="$token"
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --config)
@@ -60,12 +69,75 @@ DEFAULT_WORKFLOWS=(
   "search-index.yml|logs/ci_runs|auto|"
   "telemetry-export.yml|logs/ci_runs|auto|"
   "qa-kpi-monitor.yml|logs/ci_runs|manual|"
+  "qa-kpi-monitor.yml|logs/visual_runs|manual|"
   "qa-export.yml|logs/ci_runs|manual|"
   "qa-reports.yml|logs/ci_runs|manual|"
   "hud.yml|logs/ci_runs|manual|"
+  "hud.yml|logs/visual_runs|manual|"
   "incoming-smoke.yml|logs/incoming_smoke|manual|-f path=<dataset> -f pack=<pack>"
   "evo-batch.yml|logs/ci_runs|manual|-f batch=traits -f execute=false"
 )
+
+workflow_basename() {
+  local workflow_file="$1"
+  local base
+  base=$(basename "$workflow_file")
+  base="${base%.*}"
+  echo "$base"
+}
+
+download_html_page() {
+  local run_id="$1"
+  local workflow_base="$2"
+  local dest="$3"
+  local html_url
+  html_url=$(gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}" --jq '.html_url')
+  if [[ -z "$html_url" ]]; then
+    echo "[warn] Unable to resolve HTML URL for run ${run_id}" >&2
+    return
+  fi
+  local html_out="${dest}/${workflow_base}_run${run_id}.html"
+  echo "[save] HTML page -> ${html_out}"
+  curl -sSL -H "Authorization: token ${GH_TOKEN}" "$html_url" -o "$html_out"
+}
+
+download_run_logs_zip() {
+  local run_id="$1"
+  local workflow_base="$2"
+  local dest="$3"
+  local logs_zip="${dest}/${workflow_base}_run${run_id}_logs.zip"
+  echo "[save] Logs archive -> ${logs_zip}"
+  gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}/logs" --output "$logs_zip"
+}
+
+download_artifacts() {
+  local run_id="$1"
+  local workflow_base="$2"
+  local dest="$3"
+
+  local run_dir="${dest}/${workflow_base}_run${run_id}"
+  mkdir -p "$run_dir"
+
+  echo "[download] artifacts -> ${run_dir}"
+  if ! gh run download "$run_id" --dir "$run_dir"; then
+    echo "[warn] No artifacts found for run ${run_id} (skipping archive download)" >&2
+    return
+  fi
+
+  local archive_tmp="${dest}/run.zip"
+  local archive_out="${dest}/${workflow_base}_run${run_id}.zip"
+  echo "[archive] artifacts zip -> ${archive_out}"
+  rm -f "$archive_tmp"
+  if gh run download "$run_id" --archive --dir "$dest"; then
+    if [[ -f "$archive_tmp" ]]; then
+      mv -f "$archive_tmp" "$archive_out"
+    else
+      echo "[warn] Expected archive ${archive_tmp} not found after download" >&2
+    fi
+  else
+    echo "[warn] Unable to download archive for run ${run_id}" >&2
+  fi
+}
 
 read_workflows() {
   local workflows=()
@@ -151,6 +223,11 @@ process_workflow() {
   local run_id status conclusion
   read -r run_id status conclusion <<<"$run_info"
 
+  local workflow_base
+  workflow_base=$(workflow_basename "$workflow")
+
+  mkdir -p "$dest"
+
   if [[ "$status" != "completed" ]]; then
     echo "[wait] Latest run $run_id for $workflow is $status; skipping download."
     return
@@ -158,11 +235,14 @@ process_workflow() {
 
   echo "[download] $workflow run $run_id -> $dest (conclusion: ${conclusion:-unknown})"
   if [[ "$DRY_RUN" -eq 0 ]]; then
-    gh run download "$run_id" --dir "$dest"
+    download_html_page "$run_id" "$workflow_base" "$dest"
+    download_run_logs_zip "$run_id" "$workflow_base" "$dest"
+    download_artifacts "$run_id" "$workflow_base" "$dest"
   fi
 }
 
 main() {
+  pick_token
   while IFS= read -r entry; do
     process_workflow "$entry"
   done < <(read_workflows)

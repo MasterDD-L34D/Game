@@ -69,7 +69,7 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 
 ### Azioni aperte (aggiornato)
 
-- **Raccolta automatica log** – Configurare/abilitare lo script `gh run list --workflow <file> --limit 1 --json databaseId,status` → `gh run download <id> --dir <dest>` usando un PAT con scope `workflow/read:org` **e** permessi repo/admin per sbloccare il download zip dei log (attualmente solo le pagine HTML pubbliche sono archiviabili). Applicare a tutti i workflow con trigger push/PR/cron.
+- **Raccolta automatica log** – Configurare/abilitare lo script `gh run list --workflow <file> --limit 1 --json databaseId,status` → `gh run download <id> --dir <dest>` usando un PAT con scope `workflow/read:org` **e** permessi repo/admin (esposto come `CI_LOG_PAT`/`LOG_HARVEST_PAT` → `GH_TOKEN`) per sbloccare il download zip dei log oltre alle pagine HTML. Applicare a tutti i workflow con trigger push/PR/cron.
 - **ci.yml** – Owner: dev-tooling. Ultimo run4960 (06/12) in PASS con log HTML salvato; mantenere monitoraggio e abilitare PAT con permessi adeguati per scaricare i pacchetti log zip in automatico.
 - **e2e.yml** – Owner: QA. Ultimo run38 (06/12) in PASS con log HTML salvato; mantenere la raccolta automatica e abilitare PAT con permessi repo per il download zip completo.
 - **data-quality.yml** – Owner: data. Ultimo run171 (03/12) in FAILURE; necessario fix + rerun e download log (zip bloccato senza permessi admin, salvata solo pagina HTML).
