@@ -107,7 +107,19 @@ download_run_logs_zip() {
   local dest="$3"
   local logs_zip="${dest}/${workflow_base}_run${run_id}_logs.zip"
   echo "[save] Logs archive -> ${logs_zip}"
-  gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}/logs" --output "$logs_zip"
+  if [[ -z "${GH_API_SUPPORTS_OUTPUT:-}" ]]; then
+    if gh api --help 2>/dev/null | grep -q -- '--output'; then
+      GH_API_SUPPORTS_OUTPUT=1
+    else
+      GH_API_SUPPORTS_OUTPUT=0
+    fi
+  fi
+
+  if [[ "$GH_API_SUPPORTS_OUTPUT" -eq 1 ]]; then
+    gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}/logs" --header "Accept: application/zip" --output "$logs_zip"
+  else
+    gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}/logs" --header "Accept: application/zip" >"$logs_zip"
+  fi
 }
 
 download_artifacts() {
