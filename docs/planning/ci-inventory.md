@@ -39,20 +39,20 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 | `.github/workflows/data-quality.yml` | data | **FAIL – 2025-11-30 (run3)** – [log](../../logs/ci_runs/data-quality_run3.log) | enforcing | Blocchi: `schema_version`/`trait_glossary` mancanti e `data/core/species.yaml` non conforme. |
 | `.github/workflows/deploy-test-interface.yml` | devops | Log assente (`logs/ci_runs` vuoto) | enforcing | Richiede rerun con archiviazione artefatti dist/CLI. |
 | `.github/workflows/idea-intake-index.yml` | archivist | Log assente (`logs/ci_runs` vuoto) | enforcing | Auto-commit: salvare log generato al prossimo run. |
-| `.github/workflows/incoming-smoke.yml` | dev-tooling | Log assente (`logs/ci_runs` vuoto) | enforcing | Ripetere dispatch su dataset completo e archiviare log smoke in `logs/incoming_smoke/`. |
+| `.github/workflows/incoming-smoke.yml` | dev-tooling | Log assente (`logs/ci_runs` vuoto) | enforcing | Dataset fix non verificato: dispatch non eseguito (gh/Actions non disponibili in locale). Pianificare retry manuale con log in `logs/incoming_smoke/` o valutare rollback a solo `workflow_dispatch` PR se persiste KO smoke. |
 | `.github/workflows/schema-validate.yml` | data | **PASS – 2025-11-30 (run3)** – [log](../../logs/ci_runs/schema-validate_run3.log) | enforcing | Schemi validati, nessun blocco aperto. |
 | `.github/workflows/validate-naming.yml` | data | **PASS – 2025-12-05 (run4)** – [log](../../logs/ci_runs/validate-naming_run4.log) | enforcing | Ultimo log OK; warning glossario dei run precedenti risolti. |
 | `.github/workflows/validate_traits.yml` | data | **PASS – 2025-11-30 (run3)** – [log](../../logs/ci_runs/validate-traits_run3.log) | enforcing | Matrix pack/core verde; mantenere copertura dopo modifiche future. |
 | `.github/workflows/qa-kpi-monitor.yml` | QA | KPI raccolti il 2025-10-27 – [log](../../logs/qa/latest-dashboard-metrics.json) | enforcing | Metriche datate e nessun upload `logs/visual_runs`: serve nuovo run con visual regression. |
-| `.github/workflows/qa-export.yml` | QA | Log assente (`logs/ci_runs` vuoto) | enforcing | Rieseguire per produrre badge/artefatti QA e archiviare il log. |
+| `.github/workflows/qa-export.yml` | QA | Log assente (`logs/ci_runs` vuoto) | enforcing | Dispatch non eseguito (gh non raggiungibile in locale): ripetere export manuale con raccolta artefatti/badge QA in `logs/ci_runs`, oppure documentare export consultivo se il run fallisce ancora. |
 | `.github/workflows/qa-reports.yml` | QA | Log assente (`logs/ci_runs` vuoto) | enforcing | Necessario rerun per aggiornare badge/baseline e salvare log. |
 | `.github/workflows/telemetry-export.yml` | analytics | Log assente (`logs/ci_runs` vuoto) | enforcing | Validare export/schema e archiviare log una volta disponibili. |
 | `.github/workflows/search-index.yml` | web perf/content | Log assente (`logs/ci_runs` vuoto) | enforcing | Rigenerare `public/search_index.json` e salvare commit/artefatti in `logs/ci_runs/`. |
-| `.github/workflows/hud.yml` | HUD | Log assente (`logs/ci_runs` vuoto) | enforcing (salta se flag off) | Servono overlay/build HUD e, se presenti, log visual in `logs/visual_runs/`. |
+| `.github/workflows/hud.yml` | HUD | Log assente (`logs/ci_runs` vuoto) | enforcing (salta se flag off) | Dispatch 05/12 non reperito e nessun overlay/visual scaricabile in locale; rerun manuale richiesto con download overlay e log visual in `logs/ci_runs`/`logs/visual_runs/`. |
 | `.github/workflows/lighthouse.yml` | web perf | Log assente (`logs/ci_runs` vuoto) | report-only | Scaricare `.lighthouseci` dagli artefatti dopo il rerun. |
 | `.github/workflows/update-evo-tracker.yml` | roadmap | Log assente (`logs/ci_runs` vuoto) | enforcing | Archiviare output snapshot `reports/evo/rollout/status_export.json` generato. |
 | `.github/workflows/traits-sync.yml` | data | Log assente (`logs/ci_runs` vuoto) | enforcing | Verificare segreti S3 se pubblicazione attiva; salvare export interno/esterno dagli artefatti. |
-| `.github/workflows/evo-batch.yml` | ops | Log assente (`logs/ci_runs` vuoto) | enforcing (dry-run default) | Servono log del batch (dry-run o execute) per confermare stato. |
+| `.github/workflows/evo-batch.yml` | ops | Log assente (`logs/ci_runs` vuoto) | enforcing (dry-run default) | Nessun log dry-run `batch=traits` disponibile; schedulato nuovo dry-run manuale (owner dev-tooling) con log attesi in `logs/ci_runs` prima di valutare `execute=true`. |
 | `.github/workflows/evo-doc-backfill.yml` | archivist | Log assente (`logs/ci_runs` vuoto) | enforcing | Allegare diff/backfill prodotti dagli artefatti di Actions. |
 | `.github/workflows/evo-rollout-status.yml` | roadmap | Log assente (`logs/ci_runs` vuoto) | enforcing | Archiviare snapshot `reports/evo/rollout/status_export.json` dal prossimo run. |
 
@@ -70,8 +70,10 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 - **data-quality.yml** – Owner: data. Correggere gli errori di schema (`schema_version`/`trait_glossary` mancanti, `data/core/species.yaml` non conforme) e rerun archiviando il log.
 - **ci.yml** – Owner: dev-tooling. Trigger push/PR su branch di riferimento e salvare log/artefatti in `logs/ci_runs/`.
 - **e2e.yml** – Owner: QA. Dispatch manuale su `main` con download del report Playwright in `logs/ci_runs/e2e_*`.
-- **QA suite** – Owner: QA. Rerun `qa-export.yml` e `qa-reports.yml` con upload artefatti, e aggiornare `qa-kpi-monitor.yml` includendo `logs/visual_runs`.
-- **hud.yml** – Owner: HUD. Dispatch con build overlay e, se prodotti, log visual in `logs/visual_runs/`.
+- **QA suite** – Owner: QA. Rerun `qa-export.yml` e `qa-reports.yml` con upload artefatti, e aggiornare `qa-kpi-monitor.yml` includendo `logs/visual_runs`; `qa-export.yml` non eseguito in locale (gh non raggiungibile), vedi `logs/agent_activity.md`.
+- **hud.yml** – Owner: HUD. Dispatch con build overlay e, se prodotti, log visual in `logs/visual_runs/`; run del 05/12 non reperibile/artefatti mancanti in locale (vedi `logs/agent_activity.md`).
+- **incoming-smoke.yml** – Owner: dev-tooling. Dispatch manuale da ripetere su dataset completo (smoke non eseguito in locale, gh non disponibile); valutare rollback a solo `workflow_dispatch` PR se i guardrail restano bloccanti.
+- **evo-batch.yml** – Owner: ops/dev-tooling. Nessun log dry-run `batch=traits`: schedulato nuovo dry-run manuale con log da salvare in `logs/ci_runs` prima di decidere l'esecuzione con `execute=true`.
 
 
 ### Aggiornamenti ticket 03A/03B
