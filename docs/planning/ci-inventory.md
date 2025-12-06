@@ -32,17 +32,17 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 
 | Workflow | Owner | Ultimo run (data/esito/log) | Modalità | Blocchi noti / note (log) |
 | --- | --- | --- | --- | --- |
-| `.github/workflows/ci.yml` | dev-tooling | In attesa del prossimo run automatico (push/PR) – log da scaricare in `logs/ci_runs/` | enforcing | Non espone `workflow_dispatch`: usa push/PR; lo script di raccolta log deve prendere l’ultimo run disponibile. |
-| `.github/workflows/e2e.yml` | QA | Schedulato/dispatch: archiviare il prossimo report Playwright in `logs/ci_runs/e2e_*` | enforcing | Lo script può scaricare l’ultimo run schedulato; resta opzionale il dispatch QA se serve copertura immediata. |
+| `.github/workflows/ci.yml` | dev-tooling | **PASS – 2025-12-06 (run4960)** – [log](../../logs/ci_runs/ci_run4960.html) | enforcing | Log HTML salvato (download zip API bloccato 403 senza permessi admin). Non espone `workflow_dispatch`: usa push/PR; lo script di raccolta log deve prendere l’ultimo run disponibile. |
+| `.github/workflows/e2e.yml` | QA | **PASS – 2025-12-06 (run38)** – [log](../../logs/ci_runs/e2e_run38.html) | enforcing | Log HTML salvato (download zip API bloccato 403 senza permessi admin). Lo script può scaricare l’ultimo run schedulato; resta opzionale il dispatch QA se serve copertura immediata. |
 | `.github/workflows/daily-pr-summary.yml` | archivist | Prossimo auto-commit da scaricare in `logs/ci_runs/` | enforcing | Aspetta cron/trigger manuale; raccogli il log via script. |
 | `.github/workflows/daily-tracker-refresh.yml` | analytics | Prossimo export `reports/daily_tracker_summary.json` da salvare | enforcing | Usare raccolta automatica dopo il cron; verificare scheduler e output JSON. |
-| `.github/workflows/data-quality.yml` | data | **PASS – 2025-11-30 (run3)** – [log](../../logs/ci_runs/data-quality_run3.log) | enforcing | Ultimo run verde archiviato; nessun rerun dopo il 30/11/2025. |
+| `.github/workflows/data-quality.yml` | data | **FAILURE – 2025-12-03 (run171)** – [log](../../logs/ci_runs/data-quality_run171.html) | enforcing | Ultimo run KO (zip log non scaricabile senza permessi admin); necessario rerun per ripristinare lo stato verde e riallineare i report. |
 | `.github/workflows/deploy-test-interface.yml` | devops | In attesa del prossimo run (push/PR/manuale) – archiviare dist/CLI | enforcing | Nessun log recente dopo i run 2025: pianificare un dispatch/PR e scaricare dist/CLI in `logs/ci_runs/`. |
 | `.github/workflows/idea-intake-index.yml` | archivist | Prossimo auto-commit da salvare | enforcing | In attesa del cron/manuale; raccogliere log in automatico. |
 | `.github/workflows/incoming-smoke.yml` | dev-tooling | Retry **NON ESEGUITO – 2026-07-06** (GH offline) – [log](../../logs/agent_activity.md) | enforcing | Smoke non verificato: ultimo tentativo di dispatch fallito per assenza accesso GH; serve nuovo dispatch con log in `logs/incoming_smoke/`. |
-| `.github/workflows/schema-validate.yml` | data | **PASS – 2025-11-30 (run3)** – [log](../../logs/ci_runs/schema-validate_run3.log) | enforcing | Schemi validati, nessun blocco aperto. |
-| `.github/workflows/validate-naming.yml` | data | **PASS – 2025-12-06 (run4)** – [log](../../logs/ci_runs/validate-naming_run4.log) | enforcing | Ultimo log OK; nessun warning aperto. |
-| `.github/workflows/validate_traits.yml` | data | **PASS – 2025-11-30 (run3)** – [log](../../logs/ci_runs/validate-traits_run3.log) | enforcing | Matrix pack/core verde; mantenere copertura dopo modifiche future. |
+| `.github/workflows/schema-validate.yml` | data | **FAILURE – 2025-12-06 (run1949)** – [log](../../logs/ci_runs/schema-validate_run1949.html) | enforcing | Schemi KO nell’ultimo run; log HTML salvato (zip non disponibile senza permessi admin). Richiesto rerun dopo fix. |
+| `.github/workflows/validate-naming.yml` | data | **PASS – 2025-12-05 (run110)** – [log](../../logs/ci_runs/validate-naming_run110.html) | enforcing | Ultimo log OK (HTML salvato; zip non scaricabile senza permessi admin). Nessun warning aperto. |
+| `.github/workflows/validate_traits.yml` | data | **FAILURE – 2025-12-03 (run335)** – [log](../../logs/ci_runs/validate-traits_run335.html) | enforcing | Matrix pack/core KO nell’ultimo run; log HTML salvato (zip non disponibile senza permessi admin). Necessario rerun dopo fix. |
 | `.github/workflows/qa-kpi-monitor.yml` | QA | KPI raccolti il 2025-10-27 – [log](../../logs/qa/latest-dashboard-metrics.json) | enforcing | Nessun upload `logs/visual_runs`: serve rerun con visual regression. |
 | `.github/workflows/qa-export.yml` | QA | Retry **NON ESEGUITO – 2026-07-06** (GH offline) – [log](../../logs/agent_activity.md) | enforcing | Dispatch manuale programmato appena GH torna disponibile; archiviare artefatti/badge QA in `logs/ci_runs/`. |
 | `.github/workflows/qa-reports.yml` | QA | Prossimo run manuale/schedulato da archiviare | enforcing | Rerun richiesto insieme a qa-export; usare raccolta automatica dopo il run e loggare in `logs/ci_runs/`. |
@@ -59,18 +59,21 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 
 ### Semaforo go-live per workflow critici
 
-  - **CI (`ci.yml`)** – Rosso: attendere/forzare un run (push/PR) e scaricare l’artefatto con lo script automatico prima del go-live.
-  - **Data Quality (`data-quality.yml`)** – Verde: run3 30/11/2025 in PASS (log archiviato).
-  - **E2E (`e2e.yml`)** – Rosso: attendere il prossimo schedulato o dispatch QA e archiviare il report Playwright via raccolta automatica.
+  - **CI (`ci.yml`)** – Verde: run4960 (06/12/2025) in PASS con log HTML archiviato (zip API bloccato 403 senza permessi admin).
+  - **Data Quality (`data-quality.yml`)** – Rosso: run171 (03/12/2025) in FAILURE; serve rerun e raccolta log completa.
+  - **E2E (`e2e.yml`)** – Verde: run38 (06/12/2025) in PASS con log HTML archiviato (zip API bloccato 403 senza permessi admin).
+  - **Schema/Validate Traits** – Rosso: schema-validate run1949 (06/12/2025) e validate_traits run335 (03/12/2025) in FAILURE; pianificare fix e rerun con log completi.
   - **QA suite (`qa-kpi-monitor.yml`, `qa-reports.yml`, `qa-export.yml`)** – Rosso: KPI datati (27/10/2025) e retry 2026-07-06 non eseguito per GH offline ([log](../../logs/agent_activity.md)); pianificare rerun automatico/manuale con upload log/visual.
   - **HUD (`hud.yml`)** – Giallo: nessun log/visual archiviato e retry necessario perché l’ultimo run (05/12) non è reperibile ([log](../../logs/agent_activity.md)); dispatch richiesto se il flag è attivo, altrimenti l’automazione salta.
   - **Deploy site (`deploy-test-interface.yml`)** – Giallo: nessun log recente dopo i run 2025; attendere un run (push/PR/manuale) e archiviare dist/CLI prima del go-live.
 
 ### Azioni aperte (aggiornato)
 
-- **Raccolta automatica log** – Configurare/abilitare lo script `gh run list --workflow <file> --limit 1 --json databaseId,status` → `gh run download <id> --dir <dest>` con PAT `workflow/read:org`, puntando `logs/ci_runs`, `logs/visual_runs`, `logs/incoming_smoke`. Applicare a tutti i workflow con trigger push/PR/cron.
-- **ci.yml** – Owner: dev-tooling. Attendere il prossimo push/PR e assicurare che la raccolta automatica scarichi il log in `logs/ci_runs/` per sbloccare il gate base.
-- **e2e.yml** – Owner: QA. Usare lo script per scaricare il prossimo run schedulato; se serve copertura immediata, dispatch manuale su `main` e archiviazione in `logs/ci_runs/e2e_*`.
+- **Raccolta automatica log** – Configurare/abilitare lo script `gh run list --workflow <file> --limit 1 --json databaseId,status` → `gh run download <id> --dir <dest>` usando un PAT con scope `workflow/read:org` **e** permessi repo/admin per sbloccare il download zip dei log (attualmente solo le pagine HTML pubbliche sono archiviabili). Applicare a tutti i workflow con trigger push/PR/cron.
+- **ci.yml** – Owner: dev-tooling. Ultimo run4960 (06/12) in PASS con log HTML salvato; mantenere monitoraggio e abilitare PAT con permessi adeguati per scaricare i pacchetti log zip in automatico.
+- **e2e.yml** – Owner: QA. Ultimo run38 (06/12) in PASS con log HTML salvato; mantenere la raccolta automatica e abilitare PAT con permessi repo per il download zip completo.
+- **data-quality.yml** – Owner: data. Ultimo run171 (03/12) in FAILURE; necessario fix + rerun e download log (zip bloccato senza permessi admin, salvata solo pagina HTML).
+- **schema-validate.yml** / **validate_traits.yml** – Owner: data. Ultimi run (1949/335) in FAILURE; pianificare correzioni e rerun con PAT abilitato per ottenere i log completi e aggiornare l’inventario.
 - **QA suite** – Owner: QA. Retry 2026-07-06 non eseguito per GH offline ([log](../../logs/agent_activity.md)); ripianificare rerun (manuale o da script) di `qa-kpi-monitor.yml` con `visual_regression` abilitato e output in `logs/visual_runs`, poi `qa-export.yml` e `qa-reports.yml` con log in `logs/ci_runs/`.
 - **deploy-test-interface.yml** – Owner: devops. Nessun log recente: assicurare un run (push/PR/manuale) e che lo script scarichi dist/CLI in `logs/ci_runs/` prima del go-live.
 - **hud.yml** – Owner: HUD. Nessun artefatto reperibile (retry richiesto, vedi [log](../../logs/agent_activity.md)): dispatch se il flag HUD è attivo e archivia overlay/log in `logs/ci_runs` e `logs/visual_runs`; lo script deve gestire il caso skip quando il flag è off.
