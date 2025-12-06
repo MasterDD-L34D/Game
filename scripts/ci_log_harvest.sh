@@ -124,15 +124,39 @@ download_artifacts() {
     return
   fi
 
-  local archive_tmp="${dest}/run.zip"
   local archive_out="${dest}/${workflow_base}_run${run_id}.zip"
   echo "[archive] artifacts zip -> ${archive_out}"
-  rm -f "$archive_tmp"
+  shopt -s nullglob
+  local -a existing_zips=("${dest}"/*.zip)
+  shopt -u nullglob
   if gh run download "$run_id" --archive --dir "$dest"; then
-    if [[ -f "$archive_tmp" ]]; then
+    shopt -s nullglob
+    local -a new_zips=("${dest}"/*.zip)
+    shopt -u nullglob
+
+    local archive_tmp=""
+    for zip_path in "${new_zips[@]}"; do
+      local already_present=0
+      for existing_zip in "${existing_zips[@]}"; do
+        if [[ "$zip_path" == "$existing_zip" ]]; then
+          already_present=1
+          break
+        fi
+      done
+      if [[ $already_present -eq 0 ]]; then
+        archive_tmp="$zip_path"
+        break
+      fi
+    done
+
+    if [[ -z "$archive_tmp" && -f "${dest}/artifacts.zip" ]]; then
+      archive_tmp="${dest}/artifacts.zip"
+    fi
+
+    if [[ -n "$archive_tmp" ]]; then
       mv -f "$archive_tmp" "$archive_out"
     else
-      echo "[warn] Expected archive ${archive_tmp} not found after download" >&2
+      echo "[warn] Unable to locate downloaded archive in ${dest} (expected *.zip)" >&2
     fi
   else
     echo "[warn] Unable to download archive for run ${run_id}" >&2
