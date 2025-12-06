@@ -27,8 +27,11 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 - **Run Evo Batch (`.github/workflows/evo-batch.yml`)** – manuale con input `batch`, `execute`, `ignore_errors`. Usa `tools/automation/evo_batch_runner.py` per pianificare/eseguire batch; dry-run di default. Non report-only (può eseguire comandi reali se `execute=true`).
 - **Evo documentation archive sync (`.github/workflows/evo-doc-backfill.yml`)** – schedulato/manuale. Script `scripts/evo_tactics_metadata_diff.py` produce diff/anchors/backfill, `ops/notifier.py` segnala gap e crea issue/alert. Artefatti: diff JSON/MD. Non report-only.
 - **Evo rollout status sync (`.github/workflows/evo-rollout-status.yml`)** – settimanale/manuale. `tools/roadmap/update_status.py` genera snapshot roadmap e carica `reports/evo/rollout/status_export.json` + md; mostra diff. Non report-only.
+- **Log Harvester (`.github/workflows/log-harvester.yml`)** – schedulato (giornaliero) + `workflow_dispatch`. Usa un token con permessi `actions:read` e `contents:write` per scaricare gli ultimi log/artefatti dei workflow e salvarli in `logs/ci_runs/`, `logs/visual_runs/` e `logs/incoming_smoke/`; mantiene l’inventario aggiornato. Non report-only.
 
 ### Stato run, owner e blocchi
+
+_Nota_: quando il **Log Harvester** è attivo, l’aggiornamento degli esiti e dei log avviene automaticamente dai pacchetti scaricati. Per i workflow senza `workflow_dispatch` (es. `ci.yml`) l’harvester attende il prossimo push/PR; per i workflow manuali con input richiede un job esterno che lanci il dispatch con i parametri prima di scaricare i log.
 
 | Workflow | Owner | Ultimo run (data/esito/log) | Modalità | Blocchi noti / note (log) |
 | --- | --- | --- | --- | --- |
@@ -59,6 +62,8 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 
 ### Semaforo go-live per workflow critici
 
+_Nota_: con il **Log Harvester** abilitato, gli stati del semaforo si aggiornano dai log scaricati automaticamente; i workflow privi di `workflow_dispatch` restano in attesa di push/PR, mentre quelli manuali con input necessitano di un job esterno che effettui il dispatch prima del download.
+
   - **CI (`ci.yml`)** – Verde: run4960 (06/12/2025) in PASS con log HTML archiviato (zip API bloccato 403 senza permessi admin).
   - **Data Quality (`data-quality.yml`)** – Rosso: run171 (03/12/2025) in FAILURE; serve rerun e raccolta log completa.
   - **E2E (`e2e.yml`)** – Verde: run38 (06/12/2025) in PASS con log HTML archiviato (zip API bloccato 403 senza permessi admin).
@@ -79,6 +84,7 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 - **hud.yml** – Owner: HUD. Nessun artefatto reperibile (retry richiesto, vedi [log](../../logs/agent_activity.md)): dispatch se il flag HUD è attivo e archivia overlay/log in `logs/ci_runs` e `logs/visual_runs`; lo script deve gestire il caso skip quando il flag è off.
 - **incoming-smoke.yml** – Owner: dev-tooling. Retry 2026-07-06 non eseguito per GH offline ([log](../../logs/agent_activity.md)); lanciare con input `path`/`pack` e archiviare in `logs/incoming_smoke/` o configurare un job esterno che invochi `gh workflow run` con i parametri.
 - **evo-batch.yml** – Owner: ops/dev-tooling. Dry-run `batch=traits` pianificato il 2026-07-06 (nessun log, vedi [log](../../logs/agent_activity.md)): eseguire con `execute=false` via script/dispatch e archiviare in `logs/ci_runs` prima di valutare `execute=true`.
+- **Log harvester** – Garantire manutenzione del workflow `log-harvester.yml` (frequenza giornaliera, dispatch manuale di backup) e revisione periodica dei permessi del token (almeno `actions:read` + `contents:write`).
 
 
 ### Aggiornamenti ticket 03A/03B
