@@ -8,6 +8,18 @@ Questo documento centralizza i comandi per scaricare i log/artefatti dei workflo
 - Accesso di rete a GitHub Actions.
 - Permessi di scrittura locali nelle cartelle di destinazione (`logs/ci_runs`, `logs/visual_runs`, `logs/incoming_smoke`).
 
+### Installazione rapida
+
+```bash
+# macOS (Homebrew)
+brew install gh
+
+# Debian/Ubuntu
+sudo apt update && sudo apt install gh
+```
+
+Autenticati con un PAT che includa gli scope `workflow` e `read:org`, autorizzato via SSO dove richiesto; consulta `docs/workflows/gh-cli-manual-dispatch.md` per i passaggi.
+
 ## Workflow coperti e destinazioni standard
 
 | Workflow | Trigger principale | Modalità | Destinazione download | Note/Inputs |
