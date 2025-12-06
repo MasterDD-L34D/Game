@@ -67,12 +67,13 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 
 ### Azioni aperte (aggiornato)
 
-- **data-quality.yml** – Owner: data. Correggere gli errori di schema (`schema_version`/`trait_glossary` mancanti, `data/core/species.yaml` non conforme) e rerun archiviando il log.
+- **data-quality.yml** – Owner: data. Correggere gli errori di schema (`schema_version`/`trait_glossary` mancanti, `data/core/species.yaml` non conforme) dal run3 30/11/2025 e rerun archiviando il log; rollback consultivo se i blocchi persistono (ripristino `continue-on-error` + trigger push/dispatch).
 - **ci.yml** – Owner: dev-tooling. Trigger push/PR su branch di riferimento e salvare log/artefatti in `logs/ci_runs/`.
 - **e2e.yml** – Owner: QA. Dispatch manuale su `main` con download del report Playwright in `logs/ci_runs/e2e_*`.
 - **QA suite** – Owner: QA. Rerun `qa-export.yml` e `qa-reports.yml` con upload artefatti, e aggiornare `qa-kpi-monitor.yml` includendo `logs/visual_runs`; `qa-export.yml` non eseguito in locale (gh non raggiungibile), vedi `logs/agent_activity.md`.
-- **hud.yml** – Owner: HUD. Dispatch con build overlay e, se prodotti, log visual in `logs/visual_runs/`; run del 05/12 non reperibile/artefatti mancanti in locale (vedi `logs/agent_activity.md`).
-- **incoming-smoke.yml** – Owner: dev-tooling. Dispatch manuale da ripetere su dataset completo (smoke non eseguito in locale, gh non disponibile); valutare rollback a solo `workflow_dispatch` PR se i guardrail restano bloccanti.
+- **hud.yml** – Owner: HUD. Dispatch con build overlay e, se prodotti, log visual in `logs/visual_runs/`; run del 05/12 non reperibile/artefatti mancanti in locale (vedi `logs/agent_activity.md`); possibile rollback consultivo a skip se i blocchi infrastrutturali restano.
+- **incoming-smoke.yml** – Owner: dev-tooling. Dispatch manuale da ripetere su dataset completo (smoke non eseguito in locale, gh non disponibile); rollback consultivo previsto: togliere il trigger PR mantenendo solo `workflow_dispatch` se i guardrail smoke restano bloccanti.
+- **validate-naming.yml** – Owner: data. Ultimo log PASS run4 06/12/2025; mantenere gate PR attivo, ma in caso di falsi positivi post-05/12/2025 usare rollback consultivo (push/dispatch + `continue-on-error`).
 - **evo-batch.yml** – Owner: ops/dev-tooling. Nessun log dry-run `batch=traits`: schedulato nuovo dry-run manuale con log da salvare in `logs/ci_runs` prima di decidere l'esecuzione con `execute=true`.
 
 
