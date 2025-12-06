@@ -27,7 +27,7 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 - **Run Evo Batch (`.github/workflows/evo-batch.yml`)** – manuale con input `batch`, `execute`, `ignore_errors`. Usa `tools/automation/evo_batch_runner.py` per pianificare/eseguire batch; dry-run di default. Non report-only (può eseguire comandi reali se `execute=true`).
 - **Evo documentation archive sync (`.github/workflows/evo-doc-backfill.yml`)** – schedulato/manuale. Script `scripts/evo_tactics_metadata_diff.py` produce diff/anchors/backfill, `ops/notifier.py` segnala gap e crea issue/alert. Artefatti: diff JSON/MD. Non report-only.
 - **Evo rollout status sync (`.github/workflows/evo-rollout-status.yml`)** – settimanale/manuale. `tools/roadmap/update_status.py` genera snapshot roadmap e carica `reports/evo/rollout/status_export.json` + md; mostra diff. Non report-only.
-- **Log Harvester (`.github/workflows/log-harvester.yml`)** – schedulato (giornaliero) + `workflow_dispatch`. Usa un token con permessi `actions:read` e `contents:write` per scaricare gli ultimi log/artefatti dei workflow e salvarli in `logs/ci_runs/`, `logs/visual_runs/` e `logs/incoming_smoke/`; mantiene l’inventario aggiornato. Non report-only.
+- **Log Harvester (`.github/workflows/log-harvester.yml`)** – schedulato (giornaliero) + `workflow_dispatch`. Usa un token con permessi `actions:read` e `contents:write` per scaricare gli ultimi log/artefatti dei workflow e salvarli in `logs/ci_runs/`, `logs/visual_runs/` e `logs/incoming_smoke/`; mantiene l’inventario aggiornato. Pubblica inoltre un artifact web-ready `logs-harvest-<YYYYMMDD>.zip` (retention 14 giorni) contenente l’intera cartella `logs/` dell’estrazione corrente. Non report-only.
 
 ### Stato run, owner e blocchi
 
