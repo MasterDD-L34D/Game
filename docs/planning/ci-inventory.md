@@ -65,12 +65,12 @@ _Nota_: quando il **Log Harvester** è attivo, l’aggiornamento degli esiti e d
 _Nota_: con il **Log Harvester** abilitato, gli stati del semaforo si aggiornano dai log scaricati automaticamente; i workflow privi di `workflow_dispatch` restano in attesa di push/PR, mentre quelli manuali con input necessitano di un job esterno che effettui il dispatch prima del download.
 
   - **CI (`ci.yml`)** – Verde: run4960 (06/12/2025) in PASS con log HTML archiviato (zip API bloccato 403 senza permessi admin).
-  - **Data Quality (`data-quality.yml`)** – Rosso: run171 (03/12/2025) in FAILURE; serve rerun e raccolta log completa.
+  - **Data Quality (`data-quality.yml`)** – Rosso: run171 (03/12/2025) in FAILURE; serve rerun e raccolta log completa (remediation: dispatch `gh workflow run data-quality.yml -b main` dopo fix dati/script, archiviare log in `logs/ci_runs/`).
   - **E2E (`e2e.yml`)** – Verde: run38 (06/12/2025) in PASS con log HTML archiviato (zip API bloccato 403 senza permessi admin).
-  - **Schema/Validate Traits** – Rosso: schema-validate run1949 (06/12/2025) e validate_traits run335 (03/12/2025) in FAILURE; pianificare fix e rerun con log completi.
-  - **QA suite (`qa-kpi-monitor.yml`, `qa-reports.yml`, `qa-export.yml`)** – Rosso: KPI datati (27/10/2025) e retry 2026-07-06 non eseguito per GH offline ([log](../../logs/agent_activity.md)); pianificare rerun automatico/manuale con upload log/visual.
-  - **HUD (`hud.yml`)** – Giallo: nessun log/visual archiviato e retry necessario perché l’ultimo run (05/12) non è reperibile ([log](../../logs/agent_activity.md)); dispatch richiesto se il flag è attivo, altrimenti l’automazione salta.
-  - **Deploy site (`deploy-test-interface.yml`)** – Giallo: nessun log recente dopo i run 2025; attendere un run (push/PR/manuale) e archiviare dist/CLI prima del go-live.
+  - **Schema/Validate Traits** – Rosso: schema-validate run1949 (06/12/2025) e validate_traits run335 (03/12/2025) in FAILURE; pianificare fix e rerun con log completi (remediation: dispatch `gh workflow run schema-validate.yml -b main` e `gh workflow run validate_traits.yml -b main` dopo fix schemi/pack, log in `logs/ci_runs/`).
+  - **QA suite (`qa-kpi-monitor.yml`, `qa-reports.yml`, `qa-export.yml`)** – Rosso: KPI datati (27/10/2025) e retry 2026-07-06 non eseguito per GH offline ([log](../../logs/agent_activity.md)); pianificare rerun automatico/manuale con upload log/visual (remediation: `qa-kpi-monitor.yml` con visual abilitato + export/reports in sequenza da `main`, log `logs/visual_runs/` e `logs/ci_runs/`).
+  - **HUD (`hud.yml`)** – Giallo: nessun log/visual archiviato e retry necessario perché l’ultimo run (05/12) non è reperibile ([log](../../logs/agent_activity.md)); dispatch richiesto se il flag è attivo, altrimenti l’automazione salta (remediation: `gh workflow run hud.yml -b main` se flag on, salvare overlay/log in `logs/ci_runs` e `logs/visual_runs`).
+  - **Deploy site (`deploy-test-interface.yml`)** – Giallo: nessun log recente dopo i run 2025; attendere un run (push/PR/manuale) e archiviare dist/CLI prima del go-live (remediation: trigger push/PR o `gh workflow run deploy-test-interface.yml -b main`, salvare `dist/`/CLI in `logs/ci_runs/`).
 
 ### Azioni aperte (aggiornato)
 
@@ -85,6 +85,11 @@ _Nota_: con il **Log Harvester** abilitato, gli stati del semaforo si aggiornano
 - **incoming-smoke.yml** – Owner: dev-tooling. Retry 2026-07-06 non eseguito per GH offline ([log](../../logs/agent_activity.md)); lanciare con input `path`/`pack` e archiviare in `logs/incoming_smoke/` o configurare un job esterno che invochi `gh workflow run` con i parametri.
 - **evo-batch.yml** – Owner: ops/dev-tooling. Dry-run `batch=traits` pianificato il 2026-07-06 (nessun log, vedi [log](../../logs/agent_activity.md)): eseguire con `execute=false` via script/dispatch e archiviare in `logs/ci_runs` prima di valutare `execute=true`.
 - **Log harvester** – Garantire manutenzione del workflow `log-harvester.yml` (frequenza giornaliera, dispatch manuale di backup) e revisione periodica dei permessi del token (almeno `actions:read` + `contents:write`).
+
+- **Rerun data-quality.yml** – Comando/branch: `gh workflow run data-quality.yml -b main` (owner: data). Prerequisiti: fix dataset/pack e script Python/JS; abilitare PAT per download zip. Log: `logs/ci_runs/`. Scadenza suggerita: entro 7 giorni; criterio di uscita: run verde con report aggiornati <7 giorni.
+- **Rerun schema-validate.yml** – Comando/branch: `gh workflow run schema-validate.yml -b main` (owner: data). Prerequisiti: correggere schemi JSON e validatori; PAT per log completi. Log: `logs/ci_runs/`. Scadenza: entro 7 giorni; uscita: run verde <7 giorni.
+- **Rerun validate_traits.yml** – Comando/branch: `gh workflow run validate_traits.yml -b main` (owner: data). Prerequisiti: fix pack/trait e ricostruzione indici; PAT per log completi. Log: `logs/ci_runs/`. Scadenza: entro 7 giorni; uscita: run verde <7 giorni.
+- **QA suite (qa-kpi-monitor + qa-export + qa-reports)** – Comando/branch: sequenza `gh workflow run qa-kpi-monitor.yml -b main` (visual on), poi `qa-export.yml` e `qa-reports.yml` da `main` (owner: QA). Prerequisiti: baseline KPI aggiornata, dati/pack stabili e accesso asset visual; PAT per artefatti. Log: `logs/visual_runs/` (monitor) e `logs/ci_runs/` (export/reports). Scadenza: entro 7 giorni; uscita: tutti i run verdi con upload log <7 giorni.
 
 
 ### Aggiornamenti ticket 03A/03B
