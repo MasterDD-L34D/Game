@@ -1,5 +1,8 @@
 # Agent activity log
 
+# 2025-12-07 – Kickoff PATCHSET-00 e routing 01A→01C (coordinator)
+- Step: `[RIAPERTURA-2025-02-KICKOFF-2025-12-07T2226Z] owner=Master DD + coordinator; scope=PATCHSET-00 (routing agenti 01A→01C); timeline=2025 (chiusura 2025-12-07); freeze_window=2025-10-06→2025-10-13; note=Kickoff registrato con ID log RIAPERTURA-2025-02, ribadito il freeze attivo 2025-10-06→2025-10-13 e l’obbligo di rispettare la finestra prima di ogni drop.`
+
 # 2026-09-17 – Riapertura 2025-02, kickoff 01A/01B/01C e sync freeze (archivist)
 - Step: `[RIAPERTURA-2025-02-OPEN-2026-09-17T0900Z] owner=archivist (coordinamento species-curator, trait-curator, dev-tooling; approvatore Master DD); scope=01A→03B; freeze=ATTIVATO; freeze_window=2025-10-06T09:00Z→2025-10-13T18:00Z (sblocco confermato con ticket 2025-10-FREEZE e ok Master DD); files=logs/agent_activity.md; note=Riaperta finestra di controllo 01A→03B in STRICT MODE per preparare pipeline 01A, ribadendo che ogni drop resta in parcheggio finché non autorizzato. Nessuno spostamento file eseguito.`
 - Step: `[RIAPERTURA-2025-02-KICKOFF-2026-09-17T0915Z] owner=archivist (approvatore Master DD); scope=01A/01B/01C; files=logs/agent_activity.md,incoming/README.md,docs/incoming/README.md; esito=PASS; note=Kickoff 15' per ribadire trigger/scope 01A–03B e disponibilità: archivist lead 01A, species-curator e trait-curator on-call per 01B, dev-tooling on-call per 01C. `_holding` assente (nessun drop in parcheggio), catalogo 01A riesaminato in sola lettura: gap list confermata chiusa senza nuove eccezioni; rischi residui tracciati (blocco esecuzione `scan_engine_idents.py` in 01C, licenze/redirect monitorati in 01B/03B). READMEs sincronizzati con lo sblocco finestra freeze 2025-10-06→2025-10-13.`
