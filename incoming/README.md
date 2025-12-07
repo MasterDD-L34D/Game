@@ -35,6 +35,7 @@ Linee guida minime:
 
 Note:
 
+- 2026-09-25: gap list riletta (nessun nuovo drop/rischio rilevato; `_holding` ancora assente). Applicazione posticipata finché il gate di riapertura non risulta chiuso; mantenere monitoraggio ticket/licenze in corso senza spostare file.
 - 2026-09-17: checkpoint **RIAPERTURA-2025-02** (archivist, ok Master DD) con finestra freeze 2025-10-06T09:00Z→2025-10-13T18:00Z sbloccata (ticket 2025-10-FREEZE) per lo scope 01A→03B; `_holding` confermato assente e gap list 01A riletta in sola lettura (ancora chiusa, nessun nuovo drop). Nessun file spostato; rischi residui monitorati: blocco esecuzione `scan_engine_idents.py` (01C) e licenze/redirect in 01B/03B. Pipeline 01A autorizzata in STRICT MODE.
 - 2025-11-30: freeze documentale attivo 2025-11-30T21:21Z → 2025-12-07T18:00Z su `incoming/**` e `docs/incoming/**`, registrato nel log `[FREEZE-INCOMING-2025-11-30]` in `logs/agent_activity.md`; parcheggio obbligatorio dei nuovi drop in `incoming/_holding` senza modificare i file esistenti. Riapertura da loggare come `[UNFREEZE-INCOMING-2025-12-07]` previa approvazione Master DD; `_holding` attualmente assente (nessun drop da integrare/archiviare).
 
