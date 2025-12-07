@@ -1,5 +1,8 @@
 # Agent activity log
 
+# 2025-12-07 – Verifica `_holding` e finestra 2025-10-06→2025-10-13 (archivist)
+- Step: `[INCOMING-HOLDING-CHECK-2025-12-07T2228Z] owner=archivist (supporto coordinator); modalità=report-only; files=logs/agent_activity.md,incoming/README.md; esito=PASS; note=Controllato `incoming/_holding`: directory assente, nessun drop in parcheggio da integrare o archiviare. Verificata finestra freeze 2025-10-06T09:00Z→2025-10-13T18:00Z: stato attuale SBLOCCATO (ticket 2025-10-FREEZE già approvato), nessun freeze attivo; decisione operativa: mantenere catalogo invariato in sola lettura senza movimenti.`
+
 # 2025-12-07 – Kickoff PATCHSET-00 e routing 01A→01C (coordinator)
 - Step: `[RIAPERTURA-2025-02-KICKOFF-2025-12-07T2226Z] owner=Master DD + coordinator; scope=PATCHSET-00 (routing agenti 01A→01C); timeline=2025 (chiusura 2025-12-07); freeze_window=2025-10-06→2025-10-13; note=Kickoff registrato con ID log RIAPERTURA-2025-02, ribadito il freeze attivo 2025-10-06→2025-10-13 e l’obbligo di rispettare la finestra prima di ogni drop.`
 
