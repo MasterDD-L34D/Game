@@ -23,19 +23,21 @@ jobs:
       - name: Validate all schemas/*.json
         run: |
           python - <<'PY'
-import json, os, sys, glob
-from jsonschema import Draft202012Validator
-errors = []
-for path in glob.glob('schemas/*.json'):
-    with open(path,'r', encoding='utf-8') as f:
-        data = json.load(f)
-    try:
-        Draft202012Validator.check_schema(data)
-    except Exception as e:
-        errors.append(f"{path}: {e}")
-if errors:
-    print("\n".join(errors))
-    sys.exit(1)
-else:
-    print("All schemas OK")
-PY
+            import json, sys, glob
+            from jsonschema import Draft202012Validator
+
+            errors = []
+            for path in glob.glob('schemas/*.json'):
+                with open(path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                try:
+                    Draft202012Validator.check_schema(data)
+                except Exception as e:
+                    errors.append(f"{path}: {e}")
+
+            if errors:
+                print("\n".join(errors))
+                sys.exit(1)
+            else:
+                print("All schemas OK")
+          PY

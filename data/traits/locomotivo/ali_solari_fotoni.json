@@ -1,0 +1,97 @@
+{
+  "id": "ali_solari_fotoni",
+  "label": "Ali Solari Fotoni",
+  "debolezza": "i18n:traits.ali_solari_fotoni.debolezza",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Locomotivo/Aereo",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "tier": "T2",
+  "slot": [
+    "A",
+    "C"
+  ],
+  "sinergie": [
+    "cervello_a_bassa_latenza",
+    "occhi_cristallo_modulare",
+    "antenne_tesla"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "i18n:traits.ali_solari_fotoni.mutazione_indotta",
+  "uso_funzione": "i18n:traits.ali_solari_fotoni.uso_funzione",
+  "spinta_selettiva": "i18n:traits.ali_solari_fotoni.spinta_selettiva",
+  "metrics": [
+    {
+      "name": "spinta_fotovoltaica",
+      "value": 140,
+      "unit": "N"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Medio"
+  },
+  "testability": {
+    "observable": "Conversione luce→spinta stabile per 90 s",
+    "scene_prompt": "Volo planato con variazione intensità luminosa"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": "Richiede esposizione solare costante per massimizzare spinta e schermature."
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
+  "slot_profile": {
+    "core": "locomotivo",
+    "complementare": "supporto"
+  },
+  "species_affinity": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "archon-solare",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "couatl-aurora",
+      "weight": 1
+    }
+  ],
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": true,
+    "has_usage_tags": true,
+    "has_data_origin": true
+  },
+  "biome_tags": [
+    "terrestre",
+    "orbita_psionica_inversa"
+  ],
+  "version": "1.0.0",
+  "versioning": {
+    "created": "2025-11-21",
+    "updated": "2026-07-24",
+    "author": "Game data team"
+  }
+}

@@ -14376,10 +14376,7 @@
       "usage_tags": [
         "controller"
       ],
-      "debolezza": "i18n:traits.coscienza_dalveare_diffusa.debolezza",
-      "aliases": [
-        "coscienza_d_alveare_diffusa"
-      ]
+      "debolezza": "i18n:traits.coscienza_dalveare_diffusa.debolezza"
     },
     "traits_aggregate": {
       "id": "traits_aggregate",
@@ -14387,7 +14384,7 @@
       "data_origin": "external_evo_pack",
       "famiglia_tipologia": "Meta/Dataset",
       "fattore_mantenimento_energetico": "N/A",
-      "tier": "T0",
+      "tier": "T1",
       "slot": [],
       "sinergie": [],
       "conflitti": [],
