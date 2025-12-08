@@ -9,6 +9,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from typing import Any, Mapping
 
 from game_utils.trait_coverage import generate_trait_coverage, iter_matrix_rows
 
@@ -46,8 +47,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--species-affinity",
         type=Path,
-        default=None,
-        help="Mappa trait→specie pre-calcolata per verificare la coverage",
+        default=Path("data/traits/species_affinity.json"),
+        help=(
+            "Mappa trait→specie pre-calcolata per verificare la coverage "
+            "(default: data/traits/species_affinity.json)"
+        ),
     )
     parser.add_argument(
         "--trait-glossary",
@@ -141,11 +145,49 @@ def load_species_catalog(root: Path) -> tuple[set[str], list[str]]:
             warnings.append(f"Impossibile leggere {path}: {exc}")
             continue
         if isinstance(data, dict):
+            species = data.get("species") if "species" in data else None
+            if isinstance(species, list):
+                for entry in species:
+                    if not isinstance(entry, dict):
+                        continue
+                    species_id = entry.get("id")
+                    if isinstance(species_id, str):
+                        species_ids.add(species_id)
+                continue
+
             species_id = data.get("id")
             if isinstance(species_id, str):
                 species_ids.add(species_id)
 
     return species_ids, warnings
+
+
+def _load_affinity_map(path: Path | None) -> Mapping[str, Any] | None:
+    if path is None:
+        return None
+
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return None
+    except json.JSONDecodeError as exc:  # pragma: no cover - input esterni
+        raise RuntimeError(f"{path}: JSON non valido ({exc})") from exc
+
+    return payload if isinstance(payload, Mapping) else None
+
+
+def _collect_species_ids_from_affinity(affinity_map: Mapping[str, Any]) -> set[str]:
+    species_ids: set[str] = set()
+    for entries in affinity_map.values():
+        if not isinstance(entries, list):
+            continue
+        for entry in entries:
+            if not isinstance(entry, Mapping):
+                continue
+            species_id = entry.get("species_id")
+            if isinstance(species_id, str):
+                species_ids.add(species_id)
+    return species_ids
 
 
 def validate_trait_affinity(
@@ -231,6 +273,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
+    affinity_map = _load_affinity_map(args.species_affinity)
+
     report = generate_trait_coverage(
         args.env_traits,
         args.trait_reference,
@@ -246,6 +290,14 @@ def main(argv: list[str] | None = None) -> int:
         write_csv(args.out_csv, rows)
 
     species_ids, species_warnings = load_species_catalog(args.species_root)
+
+    if not species_ids and affinity_map:
+        species_ids = _collect_species_ids_from_affinity(affinity_map)
+        if species_ids:
+            species_warnings.append(
+                "Catalogo specie vuoto: fallback sugli ID presenti in species_affinity."
+            )
+
     affinity_errors, affinity_warnings = validate_trait_affinity(
         args.trait_reference, species_ids
     )

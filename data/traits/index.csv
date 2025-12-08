@@ -76,6 +76,7 @@ squame_diffusori_ionici,i18n:traits.squame_diffusori_ionici.label,Difesa/Elettri
 vortice_nera_flash,i18n:traits.vortice_nera_flash.label,Temporaneo/Traslazione,Traslazione,data/traits/frattura_abissale_sinaptica/vortice_nera_flash.json,,frattura_abissale_sinaptica,,breaker,true,true
 sacche_galleggianti_ascensoriali,i18n:traits.sacche_galleggianti_ascensoriali.label,Idrostatico/Locomotorio,Locomotorio,data/traits/idrostatico/sacche_galleggianti_ascensoriali.json,,controllo_psionico,canopia_psionica_leggera;orbita_psionica_inversa,scout;tank,true,false
 ali_fono_risonanti,i18n:traits.ali_fono_risonanti.label,Locomotivo/Aereo,Aereo,data/traits/locomotivo/ali_fono_risonanti.json,,coverage_q4_2025,,scout;controller,true,true
+ali_solari_fotoni,Ali Solari Fotoni,Locomotivo/Aereo,Aereo,data/traits/locomotivo/ali_solari_fotoni.json,,coverage_q4_2025,terrestre;orbita_psionica_inversa,scout;support,true,true
 articolazioni_a_leva_idraulica,i18n:traits.articolazioni_a_leva_idraulica.label,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/articolazioni_a_leva_idraulica.json,,coverage_q4_2025,,scout,true,false
 articolazioni_multiassiali,i18n:traits.articolazioni_multiassiali.label,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/articolazioni_multiassiali.json,,coverage_q4_2025,,scout,true,false
 cinghia_iper_ciliare,i18n:traits.cinghia_iper_ciliare.label,Locomotivo/Terrestre,Terrestre,data/traits/locomotivo/cinghia_iper_ciliare.json,,coverage_q4_2025,,scout,true,false
@@ -107,6 +108,7 @@ mucose_aderenza_sonica,i18n:traits.mucose_aderenza_sonica.label,Locomotorio/Mobi
 zampe_a_molla,i18n:traits.zampe_a_molla.label,Mobilità/Cinetico,Cinetico,data/traits/locomotorio/zampe_a_molla.json,,controllo_psionico,foresta_miceliale,scout,true,false
 zoccoli_risonanti_steppe,i18n:traits.zoccoli_risonanti_steppe.label,Locomotorio/Supporto,Supporto,data/traits/locomotorio/zoccoli_risonanti_steppe.json,,controllo_psionico,steppe_risonanti,scout;support,true,false
 rostro_linguale_prensile,i18n:traits.rostro_linguale_prensile.label,Manipolativo/Alimentare,Alimentare,data/traits/manipolativo/rostro_linguale_prensile.json,,coverage_q4_2025,,controller,true,false
+traits_aggregate,Aggregato tratti Evo,Meta/Dataset,Dataset,data/traits/meta/traits_aggregate.json,,external_evo_pack,,catalogo;meta,false,false
 antenne_dustsense,i18n:traits.antenne_dustsense.label,Digestivo/Metabolico,Metabolico,data/traits/metabolico/antenne_dustsense.json,,coverage_q4_2025,pianura_salina_iperarida,sustain,true,false
 appendici_thermotattiche,i18n:traits.appendici_thermotattiche.label,Digestivo/Metabolico,Metabolico,data/traits/metabolico/appendici_thermotattiche.json,,coverage_q4_2025,abisso_vulcanico,sustain,true,false
 batteri_endosimbionti_chemio,i18n:traits.batteri_endosimbionti_chemio.label,Digestivo/Metabolico,Metabolico,data/traits/metabolico/batteri_endosimbionti_chemio.json,,coverage_q4_2025,abisso_vulcanico,sustain,true,false
@@ -258,6 +260,5 @@ risonanza_di_branco,i18n:traits.risonanza_di_branco.label,Supporto/Coordinativo,
 mimetismo_cromatico_passivo,i18n:traits.mimetismo_cromatico_passivo.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/mimetismo_cromatico_passivo.json,,controllo_psionico,canopia_psionica_leggera;falde_magnetiche_psioniche,tank,true,false
 piume_solari_fotovoltaiche,i18n:traits.piume_solari_fotovoltaiche.label,Tegumentario/Energetico,Energetico,data/traits/tegumentario/piume_solari_fotovoltaiche.json,,controllo_psionico,altipiani_solari,sustain;tank,true,false
 secrezione_rallentante_palmi,i18n:traits.secrezione_rallentante_palmi.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/secrezione_rallentante_palmi.json,,controllo_psionico,caverna_risonante,tank,true,true
-traits_aggregate,Aggregato tratti Evo,Meta/Dataset,Catalogo,data/external/evo/traits/traits_aggregate.json,,external_evo_pack,,catalogo,false,false
 squame_rifrangenti_deserto,i18n:traits.squame_rifrangenti_deserto.label,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/squame_rifrangenti_deserto.json,,controllo_psionico,dune_cristalline,tank,true,false
 vello_condensatore_nebbie,i18n:traits.vello_condensatore_nebbie.label,Tegumentario/Idratazione,Idratazione,data/traits/tegumentario/vello_condensatore_nebbie.json,,controllo_psionico,foreste_nubose,sustain;tank,true,false
