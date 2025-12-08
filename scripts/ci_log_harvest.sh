@@ -36,11 +36,25 @@ USAGE
 command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required." >&2; exit 1; }
 
 pick_token() {
-  local token="${CI_LOG_PAT:-${LOG_HARVEST_PAT:-${GH_TOKEN:-${GITHUB_TOKEN:-}}}}"
+  local token=""
+  local source=""
+  for name in CI_LOG_PAT LOG_HARVEST_PAT GH_TOKEN GITHUB_TOKEN; do
+    if [[ -n "${!name-}" ]]; then
+      token="${!name}"
+      source="$name"
+      break
+    fi
+  done
+
   if [[ -z "$token" ]]; then
-    echo "Error: set CI_LOG_PAT (preferred), LOG_HARVEST_PAT, GH_TOKEN, or GITHUB_TOKEN with a PAT that includes workflow/read:org and repo admin access." >&2
+    echo "Error: provide a PAT with workflow + read:org scopes and repo/admin permissions via CI_LOG_PAT (preferred) or LOG_HARVEST_PAT." >&2
     exit 1
   fi
+
+  if [[ "$source" == "GITHUB_TOKEN" ]]; then
+    echo "[warn] GITHUB_TOKEN may not include workflow/read:org; prefer CI_LOG_PAT or LOG_HARVEST_PAT." >&2
+  fi
+
   export GH_TOKEN="$token"
 }
 
@@ -65,9 +79,18 @@ DEFAULT_WORKFLOWS=(
   "deploy-test-interface.yml|logs/ci_runs|auto|"
   "daily-pr-summary.yml|logs/ci_runs|auto|"
   "daily-tracker-refresh.yml|logs/ci_runs|auto|"
+  "data-quality.yml|logs/ci_runs|auto|"
   "lighthouse.yml|logs/ci_runs|auto|"
   "search-index.yml|logs/ci_runs|auto|"
   "telemetry-export.yml|logs/ci_runs|auto|"
+  "idea-intake-index.yml|logs/ci_runs|auto|"
+  "schema-validate.yml|logs/ci_runs|auto|"
+  "validate-naming.yml|logs/ci_runs|auto|"
+  "validate_traits.yml|logs/ci_runs|auto|"
+  "update-evo-tracker.yml|logs/ci_runs|auto|"
+  "traits-sync.yml|logs/ci_runs|auto|"
+  "evo-doc-backfill.yml|logs/ci_runs|auto|"
+  "evo-rollout-status.yml|logs/ci_runs|auto|"
   "qa-kpi-monitor.yml|logs/ci_runs|manual|"
   "qa-kpi-monitor.yml|logs/visual_runs|manual|"
   "qa-export.yml|logs/ci_runs|manual|"
@@ -226,8 +249,7 @@ process_workflow() {
   mkdir -p "$dest"
 
   if [[ "$mode" == "manual" && "${DISPATCH_MANUAL:-0}" != "1" ]]; then
-    echo "[skip] $workflow is manual-only (use DISPATCH_MANUAL=1 to dispatch)."
-    return
+    echo "[info] $workflow is manual-only; skipping dispatch but downloading latest run if present."
   fi
 
   if [[ "$mode" == "manual" && "${DISPATCH_MANUAL:-0}" == "1" ]]; then

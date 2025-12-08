@@ -22,24 +22,33 @@ Autenticati con un PAT che includa gli scope `workflow` e `read:org` più permes
 
 ## Workflow coperti e destinazioni standard
 
-| Workflow | Trigger principale | Modalità | Destinazione download | Note/Inputs |
-| --- | --- | --- | --- | --- |
-| `.github/workflows/ci.yml` | push/PR | automatico | `logs/ci_runs/` | Nessun `workflow_dispatch`; usare ultimo push/PR. |
-| `.github/workflows/e2e.yml` | schedulato/dispatch | automatico | `logs/ci_runs/` | Report Playwright (`logs/ci_runs/e2e_*`). |
-| `.github/workflows/deploy-test-interface.yml` | push/PR/dispatch | automatico | `logs/ci_runs/` | Necessario per gate go-live. |
-| `.github/workflows/daily-pr-summary.yml` | cron/dispatch | automatico | `logs/ci_runs/` | Auto-commit quotidiano. |
-| `.github/workflows/daily-tracker-refresh.yml` | cron/dispatch | automatico | `logs/ci_runs/` | Export JSON tracker. |
-| `.github/workflows/lighthouse.yml` | cron/dispatch | automatico | `logs/ci_runs/` | Artefatto `.lighthouseci`. |
-| `.github/workflows/search-index.yml` | push/dispatch | automatico | `logs/ci_runs/` | Aggiorna `public/search_index.json`. |
-| `.github/workflows/telemetry-export.yml` | push/PR | automatico | `logs/ci_runs/` | Validazioni export. |
-| `.github/workflows/qa-kpi-monitor.yml` | cron/dispatch | manuale | `logs/ci_runs/` + `logs/visual_runs/` | Include `visual_regression`; servono artefatti KPI + visual. |
-| `.github/workflows/qa-export.yml` | dispatch | manuale | `logs/ci_runs/` | Input PR opzionali. |
-| `.github/workflows/qa-reports.yml` | dispatch | manuale | `logs/ci_runs/` | Badge/baseline QA. |
-| `.github/workflows/hud.yml` | push/dispatch | manuale (skip se flag off) | `logs/ci_runs/` + `logs/visual_runs/` | Dispatch se HUD abilitato. |
-| `.github/workflows/incoming-smoke.yml` | dispatch con input | manuale | `logs/incoming_smoke/` | Richiede `-f path=<dataset> -f pack=<pack>`. |
-| `.github/workflows/evo-batch.yml` | dispatch con input | manuale | `logs/ci_runs/` | Dry-run consigliato: `-f batch=traits -f execute=false`. |
+| Workflow                                      | Trigger principale  | Modalità                   | Destinazione download                 | Note/Inputs                                                  |
+| --------------------------------------------- | ------------------- | -------------------------- | ------------------------------------- | ------------------------------------------------------------ |
+| `.github/workflows/ci.yml`                    | push/PR             | automatico                 | `logs/ci_runs/`                       | Nessun `workflow_dispatch`; usare ultimo push/PR.            |
+| `.github/workflows/e2e.yml`                   | schedulato/dispatch | automatico                 | `logs/ci_runs/`                       | Report Playwright (`logs/ci_runs/e2e_*`).                    |
+| `.github/workflows/deploy-test-interface.yml` | push/PR/dispatch    | automatico                 | `logs/ci_runs/`                       | Necessario per gate go-live.                                 |
+| `.github/workflows/daily-pr-summary.yml`      | cron/dispatch       | automatico                 | `logs/ci_runs/`                       | Auto-commit quotidiano.                                      |
+| `.github/workflows/daily-tracker-refresh.yml` | cron/dispatch       | automatico                 | `logs/ci_runs/`                       | Export JSON tracker.                                         |
+| `.github/workflows/data-quality.yml`          | push/PR/dispatch    | automatico                 | `logs/ci_runs/`                       | Validazioni trait/dataset.                                   |
+| `.github/workflows/lighthouse.yml`            | cron/dispatch       | automatico                 | `logs/ci_runs/`                       | Artefatto `.lighthouseci`.                                   |
+| `.github/workflows/search-index.yml`          | push/dispatch       | automatico                 | `logs/ci_runs/`                       | Aggiorna `public/search_index.json`.                         |
+| `.github/workflows/telemetry-export.yml`      | push/PR             | automatico                 | `logs/ci_runs/`                       | Validazioni export.                                          |
+| `.github/workflows/idea-intake-index.yml`     | cron/dispatch       | automatico                 | `logs/ci_runs/`                       | Genera indice idee e auto-commit.                            |
+| `.github/workflows/schema-validate.yml`       | push/PR/dispatch    | automatico                 | `logs/ci_runs/`                       | Validazione schemi JSON.                                     |
+| `.github/workflows/validate-naming.yml`       | push/PR/dispatch    | automatico                 | `logs/ci_runs/`                       | Coerenza nomi registri.                                      |
+| `.github/workflows/validate_traits.yml`       | push/PR/dispatch    | automatico                 | `logs/ci_runs/`                       | Validazione catalogo trait.                                  |
+| `.github/workflows/update-evo-tracker.yml`    | dispatch/riuso      | automatico                 | `logs/ci_runs/`                       | Check tracker.                                               |
+| `.github/workflows/traits-sync.yml`           | cron/dispatch       | automatico                 | `logs/ci_runs/`                       | Sync glossario/valutazioni.                                  |
+| `.github/workflows/evo-doc-backfill.yml`      | cron/dispatch       | automatico                 | `logs/ci_runs/`                       | Diff/backfill documentazione Evo.                            |
+| `.github/workflows/evo-rollout-status.yml`    | cron/dispatch       | automatico                 | `logs/ci_runs/`                       | Snapshot rollout settimanale.                                |
+| `.github/workflows/qa-kpi-monitor.yml`        | cron/dispatch       | manuale                    | `logs/ci_runs/` + `logs/visual_runs/` | Include `visual_regression`; servono artefatti KPI + visual. |
+| `.github/workflows/qa-export.yml`             | dispatch            | manuale                    | `logs/ci_runs/`                       | Input PR opzionali.                                          |
+| `.github/workflows/qa-reports.yml`            | dispatch            | manuale                    | `logs/ci_runs/`                       | Badge/baseline QA.                                           |
+| `.github/workflows/hud.yml`                   | push/dispatch       | manuale (skip se flag off) | `logs/ci_runs/` + `logs/visual_runs/` | Dispatch se HUD abilitato.                                   |
+| `.github/workflows/incoming-smoke.yml`        | dispatch con input  | manuale                    | `logs/incoming_smoke/`                | Richiede `-f path=<dataset> -f pack=<pack>`.                 |
+| `.github/workflows/evo-batch.yml`             | dispatch con input  | manuale                    | `logs/ci_runs/`                       | Dry-run consigliato: `-f batch=traits -f execute=false`.     |
 
-Per workflow non elencati qui (es. `data-quality.yml`, `schema-validate.yml`, `validate_traits.yml`, ecc.) puoi aggiungere voci nel file di config personalizzato o nell’array interno dello script.
+Per workflow non elencati qui puoi aggiungere voci nel file di config personalizzato o nell’array interno dello script.
 
 ## Script `scripts/ci_log_harvest.sh`
 
@@ -49,7 +58,7 @@ Per workflow non elencati qui (es. `data-quality.yml`, `schema-validate.yml`, `v
 - Per ogni workflow esegue:
   1. `gh run list --workflow <file> --limit 1 --json databaseId,status,conclusion` per prendere l’ultimo run (autenticato con `GH_TOKEN` impostato dal PAT dei secret sopra).
   2. Se il run è `completed`, salva la pagina HTML del run, scarica i log zipped via API (`.../runs/<id>/logs`) e scarica gli artefatti sia estratti sia come archivio `.zip` (`gh run download --archive`).
-  3. Per i manuali, se `DISPATCH_MANUAL=1`, lancia `gh workflow run <file> --ref <branch> <dispatch_inputs>`; opzionale attesa con `WAIT_FOR_COMPLETION=1`.
+  3. Per i manuali, se `DISPATCH_MANUAL=1`, lancia `gh workflow run <file> --ref <branch> <dispatch_inputs>`; opzionale attesa con `WAIT_FOR_COMPLETION=1`. Senza dispatch, scarica comunque l’ultimo run disponibile.
 
 ### Esempi d’uso
 
