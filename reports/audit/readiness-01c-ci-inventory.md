@@ -1,34 +1,38 @@
 # Readiness 01C – Inventario CI e script (modalità report-only)
 
+Inventario aggiornato per il gate **01C** collegato alla nota di readiness `reports/readiness_01B01C_status.md` e al log di riapertura `logs/RIAPERTURA-2025-02.md`. Tutte le voci restano **report-only** (nessuna pipeline eseguita).
+
 ## Workflow CI attivi
 
-| Nome | Percorso | Trigger | I/O principale | Rischio |
-| ---- | -------- | ------- | -------------- | ------- |
-| CI orchestrazione | .github/workflows/ci.yml | push, pull_request | Paths filter indirizza job TS/CLI/Python/data e richiama script di smoke e validazione (es. scripts/cli_smoke.sh, scripts/build_trait_index.js) | Medio |
-| Data audit e validation | .github/workflows/data-quality.yml | pull_request su data/packs/scripts schemi | Valida dataset YAML/JSON, esegue trait audit, genera report/artefatti nei report e data/derived/analysis | Medio |
-| Validate Trait Catalog | .github/workflows/validate_traits.yml | push/pull_request su data/traits e schema trait | Valida schema trait, genera coverage/stile con report in reports/** e data/derived/analysis | Medio |
-| Schema validate | .github/workflows/schema-validate.yml | push/pull_request su schemas/**, workflow_dispatch | Verifica schemi JSON locali via jsonschema | Basso |
-| Validate registry naming | .github/workflows/validate-naming.yml | push/pull_request su registries/config legati al pack | Controlla naming registri con tools/py/validate_registry_naming.py | Basso |
-| ChatGPT Sync | .github/workflows/chatgpt_sync.yml | schedule giornaliero, workflow_dispatch | Esegue scripts/sync_chatgpt.sh con API OpenAI e può committare modifiche | Alto |
-| E2E Playwright | .github/workflows/e2e.yml | schedule giornaliero, workflow_dispatch | Installa npm e Playwright, esegue test browser contro BASE_URL remoto, carica report | Medio |
-| Altri workflow di servizio (deploy-test-interface, lighthouse, hud, qa-*, telemetry-export, search/idea index, evo-*, traits-sync, traits-monthly-maintenance, incoming-smoke, daily-*) | .github/workflows/*.yml | Vari (schedule, push/pull_request o dispatch) | Sync/refresh tracker, deploy interfacce o esport export KPI/search; usano Node/Python/batch per produrre artefatti o aggiornare indici | Variabile (Basso–Medio secondo scope; nessuna scrittura dati core nel repo in modalità CI) |
+| Nome | Percorso | Trigger | Input principali | Output/artefatti | Rischio |
+| ---- | -------- | ------- | ---------------- | ----------------- | ------- |
+| CI orchestrazione | .github/workflows/ci.yml | push, pull_request | Filtri su TS/CLI/Python/data/deploy/styleguide/stack/site_audit | Avvio job condizionali (build TS, smoke CLI, lint, report stack) e bundle Playwright in cache runner | Medio |
+| Data audit e validation | .github/workflows/data-quality.yml | pull_request su data/**, packs/**, tool di audit | Dataset YAML/JSON, script `scripts/trait_audit.py`, `tools/py/validate_datasets.py` | Report trait e coverage in `reports/**`, artefatti `data/derived/analysis`, upload artifact `trait-data-reports-*` | Medio |
+| Validate Trait Catalog | .github/workflows/validate_traits.yml | push/pull_request su data/traits/** e schema trait | Trait dataset, schema `config/schemas/trait.schema.json`, script JS/Python di coverage/stile | Report coverage/stile in `reports/**` e `data/derived/analysis`, artifact `trait-data-reports-*` | Medio |
+| Schema validate | .github/workflows/schema-validate.yml | push/pull_request su schemas/**, workflow_dispatch | Schemi JSON in `schemas/**` | Validazione jsonschema senza side-effect, log CI | Basso |
+| Validate registry naming | .github/workflows/validate-naming.yml | push/pull_request su registries/config | File registry pack e `tools/py/validate_registry_naming.py` | Esito naming in log CI, nessun artefatto persistente | Basso |
+| Derived checksum audit | .github/workflows/derived_checksum.yml | push/pull_request su data/derived/** | Dataset derivati, script `tools/py/check_derived_checksums.py` | Report in `reports/derived_checksums` + artifact `derived-checksum-audit-*` (continue-on-error) | Basso |
+| Incoming CLI smoke | .github/workflows/incoming-smoke.yml | workflow_dispatch, pull_request su incoming/** | Parametri `data-root`, `pack-root`, profilo `staging_incoming`, script `scripts/cli_smoke.sh` | Log in `logs/incoming_smoke` caricati come artifact `incoming-smoke-logs` | Medio |
+| ChatGPT Sync | .github/workflows/chatgpt_sync.yml | schedule giornaliero, workflow_dispatch | Script `scripts/sync_chatgpt.sh`, credenziali API | Possibile commit/PR automatico con contenuti sincronizzati | Alto |
+| E2E Playwright | .github/workflows/e2e.yml | schedule giornaliero, workflow_dispatch | `apps/dashboard`, Playwright installato con npm | Report test browser caricati come artifact | Medio |
+| Altri workflow di servizio (deploy-test-interface, lighthouse, hud, qa-*, telemetry-export, search/idea index, evo-*, traits-sync, traits-monthly-maintenance, daily-*/tracker) | .github/workflows/*.yml | Vari (schedule, push/pull_request o dispatch) | Config di deploy/test, tracker e KPI | Artifact/report di monitoraggio o sync indici/search, nessuna modifica dati core | Variabile (Basso–Medio secondo scope) |
 
 ## Script locali con I/O
 
-| Script | Percorso | Scopo/I-O | Dipendenze esterne | Rischio |
-| ------ | -------- | --------- | ------------------ | ------- |
-| CLI smoke | scripts/cli_smoke.sh | Esegue smoke CLI su core/pack, legge dati biomi/traits e produce log in logs/cli e logs/incoming_smoke | PyYAML, game_cli; richiede dataset locali | Medio |
-| Trait audit | scripts/trait_audit.py | Audit dati trait core/pack in modalità check, legge data/core e pack; può scrivere report | requirements-dev (Python, jsonschema) | Medio |
-| Build trait index | scripts/build_trait_index.js | Genera indice trait a partire da dataset e scrive file in reports/data/derived | Node/npm | Medio |
-| Trait coverage/style | tools/py/report_trait_coverage.py; scripts/trait_style_check.js | Calcola coverage e lint stile, produce report in reports/ e data/derived/analysis | Python jsonschema, Node/npm | Medio |
-| Schema validator | tools/py/validate_datasets.py | Valida YAML/JSON di core/pack; può scrivere report/artefatti | Python jsonschema, requirements-dev | Medio |
-| Registry naming | tools/py/validate_registry_naming.py | Verifica naming registri pack contro glossario core | Python deps da tools/py/requirements.txt | Basso |
-| Ops notifier | ops/notifier.py | Legge JSON di diff documentazione e invia notifiche Slack/Teams; può scrivere payload issue | Webhook HTTP (Slack/Teams) | Alto |
-| MongoDB apply | ops/mongodb/apply.sh | Esegue migrazioni/seed MongoDB con config JSON, lancia script Python di migration/seed | Bash + accesso DB Mongo tramite script Python | Alto |
-| Site-audit suite | ops/site-audit/run.sh + run_suite.py | Genera sitemap/redirect/search index, controlla link; legge/writa file in ops/site-audit e logs | Python reqs da ops/site-audit/requirements.txt | Medio |
+| Script | Percorso | Scopo/I-O | Output/percorsi | Dipendenze esterne | Rischio |
+| ------ | -------- | --------- | --------------- | ------------------ | ------- |
+| CLI smoke | scripts/cli_smoke.sh | Smoke CLI su dataset core/incoming con profili CLI | Log run in `logs/cli` e `logs/incoming_smoke`; copia snapshot label | PyYAML, `tools/py/game_cli.py`, dataset locali | Medio |
+| Trait audit | scripts/trait_audit.py | Audit trait in modalità check | Report markdown/JSON in `logs/trait_audit` e `reports/**` | Python `requirements-dev.txt`, jsonschema | Medio |
+| Build trait index | scripts/build_trait_index.js | Genera indici trait a partire da dataset | File derivati in `data/derived/analysis` e `reports/` | Node/npm | Medio |
+| Trait coverage/style | tools/py/report_trait_coverage.py; scripts/trait_style_check.js | Coverage e lint stile trait | Report JSON/CSV/MD in `reports/trait_*` e `data/derived/analysis` | Python jsonschema, Node/npm | Medio |
+| Schema validator | tools/py/validate_datasets.py | Valida YAML/JSON di core/pack | Log CI e report validazione locale | Python jsonschema, requirements-dev | Medio |
+| Registry naming | tools/py/validate_registry_naming.py | Verifica naming registri pack | Log CLI/CI, nessun output persistente | Python deps da tools/py/requirements.txt | Basso |
+| Ops notifier | ops/notifier.py | Invio notifiche Slack/Teams da diff documentazione | Payload HTTP verso webhook, può creare issue | Webhook esterni | Alto |
+| MongoDB apply | ops/mongodb/apply.sh | Migrazioni/seed MongoDB da config JSON | Script Python/JSON letti da `ops/mongodb/**`, esecuzione su DB target | Bash + accesso DB/Mongo driver | Alto |
+| Site-audit suite | ops/site-audit/run.sh; ops/site-audit/run_suite.py | Sitemap/redirect/search index e link check | Output in `ops/site-audit/output/**` e log locali | Python reqs `ops/site-audit/requirements.txt` | Medio |
 
 ## Note operative
 
-- Tutti gli elementi sono censiti in modalità **report-only** per readiness 01C: nessuna esecuzione effettuata.
-- I workflow che possono committare o inviare richieste esterne (ChatGPT Sync, Ops notifier, MongoDB apply) sono marcati a rischio alto.
-- I workflow di validazione dati generano artefatti locali/CI ma non modificano il repository in questa fase.
+- Inventario aggiornato in sola lettura per readiness 01C; nessuna pipeline o script eseguito.
+- Workflow con commit o chiamate esterne (ChatGPT Sync, Ops notifier, MongoDB apply) marcati rischio alto.
+- I flussi di validazione producono artefatti confinati in `reports/**`, `logs/**` o artifact CI; i dataset core non vengono modificati in questa fase.

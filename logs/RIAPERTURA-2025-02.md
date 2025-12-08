@@ -16,6 +16,10 @@
 - Ricreare i branch dedicati da HEAD autorizzato prima del prossimo batch report-only.
 - Aggiornare `logs/agent_activity.md` se viene emessa una decisione di unfreeze o se vengono riattivati i branch.
 
+## 2026-09-24 – Inventario workflow/script 01C aggiornato (archivist)
+- Step: `[RIAPERTURA-2025-02-01C-INVENTORY-2026-09-24T0000Z] owner=archivist; scope=01C tooling/CI; files=reports/audit/readiness-01c-ci-inventory.md,reports/readiness_01B01C_status.md; modalità=report-only; esito=PASS; decision=LOG-UPDATE]`.
+- Note: allineato l'inventario 01C (workflow CI e script locali con input/output e percorsi) ai riferimenti di readiness 01B/01C, senza eseguire pipeline o validatori. Collegati esplicitamente readiness e log di riapertura per mantenere tracciabilità in STRICT MODE.
+
 ## Checklist PIPELINE 01A (pre-meeting)
 - [ ] `logs/agent_activity.md` aggiornato con l'ultimo handoff rilevante.
 - [ ] Cartella `_holding/` vuota (nessun drop in sospeso).
