@@ -14,3 +14,8 @@
 ## Azioni suggerite (senza esecuzione)
 - Ricreare i branch dedicati da HEAD autorizzato prima del prossimo batch report-only.
 - Aggiornare `logs/agent_activity.md` se viene emessa una decisione di unfreeze o se vengono riattivati i branch.
+
+## 2026-09-20 – Kickoff PATCHSET-00 e gate verso pipeline 01A (coordinator)
+- Step: `[RIAPERTURA-2025-02-KICKOFF-2026-09-20T0000Z] owner=coordinator (con archivist, trait-curator, species-curator; approvatore Master DD); scope=PATCHSET-00; timeline=07/12/2025; durata=15'`; riferimento agenda: `docs/planning/agenda_PATCHSET-00_2025-12-07.md`.
+- Decisioni: confermato trigger sequenziale Fase 1→Fase 2→Fase 3, perimetro invariato in STRICT MODE, readiness log/README gestita da archivist; trait-curator e species-curator on-call per prerequisiti 01A.
+- Prossimo gate: `PIPELINE 01A → Fase 1` (handoff post-kickoff); prerequisiti: log aggiornati (`logs/agent_activity.md`), nessun drop nuovo in `_holding`, freeze 06/10/2025→13/10/2025 rispettato.
