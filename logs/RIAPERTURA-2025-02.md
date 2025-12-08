@@ -5,6 +5,7 @@
 - **Disponibilità owner confermata**: species-curator e trait-curator restano on-call per 01B (matrice core/derived), dev-tooling on-call per 01C (tooling/CI), con operatività **report-only** sui branch dedicati.
 - **Ticket attivi invariati**: 01B → `TKT-01B-001`, `TKT-01B-002`; 01C → `TKT-01C-001`, `TKT-01C-002`. Nessuna variazione di scope/owner segnalata.
 - **Freeze/unfreeze**: si mantiene il perimetro della finestra documentale 06/10/2025 → 13/10/2025; le attività restano **report-only fino a unfreeze** esplicito.
+- **Sync confermativo programmato/eseguito**: mantenuto il kickoff 15' con owner=coordinator e partecipazione di archivist, trait-curator e species-curator per riaffermare il trigger Fase 1→2→3 e la milestone **07/12/2025**; nessuna variazione di durata/owner registrata.
 
 ## Dettaglio verifica
 - **Controllo branch**: eseguito `git branch -a --list 'patch/01B-core-derived-matrix' 'patch/01C-tooling-ci-catalog'` e `git branch -r --list 'patch/01B-core-derived-matrix' 'patch/01C-tooling-ci-catalog'` → nessuna corrispondenza trovata.

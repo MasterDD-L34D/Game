@@ -935,3 +935,8 @@
 ## 2025-12-08 – Rerun QA monitor/export/reports (dev-tooling)
 - Step: `[QA-RERUN-2025-12-08T1940Z] owner=dev-tooling (approvatore Master DD); modalità=manuale GH CLI; token=CI_log_pat→GH_TOKEN (admin:org, repo, workflow); files=logs/visual_runs/qa-kpi-monitor_run20040574744.log,logs/visual_runs/qa-kpi-monitor_run20040574744_summary.log,logs/ci_runs/qa-export_run20040610762.log,logs/ci_runs/qa-reports_run20040723521.log; esito=MIXED (monitor FAIL, export/reports in corso); note=Dispatchati i workflow richiesti su main. `qa-kpi-monitor` (run 20040574744) fallisce nella visual regression: ValueError su dimensioni baseline vs current per 'dashboard' (1440x8304 vs 1440x6714); artifact visual-report.zip presente ma download 403 Forbidden con gh run download. `qa-export` (run 20040610762) e `qa-reports` (run 20040723521) bloccati da >20m nello step `Generate QA reports` (node scripts/export-qa-report.js): job in_progress, step pending, nessun artifact scaricabile finché non terminano o vengono cancellati. Log/testimonianze salvati nelle cartelle dedicate; follow-up: monitorare completamento o valutare cancel/rerun prima di raccogliere badge/KPI.`
 
+
+## 2026-09-21 – Sync confermativo PATCHSET-00 (coordinator)
+- Owner: coordinator (con archivist, trait-curator, species-curator; approvatore umano Master DD).
+- Azioni: eseguito sync rapido (15') per riaffermare il trigger Fase 1→2→3 e la milestone **07/12/2025**; agenda PATCHSET-00 aggiornata mantenendo owner/durata invariati e riflesso l'esito su `logs/RIAPERTURA-2025-02.md`.
+- Prossimi passi immediati: procedere con handoff verso pipeline 01A rispettando il gate sequenziale e mantenere logging continuo in STRICT MODE.
