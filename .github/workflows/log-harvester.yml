@@ -13,87 +13,44 @@ jobs:
   harvest:
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ secrets.CI_LOG_PAT != '' && secrets.CI_LOG_PAT || secrets.LOG_HARVEST_PAT != '' && secrets.LOG_HARVEST_PAT || secrets.GH_TOKEN != '' && secrets.GH_TOKEN || github.token }}
+      GH_TOKEN: ${{ secrets.CI_LOG_PAT || secrets.LOG_HARVEST_PAT }}
+      CI_LOG_CONFIG_FILE: ops/ci-log-config.txt
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Resolve latest workflow runs
-        id: resolve
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ env.GH_TOKEN }}
-          script: |
-            const workflows = [
-              { id: 'ci.yml', label: 'CI', target: 'logs/ci_runs' },
-              { id: 'e2e.yml', label: 'E2E Tests', target: 'logs/ci_runs' },
-              { id: 'daily-pr-summary.yml', label: 'Daily PR Summary', target: 'logs/ci_runs' },
-              { id: 'daily-tracker-refresh.yml', label: 'Daily tracker refresh', target: 'logs/ci_runs' },
-              { id: 'data-quality.yml', label: 'Data audit and validation', target: 'logs/ci_runs' },
-              { id: 'deploy-test-interface.yml', label: 'Deploy site', target: 'logs/ci_runs' },
-              { id: 'idea-intake-index.yml', label: 'Idea Intake Index', target: 'logs/ci_runs' },
-              { id: 'incoming-smoke.yml', label: 'Incoming CLI smoke', target: 'logs/incoming_smoke' },
-              { id: 'schema-validate.yml', label: 'Validate JSON Schemas', target: 'logs/ci_runs' },
-              { id: 'validate-naming.yml', label: 'Validate registry naming', target: 'logs/ci_runs' },
-              { id: 'validate_traits.yml', label: 'Validate Trait Catalog', target: 'logs/ci_runs' },
-              { id: 'qa-kpi-monitor.yml', label: 'QA KPI & Visual Monitor', target: 'logs/visual_runs' },
-              { id: 'qa-export.yml', label: 'QA export manual', target: 'logs/ci_runs' },
-              { id: 'qa-reports.yml', label: 'QA reports', target: 'logs/ci_runs' },
-              { id: 'telemetry-export.yml', label: 'Telemetry export', target: 'logs/ci_runs' },
-              { id: 'search-index.yml', label: 'Build Search Index', target: 'logs/ci_runs' },
-              { id: 'hud.yml', label: 'HUD Canary', target: 'logs/visual_runs' },
-              { id: 'lighthouse.yml', label: 'Lighthouse CI', target: 'logs/visual_runs' },
-              { id: 'update-evo-tracker.yml', label: 'Update Evo tracker (check)', target: 'logs/ci_runs' },
-              { id: 'traits-sync.yml', label: 'Sync Evo traits glossary', target: 'logs/ci_runs' },
-              { id: 'evo-batch.yml', label: 'Run Evo Batch', target: 'logs/ci_runs' },
-              { id: 'evo-doc-backfill.yml', label: 'Evo documentation archive sync', target: 'logs/ci_runs' },
-              { id: 'evo-rollout-status.yml', label: 'Evo rollout status sync', target: 'logs/ci_runs' },
-            ];
+      - name: Validate GH_TOKEN
+        run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::error::GH_TOKEN non impostato: definisci il secret CI_LOG_PAT o LOG_HARVEST_PAT con scope workflow/read:org/repo-admin"
+            exit 1
+          fi
 
-            const runs = [];
-            for (const wf of workflows) {
-              const resp = await github.rest.actions.listWorkflowRuns({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                workflow_id: wf.id,
-                per_page: 1,
-              });
-              const run = resp.data.workflow_runs?.[0];
-              if (!run) {
-                core.warning(`Nessun run trovato per ${wf.id}`);
-                continue;
-              }
-              runs.push({
-                ...wf,
-                runId: run.id,
-                runName: run.name || wf.label,
-                htmlUrl: run.html_url,
-              });
-            }
+      - name: Auth gh
+        run: |
+          gh auth login --with-token < "$GH_TOKEN"
+          gh auth status
 
-            core.setOutput('runs', JSON.stringify(runs));
-
-      - name: Download latest logs and artifacts
-        id: download
+      - name: Inspect harvest config
         env:
-          RUNS: ${{ steps.resolve.outputs.runs }}
+          CONFIG_FILE: ${{ env.CI_LOG_CONFIG_FILE }}
         run: |
           set -eo pipefail
-          runs_json="${RUNS:-[]}" || true
-          echo "$runs_json" | jq -e . >/tmp/runs.json
+          config_file="${CONFIG_FILE:-ops/ci-log-config.txt}"
+          if [ -f "$config_file" ]; then
+            echo "Using config file: $config_file"
+            grep -v '^#' "$config_file" | sed 's/^/- /'
+          else
+            echo "::warning::Config file $config_file not found; the script will fall back to its built-in list"
+          fi
 
-          while IFS= read -r row; do
-            run_id=$(echo "$row" | jq -r '.runId')
-            target=$(echo "$row" | jq -r '.target')
-            label=$(echo "$row" | jq -r '.label')
-
-            mkdir -p "$target"
-            if gh run download "$run_id" --dir "$target"; then
-              echo "Scaricato run $run_id in $target"
-            else
-              echo "::warning::Download fallito per ${label:-workflow sconosciuto} (${run_id})"
-            fi
-          done < <(jq -c '.[]' /tmp/runs.json)
+      - name: Run harvest script (punto 3)
+        env:
+          CI_LOG_HARVEST_CONFIG: ${{ env.CI_LOG_CONFIG_FILE }}
+        run: |
+          set -eo pipefail
+          chmod +x scripts/ci_log_harvest.sh
+          scripts/ci_log_harvest.sh
 
       - name: Commit harvested logs if updated
         id: commit
