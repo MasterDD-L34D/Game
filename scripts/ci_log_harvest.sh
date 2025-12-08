@@ -33,6 +33,29 @@ Options:
 USAGE
 }
 
+default_ref() {
+  local head_ref
+  if head_ref=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null); then
+    echo "${head_ref#origin/}"
+  else
+    echo "main"
+  fi
+}
+
+resolve_dispatch_ref() {
+  local requested_ref="$1"
+  local fallback
+  fallback=$(default_ref)
+
+  if git ls-remote --exit-code --heads origin "$requested_ref" >/dev/null 2>&1; then
+    echo "$requested_ref"
+    return
+  fi
+
+  echo "[warn] Ref '$requested_ref' not found on origin; falling back to '${fallback}'." >&2
+  echo "$fallback"
+}
+
 detect_platform() {
   local os arch
   os=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -204,10 +227,18 @@ download_run_logs_zip() {
     fi
   fi
 
+  local accept_header="application/vnd.github+json"
+
   if [[ "$GH_API_SUPPORTS_OUTPUT" -eq 1 ]]; then
-    gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}/logs" --header "Accept: application/zip" --output "$logs_zip"
+    if ! gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}/logs" --header "Accept: ${accept_header}" --output "$logs_zip"; then
+      echo "[warn] Unable to download logs archive for run ${run_id}" >&2
+      return
+    fi
   else
-    gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}/logs" --header "Accept: application/zip" >"$logs_zip"
+    if ! gh api --method GET "repos/:owner/:repo/actions/runs/${run_id}/logs" --header "Accept: ${accept_header}" >"$logs_zip"; then
+      echo "[warn] Unable to download logs archive for run ${run_id}" >&2
+      return
+    fi
   fi
 }
 
@@ -321,9 +352,11 @@ process_workflow() {
   fi
 
   if [[ "$mode" == "manual" && "${DISPATCH_MANUAL:-0}" == "1" ]]; then
-    echo "[dispatch] $workflow on ref $REF ${inputs:+with inputs: $inputs}"
+    local dispatch_ref
+    dispatch_ref=$(resolve_dispatch_ref "$REF")
+    echo "[dispatch] $workflow on ref $dispatch_ref ${inputs:+with inputs: $inputs}"
     if [[ "$DRY_RUN" -eq 0 ]]; then
-      gh workflow run "$workflow" --ref "$REF" ${inputs:-}
+      gh workflow run "$workflow" --ref "$dispatch_ref" ${inputs:-}
     fi
     if [[ "${WAIT_FOR_COMPLETION:-0}" == "1" ]]; then
       sleep 5

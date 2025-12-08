@@ -1,0 +1,140 @@
+harvest	Set up job	﻿2025-12-08T13:50:20.6852001Z Current runner version: '2.329.0'
+harvest	Set up job	2025-12-08T13:50:20.6876630Z ##[group]Runner Image Provisioner
+harvest	Set up job	2025-12-08T13:50:20.6877519Z Hosted Compute Agent
+harvest	Set up job	2025-12-08T13:50:20.6878090Z Version: 20251124.448
+harvest	Set up job	2025-12-08T13:50:20.6878672Z Commit: fda5086b43ec66ade217e5fcd18146c879571177
+harvest	Set up job	2025-12-08T13:50:20.6879464Z Build Date: 2025-11-24T21:16:26Z
+harvest	Set up job	2025-12-08T13:50:20.6880065Z ##[endgroup]
+harvest	Set up job	2025-12-08T13:50:20.6880573Z ##[group]Operating System
+harvest	Set up job	2025-12-08T13:50:20.6881187Z Ubuntu
+harvest	Set up job	2025-12-08T13:50:20.6881669Z 24.04.3
+harvest	Set up job	2025-12-08T13:50:20.6882142Z LTS
+harvest	Set up job	2025-12-08T13:50:20.6882997Z ##[endgroup]
+harvest	Set up job	2025-12-08T13:50:20.6883572Z ##[group]Runner Image
+harvest	Set up job	2025-12-08T13:50:20.6884169Z Image: ubuntu-24.04
+harvest	Set up job	2025-12-08T13:50:20.6884796Z Version: 20251126.144.1
+harvest	Set up job	2025-12-08T13:50:20.6885840Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251126.144/images/ubuntu/Ubuntu2404-Readme.md
+harvest	Set up job	2025-12-08T13:50:20.6887232Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251126.144
+harvest	Set up job	2025-12-08T13:50:20.6888473Z ##[endgroup]
+harvest	Set up job	2025-12-08T13:50:20.6889574Z ##[group]GITHUB_TOKEN Permissions
+harvest	Set up job	2025-12-08T13:50:20.6891341Z Actions: read
+harvest	Set up job	2025-12-08T13:50:20.6891917Z Contents: write
+harvest	Set up job	2025-12-08T13:50:20.6892584Z Metadata: read
+harvest	Set up job	2025-12-08T13:50:20.6893564Z ##[endgroup]
+harvest	Set up job	2025-12-08T13:50:20.6895544Z Secret source: Actions
+harvest	Set up job	2025-12-08T13:50:20.6896374Z Prepare workflow directory
+harvest	Set up job	2025-12-08T13:50:20.7404971Z Prepare all required actions
+harvest	Set up job	2025-12-08T13:50:20.7444642Z Getting action download info
+harvest	Set up job	2025-12-08T13:50:21.0031941Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+harvest	Set up job	2025-12-08T13:50:21.3150538Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+harvest	Set up job	2025-12-08T13:50:21.4972001Z Complete job name: harvest
+harvest	Checkout repository	﻿2025-12-08T13:50:21.5604700Z ##[group]Run actions/checkout@v4
+harvest	Checkout repository	2025-12-08T13:50:21.5605600Z with:
+harvest	Checkout repository	2025-12-08T13:50:21.5606104Z   repository: MasterDD-L34D/Game
+harvest	Checkout repository	2025-12-08T13:50:21.5606794Z   token: ***
+harvest	Checkout repository	2025-12-08T13:50:21.5607244Z   ssh-strict: true
+harvest	Checkout repository	2025-12-08T13:50:21.5607675Z   ssh-user: git
+harvest	Checkout repository	2025-12-08T13:50:21.5608131Z   persist-credentials: true
+harvest	Checkout repository	2025-12-08T13:50:21.5608633Z   clean: true
+harvest	Checkout repository	2025-12-08T13:50:21.5609081Z   sparse-checkout-cone-mode: true
+harvest	Checkout repository	2025-12-08T13:50:21.5609621Z   fetch-depth: 1
+harvest	Checkout repository	2025-12-08T13:50:21.5610057Z   fetch-tags: false
+harvest	Checkout repository	2025-12-08T13:50:21.5610501Z   show-progress: true
+harvest	Checkout repository	2025-12-08T13:50:21.5610966Z   lfs: false
+harvest	Checkout repository	2025-12-08T13:50:21.5611369Z   submodules: false
+harvest	Checkout repository	2025-12-08T13:50:21.5611791Z   set-safe-directory: true
+harvest	Checkout repository	2025-12-08T13:50:21.5612514Z env:
+harvest	Checkout repository	2025-12-08T13:50:21.5613230Z   GH_TOKEN: ***
+harvest	Checkout repository	2025-12-08T13:50:21.5613739Z   CI_LOG_CONFIG_FILE: ops/ci-log-config.txt
+harvest	Checkout repository	2025-12-08T13:50:21.5614296Z ##[endgroup]
+harvest	Checkout repository	2025-12-08T13:50:21.6727928Z Syncing repository: MasterDD-L34D/Game
+harvest	Checkout repository	2025-12-08T13:50:21.6729635Z ##[group]Getting Git version info
+harvest	Checkout repository	2025-12-08T13:50:21.6730347Z Working directory is '/home/runner/work/Game/Game'
+harvest	Checkout repository	2025-12-08T13:50:21.6731286Z [command]/usr/bin/git version
+harvest	Checkout repository	2025-12-08T13:50:21.6805899Z git version 2.52.0
+harvest	Checkout repository	2025-12-08T13:50:21.6846166Z ##[endgroup]
+harvest	Checkout repository	2025-12-08T13:50:21.6865183Z Temporarily overriding HOME='/home/runner/work/_temp/58dc7414-78dd-400f-9dd2-57ebb5ba6d5b' before making global git config changes
+harvest	Checkout repository	2025-12-08T13:50:21.6866965Z Adding repository directory to the temporary git global config as a safe directory
+harvest	Checkout repository	2025-12-08T13:50:21.6873211Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+harvest	Checkout repository	2025-12-08T13:50:21.6920408Z Deleting the contents of '/home/runner/work/Game/Game'
+harvest	Checkout repository	2025-12-08T13:50:21.6925521Z ##[group]Initializing the repository
+harvest	Checkout repository	2025-12-08T13:50:21.6931322Z [command]/usr/bin/git init /home/runner/work/Game/Game
+harvest	Checkout repository	2025-12-08T13:50:21.7043209Z hint: Using 'master' as the name for the initial branch. This default branch name
+harvest	Checkout repository	2025-12-08T13:50:21.7044773Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+harvest	Checkout repository	2025-12-08T13:50:21.7046466Z hint: to use in all of your new repositories, which will suppress this warning,
+harvest	Checkout repository	2025-12-08T13:50:21.7048129Z hint: call:
+harvest	Checkout repository	2025-12-08T13:50:21.7048820Z hint:
+harvest	Checkout repository	2025-12-08T13:50:21.7049508Z hint: 	git config --global init.defaultBranch <name>
+harvest	Checkout repository	2025-12-08T13:50:21.7050151Z hint:
+harvest	Checkout repository	2025-12-08T13:50:21.7050752Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+harvest	Checkout repository	2025-12-08T13:50:21.7051771Z hint: 'development'. The just-created branch can be renamed via this command:
+harvest	Checkout repository	2025-12-08T13:50:21.7052520Z hint:
+harvest	Checkout repository	2025-12-08T13:50:21.7053162Z hint: 	git branch -m <name>
+harvest	Checkout repository	2025-12-08T13:50:21.7053609Z hint:
+harvest	Checkout repository	2025-12-08T13:50:21.7054258Z hint: Disable this message with "git config set advice.defaultBranchName false"
+harvest	Checkout repository	2025-12-08T13:50:21.7055211Z Initialized empty Git repository in /home/runner/work/Game/Game/.git/
+harvest	Checkout repository	2025-12-08T13:50:21.7064073Z [command]/usr/bin/git remote add origin https://github.com/MasterDD-L34D/Game
+harvest	Checkout repository	2025-12-08T13:50:21.7103169Z ##[endgroup]
+harvest	Checkout repository	2025-12-08T13:50:21.7103974Z ##[group]Disabling automatic garbage collection
+harvest	Checkout repository	2025-12-08T13:50:21.7109002Z [command]/usr/bin/git config --local gc.auto 0
+harvest	Checkout repository	2025-12-08T13:50:21.7141161Z ##[endgroup]
+harvest	Checkout repository	2025-12-08T13:50:21.7141896Z ##[group]Setting up auth
+harvest	Checkout repository	2025-12-08T13:50:21.7151390Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+harvest	Checkout repository	2025-12-08T13:50:21.7185965Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+harvest	Checkout repository	2025-12-08T13:50:21.7577709Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+harvest	Checkout repository	2025-12-08T13:50:21.7611892Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+harvest	Checkout repository	2025-12-08T13:50:21.7859656Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+harvest	Checkout repository	2025-12-08T13:50:21.7897279Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+harvest	Checkout repository	2025-12-08T13:50:21.8153420Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+harvest	Checkout repository	2025-12-08T13:50:21.8190394Z ##[endgroup]
+harvest	Checkout repository	2025-12-08T13:50:21.8191662Z ##[group]Fetching the repository
+harvest	Checkout repository	2025-12-08T13:50:21.8201209Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a0e437f8e308a88d6a73293d5725af9c54708af6:refs/remotes/origin/main
+harvest	Checkout repository	2025-12-08T13:50:22.4893837Z From https://github.com/MasterDD-L34D/Game
+harvest	Checkout repository	2025-12-08T13:50:22.4895549Z  * [new ref]         a0e437f8e308a88d6a73293d5725af9c54708af6 -> origin/main
+harvest	Checkout repository	2025-12-08T13:50:22.4928738Z ##[endgroup]
+harvest	Checkout repository	2025-12-08T13:50:22.4929986Z ##[group]Determining the checkout info
+harvest	Checkout repository	2025-12-08T13:50:22.4931927Z ##[endgroup]
+harvest	Checkout repository	2025-12-08T13:50:22.4937001Z [command]/usr/bin/git sparse-checkout disable
+harvest	Checkout repository	2025-12-08T13:50:22.4988523Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+harvest	Checkout repository	2025-12-08T13:50:22.5015940Z ##[group]Checking out the ref
+harvest	Checkout repository	2025-12-08T13:50:22.5019734Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+harvest	Checkout repository	2025-12-08T13:50:22.7308728Z Switched to a new branch 'main'
+harvest	Checkout repository	2025-12-08T13:50:22.7310252Z branch 'main' set up to track 'origin/main'.
+harvest	Checkout repository	2025-12-08T13:50:22.7327125Z ##[endgroup]
+harvest	Checkout repository	2025-12-08T13:50:22.7365122Z [command]/usr/bin/git log -1 --format=%H
+harvest	Checkout repository	2025-12-08T13:50:22.7386891Z a0e437f8e308a88d6a73293d5725af9c54708af6
+harvest	Validate GH_TOKEN	﻿2025-12-08T13:50:22.7589049Z ##[group]Run if [ -z "${GH_TOKEN:-}" ]; then
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7590591Z [36;1mif [ -z "${GH_TOKEN:-}" ]; then[0m
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7593114Z [36;1m  echo "::error::GH_TOKEN non impostato: definisci il secret CI_LOG_PAT o LOG_HARVEST_PAT con scope workflow/read:org/repo-admin"[0m
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7595416Z [36;1m  exit 1[0m
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7596409Z [36;1mfi[0m
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7634609Z shell: /usr/bin/bash -e {0}
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7635818Z env:
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7637167Z   GH_TOKEN: ***
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7638530Z   CI_LOG_CONFIG_FILE: ops/ci-log-config.txt
+harvest	Validate GH_TOKEN	2025-12-08T13:50:22.7639824Z ##[endgroup]
+harvest	Auth gh	﻿2025-12-08T13:50:22.7785234Z ##[group]Run gh auth login --with-token < "$GH_TOKEN"
+harvest	Auth gh	2025-12-08T13:50:22.7786684Z [36;1mgh auth login --with-token < "$GH_TOKEN"[0m
+harvest	Auth gh	2025-12-08T13:50:22.7787875Z [36;1mgh auth status[0m
+harvest	Auth gh	2025-12-08T13:50:22.7820473Z shell: /usr/bin/bash -e {0}
+harvest	Auth gh	2025-12-08T13:50:22.7821500Z env:
+harvest	Auth gh	2025-12-08T13:50:22.7822839Z   GH_TOKEN: ***
+harvest	Auth gh	2025-12-08T13:50:22.7823867Z   CI_LOG_CONFIG_FILE: ops/ci-log-config.txt
+harvest	Auth gh	2025-12-08T13:50:22.7825008Z ##[endgroup]
+harvest	Auth gh	2025-12-08T13:50:22.7889860Z /home/runner/work/_temp/625bb66c-43ab-43bb-abcd-ca148c1965a8.sh: line 1: ***: No such file or directory
+harvest	Auth gh	2025-12-08T13:50:22.7903467Z ##[error]Process completed with exit code 1.
+harvest	Post Checkout repository	﻿2025-12-08T13:50:22.8133972Z Post job cleanup.
+harvest	Post Checkout repository	2025-12-08T13:50:22.9081438Z [command]/usr/bin/git version
+harvest	Post Checkout repository	2025-12-08T13:50:22.9119028Z git version 2.52.0
+harvest	Post Checkout repository	2025-12-08T13:50:22.9165433Z Temporarily overriding HOME='/home/runner/work/_temp/81b4fd75-a3e8-477d-80bb-7bfa26200790' before making global git config changes
+harvest	Post Checkout repository	2025-12-08T13:50:22.9169955Z Adding repository directory to the temporary git global config as a safe directory
+harvest	Post Checkout repository	2025-12-08T13:50:22.9173669Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+harvest	Post Checkout repository	2025-12-08T13:50:22.9208649Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+harvest	Post Checkout repository	2025-12-08T13:50:22.9244123Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+harvest	Post Checkout repository	2025-12-08T13:50:22.9476689Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+harvest	Post Checkout repository	2025-12-08T13:50:22.9496818Z http.https://github.com/.extraheader
+harvest	Post Checkout repository	2025-12-08T13:50:22.9510768Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+harvest	Post Checkout repository	2025-12-08T13:50:22.9546014Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+harvest	Post Checkout repository	2025-12-08T13:50:22.9847535Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+harvest	Post Checkout repository	2025-12-08T13:50:22.9854988Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+harvest	Complete job	﻿2025-12-08T13:50:23.0162470Z Cleaning up orphan processes

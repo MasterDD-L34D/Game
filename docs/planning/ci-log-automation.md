@@ -4,20 +4,32 @@ Questo documento centralizza i comandi per scaricare i log/artefatti dei workflo
 
 ## Prerequisiti
 
-- GitHub CLI (`gh`) installato e autenticato con un PAT che abbia scope `workflow`, `read:org` **e** permessi repo/admin, autorizzato via SSO. Salvalo come secret `CI_LOG_PAT` (preferito) o `LOG_HARVEST_PAT` e rendilo disponibile come `GH_TOKEN`/`GITHUB_TOKEN` per l’automazione.
+- GitHub CLI (`gh`) installato e autenticato con un PAT che abbia scope `workflow`, `read:org` **e** permessi repo/admin, autorizzato via SSO. Salvalo come secret `CI_LOG_PAT` e rendilo disponibile come `GH_TOKEN`/`GITHUB_TOKEN` per l’automazione.
 - Accesso di rete a GitHub Actions.
 - Permessi di scrittura locali nelle cartelle di destinazione (`logs/ci_runs`, `logs/visual_runs`, `logs/incoming_smoke`).
 
 ### Setup rapido PAT + `gh`
 
-1. Esporta il PAT nella macchina dove gira `gh` con una di queste variabili: `GH_TOKEN`, `CI_LOG_PAT` oppure `LOG_HARVEST_PAT` (compatibili con lo scheduler e con il workflow `log-harvester.yml`).
-2. Autentica GitHub CLI con il token già esportato: `gh auth login --with-token < "$GH_TOKEN"` (oppure `CI_LOG_PAT`/`LOG_HARVEST_PAT` se usati).
+1. Esporta il PAT nella macchina dove gira `gh` con una di queste variabili: `GH_TOKEN` oppure `CI_LOG_PAT` (compatibili con lo scheduler e con il workflow `log-harvester.yml`).
+2. Autentica GitHub CLI con il token già esportato: `gh auth login --with-token < "$GH_TOKEN"` (oppure `CI_LOG_PAT` se usato direttamente).
 3. Verifica lo stato: `gh auth status` deve indicare l’account e l’host configurati.
 4. Se usi un runner/scheduler, configura il segreto sul job (`log-harvester.yml`) con gli scope `workflow`, `read:org` e permessi repo/admin per sbloccare il download degli artifact e dei log zippati.
 
+Esempio rapido (runner con `CI_LOG_PAT` già disponibile come secret):
+
+```bash
+export GH_TOKEN="${CI_LOG_PAT:-}"  # preferisci il segreto già esposto
+gh auth login --with-token < "$GH_TOKEN"
+gh auth status
+```
+
+Ricorda: il token deve essere autorizzato via SSO e avere almeno scope `workflow`, `read:org` e permessi repo/admin per consentire il download zip dei log/artefatti.
+
+> Nota su questo repository: i pacchetti `_logs.zip` scaricati dai workflow non vengono versionati nei PR (i binari vengono bloccati). Mantieni gli HTML testuali in `logs/` e, se ti servono i bundle zip, rigenerali localmente con `scripts/ci_log_harvest.sh --config ops/ci-log-config.txt --force-zip` dopo aver esportato `GH_TOKEN=$CI_LOG_PAT` (vedi `logs/ci_runs/LOG_ARCHIVE_NOTE.md`).
+
 ### Checklist runner (`log-harvester.yml`)
 
-- Aggiungi il segreto `CI_LOG_PAT` (o `LOG_HARVEST_PAT`) ai secret del repository/organizzazione con scope `workflow`, `read:org` e permessi repo/admin.
+- Aggiungi il segreto `CI_LOG_PAT` ai secret del repository/organizzazione con scope `workflow`, `read:org` e permessi repo/admin.
 - Espone il segreto come `GH_TOKEN` nel job e autentica `gh` prima dei download:
 
   ```yaml
@@ -130,7 +142,7 @@ La lista canonica usata sia dallo script sia dal workflow `log-harvester.yml` è
 - Per ogni workflow esegue:
   1. `gh run list --workflow <file> --limit 1 --json databaseId,status,conclusion` per prendere l’ultimo run (autenticato con `GH_TOKEN` impostato dal PAT dei secret sopra).
   2. Se il run è `completed`, salva la pagina HTML del run, scarica i log zipped via API (`.../runs/<id>/logs`) e scarica gli artefatti sia estratti sia come archivio `.zip` (`gh run download --archive`).
-  3. Per i manuali, se `DISPATCH_MANUAL=1`, lancia `gh workflow run <file> --ref <branch> <dispatch_inputs>`; opzionale attesa con `WAIT_FOR_COMPLETION=1`. Senza dispatch, scarica comunque l’ultimo run disponibile.
+  3. Per i manuali, se `DISPATCH_MANUAL=1`, lancia `gh workflow run <file> --ref <branch> <dispatch_inputs>`; opzionale attesa con `WAIT_FOR_COMPLETION=1`. Senza dispatch, scarica comunque l’ultimo run disponibile. Se il ref passato non esiste su `origin`, lo script effettua fallback automatico al branch di default remoto (es. `main`) così da evitare errori `ref not present`.
 
 ### Esempi d’uso
 
@@ -154,7 +166,7 @@ La lista canonica usata sia dallo script sia dal workflow `log-harvester.yml` è
 
 ### Checklist operativa (punto 3 del piano)
 
-- Prima di lanciare il job verifica che `GH_TOKEN` sia valorizzato dal secret `CI_LOG_PAT`/`LOG_HARVEST_PAT` (scope `workflow`, `read:org`, repo/admin). Il workflow `log-harvester.yml` fallisce subito se il token manca.
+- Prima di lanciare il job verifica che `GH_TOKEN` sia valorizzato dal secret `CI_LOG_PAT` (scope `workflow`, `read:org`, repo/admin). Il workflow `log-harvester.yml` fallisce subito se il token manca.
 - Nel runner, la sequenza standard è: checkout → `gh auth login --with-token < "$GH_TOKEN"` + `gh auth status` → `make ci-log-harvest` (o `scripts/ci_log_harvest.sh ...`).
 - Controlla che le cartelle di destinazione (`logs/ci_runs`, `logs/visual_runs`, `logs/incoming_smoke`) contengano i log/html/artifact zippati per ogni workflow previsto. Gli artifact vengono salvati sia estratti sia come zip.
 - Per workflow manuali, valuta se abilitare `DISPATCH_MANUAL=1`/`WAIT_FOR_COMPLETION=1` e passa gli input richiesti (vedi sezione “Workflow manuali che richiedono input”). Anche senza dispatch, il job scarica l’ultimo run completato.
