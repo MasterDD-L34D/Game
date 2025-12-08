@@ -1,0 +1,4 @@
+[2025-12-08T19:40:32Z] Dispatched qa-kpi-monitor.yml on main via `GH_REPO=MasterDD-L34D/Game gh workflow run qa-kpi-monitor.yml -r main`.
+Run ID: 20040574744. Status: FAILED (visual regression) at 2025-12-08T19:41:29Z.
+Error: visual_regression.py compare → ValueError: baseline vs current size mismatch for 'dashboard' (1440x8304 vs 1440x6714).
+Artifacts: visual-report.zip exists but download failed with 403 Forbidden via gh run download; manual retry needed with actions:read token.
