@@ -1,5 +1,8 @@
 # Agent activity log
 
+## 2026-09-21 – Riesame tabelle 01A e ticket TKT-PLAN-01A-03B (archivist)
+- Step: `[RIAPERTURA-2025-02-GAP-2026-09-21T0700Z] owner=archivist (approvatore Master DD); scope=01A→03B; modalità=report-only; files=logs/agent_activity.md,incoming/README.md,docs/incoming/README.md,docs/planning/REF_PLANNING_RIPRESA_2026.md; freeze_window=2025-10-06T09:00Z→2025-10-13T18:00Z; esito=PASS; decision=GO; note=Riletta la tabella 01A (stato DA_INTEGRARE invariato su pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI) e confermato che `_holding` è assente (nessun drop da integrare/archiviare). README incoming/docs aggiornati con nota di riesame e on-call confermata su **TKT-PLAN-01A-03B**: archivist lead, species-curator/trait-curator on-call per 01B, dev-tooling on-call per 01C, tutti in modalità report-only. Nessuno spostamento file o variazione di stato.`
+
 ## 2026-09-19 – Kickoff operativo PATCHSET-00 (coordinator)
 - Step: `[RIAPERTURA-2025-02-KICKOFF-2026-09-19T0000Z] owner=coordinator (con archivist; approvatore Master DD); scope=PATCHSET-00 (routing 01A→03B); freeze_window=2025-10-06T09:00Z→2025-10-13T18:00Z; obiettivo=riallineo timeline 2025 e target chiusura 03B al 07/12/2025 prima di riaprire 01A; input=ultimo log RIAPERTURA-2025-02 + note freeze + mapping ticket 01A→03B; output=nota di kickoff con rischi noti e check-in agenti on-call; note=Kickoff 15' concluso: confermata finestra freeze archiviata (nessun nuovo drop), ricordato perimetro STRICT MODE e che le fasi 01A/01B/01C restano in sola lettura finché non autorizzate.]`
 

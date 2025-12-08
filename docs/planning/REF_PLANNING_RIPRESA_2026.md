@@ -26,6 +26,12 @@ Scope della ripresa: riattivare i flussi preparatori su incoming/01A–03B senza
 - **Kickoff:** log `[RIAPERTURA-2025-02-KICKOFF-2026-09-17T0915Z]` con sincronizzazione README e conferma rischio residuo su `scan_engine_idents.py` e licenze/redirect.
 - **Chiusura:** log `[RIAPERTURA-2025-02-CLOSE-2026-09-17T0930Z]` con esito PASS e autorizzazione a proseguire sulla pipeline 01A in STRICT MODE.
 
+### Aggiornamento TKT-PLAN-01A-03B (on-call e disponibilità)
+
+- Stato ticket: **TKT-PLAN-01A-03B** aggiornato in report-only con copertura freeze 06/10/2025→13/10/2025 sbloccata.
+- Disponibilità agenti: archivist lead per 01A; species-curator e trait-curator on-call per 01B; dev-tooling on-call per 01C; coordinator e balancer disponibili in backup consultivo. Tutti operano in STRICT MODE senza spostamento file.
+- Sincronizzazione: README `incoming/` e `docs/incoming/` allineati alla nota di riesame 2026-09-21, con richiamo ai pacchetti **DA_INTEGRARE** e alla copertura on-call sopra.
+
 ---
 
 ## Obiettivi
