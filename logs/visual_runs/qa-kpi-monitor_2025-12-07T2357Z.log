@@ -1,0 +1,3 @@
+[2025-12-07T23:57:00Z] Attempted to dispatch qa-kpi-monitor.yml via `gh workflow run qa-kpi-monitor.yml -b main`.
+Outcome: NOT EXECUTED – GitHub CLI (`gh`) is not installed in the environment (command not found) and no GH_TOKEN/PAT is configured, so the workflow could not be triggered or artifacts downloaded.
+Follow-up: install GitHub CLI, configure a PAT with actions:read/workflow and contents permissions (artifact download enabled), then rerun from main and upload visual logs.
