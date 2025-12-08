@@ -22,6 +22,14 @@ Freeze straordinario richiesto per proteggere `core/**`, `derived/**`, `incoming
 - Master DD approva i gate triade/smoke e autorizza il merge sequenziale `patch/03A-core-derived` → `patch/03B-incoming-cleanup` → `main`, dichiarando chiuso il freeze 03AB.
 - Manifest di backup confermati per la chiusura e archiviati come riferimento: `reports/backups/2025-11-25_freeze/manifest.txt`, `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt`, `reports/backups/2025-11-25T1500Z_freeze/manifest.txt`, `reports/backups/2025-11-25T1724Z_masterdd_freeze/manifest.txt`, `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt`.
 
+### Stato manifest e retrieval (verifica 2025-12-08)
+
+- `reports/backups/2025-11-25_freeze/manifest.txt` — **presente**. I riferimenti S3 per i quattro tar (`core_snapshot_2025-11-25`, `derived_snapshot_2025-11-25`, `incoming_backup_2025-11-25`, `docs_incoming_backup_2025-11-25`) sono documentati in questa pagina nella sezione _Retrieval_ con ruolo `backup-restore` e comando `aws s3 cp … | sha256sum`.
+- `reports/backups/2025-11-29T0525Z_freeze_03A-03B/manifest.txt` — **presente**, modalità archive-less: nessun archivio S3 da prelevare; il recupero si effettua ristabilendo i file testuali indicati in `inventory.md` e rieseguendo smoke/validator.
+- `reports/backups/2025-11-25T1500Z_freeze/manifest.txt` — **presente** con percorsi S3 espliciti per i quattro tar del freeze 15:00Z (core/derived/incoming/docs_incoming); usare ruolo `backup-restore` in sola lettura e verificare i checksum SHA256 riportati nel manifest prima del ripristino.
+- `reports/backups/2025-11-25T1724Z_masterdd_freeze/manifest.txt` — **presente** con percorsi S3 espliciti per i tar 17:24Z; seguire le note `manifest.sha256` per i checksum originali e ruolo `backup-restore` per l’accesso.
+- `reports/backups/2025-11-25T2028Z_masterdd_freeze/manifest.txt` — **presente** con percorsi S3 espliciti per i tar 20:28Z; usare il ruolo `backup-restore` e validare gli SHA256 del manifest prima di eventuali estrazioni.
+
 ## Artefatti di snapshot/backup
 
 - Archivi custoditi off-repo (policy anti-binary in PR). Percorso logico: `reports/backups/2025-11-25_freeze/`.
