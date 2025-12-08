@@ -19,8 +19,8 @@ set -euo pipefail
 # Lines starting with # or empty lines are ignored.
 
 REF="main"
-CONFIG_FILE=""
-DRY_RUN=0
+CONFIG_FILE="${CI_LOG_HARVEST_CONFIG:-ops/ci-log-config.txt}"
+DRY_RUN=${DRY_RUN:-0}
 
 usage() {
   cat <<'USAGE'
@@ -33,7 +33,73 @@ Options:
 USAGE
 }
 
-command -v gh >/dev/null 2>&1 || { echo "Error: GitHub CLI (gh) is required." >&2; exit 1; }
+detect_platform() {
+  local os arch
+  os=$(uname -s | tr '[:upper:]' '[:lower:]')
+  arch=$(uname -m)
+
+  case "$arch" in
+    x86_64|amd64)
+      arch="amd64";;
+    arm64|aarch64)
+      arch="arm64";;
+    *)
+      echo "Error: unsupported architecture for gh bootstrap ($arch)." >&2
+      return 1;;
+  esac
+
+  case "$os" in
+    linux|darwin)
+      ;; 
+    *)
+      echo "Error: unsupported OS for gh bootstrap ($os)." >&2
+      return 1;;
+  esac
+
+  echo "${os}|${arch}"
+}
+
+bootstrap_gh() {
+  local bootstrap_dir="${GH_BOOTSTRAP_DIR:-.cache/gh-cli}"
+  local gh_bin="${bootstrap_dir}/bin/gh"
+
+  if [[ -x "$gh_bin" ]]; then
+    export PATH="${bootstrap_dir}/bin:${PATH}"
+    return
+  fi
+
+  local platform
+  if ! platform=$(detect_platform); then
+    return 1
+  fi
+
+  local os="${platform%%|*}"
+  local arch="${platform##*|}"
+  local version="${GH_BOOTSTRAP_VERSION:-2.57.0}"
+  local tarball="gh_${version}_${os}_${arch}.tar.gz"
+  local url="https://github.com/cli/cli/releases/download/v${version}/${tarball}"
+
+  echo "[bootstrap] Installing GitHub CLI v${version} -> ${bootstrap_dir} (${os}/${arch})" >&2
+  mkdir -p "$bootstrap_dir"
+
+  if ! curl -fsSL "$url" | tar -xz -C "$bootstrap_dir" --strip-components=1; then
+    echo "Error: unable to download/install gh from ${url}. Install gh manually or set GH_BOOTSTRAP_DIR to a pre-populated path." >&2
+    return 1
+  fi
+
+  export PATH="${bootstrap_dir}/bin:${PATH}"
+}
+
+ensure_gh() {
+  if command -v gh >/dev/null 2>&1; then
+    return
+  fi
+
+  if ! bootstrap_gh; then
+    echo "Error: GitHub CLI (gh) is required. Install via brew/apt or set GH_BOOTSTRAP_DIR to an existing gh install." >&2
+    exit 1
+  fi
+}
 
 pick_token() {
   local token=""
@@ -200,16 +266,13 @@ download_artifacts() {
 
 read_workflows() {
   local workflows=()
-  if [[ -n "$CONFIG_FILE" ]]; then
-    if [[ ! -f "$CONFIG_FILE" ]]; then
-      echo "Config file not found: $CONFIG_FILE" >&2
-      exit 1
-    fi
+  if [[ -n "$CONFIG_FILE" && -f "$CONFIG_FILE" ]]; then
     while IFS= read -r line || [[ -n "$line" ]]; do
       [[ -z "$line" || "$line" =~ ^# ]] && continue
       workflows+=("$line")
     done <"$CONFIG_FILE"
   else
+    echo "[warn] Config file not found (${CONFIG_FILE:-unset}); using built-in defaults" >&2
     workflows=("${DEFAULT_WORKFLOWS[@]}")
   fi
   printf '%s\n' "${workflows[@]}"
@@ -247,6 +310,11 @@ process_workflow() {
   fi
 
   mkdir -p "$dest"
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    echo "[dry-run] $workflow -> $dest (mode: $mode${inputs:+, inputs: $inputs})"
+    return
+  fi
 
   if [[ "$mode" == "manual" && "${DISPATCH_MANUAL:-0}" != "1" ]]; then
     echo "[info] $workflow is manual-only; skipping dispatch but downloading latest run if present."
@@ -300,7 +368,13 @@ process_workflow() {
 }
 
 main() {
-  pick_token
+  if [[ "$DRY_RUN" -eq 0 ]]; then
+    ensure_gh
+    pick_token
+  else
+    echo "[dry-run] Skipping gh bootstrap and token validation" >&2
+  fi
+
   while IFS= read -r entry; do
     process_workflow "$entry"
   done < <(read_workflows)

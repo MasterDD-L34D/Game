@@ -40,6 +40,8 @@ EVO_VERBOSE_FLAG := $(strip $(if $(filter 1 true yes on,$(EVO_VERBOSE)),--verbos
 TRACKER_CHECK ?=
 TRACKER_CHECK_FLAG := $(strip $(if $(filter 1 true yes on,$(TRACKER_CHECK)),--check,))
 CI_LOG_HARVEST_CONFIG ?=
+CI_LOG_HARVEST_DRY_RUN ?=
+CI_LOG_HARVEST_ARGS ?=
 
 sitemap:
 	python ops/site-audit/build_sitemap.py
@@ -162,12 +164,10 @@ traits-review:
 	fi
 
 update-tracker:
-        $(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)
+	$(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)
 
 ci-log-harvest:
-        command -v gh >/dev/null 2>&1 || { echo "GitHub CLI (gh) non trovata: installa 'brew install gh' o 'sudo apt update && sudo apt install gh'."; exit 1; }
-        @if [ -z "${CI_LOG_PAT}${LOG_HARVEST_PAT}${GH_TOKEN}${GITHUB_TOKEN}" ]; then \
-                echo "Impostare CI_LOG_PAT (consigliato) o LOG_HARVEST_PAT/GH_TOKEN con un PAT GitHub (workflow, read:org, repo admin) autenticato SSO."; \
-                exit 1; \
-        fi
-        bash scripts/ci_log_harvest.sh $(if $(CI_LOG_HARVEST_CONFIG),--config "${CI_LOG_HARVEST_CONFIG}",)
+	bash scripts/ci_log_harvest.sh \
+		$(if $(CI_LOG_HARVEST_CONFIG),--config "${CI_LOG_HARVEST_CONFIG}",) \
+		$(if $(CI_LOG_HARVEST_DRY_RUN),--dry-run,) \
+		${CI_LOG_HARVEST_ARGS}
