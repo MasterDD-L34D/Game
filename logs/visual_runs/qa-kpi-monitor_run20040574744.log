@@ -1,0 +1,623 @@
+kpi-visual	Set up job	﻿2025-12-08T19:40:40.1962868Z Current runner version: '2.329.0'
+kpi-visual	Set up job	2025-12-08T19:40:40.1999220Z ##[group]Runner Image Provisioner
+kpi-visual	Set up job	2025-12-08T19:40:40.2000600Z Hosted Compute Agent
+kpi-visual	Set up job	2025-12-08T19:40:40.2001494Z Version: 20251124.448
+kpi-visual	Set up job	2025-12-08T19:40:40.2002597Z Commit: fda5086b43ec66ade217e5fcd18146c879571177
+kpi-visual	Set up job	2025-12-08T19:40:40.2003661Z Build Date: 2025-11-24T21:16:26Z
+kpi-visual	Set up job	2025-12-08T19:40:40.2004591Z ##[endgroup]
+kpi-visual	Set up job	2025-12-08T19:40:40.2005710Z ##[group]Operating System
+kpi-visual	Set up job	2025-12-08T19:40:40.2006736Z Ubuntu
+kpi-visual	Set up job	2025-12-08T19:40:40.2007488Z 24.04.3
+kpi-visual	Set up job	2025-12-08T19:40:40.2008154Z LTS
+kpi-visual	Set up job	2025-12-08T19:40:40.2008963Z ##[endgroup]
+kpi-visual	Set up job	2025-12-08T19:40:40.2009707Z ##[group]Runner Image
+kpi-visual	Set up job	2025-12-08T19:40:40.2010619Z Image: ubuntu-24.04
+kpi-visual	Set up job	2025-12-08T19:40:40.2011484Z Version: 20251126.144.1
+kpi-visual	Set up job	2025-12-08T19:40:40.2013173Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251126.144/images/ubuntu/Ubuntu2404-Readme.md
+kpi-visual	Set up job	2025-12-08T19:40:40.2015722Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251126.144
+kpi-visual	Set up job	2025-12-08T19:40:40.2017608Z ##[endgroup]
+kpi-visual	Set up job	2025-12-08T19:40:40.2019616Z ##[group]GITHUB_TOKEN Permissions
+kpi-visual	Set up job	2025-12-08T19:40:40.2022609Z Contents: read
+kpi-visual	Set up job	2025-12-08T19:40:40.2023575Z Metadata: read
+kpi-visual	Set up job	2025-12-08T19:40:40.2025191Z Packages: read
+kpi-visual	Set up job	2025-12-08T19:40:40.2026143Z ##[endgroup]
+kpi-visual	Set up job	2025-12-08T19:40:40.2029288Z Secret source: Actions
+kpi-visual	Set up job	2025-12-08T19:40:40.2030831Z Prepare workflow directory
+kpi-visual	Set up job	2025-12-08T19:40:40.2406864Z Prepare all required actions
+kpi-visual	Set up job	2025-12-08T19:40:40.2469323Z Getting action download info
+kpi-visual	Set up job	2025-12-08T19:40:40.5679102Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+kpi-visual	Set up job	2025-12-08T19:40:41.1140607Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+kpi-visual	Set up job	2025-12-08T19:40:41.2419297Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+kpi-visual	Set up job	2025-12-08T19:40:41.4507445Z Complete job name: kpi-visual
+kpi-visual	Checkout repository	﻿2025-12-08T19:40:41.5304703Z ##[group]Run actions/checkout@v4
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5306198Z with:
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5306978Z   repository: MasterDD-L34D/Game
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5308190Z   token: ***
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5308887Z   ssh-strict: true
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5309614Z   ssh-user: git
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5310346Z   persist-credentials: true
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5311169Z   clean: true
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5311905Z   sparse-checkout-cone-mode: true
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5312816Z   fetch-depth: 1
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5313529Z   fetch-tags: false
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5314268Z   show-progress: true
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5315149Z   lfs: false
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5315836Z   submodules: false
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5316614Z   set-safe-directory: true
+kpi-visual	Checkout repository	2025-12-08T19:40:41.5317676Z ##[endgroup]
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6412386Z Syncing repository: MasterDD-L34D/Game
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6415435Z ##[group]Getting Git version info
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6416685Z Working directory is '/home/runner/work/Game/Game'
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6418420Z [command]/usr/bin/git version
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6481179Z git version 2.52.0
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6508641Z ##[endgroup]
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6523449Z Temporarily overriding HOME='/home/runner/work/_temp/f60ab204-4896-4638-bc8b-cf294e982b54' before making global git config changes
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6526606Z Adding repository directory to the temporary git global config as a safe directory
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6536398Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6576238Z Deleting the contents of '/home/runner/work/Game/Game'
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6580391Z ##[group]Initializing the repository
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6584214Z [command]/usr/bin/git init /home/runner/work/Game/Game
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6703735Z hint: Using 'master' as the name for the initial branch. This default branch name
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6706825Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6709711Z hint: to use in all of your new repositories, which will suppress this warning,
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6712531Z hint: call:
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6714448Z hint:
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6716225Z hint: 	git config --global init.defaultBranch <name>
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6718172Z hint:
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6719931Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6723162Z hint: 'development'. The just-created branch can be renamed via this command:
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6725908Z hint:
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6727036Z hint: 	git branch -m <name>
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6728350Z hint:
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6730208Z hint: Disable this message with "git config set advice.defaultBranchName false"
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6732185Z Initialized empty Git repository in /home/runner/work/Game/Game/.git/
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6735476Z [command]/usr/bin/git remote add origin https://github.com/MasterDD-L34D/Game
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6762388Z ##[endgroup]
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6765133Z ##[group]Disabling automatic garbage collection
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6767435Z [command]/usr/bin/git config --local gc.auto 0
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6796722Z ##[endgroup]
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6798950Z ##[group]Setting up auth
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6804510Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+kpi-visual	Checkout repository	2025-12-08T19:40:41.6836987Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+kpi-visual	Checkout repository	2025-12-08T19:40:41.7160593Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+kpi-visual	Checkout repository	2025-12-08T19:40:41.7190592Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+kpi-visual	Checkout repository	2025-12-08T19:40:41.7404775Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+kpi-visual	Checkout repository	2025-12-08T19:40:41.7434343Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+kpi-visual	Checkout repository	2025-12-08T19:40:41.7661927Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+kpi-visual	Checkout repository	2025-12-08T19:40:41.7695429Z ##[endgroup]
+kpi-visual	Checkout repository	2025-12-08T19:40:41.7696784Z ##[group]Fetching the repository
+kpi-visual	Checkout repository	2025-12-08T19:40:41.7705038Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +004a528dbebec799bf7157f4b8bd6262c805bab4:refs/remotes/origin/main
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7622238Z From https://github.com/MasterDD-L34D/Game
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7624607Z  * [new ref]         004a528dbebec799bf7157f4b8bd6262c805bab4 -> origin/main
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7654447Z ##[endgroup]
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7655211Z ##[group]Determining the checkout info
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7657416Z ##[endgroup]
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7662272Z [command]/usr/bin/git sparse-checkout disable
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7702732Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7728145Z ##[group]Checking out the ref
+kpi-visual	Checkout repository	2025-12-08T19:40:42.7732420Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+kpi-visual	Checkout repository	2025-12-08T19:40:43.0077800Z Switched to a new branch 'main'
+kpi-visual	Checkout repository	2025-12-08T19:40:43.0078711Z branch 'main' set up to track 'origin/main'.
+kpi-visual	Checkout repository	2025-12-08T19:40:43.0095954Z ##[endgroup]
+kpi-visual	Checkout repository	2025-12-08T19:40:43.0135306Z [command]/usr/bin/git log -1 --format=%H
+kpi-visual	Checkout repository	2025-12-08T19:40:43.0157535Z 004a528dbebec799bf7157f4b8bd6262c805bab4
+kpi-visual	Setup Python	﻿2025-12-08T19:40:43.0391354Z ##[group]Run actions/setup-python@v5
+kpi-visual	Setup Python	2025-12-08T19:40:43.0391835Z with:
+kpi-visual	Setup Python	2025-12-08T19:40:43.0392181Z   python-version: 3.11
+kpi-visual	Setup Python	2025-12-08T19:40:43.0392539Z   check-latest: false
+kpi-visual	Setup Python	2025-12-08T19:40:43.0393025Z   token: ***
+kpi-visual	Setup Python	2025-12-08T19:40:43.0393384Z   update-environment: true
+kpi-visual	Setup Python	2025-12-08T19:40:43.0393756Z   allow-prereleases: false
+kpi-visual	Setup Python	2025-12-08T19:40:43.0394118Z   freethreaded: false
+kpi-visual	Setup Python	2025-12-08T19:40:43.0394449Z ##[endgroup]
+kpi-visual	Setup Python	2025-12-08T19:40:43.2081037Z ##[group]Installed versions
+kpi-visual	Setup Python	2025-12-08T19:40:43.2920946Z Successfully set up CPython (3.11.14)
+kpi-visual	Setup Python	2025-12-08T19:40:43.2922930Z ##[endgroup]
+kpi-visual	Install Python dependencies	﻿2025-12-08T19:40:43.3037827Z ##[group]Run python -m pip install --upgrade pip
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3038404Z [36;1mpython -m pip install --upgrade pip[0m
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3038876Z [36;1mpip install -r tools/py/requirements.txt[0m
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3088530Z shell: /usr/bin/bash -e {0}
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3088937Z env:
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3089317Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3089872Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3090400Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3090872Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3091354Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3091837Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+kpi-visual	Install Python dependencies	2025-12-08T19:40:43.3092254Z ##[endgroup]
+kpi-visual	Install Python dependencies	2025-12-08T19:40:46.1576568Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (25.3)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:47.9386760Z Collecting PyYAML>=6.0 (from -r tools/py/requirements.txt (line 1))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.0426968Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.0863138Z Collecting requests>=2.32.0 (from -r tools/py/requirements.txt (line 2))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.1003147Z   Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.2027934Z Collecting openai>=1.0.0 (from -r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.2171748Z   Downloading openai-2.9.0-py3-none-any.whl.metadata (29 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.2776876Z Collecting pytest>=8.0.0 (from -r tools/py/requirements.txt (line 4))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.2934536Z   Downloading pytest-9.0.2-py3-none-any.whl.metadata (7.6 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.3294784Z Collecting pypdf>=4.0.0 (from -r tools/py/requirements.txt (line 5))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.3433603Z   Downloading pypdf-6.4.1-py3-none-any.whl.metadata (7.1 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.3953093Z Collecting playwright>=1.48.0 (from -r tools/py/requirements.txt (line 6))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.4090195Z   Downloading playwright-1.56.0-py3-none-manylinux1_x86_64.whl.metadata (3.5 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.5875154Z Collecting Pillow>=10.4.0 (from -r tools/py/requirements.txt (line 7))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.6016118Z   Downloading pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.6351862Z Collecting fpdf2>=2.7.8 (from -r tools/py/requirements.txt (line 8))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.6486612Z   Downloading fpdf2-2.8.5-py3-none-any.whl.metadata (76 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.7578051Z Collecting charset_normalizer<4,>=2 (from requests>=2.32.0->-r tools/py/requirements.txt (line 2))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.7718170Z   Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.8017770Z Collecting idna<4,>=2.5 (from requests>=2.32.0->-r tools/py/requirements.txt (line 2))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.8272954Z   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.8701365Z Collecting urllib3<3,>=1.21.1 (from requests>=2.32.0->-r tools/py/requirements.txt (line 2))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.8841821Z   Downloading urllib3-2.6.1-py3-none-any.whl.metadata (6.6 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.9183972Z Collecting certifi>=2017.4.17 (from requests>=2.32.0->-r tools/py/requirements.txt (line 2))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.9324245Z   Downloading certifi-2025.11.12-py3-none-any.whl.metadata (2.5 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.9672189Z Collecting anyio<5,>=3.5.0 (from openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:48.9815747Z   Downloading anyio-4.12.0-py3-none-any.whl.metadata (4.3 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.0069963Z Collecting distro<2,>=1.7.0 (from openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.0209669Z   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.0531365Z Collecting httpx<1,>=0.23.0 (from openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.0668124Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.1699859Z Collecting jiter<1,>=0.10.0 (from openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.1840552Z   Downloading jiter-0.12.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.2 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.3128556Z Collecting pydantic<3,>=1.9.0 (from openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.3269483Z   Downloading pydantic-2.12.5-py3-none-any.whl.metadata (90 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.3554232Z Collecting sniffio (from openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.3691430Z   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.4166214Z Collecting tqdm>4 (from openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.4305111Z   Downloading tqdm-4.67.1-py3-none-any.whl.metadata (57 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.4651762Z Collecting typing-extensions<5,>=4.11 (from openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.4789669Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.5212437Z Collecting httpcore==1.* (from httpx<1,>=0.23.0->openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.5350752Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.5617938Z Collecting h11>=0.16 (from httpcore==1.*->httpx<1,>=0.23.0->openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.5756413Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.6016764Z Collecting annotated-types>=0.6.0 (from pydantic<3,>=1.9.0->openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:49.6155194Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.3378491Z Collecting pydantic-core==2.41.5 (from pydantic<3,>=1.9.0->openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.3521811Z   Downloading pydantic_core-2.41.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.3821504Z Collecting typing-inspection>=0.4.2 (from pydantic<3,>=1.9.0->openai>=1.0.0->-r tools/py/requirements.txt (line 3))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.3958969Z   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.4617394Z Collecting iniconfig>=1.0.1 (from pytest>=8.0.0->-r tools/py/requirements.txt (line 4))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.4758667Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.5072584Z Collecting packaging>=22 (from pytest>=8.0.0->-r tools/py/requirements.txt (line 4))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.5211188Z   Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.5495131Z Collecting pluggy<2,>=1.5 (from pytest>=8.0.0->-r tools/py/requirements.txt (line 4))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.5630587Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.5983512Z Collecting pygments>=2.7.2 (from pytest>=8.0.0->-r tools/py/requirements.txt (line 4))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.6121960Z   Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.6439475Z Collecting pyee<14,>=13 (from playwright>=1.48.0->-r tools/py/requirements.txt (line 6))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.6580612Z   Downloading pyee-13.0.0-py3-none-any.whl.metadata (2.9 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.7900210Z Collecting greenlet<4.0.0,>=3.1.1 (from playwright>=1.48.0->-r tools/py/requirements.txt (line 6))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.8040254Z   Downloading greenlet-3.3.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (4.1 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.8353657Z Collecting defusedxml (from fpdf2>=2.7.8->-r tools/py/requirements.txt (line 8))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:50.8491784Z   Downloading defusedxml-0.7.1-py2.py3-none-any.whl.metadata (32 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.0140810Z Collecting fonttools>=4.34.0 (from fpdf2>=2.7.8->-r tools/py/requirements.txt (line 8))
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.0280825Z   Downloading fonttools-4.61.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (113 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.0721423Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.1014041Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 36.6 MB/s  0:00:00
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.1151717Z Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.1315461Z Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (151 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.1477098Z Downloading idna-3.11-py3-none-any.whl (71 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.1636957Z Downloading urllib3-2.6.1-py3-none-any.whl (131 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.1811100Z Downloading openai-2.9.0-py3-none-any.whl (1.0 MB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.1912269Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.0/1.0 MB 103.5 MB/s  0:00:00
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.2051637Z Downloading anyio-4.12.0-py3-none-any.whl (113 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.2220314Z Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.2389626Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.2559315Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.2723466Z Downloading jiter-0.12.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (364 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.2895689Z Downloading pydantic-2.12.5-py3-none-any.whl (463 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.3072668Z Downloading pydantic_core-2.41.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.3188692Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 195.2 MB/s  0:00:00
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.3329862Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.3491957Z Downloading pytest-9.0.2-py3-none-any.whl (374 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.3663940Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.3950169Z Downloading pypdf-6.4.1-py3-none-any.whl (328 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.4700019Z Downloading playwright-1.56.0-py3-none-manylinux1_x86_64.whl (46.3 MB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.6741350Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 46.3/46.3 MB 228.3 MB/s  0:00:00
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.6885435Z Downloading greenlet-3.3.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (590 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.6948278Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 590.2/590.2 kB 85.2 MB/s  0:00:00
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.7087346Z Downloading pyee-13.0.0-py3-none-any.whl (15 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.7253478Z Downloading pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.7582970Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.0/7.0 MB 221.8 MB/s  0:00:00
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.7733896Z Downloading fpdf2-2.8.5-py3-none-any.whl (301 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.7907001Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.8063626Z Downloading certifi-2025.11.12-py3-none-any.whl (159 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.8226642Z Downloading fonttools-4.61.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.0 MB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.8472483Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.0/5.0 MB 215.0 MB/s  0:00:00
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.8609554Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.8768122Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.8928092Z Downloading packaging-25.0-py3-none-any.whl (66 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.9088400Z Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.9179457Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 147.1 MB/s  0:00:00
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.9316156Z Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.9477148Z Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.9634120Z Downloading defusedxml-0.7.1-py2.py3-none-any.whl (25 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:51.9789411Z Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+kpi-visual	Install Python dependencies	2025-12-08T19:40:52.1370639Z Installing collected packages: urllib3, typing-extensions, tqdm, sniffio, PyYAML, pypdf, pygments, pluggy, Pillow, packaging, jiter, iniconfig, idna, h11, greenlet, fonttools, distro, defusedxml, charset_normalizer, certifi, annotated-types, typing-inspection, requests, pytest, pyee, pydantic-core, httpcore, fpdf2, anyio, pydantic, playwright, httpx, openai
+kpi-visual	Install Python dependencies	2025-12-08T19:40:56.9299232Z 
+kpi-visual	Install Python dependencies	2025-12-08T19:40:56.9321643Z Successfully installed Pillow-12.0.0 PyYAML-6.0.3 annotated-types-0.7.0 anyio-4.12.0 certifi-2025.11.12 charset_normalizer-3.4.4 defusedxml-0.7.1 distro-1.9.0 fonttools-4.61.0 fpdf2-2.8.5 greenlet-3.3.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.11 iniconfig-2.3.0 jiter-0.12.0 openai-2.9.0 packaging-25.0 playwright-1.56.0 pluggy-1.6.0 pydantic-2.12.5 pydantic-core-2.41.5 pyee-13.0.0 pygments-2.19.2 pypdf-6.4.1 pytest-9.0.2 requests-2.32.5 sniffio-1.3.1 tqdm-4.67.1 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.6.1
+kpi-visual	Install Playwright browsers	﻿2025-12-08T19:40:57.1899108Z ##[group]Run python -m playwright install --with-deps chromium
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1899598Z [36;1mpython -m playwright install --with-deps chromium[0m
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1932370Z shell: /usr/bin/bash -e {0}
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1932596Z env:
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1932834Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1933218Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1933591Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1933924Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1934253Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1934593Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.1935029Z ##[endgroup]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.4991557Z Installing dependencies...
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.5083653Z Switching to root user to install dependencies...
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.5965978Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.6349795Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.6360268Z Get:6 https://packages.microsoft.com/repos/azure-cli noble InRelease [3564 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.6375649Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.6407668Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.6467023Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.6492031Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.7689162Z Get:8 https://packages.microsoft.com/repos/azure-cli noble/main amd64 Packages [1822 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8130126Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [11.3 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8197087Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [74.3 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8236063Z Get:11 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [56.3 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8578582Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1627 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8670363Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [305 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8694382Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [175 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8715985Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 c-n-f Metadata [15.7 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8730701Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1501 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8811266Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [304 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8841069Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [378 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8873631Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 c-n-f Metadata [31.4 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.8913043Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [2309 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9032085Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [526 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9498351Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9507769Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9518467Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [7132 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9529156Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [29.2 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9539765Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe Translation-en [17.6 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9552157Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [11.0 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9562517Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [216 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9572212Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9693962Z Get:30 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1349 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9781267Z Get:31 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [221 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9805480Z Get:32 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [21.5 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9816722Z Get:33 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 c-n-f Metadata [9448 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9827099Z Get:34 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [915 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:57.9890196Z Get:35 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [206 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:58.0340432Z Get:36 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [71.4 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:58.0357292Z Get:37 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 c-n-f Metadata [19.4 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:58.0370167Z Get:38 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [2205 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:58.0483391Z Get:39 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [503 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:58.0517558Z Get:40 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Components [212 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:40:58.0529132Z Get:41 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [208 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:06.7043530Z Fetched 13.3 MB in 2s (8303 kB/s)
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.4695927Z Reading package lists...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.4961483Z Reading package lists...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.6917061Z Building dependency tree...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.6924658Z Reading state information...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8794572Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8796055Z libasound2t64 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8796727Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8797435Z libatk-bridge2.0-0t64 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8798123Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8798713Z libatk1.0-0t64 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8799326Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8799950Z libatspi2.0-0t64 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8800580Z libcairo2 is already the newest version (1.18.0-3build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8801147Z libcairo2 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8801704Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8802405Z libdbus-1-3 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8803079Z libdrm2 is already the newest version (2.4.122-1~ubuntu0.24.04.2).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8803823Z libdrm2 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8804162Z libgbm1 is already the newest version (25.0.7-0ubuntu0.24.04.2).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8804513Z libgbm1 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8805055Z libnspr4 is already the newest version (2:4.35-1.1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8805442Z libnspr4 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8805757Z libnss3 is already the newest version (2:3.98-1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8806075Z libnss3 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8806420Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8806794Z libpango-1.0-0 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8807125Z libx11-6 is already the newest version (2:1.8.7-1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8807454Z libx11-6 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8807756Z libxcb1 is already the newest version (1.15-1ubuntu2).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8808349Z libxcb1 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8808882Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8809268Z libxcomposite1 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8809622Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8809972Z libxdamage1 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8810302Z libxext6 is already the newest version (2:1.3.4-1build2).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8810629Z libxext6 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8810959Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8811300Z libxfixes3 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8811638Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8811990Z libxkbcommon0 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8812332Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8812674Z libxrandr2 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8813000Z xvfb is already the newest version (2:21.1.12-1ubuntu1.5).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8813460Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8813876Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8814201Z libfontconfig1 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8814508Z libfreetype6 is already the newest version (2.13.2+dfsg-1build3).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8814977Z libfreetype6 set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8815310Z fonts-liberation is already the newest version (1:2.1.5-3).
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8815619Z fonts-liberation set to manually installed.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8815917Z The following additional packages will be installed:
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8816315Z   gir1.2-glib-2.0 libglib2.0-bin libglib2.0-data xfonts-encodings xfonts-utils
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8816653Z Suggested packages:
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8816847Z   cups-common low-memory-monitor
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8817066Z Recommended packages:
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.8817277Z   fonts-ipafont-mincho fonts-tlwg-loma
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9031803Z The following NEW packages will be installed:
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9032587Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9039166Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9039615Z   xfonts-utils
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9042850Z The following packages will be upgraded:
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9048730Z   gir1.2-glib-2.0 libcups2t64 libglib2.0-0t64 libglib2.0-bin libglib2.0-data
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9218417Z 5 upgraded, 9 newly installed, 0 to remove and 48 not upgraded.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9218845Z Need to get 23.2 MB of archives.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9219160Z After this operation, 79.5 MB of additional disk space will be used.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:07.9219590Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.0105457Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.1806968Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglib2.0-data all 2.80.0-6ubuntu3.5 [48.8 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.2161532Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglib2.0-bin amd64 2.80.0-6ubuntu3.5 [97.9 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.2515908Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 gir1.2-glib-2.0 amd64 2.80.0-6ubuntu3.5 [183 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.2877664Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libglib2.0-0t64 amd64 2.80.0-6ubuntu3.5 [1544 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.3379234Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.4360238Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.4719678Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.5500839Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.6826960Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 libcups2t64 amd64 2.4.7-1.2ubuntu7.9 [273 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.7206452Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.7617890Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.7975913Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:08.8404286Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1142326Z Fetched 23.2 MB in 1s (24.9 MB/s)
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1376565Z Selecting previously unselected package fonts-ipafont-gothic.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1680418Z (Reading database ... 
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1680981Z (Reading database ... 5%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1681411Z (Reading database ... 10%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1681696Z (Reading database ... 15%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1681963Z (Reading database ... 20%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1682214Z (Reading database ... 25%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1682450Z (Reading database ... 30%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1682693Z (Reading database ... 35%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1682928Z (Reading database ... 40%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1683188Z (Reading database ... 45%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1683424Z (Reading database ... 50%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.1773064Z (Reading database ... 55%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.3102181Z (Reading database ... 60%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.4262947Z (Reading database ... 65%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.4989545Z (Reading database ... 70%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.5773191Z (Reading database ... 75%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:09.7952176Z (Reading database ... 80%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.0037043Z (Reading database ... 85%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.1799647Z (Reading database ... 90%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.3726594Z (Reading database ... 95%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.3727215Z (Reading database ... 100%
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.3727703Z (Reading database ... 217049 files and directories currently installed.)
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.3772060Z Preparing to unpack .../00-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.3862713Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.6319241Z Preparing to unpack .../01-libglib2.0-data_2.80.0-6ubuntu3.5_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.6343113Z Unpacking libglib2.0-data (2.80.0-6ubuntu3.5) over (2.80.0-6ubuntu3.4) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.6699847Z Preparing to unpack .../02-libglib2.0-bin_2.80.0-6ubuntu3.5_amd64.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.6727238Z Unpacking libglib2.0-bin (2.80.0-6ubuntu3.5) over (2.80.0-6ubuntu3.4) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.7248879Z Preparing to unpack .../03-gir1.2-glib-2.0_2.80.0-6ubuntu3.5_amd64.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.7278936Z Unpacking gir1.2-glib-2.0:amd64 (2.80.0-6ubuntu3.5) over (2.80.0-6ubuntu3.4) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.7728673Z Preparing to unpack .../04-libglib2.0-0t64_2.80.0-6ubuntu3.5_amd64.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.7803001Z Unpacking libglib2.0-0t64:amd64 (2.80.0-6ubuntu3.5) over (2.80.0-6ubuntu3.4) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.8271082Z Selecting previously unselected package fonts-freefont-ttf.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.8414245Z Preparing to unpack .../05-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.8423149Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.9261956Z Selecting previously unselected package fonts-tlwg-loma-otf.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.9399476Z Preparing to unpack .../06-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.9410923Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.9633689Z Selecting previously unselected package fonts-unifont.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.9771386Z Preparing to unpack .../07-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:10.9780871Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.0987405Z Selecting previously unselected package fonts-wqy-zenhei.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.1122077Z Preparing to unpack .../08-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.1223661Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.6118577Z Preparing to unpack .../09-libcups2t64_2.4.7-1.2ubuntu7.9_amd64.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.6156124Z Unpacking libcups2t64:amd64 (2.4.7-1.2ubuntu7.9) over (2.4.7-1.2ubuntu7.4) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.6701436Z Selecting previously unselected package xfonts-encodings.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.6840525Z Preparing to unpack .../10-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.6849990Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.7152918Z Selecting previously unselected package xfonts-utils.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.7289544Z Preparing to unpack .../11-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.7302955Z Unpacking xfonts-utils (1:7.7+6build3) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.7903778Z Selecting previously unselected package xfonts-cyrillic.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.8041695Z Preparing to unpack .../12-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.8051347Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.8443717Z Selecting previously unselected package xfonts-scalable.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.8578906Z Preparing to unpack .../13-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.8589434Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9024812Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9150062Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9172468Z Setting up libglib2.0-0t64:amd64 (2.80.0-6ubuntu3.5) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9282258Z Setting up libglib2.0-data (2.80.0-6ubuntu3.5) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9312484Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9333498Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9356073Z Setting up gir1.2-glib-2.0:amd64 (2.80.0-6ubuntu3.5) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9396932Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9463850Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9480861Z Setting up libcups2t64:amd64 (2.4.7-1.2ubuntu7.9) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9506117Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9531610Z Setting up libglib2.0-bin (2.80.0-6ubuntu3.5) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9555737Z Setting up xfonts-utils (1:7.7+6build3) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9599679Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:11.9993240Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:12.0387487Z Processing triggers for libc-bin (2.39-0ubuntu8.6) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:14.3543306Z Processing triggers for man-db (2.12.0-4build2) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:14.3574203Z Not building database; man-db/auto-update is not 'true'.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:14.3587903Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.0164614Z 
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.0165367Z Running kernel seems to be up-to-date.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.0165766Z 
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.0165906Z Restarting services...
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.0588013Z  systemctl restart packagekit.service php8.3-fpm.service polkit.service udisks2.service
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.1837626Z 
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.1838158Z Service restarts being deferred:
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.1838692Z  systemctl restart ModemManager.service
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.1839191Z  systemctl restart networkd-dispatcher.service
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.1839519Z 
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.1842523Z No containers need to be restarted.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.1843117Z 
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:15.1843569Z No user sessions are running outdated binaries.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:16.1250963Z 
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:16.1251699Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:16.1252738Z Downloading Chromium 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:16.4418635Z |                                                                                |   0% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:16.7163738Z |■■■■■■■■                                                                        |  10% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:16.8555458Z |■■■■■■■■■■■■■■■■                                                                |  20% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:16.9887954Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:17.1330882Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:17.2775535Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:17.4063775Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:17.5498835Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:17.6787483Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:17.8219669Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:17.9497440Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 173.9 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.2099722Z Chromium 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium-1194
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.2103525Z Downloading FFMPEG playwright build v1011 from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4057391Z |                                                                                |   0% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4389542Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4525509Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4620982Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4676802Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4741629Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4785325Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4820959Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4847253Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4875470Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.4898046Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.5419768Z FFMPEG playwright build v1011 downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.5422790Z Downloading Chromium Headless Shell 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.7417780Z |                                                                                |   0% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:21.9638845Z |■■■■■■■■                                                                        |  10% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.0504549Z |■■■■■■■■■■■■■■■■                                                                |  20% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.1335052Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.2353466Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.3188679Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.4038053Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.4886337Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.5731210Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.6573528Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:22.7436728Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 104.3 MiB
+kpi-visual	Install Playwright browsers	2025-12-08T19:41:24.4743549Z Chromium Headless Shell 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1194
+kpi-visual	Run structural validation with metrics export	﻿2025-12-08T19:41:24.5485661Z ##[group]Run python tests/validate_dashboard.py --metrics-output metrics.json
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5486262Z [36;1mpython tests/validate_dashboard.py --metrics-output metrics.json[0m
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5519007Z shell: /usr/bin/bash -e {0}
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5519232Z env:
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5519469Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5519870Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5520244Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5520583Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5520932Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5521273Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.5521556Z ##[endgroup]
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6080059Z Tutti i controlli sulla dashboard e sul generatore sono passati.
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6080749Z {
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6081047Z   "run_at": "2025-12-08T19:41:24.607402+00:00",
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6081518Z   "dashboard": {
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6081816Z     "ids_total": 42,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6082129Z     "anchors_total": 62,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6082466Z     "sections_total": 11,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6082791Z     "scripts_total": 2,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6083132Z     "required_section_count": 5,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6083401Z     "required_id_count": 6,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6083630Z     "required_nav_count": 5
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6083843Z   },
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6084005Z   "generator": {
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6084194Z     "ids_total": 106,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6084392Z     "anchors_total": 16,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6084603Z     "scripts_total": 4,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6084803Z     "catalog_biomes": 4,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6085214Z     "catalog_species": 21,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6085431Z     "catalog_ecosystems": 0,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6085660Z     "required_id_count": 13,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6085895Z     "required_nav_count": 3
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6086099Z   },
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6086262Z   "demo_bundle": {
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6086461Z     "demo_bundle_present": true,
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6086702Z     "deploy_doc_size": 8634
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6086900Z   }
+kpi-visual	Run structural validation with metrics export	2025-12-08T19:41:24.6087056Z }
+kpi-visual	Check KPI deviations	﻿2025-12-08T19:41:24.6165702Z ##[group]Run python tools/py/report_kpi_alerts.py --metrics metrics.json
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6166226Z [36;1mpython tools/py/report_kpi_alerts.py --metrics metrics.json[0m
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6198330Z shell: /usr/bin/bash -e {0}
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6198563Z env:
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6198800Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6199216Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6199589Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6199930Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6200272Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6200789Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6201071Z ##[endgroup]
+kpi-visual	Check KPI deviations	2025-12-08T19:41:24.6542210Z Nessuna deviazione KPI oltre la soglia configurata
+kpi-visual	Run visual regression	﻿2025-12-08T19:41:24.6619009Z ##[group]Run python tools/py/visual_regression.py compare --tolerance 0.08 --engine auto
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6619609Z [36;1mpython tools/py/visual_regression.py compare --tolerance 0.08 --engine auto[0m
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6698734Z shell: /usr/bin/bash -e {0}
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6698973Z env:
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6699217Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6699638Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6700029Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6700365Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6700706Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6701056Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+kpi-visual	Run visual regression	2025-12-08T19:41:24.6701336Z ##[endgroup]
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5084524Z Traceback (most recent call last):
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5092122Z   File "/home/runner/work/Game/Game/tools/py/visual_regression.py", line 312, in <module>
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5092761Z     main()
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5093227Z   File "/home/runner/work/Game/Game/tools/py/visual_regression.py", line 301, in main
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5093846Z     results = compare_snapshots(args.pages, args.tolerance, args.engine)
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5094279Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5095102Z   File "/home/runner/work/Game/Game/tools/py/visual_regression.py", line 252, in compare_snapshots
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5095652Z     raise ValueError(
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5096111Z ValueError: Dimensioni diverse rispetto alla baseline per 'dashboard': 1440x8304 vs 1440x6714
+kpi-visual	Run visual regression	2025-12-08T19:41:29.5385395Z ##[error]Process completed with exit code 1.
+kpi-visual	Upload visual report artifacts	﻿2025-12-08T19:41:29.5452907Z ##[group]Run actions/upload-artifact@v4
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5453188Z with:
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5453348Z   name: visual-report
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5453555Z   path: logs/visual_runs
+kpi-visual	Upload visual report artifacts	metrics.json
+kpi-visual	Upload visual report artifacts	
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5453789Z   if-no-files-found: warn
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5453986Z   compression-level: 6
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5454172Z   overwrite: false
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5454352Z   include-hidden-files: false
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5454546Z env:
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5454756Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5455403Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5455768Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5456096Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5456415Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5456739Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.5457026Z ##[endgroup]
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.7880841Z Multiple search paths detected. Calculating the least common ancestor of all paths
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.7884274Z The least common ancestor is /home/runner/work/Game/Game. This will be the root directory of the artifact
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.7885477Z With the provided path, there will be 3 files uploaded
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.7891303Z Artifact name is valid!
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.7892546Z Root directory input is valid!
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:29.9492061Z Beginning upload of artifact content to blob storage
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:30.5481422Z Uploaded bytes 3379962
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:30.5886319Z Finished uploading artifact content to blob storage!
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:30.5889911Z SHA256 digest of uploaded artifact zip is a8f889a5f7f4fe16e1781c1fc5b8d67ab12fcc4d3ee1a67ff03cb20ec05aefe9
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:30.5892046Z Finalizing artifact upload
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:30.6832626Z Artifact visual-report.zip successfully finalized. Artifact ID 4802109491
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:30.6834612Z Artifact visual-report has been successfully uploaded! Final size is 3379962 bytes. Artifact ID is 4802109491
+kpi-visual	Upload visual report artifacts	2025-12-08T19:41:30.6841904Z Artifact download URL: https://github.com/MasterDD-L34D/Game/actions/runs/20040574744/artifacts/4802109491
+kpi-visual	Post Checkout repository	﻿2025-12-08T19:41:30.6979572Z Post job cleanup.
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.7940355Z [command]/usr/bin/git version
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.7978193Z git version 2.52.0
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8023196Z Temporarily overriding HOME='/home/runner/work/_temp/45443e32-9cc1-4ad0-9f65-4ab4ab41406d' before making global git config changes
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8024445Z Adding repository directory to the temporary git global config as a safe directory
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8037515Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Game/Game
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8075270Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8108389Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8348282Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8371330Z http.https://github.com/.extraheader
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8384664Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8416796Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8650297Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+kpi-visual	Post Checkout repository	2025-12-08T19:41:30.8684006Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+kpi-visual	Complete job	﻿2025-12-08T19:41:30.9039621Z Cleaning up orphan processes
