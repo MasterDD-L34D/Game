@@ -954,3 +954,6 @@
 - Owner: coordinator (con archivist, trait-curator, species-curator; approvatore umano Master DD).
 - Azioni: eseguito sync rapido (15') per riaffermare il trigger Fase 1→2→3 e la milestone **07/12/2025**; agenda PATCHSET-00 aggiornata mantenendo owner/durata invariati e riflesso l'esito su `logs/RIAPERTURA-2025-02.md`.
 - Prossimi passi immediati: procedere con handoff verso pipeline 01A rispettando il gate sequenziale e mantenere logging continuo in STRICT MODE.
+
+## 2026-09-23 – Riesame tabelle 01A (archivist)
+- Step: `[RIAPERTURA-2025-02-2026-09-23T1200Z] owner=archivist (approvatore Master DD); rischio=basso (report-only); files=incoming/README.md,docs/incoming/README.md,logs/agent_activity.md; note=Riletta la tabella 01A in STRICT MODE: etichette **DA_INTEGRARE/LEGACY/STORICO** confermate, nessun movimento file; gap list 01A invariata con rischi monitorati (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI). README incoming/docs sincronizzati e riferimenti gap list mantenuti per handoff 01B/01C.`
