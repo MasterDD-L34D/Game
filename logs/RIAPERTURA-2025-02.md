@@ -22,6 +22,7 @@
 - [ ] Trait-curator: conferma prerequisiti dati/trait per l'avvio di 01A.
 - [ ] Species-curator: conferma prerequisiti specie collegati a 01A.
 - [ ] Checklist condivisa ai partecipanti prima del meeting.
+- **Nota blocco 2026-09-22**: `_holding` assente; finestra freeze 06/10/2025→13/10/2025 mantenuta attiva, attività 01A in sola lettura fino a unfreeze autorizzato.
 
 ## 2026-09-20 – Kickoff PATCHSET-00 e gate verso pipeline 01A (coordinator)
 - Step: `[RIAPERTURA-2025-02-KICKOFF-2026-09-20T0000Z] owner=coordinator (con archivist, trait-curator, species-curator; approvatore Master DD); scope=PATCHSET-00; timeline=07/12/2025; durata=15'`; riferimento agenda: `docs/planning/agenda_PATCHSET-00_2025-12-07.md`.
