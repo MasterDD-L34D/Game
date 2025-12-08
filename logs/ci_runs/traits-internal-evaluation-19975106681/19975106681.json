@@ -1,0 +1,2034 @@
+[
+  {
+    "slug": "ali_fono_risonanti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ali_fulminee",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ali_ioniche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ali_membrana_sonica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ali_solari_fotoni",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_dustsense",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_eco_turbina",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_flusso_mareale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_microonde_cavernose",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_plasmatiche_tempesta",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_reagenti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_tesla",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_waveguide",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "antenne_wideband",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "appendici_risonanti_marea",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "appendici_thermotattiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "armatura_pietra_planare",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "articolazioni_a_leva_idraulica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "articolazioni_multiassiali",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artigli_acidofagi",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artigli_induzione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artigli_ipo_termici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artigli_radice",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artigli_scivolo_silente",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artigli_sette_vie",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artigli_sghiaccio_glaciale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artigli_vetrificati",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "artiglio_cinetico_a_urto",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "aura_di_dispersione_mentale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "aura_scudo_radianza",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "baffi_mareomotori",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "barbigli_sensori_plasma",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "barriere_miasma_glaciale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "batteri_endosimbionti_chemio",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "batteri_termofili_endosimbiosi",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "bioantenne_gravitiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "biochip_memoria",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "biofilm_glow",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "biofilm_iperarido",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "bozzolo_magnetico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "branchie_dual_mode",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "branchie_eoliche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "branchie_metalloidi",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "branchie_microfiltri",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "branchie_osmotiche_salmastra",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "branchie_solfatiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "branchie_turbina",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "bulbi_radici_permafrost",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "camere_anticorrosione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "camere_mirage",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "camere_nutrienti_vent",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "camere_risonanza_abyssal",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "campo_di_interferenza_acustica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cannone_sonico_a_raggio",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "canto_infrasonico_tattico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "canto_risonante",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "capillari_criogenici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "capillari_fluoridici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "capillari_fotovoltaici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "capsule_paracadute",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "carapace_fase_variabile",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "carapace_luminiscente_abissale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "carapace_segmenti_logici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "carapaci_ferruginosi",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cartilagine_flessotermica_venti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cartilagini_biofibre",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cartilagini_desertiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cartilagini_flessoacustiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cartilagini_pseudometalliche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cavita_risonanti_tundra",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cervelletto_equilibrio_statico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cervello_a_bassa_latenza",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "chemiorecettori_bromuro",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "chioma_parassita_canopica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cinghia_iper_ciliare",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "circolazione_bifasica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "circolazione_bifasica_palude",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "circolazione_cooling_loop",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "circolazione_doppia",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "circolazione_supercritica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ciste_riduttive",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ciste_salmastre",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cisti_di_ibernazione_minerale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cisti_iperbariche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coda_balanciere",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coda_contrappeso",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coda_coppia_retroattiva",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coda_frusta_cinetica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coda_prensile_muscolare",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coda_stabilizzatrice_filo",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coda_stabilizzatrice_geiser",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coda_stabilizzatrice_vortex",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "colonne_vibromagnetiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "comunicazione_fotonica_coda_coda",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coralli_partner",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coralli_sinaptici_fotofase",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "corazze_ferro_magnetico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "corna_psico_conduttive",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coscienza_d_alveare_diffusa",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "coscienza_dalveare_diffusa",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "criostasi_adattiva",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cromofori_alert_acido",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cuore_multicamera_bassa_pressione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cuscinetti_elettrostatici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cute_resistente_sali",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cuticole_cerose",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "cuticole_neutralizzanti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "denti_chelatanti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "denti_ossidoferro",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "denti_silice_termici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "denti_tuning_fork",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "echi_risonanti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "eco_interno_riflesso",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ectotermia_dinamica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "elettromagnete_biologico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "emettitori_voidsong",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "emolinfa_conducente",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "empatia_coordinativa",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "enzimi_antifase_termica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "enzimi_antipredatori_algali",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "enzimi_chelanti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "enzimi_chelatori_rapidi",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "enzimi_metanoossidanti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "epidermide_dielettrica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "epitelio_fosforescente",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ermafroditismo_cronologico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "estroflessione_gastrica_acida",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "fagocitosi_assorbente",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filamenti_digestivi_compattanti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filamenti_echo",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filamenti_guidalampo",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filamenti_magnetotrofi",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filamenti_superconduttivi",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filamenti_termoconduzione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filtrazione_osmotica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filtri_planctonici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "filtro_metallofago",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "flagelli_ancoranti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "flusso_ameboide_controllato",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "focus_frazionato",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "foliage_fotocatodico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "foliaggio_spugna",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "frusta_fiammeggiante",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiaccio_piezoelettrico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandola_caustica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_cambio_salino",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_condensa_ozono",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_eco_mappanti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_fango_calde",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_fango_coesivo",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_grafene",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_inchiostro_luce",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_iodoattive",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_minerali",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_mnemoniche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_nebbia_acida",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_nebbia_ionica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_resina_conduttiva",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ghiandole_ventosa",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "giunti_antitorsione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "grassi_termici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "gusci_criovetro",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "gusci_magnesio",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "impulsi_bioluminescenti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "integumento_bipolare",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ipertrofia_muscolare_massiva",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "lamelle_shear",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "lamelle_sincroniche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "lamelle_termoforetiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "lamine_filtranti_aeree",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "lamine_scudo_silice",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "linfa_tampone",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "lingua_cristallina",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "lingua_tattile_trama",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "lobi_risonanti_crepuscolo",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "locomozione_miriapode_ibrida",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "luminescenza_aurorale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "luminescenza_hydrotermica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "mantelli_geotermici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "mantello_meteoritico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "membrana_plastica_continua",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "membrane_captura_rugiada",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "membrane_eliofiltranti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "membrane_fotoconvoglianti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "membrane_planata_vectored",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "membrane_pneumatofori",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "metabolismo_di_condivisione_energetica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "midollo_antivibrazione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "mimetismo_cromatico_passivo",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "moltiplicazione_per_fusione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "motore_biologico_silenzioso",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "mucillagine_simbionte_mangrovie",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "mucose_aderenza_sonica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "mucose_barofile",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "nebbia_mnesica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "nodi_micorrizici_oracolari",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "nodi_sinaptici_superficiali",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "nucleo_ovomotore_rotante",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "occhi_analizzatori_di_tensione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "occhi_cinetici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "occhi_cristallo_modulare",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "occhi_infrarosso_composti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "olfatto_risonanza_magnetica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "organi_metacronici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "organi_sismici_cutanei",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "pathfinder",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "pelage_idrorepellente_avanzato",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "pelle_piezo_satura",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "pianificatore",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "piume_solari_fotovoltaiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "placca_diffusione_foschia",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "placche_pressioniche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "polmoni_cristallini_alta_quota",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "random",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "respiro_a_scoppio",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "rete_filtro_polmonare",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "risonanza_di_branco",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "riverbero_memetico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "rostro_emostatico_litico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "rostro_linguale_prensile",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "sacche_galleggianti_ascensoriali",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "sacche_spore_stratosferiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "sangue_piroforico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "scheletro_idraulico_a_pistoni",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "scheletro_idro_regolante",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "scheletro_pneumatico_a_maglie",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "scintilla_sinaptica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "scivolamento_magnetico",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "scudo_gluteale_cheratinizzato",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "secrezione_rallentante_palmi",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "secrezioni_antistatiche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "sensori_geomagnetici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "sensori_planctonici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "seta_conduttiva_elettrica",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "siero_anti_gelo_naturale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "sinapsi_coraline_polifoniche",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "sistemi_chimio_sonici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "sonno_emisferico_alternato",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "spicole_canalizzatrici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "spore_psichiche_silenziate",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "squame_diffusori_ionici",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "squame_rifrangenti_deserto",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "struttura_elastica_amorfa",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "tattiche_di_branco",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "traits_aggregate",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "unghie_a_micro_adesione",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "vello_condensatore_nebbie",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "vello_di_assorbimento_totale",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "ventriglio_gastroliti",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "visione_multi_spettrale_amplificata",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "vortice_nera_flash",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "zampe_a_molla",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "zanne_idracida",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  },
+  {
+    "slug": "zoccoli_risonanti_steppe",
+    "verdict": "pass",
+    "score": 100,
+    "reasons": [
+      "Nessuna anomalia rilevata."
+    ]
+  }
+]

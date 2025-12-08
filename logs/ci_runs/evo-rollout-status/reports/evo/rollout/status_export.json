@@ -1,0 +1,49 @@
+{
+  "generated_at": "2025-12-03T01:48:09+00:00",
+  "overall_status": "on-track",
+  "workflow_run": "https://github.com/MasterDD-L34D/Game/actions/runs/19975107957",
+  "epics": [
+    {
+      "id": "ROL-03",
+      "status": "done",
+      "progress": 100,
+      "metric_label": "Playbook da archiviare",
+      "open_items": 0,
+      "total_items": 221,
+      "samples": []
+    },
+    {
+      "id": "ROL-04",
+      "status": "done",
+      "progress": 100,
+      "metric_label": "Trait da allineare (index)",
+      "open_items": 0,
+      "total_items": 254,
+      "samples": []
+    },
+    {
+      "id": "ROL-05",
+      "status": "done",
+      "progress": 100,
+      "metric_label": "Trait da allineare (external)",
+      "open_items": 0,
+      "total_items": 254,
+      "samples": []
+    },
+    {
+      "id": "ROL-06",
+      "status": "done",
+      "progress": 100,
+      "metric_label": "Ecotipi con mismatch",
+      "open_items": 0,
+      "total_items": 20,
+      "samples": [
+        "Anguis magnetica",
+        "Chemnotela toxica",
+        "Elastovaranus hydrus",
+        "Gulogluteus scutiger",
+        "Perfusuas pedes"
+      ]
+    }
+  ]
+}
