@@ -34,32 +34,32 @@ Freeze straordinario richiesto per proteggere `core/**`, `derived/**`, `incoming
 
 - Archivi custoditi off-repo (policy anti-binary in PR). Percorso logico: `reports/backups/2025-11-25_freeze/`.
 - Manifests:
-  - `core_snapshot_2025-11-25.tar.gz` — sha256 `f42ac8a30fffafa4a6178602cf578474fe2c0c03b6c26a664fec5dc04aeabe17`
-  - `derived_snapshot_2025-11-25.tar.gz` — sha256 `e9552e270b16af35731156dc04888df4d590f6677624fc9a9232e0e3c43b675b`
-  - `incoming_backup_2025-11-25.tar.gz` — sha256 `44fca4ef9f02871394f3b57fa665998aa748a169f32fb3baac93ef97f373a626`
-  - `docs_incoming_backup_2025-11-25.tar.gz` — sha256 `c6f6cf435f7ce22326e8cbfbb34f0ee8029daae5f4ff55b6ee41a468f904840c`
+  - `core_snapshot_2025-11-25.tar.gz` — sha256 `d986100a5440aea18658d6a22600cd403ba9fcfb6db4473dc9dd70227d43b984`
+  - `derived_snapshot_2025-11-25.tar.gz` — sha256 `283e3b2f50514446dd9843a069ed089bd79f470bbcb0cdb3caab1a6b96c45355`
+  - `incoming_backup_2025-11-25.tar.gz` — sha256 `043c20b99dc565a3f3e354959f2dd273183435001583c009133d4c4c7fd2a619`
+  - `docs_incoming_backup_2025-11-25.tar.gz` — sha256 `c5475c1c32813b2feb861768480c1a851dbc7667e9c54bf642fea873d0201a9c`
 
 ## Retrieval
 
 - `core_snapshot_2025-11-25.tar.gz`
-  - Storage: `s3://evo-backups/game/2025-11-25_freeze/core_snapshot_2025-11-25.tar.gz`
-  - Access: ruolo `arn:aws:iam::123456789012:role/backup-restore` (SSO readonly; ticket SOC richiesto per assunzione del ruolo)
-  - Checksum: `aws s3 cp s3://evo-backups/game/2025-11-25_freeze/core_snapshot_2025-11-25.tar.gz - | sha256sum`
+  - Storage: generato on-demand via `scripts/backup/rebuild_freeze_2025_11_25.sh` in `reports/backups/2025-11-25_freeze/staging/artifacts/core_snapshot_2025-11-25.tar.gz` (no S3 tracking per il freeze baseline).
+  - Access: repository locale; nessun ruolo AWS richiesto (policy anti-binary in PR → artefatti esclusi dal repo, rigenerabili).
+  - Checksum: `cd reports/backups/2025-11-25_freeze && sha256sum -c source_lists/core_snapshot_2025-11-25.tar.gz.sha256`.
 
 - `derived_snapshot_2025-11-25.tar.gz`
-  - Storage: `s3://evo-backups/game/2025-11-25_freeze/derived_snapshot_2025-11-25.tar.gz`
-  - Access: ruolo `arn:aws:iam::123456789012:role/backup-restore` (SSO readonly; ticket SOC richiesto per assunzione del ruolo)
-  - Checksum: `aws s3 cp s3://evo-backups/game/2025-11-25_freeze/derived_snapshot_2025-11-25.tar.gz - | sha256sum`
+  - Storage: generato on-demand via `scripts/backup/rebuild_freeze_2025_11_25.sh` in `reports/backups/2025-11-25_freeze/staging/artifacts/derived_snapshot_2025-11-25.tar.gz`.
+  - Access: repository locale; nessun ruolo AWS richiesto (artefatti rigenerabili, non committati).
+  - Checksum: `cd reports/backups/2025-11-25_freeze && sha256sum -c source_lists/derived_snapshot_2025-11-25.tar.gz.sha256`.
 
 - `incoming_backup_2025-11-25.tar.gz`
-  - Storage: `s3://evo-backups/game/2025-11-25_freeze/incoming_backup_2025-11-25.tar.gz`
-  - Access: ruolo `arn:aws:iam::123456789012:role/backup-restore` (SSO readonly; ticket SOC richiesto per assunzione del ruolo)
-  - Checksum: `aws s3 cp s3://evo-backups/game/2025-11-25_freeze/incoming_backup_2025-11-25.tar.gz - | sha256sum`
+  - Storage: generato on-demand via `scripts/backup/rebuild_freeze_2025_11_25.sh` in `reports/backups/2025-11-25_freeze/staging/artifacts/incoming_backup_2025-11-25.tar.gz`.
+  - Access: repository locale; nessun ruolo AWS richiesto (artefatti rigenerabili, non committati).
+  - Checksum: `cd reports/backups/2025-11-25_freeze && sha256sum -c source_lists/incoming_backup_2025-11-25.tar.gz.sha256`.
 
 - `docs_incoming_backup_2025-11-25.tar.gz`
-  - Storage: `s3://evo-backups/game/2025-11-25_freeze/docs_incoming_backup_2025-11-25.tar.gz`
-  - Access: ruolo `arn:aws:iam::123456789012:role/backup-restore` (SSO readonly; ticket SOC richiesto per assunzione del ruolo)
-  - Checksum: `aws s3 cp s3://evo-backups/game/2025-11-25_freeze/docs_incoming_backup_2025-11-25.tar.gz - | sha256sum`
+  - Storage: generato on-demand via `scripts/backup/rebuild_freeze_2025_11_25.sh` in `reports/backups/2025-11-25_freeze/staging/artifacts/docs_incoming_backup_2025-11-25.tar.gz`.
+  - Access: repository locale; nessun ruolo AWS richiesto (artefatti rigenerabili, non committati).
+  - Checksum: `cd reports/backups/2025-11-25_freeze && sha256sum -c source_lists/docs_incoming_backup_2025-11-25.tar.gz.sha256`.
 
 ## Rollback
 
