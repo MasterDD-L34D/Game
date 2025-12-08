@@ -13,7 +13,7 @@ jobs:
   harvest:
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ secrets.CI_LOG_PAT || secrets.LOG_HARVEST_PAT }}
+      GH_TOKEN: ${{ secrets.CI_LOG_PAT }}
       CI_LOG_CONFIG_FILE: ops/ci-log-config.txt
     steps:
       - name: Checkout repository
@@ -22,14 +22,16 @@ jobs:
       - name: Validate GH_TOKEN
         run: |
           if [ -z "${GH_TOKEN:-}" ]; then
-            echo "::error::GH_TOKEN non impostato: definisci il secret CI_LOG_PAT o LOG_HARVEST_PAT con scope workflow/read:org/repo-admin"
+            echo "::error::GH_TOKEN non impostato: definisci il secret CI_LOG_PAT con scope workflow/read:org/repo-admin"
             exit 1
           fi
 
       - name: Auth gh
         run: |
-          gh auth login --with-token < "$GH_TOKEN"
+          set -eo pipefail
+          printf '%s' "$GH_TOKEN" | gh auth login --with-token
           gh auth status
+          gh auth setup-git
 
       - name: Inspect harvest config
         env:
@@ -65,6 +67,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$branch"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git add logs
           git commit -m "chore: harvest ci logs"
           git push origin "$branch"
