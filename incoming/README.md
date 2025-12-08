@@ -35,6 +35,8 @@ Linee guida minime:
 
 Note:
 
+- 2026-09-19: **DRAFT post-unfreeze (da applicare solo con via libera Master DD)** – sintetizza esito gap list 01A e stato freeze ottobre 2025 sboccato (ticket **TKT-FREEZE-OCT25**). Mantiene STRICT MODE e cataloghi in sola lettura; nessun movimento file o variazione di stato applicata.
+- 2026-09-19: triage 01A in sola lettura (nessun file spostato): `_holding` assente, etichette DA_INTEGRARE/LEGACY/STORICO confermate. Preparata gap list con priorità/rischio per handoff 01B/01C, mantenendo freeze documentale sbloccato (ticket **TKT-FREEZE-OCT25**).
 - 2026-09-18: finestra freeze documentale **06/10/2025 → 13/10/2025** richiamata nell’entry **RIAPERTURA-2025-02**: stato **SBLOCCATO** (ticket **TKT-FREEZE-OCT25**), nessun drop in `_holding`; README incoming/docs sincronizzati senza spostare file.
 - 2026-09-25: gap list riletta (nessun nuovo drop/rischio rilevato; `_holding` ancora assente). Applicazione posticipata finché il gate di riapertura non risulta chiuso; mantenere monitoraggio ticket/licenze in corso senza spostare file.
 - 2026-09-17: checkpoint **RIAPERTURA-2025-02** (archivist, ok Master DD) con finestra freeze 2025-10-06T09:00Z→2025-10-13T18:00Z sbloccata (ticket 2025-10-FREEZE) per lo scope 01A→03B; `_holding` confermato assente e gap list 01A riletta in sola lettura (ancora chiusa, nessun nuovo drop). Nessun file spostato; rischi residui monitorati: blocco esecuzione `scan_engine_idents.py` (01C) e licenze/redirect in 01B/03B. Pipeline 01A autorizzata in STRICT MODE.
@@ -68,6 +70,24 @@ Note:
 - 2026-02-24: kickoff rapido PATCHSET-00 (15') per ribadire trigger fase 1→2→3; gap list 01A riletta con ticket aperti **[TKT-01A-001]** … **[TKT-01A-005]**. `_holding` ancora assente (nessun drop da integrare/archiviare). Readiness: trait-curator/species-curator on-call per 01B, dev-tooling on-call per 01C; shortlist kickoff: **[TKT-01B-001]** (matrice core/derived), **[TKT-01B-002]** (trait sentience/enneagramma), **[TKT-01C-001]** (validator parametri), **[TKT-01C-002]** (hook/script engine) da loggare con approvazione Master DD.
 - 2026-02-26: registrato log 01A con pubblicazione del bundle audit 02A→03A/03B (report-only, nessuna nuova esecuzione); dettagli in `logs/agent_activity.md` e link diretto [reports/audit/2026-02-20_audit_bundle.md](../reports/audit/2026-02-20_audit_bundle.md).
 - 2025-11-25: verificati i bundle di backup in `archive_cold/backups/2025-11-25/` con `sha256sum -c manifest.sha256` (OK) e confermati i redirect 03B.
+
+Draft post-unfreeze (DA APPROVARE – nessuna modifica applicativa finché non autorizzata):
+
+- Freeze window 2025-10-06T09:00Z→2025-10-13T18:00Z: stato **SBLOCCATO** (ticket **TKT-FREEZE-OCT25**), nessun drop in `_holding`, rollback manifest 2025-11-25/11-29 confermati.
+- Gap list 01A: resta in report-only con priorità/rischi invariati (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI); nessun movimento file eseguito.
+- Prossimo passo dopo via libera: applicare l’aggiornamento README per chiudere il gate di riapertura e avviare 01A esecutiva mantenendo STRICT MODE.
+
+Gap list 01A – snapshot 2026-09-19 (report-only, nessun movimento file; priorità/rischio per handoff 01B):
+
+| Fonte / descrizione                                 | Stato        | Priorità | Rischio    | Note operative (report-only)                                                                                  |
+| --------------------------------------------------- | ------------ | -------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `incoming/evo_pacchetto_minimo_v5..v8.zip`          | DA_INTEGRARE | P1       | Medio      | Deduplicare contro v1–v4 legacy e fissare baseline unico pack prima del passaggio a 01B (no esecuzioni).      |
+| `incoming/evo-tactics-unified-2.*`                  | DA_INTEGRARE | P1       | Medio      | Validare naming/tooling vs core; verificare checksum e overlap con pack ufficiali prima di proporre merge.    |
+| `incoming/evo-tactics-badlands*` / ecosistemi       | DA_INTEGRARE | P2       | Medio-Alto | Richiede validazione biome-ecosystem-curator per duplicati/variazioni; mantenere in sola lettura.             |
+| Pack sentience / trait (`sentience*.yaml`/`.zip`)   | DA_INTEGRARE | P1       | Alto       | Alias/nomenclature da riallineare con trait-curator; bloccare promozione finché non esiste mapping condiviso. |
+| Dataset/doc enneagramma (`incoming/Ennagramma/**`)  | DA_INTEGRARE | P2       | Medio      | Confrontare dataset e doc; verificare licenza prima dell’uso e aggiornare README se cambia lo stato.          |
+| Hook/script engine (`hook_bindings.ts`, `*.schema`) | DA_INTEGRARE | P1       | Alto       | `scan_engine_idents.py` resta bloccato; allineare a event-map v2.3 e inoltrare a 01C per compatibilità.       |
+| Asset grafici MBTI (`incoming/Img/*.svg`)           | DA_INTEGRARE | P3       | Medio      | Verificare liberatorie/licenza prima di qualsiasi copia; nessun uso in pipeline finché non validato.          |
 
 Gap list 01A (chiusa, approvata Master DD il 2026-07-16; sincronizzata con `docs/planning/REF_INCOMING_CATALOG.md` e log **RIAPERTURA-2026-01**):
 
