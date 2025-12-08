@@ -73,7 +73,8 @@ _Nota_: con il **Log Harvester** abilitato, gli stati del semaforo si aggiornano
 
 ### Azioni aperte (aggiornato)
 
-- **Raccolta automatica log** – Configurare/abilitare lo script `gh run list --workflow <file> --limit 1 --json databaseId,status` → `gh run download <id> --dir <dest>` usando un PAT con scope `workflow/read:org` **e** permessi repo/admin (esposto come `CI_LOG_PAT`/`LOG_HARVEST_PAT` → `GH_TOKEN`) per sbloccare il download zip dei log oltre alle pagine HTML. Applicare a tutti i workflow con trigger push/PR/cron.
+- **Raccolta automatica log** – Configurare/abilitare lo script `gh run list --workflow <file> --limit 1 --json databaseId,status` → `gh run download <id> --dir <dest>` usando un PAT con scope `workflow/read:org` **e** permessi repo/admin (esposto come `CI_LOG_PAT`/`LOG_HARVEST_PAT` → `GH_TOKEN`) per sbloccare il download zip dei log oltre alle pagine HTML. Applicare a tutti i workflow con trigger push/PR/cron; i workflow manual-only vengono comunque scaricati (dispatch opzionale con `DISPATCH_MANUAL=1`).
+- **Stato sweep locale** – `gh` non è disponibile in questo ambiente, quindi la raccolta non è stata eseguita; rilanciare lo script con il PAT sopra quando la CLI è installata per aggiornare i log.
 - **ci.yml** – Owner: dev-tooling. Ultimo run4960 (06/12) in PASS con log HTML salvato; mantenere monitoraggio e abilitare PAT con permessi adeguati per scaricare i pacchetti log zip in automatico.
 - **e2e.yml** – Owner: QA. Ultimo run38 (06/12) in PASS con log HTML salvato; mantenere la raccolta automatica e abilitare PAT con permessi repo per il download zip completo.
 - **data-quality.yml** – Owner: data. Ultimo check locale run174 (07/12) in PASS con log testuale; serve dispatch GH appena disponibile PAT con permessi `workflow`/repo per scaricare l’artefatto completo.

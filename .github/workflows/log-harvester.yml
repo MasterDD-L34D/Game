@@ -2,7 +2,7 @@ name: Log harvester
 
 on:
   schedule:
-    - cron: "0 3 * * 1"
+    - cron: '0 3 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -13,7 +13,7 @@ jobs:
   harvest:
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ secrets.LOG_HARVEST_PAT != '' && secrets.LOG_HARVEST_PAT || secrets.GH_TOKEN != '' && secrets.GH_TOKEN || github.token }}
+      GH_TOKEN: ${{ secrets.CI_LOG_PAT != '' && secrets.CI_LOG_PAT || secrets.LOG_HARVEST_PAT != '' && secrets.LOG_HARVEST_PAT || secrets.GH_TOKEN != '' && secrets.GH_TOKEN || github.token }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
