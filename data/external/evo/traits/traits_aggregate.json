@@ -150,7 +150,7 @@
     {
       "trait_code": "TR-2009",
       "id": "ali_solari_fotoni",
-      "label": "Ali Solari Fotoniche",
+      "label": "i18n:traits.ali_solari_fotoni.label",
       "tier": "T2",
       "sinergie": [
         "cervello_a_bassa_latenza",
@@ -170,9 +170,9 @@
           }
         }
       ],
-      "mutazione_indotta": "Piume fotovoltaiche con rete di accumulo radiante.",
-      "uso_funzione": "Convertire luce in spinta e in schermature riflettenti.",
-      "spinta_selettiva": "Volo prolungato e protezione in ambienti ad alta radianza.",
+      "mutazione_indotta": "i18n:traits.ali_solari_fotoni.mutazione_indotta",
+      "uso_funzione": "i18n:traits.ali_solari_fotoni.uso_funzione",
+      "spinta_selettiva": "i18n:traits.ali_solari_fotoni.spinta_selettiva",
       "famiglia_tipologia": "Locomotivo/Aereo",
       "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
       "slot": [
