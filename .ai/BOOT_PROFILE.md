@@ -144,6 +144,8 @@ e anche in quel caso:
 
 spiega PRIMA cosa farai
 
+se il comando di patch prevede una conferma esplicita (es. prompt yes/no), non è richiesta una doppia spiegazione preliminare: basta la preview/diff prima della conferma
+
 riepiloga DOPO quali file sono stati modificati.
 
 Mai introdurre slug, file o cartelle non coerenti con gli schemi e le convenzioni del repo.
