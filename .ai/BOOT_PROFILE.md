@@ -153,3 +153,48 @@ Command Library & Golden Path caricati
 elenco sintetico degli agenti disponibili (da agents/agents_index.json).
 
 Da quel momento, tutti i comandi e i task andranno interpretati nel contesto del presente profilo.
+
+---
+
+## 4. Mappatura elementi di boot (obbligatori vs opzionali)
+
+Per evitare carichi inutili in task a basso rischio, gli elementi di boot sono suddivisi in:
+
+- **Obbligatori**: garantiscono identità, routing e sicurezza (sempre necessari).
+- **Opzionali**: utili per feature/pipeline complesse; possono essere omessi per consultazioni rapide.
+
+### Obbligatori (sempre da caricare)
+
+- `agent_constitution.md`, `agent.md`: fondamenti identitari e vincoli di sicurezza.
+- `agents/agents_index.json`, `router.md`: abilitano il router automatico e la scelta agente.
+- `.ai/GLOBAL_PROFILE.md`: contesto globale e stile operativo.
+- Modalità **STRICT MODE**: prevenzione side-effect e necessità di piano.
+
+### Opzionali (si possono disattivare per task a basso rischio)
+
+- `docs/COMMAND_LIBRARY.md`: richiesto solo se si usano comandi COMANDO:\*. Senza, l’agente evita interpretazioni automatiche di macro-comandi.
+- `docs/pipelines/GOLDEN_PATH.md`, `docs/PIPELINE_TEMPLATES.md`: servono per pipeline strutturate. Ometterli limita l’accesso a Golden Path ma non blocca consultazioni/QA leggere.
+
+Impatto: in profili leggeri, l’agente resta vincolato a identità e router ma non carica strumenti avanzati (Command Library, Golden Path), riducendo tempo di boot e complessità decisionale.
+
+---
+
+## 5. Profilo di boot “LIGHT” (task a basso rischio / consultazioni rapide)
+
+Usare quando il compito è di sola consultazione, QA rapido o verifica documentale senza esecuzioni di pipeline/command macro.
+
+### Cosa carica (lista minima)
+
+1. Identità e sicurezza: `agent_constitution.md`, `agent.md`, `.ai/GLOBAL_PROFILE.md`.
+2. Routing: `agents/agents_index.json`, `router.md`.
+3. Modalità: **STRICT MODE** attiva.
+
+### Cosa esclude
+
+- Command Library e Golden Path (`docs/COMMAND_LIBRARY.md`, `docs/pipelines/GOLDEN_PATH.md`, `docs/PIPELINE_TEMPLATES.md`).
+
+### Note operative
+
+- Se durante la sessione emerge la necessità di eseguire comandi COMANDO:\* o pipeline, passare a profilo completo caricando i file opzionali sopra elencati.
+- L’esclusione di Command Library evita interpretazioni automatiche di macro-comandi; l’agente deve chiedere conferma prima di procedere con azioni non coperte dal profilo light.
+- Il router resta attivo: scelta agente e vincoli identitari sono invariati, quindi il rischio operativo resta minimo.
