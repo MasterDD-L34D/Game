@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
+import { readdir } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,9 +8,33 @@ import { ensureChromiumExecutable } from './ensure_chromium.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '..');
+const repoRoot = path.resolve(projectRoot, '..', '..');
+const consoleTestsDir = path.join(repoRoot, 'webapp', 'tests', 'playwright', 'console');
 const require = createRequire(import.meta.url);
 
+async function hasPlaywrightTests() {
+  try {
+    const entries = await readdir(consoleTestsDir, { withFileTypes: true });
+    return entries.some((entry) => {
+      if (entry.isDirectory()) return true;
+      return /\.((spec|test)\.[cm]?js|[cm]?ts)$/i.test(entry.name);
+    });
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      return false;
+    }
+    throw error;
+  }
+}
+
 async function main() {
+  if (!(await hasPlaywrightTests())) {
+    console.warn(
+      `[run-playwright-tests] Nessun test Playwright trovato in ${consoleTestsDir}. Salto test web.`,
+    );
+    process.exit(0);
+  }
+
   const args = process.argv.slice(2);
   let executable;
   try {
@@ -37,7 +62,7 @@ async function main() {
       projectRoot,
       'node_modules',
       '.bin',
-      process.platform === 'win32' ? 'playwright.cmd' : 'playwright'
+      process.platform === 'win32' ? 'playwright.cmd' : 'playwright',
     );
 
     command = playwrightBin;
@@ -53,7 +78,7 @@ async function main() {
   const child = spawn(command, commandArgs, {
     cwd: projectRoot,
     stdio: 'inherit',
-    env
+    env,
   });
 
   child.on('exit', (code, signal) => {
