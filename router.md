@@ -9,6 +9,7 @@ verso i vari agenti presenti nel progetto, secondo:
 - profili in .ai/
 
 Il contenuto di questo file DEVE essere letto a inizio sessione Codex insieme a:
+
 - MASTER_PROMPT.md
 - .ai/GLOBAL_PROFILE.md
 
@@ -49,8 +50,8 @@ Se l’utente NON indica “AGENTE: …”, comportati così:
    - archivist → indici, refactor documentazione
    - dev-tooling → script, tool
    - trait-curator → trait, normalizzazione, cataloghi
-   - species-curator* → specie avanzate (se presente)
-   - biome-curator* → ecosistemi (se presente)
+   - species-curator\* → specie avanzate (se presente)
+   - biome-curator\* → ecosistemi (se presente)
 
 3. Se un agente è appropriato:
    - Dichiaralo apertamente:
@@ -62,6 +63,12 @@ Se l’utente NON indica “AGENTE: …”, comportati così:
 
 4. Se NESSUN agente è appropriato:
    - Rispondi come assistente generale sul repo.
+
+### Modalità default-coordinator (AUTO_ROUTER)
+
+- Per richieste generiche o miste che non richiedono un agente specifico, attiva automaticamente il **default-coordinator** senza necessità di dichiarazione esplicita.
+- Quando scatta il default-coordinator, il router DEVE loggare nella risposta la scelta effettuata (es.: “Modalità default-coordinator: instradato a coordinator per richiesta generica/mista”).
+- Il coordinator tratta la richiesta come fallback intelligente, mantenendo strict-mode e gli altri vincoli del router.
 
 ---
 
@@ -101,7 +108,12 @@ ooppure:
 
 ---
 
-# 6. Versionamento
+# 6. Esempi rapidi per richieste miste
+
+- "Mi serve un breve piano di missione e, se serve, aggiungi due idee visive base" → default-coordinator attivo, log nella risposta e suddivisione del task verso coordinator con eventuale consulto di asset-prep se necessario.
+- "Fammi un sommario delle regole e proponi un bilanciamento iniziale" → default-coordinator attivo; la risposta deve indicare il log di routing e, se opportuno, segnalare coinvolgimento balancer come passo successivo.
+
+# 7. Versionamento
 
 - v1.0 – Prima versione del router automatico agenti.
 
