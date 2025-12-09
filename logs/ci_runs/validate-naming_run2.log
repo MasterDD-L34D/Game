@@ -1,8 +1,0 @@
-### validate-naming run 2 2025-11-30T14:38:33Z
-- /workspace/Game/data/core/traits/glossary.json: entry per tratti non presenti nel reference: ali_solari_fotoni
-- /workspace/Game/data/core/traits/glossary.json: mancano le entry per i tratti occhi_cristallo_modulare
-- /workspace/Game/data/core/traits/glossary.json: tratto 'occhi_cristallo_modulare' privo di label_it/label_en
-
-real	0m0.692s
-user	0m0.546s
-sys	0m0.171s

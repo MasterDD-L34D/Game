@@ -1,0 +1,26 @@
+{
+  "run_at": "2025-12-09T01:45:17.473448+00:00",
+  "dashboard": {
+    "ids_total": 42,
+    "anchors_total": 62,
+    "sections_total": 11,
+    "scripts_total": 2,
+    "required_section_count": 5,
+    "required_id_count": 6,
+    "required_nav_count": 5
+  },
+  "generator": {
+    "ids_total": 106,
+    "anchors_total": 16,
+    "scripts_total": 4,
+    "catalog_biomes": 4,
+    "catalog_species": 21,
+    "catalog_ecosystems": 0,
+    "required_id_count": 13,
+    "required_nav_count": 3
+  },
+  "demo_bundle": {
+    "demo_bundle_present": true,
+    "deploy_doc_size": 8634
+  }
+}
