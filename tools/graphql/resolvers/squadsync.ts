@@ -15,11 +15,17 @@ import type {
   SquadSyncSquadSummary,
 } from '../schema.js';
 import { createAdaptiveEngine } from '../../../services/squadsync/adaptiveEngine.js';
-import type { AdaptivePriority, AdaptiveResponseInput } from '../../../services/squadsync/adaptiveEngine.js';
+import type {
+  AdaptivePriority,
+  AdaptiveResponseInput,
+} from '../../../services/squadsync/adaptiveEngine.js';
 
 const moduleDir = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(moduleDir, '../../..');
-export const DEFAULT_REPORT_PATH = resolve(PROJECT_ROOT, 'data/derived/analysis/squadsync_report.json');
+export const DEFAULT_REPORT_PATH = resolve(
+  PROJECT_ROOT,
+  'data/derived/analysis/squadsync_report.json',
+);
 
 function createEmptyAdaptive(): SquadSyncAdaptivePayload {
   return {
@@ -61,7 +67,10 @@ async function defaultReadReport(path: string): Promise<SquadSyncReport> {
   return parsed as SquadSyncReport;
 }
 
-function normaliseRange(range: SquadSyncRangeInput | undefined, fallback: SquadSyncRange): SquadSyncRange {
+function normaliseRange(
+  range: SquadSyncRangeInput | undefined,
+  fallback: SquadSyncRange,
+): SquadSyncRange {
   const start = range?.start ?? fallback.start;
   const end = range?.end ?? fallback.end;
   if (typeof start !== 'string' || typeof end !== 'string') {
@@ -97,7 +106,16 @@ function buildAdaptivePayload(
   adaptive: SquadSyncReport['adaptive'] | undefined,
   range: SquadSyncRange,
 ): SquadSyncAdaptivePayload {
-  const engine = createAdaptiveEngine({ ttlMs: 0, maxTotal: 500, maxPerSquad: 50 });
+  const referenceNow = () => {
+    const endDate = new Date(`${range.end}T23:59:59.999Z`);
+    return Number.isNaN(endDate.getTime()) ? new Date() : endDate;
+  };
+  const engine = createAdaptiveEngine({
+    ttlMs: 0,
+    maxTotal: 500,
+    maxPerSquad: 50,
+    now: referenceNow,
+  });
   const responses: AdaptiveResponseInput[] = Array.isArray(adaptive?.responses)
     ? (adaptive?.responses ?? []).map((response) => ({
         id: response.id,
@@ -157,7 +175,11 @@ function buildAdaptivePayload(
   return payload;
 }
 
-function summariseSquad(squad: SquadSyncSquad, start: string, end: string): SquadAccumulator | null {
+function summariseSquad(
+  squad: SquadSyncSquad,
+  start: string,
+  end: string,
+): SquadAccumulator | null {
   const filtered = squad.daily
     .filter((entry) => entry.date >= start && entry.date <= end)
     .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
@@ -188,7 +210,10 @@ function summariseSquad(squad: SquadSyncSquad, start: string, end: string): Squa
   };
 }
 
-export function filterReportByRange(report: SquadSyncReport, range?: SquadSyncRangeInput): SquadSyncReport {
+export function filterReportByRange(
+  report: SquadSyncReport,
+  range?: SquadSyncRangeInput,
+): SquadSyncReport {
   const normalisedRange = normaliseRange(range, report.range);
   const { start, end } = normalisedRange;
 
@@ -232,7 +257,8 @@ export function filterReportByRange(report: SquadSyncReport, range?: SquadSyncRa
   );
 
   const days = totals.days;
-  const averageActiveMembers = days > 0 ? Number((totals.averageActiveMembers / days).toFixed(2)) : 0;
+  const averageActiveMembers =
+    days > 0 ? Number((totals.averageActiveMembers / days).toFixed(2)) : 0;
   const averageEngagement = days > 0 ? Number((totals.averageEngagement / days).toFixed(3)) : 0;
 
   const filteredReport: SquadSyncReport = {
@@ -274,7 +300,9 @@ interface RestLikeResponse {
   json: (payload: unknown) => void;
 }
 
-function parseRangeFromQuery(query: Record<string, string | string[]> | undefined): SquadSyncRangeInput | undefined {
+function parseRangeFromQuery(
+  query: Record<string, string | string[]> | undefined,
+): SquadSyncRangeInput | undefined {
   if (!query) {
     return undefined;
   }
