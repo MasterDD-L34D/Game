@@ -19,6 +19,7 @@ Quando Codex lavora in questo repository:
   - Opzionali: `docs/COMMAND_LIBRARY.md` (macro-comandi), `docs/pipelines/GOLDEN_PATH.md` e `docs/PIPELINE_TEMPLATES.md` (pipeline). Se non servono macro-comandi, puoi saltarli.
 - **Ridondanze ridotte**: ogni documento ora rimanda a questa sezione per il bootstrap. Consulta i file specifici solo quando devi approfondire (es. sintassi dei comandi → Command Library; logica di routing → router.md).
 - **Percorso consigliato**: 1) leggi questa sezione, 2) apri `.ai/BOOT_PROFILE.md` per l’avvio completo oppure usa il “profilo light” indicato lì, 3) passa ai documenti opzionali solo se richiesto dal task.
+- **Eccezione per task semplici**: se il task rispetta i criteri di rischio basso/patch < 20 righe/nessuna dipendenza (vedi `docs/PIPELINE_TEMPLATES.md` → MINI_PIPELINE_SEMPLICE), puoi seguire la mini-pipeline a 2 step senza caricare il Golden Path.
 
 2. Questo attiva in automatico:
 

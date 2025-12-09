@@ -194,6 +194,10 @@ Per evitare carichi inutili in task a basso rischio, gli elementi di boot sono s
 
 Impatto: in profili leggeri, l’agente resta vincolato a identità e router ma non carica strumenti avanzati (Command Library, Golden Path), riducendo tempo di boot e complessità decisionale.
 
+### Mini-pipeline per task semplici (basso rischio)
+
+Per task **BASSO** che rispettano TUTTI i criteri di `docs/PIPELINE_TEMPLATES.md` → sezione “Definizione di task "semplice"” (patch complessiva < 20 righe, zero dipendenze, ambito limitato, rischio minimo), puoi attivare `MINI_PIPELINE_SEMPLICE` (max 2 step) al posto del Golden Path. Se emergono dipendenze, più file o impatti su gameplay/dati core, torna immediatamente al Golden Path completo.
+
 ---
 
 ## 5. Tabella severità e workflow
