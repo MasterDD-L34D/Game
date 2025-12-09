@@ -8,11 +8,22 @@ let promClientLoadAttempted = false;
 let missingDependencyLogged = false;
 let defaultMetricsRegistered = false;
 
+function isMetricsDisabled() {
+  const flag = String(process.env.ORCHESTRATOR_METRICS_DISABLED || '')
+    .trim()
+    .toLowerCase();
+  return ['1', 'true', 'yes', 'on'].includes(flag);
+}
+
 function loadPromClient() {
   if (promClientLoadAttempted) {
     return promClientRef;
   }
   promClientLoadAttempted = true;
+  if (isMetricsDisabled()) {
+    promClientRef = null;
+    return promClientRef;
+  }
   try {
     // Lazy require to keep the dependency optional for environments that do not install it.
     // eslint-disable-next-line global-require, import/no-extraneous-dependencies
