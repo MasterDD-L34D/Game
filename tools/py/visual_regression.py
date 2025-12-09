@@ -249,11 +249,18 @@ def compare_snapshots(pages: Iterable[str] | None, tolerance: float, engine: str
         expected_width = baseline_entry.get("width")
         expected_height = baseline_entry.get("height")
         if (expected_width, expected_height) != (signature.width, signature.height):
-            raise ValueError(
-                f"Dimensioni diverse rispetto alla baseline per '{name}': {signature.width}x{signature.height} vs {expected_width}x{expected_height}"
+            print(
+                "Dimensioni diverse rispetto alla baseline per "
+                f"'{name}': {signature.width}x{signature.height} vs {expected_width}x{expected_height}. "
+                "Segnalo come regressione: rigenerare la baseline se la variazione è attesa."
             )
-        score = _hash_distance(signature.hash_hex, baseline_entry["hash"])
-        diff_file = _compare_images(BASELINE_SNAPSHOT_DIR / f"{name}.png", output_path, run_dir / f"{name}-diff.png")
+            score = 1.0
+            diff_file = None
+        else:
+            score = _hash_distance(signature.hash_hex, baseline_entry["hash"])
+            diff_file = _compare_images(
+                BASELINE_SNAPSHOT_DIR / f"{name}.png", output_path, run_dir / f"{name}-diff.png"
+            )
         results.append(SnapshotResult(name=name, output_path=output_path, diff_path=diff_file, score=score))
     run_dir.mkdir(parents=True, exist_ok=True)
     report = {
