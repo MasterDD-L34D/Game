@@ -33,7 +33,7 @@ Questa pagina riepiloga i workflow GitHub Actions e gli script locali citati dal
 
 _Nota_: quando il **Log Harvester** è attivo, l’aggiornamento degli esiti e dei log avviene automaticamente dai pacchetti scaricati. Per i workflow senza `workflow_dispatch` (es. `ci.yml`) l’harvester attende il prossimo push/PR; per i workflow manuali con input richiede un job esterno che lanci il dispatch con i parametri prima di scaricare i log.
 
-> **Stato autenticazione locale** – La CLI GitHub è installata, ma l’ambiente non esporta il PAT `CI_LOG_PAT` come `GH_TOKEN` e l’agente non può applicare token forniti in chat. Un operatore deve eseguire `export GH_TOKEN=$CI_LOG_PAT` (o login equivalente) prima di qualunque dispatch/download; finché la sessione non è attiva, i semafori restano bloccati e le richieste di artifact ricevono 403.
+> **Stato autenticazione locale** – GH CLI installata; autenticazione riuscita in sessione Windows/PowerShell esportando `CI_LOG_PAT` come `GH_TOKEN` (scope admin:org, repo, workflow). Il blocco precedente per token assente è risolto nella sessione corrente; per nuove shell resta necessario riesportare il PAT (nessun accesso diretto ai secrets Actions da locale). Dispatch manuali 2025-12-09 (`qa-kpi-monitor`, `qa-export`, `qa-reports`) eseguiti da `main` con questo token.
 
 > **Dove prendere il PAT** – Il secret Actions `CI_log_pat` (già popolato con il PAT di logging `CI_LOG_PAT`) è disponibile per i runner e per gli operatori autorizzati. In locale: `export CI_LOG_PAT=<valore del secret CI_log_pat>` e subito dopo `export GH_TOKEN=$CI_LOG_PAT`; verifica con `GH_TOKEN=$CI_LOG_PAT gh auth status` che l’auth sia attiva. Non salvare il PAT su disco/git e chiudi il terminale al termine.
 
@@ -101,7 +101,7 @@ _Nota_: con il **Log Harvester** abilitato, gli stati del semaforo si aggiornano
 
 1. **Esporta il PAT**: `export GH_TOKEN=$CI_LOG_PAT` e verifica con `GH_TOKEN=$CI_LOG_PAT gh auth status` che la sessione sia attiva (evita `gh auth login --with-token` che genera warning se `GH_TOKEN` è già impostato).
 2. **Imposta il repo**: se necessario, `export GH_REPO=MasterDD-L34D/Game` per forzare il contesto.
-3. **Dispatch workflow**: usa sempre il prefisso `GH_TOKEN=$CI_LOG_PAT gh workflow run <file>.yml -b main [input]` per data-quality/schema/traits/QA/deploy/HUD/incoming-smoke/log-harvester e recupera l’ID con `gh run list --workflow <file>.yml --limit 1`.
+3. **Dispatch workflow**: usa sempre il prefisso `GH_TOKEN=$CI_LOG_PAT gh workflow run <file>.yml -r main [input]` per data-quality/schema/traits/QA/deploy/HUD/incoming-smoke/log-harvester e recupera l’ID con `gh run list --workflow <file>.yml --limit 1`.
 4. **Scarica log/artefatti**: `GH_TOKEN=$CI_LOG_PAT gh run download <id> --dir logs/ci_runs` (o `logs/visual_runs` / `logs/incoming_smoke` in base al workflow).
 5. **Aggiorna il semaforo**: registra esito e percorsi log nella tabella sopra; se il download artefatti fallisce con 403, segnala agli owner per nuovi SAS/perms.
 
@@ -111,16 +111,16 @@ _Nota_: con il **Log Harvester** abilitato, gli stati del semaforo si aggiornano
 
 2. `export GH_TOKEN=$CI_LOG_PAT && GH_TOKEN=$CI_LOG_PAT gh auth status`
 
-3. `GH_TOKEN=$CI_LOG_PAT gh workflow run qa-kpi-monitor.yml -b main -f visual_regression=true` (imposta `visual_regression=false` se non servono confronti visual); scarica il log con `GH_TOKEN=$CI_LOG_PAT gh run download <id> --dir logs/visual_runs`
+3. `GH_TOKEN=$CI_LOG_PAT gh workflow run qa-kpi-monitor.yml -r main` (nessun input richiesto); scarica il log con `GH_TOKEN=$CI_LOG_PAT gh run download <id> --dir logs/visual_runs`
 
-4. `GH_TOKEN=$CI_LOG_PAT gh workflow run qa-export.yml -b main` e `GH_TOKEN=$CI_LOG_PAT gh workflow run qa-reports.yml -b main`
+4. `GH_TOKEN=$CI_LOG_PAT gh workflow run qa-export.yml -r main` e `GH_TOKEN=$CI_LOG_PAT gh workflow run qa-reports.yml -r main`
 
 5. scarica i log export/reports in `logs/ci_runs/` e aggiorna badge/KPI secondo gli output generati
 
 - **Rerun data-quality.yml** – Comando/branch: `gh workflow run data-quality.yml -r main` (owner: data). Stato: rerun 08/12/2025 in failure (run20012320492) con log `logs/ci_runs/data-quality_run20012320492_rerun.log`, errore catalogo specie vuoto e artefatto 403. Richiede fix e nuovo run da `main` appena pronti i cambi.
 - **Rerun schema-validate.yml** – Comando/branch: `gh workflow run schema-validate.yml -r main` (owner: data). Stato: dispatch 08/12/2025 (run20037257496) in failure per `IndentationError` inline (`logs/ci_runs/schema-validate_run20037257496.log`); serve fix e nuovo run da `main` per rigenerare il log HTML/zip.
 - **Rerun validate_traits.yml** – Comando/branch: `gh workflow run validate_traits.yml -r main` (owner: data). Stato: rerun 08/12/2025 su `main` (run20012325923) in failure per catalogo specie vuoto con log `logs/ci_runs/validate_traits_run20012325923_rerun.log`. Necessari fix e nuovo dispatch su `main`.
-- **QA suite (qa-kpi-monitor + qa-export + qa-reports)** – Comando/branch: sequenza `GH_TOKEN=$CI_LOG_PAT gh workflow run qa-kpi-monitor.yml -r main` (visual on), poi `qa-export.yml` e `qa-reports.yml` da `main` (owner: QA). Prerequisiti: baseline KPI aggiornata, dati/pack stabili e accesso asset visual; PAT per artefatti. Ultimo tentativo 2025-12-08T1846Z bloccato per token mancante (prompt di login); rieseguire dopo aver esportato `GH_TOKEN` e archiviare i log in `logs/visual_runs/` (monitor) e `logs/ci_runs/` (export/reports). Scadenza: entro 7 giorni; uscita: tutti i run verdi con upload log <7 giorni.
+- **QA suite (qa-kpi-monitor + qa-export + qa-reports)** – Sequenza manuale da `main` con GH CLI autenticata (`CI_LOG_PAT` → `GH_TOKEN`). Dispatch 2025-12-09: `qa-kpi-monitor` run **20049008482** in **failure** per visual regression (`dashboard` 1440x8304 vs baseline 1440x6714, `tools/py/visual_regression.py`); artifact `visual-report` scaricato in `logs/visual_runs/visual-report/`. `qa-export` run **20048943415** e `qa-reports` run **20048943635** dispatchati nella stessa finestra; artefatti scaricati in `logs/ci_runs/` dopo aver svuotato le cartelle per evitare conflitti “file exists”. Follow-up: analizzare la dashboard, decidere se aggiornare baseline/tolleranza o correggere il layout e rilanciare `qa-kpi-monitor`; verificare gli esiti di export/reports e aggiornare badge/KPI.
 
 ### Aggiornamenti ticket 03A/03B
 
