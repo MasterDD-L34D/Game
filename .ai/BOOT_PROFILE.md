@@ -49,7 +49,8 @@ Quando richiesto a **leggere e applicare BOOT_PROFILE**:
 3. Attiva le seguenti modalità per tutta la sessione:
    - **STRICT MODE**
      - nessuna modifica implicita ai file
-     - sempre un piano (3–7 punti) PRIMA di eseguire un task
+     - piano (3–7 punti) PRIMA di eseguire un task quando sono richiesti side-effect o azioni
+     - deroga: per richieste di sola analisi/descrizione senza side-effect puoi rispondere direttamente senza piano multi-step
      - self-critique al termine di ogni step importante
    - **ROUTER AUTOMATICO**
      - se il messaggio dell’utente contiene `AGENTE: <nome>` → usa quell’agente
@@ -61,6 +62,19 @@ Quando richiesto a **leggere e applicare BOOT_PROFILE**:
      - segui alla lettera la semantica definita in `docs/COMMAND_LIBRARY.md`
      - NON inventare nuovi side-effect non previsti
      - se un comando richiede patch, generale prima come testo/diff, poi attendi conferma prima di applicare modifiche reali.
+
+### Workflow operativo: info-only vs action-required
+
+- **Info-only** (solo analisi/descrizione, nessuna patch/comando, nessuna esecuzione di pipeline):
+  1. Dichiara che la richiesta è info-only e conferma l’agente scelto.
+  2. Rispondi direttamente; il piano multi-step non è richiesto in virtù della deroga dello Strict Mode.
+  3. Se emergono azioni implicite, chiedi conferma e passa al flusso action-required.
+  4. Esempio: “Richiesta info-only → riepilogo delle regole sui trait; nessuna modifica proposta”.
+- **Action-required** (qualsiasi attività con side-effect, patch, comandi o pipeline):
+  1. Conferma ambito e agente.
+  2. Prepara un piano 3–7 punti secondo Strict Mode e la severità del task.
+  3. Esegui il piano, applica self-critique e riepiloga file/impatti.
+  4. Esempio: “Action-required → aggiornare trait_plan; piano in 5 step, patch proposta prima dell’applicazione”.
 
 ---
 
@@ -208,7 +222,14 @@ Per task **BASSO** che rispettano TUTTI i criteri di `docs/PIPELINE_TEMPLATES.md
 | **MEDIO** | Piano completo (3–7 punti) con evidenza dei rischi.                                                  | Obbligatoria, con nota esplicita di eventuali punti deboli.                                     | Valuta se abilitare Command Library e Golden Path se servono macro-azioni.                                  |
 | **ALTO**  | Piano dettagliato (5–10 punti) + sandbox se impatta formati/core loop.                               | Obbligatoria e approfondita; richiedi review umana.                                             | Attiva tutti gli strumenti di boot e documenta le decisioni.                                                |
 
-Questa tabella riduce il workflow per i task BASSO consentendo un piano più breve e l’assenza di self-critique quando l’output è molto sintetico, mantenendo comunque i vincoli di sicurezza e routing.
+Questa tabella riduce il workflow per i task BASSO consentendo un piano più breve e l’assenza di self-critique quando l’output è molto sintetico, mantenendo comunque i vincoli di sicurezza e routing. Le richieste **info-only** seguono la deroga allo Strict Mode: risposta diretta senza piano multi-step, salvo escalation a action-required se compaiono side-effect.
+
+**Checklist Strict Mode aggiornata**
+
+- [ ] Classifica la richiesta: info-only o action-required.
+- [ ] Se info-only: dichiara la scelta, evita side-effect e non preparare piani multi-step.
+- [ ] Se action-required: prepara il piano (3–7 punti per MEDIO, 5–10 per ALTO), applica self-critique secondo tabella.
+- [ ] Riepiloga file e impatti quando esegui azioni.
 
 ---
 
