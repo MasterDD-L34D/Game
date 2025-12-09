@@ -33,7 +33,7 @@
     "drive:push-approved": "node tools/drive/push-approved-assets.mjs",
     "drive-sync": "node tools/drive/sync-approved-assets.mjs",
     "stage:publishing": "node services/publishing/staging.js",
-    "export:qa": "node scripts/export-qa-report.js",
+    "export:qa": "ORCHESTRATOR_METRICS_DISABLED=true node scripts/export-qa-report.js",
     "mock:generate": "node scripts/mock/generate-demo-data.js",
     "webapp:deploy": "npm run build --workspace apps/dashboard && npm run preview --workspace apps/dashboard",
     "webapp:qa": "npm run qa --workspace apps/dashboard",
