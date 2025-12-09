@@ -414,5 +414,6 @@ Non eseguire, solo definire la pipeline.
   - agents/agents_index.json
   - .ai/GLOBAL_PROFILE.md
   - (eventualmente router.md, se usi il router automatico).
+- Per i comandi di patch che chiedono conferma esplicita (es. prompt yes/no) non serve una doppia spiegazione preliminare: basta mostrare la preview/diff e attendere il via.
 
 [ FINE FILE ]
