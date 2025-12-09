@@ -1,4 +1,5 @@
 id: thaw-rot
+schema_version: '1.7'
 display_name: Thaw Rot
 biomes:
 - cryosteppe

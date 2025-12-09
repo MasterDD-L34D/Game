@@ -1,4 +1,5 @@
 id: silica-bloom
+schema_version: '1.7'
 display_name: Silica Bloom
 biomes:
 - deserto_caldo

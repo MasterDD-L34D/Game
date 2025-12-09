@@ -1,4 +1,5 @@
 id: aurora-gull
+schema_version: '1.7'
 display_name: Gabbiano d’Aurora
 biomes:
 - cryosteppe

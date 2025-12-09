@@ -1,4 +1,5 @@
 id: evento-ondata-termica
+schema_version: '1.7'
 display_name: 'Evento: Ondata Termica Ionica'
 biomes:
 - deserto_caldo

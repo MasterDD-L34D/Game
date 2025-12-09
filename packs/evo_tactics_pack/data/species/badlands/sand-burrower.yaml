@@ -1,4 +1,5 @@
 id: sand-burrower
+schema_version: '1.7'
 display_name: Sand Burrower
 biomes:
 - badlands

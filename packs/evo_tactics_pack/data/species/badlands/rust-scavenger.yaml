@@ -1,4 +1,5 @@
 id: rust-scavenger
+schema_version: '1.7'
 display_name: Rust Scavenger
 biomes:
 - badlands

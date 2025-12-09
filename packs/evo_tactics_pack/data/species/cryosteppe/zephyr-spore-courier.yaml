@@ -1,2 +1,18 @@
 id: zephyr-spore-courier
+schema_version: '1.7'
 notes: 'stub auto-generato per ripristinare inventario: sostituire con specifica completa.'
+display_name: Zephyr Spore Courier
+biomes:
+- cryosteppe
+role_trofico: evento_ecologico
+functional_tags: []
+vc: {}
+playable_unit: false
+spawn_rules:
+  densita: moderata
+balance:
+  encounter_role: minion
+environment_affinity: {}
+derived_from_environment: {}
+receipt:
+  source: runtime-generator

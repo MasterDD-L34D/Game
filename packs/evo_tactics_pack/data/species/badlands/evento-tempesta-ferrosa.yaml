@@ -1,4 +1,5 @@
 id: evento-tempesta-ferrosa
+schema_version: '1.7'
 display_name: 'Evento: Tempesta Ferrosa'
 biomes:
 - badlands

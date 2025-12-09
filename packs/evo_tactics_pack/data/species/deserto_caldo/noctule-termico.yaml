@@ -1,4 +1,5 @@
 id: noctule-termico
+schema_version: '1.7'
 display_name: Noctule Termico
 biomes:
 - deserto_caldo
