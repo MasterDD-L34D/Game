@@ -8,6 +8,51 @@ ottimizzare ed eseguire pipeline multi-agente nel progetto Game / Evo Tactics.
 Ogni blocco qui sotto può essere copiato e incollato in una richiesta a Codex
 per attivare il comportamento descritto.
 
+## Definizione di task "semplice"
+
+Usa la mini-pipeline solo quando TUTTI i criteri seguenti sono soddisfatti:
+
+- **Nessuna modifica a file** oppure patch complessiva **< 20 righe** (somma
+  delle aggiunte/rimozioni);
+- **Zero nuove dipendenze** (npm/pip/apt) e nessuna modifica a build/CI;
+- **Ambito limitato**: un singolo documento o risposta testuale, senza effetti
+  sul gameplay, sui dati core o sulle API pubbliche;
+- **Rischio basso**: rollback triviale, nessun dato sensibile o migrazione
+  richiesta.
+
+Se uno solo dei punti non è vero, usa il Golden Path completo o la pipeline
+dedicata più adatta.
+
+## MINI_PIPELINE_SEMPLICE (max 2 step)
+
+```text
+COMANDO: MINI_PIPELINE_SEMPLICE
+
+Uso: task a basso rischio che rispettano i criteri sopra.
+
+Step 1 – Comprensione rapida
+  - Agente: archivist (o coordinatore se serve routing)
+  - Output: riepilogo del task, vincoli, file eventualmente coinvolti; scelta
+    se restare in mini-pipeline o passare al Golden Path.
+
+Step 2 – Esecuzione sintetica
+  - Agente: in base al dominio (es. archivist per documentazione)
+  - Output: modifica/testo richiesto, check di coerenza, note su rischi e su
+    quando scalare al Golden Path.
+```
+
+### Esempi d'uso e fallback
+
+- Correzione refusi o chiarimento di istruzioni operative in un singolo file di
+  documentazione → **usa la mini-pipeline**.
+- Aggiornare un numero limitato di righe (< 20) in README/guide senza toccare
+  dati o codice → **usa la mini-pipeline**.
+- Richiesta informativa/QA senza modifiche ai file → **Step 1** basta.
+- Se durante Step 1 emergono impatti su più file, nuove dipendenze, o bisogno di
+  test/build → **passa al Golden Path** prima di eseguire cambi.
+- Se il lavoro tocca gameplay, dataset core, API o migrazioni → **Golden Path
+  obbligatorio**.
+
 ---
 
 ## COMANDO: PIPELINE_DESIGNER
