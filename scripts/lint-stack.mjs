@@ -43,21 +43,24 @@ const resolveBase = () => {
   return null;
 };
 
+const getStatusPaths = () =>
+  run('git status --porcelain')
+    .split('\n')
+    .map((line) => line.slice(3).trim())
+    .filter(Boolean)
+    .join('\n');
+
 const diffRange = resolveBase();
 let diffOutput = '';
 try {
   if (diffRange) {
     diffOutput = run(`git diff --name-only ${diffRange}`).trim();
   } else {
-    diffOutput = run('git status --porcelain')
-      .split('\n')
-      .map((line) => line.slice(3).trim())
-      .filter(Boolean)
-      .join('\n');
+    diffOutput = getStatusPaths();
   }
 } catch (error) {
-  console.error('Unable to compute diff for linting:', error.message);
-  process.exit(1);
+  console.warn('Unable to compute diff for linting, falling back to working tree:', error.message);
+  diffOutput = getStatusPaths();
 }
 
 if (!diffOutput) {
