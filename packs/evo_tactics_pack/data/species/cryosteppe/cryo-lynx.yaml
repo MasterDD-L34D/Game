@@ -1,0 +1,73 @@
+id: cryo-lynx
+display_name: Cryo Lynx
+biomes:
+- cryosteppe
+role_trofico: predatore_terziario_apex
+functional_tags:
+- predatore
+- specie_chiave
+flags:
+  apex: true
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+path: ../../packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: elite
+playable_unit: false
+morphotype: cursoriale_quadrupede
+vc:
+  aggro: 0.7
+  risk: 0.6
+  cohesion: 0.4
+  setup: 0.6
+  explore: 0.5
+  tilt: 0.4
+spawn_rules:
+  orario:
+  - notte
+  - crepuscolo
+  meteo:
+  - whiteout
+  - whiteout_ionico
+  densita: low
+environment_affinity:
+  biome_class: mezzanotte_orbitale
+  koppen:
+  - BSk
+  - Dfc
+hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - artigli_sette_vie
+  - carapace_fase_variabile
+  - olfatto_risonanza_magnetica
+  optional_traits:
+  - criostasi_adattiva
+  - zampe_a_molla
+  required_capabilities: []
+  services_links: []
+  jobs_bias:
+  - skirmisher
+  - vanguard
+  - warden
+jobs_bias:
+- skirmisher
+- vanguard
+- warden
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+genetic_traits: []
+services_links: []
+description: i18n:species.cryo-lynx.description
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: 75e8602243ab87487aac6306c51e95bb2764dd76dec2c56c9158e55817a133dc
+last_synced_at: '2025-11-13T21:39:42.356Z'

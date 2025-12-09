@@ -1,0 +1,75 @@
+id: steppe-bison-mini
+display_name: Bisonte Nano della Steppa
+biomes:
+- cryosteppe
+role_trofico: ingegneri_ecosistema
+functional_tags:
+- ingegneri_ecosistema
+- specie_chiave
+- prede
+flags:
+  apex: false
+  keystone: true
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+path: ../../packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+playable_unit: true
+morphotype: cursoriale_quadrupede
+vc:
+  aggro: 0.3
+  risk: 0.4
+  cohesion: 0.8
+  setup: 0.6
+  explore: 0.4
+  tilt: 0.2
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - sereno_freddo
+  - whiteout
+  densita: mid
+environment_affinity:
+  biome_class: mezzanotte_orbitale
+  koppen:
+  - BSk
+  - Dfc
+hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - ventriglio_gastroliti
+  - scheletro_idro_regolante
+  - respiro_a_scoppio
+  optional_traits:
+  - carapace_fase_variabile
+  - sacche_galleggianti_ascensoriali
+  required_capabilities: []
+  services_links: []
+  jobs_bias:
+  - skirmisher
+  - vanguard
+  - warden
+jobs_bias:
+- skirmisher
+- vanguard
+- warden
+telemetry:
+  expected_pick_rate: 0.15
+  spawn_weight: 0.22
+genetic_traits: []
+services_links:
+- supporto:aree_brina_compatta
+- regolazione:riciclo_nutrienti_neve
+description: i18n:species.steppe-bison-mini.description
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: a961ea3d37fb106680a3326d34925a73a3b0bd498d9563a464a54be39641705e
+last_synced_at: '2025-11-13T21:39:42.356Z'

@@ -1,0 +1,22 @@
+{
+  "goNoGo": {
+    "status": "go",
+    "stats": {
+      "total": 1,
+      "passed": 1,
+      "warnings": 0,
+      "failed": 0
+    },
+    "checks": [
+      {
+        "id": "deploy-baseline",
+        "title": "Deploy checks baseline",
+        "flowReference": "Deploy pipeline",
+        "severity": "warning",
+        "status": "passed",
+        "passed": true,
+        "summary": "Report di stato placeholder generato localmente."
+      }
+    ]
+  }
+}

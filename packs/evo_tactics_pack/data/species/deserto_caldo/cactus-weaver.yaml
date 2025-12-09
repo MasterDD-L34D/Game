@@ -1,0 +1,77 @@
+id: cactus-weaver
+display_name: Cactus Weaver
+biomes:
+- deserto_caldo
+role_trofico: ingegneri_ecosistema
+functional_tags:
+- ingegneri_ecosistema
+- specie_chiave
+- detritivoro
+flags:
+  apex: false
+  keystone: true
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+path: ../../packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+playable_unit: true
+morphotype: ingegnere_radicante
+vc:
+  aggro: 0.2
+  risk: 0.3
+  cohesion: 0.8
+  setup: 0.6
+  explore: 0.5
+  tilt: 0.2
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - sereno_freddo
+  - caldo_pulsato
+  densita: mid
+environment_affinity:
+  biome_class: abisso_vulcanico
+  koppen:
+  - BWh
+  - BSh
+hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - cuticole_cerose
+  - grassi_termici
+  - pelli_cave
+  - pigmenti_aurorali
+  - proteine_shock_termico
+  - reti_capillari_radici
+  required_capabilities: []
+  services_links:
+  - regolazione:ritenzione_idrica
+  - supporto:stabilizzazione_suolo
+  jobs_bias:
+  - skirmisher
+  - vanguard
+  - warden
+jobs_bias:
+- skirmisher
+- vanguard
+- warden
+telemetry:
+  expected_pick_rate: 0.16
+  spawn_weight: 0.24
+genetic_traits: []
+services_links:
+- supporto:stoccaggio_acqua
+- regolazione:ombreggiamento_microhabitat
+description: i18n:species.cactus-weaver.description
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: 1dd6bbfb1052ac0238f0f2508335a3a22e4ba4c2c99ddc84041355320f09091b
+last_synced_at: '2025-11-13T21:39:42.356Z'

@@ -1,0 +1,101 @@
+id: dune-stalker
+display_name: Dune Stalker
+biomes:
+- badlands
+role_trofico: predatore_terziario_apex
+functional_tags:
+- specie_chiave
+- regolazione_prede
+flags:
+  apex: true
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+path: ../../packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: elite
+playable_unit: false
+morphotype: cursoriale_quadrupede
+vc:
+  aggro: 0.7
+  risk: 0.6
+  cohesion: 0.4
+  setup: 0.5
+  explore: 0.6
+  tilt: 0.4
+spawn_rules:
+  orario:
+  - notte
+  - crepuscolo
+  meteo:
+  - tempesta_sabbia_magnetica
+  densita: low
+environment_affinity:
+  biome_class: dorsale_termale_tropicale
+  koppen:
+  - BSk
+  - BWk
+  hazards_expected:
+  - tempeste_sabbia
+  - collassi di scarpate
+  - tempesta_sabbia_magnetica
+  - iron_shards
+  - magnetic_patches
+hazards_expected:
+- collassi di scarpate
+- iron_shards
+- magnetic_patches
+- tempesta_sabbia_magnetica
+- tempeste_sabbia
+derived_from_environment:
+  suggested_traits:
+  - artigli_sette_vie
+  - scheletro_idro_regolante
+  - struttura_elastica_amorfa
+  optional_traits:
+  - coda_frusta_cinetica
+  - sacche_galleggianti_ascensoriali
+  - criostasi_adattiva
+  - olfatto_risonanza_magnetica
+  - respiro_a_scoppio
+  required_capabilities:
+  - build_cover
+  - dr_impact_cap
+  - non_metal_gear
+  - seal_vents
+  jobs_bias:
+  - vanguard
+  - warden
+jobs_bias:
+- vanguard
+- warden
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+genetic_traits:
+  core:
+  - artigli_sette_vie
+  - scheletro_idro_regolante
+  - struttura_elastica_amorfa
+  optional:
+  - coda_frusta_cinetica
+  - sacche_galleggianti_ascensoriali
+  - criostasi_adattiva
+  - olfatto_risonanza_magnetica
+  - respiro_a_scoppio
+  synergy:
+  - focus_frazionato
+  - risonanza_di_branco
+  - tattiche_di_branco
+services_links: []
+description: i18n:species.dune-stalker.description
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: f3253a3525d42e0521b89bf176ef80e18210c60c56097718402461033e07b6cb
+last_synced_at: '2025-11-13T21:39:42.356Z'
