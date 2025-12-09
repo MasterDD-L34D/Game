@@ -11,16 +11,22 @@ Questo documento centralizza i comandi per scaricare i log/artefatti dei workflo
 ### Setup rapido PAT + `gh`
 
 1. Esporta il PAT nella macchina dove gira `gh` con una di queste variabili: `GH_TOKEN` oppure `CI_LOG_PAT` (compatibili con lo scheduler e con il workflow `log-harvester.yml`).
-2. Autentica GitHub CLI con il token già esportato: `gh auth login --with-token < "$GH_TOKEN"` (oppure `CI_LOG_PAT` se usato direttamente).
-3. Verifica lo stato: `gh auth status` deve indicare l’account e l’host configurati.
+2. Con `GH_TOKEN`/`CI_LOG_PAT` già valorizzato **non serve eseguire `gh auth login`**: GitHub CLI usa automaticamente il token in variabile. Eviti così il warning “The value of the GH_TOKEN environment variable is being used for authentication”.
+3. Verifica lo stato direttamente con il token in variabile: `GH_TOKEN=$CI_LOG_PAT gh auth status` (o `GH_TOKEN=$GH_TOKEN gh auth status` se la variabile è già esportata). Se vuoi salvare le credenziali nel keychain, rimuovi temporaneamente `GH_TOKEN` e lancia `env -u GH_TOKEN gh auth login --with-token <<<"$CI_LOG_PAT"`.
 4. Se usi un runner/scheduler, configura il segreto sul job (`log-harvester.yml`) con gli scope `workflow`, `read:org` e permessi repo/admin per sbloccare il download degli artifact e dei log zippati.
 
 Esempio rapido (runner con `CI_LOG_PAT` già disponibile come secret):
 
 ```bash
 export GH_TOKEN="${CI_LOG_PAT:-}"  # preferisci il segreto già esposto
-gh auth login --with-token < "$GH_TOKEN"
-gh auth status
+GH_TOKEN="$GH_TOKEN" gh auth status  # nessun gh auth login necessario se GH_TOKEN è presente
+```
+
+Windows PowerShell:
+
+```powershell
+$Env:GH_TOKEN = $Env:CI_LOG_PAT
+gh auth status  # gh userà automaticamente GH_TOKEN, niente gh auth login richiesto
 ```
 
 Ricorda: il token deve essere autorizzato via SSO e avere almeno scope `workflow`, `read:org` e permessi repo/admin per consentire il download zip dei log/artefatti.
@@ -30,15 +36,15 @@ Ricorda: il token deve essere autorizzato via SSO e avere almeno scope `workflow
 ### Checklist runner (`log-harvester.yml`)
 
 - Aggiungi il segreto `CI_LOG_PAT` ai secret del repository/organizzazione con scope `workflow`, `read:org` e permessi repo/admin.
-- Espone il segreto come `GH_TOKEN` nel job e autentica `gh` prima dei download:
+- Espone il segreto come `GH_TOKEN` nel job e verifica lo stato di `gh` prima dei download (nessun `gh auth login` se `GH_TOKEN` è già presente):
 
   ```yaml
   env:
     GH_TOKEN: ${{ secrets.CI_LOG_PAT }}
   steps:
-    - name: Auth gh
+    - name: Check gh auth
       run: |
-        gh auth login --with-token < "$GH_TOKEN"
+        set -eo pipefail
         gh auth status
   ```
 
@@ -57,9 +63,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Auth gh
+      - name: Check gh auth
         run: |
-          gh auth login --with-token < "$GH_TOKEN"
+          set -eo pipefail
           gh auth status
 
       - name: Inspect harvest config
@@ -83,7 +89,7 @@ Annotazioni:
 
 - `CI_LOG_PAT` deve essere presente tra i secret del repo/organizzazione con gli scope richiesti.
 - Il token viene esposto come `GH_TOKEN` per compatibilità con lo script (`scripts/ci_log_harvest.sh`).
-- Il workflow vero (`.github/workflows/log-harvester.yml`) autentica `gh`, mostra il config attivo (`ops/ci-log-config.txt` per
+- Il workflow vero (`.github/workflows/log-harvester.yml`) verifica l’auth di `gh`, mostra il config attivo (`ops/ci-log-config.txt` per
   default) e lancia lo script con quel file; se il config manca, lo script usa l’array interno ma continua a scaricare l’ultimo
   run disponibile.
 - Se preferisci schedulare l’harvest, aggiungi un trigger `schedule` o `workflow_dispatch` al workflow.
@@ -167,7 +173,7 @@ La lista canonica usata sia dallo script sia dal workflow `log-harvester.yml` è
 ### Checklist operativa (punto 3 del piano)
 
 - Prima di lanciare il job verifica che `GH_TOKEN` sia valorizzato dal secret `CI_LOG_PAT` (scope `workflow`, `read:org`, repo/admin). Il workflow `log-harvester.yml` fallisce subito se il token manca.
-- Nel runner, la sequenza standard è: checkout → `gh auth login --with-token < "$GH_TOKEN"` + `gh auth status` → `make ci-log-harvest` (o `scripts/ci_log_harvest.sh ...`).
+- Nel runner, la sequenza standard è: checkout → `gh auth status` (con `GH_TOKEN` già esportato) → `make ci-log-harvest` (o `scripts/ci_log_harvest.sh ...`). Se hai bisogno di salvare le credenziali persistentemente, esegui `gh auth login --with-token` solo dopo aver rimosso `GH_TOKEN` dall’ambiente per evitare il warning della CLI.
 - Controlla che le cartelle di destinazione (`logs/ci_runs`, `logs/visual_runs`, `logs/incoming_smoke`) contengano i log/html/artifact zippati per ogni workflow previsto. Gli artifact vengono salvati sia estratti sia come zip.
 - Per workflow manuali, valuta se abilitare `DISPATCH_MANUAL=1`/`WAIT_FOR_COMPLETION=1` e passa gli input richiesti (vedi sezione “Workflow manuali che richiedono input”). Anche senza dispatch, il job scarica l’ultimo run completato.
 - Dopo il download, aggiorna `docs/planning/ci-inventory.md` (semaforo, note di blocco/rerun) con data/esito e link ai log appena archiviati.
