@@ -1,0 +1,71 @@
+id: thaw-rot
+display_name: Thaw Rot
+biomes:
+- cryosteppe
+role_trofico: minaccia_microbica
+functional_tags:
+- patogeno
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+path: ../../packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: boss
+playable_unit: false
+morphotype: scavenger_corazzato
+vc:
+  aggro: 0.3
+  risk: 0.85
+  cohesion: 0.4
+  setup: 0.7
+  explore: 0.2
+  tilt: 0.8
+spawn_rules:
+  orario:
+  - continuo
+  meteo:
+  - whiteout_ionico
+  - sereno_freddo
+  densita: mid
+environment_affinity:
+  biome_class: mezzanotte_orbitale
+  koppen:
+  - BSk
+  - Dfc
+hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - filamenti_digestivi_compattanti
+  - spore_psichiche_silenziate
+  - sangue_piroforico
+  optional_traits:
+  - secrezione_rallentante_palmi
+  - eco_interno_riflesso
+  required_capabilities: []
+  services_links: []
+  jobs_bias:
+  - skirmisher
+  - vanguard
+  - warden
+jobs_bias:
+- skirmisher
+- vanguard
+- warden
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+genetic_traits: []
+services_links: []
+description: i18n:species.thaw-rot.description
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: 18f213e4c7b49b4795fd786490dcb62cebefadc67f42dd91b287cedc3a8e427f
+last_synced_at: '2025-11-13T21:39:42.356Z'

@@ -1,0 +1,87 @@
+id: evento-tempesta-ferrosa
+display_name: 'Evento: Tempesta Ferrosa'
+biomes:
+- badlands
+role_trofico: evento_ecologico
+functional_tags:
+- pulse_climatico
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: true
+path: ../../packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml
+balance:
+  rarity: R5
+  threat_tier: T4
+  encounter_role: boss
+playable_unit: false
+morphotype: volatore_planatore
+vc:
+  aggro: 0.1
+  risk: 0.95
+  cohesion: 0.2
+  setup: 0.8
+  explore: 0.1
+  tilt: 0.95
+spawn_rules:
+  orario:
+  - crepuscolo
+  meteo:
+  - tempesta_sabbia_magnetica
+  densita: low
+environment_affinity:
+  biome_class: dorsale_termale_tropicale
+  koppen:
+  - BSk
+  - BWk
+  hazards_expected:
+  - tempeste_sabbia
+  - collassi di scarpate
+  - tempesta_sabbia_magnetica
+  - iron_shards
+  - magnetic_patches
+hazards_expected:
+- collassi di scarpate
+- iron_shards
+- magnetic_patches
+- tempesta_sabbia_magnetica
+- tempeste_sabbia
+derived_from_environment:
+  suggested_traits:
+  - cute_resistente_sali
+  - enzimi_chelanti
+  - pelli_anti_ustione
+  - pigmenti_termici
+  required_capabilities:
+  - build_cover
+  - dr_impact_cap
+  - non_metal_gear
+  - seal_vents
+  jobs_bias:
+  - vanguard
+  - warden
+jobs_bias:
+- vanguard
+- warden
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+genetic_traits:
+  core:
+  - cute_resistente_sali
+  - enzimi_chelanti
+  - pelli_anti_ustione
+  - pigmenti_termici
+  optional: []
+  synergy: []
+services_links: []
+description: i18n:species.evento-tempesta-ferrosa.description
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: 6e07bbd8680e292def732ca859aa8712aef4807bea820bfa7c4773dfa644cfc1
+last_synced_at: '2025-11-13T21:39:42.356Z'
