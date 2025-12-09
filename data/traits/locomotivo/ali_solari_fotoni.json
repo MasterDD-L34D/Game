@@ -1,6 +1,6 @@
 {
   "id": "ali_solari_fotoni",
-  "label": "Ali Solari Fotoni",
+  "label": "i18n:traits.ali_solari_fotoni.label",
   "debolezza": "i18n:traits.ali_solari_fotoni.debolezza",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Locomotivo/Aereo",
