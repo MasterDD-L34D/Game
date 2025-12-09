@@ -19,7 +19,7 @@ const DEFAULT_CONFIG = {
 };
 
 const DEFAULT_CONFIG_PATH = path.resolve(__dirname, '../../config/orchestrator.json');
-const DEFAULT_WORKER_SCRIPT = path.resolve(__dirname, '../../services/generation/worker.py');
+const DEFAULT_WORKER_SCRIPT = path.resolve(__dirname, '../../../services/generation/worker.py');
 
 function loadConfig(configPath = DEFAULT_CONFIG_PATH) {
   try {
