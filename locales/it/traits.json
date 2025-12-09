@@ -1866,6 +1866,13 @@
       "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
       "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Tattiche di Branco'."
     },
+    "traits_aggregate": {
+      "label": "Aggregato tratti Evo",
+      "mutazione_indotta": "Dump normalizzato dei trait Evo (TR-*) per pipeline legacy.",
+      "spinta_selettiva": "Allineare export Evo e indice legacy.",
+      "uso_funzione": "Punto di ingresso legacy per cataloghi e audit Evo.",
+      "debolezza": "Non rappresenta un tratto giocabile; solo metadato di pacchetto."
+    },
     "unghie_a_micro_adesione": {
       "description": "Lamelle a micro-setole su zoccoli che aderiscono a superfici ripide per fughe verticali e pascolo.",
       "label": "Unghie a Micro-Adesione",
