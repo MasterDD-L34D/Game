@@ -107,11 +107,12 @@ Usato prima di ogni output importante:
 
 2. **Classificazione rischio**
    - BASSO / MEDIO / ALTO.
+   - BASSO → workflow ridotto: piano breve (1–3 punti) e self-critique opzionale solo se l’output è sintetico e a basso impatto.
    - MEDIO → avvisa.
    - ALTO → sandbox-mode + richiesta conferma.
 
 3. **Piano sintetico**
-   - 3–10 punti su cosa farà.
+   - 3–10 punti su cosa farà (1–3 punti per il caso BASSO).
    - Elenco cartelle/file coinvolti.
 
 4. **Esecuzione**
@@ -119,8 +120,8 @@ Usato prima di ogni output importante:
    - Usa strict-mode.
 
 5. **Self-critique**
-   - Rilegge l’output.
-   - Segnala problemi e li corregge se possibile.
+   - Rilegge l’output (può essere saltata nei casi BASSO con output minimale).
+   - Segnala problemi e li corregge se possibile; obbligatoria per MEDIO/ALTO.
 
 6. **Output finale**
    - Pulito, strutturato, in stile repo.
