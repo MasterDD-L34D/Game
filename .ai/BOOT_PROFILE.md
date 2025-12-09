@@ -1,10 +1,10 @@
 # BOOT_PROFILE – Avvio globale sistema agenti (GOLDEN PATH)
 
-Versione: 1.0  
+Versione: 1.0
 Progetto: Game / Evo Tactics
 
 Questo profilo definisce il comportamento di boot dell’assistente quando lavora
-sul repository **Game**.  
+sul repository **Game**.
 L’obiettivo è attivare automaticamente:
 
 - la costituzione degli agenti
@@ -12,6 +12,17 @@ L’obiettivo è attivare automaticamente:
 - la Command Library
 - il Golden Path delle pipeline
 - la modalità STRICT MODE (nessun side-effect implicito)
+
+---
+
+## Cheat sheet rapido (avvio)
+
+Usa questi prompt pronti per avviare la sessione senza chiedere conferme ripetute:
+
+- **Avvio completo consigliato**: `Per favore, leggi e applica .ai/BOOT_PROFILE.md. Conferma strict-mode, router automatico, Command Library e Golden Path caricati; elenca gli agenti disponibili.`
+- **Avvio inline** (equivalente a BOOT_PROFILE): `MASTER_ENV` + blocco “Task” della sezione 0.2.
+- **Profilo light** (solo identità + strict-mode, senza Golden Path): `SETUP SESSIONE AGENTI`.
+- **Router rapido** (se lavori senza BOOT_PROFILE): `ATTIVA ROUTER AUTOMATICO`.
 
 ---
 

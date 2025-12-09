@@ -15,6 +15,34 @@ Questa libreria raccoglie TUTTI i comandi operativi per:
 
 ---
 
+## Cheat sheet rapido
+
+Prompt pronti all’uso per evitare conferme ripetute. Copia-incolla la voce che ti serve e verifica i prerequisiti indicati.
+
+- **BOOT_PROFILE (avvio consigliato)** — [vai alla sezione](#01--boot_profile-avvio-consigliato)
+  - Prompt: `Per favore, leggi e applica .ai/BOOT_PROFILE.md. Conferma strict-mode, router automatico, Command Library e Golden Path caricati; elenca gli agenti disponibili.`
+  - Prerequisiti: nessuno; usalo all’avvio per avere tutte le protezioni e i riferimenti caricati.
+- **MASTER_ENV (avvio inline)** — [vai alla sezione](#02--master_env-avvio-inline-senza-boot_profile)
+  - Prompt: `MASTER_ENV` seguito dal blocco “Task” indicato nella sezione 0.2 (così attivi bootstrap completo in un unico messaggio).
+  - Prerequisiti: nessuno; alternativa rapida se non vuoi citare il file BOOT_PROFILE.
+- **ATTIVA ROUTER AUTOMATICO** — [vai alla sezione](#11--attivare-il-router-automatico)
+  - Prompt: `ATTIVA ROUTER AUTOMATICO`.
+  - Prerequisiti: serve quando lavori senza BOOT_PROFILE; necessario prima di usare i comandi di pipeline per avere assegnazione agenti.
+- **SETUP SESSIONE AGENTI (profilo light)** — [vai alla sezione](#12--setup-sessione-agente-light)
+  - Prompt: `SETUP SESSIONE AGENTI`.
+  - Prerequisiti: nessuno; carica solo identità, strict-mode e router per consultazioni rapide senza Golden Path.
+- **PIPELINE_DESIGNER** — [vai alla sezione](#21--disegnare-una-pipeline-standard-dal-template)
+  - Prompt: `COMANDO: PIPELINE_DESIGNER` + descrizione chiara della feature da coprire.
+  - Prerequisiti: router automatico attivo; prepara il testo della feature per evitare follow-up.
+- **PIPELINE_EXECUTOR** — [vai alla sezione](#23--eseguire-un-singolo-step)
+  - Prompt: `COMANDO: PIPELINE_EXECUTOR` + pipeline incollata + numero step da eseguire.
+  - Prerequisiti: pipeline già definita; router attivo; specifica file da leggere/scrivere per ridurre chiarimenti.
+- **PIPELINE_SIMULATOR** — [vai alla sezione](#24--simulare-una-pipeline-intera-dry-run)
+  - Prompt: `COMANDO: PIPELINE_SIMULATOR` + pipeline completa.
+  - Prerequisiti: pipeline definita; router attivo; utile per verificare output attesi senza toccare file.
+
+---
+
 # SEZIONE 0 — BOOT & MASTER ENV
 
 Questa sezione definisce come avviare rapidamente l’ambiente agenti completo
