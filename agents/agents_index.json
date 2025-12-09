@@ -5,12 +5,12 @@
     "profile_file": ".ai/coordinator/PROFILE.md"
   },
   "lore-designer": {
-    "description": "Gestisce lore, specie, biomi ed ecosistemi.",
+    "description": "Gestisce lore, specie, biomi ed ecosistemi; per numeri passa al balancer o al coordinator.",
     "definition_file": "agents/lore-designer.md",
     "profile_file": ".ai/lore-designer/PROFILE.md"
   },
   "balancer": {
-    "description": "Gestisce stats, costi e bilanciamento numerico (incl. effetti di biomi).",
+    "description": "Gestisce stats, costi e bilanciamento numerico (incl. effetti di biomi) senza cambiare la narrativa; coordina con lore-designer/trait-curator quando necessario.",
     "definition_file": "agents/balancer.md",
     "profile_file": ".ai/balancer/PROFILE.md"
   },
@@ -30,17 +30,17 @@
     "profile_file": ".ai/dev-tooling/PROFILE.md"
   },
   "trait-curator": {
-    "description": "Cura, normalizza e cataloga i trait usati nel progetto.",
+    "description": "Cura, normalizza e cataloga i trait usati nel progetto, coordinandosi con species-curator e balancer per l’impatto numerico.",
     "definition_file": "agents/trait-curator.md",
     "profile_file": ".ai/trait-curator/PROFILE.md"
   },
   "species-curator": {
-    "description": "Cura cataloghi specie e alias, allineando trait_plan e biomi.",
+    "description": "Cura cataloghi specie e alias, allineando trait_plan e biomi; integra trait provenienti dal trait-curator e coinvolge il balancer per i valori.",
     "definition_file": "agents/species-curator.md",
     "profile_file": ".ai/species-curator/PROFILE.md"
   },
   "biome-ecosystem-curator": {
-    "description": "Cura biomi/ecosistemi, alias e bande di terraformazione.",
+    "description": "Cura biomi/ecosistemi, alias e bande di terraformazione; collabora con lore-designer per la narrativa e con balancer per gli effetti numerici.",
     "definition_file": "agents/biome-ecosystem-curator.md",
     "profile_file": ".ai/biome-ecosystem-curator/PROFILE.md"
   }
