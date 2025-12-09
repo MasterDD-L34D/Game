@@ -35,6 +35,8 @@ Linee guida minime:
 
 - Note:
 
+- 2026-10-14: riesame post-freeze **06/10/2025 → 13/10/2025** (ticket **TKT-FREEZE-OCT25**) con gate **RIAPERTURA-2025-02** chiuso: `incoming/_holding` assente (nessun drop da integrare/archiviare), gap list 01A invariata in report-only e README incoming/docs sincronizzati. Readiness 01B/01C confermata su `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` (report-only) con ticket attivi **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** e riferimento **[TKT-PLAN-01A-03B]**.
+
 - 2026-10-11: checklist riapertura (ref **RIAPERTURA-2025-02-CHECKLIST-48H-2026-10-11T1200Z**) completata in STRICT MODE: kickoff/owner invariati, `_holding` assente, finestra freeze **06/10/2025 → 13/10/2025** confermata **SBLOCCATA** (**TKT-FREEZE-OCT25**), gap list 01A invariata (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI) in report-only per handoff 01B/01C. Nessun spostamento file; README incoming/docs sincronizzati.
 
 - 2026-09-23: riesame tabelle 01A (log **[RIAPERTURA-2025-02-2026-09-23T1200Z]**): etichette **DA_INTEGRARE/LEGACY/STORICO** confermate senza movimenti file; gap list 01A invariata con rischi noti (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI). Riferimenti gap list mantenuti per handoff 01B/01C; README docs sincronizzato.
@@ -83,7 +85,7 @@ Draft post-unfreeze (DA APPROVARE – nessuna modifica applicativa finché non a
 - Gap list 01A: resta in report-only con priorità/rischi invariati (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI); nessun movimento file eseguito.
 - Prossimo passo dopo via libera: applicare l’aggiornamento README per chiudere il gate di riapertura e avviare 01A esecutiva mantenendo STRICT MODE.
 
-Gap list 01A – snapshot 2026-09-19 (report-only, nessun movimento file; priorità/rischio per handoff 01B):
+Gap list 01A – snapshot 2026-09-19 (riesame 2026-10-14: nessuna variazione, report-only; priorità/rischio per handoff 01B):
 
 | Fonte / descrizione                                 | Stato        | Priorità | Rischio    | Note operative (report-only)                                                                                  |
 | --------------------------------------------------- | ------------ | -------- | ---------- | ------------------------------------------------------------------------------------------------------------- |

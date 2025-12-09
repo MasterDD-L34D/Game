@@ -1,11 +1,16 @@
 # RIAPERTURA-2025-02 – Verifica branch 01B/01C e readiness (report-only)
 
 ## Sintesi esito
+- **Gate RIAPERTURA-2025-02 chiuso**: prerequisiti owner/agenti/branch confermati da log precedente, `_holding` assente e finestra freeze 06/10/2025 → 13/10/2025 sbloccata (ticket **TKT-FREEZE-OCT25**). Gap list 01A in report-only invariata; README incoming/docs sincronizzati con ticket 2025.
 - **Branch dedicati ricreati (report-only)**: `patch/01A-report-only`, `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` aperti localmente su autorizzazione Master DD per sbloccare i gate 01A/01B/01C, in sola lettura finché non arriva unfreeze esplicito.
 - **Disponibilità owner confermata**: species-curator e trait-curator restano on-call per 01B (matrice core/derived), dev-tooling on-call per 01C (tooling/CI), con operatività **report-only** sui branch dedicati.
 - **Ticket attivi invariati**: 01B → `TKT-01B-001`, `TKT-01B-002`; 01C → `TKT-01C-001`, `TKT-01C-002`. Nessuna variazione di scope/owner segnalata.
 - **Freeze/unfreeze**: si mantiene il perimetro della finestra documentale 06/10/2025 → 13/10/2025; le attività restano **report-only fino a unfreeze** esplicito.
 - **Sync confermativo programmato/eseguito**: mantenuto il kickoff 15' con owner=coordinator e partecipazione di archivist, trait-curator e species-curator per riaffermare il trigger Fase 1→2→3 e la milestone **07/12/2025**; nessuna variazione di durata/owner registrata.
+
+## 2026-10-14 – Chiusura gate RIAPERTURA-2025-02 e readiness 01B/01C
+- Step: `[RIAPERTURA-2025-02-GATE-CLOSE-2026-10-14T0000Z] owner=archivist (approvatore Master DD); scope=PATCHSET-00→PIPELINE 01A/01B/01C; files=logs/agent_activity.md,incoming/README.md,docs/incoming/README.md; branch=patch/01A-report-only,patch/01B-core-derived-matrix,patch/01C-tooling-ci-catalog; freeze_window=2025-10-06T09:00Z→2025-10-13T18:00Z; esito=PASS; decision=GATE-CHIUSO (handoff 01A Fase 1).`
+- Azioni: verificati prerequisiti owner/agenti/branch dalla voce RIAPERTURA-2025-02 precedente (scope PATCHSET-00), confermando STRICT MODE. Controllato che `incoming/_holding` non esiste/è vuoto → nessun drop da integrare/archiviare post-freeze **06/10→13/10/2025** (ticket **TKT-FREEZE-OCT25**). Gap list 01A riesaminata senza variazioni e note README incoming/docs allineate allo stato post-freeze con ticket 2025 (**TKT-PLAN-01A-03B**, **TKT-01B-001/002**, **TKT-01C-001/002**). Readiness 01B/01C confermata su `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` (report-only); gate RIAPERTURA-2025-02 marcato chiuso, handoff a pipeline 01A Fase 1.
 
 ## Dettaglio verifica
 - **Checklist 48h (2026-10-11T1200Z)**: riletta `docs/planning/REF_PLANNING_RIPRESA_2026.md` (punti 1–7) e confermati i gate di riapertura senza variare scope/owner. `_holding` risulta assente (nessun drop da integrare/archiviare); finestra freeze **2025-10-06T09:00Z → 2025-10-13T18:00Z** mantenuta **SBLOCCATA** (ticket **TKT-FREEZE-OCT25**, nessun nuovo freeze registrato). Gap list 01A invariata (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI) in modalità report-only, pronta per handoff 01B/01C senza spostare file.
