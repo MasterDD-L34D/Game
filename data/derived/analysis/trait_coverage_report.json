@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-12-08T17:15:21+00:00",
+  "generated_at": "2025-12-09T18:59:09+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "data/traits/index.json",
@@ -14,12 +14,42 @@
     "traits_with_species": 254,
     "traits_with_affinity": 254,
     "rule_combos_total": 284,
-    "species_combos_total": 284,
+    "species_combos_total": 342,
     "rules_missing_species_total": 0,
-    "affinity_missing_species_total": 0,
+    "affinity_missing_species_total": 6,
     "affinity_missing_matrix_total": 0,
     "traits_missing_species": [],
-    "traits_missing_rules": []
+    "traits_missing_rules": [
+      "artigli_sette_vie",
+      "carapace_fase_variabile",
+      "criostasi_adattiva",
+      "cuticole_cerose",
+      "eco_interno_riflesso",
+      "empatia_coordinativa",
+      "enzimi_chelanti",
+      "filamenti_digestivi_compattanti",
+      "focus_frazionato",
+      "ghiandola_caustica",
+      "grassi_termici",
+      "lingua_tattile_trama",
+      "mimetismo_cromatico_passivo",
+      "nucleo_ovomotore_rotante",
+      "occhi_infrarosso_composti",
+      "olfatto_risonanza_magnetica",
+      "pathfinder",
+      "pianificatore",
+      "respiro_a_scoppio",
+      "risonanza_di_branco",
+      "sacche_galleggianti_ascensoriali",
+      "sangue_piroforico",
+      "scheletro_idro_regolante",
+      "secrezione_rallentante_palmi",
+      "sonno_emisferico_alternato",
+      "spore_psichiche_silenziate",
+      "struttura_elastica_amorfa",
+      "tattiche_di_branco",
+      "ventriglio_gastroliti"
+    ]
   },
   "traits": {
     "ali_fono_risonanti": {
@@ -1116,8 +1146,16 @@
         ]
       },
       "species": {
-        "total": 27,
+        "total": 29,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dune-stalker"
+            ]
+          },
           {
             "biome": "caverna_risonante",
             "morphotype": null,
@@ -1128,6 +1166,14 @@
               "couatl-aurora",
               "cryo-lynx",
               "dune-stalker"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "cryo-lynx"
             ]
           },
           {
@@ -1158,7 +1204,16 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -2740,8 +2795,16 @@
         ]
       },
       "species": {
-        "total": 9,
+        "total": 10,
         "coverage": [
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "cryo-lynx"
+            ]
+          },
           {
             "biome": "mezzanotte_orbitale",
             "morphotype": "cursoriale_quadrupede",
@@ -2758,7 +2821,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -4523,8 +4591,16 @@
         ]
       },
       "species": {
-        "total": 4,
+        "total": 5,
         "coverage": [
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "aurora-gull"
+            ]
+          },
           {
             "biome": "mezzanotte_orbitale",
             "morphotype": "volatore_planatore",
@@ -4540,7 +4616,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -4710,7 +4791,7 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 5,
         "coverage": [
           {
             "biome": null,
@@ -4725,11 +4806,17 @@
           {
             "biome": "badlands",
             "morphotype": null,
-            "count": 3,
+            "count": 1,
             "examples": [
-              "badlands-trait-keeper",
-              "evento-tempesta-ferrosa",
-              "global-trait-keeper"
+              "evento-tempesta-ferrosa"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "evento-tempesta-ferrosa"
             ]
           }
         ]
@@ -4769,7 +4856,7 @@
         ]
       },
       "species": {
-        "total": 7,
+        "total": 13,
         "coverage": [
           {
             "biome": null,
@@ -4782,12 +4869,74 @@
               "global-trait-keeper",
               "noctule-termico"
             ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "evento-brinastorm"
+            ]
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "thermo-raptor"
+            ]
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "cactus-weaver"
+            ]
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "silica-bloom"
+            ]
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "volatore_planatore",
+            "count": 2,
+            "examples": [
+              "evento-ondata-termica",
+              "noctule-termico"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "ingegnere_radicante"
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -5092,8 +5241,48 @@
         ]
       },
       "species": {
-        "total": 14,
+        "total": 19,
         "coverage": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "aurora-gull"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "volatore_planatore",
@@ -5122,7 +5311,28 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -5335,7 +5545,7 @@
         ]
       },
       "species": {
-        "total": 8,
+        "total": 9,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -5348,12 +5558,25 @@
               "glowcap-weaver",
               "lupus-temperatus"
             ]
+          },
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "lupus-temperatus"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -5478,7 +5701,7 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
           {
             "biome": null,
@@ -5488,12 +5711,25 @@
               "evento-tempesta-ferrosa",
               "global-trait-keeper"
             ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "evento-tempesta-ferrosa"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -5848,8 +6084,25 @@
         ]
       },
       "species": {
-        "total": 32,
+        "total": 35,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato",
+            "count": 2,
+            "examples": [
+              "nano-rust-bloom",
+              "rust-scavenger"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "thaw-rot"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
@@ -5902,7 +6155,16 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "scavenger_corazzato"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -6390,7 +6652,7 @@
         ]
       },
       "species": {
-        "total": 24,
+        "total": 25,
         "coverage": [
           {
             "biome": "canopia_psionica_leggera",
@@ -6417,6 +6679,14 @@
             ]
           },
           {
+            "biome": "foresta_temperata",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "sentinella-radice"
+            ]
+          },
+          {
             "biome": "orbita_psionica_inversa",
             "morphotype": null,
             "count": 8,
@@ -6432,7 +6702,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -6650,7 +6925,7 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -6660,13 +6935,28 @@
               "laguna-bioreattiva-trait-keeper",
               "sentinella-radice"
             ]
+          },
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "blight-micotico"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
-        "missing_in_affinity": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
+        "missing_in_affinity": [
+          "blight-micotico"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -7357,7 +7647,7 @@
         ]
       },
       "species": {
-        "total": 7,
+        "total": 13,
         "coverage": [
           {
             "biome": null,
@@ -7370,12 +7660,74 @@
               "global-trait-keeper",
               "noctule-termico"
             ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "evento-brinastorm"
+            ]
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "thermo-raptor"
+            ]
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "cactus-weaver"
+            ]
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "silica-bloom"
+            ]
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "volatore_planatore",
+            "count": 2,
+            "examples": [
+              "evento-ondata-termica",
+              "noctule-termico"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "ingegnere_radicante"
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "deserto_caldo",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -7949,7 +8301,7 @@
         ]
       },
       "species": {
-        "total": 4,
+        "total": 5,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -7961,12 +8313,25 @@
               "echo-wing",
               "ferrocolonia-magnetotattica"
             ]
+          },
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "blight-micotico"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -8632,8 +8997,16 @@
         ]
       },
       "species": {
-        "total": 18,
+        "total": 19,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "ferrocolonia-magnetotattica"
+            ]
+          },
           {
             "biome": "canopia_psionica_leggera",
             "morphotype": null,
@@ -8674,7 +9047,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "ingegnere_radicante"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -9072,8 +9450,16 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 7,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "sand-burrower"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
@@ -9105,8 +9491,15 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
-        "missing_in_affinity": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
+        "missing_in_affinity": [
+          "sand-burrower"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -9272,8 +9665,40 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 6,
         "coverage": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "volatore_planatore",
@@ -9287,7 +9712,24 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -9334,8 +9776,16 @@
         ]
       },
       "species": {
-        "total": 36,
+        "total": 37,
         "coverage": [
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "cryo-lynx"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
@@ -9388,7 +9838,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -9515,7 +9970,7 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -9525,12 +9980,25 @@
               "psionic-canopy-scout",
               "sentinella-radice"
             ]
+          },
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "sentinella-radice"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -9650,10 +10118,18 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "foresta_miceliale",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "sentinella-radice"
+            ]
+          },
+          {
+            "biome": "foresta_temperata",
             "morphotype": null,
             "count": 1,
             "examples": [
@@ -9664,7 +10140,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -9924,8 +10405,24 @@
         ]
       },
       "species": {
-        "total": 12,
+        "total": 14,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "rust-scavenger"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-bison-mini"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
@@ -9954,7 +10451,16 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -10034,7 +10540,7 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 7,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -10047,12 +10553,25 @@
               "lupus-temperatus",
               "rakshasa-corte"
             ]
+          },
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "lupus-temperatus"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -10238,8 +10757,16 @@
         ]
       },
       "species": {
-        "total": 32,
+        "total": 33,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "sand-burrower"
+            ]
+          },
           {
             "biome": "canopia_psionica_leggera",
             "morphotype": null,
@@ -10292,7 +10819,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -10379,8 +10911,24 @@
         ]
       },
       "species": {
-        "total": 8,
+        "total": 10,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "ferrocolonia-magnetotattica"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "thaw-rot"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "ingegnere_radicante",
@@ -10407,7 +10955,16 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "ingegnere_radicante"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "scavenger_corazzato"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -10495,8 +11052,33 @@
         ]
       },
       "species": {
-        "total": 30,
+        "total": 34,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 2,
+            "examples": [
+              "dune-stalker",
+              "sand-burrower"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "nano-rust-bloom"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-bison-mini"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
@@ -10537,7 +11119,20 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -10756,8 +11351,16 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "ferrocolonia-magnetotattica"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "ingegnere_radicante",
@@ -10771,8 +11374,15 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
-        "missing_in_affinity": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "ingegnere_radicante"
+          }
+        ],
+        "missing_in_affinity": [
+          "ferrocolonia-magnetotattica"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -11122,8 +11732,48 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 11,
         "coverage": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "echo-wing"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "aurora-gull"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "volatore_planatore",
@@ -11148,7 +11798,28 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "CRYOSTEPPE",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "DESERTO_CALDO",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "FORESTA_TEMPERATA",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "volatore_planatore"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -11235,8 +11906,24 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 9,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "nano-rust-bloom"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "thaw-rot"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
@@ -11256,6 +11943,14 @@
             ]
           },
           {
+            "biome": "foresta_temperata",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "blight-micotico"
+            ]
+          },
+          {
             "biome": "mezzanotte_orbitale",
             "morphotype": "scavenger_corazzato",
             "count": 2,
@@ -11268,8 +11963,25 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
-        "missing_in_affinity": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
+        "missing_in_affinity": [
+          "blight-micotico",
+          "nano-rust-bloom",
+          "thaw-rot"
+        ],
         "missing_in_matrix": []
       },
       "affinity": {
@@ -11403,8 +12115,16 @@
         ]
       },
       "species": {
-        "total": 36,
+        "total": 37,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dune-stalker"
+            ]
+          },
           {
             "biome": "canopia_psionica_leggera",
             "morphotype": null,
@@ -11457,7 +12177,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -11497,7 +12222,7 @@
         ]
       },
       "species": {
-        "total": 3,
+        "total": 4,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -11508,12 +12233,25 @@
               "magneto-ridge-hunter",
               "slag-veil-ambusher"
             ]
+          },
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "lupus-temperatus"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_temperata",
+            "morphotype": null
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -11727,8 +12465,24 @@
         ]
       },
       "species": {
-        "total": 8,
+        "total": 10,
         "coverage": [
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "rust-scavenger"
+            ]
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-bison-mini"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
@@ -11755,7 +12509,16 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "badlands",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "cryosteppe",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       },
@@ -12001,6 +12764,516 @@
     "thresholds": {
       "species_per_role_biome": 2
     },
-    "roles": {}
+    "roles": {
+      "dispersore_ponte": {
+        "total_species": 6,
+        "biomes": {
+          "CRYOSTEPPE": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "echo-wing",
+                "playable_unit": true,
+                "core_traits": [
+                  "eco_interno_riflesso",
+                  "occhi_infrarosso_composti",
+                  "sonno_emisferico_alternato"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+              }
+            ]
+          },
+          "DESERTO_CALDO": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "echo-wing",
+                "playable_unit": true,
+                "core_traits": [
+                  "eco_interno_riflesso",
+                  "occhi_infrarosso_composti",
+                  "sonno_emisferico_alternato"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+              }
+            ]
+          },
+          "FORESTA_TEMPERATA": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "echo-wing",
+                "playable_unit": true,
+                "core_traits": [
+                  "eco_interno_riflesso",
+                  "occhi_infrarosso_composti",
+                  "sonno_emisferico_alternato"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+              }
+            ]
+          },
+          "badlands": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "echo-wing",
+                "playable_unit": true,
+                "core_traits": [
+                  "eco_interno_riflesso",
+                  "occhi_infrarosso_composti",
+                  "sonno_emisferico_alternato"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+              }
+            ]
+          },
+          "cryosteppe": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "aurora-gull",
+                "playable_unit": true,
+                "core_traits": [
+                  "criostasi_adattiva",
+                  "eco_interno_riflesso",
+                  "sonno_emisferico_alternato"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
+              }
+            ]
+          },
+          "deserto_caldo": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "noctule-termico",
+                "playable_unit": true,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "CRYOSTEPPE",
+          "DESERTO_CALDO",
+          "FORESTA_TEMPERATA",
+          "badlands",
+          "cryosteppe",
+          "deserto_caldo"
+        ]
+      },
+      "erbivoro_primario": {
+        "total_species": 1,
+        "biomes": {
+          "badlands": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "sand-burrower",
+                "playable_unit": false,
+                "core_traits": [
+                  "nucleo_ovomotore_rotante",
+                  "sacche_galleggianti_ascensoriali",
+                  "scheletro_idro_regolante"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "badlands"
+        ]
+      },
+      "evento_ecologico": {
+        "total_species": 11,
+        "biomes": {
+          "badlands": {
+            "count": 4,
+            "playable_count": 0,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "badlands-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml"
+              },
+              {
+                "id": "evento-tempesta-ferrosa",
+                "playable_unit": false,
+                "core_traits": [
+                  "cute_resistente_sali",
+                  "enzimi_chelanti"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
+              },
+              {
+                "id": "magneto-ridge-hunter",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
+              },
+              {
+                "id": "slag-veil-ambusher",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
+              }
+            ]
+          },
+          "cryosteppe": {
+            "count": 3,
+            "playable_count": 0,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "aurora-bridge-runner",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"
+              },
+              {
+                "id": "evento-brinastorm",
+                "playable_unit": false,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
+              },
+              {
+                "id": "zephyr-spore-courier",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
+              }
+            ]
+          },
+          "deserto_caldo": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "evento-ondata-termica",
+                "playable_unit": false,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
+              }
+            ]
+          },
+          "foresta_temperata": {
+            "count": 3,
+            "playable_count": 0,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "evento-seme-uragano",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml"
+              },
+              {
+                "id": "glowcap-weaver",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
+              },
+              {
+                "id": "myco-spire-warden",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "deserto_caldo"
+        ]
+      },
+      "ingegneri_ecosistema": {
+        "total_species": 4,
+        "biomes": {
+          "badlands": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "rust-scavenger",
+                "playable_unit": true,
+                "core_traits": [
+                  "ventriglio_gastroliti",
+                  "respiro_a_scoppio",
+                  "filamenti_digestivi_compattanti"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
+              }
+            ]
+          },
+          "cryosteppe": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "steppe-bison-mini",
+                "playable_unit": true,
+                "core_traits": [
+                  "ventriglio_gastroliti",
+                  "scheletro_idro_regolante",
+                  "respiro_a_scoppio"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
+              }
+            ]
+          },
+          "deserto_caldo": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "cactus-weaver",
+                "playable_unit": true,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
+              }
+            ]
+          },
+          "foresta_temperata": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "sentinella-radice",
+                "playable_unit": true,
+                "core_traits": [
+                  "focus_frazionato",
+                  "pathfinder",
+                  "pianificatore"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "badlands",
+          "cryosteppe",
+          "deserto_caldo",
+          "foresta_temperata"
+        ]
+      },
+      "minaccia_microbica": {
+        "total_species": 4,
+        "biomes": {
+          "badlands": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "nano-rust-bloom",
+                "playable_unit": false,
+                "core_traits": [
+                  "filamenti_digestivi_compattanti",
+                  "spore_psichiche_silenziate",
+                  "scheletro_idro_regolante"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
+              }
+            ]
+          },
+          "cryosteppe": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "thaw-rot",
+                "playable_unit": false,
+                "core_traits": [
+                  "filamenti_digestivi_compattanti",
+                  "spore_psichiche_silenziate",
+                  "sangue_piroforico"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
+              }
+            ]
+          },
+          "deserto_caldo": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "silica-bloom",
+                "playable_unit": false,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
+              }
+            ]
+          },
+          "foresta_temperata": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "blight-micotico",
+                "playable_unit": false,
+                "core_traits": [
+                  "spore_psichiche_silenziate",
+                  "lingua_tattile_trama",
+                  "ghiandola_caustica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "badlands",
+          "cryosteppe",
+          "deserto_caldo",
+          "foresta_temperata"
+        ]
+      },
+      "predatore_regolatore_simbionte": {
+        "total_species": 1,
+        "biomes": {
+          "badlands": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "ferrocolonia-magnetotattica",
+                "playable_unit": true,
+                "core_traits": [
+                  "mimetismo_cromatico_passivo",
+                  "sangue_piroforico",
+                  "secrezione_rallentante_palmi"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "badlands"
+        ]
+      },
+      "predatore_terziario_apex": {
+        "total_species": 4,
+        "biomes": {
+          "badlands": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "dune-stalker",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie",
+                  "scheletro_idro_regolante",
+                  "struttura_elastica_amorfa"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
+              }
+            ]
+          },
+          "cryosteppe": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "cryo-lynx",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie",
+                  "carapace_fase_variabile",
+                  "olfatto_risonanza_magnetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
+              }
+            ]
+          },
+          "deserto_caldo": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "thermo-raptor",
+                "playable_unit": false,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
+              }
+            ]
+          },
+          "foresta_temperata": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "lupus-temperatus",
+                "playable_unit": false,
+                "core_traits": [
+                  "empatia_coordinativa",
+                  "tattiche_di_branco",
+                  "risonanza_di_branco"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "badlands",
+          "cryosteppe",
+          "deserto_caldo",
+          "foresta_temperata"
+        ]
+      }
+    }
   }
 }
