@@ -21,12 +21,22 @@
 - Note: allineato l'inventario 01C (workflow CI e script locali con input/output e percorsi) ai riferimenti di readiness 01B/01C, senza eseguire pipeline o validatori. Collegati esplicitamente readiness e log di riapertura per mantenere tracciabilità in STRICT MODE.
 
 ## Checklist PIPELINE 01A (pre-meeting)
-- [ ] `logs/agent_activity.md` aggiornato con l'ultimo handoff rilevante.
-- [ ] Cartella `_holding/` vuota (nessun drop in sospeso).
-- [ ] Trait-curator: conferma prerequisiti dati/trait per l'avvio di 01A.
-- [ ] Species-curator: conferma prerequisiti specie collegati a 01A.
-- [ ] Checklist condivisa ai partecipanti prima del meeting.
+- [x] `logs/agent_activity.md` aggiornato con l'ultimo handoff rilevante.
+- [x] Cartella `_holding/` vuota (nessun drop in sospeso).
+- [x] Trait-curator: conferma prerequisiti dati/trait per l'avvio di 01A.
+- [x] Species-curator: conferma prerequisiti specie collegati a 01A.
+- [x] Checklist condivisa ai partecipanti prima del meeting.
 - **Nota blocco 2026-09-22**: `_holding` assente; finestra freeze 06/10/2025→13/10/2025 mantenuta attiva, attività 01A in sola lettura fino a unfreeze autorizzato.
+
+## 2026-09-30 – Pre-meeting checklist 01A e ripristino branch (coordinator)
+- Step: `[RIAPERTURA-2025-02-01A-PRECHECK-2026-09-30T0000Z] owner=coordinator (archivist, trait-curator, species-curator CC); durata=15'; scope=PATCHSET-00→PIPELINE 01A Fase 1; milestone=07/12/2025; modalità=report-only.`
+- Azioni:
+  - Riletta l'agenda kickoff `docs/planning/agenda_PATCHSET-00_2025-12-07.md` e questo log per ribadire scope/milestone e output richiesti (handoff verso pipeline 01A e log duale RIAPERTURA+agent_activity).
+  - Verificata l'assenza dei branch dedicati e ricreati da HEAD autorizzato `work` i branch `patch/01A-report-only`, `patch/01B-core-derived-matrix`, `patch/01C-tooling-ci-catalog` in **report-only** (nessun drop applicato), per eliminare il rischio bloccante sul gate 01A/01B/01C.
+  - Eseguita checklist pre-meeting 01A: `logs/agent_activity.md` riallineato con l'azione corrente, cartella `_holding/` assente, prerequisiti trait/species confermati invariati dal precedente sync (trait-curator e species-curator on-call, nessun nuovo dato da integrare).
+  - Pianificato il gate successivo verso pipeline 01A Fase 1: readiness loggata, freeze documentale 06/10/2025→13/10/2025 ancora valido, prossimo passo è l'avvio Fase 1 in report-only con conferma congiunta di coordinator/archivist/trait-curator/species-curator.
+- Rischi/contromisure: (1) **Assenza branch o merge non autorizzati** → mantenere i branch appena ricreati in sola lettura, nessun merge verso `main` senza unfreeze Master DD; (2) **Freeze documentale** → non ingestire nuovi drop finché la finestra 06/10/2025→13/10/2025 non viene sbloccata; (3) **Allineamento prerequisiti trait/species** → check-in rapido con trait-curator/species-curator prima del kickoff 01A per confermare che non servono nuovi dataset.
+- Comunicazioni: piano e stato condivisi con coordinator (owner), archivist (log/readiness), trait-curator e species-curator (prerequisiti 01A) per il gate 01A Fase 1.
 
 ## 2026-09-20 – Kickoff PATCHSET-00 e gate verso pipeline 01A (coordinator)
 - Step: `[RIAPERTURA-2025-02-KICKOFF-2026-09-20T0000Z] owner=coordinator (con archivist, trait-curator, species-curator; approvatore Master DD); scope=PATCHSET-00; timeline=07/12/2025; durata=15'`; riferimento agenda: `docs/planning/agenda_PATCHSET-00_2025-12-07.md`.
