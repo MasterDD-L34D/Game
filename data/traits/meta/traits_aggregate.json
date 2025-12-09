@@ -1,6 +1,6 @@
 {
   "id": "traits_aggregate",
-  "label": "Aggregato tratti Evo",
+  "label": "i18n:traits.traits_aggregate.label",
   "data_origin": "external_evo_pack",
   "famiglia_tipologia": "Meta/Dataset",
   "fattore_mantenimento_energetico": "N/A",
@@ -8,9 +8,9 @@
   "slot": [],
   "sinergie": [],
   "conflitti": [],
-  "mutazione_indotta": "Dump normalizzato dei trait Evo (TR-*) per pipeline legacy.",
-  "uso_funzione": "Punto di ingresso legacy per cataloghi e audit Evo.",
-  "spinta_selettiva": "Allineare export Evo e indice legacy.",
+  "mutazione_indotta": "i18n:traits.traits_aggregate.mutazione_indotta",
+  "uso_funzione": "i18n:traits.traits_aggregate.uso_funzione",
+  "spinta_selettiva": "i18n:traits.traits_aggregate.spinta_selettiva",
   "metrics": [],
   "cost_profile": {
     "rest": "N/A",
@@ -31,8 +31,7 @@
     "complementare": "supporto"
   },
   "usage_tags": [
-    "catalogo",
-    "meta"
+    "support"
   ],
-  "debolezza": "Non rappresenta un tratto giocabile; solo metadato di pacchetto."
+  "debolezza": "i18n:traits.traits_aggregate.debolezza"
 }
