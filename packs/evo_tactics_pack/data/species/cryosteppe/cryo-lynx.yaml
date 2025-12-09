@@ -1,4 +1,5 @@
 id: cryo-lynx
+schema_version: '1.7'
 display_name: Cryo Lynx
 biomes:
 - cryosteppe

@@ -1,4 +1,5 @@
 id: evento-brinastorm
+schema_version: '1.7'
 display_name: 'Evento: Brina Tempestosa'
 biomes:
 - cryosteppe

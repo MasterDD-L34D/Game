@@ -1,4 +1,5 @@
 id: echo-wing
+schema_version: '1.7'
 display_name: Echo Wing
 biomes:
 - badlands

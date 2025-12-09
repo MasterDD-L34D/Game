@@ -1,4 +1,5 @@
 id: cactus-weaver
+schema_version: '1.7'
 display_name: Cactus Weaver
 biomes:
 - deserto_caldo

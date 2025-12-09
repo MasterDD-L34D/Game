@@ -1,4 +1,5 @@
 id: dune-stalker
+schema_version: '1.7'
 display_name: Dune Stalker
 biomes:
 - badlands

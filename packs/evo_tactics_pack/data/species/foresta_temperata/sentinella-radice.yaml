@@ -1,4 +1,5 @@
 id: sentinella-radice
+schema_version: '1.7'
 display_name: Sentinella Radice
 biomes:
 - foresta_temperata

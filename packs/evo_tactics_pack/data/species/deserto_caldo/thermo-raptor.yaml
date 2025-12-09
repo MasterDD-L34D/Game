@@ -1,4 +1,5 @@
 id: thermo-raptor
+schema_version: '1.7'
 display_name: Thermo Raptor
 biomes:
 - deserto_caldo
