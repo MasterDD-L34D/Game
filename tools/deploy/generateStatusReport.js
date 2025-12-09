@@ -5,9 +5,11 @@ const path = require('node:path');
 
 const {
   createNebulaTelemetryAggregator,
-} = require('../../server/services/nebulaTelemetryAggregator');
-const { createGenerationSnapshotStore } = require('../../server/services/generationSnapshotStore');
-const { createReleaseReporter } = require('../../server/services/releaseReporter');
+} = require('../../apps/backend/services/nebulaTelemetryAggregator');
+const {
+  createGenerationSnapshotStore,
+} = require('../../apps/backend/services/generationSnapshotStore');
+const { createReleaseReporter } = require('../../apps/backend/services/releaseReporter');
 
 const ROOT_DIR = path.resolve(__dirname, '..', '..');
 const DEFAULT_STATUS_PATH = path.join(ROOT_DIR, 'reports', 'status.json');
