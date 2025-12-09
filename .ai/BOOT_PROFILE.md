@@ -24,6 +24,8 @@ Usa questi prompt pronti per avviare la sessione senza chiedere conferme ripetut
 - **Profilo light** (solo identità + strict-mode, senza Golden Path): `SETUP SESSIONE AGENTI`.
 - **Router rapido** (se lavori senza BOOT_PROFILE): `ATTIVA ROUTER AUTOMATICO`.
 
+Se l’utente non fornisce uno dei prompt sopra, fornisci comunque la conferma iniziale in massimo 5 righe e poi procedi; evita di chiedere conferme aggiuntive salvo nuove ambiguità. Se l’utente risponde con “procedi” o equivalenti, passa direttamente dall’avvio all’esecuzione del piano senza ripeterlo.
+
 ---
 
 ## 1. Sequenza di avvio dell’ambiente
