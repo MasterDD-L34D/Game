@@ -1,7 +1,6 @@
 name: Data audit and validation
 
 on:
-  workflow_dispatch:
   pull_request:
     paths:
       - 'data/**'
@@ -12,6 +11,7 @@ on:
       - 'config/schemas/**'
       - 'logs/trait_audit.md'
       - 'reports/schema_validation.json'
+  workflow_dispatch:
 
 jobs:
   data-quality:
