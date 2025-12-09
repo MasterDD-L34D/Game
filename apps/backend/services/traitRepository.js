@@ -2,7 +2,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const Ajv = require('ajv/dist/2020');
 
-const REPO_ROOT = path.resolve(__dirname, '..', '..');
+const REPO_ROOT = path.resolve(__dirname, '..', '..', '..');
 
 const DEFAULT_SCHEMA_PATH = path.resolve(REPO_ROOT, 'config', 'schemas', 'trait.schema.json');
 

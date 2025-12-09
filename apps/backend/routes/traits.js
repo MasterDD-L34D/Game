@@ -435,10 +435,10 @@ function createTraitRouter(options = {}) {
     try {
       const author = resolveAuthor(req, null);
       const deleted = await repository.deleteTrait(req.params.traitId, { author });
-      res.json(deleted);
       await auditTrail(req, 'trait.delete', {
         traitId: req.params.traitId,
       });
+      res.json(deleted);
     } catch (error) {
       handleError(res, error, 'Errore eliminazione trait');
     }
