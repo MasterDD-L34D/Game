@@ -13,6 +13,8 @@ Il contenuto di questo file DEVE essere letto a inizio sessione Codex insieme a:
 - MASTER_PROMPT.md
 - .ai/GLOBAL_PROFILE.md
 
+> Per il percorso di avvio e la lista dei documenti attivati da BOOT_PROFILE consulta il **Quick start / Indice rapido** in `AGENTS.md`; questo file descrive solo le regole di instradamento.
+
 ---
 
 # 1. Regola base del Router

@@ -13,6 +13,8 @@ Questa libreria raccoglie TUTTI i comandi operativi per:
 
 È pensata per essere letta da Codex all’inizio di ogni sessione.
 
+> Per un riassunto rapido dei documenti di boot e di quando leggere questa libreria, vedi il **Quick start / Indice rapido** in `AGENTS.md`. Qui trovi solo la definizione dei comandi.
+
 ---
 
 ## Cheat sheet rapido

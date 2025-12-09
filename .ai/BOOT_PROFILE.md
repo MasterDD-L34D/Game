@@ -13,6 +13,8 @@ L’obiettivo è attivare automaticamente:
 - il Golden Path delle pipeline
 - la modalità STRICT MODE (nessun side-effect implicito)
 
+> Se hai già letto la sezione **Quick start / Indice rapido** in `AGENTS.md`, qui trovi solo i dettagli operativi. Usa `AGENTS.md` come indice principale e torna qui quando devi avviare realmente il profilo.
+
 ---
 
 ## Cheat sheet rapido (avvio)
