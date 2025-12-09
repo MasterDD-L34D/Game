@@ -87,11 +87,16 @@ jobs:
           python -m pip install -r tools/py/requirements.txt
 
       - name: Apply MongoDB migrations and seed
-        if: github.event_name != 'pull_request' && secrets.MONGODB_PROD_URI != ''
+        if: github.event_name != 'pull_request'
         env:
           MONGODB_PROD_URI: ${{ secrets.MONGODB_PROD_URI }}
           MONGODB_PROD_DB: ${{ secrets.MONGODB_PROD_DB }}
-        run: ops/mongodb/apply.sh prod
+        run: |
+          if [ -z "$MONGODB_PROD_URI" ]; then
+            echo "MONGODB_PROD_URI non impostata, salto le migrazioni"
+            exit 0
+          fi
+          ops/mongodb/apply.sh prod
 
       - name: Validate HUD smart alert logs (TAP overlay)
         run: |
