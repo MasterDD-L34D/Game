@@ -23,7 +23,9 @@ artigli_induzione,Artigli Induzione,Artigli Induzione,canopia_ionica,,1,1
 artigli_ipo_termici,Artigli Ipo-Termici,Hypothermal Claws,,,1,1
 artigli_radice,Artigli Radice,Artigli Radice,mangrovieto_cinetico,,1,1
 artigli_scivolo_silente,Artigli Scivolo Silente,Artigli Scivolo Silente,caverna_risonante,,1,1
+artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,badlands,cursoriale_quadrupede,0,1
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,caverna_risonante,,1,9
+artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,cryosteppe,cursoriale_quadrupede,0,1
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,dorsale_termale_tropicale,cursoriale_quadrupede,1,9
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,mezzanotte_orbitale,cursoriale_quadrupede,1,9
 artigli_sghiaccio_glaciale,Artigli Sghiaccio Glaciale,Artigli Sghiaccio Glaciale,,,1,1
@@ -61,6 +63,7 @@ capillari_criogenici,Capillari Criogenici,Capillari Criogenici,caldera_glaciale,
 capillari_fluoridici,Capillari Fluoridici,Capillari Fluoridici,foresta_acida,,1,1
 capillari_fotovoltaici,Capillari Fotovoltaici,Capillari Fotovoltaici,canopia_ionica,,1,1
 capsule_paracadute,Capsule Paracadute,Capsule Paracadute,stratosfera_tempestosa,,1,1
+carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,cryosteppe,cursoriale_quadrupede,0,1
 carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,mezzanotte_orbitale,cursoriale_quadrupede,1,9
 carapace_luminiscente_abissale,Carapace Luminiscente Abissale,Carapace Luminiscente Abissale,,,1,1
 carapace_segmenti_logici,Carapace Segmenti Logici,Carapace Segmenti Logici,steppe_algoritmiche,,1,1
@@ -101,19 +104,31 @@ corazze_ferro_magnetico,Corazze Ferro-Magnetico,Ferro-Magnetic Carapace,,,1,1
 corna_psico_conduttive,Corna Psico-Conduttive,Psycho-Conductive Horns,,,1,1
 coscienza_d_alveare_diffusa,Coscienza d’Alveare Diffusa,Diffuse Hive Consciousness,,,1,1
 coscienza_dalveare_diffusa,Coscienza d’Alveare Diffusa,Diffuse Hive Consciousness,,,1,1
+criostasi_adattiva,Criostasi,Adaptive Cryostasis,cryosteppe,volatore_planatore,0,1
 criostasi_adattiva,Criostasi,Adaptive Cryostasis,mezzanotte_orbitale,volatore_planatore,1,4
 cromofori_alert_acido,Cromofori Alert Acido,Cromofori Alert Acido,foresta_acida,,1,1
 cuore_multicamera_bassa_pressione,Cuore Multicamera Bassa Pressione,Cuore Multicamera Bassa Pressione,stratosfera_tempestosa,,1,1
 cuscinetti_elettrostatici,Cuscinetti Elettrostatici,Cuscinetti Elettrostatici,pianura_salina_iperarida,,1,1
 cute_resistente_sali,Cute Resistente Sali,Cute Resistente Sali,,,1,3
-cute_resistente_sali,Cute Resistente Sali,Cute Resistente Sali,badlands,,1,3
+cute_resistente_sali,Cute Resistente Sali,Cute Resistente Sali,badlands,,1,1
+cute_resistente_sali,Cute Resistente Sali,Cute Resistente Sali,badlands,volatore_planatore,0,1
 cuticole_cerose,Cuticole Cerose,Cuticole Cerose,,,1,7
+cuticole_cerose,Cuticole Cerose,Cuticole Cerose,cryosteppe,volatore_planatore,0,1
+cuticole_cerose,Cuticole Cerose,Cuticole Cerose,deserto_caldo,cursoriale_quadrupede,0,1
+cuticole_cerose,Cuticole Cerose,Cuticole Cerose,deserto_caldo,ingegnere_radicante,0,1
+cuticole_cerose,Cuticole Cerose,Cuticole Cerose,deserto_caldo,scavenger_corazzato,0,1
+cuticole_cerose,Cuticole Cerose,Cuticole Cerose,deserto_caldo,volatore_planatore,0,2
 cuticole_neutralizzanti,Cuticole Neutralizzanti,Cuticole Neutralizzanti,foresta_acida,,1,1
 denti_chelatanti,Denti Chelatanti,Denti Chelatanti,foresta_acida,,1,1
 denti_ossidoferro,Denti Ossidoferro,Denti Ossidoferro,abisso_vulcanico,,1,1
 denti_silice_termici,Denti Silice Termici,Denti Silice Termici,dorsale_termale_tropicale,,1,1
 denti_tuning_fork,Denti Tuning Fork,Denti Tuning Fork,caverna_risonante,,1,1
 echi_risonanti,Echi Risonanti,Echi Risonanti,caverna_risonante,,1,1
+eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,CRYOSTEPPE,volatore_planatore,0,1
+eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,DESERTO_CALDO,volatore_planatore,0,1
+eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,FORESTA_TEMPERATA,volatore_planatore,0,1
+eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,badlands,volatore_planatore,0,1
+eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,cryosteppe,volatore_planatore,0,1
 eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,dorsale_termale_tropicale,volatore_planatore,1,7
 eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,mezzanotte_orbitale,volatore_planatore,1,7
 ectotermia_dinamica,Ectotermia Dinamica,Dynamic Ectothermy,,,1,1
@@ -121,9 +136,11 @@ elettromagnete_biologico,Elettromagnete Biologico,Biological Electromagnet,,,1,1
 emettitori_voidsong,Emettitori Voidsong,Voidsong Emitters,,,1,1
 emolinfa_conducente,Emolinfa Conducente,Conductive Hemolymph,,,1,1
 empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_miceliale,,1,8
+empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_temperata,,0,1
 enzimi_antifase_termica,Enzimi Antifase Termica,Enzimi Antifase Termica,caldera_glaciale,,1,1
 enzimi_antipredatori_algali,Enzimi Antipredatori Algali,Enzimi Antipredatori Algali,reef_luminescente,,1,1
 enzimi_chelanti,Enzimi Chelanti,Enzimi Chelanti,,,1,2
+enzimi_chelanti,Enzimi Chelanti,Enzimi Chelanti,badlands,volatore_planatore,0,1
 enzimi_chelatori_rapidi,Enzimi Chelatori Rapidi,Enzimi Chelatori Rapidi,foresta_acida,,1,1
 enzimi_metanoossidanti,Enzimi Metanoossidanti,Enzimi Metanoossidanti,abisso_vulcanico,,1,1
 epidermide_dielettrica,Epidermide Dielettrica,Epidermide Dielettrica,stratosfera_tempestosa,,1,1
@@ -131,6 +148,8 @@ epitelio_fosforescente,Epitelio Fosforescente,Epitelio Fosforescente,reef_lumine
 ermafroditismo_cronologico,Ermafroditismo Cronologico,Chronological Hermaphroditism,,,1,1
 estroflessione_gastrica_acida,Estroflessione Gastrica Acida,Acidic Gastric Extrusion,,,1,1
 fagocitosi_assorbente,Fagocitosi Assorbente,Absorptive Phagocytosis,,,1,1
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,badlands,scavenger_corazzato,0,2
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,cryosteppe,scavenger_corazzato,0,1
 filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,dorsale_termale_tropicale,scavenger_corazzato,1,8
 filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,falde_magnetiche_psioniche,,1,8
 filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,foresta_miceliale,,1,8
@@ -147,12 +166,14 @@ flagelli_ancoranti,Flagelli Ancoranti,Flagelli Ancoranti,laguna_bioreattiva,,1,1
 flusso_ameboide_controllato,Flusso Ameboide Controllato,Controlled Amoeboid Flow,,,1,1
 focus_frazionato,Focus Frazionato,Fractional Focus,canopia_psionica_leggera,,1,8
 focus_frazionato,Focus Frazionato,Fractional Focus,foresta_miceliale,,1,8
+focus_frazionato,Focus Frazionato,Fractional Focus,foresta_temperata,,0,1
 focus_frazionato,Focus Frazionato,Fractional Focus,orbita_psionica_inversa,,1,8
 foliage_fotocatodico,Foliage Fotocatodico,Foliage Fotocatodico,foresta_acida,,1,1
 foliaggio_spugna,Foliaggio Spugna,Foliaggio Spugna,mangrovieto_cinetico,,1,1
 frusta_fiammeggiante,Frusta Fiammeggiante,Flame Lash,,,1,2
 ghiaccio_piezoelettrico,Ghiaccio Piezoelettrico,Ghiaccio Piezoelettrico,caldera_glaciale,,1,1
 ghiandola_caustica,Ghiandola Caustica,Caustic Gland,foresta_miceliale,,1,2
+ghiandola_caustica,Ghiandola Caustica,Caustic Gland,foresta_temperata,,0,1
 ghiandole_cambio_salino,Ghiandole Cambio Salino,Ghiandole Cambio Salino,laguna_bioreattiva,,1,1
 ghiandole_condensa_ozono,Ghiandole Condensa Ozono,Ghiandole Condensa Ozono,stratosfera_tempestosa,,1,1
 ghiandole_eco_mappanti,Ghiandole Eco Mappanti,Ghiandole Eco Mappanti,caverna_risonante,,1,1
@@ -169,6 +190,11 @@ ghiandole_resina_conduttiva,Ghiandole Resina Conduttiva,Ghiandole Resina Condutt
 ghiandole_ventosa,Ghiandole Ventosa,Ghiandole Ventosa,caldera_glaciale,,1,1
 giunti_antitorsione,Giunti Antitorsione,Giunti Antitorsione,mangrovieto_cinetico,,1,1
 grassi_termici,Grassi Termici,Grassi Termici,,,1,7
+grassi_termici,Grassi Termici,Grassi Termici,cryosteppe,volatore_planatore,0,1
+grassi_termici,Grassi Termici,Grassi Termici,deserto_caldo,cursoriale_quadrupede,0,1
+grassi_termici,Grassi Termici,Grassi Termici,deserto_caldo,ingegnere_radicante,0,1
+grassi_termici,Grassi Termici,Grassi Termici,deserto_caldo,scavenger_corazzato,0,1
+grassi_termici,Grassi Termici,Grassi Termici,deserto_caldo,volatore_planatore,0,2
 gusci_criovetro,Gusci Criovetro,Gusci Criovetro,caldera_glaciale,,1,1
 gusci_magnesio,Gusci Magnesio,Gusci Magnesio,dorsale_termale_tropicale,,1,1
 impulsi_bioluminescenti,Impulsi Bioluminescenti,Bioluminescent Pulses,,,1,2
@@ -182,6 +208,7 @@ lamine_scudo_silice,Lamine Scudo Silice,Lamine Scudo Silice,dorsale_termale_trop
 linfa_tampone,Linfa Tampone,Linfa Tampone,foresta_acida,,1,1
 lingua_cristallina,Lingua Cristallina,Lingua Cristallina,pianura_salina_iperarida,,1,1
 lingua_tattile_trama,Lingua Tattile Trama-Sensibile,Texture-Sensing Tongue,foresta_miceliale,,1,4
+lingua_tattile_trama,Lingua Tattile Trama-Sensibile,Texture-Sensing Tongue,foresta_temperata,,0,1
 lobi_risonanti_crepuscolo,Lobi Risonanti Crepuscolo,Twilight Resonant Lobes,,,1,3
 locomozione_miriapode_ibrida,Locomozione Miriapode Ibrida,Hybrid Myriapod Locomotion,,,1,1
 luminescenza_aurorale,Luminescenza Aurorale,Luminescenza Aurorale,caldera_glaciale,,1,1
@@ -196,6 +223,7 @@ membrane_planata_vectored,Membrane Planata Vectored,Membrane Planata Vectored,ca
 membrane_pneumatofori,Membrane Pneumatofori,Membrane Pneumatofori,mangrovieto_cinetico,,1,1
 metabolismo_di_condivisione_energetica,Metabolismo di Condivisione Energetica,Shared Energy Metabolism,,,1,1
 midollo_antivibrazione,Midollo Antivibrazione,Midollo Antivibrazione,caverna_risonante,,1,1
+mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,badlands,ingegnere_radicante,0,1
 mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,canopia_psionica_leggera,,1,6
 mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,dorsale_termale_tropicale,ingegnere_radicante,1,6
 mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,mezzanotte_orbitale,volatore_planatore,1,6
@@ -207,13 +235,19 @@ mucose_barofile,Mucose Barofile,Mucose Barofile,abisso_vulcanico,,1,1
 nebbia_mnesica,Nebbia Mnesica,Mnesic Fog,,,1,1
 nodi_micorrizici_oracolari,Nodi Micorrizici Oracolari,Nodi Micorrizici Oracolari,,,1,1
 nodi_sinaptici_superficiali,Nodi Sinaptici Superficiali,Surface Synaptic Nodes,,,1,1
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,badlands,cursoriale_quadrupede,0,1
 nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,dorsale_termale_tropicale,cursoriale_quadrupede,1,2
 nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,falde_magnetiche_psioniche,,1,2
 nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,orbita_psionica_inversa,,1,2
 occhi_analizzatori_di_tensione,Occhi Analizzatori di Tensione,Tension-Analyzing Eyes,,,1,1
 occhi_cinetici,Occhi Cinetici,Kinetic Eyes,,,1,1
 occhi_cristallo_modulare,Occhi a Cristallo Modulare,Modular Crystal Eyes,,,1,2
+occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,CRYOSTEPPE,volatore_planatore,0,1
+occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,DESERTO_CALDO,volatore_planatore,0,1
+occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,FORESTA_TEMPERATA,volatore_planatore,0,1
+occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,badlands,volatore_planatore,0,1
 occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,dorsale_termale_tropicale,volatore_planatore,1,2
+olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,cryosteppe,cursoriale_quadrupede,0,1
 olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,dorsale_termale_tropicale,cursoriale_quadrupede,1,9
 olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,falde_magnetiche_psioniche,,1,9
 olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,mezzanotte_orbitale,cursoriale_quadrupede,1,9
@@ -221,29 +255,40 @@ olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Sc
 organi_metacronici,Organi Metacronici,Metachronic Organs,,,1,1
 organi_sismici_cutanei,Organi Sismici Cutanei,Cutaneous Seismic Organs,,,1,1
 pathfinder,Pathfinder,Pathfinder,foresta_miceliale,,1,2
+pathfinder,Pathfinder,Pathfinder,foresta_temperata,,0,1
 pelage_idrorepellente_avanzato,Pelage Idrorepellente Avanzato,Advanced Hydrophobic Pelage,,,1,1
 pelle_piezo_satura,Pelle Piezo-Satura,Piezo-Saturated Skin,,,1,1
 pianificatore,Pianificatore,Strategic Planner,foresta_miceliale,,1,1
+pianificatore,Pianificatore,Strategic Planner,foresta_temperata,,0,1
 piume_solari_fotovoltaiche,Piume Solari Fotovoltaiche,Piume Solari Fotovoltaiche,,,1,1
 placca_diffusione_foschia,Placca di Diffusione Foschia,Fog Diffusion Plate,,,1,1
 placche_pressioniche,Placche Pressioniche,Pressure Plates,,,1,1
 polmoni_cristallini_alta_quota,Polmoni Cristallini d'Alta Quota,Polmoni Cristallini d'Alta Quota,,,1,1
 random,Trait Random,Trait Random,,,1,3
+respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,badlands,scavenger_corazzato,0,1
+respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,cryosteppe,cursoriale_quadrupede,0,1
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,dorsale_termale_tropicale,scavenger_corazzato,1,6
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,mezzanotte_orbitale,cursoriale_quadrupede,1,6
 rete_filtro_polmonare,Rete Filtro-Polmonare,Pulmonary Filter Net,,,1,1
 risonanza_di_branco,Risonanza di Branco,Pack Resonance,foresta_miceliale,,1,6
+risonanza_di_branco,Risonanza di Branco,Pack Resonance,foresta_temperata,,0,1
 riverbero_memetico,Riverbero Memetico,Memetic Reverb,,,1,2
 rostro_emostatico_litico,Rostro Emostatico-Litico,Hemo-Lytic Rostrum,,,1,1
 rostro_linguale_prensile,Rostro Linguale Prensile,Prehensile Lingual Rostrum,,,1,1
+sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,badlands,cursoriale_quadrupede,0,1
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,canopia_psionica_leggera,,1,8
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,dorsale_termale_tropicale,cursoriale_quadrupede,1,8
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,mezzanotte_orbitale,volatore_planatore,1,8
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,orbita_psionica_inversa,,1,8
 sacche_spore_stratosferiche,Sacche di Spore Stratosferiche,Sacche di Spore Stratosferiche,,,1,1
+sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,badlands,ingegnere_radicante,0,1
+sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,cryosteppe,scavenger_corazzato,0,1
 sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,dorsale_termale_tropicale,ingegnere_radicante,1,4
 sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,mezzanotte_orbitale,scavenger_corazzato,1,4
 scheletro_idraulico_a_pistoni,Scheletro Idraulico a Pistoni,Piston Hydraulic Skeleton,,,1,1
+scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,badlands,cursoriale_quadrupede,0,2
+scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,badlands,scavenger_corazzato,0,1
+scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,cryosteppe,cursoriale_quadrupede,0,1
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,dorsale_termale_tropicale,cursoriale_quadrupede,1,10
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,dorsale_termale_tropicale,scavenger_corazzato,1,10
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,mezzanotte_orbitale,cursoriale_quadrupede,1,10
@@ -251,6 +296,7 @@ scheletro_pneumatico_a_maglie,Scheletro Pneumatico a Maglie,Latticed Pneumatic S
 scintilla_sinaptica,Scintilla Sinaptica,Synaptic Spark,,,1,2
 scivolamento_magnetico,Scivolamento Magnetico,Magnetic Gliding,,,1,1
 scudo_gluteale_cheratinizzato,Scudo Gluteale Cheratinizzato,Keratinized Gluteal Shield,,,1,1
+secrezione_rallentante_palmi,Mani secernano liquido rallentante,Retarding Palm Secretions,badlands,ingegnere_radicante,0,1
 secrezione_rallentante_palmi,Mani secernano liquido rallentante,Retarding Palm Secretions,dorsale_termale_tropicale,ingegnere_radicante,1,2
 secrezioni_antistatiche,Secrezioni Antistatiche,Antistatic Secretions,,,1,1
 sensori_geomagnetici,Sensori a Risonanza Geomagnetica,Geomagnetic Resonance Sensors,,,1,4
@@ -259,23 +305,35 @@ seta_conduttiva_elettrica,Seta Conduttiva Elettrica,Conductive Electric Silk,,,1
 siero_anti_gelo_naturale,Siero Anti-Gelo Naturale,Natural Anti-Freeze Serum,,,1,1
 sinapsi_coraline_polifoniche,Sinapsi Coraline Polifoniche,Sinapsi Coraline Polifoniche,,,1,1
 sistemi_chimio_sonici,Sistemi Chimio-Sonici,Chemo-Sonic Systems,,,1,1
+sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,CRYOSTEPPE,volatore_planatore,0,1
+sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,DESERTO_CALDO,volatore_planatore,0,1
+sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,FORESTA_TEMPERATA,volatore_planatore,0,1
+sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,badlands,volatore_planatore,0,1
+sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,cryosteppe,volatore_planatore,0,1
 sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,dorsale_termale_tropicale,volatore_planatore,1,3
 sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,mezzanotte_orbitale,volatore_planatore,1,3
 spicole_canalizzatrici,Spicole Canalizzatrici,Channeling Spicules,,,1,1
+spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,badlands,scavenger_corazzato,0,1
+spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,cryosteppe,scavenger_corazzato,0,1
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,dorsale_termale_tropicale,scavenger_corazzato,1,2
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,foresta_miceliale,,1,2
+spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,foresta_temperata,,0,1
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,mezzanotte_orbitale,scavenger_corazzato,1,2
 squame_diffusori_ionici,Squame Diffusori Ionici,Ionic Diffuser Scales,,,1,1
 squame_rifrangenti_deserto,Squame Rifrangenti del Deserto,Squame Rifrangenti del Deserto,,,1,1
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,badlands,cursoriale_quadrupede,0,1
 struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,canopia_psionica_leggera,,1,9
 struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,dorsale_termale_tropicale,cursoriale_quadrupede,1,9
 struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,falde_magnetiche_psioniche,,1,9
 struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,foresta_miceliale,,1,9
 tattiche_di_branco,Tattiche di Branco,Pack Tactics,foresta_miceliale,,1,3
+tattiche_di_branco,Tattiche di Branco,Pack Tactics,foresta_temperata,,0,1
 traits_aggregate,Aggregato tratti Evo,Evo Traits Aggregate,,,1,1
 unghie_a_micro_adesione,Unghie a Micro-Adesione,Micro-Adhesion Claws,,,1,1
 vello_condensatore_nebbie,Vello Condensatore di Nebbie,Vello Condensatore di Nebbie,,,1,1
 vello_di_assorbimento_totale,Vello di Assorbimento Totale,Total Absorption Fleece,,,1,1
+ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,badlands,scavenger_corazzato,0,1
+ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,cryosteppe,cursoriale_quadrupede,0,1
 ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,dorsale_termale_tropicale,scavenger_corazzato,1,4
 ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,mezzanotte_orbitale,cursoriale_quadrupede,1,4
 visione_multi_spettrale_amplificata,Visione Multi-Spettrale Amplificata,Amplified Multi-Spectral Vision,,,1,1

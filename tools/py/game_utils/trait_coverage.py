@@ -245,7 +245,7 @@ def generate_trait_coverage(
 
     for trait_id in sorted(target_traits):
         rule_counter = rule_matrix.get(trait_id, Counter())
-        species_counter = species_matrix.get(trait_id, Counter())
+        species_counter = species_matrix.setdefault(trait_id, Counter())
 
         affinity_info: dict[str, Any] | None = None
         affinity_species_ids: list[str] = []
@@ -285,9 +285,10 @@ def generate_trait_coverage(
                         "top_species": affinity_species_ids[:10],
                     }
 
-        if not species_counter and affinity_species_ids and rule_counter:
-            species_counter = species_matrix[trait_id]
+        if affinity_species_ids and rule_counter:
             for combo in rule_counter.keys():
+                if species_counter.get(combo, 0):
+                    continue
                 species_counter[combo] += len(affinity_species_ids)
                 for species_id in affinity_species_ids:
                     species_examples[trait_id][combo].add(species_id)
