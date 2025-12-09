@@ -2,6 +2,11 @@
 
 Inventario aggiornato per il gate **01C** collegato alla nota di readiness `reports/readiness_01B01C_status.md` e al log di riapertura `logs/RIAPERTURA-2025-02.md`. Tutte le voci restano **report-only** (nessuna pipeline eseguita).
 
+## Collegamento branch readiness 01B/01C
+- Branch dedicati attivi in sola lettura: `patch/01B-core-derived-matrix` (01B) e `patch/01C-tooling-ci-catalog` (01C); `patch/01A-report-only` resta il punto di handoff da 01A.
+- Stato readiness 2026-10-12T1200Z (report-only): agenti on-call confermati (species-curator + trait-curator per 01B; dev-tooling per 01C; coordinator/balancer backup) con ticket **TKT-01B-001/002** e **TKT-01C-001/002**.
+- Log di riferimento: `logs/agent_activity.md` entry `01B01C-READINESS-2026-10-12T1200Z` con link a questo inventario e alla nota readiness `reports/readiness_01B01C_status.md`.
+
 ## Workflow CI attivi
 
 | Nome | Percorso | Trigger | Input principali | Output/artefatti | Rischio |

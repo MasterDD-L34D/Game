@@ -1,5 +1,9 @@
 # Agent activity log
 
+## 2026-10-12 – Readiness 01B/01C e collegamento inventario (archivist)
+- Step: `[01B01C-READINESS-2026-10-12T1200Z] owner=archivist (approvatore Master DD); scope=01B/01C report-only; files=reports/readiness_01B01C_status.md,reports/audit/readiness-01c-ci-inventory.md,logs/RIAPERTURA-2025-02.md; branch=patch/01A-report-only,patch/01B-core-derived-matrix,patch/01C-tooling-ci-catalog; riferimento=docs/planning/REF_PLANNING_RIPRESA_2026.md; esito=PASS; decision=READINESS-CONFERMATA (report-only).`
+- Azioni: confermata la disponibilità indicata (archivist lead 01A; species-curator + trait-curator on-call 01B; dev-tooling on-call 01C con coordinator/balancer backup) e i ticket attivi **TKT-01B-001/002**, **TKT-01C-001/002**; nessuna variazione di scope/owner. Inventario CI/script aggiornato con link ai branch dedicati `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` e referenziato dalla nota readiness `reports/readiness_01B01C_status.md`.
+
 ## 2026-09-30 – Pre-meeting 01A e ripristino branch (coordinator)
 - Step: `[RIAPERTURA-2025-02-CHECKLIST-48H-2026-10-11T1200Z] owner=archivist (approvatore Master DD); scope=PATCHSET-00→PIPELINE 01A; riferimento=docs/planning/REF_PLANNING_RIPRESA_2026.md §Checklist 48h; modalità=STRICT MODE; freeze_window=2025-10-06T09:00Z→2025-10-13T18:00Z; esito=PASS.`
 - Azioni: eseguita la checklist punti 1–7 (kickoff confermato senza variazioni, catalogo 01A/gap list riesaminati in sola lettura, readiness 01B/01C invariata su ticket 2025, `_holding` assente, finestra freeze ottobre 2025 confermata **SBLOCCATA** con ticket **TKT-FREEZE-OCT25**, nessun nuovo drop). Log `logs/RIAPERTURA-2025-02.md` aggiornato con esito e con nota che la gap list 01A resta quella già referenziata (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI). README incoming/docs da sincronizzare con stato post-freeze (ticket 2025) mantenendo report-only.
