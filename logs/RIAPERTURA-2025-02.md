@@ -17,6 +17,10 @@
 - Ricreare i branch dedicati da HEAD autorizzato prima del prossimo batch report-only.
 - Aggiornare `logs/agent_activity.md` se viene emessa una decisione di unfreeze o se vengono riattivati i branch.
 
+## 2026-10-13 – Sync agenda PATCHSET-00 (coordinator)
+- Step: `[RIAPERTURA-2025-02-AGENDA-2026-10-13T0000Z] owner=coordinator (archivist, trait-curator, species-curator CC; approvatore Master DD); durata=15'; scope=PATCHSET-00→PIPELINE 01A; milestone=07/12/2025; riferimento=docs/planning/agenda_PATCHSET-00_2025-12-07.md; modalità=STRICT MODE; output=handoff pipeline 01A Fase 1 in report-only.]`
+- Sintesi punti 1–5: (1) scope/obiettivi confermati, owner/durata invariati, milestone 07/12/2025 ribadita; (2) archivist conferma readiness log/README e freeze 06/10/2025→13/10/2025 ancora valido con `_holding` assente; (3) trait-curator + species-curator riaffermano trigger Fase 1→2→3 e prerequisiti 01A (trait/species pronti, branch dedicati già ricreati in report-only); (4) rischi/contromisure: drift/merge non autorizzati e blocco freeze → mantenere branch in sola lettura, zero drop finché non arriva unfreeze; (5) decisioni/gate: log aggiornati (presente file + `logs/agent_activity.md`), prossimo passo = avvio PIPELINE 01A Fase 1 in STRICT MODE con check readiness/freeze.
+
 ## 2026-09-24 – Inventario workflow/script 01C aggiornato (archivist)
 - Step: `[RIAPERTURA-2025-02-01C-INVENTORY-2026-09-24T0000Z] owner=archivist; scope=01C tooling/CI; files=reports/audit/readiness-01c-ci-inventory.md,reports/readiness_01B01C_status.md; modalità=report-only; esito=PASS; decision=LOG-UPDATE]`.
 - Note: allineato l'inventario 01C (workflow CI e script locali con input/output e percorsi) ai riferimenti di readiness 01B/01C, senza eseguire pipeline o validatori. Collegati esplicitamente readiness e log di riapertura per mantenere tracciabilità in STRICT MODE.
