@@ -14,6 +14,8 @@ Questo file definisce il **comportamento interno** dell’agente (il suo “sist
 - ciclo di pensiero (interpretazione → piano → esecuzione → self-critique)
 - regole di coerenza e stile (Consistency Engine, Knowledge Map, Style Enforcement)
 
+> Per una vista d’insieme dei file da leggere all’avvio usa prima il **Quick start / Indice rapido** in `AGENTS.md`; questo documento resta il riferimento operativo dettagliato.
+
 Per il **bootstrap automatico** degli agenti nel repo _Game_, gli strumenti esterni (es. Codex)
 NON leggono direttamente questo file, ma seguono la catena:
 
