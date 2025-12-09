@@ -43,6 +43,12 @@ Prompt pronti all’uso per evitare conferme ripetute. Copia-incolla la voce che
   - Prompt: `COMANDO: PIPELINE_SIMULATOR` + pipeline completa.
   - Prerequisiti: pipeline definita; router attivo; utile per verificare output attesi senza toccare file.
 
+> **Strict-mode e conferme**
+>
+> - I comandi che applicano patch o mutano file (es. APPLICA*PATCHSET*\*, PIPELINE_EXECUTOR quando richiede write) prevedono preview + conferma prima dell’esecuzione.
+> - Se fornisci `FAST_PATH: true`, puoi evitare conferme ridondanti **solo** quando le condizioni di sicurezza della [sezione 0.3](#03--strict-mode--fast-path) sono rispettate.
+> - Anche in fast path è obbligatorio riportare motivazione, ambito e riassunto delle modifiche per garantire tracciabilità.
+
 ---
 
 # SEZIONE 0 — BOOT & MASTER ENV
@@ -131,6 +137,33 @@ Task:
 Nota: BOOT_PROFILE è la forma più “pulita” e riutilizzabile;
 MASTER_ENV è il corrispondente in forma di comando inline.
 
+## 0.3 — Strict-mode & Fast Path
+
+Questa sezione chiarisce dove strict-mode impone doppi passaggi e come attivare un bypass controllato.
+
+### 0.3.1 — Dove esistono passaggi/conferme ridondanti
+
+- **APPLICA*PATCHSET*\***: richiede preview diff + conferma esplicita prima di scrivere sui file.
+- **PIPELINE_EXECUTOR** con step di scrittura: piano + sandbox + conferma sull’esecuzione dello step che modifica file.
+- **CHECK\_\* che applicano fix** (se esplicitamente richiesto dal task): necessaria conferma prima di scrivere.
+
+### 0.3.2 — Criteri per abilitare FAST_PATH (bypass conferma doppia)
+
+Usa `FAST_PATH: true` nel blocco comando solo se TUTTI i criteri sono rispettati:
+
+1. **Ambito a basso rischio**: solo file di testo/Markdown/config non eseguibili; nessun schema di gioco/dati core o codice runtime.
+2. **Patch piccola e isolata**: ≤ 100 linee totali modificate, al massimo 3 file toccati, nessuna creazione/eliminazione di file.
+3. **Assenza di effetti collaterali**: niente migrazioni DB, nessun cambio di pipeline di build, nessun trigger CI critico.
+4. **Prerevisionato**: diff già condivisa o derivata da istruzioni dell’utente senza ambiguità.
+
+Se uno dei criteri non è soddisfatto, ignora `FAST_PATH` e usa il flusso standard con conferma esplicita.
+
+### 0.3.3 — Tracciabilità e limiti di sicurezza
+
+- Anche in fast path, mostra sempre il riepilogo modifiche (file, linee, motivazione) e segnala che è stata usata la modalità fast path.
+- Se durante l’esecuzione emergono rischi (es. scopri file sensibili), annulla il fast path e torna al flusso standard chiedendo conferma.
+- Non usare fast path per comandi GOLDEN_PATH/PIPELINE_DESIGNER (solo design) né per task di lore/bilanciamento: non servono conferme multiple.
+
 ---
 
 # SEZIONE 1 — ROUTER & SETUP
@@ -215,6 +248,10 @@ self-critique
 
 file da leggere/scrivere
 
+Opzioni:
+
+- `FAST_PATH: true` (opzionale) → consente di eseguire lo step che scrive file senza una seconda conferma, solo se i criteri di sicurezza della sezione 0.3.2 sono tutti rispettati.
+
 ## 2.4 — Simulare una pipeline intera (dry-run)
 
 COMANDO: PIPELINE_SIMULATOR
@@ -291,6 +328,10 @@ verifica sintassi JSON/YAML
 Restituisci lista file modificati
 
 Non toccare file non presenti nel patchset
+
+Opzioni:
+
+- `FAST_PATH: true` (opzionale) → applica le patch dopo la preview senza seconda conferma solo se i criteri della sezione 0.3.2 sono tutti soddisfatti; logga sempre che il fast path è stato usato.
 
 ## 4.2 — Dry-run merge plan
 

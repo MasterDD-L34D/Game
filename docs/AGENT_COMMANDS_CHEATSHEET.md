@@ -22,6 +22,25 @@ TASK: <descrizione del task>
 
 ---
 
+## FAST PATH – bypass conferme ridondanti (solo task a basso rischio)
+
+```
+Quando puoi usarlo:
+- Patch piccole (≤100 linee, max 3 file) su documentazione/config non eseguibile.
+- Nessun schema/DB/migrazione o cambi di build/CI.
+- Diff già condivisa/chiara; nessuna ambiguità nel task.
+
+Come attivarlo:
+- Aggiungi `FAST_PATH: true` nel blocco comando (es. PIPELINE_EXECUTOR, APPLICA_PATCHSET_*).
+- L’agente applica la modifica dopo la preview, senza chiedere una seconda conferma, solo se i criteri sopra sono rispettati.
+
+Tracciabilità e limiti:
+- Anche in fast path vengono riportati file toccati, numero linee e motivazione.
+- Se emerge un rischio (file sensibile, patch ampia) il fast path viene annullato e si torna al flusso standard con conferma.
+```
+
+---
+
 ## 1. ROUTER_AUTO – scegliere automaticamente l’agente
 
 (COMANDO)
