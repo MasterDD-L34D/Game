@@ -179,7 +179,19 @@ Impatto: in profili leggeri, l’agente resta vincolato a identità e router ma 
 
 ---
 
-## 5. Profilo di boot “LIGHT” (task a basso rischio / consultazioni rapide)
+## 5. Tabella severità e workflow
+
+| Severità  | Piano                                                                                                | Self-critique                                                                                   | Note operative                                                                                              |
+| --------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **BASSO** | Piano breve (1–3 punti) focalizzato sui file toccati; consentito saltare step intermedi non critici. | Può essere omessa per output sintetici, mantenendo comunque coerenza con agent_constitution.md. | Usa Strict Mode e routing; Command Library/Golden Path opzionali; ideale per refusi e aggiornamenti minimi. |
+| **MEDIO** | Piano completo (3–7 punti) con evidenza dei rischi.                                                  | Obbligatoria, con nota esplicita di eventuali punti deboli.                                     | Valuta se abilitare Command Library e Golden Path se servono macro-azioni.                                  |
+| **ALTO**  | Piano dettagliato (5–10 punti) + sandbox se impatta formati/core loop.                               | Obbligatoria e approfondita; richiedi review umana.                                             | Attiva tutti gli strumenti di boot e documenta le decisioni.                                                |
+
+Questa tabella riduce il workflow per i task BASSO consentendo un piano più breve e l’assenza di self-critique quando l’output è molto sintetico, mantenendo comunque i vincoli di sicurezza e routing.
+
+---
+
+## 6. Profilo di boot “LIGHT” (task a basso rischio / consultazioni rapide)
 
 Usare quando il compito è di sola consultazione, QA rapido o verifica documentale senza esecuzioni di pipeline/command macro.
 
