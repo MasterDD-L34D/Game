@@ -20,6 +20,11 @@
 - Step: `[RIAPERTURA-2025-02-01C-INVENTORY-2026-09-24T0000Z] owner=archivist; scope=01C tooling/CI; files=reports/audit/readiness-01c-ci-inventory.md,reports/readiness_01B01C_status.md; modalità=report-only; esito=PASS; decision=LOG-UPDATE]`.
 - Note: allineato l'inventario 01C (workflow CI e script locali con input/output e percorsi) ai riferimenti di readiness 01B/01C, senza eseguire pipeline o validatori. Collegati esplicitamente readiness e log di riapertura per mantenere tracciabilità in STRICT MODE.
 
+## 2026-09-24 – Sync agenda PATCHSET-00 (coordinator)
+- Step: `[RIAPERTURA-2025-02-AGENDA-2026-09-24T0000Z] owner=coordinator (archivist, trait-curator, species-curator CC); durata=15'; scope=PATCHSET-00→PIPELINE 01A; milestone=07/12/2025; riferimento=docs/planning/agenda_PATCHSET-00_2025-12-07.md; modalità=STRICT MODE]`.
+- Sequenza punti 1–5: (1) scope/obiettivi confermati senza variazioni di owner/durata; (2) archivist conferma readiness log/README e freeze 06/10/2025→13/10/2025 con `_holding` assente; (3) trait-curator + species-curator confermano trigger sequenziale Fase 1→2→3 e prerequisiti pipeline 01A (trait_plan/species readiness, branch report-only già ricreati); (4) rischi/contromisure: drift/merge non autorizzati → branch in sola lettura; freeze attivo → niente drop finché non arriva unfreeze; scope creep → usare agenda/log duale per ogni step; (5) decisioni/handoff: mantenere slot 15', aggiornare i log `logs/agent_activity.md` + presente file come riferimento per il gate PIPELINE 01A Fase 1.
+- Output: milestone 07/12/2025 e percorso Fase 1→2→3 riaffermati; readiness documentale invariata; prossimo passo = avviare PIPELINE 01A Fase 1 in report-only dopo verifica freeze/readiness.
+
 ## Checklist PIPELINE 01A (pre-meeting)
 - [x] `logs/agent_activity.md` aggiornato con l'ultimo handoff rilevante.
 - [x] Cartella `_holding/` vuota (nessun drop in sospeso).
