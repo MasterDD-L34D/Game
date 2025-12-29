@@ -13,6 +13,7 @@
 ## Aggiornamenti giornalieri PR
 
 <!-- daily-pr-summary:start -->
+- **2025-12-28** — Nessun merge registrato.
 - **2025-12-27** — Nessun merge registrato.
 - **2025-12-26** — Nessun merge registrato.
 - **2025-12-25** — Nessun merge registrato.
@@ -26,7 +27,6 @@
 - **2025-12-17** — Nessun merge registrato.
 - **2025-12-16** — Nessun merge registrato.
 - **2025-12-15** — Nessun merge registrato.
-- **2025-12-14** — Nessun merge registrato.
 <!-- daily-pr-summary:end -->
 
 ## Task immediati
