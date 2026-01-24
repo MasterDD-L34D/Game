@@ -97,6 +97,7 @@
 ### Riepilogo PR giornalieri
 
 <!-- daily-pr-summary:start -->
+- **2026-01-23** — Nessun merge registrato.
 - **2026-01-22** — Nessun merge registrato.
 - **2026-01-21** — Nessun merge registrato.
 - **2026-01-20** — Nessun merge registrato.
@@ -110,7 +111,6 @@
 - **2026-01-12** — Nessun merge registrato.
 - **2026-01-11** — Nessun merge registrato.
 - **2026-01-10** — Nessun merge registrato.
-- **2026-01-09** — Nessun merge registrato.
 <!-- daily-pr-summary:end -->
 
 ## [v0.6.0-rc1] - 2025-11-07
