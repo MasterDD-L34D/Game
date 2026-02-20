@@ -13,6 +13,7 @@
 ## Aggiornamenti giornalieri PR
 
 <!-- daily-pr-summary:start -->
+- **2026-02-19** — Nessun merge registrato.
 - **2026-02-18** — Nessun merge registrato.
 - **2026-02-17** — Nessun merge registrato.
 - **2026-02-16** — Nessun merge registrato.
@@ -26,7 +27,6 @@
 - **2026-02-08** — Nessun merge registrato.
 - **2026-02-07** — Nessun merge registrato.
 - **2026-02-06** — Nessun merge registrato.
-- **2026-02-05** — Nessun merge registrato.
 <!-- daily-pr-summary:end -->
 
 ## Task immediati
