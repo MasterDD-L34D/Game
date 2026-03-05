@@ -39,6 +39,7 @@
 ## Riepilogo quotidiano PR
 
 <!-- daily-pr-summary:start -->
+- **2026-03-04** — Nessun merge registrato.
 - **2026-03-03** — Nessun merge registrato.
 - **2026-03-02** — Nessun merge registrato.
 - **2026-03-01** — Nessun merge registrato.
@@ -52,7 +53,6 @@
 - **2026-02-21** — Nessun merge registrato.
 - **2026-02-20** — Nessun merge registrato.
 - **2026-02-19** — Nessun merge registrato.
-- **2026-02-18** — Nessun merge registrato.
 <!-- daily-pr-summary:end -->
 
 ## Revisione playtest VC (Canvas)
