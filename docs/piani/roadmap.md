@@ -109,6 +109,7 @@ La pianificazione dettagliata (comandi/script e log da aggiornare) è disponibil
 ## Riepilogo PR giornaliero
 
 <!-- daily-pr-summary:start -->
+- **2026-03-16** — Nessun merge registrato.
 - **2026-03-15** — Nessun merge registrato.
 - **2026-03-14** — Nessun merge registrato.
 - **2026-03-13** — Nessun merge registrato.
@@ -122,7 +123,6 @@ La pianificazione dettagliata (comandi/script e log da aggiornare) è disponibil
 - **2026-03-05** — Nessun merge registrato.
 - **2026-03-04** — Nessun merge registrato.
 - **2026-03-03** — Nessun merge registrato.
-- **2026-03-02** — Nessun merge registrato.
 <!-- daily-pr-summary:end -->
 
 ## Comunicazioni release VC novembre 2025
