@@ -1,3 +1,16 @@
+---
+title: ADR Rules Engine D20
+description: Architecture Decision Record per il rules engine d20 tattico.
+tags: [adr, combat, rules-engine, d20]
+doc_status: active
+doc_owner: combat-team
+workstream: combat
+last_verified: 2026-04-13
+source_of_truth: true
+language: it-en
+review_cycle_days: 14
+---
+
 # ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile
 
 - **Data**: 2026-04-13

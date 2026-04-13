@@ -64,6 +64,7 @@ evo-tactics/
 
 1. **Clona il repository** e posizionati nella root.
 2. **Installa GitHub CLI (`gh`)** per poter usare i workflow CI e gli script di automazione:
+
    ```bash
    # macOS (Homebrew)
    brew install gh
@@ -71,7 +72,9 @@ evo-tactics/
    # Debian/Ubuntu
    sudo apt update && sudo apt install gh
    ```
+
    Autenticati con un PAT che includa gli scope `workflow` e `read:org`, autorizzato via SSO dove richiesto (puoi seguire la guida in `docs/workflows/gh-cli-manual-dispatch.md`).
+
 3. **Dipendenze Node (root + tools/ts + dashboard)**:
    ```bash
    npm install
@@ -304,6 +307,17 @@ node dist/roll_pack.js ENTP invoker --seed demo
   3. Controlla i log in `docs/reports/incoming/` e `docs/logs/traits_tracking.md`.
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
 - **Trait Editor standalone** (`Trait Editor/`): consulta [docs/trait-editor.md](docs/trait-editor.md) per setup, variabili `VITE_*`, script disponibili (`npm run dev`, `npm run build`, `npm run preview`) e workflow di deploy statico con dataset remoti.
+
+## Combat / Rules Engine
+
+Il rules engine d20 per la risoluzione tattica del combattimento si trova in `services/rules/` (moduli Python: `resolver.py`, `hydration.py`, `demo_cli.py`).
+Per lanciare una demo automatica di combattimento:
+
+```bash
+PYTHONPATH=tools/py python -m services.rules.demo_cli --auto --seed demo-1
+```
+
+I valori di bilanciamento (meccaniche trait, soglie danno, decay PT) sono definiti in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
 
 ## Stato database Evo Tactics
 

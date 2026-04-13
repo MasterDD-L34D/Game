@@ -61,6 +61,21 @@
       ]
     },
     {
+      "name": "combat",
+      "owner": "combat-team",
+      "status": "active",
+      "dependencies": ["dataset-pack"],
+      "hub": "docs/hubs/combat.md",
+      "components": [
+        { "path": "services/rules", "kind": "code", "state": "active" },
+        {
+          "path": "packs/evo_tactics_pack/data/balance",
+          "kind": "runtime-data",
+          "state": "active"
+        }
+      ]
+    },
+    {
       "name": "ops-qa",
       "owner": "ops-qa-team",
       "status": "active",

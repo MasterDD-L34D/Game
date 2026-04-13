@@ -16,6 +16,7 @@ const { createGenerationRouter, createGenerationRoutes } = require('./routes/gen
 const { createSpeciesBiomesRouter } = require('./routes/speciesBiomes');
 const { createTraitRouter } = require('./routes/traits');
 const { createQualityRouter } = require('./routes/quality');
+const { createCombatRouter } = require('./routes/combat');
 const { createValidatorsRouter } = require('./routes/validators');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
@@ -784,6 +785,10 @@ function createApp(options = {}) {
 
   app.use('/api/v1/generation', generationRouter);
   app.use('/api/generation', generationRouter);
+
+  const combatRouter = createCombatRouter();
+  app.use('/api/v1/combat', combatRouter);
+  app.use('/api/combat', combatRouter);
   app.post('/api/biomes/generate', generationRoutes.biomes);
 
   async function sendCatalogPools(req, res) {

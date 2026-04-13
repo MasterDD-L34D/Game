@@ -19,6 +19,7 @@ The monorepo uses npm workspaces declared in root `package.json`:
 - `tools/ts/` — TypeScript CLI + Node/Playwright tests (Lighthouse, roll pack, UI smoke).
 - `packs/evo_tactics_pack/` — self-contained Ecosystem Pack v1.7 (data, validators, HTML reports under `out/validation/`).
 - `data/` — canonical YAML datasets (species, biomes, traits, telemetry) + `data/derived/` analysis reports. Source of truth for Flow, Atlas, and pack validators.
+- `services/rules/` — D20 rules engine: `resolver.py` (combat resolution), `hydration.py` (encounter setup), `demo_cli.py` (interactive/auto combat demo), `worker.py` (JSON line bridge stub). Uses `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` as source of truth for combat mechanics.
 - `services/eventsScheduler/`, `services/publishing/`, `services/export/`, `services/moderation/`, `services/squadsync/` — Node micro-services called from scripts and the backend.
 - `scripts/` — top-level automation (dev stack, tracker refresh, snapshot regeneration, Drive sync).
 - `tests/` — cross-cutting suites: `tests/api/*.test.js` (Node test runner), `tests/server/*.spec.ts`, `tests/generation/*.spec.ts`, `tests/scripts/*`, `tests/events/*.ts` (tsx), plus Python unit tests at `tests/test_*.py`.
@@ -48,6 +49,9 @@ Node 18+ (22.19.0 recommended) and npm 11+; Python 3.10+. Install once with `npm
 - **E2E Playwright (dashboard)**: `npm run test:e2e` (uses `apps/dashboard/tests/playwright/playwright.config.mjs`).
 - **Python suites**: `PYTHONPATH=tools/py pytest` from the repo root. Single test: `PYTHONPATH=tools/py pytest tests/test_species_builder.py::test_case`.
 - **Docs generator Vitest**: `npm run test:docs-generator` (uses `vitest.config.docs-generator.ts`).
+- **Rules engine tests**: `PYTHONPATH=tools/py pytest tests/test_resolver.py tests/test_hydration.py`
+- **Combat demo (auto)**: `PYTHONPATH=tools/py python -m services.rules.demo_cli --auto --seed demo-1 --max-rounds 10`
+- **Combat demo (interactive)**: `PYTHONPATH=tools/py python -m services.rules.demo_cli --seed demo-1`
 
 ### Build, lint, format
 
@@ -84,6 +88,7 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 - **Dashboard deploy path**. `VITE_BASE_PATH` (default `./`) controls asset paths; `VITE_API_BASE_URL`/`VITE_API_BASE` + individual `VITE_*_URL` select live vs. mock; `VITE_API_USER` propagates as `X-User` header for audit. Empty values fall back to the next source in the registry automatically.
 - **Auth**. Backend routes honor JWT (`AUTH_SECRET`, `AUTH_AUDIENCE`, `AUTH_ISSUER`, `AUTH_ROLES_CLAIM`, etc.) when configured, otherwise open. Legacy Bearer tokens `TRAIT_EDITOR_TOKEN`/`TRAITS_API_TOKEN` protect trait routes; accepted roles are `reviewer`/`editor`/`admin` (admin always allowed).
 - **Trait Editor** is a separate Vite app under `Trait Editor/` — see `docs/trait-editor.md` before touching it.
+- **Combat pipeline (Rules Engine)**. CLI or API → `services/rules/` Python modules. The resolver (`resolver.py`) implements d20 attack rolls, MoS-based damage steps, status effects, PT accumulation, and begin-turn decay. The hydration layer (`hydration.py`) builds CombatState from encounter JSON + party + trait_mechanics catalog. The demo CLI (`demo_cli.py`) runs complete simulated combats. Architecture decision in `docs/adr/ADR-2026-04-13-rules-engine-d20.md`. Key constants: `ATTACK_CD_BASE=10`, `MOS_PER_STEP=5`, `CRIT_PT_THRESHOLD=15`.
 
 ## Agent / automation conventions in this repo
 

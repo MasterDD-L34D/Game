@@ -16,6 +16,7 @@
     "atlas",
     "backend",
     "dataset-pack",
+    "combat",
     "ops-qa",
     "incoming",
     "cross-cutting"
@@ -254,6 +255,58 @@
       "language": "it-en",
       "review_cycle_days": 14,
       "primary": true,
+      "track": "canonical"
+    },
+    {
+      "path": "docs/hubs/combat.md",
+      "title": "Combat Hub",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-13",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": true,
+      "track": "canonical"
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-13-rules-engine-d20.md",
+      "title": "ADR Rules Engine D20",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-13",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": true,
+      "track": "canonical"
+    },
+    {
+      "path": "docs/10-SISTEMA_TATTICO.md",
+      "title": "Sistema Tattico",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-13",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "canonical"
+    },
+    {
+      "path": "docs/11-REGOLE_D20_TV.md",
+      "title": "Regole D20 TV",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-13",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14,
+      "primary": false,
       "track": "canonical"
     }
   ]

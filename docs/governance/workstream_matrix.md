@@ -25,6 +25,7 @@ Matrice operativa unica: workstream -> componenti -> stato -> owner -> dipendenz
 ## Snapshot corrente
 
 - `backend`: moduli con gap documentali/test su `apps/backend` e `services/eventsScheduler`.
+- `combat`: rules engine d20 attivo in `services/rules/`, hub in `docs/hubs/combat.md`.
 - `dataset-pack`: runtime dati attivo, mirror docs segnato come legacy/generated.
 - `incoming`: resta attivo in dual-track con etichette esplicite e governance registry.
 
