@@ -1,0 +1,256 @@
+schema_version: "0.2.0"
+generated_from: >
+  Fase 3 (euristica) + Fase 3-bis (pass Balancer manuale collaborativo).
+  Vedi packs/evo_tactics_pack/data/balance/README.md per il framework,
+  ADR-2026-04-13-rules-engine-d20.md per le decisioni di design,
+  docs/catalog/traits_inventory.json per l'elenco dei 30 core,
+  docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md per i range numerici
+  di riferimento, traits/parts_scaling.yaml per la baseline attack per_level.
+notes: >
+  Layer di bilanciamento meccanico per il rules engine d20. Questo file e' la
+  fonte unica di verita' consumata dal resolver in services/rules/. I valori
+  sono prodotti dal pass Balancer manuale della Fase 3-bis applicando le 5
+  classi del framework (offensive / defensive / hybrid / mobility / utility)
+  con regole deterministiche ancorate a fatti del repo: ogni mod e' giustificato
+  dalla description_it del pack glossary o dalla famiglia_tipologia + usage_tags
+  del trait. Canali canonici dal Frattura draft: elettrico, psionico, fisico,
+  fuoco, gravita, mentale, taglio, ionico. Canale non-canonico introdotto:
+  gelo (solo criostasi_adattiva; documentato nel README come estensione da
+  stabilizzare nel prossimo combat pack). Distribuzione: offensive 4,
+  defensive 9, hybrid 1, mobility 3, utility 13. Trait con mod non-zero: 14/30.
+traits:
+  struttura_elastica_amorfa:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances:
+      - { channel: fisico, modifier_pct: 10 }
+    active_effects: []
+  filamenti_digestivi_compattanti:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  sacche_galleggianti_ascensoriali:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  grassi_termici:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances:
+      - { channel: fuoco, modifier_pct: 10 }
+    active_effects: []
+  cuticole_cerose:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+    notes: "candidato defensive quando description_it sara arricchita (attualmente boilerplate generico)"
+  scheletro_idro_regolante:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  olfatto_risonanza_magnetica:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  mimetismo_cromatico_passivo:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  eco_interno_riflesso:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  coda_frusta_cinetica:
+    attack_mod: 1
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+    notes: "classe hybrid (tensione tra desc 'colpo devastante' e tag scout+tank)"
+  artigli_sette_vie:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  spore_psichiche_silenziate:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 3
+    resistances:
+      - { channel: mentale, modifier_pct: 15 }
+    active_effects: []
+    on_hit_status:
+      status_id: disorient
+      duration: 2
+      intensity: 1
+      trigger_dc: 12
+    on_hit_stress_delta: 0.05
+    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status e on_hit_stress_delta giustificati dalla desc_it ('sedano e confondono'); Balancer puo' estendere ad altri trait psi in futuro."
+  nucleo_ovomotore_rotante:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+    notes: "mobility con discount FME Alto (3 -> 2)"
+  focus_frazionato:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  ventriglio_gastroliti:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  sonno_emisferico_alternato:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances:
+      - { channel: mentale, modifier_pct: 10 }
+    active_effects: []
+  sangue_piroforico:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances:
+      - { channel: fuoco, modifier_pct: 20 }
+    active_effects: []
+  respiro_a_scoppio:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+    notes: "mobility con discount FME Alto (3 -> 2)"
+  empatia_coordinativa:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  cute_resistente_sali:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 2
+    resistances:
+      - { channel: fuoco, modifier_pct: 15 }
+      - { channel: taglio, modifier_pct: 10 }
+    active_effects: []
+  criostasi_adattiva:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 3
+    resistances:
+      - { channel: gelo, modifier_pct: 20 }
+    active_effects: []
+    notes: "introduce canale non-canonico 'gelo' (vedi README.md sezione canali)"
+  carapace_fase_variabile:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 3
+    resistances:
+      - { channel: fisico, modifier_pct: 15 }
+    active_effects: []
+  secrezione_rallentante_palmi:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  risonanza_di_branco:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  occhi_infrarosso_composti:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  mantello_meteoritico:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 3
+    resistances:
+      - { channel: fisico, modifier_pct: 20 }
+      - { channel: fuoco, modifier_pct: 20 }
+    active_effects: []
+    notes: "T3 bump applied to defense_mod (defensive class + T3)"
+  lingua_tattile_trama:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  frusta_fiammeggiante:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances:
+      - { channel: fuoco, modifier_pct: 10 }
+    active_effects: []
+  enzimi_chelanti:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  zoccoli_risonanti_steppe:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []

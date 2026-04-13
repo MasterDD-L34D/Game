@@ -1,0 +1,228 @@
+{
+  "session_id": "demo-caverna-session",
+  "seed": "demo-caverna-v1",
+  "encounter_id": "caverna-ref-001",
+  "turn": 1,
+  "initiative_order": [
+    "hostile-01",
+    "hostile-02",
+    "hostile-03",
+    "hostile-04",
+    "party-01",
+    "party-02",
+    "party-03"
+  ],
+  "active_unit_id": "hostile-01",
+  "units": [
+    {
+      "id": "party-01",
+      "species_id": "anguis_magnetica",
+      "side": "party",
+      "tier": 3,
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 4,
+      "initiative": 12,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [],
+      "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "party-02",
+      "species_id": "aetherloom_stalker",
+      "side": "party",
+      "tier": 3,
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 4,
+      "initiative": 12,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [
+        {
+          "channel": "fisico",
+          "modifier_pct": 20
+        },
+        {
+          "channel": "fuoco",
+          "modifier_pct": 40
+        }
+      ],
+      "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "party-03",
+      "species_id": "crysalis_ember",
+      "side": "party",
+      "tier": 3,
+      "hp": {
+        "current": 50,
+        "max": 50
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 4,
+      "initiative": 12,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [
+        {
+          "channel": "fuoco",
+          "modifier_pct": 15
+        },
+        {
+          "channel": "gelo",
+          "modifier_pct": 20
+        },
+        {
+          "channel": "taglio",
+          "modifier_pct": 10
+        }
+      ],
+      "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "hostile-01",
+      "species_id": "umbroid_lurker",
+      "side": "hostile",
+      "tier": 3,
+      "hp": {
+        "current": 110,
+        "max": 110
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 5,
+      "initiative": 15,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [],
+      "trait_ids": [],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "hostile-02",
+      "species_id": "mud_sentinel",
+      "side": "hostile",
+      "tier": 3,
+      "hp": {
+        "current": 110,
+        "max": 110
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 5,
+      "initiative": 15,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [],
+      "trait_ids": [],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "hostile-03",
+      "species_id": "echo_seer",
+      "side": "hostile",
+      "tier": 3,
+      "hp": {
+        "current": 110,
+        "max": 110
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 5,
+      "initiative": 15,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [
+        {
+          "channel": "mentale",
+          "modifier_pct": 15
+        }
+      ],
+      "trait_ids": ["spore_psichiche_silenziate"],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    },
+    {
+      "id": "hostile-04",
+      "species_id": "crystal_ward",
+      "side": "hostile",
+      "tier": 2,
+      "hp": {
+        "current": 80,
+        "max": 80
+      },
+      "ap": {
+        "current": 2,
+        "max": 2
+      },
+      "armor": 4,
+      "initiative": 12,
+      "stress": 0.0,
+      "statuses": [],
+      "resistances": [],
+      "trait_ids": [],
+      "pt": 0,
+      "reactions": {
+        "current": 1,
+        "max": 1
+      }
+    }
+  ],
+  "vc": {
+    "aggro": "low",
+    "cohesion": "mid",
+    "setup": "mid",
+    "explore": "low",
+    "risk": "mid"
+  },
+  "log": []
+}
