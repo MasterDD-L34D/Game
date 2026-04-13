@@ -25,8 +25,7 @@ logs/audit-bundle.tar.gz
 logs/*.log
 
 # Python bytecode caches
-jsonschema/__pycache__/
-tools/automation/__pycache__/
+__pycache__/
 
 # Generated UI artifacts
 logs/tooling/*.png
