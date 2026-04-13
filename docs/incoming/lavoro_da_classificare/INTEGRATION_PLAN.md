@@ -1,3 +1,13 @@
+---
+title: Piano di integrazione — `incoming/lavoro_da_classificare`
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Piano di integrazione — `incoming/lavoro_da_classificare`
 
 Questo documento raccoglie le azioni operative per completare la revisione e

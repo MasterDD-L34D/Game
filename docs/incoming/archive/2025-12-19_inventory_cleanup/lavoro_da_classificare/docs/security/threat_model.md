@@ -1,3 +1,13 @@
+---
+title: Threat Model – Evo‑Tactics
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Threat Model – Evo‑Tactics
 
 Questo documento riassume le potenziali minacce e le superfici d’attacco del progetto **Evo‑Tactics**, fornendo linee guida per la mitigazione dei rischi.

@@ -1,3 +1,13 @@
+---
+title: Bug Intake Checklist
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Bug Intake Checklist
 
 Utilizzare questa checklist prima di spostare una segnalazione dalla vista `Backlog - Triage` a `QA - Triaged` o prima di inviare un ticket al canale `#vc-ops`.

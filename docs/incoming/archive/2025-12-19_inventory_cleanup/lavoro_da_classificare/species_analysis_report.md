@@ -1,3 +1,13 @@
+---
+title: Analisi delle specie Evo‑Tactics
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Analisi delle specie Evo‑Tactics
 
 Questo report analizza le specie presenti nel repository Evo‑Tactics, basandosi sui file YAML del pack *Evo‑Tactics* e sul **manifest** dei biomi contenuto in `catalog_data.json`【892160884126736†L14-L16】.  Sono state esaminate specie complete e «evento» dei biomi **Badlands**, **Foresta Temperata**, **Deserto Caldo** e **Cryosteppe**.  Ogni voce riporta gli elementi chiave richiesti dal formato del repository: nome, bioma, ruolo trofico, morphotype, flag (apex, keystone, bridge, threat, event), se è giocabile e i tratti suggeriti/opzionali.

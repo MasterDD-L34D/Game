@@ -1,3 +1,13 @@
+---
+title: Evo Species Summary
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Evo Species Summary
 
 *Dataset directory*: `/workspace/Game/data/external/evo/species`

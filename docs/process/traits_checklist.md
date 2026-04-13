@@ -1,3 +1,13 @@
+---
+title: Checklist iterativa tratti
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Checklist iterativa tratti
 
 Queste checklist guidano ogni iterazione di aggiunta o revisione tratti,

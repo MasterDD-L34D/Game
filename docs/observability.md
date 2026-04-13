@@ -1,3 +1,13 @@
+---
+title: Osservabilità client webapp
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Osservabilità client webapp
 
 Questo documento descrive come attivare, testare e monitorare i tre pilastri di osservabilità introdotti nella webapp:

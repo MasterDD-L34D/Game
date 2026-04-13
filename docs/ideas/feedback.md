@@ -1,3 +1,13 @@
+---
+title: Idea Engine · Feedback Template
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Idea Engine · Feedback Template
 
 Grazie per voler contribuire al miglioramento del flusso di intake! Usa questa traccia quando vuoi lasciare note strutturate oltre al modulo rapido nel widget.

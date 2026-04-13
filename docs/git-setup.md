@@ -1,3 +1,13 @@
+---
+title: Setup Git Remoto per Evo-Tactics
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Setup Git Remoto per Evo-Tactics
 
 Questa guida riassume i passaggi necessari per inizializzare il repository e pubblicarlo su GitHub.

@@ -1,3 +1,13 @@
+---
+title: Log sandbox – Fase 2 Modellazione (mapping & validator)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Log sandbox – Fase 2 Modellazione (mapping & validator)
 
 Log sandbox per la Fase 2: preparare mapping dati e verifiche schema in modalità report-only, mantenendo coerenza con i concept di Fase 1 e con il perimetro di Fase 0.

@@ -1,3 +1,13 @@
+---
+title: Simulazione Pipeline TRAIT – Famiglia LOCOMOTIVO
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Simulazione Pipeline TRAIT – Famiglia LOCOMOTIVO
 
 Questa simulazione esegue virtualmente la pipeline «PIPELINE_TRAIT_REFACTOR» per la famiglia LOCOMOTIVO, senza modificare i file sorgenti. Ogni step indica agente, deliverable e dipendenze.

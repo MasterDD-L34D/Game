@@ -1,3 +1,13 @@
+---
+title: Task board — `incoming/lavoro_da_classificare`
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Task board — `incoming/lavoro_da_classificare`
 
 Questo file traduce l'`INTEGRATION_PLAN.md` in attività granulari e

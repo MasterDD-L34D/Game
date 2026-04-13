@@ -1,3 +1,13 @@
+---
+title: Frattura Abissale Sinaptica – Comandi di verifica consigliati
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Frattura Abissale Sinaptica – Comandi di verifica consigliati
 
 ## CLI raccomandate (non eseguite)

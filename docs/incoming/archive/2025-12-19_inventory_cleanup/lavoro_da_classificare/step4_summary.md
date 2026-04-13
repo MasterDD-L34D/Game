@@ -1,3 +1,13 @@
+---
+title: Step 4 – Progettazione e miglioramento della pipeline CI/CD
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Step 4 – Progettazione e miglioramento della pipeline CI/CD
 
 ## Analisi dello stato attuale della pipeline

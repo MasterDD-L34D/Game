@@ -1,3 +1,13 @@
+---
+title: Trait Reference & Glossario Allineato
+doc_status: draft
+doc_owner: data-pack-team
+workstream: dataset-pack
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Trait Reference & Glossario Allineato
 
 Questo riferimento sintetizza un sottoinsieme rappresentativo dei trait con i

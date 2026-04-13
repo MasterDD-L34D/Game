@@ -1,3 +1,13 @@
+---
+title: Loop di Gioco (alto livello)
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Loop di Gioco (alto livello)
 
 Metagioco (epoche/stagioni) → draft/creazione specie → **Match TBT** (obiettivi)

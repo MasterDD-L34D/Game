@@ -1,3 +1,13 @@
+---
+title: Mating / Nido
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Mating / Nido
 
 - **Attrazione/Convincimento**: tabelle “Piace/Non piace” specie/job; azioni sociali cambiano atteggiamento.

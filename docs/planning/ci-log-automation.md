@@ -1,3 +1,13 @@
+---
+title: Raccolta automatica log CI
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Raccolta automatica log CI
 
 Questo documento centralizza i comandi per scaricare i log/artefatti dei workflow GitHub Actions e fornisce un entrypoint unico da console (`scripts/ci_log_harvest.sh` o `make ci-log-harvest`). Usalo insieme a `docs/planning/ci-inventory.md` per aggiornare semaforo e azioni aperte.

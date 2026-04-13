@@ -1,3 +1,13 @@
+---
+title: Guida Operativa & Manuale — Evo Tactics Pack v2
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Guida Operativa & Manuale — Evo Tactics Pack v2
 **Data:** 2025-11-05  
 **Autore:** Master DD / GPT‑5 Pro (per Progetto Gioco Evo Tactics)

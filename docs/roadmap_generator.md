@@ -1,3 +1,13 @@
+---
+title: Roadmap trimestrale – Generatore Pathfinder ETL (Q1)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Roadmap trimestrale – Generatore Pathfinder ETL (Q1)
 
 ## Milestone 1 – Rafforzare l'asse strutturale (Settimane 1-4)

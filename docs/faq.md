@@ -1,3 +1,13 @@
+---
+title: Domande frequenti — Support & QA
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Domande frequenti — Support & QA
 
 Aggiornato al ciclo VC-2025-11. Nuove domande vengono raccolte dopo ogni retro settimanale (martedì).

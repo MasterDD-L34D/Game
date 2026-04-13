@@ -1,3 +1,13 @@
+---
+title: Tutorial rapido · Adaptive engine SquadSync
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Tutorial rapido · Adaptive engine SquadSync
 
 Questa guida collega l'ETL canary di SquadSync con il motore adaptive, i test automatici e il canale `#feedback-enhancements`.

@@ -1,3 +1,13 @@
+---
+title: Inventario dataset e sorgenti
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Inventario dataset e sorgenti
 
 I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata nel playbook di triage (`AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`, `AG-Orchestrator`).【F:docs/process/incoming_triage_pipeline.md†L9-L82】 Dimensioni e timestamp sono calcolati dallo stato della working tree al momento dell'audit.

@@ -1,3 +1,13 @@
+---
+title: PATCHSET-02A → 03A/03B – Runbook operativo
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # PATCHSET-02A → 03A/03B – Runbook operativo
 
 Versione: 0.1

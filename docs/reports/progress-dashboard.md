@@ -1,3 +1,13 @@
+---
+title: Riepilogo avanzamento tracker — novembre 2025
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Riepilogo avanzamento tracker — novembre 2025
 
 Questo riepilogo consolida lo stato dei principali tracker e log operativi

@@ -1,3 +1,13 @@
+---
+title: Flusso di verifica QA per la webapp
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Flusso di verifica QA per la webapp
 
 Questo documento riassume la procedura di QA manuale per la webapp Nebula e come raccogliere i log quando l'applicazione è pubblicata su hosting statico.

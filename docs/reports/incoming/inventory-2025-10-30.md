@@ -1,3 +1,13 @@
+---
+title: Inventario cartella incoming — 2025-10-30
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Inventario cartella incoming — 2025-10-30
 
 | Percorso | Tipo | Dettagli | Stato |

@@ -1,3 +1,13 @@
+---
+title: PIPELINE_TRAIT_STANDARD.md
+doc_status: draft
+doc_owner: flow-team
+workstream: flow
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # PIPELINE_TRAIT_STANDARD.md
 
 Pipeline Ufficiale di Curatela Trait – Evo Tactics

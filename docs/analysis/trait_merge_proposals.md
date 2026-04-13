@@ -1,3 +1,13 @@
+---
+title: Proposte merge trait Evo
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Proposte merge trait Evo
 
 ## Sintesi esecuzione

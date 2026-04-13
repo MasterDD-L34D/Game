@@ -1,3 +1,13 @@
+---
+title: Catalogo giochi e moduli di Evo‑Tactics
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Catalogo giochi e moduli di Evo‑Tactics
 
 Questo documento riassume le principali componenti ludiche del progetto **Evo‑Tactics**.  Il gioco non è composto da titoli separati ma da diversi *moduli* e sistemi che interagiscono fra loro per creare un’esperienza tattica profonda.  Ogni sezione descrive il funzionamento, le motivazioni di design e i riferimenti ai documenti interni.

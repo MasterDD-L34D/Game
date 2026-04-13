@@ -1,3 +1,13 @@
+---
+title: Sincronizzazione YAML ↔ Google Sheets
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Sincronizzazione YAML ↔ Google Sheets
 
 Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google Apps Script per convertire i file YAML della repo in Google Sheet e mantenerli sincronizzati automaticamente.

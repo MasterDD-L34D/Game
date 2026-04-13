@@ -1,3 +1,13 @@
+---
+title: Style Guide Status Review
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Style Guide Status Review
 
 Questo documento traccia lo stato attuale dell'adozione della style guide su tratti e specie e

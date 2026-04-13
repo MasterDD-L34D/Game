@@ -1,3 +1,13 @@
+---
+title: Pipeline SPECIES+BIOMES STANDARD (10 step)
+doc_status: draft
+doc_owner: flow-team
+workstream: flow
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Pipeline SPECIES+BIOMES STANDARD (10 step)
 
 Pipeline di riferimento per nuove coppie bioma/specie, basata sugli agenti definiti in `agents/agents_index.json` e sugli schemi dati del repo Game.

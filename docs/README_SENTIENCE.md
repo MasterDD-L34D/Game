@@ -1,3 +1,13 @@
+---
+title: Scala di senzienza T0–T5
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Scala di senzienza T0–T5
 
 Questa nota operativa definisce il significato del campo `sentience_index` usato nelle schede Specie/Tratti e fornisce linee guida per assegnarlo in modo coerente.

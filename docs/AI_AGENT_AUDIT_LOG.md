@@ -1,3 +1,13 @@
+---
+title: AI_AGENT_AUDIT_LOG.md – Diario lavori sistema agenti
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # AI_AGENT_AUDIT_LOG.md – Diario lavori sistema agenti
 
 Questo file traccia le modifiche e le verifiche fatte sul sistema di agenti,

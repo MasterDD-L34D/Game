@@ -1,3 +1,13 @@
+---
+title: Log sandbox – Fase 4 Validazione (aggregazione esiti e gate)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Log sandbox – Fase 4 Validazione (aggregazione esiti e gate)
 
 Log sandbox per la Fase 4: consolidare validator e simulator report-only, applicare criteri di gate e preparare l'handoff verso le fasi 5–7 mantenendo STRICT MODE.

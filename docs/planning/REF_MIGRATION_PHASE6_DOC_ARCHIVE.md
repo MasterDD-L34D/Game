@@ -1,3 +1,13 @@
+---
+title: Log sandbox – Fase 6 Documentazione & Archiviazione
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Log sandbox – Fase 6 Documentazione & Archiviazione
 
 Log sandbox per la Fase 6: consolidare la documentazione di alto livello e gli indici, allineati ai gate di Fase 4 e alle decisioni asset/catalogo di Fase 5.

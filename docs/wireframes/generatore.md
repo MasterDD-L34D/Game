@@ -1,3 +1,13 @@
+---
+title: Wireframe — Generatore (v1)
+doc_status: draft
+doc_owner: atlas-team
+workstream: atlas
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Wireframe — Generatore (v1)
 
 ## URL

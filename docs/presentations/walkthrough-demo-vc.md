@@ -1,3 +1,13 @@
+---
+title: Walkthrough demo VC
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Walkthrough demo VC
 
 Questa guida accompagna la presentazione pubblica della demo VC mostrando in sequenza HUD, vista SquadSync e controlli di export. È pensata per essere letta insieme alle build client `client-r2821` e successive.

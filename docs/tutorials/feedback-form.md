@@ -1,3 +1,13 @@
+---
+title: Tutorial · Form feedback unificato
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Tutorial · Form feedback unificato
 
 Questa guida illustra come accedere, compilare e monitorare il nuovo form di feedback introdotto con la pipeline descritta in `docs/process/feedback_collection_pipeline.md`.

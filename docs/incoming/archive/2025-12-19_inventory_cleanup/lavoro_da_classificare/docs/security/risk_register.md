@@ -1,3 +1,13 @@
+---
+title: Registro dei rischi – Evo‑Tactics
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Registro dei rischi – Evo‑Tactics
 
 Questo registro tiene traccia dei rischi individuati, valutati e gestiti durante lo sviluppo del progetto.  Ogni rischio è identificato con un ID univoco e aggiornato quando cambia il livello di rischio o la mitigazione.

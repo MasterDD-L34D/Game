@@ -1,3 +1,13 @@
+---
+title: ADR-2025-11: Consolidamento refactor CLI
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # ADR-2025-11: Consolidamento refactor CLI
 
 - **Data**: 2025-11-05

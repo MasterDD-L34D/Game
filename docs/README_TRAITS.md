@@ -1,3 +1,13 @@
+---
+title: Evo Tactics — Trait Schema Pack
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Evo Tactics — Trait Schema Pack
 
 Questo pacchetto fornisce gli **schemi JSON**, il catalogo principale dei trait e gli strumenti

@@ -1,3 +1,13 @@
+---
+title: Flusso delle richieste Idea Engine
+doc_status: draft
+doc_owner: flow-team
+workstream: flow
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Flusso delle richieste Idea Engine
 
 Questo documento descrive in italiano il percorso completo seguito da una richiesta HTTP proveniente dal client fino alla persistenza nel database locale dell'Idea Engine. Il focus è sull'endpoint REST **POST `/api/ideas`**, responsabile della creazione di nuove idee, perché rappresenta il cammino più completo (controlli, orchestrazione applicativa e scrittura sul datastore).

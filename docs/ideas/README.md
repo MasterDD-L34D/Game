@@ -1,3 +1,13 @@
+---
+title: Idea Intake — Sezione sito (GitHub Pages)
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Idea Intake — Sezione sito (GitHub Pages)
 
 > Support Hub / Docs / Idea Engine

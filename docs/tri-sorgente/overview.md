@@ -1,3 +1,13 @@
+---
+title: Tri-Sorgente (Roll + Personalità + Azioni)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Tri-Sorgente (Roll + Personalità + Azioni)
 
 **Scopo:** dare 3 scelte + Skip post-scontro minore, guidate da:

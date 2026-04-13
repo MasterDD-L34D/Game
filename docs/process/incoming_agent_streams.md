@@ -1,3 +1,13 @@
+---
+title: Schede operative stream agentici — Incoming
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Schede operative stream agentici — Incoming
 
 Questo documento sintetizza i flussi di lavoro per gli stream agentici che gestiscono la cartella `incoming/`, integrando le note presenti nel playbook e nei pacchetti di riferimento.

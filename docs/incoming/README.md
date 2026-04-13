@@ -1,3 +1,13 @@
+---
+title: Docs Incoming – Stato e triage (PATCHSET-01)
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Docs Incoming – Stato e triage (PATCHSET-01)
 
 Schema di tracciamento per `docs/incoming/**`. Stati: **INTEGRATO**, **DA_INTEGRARE**, **LEGACY**, **STORICO**. Dettaglio completo in `docs/planning/REF_INCOMING_CATALOG.md`. Owner 01A (catalogo): Master DD.

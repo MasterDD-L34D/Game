@@ -1,3 +1,13 @@
+---
+title: Guida stile EvoGene Deck UI
+doc_status: draft
+doc_owner: atlas-team
+workstream: atlas
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Guida stile EvoGene Deck UI
 
 Questa guida documenta i requisiti di accessibilità e contrasto cromatico per i

@@ -1,3 +1,13 @@
+---
+title: Mockup Evo Tactics Console
+doc_status: draft
+doc_owner: atlas-team
+workstream: atlas
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Mockup Evo Tactics Console
 
 ![Schermata del mockup della console Evo Tactics](./mockup_evo_tactics.png)

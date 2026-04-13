@@ -1,3 +1,13 @@
+---
+title: Calendario editoriale publishing
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Calendario editoriale publishing
 
 Il calendario editoriale coordina il rilascio dei contenuti nei diversi pacchetti, allineando QA, approvazioni e

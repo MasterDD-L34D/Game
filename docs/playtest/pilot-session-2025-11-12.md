@@ -1,3 +1,13 @@
+---
+title: Sessione pilota 12 novembre 2025
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Sessione pilota 12 novembre 2025
 
 > **Nota di allineamento (aggiornamento 2025-02-18):** questo piano sostituisce le indicazioni scenario precedenti ed è sincronizzato con la scheda `docs/playtest/SESSION-2025-11-12.md`.

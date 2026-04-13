@@ -1,3 +1,13 @@
+---
+title: Guida Evo Tactics Pack v2: sommario e piano operativo
+doc_status: draft
+doc_owner: data-pack-team
+workstream: dataset-pack
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Guida Evo Tactics Pack v2: sommario e piano operativo
 
 ## Introduzione

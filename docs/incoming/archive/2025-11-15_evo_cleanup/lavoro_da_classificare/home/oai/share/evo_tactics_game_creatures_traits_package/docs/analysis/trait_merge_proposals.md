@@ -1,3 +1,13 @@
+---
+title: Proposte di unificazione e revisione dei tratti
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Proposte di unificazione e revisione dei tratti
 
 Questo documento propone la fusione di tratti che svolgono funzioni quasi identiche ma sono attualmente duplicati nel glossario.  L'obiettivo è ridurre la ridondanza e semplificare la manutenzione, mantenendo la varietà ambientale come parametro della stessa base di tratto (ad es. tramite attributi secondari o varianti).  Per ogni serie si suggerisce un nome generico e si elencano le varianti che dovrebbero diventare parametri, oltre alle motivazioni della scelta.

@@ -1,3 +1,13 @@
+---
+title: Feedback — Giulia Parodi
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Feedback — Giulia Parodi
 
 - **Ruolo:** Narrative liaison

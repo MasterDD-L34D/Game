@@ -1,3 +1,13 @@
+---
+title: EchoWake Narrative Modules — Expanded (text extract)
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # EchoWake Narrative Modules — Expanded (text extract)
 
 This Markdown transcription was generated from the original PDF `EchoWake_Modules_Expanded_v2 2.pdf` located in `incoming/EvoTactics_FullRepo_v1.0.zip`.

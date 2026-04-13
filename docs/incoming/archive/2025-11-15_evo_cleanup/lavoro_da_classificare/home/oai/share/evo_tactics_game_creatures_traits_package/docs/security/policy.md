@@ -1,3 +1,13 @@
+---
+title: Politica di sicurezza e privacy
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Politica di sicurezza e privacy
 
 Questa politica descrive i principi e le procedure per garantire la sicurezza delle informazioni e la protezione dei dati personali all’interno del progetto **Evo‑Tactics**.  La sua applicazione è obbligatoria per tutti i membri del team e le controparti che hanno accesso al codice, ai dataset o ai sistemi di produzione.

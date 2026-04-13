@@ -1,3 +1,13 @@
+---
+title: Telemetria VC — Canvas operativo
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Telemetria VC — Canvas operativo
 
 ## Eventi & Raccolta Dati

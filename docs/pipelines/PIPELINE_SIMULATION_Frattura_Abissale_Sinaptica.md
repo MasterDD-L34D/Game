@@ -1,3 +1,13 @@
+---
+title: Simulazione completa – Pipeline SPECIE+BIOMI “Frattura Abissale Sinaptica”
+doc_status: draft
+doc_owner: flow-team
+workstream: flow
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Simulazione completa – Pipeline SPECIE+BIOMI “Frattura Abissale Sinaptica”
 
 Pipeline di riferimento: `docs/pipelines/PIPELINE_SPECIES_BIOMES_Frattura_Abissale_Sinaptica.md` (10 step standard).

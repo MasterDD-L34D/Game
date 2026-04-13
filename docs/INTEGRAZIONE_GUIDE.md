@@ -1,3 +1,13 @@
+---
+title: INTEGRAZIONE GUIDE — EVO TACTICS (PUNTO D’INCONTRO & ROADMAP)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # INTEGRAZIONE GUIDE — EVO TACTICS (PUNTO D’INCONTRO & ROADMAP)
 
 **Data:** 2025-11-10

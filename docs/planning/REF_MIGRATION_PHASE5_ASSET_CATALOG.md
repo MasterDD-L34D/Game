@@ -1,3 +1,13 @@
+---
+title: Log sandbox – Fase 5 Asset & Catalogo
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Log sandbox – Fase 5 Asset & Catalogo
 
 Log sandbox per la Fase 5: preparazione asset e cataloghi coerenti con gli output validati in Fase 4 e pronti per l'ingresso in patchset.

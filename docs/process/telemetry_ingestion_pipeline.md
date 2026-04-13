@@ -1,3 +1,13 @@
+---
+title: Pipeline Dati Telemetria → Tabella QA/Design
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Pipeline Dati Telemetria → Tabella QA/Design
 
 Questo documento descrive la configurazione operativa per alimentare la tabella centrale di controllo (base Airtable `Segnalazioni` oppure equivalente DB relazionale) con tre canali di input — telemetria automatizzata, snapshot visuali e modulo QA manuale — e per garantire monitoraggio continuo della qualità dei dati.
