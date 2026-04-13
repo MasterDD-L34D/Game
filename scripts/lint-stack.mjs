@@ -83,7 +83,7 @@ if (files.length === 0) {
 }
 
 const prettierArgs = ['prettier', '--check', ...files];
-const result = spawnSync('npx', prettierArgs, { stdio: 'inherit' });
+const result = spawnSync('npx', prettierArgs, { stdio: 'inherit', shell: true });
 
 if (result.error) {
   console.error('Failed to execute prettier:', result.error.message);
