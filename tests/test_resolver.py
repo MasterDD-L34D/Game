@@ -39,7 +39,11 @@ from rules.resolver import (  # noqa: E402
     ATTACK_CD_BASE,
     DISORIENT_ATTACK_MALUS_PER_INTENSITY,
     FRACTURE_STEP_REDUCTION_PER_INTENSITY,
+    PANIC_ATTACK_MALUS_PER_INTENSITY,
     PANIC_DEFAULT_DURATION,
+    RAGE_ATTACK_BONUS_PER_INTENSITY,
+    RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY,
+    RAGE_DEFENSE_MALUS_PER_INTENSITY,
     PARRY_CD,
     PARRY_PT_BASE,
     PARRY_PT_CRIT,
@@ -786,3 +790,63 @@ def test_statuses_applied_logged_in_turn_log(catalog):
     assert len(applied) >= 1
     ids = {s["id"] for s in applied}
     assert "rage" in ids or "disorient" in ids
+
+
+# --- Phase 2 status effects: rage & panic --------------------------------
+
+
+def test_rage_increases_attack_mod_and_damage_step(catalog):
+    """Rage dà +1 attack_mod e +1 damage_step all'attaccante."""
+    state = _mini_state(catalog)
+    apply_status(state["units"][0], "rage", duration=3, intensity=1)
+    # nat 12 + attack_mod 0 + rage +1 = 13; CD 12 -> success, MoS 1
+    rng = rng_from_sequence([11 / 20, 3 / 8])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["modifier"] == RAGE_ATTACK_BONUS_PER_INTENSITY  # +1 dal rage
+    assert roll["total"] == 13
+    assert roll["success"] is True
+    # damage_step include il bonus rage
+    assert roll["damage_step"] >= RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY
+
+
+def test_rage_on_target_reduces_defense(catalog):
+    """Un target in rage ha defense_mod ridotto (furia cieca lo espone)."""
+    state = _mini_state(catalog)
+    apply_status(state["units"][1], "rage", duration=3, intensity=1)
+    # CD normalmente 12, con rage sul target: 12 - 1 = 11
+    # nat 11 + 0 = 11 >= 11 -> success
+    rng = rng_from_sequence([10 / 20, 3 / 8])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["dc"] == ATTACK_CD_BASE + 2 - RAGE_DEFENSE_MALUS_PER_INTENSITY  # 10+2-1=11
+    assert roll["success"] is True
+
+
+def test_panic_reduces_attack_mod(catalog):
+    """Panic dà -2 attack_mod all'attaccante."""
+    state = _mini_state(catalog)
+    apply_status(state["units"][0], "panic", duration=2, intensity=1)
+    # nat 13 + 0 - panic(2) = 11; CD 12 -> miss
+    rng = rng_from_sequence([12 / 20])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["modifier"] == -PANIC_ATTACK_MALUS_PER_INTENSITY  # -2
+    assert roll["total"] == 11
+    assert roll["success"] is False
+
+
+def test_panic_blocks_pt_spend(catalog):
+    """Un attaccante in panic non può usare PT spend."""
+    state = _mini_state(catalog)
+    state["units"][0]["pt"] = 5
+    apply_status(state["units"][0], "panic", duration=2, intensity=1)
+    attack = _attack()
+    attack["pt_spend"] = {"type": "perforazione"}
+    # nat 20 crit -> success, ma perforazione non dovrebbe applicarsi
+    rng = rng_from_sequence([19 / 20, 3 / 8])
+    result = resolve_action(state, attack, catalog, rng)
+    # PT non consumati (panic blocca la spesa)
+    assert result["turn_log_entry"]["roll"]["pt_spent"] == 0
+    # I PT dell'attore devono essere invariati (5, meno i guadagni del crit)
+    assert result["next_state"]["units"][0]["pt"] >= 5

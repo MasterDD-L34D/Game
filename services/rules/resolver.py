@@ -106,12 +106,21 @@ RAGE_DEFAULT_DURATION = 3
 PANIC_DEFAULT_INTENSITY = 1
 PANIC_DEFAULT_DURATION = 2
 
-#: Effetti gameplay dei 3 status fisici (Fase 8).
+#: Effetti gameplay dei 5 status (Fase 8 + Phase 2).
 #: - bleeding: ``-intensity`` HP all'inizio del turno del target
 #: - fracture: ``-intensity`` allo step_count degli attack del portatore
 #: - disorient: ``-intensity * DISORIENT_ATTACK_MALUS_PER_INTENSITY`` all'attack_mod
+#: - rage: ``+intensity * RAGE_ATTACK_BONUS`` all'attack_mod,
+#:         ``+intensity * RAGE_DAMAGE_STEP_BONUS`` al damage_step,
+#:         ``-intensity * RAGE_DEFENSE_MALUS`` al defense_mod (furia cieca)
+#: - panic: ``-intensity * PANIC_ATTACK_MALUS`` all'attack_mod,
+#:          blocca PT spend (panico impedisce azioni concentrate)
 DISORIENT_ATTACK_MALUS_PER_INTENSITY = 2
 FRACTURE_STEP_REDUCTION_PER_INTENSITY = 1
+RAGE_ATTACK_BONUS_PER_INTENSITY = 1
+RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY = 1
+RAGE_DEFENSE_MALUS_PER_INTENSITY = 1
+PANIC_ATTACK_MALUS_PER_INTENSITY = 2
 
 
 def aggregate_mod(
@@ -507,13 +516,19 @@ def resolve_action(
         # cmq risorse". Un ValueError qui interrompe la resolve_action
         # prima di qualunque mutazione allo state (deep copy gia' pagato
         # ma side-effect minimi).
+        # --- STEP 1: consumo PT (panic blocca la spesa) ---
         pt_spend = action.get("pt_spend")
         pt_spent = 0
         perforazione_active = False
+        actor_panic = get_status(actor, "panic")
         if pt_spend:
-            pt_spent = apply_pt_spend(actor, pt_spend)
-            if pt_spend.get("type") == "perforazione":
-                perforazione_active = True
+            if actor_panic is not None:
+                # Panic impedisce azioni concentrate: PT spend rifiutato
+                pass
+            else:
+                pt_spent = apply_pt_spend(actor, pt_spend)
+                if pt_spend.get("type") == "perforazione":
+                    perforazione_active = True
 
         attack_mod = aggregate_mod(actor.get("trait_ids", []), catalog, "attack_mod")
         defense_mod_target = aggregate_mod(
@@ -528,6 +543,26 @@ def resolve_action(
         if disorient is not None:
             attack_mod -= (
                 int(disorient.get("intensity", 1)) * DISORIENT_ATTACK_MALUS_PER_INTENSITY
+            )
+
+        # Status rage dell'attore: bonus offensivo, malus difensivo (furia cieca)
+        actor_rage = get_status(actor, "rage")
+        if actor_rage is not None:
+            rage_int = int(actor_rage.get("intensity", 1))
+            attack_mod += rage_int * RAGE_ATTACK_BONUS_PER_INTENSITY
+            trait_damage_step += rage_int * RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY
+
+        # Status panic dell'attore: malus offensivo
+        if actor_panic is not None:
+            attack_mod -= (
+                int(actor_panic.get("intensity", 1)) * PANIC_ATTACK_MALUS_PER_INTENSITY
+            )
+
+        # Status rage del target: riduce defense_mod (furia cieca lo espone)
+        target_rage = get_status(target, "rage")
+        if target_rage is not None:
+            defense_mod_target -= (
+                int(target_rage.get("intensity", 1)) * RAGE_DEFENSE_MALUS_PER_INTENSITY
             )
 
         cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target
@@ -707,8 +742,12 @@ __all__ = [
     "NATURAL_FUMBLE",
     "NATURAL_MAX",
     "NOOP_ACTION_TYPES",
+    "PANIC_ATTACK_MALUS_PER_INTENSITY",
     "PANIC_DEFAULT_DURATION",
     "PANIC_DEFAULT_INTENSITY",
+    "RAGE_ATTACK_BONUS_PER_INTENSITY",
+    "RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY",
+    "RAGE_DEFENSE_MALUS_PER_INTENSITY",
     "PARRY_CD",
     "PARRY_PT_BASE",
     "PARRY_PT_CRIT",
