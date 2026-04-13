@@ -280,9 +280,9 @@ traits:
     resistances: []
     active_effects: []
     on_hit_status:
-      name: disorientamento
-      dc: 15
-      duration_turns: 2
+      status_id: disorient
+      trigger_dc: 15
+      duration: 2
       intensity: 1
     on_hit_stress_delta: 0.05
     notes: "offensive (TRT-02): cannone sonico con disorientamento e stress delta"
