@@ -74,7 +74,13 @@ MOS_PER_STEP = 5
 
 #: Action types che consumano AP ma non hanno logica di risoluzione in
 #: questa iterazione del resolver.
-NOOP_ACTION_TYPES = frozenset({"defend", "parry", "ability", "move"})
+NOOP_ACTION_TYPES = frozenset({"parry", "ability", "move"})
+
+#: Durata del buff difensivo applicato dall'azione ``defend`` (in turni).
+DEFEND_BUFF_DURATION = 1
+
+#: Intensita' del buff difensivo (ogni punto = +1 defense_mod effettivo).
+DEFEND_BUFF_INTENSITY = 1
 
 #: CD fissa per il tiro reattivo di parata (Fase 7). Semplificata rispetto
 #: al pattern "d20 contrapposto" del doc per la prima iterazione.
@@ -530,6 +536,11 @@ def resolve_action(
                 int(disorient.get("intensity", 1)) * DISORIENT_ATTACK_MALUS_PER_INTENSITY
             )
 
+        # Bonus difensivo da azione defend (status "defense_up")
+        defense_up = get_status(target, "defense_up")
+        if defense_up is not None:
+            defense_mod_target += int(defense_up.get("intensity", 1))
+
         cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target
 
         natural = roll_die(rng, 20)
@@ -643,12 +654,18 @@ def resolve_action(
                     continue
                 sv_natural = roll_die(rng, 20)
                 sv_total = sv_natural  # +0 mod per ora
-                trigger_dc = int(on_hit.get("trigger_dc", 10))
+                trigger_dc = int(on_hit.get("dc", on_hit.get("trigger_dc", 10)))
                 if sv_total < trigger_dc:
+                    status_name = str(
+                        on_hit.get("name", on_hit.get("status_id", "unknown"))
+                    )
+                    status_dur = int(
+                        on_hit.get("duration_turns", on_hit.get("duration", 1))
+                    )
                     applied = apply_status(
                         target,
-                        status_id=str(on_hit.get("status_id")),
-                        duration=int(on_hit.get("duration", 1)),
+                        status_id=status_name,
+                        duration=status_dur,
                         intensity=int(on_hit.get("intensity", 1)),
                         source_unit_id=actor.get("id"),
                         source_action_id=action.get("id"),
@@ -675,6 +692,19 @@ def resolve_action(
         log_entry["roll"] = roll_result
         log_entry["damage_applied"] = int(damage_applied)
         log_entry["statuses_applied"] = statuses_applied
+    elif action_type == "defend":
+        # Defend: AP consumato sopra, applica buff defense_up per 1 turno.
+        # Il buff viene letto da aggregate_mod nella pipeline di attacco del
+        # prossimo turno via get_status("defense_up").
+        defense_status = apply_status(
+            actor,
+            "defense_up",
+            duration=DEFEND_BUFF_DURATION,
+            intensity=DEFEND_BUFF_INTENSITY,
+            source_unit_id=str(action.get("actor_id")),
+            source_action_id=str(action.get("id", "defend")),
+        )
+        log_entry["statuses_applied"] = [defense_status]
     elif action_type in NOOP_ACTION_TYPES:
         # AP gia' consumato sopra. Nessun roll, nessun update stato oltre.
         pass
@@ -701,6 +731,8 @@ def _consume_ap(unit: Dict[str, Any], ap_cost: int) -> None:
 __all__ = [
     "ATTACK_CD_BASE",
     "CRIT_PT_THRESHOLD",
+    "DEFEND_BUFF_DURATION",
+    "DEFEND_BUFF_INTENSITY",
     "DISORIENT_ATTACK_MALUS_PER_INTENSITY",
     "FRACTURE_STEP_REDUCTION_PER_INTENSITY",
     "MOS_PER_STEP",
