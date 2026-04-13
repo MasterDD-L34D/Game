@@ -28,6 +28,8 @@
     "start:api": "node apps/backend/index.js",
     "docs:lint": "python tools/check_site_links.py docs",
     "docs:smoke": "node scripts/docs-smoke.js",
+    "docs:governance:check": "python tools/check_docs_governance.py --registry docs/governance/docs_registry.json --report reports/docs/governance_drift_report.json",
+    "docs:governance:strict": "python tools/check_docs_governance.py --registry docs/governance/docs_registry.json --report reports/docs/governance_drift_report.json --strict",
     "build:idea-taxonomy": "node scripts/build-idea-taxonomy.js",
     "drive:generate-approved": "node tools/drive/generate-approved-assets.mjs",
     "drive:push-approved": "node tools/drive/push-approved-assets.mjs",
