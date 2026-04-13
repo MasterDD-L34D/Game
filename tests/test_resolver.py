@@ -742,7 +742,7 @@ def test_on_hit_stress_delta_raises_stress_and_can_trigger_rage(catalog):
     status_ids = {s["id"] for s in next_target["statuses"]}
     assert "rage" in status_ids
     # Plus disorientamento da on_hit_status (SV nat 6 + tier 2 = 8 < DC 15)
-    assert "disorientamento" in status_ids
+    assert "disorient" in status_ids
 
 
 def test_on_hit_status_applied_on_sv_fail(catalog):
@@ -751,7 +751,7 @@ def test_on_hit_status_applied_on_sv_fail(catalog):
     # nat 14 attack (success CD 12), damage 5, SV nat 5 + tier 2 = 7 < DC 15 -> fail
     rng = rng_from_sequence([13 / 20, 4 / 8, 4 / 20])
     result = resolve_action(state, _attack(), catalog, rng)
-    status = get_status(result["next_state"]["units"][1], "disorientamento")
+    status = get_status(result["next_state"]["units"][1], "disorient")
     assert status is not None
     assert status["intensity"] == 1
     assert status["remaining_turns"] == 2
@@ -763,7 +763,7 @@ def test_on_hit_status_not_applied_on_sv_success(catalog):
     # nat 14 attack, damage 5, SV nat 18 + tier 2 = 20 >= DC 15 -> success
     rng = rng_from_sequence([13 / 20, 4 / 8, 17 / 20])
     result = resolve_action(state, _attack(), catalog, rng)
-    assert get_status(result["next_state"]["units"][1], "disorientamento") is None
+    assert get_status(result["next_state"]["units"][1], "disorient") is None
 
 
 def test_on_hit_status_not_applied_on_attack_miss(catalog):
@@ -774,7 +774,7 @@ def test_on_hit_status_not_applied_on_attack_miss(catalog):
     result = resolve_action(state, _attack(), catalog, rng)
     next_target = result["next_state"]["units"][1]
     assert result["turn_log_entry"]["roll"]["success"] is False
-    assert get_status(next_target, "disorientamento") is None
+    assert get_status(next_target, "disorient") is None
     # Stress NON deve essere stato aumentato (on_hit_stress_delta non scatta su miss)
     assert next_target["stress"] == 0.0
 
@@ -789,7 +789,7 @@ def test_statuses_applied_logged_in_turn_log(catalog):
     assert len(applied) >= 1
     ids = {s["id"] for s in applied}
     assert "rage" in ids
-    assert "disorientamento" in ids
+    assert "disorient" in ids
 
 
 # --- Phase 2 status effects: rage & panic --------------------------------
