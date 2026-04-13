@@ -67,11 +67,18 @@ test('traitMechanics schema rifiuta entry con campo obbligatorio mancante', () =
     schema_version: '0.1.0',
     traits: {
       broken_entry: {
+        trait_code: 'TR-9999',
+        label: 'Broken',
+        class: 'offensive',
+        tier: 'T1',
         attack_mod: 0,
         defense_mod: 0,
         damage_step: 0,
-        cost_ap: 1,
-        resistances: [],
+        damage_channel: null,
+        resistances: {},
+        on_hit_status: null,
+        on_hit_stress_delta: 0.0,
+        // note_balance mancante
       },
     },
   };
@@ -87,12 +94,18 @@ test('traitMechanics schema rifiuta damage_step negativo', () => {
     schema_version: '0.1.0',
     traits: {
       broken_entry: {
+        trait_code: 'TR-9999',
+        label: 'Broken',
+        class: 'offensive',
+        tier: 'T1',
         attack_mod: 0,
         defense_mod: 0,
         damage_step: -1,
-        cost_ap: 1,
-        resistances: [],
-        active_effects: [],
+        damage_channel: null,
+        resistances: {},
+        on_hit_status: null,
+        on_hit_stress_delta: 0.0,
+        note_balance: 'test',
       },
     },
   };
@@ -108,12 +121,18 @@ test('traitMechanics schema rifiuta chiave trait con pattern invalido', () => {
     schema_version: '0.1.0',
     traits: {
       'Bad-Key': {
+        trait_code: 'TR-9999',
+        label: 'Broken',
+        class: 'offensive',
+        tier: 'T1',
         attack_mod: 0,
         defense_mod: 0,
         damage_step: 0,
-        cost_ap: 1,
-        resistances: [],
-        active_effects: [],
+        damage_channel: null,
+        resistances: {},
+        on_hit_status: null,
+        on_hit_stress_delta: 0.0,
+        note_balance: 'test',
       },
     },
   };
@@ -127,7 +146,12 @@ test('trait_mechanics.yaml rispetta le invarianti euristiche documentate nell AD
   const catalog = loadCatalog();
   const t = catalog.traits;
 
-  const breakerTraits = ['artigli_sette_vie', 'sangue_piroforico', 'frusta_fiammeggiante'];
+  // Offensive traits (breaker): attack_mod >= 1 e damage_step >= 1
+  const breakerTraits = [
+    'rostro_emostatico_litico',
+    'scheletro_idraulico_a_pistoni',
+    'estroflessione_gastrica_acida',
+  ];
   for (const id of breakerTraits) {
     assert.ok(t[id], `breaker trait ${id} presente`);
     assert.ok(
@@ -140,10 +164,11 @@ test('trait_mechanics.yaml rispetta le invarianti euristiche documentate nell AD
     );
   }
 
+  // Defensive traits (tank): defense_mod >= 1
   const tankSampleTraits = [
-    'struttura_elastica_amorfa',
-    'cute_resistente_sali',
-    'carapace_fase_variabile',
+    'scudo_gluteale_cheratinizzato',
+    'membrana_plastica_continua',
+    'cisti_di_ibernazione_minerale',
   ];
   for (const id of tankSampleTraits) {
     assert.ok(t[id], `tank trait ${id} presente`);
@@ -153,50 +178,58 @@ test('trait_mechanics.yaml rispetta le invarianti euristiche documentate nell AD
     );
   }
 
-  const t3 = t.mantello_meteoritico;
-  assert.ok(t3, 'mantello_meteoritico presente');
+  const t3 = t.scudo_gluteale_cheratinizzato;
+  assert.ok(t3, 'scudo_gluteale_cheratinizzato presente');
   assert.equal(
     t3.defense_mod,
     2,
-    'mantello_meteoritico e T3 tank: defense_mod deve essere promosso a 2',
+    'scudo_gluteale_cheratinizzato e T3 tank: defense_mod deve essere promosso a 2',
   );
 });
 
-test('trait_mechanics.yaml rispetta cost_ap derivato da fattore_mantenimento_energetico', () => {
+test('trait_mechanics.yaml rispetta tier coerente con valori combat', () => {
   const catalog = loadCatalog();
   const t = catalog.traits;
-  assert.equal(t.artigli_sette_vie.cost_ap, 1, 'Basso -> 1');
-  assert.equal(t.scheletro_idro_regolante.cost_ap, 2, 'Medio -> 2');
-  assert.equal(t.criostasi_adattiva.cost_ap, 3, 'Alto -> 3');
+  // T4 offensive traits should have higher combined attack_mod + damage_step
+  assert.equal(t.rostro_emostatico_litico.tier, 'T4');
+  assert.ok(t.rostro_emostatico_litico.attack_mod + t.rostro_emostatico_litico.damage_step >= 3);
+  // T2 utility should have low combat stats
+  assert.equal(t.comunicazione_fotonica_coda_coda.tier, 'T2');
+  assert.equal(t.comunicazione_fotonica_coda_coda.attack_mod, 0);
+  assert.equal(t.comunicazione_fotonica_coda_coda.damage_step, 0);
 });
 
-test('Fase 8: spore_psichiche_silenziate ha on_hit_status e on_hit_stress_delta popolati', () => {
+test('Fase 8: rostro_emostatico_litico ha on_hit_status e on_hit_stress_delta popolati', () => {
   const catalog = loadCatalog();
-  const spore = catalog.traits.spore_psichiche_silenziate;
-  assert.ok(spore, 'spore_psichiche_silenziate presente');
-  assert.ok(spore.on_hit_status, 'on_hit_status presente');
-  assert.equal(spore.on_hit_status.status_id, 'disorient');
-  assert.ok(typeof spore.on_hit_stress_delta === 'number' && spore.on_hit_stress_delta > 0);
+  const rostro = catalog.traits.rostro_emostatico_litico;
+  assert.ok(rostro, 'rostro_emostatico_litico presente');
+  assert.ok(rostro.on_hit_status, 'on_hit_status presente');
+  assert.equal(rostro.on_hit_status.name, 'sanguinamento');
+  assert.ok(typeof rostro.on_hit_stress_delta === 'number' && rostro.on_hit_stress_delta > 0);
 });
 
-test('traitMechanics schema rifiuta on_hit_status con status_id non canonico', () => {
+test('traitMechanics schema rifiuta on_hit_status con name non snake_case', () => {
   const validator = buildValidator();
   const broken = {
     schema_version: '0.2.0',
     traits: {
       bad_trait: {
+        trait_code: 'TR-9999',
+        label: 'Bad',
+        class: 'offensive',
+        tier: 'T1',
         attack_mod: 0,
         defense_mod: 0,
         damage_step: 0,
-        cost_ap: 1,
-        resistances: [],
-        active_effects: [],
+        damage_channel: null,
+        resistances: {},
         on_hit_status: {
-          status_id: 'frozen',
-          duration: 2,
-          intensity: 1,
-          trigger_dc: 12,
+          name: 'Bad-Name',
+          dc: 12,
+          duration_turns: 2,
         },
+        on_hit_stress_delta: 0.0,
+        note_balance: 'test',
       },
     },
   };
@@ -212,13 +245,18 @@ test('traitMechanics schema rifiuta on_hit_stress_delta fuori range [-1, 1]', ()
     schema_version: '0.2.0',
     traits: {
       bad_trait: {
+        trait_code: 'TR-9999',
+        label: 'Bad',
+        class: 'offensive',
+        tier: 'T1',
         attack_mod: 0,
         defense_mod: 0,
         damage_step: 0,
-        cost_ap: 1,
-        resistances: [],
-        active_effects: [],
+        damage_channel: null,
+        resistances: {},
+        on_hit_status: null,
         on_hit_stress_delta: 1.5,
+        note_balance: 'test',
       },
     },
   };
@@ -228,74 +266,75 @@ test('traitMechanics schema rifiuta on_hit_stress_delta fuori range [-1, 1]', ()
   );
 });
 
-test('Fase 3-bis: coda_frusta_cinetica e hybrid (attack 1, defense 1, damage 0)', () => {
+test('Fase 3-bis: ipertrofia_muscolare_massiva e hybrid (attack 1, defense 1, damage 1)', () => {
   const catalog = loadCatalog();
-  const coda = catalog.traits.coda_frusta_cinetica;
-  assert.ok(coda, 'coda_frusta_cinetica presente');
-  assert.equal(coda.attack_mod, 1, 'hybrid: attack_mod == 1');
-  assert.equal(coda.defense_mod, 1, 'hybrid: defense_mod == 1');
-  assert.equal(coda.damage_step, 0, 'hybrid: damage_step == 0 (no double-dip)');
+  const ipertrofia = catalog.traits.ipertrofia_muscolare_massiva;
+  assert.ok(ipertrofia, 'ipertrofia_muscolare_massiva presente');
+  assert.equal(ipertrofia.attack_mod, 1, 'hybrid: attack_mod == 1');
+  assert.equal(ipertrofia.defense_mod, 1, 'hybrid: defense_mod == 1');
+  assert.equal(ipertrofia.damage_step, 1, 'hybrid: damage_step == 1');
+  assert.equal(ipertrofia.class, 'hybrid');
 });
 
-test('Fase 3-bis: mobility discount selettivo solo per FME Alto', () => {
+test('Fase 3-bis: mobility traits hanno defense_mod 1 e damage_step 0', () => {
   const catalog = loadCatalog();
   const t = catalog.traits;
-  assert.equal(
-    t.nucleo_ovomotore_rotante.cost_ap,
-    2,
-    'nucleo_ovomotore_rotante: FME Alto con discount mobility -> 3-1=2',
+  const mobilityTraits = Object.entries(t).filter(([, entry]) => entry.class === 'mobility');
+  assert.ok(
+    mobilityTraits.length >= 4,
+    `almeno 4 mobility trait presenti (trovati: ${mobilityTraits.length})`,
   );
-  assert.equal(
-    t.respiro_a_scoppio.cost_ap,
-    2,
-    'respiro_a_scoppio: FME Alto con discount mobility -> 3-1=2',
-  );
-  assert.equal(
-    t.zoccoli_risonanti_steppe.cost_ap,
-    1,
-    'zoccoli_risonanti_steppe: FME Basso gia al floor, no discount',
-  );
-  assert.equal(
-    t.criostasi_adattiva.cost_ap,
-    3,
-    'criostasi_adattiva: defensive non mobility, FME Alto invariato',
-  );
+  for (const [id, entry] of mobilityTraits) {
+    assert.equal(
+      entry.defense_mod,
+      1,
+      `mobility ${id}: defense_mod == 1 (attuale ${entry.defense_mod})`,
+    );
+    assert.equal(
+      entry.damage_step,
+      0,
+      `mobility ${id}: damage_step == 0 (attuale ${entry.damage_step})`,
+    );
+  }
 });
 
-test('Fase 3-bis: damage_step cap <= 1 per tutti i 30 core', () => {
+test('Fase 3-bis: damage_step cap <= 2 per tutti i 30 core', () => {
   const catalog = loadCatalog();
   const violations = Object.entries(catalog.traits)
-    .filter(([, entry]) => entry.damage_step > 1)
+    .filter(([, entry]) => entry.damage_step > 2)
     .map(([id, entry]) => `${id}: damage_step=${entry.damage_step}`);
   assert.deepEqual(
     violations,
     [],
-    `damage_step deve essere <= 1 per tutti i core (cap framework). Violazioni: ${violations.join(', ')}`,
+    `damage_step deve essere <= 2 per tutti i core (T4 offensive cap). Violazioni: ${violations.join(', ')}`,
   );
 });
 
 test('Fase 3-bis: resistances presenti e coerenti (permissivo)', () => {
   const catalog = loadCatalog();
   const withRes = Object.entries(catalog.traits).filter(
-    ([, entry]) => Array.isArray(entry.resistances) && entry.resistances.length > 0,
+    ([, entry]) =>
+      typeof entry.resistances === 'object' &&
+      entry.resistances !== null &&
+      Object.keys(entry.resistances).length > 0,
   );
   assert.ok(
     withRes.length >= 8,
-    `almeno 8 trait dovrebbero avere resistances (pass Balancer 3-bis ne ha popolate 10). Trovati: ${withRes.length}`,
+    `almeno 8 trait dovrebbero avere resistances. Trovati: ${withRes.length}`,
   );
-  const allChannels = withRes.flatMap(([, entry]) => entry.resistances.map((r) => r.channel));
+  const allChannels = withRes.flatMap(([, entry]) => Object.keys(entry.resistances));
   assert.ok(
-    allChannels.includes('gelo'),
-    "canale non-canonico 'gelo' deve essere presente (criostasi_adattiva, documentato in README)",
+    allChannels.includes('cryo'),
+    "canale 'cryo' deve essere presente (pelage_idrorepellente_avanzato, cisti_di_ibernazione_minerale)",
   );
   for (const [id, entry] of withRes) {
-    for (const res of entry.resistances) {
+    for (const [channel, modifierPct] of Object.entries(entry.resistances)) {
       assert.ok(
-        typeof res.channel === 'string' && res.channel.length > 0,
+        typeof channel === 'string' && channel.length > 0,
         `${id}: ogni resistance deve avere channel valido`,
       );
       assert.ok(
-        Number.isInteger(res.modifier_pct) && res.modifier_pct >= -100 && res.modifier_pct <= 100,
+        Number.isInteger(modifierPct) && modifierPct >= -100 && modifierPct <= 100,
         `${id}: modifier_pct deve essere intero in [-100, 100]`,
       );
     }

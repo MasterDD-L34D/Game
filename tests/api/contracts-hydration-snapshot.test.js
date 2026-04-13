@@ -44,22 +44,26 @@ test('hydration snapshot ha 7 unita (3 party + 4 hostile) coerenti con encounter
 
 test('hydration snapshot aggrega correttamente resistances per canale', () => {
   const state = loadSnapshot();
-  const party02 = state.units.find((u) => u.id === 'party-02');
-  assert.ok(party02, 'party-02 presente');
-  // mantello_meteoritico: fisico +20, fuoco +20
-  // sangue_piroforico: fuoco +20
-  // Atteso aggregato: fisico 20, fuoco 40
-  const byChannel = Object.fromEntries(party02.resistances.map((r) => [r.channel, r.modifier_pct]));
-  assert.equal(byChannel.fisico, 20);
-  assert.equal(byChannel.fuoco, 40);
+  const party03 = state.units.find((u) => u.id === 'party-03');
+  assert.ok(party03, 'party-03 presente');
+  // pelage_idrorepellente_avanzato: cryo +25, acido +15
+  // cisti_di_ibernazione_minerale: contusivo +35, cryo +30, acido +20
+  // Atteso aggregato: acido 35, contusivo 35, cryo 55
+  const byChannel = Object.fromEntries(party03.resistances.map((r) => [r.channel, r.modifier_pct]));
+  assert.equal(byChannel.acido, 35);
+  assert.equal(byChannel.contusivo, 35);
+  assert.equal(byChannel.cryo, 55);
 });
 
-test('hydration snapshot contiene canale non-canonico gelo su party-03', () => {
+test('hydration snapshot contiene canale cryo su party-03', () => {
   const state = loadSnapshot();
   const party03 = state.units.find((u) => u.id === 'party-03');
   assert.ok(party03, 'party-03 presente');
-  const hasGelo = party03.resistances.some((r) => r.channel === 'gelo');
-  assert.ok(hasGelo, 'criostasi_adattiva deve propagare il canale gelo');
+  const hasCryo = party03.resistances.some((r) => r.channel === 'cryo');
+  assert.ok(
+    hasCryo,
+    'pelage_idrorepellente_avanzato e cisti_di_ibernazione_minerale devono propagare il canale cryo',
+  );
 });
 
 test('hydration snapshot hostile derivati da power: power 7 -> hp 110 armor 5 init 15', () => {

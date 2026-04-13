@@ -9,6 +9,7 @@
       "type": "string",
       "pattern": "^\\d+\\.\\d+\\.\\d+$"
     },
+    "balance_framework": { "type": "string" },
     "generated_from": { "type": "string" },
     "notes": { "type": "string" },
     "traits": {
@@ -22,83 +23,90 @@
   },
   "additionalProperties": false,
   "$defs": {
-    "resistance_entry": {
-      "type": "object",
-      "required": ["channel", "modifier_pct"],
-      "properties": {
-        "channel": {
-          "type": "string",
-          "pattern": "^[a-z0-9_]+$",
-          "description": "Slug canale di danno. Canonici dal Frattura draft: elettrico, psionico, fisico, fuoco, gravita, mentale, taglio, ionico."
-        },
-        "modifier_pct": {
-          "type": "integer",
-          "minimum": -100,
-          "maximum": 100
-        }
-      },
-      "additionalProperties": false
-    },
     "on_hit_status": {
       "type": "object",
-      "required": ["status_id", "duration", "intensity", "trigger_dc"],
+      "required": ["name", "dc", "duration_turns"],
       "properties": {
-        "status_id": {
+        "name": {
           "type": "string",
-          "enum": ["bleeding", "fracture", "disorient", "rage", "panic"],
-          "description": "Uno dei 5 status canonici del combat schema."
+          "pattern": "^[a-z0-9_]+$",
+          "description": "Nome dello status inflitto on-hit."
         },
-        "duration": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "Turni rimanenti all'applicazione. Decay a ogni begin_turn del target."
-        },
-        "intensity": { "type": "integer", "minimum": 1 },
-        "trigger_dc": {
+        "dc": {
           "type": "integer",
           "minimum": 0,
-          "description": "CD del saving throw del target (d20 + 0 vs trigger_dc). Fail -> status applicato. Pattern dal Frattura draft (Leviatano Shear: SV CD 17 -> prone/disorient)."
+          "description": "CD del saving throw del target."
+        },
+        "duration_turns": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Turni di durata dello status."
         }
       },
       "additionalProperties": false,
-      "description": "Trigger auto di uno status su attack success del trait attaccante. Il Balancer popola solo trait dove la description_it lo giustifica esplicitamente."
+      "description": "Trigger auto di uno status su attack success."
     },
     "mechanics_entry": {
       "type": "object",
       "required": [
+        "trait_code",
+        "label",
+        "class",
+        "tier",
         "attack_mod",
         "defense_mod",
         "damage_step",
-        "cost_ap",
+        "damage_channel",
         "resistances",
-        "active_effects"
+        "on_hit_status",
+        "on_hit_stress_delta",
+        "note_balance"
       ],
       "properties": {
+        "trait_code": {
+          "type": "string",
+          "pattern": "^TR-\\d+$"
+        },
+        "label": { "type": "string" },
+        "class": {
+          "type": "string",
+          "enum": ["offensive", "defensive", "hybrid", "mobility", "utility"]
+        },
+        "tier": {
+          "type": "string",
+          "enum": ["T1", "T2", "T3", "T4"]
+        },
         "attack_mod": { "type": "integer" },
         "defense_mod": { "type": "integer" },
         "damage_step": { "type": "integer", "minimum": 0 },
-        "cost_ap": { "type": "integer", "minimum": 0 },
+        "damage_channel": {
+          "oneOf": [{ "type": "string", "pattern": "^[a-z0-9_]+$" }, { "type": "null" }]
+        },
         "resistances": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/resistance_entry" },
-          "description": "Resistenze/vulnerabilita per canale di danno. Coerente con combat.schema.json#/$defs/resistance_entry."
-        },
-        "active_effects": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "pattern": "^[a-z0-9_]+$"
+          "type": "object",
+          "patternProperties": {
+            "^[a-z0-9_]+$": {
+              "type": "integer",
+              "minimum": -100,
+              "maximum": 100
+            }
           },
-          "uniqueItems": true
+          "additionalProperties": false,
+          "description": "Resistenze per canale di danno come oggetto { channel: modifier_pct }."
         },
-        "on_hit_status": { "$ref": "#/$defs/on_hit_status" },
+        "on_hit_status": {
+          "oneOf": [{ "$ref": "#/$defs/on_hit_status" }, { "type": "null" }]
+        },
         "on_hit_stress_delta": {
           "type": "number",
           "minimum": -1,
           "maximum": 1,
-          "description": "Delta di stress (float [-1, 1]) applicato al target su attack success. Coerente con Frattura draft ('stress 0.05 on hit' delle larve). Il Balancer popola solo trait psi/sensoriali dove la description lo giustifica."
+          "description": "Delta di stress (float [-1, 1]) applicato al target su attack success."
         },
-        "notes": { "type": "string" }
+        "note_balance": {
+          "type": "string",
+          "description": "Nota di bilanciamento in italiano."
+        }
       },
       "additionalProperties": false
     }
