@@ -111,12 +111,22 @@ def aggregate_resistances(
         entry = catalog.get(trait_id)
         if not isinstance(entry, Mapping):
             continue
-        for res in entry.get("resistances") or []:
-            channel = res.get("channel")
-            mod = res.get("modifier_pct")
-            if not isinstance(channel, str) or not isinstance(mod, int):
-                continue
-            totals[channel] = totals.get(channel, 0) + mod
+        raw = entry.get("resistances")
+        if not raw:
+            continue
+        # Supporta sia il formato dict {channel: pct} che il formato
+        # lista [{channel, modifier_pct}] per retrocompatibilita'.
+        if isinstance(raw, Mapping):
+            for channel, mod in raw.items():
+                if isinstance(channel, str) and isinstance(mod, (int, float)):
+                    totals[channel] = totals.get(channel, 0) + int(mod)
+        else:
+            for res in raw:
+                channel = res.get("channel")
+                mod = res.get("modifier_pct")
+                if not isinstance(channel, str) or not isinstance(mod, int):
+                    continue
+                totals[channel] = totals.get(channel, 0) + mod
 
     return [
         {

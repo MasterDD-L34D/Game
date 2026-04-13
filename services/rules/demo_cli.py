@@ -62,17 +62,17 @@ DEFAULT_PARTY: List[Dict[str, Any]] = [
     {
         "id": "party-01",
         "species_id": "anguis_magnetica",
-        "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
+        "trait_ids": ["rostro_emostatico_litico", "ipertrofia_muscolare_massiva"],
     },
     {
         "id": "party-02",
         "species_id": "aetherloom_stalker",
-        "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
+        "trait_ids": ["cannone_sonico_a_raggio", "articolazioni_multiassiali"],
     },
     {
         "id": "party-03",
         "species_id": "crysalis_ember",
-        "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
+        "trait_ids": ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
     },
 ]
 
@@ -83,10 +83,10 @@ DEFAULT_HOSTILE_SPECIES: List[str] = [
     "crystal_ward",
 ]
 DEFAULT_HOSTILE_TRAITS: List[List[str]] = [
-    [],
-    [],
-    ["spore_psichiche_silenziate"],
-    [],
+    ["artiglio_cinetico_a_urto"],
+    ["scudo_gluteale_cheratinizzato"],
+    ["cannone_sonico_a_raggio"],
+    ["bozzolo_magnetico"],
 ]
 
 #: Damage dice di default per attack di ogni unita' in modalita' demo.

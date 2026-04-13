@@ -64,17 +64,17 @@ def test_hydrate_caverna_matches_snapshot(catalog):
         {
             "id": "party-01",
             "species_id": "anguis_magnetica",
-            "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
+            "trait_ids": ["rostro_emostatico_litico", "ipertrofia_muscolare_massiva"],
         },
         {
             "id": "party-02",
             "species_id": "aetherloom_stalker",
-            "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
+            "trait_ids": ["cannone_sonico_a_raggio", "articolazioni_multiassiali"],
         },
         {
             "id": "party-03",
             "species_id": "crysalis_ember",
-            "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
+            "trait_ids": ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
         },
     ]
     state = hydrate_encounter(
@@ -90,7 +90,7 @@ def test_hydrate_caverna_matches_snapshot(catalog):
             "echo_seer",
             "crystal_ward",
         ],
-        hostile_trait_ids=[[], [], ["spore_psichiche_silenziate"], []],
+        hostile_trait_ids=[["artiglio_cinetico_a_urto"], ["scudo_gluteale_cheratinizzato"], ["cannone_sonico_a_raggio"], ["bozzolo_magnetico"]],
     )
     with open(SNAPSHOT_PATH, encoding="utf-8") as fh:
         expected = json.load(fh)
@@ -98,25 +98,25 @@ def test_hydrate_caverna_matches_snapshot(catalog):
 
 
 def test_aggregate_resistances_sums_by_channel(catalog):
-    # mantello_meteoritico: fisico +20, fuoco +20
-    # sangue_piroforico: fuoco +20
-    # Atteso: fisico 20, fuoco 40
+    # pelage_idrorepellente_avanzato: cryo 25, acido 15
+    # cisti_di_ibernazione_minerale: cryo 30, contusivo 35, acido 20
+    # Atteso: acido 35, contusivo 35, cryo 55
     result = aggregate_resistances(
-        ["mantello_meteoritico", "sangue_piroforico"],
+        ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
         catalog,
     )
     by_channel = {r["channel"]: r["modifier_pct"] for r in result}
-    assert by_channel == {"fisico": 20, "fuoco": 40}
+    assert by_channel == {"acido": 35, "contusivo": 35, "cryo": 55}
 
 
 def test_aggregate_resistances_sorts_alphabetically(catalog):
     result = aggregate_resistances(
-        ["cute_resistente_sali", "criostasi_adattiva"],
+        ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
         catalog,
     )
     channels = [r["channel"] for r in result]
     assert channels == sorted(channels)
-    assert channels == ["fuoco", "gelo", "taglio"]
+    assert channels == ["acido", "contusivo", "cryo"]
 
 
 def test_aggregate_resistances_clamps_to_range():

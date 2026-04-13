@@ -31,8 +31,13 @@
       "initiative": 12,
       "stress": 0.0,
       "statuses": [],
-      "resistances": [],
-      "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
+      "resistances": [
+        {
+          "channel": "contusivo",
+          "modifier_pct": 15
+        }
+      ],
+      "trait_ids": ["rostro_emostatico_litico", "ipertrofia_muscolare_massiva"],
       "pt": 0,
       "reactions": {
         "current": 1,
@@ -56,17 +61,8 @@
       "initiative": 12,
       "stress": 0.0,
       "statuses": [],
-      "resistances": [
-        {
-          "channel": "fisico",
-          "modifier_pct": 20
-        },
-        {
-          "channel": "fuoco",
-          "modifier_pct": 40
-        }
-      ],
-      "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
+      "resistances": [],
+      "trait_ids": ["cannone_sonico_a_raggio", "articolazioni_multiassiali"],
       "pt": 0,
       "reactions": {
         "current": 1,
@@ -92,19 +88,19 @@
       "statuses": [],
       "resistances": [
         {
-          "channel": "fuoco",
-          "modifier_pct": 15
+          "channel": "acido",
+          "modifier_pct": 35
         },
         {
-          "channel": "gelo",
-          "modifier_pct": 20
+          "channel": "contusivo",
+          "modifier_pct": 35
         },
         {
-          "channel": "taglio",
-          "modifier_pct": 10
+          "channel": "cryo",
+          "modifier_pct": 55
         }
       ],
-      "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
+      "trait_ids": ["pelage_idrorepellente_avanzato", "cisti_di_ibernazione_minerale"],
       "pt": 0,
       "reactions": {
         "current": 1,
@@ -129,7 +125,7 @@
       "stress": 0.0,
       "statuses": [],
       "resistances": [],
-      "trait_ids": [],
+      "trait_ids": ["artiglio_cinetico_a_urto"],
       "pt": 0,
       "reactions": {
         "current": 1,
@@ -153,8 +149,17 @@
       "initiative": 15,
       "stress": 0.0,
       "statuses": [],
-      "resistances": [],
-      "trait_ids": [],
+      "resistances": [
+        {
+          "channel": "contusivo",
+          "modifier_pct": 30
+        },
+        {
+          "channel": "perforante_tossico",
+          "modifier_pct": 20
+        }
+      ],
+      "trait_ids": ["scudo_gluteale_cheratinizzato"],
       "pt": 0,
       "reactions": {
         "current": 1,
@@ -178,13 +183,8 @@
       "initiative": 15,
       "stress": 0.0,
       "statuses": [],
-      "resistances": [
-        {
-          "channel": "mentale",
-          "modifier_pct": 15
-        }
-      ],
-      "trait_ids": ["spore_psichiche_silenziate"],
+      "resistances": [],
+      "trait_ids": ["cannone_sonico_a_raggio"],
       "pt": 0,
       "reactions": {
         "current": 1,
@@ -208,8 +208,17 @@
       "initiative": 12,
       "stress": 0.0,
       "statuses": [],
-      "resistances": [],
-      "trait_ids": [],
+      "resistances": [
+        {
+          "channel": "elettrico",
+          "modifier_pct": 40
+        },
+        {
+          "channel": "sonico",
+          "modifier_pct": 15
+        }
+      ],
+      "trait_ids": ["bozzolo_magnetico"],
       "pt": 0,
       "reactions": {
         "current": 1,
