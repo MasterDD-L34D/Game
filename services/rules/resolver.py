@@ -668,7 +668,7 @@ def resolve_action(
                 )
                 statuses_applied.extend(breakpoint_applied)
 
-            # on_hit_status: SV del target d20+0 vs trigger_dc; fail -> apply
+            # on_hit_status: SV del target d20+tier vs DC; fail -> apply
             for trait_id in actor.get("trait_ids", []):
                 entry = catalog.get(trait_id)
                 if not isinstance(entry, Mapping):
@@ -677,13 +677,20 @@ def resolve_action(
                 if not isinstance(on_hit, Mapping):
                     continue
                 sv_natural = roll_die(rng, 20)
-                sv_total = sv_natural  # +0 mod per ora
-                trigger_dc = int(on_hit.get("trigger_dc", 10))
+                sv_mod = int(target.get("tier", 1))  # SV modifier = tier
+                sv_total = sv_natural + sv_mod
+                trigger_dc = int(on_hit.get("dc", on_hit.get("trigger_dc", 10)))
                 if sv_total < trigger_dc:
+                    status_name = str(
+                        on_hit.get("name", on_hit.get("status_id", "unknown"))
+                    )
+                    status_dur = int(
+                        on_hit.get("duration_turns", on_hit.get("duration", 1))
+                    )
                     applied = apply_status(
                         target,
-                        status_id=str(on_hit.get("status_id")),
-                        duration=int(on_hit.get("duration", 1)),
+                        status_id=status_name,
+                        duration=status_dur,
                         intensity=int(on_hit.get("intensity", 1)),
                         source_unit_id=actor.get("id"),
                         source_action_id=action.get("id"),
