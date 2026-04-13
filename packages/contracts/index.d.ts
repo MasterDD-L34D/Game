@@ -246,3 +246,5 @@ export declare const generationSnapshotSchema: Record<string, unknown>;
 export declare const speciesSchema: Record<string, unknown>;
 export declare const telemetrySchema: Record<string, unknown>;
 export declare const speciesBiomesSchema: Record<string, unknown>;
+export declare const combatSchema: Record<string, unknown>;
+export declare const traitMechanicsSchema: Record<string, unknown>;

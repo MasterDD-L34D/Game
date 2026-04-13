@@ -92,12 +92,20 @@ def sample(options: Sequence[T], k: int, rng: RandomFloatGenerator) -> List[T]:
     return extracted
 
 
+def namespaced_rng(seed: str, namespace: str) -> RandomFloatGenerator:
+    """Crea un generatore deterministico con seed derivato da seed+namespace."""
+
+    combined = f"{seed}:{namespace}"
+    return mulberry32(hash_seed(combined))
+
+
 __all__ = [
     "RandomFloatGenerator",
     "choice",
     "create_rng",
     "hash_seed",
     "mulberry32",
+    "namespaced_rng",
     "resolve_seed",
     "roll_die",
     "sample",

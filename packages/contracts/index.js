@@ -4,10 +4,14 @@ const generationSnapshotSchema = require('./schemas/generationSnapshot.schema.js
 const speciesSchema = require('./schemas/species.schema.json');
 const telemetrySchema = require('./schemas/telemetry.schema.json');
 const speciesBiomesSchema = require('./schemas/speciesBiomes.schema.json');
+const combatSchema = require('./schemas/combat.schema.json');
+const traitMechanicsSchema = require('./schemas/traitMechanics.schema.json');
 
 module.exports = {
   generationSnapshotSchema,
   speciesSchema,
   telemetrySchema,
   speciesBiomesSchema,
+  combatSchema,
+  traitMechanicsSchema,
 };
