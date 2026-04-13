@@ -502,12 +502,12 @@ def test_pt_spend_raises_on_insufficient_pt(catalog):
 def test_parry_success_reduces_step_and_grants_defensive_pt(catalog):
     state = _mini_state(catalog)
     # Nat 20 attacker (crit), 1d8 = 8
-    # Poi parry roll: nat 15 (12+3 = 15, >= 12 success)
+    # Attack nat 20 -> total 20. Parry contestata: nat 20 -> auto-success
     # mos = 20 - 12 = 8, step = 1, ridotto a 0 per parry success
     # step_bonus = 0 -> danno base 8+3 = 11, armor 4 -> 7
     rng = rng_from_sequence([
         19 / 20,  # nat 20 attack
-        14 / 20,  # nat 15 parry (success)
+        19 / 20,  # nat 20 parry (auto-success)
         7 / 8,    # damage 8
     ])
     action = _attack()
@@ -518,9 +518,9 @@ def test_parry_success_reduces_step_and_grants_defensive_pt(catalog):
     assert roll["parry"]["executed"] is True
     assert roll["parry"]["success"] is True
     assert roll["damage_step"] == 0  # originale 1, ridotto a 0 dalla parry
-    # Target (tgt) ha guadagnato PT difensivi (+1 base)
+    # Target (tgt) ha guadagnato PT difensivi (+2 crit sulla parry)
     next_target = result["next_state"]["units"][1]
-    assert next_target["pt"] == PARRY_PT_BASE
+    assert next_target["pt"] == PARRY_PT_CRIT
     # E ha consumato una reazione
     assert next_target["reactions"]["current"] == 0
 
@@ -850,3 +850,87 @@ def test_panic_blocks_pt_spend(catalog):
     assert result["turn_log_entry"]["roll"]["pt_spent"] == 0
     # I PT dell'attore devono essere invariati (5, meno i guadagni del crit)
     assert result["next_state"]["units"][0]["pt"] >= 5
+
+
+# --- Contested parry tests ------------------------------------------------
+
+
+def test_contested_parry_uses_attack_total_as_dc(catalog):
+    """La parry contestata tira d20+bonus vs attack_total (non CD fissa)."""
+    from rules.resolver import resolve_parry
+
+    target = {"id": "tgt", "tier": 2}
+    # attack_total = 15, parry nat 14 + bonus 0 = 14 < 15 -> fail
+    rng = rng_from_sequence([13 / 20])
+    result = resolve_parry(target, rng, parry_bonus=0, attack_total=15)
+    assert result["success"] is False
+    assert result["total"] == 14
+
+    # parry nat 15 + bonus 0 = 15 >= 15 -> success
+    rng2 = rng_from_sequence([14 / 20])
+    result2 = resolve_parry(target, rng2, parry_bonus=0, attack_total=15)
+    assert result2["success"] is True
+    assert result2["step_reduced"] == 1
+
+
+def test_contested_parry_nat20_always_succeeds(catalog):
+    """Nat 20 sulla parry è sempre successo anche se totale < attack_total."""
+    from rules.resolver import resolve_parry
+
+    target = {"id": "tgt", "tier": 2}
+    rng = rng_from_sequence([19 / 20])  # nat 20
+    result = resolve_parry(target, rng, parry_bonus=0, attack_total=99)
+    assert result["success"] is True
+    assert result["pt_defensive_gained"] == PARRY_PT_CRIT
+
+
+# --- PT spend: spinta tests -----------------------------------------------
+
+
+def test_spinta_applies_sbilanciato_on_hit(catalog):
+    """Spinta costa PT e applica 'sbilanciato' al target su hit."""
+    state = _mini_state(catalog)
+    state["units"][0]["pt"] = 3
+    attack = _attack()
+    attack["pt_spend"] = {"type": "spinta", "amount": 1}
+    # nat 14 -> success vs CD 12
+    rng = rng_from_sequence([13 / 20, 3 / 8])
+    result = resolve_action(state, attack, catalog, rng)
+    assert result["turn_log_entry"]["roll"]["pt_spent"] == 1
+    # Target deve avere status sbilanciato
+    target = result["next_state"]["units"][1]
+    sbilanciato = [s for s in target.get("statuses", []) if s["id"] == "sbilanciato"]
+    assert len(sbilanciato) == 1
+    assert sbilanciato[0]["remaining_turns"] == 1
+    # Lo status deve essere nel log
+    applied_ids = {s["id"] for s in result["turn_log_entry"]["statuses_applied"]}
+    assert "sbilanciato" in applied_ids
+
+
+def test_sbilanciato_reduces_target_defense(catalog):
+    """Un target sbilanciato ha CD ridotta."""
+    state = _mini_state(catalog)
+    apply_status(state["units"][1], "sbilanciato", duration=1, intensity=1)
+    # CD normalmente 12, con sbilanciato: 12 - 1 = 11
+    # nat 11 + 0 = 11 >= 11 -> success
+    rng = rng_from_sequence([10 / 20, 3 / 8])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["dc"] == 11  # 10 + 2 - 1 = 11
+    assert roll["success"] is True
+
+
+def test_spinta_no_effect_on_miss(catalog):
+    """Spinta consuma PT ma non applica sbilanciato su miss."""
+    state = _mini_state(catalog)
+    state["units"][0]["pt"] = 3
+    attack = _attack()
+    attack["pt_spend"] = {"type": "spinta", "amount": 1}
+    # nat 1 -> fumble -> miss
+    rng = rng_from_sequence([0.0])
+    result = resolve_action(state, attack, catalog, rng)
+    assert result["turn_log_entry"]["roll"]["pt_spent"] == 1  # PT consumati comunque
+    # Ma nessun sbilanciato applicato
+    target = result["next_state"]["units"][1]
+    sbilanciato = [s for s in target.get("statuses", []) if s["id"] == "sbilanciato"]
+    assert len(sbilanciato) == 0

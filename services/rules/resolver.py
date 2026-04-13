@@ -89,7 +89,7 @@ PARRY_PT_CRIT = 2
 #: Tipologie di spesa PT supportate dal resolver. Le altre 3 citate in
 #: ``docs/10-SISTEMA_TATTICO.md`` ("spinte", "condizioni", "combo") sono
 #: rimandate con TODO nell'ADR.
-SUPPORTED_PT_SPEND_TYPES = frozenset({"perforazione"})
+SUPPORTED_PT_SPEND_TYPES = frozenset({"perforazione", "spinta"})
 
 #: Riduzione armor applicata dalla spesa PT "perforazione".
 PERFORAZIONE_ARMOR_REDUCTION = 2
@@ -403,18 +403,23 @@ def resolve_parry(
     target: Mapping[str, Any],
     rng: RandomFloatGenerator,
     parry_bonus: int = 0,
+    attack_total: Optional[int] = None,
 ) -> Dict[str, Any]:
-    """Esegue un tiro di parata per il target.
+    """Esegue un tiro di parata contestata per il target.
 
-    Tira d20 + ``parry_bonus`` vs ``PARRY_CD``. Restituisce un dict con la
-    forma del ``$defs.parry_result`` dello schema combat. Non muta il target.
-    Il caller decide se applicare ``step_reduced`` e se sommare
-    ``pt_defensive_gained`` al pool del target.
+    **Parry contestata**: d20 + ``parry_bonus`` vs il ``attack_total``
+    dell'attaccante. Se ``attack_total`` non e' fornito, fallback alla
+    CD fissa ``PARRY_CD`` per retrocompatibilita'.
+
+    Restituisce un dict con la forma del ``$defs.parry_result`` dello
+    schema combat. Non muta il target. Il caller decide se applicare
+    ``step_reduced`` e se sommare ``pt_defensive_gained`` al pool del target.
     """
 
+    parry_dc = attack_total if attack_total is not None else PARRY_CD
     natural = roll_die(rng, 20)
     total = natural + int(parry_bonus)
-    success = natural == NATURAL_MAX or total >= PARRY_CD
+    success = natural == NATURAL_MAX or total >= parry_dc
     pt_gained = 0
     step_reduced = 0
     if success:
@@ -520,6 +525,7 @@ def resolve_action(
         pt_spend = action.get("pt_spend")
         pt_spent = 0
         perforazione_active = False
+        spinta_active = False
         actor_panic = get_status(actor, "panic")
         if pt_spend:
             if actor_panic is not None:
@@ -529,6 +535,8 @@ def resolve_action(
                 pt_spent = apply_pt_spend(actor, pt_spend)
                 if pt_spend.get("type") == "perforazione":
                     perforazione_active = True
+                elif pt_spend.get("type") == "spinta":
+                    spinta_active = True
 
         attack_mod = aggregate_mod(actor.get("trait_ids", []), catalog, "attack_mod")
         defense_mod_target = aggregate_mod(
@@ -565,6 +573,11 @@ def resolve_action(
                 int(target_rage.get("intensity", 1)) * RAGE_DEFENSE_MALUS_PER_INTENSITY
             )
 
+        # Status sbilanciato del target (da spinta): riduce defense_mod
+        target_sbilanciato = get_status(target, "sbilanciato")
+        if target_sbilanciato is not None:
+            defense_mod_target -= int(target_sbilanciato.get("intensity", 1))
+
         cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target
 
         natural = roll_die(rng, 20)
@@ -592,6 +605,7 @@ def resolve_action(
                     target=target,
                     rng=rng,
                     parry_bonus=int(parry_response.get("parry_bonus", 0)),
+                    attack_total=int(total),
                 )
                 if parry_info["success"]:
                     target["pt"] = int(target.get("pt", 0)) + int(parry_info["pt_defensive_gained"])
@@ -643,8 +657,21 @@ def resolve_action(
             target_hp["current"] = int(target_hp.get("current", 0)) - damage_applied
             target["hp"] = target_hp
 
+        # --- STEP 2b: spinta applica "sbilanciato" al target su hit ----
+        if spinta_active and success:
+            spinta_status = apply_status(
+                target,
+                "sbilanciato",
+                duration=1,
+                intensity=1,
+                source_unit_id=actor.get("id"),
+                source_action_id=action.get("id"),
+            )
+
         # --- STEP 3: status auto-trigger dai trait attaccante ---------
         statuses_applied: List[Dict[str, Any]] = []
+        if spinta_active and success:
+            statuses_applied.append(spinta_status)
         if success:
             # on_hit_stress_delta: somma i delta di tutti i trait attaccante,
             # applica al target (clamp 0-1), poi check breakpoints.
