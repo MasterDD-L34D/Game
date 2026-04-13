@@ -18,7 +18,8 @@
     "dataset-pack",
     "ops-qa",
     "incoming",
-    "cross-cutting"
+    "cross-cutting",
+    "combat"
   ],
   "entrypoint": "docs/hubs/README.md",
   "entries": [
@@ -1706,6 +1707,19 @@
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-13",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": true,
+      "track": "canonical"
+    },
+    {
+      "path": "docs/hubs/combat.md",
+      "title": "Combat Hub",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
       "source_of_truth": true,
       "language": "it-en",
       "review_cycle_days": 14,

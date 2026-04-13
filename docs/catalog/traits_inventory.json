@@ -29,24 +29,27 @@
     "lingua_tattile_trama",
     "frusta_fiammeggiante",
     "enzimi_chelanti",
-    "zoccoli_risonanti_steppe"
+    "zoccoli_risonanti_steppe",
+    "ipertrofia_muscolare_massiva",
+    "pelage_idrorepellente_avanzato",
+    "cannone_sonico_a_raggio"
   ],
   "generated_at": "2025-11-02T20:59:45Z",
   "resources": [
     {
-      "notes": "Baseline aggiornata (schema 1.0) con 174 trait e subset core 30/30 validato.",
+      "notes": "Baseline aggiornata (schema 1.0) con 174 trait e subset core 33/33 validato.",
       "path": "data/derived/analysis/trait_baseline.yaml",
       "state": "core",
       "type": "reference"
     },
     {
-      "notes": "Matrice trait↔bioma↔morfotipo aggiornata con copertura completa delle 30 etichette core.",
+      "notes": "Matrice trait↔bioma↔morfotipo aggiornata con copertura completa delle 33 etichette core.",
       "path": "data/derived/analysis/trait_coverage_matrix.csv",
       "state": "core",
       "type": "reference"
     },
     {
-      "notes": "Report copertura rigenerato: 30/30 trait core, 0 gap su specie e regole.",
+      "notes": "Report copertura rigenerato: 33/33 trait core, 0 gap su specie e regole.",
       "path": "data/derived/analysis/trait_coverage_report.json",
       "state": "core",
       "type": "reference"

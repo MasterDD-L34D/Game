@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Evo Tactics — Documentazione (indice)
 
 ## Accesso rapido (SSoT)
@@ -36,6 +37,12 @@ review_cycle_days: 14
 
 - [10 Sistema Tattico (TV/d20)](10-SISTEMA_TATTICO.md)
 - [11 Regole TV/d20 specifiche](11-REGOLE_D20_TV.md)
+
+## Rules Engine / Combat
+
+- [ADR-2026-04-13: Rules Engine d20](adr/ADR-2026-04-13-rules-engine-d20.md) — decisioni architetturali per il motore regole tattico.
+- [Combat Hub](hubs/combat.md) — hub canonico del workstream combat.
+- Codice sorgente: `services/rules/` (resolver, hydration, demo CLI, worker).
 
 ## Contenuti & Progressione
 

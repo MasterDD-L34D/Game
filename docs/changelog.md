@@ -8,11 +8,20 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Changelog
 
 ## [Unreleased]
 
 ### Added
+
+- Rules engine d20 (`services/rules/`) con resolver, hydration, demo CLI e worker bridge.
+- Azioni tattiche: defend, rage, panic, contested parry, PT spend spinta.
+- 29/30 valori di bilanciamento trait in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
+- Backend combat API stub.
+- Docs governance migration tool (`tools/docs_governance_migrator.py`).
+- 431 nuove entry nel registry (96.4% copertura).
+- `docs/hubs/combat.md` — canonical hub del workstream combat.
 
 - Quick start/indice rapido in `AGENTS.md` per mappare i documenti di boot
   (obbligatori vs opzionali) e ridurre la lettura distribuita.
@@ -107,6 +116,7 @@ review_cycle_days: 14
 ### Riepilogo PR giornalieri
 
 <!-- daily-pr-summary:start -->
+
 - **2026-04-12** — Nessun merge registrato.
 - **2026-04-11** — Nessun merge registrato.
 - **2026-04-10** — Nessun merge registrato.

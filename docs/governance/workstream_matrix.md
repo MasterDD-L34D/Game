@@ -24,6 +24,7 @@ Matrice operativa unica: workstream -> componenti -> stato -> owner -> dipendenz
 
 ## Snapshot corrente
 
+- `combat`: rules engine d20 attivo in `services/rules/`, dati di bilanciamento in `packs/evo_tactics_pack/data/balance/`. Owner: combat-team. Hub: `docs/hubs/combat.md`.
 - `backend`: moduli con gap documentali/test su `apps/backend` e `services/eventsScheduler`.
 - `dataset-pack`: runtime dati attivo, mirror docs segnato come legacy/generated.
 - `incoming`: resta attivo in dual-track con etichette esplicite e governance registry.
