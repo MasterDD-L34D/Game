@@ -39,6 +39,7 @@ interno (l'rng e' passato come argomento).
 from __future__ import annotations
 
 import copy
+import math
 import sys
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Mapping, Optional, Tuple
@@ -178,8 +179,7 @@ def compute_step_flat_bonus(
         return 0
     avg_base = count * (sides + 1) / 2 + modifier
     bonus = avg_base * 0.25 * step_count
-    # floor verso zero per interi positivi; verso negativo per negativi
-    return int(bonus) if bonus >= 0 else -((-int(bonus) + 1))
+    return math.floor(bonus)
 
 
 def apply_resistance(damage: int, resistances: Iterable[Mapping[str, Any]], channel: Optional[str]) -> int:
