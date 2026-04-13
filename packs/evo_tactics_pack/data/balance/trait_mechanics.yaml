@@ -1,256 +1,581 @@
-schema_version: "0.2.0"
-generated_from: >
-  Fase 3 (euristica) + Fase 3-bis (pass Balancer manuale collaborativo).
-  Vedi packs/evo_tactics_pack/data/balance/README.md per il framework,
-  ADR-2026-04-13-rules-engine-d20.md per le decisioni di design,
-  docs/catalog/traits_inventory.json per l'elenco dei 30 core,
-  docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md per i range numerici
-  di riferimento, traits/parts_scaling.yaml per la baseline attack per_level.
-notes: >
-  Layer di bilanciamento meccanico per il rules engine d20. Questo file e' la
-  fonte unica di verita' consumata dal resolver in services/rules/. I valori
-  sono prodotti dal pass Balancer manuale della Fase 3-bis applicando le 5
-  classi del framework (offensive / defensive / hybrid / mobility / utility)
-  con regole deterministiche ancorate a fatti del repo: ogni mod e' giustificato
-  dalla description_it del pack glossary o dalla famiglia_tipologia + usage_tags
-  del trait. Canali canonici dal Frattura draft: elettrico, psionico, fisico,
-  fuoco, gravita, mentale, taglio, ionico. Canale non-canonico introdotto:
-  gelo (solo criostasi_adattiva; documentato nel README come estensione da
-  stabilizzare nel prossimo combat pack). Distribuzione: offensive 4,
-  defensive 9, hybrid 1, mobility 3, utility 13. Trait con mod non-zero: 14/30.
+# trait_mechanics.yaml — Valori combattimento per 30 trait del glossario TRT-02
+# Sistema: TV/d20 (5-class balance framework)
+# Versione: 0.1.0
+# Ultimo aggiornamento: 2026-04-13
+
+schema_version: "0.1.0"
+balance_framework: tv_d20_5class
+
+# Legenda campi:
+#   attack_mod    — bonus al tiro d'attacco (d20)
+#   defense_mod   — bonus alla difesa passiva / CA
+#   damage_step   — step di danno addizionale (ogni step = +1d su scala MoS)
+#   damage_channel — tipo di danno primario
+#   resistances   — riduzione % per tipo di danno
+#   on_hit_status  — condizione inflitta on-hit (nome + DC salvezza)
+#   on_hit_stress_delta — variazione stress on-hit (+0.xx paura, -0.xx calma)
+#   note_balance   — nota breve in italiano sulla scelta di bilanciamento
+
 traits:
-  struttura_elastica_amorfa:
-    attack_mod: 0
-    defense_mod: 1
-    damage_step: 0
-    cost_ap: 1
-    resistances:
-      - { channel: fisico, modifier_pct: 10 }
-    active_effects: []
-  filamenti_digestivi_compattanti:
-    attack_mod: 0
+
+  # ═══════════════════════════════════════════
+  # CLASSE: OFFENSIVE (attack_mod 1-2, damage_step 1-2)
+  # ═══════════════════════════════════════════
+
+  rostro_emostatico_litico:
+    trait_code: TR-1101
+    label: Rostro Emostatico-Litico
+    class: offensive
+    tier: T4
+    attack_mod: 2
     defense_mod: 0
-    damage_step: 0
-    cost_ap: 1
-    resistances: []
-    active_effects: []
-  sacche_galleggianti_ascensoriali:
-    attack_mod: 0
-    defense_mod: 1
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-  grassi_termici:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 1
-    resistances:
-      - { channel: fuoco, modifier_pct: 10 }
-    active_effects: []
-  cuticole_cerose:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 1
-    resistances: []
-    active_effects: []
-    notes: "candidato defensive quando description_it sara arricchita (attualmente boilerplate generico)"
-  scheletro_idro_regolante:
-    attack_mod: 0
-    defense_mod: 1
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-  olfatto_risonanza_magnetica:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-  mimetismo_cromatico_passivo:
-    attack_mod: 0
-    defense_mod: 1
-    damage_step: 0
-    cost_ap: 1
-    resistances: []
-    active_effects: []
-  eco_interno_riflesso:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-  coda_frusta_cinetica:
-    attack_mod: 1
-    defense_mod: 1
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-    notes: "classe hybrid (tensione tra desc 'colpo devastante' e tag scout+tank)"
-  artigli_sette_vie:
-    attack_mod: 1
-    defense_mod: 0
-    damage_step: 1
-    cost_ap: 1
-    resistances: []
-    active_effects: []
-  spore_psichiche_silenziate:
-    attack_mod: 1
-    defense_mod: 0
-    damage_step: 1
-    cost_ap: 3
-    resistances:
-      - { channel: mentale, modifier_pct: 15 }
-    active_effects: []
+    damage_step: 2
+    damage_channel: perforante_tossico
+    resistances: {}
     on_hit_status:
-      status_id: disorient
-      duration: 2
-      intensity: 1
-      trigger_dc: 12
+      name: sanguinamento
+      dc: 15
+      duration_turns: 3
+    on_hit_stress_delta: 0.04
+    note_balance: >-
+      T4 offensivo puro: +2 atk e +2 step riflettono il rostro specializzato.
+      Sanguinamento DC 15 punisce bersagli senza resistenza al perforante.
+      Stress +0.04 per l'orrore della ferita aperta.
+
+  scheletro_idraulico_a_pistoni:
+    trait_code: TR-1102
+    label: Scheletro Idraulico a Pistoni
+    class: offensive
+    tier: T4
+    attack_mod: 2
+    defense_mod: 0
+    damage_step: 2
+    damage_channel: contusivo
+    resistances: {}
+    on_hit_status:
+      name: disorientamento
+      dc: 14
+      duration_turns: 1
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T4 balistico: colpi-proiettile devastanti. Disorientamento DC 14
+      per 1 turno simula lo stordimento da impatto cinetico.
+
+  estroflessione_gastrica_acida:
+    trait_code: TR-1303
+    label: Estroflessione Gastrica Acida
+    class: offensive
+    tier: T4
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 2
+    damage_channel: acido
+    resistances: {}
+    on_hit_status:
+      name: corrosione
+      dc: 15
+      duration_turns: 2
+    on_hit_stress_delta: 0.06
+    note_balance: >-
+      T4 chimico: damage_step 2 per dissoluzione acida ma attack_mod solo +1
+      perche' il raggio e' corto (contatto). Corrosione DC 15 riduce armor
+      del bersaglio. Stress +0.06 per l'effetto orrorifico.
+
+  artiglio_cinetico_a_urto:
+    trait_code: TR-1304
+    label: Artiglio Cinetico a Urto
+    class: offensive
+    tier: T4
+    attack_mod: 2
+    defense_mod: 0
+    damage_step: 2
+    damage_channel: contusivo
+    resistances: {}
+    on_hit_status:
+      name: frattura
+      dc: 16
+      duration_turns: 2
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T4 contusivo puro: +2/+2 come top-tier melee. Frattura DC 16
+      e' alta ma giustificata dall'onda d'urto; richiede sinergia TR-1302
+      per massimizzare.
+
+  zanne_idracida:
+    trait_code: TR-1501
+    label: Zanne Idracida
+    class: offensive
+    tier: T4
+    attack_mod: 2
+    defense_mod: 0
+    damage_step: 1
+    damage_channel: acido
+    resistances: {}
+    on_hit_status:
+      name: corrosione
+      dc: 14
+      duration_turns: 2
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T4 chimico: atk +2 per precisione del morso, step solo +1 per bilanciare
+      la corrosione persistente. Buona sinergia con seta_conduttiva TR-1502.
+
+  seta_conduttiva_elettrica:
+    trait_code: TR-1502
+    label: Seta Conduttiva Elettrica
+    class: offensive
+    tier: T4
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 2
+    damage_channel: elettrico
+    resistances: {}
+    on_hit_status:
+      name: paralisi
+      dc: 14
+      duration_turns: 1
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T4 elettrico: atk +1 (la rete deve colpire) ma step +2 per la scarica
+      devastante. Paralisi DC 14 per 1 turno limita il burst.
+
+  cannone_sonico_a_raggio:
+    trait_code: TR-1702
+    label: Cannone Sonico a Raggio
+    class: offensive
+    tier: T4
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 2
+    damage_channel: sonico
+    resistances: {}
+    on_hit_status:
+      name: disorientamento
+      dc: 15
+      duration_turns: 2
     on_hit_stress_delta: 0.05
-    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status e on_hit_stress_delta giustificati dalla desc_it ('sedano e confondono'); Balancer puo' estendere ad altri trait psi in futuro."
-  nucleo_ovomotore_rotante:
-    attack_mod: 0
+    note_balance: >-
+      T4 sonico a distanza: atk +1 (raggio lineare, meno preciso) ma step +2
+      e disorientamento DC 15 per 2 turni. Stress +0.05 per il dolore acustico.
+
+  elettromagnete_biologico:
+    trait_code: TR-1802
+    label: Elettromagnete Biologico
+    class: offensive
+    tier: T4
+    attack_mod: 2
     defense_mod: 0
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-    notes: "mobility con discount FME Alto (3 -> 2)"
-  focus_frazionato:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-  ventriglio_gastroliti:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-  sonno_emisferico_alternato:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 2
-    resistances:
-      - { channel: mentale, modifier_pct: 10 }
-    active_effects: []
-  sangue_piroforico:
+    damage_step: 1
+    damage_channel: elettrico
+    resistances: {}
+    on_hit_status:
+      name: interferenza_neurale
+      dc: 15
+      duration_turns: 1
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T4 elettrico: atk +2 per interferenza diretta col sistema nervoso, step +1
+      perche' il danno e' indiretto. Interferenza neurale DC 15 simula disruption.
+
+  artigli_ipo_termici:
+    trait_code: TR-1904
+    label: Artigli Ipo-Termici
+    class: offensive
+    tier: T3
     attack_mod: 1
     defense_mod: 0
     damage_step: 1
-    cost_ap: 2
-    resistances:
-      - { channel: fuoco, modifier_pct: 20 }
-    active_effects: []
-  respiro_a_scoppio:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-    notes: "mobility con discount FME Alto (3 -> 2)"
-  empatia_coordinativa:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-  cute_resistente_sali:
-    attack_mod: 0
-    defense_mod: 1
-    damage_step: 0
-    cost_ap: 2
-    resistances:
-      - { channel: fuoco, modifier_pct: 15 }
-      - { channel: taglio, modifier_pct: 10 }
-    active_effects: []
-  criostasi_adattiva:
+    damage_channel: cryo
+    resistances: {}
+    on_hit_status:
+      name: ipotermia_locale
+      dc: 13
+      duration_turns: 2
+    on_hit_stress_delta: 0.03
+    note_balance: >-
+      T3 termico: valori moderati +1/+1 coerenti col tier. Ipotermia DC 13
+      rallenta il bersaglio. Stress +0.03 per lo shock da freddo.
+
+  # ═══════════════════════════════════════════
+  # CLASSE: DEFENSIVE (defense_mod 1-2, resistances)
+  # ═══════════════════════════════════════════
+
+  pelage_idrorepellente_avanzato:
+    trait_code: TR-1201
+    label: Pelage Idrorepellente Avanzato
+    class: defensive
+    tier: T2
     attack_mod: 0
     defense_mod: 1
     damage_step: 0
-    cost_ap: 3
+    damage_channel: null
     resistances:
-      - { channel: gelo, modifier_pct: 20 }
-    active_effects: []
-    notes: "introduce canale non-canonico 'gelo' (vedi README.md sezione canali)"
-  carapace_fase_variabile:
-    attack_mod: 0
-    defense_mod: 1
-    damage_step: 0
-    cost_ap: 3
-    resistances:
-      - { channel: fisico, modifier_pct: 15 }
-    active_effects: []
-  secrezione_rallentante_palmi:
-    attack_mod: 0
-    defense_mod: 1
-    damage_step: 0
-    cost_ap: 2
-    resistances: []
-    active_effects: []
-  risonanza_di_branco:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 1
-    resistances: []
-    active_effects: []
-  occhi_infrarosso_composti:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 1
-    resistances: []
-    active_effects: []
-  mantello_meteoritico:
+      cryo: 25
+      acido: 15
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T2 difensivo termico: def +1 e resistenze cryo 25% / acido 15%
+      simulano l'isolamento idrorepellente. Profilo basso ma consistente.
+
+  scudo_gluteale_cheratinizzato:
+    trait_code: TR-1202
+    label: Scudo Gluteale Cheratinizzato
+    class: defensive
+    tier: T3
     attack_mod: 0
     defense_mod: 2
     damage_step: 0
-    cost_ap: 3
+    damage_channel: null
     resistances:
-      - { channel: fisico, modifier_pct: 20 }
-      - { channel: fuoco, modifier_pct: 20 }
-    active_effects: []
-    notes: "T3 bump applied to defense_mod (defensive class + T3)"
-  lingua_tattile_trama:
+      contusivo: 30
+      perforante_tossico: 20
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 corazza posteriore: def +2 riflette lo scudo naturale robusto.
+      Contusivo 30% e perforante 20% coprono i danni fisici piu' comuni.
+
+  membrana_plastica_continua:
+    trait_code: TR-1601
+    label: Membrana Plastica Continua
+    class: defensive
+    tier: T3
     attack_mod: 0
-    defense_mod: 0
+    defense_mod: 1
     damage_step: 0
-    cost_ap: 1
-    resistances: []
-    active_effects: []
-  frusta_fiammeggiante:
+    damage_channel: null
+    resistances:
+      contusivo: 20
+      perforante_tossico: 15
+      acido: 15
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 camuffamento/forma: def +1 modesta perche' la membrana e' flessibile,
+      non rigida. Tre resistenze basse (20/15/15%) per versatilita'.
+
+  cisti_di_ibernazione_minerale:
+    trait_code: TR-1605
+    label: Cisti di Ibernazione Minerale
+    class: defensive
+    tier: T2
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    damage_channel: null
+    resistances:
+      contusivo: 35
+      cryo: 30
+      acido: 20
+    on_hit_status: null
+    on_hit_stress_delta: -0.04
+    note_balance: >-
+      T2 resistenze alte: in stasi la creatura e' durissima. Def +2 e resistenze
+      forti (fino a 35%). Stress -0.04 perche' la stasi calma il sistema nervoso.
+
+  bozzolo_magnetico:
+    trait_code: TR-1805
+    label: Bozzolo Magnetico
+    class: defensive
+    tier: T2
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances:
+      elettrico: 40
+      sonico: 15
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T2 anti-elettrico specializzato: elettrico 40% e' il cap alto per una
+      singola resistenza, giustificato dalla specializzazione totale.
+
+  vello_di_assorbimento_totale:
+    trait_code: TR-1901
+    label: Vello di Assorbimento Totale
+    class: defensive
+    tier: T3
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances:
+      sonico: 25
+      elettrico: 15
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 camuffamento ottico: def +1 per il profilo basso. Sonico 25% perche'
+      il vello assorbe anche onde; elettrico 15% residuo.
+
+  campo_di_interferenza_acustica:
+    trait_code: TR-1703
+    label: Campo di Interferenza Acustica
+    class: defensive
+    tier: T3
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    damage_channel: null
+    resistances:
+      sonico: 35
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 anti-sonico: def +2 perche' maschera posizione attivamente.
+      Sonico 35% specializzazione forte, nessuna altra copertura.
+
+  # ═══════════════════════════════════════════
+  # CLASSE: HYBRID (offense + defense minori)
+  # ═══════════════════════════════════════════
+
+  ipertrofia_muscolare_massiva:
+    trait_code: TR-1103
+    label: Ipertrofia Muscolare Massiva
+    class: hybrid
+    tier: T3
     attack_mod: 1
-    defense_mod: 0
+    defense_mod: 1
     damage_step: 1
-    cost_ap: 2
+    damage_channel: contusivo
     resistances:
-      - { channel: fuoco, modifier_pct: 10 }
-    active_effects: []
-  enzimi_chelanti:
+      contusivo: 15
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 ibrido fisico: +1/+1/+1 riflette massa e potenza. La massa
+      conferisce anche resistenza contusivo 15%. Budget ibrido bilanciato.
+
+  canto_infrasonico_tattico:
+    trait_code: TR-1404
+    label: Canto Infrasonico Tattico
+    class: hybrid
+    tier: T4
+    attack_mod: 1
+    defense_mod: 1
+    damage_step: 1
+    damage_channel: sonico
+    resistances:
+      sonico: 15
+    on_hit_status:
+      name: panico
+      dc: 15
+      duration_turns: 2
+    on_hit_stress_delta: 0.08
+    note_balance: >-
+      T4 controllo ibrido: valori +1/+1/+1 moderati ma compensati dal panico
+      DC 15 e dallo stress +0.08 — il trait piu' stressante del set.
+      Resistenza sonico 15% per auto-protezione dai propri infrasuoni.
+
+  aura_di_dispersione_mentale:
+    trait_code: TR-2003
+    label: Aura di Dispersione Mentale
+    class: hybrid
+    tier: T3
+    attack_mod: 1
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: psionico
+    resistances:
+      psionico: 20
+    on_hit_status:
+      name: ansia
+      dc: 14
+      duration_turns: 2
+    on_hit_stress_delta: 0.06
+    note_balance: >-
+      T3 controllo mentale: atk +1 e def +1 per l'aura a doppio uso.
+      No damage step (danno indiretto via ansia). Stress +0.06 per
+      l'effetto psicologico pervasivo. Resistenza psionico 20% dall'allenamento.
+
+  corna_psico_conduttive:
+    trait_code: TR-2001
+    label: Corna Psico-Conduttive
+    class: hybrid
+    tier: T3
+    attack_mod: 1
+    defense_mod: 1
+    damage_step: 1
+    damage_channel: psionico
+    resistances:
+      psionico: 15
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 ibrido psionico: le corna servono sia per caricare (atk) che per
+      ricevere segnali (def). Step +1 per danno neurale diretto.
+      Resistenza psionico 15% dall'integrazione sinaptica.
+
+  coscienza_d_alveare_diffusa:
+    trait_code: TR-2002
+    label: Coscienza d'Alveare Diffusa
+    class: hybrid
+    tier: T4
+    attack_mod: 1
+    defense_mod: 2
+    damage_step: 0
+    damage_channel: psionico
+    resistances:
+      psionico: 30
+    on_hit_status: null
+    on_hit_stress_delta: -0.05
+    note_balance: >-
+      T4 ibrido difensivo-psionico: def +2 e psionico 30% perche' la mente
+      collettiva e' estremamente resistente al controllo. Atk +1 per
+      coordinazione di branco. Stress -0.05 perche' la rete calma l'individuo.
+
+  # ═══════════════════════════════════════════
+  # CLASSE: MOBILITY (minor defense, no damage)
+  # ═══════════════════════════════════════════
+
+  articolazioni_multiassiali:
+    trait_code: TR-1203
+    label: Articolazioni Multiassiali
+    class: mobility
+    tier: T3
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances: {}
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 mobilita': def +1 per l'evasione superiore data dalle articolazioni
+      multiassiali. Nessun danno — il vantaggio e' puramente posizionale.
+
+  locomozione_miriapode_ibrida:
+    trait_code: TR-1302
+    label: Locomozione Miriapode Ibrida
+    class: mobility
+    tier: T3
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances: {}
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 mobilita' terrestre: def +1 per aderenza superiore su ogni superficie.
+      Sinergia con artiglio_cinetico TR-1304 per combinazioni melee.
+
+  articolazioni_a_leva_idraulica:
+    trait_code: TR-1503
+    label: Articolazioni a Leva Idraulica
+    class: mobility
+    tier: T3
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances: {}
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 mobilita' salto: def +1 per capacita' di schivata aerea.
+      Nessun danno diretto — il salto amplifica il posizionamento tattico.
+
+  scivolamento_magnetico:
+    trait_code: TR-1803
+    label: Scivolamento Magnetico
+    class: mobility
+    tier: T3
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances: {}
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 mobilita' magnetica: def +1 per velocita' di scorrimento che
+      rende difficile essere colpiti. Zero danno — pura evasione.
+
+  ali_fono_risonanti:
+    trait_code: TR-1701
+    label: Ali Fono-Risonanti
+    class: mobility
+    tier: T3
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances:
+      sonico: 10
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T3 mobilita' aerea: def +1 per volo elusivo. Sonico 10% residuo
+      per auto-protezione dalla propria risonanza.
+
+  # ═══════════════════════════════════════════
+  # CLASSE: UTILITY (effetti debuff, minor stats)
+  # ═══════════════════════════════════════════
+
+  organi_sismici_cutanei:
+    trait_code: TR-1105
+    label: Organi Sismici Cutanei
+    class: utility
+    tier: T2
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances: {}
+    on_hit_status: null
+    on_hit_stress_delta: 0.0
+    note_balance: >-
+      T2 sensoriale: def +1 perche' percepire vibrazioni migliora l'evasione.
+      Nessun contributo offensivo — utility pura da ricognizione.
+
+  cervello_a_bassa_latenza:
+    trait_code: TR-1704
+    label: Cervello a Bassa Latenza
+    class: utility
+    tier: T3
+    attack_mod: 1
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances: {}
+    on_hit_status: null
+    on_hit_stress_delta: -0.03
+    note_balance: >-
+      T3 cognitivo: atk +1 e def +1 per riflessi superiori, senza danno
+      diretto. Stress -0.03 per la calma decisionale del processamento rapido.
+
+  metabolismo_di_condivisione_energetica:
+    trait_code: TR-2004
+    label: Metabolismo di Condivisione Energetica
+    class: utility
+    tier: T3
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    damage_channel: null
+    resistances: {}
+    on_hit_status: null
+    on_hit_stress_delta: -0.04
+    note_balance: >-
+      T3 supporto metabolico: def +1 per la resilienza collettiva.
+      Stress -0.04 per la sicurezza del sostegno di branco. Trait da healer.
+
+  comunicazione_fotonica_coda_coda:
+    trait_code: TR-1905
+    label: Comunicazione Fotonica Coda-Coda
+    class: utility
+    tier: T2
     attack_mod: 0
     defense_mod: 0
     damage_step: 0
-    cost_ap: 1
-    resistances: []
-    active_effects: []
-  zoccoli_risonanti_steppe:
-    attack_mod: 0
-    defense_mod: 0
-    damage_step: 0
-    cost_ap: 1
-    resistances: []
-    active_effects: []
+    damage_channel: null
+    resistances: {}
+    on_hit_status: null
+    on_hit_stress_delta: -0.02
+    note_balance: >-
+      T2 sociale puro: zero stats combattimento — il valore e' nella
+      coordinazione tattica fuori dal danno. Stress -0.02 per il comfort
+      della comunicazione sociale.

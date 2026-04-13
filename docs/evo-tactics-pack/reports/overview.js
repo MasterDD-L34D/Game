@@ -127,13 +127,13 @@ function renderDatasets(context, data) {
     external: true,
     note: "Schema 2.0",
   });
-  appendDataset("Meta ecosistema YAML", context.resolvePackHref("data/ecosistemi/meta_ecosistema_alpha.yaml"), {
+  appendDataset("Meta network YAML (legacy ecosistema)", context.resolvePackHref("data/ecosystems/network/meta_network_alpha.yaml"), {
     external: true,
-    note: "Ricevuta & regole",
+    note: "Ricevuta & regole (migrato da ecosistemi/)",
   });
-  appendDataset("Cross events YAML", context.resolvePackHref("data/ecosistemi/cross_events.yaml"), {
+  appendDataset("Cross events YAML", context.resolvePackHref("data/ecosystems/network/cross_events.yaml"), {
     external: true,
-    note: "Propagazione eventi",
+    note: "Propagazione eventi (migrato da ecosistemi/)",
   });
   (data.ecosistema?.biomi || []).forEach((biomeRef) => {
     appendDataset(`Bioma YAML · ${biomeRef.id}`, context.resolveDocHref(biomeRef.path), {

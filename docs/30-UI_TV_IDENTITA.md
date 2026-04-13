@@ -1,5 +1,7 @@
 # UI TV — Carta Temperamentale & Albero Evolutivo
 
+> **Stato**: futuro — questo sistema non e ancora implementato nel codice.
+
 - Carte con 4 assi MBTI-like + temi Ennea-like; effetti **solo gameplay**.
 - Albero Evolutivo reattivo; nodi che pulsano quando “meriti” lo sblocco.
 - Registro Evoluzione: feed eventi → tratti ottenuti.

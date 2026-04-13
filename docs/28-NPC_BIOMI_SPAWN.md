@@ -1,5 +1,7 @@
 # NPG, Biomi, Affissi & Director
 
+> **Stato**: futuro — questo sistema non e ancora implementato nel codice.
+
 - Director: genera NPG con `spawn_profile` (power_range, group_size, role_weights).
 - Biomi: mood/diff_base_mod; affix_bias (sand_wind, crystalline, dense_spores…).
 - Allineamento dati: biomi/affissi validati da `global_rules` in `data/core/species.yaml`.

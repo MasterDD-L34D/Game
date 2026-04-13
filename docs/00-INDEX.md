@@ -27,6 +27,13 @@
 - [10 Sistema Tattico (TV/d20)](10-SISTEMA_TATTICO.md)
 - [11 Regole TV/d20 specifiche](11-REGOLE_D20_TV.md)
 
+### Rules Engine / Combat
+
+- [ADR-2026-04-13 — Rules Engine d20](adr/ADR-2026-04-13-rules-engine-d20.md) — decisioni architetturali, piano fasi e pass Balancer.
+- Resolver e hydration: `services/rules/` (`resolver.py`, `hydration.py`, `worker.py`).
+- Layer bilanciamento trait: [`packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`](../packs/evo_tactics_pack/data/balance/trait_mechanics.yaml)
+- Schema combat: `packages/contracts/schemas/combat.schema.json`
+
 ## Contenuti & Progressione
 
 - [20 Specie & Parti (catalogo + budget)](20-SPECIE_E_PARTI.md)

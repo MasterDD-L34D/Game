@@ -1,7 +1,10 @@
 # ADR-XXX: Motivazioni refactor CLI e allineamento toolchain
 
 - **Data**: 2025-11-20
-- **Stato**: Accettato
+- **Stato**: Sostituito
+- **Sostituito da**:
+  - [`ADR-2025-11-refactor-cli.md`](ADR-2025-11-refactor-cli.md)
+  - [`ADR-2025-11-18-cli-rollout.md`](ADR-2025-11-18-cli-rollout.md)
 - **Owner**: Team Lead Tools
 - **Stakeholder**: Team Platform, HUD/UX, Support, QA
 
