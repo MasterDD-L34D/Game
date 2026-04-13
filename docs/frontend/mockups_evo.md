@@ -1,3 +1,13 @@
+---
+title: Evo Console — Mockup mission console
+doc_status: draft
+doc_owner: atlas-team
+workstream: atlas
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Evo Console — Mockup mission console
 
 Questa pagina documenta il mockup di riferimento per la console Evo-Tactics

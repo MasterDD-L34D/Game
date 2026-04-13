@@ -1,3 +1,13 @@
+---
+title: Media — Playtest 2025-02-26
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Media — Playtest 2025-02-26
 
 Repository dedicato a screenshot e clip catturati durante la sessione follow-up.

@@ -1,3 +1,13 @@
+---
+title: BIOME_FEATURE_CHECKS.md
+doc_status: draft
+doc_owner: backend-team
+workstream: backend
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # BIOME_FEATURE_CHECKS.md
 
 Standard di check & dry-run per nuove feature Bioma + Specie + Trait

@@ -1,3 +1,13 @@
+---
+title: Piano di risposta agli incidenti
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Piano di risposta agli incidenti
 
 Questo piano descrive le procedure da seguire in caso di incidente di sicurezza (es. fuga di dati, compromissione di account, violazioni di sistema) all’interno del progetto **Evo‑Tactics**.

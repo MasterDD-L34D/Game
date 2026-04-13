@@ -1,3 +1,13 @@
+---
+title: CI gap analysis (OPS-01)
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # CI gap analysis (OPS-01)
 
 Questa analisi sintetizza lo stato attuale dei workflow CI e identifica le aree

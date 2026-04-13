@@ -1,3 +1,13 @@
+---
+title: Catalogo dei tratti Evo‑Tactics
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Catalogo dei tratti Evo‑Tactics
 
 Questo documento offre una panoramica del **glossario dei tratti** utilizzato nel progetto Evo‑Tactics, evidenziandone le principali categorie, le ridondanze individuate e le proposte di miglioramento.  I tratti rappresentano abilità, organi, tessuti o capacità che possono essere assegnati alle Forme e alle specie durante le missioni o tramite la meccanica Tri‑Sorgente.  Sono organizzati in tier (T1, T2, T3) in base alla potenza e disponibili per certe famiglie di job e ruoli trofici.

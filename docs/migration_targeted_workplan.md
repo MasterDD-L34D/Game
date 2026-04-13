@@ -1,3 +1,13 @@
+---
+title: Piano di attività mirate per avviare la migrazione
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Piano di attività mirate per avviare la migrazione
 
 Questo piano elenca le attività operative a "lavori mirati" per avviare subito la migrazione, con priorità, owner e check di uscita.

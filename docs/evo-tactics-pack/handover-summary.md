@@ -1,3 +1,13 @@
+---
+title: Handover refactor generatore Evo Tactics Pack
+doc_status: draft
+doc_owner: data-pack-team
+workstream: dataset-pack
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Handover refactor generatore Evo Tactics Pack
 
 ## Obiettivo

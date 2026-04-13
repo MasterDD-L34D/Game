@@ -1,3 +1,13 @@
+---
+title: Migrazione variabili proxy npm
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Migrazione variabili proxy npm
 
 Il warning `Unknown env config "http-proxy"` compare quando l'ambiente espone

@@ -1,3 +1,13 @@
+---
+title: Generatore Ecosystem Pack · Benchmark e Metriche Qualità
+doc_status: draft
+doc_owner: data-pack-team
+workstream: dataset-pack
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Generatore Ecosystem Pack · Benchmark e Metriche Qualità
 
 ## Benchmark visivi e funzionali

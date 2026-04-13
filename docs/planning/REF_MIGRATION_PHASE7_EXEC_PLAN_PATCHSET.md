@@ -1,3 +1,13 @@
+---
+title: Log sandbox – Fase 7 Piano esecutivo & Patchset
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Log sandbox – Fase 7 Piano esecutivo & Patchset
 
 Log sandbox per la Fase 7: definire il piano esecutivo e il patchset derivato dai gate di Fase 4 e dagli output di asset/catalogo (Fase 5) e documentazione (Fase 6).

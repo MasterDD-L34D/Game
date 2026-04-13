@@ -1,3 +1,13 @@
+---
+title: Sentience Tier Reference (SDK)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Sentience Tier Reference (SDK)
 
 Questo documento riepiloga i codici definitivi dei tier di Sensienza da

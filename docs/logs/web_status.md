@@ -1,3 +1,13 @@
+---
+title: Programmazione riesami sito web
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Programmazione riesami sito web
 
 I riesami del sito avvengono settimanalmente (lunedì, ore 10:00 CET) con la

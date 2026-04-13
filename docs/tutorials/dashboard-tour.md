@@ -1,3 +1,13 @@
+---
+title: Tutorial rapido — Dashboard & Showcase
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Tutorial rapido — Dashboard & Showcase
 
 ![Dashboard tour](../../assets/tutorials/dashboard-tour.svg)

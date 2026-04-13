@@ -1,3 +1,13 @@
+---
+title: Calendario Operazioni
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Calendario Operazioni
 
 Questo calendario consolida le principali attività ricorrenti di manutenzione e controllo operative. Le finestre temporali sono espresse in UTC salvo indicazioni differenti.

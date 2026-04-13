@@ -1,3 +1,13 @@
+---
+title: Telemetry Export — Log interazioni filtri
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Telemetry Export — Log interazioni filtri
 
 | Timestamp (UTC) | Evento | Recipient groups | Status | Only within schedule | Note |

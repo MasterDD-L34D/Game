@@ -39,7 +39,11 @@ from rules.resolver import (  # noqa: E402
     ATTACK_CD_BASE,
     DISORIENT_ATTACK_MALUS_PER_INTENSITY,
     FRACTURE_STEP_REDUCTION_PER_INTENSITY,
+    PANIC_ATTACK_MALUS_PER_INTENSITY,
     PANIC_DEFAULT_DURATION,
+    RAGE_ATTACK_BONUS_PER_INTENSITY,
+    RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY,
+    RAGE_DEFENSE_MALUS_PER_INTENSITY,
     PARRY_CD,
     PARRY_PT_BASE,
     PARRY_PT_CRIT,
@@ -278,8 +282,8 @@ def test_attack_armor_clamps_damage_to_zero(catalog):
 
 def test_attack_with_offensive_trait_attack_mod_increases_total(catalog):
     state = _mini_state(catalog)
-    # attaccante con artigli_sette_vie (attack_mod +1, damage_step +1)
-    state["units"][0]["trait_ids"] = ["artigli_sette_vie"]
+    # attaccante con ipertrofia_muscolare_massiva (attack_mod +1, damage_step +1)
+    state["units"][0]["trait_ids"] = ["ipertrofia_muscolare_massiva"]
     # nat 10 -> total = 10 + 1 = 11; CD=12 -> fail senza trait, ma con trait?
     # 10+1 = 11 < 12 -> fail ancora. Alziamo a nat 12 -> total 13 -> success.
     # mos = 1, step from mos = 0, step from trait = 1 -> total step 1
@@ -298,12 +302,12 @@ def test_attack_with_offensive_trait_attack_mod_increases_total(catalog):
 
 def test_attack_vs_defensive_trait_raises_cd(catalog):
     state = _mini_state(catalog)
-    # target con cute_resistente_sali (defense_mod +1, resist fuoco +15 + taglio +10)
-    state["units"][1]["trait_ids"] = ["cute_resistente_sali"]
+    # target con pelage_idrorepellente_avanzato (defense_mod +1, resist cryo 25 + acido 15)
+    state["units"][1]["trait_ids"] = ["pelage_idrorepellente_avanzato"]
     # Riaggrega resistances manualmente come farebbe hydration
     state["units"][1]["resistances"] = [
-        {"channel": "fuoco", "modifier_pct": 15},
-        {"channel": "taglio", "modifier_pct": 10},
+        {"channel": "cryo", "modifier_pct": 25},
+        {"channel": "acido", "modifier_pct": 15},
     ]
     # CD = 10 + 2 + 1 = 13
     # nat 12 -> total 12 < 13 -> fail
@@ -498,12 +502,12 @@ def test_pt_spend_raises_on_insufficient_pt(catalog):
 def test_parry_success_reduces_step_and_grants_defensive_pt(catalog):
     state = _mini_state(catalog)
     # Nat 20 attacker (crit), 1d8 = 8
-    # Poi parry roll: nat 15 (12+3 = 15, >= 12 success)
+    # Attack nat 20 -> total 20. Parry contestata: nat 20 -> auto-success
     # mos = 20 - 12 = 8, step = 1, ridotto a 0 per parry success
     # step_bonus = 0 -> danno base 8+3 = 11, armor 4 -> 7
     rng = rng_from_sequence([
         19 / 20,  # nat 20 attack
-        14 / 20,  # nat 15 parry (success)
+        19 / 20,  # nat 20 parry (auto-success)
         7 / 8,    # damage 8
     ])
     action = _attack()
@@ -514,9 +518,9 @@ def test_parry_success_reduces_step_and_grants_defensive_pt(catalog):
     assert roll["parry"]["executed"] is True
     assert roll["parry"]["success"] is True
     assert roll["damage_step"] == 0  # originale 1, ridotto a 0 dalla parry
-    # Target (tgt) ha guadagnato PT difensivi (+1 base)
+    # Target (tgt) ha guadagnato PT difensivi (+2 crit sulla parry)
     next_target = result["next_state"]["units"][1]
-    assert next_target["pt"] == PARRY_PT_BASE
+    assert next_target["pt"] == PARRY_PT_CRIT
     # E ha consumato una reazione
     assert next_target["reactions"]["current"] == 0
 
@@ -727,7 +731,7 @@ def test_check_stress_breakpoints_no_retrigger_when_already_above():
 
 def test_on_hit_stress_delta_raises_stress_and_can_trigger_rage(catalog):
     state = _mini_state(catalog)
-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
+    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
     state["units"][1]["stress"] = 0.48  # appena sotto il breakpoint rage
     # Sequenza: nat attack, damage roll, SV del target per on_hit_status disorient
     rng = rng_from_sequence([19 / 20, 7 / 8, 5 / 20])  # nat 20, 1d8=8, SV nat 6 (fail vs 12)
@@ -737,35 +741,34 @@ def test_on_hit_stress_delta_raises_stress_and_can_trigger_rage(catalog):
     assert next_target["stress"] == pytest.approx(0.53)
     status_ids = {s["id"] for s in next_target["statuses"]}
     assert "rage" in status_ids
-    # Plus il disorient da on_hit_status (SV failed)
+    # Plus disorientamento da on_hit_status (SV nat 6 + tier 2 = 8 < DC 15)
     assert "disorient" in status_ids
 
 
 def test_on_hit_status_applied_on_sv_fail(catalog):
     state = _mini_state(catalog)
-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
-    # nat 14 attack (success CD 12), damage 5, SV nat 5 (fail vs 12)
+    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
+    # nat 14 attack (success CD 12), damage 5, SV nat 5 + tier 2 = 7 < DC 15 -> fail
     rng = rng_from_sequence([13 / 20, 4 / 8, 4 / 20])
     result = resolve_action(state, _attack(), catalog, rng)
-    disorient = get_status(result["next_state"]["units"][1], "disorient")
-    assert disorient is not None
-    assert disorient["intensity"] == 1
-    assert disorient["remaining_turns"] == 2
+    status = get_status(result["next_state"]["units"][1], "disorient")
+    assert status is not None
+    assert status["intensity"] == 1
+    assert status["remaining_turns"] == 2
 
 
 def test_on_hit_status_not_applied_on_sv_success(catalog):
     state = _mini_state(catalog)
-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
-    # nat 14 attack, damage 5, SV nat 18 (success vs 12)
+    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
+    # nat 14 attack, damage 5, SV nat 18 + tier 2 = 20 >= DC 15 -> success
     rng = rng_from_sequence([13 / 20, 4 / 8, 17 / 20])
     result = resolve_action(state, _attack(), catalog, rng)
-    # Il target ha comunque ricevuto il stress delta e il danno, ma non disorient
     assert get_status(result["next_state"]["units"][1], "disorient") is None
 
 
 def test_on_hit_status_not_applied_on_attack_miss(catalog):
     state = _mini_state(catalog)
-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
+    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
     # nat 1 -> fumble, attack miss, nessun on_hit trigger
     rng = rng_from_sequence([0.0])
     result = resolve_action(state, _attack(), catalog, rng)
@@ -778,11 +781,156 @@ def test_on_hit_status_not_applied_on_attack_miss(catalog):
 
 def test_statuses_applied_logged_in_turn_log(catalog):
     state = _mini_state(catalog)
-    state["units"][0]["trait_ids"] = ["spore_psichiche_silenziate"]
-    state["units"][1]["stress"] = 0.48
+    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
+    state["units"][1]["stress"] = 0.45
     rng = rng_from_sequence([19 / 20, 7 / 8, 5 / 20])
     result = resolve_action(state, _attack(), catalog, rng)
     applied = result["turn_log_entry"]["statuses_applied"]
     assert len(applied) >= 1
     ids = {s["id"] for s in applied}
-    assert "rage" in ids or "disorient" in ids
+    assert "rage" in ids
+    assert "disorient" in ids
+
+
+# --- Phase 2 status effects: rage & panic --------------------------------
+
+
+def test_rage_increases_attack_mod_and_damage_step(catalog):
+    """Rage dà +1 attack_mod e +1 damage_step all'attaccante."""
+    state = _mini_state(catalog)
+    apply_status(state["units"][0], "rage", duration=3, intensity=1)
+    # nat 12 + attack_mod 0 + rage +1 = 13; CD 12 -> success, MoS 1
+    rng = rng_from_sequence([11 / 20, 3 / 8])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["modifier"] == RAGE_ATTACK_BONUS_PER_INTENSITY  # +1 dal rage
+    assert roll["total"] == 13
+    assert roll["success"] is True
+    # damage_step include il bonus rage
+    assert roll["damage_step"] >= RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY
+
+
+def test_rage_on_target_reduces_defense(catalog):
+    """Un target in rage ha defense_mod ridotto (furia cieca lo espone)."""
+    state = _mini_state(catalog)
+    apply_status(state["units"][1], "rage", duration=3, intensity=1)
+    # CD normalmente 12, con rage sul target: 12 - 1 = 11
+    # nat 11 + 0 = 11 >= 11 -> success
+    rng = rng_from_sequence([10 / 20, 3 / 8])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["dc"] == ATTACK_CD_BASE + 2 - RAGE_DEFENSE_MALUS_PER_INTENSITY  # 10+2-1=11
+    assert roll["success"] is True
+
+
+def test_panic_reduces_attack_mod(catalog):
+    """Panic dà -2 attack_mod all'attaccante."""
+    state = _mini_state(catalog)
+    apply_status(state["units"][0], "panic", duration=2, intensity=1)
+    # nat 13 + 0 - panic(2) = 11; CD 12 -> miss
+    rng = rng_from_sequence([12 / 20])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["modifier"] == -PANIC_ATTACK_MALUS_PER_INTENSITY  # -2
+    assert roll["total"] == 11
+    assert roll["success"] is False
+
+
+def test_panic_blocks_pt_spend(catalog):
+    """Un attaccante in panic non può usare PT spend."""
+    state = _mini_state(catalog)
+    state["units"][0]["pt"] = 5
+    apply_status(state["units"][0], "panic", duration=2, intensity=1)
+    attack = _attack()
+    attack["pt_spend"] = {"type": "perforazione"}
+    # nat 20 crit -> success, ma perforazione non dovrebbe applicarsi
+    rng = rng_from_sequence([19 / 20, 3 / 8])
+    result = resolve_action(state, attack, catalog, rng)
+    # PT non consumati (panic blocca la spesa)
+    assert result["turn_log_entry"]["roll"]["pt_spent"] == 0
+    # I PT dell'attore devono essere invariati (5, meno i guadagni del crit)
+    assert result["next_state"]["units"][0]["pt"] >= 5
+
+
+# --- Contested parry tests ------------------------------------------------
+
+
+def test_contested_parry_uses_attack_total_as_dc(catalog):
+    """La parry contestata tira d20+bonus vs attack_total (non CD fissa)."""
+    from rules.resolver import resolve_parry
+
+    target = {"id": "tgt", "tier": 2}
+    # attack_total = 15, parry nat 14 + bonus 0 = 14 < 15 -> fail
+    rng = rng_from_sequence([13 / 20])
+    result = resolve_parry(target, rng, parry_bonus=0, attack_total=15)
+    assert result["success"] is False
+    assert result["total"] == 14
+
+    # parry nat 15 + bonus 0 = 15 >= 15 -> success
+    rng2 = rng_from_sequence([14 / 20])
+    result2 = resolve_parry(target, rng2, parry_bonus=0, attack_total=15)
+    assert result2["success"] is True
+    assert result2["step_reduced"] == 1
+
+
+def test_contested_parry_nat20_always_succeeds(catalog):
+    """Nat 20 sulla parry è sempre successo anche se totale < attack_total."""
+    from rules.resolver import resolve_parry
+
+    target = {"id": "tgt", "tier": 2}
+    rng = rng_from_sequence([19 / 20])  # nat 20
+    result = resolve_parry(target, rng, parry_bonus=0, attack_total=99)
+    assert result["success"] is True
+    assert result["pt_defensive_gained"] == PARRY_PT_CRIT
+
+
+# --- PT spend: spinta tests -----------------------------------------------
+
+
+def test_spinta_applies_sbilanciato_on_hit(catalog):
+    """Spinta costa PT e applica 'sbilanciato' al target su hit."""
+    state = _mini_state(catalog)
+    state["units"][0]["pt"] = 3
+    attack = _attack()
+    attack["pt_spend"] = {"type": "spinta", "amount": 1}
+    # nat 14 -> success vs CD 12
+    rng = rng_from_sequence([13 / 20, 3 / 8])
+    result = resolve_action(state, attack, catalog, rng)
+    assert result["turn_log_entry"]["roll"]["pt_spent"] == 1
+    # Target deve avere status sbilanciato
+    target = result["next_state"]["units"][1]
+    sbilanciato = [s for s in target.get("statuses", []) if s["id"] == "sbilanciato"]
+    assert len(sbilanciato) == 1
+    assert sbilanciato[0]["remaining_turns"] == 1
+    # Lo status deve essere nel log
+    applied_ids = {s["id"] for s in result["turn_log_entry"]["statuses_applied"]}
+    assert "sbilanciato" in applied_ids
+
+
+def test_sbilanciato_reduces_target_defense(catalog):
+    """Un target sbilanciato ha CD ridotta."""
+    state = _mini_state(catalog)
+    apply_status(state["units"][1], "sbilanciato", duration=1, intensity=1)
+    # CD normalmente 12, con sbilanciato: 12 - 1 = 11
+    # nat 11 + 0 = 11 >= 11 -> success
+    rng = rng_from_sequence([10 / 20, 3 / 8])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["dc"] == 11  # 10 + 2 - 1 = 11
+    assert roll["success"] is True
+
+
+def test_spinta_no_effect_on_miss(catalog):
+    """Spinta consuma PT ma non applica sbilanciato su miss."""
+    state = _mini_state(catalog)
+    state["units"][0]["pt"] = 3
+    attack = _attack()
+    attack["pt_spend"] = {"type": "spinta", "amount": 1}
+    # nat 1 -> fumble -> miss
+    rng = rng_from_sequence([0.0])
+    result = resolve_action(state, attack, catalog, rng)
+    assert result["turn_log_entry"]["roll"]["pt_spent"] == 1  # PT consumati comunque
+    # Ma nessun sbilanciato applicato
+    target = result["next_state"]["units"][1]
+    sbilanciato = [s for s in target.get("statuses", []) if s["id"] == "sbilanciato"]
+    assert len(sbilanciato) == 0

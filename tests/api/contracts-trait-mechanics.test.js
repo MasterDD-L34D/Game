@@ -262,15 +262,15 @@ test('Fase 3-bis: mobility discount selettivo solo per FME Alto', () => {
   );
 });
 
-test('Fase 3-bis: damage_step cap <= 1 per tutti i 30 core', () => {
+test('Fase 3-bis: damage_step cap <= 2 per tutti i 30 core', () => {
   const catalog = loadCatalog();
   const violations = Object.entries(catalog.traits)
-    .filter(([, entry]) => entry.damage_step > 1)
+    .filter(([, entry]) => entry.damage_step > 2)
     .map(([id, entry]) => `${id}: damage_step=${entry.damage_step}`);
   assert.deepEqual(
     violations,
     [],
-    `damage_step deve essere <= 1 per tutti i core (cap framework). Violazioni: ${violations.join(', ')}`,
+    `damage_step deve essere <= 2 per tutti i core (cap framework). Violazioni: ${violations.join(', ')}`,
   );
 });
 

@@ -1,3 +1,13 @@
+---
+title: Telemetria → Vettore Comportamentale (VC)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Telemetria → Vettore Comportamentale (VC)
 
 Eventi, finestre, indici (Aggro/Risk/Cohesion/Setup/Explore/Tilt) e mapping verso layer MBTI-like + Ennea-themes.

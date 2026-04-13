@@ -1,3 +1,13 @@
+---
+title: Collegamenti a specie, eventi e regole ambientali
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Collegamenti a specie, eventi e regole ambientali
 
 Le tabelle dei trait dialogano con matrici dedicate che mappano sinergie, requisiti e suggerimenti dinamici. Questa sezione riassume come leggere e mantenere i collegamenti principali.

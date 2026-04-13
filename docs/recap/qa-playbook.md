@@ -1,3 +1,13 @@
+---
+title: QA Playbook · Nebula Release Flow
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # QA Playbook · Nebula Release Flow
 
 Questo playbook riassume come mantenere allineati i report QA orchestrati e come sfruttare la console UI per seguire i rilasci Nebula.

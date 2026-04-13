@@ -1,3 +1,13 @@
+---
+title: Kickoff Fase 0 – Migrazione (sandbox)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Kickoff Fase 0 – Migrazione (sandbox)
 
 Log sandbox per l'avvio della Fase 0: consolidare perimetro, rischi, deliverable e gate della migrazione prima di passare alle fasi 1–4.

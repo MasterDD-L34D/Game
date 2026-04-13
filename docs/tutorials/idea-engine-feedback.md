@@ -1,3 +1,13 @@
+---
+title: Tutorial rapido — Feedback Idea Engine
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Tutorial rapido — Feedback Idea Engine
 
 ![Idea Engine feedback](../../assets/tutorials/idea-engine-feedback.svg)

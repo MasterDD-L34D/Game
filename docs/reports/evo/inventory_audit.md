@@ -1,3 +1,13 @@
+---
+title: Evo Inventory Audit — 2025-11-15
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Evo Inventory Audit — 2025-11-15
 
 Questa sessione completa la bonifica dei duplicati Evo ancora presenti nelle cartelle legacy.

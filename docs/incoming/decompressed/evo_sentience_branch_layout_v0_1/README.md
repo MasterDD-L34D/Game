@@ -1,3 +1,13 @@
+---
+title: Branch: `ancestors/rfc-sentience-v0.1`
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Branch: `ancestors/rfc-sentience-v0.1`
 
 **Purpose.** Questa branch introduce il **MVP per i Tratti di Sensienza (T1–T6)** e l’ossatura dati ispirata ad *Ancestors: The Humankind Odyssey*, per migliorare specie e comportamenti nel progetto **Evo Tactics**.

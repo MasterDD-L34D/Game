@@ -1,3 +1,13 @@
+---
+title: Modello dati
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Modello dati
 
 Il catalogo dei trait segue lo schema JSON canonico `config/schemas/trait.schema.json`, che definisce campi obbligatori, vincoli e sezioni opzionali modulari. La tabella seguente riassume i blocchi fondamentali richiesti da tutti i trait.

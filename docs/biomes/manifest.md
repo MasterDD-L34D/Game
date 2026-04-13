@@ -1,3 +1,13 @@
+---
+title: Manifest Biomi
+doc_status: draft
+doc_owner: data-pack-team
+workstream: dataset-pack
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Manifest Biomi
 
 Questo documento elenca i biomi menzionati nei canvas progettuali, nei dataset delle specie e negli strumenti di generazione, fornendo un identificatore canonico da utilizzare in `data/core/biomes.yaml` e nelle integrazioni future.

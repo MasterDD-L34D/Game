@@ -1,3 +1,13 @@
+---
+title: Tooling Evo
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Tooling Evo
 
 Questa pagina descrive i flussi di lavoro disponibili per supportare le attività

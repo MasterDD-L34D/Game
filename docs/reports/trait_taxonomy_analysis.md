@@ -1,3 +1,13 @@
+---
+title: Analisi tassonomia trait
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Analisi tassonomia trait
 
 ## 1. Esportazione e dataset di riferimento

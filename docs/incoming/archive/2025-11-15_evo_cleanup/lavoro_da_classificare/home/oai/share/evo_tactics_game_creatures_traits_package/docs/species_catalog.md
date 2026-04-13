@@ -1,3 +1,13 @@
+---
+title: Catalogo delle specie Evo‑Tactics
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Catalogo delle specie Evo‑Tactics
 
 Questo documento fornisce un riepilogo delle specie presenti nel progetto **Evo‑Tactics**, suddivise per bioma.  Ogni scheda elenca il nome della specie (con ID YAML), il bioma di appartenenza, il ruolo trofico, le flag principali e una breve descrizione basata sui file YAML e sui documenti del repository.

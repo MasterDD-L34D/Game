@@ -1,3 +1,13 @@
+---
+title: Allineamento Evo Pack v2 ⇄ repository trait
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Allineamento Evo Pack v2 ⇄ repository trait
 
 Questo documento spiega come mappare i campi di un trait Evo (codici TR-xxxx) nei campi obbligatori del repository (`id`, `label` i18n, `data_origin`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, ecc.), come applicare le regole di naming e come integrare i flussi di validazione interni/esterni.

@@ -1,4 +1,14 @@
-﻿# Governance Rollout Plan (6-8 weeks)
+---
+title: Governance Rollout Plan (6-8 weeks)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
+# Governance Rollout Plan (6-8 weeks)
 
 ## Week 1-2
 

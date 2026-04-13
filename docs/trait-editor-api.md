@@ -1,3 +1,13 @@
+---
+title: Trait Editor API payloads
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Trait Editor API payloads
 
 La seguente documentazione descrive i payload normalizzati esposti dal backend del Trait Editor. Per una panoramica operativa del workflow e dell'integrazione con l'interfaccia editoriale consulta anche [Trait Editor standalone — Setup, sviluppo e deploy](trait-editor.md) e il capitolo dedicato nella manualistica ([Workflow & strumenti](traits-manuale/05-workflow-strumenti.md)).

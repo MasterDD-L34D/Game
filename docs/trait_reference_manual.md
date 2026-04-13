@@ -1,3 +1,13 @@
+---
+title: Trait Reference Manual (SSoT)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Trait Reference Manual (SSoT)
 
 Questo file rappresenta il punto di ingresso unico per il manuale dei tratti. Il contenuto esteso rimane nei capitoli già presenti in `docs/traits-manuale/`.

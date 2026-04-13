@@ -1,3 +1,13 @@
+---
+title: Gap specie/ecosistemi Evo
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Gap specie/ecosistemi Evo
 
 Report generato da `tools/py/report_evo_species_ecosystem.py` consolidando il catalogo Evo con gli asset legacy.

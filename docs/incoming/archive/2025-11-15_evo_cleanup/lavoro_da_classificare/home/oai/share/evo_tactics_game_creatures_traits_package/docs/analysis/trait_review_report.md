@@ -1,3 +1,13 @@
+---
+title: Revisione automatica del glossario dei tratti
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Revisione automatica del glossario dei tratti
 
 Questo documento sintetizza l’analisi automatica del file `data/core/traits/glossary.json` condotta dallo script `trait_review.py`. Lo script esegue le seguenti operazioni:

@@ -1,3 +1,13 @@
+---
+title: Changelog
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Changelog
 All notable changes to this project will be documented in this file.
 

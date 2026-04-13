@@ -1,3 +1,13 @@
+---
+title: Tassonomia e famiglie funzionali
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Tassonomia e famiglie funzionali
 
 Il catalogo 2.0 censisce 57 famiglie funzionali (`famiglia_tipologia`), derivate dal campo `<Macro>/<Sotto>` definito nello schema. Le macro più rappresentate sono Tegumentario/Difensivo, Strategico/Tattico, Sensoriale/Analitico, Locomotorio/Mobilità e Digestivo/Metabolico: ciascuna supera la dozzina di trait e determina i principali cluster di bilanciamento.【4c8626†L24-L33】

@@ -1,3 +1,13 @@
+---
+title: Introduzione e fonti dati
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Introduzione e fonti dati
 
 I trait rappresentano la spina dorsale del catalogo di Evo Tactics: definiscono abilità, vincoli narrativi e interazioni sistemiche ed ereditano la struttura tecnica descritta dallo schema JSON pubblicato nel repository. Il pacchetto principale abbina lo schema canonicale, il catalogo aggregato e i validatori CI dedicati così da mantenere allineate tutte le copie presenti nei pack e negli strumenti di authoring.【F:docs/README_TRAITS.md†L1-L26】

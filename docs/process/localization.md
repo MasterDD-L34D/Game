@@ -1,3 +1,13 @@
+---
+title: Flusso di localizzazione dei trait
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Flusso di localizzazione dei trait
 
 Questo documento descrive come estrarre i testi dai file trait, sincronizzare i

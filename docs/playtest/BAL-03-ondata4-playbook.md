@@ -1,3 +1,13 @@
+---
+title: Playbook BAL-03 — Ondata 4 (richiesta QA)
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Playbook BAL-03 — Ondata 4 (richiesta QA)
 
 **Stato:** ⏳ In attesa di ricezione dal QA lead.

@@ -1,3 +1,13 @@
+---
+title: QA export changelog
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # QA export changelog
 
 Generato: 2025-11-03T12:30:04.520252Z

@@ -1,3 +1,13 @@
+---
+title: Personality Enneagram — Mechanical Integration (Draft)
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Personality Enneagram — Mechanical Integration (Draft)
 
 Questa bozza unifica **dataset**, **registry meccanico** e una **mappa di compatibilità** (stats/eventi/limiti).

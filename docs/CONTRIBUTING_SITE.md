@@ -1,3 +1,13 @@
+---
+title: Come contribuire al sito e alla documentazione
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Come contribuire al sito e alla documentazione
 
 Questa guida raccoglie le istruzioni operative per contribuire alle pagine statiche pubblicate in `/docs`. È pensata per chi aggiorna il Support Hub, l'Idea Engine o la documentazione correlata e deve assicurarsi che l'esperienza resti coerente con il blueprint del progetto.

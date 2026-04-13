@@ -1,3 +1,13 @@
+---
+title: Step 6 – Pianificazione delle iterazioni e del monitoraggio
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Step 6 – Pianificazione delle iterazioni e del monitoraggio
 
 ## Analisi degli strumenti esistenti

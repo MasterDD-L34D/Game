@@ -1,3 +1,13 @@
+---
+title: Pipeline di raccolta feedback
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Pipeline di raccolta feedback
 
 Questa guida descrive in dettaglio il flusso operativo per raccogliere, filtrare e integrare i feedback provenienti da playtest, demo interne e canali asincroni. È pensata per accompagnare il nuovo form centralizzato definito in `tools/feedback/form_config.yaml` e per fornire riferimenti rapidi a chi gestisce triage, follow-up e comunicazione.

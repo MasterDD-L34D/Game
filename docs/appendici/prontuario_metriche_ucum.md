@@ -1,3 +1,13 @@
+---
+title: Prontuario metriche & unità **UCUM** — Evo Tactics
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Prontuario metriche & unità **UCUM** — Evo Tactics
 
 Selezione di **metriche tipiche** per trait, con unità **UCUM** consigliate. Usa `1` per grandezze

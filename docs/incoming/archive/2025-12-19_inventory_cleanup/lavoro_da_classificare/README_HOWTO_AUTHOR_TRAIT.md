@@ -1,3 +1,13 @@
+---
+title: HOW‑TO — Autore di Trait (Evo Tactics)
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # HOW‑TO — Autore di Trait (Evo Tactics)
 
 Questa mini‑guida è la versione *operativa* della **Guida completa ai Trait**. È pensata per chi deve

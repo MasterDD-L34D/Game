@@ -1,3 +1,13 @@
+---
+title: Log sandbox – Fase 3 Bilanciamento (curve & simulazioni)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Log sandbox – Fase 3 Bilanciamento (curve & simulazioni)
 
 Log sandbox per la Fase 3: definire curve di bilanciamento e simulazioni in modalità report-only, mantenendo allineamento con i mapping di Fase 2 e i concept di Fase 1.

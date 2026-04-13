@@ -1,3 +1,13 @@
+---
+title: Tutorial rapido — Idea Engine end-to-end
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Tutorial rapido — Idea Engine end-to-end
 
 ![Idea Engine overview](../../assets/tutorials/idea-engine-feedback.svg)

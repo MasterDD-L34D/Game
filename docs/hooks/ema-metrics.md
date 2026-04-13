@@ -1,3 +1,13 @@
+---
+title: Hook — Trasmissione Metriche EMA & Alert Risk HUD
+doc_status: draft
+doc_owner: backend-team
+workstream: backend
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Hook — Trasmissione Metriche EMA & Alert Risk HUD
 
 ## Contesto

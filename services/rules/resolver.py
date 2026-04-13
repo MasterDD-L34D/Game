@@ -89,7 +89,7 @@ PARRY_PT_CRIT = 2
 #: Tipologie di spesa PT supportate dal resolver. Le altre 3 citate in
 #: ``docs/10-SISTEMA_TATTICO.md`` ("spinte", "condizioni", "combo") sono
 #: rimandate con TODO nell'ADR.
-SUPPORTED_PT_SPEND_TYPES = frozenset({"perforazione"})
+SUPPORTED_PT_SPEND_TYPES = frozenset({"perforazione", "spinta"})
 
 #: Riduzione armor applicata dalla spesa PT "perforazione".
 PERFORAZIONE_ARMOR_REDUCTION = 2
@@ -106,12 +106,21 @@ RAGE_DEFAULT_DURATION = 3
 PANIC_DEFAULT_INTENSITY = 1
 PANIC_DEFAULT_DURATION = 2
 
-#: Effetti gameplay dei 3 status fisici (Fase 8).
+#: Effetti gameplay dei 5 status (Fase 8 + Phase 2).
 #: - bleeding: ``-intensity`` HP all'inizio del turno del target
 #: - fracture: ``-intensity`` allo step_count degli attack del portatore
 #: - disorient: ``-intensity * DISORIENT_ATTACK_MALUS_PER_INTENSITY`` all'attack_mod
+#: - rage: ``+intensity * RAGE_ATTACK_BONUS`` all'attack_mod,
+#:         ``+intensity * RAGE_DAMAGE_STEP_BONUS`` al damage_step,
+#:         ``-intensity * RAGE_DEFENSE_MALUS`` al defense_mod (furia cieca)
+#: - panic: ``-intensity * PANIC_ATTACK_MALUS`` all'attack_mod,
+#:          blocca PT spend (panico impedisce azioni concentrate)
 DISORIENT_ATTACK_MALUS_PER_INTENSITY = 2
 FRACTURE_STEP_REDUCTION_PER_INTENSITY = 1
+RAGE_ATTACK_BONUS_PER_INTENSITY = 1
+RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY = 1
+RAGE_DEFENSE_MALUS_PER_INTENSITY = 1
+PANIC_ATTACK_MALUS_PER_INTENSITY = 2
 
 
 def aggregate_mod(
@@ -394,18 +403,23 @@ def resolve_parry(
     target: Mapping[str, Any],
     rng: RandomFloatGenerator,
     parry_bonus: int = 0,
+    attack_total: Optional[int] = None,
 ) -> Dict[str, Any]:
-    """Esegue un tiro di parata per il target.
+    """Esegue un tiro di parata contestata per il target.
 
-    Tira d20 + ``parry_bonus`` vs ``PARRY_CD``. Restituisce un dict con la
-    forma del ``$defs.parry_result`` dello schema combat. Non muta il target.
-    Il caller decide se applicare ``step_reduced`` e se sommare
-    ``pt_defensive_gained`` al pool del target.
+    **Parry contestata**: d20 + ``parry_bonus`` vs il ``attack_total``
+    dell'attaccante. Se ``attack_total`` non e' fornito, fallback alla
+    CD fissa ``PARRY_CD`` per retrocompatibilita'.
+
+    Restituisce un dict con la forma del ``$defs.parry_result`` dello
+    schema combat. Non muta il target. Il caller decide se applicare
+    ``step_reduced`` e se sommare ``pt_defensive_gained`` al pool del target.
     """
 
+    parry_dc = attack_total if attack_total is not None else PARRY_CD
     natural = roll_die(rng, 20)
     total = natural + int(parry_bonus)
-    success = natural == NATURAL_MAX or total >= PARRY_CD
+    success = natural == NATURAL_MAX or total >= parry_dc
     pt_gained = 0
     step_reduced = 0
     if success:
@@ -507,13 +521,22 @@ def resolve_action(
         # cmq risorse". Un ValueError qui interrompe la resolve_action
         # prima di qualunque mutazione allo state (deep copy gia' pagato
         # ma side-effect minimi).
+        # --- STEP 1: consumo PT (panic blocca la spesa) ---
         pt_spend = action.get("pt_spend")
         pt_spent = 0
         perforazione_active = False
+        spinta_active = False
+        actor_panic = get_status(actor, "panic")
         if pt_spend:
-            pt_spent = apply_pt_spend(actor, pt_spend)
-            if pt_spend.get("type") == "perforazione":
-                perforazione_active = True
+            if actor_panic is not None:
+                # Panic impedisce azioni concentrate: PT spend rifiutato
+                pass
+            else:
+                pt_spent = apply_pt_spend(actor, pt_spend)
+                if pt_spend.get("type") == "perforazione":
+                    perforazione_active = True
+                elif pt_spend.get("type") == "spinta":
+                    spinta_active = True
 
         attack_mod = aggregate_mod(actor.get("trait_ids", []), catalog, "attack_mod")
         defense_mod_target = aggregate_mod(
@@ -529,6 +552,31 @@ def resolve_action(
             attack_mod -= (
                 int(disorient.get("intensity", 1)) * DISORIENT_ATTACK_MALUS_PER_INTENSITY
             )
+
+        # Status rage dell'attore: bonus offensivo, malus difensivo (furia cieca)
+        actor_rage = get_status(actor, "rage")
+        if actor_rage is not None:
+            rage_int = int(actor_rage.get("intensity", 1))
+            attack_mod += rage_int * RAGE_ATTACK_BONUS_PER_INTENSITY
+            trait_damage_step += rage_int * RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY
+
+        # Status panic dell'attore: malus offensivo
+        if actor_panic is not None:
+            attack_mod -= (
+                int(actor_panic.get("intensity", 1)) * PANIC_ATTACK_MALUS_PER_INTENSITY
+            )
+
+        # Status rage del target: riduce defense_mod (furia cieca lo espone)
+        target_rage = get_status(target, "rage")
+        if target_rage is not None:
+            defense_mod_target -= (
+                int(target_rage.get("intensity", 1)) * RAGE_DEFENSE_MALUS_PER_INTENSITY
+            )
+
+        # Status sbilanciato del target (da spinta): riduce defense_mod
+        target_sbilanciato = get_status(target, "sbilanciato")
+        if target_sbilanciato is not None:
+            defense_mod_target -= int(target_sbilanciato.get("intensity", 1))
 
         cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target
 
@@ -557,6 +605,7 @@ def resolve_action(
                     target=target,
                     rng=rng,
                     parry_bonus=int(parry_response.get("parry_bonus", 0)),
+                    attack_total=int(total),
                 )
                 if parry_info["success"]:
                     target["pt"] = int(target.get("pt", 0)) + int(parry_info["pt_defensive_gained"])
@@ -608,8 +657,21 @@ def resolve_action(
             target_hp["current"] = int(target_hp.get("current", 0)) - damage_applied
             target["hp"] = target_hp
 
+        # --- STEP 2b: spinta applica "sbilanciato" al target su hit ----
+        if spinta_active and success:
+            spinta_status = apply_status(
+                target,
+                "sbilanciato",
+                duration=1,
+                intensity=1,
+                source_unit_id=actor.get("id"),
+                source_action_id=action.get("id"),
+            )
+
         # --- STEP 3: status auto-trigger dai trait attaccante ---------
         statuses_applied: List[Dict[str, Any]] = []
+        if spinta_active and success:
+            statuses_applied.append(spinta_status)
         if success:
             # on_hit_stress_delta: somma i delta di tutti i trait attaccante,
             # applica al target (clamp 0-1), poi check breakpoints.
@@ -633,7 +695,7 @@ def resolve_action(
                 )
                 statuses_applied.extend(breakpoint_applied)
 
-            # on_hit_status: SV del target d20+0 vs trigger_dc; fail -> apply
+            # on_hit_status: SV del target d20+tier vs DC; fail -> apply
             for trait_id in actor.get("trait_ids", []):
                 entry = catalog.get(trait_id)
                 if not isinstance(entry, Mapping):
@@ -642,13 +704,20 @@ def resolve_action(
                 if not isinstance(on_hit, Mapping):
                     continue
                 sv_natural = roll_die(rng, 20)
-                sv_total = sv_natural  # +0 mod per ora
-                trigger_dc = int(on_hit.get("trigger_dc", 10))
+                sv_mod = int(target.get("tier", 1))  # SV modifier = tier
+                sv_total = sv_natural + sv_mod
+                trigger_dc = int(on_hit.get("dc", on_hit.get("trigger_dc", 10)))
                 if sv_total < trigger_dc:
+                    status_name = str(
+                        on_hit.get("name", on_hit.get("status_id", "unknown"))
+                    )
+                    status_dur = int(
+                        on_hit.get("duration_turns", on_hit.get("duration", 1))
+                    )
                     applied = apply_status(
                         target,
-                        status_id=str(on_hit.get("status_id")),
-                        duration=int(on_hit.get("duration", 1)),
+                        status_id=status_name,
+                        duration=status_dur,
                         intensity=int(on_hit.get("intensity", 1)),
                         source_unit_id=actor.get("id"),
                         source_action_id=action.get("id"),
@@ -707,8 +776,12 @@ __all__ = [
     "NATURAL_FUMBLE",
     "NATURAL_MAX",
     "NOOP_ACTION_TYPES",
+    "PANIC_ATTACK_MALUS_PER_INTENSITY",
     "PANIC_DEFAULT_DURATION",
     "PANIC_DEFAULT_INTENSITY",
+    "RAGE_ATTACK_BONUS_PER_INTENSITY",
+    "RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY",
+    "RAGE_DEFENSE_MALUS_PER_INTENSITY",
     "PARRY_CD",
     "PARRY_PT_BASE",
     "PARRY_PT_CRIT",

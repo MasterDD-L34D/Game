@@ -1,3 +1,13 @@
+---
+title: Convenzione archiviazione log di playtest
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Convenzione archiviazione log di playtest
 
 Per uniformare la raccolta dei risultati dei playtest, utilizzare la seguente struttura nella directory `logs/playtests/`.

@@ -1,3 +1,13 @@
+---
+title: Log sandbox – pipeline migrazione (Fasi 0–4)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Log sandbox – pipeline migrazione (Fasi 0–4)
 
 Scopo: tracciare deliverable, gate e rischi per le fasi 0–4 del piano di migrazione, usando gli agenti dedicati.

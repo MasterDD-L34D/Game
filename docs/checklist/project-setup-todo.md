@@ -1,3 +1,13 @@
+---
+title: TODO Operativo — Avvio completo del progetto
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # TODO Operativo — Avvio completo del progetto
 
 Questa checklist descrive tutti i passaggi necessari per avere il progetto pienamente funzionante,

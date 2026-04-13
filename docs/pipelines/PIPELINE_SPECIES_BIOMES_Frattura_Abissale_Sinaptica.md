@@ -1,3 +1,13 @@
+---
+title: Pipeline SPECIE+BIOMI ISTANZIATA – Frattura Abissale Sinaptica
+doc_status: draft
+doc_owner: flow-team
+workstream: flow
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Pipeline SPECIE+BIOMI ISTANZIATA – Frattura Abissale Sinaptica
 
 Pipeline instanziata dal modello `docs/pipelines/PIPELINE_SPECIES_BIOMES_STANDARD.md` per il bioma complesso "Frattura Abissale Sinaptica" con tre livelli ambientali (cresta fotofase, soglia crepuscolare, frattura nera), correnti elettroluminescenti e quattro specie collegate (Polpo Araldo Sinaptico, Sciame di Larve Neurali, Leviatano Risonante, Simbionte Corallino Riflesso).

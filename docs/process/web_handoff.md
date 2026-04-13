@@ -1,3 +1,13 @@
+---
+title: Web Handoff · Foodweb Archetypes 2025-11-05
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Web Handoff · Foodweb Archetypes 2025-11-05
 
 Questa nota supporta il passaggio di consegne verso il team web/UI dopo il

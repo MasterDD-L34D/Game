@@ -1,3 +1,13 @@
+---
+title: Sessione pilota 2025-11-12 — Raccolta asset
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Sessione pilota 2025-11-12 — Raccolta asset
 
 Questa cartella centralizza log, media e feedback relativi alla sessione pilota del 12 novembre 2025.

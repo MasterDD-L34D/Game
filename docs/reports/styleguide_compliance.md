@@ -1,3 +1,13 @@
+---
+title: Styleguide Compliance
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Styleguide Compliance
 
 _Aggiornato al 2025-11-03T19:52:35Z_

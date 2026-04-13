@@ -254,3 +254,35 @@ traits:
     cost_ap: 1
     resistances: []
     active_effects: []
+  ipertrofia_muscolare_massiva:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+    notes: "hybrid (TRT-02): massa muscolare aumenta sia attacco che danno"
+  pelage_idrorepellente_avanzato:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 2
+    resistances:
+      - { channel: cryo, modifier_pct: 25 }
+      - { channel: acido, modifier_pct: 15 }
+    active_effects: []
+    notes: "defensive (TRT-02): pelage avanzato con resistenze cryo e acido"
+  cannone_sonico_a_raggio:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 2
+    cost_ap: 3
+    resistances: []
+    active_effects: []
+    on_hit_status:
+      status_id: disorient
+      trigger_dc: 15
+      duration: 2
+      intensity: 1
+    on_hit_stress_delta: 0.05
+    notes: "offensive (TRT-02): cannone sonico con disorientamento e stress delta"

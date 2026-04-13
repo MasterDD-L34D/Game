@@ -1,3 +1,13 @@
+---
+title: Sistema NPG, PF & Mutazioni — Canvas C
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Sistema NPG, PF & Mutazioni — Canvas C
 
 ## Obiettivi & Panoramica

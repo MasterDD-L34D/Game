@@ -1,3 +1,13 @@
+---
+title: Manuale operativo dei trait
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Manuale operativo dei trait
 
 Questa sezione raccoglie la guida consolidata per modellare, documentare e collegare i trait di Evo Tactics. Il manuale integra lo schema, i template e le checklist già presenti nel repository e fornisce viste dedicate su tassonomia, collegamenti cross-dataset e strumenti di lavoro.

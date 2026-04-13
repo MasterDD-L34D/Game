@@ -1,3 +1,13 @@
+---
+title: REF_BACKUP_AND_ROLLBACK – Runbook archivi, manifest e rollback
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # REF_BACKUP_AND_ROLLBACK – Runbook archivi, manifest e rollback
 
 Versione: 0.2

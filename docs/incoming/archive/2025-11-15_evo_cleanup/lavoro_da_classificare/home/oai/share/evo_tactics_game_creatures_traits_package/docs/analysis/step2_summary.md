@@ -1,3 +1,13 @@
+---
+title: Step 2 – Definizione e consolidamento del Game Design Document (GDD)
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Step 2 – Definizione e consolidamento del Game Design Document (GDD)
 
 ## 1. Attività svolte

@@ -1,3 +1,13 @@
+---
+title: Generator UI mock · 2025-10-28
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Generator UI mock · 2025-10-28
 - **Dataset**: `data/derived/mock/prod_snapshot/` (override via `?data-root`), duplicato anche sotto `data/derived/mock/prod_snapshot/data/` per compatibilità con la dashboard.
 - **Trait nuovi visibili**: il Dune Stalker mostra `Sensori Geomagnetici` nel blocco core e `Lamelle Termoforetiche` fra gli opzionali nella sezione "Trait plan prioritario" della dashboard.

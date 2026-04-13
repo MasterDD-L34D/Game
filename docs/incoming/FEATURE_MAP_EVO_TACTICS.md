@@ -1,3 +1,13 @@
+---
+title: Evo Tactics — Feature Map (v1 → v8) — 2025-10-24
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Evo Tactics — Feature Map (v1 → v8) — 2025-10-24
 
 Questa mappa riassume **tutte le feature** costruite finora, organizzate per area e con riferimento ai file principali nel pacchetto.

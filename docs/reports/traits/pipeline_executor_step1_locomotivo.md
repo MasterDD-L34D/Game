@@ -1,3 +1,13 @@
+---
+title: Pipeline TRAIT – Famiglia LOCOMOTIVO (Step 1)
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Pipeline TRAIT – Famiglia LOCOMOTIVO (Step 1)
 
 ## Step 1: Audit e validazione dataset locomotivo — Agente: Trait Curator

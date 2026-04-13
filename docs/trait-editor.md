@@ -1,3 +1,13 @@
+---
+title: Trait Editor standalone — Setup, sviluppo e deploy
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Trait Editor standalone — Setup, sviluppo e deploy
 
 Il pacchetto [`Trait Editor/`](../Trait Editor/) fornisce un editor AngularJS dedicato alla manutenzione dei trait senza avviare l'intera webapp. Questa guida riassume i prerequisiti, i comandi principali e le azioni consigliate prima di distribuire una nuova versione.

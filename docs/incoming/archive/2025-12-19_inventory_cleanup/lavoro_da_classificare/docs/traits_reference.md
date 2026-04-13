@@ -1,3 +1,13 @@
+---
+title: Guida completa ai **Trait** — Evo Tactics
+doc_status: draft
+doc_owner: incoming-archivist
+workstream: incoming
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Guida completa ai **Trait** — Evo Tactics
 
 Questa guida è il riferimento operativo per **progettare, scrivere e validare** i trait usati dalle specie/creature in Evo Tactics. Copre: principi di design, dizionario campi, tassonomia funzionale, metriche (UCUM), mappatura ambientale (ENVO), versionamento (SemVer), workflow di authoring e QA/validazione.

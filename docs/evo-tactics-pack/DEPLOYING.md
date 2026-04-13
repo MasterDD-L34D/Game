@@ -1,3 +1,13 @@
+---
+title: Deploy rapido · Evo Tactics Pack
+doc_status: draft
+doc_owner: data-pack-team
+workstream: dataset-pack
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Deploy rapido · Evo Tactics Pack
 
 Questa checklist descrive come produrre e pubblicare il pacchetto

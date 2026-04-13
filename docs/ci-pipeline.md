@@ -1,3 +1,13 @@
+---
+title: Pipeline CI completa
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Pipeline CI completa
 
 Il workflow GitHub Actions mantiene in salute la toolchain TS/Python e i dataset di gioco. Per evitare esecuzioni superflue, la pipeline principale è stata suddivisa in più job specializzati che si attivano solo quando i file interessati vengono toccati nella PR.
