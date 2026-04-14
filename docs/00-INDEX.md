@@ -1,15 +1,19 @@
 ---
-title: Evo Tactics — Documentazione (indice)
-doc_status: draft
+title: Evo Tactics — Documentazione (indice legacy)
+doc_status: legacy_active
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-04-14
 source_of_truth: false
 language: it-en
-review_cycle_days: 14
+review_cycle_days: 30
 ---
 
-# Evo Tactics — Documentazione (indice)
+# Evo Tactics — Documentazione (indice legacy)
+
+> **Nota — Indice legacy.** Questo indice è mantenuto per compatibilità con i link esistenti nel codice e nei tracker. L'**entrypoint canonico** della documentazione è ora [`docs/hubs/README.md`](hubs/README.md) (workstream hubs), accompagnato dal `docs/governance/docs_registry.json` per la mappatura completa.
+>
+> I doc numerati sono stati spostati in [`docs/core/`](core/) durante la ristrutturazione di aprile 2026. Tutti i link sotto sono già aggiornati ai nuovi path.
 
 ## Accesso rapido (SSoT)
 
