@@ -1480,6 +1480,45 @@
       "track": "migrated"
     },
     {
+      "path": "docs/combat/README.md",
+      "title": "Combat Workstream — Overview",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": true,
+      "track": "authored"
+    },
+    {
+      "path": "docs/combat/data-flow.md",
+      "title": "Combat Data Flow",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/combat/resolver-api.md",
+      "title": "Resolver API Reference",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/core/01-VISIONE.md",
       "title": "Visione",
       "doc_status": "draft",

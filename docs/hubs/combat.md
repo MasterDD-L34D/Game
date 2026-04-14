@@ -13,45 +13,64 @@ review_cycle_days: 14
 
 # Combat Hub
 
-## Scope
+Il rules engine d20 risolve le azioni tattiche del loop di combat: attack (d20 vs CD con MoS e damage step), parry contestata, PT spend, status effect (bleeding/fracture/disorient/rage/panic) e stress breakpoints. Il codice vive in `services/rules/` ed è completamente decoppiato dal generation pipeline, dal dashboard e dal repo `Game-Database`.
 
-Motore regole d20 per il loop tattico: resolver di azione, idratazione trait meccanici, demo CLI e worker bridge.
+## Navigazione
+
+Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/README.md](../combat/README.md).
+
+### Quick links
+
+- [Combat overview + mappa doc](../combat/README.md)
+- [Data flow end-to-end (diagrammi)](../combat/data-flow.md) — come i dati passano da encounter JSON a turn log
+- [Resolver API reference](../combat/resolver-api.md) — signature e semantica di ogni funzione pubblica
+- [Trait mechanics guide](../combat/trait-mechanics-guide.md) *(in arrivo, PR B2)*
+- [Status effects guide](../combat/status-effects-guide.md) *(in arrivo, PR B2)*
+- [Action types guide](../combat/action-types-guide.md) *(in arrivo, PR B2)*
+- [Worker bridge](../combat/worker-bridge.md) *(in arrivo, PR B3)*
+- [Determinism & RNG](../combat/determinism.md) *(in arrivo, PR B3)*
+- [Testing guide](../combat/testing.md) *(in arrivo, PR B3)*
 
 ## File principali
 
-- `services/rules/resolver.py` — resolver d20 (attacco, difesa, danno, Margin of Success)
-- `services/rules/hydration.py` — idratazione trait meccanici da `trait_mechanics.yaml`
-- `services/rules/demo_cli.py` — CLI dimostrativa per simulare turni di combattimento
-- `services/rules/worker.py` — worker bridge per integrazione backend
+- `services/rules/resolver.py` — resolver d20 puro (attack, MoS, damage_step, resistenze, armor, status modifiers)
+- `services/rules/hydration.py` — idratazione encounter/party → CombatState, caricamento trait_mechanics.yaml
+- `services/rules/demo_cli.py` — CLI dimostrativa con modalità interactive e auto
+- `services/rules/worker.py` — bridge JSON-line stdin/stdout verso backend Node
 
 ## Dati di bilanciamento
 
-- `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` — fonte unica di verita per i valori meccanici dei trait (attack_mod, defense_mod, damage_step, resistances, cost_ap, active_effects).
+- `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` — fonte unica di verità per i valori meccanici dei trait (attack_mod, defense_mod, damage_step, resistances, cost_ap, active_effects). 33 core trait allineati con `docs/catalog/traits_inventory.json`.
 
-## Schema
+## Schemi
 
-- `packages/contracts/schemas/combat.schema.json` — schema JSON per i payload di combattimento.
+- `packages/contracts/schemas/combat.schema.json` — shape CombatState, action, turn_log, status_effect, roll_result, parry_result
+- `packages/contracts/schemas/traitMechanics.schema.json` — shape del catalog
 
-## ADR di riferimento
+## ADR
 
-- [ADR-2026-04-13: Rules Engine d20](../adr/ADR-2026-04-13-rules-engine-d20.md) — decisioni architetturali, scelte di linguaggio e gate sui trait meccanici.
+- [ADR-2026-04-13: Rules Engine d20](../adr/ADR-2026-04-13-rules-engine-d20.md) — scelte di linguaggio (Python), gate sul balance layer separato, RNG namespacing, scope degli status in Fase 1.
 
 ## Comandi demo
 
 ```bash
-# Simulazione turno di combattimento
+# Simulazione interattiva di un turno di combattimento
 PYTHONPATH=services/rules python3 services/rules/demo_cli.py
 
-# Test unitari rules engine
-PYTHONPATH=services/rules pytest tests/test_rules_engine.py
+# Modalità auto (AI attacca il primo vivo) — utile per smoke test
+PYTHONPATH=services/rules python3 services/rules/demo_cli.py --auto --max-rounds 10
 
-# Validazione schema combattimento
-npm run schema:lint
+# Test unitari resolver + hydration
+PYTHONPATH=services/rules pytest tests/test_resolver.py tests/test_hydration.py
+
+# Validazione schema e allineamento inventory ↔ mechanics
+node --test tests/api/contracts-combat.test.js tests/api/contracts-trait-mechanics.test.js
 ```
 
-## Stato implementazione (aggiornato Phase 2)
+## Stato implementazione (Phase 2)
 
-- **Furia / Panico**: implementati con logica completa — breakpoint stress, intensita, bonus/malus offensivi e difensivi. Panic blocca PT spend.
-- **Parata contestata**: `resolve_parry()` implementata — tiro d20 reattivo del target con bonus parata.
-- **PT spend**: perforazione e spinta implementati con consumo pool PT e validazione. Panic impedisce la spesa.
-- **Azioni abilita**: gli effetti attivi dei trait (`active_effects`) sono ancora NOOP — il campo esiste nello schema ma non viene consumato dal resolver.
+- **Furia / Panico**: implementati con logica completa — breakpoint stress (0.5 / 0.75), intensity, bonus/malus offensivi e difensivi. Panic blocca PT spend (azioni concentrate).
+- **Parata contestata**: `resolve_parry()` implementata — tiro d20 reattivo del target con `parry_bonus`, opt-in via `action.parry_response`. Fallback a `PARRY_CD=12` se `attack_total` non fornito.
+- **PT spend**: `perforazione` (armor -2) e `spinta` (status sbilanciato sul target) implementati con consumo pool PT e validazione. Panic impedisce la spesa.
+- **Status effect**: bleeding (HP tick in begin_turn), fracture (step reduction), disorient (attack malus), rage (furia cieca), panic (malus + block PT) — tutti consumati dal resolver.
+- **Azioni abilità**: il campo `active_effects` dei trait esiste nello schema ma è **NOOP** — non viene consumato dal resolver. Deferred a Fase 3 (vedi [action-types-guide.md](../combat/action-types-guide.md) quando disponibile).

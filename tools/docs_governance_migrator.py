@@ -24,6 +24,8 @@ PATH_WORKSTREAM_MAP = {
     "docs/adr/": "cross-cutting",
     "docs/guide/": "cross-cutting",
     "docs/appendici/": "cross-cutting",
+    # Combat workstream (rules engine d20)
+    "docs/combat/": "combat",
     # Flow workstream
     "docs/pipelines/": "flow",
     "docs/architecture/": "flow",
