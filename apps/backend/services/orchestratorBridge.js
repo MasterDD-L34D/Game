@@ -6,8 +6,12 @@ const readline = require('node:readline');
 
 const { createOrchestratorMetrics } = require('./orchestratorMetrics');
 
+// On Windows, 'python3' is typically the Windows Store stub without packages.
+// On Linux/macOS, 'python3' is the canonical entry point.
+const DEFAULT_PYTHON = process.platform === 'win32' ? 'python' : 'python3';
+
 const DEFAULT_CONFIG = {
-  pythonPath: process.env.PYTHON || 'python3',
+  pythonPath: process.env.PYTHON || DEFAULT_PYTHON,
   poolSize: 2,
   requestTimeoutMs: 120_000,
   heartbeatIntervalMs: 5_000,

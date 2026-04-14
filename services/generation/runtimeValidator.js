@@ -11,6 +11,11 @@ const DEFAULT_SCRIPT_PATH = path.resolve(
   'runtime_api.py',
 );
 
+// On Windows, 'python3' is typically the Windows Store stub without any
+// third-party packages. The real CPython installation is exposed as 'python'.
+// On Linux/macOS, 'python3' is the canonical entry point.
+const DEFAULT_PYTHON = process.platform === 'win32' ? 'python' : 'python3';
+
 function invokePython(scriptPath, pythonExecutable, args, payload) {
   return new Promise((resolve, reject) => {
     const proc = spawn(pythonExecutable, [scriptPath, ...args], {
@@ -45,7 +50,7 @@ function invokePython(scriptPath, pythonExecutable, args, payload) {
 }
 
 function createRuntimeValidator(options = {}) {
-  const pythonExecutable = options.pythonPath || process.env.PYTHON || 'python3';
+  const pythonExecutable = options.pythonPath || process.env.PYTHON || DEFAULT_PYTHON;
   const scriptPath = options.scriptPath || DEFAULT_SCRIPT_PATH;
 
   async function validateSpeciesBatch(entries, context = {}) {
