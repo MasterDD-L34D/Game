@@ -335,6 +335,95 @@ Un singolo `docker-compose.yml` (in un repo terzo o nel Game) che avvia Game bac
 
 **Decisione**: rinviato. Contestuale a B/C.
 
+## Trigger conditions for deferred alternatives
+
+Le alternative B, C e D sono state rinviate non perché sbagliate, ma perché oggi mancano i driver che le giustificherebbero. Questa sezione formalizza **quali eventi** dovrebbero riaprire ognuna, **chi** è lo stakeholder decisionale, **quanto effort** ci aspettiamo e **quali dipendenze** esistono fra loro. Scopo: evitare che un futuro implementer debba rifare l'analisi da zero, e dare a Master DD/Ops un set di "segnali d'allerta" da monitorare.
+
+### Alternativa B — HTTP runtime integration (trait glossary)
+
+**Trigger conditions (uno solo è sufficiente per riaprire)**:
+
+- Un editor non-tecnico inizia a modificare labels IT/EN di trait nel dashboard Game-Database e lamenta che serve una rebuild del Game backend per vedere il cambio in produzione.
+- Una feature di gameplay richiede hot-reload del catalog trait senza rebuild del Game (es. LiveOps che pubblicano nuovi trait mid-season).
+- Il catalog service di Game supera 500ms di cold-read su avvio e un fetch HTTP con cache in-memory diventa più economico.
+- Ci sono almeno **3 richieste distinte** (PR, issue, Slack thread) che chiedono sync runtime tra i due repo in un periodo di 4 settimane.
+
+**Stakeholder decisionale**: Master DD per l'approvazione, backend team per l'implementazione, Codex per validare che i contratti REST del Game-Database siano stabili.
+
+**Effort stimato**: **Large (1-2 settimane)**. Include progettazione cache/retry/circuit-breaker, aggiornamento di ~20-30 test (mock HTTP, snapshot), validazione che il fallback file locale resti il default se `GAME_DATABASE_ENABLED` è false.
+
+**Dipendenze**:
+
+- Dipende dal fatto che Game-Database mantenga stabili gli endpoint `GET /api/traits` (no breaking change nel contract shape).
+- **Pre-requisito**: decidere se il cache è TTL-based o event-driven (per cache invalidation serve una forma di webhook o pub/sub, che oggi non esiste).
+- **Blocca parzialmente C**: se B viene wired prima di C, le stesse primitive HTTP client possono essere riusate; farlo dopo C significa refactor.
+- **Non blocca D**: B e D sono ortogonali.
+
+### Alternativa C — Full integration con schema extension
+
+**Trigger conditions (tutti e due richiesti)**:
+
+- Esiste un use case confermato dove Game-Database deve essere **single source of truth** per biome_pools, trait ecology, synergies/conflicts (non solo per labels) — tipicamente perché un editor non-tecnico cura questi dati ricchi tramite UI e il doppio-commit su file locale del Game diventa insostenibile.
+- Master DD e Codex hanno **allineato un budget cross-repo** (settimane dedicate, non fill-in) e concordato uno schema di release/rollback coordinato.
+
+**Stakeholder decisionale**: **Codex** come owner del Game-Database (decide schema e migration), Master DD per approvare il costo cross-repo, backend team di Game per il client HTTP.
+
+**Effort stimato**: **Very Large (3-6 settimane)**. Include:
+
+1. Schema design Prisma + migration (Codex, ~1 settimana)
+2. Aggiornamento `import-taxonomy.js` per mappare i campi ricchi (~3 giorni)
+3. Nuovi endpoint REST (o estensione di quelli esistenti) che espongano i campi ricchi (~3-5 giorni)
+4. Client HTTP + validation + test lato Game (~1 settimana)
+5. Rollout coordinato con feature flag (~3-5 giorni)
+
+**Dipendenze**:
+
+- **Pre-requisito forte**: Alternativa B deve essere già wired (o il lavoro di B va fatto come parte di C). Senza un client HTTP rodato sul glossario trait semplice, saltare direttamente ai campi ricchi è ad alto rischio.
+- **Co-requisito**: coordinamento settimanale con Codex. Senza questo, C non si può iniziare.
+- **Blocca D**: un deploy unificato ha senso solo dopo che C è in produzione, altrimenti si deploya un legame HTTP che non si usa.
+
+### Alternativa D — Unified deploy topology (docker-compose multi-servizio)
+
+**Trigger conditions**:
+
+- **Almeno B è in produzione** (runtime HTTP integration), perché un compose unificato senza runtime HTTP è puro overhead.
+- Ops team segnala che avviare manualmente Game + Game-Database + Postgres + dashboard in parallelo su una stessa macchina (CI, staging, demo env) causa > 2 incidenti/errori config al mese.
+- C'è un ambiente ufficiale (staging o preview) che deve esporre entrambi i servizi insieme.
+
+**Stakeholder decisionale**: **Ops** per ownership, Master DD per endorsement. Non richiede coinvolgimento di Codex se il compose vive nel Game.
+
+**Effort stimato**: **Medium (3-5 giorni)**. Include:
+
+1. Decisione su dove vive il compose file (Game, Game-Database, o repo terzo)
+2. Setup dei service Postgres (uno condiviso o due separati con porte diverse)
+3. Health-check + ordering (Game-Database deve essere pronto prima che Game tenti connessioni HTTP se B/C attivi)
+4. Script di onboarding + documentazione
+
+**Dipendenze**:
+
+- **Richiede B o C** (almeno uno) in produzione. Senza runtime integration, un compose unificato non aggiunge valore rispetto a due `docker compose up` separati.
+- **Indipendente da Codex** (una volta deciso dove vive il compose).
+
+### Sequenza consigliata se tutte e tre si attivano
+
+```
+Alt B (glossary HTTP)  →  Alt C (schema extension)  →  Alt D (unified deploy)
+     ~1-2 settimane         ~3-6 settimane               ~3-5 giorni
+     1 stakeholder          Cross-repo (2 team)          1 stakeholder (Ops)
+```
+
+Saltare B per andare direttamente a C è possibile ma ad alto rischio (nessun client HTTP rodato, debug su migrazione schema e client in parallelo). Saltare C per andare direttamente a D è inutile (niente da unificare).
+
+### Monitoring dei trigger
+
+Oggi nessuno sta attivamente tracciando i segnali sopra. Se vogliamo essere disciplinati:
+
+- Aggiungere un `TODO-REVIEW-2026-Q3.md` in `docs/planning/` che Master DD rivede ogni trimestre per chiedersi: "qualche trigger è scattato?".
+- Etichettare eventuali issue GitHub rilevanti con `needs: game-database-sync` per farle galleggiare in un filtro.
+- In mancanza di entrambi, questa sezione resta come memoria istituzionale e chiunque tocchi il Game backend può tornare a leggerla.
+
+**Stato attuale (2026-04-14)**: nessuno dei trigger è scattato. Le tre alternative restano deferred. Prossima review raccomandata: 2026-Q3 o on-demand se un use case emerge prima.
+
 ## Conseguenze
 
 **Accettate:**
@@ -363,9 +452,9 @@ Un singolo `docker-compose.yml` (in un repo terzo o nel Game) che avvia Game bac
 
 ## Follow-up candidati (backlog)
 
-1. **Integrazione HTTP runtime (alternativa B)** — da riaprire quando ci sarà uno use case concreto (es. edit dashboard Game-Database deve riflettersi nel Game backend senza rebuild).
-2. **Schema extension di Game-Database (alternativa C)** — cross-repo, richiede coordinamento con Codex.
-3. **Docker compose unificato (alternativa D)** — contestuale a B/C.
+1. **Integrazione HTTP runtime (alternativa B)** — da riaprire quando ci sarà uno use case concreto (es. edit dashboard Game-Database deve riflettersi nel Game backend senza rebuild). Trigger conditions formalizzate nella sezione "Trigger conditions for deferred alternatives" sopra.
+2. **Schema extension di Game-Database (alternativa C)** — cross-repo, richiede coordinamento con Codex. Trigger conditions nella sezione "Trigger conditions for deferred alternatives" (pre-requisito: B già wired).
+3. **Docker compose unificato (alternativa D)** — contestuale a B/C. Trigger conditions nella sezione "Trigger conditions for deferred alternatives" (pre-requisito: almeno B in produzione).
 4. **Automazione del `evo:import`** — oggi è manuale. Un hook post-commit sul Game che triggera l'import lato Game-Database sarebbe utile ma fuori scope.
 5. **CI cross-repo** — verificare che una PR sul Game non rompa l'import lato Game-Database prima di mergeare.
 
