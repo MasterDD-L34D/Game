@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # OPS-01 · Workflow gap analysis
 
 | Workflow                 | Stato confronto           | Differenze principali                                                                                                                                                                                                                                                                                                                                                                                           |

@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # QA Checklist — Traits/Species v2
 
 - UCUM ok: tutte le `metrics[].unit` usano simboli UCUM.
