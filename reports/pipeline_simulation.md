@@ -1,3 +1,13 @@
+---
+title: Pipeline 02A→Freeze→03A→Transizione→03B→Sblocco
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Pipeline 02A→Freeze→03A→Transizione→03B→Sblocco
 
 Questa sintesi documenta la sequenza richiesta per PIPELINE_SIMULATOR, la variante ottimizzata con PIPELINE_OPTIMIZER e il piano batch/gate di PIPELINE_EXECUTOR. Le indicazioni rispettano la modalità report-only dove previsto e mantengono i gate serializzati per le approvazioni Master DD.

@@ -1,3 +1,13 @@
+---
+title: Readiness 01B/01C – Checkpoint 2025-11-30T23:12Z
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Readiness 01B/01C – Checkpoint 2025-11-30T23:12Z
 
 ## Scopo

@@ -1,3 +1,13 @@
+---
+title: agent.md
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # agent.md
 
 Versione: 0.3  

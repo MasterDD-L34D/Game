@@ -1,3 +1,13 @@
+---
+title: Trait Completion Dashboard
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # Trait Completion Dashboard
 
 _Aggiornato al 2025-12-02 02:04 UTC, totale tratti: 251_
