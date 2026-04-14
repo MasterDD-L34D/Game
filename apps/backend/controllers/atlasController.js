@@ -12,8 +12,13 @@ const featureFlagsConfig = require('../../../config/featureFlags.json');
 const NEBULA_ROLLOUT_FLAG_PATH = ['featureFlags', 'rollout', 'nebulaAtlasAggregator'];
 const ROLLOUT_LOG_PREFIX = '[atlas-controller]';
 
+// __dirname = apps/backend/controllers → 3x `..` arriva alla repo root.
+// Stesso bug di apps/backend/services/generationSnapshotStore.js: il vecchio
+// path con 2x `..` puntava a `apps/data/...` / `apps/logs/...` che non esistono,
+// facendo ritornare telemetria vuota e poi 500 sulla validation di /api/v1/atlas/.
 const DEFAULT_TELEMETRY_EXPORT = path.resolve(
   __dirname,
+  '..',
   '..',
   '..',
   'data',
@@ -24,6 +29,7 @@ const DEFAULT_TELEMETRY_EXPORT = path.resolve(
 
 const DEFAULT_GENERATOR_TELEMETRY = path.resolve(
   __dirname,
+  '..',
   '..',
   '..',
   'logs',
@@ -248,6 +254,10 @@ function buildTelemetryPayload(dataset, records) {
     },
     updatedAt: new Date().toISOString(),
     sample: Array.isArray(records) ? records.slice(0, 20) : [],
+    // `state` è required dallo schema telemetry.schema.json (minLength 1).
+    // L'altra implementazione del payload in services/nebulaTelemetryAggregator.js
+    // usa 'live' come default; lo allineiamo qui per evitare lo skew dei contratti.
+    state: Array.isArray(records) && records.length > 0 ? 'live' : 'offline',
   };
 }
 

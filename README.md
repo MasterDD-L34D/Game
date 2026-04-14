@@ -8,9 +8,10 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Evo-Tactics — Starter Monorepo
 
-Starter repository per il progetto tattico co-op con sistema d20 e progressione evolutiva modulare. Il pacchetto include dati YAML, CLI in Python/TypeScript, backend Idea Engine, webapp di test e pipeline di pubblicazione per condividere rapidamente build, report e materiali di presentazione.
+Starter repository per il progetto tattico co-op con sistema d20 e progressione evolutiva modulare. Il pacchetto include dati YAML, CLI in Python/TypeScript, backend Idea Engine e pipeline di pubblicazione per condividere rapidamente build e report.
 
 ## Indice
 
@@ -19,7 +20,6 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 - [Setup rapido](#setup-rapido)
 - [CLI & strumenti](#cli--strumenti)
 - [Backend Idea Engine](#backend-idea-engine)
-- [Dashboard web & showcase](#dashboard-web--showcase)
 - [Dataset & Ecosystem Pack](#dataset--ecosystem-pack)
 - [Stato database Evo Tactics](#stato-database-evo-tactics)
 - [Storico aggiornamenti & archivio](#storico-aggiornamenti--archivio)
@@ -42,15 +42,15 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 ## Settori e dipendenze
 
 - **Flow (generazione & validazione)** – vive principalmente in `services/generation/`, `tools/py`, `tools/ts` e nei dataset `data/core/`.
-  Orchestratore Python, CLI e validator TypeScript condividono gli stessi schema YAML; le pipeline front/back usano il registry condiviso in `apps/dashboard/src/config/dataSources.ts`.
-- **Atlas (telemetria & dashboard)** – la webapp (`apps/dashboard/`) e le dashboard statiche in `docs/test-interface/` leggono gli snapshot `data/derived/` e i mock `apps/dashboard/public/data/`.
+  Orchestratore Python, CLI e validator TypeScript condividono gli stessi schema YAML.
+- **Atlas (telemetria)** – il backend espone telemetria via `/api/v1/atlas/*` leggendo gli snapshot `data/derived/` e i dataset `data/flow-shell/`.
   Le variabili `VITE_*` armonizzano API live e fallback, mentre la configurazione `base` di Vite governa deploy statici e percorsi condivisi con Flow.
-- **Backend Idea Engine** – `apps/backend/` e `services/` espongono endpoint Express utilizzati sia dalla webapp (Flow/Atlas) sia dagli script CLI.
+- **Backend Idea Engine** – `apps/backend/` e `services/` espongono endpoint Express (`/api/v1/generation/*`, `/api/v1/atlas/*`, `/api/traits/*`, `/api/ideas/*`) consumati dagli script CLI e dai client esterni.
   Dipende dai dataset `data/core/` e produce report in `docs/reports/` e `packs/evo_tactics_pack/out/`.
 - **Dataset & pack** – `data/`, `packs/` e `docs/reports/` raccolgono la fonte unica per specie, trait, biomi e analisi.
   Ogni aggiornamento dei dataset è propagato verso Flow (validator/orchestratore), Atlas (snapshot), backend (API) e documentazione (`docs/catalog/`).
 
-> Quando modifichi un settore, verifica le dipendenze a valle: ad esempio una variazione nei dataset implica rigenerare la webapp (`npm run webapp:deploy`, build + preview locale), aggiornare i report (`docs/reports/`) e rieseguire i test backend (`npm run test:api`).
+> Quando modifichi un settore, verifica le dipendenze a valle: ad esempio una variazione nei dataset implica aggiornare i report (`docs/reports/`) e rieseguire i test backend (`npm run test:api`).
 
 ## Tour del repository
 
@@ -63,7 +63,6 @@ evo-tactics/
 ├─ apps/backend/              # API Express + orchestratore Idea Engine
 ├─ services/generation/       # Builder specie, runtime validator, bridge orchestrazione
 ├─ packages/contracts/        # Contratti JSON schema + tipi condivisi per Flow/Atlas
-├─ apps/dashboard/            # Dashboard Vue 3 + Vite con test Vitest
 ├─ docs/                      # Canvas progettuali, checklist, changelog, presentazioni
 ├─ scripts/                   # Utility (report incoming, sync Drive, builder taxonomy)
 ├─ tests/                     # Suite Node, pytest e E2E dedicate ai dataset e al backend
@@ -85,11 +84,10 @@ evo-tactics/
 
    Autenticati con un PAT che includa gli scope `workflow` e `read:org`, autorizzato via SSO dove richiesto (puoi seguire la guida in `docs/workflows/gh-cli-manual-dispatch.md`).
 
-3. **Dipendenze Node (root + tools/ts + dashboard)**:
+3. **Dipendenze Node (root + tools/ts)**:
    ```bash
    npm install
    npm --prefix tools/ts install
-   npm --prefix apps/dashboard install
    ```
 4. **Dipendenze Python**:
    ```bash
@@ -105,20 +103,16 @@ evo-tactics/
 
 ## Stack locale: sviluppo, test e verifica
 
-- **Avvio simultaneo backend + dashboard**:
+- **Avvio backend**:
   ```bash
-  npm run dev:stack
-  # oppure
-  make dev-stack
+  npm run start:api
   ```
-  Lo script avvia `npm run start:api` e `npm run dev --workspace apps/dashboard`, interrompendo entrambi i processi se uno dei due termina o in caso di `CTRL+C`.
-- **Test coordinati backend/frontend**:
+  Avvia il backend Express su `http://0.0.0.0:3334` (override con `PORT`).
+- **Test backend**:
   ```bash
-  npm run test:stack
-  # oppure
-  make test-stack
+  npm run test:api
   ```
-  Esegue `npm run test:api` seguito dai test unitari della dashboard (`npm run test --workspace apps/dashboard`).
+  Esegue tutta la suite Node per il backend (`tests/api/*.test.js`, `tests/server/*.spec.js`, `tests/generation/*.spec.ts`).
 - **Verifica pre-deploy**:
   ```bash
   npm run ci:stack
@@ -211,7 +205,6 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - `POST /api/v1/quality/suggestions/apply` (`/api/quality/suggestions/apply` legacy) – applica suggerimenti qualità sul dataset ricevuto.
   - `POST /api/v1/generation/species` e `/api/v1/generation/species/batch` (`/api/generation/species[*]` legacy) – orchestrano la generazione specie integrando `SpeciesBuilder`, `TraitCatalog` e validator pack.
   - `GET /api/v1/atlas/dataset`, `/api/v1/atlas/telemetry`, `/api/v1/atlas/generator` – bundle dataset e telemetria Nebula (alias legacy aggregato `/api/nebula/atlas`).
-  - `GET /api/mock/generation/snapshot`, `/api/mock/v1/generation/snapshot`, `/api/mock/atlas/dataset`, `/api/mock/atlas/telemetry` – versioni mock validate contro i contratti condivisi (fallback per webapp e QA).
   - `GET /api/v1/qa/status` (`/api/qa/status` legacy) – report QA corrente.
   - `GET /api/ideas/:id/report` – produce report Codex in HTML/JSON usando `apps/backend/report.js`.
 - **Orchestrazione**: la pipeline combina normalizzazione slug, fallback automatici per trait non validi e log strutturati (vedi `services/generation/*`).
@@ -242,13 +235,9 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - `VITE_API_USER` – valore propagato come header `X-User` in tutte le chiamate backend per allineare audit/log tra ambienti.
   - `VITE_BASE_PATH`/`BASE_PATH` – base path di build; mantenere coerente tra ambienti per evitare asset mancanti.
 
-### Flusso snapshot/telemetria demo (CLI → backend → webapp)
+### Flusso snapshot/telemetria demo
 
-1. **Generazione CLI** – esegui `npm run mock:generate` per ricreare lo snapshot Flow e il bundle Nebula demo. Lo script legge i dataset sorgente (`data/flow-shell/atlas-snapshot.json` + telemetria QA), valida payload e specie contro `packages/contracts` tramite AJV e scrive i JSON rigenerati in `apps/dashboard/public/data/flow/snapshots/` e `apps/dashboard/public/data/nebula/`.
-2. **Backend** – all'avvio Express registra gli stessi schemi (`generationSnapshot`, `species`, `telemetry`) e verifica ogni risposta sia live sia mock. Gli endpoint `/api/mock/*` servono direttamente i file generati dalla CLI garantendo coerenza con gli schemi condivisi.
-3. **Webapp** – la configurazione `apps/dashboard/src/config/dataSources.ts` punta alle nuove sorgenti fallback (`data/flow/...` e `data/nebula/...`). Dopo aver rigenerato i mock basta rilanciare la webapp per visualizzare gli aggiornamenti senza ulteriori passaggi manuali.
-
-> **Rigenera i mock** ogni volta che modifichi i dataset Flow/Nebula o i contratti: `npm run mock:generate` aggiorna snapshot e telemetria demo e fallisce immediatamente se lo schema non è rispettato.
+1. **Backend** – all'avvio Express registra gli schemi condivisi (`generationSnapshot`, `species`, `telemetry`) da `packages/contracts` e verifica ogni risposta. Gli endpoint live (`/api/v1/generation/*`, `/api/v1/atlas/*`) leggono i dataset sorgente in `data/flow-shell/` e `data/derived/`.
 
 ### Pipeline generazione orchestrata
 
@@ -273,33 +262,6 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - Abilita il backend seguendo il [tutorial passo-passo](docs/tutorials/idea-engine-feedback.md).
 - ![Idea Engine feedback](assets/tutorials/idea-engine-feedback.svg)
 - Dopo ogni invio, annota follow-up o richieste extra in `#feedback-enhancements` (modulo Slack ora attivo di default).
-
-## Dashboard web & showcase
-
-- **Dashboard test interface** (`docs/test-interface/`): carica YAML da `data/`, consente smoke test dei dataset e fetch manuali. Avvia un server statico locale con `python3 -m http.server 8000` e visita `http://localhost:8000/docs/test-interface/`.
-- **Deploy continuo**: il workflow GitHub Actions `deploy-test-interface` pubblica la dashboard su GitHub Pages. Imposta una sola volta Pages (`Settings → Pages → GitHub Actions`).
-- **Showcase pubblico**:
-  - `docs/presentations/showcase/evo-tactics-showcase-dossier.html`
-  - `docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64` (decodifica con `python -m base64 -d ...`)
-  - Rigenera asset con `python tools/py/build_showcase_materials.py`, che aggiorna HTML, Base64 del PDF e cover SVG in `public/showcase-dossier.svg`.
-
-- **Overlay HUD Smart Alerts** — Il componente `public/hud/Overlay.tsx` espone i filtri canary con routing automatico verso `#feedback-enhancements`. Consulta il mock aggiornato (`assets/hud/overlay/mock-timeline.svg`) e il Canvas [Sync HUD · dicembre 2025](docs/Canvas/feature-updates.md#sync-hud--dicembre-2025) per mantenere la UX allineata con i materiali condivisi.【F:public/hud/Overlay.tsx†L1-L151】【F:assets/hud/overlay/mock-timeline.svg†L1-L33】【F:docs/Canvas/feature-updates.md†L23-L39】
-- **Analytics SquadSync adaptive** — La pagina `/analytics/squadsync/` mette in evidenza le risposte adaptive e i picchi Delta provenienti dall'HUD; usa il mock aggiornato (`assets/analytics/squadsync_mock.svg`) e la dashboard canary (`tools/feedback/hud_canary_dashboard.yaml`) per condividere rapidamente KPI e follow-up.【F:public/analytics/squadsync/index.tsx†L1-L320】【F:assets/analytics/squadsync_mock.svg†L1-L58】【F:tools/feedback/hud_canary_dashboard.yaml†L1-L53】
-
-### Showcase demo · preset "Bundle demo pubblico"
-
-![Anteprima dossier showcase](public/showcase-dossier.svg)
-
-- **Tutorial rapido · Dashboard & Showcase** — [Guida sintetica](docs/tutorials/dashboard-tour.md) per avviare Vite e raccogliere materiale.
-  ![Dashboard tour](assets/tutorials/dashboard-tour.svg)
-  Condividi sempre risultati e note in `#feedback-enhancements` specificando seed, branch e dataset.
-
-- **Tutorial rapido · Overlay HUD canary** — [Quick guide](docs/tutorials/hud-overlay-quickstart.md) per attivare l'overlay Smart Alerts, configurare i tag `hud_canary` e validare il refresh della dashboard canary durante i playtest.【F:docs/tutorials/hud-overlay-quickstart.md†L1-L116】
-- **Tutorial rapido · Adaptive engine SquadSync** — [Procedura rapida](docs/tutorials/adaptive-engine-quickstart.md) per estrarre il payload adaptive dall'ETL, lanciare i test (`tests/analytics/squadsync_responses.test.ts`) e instradare i follow-up su `#feedback-enhancements`.【F:docs/tutorials/adaptive-engine-quickstart.md†L1-L129】【F:tests/analytics/squadsync_responses.test.ts†L1-L210】
-
-- **Dossier HTML** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.html`](docs/presentations/showcase/evo-tactics-showcase-dossier.html) riutilizza il template export del generatore mantenendo i token cromatici (`--color-accent-400`, palette `public/`).
-- **Press kit PDF** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64`](docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64) conserva l'export in formato Base64; decodificalo con `python -m base64 -d docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64 > docs/presentations/showcase/dist/evo-tactics-showcase-dossier.pdf` (o con `base64 --decode`) per ottenere il PDF pronto alla distribuzione.
-- **Rigenerazione rapida** — esegui `python tools/py/build_showcase_materials.py` per aggiornare HTML, Base64 del PDF e cover `SVG` in `public/` partendo dal payload curato (`docs/presentations/showcase/showcase_dossier.yaml`).
 
 ## Combat / Rules Engine
 
@@ -425,17 +387,7 @@ Per dettagli architetturali consultare `docs/adr/ADR-2026-04-13-rules-engine-d20
 
 - **Python**: esegui dalla root con `PYTHONPATH=tools/py pytest` (copre RNG deterministici, builder, validator).
 - **TypeScript**: `npm --prefix tools/ts test` (include unit test Node e Playwright UI export modal).
-- **API Node**: `npm run test:api` lancia `node --test tests/api/*.test.js`.
-- **Webapp**: `npm --prefix apps/dashboard test` esegue la suite Vitest/JSDOM.
-- **Webapp build & preview**: `npm --prefix apps/dashboard run build && npm --prefix apps/dashboard run preview`
-  serve la build hashata su `http://localhost:4173`; in alternativa usa lo shortcut monorepo
-  `npm run webapp:deploy` che esegue build + server di anteprima locale in un solo comando.
-- **Pubblicazione produzione**:
-  1. Imposta `VITE_BASE_PATH` e le variabili API (`VITE_API_BASE`, `VITE_*_URL`) in base all'hosting di destinazione.
-  2. Esegui `npm run build --workspace apps/dashboard` per generare `apps/dashboard/dist`.
-  3. Verifica l'output con `npm run webapp:deploy` oppure `npm --prefix apps/dashboard run preview`.
-  4. Carica il contenuto di `apps/dashboard/dist` sul bucket/CDN di riferimento (es. GitHub Pages, S3, Firebase Hosting) oppure usa la pipeline `npm run stage:publishing` per lo staging automatizzato.
-- **HUD & dashboard**: test Playwright dedicati (`tools/ts/tests`, `tests/hud_alerts.spec.ts`) e `tests/validate_dashboard.py` per smoke test.
+- **API Node**: `npm run test:api` lancia `node --test tests/api/*.test.js` + le suite tsx (`tests/server/*`, `tests/generation/*`).
 
 ## Integrazioni esterne
 
@@ -446,26 +398,6 @@ Per dettagli architetturali consultare `docs/adr/ADR-2026-04-13-rules-engine-d20
   - Verifica gli snapshot in `docs/chatgpt_changes/<namespace>/` e aggiorna `docs/chatgpt_sync_status.md` con esiti.
 
 ## Distribuzione & condivisione
-
-### Hosting statico webapp
-
-- **Base path**: configura `VITE_BASE_PATH` (o `BASE_PATH`) prima della build quando la dashboard viene
-  servita da una sottocartella. Senza override viene usato `./` così che gli asset fingerprintati
-  generati da Vite (`assets/[name]-[hash].*`) funzionino anche su bucket e Pages.
-- **Variabili API**: imposta `VITE_API_BASE` per definire una base comune agli endpoint remoti oppure
-  valorizza i singoli `VITE_*_URL` con percorsi assoluti. Se una variabile viene lasciata vuota o a
-  `null`, il registry passa automaticamente al fallback successivo (JSON locale in `public/data`).
-- **Verifica locale**: esegui `npm --prefix apps/dashboard run build && npm --prefix apps/dashboard run preview` (o lo
-  shortcut `npm run webapp:deploy`, che combina build + preview locale) per controllare la build
-  ottimizzata e le rewrite gestite da `import.meta.env.BASE_URL` prima di caricare gli asset su hosting
-  statico.
-
-### Deploy produzione
-
-1. Esegui `npm run build --workspace apps/dashboard` per generare l'output statico in `apps/dashboard/dist`.
-2. Se necessario, popola `apps/dashboard/dist/.well-known/` o altre cartelle di servizio richieste dall'hosting.
-3. Carica i file su Pages/S3/Cloud Storage, mantenendo invariata la struttura di directory generata da Vite.
-4. (Opzionale) Usa `npm run stage:publishing` per validare l'upload verso ambienti di staging gestiti dallo script.
 
 ### Pubblicazione GitHub
 

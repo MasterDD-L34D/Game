@@ -17,6 +17,7 @@ const { createSpeciesBiomesRouter } = require('./routes/speciesBiomes');
 const { createTraitRouter } = require('./routes/traits');
 const { createQualityRouter } = require('./routes/quality');
 const { createValidatorsRouter } = require('./routes/validators');
+const { createSessionRouter } = require('./routes/session');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const { createCatalogService } = require('./services/catalog');
@@ -432,8 +433,11 @@ function createApp(options = {}) {
   app.get('/api/mock/v1/generation/snapshot', generationSnapshotMockHandler);
 
   const nebulaOptions = options?.nebula || {};
-  const mockDataRoot =
-    options.mockDataRoot || path.resolve(ROOT_DIR, 'apps', 'dashboard', 'public', 'data');
+  // apps/dashboard/public/data e' stato rimosso con #1343 (sprint SPRINT_001
+  // fase 2). I mock endpoint sopravvivono ma puntano a data/mock/* (path
+  // opzionale): se non esiste, i loader cadono sul fallback inline o ritornano
+  // ENOENT gestito a valle. Override esplicito via options.mockDataRoot.
+  const mockDataRoot = options.mockDataRoot || path.resolve(ROOT_DIR, 'data', 'mock');
   const mockAtlasBundlePath =
     nebulaOptions.mockAtlasPath || path.join(mockDataRoot, 'nebula', 'atlas.json');
   const mockTelemetryPath =
@@ -662,6 +666,11 @@ function createApp(options = {}) {
     ...(options.traits || {}),
   };
   app.use('/api/traits', createTraitRouter(traitRouterOptions));
+
+  // Sprint SPRINT_001 fase 3 — engine minimo giocabile.
+  // Espone POST /api/session/{start,action,end} + GET /api/session/state.
+  // Stato in memoria, log eventi su disco in logs/session_*.json.
+  app.use('/api/session', createSessionRouter(options.session || {}));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {

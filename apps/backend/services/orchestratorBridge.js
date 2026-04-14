@@ -750,13 +750,25 @@ function createGenerationOrchestratorBridge(options = {}) {
     }
   }
 
+  function buildClosedPoolError() {
+    const autoMs = resolved.autoShutdownMs;
+    if (autoMs) {
+      return new Error(
+        `Pool orchestrator chiuso (autoShutdownMs=${autoMs}ms scaduto). ` +
+          `Riavvia il backend o disabilita l'autoclose unsetting ` +
+          `ORCHESTRATOR_AUTOCLOSE_MS (vedi .env.example, issue #1342).`,
+      );
+    }
+    return new Error('Pool orchestrator non disponibile (chiusura in corso)');
+  }
+
   async function generateSpecies(requestPayload) {
     const payload = normaliseRequestPayload(requestPayload);
     if (!payload.trait_ids.length) {
       throw new Error('trait_ids richiesti per la generazione');
     }
     if (closingPromise) {
-      throw new Error('Pool orchestrator non disponibile');
+      throw buildClosedPoolError();
     }
     cancelAutoShutdown();
     try {
@@ -784,7 +796,7 @@ function createGenerationOrchestratorBridge(options = {}) {
       return { results: [], errors: [] };
     }
     if (closingPromise) {
-      throw new Error('Pool orchestrator non disponibile');
+      throw buildClosedPoolError();
     }
     cancelAutoShutdown();
     try {
@@ -808,7 +820,7 @@ function createGenerationOrchestratorBridge(options = {}) {
 
   async function fetchTraitDiagnostics() {
     if (closingPromise) {
-      throw new Error('Pool orchestrator non disponibile');
+      throw buildClosedPoolError();
     }
     cancelAutoShutdown();
     try {

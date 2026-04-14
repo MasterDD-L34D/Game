@@ -1,19 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Avvio backend Express. La dashboard scaffold e' stata rimossa con il
+# cleanup #1343 (sprint SPRINT_001 fase 2): ora dev-stack lancia solo
+# l'API. Per smoke test usa curl/HTTPie sugli endpoint /api/v1/*.
+
 API_PID=""
-WEB_PID=""
 
 cleanup() {
   if [[ -n "$API_PID" ]]; then
     kill "$API_PID" >/dev/null 2>&1 || true
     wait "$API_PID" 2>/dev/null || true
     API_PID=""
-  fi
-  if [[ -n "$WEB_PID" ]]; then
-    kill "$WEB_PID" >/dev/null 2>&1 || true
-    wait "$WEB_PID" 2>/dev/null || true
-    WEB_PID=""
   fi
 }
 
@@ -31,19 +29,8 @@ on_signal() {
 trap on_exit EXIT
 trap on_signal INT TERM
 
-export VITE_API_BASE_URL="${VITE_API_BASE_URL:-http://localhost:3334}"
-export VITE_API_USER="${VITE_API_USER:-devstack}"
-export VITE_API_MODE="${VITE_API_MODE:-live}"
-
 npm run dev:setup --workspace apps/backend
-npm run dev --workspace apps/backend &
+npm run start:api &
 API_PID=$!
 
-npm run dev --workspace apps/dashboard &
-WEB_PID=$!
-
-wait -n "$API_PID" "$WEB_PID"
-
-cleanup
-wait "$API_PID" 2>/dev/null || true
-wait "$WEB_PID" 2>/dev/null || true
+wait "$API_PID"
