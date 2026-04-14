@@ -11,7 +11,7 @@ DATA_DIR = ROOT / "data"
 DIST_DIR = ROOT / "dist"
 
 # Directories inside `docs/` that should not be published as part of the static site.
-EXCLUDED_DIRECTORIES = {"chatgpt_changes", "checklist", "Canvas"}
+EXCLUDED_DIRECTORIES = {"generated", "incoming", "archive"}
 # File patterns we do not want to publish from `docs/`.
 EXCLUDED_PATTERNS = ["*.md"]
 
