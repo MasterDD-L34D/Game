@@ -202,7 +202,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ## Backend Idea Engine
 
-- **Avvio API**: `npm run start:api` espone l'app Express su `http://0.0.0.0:3333` (porta configurabile con `PORT`). Il database NeDB di default vive in `data/idea_engine.db` (sovrascrivibile con `IDEA_ENGINE_DB`).
+- **Avvio API**: `npm run start:api` espone l'app Express su `http://0.0.0.0:3334` (porta configurabile con `PORT`; il default è stato cambiato da 3333 nell'aprile 2026 per evitare collisione con il sibling repo Game-Database, vedi `docs/adr/ADR-2026-04-14-game-database-topology.md`). Il database NeDB di default vive in `data/idea_engine.db` (sovrascrivibile con `IDEA_ENGINE_DB`).
 - **Endpoint principali**:
   - `GET /api/health` – stato runtime.
   - `GET /api/ideas`, `POST /api/ideas`, `GET /api/ideas/:id`, `POST /api/ideas/:id/feedback` – gestione idee e feedback.
@@ -221,7 +221,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ### Docker + Postgres + Prisma
 
-- **Stack rapido**: `docker compose up` alza Postgres (`postgres://game:game@db:5432/game` di default) e il backend Node già configurato con `DATABASE_URL` e `PORT=3333`. Il bootstrap Prisma viene eseguito una sola volta grazie al marker `.docker-prisma-bootstrapped` (variabile `PRISMA_BOOTSTRAP_FILE`).
+- **Stack rapido**: `docker compose up` alza Postgres (`postgres://game:game@db:5432/game` di default) e il backend Node già configurato con `DATABASE_URL` e `PORT=3334`. Il bootstrap Prisma viene eseguito una sola volta grazie al marker `.docker-prisma-bootstrapped` (variabile `PRISMA_BOOTSTRAP_FILE`).
 - **Bootstrap iniziale**: lo step `npm run dev:setup --workspace apps/backend` è incluso nel comando Docker (`docker-compose.yml`) e applica, nell'ordine, `prisma generate`, `prisma migrate deploy` e `prisma db seed` usando `apps/backend/prisma/schema.prisma`.
 - **Ripetere migrazioni/seed**: puoi rilanciare il ciclo completo in locale con `npm run dev:setup --workspace apps/backend` (riapplica migrate+seed sul `DATABASE_URL` corrente) oppure invocare direttamente `npx prisma migrate deploy --schema apps/backend/prisma/schema.prisma && npx prisma db seed --schema apps/backend/prisma/schema.prisma` dopo avere aggiornato lo schema.
 - **Reset del DB**: `docker compose down -v` elimina il volume `pgdata` e forza una nuova migrazione/seed al successivo `docker compose up`. Se vuoi solo rieseguire il bootstrap mantenendo i dati Docker, cancella il marker `rm .docker-prisma-bootstrapped` (o il file indicato da `PRISMA_BOOTSTRAP_FILE`) prima di riavviare i container.
