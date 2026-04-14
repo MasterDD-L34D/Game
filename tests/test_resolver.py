@@ -934,3 +934,157 @@ def test_spinta_no_effect_on_miss(catalog):
     target = result["next_state"]["units"][1]
     sbilanciato = [s for s in target.get("statuses", []) if s["id"] == "sbilanciato"]
     assert len(sbilanciato) == 0
+
+
+# --- Phase 2 cross-feature coverage (added in PR #1325) -------------------
+
+
+def test_apply_status_refresh_rage_with_higher_intensity():
+    """Rage refresh: applicare rage a unit con rage esistente alza a max."""
+    unit = {
+        "statuses": [
+            {
+                "id": "rage",
+                "intensity": 1,
+                "remaining_turns": 1,
+                "source_unit_id": None,
+                "source_action_id": None,
+            }
+        ]
+    }
+    applied = apply_status(
+        unit,
+        status_id="rage",
+        duration=3,
+        intensity=2,
+        source_unit_id="src",
+        source_action_id="a1",
+    )
+    # Refresh con max semantics: intensity = max(1, 2) = 2, duration = max(1, 3) = 3
+    assert applied["intensity"] == 2
+    assert applied["remaining_turns"] == 3
+    rages = [s for s in unit["statuses"] if s["id"] == "rage"]
+    assert len(rages) == 1  # no duplicates
+    assert rages[0]["source_unit_id"] == "src"  # source updated
+
+
+def test_panic_decays_via_begin_turn(catalog):
+    """Panic viene decrementato da begin_turn e rimosso a remaining_turns=0."""
+    state = _mini_state(catalog)
+    state["units"][0]["statuses"] = [
+        {
+            "id": "panic",
+            "intensity": 1,
+            "remaining_turns": 2,
+            "source_unit_id": None,
+            "source_action_id": None,
+        }
+    ]
+    # Turno 1: remaining_turns 2 -> 1
+    result1 = begin_turn(state, "atk")
+    actor1 = next(u for u in result1["next_state"]["units"] if u["id"] == "atk")
+    panic1 = [s for s in actor1["statuses"] if s["id"] == "panic"]
+    assert len(panic1) == 1
+    assert panic1[0]["remaining_turns"] == 1
+
+    # Turno 2: remaining_turns 1 -> 0 -> rimosso
+    result2 = begin_turn(result1["next_state"], "atk")
+    actor2 = next(u for u in result2["next_state"]["units"] if u["id"] == "atk")
+    panic2 = [s for s in actor2["statuses"] if s["id"] == "panic"]
+    assert panic2 == []
+    # Expired list deve contenere il panic decaduto
+    expired_ids = {e["status_id"] for e in result2["expired"]}
+    assert "panic" in expired_ids
+
+
+def test_actor_with_rage_and_panic_nets_correct_attack_mod(catalog):
+    """Rage (+1) e panic (-2) insieme producono un netto -1 attack_mod."""
+    state = _mini_state(catalog)
+    state["units"][0]["statuses"] = [
+        {
+            "id": "rage",
+            "intensity": 1,
+            "remaining_turns": 3,
+            "source_unit_id": None,
+            "source_action_id": None,
+        },
+        {
+            "id": "panic",
+            "intensity": 1,
+            "remaining_turns": 2,
+            "source_unit_id": None,
+            "source_action_id": None,
+        },
+    ]
+    # nat 15 (>= crit threshold, ma non nat 20 auto-hit)
+    # expected attack_mod: +1 (rage) - 2 (panic) = -1
+    # total = 15 + (-1) = 14 vs CD 12 -> success, mos = 2
+    rng = rng_from_sequence([14 / 20, 3 / 8])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["natural"] == 15
+    assert roll["modifier"] == (
+        RAGE_ATTACK_BONUS_PER_INTENSITY - PANIC_ATTACK_MALUS_PER_INTENSITY
+    )
+    assert roll["modifier"] == -1
+    assert roll["total"] == 14
+    assert roll["success"] is True
+
+
+def test_contested_parry_with_rage_bonus_on_attacker(catalog):
+    """Parry contestata quando l'attaccante ha rage: attack_total include il rage bonus."""
+    state = _mini_state(catalog)
+    # Attaccante con rage intensity 1 -> +1 attack_mod, +1 damage_step
+    state["units"][0]["statuses"] = [
+        {
+            "id": "rage",
+            "intensity": 1,
+            "remaining_turns": 3,
+            "source_unit_id": None,
+            "source_action_id": None,
+        }
+    ]
+    # Target con 1 reazione disponibile
+    state["units"][1]["reactions"] = {"current": 1, "max": 1}
+    attack = _attack()
+    attack["parry_response"] = {"attempt": True, "parry_bonus": 0}
+    # nat attack 18, rage +1 -> total = 19 (attack_total che sarà la DC della parry)
+    # damage dice d8 modifier 3
+    # parry nat qualsiasi: verifichiamo solo che sia tentata e contested (DC = 19)
+    rng = rng_from_sequence([17 / 20, 4 / 8, 9 / 20])
+    result = resolve_action(state, attack, catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    # attack_mod riflette il +1 rage
+    assert roll["modifier"] == RAGE_ATTACK_BONUS_PER_INTENSITY
+    assert roll["natural"] == 18
+    assert roll["total"] == 19
+    assert roll["success"] is True
+    # Parry contestata tentata
+    assert roll["parry"] is not None
+    assert roll["parry"]["attempted"] is True
+    assert roll["parry"]["executed"] is True
+
+
+def test_spinta_sbilanciato_decay_via_begin_turn(catalog):
+    """Il sbilanciato applicato da spinta decade via begin_turn."""
+    state = _mini_state(catalog)
+    state["units"][0]["pt"] = 2
+    attack = _attack()
+    attack["pt_spend"] = {"type": "spinta", "amount": 1}
+    # nat 15 hit, damage 5
+    rng = rng_from_sequence([14 / 20, 4 / 8])
+    result1 = resolve_action(state, attack, catalog, rng)
+    target1 = result1["next_state"]["units"][1]
+    sbilanciato1 = [s for s in target1["statuses"] if s["id"] == "sbilanciato"]
+    assert len(sbilanciato1) == 1
+    initial_duration = sbilanciato1[0]["remaining_turns"]
+
+    # Turno successivo: sbilanciato decrementa
+    result2 = begin_turn(result1["next_state"], "tgt")
+    target2 = next(u for u in result2["next_state"]["units"] if u["id"] == "tgt")
+    sbilanciato2 = [s for s in target2["statuses"] if s["id"] == "sbilanciato"]
+    if initial_duration == 1:
+        # Decaduto completamente
+        assert sbilanciato2 == []
+    else:
+        assert sbilanciato2[0]["remaining_turns"] == initial_duration - 1
