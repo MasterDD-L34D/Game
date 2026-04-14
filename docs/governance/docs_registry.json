@@ -206,7 +206,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/AGENT_COMMANDS_CHEATSHEET.md",
+      "path": "docs/ops/AGENT_COMMANDS_CHEATSHEET.md",
       "title": "AGENT_COMMANDS_CHEATSHEET.md",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -219,7 +219,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/AI_AGENT_AUDIT_LOG.md",
+      "path": "docs/ops/AI_AGENT_AUDIT_LOG.md",
       "title": "AI_AGENT_AUDIT_LOG.md – Diario lavori sistema agenti",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -232,7 +232,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/COMMAND_LIBRARY.md",
+      "path": "docs/ops/COMMAND_LIBRARY.md",
       "title": "COMMAND_LIBRARY.md",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -245,7 +245,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/CONTRIBUTING_SITE.md",
+      "path": "docs/guide/CONTRIBUTING_SITE.md",
       "title": "Come contribuire al sito e alla documentazione",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -271,7 +271,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/DesignDoc-Overview.md",
+      "path": "docs/core/DesignDoc-Overview.md",
       "title": "Evo Tactics — Design Doc Overview",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -284,7 +284,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/Guida_Evo_Tactics_Pack_v2.md",
+      "path": "docs/core/Guida_Evo_Tactics_Pack_v2.md",
       "title": "Guida Evo Tactics Pack v2: sommario e piano operativo",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -297,7 +297,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/INDEX.md",
+      "path": "docs/guide/INDEX.md",
       "title": "Legacy Index",
       "doc_status": "legacy_active",
       "doc_owner": "platform-docs",
@@ -310,7 +310,7 @@
       "track": "historical"
     },
     {
-      "path": "docs/INTEGRAZIONE_GUIDE.md",
+      "path": "docs/guide/INTEGRAZIONE_GUIDE.md",
       "title": "INTEGRAZIONE GUIDE — EVO TACTICS (PUNTO D’INCONTRO & ROADMAP)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -323,7 +323,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/Mating-Reclutamento-Nido.md",
+      "path": "docs/core/Mating-Reclutamento-Nido.md",
       "title": "Mating, Reclutamento & Nido — Canvas D",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -336,7 +336,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/PI-Pacchetti-Forme.md",
+      "path": "docs/core/PI-Pacchetti-Forme.md",
       "title": "PI, Pacchetti & Forme — Canvas B",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -349,7 +349,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/PIPELINE_TEMPLATES.md",
+      "path": "docs/pipelines/PIPELINE_TEMPLATES.md",
       "title": "PIPELINE_TEMPLATES.md – Template pipeline multi-agente",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -362,7 +362,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/QA.md",
+      "path": "docs/qa/QA.md",
       "title": "Flusso di verifica QA per la webapp",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -388,7 +388,7 @@
       "track": "historical"
     },
     {
-      "path": "docs/README_HOWTO_AUTHOR_TRAIT.md",
+      "path": "docs/guide/README_HOWTO_AUTHOR_TRAIT.md",
       "title": "Come scrivere o aggiornare un trait",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -401,7 +401,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/README_SENTIENCE.md",
+      "path": "docs/guide/README_SENTIENCE.md",
       "title": "Scala di senzienza T0–T5",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -414,7 +414,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/README_TRAITS.md",
+      "path": "docs/traits/README_TRAITS.md",
       "title": "Evo Tactics — Trait Schema Pack",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -427,7 +427,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/SistemaNPG-PF-Mutazioni.md",
+      "path": "docs/core/SistemaNPG-PF-Mutazioni.md",
       "title": "Sistema NPG, PF & Mutazioni — Canvas C",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -440,7 +440,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/Telemetria-VC.md",
+      "path": "docs/core/Telemetria-VC.md",
       "title": "Telemetria VC — Canvas operativo",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -518,7 +518,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/agent_telemetry.md",
+      "path": "docs/ops/agent_telemetry.md",
       "title": "Telemetria del flusso agenti",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -843,7 +843,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/biomes.md",
+      "path": "docs/biomes/biomes.md",
       "title": "Guida al dataset dei Biomi",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -934,7 +934,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/changelog.md",
+      "path": "docs/planning/changelog.md",
       "title": "Changelog",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -947,7 +947,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/chatgpt_sync_status.md",
+      "path": "docs/ops/chatgpt_sync_status.md",
       "title": "Stato sincronizzazione ChatGPT",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -1077,7 +1077,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/ci-pipeline.md",
+      "path": "docs/pipelines/ci-pipeline.md",
       "title": "Pipeline CI completa",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -1090,7 +1090,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/ci.md",
+      "path": "docs/pipelines/ci.md",
       "title": "Workflow CI e QA",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -1129,7 +1129,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/data-guidelines.md",
+      "path": "docs/guide/data-guidelines.md",
       "title": "Dataset YAML di gioco",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -1142,7 +1142,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/dependency_audit.md",
+      "path": "docs/ops/dependency_audit.md",
       "title": "Verifica dipendenze — Ottobre 2025",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -1181,7 +1181,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/drive-sync.md",
+      "path": "docs/ops/drive-sync.md",
       "title": "Sincronizzazione YAML ↔ Google Sheets",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -1480,7 +1480,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/faq.md",
+      "path": "docs/guide/faq.md",
       "title": "Domande frequenti — Support & QA",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -1506,7 +1506,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/git-setup.md",
+      "path": "docs/guide/git-setup.md",
       "title": "Setup Git Remoto per Evo-Tactics",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3300,7 +3300,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/migration_targeted_workplan.md",
+      "path": "docs/planning/migration_targeted_workplan.md",
       "title": "Piano di attività mirate per avviare la migrazione",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3313,7 +3313,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/next_steps_trait_migration.md",
+      "path": "docs/traits/next_steps_trait_migration.md",
       "title": "Piano operativo prossimo ciclo (trait e documentazione)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3326,7 +3326,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/observability.md",
+      "path": "docs/ops/observability.md",
       "title": "Osservabilità client webapp",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -4054,7 +4054,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/playtest-log-guidelines.md",
+      "path": "docs/qa/playtest-log-guidelines.md",
       "title": "Convenzione archiviazione log di playtest",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -4691,7 +4691,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/publishing_calendar.md",
+      "path": "docs/ops/publishing_calendar.md",
       "title": "Calendario editoriale publishing",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -4704,7 +4704,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/qa-checklist.md",
+      "path": "docs/qa/qa-checklist.md",
       "title": "QA checklist – Support Hub & Idea Engine",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -4782,7 +4782,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/readme-refresh-notes.md",
+      "path": "docs/planning/readme-refresh-notes.md",
       "title": "Note revisione README principale",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5315,7 +5315,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/roadmap_generator.md",
+      "path": "docs/pipelines/roadmap_generator.md",
       "title": "Roadmap trimestrale – Generatore Pathfinder ETL (Q1)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5341,7 +5341,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/structure_overview.md",
+      "path": "docs/guide/structure_overview.md",
       "title": "Struttura dati e piano di migrazione",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5419,7 +5419,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/tool_run_report.md",
+      "path": "docs/ops/tool_run_report.md",
       "title": "Tool Execution Report",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5458,7 +5458,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/trait-editor-api.md",
+      "path": "docs/traits/trait-editor-api.md",
       "title": "Trait Editor API payloads",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5471,7 +5471,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/trait-editor.md",
+      "path": "docs/traits/trait-editor.md",
       "title": "Trait Editor standalone — Setup, sviluppo e deploy",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5484,7 +5484,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/trait_reference_manual.md",
+      "path": "docs/traits/trait_reference_manual.md",
       "title": "Trait Reference Manual (SSoT)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5601,7 +5601,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits_evo_pack_alignment.md",
+      "path": "docs/traits/traits_evo_pack_alignment.md",
       "title": "Allineamento Evo Pack v2 ⇄ repository trait",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5614,7 +5614,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits_scheda_operativa.md",
+      "path": "docs/traits/traits_scheda_operativa.md",
       "title": "Scheda operativa trait (con reference e checklist)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5627,7 +5627,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits_template.md",
+      "path": "docs/traits/traits_template.md",
       "title": "Template dati trait",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
