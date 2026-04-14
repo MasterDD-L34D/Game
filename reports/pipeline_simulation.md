@@ -1,6 +1,6 @@
 ---
 title: Pipeline 02A→Freeze→03A→Transizione→03B→Sblocco
-doc_status: draft
+doc_status: generated
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-04-14

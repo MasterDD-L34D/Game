@@ -1,6 +1,6 @@
 ---
 title: [Encounter bug] EVT-02 – Branch cooperativo richiama dialogo di tradimento
-doc_status: draft
+doc_status: historical_ref
 doc_owner: ops-qa-team
 workstream: ops-qa
 last_verified: 2026-04-14

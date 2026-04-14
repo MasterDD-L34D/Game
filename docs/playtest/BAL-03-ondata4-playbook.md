@@ -1,6 +1,6 @@
 ---
 title: Playbook BAL-03 — Ondata 4 (richiesta QA)
-doc_status: draft
+doc_status: historical_ref
 doc_owner: ops-qa-team
 workstream: ops-qa
 last_verified: 2026-04-14

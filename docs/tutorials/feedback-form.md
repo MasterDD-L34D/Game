@@ -1,6 +1,6 @@
 ---
 title: Tutorial · Form feedback unificato
-doc_status: draft
+doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-04-14

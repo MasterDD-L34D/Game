@@ -1,6 +1,6 @@
 ---
 title: Manifest Biomi
-doc_status: draft
+doc_status: active
 doc_owner: data-pack-team
 workstream: dataset-pack
 last_verified: 2026-04-14
