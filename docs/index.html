@@ -46,8 +46,8 @@
         <a href="#mission-control">Mission Control</a>
         <a href="mission-console/index.html">Mission Console</a>
         <a href="#release">Quality &amp; Release</a>
-        <a href="ideas/index.html">Idea Engine</a>
-        <a href="test-interface/index.html">Interfaccia Test</a>
+        <a href="planning/ideas/index.html">Idea Engine</a>
+        <a href="frontend/test-interface/index.html">Interfaccia Test</a>
         <a href="evo-tactics-pack/generator.html">Generatore</a>
         <a href="evo-tactics-pack/index.html">Strumenti Pack</a>
         <a href="evo-tactics-pack/reports/index.html">Report Pack</a>
@@ -134,7 +134,7 @@
               Plancia di verifica rapida con overview MBTI, telemetria VC e strumenti di fetch
               manuale o automatico.
             </p>
-            <a class="button button--ghost" href="test-interface/index.html">Apri l'interfaccia</a>
+            <a class="button button--ghost" href="frontend/test-interface/index.html">Apri l'interfaccia</a>
           </article>
           <article class="card landing-card">
             <h3>Idea Engine</h3>
@@ -142,7 +142,7 @@
               Form centralizzato per raccogliere nuove proposte, generare il reminder Markdown e
               inviarle al backend Idea Intake.
             </p>
-            <a class="button button--ghost" href="ideas/index.html">Apri Idea Engine</a>
+            <a class="button button--ghost" href="planning/ideas/index.html">Apri Idea Engine</a>
           </article>
           <article class="card landing-card">
             <h3>Ecosystem Pack Hub</h3>
@@ -176,7 +176,7 @@
               Esegue il download e la validazione dei file YAML, mostrando errori HTTP o di parsing
               in tempo reale.
             </p>
-            <a class="button button--ghost" href="test-interface/auto-fetch.html"
+            <a class="button button--ghost" href="frontend/test-interface/auto-fetch.html"
               >Avvia fetch automatico</a
             >
           </article>
@@ -186,7 +186,7 @@
               Strumento per scaricare selettivamente singoli file di dati e testarli in autonomia
               prima della pubblicazione.
             </p>
-            <a class="button button--ghost" href="test-interface/manual-fetch.html"
+            <a class="button button--ghost" href="frontend/test-interface/manual-fetch.html"
               >Apri fetch manuale</a
             >
           </article>
@@ -197,10 +197,10 @@
             <li><a href="#intent">Intento narrativo</a></li>
             <li><a href="#flow">Struttura di missione</a></li>
             <li><a href="#mission-control">Mission Control</a></li>
-            <li><a href="ideas/index.html">Idea Engine</a></li>
-            <li><a href="test-interface/index.html">Interfaccia Test &amp; Recap</a></li>
-            <li><a href="test-interface/auto-fetch.html">Fetch automatico YAML</a></li>
-            <li><a href="test-interface/manual-fetch.html">Fetch manuale YAML</a></li>
+            <li><a href="planning/ideas/index.html">Idea Engine</a></li>
+            <li><a href="frontend/test-interface/index.html">Interfaccia Test &amp; Recap</a></li>
+            <li><a href="frontend/test-interface/auto-fetch.html">Fetch automatico YAML</a></li>
+            <li><a href="frontend/test-interface/manual-fetch.html">Fetch manuale YAML</a></li>
             <li><a href="evo-tactics-pack/generator.html">Generatore di ecosistemi</a></li>
             <li><a href="evo-tactics-pack/catalog.html">Catalogo biomi</a></li>
             <li><a href="evo-tactics-pack/index.html">Hub strumenti pack</a></li>
@@ -222,7 +222,7 @@
               <button type="button" class="button" id="hero-open-simulator">
                 Apri il simulatore
               </button>
-              <a class="button button--secondary" href="40-ROADMAP.md">Roadmap</a>
+              <a class="button button--secondary" href="core/40-ROADMAP.md">Roadmap</a>
               <a class="button button--ghost" href="00-INDEX.md">Indice documentazione</a>
               <a class="button button--ghost" href="evo-tactics-pack/generator.html">Generatore</a>
             </div>
@@ -417,13 +417,13 @@
               <div class="stack">
                 <div class="stack__row">
                   <span class="stack__label">Data root attiva:</span>
-                  <a id="data-root-preview" href="test-interface/" target="_blank" rel="noreferrer"
+                  <a id="data-root-preview" href="frontend/test-interface/" target="_blank" rel="noreferrer"
                     >Rilevamento automatico</a
                   >
                 </div>
                 <div class="stack__row">
                   <span class="stack__label">URL simulatore:</span>
-                  <a id="simulator-link" href="test-interface/" target="_blank" rel="noreferrer"
+                  <a id="simulator-link" href="frontend/test-interface/" target="_blank" rel="noreferrer"
                     >test-interface/</a
                   >
                 </div>
@@ -442,7 +442,7 @@
               <iframe
                 id="simulator-frame"
                 title="Interfaccia di test Evo-Tactics"
-                src="test-interface/"
+                src="frontend/test-interface/"
                 loading="lazy"
                 referrerpolicy="no-referrer"
                 sandbox="allow-scripts allow-same-origin allow-forms"
@@ -534,13 +534,13 @@
                   <a href="process/incoming_triage_pipeline.md">Playbook pipeline agentica</a>
                 </li>
                 <li>
-                  <a href="checklist/incoming_triage.md">Checklist triage</a>
+                  <a href="process/incoming_triage.md">Checklist triage</a>
                 </li>
                 <li>
-                  <a href="templates/incoming_triage_meeting.md">Template sync agentica</a>
+                  <a href="guide/templates/incoming_triage_meeting.md">Template sync agentica</a>
                 </li>
                 <li>
-                  <a href="incoming/archive/INDEX.md">Indice archivio incoming</a>
+                  <a href="archive/historical-snapshots/INDEX.md">Indice archivio incoming</a>
                 </li>
               </ul>
             </article>
@@ -567,7 +567,7 @@
                 </div>
                 <div class="stack__row">
                   <span class="stack__label">Checklist</span>
-                  <a href="checklist/incoming_triage.md">Rivedi step</a>
+                  <a href="process/incoming_triage.md">Rivedi step</a>
                 </div>
               </div>
               <p class="form__hint">
@@ -592,7 +592,7 @@
                 Dashboard principale con riepiloghi MBTI, telemetria VC, negozio PI e strumenti di
                 fetch manuale dei dataset.
               </p>
-              <a href="test-interface/index.html" class="button button--ghost">Apri dashboard</a>
+              <a href="frontend/test-interface/index.html" class="button button--ghost">Apri dashboard</a>
             </article>
             <article class="card card--link">
               <h3>Generatore di ecosistemi</h3>
@@ -610,7 +610,7 @@
                 Pannello dedicato che scarica e valida tutti i file YAML dalla cartella
                 <code>data/</code> in modo automatico, segnalando errori di parsing o HTTP.
               </p>
-              <a href="test-interface/auto-fetch.html" class="button button--ghost">Avvia fetch</a>
+              <a href="frontend/test-interface/auto-fetch.html" class="button button--ghost">Avvia fetch</a>
             </article>
             <article class="card card--link">
               <h3>Ecosystem Pack Hub</h3>
@@ -636,27 +636,27 @@
             <article class="card card--link">
               <h3>Checklist produzione</h3>
               <p>Verifica gli step da completare prima di ogni release.</p>
-              <a href="checklist/action-items.md" class="button button--ghost">Apri checklist</a>
+              <a href="process/action-items.md" class="button button--ghost">Apri checklist</a>
             </article>
             <article class="card card--link">
               <h3>Guida contributori</h3>
               <p>Processo completo per aggiornare il sito e l'Idea Engine in sicurezza.</p>
-              <a href="CONTRIBUTING_SITE.md" class="button button--ghost">Leggi la guida</a>
+              <a href="guide/CONTRIBUTING_SITE.md" class="button button--ghost">Leggi la guida</a>
             </article>
             <article class="card card--link">
               <h3>Registro manutenzione tool</h3>
               <p>Storico delle operazioni effettuate sugli strumenti interni.</p>
-              <a href="tool_run_report.md" class="button button--ghost">Visualizza log</a>
+              <a href="ops/tool_run_report.md" class="button button--ghost">Visualizza log</a>
             </article>
             <article class="card card--link">
               <h3>Telemetria &amp; metriche</h3>
               <p>Analisi dettagliata in <code>24-TELEMETRIA_VC.md</code> e dataset correlati.</p>
-              <a href="24-TELEMETRIA_VC.md" class="button button--ghost">Apri documento</a>
+              <a href="core/24-TELEMETRIA_VC.md" class="button button--ghost">Apri documento</a>
             </article>
             <article class="card card--link">
               <h3>Documentazione UI</h3>
               <p>Specifiche dell'interfaccia televisiva e componenti di identità visiva.</p>
-              <a href="30-UI_TV_IDENTITA.md" class="button button--ghost">Consulta specifiche</a>
+              <a href="core/30-UI_TV_IDENTITA.md" class="button button--ghost">Consulta specifiche</a>
             </article>
           </div>
         </section>
