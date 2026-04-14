@@ -13,6 +13,7 @@ The monorepo uses npm workspaces declared in root `package.json`:
 - `apps/backend/` — Express "Idea Engine" API (entry `index.js`, Prisma schema under `apps/backend/prisma/`). Serves `/api/*` including `/api/v1/generation/species`, `/api/v1/atlas/*`, `/api/mock/*`, `/api/ideas/*`.
 - `apps/dashboard/` — Vue 3 + Vite SPA (workspace `@game/dashboard`). Consumes the backend + fallback JSON in `apps/dashboard/public/data/`. Data source registry lives at `apps/dashboard/src/config/dataSources.ts`.
 - `services/generation/` — Node/Python bridge: `SpeciesBuilder`, `TraitCatalog`, biome synthesizer, runtime validators. The Python orchestrator (`services/generation/orchestrator.py`) is called from Node via a pool configured by `config/orchestrator.json` (`poolSize`, `requestTimeoutMs`).
+- `services/rules/` — Rules engine d20 per il loop tattico: `resolver.py` (risoluzione azioni d20), `hydration.py` (idratazione trait meccanici da `trait_mechanics.yaml`), `demo_cli.py` (CLI demo turni), `worker.py` (bridge backend). Dati di bilanciamento in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
 - `packages/contracts/` — shared JSON Schema + TypeScript types used by backend, CLI mocks, and dashboard for Flow/Atlas payloads.
 - `packages/ui/`, `packages/angular*` — shared UI + vendored AngularJS packages consumed as `file:` workspace deps.
 - `tools/py/` — unified Python CLI (`game_cli.py`), validators, showcase builders. Legacy wrappers (`roll_pack.py`, `generate_encounter.py`) redirect to the shared parser.
@@ -48,6 +49,7 @@ Node 18+ (22.19.0 recommended) and npm 11+; Python 3.10+. Install once with `npm
 - **E2E Playwright (dashboard)**: `npm run test:e2e` (uses `apps/dashboard/tests/playwright/playwright.config.mjs`).
 - **Python suites**: `PYTHONPATH=tools/py pytest` from the repo root. Single test: `PYTHONPATH=tools/py pytest tests/test_species_builder.py::test_case`.
 - **Docs generator Vitest**: `npm run test:docs-generator` (uses `vitest.config.docs-generator.ts`).
+- **Rules engine tests**: `PYTHONPATH=services/rules pytest tests/test_rules_engine.py`. Demo CLI: `PYTHONPATH=services/rules python3 services/rules/demo_cli.py`.
 
 ### Build, lint, format
 
@@ -79,6 +81,7 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 ## Architecture notes worth reading multiple files for
 
 - **Generation pipeline (Flow)**. HTTP request → `apps/backend/routes/*` → `services/generation/*` (Node) → Python bridge (`services/generation/orchestrator.py`) via a worker pool sized by `config/orchestrator.json`. Inputs are normalized (slug, trait_ids, seed, biome_id); when trait validation fails, a hardcoded fallback set (`artigli_sette_vie`, `coda_frusta_cinetica`, `scheletro_idro_regolante`) is applied and logged as structured JSON (`component = generation-orchestrator`). Responses always combine `blueprint` + `validation` + `meta` — don't change that shape without also updating `packages/contracts` and the dashboard renderers.
+- **Combat pipeline (Rules Engine)**. Il rules engine d20 in `services/rules/` risolve azioni tattiche (attacco d20 vs DC, Margin of Success, damage step, parata reattiva, status fisici/mentali). `hydration.py` carica i valori meccanici da `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`; `resolver.py` esegue la risoluzione; `worker.py` espone il bridge per il backend. Lo schema payload e in `packages/contracts/schemas/combat.schema.json`. Vedi `docs/hubs/combat.md` per il canonical hub e `docs/adr/ADR-2026-04-13-rules-engine-d20.md` per le decisioni architetturali.
 - **Contracts are the seam**. `packages/contracts` holds AJV schemas + TS types loaded by the backend (schema registry validates both live and mock responses), by `scripts/mock/generate-demo-data.js`, and by the dashboard registry in `apps/dashboard/src/config/dataSources.ts`. A schema change ripples to backend tests, mock snapshots, and dashboard consumers — budget for all three.
 - **Mock parity**. `/api/mock/*` endpoints serve the JSON that `npm run mock:generate` writes to `apps/dashboard/public/data/flow/snapshots/` and `.../nebula/`. The dashboard's fallback path reads the same files — mocks are not just test fixtures, they back the "offline" UX.
 - **Dashboard deploy path**. `VITE_BASE_PATH` (default `./`) controls asset paths; `VITE_API_BASE_URL`/`VITE_API_BASE` + individual `VITE_*_URL` select live vs. mock; `VITE_API_USER` propagates as `X-User` header for audit. Empty values fall back to the next source in the registry automatically.

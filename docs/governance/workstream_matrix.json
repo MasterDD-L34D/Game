@@ -72,6 +72,20 @@
       ]
     },
     {
+      "name": "combat",
+      "owner": "combat-team",
+      "status": "active",
+      "dependencies": ["dataset-pack", "backend"],
+      "components": [
+        { "path": "services/rules", "kind": "code", "state": "active" },
+        {
+          "path": "packs/evo_tactics_pack/data/balance",
+          "kind": "runtime-data",
+          "state": "active"
+        }
+      ]
+    },
+    {
       "name": "incoming",
       "owner": "incoming-archivist",
       "status": "active",

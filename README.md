@@ -64,6 +64,7 @@ evo-tactics/
 
 1. **Clona il repository** e posizionati nella root.
 2. **Installa GitHub CLI (`gh`)** per poter usare i workflow CI e gli script di automazione:
+
    ```bash
    # macOS (Homebrew)
    brew install gh
@@ -71,7 +72,9 @@ evo-tactics/
    # Debian/Ubuntu
    sudo apt update && sudo apt install gh
    ```
+
    Autenticati con un PAT che includa gli scope `workflow` e `read:org`, autorizzato via SSO dove richiesto (puoi seguire la guida in `docs/workflows/gh-cli-manual-dispatch.md`).
+
 3. **Dipendenze Node (root + tools/ts + dashboard)**:
    ```bash
    npm install
@@ -287,6 +290,16 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Dossier HTML** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.html`](docs/presentations/showcase/evo-tactics-showcase-dossier.html) riutilizza il template export del generatore mantenendo i token cromatici (`--color-accent-400`, palette `public/`).
 - **Press kit PDF** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64`](docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64) conserva l'export in formato Base64; decodificalo con `python -m base64 -d docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64 > docs/presentations/showcase/dist/evo-tactics-showcase-dossier.pdf` (o con `base64 --decode`) per ottenere il PDF pronto alla distribuzione.
 - **Rigenerazione rapida** — esegui `python tools/py/build_showcase_materials.py` per aggiornare HTML, Base64 del PDF e cover `SVG` in `public/` partendo dal payload curato (`docs/presentations/showcase/showcase_dossier.yaml`).
+
+## Combat / Rules Engine
+
+Il motore regole d20 per il loop tattico risiede in `services/rules/` (resolver, hydration, demo CLI, worker bridge). I valori di bilanciamento meccanico dei trait sono in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`. Per simulare un turno di combattimento:
+
+```bash
+PYTHONPATH=services/rules python3 services/rules/demo_cli.py
+```
+
+Per dettagli architetturali consultare `docs/adr/ADR-2026-04-13-rules-engine-d20.md` e il canonical hub `docs/hubs/combat.md`.
 
 ## Dataset & Ecosystem Pack
 
