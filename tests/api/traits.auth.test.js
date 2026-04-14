@@ -14,8 +14,19 @@ function createToken(roles) {
   return signJwt({ sub: 'test-user', roles }, AUTH_SECRET, { expiresIn: '1h' });
 }
 
+const appHandles = [];
+
+test.after(async () => {
+  while (appHandles.length) {
+    const handle = appHandles.pop();
+    if (handle && typeof handle.close === 'function') {
+      await handle.close();
+    }
+  }
+});
+
 function createAppWithOptions(options = {}) {
-  const { app } = createApp({
+  const handle = createApp({
     traits: {
       auth: {
         secret: AUTH_SECRET,
@@ -24,7 +35,8 @@ function createAppWithOptions(options = {}) {
       ...(options.traits || {}),
     },
   });
-  return app;
+  appHandles.push(handle);
+  return handle.app;
 }
 
 test('POST /api/traits/validate richiede un token JWT', async () => {

@@ -13,7 +13,11 @@ function createTempDbPath() {
 
 test('POST /api/ideas salva nel database e genera il report Codex', async (t) => {
   const databasePath = createTempDbPath();
-  const { app, repo } = createApp({ databasePath });
+  const handle = createApp({ databasePath });
+  const { app, repo } = handle;
+  t.after(async () => {
+    if (typeof handle.close === 'function') await handle.close();
+  });
   await repo.ready;
   t.after(() => {
     // nedb non richiede chiusura esplicita
@@ -61,7 +65,11 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
 
 test('POST /api/ideas/:id/feedback registra il commento e aggiorna il report', async (t) => {
   const databasePath = createTempDbPath();
-  const { app, repo } = createApp({ databasePath });
+  const handle = createApp({ databasePath });
+  const { app, repo } = handle;
+  t.after(async () => {
+    if (typeof handle.close === 'function') await handle.close();
+  });
   await repo.ready;
   t.after(() => {
     // no-op
@@ -105,7 +113,11 @@ test('POST /api/ideas/:id/feedback registra il commento e aggiorna il report', a
 
 test('GET /api/ideas/:id/report restituisce il report salvato', async (t) => {
   const databasePath = createTempDbPath();
-  const { app, repo } = createApp({ databasePath });
+  const handle = createApp({ databasePath });
+  const { app, repo } = handle;
+  t.after(async () => {
+    if (typeof handle.close === 'function') await handle.close();
+  });
   await repo.ready;
   t.after(() => {
     // no-op
@@ -129,7 +141,11 @@ test('GET /api/ideas/:id/report restituisce il report salvato', async (t) => {
 
 test('POST /api/ideas valida i campi obbligatori', async (t) => {
   const databasePath = createTempDbPath();
-  const { app, repo } = createApp({ databasePath });
+  const handle = createApp({ databasePath });
+  const { app, repo } = handle;
+  t.after(async () => {
+    if (typeof handle.close === 'function') await handle.close();
+  });
   await repo.ready;
   t.after(() => {
     // no-op
@@ -142,7 +158,11 @@ test('POST /api/ideas valida i campi obbligatori', async (t) => {
 
 test('POST /api/ideas rifiuta categorie non in tassonomia', async (t) => {
   const databasePath = createTempDbPath();
-  const { app, repo } = createApp({ databasePath });
+  const handle = createApp({ databasePath });
+  const { app, repo } = handle;
+  t.after(async () => {
+    if (typeof handle.close === 'function') await handle.close();
+  });
   await repo.ready;
   t.after(() => {
     // no-op
@@ -162,7 +182,11 @@ test('POST /api/ideas rifiuta categorie non in tassonomia', async (t) => {
 
 test('POST /api/ideas rifiuta slug non catalogati senza override', async (t) => {
   const databasePath = createTempDbPath();
-  const { app, repo } = createApp({ databasePath });
+  const handle = createApp({ databasePath });
+  const { app, repo } = handle;
+  t.after(async () => {
+    if (typeof handle.close === 'function') await handle.close();
+  });
   await repo.ready;
   t.after(() => {
     // no-op
@@ -185,7 +209,11 @@ test('POST /api/ideas rifiuta slug non catalogati senza override', async (t) => 
 
 test('POST /api/ideas accetta slug non catalogati con override', async (t) => {
   const databasePath = createTempDbPath();
-  const { app, repo } = createApp({ databasePath });
+  const handle = createApp({ databasePath });
+  const { app, repo } = handle;
+  t.after(async () => {
+    if (typeof handle.close === 'function') await handle.close();
+  });
   await repo.ready;
   t.after(() => {
     // no-op

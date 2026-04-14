@@ -804,7 +804,13 @@ function createApp(options = {}) {
   app.get('/api/v1/catalog/pools', sendCatalogPools);
   app.get('/api/catalog/pools', sendCatalogPools);
 
-  return { app, repo };
+  async function close() {
+    if (generationOrchestrator && typeof generationOrchestrator.close === 'function') {
+      await generationOrchestrator.close();
+    }
+  }
+
+  return { app, repo, generationOrchestrator, close };
 }
 
 module.exports = { createApp };

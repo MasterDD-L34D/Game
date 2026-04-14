@@ -6,14 +6,25 @@ const { createApp } = require('../../apps/backend/app');
 
 const REQUIRED_ROLES = ['apex', 'keystone', 'threat'];
 
+let appHandle = null;
+
 function hasRole(species, role) {
   if (!species?.flags) return false;
   return Boolean(species.flags[role]);
 }
 
+test.after(async () => {
+  if (appHandle && typeof appHandle.close === 'function') {
+    await appHandle.close();
+    appHandle = null;
+  }
+});
+
 test('POST /api/v1/generation/biomes produce biomi sintetici coerenti con i vincoli', async () => {
   const dataRoot = path.resolve(__dirname, '..', '..', 'data');
-  const { app } = createApp({ dataRoot });
+  const handle = createApp({ dataRoot });
+  appHandle = handle;
+  const { app } = handle;
 
   const response = await request(app)
     .post('/api/v1/generation/biomes')
