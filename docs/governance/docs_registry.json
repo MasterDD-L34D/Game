@@ -1519,6 +1519,19 @@
       "track": "authored"
     },
     {
+      "path": "docs/combat/determinism.md",
+      "title": "Determinism and RNG Namespacing",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/combat/resolver-api.md",
       "title": "Resolver API Reference",
       "doc_status": "active",
@@ -1545,8 +1558,34 @@
       "track": "authored"
     },
     {
+      "path": "docs/combat/testing.md",
+      "title": "Combat Testing Guide",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/combat/trait-mechanics-guide.md",
       "title": "Trait Mechanics Guide",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/combat/worker-bridge.md",
+      "title": "Worker Bridge — Node to Python protocol",
       "doc_status": "active",
       "doc_owner": "combat-team",
       "workstream": "combat",
