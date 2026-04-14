@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
@@ -15,8 +15,9 @@
         <p class="hero-kicker">Mission Control · Evo-Tactics</p>
         <h1>Workspace Fetching Manuale</h1>
         <p class="tagline">
-          Analizza snapshot esterni, archivi compressi, wiki o canvas condivisi e sincronizza i dataset pronti con la dashboard principale.
-          Qui trovi opzioni avanzate, checklist operative e spazio per gli appunti di ricerca.
+          Analizza snapshot esterni, archivi compressi, wiki o canvas condivisi e sincronizza i
+          dataset pronti con la dashboard principale. Qui trovi opzioni avanzate, checklist
+          operative e spazio per gli appunti di ricerca.
         </p>
         <div class="hero-actions">
           <a class="pill-link" href="index.html">Torna alla dashboard</a>
@@ -24,7 +25,10 @@
           <a class="pill-link" href="../ideas/index.html">Idea Engine</a>
           <a class="pill-link" href="../Canvas" target="_blank" rel="noopener">Canvas &amp; wiki</a>
         </div>
-        <p class="hint">Suggerimento: usa questo workspace per esaminare file caricati manualmente (zip, md, pdf, docx) o URL con dati YAML/JSON.</p>
+        <p class="hint">
+          Suggerimento: usa questo workspace per esaminare file caricati manualmente (zip, md, pdf,
+          docx) o URL con dati YAML/JSON.
+        </p>
       </div>
     </header>
 
@@ -32,18 +36,28 @@
       <section class="panel manual-overview">
         <div class="panel-header">
           <h2>Riepilogo sincronizzazioni</h2>
-          <p class="muted">Monitoriamo qui l'ultima applicazione sulla dashboard e gli slot in attesa di essere consumati.</p>
+          <p class="muted">
+            Monitoriamo qui l'ultima applicazione sulla dashboard e gli slot in attesa di essere
+            consumati.
+          </p>
         </div>
         <div class="manual-overview-grid">
           <article class="card manual-status">
             <h3>Ultimo applicato</h3>
-            <p id="manual-sync-status" class="status">Nessuna sincronizzazione ancora registrata.</p>
+            <p id="manual-sync-status" class="status">
+              Nessuna sincronizzazione ancora registrata.
+            </p>
             <dl id="manual-sync-history" class="metadata-grid"></dl>
           </article>
           <article class="card manual-pending">
             <h3>Caricamenti in coda</h3>
-            <p class="muted">Quando attivi la sincronizzazione automatica, il payload viene salvato qui e consumato alla prossima apertura della dashboard.</p>
-            <div id="manual-pending-summary" class="manual-pending-summary muted">Nessun payload in coda.</div>
+            <p class="muted">
+              Quando attivi la sincronizzazione automatica, il payload viene salvato qui e consumato
+              alla prossima apertura della dashboard.
+            </p>
+            <div id="manual-pending-summary" class="manual-pending-summary muted">
+              Nessun payload in coda.
+            </div>
           </article>
         </div>
       </section>
@@ -53,7 +67,8 @@
           <article class="card manual-form">
             <h3>Analizza sorgente manuale</h3>
             <p class="muted">
-              Inserisci un URL oppure trascina un file (JSON, YAML, ZIP, Markdown, wiki salvate, PDF, DOCX). Il workspace costruirà anteprime e suggerimenti per l'integrazione.
+              Inserisci un URL oppure trascina un file (JSON, YAML, ZIP, Markdown, wiki salvate,
+              PDF, DOCX). Il workspace costruirà anteprime e suggerimenti per l'integrazione.
             </p>
             <form id="fetch-form" class="fetch-form">
               <label for="fetch-url">Sorgente dati</label>
@@ -77,11 +92,18 @@
             </form>
             <p id="fetch-status" class="status" data-status="idle">In attesa di input…</p>
             <div id="fetch-preview" class="preview">
-              <p id="fetch-preview-empty" class="preview-empty" aria-live="polite">(nessun contenuto)</p>
+              <p id="fetch-preview-empty" class="preview-empty" aria-live="polite">
+                (nessun contenuto)
+              </p>
               <div id="fetch-preview-body" class="preview-body" hidden>
                 <p id="fetch-preview-summary" class="preview-summary" hidden></p>
                 <ul id="fetch-preview-warnings" class="preview-warnings" hidden></ul>
-                <div id="fetch-preview-tabs" class="preview-tabs" role="tablist" aria-label="Sezioni dataset"></div>
+                <div
+                  id="fetch-preview-tabs"
+                  class="preview-tabs"
+                  role="tablist"
+                  aria-label="Sezioni dataset"
+                ></div>
                 <pre id="fetch-preview-content" class="preview-content" aria-live="polite"></pre>
                 <div id="fetch-preview-pagination" class="preview-pagination"></div>
               </div>
@@ -90,7 +112,9 @@
 
           <article class="card manual-options">
             <h3>Parametri di indagine</h3>
-            <p class="muted">Scegli come trattare la sorgente e come sincronizzarla con la dashboard principale.</p>
+            <p class="muted">
+              Scegli come trattare la sorgente e come sincronizzarla con la dashboard principale.
+            </p>
             <div class="manual-options-group">
               <label class="toggle">
                 <input type="checkbox" id="manual-option-archive" checked />
@@ -134,12 +158,17 @@
         <div class="manual-research-grid">
           <article class="card">
             <h3>Appunti di ricerca</h3>
-            <p class="muted">Annota link utili, job da integrare o decisioni prese durante la selezione dei file. Il testo viene salvato automaticamente nel browser.</p>
+            <p class="muted">
+              Annota link utili, job da integrare o decisioni prese durante la selezione dei file.
+              Il testo viene salvato automaticamente nel browser.
+            </p>
             <textarea id="manual-research-notes" rows="10" placeholder="Appunti rapidi…"></textarea>
           </article>
           <article class="card">
             <h3>Checklist operativa</h3>
-            <p class="muted">Usa le spunte per ricordare i passi chiave quando valuti nuove fonti.</p>
+            <p class="muted">
+              Usa le spunte per ricordare i passi chiave quando valuti nuove fonti.
+            </p>
             <ul class="manual-checklist">
               <li>
                 <label>
@@ -170,10 +199,17 @@
           <article class="card">
             <h3>Script CLI di indagine</h3>
             <p class="muted">
-              Per analisi approfondite offline usa <code>scripts/investigate_sources.py</code>. Puoi passare file multipli (JSON/MD/ZIP/PDF) e ottenere report sintetici prima di importare i dati nel gioco.
+              Per analisi approfondite offline usa <code>scripts/investigate_sources.py</code>. Puoi
+              passare file multipli (JSON/MD/ZIP/PDF) e ottenere report sintetici prima di importare
+              i dati nel gioco.
             </p>
-            <pre class="code-snippet"><code>python scripts/investigate_sources.py data/sorgenti.zip --summary --extract</code></pre>
-            <p class="muted">Suggerimento: combina lo script con questo workspace per creare una pipeline di verifica rapida.</p>
+            <pre
+              class="code-snippet"
+            ><code>python scripts/investigate_sources.py data/sorgenti.zip --summary --extract</code></pre>
+            <p class="muted">
+              Suggerimento: combina lo script con questo workspace per creare una pipeline di
+              verifica rapida.
+            </p>
           </article>
         </div>
       </section>

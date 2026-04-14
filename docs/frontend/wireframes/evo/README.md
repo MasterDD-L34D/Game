@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Mockup Evo-Tactics
 
 Questa directory raccoglie la documentazione dei mockup confermati del pacchetto
