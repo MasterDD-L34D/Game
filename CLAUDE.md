@@ -36,6 +36,28 @@ The monorepo uses npm workspaces declared in root `package.json`:
 
 The README "Settori e dipendenze" section is the canonical dependency map between Flow (generation), Atlas (telemetry/dashboard), backend, and datasets — **if you change a dataset in `data/core/`, you must also regenerate mocks and re-run the backend + dashboard suites**, not just the validator you edited.
 
+## Documentation layout (post-restructuring)
+
+`docs/` is organized by **workstream**, with the governance system enforcing frontmatter coverage on every file via `tools/check_docs_governance.py` (CI-required, strict mode). Only `docs/00-INDEX.md` (legacy entrypoint, marked superseded) and `docs/README.md` live at the root; everything else is under a workstream directory:
+
+- `docs/core/` — canonical game design reference (numbered docs `01-VISIONE.md`..`40-ROADMAP.md`, plus `DesignDoc-Overview.md`, `Mating-Reclutamento-Nido.md`, `PI-Pacchetti-Forme.md`, etc.). Stable spine of the project.
+- `docs/hubs/` — workstream hubs (canonical entrypoints): `combat.md`, `flow.md`, `atlas.md`, `backend.md`, `dataset-pack.md`, `ops-qa.md`, `incoming.md`, `cross-cutting.md`.
+- `docs/governance/` — registry, schema, validator outputs, workstream matrix, rollout plans. The single source of truth for "what docs exist and who owns them" is `docs/governance/docs_registry.json`.
+- `docs/adr/` — architecture decision records (e.g., `ADR-2026-04-13-rules-engine-d20.md`).
+- `docs/guide/` — onboarding, contributing, FAQ, how-tos, integration guides, templates.
+- `docs/core/`, `docs/traits/`, `docs/biomes/`, `docs/species/`, `docs/balance/`, `docs/catalog/`, `docs/evo-tactics/`, `docs/evo-tactics-pack/` — dataset-pack workstream.
+- `docs/pipelines/`, `docs/architecture/` — flow workstream (CI, build, generation pipelines).
+- `docs/frontend/` — atlas workstream (UI, wireframes, test-interface, feature-updates, styleguide).
+- `docs/process/`, `docs/qa/`, `docs/ci/`, `docs/playtest/`, `docs/ops/`, `docs/logs/`, `docs/reports/`, `docs/tutorials/` — ops-qa workstream.
+- `docs/planning/` — roadmap, ideas, research, changelog, migration plans, EchoWake notes, sentience research.
+- `docs/incoming/` — narrowed to 3 active operational files (PATCHSET-01 dispatcher + 01B integration plan + tasks board). Everything else has been triaged.
+- `docs/generated/pr-summaries/` — auto-generated daily PR summaries from `tools/py/daily_pr_report.py`. Excluded from frontmatter governance via `AUTOGEN_PATH_PATTERNS`.
+- `docs/archive/historical-snapshots/` — frozen historical snapshots of the cleanup operations (`2025-11-15_evo_cleanup`, `2025-12-19_inventory_cleanup`, `decompressed-index.md`).
+
+**Frontmatter is required** for every new `.md` file in `docs/` (except `docs/generated/`). Use the schema in `docs/governance/docs_metadata.schema.json` and run `python tools/check_docs_governance.py --registry docs/governance/docs_registry.json --strict` locally before committing. The CI workflow `.github/workflows/docs-governance.yml` enforces this on every PR.
+
+When adding or moving docs, also update `docs/governance/docs_registry.json` atomically in the same PR — a path drift will fail the strict check. The `tools/docs_governance_migrator.py` tool can populate registry entries and generate frontmatter in bulk if you need it.
+
 ## Common commands
 
 Node 18+ (22.19.0 recommended) and npm 11+; Python 3.10+. Install once with `npm ci` (root), `npm --prefix tools/ts install`, `npm --prefix apps/dashboard install`, and `pip install -r tools/py/requirements.txt` (+ `requirements-dev.txt` for backend tooling). `npm run prepare` wires Husky hooks.
@@ -96,13 +118,13 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 - **Mock parity**. `/api/mock/*` endpoints serve the JSON that `npm run mock:generate` writes to `apps/dashboard/public/data/flow/snapshots/` and `.../nebula/`. The dashboard's fallback path reads the same files — mocks are not just test fixtures, they back the "offline" UX.
 - **Dashboard deploy path**. `VITE_BASE_PATH` (default `./`) controls asset paths; `VITE_API_BASE_URL`/`VITE_API_BASE` + individual `VITE_*_URL` select live vs. mock; `VITE_API_USER` propagates as `X-User` header for audit. Empty values fall back to the next source in the registry automatically.
 - **Auth**. Backend routes honor JWT (`AUTH_SECRET`, `AUTH_AUDIENCE`, `AUTH_ISSUER`, `AUTH_ROLES_CLAIM`, etc.) when configured, otherwise open. Legacy Bearer tokens `TRAIT_EDITOR_TOKEN`/`TRAITS_API_TOKEN` protect trait routes; accepted roles are `reviewer`/`editor`/`admin` (admin always allowed).
-- **Trait Editor** is a separate Vite app under `Trait Editor/` — see `docs/trait-editor.md` before touching it.
+- **Trait Editor** is a separate Vite app under `Trait Editor/` — see `docs/traits/trait-editor.md` before touching it.
 
 ## Agent / automation conventions in this repo
 
 The repo ships a dedicated agent orchestration system (Codex-oriented) that's distinct from Claude Code. You don't need to "boot" it yourself, but be aware:
 
-- `AGENTS.md` + `.ai/BOOT_PROFILE.md` define a STRICT MODE workflow, automatic agent routing (`router.md`, `agents/agents_index.json`), and a macro-command library (`docs/COMMAND_LIBRARY.md`, `docs/pipelines/GOLDEN_PATH.md`, `docs/PIPELINE_TEMPLATES.md`). Users may send prompts like `COMANDO: GOLDEN_PATH_FEATURE ...` or `AGENTE: trait-curator` — those map to the flows defined in those docs, not to Claude Code slash commands.
+- `AGENTS.md` + `.ai/BOOT_PROFILE.md` define a STRICT MODE workflow, automatic agent routing (`router.md`, `agents/agents_index.json`), and a macro-command library (`docs/ops/COMMAND_LIBRARY.md`, `docs/pipelines/GOLDEN_PATH.md`, `docs/pipelines/PIPELINE_TEMPLATES.md`). Users may send prompts like `COMANDO: GOLDEN_PATH_FEATURE ...` or `AGENTE: trait-curator` — those map to the flows defined in those docs, not to Claude Code slash commands.
 - **Don't invent new `COMANDO:` semantics** or create slugs/files that don't match the existing schemas. When an instruction conflicts with `agent_constitution.md`/`agent.md`, surface the conflict instead of picking a side.
 - The per-agent profiles under `.ai/<agente>/` describe scope for Codex agents (trait-curator, species-curator, balancer, etc.). Useful as reference for where domain expertise lives, even when you're the one doing the edit.
 
