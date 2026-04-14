@@ -17,6 +17,7 @@ const { createSpeciesBiomesRouter } = require('./routes/speciesBiomes');
 const { createTraitRouter } = require('./routes/traits');
 const { createQualityRouter } = require('./routes/quality');
 const { createValidatorsRouter } = require('./routes/validators');
+const { createSessionRouter } = require('./routes/session');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const { createCatalogService } = require('./services/catalog');
@@ -665,6 +666,11 @@ function createApp(options = {}) {
     ...(options.traits || {}),
   };
   app.use('/api/traits', createTraitRouter(traitRouterOptions));
+
+  // Sprint SPRINT_001 fase 3 — engine minimo giocabile.
+  // Espone POST /api/session/{start,action,end} + GET /api/session/state.
+  // Stato in memoria, log eventi su disco in logs/session_*.json.
+  app.use('/api/session', createSessionRouter(options.session || {}));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {
