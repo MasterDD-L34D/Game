@@ -531,7 +531,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/analysis/analytics-toolkit.md",
+      "path": "docs/reports/analytics-toolkit.md",
       "title": "Analytics Toolkit",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -544,7 +544,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/analysis/trait_merge_proposals.md",
+      "path": "docs/reports/trait_merge_proposals.md",
       "title": "Proposte merge trait Evo",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -1168,7 +1168,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/dev/BIOME_FEATURE_CHECKS.md",
+      "path": "docs/pipelines/BIOME_FEATURE_CHECKS.md",
       "title": "BIOME_FEATURE_CHECKS.md",
       "doc_status": "draft",
       "doc_owner": "backend-team",
@@ -1610,7 +1610,7 @@
       "track": "canonical"
     },
     {
-      "path": "docs/hooks/ema-metrics.md",
+      "path": "docs/pipelines/ema-metrics.md",
       "title": "Hook — Trasmissione Metriche EMA & Alert Risk HUD",
       "doc_status": "draft",
       "doc_owner": "backend-team",
@@ -1727,7 +1727,7 @@
       "track": "canonical"
     },
     {
-      "path": "docs/ideas/IDEAS_INDEX.md",
+      "path": "docs/planning/ideas/IDEAS_INDEX.md",
       "title": "Ideas Index",
       "doc_status": "draft",
       "doc_owner": "incoming-archivist",
@@ -1740,7 +1740,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/ideas/README.md",
+      "path": "docs/planning/ideas/README.md",
       "title": "Idea Intake — Sezione sito (GitHub Pages)",
       "doc_status": "draft",
       "doc_owner": "incoming-archivist",
@@ -1753,7 +1753,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/ideas/changelog.md",
+      "path": "docs/planning/ideas/changelog.md",
       "title": "Idea Engine — Changelog rilasci",
       "doc_status": "draft",
       "doc_owner": "incoming-archivist",
@@ -1766,7 +1766,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/ideas/feedback.md",
+      "path": "docs/planning/ideas/feedback.md",
       "title": "Idea Engine · Feedback Template",
       "doc_status": "draft",
       "doc_owner": "incoming-archivist",
@@ -1779,7 +1779,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/ideas/refresh-plan.md",
+      "path": "docs/planning/ideas/refresh-plan.md",
       "title": "Idea Engine Docs Refresh Blueprint",
       "doc_status": "draft",
       "doc_owner": "incoming-archivist",
@@ -4795,7 +4795,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/recap/qa-playbook.md",
+      "path": "docs/archive/qa-playbook.md",
       "title": "QA Playbook · Nebula Release Flow",
       "doc_status": "draft",
       "doc_owner": "incoming-archivist",
@@ -5198,7 +5198,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/research/README.md",
+      "path": "docs/planning/research/README.md",
       "title": "Ricerche & Riferimenti",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5211,7 +5211,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/research/refs/2008_spore.md",
+      "path": "docs/planning/research/refs/2008_spore.md",
       "title": "Spore (2008) — Maxis/EA — PC/Mac — Premium",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5497,7 +5497,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits-manuale/01-introduzione.md",
+      "path": "docs/traits/manuale/01-introduzione.md",
       "title": "Introduzione e fonti dati",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5510,7 +5510,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits-manuale/02-modello-dati.md",
+      "path": "docs/traits/manuale/02-modello-dati.md",
       "title": "Modello dati",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5523,7 +5523,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits-manuale/03-tassonomia-famiglie.md",
+      "path": "docs/traits/manuale/03-tassonomia-famiglie.md",
       "title": "Tassonomia e famiglie funzionali",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5536,7 +5536,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits-manuale/04-collegamenti-cross-dataset.md",
+      "path": "docs/traits/manuale/04-collegamenti-cross-dataset.md",
       "title": "Collegamenti a specie, eventi e regole ambientali",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5549,7 +5549,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits-manuale/05-workflow-strumenti.md",
+      "path": "docs/traits/manuale/05-workflow-strumenti.md",
       "title": "Workflow & strumenti",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5562,7 +5562,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits-manuale/06-standalone-trait-editor.md",
+      "path": "docs/traits/manuale/06-standalone-trait-editor.md",
       "title": "STANDALONE Trait Editor",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5575,7 +5575,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/traits-manuale/README.md",
+      "path": "docs/traits/manuale/README.md",
       "title": "Manuale operativo dei trait",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5640,7 +5640,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/tri-sorgente/overview.md",
+      "path": "docs/architecture/tri-sorgente/overview.md",
       "title": "Tri-Sorgente (Roll + Personalità + Azioni)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5653,7 +5653,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/tri-sorgente/qa.md",
+      "path": "docs/architecture/tri-sorgente/qa.md",
       "title": "QA & KPI",
       "doc_status": "draft",
       "doc_owner": "platform-docs",

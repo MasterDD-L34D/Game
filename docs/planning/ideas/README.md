@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Idea Intake — Sezione sito (GitHub Pages)
 
 > Support Hub / Docs / Idea Engine
