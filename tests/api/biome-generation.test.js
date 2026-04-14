@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const request = require('supertest');
 const { createApp } = require('../../apps/backend/app');
+const { createIsolatedSnapshotStore } = require('../helpers/snapshotFixture');
 
 const REQUIRED_ROLES = ['apex', 'keystone', 'threat'];
 
@@ -26,7 +27,12 @@ test.after(async () => {
 
 test('POST /api/v1/generation/biomes produce biomi sintetici coerenti con i vincoli', async () => {
   const dataRoot = path.resolve(__dirname, '..', '..', 'data');
-  const handle = createApp({ dataRoot });
+  // Snapshot store mockfs-backed -> persistRuntime non scrive su disco
+  // (issue #1341 — no dirty su data/flow-shell/atlas-snapshot.json).
+  const handle = createApp({
+    dataRoot,
+    generationSnapshot: { store: createIsolatedSnapshotStore() },
+  });
   appHandle = handle;
   const { app } = handle;
 

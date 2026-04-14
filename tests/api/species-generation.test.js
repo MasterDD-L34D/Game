@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const request = require('supertest');
 
 const { createApp } = require('../../apps/backend/app');
+const { createIsolatedSnapshotStore } = require('../helpers/snapshotFixture');
 
 const appHandles = [];
 
@@ -19,8 +20,18 @@ test.after(async () => {
   }
 });
 
-function makeApp(options) {
-  const handle = createApp(options);
+function makeApp(options = {}) {
+  // Inietta uno snapshot store mockfs-backed cosi' i POST verso
+  // /api/v1/generation/species non triggerano persistRuntime su disco
+  // (issue #1341 — no dirty su data/flow-shell/atlas-snapshot.json).
+  const merged = {
+    ...options,
+    generationSnapshot: {
+      ...(options.generationSnapshot || {}),
+      store: options.generationSnapshot?.store || createIsolatedSnapshotStore(),
+    },
+  };
+  const handle = createApp(merged);
   appHandles.push(handle);
   return handle;
 }
