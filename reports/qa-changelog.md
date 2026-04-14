@@ -1,38 +1,22 @@
----
-title: QA export changelog
-doc_status: generated
-doc_owner: platform-docs
-workstream: cross-cutting
-last_verified: 2026-04-14
-source_of_truth: false
-language: it-en
-review_cycle_days: 14
----
 # QA export changelog
 
-Generato: 2025-12-09T20:02:28.734099Z
+Generato: 2026-04-14T19:23:03.693761Z
+Baseline precedente: 2025-12-09T20:02:28.734099Z
 
 ## Metriche baseline
-- Tratti totali: 254 (+254 vs precedente)
-- Glossario OK: 254 (+254 vs precedente)
+- Tratti totali: 254 (0 vs precedente)
+- Glossario OK: 254 (0 vs precedente)
 - Glossario mancanti: 0 (0 vs precedente)
-- Mismatch matrice: 79 (+79 vs precedente)
-- Tratti con conflitti: 34 (+34 vs precedente)
+- Mismatch matrice: 76 (-3 vs precedente)
+- Tratti con conflitti: 34 (0 vs precedente)
 
 ### tratti con mismatch matrice
-- Nuovi:
-  - ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, bioantenne_gravitiche, bozzolo_magnetico, camere_risonanza_abyssal, campo_di_interferenza_acustica, cannone_sonico_a_raggio, canto_infrasonico_tattico, canto_risonante, cervello_a_bassa_latenza, cinghia_iper_ciliare, cisti_di_ibernazione_minerale, coda_prensile_muscolare, comunicazione_fotonica_coda_coda, coralli_sinaptici_fotofase, corazze_ferro_magnetico
-  - … (59 ulteriori)
-
-### tratti presenti solo nel matrix
-- Nuovi:
-  - Strategist, adattamento_volo, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, corteccia_memetica, eco_sismico, filtri_bioattivi, fisiologia_predatoria, fotosintesi_bifase, ghiandole_nettare_memetico, intangibilita_parziale, lamenti_diradanti, maschera_illusoria, matrice_antimagia, membrane_osmotiche, metabolismo_attivo
-  - … (24 ulteriori)
+- Risolti:
+  - cannone_sonico_a_raggio, ipertrofia_muscolare_massiva, pelage_idrorepellente_avanzato
 
 ### tratti senza copertura QA
-- Nuovi:
-  - ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, bioantenne_gravitiche, bozzolo_magnetico, camere_risonanza_abyssal, campo_di_interferenza_acustica, cannone_sonico_a_raggio, canto_infrasonico_tattico, canto_risonante, cervello_a_bassa_latenza, cinghia_iper_ciliare, cisti_di_ibernazione_minerale, coda_prensile_muscolare, comunicazione_fotonica_coda_coda, coralli_sinaptici_fotofase, corazze_ferro_magnetico
-  - … (59 ulteriori)
+- Risolti:
+  - cannone_sonico_a_raggio, ipertrofia_muscolare_massiva, pelage_idrorepellente_avanzato
 
 ## Highlights UI
 - Solo matrice: Strategist, adattamento_volo, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, corteccia_memetica, eco_sismico
@@ -54,5 +38,9 @@ Generato: 2025-12-09T20:02:28.734099Z
 - Check passati: 0 (0 vs precedente)
 - Check falliti: 0 (0 vs precedente)
 - Tratti validati: 0 (0 vs precedente)
+
+## Badge QA
+- Tratti passed: 254 (0 vs precedente)
+- Conflitti badge: 34 (0 vs precedente)
 
 _Report generato da scripts/export-qa-report.js_
