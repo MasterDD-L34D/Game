@@ -70,7 +70,12 @@ async function downloadHttp(url, destination) {
   const client = target.protocol === 'https:' ? https : http;
   await new Promise((resolve, reject) => {
     const request = client.get(target, (response) => {
-      if (response.statusCode && response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+      if (
+        response.statusCode &&
+        response.statusCode >= 300 &&
+        response.statusCode < 400 &&
+        response.headers.location
+      ) {
         downloadHttp(response.headers.location, destination).then(resolve).catch(reject);
         return;
       }
@@ -109,16 +114,16 @@ async function syncFromShared(sharedUri, targetPath) {
       const resolved = sharedUri.slice('file://'.length);
       await fs.copyFile(resolved, tempPath);
     } else {
-      const resolved = path.isAbsolute(sharedUri)
-        ? sharedUri
-        : path.resolve(ROOT_DIR, sharedUri);
+      const resolved = path.isAbsolute(sharedUri) ? sharedUri : path.resolve(ROOT_DIR, sharedUri);
       await fs.copyFile(resolved, tempPath);
     }
     await fs.rename(tempPath, targetPath);
     return true;
   } catch (error) {
     await fs.rm(tempPath, { force: true }).catch(() => {});
-    console.warn(`[snapshot-sync] sincronizzazione da ${sharedUri} fallita: ${error.message || error}`);
+    console.warn(
+      `[snapshot-sync] sincronizzazione da ${sharedUri} fallita: ${error.message || error}`,
+    );
     return false;
   }
 }
@@ -145,8 +150,20 @@ async function main() {
     ? path.resolve(ROOT_DIR, args.configPath)
     : path.join(ROOT_DIR, 'config', 'dataSources.json');
 
-  const configRaw = await fs.readFile(configPath, 'utf8');
-  const config = JSON.parse(configRaw);
+  // Se la config non esiste, lo script e' no-op: il file dataset vive gia'
+  // committato in data/flow-shell/atlas-snapshot.json e non serve sync.
+  // Succede dopo il cleanup #1343 quando qualcuno cancella dataSources.json.
+  let config = null;
+  try {
+    const configRaw = await fs.readFile(configPath, 'utf8');
+    config = JSON.parse(configRaw);
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      console.log(`[snapshot-sync] config ${configPath} non presente, skip sync`);
+      return;
+    }
+    throw error;
+  }
   const entry = config[args.id];
   if (!entry) {
     console.error(`[snapshot-sync] sorgente non configurata: ${args.id}`);
@@ -160,6 +177,13 @@ async function main() {
   const localRelative = entry.local || entry.localPath || 'flow-shell/atlas-snapshot.json';
   const targetPath = path.resolve(targetBase, localRelative);
 
+  // Se il file target esiste gia' (committato nel repo), nessuna sync e'
+  // necessaria. Il flag --force-fallback bypassa questo early exit.
+  if (!args.forceFallback && (await fileExists(targetPath))) {
+    console.log(`[snapshot-sync] snapshot gia' presente in ${targetPath}, skip sync`);
+    return;
+  }
+
   const sharedUri = args.forceFallback ? null : process.env.DEPLOY_SNAPSHOT_URI || entry.shared;
 
   let success = false;
@@ -168,7 +192,7 @@ async function main() {
     success = await syncFromShared(sharedUri, targetPath);
   }
 
-  if (!success) {
+  if (!success && entry.fallback) {
     console.log('[snapshot-sync] utilizzo fallback locale per lo snapshot');
     success = await copyFallback(entry.fallback, targetPath);
   }
