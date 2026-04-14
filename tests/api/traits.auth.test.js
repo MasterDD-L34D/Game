@@ -1,3 +1,5 @@
+process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
+
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
@@ -20,7 +22,9 @@ test.after(async () => {
   while (appHandles.length) {
     const handle = appHandles.pop();
     if (handle && typeof handle.close === 'function') {
-      await handle.close();
+      await handle.close().catch((err) => {
+        console.warn('[test teardown] traits.auth close warning:', err?.message ?? err);
+      });
     }
   }
 });

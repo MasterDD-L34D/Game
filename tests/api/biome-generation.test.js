@@ -1,3 +1,5 @@
+process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
+
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
@@ -15,7 +17,9 @@ function hasRole(species, role) {
 
 test.after(async () => {
   if (appHandle && typeof appHandle.close === 'function') {
-    await appHandle.close();
+    await appHandle.close().catch((err) => {
+      console.warn('[test teardown] biome-generation close warning:', err?.message ?? err);
+    });
     appHandle = null;
   }
 });

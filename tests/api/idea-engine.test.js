@@ -1,3 +1,5 @@
+process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
+
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const os = require('node:os');
@@ -16,7 +18,11 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
   const handle = createApp({ databasePath });
   const { app, repo } = handle;
   t.after(async () => {
-    if (typeof handle.close === 'function') await handle.close();
+    if (typeof handle.close === 'function') {
+      await handle.close().catch((err) => {
+        console.warn('[test teardown] idea-engine close warning:', err?.message ?? err);
+      });
+    }
   });
   await repo.ready;
   t.after(() => {
@@ -68,7 +74,11 @@ test('POST /api/ideas/:id/feedback registra il commento e aggiorna il report', a
   const handle = createApp({ databasePath });
   const { app, repo } = handle;
   t.after(async () => {
-    if (typeof handle.close === 'function') await handle.close();
+    if (typeof handle.close === 'function') {
+      await handle.close().catch((err) => {
+        console.warn('[test teardown] idea-engine close warning:', err?.message ?? err);
+      });
+    }
   });
   await repo.ready;
   t.after(() => {
@@ -116,7 +126,11 @@ test('GET /api/ideas/:id/report restituisce il report salvato', async (t) => {
   const handle = createApp({ databasePath });
   const { app, repo } = handle;
   t.after(async () => {
-    if (typeof handle.close === 'function') await handle.close();
+    if (typeof handle.close === 'function') {
+      await handle.close().catch((err) => {
+        console.warn('[test teardown] idea-engine close warning:', err?.message ?? err);
+      });
+    }
   });
   await repo.ready;
   t.after(() => {
@@ -144,7 +158,11 @@ test('POST /api/ideas valida i campi obbligatori', async (t) => {
   const handle = createApp({ databasePath });
   const { app, repo } = handle;
   t.after(async () => {
-    if (typeof handle.close === 'function') await handle.close();
+    if (typeof handle.close === 'function') {
+      await handle.close().catch((err) => {
+        console.warn('[test teardown] idea-engine close warning:', err?.message ?? err);
+      });
+    }
   });
   await repo.ready;
   t.after(() => {
@@ -161,7 +179,11 @@ test('POST /api/ideas rifiuta categorie non in tassonomia', async (t) => {
   const handle = createApp({ databasePath });
   const { app, repo } = handle;
   t.after(async () => {
-    if (typeof handle.close === 'function') await handle.close();
+    if (typeof handle.close === 'function') {
+      await handle.close().catch((err) => {
+        console.warn('[test teardown] idea-engine close warning:', err?.message ?? err);
+      });
+    }
   });
   await repo.ready;
   t.after(() => {
@@ -185,7 +207,11 @@ test('POST /api/ideas rifiuta slug non catalogati senza override', async (t) => 
   const handle = createApp({ databasePath });
   const { app, repo } = handle;
   t.after(async () => {
-    if (typeof handle.close === 'function') await handle.close();
+    if (typeof handle.close === 'function') {
+      await handle.close().catch((err) => {
+        console.warn('[test teardown] idea-engine close warning:', err?.message ?? err);
+      });
+    }
   });
   await repo.ready;
   t.after(() => {
@@ -212,7 +238,11 @@ test('POST /api/ideas accetta slug non catalogati con override', async (t) => {
   const handle = createApp({ databasePath });
   const { app, repo } = handle;
   t.after(async () => {
-    if (typeof handle.close === 'function') await handle.close();
+    if (typeof handle.close === 'function') {
+      await handle.close().catch((err) => {
+        console.warn('[test teardown] idea-engine close warning:', err?.message ?? err);
+      });
+    }
   });
   await repo.ready;
   t.after(() => {

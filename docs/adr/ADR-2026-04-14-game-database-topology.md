@@ -1,5 +1,5 @@
 ---
-title: "ADR-2026-04-14: Game ↔ Game-Database topology and integration boundary"
+title: 'ADR-2026-04-14: Game ↔ Game-Database topology and integration boundary'
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
@@ -131,14 +131,14 @@ Questo ADR formalizza:
 
 ## Port allocation
 
-| Service | Port (default) | Override env | Note |
-|---|---|---|---|
-| Game backend (Express) | **3334** | `PORT` | Cambiato da 3333 in questo ADR. Legacy override: `PORT=3333` |
-| Game-Database backend (Express) | **3333** | `PORT` (side del Game-Database) | Invariato per non disturbare Codex |
-| Game dashboard (scaffold Vite) | 5173 | `PORT` di Vite | Non renderizza, vedi altro ADR |
-| Game-Database dashboard (React/Vite) | 5173 | `PORT` di Vite | **Conflitto potenziale col Game scaffold** — usare porte diverse se entrambi avviati |
-| Game Postgres (via docker-compose) | 5432 | - | Invariato |
-| Game-Database Postgres | 5432 | - | **Conflitto potenziale** — chi usa docker-compose su entrambi i repo deve scegliere porte diverse |
+| Service                              | Port (default) | Override env                    | Note                                                                                              |
+| ------------------------------------ | -------------- | ------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Game backend (Express)               | **3334**       | `PORT`                          | Cambiato da 3333 in questo ADR. Legacy override: `PORT=3333`                                      |
+| Game-Database backend (Express)      | **3333**       | `PORT` (side del Game-Database) | Invariato per non disturbare Codex                                                                |
+| Game dashboard (scaffold Vite)       | 5173           | `PORT` di Vite                  | Non renderizza, vedi altro ADR                                                                    |
+| Game-Database dashboard (React/Vite) | 5173           | `PORT` di Vite                  | **Conflitto potenziale col Game scaffold** — usare porte diverse se entrambi avviati              |
+| Game Postgres (via docker-compose)   | 5432           | -                               | Invariato                                                                                         |
+| Game-Database Postgres               | 5432           | -                               | **Conflitto potenziale** — chi usa docker-compose su entrambi i repo deve scegliere porte diverse |
 
 **Implicazioni pratiche:**
 
@@ -173,39 +173,39 @@ if (gameDatabaseEnabled) {
 
 ### Traits
 
-| Campo | In Game (local files) | In Game-Database (Prisma) |
-|---|---|---|
-| id/slug | ✅ | ✅ |
-| name / labels IT+EN | ✅ | ✅ (`name`, `description`) |
-| category | ✅ | ✅ |
-| dataType | (implicito) | ✅ (BOOLEAN/NUMERIC/CATEGORICAL/TEXT) |
-| allowedValues | ✅ | ✅ (JSON) |
-| range (min/max) | ✅ | ✅ (`rangeMin`, `rangeMax`) |
-| `environments` | ✅ | ❌ |
-| `synergies` / `conflicts` | ✅ | ❌ |
-| `energy_profile` | ✅ | ❌ |
-| `selective_drive` | ✅ | ❌ |
-| `usage_tags` | ✅ | ❌ |
-| `species_affinity` | ✅ | ❌ |
-| `completion_flags` | ✅ | ❌ |
-| `weakness` | ✅ | ❌ |
-| `mutation` | ✅ | ❌ |
+| Campo                     | In Game (local files) | In Game-Database (Prisma)             |
+| ------------------------- | --------------------- | ------------------------------------- |
+| id/slug                   | ✅                    | ✅                                    |
+| name / labels IT+EN       | ✅                    | ✅ (`name`, `description`)            |
+| category                  | ✅                    | ✅                                    |
+| dataType                  | (implicito)           | ✅ (BOOLEAN/NUMERIC/CATEGORICAL/TEXT) |
+| allowedValues             | ✅                    | ✅ (JSON)                             |
+| range (min/max)           | ✅                    | ✅ (`rangeMin`, `rangeMax`)           |
+| `environments`            | ✅                    | ❌                                    |
+| `synergies` / `conflicts` | ✅                    | ❌                                    |
+| `energy_profile`          | ✅                    | ❌                                    |
+| `selective_drive`         | ✅                    | ❌                                    |
+| `usage_tags`              | ✅                    | ❌                                    |
+| `species_affinity`        | ✅                    | ❌                                    |
+| `completion_flags`        | ✅                    | ❌                                    |
+| `weakness`                | ✅                    | ❌                                    |
+| `mutation`                | ✅                    | ❌                                    |
 
 ### Biomes
 
-| Campo | In Game (biome_pools.json) | In Game-Database (Prisma Biome) |
-|---|---|---|
-| id/slug | ✅ | ✅ |
-| name / label | ✅ | ✅ |
-| description / summary | ✅ | ✅ |
-| `climate` / `climate_tags` | ✅ | ✅ (`climate`, stringa) |
-| `parentId` (hierarchy) | ❌ | ✅ |
-| `size` (min/max) | ✅ | ❌ |
-| `hazard` (severity, description, stress_modifiers) | ✅ | ❌ |
-| `ecology` (biome_type, food_web, ecc.) | ✅ | ❌ |
-| `traits.core` + `traits.support` pool | ✅ | ❌ (indiretto via `SpeciesBiome` junction, diversa semantica) |
-| `role_templates` (role, preferred_traits, tier) | ✅ | ❌ |
-| `metadata` (schema_version, updated_at) | ✅ | ❌ (campo createdAt/updatedAt sostituisce) |
+| Campo                                              | In Game (biome_pools.json) | In Game-Database (Prisma Biome)                               |
+| -------------------------------------------------- | -------------------------- | ------------------------------------------------------------- |
+| id/slug                                            | ✅                         | ✅                                                            |
+| name / label                                       | ✅                         | ✅                                                            |
+| description / summary                              | ✅                         | ✅                                                            |
+| `climate` / `climate_tags`                         | ✅                         | ✅ (`climate`, stringa)                                       |
+| `parentId` (hierarchy)                             | ❌                         | ✅                                                            |
+| `size` (min/max)                                   | ✅                         | ❌                                                            |
+| `hazard` (severity, description, stress_modifiers) | ✅                         | ❌                                                            |
+| `ecology` (biome_type, food_web, ecc.)             | ✅                         | ❌                                                            |
+| `traits.core` + `traits.support` pool              | ✅                         | ❌ (indiretto via `SpeciesBiome` junction, diversa semantica) |
+| `role_templates` (role, preferred_traits, tier)    | ✅                         | ❌                                                            |
+| `metadata` (schema_version, updated_at)            | ✅                         | ❌ (campo createdAt/updatedAt sostituisce)                    |
 
 ### Species
 
@@ -250,6 +250,45 @@ L'import è **idempotente** (upsert by slug). Può essere rilanciato senza side 
 
 Il report finale produce contatori per: totals, normalized, complete/partial, discarded, errors per dominio. Da loggare in `logs/agent_activity.md` del Game-Database (non di Game).
 
+## Automation recommendations (evo:import)
+
+Oggi `npm run evo:import` gira **a mano** sul lato Game-Database quando l'operatore decide di sincronizzare. Per ridurre il drift tra i due repo si possono adottare uno dei tre pattern seguenti. **Nessuno è wired oggi** — questa sezione documenta le opzioni per chi in futuro implementerà l'automazione.
+
+### Pattern A — GitHub Actions `repository_dispatch` (cross-repo trigger)
+
+**Flow**: Game esegue `sync:evo-pack` in una PR di dataset. Quando la PR viene mergiata su `main`, un workflow `.github/workflows/notify-game-database.yml` firma un payload e invoca `repository_dispatch` verso `MasterDD-L34D/Game-Database`. Lato Game-Database, un workflow `on: repository_dispatch: types: [evo-catalog-updated]` lancia `npm run evo:import`, apre una PR di sync, e notifica Slack/Ops.
+
+**Pro**: disaccoppiato, audit trail completo (entrambi i repo loggano l'evento), rollback chiaro (revert del merge su Game = nessuna nuova dispatch).
+**Contro**: richiede un PAT (Personal Access Token) o GitHub App con `repo` scope + `contents:write` sul Game-Database. Configurazione iniziale dei secret non banale.
+**Effort**: Medium (2 workflow file + 1 GitHub App + documentazione onboarding).
+**Stakeholder**: Ops + Master DD.
+
+### Pattern B — Cron job Game-Database side (pull periodico)
+
+**Flow**: Game-Database lancia una GitHub Action schedulata (`cron: '0 */6 * * *'`) che fa `git clone https://github.com/MasterDD-L34D/Game` (o fetch su submodule/subtree), esegue `npm run evo:import`, e se ci sono diff apre una PR `chore(evo): sync catalog YYYY-MM-DD`.
+
+**Pro**: vive interamente dentro Game-Database, zero secret cross-repo, facile disattivazione (commenta il cron).
+**Contro**: lag di 6h worst-case, clone completo ad ogni run (spreca bandwidth), nessun trigger event-driven.
+**Effort**: Small (1 workflow file nel Game-Database).
+**Stakeholder**: Codex / Game-Database maintainer.
+
+### Pattern C — Git hook Game side (push-time validation)
+
+**Flow**: un `pre-push` hook lato Game rileva modifiche a `packs/evo_tactics_pack/docs/catalog/**` e, se presenti, esegue `evo:import --dry-run` puntando a un clone locale del Game-Database. Il hook blocca il push se il dry-run segnala error/dropped records > 0.
+
+**Pro**: feedback immediato allo sviluppatore, impedisce push di catalog rotti.
+**Contro**: richiede Game-Database clonato localmente e path env var configurato; hook bypassabile con `--no-verify`; nessun aggiornamento automatico del Game-Database remoto (solo gate).
+**Effort**: Very Small (1 file in `.husky/` + doc).
+**Stakeholder**: Master DD (decide se gate).
+
+### Raccomandazione
+
+**Pattern B** è il candidato naturale per un primo deploy: zero secret cross-repo, nessun impatto sul Game workflow, e già oggi c'è GitHub Actions sul Game-Database (cron di tracker refresh). La PR generata è review-able a valle e offre un ponte naturale verso Pattern A quando ci sarà una GitHub App condivisa.
+
+**Pattern C** può essere aggiunto in parallelo come safety net a costo quasi-zero. Pattern A resta il target di lungo periodo per event-driven sync ma richiede lavoro di setup che oggi non ha ROI.
+
+Nessun pattern viene wired in questa ADR. Il naming `evo:import` è riservato al comando in Game-Database e non cambia con l'automazione scelta.
+
 ## Alternative considerate
 
 ### Alternativa A (scelta) — Documentazione + port fix + env var stub
@@ -263,6 +302,7 @@ Implementare in `apps/backend/services/catalog.js` un branch che, se `GAME_DATAB
 **Pro**: dà un valore immediato (il dashboard di Game-Database può editare i label IT/EN di un trait e il Game backend li vede senza restart, a condizione che il cache venga invalidato).
 
 **Contro**:
+
 - Richiede progettazione di cache/retry/timeout/circuit-breaker
 - Richiede ~20-30 aggiornamenti di test esistenti (mock HTTP, snapshot)
 - Copre solo il trait glossary (labels), non i biome_pools né il trait catalog ricco
@@ -278,6 +318,7 @@ Estendere il Prisma schema di Game-Database per includere biome_pools ricchi, tr
 **Pro**: soluzione architetturalmente pulita, single source of truth per dati taxonomy.
 
 **Contro**:
+
 - Richiede PR cross-repo
 - Coordinamento settimanale con Codex che sta iterando su Game-Database
 - Settimane di lavoro (schema design + migration + ingest update + Game client + test)

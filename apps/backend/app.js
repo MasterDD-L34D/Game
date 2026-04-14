@@ -88,12 +88,26 @@ function buildSlugConfig(sectionKey, aliasKey) {
   return { canonicalSet, aliasMap };
 }
 
+function isBenignTeardownError(error) {
+  if (!error) return false;
+  const message = typeof error.message === 'string' ? error.message : String(error);
+  return /Pool terminato|worker pool closed|already closed|Worker non disponibile|worker not available/i.test(
+    message,
+  );
+}
+
 async function readJsonFile(filePath, fallback) {
   try {
     const content = await fs.readFile(filePath, 'utf8');
     return JSON.parse(content);
   } catch (error) {
     if (error && error.code === 'ENOENT') {
+      return fallback;
+    }
+    if (error instanceof SyntaxError && fallback !== undefined) {
+      console.warn(
+        `[app] JSON corrotto in ${filePath} (${error.message}); uso fallback e riscriverò al prossimo write`,
+      );
       return fallback;
     }
     throw error;
@@ -103,7 +117,14 @@ async function readJsonFile(filePath, fallback) {
 async function writeJsonFile(filePath, payload) {
   const targetDir = path.dirname(filePath);
   await fs.mkdir(targetDir, { recursive: true });
-  await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  const tmpPath = `${filePath}.${process.pid}.${Date.now()}.${Math.random().toString(36).slice(2, 8)}.tmp`;
+  await fs.writeFile(tmpPath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  try {
+    await fs.rename(tmpPath, filePath);
+  } catch (renameError) {
+    await fs.rm(tmpPath, { force: true }).catch(() => {});
+    throw renameError;
+  }
 }
 
 function normaliseSlugList(values, config) {
@@ -322,7 +343,16 @@ function createApp(options = {}) {
     });
   const qaStatusPath = options.qaStatusPath || DEFAULT_QA_STATUS;
   const deploymentOptions = options.deployment || {};
-  const statusReportPath = deploymentOptions.statusReportPath || DEFAULT_STATUS_REPORT;
+  const statusReportExplicit = Object.prototype.hasOwnProperty.call(
+    deploymentOptions,
+    'statusReportPath',
+  );
+  const statusReportDisabledByEnv = process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH === '1';
+  const statusReportPath = statusReportDisabledByEnv
+    ? null
+    : statusReportExplicit
+      ? deploymentOptions.statusReportPath
+      : DEFAULT_STATUS_REPORT;
   const deploymentNotifier = deploymentOptions.notifier;
   const app = express();
 
@@ -339,6 +369,7 @@ function createApp(options = {}) {
   }
 
   traitDiagnosticsSync.load().catch((error) => {
+    if (isBenignTeardownError(error)) return;
     console.warn('[trait-diagnostics] preload fallito', error);
   });
 
@@ -549,6 +580,12 @@ function createApp(options = {}) {
   });
 
   async function refreshStatusReport(baseStatus) {
+    if (!statusReportPath) {
+      if (releaseReporter && typeof releaseReporter.buildReport === 'function') {
+        return releaseReporter.buildReport(baseStatus || { deployments: [], updatedAt: null });
+      }
+      return baseStatus || { deployments: [], updatedAt: null };
+    }
     const existing =
       baseStatus || (await readJsonFile(statusReportPath, { deployments: [], updatedAt: null }));
     if (releaseReporter && typeof releaseReporter.buildReport === 'function') {
@@ -560,9 +597,12 @@ function createApp(options = {}) {
     return existing;
   }
 
-  refreshStatusReport().catch((error) => {
-    console.warn('[release-reporter] preload fallito', error);
-  });
+  if (statusReportPath) {
+    refreshStatusReport().catch((error) => {
+      if (isBenignTeardownError(error)) return;
+      console.warn('[release-reporter] preload fallito', error);
+    });
+  }
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'idea-engine' });

@@ -1,3 +1,5 @@
+process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
+
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const request = require('supertest');
