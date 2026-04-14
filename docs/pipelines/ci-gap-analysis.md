@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # CI gap analysis (OPS-01)
 
 Questa analisi sintetizza lo stato attuale dei workflow CI e identifica le aree

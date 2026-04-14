@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Rotazione token profilo `support`
 
 **Data aggiornamento:** 2025-11-10 — Allineamento con Support/QA Bridge.

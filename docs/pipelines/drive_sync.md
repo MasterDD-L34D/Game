@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Workflow driveSync — approvazione asset
 
 Questa procedura descrive come generare l'elenco di asset approvati da sincronizzare
@@ -31,7 +32,7 @@ credenziali necessari.
 
 ## 2. Invio all'Apps Script `driveSync.gs`
 
-1. Distribuisci `scripts/driveSync.gs` come Web App (Deploy → *Web App*) e annota
+1. Distribuisci `scripts/driveSync.gs` come Web App (Deploy → _Web App_) e annota
    l'URL pubblicato, oppure configura l'Execution API se preferisci invocare la
    funzione `updateApprovedAssets` direttamente.
 2. Definisci nelle Script Properties:

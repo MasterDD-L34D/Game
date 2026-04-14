@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Manutenzione della roadmap live
 
 La roadmap live è alimentata da snapshot di generazione, telemetria Nebula e verifiche QA raccolti in `reports/status.json`. Il

@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Template escalation bug CLI
 
 - **Titolo**: `[CLI][<profile>] <descrizione>`

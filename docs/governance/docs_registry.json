@@ -960,7 +960,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/action-items.md",
+      "path": "docs/process/action-items.md",
       "title": "Action Items — Sintesi operativa",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -973,7 +973,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/bug-intake.md",
+      "path": "docs/process/bug-intake.md",
       "title": "Bug Intake Checklist",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -986,7 +986,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/clone-setup.md",
+      "path": "docs/process/clone-setup.md",
       "title": "Procedura di clone e setup iniziale",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -999,7 +999,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/demo-release.md",
+      "path": "docs/process/demo-release.md",
       "title": "Checklist release demo pubblica",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -1012,7 +1012,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/incoming_triage.md",
+      "path": "docs/process/incoming_triage.md",
       "title": "Checklist Triage Cartella `incoming/`",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -1025,7 +1025,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/milestones.md",
+      "path": "docs/process/milestones.md",
       "title": "Checklist Milestone",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -1038,7 +1038,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/project-setup-todo.md",
+      "path": "docs/process/project-setup-todo.md",
       "title": "TODO Operativo — Avvio completo del progetto",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -1051,7 +1051,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/telemetry.md",
+      "path": "docs/process/telemetry.md",
       "title": "Checklist — Telemetry Export & QA Filters",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -1064,7 +1064,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/checklist/vc_playtest_plan.md",
+      "path": "docs/process/vc_playtest_plan.md",
       "title": "Playtest VC Mirati alla Telemetria",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -3417,7 +3417,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/piani/roadmap.md",
+      "path": "docs/planning/roadmap_operativa.md",
       "title": "Roadmap Operativa",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5224,7 +5224,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/roadmap/evo-rollout-checklists.md",
+      "path": "docs/planning/roadmap/evo-rollout-checklists.md",
       "title": "Checklist di consegna Evo-Tactics",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5237,7 +5237,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/roadmap/evo-rollout-schedule.md",
+      "path": "docs/planning/roadmap/evo-rollout-schedule.md",
       "title": "Calendario rollout Evo-Tactics",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5250,7 +5250,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/roadmap/evo-rollout-status.md",
+      "path": "docs/planning/roadmap/evo-rollout-status.md",
       "title": "Evo-Tactics rollout status",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5263,7 +5263,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/roadmap/maintenance.md",
+      "path": "docs/planning/roadmap/maintenance.md",
       "title": "Manutenzione della roadmap live",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -5276,7 +5276,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/roadmap/status/evo-weekly-20251029.md",
+      "path": "docs/planning/roadmap/status/evo-weekly-20251029.md",
       "title": "Evo rollout weekly status",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5289,7 +5289,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/roadmap/status/evo-weekly-20251202.md",
+      "path": "docs/planning/roadmap/status/evo-weekly-20251202.md",
       "title": "Evo rollout weekly status",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5302,7 +5302,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/roadmap/status/evo-weekly-20251203.md",
+      "path": "docs/planning/roadmap/status/evo-weekly-20251203.md",
       "title": "Evo rollout weekly status",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -5354,7 +5354,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/support/bug-template.md",
+      "path": "docs/process/bug-template.md",
       "title": "Template escalation bug CLI",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -5367,7 +5367,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/support/ticket-2025-10-27-playwright-deploy-checks.md",
+      "path": "docs/process/ticket-2025-10-27-playwright-deploy-checks.md",
       "title": "[WEB][deploy-checks] Playwright Chromium download 403",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -5380,7 +5380,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/support/token-rotation.md",
+      "path": "docs/process/token-rotation.md",
       "title": "Rotazione token profilo `support`",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -5835,7 +5835,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/workflows/ci-gap-analysis.md",
+      "path": "docs/pipelines/ci-gap-analysis.md",
       "title": "CI gap analysis (OPS-01)",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -5848,7 +5848,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/workflows/drive_sync.md",
+      "path": "docs/pipelines/drive_sync.md",
       "title": "Workflow driveSync — approvazione asset",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",
@@ -5861,7 +5861,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/workflows/gh-cli-manual-dispatch.md",
+      "path": "docs/pipelines/gh-cli-manual-dispatch.md",
       "title": "Avvio manuale dei workflow GitHub da terminale locale",
       "doc_status": "draft",
       "doc_owner": "ops-qa-team",

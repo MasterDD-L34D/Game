@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Avvio manuale dei workflow GitHub da terminale locale
 
 Questa guida spiega come avviare manualmente i workflow GitHub del progetto a
@@ -74,7 +75,7 @@ già posizionati nella cartella del repository, ad esempio
 - Puoi cambiare `$REF` per lanciare i workflow su un branch diverso.
 - I workflow che non espongono `workflow_dispatch` (ad es. `ci.yml` o
   `telemetry-export.yml`) non possono essere avviati manualmente con `gh
-  workflow run`: usa i loro trigger nativi (push/PR) o aggiungi il trigger nel
+workflow run`: usa i loro trigger nativi (push/PR) o aggiungi il trigger nel
   file se necessario.
 
 ## Recupero log e artefatti
