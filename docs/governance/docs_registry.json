@@ -219,6 +219,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md",
+      "title": "ADR-2026-04-14: Dashboard scaffold vs Mission Console bundle dichotomy",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-XXX-refactor-cli.md",
       "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
       "doc_status": "active",
@@ -2512,7 +2525,7 @@
       "doc_status": "active",
       "doc_owner": "atlas-team",
       "workstream": "atlas",
-      "last_verified": "2026-04-13",
+      "last_verified": "2026-04-14",
       "source_of_truth": true,
       "language": "it-en",
       "review_cycle_days": 14,
