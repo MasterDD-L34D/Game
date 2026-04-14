@@ -7,8 +7,12 @@ const {
 } = require('../services/generationSnapshotStore');
 const { SchemaValidationError } = require('../middleware/schemaValidator');
 
+// __dirname = apps/backend/routes → 3x `..` arriva alla repo root.
+// Vedi nota in apps/backend/services/generationSnapshotStore.js per il
+// motivo del fix (il vecchio path con 2x `..` puntava a apps/data/...).
 const DEFAULT_DATASET_PATH = path.resolve(
   __dirname,
+  '..',
   '..',
   '..',
   'data',

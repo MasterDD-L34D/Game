@@ -1,8 +1,13 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
+// __dirname = apps/backend/services → 3x `..` arriva alla repo root.
+// Il vecchio path (2x `..`) puntava a `apps/data/flow-shell/atlas-snapshot.json`
+// che non esiste, facendo ritornare snapshot vuoto e validation 500 al runtime
+// (anche se i test passavano perché iniettavano `datasetPath` esplicito).
 const DEFAULT_DATASET_PATH = path.resolve(
   __dirname,
+  '..',
   '..',
   '..',
   'data',
