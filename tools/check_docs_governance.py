@@ -38,6 +38,7 @@ DEFAULT_WORKSTREAMS = {
     "ops-qa",
     "incoming",
     "cross-cutting",
+    "combat",
 }
 DATE_RE = re.compile(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
 

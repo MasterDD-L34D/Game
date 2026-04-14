@@ -32,7 +32,16 @@
     },
     "workstream": {
       "type": "string",
-      "enum": ["flow", "atlas", "backend", "dataset-pack", "ops-qa", "incoming", "cross-cutting"]
+      "enum": [
+        "flow",
+        "atlas",
+        "backend",
+        "dataset-pack",
+        "ops-qa",
+        "incoming",
+        "cross-cutting",
+        "combat"
+      ]
     },
     "last_verified": {
       "type": "string",
