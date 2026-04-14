@@ -5770,7 +5770,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/ui/styleguide.md",
+      "path": "docs/frontend/styleguide.md",
       "title": "Guida stile EvoGene Deck UI",
       "doc_status": "draft",
       "doc_owner": "atlas-team",
@@ -5783,7 +5783,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/wireframes/evo/README.md",
+      "path": "docs/frontend/wireframes/evo/README.md",
       "title": "Mockup Evo-Tactics",
       "doc_status": "draft",
       "doc_owner": "atlas-team",
@@ -5796,7 +5796,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/wireframes/evo/mockup_evo_tactics.md",
+      "path": "docs/frontend/wireframes/evo/mockup_evo_tactics.md",
       "title": "Mockup Evo Tactics Console",
       "doc_status": "draft",
       "doc_owner": "atlas-team",
@@ -5809,7 +5809,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/wireframes/generatore.md",
+      "path": "docs/frontend/wireframes/generatore.md",
       "title": "Wireframe — Generatore (v1)",
       "doc_status": "draft",
       "doc_owner": "atlas-team",
@@ -5822,7 +5822,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/wireframes/homepage.md",
+      "path": "docs/frontend/wireframes/homepage.md",
       "title": "Wireframe — Homepage (v1)",
       "doc_status": "draft",
       "doc_owner": "atlas-team",

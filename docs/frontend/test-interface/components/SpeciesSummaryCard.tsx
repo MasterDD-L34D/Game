@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo } from 'react';
 
 type UISpecies = {
   id: string;
@@ -20,7 +20,7 @@ function normalizeStringList(values: unknown): string[] {
   const seen = new Set<string>();
   const normalized: string[] = [];
   for (const entry of values) {
-    if (typeof entry !== "string") continue;
+    if (typeof entry !== 'string') continue;
     const trimmed = entry.trim();
     if (!trimmed || seen.has(trimmed)) continue;
     seen.add(trimmed);
@@ -39,7 +39,10 @@ function areStringListsEqual(a: unknown, b: unknown): boolean {
 }
 
 function SpeciesSummaryCardComponent({ s }: SpeciesSummaryCardProps) {
-  const activeSynergies = useMemo(() => normalizeStringList(s.active_synergies), [s.active_synergies]);
+  const activeSynergies = useMemo(
+    () => normalizeStringList(s.active_synergies),
+    [s.active_synergies],
+  );
   const knownCounters = useMemo(() => normalizeStringList(s.known_counters), [s.known_counters]);
   const warnings = useMemo(() => normalizeStringList(s.warnings), [s.warnings]);
   const hasWarnings = warnings.length > 0;
@@ -47,10 +50,8 @@ function SpeciesSummaryCardComponent({ s }: SpeciesSummaryCardProps) {
 
   return (
     <article
-      className={`card species-summary-card${
-        overBudget ? " species-summary-card--danger" : ""
-      }`}
-      data-budget-state={overBudget ? "over" : "within"}
+      className={`card species-summary-card${overBudget ? ' species-summary-card--danger' : ''}`}
+      data-budget-state={overBudget ? 'over' : 'within'}
     >
       <header className="species-summary-card__header">
         <h3 className="species-summary-card__title">{s.name}</h3>
@@ -63,7 +64,9 @@ function SpeciesSummaryCardComponent({ s }: SpeciesSummaryCardProps) {
               Fuori budget
             </span>
           ) : (
-            <span className="pill" data-variant="success">Budget OK</span>
+            <span className="pill" data-variant="success">
+              Budget OK
+            </span>
           )}
         </div>
       </header>
@@ -79,9 +82,7 @@ function SpeciesSummaryCardComponent({ s }: SpeciesSummaryCardProps) {
                 </li>
               ))
             ) : (
-              <li className="species-summary-card__item species-summary-card__item--empty">
-                —
-              </li>
+              <li className="species-summary-card__item species-summary-card__item--empty">—</li>
             )}
           </ul>
         </section>
@@ -96,9 +97,7 @@ function SpeciesSummaryCardComponent({ s }: SpeciesSummaryCardProps) {
                 </li>
               ))
             ) : (
-              <li className="species-summary-card__item species-summary-card__item--empty">
-                —
-              </li>
+              <li className="species-summary-card__item species-summary-card__item--empty">—</li>
             )}
           </ul>
         </section>
@@ -124,7 +123,7 @@ function SpeciesSummaryCardComponent({ s }: SpeciesSummaryCardProps) {
           type="button"
           className="species-summary-card__action"
           disabled={overBudget}
-          title={overBudget ? "Rientra nel budget per salvare" : "Salva"}
+          title={overBudget ? 'Rientra nel budget per salvare' : 'Salva'}
         >
           Salva specie
         </button>
@@ -133,7 +132,10 @@ function SpeciesSummaryCardComponent({ s }: SpeciesSummaryCardProps) {
   );
 }
 
-function areSpeciesPropsEqual(prev: SpeciesSummaryCardProps, next: SpeciesSummaryCardProps): boolean {
+function areSpeciesPropsEqual(
+  prev: SpeciesSummaryCardProps,
+  next: SpeciesSummaryCardProps,
+): boolean {
   if (prev.s === next.s) {
     return true;
   }

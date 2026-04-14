@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Mockup Evo Tactics Console
 
 ![Schermata del mockup della console Evo Tactics](./mockup_evo_tactics.png)

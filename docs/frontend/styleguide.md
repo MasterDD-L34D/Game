@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Guida stile EvoGene Deck UI
 
 Questa guida documenta i requisiti di accessibilità e contrasto cromatico per i
