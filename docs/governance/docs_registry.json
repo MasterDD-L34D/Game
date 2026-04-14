@@ -1337,6 +1337,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/archive/historical-snapshots/incoming-scripts-readme.md",
+      "title": "Scripts da classificare",
+      "doc_status": "historical_ref",
+      "doc_owner": "incoming-archivist",
+      "workstream": "incoming",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/archive/qa-playbook.md",
       "title": "QA Playbook · Nebula Release Flow",
       "doc_status": "draft",
@@ -2338,6 +2351,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/guide/templates/MODELLI_RIF_EVO_TACTICS.md",
+      "title": "Modelli di Riferimento — Evo Tactics (2025-10-24)",
+      "doc_status": "draft",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/hubs/README.md",
       "title": "Canonical Workstream Hub",
       "doc_status": "active",
@@ -2442,58 +2468,6 @@
       "track": "canonical"
     },
     {
-      "path": "docs/incoming/Ennagramma/README_ENNEAGRAMMA.md",
-      "title": "Enneagramma — Dataset Completo (Tipi, Triadi, Ali, Varianti)",
-      "doc_status": "draft",
-      "doc_owner": "incoming-archivist",
-      "workstream": "incoming",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
-    },
-    {
-      "path": "docs/incoming/FEATURE_MAP_EVO_TACTICS.md",
-      "title": "Evo Tactics — Feature Map (v1 → v8) — 2025-10-24",
-      "doc_status": "draft",
-      "doc_owner": "incoming-archivist",
-      "workstream": "incoming",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
-    },
-    {
-      "path": "docs/incoming/GAME_COMPAT_README.md",
-      "title": "GAME — Hook Enneagramma (integrazione)",
-      "doc_status": "draft",
-      "doc_owner": "incoming-archivist",
-      "workstream": "incoming",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
-    },
-    {
-      "path": "docs/incoming/MODELLI_RIF_EVO_TACTICS.md",
-      "title": "Modelli di Riferimento — Evo Tactics (2025-10-24)",
-      "doc_status": "draft",
-      "doc_owner": "incoming-archivist",
-      "workstream": "incoming",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
-    },
-    {
       "path": "docs/incoming/README.md",
       "title": "Incoming Status",
       "doc_status": "legacy_active",
@@ -2505,32 +2479,6 @@
       "review_cycle_days": 14,
       "primary": false,
       "track": "historical"
-    },
-    {
-      "path": "docs/incoming/README_INTEGRAZIONE_MECCANICHE.md",
-      "title": "Personality Enneagram — Mechanical Integration (Draft)",
-      "doc_status": "draft",
-      "doc_owner": "incoming-archivist",
-      "workstream": "incoming",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
-    },
-    {
-      "path": "docs/incoming/README_SCAN_STAT_EVENTI.md",
-      "title": "Flow di allineamento STAT/EVENTI (repo Game)",
-      "doc_status": "draft",
-      "doc_owner": "incoming-archivist",
-      "workstream": "incoming",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
     },
     {
       "path": "docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md",
@@ -2548,19 +2496,6 @@
     {
       "path": "docs/incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md",
       "title": "Task board — `incoming/lavoro_da_classificare`",
-      "doc_status": "draft",
-      "doc_owner": "incoming-archivist",
-      "workstream": "incoming",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
-    },
-    {
-      "path": "docs/incoming/lavoro_da_classificare/scripts/README.md",
-      "title": "Scripts da classificare",
       "doc_status": "draft",
       "doc_owner": "incoming-archivist",
       "workstream": "incoming",
@@ -3768,6 +3703,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/planning/feature-map/FEATURE_MAP_EVO_TACTICS.md",
+      "title": "Evo Tactics — Feature Map (v1 → v8) — 2025-10-24",
+      "doc_status": "draft",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/planning/ideas/IDEAS_INDEX.md",
       "title": "Ideas Index",
       "doc_status": "draft",
@@ -3872,6 +3820,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/planning/research/enneagram-addon/GAME_COMPAT_README.md",
+      "title": "GAME — Hook Enneagramma (integrazione)",
+      "doc_status": "draft",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/planning/research/enneagram-addon/README_ADDON_PER_PACCHETTO.md",
       "title": "Enneagramma — Add‑on per `evo_pacchetto_minimo_v6`",
       "doc_status": "draft",
@@ -3900,6 +3861,45 @@
     {
       "path": "docs/planning/research/enneagram-addon/README_INTEGRAZIONE_MECCANICHE.md",
       "title": "Personality Enneagram — Mechanical Integration (Draft)",
+      "doc_status": "draft",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
+      "path": "docs/planning/research/enneagram-addon/README_INTEGRAZIONE_MECCANICHE_v2.md",
+      "title": "Personality Enneagram — Mechanical Integration (Draft)",
+      "doc_status": "draft",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
+      "path": "docs/planning/research/enneagram-addon/README_SCAN_STAT_EVENTI.md",
+      "title": "Flow di allineamento STAT/EVENTI (repo Game)",
+      "doc_status": "draft",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
+      "path": "docs/planning/research/enneagram-addon/dataset/README_ENNEAGRAMMA.md",
+      "title": "Enneagramma — Dataset Completo (Tipi, Triadi, Ali, Varianti)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
