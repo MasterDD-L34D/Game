@@ -196,7 +196,7 @@ def render_readme(manifest: dict[str, object], root: Path) -> str:
         '# Dataset di test "minimal"',
         "",
         "Questo dataset riproduce un set ridotto di sorgenti (`packs`, `telemetry`, `biomes`, `mating`, `species`) per verificare",
-        "l'interfaccia `docs/test-interface` senza dipendere dai dati completi di produzione.",
+        "l'interfaccia `docs/frontend/test-interface` senza dipendere dai dati completi di produzione.",
         "",
         "## Ultima rigenerazione",
         "",
