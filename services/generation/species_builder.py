@@ -283,14 +283,14 @@ def build_trait_catalog_map(
             "generated_at": None,
             "traits": {trait_id: profile.to_payload() for trait_id, profile in catalog_traits.items()},
             "sources": {
-                "trait_reference": str(trait_reference_path.relative_to(REPO_ROOT)),
-                "trait_matrix": str(trait_matrix_path.relative_to(REPO_ROOT))
+                "trait_reference": trait_reference_path.relative_to(REPO_ROOT).as_posix(),
+                "trait_matrix": trait_matrix_path.relative_to(REPO_ROOT).as_posix()
                 if trait_matrix_path.exists()
                 else None,
-                "trait_glossary": str(trait_glossary_path.relative_to(REPO_ROOT))
+                "trait_glossary": trait_glossary_path.relative_to(REPO_ROOT).as_posix()
                 if trait_glossary_path.exists()
                 else None,
-                "inventory": str(inventory_path.relative_to(REPO_ROOT))
+                "inventory": inventory_path.relative_to(REPO_ROOT).as_posix()
                 if inventory_path.exists()
                 else None,
             },
@@ -410,11 +410,11 @@ def build_trait_diagnostics(
         "summary": summary,
         "matrix_only_traits": orphan_matrix_traits,
         "sources": {
-            "trait_reference": str(trait_reference_path.relative_to(REPO_ROOT)),
-            "trait_matrix": str(trait_matrix_path.relative_to(REPO_ROOT))
+            "trait_reference": trait_reference_path.relative_to(REPO_ROOT).as_posix(),
+            "trait_matrix": trait_matrix_path.relative_to(REPO_ROOT).as_posix()
             if trait_matrix_path.exists()
             else None,
-            "trait_glossary": str(trait_glossary_path.relative_to(REPO_ROOT))
+            "trait_glossary": trait_glossary_path.relative_to(REPO_ROOT).as_posix()
             if trait_glossary_path.exists()
             else None,
         },

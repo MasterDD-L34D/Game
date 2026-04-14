@@ -23,7 +23,11 @@ from services.generation.orchestrator import (  # noqa: E402
 )
 
 try:  # pragma: no cover - non disponibile su Python < 3.7
-    sys.stdout.reconfigure(line_buffering=True)  # type: ignore[attr-defined]
+    # Forziamo utf-8 su stdin/stdout: su Windows il default sarebbe cp1252 e
+    # i caratteri Unicode (à, è, ’) finirebbero come replacement char nel
+    # bridge Node, rompendo la determinismo dei report QA cross-OS.
+    sys.stdout.reconfigure(encoding="utf-8", line_buffering=True)  # type: ignore[attr-defined]
+    sys.stdin.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
 except AttributeError:  # pragma: no cover - fallback legacy
     pass
 
