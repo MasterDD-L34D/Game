@@ -52,10 +52,10 @@ test('trait_mechanics.yaml valida contro traitMechanics schema', () => {
   assert.doesNotThrow(() => validator.validate(SCHEMA_ID, catalog));
 });
 
-test('trait_mechanics.yaml contiene tutti e 30 i core trait di traits_inventory.json', () => {
+test('trait_mechanics.yaml contiene tutti e 33 i core trait di traits_inventory.json', () => {
   const catalog = loadCatalog();
   const coreIds = loadCoreTraitIds();
-  assert.equal(coreIds.length, 30, 'traits_inventory.json deve esporre 30 core');
+  assert.equal(coreIds.length, 33, 'traits_inventory.json deve esporre 33 core');
   const present = Object.keys(catalog.traits);
   const missing = coreIds.filter((id) => !present.includes(id));
   assert.deepEqual(missing, [], `core trait mancanti nel layer: ${missing.join(', ')}`);
