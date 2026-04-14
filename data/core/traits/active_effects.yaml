@@ -1,0 +1,53 @@
+# Active trait effects — SPRINT_002 fase 2 ("Primo trait vivo")
+#
+# Questo file definisce i trait meccanici VIVI usati a runtime dal session
+# engine (apps/backend/services/traitEffects.js + apps/backend/routes/session.js).
+#
+# Un trait definito qui viene valutato dopo la risoluzione base d20 e
+# puo' alterare il danno finale + aggiungere una voce nel trait_effects
+# del session log. Un trait NON definito qui viene ignorato
+# silenziosamente (triggered: false).
+#
+# Questo file NON sovrascrive il glossary (data/core/traits/glossary.json) o
+# l'index (data/traits/index.json). Contiene solo la "regola meccanica"
+# (trigger + effetto) che e' orthogonale al metadata descrittivo.
+#
+# Scope SPRINT_002: 2 trait minimi per validare la pipeline end-to-end.
+# Estensioni future (tier T2+, categorie aggiuntive) richiederanno di
+# ampliare lo schema qui sotto e l'evaluator in traitEffects.js.
+
+version: 1
+traits:
+  zampe_a_molla:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      min_mos: 5
+      requires: posizione_sopraelevata
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: backstab_bonus
+    description_it: |
+      Arti a molla che accumulano energia per balzi di riposizionamento.
+      Se l'attaccante colpisce da posizione sopraelevata (y > y_target)
+      con un margin of success >= 5, infligge 1 PT di danno extra.
+
+  pelle_elastomera:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: damage_reduction
+    description_it: |
+      Pelle elastomerica che ammortizza l'impatto dei colpi in arrivo.
+      Quando il target subisce un hit, il danno ricevuto viene ridotto
+      di 1 (minimo 0).
