@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Specie & Parti
 
 - **Slot**: locomotion / offense / defense / senses / metabolism.

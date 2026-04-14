@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Regole di Sblocco + Economia PE
 
 - PE da delta VC.

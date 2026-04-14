@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # NPG, Biomi, Affissi & Director
 
 - Director: genera NPG con `spawn_profile` (power_range, group_size, role_weights).

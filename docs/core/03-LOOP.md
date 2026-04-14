@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Loop di Gioco (alto livello)
 
 Metagioco (epoche/stagioni) → draft/creazione specie → **Match TBT** (mappe a obiettivo)

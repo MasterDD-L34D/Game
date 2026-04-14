@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Mating / Nido (reclutamento & riproduzione)
 
 - Attrazione/Convincimento: tabelle Piace/Non piace per specie/job; azioni sociali.

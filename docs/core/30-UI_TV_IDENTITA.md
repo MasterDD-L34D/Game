@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # UI TV — Carta Temperamentale & Albero Evolutivo
 
 - Carte con 4 assi MBTI-like + temi Ennea-like; effetti **solo gameplay**.

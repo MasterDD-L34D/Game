@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Telemetria → Vettore Comportamentale (VC)
 
 Eventi, finestre, indici (Aggro/Risk/Cohesion/Setup/Explore/Tilt) e mapping verso layer MBTI-like + Ennea-themes.
@@ -18,11 +19,11 @@ Eventi, finestre, indici (Aggro/Risk/Cohesion/Setup/Explore/Tilt) e mapping vers
 
 ## Calendario revisione PI/telemetria
 
-| Ricorrenza | Slot | Focus principale | Owner | Deliverable |
-| --- | --- | --- | --- | --- |
-| Settimanale | Martedì · 10:00-10:45 CET | Stato pacchetti PI, anomalie sugli indici Aggro/Risk e follow-up delle azioni correttive | Lead Design · PM | Note sintetiche + flag su ticket aperti |
-| Settimanale | Giovedì · 16:00-16:30 CET | Debrief dati raw dei playtest, verifica log depositati e triage ticket critici | Analytics · QA | Aggiornamento `logs/playtests/` + elenco bug prioritari |
-| Quindicinale (settimana dispari) | Venerdì · 15:00-16:00 CET | Retrospettiva VC completa (telemetria → decisioni design) e pianificazione backlog | Design Council · Tech Lead | Decision log + aggiornamento roadmap |
+| Ricorrenza                       | Slot                      | Focus principale                                                                         | Owner                      | Deliverable                                             |
+| -------------------------------- | ------------------------- | ---------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------- |
+| Settimanale                      | Martedì · 10:00-10:45 CET | Stato pacchetti PI, anomalie sugli indici Aggro/Risk e follow-up delle azioni correttive | Lead Design · PM           | Note sintetiche + flag su ticket aperti                 |
+| Settimanale                      | Giovedì · 16:00-16:30 CET | Debrief dati raw dei playtest, verifica log depositati e triage ticket critici           | Analytics · QA             | Aggiornamento `logs/playtests/` + elenco bug prioritari |
+| Quindicinale (settimana dispari) | Venerdì · 15:00-16:00 CET | Retrospettiva VC completa (telemetria → decisioni design) e pianificazione backlog       | Design Council · Tech Lead | Decision log + aggiornamento roadmap                    |
 
 - Tutte le sessioni sono registrate nel calendario condiviso `Evo-Tactics / VC Reviews` con promemoria 24h prima e agenda allegata in Notion.
 - Materiali e metriche vengono raccolti entro le 18:00 CET dello stesso giorno nella cartella condivisa `telemetria/reports`.
