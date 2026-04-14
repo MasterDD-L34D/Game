@@ -1,3 +1,13 @@
+---
+title: MASTER_PROMPT.md – Prompt Master per Game / Evo Tactics
+doc_status: draft
+doc_owner: platform-docs
+workstream: cross-cutting
+last_verified: 2026-04-14
+source_of_truth: false
+language: it-en
+review_cycle_days: 14
+---
 # MASTER_PROMPT.md – Prompt Master per Game / Evo Tactics
 
 Questo file contiene un prompt da incollare all’inizio di ogni nuova sessione
