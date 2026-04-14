@@ -1,18 +1,14 @@
 name: Docs Governance
 
 on:
+  # Run on every push and every PR, regardless of which files changed.
+  # The governance check is a required status on the protected `main` branch,
+  # so limiting the trigger to a path filter (as before) caused non-doc PRs
+  # to be stuck in "skipped" state and blocked from merging without a manual
+  # `gh workflow run docs-governance.yml --ref <branch>` workaround.
+  # The check itself is cheap (~8s), so running it always is fine.
   push:
-    paths:
-      - 'docs/**'
-      - 'tools/check_docs_governance.py'
-      - '.github/workflows/docs-governance.yml'
-      - 'package.json'
   pull_request:
-    paths:
-      - 'docs/**'
-      - 'tools/check_docs_governance.py'
-      - '.github/workflows/docs-governance.yml'
-      - 'package.json'
   schedule:
     - cron: '0 6 * * 1'
   workflow_dispatch:
