@@ -19,7 +19,8 @@ function orchestrateSpecies() {
     base_name: 'Predatore Snapshot',
     biome_id: 'caverna_risonante',
   };
-  const pythonExecutable = process.env.PYTHON || 'python3';
+  const pythonExecutable =
+    process.env.PYTHON || (process.platform === 'win32' ? 'python' : 'python3');
   const result = spawnSync(pythonExecutable, [scriptPath, '--action', 'generate-species'], {
     cwd: repoRoot,
     input: JSON.stringify(payload),
@@ -51,7 +52,8 @@ function orchestrateSpeciesBatch() {
       },
     ],
   };
-  const pythonExecutable = process.env.PYTHON || 'python3';
+  const pythonExecutable =
+    process.env.PYTHON || (process.platform === 'win32' ? 'python' : 'python3');
   const result = spawnSync(pythonExecutable, [scriptPath, '--action', 'generate-species-batch'], {
     cwd: repoRoot,
     input: JSON.stringify(payload),
