@@ -1,4 +1,4 @@
-﻿name: Docs Governance
+name: Docs Governance
 
 on:
   push:

@@ -49,11 +49,9 @@ PYTHONPATH=services/rules pytest tests/test_rules_engine.py
 npm run schema:lint
 ```
 
-## Limitazioni correnti
+## Stato implementazione (aggiornato Phase 2)
 
-Le seguenti funzionalita sono segnalate nell'ADR come non ancora implementate o parziali:
-
-- **Furia / Panico**: status marcati nel resolver ma senza logica comportamentale completa.
-- **Azioni abilita**: gli effetti attivi dei trait (`active_effects`) sono NOOP — il campo esiste nello schema ma non viene consumato dal resolver.
-- **Parata contestata**: il tiro di parata reattivo (d20 vs d20) non e ancora cablato nel flusso di risoluzione.
-- **Spinta (PT spend)**: la spesa di Punti Tecnica per ottenere bonus offensivi o effetti speciali e prevista ma non implementata.
+- **Furia / Panico**: implementati con logica completa — breakpoint stress, intensita, bonus/malus offensivi e difensivi. Panic blocca PT spend.
+- **Parata contestata**: `resolve_parry()` implementata — tiro d20 reattivo del target con bonus parata.
+- **PT spend**: perforazione e spinta implementati con consumo pool PT e validazione. Panic impedisce la spesa.
+- **Azioni abilita**: gli effetti attivi dei trait (`active_effects`) sono ancora NOOP — il campo esiste nello schema ma non viene consumato dal resolver.
