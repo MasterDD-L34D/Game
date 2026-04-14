@@ -1,13 +1,16 @@
 ---
-title: Evo Tactics Pack MongoDB
-doc_status: draft
+title: Evo Tactics Pack MongoDB (superseded)
+doc_status: superseded
 doc_owner: flow-team
 workstream: flow
 last_verified: 2026-04-14
 source_of_truth: false
 language: it-en
-review_cycle_days: 14
+review_cycle_days: 90
 ---
+
+> **SUPERSEDED — aprile 2026.** MongoDB è stato rimosso dal backend del repo `Game`. La nuova architettura dati è in sviluppo nel repo separato `MasterDD-L34D/Game-Database` (Prisma + Postgres come datastore principale). Il backend del Game ora usa solo Prisma/Postgres + file fallback locali (`data/core/traits/glossary.json`, `data/core/traits/biome_pools.json`, `docs/catalog/catalog_data.json`). Questo documento è mantenuto come riferimento storico della vecchia schema Mongo.
+
 # Evo Tactics Pack MongoDB
 
 - **Repository**: /workspace/Game

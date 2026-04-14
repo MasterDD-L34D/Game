@@ -1,6 +1,5 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { getMongoDatabase, checkMongoHealth } = require('../db/mongo');
 const { buildCatalogMap } = require('../../../services/generation/speciesBuilder');
 
 function normaliseList(value) {
@@ -137,63 +136,20 @@ function mapBiomePool(doc) {
   };
 }
 
-async function loadBiomePoolsFromMongo(db) {
-  const cursor = db.collection('biome_pools').find({});
-  const docs = await cursor.toArray();
-  const pools = docs.map(mapBiomePool).filter(Boolean);
-  return injectPoolMetadata({ pools });
-}
-
-async function loadTraitGlossaryFromMongo(db) {
-  const cursor = db.collection('traits').find({}, { projection: { labels: 1, descriptions: 1 } });
-  const docs = await cursor.toArray();
-  return mapGlossaryFromTraits(docs);
-}
-
-async function loadTraitCatalogFromMongo(db) {
-  const cursor = db.collection('traits').find(
-    {},
-    {
-      projection: {
-        labels: 1,
-        reference: 1,
-        usage_tags: 1,
-        species_affinity: 1,
-        completion_flags: 1,
-      },
-    },
-  );
-  const docs = await cursor.toArray();
-  return mapCatalogFromTraits(docs);
-}
-
 function createCatalogService(options = {}) {
-  const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
+  const repoRoot = path.resolve(__dirname, '..', '..', '..');
+  const dataRoot = options.dataRoot || path.join(repoRoot, 'data');
   const traitGlossaryPath =
     options.traitGlossaryPath || path.join(dataRoot, 'core', 'traits', 'glossary.json');
   const biomePoolsPath =
     options.biomePoolsPath || path.join(dataRoot, 'core', 'traits', 'biome_pools.json');
   const traitCatalogPath =
     options.traitCatalogPath ||
-    path.resolve(__dirname, '..', '..', 'docs', 'catalog', 'catalog_data.json');
-  const logger = options.logger || console;
-  const useMongo = options.useMongo !== false;
-  const mongoOptions = options.mongo || {};
+    path.join(repoRoot, 'docs', 'catalog', 'catalog_data.json');
 
   let cache = null;
-  let cacheSource = null;
 
-  async function loadFromMongo() {
-    const db = await getMongoDatabase(mongoOptions);
-    const [glossary, pools, catalog] = await Promise.all([
-      loadTraitGlossaryFromMongo(db),
-      loadBiomePoolsFromMongo(db),
-      loadTraitCatalogFromMongo(db),
-    ]);
-    return { traitGlossary: glossary, biomePools: pools, traitCatalog: catalog, source: 'mongo' };
-  }
-
-  async function loadFromDisk() {
+  async function loadCatalog() {
     const [glossary, pools, catalogPayload] = await Promise.all([
       readJsonFile(traitGlossaryPath, { traits: {} }),
       readJsonFile(biomePoolsPath, { pools: [] }),
@@ -208,19 +164,7 @@ function createCatalogService(options = {}) {
     if (cache) {
       return cache;
     }
-    if (useMongo) {
-      try {
-        cache = await loadFromMongo();
-        cacheSource = cache.source;
-        return cache;
-      } catch (error) {
-        logger.warn('[catalog] caricamento da MongoDB fallito, uso fallback locale', {
-          error: error && error.message ? error.message : error,
-        });
-      }
-    }
-    cache = await loadFromDisk();
-    cacheSource = cache.source;
+    cache = await loadCatalog();
     return cache;
   }
 
@@ -241,32 +185,24 @@ function createCatalogService(options = {}) {
 
   async function reload() {
     cache = null;
-    cacheSource = null;
     return ensureData();
   }
 
   async function ensureReady() {
     const data = await ensureData();
     return {
-      source: cacheSource,
+      source: 'local',
       traitCount: data.traitCatalog instanceof Map ? data.traitCatalog.size : 0,
       poolCount: Array.isArray(data.biomePools?.pools) ? data.biomePools.pools.length : 0,
     };
   }
 
   async function healthCheck() {
-    if (!useMongo) {
-      return { ok: true, source: 'local' };
-    }
-    const result = await checkMongoHealth(mongoOptions);
-    if (!result.ok) {
-      return { ok: false, source: 'mongo', error: result.error };
-    }
-    return { ok: true, source: 'mongo' };
+    return { ok: true, source: 'local' };
   }
 
   function getSource() {
-    return cacheSource;
+    return 'local';
   }
 
   return {
