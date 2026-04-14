@@ -1,97 +1,33 @@
 ---
-title: Docs Incoming – Stato e triage (PATCHSET-01)
-doc_status: draft
+title: Docs Incoming — dispatcher
+doc_status: active
 doc_owner: incoming-archivist
 workstream: incoming
 last_verified: 2026-04-14
 source_of_truth: false
 language: it-en
-review_cycle_days: 14
+review_cycle_days: 30
 ---
-# Docs Incoming – Stato e triage (PATCHSET-01)
 
-Schema di tracciamento per `docs/incoming/**`. Stati: **INTEGRATO**, **DA_INTEGRARE**, **LEGACY**, **STORICO**. Dettaglio completo in `docs/planning/REF_INCOMING_CATALOG.md`. Owner 01A (catalogo): Master DD.
+# Docs Incoming — dispatcher
 
-Linee guida minime:
+Dispatcher operativo per i file residui in `docs/incoming/**`. Dopo il triage batch (PR #1310, #1311) questa directory contiene solo **2 file attivi** legati al workstream 01B in report-only. La fonte canonica della tabella di triage incoming vive in [`docs/planning/REF_INCOMING_CATALOG.md`](../planning/REF_INCOMING_CATALOG.md); questo README serve solo come landing snello per chi entra in `docs/incoming/`.
 
-- Applica le stesse etichette di stato del catalogo e mantieni i percorsi invariati durante il triage.
-- Ogni aggiornamento di stato o nota va loggato in `logs/agent_activity.md` con riferimento 01A e owner assegnato.
+## Stato file attivi
 
-| Fonte / descrizione                | Percorso                                                                             | Stato        | Note / next-step                                                                                                                                                                  |
-| ---------------------------------- | ------------------------------------------------------------------------------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mappe compat/feature               | `docs/incoming/FEATURE_MAP_EVO_TACTICS.md`, `GAME_COMPAT_README.md`                  | DA_INTEGRARE | Aggiornare rispetto ai pack correnti; allineare con catalogo incoming.                                                                                                            |
-| Modelli di riferimento             | `docs/incoming/MODELLI_RIF_EVO_TACTICS.md`                                           | DA_INTEGRARE | Verificare contro schemi attuali; marcare legacy se superati.                                                                                                                     |
-| Linee guida integrazione/stat scan | `docs/incoming/README_INTEGRAZIONE_MECCANICHE.md`, `README_SCAN_STAT_EVENTI.md`      | DA_INTEGRARE | Sincronizzare con pipeline QA e doc ufficiale; se superate, marcare STORICO.                                                                                                      |
-| Documenti enneagramma              | `docs/incoming/Ennagramma/README_ENNEAGRAMMA.md`                                     | DA_INTEGRARE | Collegare al dataset in `incoming/Ennagramma/`; valutare legacy dopo merge.                                                                                                       |
-| Archivio/estrazioni                | `docs/incoming/decompressed/README.md`, `docs/incoming/archive/INDEX.md`             | STORICO      | Log/indice storico; counterpart incoming archiviato in `incoming/archive_cold/devkit_scripts/2025-11-25/`.                                                                        |
-| Piani backlog                      | `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`, `.../TASKS_BREAKDOWN.md` | INTEGRATO    | Triage completato e owner assegnato (archivist lead, supporto trait-curator) loggato su **[TKT-01A-001]**/**[TKT-01A-DOCS]**; handoff 01B in report-only entro freeze 2025-12-07. |
-| Script backlog                     | `docs/incoming/lavoro_da_classificare/scripts/README.md`                             | DA_INTEGRARE | Verificare dipendenze prima di riesecuzione.                                                                                                                                      |
+| File | Stato | Owner | Note |
+|---|---|---|---|
+| [`lavoro_da_classificare/INTEGRATION_PLAN.md`](lavoro_da_classificare/INTEGRATION_PLAN.md) | INTEGRATO | archivist (Master DD) | Piano integrazione 01B, tenuto attivo in report-only |
+| [`lavoro_da_classificare/TASKS_BREAKDOWN.md`](lavoro_da_classificare/TASKS_BREAKDOWN.md) | INTEGRATO | archivist (Master DD) | Task board derivata dal piano sopra |
 
-- Note:
+## Dove trovare il resto
 
-- 2026-10-14: riesame post-freeze **06/10/2025 → 13/10/2025** (ticket **TKT-FREEZE-OCT25**) con gate **RIAPERTURA-2025-02** chiuso: `incoming/_holding` assente (nessun drop da integrare/archiviare), gap list 01A invariata in report-only e README incoming/docs sincronizzati. Readiness 01B/01C confermata su `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` (report-only) con ticket attivi **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** e riferimento **[TKT-PLAN-01A-03B]**.
+- **Triage catalog completo** con gap list storica, ticket chiusi e stato workstream 01B/01C: [`docs/planning/REF_INCOMING_CATALOG.md`](../planning/REF_INCOMING_CATALOG.md).
+- **Hub workstream**: [`docs/hubs/incoming.md`](../hubs/incoming.md).
+- **Audit trail** (freeze window, riaperture, gate closures): `logs/agent_activity.md`.
+- **File storici** (snapshot 2025-11-15, 2025-12-19 cleanup, decompressed pack legacy): spostati in [`docs/archive/historical-snapshots/`](../archive/historical-snapshots/) da PR #1310.
+- **Pack di ricerca** (sentience branch layout, RFC sentience, enneagram addon, EchoWake): spostati in `docs/planning/research/` e `docs/planning/EchoWake/` da PR #1310.
 
-- 2026-10-11: checklist riapertura (ref **RIAPERTURA-2025-02-CHECKLIST-48H-2026-10-11T1200Z**) completata in STRICT MODE: kickoff/owner invariati, `_holding` assente, finestra freeze **06/10/2025 → 13/10/2025** confermata **SBLOCCATA** (**TKT-FREEZE-OCT25**), gap list 01A invariata (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI) in report-only per handoff 01B/01C. Nessun spostamento file; README incoming sincronizzato.
+## Policy operativa
 
-- 2026-09-23: riesame tabelle 01A (log **[RIAPERTURA-2025-02-2026-09-23T1200Z]**): etichette **DA_INTEGRARE/LEGACY/STORICO** confermate senza spostamenti; gap list 01A invariata con rischi monitorati (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI). Riferimenti gap list mantenuti per handoff 01B/01C; README incoming sincronizzato.
-- 2026-09-21: riletta la tabella 01A in STRICT MODE: nessun drop in `_holding`, voci **DA_INTEGRARE** e gap list 01A invariati (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI). README incoming/docs mantenuti sincronizzati; on-call confermata per archivist (lead), species-curator/trait-curator (01B) e dev-tooling (01C) in report-only secondo **TKT-PLAN-01A-03B**.
-- 2026-09-20: riesame checklist **RIAPERTURA-2025-02** (ref `REF_PLANNING_RIPRESA_2026` p.5–6) completato: finestra freeze 06/10/2025→13/10/2025 confermata con start/end loggati, nessun drop in `_holding`, manifest/backup invariati. README incoming/docs già sincronizzati, readiness 01B/01C resta in report-only su `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` con ticket 2025 (**[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]**); nessun movimento file.
-- 2026-09-19: checklist **RIAPERTURA-2025-02** riletta secondo `REF_PLANNING_RIPRESA_2026` (p.5–6): finestra freeze 06/10/2025→13/10/2025 verificata start/end e loggata in `logs/agent_activity.md` (**TKT-FREEZE-OCT25**, stato SBLOCCATO), `_holding` ancora assente, readiness 01B/01C confermata in report-only su `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog` con ticket **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]**; README sincronizzati senza spostare file.
-- 2026-09-19: **DRAFT post-unfreeze (da applicare solo con via libera Master DD)** – sintetizza esito gap list 01A e stato freeze ottobre 2025 sboccato (ticket **TKT-FREEZE-OCT25**). Mantiene STRICT MODE e cataloghi in sola lettura; nessun movimento file o variazione di stato applicata.
-- 2026-09-19: triage 01A in sola lettura (nessun file spostato): `_holding` assente, etichette DA_INTEGRARE/LEGACY/STORICO confermate. Preparata gap list con priorità/rischio per handoff 01B/01C, mantenendo freeze documentale sbloccato (ticket **TKT-FREEZE-OCT25**).
-- 2026-09-18: finestra freeze documentale **06/10/2025 → 13/10/2025** richiamata nell’entry **RIAPERTURA-2025-02**: stato **SBLOCCATO** (ticket **TKT-FREEZE-OCT25**), nessun drop in `_holding`; README incoming/docs sincronizzati senza spostare file.
-- 2026-09-25: gap list riletta (nessun nuovo drop/rischio rilevato; `_holding` ancora assente). Applicazione posticipata finché il gate di riapertura non risulta chiuso; mantenere monitoraggio ticket/licenze in corso senza spostare file.
-- 2026-09-17: checkpoint **RIAPERTURA-2025-02** (archivist, ok Master DD) con finestra freeze 2025-10-06T09:00Z→2025-10-13T18:00Z sbloccata (ticket 2025-10-FREEZE) per lo scope 01A→03B; `_holding` confermato assente e gap list 01A riletta in sola lettura (ancora chiusa, nessun nuovo drop). Nessun file spostato; rischi residui monitorati: blocco esecuzione `scan_engine_idents.py` (01C) e licenze/redirect in 01B/03B. Pipeline 01A autorizzata in STRICT MODE.
-- 2025-11-30: freeze documentale attivo 2025-11-30T21:21Z → 2025-12-07T18:00Z su `incoming/**` e `docs/incoming/**`, registrato nel log `[FREEZE-INCOMING-2025-11-30]` in `logs/agent_activity.md`; parcheggio obbligatorio dei nuovi drop in `incoming/_holding` senza toccare i file esistenti. Riapertura da loggare come `[UNFREEZE-INCOMING-2025-12-07]` previa approvazione Master DD; `_holding` attualmente assente (nessun drop da integrare/archiviare).
-
-- 2026-07-08 → 2026-07-15: freeze documentale approvato da Master DD CHIUSO alle 2026-07-15T18:00Z su `incoming/**` e `docs/incoming/**`; `_holding` assente (nessun drop registrato). Nuovi drop post-unfreeze richiedono apertura di una nuova finestra freeze con log/ticket in `logs/agent_activity.md` prima di qualsiasi ingestione.
-
-- 2026-07-10: nota **RIAPERTURA-2026-01** aggiornata (log archivist) con conferma catalogo 01A stabile per readiness 01B/01C in report-only: la finestra 2026-07-08T09:00Z → 2026-07-15T18:00Z (ora chiusa) copriva owner 01B species-curator/trait-curator su `patch/01B-core-derived-matrix`; owner 01C dev-tooling su `patch/01C-tooling-ci-catalog` (inventario/controlli report-only); ticket **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** tracciati in STRICT MODE.
-
-- 2025-11-30T23:12Z: riesame readiness 01B/01C (archivist, approvatore Master DD) conferma finestra freeze documentale 2026-07-08T09:00Z → 2026-07-15T18:00Z come baseline; owner 01B species/trait-curator e owner 01C dev-tooling restano in modalità report-only su `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog`. Ticket attivi **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]**; ok Master DD a procedere con pipeline/patchset successivi mantenendo logging STRICT MODE (vedi log `[READINESS-01B01C-2025-11-30T2312Z]`).
-
-- 2026-05-09: esito verifica owner 01B/01C (archivist, approvatore Master DD): species-curator conferma drop sanificato `ancestors_neurons_dump_v3` per TKT-01B-001 (licenza in pending) e riceve handoff con trait-curator per matrice 01B; trait-curator on-call per alias sentience/enneagramma su TKT-01B-002; dev-tooling marca i pack parametri v1.5/v8_3 LEGACY (TKT-01C-001) e chiede refactor dei binding su event-map engine v2.3 (TKT-01C-002), segnalando a Master DD il blocco su `scan_engine_idents.py` finché non arriva l’ID map aggiornata.
-- 2026-05-02: cleanup 03B chiuso con firma Master DD; freeze documentale su `incoming/**` e `docs/incoming/**` dismesso dopo il checkpoint con smoke schema-only (14 controlli, 3 avvisi pack) e redirect confermati (`reports/temp/patch-03B-incoming-cleanup/2026-02-20/cleanup_redirect.md`). Baseline validator 02A schema-only 2026-05-01/02 registrata in `reports/audit/2026-02-20_audit_bundle.md`. Nuovi drop richiedono apertura di una nuova finestra freeze e log dedicato in `logs/agent_activity.md`.
-
-- 2026-04-13: soft freeze documentale su `incoming/**` e `docs/incoming/**` confermato fino alla chiusura 03B (branch `patch/03B-incoming-cleanup`, controlli core su `patch/03A-core-derived`). Nessun merge/spostamento; solo report-only. Previsto rerun 02A report-only con validator schema/trait/style nei log `reports/temp/patch-03A-core-derived/` e specchio `reports/temp/patch-03B-incoming-cleanup/2026-02-20/` prima di qualsiasi sblocco.
-
-- 2026-04-11: gate 01B chiuso con approvazione Master DD sulla matrice core/derived v0.2 (`patch/01B-core-derived-matrix`); handoff avviato verso fase 02A con README sincronizzati.
-
-- 2026-04-08: riesame freeze 01A in STRICT MODE (archivist) senza spostamenti di file: etichette confermate **DA_INTEGRARE/LEGACY/STORICO**, gap list aggiornata con owner proposti e ticket collegati alle fonti; `incoming/_holding` ancora assente. Soft freeze documentale invariato su `incoming/**` e `docs/incoming/**`.
-- 2026-03-22: kickoff 15' per ribadire trigger fase 1→2→3 e riesame delle tabelle 01A: gap list ancora aperta (**[TKT-01A-001]** … **[TKT-01A-005]**) senza spostamenti di file; `incoming/_holding` confermato assente (nessuna integrazione/archiviazione). Disponibilità riconfermata in report-only per species/trait-curator (matrice core/derived 01B, ticket **[TKT-01B-001]**/**[TKT-01B-002]**) e dev-tooling (inventario workflow CI/script 01C, ticket **[TKT-01C-001]**/**[TKT-01C-002]**). Gate "RIAPERTURA-2026-01" marcato chiuso con autorizzazione a procedere su 01A; soft freeze documentale invariato su `incoming/**` e `docs/incoming/**`. Stato successivo: ticket 01A chiusi il 2026-07-16 con approvazione Master DD e handoff 01B/01C loggato.
-- 2026-03-19: log **RIAPERTURA-2026-01** (micro-step archivist) riconferma soft freeze su `incoming/**` e `docs/incoming/**`, gap list 01A allineata a `docs/planning/REF_INCOMING_CATALOG.md` e ticket **[TKT-01A-001]** … **[TKT-01A-005]** (alias **[TKT-01A-DOCS]** per la voce documentazione) registrati in `logs/agent_activity.md`; nessuno spostamento file autorizzato.
-- 2026-03-20: nota **RIAPERTURA-2026-01** aggiornata con disponibilità species-curator/trait-curator (01B) e dev-tooling (01C) in modalità report-only, con ticket **[TKT-01B-001]**, **[TKT-01B-002]**, **[TKT-01C-001]**, **[TKT-01C-002]** e riferimenti in `logs/RIAPERTURA-2026-01-note.md` e `reports/audit/readiness-01c-ci-inventory.md`.
-- Spostamento eseguito per i duplicati DevKit e inventari (freeze 2025-11-25) verso `incoming/archive_cold/**` con riferimento a `reports/backups/2025-11-25_freeze/manifest.txt`.
-- Tenere la tabella sincronizzata con `incoming/README.md` e il catalogo di pianificazione.
-- 2026-03-13: kickoff 01B con species-curator per matrice core/derived su ticket **[TKT-01A-001]** … **[TKT-01A-005]**; dev-tooling incaricato di inventariare workflow CI/script incoming senza eseguire pipeline. Aggiornamento README dopo approvazione Master DD (vedi `logs/agent_activity.md`).
-- 2026-03-10: riesame gate **RIAPERTURA-2026-01** con Master DD (ticket **[TKT-01A-005]** / **[TKT-01A-DOCS]**): soft freeze su `incoming/**`/`docs/incoming/**` confermato e finestra di sblocco rimandata; vedere riesame 2026-03-19 per stato corrente.
-- 2026-02-07: gap list 01A aggiornata con ticket proposti **[TKT-01A-*]** sulle voci aperte (placeholder da aprire e loggare con approvazione Master DD); `incoming/_holding` non presente (nessun batch attivo) e ogni nuovo drop va loggato prima di eventuale ingestione.
-- Handoff 01A → 01B: gap list e ticket sono specchiati in `incoming/README.md` e `docs/planning/REF_INCOMING_CATALOG.md`; species-curator è on-call per 01B con supporto trait-curator/balancer per i casi borderline core/derived.
-- 2026-02-12: checkpoint **RIAPERTURA-2026-02** per patchset 03A/03B registrato in `logs/agent_activity.md` dopo gate 02A (report-only); freeze soft ancora da confermare con Master DD e nessuna riapertura automatica dei validator CI.
-- 2026-02-24: kickoff rapido PATCHSET-00 (15') per ribadire trigger fase 1→2→3; gap list 01A riletta (ticket **[TKT-01A-*]** ancora placeholder) senza spostare file. `_holding` ancora assente (nessun drop da integrare/archiviare). Readiness: trait-curator/species-curator on-call per 01B, dev-tooling on-call per 01C; ticket **[TKT-01B-*]**/**[TKT-01C-*]** da aprire/loggare con approvazione Master DD.
-
-Draft post-unfreeze (DA APPROVARE – nessuna modifica applicativa finché non autorizzata):
-
-- Freeze window 2025-10-06T09:00Z→2025-10-13T18:00Z: stato **SBLOCCATO** (ticket **TKT-FREEZE-OCT25**), nessun drop in `_holding`, rollback manifest 2025-11-25/11-29 confermati.
-- Gap list 01A: resta in report-only con priorità/rischi invariati (pack minimo v5–v8, unified ≥2.0, badlands/biomi, sentience/enneagramma, hook engine, asset MBTI); nessun movimento file eseguito.
-- Prossimo passo dopo via libera: applicare l’aggiornamento README per chiudere il gate di riapertura e avviare 01A esecutiva mantenendo STRICT MODE.
-
-Gap list 01A – snapshot 2026-09-19 (riesame 2026-10-14: nessuna variazione, report-only; priorità/rischio per handoff 01B):
-
-| Fonte / descrizione                                 | Stato        | Priorità | Rischio    | Note operative (report-only)                                                                                  |
-| --------------------------------------------------- | ------------ | -------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
-| `incoming/evo_pacchetto_minimo_v5..v8.zip`          | DA_INTEGRARE | P1       | Medio      | Deduplicare contro v1–v4 legacy e fissare baseline unico pack prima del passaggio a 01B (no esecuzioni).      |
-| `incoming/evo-tactics-unified-2.*`                  | DA_INTEGRARE | P1       | Medio      | Validare naming/tooling vs core; verificare checksum e overlap con pack ufficiali prima di proporre merge.    |
-| `incoming/evo-tactics-badlands*` / ecosistemi       | DA_INTEGRARE | P2       | Medio-Alto | Richiede validazione biome-ecosystem-curator per duplicati/variazioni; mantenere in sola lettura.             |
-| Pack sentience / trait (`sentience*.yaml`/`.zip`)   | DA_INTEGRARE | P1       | Alto       | Alias/nomenclature da riallineare con trait-curator; bloccare promozione finché non esiste mapping condiviso. |
-| Dataset/doc enneagramma (`incoming/Ennagramma/**`)  | DA_INTEGRARE | P2       | Medio      | Confrontare dataset e doc; verificare licenza prima dell’uso e aggiornare README se cambia lo stato.          |
-| Hook/script engine (`hook_bindings.ts`, `*.schema`) | DA_INTEGRARE | P1       | Alto       | `scan_engine_idents.py` resta bloccato; allineare a event-map v2.3 e inoltrare a 01C per compatibilità.       |
-| Asset grafici MBTI (`incoming/Img/*.svg`)           | DA_INTEGRARE | P3       | Medio      | Verificare liberatorie/licenza prima di qualsiasi copia; nessun uso in pipeline finché non validato.          |
-
-Gap list 01A (chiusa, approvata Master DD il 2026-07-16; sincronizzata con `docs/planning/REF_INCOMING_CATALOG.md` e log **RIAPERTURA-2026-01**):
-
-- **[TKT-01A-001]** – `incoming/lavoro_da_classificare/*`: assenza mapping/owner → nominare owner dominio prima di ingest. Owner finale: archivist (Master DD, catalogo 01A) con supporto trait-curator per normalizzazioni. Outcome finale: **INTEGRARE** (triage + mapping owner) **CHIUSO** con approvazione Master DD; handoff a species/trait-curator su `patch/01B-core-derived-matrix` in report-only.
-- **[TKT-01A-002]** – `incoming/ancestors_*` / `Ancestors_Neurons_*`: validare schema/licenza e sanificare versioni pubblicabili. Owner finale: species-curator (on-call 01B) con revisione archivist per catalogazione. Outcome finale: **INTEGRARE** drop sanificato `ancestors_neurons_dump_v3` **CHIUSO** con approvazione Master DD; legacy precedenti da archiviare dopo review, consegna 01B.
-- **[TKT-01A-003]** – `evo_tactics_validator-pack_v1.5.zip`, `evo_tactics_param_synergy_v8_3.zip`, `evo_tactics_tables_v8_3.xlsx`: riconciliare parametri con pipeline bilanciamento, possibile legacy se fuori sync. Owner finale: dev-tooling (01C) con segnalazione a balancer per esito QA. Outcome finale: **LEGACY** (read-only fino a nuova baseline parametri) **CHIUSO** con approvazione Master DD; handoff 01C su `patch/01C-tooling-ci-catalog`.
-- **[TKT-01A-004]** – `incoming/hook_bindings.ts`, `engine_events.schema.json`, `scan_engine_idents.py`: riesaminare compatibilità ID engine senza eseguire script. Owner finale: dev-tooling (01C) con handoff a engine maintainer dopo QA. Outcome finale: **INTEGRARE** dopo rebase su event-map engine v2.3 **CHIUSO** con approvazione Master DD; blocco su `scan_engine_idents.py` da mantenere, consegna 01C/01B.
-- **[TKT-01A-005]** / **[TKT-01A-DOCS]** – `docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`: collegare a patchset 01A o archiviare con approvazione Master DD. Owner finale: archivist (Master DD) con coordinamento Master DD per decisione finale. Outcome finale: **INTEGRARE** (allineare piano a patchset 01A e ticket collegati) **CHIUSO** con approvazione Master DD; note sincronizzate nei README e pacchetto handoff 01B/01C.
+Nuovi drop in `docs/incoming/` richiedono log in `logs/agent_activity.md` e coordinamento con l'archivist. Nessuna modifica ai file esistenti senza approvazione Master DD. I ticket storici `[TKT-01A-001..005]` sono **chiusi** (approvati 2026-07-16); i ticket `[TKT-01B-*]` e `[TKT-01C-*]` restano attivi in modalità report-only sui branch `patch/01B-core-derived-matrix` e `patch/01C-tooling-ci-catalog`.
