@@ -22,6 +22,14 @@
 - [ ] `npm run style:check`
 - [ ] Altro: <!-- specificare -->
 
+## Piano di Rollback 03A
+
+<!-- Obbligatorio per ogni PR. Descrivere come annullare le modifiche in caso di regressione. -->
+
+- [ ] Rollback command: `git revert <merge-commit>`
+- [ ] File/servizi impattati: <!-- elencare -->
+- [ ] Test di verifica post-rollback: <!-- specificare -->
+
 ## Note
 
 <!-- Link a report, artefatti o follow-up da pianificare. -->

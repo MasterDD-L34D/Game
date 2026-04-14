@@ -15,26 +15,29 @@ review_cycle_days: 14
 
 ## Stato attuale
 
-- workflow `docs-governance.yml` attivo in warning-only
-- controllo link docs e governance registry gia' eseguito e stabile
+- ✅ Fase 1 completata (settimane 1-2, 7-13 aprile 2026)
+- ✅ Fase 2 attivata (14 aprile 2026): governance check blocking, link warning-only
+- ✅ Branch protection attiva su main con 6 check required
 
-## Fase 1 - Stabilizzazione (settimane 1-2)
+## Fase 1 - Stabilizzazione (settimane 1-2) ✅ COMPLETATA
 
-- monitorare artifact `governance_drift_report.json`
-- chiudere mismatch metadata/registry
-- mantenere `continue-on-error: true`
+- monitorato artifact `governance_drift_report.json`: 0 errori, 0 warning
+- mismatch metadata/registry chiuso via tool migrazione bulk
+- `continue-on-error: true` mantenuto durante fase 1
 
-## Fase 2 - Gate misto (settimane 3-4)
+## Fase 2 - Gate misto (settimane 3-4) ✅ ATTIVA
 
-- rendere blocking solo il check governance (`--strict`)
-- mantenere link check in warning-only se necessario
-- validare flusso PR senza regressioni operative
+- governance check ora **blocking** (`continue-on-error` rimosso)
+- link check mantenuto in warning-only
+- branch protection attivata con check required:
+  `paths-filter`, `python-tests`, `stack-quality`, `cli-checks`, `dataset-checks`, `governance`
+- PR template aggiornato con rollback plan obbligatorio
 
-## Fase 3 - Required completo (settimane 5-6)
+## Fase 3 - Required completo (settimane 5-6) — PROSSIMA
 
-- rimuovere `continue-on-error` su governance + link integrity
-- impostare branch protection con check richiesto:
-  - `Docs Governance / governance`
+- rimuovere `continue-on-error` su link integrity
+- aggiungere `link_check` ai check required della branch protection
+- verificare zero drift per 2 settimane consecutive
 
 ## Checklist branch protection
 
