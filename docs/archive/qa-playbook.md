@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # QA Playbook · Nebula Release Flow
 
 Questo playbook riassume come mantenere allineati i report QA orchestrati e come sfruttare la console UI per seguire i rilasci Nebula.
@@ -16,15 +17,15 @@ Questo playbook riassume come mantenere allineati i report QA orchestrati e come
 
 I report vengono generati dal bridge Node ↔ orchestrator Python (`scripts/export-qa-report.js`). Il job avvia un worker Python, raccoglie i trait diagnostics e normalizza quattro output coordinati:
 
-* `reports/trait_baseline.json` – dump completo degli stati dei tratti con copertura, conflitti, sorgenti dati e tassonomia.
-* `reports/generator_validation.json` – fotografia dei check runtime sull'orchestrator (pass/fail, warning e note contestuali).
-* `reports/qa_badges.json` – riepilogo per i badge UI (totali superati, conflitti, tratti senza copertura) con gli highlight principali.
-* `reports/qa-changelog.md` – changelog sintetico con delta rispetto allo snapshot precedente, utile per note recap e Flow Shell.
+- `reports/trait_baseline.json` – dump completo degli stati dei tratti con copertura, conflitti, sorgenti dati e tassonomia.
+- `reports/generator_validation.json` – fotografia dei check runtime sull'orchestrator (pass/fail, warning e note contestuali).
+- `reports/qa_badges.json` – riepilogo per i badge UI (totali superati, conflitti, tratti senza copertura) con gli highlight principali.
+- `reports/qa-changelog.md` – changelog sintetico con delta rispetto allo snapshot precedente, utile per note recap e Flow Shell.
 
 ### Requisiti
 
-* Python 3.11 con le dipendenze definite in `tools/py/requirements.txt`.
-* Node.js 20 (come in CI) per eseguire lo script.
+- Python 3.11 con le dipendenze definite in `tools/py/requirements.txt`.
+- Node.js 20 (come in CI) per eseguire lo script.
 
 ### Comandi
 
@@ -52,8 +53,8 @@ Gli stessi artefatti restano scaricabili dall'esecuzione Actions e sono già for
 
 Nella sezione **Log runtime** della `QualityReleaseView` sono disponibili due pulsanti:
 
-* **Esporta JSON QA** – esporta l'elenco filtrato in JSON.
-* **Esporta CSV QA** – esporta lo stesso set in CSV, utile per spreadsheet e share rapide.
+- **Esporta JSON QA** – esporta l'elenco filtrato in JSON.
+- **Esporta CSV QA** – esporta lo stesso set in CSV, utile per spreadsheet e share rapide.
 
 I pulsanti restano disabilitati quando non ci sono log visibili per evitare export vuoti. Ogni azione produce un evento `quality.logs.exported` che include formato, filename generato e numero di righe esportate (`data.count`).
 
@@ -63,9 +64,9 @@ Il filtro scope applicato nella toolbar (Tutti/Specie/Biomi/Foodweb/Publishing) 
 
 I badge che compaiono nella console QA (`Specie`, `Biomi`, `Foodweb` e il badge addizionale `Traits`) si basano sulle metriche caricate via snapshot orchestrator e sul riepilogo di `qa_badges.json`. Il servizio UI (`webapp/src/services/clientLogger.js`) trasforma gli stessi dati in highlight, riusati dal recap (`tools/recap/generateRecap.js`) e dal commento automatico del workflow:
 
-* `checks.traits.passed / total` evidenzia quanti tratti hanno metadati glossary completi.
-* `checks.traits.matrix_mismatch` e `highlights.matrix_mismatch_traits` aiutano a individuare tratti senza copertura nel matrix.
-* `highlights.glossary_missing` e `highlights.zero_coverage_traits` elencano priorità per gli interventi manuali.
+- `checks.traits.passed / total` evidenzia quanti tratti hanno metadati glossary completi.
+- `checks.traits.matrix_mismatch` e `highlights.matrix_mismatch_traits` aiutano a individuare tratti senza copertura nel matrix.
+- `highlights.glossary_missing` e `highlights.zero_coverage_traits` elencano priorità per gli interventi manuali.
 
 Per un controllo rapido confronta i badge UI con i report esportati:
 
@@ -76,6 +77,6 @@ Per un controllo rapido confronta i badge UI con i report esportati:
 
 In caso di incongruenze tra badge e dataset:
 
-* rigenera i report (`npm run export:qa`) oppure rilancia il workflow manuale,
-* controlla che il worker orchestrator abbia prodotto `trait_baseline.json` e `generator_validation.json` aggiornati,
-* aggiorna la dashboard UI ricaricando lo snapshot (`/api/generation/snapshot`).
+- rigenera i report (`npm run export:qa`) oppure rilancia il workflow manuale,
+- controlla che il worker orchestrator abbia prodotto `trait_baseline.json` e `generator_validation.json` aggiornati,
+- aggiorna la dashboard UI ricaricando lo snapshot (`/api/generation/snapshot`).

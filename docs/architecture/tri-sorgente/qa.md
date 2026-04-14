@@ -8,9 +8,11 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # QA & KPI
 
 ## Test Monte Carlo (per bioma/tier)
+
 - 10k offerte simulate
 - KPI:
   - ≥95% offerte con ≥1 sinergica
@@ -20,6 +22,7 @@ review_cycle_days: 14
   - Nessuna carta con pick-rate >55% nelle prime 3 offerte
 
 ## Failure-modes & Contromisure
+
 - Dry offers → rimpiazzo peggiore con “ancora di build”
 - Skip-spam → cap per atto + decay consecutivi
 - Combo snowball → max_copies=1 + duplicate_penalty + cooldown

@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Idea Engine — Changelog rilasci
 
 > Aggiorna questo file ad ogni promozione di widget/backend per mantenere una traccia unica delle novità. Duplica lo scheletro

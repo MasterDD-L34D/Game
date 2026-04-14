@@ -8,25 +8,26 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Modello dati
 
 Il catalogo dei trait segue lo schema JSON canonico `config/schemas/trait.schema.json`, che definisce campi obbligatori, vincoli e sezioni opzionali modulari. La tabella seguente riassume i blocchi fondamentali richiesti da tutti i trait.
 
 ## Campi obbligatori
 
-| Campo | Tipo | Vincoli chiave | Scopo |
-| --- | --- | --- | --- |
-| `id` | stringa | slug `^[a-z0-9_]+$` | Identificatore univoco e nome file della voce.【F:config/schemas/trait.schema.json†L8-L25】 |
-| `label` | stringa | riferimento `i18n:` o stringa ripulita | Nome localizzato mostrato in UI e report.【F:config/schemas/trait.schema.json†L26-L29】 |
-| `famiglia_tipologia` | stringa | formato `<Macro>/<Sotto>` | Cluster funzionale di appartenenza.【F:config/schemas/trait.schema.json†L30-L35】 |
-| `fattore_mantenimento_energetico` | stringa | `i18n:` o stringa ripulita | Costo narrativo/energetico del tratto.【F:config/schemas/trait.schema.json†L36-L39】 |
-| `tier` | stringa | `T1`–`T6` | Gradino di progressione e gating di accesso.【F:config/schemas/trait.schema.json†L40-L44】 |
-| `slot` | array[string] | lettere maiuscole uniche | Slot occupati, può essere vuoto.【F:config/schemas/trait.schema.json†L45-L52】 |
-| `sinergie` | array[string] | slug normalizzati | Lista di trait compatibili.【F:config/schemas/trait.schema.json†L56-L63】 |
-| `conflitti` | array[string] | slug normalizzati | Lista di trait incompatibili.【F:config/schemas/trait.schema.json†L64-L71】 |
-| `mutazione_indotta` | stringa | `i18n:` o stringa ripulita | Descrizione sintetica dell'adattamento.【F:config/schemas/trait.schema.json†L87-L90】 |
-| `uso_funzione` | stringa | `i18n:` o stringa ripulita | Funzione principale in gioco.【F:config/schemas/trait.schema.json†L91-L94】 |
-| `spinta_selettiva` | stringa | `i18n:` o stringa ripulita | Motivazione evolutiva/tattica.【F:config/schemas/trait.schema.json†L95-L98】 |
+| Campo                             | Tipo          | Vincoli chiave                         | Scopo                                                                                       |
+| --------------------------------- | ------------- | -------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `id`                              | stringa       | slug `^[a-z0-9_]+$`                    | Identificatore univoco e nome file della voce.【F:config/schemas/trait.schema.json†L8-L25】 |
+| `label`                           | stringa       | riferimento `i18n:` o stringa ripulita | Nome localizzato mostrato in UI e report.【F:config/schemas/trait.schema.json†L26-L29】     |
+| `famiglia_tipologia`              | stringa       | formato `<Macro>/<Sotto>`              | Cluster funzionale di appartenenza.【F:config/schemas/trait.schema.json†L30-L35】           |
+| `fattore_mantenimento_energetico` | stringa       | `i18n:` o stringa ripulita             | Costo narrativo/energetico del tratto.【F:config/schemas/trait.schema.json†L36-L39】        |
+| `tier`                            | stringa       | `T1`–`T6`                              | Gradino di progressione e gating di accesso.【F:config/schemas/trait.schema.json†L40-L44】  |
+| `slot`                            | array[string] | lettere maiuscole uniche               | Slot occupati, può essere vuoto.【F:config/schemas/trait.schema.json†L45-L52】              |
+| `sinergie`                        | array[string] | slug normalizzati                      | Lista di trait compatibili.【F:config/schemas/trait.schema.json†L56-L63】                   |
+| `conflitti`                       | array[string] | slug normalizzati                      | Lista di trait incompatibili.【F:config/schemas/trait.schema.json†L64-L71】                 |
+| `mutazione_indotta`               | stringa       | `i18n:` o stringa ripulita             | Descrizione sintetica dell'adattamento.【F:config/schemas/trait.schema.json†L87-L90】       |
+| `uso_funzione`                    | stringa       | `i18n:` o stringa ripulita             | Funzione principale in gioco.【F:config/schemas/trait.schema.json†L91-L94】                 |
+| `spinta_selettiva`                | stringa       | `i18n:` o stringa ripulita             | Motivazione evolutiva/tattica.【F:config/schemas/trait.schema.json†L95-L98】                |
 
 ## Moduli opzionali
 
