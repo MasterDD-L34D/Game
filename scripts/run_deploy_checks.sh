@@ -261,10 +261,10 @@ fi
 
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")
-cp -r "$ROOT_DIR/docs/test-interface" "$DIST_DIR/test-interface"
+cp -r "$ROOT_DIR/docs/frontend/test-interface" "$DIST_DIR/test-interface"
 cp -r "$DATA_SOURCE_DIR" "$DIST_DIR/data"
-if [ -f "$ROOT_DIR/docs/test-interface/favicon.ico" ]; then
-  cp "$ROOT_DIR/docs/test-interface/favicon.ico" "$DIST_DIR/"
+if [ -f "$ROOT_DIR/docs/frontend/test-interface/favicon.ico" ]; then
+  cp "$ROOT_DIR/docs/frontend/test-interface/favicon.ico" "$DIST_DIR/"
 fi
 cat <<'HTML' >"$DIST_DIR/index.html"
 <!DOCTYPE html>
