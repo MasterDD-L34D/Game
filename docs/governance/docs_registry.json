@@ -2599,16 +2599,16 @@
     },
     {
       "path": "docs/incoming/README.md",
-      "title": "Incoming Status",
-      "doc_status": "legacy_active",
+      "title": "Docs Incoming — dispatcher",
+      "doc_status": "active",
       "doc_owner": "incoming-archivist",
       "workstream": "incoming",
-      "last_verified": "2026-04-13",
+      "last_verified": "2026-04-14",
       "source_of_truth": false,
-      "language": "it",
-      "review_cycle_days": 14,
+      "language": "it-en",
+      "review_cycle_days": 30,
       "primary": false,
-      "track": "historical"
+      "track": "authored"
     },
     {
       "path": "docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md",
