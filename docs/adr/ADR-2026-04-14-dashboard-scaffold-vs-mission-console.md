@@ -137,7 +137,7 @@ Questo ADR + fix di 1 test orfano (`tests/vfx/dynamicShader.spec.ts`) + aggiorna
 
 ## Follow-up candidati (backlog)
 
-1. **Verificare se i Vitest di `apps/dashboard/` passano**. Se sì, tenerli. Se no, valutare se cancellarli o sistemarli.
+1. ~~**Verificare se i Vitest di `apps/dashboard/` passano**~~ — **completato 2026-04-14**, vedi sezione "Vitest audit results" sotto.
 2. ~~**Audit dei `packages/angular*` stub**~~ — **completato 2026-04-14**, vedi sezione "Audit follow-up" sotto.
 3. **Prendere una decisione strategica** tra archival completo (alternativa A) e rebuild (alternativa C) quando ci sarà bandwidth e contesto di business.
 4. ~~**Unificare `apps/dashboard/tests/manual/qa-checklist.md`**~~ — **completato 2026-04-14**, spostato in [`docs/qa/nebula-webapp-checklist.md`](../qa/nebula-webapp-checklist.md) con frontmatter governance + entry in `docs_registry.json`.
@@ -178,6 +178,77 @@ Gli stub in `packages/angular*` sono **confinati a un unico consumer** (`apps/da
 4. Il `Trait Editor/` come app vera non è coperto dall'ADR attuale. Se diventasse canditato per sostituire la Mission Console, sarebbe un cambio strategico da discutere separatamente.
 
 **Azione in questa PR**: nessuna modifica al codice. L'audit è solo informativo. Questa sezione dell'ADR viene aggiornata per marcare il follow-up come completato.
+
+### 2026-04-14 — Vitest audit results
+
+**Scopo**: eseguire la suite Vitest di `apps/dashboard/` e classificare ogni file test in GREEN/YELLOW/RED/SKIP, per decidere cosa tenere e cosa rimuovere.
+
+**Metodo**: `npm --prefix apps/dashboard test` (baseline), poi ispezione degli import di ogni spec per verificare se i path source referenziati esistono nel `apps/dashboard/src/` corrente.
+
+**Finding chiave**: il `vitest.config.ts` del dashboard ha include-pattern gated su `@vitejs/plugin-vue` + `@vue/test-utils`:
+
+```ts
+const includePatterns =
+  vuePlugin && hasVueTestUtils
+    ? [
+        ...baseInclude,
+        'tests/**/*.spec.ts',
+        '../../tests/dashboard/**/*.spec.ts',
+        '../../tests/vfx/**/*.spec.ts',
+        '../../tests/analytics/**/*.test.ts',
+      ]
+    : [...baseInclude, '../../tests/analytics/squadsync_responses.test.ts'];
+```
+
+Il monorepo non ha Vue nelle dipendenze (gli stub `packages/angular*` rimangono AngularJS), quindi il fallback pattern gira, eseguendo solo 3 file test.
+
+**Baseline run**: `Test Files 3 passed (3) | Tests 9 passed (9) | Duration 912ms`.
+
+**Classificazione completa** (24 spec file totali):
+
+| File                                                | Bucket         | Motivo                                                                                                                            |
+| --------------------------------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `tests/config/dataSources.spec.ts`                  | **GREEN**      | Esegue, testa `src/config/dataSources.ts` (esiste)                                                                                |
+| `tests/config/production-build.spec.ts`             | **GREEN**      | Esegue, smoke test Vite generico                                                                                                  |
+| `../../tests/analytics/squadsync_responses.test.ts` | **GREEN**      | Esegue (fallback include), testa JSON fixtures                                                                                    |
+| `tests/AtlasOverviewView.spec.ts`                   | **RED**        | Importa `../src/views/atlas/AtlasOverviewView.vue` (directory `src/views/` non esiste)                                            |
+| `tests/AtlasTelemetryView.spec.ts`                  | **RED**        | Importa `../src/views/atlas/AtlasTelemetryView.vue` (assente)                                                                     |
+| `tests/BiomesView.spec.ts`                          | **RED**        | Importa `../src/views/BiomesView.vue` (assente)                                                                                   |
+| `tests/EncounterGenerator.spec.ts`                  | **RED**        | Importa `../src/state/generator/encounterGenerator.js` (`src/state/generator/` non esiste)                                        |
+| `tests/EncounterPanel.spec.ts`                      | **RED**        | Importa `../src/components/EncounterPanel.vue` (assente, zero file `.vue` nel scaffold)                                           |
+| `tests/GenerationFlow.spec.ts`                      | **RED**        | Importa `../src/components/SpeciesPanel.vue` (assente)                                                                            |
+| `tests/NebulaAtlasView.spec.ts`                     | **RED**        | Importa `../src/views/NebulaAtlasView.vue` (assente)                                                                              |
+| `tests/SpeciesPanel.spec.ts`                        | **RED**        | Importa `../src/components/SpeciesPanel.vue` (assente)                                                                            |
+| `tests/SpeciesView.spec.ts`                         | **RED**        | Importa `../src/views/SpeciesView.vue` (assente)                                                                                  |
+| `tests/components/SafeContent.spec.ts`              | **RED**        | Importa `../../src/components/common/SafeContent.vue` (assente)                                                                   |
+| `tests/flow-shell-refresh.spec.ts`                  | **RED**        | Mocka `../src/services/generationOrchestratorService.js` (directory esiste ma file sconosciuto), monta componenti Vue inesistenti |
+| `tests/flow-shell-telemetry.spec.ts`                | **RED**        | Come sopra                                                                                                                        |
+| `tests/i18n.spec.ts`                                | **RED**        | Importa `../src/locales/en.json`, `../src/locales/it.json` (directory `src/locales/` non esiste)                                  |
+| `tests/modules/useNebulaProgressModule.spec.ts`     | **RED**        | Importa `../../src/modules/useNebulaProgressModule` (`src/modules/` non esiste)                                                   |
+| `tests/router/AppRouter.spec.ts`                    | **RED**        | Importa `../../src/router` (directory non esiste) + `vue-router` (non installato)                                                 |
+| `tests/state/flowStores.spec.ts`                    | **RED**        | Mocka servizi che non esistono nel scaffold corrente                                                                              |
+| `tests/validation/snapshot.spec.ts`                 | **RED**        | Importa `../../src/validation/snapshot` (directory `src/validation/` non esiste)                                                  |
+| `tests/playwright/console/flow-shell.e2e.spec.ts`   | **PLAYWRIGHT** | Non eseguito da Vitest, usa Playwright runner                                                                                     |
+| `tests/playwright/console/generator-flows.spec.ts`  | **PLAYWRIGHT** | Come sopra                                                                                                                        |
+| `tests/playwright/console/idea-engine.spec.ts`      | **PLAYWRIGHT** | Come sopra                                                                                                                        |
+| `tests/playwright/console/interface.spec.ts`        | **PLAYWRIGHT** | Come sopra                                                                                                                        |
+| `tests/playwright/console/trait-dashboard.spec.ts`  | **PLAYWRIGHT** | Come sopra                                                                                                                        |
+
+**Totali**: 3 GREEN, 17 RED, 5 PLAYWRIGHT, 0 YELLOW, 0 SKIP.
+
+**Finding chiave**: **zero file `.vue` esistono in `apps/dashboard/src/`** (`find apps/dashboard/src -name "*.vue" | wc -l = 0`). Tutti i 17 spec RED sono stati scritti contro un albero sorgente Vue che è stato sostituito dal scaffold AngularJS. Non sono YELLOW perché anche se si installasse Vue, i source file mancherebbero comunque — sono orfani fino alla radice.
+
+**Conclusione**: i 17 file RED sono dead code (come il `tests/vfx/dynamicShader.spec.ts` rimosso in PR precedente). Non possono essere riparati senza prima ricostruire il dashboard scaffold (decisione strategica di questo ADR, attualmente deferred). Vengono rimossi in questa PR, con history preservata via `git rm`.
+
+**I 5 spec Playwright** restano intatti: girano contro il Mission Console bundle pre-built in `docs/mission-console/`, non contro il scaffold. La loro validità dipende da `npm run test:e2e` (suite separata) e non fa parte di questo audit.
+
+**Azione in questa PR**:
+
+1. Cancellati 17 file spec RED (elencati sopra)
+2. Cancellate directory vuote residue se create dalle cancellazioni (es. `tests/components/`, `tests/state/`, `tests/router/`, `tests/modules/`, `tests/validation/`)
+3. Questa sezione dell'ADR marca il follow-up #1 come completato
+
+**Verifica post-PR**: `npm --prefix apps/dashboard test` → 3 Test Files passed, 9 tests passed (baseline invariata).
 
 ## Riferimenti
 
