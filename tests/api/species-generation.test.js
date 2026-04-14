@@ -4,8 +4,25 @@ const request = require('supertest');
 
 const { createApp } = require('../../apps/backend/app');
 
+const appHandles = [];
+
+test.after(async () => {
+  while (appHandles.length) {
+    const handle = appHandles.pop();
+    if (handle && typeof handle.close === 'function') {
+      await handle.close();
+    }
+  }
+});
+
+function makeApp(options) {
+  const handle = createApp(options);
+  appHandles.push(handle);
+  return handle;
+}
+
 test('POST /api/v1/generation/species restituisce blueprint validato', async () => {
-  const { app } = createApp();
+  const { app } = makeApp();
 
   const response = await request(app)
     .post('/api/v1/generation/species')
@@ -29,7 +46,7 @@ test('POST /api/v1/generation/species restituisce blueprint validato', async () 
 });
 
 test('POST /api/v1/generation/species ritorna 400 senza trait', async () => {
-  const { app } = createApp();
+  const { app } = makeApp();
 
   const response = await request(app)
     .post('/api/v1/generation/species')

@@ -4,6 +4,23 @@ const request = require('supertest');
 
 const { createApp } = require('../../apps/backend/app');
 
+const appHandles = [];
+
+test.after(async () => {
+  while (appHandles.length) {
+    const handle = appHandles.pop();
+    if (handle && typeof handle.close === 'function') {
+      await handle.close();
+    }
+  }
+});
+
+function makeApp(options) {
+  const handle = createApp(options);
+  appHandles.push(handle);
+  return handle;
+}
+
 const speciesEntry = {
   id: 'spec-runtime-node',
   display_name: 'Predatore Nodo QA',
@@ -16,7 +33,7 @@ const speciesEntry = {
 };
 
 test('POST /api/v1/quality/suggestions/apply esegue fix specie via runtime validator', async () => {
-  const { app } = createApp();
+  const { app } = makeApp();
 
   const response = await request(app)
     .post('/api/v1/quality/suggestions/apply')
@@ -43,7 +60,7 @@ test('POST /api/v1/quality/suggestions/apply esegue fix specie via runtime valid
 });
 
 test('POST /api/v1/quality/suggestions/apply rigenera batch tramite orchestrator', async () => {
-  const { app } = createApp();
+  const { app } = makeApp();
 
   const response = await request(app)
     .post('/api/v1/quality/suggestions/apply')

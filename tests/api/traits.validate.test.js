@@ -7,6 +7,17 @@ const request = require('supertest');
 const { createApp } = require('../../apps/backend/app');
 const { signJwt } = require('../../apps/backend/utils/jwt');
 
+const appHandles = [];
+
+test.after(async () => {
+  while (appHandles.length) {
+    const handle = appHandles.pop();
+    if (handle && typeof handle.close === 'function') {
+      await handle.close();
+    }
+  }
+});
+
 const SAMPLE_TRAIT = path.resolve(
   __dirname,
   '..',
@@ -24,14 +35,15 @@ function buildAuthToken(roles) {
 }
 
 function createAuthenticatedApp() {
-  const { app } = createApp({
+  const handle = createApp({
     traits: {
       auth: {
         secret: AUTH_SECRET,
       },
     },
   });
-  return app;
+  appHandles.push(handle);
+  return handle.app;
 }
 
 test('POST /api/traits/validate restituisce suggerimenti stile', async () => {
