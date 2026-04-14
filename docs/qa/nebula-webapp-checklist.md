@@ -1,3 +1,14 @@
+---
+title: Checklist QA Nebula Webapp
+doc_status: draft
+doc_owner: ops-qa-team
+workstream: ops-qa
+last_verified: 2026-04-14
+source_of_truth: false
+language: it
+review_cycle_days: 14
+---
+
 # Checklist QA Nebula Webapp
 
 Questa checklist è pensata per la verifica manuale della webapp in tre scenari operativi:

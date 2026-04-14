@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-12-09T20:02:28.734099Z",
+  "generated_at": "2026-04-14T19:23:03.693761Z",
   "summary": {
     "total_traits": 254,
     "glossary_ok": 254,
     "glossary_missing": 0,
-    "matrix_ok": 175,
-    "matrix_mismatch": 79,
+    "matrix_ok": 178,
+    "matrix_mismatch": 76,
     "with_conflicts": 34,
     "matrix_only_traits": 44
   },
@@ -6178,14 +6178,14 @@
       "label": "Cannone Sonico a Raggio",
       "tier": "T4",
       "coverage": {
-        "core": 0,
-        "optional": 0,
+        "core": 1,
+        "optional": 1,
         "synergy": 0,
-        "total": 0
+        "total": 2
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "mismatch"
+        "matrix": "ok"
       },
       "conflicts": [],
       "synergies": [
@@ -19260,14 +19260,14 @@
       "label": "Ipertrofia Muscolare Massiva",
       "tier": "T3",
       "coverage": {
-        "core": 0,
-        "optional": 0,
+        "core": 1,
+        "optional": 1,
         "synergy": 0,
-        "total": 0
+        "total": 2
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "mismatch"
+        "matrix": "ok"
       },
       "conflicts": [
         "organi_sismici_cutanei"
@@ -24074,14 +24074,14 @@
       "label": "Pelage Idrorepellente Avanzato",
       "tier": "T2",
       "coverage": {
-        "core": 0,
-        "optional": 0,
+        "core": 1,
+        "optional": 1,
         "synergy": 0,
-        "total": 0
+        "total": 2
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "mismatch"
+        "matrix": "ok"
       },
       "conflicts": [],
       "synergies": [
