@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Sistema Tattico (TV/d20)
 
 - **Iniziativa**: CT a scatti; VEL può concedere riprese extra.

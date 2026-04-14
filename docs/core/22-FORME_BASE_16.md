@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Forme Base (16) — seed temperamentale
 
 Ogni Forma assegna: 1 **innata** + **7 PI** (pacchetti preconfezionati) tematici. VC in-match sposta gradualmente i pesi (non è un test psicologico).

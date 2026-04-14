@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Adattamento TV/d20
 
 - **Schermo condiviso** (app/sito TV): stato gruppo, mappa, log VC, consigli sblocchi.

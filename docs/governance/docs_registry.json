@@ -37,7 +37,7 @@
       "track": "historical"
     },
     {
-      "path": "docs/01-VISIONE.md",
+      "path": "docs/core/01-VISIONE.md",
       "title": "Visione",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -50,7 +50,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/02-PILASTRI.md",
+      "path": "docs/core/02-PILASTRI.md",
       "title": "Pilastri di Design (sintesi)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -63,7 +63,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/03-LOOP.md",
+      "path": "docs/core/03-LOOP.md",
       "title": "Loop di Gioco (alto livello)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -76,7 +76,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/10-SISTEMA_TATTICO.md",
+      "path": "docs/core/10-SISTEMA_TATTICO.md",
       "title": "Sistema Tattico (TV/d20)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -89,7 +89,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/11-REGOLE_D20_TV.md",
+      "path": "docs/core/11-REGOLE_D20_TV.md",
       "title": "Adattamento TV/d20",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -102,7 +102,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/20-SPECIE_E_PARTI.md",
+      "path": "docs/core/20-SPECIE_E_PARTI.md",
       "title": "Specie & Parti",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -115,7 +115,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/22-FORME_BASE_16.md",
+      "path": "docs/core/22-FORME_BASE_16.md",
       "title": "Forme Base (16) — seed temperamentale",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -128,7 +128,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/24-TELEMETRIA_VC.md",
+      "path": "docs/core/24-TELEMETRIA_VC.md",
       "title": "Telemetria → Vettore Comportamentale (VC)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -141,7 +141,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/25-REGOLE_SBLOCCO_PE.md",
+      "path": "docs/core/25-REGOLE_SBLOCCO_PE.md",
       "title": "Regole di Sblocco + Economia PE",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -154,7 +154,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/27-MATING_NIDO.md",
+      "path": "docs/core/27-MATING_NIDO.md",
       "title": "Mating / Nido (reclutamento & riproduzione)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -167,7 +167,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/28-NPC_BIOMI_SPAWN.md",
+      "path": "docs/core/28-NPC_BIOMI_SPAWN.md",
       "title": "NPG, Biomi, Affissi & Director",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -180,7 +180,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/30-UI_TV_IDENTITA.md",
+      "path": "docs/core/30-UI_TV_IDENTITA.md",
       "title": "UI TV — Carta Temperamentale & Albero Evolutivo",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -193,7 +193,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/40-ROADMAP.md",
+      "path": "docs/core/40-ROADMAP.md",
       "title": "Roadmap (MVP → Alpha)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
