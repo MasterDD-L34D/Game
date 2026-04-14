@@ -250,8 +250,6 @@ function createApp(options = {}) {
     options.catalogService ||
     createCatalogService({
       dataRoot,
-      mongo: options.mongo,
-      logger: options.logger,
     });
   const biomeSynthesizer =
     options.biomeSynthesizer ||

@@ -1,13 +1,16 @@
 ---
-title: MongoDB operations handbook
-doc_status: draft
+title: MongoDB operations handbook (superseded)
+doc_status: superseded
 doc_owner: ops-qa-team
 workstream: ops-qa
 last_verified: 2026-04-14
 source_of_truth: false
 language: it-en
-review_cycle_days: 14
+review_cycle_days: 90
 ---
+
+> **SUPERSEDED — aprile 2026.** MongoDB è stato rimosso dal repo `Game`. I file `config/mongodb.*.json` e gli script `scripts/db/run_migrations.py` / `seed_evo_generator.py` sono stati eliminati. La nuova architettura dati è sviluppata nel repo `MasterDD-L34D/Game-Database`. Questo handbook è conservato come riferimento storico.
+
 # MongoDB operations handbook
 
 ## Configurazioni e ambienti

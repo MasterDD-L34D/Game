@@ -3,9 +3,6 @@ export interface CatalogServiceOptions {
   traitGlossaryPath?: string;
   biomePoolsPath?: string;
   traitCatalogPath?: string;
-  logger?: Pick<Console, 'warn'>;
-  useMongo?: boolean;
-  mongo?: Record<string, unknown>;
 }
 
 export interface CatalogService {
