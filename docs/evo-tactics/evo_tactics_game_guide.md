@@ -1,6 +1,6 @@
 ---
 title: Evo Tactics – Guida completa per il Game Repository (v2.1)
-doc_status: draft
+doc_status: historical_ref
 doc_owner: data-pack-team
 workstream: dataset-pack
 last_verified: 2026-04-14

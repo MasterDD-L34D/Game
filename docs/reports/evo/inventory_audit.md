@@ -1,6 +1,6 @@
 ---
 title: Evo Inventory Audit — 2025-11-15
-doc_status: draft
+doc_status: generated
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-04-14

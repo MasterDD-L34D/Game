@@ -1,6 +1,6 @@
 ---
 title: Onboarding Support/QA — 18 novembre 2025
-doc_status: draft
+doc_status: historical_ref
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-04-14

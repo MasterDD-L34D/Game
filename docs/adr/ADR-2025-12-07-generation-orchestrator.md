@@ -1,6 +1,6 @@
 ---
 title: ADR-2025-12-07: Orchestratore pipeline generazione specie
-doc_status: draft
+doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-04-14

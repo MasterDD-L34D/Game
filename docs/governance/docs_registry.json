@@ -26,7 +26,7 @@
     {
       "path": "AGENTS.md",
       "title": "AGENTS.md – Bootstrap per Codex",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -39,7 +39,7 @@
     {
       "path": "AGENT_WORKFLOW_GUIDE.md",
       "title": "AGENT_WORKFLOW_GUIDE.md – Guida passo passo per usare gli agenti",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -52,7 +52,7 @@
     {
       "path": "CLAUDE.md",
       "title": "CLAUDE.md",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -65,7 +65,7 @@
     {
       "path": "CONTRIBUTING.md",
       "title": "Linee guida per contribuire",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -78,7 +78,7 @@
     {
       "path": "MASTER_PROMPT.md",
       "title": "MASTER_PROMPT.md – Prompt Master per Game / Evo Tactics",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -91,7 +91,7 @@
     {
       "path": "PULL_REQUEST_TEMPLATE.md",
       "title": "Pull Request Template",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -104,7 +104,7 @@
     {
       "path": "README.md",
       "title": "Evo-Tactics — Starter Monorepo",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -117,7 +117,7 @@
     {
       "path": "agent.md",
       "title": "agent.md",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -130,7 +130,7 @@
     {
       "path": "agent_constitution.md",
       "title": "Agent Constitution – Game / Evo Tactics",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -169,7 +169,7 @@
     {
       "path": "docs/adr/ADR-2025-11-18-cli-rollout.md",
       "title": "ADR-2025-11-18: Rollout refactor CLI e onboarding Support/QA",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -182,7 +182,7 @@
     {
       "path": "docs/adr/ADR-2025-11-refactor-cli.md",
       "title": "ADR-2025-11: Consolidamento refactor CLI",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -195,7 +195,7 @@
     {
       "path": "docs/adr/ADR-2025-12-07-generation-orchestrator.md",
       "title": "ADR-2025-12-07: Orchestratore pipeline generazione specie",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -208,7 +208,7 @@
     {
       "path": "docs/adr/ADR-2026-04-13-rules-engine-d20.md",
       "title": "ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -221,7 +221,7 @@
     {
       "path": "docs/adr/ADR-XXX-refactor-cli.md",
       "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -234,7 +234,7 @@
     {
       "path": "docs/appendici/ALIENA_documento_integrato.md",
       "title": "Sistema **A.L.I.E.N.A.** — Documento Integrato",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -247,7 +247,7 @@
     {
       "path": "docs/appendici/STYLE_GUIDE_NAMING.md",
       "title": "Style Guide — Nomi & Descrizioni (Specie & Tratti)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -260,7 +260,7 @@
     {
       "path": "docs/appendici/prontuario_metriche_ucum.md",
       "title": "Prontuario metriche & unità **UCUM** — Evo Tactics",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -273,7 +273,7 @@
     {
       "path": "docs/appendici/sandbox/README.md",
       "title": "Appendice Sandbox — Concept, Trait e Bilanciamento (draft)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -299,7 +299,7 @@
     {
       "path": "docs/architecture/flusso-richieste-idea-engine.md",
       "title": "Flusso delle richieste Idea Engine",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "flow-team",
       "workstream": "flow",
       "last_verified": "2026-04-14",
@@ -312,7 +312,7 @@
     {
       "path": "docs/architecture/tri-sorgente/overview.md",
       "title": "Tri-Sorgente (Roll + Personalità + Azioni)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -325,7 +325,7 @@
     {
       "path": "docs/architecture/tri-sorgente/qa.md",
       "title": "QA & KPI",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -351,7 +351,7 @@
     {
       "path": "docs/archive/evo-tactics/README.md",
       "title": "Evo-Tactics · Hub Documentale",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -364,7 +364,7 @@
     {
       "path": "docs/archive/evo-tactics/guida-ai-tratti-1.md",
       "title": "Evo-Tactics · Guida ai Tratti (Parte 1)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -377,7 +377,7 @@
     {
       "path": "docs/archive/evo-tactics/guida-ai-tratti-2.md",
       "title": "Evo-Tactics · Guida ai Tratti (Parte 2)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -390,7 +390,7 @@
     {
       "path": "docs/archive/evo-tactics/guida-ai-tratti-3-database.md",
       "title": "Evo-Tactics · Guida Database Tratti",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -403,7 +403,7 @@
     {
       "path": "docs/archive/evo-tactics/guida-ai-tratti-3-evo-tactics.md",
       "title": "Evo-Tactics · Guida ai Tratti (Scenario Evo-Tactics)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -416,7 +416,7 @@
     {
       "path": "docs/archive/evo-tactics/guides/codex-readme.md",
       "title": "Evo-Tactics — Game Design Codex (seed)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -429,7 +429,7 @@
     {
       "path": "docs/archive/evo-tactics/guides/ptpf-seed-template.md",
       "title": "Template PTPF seed (Evo-Tactics)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -442,7 +442,7 @@
     {
       "path": "docs/archive/evo-tactics/guides/security-ops.md",
       "title": "Evo-Tactics · Security & Ops Playbook (archiviato)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -455,7 +455,7 @@
     {
       "path": "docs/archive/evo-tactics/guides/template-ptpf.md",
       "title": "Template PTPF Evo-Tactics (archiviato)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -468,7 +468,7 @@
     {
       "path": "docs/archive/evo-tactics/guides/vision-and-structure-notes.md",
       "title": "Visione & Struttura (note seed)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -481,7 +481,7 @@
     {
       "path": "docs/archive/evo-tactics/guides/visione-struttura.md",
       "title": "Visione & Struttura Concettuale Evo-Tactics",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -494,7 +494,7 @@
     {
       "path": "docs/archive/evo-tactics/integration-log.md",
       "title": "Evo-Tactics · Integration Log (archivio)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -507,7 +507,7 @@
     {
       "path": "docs/archive/evo-tactics/integrazioni-v2.md",
       "title": "Evo-Tactics · Integrazioni V2",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -520,7 +520,7 @@
     {
       "path": "docs/archive/evo-tactics/security-readme.md",
       "title": "Placeholder sicurezza Evo-Tactics",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -1352,7 +1352,7 @@
     {
       "path": "docs/archive/qa-playbook.md",
       "title": "QA Playbook · Nebula Release Flow",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "incoming-archivist",
       "workstream": "incoming",
       "last_verified": "2026-04-14",
@@ -1378,7 +1378,7 @@
     {
       "path": "docs/biomes/Frattura_Abissale_Sinaptica_biome.md",
       "title": "'Frattura Abissale Sinaptica – Step 3 (Modellazione tecnica, STRICT MODE / SANDBOX)'",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1391,7 +1391,7 @@
     {
       "path": "docs/biomes/Frattura_Abissale_Sinaptica_lore.md",
       "title": "'Frattura Abissale Sinaptica – Step 2 (Identità e lore, STRICT MODE / SANDBOX)'",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1404,7 +1404,7 @@
     {
       "path": "docs/biomes/biomes.md",
       "title": "Guida al dataset dei Biomi",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1417,7 +1417,7 @@
     {
       "path": "docs/biomes/manifest.md",
       "title": "Manifest Biomi",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "data-pack-team",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1430,7 +1430,7 @@
     {
       "path": "docs/catalog/Frattura_Abissale_Sinaptica_assets_draft.md",
       "title": "'Frattura Abissale Sinaptica – Step 8 (Asset e schede visual, STRICT MODE / SANDBOX)'",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1443,7 +1443,7 @@
     {
       "path": "docs/catalog/bioma_frattura_abissale_sinaptica.md",
       "title": "'Catalogo – Bioma Frattura Abissale Sinaptica'",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1456,7 +1456,7 @@
     {
       "path": "docs/catalog/trait_reference.md",
       "title": "Trait Reference & Glossario Allineato",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "data-pack-team",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1599,7 +1599,7 @@
     {
       "path": "docs/core/01-VISIONE.md",
       "title": "Visione",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1612,7 +1612,7 @@
     {
       "path": "docs/core/02-PILASTRI.md",
       "title": "Pilastri di Design (sintesi)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1625,7 +1625,7 @@
     {
       "path": "docs/core/03-LOOP.md",
       "title": "Loop di Gioco (alto livello)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1638,7 +1638,7 @@
     {
       "path": "docs/core/10-SISTEMA_TATTICO.md",
       "title": "Sistema Tattico (TV/d20)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1651,7 +1651,7 @@
     {
       "path": "docs/core/11-REGOLE_D20_TV.md",
       "title": "Adattamento TV/d20",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1664,7 +1664,7 @@
     {
       "path": "docs/core/20-SPECIE_E_PARTI.md",
       "title": "Specie & Parti",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1677,7 +1677,7 @@
     {
       "path": "docs/core/22-FORME_BASE_16.md",
       "title": "Forme Base (16) — seed temperamentale",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1690,7 +1690,7 @@
     {
       "path": "docs/core/24-TELEMETRIA_VC.md",
       "title": "Telemetria → Vettore Comportamentale (VC)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1703,7 +1703,7 @@
     {
       "path": "docs/core/25-REGOLE_SBLOCCO_PE.md",
       "title": "Regole di Sblocco + Economia PE",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1716,7 +1716,7 @@
     {
       "path": "docs/core/27-MATING_NIDO.md",
       "title": "Mating / Nido (reclutamento & riproduzione)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1729,7 +1729,7 @@
     {
       "path": "docs/core/28-NPC_BIOMI_SPAWN.md",
       "title": "NPG, Biomi, Affissi & Director",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1742,7 +1742,7 @@
     {
       "path": "docs/core/30-UI_TV_IDENTITA.md",
       "title": "UI TV — Carta Temperamentale & Albero Evolutivo",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1755,7 +1755,7 @@
     {
       "path": "docs/core/40-ROADMAP.md",
       "title": "Roadmap (MVP → Alpha)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1768,7 +1768,7 @@
     {
       "path": "docs/core/DesignDoc-Overview.md",
       "title": "Evo Tactics — Design Doc Overview",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1781,7 +1781,7 @@
     {
       "path": "docs/core/Guida_Evo_Tactics_Pack_v2.md",
       "title": "Guida Evo Tactics Pack v2: sommario e piano operativo",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1794,7 +1794,7 @@
     {
       "path": "docs/core/Mating-Reclutamento-Nido.md",
       "title": "Mating, Reclutamento & Nido — Canvas D",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1807,7 +1807,7 @@
     {
       "path": "docs/core/PI-Pacchetti-Forme.md",
       "title": "PI, Pacchetti & Forme — Canvas B",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1820,7 +1820,7 @@
     {
       "path": "docs/core/SistemaNPG-PF-Mutazioni.md",
       "title": "Sistema NPG, PF & Mutazioni — Canvas C",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1833,7 +1833,7 @@
     {
       "path": "docs/core/Telemetria-VC.md",
       "title": "Telemetria VC — Canvas operativo",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -1950,7 +1950,7 @@
     {
       "path": "docs/evo-tactics/README.md",
       "title": "Evo-Tactics · Hub Documentale",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1963,7 +1963,7 @@
     {
       "path": "docs/evo-tactics/evo_tactics_game_guide.md",
       "title": "Evo Tactics – Guida completa per il Game Repository (v2.1)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "data-pack-team",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1976,7 +1976,7 @@
     {
       "path": "docs/evo-tactics/evo_tactics_guide.md",
       "title": "Guida Evo Tactics Pack v2: sommario e piano operativo",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "data-pack-team",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -1989,7 +1989,7 @@
     {
       "path": "docs/evo-tactics/guida-ai-tratti-1.md",
       "title": "Evo-Tactics · Guida ai Tratti (Parte 1)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2002,7 +2002,7 @@
     {
       "path": "docs/evo-tactics/guida-ai-tratti-2.md",
       "title": "Evo-Tactics · Guida ai Tratti (Parte 2)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2015,7 +2015,7 @@
     {
       "path": "docs/evo-tactics/guida-ai-tratti-3-database.md",
       "title": "Evo-Tactics · Guida Database Tratti",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2028,7 +2028,7 @@
     {
       "path": "docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md",
       "title": "Evo-Tactics · Guida ai Tratti (Scenario Evo-Tactics)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2041,7 +2041,7 @@
     {
       "path": "docs/evo-tactics/guides/codex-readme.md",
       "title": "Evo-Tactics — Game Design Codex (seed)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2054,7 +2054,7 @@
     {
       "path": "docs/evo-tactics/guides/ptpf-seed-template.md",
       "title": "Template PTPF seed (Evo-Tactics)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2067,7 +2067,7 @@
     {
       "path": "docs/evo-tactics/guides/security-ops.md",
       "title": "Evo-Tactics · Security & Ops Playbook (archiviato)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2080,7 +2080,7 @@
     {
       "path": "docs/evo-tactics/guides/template-ptpf.md",
       "title": "Template PTPF Evo-Tactics (archiviato)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2093,7 +2093,7 @@
     {
       "path": "docs/evo-tactics/guides/vision-and-structure-notes.md",
       "title": "Visione & Struttura (note seed)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2106,7 +2106,7 @@
     {
       "path": "docs/evo-tactics/guides/visione-struttura.md",
       "title": "Visione & Struttura Concettuale Evo-Tactics (archiviato)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2119,7 +2119,7 @@
     {
       "path": "docs/evo-tactics/integrazioni-v2.md",
       "title": "Evo-Tactics · Integrazioni V2",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "dataset-pack",
       "last_verified": "2026-04-14",
@@ -2301,7 +2301,7 @@
     {
       "path": "docs/governance/rollout_plan.md",
       "title": "Governance Rollout Plan (6-8 weeks)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2327,7 +2327,7 @@
     {
       "path": "docs/guide/CONTRIBUTING_SITE.md",
       "title": "Come contribuire al sito e alla documentazione",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2353,7 +2353,7 @@
     {
       "path": "docs/guide/INTEGRAZIONE_GUIDE.md",
       "title": "INTEGRAZIONE GUIDE — EVO TACTICS (PUNTO D’INCONTRO & ROADMAP)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2366,7 +2366,7 @@
     {
       "path": "docs/guide/README_HOWTO_AUTHOR_TRAIT.md",
       "title": "Come scrivere o aggiornare un trait",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2379,7 +2379,7 @@
     {
       "path": "docs/guide/README_SENTIENCE.md",
       "title": "Scala di senzienza T0–T5",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2392,7 +2392,7 @@
     {
       "path": "docs/guide/contributing/traits.md",
       "title": "Guida rapida al contributo trait",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2405,7 +2405,7 @@
     {
       "path": "docs/guide/data-guidelines.md",
       "title": "Dataset YAML di gioco",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2418,7 +2418,7 @@
     {
       "path": "docs/guide/faq.md",
       "title": "Domande frequenti — Support & QA",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2431,7 +2431,7 @@
     {
       "path": "docs/guide/git-setup.md",
       "title": "Setup Git Remoto per Evo-Tactics",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2444,7 +2444,7 @@
     {
       "path": "docs/guide/structure_overview.md",
       "title": "Struttura dati e piano di migrazione",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2457,7 +2457,7 @@
     {
       "path": "docs/guide/templates/MODELLI_RIF_EVO_TACTICS.md",
       "title": "Modelli di Riferimento — Evo Tactics (2025-10-24)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2470,7 +2470,7 @@
     {
       "path": "docs/guide/templates/incoming_triage_meeting.md",
       "title": "Template Sync Agentica — Incoming Review",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2483,7 +2483,7 @@
     {
       "path": "docs/guide/templates/obsidian_template.md",
       "title": "Evo-Tactics — Obsidian Template",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -2639,7 +2639,7 @@
     {
       "path": "docs/logs/exports/2025-11-08-filter-selections.md",
       "title": "Telemetry Export — Log interazioni filtri",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2652,7 +2652,7 @@
     {
       "path": "docs/logs/incoming_triage_agenti.md",
       "title": "Canale `#incoming-triage-agenti` — Registro aggiornamenti",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2665,7 +2665,7 @@
     {
       "path": "docs/logs/incoming_triage_slack_plan_2025-11-10.md",
       "title": "Bozza messaggio Slack — #incoming-triage-agenti (2025-11-10)",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2678,7 +2678,7 @@
     {
       "path": "docs/logs/link-fix-2025-12-21.md",
       "title": "Link checker — fix rapidi (2025-12-21)",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2691,7 +2691,7 @@
     {
       "path": "docs/logs/pilot-2025-11-12/README.md",
       "title": "Sessione pilota 2025-11-12 — Raccolta asset",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2704,7 +2704,7 @@
     {
       "path": "docs/logs/pilot-2025-11-12/media/README.md",
       "title": "Media sessione pilota 2025-11-12",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2717,7 +2717,7 @@
     {
       "path": "docs/logs/playtests/2025-02-26/media/README.md",
       "title": "Media — Playtest 2025-02-26",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2730,7 +2730,7 @@
     {
       "path": "docs/logs/playtests/2025-02-27-vc/media/README.md",
       "title": "Media — Playtest 2025-02-27 (VC)",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2743,7 +2743,7 @@
     {
       "path": "docs/logs/tooling/2025-10-24-tooling.md",
       "title": "2025-10-24 — Verifica ambiente & toolchain",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2756,7 +2756,7 @@
     {
       "path": "docs/logs/tooling/accessibility-generator.md",
       "title": "Audit accessibilità – generator",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2769,7 +2769,7 @@
     {
       "path": "docs/logs/tooling/generator_ui_mock.md",
       "title": "Generator UI mock · 2025-10-28",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2782,7 +2782,7 @@
     {
       "path": "docs/logs/trait_audit.md",
       "title": "Trait Data Audit",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2795,7 +2795,7 @@
     {
       "path": "docs/logs/traits_tracking.md",
       "title": "Monitoraggio inventario trait",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -2808,7 +2808,7 @@
     {
       "path": "docs/logs/web_status.md",
       "title": "Programmazione riesami sito web",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4290,7 +4290,7 @@
     {
       "path": "docs/playtest/BAL-03-ondata4-playbook.md",
       "title": "Playbook BAL-03 — Ondata 4 (richiesta QA)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4303,7 +4303,7 @@
     {
       "path": "docs/playtest/EVT-02-session-plan.md",
       "title": "Piano sessione dedicata — EVT-02 \"Alleanza inattesa\"",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4316,7 +4316,7 @@
     {
       "path": "docs/playtest/INSIGHTS-2025-11.md",
       "title": "Insight playtest VC — Novembre 2025",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4329,7 +4329,7 @@
     {
       "path": "docs/playtest/REPORT-2025-11-06-bal03.md",
       "title": "Report sintetico — Verifica fix #143 (BAL-03)",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4342,7 +4342,7 @@
     {
       "path": "docs/playtest/SESSION-2025-02-26.md",
       "title": "Report sessione di playtest — SESSION-2025-02-26",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4355,7 +4355,7 @@
     {
       "path": "docs/playtest/SESSION-2025-02-26/feedback/andrea-conti.md",
       "title": "Feedback — Andrea Conti",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4368,7 +4368,7 @@
     {
       "path": "docs/playtest/SESSION-2025-02-26/feedback/giulia-parodi.md",
       "title": "Feedback — Giulia Parodi",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4381,7 +4381,7 @@
     {
       "path": "docs/playtest/SESSION-2025-02-26/feedback/luca-rinaldi.md",
       "title": "Feedback — Luca Rinaldi",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4394,7 +4394,7 @@
     {
       "path": "docs/playtest/SESSION-2025-02-26/feedback/sara-neri.md",
       "title": "Feedback — Sara Neri",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4407,7 +4407,7 @@
     {
       "path": "docs/playtest/SESSION-2025-11-12.md",
       "title": "Report sessione di playtest — SESSION-2025-11-12",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4420,7 +4420,7 @@
     {
       "path": "docs/playtest/SESSION-2025-11-12/feedback/README.md",
       "title": "Feedback digitali — SESSION-2025-11-12",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4433,7 +4433,7 @@
     {
       "path": "docs/playtest/SESSION-template.md",
       "title": "Report sessione di playtest — SESSION-YYYY-MM-DD",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4446,7 +4446,7 @@
     {
       "path": "docs/playtest/feedback-template.md",
       "title": "Template raccolta feedback playtest",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4459,7 +4459,7 @@
     {
       "path": "docs/playtest/pilot-session-2025-11-12.md",
       "title": "Sessione pilota 12 novembre 2025",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4472,7 +4472,7 @@
     {
       "path": "docs/playtest/procedura-post-sessione.md",
       "title": "Procedura post-sessione di playtest",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4485,7 +4485,7 @@
     {
       "path": "docs/playtest/scenari-critici.md",
       "title": "Scenari critici di playtest",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4498,7 +4498,7 @@
     {
       "path": "docs/playtest/scenari-test.md",
       "title": "Elenco scenari di test",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4511,7 +4511,7 @@
     {
       "path": "docs/playtest/tickets/EVT-02-event-special.md",
       "title": "Annotazioni ticket — EVT-02 \"Alleanza inattesa\"",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4524,7 +4524,7 @@
     {
       "path": "docs/playtest/tickets/encounter-bug-146-evt02-nar-01.md",
       "title": "[Encounter bug] EVT-02 – Branch cooperativo richiama dialogo di tradimento",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4537,7 +4537,7 @@
     {
       "path": "docs/playtest/tickets/encounter-bug-147-evt02-nar-02.md",
       "title": "[Encounter bug] EVT-02 – Flag reputazione non aggiorna esito supporto",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
@@ -4550,7 +4550,7 @@
     {
       "path": "docs/presentations/2025-02-vc-briefing.md",
       "title": "Briefing VC — Febbraio 2025",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -4563,7 +4563,7 @@
     {
       "path": "docs/presentations/2025-11-18-onboarding.md",
       "title": "Onboarding Support/QA — 18 novembre 2025",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -4576,7 +4576,7 @@
     {
       "path": "docs/presentations/2025-11-onboarding-recordings.md",
       "title": "Onboarding Registrato — Novembre 2025",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -4589,7 +4589,7 @@
     {
       "path": "docs/presentations/assets/vc-hud-briefing-deck.md",
       "title": "VC HUD Briefing — Slide Outline",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -4602,7 +4602,7 @@
     {
       "path": "docs/presentations/demo-walkthrough-script.md",
       "title": "Walkthrough video demo — Preset \"Bundle demo pubblico\"",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -4615,7 +4615,7 @@
     {
       "path": "docs/presentations/walkthrough-demo-vc.md",
       "title": "Walkthrough demo VC",
-      "doc_status": "draft",
+      "doc_status": "historical_ref",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5174,7 +5174,7 @@
     {
       "path": "docs/reports/Frattura_Abissale_Sinaptica_archivist_final.md",
       "title": "'Frattura Abissale Sinaptica – Step 9 (Archivist, STRICT MODE / SANDBOX)'",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5187,7 +5187,7 @@
     {
       "path": "docs/reports/Frattura_Abissale_Sinaptica_patchset.md",
       "title": "'Frattura Abissale Sinaptica – Patchset sandbox (STRICT MODE)'",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5200,7 +5200,7 @@
     {
       "path": "docs/reports/Frattura_Abissale_Sinaptica_validation_commands.md",
       "title": "Frattura Abissale Sinaptica – Comandi di verifica consigliati",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5213,7 +5213,7 @@
     {
       "path": "docs/reports/Frattura_Abissale_Sinaptica_validation_report.md",
       "title": "'Frattura Abissale Sinaptica – Step 7 (Validazione cross-dataset, STRICT MODE / SANDBOX)'",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5226,7 +5226,7 @@
     {
       "path": "docs/reports/analytics-toolkit.md",
       "title": "Analytics Toolkit",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5239,7 +5239,7 @@
     {
       "path": "docs/reports/data_inventory.md",
       "title": "Inventario dataset e sorgenti",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5252,7 +5252,7 @@
     {
       "path": "docs/reports/evo-tactics-showcase-dossier-report.md",
       "title": "Evo-Tactics Showcase Dossier — Report di Sintesi",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5265,7 +5265,7 @@
     {
       "path": "docs/reports/evo/README.md",
       "title": "Report integrazione Evo-Tactics",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5278,7 +5278,7 @@
     {
       "path": "docs/reports/evo/integration_propagation_review.md",
       "title": "Evo Integration Propagation Review",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5291,7 +5291,7 @@
     {
       "path": "docs/reports/evo/inventory_audit.md",
       "title": "Evo Inventory Audit — 2025-11-15",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5304,7 +5304,7 @@
     {
       "path": "docs/reports/evo/qa/status.md",
       "title": "Stato QA – EVO",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5317,7 +5317,7 @@
     {
       "path": "docs/reports/evo/rollout/documentation_gap.md",
       "title": "Gap documentazione Evo-Tactics",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5330,7 +5330,7 @@
     {
       "path": "docs/reports/evo/rollout/next_batch_checklist.md",
       "title": "Checklist operativa rollout Evo-Tactics",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5343,7 +5343,7 @@
     {
       "path": "docs/reports/evo/rollout/species_ecosystem_gap.md",
       "title": "Gap specie/ecosistemi Evo",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5356,7 +5356,7 @@
     {
       "path": "docs/reports/evo/species_analysis_report.md",
       "title": "Species analysis – checkpoint 2026-02-20",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5369,7 +5369,7 @@
     {
       "path": "docs/reports/evo/species_summary.md",
       "title": "Evo Species Summary",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5382,7 +5382,7 @@
     {
       "path": "docs/reports/evo/trait_review_report.md",
       "title": "Trait review – checkpoint 2026-02-20",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5395,7 +5395,7 @@
     {
       "path": "docs/reports/incoming/inventory-2025-10-30.md",
       "title": "Inventario cartella incoming — 2025-10-30",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5408,7 +5408,7 @@
     {
       "path": "docs/reports/progress-dashboard.md",
       "title": "Riepilogo avanzamento tracker — novembre 2025",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5421,7 +5421,7 @@
     {
       "path": "docs/reports/qa-changelog.md",
       "title": "QA export changelog",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5434,7 +5434,7 @@
     {
       "path": "docs/reports/species/species_summary.md",
       "title": "Evo Species Summary",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5447,7 +5447,7 @@
     {
       "path": "docs/reports/styleguide_compliance.md",
       "title": "Styleguide Compliance",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5460,7 +5460,7 @@
     {
       "path": "docs/reports/styleguide_status_review.md",
       "title": "Style Guide Status Review",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5473,7 +5473,7 @@
     {
       "path": "docs/reports/trait-env-alignment.md",
       "title": "Allineamento tratti PI ↔ Regole ambientali",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5486,7 +5486,7 @@
     {
       "path": "docs/reports/trait_balance_summary.md",
       "title": "Sintesi bilanciamento tratti",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5499,7 +5499,7 @@
     {
       "path": "docs/reports/trait_merge_proposals.md",
       "title": "Proposte merge trait Evo",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5512,7 +5512,7 @@
     {
       "path": "docs/reports/trait_progress.md",
       "title": "Trait Completion Dashboard",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5525,7 +5525,7 @@
     {
       "path": "docs/reports/trait_taxonomy_analysis.md",
       "title": "Analisi tassonomia trait",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5538,7 +5538,7 @@
     {
       "path": "docs/reports/traits/audit_duplicates_TRT-01.md",
       "title": "Audit duplicati trait (`TRT-01`)",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5551,7 +5551,7 @@
     {
       "path": "docs/reports/traits/merge_analysis.md",
       "title": "Analisi merge trait – aggiornamento TRT-03",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5564,7 +5564,7 @@
     {
       "path": "docs/reports/traits/pipeline_executor_step1_locomotivo.md",
       "title": "Pipeline TRAIT – Famiglia LOCOMOTIVO (Step 1)",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5577,7 +5577,7 @@
     {
       "path": "docs/reports/traits/pipeline_simulator_locomotivo.md",
       "title": "Simulazione Pipeline TRAIT – Famiglia LOCOMOTIVO",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5811,7 +5811,7 @@
     {
       "path": "docs/tutorials/README.md",
       "title": "Tutorial rapidi Evo Tactics",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5824,7 +5824,7 @@
     {
       "path": "docs/tutorials/adaptive-engine-quickstart.md",
       "title": "Tutorial rapido · Adaptive engine SquadSync",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5837,7 +5837,7 @@
     {
       "path": "docs/tutorials/cli-quickstart.md",
       "title": "Tutorial rapido — CLI Evo Tactics",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5850,7 +5850,7 @@
     {
       "path": "docs/tutorials/dashboard-tour.md",
       "title": "Tutorial rapido — Dashboard & Showcase",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5863,7 +5863,7 @@
     {
       "path": "docs/tutorials/feedback-form.md",
       "title": "Tutorial · Form feedback unificato",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5876,7 +5876,7 @@
     {
       "path": "docs/tutorials/hud-overlay-quickstart.md",
       "title": "Tutorial rapido · Overlay HUD Smart Alerts (canary)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5889,7 +5889,7 @@
     {
       "path": "docs/tutorials/idea-engine-feedback.md",
       "title": "Tutorial rapido — Feedback Idea Engine",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5902,7 +5902,7 @@
     {
       "path": "docs/tutorials/idea-engine.md",
       "title": "Tutorial rapido — Idea Engine end-to-end",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5915,7 +5915,7 @@
     {
       "path": "reports/02A_validator_rerun.md",
       "title": "02A validator rerun (report-only)",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5928,7 +5928,7 @@
     {
       "path": "reports/memo_verifiche_2026-09-14.md",
       "title": "Memo sintetico – Verifiche e rischi aperti (2026-09-14)",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5941,7 +5941,7 @@
     {
       "path": "reports/orchestrator_load_review.md",
       "title": "Revisione configurazione orchestrator",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5954,7 +5954,7 @@
     {
       "path": "reports/pipeline_simulation.md",
       "title": "Pipeline 02A→Freeze→03A→Transizione→03B→Sblocco",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5967,7 +5967,7 @@
     {
       "path": "reports/qa-changelog.md",
       "title": "QA export changelog",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5980,7 +5980,7 @@
     {
       "path": "reports/readiness_01B01C_status.md",
       "title": "Readiness 01B/01C – Checkpoint 2025-11-30T23:12Z",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -5993,7 +5993,7 @@
     {
       "path": "reports/trait_progress.md",
       "title": "Trait Completion Dashboard",
-      "doc_status": "draft",
+      "doc_status": "generated",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",
@@ -6006,7 +6006,7 @@
     {
       "path": "router.md",
       "title": "ROUTER.md – Router automatico degli agenti (Game / Evo Tactics)",
-      "doc_status": "draft",
+      "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",

@@ -1,6 +1,6 @@
 ---
 title: Modelli di Riferimento — Evo Tactics (2025-10-24)
-doc_status: draft
+doc_status: active
 doc_owner: incoming-archivist
 workstream: incoming
 last_verified: 2026-04-14

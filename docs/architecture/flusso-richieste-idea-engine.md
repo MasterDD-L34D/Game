@@ -1,6 +1,6 @@
 ---
 title: Flusso delle richieste Idea Engine
-doc_status: draft
+doc_status: active
 doc_owner: flow-team
 workstream: flow
 last_verified: 2026-04-14

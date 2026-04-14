@@ -1,6 +1,6 @@
 ---
 title: QA Playbook · Nebula Release Flow
-doc_status: draft
+doc_status: historical_ref
 doc_owner: incoming-archivist
 workstream: incoming
 last_verified: 2026-04-14
