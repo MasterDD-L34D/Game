@@ -31,6 +31,24 @@ function toStringArray(value) {
   return normaliseArray(value).map((item) => String(item));
 }
 
+function normaliseSourcePath(value) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  return String(value).replace(/\\/g, '/');
+}
+
+function normaliseSourcesMap(sources) {
+  if (!sources || typeof sources !== 'object') {
+    return {};
+  }
+  const out = {};
+  for (const [key, value] of Object.entries(sources)) {
+    out[key] = normaliseSourcePath(value);
+  }
+  return out;
+}
+
 function normaliseTraitEntry(entry) {
   const coverage = {
     core: toNumber(entry?.coverage?.core),
@@ -86,9 +104,9 @@ function buildTraitBaselineReport(diagnostics) {
     matrix_only_traits: matrixOnlyTraits,
     missing_glossary: missingGlossary,
     sources: {
-      trait_reference: diagnostics?.sources?.trait_reference || null,
-      trait_matrix: diagnostics?.sources?.trait_matrix || null,
-      trait_glossary: diagnostics?.sources?.trait_glossary || null,
+      trait_reference: normaliseSourcePath(diagnostics?.sources?.trait_reference),
+      trait_matrix: normaliseSourcePath(diagnostics?.sources?.trait_matrix),
+      trait_glossary: normaliseSourcePath(diagnostics?.sources?.trait_glossary),
     },
   };
 }
@@ -140,7 +158,7 @@ function buildQaBadgesReport(baseline) {
       zero_coverage_traits: zeroCoverage,
       top_conflicts: topConflicts,
     },
-    sources: baseline?.sources || {},
+    sources: normaliseSourcesMap(baseline?.sources),
   };
 }
 
@@ -203,7 +221,7 @@ function buildGeneratorValidationReport(diagnostics) {
     checks_failed: failedChecks || null,
   };
   const context = payload?.context && typeof payload.context === 'object' ? payload.context : {};
-  const sources = payload?.sources && typeof payload.sources === 'object' ? payload.sources : {};
+  const sources = normaliseSourcesMap(payload?.sources);
 
   return {
     generated_at: generatedAt,
