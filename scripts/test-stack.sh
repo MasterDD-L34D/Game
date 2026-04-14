@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export VITE_API_MODE="${VITE_API_MODE:-mock}"
-export VITE_API_BASE_URL="${VITE_API_BASE_URL:-http://localhost:3334}"
-export VITE_API_USER="${VITE_API_USER:-test-runner}"
+# Test stack ridotto al solo backend dopo la rimozione di apps/dashboard
+# (#1343, sprint SPRINT_001 fase 2). Era npm run test:backend + dashboard
+# Vitest; ora basta il primo.
 
 npm run test:backend
-npm run test --workspace apps/dashboard

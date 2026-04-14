@@ -432,8 +432,11 @@ function createApp(options = {}) {
   app.get('/api/mock/v1/generation/snapshot', generationSnapshotMockHandler);
 
   const nebulaOptions = options?.nebula || {};
-  const mockDataRoot =
-    options.mockDataRoot || path.resolve(ROOT_DIR, 'apps', 'dashboard', 'public', 'data');
+  // apps/dashboard/public/data e' stato rimosso con #1343 (sprint SPRINT_001
+  // fase 2). I mock endpoint sopravvivono ma puntano a data/mock/* (path
+  // opzionale): se non esiste, i loader cadono sul fallback inline o ritornano
+  // ENOENT gestito a valle. Override esplicito via options.mockDataRoot.
+  const mockDataRoot = options.mockDataRoot || path.resolve(ROOT_DIR, 'data', 'mock');
   const mockAtlasBundlePath =
     nebulaOptions.mockAtlasPath || path.join(mockDataRoot, 'nebula', 'atlas.json');
   const mockTelemetryPath =
