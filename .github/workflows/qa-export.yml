@@ -60,7 +60,6 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
-            const { pathToFileURL } = require('url');
 
             function safeColor(value) {
               if (!value) return 'blue';
@@ -73,17 +72,11 @@ jobs:
 
             const badgesPath = path.join(process.env.GITHUB_WORKSPACE, 'reports', 'qa_badges.json');
             const badgePayload = JSON.parse(fs.readFileSync(badgesPath, 'utf8'));
-            let highlightSummary = null;
-            try {
-              const formatterModule = await import(
-                pathToFileURL(path.join(process.env.GITHUB_WORKSPACE, 'apps/dashboard/src/services/qaHighlightFormatter.js'))
-              );
-              if (formatterModule?.buildQaHighlightsSummary) {
-                highlightSummary = formatterModule.buildQaHighlightsSummary(badgePayload, { limit: 6 });
-              }
-            } catch (error) {
-              core.warning(`Impossibile caricare il formatter QA: ${error.message || error}`);
-            }
+            // apps/dashboard/src/services/qaHighlightFormatter.js rimosso
+            // in #1343 (SPRINT_001 fase 2). Il formatter era un helper
+            // opzionale; in sua assenza il badge summary viene costruito
+            // inline poco piu' sotto a partire direttamente dal payload.
+            const highlightSummary = null;
 
             const badges = highlightSummary?.badges || [];
             const badgeLine = badges.length
