@@ -138,9 +138,46 @@ Questo ADR + fix di 1 test orfano (`tests/vfx/dynamicShader.spec.ts`) + aggiorna
 ## Follow-up candidati (backlog)
 
 1. **Verificare se i Vitest di `apps/dashboard/` passano**. Se sì, tenerli. Se no, valutare se cancellarli o sistemarli.
-2. **Audit dei `packages/angular*` stub**: capire se qualcuno li usa davvero oltre `apps/dashboard/` e, se no, considerare la loro rimozione in una PR dedicata.
+2. ~~**Audit dei `packages/angular*` stub**~~ — **completato 2026-04-14**, vedi sezione "Audit follow-up" sotto.
 3. **Prendere una decisione strategica** tra archival completo (alternativa A) e rebuild (alternativa C) quando ci sarà bandwidth e contesto di business.
 4. **Unificare `apps/dashboard/tests/manual/qa-checklist.md`** con la documentazione QA canonica in `docs/qa/` (referenzia `apps/dashboard/` ma è una checklist statica che può vivere altrove).
+
+## Audit follow-up
+
+### 2026-04-14 — Audit `packages/angular*` stub
+
+**Scopo**: verificare se gli stub AngularJS 1.8.3 in `packages/angular/`, `packages/angular-route/`, `packages/angular-animate/`, `packages/angular-sanitize/` siano consumati solo da `apps/dashboard/` (come ipotizzato) o anche da altro codice nel repo.
+
+**Metodo**: grep di `from 'angular'`, `from 'angular-route'`, `require('angular*')` su tutto il repo (esclusi node_modules), confronto dei `package.json` dei consumer.
+
+**Finding 1 — Consumer degli import**: 6 file importano da `angular`/`angular-*`:
+
+| File | Tipo |
+|---|---|
+| `apps/dashboard/src/main.ts` | app entry point |
+| `apps/dashboard/src/app.module.ts` | module registration |
+| `packages/angular-route/index.js` | stub (interno) |
+| `packages/angular-animate/index.js` | stub (interno) |
+| `packages/angular-sanitize/index.js` | stub (interno) |
+| `Trait Editor/src/main.ts` | **app entry point (distinto)** |
+
+**Finding 2 — Due consumer distinti con risoluzione opposta**:
+
+- `apps/dashboard/package.json` ha `"angular": "file:../../packages/angular"` (più le `angular-*` sister) → **risolve agli stub locali** e quindi non monta nulla runtime.
+- `Trait Editor/package.json` ha `"angular": "^1.8.3"` (più le `angular-*` sister) → **risolve all'AngularJS reale da npm** e quindi è una vera Angular app.
+
+**Conclusione**:
+
+Gli stub in `packages/angular*` sono **confinati a un unico consumer** (`apps/dashboard/`). Il `Trait Editor/` **NON li usa** pur condividendo il pattern di import. Gli stub sono quindi "dark code" di cui il destino è completamente legato alla decisione strategica sul dashboard scaffold (alternativa A/B/C di questo ADR).
+
+**Implicazioni**:
+
+1. **Non cancellare gli stub** senza cancellare o riscrivere `apps/dashboard/`. Farlo romperebbe il `npm ci` del workspace (impossibilità di risolvere la dipendenza `file:../../packages/angular`).
+2. **Non confondere** `Trait Editor/` (app AngularJS funzionante e indipendente) con `apps/dashboard/` (scaffold stub). Sono due progetti AngularJS distinti nel monorepo, solo uno dei quali renderizza.
+3. Quando sarà il momento di eseguire l'alternativa A (archival completo) di questo ADR, la rimozione degli stub `packages/angular*` diventa parte naturale del lavoro — non serve una PR dedicata.
+4. Il `Trait Editor/` come app vera non è coperto dall'ADR attuale. Se diventasse canditato per sostituire la Mission Console, sarebbe un cambio strategico da discutere separatamente.
+
+**Azione in questa PR**: nessuna modifica al codice. L'audit è solo informativo. Questa sezione dell'ADR viene aggiornata per marcare il follow-up come completato.
 
 ## Riferimenti
 
