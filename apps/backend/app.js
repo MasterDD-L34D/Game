@@ -267,10 +267,16 @@ function createApp(options = {}) {
   const repo = options.repo || new IdeaRepository(options.repoOptions || {});
   const runtimeValidator =
     options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
+  const gameDatabaseOptions = options.gameDatabase || {};
   const catalogService =
     options.catalogService ||
     createCatalogService({
       dataRoot,
+      httpEnabled: gameDatabaseOptions.enabled === true,
+      httpBase: gameDatabaseOptions.url || null,
+      httpTimeoutMs: gameDatabaseOptions.timeoutMs,
+      httpTtlMs: gameDatabaseOptions.ttlMs,
+      httpFetch: gameDatabaseOptions.fetch,
     });
   const biomeSynthesizer =
     options.biomeSynthesizer ||
