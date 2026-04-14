@@ -1493,6 +1493,19 @@
       "track": "authored"
     },
     {
+      "path": "docs/combat/action-types-guide.md",
+      "title": "Action Types Guide",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/combat/data-flow.md",
       "title": "Combat Data Flow",
       "doc_status": "active",
@@ -1508,6 +1521,32 @@
     {
       "path": "docs/combat/resolver-api.md",
       "title": "Resolver API Reference",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/combat/status-effects-guide.md",
+      "title": "Status Effects Guide",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/combat/trait-mechanics-guide.md",
+      "title": "Trait Mechanics Guide",
       "doc_status": "active",
       "doc_owner": "combat-team",
       "workstream": "combat",
