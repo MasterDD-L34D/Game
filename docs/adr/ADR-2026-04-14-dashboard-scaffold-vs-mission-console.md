@@ -1,5 +1,5 @@
 ---
-title: "ADR-2026-04-14: Dashboard scaffold vs Mission Console bundle dichotomy"
+title: 'ADR-2026-04-14: Dashboard scaffold vs Mission Console bundle dichotomy'
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
@@ -140,7 +140,7 @@ Questo ADR + fix di 1 test orfano (`tests/vfx/dynamicShader.spec.ts`) + aggiorna
 1. **Verificare se i Vitest di `apps/dashboard/` passano**. Se sì, tenerli. Se no, valutare se cancellarli o sistemarli.
 2. ~~**Audit dei `packages/angular*` stub**~~ — **completato 2026-04-14**, vedi sezione "Audit follow-up" sotto.
 3. **Prendere una decisione strategica** tra archival completo (alternativa A) e rebuild (alternativa C) quando ci sarà bandwidth e contesto di business.
-4. **Unificare `apps/dashboard/tests/manual/qa-checklist.md`** con la documentazione QA canonica in `docs/qa/` (referenzia `apps/dashboard/` ma è una checklist statica che può vivere altrove).
+4. ~~**Unificare `apps/dashboard/tests/manual/qa-checklist.md`**~~ — **completato 2026-04-14**, spostato in [`docs/qa/nebula-webapp-checklist.md`](../qa/nebula-webapp-checklist.md) con frontmatter governance + entry in `docs_registry.json`.
 
 ## Audit follow-up
 
@@ -152,14 +152,14 @@ Questo ADR + fix di 1 test orfano (`tests/vfx/dynamicShader.spec.ts`) + aggiorna
 
 **Finding 1 — Consumer degli import**: 6 file importano da `angular`/`angular-*`:
 
-| File | Tipo |
-|---|---|
-| `apps/dashboard/src/main.ts` | app entry point |
-| `apps/dashboard/src/app.module.ts` | module registration |
-| `packages/angular-route/index.js` | stub (interno) |
-| `packages/angular-animate/index.js` | stub (interno) |
-| `packages/angular-sanitize/index.js` | stub (interno) |
-| `Trait Editor/src/main.ts` | **app entry point (distinto)** |
+| File                                 | Tipo                           |
+| ------------------------------------ | ------------------------------ |
+| `apps/dashboard/src/main.ts`         | app entry point                |
+| `apps/dashboard/src/app.module.ts`   | module registration            |
+| `packages/angular-route/index.js`    | stub (interno)                 |
+| `packages/angular-animate/index.js`  | stub (interno)                 |
+| `packages/angular-sanitize/index.js` | stub (interno)                 |
+| `Trait Editor/src/main.ts`           | **app entry point (distinto)** |
 
 **Finding 2 — Due consumer distinti con risoluzione opposta**:
 
