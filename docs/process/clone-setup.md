@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Procedura di clone e setup iniziale
 
 **Ultimo aggiornamento:** 2025-11-12 — referente Ops/ChatGPT.

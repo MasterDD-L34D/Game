@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Action Items — Sintesi operativa
 
 ## Stato attuale
@@ -23,6 +24,7 @@ review_cycle_days: 14
 ## Aggiornamenti giornalieri PR
 
 <!-- daily-pr-summary:start -->
+
 - **2026-04-12** — Nessun merge registrato.
 - **2026-04-11** — Nessun merge registrato.
 - **2026-04-10** — Nessun merge registrato.

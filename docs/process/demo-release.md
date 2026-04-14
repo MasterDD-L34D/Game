@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Checklist release demo pubblica
 
 Questa checklist copre il rilascio del bundle demo dell'Evo Tactics Pack e le
@@ -78,4 +79,3 @@ attività di coordinamento cross-team.
       deviazioni dei KPI strutturali.
 - [ ] Annotare nel changelog di prodotto l'esito della review mensile e le
       eventuali azioni correttive pianificate.
-

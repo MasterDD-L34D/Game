@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Roadmap Operativa
 
 ## Procedura post-ottobre 2025
@@ -119,6 +120,7 @@ La pianificazione dettagliata (comandi/script e log da aggiornare) è disponibil
 ## Riepilogo PR giornaliero
 
 <!-- daily-pr-summary:start -->
+
 - **2026-04-12** — Nessun merge registrato.
 - **2026-04-11** — Nessun merge registrato.
 - **2026-04-10** — Nessun merge registrato.
