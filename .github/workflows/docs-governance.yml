@@ -29,9 +29,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Docs governance check (warning-only)
+      - name: Docs governance check (required — Fase 2)
         id: governance_check
-        continue-on-error: true
         run: |
           python tools/check_docs_governance.py \
             --registry docs/governance/docs_registry.json \
@@ -54,7 +53,7 @@ jobs:
       - name: Workflow summary
         if: always()
         run: |
-          echo "## Docs governance (warning-only mode)" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Docs governance (Fase 2 — governance required, link warning-only)" >> "$GITHUB_STEP_SUMMARY"
           echo "- governance check outcome: ${{ steps.governance_check.outcome }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- link check outcome: ${{ steps.link_check.outcome }}" >> "$GITHUB_STEP_SUMMARY"
           if [ "${{ steps.governance_check.outcome }}" != "success" ]; then
