@@ -13,7 +13,7 @@ const consoleRoot = path.join(repoRoot, 'tests', 'playwright', 'mock-app');
 const defaultHost = process.env.PLAYWRIGHT_WEB_HOST ?? '127.0.0.1';
 const defaultPort = Number.parseInt(process.env.PLAYWRIGHT_WEB_PORT ?? '4173', 10);
 
-const apiTarget = new URL(process.env.MISSION_CONSOLE_API_TARGET ?? 'http://127.0.0.1:3333');
+const apiTarget = new URL(process.env.MISSION_CONSOLE_API_TARGET ?? 'http://127.0.0.1:3334');
 const apiHost = apiTarget.hostname;
 const apiPort = Number.parseInt(
   apiTarget.port || (apiTarget.protocol === 'https:' ? '443' : '80'),
