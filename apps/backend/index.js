@@ -35,10 +35,33 @@ const { app } = createApp({
   },
 });
 
+// Issue #1342: avverti se ORCHESTRATOR_AUTOCLOSE_MS e' settato in modo
+// che potrebbe rompere il backend live (valori bassi pensati per i test).
+const rawAutoclose = process.env.ORCHESTRATOR_AUTOCLOSE_MS;
+const autocloseStatus = (() => {
+  if (!rawAutoclose) return 'disabled (default)';
+  const trimmed = String(rawAutoclose).trim().toLowerCase();
+  if (['off', 'none', 'no', 'false', 'never', 'disable', 'disabled', '0', ''].includes(trimmed)) {
+    return 'disabled';
+  }
+  const numeric = Number(rawAutoclose);
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    return 'disabled (invalid value, ignored)';
+  }
+  return `${numeric}ms`;
+})();
+
 const server = http.createServer(app);
 server.listen(port, host, () => {
   console.log(`[idea-engine] API online su http://${host}:${port}`);
   console.log(`[idea-engine] Database URL: ${databaseUrl ? '[set]' : '[missing]'}`);
+  console.log(`[idea-engine] Orchestrator autoclose: ${autocloseStatus}`);
+  if (autocloseStatus !== 'disabled (default)' && autocloseStatus !== 'disabled') {
+    console.log(
+      "[idea-engine] WARNING: ORCHESTRATOR_AUTOCLOSE_MS e' settato. Se questo backend" +
+        ' deve servire richieste oltre il timeout, unset la variabile (vedi .env.example).',
+    );
+  }
   if (gameDatabaseEnabled) {
     console.log(`[game-database] HTTP integration ENABLED at ${gameDatabaseUrl}`);
     console.log(
