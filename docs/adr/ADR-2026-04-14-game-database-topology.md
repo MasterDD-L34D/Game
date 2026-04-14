@@ -311,6 +311,28 @@ Implementare in `apps/backend/services/catalog.js` un branch che, se `GAME_DATAB
 
 **Decisione**: rinviato. Quando arriverà un driver business concreto (es. il dashboard di Game-Database deve propagare modifiche al Game runtime senza rebuild) si riapre la discussione.
 
+#### Implementation status — scaffold 2026-04-14 (feature-flagged OFF)
+
+> Aggiornamento del 2026-04-14: lo scaffold del client HTTP è stato implementato in `apps/backend/services/catalog.js` ma è **disabilitato di default**. Quando `GAME_DATABASE_ENABLED` non vale `'true'`, il comportamento è identico a prima (lettura da file locale).
+
+Cosa c'è già nel codice (Game side):
+
+- `fetchRemoteGlossary(httpBase, fetchFn, timeoutMs)` in [`apps/backend/services/catalog.js`](../../apps/backend/services/catalog.js) — chiama `${httpBase}/api/traits/glossary` con AbortController + timeout, accetta payload `{ traits: [...] }` o `{ docs: [...] }` o array piatto, e converte tramite `mapGlossaryFromTraits` esistente.
+- `createCatalogService` accetta nuove opzioni: `httpEnabled`, `httpBase`, `httpTimeoutMs` (default 5000ms), `httpTtlMs` (default 5 minuti), `httpFetch` (override per i test), `logger`.
+- `loadCatalog()` ha un branch `loadGlossarySource()` che, se HTTP è attivo, prova prima il fetch e su qualsiasi errore (HTTP 5xx, timeout, parse fail) fa fallback al file locale. `lastSource` viene aggiornato a `'http'` / `'local-fallback'` / `'local'` per riflettere l'origine effettiva dell'ultimo load.
+- Cache TTL-based (`isCacheValid()`): la prima `loadTraitGlossary()` colpisce HTTP, le successive entro `httpTtlMs` riusano la cache. `reload()` invalida.
+- `healthCheck()` e `getSource()` riflettono lo stato HTTP-vs-local-vs-fallback.
+- Wire env: `GAME_DATABASE_URL`, `GAME_DATABASE_ENABLED`, `GAME_DATABASE_TIMEOUT_MS`, `GAME_DATABASE_TTL_MS` letti in [`apps/backend/index.js`](../../apps/backend/index.js) e propagati a `createApp({ gameDatabase })`.
+- Test in [`tests/api/catalogHttpClient.test.js`](../../tests/api/catalogHttpClient.test.js): 7 casi (disabled-by-default, http-200, http-500-fallback, timeout-fallback, cache-hit, reload-invalida, http-disabled-ignora-base).
+
+Cosa **manca** per attivare la feature in produzione:
+
+- **Endpoint Game-Database `GET /api/traits/glossary`** (lato `MasterDD-L34D/Game-Database`). Lo scaffold Game-side assume il contract `{ traits: [{ _id, labels: { it, en }, descriptions: { it, en } }, ...] }` ma quel route non esiste oggi. Aprire una PR sibling sul Game-Database prima di settare `GAME_DATABASE_ENABLED=true` in qualsiasi ambiente reale.
+- **Decisione cache invalidation** (TTL-based vs webhook). Lo scaffold usa TTL fisso a 5 minuti. Se l'editor del Game-Database aggiorna labels e ne vuole vedere il riflesso nel Game runtime sub-minuto, va aggiunto un meccanismo di invalidation (push o long-poll). Per il primo rilascio TTL è sufficiente.
+- **Documentazione operativa** (run-book, dashboard `source: http | local-fallback | local`, alert se la `local-fallback` rate sale sopra una soglia). Da scrivere quando l'integrazione viene attivata.
+
+Lo scaffold è progettato per essere safe-by-default: nessuna delle funzionalità esistenti dipende da `GAME_DATABASE_ENABLED=true`, e `npm run test:api` resta verde con la flag spenta (80/80 test, inclusi i 7 nuovi).
+
 ### Alternativa C — Full integration con schema extension
 
 Estendere il Prisma schema di Game-Database per includere biome_pools ricchi, trait ecology, synergies/conflicts, ecc. Poi wire Game per fetchare tutto via HTTP.

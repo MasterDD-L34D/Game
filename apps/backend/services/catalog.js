@@ -2,6 +2,10 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { buildCatalogMap } = require('../../../services/generation/speciesBuilder');
 
+const DEFAULT_HTTP_TIMEOUT_MS = 5000;
+const DEFAULT_HTTP_TTL_MS = 5 * 60 * 1000;
+const HTTP_GLOSSARY_PATH = '/api/traits/glossary';
+
 function normaliseList(value) {
   if (!value) return [];
   if (Array.isArray(value)) {
@@ -108,6 +112,33 @@ function injectPoolMetadata(payload) {
   return { ...payload, pools: poolsWithMetadata };
 }
 
+async function fetchRemoteGlossary(httpBase, fetchFn, timeoutMs) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const url = `${httpBase.replace(/\/$/, '')}${HTTP_GLOSSARY_PATH}`;
+    const response = await fetchFn(url, {
+      signal: controller.signal,
+      headers: { Accept: 'application/json' },
+    });
+    if (!response || !response.ok) {
+      const status = response ? response.status : 'no-response';
+      throw new Error(`game-database glossary HTTP ${status}`);
+    }
+    const payload = await response.json();
+    const docs = Array.isArray(payload?.traits)
+      ? payload.traits
+      : Array.isArray(payload?.docs)
+        ? payload.docs
+        : Array.isArray(payload)
+          ? payload
+          : [];
+    return mapGlossaryFromTraits(docs);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function mapBiomePool(doc) {
   if (!doc) return null;
   const traits = doc.traits || {};
@@ -144,27 +175,75 @@ function createCatalogService(options = {}) {
   const biomePoolsPath =
     options.biomePoolsPath || path.join(dataRoot, 'core', 'traits', 'biome_pools.json');
   const traitCatalogPath =
-    options.traitCatalogPath ||
-    path.join(repoRoot, 'docs', 'catalog', 'catalog_data.json');
+    options.traitCatalogPath || path.join(repoRoot, 'docs', 'catalog', 'catalog_data.json');
+
+  // Game-Database HTTP integration (Alternative B of ADR-2026-04-14).
+  // Default OFF: when httpEnabled is false, the service behaves exactly as
+  // before and reads everything from local files. When ON, the trait glossary
+  // is fetched from ${httpBase}${HTTP_GLOSSARY_PATH} with a TTL cache; on any
+  // failure the local file is used as fallback and lastSource reflects that.
+  const httpEnabled = Boolean(options.httpEnabled);
+  const httpBase = options.httpBase || null;
+  const httpTimeoutMs = Number.isFinite(options.httpTimeoutMs)
+    ? options.httpTimeoutMs
+    : DEFAULT_HTTP_TIMEOUT_MS;
+  const httpTtlMs = Number.isFinite(options.httpTtlMs) ? options.httpTtlMs : DEFAULT_HTTP_TTL_MS;
+  const httpFetch =
+    options.httpFetch ||
+    (typeof globalThis.fetch === 'function' ? globalThis.fetch.bind(globalThis) : null);
+  const logger = options.logger || console;
 
   let cache = null;
+  let cacheExpiresAt = 0;
+  let lastSource = null;
+
+  async function loadGlossarySource() {
+    if (httpEnabled && httpBase && httpFetch) {
+      try {
+        const remote = await fetchRemoteGlossary(httpBase, httpFetch, httpTimeoutMs);
+        return { glossary: remote, source: 'http' };
+      } catch (error) {
+        logger.warn(
+          '[catalog] game-database glossary HTTP fetch failed, falling back to local file:',
+          error && error.message ? error.message : error,
+        );
+        const localGlossary = await readJsonFile(traitGlossaryPath, { traits: {} });
+        return { glossary: localGlossary, source: 'local-fallback' };
+      }
+    }
+    const localGlossary = await readJsonFile(traitGlossaryPath, { traits: {} });
+    return { glossary: localGlossary, source: 'local' };
+  }
 
   async function loadCatalog() {
-    const [glossary, pools, catalogPayload] = await Promise.all([
-      readJsonFile(traitGlossaryPath, { traits: {} }),
+    const [glossaryResult, pools, catalogPayload] = await Promise.all([
+      loadGlossarySource(),
       readJsonFile(biomePoolsPath, { pools: [] }),
       readJsonFile(traitCatalogPath, { traits: {} }),
     ]);
     const biomePools = injectPoolMetadata(pools);
     const traitCatalog = buildCatalogMap(catalogPayload);
-    return { traitGlossary: glossary, biomePools, traitCatalog, source: 'local' };
+    lastSource = glossaryResult.source;
+    return {
+      traitGlossary: glossaryResult.glossary,
+      biomePools,
+      traitCatalog,
+      source: glossaryResult.source,
+    };
+  }
+
+  function isCacheValid() {
+    if (!cache) return false;
+    if (httpTtlMs <= 0) return false;
+    return Date.now() < cacheExpiresAt;
   }
 
   async function ensureData() {
-    if (cache) {
+    if (isCacheValid()) {
       return cache;
     }
     cache = await loadCatalog();
+    cacheExpiresAt = httpTtlMs > 0 ? Date.now() + httpTtlMs : 0;
     return cache;
   }
 
@@ -185,24 +264,41 @@ function createCatalogService(options = {}) {
 
   async function reload() {
     cache = null;
+    cacheExpiresAt = 0;
     return ensureData();
   }
 
   async function ensureReady() {
     const data = await ensureData();
     return {
-      source: 'local',
+      source: data.source || lastSource || 'local',
       traitCount: data.traitCatalog instanceof Map ? data.traitCatalog.size : 0,
       poolCount: Array.isArray(data.biomePools?.pools) ? data.biomePools.pools.length : 0,
     };
   }
 
   async function healthCheck() {
-    return { ok: true, source: 'local' };
+    if (!httpEnabled) {
+      return { ok: true, source: 'local' };
+    }
+    try {
+      const data = await ensureData();
+      return {
+        ok: true,
+        source: data.source || lastSource || 'local',
+        httpBase,
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        source: 'error',
+        error: error && error.message ? error.message : String(error),
+      };
+    }
   }
 
   function getSource() {
-    return 'local';
+    return lastSource || 'local';
   }
 
   return {
