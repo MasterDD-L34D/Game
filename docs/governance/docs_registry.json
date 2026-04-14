@@ -258,11 +258,11 @@
       "track": "migrated"
     },
     {
-      "path": "docs/Canvas/feature-updates.md",
+      "path": "docs/frontend/feature-updates.md",
       "title": "Canvas — Aggiornamenti Rapidi",
       "doc_status": "draft",
-      "doc_owner": "platform-docs",
-      "workstream": "cross-cutting",
+      "doc_owner": "atlas-team",
+      "workstream": "atlas",
       "last_verified": "2026-04-14",
       "source_of_truth": false,
       "language": "it-en",
@@ -3287,7 +3287,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/meeting-notes/evo-enum-review.md",
+      "path": "docs/planning/evo-enum-review.md",
       "title": "Evo enum review",
       "doc_status": "draft",
       "doc_owner": "platform-docs",

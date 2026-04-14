@@ -1,13 +1,14 @@
 ---
 title: Canvas — Aggiornamenti Rapidi
 doc_status: draft
-doc_owner: platform-docs
-workstream: cross-cutting
+doc_owner: atlas-team
+workstream: atlas
 last_verified: 2026-04-14
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Canvas — Aggiornamenti Rapidi
 
 ## Nuove feature
@@ -49,6 +50,7 @@ review_cycle_days: 14
 ## Riepilogo quotidiano PR
 
 <!-- daily-pr-summary:start -->
+
 - **2026-04-12** — Nessun merge registrato.
 - **2026-04-11** — Nessun merge registrato.
 - **2026-04-10** — Nessun merge registrato.
