@@ -1324,6 +1324,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/archive/historical-snapshots/2026-04-14_incoming_backlog.md",
+      "title": "Incoming Agent Backlog — Snapshot pre-archiviazione 2026-04-14",
+      "doc_status": "historical_ref",
+      "doc_owner": "incoming-archivist",
+      "workstream": "incoming",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/archive/historical-snapshots/INDEX.md",
       "title": "Archivio Incoming — Registro decisioni agentiche",
       "doc_status": "historical_ref",
@@ -4757,14 +4770,14 @@
     },
     {
       "path": "docs/process/incoming_agent_backlog.md",
-      "title": "Incoming Pipeline — Piano di lavoro agentico",
-      "doc_status": "draft",
+      "title": "Incoming Pipeline — Piano di lavoro agentico (archiviato)",
+      "doc_status": "superseded",
       "doc_owner": "ops-qa-team",
       "workstream": "ops-qa",
       "last_verified": "2026-04-14",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
+      "review_cycle_days": 30,
       "primary": false,
       "track": "migrated"
     },
