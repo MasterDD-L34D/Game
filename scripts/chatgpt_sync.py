@@ -346,7 +346,7 @@ def write_diff_report(
     diff_lines = list(build_diff(previous, new_snapshot, context=5))
 
     date_folder = new_snapshot.parent.name
-    report_dir = Path("docs/chatgpt_changes")
+    report_dir = Path("docs/generated/pr-summaries")
     if namespace:
         report_dir = report_dir / namespace
     report_dir = report_dir / date_folder

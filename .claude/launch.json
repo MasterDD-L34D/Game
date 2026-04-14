@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "backend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:api"],
+      "port": 3333
+    },
+    {
+      "name": "dashboard",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 5173
+    },
+    {
+      "name": "dev-stack",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:stack"],
+      "port": 3333
+    }
+  ]
+}

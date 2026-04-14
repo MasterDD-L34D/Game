@@ -48,7 +48,7 @@ def parse_args(argv: Sequence[str]) -> argparse.Namespace:
                         help="Owner/repository pair, e.g. org/project")
     parser.add_argument("--date", required=False,
                         help="Target date (UTC) in YYYY-MM-DD. Defaults to current UTC date.")
-    parser.add_argument("--output-dir", default="docs/chatgpt_changes",
+    parser.add_argument("--output-dir", default="docs/generated/pr-summaries",
                         help="Directory where the detailed report will be written.")
     parser.add_argument("--dry-run", action="store_true",
                         help="Fetch data but avoid writing files")
@@ -185,7 +185,7 @@ def build_highlight_line(prs: Sequence[PullRequest], target_date: dt.date) -> st
         title = shorten(pr.title, width=70, placeholder="…")
         segments.append(f"[#{pr.number}]({pr.html_url}) {title}")
     joined = "; ".join(segments)
-    report_path = f"chatgpt_changes/daily-pr-summary-{date_str}.md"
+    report_path = f"generated/pr-summaries/daily-pr-summary-{date_str}.md"
     return f"- **{date_str}** — {joined}. [Report]({report_path})"
 
 

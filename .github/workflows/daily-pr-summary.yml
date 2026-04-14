@@ -38,6 +38,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/changelog.md docs/piani/roadmap.md docs/checklist/action-items.md docs/Canvas/feature-updates.md docs/chatgpt_changes/
+          git add docs/planning/changelog.md docs/planning/roadmap_operativa.md docs/process/action-items.md docs/frontend/feature-updates.md docs/generated/pr-summaries/
           git commit -m "chore: aggiorna riepilogo PR giornaliero"
           git push

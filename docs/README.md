@@ -60,24 +60,32 @@ Dal ciclo VC-2025-10 in avanti utilizziamo un flusso documentale condiviso con S
 ### Decisioni architetturali
 
 - **ADR-XXX — Refactor CLI, determinismo e pipeline HUD**: `docs/adr/ADR-XXX-refactor-cli.md` raccoglie le motivazioni fornite dal team lead e formalizza le opzioni valutate, gli impatti sugli strumenti (`roll_pack`, `hud_alerts.ts`) e i follow-up richiesti.
+- **ADR-2026-04-13 — Rules Engine d20**: `docs/adr/ADR-2026-04-13-rules-engine-d20.md` descrive l'architettura del motore regole d20 (`services/rules/`). Vedi anche `docs/hubs/combat.md` per il canonical hub.
 
-1. **Sync settimanale (martedì, 15:00 CET)** — raccogli log telemetrici e note playtest in `docs/chatgpt_changes/` (`sync-<AAAAMMGG>.md`) e annota la versione CLI attiva (`game-cli version --json`).
-2. **Aggiornamento checklist** — segna in `docs/checklist/` lo stato milestone, collega la sessione Git (`logs/playtests/<data>-vc`) e aggiungi il link al log CLI giornaliero (es. `logs/cli/smoke-YYYYMMDDTHHMMSSZ.log` o `logs/cli/<slug>-YYYYMMDDTHHMMSSZ.log` generato con `--label`).
-3. **Validazione profili CLI** — verifica che gli script profilati siano allineati alle configurazioni in `config/cli/` (commit hash, token rotazioni, flags `--telemetry-upload`) e registra eventuali differenze in `docs/chatgpt_sync_status.md`.
-4. **Allineamento roadmap** — aggiorna `docs/piani/roadmap.md` dopo ogni sync, includendo gli highlight del refactor CLI e pingando il canale `#vc-docs` con il diff principale.
+1. **Sync settimanale (martedì, 15:00 CET)** — raccogli log telemetrici e note playtest in `docs/generated/pr-summaries/` (`sync-<AAAAMMGG>.md`) e annota la versione CLI attiva (`game-cli version --json`).
+2. **Aggiornamento checklist** — segna in `docs/process/` lo stato milestone, collega la sessione Git (`logs/playtests/<data>-vc`) e aggiungi il link al log CLI giornaliero (es. `logs/cli/smoke-YYYYMMDDTHHMMSSZ.log` o `logs/cli/<slug>-YYYYMMDDTHHMMSSZ.log` generato con `--label`).
+3. **Validazione profili CLI** — verifica che gli script profilati siano allineati alle configurazioni in `config/cli/` (commit hash, token rotazioni, flags `--telemetry-upload`) e registra eventuali differenze in `docs/ops/chatgpt_sync_status.md`.
+4. **Allineamento roadmap** — aggiorna `docs/planning/roadmap_operativa.md` dopo ogni sync, includendo gli highlight del refactor CLI e pingando il canale `#vc-docs` con il diff principale.
 5. **Pubblicazione estratti** — inserisci highlight nel Canvas principale e allega screenshot HUD nel drive (`docs/presentations/`), citando la build CLI usata per la demo.
-6. **Retro settimanale Support/QA** — importa le domande aperte in `docs/faq.md`, assegna owner/stato e collega i materiali onboarding o le playbook note.
-7. **Riepilogo PR giornaliero** — entro le 18:00 CET raccogli le PR merge del giorno (workflow `daily-pr-summary` oppure `python tools/py/daily_pr_report.py --repo <owner/repo> --date <YYYY-MM-DD>`), sintetizza in `docs/chatgpt_changes/`, aggiorna `docs/changelog.md`, roadmap, checklist e `docs/Canvas/feature-updates.md` con le novità rilevanti.
+6. **Retro settimanale Support/QA** — importa le domande aperte in `docs/guide/faq.md`, assegna owner/stato e collega i materiali onboarding o le playbook note.
+7. **Riepilogo PR giornaliero** — entro le 18:00 CET raccogli le PR merge del giorno (workflow `daily-pr-summary` oppure `python tools/py/daily_pr_report.py --repo <owner/repo> --date <YYYY-MM-DD>`), sintetizza in `docs/generated/pr-summaries/`, aggiorna `docs/planning/changelog.md`, roadmap, checklist e `docs/frontend/feature-updates.md` con le novità rilevanti.
 
 Seguendo questi step possiamo mantenere aggiornati i Canvas e i dataset di gioco senza perdere le decisioni successive al refactor CLI e alle sue policy di rollout.
 
 ## Sottocartelle operative
 
-- `Canvas/` — Note rapide estratte dai canvas principali, più callout su nuove feature e regole aggiornate.
-- `piani/` — Roadmap sintetica e milestone evolutive, con riferimenti ai dataset YAML da aggiornare.
-- `checklist/` — Tracker stato avanzamento con caselle di controllo per le milestone chiave.
-- `chatgpt_changes/` — Diff e report generati automaticamente dagli snapshot giornalieri.
-- `chatgpt_sync_status.md` — Log operativo delle sincronizzazioni.
+- `core/` — Doc canonici di game design (01-VISIONE..40-ROADMAP, DesignDoc, Mating, PI, Telemetria).
+- `hubs/` — Hub canonici di workstream (combat, flow, atlas, backend, dataset-pack, ops-qa).
+- `guide/` — Guide onboarding, contributing, FAQ, how-to per autori e integratori.
+- `frontend/` — UI, wireframes, test-interface, feature-updates.
+- `traits/` — Manuale trait, editor, template, reference, alignment.
+- `planning/` — Roadmap, ideas, research, changelog, migration plans.
+- `process/` — Checklist operative, procedure, support, ticket template.
+- `pipelines/` — CI, workflow, pipeline templates, hooks, generator.
+- `ops/` — Observability, agent commands, telemetry, sync, audit.
+- `qa/` — Checklist QA, playtest guidelines.
+- `generated/pr-summaries/` — Diff e report auto-generati dagli snapshot giornalieri (ex `chatgpt_changes/`).
+- `governance/` — Registry, schema metadata, workstream matrix.
 
 Aggiorna queste sezioni quando importi nuovi estratti dai Canvas o modifichi i dataset di gioco.
 

@@ -17,26 +17,19 @@ from typing import Any
 # ---------------------------------------------------------------------------
 
 PATH_WORKSTREAM_MAP = {
+    # Structural / cross-cutting
+    "docs/core/": "cross-cutting",
     "docs/hubs/": "cross-cutting",
     "docs/governance/": "cross-cutting",
     "docs/adr/": "cross-cutting",
-    "docs/planning/": "cross-cutting",
-    "docs/piani/": "cross-cutting",
-    "docs/contributing/": "cross-cutting",
-    "docs/templates/": "cross-cutting",
+    "docs/guide/": "cross-cutting",
     "docs/appendici/": "cross-cutting",
-    "docs/meeting-notes/": "cross-cutting",
-    "docs/research/": "cross-cutting",
-    "docs/examples/": "cross-cutting",
+    # Flow workstream
     "docs/pipelines/": "flow",
     "docs/architecture/": "flow",
-    "docs/mission-console/": "flow",
+    # Atlas workstream
     "docs/frontend/": "atlas",
-    "docs/ui/": "atlas",
-    "docs/test-interface/": "atlas",
-    "docs/wireframes/": "atlas",
-    "docs/dev/": "backend",
-    "docs/hooks/": "backend",
+    # Dataset-pack workstream
     "docs/traits/": "dataset-pack",
     "docs/biomes/": "dataset-pack",
     "docs/species/": "dataset-pack",
@@ -44,24 +37,25 @@ PATH_WORKSTREAM_MAP = {
     "docs/balance/": "dataset-pack",
     "docs/evo-tactics/": "dataset-pack",
     "docs/evo-tactics-pack/": "dataset-pack",
+    # Ops-QA workstream
     "docs/ci/": "ops-qa",
     "docs/qa/": "ops-qa",
     "docs/process/": "ops-qa",
-    "docs/checklist/": "ops-qa",
     "docs/playtest/": "ops-qa",
-    "docs/roadmap/": "ops-qa",
-    "docs/workflows/": "ops-qa",
     "docs/ops/": "ops-qa",
-    "docs/support/": "ops-qa",
     "docs/logs/": "ops-qa",
+    "docs/reports/": "ops-qa",
+    "docs/tutorials/": "ops-qa",
+    # Planning (cross-cutting workstream used for planning)
+    "docs/planning/": "cross-cutting",
+    # Incoming / archive / generated
     "docs/incoming/": "incoming",
     "docs/archive/": "incoming",
-    "docs/ideas/": "incoming",
-    "docs/recap/": "incoming",
+    "docs/generated/": "ops-qa",
 }
 
 AUTOGEN_PATH_PATTERNS = [
-    "docs/chatgpt_changes/",
+    "docs/generated/",
     "docs/evo-tactics-pack/reports/",
     "docs/evo-tactics-pack/services/",
     "docs/evo-tactics-pack/species/",

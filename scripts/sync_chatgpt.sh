@@ -137,8 +137,8 @@ run_analysis() {
 
   DATE_DIR=$(basename "$(dirname "$NEW_SNAPSHOT")")
   DIFF_BASENAME="${DATE_DIR}.diff"
-  mkdir -p "$REPO_ROOT/docs/chatgpt_changes"
-  DIFF_PATH="docs/chatgpt_changes/$DIFF_BASENAME"
+  mkdir -p "$REPO_ROOT/docs/generated/pr-summaries"
+  DIFF_PATH="docs/generated/pr-summaries/$DIFF_BASENAME"
   log "Generazione diff tra $PREV_SNAPSHOT e $NEW_SNAPSHOT"
   python3 "$REPO_ROOT/scripts/chatgpt_compare.py" "$NEW_SNAPSHOT" --previous "$PREV_SNAPSHOT" --output "$DIFF_PATH" --context "$DIFF_CONTEXT" || return 1
   MESSAGE="Diff aggiornato in $DIFF_PATH."
