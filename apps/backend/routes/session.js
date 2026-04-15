@@ -57,6 +57,20 @@ const DEFAULT_MOD = 3;
 const DEFAULT_DC = 12;
 const DEFAULT_GUARDIA = 1;
 // DEFAULT_ATTACK_RANGE importato da services/ai/policy.js — autoritativo.
+// SPRINT_020: default initiative per unita' senza override esplicito.
+const DEFAULT_INITIATIVE = 10;
+// SPRINT_020: initiative per job canonico. Skirmisher e ranger sono
+// mobili/veloci → init alta. Vanguard e harvester sono lenti → init bassa.
+// Fa da fallback se input.initiative e job_stats non lo sovrascrivono.
+const JOB_INITIATIVE = {
+  skirmisher: 15,
+  ranger: 14,
+  invoker: 12,
+  artificer: 11,
+  warden: 9,
+  vanguard: 8,
+  harvester: 8,
+};
 
 // SPRINT_006: stats per job (attack_range principalmente). I 6 job canonici
 // sono quelli di data/core/telemetry.yaml:telemetry.hud_breakdown.roles.
@@ -136,6 +150,13 @@ function normaliseUnit(raw, fallbackIndex) {
           bleeding: 0,
           fracture: 0,
         };
+  // SPRINT_020: initiative cascade — override esplicito → job-based →
+  // DEFAULT_INITIATIVE. Permette ai test di forzare il turn order.
+  const initiative = Number.isFinite(Number(input.initiative))
+    ? Number(input.initiative)
+    : Number.isFinite(Number(JOB_INITIATIVE[job]))
+      ? Number(JOB_INITIATIVE[job])
+      : DEFAULT_INITIATIVE;
   return {
     id,
     species: input.species ? String(input.species) : 'unknown',
@@ -150,6 +171,7 @@ function normaliseUnit(raw, fallbackIndex) {
     dc: Number.isFinite(Number(input.dc)) ? Number(input.dc) : DEFAULT_DC,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
     attack_range: attackRange,
+    initiative,
     position,
     controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
   };
@@ -220,6 +242,9 @@ function publicSessionView(session) {
     session_id: session.session_id,
     turn: session.turn,
     active_unit: session.active_unit,
+    // SPRINT_020: esposto l'ordine dei turni + indice per il frontend.
+    turn_order: session.turn_order || [],
+    turn_index: session.turn_index || 0,
     units: session.units,
     grid: session.grid,
     grid_size: session.grid.width,
@@ -227,7 +252,47 @@ function publicSessionView(session) {
   };
 }
 
+// SPRINT_020: sistema di iniziativa (CT a scatti) dal design doc
+// docs/core/10-SISTEMA_TATTICO.md linea 14.
+//
+// Ogni unita' ha un initiative score. Al /start si calcola turn_order
+// = array di unit_id ordinati per initiative descending (tie-breaker:
+// ordine di dichiarazione). session.turn_index punta alla posizione
+// corrente. nextUnitId avanza l'indice, skippa unita' morte, wraps
+// attorno alla fine del ciclo (nuovo round).
+//
+// NOTA: VEL extra turns (unita' veloci che prendono piu' azioni per
+// round) non ancora implementato. Per ora ordine statico, un'azione
+// per unita' per round. Deferred a sprint-021 se serve.
+function buildTurnOrder(units) {
+  // Copy + sort descending by initiative. Stable sort mantiene l'ordine
+  // di dichiarazione come tie-breaker.
+  return units
+    .map((u, idx) => ({ id: u.id, init: Number(u.initiative) || 0, idx }))
+    .sort((a, b) => b.init - a.init || a.idx - b.idx)
+    .map((e) => e.id);
+}
+
 function nextUnitId(session) {
+  // Backward compat: se session.turn_order esiste, usa la nuova logica.
+  // Altrimenti fallback al ciclo units lineare (sessioni legacy pre-sprint-020).
+  const order = session.turn_order;
+  if (Array.isArray(order) && order.length > 0) {
+    const n = order.length;
+    let idx = Number.isFinite(session.turn_index) ? session.turn_index : -1;
+    for (let i = 0; i < n; i += 1) {
+      idx = (idx + 1) % n;
+      const candidateId = order[idx];
+      const unit = session.units.find((u) => u.id === candidateId);
+      if (unit && unit.hp > 0) {
+        session.turn_index = idx;
+        return candidateId;
+      }
+    }
+    // Tutti morti
+    return null;
+  }
+  // Legacy fallback
   const units = session.units;
   if (!units.length) return null;
   const currentIdx = units.findIndex((u) => u.id === session.active_unit);
@@ -539,16 +604,94 @@ function createSessionRouter(options = {}) {
     gridSize: GRID_SIZE,
   });
 
+  // SPRINT_020: helper riutilizzabile che avanza attraverso tutti i turni
+  // IA non-player fino a fermarsi su un player vivo (o nessuno). Ritorna
+  // { iaActions, bleedingEvents } accumulati dall'intera catena. Usato
+  // sia da /start (se la prima unita' e' un SIS) sia da /turn/end (dopo
+  // che il player ha finito).
+  async function advanceThroughAiTurns(session) {
+    const iaActions = [];
+    const bleedingEvents = [];
+
+    const applyBleeding = async (unit) => {
+      if (!unit || !unit.status || unit.hp <= 0) return;
+      const bleedTurns = Number(unit.status.bleeding) || 0;
+      if (bleedTurns <= 0) return;
+      const dmg = 1;
+      const hpBefore = unit.hp;
+      unit.hp = Math.max(0, unit.hp - dmg);
+      session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'bleeding',
+        actor_id: unit.id,
+        actor_species: unit.species,
+        actor_job: unit.job,
+        target_id: unit.id,
+        turn: session.turn,
+        damage_dealt: dmg,
+        result: 'hit',
+        hp_before: hpBefore,
+        hp_after: unit.hp,
+        bleeding_remaining: bleedTurns - 1,
+        trait_effects: [],
+      });
+      bleedingEvents.push({
+        unit_id: unit.id,
+        damage: dmg,
+        hp_after: unit.hp,
+        killed: unit.hp === 0,
+      });
+    };
+    const resetAp = (unit) => {
+      if (!unit) return;
+      const fractureActive = Number(unit.status?.fracture) > 0;
+      unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+    };
+    const decrement = (unit) => {
+      if (!unit || !unit.status) return;
+      for (const key of Object.keys(unit.status)) {
+        const v = Number(unit.status[key]);
+        if (v > 0) unit.status[key] = v - 1;
+      }
+    };
+
+    let safety = (session.units || []).length + 1;
+    while (safety > 0) {
+      safety -= 1;
+      const actor = session.units.find((u) => u.id === session.active_unit);
+      if (!actor || actor.controlled_by !== 'sistema' || actor.hp <= 0) break;
+      await applyBleeding(actor);
+      if (actor.hp > 0) {
+        resetAp(actor);
+        const actions = await runSistemaTurn(session);
+        if (Array.isArray(actions)) iaActions.push(...actions);
+      }
+      decrement(actor);
+      const nextId = nextUnitId(session);
+      session.active_unit = nextId;
+      session.turn += 1;
+    }
+
+    return { iaActions, bleedingEvents };
+  }
+
   router.post('/start', async (req, res, next) => {
     try {
       const sessionId = newSessionId();
       const now = new Date();
       const logFilePath = path.join(logsDir, `session_${timestampStamp(now)}.json`);
       const units = normaliseUnitsPayload(req.body?.units);
+      // SPRINT_020: calcola turn_order via iniziativa descending.
+      const turnOrder = buildTurnOrder(units);
+      const firstActiveId = turnOrder[0] || null;
       const session = {
         session_id: sessionId,
         turn: 1,
-        active_unit: units[0]?.id || null,
+        active_unit: firstActiveId,
+        turn_order: turnOrder,
+        turn_index: 0,
         units,
         grid: { width: GRID_SIZE, height: GRID_SIZE },
         logFilePath,
@@ -565,10 +708,19 @@ function createSessionRouter(options = {}) {
       activeSessionId = sessionId;
       await fs.mkdir(logsDir, { recursive: true });
       await fs.writeFile(logFilePath, '[]\n', 'utf8');
+      // SPRINT_020: se la prima unita' in ordine di iniziativa e' un SIS,
+      // esegui immediatamente i suoi turni (e di eventuali successivi SIS)
+      // fino a fermarsi al primo player. Il frontend riceve gia' lo stato
+      // post-AI-phase, pronto per l'input del giocatore.
+      const pre = await advanceThroughAiTurns(session);
       res.json({
         session_id: sessionId,
         state: publicSessionView(session),
         log_file: logFilePath,
+        // Se e' scattata la fase IA iniziale (raro ma possibile), esponila
+        // cosi' il frontend puo' loggare gli eventi in ordine.
+        ia_actions: pre.iaActions,
+        side_effects: pre.bleedingEvents,
       });
     } catch (err) {
       next(err);
@@ -815,31 +967,19 @@ function createSessionRouter(options = {}) {
       // 1c. Decrement delle status durations dell'unita' corrente
       decrementStatuses(current);
 
-      // 2. Passa il turno all'unita' successiva
-      const nextId = nextUnitId(session);
-      session.active_unit = nextId;
+      // 2. Passa il turno all'unita' successiva (initiative-based order)
+      session.active_unit = nextUnitId(session);
       session.turn += 1;
 
-      // 3. Se la nuova unita' e' controllata dal sistema, esegui il suo
-      //    turno e avanza oltre per tornare al player.
-      const next = session.units.find((u) => u.id === nextId);
-      let iaActions = [];
-      if (next && next.controlled_by === 'sistema' && next.hp > 0) {
-        // === START OF SIS TURN ===
-        // 3a. Bleeding damage al SIS (se bleeding, applicato prima di agire)
-        await applyBleedingTo(next);
-        // 3b. Pre-SIS-turn reset AP con fracture check (usando valore pre-decrement)
-        if (next.hp > 0) {
-          resetApWithStatus(next);
-          // 3c. Esegui turno IA con AP gia' limitati se fracture attivo
-          iaActions = await runSistemaTurn(session);
-        }
-        // === END OF SIS TURN ===
-        // 3d. Decrement delle status durations del SIS (post-turno)
-        decrementStatuses(next);
-        const followupId = nextUnitId(session);
-        session.active_unit = followupId;
-        session.turn += 1;
+      // 3. SPRINT_020: usa l'helper advanceThroughAiTurns per eseguire
+      //    tutti i SIS nell'ordine, fino al primo player. Supporta ordine
+      //    arbitrario di turn_order e multi-SIS.
+      const aiPhase = await advanceThroughAiTurns(session);
+      const iaActions = aiPhase.iaActions;
+      // Merge bleeding events: quelli dal current turn (calcolati sopra)
+      // + quelli dalla AI phase (emessi in advanceThroughAiTurns).
+      if (Array.isArray(aiPhase.bleedingEvents)) {
+        for (const b of aiPhase.bleedingEvents) bleedingEvents.push(b);
       }
 
       return res.json({
