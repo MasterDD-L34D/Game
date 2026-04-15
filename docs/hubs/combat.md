@@ -53,6 +53,7 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 
 - [ADR-2026-04-13: Rules Engine d20](../adr/ADR-2026-04-13-rules-engine-d20.md) — scelte di linguaggio (Python), gate sul balance layer separato, RNG namespacing, scope degli status in Fase 1.
 - [ADR-2026-04-15: Round-based combat model](../adr/ADR-2026-04-15-round-based-combat-model.md) — nuovo loop shared-planning → commit → ordered-resolution, semantica di `initiative` come reaction speed.
+- [ADR-2026-04-16: Session engine round migration](../adr/ADR-2026-04-16-session-engine-round-migration.md) — piano di migrazione del Node session engine (`apps/backend/routes/session.js`) al round-based model, con feature flag, wrapper legacy e checklist in 17 step.
 
 ## Vista di prodotto
 

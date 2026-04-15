@@ -258,6 +258,19 @@
       "track": "authored"
     },
     {
+      "path": "docs/adr/ADR-2026-04-16-session-engine-round-migration.md",
+      "title": "ADR-2026-04-16: Migrazione Node session engine al round-based combat model",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-16",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-XXX-refactor-cli.md",
       "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
       "doc_status": "active",
