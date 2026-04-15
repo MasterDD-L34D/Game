@@ -336,6 +336,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/architecture/ai-policy-engine.md",
+      "title": "Architettura AI Policy Engine (Evo-Tactics Playtest)",
+      "doc_status": "active",
+      "doc_owner": "flow-team",
+      "workstream": "flow",
+      "last_verified": "2026-04-16",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": true,
+      "track": "new"
+    },
+    {
       "path": "docs/architecture/tri-sorgente/overview.md",
       "title": "Tri-Sorgente (Roll + Personalità + Azioni)",
       "doc_status": "active",
