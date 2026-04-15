@@ -133,10 +133,23 @@ SUPPORTED_REACTION_EVENTS = frozenset(
 #:   Richiede ``status_id`` (uno dei 5 status supportati: bleeding,
 #:   fracture, disorient, rage, panic), ``duration``, ``intensity``, e
 #:   ``target`` opzionale (``'attacker'`` default, o ``'self'``).
-#:
-#: Future estensioni: ``'counter'`` (contrattacco libero), ``'overwatch'``
-#: (attacco opportunistico su movimento).
-SUPPORTED_REACTION_TYPES = frozenset({"parry", "trigger_status"})
+#: - ``'counter'``: contrattacco libero post-hit. Triggerato solo su event
+#:   ``'damaged'``. Costruisce al volo una synthetic attack action con
+#:   actor = reaction owner, target = attaccante originale, e la esegue
+#:   via ``resolve_action``. Richiede ``counter_dice`` (dict
+#:   ``{count, sides, modifier}``), ``counter_channel`` opzionale,
+#:   ``counter_ap_cost`` opzionale (default 0). Anti-recursion: la
+#:   synthetic action porta flag ``_is_counter=True`` e non ri-triggera
+#:   damaged-reactions a cascata (max depth = 1).
+#: - ``'overwatch'``: attacco opportunistico su movimento. Triggerato solo
+#:   su event ``'moved_adjacent'``. Costruisce synthetic attack con
+#:   actor = reaction owner (listener), target = unita' che si e' mossa.
+#:   Richiede ``overwatch_dice``, campi opzionali ``overwatch_channel``,
+#:   ``overwatch_ap_cost`` (default 0). Anti-recursion: flag
+#:   ``_is_overwatch=True``, non triggera moved_adjacent-reactions.
+SUPPORTED_REACTION_TYPES = frozenset(
+    {"parry", "trigger_status", "counter", "overwatch"}
+)
 
 
 # ------------------------------------------------------------------
@@ -662,6 +675,71 @@ def _is_reaction_intent(intent: Mapping[str, Any]) -> bool:
     return bool(intent.get("reaction_trigger"))
 
 
+def _build_synthetic_counter_action(
+    counter_actor_id: str,
+    attacker_id: str,
+    payload: Mapping[str, Any],
+    turn: int,
+) -> Dict[str, Any]:
+    """Costruisce una synthetic ``attack`` action per una reaction
+    ``counter``.
+
+    L'action porta flag ``_is_counter=True`` per marcare esplicitamente
+    che e' il risultato di una reaction e non deve ri-triggerare altre
+    reactions (anti-recursion). Il ``resolve_action`` del resolver
+    atomico ignora questo flag (non e' nel contratto), ma l'orchestrator
+    lo usa per decidere se fare scan di reactions post-execution.
+    """
+
+    dice = payload.get("counter_dice") or {"count": 1, "sides": 6, "modifier": 0}
+    return {
+        "id": f"counter-{counter_actor_id}-{turn}",
+        "type": "attack",
+        "actor_id": counter_actor_id,
+        "target_id": attacker_id,
+        "ability_id": None,
+        "ap_cost": int(payload.get("counter_ap_cost", 0)),
+        "channel": payload.get("counter_channel"),
+        "damage_dice": {
+            "count": int(dice.get("count", 1)),
+            "sides": int(dice.get("sides", 6)),
+            "modifier": int(dice.get("modifier", 0)),
+        },
+        "_is_counter": True,
+    }
+
+
+def _build_synthetic_overwatch_action(
+    listener_id: str,
+    mover_id: str,
+    payload: Mapping[str, Any],
+    turn: int,
+) -> Dict[str, Any]:
+    """Costruisce una synthetic ``attack`` action per una reaction
+    ``overwatch``.
+
+    Analogo a ``_build_synthetic_counter_action`` ma con flag
+    ``_is_overwatch=True``. Triggerato su evento ``moved_adjacent``.
+    """
+
+    dice = payload.get("overwatch_dice") or {"count": 1, "sides": 6, "modifier": 0}
+    return {
+        "id": f"overwatch-{listener_id}-{turn}",
+        "type": "attack",
+        "actor_id": listener_id,
+        "target_id": mover_id,
+        "ability_id": None,
+        "ap_cost": int(payload.get("overwatch_ap_cost", 0)),
+        "channel": payload.get("overwatch_channel"),
+        "damage_dice": {
+            "count": int(dice.get("count", 1)),
+            "sides": int(dice.get("sides", 6)),
+            "modifier": int(dice.get("modifier", 0)),
+        },
+        "_is_overwatch": True,
+    }
+
+
 def _partition_intents(
     state: Mapping[str, Any],
 ) -> tuple:
@@ -935,11 +1013,15 @@ def resolve_round(
         turn_log_entries.append(result["turn_log_entry"])
 
         # Post-hit reaction injection (follow-up #5 — event 'damaged'):
+        # Anti-recursion: synthetic counter/overwatch actions NON ri-triggerano
+        # damaged-reactions (max depth = 1).
         damage_applied = int(result["turn_log_entry"].get("damage_applied", 0))
         if (
             damage_applied > 0
             and action_type == "attack"
             and target_id
+            and not action.get("_is_counter")
+            and not action.get("_is_overwatch")
         ):
             target_unit_post = _find_unit_by_id(str(target_id))
             if target_unit_post is not None:
@@ -985,6 +1067,50 @@ def resolve_round(
                                     "event": "damaged",
                                     "reaction_payload": dict(dmg_payload),
                                     "status_target_unit_id": status_target_id,
+                                }
+                            )
+                    elif dmg_payload.get("type") == "counter":
+                        # Counter: synthetic attack del target verso
+                        # l'attaccante originale (uid). Esegue solo se
+                        # l'attaccante e' ancora vivo post-main-hit.
+                        attacker_unit = _find_unit_by_id(str(uid))
+                        attacker_alive = (
+                            attacker_unit is not None
+                            and int(
+                                (attacker_unit.get("hp") or {}).get("current", 0)
+                            )
+                            > 0
+                        )
+                        if attacker_alive:
+                            counter_action = _build_synthetic_counter_action(
+                                counter_actor_id=str(target_id),
+                                attacker_id=str(uid),
+                                payload=dmg_payload,
+                                turn=int(next_state.get("turn", 1)),
+                            )
+                            counter_result = resolve_action(
+                                next_state, counter_action, catalog, rng
+                            )
+                            next_state = counter_result["next_state"]
+                            turn_log_entries.append(
+                                counter_result["turn_log_entry"]
+                            )
+                            dmg_matched["_consumed"] = True
+                            _set_cooldown_on_unit(
+                                str(target_id),
+                                dmg_matched.get("reaction_trigger", {}),
+                            )
+                            reactions_triggered.append(
+                                {
+                                    "target_unit_id": str(target_id),
+                                    "attacker_unit_id": str(uid),
+                                    "event": "damaged",
+                                    "reaction_payload": dict(dmg_payload),
+                                    "counter_damage_applied": int(
+                                        counter_result["turn_log_entry"].get(
+                                            "damage_applied", 0
+                                        )
+                                    ),
                                 }
                             )
 
@@ -1040,6 +1166,45 @@ def resolve_round(
                                     "event": "moved_adjacent",
                                     "reaction_payload": dict(move_payload),
                                     "status_target_unit_id": status_target_id,
+                                }
+                            )
+                    elif move_payload.get("type") == "overwatch":
+                        # Overwatch: synthetic attack del listener verso
+                        # il mover. Esegue solo se il mover e' ancora vivo.
+                        mover_unit = _find_unit_by_id(str(uid))
+                        mover_alive = (
+                            mover_unit is not None
+                            and int((mover_unit.get("hp") or {}).get("current", 0))
+                            > 0
+                        )
+                        if mover_alive:
+                            overwatch_action = _build_synthetic_overwatch_action(
+                                listener_id=listener_uid,
+                                mover_id=str(uid),
+                                payload=move_payload,
+                                turn=int(next_state.get("turn", 1)),
+                            )
+                            ow_result = resolve_action(
+                                next_state, overwatch_action, catalog, rng
+                            )
+                            next_state = ow_result["next_state"]
+                            turn_log_entries.append(ow_result["turn_log_entry"])
+                            matched_move["_consumed"] = True
+                            _set_cooldown_on_unit(
+                                listener_uid,
+                                matched_move.get("reaction_trigger", {}),
+                            )
+                            reactions_triggered.append(
+                                {
+                                    "target_unit_id": listener_uid,
+                                    "attacker_unit_id": str(uid),
+                                    "event": "moved_adjacent",
+                                    "reaction_payload": dict(move_payload),
+                                    "overwatch_damage_applied": int(
+                                        ow_result["turn_log_entry"].get(
+                                            "damage_applied", 0
+                                        )
+                                    ),
                                 }
                             )
 
