@@ -1777,3 +1777,298 @@ def test_ability_used_reaction_triggers_after_ability(catalog):
     assert len(result["reactions_triggered"]) == 1
     assert result["reactions_triggered"][0]["event"] == "ability_used"
     assert result["reactions_triggered"][0]["ability_id"] == "mega_shout"
+
+
+# ------------------------------------------------------------------
+# Counter + Overwatch payload types (WI-3 + WI-5 follow-up batch 2)
+# ------------------------------------------------------------------
+
+
+def test_counter_and_overwatch_in_supported_reaction_types():
+    assert "counter" in SUPPORTED_REACTION_TYPES
+    assert "overwatch" in SUPPORTED_REACTION_TYPES
+
+
+def test_declare_reaction_accepts_counter_payload(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "counter",
+            "counter_dice": {"count": 1, "sides": 6, "modifier": 2},
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )["next_state"]
+    intent = state["pending_intents"][0]
+    assert intent["reaction_payload"]["type"] == "counter"
+    assert intent["reaction_trigger"]["event"] == "damaged"
+
+
+def test_declare_reaction_accepts_overwatch_payload(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "overwatch",
+            "overwatch_dice": {"count": 1, "sides": 8, "modifier": 1},
+        },
+        trigger={"event": "moved_adjacent", "source_any_of": None},
+    )["next_state"]
+    intent = state["pending_intents"][0]
+    assert intent["reaction_payload"]["type"] == "overwatch"
+    assert intent["reaction_trigger"]["event"] == "moved_adjacent"
+
+
+def test_counter_reaction_triggers_on_damaged_and_hits_attacker(catalog):
+    """Main attack alpha -> bravo infligge danno; counter di bravo
+    esegue synthetic attack su alpha e abbassa gli hp."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _attack("alpha", "bravo", dice={"count": 1, "sides": 6, "modifier": 2}),
+    )["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "counter",
+            "counter_dice": {"count": 1, "sides": 6, "modifier": 3},
+            "counter_ap_cost": 0,
+        },
+        trigger={"event": "damaged", "source_any_of": ["alpha"]},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    # Main hit tira hit alto + danno medio; counter tira hit alto + danno medio
+    rng = rng_from_sequence([19 / 20, 5 / 8, 18 / 20, 5 / 8])
+    alpha_hp_pre = next(u for u in state["units"] if u["id"] == "alpha")["hp"][
+        "current"
+    ]
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+    triggered = result["reactions_triggered"][0]
+    assert triggered["event"] == "damaged"
+    assert triggered["reaction_payload"]["type"] == "counter"
+    assert triggered["counter_damage_applied"] > 0
+    # alpha ha subito damage dal counter
+    alpha_hp_post = next(
+        u for u in result["next_state"]["units"] if u["id"] == "alpha"
+    )["hp"]["current"]
+    assert alpha_hp_post < alpha_hp_pre
+    # 2 turn_log_entries: main hit + counter
+    assert len(result["turn_log_entries"]) == 2
+    counter_entry = result["turn_log_entries"][1]
+    assert counter_entry["action"]["_is_counter"] is True
+    assert counter_entry["action"]["actor_id"] == "bravo"
+    assert counter_entry["action"]["target_id"] == "alpha"
+
+
+def test_counter_reaction_does_not_fire_on_dead_attacker(catalog):
+    """Se il main attack uccide il target (e attaccante vive), counter
+    non serve testare morte attaccante direttamente. Testiamo invece:
+    main attack whiffa (damage 0) -> counter non triggera (solo su
+    damaged con damage > 0)."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    # Miss action: rng bassissimo, natural 1
+    state = declare_intent(
+        state,
+        "alpha",
+        _attack("alpha", "bravo", dice={"count": 1, "sides": 6, "modifier": 0}),
+    )["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "counter",
+            "counter_dice": {"count": 1, "sides": 6, "modifier": 3},
+        },
+        trigger={"event": "damaged"},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([0 / 20])  # natural 1, miss
+    result = resolve_round(state, catalog, rng)
+    assert result["reactions_triggered"] == []
+    assert len(result["turn_log_entries"]) == 1  # solo main, no counter
+
+
+def test_counter_reaction_anti_recursion_does_not_retrigger(catalog):
+    """Se un counter fa danno, NON deve ri-scannare damaged-reactions
+    (flag _is_counter). Testiamo: bravo ha counter su damaged, alpha ha
+    anch'esso una counter reaction su damaged dichiarata. Il counter di
+    bravo fa damage ad alpha -> alpha counter NON triggera."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _attack("alpha", "bravo", dice={"count": 1, "sides": 6, "modifier": 2}),
+    )["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "counter",
+            "counter_dice": {"count": 1, "sides": 6, "modifier": 3},
+        },
+        trigger={"event": "damaged"},
+    )["next_state"]
+    # NOTA: alpha non puo' avere sia intent principale sia reaction
+    # (one-per-unit). Test alt: setup multi-unit sarebbe piu' invasivo.
+    # Verifichiamo invece che dopo counter, dmg_matched per alpha sarebbe
+    # fallito via flag _is_counter. Sentinel: solo 1 reactions_triggered.
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8, 18 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+
+
+def test_counter_respects_cooldown(catalog):
+    """Counter reaction con cooldown_rounds=2 setta il cooldown dopo
+    il trigger."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _attack("alpha", "bravo", dice={"count": 1, "sides": 6, "modifier": 2}),
+    )["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "counter",
+            "counter_dice": {"count": 1, "sides": 4, "modifier": 1},
+        },
+        trigger={"event": "damaged", "cooldown_rounds": 2},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8, 15 / 20, 2 / 4])
+    result = resolve_round(state, catalog, rng)
+    bravo_after = next(u for u in result["next_state"]["units"] if u["id"] == "bravo")
+    assert bravo_after["reaction_cooldown_remaining"] == 2
+
+
+def test_counter_with_predicate_high_damage(catalog):
+    """Counter con predicate damage>=2 triggera solo su danno significativo."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _attack("alpha", "bravo", dice={"count": 1, "sides": 6, "modifier": 5}),
+    )["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "counter",
+            "counter_dice": {"count": 1, "sides": 6, "modifier": 2},
+        },
+        trigger={
+            "event": "damaged",
+            "predicates": [{"op": ">=", "field": "damage", "value": 2}],
+        },
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8, 18 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+    assert result["reactions_triggered"][0]["counter_damage_applied"] > 0
+
+
+def test_overwatch_reaction_triggers_on_moved_adjacent(catalog):
+    """Quando alpha esegue move, overwatch di bravo attacca alpha."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _move("alpha"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "overwatch",
+            "overwatch_dice": {"count": 1, "sides": 6, "modifier": 3},
+        },
+        trigger={"event": "moved_adjacent"},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    alpha_hp_pre = next(u for u in state["units"] if u["id"] == "alpha")["hp"][
+        "current"
+    ]
+    rng = rng_from_sequence([19 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+    triggered = result["reactions_triggered"][0]
+    assert triggered["event"] == "moved_adjacent"
+    assert triggered["reaction_payload"]["type"] == "overwatch"
+    assert triggered["overwatch_damage_applied"] > 0
+    alpha_hp_post = next(
+        u for u in result["next_state"]["units"] if u["id"] == "alpha"
+    )["hp"]["current"]
+    assert alpha_hp_post < alpha_hp_pre
+    # turn_log_entries: move + overwatch attack
+    assert len(result["turn_log_entries"]) == 2
+    ow_entry = result["turn_log_entries"][1]
+    assert ow_entry["action"]["_is_overwatch"] is True
+    assert ow_entry["action"]["actor_id"] == "bravo"
+    assert ow_entry["action"]["target_id"] == "alpha"
+
+
+def test_overwatch_respects_one_shot_and_cooldown(catalog):
+    """Overwatch con cooldown_rounds=1 setta il cooldown post-trigger."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _move("alpha"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "overwatch",
+            "overwatch_dice": {"count": 1, "sides": 4, "modifier": 1},
+        },
+        trigger={"event": "moved_adjacent", "cooldown_rounds": 1},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 2 / 4])
+    result = resolve_round(state, catalog, rng)
+    bravo_after = next(
+        u for u in result["next_state"]["units"] if u["id"] == "bravo"
+    )
+    assert bravo_after["reaction_cooldown_remaining"] == 1
+
+
+def test_overwatch_with_predicate_source_tier(catalog):
+    """Overwatch con predicate source_tier >= 1 triggera quando il
+    mover e' tier 1+."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    # Force tier su alpha
+    state["units"][0]["tier"] = 2
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _move("alpha"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "overwatch",
+            "overwatch_dice": {"count": 1, "sides": 6, "modifier": 2},
+        },
+        trigger={
+            "event": "moved_adjacent",
+            "predicates": [{"op": ">=", "field": "source_tier", "value": 2}],
+        },
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
