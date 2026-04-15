@@ -333,9 +333,18 @@ function createSessionRouter(options = {}) {
     });
     let damageDealt = 0;
     let killOccurred = false;
+    let adjacencyBonus = 0;
     if (result.hit) {
       const baseDamage = 1 + result.pt;
-      const adjusted = baseDamage + evaluation.damage_modifier;
+      // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
+      // e' strettamente adiacente al bersaglio (Manhattan == 1). Incentiva
+      // la scelta tattica di entrare in mischia anche se skirmisher/ranger
+      // hanno range superiore.
+      const attackDist = manhattanDistance(actor.position, target.position);
+      if (attackDist === 1) {
+        adjacencyBonus = 1;
+      }
+      const adjusted = baseDamage + evaluation.damage_modifier + adjacencyBonus;
       damageDealt = Math.max(0, adjusted);
       // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
       // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
@@ -346,7 +355,7 @@ function createSessionRouter(options = {}) {
         killOccurred = true;
       }
     }
-    return { result, evaluation, damageDealt, killOccurred };
+    return { result, evaluation, damageDealt, killOccurred, adjacencyBonus };
   }
 
   async function emitKillAndAssists(session, killer, target, attackEvent) {
