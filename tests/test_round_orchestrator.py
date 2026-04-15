@@ -2047,6 +2047,164 @@ def test_overwatch_respects_one_shot_and_cooldown(catalog):
     assert bravo_after["reaction_cooldown_remaining"] == 1
 
 
+def _heal(actor_id: str, target_id: str, dice=None, ap_cost=1):
+    return {
+        "id": f"heal-{actor_id}",
+        "type": "heal",
+        "actor_id": actor_id,
+        "target_id": target_id,
+        "ability_id": None,
+        "ap_cost": ap_cost,
+        "channel": None,
+        "heal_dice": dice or {"count": 1, "sides": 4, "modifier": 2},
+    }
+
+
+# ------------------------------------------------------------------
+# Healed event (follow-up batch 3)
+# ------------------------------------------------------------------
+
+
+def test_healed_in_supported_reaction_events():
+    assert "healed" in SUPPORTED_REACTION_EVENTS
+
+
+def test_healing_field_in_supported_predicate_fields():
+    assert "healing" in SUPPORTED_PREDICATE_FIELDS
+
+
+def test_declare_reaction_accepts_healed_event(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "focused",
+            "duration": 1,
+            "intensity": 1,
+        },
+        trigger={"event": "healed"},
+    )["next_state"]
+    assert state["pending_intents"][0]["reaction_trigger"]["event"] == "healed"
+
+
+def test_heal_action_integrates_via_round_orchestrator(catalog):
+    """Alpha esegue heal su bravo via round loop, HP bravo aumenta."""
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    # Ferisci bravo
+    state["units"][1]["hp"]["current"] = max(1, state["units"][1]["hp"]["max"] // 2)
+    hp_before = state["units"][1]["hp"]["current"]
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _heal("alpha", "bravo", dice={"count": 1, "sides": 4, "modifier": 2}),
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([3 / 4])
+    result = resolve_round(state, catalog, rng)
+    bravo_after = next(u for u in result["next_state"]["units"] if u["id"] == "bravo")
+    assert bravo_after["hp"]["current"] > hp_before
+    assert result["turn_log_entries"][0]["healing_applied"] > 0
+
+
+def test_healed_reaction_triggers_on_healing(catalog):
+    """Listener reaction su 'healed' triggera post-heal."""
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    # Ferisci bravo
+    state["units"][1]["hp"]["current"] = max(1, state["units"][1]["hp"]["max"] // 2)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _heal("alpha", "bravo", dice={"count": 1, "sides": 4, "modifier": 3}),
+    )["next_state"]
+    # Listener: bravo stesso (target receiver) reagisce al proprio heal
+    # applicando focused all'alpha (il caster)
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "focused",
+            "duration": 2,
+            "intensity": 1,
+            "target": "attacker",  # attacker = caster nel contesto 'healed'
+        },
+        trigger={"event": "healed"},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([3 / 4])
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+    triggered = result["reactions_triggered"][0]
+    assert triggered["event"] == "healed"
+    assert triggered["healing_applied"] > 0
+    assert triggered["heal_target_unit_id"] == "bravo"
+    alpha_after = next(u for u in result["next_state"]["units"] if u["id"] == "alpha")
+    focused = [s for s in alpha_after.get("statuses", []) if s.get("id") == "focused"]
+    assert len(focused) == 1
+
+
+def test_healed_reaction_NOT_triggered_if_no_healing(catalog):
+    """Heal su target full HP -> healing_applied=0 -> reaction no trigger."""
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    # Bravo gia' a full hp
+    state["units"][1]["hp"]["current"] = state["units"][1]["hp"]["max"]
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _heal("alpha", "bravo", dice={"count": 1, "sides": 4, "modifier": 0}),
+    )["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "focused",
+            "duration": 1,
+            "intensity": 1,
+        },
+        trigger={"event": "healed"},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([3 / 4])
+    result = resolve_round(state, catalog, rng)
+    assert result["reactions_triggered"] == []
+
+
+def test_healed_reaction_with_predicate_healing_threshold(catalog):
+    """Predicate healing>=3 filtra micro-heals."""
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state["units"][1]["hp"]["current"] = max(1, state["units"][1]["hp"]["max"] - 10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _heal("alpha", "bravo", dice={"count": 1, "sides": 4, "modifier": 3}),
+    )["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "focused",
+            "duration": 1,
+            "intensity": 1,
+        },
+        trigger={
+            "event": "healed",
+            "predicates": [{"op": ">=", "field": "healing", "value": 3}],
+        },
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([3 / 4])  # roll = 3, + 3 mod = 6 healing
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+
+
 def test_overwatch_with_predicate_source_tier(catalog):
     """Overwatch con predicate source_tier >= 1 triggera quando il
     mover e' tier 1+."""

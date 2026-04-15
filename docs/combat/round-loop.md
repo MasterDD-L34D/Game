@@ -197,6 +197,7 @@ Le reaction intents:
   - `"trigger_status"` — usata con `event="damaged"`, `event="moved_adjacent"` o `event="ability_used"`. Applica uno status effect (bleeding/fracture/disorient/rage/panic) a un'unita' quando la reaction triggera. Richiede `status_id`, `duration`, `intensity`, e `target` opzionale (`"attacker"` default o `"self"`).
   - `"counter"` — contrattacco libero post-hit. Usata solo con `event="damaged"`. Costruisce al volo una synthetic `attack` action con `actor = reaction owner`, `target = attaccante originale`, e la esegue via `resolve_action`. Richiede `counter_dice` (`{count, sides, modifier}`), campi opzionali `counter_channel` e `counter_ap_cost` (default 0). **Anti-recursion**: la synthetic action porta flag `_is_counter=True` e non ri-triggera damaged-reactions a cascata (max depth = 1). Non triggera se l'attaccante originale e' morto post main-hit.
   - `"overwatch"` — attacco opportunistico su movimento. Usata solo con `event="moved_adjacent"`. Costruisce synthetic `attack` con `actor = reaction owner (listener)`, `target = unita' che si e' mossa`. Richiede `overwatch_dice`, campi opzionali `overwatch_channel` e `overwatch_ap_cost`. **Anti-recursion**: flag `_is_overwatch=True`, non triggera damaged-reactions a cascata.
+- **Evento `healed`** (post-heal): triggerato dopo un `action.type == "heal"` con `healing_applied > 0`. Il resolver atomico ha un nuovo branch `heal` che rolla `heal_dice` e ripristina HP del target, clampato a `hp_max`. Source = caster (`uid`), heal target = receiver (`action.target_id`). Context include `healing` (field nei predicates). Payload supportato: `trigger_status`.
 
 ### Predicates DSL
 
@@ -226,6 +227,7 @@ declare_reaction(
 | Field         | Semantica                                | Evento richiesto  |
 | ------------- | ---------------------------------------- | ----------------- |
 | `damage`      | `damage_applied` dal turn_log_entry      | `damaged`         |
+| `healing`     | `healing_applied` dal turn_log_entry     | `healed`          |
 | `hp_pct`      | `hp_current / hp_max` del reaction owner | qualsiasi         |
 | `hp_current`  | HP assoluto del reaction owner           | qualsiasi         |
 | `hp_max`      | HP max del reaction owner                | qualsiasi         |
@@ -419,12 +421,12 @@ Ricarica `ACTION_SPEED` dal filesystem (hot reload) e muta il dict modulo-level 
 - ✅ **ADR Node session engine migration**: [`ADR-2026-04-16-session-engine-round-migration.md`](../adr/ADR-2026-04-16-session-engine-round-migration.md) — piano in 17 step, feature flag, rollback, stima effort. **Solo documento**: codice Node intoccato.
 - ✅ **Payload `counter`**: contrattacco libero post-hit. Costruisce synthetic `attack` action (flag `_is_counter=True`) del reaction owner verso l'attaccante originale, la esegue via `resolve_action`. Anti-recursion: max depth = 1. Non triggera su attaccante morto.
 - ✅ **Payload `overwatch`**: attacco opportunistico su `moved_adjacent`. Synthetic `attack` (flag `_is_overwatch=True`) del listener verso il mover. Anti-recursion attiva, non triggera su mover morto.
+- ✅ **Evento `healed` + action type `heal`**: nuovo branch `heal` nel resolver atomico (roll `heal_dice`, clamp a `hp_max`, log `healing_applied`). Orchestrator estende `SUPPORTED_REACTION_EVENTS` con `healed` e aggiunge injection post-heal. Predicates DSL esteso con field `healing`. Action speed `heal: -1`.
 
 **Ancora aperti** (evoluzioni future):
 
-1. **Evento `healed`**: richiederebbe un nuovo action type `heal` nel resolver atomico (oggi non esiste). Scope creep.
-2. **Migrazione effettiva Node session engine**: portare `apps/backend/routes/session.js` al round model. ADR c'e', codice Node intoccato. Sprint dedicato di ~5 giornate.
-3. **Timer opzionale di planning phase**: `planning_deadline_ms` nello state. Enforcement del session engine Node, non del rules engine Python.
+1. **Migrazione effettiva Node session engine**: portare `apps/backend/routes/session.js` al round model. ADR c'e', codice Node intoccato. Sprint dedicato di ~5 giornate.
+2. **Timer opzionale di planning phase**: `planning_deadline_ms` nello state. Enforcement del session engine Node, non del rules engine Python.
 
 ---
 
@@ -435,4 +437,4 @@ Ricarica `ACTION_SPEED` dal filesystem (hot reload) e muta il dict modulo-level 
 - [ADR-2026-04-15-round-based-combat-model.md](../adr/ADR-2026-04-15-round-based-combat-model.md) — decisione architetturale completa
 - [combat hub](../hubs/combat.md) — ingresso canonico al workstream combat
 - `services/rules/round_orchestrator.py` — implementazione
-- `tests/test_round_orchestrator.py` — 95 test unitari
+- `tests/test_round_orchestrator.py` — 104 test unitari
