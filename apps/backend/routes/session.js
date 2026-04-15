@@ -118,13 +118,24 @@ function normaliseUnit(raw, fallbackIndex) {
   // possibile dall'input (utile per scenari di test che partono con SIS
   // gia' ferito). Default: parte a hp iniziale (unita' fresca = full HP).
   const maxHp = Number.isFinite(Number(input.max_hp)) ? Number(input.max_hp) : hp;
-  // SPRINT_013 (issue #10): oggetto status per stati emotivi temporanei.
+  // SPRINT_013 (issue #10): oggetto status per stati temporanei.
   // Ogni chiave e' il nome dello stato, valore = turns_remaining.
   // 0 o mancante = inattivo. Accetta override iniziale dall'input.
+  // SPRINT_019: aggiunti status fisici bleeding e fracture dal design
+  // doc docs/core/10-SISTEMA_TATTICO.md. bleeding = DoT non riducibile,
+  // fracture = ap_remaining reset a 1 invece di ap pieno.
   const status =
     input.status && typeof input.status === 'object'
       ? { ...input.status }
-      : { panic: 0, rage: 0, stunned: 0, focused: 0, confused: 0 };
+      : {
+          panic: 0,
+          rage: 0,
+          stunned: 0,
+          focused: 0,
+          confused: 0,
+          bleeding: 0,
+          fracture: 0,
+        };
   return {
     id,
     species: input.species ? String(input.species) : 'unknown',
@@ -739,39 +750,93 @@ function createSessionRouter(options = {}) {
       const { error, session } = resolveSession(body.session_id);
       if (error) return res.status(error.status).json(error.body);
 
-      // 1. Reset ap_remaining dell'unita' che sta terminando il turno
-      const current = session.units.find((u) => u.id === session.active_unit);
-      if (current) {
-        current.ap_remaining = current.ap;
-      }
+      // Helper: damage-over-time (bleeding) applicato a una singola unita'.
+      // Ritorna l'evento descrittore se applicato, null altrimenti.
+      const bleedingEvents = [];
+      const applyBleedingTo = async (unit) => {
+        if (!unit || !unit.status || unit.hp <= 0) return;
+        const bleedTurns = Number(unit.status.bleeding) || 0;
+        if (bleedTurns <= 0) return;
+        const dmg = 1;
+        const hpBefore = unit.hp;
+        unit.hp = Math.max(0, unit.hp - dmg);
+        session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+        await appendEvent(session, {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          action_type: 'bleeding',
+          actor_id: unit.id,
+          actor_species: unit.species,
+          actor_job: unit.job,
+          target_id: unit.id,
+          turn: session.turn,
+          damage_dealt: dmg,
+          result: 'hit',
+          hp_before: hpBefore,
+          hp_after: unit.hp,
+          bleeding_remaining: bleedTurns - 1,
+          trait_effects: [],
+        });
+        bleedingEvents.push({
+          unit_id: unit.id,
+          damage: dmg,
+          hp_after: unit.hp,
+          killed: unit.hp === 0,
+        });
+      };
 
-      // SPRINT_013 (issue #10): decrementa le durate degli stati emotivi
-      // di TUTTE le unita' alla fine del turno. Uno stato che scade diventa
-      // 0 (inattivo). Cosi' panic/rage/stunned durano N turni e poi
-      // spariscono automaticamente.
-      for (const unit of session.units) {
-        if (!unit.status) continue;
+      // Helper: reset ap_remaining rispettando fracture (se attivo, cap a 1).
+      const resetApWithStatus = (unit) => {
+        if (!unit) return;
+        const fractureActive = Number(unit.status?.fracture) > 0;
+        unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+      };
+
+      // Helper: decrementa tutte le status durations di UNA unita' (end-of-turn).
+      // Questo e' la variante per-unit della vecchia logica global.
+      // SPRINT_019: separato per timing corretto di fracture e bleeding.
+      const decrementStatuses = (unit) => {
+        if (!unit || !unit.status) return;
         for (const key of Object.keys(unit.status)) {
           const v = Number(unit.status[key]);
           if (v > 0) {
             unit.status[key] = v - 1;
           }
         }
-      }
+      };
+
+      // === END OF CURRENT UNIT'S TURN ===
+      // 1a. Bleeding damage applicato all'unita' che sta finendo (se bleeding)
+      const current = session.units.find((u) => u.id === session.active_unit);
+      await applyBleedingTo(current);
+      // 1b. Reset ap_remaining per il prossimo turno dell'unita' corrente
+      // (fracture check usando il valore CORRENTE di fracture, pre-decrement)
+      if (current) resetApWithStatus(current);
+      // 1c. Decrement delle status durations dell'unita' corrente
+      decrementStatuses(current);
 
       // 2. Passa il turno all'unita' successiva
       const nextId = nextUnitId(session);
       session.active_unit = nextId;
       session.turn += 1;
 
-      // 3. Se la nuova unita' e' controllata dal sistema, esegui REGOLA_001
-      //    e avanza di nuovo al prossimo turno giocatore, in modo che un
-      //    singolo "Fine Turno" chiuda il round e restituisca il controllo.
+      // 3. Se la nuova unita' e' controllata dal sistema, esegui il suo
+      //    turno e avanza oltre per tornare al player.
       const next = session.units.find((u) => u.id === nextId);
       let iaActions = [];
       if (next && next.controlled_by === 'sistema' && next.hp > 0) {
-        iaActions = await runSistemaTurn(session);
-        next.ap_remaining = next.ap;
+        // === START OF SIS TURN ===
+        // 3a. Bleeding damage al SIS (se bleeding, applicato prima di agire)
+        await applyBleedingTo(next);
+        // 3b. Pre-SIS-turn reset AP con fracture check (usando valore pre-decrement)
+        if (next.hp > 0) {
+          resetApWithStatus(next);
+          // 3c. Esegui turno IA con AP gia' limitati se fracture attivo
+          iaActions = await runSistemaTurn(session);
+        }
+        // === END OF SIS TURN ===
+        // 3d. Decrement delle status durations del SIS (post-turno)
+        decrementStatuses(next);
         const followupId = nextUnitId(session);
         session.active_unit = followupId;
         session.turn += 1;
@@ -783,6 +848,10 @@ function createSessionRouter(options = {}) {
         active_unit: session.active_unit,
         ia_actions: iaActions,
         ia_action: iaActions[0] || null,
+        // SPRINT_019: side_effects contiene i danni da status fisici
+        // applicati a inizio /turn/end (bleeding e simili). Il frontend
+        // li logga separatamente con emoji 🩸.
+        side_effects: bleedingEvents,
         state: publicSessionView(session),
       });
     } catch (err) {

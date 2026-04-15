@@ -118,3 +118,45 @@ traits:
     description_it: |
       Colpo traumatico: ogni critico (MoS >= 8) applica 1 turno di
       stunned al bersaglio, che saltera' il turno successivo.
+
+  # SPRINT_019: status fisici (Sanguinamento + Frattura), dal design doc
+  # docs/core/10-SISTEMA_TATTICO.md linea 18. Si innestano sul sistema
+  # status di sprint-013 + trait pipeline di sprint-018.
+
+  denti_seghettati:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 2
+      log_tag: denti_bleeding
+    description_it: |
+      Denti seghettati che lacerano la carne del bersaglio. Ogni hit
+      applica 2 turni di sanguinamento: il target subisce 1 danno non
+      riducibile al termine di ogni turno.
+
+  martello_osseo:
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      # Trigger solo sui colpi critici (mos >= 8).
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 2
+      log_tag: martello_fracture
+    description_it: |
+      Protuberanza ossea pesante come una mazza. Ogni critico (MoS >= 8)
+      applica 2 turni di frattura: il target perde AP al reset di turno
+      (ap_remaining = 1 invece di ap pieno), limitando il movimento.
