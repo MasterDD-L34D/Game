@@ -451,6 +451,8 @@
         <button class="btn scenario-btn"        data-scenario="ranger_duel"    onclick="startSession('ranger_duel')">Duello Ranger</button>
         <button class="btn scenario-btn"        data-scenario="caster_vs_tank" onclick="startSession('caster_vs_tank')">Caster vs Tank</button>
         <button class="btn scenario-btn"        data-scenario="mirror_ranger"  onclick="startSession('mirror_ranger')">Mirror Ranger</button>
+        <button class="btn scenario-btn"        data-scenario="berserker"     onclick="startSession('berserker')">Berserker</button>
+        <button class="btn scenario-btn"        data-scenario="shock_troops"  onclick="startSession('shock_troops')">Shock Troops</button>
       </div>
     </div>
 
@@ -519,6 +521,23 @@ const SCENARIOS = {
     units: [
       { id:'unit_1', species:'falco', job:'ranger', controlled_by:'player',  position:{x:0,y:0} },
       { id:'unit_2', species:'falco', job:'ranger', controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  // SPRINT_018: scenari che mostrano i nuovi trait status-applying
+  berserker: {
+    label: 'Berserker',
+    desc: 'Tu velox + ferocia (rage on kill), SIS lupo intimidatore (panic on melee)',
+    units: [
+      { id:'unit_1', species:'velox',  job:'skirmisher', traits:['zampe_a_molla','ferocia'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'lupo',   job:'vanguard',   traits:['intimidatore'],             controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  shock_troops: {
+    label: 'Shock Troops',
+    desc: 'SIS carapax con stordimento — ogni critico ti storna',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera','stordimento'], controlled_by:'sistema', position:{x:5,y:5} },
     ],
   },
 };
