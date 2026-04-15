@@ -1,11 +1,12 @@
-// SPRINT_001 fase 3 + SPRINT_002 fase 1-4 — engine minimo giocabile.
+// SPRINT_001 fase 3 + SPRINT_002 fase 1-4 + SPRINT_003 fase 0-3 — engine minimo giocabile.
 //
-// Espone 5 route sotto /api/session/*:
+// Espone 6 route sotto /api/session/*:
 //   POST /start     crea sessione (units custom o default), griglia 6x6
 //   GET  /state     ritorna stato corrente (units, turn, grid, active_unit)
-//   POST /action    risolve attack o move (d20 + trait effects)
+//   POST /action    risolve attack o move (d20 + trait effects + fairness cap)
 //   POST /turn/end  passa il turno; se tocca al sistema, esegue REGOLA_001
 //   POST /end       chiude sessione e finalizza il log su disco
+//   GET  /:id/vc    snapshot VC on-demand (SPRINT_003 fase 3)
 //
 // Lo stato sessione vive in memoria (Map session_id -> session). Il log
 // degli eventi viene appeso a `logs/session_YYYYMMDD_HHMMSS.json` ad
@@ -36,6 +37,8 @@ const crypto = require('node:crypto');
 const { Router } = require('express');
 
 const { loadActiveTraitRegistry, evaluateAttackTraits } = require('../services/traitEffects');
+const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
+const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
 
 const GRID_SIZE = 6;
 const DEFAULT_HP = 10;
@@ -43,6 +46,10 @@ const DEFAULT_AP = 2;
 const DEFAULT_MOD = 3;
 const DEFAULT_DC = 12;
 const DEFAULT_GUARDIA = 1;
+
+// SPRINT_003 fase 0: finestra temporale (in turni) entro cui un damage
+// hit conta come assist per un kill avvenuto nel turno corrente.
+const ASSIST_WINDOW_TURNS = 2;
 
 function rollD20(rng) {
   return Math.floor(rng() * 20) + 1;
@@ -194,6 +201,8 @@ function createSessionRouter(options = {}) {
   const logsDir = options.logsDir || path.join(repoRoot, 'logs');
   const rng = typeof options.rng === 'function' ? options.rng : Math.random;
   const traitRegistry = options.traitRegistry || loadActiveTraitRegistry();
+  const fairnessConfig = options.fairnessConfig || loadFairnessConfig();
+  const telemetryConfig = options.telemetryConfig || loadTelemetryConfig();
 
   const sessions = new Map();
   let activeSessionId = null;
@@ -226,6 +235,10 @@ function createSessionRouter(options = {}) {
   }
 
   async function appendEvent(session, event) {
+    // SPRINT_003 fase 0: action_index monotono per-sessione, utile per
+    // ordinare deterministicamente gli eventi in VC scoring senza
+    // dipendere dal timestamp (che puo' avere granularita' ms uguali).
+    event.action_index = session.action_counter++;
     session.events.push(event);
     await persistEvents(session);
   }
@@ -239,16 +252,100 @@ function createSessionRouter(options = {}) {
       attackResult: result,
     });
     let damageDealt = 0;
+    let killOccurred = false;
     if (result.hit) {
       const baseDamage = 1 + result.pt;
       const adjusted = baseDamage + evaluation.damage_modifier;
       damageDealt = Math.max(0, adjusted);
+      // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
+      // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
+      // dagli eventi per restare stateless.
+      session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + damageDealt;
       target.hp = Math.max(0, target.hp - damageDealt);
+      if (target.hp === 0) {
+        killOccurred = true;
+      }
     }
-    return { result, evaluation, damageDealt };
+    return { result, evaluation, damageDealt, killOccurred };
   }
 
-  function buildAttackEvent({ session, actor, target, result, evaluation, damageDealt, hpBefore }) {
+  async function emitKillAndAssists(session, killer, target, attackEvent) {
+    // SPRINT_003 fase 0: emette un evento `kill` + 0..N eventi `assist`
+    // dopo un attacco che porta target.hp a 0. Gli assist vengono dati
+    // alle unita' che hanno inflitto >=1 damage_dealt al target nella
+    // finestra di ASSIST_WINDOW_TURNS turni precedenti (escluso killer).
+    const killTurn = session.turn;
+    const assistorIds = new Set();
+    // Parti da -2 perche' -1 e' l'evento attack appena appeso.
+    for (let i = session.events.length - 2; i >= 0; i -= 1) {
+      const ev = session.events[i];
+      if (!ev || typeof ev.turn !== 'number') continue;
+      if (killTurn - ev.turn > ASSIST_WINDOW_TURNS) break;
+      if (ev.action_type !== 'attack') continue;
+      if (ev.target_id !== target.id) continue;
+      if (ev.result !== 'hit') continue;
+      if (Number(ev.damage_dealt) < 1) continue;
+      if (ev.actor_id === killer.id) continue;
+      if (
+        attackEvent.ia_controlled_unit &&
+        ev.ia_controlled_unit === attackEvent.ia_controlled_unit
+      ) {
+        // Evento IA precedente dello stesso unit controllato dal sistema.
+        continue;
+      }
+      assistorIds.add(ev.actor_id);
+    }
+
+    const killEvent = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      action_type: 'kill',
+      actor_id: attackEvent.actor_id, // puo' essere 'sistema' per IA
+      actor_species: killer.species,
+      actor_job: killer.job,
+      target_id: target.id,
+      turn: killTurn,
+      killing_blow: {
+        die: attackEvent.die,
+        roll: attackEvent.roll,
+        mos: attackEvent.mos,
+        pt: attackEvent.pt,
+        damage_dealt: attackEvent.damage_dealt,
+      },
+    };
+    if (attackEvent.ia_rule) killEvent.ia_rule = attackEvent.ia_rule;
+    if (attackEvent.ia_controlled_unit)
+      killEvent.ia_controlled_unit = attackEvent.ia_controlled_unit;
+    await appendEvent(session, killEvent);
+
+    for (const assistorId of assistorIds) {
+      const assistUnit = session.units.find((u) => u.id === assistorId);
+      const assistEvent = {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'assist',
+        actor_id: assistorId,
+        actor_species: assistUnit?.species || 'unknown',
+        actor_job: assistUnit?.job || 'unknown',
+        target_id: target.id,
+        killer_id: attackEvent.actor_id,
+        turn: killTurn,
+        window_turns: ASSIST_WINDOW_TURNS,
+      };
+      await appendEvent(session, assistEvent);
+    }
+  }
+
+  function buildAttackEvent({
+    session,
+    actor,
+    target,
+    result,
+    evaluation,
+    damageDealt,
+    hpBefore,
+    targetPositionAtAttack,
+  }) {
     return {
       ts: new Date().toISOString(),
       session_id: session.session_id,
@@ -257,6 +354,10 @@ function createSessionRouter(options = {}) {
       actor_job: actor.job,
       action_type: 'attack',
       target_id: target.id,
+      // SPRINT_003 fase 0: turn + ap_spent + target_position_at_attack
+      turn: session.turn,
+      ap_spent: 1,
+      target_position_at_attack: targetPositionAtAttack || { ...target.position },
       die: result.die,
       roll: result.roll,
       dc: result.dc,
@@ -280,6 +381,9 @@ function createSessionRouter(options = {}) {
       actor_species: actor.species,
       actor_job: actor.job,
       action_type: 'move',
+      // SPRINT_003 fase 0: turn + ap_spent
+      turn: session.turn,
+      ap_spent: 1,
       position_from: positionFrom,
       position_to: { ...actor.position },
       trait_effects: [],
@@ -298,7 +402,12 @@ function createSessionRouter(options = {}) {
     const distance = manhattanDistance(actor.position, target.position);
     if (distance <= 2) {
       const hpBefore = target.hp;
-      const { result, evaluation, damageDealt } = performAttack(session, actor, target);
+      const targetPositionAtAttack = { ...target.position };
+      const { result, evaluation, damageDealt, killOccurred } = performAttack(
+        session,
+        actor,
+        target,
+      );
       const event = buildAttackEvent({
         session,
         actor,
@@ -307,6 +416,7 @@ function createSessionRouter(options = {}) {
         evaluation,
         damageDealt,
         hpBefore,
+        targetPositionAtAttack,
       });
       event.actor_id = 'sistema';
       event.actor_species = actor.species;
@@ -314,6 +424,9 @@ function createSessionRouter(options = {}) {
       event.ia_rule = 'REGOLA_001';
       event.ia_controlled_unit = actor.id;
       await appendEvent(session, event);
+      if (killOccurred) {
+        await emitKillAndAssists(session, actor, target, event);
+      }
       return {
         actor: 'sistema',
         unit_id: actor.id,
@@ -361,6 +474,12 @@ function createSessionRouter(options = {}) {
         logFilePath,
         events: [],
         created_at: now.toISOString(),
+        // SPRINT_003 fase 0: contatori in-memory per log esteso + VC.
+        action_counter: 0,
+        damage_taken: {},
+        // SPRINT_003 fase 1: fairness cap PT per-sessione.
+        cap_pt_used: 0,
+        cap_pt_max: fairnessConfig.cap_pt_max,
       };
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
@@ -393,6 +512,21 @@ function createSessionRouter(options = {}) {
         return res.status(400).json({ error: `actor_id "${body.actor_id}" non trovato` });
       }
 
+      // SPRINT_003 fase 1: fairness cap PT hard enforcement.
+      // Se il body include cost.cap_pt >= 1, verifica che non superi
+      // session.cap_pt_max. Rifiuta con 400 senza mutare stato ne'
+      // scrivere eventi (FAIRNESS_CAP_001 in engine/sistema_rules.md).
+      const requestedCapPt = Number(body.cost?.cap_pt || 0);
+      const capCheck = checkCapPtBudget(session, requestedCapPt, fairnessConfig);
+      if (!capCheck.ok) {
+        return res.status(400).json({
+          error: 'cap_pt_max exceeded',
+          cap_pt_used: capCheck.used,
+          cap_pt_max: capCheck.max,
+          requested: capCheck.requested,
+        });
+      }
+
       const actionType = body.action_type;
 
       if (actionType === 'attack') {
@@ -402,7 +536,12 @@ function createSessionRouter(options = {}) {
           return res.status(400).json({ error: `target "${targetId}" non trovato` });
         }
         const hpBefore = target.hp;
-        const { result, evaluation, damageDealt } = performAttack(session, actor, target);
+        const targetPositionAtAttack = { ...target.position };
+        const { result, evaluation, damageDealt, killOccurred } = performAttack(
+          session,
+          actor,
+          target,
+        );
         const event = buildAttackEvent({
           session,
           actor,
@@ -411,8 +550,17 @@ function createSessionRouter(options = {}) {
           evaluation,
           damageDealt,
           hpBefore,
+          targetPositionAtAttack,
         });
+        // SPRINT_003 fase 1: traccia cost nell'evento + consume dal budget.
+        if (requestedCapPt > 0) {
+          event.cost = { cap_pt: requestedCapPt };
+          consumeCapPt(session, requestedCapPt);
+        }
         await appendEvent(session, event);
+        if (killOccurred) {
+          await emitKillAndAssists(session, actor, target, event);
+        }
         return res.json({
           roll: result.roll,
           mos: result.mos,
@@ -421,6 +569,8 @@ function createSessionRouter(options = {}) {
           damage_dealt: damageDealt,
           target_hp: target.hp,
           trait_effects: evaluation.trait_effects,
+          cap_pt_used: session.cap_pt_used,
+          cap_pt_max: session.cap_pt_max,
         });
       }
 
@@ -449,8 +599,20 @@ function createSessionRouter(options = {}) {
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         const event = buildMoveEvent({ session, actor, positionFrom });
+        // SPRINT_003 fase 1: il costo cap_pt si applica anche al move
+        // se passato nel body (utile per abilita' movimento potenziato).
+        if (requestedCapPt > 0) {
+          event.cost = { cap_pt: requestedCapPt };
+          consumeCapPt(session, requestedCapPt);
+        }
         await appendEvent(session, event);
-        return res.json({ ok: true, actor_id: actor.id, position: actor.position });
+        return res.json({
+          ok: true,
+          actor_id: actor.id,
+          position: actor.position,
+          cap_pt_used: session.cap_pt_used,
+          cap_pt_max: session.cap_pt_max,
+        });
       }
 
       return res
@@ -514,6 +676,21 @@ function createSessionRouter(options = {}) {
         log_file: logFile,
         events_count: eventsCount,
       });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // SPRINT_003 fase 3: VC snapshot on-demand. Registrato DOPO tutte le
+  // route statiche (/start, /state, /action, /turn/end, /end) per
+  // evitare che resolveSession('state') venga intercettato dal pattern
+  // /:id/vc. Non muta stato, non persistenze.
+  router.get('/:id/vc', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const snapshot = buildVcSnapshot(session, telemetryConfig);
+      res.json(snapshot);
     } catch (err) {
       next(err);
     }
