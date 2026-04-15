@@ -464,14 +464,15 @@ function renderGrid() {
           </div>`;
       }
 
-      // highlight celle raggiungibili / attaccabili (solo se AP disponibili)
+      // highlight celle raggiungibili / attaccabili (solo se AP disponibili).
+      // SPRINT_008: reachable ora usa ap_remaining (cost=dist), non ap max.
       if (selected) {
         const sel = units.find(u => u.id === selected);
         const apLeft = sel?.ap_remaining ?? sel?.ap ?? 0;
         const range  = sel?.attack_range ?? 2;
         if (sel && !u && apLeft > 0) {
           const dist = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);
-          if (dist <= (sel.ap ?? 2)) cell.classList.add('reachable');
+          if (dist > 0 && dist <= apLeft) cell.classList.add('reachable');
         }
         if (u && u.id !== selected && u.id !== 'unit_1' && apLeft > 0) {
           const distT = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);
