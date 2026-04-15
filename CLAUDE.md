@@ -3,7 +3,7 @@ title: CLAUDE.md
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-04-16
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -12,6 +12,18 @@ review_cycle_days: 14
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## 🪨 Caveman mode (always on for coding tasks)
+
+Terse like caveman. Technical substance exact. Only fluff die.
+Drop: articles, filler (just/really/basically), pleasantries, hedging. Fragments OK.
+
+Off: `stop caveman` / `normal mode` — On: `/caveman`
+
+Auto-exceptions (use normal prose for): security warnings, irreversible actions,
+multi-step sequences where fragment ambiguity risks misread, user confused or repeating.
+
+---
 
 ## Project overview
 
@@ -83,6 +95,7 @@ Node 18+ (22.19.0 recommended) and npm 11+; Python 3.10+. Install once with `npm
 - **Python suites**: `PYTHONPATH=tools/py pytest` from the repo root. Single test: `PYTHONPATH=tools/py pytest tests/test_species_builder.py::test_case`.
 - **Docs generator Vitest**: `npm run test:docs-generator` (uses `vitest.config.docs-generator.ts`).
 - **Rules engine tests**: `PYTHONPATH=services/rules pytest tests/test_rules_engine.py`. Demo CLI: `PYTHONPATH=services/rules python3 services/rules/demo_cli.py`.
+- **AI/session tests (sprint 006–019)**: `node --test tests/ai/*.test.js` — 45 test, ~120ms.
 
 ### Build, lint, format
 
@@ -114,7 +127,8 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 ## Architecture notes worth reading multiple files for
 
 - **Generation pipeline (Flow)**. HTTP request → `apps/backend/routes/*` → `services/generation/*` (Node) → Python bridge (`services/generation/orchestrator.py`) via a worker pool sized by `config/orchestrator.json`. Inputs are normalized (slug, trait_ids, seed, biome_id); when trait validation fails, a hardcoded fallback set (`artigli_sette_vie`, `coda_frusta_cinetica`, `scheletro_idro_regolante`) is applied and logged as structured JSON (`component = generation-orchestrator`). Responses always combine `blueprint` + `validation` + `meta` — don't change that shape without also updating `packages/contracts` and the dashboard renderers.
-- **Combat pipeline (Rules Engine)**. Il rules engine d20 in `services/rules/` risolve azioni tattiche (attacco d20 vs DC, Margin of Success, damage step, parata reattiva, status fisici/mentali). `hydration.py` carica i valori meccanici da `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`; `resolver.py` esegue la risoluzione; `worker.py` espone il bridge per il backend. Lo schema payload e in `packages/contracts/schemas/combat.schema.json`. Vedi `docs/hubs/combat.md` per il canonical hub e `docs/adr/ADR-2026-04-13-rules-engine-d20.md` per le decisioni architetturali.
+- **Combat pipeline (Rules Engine)**. Il rules engine d20 in `services/rules/` risolve azioni tattiche (attacco d20 vs DC, Margin of Success, damage step, parata reattiva, status fisici/mentali). `hydration.py` carica i valori meccanici da `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`; `resolver.py` esegue la risoluzione; `worker.py` espone il bridge per il backend. Lo schema payload è in `packages/contracts/schemas/combat.schema.json`. Vedi `docs/hubs/combat.md` per il canonical hub e `docs/adr/ADR-2026-04-13-rules-engine-d20.md` per le decisioni architetturali.
+- **Session engine (sprint 006–019)**. `apps/backend/routes/session.js` — state engine completo: attacco d20 + MoS + PT, movimento, status system (panic/rage/stunned/focused/confused/bleeding/fracture), trait effects 2-pass (`services/traitEffects.js`, 7 trait vivi in `data/core/traits/active_effects.yaml`), VC scoring (`services/vcScoring.js` — 20+ raw metrics, 6 aggregate, 4 MBTI, 6 Ennea), AI engine (`services/ai/policy.js` + `sistemaTurnRunner.js`). Schema raw event: `{ action_type, turn, actor_id, target_id, damage_dealt, result, position_from, position_to }` — non rompere questo formato, è usato da vcScoring.
 - **Contracts are the seam**. `packages/contracts` holds AJV schemas + TS types loaded by the backend (schema registry validates both live and mock responses), by `scripts/mock/generate-demo-data.js`, and by the dashboard registry in `apps/dashboard/src/config/dataSources.ts`. A schema change ripples to backend tests, mock snapshots, and dashboard consumers — budget for all three.
 - **Mock parity**. `/api/mock/*` endpoints serve the JSON that `npm run mock:generate` writes to `apps/dashboard/public/data/flow/snapshots/` and `.../nebula/`. The dashboard's fallback path reads the same files — mocks are not just test fixtures, they back the "offline" UX.
 - **Dashboard deploy path**. `VITE_BASE_PATH` (default `./`) controls asset paths; `VITE_API_BASE_URL`/`VITE_API_BASE` + individual `VITE_*_URL` select live vs. mock; `VITE_API_USER` propagates as `X-User` header for audit. Empty values fall back to the next source in the registry automatically.
@@ -143,3 +157,48 @@ The repo ships a dedicated agent orchestration system (Codex-oriented) that's di
 ## Platform notes
 
 Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) — use Unix paths and `/dev/null`, not `NUL`. Line endings are managed by `.gitattributes`/Prettier; don't fight them.
+
+---
+
+## 🎮 Sprint context (aggiornato: 2026-04-16)
+
+> Sezione aggiunta post-sprint 019. Aggiorna a ogni sessione significativa.
+
+**Visione**: "Tattica profonda a turni, cooperativa contro il Sistema, condivisa su TV: come giochi modella ciò che diventi."
+
+**Sprint completati**: 001–019 · **PR mergiati sessione 16/04**: 15 (#1354→#1368) · **Test AI**: 45/45 pass · **Ultimo commit**: `2f5673c5`
+
+### Pilastri di design — stato attuale
+
+| #   | Pilastro                     | Stato |
+| --- | ---------------------------- | :---: |
+| 1   | Tattica leggibile (FFT)      |  🟢   |
+| 2   | Evoluzione emergente (Spore) |  🟢   |
+| 3   | Identità Specie × Job        |  🟢   |
+| 4   | Temperamenti MBTI/Ennea      |  🟡   |
+| 5   | Co-op vs Sistema             |  🟢   |
+| 6   | Fairness                     |  🟡   |
+
+### Guardrail sprint (non negoziabili)
+
+**Non toccare senza segnalare:**
+
+- `.github/workflows/` — CI
+- `migrations/` — schema DB
+- `packages/contracts/` — schema condivisi (ripple su backend + mock + dashboard)
+- `services/generation/` — generatore specie, pipeline separata dal session engine
+
+**Regola 50 righe**: task >50 righe nuove fuori da `apps/backend/` → ferma, segnala, aspetta conferma.
+
+**Trait**: solo in `data/core/traits/active_effects.yaml`. Mai hardcoded nel resolver.
+
+**Nuove dipendenze npm/pip**: approvazione esplicita richiesta.
+
+### Definition of Done (ogni sprint)
+
+1. `node --test tests/ai/*.test.js` → verde
+2. `npm run format:check` → verde
+3. `git status` → working tree pulito
+4. Nessun nuovo file in cartelle vietate
+5. Se toccato `vcScoring.js` o `policy.js` → aggiorna `docs/architecture/ai-policy-engine.md`
+6. Se toccato `services/rules/` → aggiorna `docs/hubs/combat.md`
