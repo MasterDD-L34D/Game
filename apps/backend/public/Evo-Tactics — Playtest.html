@@ -204,9 +204,12 @@
     50% { transform: scale(1.18); }
   }
   /* Glow intorno al token quando c'e' uno stato attivo */
-  .cell.has-status-panic   { box-shadow: inset 0 0 12px rgba(255, 204,  79, .35); }
-  .cell.has-status-rage    { box-shadow: inset 0 0 12px rgba(226,  75,  74, .50); }
-  .cell.has-status-stunned { box-shadow: inset 0 0 12px rgba(192, 132, 252, .40); }
+  .cell.has-status-panic    { box-shadow: inset 0 0 12px rgba(255, 204,  79, .35); }
+  .cell.has-status-rage     { box-shadow: inset 0 0 12px rgba(226,  75,  74, .50); }
+  .cell.has-status-stunned  { box-shadow: inset 0 0 12px rgba(192, 132, 252, .40); }
+  /* SPRINT_019: status fisici */
+  .cell.has-status-bleeding { box-shadow: inset 0 0 12px rgba(220,  38,  38, .55); }
+  .cell.has-status-fracture { box-shadow: inset 0 0 12px rgba(250, 204,  21, .40); }
 
   /* Riga stati attivi nel pannello unit-card */
   .status-row {
@@ -225,9 +228,12 @@
     border: 1px solid var(--border);
     background: rgba(0,0,0,.2);
   }
-  .status-chip.panic   { border-color: #ffcc4f; color: #ffcc4f; }
-  .status-chip.rage    { border-color: var(--p2); color: var(--p2-light); }
-  .status-chip.stunned { border-color: #c084fc; color: #c084fc; }
+  .status-chip.panic    { border-color: #ffcc4f; color: #ffcc4f; }
+  .status-chip.rage     { border-color: var(--p2); color: var(--p2-light); }
+  .status-chip.stunned  { border-color: #c084fc; color: #c084fc; }
+  /* SPRINT_019: chip status fisici */
+  .status-chip.bleeding { border-color: #dc2626; color: #f87171; }
+  .status-chip.fracture { border-color: #facc15; color: #fde047; }
   .status-chip-dur { opacity: .75; font-weight: 700; }
 
   /* SPRINT_017: scenario picker grid di bottoni */
@@ -453,6 +459,7 @@
         <button class="btn scenario-btn"        data-scenario="mirror_ranger"  onclick="startSession('mirror_ranger')">Mirror Ranger</button>
         <button class="btn scenario-btn"        data-scenario="berserker"     onclick="startSession('berserker')">Berserker</button>
         <button class="btn scenario-btn"        data-scenario="shock_troops"  onclick="startSession('shock_troops')">Shock Troops</button>
+        <button class="btn scenario-btn"        data-scenario="bloody_mess"   onclick="startSession('bloody_mess')">Bloody Mess</button>
       </div>
     </div>
 
@@ -540,6 +547,15 @@ const SCENARIOS = {
       { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera','stordimento'], controlled_by:'sistema', position:{x:5,y:5} },
     ],
   },
+  // SPRINT_019: scenario per testare gli status fisici
+  bloody_mess: {
+    label: 'Bloody Mess',
+    desc: 'Tu velox + denti seghettati (bleeding), SIS carapax + martello osseo (frattura)',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla','denti_seghettati'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera','martello_osseo'], controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
 };
 
 let currentScenarioId = 'classic';
@@ -597,9 +613,18 @@ function render() {
   }
 }
 
-// SPRINT_014: stato → emoji. Priorita' visiva: stunned > rage > panic.
-const STATUS_EMOJI = { stunned: '💫', rage: '😡', panic: '😱' };
-const STATUS_PRIORITY = ['stunned', 'rage', 'panic'];
+// SPRINT_014 + SPRINT_019: stato → emoji. Priorita' visiva:
+// stunned > rage > bleeding > fracture > panic.
+// stati fisici (bleeding/fracture) dominano su panic perche' sono piu'
+// pericolosi meccanicamente (DoT + movement penalty).
+const STATUS_EMOJI = {
+  stunned: '💫',
+  rage: '😡',
+  bleeding: '🩸',
+  fracture: '🦴',
+  panic: '😱',
+};
+const STATUS_PRIORITY = ['stunned', 'rage', 'bleeding', 'fracture', 'panic'];
 
 function activeStatuses(unit) {
   if (!unit || !unit.status) return [];
@@ -750,11 +775,13 @@ function snapshotStatuses(s) {
   return out;
 }
 const STATUS_LABEL = {
-  panic:   'panico',
-  rage:    'rabbia',
-  stunned: 'stordimento',
-  focused: 'concentrazione',
-  confused:'confusione',
+  panic:    'panico',
+  rage:     'rabbia',
+  stunned:  'stordimento',
+  focused:  'concentrazione',
+  confused: 'confusione',
+  bleeding: 'sanguinamento',
+  fracture: 'frattura',
 };
 function logStatusDiff(pre, post) {
   for (const [unitId, cur] of Object.entries(post)) {
@@ -796,6 +823,14 @@ async function endTurn() {
   try {
     const res = await api('/api/session/turn/end', {});
     state = res.state ?? state;
+    // SPRINT_019: side_effects (bleeding damage) loggati PRIMA delle
+    // azioni IA perche' avvengono a inizio /turn/end nel backend.
+    const sideEffects = res.side_effects || [];
+    for (const se of sideEffects) {
+      const who = se.unit_id === 'unit_1' ? 'P1' : 'SIS';
+      const kill = se.killed ? ' → KO' : '';
+      addLog('miss', `🩸 ${who} sanguina (−${se.damage} HP, hp ${se.hp_after})${kill}`);
+    }
     const iaList = res.ia_actions ?? (res.ia_action ? [res.ia_action] : []);
     for (const ia of iaList) logIaAction(ia);
     logStatusDiff(preStatus, snapshotStatuses(state));

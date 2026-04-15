@@ -65,7 +65,10 @@ function createSistemaTurnRunner(deps) {
     const actor = session.units.find((u) => u.id === session.active_unit);
     if (!actor) return [];
     if ((actor.ap_remaining ?? 0) <= 0) {
-      actor.ap_remaining = actor.ap;
+      // SPRINT_019: safety-net reset con check fracture (movement penalty).
+      // Se l'actor ha fracture > 0, limita a 1 AP per il turno.
+      const fractureActive = Number(actor.status?.fracture) > 0;
+      actor.ap_remaining = fractureActive ? Math.min(1, actor.ap) : actor.ap;
     }
 
     const actions = [];
