@@ -11,6 +11,14 @@ review_cycle_days: 14
 
 # Checklist Milestone
 
+> **Nota — documento storico**. Questa checklist mantiene lo storico operativo del ciclo VC 2025. La **roadmap finale** ufficiale e i **gate formali di avanzamento** del design finale di Evo Tactics vivono ora nel bundle Final Design v0.9:
+>
+> - [`docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md`](../planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md) — fasi, milestone M0..M6, owner matrix.
+> - [`docs/planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md`](../planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md) — gate formali G0..G7 con entry/exit criteria.
+> - [`docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md`](../planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md) — task esecutivi organizzati per epic (FD-IDs).
+>
+> Usare questo file per **tracciamento storico**, non come roadmap operativa corrente.
+
 ## Setup iniziale
 
 - [x] Caricati dataset YAML di base (biomi, pacchetti PI, mating, telemetria).【F:data/core/biomes.yaml†L1-L17】【F:data/packs.yaml†L1-L88】【F:data/core/mating.yaml†L1-L32】【F:data/core/telemetry.yaml†L1-L29】

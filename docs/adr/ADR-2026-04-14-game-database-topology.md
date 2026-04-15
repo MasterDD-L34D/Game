@@ -488,3 +488,9 @@ Oggi nessuno sta attivamente tracciando i segnali sopra. Se vogliamo essere disc
 - File locali catalog Game: `data/core/traits/glossary.json`, `data/core/traits/biome_pools.json`, `docs/catalog/catalog_data.json`
 - PR #1317 (rimozione MongoDB da Game)
 - ADR complementare sul dashboard: [`ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md`](ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md)
+
+## Runbook operativo
+
+Il piano operativo che traduce questo ADR in runbook (cadenza sync, dry-run, `sync:evo-pack`/`evo:import`, trigger per riaprire alternative avanzate) vive in [`docs/planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md`](../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md). Il piano consumer **non sovrascrive** questo ADR: in caso di conflitto, vince l'ADR per tutto cio' che riguarda il confine architetturale (vedi [`SOURCE_AUTHORITY_MAP §4.1`](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md)).
+
+Il [`Final Design Freeze v0.9 §5 Vincolo architetturale non negoziabile`](../core/90-FINAL-DESIGN-FREEZE.md) recepisce questo ADR come baseline di prodotto: qualunque proposta di introdurre dipendenze runtime `Game ← HTTP ← Game-Database` va trattata come ADR separato, non come patch di design.

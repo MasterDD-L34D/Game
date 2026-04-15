@@ -74,6 +74,12 @@ Report drift:
 
 - `reports/docs/governance_drift_report.json`
 
+## Gerarchia delle fonti per decisioni di design
+
+La governance (A0) regola **dove** vive un documento e quale stato ha, ma non decide il contenuto di design. Per le decisioni di prodotto e la risoluzione di conflitti tra fonti (ADR vs freeze vs core data vs file operativi), la fonte canonica e' [`docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md), che definisce la gerarchia A0..A5 e le regole pratiche §4.1..§4.5.
+
+Il contratto governance di questo README e' il livello **A0**; le altre decisioni (cosa e' canonico, cosa vince in caso di conflitto semantico) vivono all'authority map.
+
 ## Rollout
 
 1. Schema + registry + hub canonici.
