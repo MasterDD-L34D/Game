@@ -59,6 +59,13 @@ const DERIVABLE_RAW_KEYS = new Set([
   // evasion_ratio = attacchi seguiti (nello stesso turno) da una
   // move che aumenta la distanza dal bersaglio / attacchi totali.
   'evasion_ratio',
+  // SPRINT_011 (issue #5): metriche derivabili dagli eventi correnti.
+  // 1vX = frazione di attacchi condotti in situazione "1 vs 1" (ciascuna
+  //       fazione ha 1 sola unita' alive). Componente di `risk`.
+  // new_tiles = numero di celle uniche visitate dall'attore nel suo
+  //             percorso. Componente di `explore`.
+  '1vX',
+  'new_tiles',
 ]);
 
 function loadTelemetryConfig(yamlPath = DEFAULT_TELEMETRY_PATH, logger = console) {
@@ -121,6 +128,15 @@ function computeRawMetrics(events, units, gridSize = 6) {
       : 1;
   }
 
+  // SPRINT_011: lookup unit side/team per 1vX check. Al momento il gioco
+  // ha 2 unita' (unit_1=player, unit_2=sistema) e la fazione e' determinata
+  // dal campo `controlled_by`. Per generalizzare: due unita' sono "alleate"
+  // se hanno lo stesso controlled_by.
+  const unitTeamMap = {};
+  for (const unit of units) {
+    unitTeamMap[unit.id] = unit.controlled_by || 'unknown';
+  }
+
   const perActor = {};
   for (const unit of units) {
     perActor[unit.id] = {
@@ -149,12 +165,39 @@ function computeRawMetrics(events, units, gridSize = 6) {
       // move successivo: { target_pos_at_attack, actor_pos_at_attack, turn }
       pendingEvasionAttack: null,
       evasion_attacks: 0,
+      // SPRINT_011 (issue #5): metriche derivabili dagli eventi.
+      // oneVxOneAttacks: count di attacchi dove l'actor era l'unica
+      //   unita' viva del suo team E il target era l'unico nemico vivo.
+      //   Usato per la metrica 1vX (frazione) in risk.
+      // visitedTiles: set di chiavi "x,y" visitate dall'actor nel corso
+      //   della sessione, per new_tiles (count) in explore.
+      oneVxOneAttacks: 0,
+      visitedTiles: new Set(),
     };
   }
 
   let totalDamageInSession = 0;
   let firstKillActor = null;
   const lastActionType = {};
+
+  // SPRINT_011: replay HP state per 1vX. hpAtEvent[unit_id] = HP vivo
+  // al momento corrente. Iniziale = max_hp (o hp iniziale dell'unita').
+  // Decrementato su ogni attack hit contro quella unita'.
+  const hpAtEvent = {};
+  for (const unit of units) {
+    hpAtEvent[unit.id] = Number.isFinite(unit.max_hp) ? unit.max_hp : (unit.hp ?? 10);
+  }
+  // Helper: conta alive per team alla situazione attuale.
+  const countAliveByTeam = () => {
+    const count = {};
+    for (const unit of units) {
+      if ((hpAtEvent[unit.id] ?? 0) > 0) {
+        const team = unitTeamMap[unit.id];
+        count[team] = (count[team] || 0) + 1;
+      }
+    }
+    return count;
+  };
 
   for (const event of events) {
     if (!event) continue;
@@ -169,6 +212,24 @@ function computeRawMetrics(events, units, gridSize = 6) {
     if (event.action_type === 'attack') {
       bucket.attacks_started += 1;
       bucket.total_actions += 1;
+
+      // SPRINT_011 (issue #5): 1vX check PRIMA di applicare il danno
+      // dell'attacco corrente. Se al momento dell'attacco esisteva una
+      // sola unita' viva per team (inclusi actor e target), conta come
+      // attacco in duello 1v1. Semanticamente "sei rimasto l'unico contro
+      // l'unico, ogni colpo vale doppio psicologicamente".
+      const aliveByTeam = countAliveByTeam();
+      const actorTeam = unitTeamMap[bucketId];
+      const targetTeam = unitTeamMap[event.target_id];
+      if (
+        actorTeam &&
+        targetTeam &&
+        actorTeam !== targetTeam &&
+        aliveByTeam[actorTeam] === 1 &&
+        aliveByTeam[targetTeam] === 1
+      ) {
+        bucket.oneVxOneAttacks += 1;
+      }
 
       if (bucket.first_attack_turn === null && Number.isFinite(event.turn)) {
         bucket.first_attack_turn = event.turn;
@@ -198,6 +259,15 @@ function computeRawMetrics(events, units, gridSize = 6) {
         ) {
           bucket.low_hp_events += 1;
         }
+        // SPRINT_011: aggiorna hpAtEvent[target] col danno inflitto
+        // DOPO aver usato lo stato pre-attack per il check 1vX.
+        if (event.target_id && Number.isFinite(event.target_hp_after)) {
+          hpAtEvent[event.target_id] = event.target_hp_after;
+        } else if (event.target_id) {
+          // Fallback se target_hp_after non disponibile
+          const dmg = Number(event.damage_dealt) || 0;
+          hpAtEvent[event.target_id] = Math.max(0, (hpAtEvent[event.target_id] ?? 0) - dmg);
+        }
       } else {
         bucket.attack_misses += 1;
       }
@@ -222,6 +292,16 @@ function computeRawMetrics(events, units, gridSize = 6) {
     } else if (event.action_type === 'move') {
       bucket.moves += 1;
       bucket.total_actions += 1;
+      // SPRINT_011 (issue #5): tracking delle celle uniche visitate
+      // per new_tiles (esplorazione). Si contano sia la cella di partenza
+      // che quella di arrivo: cosi' la prima azione di un'unita' registra
+      // anche la sua posizione iniziale.
+      if (event.position_from) {
+        bucket.visitedTiles.add(`${event.position_from.x},${event.position_from.y}`);
+      }
+      if (event.position_to) {
+        bucket.visitedTiles.add(`${event.position_to.x},${event.position_to.y}`);
+      }
       // distanza prima del primo attack (proxy time_to_commit)
       if (bucket.first_attack_turn === null) {
         const d = manhattan(event.position_from, event.position_to);
@@ -288,6 +368,14 @@ function computeRawMetrics(events, units, gridSize = 6) {
     // SPRINT_005 fase 2: evasion_ratio = attacchi seguiti da ritirata / attacchi totali.
     const evasionRatio = attacksStarted > 0 ? bucket.evasion_attacks / attacksStarted : 0;
 
+    // SPRINT_011 (issue #5): metriche nuove.
+    // 1vX: frazione degli attacchi condotti in situazione 1v1 isolata.
+    const oneVxOneRatio = attacksStarted > 0 ? bucket.oneVxOneAttacks / attacksStarted : 0;
+    // new_tiles: numero di celle uniche visitate, normalizzato su gridSize^2
+    // cosi' e' in [0, 1] (1 = ha visitato tutto il grid).
+    const newTilesRaw = bucket.visitedTiles.size;
+    const newTilesNorm = safeDivide(newTilesRaw, Math.max(1, gridSize * gridSize));
+
     finalRaw[unitId] = {
       attacks_started: attacksStarted,
       attack_hit_rate: attackHitRate,
@@ -309,6 +397,9 @@ function computeRawMetrics(events, units, gridSize = 6) {
       time_to_commit: timeToCommit,
       evasion_ratio: evasionRatio,
       evasion_attacks: bucket.evasion_attacks,
+      '1vX': oneVxOneRatio,
+      new_tiles: newTilesNorm,
+      new_tiles_count: newTilesRaw,
     };
   }
 
