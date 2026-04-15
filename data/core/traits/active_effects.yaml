@@ -51,3 +51,70 @@ traits:
       Pelle elastomerica che ammortizza l'impatto dei colpi in arrivo.
       Quando il target subisce un hit, il danno ricevuto viene ridotto
       di 1 (minimo 0).
+
+  # SPRINT_018: trait che applicano stati emotivi temporanei al target.
+  # Usano il nuovo effect.kind = 'apply_status' gestito da traitEffects.js
+  # + performAttack in session.js. Il campo `stato` specifica quale
+  # chiave di unit.status toccare, `turns` la durata in turni, `target`
+  # dove applicarlo ('target' o 'actor'). Interagiscono con il policy
+  # engine (services/ai/policy.js) gia' consapevole di status.
+
+  ferocia:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      # Trigger solo quando l'hit uccide il target (killing blow).
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 3
+      log_tag: ferocia_rage
+    description_it: |
+      Ferocia ancestrale: ogni uccisione fa entrare l'attaccante in
+      rabbia per 3 turni. In rage ignora l'autoconservazione (niente
+      retreat REGOLA_002) e infligge +1 damage ai colpi riusciti.
+
+  intimidatore:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      # Trigger solo sugli attacchi ravvicinati (Manhattan == 1).
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 2
+      log_tag: intimidatore_panic
+    description_it: |
+      Aura intimidatoria che terrorizza chi viene colpito da vicino.
+      Ogni hit adiacente riuscito applica 2 turni di panic sul target:
+      l'unita' scappera' (REGOLA_002 / STATO_PANIC) invece di
+      contrattaccare.
+
+  stordimento:
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      # Trigger solo sui colpi critici (mos >= 8).
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: stordimento_stun
+    description_it: |
+      Colpo traumatico: ogni critico (MoS >= 8) applica 1 turno di
+      stunned al bersaglio, che saltera' il turno successivo.

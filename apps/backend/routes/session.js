@@ -36,7 +36,11 @@ const fs = require('node:fs/promises');
 const crypto = require('node:crypto');
 const { Router } = require('express');
 
-const { loadActiveTraitRegistry, evaluateAttackTraits } = require('../services/traitEffects');
+const {
+  loadActiveTraitRegistry,
+  evaluateAttackTraits,
+  evaluateStatusTraits,
+} = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
@@ -342,6 +346,35 @@ function createSessionRouter(options = {}) {
         panicTriggered = true;
       }
     }
+
+    // SPRINT_018: valuta i trait di tipo apply_status (ferocia, intimidatore,
+    // stordimento) DOPO l'applicazione del danno, cosi' i trigger possono
+    // dipendere da killOccurred. Il risultato muta actor.status /
+    // target.status (se vivi) e i trait_effects del log.
+    let statusApplies = [];
+    if (result.hit) {
+      const statusEval = evaluateStatusTraits({
+        registry: traitRegistry,
+        actor,
+        target,
+        attackResult: result,
+        killOccurred,
+      });
+      // Merge dei trait_effects di status nel risultato evaluation
+      if (Array.isArray(statusEval.trait_effects)) {
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat(
+          statusEval.trait_effects,
+        );
+      }
+      statusApplies = statusEval.status_applies || [];
+      for (const s of statusApplies) {
+        const unit = s.target_side === 'actor' ? actor : target;
+        if (!unit || unit.hp <= 0 || !unit.status) continue;
+        const current = Number(unit.status[s.stato]) || 0;
+        unit.status[s.stato] = Math.max(current, s.turns);
+      }
+    }
+
     return {
       result,
       evaluation,
@@ -350,6 +383,7 @@ function createSessionRouter(options = {}) {
       adjacencyBonus,
       rageBonus,
       panicTriggered,
+      status_applies: statusApplies,
     };
   }
 
