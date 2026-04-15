@@ -48,6 +48,23 @@ const DEFAULT_DC = 12;
 const DEFAULT_GUARDIA = 1;
 const DEFAULT_ATTACK_RANGE = 2;
 
+// SPRINT_006: stats per job (attack_range principalmente). I 6 job canonici
+// sono quelli di data/core/telemetry.yaml:telemetry.hud_breakdown.roles.
+// Strategie:
+//   - vanguard/harvester: melee puri (range 1) — devono essere adiacenti
+//   - skirmisher/warden/artificer: range medio (2) — versatili
+//   - ranger/invoker: long-range (3) — DPS da distanza
+// Se il job non e' in questa tabella (es. "unknown") si usa DEFAULT_ATTACK_RANGE.
+const JOB_STATS = {
+  vanguard: { attack_range: 1 },
+  skirmisher: { attack_range: 2 },
+  warden: { attack_range: 2 },
+  artificer: { attack_range: 2 },
+  harvester: { attack_range: 1 },
+  ranger: { attack_range: 3 },
+  invoker: { attack_range: 3 },
+};
+
 // SPRINT_003 fase 0: finestra temporale (in turni) entro cui un damage
 // hit conta come assist per un kill avvenuto nel turno corrente.
 const ASSIST_WINDOW_TURNS = 2;
@@ -76,10 +93,20 @@ function normaliseUnit(raw, fallbackIndex) {
         : { x: GRID_SIZE - 1, y: GRID_SIZE - 1 };
   const traits = Array.isArray(input.traits) ? input.traits.filter(Boolean).map(String) : [];
   const ap = Number.isFinite(Number(input.ap)) ? Number(input.ap) : DEFAULT_AP;
+  // SPRINT_006: attack_range cerca override esplicito prima, poi JOB_STATS,
+  // poi DEFAULT_ATTACK_RANGE. Cosi' i test che passano attack_range diretto
+  // continuano a funzionare; il default diventa "sensibile al job".
+  const job = input.job ? String(input.job) : 'unknown';
+  const jobStats = JOB_STATS[job] || {};
+  const attackRange = Number.isFinite(Number(input.attack_range))
+    ? Number(input.attack_range)
+    : Number.isFinite(Number(jobStats.attack_range))
+      ? Number(jobStats.attack_range)
+      : DEFAULT_ATTACK_RANGE;
   return {
     id,
     species: input.species ? String(input.species) : 'unknown',
-    job: input.job ? String(input.job) : 'unknown',
+    job,
     traits,
     hp: Number.isFinite(Number(input.hp)) ? Number(input.hp) : DEFAULT_HP,
     ap,
@@ -87,9 +114,7 @@ function normaliseUnit(raw, fallbackIndex) {
     mod: Number.isFinite(Number(input.mod)) ? Number(input.mod) : DEFAULT_MOD,
     dc: Number.isFinite(Number(input.dc)) ? Number(input.dc) : DEFAULT_DC,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
-    attack_range: Number.isFinite(Number(input.attack_range))
-      ? Number(input.attack_range)
-      : DEFAULT_ATTACK_RANGE,
+    attack_range: attackRange,
     position,
     controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
   };
