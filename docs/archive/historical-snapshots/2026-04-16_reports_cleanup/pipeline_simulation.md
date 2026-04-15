@@ -8,32 +8,34 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Pipeline 02A→Freeze→03A→Transizione→03B→Sblocco
 
 Questa sintesi documenta la sequenza richiesta per PIPELINE_SIMULATOR, la variante ottimizzata con PIPELINE_OPTIMIZER e il piano batch/gate di PIPELINE_EXECUTOR. Le indicazioni rispettano la modalità report-only dove previsto e mantengono i gate serializzati per le approvazioni Master DD.
 
 ## PIPELINE_SIMULATOR (strict-mode, step 1→6)
-1. **02A — validator report-only su `patch/03A-core-derived`**  
-   - Esegui schema-only, trait audit e style audit.  
-   - Registra log locale con ID `TKT-02A-VALIDATOR`, includendo whitelist temporanee (se servono) e archiviando output temporanei.  
-   - Dipendenze: branch disponibile.  
+
+1. **02A — validator report-only su `patch/03A-core-derived`**
+   - Esegui schema-only, trait audit e style audit.
+   - Registra log locale con ID `TKT-02A-VALIDATOR`, includendo whitelist temporanee (se servono) e archiviando output temporanei.
+   - Dipendenze: branch disponibile.
    - Rischio: medio (difformità schema).
 
-2. **Freeze 3→4 — apertura/riconferma**  
-   - Crea log del freeze con ID/owner/branch/file toccati/rischi/ticket/comandi.  
-   - Registra approvazione Master DD, esegui snapshot/backup e tracciali.  
-   - Dipendenze: report 02A a supporto.  
+2. **Freeze 3→4 — apertura/riconferma**
+   - Crea log del freeze con ID/owner/branch/file toccati/rischi/ticket/comandi.
+   - Registra approvazione Master DD, esegui snapshot/backup e tracciali.
+   - Dipendenze: report 02A a supporto.
    - Rischio: medio-alto (blocco release).
 
-3. **03A — patch core/derived**  
-   - Applica patch minime, produci changelog e pacchetto di rollback legato allo snapshot.  
-   - Richiedi approvazione Master DD per il merge.  
-   - Dipendenze: freeze attivo, snapshot registrato, esito 02A.  
+3. **03A — patch core/derived**
+   - Applica patch minime, produci changelog e pacchetto di rollback legato allo snapshot.
+   - Richiedi approvazione Master DD per il merge.
+   - Dipendenze: freeze attivo, snapshot registrato, esito 02A.
    - Rischio: medio (alterazione dataset core/derived).
 
-4. **Transizione verso 03B**  
-   - Checkpoint con backup/redirect pronti, piano di switch documentato.  
-   - Conferma superamento gate di uscita 03A e approvazione Master DD.  
+4. **Transizione verso 03B**
+   - Checkpoint con backup/redirect pronti, piano di switch documentato.
+   - Conferma superamento gate di uscita 03A e approvazione Master DD.
    - Rischio: basso-medio.
 
 5. **03B — cleanup + redirect**
@@ -42,26 +44,28 @@ Questa sintesi documenta la sequenza richiesta per PIPELINE_SIMULATOR, la varian
    - Dipendenze: transizione ok, backup/redirect preparati.
    - Rischio: medio (disallineamento redirect).
 
-6. **Sblocco freeze**  
-   - Log di chiusura con riferimenti ad approvazione Master DD e smoke 02A positivo.  
-   - Aggiorna README solo dopo il log, quindi trigger di riavvio ciclo.  
-   - Dipendenze: smoke 02A ok e approvazione finale.  
+6. **Sblocco freeze**
+   - Log di chiusura con riferimenti ad approvazione Master DD e smoke 02A positivo.
+   - Aggiorna README solo dopo il log, quindi trigger di riavvio ciclo.
+   - Dipendenze: smoke 02A ok e approvazione finale.
    - Rischio: basso.
 
 **Output attesi**: report 02A (+ whitelist), log freeze + backup/snapshot, patch 03A con changelog/rollback, checkpoint transizione, report cleanup/redirect + smoke 02A, log sblocco freeze.
 
 ## PIPELINE_OPTIMIZER (preparazioni in parallelo)
+
 - **Step 1: 02A report-only** su `patch/03A-core-derived` come baseline qualità.
 - **Step 2 in parallelo con 02A**: raccogli approvazioni Master DD in bozza; predisponi snapshot/backup core/derived in staging (non attivati); prepara redirect plan.
 - **Step 3: Freeze 3→4** con attivazione backup e log ufficiale.
-- **Step 4: 03A patch** con changelog/rollback legati allo snapshot; richiedi approvazione Master DD per il merge.  
-- **Step 5: Transizione verso 03B** (verifica pre-redirect, backup confermati).  
-- **Step 6: 03B cleanup/redirect** su `patch/03B-incoming-cleanup` + smoke 02A post-merge in report-only.  
+- **Step 4: 03A patch** con changelog/rollback legati allo snapshot; richiedi approvazione Master DD per il merge.
+- **Step 5: Transizione verso 03B** (verifica pre-redirect, backup confermati).
+- **Step 6: 03B cleanup/redirect** su `patch/03B-incoming-cleanup` + smoke 02A post-merge in report-only.
 - **Step 7: Sblocco freeze** dopo smoke 02A ok e approvazione finale Master DD.
 
 **Parallelo consentito**: solo preparazioni (approvazioni draft, backup in staging, redirect plan). Tutti i gate restano serializzati. Non attivare backup prima del freeze ufficiale; il validator 02A resta report-only finché non arriva il via libera; collega patch 03A allo snapshot e cleanup 03B al backup incoming/redirect.
 
 ### Runbook operativo (variante ottimizzata)
+
 Esegui i punti nell'ordine indicato, usando in parallelo solo le preparazioni del punto 2. Ogni step richiede log con ID/owner/branch/file/rischi/ticket/comandi e, dove indicato, approvazione Master DD.
 
 1. **Kickoff 02A (baseline qualità)** – Avvia 02A in report-only su `patch/03A-core-derived`; salva output temporanei, whitelist e log `TKT-02A-VALIDATOR`.
@@ -73,6 +77,7 @@ Esegui i punti nell'ordine indicato, usando in parallelo solo le preparazioni de
 7. **Sblocco e riavvio** – Sblocca il freeze dopo smoke 02A positivo e approvazione finale Master DD; aggiorna README solo dopo il log; attiva il trigger di riavvio (vedi sezione dedicata) e riallinea snapshot/backup per il ciclo successivo.
 
 ## PIPELINE_EXECUTOR (batch & gate)
+
 - **Batch 1–2**: rerun 02A (schema-only/trait/style) in report-only su `patch/03A-core-derived`; salva output temporanei, log ID `TKT-02A-VALIDATOR`, documenta whitelist. Apri o riconferma il freeze 3→4 con approvazione Master DD e snapshot/backup registrati (log completo di ID/owner/branch/file/rischi/ticket/comandi).
 - **Batch 3**: applica patch minime 03A sullo stesso branch; genera changelog e pacchetto rollback legati allo snapshot; riesegui 02A in report-only; invia richiesta di approvazione Master DD per il merge.
 - **Batch 4–5**: checkpoint transizione verso 03B (backup/redirect pronti, gate 03A confermati); esegui cleanup su `patch/03B-incoming-cleanup`, verifica redirect e backup incoming, quindi smoke 02A post-merge in report-only con log esito.
@@ -81,17 +86,19 @@ Esegui i punti nell'ordine indicato, usando in parallelo solo le preparazioni de
 **Quality/Safety**: log obbligatorio prima/dopo ogni micro-step; validator sempre in report-only finché non arriva il via libera; documentare whitelist temporanee 02A; associare patch 03A a snapshot core/derived e 03B a backup incoming/redirect; evitare compressione dei controlli; includere nel log il report di redirect 03B e il log di chiusura freeze con approvazione Master DD.
 
 ## Sequenza operativa pronta all’uso (come procedere)
+
 Usa questa checklist per eseguire subito i passi consigliati. Tutti i punti prevedono log con ID/owner/branch/file/rischi/ticket/comandi.
 
-1) **Rerun 02A in report-only** su `patch/03A-core-derived` (schema-only, trait audit, style). Salva output temporanei, annota whitelist e collega il log a `TKT-02A-VALIDATOR`.
-2) **Apri o riconferma il freeze 3→4**: registra approvazione Master DD, attiva snapshot/backup e archivia il log di freeze.
-3) **Applica le patch 03A minime** con changelog + rollback legati allo snapshot; riesegui 02A in report-only; invia richiesta di approvazione Master DD per il merge.
-4) **Esegui il checkpoint di transizione**: verifica che backup/redirect siano pronti, conferma il superamento dei gate di uscita 03A e documenta il piano di switch.
-5) **Completa 03B** su `patch/03B-incoming-cleanup`: usa la checklist (backup incoming aggiornato, redirect/link verificati, istruzioni di ripristino) e chiudi con smoke 02A post-merge in report-only, allegando il report di redirect e log dell’esito.
-6) **Sblocca il freeze** solo dopo smoke 02A positivo e approvazione Master DD registrata; aggiorna README dopo il log e attiva il trigger di riavvio.
-7) **Riavvia la simulazione** sull’intera sequenza (02A→freeze→03A→transizione→03B→sblocco) aggiornando branch/artefatti se le baseline sono cambiate. Allinea la whitelist 02A, ricollega patch 03A allo snapshot aggiornato e 03B al backup/redirect rivisti.
+1. **Rerun 02A in report-only** su `patch/03A-core-derived` (schema-only, trait audit, style). Salva output temporanei, annota whitelist e collega il log a `TKT-02A-VALIDATOR`.
+2. **Apri o riconferma il freeze 3→4**: registra approvazione Master DD, attiva snapshot/backup e archivia il log di freeze.
+3. **Applica le patch 03A minime** con changelog + rollback legati allo snapshot; riesegui 02A in report-only; invia richiesta di approvazione Master DD per il merge.
+4. **Esegui il checkpoint di transizione**: verifica che backup/redirect siano pronti, conferma il superamento dei gate di uscita 03A e documenta il piano di switch.
+5. **Completa 03B** su `patch/03B-incoming-cleanup`: usa la checklist (backup incoming aggiornato, redirect/link verificati, istruzioni di ripristino) e chiudi con smoke 02A post-merge in report-only, allegando il report di redirect e log dell’esito.
+6. **Sblocca il freeze** solo dopo smoke 02A positivo e approvazione Master DD registrata; aggiorna README dopo il log e attiva il trigger di riavvio.
+7. **Riavvia la simulazione** sull’intera sequenza (02A→freeze→03A→transizione→03B→sblocco) aggiornando branch/artefatti se le baseline sono cambiate. Allinea la whitelist 02A, ricollega patch 03A allo snapshot aggiornato e 03B al backup/redirect rivisti.
 
 ## Action plan ottimizzato (parallelo vs seriale)
+
 Usa questa griglia per distinguere cosa può correre in parallelo e cosa resta serializzato. Ogni blocco richiede log obbligatori.
 
 - **Parallelo ammesso (solo preparazioni)**
@@ -107,19 +114,22 @@ Usa questa griglia per distinguere cosa può correre in parallelo e cosa resta s
   - Sblocco freeze: chiusura log, approvazione finale Master DD, trigger riavvio.
 
 ## Tabella gate rapida
-| Step | Owner | Modalità | Input chiave | Output richiesto |
-| --- | --- | --- | --- | --- |
-| 02A | Dev-tooling | Report-only | Branch `patch/03A-core-derived`, whitelist temporanee (se servono) | Log `TKT-02A-VALIDATOR`, report schema/trait/style, output temporanei salvati |
-| Freeze 3→4 | Coordinator | Gate | Report 02A, approvazione Master DD | Log freeze con ID/owner/branch/file/rischi/ticket/comandi, backup/snapshot attivati e tracciati |
-| 03A patch | Coordinator + Dev-tooling | Gate | Freeze attivo, snapshot registrato | Patch minime + changelog + pacchetto rollback, rerun 02A, richiesta approvazione Master DD merge |
-| Transizione | Coordinator | Gate | Approvazione Master DD su 03A | Checkpoint con backup/redirect pronti, piano di switch confermato |
-| 03B cleanup | Coordinator + Dev-tooling | Gate | Backup/redirect pronti, branch `patch/03B-incoming-cleanup` | Cleanup+redirect verificati, backup incoming aggiornato, smoke 02A post-merge (report-only) loggato |
-| Sblocco | Coordinator | Gate | Smoke 02A ok, approvazione Master DD finale | Log chiusura freeze, README aggiornato dopo il log, trigger riavvio ciclo |
+
+| Step        | Owner                     | Modalità    | Input chiave                                                       | Output richiesto                                                                                    |
+| ----------- | ------------------------- | ----------- | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| 02A         | Dev-tooling               | Report-only | Branch `patch/03A-core-derived`, whitelist temporanee (se servono) | Log `TKT-02A-VALIDATOR`, report schema/trait/style, output temporanei salvati                       |
+| Freeze 3→4  | Coordinator               | Gate        | Report 02A, approvazione Master DD                                 | Log freeze con ID/owner/branch/file/rischi/ticket/comandi, backup/snapshot attivati e tracciati     |
+| 03A patch   | Coordinator + Dev-tooling | Gate        | Freeze attivo, snapshot registrato                                 | Patch minime + changelog + pacchetto rollback, rerun 02A, richiesta approvazione Master DD merge    |
+| Transizione | Coordinator               | Gate        | Approvazione Master DD su 03A                                      | Checkpoint con backup/redirect pronti, piano di switch confermato                                   |
+| 03B cleanup | Coordinator + Dev-tooling | Gate        | Backup/redirect pronti, branch `patch/03B-incoming-cleanup`        | Cleanup+redirect verificati, backup incoming aggiornato, smoke 02A post-merge (report-only) loggato |
+| Sblocco     | Coordinator               | Gate        | Smoke 02A ok, approvazione Master DD finale                        | Log chiusura freeze, README aggiornato dopo il log, trigger riavvio ciclo                           |
 
 ## Riavvio simulazione post-sblocco
+
 Dopo lo sblocco e la registrazione dell’approvazione finale, riavvia PIPELINE_SIMULATOR sulla sequenza 02A→freeze→03A→transizione→03B→sblocco. Aggiorna branch e artefatti di backup se le baseline sono cambiate per mantenere la copertura del nuovo ciclo.
 
 ## Prossimo passo (ottimizzato) – esecuzione immediata
+
 Usa questa mini-checklist per avviare subito il ciclo ottimizzato senza perdere i parallelismi consentiti:
 
 1. **Kickoff 02A** – Lancia 02A in report-only su `patch/03A-core-derived`, salva output temporanei e whitelist, collega il log a `TKT-02A-VALIDATOR`.
@@ -130,6 +140,7 @@ Usa questa mini-checklist per avviare subito il ciclo ottimizzato senza perdere 
 6. **Sblocco + trigger** – Sblocca il freeze solo con smoke 02A positivo e approvazione finale; aggiorna README dopo il log e riavvia la sequenza con i nuovi snapshot/backup.
 
 ### Template di log consigliato (per ogni step)
+
 - **ID step / owner / branch**
 - **Comandi eseguiti** (con riferimenti a script o job)
 - **Rischi e mitigazioni**
@@ -140,10 +151,12 @@ Usa questa mini-checklist per avviare subito il ciclo ottimizzato senza perdere 
 - **Report allegati**: report redirect 03B (esito link/redirect e istruzioni di ripristino) e log di chiusura freeze con approvazione Master DD.
 
 ## Owners raccomandati e formato report archiviati in `logs/`
+
 - **Owners**: archivist (responsabile primaria) per checklist, log e report; asset-prep come co-owner per la verifica di redirect/link.
 - **Formato report**: archivia in `logs/` file Markdown nominati `LOG_ID-YYYYMMDD-03B-redirect.md` con sezioni `Contesto`, `Checklist 03B` (backup incoming, redirect/link, istruzioni ripristino), `Smoke 02A` (esito e log collegati), `Approvazioni` (inclusa chiusura freeze con Master DD) e `Follow-up`.
 
 ## Stato rispetto al piano iniziale
+
 Questa sezione riassume dove siamo e il prossimo passo da eseguire, in coerenza con le ottimizzazioni concordate:
 
 - **Documentazione**: pipeline simulatore/ottimizzatore/executor, checklist operativa e template di log già definiti in questo file.
@@ -151,6 +164,7 @@ Questa sezione riassume dove siamo e il prossimo passo da eseguire, in coerenza 
 - **Prossima azione operativa**: avviare il kickoff **02A in report-only** su `patch/03A-core-derived`, raccogliendo log `TKT-02A-VALIDATOR` e mantenendo in parallelo le preparazioni (approvazioni draft, snapshot/backup in staging, redirect plan) prima di procedere al freeze ufficiale.
 
 ## Pre-flight (prima del kickoff 02A)
+
 Esegui questa checklist prima di avviare il ciclo ottimizzato:
 
 1. **Branch e ticket** – Verifica che `patch/03A-core-derived` e `patch/03B-incoming-cleanup` siano aggiornati; conferma il riferimento a `TKT-02A-VALIDATOR` nel log di run.
@@ -161,6 +175,7 @@ Esegui questa checklist prima di avviare il ciclo ottimizzato:
 6. **Log book** – Prepara il template di log per ogni step con campo whitelist 02A e sezione follow-up (per il trigger di riavvio post-sblocco).
 
 ## Pacchetto di audit e riavvio post-sblocco
+
 Per chiudere il ciclo e riavviare la simulazione:
 
 1. **Audit bundle** – Archivia in un pacchetto unico: log freeze/sblocco, report 02A (run iniziale e post-merge), changelog+rollback 03A legati allo snapshot, backup/redirect instructions 03B, esito smoke 02A post-merge.
@@ -168,6 +183,7 @@ Per chiudere il ciclo e riavviare la simulazione:
 3. **Trigger riavvio** – Riavvia PIPELINE_SIMULATOR sulla sequenza 02A→freeze→03A→transizione→03B→sblocco usando le baseline rinnovate; azzera o rinnova la whitelist 02A se cambiata.
 
 ## Stato esecuzione corrente (post-report)
+
 Usa questo tracker per verificare cosa è stato completato e cosa resta da fare dopo l'ultimo ciclo dichiarato:
 
 - ✅ Kickoff 02A in report-only su `patch/03A-core-derived` con log `TKT-02A-VALIDATOR` e whitelist salvate.
@@ -179,11 +195,13 @@ Usa questo tracker per verificare cosa è stato completato e cosa resta da fare 
 - ✅ Pacchetto di audit compilato con log freeze/sblocco, report 02A, changelog+rollback 03A, istruzioni backup/redirect 03B e esito smoke 02A.
 
 ### Prossimi passi raccomandati
+
 1. **Riallinea le baseline** – Se gli artefatti (snapshot/backup/redirect) sono cambiati dopo l'ultimo giro, aggiorna gli ID nelle checklist e rinnova la whitelist 02A per il prossimo ciclo.
 2. **Rilancia il simulatore** – Esegui nuovamente la sequenza 02A→freeze→03A→transizione→03B→sblocco usando le baseline aggiornate per verificare che i log e le approvazioni siano coerenti con il nuovo stato.
 3. **Verifica QA post-riavvio** – Controlla che i log di riavvio includano ID/timestamp coerenti e che il pacchetto di audit sia archiviato con i nuovi riferimenti prima di chiudere il ciclo.
 
 ## Sequenza di riavvio pronta all'uso (kickoff immediato)
+
 Usa questa checklist per **avviare ora** il nuovo ciclo dopo il pacchetto di audit:
 
 1. **Allinea artefatti** – Aggiorna ID di snapshot/backup/redirect nel log book e nella whitelist 02A; conferma che i branch `patch/03A-core-derived` e `patch/03B-incoming-cleanup` puntino alle baseline corrette.
@@ -196,6 +214,7 @@ Usa questa checklist per **avviare ora** il nuovo ciclo dopo il pacchetto di aud
 8. **Audit rapido** – Aggiorna il pacchetto di audit con log/artefatti del nuovo giro e archivialo prima di passare al ciclo successivo.
 
 ## Script pronto all'uso (bash)
+
 Per avviare subito il ciclo, usa il wrapper di radice `./run_pipeline_cycle.sh` (richiama automaticamente `scripts/run_pipeline_cycle.sh`). Mantiene i validator in **report-only**, registra whitelist e approvazioni e crea il bundle di audit finale.
 
 Esempi d'uso:
@@ -219,6 +238,7 @@ BRANCH_03A=my/branch-03A BRANCH_03B=my/branch-03B LOG_DIR=custom_logs \
 ```
 
 Suggerimenti operativi:
+
 - `./scripts/run_pipeline_cycle.sh --help` mostra i parametri disponibili (branch, LOG_ID, LOG_DIR, patch 03A, `--cycles`) senza eseguire la pipeline.
 - Lo script richiede i binari `git`, `npm`, `node` e `tar`, si porta automaticamente nella radice del repo Git, registra il branch corrente per ripristinarlo a fine esecuzione e crea la directory `logs` (o quella indicata da `LOG_DIR`).
 - Se il branch richiesto per 03A/03B non esiste localmente, il runner torna sul branch corrente e logga il fallback nel file di stato, così puoi comunque eseguire la pipeline senza interromperla. Con `--prepare-only` puoi risolvere branch/log/configurazione e popolare il file di stato senza lanciare i gate della pipeline.

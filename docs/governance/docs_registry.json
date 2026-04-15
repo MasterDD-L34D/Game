@@ -6121,7 +6121,7 @@
       "track": "migrated"
     },
     {
-      "path": "reports/02A_validator_rerun.md",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/02A_validator_rerun.md",
       "title": "02A validator rerun (report-only)",
       "doc_status": "generated",
       "doc_owner": "platform-docs",
@@ -6134,7 +6134,7 @@
       "track": "migrated"
     },
     {
-      "path": "reports/memo_verifiche_2026-09-14.md",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/memo_verifiche_2026-09-14.md",
       "title": "Memo sintetico – Verifiche e rischi aperti (2026-09-14)",
       "doc_status": "generated",
       "doc_owner": "platform-docs",
@@ -6147,7 +6147,7 @@
       "track": "migrated"
     },
     {
-      "path": "reports/orchestrator_load_review.md",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/orchestrator_load_review.md",
       "title": "Revisione configurazione orchestrator",
       "doc_status": "generated",
       "doc_owner": "platform-docs",
@@ -6160,7 +6160,7 @@
       "track": "migrated"
     },
     {
-      "path": "reports/pipeline_simulation.md",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/pipeline_simulation.md",
       "title": "Pipeline 02A→Freeze→03A→Transizione→03B→Sblocco",
       "doc_status": "generated",
       "doc_owner": "platform-docs",
@@ -6186,7 +6186,7 @@
       "track": "migrated"
     },
     {
-      "path": "reports/readiness_01B01C_status.md",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/readiness_01B01C_status.md",
       "title": "Readiness 01B/01C – Checkpoint 2025-11-30T23:12Z",
       "doc_status": "generated",
       "doc_owner": "platform-docs",
