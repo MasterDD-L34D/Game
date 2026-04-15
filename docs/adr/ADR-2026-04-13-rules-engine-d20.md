@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile
 
 - **Data**: 2026-04-13
@@ -506,3 +507,7 @@ trigger_dc}`) e `on_hit_stress_delta` (number `[-1, 1]`). Entrambi
       aggiuntive, tick effects per rage/panic, saving throw con modifier)
       richiedono modifiche retrocompatibili allo schema `combat.schema.json`
       o alla shape del layer `trait_mechanics.yaml`.
+
+## Consumer di prodotto
+
+Questo ADR e' recepito come vincolo tecnico dal [`Final Design Freeze v0.9 §7.3 Resolver freeze`](../core/90-FINAL-DESIGN-FREEZE.md), che dichiara lo scope shipping delle API del resolver atomico come baseline di prodotto. Il freeze non sostituisce questo ADR: in caso di conflitto, **vince l'ADR** per tutto cio' che riguarda confini architetturali e contratti tecnici (vedi [`SOURCE_AUTHORITY_MAP §4.1`](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md)).

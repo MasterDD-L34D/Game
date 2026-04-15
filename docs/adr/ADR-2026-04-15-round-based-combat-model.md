@@ -166,3 +166,7 @@ Transizioni invalide sollevano `ValueError` con messaggio esplicito. Testato in 
 - ADR precedente: [`ADR-2026-04-13-rules-engine-d20.md`](ADR-2026-04-13-rules-engine-d20.md)
 - Hub combat: [`docs/hubs/combat.md`](../hubs/combat.md)
 - Schema contracts: `packages/contracts/schemas/combat.schema.json`
+
+## Consumer di prodotto
+
+Questo ADR e' recepito dal [`Final Design Freeze v0.9 §7.1 Nucleo canonico`](../core/90-FINAL-DESIGN-FREEZE.md) come parte del combat system finale: dichiara `initiative` come reaction speed passiva e il round loop shared-planning → commit → ordered-resolution sopra il resolver atomico. Il freeze non sostituisce questo ADR: in caso di conflitto, **vince l'ADR** per tutto cio' che riguarda confini architetturali e contratti tecnici (vedi [`SOURCE_AUTHORITY_MAP §4.1`](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md)).

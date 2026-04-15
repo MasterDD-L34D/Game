@@ -11,6 +11,14 @@ review_cycle_days: 14
 
 # Action Items — Sintesi operativa
 
+> **Nota — documento storico**. Questa sintesi mantiene lo storico operativo del ciclo VC 2025. Il **backlog esecutivo corrente** del design finale di Evo Tactics vive nel bundle Final Design v0.9:
+>
+> - [`docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md`](../planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md) — 88 task operativi organizzati per epic (A..K), con FD-IDs univoci e ranges contigui per epic.
+> - [`docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md`](../planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md) — milestone e fasi che guidano l'esecuzione dei task.
+> - [`docs/planning/EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md`](../planning/EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md) — guida operativa per agenti Codex su come ingaggiare i task del backlog.
+>
+> Usare questo file per **tracciamento storico**, non come fonte di action items corrente.
+
 ## Stato attuale
 
 - **2025-11-07** — Workflow `daily-pr-summary` senza merge; follow-up HUD overlay telemetrico → UI Systems (F. Conti), XP Cipher (PROG-04) → Progression Design (L. Serra), contrasto EVT-03 → VFX/Lighting (G. Leone). Documentazione allineata in changelog, roadmap, checklist e Canvas con riferimento al report playtest.
