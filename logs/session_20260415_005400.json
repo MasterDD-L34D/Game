@@ -1,0 +1,67 @@
+[
+  {
+    "ts": "2026-04-15T00:54:34.663Z",
+    "session_id": "ed93601d-a7ec-4c22-bcfd-e304ec4bcb00",
+    "actor_id": "unit_1",
+    "actor_species": "velox",
+    "actor_job": "skirmisher",
+    "action_type": "attack",
+    "target_id": "unit_2",
+    "turn": 1,
+    "ap_spent": 1,
+    "target_position_at_attack": {
+      "x": 5,
+      "y": 5
+    },
+    "die": 3,
+    "roll": 6,
+    "dc": 12,
+    "mos": -6,
+    "result": "miss",
+    "pt": 0,
+    "damage_dealt": 0,
+    "trait_effects": [
+      {
+        "trait": "zampe_a_molla",
+        "triggered": false,
+        "effect": "none"
+      },
+      {
+        "trait": "pelle_elastomera",
+        "triggered": false,
+        "effect": "none"
+      }
+    ],
+    "target_hp_before": 10,
+    "target_hp_after": 10,
+    "position_from": {
+      "x": 0,
+      "y": 0
+    },
+    "position_to": {
+      "x": 0,
+      "y": 0
+    },
+    "action_index": 0
+  },
+  {
+    "ts": "2026-04-15T00:54:38.601Z",
+    "session_id": "ed93601d-a7ec-4c22-bcfd-e304ec4bcb00",
+    "actor_id": "unit_1",
+    "actor_species": "velox",
+    "actor_job": "skirmisher",
+    "action_type": "move",
+    "turn": 1,
+    "ap_spent": 1,
+    "position_from": {
+      "x": 0,
+      "y": 0
+    },
+    "position_to": {
+      "x": 1,
+      "y": 1
+    },
+    "trait_effects": [],
+    "action_index": 1
+  }
+]

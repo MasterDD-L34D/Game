@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)file:///C:/Users/VGit/Downloads/game.html -->
+<html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evo-Tactics — Playtest</title>
+<style>
+  :root {
+    --bg:       #0f1117;
+    --surface:  #1a1d27;
+    --border:   #2a2d3a;
+    --text:     #d4d2c8;
+    --muted:    #6b6a62;
+    --p1:       #3b8bd4;   /* giocatore 1 — blu */
+    --p1-light: #b5d4f4;
+    --p2:       #e24b4a;   /* sistema — rosso */
+    --p2-light: #f7c1c1;
+    --hit:      #1d9e75;
+    --miss:     #ba7517;
+    --cell:     56px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  header h1 { font-size: 14px; font-weight: 600; letter-spacing: .08em; color: var(--p1-light); }
+
+  #turn-badge {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  #turn-badge.player { border-color: var(--p1); color: var(--p1-light); }
+  #turn-badge.sistema { border-color: var(--p2); color: var(--p2-light); }
+
+  main {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex: 1;
+  }
+
+  /* ── GRIGLIA ── */
+  #grid-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(6, var(--cell));
+    grid-template-rows:    repeat(6, var(--cell));
+    gap: 2px;
+  }
+
+  .cell {
+    width: var(--cell);
+    height: var(--cell);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: background .12s, border-color .12s;
+  }
+
+  .cell:hover { background: #222535; border-color: #3a3d50; }
+
+  .cell.reachable {
+    border-color: var(--p1);
+    background: rgba(59,139,212,.12);
+  }
+  .cell.reachable:hover { background: rgba(59,139,212,.22); }
+
+  .cell.targetable {
+    border-color: var(--p2);
+    background: rgba(226,75,74,.1);
+  }
+  .cell.targetable:hover { background: rgba(226,75,74,.2); }
+
+  /* token unità */
+  .token {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    line-height: 1.2;
+    border: 2px solid transparent;
+    transition: transform .1s;
+    pointer-events: none;
+  }
+
+  .token.p1 { background: var(--p1); color: #fff; border-color: var(--p1-light); }
+  .token.sistema { background: var(--p2); color: #fff; border-color: var(--p2-light); }
+  .token.selected { transform: scale(1.1); box-shadow: 0 0 0 3px #fff3; }
+  .token.dead { opacity: .25; filter: grayscale(1); }
+
+  .token-job { font-size: 8px; opacity: .8; }
+
+  /* ── PANNELLO LATERALE ── */
+  aside {
+    flex: 1;
+    min-width: 260px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+
+  .panel-title {
+    font-size: 10px;
+    letter-spacing: .1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* stat unità */
+  .unit-card { display: flex; flex-direction: column; gap: 6px; }
+
+  .unit-header {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600;
+  }
+
+  .unit-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .unit-dot.p1 { background: var(--p1); }
+  .unit-dot.sistema { background: var(--p2); }
+
+  .stat-row {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--muted);
+  }
+  .stat-row span:last-child { color: var(--text); }
+
+  .hp-bar {
+    height: 4px; background: var(--border); border-radius: 2px; overflow: hidden;
+  }
+  .hp-fill {
+    height: 100%; border-radius: 2px;
+    transition: width .3s;
+  }
+  .hp-fill.p1 { background: var(--p1); }
+  .hp-fill.sistema { background: var(--p2); }
+
+  /* pulsanti */
+  .btn {
+    width: 100%; padding: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background .12s, border-color .12s;
+  }
+
+  .btn:hover { background: #222535; border-color: #3a3d50; }
+
+  .btn.primary {
+    border-color: var(--p1);
+    color: var(--p1-light);
+  }
+  .btn.primary:hover { background: rgba(59,139,212,.12); }
+
+  .btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+  }
+
+  /* log combattimento */
+  #log {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 260px;
+  }
+
+  .log-entry {
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 4px 6px;
+    border-radius: 3px;
+    border-left: 2px solid var(--border);
+    color: var(--muted);
+  }
+
+  .log-entry.hit  { border-color: var(--hit);  color: #9fe1cb; }
+  .log-entry.miss { border-color: var(--miss); color: #fac775; }
+  .log-entry.move { border-color: var(--border); color: var(--text); }
+  .log-entry.sistema { border-color: var(--p2); color: var(--p2-light); }
+  .log-entry.info { border-color: var(--p1); color: var(--p1-light); }
+  .log-entry.gameover { border-color: #ffffff55; color: #fff; font-weight:600; }
+
+  /* hint */
+  #hint {
+    font-size: 11px; color: var(--muted);
+    text-align: center; padding: 4px;
+    min-height: 20px;
+  }
+
+  /* overlay game over */
+  #overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px;
+    z-index: 10;
+  }
+  #overlay.show { display: flex; }
+  #overlay h2 { font-size: 24px; }
+  #overlay p  { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>EVO-TACTICS · Playtest v0.1</h1>
+  <div id="turn-badge">caricamento…</div>
+</header>
+
+<main>
+  <div id="grid-wrap">
+    <div id="grid"></div>
+    <div id="hint">Errore: Failed to fetch — backend attivo?</div>
+  </div>
+
+  <aside>
+
+    <!-- Unità giocatore -->
+    <div class="panel">
+      <div class="panel-title">Unità Giocatore</div>
+      <div class="unit-card" id="card-p1">
+        <div class="unit-header">
+          <div class="unit-dot p1"></div>
+          <span id="p1-name">—</span>
+        </div>
+        <div class="hp-bar"><div class="hp-fill p1" id="p1-hp-bar" style="width:100%"></div></div>
+        <div class="stat-row"><span>HP</span><span id="p1-hp">—</span></div>
+        <div class="stat-row"><span>AP</span><span id="p1-ap">—</span></div>
+        <div class="stat-row"><span>Mod</span><span id="p1-mod">—</span></div>
+        <div class="stat-row"><span>Trait</span><span id="p1-traits">—</span></div>
+      </div>
+    </div>
+
+    <!-- Unità sistema -->
+    <div class="panel">
+      <div class="panel-title">Sistema</div>
+      <div class="unit-card" id="card-sistema">
+        <div class="unit-header">
+          <div class="unit-dot sistema"></div>
+          <span id="s-name">—</span>
+        </div>
+        <div class="hp-bar"><div class="hp-fill sistema" id="s-hp-bar" style="width:100%"></div></div>
+        <div class="stat-row"><span>HP</span><span id="s-hp">—</span></div>
+        <div class="stat-row"><span>Mod</span><span id="s-mod">—</span></div>
+        <div class="stat-row"><span>Trait</span><span id="s-traits">—</span></div>
+      </div>
+    </div>
+
+    <!-- Azioni -->
+    <div class="panel">
+      <div class="panel-title">Azioni</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn primary" id="btn-end-turn" onclick="endTurn()" disabled="">
+          Fine Turno →
+        </button>
+        <button class="btn" id="btn-new-game" onclick="startSession()">
+          Nuova Partita
+        </button>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="panel" style="flex:1;display:flex;flex-direction:column;min-height:0">
+      <div class="panel-title">Log Combattimento</div>
+      <div id="log"></div>
+    </div>
+
+  </aside>
+</main>
+
+<div id="overlay">
+  <h2 id="overlay-title">—</h2>
+  <p id="overlay-sub">—</p>
+  <button class="btn primary" onclick="startSession()" style="width:180px">Nuova Partita</button>
+</div>
+
+<script>
+const API = 'http://127.0.0.1:3334';
+
+let state       = null;   // stato sessione corrente
+let selected    = null;   // id unità selezionata
+let maxHp       = {};     // hp iniziali per le barre
+
+/* ── FETCH HELPERS ── */
+async function api(path, body) {
+  const opts = { method: body ? 'POST' : 'GET', headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(API + path, opts);
+  if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
+  return r.json();
+}
+
+/* ── AVVIO SESSIONE ── */
+async function startSession() {
+  document.getElementById('overlay').classList.remove('show');
+  selected = null;
+  setHint('Avvio sessione…');
+  clearLog();
+  try {
+    const res = await api('/api/session/start', {
+      units: [
+        { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'], controlled_by:'player' },
+        { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'sistema' }
+      ]
+    });
+    state = res.state ?? res;
+    // salva HP iniziali per le barre
+    (state.units || []).forEach(u => { maxHp[u.id] = u.hp; });
+    addLog('info', `Sessione avviata — ${state.session_id ?? ''}`);
+    render();
+  } catch(e) {
+    // fallback: prova a leggere lo stato se la sessione era già aperta
+    try {
+      state = await api('/api/session/state');
+      (state.units || []).forEach(u => { maxHp[u.id] = maxHp[u.id] ?? u.hp; });
+      render();
+    } catch(e2) {
+      setHint(`Errore: ${e.message} — backend attivo?`);
+    }
+  }
+}
+
+/* ── RENDER ── */
+function render() {
+  if (!state) return;
+  renderGrid();
+  renderStats();
+  const isPlayerTurn = isMyTurn();
+  document.getElementById('btn-end-turn').disabled = !isPlayerTurn;
+  const badge = document.getElementById('turn-badge');
+  badge.textContent = isPlayerTurn ? `Turno ${state.turn} — TUO` : `Turno ${state.turn} — SISTEMA`;
+  badge.className   = isPlayerTurn ? 'player' : 'sistema';
+  if (!isPlayerTurn) setHint('Il Sistema sta agendo…');
+  else {
+    const p1 = (state.units || []).find(u => u.id === 'unit_1');
+    const apLeft = p1?.ap_remaining ?? p1?.ap ?? 0;
+    if (apLeft <= 0) setHint('Nessun AP residuo — termina il turno');
+    else if (!selected) setHint('Clicca la tua unità per selezionarla');
+  }
+}
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const units = (state.units || []);
+  const unitMap = {};
+  units.forEach(u => { unitMap[`${u.position.x},${u.position.y}`] = u; });
+
+  for (let y = 0; y < 6; y++) {
+    for (let x = 0; x < 6; x++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.x = x; cell.dataset.y = y;
+
+      const u = unitMap[`${x},${y}`];
+      if (u) {
+        const isP1 = u.id === 'unit_1';
+        const cls  = isP1 ? 'p1' : 'sistema';
+        const hp   = u.hp ?? 0;
+        const dead = hp <= 0;
+        cell.innerHTML = `
+          <div class="token ${cls} ${selected === u.id ? 'selected' : ''} ${dead ? 'dead' : ''}">
+            <span>${isP1 ? 'P1' : 'SIS'}</span>
+            <span class="token-job">${u.job?.slice(0,4) ?? ''}</span>
+          </div>`;
+      }
+
+      // highlight celle raggiungibili / attaccabili (solo se AP disponibili)
+      if (selected) {
+        const sel = units.find(u => u.id === selected);
+        const apLeft = sel?.ap_remaining ?? sel?.ap ?? 0;
+        const range  = sel?.attack_range ?? 2;
+        if (sel && !u && apLeft > 0) {
+          const dist = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);
+          if (dist <= (sel.ap ?? 2)) cell.classList.add('reachable');
+        }
+        if (u && u.id !== selected && u.id !== 'unit_1' && apLeft > 0) {
+          const distT = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);
+          if (distT <= range) cell.classList.add('targetable');
+        }
+      }
+
+      cell.addEventListener('click', () => onCellClick(x, y, u));
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function renderStats() {
+  const units  = state.units || [];
+  const p1     = units.find(u => u.id === 'unit_1') ?? {};
+  const sis    = units.find(u => u.id !== 'unit_1') ?? {};
+
+  setText('p1-name',   `${p1.species ?? '?'} · ${p1.job ?? '?'}`);
+  setText('p1-hp',     `${p1.hp ?? 0} / ${maxHp[p1.id] ?? p1.hp ?? 10}`);
+  setText('p1-ap',     `${p1.ap_remaining ?? p1.ap ?? '?'} / ${p1.ap ?? '?'}`);
+  setText('p1-mod',    `+${p1.mod ?? 0}`);
+  setText('p1-traits', (p1.traits ?? []).join(', ') || '—');
+  setBar('p1-hp-bar',  p1.hp, maxHp[p1.id] ?? p1.hp);
+
+  setText('s-name',    `${sis.species ?? '?'} · ${sis.job ?? '?'}`);
+  setText('s-hp',      `${sis.hp ?? 0} / ${maxHp[sis.id] ?? sis.hp ?? 10}`);
+  setText('s-mod',     `+${sis.mod ?? 0}`);
+  setText('s-traits',  (sis.traits ?? []).join(', ') || '—');
+  setBar('s-hp-bar',   sis.hp, maxHp[sis.id] ?? sis.hp);
+}
+
+/* ── CLICK CELLA ── */
+async function onCellClick(x, y, unit) {
+  if (!state || !isMyTurn()) return;
+
+  const myUnit = (state.units || []).find(u => u.id === 'unit_1');
+
+  // click sulla propria unità → seleziona
+  if (unit && unit.id === 'unit_1') {
+    selected = (selected === 'unit_1') ? null : 'unit_1';
+    setHint(selected ? 'Clicca un nemico per attaccare, o una cella per muoverti' : 'Clicca la tua unità per selezionarla');
+    renderGrid(); return;
+  }
+
+  if (!selected) { setHint('Prima seleziona la tua unità'); return; }
+
+  // click su nemico → attacco
+  if (unit && unit.id !== 'unit_1') {
+    await doAction({ actor_id:'unit_1', action_type:'attack', target_id: unit.id });
+    return;
+  }
+
+  // click su cella vuota → movimento
+  if (!unit) {
+    await doAction({ actor_id:'unit_1', action_type:'move', position:{ x, y } });
+    return;
+  }
+}
+
+/* ── AZIONI ── */
+async function doAction(body) {
+  setHint('…');
+  try {
+    const res = await api('/api/session/action', body);
+    state = res.state ?? state;
+    logAction(body.action_type, res, body);
+    checkGameOver();
+    selected = null;
+    render();
+  } catch(e) { setHint(`Errore: ${e.message}`); }
+}
+
+async function endTurn() {
+  document.getElementById('btn-end-turn').disabled = true;
+  setHint('Fine turno — il Sistema agisce…');
+  try {
+    const res = await api('/api/session/turn/end', {});
+    state = res.state ?? state;
+    const iaList = res.ia_actions ?? (res.ia_action ? [res.ia_action] : []);
+    for (const ia of iaList) logIaAction(ia);
+    checkGameOver();
+    selected = null;
+    render();
+  } catch(e) { setHint(`Errore: ${e.message}`); }
+}
+
+/* ── GAME OVER ── */
+function checkGameOver() {
+  const units = state.units || [];
+  const p1    = units.find(u => u.id === 'unit_1');
+  const sis   = units.find(u => u.id !== 'unit_1');
+  if (p1 && p1.hp <= 0) showGameOver('SCONFITTA', 'Il Sistema ha vinto.');
+  if (sis && sis.hp <= 0) showGameOver('VITTORIA', 'Hai eliminato il Sistema.');
+}
+
+function showGameOver(title, sub) {
+  addLog('gameover', `— ${title} —`);
+  document.getElementById('overlay-title').textContent = title;
+  document.getElementById('overlay-sub').textContent   = sub;
+  document.getElementById('overlay').classList.add('show');
+}
+
+/* ── LOG ── */
+function logAction(type, res, body) {
+  if (type === 'attack') {
+    const hit = res.result === 'hit';
+    const effects = (res.trait_effects ?? []).filter(t => t.triggered).map(t => t.effect).join(', ');
+    const extra = effects ? ` [${effects}]` : '';
+    addLog(hit ? 'hit' : 'miss',
+      `Attacco → d20=${res.roll} MoS=${res.mos} PT=${res.pt} — ${hit ? 'COLPITO' : 'MANCATO'}${extra}`
+      + (res.target_hp !== undefined ? ` · HP nemico: ${res.target_hp}` : ''));
+  } else {
+    addLog('move', `Mosso a (${body.position?.x},${body.position?.y})`);
+  }
+}
+
+function logIaAction(ia) {
+  const hit = ia.result === 'hit';
+  addLog('sistema',
+    `SISTEMA (${ia.ia_rule ?? 'REGOLA_001'}) → `
+    + (ia.action_type === 'attack'
+        ? `d20=${ia.roll} — ${hit ? 'COLPITO' : 'MANCATO'}`
+        : `si muove`));
+}
+
+function addLog(cls, msg) {
+  const log = document.getElementById('log');
+  const e = document.createElement('div');
+  e.className = `log-entry ${cls}`;
+  e.textContent = msg;
+  log.appendChild(e);
+  log.scrollTop = log.scrollHeight;
+}
+
+function clearLog() { document.getElementById('log').innerHTML = ''; }
+
+/* ── UTILS ── */
+function isMyTurn() {
+  return state && (state.active_unit === 'unit_1' || state.turn % 2 === 1);
+}
+
+function setHint(t) { document.getElementById('hint').textContent = t; }
+function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+function setBar(id, v, max) {
+  const el = document.getElementById(id);
+  if (el) el.style.width = `${Math.max(0, Math.round((v / (max||10)) * 100))}%`;
+}
+
+/* ── AVVIO ── */
+startSession();
+</script>
+
+
+</body></html>

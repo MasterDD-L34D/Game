@@ -1,0 +1,62 @@
+[
+  {
+    "ts": "2026-04-15T00:51:43.783Z",
+    "session_id": "824b2e5a-34f2-46bc-a5b6-6ea06e61345a",
+    "actor_id": "unit_1",
+    "actor_species": "velox",
+    "actor_job": "skirmisher",
+    "action_type": "move",
+    "turn": 1,
+    "ap_spent": 1,
+    "position_from": {
+      "x": 0,
+      "y": 0
+    },
+    "position_to": {
+      "x": 1,
+      "y": 1
+    },
+    "trait_effects": [],
+    "action_index": 0
+  },
+  {
+    "ts": "2026-04-15T00:52:00.750Z",
+    "session_id": "824b2e5a-34f2-46bc-a5b6-6ea06e61345a",
+    "actor_id": "unit_1",
+    "actor_species": "velox",
+    "actor_job": "skirmisher",
+    "action_type": "move",
+    "turn": 1,
+    "ap_spent": 1,
+    "position_from": {
+      "x": 1,
+      "y": 1
+    },
+    "position_to": {
+      "x": 1,
+      "y": 1
+    },
+    "trait_effects": [],
+    "action_index": 1
+  },
+  {
+    "ts": "2026-04-15T00:52:10.535Z",
+    "session_id": "824b2e5a-34f2-46bc-a5b6-6ea06e61345a",
+    "actor_id": "unit_1",
+    "actor_species": "velox",
+    "actor_job": "skirmisher",
+    "action_type": "move",
+    "turn": 3,
+    "ap_spent": 1,
+    "position_from": {
+      "x": 1,
+      "y": 1
+    },
+    "position_to": {
+      "x": 1,
+      "y": 1
+    },
+    "trait_effects": [],
+    "action_index": 2
+  }
+]
