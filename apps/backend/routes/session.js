@@ -49,6 +49,12 @@ const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring'
 // DEFAULT_ATTACK_RANGE e' ora autoritativo in policy.js (usato sia qui che dall'IA).
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
+// PR 5 (ADR-2026-04-16 M5b): declareSistemaIntents module (PR #1389)
+// e' la versione pure/round-based dell'AI SIS runner. Usata solo quando
+// USE_ROUND_MODEL=true per emettere intents invece di eseguire azioni
+// in sequenza. Il sistemaTurnRunner legacy resta invariato per il path
+// flag-off.
+const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIntents');
 // ADR-2026-04-16: round-based combat model migration. PR 2 di N —
 // endpoint stubs dietro feature flag USE_ROUND_MODEL. Il modulo e'
 // completamente isolato (PR #1387), esposto qui solo come dipendenza
@@ -722,6 +728,17 @@ function createSessionRouter(options = {}) {
     gridSize: GRID_SIZE,
   });
 
+  // PR 5 (ADR-2026-04-16 M5b): declareSistemaIntents factory wirato al
+  // closure session.js. Produce intents pure (nessuna mutazione) per
+  // tutte le unita' SIS-controlled. Usato solo quando USE_ROUND_MODEL
+  // e' attivo nel wrapper /turn/end legacy.
+  const declareSistemaIntents = createDeclareSistemaIntents({
+    pickLowestHpEnemy,
+    stepTowards,
+    manhattanDistance,
+    gridSize: GRID_SIZE,
+  });
+
   // SPRINT_020: helper riutilizzabile che avanza attraverso tutti i turni
   // IA non-player fino a fermarsi su un player vivo (o nessuno). Ritorna
   // { iaActions, bleedingEvents } accumulati dall'intera catena. Usato
@@ -1080,6 +1097,16 @@ function createSessionRouter(options = {}) {
       const body = req.body || {};
       const { error, session } = resolveSession(body.session_id);
       if (error) return res.status(error.status).json(error.body);
+
+      // PR 5 (ADR-2026-04-16 M5b): delega al wrapper round-based
+      // se USE_ROUND_MODEL=true. Il wrapper usa declareSistemaIntents
+      // per emettere intents SIS, poi commit + resolve via orchestrator
+      // con real resolveAction bindato al session. Response shape
+      // legacy-compat + round_wrapper/round_phase metadata.
+      if (isRoundModelEnabled()) {
+        const wrapped = await handleTurnEndViaRound(session);
+        return res.json(wrapped);
+      }
 
       // Helper: damage-over-time (bleeding) applicato a una singola unita'.
       // Ritorna l'evento descrittore se applicato, null altrimenti.
@@ -1531,6 +1558,275 @@ function createSessionRouter(options = {}) {
       // Round flow metadata (only present when flag on)
       round_wrapper: true,
       round_phase: result.nextState.round_phase,
+    };
+  }
+
+  /**
+   * PR 5 (ADR-2026-04-16 M5b): wiring wrapper legacy /turn/end flag-on.
+   *
+   * Quando USE_ROUND_MODEL=true, il /turn/end endpoint delega alla
+   * round-based pipeline:
+   *   1. Build roundState fresco da session.units
+   *   2. beginRound (refresh AP/reactions, decay status, bleeding tick
+   *      su tutte le unita')
+   *   3. declareSistemaIntents(session) per tutti i SIS
+   *   4. Per ogni intent -> declareIntent(roundState, unit_id, action)
+   *   5. commitRound
+   *   6. resolveRound con real resolveAction che:
+   *      - attack: delega a performAttack (esistente)
+   *      - move: aggiorna session.units.position + append move event
+   *      - altri type: consuma solo AP
+   *   7. Sync session.units con roundState post-resolve
+   *   8. session.turn += 1 (per compat UI legacy)
+   *
+   * Ritorna: { turn, active_unit, ia_actions, side_effects, state,
+   *            round_wrapper, round_phase }.
+   *
+   * side_effects derivato da beginRound expired+bleeding (shape
+   * simile a quello del path legacy: { unit_id, damage, hp_after, killed }).
+   *
+   * ia_actions derivato dai turn_log_entries del round: shape
+   * compatibile con il legacy (actor='sistema', type, target, ecc).
+   */
+  async function handleTurnEndViaRound(session) {
+    // 1. Build fresh roundState from session.units. Include player +
+    //    SIS units. Il risultato ha round_phase null (verra' settato
+    //    a 'planning' da beginRound).
+    session.roundState = adaptSessionToRoundState(session);
+
+    // 2. beginRound: refresh AP/reactions per ogni unit + bleeding tick +
+    //    decay status + reaction cooldown decrement. Ritorna bleedingTotal
+    //    aggregato ma non ha granularita' per-unit come il path legacy.
+    //    Per preservare side_effects shape, calcoliamo noi il tick HP qui.
+    const bleedingEvents = [];
+    for (const unit of session.units) {
+      if (!unit || !unit.status || Number(unit.hp || 0) <= 0) continue;
+      const bleedTurns = Number(unit.status.bleeding) || 0;
+      if (bleedTurns <= 0) continue;
+      const dmg = 1;
+      const hpBefore = unit.hp;
+      unit.hp = Math.max(0, unit.hp - dmg);
+      session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'bleeding',
+        actor_id: unit.id,
+        actor_species: unit.species,
+        actor_job: unit.job,
+        target_id: unit.id,
+        turn: session.turn,
+        damage_dealt: dmg,
+        result: 'hit',
+        hp_before: hpBefore,
+        hp_after: unit.hp,
+        bleeding_remaining: bleedTurns - 1,
+        trait_effects: [],
+      });
+      bleedingEvents.push({
+        unit_id: unit.id,
+        damage: dmg,
+        hp_after: unit.hp,
+        killed: unit.hp === 0,
+      });
+    }
+    // Reset AP + decrement status per tutte le unita' (equivalente
+    // end-of-round). Il legacy path fa questo solo sulla corrente prima
+    // di advance, ma nel round model il refresh e' globale.
+    for (const unit of session.units) {
+      if (!unit) continue;
+      const fractureActive = Number(unit.status?.fracture) > 0;
+      unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+      if (unit.status) {
+        for (const key of Object.keys(unit.status)) {
+          const v = Number(unit.status[key]);
+          if (v > 0) unit.status[key] = v - 1;
+        }
+      }
+    }
+    session.roundState = adaptSessionToRoundState(session);
+    session.roundState = roundOrchestrator.beginRound(session.roundState).nextState;
+
+    // 3. declareSistemaIntents: emette intents per tutti i SIS vivi
+    const { intents, decisions } = declareSistemaIntents(session);
+
+    // 4. Declare ogni intent nel roundState
+    let cur = session.roundState;
+    for (const { unit_id, action } of intents) {
+      cur = roundOrchestrator.declareIntent(cur, unit_id, action).nextState;
+    }
+    session.roundState = cur;
+
+    // 5. commitRound
+    session.roundState = roundOrchestrator.commitRound(session.roundState).nextState;
+
+    // 6. Real resolveAction: gestisce attack (performAttack) + move
+    //    (position update + appendEvent). Capture turn_log entries per
+    //    costruire ia_actions legacy-shape.
+    const iaActions = [];
+    const realResolveAction = (state, action, _catalog, _rng) => {
+      const next = JSON.parse(JSON.stringify(state));
+      const actorId = String(action.actor_id || '');
+      const actor = session.units.find((u) => u.id === actorId);
+      if (!actor) {
+        return { nextState: next, turnLogEntry: { action, skipped: 'no_actor' } };
+      }
+      let turnLogEntry = {
+        turn: Number(next.turn || 1),
+        action: { ...action },
+        damage_applied: 0,
+      };
+
+      if (action.type === 'attack' && action.target_id) {
+        const target = session.units.find((u) => u.id === String(action.target_id));
+        if (!target || target.hp <= 0) {
+          turnLogEntry.skipped = 'target_dead';
+          iaActions.push({
+            actor: 'sistema',
+            unit_id: actorId,
+            type: 'skip',
+            reason: 'target_dead',
+            ia_rule: action.source_ia_rule,
+          });
+        } else {
+          const hpBefore = target.hp;
+          const targetPosAtk = { ...target.position };
+          const res = performAttack(session, actor, target);
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+          const event = buildAttackEvent({
+            session,
+            actor,
+            target,
+            result: res.result,
+            evaluation: res.evaluation,
+            damageDealt: res.damageDealt,
+            hpBefore,
+            targetPositionAtAttack: targetPosAtk,
+          });
+          event.actor_id = 'sistema';
+          event.actor_species = actor.species;
+          event.actor_job = actor.job;
+          event.ia_rule = action.source_ia_rule;
+          event.ia_controlled_unit = actor.id;
+          if (res.parry) event.parry = res.parry;
+          // appendEvent e' async ma qui nel resolveAction siamo in ctx sync.
+          // Usiamo la versione non-async (push + persist async deferred).
+          session.events.push(event);
+          session.action_counter++;
+          if (res.killOccurred) {
+            // Assists are tracked via emitKillAndAssists ma e' async.
+            // Minimal inline: update damage_taken log non critico.
+          }
+          turnLogEntry.damage_applied = res.damageDealt;
+          turnLogEntry.roll = res.result.roll;
+          turnLogEntry.hit = res.result.hit;
+          iaActions.push({
+            actor: 'sistema',
+            unit_id: actorId,
+            type: 'attack',
+            target: target.id,
+            die: res.result.die,
+            roll: res.result.roll,
+            mos: res.result.mos,
+            result: res.result.hit ? 'hit' : 'miss',
+            pt: res.result.pt,
+            damage_dealt: res.damageDealt,
+            trait_effects: res.evaluation.trait_effects,
+            actor_position: { ...actor.position },
+            target_position: targetPosAtk,
+            ia_rule: action.source_ia_rule,
+            parry: res.parry,
+          });
+        }
+      } else if (action.type === 'move' && action.move_to) {
+        const dest = action.move_to;
+        const positionFrom = { ...actor.position };
+        // Overlap guard (safety net, gia' fatto in declareSistemaIntents)
+        const blocker = session.units.find(
+          (u) =>
+            u.id !== actor.id && u.hp > 0 && u.position.x === dest.x && u.position.y === dest.y,
+        );
+        if (blocker) {
+          iaActions.push({
+            actor: 'sistema',
+            unit_id: actorId,
+            type: 'skip',
+            reason: `blocked by ${blocker.id} at (${dest.x},${dest.y})`,
+            position_from: positionFrom,
+            position_to: positionFrom,
+            ia_rule: action.source_ia_rule,
+          });
+          turnLogEntry.skipped = 'blocked';
+        } else {
+          actor.position = { x: dest.x, y: dest.y };
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+          const newFacing = facingFromMove(positionFrom, actor.position);
+          if (newFacing) actor.facing = newFacing;
+          const event = buildMoveEvent({ session, actor, positionFrom });
+          event.actor_id = 'sistema';
+          event.ia_rule = action.source_ia_rule;
+          event.ia_controlled_unit = actor.id;
+          session.events.push(event);
+          session.action_counter++;
+          iaActions.push({
+            actor: 'sistema',
+            unit_id: actorId,
+            type: 'move',
+            target: action.target_id || null,
+            position_from: positionFrom,
+            position_to: { ...actor.position },
+            ia_rule: action.source_ia_rule,
+          });
+        }
+      } else {
+        // Altri type: AP only consumption
+        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+      }
+
+      // Sync back per orchestrator state
+      const uOrch = next.units.find((u) => u.id === actorId);
+      if (uOrch) {
+        if (uOrch.hp) {
+          uOrch.hp.current = Number(actor.hp || 0);
+          uOrch.hp.max = Number(actor.max_hp || actor.hp || 0);
+        }
+        if (uOrch.ap) {
+          uOrch.ap.current = Number(
+            actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0,
+          );
+        }
+      }
+      // Anche target per attack
+      if (action.type === 'attack' && action.target_id) {
+        const tgtLegacy = session.units.find((u) => u.id === String(action.target_id));
+        const tgtOrch = next.units.find((u) => u.id === String(action.target_id));
+        if (tgtLegacy && tgtOrch && tgtOrch.hp) {
+          tgtOrch.hp.current = Number(tgtLegacy.hp || 0);
+        }
+      }
+      return { nextState: next, turnLogEntry };
+    };
+
+    const result = resolveRoundPure(session.roundState, null, rng, realResolveAction);
+    session.roundState = result.nextState;
+
+    // Persist events written synchronously above
+    await persistEvents(session);
+
+    // 7. Advance turn counter (legacy compat for UI badge)
+    session.turn += 1;
+
+    return {
+      session_id: session.session_id,
+      turn: session.turn,
+      active_unit: session.active_unit,
+      ia_actions: iaActions,
+      ia_action: iaActions[0] || null,
+      side_effects: bleedingEvents,
+      state: publicSessionView(session),
+      round_wrapper: true,
+      round_phase: session.roundState.round_phase,
+      round_decisions: decisions,
     };
   }
 
