@@ -8,7 +8,20 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Docs (indice)
+
+## Final Design Freeze v0.9 (baseline canonica)
+
+La sintesi di design finale di Evo Tactics e il bundle esecutivo vivono in:
+
+- [`docs/core/90-FINAL-DESIGN-FREEZE.md`](core/90-FINAL-DESIGN-FREEZE.md) — sintesi di prodotto, scope shipping, vincoli architetturali (A3 source of truth).
+- [`docs/planning/EVO_FINAL_DESIGN_ROADMAPS_INDEX.md`](planning/EVO_FINAL_DESIGN_ROADMAPS_INDEX.md) — indice del bundle esecutivo con ordine di lettura consigliato.
+- [`docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) — **leggere per primo** in caso di conflitto tra fonti.
+
+Il bundle include master roadmap, milestones & gates, backlog esecutivo (FD-IDs per epic), playbook Codex e piano cross-repo Game ↔ Game-Database. Per l'entrypoint canonico del workstream vedi [`docs/hubs/README.md`](hubs/README.md).
+
+---
 
 Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia/incolla dal canvas per avere i contenuti completi.
 
