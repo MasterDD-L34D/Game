@@ -219,8 +219,21 @@ def update_index(entries_by_category: Dict[str, List[TrackerEntry]], index_path:
 
 
 def update_readme(progress_sections: List[ProgressSection], readme_path: Path) -> bool:
+    """Update README.md tracker-status section.
+
+    Post-restructuring 2026-04-14 the README no longer carries the
+    tracker-status markers. If they are missing we skip the update
+    silently (legacy behaviour raised ValueError and broke the
+    workflow). The tracker index in docs/00-INDEX.md is still updated
+    via update_index().
+    """
     full_path = REPO_ROOT / readme_path
+    if not full_path.exists():
+        return False
     content = full_path.read_text(encoding="utf-8")
+    if STATUS_MARKER_START not in content or STATUS_MARKER_END not in content:
+        # Marker assenti post-restructuring → skip silently.
+        return False
     status_md = generate_status_markdown(progress_sections)
     new_content = replace_section(content, STATUS_MARKER_START, STATUS_MARKER_END, status_md)
     return write_if_changed(full_path, new_content)

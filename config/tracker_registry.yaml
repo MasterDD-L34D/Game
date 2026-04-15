@@ -5,35 +5,35 @@ tables:
   - slug: operativo
     title: 'Operativo (checklist)'
     entries:
-      - path: docs/checklist/action-items.md
+      - path: docs/process/action-items.md
         title: 'Action Items — Sintesi operativa'
         purpose: 'Sintesi quotidiana attività cross-team e follow-up PR giornalieri.'
         owner: 'UI Systems · Progression Design · VFX/Lighting · QA Support'
-      - path: docs/checklist/bug-intake.md
+      - path: docs/process/bug-intake.md
         title: 'Bug Intake Checklist'
         purpose: 'Verifica dati obbligatori prima del triage ticket.'
         owner: 'N/D'
-      - path: docs/checklist/clone-setup.md
+      - path: docs/process/clone-setup.md
         title: 'Procedura di clone e setup iniziale'
         purpose: 'Istruzioni ambiente standard container /workspace/Game.'
         owner: 'Ops/ChatGPT'
-      - path: docs/checklist/demo-release.md
+      - path: docs/process/demo-release.md
         title: 'Checklist release demo pubblica'
         purpose: 'Passi di coordinamento per bundle demo Evo Tactics Pack.'
         owner: 'N/D'
-      - path: docs/checklist/milestones.md
+      - path: docs/process/milestones.md
         title: 'Checklist Milestone'
         purpose: 'Stato avanzamento milestone telemetria/dataset/playtest.'
         owner: 'N/D'
-      - path: docs/checklist/project-setup-todo.md
+      - path: docs/process/project-setup-todo.md
         title: 'TODO Operativo — Avvio completo del progetto'
         purpose: 'Sequenza end-to-end per rendere operativo il progetto con note storiche.'
         owner: 'Ops/ChatGPT · Release Ops · Marketing Ops · Lead Dev Tools'
-      - path: docs/checklist/telemetry.md
+      - path: docs/process/telemetry.md
         title: 'Checklist — Telemetry Export & QA Filters'
         purpose: 'Controlli giornalieri/settimanali su export telemetria e filtri QA.'
         owner: 'N/D'
-      - path: docs/checklist/vc_playtest_plan.md
+      - path: docs/process/vc_playtest_plan.md
         title: 'Playtest VC Mirati alla Telemetria'
         purpose: 'Piano sessioni mirate agli indici VC e setup strumentazione.'
         owner: 'N/D'
@@ -114,7 +114,7 @@ tables:
   - slug: pianificazione
     title: 'Pianificazione'
     entries:
-      - path: docs/piani/roadmap.md
+      - path: docs/planning/roadmap_operativa.md
         title: 'Roadmap Operativa'
         purpose: 'Procedura settimanale post-ottobre 2025 con milestone e follow-up.'
         owner: 'N/D'
@@ -140,10 +140,10 @@ progress_sections:
         description: 'Le milestone operative hanno completato playtest, normalizzazione e documentazione; restano overlay HUD, ribilanciamento XP Cipher e contrasto EVT-03.'
         compute:
           type: checkbox
-          path: docs/checklist/milestones.md
+          path: docs/process/milestones.md
         references:
-          - label: 'docs/checklist/milestones.md#in-corso'
-            target: 'docs/checklist/milestones.md#in-corso'
+          - label: 'docs/process/milestones.md#in-corso'
+            target: 'docs/process/milestones.md#in-corso'
   - category: 'Processo'
     items:
       - name: 'Pipeline deploy web'
