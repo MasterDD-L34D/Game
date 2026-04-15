@@ -375,6 +375,32 @@ function createSessionRouter(options = {}) {
     await persistEvents(session);
   }
 
+  // SPRINT_021: Parata reattiva — design doc 10-SISTEMA_TATTICO.md riga 20.
+  // Quando un target viene colpito, se ha guardia > 0 e non e' stunned,
+  // tira un d20 reattivo. Successo se d20 + guardia >= PARRY_DC.
+  // Effetto: damage −1 (minimo 0) + +1 PT difensivo tracciato.
+  // Guardia decrementa di 1 ogni parata riuscita (mitigazione cumulativa).
+  const PARRY_DC = 12;
+  function rollParry(target) {
+    if (!target || target.hp <= 0) return null;
+    const guardia = Number(target.guardia) || 0;
+    if (guardia <= 0) return null;
+    // Target stordito non puo' parare
+    if (target.status && Number(target.status.stunned) > 0) return null;
+    const die = Math.floor(rng() * 20) + 1;
+    const total = die + guardia;
+    const success = total >= PARRY_DC;
+    return {
+      die,
+      guardia_used: guardia,
+      total,
+      dc: PARRY_DC,
+      success,
+      damage_delta: success ? -1 : 0,
+      pt_defensive: success ? 1 : 0,
+    };
+  }
+
   function performAttack(session, actor, target) {
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
@@ -388,6 +414,7 @@ function createSessionRouter(options = {}) {
     let adjacencyBonus = 0;
     let rageBonus = 0;
     let panicTriggered = false;
+    let parryResult = null;
     if (result.hit) {
       const baseDamage = 1 + result.pt;
       // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
@@ -403,8 +430,17 @@ function createSessionRouter(options = {}) {
       if (actor.status && Number(actor.status.rage) > 0) {
         rageBonus = 1;
       }
-      const adjusted = baseDamage + evaluation.damage_modifier + adjacencyBonus + rageBonus;
+      // SPRINT_021: parata reattiva, pre-calcolata cosi' il damage_delta
+      // partecipa al calcolo del damage finale. Solo se result.hit.
+      parryResult = rollParry(target);
+      const parryDelta = parryResult && parryResult.success ? parryResult.damage_delta : 0;
+      const adjusted =
+        baseDamage + evaluation.damage_modifier + adjacencyBonus + rageBonus + parryDelta;
       damageDealt = Math.max(0, adjusted);
+      // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
+      if (parryResult && parryResult.success) {
+        target.guardia = Math.max(0, Number(target.guardia) - 1);
+      }
       // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
       // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
       // dagli eventi per restare stateless.
@@ -460,6 +496,7 @@ function createSessionRouter(options = {}) {
       rageBonus,
       panicTriggered,
       status_applies: statusApplies,
+      parry: parryResult,
     };
   }
 
@@ -782,7 +819,7 @@ function createSessionRouter(options = {}) {
         actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
         const hpBefore = target.hp;
         const targetPositionAtAttack = { ...target.position };
-        const { result, evaluation, damageDealt, killOccurred } = performAttack(
+        const { result, evaluation, damageDealt, killOccurred, parry } = performAttack(
           session,
           actor,
           target,
@@ -797,6 +834,8 @@ function createSessionRouter(options = {}) {
           hpBefore,
           targetPositionAtAttack,
         });
+        // SPRINT_021: traccia parata reattiva nell'evento per il log + VC.
+        if (parry) event.parry = parry;
         // SPRINT_003 fase 1: traccia cost nell'evento + consume dal budget.
         if (requestedCapPt > 0) {
           event.cost = { cap_pt: requestedCapPt };
@@ -818,6 +857,7 @@ function createSessionRouter(options = {}) {
           cap_pt_max: session.cap_pt_max,
           actor_position: { ...actor.position },
           target_position: { ...targetPositionAtAttack },
+          parry,
           state: publicSessionView(session),
         });
       }
