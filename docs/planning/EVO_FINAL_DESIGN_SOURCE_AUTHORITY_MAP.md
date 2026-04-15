@@ -38,6 +38,7 @@ ADR canonici attualmente in vigore al livello A1:
 - [`ADR-2026-04-13-rules-engine-d20`](../adr/ADR-2026-04-13-rules-engine-d20.md) — scelta Python, balance layer separato, RNG namespacing.
 - [`ADR-2026-04-14-game-database-topology`](../adr/ADR-2026-04-14-game-database-topology.md) — confine runtime Game vs Game-Database.
 - [`ADR-2026-04-15-round-based-combat-model`](../adr/ADR-2026-04-15-round-based-combat-model.md) — round loop shared-planning → commit → resolve, semantica di `initiative` come reaction speed.
+- [`ADR-2026-04-16-session-engine-round-migration`](../adr/ADR-2026-04-16-session-engine-round-migration.md) — piano di migrazione del Node session engine (`apps/backend/routes/session.js`) al round-based model, con feature flag `USE_ROUND_MODEL` e checklist in 17 step.
 
 | Livello | Autorita                                                                                       | Cosa governa                                                                               | In caso di conflitto vince su                                                            | Non puo sovrascrivere da sola                                       |
 | ------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
