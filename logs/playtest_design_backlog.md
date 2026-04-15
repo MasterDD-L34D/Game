@@ -4,7 +4,55 @@ Coda di issue di design emerse durante le sessioni di playtest del
 `apps/backend/public/Evo-Tactics — Playtest.html`. Ordinate per priorità
 (🔴 blocker UX, 🟡 gameplay, 🟢 polish).
 
-Ultimo update: 2026-04-15
+Ultimo update: 2026-04-16 (sprint-008/009)
+
+---
+
+## 🟡 10. Stati emotivi IA (panic, rage, ecc.)
+
+**Segnalato il**: 2026-04-16 durante sprint-009 hotfix
+**Sintomo**: il sistema policy IA attuale (REGOLA_001/002) è triggerato
+solo da condizioni statiche (HP ratio). Manca un layer di stati emotivi
+temporanei che modificano il comportamento:
+- **panic**: forza REGOLA_002 retreat anche con HP pieno (trigger: colpo
+  critico subito, alleato morto vicino, trait nemico intimidatorio)
+- **rage**: forza REGOLA_001 attack + bonus damage, ignora retreat
+  anche sotto 30% HP (trigger: alleato ucciso, HP critico per berserker,
+  trait `ferocia`)
+- **confused**: IA attacca target random invece di lowest HP
+- **stunned**: skip turno (gia' presente come effetto, non come stato)
+- **focused**: bonus hit rate, range esteso di 1
+
+**Impatto**: gameplay attuale è deterministico (HP-based). Gli stati
+emotivi creerebbero momenti imprevedibili e narrativamente ricchi.
+
+**Proposta di fix**: estendere `selectAiPolicy(actor, target)` con un
+pre-processo che applica i flag temporanei dell'actor:
+```js
+function selectAiPolicy(actor, target) {
+  if (actor.status?.rage)    return { rule: 'RAGE',   intent: 'attack' };
+  if (actor.status?.panic)   return { rule: 'PANIC',  intent: 'retreat' };
+  if (actor.status?.stunned) return { rule: 'STUN',   intent: 'skip' };
+  // ... policy normale
+}
+```
+Gli stati vengono settati da effetti trait (es. `ferocia: on_kill_ally`)
+oppure da azioni specifiche (panic: su miss critico del player). Durata
+in turni, decrementata a ogni turn/end.
+
+**Dipendenze**:
+- Issue #2 (estrazione `services/ai/`): andrebbe fatta prima per avere
+  un posto pulito dove mettere gli stati
+- Nuovo campo `actor.status = { rage_turns?, panic_turns?, ... }`
+- Sistema effetti trait collegato agli eventi (già presente per
+  damage_modifier, va esteso per status effects)
+
+**File coinvolti**:
+- `apps/backend/routes/session.js` (selectAiPolicy + runSistemaTurn)
+- `apps/backend/services/ai/` (da creare, issue #2)
+- `data/core/traits/active_effects.yaml` (triggers degli stati)
+
+---
 
 ---
 
