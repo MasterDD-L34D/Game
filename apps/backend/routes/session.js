@@ -463,6 +463,10 @@ function createSessionRouter(options = {}) {
   }
 
   function buildMoveEvent({ session, actor, positionFrom }) {
+    // SPRINT_008 (issue #7): ap_spent = distanza Manhattan reale del move,
+    // non piu' flat 1. Usato dal log + dalla telemetria per capire il
+    // costo effettivo.
+    const dist = manhattanDistance(positionFrom, actor.position);
     return {
       ts: new Date().toISOString(),
       session_id: session.session_id,
@@ -470,9 +474,8 @@ function createSessionRouter(options = {}) {
       actor_species: actor.species,
       actor_job: actor.job,
       action_type: 'move',
-      // SPRINT_003 fase 0: turn + ap_spent
       turn: session.turn,
-      ap_spent: 1,
+      ap_spent: dist || 1,
       position_from: positionFrom,
       position_to: { ...actor.position },
       trait_effects: [],
@@ -780,10 +783,16 @@ function createSessionRouter(options = {}) {
             .json({ error: 'AP insufficienti per muoversi (termina il turno)' });
         }
         const dist = manhattanDistance(actor.position, dest);
-        if (dist > actor.ap) {
-          return res
-            .status(400)
-            .json({ error: `posizione fuori range movimento (distanza ${dist} > ap ${actor.ap})` });
+        // SPRINT_008 (issue #7): AP cost per move = distanza Manhattan,
+        // non piu' flat 1. Muoverti per N celle costa N AP. Cosi' con
+        // ap=2 hai veramente un trade-off: o 1 cella + 1 attacco, o 2 celle
+        // e basta, o 2 attacchi. Il validation e' ora contro ap_remaining
+        // anziche' actor.ap (max) — cosi' possiamo fare piu' move nello
+        // stesso turno solo se abbiamo AP residui sufficienti.
+        if (dist > (actor.ap_remaining ?? 0)) {
+          return res.status(400).json({
+            error: `AP insufficienti per muoversi di ${dist} celle (ap residui: ${actor.ap_remaining ?? 0})`,
+          });
         }
         // SPRINT_005 fase 1: niente overlap. Una cella occupata da un'altra
         // unita' viva blocca il movimento (rifiuto 400, niente consumo AP).
@@ -796,7 +805,7 @@ function createSessionRouter(options = {}) {
             .status(400)
             .json({ error: `casella (${dest.x},${dest.y}) occupata da ${blocker.id}` });
         }
-        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         const event = buildMoveEvent({ session, actor, positionFrom });
