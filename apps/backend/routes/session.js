@@ -49,6 +49,24 @@ const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring'
 // DEFAULT_ATTACK_RANGE e' ora autoritativo in policy.js (usato sia qui che dall'IA).
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
+// ADR-2026-04-16: round-based combat model migration. PR 2 di N —
+// endpoint stubs dietro feature flag USE_ROUND_MODEL. Il modulo e'
+// completamente isolato (PR #1387), esposto qui solo come dipendenza
+// delle nuove route /declare-intent, /clear-intent/:id, /commit-round,
+// /resolve-round. Il flusso legacy (/action, /turn/end) e' intatto.
+const {
+  createRoundOrchestrator,
+  PHASE_PLANNING,
+  PHASE_COMMITTED,
+  PHASE_RESOLVED,
+} = require('../services/roundOrchestrator');
+
+// Feature flag: l'intera superficie round-based e' disabilitata se
+// USE_ROUND_MODEL !== 'true'. In quel caso ogni nuovo endpoint
+// ritorna 503. Di default e' false (comportamento legacy invariato).
+function isRoundModelEnabled() {
+  return String(process.env.USE_ROUND_MODEL || '').toLowerCase() === 'true';
+}
 
 const GRID_SIZE = 6;
 const DEFAULT_HP = 10;
@@ -1176,6 +1194,281 @@ function createSessionRouter(options = {}) {
       const snapshot = buildVcSnapshot(session, telemetryConfig);
       res.json(snapshot);
     } catch (err) {
+      next(err);
+    }
+  });
+
+  // ────────────────────────────────────────────────────────────────
+  // Round-based combat endpoints (ADR-2026-04-16, PR 2 di N)
+  // ────────────────────────────────────────────────────────────────
+  //
+  // Le 4 route qui sotto abilitano il nuovo modello round-based
+  // (shared-planning → commit → resolve) descritto in
+  // ADR-2026-04-16-session-engine-round-migration.md e implementato
+  // in apps/backend/services/roundOrchestrator.js (port in JS del
+  // Python orchestrator).
+  //
+  // Feature flag: `USE_ROUND_MODEL`. Se falsa, ogni endpoint ritorna
+  // 503. Se vera, il session object accumula uno state parallelo
+  // `session.roundState` in shape nativa dell'orchestrator
+  // (pending_intents, round_phase, units con hp/ap/reactions dict).
+  //
+  // Il flusso legacy (/start, /action, /turn/end, /end, /state, /:id/vc)
+  // e' intatto: la mappa `sessions` e le funzioni esistenti non sono
+  // toccate. Le due superfici coesistono. La migrazione del flusso
+  // legacy ai round endpoints (wrapper + refactor AI) e' scope di PR
+  // successive.
+  //
+  // Il `resolveAction` iniettato e' un **placeholder minimale** per
+  // PR 2: gestisce `attack` applicando 3 HP di danno fisso al target,
+  // `heal` con healing deterministico, e gli altri type come no-op
+  // con consumo AP. Il wiring al resolver reale (performAttack +
+  // traitEffects) e' scope di PR 4 (legacy wrappers).
+
+  function roundModelGuard(_req, res) {
+    if (!isRoundModelEnabled()) {
+      res.status(503).json({
+        error: 'round_model_disabled',
+        message:
+          'Feature flag USE_ROUND_MODEL non attivo. Imposta USE_ROUND_MODEL=true per abilitare gli endpoint round-based (vedi ADR-2026-04-16).',
+      });
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Adapter session.js units -> orchestrator units.
+   *
+   * La session in-memory usa `hp`/`max_hp` scalari, `ap`/`ap_remaining`,
+   * `status` come oggetto, `guardia` come parry budget. L'orchestrator
+   * vuole `hp: {current, max}`, `ap: {current, max}`,
+   * `reactions: {current, max}`, `statuses: []`.
+   *
+   * Il mapping e' idempotente: chiamarlo piu' volte sullo stesso
+   * session object ritorna sempre la stessa shape. Preserva `tier`
+   * (default 1) e `stress` (default 0) per i predicates DSL.
+   */
+  function adaptSessionToRoundState(session) {
+    const units = (session.units || []).map((u) => {
+      const statusObj = u.status || {};
+      const statuses = [];
+      for (const [id, turns] of Object.entries(statusObj)) {
+        if (Number(turns) > 0) {
+          statuses.push({
+            id,
+            intensity: 1,
+            remaining_turns: Number(turns),
+          });
+        }
+      }
+      return {
+        id: String(u.id),
+        hp: {
+          current: Number(u.hp || 0),
+          max: Number(u.max_hp || u.hp || 0),
+        },
+        ap: {
+          current: Number(u.ap_remaining != null ? u.ap_remaining : u.ap || 0),
+          max: Number(u.ap || 0),
+        },
+        reactions: { current: 1, max: 1 },
+        initiative: Number(u.initiative || 0),
+        tier: Number(u.tier || 1),
+        stress: Number(u.stress || 0),
+        statuses,
+        reaction_cooldown_remaining: Number(u.reaction_cooldown_remaining || 0),
+      };
+    });
+    return {
+      session_id: session.session_id,
+      turn: Number(session.turn || 1),
+      round_phase: null,
+      pending_intents: [],
+      units,
+      log: [],
+    };
+  }
+
+  /**
+   * Ensure `session.roundState` e' inizializzato. Chiamato lazy
+   * all'ingresso dei 4 endpoint round-based. Se non esiste, lo
+   * costruisce dall'adattamento delle units legacy.
+   */
+  function ensureRoundState(session) {
+    if (!session.roundState) {
+      session.roundState = adaptSessionToRoundState(session);
+    }
+    return session.roundState;
+  }
+
+  /**
+   * Placeholder resolveAction per PR 2. Gestisce:
+   *   - attack: infligge 3 HP di danno fisso al target, consuma AP
+   *   - heal: applica 3 HP di healing clampato a max_hp, consuma AP
+   *   - defend/parry/ability/move: consuma AP, nessun effect
+   *
+   * Restituisce `{ nextState, turnLogEntry }` in shape orchestrator
+   * (turn_log_entry con damage_applied / healing_applied).
+   *
+   * PR 4 scope: replace con wiring al `performAttack` reale di
+   * session.js (con trait effects, fairness cap, status system, ...).
+   */
+  function placeholderResolveAction(state, action, _catalog, _rng) {
+    const next = JSON.parse(JSON.stringify(state));
+    const actorId = String(action.actor_id || '');
+    const targetId = action.target_id ? String(action.target_id) : null;
+    const actor = next.units.find((u) => u.id === actorId);
+    if (actor && actor.ap) {
+      actor.ap.current = Math.max(0, Number(actor.ap.current || 0) - Number(action.ap_cost || 0));
+    }
+    let damageApplied = 0;
+    let healingApplied = 0;
+    if (action.type === 'attack' && targetId) {
+      const target = next.units.find((u) => u.id === targetId);
+      if (target && target.hp) {
+        damageApplied = 3;
+        target.hp.current = Math.max(0, Number(target.hp.current || 0) - damageApplied);
+      }
+    } else if (action.type === 'heal' && targetId) {
+      const target = next.units.find((u) => u.id === targetId);
+      if (target && target.hp) {
+        const missing = Number(target.hp.max || 0) - Number(target.hp.current || 0);
+        healingApplied = Math.max(0, Math.min(3, missing));
+        target.hp.current = Number(target.hp.current || 0) + healingApplied;
+      }
+    }
+    const turnLogEntry = {
+      turn: Number(next.turn || 1),
+      action: { ...action },
+      damage_applied: damageApplied,
+      healing_applied: healingApplied,
+    };
+    (next.log = next.log || []).push(turnLogEntry);
+    return { nextState: next, turnLogEntry };
+  }
+
+  // Orchestrator con closure-scoped deps. Gli unit test del modulo
+  // (tests/services/roundOrchestrator.test.js) validano la purezza
+  // delle funzioni — qui ci limitiamo a fornire resolveAction +
+  // rng = Math.random. La sostituzione del placeholder e' scope PR 4.
+  const roundOrchestrator = createRoundOrchestrator({
+    resolveAction: placeholderResolveAction,
+    defaultRng: rng,
+  });
+
+  router.post('/declare-intent', (req, res, next) => {
+    try {
+      if (!roundModelGuard(req, res)) return;
+      const { session_id: sessionId, actor_id: actorId, action } = req.body || {};
+      const { error, session } = resolveSession(sessionId);
+      if (error) return res.status(error.status).json(error.body);
+      if (!actorId || typeof actorId !== 'string') {
+        return res.status(400).json({ error: 'actor_id richiesto (string)' });
+      }
+      if (!action || typeof action !== 'object') {
+        return res
+          .status(400)
+          .json({ error: "action richiesto (object con campi 'type', 'actor_id', ...)" });
+      }
+      const state = ensureRoundState(session);
+      // beginRound automatico se phase e' null o 'resolved'
+      let current = state;
+      if (current.round_phase !== PHASE_PLANNING) {
+        current = roundOrchestrator.beginRound(current).nextState;
+      }
+      const { nextState } = roundOrchestrator.declareIntent(current, actorId, action);
+      session.roundState = nextState;
+      res.json({
+        session_id: session.session_id,
+        round_phase: nextState.round_phase,
+        pending_intents: nextState.pending_intents,
+      });
+    } catch (err) {
+      // Phase-machine errors -> 400
+      if (err && /round_phase|unit_id/.test(String(err.message || ''))) {
+        return res.status(400).json({ error: err.message });
+      }
+      next(err);
+    }
+  });
+
+  router.post('/clear-intent/:actorId', (req, res, next) => {
+    try {
+      if (!roundModelGuard(req, res)) return;
+      const sessionId = (req.body && req.body.session_id) || req.query.session_id;
+      const actorId = req.params.actorId;
+      const { error, session } = resolveSession(sessionId);
+      if (error) return res.status(error.status).json(error.body);
+      if (!session.roundState) {
+        return res
+          .status(400)
+          .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
+      }
+      const { nextState } = roundOrchestrator.clearIntent(session.roundState, actorId);
+      session.roundState = nextState;
+      res.json({
+        session_id: session.session_id,
+        round_phase: nextState.round_phase,
+        pending_intents: nextState.pending_intents,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.post('/commit-round', (req, res, next) => {
+    try {
+      if (!roundModelGuard(req, res)) return;
+      const sessionId = req.body && req.body.session_id;
+      const { error, session } = resolveSession(sessionId);
+      if (error) return res.status(error.status).json(error.body);
+      if (!session.roundState) {
+        return res
+          .status(400)
+          .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
+      }
+      const { nextState } = roundOrchestrator.commitRound(session.roundState);
+      session.roundState = nextState;
+      res.json({
+        session_id: session.session_id,
+        round_phase: nextState.round_phase,
+        pending_intents: nextState.pending_intents,
+      });
+    } catch (err) {
+      if (err && /round_phase/.test(String(err.message || ''))) {
+        return res.status(400).json({ error: err.message });
+      }
+      next(err);
+    }
+  });
+
+  router.post('/resolve-round', (req, res, next) => {
+    try {
+      if (!roundModelGuard(req, res)) return;
+      const sessionId = req.body && req.body.session_id;
+      const { error, session } = resolveSession(sessionId);
+      if (error) return res.status(error.status).json(error.body);
+      if (!session.roundState) {
+        return res
+          .status(400)
+          .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
+      }
+      const result = roundOrchestrator.resolveRound(session.roundState);
+      session.roundState = result.nextState;
+      res.json({
+        session_id: session.session_id,
+        round_phase: result.nextState.round_phase,
+        turn_log_entries: result.turnLogEntries,
+        resolution_queue: result.resolutionQueue,
+        reactions_triggered: result.reactionsTriggered,
+        skipped: result.skipped,
+        units: result.nextState.units,
+      });
+    } catch (err) {
+      if (err && /round_phase/.test(String(err.message || ''))) {
+        return res.status(400).json({ error: err.message });
+      }
       next(err);
     }
   });
