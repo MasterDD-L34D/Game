@@ -57,3 +57,13 @@ reports/status.json
 # Playtest session event streams raw (rigenerati da ogni run, non servono in VCS)
 # I report analitici (.md) restano tracciati.
 logs/session_*.json
+
+# Backup spurious dei tool ACL (vedi #1347)
+.git_acl_backup_*.txt
+
+# Backup file dei dataset (creati da test runs, vedi #1341)
+*.bak
+data/flow-shell/*.bak
+
+# Setup backlog logs (rigenerati da scripts/setup_*.sh, vedi #1345)
+reports/setup_backlog_*.log
