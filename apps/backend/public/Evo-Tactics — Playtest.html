@@ -69,7 +69,46 @@
     gap: 12px;
   }
 
+  .grid-frame {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    grid-template-rows:    16px 1fr;
+    gap: 4px;
+  }
+
+  .col-labels {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: repeat(6, var(--cell));
+    gap: 2px;
+  }
+  .col-labels span {
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .05em;
+  }
+
+  .row-labels {
+    grid-row: 2;
+    grid-column: 1;
+    display: grid;
+    grid-template-rows: repeat(6, var(--cell));
+    gap: 2px;
+  }
+  .row-labels span {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 6px;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .05em;
+  }
+
   #grid {
+    grid-column: 2;
+    grid-row: 2;
     display: grid;
     grid-template-columns: repeat(6, var(--cell));
     grid-template-rows:    repeat(6, var(--cell));
@@ -261,7 +300,15 @@
 
 <main>
   <div id="grid-wrap">
-    <div id="grid"></div>
+    <div class="grid-frame">
+      <div class="col-labels">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+      <div class="row-labels">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+      </div>
+      <div id="grid"></div>
+    </div>
     <div id="hint">Errore: Failed to fetch — backend attivo?</div>
   </div>
 
@@ -529,26 +576,43 @@ function showGameOver(title, sub) {
 }
 
 /* ── LOG ── */
+function fmtPos(p) { return p ? `(${p.x},${p.y})` : '(?,?)'; }
+
 function logAction(type, res, body) {
   if (type === 'attack') {
     const hit = res.result === 'hit';
     const effects = (res.trait_effects ?? []).filter(t => t.triggered).map(t => t.effect).join(', ');
     const extra = effects ? ` [${effects}]` : '';
+    const from = fmtPos(res.actor_position);
+    const to   = fmtPos(res.target_position);
     addLog(hit ? 'hit' : 'miss',
-      `Attacco → d20=${res.roll} MoS=${res.mos} PT=${res.pt} — ${hit ? 'COLPITO' : 'MANCATO'}${extra}`
+      `Attacco ${from}→${to} d20=${res.roll} MoS=${res.mos} PT=${res.pt} — ${hit ? 'COLPITO' : 'MANCATO'}${extra}`
       + (res.target_hp !== undefined ? ` · HP nemico: ${res.target_hp}` : ''));
   } else {
-    addLog('move', `Mosso a (${body.position?.x},${body.position?.y})`);
+    const from = fmtPos(res.position_from);
+    const to   = fmtPos(body.position);
+    addLog('move', `Mosso ${from}→${to}`);
   }
 }
 
 function logIaAction(ia) {
-  const hit = ia.result === 'hit';
-  addLog('sistema',
-    `SISTEMA (${ia.ia_rule ?? 'REGOLA_001'}) → `
-    + (ia.action_type === 'attack'
-        ? `d20=${ia.roll} — ${hit ? 'COLPITO' : 'MANCATO'}`
-        : `si muove`));
+  // Il backend emette runSistemaTurn actions con `type`, non `action_type`.
+  const kind = ia.type || ia.action_type;
+  const rule = ia.ia_rule ?? 'REGOLA_001';
+  if (kind === 'attack') {
+    const hit = ia.result === 'hit';
+    const from = fmtPos(ia.actor_position);
+    const to   = fmtPos(ia.target_position);
+    const dmg = ia.damage_dealt ? ` d=${ia.damage_dealt}` : '';
+    addLog('sistema',
+      `SISTEMA (${rule}) ${from}→${to} d20=${ia.roll} — ${hit ? 'COLPITO' : 'MANCATO'}${dmg}`);
+  } else if (kind === 'skip') {
+    addLog('sistema', `SISTEMA (${rule}) fermo — ${ia.reason ?? 'bloccato'}`);
+  } else {
+    const from = fmtPos(ia.position_from);
+    const to   = fmtPos(ia.position_to);
+    addLog('sistema', `SISTEMA (${rule}) si muove ${from}→${to}`);
+  }
 }
 
 function addLog(cls, msg) {
