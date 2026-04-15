@@ -230,6 +230,22 @@
   .status-chip.stunned { border-color: #c084fc; color: #c084fc; }
   .status-chip-dur { opacity: .75; font-weight: 700; }
 
+  /* SPRINT_017: scenario picker grid di bottoni */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .scenario-btn {
+    font-size: 10px;
+    padding: 6px 4px;
+  }
+  .scenario-btn.active {
+    border-color: var(--p1);
+    color: var(--p1-light);
+    background: rgba(59,139,212,.18);
+  }
+
   /* ── PANNELLO LATERALE ── */
   aside {
     flex: 1;
@@ -427,6 +443,17 @@
       </div>
     </div>
 
+    <!-- SPRINT_017: Scenari -->
+    <div class="panel">
+      <div class="panel-title">Scenario</div>
+      <div class="scenario-grid">
+        <button class="btn scenario-btn active" data-scenario="classic"        onclick="startSession('classic')">Classico</button>
+        <button class="btn scenario-btn"        data-scenario="ranger_duel"    onclick="startSession('ranger_duel')">Duello Ranger</button>
+        <button class="btn scenario-btn"        data-scenario="caster_vs_tank" onclick="startSession('caster_vs_tank')">Caster vs Tank</button>
+        <button class="btn scenario-btn"        data-scenario="mirror_ranger"  onclick="startSession('mirror_ranger')">Mirror Ranger</button>
+      </div>
+    </div>
+
     <!-- Log -->
     <div class="panel" style="flex:1;display:flex;flex-direction:column;min-height:0">
       <div class="panel-title">Log Combattimento</div>
@@ -458,23 +485,67 @@ async function api(path, body) {
   return r.json();
 }
 
+/* SPRINT_017: scenari predefiniti per variare i matchup.
+   Ogni scenario configura le unita' con job/range/posizione differenti.
+   La chiave `label` appare sul bottone, `desc` nel hint. */
+const SCENARIOS = {
+  classic: {
+    label: 'Classico',
+    desc: 'Velox skirmisher r2 vs Carapax vanguard r1',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'],    controlled_by:'player', position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  ranger_duel: {
+    label: 'Duello Ranger',
+    desc: 'Tu velox r2, SIS falco ranger r3 — kite nemico',
+    units: [
+      { id:'unit_1', species:'velox',  job:'skirmisher', traits:['zampe_a_molla'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'falco',  job:'ranger',                                controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  caster_vs_tank: {
+    label: 'Caster vs Tank',
+    desc: 'Tu carapax r1, SIS volpina invoker r3 — sopravvivi al bombardamento',
+    units: [
+      { id:'unit_1', species:'carapax', job:'vanguard', traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'volpina', job:'invoker',                                controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  mirror_ranger: {
+    label: 'Mirror Ranger',
+    desc: 'Entrambi falco ranger r3 — duello di range uguali',
+    units: [
+      { id:'unit_1', species:'falco', job:'ranger', controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'falco', job:'ranger', controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+};
+
+let currentScenarioId = 'classic';
+
 /* ── AVVIO SESSIONE ── */
-async function startSession() {
+async function startSession(scenarioId) {
   document.getElementById('overlay').classList.remove('show');
   selected = null;
-  setHint('Avvio sessione…');
+  const id = scenarioId && SCENARIOS[scenarioId] ? scenarioId : currentScenarioId;
+  currentScenarioId = id;
+  const scenario = SCENARIOS[id];
+  setHint(`Avvio ${scenario.label}…`);
   clearLog();
+  // Evidenzia il bottone scenario attivo
+  document.querySelectorAll('.scenario-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.scenario === id);
+  });
   try {
-    const res = await api('/api/session/start', {
-      units: [
-        { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'], controlled_by:'player' },
-        { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'sistema' }
-      ]
-    });
+    const res = await api('/api/session/start', { units: scenario.units });
     state = res.state ?? res;
     // salva HP iniziali per le barre
+    maxHp = {};
     (state.units || []).forEach(u => { maxHp[u.id] = u.hp; });
-    addLog('info', `Sessione avviata — ${state.session_id ?? ''}`);
+    addLog('info', `Scenario: ${scenario.label}`);
+    addLog('info', scenario.desc);
     render();
   } catch(e) {
     // fallback: prova a leggere lo stato se la sessione era già aperta
