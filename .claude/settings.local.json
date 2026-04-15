@@ -53,7 +53,8 @@
       "Bash(npx --no-install prettier --write apps/backend/routes/session.js)",
       "Bash(git push:*)",
       "Bash(gh pr create --title 'feat\\(session\\): playtest rules engine — AP, range, IA dual-action \\(sprint-004\\)' --body ':*)",
-      "Bash(ls logs/session_20260415_*.json)"
+      "Bash(ls logs/session_20260415_*.json)",
+      "Bash(npx --no-install prettier --write SPRINT_001.md SPRINT_002.md)"
     ]
   }
 }
