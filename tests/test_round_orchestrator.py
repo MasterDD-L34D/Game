@@ -1044,4 +1044,278 @@ def test_reaction_does_not_consume_ap_if_not_triggered(catalog):
 def test_supported_reaction_enums_are_exposed():
     """Sanity check su costanti esportate."""
     assert "attacked" in SUPPORTED_REACTION_EVENTS
+    assert "damaged" in SUPPORTED_REACTION_EVENTS
     assert "parry" in SUPPORTED_REACTION_TYPES
+    assert "trigger_status" in SUPPORTED_REACTION_TYPES
+
+
+# ------------------------------------------------------------------
+# Reactions event "damaged" (follow-up #5)
+# ------------------------------------------------------------------
+
+
+def test_declare_reaction_accepts_event_damaged(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 2,
+            "intensity": 1,
+            "target": "attacker",
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )["next_state"]
+    assert len(state["pending_intents"]) == 1
+    intent = state["pending_intents"][0]
+    assert intent["reaction_trigger"]["event"] == "damaged"
+    assert intent["reaction_payload"]["type"] == "trigger_status"
+
+
+def test_declare_reaction_accepts_trigger_status_payload(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    # trigger_status con event attacked e' accettato dalla validazione
+    # (anche se semanticamente ha senso solo con damaged per la logica
+    # di resolve_round)
+    result = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 1,
+            "intensity": 1,
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )
+    assert len(result["next_state"]["pending_intents"]) == 1
+
+
+def test_damaged_reaction_applies_status_to_attacker_on_hit(catalog):
+    """Quando alpha attacca bravo e infligge danno, la reaction
+    'damaged' di bravo applica lo status all'attaccante (alpha)."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    # Pump HP di bravo cosi' sopravvive e il danno reale e' applicato
+    state["units"][1]["hp"]["current"] = 50
+    state["units"][1]["hp"]["max"] = 50
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 3,
+            "intensity": 2,
+            "target": "attacker",
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    # Forziamo un hit con damage reale: nat 20 crit per sicurezza
+    rng = rng_from_sequence(
+        [
+            19 / 20,  # nat 20
+            5 / 8,  # damage
+        ]
+    )
+    result = resolve_round(state, catalog, rng)
+    # 1 main intent risolto, 1 reaction triggerata
+    assert len(result["turn_log_entries"]) == 1
+    assert len(result["reactions_triggered"]) == 1
+    triggered = result["reactions_triggered"][0]
+    assert triggered["event"] == "damaged"
+    assert triggered["target_unit_id"] == "bravo"
+    assert triggered["attacker_unit_id"] == "alpha"
+    assert triggered["status_target_unit_id"] == "alpha"
+    # alpha ora ha bleeding intensity 2 duration 3
+    alpha_after = result["next_state"]["units"][0]
+    bleeds = [s for s in alpha_after.get("statuses", []) if s.get("id") == "bleeding"]
+    assert len(bleeds) == 1
+    assert bleeds[0]["intensity"] == 2
+    assert bleeds[0]["remaining_turns"] == 3
+
+
+def test_damaged_reaction_applies_status_to_self_when_target_self(catalog):
+    """Con payload.target='self', lo status e' applicato al target
+    (unit che ha subito il danno), non all'attaccante."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state["units"][1]["hp"]["current"] = 50
+    state["units"][1]["hp"]["max"] = 50
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "rage",
+            "duration": 2,
+            "intensity": 1,
+            "target": "self",
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    # alpha NON ha rage
+    alpha_after = result["next_state"]["units"][0]
+    alpha_rage = [s for s in alpha_after.get("statuses", []) if s.get("id") == "rage"]
+    assert alpha_rage == []
+    # bravo HA rage (auto-applicato a se stesso)
+    bravo_after = result["next_state"]["units"][1]
+    bravo_rage = [s for s in bravo_after.get("statuses", []) if s.get("id") == "rage"]
+    assert len(bravo_rage) == 1
+    assert bravo_rage[0]["intensity"] == 1
+
+
+def test_damaged_reaction_NOT_triggered_if_no_damage(catalog):
+    """Se l'attack manca (damage_applied=0), la reaction damaged
+    NON deve triggerare."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 2,
+            "intensity": 1,
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    # Forziamo un miss: nat 1 fumble
+    rng = rng_from_sequence([0 / 20])  # natural 1
+    result = resolve_round(state, catalog, rng)
+    assert result["reactions_triggered"] == []
+    # alpha NON ha bleeding
+    alpha_after = result["next_state"]["units"][0]
+    alpha_bleeds = [
+        s for s in alpha_after.get("statuses", []) if s.get("id") == "bleeding"
+    ]
+    assert alpha_bleeds == []
+
+
+def test_damaged_reaction_source_filter_rejects_wrong_attacker(catalog):
+    """source_any_of=['charlie'] NON triggera su alpha."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state["units"][1]["hp"]["current"] = 50
+    state["units"][1]["hp"]["max"] = 50
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 2,
+            "intensity": 1,
+            "target": "attacker",
+        },
+        trigger={"event": "damaged", "source_any_of": ["charlie"]},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    assert result["reactions_triggered"] == []
+
+
+def test_damaged_reaction_one_shot_consumed_after_trigger(catalog):
+    """Dopo il primo trigger damaged, la reaction e' consumed e non
+    riparte anche se un secondo attacco provoca altro danno."""
+
+    # alpha + charlie entrambi attaccano bravo
+    state = _make_state(catalog, initiative_a=18, initiative_b=5)
+    charlie = build_hostile_unit_from_group(
+        unit_id="charlie",
+        species_id="demo_charlie",
+        group={"power": 4, "role": "front", "affixes": []},
+        trait_ids=[],
+        catalog=catalog,
+    )
+    charlie["initiative"] = 12
+    state["units"].append(charlie)
+    state["units"][1]["hp"]["current"] = 100
+    state["units"][1]["hp"]["max"] = 100
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_intent(state, "charlie", _attack("charlie", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 2,
+            "intensity": 1,
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    # Entrambi crit per garantire damage
+    rng = rng_from_sequence(
+        [
+            19 / 20,  # alpha nat 20
+            5 / 8,  # alpha damage
+            19 / 20,  # charlie nat 20
+            5 / 8,  # charlie damage
+        ]
+    )
+    result = resolve_round(state, catalog, rng)
+    # Esattamente 1 reaction (triggerata su alpha che ha priority piu' alta)
+    assert len(result["reactions_triggered"]) == 1
+    assert result["reactions_triggered"][0]["attacker_unit_id"] == "alpha"
+    # alpha ha bleeding, charlie NON ha bleeding
+    units_after = {u["id"]: u for u in result["next_state"]["units"]}
+    alpha_bleeds = [
+        s for s in units_after["alpha"].get("statuses", []) if s.get("id") == "bleeding"
+    ]
+    charlie_bleeds = [
+        s for s in units_after["charlie"].get("statuses", []) if s.get("id") == "bleeding"
+    ]
+    assert len(alpha_bleeds) == 1
+    assert charlie_bleeds == []
+
+
+def test_damaged_and_attacked_reactions_coexist_on_different_units(catalog):
+    """Due reactions diverse su due unit diversi devono funzionare
+    entrambe senza interferire."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state["units"][0]["hp"]["current"] = 100
+    state["units"][0]["hp"]["max"] = 100
+    state["units"][1]["hp"]["current"] = 100
+    state["units"][1]["hp"]["max"] = 100
+    state = begin_round(state)["next_state"]
+    # alpha attacca bravo
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    # bravo reaction damaged → status a alpha
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 2,
+            "intensity": 1,
+            "target": "attacker",
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+    assert result["reactions_triggered"][0]["event"] == "damaged"
