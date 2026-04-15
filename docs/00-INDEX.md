@@ -15,6 +15,8 @@ review_cycle_days: 30
 >
 > I doc numerati sono stati spostati in [`docs/core/`](core/) durante la ristrutturazione di aprile 2026. Tutti i link sotto sono già aggiornati ai nuovi path.
 
+> **Final Design Freeze v0.9.** La baseline canonica di design finale di Evo Tactics vive in [`docs/core/90-FINAL-DESIGN-FREEZE.md`](core/90-FINAL-DESIGN-FREEZE.md) (A3 source of truth). Il bundle esecutivo (roadmap, milestones & gates, backlog, playbook Codex, piano cross-repo) e' in [`docs/planning/EVO_FINAL_DESIGN_ROADMAPS_INDEX.md`](planning/EVO_FINAL_DESIGN_ROADMAPS_INDEX.md). Le regole di risoluzione conflitti tra fonti sono in [`docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md).
+
 ## Accesso rapido (SSoT)
 
 - [INTEGRAZIONE GUIDE — SSoT](INTEGRAZIONE_GUIDE.md)

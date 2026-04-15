@@ -54,6 +54,10 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 - [ADR-2026-04-13: Rules Engine d20](../adr/ADR-2026-04-13-rules-engine-d20.md) — scelte di linguaggio (Python), gate sul balance layer separato, RNG namespacing, scope degli status in Fase 1.
 - [ADR-2026-04-15: Round-based combat model](../adr/ADR-2026-04-15-round-based-combat-model.md) — nuovo loop shared-planning → commit → ordered-resolution, semantica di `initiative` come reaction speed.
 
+## Vista di prodotto
+
+- [Final Design Freeze v0.9 §7 Combat system](../core/90-FINAL-DESIGN-FREEZE.md) — sintesi di prodotto del combat nucleo canonico, scope shipping degli action type e status, resolver freeze API, formula tattica da fissare nel rulebook. Complementare alla reference API di questo hub.
+
 ## Comandi demo
 
 ```bash

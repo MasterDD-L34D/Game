@@ -28,3 +28,8 @@ review_cycle_days: 14
 
 - completare baseline minima dei moduli incompleti
 - aggiornare `docs/governance/workstream_matrix.json`
+
+## Cross-repo (Game ↔ Game-Database)
+
+- [ADR-2026-04-14: Game-Database topology](../adr/ADR-2026-04-14-game-database-topology.md) — confine architetturale non negoziabile: `Game` resta runtime source of truth, `Game-Database` resta CMS/taxonomy e import target build-time.
+- [Final Design — Game Database Sync Plan](../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md) — runbook operativo per `sync:evo-pack` / `evo:import`, cadence manuale/batch, trigger per riaprire integrazioni avanzate. Segue l'ADR senza introdurre dipendenze runtime.
