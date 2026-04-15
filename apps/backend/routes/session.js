@@ -114,6 +114,13 @@ function normaliseUnit(raw, fallbackIndex) {
   // possibile dall'input (utile per scenari di test che partono con SIS
   // gia' ferito). Default: parte a hp iniziale (unita' fresca = full HP).
   const maxHp = Number.isFinite(Number(input.max_hp)) ? Number(input.max_hp) : hp;
+  // SPRINT_013 (issue #10): oggetto status per stati emotivi temporanei.
+  // Ogni chiave e' il nome dello stato, valore = turns_remaining.
+  // 0 o mancante = inattivo. Accetta override iniziale dall'input.
+  const status =
+    input.status && typeof input.status === 'object'
+      ? { ...input.status }
+      : { panic: 0, rage: 0, stunned: 0, focused: 0, confused: 0 };
   return {
     id,
     species: input.species ? String(input.species) : 'unknown',
@@ -121,6 +128,7 @@ function normaliseUnit(raw, fallbackIndex) {
     traits,
     hp,
     max_hp: maxHp,
+    status,
     ap,
     ap_remaining: Number.isFinite(Number(input.ap_remaining)) ? Number(input.ap_remaining) : ap,
     mod: Number.isFinite(Number(input.mod)) ? Number(input.mod) : DEFAULT_MOD,
@@ -298,6 +306,8 @@ function createSessionRouter(options = {}) {
     let damageDealt = 0;
     let killOccurred = false;
     let adjacencyBonus = 0;
+    let rageBonus = 0;
+    let panicTriggered = false;
     if (result.hit) {
       const baseDamage = 1 + result.pt;
       // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
@@ -308,7 +318,12 @@ function createSessionRouter(options = {}) {
       if (attackDist === 1) {
         adjacencyBonus = 1;
       }
-      const adjusted = baseDamage + evaluation.damage_modifier + adjacencyBonus;
+      // SPRINT_013 (issue #10): bonus rage — se l'attaccante e' in stato
+      // rage, +1 damage in aggiunta al bonus adiacenza.
+      if (actor.status && Number(actor.status.rage) > 0) {
+        rageBonus = 1;
+      }
+      const adjusted = baseDamage + evaluation.damage_modifier + adjacencyBonus + rageBonus;
       damageDealt = Math.max(0, adjusted);
       // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
       // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
@@ -318,8 +333,24 @@ function createSessionRouter(options = {}) {
       if (target.hp === 0) {
         killOccurred = true;
       }
+      // SPRINT_013 (issue #10): trigger panic nel target se subisce un
+      // colpo critico (MoS >= 8). Il target non e' ancora morto (target.hp
+      // potrebbe essere a 0 ma panic su un'unita' KO e' innocuo). Applica
+      // 2 turni di panic.
+      if (result.mos >= 8 && target.status && target.hp > 0) {
+        target.status.panic = Math.max(Number(target.status.panic) || 0, 2);
+        panicTriggered = true;
+      }
     }
-    return { result, evaluation, damageDealt, killOccurred, adjacencyBonus };
+    return {
+      result,
+      evaluation,
+      damageDealt,
+      killOccurred,
+      adjacencyBonus,
+      rageBonus,
+      panicTriggered,
+    };
   }
 
   async function emitKillAndAssists(session, killer, target, attackEvent) {
@@ -678,6 +709,20 @@ function createSessionRouter(options = {}) {
       const current = session.units.find((u) => u.id === session.active_unit);
       if (current) {
         current.ap_remaining = current.ap;
+      }
+
+      // SPRINT_013 (issue #10): decrementa le durate degli stati emotivi
+      // di TUTTE le unita' alla fine del turno. Uno stato che scade diventa
+      // 0 (inattivo). Cosi' panic/rage/stunned durano N turni e poi
+      // spariscono automaticamente.
+      for (const unit of session.units) {
+        if (!unit.status) continue;
+        for (const key of Object.keys(unit.status)) {
+          const v = Number(unit.status[key]);
+          if (v > 0) {
+            unit.status[key] = v - 1;
+          }
+        }
       }
 
       // 2. Passa il turno all'unita' successiva

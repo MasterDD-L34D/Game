@@ -101,6 +101,25 @@ function createSistemaTurnRunner(deps) {
         }
       }
 
+      // SPRINT_013 (issue #10): intent 'skip' per stati come stunned.
+      // L'actor non fa nulla, consuma tutti gli AP restanti, registra
+      // un'unica azione descrittiva.
+      if (policy.intent === 'skip') {
+        const apSpent = actor.ap_remaining;
+        actor.ap_remaining = 0;
+        actions.push({
+          actor: 'sistema',
+          unit_id: actor.id,
+          type: 'skip',
+          reason: `stato emotivo — ${policy.rule}`,
+          position_from: { ...actor.position },
+          position_to: { ...actor.position },
+          ia_rule: policy.rule,
+          ap_spent: apSpent,
+        });
+        break;
+      }
+
       if (policy.intent === 'attack') {
         const hpBefore = target.hp;
         const targetPositionAtAttack = { ...target.position };
