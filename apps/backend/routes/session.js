@@ -38,6 +38,7 @@ const { Router } = require('express');
 
 const { loadActiveTraitRegistry, evaluateAttackTraits } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
+const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
 
 const GRID_SIZE = 6;
 const DEFAULT_HP = 10;
@@ -201,6 +202,7 @@ function createSessionRouter(options = {}) {
   const rng = typeof options.rng === 'function' ? options.rng : Math.random;
   const traitRegistry = options.traitRegistry || loadActiveTraitRegistry();
   const fairnessConfig = options.fairnessConfig || loadFairnessConfig();
+  const telemetryConfig = options.telemetryConfig || loadTelemetryConfig();
 
   const sessions = new Map();
   let activeSessionId = null;
@@ -674,6 +676,21 @@ function createSessionRouter(options = {}) {
         log_file: logFile,
         events_count: eventsCount,
       });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // SPRINT_003 fase 3: VC snapshot on-demand. Registrato DOPO tutte le
+  // route statiche (/start, /state, /action, /turn/end, /end) per
+  // evitare che resolveSession('state') venga intercettato dal pattern
+  // /:id/vc. Non muta stato, non persistenze.
+  router.get('/:id/vc', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const snapshot = buildVcSnapshot(session, telemetryConfig);
+      res.json(snapshot);
     } catch (err) {
       next(err);
     }
