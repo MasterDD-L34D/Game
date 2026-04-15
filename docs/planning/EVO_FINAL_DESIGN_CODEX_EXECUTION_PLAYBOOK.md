@@ -151,7 +151,7 @@ Non usare `FAST_PATH` per:
 | ----- | ------ | --------------------------------------------------------------- |
 | ☑    | Step 1 | Pubblicare freeze e bundle roadmap.                             |
 | ☑    | Step 2 | Disegnare pipeline per M1 Combat Freeze.                        |
-| ☑    | Step 3 | Eseguire task `FD-010..020`.                                    |
+| ☑    | Step 3 | Eseguire task `FD-020..030` (EPIC C Combat).                    |
 | ☑    | Step 4 | Disegnare ed eseguire pipeline M2 Balance & Progression.        |
 | ☑    | Step 5 | Chiudere content slice e vertical slice.                        |
 | ☑    | Step 6 | Chiudere HUD/telemetry shipping layer.                          |
@@ -165,7 +165,7 @@ Non usare `FAST_PATH` per:
 ```text
 AGENTE: coordinator
 Task:
-Analizza il backlog `FD-050..065`.
+Analizza il backlog `FD-060..068` (EPIC F Species).
 Usa freeze + roadmap + gates.
 Restituisci una pipeline eseguibile senza toccare file.
 ```
@@ -185,7 +185,7 @@ Mostra prima il piano e poi il diff.
 ```text
 AGENTE: balancer
 Task:
-Lavora su `FD-030..036`.
+Lavora su `FD-040..046` (EPIC D Balance layer).
 Analizza `trait_mechanics.yaml`, individua placeholder e proponi una patch ragionata.
 Non applicare nulla senza preview e senza check dei test collegati.
 ```
