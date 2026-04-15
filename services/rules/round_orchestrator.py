@@ -105,18 +105,23 @@ VALID_PHASES = frozenset({PHASE_PLANNING, PHASE_COMMITTED, PHASE_RESOLVING, PHAS
 #: Eventi che possono triggerare una reaction.
 #:
 #: - ``'attacked'`` (pre-hit): triggerato **prima** del damage step quando
-#:   l'unita' e' bersaglio di un attack. Abilita parry contestata: il
-#:   payload ``parry`` inietta ``parry_response`` nell'action e il
-#:   resolver gestisce la pipeline difensiva (parata contrattata,
-#:   riduzione damage_step, PT difensivi).
+#:   l'unita' e' bersaglio di un attack. Abilita parry contestata.
 #: - ``'damaged'`` (post-hit): triggerato **dopo** il damage step, se
-#:   l'unita' ha subito `damage_applied > 0`. Non puo' ridurre il danno
-#:   subito (gia' applicato) ma puo' applicare un reaction payload di
-#:   risposta come ``trigger_status`` (es. "se sono ferita, applico
-#:   bleeding all'attaccante").
+#:   l'unita' ha subito ``damage_applied > 0``. Abilita ``trigger_status``
+#:   per applicare uno status effect in risposta al danno.
+#: - ``'moved_adjacent'`` (post-move): triggerato dopo che un'unita'
+#:   completa un ``action.type == "move"``. Non usa semantica di distanza
+#:   (il rules engine non tracka grid positions); si affida al filtro
+#:   ``reaction_trigger.source_any_of`` per selezionare quali unita'
+#:   moventi attivano la reaction. Semantica: "quando X si muove".
+#: - ``'ability_used'`` (post-ability): triggerato dopo che un'unita'
+#:   esegue un ``action.type == "ability"``. Context include ``ability_id``.
 #:
-#: Future estensioni: ``'moved_adjacent'``, ``'healed'``, ``'status_applied'``.
-SUPPORTED_REACTION_EVENTS = frozenset({"attacked", "damaged"})
+#: Future estensioni: ``'healed'`` (richiede nuovo action type heal nel
+#: resolver), ``'status_applied'``.
+SUPPORTED_REACTION_EVENTS = frozenset(
+    {"attacked", "damaged", "moved_adjacent", "ability_used"}
+)
 
 #: Tipi di payload per reaction.
 #:
@@ -132,6 +137,117 @@ SUPPORTED_REACTION_EVENTS = frozenset({"attacked", "damaged"})
 #: Future estensioni: ``'counter'`` (contrattacco libero), ``'overwatch'``
 #: (attacco opportunistico su movimento).
 SUPPORTED_REACTION_TYPES = frozenset({"parry", "trigger_status"})
+
+
+# ------------------------------------------------------------------
+# Trigger predicates DSL (follow-up #5)
+# ------------------------------------------------------------------
+
+#: Operatori supportati dal mini-DSL dei predicati.
+SUPPORTED_PREDICATE_OPS = frozenset({"==", "!=", ">", ">=", "<", "<="})
+
+#: Fields supportati dal mini-DSL dei predicati, con il relativo tipo.
+#: Disponibilita' dipende dal context dell'evento (vedi ``_build_context_for_event``).
+SUPPORTED_PREDICATE_FIELDS = frozenset(
+    {
+        "damage",  # damage_applied (solo evento 'damaged')
+        "hp_pct",  # hp_current / hp_max del reaction owner
+        "hp_current",
+        "hp_max",
+        "stress",  # float 0-1
+        "source_tier",  # tier dell'attore che ha scatenato l'evento
+        "actor_tier",  # tier del reaction owner
+    }
+)
+
+
+def _evaluate_predicates(
+    predicates: Optional[List[Dict[str, Any]]],
+    context: Mapping[str, Any],
+) -> bool:
+    """Valuta una lista di predicati in AND contro un context dict.
+
+    - Lista vuota o None → ritorna True (sempre match, no filtro).
+    - Field non presente nel context → predicato fallisce (fail-safe).
+    - Operatore o field non supportato → predicato fallisce (fail-safe,
+      validation rigorosa avviene in ``declare_reaction``).
+    - Tutti i predicati devono essere True (AND logic).
+
+    Funzione pura, no side effect.
+    """
+
+    if not predicates:
+        return True
+    for pred in predicates:
+        if not isinstance(pred, Mapping):
+            return False
+        op = pred.get("op")
+        field = pred.get("field")
+        value = pred.get("value")
+        if op not in SUPPORTED_PREDICATE_OPS:
+            return False
+        if field not in SUPPORTED_PREDICATE_FIELDS:
+            return False
+        if field not in context:
+            return False
+        ctx_val = context[field]
+        try:
+            if op == "==":
+                if not (ctx_val == value):
+                    return False
+            elif op == "!=":
+                if not (ctx_val != value):
+                    return False
+            elif op == ">":
+                if not (ctx_val > value):
+                    return False
+            elif op == ">=":
+                if not (ctx_val >= value):
+                    return False
+            elif op == "<":
+                if not (ctx_val < value):
+                    return False
+            elif op == "<=":
+                if not (ctx_val <= value):
+                    return False
+        except (TypeError, ValueError):
+            return False
+    return True
+
+
+def _build_context_for_event(
+    event: str,
+    reaction_owner: Mapping[str, Any],
+    source_unit: Optional[Mapping[str, Any]] = None,
+    damage_applied: int = 0,
+    action: Optional[Mapping[str, Any]] = None,
+) -> Dict[str, Any]:
+    """Costruisce il context dict per la valutazione dei predicati.
+
+    Campi sempre presenti se disponibili:
+    - ``hp_current``, ``hp_max``, ``hp_pct``, ``stress`` del reaction owner
+    - ``actor_tier`` del reaction owner
+    - ``source_tier`` dell'unita' che ha scatenato l'evento (se presente)
+
+    Campi context-specific:
+    - ``damage`` solo per evento ``'damaged'``
+    """
+
+    hp = reaction_owner.get("hp") or {}
+    hp_current = int(hp.get("current", 0))
+    hp_max = int(hp.get("max", 1)) or 1
+    context: Dict[str, Any] = {
+        "hp_current": hp_current,
+        "hp_max": hp_max,
+        "hp_pct": hp_current / hp_max if hp_max > 0 else 0.0,
+        "stress": float(reaction_owner.get("stress", 0.0)),
+        "actor_tier": int(reaction_owner.get("tier", 1)),
+    }
+    if source_unit is not None:
+        context["source_tier"] = int(source_unit.get("tier", 1))
+    if event == "damaged":
+        context["damage"] = int(damage_applied)
+    return context
 
 
 # ------------------------------------------------------------------
@@ -297,6 +413,7 @@ def begin_round(state: Mapping[str, Any]) -> Dict[str, Any]:
     - decay degli status di 1 turno
     - bleeding tick prima del decay (lo status e' attivo per tutto il turno
       in cui scade, come da semantica di ``resolver.begin_turn``)
+    - **decrement reaction cooldown** di 1 (min 0) se presente
 
     Imposta ``round_phase = 'planning'`` e svuota ``pending_intents``.
 
@@ -320,6 +437,11 @@ def begin_round(state: Mapping[str, Any]) -> Dict[str, Any]:
         next_state = result["next_state"]
         expired_all.extend(result.get("expired", []))
         bleeding_total += int(result.get("bleeding_damage", 0))
+    # Decrement reaction cooldown per ogni unit (min 0)
+    for unit in next_state.get("units", []):
+        cd = int(unit.get("reaction_cooldown_remaining", 0))
+        if cd > 0:
+            unit["reaction_cooldown_remaining"] = cd - 1
     next_state["round_phase"] = PHASE_PLANNING
     next_state["pending_intents"] = []
     return {
@@ -427,9 +549,16 @@ def declare_reaction(
 
     Raises:
         ValueError: se la fase non e' ``'planning'``, se l'evento non e'
-            tra ``SUPPORTED_REACTION_EVENTS``, o se il payload type non
-            e' tra ``SUPPORTED_REACTION_TYPES``.
+            tra ``SUPPORTED_REACTION_EVENTS``, se il payload type non
+            e' tra ``SUPPORTED_REACTION_TYPES``, o se i predicates
+            contengono operatori/fields non supportati.
         KeyError: se ``unit_id`` non esiste nello state.
+
+    Nota cooldown: se l'unit ha ``reaction_cooldown_remaining > 0``,
+    la declare_reaction esegue un **silent skip** (ritorna lo state
+    invariato senza eccezioni). Il client puo' verificare lo stato
+    del cooldown prima di chiamare declare_reaction via
+    ``unit["reaction_cooldown_remaining"]``.
     """
 
     phase = state.get("round_phase")
@@ -438,7 +567,8 @@ def declare_reaction(
             f"declare_reaction richiede round_phase {PHASE_PLANNING!r}, "
             f"trovato {phase!r}"
         )
-    if _find_unit(state, unit_id) is None:
+    unit_ref = _find_unit(state, unit_id)
+    if unit_ref is None:
         raise KeyError(f"unit_id non trovato nello state: {unit_id}")
     event = str(trigger.get("event", ""))
     if event not in SUPPORTED_REACTION_EVENTS:
@@ -453,6 +583,50 @@ def declare_reaction(
             f"(supportati: {sorted(SUPPORTED_REACTION_TYPES)})"
         )
 
+    # Validazione predicates (se presenti)
+    predicates_raw = trigger.get("predicates")
+    normalised_predicates: List[Dict[str, Any]] = []
+    if predicates_raw:
+        if not isinstance(predicates_raw, list):
+            raise ValueError(
+                f"reaction_trigger.predicates deve essere una lista, "
+                f"trovato {type(predicates_raw).__name__}"
+            )
+        for pred in predicates_raw:
+            if not isinstance(pred, Mapping):
+                raise ValueError(
+                    f"predicate deve essere un dict, trovato {type(pred).__name__}"
+                )
+            op = pred.get("op")
+            field = pred.get("field")
+            if op not in SUPPORTED_PREDICATE_OPS:
+                raise ValueError(
+                    f"predicate op non supportato: {op!r} "
+                    f"(supportati: {sorted(SUPPORTED_PREDICATE_OPS)})"
+                )
+            if field not in SUPPORTED_PREDICATE_FIELDS:
+                raise ValueError(
+                    f"predicate field non supportato: {field!r} "
+                    f"(supportati: {sorted(SUPPORTED_PREDICATE_FIELDS)})"
+                )
+            if "value" not in pred:
+                raise ValueError("predicate richiede chiave 'value'")
+            normalised_predicates.append(
+                {"op": op, "field": field, "value": pred["value"]}
+            )
+
+    # Silent skip se l'unit e' in cooldown
+    if int(unit_ref.get("reaction_cooldown_remaining", 0)) > 0:
+        return {"next_state": copy.deepcopy(state)}
+
+    # Validazione cooldown_rounds (int non-negative)
+    cooldown_rounds = int(trigger.get("cooldown_rounds", 0))
+    if cooldown_rounds < 0:
+        raise ValueError(
+            f"reaction_trigger.cooldown_rounds deve essere >= 0, "
+            f"trovato {cooldown_rounds}"
+        )
+
     next_state = copy.deepcopy(state)
     intents = [
         dict(i)
@@ -460,12 +634,15 @@ def declare_reaction(
         if str(i.get("unit_id", "")) != unit_id
     ]
     source_filter = trigger.get("source_any_of")
-    normalised_trigger = {
+    normalised_trigger: Dict[str, Any] = {
         "event": event,
         "source_any_of": (
             list(source_filter) if isinstance(source_filter, (list, tuple)) else None
         ),
+        "cooldown_rounds": cooldown_rounds,
     }
+    if normalised_predicates:
+        normalised_trigger["predicates"] = normalised_predicates
     intents.append(
         {
             "unit_id": unit_id,
@@ -513,23 +690,35 @@ def _match_reaction_for_event(
     event: str,
     target_id: str,
     source_id: str,
+    context: Optional[Mapping[str, Any]] = None,
 ) -> Optional[Dict[str, Any]]:
     """Trova una reaction intent del target che matchi un dato evento.
 
-    Filtri:
+    Filtri (in ordine):
     - target deve avere una reaction non ancora consumata
     - ``reaction_trigger.event`` deve essere uguale a ``event``
     - ``reaction_trigger.source_any_of`` deve essere None/vuoto oppure
       contenere ``source_id``
+    - ``reaction_trigger.predicates`` (se presenti) devono valutare
+      True contro il ``context`` passato (``_evaluate_predicates``)
 
     ``event`` puo' essere uno di ``SUPPORTED_REACTION_EVENTS``:
 
     - ``'attacked'``: triggerato pre-hit, ``source_id`` e' l'attaccante
     - ``'damaged'``: triggerato post-hit, ``source_id`` e' l'attaccante
       che ha inflitto il danno
+    - ``'moved_adjacent'``: triggerato post-move, ``source_id`` e'
+      l'unita' che si e' mossa
+    - ``'ability_used'``: triggerato post-ability, ``source_id`` e'
+      l'unita' che ha usato l'ability
+
+    ``context`` e' un dict con i campi disponibili per la valutazione
+    dei predicates (vedi ``_build_context_for_event``). Se None, i
+    predicates eventuali sono considerati falliti (fail-safe).
 
     Ritorna l'entry (mutabile) se matcha, altrimenti None. Il caller
-    e' responsabile di marcarlo come consumato (``_consumed=True``).
+    e' responsabile di marcarlo come consumato (``_consumed=True``)
+    e di settare il cooldown su ``unit.reaction_cooldown_remaining``.
     """
 
     entry = reactions_by_unit.get(target_id)
@@ -543,6 +732,12 @@ def _match_reaction_for_event(
     source_filter = trigger.get("source_any_of")
     if source_filter and source_id not in source_filter:
         return None
+    predicates = trigger.get("predicates")
+    if predicates:
+        if context is None:
+            return None
+        if not _evaluate_predicates(predicates, context):
+            return None
     return entry
 
 
@@ -665,10 +860,22 @@ def resolve_round(
     skipped: List[Dict[str, Any]] = []
     reactions_triggered: List[Dict[str, Any]] = []
 
+    def _find_unit_by_id(unit_id: str) -> Optional[Dict[str, Any]]:
+        return next(
+            (u for u in next_state.get("units", []) if u.get("id") == unit_id), None
+        )
+
+    def _set_cooldown_on_unit(unit_id: str, trigger: Mapping[str, Any]) -> None:
+        cd = int(trigger.get("cooldown_rounds", 0))
+        if cd > 0:
+            unit = _find_unit_by_id(unit_id)
+            if unit is not None:
+                unit["reaction_cooldown_remaining"] = cd
+
     for entry in queue:
         uid = entry["unit_id"]
         action = entry["action"]
-        actor = next((u for u in next_state.get("units", []) if u.get("id") == uid), None)
+        actor = _find_unit_by_id(uid)
         if actor is None or int((actor.get("hp") or {}).get("current", 0)) <= 0:
             skipped.append({"unit_id": uid, "reason": "actor_dead", "action": dict(action)})
             continue
@@ -676,97 +883,218 @@ def resolve_round(
         action_type = action.get("type")
         target_id = action.get("target_id")
         if target_id and action_type in ("attack", "parry"):
-            target = next(
-                (u for u in next_state.get("units", []) if u.get("id") == target_id), None
-            )
+            target = _find_unit_by_id(str(target_id))
             if target is None or int((target.get("hp") or {}).get("current", 0)) <= 0:
                 skipped.append(
                     {"unit_id": uid, "reason": "target_dead", "action": dict(action)}
                 )
                 continue
 
-        # Reaction injection (follow-up #1 + #3): se il target ha una
-        # reaction intent con trigger="attacked" che matcha l'attaccante
-        # e non e' ancora stata consumata, iniettiamo parry_response
-        # nell'action dell'attaccante. Il resolver atomico gestira'
-        # la pipeline parry come in ogni altra action con parry_response.
+        # Reaction injection pre-hit (follow-up #1 + #3): se il target ha
+        # una reaction intent con trigger="attacked" che matcha l'attaccante,
+        # iniettiamo parry_response nell'action. Context costruito dallo
+        # stato PRE resolve_action per valutare predicates.
         if action_type == "attack" and target_id:
-            matched = _match_reaction_for_attack(
-                reactions_by_unit, str(target_id), str(uid)
-            )
-            if matched is not None:
-                payload = matched.get("reaction_payload", {})
-                if payload.get("type") == "parry":
-                    # Clona l'action per non mutare l'entry nella queue
-                    action = dict(action)
-                    action["parry_response"] = {
-                        "attempt": True,
-                        "parry_bonus": int(payload.get("parry_bonus", 0)),
-                    }
-                    matched["_consumed"] = True
-                    reactions_triggered.append(
-                        {
-                            "target_unit_id": str(target_id),
-                            "attacker_unit_id": str(uid),
-                            "reaction_payload": dict(payload),
+            target_unit_pre = _find_unit_by_id(str(target_id))
+            if target_unit_pre is not None:
+                ctx_attacked = _build_context_for_event(
+                    event="attacked",
+                    reaction_owner=target_unit_pre,
+                    source_unit=actor,
+                )
+                matched = _match_reaction_for_event(
+                    reactions_by_unit,
+                    "attacked",
+                    str(target_id),
+                    str(uid),
+                    context=ctx_attacked,
+                )
+                if matched is not None:
+                    payload = matched.get("reaction_payload", {})
+                    if payload.get("type") == "parry":
+                        action = dict(action)
+                        action["parry_response"] = {
+                            "attempt": True,
+                            "parry_bonus": int(payload.get("parry_bonus", 0)),
                         }
-                    )
+                        matched["_consumed"] = True
+                        _set_cooldown_on_unit(
+                            str(target_id), matched.get("reaction_trigger", {})
+                        )
+                        reactions_triggered.append(
+                            {
+                                "target_unit_id": str(target_id),
+                                "attacker_unit_id": str(uid),
+                                "event": "attacked",
+                                "reaction_payload": dict(payload),
+                            }
+                        )
 
         result = resolve_action(next_state, action, catalog, rng)
         next_state = result["next_state"]
         turn_log_entries.append(result["turn_log_entry"])
 
         # Post-hit reaction injection (follow-up #5 — event 'damaged'):
-        # se l'action ha inflitto danno reale al target, cerca una
-        # reaction intent con trigger='damaged' sul target. Se matcha
-        # e il payload e' 'trigger_status', applichiamo lo status
-        # all'attaccante (default) o al target stesso in base a
-        # payload['target'].
         damage_applied = int(result["turn_log_entry"].get("damage_applied", 0))
         if (
             damage_applied > 0
             and action_type == "attack"
             and target_id
         ):
-            dmg_matched = _match_reaction_for_event(
-                reactions_by_unit, "damaged", str(target_id), str(uid)
-            )
-            if dmg_matched is not None:
-                dmg_payload = dmg_matched.get("reaction_payload", {})
-                if dmg_payload.get("type") == "trigger_status":
-                    # Target della status application: 'attacker' (default)
-                    # o 'self' per auto-status del target
-                    status_target_side = str(dmg_payload.get("target", "attacker"))
-                    status_target_id = (
-                        str(uid) if status_target_side == "attacker" else str(target_id)
-                    )
-                    status_target_unit = next(
-                        (
-                            u
-                            for u in next_state.get("units", [])
-                            if u.get("id") == status_target_id
-                        ),
-                        None,
-                    )
-                    if status_target_unit is not None:
-                        apply_status(
-                            status_target_unit,
-                            status_id=str(dmg_payload.get("status_id", "bleeding")),
-                            duration=int(dmg_payload.get("duration", 1)),
-                            intensity=int(dmg_payload.get("intensity", 1)),
-                            source_unit_id=str(target_id),
-                            source_action_id="reaction_damaged",
+            target_unit_post = _find_unit_by_id(str(target_id))
+            if target_unit_post is not None:
+                ctx_damaged = _build_context_for_event(
+                    event="damaged",
+                    reaction_owner=target_unit_post,
+                    source_unit=_find_unit_by_id(str(uid)),
+                    damage_applied=damage_applied,
+                )
+                dmg_matched = _match_reaction_for_event(
+                    reactions_by_unit,
+                    "damaged",
+                    str(target_id),
+                    str(uid),
+                    context=ctx_damaged,
+                )
+                if dmg_matched is not None:
+                    dmg_payload = dmg_matched.get("reaction_payload", {})
+                    if dmg_payload.get("type") == "trigger_status":
+                        status_target_side = str(dmg_payload.get("target", "attacker"))
+                        status_target_id = (
+                            str(uid) if status_target_side == "attacker" else str(target_id)
                         )
-                        dmg_matched["_consumed"] = True
-                        reactions_triggered.append(
-                            {
-                                "target_unit_id": str(target_id),
-                                "attacker_unit_id": str(uid),
-                                "event": "damaged",
-                                "reaction_payload": dict(dmg_payload),
-                                "status_target_unit_id": status_target_id,
-                            }
+                        status_target_unit = _find_unit_by_id(status_target_id)
+                        if status_target_unit is not None:
+                            apply_status(
+                                status_target_unit,
+                                status_id=str(dmg_payload.get("status_id", "bleeding")),
+                                duration=int(dmg_payload.get("duration", 1)),
+                                intensity=int(dmg_payload.get("intensity", 1)),
+                                source_unit_id=str(target_id),
+                                source_action_id="reaction_damaged",
+                            )
+                            dmg_matched["_consumed"] = True
+                            _set_cooldown_on_unit(
+                                str(target_id),
+                                dmg_matched.get("reaction_trigger", {}),
+                            )
+                            reactions_triggered.append(
+                                {
+                                    "target_unit_id": str(target_id),
+                                    "attacker_unit_id": str(uid),
+                                    "event": "damaged",
+                                    "reaction_payload": dict(dmg_payload),
+                                    "status_target_unit_id": status_target_id,
+                                }
+                            )
+
+        # Post-move reaction injection (follow-up #4 — event 'moved_adjacent'):
+        # triggerato dopo un action.type == 'move'. Non usa distanza, si
+        # affida al source_any_of filter. Scan tutte le reactions pending
+        # per trovare match (non solo quelle su un target specifico).
+        if action_type == "move":
+            for listener_uid, listener_entry in reactions_by_unit.items():
+                if listener_entry.get("_consumed"):
+                    continue
+                listener_unit = _find_unit_by_id(listener_uid)
+                if listener_unit is None:
+                    continue
+                ctx_moved = _build_context_for_event(
+                    event="moved_adjacent",
+                    reaction_owner=listener_unit,
+                    source_unit=_find_unit_by_id(str(uid)),
+                )
+                matched_move = _match_reaction_for_event(
+                    reactions_by_unit,
+                    "moved_adjacent",
+                    listener_uid,
+                    str(uid),
+                    context=ctx_moved,
+                )
+                if matched_move is not None:
+                    move_payload = matched_move.get("reaction_payload", {})
+                    if move_payload.get("type") == "trigger_status":
+                        status_target_side = str(move_payload.get("target", "attacker"))
+                        status_target_id = (
+                            str(uid) if status_target_side == "attacker" else listener_uid
                         )
+                        status_target_unit = _find_unit_by_id(status_target_id)
+                        if status_target_unit is not None:
+                            apply_status(
+                                status_target_unit,
+                                status_id=str(move_payload.get("status_id", "bleeding")),
+                                duration=int(move_payload.get("duration", 1)),
+                                intensity=int(move_payload.get("intensity", 1)),
+                                source_unit_id=listener_uid,
+                                source_action_id="reaction_moved_adjacent",
+                            )
+                            matched_move["_consumed"] = True
+                            _set_cooldown_on_unit(
+                                listener_uid,
+                                matched_move.get("reaction_trigger", {}),
+                            )
+                            reactions_triggered.append(
+                                {
+                                    "target_unit_id": listener_uid,
+                                    "attacker_unit_id": str(uid),
+                                    "event": "moved_adjacent",
+                                    "reaction_payload": dict(move_payload),
+                                    "status_target_unit_id": status_target_id,
+                                }
+                            )
+
+        # Post-ability reaction injection (follow-up #4 — event 'ability_used'):
+        if action_type == "ability":
+            for listener_uid, listener_entry in reactions_by_unit.items():
+                if listener_entry.get("_consumed"):
+                    continue
+                listener_unit = _find_unit_by_id(listener_uid)
+                if listener_unit is None:
+                    continue
+                ctx_ability = _build_context_for_event(
+                    event="ability_used",
+                    reaction_owner=listener_unit,
+                    source_unit=_find_unit_by_id(str(uid)),
+                )
+                matched_ab = _match_reaction_for_event(
+                    reactions_by_unit,
+                    "ability_used",
+                    listener_uid,
+                    str(uid),
+                    context=ctx_ability,
+                )
+                if matched_ab is not None:
+                    ab_payload = matched_ab.get("reaction_payload", {})
+                    if ab_payload.get("type") == "trigger_status":
+                        status_target_side = str(ab_payload.get("target", "attacker"))
+                        status_target_id = (
+                            str(uid) if status_target_side == "attacker" else listener_uid
+                        )
+                        status_target_unit = _find_unit_by_id(status_target_id)
+                        if status_target_unit is not None:
+                            apply_status(
+                                status_target_unit,
+                                status_id=str(ab_payload.get("status_id", "bleeding")),
+                                duration=int(ab_payload.get("duration", 1)),
+                                intensity=int(ab_payload.get("intensity", 1)),
+                                source_unit_id=listener_uid,
+                                source_action_id="reaction_ability_used",
+                            )
+                            matched_ab["_consumed"] = True
+                            _set_cooldown_on_unit(
+                                listener_uid,
+                                matched_ab.get("reaction_trigger", {}),
+                            )
+                            reactions_triggered.append(
+                                {
+                                    "target_unit_id": listener_uid,
+                                    "attacker_unit_id": str(uid),
+                                    "event": "ability_used",
+                                    "reaction_payload": dict(ab_payload),
+                                    "status_target_unit_id": status_target_id,
+                                    "ability_id": action.get("ability_id"),
+                                }
+                            )
 
     next_state["round_phase"] = PHASE_RESOLVED
     next_state["pending_intents"] = []
@@ -841,6 +1169,8 @@ __all__ = [
     "PHASE_PLANNING",
     "PHASE_RESOLVED",
     "PHASE_RESOLVING",
+    "SUPPORTED_PREDICATE_FIELDS",
+    "SUPPORTED_PREDICATE_OPS",
     "SUPPORTED_REACTION_EVENTS",
     "SUPPORTED_REACTION_TYPES",
     "VALID_PHASES",
