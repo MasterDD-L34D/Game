@@ -56,6 +56,13 @@ ennea_themes:
   - {id: "Esploratore(7)",   when: "explore>0.70"}
   - {id: "Architetto(5)",    when: "setup>0.70"}
   - {id: "Stoico(9)",        when: "tilt>0.65"}
+  # SPRINT_005 fase 2: archetipo mordi-e-fuggi.
+  # Trigger multi-criterio che premia il giocatore mobile:
+  #   evasion_ratio > 0.6        → la maggioranza degli attacchi e' seguita da ritirata
+  #   attacks_started >= 5       → minima attivita' offensiva
+  #   damage_taken_ratio < 0.4   → risk management: prende meno della meta' del danno totale
+  #   first_blood > 0            → ha effettivamente ucciso il bersaglio
+  - {id: "Cacciatore(8)",    when: "evasion_ratio>0.6 && attacks_started>=5 && damage_taken_ratio<0.4 && first_blood>0"}
 pe_economy:
   mission_base: {win: 5, draw: 3, dignified_loss: 2}
   style_bonus: {formula: "floor((sum_vc - 2.8)*3)", cap: 3}
