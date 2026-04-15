@@ -218,6 +218,17 @@ function createSistemaTurnRunner(deps) {
       }
 
       actor.position = nextPos;
+      // SPRINT_022: auto-facing sul SIS move come per il player.
+      // Il SIS "guarda" nella direzione in cui si e' mosso.
+      const dx = nextPos.x - positionFrom.x;
+      const dy = nextPos.y - positionFrom.y;
+      if (dx !== 0 || dy !== 0) {
+        if (Math.abs(dx) >= Math.abs(dy)) {
+          actor.facing = dx > 0 ? 'E' : 'W';
+        } else {
+          actor.facing = dy > 0 ? 'S' : 'N';
+        }
+      }
       const event = buildMoveEvent({ session, actor, positionFrom });
       event.actor_id = 'sistema';
       event.ia_rule = policy.rule;

@@ -199,6 +199,42 @@
     pointer-events: none;
     animation: pulse-status 1.2s ease-in-out infinite;
   }
+
+  /* SPRINT_022: indicatore di facing — piccolo triangolo al bordo della
+     cella sul lato verso cui guarda l'unita'. */
+  .facing-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    opacity: .85;
+  }
+  .facing-arrow.N {
+    top: 2px; left: 50%; transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 6px solid currentColor;
+  }
+  .facing-arrow.S {
+    bottom: 2px; left: 50%; transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid currentColor;
+  }
+  .facing-arrow.E {
+    right: 2px; top: 50%; transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 6px solid currentColor;
+  }
+  .facing-arrow.W {
+    left: 2px; top: 50%; transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 6px solid currentColor;
+  }
+  .cell .facing-arrow.p1-color { color: var(--p1-light); }
+  .cell .facing-arrow.sistema-color { color: var(--p2-light); }
   @keyframes pulse-status {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.18); }
@@ -663,11 +699,16 @@ function renderGrid() {
         const badgeHtml = (!dead && statuses.length)
           ? `<span class="status-badge" title="${statuses.map(s=>s.key+' '+s.turns).join(', ')}">${STATUS_EMOJI[statuses[0].key]}</span>`
           : '';
+        // SPRINT_022: facing arrow sul token quando vivo
+        const facing = u.facing || 'S';
+        const facingHtml = !dead
+          ? `<span class="facing-arrow ${facing} ${isP1 ? 'p1-color' : 'sistema-color'}" title="facing ${facing}"></span>`
+          : '';
         cell.innerHTML = `
           <div class="token ${cls} ${selected === u.id ? 'selected' : ''} ${dead ? 'dead' : ''}">
             <span>${isP1 ? 'P1' : 'SIS'}</span>
             <span class="token-job">${u.job?.slice(0,4) ?? ''}</span>
-          </div>${badgeHtml}`;
+          </div>${facingHtml}${badgeHtml}`;
       }
 
       // highlight celle raggiungibili / attaccabili (solo se AP disponibili).

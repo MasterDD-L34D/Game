@@ -59,6 +59,10 @@ const DEFAULT_GUARDIA = 1;
 // DEFAULT_ATTACK_RANGE importato da services/ai/policy.js — autoritativo.
 // SPRINT_020: default initiative per unita' senza override esplicito.
 const DEFAULT_INITIATIVE = 10;
+// SPRINT_022: facing direction (backstab). Default 'S' = looking down
+// sulla griglia (verso y crescenti). Le 4 direzioni cardinali.
+const DEFAULT_FACING = 'S';
+const VALID_FACINGS = new Set(['N', 'S', 'E', 'W']);
 // SPRINT_020: initiative per job canonico. Skirmisher e ranger sono
 // mobili/veloci → init alta. Vanguard e harvester sono lenti → init bassa.
 // Fa da fallback se input.initiative e job_stats non lo sovrascrivono.
@@ -157,6 +161,11 @@ function normaliseUnit(raw, fallbackIndex) {
     : Number.isFinite(Number(JOB_INITIATIVE[job]))
       ? Number(JOB_INITIATIVE[job])
       : DEFAULT_INITIATIVE;
+  // SPRINT_022: facing direction. Accetta override, fallback 'S'.
+  // P1 di default spawna in alto-sinistra e guarda in basso,
+  // SIS in basso-destra e guarda in alto.
+  const rawFacing = input.facing ? String(input.facing).toUpperCase() : null;
+  const facing = VALID_FACINGS.has(rawFacing) ? rawFacing : fallbackIndex === 0 ? 'S' : 'N';
   return {
     id,
     species: input.species ? String(input.species) : 'unknown',
@@ -172,6 +181,7 @@ function normaliseUnit(raw, fallbackIndex) {
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
     attack_range: attackRange,
     initiative,
+    facing,
     position,
     controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
   };
@@ -324,6 +334,43 @@ function stepTowards(from, to) {
   return clampPosition(next.x, next.y);
 }
 
+// SPRINT_022: facing helpers — determina se l'actor sta attaccando
+// il target "dalle spalle" (backstab). Il facing di un'unita' e'
+// una direzione cardinale (N/S/E/W). La cella "dietro" e' l'opposta
+// del facing:
+//   - facing N → dietro = cella con y > target.y
+//   - facing S → dietro = cella con y < target.y
+//   - facing E → dietro = cella con x < target.x
+//   - facing W → dietro = cella con x > target.x
+//
+// Backstab = actor.position e' nella semipiano dietro rispetto al
+// facing del target. Non richiede adiacenza stretta (funziona anche
+// per attacchi ranged).
+function isBackstab(actor, target) {
+  if (!actor?.position || !target?.position) return false;
+  const f = target.facing || DEFAULT_FACING;
+  const dx = actor.position.x - target.position.x;
+  const dy = actor.position.y - target.position.y;
+  if (f === 'N') return dy > 0;
+  if (f === 'S') return dy < 0;
+  if (f === 'E') return dx < 0;
+  if (f === 'W') return dx > 0;
+  return false;
+}
+
+// SPRINT_022: auto-compute new facing quando l'unita' si muove.
+// La direzione di facing diventa quella del movimento (asse col
+// delta maggiore, tie-breaker su x).
+function facingFromMove(from, to) {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  if (dx === 0 && dy === 0) return null;
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    return dx > 0 ? 'E' : 'W';
+  }
+  return dy > 0 ? 'S' : 'N';
+}
+
 // stepAway e selectAiPolicy sono stati estratti in services/ai/policy.js
 // (SPRINT_010 issue #2). Qui viene mantenuto solo l'import a inizio file.
 
@@ -413,6 +460,8 @@ function createSessionRouter(options = {}) {
     let killOccurred = false;
     let adjacencyBonus = 0;
     let rageBonus = 0;
+    let backstabBonus = 0;
+    let wasBackstab = false;
     let panicTriggered = false;
     let parryResult = null;
     if (result.hit) {
@@ -430,12 +479,23 @@ function createSessionRouter(options = {}) {
       if (actor.status && Number(actor.status.rage) > 0) {
         rageBonus = 1;
       }
-      // SPRINT_021: parata reattiva, pre-calcolata cosi' il damage_delta
-      // partecipa al calcolo del damage finale. Solo se result.hit.
-      parryResult = rollParry(target);
+      // SPRINT_022: bonus backstab — se l'actor attacca dalle spalle del
+      // target (posizione dietro il suo facing), +1 damage. Cumulativo con
+      // adjacency e rage. Inoltre: un backstab BYPASSA la parata (sorpresa).
+      wasBackstab = isBackstab(actor, target);
+      if (wasBackstab) {
+        backstabBonus = 1;
+      }
+      // SPRINT_021: parata reattiva. SPRINT_022: saltata se backstab.
+      parryResult = wasBackstab ? null : rollParry(target);
       const parryDelta = parryResult && parryResult.success ? parryResult.damage_delta : 0;
       const adjusted =
-        baseDamage + evaluation.damage_modifier + adjacencyBonus + rageBonus + parryDelta;
+        baseDamage +
+        evaluation.damage_modifier +
+        adjacencyBonus +
+        rageBonus +
+        backstabBonus +
+        parryDelta;
       damageDealt = Math.max(0, adjusted);
       // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
       if (parryResult && parryResult.success) {
@@ -494,6 +554,8 @@ function createSessionRouter(options = {}) {
       killOccurred,
       adjacencyBonus,
       rageBonus,
+      backstabBonus,
+      wasBackstab,
       panicTriggered,
       status_applies: statusApplies,
       parry: parryResult,
@@ -909,6 +971,11 @@ function createSessionRouter(options = {}) {
         actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
+        // SPRINT_022: auto-facing sul movimento. L'unita' "guarda" nella
+        // direzione in cui si e' mossa. Se dx==0 e dy==0 (impossibile
+        // dato il check dist > 0) non cambia niente.
+        const newFacing = facingFromMove(positionFrom, actor.position);
+        if (newFacing) actor.facing = newFacing;
         const event = buildMoveEvent({ session, actor, positionFrom });
         // SPRINT_003 fase 1: il costo cap_pt si applica anche al move
         // se passato nel body (utile per abilita' movimento potenziato).
@@ -922,15 +989,51 @@ function createSessionRouter(options = {}) {
           actor_id: actor.id,
           position: actor.position,
           position_from: positionFrom,
+          facing: actor.facing,
           cap_pt_used: session.cap_pt_used,
           cap_pt_max: session.cap_pt_max,
           state: publicSessionView(session),
         });
       }
 
-      return res
-        .status(400)
-        .json({ error: `action_type sconosciuto: "${actionType}" (atteso "attack" o "move")` });
+      // SPRINT_022: nuova azione 'turn' per ruotare senza muoversi.
+      // Costa 0 AP (libera, come reazione) — cosi' il giocatore puo'
+      // riposizionarsi visivamente a fine turno per prevenire backstab
+      // senza pagare un costo meccanico.
+      if (actionType === 'turn') {
+        const rawFacing = body.facing ? String(body.facing).toUpperCase() : null;
+        if (!VALID_FACINGS.has(rawFacing)) {
+          return res.status(400).json({
+            error: `facing invalido: "${body.facing}". Atteso N/S/E/W`,
+          });
+        }
+        const oldFacing = actor.facing;
+        actor.facing = rawFacing;
+        await appendEvent(session, {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          actor_id: actor.id,
+          actor_species: actor.species,
+          actor_job: actor.job,
+          action_type: 'turn',
+          turn: session.turn,
+          ap_spent: 0,
+          facing_from: oldFacing,
+          facing_to: rawFacing,
+          trait_effects: [],
+        });
+        return res.json({
+          ok: true,
+          actor_id: actor.id,
+          facing: actor.facing,
+          facing_from: oldFacing,
+          state: publicSessionView(session),
+        });
+      }
+
+      return res.status(400).json({
+        error: `action_type sconosciuto: "${actionType}" (atteso "attack", "move" o "turn")`,
+      });
     } catch (err) {
       next(err);
     }
