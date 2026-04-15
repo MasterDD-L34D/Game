@@ -1,0 +1,217 @@
+// SPRINT_010 (issue #2): orchestratore runSistemaTurn per l'IA del SIS.
+//
+// Questo modulo estrae la logica di orchestrazione dell'IA dal router
+// session.js. Lascia le funzioni "puramente decisionali" in policy.js e
+// inietta dall'esterno gli helper di combattimento e l'emissione eventi
+// (dipendenze che vivono nel closure di createSessionRouter).
+//
+// Uso tipico dal router:
+//   const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
+//   const runSistemaTurn = createSistemaTurnRunner({
+//     pickLowestHpEnemy,
+//     stepTowards,
+//     performAttack,
+//     buildAttackEvent,
+//     buildMoveEvent,
+//     emitKillAndAssists,
+//     appendEvent,
+//     gridSize: GRID_SIZE,
+//   });
+//   // poi
+//   const iaActions = await runSistemaTurn(session);
+//
+// Il runner:
+//   1. Trova l'actor del sistema (session.active_unit)
+//   2. Assicura AP pieni all'inizio del turno
+//   3. Loop finche' ap_remaining > 0:
+//      a. Seleziona il bersaglio (pickLowestHpEnemy)
+//      b. Sceglie policy via selectAiPolicy
+//      c. Applica fallback "cornered" se necessario (REGOLA_002 →
+//         REGOLA_001 approach/attack)
+//      d. Esegue attack / move (approach o retreat) / skip
+//      e. Decrementa ap_remaining di 1 per iterazione
+//   4. Ritorna l'array di azioni eseguite per la risposta /turn/end
+//
+// Il flag `corneredThisTurn` e' locale al turno: se stepAway fallisce
+// una volta, le iterazioni successive evitano REGOLA_002 per non
+// oscillare fra approach e retreat.
+
+const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE } = require('./policy');
+
+function createSistemaTurnRunner(deps) {
+  const {
+    pickLowestHpEnemy,
+    manhattanDistance,
+    stepTowards,
+    performAttack,
+    buildAttackEvent,
+    buildMoveEvent,
+    emitKillAndAssists,
+    appendEvent,
+    gridSize = 6,
+  } = deps || {};
+
+  if (typeof pickLowestHpEnemy !== 'function') {
+    throw new Error('createSistemaTurnRunner: pickLowestHpEnemy is required');
+  }
+  if (typeof stepTowards !== 'function') {
+    throw new Error('createSistemaTurnRunner: stepTowards is required');
+  }
+  if (typeof performAttack !== 'function') {
+    throw new Error('createSistemaTurnRunner: performAttack is required');
+  }
+
+  return async function runSistemaTurn(session) {
+    const actor = session.units.find((u) => u.id === session.active_unit);
+    if (!actor) return [];
+    if ((actor.ap_remaining ?? 0) <= 0) {
+      actor.ap_remaining = actor.ap;
+    }
+
+    const actions = [];
+    // Flag per-turno: se REGOLA_002 retreat fallisce per cornered, le
+    // iterazioni successive dello stesso turno non rientrano in retreat
+    // (evita oscillazioni approach↔retreat).
+    let corneredThisTurn = false;
+
+    while ((actor.ap_remaining ?? 0) > 0) {
+      const target = pickLowestHpEnemy(session, actor);
+      if (!target) break;
+
+      let policy = selectAiPolicy(actor, target);
+      const distance = manhattanDistance(actor.position, target.position);
+
+      // Fallback cornered (SPRINT_006 fase 2 + SPRINT_009 fix):
+      if (policy.intent === 'retreat') {
+        const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+        if (corneredThisTurn) {
+          policy =
+            distance <= range
+              ? { rule: 'REGOLA_001', intent: 'attack' }
+              : { rule: 'REGOLA_001', intent: 'approach' };
+        } else {
+          const canRetreat = stepAway(actor.position, target.position, gridSize) !== null;
+          if (!canRetreat) {
+            corneredThisTurn = true;
+            policy =
+              distance <= range
+                ? { rule: 'REGOLA_001', intent: 'attack' }
+                : { rule: 'REGOLA_001', intent: 'approach' };
+          }
+        }
+      }
+
+      if (policy.intent === 'attack') {
+        const hpBefore = target.hp;
+        const targetPositionAtAttack = { ...target.position };
+        const { result, evaluation, damageDealt, killOccurred } = performAttack(
+          session,
+          actor,
+          target,
+        );
+        const event = buildAttackEvent({
+          session,
+          actor,
+          target,
+          result,
+          evaluation,
+          damageDealt,
+          hpBefore,
+          targetPositionAtAttack,
+        });
+        event.actor_id = 'sistema';
+        event.actor_species = actor.species;
+        event.actor_job = actor.job;
+        event.ia_rule = policy.rule;
+        event.ia_controlled_unit = actor.id;
+        await appendEvent(session, event);
+        if (killOccurred) {
+          await emitKillAndAssists(session, actor, target, event);
+        }
+        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+        actions.push({
+          actor: 'sistema',
+          unit_id: actor.id,
+          type: 'attack',
+          target: target.id,
+          die: result.die,
+          roll: result.roll,
+          mos: result.mos,
+          result: result.hit ? 'hit' : 'miss',
+          pt: result.pt,
+          damage_dealt: damageDealt,
+          trait_effects: evaluation.trait_effects,
+          actor_position: { ...actor.position },
+          target_position: targetPositionAtAttack,
+          ia_rule: policy.rule,
+        });
+        if (killOccurred) break;
+        continue;
+      }
+
+      // intent: 'approach' (REGOLA_001) o 'retreat' (REGOLA_002)
+      const positionFrom = { ...actor.position };
+      const nextPos =
+        policy.intent === 'retreat'
+          ? stepAway(actor.position, target.position, gridSize)
+          : stepTowards(actor.position, target.position);
+
+      if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {
+        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+        actions.push({
+          actor: 'sistema',
+          unit_id: actor.id,
+          type: 'skip',
+          reason:
+            policy.intent === 'retreat'
+              ? `cannot retreat — cornered near ${target.id}`
+              : `cannot approach ${target.id}`,
+          position_from: positionFrom,
+          position_to: positionFrom,
+          ia_rule: policy.rule,
+        });
+        continue;
+      }
+
+      // Overlap guard (SPRINT_005 fase 1)
+      const blocker = session.units.find(
+        (u) =>
+          u.id !== actor.id && u.hp > 0 && u.position.x === nextPos.x && u.position.y === nextPos.y,
+      );
+      if (blocker) {
+        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+        actions.push({
+          actor: 'sistema',
+          unit_id: actor.id,
+          type: 'skip',
+          reason: `blocked by ${blocker.id} at (${nextPos.x},${nextPos.y})`,
+          position_from: positionFrom,
+          position_to: positionFrom,
+          ia_rule: policy.rule,
+        });
+        continue;
+      }
+
+      actor.position = nextPos;
+      const event = buildMoveEvent({ session, actor, positionFrom });
+      event.actor_id = 'sistema';
+      event.ia_rule = policy.rule;
+      event.ia_controlled_unit = actor.id;
+      await appendEvent(session, event);
+      actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+      actions.push({
+        actor: 'sistema',
+        unit_id: actor.id,
+        type: policy.intent === 'retreat' ? 'retreat' : 'move',
+        target: target.id,
+        position_from: positionFrom,
+        position_to: { ...actor.position },
+        ia_rule: policy.rule,
+      });
+    }
+
+    return actions;
+  };
+}
+
+module.exports = { createSistemaTurnRunner };

@@ -1,0 +1,84 @@
+// SPRINT_010 (issue #2): modulo IA — policy engine puro.
+//
+// Questo modulo contiene le funzioni "decisionali" dell'IA SIS senza
+// side-effect. Non modifica lo stato della sessione, non emette eventi,
+// non tocca file. Espone:
+//
+//   - DEFAULT_ATTACK_RANGE: const allineato a session.js per unit senza
+//     attack_range esplicito.
+//   - manhattanDistance(a, b): copia locale per evitare dipendenza
+//     circolare con session.js. Pure.
+//   - stepAway(from, to, gridSize?): un passo di ritirata sulla griglia
+//     Manhattan. Preferisce l'asse con delta maggiore; fallback sull'altro
+//     asse se bordo griglia. Ritorna null se la ritirata e' del tutto
+//     impossibile (attore angolato).
+//   - selectAiPolicy(actor, target): ritorna { rule, intent } basato
+//     sullo stato dell'actor e del target.
+//     Regole:
+//       REGOLA_002 retreat: actor.hp <= 30% del actor.max_hp
+//       REGOLA_001 attack:  distance <= actor.attack_range
+//       REGOLA_001 approach: distance > actor.attack_range
+//     Intent possibili: 'attack' | 'approach' | 'retreat'.
+//
+// Questo modulo e' pensato per essere estendibile con nuove regole
+// (REGOLA_003 kite, stati emotivi panic/rage/confused, ecc.) senza
+// toccare l'orchestrazione di runSistemaTurn (vedi sistemaTurnRunner.js).
+
+const DEFAULT_ATTACK_RANGE = 2;
+// HP fallback per unit senza max_hp esplicito. Allineato al DEFAULT_HP
+// di session.js. Se cambi uno, ricordati di cambiare anche l'altro.
+const DEFAULT_MAX_HP_FALLBACK = 10;
+// Soglia di retreat REGOLA_002 (HP ratio).
+const LOW_HP_RETREAT_THRESHOLD = 0.3;
+
+function manhattanDistance(a, b) {
+  if (!a || !b) return 0;
+  return Math.abs(Number(a.x) - Number(b.x)) + Math.abs(Number(a.y) - Number(b.y));
+}
+
+function stepAway(from, to, gridSize = 6) {
+  const dx = from.x - to.x;
+  const dy = from.y - to.y;
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+  const tryAxis = (axis) => {
+    if (axis === 'x') {
+      if (dx === 0) return null;
+      const newX = from.x + Math.sign(dx);
+      if (newX < 0 || newX >= gridSize) return null;
+      return { x: newX, y: from.y };
+    }
+    if (dy === 0) return null;
+    const newY = from.y + Math.sign(dy);
+    if (newY < 0 || newY >= gridSize) return null;
+    return { x: from.x, y: newY };
+  };
+  if (absDx >= absDy) {
+    return tryAxis('x') || tryAxis('y');
+  }
+  return tryAxis('y') || tryAxis('x');
+}
+
+function selectAiPolicy(actor, target) {
+  const maxHp =
+    Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : DEFAULT_MAX_HP_FALLBACK;
+  const hpRatio = actor.hp / maxHp;
+  if (hpRatio <= LOW_HP_RETREAT_THRESHOLD) {
+    return { rule: 'REGOLA_002', intent: 'retreat' };
+  }
+  const distance = manhattanDistance(actor.position, target.position);
+  const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+  if (distance <= range) {
+    return { rule: 'REGOLA_001', intent: 'attack' };
+  }
+  return { rule: 'REGOLA_001', intent: 'approach' };
+}
+
+module.exports = {
+  DEFAULT_ATTACK_RANGE,
+  DEFAULT_MAX_HP_FALLBACK,
+  LOW_HP_RETREAT_THRESHOLD,
+  manhattanDistance,
+  stepAway,
+  selectAiPolicy,
+};

@@ -39,6 +39,12 @@ const { Router } = require('express');
 const { loadActiveTraitRegistry, evaluateAttackTraits } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
+// SPRINT_010 (issue #2): IA estratta in modulo dedicato.
+// Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
+// l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
+// DEFAULT_ATTACK_RANGE e' ora autoritativo in policy.js (usato sia qui che dall'IA).
+const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
+const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
 
 const GRID_SIZE = 6;
 const DEFAULT_HP = 10;
@@ -46,7 +52,7 @@ const DEFAULT_AP = 2;
 const DEFAULT_MOD = 3;
 const DEFAULT_DC = 12;
 const DEFAULT_GUARDIA = 1;
-const DEFAULT_ATTACK_RANGE = 2;
+// DEFAULT_ATTACK_RANGE importato da services/ai/policy.js — autoritativo.
 
 // SPRINT_006: stats per job (attack_range principalmente). I 6 job canonici
 // sono quelli di data/core/telemetry.yaml:telemetry.hud_breakdown.roles.
@@ -230,50 +236,8 @@ function stepTowards(from, to) {
   return clampPosition(next.x, next.y);
 }
 
-// SPRINT_006 fase 2: passo di ritirata — muove 1 cella AWAY dal target.
-// Preferisce l'asse con delta maggiore. Se contro il bordo, prova l'altro
-// asse. Ritorna null se la ritirata e' del tutto impossibile.
-function stepAway(from, to) {
-  const dx = from.x - to.x;
-  const dy = from.y - to.y;
-  const absDx = Math.abs(dx);
-  const absDy = Math.abs(dy);
-  const tryAxis = (axis) => {
-    if (axis === 'x') {
-      if (dx === 0) return null;
-      const newX = from.x + Math.sign(dx);
-      if (newX < 0 || newX >= GRID_SIZE) return null;
-      return { x: newX, y: from.y };
-    }
-    if (dy === 0) return null;
-    const newY = from.y + Math.sign(dy);
-    if (newY < 0 || newY >= GRID_SIZE) return null;
-    return { x: from.x, y: newY };
-  };
-  if (absDx >= absDy) {
-    return tryAxis('x') || tryAxis('y');
-  }
-  return tryAxis('y') || tryAxis('x');
-}
-
-// SPRINT_006 fase 2: policy IA multi-regola. Ritorna un descriptor
-// { rule, intent } che runSistemaTurn esegue.
-// Regole ordinate per priorita' (002 > 001):
-//   REGOLA_002: se HP <= 30% del max, intent = "retreat" (ritirata)
-//   REGOLA_001: default — "attack" se in range, "approach" altrimenti
-function selectAiPolicy(actor, target) {
-  const maxHp = Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : DEFAULT_HP;
-  const hpRatio = actor.hp / maxHp;
-  if (hpRatio <= 0.3) {
-    return { rule: 'REGOLA_002', intent: 'retreat' };
-  }
-  const distance = manhattanDistance(actor.position, target.position);
-  const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
-  if (distance <= range) {
-    return { rule: 'REGOLA_001', intent: 'attack' };
-  }
-  return { rule: 'REGOLA_001', intent: 'approach' };
-}
+// stepAway e selectAiPolicy sono stati estratti in services/ai/policy.js
+// (SPRINT_010 issue #2). Qui viene mantenuto solo l'import a inizio file.
 
 function createSessionRouter(options = {}) {
   const router = Router();
@@ -482,175 +446,22 @@ function createSessionRouter(options = {}) {
     };
   }
 
-  async function runSistemaTurn(session) {
-    // Policy IA multi-regola (SPRINT_006 fase 2):
-    //   REGOLA_001: default — attacca se in range, altrimenti avvicina
-    //   REGOLA_002: ritirata se HP <= 30% del max
-    // Seleziona il bersaglio a HP piu' basso e sceglie l'intent via
-    // selectAiPolicy. Dual-action: loop finche' ap_remaining > 0.
-    const actor = session.units.find((u) => u.id === session.active_unit);
-    if (!actor) return [];
-    // Assicura AP pieni all'inizio del turno SIS (in caso la rotazione
-    // non li abbia gia' reintegrati).
-    if ((actor.ap_remaining ?? 0) <= 0) {
-      actor.ap_remaining = actor.ap;
-    }
-
-    const actions = [];
-    // SPRINT_009 fix: una volta che REGOLA_002 retreat fallisce (SIS cornered)
-    // in questo turno, blocchiamo la selezione di REGOLA_002 per il resto del
-    // turno stesso. Altrimenti SIS oscilla: iter 1 approach fallback, iter 2
-    // torna a REGOLA_002, retreat di nuovo al bordo, ecc. Il flag dura solo
-    // il turno SIS (non persiste sul session).
-    let corneredThisTurn = false;
-    while ((actor.ap_remaining ?? 0) > 0) {
-      const target = pickLowestHpEnemy(session, actor);
-      if (!target) break;
-
-      let policy = selectAiPolicy(actor, target);
-      const distance = manhattanDistance(actor.position, target.position);
-
-      // SPRINT_006 fase 2 + SPRINT_009 fix: se REGOLA_002 vuole ritirarsi ma
-      // stepAway ritorna null (SIS al bordo / cornered), fallback a REGOLA_001:
-      //   - se target in range → desperate attack
-      //   - se target fuori range → approach (stepTowards) per tentare di
-      //     uscire dal corner invece di fare skip per molti turni
-      // Alza il flag corneredThisTurn cosi' le iterazioni successive di
-      // questo stesso turno non rientrano in REGOLA_002 (evita oscillazioni).
-      if (policy.intent === 'retreat') {
-        if (corneredThisTurn) {
-          const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
-          policy =
-            distance <= range
-              ? { rule: 'REGOLA_001', intent: 'attack' }
-              : { rule: 'REGOLA_001', intent: 'approach' };
-        } else {
-          const canRetreat = stepAway(actor.position, target.position) !== null;
-          if (!canRetreat) {
-            corneredThisTurn = true;
-            const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
-            policy =
-              distance <= range
-                ? { rule: 'REGOLA_001', intent: 'attack' }
-                : { rule: 'REGOLA_001', intent: 'approach' };
-          }
-        }
-      }
-
-      if (policy.intent === 'attack') {
-        const hpBefore = target.hp;
-        const targetPositionAtAttack = { ...target.position };
-        const { result, evaluation, damageDealt, killOccurred } = performAttack(
-          session,
-          actor,
-          target,
-        );
-        const event = buildAttackEvent({
-          session,
-          actor,
-          target,
-          result,
-          evaluation,
-          damageDealt,
-          hpBefore,
-          targetPositionAtAttack,
-        });
-        event.actor_id = 'sistema';
-        event.actor_species = actor.species;
-        event.actor_job = actor.job;
-        event.ia_rule = policy.rule;
-        event.ia_controlled_unit = actor.id;
-        await appendEvent(session, event);
-        if (killOccurred) {
-          await emitKillAndAssists(session, actor, target, event);
-        }
-        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
-        actions.push({
-          actor: 'sistema',
-          unit_id: actor.id,
-          type: 'attack',
-          target: target.id,
-          die: result.die,
-          roll: result.roll,
-          mos: result.mos,
-          result: result.hit ? 'hit' : 'miss',
-          pt: result.pt,
-          damage_dealt: damageDealt,
-          trait_effects: evaluation.trait_effects,
-          actor_position: { ...actor.position },
-          target_position: targetPositionAtAttack,
-          ia_rule: policy.rule,
-        });
-        if (killOccurred) break;
-        continue;
-      }
-
-      // intent: 'approach' (REGOLA_001) o 'retreat' (REGOLA_002)
-      const positionFrom = { ...actor.position };
-      const nextPos =
-        policy.intent === 'retreat'
-          ? stepAway(actor.position, target.position)
-          : stepTowards(actor.position, target.position);
-
-      // Se la ritirata e' impossibile (bordo griglia da entrambi gli assi)
-      // oppure stepTowards ha ritornato la stessa cella, registriamo skip.
-      if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {
-        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
-        actions.push({
-          actor: 'sistema',
-          unit_id: actor.id,
-          type: 'skip',
-          reason:
-            policy.intent === 'retreat'
-              ? `cannot retreat — cornered near ${target.id}`
-              : `cannot approach ${target.id}`,
-          position_from: positionFrom,
-          position_to: positionFrom,
-          ia_rule: policy.rule,
-        });
-        continue;
-      }
-      // SPRINT_005 fase 1: se lo step porterebbe su una cella occupata
-      // (es. il giocatore stesso), saltiamo il move per evitare overlap
-      // e consumiamo comunque l'AP cosi' il loop SIS termina.
-      const blocker = session.units.find(
-        (u) =>
-          u.id !== actor.id && u.hp > 0 && u.position.x === nextPos.x && u.position.y === nextPos.y,
-      );
-      if (blocker) {
-        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
-        actions.push({
-          actor: 'sistema',
-          unit_id: actor.id,
-          type: 'skip',
-          reason: `blocked by ${blocker.id} at (${nextPos.x},${nextPos.y})`,
-          position_from: positionFrom,
-          position_to: positionFrom,
-          ia_rule: policy.rule,
-        });
-        continue;
-      }
-      actor.position = nextPos;
-      const event = buildMoveEvent({ session, actor, positionFrom });
-      event.actor_id = 'sistema';
-      event.ia_rule = policy.rule;
-      event.ia_controlled_unit = actor.id;
-      await appendEvent(session, event);
-      actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
-      actions.push({
-        actor: 'sistema',
-        unit_id: actor.id,
-        // SPRINT_006 fase 2: distingui "retreat" da "move" (approach)
-        type: policy.intent === 'retreat' ? 'retreat' : 'move',
-        target: target.id,
-        position_from: positionFrom,
-        position_to: { ...actor.position },
-        ia_rule: policy.rule,
-      });
-    }
-
-    return actions;
-  }
+  // SPRINT_010 (issue #2): runSistemaTurn e' estratto in services/ai/sistemaTurnRunner.js.
+  // Qui lo costruiamo via factory iniettando le dipendenze del router
+  // (performAttack, buildAttackEvent, buildMoveEvent, emitKillAndAssists,
+  // appendEvent, pickLowestHpEnemy, manhattanDistance, stepTowards).
+  // Policy decisionale (selectAiPolicy, stepAway) vive in services/ai/policy.js.
+  const runSistemaTurn = createSistemaTurnRunner({
+    pickLowestHpEnemy,
+    manhattanDistance,
+    stepTowards,
+    performAttack,
+    buildAttackEvent,
+    buildMoveEvent,
+    emitKillAndAssists,
+    appendEvent,
+    gridSize: GRID_SIZE,
+  });
 
   router.post('/start', async (req, res, next) => {
     try {
