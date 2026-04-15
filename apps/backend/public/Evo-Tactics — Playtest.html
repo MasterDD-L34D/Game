@@ -131,11 +131,35 @@
 
   .cell:hover { background: #222535; border-color: #3a3d50; }
 
+  /* Reachable cell a costo 1 AP (blu standard) */
   .cell.reachable {
     border-color: var(--p1);
     background: rgba(59,139,212,.12);
   }
   .cell.reachable:hover { background: rgba(59,139,212,.22); }
+
+  /* Reachable cell a costo 2 AP (arancio-warning). Visivamente
+     distinta per evitare mis-click che consumano tutto il turno. */
+  .cell.reachable.reachable-costly {
+    border-color: var(--miss);
+    background: rgba(186,117,23,.18);
+  }
+  .cell.reachable.reachable-costly:hover { background: rgba(186,117,23,.30); }
+
+  /* Badge del costo AP in alto a sinistra nella cella reachable */
+  .cell-cost {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--p1-light);
+    pointer-events: none;
+    opacity: .85;
+  }
+  .cell.reachable-costly .cell-cost {
+    color: #fac775;
+  }
 
   .cell.targetable {
     border-color: var(--p2);
@@ -465,14 +489,23 @@ function renderGrid() {
       }
 
       // highlight celle raggiungibili / attaccabili (solo se AP disponibili).
-      // SPRINT_008: reachable ora usa ap_remaining (cost=dist), non ap max.
+      // SPRINT_008: reachable usa ap_remaining (cost=dist), non ap max.
+      // SPRINT_009: mostra il costo AP effettivo sulla cella e distingue
+      // visivamente reachable a costo 2 (arancio) per evitare mis-click.
       if (selected) {
         const sel = units.find(u => u.id === selected);
         const apLeft = sel?.ap_remaining ?? sel?.ap ?? 0;
         const range  = sel?.attack_range ?? 2;
         if (sel && !u && apLeft > 0) {
           const dist = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);
-          if (dist > 0 && dist <= apLeft) cell.classList.add('reachable');
+          if (dist > 0 && dist <= apLeft) {
+            cell.classList.add('reachable');
+            if (dist > 1) cell.classList.add('reachable-costly');
+            const costBadge = document.createElement('span');
+            costBadge.className = 'cell-cost';
+            costBadge.textContent = dist;
+            cell.appendChild(costBadge);
+          }
         }
         if (u && u.id !== selected && u.id !== 'unit_1' && apLeft > 0) {
           const distT = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);

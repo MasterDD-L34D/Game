@@ -497,6 +497,12 @@ function createSessionRouter(options = {}) {
     }
 
     const actions = [];
+    // SPRINT_009 fix: una volta che REGOLA_002 retreat fallisce (SIS cornered)
+    // in questo turno, blocchiamo la selezione di REGOLA_002 per il resto del
+    // turno stesso. Altrimenti SIS oscilla: iter 1 approach fallback, iter 2
+    // torna a REGOLA_002, retreat di nuovo al bordo, ecc. Il flag dura solo
+    // il turno SIS (non persiste sul session).
+    let corneredThisTurn = false;
     while ((actor.ap_remaining ?? 0) > 0) {
       const target = pickLowestHpEnemy(session, actor);
       if (!target) break;
@@ -504,14 +510,30 @@ function createSessionRouter(options = {}) {
       let policy = selectAiPolicy(actor, target);
       const distance = manhattanDistance(actor.position, target.position);
 
-      // SPRINT_006 fase 2: se REGOLA_002 vuole ritirarsi ma e' impossibile
-      // (angolato al bordo) e il target e' in range, falliamo in
-      // "desperate attack" sotto REGOLA_001 invece di skip inutile.
+      // SPRINT_006 fase 2 + SPRINT_009 fix: se REGOLA_002 vuole ritirarsi ma
+      // stepAway ritorna null (SIS al bordo / cornered), fallback a REGOLA_001:
+      //   - se target in range → desperate attack
+      //   - se target fuori range → approach (stepTowards) per tentare di
+      //     uscire dal corner invece di fare skip per molti turni
+      // Alza il flag corneredThisTurn cosi' le iterazioni successive di
+      // questo stesso turno non rientrano in REGOLA_002 (evita oscillazioni).
       if (policy.intent === 'retreat') {
-        const canRetreat = stepAway(actor.position, target.position) !== null;
-        const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
-        if (!canRetreat && distance <= range) {
-          policy = { rule: 'REGOLA_001', intent: 'attack' };
+        if (corneredThisTurn) {
+          const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+          policy =
+            distance <= range
+              ? { rule: 'REGOLA_001', intent: 'attack' }
+              : { rule: 'REGOLA_001', intent: 'approach' };
+        } else {
+          const canRetreat = stepAway(actor.position, target.position) !== null;
+          if (!canRetreat) {
+            corneredThisTurn = true;
+            const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+            policy =
+              distance <= range
+                ? { rule: 'REGOLA_001', intent: 'attack' }
+                : { rule: 'REGOLA_001', intent: 'approach' };
+          }
         }
       }
 
