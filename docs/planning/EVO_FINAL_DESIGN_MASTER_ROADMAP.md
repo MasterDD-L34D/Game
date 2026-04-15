@@ -38,7 +38,7 @@ Evo Tactics va finalizzato come:
 | ☑    | Balance separato     | `trait_mechanics.yaml` resta il layer numerico separato e obbligatorio.                                                                                                                                                                                                                                                                                   |
 | ☑    | Confine cross-repo   | `Game` continua a leggere file locali a runtime; nessun redesign finale può dipendere da Game <- HTTP runtime.                                                                                                                                                                                                                                            |
 | ☑    | Governance docs      | I file nuovi devono avere frontmatter coerente con il sistema di governance docs.                                                                                                                                                                                                                                                                         |
-| ☑    | Source authority map | Le decisioni su conflitti tra freeze, ADR, YAML, Canvas e file operativi passano da `docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`.                                                                                                                                                                                                             |
+| ☑    | Source authority map | Le decisioni su conflitti tra freeze, ADR, YAML, Canvas e file operativi passano da [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md).                                                                                                                                                                                  |
 | ☑    | Codex workflow       | AGENTS, BOOT_PROFILE, COMMAND_LIBRARY e strict-mode vanno rispettati per tutte le esecuzioni che toccano file.                                                                                                                                                                                                                                            |
 
 ## 4. Stato delle fonti
@@ -199,3 +199,12 @@ Il progetto entra in stato “final design freeze ready” solo quando:
 - HUD e telemetria spiegano ciò che il gioco fa;
 - Nido / Recruit / Mating non allargano più lo scope oltre la slice definita;
 - il rapporto con Game-Database è disciplinato e non rompe il runtime.
+
+## 11. Documenti correlati
+
+- [`90-FINAL-DESIGN-FREEZE`](../core/90-FINAL-DESIGN-FREEZE.md) — sintesi di prodotto che questa roadmap esegue.
+- [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) — gerarchia delle fonti e regole di risoluzione conflitti.
+- [`EVO_FINAL_DESIGN_MILESTONES_AND_GATES`](EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md) — gate formali `G0..G7` con entry/exit criteria.
+- [`EVO_FINAL_DESIGN_BACKLOG_REGISTER`](EVO_FINAL_DESIGN_BACKLOG_REGISTER.md) — task esecutivi organizzati per epic.
+- [`EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK`](EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md) — guida operativa per agenti Codex.
+- [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC`](EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md) — piano cross-repo Game ↔ Game-Database.

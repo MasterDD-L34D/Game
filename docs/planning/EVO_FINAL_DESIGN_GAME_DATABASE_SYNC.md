@@ -13,9 +13,9 @@ review_cycle_days: 14
 
 ## 1. Scopo
 
-Questo piano va letto insieme a `docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`.
+Questo piano va letto insieme a [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) (regole di risoluzione conflitti) e al [`90-FINAL-DESIGN-FREEZE`](../core/90-FINAL-DESIGN-FREEZE.md) (perimetro di prodotto).
 
-Questo documento traduce l’ADR topology in un piano operativo semplice e robusto per il final design.
+Questo documento traduce l’[ADR-2026-04-14 Game-Database topology](../adr/ADR-2026-04-14-game-database-topology.md) in un piano operativo semplice e robusto per il final design.
 
 Serve a evitare due errori:
 
@@ -168,4 +168,12 @@ Nel freeze corrente:
 
 - `Game` resta la fonte runtime e dati di produzione del gioco;
 - `Game-Database` resta CMS/taxonomy e target di import build-time;
-- eventuali mismatch di design vanno risolti in freeze, hub, ADR o dati del repo `Game`, non nel DB.
+- eventuali mismatch di design vanno risolti in [freeze](../core/90-FINAL-DESIGN-FREEZE.md), hub, [ADR](../adr/ADR-2026-04-14-game-database-topology.md) o dati del repo `Game`, non nel DB.
+
+## 13. Documenti correlati
+
+- [`90-FINAL-DESIGN-FREEZE`](../core/90-FINAL-DESIGN-FREEZE.md) — perimetro di prodotto, vincolo architetturale non negoziabile (§5).
+- [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) — gerarchia delle fonti; la domanda "Il runtime puo dipendere da Game-Database?" ha risposta canonica qui.
+- [`ADR-2026-04-14-game-database-topology`](../adr/ADR-2026-04-14-game-database-topology.md) — ADR che questo piano implementa operativamente.
+- [`EVO_FINAL_DESIGN_MASTER_ROADMAP`](EVO_FINAL_DESIGN_MASTER_ROADMAP.md) — `M5 Meta Slice & Cross-Repo` e cross-repo readiness.
+- [`EVO_FINAL_DESIGN_BACKLOG_REGISTER`](EVO_FINAL_DESIGN_BACKLOG_REGISTER.md) — `EPIC K — Game <-> Game-Database` con task `FD-100..106`.

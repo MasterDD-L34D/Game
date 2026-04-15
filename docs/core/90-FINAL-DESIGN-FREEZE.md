@@ -741,3 +741,17 @@ Evo Tactics è in design finale quando queste condizioni sono tutte vere:
 5. recruit/nido/mating funzionano come meta-slice e non rompono il pacing;
 6. tutti i gate di validazione sono verdi;
 7. il runtime non dipende da integrazioni architetturali non ancora adottate.
+
+## 29. Documenti correlati
+
+Bundle esecutivo (planning) che applica questo freeze:
+
+- [`EVO_FINAL_DESIGN_ROADMAPS_INDEX`](../planning/EVO_FINAL_DESIGN_ROADMAPS_INDEX.md) — indice del bundle.
+- [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) — regole di risoluzione conflitti tra fonti (**leggere per primo** se emerge un disallineamento).
+- [`EVO_FINAL_DESIGN_MASTER_ROADMAP`](../planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md), [`MILESTONES_AND_GATES`](../planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md), [`BACKLOG_REGISTER`](../planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md), [`CODEX_EXECUTION_PLAYBOOK`](../planning/EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md), [`GAME_DATABASE_SYNC`](../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md) — execution plan del freeze (vedi §0.1 per i dettagli).
+
+Fonti tecniche canoniche richiamate dal freeze:
+
+- [`docs/hubs/combat.md`](../hubs/combat.md), [`docs/combat/README.md`](../combat/README.md), [`docs/combat/round-loop.md`](../combat/round-loop.md)
+- [`ADR-2026-04-13 Rules Engine d20`](../adr/ADR-2026-04-13-rules-engine-d20.md), [`ADR-2026-04-14 Game-Database topology`](../adr/ADR-2026-04-14-game-database-topology.md), [`ADR-2026-04-15 Round-based combat model`](../adr/ADR-2026-04-15-round-based-combat-model.md)
+- [`docs/governance/README`](../governance/README.md) — contratto governance docs (A0).

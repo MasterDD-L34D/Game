@@ -112,3 +112,14 @@ la versione piu recente e canonica vince.
 ## 8. Formula sintetica da ricordare
 
 **Governance colloca. ADR delimita. YAML prova. Freeze decide il prodotto. Agent docs eseguono. Storico ispira ma non governa.**
+
+## 9. Documenti correlati
+
+- [`90-FINAL-DESIGN-FREEZE`](../core/90-FINAL-DESIGN-FREEZE.md) — sintesi di prodotto A3 che questa authority map regola.
+- [`EVO_FINAL_DESIGN_ROADMAPS_INDEX`](EVO_FINAL_DESIGN_ROADMAPS_INDEX.md) — indice del bundle e ordine di lettura.
+- [`EVO_FINAL_DESIGN_MASTER_ROADMAP`](EVO_FINAL_DESIGN_MASTER_ROADMAP.md) — piano esecutivo che recepisce le decisioni di authority.
+- [`EVO_FINAL_DESIGN_MILESTONES_AND_GATES`](EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md) — gate formali di avanzamento.
+- [`EVO_FINAL_DESIGN_BACKLOG_REGISTER`](EVO_FINAL_DESIGN_BACKLOG_REGISTER.md) — task operativi che implementano i gate.
+- [`EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK`](EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md) — guida per agenti Codex, deve rispettare questa authority map.
+- [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC`](EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md) — piano cross-repo, applica il confine topology A1.
+- [`docs/governance/README`](../governance/README.md) — contratto operativo governance (A0).

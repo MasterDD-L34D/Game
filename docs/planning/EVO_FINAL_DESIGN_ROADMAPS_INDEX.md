@@ -13,15 +13,11 @@ review_cycle_days: 14
 
 ## Scopo
 
-Questo bundle raccoglie i file roadmap da caricare nel repo **Game / Evo Tactics** come supporto operativo al documento `Final Design Freeze`, assumendo che il freeze venga pubblicato successivamente come riferimento canonico.
+Questo bundle raccoglie i file roadmap del repo **Game / Evo Tactics** come supporto operativo al [`Final Design Freeze`](../core/90-FINAL-DESIGN-FREEZE.md), che e' il riferimento canonico di sintesi del prodotto.
 
 ### Assunzione di riferimento
 
-I file di questo bundle assumono che il documento freeze venga caricato nel path:
-
-- `docs/core/90-FINAL-DESIGN-FREEZE.md`
-
-Se decidi un altro path, basta aggiornare i riferimenti interni con una sostituzione globale.
+Il freeze vive in [`docs/core/90-FINAL-DESIGN-FREEZE.md`](../core/90-FINAL-DESIGN-FREEZE.md). Se in futuro il path cambiasse, aggiornare i riferimenti interni con una sostituzione globale.
 
 ## Legenda operativa
 
@@ -33,15 +29,15 @@ Se decidi un altro path, basta aggiornare i riferimenti interni con una sostituz
 
 ## Ordine consigliato di lettura
 
-| Stato | Task                                                                 | Dettagli operativi                                                                                                   |
-| ----- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| ☑    | Leggere `docs/core/90-FINAL-DESIGN-FREEZE.md`                        | Documento sorgente di scope, tesi di design, sistemi, contenuti e vincoli cross-repo.                                |
-| ☑    | Leggere `docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`     | Mappa delle autorita: stabilisce chi vince in caso di conflitto tra freeze, ADR, hub, YAML, Canvas e file operativi. |
-| ☑    | Leggere `docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md`           | Vista manageriale e di produzione: fasi, milestone, dipendenze, owner e criteri di uscita.                           |
-| ☑    | Leggere `docs/planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md`     | Gate formali, test, validator, rollback e condizioni di freeze.                                                      |
-| ☑    | Leggere `docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md`         | Registro completo di epic e task esecutivi, già pronto per backlog / issue / Codex executor.                         |
-| ☑    | Leggere `docs/planning/EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md` | Guida per usare i file con Codex rispettando AGENTS, BOOT_PROFILE, COMMAND_LIBRARY, strict-mode e fast-path.         |
-| ☑    | Leggere `docs/planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md`       | Piano cross-repo Game <-> Game-Database, con confine architetturale, import cadence e trigger futuri.                |
+| Stato | Task                                                                                                | Dettagli operativi                                                                                                   |
+| ----- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| ☑    | Leggere [`90-FINAL-DESIGN-FREEZE`](../core/90-FINAL-DESIGN-FREEZE.md)                               | Documento sorgente di scope, tesi di design, sistemi, contenuti e vincoli cross-repo.                                |
+| ☑    | Leggere [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md)         | Mappa delle autorita: stabilisce chi vince in caso di conflitto tra freeze, ADR, hub, YAML, Canvas e file operativi. |
+| ☑    | Leggere [`EVO_FINAL_DESIGN_MASTER_ROADMAP`](EVO_FINAL_DESIGN_MASTER_ROADMAP.md)                     | Vista manageriale e di produzione: fasi, milestone, dipendenze, owner e criteri di uscita.                           |
+| ☑    | Leggere [`EVO_FINAL_DESIGN_MILESTONES_AND_GATES`](EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md)         | Gate formali, test, validator, rollback e condizioni di freeze.                                                      |
+| ☑    | Leggere [`EVO_FINAL_DESIGN_BACKLOG_REGISTER`](EVO_FINAL_DESIGN_BACKLOG_REGISTER.md)                 | Registro completo di epic e task esecutivi, già pronto per backlog / issue / Codex executor.                         |
+| ☑    | Leggere [`EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK`](EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md) | Guida per usare i file con Codex rispettando AGENTS, BOOT_PROFILE, COMMAND_LIBRARY, strict-mode e fast-path.         |
+| ☑    | Leggere [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC`](EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md)             | Piano cross-repo Game ↔ Game-Database, con confine architetturale, import cadence e trigger futuri.                 |
 
 ## File inclusi nel bundle
 

@@ -362,3 +362,11 @@ Questa board rispecchia il body (§4..§12). Ogni gate ha il suo significato dic
 | ☐     | G5   | UX / HUD / Telemetry Shipping Layer — HUD/telemetria shipping pronte.                |
 | ☐     | G6   | Meta Slice & Cross-Repo — meta-slice e cross-repo readiness pronte.                  |
 | ☐     | G7   | Release Candidate — release candidate approvabile.                                   |
+
+## 14. Documenti correlati
+
+- [`90-FINAL-DESIGN-FREEZE`](../core/90-FINAL-DESIGN-FREEZE.md) — sintesi di prodotto da cui discendono i gate.
+- [`EVO_FINAL_DESIGN_MASTER_ROADMAP`](EVO_FINAL_DESIGN_MASTER_ROADMAP.md) — mapping fasi ↔ milestone ↔ gate (`§6.1`).
+- [`EVO_FINAL_DESIGN_BACKLOG_REGISTER`](EVO_FINAL_DESIGN_BACKLOG_REGISTER.md) — task esecutivi che chiudono ogni gate.
+- [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) — gerarchia delle fonti.
+- [`EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK`](EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md) — guida operativa agenti, include definizione di `FAST_PATH` e strict-mode.

@@ -17,18 +17,18 @@ Questa guida dice a Codex come usare il freeze e le roadmap senza creare drift, 
 
 ## 2. Fonti da caricare all’avvio
 
-| Stato | Task                       | Dettagli operativi                                                                                        |
-| ----- | -------------------------- | --------------------------------------------------------------------------------------------------------- |
-| ☑    | AGENTS bootstrap           | `AGENTS.md` come indice iniziale.                                                                         |
-| ☑    | Profilo completo           | `.ai/BOOT_PROFILE.md` per strict-mode, router automatico, Command Library, Golden Path.                   |
-| ☑    | Macro-comandi              | `docs/ops/COMMAND_LIBRARY.md`.                                                                            |
-| ☑    | Freeze                     | `docs/core/90-FINAL-DESIGN-FREEZE.md`.                                                                    |
-| ☑    | Authority map              | `docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`.                                                 |
-| ☑    | Roadmap master             | `docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md`.                                                       |
-| ☑    | Gates                      | `docs/planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md`.                                                 |
-| ☑    | Backlog                    | `docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md`.                                                     |
-| ☑    | Cross-repo plan            | `docs/planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md` se il task tocca import, taxonomy o Game-Database. |
-| ☑    | Guardrail operativi locali | `CLAUDE.md` per coding workflow, guardrail file sensibili, DoD locale e realta architetturale del repo.   |
+| Stato | Task                       | Dettagli operativi                                                                                                                                  |
+| ----- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ☑    | AGENTS bootstrap           | `AGENTS.md` come indice iniziale.                                                                                                                   |
+| ☑    | Profilo completo           | `.ai/BOOT_PROFILE.md` per strict-mode, router automatico, Command Library, Golden Path.                                                             |
+| ☑    | Macro-comandi              | `docs/ops/COMMAND_LIBRARY.md`.                                                                                                                      |
+| ☑    | Freeze                     | [`docs/core/90-FINAL-DESIGN-FREEZE.md`](../core/90-FINAL-DESIGN-FREEZE.md).                                                                         |
+| ☑    | Authority map              | [`docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md).                                               |
+| ☑    | Roadmap master             | [`docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md`](EVO_FINAL_DESIGN_MASTER_ROADMAP.md).                                                           |
+| ☑    | Gates                      | [`docs/planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md`](EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md).                                               |
+| ☑    | Backlog                    | [`docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md`](EVO_FINAL_DESIGN_BACKLOG_REGISTER.md).                                                       |
+| ☑    | Cross-repo plan            | [`docs/planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md`](EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md) se il task tocca import, taxonomy o Game-Database. |
+| ☑    | Guardrail operativi locali | `CLAUDE.md` per coding workflow, guardrail file sensibili, DoD locale e realta architetturale del repo.                                             |
 
 ## 3. Prompt consigliato di avvio
 
@@ -221,3 +221,12 @@ Non applicare nulla senza preview e senza check dei test collegati.
 | ☑    | Aggiornare docs correlate quando richiesto  | Se si tocca `services/rules/`, aggiornare l'hub combat e i riferimenti docs rilevanti.                                        |
 | ☑    | Tenere working tree pulito                  | Nessuna esecuzione e nessun patchset chiuso con tree sporco o validator ignorati.                                             |
 | ☑    | Non inventare nuovi `COMANDO:`              | Seguire `AGENTS.md`, `.ai/BOOT_PROFILE.md`, `docs/ops/COMMAND_LIBRARY.md` e `CLAUDE.md`.                                      |
+
+## 14. Documenti correlati
+
+- [`90-FINAL-DESIGN-FREEZE`](../core/90-FINAL-DESIGN-FREEZE.md) — sintesi di prodotto, baseline decisionale.
+- [`EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) — **prima fonte da consultare** in caso di conflitto.
+- [`EVO_FINAL_DESIGN_MASTER_ROADMAP`](EVO_FINAL_DESIGN_MASTER_ROADMAP.md) — fasi e milestone.
+- [`EVO_FINAL_DESIGN_MILESTONES_AND_GATES`](EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md) — gate formali + glossario operativo (strict-mode, action-required, FAST_PATH, ecc.).
+- [`EVO_FINAL_DESIGN_BACKLOG_REGISTER`](EVO_FINAL_DESIGN_BACKLOG_REGISTER.md) — task esecutivi per ID `FD-XXX`.
+- [`EVO_FINAL_DESIGN_GAME_DATABASE_SYNC`](EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md) — obbligatorio per task che toccano import o taxonomy Game-Database.
