@@ -111,6 +111,16 @@ function computeRawMetrics(events, units, gridSize = 6) {
   if (!Array.isArray(events)) return {};
   if (!Array.isArray(units)) return {};
 
+  // SPRINT_007 fase 1 (issue #4): mappa unit_id → attack_range per il
+  // lookup efficiente durante il computo di close_engage. Il default
+  // fallback e' 1 (pre-sprint-007 behavior: solo adiacenza contava).
+  const unitRangeMap = {};
+  for (const unit of units) {
+    unitRangeMap[unit.id] = Number.isFinite(Number(unit?.attack_range))
+      ? Number(unit.attack_range)
+      : 1;
+  }
+
   const perActor = {};
   for (const unit of units) {
     perActor[unit.id] = {
@@ -166,10 +176,18 @@ function computeRawMetrics(events, units, gridSize = 6) {
       if (event.result === 'hit') {
         bucket.attack_hits += 1;
         bucket.damage_dealt_total += Number(event.damage_dealt) || 0;
-        // close_engage: attack con Manhattan <= 1 dal target al momento
+        // SPRINT_007 fase 1 (issue #4): close_engage ridefinito come
+        // "attacco in mutual range" — conta se la distanza e' <=
+        // attack_range DEL BERSAGLIO (non dell'attaccante). Semantica:
+        // "ti sei esposto al counter-attack nemico nello stesso turno".
+        // Questo generalizza la vecchia condizione (d <= 1) senza
+        // banalizzarla: un skirmisher r2 che colpisce da dist 2 un
+        // vanguard r1 NON prende close_engage (il vanguard non puo'
+        // rispondere). Fallback 1 per compat con sessioni legacy.
         if (event.target_position_at_attack && event.position_from) {
           const d = manhattan(event.position_from, event.target_position_at_attack);
-          if (d <= 1) bucket.close_engage_attacks += 1;
+          const targetRange = unitRangeMap[event.target_id] ?? 1;
+          if (d <= targetRange) bucket.close_engage_attacks += 1;
         }
         // low_hp_time proxy: target_hp_after < 0.3 * target_hp_before (proxy)
         if (
