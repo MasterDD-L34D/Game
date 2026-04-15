@@ -24,16 +24,18 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 - [Combat overview + mappa doc](../combat/README.md)
 - [Data flow end-to-end (diagrammi)](../combat/data-flow.md) — come i dati passano da encounter JSON a turn log
 - [Resolver API reference](../combat/resolver-api.md) — signature e semantica di ogni funzione pubblica
-- [Trait mechanics guide](../combat/trait-mechanics-guide.md) *(in arrivo, PR B2)*
-- [Status effects guide](../combat/status-effects-guide.md) *(in arrivo, PR B2)*
-- [Action types guide](../combat/action-types-guide.md) *(in arrivo, PR B2)*
-- [Worker bridge](../combat/worker-bridge.md) *(in arrivo, PR B3)*
-- [Determinism & RNG](../combat/determinism.md) *(in arrivo, PR B3)*
-- [Testing guide](../combat/testing.md) *(in arrivo, PR B3)*
+- [**Round loop** (shared planning → commit → ordered resolution)](../combat/round-loop.md) — nuovo orchestratore di round sopra il resolver atomico (ADR-2026-04-15)
+- [Trait mechanics guide](../combat/trait-mechanics-guide.md) _(in arrivo, PR B2)_
+- [Status effects guide](../combat/status-effects-guide.md) _(in arrivo, PR B2)_
+- [Action types guide](../combat/action-types-guide.md) _(in arrivo, PR B2)_
+- [Worker bridge](../combat/worker-bridge.md) _(in arrivo, PR B3)_
+- [Determinism & RNG](../combat/determinism.md) _(in arrivo, PR B3)_
+- [Testing guide](../combat/testing.md) _(in arrivo, PR B3)_
 
 ## File principali
 
 - `services/rules/resolver.py` — resolver d20 puro (attack, MoS, damage_step, resistenze, armor, status modifiers)
+- `services/rules/round_orchestrator.py` — orchestratore di round (planning → commit → resolve) sopra il resolver atomico
 - `services/rules/hydration.py` — idratazione encounter/party → CombatState, caricamento trait_mechanics.yaml
 - `services/rules/demo_cli.py` — CLI dimostrativa con modalità interactive e auto
 - `services/rules/worker.py` — bridge JSON-line stdin/stdout verso backend Node
@@ -50,6 +52,7 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 ## ADR
 
 - [ADR-2026-04-13: Rules Engine d20](../adr/ADR-2026-04-13-rules-engine-d20.md) — scelte di linguaggio (Python), gate sul balance layer separato, RNG namespacing, scope degli status in Fase 1.
+- [ADR-2026-04-15: Round-based combat model](../adr/ADR-2026-04-15-round-based-combat-model.md) — nuovo loop shared-planning → commit → ordered-resolution, semantica di `initiative` come reaction speed.
 
 ## Comandi demo
 
