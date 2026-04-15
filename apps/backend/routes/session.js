@@ -37,6 +37,7 @@ const crypto = require('node:crypto');
 const { Router } = require('express');
 
 const { loadActiveTraitRegistry, evaluateAttackTraits } = require('../services/traitEffects');
+const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 
 const GRID_SIZE = 6;
 const DEFAULT_HP = 10;
@@ -199,6 +200,7 @@ function createSessionRouter(options = {}) {
   const logsDir = options.logsDir || path.join(repoRoot, 'logs');
   const rng = typeof options.rng === 'function' ? options.rng : Math.random;
   const traitRegistry = options.traitRegistry || loadActiveTraitRegistry();
+  const fairnessConfig = options.fairnessConfig || loadFairnessConfig();
 
   const sessions = new Map();
   let activeSessionId = null;
@@ -473,6 +475,9 @@ function createSessionRouter(options = {}) {
         // SPRINT_003 fase 0: contatori in-memory per log esteso + VC.
         action_counter: 0,
         damage_taken: {},
+        // SPRINT_003 fase 1: fairness cap PT per-sessione.
+        cap_pt_used: 0,
+        cap_pt_max: fairnessConfig.cap_pt_max,
       };
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
@@ -505,6 +510,21 @@ function createSessionRouter(options = {}) {
         return res.status(400).json({ error: `actor_id "${body.actor_id}" non trovato` });
       }
 
+      // SPRINT_003 fase 1: fairness cap PT hard enforcement.
+      // Se il body include cost.cap_pt >= 1, verifica che non superi
+      // session.cap_pt_max. Rifiuta con 400 senza mutare stato ne'
+      // scrivere eventi (FAIRNESS_CAP_001 in engine/sistema_rules.md).
+      const requestedCapPt = Number(body.cost?.cap_pt || 0);
+      const capCheck = checkCapPtBudget(session, requestedCapPt, fairnessConfig);
+      if (!capCheck.ok) {
+        return res.status(400).json({
+          error: 'cap_pt_max exceeded',
+          cap_pt_used: capCheck.used,
+          cap_pt_max: capCheck.max,
+          requested: capCheck.requested,
+        });
+      }
+
       const actionType = body.action_type;
 
       if (actionType === 'attack') {
@@ -530,6 +550,11 @@ function createSessionRouter(options = {}) {
           hpBefore,
           targetPositionAtAttack,
         });
+        // SPRINT_003 fase 1: traccia cost nell'evento + consume dal budget.
+        if (requestedCapPt > 0) {
+          event.cost = { cap_pt: requestedCapPt };
+          consumeCapPt(session, requestedCapPt);
+        }
         await appendEvent(session, event);
         if (killOccurred) {
           await emitKillAndAssists(session, actor, target, event);
@@ -542,6 +567,8 @@ function createSessionRouter(options = {}) {
           damage_dealt: damageDealt,
           target_hp: target.hp,
           trait_effects: evaluation.trait_effects,
+          cap_pt_used: session.cap_pt_used,
+          cap_pt_max: session.cap_pt_max,
         });
       }
 
@@ -570,8 +597,20 @@ function createSessionRouter(options = {}) {
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         const event = buildMoveEvent({ session, actor, positionFrom });
+        // SPRINT_003 fase 1: il costo cap_pt si applica anche al move
+        // se passato nel body (utile per abilita' movimento potenziato).
+        if (requestedCapPt > 0) {
+          event.cost = { cap_pt: requestedCapPt };
+          consumeCapPt(session, requestedCapPt);
+        }
         await appendEvent(session, event);
-        return res.json({ ok: true, actor_id: actor.id, position: actor.position });
+        return res.json({
+          ok: true,
+          actor_id: actor.id,
+          position: actor.position,
+          cap_pt_used: session.cap_pt_used,
+          cap_pt_max: session.cap_pt_max,
+        });
       }
 
       return res
