@@ -33,9 +33,12 @@ from rules.hydration import (  # noqa: E402
 )
 from rules.round_orchestrator import (  # noqa: E402
     ACTION_SPEED,
+    DEFAULT_ACTION_SPEED,
     PHASE_COMMITTED,
     PHASE_PLANNING,
     PHASE_RESOLVED,
+    SUPPORTED_REACTION_EVENTS,
+    SUPPORTED_REACTION_TYPES,
     action_speed,
     begin_round,
     build_resolution_queue,
@@ -43,6 +46,10 @@ from rules.round_orchestrator import (  # noqa: E402
     commit_round,
     compute_resolve_priority,
     declare_intent,
+    declare_reaction,
+    load_action_speed_table,
+    preview_round,
+    reload_action_speed_table,
     resolve_round,
 )
 
@@ -165,6 +172,93 @@ def test_action_speed_table_defaults_to_zero_on_unknown_type():
     assert action_speed({"type": "move"}) == -2
     assert action_speed({"type": "unknown_future_type"}) == 0
     assert action_speed({}) == 0
+
+
+def test_action_speed_accepts_table_override():
+    custom = {"attack": 5, "move": 10}
+    assert action_speed({"type": "attack"}, table=custom) == 5
+    assert action_speed({"type": "move"}, table=custom) == 10
+    # Unknown in override → still 0
+    assert action_speed({"type": "defend"}, table=custom) == 0
+
+
+def test_load_action_speed_table_reads_balance_yaml():
+    """Verifica che il loader legga il file YAML canonico del balance pack."""
+    table = load_action_speed_table()
+    # Stessi valori del DEFAULT_ACTION_SPEED (il YAML balance mantiene
+    # la stessa calibrazione come fonte unica di verita').
+    assert table["defend"] == 2
+    assert table["parry"] == 2
+    assert table["attack"] == 0
+    assert table["ability"] == -1
+    assert table["move"] == -2
+
+
+def test_load_action_speed_table_missing_file_falls_back_to_default(tmp_path):
+    """Path inesistente → fallback a DEFAULT_ACTION_SPEED senza eccezioni."""
+    missing = tmp_path / "does_not_exist.yaml"
+    table = load_action_speed_table(missing)
+    assert table == DEFAULT_ACTION_SPEED
+
+
+def test_load_action_speed_table_malformed_file_falls_back(tmp_path):
+    """YAML malformato → fallback a DEFAULT_ACTION_SPEED."""
+    bad = tmp_path / "broken.yaml"
+    bad.write_text("this is not: valid: yaml: [[[", encoding="utf-8")
+    table = load_action_speed_table(bad)
+    assert table == DEFAULT_ACTION_SPEED
+
+
+def test_load_action_speed_table_missing_key_falls_back(tmp_path):
+    """YAML valido ma senza chiave action_speed → fallback."""
+    no_key = tmp_path / "no_key.yaml"
+    no_key.write_text("version: 1\nother_field: 42\n", encoding="utf-8")
+    table = load_action_speed_table(no_key)
+    assert table == DEFAULT_ACTION_SPEED
+
+
+def test_load_action_speed_table_custom_values(tmp_path):
+    """YAML custom → valori nuovi caricati."""
+    custom = tmp_path / "custom.yaml"
+    custom.write_text(
+        "version: 1\n"
+        "action_speed:\n"
+        "  attack: 5\n"
+        "  defend: -1\n"
+        "  move: 0\n",
+        encoding="utf-8",
+    )
+    table = load_action_speed_table(custom)
+    assert table == {"attack": 5, "defend": -1, "move": 0}
+
+
+def test_reload_action_speed_table_mutates_module_level_dict(tmp_path):
+    """``reload_action_speed_table`` aggiorna il ``ACTION_SPEED`` runtime."""
+    custom = tmp_path / "reload.yaml"
+    custom.write_text(
+        "action_speed:\n  attack: 99\n  defend: 88\n",
+        encoding="utf-8",
+    )
+    try:
+        reload_action_speed_table(custom)
+        assert ACTION_SPEED["attack"] == 99
+        assert ACTION_SPEED["defend"] == 88
+    finally:
+        # Ripristina i valori dal file canonico per non lasciare side
+        # effect su altri test dello stesso session pytest.
+        reload_action_speed_table()
+    assert ACTION_SPEED["attack"] == 0
+    assert ACTION_SPEED["defend"] == 2
+
+
+def test_compute_resolve_priority_respects_speed_table_override():
+    """``compute_resolve_priority`` accetta ``speed_table`` custom."""
+    unit = {"initiative": 10, "statuses": []}
+    custom = {"attack": 5}
+    # attack custom → priority 10 + 5 = 15
+    assert compute_resolve_priority(unit, {"type": "attack"}, speed_table=custom) == 15
+    # Senza override usa il modulo-level
+    assert compute_resolve_priority(unit, {"type": "attack"}) == 10
 
 
 def test_compute_resolve_priority_base_sums_initiative_and_action_speed():
@@ -535,6 +629,127 @@ def test_round_loop_deterministic_with_same_seed(catalog):
     assert first["round_phase"] == second["round_phase"]
 
 
+# ------------------------------------------------------------------
+# preview_round (follow-up #5)
+# ------------------------------------------------------------------
+
+
+def test_preview_round_from_planning_does_not_mutate_input(catalog):
+    """``preview_round`` non deve toccare lo stato di input."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))[
+        "next_state"
+    ]
+    state = declare_intent(state, "bravo", _attack("bravo", "alpha"))[
+        "next_state"
+    ]
+    # Snapshot pre-preview
+    hp_alpha_before = state["units"][0]["hp"]["current"]
+    hp_bravo_before = state["units"][1]["hp"]["current"]
+    ap_alpha_before = state["units"][0]["ap"]["current"]
+    log_len_before = len(state["log"])
+    phase_before = state["round_phase"]
+    intents_before = len(state["pending_intents"])
+
+    rng = namespaced_rng("preview-seed", "what-if")
+    result = preview_round(state, catalog, rng)
+
+    # Input invariato
+    assert state["units"][0]["hp"]["current"] == hp_alpha_before
+    assert state["units"][1]["hp"]["current"] == hp_bravo_before
+    assert state["units"][0]["ap"]["current"] == ap_alpha_before
+    assert len(state["log"]) == log_len_before
+    assert state["round_phase"] == phase_before
+    assert len(state["pending_intents"]) == intents_before
+
+    # Il next_state della preview invece rappresenta "come sarebbe"
+    assert result["next_state"]["round_phase"] == PHASE_RESOLVED
+    assert result["next_state"]["pending_intents"] == []
+
+
+def test_preview_round_from_committed_matches_resolve_round(catalog):
+    """``preview_round`` su stato committed deve dare lo stesso
+    next_state di una resolve_round diretta (eccetto per il side-effect
+    sul state originale)."""
+
+    def build():
+        s = _make_state(catalog, initiative_a=14, initiative_b=10)
+        s = begin_round(s)["next_state"]
+        s = declare_intent(s, "alpha", _attack("alpha", "bravo"))["next_state"]
+        s = declare_intent(s, "bravo", _attack("bravo", "alpha"))["next_state"]
+        s = commit_round(s)["next_state"]
+        return s
+
+    state_preview = build()
+    state_real = build()
+
+    rng_preview = namespaced_rng("seed", "compare")
+    rng_real = namespaced_rng("seed", "compare")
+
+    preview = preview_round(state_preview, catalog, rng_preview)
+    real = resolve_round(state_real, catalog, rng_real)
+
+    # Stessi HP, stessa log length, stessi entries risolti
+    assert preview["next_state"]["units"][0]["hp"] == real["next_state"]["units"][0]["hp"]
+    assert preview["next_state"]["units"][1]["hp"] == real["next_state"]["units"][1]["hp"]
+    assert len(preview["turn_log_entries"]) == len(real["turn_log_entries"])
+    assert preview["resolution_queue"] == real["resolution_queue"]
+
+
+def test_preview_round_accepts_state_without_round_phase(catalog):
+    """Stato hydratato "vecchio stile" senza round_phase → preview
+    tratta come planning implicito, commit su copy, poi resolve."""
+
+    state = _make_state(catalog)
+    # NO begin_round: state["round_phase"] non esiste
+    assert "round_phase" not in state
+    rng = namespaced_rng("seed", "implicit")
+    result = preview_round(state, catalog, rng)
+    assert result["next_state"]["round_phase"] == PHASE_RESOLVED
+    # Nessun intent → nessun entry risolto
+    assert result["turn_log_entries"] == []
+    # Input invariato
+    assert "round_phase" not in state
+
+
+def test_preview_round_rejects_resolved_phase(catalog):
+    """Stato gia' resolved → ValueError."""
+
+    state = _make_state(catalog)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))[
+        "next_state"
+    ]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "resolve1")
+    state = resolve_round(state, catalog, rng)["next_state"]
+    assert state["round_phase"] == PHASE_RESOLVED
+    with pytest.raises(ValueError, match="planning"):
+        preview_round(state, catalog, namespaced_rng("seed", "resolve2"))
+
+
+def test_preview_round_deterministic_across_multiple_calls(catalog):
+    """Stesso stato + stesso rng → stesso outcome ripetutamente."""
+
+    def build():
+        s = _make_state(catalog, initiative_a=14, initiative_b=10)
+        s = begin_round(s)["next_state"]
+        s = declare_intent(s, "alpha", _attack("alpha", "bravo"))["next_state"]
+        s = declare_intent(s, "bravo", _defend("bravo"))["next_state"]
+        return s
+
+    state = build()
+    rng1 = namespaced_rng("preview", "det")
+    rng2 = namespaced_rng("preview", "det")
+    p1 = preview_round(state, catalog, rng1)
+    p2 = preview_round(state, catalog, rng2)
+    assert p1["next_state"]["units"][0]["hp"] == p2["next_state"]["units"][0]["hp"]
+    assert p1["next_state"]["units"][1]["hp"] == p2["next_state"]["units"][1]["hp"]
+    assert p1["resolution_queue"] == p2["resolution_queue"]
+
+
 def test_full_round_end_to_end_preview_then_commit_then_resolve(catalog):
     """Smoke test del flusso completo: preview-only → commit → resolve."""
 
@@ -571,3 +786,262 @@ def test_full_round_end_to_end_preview_then_commit_then_resolve(catalog):
     assert entries[0]["action"]["actor_id"] == "alpha"
     assert entries[0]["action"]["type"] == "defend"
     assert entries[1]["action"]["actor_id"] == "bravo"
+
+
+# ------------------------------------------------------------------
+# Reactions as first-class intents (follow-up #1 + #3)
+# ------------------------------------------------------------------
+
+
+def test_declare_reaction_registers_reaction_intent(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    ap_before = state["units"][1]["ap"]["current"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={"event": "attacked", "source_any_of": None},
+    )["next_state"]
+    # AP di bravo invariato (reaction preview-only)
+    assert state["units"][1]["ap"]["current"] == ap_before
+    assert len(state["pending_intents"]) == 1
+    intent = state["pending_intents"][0]
+    assert intent["unit_id"] == "bravo"
+    assert intent["reaction_trigger"]["event"] == "attacked"
+    assert intent["reaction_trigger"]["source_any_of"] is None
+    assert intent["reaction_payload"]["type"] == "parry"
+    assert intent["reaction_payload"]["parry_bonus"] == 1
+
+
+def test_declare_reaction_rejects_unsupported_event(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    with pytest.raises(ValueError, match="event non supportato"):
+        declare_reaction(
+            state,
+            "bravo",
+            reaction_payload={"type": "parry", "parry_bonus": 1},
+            trigger={"event": "teleported", "source_any_of": None},
+        )
+
+
+def test_declare_reaction_rejects_unsupported_payload_type(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    with pytest.raises(ValueError, match="payload type non supportato"):
+        declare_reaction(
+            state,
+            "bravo",
+            reaction_payload={"type": "mind_blast", "power": 5},
+            trigger={"event": "attacked", "source_any_of": None},
+        )
+
+
+def test_declare_reaction_rejects_wrong_phase(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = commit_round(state)["next_state"]
+    with pytest.raises(ValueError, match="planning"):
+        declare_reaction(
+            state,
+            "bravo",
+            reaction_payload={"type": "parry", "parry_bonus": 1},
+            trigger={"event": "attacked", "source_any_of": None},
+        )
+
+
+def test_declare_reaction_latest_wins_per_unit(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={"event": "attacked", "source_any_of": None},
+    )["next_state"]
+    # Ri-dichiara con parry_bonus diverso → sovrascrive
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 3},
+        trigger={"event": "attacked", "source_any_of": ["alpha"]},
+    )["next_state"]
+    assert len(state["pending_intents"]) == 1
+    assert state["pending_intents"][0]["reaction_payload"]["parry_bonus"] == 3
+    assert state["pending_intents"][0]["reaction_trigger"]["source_any_of"] == ["alpha"]
+
+
+def test_build_resolution_queue_excludes_reaction_intents(catalog):
+    """Le reaction intents NON devono comparire nella main queue."""
+
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={"event": "attacked", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    queue = build_resolution_queue(state)
+    # Solo alpha (attack) in queue. bravo (reaction) escluso.
+    assert len(queue) == 1
+    assert queue[0]["unit_id"] == "alpha"
+
+
+def test_reaction_triggers_parry_on_matching_attack(catalog):
+    """L'attacco di alpha su bravo con bravo che ha reaction parry →
+    parry_response iniettato nell'action, resolver atomico gestisce la
+    pipeline parry come in ogni altra action con parry_response."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={"event": "attacked", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "reaction-trigger")
+    result = resolve_round(state, catalog, rng)
+
+    # 1 entry in turn_log (l'attack di alpha con parry_response iniettato)
+    assert len(result["turn_log_entries"]) == 1
+    attack_entry = result["turn_log_entries"][0]
+    assert attack_entry["action"]["actor_id"] == "alpha"
+    assert attack_entry["action"].get("parry_response") is not None
+    assert attack_entry["action"]["parry_response"]["attempt"] is True
+    assert attack_entry["action"]["parry_response"]["parry_bonus"] == 1
+    # La parry entry e' loggata in reactions_triggered
+    assert len(result["reactions_triggered"]) == 1
+    assert result["reactions_triggered"][0]["target_unit_id"] == "bravo"
+    assert result["reactions_triggered"][0]["attacker_unit_id"] == "alpha"
+
+
+def test_reaction_source_filter_matches_allowed_attacker(catalog):
+    """Reaction con source_any_of=['alpha'] triggera su alpha."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 2},
+        trigger={"event": "attacked", "source_any_of": ["alpha"]},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "reaction-source-match")
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+
+
+def test_reaction_source_filter_rejects_other_attacker(catalog):
+    """Reaction con source_any_of=['charlie'] NON triggera su alpha."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 2},
+        trigger={"event": "attacked", "source_any_of": ["charlie"]},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "reaction-source-miss")
+    result = resolve_round(state, catalog, rng)
+    assert result["reactions_triggered"] == []
+    # L'attack di alpha e' comunque risolto normalmente
+    assert len(result["turn_log_entries"]) == 1
+    attack_entry = result["turn_log_entries"][0]
+    # Nessun parry_response iniettato
+    assert attack_entry["action"].get("parry_response") is None
+
+
+def test_reaction_consumed_after_first_trigger(catalog):
+    """Reaction one-shot: dopo il primo trigger non riparte anche se c'e'
+    un secondo attacco nello stesso round."""
+
+    # 3 unita': alpha e charlie attaccano bravo. La reaction di bravo
+    # deve triggerare solo sul primo (quello con priority piu' alta).
+    state = _make_state(catalog, initiative_a=18, initiative_b=5)
+    charlie = build_hostile_unit_from_group(
+        unit_id="charlie",
+        species_id="demo_charlie",
+        group={"power": 4, "role": "front", "affixes": []},
+        trait_ids=[],
+        catalog=catalog,
+    )
+    charlie["initiative"] = 12
+    state["units"].append(charlie)
+    # bravo deve sopravvivere al primo hit: pump HP
+    state["units"][1]["hp"]["current"] = 100
+    state["units"][1]["hp"]["max"] = 100
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_intent(state, "charlie", _attack("charlie", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={"event": "attacked", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "reaction-consume")
+    result = resolve_round(state, catalog, rng)
+    # Esattamente 1 reaction triggerata (sul primo attacker = alpha,
+    # che ha priority 18 > 12 di charlie)
+    assert len(result["reactions_triggered"]) == 1
+    assert result["reactions_triggered"][0]["attacker_unit_id"] == "alpha"
+    # Entrambi gli attack sono stati risolti
+    actors_resolved = [e["action"]["actor_id"] for e in result["turn_log_entries"]]
+    assert "alpha" in actors_resolved
+    assert "charlie" in actors_resolved
+
+
+def test_reaction_unused_if_target_not_attacked(catalog):
+    """Reaction dichiarata ma mai triggerata non ha effetti collaterali."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    # alpha muove invece di attaccare
+    state = declare_intent(state, "alpha", _move("alpha"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={"event": "attacked", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "reaction-unused")
+    result = resolve_round(state, catalog, rng)
+    # Nessuna reaction triggerata
+    assert result["reactions_triggered"] == []
+    # L'action di alpha (move) e' risolta normalmente
+    assert len(result["turn_log_entries"]) == 1
+    assert result["turn_log_entries"][0]["action"]["actor_id"] == "alpha"
+
+
+def test_reaction_does_not_consume_ap_if_not_triggered(catalog):
+    """AP dell'unita' con reaction invariati se la reaction non triggera."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    ap_bravo_before = state["units"][1]["ap"]["current"]
+    state = declare_intent(state, "alpha", _move("alpha"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={"event": "attacked", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "reaction-ap")
+    result = resolve_round(state, catalog, rng)
+    # bravo non ha consumato AP (reaction mai triggerata)
+    assert result["next_state"]["units"][1]["ap"]["current"] == ap_bravo_before
+
+
+def test_supported_reaction_enums_are_exposed():
+    """Sanity check su costanti esportate."""
+    assert "attacked" in SUPPORTED_REACTION_EVENTS
+    assert "parry" in SUPPORTED_REACTION_TYPES

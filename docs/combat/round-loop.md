@@ -166,15 +166,51 @@ resolve   → AP consumati dentro resolve_action (via _consume_ap)
 
 Questo è intenzionale: un player può dichiarare 5 azioni diverse in planning e **nessuna** consuma AP finché non decide di fare commit e resolve. Solo l'ultima azione dichiarata per quell'unità verrà risolta nel round.
 
-### Reazioni / interrupt
+### Reazioni come intent first-class (follow-up #1 + #3)
 
-Le reazioni restano nel modello esistente del resolver (`parry_response` nell'action), non sono cittadini di prima classe del round orchestrator in questa iterazione:
+Dal patch di follow-up del 2026-04-15 le reazioni sono **cittadini di prima classe** del round orchestrator, con una shape dedicata e un meccanismo di trigger condizioni:
 
-- L'attaccante dichiara nella sua action un `parry_response: {attempt: true, parry_bonus: N}` se il difensore ha scelto di parare.
-- `resolve_action` consuma una `reaction` del target e tira il parry contestato dentro la pipeline dell'attacco.
-- Il difensore ha già consumato la sua reaction prima del proprio intent di round.
+```python
+declare_reaction(
+    state,
+    unit_id="bravo",
+    reaction_payload={"type": "parry", "parry_bonus": 1},
+    trigger={"event": "attacked", "source_any_of": None}
+)
+```
 
-Un'evoluzione futura (vedi [Follow-ups](#6-follow-ups)) potrà modellare le reazioni come intent separati con priorità propria nella queue, ma per ora il pattern è conservativo.
+Le reaction intents:
+
+- **Non compaiono nella main queue**: `build_resolution_queue` le esclude automaticamente.
+- **Non consumano AP al commit**: restano preview-only finché non triggerate.
+- **One-shot per round**: la prima volta che matchano, vengono segnate `_consumed=True` e non re-triggrano sullo stesso round anche se altri eventi matcherebbero.
+- **Trigger conditions**:
+  - `event`: per ora supportato solo `"attacked"` (vedi `SUPPORTED_REACTION_EVENTS`). Futuri: `damaged`, `moved_adjacent`, `healed`.
+  - `source_any_of`: opzionale, lista di `unit_id` che triggerano la reazione. `None` o vuoto = qualsiasi sorgente.
+- **Payload type**: per ora supportato solo `"parry"` (vedi `SUPPORTED_REACTION_TYPES`). Futuri: `counter` (contrattacco libero), `overwatch` (attacco opportunistico).
+
+**Pipeline di trigger** (dentro `resolve_round`):
+
+1. Il main intent di alpha risolve `attack` contro bravo.
+2. Prima di chiamare `resolve_action`, l'orchestrator consulta `reactions_by_unit["bravo"]`.
+3. Se trova una reaction con `event=attacked` e `source_any_of` che matcha (o è None), inietta `parry_response` nell'action clonata: `{attempt: true, parry_bonus: N}`.
+4. Chiama `resolve_action` con l'action arricchita. Il resolver atomico gestisce la pipeline parry come in ogni altra action con `parry_response`.
+5. Marca la reaction come consumata e registra l'evento in `result["reactions_triggered"]`.
+
+Il budget `unit.reactions.current` resta la responsabilità del resolver atomico: se bravo ha 0 reactions disponibili, il parry viene registrato come `executed: false` (come nel modello pre-refactor). Una reaction intent dichiarata ma mai triggerata costa 0.
+
+**Test di riferimento** in `tests/test_round_orchestrator.py`:
+
+- `test_declare_reaction_registers_reaction_intent`
+- `test_declare_reaction_rejects_unsupported_event`
+- `test_declare_reaction_rejects_unsupported_payload_type`
+- `test_build_resolution_queue_excludes_reaction_intents`
+- `test_reaction_triggers_parry_on_matching_attack`
+- `test_reaction_source_filter_matches_allowed_attacker`
+- `test_reaction_source_filter_rejects_other_attacker`
+- `test_reaction_consumed_after_first_trigger`
+- `test_reaction_unused_if_target_not_attacked`
+- `test_reaction_does_not_consume_ap_if_not_triggered`
 
 ---
 
@@ -204,21 +240,28 @@ Schema: `packages/contracts/schemas/combat.schema.json` ha `additionalProperties
         "actor_id": "alpha",
         "target_id": "bravo",
         "ap_cost": 1,
-        "damage_dice": {"count": 1, "sides": 8, "modifier": 3}
+        "damage_dice": { "count": 1, "sides": 8, "modifier": 3 }
       }
     },
     {
       "unit_id": "bravo",
-      "action": {
-        "id": "act-bravo-01",
-        "type": "defend",
-        "actor_id": "bravo",
-        "ap_cost": 1
+      "reaction_trigger": {
+        "event": "attacked",
+        "source_any_of": null
+      },
+      "reaction_payload": {
+        "type": "parry",
+        "parry_bonus": 1
       }
     }
   ]
 }
 ```
+
+**Due shapes di intent** coesistono in `pending_intents`:
+
+- **Main intent** (con `action`): va nella main queue, consuma AP, risolve in ordine di priority.
+- **Reaction intent** (con `reaction_trigger` + `reaction_payload`): non va in queue, resta come "listener" e triggera se qualcuno la matcha.
 
 ### Campi legacy: strategia di compatibilità
 
@@ -258,34 +301,57 @@ Rimuove l'intent precedentemente dichiarato per `unit_id`. No-op se assente.
 
 Transita a `'committed'`. Raises `ValueError` se `round_phase != 'planning'`.
 
-### `build_resolution_queue(state) → list[{unit_id, action, priority}]`
+### `declare_reaction(state, unit_id, reaction_payload, trigger) → {next_state}`
 
-Costruisce la queue ordinata per `resolve_priority` desc + id asc. Chiamabile indipendentemente (utile per UI preview).
+Registra una reaction intent. Preview-only (nessun AP). Valida `trigger.event ∈ SUPPORTED_REACTION_EVENTS` e `reaction_payload.type ∈ SUPPORTED_REACTION_TYPES`. Raises `ValueError` su payload/event non supportati o fase sbagliata.
 
-### `resolve_round(state, catalog, rng) → {next_state, turn_log_entries, resolution_queue, skipped}`
+### `build_resolution_queue(state, speed_table=None) → list[{unit_id, action, priority}]`
 
-Risolve tutti gli intent committed. Per ciascun entry della queue: skip se actor/target morti, altrimenti `resolve_action`. Thread lo state. Alla fine: `round_phase = 'resolved'`, `pending_intents = []`, `log` esteso. Il rng è consumato solo dagli intent effettivamente eseguiti.
+Costruisce la main queue ordinata per `resolve_priority` desc + id asc. **Esclude reaction intents** automaticamente. Accetta `speed_table` opzionale per override della tabella ACTION_SPEED (utile per test).
 
-### `compute_resolve_priority(unit, action) → int`
+### `resolve_round(state, catalog, rng) → {next_state, turn_log_entries, resolution_queue, reactions_triggered, skipped}`
 
-Helper puro: `initiative + action_speed - status_penalty`. Esportato per testing e UI preview.
+Risolve tutti i main intents committed. Per ciascun entry della queue: skip se actor/target morti, altrimenti `resolve_action`. Durante il loop, check reaction matching: se il target di un attack ha una reaction intent con trigger che matcha, inietta `parry_response` nell'action clonata e marca la reaction come consumata. Thread lo state. Alla fine: `round_phase = 'resolved'`, `pending_intents = []`, `log` esteso, `reactions_triggered` riporta le reazioni effettivamente eseguite.
 
-### `action_speed(action) → int`
+### `preview_round(state, catalog, rng) → {next_state, turn_log_entries, resolution_queue, reactions_triggered, skipped}`
 
-Helper puro: lookup nella tabella `ACTION_SPEED`, default 0 per tipi sconosciuti.
+What-if: simula `resolve_round` su una deep copy dello state, **non muta l'input**. Accetta fase `planning` o `committed` (auto-commita sulla copy se planning). Il `rng` deve essere dedicato alla preview (es. namespaced con namespace diverso dal canonical) per non consumare il rng canonico.
+
+### `compute_resolve_priority(unit, action, speed_table=None) → int`
+
+Helper puro: `initiative + action_speed - status_penalty`. Esportato per testing e UI preview. `speed_table` opzionale.
+
+### `action_speed(action, table=None) → int`
+
+Helper puro: lookup nella tabella passata (o in `ACTION_SPEED` modulo-level), default 0 per tipi sconosciuti.
+
+### `load_action_speed_table(path=None) → dict`
+
+Carica la tabella di speed da un YAML del balance pack. Default path: `packs/evo_tactics_pack/data/balance/action_speed.yaml`. Fallback tollerante a `DEFAULT_ACTION_SPEED` se il file manca, è malformato, o mancano le chiavi attese. Non solleva eccezioni: sempre ritorna un dict valido.
+
+### `reload_action_speed_table(path=None) → dict`
+
+Ricarica `ACTION_SPEED` dal filesystem (hot reload) e muta il dict modulo-level in-place. Utile nei test per override temporaneo.
 
 ---
 
 ## 6. Follow-ups
 
-Questa iterazione è intenzionalmente conservativa. Le evoluzioni pianificate:
+**Completati nel patch del 2026-04-15**:
 
-1. **Reazioni come intent first-class**: modellare parry/counter/overwatch come intent separati con priorità propria, anziché come flag `parry_response` sull'action dell'attaccante.
-2. **Action speed calibrato dal balance pack**: oggi `ACTION_SPEED` è hardcoded nel modulo. In futuro caricarlo da `packs/evo_tactics_pack/data/balance/action_speed.yaml` per tuning senza commit Python.
-3. **Interrupt window**: supportare intent che si attivano **solo** se triggerati da un altro intent nello stesso round (es. "contromossa se sono bersagliato"). Richiede un concetto di `trigger_condition` nella declaration.
-4. **Migrazione Node session engine**: portare `apps/backend/routes/session.js` allo stesso modello. Oggi il session engine è separato dal rules engine Python; il loro allineamento è un sprint dedicato (rischio alto, molti test da aggiornare).
-5. **Preview-safe resolve**: esporre una funzione `preview_round(state, catalog, rng) → expected_outcome` che applichi `resolve_round` su una deep copy senza mai restituire il next_state — utile per UI di "cosa succederebbe se...". Deve usare un rng dedicato a preview per non consumare il rng canonico.
-6. **Timer opzionale di planning phase**: oggi la planning phase non ha timer. Aggiungere un `planning_deadline_ms` opzionale nel state per i tavoli che vogliono pressione temporale. Il scheduler resta fuori dal rules engine (responsabilità del session engine Node).
+- ✅ **#2** `ACTION_SPEED` da YAML di balance pack: `load_action_speed_table()` + `packs/evo_tactics_pack/data/balance/action_speed.yaml`.
+- ✅ **#5** `preview_round(state, catalog, rng)`: what-if su deep copy, non muta l'input.
+- ✅ **#1** Reazioni come intent first-class: `declare_reaction()` + partizionamento in `resolve_round`.
+- ✅ **#3** Interrupt window con trigger conditions: `reaction_trigger.event` + `reaction_trigger.source_any_of`.
+
+**Ancora aperti** (evoluzioni future):
+
+1. **Counter e overwatch**: oltre a `parry`, supportare altri payload type nel sistema di reaction (`counter` = contrattacco libero, `overwatch` = attacco opportunistico su movimento).
+2. **Eventi di trigger aggiuntivi**: oltre a `attacked`, supportare `damaged` (dopo il damage step), `moved_adjacent` (quando un'unita' entra in mischia), `healed`, `ability_used`.
+3. **Migrazione Node session engine**: portare `apps/backend/routes/session.js` allo stesso modello. Oggi il session engine è separato dal rules engine Python; il loro allineamento è un sprint dedicato (rischio alto, molti test da aggiornare).
+4. **Timer opzionale di planning phase**: oggi la planning phase non ha timer. Aggiungere un `planning_deadline_ms` opzionale nel state per i tavoli che vogliono pressione temporale. Il scheduler resta fuori dal rules engine (responsabilità del session engine Node).
+5. **Reaction con cooldown multi-round**: oggi le reactions sono one-shot per round. Future: cooldown persistenti fra round (`cooldown_rounds: 2`) per reactions potenti.
+6. **Trigger predicate avanzati**: oltre a `source_any_of`, supportare condizioni come `damage_threshold` (triggera solo se il damage in arrivo supera X), `hp_threshold` (triggera solo se HP sotto Y).
 
 ---
 

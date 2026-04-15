@@ -65,6 +65,7 @@ completo e il piano di migrazione.
 from __future__ import annotations
 
 import copy
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Mapping, Optional
 
 # Relative import: funziona sia quando il package e' importato come
@@ -98,17 +99,28 @@ VALID_PHASES = frozenset({PHASE_PLANNING, PHASE_COMMITTED, PHASE_RESOLVING, PHAS
 
 
 # ------------------------------------------------------------------
+# Reaction intents (follow-up #1 + #3)
+# ------------------------------------------------------------------
+
+#: Eventi che possono triggerare una reaction. Per v1 e' supportato solo
+#: ``'attacked'`` (trigger sull'attack risolto dall'attaccante). Future
+#: estensioni: ``'damaged'`` (dopo il damage step), ``'moved_adjacent'``,
+#: ``'healed'``.
+SUPPORTED_REACTION_EVENTS = frozenset({"attacked"})
+
+#: Tipi di payload per reaction. Per v1 solo ``'parry'``. Future: ``'counter'``
+#: (contrattacco libero), ``'overwatch'`` (attacco opportunistico).
+SUPPORTED_REACTION_TYPES = frozenset({"parry"})
+
+
+# ------------------------------------------------------------------
 # Action speed table
 # ------------------------------------------------------------------
 
-#: Modificatori di velocita' di risoluzione per action type. Piu' alto =
-#: risolve prima. La convenzione: azioni difensive/stance gia' mantenute
-#: sono rapide, azioni offensive sono baseline, movimento e abilita'
-#: elaborate sono leggermente piu' lente.
-#:
-#: Valori di prima iterazione — possono essere calibrati in seguito
-#: con il balance pack. Ogni action type non in tabella vale 0.
-ACTION_SPEED: Dict[str, int] = {
+#: Default action speed hardcoded — usato come fallback se lo YAML di
+#: balance non e' caricabile. Mantieni sincronizzato con
+#: ``packs/evo_tactics_pack/data/balance/action_speed.yaml``.
+DEFAULT_ACTION_SPEED: Dict[str, int] = {
     "defend": 2,
     "parry": 2,
     "attack": 0,
@@ -116,16 +128,99 @@ ACTION_SPEED: Dict[str, int] = {
     "move": -2,
 }
 
+#: Path canonico dello YAML di balance caricato al primo import.
+DEFAULT_ACTION_SPEED_PATH: Path = (
+    Path(__file__).resolve().parents[2]
+    / "packs"
+    / "evo_tactics_pack"
+    / "data"
+    / "balance"
+    / "action_speed.yaml"
+)
 
-def action_speed(action: Mapping[str, Any]) -> int:
-    """Ritorna il modificatore di velocita' per un'action, default 0."""
 
-    return int(ACTION_SPEED.get(str(action.get("type", "")), 0))
+def load_action_speed_table(path: Optional[Path] = None) -> Dict[str, int]:
+    """Carica la tabella ``action_speed`` da un file YAML di balance.
+
+    Fallback a ``DEFAULT_ACTION_SPEED`` se:
+    - ``path`` e' None e il default non esiste sul filesystem
+    - il file esiste ma non e' parsabile come YAML
+    - il file e' parsabile ma non contiene la chiave ``action_speed``
+      come dict
+    - ``pyyaml`` non e' disponibile nell'environment
+
+    Il loader e' volutamente tollerante: non solleva mai eccezioni,
+    sempre ritorna un dict ``{str: int}``. Questo permette di importare
+    il modulo anche in environment minimal (CI deployment-checks senza
+    ``yaml`` installato a livello root).
+
+    Il caller test puo' passare un ``path`` esplicito per override.
+    """
+
+    target = path if path is not None else DEFAULT_ACTION_SPEED_PATH
+    if not target.exists():
+        return dict(DEFAULT_ACTION_SPEED)
+    try:
+        import yaml  # type: ignore[import-untyped]
+    except ImportError:
+        return dict(DEFAULT_ACTION_SPEED)
+    try:
+        with target.open("r", encoding="utf-8") as handle:
+            doc = yaml.safe_load(handle) or {}
+    except Exception:
+        return dict(DEFAULT_ACTION_SPEED)
+    if not isinstance(doc, Mapping):
+        return dict(DEFAULT_ACTION_SPEED)
+    table = doc.get("action_speed")
+    if not isinstance(table, Mapping):
+        return dict(DEFAULT_ACTION_SPEED)
+    out: Dict[str, int] = {}
+    for key, value in table.items():
+        try:
+            out[str(key)] = int(value)
+        except (TypeError, ValueError):
+            continue
+    return out if out else dict(DEFAULT_ACTION_SPEED)
+
+
+#: Tabella runtime caricata al primo import. Mutabile via
+#: ``reload_action_speed_table(path)`` per hot reload nei test.
+ACTION_SPEED: Dict[str, int] = load_action_speed_table()
+
+
+def reload_action_speed_table(path: Optional[Path] = None) -> Dict[str, int]:
+    """Ricarica ``ACTION_SPEED`` dal filesystem, mutando il dict in-place.
+
+    Utile per i test che vogliono esercitare override della tabella
+    senza dover passare il parametro ``speed_table`` a ogni chiamata.
+    Ritorna il dict aggiornato per convenienza.
+    """
+
+    global ACTION_SPEED
+    ACTION_SPEED.clear()
+    ACTION_SPEED.update(load_action_speed_table(path))
+    return ACTION_SPEED
+
+
+def action_speed(
+    action: Mapping[str, Any],
+    table: Optional[Mapping[str, int]] = None,
+) -> int:
+    """Ritorna il modificatore di velocita' per un'action, default 0.
+
+    ``table`` opzionale per override puntuale (es. test unitari che
+    vogliono una tabella custom senza toccare il modulo-level
+    ``ACTION_SPEED``).
+    """
+
+    lookup = table if table is not None else ACTION_SPEED
+    return int(lookup.get(str(action.get("type", "")), 0))
 
 
 def compute_resolve_priority(
     unit: Mapping[str, Any],
     action: Mapping[str, Any],
+    speed_table: Optional[Mapping[str, int]] = None,
 ) -> int:
     """Calcola la priorita' di risoluzione di un intent nel round.
 
@@ -142,10 +237,12 @@ def compute_resolve_priority(
 
     Priorita' piu' alta = risolve prima nel round. Tiebreak in
     ``build_resolution_queue`` alfabetico su ``unit_id``.
+
+    ``speed_table`` opzionale per override (es. test).
     """
 
     base = int(unit.get("initiative", 0))
-    speed = action_speed(action)
+    speed = action_speed(action, table=speed_table)
     penalty = 0
     for status in unit.get("statuses") or []:
         sid = status.get("id")
@@ -254,6 +351,7 @@ def clear_intent(state: Mapping[str, Any], unit_id: str) -> Dict[str, Any]:
     """Rimuove l'intent precedentemente dichiarato per ``unit_id``.
 
     No-op se l'unita' non ha intents. Rispetta la fase di planning.
+    Rimuove anche eventuali reaction intents per la stessa unit.
     """
 
     next_state = copy.deepcopy(state)
@@ -264,6 +362,160 @@ def clear_intent(state: Mapping[str, Any], unit_id: str) -> Dict[str, Any]:
     ]
     next_state["pending_intents"] = intents
     return {"next_state": next_state}
+
+
+def declare_reaction(
+    state: Mapping[str, Any],
+    unit_id: str,
+    reaction_payload: Mapping[str, Any],
+    trigger: Mapping[str, Any],
+) -> Dict[str, Any]:
+    """Registra una **reaction intent** nella planning phase.
+
+    Le reaction intents sono un concetto separato dalle azioni principali:
+    non occupano la main queue del round, non consumano AP al commit e
+    non vengono risolte in sequenza. Attendono invece un **evento trigger**
+    (es. "essere attaccato") prodotto da un main intent. Quando il trigger
+    matcha, l'orchestratore inietta il ``reaction_payload`` nell'action
+    dell'attaccante (tipicamente come ``parry_response``) e lascia che
+    il resolver atomico gestisca la pipeline esistente.
+
+    Shape dell'intent risultante:
+
+        {
+          "unit_id": "<target>",
+          "reaction_trigger": {
+            "event": "attacked",
+            "source_any_of": ["alpha", "charlie"]  # null = qualsiasi
+          },
+          "reaction_payload": {
+            "type": "parry",
+            "parry_bonus": 1
+          }
+        }
+
+    **Preview-only**: non consuma AP ne' la reaction budget
+    (``unit.reactions.current``). Il budget viene decrementato dal resolver
+    atomico quando la reaction e' effettivamente triggerata durante
+    ``resolve_round``. Una reaction dichiarata ma mai triggerata costa 0.
+
+    **One per unit**: ogni unita' puo' avere **o** un main intent **o**
+    un reaction intent (non entrambi contemporaneamente) per evitare
+    ambiguita' di budget. La ri-dichiarazione latest-wins (come
+    ``declare_intent``) azzera il precedente.
+
+    Raises:
+        ValueError: se la fase non e' ``'planning'``, se l'evento non e'
+            tra ``SUPPORTED_REACTION_EVENTS``, o se il payload type non
+            e' tra ``SUPPORTED_REACTION_TYPES``.
+        KeyError: se ``unit_id`` non esiste nello state.
+    """
+
+    phase = state.get("round_phase")
+    if phase not in (PHASE_PLANNING, None):
+        raise ValueError(
+            f"declare_reaction richiede round_phase {PHASE_PLANNING!r}, "
+            f"trovato {phase!r}"
+        )
+    if _find_unit(state, unit_id) is None:
+        raise KeyError(f"unit_id non trovato nello state: {unit_id}")
+    event = str(trigger.get("event", ""))
+    if event not in SUPPORTED_REACTION_EVENTS:
+        raise ValueError(
+            f"reaction trigger event non supportato: {event!r} "
+            f"(supportati: {sorted(SUPPORTED_REACTION_EVENTS)})"
+        )
+    payload_type = str(reaction_payload.get("type", ""))
+    if payload_type not in SUPPORTED_REACTION_TYPES:
+        raise ValueError(
+            f"reaction payload type non supportato: {payload_type!r} "
+            f"(supportati: {sorted(SUPPORTED_REACTION_TYPES)})"
+        )
+
+    next_state = copy.deepcopy(state)
+    intents = [
+        dict(i)
+        for i in next_state.get("pending_intents", [])
+        if str(i.get("unit_id", "")) != unit_id
+    ]
+    source_filter = trigger.get("source_any_of")
+    normalised_trigger = {
+        "event": event,
+        "source_any_of": (
+            list(source_filter) if isinstance(source_filter, (list, tuple)) else None
+        ),
+    }
+    intents.append(
+        {
+            "unit_id": unit_id,
+            "reaction_trigger": normalised_trigger,
+            "reaction_payload": dict(reaction_payload),
+        }
+    )
+    next_state["pending_intents"] = intents
+    if phase is None:
+        next_state["round_phase"] = PHASE_PLANNING
+    return {"next_state": next_state}
+
+
+def _is_reaction_intent(intent: Mapping[str, Any]) -> bool:
+    """Vero se l'intent ha un ``reaction_trigger``, altrimenti falso."""
+
+    return bool(intent.get("reaction_trigger"))
+
+
+def _partition_intents(
+    state: Mapping[str, Any],
+) -> tuple:
+    """Separa ``pending_intents`` in (main_intents, reactions_by_unit_id).
+
+    ``reactions_by_unit_id`` mappa l'unit_id della reaction al dict
+    completo dell'intent (copia). ``main_intents`` e' la lista di
+    intent "normali" da mettere nella resolution queue. Il partizionamento
+    e' puro e non muta lo state.
+    """
+
+    main_intents: List[Mapping[str, Any]] = []
+    reactions_by_unit: Dict[str, Dict[str, Any]] = {}
+    for intent in state.get("pending_intents", []):
+        if _is_reaction_intent(intent):
+            uid = str(intent.get("unit_id", ""))
+            if uid:
+                reactions_by_unit[uid] = dict(intent)
+        else:
+            main_intents.append(intent)
+    return main_intents, reactions_by_unit
+
+
+def _match_reaction_for_attack(
+    reactions_by_unit: Mapping[str, Dict[str, Any]],
+    target_id: str,
+    attacker_id: str,
+) -> Optional[Dict[str, Any]]:
+    """Trova una reaction intent del target che matchi l'evento 'attacked'.
+
+    Filtri:
+    - target deve avere una reaction non ancora consumata
+    - ``reaction_trigger.event`` deve essere ``'attacked'``
+    - ``reaction_trigger.source_any_of`` deve essere None/vuoto oppure
+      contenere ``attacker_id``
+
+    Ritorna l'entry (mutabile) se matcha, altrimenti None. Il caller
+    e' responsabile di marcarlo come consumato (``_consumed=True``).
+    """
+
+    entry = reactions_by_unit.get(target_id)
+    if entry is None:
+        return None
+    if entry.get("_consumed"):
+        return None
+    trigger = entry.get("reaction_trigger", {})
+    if trigger.get("event") != "attacked":
+        return None
+    source_filter = trigger.get("source_any_of")
+    if source_filter and attacker_id not in source_filter:
+        return None
+    return entry
 
 
 def commit_round(state: Mapping[str, Any]) -> Dict[str, Any]:
@@ -288,7 +540,10 @@ def commit_round(state: Mapping[str, Any]) -> Dict[str, Any]:
     return {"next_state": next_state}
 
 
-def build_resolution_queue(state: Mapping[str, Any]) -> List[Dict[str, Any]]:
+def build_resolution_queue(
+    state: Mapping[str, Any],
+    speed_table: Optional[Mapping[str, int]] = None,
+) -> List[Dict[str, Any]]:
     """Produce la queue di risoluzione ordinata dagli intents committed.
 
     Ordinamento:
@@ -296,7 +551,11 @@ def build_resolution_queue(state: Mapping[str, Any]) -> List[Dict[str, Any]]:
     2. ``unit_id`` alfabetico (tiebreak deterministico)
 
     Intents per unita' non trovate nello state sono silenziosamente
-    ignorati (difesa contro state drift).
+    ignorati (difesa contro state drift). Le **reaction intents** sono
+    escluse dalla main queue — vengono trattate come interrupt da
+    ``resolve_round`` solo se il trigger matcha.
+
+    ``speed_table`` opzionale per override della tabella ACTION_SPEED.
 
     Returns:
         Lista di dict ``{unit_id, action, priority}``.
@@ -305,12 +564,14 @@ def build_resolution_queue(state: Mapping[str, Any]) -> List[Dict[str, Any]]:
     units = {str(u.get("id", "")): u for u in state.get("units", [])}
     queue: List[Dict[str, Any]] = []
     for intent in state.get("pending_intents", []):
+        if _is_reaction_intent(intent):
+            continue
         uid = str(intent.get("unit_id", ""))
         unit = units.get(uid)
         if unit is None:
             continue
         action = intent.get("action", {})
-        priority = compute_resolve_priority(unit, action)
+        priority = compute_resolve_priority(unit, action, speed_table=speed_table)
         queue.append({"unit_id": uid, "action": action, "priority": priority})
     queue.sort(key=lambda q: (-int(q["priority"]), str(q["unit_id"])))
     return queue
@@ -354,8 +615,10 @@ def resolve_round(
     next_state = copy.deepcopy(state)
     next_state["round_phase"] = PHASE_RESOLVING
     queue = build_resolution_queue(next_state)
+    _, reactions_by_unit = _partition_intents(next_state)
     turn_log_entries: List[Dict[str, Any]] = []
     skipped: List[Dict[str, Any]] = []
+    reactions_triggered: List[Dict[str, Any]] = []
 
     for entry in queue:
         uid = entry["unit_id"]
@@ -376,6 +639,34 @@ def resolve_round(
                     {"unit_id": uid, "reason": "target_dead", "action": dict(action)}
                 )
                 continue
+
+        # Reaction injection (follow-up #1 + #3): se il target ha una
+        # reaction intent con trigger="attacked" che matcha l'attaccante
+        # e non e' ancora stata consumata, iniettiamo parry_response
+        # nell'action dell'attaccante. Il resolver atomico gestira'
+        # la pipeline parry come in ogni altra action con parry_response.
+        if action_type == "attack" and target_id:
+            matched = _match_reaction_for_attack(
+                reactions_by_unit, str(target_id), str(uid)
+            )
+            if matched is not None:
+                payload = matched.get("reaction_payload", {})
+                if payload.get("type") == "parry":
+                    # Clona l'action per non mutare l'entry nella queue
+                    action = dict(action)
+                    action["parry_response"] = {
+                        "attempt": True,
+                        "parry_bonus": int(payload.get("parry_bonus", 0)),
+                    }
+                    matched["_consumed"] = True
+                    reactions_triggered.append(
+                        {
+                            "target_unit_id": str(target_id),
+                            "attacker_unit_id": str(uid),
+                            "reaction_payload": dict(payload),
+                        }
+                    )
+
         result = resolve_action(next_state, action, catalog, rng)
         next_state = result["next_state"]
         turn_log_entries.append(result["turn_log_entry"])
@@ -386,16 +677,75 @@ def resolve_round(
         "next_state": next_state,
         "turn_log_entries": turn_log_entries,
         "resolution_queue": queue,
+        "reactions_triggered": reactions_triggered,
         "skipped": skipped,
     }
 
 
+def preview_round(
+    state: Mapping[str, Any],
+    catalog: Mapping[str, Any],
+    rng: Callable[[], float],
+) -> Dict[str, Any]:
+    """Simula ``resolve_round`` su una deep copy, ritorna l'esito atteso.
+
+    Questa e' la funzione di "what-if" per la UI e per il client che
+    vuole mostrare al player l'outcome probabile del round corrente
+    senza mai toccare lo stato canonico ne' consumare il rng canonico.
+
+    Requisiti sul ``state``:
+
+    - ``round_phase`` deve essere ``'planning'`` o ``'committed'``. Se
+      ``'planning'``, la preview auto-committa sulla deep copy prima di
+      chiamare ``resolve_round``. Se ``'committed'``, procede direttamente.
+    - Stati ``'resolving'`` / ``'resolved'`` / altro → ``ValueError``.
+
+    Il ``state`` di input **non viene mutato**: il caller puo' continuare
+    a dichiarare intents come se la preview non fosse avvenuta.
+
+    Il ``rng`` passato deve essere un generatore **dedicato alla preview**
+    (es. namespaced_rng con namespace diverso dal canonical). Il caller
+    e' responsabile di non riusare il rng canonico per la preview — questa
+    funzione non prova a isolarlo internamente, per mantenere il contratto
+    di purezza.
+
+    Returns:
+        Stessa shape di ``resolve_round``:
+        ``{next_state, turn_log_entries, resolution_queue, skipped}``.
+        Il ``next_state`` ritornato rappresenta "come sarebbe lo stato
+        se il round fosse stato risolto", utile per UI previews.
+
+    Raises:
+        ValueError: se ``round_phase`` non e' planning o committed.
+    """
+
+    phase = state.get("round_phase")
+    if phase not in (PHASE_PLANNING, PHASE_COMMITTED, None):
+        raise ValueError(
+            f"preview_round richiede round_phase in "
+            f"{{{PHASE_PLANNING!r}, {PHASE_COMMITTED!r}}}, trovato {phase!r}"
+        )
+    preview_state = copy.deepcopy(state)
+    if phase in (PHASE_PLANNING, None):
+        # Se non c'e' mai stato un begin_round, trattiamo lo stato come
+        # planning implicito (pending_intents assenti → queue vuota).
+        if phase is None:
+            preview_state["round_phase"] = PHASE_PLANNING
+            preview_state.setdefault("pending_intents", [])
+        preview_state = commit_round(preview_state)["next_state"]
+    return resolve_round(preview_state, catalog, rng)
+
+
 __all__ = [
     "ACTION_SPEED",
+    "DEFAULT_ACTION_SPEED",
+    "DEFAULT_ACTION_SPEED_PATH",
     "PHASE_COMMITTED",
     "PHASE_PLANNING",
     "PHASE_RESOLVED",
     "PHASE_RESOLVING",
+    "SUPPORTED_REACTION_EVENTS",
+    "SUPPORTED_REACTION_TYPES",
     "VALID_PHASES",
     "action_speed",
     "begin_round",
@@ -404,5 +754,9 @@ __all__ = [
     "commit_round",
     "compute_resolve_priority",
     "declare_intent",
+    "declare_reaction",
+    "load_action_speed_table",
+    "preview_round",
+    "reload_action_speed_table",
     "resolve_round",
 ]
