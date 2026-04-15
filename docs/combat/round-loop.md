@@ -184,26 +184,42 @@ Le reaction intents:
 - **Non compaiono nella main queue**: `build_resolution_queue` le esclude automaticamente.
 - **Non consumano AP al commit**: restano preview-only finché non triggerate.
 - **One-shot per round**: la prima volta che matchano, vengono segnate `_consumed=True` e non re-triggrano sullo stesso round anche se altri eventi matcherebbero.
-- **Trigger conditions**:
-  - `event`: per ora supportato solo `"attacked"` (vedi `SUPPORTED_REACTION_EVENTS`). Futuri: `damaged`, `moved_adjacent`, `healed`.
+- **Trigger conditions** (vedi `SUPPORTED_REACTION_EVENTS`):
+  - `"attacked"` (pre-hit): triggerato **prima** del damage step quando l'unita' e' bersaglio di un attack. Abilita il payload `parry` per intervenire durante la pipeline difensiva (riduzione `damage_step`, PT difensivi).
+  - `"damaged"` (post-hit): triggerato **dopo** il damage step, se l'unita' ha subito `damage_applied > 0`. Non puo' ridurre il danno gia' applicato ma abilita il payload `trigger_status` per applicare uno status effect in risposta al danno ricevuto.
   - `source_any_of`: opzionale, lista di `unit_id` che triggerano la reazione. `None` o vuoto = qualsiasi sorgente.
-- **Payload type**: per ora supportato solo `"parry"` (vedi `SUPPORTED_REACTION_TYPES`). Futuri: `counter` (contrattacco libero), `overwatch` (attacco opportunistico).
+- **Payload type** (vedi `SUPPORTED_REACTION_TYPES`):
+  - `"parry"` — usata con `event="attacked"`. Richiede `parry_bonus`. Inietta `parry_response` nell'action dell'attaccante.
+  - `"trigger_status"` — usata tipicamente con `event="damaged"`. Applica uno status effect (bleeding/fracture/disorient/rage/panic) a un'unita' quando la reaction triggera. Richiede `status_id`, `duration`, `intensity`, e `target` opzionale (`"attacker"` default o `"self"`).
+  - Futuri: `counter` (contrattacco libero), `overwatch` (attacco opportunistico).
 
-**Pipeline di trigger** (dentro `resolve_round`):
+**Pipeline di trigger per `attacked`** (pre-hit):
 
 1. Il main intent di alpha risolve `attack` contro bravo.
-2. Prima di chiamare `resolve_action`, l'orchestrator consulta `reactions_by_unit["bravo"]`.
-3. Se trova una reaction con `event=attacked` e `source_any_of` che matcha (o è None), inietta `parry_response` nell'action clonata: `{attempt: true, parry_bonus: N}`.
+2. Prima di chiamare `resolve_action`, l'orchestrator consulta `reactions_by_unit["bravo"]` con `_match_reaction_for_event(event="attacked", ...)`.
+3. Se trova una reaction con trigger matching e payload `parry`, inietta `parry_response` nell'action clonata: `{attempt: true, parry_bonus: N}`.
 4. Chiama `resolve_action` con l'action arricchita. Il resolver atomico gestisce la pipeline parry come in ogni altra action con `parry_response`.
 5. Marca la reaction come consumata e registra l'evento in `result["reactions_triggered"]`.
 
-Il budget `unit.reactions.current` resta la responsabilità del resolver atomico: se bravo ha 0 reactions disponibili, il parry viene registrato come `executed: false` (come nel modello pre-refactor). Una reaction intent dichiarata ma mai triggerata costa 0.
+**Pipeline di trigger per `damaged`** (post-hit):
+
+1. Il main intent di alpha risolve `attack` contro bravo, `resolve_action` calcola damage.
+2. Dopo `resolve_action`, l'orchestrator verifica `turn_log_entry["damage_applied"] > 0`.
+3. Se c'e' stato damage reale, consulta `reactions_by_unit["bravo"]` con `_match_reaction_for_event(event="damaged", ...)`.
+4. Se trova una reaction con payload `trigger_status`, chiama `resolver.apply_status()` sull'unita' target:
+   - `target="attacker"` (default) → status applicato ad alpha (chi ha fatto danno).
+   - `target="self"` → status applicato a bravo (chi ha subito danno).
+5. Marca la reaction come consumata e registra l'evento in `result["reactions_triggered"]` con `event: "damaged"` e `status_target_unit_id`.
+
+Il budget `unit.reactions.current` resta responsabilita' del resolver atomico per le reaction `attacked`→`parry`. Per `damaged`→`trigger_status` non c'e' consumo di reaction budget poiche' l'applicazione di status e' un side-effect, non un tiro contestato. Una reaction dichiarata ma mai triggerata costa 0.
 
 **Test di riferimento** in `tests/test_round_orchestrator.py`:
 
 - `test_declare_reaction_registers_reaction_intent`
 - `test_declare_reaction_rejects_unsupported_event`
 - `test_declare_reaction_rejects_unsupported_payload_type`
+- `test_declare_reaction_accepts_event_damaged`
+- `test_declare_reaction_accepts_trigger_status_payload`
 - `test_build_resolution_queue_excludes_reaction_intents`
 - `test_reaction_triggers_parry_on_matching_attack`
 - `test_reaction_source_filter_matches_allowed_attacker`
@@ -211,6 +227,12 @@ Il budget `unit.reactions.current` resta la responsabilità del resolver atomico
 - `test_reaction_consumed_after_first_trigger`
 - `test_reaction_unused_if_target_not_attacked`
 - `test_reaction_does_not_consume_ap_if_not_triggered`
+- `test_damaged_reaction_applies_status_to_attacker_on_hit`
+- `test_damaged_reaction_applies_status_to_self_when_target_self`
+- `test_damaged_reaction_NOT_triggered_if_no_damage`
+- `test_damaged_reaction_source_filter_rejects_wrong_attacker`
+- `test_damaged_reaction_one_shot_consumed_after_trigger`
+- `test_damaged_and_attacked_reactions_coexist_on_different_units`
 
 ---
 
@@ -344,10 +366,14 @@ Ricarica `ACTION_SPEED` dal filesystem (hot reload) e muta il dict modulo-level 
 - ✅ **#1** Reazioni come intent first-class: `declare_reaction()` + partizionamento in `resolve_round`.
 - ✅ **#3** Interrupt window con trigger conditions: `reaction_trigger.event` + `reaction_trigger.source_any_of`.
 
+**Completati nel patch del 2026-04-16**:
+
+- ✅ **Eventi di trigger aggiuntivi (parziale)**: aggiunto `"damaged"` a `SUPPORTED_REACTION_EVENTS`, triggerato post-hit se `damage_applied > 0`. Aggiunto payload type `"trigger_status"` che applica uno status effect (bleeding/fracture/disorient/rage/panic) all'attaccante (default) o al target stesso (`target: "self"`). Restano aperti: `moved_adjacent`, `healed`, `ability_used`.
+
 **Ancora aperti** (evoluzioni future):
 
-1. **Counter e overwatch**: oltre a `parry`, supportare altri payload type nel sistema di reaction (`counter` = contrattacco libero, `overwatch` = attacco opportunistico su movimento).
-2. **Eventi di trigger aggiuntivi**: oltre a `attacked`, supportare `damaged` (dopo il damage step), `moved_adjacent` (quando un'unita' entra in mischia), `healed`, `ability_used`.
+1. **Counter e overwatch**: oltre a `parry` e `trigger_status`, supportare altri payload type (`counter` = contrattacco libero, `overwatch` = attacco opportunistico su movimento).
+2. **Eventi di trigger residui**: `moved_adjacent` (quando un'unita' entra in mischia), `healed`, `ability_used`. Il pattern e' ora definito — richiede solo estensione di `_match_reaction_for_event` e injection point corrispondente in `resolve_round`.
 3. **Migrazione Node session engine**: portare `apps/backend/routes/session.js` allo stesso modello. Oggi il session engine è separato dal rules engine Python; il loro allineamento è un sprint dedicato (rischio alto, molti test da aggiornare).
 4. **Timer opzionale di planning phase**: oggi la planning phase non ha timer. Aggiungere un `planning_deadline_ms` opzionale nel state per i tavoli che vogliono pressione temporale. Il scheduler resta fuori dal rules engine (responsabilità del session engine Node).
 5. **Reaction con cooldown multi-round**: oggi le reactions sono one-shot per round. Future: cooldown persistenti fra round (`cooldown_rounds: 2`) per reactions potenti.

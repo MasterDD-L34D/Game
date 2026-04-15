@@ -72,7 +72,7 @@ from typing import Any, Callable, Dict, List, Mapping, Optional
 # ``services.rules.round_orchestrator`` (pytest da repo root) sia quando
 # ``services/`` e' in sys.path e il package si chiama ``rules``
 # (pattern usato da tests/test_resolver.py che inserisce ``services/`` in path).
-from .resolver import begin_turn, resolve_action
+from .resolver import apply_status, begin_turn, resolve_action
 
 # ------------------------------------------------------------------
 # Round phase enum
@@ -102,15 +102,36 @@ VALID_PHASES = frozenset({PHASE_PLANNING, PHASE_COMMITTED, PHASE_RESOLVING, PHAS
 # Reaction intents (follow-up #1 + #3)
 # ------------------------------------------------------------------
 
-#: Eventi che possono triggerare una reaction. Per v1 e' supportato solo
-#: ``'attacked'`` (trigger sull'attack risolto dall'attaccante). Future
-#: estensioni: ``'damaged'`` (dopo il damage step), ``'moved_adjacent'``,
-#: ``'healed'``.
-SUPPORTED_REACTION_EVENTS = frozenset({"attacked"})
+#: Eventi che possono triggerare una reaction.
+#:
+#: - ``'attacked'`` (pre-hit): triggerato **prima** del damage step quando
+#:   l'unita' e' bersaglio di un attack. Abilita parry contestata: il
+#:   payload ``parry`` inietta ``parry_response`` nell'action e il
+#:   resolver gestisce la pipeline difensiva (parata contrattata,
+#:   riduzione damage_step, PT difensivi).
+#: - ``'damaged'`` (post-hit): triggerato **dopo** il damage step, se
+#:   l'unita' ha subito `damage_applied > 0`. Non puo' ridurre il danno
+#:   subito (gia' applicato) ma puo' applicare un reaction payload di
+#:   risposta come ``trigger_status`` (es. "se sono ferita, applico
+#:   bleeding all'attaccante").
+#:
+#: Future estensioni: ``'moved_adjacent'``, ``'healed'``, ``'status_applied'``.
+SUPPORTED_REACTION_EVENTS = frozenset({"attacked", "damaged"})
 
-#: Tipi di payload per reaction. Per v1 solo ``'parry'``. Future: ``'counter'``
-#: (contrattacco libero), ``'overwatch'`` (attacco opportunistico).
-SUPPORTED_REACTION_TYPES = frozenset({"parry"})
+#: Tipi di payload per reaction.
+#:
+#: - ``'parry'``: parry contestata d20 con bonus difensivo, usata solo con
+#:   event ``'attacked'``. Richiede ``parry_bonus``. Inietta
+#:   ``parry_response`` nell'action dell'attaccante.
+#: - ``'trigger_status'``: applica uno status effect a un'unita' quando
+#:   la reaction e' triggerata. Usata tipicamente con event ``'damaged'``.
+#:   Richiede ``status_id`` (uno dei 5 status supportati: bleeding,
+#:   fracture, disorient, rage, panic), ``duration``, ``intensity``, e
+#:   ``target`` opzionale (``'attacker'`` default, o ``'self'``).
+#:
+#: Future estensioni: ``'counter'`` (contrattacco libero), ``'overwatch'``
+#: (attacco opportunistico su movimento).
+SUPPORTED_REACTION_TYPES = frozenset({"parry", "trigger_status"})
 
 
 # ------------------------------------------------------------------
@@ -487,18 +508,25 @@ def _partition_intents(
     return main_intents, reactions_by_unit
 
 
-def _match_reaction_for_attack(
+def _match_reaction_for_event(
     reactions_by_unit: Mapping[str, Dict[str, Any]],
+    event: str,
     target_id: str,
-    attacker_id: str,
+    source_id: str,
 ) -> Optional[Dict[str, Any]]:
-    """Trova una reaction intent del target che matchi l'evento 'attacked'.
+    """Trova una reaction intent del target che matchi un dato evento.
 
     Filtri:
     - target deve avere una reaction non ancora consumata
-    - ``reaction_trigger.event`` deve essere ``'attacked'``
+    - ``reaction_trigger.event`` deve essere uguale a ``event``
     - ``reaction_trigger.source_any_of`` deve essere None/vuoto oppure
-      contenere ``attacker_id``
+      contenere ``source_id``
+
+    ``event`` puo' essere uno di ``SUPPORTED_REACTION_EVENTS``:
+
+    - ``'attacked'``: triggerato pre-hit, ``source_id`` e' l'attaccante
+    - ``'damaged'``: triggerato post-hit, ``source_id`` e' l'attaccante
+      che ha inflitto il danno
 
     Ritorna l'entry (mutabile) se matcha, altrimenti None. Il caller
     e' responsabile di marcarlo come consumato (``_consumed=True``).
@@ -510,12 +538,29 @@ def _match_reaction_for_attack(
     if entry.get("_consumed"):
         return None
     trigger = entry.get("reaction_trigger", {})
-    if trigger.get("event") != "attacked":
+    if trigger.get("event") != event:
         return None
     source_filter = trigger.get("source_any_of")
-    if source_filter and attacker_id not in source_filter:
+    if source_filter and source_id not in source_filter:
         return None
     return entry
+
+
+def _match_reaction_for_attack(
+    reactions_by_unit: Mapping[str, Dict[str, Any]],
+    target_id: str,
+    attacker_id: str,
+) -> Optional[Dict[str, Any]]:
+    """Alias retrocompatibile per ``_match_reaction_for_event`` con
+    ``event='attacked'``. Mantenuta per compatibilita' con test e con
+    qualsiasi caller esterno che usi l'API precedente. La versione
+    generalizzata ``_match_reaction_for_event`` e' preferita per codice
+    nuovo.
+    """
+
+    return _match_reaction_for_event(
+        reactions_by_unit, "attacked", target_id, attacker_id
+    )
 
 
 def commit_round(state: Mapping[str, Any]) -> Dict[str, Any]:
@@ -670,6 +715,58 @@ def resolve_round(
         result = resolve_action(next_state, action, catalog, rng)
         next_state = result["next_state"]
         turn_log_entries.append(result["turn_log_entry"])
+
+        # Post-hit reaction injection (follow-up #5 — event 'damaged'):
+        # se l'action ha inflitto danno reale al target, cerca una
+        # reaction intent con trigger='damaged' sul target. Se matcha
+        # e il payload e' 'trigger_status', applichiamo lo status
+        # all'attaccante (default) o al target stesso in base a
+        # payload['target'].
+        damage_applied = int(result["turn_log_entry"].get("damage_applied", 0))
+        if (
+            damage_applied > 0
+            and action_type == "attack"
+            and target_id
+        ):
+            dmg_matched = _match_reaction_for_event(
+                reactions_by_unit, "damaged", str(target_id), str(uid)
+            )
+            if dmg_matched is not None:
+                dmg_payload = dmg_matched.get("reaction_payload", {})
+                if dmg_payload.get("type") == "trigger_status":
+                    # Target della status application: 'attacker' (default)
+                    # o 'self' per auto-status del target
+                    status_target_side = str(dmg_payload.get("target", "attacker"))
+                    status_target_id = (
+                        str(uid) if status_target_side == "attacker" else str(target_id)
+                    )
+                    status_target_unit = next(
+                        (
+                            u
+                            for u in next_state.get("units", [])
+                            if u.get("id") == status_target_id
+                        ),
+                        None,
+                    )
+                    if status_target_unit is not None:
+                        apply_status(
+                            status_target_unit,
+                            status_id=str(dmg_payload.get("status_id", "bleeding")),
+                            duration=int(dmg_payload.get("duration", 1)),
+                            intensity=int(dmg_payload.get("intensity", 1)),
+                            source_unit_id=str(target_id),
+                            source_action_id="reaction_damaged",
+                        )
+                        dmg_matched["_consumed"] = True
+                        reactions_triggered.append(
+                            {
+                                "target_unit_id": str(target_id),
+                                "attacker_unit_id": str(uid),
+                                "event": "damaged",
+                                "reaction_payload": dict(dmg_payload),
+                                "status_target_unit_id": status_target_id,
+                            }
+                        )
 
     next_state["round_phase"] = PHASE_RESOLVED
     next_state["pending_intents"] = []
