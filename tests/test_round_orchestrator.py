@@ -37,6 +37,8 @@ from rules.round_orchestrator import (  # noqa: E402
     PHASE_COMMITTED,
     PHASE_PLANNING,
     PHASE_RESOLVED,
+    SUPPORTED_PREDICATE_FIELDS,
+    SUPPORTED_PREDICATE_OPS,
     SUPPORTED_REACTION_EVENTS,
     SUPPORTED_REACTION_TYPES,
     action_speed,
@@ -51,6 +53,10 @@ from rules.round_orchestrator import (  # noqa: E402
     preview_round,
     reload_action_speed_table,
     resolve_round,
+)
+from rules.round_orchestrator import (  # noqa: E402
+    _build_context_for_event,
+    _evaluate_predicates,
 )
 
 MECHANICS_PATH = (
@@ -1319,3 +1325,455 @@ def test_damaged_and_attacked_reactions_coexist_on_different_units(catalog):
     result = resolve_round(state, catalog, rng)
     assert len(result["reactions_triggered"]) == 1
     assert result["reactions_triggered"][0]["event"] == "damaged"
+
+
+# ------------------------------------------------------------------
+# Predicates DSL (WI-1 follow-up batch 2)
+# ------------------------------------------------------------------
+
+
+def test_evaluate_predicates_empty_returns_true():
+    assert _evaluate_predicates(None, {"damage": 5}) is True
+    assert _evaluate_predicates([], {"damage": 5}) is True
+
+
+def test_evaluate_predicates_comparators():
+    ctx = {"damage": 5, "hp_pct": 0.3, "stress": 0.5}
+    assert _evaluate_predicates([{"op": ">=", "field": "damage", "value": 5}], ctx) is True
+    assert _evaluate_predicates([{"op": ">", "field": "damage", "value": 5}], ctx) is False
+    assert _evaluate_predicates([{"op": "==", "field": "damage", "value": 5}], ctx) is True
+    assert _evaluate_predicates([{"op": "!=", "field": "damage", "value": 10}], ctx) is True
+    assert _evaluate_predicates([{"op": "<", "field": "hp_pct", "value": 0.5}], ctx) is True
+    assert _evaluate_predicates([{"op": "<=", "field": "stress", "value": 0.5}], ctx) is True
+
+
+def test_evaluate_predicates_and_logic():
+    ctx = {"damage": 10, "hp_pct": 0.2}
+    # Entrambi True
+    assert (
+        _evaluate_predicates(
+            [
+                {"op": ">=", "field": "damage", "value": 5},
+                {"op": "<", "field": "hp_pct", "value": 0.5},
+            ],
+            ctx,
+        )
+        is True
+    )
+    # Secondo falso
+    assert (
+        _evaluate_predicates(
+            [
+                {"op": ">=", "field": "damage", "value": 5},
+                {"op": ">", "field": "hp_pct", "value": 0.5},
+            ],
+            ctx,
+        )
+        is False
+    )
+
+
+def test_evaluate_predicates_unknown_field_fail_safe():
+    # Field non in context → predicate fail-safe (ritorna False)
+    assert _evaluate_predicates(
+        [{"op": ">=", "field": "damage", "value": 5}], {}
+    ) is False
+
+
+def test_evaluate_predicates_unknown_op_fail_safe():
+    # Op non supportato → fail-safe
+    assert (
+        _evaluate_predicates(
+            [{"op": "LIKE", "field": "damage", "value": 5}],
+            {"damage": 5},
+        )
+        is False
+    )
+
+
+def test_build_context_for_event_damaged_includes_damage():
+    reaction_owner = {
+        "id": "bravo",
+        "hp": {"current": 20, "max": 50},
+        "stress": 0.3,
+        "tier": 2,
+    }
+    source = {"id": "alpha", "tier": 3}
+    ctx = _build_context_for_event(
+        event="damaged",
+        reaction_owner=reaction_owner,
+        source_unit=source,
+        damage_applied=7,
+    )
+    assert ctx["damage"] == 7
+    assert ctx["hp_current"] == 20
+    assert ctx["hp_max"] == 50
+    assert ctx["hp_pct"] == 20 / 50
+    assert ctx["stress"] == 0.3
+    assert ctx["actor_tier"] == 2
+    assert ctx["source_tier"] == 3
+
+
+def test_build_context_for_event_attacked_no_damage_field():
+    reaction_owner = {"id": "bravo", "hp": {"current": 30, "max": 30}, "stress": 0.0, "tier": 1}
+    ctx = _build_context_for_event(
+        event="attacked",
+        reaction_owner=reaction_owner,
+        source_unit={"id": "alpha", "tier": 2},
+    )
+    assert "damage" not in ctx
+    assert ctx["hp_pct"] == 1.0
+    assert ctx["source_tier"] == 2
+
+
+def test_declare_reaction_rejects_unknown_predicate_op(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    with pytest.raises(ValueError, match="predicate op non supportato"):
+        declare_reaction(
+            state,
+            "bravo",
+            reaction_payload={
+                "type": "trigger_status",
+                "status_id": "bleeding",
+                "duration": 1,
+                "intensity": 1,
+            },
+            trigger={
+                "event": "damaged",
+                "source_any_of": None,
+                "predicates": [{"op": "MATCHES", "field": "damage", "value": 5}],
+            },
+        )
+
+
+def test_declare_reaction_rejects_unknown_predicate_field(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    with pytest.raises(ValueError, match="predicate field non supportato"):
+        declare_reaction(
+            state,
+            "bravo",
+            reaction_payload={
+                "type": "trigger_status",
+                "status_id": "bleeding",
+                "duration": 1,
+                "intensity": 1,
+            },
+            trigger={
+                "event": "damaged",
+                "predicates": [{"op": ">=", "field": "mana", "value": 5}],
+            },
+        )
+
+
+def test_damaged_reaction_with_predicate_triggers_on_high_damage(catalog):
+    """Reaction damaged con predicate damage>=5 triggera solo se
+    il danno applicato e' >=5."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state["units"][1]["hp"]["current"] = 100
+    state["units"][1]["hp"]["max"] = 100
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 2,
+            "intensity": 1,
+            "target": "attacker",
+        },
+        trigger={
+            "event": "damaged",
+            "source_any_of": None,
+            "predicates": [{"op": ">=", "field": "damage", "value": 5}],
+        },
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    # Force big hit (nat 20 crit + high damage roll)
+    rng = rng_from_sequence([19 / 20, 7 / 8])
+    result = resolve_round(state, catalog, rng)
+    # Damage deve essere >= 5 → reaction triggera
+    assert len(result["reactions_triggered"]) == 1
+    assert result["reactions_triggered"][0]["event"] == "damaged"
+
+
+def test_damaged_reaction_with_predicate_NOT_triggers_on_low_damage(catalog):
+    """Stesso predicate ma con un danno basso → reaction NON triggera."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    # Armor molto alto per ridurre damage a 0-1
+    state["units"][1]["hp"]["current"] = 100
+    state["units"][1]["hp"]["max"] = 100
+    state["units"][1]["armor"] = 20
+    state = begin_round(state)["next_state"]
+    state = declare_intent(
+        state,
+        "alpha",
+        _attack(
+            "alpha",
+            "bravo",
+            dice={"count": 1, "sides": 4, "modifier": 0},
+        ),
+    )["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 2,
+            "intensity": 1,
+            "target": "attacker",
+        },
+        trigger={
+            "event": "damaged",
+            "source_any_of": None,
+            "predicates": [{"op": ">=", "field": "damage", "value": 5}],
+        },
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    # Hit con damage ridotto da armor
+    rng = rng_from_sequence([15 / 20, 1 / 4])
+    result = resolve_round(state, catalog, rng)
+    # Damage == 0 (armor > danno) → predicate fail → reaction non triggera
+    assert result["reactions_triggered"] == []
+
+
+# ------------------------------------------------------------------
+# Cooldown multi-round (WI-2 follow-up batch 2)
+# ------------------------------------------------------------------
+
+
+def test_declare_reaction_accepts_cooldown_rounds_field(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={
+            "event": "attacked",
+            "source_any_of": None,
+            "cooldown_rounds": 2,
+        },
+    )["next_state"]
+    intent = state["pending_intents"][0]
+    assert intent["reaction_trigger"]["cooldown_rounds"] == 2
+
+
+def test_declare_reaction_rejects_negative_cooldown(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    with pytest.raises(ValueError, match="cooldown_rounds deve essere >= 0"):
+        declare_reaction(
+            state,
+            "bravo",
+            reaction_payload={"type": "parry", "parry_bonus": 1},
+            trigger={
+                "event": "attacked",
+                "source_any_of": None,
+                "cooldown_rounds": -1,
+            },
+        )
+
+
+def test_cooldown_set_on_reaction_trigger(catalog):
+    """Quando reaction triggera, unit.reaction_cooldown_remaining e'
+    settato al cooldown_rounds."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state["units"][1]["hp"]["current"] = 50
+    state["units"][1]["hp"]["max"] = 50
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 2,
+            "intensity": 1,
+            "target": "attacker",
+        },
+        trigger={
+            "event": "damaged",
+            "source_any_of": None,
+            "cooldown_rounds": 3,
+        },
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    # bravo ha cooldown_remaining = 3
+    bravo_after = result["next_state"]["units"][1]
+    assert bravo_after.get("reaction_cooldown_remaining") == 3
+
+
+def test_cooldown_decrements_on_begin_round(catalog):
+    """Cooldown decrementa di 1 a ogni begin_round."""
+
+    state = _make_state(catalog)
+    state["units"][1]["reaction_cooldown_remaining"] = 3
+    # Round 1 begin
+    state = begin_round(state)["next_state"]
+    assert state["units"][1]["reaction_cooldown_remaining"] == 2
+    # Round 2 begin (transiamo da resolved a planning)
+    state["round_phase"] = PHASE_RESOLVED
+    state = begin_round(state)["next_state"]
+    assert state["units"][1]["reaction_cooldown_remaining"] == 1
+    # Round 3 begin → 0
+    state["round_phase"] = PHASE_RESOLVED
+    state = begin_round(state)["next_state"]
+    assert state["units"][1]["reaction_cooldown_remaining"] == 0
+    # Round 4 begin → resta 0 (min clamp)
+    state["round_phase"] = PHASE_RESOLVED
+    state = begin_round(state)["next_state"]
+    assert state["units"][1]["reaction_cooldown_remaining"] == 0
+
+
+def test_declare_reaction_silent_skip_when_cooldown_active(catalog):
+    """Se unit e' in cooldown, declare_reaction ritorna state
+    invariato senza aggiungere intent."""
+
+    state = begin_round(_make_state(catalog))["next_state"]
+    state["units"][1]["reaction_cooldown_remaining"] = 2
+    result = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={"type": "parry", "parry_bonus": 1},
+        trigger={"event": "attacked", "source_any_of": None},
+    )
+    # Nessun intent aggiunto
+    assert result["next_state"]["pending_intents"] == []
+
+
+def test_cooldown_0_means_no_cooldown(catalog):
+    """cooldown_rounds=0 (default) non setta alcun cooldown."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state["units"][1]["hp"]["current"] = 50
+    state["units"][1]["hp"]["max"] = 50
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "bleeding",
+            "duration": 1,
+            "intensity": 1,
+        },
+        trigger={"event": "damaged", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = rng_from_sequence([19 / 20, 5 / 8])
+    result = resolve_round(state, catalog, rng)
+    # Reaction triggered
+    assert len(result["reactions_triggered"]) == 1
+    # No cooldown settato (0 o chiave assente)
+    assert result["next_state"]["units"][1].get("reaction_cooldown_remaining", 0) == 0
+
+
+# ------------------------------------------------------------------
+# Events moved_adjacent + ability_used (WI-4 follow-up batch 2)
+# ------------------------------------------------------------------
+
+
+def test_declare_reaction_accepts_event_moved_adjacent(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "panic",
+            "duration": 1,
+            "intensity": 1,
+        },
+        trigger={"event": "moved_adjacent", "source_any_of": None},
+    )["next_state"]
+    assert state["pending_intents"][0]["reaction_trigger"]["event"] == "moved_adjacent"
+
+
+def test_declare_reaction_accepts_event_ability_used(catalog):
+    state = begin_round(_make_state(catalog))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "disorient",
+            "duration": 1,
+            "intensity": 1,
+        },
+        trigger={"event": "ability_used", "source_any_of": None},
+    )["next_state"]
+    assert state["pending_intents"][0]["reaction_trigger"]["event"] == "ability_used"
+
+
+def test_moved_adjacent_reaction_triggers_after_move(catalog):
+    """Quando alpha esegue un move, la reaction di bravo su
+    'moved_adjacent' triggera e applica lo status."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    state = declare_intent(state, "alpha", _move("alpha"))["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "panic",
+            "duration": 2,
+            "intensity": 1,
+            "target": "attacker",  # status all'unit che si e' mossa
+        },
+        trigger={"event": "moved_adjacent", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "moved-adjacent")
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+    assert result["reactions_triggered"][0]["event"] == "moved_adjacent"
+    # alpha (chi si e' mosso) ha panic
+    alpha_after = result["next_state"]["units"][0]
+    panics = [s for s in alpha_after.get("statuses", []) if s.get("id") == "panic"]
+    assert len(panics) == 1
+
+
+def test_ability_used_reaction_triggers_after_ability(catalog):
+    """Reaction su ability_used triggera quando un'unita' esegue
+    un action type='ability'."""
+
+    state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    state = begin_round(state)["next_state"]
+    ability_action = {
+        "id": "ab-test",
+        "type": "ability",
+        "actor_id": "alpha",
+        "target_id": None,
+        "ability_id": "mega_shout",
+        "ap_cost": 1,
+        "channel": None,
+    }
+    state = declare_intent(state, "alpha", ability_action)["next_state"]
+    state = declare_reaction(
+        state,
+        "bravo",
+        reaction_payload={
+            "type": "trigger_status",
+            "status_id": "disorient",
+            "duration": 1,
+            "intensity": 1,
+            "target": "attacker",
+        },
+        trigger={"event": "ability_used", "source_any_of": None},
+    )["next_state"]
+    state = commit_round(state)["next_state"]
+    rng = namespaced_rng("seed", "ability-used")
+    result = resolve_round(state, catalog, rng)
+    assert len(result["reactions_triggered"]) == 1
+    assert result["reactions_triggered"][0]["event"] == "ability_used"
+    assert result["reactions_triggered"][0]["ability_id"] == "mega_shout"

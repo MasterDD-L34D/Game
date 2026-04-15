@@ -187,11 +187,52 @@ Le reaction intents:
 - **Trigger conditions** (vedi `SUPPORTED_REACTION_EVENTS`):
   - `"attacked"` (pre-hit): triggerato **prima** del damage step quando l'unita' e' bersaglio di un attack. Abilita il payload `parry` per intervenire durante la pipeline difensiva (riduzione `damage_step`, PT difensivi).
   - `"damaged"` (post-hit): triggerato **dopo** il damage step, se l'unita' ha subito `damage_applied > 0`. Non puo' ridurre il danno gia' applicato ma abilita il payload `trigger_status` per applicare uno status effect in risposta al danno ricevuto.
+  - `"moved_adjacent"` (post-move): triggerato dopo che un'unita' completa un `action.type == "move"`. Non usa semantica di distanza (il rules engine non tracka grid positions); si affida al filtro `source_any_of` per selezionare quali unita' moventi attivano la reaction. Semantica: "quando X si muove".
+  - `"ability_used"` (post-ability): triggerato dopo che un'unita' esegue un `action.type == "ability"`. Il `reactions_triggered` entry include `ability_id` dall'action sorgente.
   - `source_any_of`: opzionale, lista di `unit_id` che triggerano la reazione. `None` o vuoto = qualsiasi sorgente.
+  - `cooldown_rounds` (opzionale, default 0): numero di round di cooldown sull'unita' owner dopo il trigger. Persistente via `unit.reaction_cooldown_remaining`, decrementato in `begin_round`. Se l'unita' e' in cooldown, `declare_reaction` fa **silent skip** (ritorna state invariato).
+  - `predicates` (opzionale): lista di predicati dict `{op, field, value}` valutati in AND contro un context event-specific. Vedi §**Predicates DSL** sotto.
 - **Payload type** (vedi `SUPPORTED_REACTION_TYPES`):
   - `"parry"` — usata con `event="attacked"`. Richiede `parry_bonus`. Inietta `parry_response` nell'action dell'attaccante.
-  - `"trigger_status"` — usata tipicamente con `event="damaged"`. Applica uno status effect (bleeding/fracture/disorient/rage/panic) a un'unita' quando la reaction triggera. Richiede `status_id`, `duration`, `intensity`, e `target` opzionale (`"attacker"` default o `"self"`).
+  - `"trigger_status"` — usata con `event="damaged"`, `event="moved_adjacent"` o `event="ability_used"`. Applica uno status effect (bleeding/fracture/disorient/rage/panic) a un'unita' quando la reaction triggera. Richiede `status_id`, `duration`, `intensity`, e `target` opzionale (`"attacker"` default o `"self"`).
   - Futuri: `counter` (contrattacco libero), `overwatch` (attacco opportunistico).
+
+### Predicates DSL
+
+Dal follow-up batch 2 (2026-04-16) il campo `reaction_trigger.predicates` accetta una lista di dict con mini-DSL:
+
+```python
+declare_reaction(
+    state,
+    unit_id="bravo",
+    reaction_payload={"type": "trigger_status", "status_id": "bleeding", "duration": 2, "intensity": 1, "target": "attacker"},
+    trigger={
+        "event": "damaged",
+        "source_any_of": None,
+        "cooldown_rounds": 3,
+        "predicates": [
+            {"op": ">=", "field": "damage", "value": 5},
+            {"op": "<", "field": "hp_pct", "value": 0.5},
+        ],
+    },
+)
+```
+
+**Operatori supportati** (`SUPPORTED_PREDICATE_OPS`): `==`, `!=`, `>`, `>=`, `<`, `<=`.
+
+**Fields supportati** (`SUPPORTED_PREDICATE_FIELDS`):
+
+| Field         | Semantica                                | Evento richiesto  |
+| ------------- | ---------------------------------------- | ----------------- |
+| `damage`      | `damage_applied` dal turn_log_entry      | `damaged`         |
+| `hp_pct`      | `hp_current / hp_max` del reaction owner | qualsiasi         |
+| `hp_current`  | HP assoluto del reaction owner           | qualsiasi         |
+| `hp_max`      | HP max del reaction owner                | qualsiasi         |
+| `stress`      | float 0..1 del reaction owner            | qualsiasi         |
+| `source_tier` | tier dell'unita' che scatena l'evento    | eventi con source |
+| `actor_tier`  | tier del reaction owner                  | qualsiasi         |
+
+**Logica**: tutti i predicati sono valutati in AND. Lista vuota/None = sempre match. Validation rigorosa in `declare_reaction` (unknown op/field raise ValueError). Evaluator `_evaluate_predicates` fail-safe (unknown field in context → predicate fail).
 
 **Pipeline di trigger per `attacked`** (pre-hit):
 
@@ -368,16 +409,20 @@ Ricarica `ACTION_SPEED` dal filesystem (hot reload) e muta il dict modulo-level 
 
 **Completati nel patch del 2026-04-16**:
 
-- ✅ **Eventi di trigger aggiuntivi (parziale)**: aggiunto `"damaged"` a `SUPPORTED_REACTION_EVENTS`, triggerato post-hit se `damage_applied > 0`. Aggiunto payload type `"trigger_status"` che applica uno status effect (bleeding/fracture/disorient/rage/panic) all'attaccante (default) o al target stesso (`target: "self"`). Restano aperti: `moved_adjacent`, `healed`, `ability_used`.
+- ✅ **Evento `damaged`**: triggerato post-hit se `damage_applied > 0`. Abilita payload `trigger_status`.
+- ✅ **Evento `moved_adjacent`**: triggerato post-move, filtro via `source_any_of`. Abilita payload `trigger_status`.
+- ✅ **Evento `ability_used`**: triggerato post-ability, context include `ability_id`. Abilita payload `trigger_status`.
+- ✅ **Payload `trigger_status`**: applica status effect a `attacker` (default) o `self` in risposta a eventi.
+- ✅ **Predicates DSL**: dict-based `{op, field, value}` in AND, valutati contro context event-specific. Operatori: `==`, `!=`, `>`, `>=`, `<`, `<=`. Fields: `damage`, `hp_pct`, `hp_current`, `hp_max`, `stress`, `source_tier`, `actor_tier`.
+- ✅ **Reaction cooldown multi-round**: `cooldown_rounds` nel trigger, persistente via `unit.reaction_cooldown_remaining`, decremento in `begin_round`, silent skip in `declare_reaction` se cooldown attivo.
+- ✅ **ADR Node session engine migration**: [`ADR-2026-04-16-session-engine-round-migration.md`](../adr/ADR-2026-04-16-session-engine-round-migration.md) — piano in 17 step, feature flag, rollback, stima effort. **Solo documento**: codice Node intoccato.
 
 **Ancora aperti** (evoluzioni future):
 
-1. **Counter e overwatch**: oltre a `parry` e `trigger_status`, supportare altri payload type (`counter` = contrattacco libero, `overwatch` = attacco opportunistico su movimento).
-2. **Eventi di trigger residui**: `moved_adjacent` (quando un'unita' entra in mischia), `healed`, `ability_used`. Il pattern e' ora definito — richiede solo estensione di `_match_reaction_for_event` e injection point corrispondente in `resolve_round`.
-3. **Migrazione Node session engine**: portare `apps/backend/routes/session.js` allo stesso modello. Oggi il session engine è separato dal rules engine Python; il loro allineamento è un sprint dedicato (rischio alto, molti test da aggiornare).
-4. **Timer opzionale di planning phase**: oggi la planning phase non ha timer. Aggiungere un `planning_deadline_ms` opzionale nel state per i tavoli che vogliono pressione temporale. Il scheduler resta fuori dal rules engine (responsabilità del session engine Node).
-5. **Reaction con cooldown multi-round**: oggi le reactions sono one-shot per round. Future: cooldown persistenti fra round (`cooldown_rounds: 2`) per reactions potenti.
-6. **Trigger predicate avanzati**: oltre a `source_any_of`, supportare condizioni come `damage_threshold` (triggera solo se il damage in arrivo supera X), `hp_threshold` (triggera solo se HP sotto Y).
+1. **Counter e overwatch**: `counter` = contrattacco post-hit costruito on-the-fly via synthetic attack action (con anti-recursion flag). `overwatch` = listener su `moved_adjacent` che costruisce un attack contro l'unita' movente. Design fattibile, implementazione in PR dedicata.
+2. **Evento `healed`**: richiederebbe un nuovo action type `heal` nel resolver atomico (oggi non esiste). Scope creep.
+3. **Migrazione effettiva Node session engine**: portare `apps/backend/routes/session.js` al round model. ADR c'e', codice Node intoccato. Sprint dedicato di ~5 giornate.
+4. **Timer opzionale di planning phase**: `planning_deadline_ms` nello state. Enforcement del session engine Node, non del rules engine Python.
 
 ---
 
