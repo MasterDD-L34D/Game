@@ -15,6 +15,7 @@ review_cycle_days: 14
 
 ### Added
 
+- **Final Design Freeze v0.9** — baseline canonica di design finale di Evo Tactics pubblicata come bundle in `docs/core/90-FINAL-DESIGN-FREEZE.md` (source of truth A3) + 7 documenti operativi in `docs/planning/EVO_FINAL_DESIGN_*.md` (roadmap, milestones & gates, backlog register, codex execution playbook, game-database sync plan, source authority map, roadmaps index). 8 entries aggiunte in `docs/governance/docs_registry.json` (registry ora a 476 documenti governati). Il bundle non introduce feature di gioco, non cambia principi di design rispetto ai doc canonici esistenti, e rispetta il confine architetturale Game ↔ Game-Database di [`ADR-2026-04-14`](adr/ADR-2026-04-14-game-database-topology.md). Vedi PR #1378.
 - Rules engine d20 (`services/rules/`) con resolver, hydration, demo CLI e worker bridge.
 - Azioni tattiche: defend, rage, panic, contested parry, PT spend spinta.
 - 29/30 valori di bilanciamento trait in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
@@ -34,6 +35,10 @@ review_cycle_days: 14
   `tools/py/collect_trait_fields.py` per propagare label/description approvate
   nelle localizzazioni.
 - Trait metadata (`species_affinity`, `usage_tags`, `completion_flags`) now exposed across catalog loaders, generators e servizi API, con test automatici aggiornati.
+
+### Changed
+
+- **Final Design Backlog FD-IDs — schema "range contigui per epic"** (2026-04-15). Risolta la collisione `FD-030` triplice (3 task distinti in EPIC C + EPIC D) via cascade. Nuovo schema: EPIC A `FD-000..009`, B `FD-010..014`, C `FD-020..030`, D `FD-040..046`, E `FD-050..058`, F `FD-060..068`, G `FD-070..076`, H `FD-080..087`, I `FD-090..095`, J `FD-100..108`, K `FD-110..116`. 88 task totali, 88 ID unici, cuscinetto di `+10` tra epic per consentire nuovi task senza ulteriori cascade. Aggiornati riferimenti in `EVO_FINAL_DESIGN_BACKLOG_REGISTER.md` §5/§6 + `EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md` §9/§10.
 - Piano di rollout trait (`docs/process/trait_rollout_plan.md`) con fasi, checklist e calendario versioni condivisi con i team coinvolti.
 - Calendario training per il team di gioco e canali di monitoraggio dedicati (`#trait-rollout`, report settimanali).
 - Appendice sandbox draft (`docs/appendici/sandbox/README.md`) con collegamenti ai concept narrativi e agli hook di trait/bilanciamento.

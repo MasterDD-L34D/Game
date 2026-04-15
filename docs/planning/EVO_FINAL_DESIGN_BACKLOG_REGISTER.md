@@ -38,7 +38,7 @@ Può essere usato per:
 - I task con side-effect richiedono strict-mode (vedi [glossario in `MILESTONES_AND_GATES §2.1`](EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md)).
 - I task che toccano file core o dati vanno eseguiti con preview, validator e riepilogo impatti.
 
-> **Nota sull'unicita' dei FD-IDs**: gli IDs devono essere unici per tutto il registro. Questa iterazione ha corretto le collisioni piu' evidenti (EPIC B ora FD-011..014 al posto di FD-021..024). Alcuni ID duplicati residui (in particolare intorno a FD-030) sono **ancora aperti** e richiedono decisione umana sullo schema di numerazione definitivo — vedi la nota finale in §6.
+> **Unicita' dei FD-IDs**: tutti gli IDs sono unici. Lo schema di numerazione e' "range contigui per epic" (vedi §6) con cuscinetto di `+10` tra epic per consentire l'aggiunta di nuovi task senza cascade. La collisione `FD-030` precedente (3 definizioni) e' stata risolta con cascade documentato il 2026-04-15.
 
 ## 4. Backlog per epic
 
@@ -71,7 +71,7 @@ Può essere usato per:
 
 | Stato | Task                                         | Dettagli operativi                                                               |
 | ----- | -------------------------------------------- | -------------------------------------------------------------------------------- |
-| ☐     | FD-030 - Scrivere Combat Canon Spec          | Documento unico con formule, timing, side effect e non-scope.                    |
+| ☐     | FD-020 - Scrivere Combat Canon Spec          | Documento unico con formule, timing, side effect e non-scope.                    |
 | ☐     | FD-021 - Bloccare action types shipping      | `attack`, `move`, `defend`, `parry`, ability stub.                               |
 | ☐     | FD-022 - Bloccare status shipping            | `bleeding`, `fracture`, `disorient`, `rage`, `panic`.                            |
 | ☐     | FD-023 - Bloccare PT spend shipping          | `perforazione`, `spinta`, costi, limitazioni e timing.                           |
@@ -83,133 +83,133 @@ Può essere usato per:
 | ☐     | FD-029 - Rieseguire suite Node contract      | `contracts-combat`, `contracts-hydration-snapshot`, `contracts-trait-mechanics`. |
 | ☐     | FD-030 - Rieseguire demo CLI auto            | Smoke stabile con log archiviabile.                                              |
 
-### EPIC D — Balance layer <!-- NOTE: 2 task di questo epic (FD-030 Audit trait_mechanics) collidono ancora con EPIC C FD-030; lo schema definitivo di numerazione e' una decisione aperta, vedi §6 -->
+### EPIC D — Balance layer
 
 | Stato | Task                                     | Dettagli operativi                                                            |
 | ----- | ---------------------------------------- | ----------------------------------------------------------------------------- |
-| ☐     | FD-030 - Audit `trait_mechanics.yaml`    | Copertura completa del set shipping, placeholder review, note giustificative. |
-| ☐     | FD-031 - Tabella mod offensivi/difensivi | Audit di attack/defense/damage/resistance.                                    |
-| ☐     | FD-032 - Verificare AP costs             | Allineare `cost_ap` a fantasy, pacing e leggibilità.                          |
-| ☐     | FD-033 - Rivedere resistenze e cap       | Evitare stack difensivi rotti.                                                |
-| ☐     | FD-034 - Documentare trade-off           | Ogni trait core deve avere costo, contesto e counter.                         |
-| ☐     | FD-035 - Chiudere policy placeholder     | Nessun placeholder 0 ingiustificato sullo shipping set.                       |
-| ☐     | FD-036 - Congelare caps PT / PP / SG     | Cap definitivi e rationale.                                                   |
+| ☐     | FD-040 - Audit `trait_mechanics.yaml`    | Copertura completa del set shipping, placeholder review, note giustificative. |
+| ☐     | FD-041 - Tabella mod offensivi/difensivi | Audit di attack/defense/damage/resistance.                                    |
+| ☐     | FD-042 - Verificare AP costs             | Allineare `cost_ap` a fantasy, pacing e leggibilità.                          |
+| ☐     | FD-043 - Rivedere resistenze e cap       | Evitare stack difensivi rotti.                                                |
+| ☐     | FD-044 - Documentare trade-off           | Ogni trait core deve avere costo, contesto e counter.                         |
+| ☐     | FD-045 - Chiudere policy placeholder     | Nessun placeholder 0 ingiustificato sullo shipping set.                       |
+| ☐     | FD-046 - Congelare caps PT / PP / SG     | Cap definitivi e rationale.                                                   |
 
 ### EPIC E — Progression, economy e identity
 
 | Stato | Task                                  | Dettagli operativi                                            |
 | ----- | ------------------------------------- | ------------------------------------------------------------- |
-| ☐     | FD-040 - Bloccare economy PE          | Curve, reward sources, pacing e checkpoint.                   |
-| ☐     | FD-041 - Bloccare economy PI          | Costi build, unlock, respec soft.                             |
-| ☐     | FD-042 - Bloccare Seed economy        | Meta bridge controllato, no scope creep.                      |
-| ☐     | FD-043 - Definire conversioni economy | PE→PI, seed acquisition, reward bundle.                       |
-| ☐     | FD-044 - Congelare unlock rules       | Set shipping dichiarato e testabile.                          |
-| ☐     | FD-045 - Build identity matrix        | Specie × Morph × Job × Surge × Bioma.                         |
-| ☐     | FD-046 - MBTI/PF gate soft            | Penalty / surcharge / suggestion model non opaco.             |
-| ☐     | FD-047 - Enneagramma secondario       | Modulo attivo ma non dominante sul balance core.              |
-| ☐     | FD-048 - Chiudere XP Cipher gap       | Trattare il gap storico o formalizzarne l’uscita dallo scope. |
+| ☐     | FD-050 - Bloccare economy PE          | Curve, reward sources, pacing e checkpoint.                   |
+| ☐     | FD-051 - Bloccare economy PI          | Costi build, unlock, respec soft.                             |
+| ☐     | FD-052 - Bloccare Seed economy        | Meta bridge controllato, no scope creep.                      |
+| ☐     | FD-053 - Definire conversioni economy | PE→PI, seed acquisition, reward bundle.                       |
+| ☐     | FD-054 - Congelare unlock rules       | Set shipping dichiarato e testabile.                          |
+| ☐     | FD-055 - Build identity matrix        | Specie × Morph × Job × Surge × Bioma.                         |
+| ☐     | FD-056 - MBTI/PF gate soft            | Penalty / surcharge / suggestion model non opaco.             |
+| ☐     | FD-057 - Enneagramma secondario       | Modulo attivo ma non dominante sul balance core.              |
+| ☐     | FD-058 - Chiudere XP Cipher gap       | Trattare il gap storico o formalizzarne l’uscita dallo scope. |
 
 ### EPIC F — Species, morph, jobs, traits, gear
 
 | Stato | Task                                    | Dettagli operativi                                                |
 | ----- | --------------------------------------- | ----------------------------------------------------------------- |
-| ☐     | FD-050 - Species slice shipping         | Selezione set immediato e set target.                             |
-| ☐     | FD-051 - 5 slot morfologici obbligatori | Regola uguale per tutti i PG giocabili.                           |
-| ☐     | FD-052 - Budget specie inviolabili      | Nessuna eccezione senza rationale e test.                         |
-| ☐     | FD-053 - Morph compatibility table      | Parti, costi, requisiti, warning budget.                          |
-| ☐     | FD-054 - Job fantasies finali           | 6 job con fantasy, unlock minimi, dipendenze e debolezze.         |
-| ☐     | FD-055 - Job economy alignment          | Uso coerente di PT / PP / SG / PI.                                |
-| ☐     | FD-056 - Surge shipping set             | `pierce`, `spin`, `chain`, `pulse`, `overdrive` con note rischio. |
-| ☐     | FD-057 - Weapon compatibility           | `twin_blades`, `arc_rod` e compatibilità con surge e job.         |
-| ☐     | FD-058 - Traits shipping notes          | `backstab`, `focus_frazionato` e relativi contesti d’uso.         |
+| ☐     | FD-060 - Species slice shipping         | Selezione set immediato e set target.                             |
+| ☐     | FD-061 - 5 slot morfologici obbligatori | Regola uguale per tutti i PG giocabili.                           |
+| ☐     | FD-062 - Budget specie inviolabili      | Nessuna eccezione senza rationale e test.                         |
+| ☐     | FD-063 - Morph compatibility table      | Parti, costi, requisiti, warning budget.                          |
+| ☐     | FD-064 - Job fantasies finali           | 6 job con fantasy, unlock minimi, dipendenze e debolezze.         |
+| ☐     | FD-065 - Job economy alignment          | Uso coerente di PT / PP / SG / PI.                                |
+| ☐     | FD-066 - Surge shipping set             | `pierce`, `spin`, `chain`, `pulse`, `overdrive` con note rischio. |
+| ☐     | FD-067 - Weapon compatibility           | `twin_blades`, `arc_rod` e compatibilità con surge e job.         |
+| ☐     | FD-068 - Traits shipping notes          | `backstab`, `focus_frazionato` e relativi contesti d’uso.         |
 
 ### EPIC G — Biomi, NPG, Director, missioni
 
 | Stato | Task                                   | Dettagli operativi                                                      |
 | ----- | -------------------------------------- | ----------------------------------------------------------------------- |
-| ☐     | FD-060 - Biome shipping set            | Desert, Cavern, Badlands come baseline.                                 |
-| ☐     | FD-061 - Impatto sistemico biomi       | Ogni bioma deve toccare visibilità, mobilità o risorse.                 |
-| ☐     | FD-062 - Encounter reference per bioma | Almeno un encounter valido e documentato per bioma.                     |
-| ☐     | FD-063 - Director minimum output       | species, budget, job, 1–2 unlock, 1–2 traits, gear base, comportamento. |
-| ☐     | FD-064 - Mission vertical slice        | 1–2 missioni di riferimento complete.                                   |
-| ☐     | FD-065 - Counter surfacing             | Ogni slice deve dichiarare i counter principali.                        |
-| ☐     | FD-066 - Reward per bioma              | Token, PE/PI/Seed o modifier coerenti.                                  |
+| ☐     | FD-070 - Biome shipping set            | Desert, Cavern, Badlands come baseline.                                 |
+| ☐     | FD-071 - Impatto sistemico biomi       | Ogni bioma deve toccare visibilità, mobilità o risorse.                 |
+| ☐     | FD-072 - Encounter reference per bioma | Almeno un encounter valido e documentato per bioma.                     |
+| ☐     | FD-073 - Director minimum output       | species, budget, job, 1–2 unlock, 1–2 traits, gear base, comportamento. |
+| ☐     | FD-074 - Mission vertical slice        | 1–2 missioni di riferimento complete.                                   |
+| ☐     | FD-075 - Counter surfacing             | Ogni slice deve dichiarare i counter principali.                        |
+| ☐     | FD-076 - Reward per bioma              | Token, PE/PI/Seed o modifier coerenti.                                  |
 
 ### EPIC H — HUD, UI identità, debrief, telemetry
 
 | Stato | Task                                  | Dettagli operativi                                              |
 | ----- | ------------------------------------- | --------------------------------------------------------------- |
-| ☐     | FD-070 - Overlay HUD shipping         | Risorse, status, warnings, risk/cohesion.                       |
-| ☐     | FD-071 - In-mission surfacing         | Parry, cover, flank, obscured, biome bonus, sinergie attive.    |
-| ☐     | FD-072 - Debrief shipping             | VC, PF session, rewards, unlock, suggerimenti.                  |
-| ☐     | FD-073 - Meta UI shipping             | Budget morph, gates, recruit/nest/mating prerequisites.         |
-| ☐     | FD-074 - Telemetry output contract    | Metriche, export, naming, threshold, owner.                     |
-| ☐     | FD-075 - QA dashboard separation      | Distinguere UI giocatore vs dati QA/analytics.                  |
-| ☐→☑  | FD-076 - Chiudere HUD overlay storico | Assorbire l’open item storico HUD dentro la UI shipping finale. |
-| ☐     | FD-077 - Validare regressioni visuali | Alert leggibili, contrasto eventi, feedback coerenti.           |
+| ☐     | FD-080 - Overlay HUD shipping         | Risorse, status, warnings, risk/cohesion.                       |
+| ☐     | FD-081 - In-mission surfacing         | Parry, cover, flank, obscured, biome bonus, sinergie attive.    |
+| ☐     | FD-082 - Debrief shipping             | VC, PF session, rewards, unlock, suggerimenti.                  |
+| ☐     | FD-083 - Meta UI shipping             | Budget morph, gates, recruit/nest/mating prerequisites.         |
+| ☐     | FD-084 - Telemetry output contract    | Metriche, export, naming, threshold, owner.                     |
+| ☐     | FD-085 - QA dashboard separation      | Distinguere UI giocatore vs dati QA/analytics.                  |
+| ☐→☑  | FD-086 - Chiudere HUD overlay storico | Assorbire l’open item storico HUD dentro la UI shipping finale. |
+| ☐     | FD-087 - Validare regressioni visuali | Alert leggibili, contrasto eventi, feedback coerenti.           |
 
 ### EPIC I — Recruit, Nido, Mating
 
 | Stato | Task                             | Dettagli operativi                                                       |
 | ----- | -------------------------------- | ------------------------------------------------------------------------ |
-| ☐     | FD-080 - Recruit slice           | Affinity/Trust gating, subset NPG, eccezioni chiare.                     |
-| ☐     | FD-081 - Trust/Affinity table    | Range, trigger, decay o stabilizzazione.                                 |
-| ☐     | FD-082 - Nido livello 1 shipping | Requisiti minimi, bioma links, benefici reali.                           |
-| ☐     | FD-083 - Mating shipping slice   | Gating, output, limiti, no genealogia profonda.                          |
-| ☐     | FD-084 - Seed outputs            | Definire se genera 1–2 seed o nuovo membro in casi particolari.          |
-| ☐     | FD-085 - Park deep simulation    | Rinviare genetica complessa, genealogie, ecosistema riproduttivo esteso. |
+| ☐     | FD-090 - Recruit slice           | Affinity/Trust gating, subset NPG, eccezioni chiare.                     |
+| ☐     | FD-091 - Trust/Affinity table    | Range, trigger, decay o stabilizzazione.                                 |
+| ☐     | FD-092 - Nido livello 1 shipping | Requisiti minimi, bioma links, benefici reali.                           |
+| ☐     | FD-093 - Mating shipping slice   | Gating, output, limiti, no genealogia profonda.                          |
+| ☐     | FD-094 - Seed outputs            | Definire se genera 1–2 seed o nuovo membro in casi particolari.          |
+| ☐     | FD-095 - Park deep simulation    | Rinviare genetica complessa, genealogie, ecosistema riproduttivo esteso. |
 
 ### EPIC J — QA, validator, smoke, release
 
 | Stato | Task                                             | Dettagli operativi                                 |
 | ----- | ------------------------------------------------ | -------------------------------------------------- |
-| ☐     | FD-090 - Rieseguire validator dataset            | Validazione principale dei dati.                   |
-| ☐     | FD-091 - Rieseguire ecosystem/package validation | Pack e spawn pack verdi.                           |
-| ☐     | FD-092 - Rieseguire smoke CLI profili            | `hud`, `playtest`, `support`, `telemetry`.         |
-| ☐     | FD-093 - Rieseguire test web minimi              | Solo se toccata UI o bundle relativo.              |
-| ☐     | FD-094 - Definire playtest matrix                | Scenario, obiettivi, log, owner, questioni aperte. |
-| ☐     | FD-095 - Chiudere triage bug P0/P1               | Nessun gate finale con P0 aperti.                  |
-| ☐     | FD-096 - Preparare changelog                     | Note merge e release candidate.                    |
-| ☐     | FD-097 - Preparare rollback plan 03A             | Richiesto dal processo di contribution.            |
-| ☐     | FD-098 - Ottenere approvazione Master DD         | Gate finale di merge.                              |
+| ☐     | FD-100 - Rieseguire validator dataset            | Validazione principale dei dati.                   |
+| ☐     | FD-101 - Rieseguire ecosystem/package validation | Pack e spawn pack verdi.                           |
+| ☐     | FD-102 - Rieseguire smoke CLI profili            | `hud`, `playtest`, `support`, `telemetry`.         |
+| ☐     | FD-103 - Rieseguire test web minimi              | Solo se toccata UI o bundle relativo.              |
+| ☐     | FD-104 - Definire playtest matrix                | Scenario, obiettivi, log, owner, questioni aperte. |
+| ☐     | FD-105 - Chiudere triage bug P0/P1               | Nessun gate finale con P0 aperti.                  |
+| ☐     | FD-106 - Preparare changelog                     | Note merge e release candidate.                    |
+| ☐     | FD-107 - Preparare rollback plan 03A             | Richiesto dal processo di contribution.            |
+| ☐     | FD-108 - Ottenere approvazione Master DD         | Gate finale di merge.                              |
 
 ### EPIC K — Game <-> Game-Database
 
 | Stato | Task                                  | Dettagli operativi                                                          |
 | ----- | ------------------------------------- | --------------------------------------------------------------------------- |
-| ☑    | FD-100 - Mantenere confine attuale    | Runtime Game locale; DB come CMS / import target.                           |
-| ☐     | FD-101 - Formalizzare import contract | Elenco file, comando, log destination, frequenza.                           |
-| ☐     | FD-102 - Scrivere runbook import      | `sync:evo-pack` lato Game, `evo:import` lato DB, dry-run/verbose/repo path. |
-| ☐     | FD-103 - Decidere cadence             | Manuale, batch o cron lato Game-Database.                                   |
-| ☐     | FD-104 - Preparare pattern B          | Opzione raccomandata futura: cron job DB-side con PR di sync.               |
-| ☐     | FD-105 - Definire trigger futuri      | Quando riaprire B o C dell’ADR topology.                                    |
-| ☐     | FD-106 - Bloccare runtime dependency  | Vietato introdurre Game <- HTTP come prerequisito dello shipping freeze.    |
+| ☑    | FD-110 - Mantenere confine attuale    | Runtime Game locale; DB come CMS / import target.                           |
+| ☐     | FD-111 - Formalizzare import contract | Elenco file, comando, log destination, frequenza.                           |
+| ☐     | FD-112 - Scrivere runbook import      | `sync:evo-pack` lato Game, `evo:import` lato DB, dry-run/verbose/repo path. |
+| ☐     | FD-113 - Decidere cadence             | Manuale, batch o cron lato Game-Database.                                   |
+| ☐     | FD-114 - Preparare pattern B          | Opzione raccomandata futura: cron job DB-side con PR di sync.               |
+| ☐     | FD-115 - Definire trigger futuri      | Quando riaprire B o C dell’ADR topology.                                    |
+| ☐     | FD-116 - Bloccare runtime dependency  | Vietato introdurre Game <- HTTP come prerequisito dello shipping freeze.    |
 
 ## 5. Vista priorità
 
-> **Nota**: i range FD-XXX..XXX sotto sono informativi e punta all'epic di riferimento. Alcune collisioni di ID (intorno a FD-030) sono segnalate in §6 come **decisione aperta**.
+> **Nota**: i range `FD-XXX..YYY` sotto sono informativi e puntano all'epic di riferimento. Post-cascade (2026-04-15) tutti gli ID sono unici; ogni epic ha un range contiguo.
 
 ### Priorità P0
 
-| Stato | Task        | Dettagli operativi                                    |
-| ----- | ----------- | ----------------------------------------------------- |
-| ☐→☑  | FD-001      | Freeze pubblicato.                                    |
-| ☐→☑  | FD-002      | Bundle roadmap pubblicato.                            |
-| ☐     | FD-010..014 | Session model, controls e HUD in-match (EPIC B).      |
-| ☐     | FD-020..030 | Combat canon e test (EPIC C).                         |
-| ☐     | FD-030..036 | Balance audit (EPIC D, vedi nota ID collision).       |
-| ☐     | FD-040..048 | Economy e progression freeze (EPIC E).                |
-| ☐     | FD-050..058 | Species / morph / jobs / surge / gear slice (EPIC F). |
-| ☐     | FD-060..066 | Biomi / director / vertical slice (EPIC G).           |
-| ☐     | FD-090..098 | QA e release gates (EPIC J).                          |
+| Stato | Task        | Dettagli operativi                               |
+| ----- | ----------- | ------------------------------------------------ |
+| ☐→☑  | FD-001      | Freeze pubblicato.                               |
+| ☐→☑  | FD-002      | Bundle roadmap pubblicato.                       |
+| ☐     | FD-010..014 | Session model, controls e HUD in-match (EPIC B). |
+| ☐     | FD-020..030 | Combat canon, resolver e test (EPIC C).          |
+| ☐     | FD-040..046 | Balance layer audit (EPIC D).                    |
+| ☐     | FD-050..058 | Economy, progression e identity (EPIC E).        |
+| ☐     | FD-060..068 | Species, morph, jobs, traits, gear (EPIC F).     |
+| ☐     | FD-070..076 | Biomi, NPG, Director, missioni (EPIC G).         |
+| ☐     | FD-100..108 | QA, validator, smoke, release (EPIC J).          |
 
 ### Priorità P1
 
-| Stato | Task        | Dettagli operativi                      |
-| ----- | ----------- | --------------------------------------- |
-| ☐     | FD-070..077 | HUD / UI / telemetry shipping (EPIC H). |
-| ☐     | FD-080..085 | Meta slice controllata (EPIC I).        |
-| ☐     | FD-100..106 | Cross-repo sync readiness (EPIC K).     |
+| Stato | Task        | Dettagli operativi                              |
+| ----- | ----------- | ----------------------------------------------- |
+| ☐     | FD-080..087 | HUD, UI identità, debrief, telemetry (EPIC H).  |
+| ☐     | FD-090..095 | Recruit, Nido, Mating (EPIC I).                 |
+| ☐     | FD-110..116 | Game ↔ Game-Database cross-repo sync (EPIC K). |
 
 ### Priorità P2
 
@@ -219,22 +219,29 @@ Può essere usato per:
 | ☐     | Automazioni evolute cross-repo   | Solo dopo freeze e import contract stabile.                        |
 | ☐     | Espansioni contenuto post-freeze | Nuove specie, mappe, sistemi profondi, runtime integration estesa. |
 
-## 6. Decisioni aperte sul numbering
+## 6. Schema di numerazione FD-IDs
 
-Questo registro ha due collisioni di ID ancora non risolte, **intenzionalmente lasciate aperte** per decisione umana:
+**Schema adottato (2026-04-15)**: **range contigui per epic**. Ogni EPIC ha un range di FD-IDs inviolabile, con uno scarto di `+10` rispetto al precedente per lasciare spazio a nuovi task futuri senza cascade.
 
-- **FD-030** e' usato 2 volte:
-  1. EPIC C FD-030 "Scrivere Combat Canon Spec" (task di design)
-  2. EPIC C FD-030 (in coda) "Rieseguire demo CLI auto" (task di smoke test)
-- **FD-030..036** sono usati anche da EPIC D "Balance layer" per i task di audit `trait_mechanics`. Sovrapposizione piena con il range EPIC C.
+| EPIC | Scope                                 | Range FD-IDs  | Tasks |
+| ---- | ------------------------------------- | ------------- | ----- |
+| A    | Governance, docs, baseline            | `FD-000..009` | 10    |
+| B    | Session model, controls, HUD in-match | `FD-010..014` | 5     |
+| C    | Combat canon e resolver               | `FD-020..030` | 11    |
+| D    | Balance layer                         | `FD-040..046` | 7     |
+| E    | Progression, economy, identity        | `FD-050..058` | 9     |
+| F    | Species, morph, jobs, traits, gear    | `FD-060..068` | 9     |
+| G    | Biomi, NPG, Director, missioni        | `FD-070..076` | 7     |
+| H    | HUD, UI identità, debrief, telemetry  | `FD-080..087` | 8     |
+| I    | Recruit, Nido, Mating                 | `FD-090..095` | 6     |
+| J    | QA, validator, smoke, release         | `FD-100..108` | 9     |
+| K    | Game ↔ Game-Database                 | `FD-110..116` | 7     |
 
-Opzioni proposte per la risoluzione definitiva:
+**Totale**: 88 task, 88 ID unici, 0 collisioni.
 
-1. **Prefix per epic**: FD-C030, FD-D030 — piu' verboso ma unambiguo.
-2. **Range contigui**: shiftare EPIC D a FD-040..046 e cascatare il resto (EPIC E → FD-050..058, EPIC F → FD-060..068, ecc.). Richiede aggiornamento di tutti i riferimenti in §5.
-3. **Numerazione globale**: rinumerare tutti i task in sequenza ignorando i blocchi per epic (FD-001, FD-002, ... FD-NNN).
+**Regola operativa**: nuovi task si aggiungono riempiendo i gap all'interno del range dell'epic di appartenenza. Se un epic esaurisce il range (es. EPIC B `FD-010..014` → 5 slot), la scelta va al Master DD tra (a) espansione del range prendendo dal cuscinetto successivo, oppure (b) shifting dell'epic successivo con cascade documentato.
 
-**Questa decisione va presa dal Master DD** prima che il backlog venga promosso a issue tracker / board esterno. Nel frattempo, la collisione FD-030 e FD-030..036 rimane documentata qui.
+**Storia**: fino al 2026-04-15 la collisione `FD-030` triplice (EPIC C Combat Canon Spec + EPIC C demo CLI + EPIC D Audit trait_mechanics) era documentata come decisione aperta. Il cascade "range contigui" e' stato approvato dal Master DD e applicato in questa revisione del registry.
 
 ## 7. Ready definition per un task
 
