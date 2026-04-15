@@ -37,7 +37,10 @@ test('computeGoNoGo returns go when all checks pass', () => {
   assert.deepEqual(summary.detailLines, []);
 });
 
-test('computeGoNoGo flags trait conflicts as no-go', () => {
+test('computeGoNoGo: trait conflicts dichiarati non bloccano il deploy', () => {
+  // NOTE: with_conflicts conta i tratti con antagonismi DICHIARATI (design
+  // feature), non errori dati. Solo un errore reale in status.error deve
+  // produrre un NO-GO.
   const goNoGo = computeGoNoGo({
     snapshot: {
       qualityChecks: [
@@ -51,23 +54,48 @@ test('computeGoNoGo flags trait conflicts as no-go', () => {
       summary: {
         with_conflicts: 3,
         matrix_mismatch: 0,
-        glossary_missing: 1,
+        glossary_missing: 0,
       },
       status: { fetchedAt: null, error: null },
     },
     nebula: {
-      telemetry: { summary: { highPriorityEvents: 0, openEvents: 1, acknowledgedEvents: 1 } },
+      telemetry: { summary: { highPriorityEvents: 0, openEvents: 0, acknowledgedEvents: 0 } },
       generator: { status: 'success', metrics: { generationTimeMs: 140, coverageAverage: 80 } },
       orchestrator: { summary: { errorCount: 0, warningCount: 0, infoCount: 2 } },
     },
   });
-  assert.equal(goNoGo.status, 'no-go');
+  assert.notEqual(goNoGo.status, 'no-go');
   const traitCheck = goNoGo.checks.find((check) => check.id === 'trait-diagnostics');
   assert(traitCheck);
-  assert.equal(traitCheck.status, 'failed');
+  assert.equal(traitCheck.status, 'passed');
+  assert.equal(traitCheck.severity, 'warning');
   assert.match(traitCheck.summary, /Conflitti attivi: 3/);
-  const summary = formatGoNoGoSummary(goNoGo);
-  assert(summary.detailLines.some((line) => line.includes('Trait diagnostics')));
+});
+
+test('computeGoNoGo: trait diagnostics error produce NO-GO', () => {
+  // Solo un errore reale nel caricamento delle diagnostiche deve bloccare.
+  const goNoGo = computeGoNoGo({
+    snapshot: {
+      qualityChecks: [
+        { id: 'biomes', label: 'biomes', passed: 2, total: 2, conflicts: 0, blocking: false },
+      ],
+      runtime: { fallbackUsed: false, error: null, validationMessages: 0 },
+    },
+    traitDiagnostics: {
+      summary: { with_conflicts: 0, matrix_mismatch: 0, glossary_missing: 0 },
+      status: { fetchedAt: null, error: 'Trait baseline non disponibile' },
+    },
+    nebula: {
+      telemetry: { summary: { highPriorityEvents: 0, openEvents: 0, acknowledgedEvents: 0 } },
+      generator: { status: 'success', metrics: { generationTimeMs: 100, coverageAverage: 90 } },
+      orchestrator: { summary: { errorCount: 0, warningCount: 0, infoCount: 0 } },
+    },
+  });
+  assert.equal(goNoGo.status, 'no-go');
+  const traitCheck = goNoGo.checks.find((check) => check.id === 'trait-diagnostics');
+  assert.equal(traitCheck.status, 'failed');
+  assert.equal(traitCheck.severity, 'critical');
+  assert.match(traitCheck.summary, /Errore diagnostica/);
 });
 
 test('generator warning produces review status with warning details', () => {
