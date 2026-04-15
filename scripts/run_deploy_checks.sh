@@ -187,6 +187,11 @@ if [ -n "$GENERATOR_SUMMARY" ]; then
   done <<<"$GENERATOR_SUMMARY"
 fi
 
+if [ "${DEPLOY_SKIP_STATUS_REFRESH:-0}" != "1" ] && [ ! -f "$STATUS_REPORT" ]; then
+  log "Refreshing release status report ($STATUS_REPORT)"
+  node "$ROOT_DIR/tools/deploy/generateStatusReport.js" --status "$STATUS_REPORT"
+fi
+
 log "Checking release telemetry status ($STATUS_REPORT)"
 set +e
 GO_NO_GO_OUTPUT=$(

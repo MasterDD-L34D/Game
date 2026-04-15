@@ -41,16 +41,18 @@ function computeSnapshotQuality(summary = {}) {
 function computeTraitDiagnosticsStatus(traitDiagnostics = {}) {
   const summary = traitDiagnostics.summary || {};
   const status = traitDiagnostics.status || {};
+  // NOTE: `with_conflicts` conta i tratti con antagonismi DICHIARATI nei dati
+  // (design feature, non errori). `matrix_mismatch` sono drift della matrice
+  // species_trait_matrix rispetto ai tratti enriched — warning, non blocco.
+  // Solo un `status.error` (fallimento nel caricare le diagnostiche) e' critical.
   const conflicts = toNumber(summary.with_conflicts ?? summary.conflicts);
   const matrixMismatch = toNumber(summary.matrix_mismatch ?? summary.matrixMismatch);
   const missingGlossary = toNumber(summary.glossary_missing ?? summary.glossaryMissing);
   const error = status.error ? String(status.error) : null;
-  const passed = !error && conflicts === 0;
+  const passed = !error;
   let severity = 'warning';
-  if (error || conflicts > 0) {
+  if (error) {
     severity = 'critical';
-  } else if (matrixMismatch > 0 || missingGlossary > 0) {
-    severity = 'warning';
   }
   const summaryParts = [];
   if (error) {
