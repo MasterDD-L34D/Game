@@ -56,6 +56,7 @@ const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
 // /resolve-round. Il flusso legacy (/action, /turn/end) e' intatto.
 const {
   createRoundOrchestrator,
+  resolveRound: resolveRoundPure,
   PHASE_PLANNING,
   PHASE_COMMITTED,
   PHASE_RESOLVED,
@@ -896,6 +897,23 @@ function createSessionRouter(options = {}) {
             error: `bersaglio fuori range (distanza ${attackDist} > range ${range})`,
           });
         }
+
+        // PR 4 (ADR-2026-04-16): se USE_ROUND_MODEL e' attivo, delega
+        // al wrapper handleLegacyAttackViaRound che esegue la stessa
+        // pipeline performAttack dentro un round cycle (planning →
+        // commit → resolve) sincronizzando session.roundState. La
+        // response shape resta legacy-compat (+ campi round_wrapper
+        // e round_phase come metadata). Path flag-off invariato.
+        if (isRoundModelEnabled()) {
+          const wrapped = await handleLegacyAttackViaRound({
+            session,
+            actor,
+            target,
+            requestedCapPt,
+          });
+          return res.json(wrapped);
+        }
+
         actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
         const hpBefore = target.hp;
         const targetPositionAtAttack = { ...target.position };
@@ -1351,11 +1369,170 @@ function createSessionRouter(options = {}) {
   // Orchestrator con closure-scoped deps. Gli unit test del modulo
   // (tests/services/roundOrchestrator.test.js) validano la purezza
   // delle funzioni — qui ci limitiamo a fornire resolveAction +
-  // rng = Math.random. La sostituzione del placeholder e' scope PR 4.
+  // rng = Math.random. Questo orchestrator usa placeholderResolveAction
+  // per i 4 endpoint stub /declare-intent, /clear-intent, /commit-round,
+  // /resolve-round. Il wrapper legacy /action (PR 4) usa invece una
+  // factory separata `createLegacyAttackViaRound` che binda
+  // `performAttack` reale al session specifico.
   const roundOrchestrator = createRoundOrchestrator({
     resolveAction: placeholderResolveAction,
     defaultRng: rng,
   });
+
+  /**
+   * PR 4: wiring wrapper legacy /action flag-on.
+   *
+   * Prende un session object (legacy shape) + action body body
+   * { actor_id, target_id, action_type } e lo esegue attraverso il
+   * round flow (planning → commit → resolve) con un resolveAction
+   * bindato al vero `performAttack` della closure session.js.
+   *
+   * Scope PR 4: solo action_type='attack'. Per altri type il caller
+   * deve cadere sul flusso legacy (il wrapper ritorna null).
+   *
+   * Ritorna un oggetto legacy-shape (roll/mos/result/pt/damage_dealt/
+   * target_hp/trait_effects/actor_position/target_position/parry)
+   * pronto per `res.json(...)`. Il wrapper aggiorna session.roundState
+   * per mantenere il dual-state coerente con gli altri endpoint
+   * round-based.
+   *
+   * Note:
+   * - Il performAttack muta session.units in place; dopo la chiamata
+   *   ri-adattiamo session.units nello state orchestrator per
+   *   mantenere hp/ap sincronizzati nel dual-state.
+   * - Cap PT e validazioni legacy (range, AP) sono eseguite PRIMA
+   *   di entrare nel round flow (coerenza con la path legacy).
+   * - Il log event e il kill/assist emission restano invariati.
+   */
+  async function handleLegacyAttackViaRound({ session, actor, target, requestedCapPt }) {
+    // Costruisci synthetic round action shape per l'orchestrator.
+    const roundAction = {
+      id: `legacy-attack-${actor.id}-${session.action_counter}`,
+      type: 'attack',
+      actor_id: actor.id,
+      target_id: target.id,
+      ability_id: null,
+      ap_cost: 1,
+      channel: null,
+      damage_dice: { count: 1, sides: 6, modifier: 2 },
+    };
+
+    // Bind resolveAction al session specifico. Il wrapper interno
+    // chiama performAttack (che muta session.units), poi sincronizza
+    // la mutazione con lo state orchestrator.
+    const capturedResults = {
+      result: null,
+      evaluation: null,
+      damageDealt: 0,
+      killOccurred: false,
+      parry: null,
+    };
+    const realResolveAction = (state, action, _catalog, _rng) => {
+      // Deep clone dello state orchestrator (shape {units: [{hp:{current,max}...}]})
+      const next = JSON.parse(JSON.stringify(state));
+      if (action.type === 'attack' && action.target_id) {
+        // performAttack muta session.units (legacy shape) in place
+        const res = performAttack(session, actor, target);
+        capturedResults.result = res.result;
+        capturedResults.evaluation = res.evaluation;
+        capturedResults.damageDealt = res.damageDealt;
+        capturedResults.killOccurred = res.killOccurred;
+        capturedResults.parry = res.parry;
+        // Sincronizza hp/ap da session.units → state orchestrator units
+        for (const uOrch of next.units) {
+          const uLegacy = session.units.find((u) => u.id === uOrch.id);
+          if (uLegacy) {
+            if (uOrch.hp) {
+              uOrch.hp.current = Number(uLegacy.hp || 0);
+              uOrch.hp.max = Number(uLegacy.max_hp || uLegacy.hp || 0);
+            }
+            if (uOrch.ap) {
+              uOrch.ap.current = Number(
+                uLegacy.ap_remaining != null ? uLegacy.ap_remaining : uLegacy.ap || 0,
+              );
+              uOrch.ap.max = Number(uLegacy.ap || 0);
+            }
+          }
+        }
+        const turnLogEntry = {
+          turn: Number(next.turn || 1),
+          action: { ...action },
+          damage_applied: Number(res.damageDealt || 0),
+          roll: res.result.roll,
+          mos: res.result.mos,
+          pt_gained: res.result.pt,
+          hit: res.result.hit,
+          die: res.result.die,
+        };
+        (next.log = next.log || []).push(turnLogEntry);
+        return { nextState: next, turnLogEntry };
+      }
+      // Fallback placeholder (non dovrebbe mai trigger per PR 4 scope)
+      return placeholderResolveAction(state, action, _catalog, _rng);
+    };
+
+    // Consuma AP legacy PRIMA di entrare nel round flow (parita' con
+    // il path legacy che decrementa ap_remaining inline).
+    actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+    const hpBefore = target.hp;
+    const targetPositionAtAttack = { ...target.position };
+
+    // Costruisci round state fresco da session.units + fai round cycle
+    // completo (declare → commit → resolve) per esercitare la phase
+    // machine anche in wrapper single-actor.
+    session.roundState = adaptSessionToRoundState(session);
+    let cur = session.roundState;
+    if (cur.round_phase !== PHASE_PLANNING) {
+      cur = roundOrchestrator.beginRound(cur).nextState;
+    }
+    cur = roundOrchestrator.declareIntent(cur, actor.id, roundAction).nextState;
+    cur = roundOrchestrator.commitRound(cur).nextState;
+    // Usiamo l'API pure resolveRound del modulo, non l'orchestrator
+    // factory (che e' bindato al placeholder). Richiediamo resolveRound
+    // esportato dal modulo.
+    const result = resolveRoundPure(cur, null, rng, realResolveAction);
+    session.roundState = result.nextState;
+
+    // Emetti event legacy come il path originale
+    const event = buildAttackEvent({
+      session,
+      actor,
+      target,
+      result: capturedResults.result,
+      evaluation: capturedResults.evaluation,
+      damageDealt: capturedResults.damageDealt,
+      hpBefore,
+      targetPositionAtAttack,
+    });
+    if (capturedResults.parry) event.parry = capturedResults.parry;
+    if (requestedCapPt > 0) {
+      event.cost = { cap_pt: requestedCapPt };
+      consumeCapPt(session, requestedCapPt);
+    }
+    await appendEvent(session, event);
+    if (capturedResults.killOccurred) {
+      await emitKillAndAssists(session, actor, target, event);
+    }
+
+    return {
+      roll: capturedResults.result.roll,
+      mos: capturedResults.result.mos,
+      result: capturedResults.result.hit ? 'hit' : 'miss',
+      pt: capturedResults.result.pt,
+      damage_dealt: capturedResults.damageDealt,
+      target_hp: target.hp,
+      trait_effects: capturedResults.evaluation.trait_effects,
+      cap_pt_used: session.cap_pt_used,
+      cap_pt_max: session.cap_pt_max,
+      actor_position: { ...actor.position },
+      target_position: targetPositionAtAttack,
+      parry: capturedResults.parry,
+      state: publicSessionView(session),
+      // Round flow metadata (only present when flag on)
+      round_wrapper: true,
+      round_phase: result.nextState.round_phase,
+    };
+  }
 
   router.post('/declare-intent', (req, res, next) => {
     try {
