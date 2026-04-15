@@ -1065,6 +1065,97 @@ def test_contested_parry_with_rage_bonus_on_attacker(catalog):
     assert roll["parry"]["executed"] is True
 
 
+def test_heal_action_restores_hp_on_target(catalog):
+    """Heal action rolla heal_dice e ripristina HP del target."""
+    state = _mini_state(catalog)
+    # Danneggia il target a meta'
+    target = state["units"][1]
+    hp_max = target["hp"]["max"]
+    target["hp"]["current"] = max(1, hp_max // 2)
+    hp_before = target["hp"]["current"]
+
+    heal_action = {
+        "id": "heal-1",
+        "type": "heal",
+        "actor_id": "atk",
+        "target_id": "tgt",
+        "ability_id": None,
+        "ap_cost": 1,
+        "channel": None,
+        "heal_dice": {"count": 1, "sides": 4, "modifier": 2},
+    }
+    # rng roll d4 = 3 (3/4 = 0.75)
+    rng = rng_from_sequence([3 / 4])
+    result = resolve_action(state, heal_action, catalog, rng)
+    entry = result["turn_log_entry"]
+    assert entry["healing_applied"] > 0
+    new_tgt = next(u for u in result["next_state"]["units"] if u["id"] == "tgt")
+    assert new_tgt["hp"]["current"] > hp_before
+    assert new_tgt["hp"]["current"] <= new_tgt["hp"]["max"]
+
+
+def test_heal_action_clamps_to_hp_max(catalog):
+    """Heal roll eccedente l'hp mancante viene clampato a max."""
+    state = _mini_state(catalog)
+    target = state["units"][1]
+    hp_max = target["hp"]["max"]
+    target["hp"]["current"] = hp_max - 1  # solo 1 hp mancante
+    heal_action = {
+        "id": "heal-big",
+        "type": "heal",
+        "actor_id": "atk",
+        "target_id": "tgt",
+        "ability_id": None,
+        "ap_cost": 1,
+        "channel": None,
+        "heal_dice": {"count": 1, "sides": 8, "modifier": 10},  # 11-18
+    }
+    rng = rng_from_sequence([7 / 8])  # roll ~8, + 10 = 18 total
+    result = resolve_action(state, heal_action, catalog, rng)
+    entry = result["turn_log_entry"]
+    assert entry["healing_applied"] == 1  # clamped da 1 missing
+    new_tgt = next(u for u in result["next_state"]["units"] if u["id"] == "tgt")
+    assert new_tgt["hp"]["current"] == hp_max
+
+
+def test_heal_action_noop_when_full_hp(catalog):
+    """Heal su target a full hp non cambia nulla (healing_applied = 0)."""
+    state = _mini_state(catalog)
+    target = state["units"][1]
+    target["hp"]["current"] = target["hp"]["max"]
+    heal_action = {
+        "id": "heal-full",
+        "type": "heal",
+        "actor_id": "atk",
+        "target_id": "tgt",
+        "ability_id": None,
+        "ap_cost": 1,
+        "channel": None,
+        "heal_dice": {"count": 1, "sides": 4, "modifier": 0},
+    }
+    rng = rng_from_sequence([3 / 4])
+    result = resolve_action(state, heal_action, catalog, rng)
+    assert result["turn_log_entry"]["healing_applied"] == 0
+
+
+def test_heal_action_requires_target_id(catalog):
+    """Heal senza target_id solleva ValueError."""
+    state = _mini_state(catalog)
+    heal_action = {
+        "id": "heal-bad",
+        "type": "heal",
+        "actor_id": "atk",
+        "target_id": None,
+        "ability_id": None,
+        "ap_cost": 1,
+        "channel": None,
+        "heal_dice": {"count": 1, "sides": 4, "modifier": 0},
+    }
+    rng = rng_from_sequence([0.5])
+    with pytest.raises(ValueError, match="target_id"):
+        resolve_action(state, heal_action, catalog, rng)
+
+
 def test_spinta_sbilanciato_decay_via_begin_turn(catalog):
     """Il sbilanciato applicato da spinta decade via begin_turn."""
     state = _mini_state(catalog)

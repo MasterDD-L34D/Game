@@ -116,11 +116,15 @@ VALID_PHASES = frozenset({PHASE_PLANNING, PHASE_COMMITTED, PHASE_RESOLVING, PHAS
 #:   moventi attivano la reaction. Semantica: "quando X si muove".
 #: - ``'ability_used'`` (post-ability): triggerato dopo che un'unita'
 #:   esegue un ``action.type == "ability"``. Context include ``ability_id``.
+#: - ``'healed'`` (post-heal): triggerato dopo che un'unita' esegue un
+#:   ``action.type == "heal"`` che risulta in ``healing_applied > 0``.
+#:   Il ``source_id`` e' chi ha curato (l'actor), il ``target_id`` del
+#:   match e' il ricevente (il healed target). Context include ``healing``
+#:   (quantita' applicata).
 #:
-#: Future estensioni: ``'healed'`` (richiede nuovo action type heal nel
-#: resolver), ``'status_applied'``.
+#: Future estensioni: ``'status_applied'``.
 SUPPORTED_REACTION_EVENTS = frozenset(
-    {"attacked", "damaged", "moved_adjacent", "ability_used"}
+    {"attacked", "damaged", "moved_adjacent", "ability_used", "healed"}
 )
 
 #: Tipi di payload per reaction.
@@ -164,6 +168,7 @@ SUPPORTED_PREDICATE_OPS = frozenset({"==", "!=", ">", ">=", "<", "<="})
 SUPPORTED_PREDICATE_FIELDS = frozenset(
     {
         "damage",  # damage_applied (solo evento 'damaged')
+        "healing",  # healing_applied (solo evento 'healed')
         "hp_pct",  # hp_current / hp_max del reaction owner
         "hp_current",
         "hp_max",
@@ -233,6 +238,7 @@ def _build_context_for_event(
     reaction_owner: Mapping[str, Any],
     source_unit: Optional[Mapping[str, Any]] = None,
     damage_applied: int = 0,
+    healing_applied: int = 0,
     action: Optional[Mapping[str, Any]] = None,
 ) -> Dict[str, Any]:
     """Costruisce il context dict per la valutazione dei predicati.
@@ -244,6 +250,7 @@ def _build_context_for_event(
 
     Campi context-specific:
     - ``damage`` solo per evento ``'damaged'``
+    - ``healing`` solo per evento ``'healed'``
     """
 
     hp = reaction_owner.get("hp") or {}
@@ -260,6 +267,8 @@ def _build_context_for_event(
         context["source_tier"] = int(source_unit.get("tier", 1))
     if event == "damaged":
         context["damage"] = int(damage_applied)
+    if event == "healed":
+        context["healing"] = int(healing_applied)
     return context
 
 
@@ -275,6 +284,7 @@ DEFAULT_ACTION_SPEED: Dict[str, int] = {
     "parry": 2,
     "attack": 0,
     "ability": -1,
+    "heal": -1,
     "move": -2,
 }
 
@@ -1258,6 +1268,67 @@ def resolve_round(
                                     "reaction_payload": dict(ab_payload),
                                     "status_target_unit_id": status_target_id,
                                     "ability_id": action.get("ability_id"),
+                                }
+                            )
+
+        # Post-heal reaction injection (evento 'healed'):
+        # Triggerato dopo action.type == 'heal' che risulta in
+        # healing_applied > 0. source = caster (uid), heal_target =
+        # receiver (action.target_id). Scan di tutte le reactions pending
+        # per match via source_any_of filter + predicates.
+        healing_applied = int(result["turn_log_entry"].get("healing_applied", 0))
+        heal_target_id = action.get("target_id")
+        if action_type == "heal" and healing_applied > 0 and heal_target_id:
+            for listener_uid, listener_entry in reactions_by_unit.items():
+                if listener_entry.get("_consumed"):
+                    continue
+                listener_unit = _find_unit_by_id(listener_uid)
+                if listener_unit is None:
+                    continue
+                ctx_healed = _build_context_for_event(
+                    event="healed",
+                    reaction_owner=listener_unit,
+                    source_unit=_find_unit_by_id(str(uid)),
+                    healing_applied=healing_applied,
+                )
+                matched_heal = _match_reaction_for_event(
+                    reactions_by_unit,
+                    "healed",
+                    listener_uid,
+                    str(uid),
+                    context=ctx_healed,
+                )
+                if matched_heal is not None:
+                    heal_payload = matched_heal.get("reaction_payload", {})
+                    if heal_payload.get("type") == "trigger_status":
+                        status_target_side = str(heal_payload.get("target", "attacker"))
+                        status_target_id = (
+                            str(uid) if status_target_side == "attacker" else listener_uid
+                        )
+                        status_target_unit = _find_unit_by_id(status_target_id)
+                        if status_target_unit is not None:
+                            apply_status(
+                                status_target_unit,
+                                status_id=str(heal_payload.get("status_id", "bleeding")),
+                                duration=int(heal_payload.get("duration", 1)),
+                                intensity=int(heal_payload.get("intensity", 1)),
+                                source_unit_id=listener_uid,
+                                source_action_id="reaction_healed",
+                            )
+                            matched_heal["_consumed"] = True
+                            _set_cooldown_on_unit(
+                                listener_uid,
+                                matched_heal.get("reaction_trigger", {}),
+                            )
+                            reactions_triggered.append(
+                                {
+                                    "target_unit_id": listener_uid,
+                                    "attacker_unit_id": str(uid),
+                                    "event": "healed",
+                                    "reaction_payload": dict(heal_payload),
+                                    "status_target_unit_id": status_target_id,
+                                    "heal_target_unit_id": str(heal_target_id),
+                                    "healing_applied": healing_applied,
                                 }
                             )
 

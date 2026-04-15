@@ -46,6 +46,8 @@ Pipeline per `action.type == "attack"`:
 15. Calcolo `pt_gained` attaccante (`compute_pt_gained`).
 16. Produzione `turn_log_entry` con `action`, `roll`, `damage_applied`, `statuses_applied`, `statuses_expired`.
 
+Per `action.type == "heal"`: pipeline dedicata. Richiede `target_id`, rolla `heal_dice` (shape `{count, sides, modifier}`), applica `healing = min(roll, hp_max - hp_current)` clampato a 0, aggiorna `target.hp.current`, registra `turn_log_entry.healing_applied`. Nessun d20, nessun MoS, nessun canale di resistenza. Panic NON blocca heal base. Self-heal consentito (`target_id == actor_id`). Consuma AP come le altre azioni.
+
 Per `action.type` in `{defend, parry, ability, move}` (`NOOP_ACTION_TYPES`): consumo AP + turn_log_entry senza `roll`. La logica reale di queste azioni è deferita a iterazioni future (tranne `parry` che è implementata come **parry response** opt-in in attack).
 
 **Raises**: `ValueError` se `action.target_id` manca su un attack, se `pt_spend.type` non è in `SUPPORTED_PT_SPEND_TYPES`, se `amount` non è positivo, se PT insufficienti.
@@ -173,31 +175,31 @@ Rolla `count` dadi a `sides` facce + `modifier`. `dice` è il dict `{count, side
 
 ## Costanti esportate
 
-| Nome | Valore | Significato |
-|---|---|---|
-| `ATTACK_CD_BASE` | 10 | Base d20 prima di `tier` e `defense_mod` |
-| `CRIT_PT_THRESHOLD` | 15 | Nat ≥ 15 → +1 PT |
-| `NATURAL_MAX` | 20 | Nat 20 → +2 PT, auto-hit, crit parry |
-| `NATURAL_FUMBLE` | 1 | Nat 1 → auto-miss |
-| `MOS_PER_STEP` | 5 | Ogni +5 MoS = +1 step danno |
-| `NOOP_ACTION_TYPES` | `frozenset({"defend","parry","ability","move"})` | Action che consumano AP ma non hanno logica di risoluzione in questa iterazione |
-| `PARRY_CD` | 12 | Fallback CD per parry quando `attack_total` non fornito |
-| `PARRY_PT_BASE` | 1 | PT difensivi su parry riuscita normale |
-| `PARRY_PT_CRIT` | 2 | PT difensivi su parry riuscita con nat 20 |
-| `SUPPORTED_PT_SPEND_TYPES` | `frozenset({"perforazione","spinta"})` | Tipologie di spesa PT supportate (le altre 2 citate nel doc 10-SISTEMA_TATTICO sono deferred) |
-| `PERFORAZIONE_ARMOR_REDUCTION` | 2 | Armor -2 applicata da perforazione sul target |
-| `STRESS_BREAKPOINT_RAGE` | 0.5 | Soglia stress per auto-applicare rage |
-| `STRESS_BREAKPOINT_PANIC` | 0.75 | Soglia stress per auto-applicare panic |
-| `RAGE_DEFAULT_INTENSITY` | 1 | Intensity di default rage da breakpoint |
-| `RAGE_DEFAULT_DURATION` | 3 | Turni di default rage da breakpoint |
-| `PANIC_DEFAULT_INTENSITY` | 1 | Intensity di default panic da breakpoint |
-| `PANIC_DEFAULT_DURATION` | 2 | Turni di default panic da breakpoint |
-| `DISORIENT_ATTACK_MALUS_PER_INTENSITY` | 2 | Malus attack_mod per intensity di disorient |
-| `FRACTURE_STEP_REDUCTION_PER_INTENSITY` | 1 | Riduzione step_count per intensity di fracture |
-| `RAGE_ATTACK_BONUS_PER_INTENSITY` | 1 | Bonus attack_mod per intensity di rage |
-| `RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY` | 1 | Bonus damage_step per intensity di rage |
-| `RAGE_DEFENSE_MALUS_PER_INTENSITY` | 1 | Malus defense_mod per intensity di rage (furia cieca) |
-| `PANIC_ATTACK_MALUS_PER_INTENSITY` | 2 | Malus attack_mod per intensity di panic |
+| Nome                                    | Valore                                           | Significato                                                                                   |
+| --------------------------------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| `ATTACK_CD_BASE`                        | 10                                               | Base d20 prima di `tier` e `defense_mod`                                                      |
+| `CRIT_PT_THRESHOLD`                     | 15                                               | Nat ≥ 15 → +1 PT                                                                              |
+| `NATURAL_MAX`                           | 20                                               | Nat 20 → +2 PT, auto-hit, crit parry                                                          |
+| `NATURAL_FUMBLE`                        | 1                                                | Nat 1 → auto-miss                                                                             |
+| `MOS_PER_STEP`                          | 5                                                | Ogni +5 MoS = +1 step danno                                                                   |
+| `NOOP_ACTION_TYPES`                     | `frozenset({"defend","parry","ability","move"})` | Action che consumano AP ma non hanno logica di risoluzione in questa iterazione               |
+| `PARRY_CD`                              | 12                                               | Fallback CD per parry quando `attack_total` non fornito                                       |
+| `PARRY_PT_BASE`                         | 1                                                | PT difensivi su parry riuscita normale                                                        |
+| `PARRY_PT_CRIT`                         | 2                                                | PT difensivi su parry riuscita con nat 20                                                     |
+| `SUPPORTED_PT_SPEND_TYPES`              | `frozenset({"perforazione","spinta"})`           | Tipologie di spesa PT supportate (le altre 2 citate nel doc 10-SISTEMA_TATTICO sono deferred) |
+| `PERFORAZIONE_ARMOR_REDUCTION`          | 2                                                | Armor -2 applicata da perforazione sul target                                                 |
+| `STRESS_BREAKPOINT_RAGE`                | 0.5                                              | Soglia stress per auto-applicare rage                                                         |
+| `STRESS_BREAKPOINT_PANIC`               | 0.75                                             | Soglia stress per auto-applicare panic                                                        |
+| `RAGE_DEFAULT_INTENSITY`                | 1                                                | Intensity di default rage da breakpoint                                                       |
+| `RAGE_DEFAULT_DURATION`                 | 3                                                | Turni di default rage da breakpoint                                                           |
+| `PANIC_DEFAULT_INTENSITY`               | 1                                                | Intensity di default panic da breakpoint                                                      |
+| `PANIC_DEFAULT_DURATION`                | 2                                                | Turni di default panic da breakpoint                                                          |
+| `DISORIENT_ATTACK_MALUS_PER_INTENSITY`  | 2                                                | Malus attack_mod per intensity di disorient                                                   |
+| `FRACTURE_STEP_REDUCTION_PER_INTENSITY` | 1                                                | Riduzione step_count per intensity di fracture                                                |
+| `RAGE_ATTACK_BONUS_PER_INTENSITY`       | 1                                                | Bonus attack_mod per intensity di rage                                                        |
+| `RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY`  | 1                                                | Bonus damage_step per intensity di rage                                                       |
+| `RAGE_DEFENSE_MALUS_PER_INTENSITY`      | 1                                                | Malus defense_mod per intensity di rage (furia cieca)                                         |
+| `PANIC_ATTACK_MALUS_PER_INTENSITY`      | 2                                                | Malus attack_mod per intensity di panic                                                       |
 
 ## Contract di purezza
 

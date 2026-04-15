@@ -744,6 +744,40 @@ def resolve_action(
         log_entry["roll"] = roll_result
         log_entry["damage_applied"] = int(damage_applied)
         log_entry["statuses_applied"] = statuses_applied
+    elif action_type == "heal":
+        # --- Heal action ---------------------------------------------------
+        # Ripristina HP a un target (self, alleato, o anche hostile se il
+        # caller decide cosi'). Pipeline minimale:
+        # 1. Richiede target_id; self-heal usa target_id == actor_id
+        # 2. Rolla heal_dice (shape identica a damage_dice): {count, sides, modifier}
+        # 3. Calcola healing effettivo = min(roll, hp_max - hp_current) clamp a 0
+        # 4. Aggiorna target.hp.current
+        # 5. Log turn_log_entry.healing_applied, no roll d20, no MoS, no PT
+        #
+        # Non consuma stress, non triggera status, non interagisce con
+        # armor/resistances (canale "healing" semanticamente diverso dal
+        # damage channel). Panic NON blocca heal base (differenza dal PT
+        # spend): il player puo' ripristinare HP anche in panic, come
+        # azione riflessiva di base.
+        target_id = action.get("target_id")
+        if not target_id:
+            raise ValueError("heal action richiede target_id")
+        target = _find_unit(next_state, str(target_id))
+        heal_dice = action.get("heal_dice") or {"count": 1, "sides": 4, "modifier": 0}
+        heal_roll = roll_damage_dice(heal_dice, rng)
+        hp_target = target.get("hp") or {}
+        hp_current = int(hp_target.get("current", 0))
+        hp_max = int(hp_target.get("max", hp_current))
+        missing = max(0, hp_max - hp_current)
+        healing_applied = max(0, min(heal_roll, missing))
+        hp_target["current"] = hp_current + healing_applied
+        target["hp"] = hp_target
+        log_entry["healing_applied"] = int(healing_applied)
+        log_entry["roll"] = {
+            "natural": None,
+            "heal_roll": int(heal_roll),
+            "heal_dice": dict(heal_dice),
+        }
     elif action_type in NOOP_ACTION_TYPES:
         # AP gia' consumato sopra. Nessun roll, nessun update stato oltre.
         pass
