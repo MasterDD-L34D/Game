@@ -187,6 +187,49 @@
 
   .token-job { font-size: 8px; opacity: .8; }
 
+  /* SPRINT_014: badge stato emotivo sovrapposto al token.
+     Si posiziona in basso a destra. Emoji + durata in turns. */
+  .status-badge {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    font-size: 14px;
+    line-height: 1;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,.8));
+    pointer-events: none;
+    animation: pulse-status 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse-status {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+  }
+  /* Glow intorno al token quando c'e' uno stato attivo */
+  .cell.has-status-panic   { box-shadow: inset 0 0 12px rgba(255, 204,  79, .35); }
+  .cell.has-status-rage    { box-shadow: inset 0 0 12px rgba(226,  75,  74, .50); }
+  .cell.has-status-stunned { box-shadow: inset 0 0 12px rgba(192, 132, 252, .40); }
+
+  /* Riga stati attivi nel pannello unit-card */
+  .status-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,.2);
+  }
+  .status-chip.panic   { border-color: #ffcc4f; color: #ffcc4f; }
+  .status-chip.rage    { border-color: var(--p2); color: var(--p2-light); }
+  .status-chip.stunned { border-color: #c084fc; color: #c084fc; }
+  .status-chip-dur { opacity: .75; font-weight: 700; }
+
   /* ── PANNELLO LATERALE ── */
   aside {
     flex: 1;
@@ -351,6 +394,7 @@
         <div class="stat-row"><span>AP</span><span id="p1-ap">—</span></div>
         <div class="stat-row"><span>Mod</span><span id="p1-mod">—</span></div>
         <div class="stat-row"><span>Trait</span><span id="p1-traits">—</span></div>
+        <div class="status-row" id="p1-status"></div>
       </div>
     </div>
 
@@ -366,6 +410,7 @@
         <div class="stat-row"><span>HP</span><span id="s-hp">—</span></div>
         <div class="stat-row"><span>Mod</span><span id="s-mod">—</span></div>
         <div class="stat-row"><span>Trait</span><span id="s-traits">—</span></div>
+        <div class="status-row" id="s-status"></div>
       </div>
     </div>
 
@@ -462,6 +507,20 @@ function render() {
   }
 }
 
+// SPRINT_014: stato → emoji. Priorita' visiva: stunned > rage > panic.
+const STATUS_EMOJI = { stunned: '💫', rage: '😡', panic: '😱' };
+const STATUS_PRIORITY = ['stunned', 'rage', 'panic'];
+
+function activeStatuses(unit) {
+  if (!unit || !unit.status) return [];
+  const out = [];
+  for (const key of STATUS_PRIORITY) {
+    const turns = Number(unit.status[key]) || 0;
+    if (turns > 0) out.push({ key, turns });
+  }
+  return out;
+}
+
 function renderGrid() {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
@@ -481,11 +540,19 @@ function renderGrid() {
         const cls  = isP1 ? 'p1' : 'sistema';
         const hp   = u.hp ?? 0;
         const dead = hp <= 0;
+        const statuses = activeStatuses(u);
+        // SPRINT_014: glow della cella per il primo stato attivo (priorita')
+        if (!dead && statuses.length) {
+          cell.classList.add(`has-status-${statuses[0].key}`);
+        }
+        const badgeHtml = (!dead && statuses.length)
+          ? `<span class="status-badge" title="${statuses.map(s=>s.key+' '+s.turns).join(', ')}">${STATUS_EMOJI[statuses[0].key]}</span>`
+          : '';
         cell.innerHTML = `
           <div class="token ${cls} ${selected === u.id ? 'selected' : ''} ${dead ? 'dead' : ''}">
             <span>${isP1 ? 'P1' : 'SIS'}</span>
             <span class="token-job">${u.job?.slice(0,4) ?? ''}</span>
-          </div>`;
+          </div>${badgeHtml}`;
       }
 
       // highlight celle raggiungibili / attaccabili (solo se AP disponibili).
@@ -519,6 +586,17 @@ function renderGrid() {
   }
 }
 
+// SPRINT_014: renderizza la riga di chip stati emotivi attivi nel pannello.
+function renderStatusRow(targetId, unit) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const statuses = activeStatuses(unit);
+  if (!statuses.length) { el.innerHTML = ''; return; }
+  el.innerHTML = statuses.map(s =>
+    `<span class="status-chip ${s.key}">${STATUS_EMOJI[s.key]} ${s.key} <span class="status-chip-dur">${s.turns}t</span></span>`
+  ).join('');
+}
+
 function renderStats() {
   const units  = state.units || [];
   const p1     = units.find(u => u.id === 'unit_1') ?? {};
@@ -530,12 +608,14 @@ function renderStats() {
   setText('p1-mod',    `+${p1.mod ?? 0}`);
   setText('p1-traits', (p1.traits ?? []).join(', ') || '—');
   setBar('p1-hp-bar',  p1.hp, maxHp[p1.id] ?? p1.hp);
+  renderStatusRow('p1-status', p1);
 
   setText('s-name',    `${sis.species ?? '?'} · ${sis.job ?? '?'}`);
   setText('s-hp',      `${sis.hp ?? 0} / ${maxHp[sis.id] ?? sis.hp ?? 10}`);
   setText('s-mod',     `+${sis.mod ?? 0}`);
   setText('s-traits',  (sis.traits ?? []).join(', ') || '—');
   setBar('s-hp-bar',   sis.hp, maxHp[sis.id] ?? sis.hp);
+  renderStatusRow('s-status', sis);
 }
 
 /* ── CLICK CELLA ── */
@@ -566,13 +646,53 @@ async function onCellClick(x, y, unit) {
   }
 }
 
+/* SPRINT_014: snapshot stati attivi pre-azione per diff e log "entered/exited" */
+function snapshotStatuses(s) {
+  const out = {};
+  for (const u of (s?.units || [])) {
+    out[u.id] = {};
+    if (u.status) {
+      for (const k of ['panic','rage','stunned','focused','confused']) {
+        out[u.id][k] = Number(u.status[k]) || 0;
+      }
+    }
+  }
+  return out;
+}
+const STATUS_LABEL = {
+  panic:   'panico',
+  rage:    'rabbia',
+  stunned: 'stordimento',
+  focused: 'concentrazione',
+  confused:'confusione',
+};
+function logStatusDiff(pre, post) {
+  for (const [unitId, cur] of Object.entries(post)) {
+    const prev = pre[unitId] || {};
+    for (const [k, v] of Object.entries(cur)) {
+      const before = prev[k] || 0;
+      const after  = v || 0;
+      if (before === 0 && after > 0) {
+        // stato appena attivato (sia su P1 che SIS)
+        const who = unitId === 'unit_1' ? 'P1' : 'SIS';
+        addLog('info', `${STATUS_EMOJI[k] || '✦'} ${who} entra in ${STATUS_LABEL[k] || k} (${after}t)`);
+      } else if (before > 0 && after === 0) {
+        const who = unitId === 'unit_1' ? 'P1' : 'SIS';
+        addLog('info', `${who} esce dallo ${STATUS_LABEL[k] || k}`);
+      }
+    }
+  }
+}
+
 /* ── AZIONI ── */
 async function doAction(body) {
   setHint('…');
+  const preStatus = snapshotStatuses(state);
   try {
     const res = await api('/api/session/action', body);
     state = res.state ?? state;
     logAction(body.action_type, res, body);
+    logStatusDiff(preStatus, snapshotStatuses(state));
     checkGameOver();
     selected = null;
     render();
@@ -582,11 +702,13 @@ async function doAction(body) {
 async function endTurn() {
   document.getElementById('btn-end-turn').disabled = true;
   setHint('Fine turno — il Sistema agisce…');
+  const preStatus = snapshotStatuses(state);
   try {
     const res = await api('/api/session/turn/end', {});
     state = res.state ?? state;
     const iaList = res.ia_actions ?? (res.ia_action ? [res.ia_action] : []);
     for (const ia of iaList) logIaAction(ia);
+    logStatusDiff(preStatus, snapshotStatuses(state));
     checkGameOver();
     selected = null;
     render();
