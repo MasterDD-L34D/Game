@@ -30,6 +30,10 @@ const DEFAULT_ATTACK_RANGE = 2;
 const DEFAULT_MAX_HP_FALLBACK = 10;
 // Soglia di retreat REGOLA_002 (HP ratio).
 const LOW_HP_RETREAT_THRESHOLD = 0.3;
+// SPRINT_012 (issue #2): target range "da evitare" per REGOLA_003 kite.
+// La regola e' che il SIS con range > target's range dovrebbe mantenersi
+// a >= target.attack_range + KITE_BUFFER dal nemico.
+const KITE_BUFFER = 1;
 
 function manhattanDistance(a, b) {
   if (!a || !b) return 0;
@@ -63,12 +67,43 @@ function selectAiPolicy(actor, target) {
   const maxHp =
     Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : DEFAULT_MAX_HP_FALLBACK;
   const hpRatio = actor.hp / maxHp;
+
+  // REGOLA_002: autoconservazione prima di tutto
   if (hpRatio <= LOW_HP_RETREAT_THRESHOLD) {
     return { rule: 'REGOLA_002', intent: 'retreat' };
   }
+
   const distance = manhattanDistance(actor.position, target.position);
-  const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
-  if (distance <= range) {
+  const actorRange = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+  const targetRange = target.attack_range ?? DEFAULT_ATTACK_RANGE;
+
+  // SPRINT_012 (issue #2): REGOLA_003 kite opportunistico.
+  // Se l'actor ha range superiore al target, preferisce colpire da fuori
+  // dal range di risposta del nemico:
+  //   - target_range + KITE_BUFFER <= distance <= actor_range → attacco "safe"
+  //     intent 'attack' con rule REGOLA_003 (non consuma la 001)
+  //   - distance < target_range + KITE_BUFFER → l'actor e' dentro il range
+  //     del nemico, intent 'retreat' con rule REGOLA_003 (kite away to safe)
+  //   - distance > actor_range → intent 'approach' per arrivare in safe zone
+  //
+  // Condizioni: actor.attack_range deve essere strettamente maggiore di
+  // target.attack_range, altrimenti il kite non e' meccanicamente possibile
+  // (sarebbe un attacco reciproco) e la policy cade su REGOLA_001.
+  if (actorRange > targetRange) {
+    const safeMinDist = targetRange + KITE_BUFFER;
+    if (distance >= safeMinDist && distance <= actorRange) {
+      return { rule: 'REGOLA_003', intent: 'attack' };
+    }
+    if (distance < safeMinDist) {
+      // dentro range del nemico → scappa per tornare in zona safe
+      return { rule: 'REGOLA_003', intent: 'retreat' };
+    }
+    // distance > actorRange → troppo lontano, avvicinati
+    return { rule: 'REGOLA_003', intent: 'approach' };
+  }
+
+  // REGOLA_001: default — range <= target range (o uguale), fight simmetrico
+  if (distance <= actorRange) {
     return { rule: 'REGOLA_001', intent: 'attack' };
   }
   return { rule: 'REGOLA_001', intent: 'approach' };
