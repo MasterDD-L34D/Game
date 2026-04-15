@@ -156,7 +156,53 @@ Una volta hydratato lo state, ogni turno di combattimento è una sequenza di `re
 - Chiamare `begin_turn(state, unit_id)` quando passa a una nuova unità (reset AP, decay status, bleeding tick).
 - Verificare la condizione di fine combat (`is_combat_over`).
 
-## 3. Esempio worked: attacco con parry response e stress breakpoint
+> **Nota (ADR-2026-04-15)**: il caller consigliato per i nuovi consumer è `services/rules/round_orchestrator.py`, che implementa il loop shared-planning → commit → ordered-resolution sopra `resolve_action`. Il resolver atomico resta invariato. Vedi [round-loop.md](round-loop.md) per il modello completo.
+
+## 3. Round loop: planning → commit → ordered resolution
+
+Il modulo `services/rules/round_orchestrator.py` (aggiunto in ADR-2026-04-15) estende il data flow sopra introducendo un round orchestrator che batche le intenzioni di tutte le unità e le risolve in ordine di reaction speed. Il resolver atomico (§2) resta il motore di singole intenzioni.
+
+```
+ CombatState                                  Caller (UI / test / session)
+ +-------------+
+ | turn, units |                              1. begin_round(state)
+ | initiative  |  <-------------------------     refresh AP/reactions
+ | log         |                                 decay statuses + bleeding
+ +------+------+                                 round_phase = "planning"
+        |                                        pending_intents = []
+        v
+ +------+------+                              2. planning (preview-only)
+ | round_phase |                                 for each intent:
+ |  planning   |  <-------------------------     declare_intent(state, uid, action)
+ | pending_    |                                 * NO AP consumed
+ | intents[]   |                                 * NO HP changes
+ +------+------+                                 * latest-wins per unit
+        |
+        v
+ +------+------+                              3. commit_round(state)
+ | round_phase |  <-------------------------     round_phase = "committed"
+ |  committed  |                                 intents locked
+ +------+------+
+        |
+        |                                     4. resolve_round(state, catalog, rng)
+        v
+ +------+------+                                 build_resolution_queue
+ | queue       |                                   sort by (-priority, id)
+ |  [a,b,c...] |                                 for each entry:
+ +------+------+                                   - skip actor_dead
+        |                                          - skip target_dead (attack/parry)
+        |                                          - resolve_action(state, action)
+        v                                            thread state forward
+ +------+------+                                 round_phase = "resolved"
+ | round_phase |                                 pending_intents = []
+ |  resolved   |                                 log extended
+ | log[+N]     |  <-----------------------+
+ +-------------+
+```
+
+**Determinism contract**: stesso `state` + stessi `intents` + stesso `rng` + stesso `catalog` → stesso `next_state`. 29 test unitari in `tests/test_round_orchestrator.py` coprono phase transitions, preview-only planning, queue ordering (priority + tiebreak), skip actor/target dead, e end-to-end determinism.
+
+## 4. Esempio worked: attacco con parry response e stress breakpoint
 
 Scenario: party-02 (umano con `artigli_sette_vie`) attacca h-03 (drone con difesa aumentata). Il drone ha `parry_response` attiva. Lo stress del drone sale sopra 0.5 durante l'attack.
 
@@ -168,28 +214,45 @@ Scenario: party-02 (umano con `artigli_sette_vie`) attacca h-03 (drone con difes
     "turn": 4,
     "units": [
       {
-        "id": "party-02", "side": "party", "tier": 2,
-        "hp": {"current": 28, "max": 35}, "ap": {"current": 2, "max": 2},
-        "armor": 3, "initiative": 12, "stress": 0.1,
-        "pt": 2, "reactions": {"current": 1, "max": 1},
+        "id": "party-02",
+        "side": "party",
+        "tier": 2,
+        "hp": { "current": 28, "max": 35 },
+        "ap": { "current": 2, "max": 2 },
+        "armor": 3,
+        "initiative": 12,
+        "stress": 0.1,
+        "pt": 2,
+        "reactions": { "current": 1, "max": 1 },
         "trait_ids": ["artigli_sette_vie"],
-        "statuses": [], "resistances": []
+        "statuses": [],
+        "resistances": []
       },
       {
-        "id": "h-03", "side": "hostile", "tier": 3,
-        "hp": {"current": 22, "max": 60}, "ap": {"current": 2, "max": 2},
-        "armor": 4, "initiative": 10, "stress": 0.45,
-        "pt": 1, "reactions": {"current": 1, "max": 1},
+        "id": "h-03",
+        "side": "hostile",
+        "tier": 3,
+        "hp": { "current": 22, "max": 60 },
+        "ap": { "current": 2, "max": 2 },
+        "armor": 4,
+        "initiative": 10,
+        "stress": 0.45,
+        "pt": 1,
+        "reactions": { "current": 1, "max": 1 },
         "trait_ids": ["criostasi_adattiva"],
-        "statuses": [], "resistances": [{"channel": "gelo", "modifier_pct": 15}]
+        "statuses": [],
+        "resistances": [{ "channel": "gelo", "modifier_pct": 15 }]
       }
     ]
   },
   "action": {
-    "id": "act-007", "type": "attack", "actor_id": "party-02",
-    "target_id": "h-03", "ap_cost": 1,
-    "damage_dice": {"count": 1, "sides": 8, "modifier": 2},
-    "parry_response": {"attempt": true, "parry_bonus": 1}
+    "id": "act-007",
+    "type": "attack",
+    "actor_id": "party-02",
+    "target_id": "h-03",
+    "ap_cost": 1,
+    "damage_dice": { "count": 1, "sides": 8, "modifier": 2 },
+    "parry_response": { "attempt": true, "parry_bonus": 1 }
   }
 }
 ```
@@ -235,7 +298,7 @@ Scenario: party-02 (umano con `artigli_sette_vie`) attacca h-03 (drone con difes
 }
 ```
 
-## 4. Stacking degli status effect
+## 5. Stacking degli status effect
 
 Gli status applicati da diverse fonti usano una semantica di **refresh con max**, non di accumulo.
 
@@ -258,17 +321,17 @@ Gli status applicati da diverse fonti usano una semantica di **refresh con max**
 
 **Effetti cumulativi dei 5 status** (vedi `services/rules/resolver.py` per le formule esatte):
 
-| Status | Effetto | Applicato in |
-|---|---|---|
-| bleeding | `-intensity` HP all'inizio del turno del target | `begin_turn()` |
-| fracture | `-intensity` step_count degli attack del portatore | `resolve_action()` pipeline step 7 |
-| disorient | `-intensity * 2` attack_mod del portatore | pipeline step 5 |
-| rage | `+intensity * 1` attack_mod, `+intensity * 1` damage_step del portatore, `-intensity * 1` defense_mod (furia cieca) | pipeline step 5 / defense aggregation |
-| panic | `-intensity * 2` attack_mod, **blocca PT spend** | pipeline step 3 e step 5 |
+| Status    | Effetto                                                                                                             | Applicato in                          |
+| --------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| bleeding  | `-intensity` HP all'inizio del turno del target                                                                     | `begin_turn()`                        |
+| fracture  | `-intensity` step_count degli attack del portatore                                                                  | `resolve_action()` pipeline step 7    |
+| disorient | `-intensity * 2` attack_mod del portatore                                                                           | pipeline step 5                       |
+| rage      | `+intensity * 1` attack_mod, `+intensity * 1` damage_step del portatore, `-intensity * 1` defense_mod (furia cieca) | pipeline step 5 / defense aggregation |
+| panic     | `-intensity * 2` attack_mod, **blocca PT spend**                                                                    | pipeline step 3 e step 5              |
 
 `rage` e `panic` sono **auto-triggered** da `check_stress_breakpoints` quando lo stress attraversa 0.5 o 0.75 rispettivamente (le fonti di stress sono hazard ambientali / forme attivate — non dagli attack base).
 
-## 5. Turn loop completo
+## 6. Turn loop completo
 
 Il loop di un combat completo, tipicamente orchestrato da `demo_cli.run_combat()`:
 
@@ -303,6 +366,6 @@ Il loop di un combat completo, tipicamente orchestrato da `demo_cli.run_combat()
 
 - Schema completo dei payload: `packages/contracts/schemas/combat.schema.json`
 - Signature e semantica delle funzioni citate: [resolver-api.md](resolver-api.md)
-- Come popolare `trait_mechanics.yaml`: [trait-mechanics-guide.md](trait-mechanics-guide.md) *(PR B2)*
-- Status effects in dettaglio: [status-effects-guide.md](status-effects-guide.md) *(PR B2)*
-- Protocollo worker Node ↔ Python: [worker-bridge.md](worker-bridge.md) *(PR B3)*
+- Come popolare `trait_mechanics.yaml`: [trait-mechanics-guide.md](trait-mechanics-guide.md) _(PR B2)_
+- Status effects in dettaglio: [status-effects-guide.md](status-effects-guide.md) _(PR B2)_
+- Protocollo worker Node ↔ Python: [worker-bridge.md](worker-bridge.md) _(PR B3)_

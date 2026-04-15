@@ -245,6 +245,19 @@
       "track": "authored"
     },
     {
+      "path": "docs/adr/ADR-2026-04-15-round-based-combat-model.md",
+      "title": "ADR-2026-04-15: Round-based combat model",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-15",
+      "source_of_truth": true,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-XXX-refactor-cli.md",
       "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
       "doc_status": "active",
@@ -310,6 +323,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/architecture/ai-policy-engine.md",
+      "title": "Architettura AI Policy Engine (Evo-Tactics Playtest)",
+      "doc_status": "active",
+      "doc_owner": "flow-team",
+      "workstream": "flow",
+      "last_verified": "2026-04-16",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": true,
+      "track": "new"
+    },
+    {
       "path": "docs/architecture/evo_tactics_pack_mongodb.md",
       "title": "Evo Tactics Pack MongoDB (superseded)",
       "doc_status": "superseded",
@@ -334,19 +360,6 @@
       "review_cycle_days": 14,
       "primary": false,
       "track": "migrated"
-    },
-    {
-      "path": "docs/architecture/ai-policy-engine.md",
-      "title": "Architettura AI Policy Engine (Evo-Tactics Playtest)",
-      "doc_status": "active",
-      "doc_owner": "flow-team",
-      "workstream": "flow",
-      "last_verified": "2026-04-16",
-      "source_of_truth": true,
-      "language": "it",
-      "review_cycle_days": 30,
-      "primary": true,
-      "track": "new"
     },
     {
       "path": "docs/architecture/tri-sorgente/overview.md",
@@ -1590,6 +1603,19 @@
       "doc_owner": "combat-team",
       "workstream": "combat",
       "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/combat/round-loop.md",
+      "title": "Combat Round Loop",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "last_verified": "2026-04-15",
       "source_of_truth": false,
       "language": "it-en",
       "review_cycle_days": 14,
@@ -5146,6 +5172,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/qa/nebula-webapp-checklist.md",
+      "title": "Checklist QA Nebula Webapp",
+      "doc_status": "draft",
+      "doc_owner": "ops-qa-team",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-14",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/qa/playbooks/eventi.md",
       "title": "Playbook QA - Eventi Live Orchestration",
       "doc_status": "draft",
@@ -5206,19 +5245,6 @@
       "last_verified": "2026-04-14",
       "source_of_truth": false,
       "language": "it-en",
-      "review_cycle_days": 14,
-      "primary": false,
-      "track": "migrated"
-    },
-    {
-      "path": "docs/qa/nebula-webapp-checklist.md",
-      "title": "Checklist QA Nebula Webapp",
-      "doc_status": "draft",
-      "doc_owner": "ops-qa-team",
-      "workstream": "ops-qa",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
-      "language": "it",
       "review_cycle_days": 14,
       "primary": false,
       "track": "migrated"
