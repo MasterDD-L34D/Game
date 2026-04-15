@@ -456,13 +456,35 @@ function createSessionRouter(options = {}) {
           pt: result.pt,
           damage_dealt: damageDealt,
           trait_effects: evaluation.trait_effects,
+          actor_position: { ...actor.position },
+          target_position: targetPositionAtAttack,
         });
         if (killOccurred) break;
         continue;
       }
 
       const positionFrom = { ...actor.position };
-      actor.position = stepTowards(actor.position, target.position);
+      const nextPos = stepTowards(actor.position, target.position);
+      // SPRINT_005 fase 1: se lo step porterebbe su una cella occupata
+      // (es. il giocatore stesso), saltiamo il move per evitare overlap
+      // e consumiamo comunque l'AP cosi' il loop SIS termina.
+      const blocker = session.units.find(
+        (u) =>
+          u.id !== actor.id && u.hp > 0 && u.position.x === nextPos.x && u.position.y === nextPos.y,
+      );
+      if (blocker) {
+        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+        actions.push({
+          actor: 'sistema',
+          unit_id: actor.id,
+          type: 'skip',
+          reason: `blocked by ${blocker.id} at (${nextPos.x},${nextPos.y})`,
+          position_from: positionFrom,
+          position_to: positionFrom,
+        });
+        continue;
+      }
+      actor.position = nextPos;
       const event = buildMoveEvent({ session, actor, positionFrom });
       event.actor_id = 'sistema';
       event.ia_rule = 'REGOLA_001';
@@ -607,6 +629,8 @@ function createSessionRouter(options = {}) {
           trait_effects: evaluation.trait_effects,
           cap_pt_used: session.cap_pt_used,
           cap_pt_max: session.cap_pt_max,
+          actor_position: { ...actor.position },
+          target_position: { ...targetPositionAtAttack },
           state: publicSessionView(session),
         });
       }
@@ -638,6 +662,17 @@ function createSessionRouter(options = {}) {
             .status(400)
             .json({ error: `posizione fuori range movimento (distanza ${dist} > ap ${actor.ap})` });
         }
+        // SPRINT_005 fase 1: niente overlap. Una cella occupata da un'altra
+        // unita' viva blocca il movimento (rifiuto 400, niente consumo AP).
+        const blocker = session.units.find(
+          (u) =>
+            u.id !== actor.id && u.hp > 0 && u.position.x === dest.x && u.position.y === dest.y,
+        );
+        if (blocker) {
+          return res
+            .status(400)
+            .json({ error: `casella (${dest.x},${dest.y}) occupata da ${blocker.id}` });
+        }
         actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
@@ -653,6 +688,7 @@ function createSessionRouter(options = {}) {
           ok: true,
           actor_id: actor.id,
           position: actor.position,
+          position_from: positionFrom,
           cap_pt_used: session.cap_pt_used,
           cap_pt_max: session.cap_pt_max,
           state: publicSessionView(session),

@@ -55,6 +55,10 @@ const DERIVABLE_RAW_KEYS = new Set([
   'utility_actions',
   'time_to_commit',
   'damage_taken',
+  // SPRINT_005 fase 2: metrica per playstyle mordi-e-fuggi.
+  // evasion_ratio = attacchi seguiti (nello stesso turno) da una
+  // move che aumenta la distanza dal bersaglio / attacchi totali.
+  'evasion_ratio',
 ]);
 
 function loadTelemetryConfig(yamlPath = DEFAULT_TELEMETRY_PATH, logger = console) {
@@ -127,6 +131,14 @@ function computeRawMetrics(events, units, gridSize = 6) {
       total_actions: 0,
       move_distance_before_first_attack: 0,
       moves_before_first_attack: 0,
+      // SPRINT_005 fase 2: tracking mordi-e-fuggi.
+      // Un attacco diventa "evasivo" quando l'azione immediatamente
+      // successiva dello stesso attore (nello stesso turno) e' un
+      // move che aumenta la distanza Manhattan verso il bersaglio.
+      // pendingEvasionAttack conserva il contesto fra l'attack e il
+      // move successivo: { target_pos_at_attack, actor_pos_at_attack, turn }
+      pendingEvasionAttack: null,
+      evasion_attacks: 0,
     };
   }
 
@@ -176,6 +188,18 @@ function computeRawMetrics(events, units, gridSize = 6) {
       if (lastActionType[bucketId] === 'move') {
         bucket.setup_attacks_after_move += 1;
       }
+      // SPRINT_005 fase 2: registra il contesto per evasion detection.
+      // position_from e target_position_at_attack sono entrambi presenti
+      // grazie alla fase 1 del sprint-005. Se manca uno dei due, skip.
+      if (event.position_from && event.target_position_at_attack) {
+        bucket.pendingEvasionAttack = {
+          actor_pos: event.position_from,
+          target_pos: event.target_position_at_attack,
+          turn: event.turn,
+        };
+      } else {
+        bucket.pendingEvasionAttack = null;
+      }
       lastActionType[bucketId] = 'attack';
     } else if (event.action_type === 'move') {
       bucket.moves += 1;
@@ -185,6 +209,17 @@ function computeRawMetrics(events, units, gridSize = 6) {
         const d = manhattan(event.position_from, event.position_to);
         bucket.move_distance_before_first_attack += d;
         bucket.moves_before_first_attack += 1;
+      }
+      // SPRINT_005 fase 2: se avevamo un attack in pending e il move
+      // nello stesso turno aumenta la Manhattan distance dal bersaglio,
+      // l'attack e' "evasivo".
+      if (bucket.pendingEvasionAttack && bucket.pendingEvasionAttack.turn === event.turn) {
+        const before = manhattan(event.position_from, bucket.pendingEvasionAttack.target_pos);
+        const after = manhattan(event.position_to, bucket.pendingEvasionAttack.target_pos);
+        if (after > before) {
+          bucket.evasion_attacks += 1;
+        }
+        bucket.pendingEvasionAttack = null;
       }
       lastActionType[bucketId] = 'move';
     } else if (event.action_type === 'kill') {
@@ -232,6 +267,9 @@ function computeRawMetrics(events, units, gridSize = 6) {
       Math.max(1, gridSize),
     );
 
+    // SPRINT_005 fase 2: evasion_ratio = attacchi seguiti da ritirata / attacchi totali.
+    const evasionRatio = attacksStarted > 0 ? bucket.evasion_attacks / attacksStarted : 0;
+
     finalRaw[unitId] = {
       attacks_started: attacksStarted,
       attack_hit_rate: attackHitRate,
@@ -251,6 +289,8 @@ function computeRawMetrics(events, units, gridSize = 6) {
       utility_actions: utilityActions,
       support_bias: supportBias,
       time_to_commit: timeToCommit,
+      evasion_ratio: evasionRatio,
+      evasion_attacks: bucket.evasion_attacks,
     };
   }
 
@@ -442,12 +482,20 @@ function evaluateCondition(expr, getValue) {
   return result;
 }
 
-function computeEnneaArchetypes(aggregateIndices, config) {
+function computeEnneaArchetypes(aggregateIndices, config, rawMetrics = null) {
   const themes = Array.isArray(config.ennea_themes) ? config.ennea_themes : [];
   const getValue = (name) => {
+    // Priorita' 1: aggregate indices (aggro, risk, cohesion, ...)
     const entry = aggregateIndices[name];
-    if (entry === null || entry === undefined) return null;
-    if (typeof entry === 'object' && entry !== null && 'value' in entry) return entry.value;
+    if (entry && typeof entry === 'object' && 'value' in entry) return entry.value;
+    if (entry === null) return null;
+    // Priorita' 2: raw metrics (evasion_ratio, damage_taken_ratio, ...)
+    // cosi' gli archetipi possono riferirsi direttamente a contatori
+    // pre-aggregati senza dover creare un indice dedicato.
+    if (rawMetrics && Object.prototype.hasOwnProperty.call(rawMetrics, name)) {
+      const raw = rawMetrics[name];
+      return typeof raw === 'number' ? raw : null;
+    }
     return null;
   };
   return themes.map((theme) => {
@@ -490,7 +538,7 @@ function buildVcSnapshot(session, config) {
   for (const [unitId, rawMetrics] of Object.entries(raw)) {
     const aggregate = computeAggregateIndices(rawMetrics, config);
     const mbti = computeMbtiAxes(rawMetrics);
-    const ennea = computeEnneaArchetypes(aggregate, config);
+    const ennea = computeEnneaArchetypes(aggregate, config, rawMetrics);
     perActor[unitId] = {
       raw_metrics: rawMetrics,
       aggregate_indices: aggregate,

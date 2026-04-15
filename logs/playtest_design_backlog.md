@@ -8,13 +8,19 @@ Ultimo update: 2026-04-15
 
 ---
 
-## 🔴 1. Griglia senza coordinate visibili
+## ✅ 1. Griglia senza coordinate visibili — CHIUSO in sprint-005
 
 **Segnalato il**: 2026-04-15
+**Risolto il**: 2026-04-16 (sprint-005)
 **Sintomo**: le celle non mostrano il proprio `(x,y)` in gioco. L'utente
 deve dedurli contando dagli angoli, ma dal punto di vista dell'utente
 le caselle "non hanno modo di essere identificate" anche se esistono
 lato engine.
+
+**Fix applicato**: aggiunta `.grid-frame` CSS grid che include
+`.col-labels` (0-5 sopra) e `.row-labels` (0-5 a sinistra), indici
+numerici coerenti con quelli usati lato backend (nessuna conversione
+lettera→numero).
 
 **Impatto**: qualsiasi consiglio tattico ("spostati a 3,4", "attacca dalla
 casella adiacente") è illeggibile. Anche l'analisi post-partita via VC
@@ -62,12 +68,19 @@ targeting machine senza tattica.
 
 ---
 
-## 🟡 3. Overlap unità sulla stessa cella
+## ✅ 3. Overlap unità sulla stessa cella — CHIUSO in sprint-005
 
 **Segnalato**: implicito (scoperto analizzando il codice)
+**Risolto il**: 2026-04-16 (sprint-005)
 **Sintomo**: il branch `move` di `/action` non controlla se la cella di
 destinazione è già occupata da un'altra unità. Due unità possono stare
 sovrapposte.
+
+**Fix applicato**: il branch `move` valida i blockers via
+`session.units.find(u => u.hp > 0 && u.position === dest)` e rifiuta
+400. Stesso check nel SIS `runSistemaTurn.stepTowards`: se bloccato
+consuma AP e registra un `ia_actions[]` di tipo `skip` invece di
+sovrapporsi. Nessun loop infinito.
 
 **Impatto**: rompe la metafora tattica. In un gioco che premia
 `close_engage` e distanza Manhattan, l'overlap banalizza il
@@ -189,12 +202,25 @@ presente) per includere `ap_cost` esplicito, con validazione
 
 ---
 
-## 🟢 8. Frontend: log non include coordinate
+## ✅ 8. Frontend: log non include coordinate — CHIUSO in sprint-005
 
 **Segnalato il**: 2026-04-15 (legato a issue #1)
+**Risolto il**: 2026-04-16 (sprint-005)
 **Sintomo**: `addLog('move', 'Mosso a (1,1)')` ha le coordinate ma
 `addLog('hit'/'miss', ...)` mostra solo roll/MoS/PT. Non sai da dove
 stavi attaccando né dove era il target al momento del colpo.
+
+**Fix applicato**:
+- Response `/action` attack include `actor_position` e
+  `target_position` (copia di `targetPositionAtAttack`)
+- Response `/action` move include `position_from`
+- `runSistemaTurn` actions array arricchite con le stesse coordinate
+- Frontend `logAction` e `logIaAction` riformattati con
+  `fmtPos()` helper: `Mosso (a,b)→(c,d)`,
+  `Attacco (a,b)→(c,d) d20=…`, `SISTEMA (REGOLA_001) (a,b)→(c,d) …`
+- Fix collaterale: `logIaAction` leggeva `ia.action_type` ma il
+  backend emette `type`, quindi ogni attacco SIS veniva loggato come
+  "si muove". Bug pre-esistente, ora corretto
 
 **Proposta di fix**: includere `from` e `to` nei log attack, tipo
 `Attacco da (2,4) → SIS (3,5) d20=18...`.
