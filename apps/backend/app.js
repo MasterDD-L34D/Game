@@ -366,6 +366,9 @@ function createApp(options = {}) {
   app.use(cors({ origin: options.corsOrigin || '*' }));
   app.use(express.json({ limit: '1mb' }));
 
+  const publicDir = options.publicDir || path.resolve(__dirname, 'public');
+  app.use(express.static(publicDir));
+
   const monitoringRouter = createMonitoringRouter();
   app.use('/monitoring', monitoringRouter);
 

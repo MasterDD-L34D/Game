@@ -46,6 +46,7 @@ const DEFAULT_AP = 2;
 const DEFAULT_MOD = 3;
 const DEFAULT_DC = 12;
 const DEFAULT_GUARDIA = 1;
+const DEFAULT_ATTACK_RANGE = 2;
 
 // SPRINT_003 fase 0: finestra temporale (in turni) entro cui un damage
 // hit conta come assist per un kill avvenuto nel turno corrente.
@@ -86,6 +87,9 @@ function normaliseUnit(raw, fallbackIndex) {
     mod: Number.isFinite(Number(input.mod)) ? Number(input.mod) : DEFAULT_MOD,
     dc: Number.isFinite(Number(input.dc)) ? Number(input.dc) : DEFAULT_DC,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
+    attack_range: Number.isFinite(Number(input.attack_range))
+      ? Number(input.attack_range)
+      : DEFAULT_ATTACK_RANGE,
     position,
     controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
   };
@@ -392,71 +396,90 @@ function createSessionRouter(options = {}) {
 
   async function runSistemaTurn(session) {
     // REGOLA_001: il Sistema seleziona l'unita' nemica con meno HP.
-    // Se e' in range (Manhattan <= 2) esegue attack, altrimenti move
+    // Se e' in range (actor.attack_range) esegue attack, altrimenti move
     // di 1 passo verso di lei. Usa lo stesso d20 dei giocatori.
+    // Dual-action: loop finche' ap_remaining > 0, cosi' SIS e' simmetrico
+    // al giocatore (2 azioni/turno anziche' 1).
     const actor = session.units.find((u) => u.id === session.active_unit);
-    if (!actor) return null;
-    const target = pickLowestHpEnemy(session, actor);
-    if (!target) return null;
+    if (!actor) return [];
+    // Assicura AP pieni all'inizio del turno SIS (in caso la rotazione
+    // non li abbia gia' reintegrati).
+    if ((actor.ap_remaining ?? 0) <= 0) {
+      actor.ap_remaining = actor.ap;
+    }
 
-    const distance = manhattanDistance(actor.position, target.position);
-    if (distance <= 2) {
-      const hpBefore = target.hp;
-      const targetPositionAtAttack = { ...target.position };
-      const { result, evaluation, damageDealt, killOccurred } = performAttack(
-        session,
-        actor,
-        target,
-      );
-      const event = buildAttackEvent({
-        session,
-        actor,
-        target,
-        result,
-        evaluation,
-        damageDealt,
-        hpBefore,
-        targetPositionAtAttack,
-      });
+    const actions = [];
+    while ((actor.ap_remaining ?? 0) > 0) {
+      const target = pickLowestHpEnemy(session, actor);
+      if (!target) break;
+
+      const distance = manhattanDistance(actor.position, target.position);
+      const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+
+      if (distance <= range) {
+        const hpBefore = target.hp;
+        const targetPositionAtAttack = { ...target.position };
+        const { result, evaluation, damageDealt, killOccurred } = performAttack(
+          session,
+          actor,
+          target,
+        );
+        const event = buildAttackEvent({
+          session,
+          actor,
+          target,
+          result,
+          evaluation,
+          damageDealt,
+          hpBefore,
+          targetPositionAtAttack,
+        });
+        event.actor_id = 'sistema';
+        event.actor_species = actor.species;
+        event.actor_job = actor.job;
+        event.ia_rule = 'REGOLA_001';
+        event.ia_controlled_unit = actor.id;
+        await appendEvent(session, event);
+        if (killOccurred) {
+          await emitKillAndAssists(session, actor, target, event);
+        }
+        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+        actions.push({
+          actor: 'sistema',
+          unit_id: actor.id,
+          type: 'attack',
+          target: target.id,
+          die: result.die,
+          roll: result.roll,
+          mos: result.mos,
+          result: result.hit ? 'hit' : 'miss',
+          pt: result.pt,
+          damage_dealt: damageDealt,
+          trait_effects: evaluation.trait_effects,
+        });
+        if (killOccurred) break;
+        continue;
+      }
+
+      const positionFrom = { ...actor.position };
+      actor.position = stepTowards(actor.position, target.position);
+      const event = buildMoveEvent({ session, actor, positionFrom });
       event.actor_id = 'sistema';
-      event.actor_species = actor.species;
-      event.actor_job = actor.job;
       event.ia_rule = 'REGOLA_001';
       event.ia_controlled_unit = actor.id;
       await appendEvent(session, event);
-      if (killOccurred) {
-        await emitKillAndAssists(session, actor, target, event);
-      }
-      return {
+      actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+      actions.push({
         actor: 'sistema',
         unit_id: actor.id,
-        type: 'attack',
+        type: 'move',
         target: target.id,
-        die: result.die,
-        roll: result.roll,
-        mos: result.mos,
-        result: result.hit ? 'hit' : 'miss',
-        pt: result.pt,
-        damage_dealt: damageDealt,
-        trait_effects: evaluation.trait_effects,
-      };
+        position_from: positionFrom,
+        position_to: { ...actor.position },
+      });
     }
 
-    const positionFrom = { ...actor.position };
-    actor.position = stepTowards(actor.position, target.position);
-    const event = buildMoveEvent({ session, actor, positionFrom });
-    event.actor_id = 'sistema';
-    event.ia_rule = 'REGOLA_001';
-    event.ia_controlled_unit = actor.id;
-    await appendEvent(session, event);
-    return {
-      actor: 'sistema',
-      unit_id: actor.id,
-      type: 'move',
-      target: target.id,
-      position_from: positionFrom,
-      position_to: actor.position,
-    };
+    return actions;
   }
 
   router.post('/start', async (req, res, next) => {
@@ -535,6 +558,19 @@ function createSessionRouter(options = {}) {
         if (!target) {
           return res.status(400).json({ error: `target "${targetId}" non trovato` });
         }
+        if ((actor.ap_remaining ?? 0) < 1) {
+          return res
+            .status(400)
+            .json({ error: 'AP insufficienti per attaccare (termina il turno)' });
+        }
+        const attackDist = manhattanDistance(actor.position, target.position);
+        const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+        if (attackDist > range) {
+          return res.status(400).json({
+            error: `bersaglio fuori range (distanza ${attackDist} > range ${range})`,
+          });
+        }
+        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
         const hpBefore = target.hp;
         const targetPositionAtAttack = { ...target.position };
         const { result, evaluation, damageDealt, killOccurred } = performAttack(
@@ -571,6 +607,7 @@ function createSessionRouter(options = {}) {
           trait_effects: evaluation.trait_effects,
           cap_pt_used: session.cap_pt_used,
           cap_pt_max: session.cap_pt_max,
+          state: publicSessionView(session),
         });
       }
 
@@ -590,12 +627,18 @@ function createSessionRouter(options = {}) {
             .status(400)
             .json({ error: `posizione fuori griglia (${GRID_SIZE}x${GRID_SIZE})` });
         }
+        if ((actor.ap_remaining ?? 0) < 1) {
+          return res
+            .status(400)
+            .json({ error: 'AP insufficienti per muoversi (termina il turno)' });
+        }
         const dist = manhattanDistance(actor.position, dest);
         if (dist > actor.ap) {
           return res
             .status(400)
-            .json({ error: `posizione fuori range AP (distanza ${dist} > ap ${actor.ap})` });
+            .json({ error: `posizione fuori range movimento (distanza ${dist} > ap ${actor.ap})` });
         }
+        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         const event = buildMoveEvent({ session, actor, positionFrom });
@@ -612,6 +655,7 @@ function createSessionRouter(options = {}) {
           position: actor.position,
           cap_pt_used: session.cap_pt_used,
           cap_pt_max: session.cap_pt_max,
+          state: publicSessionView(session),
         });
       }
 
@@ -641,17 +685,25 @@ function createSessionRouter(options = {}) {
       session.turn += 1;
 
       // 3. Se la nuova unita' e' controllata dal sistema, esegui REGOLA_001
+      //    e avanza di nuovo al prossimo turno giocatore, in modo che un
+      //    singolo "Fine Turno" chiuda il round e restituisca il controllo.
       const next = session.units.find((u) => u.id === nextId);
-      let iaAction = null;
+      let iaActions = [];
       if (next && next.controlled_by === 'sistema' && next.hp > 0) {
-        iaAction = await runSistemaTurn(session);
+        iaActions = await runSistemaTurn(session);
+        next.ap_remaining = next.ap;
+        const followupId = nextUnitId(session);
+        session.active_unit = followupId;
+        session.turn += 1;
       }
 
       return res.json({
         session_id: session.session_id,
         turn: session.turn,
         active_unit: session.active_unit,
-        ia_action: iaAction,
+        ia_actions: iaActions,
+        ia_action: iaActions[0] || null,
+        state: publicSessionView(session),
       });
     } catch (err) {
       next(err);
