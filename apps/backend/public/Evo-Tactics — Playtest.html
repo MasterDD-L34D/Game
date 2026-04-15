@@ -608,6 +608,10 @@ function logIaAction(ia) {
       `SISTEMA (${rule}) ${from}→${to} d20=${ia.roll} — ${hit ? 'COLPITO' : 'MANCATO'}${dmg}`);
   } else if (kind === 'skip') {
     addLog('sistema', `SISTEMA (${rule}) fermo — ${ia.reason ?? 'bloccato'}`);
+  } else if (kind === 'retreat') {
+    const from = fmtPos(ia.position_from);
+    const to   = fmtPos(ia.position_to);
+    addLog('sistema', `SISTEMA (${rule}) si ritira ${from}→${to}`);
   } else {
     const from = fmtPos(ia.position_from);
     const to   = fmtPos(ia.position_to);

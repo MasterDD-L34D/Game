@@ -48,6 +48,23 @@ const DEFAULT_DC = 12;
 const DEFAULT_GUARDIA = 1;
 const DEFAULT_ATTACK_RANGE = 2;
 
+// SPRINT_006: stats per job (attack_range principalmente). I 6 job canonici
+// sono quelli di data/core/telemetry.yaml:telemetry.hud_breakdown.roles.
+// Strategie:
+//   - vanguard/harvester: melee puri (range 1) — devono essere adiacenti
+//   - skirmisher/warden/artificer: range medio (2) — versatili
+//   - ranger/invoker: long-range (3) — DPS da distanza
+// Se il job non e' in questa tabella (es. "unknown") si usa DEFAULT_ATTACK_RANGE.
+const JOB_STATS = {
+  vanguard: { attack_range: 1 },
+  skirmisher: { attack_range: 2 },
+  warden: { attack_range: 2 },
+  artificer: { attack_range: 2 },
+  harvester: { attack_range: 1 },
+  ranger: { attack_range: 3 },
+  invoker: { attack_range: 3 },
+};
+
 // SPRINT_003 fase 0: finestra temporale (in turni) entro cui un damage
 // hit conta come assist per un kill avvenuto nel turno corrente.
 const ASSIST_WINDOW_TURNS = 2;
@@ -76,20 +93,34 @@ function normaliseUnit(raw, fallbackIndex) {
         : { x: GRID_SIZE - 1, y: GRID_SIZE - 1 };
   const traits = Array.isArray(input.traits) ? input.traits.filter(Boolean).map(String) : [];
   const ap = Number.isFinite(Number(input.ap)) ? Number(input.ap) : DEFAULT_AP;
+  // SPRINT_006: attack_range cerca override esplicito prima, poi JOB_STATS,
+  // poi DEFAULT_ATTACK_RANGE. Cosi' i test che passano attack_range diretto
+  // continuano a funzionare; il default diventa "sensibile al job".
+  const job = input.job ? String(input.job) : 'unknown';
+  const jobStats = JOB_STATS[job] || {};
+  const attackRange = Number.isFinite(Number(input.attack_range))
+    ? Number(input.attack_range)
+    : Number.isFinite(Number(jobStats.attack_range))
+      ? Number(jobStats.attack_range)
+      : DEFAULT_ATTACK_RANGE;
+  const hp = Number.isFinite(Number(input.hp)) ? Number(input.hp) : DEFAULT_HP;
+  // SPRINT_006 fase 2: max_hp per REGOLA_002 retreat. Override esplicito
+  // possibile dall'input (utile per scenari di test che partono con SIS
+  // gia' ferito). Default: parte a hp iniziale (unita' fresca = full HP).
+  const maxHp = Number.isFinite(Number(input.max_hp)) ? Number(input.max_hp) : hp;
   return {
     id,
     species: input.species ? String(input.species) : 'unknown',
-    job: input.job ? String(input.job) : 'unknown',
+    job,
     traits,
-    hp: Number.isFinite(Number(input.hp)) ? Number(input.hp) : DEFAULT_HP,
+    hp,
+    max_hp: maxHp,
     ap,
     ap_remaining: Number.isFinite(Number(input.ap_remaining)) ? Number(input.ap_remaining) : ap,
     mod: Number.isFinite(Number(input.mod)) ? Number(input.mod) : DEFAULT_MOD,
     dc: Number.isFinite(Number(input.dc)) ? Number(input.dc) : DEFAULT_DC,
     guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
-    attack_range: Number.isFinite(Number(input.attack_range))
-      ? Number(input.attack_range)
-      : DEFAULT_ATTACK_RANGE,
+    attack_range: attackRange,
     position,
     controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
   };
@@ -197,6 +228,51 @@ function stepTowards(from, to) {
     next.y += from.y < to.y ? 1 : -1;
   }
   return clampPosition(next.x, next.y);
+}
+
+// SPRINT_006 fase 2: passo di ritirata — muove 1 cella AWAY dal target.
+// Preferisce l'asse con delta maggiore. Se contro il bordo, prova l'altro
+// asse. Ritorna null se la ritirata e' del tutto impossibile.
+function stepAway(from, to) {
+  const dx = from.x - to.x;
+  const dy = from.y - to.y;
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+  const tryAxis = (axis) => {
+    if (axis === 'x') {
+      if (dx === 0) return null;
+      const newX = from.x + Math.sign(dx);
+      if (newX < 0 || newX >= GRID_SIZE) return null;
+      return { x: newX, y: from.y };
+    }
+    if (dy === 0) return null;
+    const newY = from.y + Math.sign(dy);
+    if (newY < 0 || newY >= GRID_SIZE) return null;
+    return { x: from.x, y: newY };
+  };
+  if (absDx >= absDy) {
+    return tryAxis('x') || tryAxis('y');
+  }
+  return tryAxis('y') || tryAxis('x');
+}
+
+// SPRINT_006 fase 2: policy IA multi-regola. Ritorna un descriptor
+// { rule, intent } che runSistemaTurn esegue.
+// Regole ordinate per priorita' (002 > 001):
+//   REGOLA_002: se HP <= 30% del max, intent = "retreat" (ritirata)
+//   REGOLA_001: default — "attack" se in range, "approach" altrimenti
+function selectAiPolicy(actor, target) {
+  const maxHp = Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : DEFAULT_HP;
+  const hpRatio = actor.hp / maxHp;
+  if (hpRatio <= 0.3) {
+    return { rule: 'REGOLA_002', intent: 'retreat' };
+  }
+  const distance = manhattanDistance(actor.position, target.position);
+  const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+  if (distance <= range) {
+    return { rule: 'REGOLA_001', intent: 'attack' };
+  }
+  return { rule: 'REGOLA_001', intent: 'approach' };
 }
 
 function createSessionRouter(options = {}) {
@@ -395,11 +471,11 @@ function createSessionRouter(options = {}) {
   }
 
   async function runSistemaTurn(session) {
-    // REGOLA_001: il Sistema seleziona l'unita' nemica con meno HP.
-    // Se e' in range (actor.attack_range) esegue attack, altrimenti move
-    // di 1 passo verso di lei. Usa lo stesso d20 dei giocatori.
-    // Dual-action: loop finche' ap_remaining > 0, cosi' SIS e' simmetrico
-    // al giocatore (2 azioni/turno anziche' 1).
+    // Policy IA multi-regola (SPRINT_006 fase 2):
+    //   REGOLA_001: default — attacca se in range, altrimenti avvicina
+    //   REGOLA_002: ritirata se HP <= 30% del max
+    // Seleziona il bersaglio a HP piu' basso e sceglie l'intent via
+    // selectAiPolicy. Dual-action: loop finche' ap_remaining > 0.
     const actor = session.units.find((u) => u.id === session.active_unit);
     if (!actor) return [];
     // Assicura AP pieni all'inizio del turno SIS (in caso la rotazione
@@ -413,10 +489,21 @@ function createSessionRouter(options = {}) {
       const target = pickLowestHpEnemy(session, actor);
       if (!target) break;
 
+      let policy = selectAiPolicy(actor, target);
       const distance = manhattanDistance(actor.position, target.position);
-      const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
 
-      if (distance <= range) {
+      // SPRINT_006 fase 2: se REGOLA_002 vuole ritirarsi ma e' impossibile
+      // (angolato al bordo) e il target e' in range, falliamo in
+      // "desperate attack" sotto REGOLA_001 invece di skip inutile.
+      if (policy.intent === 'retreat') {
+        const canRetreat = stepAway(actor.position, target.position) !== null;
+        const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+        if (!canRetreat && distance <= range) {
+          policy = { rule: 'REGOLA_001', intent: 'attack' };
+        }
+      }
+
+      if (policy.intent === 'attack') {
         const hpBefore = target.hp;
         const targetPositionAtAttack = { ...target.position };
         const { result, evaluation, damageDealt, killOccurred } = performAttack(
@@ -437,7 +524,7 @@ function createSessionRouter(options = {}) {
         event.actor_id = 'sistema';
         event.actor_species = actor.species;
         event.actor_job = actor.job;
-        event.ia_rule = 'REGOLA_001';
+        event.ia_rule = policy.rule;
         event.ia_controlled_unit = actor.id;
         await appendEvent(session, event);
         if (killOccurred) {
@@ -458,13 +545,37 @@ function createSessionRouter(options = {}) {
           trait_effects: evaluation.trait_effects,
           actor_position: { ...actor.position },
           target_position: targetPositionAtAttack,
+          ia_rule: policy.rule,
         });
         if (killOccurred) break;
         continue;
       }
 
+      // intent: 'approach' (REGOLA_001) o 'retreat' (REGOLA_002)
       const positionFrom = { ...actor.position };
-      const nextPos = stepTowards(actor.position, target.position);
+      const nextPos =
+        policy.intent === 'retreat'
+          ? stepAway(actor.position, target.position)
+          : stepTowards(actor.position, target.position);
+
+      // Se la ritirata e' impossibile (bordo griglia da entrambi gli assi)
+      // oppure stepTowards ha ritornato la stessa cella, registriamo skip.
+      if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {
+        actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+        actions.push({
+          actor: 'sistema',
+          unit_id: actor.id,
+          type: 'skip',
+          reason:
+            policy.intent === 'retreat'
+              ? `cannot retreat — cornered near ${target.id}`
+              : `cannot approach ${target.id}`,
+          position_from: positionFrom,
+          position_to: positionFrom,
+          ia_rule: policy.rule,
+        });
+        continue;
+      }
       // SPRINT_005 fase 1: se lo step porterebbe su una cella occupata
       // (es. il giocatore stesso), saltiamo il move per evitare overlap
       // e consumiamo comunque l'AP cosi' il loop SIS termina.
@@ -481,23 +592,26 @@ function createSessionRouter(options = {}) {
           reason: `blocked by ${blocker.id} at (${nextPos.x},${nextPos.y})`,
           position_from: positionFrom,
           position_to: positionFrom,
+          ia_rule: policy.rule,
         });
         continue;
       }
       actor.position = nextPos;
       const event = buildMoveEvent({ session, actor, positionFrom });
       event.actor_id = 'sistema';
-      event.ia_rule = 'REGOLA_001';
+      event.ia_rule = policy.rule;
       event.ia_controlled_unit = actor.id;
       await appendEvent(session, event);
       actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
       actions.push({
         actor: 'sistema',
         unit_id: actor.id,
-        type: 'move',
+        // SPRINT_006 fase 2: distingui "retreat" da "move" (approach)
+        type: policy.intent === 'retreat' ? 'retreat' : 'move',
         target: target.id,
         position_from: positionFrom,
         position_to: { ...actor.position },
+        ia_rule: policy.rule,
       });
     }
 
