@@ -126,7 +126,7 @@ function createSistemaTurnRunner(deps) {
       if (policy.intent === 'attack') {
         const hpBefore = target.hp;
         const targetPositionAtAttack = { ...target.position };
-        const { result, evaluation, damageDealt, killOccurred } = performAttack(
+        const { result, evaluation, damageDealt, killOccurred, parry } = performAttack(
           session,
           actor,
           target,
@@ -146,6 +146,8 @@ function createSistemaTurnRunner(deps) {
         event.actor_job = actor.job;
         event.ia_rule = policy.rule;
         event.ia_controlled_unit = actor.id;
+        // SPRINT_021: espone parata reattiva del player sul log IA
+        if (parry) event.parry = parry;
         await appendEvent(session, event);
         if (killOccurred) {
           await emitKillAndAssists(session, actor, target, event);
@@ -166,6 +168,7 @@ function createSistemaTurnRunner(deps) {
           actor_position: { ...actor.position },
           target_position: targetPositionAtAttack,
           ia_rule: policy.rule,
+          parry,
         });
         if (killOccurred) break;
         continue;

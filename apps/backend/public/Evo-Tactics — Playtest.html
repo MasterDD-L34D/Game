@@ -859,6 +859,14 @@ function showGameOver(title, sub) {
 /* ── LOG ── */
 function fmtPos(p) { return p ? `(${p.x},${p.y})` : '(?,?)'; }
 
+function fmtParry(parry) {
+  if (!parry) return '';
+  if (parry.success) {
+    return ` 🛡 parry ${parry.die}+${parry.guardia_used}=${parry.total}≥${parry.dc}`;
+  }
+  return ` ✗ parry ${parry.die}+${parry.guardia_used}=${parry.total}<${parry.dc}`;
+}
+
 function logAction(type, res, body) {
   if (type === 'attack') {
     const hit = res.result === 'hit';
@@ -866,8 +874,9 @@ function logAction(type, res, body) {
     const extra = effects ? ` [${effects}]` : '';
     const from = fmtPos(res.actor_position);
     const to   = fmtPos(res.target_position);
+    const parry = fmtParry(res.parry);
     addLog(hit ? 'hit' : 'miss',
-      `Attacco ${from}→${to} d20=${res.roll} MoS=${res.mos} PT=${res.pt} — ${hit ? 'COLPITO' : 'MANCATO'}${extra}`
+      `Attacco ${from}→${to} d20=${res.roll} MoS=${res.mos} PT=${res.pt} — ${hit ? 'COLPITO' : 'MANCATO'}${extra}${parry}`
       + (res.target_hp !== undefined ? ` · HP nemico: ${res.target_hp}` : ''));
   } else {
     const from = fmtPos(res.position_from);
@@ -885,8 +894,9 @@ function logIaAction(ia) {
     const from = fmtPos(ia.actor_position);
     const to   = fmtPos(ia.target_position);
     const dmg = ia.damage_dealt ? ` d=${ia.damage_dealt}` : '';
+    const parry = fmtParry(ia.parry);
     addLog('sistema',
-      `SISTEMA (${rule}) ${from}→${to} d20=${ia.roll} — ${hit ? 'COLPITO' : 'MANCATO'}${dmg}`);
+      `SISTEMA (${rule}) ${from}→${to} d20=${ia.roll} — ${hit ? 'COLPITO' : 'MANCATO'}${dmg}${parry}`);
   } else if (kind === 'skip') {
     addLog('sistema', `SISTEMA (${rule}) fermo — ${ia.reason ?? 'bloccato'}`);
   } else if (kind === 'retreat') {
