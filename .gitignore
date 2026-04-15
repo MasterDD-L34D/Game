@@ -46,3 +46,14 @@ reports/backups/**/*.zip
 !reports/backups/**/README.md
 .local/
 .docker-prisma-bootstrapped
+
+# Claude Code per-user whitelist (auto-aggiornato dai hook)
+.claude/settings.local.json
+
+# Backend runtime artifacts (log audit, snapshot di stato)
+apps/backend/logs/
+reports/status.json
+
+# Playtest session event streams raw (rigenerati da ogni run, non servono in VCS)
+# I report analitici (.md) restano tracciati.
+logs/session_*.json
