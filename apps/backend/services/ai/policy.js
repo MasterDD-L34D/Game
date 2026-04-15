@@ -63,7 +63,52 @@ function stepAway(from, to, gridSize = 6) {
   return tryAxis('y') || tryAxis('x');
 }
 
+// SPRINT_013 (issue #10): stati emotivi temporanei che sovrascrivono
+// la selezione policy normale. Ogni stato ha un turns_remaining > 0
+// per essere attivo. Letti da actor.status (oggetto opzionale).
+//
+// Priorita' stati (alto → basso):
+//   1. stunned : policy intent 'skip', rule STATO_STUNNED
+//   2. rage    : forza 'attack' (o 'approach' se fuori range), rule
+//                STATO_RAGE, bonus damage applicato altrove
+//   3. panic   : forza 'retreat', rule STATO_PANIC
+//
+// Gli stati "confused" e "focused" sono dichiarati come flag ma non
+// hanno ancora override nella policy — rimandati a sprint futuri
+// (richiedono modifica target selection per confused, modifica
+// resolveAttack per focused).
+function checkEmotionalOverrides(actor, target) {
+  const status = actor.status;
+  if (!status) return null;
+  const hasDuration = (name) => {
+    const t = status[name];
+    return Number.isFinite(t) && t > 0;
+  };
+  if (hasDuration('stunned')) {
+    return { rule: 'STATO_STUNNED', intent: 'skip' };
+  }
+  if (hasDuration('rage')) {
+    // rage = "carica" — attacca se possibile, altrimenti avvicina
+    // ignorando qualunque consideration di HP o safe zone.
+    const dist = manhattanDistance(actor.position, target.position);
+    const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+    return {
+      rule: 'STATO_RAGE',
+      intent: dist <= range ? 'attack' : 'approach',
+    };
+  }
+  if (hasDuration('panic')) {
+    return { rule: 'STATO_PANIC', intent: 'retreat' };
+  }
+  return null;
+}
+
 function selectAiPolicy(actor, target) {
+  // SPRINT_013: stati emotivi hanno priorita' assoluta, bypassano HP
+  // check e range check.
+  const emotional = checkEmotionalOverrides(actor, target);
+  if (emotional) return emotional;
+
   const maxHp =
     Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : DEFAULT_MAX_HP_FALLBACK;
   const hpRatio = actor.hp / maxHp;
@@ -116,4 +161,5 @@ module.exports = {
   manhattanDistance,
   stepAway,
   selectAiPolicy,
+  checkEmotionalOverrides,
 };
