@@ -192,12 +192,65 @@ function selectAiPolicy(actor, target, profile) {
   return { rule: 'REGOLA_001', intent: 'approach' };
 }
 
+// ─────────────────────────────────────────────────────────────────
+// B3 pattern: weighted objectives scoring (boardgame.io MCTS)
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * Default objectives per il Sistema. Ogni objective ha:
+ *   checker(actor, target, context) → boolean
+ *   weight: numero (piu alto = piu importante)
+ *
+ * Personalita diverse = weight diversi.
+ */
+const DEFAULT_OBJECTIVES = {
+  deal_damage: {
+    checker: (actor, target, ctx) =>
+      ctx.distance <= (actor.attack_range ?? _cfg.DEFAULT_ATTACK_RANGE),
+    weight: 1.0,
+  },
+  protect_low_hp: {
+    checker: (actor, target, ctx) => ctx.hpRatio <= 0.4,
+    weight: 0.6,
+  },
+  maintain_range: {
+    checker: (actor, target, ctx) =>
+      (actor.attack_range ?? _cfg.DEFAULT_ATTACK_RANGE) >
+      (target.attack_range ?? _cfg.DEFAULT_ATTACK_RANGE),
+    weight: 0.4,
+  },
+};
+
+/**
+ * Calcola score pesato per una decisione AI data una serie di objectives.
+ * Ritorna { totalScore, matchedObjectives[] }.
+ */
+function scoreObjectives(actor, target, objectives = DEFAULT_OBJECTIVES) {
+  const distance = manhattanDistance(actor.position, target.position);
+  const maxHp =
+    Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : _cfg.DEFAULT_MAX_HP_FALLBACK;
+  const hpRatio = actor.hp / maxHp;
+  const ctx = { distance, hpRatio };
+
+  let totalScore = 0;
+  const matched = [];
+  for (const [name, obj] of Object.entries(objectives)) {
+    if (obj.checker(actor, target, ctx)) {
+      totalScore += obj.weight;
+      matched.push(name);
+    }
+  }
+  return { totalScore, matchedObjectives: matched };
+}
+
 module.exports = {
   DEFAULT_ATTACK_RANGE,
   DEFAULT_MAX_HP_FALLBACK,
   LOW_HP_RETREAT_THRESHOLD,
+  DEFAULT_OBJECTIVES,
   loadAiConfig,
   applyProfile,
+  scoreObjectives,
   manhattanDistance,
   stepAway,
   selectAiPolicy,
