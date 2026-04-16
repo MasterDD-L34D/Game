@@ -77,11 +77,40 @@ def derive_tier_from_power(power: int) -> int:
     return _clamp((int(power) // 3) + 1, TIER_MIN, 5)
 
 
+def _resolve_inheritance(
+    traits: Dict[str, Any], defaults: Dict[str, Any]
+) -> Dict[str, Any]:
+    """O1 pattern: risolve `inherits:` depth-first merge.
+
+    Se un trait ha ``inherits: <class>``, i campi mancanti vengono
+    copiati dalla classe in ``_defaults``. Campi espliciti sovrascrivono.
+    """
+    resolved: Dict[str, Any] = {}
+    for trait_id, entry in traits.items():
+        if not isinstance(entry, Mapping):
+            resolved[trait_id] = entry
+            continue
+        parent_key = entry.get("inherits")
+        if parent_key and parent_key in defaults:
+            merged = dict(defaults[parent_key])
+            for k, v in entry.items():
+                if k == "inherits":
+                    continue
+                merged[k] = v
+            resolved[trait_id] = merged
+        else:
+            resolved[trait_id] = dict(entry)
+    return resolved
+
+
 def load_trait_mechanics(path: Path) -> Dict[str, Any]:
     """Carica ``trait_mechanics.yaml`` e restituisce il dict ``{trait_id: entry}``.
 
     Il file atteso e' ``packs/evo_tactics_pack/data/balance/trait_mechanics.yaml``
     con shape validata da ``traitMechanics.schema.json``.
+
+    Supporta O1 pattern: ``_defaults`` per classi trait + ``inherits:`` per
+    ereditare baseline da una classe.
     """
 
     with open(path, encoding="utf-8") as fh:
@@ -91,6 +120,9 @@ def load_trait_mechanics(path: Path) -> Dict[str, Any]:
         raise ValueError(
             f"trait_mechanics atteso dict con chiave 'traits', trovato: {type(data).__name__}"
         )
+    defaults = data.get("_defaults") or {}
+    if defaults and isinstance(defaults, Mapping):
+        return _resolve_inheritance(dict(traits), dict(defaults))
     return dict(traits)
 
 
@@ -303,4 +335,5 @@ __all__ = [
     "derive_tier_from_power",
     "hydrate_encounter",
     "load_trait_mechanics",
+    "_resolve_inheritance",
 ]
