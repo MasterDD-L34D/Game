@@ -69,19 +69,19 @@ Può essere usato per:
 
 ### EPIC C — Combat canon e resolver
 
-| Stato | Task                                         | Dettagli operativi                                                                                                              |
-| ----- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| 🟡    | FD-020 - Scrivere Combat Canon Spec          | PARTIAL: round-loop.md + resolver-api.md coprono formule/timing. Manca doc unificato.                                           |
-| ☑    | FD-021 - Bloccare action types shipping      | DONE: attack, move, defend, parry, ability (Fase 3b #1409), heal (#1386). Tutti funzionali.                                     |
-| 🟡    | FD-022 - Bloccare status shipping            | PARTIAL: bleeding, fracture, disorient, rage, panic implementati + buff system (#1409). Lista shipping da formalizzare.         |
-| ☐     | FD-023 - Bloccare PT spend shipping          | `perforazione`, `spinta`, costi, limitazioni e timing.                                                                          |
-| ☑    | FD-024 - Formalizzare timing begin_turn      | DONE: begin_turn/begin_round implementati con tick status, decay, bleeding, buff decay, cooldown. Documentato in round-loop.md. |
-| ☐     | FD-025 - Formalizzare ordine mitigazioni     | Armor, resistenze, parry, MoS, damage step.                                                                                     |
-| ☑    | FD-026 - Esplicitare active_effects deferred | DONE: active_effects ora LIVE (Fase 3a #1408 + 3b #1409). 8 ability + attack-triggered trait effects. Non più NOOP.             |
-| ☐     | FD-027 - Verificare determinismo             | RNG namespacing, seed strategy e ripetibilità risultati.                                                                        |
-| ☑    | FD-028 - Rieseguire suite Python combat      | DONE: 237/237 verdi (resolver + orchestrator + hydration + trait_effects + demo_cli).                                           |
-| ☐     | FD-029 - Rieseguire suite Node contract      | `contracts-combat`, `contracts-hydration-snapshot`, `contracts-trait-mechanics`.                                                |
-| ☐     | FD-030 - Rieseguire demo CLI auto            | Smoke stabile con log archiviabile.                                                                                             |
+| Stato | Task                                         | Dettagli operativi                                                                                                                                      |
+| ----- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ☑    | FD-020 - Scrivere Combat Canon Spec          | DONE: `docs/combat/combat-canon.md` — specifica unificata con action types, status shipping, timing, formule, non-scope.                                |
+| ☑    | FD-021 - Bloccare action types shipping      | DONE: attack, move, defend, parry, ability (Fase 3b #1409), heal (#1386). Tutti funzionali.                                                             |
+| ☑    | FD-022 - Bloccare status shipping            | DONE: 6 status shipping (bleeding, fracture, disorient, rage, panic, stunned) + 2 placeholder (focused, sbilanciato). Dichiarato in combat-canon.md §2. |
+| ☐     | FD-023 - Bloccare PT spend shipping          | `perforazione`, `spinta`, costi, limitazioni e timing.                                                                                                  |
+| ☑    | FD-024 - Formalizzare timing begin_turn      | DONE: begin_turn/begin_round implementati con tick status, decay, bleeding, buff decay, cooldown. Documentato in round-loop.md.                         |
+| ☐     | FD-025 - Formalizzare ordine mitigazioni     | Armor, resistenze, parry, MoS, damage step.                                                                                                             |
+| ☑    | FD-026 - Esplicitare active_effects deferred | DONE: active_effects ora LIVE (Fase 3a #1408 + 3b #1409). 8 ability + attack-triggered trait effects. Non più NOOP.                                     |
+| ☐     | FD-027 - Verificare determinismo             | RNG namespacing, seed strategy e ripetibilità risultati.                                                                                                |
+| ☑    | FD-028 - Rieseguire suite Python combat      | DONE: 237/237 verdi (resolver + orchestrator + hydration + trait_effects + demo_cli).                                                                   |
+| ☐     | FD-029 - Rieseguire suite Node contract      | `contracts-combat`, `contracts-hydration-snapshot`, `contracts-trait-mechanics`.                                                                        |
+| ☐     | FD-030 - Rieseguire demo CLI auto            | Smoke stabile con log archiviabile.                                                                                                                     |
 
 ### EPIC D — Balance layer
 
