@@ -6362,6 +6362,32 @@
       "review_cycle_days": 30,
       "primary": true,
       "track": "new"
+    },
+    {
+      "path": "docs/core/00-GDD_MASTER.md",
+      "title": "GDD Master — Entrypoint Canonico Evo Tactics",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": true,
+      "track": "new"
+    },
+    {
+      "path": "docs/core/00B-CANONICAL_PROMOTION_MATRIX.md",
+      "title": "Canonical Promotion Matrix — Classificazione Sistemi di Design",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": true,
+      "track": "new"
     }
   ]
 }
