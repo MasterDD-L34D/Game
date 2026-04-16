@@ -131,13 +131,24 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 - **Mission Console**. The production UI is a pre-built Vue 3 bundle under `docs/mission-console/` (`ConsoleLayout-*.js`, `FlowShellView-*.js`, `atlas-*.js`, `nebula-*.js`, `index.html`), served via GitHub Pages. Source is NOT in this repo. The former `apps/dashboard/` AngularJS scaffold was removed in #1343 — see [`ADR-2026-04-14`](docs/adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md) (superseded).
 - **Sibling repo topology**. A second repository `MasterDD-L34D/Game-Database` (local path typically `C:/Users/VGit/Documents/GitHub/Game-Database`) lives alongside this one. It is a taxonomy CMS (Prisma + Postgres + Express + React) that imports trait/species/biome content from this repo's `packs/evo_tactics_pack/docs/catalog/` via a build-time script (`server/scripts/ingest/import-taxonomy.js`, invoked by `npm run evo:import` on the Game-Database side). The data flow is **unidirectional build-time**: Game → Game-Database. There is **no runtime HTTP integration** between the two services as of April 2026 — Game's catalog service reads local JSON files, and the env var stubs `GAME_DATABASE_URL`/`GAME_DATABASE_ENABLED` read by `apps/backend/index.js` are **contract placeholders for a future integration** that has not been wired yet. Full rationale, schema mismatch analysis, and roadmap in [`docs/adr/ADR-2026-04-14-game-database-topology.md`](docs/adr/ADR-2026-04-14-game-database-topology.md). Port allocation: Game backend = **3334** (changed from 3333 in April 2026), Game-Database = **3333**.
 
-## Agent / automation conventions in this repo
+## Token optimization (context budget)
 
-The repo ships a dedicated agent orchestration system (Codex-oriented) that's distinct from Claude Code. You don't need to "boot" it yourself, but be aware:
+**DO NOT read these files unless explicitly needed** — they are large and consume significant context:
 
-- `AGENTS.md` + `.ai/BOOT_PROFILE.md` define a STRICT MODE workflow, automatic agent routing (`router.md`, `agents/agents_index.json`), and a macro-command library (`docs/ops/COMMAND_LIBRARY.md`, `docs/pipelines/GOLDEN_PATH.md`, `docs/pipelines/PIPELINE_TEMPLATES.md`). Users may send prompts like `COMANDO: GOLDEN_PATH_FEATURE ...` or `AGENTE: trait-curator` — those map to the flows defined in those docs, not to Claude Code slash commands.
-- **Don't invent new `COMANDO:` semantics** or create slugs/files that don't match the existing schemas. When an instruction conflicts with `agent_constitution.md`/`agent.md`, surface the conflict instead of picking a side.
-- The per-agent profiles under `.ai/<agente>/` describe scope for Codex agents (trait-curator, species-curator, balancer, etc.). Useful as reference for where domain expertise lives, even when you're the one doing the edit.
+- `docs/governance/docs_registry.json` (196KB, 477 entries) — only for governance check scripts, never for coding
+- `.ai/` folder (Codex-only agent profiles) — irrelevant for Claude Code sessions
+- `docs/planning/EVO_FINAL_DESIGN_*.md` (836KB total, 8 files) — reference-only, read individual sections via offset/limit
+- `apps/backend/routes/session.js` (1967 LOC) — read only the section you need, use grep to find line numbers first
+
+**Prefer targeted reads**: use `grep -n` to find line numbers, then `Read` with `offset`+`limit`. Avoid reading entire large files.
+
+## Agent / automation conventions in this repo (Codex-only)
+
+> **Note**: this section describes the Codex agent orchestration system, NOT Claude Code. Claude Code does not need to read `AGENTS.md`, `.ai/BOOT_PROFILE.md`, or per-agent profiles. These are listed here only so Claude Code recognizes when users reference Codex commands.
+
+- `AGENTS.md` + `.ai/BOOT_PROFILE.md` define a STRICT MODE workflow for Codex agents, with automatic agent routing and macro-command library. Users may send prompts like `COMANDO: GOLDEN_PATH_FEATURE ...` or `AGENTE: trait-curator` — those map to Codex flows, not to Claude Code.
+- **Don't invent new `COMANDO:` semantics** or create slugs/files that don't match the existing schemas.
+- The per-agent profiles under `.ai/<agente>/` describe scope for Codex agents (trait-curator, species-curator, balancer, etc.).
 
 ## Contribution gates (from CONTRIBUTING.md)
 
