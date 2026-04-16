@@ -1,0 +1,353 @@
+// Utility AI brain — data-driven decision engine for Sistema.
+// ADR: docs/adr/ADR-2026-04-16-ai-architecture-utility.md
+//
+// Architecture:
+//   1. enumerateLegalActions(state, actorId) → [{type, target?, params}]
+//   2. scoreAction(action, actor, state, considerations, weights) → number
+//   3. selectAction(scores, difficultyProfile) → chosen action
+//
+// Considerations are pure functions: (action, actor, state) → [0, 1].
+// Weights come from ai_profiles.yaml difficulty_profiles.
+//
+// Compatible with existing selectAiPolicy interface — can be called
+// from declareSistemaIntents.js without changes.
+
+'use strict';
+
+// ─────────────────────────────────────────────────────────────────
+// Consideration curves
+// ─────────────────────────────────────────────────────────────────
+
+/** Linear: f(x) = clamp(x, 0, 1) */
+function linear(x) {
+  return Math.max(0, Math.min(1, x));
+}
+
+/** Inverse linear: f(x) = 1 - clamp(x, 0, 1) */
+function linearInverse(x) {
+  return 1 - linear(x);
+}
+
+/** Quadratic: f(x) = clamp(x^2, 0, 1) */
+function quadratic(x) {
+  const v = Math.max(0, Math.min(1, x));
+  return v * v;
+}
+
+/** Quadratic inverse: f(x) = 1 - x^2 */
+function quadraticInverse(x) {
+  return 1 - quadratic(x);
+}
+
+/** Logarithmic: f(x) = log(1 + x*9) / log(10) — maps [0,1] to [0,1] */
+function logarithmic(x) {
+  const v = Math.max(0, Math.min(1, x));
+  return Math.log(1 + v * 9) / Math.log(10);
+}
+
+/** Binary: 1 if true, 0 if false */
+function binary(x) {
+  return x ? 1 : 0;
+}
+
+const CURVES = {
+  linear,
+  linear_inverse: linearInverse,
+  quadratic,
+  quadratic_inverse: quadraticInverse,
+  logarithmic,
+  binary,
+};
+
+// ─────────────────────────────────────────────────────────────────
+// Default considerations
+// ─────────────────────────────────────────────────────────────────
+
+const DEFAULT_CONSIDERATIONS = {
+  TargetHealth: {
+    evaluate: (action, actor, state) => {
+      if (!action.target) return 0.5;
+      const t = state.units?.[action.target];
+      if (!t || !t.max_hp) return 0.5;
+      return t.hp / t.max_hp;
+    },
+    curve: 'linear_inverse',
+    weight: 1.0,
+  },
+  Distance: {
+    evaluate: (action, actor, state) => {
+      if (!action.target) return 0.5;
+      const t = state.units?.[action.target];
+      if (!t?.position || !actor.position) return 0.5;
+      const dist = state.distanceFn
+        ? state.distanceFn(actor.position, t.position)
+        : manhattanFallback(actor.position, t.position);
+      const maxRange = 10;
+      return Math.min(dist / maxRange, 1);
+    },
+    curve: 'quadratic_inverse',
+    weight: 0.8,
+  },
+  SelfHealth: {
+    evaluate: (action, actor) => {
+      if (!actor.max_hp) return 1;
+      return actor.hp / actor.max_hp;
+    },
+    curve: 'linear',
+    weight: 0.7,
+  },
+  Cover: {
+    evaluate: (action, actor, state) => {
+      if (!action.target) return 0.5;
+      const t = state.units?.[action.target];
+      if (!t?.position) return 0.5;
+      const tile = state.getTile?.(t.position);
+      return tile?.cover ?? 0;
+    },
+    curve: 'linear_inverse',
+    weight: 0.5,
+  },
+  AllyProximity: {
+    evaluate: (action, actor, state) => {
+      if (!actor.position || !state.units) return 0;
+      let count = 0;
+      for (const [id, u] of Object.entries(state.units)) {
+        if (id === actor.id || u.team !== actor.team) continue;
+        if (!u.position) continue;
+        const dist = state.distanceFn
+          ? state.distanceFn(actor.position, u.position)
+          : manhattanFallback(actor.position, u.position);
+        if (dist <= 2) count++;
+      }
+      return Math.min(count / 3, 1);
+    },
+    curve: 'logarithmic',
+    weight: 0.4,
+  },
+  StressLevel: {
+    evaluate: (action, actor) => {
+      return Math.min((actor.stress ?? 0) / 1, 1);
+    },
+    curve: 'quadratic',
+    weight: 0.6,
+  },
+  CooldownReady: {
+    evaluate: (action, actor) => {
+      if (action.type !== 'reaction') return 0.5;
+      return actor.reaction_cooldown === 0 ? 1 : 0;
+    },
+    curve: 'binary',
+    weight: 0.3,
+  },
+};
+
+function manhattanFallback(a, b) {
+  return (
+    Math.abs((a.x ?? a.q ?? 0) - (b.x ?? b.q ?? 0)) +
+    Math.abs((a.y ?? a.r ?? 0) - (b.y ?? b.r ?? 0))
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Core engine
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * Score a single action using all considerations.
+ * Returns { score, breakdown: [{name, raw, curved, weighted}] }.
+ */
+function scoreAction(
+  action,
+  actor,
+  state,
+  considerations = DEFAULT_CONSIDERATIONS,
+  weightOverrides = {},
+) {
+  let totalScore = 1; // multiplicative aggregation
+  const breakdown = [];
+
+  for (const [name, config] of Object.entries(considerations)) {
+    const raw = config.evaluate(action, actor, state);
+    const curveFn = CURVES[config.curve] || linear;
+    const curved = curveFn(raw);
+    const weight = weightOverrides[name] ?? config.weight;
+    const weighted = curved * weight;
+
+    // Multiplicative: score *= (weighted + epsilon) to avoid zero-kill
+    totalScore *= weighted + 0.01;
+    breakdown.push({ name, raw, curved, weighted });
+  }
+
+  return { score: totalScore, breakdown };
+}
+
+/**
+ * Score all actions and select one based on difficulty profile.
+ *
+ * difficultyProfile: { selection: 'argmax'|'weighted_top3'|'random', noise: 0-1 }
+ *
+ * Returns { action, score, breakdown, allScores }.
+ */
+function selectAction(
+  actions,
+  actor,
+  state,
+  difficultyProfile = {},
+  considerations = DEFAULT_CONSIDERATIONS,
+  weightOverrides = {},
+) {
+  if (!actions || actions.length === 0) return null;
+
+  const { selection = 'argmax', noise = 0 } = difficultyProfile;
+
+  // Score all actions
+  const scored = actions.map((action) => {
+    const result = scoreAction(action, actor, state, considerations, weightOverrides);
+    // Add noise
+    const noisyScore = result.score + (Math.random() - 0.5) * 2 * noise * result.score;
+    return { action, score: Math.max(0, noisyScore), breakdown: result.breakdown };
+  });
+
+  // Sort descending
+  scored.sort((a, b) => b.score - a.score);
+
+  let chosen;
+  switch (selection) {
+    case 'random':
+      chosen = scored[Math.floor(Math.random() * scored.length)];
+      break;
+    case 'weighted_top3': {
+      const top = scored.slice(0, 3);
+      const totalWeight = top.reduce((sum, s) => sum + s.score, 0);
+      if (totalWeight === 0) {
+        chosen = top[0];
+      } else {
+        let roll = Math.random() * totalWeight;
+        chosen = top[0];
+        for (const s of top) {
+          roll -= s.score;
+          if (roll <= 0) {
+            chosen = s;
+            break;
+          }
+        }
+      }
+      break;
+    }
+    case 'argmax':
+    default:
+      chosen = scored[0];
+      break;
+  }
+
+  return {
+    action: chosen.action,
+    score: chosen.score,
+    breakdown: chosen.breakdown,
+    allScores: scored.map((s) => ({ action: s.action, score: s.score })),
+  };
+}
+
+/**
+ * Enumerate legal actions for a SIS unit.
+ * Basic version — returns attack/approach/retreat/skip.
+ * Extend when grid pathfinding available (§14).
+ */
+function enumerateLegalActions(actor, state) {
+  const actions = [];
+
+  // Skip if stunned
+  if (actor.status?.stunned > 0) {
+    return [{ type: 'skip', reason: 'stunned' }];
+  }
+
+  const enemies = Object.entries(state.units || {}).filter(
+    ([id, u]) => u.team !== actor.team && u.hp > 0,
+  );
+
+  for (const [targetId, target] of enemies) {
+    // Attack if in range
+    const dist = state.distanceFn
+      ? state.distanceFn(actor.position, target.position)
+      : manhattanFallback(actor.position, target.position);
+    const range = actor.attack_range ?? 2;
+
+    if (dist <= range) {
+      actions.push({ type: 'attack', target: targetId });
+    }
+
+    // Approach (always available)
+    actions.push({ type: 'approach', target: targetId });
+  }
+
+  // Retreat (always available if HP > 0)
+  if (actor.hp > 0) {
+    actions.push({ type: 'retreat' });
+  }
+
+  // Deduplicate approach targets (keep closest)
+  return actions.length > 0 ? actions : [{ type: 'skip', reason: 'no_options' }];
+}
+
+/**
+ * Bridge function: drop-in replacement for selectAiPolicy.
+ * Returns { rule, intent } for compatibility with existing code.
+ */
+function selectAiPolicyUtility(
+  actor,
+  target,
+  state = {},
+  difficultyProfile = {},
+  considerations = DEFAULT_CONSIDERATIONS,
+  weightOverrides = {},
+) {
+  // Build minimal state if not provided
+  const minimalState = {
+    units: { [actor.id || 'actor']: actor, [target?.id || 'target']: target },
+    distanceFn: state.distanceFn || manhattanFallback,
+    getTile: state.getTile || (() => null),
+    ...state,
+  };
+
+  const actions = enumerateLegalActions(actor, minimalState);
+  const result = selectAction(
+    actions,
+    actor,
+    minimalState,
+    difficultyProfile,
+    considerations,
+    weightOverrides,
+  );
+
+  if (!result) return { rule: 'UTILITY_FALLBACK', intent: 'skip' };
+
+  return {
+    rule: 'UTILITY_AI',
+    intent: result.action.type,
+    target: result.action.target,
+    score: result.score,
+    breakdown: result.breakdown,
+  };
+}
+
+module.exports = {
+  // Curves
+  CURVES,
+  linear,
+  linearInverse,
+  quadratic,
+  quadraticInverse,
+  logarithmic,
+  binary,
+
+  // Considerations
+  DEFAULT_CONSIDERATIONS,
+
+  // Core
+  scoreAction,
+  selectAction,
+  enumerateLegalActions,
+
+  // Bridge
+  selectAiPolicyUtility,
+};

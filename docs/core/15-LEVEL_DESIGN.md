@@ -1,6 +1,16 @@
-# Level Design — DRAFT
+---
+doc_status: active
+doc_owner: master-dd
+workstream: dataset-pack
+last_verified: '2026-04-16'
+source_of_truth: false
+language: it
+review_cycle_days: 30
+---
 
-> Bozza GDD. Da promuovere in docs/core/ dopo review.
+# Level Design
+
+> Promosso da docs/planning/draft-level-design.md (2026-04-16). Schema AJV in `schemas/evo/encounter.schema.json`.
 
 ## Scopo
 

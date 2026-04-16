@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/encounter.schema.json",
+  "title": "Evo Tactics Encounter Template",
+  "description": "Schema for encounter YAML definitions. See docs/core/00-SOURCE-OF-TRUTH.md §15.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "encounter_id",
+    "name",
+    "biome_id",
+    "grid_size",
+    "objective",
+    "player_spawn",
+    "waves",
+    "difficulty_rating"
+  ],
+  "properties": {
+    "encounter_id": {
+      "type": "string",
+      "pattern": "^enc_[a-z0-9_]+$",
+      "description": "Unique slug identifier"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Display name (Italian)"
+    },
+    "biome_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to biomes.yaml entry"
+    },
+    "grid_size": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 4, "maximum": 20 },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "[width, height] in hex cells"
+    },
+    "objective": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["elimination", "capture_point", "escort", "sabotage", "survival", "escape"]
+        },
+        "target_zone": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 4,
+          "maxItems": 4,
+          "description": "[x1, y1, x2, y2] bounding box for capture/escape"
+        },
+        "hold_turns": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Turns to hold zone (capture_point)"
+        },
+        "survive_turns": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Turns to survive (survival)"
+        },
+        "escort_target": {
+          "type": "string",
+          "description": "Unit ID to protect (escort)"
+        },
+        "time_limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Turn limit (sabotage, escape)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "player_spawn": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "type": "integer", "minimum": 0 },
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "minItems": 1,
+      "description": "[[x, y], ...] spawn positions for player units"
+    },
+    "waves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["wave_id", "turn_trigger", "spawn_points", "units"],
+        "additionalProperties": false,
+        "properties": {
+          "wave_id": { "type": "integer", "minimum": 1 },
+          "turn_trigger": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Turn number when wave spawns (0 = start)"
+          },
+          "spawn_points": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": { "type": "integer", "minimum": 0 },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "minItems": 1
+          },
+          "units": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["species", "count"],
+              "additionalProperties": false,
+              "properties": {
+                "species": { "type": "string", "minLength": 1 },
+                "count": { "type": "integer", "minimum": 1 },
+                "tier": {
+                  "type": "string",
+                  "enum": ["base", "elite", "apex"],
+                  "default": "base"
+                },
+                "ai_profile": {
+                  "type": "string",
+                  "description": "Reference to ai_profiles.yaml entry"
+                },
+                "affixes": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "fog_of_war",
+              "stress_wave",
+              "terrain_collapse",
+              "allied_reinforcement",
+              "environmental_mutation"
+            ]
+          },
+          "fov_radius": { "type": "integer", "minimum": 1 },
+          "trigger_turn": { "type": "integer", "minimum": 1 },
+          "effect": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "difficulty_rating": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "1-5 star difficulty"
+    },
+    "estimated_turns": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Expected match length in turns"
+    },
+    "narrative": {
+      "type": "object",
+      "properties": {
+        "briefing_ink": {
+          "type": "string",
+          "description": "Path to .ink.json briefing story"
+        },
+        "debrief_ink": {
+          "type": "string",
+          "description": "Path to .ink.json debrief story"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "tutorial",
+          "standard",
+          "boss",
+          "survival",
+          "escort",
+          "puzzle",
+          "timed",
+          "night",
+          "storm"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "restrictions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Disabled mechanics: no_hazard, no_reactions, no_status, etc."
+    },
+    "didactic_focus": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Mechanics highlighted in tutorial encounters"
+    }
+  }
+}
