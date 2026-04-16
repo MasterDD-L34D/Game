@@ -90,6 +90,19 @@ Il bundle in `docs/mission-console/` è un snapshot frozen-in-time proveniente d
 - È l'unica UI pubblica del progetto servita da GitHub Pages. Cancellarla significherebbe down immediato del sito.
 - Il bundle è funzionante e stabile; l'unico problema è che non ha un source path nel repo.
 
+## Stato sorgente Vue (aggiornamento 2026-04-16)
+
+Il progetto Vue 3 che ha prodotto il bundle in `docs/mission-console/` **non e' piu' disponibile**. Il repo/branch esterno originale non e' stato documentato al momento dell'import (commit `57e832db`, 2025-10-29) e il source e' considerato perso.
+
+**Conseguenze operative:**
+
+- Il bundle attuale e' l'unico artefatto esistente. Funziona, e' stabile, ed e' testato da 5 spec Playwright.
+- **Se servono modifiche UI**, l'unica strada e' un **rebuild from scratch** come nuovo progetto Vue 3 + Vite nel repo (es. `apps/console/`).
+- I dati statici (`data/flow/`, `data/nebula/`) sono rigenerabili via `npm run mock:generate`.
+- Il layout e le rotte sono ricostruibili dal manifest Vite (`.vite/manifest.json`) che lista i component source originali: `ConsoleLayout.vue`, `FlowShellView.vue`, `atlas/*`, `nebula/*`, `NotFound.vue`.
+
+**Effort stimato per rebuild**: 2-4 giorni per un dev Vue senior, usando il manifest come blueprint e i mock JSON come data source.
+
 ## Conseguenze
 
 **Accettate:**
