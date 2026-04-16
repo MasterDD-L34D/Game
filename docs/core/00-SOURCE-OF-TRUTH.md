@@ -17,16 +17,16 @@ _v4 (2026-04-16): deep dive 4 aree (Grid, AI, Level Design, Networking) da 12+ r
 
 ## Stato lettura
 
-| Stato | Task                                             | Dettagli operativi                                                                                                                                                                                                       |
-| ----- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| ☑    | Visione generale ricostruita                     | Derivata soprattutto da [`01-VISIONE.md`](01-VISIONE.md), [`03-LOOP.md`](03-LOOP.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md)                         |
-| ☑    | Prima partita ricostruita                        | Supportata da [`draft-screen-flow.md`](../planning/draft-screen-flow.md) e [`enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)                                                                         |
-| ☑    | Worldgen ed ecosistemi ricostruiti               | Supportati da [`biomes.yaml`](../../data/core/biomes.yaml), `data/ecosystems/*`, `packs/evo_tactics_pack/data/ecosystems/*`                                                                                              |
-| ☑    | Foodweb verificata                               | Confermata da `packs/evo_tactics_pack/data/foodwebs/*`, validator e network cross-bioma                                                                                                                                  |
-| ☑    | Sistema evolutivo specie-trait-forme ricostruito | Supportato da [`species.yaml`](../../data/core/species.yaml), [`20-SPECIE_E_PARTI.md`](20-SPECIE_E_PARTI.md), [`22-FORME_BASE_16.md`](22-FORME_BASE_16.md), `data/core/traits/*`                                         |
-| ☑    | TV + companion + salotto ricostruiti             | Supportati da [`11-REGOLE_D20_TV.md`](11-REGOLE_D20_TV.md), [`30-UI_TV_IDENTITA.md`](30-UI_TV_IDENTITA.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`draft-screen-flow.md`](../planning/draft-screen-flow.md) |
-| ☑    | Premessa narrativa recuperata                    | Supportata da [`draft-narrative-lore.md`](../planning/draft-narrative-lore.md)                                                                                                                                           |
-| ☑    | Documento master promosso nel repo               | Questo file è ora canonico in `docs/core/00-SOURCE-OF-TRUTH.md`                                                                                                                                                          |
+| Stato | Task                                             | Dettagli operativi                                                                                                                                                                                     |
+| ----- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ☑    | Visione generale ricostruita                     | Derivata soprattutto da [`01-VISIONE.md`](01-VISIONE.md), [`03-LOOP.md`](03-LOOP.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md)       |
+| ☑    | Prima partita ricostruita                        | Supportata da [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) e [`enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)                                                                         |
+| ☑    | Worldgen ed ecosistemi ricostruiti               | Supportati da [`biomes.yaml`](../../data/core/biomes.yaml), `data/ecosystems/*`, `packs/evo_tactics_pack/data/ecosystems/*`                                                                            |
+| ☑    | Foodweb verificata                               | Confermata da `packs/evo_tactics_pack/data/foodwebs/*`, validator e network cross-bioma                                                                                                                |
+| ☑    | Sistema evolutivo specie-trait-forme ricostruito | Supportato da [`species.yaml`](../../data/core/species.yaml), [`20-SPECIE_E_PARTI.md`](20-SPECIE_E_PARTI.md), [`22-FORME_BASE_16.md`](22-FORME_BASE_16.md), `data/core/traits/*`                       |
+| ☑    | TV + companion + salotto ricostruiti             | Supportati da [`11-REGOLE_D20_TV.md`](11-REGOLE_D20_TV.md), [`30-UI_TV_IDENTITA.md`](30-UI_TV_IDENTITA.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) |
+| ☑    | Premessa narrativa recuperata                    | Supportata da [`draft-narrative-lore.md`](../planning/draft-narrative-lore.md)                                                                                                                         |
+| ☑    | Documento master promosso nel repo               | Questo file è ora canonico in `docs/core/00-SOURCE-OF-TRUTH.md`                                                                                                                                        |
 
 ---
 
@@ -60,7 +60,7 @@ Il progetto non è solo un combat system.
 
 ## 2. Come iniziava davvero una prima partita
 
-La forma più concreta del flow iniziale non è solo nel loop alto livello, ma in [`docs/planning/draft-screen-flow.md`](../planning/draft-screen-flow.md).
+La forma più concreta del flow iniziale non è solo nel loop alto livello, ma in [`docs/planning/17-SCREEN_FLOW.md`](../planning/17-SCREEN_FLOW.md).
 
 ### Flow completo della sessione
 
@@ -95,7 +95,7 @@ Doveva essere:
 
 ### Onboarding previsto
 
-[`draft-screen-flow.md`](../planning/draft-screen-flow.md) e [`DesignDoc-Overview.md`](DesignDoc-Overview.md) convergono su questo:
+[`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) e [`DesignDoc-Overview.md`](DesignDoc-Overview.md) convergono su questo:
 
 - onboarding sotto i 10 minuti;
 - preset di Forme;
@@ -340,7 +340,7 @@ Questo asse esiste ancora chiaramente.
 - warning budget;
 - sinergie e counter noti.
 
-[`draft-screen-flow.md`](../planning/draft-screen-flow.md) è esplicitamente TV-first:
+[`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) è esplicitamente TV-first:
 
 - D-pad;
 - font grande;
@@ -500,7 +500,7 @@ La memoria che avevi era giusta: il gioco era più grande del puro combat, e il 
 | ☑    | 2. Leggere il loop                  | [`docs/core/03-LOOP.md`](03-LOOP.md)                                                                  |
 | ☑    | 3. Leggere il freeze                | [`docs/core/90-FINAL-DESIGN-FREEZE.md`](90-FINAL-DESIGN-FREEZE.md)                                    |
 | ☑    | 4. Recuperare il feeling originario | [`docs/core/DesignDoc-Overview.md`](DesignDoc-Overview.md)                                            |
-| ☑    | 5. Leggere il flow giocabile        | [`docs/planning/draft-screen-flow.md`](../planning/draft-screen-flow.md)                              |
+| ☑    | 5. Leggere il flow giocabile        | [`docs/planning/17-SCREEN_FLOW.md`](../planning/17-SCREEN_FLOW.md)                                    |
 | ☑    | 6. Leggere la prima partita         | [`docs/planning/encounters/enc_tutorial_01.yaml`](../planning/encounters/enc_tutorial_01.yaml)        |
 | ☑    | 7. Leggere specie e Forme           | [`20-SPECIE_E_PARTI.md`](20-SPECIE_E_PARTI.md), [`22-FORME_BASE_16.md`](22-FORME_BASE_16.md)          |
 | ☑    | 8. Leggere biomi e Director         | [`28-NPC_BIOMI_SPAWN.md`](28-NPC_BIOMI_SPAWN.md), [`biomes.yaml`](../../data/core/biomes.yaml)        |
@@ -704,16 +704,16 @@ Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrat
 | VC/MBTI/Ennea              | `vcScoring.js`, `enneaEffects.js`                         | Operativo (P4 completo)               |
 | AI SIS                     | `policy.js`, `declareSistemaIntents.js`                   | Operativo, data-driven                |
 | Status system              | `statusEffectsMachine.js`                                 | Operativo (xstate v5)                 |
-| §14 Grid & Map             | `terrain_defense.yaml` (solo dati)                        | ⚠️ Da definire                        |
-| §15 Level Design           | `enc_tutorial_01.yaml` (1 esempio)                        | ⚠️ Da definire                        |
-| §16 Networking/Co-op       | —                                                         | ⚠️ Da definire                        |
-| §17 Screen Flow            | `draft-screen-flow.md` (mermaid)                          | ✅ Formalizzato                       |
+| §14 Grid & Map             | `hexGrid.js` + `terrain_defense.yaml` v0.2                | 🟢 Engine operativo, 23 test          |
+| §15 Level Design           | `encounter.schema.json` + 3 encounter YAML                | 🟢 Schema + dati validati             |
+| §16 Networking/Co-op       | ADR Colyseus (proposto)                                   | 🟡 ADR proposto, non implementato     |
+| §17 Screen Flow            | `17-SCREEN_FLOW.md` (mermaid)                             | ✅ Formalizzato                       |
 | §18 Audience/Accessibilità | —                                                         | 🟡 Proposte, attesa Master DD         |
 | §19 Decisioni GDD          | 28 domande                                                | 12✅ 9🟡 7🔴                          |
 
 ---
 
-## 14. Grid & Map System ⚠️ DA DEFINIRE
+## 14. Grid & Map System 🟢 ENGINE OPERATIVO
 
 Questa sezione copre la struttura spaziale del campo di battaglia. Attualmente il repo ha dati di terreno (biomes.yaml, terrain_defense.yaml) ma **nessuna implementazione grid/pathfinding**.
 
@@ -789,17 +789,17 @@ getLineOfSight(from, to) → {clear: bool, tiles: HexCoord[]}
 
 ### 14.5 Mappa design → codice
 
-| Componente   | Modulo                 | Stato                         | Libreria candidata     |
-| ------------ | ---------------------- | ----------------------------- | ---------------------- |
-| Terrain data | `terrain_defense.yaml` | Dati presenti, campi mancanti | —                      |
-| Grid engine  | —                      | Non implementato              | `honeycomb-grid` (hex) |
-| Pathfinding  | —                      | Non implementato              | Custom Dijkstra/A\*    |
-| FOV/LOS      | —                      | Non implementato              | Custom ray-cast        |
-| Map editor   | —                      | Non previsto                  | —                      |
+| Componente   | Modulo                      | Stato                                                   |
+| ------------ | --------------------------- | ------------------------------------------------------- |
+| Terrain data | `terrain_defense.yaml` v0.2 | 🟢 14 tipi, movement_cost, cover, blocks_los, elevation |
+| Grid engine  | `services/grid/hexGrid.js`  | 🟢 Axial coords, 195 LOC, 23 test                       |
+| Pathfinding  | `hexGrid.js` Dijkstra + A\* | 🟢 getReachableTiles, findPath                          |
+| FOV/LOS      | `hexGrid.js` ray-cast       | 🟢 getLineOfSight                                       |
+| Map editor   | —                           | Non previsto                                            |
 
 ---
 
-## 15. Level Design & Encounter Templates ⚠️ DA DEFINIRE
+## 15. Level Design & Encounter Templates 🟢 SCHEMA + DATI
 
 Il repo ha un solo encounter definito (`enc_tutorial_01.yaml`). Manca una struttura sistematica per livelli e encounter.
 
@@ -912,17 +912,18 @@ difficulty = clamp(raw_score × biome_mult × objective_mult, 1, 5)
 
 ### 15.7 Mappa design → codice
 
-| Componente         | Modulo                 | Stato            | Prossimo passo                 |
-| ------------------ | ---------------------- | ---------------- | ------------------------------ |
-| Encounter template | `enc_tutorial_01.yaml` | 1 esempio        | Schema AJV in `schemas/evo/`   |
-| Encounter loader   | —                      | Non implementato | Parser YAML → session state    |
-| Difficulty system  | —                      | Non implementato | Formula §15.4                  |
-| Campaign graph     | —                      | Non implementato | Grafo archi bioma              |
-| Map data format    | —                      | Non definito     | `.encounter.yaml` con hex grid |
+| Componente        | Modulo                                       | Stato                       | Prossimo passo |
+| ----------------- | -------------------------------------------- | --------------------------- | -------------- |
+| Encounter schema  | `schemas/evo/encounter.schema.json`          | 🟢 AJV validato             |
+| Encounter data    | 3 YAML (tutorial_01, tutorial_02, savana_01) | 🟢 Tutti validati           |
+| Encounter loader  | —                                            | Non implementato            |
+| Difficulty system | —                                            | Formula in §15.4, non impl. |
+| Campaign graph    | —                                            | Non implementato            |
+| Level Design doc  | `docs/core/15-LEVEL_DESIGN.md`               | 🟢 Promosso da draft        |
 
 ---
 
-## 16. Networking & Co-op Architecture ⚠️ DA DEFINIRE
+## 16. Networking & Co-op Architecture 🟡 ADR PROPOSTO
 
 Co-op 4 giocatori vs Sistema è pilastro #5. Oggi il sistema gira **single-machine only**.
 
@@ -999,9 +1000,9 @@ Il companion (§6) è un **client leggero** che:
 
 ## 17. Screen Flow ✅ FORMALIZZATO
 
-Il flusso schermate è ora definito in `draft-screen-flow.md` con diagramma mermaid completo.
+Il flusso schermate è ora definito in `17-SCREEN_FLOW.md` con diagramma mermaid completo.
 
-### 17.1 Diagramma navigazione (da `draft-screen-flow.md`)
+### 17.1 Diagramma navigazione (da `17-SCREEN_FLOW.md`)
 
 ```mermaid
 graph TD
@@ -1054,7 +1055,7 @@ graph LR
 
 | Componente        | Modulo                  | Stato                                 |
 | ----------------- | ----------------------- | ------------------------------------- |
-| Screen flow doc   | `draft-screen-flow.md`  | ✅ Diagramma mermaid completo         |
+| Screen flow doc   | `17-SCREEN_FLOW.md`     | ✅ Diagramma mermaid completo         |
 | Navigation engine | —                       | Non implementato                      |
 | Mission Console   | `docs/mission-console/` | Bundle pre-built, source non nel repo |
 
@@ -1117,12 +1118,12 @@ Questa sezione traccia le 28 domande aperte dai draft GDD e il loro stato di ris
 | 13  | Editor livelli             | YAML manuale                          | Tutti repo analizzati = hand-crafted. Repo YAML-first      |
 | 14  | Procedurale o hand-crafted | Hand-crafted con wave procedurale     | AncientBeast, wesnoth, rpg_tactical_fantasy = hand-crafted |
 | 15  | Formula difficulty         | `clamp(raw × biome × obj, 1, 5)`      | SoT §15.4, wesnoth scaling pattern                         |
-| 17  | Schema AJV encounter       | Da creare in `schemas/evo/`           | Template in §15.2 + `draft-level-design.md`                |
+| 17  | Schema AJV encounter       | Da creare in `schemas/evo/`           | Template in §15.2 + `15-LEVEL_DESIGN.md`                   |
 | 18  | Procedurale vs scritta     | Mix: briefing Ink + wave procedurale  | narrativeEngine.js operativo, Director = procedurale       |
 | 19  | Voice-over o testo         | Solo testo                            | Ink engine = testo. Budget indie. Tono intimo              |
 | 21  | Tool narrativo             | Ink (inkjs)                           | Già implementato §13.6. Decisione chiusa                   |
 | 24  | Tutorial                   | Integrato nei primi encounter         | `enc_tutorial_01.yaml`. SoT §2 esplicito                   |
-| 25  | Matchmaking                | In lobby                              | `draft-screen-flow.md`: MENU → LOBBY                       |
+| 25  | Matchmaking                | In lobby                              | `17-SCREEN_FLOW.md`: MENU → LOBBY                          |
 | 28  | Controlli                  | Controller primary + keyboard + touch | TV-first = controller. Touch = companion                   |
 
 ### 19.2 Proposte da validare con Master DD (🟡 9/28)
