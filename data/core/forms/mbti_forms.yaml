@@ -1,0 +1,152 @@
+# MBTI Forms — Evo-Tactics Pillar 4
+# 16 tipi MBTI con job affinities, baseline axes, e soft-gate penalties.
+# Il PF_session engine proietta le raw metrics su questi tipi.
+#
+# Fonte: Final Design Freeze v0.9 §7.4, telemetry.yaml mbti_axes.
+# Threshold: 0.5 su ogni asse (sopra = prima lettera, sotto = seconda).
+
+version: "0.1.0"
+
+# Tipi raggruppati per temperamento (Keirsey)
+forms:
+  # --- NT: Razionali (Architetti) ---
+  INTJ:
+    label: "Stratega"
+    description_it: "Pianificatore freddo, setup meticoloso, poche azioni ma decisive."
+    axes: {E_I: 0.75, S_N: 0.35, T_F: 0.80, J_P: 0.75}
+    job_affinities: [tattico, controllore]
+    job_penalties: [guaritore]
+    temperament: NT
+
+  INTP:
+    label: "Analista"
+    description_it: "Sperimentatore, approccio non convenzionale, improvvisa."
+    axes: {E_I: 0.70, S_N: 0.30, T_F: 0.75, J_P: 0.30}
+    job_affinities: [esploratore, tattico]
+    job_penalties: [sentinella]
+    temperament: NT
+
+  ENTJ:
+    label: "Comandante"
+    description_it: "Leader aggressivo, coordina squadra, prima linea."
+    axes: {E_I: 0.25, S_N: 0.35, T_F: 0.80, J_P: 0.75}
+    job_affinities: [assaltatore, tattico]
+    job_penalties: [furtivo]
+    temperament: NT
+
+  ENTP:
+    label: "Inventore"
+    description_it: "Creativo tattico, trova soluzioni non ortodosse."
+    axes: {E_I: 0.30, S_N: 0.25, T_F: 0.70, J_P: 0.25}
+    job_affinities: [esploratore, assaltatore]
+    job_penalties: [sentinella]
+    temperament: NT
+
+  # --- NF: Idealisti (Diplomati) ---
+  INFJ:
+    label: "Custode"
+    description_it: "Protettore silenzioso, supporta da retrovie, anticipa bisogni."
+    axes: {E_I: 0.75, S_N: 0.35, T_F: 0.25, J_P: 0.70}
+    job_affinities: [guaritore, controllore]
+    job_penalties: [assaltatore]
+    temperament: NF
+
+  INFP:
+    label: "Mediatore"
+    description_it: "Empatico, adattivo, risponde ai bisogni della squadra."
+    axes: {E_I: 0.70, S_N: 0.30, T_F: 0.20, J_P: 0.30}
+    job_affinities: [guaritore, esploratore]
+    job_penalties: [assaltatore]
+    temperament: NF
+
+  ENFJ:
+    label: "Protagonista"
+    description_it: "Ispiratore, motiva la squadra, buff di gruppo."
+    axes: {E_I: 0.25, S_N: 0.30, T_F: 0.25, J_P: 0.70}
+    job_affinities: [guaritore, tattico]
+    job_penalties: [furtivo]
+    temperament: NF
+
+  ENFP:
+    label: "Campione"
+    description_it: "Entusiasta, esplora, trova risorse inaspettate."
+    axes: {E_I: 0.30, S_N: 0.25, T_F: 0.30, J_P: 0.25}
+    job_affinities: [esploratore, guaritore]
+    job_penalties: [sentinella]
+    temperament: NF
+
+  # --- SJ: Guardiani (Sentinelle) ---
+  ISTJ:
+    label: "Ispettore"
+    description_it: "Disciplinato, segue protocollo, difesa posizionale."
+    axes: {E_I: 0.75, S_N: 0.70, T_F: 0.75, J_P: 0.80}
+    job_affinities: [sentinella, controllore]
+    job_penalties: [esploratore]
+    temperament: SJ
+
+  ISFJ:
+    label: "Difensore"
+    description_it: "Protegge alleati, healing, copertura."
+    axes: {E_I: 0.70, S_N: 0.65, T_F: 0.30, J_P: 0.75}
+    job_affinities: [sentinella, guaritore]
+    job_penalties: [assaltatore]
+    temperament: SJ
+
+  ESTJ:
+    label: "Esecutore"
+    description_it: "Organizzatore aggressivo, setup rapido, colpisce duro."
+    axes: {E_I: 0.25, S_N: 0.70, T_F: 0.80, J_P: 0.80}
+    job_affinities: [assaltatore, sentinella]
+    job_penalties: [furtivo]
+    temperament: SJ
+
+  ESFJ:
+    label: "Console"
+    description_it: "Supporto sociale, buff di gruppo, coesione."
+    axes: {E_I: 0.25, S_N: 0.65, T_F: 0.25, J_P: 0.75}
+    job_affinities: [guaritore, sentinella]
+    job_penalties: [furtivo]
+    temperament: SJ
+
+  # --- SP: Artigiani (Esploratori) ---
+  ISTP:
+    label: "Virtuoso"
+    description_it: "Operatore solitario, reattivo, mordi e fuggi."
+    axes: {E_I: 0.70, S_N: 0.65, T_F: 0.70, J_P: 0.25}
+    job_affinities: [furtivo, assaltatore]
+    job_penalties: [guaritore]
+    temperament: SP
+
+  ISFP:
+    label: "Avventuriero"
+    description_it: "Adattivo, flessibile, segue l'istinto."
+    axes: {E_I: 0.65, S_N: 0.60, T_F: 0.30, J_P: 0.25}
+    job_affinities: [esploratore, furtivo]
+    job_penalties: [sentinella]
+    temperament: SP
+
+  ESTP:
+    label: "Imprenditore"
+    description_it: "Azione diretta, rischio calcolato, primo in campo."
+    axes: {E_I: 0.25, S_N: 0.65, T_F: 0.70, J_P: 0.25}
+    job_affinities: [assaltatore, furtivo]
+    job_penalties: [controllore]
+    temperament: SP
+
+  ESFP:
+    label: "Intrattenitore"
+    description_it: "Carismatico, reattivo, risponde alla situazione."
+    axes: {E_I: 0.25, S_N: 0.60, T_F: 0.30, J_P: 0.20}
+    job_affinities: [esploratore, assaltatore]
+    job_penalties: [controllore]
+    temperament: SP
+
+# Soft-gate penalty: se il job scelto e' in job_penalties del form,
+# il giocatore subisce un malus al primo turno.
+soft_gate:
+  first_turn_penalty:
+    attack_mod: -1
+    defense_mod: -1
+    duration_turns: 1
+  # Alternativa: costo PI extra per unlock
+  pi_surcharge: 5
