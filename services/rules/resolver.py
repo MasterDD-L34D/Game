@@ -74,7 +74,8 @@ MOS_PER_STEP = 5
 
 #: Action types che consumano AP ma non hanno logica di risoluzione in
 #: questa iterazione del resolver.
-NOOP_ACTION_TYPES = frozenset({"defend", "parry", "ability", "move"})
+# Fase 3b: "ability" removed from NOOP — now has its own resolution branch.
+NOOP_ACTION_TYPES = frozenset({"defend", "parry", "move"})
 
 #: CD fissa per il tiro reattivo di parata (Fase 7). Semplificata rispetto
 #: al pattern "d20 contrapposto" del doc per la prima iterazione.
@@ -288,6 +289,16 @@ def begin_turn(state: Mapping[str, Any], unit_id: str) -> Dict[str, Any]:
             status["remaining_turns"] = remaining
             surviving.append(status)
     unit["statuses"] = surviving
+
+    # Buff decay (Fase 3b): decrement remaining_turns, remove expired
+    buffs = list(unit.get("buffs") or [])
+    surviving_buffs: List[Dict[str, Any]] = []
+    for buff in buffs:
+        remaining = int(buff.get("remaining_turns", 0)) - 1
+        if remaining > 0:
+            buff["remaining_turns"] = remaining
+            surviving_buffs.append(buff)
+    unit["buffs"] = surviving_buffs
 
     return {
         "next_state": next_state,
@@ -545,6 +556,20 @@ def resolve_action(
         trait_damage_step = aggregate_mod(
             actor.get("trait_ids", []), catalog, "damage_step"
         )
+
+        # Buff integration (Fase 3b): somma buff amounts per stat
+        for buff in actor.get("buffs") or []:
+            stat = buff.get("stat")
+            amt = int(buff.get("amount", 0))
+            if stat == "attack_mod":
+                attack_mod += amt
+            elif stat == "damage_step":
+                trait_damage_step += amt
+        for buff in target.get("buffs") or []:
+            stat = buff.get("stat")
+            amt = int(buff.get("amount", 0))
+            if stat == "defense_mod":
+                defense_mod_target += amt
 
         # Status malus su attack_mod dell'attore (disorient)
         disorient = get_status(actor, "disorient")
@@ -823,6 +848,122 @@ def resolve_action(
             "heal_roll": int(heal_roll),
             "heal_dice": dict(heal_dice),
         }
+    elif action_type == "ability":
+        # --- Ability action (Fase 3b) -----------------------------------------
+        # Auto-success: nessun d20 roll. L'effetto e' garantito.
+        # Lookup ability_id nei trait dell'actor via catalog active_effects[].
+        # Effect types: damage, heal, apply_status, buff.
+        ability_id = action.get("ability_id")
+        if not ability_id:
+            raise ValueError("ability action richiede ability_id")
+        # Find ability definition in actor's traits
+        ability_def = None
+        for trait_id in actor.get("trait_ids", []):
+            entry = catalog.get(trait_id)
+            if not isinstance(entry, Mapping):
+                continue
+            for fx in entry.get("active_effects", []):
+                if isinstance(fx, Mapping) and fx.get("ability_id") == ability_id:
+                    ability_def = fx
+                    break
+            if ability_def:
+                break
+        if ability_def is None:
+            raise ValueError(
+                f"ability_id '{ability_id}' non trovata nei trait dell'actor"
+            )
+        effect_type = str(ability_def.get("effect_type", ""))
+        ability_log: Dict[str, Any] = {
+            "ability_id": ability_id,
+            "effect_type": effect_type,
+            "name_it": ability_def.get("name_it", ability_id),
+        }
+        damage_applied_ab = 0
+        healing_applied_ab = 0
+        statuses_applied_ab: List[Dict[str, Any]] = []
+
+        if effect_type == "damage":
+            target_id_ab = action.get("target_id")
+            if not target_id_ab:
+                raise ValueError("ability damage richiede target_id")
+            target_ab = _find_unit(next_state, str(target_id_ab))
+            dice = ability_def.get("damage_dice") or {"count": 1, "sides": 6, "modifier": 0}
+            base_damage = roll_damage_dice(dice, rng)
+            channel = ability_def.get("channel") or action.get("channel")
+            after_resist = apply_resistance(
+                base_damage,
+                target_ab.get("resistances", []),
+                channel,
+            )
+            effective_armor = int(target_ab.get("armor", 0))
+            after_armor = apply_armor(after_resist, effective_armor)
+            damage_applied_ab = max(0, after_armor)
+            target_hp_ab = target_ab.get("hp", {})
+            target_hp_ab["current"] = max(
+                0, int(target_hp_ab.get("current", 0)) - damage_applied_ab
+            )
+            target_ab["hp"] = target_hp_ab
+            ability_log["damage_applied"] = damage_applied_ab
+            ability_log["damage_dice"] = dict(dice)
+            ability_log["channel"] = channel
+
+        elif effect_type == "heal":
+            target_id_ab = action.get("target_id") or str(actor.get("id", ""))
+            target_ab = _find_unit(next_state, str(target_id_ab))
+            dice = ability_def.get("heal_dice") or {"count": 1, "sides": 4, "modifier": 0}
+            heal_roll = roll_damage_dice(dice, rng)
+            hp_ab = target_ab.get("hp") or {}
+            hp_cur = int(hp_ab.get("current", 0))
+            hp_max = int(hp_ab.get("max", hp_cur))
+            missing = max(0, hp_max - hp_cur)
+            healing_applied_ab = max(0, min(heal_roll, missing))
+            hp_ab["current"] = hp_cur + healing_applied_ab
+            target_ab["hp"] = hp_ab
+            ability_log["healing_applied"] = healing_applied_ab
+            ability_log["heal_dice"] = dict(dice)
+
+        elif effect_type == "apply_status":
+            target_side = str(ability_def.get("target", "enemy"))
+            if target_side == "self":
+                status_target = actor
+            else:
+                target_id_ab = action.get("target_id")
+                if not target_id_ab:
+                    raise ValueError("ability apply_status richiede target_id")
+                status_target = _find_unit(next_state, str(target_id_ab))
+            applied = apply_status(
+                status_target,
+                status_id=str(ability_def.get("status_id", "")),
+                duration=int(ability_def.get("status_duration", 1)),
+                intensity=int(ability_def.get("status_intensity", 1)),
+                source_unit_id=actor.get("id"),
+                source_action_id=action.get("id"),
+            )
+            statuses_applied_ab.append(applied)
+
+        elif effect_type == "buff":
+            # Buff: temporary stat modification stored on unit.buffs[]
+            target_side = str(ability_def.get("target", "self"))
+            buff_target = actor if target_side == "self" else _find_unit(
+                next_state, str(action.get("target_id", actor.get("id")))
+            )
+            buffs = list(buff_target.get("buffs") or [])
+            buffs.append({
+                "stat": str(ability_def.get("buff_stat", "")),
+                "amount": int(ability_def.get("buff_amount", 0)),
+                "remaining_turns": int(ability_def.get("buff_duration", 1)),
+                "source_ability": ability_id,
+            })
+            buff_target["buffs"] = buffs
+            ability_log["buff_stat"] = ability_def.get("buff_stat")
+            ability_log["buff_amount"] = ability_def.get("buff_amount")
+            ability_log["buff_duration"] = ability_def.get("buff_duration")
+
+        log_entry["ability"] = ability_log
+        log_entry["damage_applied"] = damage_applied_ab
+        log_entry["healing_applied"] = healing_applied_ab
+        log_entry["statuses_applied"] = statuses_applied_ab
+
     elif action_type in NOOP_ACTION_TYPES:
         # AP gia' consumato sopra. Nessun roll, nessun update stato oltre.
         pass
