@@ -22,6 +22,7 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 ### Quick links
 
 - [Combat overview + mappa doc](../combat/README.md)
+- [**Combat Canon Spec**](../combat/combat-canon.md) — specifica canonica unificata: action types, status shipping, timing, formule, non-scope (FD-020)
 - [Data flow end-to-end (diagrammi)](../combat/data-flow.md) — come i dati passano da encounter JSON a turn log
 - [Resolver API reference](../combat/resolver-api.md) — signature e semantica di ogni funzione pubblica
 - [**Round loop** (shared planning → commit → ordered resolution)](../combat/round-loop.md) — nuovo orchestratore di round sopra il resolver atomico (ADR-2026-04-15)
