@@ -15,3 +15,5 @@ assets/vendor/evo-tactics-pack/jszip.min.js
 .DS_Store
 *.log
 apps/dashboard/.vite/
+docs/archive/historical-snapshots/
+docs/generated/
