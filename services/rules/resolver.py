@@ -794,6 +794,14 @@ def resolve_action(
         # --- STEP 4: accumulo PT dell'attore sul roll ------------------
         actor["pt"] = int(actor.get("pt", 0)) + int(pt_gained)
 
+        # --- STEP 4b: PP combo meter (combat-canon.md §3b) ------------
+        pp_gained = 0
+        if success:
+            pp_gained += 1
+            if int((target.get("hp") or {}).get("current", 0)) <= 0:
+                pp_gained += 2
+        actor["pp"] = int(actor.get("pp", 0)) + pp_gained
+
         roll_result = {
             "natural": int(natural),
             "modifier": int(attack_mod),
@@ -803,6 +811,7 @@ def resolve_action(
             "mos": int(mos),
             "damage_step": int(step_count),
             "pt_gained": int(pt_gained),
+            "pp_gained": int(pp_gained),
             "is_crit": bool(is_crit),
             "is_fumble": bool(is_fumble),
             "parry": parry_info,
@@ -868,6 +877,19 @@ def resolve_action(
                     break
             if ability_def:
                 break
+        # Surge Burst: special abilities (not in trait catalog)
+        if ability_id and ability_id.startswith("surge_burst_"):
+            sg = int(float(actor.get("stress", 0)) * 100)
+            if sg < 75:
+                raise ValueError(f"Surge Burst richiede SG >= 75, attuale SG={sg}")
+            variant = ability_id.replace("surge_burst_", "")
+            ability_def = {
+                "ability_id": ability_id,
+                "name_it": f"Surge Burst ({variant})",
+                "effect_type": f"surge_{variant}",
+                "cost_ap": 0,
+            }
+
         if ability_def is None:
             raise ValueError(
                 f"ability_id '{ability_id}' non trovata nei trait dell'actor"
@@ -958,6 +980,37 @@ def resolve_action(
             ability_log["buff_stat"] = ability_def.get("buff_stat")
             ability_log["buff_amount"] = ability_def.get("buff_amount")
             ability_log["buff_duration"] = ability_def.get("buff_duration")
+
+        elif effect_type == "surge_offensive":
+            buffs = list(actor.get("buffs") or [])
+            buffs.append({"stat": "damage_step", "amount": 99, "remaining_turns": 1, "source_ability": "surge_burst_offensive"})
+            actor["buffs"] = buffs
+            actor["stress"] = 0.25
+            ability_log["surge_variant"] = "offensive"
+
+        elif effect_type == "surge_defensive":
+            buffs = list(actor.get("buffs") or [])
+            buffs.append({"stat": "defense_mod", "amount": 99, "remaining_turns": 1, "source_ability": "surge_burst_defensive"})
+            actor["buffs"] = buffs
+            actor["stress"] = 0.25
+            ability_log["surge_variant"] = "defensive"
+
+        elif effect_type == "surge_recovery":
+            hp_data = actor.get("hp") or {}
+            hp_cur = int(hp_data.get("current", 0))
+            hp_max = int(hp_data.get("max", hp_cur))
+            heal_amount = max(0, hp_max - hp_cur) // 2
+            hp_data["current"] = hp_cur + heal_amount
+            actor["hp"] = hp_data
+            healing_applied_ab = heal_amount
+            statuses = list(actor.get("statuses") or [])
+            if statuses:
+                removed = statuses.pop(0)
+                actor["statuses"] = statuses
+                ability_log["status_removed"] = removed.get("id")
+            actor["stress"] = 0.25
+            ability_log["surge_variant"] = "recovery"
+            ability_log["healing_applied"] = heal_amount
 
         log_entry["ability"] = ability_log
         log_entry["damage_applied"] = damage_applied_ab
