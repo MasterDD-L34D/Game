@@ -76,7 +76,12 @@ test('FIRST PLAYTEST: full tutorial session with VC debrief', async (t) => {
 
     // Player actions: each alive player attacks nearest alive enemy
     for (const player of alivePlayers) {
-      const target = aliveEnemies[0]; // attack first alive enemy
+      // Re-read state between attacks to avoid targeting already-dead enemies
+      const liveStateRes = await request(app).get('/api/session/state').query({ session_id: sid });
+      const liveEnemies = liveStateRes.body.units.filter(
+        (u) => u.controlled_by === 'sistema' && u.hp > 0,
+      );
+      const target = liveEnemies[0];
       if (!target) break;
 
       // Use /action (legacy unified endpoint, wraps round automatically)
@@ -107,11 +112,12 @@ test('FIRST PLAYTEST: full tutorial session with VC debrief', async (t) => {
 
     if (turnRes.status === 200 && turnRes.body.ia_actions) {
       for (const ia of turnRes.body.ia_actions) {
-        if (ia.action_type === 'attack') {
+        // Backend emits `type: 'attack'` (not action_type). See sessionRoundBridge.js:367.
+        if (ia.type === 'attack' || ia.action_type === 'attack') {
           const emoji = ia.result === 'hit' ? '🔴' : '🔵';
-          console.log(
-            `  │  R${roundNum} AI ${ia.actor_id} → ${ia.target_id}: ${emoji} dmg=${ia.damage_dealt || 0}`,
-          );
+          const aid = ia.unit_id || ia.actor_id;
+          const tid = ia.target || ia.target_id;
+          console.log(`  │  R${roundNum} AI ${aid} → ${tid}: ${emoji} dmg=${ia.damage_dealt || 0}`);
         }
       }
     }

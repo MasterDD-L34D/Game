@@ -250,7 +250,20 @@ function manhattanDistance(a, b) {
 }
 
 function pickLowestHpEnemy(session, actor) {
-  const enemies = session.units.filter((u) => u.id !== actor.id && u.hp > 0);
+  // Faction filter: un'unita' e' "enemy" solo se appartiene a una fazione
+  // diversa (controlled_by). Senza questo filtro, il SIS attaccava le
+  // proprie unita' (fratricidio osservato nel playtest 2026-04-17).
+  //
+  // NOTA design: il "friendly fire intenzionale" (fame, confusione,
+  // istinto evolutivo — es. predatori che si mangiano tra loro sotto
+  // soglia HP, unit in stato confused che bersagliano alleati) e' un
+  // vettore di design futuro. Quando introdotto, passera' da qui via
+  // override esplicito (status flag o rule-specific target picker),
+  // non rimuovendo questo guardrail di base.
+  const actorFaction = actor.controlled_by;
+  const enemies = session.units.filter(
+    (u) => u.id !== actor.id && u.hp > 0 && u.controlled_by !== actorFaction,
+  );
   if (!enemies.length) return null;
   return enemies.reduce((lowest, candidate) => {
     if (!lowest) return candidate;
