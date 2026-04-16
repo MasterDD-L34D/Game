@@ -61,44 +61,29 @@ async function startSession(app) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-// Feature flag guard — 503 when off
+// M17: round endpoints always active (flag removed)
 // ─────────────────────────────────────────────────────────────────
 
-test('round endpoints are ENABLED by default when USE_ROUND_MODEL is unset (M16 flip)', async (t) => {
-  // M16: default flippato a true. Endpoint round-based attivi quando
-  // USE_ROUND_MODEL e' unset (o vuoto). 503 solo con explicit 'false'.
-  const restore = withRoundFlag('');
-  t.after(restore);
+test('round endpoints are always active (M17: no flag check)', async (t) => {
+  // M17: roundModelGuard removed. Endpoints return 400/404 for bad
+  // input, never 503. Flag USE_ROUND_MODEL no longer checked.
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
   });
 
-  // Endpoint attivi (non 503) — riceveranno 400 o 404 per session
-  // mancante, non 503 (flag non e' off).
   for (const path of [
     '/api/session/declare-intent',
     '/api/session/commit-round',
     '/api/session/resolve-round',
   ]) {
     const res = await request(app).post(path).send({ session_id: 'x' });
-    assert.notEqual(res.status, 503, `${path} should NOT be 503 with default flag`);
+    assert.notEqual(res.status, 503, `${path} should never return 503`);
   }
   const clearRes = await request(app)
     .post('/api/session/clear-intent/p1')
     .send({ session_id: 'x' });
   assert.notEqual(clearRes.status, 503);
-});
-
-test('round endpoints return 503 when USE_ROUND_MODEL=false explicitly', async (t) => {
-  const restore = withRoundFlag('false');
-  t.after(restore);
-  const { app, close } = createApp({ databasePath: null });
-  t.after(async () => {
-    if (typeof close === 'function') await close().catch(() => {});
-  });
-  const res = await request(app).post('/api/session/declare-intent').send({ session_id: 'x' });
-  assert.equal(res.status, 503);
 });
 
 // ─────────────────────────────────────────────────────────────────
