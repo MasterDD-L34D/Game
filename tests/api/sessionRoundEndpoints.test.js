@@ -19,46 +19,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const request = require('supertest');
 const { createApp } = require('../../apps/backend/app');
-
-function withRoundFlag(value) {
-  const prior = process.env.USE_ROUND_MODEL;
-  process.env.USE_ROUND_MODEL = value;
-  return () => {
-    if (prior === undefined) delete process.env.USE_ROUND_MODEL;
-    else process.env.USE_ROUND_MODEL = prior;
-  };
-}
-
-async function startSession(app) {
-  const res = await request(app)
-    .post('/api/session/start')
-    .send({
-      units: [
-        {
-          id: 'p1',
-          species: 'test',
-          job: 'skirmisher',
-          hp: 10,
-          ap: 2,
-          initiative: 14,
-          position: { x: 0, y: 0 },
-          controlled_by: 'player',
-        },
-        {
-          id: 'sis',
-          species: 'test',
-          job: 'vanguard',
-          hp: 10,
-          ap: 2,
-          initiative: 10,
-          position: { x: 5, y: 5 },
-          controlled_by: 'sistema',
-        },
-      ],
-    })
-    .expect(200);
-  return res.body.session_id;
-}
+const { withRoundFlag, startSession } = require('./sessionTestHelpers');
 
 // ─────────────────────────────────────────────────────────────────
 // Feature flag guard — 503 when off
