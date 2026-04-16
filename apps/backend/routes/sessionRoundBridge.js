@@ -222,6 +222,18 @@ function createRoundBridge(deps) {
       await appendEvent(session, event);
       if (capturedResults.killOccurred) {
         await emitKillAndAssists(session, actor, target, event);
+        // Sistema pressure: +20 quando il player KO una unita' SIS.
+        // AI War pattern (sistema_pressure.yaml): pressure sale su victory_delta.
+        if (
+          actor.controlled_by === 'player' &&
+          target.controlled_by === 'sistema' &&
+          typeof session.sistema_pressure === 'number'
+        ) {
+          session.sistema_pressure = Math.max(
+            0,
+            Math.min(100, (session.sistema_pressure || 0) + 20),
+          );
+        }
       }
     }
 
