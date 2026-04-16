@@ -1,20 +1,30 @@
 export const squadSyncTypeDefs = /* GraphQL */ `
-  """Intervallo temporale per filtrare il report SquadSync."""
+  """
+  Intervallo temporale per filtrare il report SquadSync.
+  """
   input SquadSyncRangeInput {
-    """Data di inizio (ISO 8601)."""
+    """
+    Data di inizio (ISO 8601).
+    """
     start: String
-    """Data di fine (ISO 8601)."""
+    """
+    Data di fine (ISO 8601).
+    """
     end: String
   }
 
-  """Informazioni sull'intervallo temporale del report."""
+  """
+  Informazioni sull'intervallo temporale del report.
+  """
   type SquadSyncRange {
     start: String!
     end: String!
     days: Int!
   }
 
-  """Valori aggregati per tutte le squadre nel periodo richiesto."""
+  """
+  Valori aggregati per tutte le squadre nel periodo richiesto.
+  """
   type SquadSyncAggregate {
     deployments: Int!
     standups: Int!
@@ -23,7 +33,9 @@ export const squadSyncTypeDefs = /* GraphQL */ `
     averageEngagement: Float!
   }
 
-  """Statistiche giornaliere per una singola squadra."""
+  """
+  Statistiche giornaliere per una singola squadra.
+  """
   type SquadSyncDailyStat {
     date: String!
     activeMembers: Int!
@@ -33,7 +45,9 @@ export const squadSyncTypeDefs = /* GraphQL */ `
     engagement: Float!
   }
 
-  """Sommario di alto livello per una squadra nella finestra temporale."""
+  """
+  Sommario di alto livello per una squadra nella finestra temporale.
+  """
   type SquadSyncSquadSummary {
     daysCovered: Int!
     averageActiveMembers: Float!
@@ -43,7 +57,9 @@ export const squadSyncTypeDefs = /* GraphQL */ `
     engagementScore: Float!
   }
 
-  """Collezione di dati giornalieri e sommari per una squadra."""
+  """
+  Collezione di dati giornalieri e sommari per una squadra.
+  """
   type SquadSyncSquad {
     name: String!
     summary: SquadSyncSquadSummary!
@@ -107,7 +123,9 @@ export const squadSyncTypeDefs = /* GraphQL */ `
     summary: SquadSyncAdaptiveSummary!
   }
 
-  """Report completo di SquadSync (range, squadre, totali)."""
+  """
+  Report completo di SquadSync (range, squadre, totali).
+  """
   type SquadSyncReport {
     range: SquadSyncRange!
     generatedAt: String!

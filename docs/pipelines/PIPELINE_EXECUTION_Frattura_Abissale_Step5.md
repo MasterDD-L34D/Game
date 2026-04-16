@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Esecuzione Step 5 (Strict-Mode) – Frattura Abissale Sinaptica
 
 ## Titolo step

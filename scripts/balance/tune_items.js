@@ -55,14 +55,16 @@ function resolvePath(input, fallback) {
 }
 
 function printUsage() {
-  console.log(`Utilizzo: node scripts/balance/tune_items.js [opzioni]\n\n` +
-    `Opzioni:\n` +
-    `  --items,  -i   Percorso al dataset JSON (default: data/telemetry/items.json)\n` +
-    `  --output, -o   Directory di destinazione (default: logs/balance_proposals)\n` +
-    `  --tag,    -t   Suffisso facoltativo per il nome del file\n` +
-    `  --dry-run      Stampa il risultato su STDOUT senza scrivere file\n` +
-    `  --check        Confronta l'output con l'ultimo file generato\n` +
-    `  --help,   -h   Mostra questo messaggio`);
+  console.log(
+    `Utilizzo: node scripts/balance/tune_items.js [opzioni]\n\n` +
+      `Opzioni:\n` +
+      `  --items,  -i   Percorso al dataset JSON (default: data/telemetry/items.json)\n` +
+      `  --output, -o   Directory di destinazione (default: logs/balance_proposals)\n` +
+      `  --tag,    -t   Suffisso facoltativo per il nome del file\n` +
+      `  --dry-run      Stampa il risultato su STDOUT senza scrivere file\n` +
+      `  --check        Confronta l'output con l'ultimo file generato\n` +
+      `  --help,   -h   Mostra questo messaggio`,
+  );
 }
 
 function readJson(filePath) {
@@ -216,7 +218,10 @@ function buildProposal(dataset, { timestamp } = {}) {
       if (action !== 'hold') {
         suggestedDirection = action;
       }
-      const score = Number.isFinite(tolerance) && tolerance > 0 ? (absDelta / tolerance) * weight : absDelta * weight;
+      const score =
+        Number.isFinite(tolerance) && tolerance > 0
+          ? (absDelta / tolerance) * weight
+          : absDelta * weight;
       itemScore += score;
       totalScore += score;
       resultMetrics[metric] = {
@@ -310,7 +315,9 @@ function findLatestProposal(dirPath) {
   if (!fs.existsSync(dirPath)) {
     return null;
   }
-  const files = fs.readdirSync(dirPath).filter((name) => name.startsWith(FILE_PREFIX) && name.endsWith(FILE_EXTENSION));
+  const files = fs
+    .readdirSync(dirPath)
+    .filter((name) => name.startsWith(FILE_PREFIX) && name.endsWith(FILE_EXTENSION));
   if (files.length === 0) {
     return null;
   }

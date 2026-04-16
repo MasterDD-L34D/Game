@@ -5,14 +5,14 @@ description: >-
 env:
   GAME_CLI_DEFAULT_SEED: playtest-smoke
   GAME_CLI_LOG_LEVEL: INFO
-  GAME_CLI_EXPECTED_CHANNEL: "#vc-playtest"
+  GAME_CLI_EXPECTED_CHANNEL: '#vc-playtest'
 smoke:
   commands:
     - roll-pack --seed playtest-smoke ENTP invoker
     - validate-datasets
     - generate-encounter savana --party-power 18 --seed playtest-smoke
 contacts:
-  slack: "#vc-playtest"
+  slack: '#vc-playtest'
   leads:
     - nome: C. Marin
       ruolo: Playtest Producer

@@ -43,17 +43,17 @@ Campi richiesti: `id`, `type`, `actor_id`, `ap_cost`. Tutti gli altri sono opzio
 
 **Campi rilevanti**:
 
-- `target_id` *(required)*: id dell'unità bersaglio.
-- `damage_dice` *(required)*: `{count, sides, modifier}`. Se omesso, fallback a `{count: 1, sides: 6, modifier: 0}`.
-- `channel` *(opzionale)*: canale di danno per l'applicazione di resistenze. Canoni: `elettrico, psionico, fisico, fuoco, gravita, mentale, taglio, ionico`. Se omesso, la resistenza non viene applicata (danno passa invariato).
-- `pt_spend` *(opzionale)*: spesa PT per effetti aggiuntivi (vedi sotto).
-- `parry_response` *(opzionale)*: tiro reattivo del target (vedi sotto).
+- `target_id` _(required)_: id dell'unità bersaglio.
+- `damage_dice` _(required)_: `{count, sides, modifier}`. Se omesso, fallback a `{count: 1, sides: 6, modifier: 0}`.
+- `channel` _(opzionale)_: canale di danno per l'applicazione di resistenze. Canoni: `elettrico, psionico, fisico, fuoco, gravita, mentale, taglio, ionico`. Se omesso, la resistenza non viene applicata (danno passa invariato).
+- `pt_spend` _(opzionale)_: spesa PT per effetti aggiuntivi (vedi sotto).
+- `parry_response` _(opzionale)_: tiro reattivo del target (vedi sotto).
 
 **Pipeline**: vedi [data-flow.md](data-flow.md#2-resolve-action-combatstate--next_state--turn_log_entry) per la sequenza completa di 14 step.
 
 **Test ref**: ~50 test in `tests/test_resolver.py` coprono scenari di hit/miss/crit/fumble, resistenze, armor, pt_spend, parry, stress breakpoint, status stacking.
 
-### `defend`, `move`, `ability`, `parry` *(NOOP_ACTION_TYPES)*
+### `defend`, `move`, `ability`, `parry` _(NOOP_ACTION_TYPES)_
 
 Questi 4 tipi sono in `NOOP_ACTION_TYPES = frozenset({"defend", "parry", "ability", "move"})`. Il resolver li gestisce così:
 
@@ -156,8 +156,8 @@ Shape:
 
 Campi:
 
-- `attempt` *(bool, default false)*: se `true`, il target tenta la parata quando subisce l'attack.
-- `parry_bonus` *(int, default 0)*: bonus additivo al tiro d20 di parata, tipicamente aggregato dai trait difensivi del target in una future iterazione (attualmente va passato dal client).
+- `attempt` _(bool, default false)_: se `true`, il target tenta la parata quando subisce l'attack.
+- `parry_bonus` _(int, default 0)_: bonus additivo al tiro d20 di parata, tipicamente aggregato dai trait difensivi del target in una future iterazione (attualmente va passato dal client).
 
 ### Come funziona
 

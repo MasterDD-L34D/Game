@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Handover refactor generatore Evo Tactics Pack
 
 ## Obiettivo

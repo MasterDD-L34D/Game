@@ -269,7 +269,13 @@ test('risk HUD alert tracks acknowledgement events and exposes them in telemetry
   });
 
   const statuses = recorded.map((entry) => entry.status);
-  assert.deepEqual(statuses, ['raised', 'overlay.displayed', 'acknowledged', 'cleared', 'overlay.dismissed']);
+  assert.deepEqual(statuses, [
+    'raised',
+    'overlay.displayed',
+    'acknowledged',
+    'cleared',
+    'overlay.dismissed',
+  ]);
 
   const ackEntry = recorded.find((entry) => entry.status === 'acknowledged');
   assert.equal(ackEntry?.ackRecipient, 'pi.balance.alerts');

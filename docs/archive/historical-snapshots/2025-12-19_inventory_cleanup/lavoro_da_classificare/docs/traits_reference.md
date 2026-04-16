@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Guida completa ai **Trait** — Evo Tactics
 
 Questa guida è il riferimento operativo per **progettare, scrivere e validare** i trait usati dalle specie/creature in Evo Tactics. Copre: principi di design, dizionario campi, tassonomia funzionale, metriche (UCUM), mappatura ambientale (ENVO), versionamento (SemVer), workflow di authoring e QA/validazione.
@@ -16,12 +17,13 @@ Questa guida è il riferimento operativo per **progettare, scrivere e validare**
 >
 > • JSON Schema: https://json-schema.org/ (draft 2020‑12 e note di rilascio)  
 > • SemVer: https://semver.org/  
-> • UCUM: https://ucum.org/ucum  (codici comuni, es. `Cel` per °C, vedi anche HL7 THO)  
+> • UCUM: https://ucum.org/ucum (codici comuni, es. `Cel` per °C, vedi anche HL7 THO)  
 > • ENVO (OBO Foundry): https://obofoundry.org/ontology/envo.html, OLS: https://www.ebi.ac.uk/ols4/ontologies/envo/
 
 ---
 
 ## 1) Cos’è un trait (e cosa non è)
+
 Un **trait** è un’unità funzionale atomica (abilità/adattamento/comportamento) che descrive **che cosa fa** una creatura e **come** lo fa (substrato morfo‑fisiologico + impulso evolutivo). È **riusabile** e **agnostico** rispetto alla specie; le specie vi puntano tramite `trait_refs`.
 
 I trait sono oggetti **JSON** convalidati via **JSON Schema Draft 2020‑12** (vocabolari `core`/`validation`).
@@ -30,23 +32,25 @@ I trait sono oggetti **JSON** convalidati via **JSON Schema Draft 2020‑12** (v
 
 ## 2) Dizionario campi (data‑model)
 
-### Obbligatori (per *singolo* trait)
-| Campo | Tipo | Vincoli | Descrizione |
-|---|---|---|---|
-| `trait_code` | string | `^TR-\d{4}$` | ID stabile univoco. |
-| `label` | string | ≥ 3 caratteri | Nome breve ed evocativo. |
-| `famiglia_tipologia` | string | — | Cluster funzionale (vedi §3). |
-| `fattore_mantenimento_energetico` | string | — | Basso/Medio/Alto (costo narrativo/energetico). |
-| `tier` | string | enum `T1`…`T6` | Scala potenza/complessità. |
-| `mutazione_indotta` | string | — | Substrato bio/morfo da cui deriva il tratto. |
-| `uso_funzione` | string | — | Che cosa fa in gioco. |
-| `spinta_selettiva` | string | — | Motivo evolutivo/tattico. |
-| `sinergie` | array[string] | non vuoto | Codici trait complementari. |
-| `conflitti` | array[string] | — | Trait incompatibili. |
-| `version` | string | SemVer 2.0.0 | Versione del trait. |
-| `versioning` | object | `{created, updated, author}` | Date ISO (YYYY‑MM‑DD). |
+### Obbligatori (per _singolo_ trait)
+
+| Campo                             | Tipo          | Vincoli                      | Descrizione                                    |
+| --------------------------------- | ------------- | ---------------------------- | ---------------------------------------------- |
+| `trait_code`                      | string        | `^TR-\d{4}$`                 | ID stabile univoco.                            |
+| `label`                           | string        | ≥ 3 caratteri                | Nome breve ed evocativo.                       |
+| `famiglia_tipologia`              | string        | —                            | Cluster funzionale (vedi §3).                  |
+| `fattore_mantenimento_energetico` | string        | —                            | Basso/Medio/Alto (costo narrativo/energetico). |
+| `tier`                            | string        | enum `T1`…`T6`               | Scala potenza/complessità.                     |
+| `mutazione_indotta`               | string        | —                            | Substrato bio/morfo da cui deriva il tratto.   |
+| `uso_funzione`                    | string        | —                            | Che cosa fa in gioco.                          |
+| `spinta_selettiva`                | string        | —                            | Motivo evolutivo/tattico.                      |
+| `sinergie`                        | array[string] | non vuoto                    | Codici trait complementari.                    |
+| `conflitti`                       | array[string] | —                            | Trait incompatibili.                           |
+| `version`                         | string        | SemVer 2.0.0                 | Versione del trait.                            |
+| `versioning`                      | object        | `{created, updated, author}` | Date ISO (YYYY‑MM‑DD).                         |
 
 ### Opzionali utili
+
 - **Liste/vettori**: `slot` (pattern `^[A-Z]$` per lettera singola), `limits`, `output_effects`.
 - **Oggetti semplici**:  
   `slot_profile` (`core`, `complementare`);  
@@ -58,28 +62,30 @@ I trait sono oggetti **JSON** convalidati via **JSON Schema Draft 2020‑12** (v
 - **Requisiti ambientali** `requisiti_ambientali` (array di oggetti):  
   • `capacita_richieste`: array[string]  
   • `condizioni.biome_class`: string (nessuna extra prop)  
-  • `fonte`: string  • `meta.expansion|tier|notes`
+  • `fonte`: string • `meta.expansion|tier|notes`
 
 ### Guida `tier` (T1–T6)
-- **T1**: utility minori/condizionali, bonus situazionali ridotti.  
-- **T2**: capacitá utilitarie stabili o micro‑buff/nerf d’area.  
-- **T3**: abilità fisiologiche/sensoriali/locomotorie significative; sinergie base.  
-- **T4**: impatto alto (raggio/portata/danni) e costo/limiti espliciti.  
-- **T5**: capacità macro (volo iper‑sostenuto, metamimetismo); prerequisiti stringenti.  
+
+- **T1**: utility minori/condizionali, bonus situazionali ridotti.
+- **T2**: capacitá utilitarie stabili o micro‑buff/nerf d’area.
+- **T3**: abilità fisiologiche/sensoriali/locomotorie significative; sinergie base.
+- **T4**: impatto alto (raggio/portata/danni) e costo/limiti espliciti.
+- **T5**: capacità macro (volo iper‑sostenuto, metamimetismo); prerequisiti stringenti.
 - **T6**: tratti apicali/trasformativi (rari, heavy gating).
 
 ---
 
 ## 3) Tassonomia funzionale (`famiglia_tipologia`)
+
 Formato consigliato: **`Macro/Subcluster`**
 
-- **Locomotivo**: Aereo, Acquatico, Terrestre, Arboricolo, Scavo, Balistico.  
-- **Sensoriale**: Visivo, Uditivo, Olfattivo, Tatto/Vibro, Interocettivo, Propriocettivo, Magneto‑/Elettro‑ricettivo, Meteo.  
-- **Fisiologico**: Metabolico, Termico, Respiratorio, Idrico/Osmotico, Vegetale (fototrofico), Elettrico.  
-- **Offensivo**: Termico, Elettrico, Perforante/Proiettili, Contusivo, Velenoso/Chimico, Controllo/Zona.  
-- **Difensivo**: Corazza/Armatura, Camuffamento/Mimesi, Rigenerazione, Termoregolazione, Resistenze.  
-- **Cognitivo/Sociale**: Pianificazione, Empatia/Coesione, Dominanza/Intimidazione, Apprendimento.  
-- **Riproduttivo/Spawn**: Propaguli, Cicli, Nidificazione.  
+- **Locomotivo**: Aereo, Acquatico, Terrestre, Arboricolo, Scavo, Balistico.
+- **Sensoriale**: Visivo, Uditivo, Olfattivo, Tatto/Vibro, Interocettivo, Propriocettivo, Magneto‑/Elettro‑ricettivo, Meteo.
+- **Fisiologico**: Metabolico, Termico, Respiratorio, Idrico/Osmotico, Vegetale (fototrofico), Elettrico.
+- **Offensivo**: Termico, Elettrico, Perforante/Proiettili, Contusivo, Velenoso/Chimico, Controllo/Zona.
+- **Difensivo**: Corazza/Armatura, Camuffamento/Mimesi, Rigenerazione, Termoregolazione, Resistenze.
+- **Cognitivo/Sociale**: Pianificazione, Empatia/Coesione, Dominanza/Intimidazione, Apprendimento.
+- **Riproduttivo/Spawn**: Propaguli, Cicli, Nidificazione.
 - **Ecologico**: Impollinazione/Disseminazione, Simbiosi/Parassitismo, Ingegneria di nicchia.
 
 ---
@@ -87,7 +93,7 @@ Formato consigliato: **`Macro/Subcluster`**
 ## 4) Metriche & Unità (UCUM)
 
 - Usa **UCUM** per unità non ambigue in messaggi elettronici. Esempi ricorrenti:  
-  `m`, `s`, `m/s`, `N`, `Pa`, `W`, `J`, `V`, `A`, `Hz`, `dB`, `1` (dimensionless), `Cel` (grado Celsius).  
+  `m`, `s`, `m/s`, `N`, `Pa`, `W`, `J`, `V`, `A`, `Hz`, `dB`, `1` (dimensionless), `Cel` (grado Celsius).
 - Best practice metriche:  
   `name` snake-case tecnico (es. `pressione_getto`); `value` numero **o** qualitativo; `unit` UCUM; `conditions` opzionale (es. `terra|instabile`, `acqua|profonda`).
 
@@ -96,24 +102,26 @@ Formato consigliato: **`Macro/Subcluster`**
 ## 5) Requisiti ambientali & ENVO
 
 Compila `applicability.envo_terms` con **URI PURL ENVO** (OBO). Esempi utili:
-- Coastline — `http://purl.obolibrary.org/obo/ENVO_00000304`  
-- Oceanic epipelagic zone biome — `http://purl.obolibrary.org/obo/ENVO_01000035`  
-- Freshwater biome — `http://purl.obolibrary.org/obo/ENVO_00000873`  
-- Savanna biome — `http://purl.obolibrary.org/obo/ENVO_01000178`  
+
+- Coastline — `http://purl.obolibrary.org/obo/ENVO_00000304`
+- Oceanic epipelagic zone biome — `http://purl.obolibrary.org/obo/ENVO_01000035`
+- Freshwater biome — `http://purl.obolibrary.org/obo/ENVO_00000873`
+- Savanna biome — `http://purl.obolibrary.org/obo/ENVO_01000178`
 - Tropical moist broadleaf forest biome — `http://purl.obolibrary.org/obo/ENVO_01000228`
 
 **Procedura consigliata**
-1) Definisci habitat primario/secondario (bioma/ecotopo).  
-2) Cerca il termine su OBO Foundry/OLS → copia l’**URI PURL**.  
-3) Se servono vincoli aggiuntivi, compila `requisiti_ambientali` con `biome_class`/`meta`.
+
+1. Definisci habitat primario/secondario (bioma/ecotopo).
+2. Cerca il termine su OBO Foundry/OLS → copia l’**URI PURL**.
+3. Se servono vincoli aggiuntivi, compila `requisiti_ambientali` con `biome_class`/`meta`.
 
 ---
 
 ## 6) Costi, limiti, trigger, testabilità
 
-- **Costi**: `fattore_mantenimento_energetico` (Basso/Medio/Alto) + eventuale `metabolic_cost`/`cost_profile` (`rest`/`burst`/`sustained`).  
-- **Limiti**: cap numerici, cooldown, timer, prerequisiti ambientali/slot.  
-- **Trigger**: evento/scena che attiva la capacità.  
+- **Costi**: `fattore_mantenimento_energetico` (Basso/Medio/Alto) + eventuale `metabolic_cost`/`cost_profile` (`rest`/`burst`/`sustained`).
+- **Limiti**: cap numerici, cooldown, timer, prerequisiti ambientali/slot.
+- **Trigger**: evento/scena che attiva la capacità.
 - **Testability**:  
   • `observable` = comportamento misurabile.  
   • `scene_prompt` = prova pratica.
@@ -122,18 +130,21 @@ Compila `applicability.envo_terms` con **URI PURL ENVO** (OBO). Esempi utili:
 
 ## 7) Versioning & governance
 
-Usa **SemVer 2.0.0** per `version`: `MAJOR.MINOR.PATCH[-prerelease][+build]`  
-- **MAJOR**: cambi incompatibili.  **MINOR**: aggiunte retro‑compatibili.  **PATCH**: fix/typo.  
-Mantieni `versioning.created/updated/author` (ISO) e un CHANGELOG per MAJOR/MINOR.
+Usa **SemVer 2.0.0** per `version`: `MAJOR.MINOR.PATCH[-prerelease][+build]`
+
+- **MAJOR**: cambi incompatibili. **MINOR**: aggiunte retro‑compatibili. **PATCH**: fix/typo.  
+  Mantieni `versioning.created/updated/author` (ISO) e un CHANGELOG per MAJOR/MINOR.
 
 ---
 
 ## 8) Workflow di authoring (dalla creatura al trait)
 
 ### 8.1 Raccolta input minimi
+
 Firma funzionale; morfologia; fisiologia; locomozione; sensorio; offesa/difesa; cognitivo/sociale; riproduttivo/ecologico; habitat/biomi (→ ENVO); metriche (→ UCUM); costi/limiti/trigger; sinergie/conflitti.
 
 ### 8.2 Dalla firma ai trait (3‑pass)
+
 **A — Scomposizione** (3–6 funzioni); **B — Normalizzazione** (cluster unico + tier + metrica chiave); **C — Legami** (≥1 sinergia + conflitti + requisiti ambientali).
 
 ---
@@ -201,7 +212,8 @@ Pipeline consigliata: lint JSON → validazione schema (Draft 2020‑12) → con
 ---
 
 ### Appendice — Link rapidi a standard
+
 - JSON Schema Draft 2020‑12: https://json-schema.org/draft/2020-12/ (core/validation + release notes)
 - SemVer 2.0.0: https://semver.org/
-- UCUM: https://ucum.org/ucum  — HL7 THO (codici comuni): https://terminology.hl7.org/5.5.0/ValueSet-ucum-common.html
+- UCUM: https://ucum.org/ucum — HL7 THO (codici comuni): https://terminology.hl7.org/5.5.0/ValueSet-ucum-common.html
 - ENVO (OBO): https://obofoundry.org/ontology/envo.html — OLS ENVO: https://www.ebi.ac.uk/ols4/ontologies/envo/

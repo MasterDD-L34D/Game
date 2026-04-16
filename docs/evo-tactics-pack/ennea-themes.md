@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Temi Ennea — Biome Coherence & Telemetry Sync
 
 Questa nota di design sintetizza il ruolo dei temi Ennea utilizzati dal pack

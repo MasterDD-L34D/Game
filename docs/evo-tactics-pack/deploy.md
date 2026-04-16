@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Deploy bundle demo dell'Evo Tactics Pack
 
 Questa guida descrive come pubblicare il bundle demo del generatore su hosting

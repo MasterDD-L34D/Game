@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Threat Model – Evo‑Tactics
 
 Questo documento riassume le potenziali minacce e le superfici d’attacco del progetto **Evo‑Tactics**, fornendo linee guida per la mitigazione dei rischi.
@@ -16,23 +17,23 @@ Questo documento riassume le potenziali minacce e le superfici d’attacco del p
 
 Il progetto è composto da:
 
-* **Backend API:** server che espone endpoint REST/GraphQL per autenticazione, matchmaking, telemetria e gestione database.  Viene eseguito su infrastruttura cloud.
-* **Database:** contiene dati di gioco (progresso, configurazioni, telemetria) e dati personali.  Accessibile solo tramite il backend con credenziali di servizio.
-* **Client di gioco:** applicazione che gira sul dispositivo del giocatore, comunicando con l’API e caricando asset.
-* **Webapp/Console:** interfaccia per dashboard e report, autenticata tramite ruoli.
-* **CI/CD pipelines:** workflow GitHub che buildano, testano e distribuiscono l’applicazione.
+- **Backend API:** server che espone endpoint REST/GraphQL per autenticazione, matchmaking, telemetria e gestione database. Viene eseguito su infrastruttura cloud.
+- **Database:** contiene dati di gioco (progresso, configurazioni, telemetria) e dati personali. Accessibile solo tramite il backend con credenziali di servizio.
+- **Client di gioco:** applicazione che gira sul dispositivo del giocatore, comunicando con l’API e caricando asset.
+- **Webapp/Console:** interfaccia per dashboard e report, autenticata tramite ruoli.
+- **CI/CD pipelines:** workflow GitHub che buildano, testano e distribuiscono l’applicazione.
 
 ## Potenziali minacce
 
-| Minaccia                     | Descrizione e rischio                                                         | Mitigazioni                                                   |
-|-----------------------------|-------------------------------------------------------------------------------|---------------------------------------------------------------|
-| **Injection (SQL/NoSQL)**   | Attacchi che sfruttano input non sanificato per eseguire query maliziose.    | Validare e sanificare input; usare ORM con query parametrizzate; test di fuzzing. |
-| **Exposure di secret**       | Commit di chiavi, token o password nel repo pubblico.                        | Usare GitHub Secrets/Vault; attivare secret scanning; rivedere le PR. |
-| **XSS e CSRF**              | Script malevoli nella webapp o attacchi cross‑site request forgery.           | Applicare header di sicurezza (CSP, X‑Frame‑Options, SameSite); usare token CSRF. |
-| **Privileged escalation**    | Utenti che ottengono permessi oltre il proprio ruolo.                        | Implementare RBAC, logging e audit; testare i controlli di accesso. |
-| **DDoS e rate limiting**     | Sovraccarico dell’API con richieste massicce.                                | Abilitare rate limit, caching e meccanismi di throttling.     |
-| **Leaks via telemetria**     | Invio di dati personali o sensibili tramite eventi.                          | Pseudonimizzazione, minimizzazione dati, crittografia TLS.    |
-| **Supply‑chain attacks**     | Dipendenze compromesse che introducono codice malevolo.                      | Automatizzare verifiche (Dependabot, SCA), review manuale delle dipendenze. |
+| Minaccia                  | Descrizione e rischio                                                     | Mitigazioni                                                                       |
+| ------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **Injection (SQL/NoSQL)** | Attacchi che sfruttano input non sanificato per eseguire query maliziose. | Validare e sanificare input; usare ORM con query parametrizzate; test di fuzzing. |
+| **Exposure di secret**    | Commit di chiavi, token o password nel repo pubblico.                     | Usare GitHub Secrets/Vault; attivare secret scanning; rivedere le PR.             |
+| **XSS e CSRF**            | Script malevoli nella webapp o attacchi cross‑site request forgery.       | Applicare header di sicurezza (CSP, X‑Frame‑Options, SameSite); usare token CSRF. |
+| **Privileged escalation** | Utenti che ottengono permessi oltre il proprio ruolo.                     | Implementare RBAC, logging e audit; testare i controlli di accesso.               |
+| **DDoS e rate limiting**  | Sovraccarico dell’API con richieste massicce.                             | Abilitare rate limit, caching e meccanismi di throttling.                         |
+| **Leaks via telemetria**  | Invio di dati personali o sensibili tramite eventi.                       | Pseudonimizzazione, minimizzazione dati, crittografia TLS.                        |
+| **Supply‑chain attacks**  | Dipendenze compromesse che introducono codice malevolo.                   | Automatizzare verifiche (Dependabot, SCA), review manuale delle dipendenze.       |
 
 ## Processo di threat modeling
 

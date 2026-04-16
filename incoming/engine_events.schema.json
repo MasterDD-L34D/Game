@@ -17,7 +17,5 @@
       "type": "object"
     }
   },
-  "required": [
-    "event"
-  ]
+  "required": ["event"]
 }

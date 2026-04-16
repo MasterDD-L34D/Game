@@ -24,4 +24,4 @@ review_cycle_days: 14
    - Leggi il profilo `personality.enneagram` del PG e chiama `bindHooks(profile)` per ottenere gli hook attivi con STAT risolte.
 5. **Test** su 3–4 casi tipo, poi estendi.
 
-> Questo flusso permette di mappare l'Enneagramma senza toccare logiche di combattimento: basta collegare gli **eventi** esistenti e applicare piccoli effetti *per 1 turno*.
+> Questo flusso permette di mappare l'Enneagramma senza toccare logiche di combattimento: basta collegare gli **eventi** esistenti e applicare piccoli effetti _per 1 turno_.

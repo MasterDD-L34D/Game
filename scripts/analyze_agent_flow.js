@@ -60,7 +60,12 @@ const summarizeDurations = (events) => {
 
   for (const event of events) {
     const { step, durationMs, latencyMs, sessionId } = event;
-    const timing = typeof durationMs === 'number' ? durationMs : typeof latencyMs === 'number' ? latencyMs : null;
+    const timing =
+      typeof durationMs === 'number'
+        ? durationMs
+        : typeof latencyMs === 'number'
+          ? latencyMs
+          : null;
     if (step && timing !== null) {
       if (!perStep.has(step)) {
         perStep.set(step, { count: 0, total: 0, max: 0 });
@@ -87,7 +92,12 @@ const summarizeDurations = (events) => {
 const findBottlenecks = (events, thresholdMs) => {
   const flagged = [];
   for (const event of events) {
-    const timing = typeof event.durationMs === 'number' ? event.durationMs : typeof event.latencyMs === 'number' ? event.latencyMs : null;
+    const timing =
+      typeof event.durationMs === 'number'
+        ? event.durationMs
+        : typeof event.latencyMs === 'number'
+          ? event.latencyMs
+          : null;
     if (timing !== null && timing >= thresholdMs) {
       flagged.push({
         step: event.step || 'unknown',
@@ -138,7 +148,9 @@ const printReport = ({ events, perStep, sessions, bottlenecks, options }) => {
 
   console.log('--- Sessioni più pesanti ---');
   for (const entry of sessionEntries) {
-    console.log(`- ${entry.sessionId}: totale=${Math.round(entry.total)}ms su ${entry.events} eventi`);
+    console.log(
+      `- ${entry.sessionId}: totale=${Math.round(entry.total)}ms su ${entry.events} eventi`,
+    );
   }
   console.log('');
 

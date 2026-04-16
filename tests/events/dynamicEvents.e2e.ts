@@ -65,7 +65,7 @@ describe('Dynamic events — scheduler e telemetria', () => {
     assert.strictEqual(
       timeline[0].isoStart,
       '2024-02-10T09:00:00.000Z',
-      'L\'inizio deve essere convertito in UTC rispettando il fuso orario globale',
+      "L'inizio deve essere convertito in UTC rispettando il fuso orario globale",
     );
     assert.strictEqual(timeline[0].phases?.length, 3, 'Devono essere presenti tre fasi');
     assert.strictEqual(
@@ -86,7 +86,11 @@ describe('Dynamic events — scheduler e telemetria', () => {
 
     scheduler.setTimezone('Invalid/Timezone');
     const fallbackTimeline = scheduler.getTimeline();
-    assert.strictEqual(scheduler.isUsingFallback(), true, 'Con fuso invalido deve attivarsi il fallback');
+    assert.strictEqual(
+      scheduler.isUsingFallback(),
+      true,
+      'Con fuso invalido deve attivarsi il fallback',
+    );
     assert.strictEqual(fallbackTimeline.length, 1, 'Il fallback deve contenere un evento');
     assert.strictEqual(fallbackTimeline[0].id, 'fallback-briefing');
     assert.strictEqual(
@@ -162,7 +166,11 @@ describe('Dynamic events — scheduler e telemetria', () => {
 
     const exported = scheduler.toJSON();
     assert.strictEqual(exported.events.length, 2, 'La serializzazione deve mantenere gli eventi');
-    assert.strictEqual(exported.manualFallback.length, 1, 'La serializzazione deve includere il fallback');
+    assert.strictEqual(
+      exported.manualFallback.length,
+      1,
+      'La serializzazione deve includere il fallback',
+    );
     assert.strictEqual(exported.timezone, 'Europe/Rome');
   });
 });

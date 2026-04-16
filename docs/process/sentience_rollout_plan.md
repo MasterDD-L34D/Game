@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Piano Rollout Sensienza (T1…T6)
 
 Questo documento coordina l'adozione dei nomi/codici definitivi dei tier di

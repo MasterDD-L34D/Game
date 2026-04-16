@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Golden Path – Bioma urbano allagato con missioni, specie e trait cognitivi
 
 Feature: Pacchetto di 3 missioni ambientate in un bioma urbano allagato, con 2 nuove specie e 4 trait cognitivi.

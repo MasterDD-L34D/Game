@@ -24,7 +24,9 @@ export interface MatchmakingAnalytics {
   recordFilterReset(event?: FilterResetEvent): void;
 }
 
-const normalizeFilters = (filters: MatchmakingFilter): Record<string, string | number | boolean> => {
+const normalizeFilters = (
+  filters: MatchmakingFilter,
+): Record<string, string | number | boolean> => {
   return flattenFilters(filters);
 };
 

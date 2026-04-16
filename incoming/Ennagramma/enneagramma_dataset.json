@@ -14,14 +14,8 @@
       "virtue": "Serenità",
       "stress_to": 4,
       "growth_to": 7,
-      "wings": [
-        "1w9",
-        "1w2"
-      ],
-      "wings_names_ei": [
-        "1w9 – The Idealist",
-        "1w2 – The Advocate"
-      ],
+      "wings": ["1w9", "1w2"],
+      "wings_names_ei": ["1w9 – The Idealist", "1w2 – The Advocate"],
       "wings_detail": {
         "1w2": {
           "name_ei": "The Advocate",
@@ -45,14 +39,8 @@
       "virtue": "Umiltà",
       "stress_to": 8,
       "growth_to": 4,
-      "wings": [
-        "2w1",
-        "2w3"
-      ],
-      "wings_names_ei": [
-        "2w1 – The Servant",
-        "2w3 – The Host/Hostess"
-      ],
+      "wings": ["2w1", "2w3"],
+      "wings_names_ei": ["2w1 – The Servant", "2w3 – The Host/Hostess"],
       "wings_detail": {
         "2w1": {
           "name_ei": "The Servant",
@@ -76,14 +64,8 @@
       "virtue": "Veridicità (autenticità)",
       "stress_to": 9,
       "growth_to": 6,
-      "wings": [
-        "3w2",
-        "3w4"
-      ],
-      "wings_names_ei": [
-        "3w2 – The Charmer",
-        "3w4 – The Professional"
-      ],
+      "wings": ["3w2", "3w4"],
+      "wings_names_ei": ["3w2 – The Charmer", "3w4 – The Professional"],
       "wings_detail": {
         "3w2": {
           "name_ei": "The Charmer",
@@ -107,14 +89,8 @@
       "virtue": "Equanimità",
       "stress_to": 2,
       "growth_to": 1,
-      "wings": [
-        "4w3",
-        "4w5"
-      ],
-      "wings_names_ei": [
-        "4w3 – The Aristocrat",
-        "4w5 – The Bohemian"
-      ],
+      "wings": ["4w3", "4w5"],
+      "wings_names_ei": ["4w3 – The Aristocrat", "4w5 – The Bohemian"],
       "wings_detail": {
         "4w3": {
           "name_ei": "The Aristocrat",
@@ -138,14 +114,8 @@
       "virtue": "Distacco",
       "stress_to": 7,
       "growth_to": 8,
-      "wings": [
-        "5w4",
-        "5w6"
-      ],
-      "wings_names_ei": [
-        "5w4 – The Iconoclast",
-        "5w6 – The Problem Solver"
-      ],
+      "wings": ["5w4", "5w6"],
+      "wings_names_ei": ["5w4 – The Iconoclast", "5w6 – The Problem Solver"],
       "wings_detail": {
         "5w4": {
           "name_ei": "The Iconoclast",
@@ -169,14 +139,8 @@
       "virtue": "Coraggio",
       "stress_to": 3,
       "growth_to": 9,
-      "wings": [
-        "6w5",
-        "6w7"
-      ],
-      "wings_names_ei": [
-        "6w5 – The Defender",
-        "6w7 – The Buddy"
-      ],
+      "wings": ["6w5", "6w7"],
+      "wings_names_ei": ["6w5 – The Defender", "6w7 – The Buddy"],
       "wings_detail": {
         "6w5": {
           "name_ei": "The Defender",
@@ -200,14 +164,8 @@
       "virtue": "Sobrietà",
       "stress_to": 1,
       "growth_to": 5,
-      "wings": [
-        "7w6",
-        "7w8"
-      ],
-      "wings_names_ei": [
-        "7w6 – The Entertainer",
-        "7w8 – The Realist"
-      ],
+      "wings": ["7w6", "7w8"],
+      "wings_names_ei": ["7w6 – The Entertainer", "7w8 – The Realist"],
       "wings_detail": {
         "7w6": {
           "name_ei": "The Entertainer",
@@ -231,14 +189,8 @@
       "virtue": "Innocenza",
       "stress_to": 5,
       "growth_to": 2,
-      "wings": [
-        "8w7",
-        "8w9"
-      ],
-      "wings_names_ei": [
-        "8w7 – The Maverick",
-        "8w9 – The Bear"
-      ],
+      "wings": ["8w7", "8w9"],
+      "wings_names_ei": ["8w7 – The Maverick", "8w9 – The Bear"],
       "wings_detail": {
         "8w7": {
           "name_ei": "The Maverick",
@@ -262,14 +214,8 @@
       "virtue": "Azione",
       "stress_to": 6,
       "growth_to": 3,
-      "wings": [
-        "9w8",
-        "9w1"
-      ],
-      "wings_names_ei": [
-        "9w8 – The Referee",
-        "9w1 – The Dreamer"
-      ],
+      "wings": ["9w8", "9w1"],
+      "wings_names_ei": ["9w8 – The Referee", "9w1 – The Dreamer"],
       "wings_detail": {
         "9w1": {
           "name_ei": "The Dreamer",
@@ -286,105 +232,57 @@
     "Centri (emozione di base)": [
       {
         "group": "Istintivo (8-9-1) – Rabbia",
-        "types": [
-          8,
-          9,
-          1
-        ]
+        "types": [8, 9, 1]
       },
       {
         "group": "Emotivo (2-3-4) – Vergogna",
-        "types": [
-          2,
-          3,
-          4
-        ]
+        "types": [2, 3, 4]
       },
       {
         "group": "Mentale (5-6-7) – Paura",
-        "types": [
-          5,
-          6,
-          7
-        ]
+        "types": [5, 6, 7]
       }
     ],
     "Harmonic (gestione del conflitto)": [
       {
         "group": "Positive Outlook/Ottimisti",
-        "types": [
-          2,
-          7,
-          9
-        ]
+        "types": [2, 7, 9]
       },
       {
         "group": "Competency/Competenti",
-        "types": [
-          1,
-          3,
-          5
-        ]
+        "types": [1, 3, 5]
       },
       {
         "group": "Reactive/Reattivi",
-        "types": [
-          4,
-          6,
-          8
-        ]
+        "types": [4, 6, 8]
       }
     ],
     "Hornevian (stile sociale)": [
       {
         "group": "Compliant/Obbediente",
-        "types": [
-          1,
-          2,
-          6
-        ]
+        "types": [1, 2, 6]
       },
       {
         "group": "Withdrawn/Ritirato",
-        "types": [
-          4,
-          5,
-          9
-        ]
+        "types": [4, 5, 9]
       },
       {
         "group": "Assertive/Affermativo",
-        "types": [
-          3,
-          7,
-          8
-        ]
+        "types": [3, 7, 8]
       }
     ],
     "Object Relations": [
       {
         "group": "Attachment/Attaccamento",
-        "types": [
-          3,
-          6,
-          9
-        ]
+        "types": [3, 6, 9]
       },
       {
         "group": "Frustration/Frustrazione",
-        "types": [
-          1,
-          4,
-          7
-        ]
+        "types": [1, 4, 7]
       },
       {
         "group": "Rejection/Rifiuto",
-        "types": [
-          2,
-          5,
-          8
-        ]
+        "types": [2, 5, 8]
       }
     ]
   },

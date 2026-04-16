@@ -55,7 +55,7 @@ Il worker è **single-threaded sul read loop**: una richiesta alla volta, in ord
 All'avvio il worker emette:
 
 ```json
-{"type": "ready", "pid": 12345}
+{ "type": "ready", "pid": 12345 }
 ```
 
 Il parent Node deve **attendere questo messaggio** prima di inviare richieste. Se arriva invece un `response` con `status: "error"` e `code: "RULES_ERROR"`, il worker ha fallito il caricamento del catalog (tipicamente `trait_mechanics.yaml` mancante).
@@ -65,7 +65,7 @@ Il parent Node deve **attendere questo messaggio** prima di inviare richieste. S
 Ogni `RULES_WORKER_HEARTBEAT_INTERVAL_MS` millisecondi (default 5000, minimo 1000, configurabile via env), il worker emette:
 
 ```json
-{"type": "heartbeat", "pid": 12345, "timestamp": 1713012345.678}
+{ "type": "heartbeat", "pid": 12345, "timestamp": 1713012345.678 }
 ```
 
 **Scopo**:
@@ -95,9 +95,9 @@ Il parent invia un messaggio per riga (newline-delimited) con shape:
 
 **Campi**:
 
-- `id` *(string | int, obbligatorio)*: identifier opaco del request. Il worker lo copia 1:1 in `response.id` per permettere al parent di correlare request/response.
-- `action` *(string, obbligatorio)*: uno di `"hydrate-encounter"`, `"resolve-action"`, `"shutdown"`.
-- `payload` *(object, obbligatorio)*: il contenuto specifico dell'action. Vedi sotto.
+- `id` _(string | int, obbligatorio)_: identifier opaco del request. Il worker lo copia 1:1 in `response.id` per permettere al parent di correlare request/response.
+- `action` _(string, obbligatorio)_: uno di `"hydrate-encounter"`, `"resolve-action"`, `"shutdown"`.
+- `payload` _(object, obbligatorio)_: il contenuto specifico dell'action. Vedi sotto.
 
 ## Action: `hydrate-encounter`
 
@@ -121,9 +121,9 @@ Converte un encounter + party in un `CombatState` iniziale chiamando `hydration.
 
 **Campi opzionali** (possono essere `null`):
 
-- `encounter_id` *(string | null)*: id opaco dell'encounter per tracciamento.
-- `hostile_species_ids` *(array<string> | null)*: override degli species id degli hostile quando l'encounter ne dichiara solo i gruppi.
-- `hostile_trait_ids` *(array<string> | null)*: override dei trait per gli hostile.
+- `encounter_id` _(string | null)_: id opaco dell'encounter per tracciamento.
+- `hostile_species_ids` _(array<string> | null)_: override degli species id degli hostile quando l'encounter ne dichiara solo i gruppi.
+- `hostile_trait_ids` _(array<string> | null)_: override dei trait per gli hostile.
 
 **Response success**:
 
@@ -163,7 +163,7 @@ Risolve una singola action chiamando `resolver.resolve_action`.
 
 **Campi obbligatori**: `state` (object, CombatState), `action` (object, Action), `seed` (string).
 
-**Campo opzionale**: `namespace` *(string, default `"attack"`)*. Il worker costruisce `rng = namespaced_rng(seed, namespace)` prima di chiamare il resolver. Usare namespace diversi (`"attack"`, `"parry"`, `"ability"`, ecc.) su seed uguali per ottenere stream RNG indipendenti. Vedi [determinism.md](determinism.md).
+**Campo opzionale**: `namespace` _(string, default `"attack"`)_. Il worker costruisce `rng = namespaced_rng(seed, namespace)` prima di chiamare il resolver. Usare namespace diversi (`"attack"`, `"parry"`, `"ability"`, ecc.) su seed uguali per ottenere stream RNG indipendenti. Vedi [determinism.md](determinism.md).
 
 **Response success**:
 
@@ -198,7 +198,7 @@ Chiude il worker in modo pulito.
   "type": "response",
   "id": "req-044",
   "status": "ok",
-  "result": {"message": "shutdown"}
+  "result": { "message": "shutdown" }
 }
 ```
 
@@ -226,11 +226,11 @@ Ogni response ha questa shape (`$defs` interno al worker, non formalizzato in JS
 
 ## Error codes
 
-| Code | Significato | Quando |
-|---|---|---|
-| `RULES_ERROR` | Errore gestito (validazione payload, action mancante, trait_mechanics non trovato, ecc.) | `RulesWorkerError` sollevato esplicitamente nel worker |
-| `UNEXPECTED_ERROR` | Eccezione non gestita (bug nel resolver, ValueError inatteso, ecc.) | `Exception` catturata dal wrapper `_handle_request` |
-| `INVALID_MESSAGE` | Riga stdin non è JSON valido | `json.JSONDecodeError` durante il parse |
+| Code               | Significato                                                                              | Quando                                                 |
+| ------------------ | ---------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `RULES_ERROR`      | Errore gestito (validazione payload, action mancante, trait_mechanics non trovato, ecc.) | `RulesWorkerError` sollevato esplicitamente nel worker |
+| `UNEXPECTED_ERROR` | Eccezione non gestita (bug nel resolver, ValueError inatteso, ecc.)                      | `Exception` catturata dal wrapper `_handle_request`    |
+| `INVALID_MESSAGE`  | Riga stdin non è JSON valido                                                             | `json.JSONDecodeError` durante il parse                |
 
 Per `UNEXPECTED_ERROR` il worker stampa anche un traceback su **stderr** (non stdout) per debugging, ma non in response.
 
@@ -290,7 +290,10 @@ class RulesWorkerClient {
 
   async hydrate(encounter, party, seed, sessionId) {
     return this.request('hydrate-encounter', {
-      encounter, party, seed, session_id: sessionId,
+      encounter,
+      party,
+      seed,
+      session_id: sessionId,
     });
   }
 
@@ -316,8 +319,8 @@ class RulesWorkerClient {
 
 Il worker legge due variabili d'ambiente:
 
-- `RULES_TRAIT_MECHANICS_PATH` *(opzionale)*: override del path di `trait_mechanics.yaml`. Utile per test isolati con una versione custom del catalog.
-- `RULES_WORKER_HEARTBEAT_INTERVAL_MS` *(opzionale, default 5000, minimo 1000)*: intervallo heartbeat.
+- `RULES_TRAIT_MECHANICS_PATH` _(opzionale)_: override del path di `trait_mechanics.yaml`. Utile per test isolati con una versione custom del catalog.
+- `RULES_WORKER_HEARTBEAT_INTERVAL_MS` _(opzionale, default 5000, minimo 1000)_: intervallo heartbeat.
 
 ## Debugging
 

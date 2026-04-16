@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Web Handoff · Foodweb Archetypes 2025-11-05
 
 Questa nota supporta il passaggio di consegne verso il team web/UI dopo il
@@ -17,11 +18,11 @@ il mock-up rapido `docs/catalog/mockups/foodweb_roles.yaml`.
 
 ## Nuove coppie ruolo × bioma
 
-| Ruolo trofico | Bioma | Specie giocabile | Specie ambientale | Tratti firma |
-| --- | --- | --- | --- | --- |
-| Predatore terziario apex | dorsale_termale_tropicale | magneto-ridge-hunter | slag-veil-ambusher | coda_frusta_cinetica · scheletro_idro_regolante · artigli_sette_vie |
-| Ingegneri ecosistema | foresta_miceliale | myco-spire-warden | glowcap-weaver | filamenti_digestivi_compattanti · empatia_coordinativa · struttura_elastica_amorfa |
-| Dispersore ponte | mezzanotte_orbitale | aurora-bridge-runner | zephyr-spore-courier | sacche_galleggianti_ascensoriali · mimetismo_cromatico_passivo · eco_interno_riflesso |
+| Ruolo trofico            | Bioma                     | Specie giocabile     | Specie ambientale    | Tratti firma                                                                          |
+| ------------------------ | ------------------------- | -------------------- | -------------------- | ------------------------------------------------------------------------------------- |
+| Predatore terziario apex | dorsale_termale_tropicale | magneto-ridge-hunter | slag-veil-ambusher   | coda_frusta_cinetica · scheletro_idro_regolante · artigli_sette_vie                   |
+| Ingegneri ecosistema     | foresta_miceliale         | myco-spire-warden    | glowcap-weaver       | filamenti_digestivi_compattanti · empatia_coordinativa · struttura_elastica_amorfa    |
+| Dispersore ponte         | mezzanotte_orbitale       | aurora-bridge-runner | zephyr-spore-courier | sacche_galleggianti_ascensoriali · mimetismo_cromatico_passivo · eco_interno_riflesso |
 
 ### Implicazioni UI
 

@@ -7,7 +7,13 @@
   "properties": {
     "summary": {
       "type": "object",
-      "required": ["totalEvents", "openEvents", "acknowledgedEvents", "highPriorityEvents", "lastEventAt"],
+      "required": [
+        "totalEvents",
+        "openEvents",
+        "acknowledgedEvents",
+        "highPriorityEvents",
+        "lastEventAt"
+      ],
       "properties": {
         "totalEvents": { "type": "number", "minimum": 0 },
         "openEvents": { "type": "number", "minimum": 0 },

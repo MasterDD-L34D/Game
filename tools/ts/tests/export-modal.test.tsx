@@ -11,13 +11,8 @@ const dom = new JSDOM('<!doctype html><html><body></body></html>');
 Object.defineProperty(globalThis, 'navigator', { value: dom.window.navigator, configurable: true });
 (globalThis as unknown as { HTMLElement: typeof HTMLElement }).HTMLElement = dom.window.HTMLElement;
 
-const modulePaths = [
-  path.resolve(new URL('.', import.meta.url).pathname, '..', 'node_modules')
-];
-process.env.NODE_PATH = [
-  ...modulePaths,
-  process.env.NODE_PATH || ''
-]
+const modulePaths = [path.resolve(new URL('.', import.meta.url).pathname, '..', 'node_modules')];
+process.env.NODE_PATH = [...modulePaths, process.env.NODE_PATH || '']
   .filter(Boolean)
   .join(path.delimiter);
 Module.Module._initPaths();
@@ -61,16 +56,16 @@ const GROUPS: RecipientGroupOption[] = [
     channels: { slack: '#hud-alerts' },
     schedule: [
       { label: 'Mattina', days: ['mon', 'tue'], start: '08:00', end: '14:00' },
-      { label: 'Pomeriggio', days: ['mon', 'tue'], start: '14:00', end: '20:00' }
-    ]
+      { label: 'Pomeriggio', days: ['mon', 'tue'], start: '14:00', end: '20:00' },
+    ],
   },
   {
     id: 'qa_leads',
     label: 'QA Leads',
     description: 'Standup triage',
     recipients: ['qa.lead'],
-    schedule: [{ label: 'Feriali', days: ['mon', 'tue', 'wed'], start: '07:30', end: '18:00' }]
-  }
+    schedule: [{ label: 'Feriali', days: ['mon', 'tue', 'wed'], start: '07:30', end: '18:00' }],
+  },
 ];
 
 test('render e applicazione filtri', async () => {
@@ -82,10 +77,10 @@ test('render e applicazione filtri', async () => {
       visible
       recipientGroups={GROUPS}
       onClose={() => undefined}
-      onApply={filters => {
+      onApply={(filters) => {
         applied = filters;
       }}
-    />
+    />,
   );
 
   // Tutti i gruppi selezionati di default
@@ -116,10 +111,14 @@ test('reset ripristina i filtri iniziali', async () => {
     <ExportModal
       visible
       recipientGroups={GROUPS}
-      initialFilters={{ recipientGroups: ['qa_leads'], statuses: ['open'], onlyWithinSchedule: false }}
+      initialFilters={{
+        recipientGroups: ['qa_leads'],
+        statuses: ['open'],
+        onlyWithinSchedule: false,
+      }}
       onClose={() => undefined}
       onApply={() => undefined}
-    />
+    />,
   );
 
   fireEvent.click(screen.getByLabelText('Filtra per HUD Ops'));
@@ -135,7 +134,12 @@ test('modal invisibile non renderizza DOM', async () => {
   const { render } = await loadTestingLibrary();
   const { default: ExportModal } = await import('../../../public/analytics/export/ExportModal.tsx');
   const { container } = render(
-    <ExportModal visible={false} recipientGroups={GROUPS} onClose={() => undefined} onApply={() => undefined} />
+    <ExportModal
+      visible={false}
+      recipientGroups={GROUPS}
+      onClose={() => undefined}
+      onApply={() => undefined}
+    />,
   );
   assert.equal(container.innerHTML, '');
 });
@@ -143,7 +147,7 @@ test('modal invisibile non renderizza DOM', async () => {
 function expectChecked(
   screenApi: Awaited<ReturnType<typeof loadTestingLibrary>>['screen'],
   label: string,
-  expected: boolean
+  expected: boolean,
 ) {
   const element = screenApi.getByLabelText(label) as HTMLInputElement;
   assert.equal(element.checked, expected, `atteso stato ${expected} per ${label}`);

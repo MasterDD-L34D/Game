@@ -4,8 +4,8 @@ owner: qa-insights
 refreshInterval: 60
 panels:
   - id: eventi-live
-    title: "Eventi Live - Stato"
-    description: "Monitoraggio salute orchestrazione eventi live nelle coorti canary."
+    title: 'Eventi Live - Stato'
+    description: 'Monitoraggio salute orchestrazione eventi live nelle coorti canary.'
     layout:
       row: 1
       column: 1
@@ -22,7 +22,7 @@ panels:
             condition: below
             value: 0.95
         annotations:
-          - text: "Soglia minima 95% istanze attive"
+          - text: 'Soglia minima 95% istanze attive'
       - metric: eventi_sync_drift_ms
         visualization: timeseries
         thresholds:
@@ -33,7 +33,7 @@ panels:
             condition: above
             value: 250
         annotations:
-          - text: "Drift massimo 250ms"
+          - text: 'Drift massimo 250ms'
       - metric: eventi_player_drop_rate
         visualization: timeseries
         thresholds:
@@ -44,10 +44,10 @@ panels:
             condition: above
             value: 0.03
         annotations:
-          - text: "Monitorare abbandoni durante evento"
+          - text: 'Monitorare abbandoni durante evento'
   - id: loadout-dinamici
-    title: "Loadout Dinamici - Stabilità"
-    description: "Performance pubblicazione loadout e rollback per coorti pilota."
+    title: 'Loadout Dinamici - Stabilità'
+    description: 'Performance pubblicazione loadout e rollback per coorti pilota.'
     layout:
       row: 1
       column: 7
@@ -64,7 +64,7 @@ panels:
             condition: below
             value: 0.98
         annotations:
-          - text: "Soglia accettazione 98%"
+          - text: 'Soglia accettazione 98%'
       - metric: loadout_build_time_p95
         visualization: timeseries
         thresholds:
@@ -75,7 +75,7 @@ panels:
             condition: above
             value: 4200
         annotations:
-          - text: "Target tempo build 4.2s"
+          - text: 'Target tempo build 4.2s'
       - metric: loadout_rollbacks
         visualization: bar
         thresholds:
@@ -83,10 +83,10 @@ panels:
             condition: above
             value: 1
         annotations:
-          - text: "Rollback massimo 1 per giorno"
+          - text: 'Rollback massimo 1 per giorno'
   - id: hud-tap-overlay
-    title: "HUD TAP Overlay - Stabilità"
-    description: "Durata alert, ack rate e tilt per il programma Smart HUD TAP."
+    title: 'HUD TAP Overlay - Stabilità'
+    description: 'Durata alert, ack rate e tilt per il programma Smart HUD TAP.'
     layout:
       row: 9
       column: 1
@@ -103,7 +103,7 @@ panels:
             condition: above
             value: 2.0
         annotations:
-          - text: "Durata alert target ≤2 turni"
+          - text: 'Durata alert target ≤2 turni'
       - metric: hud_ack_rate
         visualization: timeseries
         thresholds:
@@ -114,7 +114,7 @@ panels:
             condition: below
             value: 0.82
         annotations:
-          - text: "Ack rate minimo TAP 82%"
+          - text: 'Ack rate minimo TAP 82%'
       - metric: hud_tilt_index
         visualization: timeseries
         thresholds:
@@ -125,10 +125,10 @@ panels:
             condition: above
             value: 0.5
         annotations:
-          - text: "Tilt medio deve restare <0.50"
+          - text: 'Tilt medio deve restare <0.50'
   - id: moderazione-assistita
-    title: "Moderazione Assistita - Efficienza"
-    description: "Tassi di adozione e tempi di risposta per il pannello assistito."
+    title: 'Moderazione Assistita - Efficienza'
+    description: 'Tassi di adozione e tempi di risposta per il pannello assistito.'
     layout:
       row: 17
       column: 1
@@ -145,7 +145,7 @@ panels:
             condition: below
             value: 0.65
         annotations:
-          - text: "Accettazione minima 65%"
+          - text: 'Accettazione minima 65%'
       - metric: moderation_triage_latency_p95
         visualization: timeseries
         thresholds:
@@ -156,7 +156,7 @@ panels:
             condition: above
             value: 900
         annotations:
-          - text: "Tempo triage massimo 15m"
+          - text: 'Tempo triage massimo 15m'
       - metric: moderation_manual_escalations
         visualization: table
         thresholds:
@@ -167,7 +167,7 @@ panels:
             condition: above
             value: 12
         annotations:
-          - text: "Escalation >12 richiedono root cause"
+          - text: 'Escalation >12 richiedono root cause'
 alerts:
   - id: eventi-sla
     panel: eventi-live

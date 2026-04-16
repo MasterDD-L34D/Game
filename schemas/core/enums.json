@@ -6,41 +6,19 @@
   "$defs": {
     "macro_class": {
       "type": "string",
-      "enum": [
-        "Mammalia",
-        "Aves",
-        "Reptilia",
-        "Amphibia",
-        "Insecta"
-      ]
+      "enum": ["Mammalia", "Aves", "Reptilia", "Amphibia", "Insecta"]
     },
     "habitat_profile": {
       "type": "string",
-      "enum": [
-        "foreste temperate",
-        "zone umide",
-        "steppe",
-        "savana",
-        "ambienti costieri"
-      ]
+      "enum": ["foreste temperate", "zone umide", "steppe", "savana", "ambienti costieri"]
     },
     "sentience_tier": {
       "type": "string",
-      "enum": [
-        "T0",
-        "T1",
-        "T2",
-        "T3",
-        "T4"
-      ]
+      "enum": ["T0", "T1", "T2", "T3", "T4"]
     },
     "energy_upkeep_level": {
       "type": "string",
-      "enum": [
-        "Basso",
-        "Medio",
-        "Alto"
-      ]
+      "enum": ["Basso", "Medio", "Alto"]
     },
     "danger_level": {
       "type": "integer",
@@ -49,23 +27,11 @@
     },
     "metric_unit": {
       "type": "string",
-      "enum": [
-        "1",
-        "m",
-        "kg",
-        "s",
-        "A"
-      ]
+      "enum": ["1", "m", "kg", "s", "A"]
     },
     "ecotype_cluster": {
       "type": "string",
-      "enum": [
-        "Canopy",
-        "Estuario",
-        "Prateria",
-        "Laguna",
-        "Canyon"
-      ]
+      "enum": ["Canopy", "Estuario", "Prateria", "Laguna", "Canyon"]
     }
   },
   "additionalProperties": false

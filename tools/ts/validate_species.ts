@@ -1,10 +1,10 @@
-import fs from "fs";
-import yaml from "js-yaml";
+import fs from 'fs';
+import yaml from 'js-yaml';
 
 type Dict<T = any> = { [k: string]: T };
 
 function loadYaml(path: string): any {
-  return yaml.load(fs.readFileSync(path, "utf8")) as any;
+  return yaml.load(fs.readFileSync(path, 'utf8')) as any;
 }
 
 function collectCatalog(spec: any) {
@@ -26,11 +26,11 @@ function getCaps(spec: any) {
 
 function gatherChosen(dp: any): Set<string> {
   const out = new Set<string>();
-  ["locomotion", "metabolism"].forEach((sl) => {
+  ['locomotion', 'metabolism'].forEach((sl) => {
     if (dp[sl]) out.add(`${sl}.${dp[sl]}`);
   });
-  ["offense", "defense", "senses"].forEach((sl) =>
-    (dp[sl] || []).forEach((p: string) => out.add(`${sl}.${p}`))
+  ['offense', 'defense', 'senses'].forEach((sl) =>
+    (dp[sl] || []).forEach((p: string) => out.add(`${sl}.${p}`)),
   );
   return out;
 }
@@ -60,12 +60,10 @@ function accumulateRes(spec: any, dp: any) {
     });
   };
 
-  ["locomotion", "metabolism"].forEach((s) => {
+  ['locomotion', 'metabolism'].forEach((s) => {
     if (dp[s]) acc(s, dp[s]);
   });
-  ["offense", "defense", "senses"].forEach((s) =>
-    (dp[s] || []).forEach((p: string) => acc(s, p))
-  );
+  ['offense', 'defense', 'senses'].forEach((s) => (dp[s] || []).forEach((p: string) => acc(s, p)));
 
   return { res, vuln, dr };
 }
@@ -84,7 +82,7 @@ function computeKnownCounters(spec: any, chosen: Set<string>): string[] {
   (spec.global_rules?.counters_reference || []).forEach((item: any) => {
     const hit = (item.counters || []).some((c: string) => {
       for (const k of Array.from(chosen)) {
-        if (k.endsWith("." + c) || k.includes(c)) return true;
+        if (k.endsWith('.' + c) || k.includes(c)) return true;
       }
       return false;
     });
@@ -111,11 +109,11 @@ function validate(path: string) {
     const over_budget = est > bud;
     if (over_budget) warnings.push(`estimated_weight ${est} exceeds budget ${bud}`);
 
-    ["locomotion", "metabolism"].forEach((sl) => {
+    ['locomotion', 'metabolism'].forEach((sl) => {
       const pid = dp[sl];
       if (pid && !bySlot[sl]?.has(pid)) errors.push(`missing part: ${sl}.${pid}`);
     });
-    ["offense", "defense", "senses"].forEach((sl) => {
+    ['offense', 'defense', 'senses'].forEach((sl) => {
       (dp[sl] || []).forEach((pid: string) => {
         if (!bySlot[sl]?.has(pid)) errors.push(`missing part: ${sl}.${pid}`);
       });
@@ -141,7 +139,7 @@ function validate(path: string) {
       id: sid,
       display_name: sp.display_name || sid,
       budget: { used: est, max: bud, over_budget },
-      parts_ok: errors.filter((e) => e.startsWith("missing part")).length === 0,
+      parts_ok: errors.filter((e) => e.startsWith('missing part')).length === 0,
       active_synergies: activeSyn,
       synergy_hints: sp.synergy_hints || [],
       known_counters: knownCounters,
@@ -169,5 +167,5 @@ function validate(path: string) {
   process.exit(report.errors === 0 ? 0 : 1);
 }
 
-const pathArg = process.argv[2] || "../../data/core/species.yaml";
+const pathArg = process.argv[2] || '../../data/core/species.yaml';
 validate(pathArg);

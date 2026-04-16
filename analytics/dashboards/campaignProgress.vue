@@ -63,7 +63,12 @@
             </div>
             <footer class="funnel__footer">
               <span>Drop-off: {{ formatPercent(stage.dropOffRate) }}</span>
-              <span :class="{ 'funnel__delta--up': stage.delta >= 0, 'funnel__delta--down': stage.delta < 0 }">
+              <span
+                :class="{
+                  'funnel__delta--up': stage.delta >= 0,
+                  'funnel__delta--down': stage.delta < 0,
+                }"
+              >
                 {{ stage.delta >= 0 ? '▲' : '▼' }} {{ formatPercent(Math.abs(stage.delta)) }}
               </span>
             </footer>
@@ -78,7 +83,9 @@
             <h3>Heatmap canali</h3>
             <p>Intensità settimanale dei touchpoint attivati per segmento.</p>
           </div>
-          <span class="campaign-progress__panel-meta">{{ heatmapMatrix.periods.length }} periodi</span>
+          <span class="campaign-progress__panel-meta"
+            >{{ heatmapMatrix.periods.length }} periodi</span
+          >
         </header>
         <div class="heatmap">
           <table>
@@ -108,7 +115,10 @@
         </div>
       </section>
 
-      <section v-if="highlights.length" class="campaign-progress__panel campaign-progress__panel--highlights">
+      <section
+        v-if="highlights.length"
+        class="campaign-progress__panel campaign-progress__panel--highlights"
+      >
         <header class="campaign-progress__panel-header">
           <div>
             <h3>Focus e follow-up</h3>
@@ -183,9 +193,7 @@ const normalizedFunnel = computed(() => {
   return props.funnel.map((stage, index) => {
     const previous = index > 0 ? props.funnel[index - 1] : undefined;
     const dropOffBase = previous ? previous.conversions || previous.leads : 0;
-    const dropOffRate = previous && dropOffBase
-      ? Math.max(0, 1 - stage.leads / dropOffBase)
-      : 0;
+    const dropOffRate = previous && dropOffBase ? Math.max(0, 1 - stage.leads / dropOffBase) : 0;
     const conversionRate = stage.leads > 0 ? stage.conversions / stage.leads : 0;
     const delta = stage.delta ?? 0;
     return {
@@ -437,11 +445,7 @@ function formatTimestamp(value: string): string {
   padding: 0.75rem 1rem;
   border-radius: 0.9rem;
   position: relative;
-  background: linear-gradient(
-    135deg,
-    rgba(82, 156, 255, 0.28),
-    rgba(82, 156, 255, 0.08)
-  );
+  background: linear-gradient(135deg, rgba(82, 156, 255, 0.28), rgba(82, 156, 255, 0.08));
   border: 1px solid rgba(82, 156, 255, 0.25);
   overflow: hidden;
 }
@@ -452,7 +456,11 @@ function formatTimestamp(value: string): string {
   inset: 0;
   transform-origin: left;
   transform: scaleX(calc(var(--width) / 100));
-  background: radial-gradient(circle at top left, rgba(82, 156, 255, 0.65), rgba(82, 156, 255, 0.2));
+  background: radial-gradient(
+    circle at top left,
+    rgba(82, 156, 255, 0.65),
+    rgba(82, 156, 255, 0.2)
+  );
   opacity: 0.85;
   border-radius: inherit;
   z-index: 0;

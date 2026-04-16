@@ -15,7 +15,7 @@ checks:
       - slack:#moderation-ops
       - pagerduty:ds-oncall
   - id: transcription-latency
-    description: "Pipeline voice-to-text con latenza superiore a 12s"
+    description: 'Pipeline voice-to-text con latenza superiore a 12s'
     schedule: '*/15 * * * *'
     query: metrics.moderation.transcription_latency_p95
     threshold:
@@ -24,7 +24,7 @@ checks:
     notification_channels:
       - slack:#moderation-ops
   - id: transcription-error-rate
-    description: "Error rate API trascrizione oltre 5%"
+    description: 'Error rate API trascrizione oltre 5%'
     schedule: '*/10 * * * *'
     query: metrics.moderation.transcription_error_rate
     threshold:
@@ -33,7 +33,7 @@ checks:
     notification_channels:
       - slack:#moderation-alerts
   - id: backlog-growth
-    description: "Backlog moderazione in crescita per più di 3 slot consecutivi"
+    description: 'Backlog moderazione in crescita per più di 3 slot consecutivi'
     schedule: '*/30 * * * *'
     query: metrics.moderation.backlog_growth_rate
     threshold:

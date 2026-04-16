@@ -15,7 +15,13 @@ describe('CampaignProgress dashboard', () => {
         },
         funnel: [
           { id: 'awareness', label: 'Awareness', leads: 12840, conversions: 6840, delta: 0.08 },
-          { id: 'consideration', label: 'Considerazione', leads: 6840, conversions: 3520, delta: 0.04 },
+          {
+            id: 'consideration',
+            label: 'Considerazione',
+            leads: 6840,
+            conversions: 3520,
+            delta: 0.04,
+          },
           { id: 'evaluation', label: 'Valutazione', leads: 3520, conversions: 1860, delta: 0.02 },
           { id: 'activation', label: 'Attivazione', leads: 1860, conversions: 980, delta: -0.01 },
           { id: 'retention', label: 'Fidelizzazione', leads: 980, conversions: 610, delta: 0.03 },

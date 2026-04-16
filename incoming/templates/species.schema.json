@@ -5,12 +5,7 @@
   "properties": {
     "species": {
       "type": "object",
-      "required": [
-        "scientific_name",
-        "classification",
-        "functional_signature",
-        "trait_refs"
-      ],
+      "required": ["scientific_name", "classification", "functional_signature", "trait_refs"],
       "properties": {
         "scientific_name": {
           "type": "string"
@@ -23,10 +18,7 @@
         },
         "classification": {
           "type": "object",
-          "required": [
-            "macro_class",
-            "habitat"
-          ],
+          "required": ["macro_class", "habitat"],
           "properties": {
             "macro_class": {
               "type": "string"
@@ -56,14 +48,7 @@
         },
         "sentience_index": {
           "type": "string",
-          "enum": [
-            "T0",
-            "T1",
-            "T2",
-            "T3",
-            "T4",
-            "T5"
-          ]
+          "enum": ["T0", "T1", "T2", "T3", "T4", "T5"]
         },
         "ecotypes": {
           "type": "array",

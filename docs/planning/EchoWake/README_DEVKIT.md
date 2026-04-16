@@ -8,5 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # EvoTactics Developer Kit
+
 Base DevKit per drift-check, YAML e telemetria.

@@ -15,10 +15,10 @@ Dispatcher operativo per i file residui in `docs/incoming/**`. Dopo il triage ba
 
 ## Stato file attivi
 
-| File | Stato | Owner | Note |
-|---|---|---|---|
+| File                                                                                       | Stato     | Owner                 | Note                                                 |
+| ------------------------------------------------------------------------------------------ | --------- | --------------------- | ---------------------------------------------------- |
 | [`lavoro_da_classificare/INTEGRATION_PLAN.md`](lavoro_da_classificare/INTEGRATION_PLAN.md) | INTEGRATO | archivist (Master DD) | Piano integrazione 01B, tenuto attivo in report-only |
-| [`lavoro_da_classificare/TASKS_BREAKDOWN.md`](lavoro_da_classificare/TASKS_BREAKDOWN.md) | INTEGRATO | archivist (Master DD) | Task board derivata dal piano sopra |
+| [`lavoro_da_classificare/TASKS_BREAKDOWN.md`](lavoro_da_classificare/TASKS_BREAKDOWN.md)   | INTEGRATO | archivist (Master DD) | Task board derivata dal piano sopra                  |
 
 ## Dove trovare il resto
 

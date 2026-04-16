@@ -61,14 +61,14 @@ async function main() {
 async function runSubprocess(command, commandArgs) {
   await new Promise((resolve, reject) => {
     const child = spawn(command, commandArgs, { stdio: 'inherit' });
-    child.on('close', code => {
+    child.on('close', (code) => {
       if (code !== 0) {
         reject(new Error(`${command} ${commandArgs.join(' ')} exited with code ${code}`));
         return;
       }
       resolve();
     });
-    child.on('error', error => {
+    child.on('error', (error) => {
       reject(error);
     });
   });
@@ -77,7 +77,7 @@ async function runSubprocess(command, commandArgs) {
 function parseArgs(argv) {
   const args = {
     quiet: false,
-    dryRun: false
+    dryRun: false,
   };
 
   for (let i = 0; i < argv.length; i += 1) {
@@ -136,12 +136,14 @@ function parseArgs(argv) {
 }
 
 function printUsage() {
-  console.log(`Uso: drive-sync [--config <path>] [--output <path>] [--manifest <path>] [--url <webapp>]` +
-    ` [--token <value>] [--token-location body|query|header] [--dry-run] [--quiet]\n\n` +
-    'Genera il manifest degli asset approvati e lo invia al WebApp driveSync.');
+  console.log(
+    `Uso: drive-sync [--config <path>] [--output <path>] [--manifest <path>] [--url <webapp>]` +
+      ` [--token <value>] [--token-location body|query|header] [--dry-run] [--quiet]\n\n` +
+      'Genera il manifest degli asset approvati e lo invia al WebApp driveSync.',
+  );
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error('drive-sync fallito:', error.message || error);
   process.exitCode = 1;
 });

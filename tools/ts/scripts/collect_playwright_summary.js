@@ -1,10 +1,10 @@
-import fs from "node:fs";
-import path from "node:path";
+import fs from 'node:fs';
+import path from 'node:path';
 
 const reportPath = process.argv[2];
 
 if (!reportPath) {
-  console.error("Usage: node collect_playwright_summary.js <report.json>");
+  console.error('Usage: node collect_playwright_summary.js <report.json>');
   process.exit(1);
 }
 
@@ -13,7 +13,7 @@ if (!fs.existsSync(resolvedPath)) {
   process.exit(0);
 }
 
-const raw = fs.readFileSync(resolvedPath, "utf8");
+const raw = fs.readFileSync(resolvedPath, 'utf8');
 if (!raw.trim()) {
   process.exit(0);
 }
@@ -36,7 +36,7 @@ const walkSuite = (suite, parents = []) => {
       tests.push({
         title: testInfo.title,
         outcome: testInfo.outcome,
-        fullTitle: [...titles, testInfo.title].filter(Boolean).join(" › "),
+        fullTitle: [...titles, testInfo.title].filter(Boolean).join(' › '),
       });
     }
   }
@@ -54,7 +54,7 @@ if (Array.isArray(data.suites)) {
 }
 
 if (!tests.length) {
-  console.log("- Playwright · nessun test eseguito.");
+  console.log('- Playwright · nessun test eseguito.');
   process.exit(0);
 }
 
@@ -64,7 +64,7 @@ const outcomeCounts = tests.reduce(
     acc[testInfo.outcome] = (acc[testInfo.outcome] || 0) + 1;
     return acc;
   },
-  { total: 0 }
+  { total: 0 },
 );
 
 const passed = outcomeCounts.expected || 0;
@@ -78,11 +78,11 @@ summaryParts.push(`${failed} falliti`);
 if (skipped) summaryParts.push(`${skipped} skipped`);
 if (flaky) summaryParts.push(`${flaky} flaky`);
 
-console.log(summaryParts.join(", ") + ".");
+console.log(summaryParts.join(', ') + '.');
 
 for (const testInfo of tests) {
-  let icon = "✅";
-  if (testInfo.outcome === "unexpected") icon = "❌";
-  else if (testInfo.outcome === "skipped" || testInfo.outcome === "flaky") icon = "⚠️";
+  let icon = '✅';
+  if (testInfo.outcome === 'unexpected') icon = '❌';
+  else if (testInfo.outcome === 'skipped' || testInfo.outcome === 'flaky') icon = '⚠️';
   console.log(`  - ${icon} ${testInfo.fullTitle}`);
 }

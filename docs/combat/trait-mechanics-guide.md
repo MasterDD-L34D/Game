@@ -19,7 +19,7 @@ Questo documento spiega la struttura del file, la semantica dei campi, il proces
 ## Struttura del file
 
 ```yaml
-schema_version: "0.2.0"
+schema_version: '0.2.0'
 generated_from: >
   <descrizione delle fonti del pass Balancer>
 notes: >
@@ -32,9 +32,8 @@ traits:
     cost_ap: 1
     resistances: []
     active_effects: []
-    notes: "opzionale"
-  <altro_trait_id>:
-    ...
+    notes: 'opzionale'
+  <altro_trait_id>: ...
 ```
 
 Il top-level espone 3 campi:
@@ -49,38 +48,38 @@ Lo schema formale è in `packages/contracts/schemas/traitMechanics.schema.json` 
 
 Ogni entry sotto `traits.<trait_id>` ha i seguenti campi:
 
-### `attack_mod` *(int, default 0)*
+### `attack_mod` _(int, default 0)_
 
 Modificatore additivo al tiro d20 di attack quando il trait è attivo sull'attore. Viene sommato da `resolve_action` via `aggregate_mod(actor.trait_ids, catalog, "attack_mod")`. Valori tipici: `-2` … `+2`. Positivo = aggressive, negativo = handicap.
 
-### `defense_mod` *(int, default 0)*
+### `defense_mod` _(int, default 0)_
 
 Modificatore additivo alla CD di attack del target quando il trait è attivo sul difensore. Formula CD: `10 + target.tier + aggregate(target.trait_ids, "defense_mod")`. Valori tipici: `-1` … `+2`.
 
-### `damage_step` *(int, default 0)*
+### `damage_step` _(int, default 0)_
 
 Step di danno "già maturato" quando il trait è attivo sull'attore. Viene sommato al `step_count` derivato dal MoS nella formula `compute_step_count(mos, trait_damage_step_bonus)`. Effetto netto: un attaccante con `damage_step: 1` parte già con +1 step di danno anche a MoS 0.
 
 Il cap del Balancer è `+1` per trait singolo. I test contract (`tests/api/contracts-trait-mechanics.test.js`) verificano che nessun trait superi `damage_step: 2`.
 
-### `cost_ap` *(int, default 1)*
+### `cost_ap` _(int, default 1)_
 
 AP richiesti per un'azione di tipo ability che attiva il trait. **Non è consumato dal resolver nella fase attuale** (le ability sono NOOP), ma è tracciato nel layer per future iterazioni. Usa 1 per trait leggeri, 2 per trait impegnativi, 3 per trait definitivi.
 
-### `resistances` *(list di `{channel, modifier_pct}`)*
+### `resistances` _(list di `{channel, modifier_pct}`)_
 
 Lista di resistenze per-canale che vengono **aggregate sul target** durante l'hydration e applicate dal resolver in `apply_resistance` con formula moltiplicativa `floor(damage * (1 - pct/100))`.
 
-- `channel` *(string, slug)*: canale di danno. Canali canonici: `elettrico, psionico, fisico, fuoco, gravita, mentale, taglio, ionico`. Canale non-canonico attualmente usato: `gelo` (solo `criostasi_adattiva`).
-- `modifier_pct` *(int, clamp [-100, 100])*: percentuale di riduzione. Positivo = riduce danno (resistenza); negativo = amplifica (vulnerabilità).
+- `channel` _(string, slug)_: canale di danno. Canali canonici: `elettrico, psionico, fisico, fuoco, gravita, mentale, taglio, ionico`. Canale non-canonico attualmente usato: `gelo` (solo `criostasi_adattiva`).
+- `modifier_pct` _(int, clamp [-100, 100])_: percentuale di riduzione. Positivo = riduce danno (resistenza); negativo = amplifica (vulnerabilità).
 
 L'aggregazione via `hydration.aggregate_resistances` somma i `modifier_pct` sullo stesso `channel` attraverso tutti i trait attivi, poi clampa a `[-100, 100]`.
 
-### `active_effects` *(list di string, default [])*
+### `active_effects` _(list di string, default [])_
 
 Lista di identifier di effetti attivi (es. `"apply_disorient_on_hit"`, `"bleeding_on_crit"`). Il campo **esiste nello schema ma è NOOP nella Fase 2**: non viene letto dal resolver. È popolato solo come preparazione per la Fase 3 (ability implementation). Vedi [action-types-guide.md](action-types-guide.md) per il piano.
 
-### `notes` *(string, opzionale)*
+### `notes` _(string, opzionale)_
 
 Documentazione inline: motivazione di un valore non ovvio, riferimento a un draft di bilanciamento, flag "candidato per revisione", ecc. Non consumato dal resolver.
 
@@ -111,7 +110,7 @@ criostasi_adattiva:
   resistances:
     - { channel: gelo, modifier_pct: 20 }
   active_effects: []
-  notes: "canale non-canonico gelo (estensione da stabilizzare nel prossimo combat pack)"
+  notes: 'canale non-canonico gelo (estensione da stabilizzare nel prossimo combat pack)'
 ```
 
 Trait defensive: nessun bonus offensivo, ma `+1 defense_mod` alza la CD di attack del target, e una resistenza del 20% al canale `gelo`. Il `cost_ap: 3` è alto perché l'attivazione (quando le ability saranno implementate) sarà impegnativa. Il campo `notes` documenta che `gelo` è un canale non-canonico introdotto da questo trait; andrà stabilizzato nel prossimo pack di combat content.
@@ -149,10 +148,7 @@ Apri `docs/catalog/traits_inventory.json` e aggiungi l'id del nuovo trait a `cor
 
 ```json
 {
-  "core_traits": [
-    "...",
-    "nuovo_trait_id"
-  ]
+  "core_traits": ["...", "nuovo_trait_id"]
 }
 ```
 
@@ -222,13 +218,13 @@ feat(combat): add trait <nuovo_trait_id> to mechanics catalog
 
 Il pass Balancer assegna ogni trait a una **classe** basandosi su `description_it` + `family_type` + `usage_tags`:
 
-| Classe | Allocazione tipica | Quota attuale |
-|---|---|---|
-| offensive | `attack_mod: +1`, `damage_step: +1`, `cost_ap: 1` | 4/33 |
-| defensive | `defense_mod: +1..+2`, `resistances: [...]`, `cost_ap: 2..3` | 9/33 |
-| hybrid | `attack_mod: +1`, `defense_mod: +1`, `cost_ap: 2` | 1/33 |
-| mobility | `damage_step: 0`, modifiers neutri, effetti futuri via `active_effects` | 3/33 |
-| utility | neutrale, `cost_ap: 1..2`, spazio per `active_effects` in Fase 3 | 13/33 (15/33 con i 3 nuovi) |
+| Classe    | Allocazione tipica                                                      | Quota attuale               |
+| --------- | ----------------------------------------------------------------------- | --------------------------- |
+| offensive | `attack_mod: +1`, `damage_step: +1`, `cost_ap: 1`                       | 4/33                        |
+| defensive | `defense_mod: +1..+2`, `resistances: [...]`, `cost_ap: 2..3`            | 9/33                        |
+| hybrid    | `attack_mod: +1`, `defense_mod: +1`, `cost_ap: 2`                       | 1/33                        |
+| mobility  | `damage_step: 0`, modifiers neutri, effetti futuri via `active_effects` | 3/33                        |
+| utility   | neutrale, `cost_ap: 1..2`, spazio per `active_effects` in Fase 3        | 13/33 (15/33 con i 3 nuovi) |
 
 Le regole sono deterministiche: ogni valore è giustificato da un fatto del repo, non da intuizione. Per il framework completo vedi `packs/evo_tactics_pack/data/balance/README.md` e `docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md`.
 

@@ -13,12 +13,17 @@ async function main() {
   }
 
   const repoRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)), '..');
-  const manifestPath = path.resolve(repoRoot, args.manifest || 'data/external/drive/approved_assets.json');
+  const manifestPath = path.resolve(
+    repoRoot,
+    args.manifest || 'data/external/drive/approved_assets.json',
+  );
   const manifest = await loadManifest(manifestPath);
 
   const url = args.url || process.env.DRIVE_SYNC_WEBAPP_URL || '';
   if (!url && !args.dryRun) {
-    console.error('Specifica l\'URL del WebApp Apps Script tramite --url o variabile DRIVE_SYNC_WEBAPP_URL.');
+    console.error(
+      "Specifica l'URL del WebApp Apps Script tramite --url o variabile DRIVE_SYNC_WEBAPP_URL.",
+    );
     process.exitCode = 1;
     return;
   }
@@ -26,7 +31,7 @@ async function main() {
   const token = args.token || process.env.DRIVE_SYNC_WEBAPP_TOKEN || '';
   const payload = {
     action: 'updateApprovedAssets',
-    manifest
+    manifest,
   };
 
   let requestUrl = url;
@@ -60,7 +65,7 @@ async function main() {
     const response = await fetch(requestUrl, {
       method: 'POST',
       headers,
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
     const text = await response.text();
     const json = safeParseJson(text);
@@ -76,7 +81,7 @@ async function main() {
     }
     const result = json.result || {};
     console.log(
-      `Manifest approvato inviato con successo (${result.assets || manifest.assets?.length || 0} asset, timestamp ${result.generatedAt || manifest.generatedAt}).`
+      `Manifest approvato inviato con successo (${result.assets || manifest.assets?.length || 0} asset, timestamp ${result.generatedAt || manifest.generatedAt}).`,
     );
   } catch (error) {
     console.error('Invio fallito:', error.message || error);
@@ -153,11 +158,13 @@ function safeParseJson(raw) {
 }
 
 function printUsage() {
-  console.log(`Uso: push-approved-assets [--manifest <path>] [--url <webapp>] [--token <value>] [--token-location body|query|header] [--dry-run]\n\n` +
-    'Invia l\'elenco degli asset approvati al WebApp Apps Script driveSync.');
+  console.log(
+    `Uso: push-approved-assets [--manifest <path>] [--url <webapp>] [--token <value>] [--token-location body|query|header] [--dry-run]\n\n` +
+      "Invia l'elenco degli asset approvati al WebApp Apps Script driveSync.",
+  );
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error('Errore inatteso:', error);
   process.exitCode = 1;
 });

@@ -1,26 +1,26 @@
-const STORAGE_KEY = "evo-support-hub-config";
+const STORAGE_KEY = 'evo-support-hub-config';
 
 const elements = {
-  repoInput: document.getElementById("repo-input"),
-  branchInput: document.getElementById("branch-input"),
-  dataRootInput: document.getElementById("data-root-input"),
-  configForm: document.getElementById("config-form"),
-  resetButton: document.getElementById("reset-config"),
-  openButton: document.getElementById("open-simulator"),
-  heroOpenButton: document.getElementById("hero-open-simulator"),
-  simulatorFrame: document.getElementById("simulator-frame"),
-  simulatorLink: document.getElementById("simulator-link"),
-  dataRootPreview: document.getElementById("data-root-preview"),
-  refreshActivity: document.getElementById("refresh-activity"),
-  refreshChangelog: document.getElementById("refresh-changelog"),
-  activityFeed: document.getElementById("activity-feed"),
-  changelogFeed: document.getElementById("changelog-feed"),
-  lastActivity: document.getElementById("last-activity"),
-  activeBranch: document.getElementById("active-branch"),
-  changelogStatus: document.getElementById("changelog-status"),
-  datasetStatus: document.getElementById("dataset-status"),
-  datasetUpdated: document.getElementById("dataset-updated"),
-  refreshDatasets: document.getElementById("refresh-datasets"),
+  repoInput: document.getElementById('repo-input'),
+  branchInput: document.getElementById('branch-input'),
+  dataRootInput: document.getElementById('data-root-input'),
+  configForm: document.getElementById('config-form'),
+  resetButton: document.getElementById('reset-config'),
+  openButton: document.getElementById('open-simulator'),
+  heroOpenButton: document.getElementById('hero-open-simulator'),
+  simulatorFrame: document.getElementById('simulator-frame'),
+  simulatorLink: document.getElementById('simulator-link'),
+  dataRootPreview: document.getElementById('data-root-preview'),
+  refreshActivity: document.getElementById('refresh-activity'),
+  refreshChangelog: document.getElementById('refresh-changelog'),
+  activityFeed: document.getElementById('activity-feed'),
+  changelogFeed: document.getElementById('changelog-feed'),
+  lastActivity: document.getElementById('last-activity'),
+  activeBranch: document.getElementById('active-branch'),
+  changelogStatus: document.getElementById('changelog-status'),
+  datasetStatus: document.getElementById('dataset-status'),
+  datasetUpdated: document.getElementById('dataset-updated'),
+  refreshDatasets: document.getElementById('refresh-datasets'),
 };
 
 const datasetMetricElements = {
@@ -33,43 +33,43 @@ const datasetMetricElements = {
 };
 
 const incomingControls = {
-  dateInput: document.getElementById("incoming-session-date"),
-  commandPreview: document.getElementById("incoming-command"),
-  copyButton: document.getElementById("incoming-copy-command"),
-  commandHint: document.getElementById("incoming-command-hint"),
-  status: document.getElementById("incoming-status"),
-  reportLink: document.getElementById("incoming-report-link"),
-  refreshStatus: document.getElementById("incoming-refresh-status"),
+  dateInput: document.getElementById('incoming-session-date'),
+  commandPreview: document.getElementById('incoming-command'),
+  copyButton: document.getElementById('incoming-copy-command'),
+  commandHint: document.getElementById('incoming-command-hint'),
+  status: document.getElementById('incoming-status'),
+  reportLink: document.getElementById('incoming-report-link'),
+  refreshStatus: document.getElementById('incoming-refresh-status'),
 };
 
 const DATASET_SOURCES = [
-  { key: "packs", path: "data/packs.yaml", label: "Pack" },
-  { key: "telemetry", path: "data/core/telemetry.yaml", label: "Telemetria" },
-  { key: "biomes", path: "data/core/biomes.yaml", label: "Biomi" },
-  { key: "species", path: "data/core/species.yaml", label: "Specie" },
+  { key: 'packs', path: 'data/packs.yaml', label: 'Pack' },
+  { key: 'telemetry', path: 'data/core/telemetry.yaml', label: 'Telemetria' },
+  { key: 'biomes', path: 'data/core/biomes.yaml', label: 'Biomi' },
+  { key: 'species', path: 'data/core/species.yaml', label: 'Specie' },
 ];
 
 const defaultConfig = {
   repo: detectDefaultRepo(),
-  branch: "main",
-  dataRoot: "",
+  branch: 'main',
+  dataRoot: '',
 };
 
 let currentConfig = loadConfig();
 
 function detectDefaultRepo() {
   try {
-    if (window.location.hostname.endsWith("github.io")) {
-      const [owner] = window.location.hostname.split(".");
-      const [repo] = window.location.pathname.split("/").filter(Boolean);
+    if (window.location.hostname.endsWith('github.io')) {
+      const [owner] = window.location.hostname.split('.');
+      const [repo] = window.location.pathname.split('/').filter(Boolean);
       if (owner && repo) {
         return `${owner}/${repo}`;
       }
     }
   } catch (error) {
-    console.warn("Impossibile rilevare repository di default", error);
+    console.warn('Impossibile rilevare repository di default', error);
   }
-  return "";
+  return '';
 }
 
 function loadConfig() {
@@ -79,7 +79,7 @@ function loadConfig() {
       return { ...defaultConfig, ...JSON.parse(saved) };
     }
   } catch (error) {
-    console.warn("Impossibile leggere la configurazione salvata", error);
+    console.warn('Impossibile leggere la configurazione salvata', error);
   }
   return { ...defaultConfig };
 }
@@ -88,21 +88,21 @@ function saveConfig(config) {
   try {
     window.localStorage?.setItem(STORAGE_KEY, JSON.stringify(config));
   } catch (error) {
-    console.warn("Impossibile salvare la configurazione", error);
+    console.warn('Impossibile salvare la configurazione', error);
   }
 }
 
 function sanitizeRepo(value) {
-  if (!value) return "";
+  if (!value) return '';
   return value
     .trim()
-    .replace(/^https?:\/\/github.com\//i, "")
-    .replace(/\.git$/i, "");
+    .replace(/^https?:\/\/github.com\//i, '')
+    .replace(/\.git$/i, '');
 }
 
 function ensureTrailingSlash(value) {
   if (!value) return value;
-  return value.endsWith("/") ? value : `${value}/`;
+  return value.endsWith('/') ? value : `${value}/`;
 }
 
 function computeDataRoot(config = currentConfig) {
@@ -111,30 +111,30 @@ function computeDataRoot(config = currentConfig) {
   }
   if (config.repo && config.branch) {
     return ensureTrailingSlash(
-      `https://raw.githubusercontent.com/${config.repo}/${config.branch}/`
+      `https://raw.githubusercontent.com/${config.repo}/${config.branch}/`,
     );
   }
-  return "";
+  return '';
 }
 
 function computeSimulatorUrl(config = currentConfig) {
   let baseReference = window.location.href;
   try {
-    if (window.location.origin && window.location.origin !== "null") {
+    if (window.location.origin && window.location.origin !== 'null') {
       baseReference = window.location.origin + window.location.pathname;
     }
   } catch (error) {
-    console.warn("Impossibile calcolare la base di riferimento", error);
+    console.warn('Impossibile calcolare la base di riferimento', error);
   }
 
-  const url = new URL("test-interface/", baseReference);
+  const url = new URL('test-interface/', baseReference);
   const params = new URLSearchParams();
   const dataRoot = computeDataRoot(config);
   if (dataRoot) {
-    params.set("data-root", dataRoot);
+    params.set('data-root', dataRoot);
   }
   if (config.branch) {
-    params.set("ref", config.branch);
+    params.set('ref', config.branch);
   }
   url.search = params.toString();
   return url.toString();
@@ -147,11 +147,9 @@ function updateSimulatorPreview() {
   if (elements.dataRootPreview) {
     if (dataRoot) {
       elements.dataRootPreview.textContent = dataRoot;
-      elements.dataRootPreview.href = dataRoot.startsWith("http")
-        ? dataRoot
-        : simulatorUrl;
+      elements.dataRootPreview.href = dataRoot.startsWith('http') ? dataRoot : simulatorUrl;
     } else {
-      elements.dataRootPreview.textContent = "Rilevamento automatico";
+      elements.dataRootPreview.textContent = 'Rilevamento automatico';
       elements.dataRootPreview.href = simulatorUrl;
     }
   }
@@ -182,26 +180,26 @@ function formatDate(value) {
   try {
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return value;
-    return date.toLocaleString("it-IT", {
-      dateStyle: "medium",
-      timeStyle: "short",
+    return date.toLocaleString('it-IT', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
     });
   } catch (error) {
-    console.warn("Impossibile formattare la data", value, error);
+    console.warn('Impossibile formattare la data', value, error);
     return value;
   }
 }
 
 const REFRESH_DATASET_DEFAULT_LABEL =
-  elements.refreshDatasets?.textContent?.trim() || "Aggiorna panoramica";
+  elements.refreshDatasets?.textContent?.trim() || 'Aggiorna panoramica';
 
 let datasetLoading = false;
 let incomingStatusLoading = false;
 
 function getYamlParser() {
-  if (typeof window === "undefined") return null;
+  if (typeof window === 'undefined') return null;
   const parser = window.jsyaml;
-  if (!parser || typeof parser.load !== "function") {
+  if (!parser || typeof parser.load !== 'function') {
     return null;
   }
   return parser;
@@ -209,22 +207,22 @@ function getYamlParser() {
 
 function formatMetricValue(value) {
   if (value === null || value === undefined) {
-    return "—";
+    return '—';
   }
-  if (typeof value === "number") {
-    return value.toLocaleString("it-IT");
+  if (typeof value === 'number') {
+    return value.toLocaleString('it-IT');
   }
   return String(value);
 }
 
 function resolveDocumentationLink(path) {
-  if (!path) return "";
+  if (!path) return '';
   const trimmed = path.trim();
-  if (!trimmed) return "";
+  if (!trimmed) return '';
   if (/^https?:/i.test(trimmed)) {
     return trimmed;
   }
-  if (trimmed.startsWith("../")) {
+  if (trimmed.startsWith('../')) {
     return trimmed;
   }
   return `../${trimmed}`;
@@ -233,7 +231,7 @@ function resolveDocumentationLink(path) {
 function clearDatasetMetrics() {
   Object.values(datasetMetricElements).forEach((element) => {
     if (element) {
-      element.textContent = "—";
+      element.textContent = '—';
     }
   });
 }
@@ -250,14 +248,14 @@ function setDatasetUpdated(text, source) {
   if (source) {
     elements.datasetUpdated.title = `Sorgente dati: ${source}`;
   } else {
-    elements.datasetUpdated.removeAttribute("title");
+    elements.datasetUpdated.removeAttribute('title');
   }
 }
 
-function resetDatasetOverview(message = "In rilevamento…") {
+function resetDatasetOverview(message = 'In rilevamento…') {
   setDatasetStatus(message);
   clearDatasetMetrics();
-  setDatasetUpdated("Ultimo fetch: —");
+  setDatasetUpdated('Ultimo fetch: —');
 }
 
 function setDatasetLoading(isLoading) {
@@ -265,7 +263,7 @@ function setDatasetLoading(isLoading) {
   if (elements.refreshDatasets) {
     elements.refreshDatasets.disabled = isLoading;
     elements.refreshDatasets.textContent = isLoading
-      ? "Aggiornamento…"
+      ? 'Aggiornamento…'
       : REFRESH_DATASET_DEFAULT_LABEL;
   }
 }
@@ -281,7 +279,7 @@ function updateDatasetMetrics(metrics) {
 
 function computeDatasetMetrics(datasets) {
   const packs = datasets.packs;
-  const hasPacks = packs && typeof packs === "object";
+  const hasPacks = packs && typeof packs === 'object';
   const formsCount = hasPacks ? Object.keys(packs.forms || {}).length : null;
   const randomCount = hasPacks
     ? Array.isArray(packs.random_general_d20)
@@ -290,7 +288,7 @@ function computeDatasetMetrics(datasets) {
     : null;
 
   const telemetry = datasets.telemetry;
-  const hasTelemetry = telemetry && typeof telemetry === "object";
+  const hasTelemetry = telemetry && typeof telemetry === 'object';
   const indicesCount = hasTelemetry
     ? telemetry.indices
       ? Object.keys(telemetry.indices).length
@@ -298,22 +296,18 @@ function computeDatasetMetrics(datasets) {
     : null;
 
   const biomes = datasets.biomes;
-  const hasBiomes = biomes && typeof biomes === "object";
-  const biomeCount = hasBiomes
-    ? biomes.biomes
-      ? Object.keys(biomes.biomes).length
-      : 0
-    : null;
+  const hasBiomes = biomes && typeof biomes === 'object';
+  const biomeCount = hasBiomes ? (biomes.biomes ? Object.keys(biomes.biomes).length : 0) : null;
 
   const species = datasets.species;
-  const hasSpecies = species && typeof species === "object";
+  const hasSpecies = species && typeof species === 'object';
   let speciesSlotCount = null;
   let synergyCount = null;
   if (hasSpecies) {
     const slots = species.catalog?.slots;
-    if (slots && typeof slots === "object") {
+    if (slots && typeof slots === 'object') {
       speciesSlotCount = Object.values(slots).reduce((total, slotGroup) => {
-        if (!slotGroup || typeof slotGroup !== "object") {
+        if (!slotGroup || typeof slotGroup !== 'object') {
           return total;
         }
         return total + Object.keys(slotGroup).length;
@@ -346,21 +340,21 @@ function resolveDatasetUrl(base, path) {
     if (!base) {
       throw error;
     }
-    const separator = base.endsWith("/") ? "" : "/";
+    const separator = base.endsWith('/') ? '' : '/';
     return `${base}${separator}${path}`;
   }
 }
 
 async function fetchDatasetPayload(base, source) {
   const url = resolveDatasetUrl(base, source.path);
-  const response = await fetch(url, { cache: "no-store" });
+  const response = await fetch(url, { cache: 'no-store' });
   if (!response.ok) {
     throw new Error(`(${source.label}) risposta ${response.status}`);
   }
   const text = await response.text();
   const parser = getYamlParser();
   if (!parser) {
-    throw new Error("Parser YAML non disponibile");
+    throw new Error('Parser YAML non disponibile');
   }
   return parser.load(text) ?? {};
 }
@@ -369,7 +363,7 @@ async function loadDatasetOverview() {
   if (!elements.datasetStatus) return;
   const base = computeDataRoot();
   if (!base) {
-    resetDatasetOverview("Configura la sorgente dati");
+    resetDatasetOverview('Configura la sorgente dati');
     return;
   }
 
@@ -378,12 +372,12 @@ async function loadDatasetOverview() {
   }
 
   setDatasetLoading(true);
-  setDatasetStatus("Aggiornamento in corso…");
-  setDatasetUpdated("Ultimo fetch: in corso…", base);
+  setDatasetStatus('Aggiornamento in corso…');
+  setDatasetUpdated('Ultimo fetch: in corso…', base);
 
   try {
     const results = await Promise.allSettled(
-      DATASET_SOURCES.map((source) => fetchDatasetPayload(base, source))
+      DATASET_SOURCES.map((source) => fetchDatasetPayload(base, source)),
     );
 
     const datasets = {};
@@ -391,7 +385,7 @@ async function loadDatasetOverview() {
 
     results.forEach((result, index) => {
       const source = DATASET_SOURCES[index];
-      if (result.status === "fulfilled") {
+      if (result.status === 'fulfilled') {
         datasets[source.key] = result.value;
       } else {
         missing.push(source);
@@ -400,7 +394,7 @@ async function loadDatasetOverview() {
     });
 
     if (!Object.keys(datasets).length) {
-      throw new Error("Nessun dataset disponibile");
+      throw new Error('Nessun dataset disponibile');
     }
 
     const metrics = computeDatasetMetrics(datasets);
@@ -417,12 +411,10 @@ async function loadDatasetOverview() {
       summaryParts.push(`${formatMetricValue(metrics.speciesSlots)} slot specie`);
     }
 
-    let statusText = summaryParts.length
-      ? summaryParts.join(" · ")
-      : "Dataset sincronizzati";
+    let statusText = summaryParts.length ? summaryParts.join(' · ') : 'Dataset sincronizzati';
 
     if (missing.length) {
-      const missingLabels = missing.map((entry) => entry.label).join(", ");
+      const missingLabels = missing.map((entry) => entry.label).join(', ');
       statusText = `${statusText} · Mancanti: ${missingLabels}`.trim();
     }
 
@@ -430,21 +422,21 @@ async function loadDatasetOverview() {
     setDatasetUpdated(`Ultimo fetch: ${formatDate(new Date().toISOString())}`, base);
   } catch (error) {
     console.error("Errore durante l'aggiornamento del riepilogo dataset", error);
-    resetDatasetOverview("Errore durante il caricamento");
+    resetDatasetOverview('Errore durante il caricamento');
   } finally {
     setDatasetLoading(false);
   }
 }
 
 function normalizeDateInput(value) {
-  if (!value) return "";
+  if (!value) return '';
   const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) return "";
+  if (!match) return '';
   return `${match[1]}-${match[2]}-${match[3]}`;
 }
 
 function getIncomingSessionDate() {
-  const raw = normalizeDateInput(incomingControls.dateInput?.value || "");
+  const raw = normalizeDateInput(incomingControls.dateInput?.value || '');
   if (raw) return raw;
   const today = new Date();
   return today.toISOString().slice(0, 10);
@@ -461,12 +453,12 @@ function updateIncomingCommandPreview() {
   const command = computeIncomingCommand(date);
   incomingControls.commandPreview.textContent = command;
   if (incomingControls.commandHint) {
-    incomingControls.commandHint.textContent = "";
+    incomingControls.commandHint.textContent = '';
     delete incomingControls.commandHint.dataset.tone;
   }
 }
 
-function setIncomingCommandHint(message, tone = "info") {
+function setIncomingCommandHint(message, tone = 'info') {
   if (!incomingControls.commandHint) return;
   incomingControls.commandHint.textContent = message;
   incomingControls.commandHint.dataset.tone = tone;
@@ -480,27 +472,27 @@ async function copyIncomingCommand() {
     if (navigator?.clipboard?.writeText) {
       await navigator.clipboard.writeText(command);
     } else {
-      const temp = document.createElement("textarea");
+      const temp = document.createElement('textarea');
       temp.value = command;
-      temp.setAttribute("readonly", "");
-      temp.style.position = "absolute";
-      temp.style.left = "-9999px";
+      temp.setAttribute('readonly', '');
+      temp.style.position = 'absolute';
+      temp.style.left = '-9999px';
       document.body.appendChild(temp);
       temp.select();
-      document.execCommand("copy");
+      document.execCommand('copy');
       document.body.removeChild(temp);
     }
-    setIncomingCommandHint("Comando copiato negli appunti.", "success");
+    setIncomingCommandHint('Comando copiato negli appunti.', 'success');
   } catch (error) {
-    console.warn("Impossibile copiare il comando", error);
+    console.warn('Impossibile copiare il comando', error);
     setIncomingCommandHint(
-      "Copiatura automatica non riuscita: seleziona e copia manualmente il comando.",
-      "error",
+      'Copiatura automatica non riuscita: seleziona e copia manualmente il comando.',
+      'error',
     );
   }
 }
 
-function setIncomingStatus(message, tone = "info") {
+function setIncomingStatus(message, tone = 'info') {
   if (!incomingControls.status) return;
   incomingControls.status.textContent = message;
   incomingControls.status.dataset.tone = tone;
@@ -508,10 +500,10 @@ function setIncomingStatus(message, tone = "info") {
 
 function resetIncomingReportLink() {
   if (!incomingControls.reportLink) return;
-  incomingControls.reportLink.textContent = "—";
-  incomingControls.reportLink.href = "#";
-  incomingControls.reportLink.setAttribute("aria-disabled", "true");
-  incomingControls.reportLink.setAttribute("tabindex", "-1");
+  incomingControls.reportLink.textContent = '—';
+  incomingControls.reportLink.href = '#';
+  incomingControls.reportLink.setAttribute('aria-disabled', 'true');
+  incomingControls.reportLink.setAttribute('tabindex', '-1');
 }
 
 function enableIncomingReportLink(path) {
@@ -522,8 +514,8 @@ function enableIncomingReportLink(path) {
   const href = resolveDocumentationLink(path);
   incomingControls.reportLink.textContent = path;
   incomingControls.reportLink.href = href;
-  incomingControls.reportLink.removeAttribute("aria-disabled");
-  incomingControls.reportLink.removeAttribute("tabindex");
+  incomingControls.reportLink.removeAttribute('aria-disabled');
+  incomingControls.reportLink.removeAttribute('tabindex');
 }
 
 function parseLatestIncomingSession(markdown) {
@@ -531,16 +523,15 @@ function parseLatestIncomingSession(markdown) {
   if (!match) return null;
   const [fullMatch, date, facilitator] = match;
   const startIndex = match.index ?? markdown.indexOf(fullMatch);
-  const remainder = startIndex >= 0 ? markdown.slice(startIndex + fullMatch.length) : "";
-  const nextSectionIndex = remainder.indexOf("\n## ");
-  const sectionContent =
-    nextSectionIndex >= 0 ? remainder.slice(0, nextSectionIndex) : remainder;
+  const remainder = startIndex >= 0 ? markdown.slice(startIndex + fullMatch.length) : '';
+  const nextSectionIndex = remainder.indexOf('\n## ');
+  const sectionContent = nextSectionIndex >= 0 ? remainder.slice(0, nextSectionIndex) : remainder;
   const lines = sectionContent.split(/\r?\n/);
-  const reportLine = lines.find((line) => line.trim().startsWith("- Report:"));
-  let reportPath = "";
+  const reportLine = lines.find((line) => line.trim().startsWith('- Report:'));
+  let reportPath = '';
   if (reportLine) {
-    reportPath = reportLine.replace(/- Report:\s*/, "").trim();
-    if (reportPath.startsWith("`") && reportPath.endsWith("`")) {
+    reportPath = reportLine.replace(/- Report:\s*/, '').trim();
+    if (reportPath.startsWith('`') && reportPath.endsWith('`')) {
       reportPath = reportPath.slice(1, -1);
     }
   }
@@ -557,12 +548,10 @@ async function refreshIncomingStatus() {
     return;
   }
   incomingStatusLoading = true;
-  setIncomingStatus("Caricamento stato triage…");
+  setIncomingStatus('Caricamento stato triage…');
   resetIncomingReportLink();
   try {
-    const response = await fetch(
-      `process/incoming_review_log.md?cache=${Date.now()}`,
-    );
+    const response = await fetch(`process/incoming_review_log.md?cache=${Date.now()}`);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
@@ -570,22 +559,22 @@ async function refreshIncomingStatus() {
     const latest = parseLatestIncomingSession(text);
     if (!latest) {
       setIncomingStatus(
-        "Nessun report registrato: aggiorna il log dopo la prossima review.",
-        "warn",
+        'Nessun report registrato: aggiorna il log dopo la prossima review.',
+        'warn',
       );
       return;
     }
     const formattedDate = formatDate(latest.date);
     setIncomingStatus(
       `Ultima sessione: ${formattedDate} • Facilitatore ${latest.facilitator}`,
-      "success",
+      'success',
     );
     enableIncomingReportLink(latest.reportPath);
   } catch (error) {
-    console.error("Impossibile caricare il log Incoming Review", error);
+    console.error('Impossibile caricare il log Incoming Review', error);
     setIncomingStatus(
-      "Errore durante il recupero del log: verifica la connessione o il percorso.",
-      "error",
+      'Errore durante il recupero del log: verifica la connessione o il percorso.',
+      'error',
     );
   } finally {
     incomingStatusLoading = false;
@@ -601,65 +590,65 @@ function setActivityPlaceholder(message) {
 function renderActivity(commits = []) {
   if (!elements.activityFeed) return;
   if (!commits.length) {
-    setActivityPlaceholder("Nessun commit recente trovato per la configurazione selezionata.");
+    setActivityPlaceholder('Nessun commit recente trovato per la configurazione selezionata.');
     return;
   }
 
   const fragment = document.createDocumentFragment();
   commits.forEach((commit) => {
-    const item = document.createElement("article");
-    item.className = "feed__item";
+    const item = document.createElement('article');
+    item.className = 'feed__item';
 
-    const title = document.createElement("h4");
+    const title = document.createElement('h4');
     title.textContent = commit.title;
 
-    const meta = document.createElement("div");
-    meta.className = "feed__meta";
+    const meta = document.createElement('div');
+    meta.className = 'feed__meta';
 
-    const author = document.createElement("span");
+    const author = document.createElement('span');
     author.textContent = commit.author;
-    author.style.color = "var(--text-muted)";
+    author.style.color = 'var(--text-muted)';
 
-    const time = document.createElement("time");
+    const time = document.createElement('time');
     time.dateTime = commit.date;
     time.textContent = formatDate(commit.date);
 
-    meta.append(author, document.createTextNode(" • "), time);
+    meta.append(author, document.createTextNode(' • '), time);
 
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = commit.url;
-    link.target = "_blank";
-    link.rel = "noreferrer";
+    link.target = '_blank';
+    link.rel = 'noreferrer';
     link.textContent = `Apri ${commit.sha.slice(0, 7)}`;
 
     item.append(title, meta, link);
     fragment.appendChild(item);
   });
 
-  elements.activityFeed.innerHTML = "";
+  elements.activityFeed.innerHTML = '';
   elements.activityFeed.appendChild(fragment);
 }
 
 async function loadActivity() {
   if (!currentConfig.repo) {
-    setActivityPlaceholder("Configura il repository per iniziare il monitoraggio.");
+    setActivityPlaceholder('Configura il repository per iniziare il monitoraggio.');
     if (elements.lastActivity) {
-      elements.lastActivity.textContent = "Configurazione richiesta";
+      elements.lastActivity.textContent = 'Configurazione richiesta';
     }
     return;
   }
 
-  setActivityPlaceholder("Recupero dati da GitHub…");
+  setActivityPlaceholder('Recupero dati da GitHub…');
 
   try {
     const url = new URL(`https://api.github.com/repos/${currentConfig.repo}/commits`);
-    url.searchParams.set("per_page", "5");
+    url.searchParams.set('per_page', '5');
     if (currentConfig.branch) {
-      url.searchParams.set("sha", currentConfig.branch);
+      url.searchParams.set('sha', currentConfig.branch);
     }
 
     const response = await fetch(url.toString(), {
-      headers: { Accept: "application/vnd.github+json" },
+      headers: { Accept: 'application/vnd.github+json' },
     });
 
     if (!response.ok) {
@@ -668,15 +657,15 @@ async function loadActivity() {
 
     const commits = await response.json();
     if (!Array.isArray(commits)) {
-      throw new Error("Formato inatteso della risposta GitHub");
+      throw new Error('Formato inatteso della risposta GitHub');
     }
 
     const simplified = commits.map((entry) => ({
-      title: entry.commit?.message?.split("\n")[0] ?? "Commit senza titolo",
-      author: entry.commit?.author?.name ?? "Autore sconosciuto",
+      title: entry.commit?.message?.split('\n')[0] ?? 'Commit senza titolo',
+      author: entry.commit?.author?.name ?? 'Autore sconosciuto',
       date: entry.commit?.author?.date ?? new Date().toISOString(),
       url: entry.html_url ?? `https://github.com/${currentConfig.repo}`,
-      sha: entry.sha ?? "",
+      sha: entry.sha ?? '',
     }));
 
     renderActivity(simplified);
@@ -688,21 +677,21 @@ async function loadActivity() {
   } catch (error) {
     console.error(error);
     setActivityPlaceholder(
-      "Impossibile caricare i commit. Verifica la connessione o il rate limit delle API GitHub."
+      'Impossibile caricare i commit. Verifica la connessione o il rate limit delle API GitHub.',
     );
     if (elements.lastActivity) {
-      elements.lastActivity.textContent = "Errore nel caricamento";
+      elements.lastActivity.textContent = 'Errore nel caricamento';
     }
   }
 }
 
 function escapeHtml(value) {
   return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function renderMarkdownBlock(markdown) {
@@ -711,18 +700,18 @@ function renderMarkdownBlock(markdown) {
   let inList = false;
 
   lines.forEach((line) => {
-    if (line.startsWith("### ")) {
+    if (line.startsWith('### ')) {
       if (inList) {
-        html.push("</ul>");
+        html.push('</ul>');
         inList = false;
       }
       html.push(`<h4>${escapeHtml(line.slice(4).trim())}</h4>`);
       return;
     }
 
-    if (line.startsWith("- ")) {
+    if (line.startsWith('- ')) {
       if (!inList) {
-        html.push("<ul>");
+        html.push('<ul>');
         inList = true;
       }
       html.push(`<li>${escapeHtml(line.slice(2).trim())}</li>`);
@@ -734,7 +723,7 @@ function renderMarkdownBlock(markdown) {
     }
 
     if (inList) {
-      html.push("</ul>");
+      html.push('</ul>');
       inList = false;
     }
 
@@ -742,10 +731,10 @@ function renderMarkdownBlock(markdown) {
   });
 
   if (inList) {
-    html.push("</ul>");
+    html.push('</ul>');
   }
 
-  return html.join("");
+  return html.join('');
 }
 
 function renderChangelog(sections) {
@@ -758,33 +747,33 @@ function renderChangelog(sections) {
 
   const fragment = document.createDocumentFragment();
   sections.forEach((section) => {
-    const item = document.createElement("article");
-    item.className = "feed__item";
+    const item = document.createElement('article');
+    item.className = 'feed__item';
 
-    const title = document.createElement("h4");
+    const title = document.createElement('h4');
     title.textContent = section.title;
 
-    const content = document.createElement("div");
+    const content = document.createElement('div');
     content.innerHTML = renderMarkdownBlock(section.body);
 
     item.append(title, content);
     fragment.appendChild(item);
   });
 
-  elements.changelogFeed.innerHTML = "";
+  elements.changelogFeed.innerHTML = '';
   elements.changelogFeed.appendChild(fragment);
 }
 
 async function loadChangelog() {
   if (elements.changelogStatus) {
-    elements.changelogStatus.textContent = "Aggiornamento in corso…";
+    elements.changelogStatus.textContent = 'Aggiornamento in corso…';
   }
   if (elements.changelogFeed) {
     elements.changelogFeed.innerHTML = '<p class="placeholder">Caricamento…</p>';
   }
 
   try {
-    const response = await fetch("changelog.md?cache=" + Date.now());
+    const response = await fetch('changelog.md?cache=' + Date.now());
     if (!response.ok) {
       throw new Error(`Impossibile recuperare il changelog (${response.status})`);
     }
@@ -795,15 +784,13 @@ async function loadChangelog() {
       const [titleLine, ...rest] = block.split(/\r?\n/);
       return {
         title: titleLine.trim(),
-        body: rest.join("\n").trim(),
+        body: rest.join('\n').trim(),
       };
     });
 
     renderChangelog(sections);
     if (elements.changelogStatus) {
-      elements.changelogStatus.textContent = sections[0]
-        ? sections[0].title
-        : "Nessun dato";
+      elements.changelogStatus.textContent = sections[0] ? sections[0].title : 'Nessun dato';
     }
   } catch (error) {
     console.error(error);
@@ -812,7 +799,7 @@ async function loadChangelog() {
         '<p class="placeholder">Errore durante il caricamento del changelog.</p>';
     }
     if (elements.changelogStatus) {
-      elements.changelogStatus.textContent = "Errore";
+      elements.changelogStatus.textContent = 'Errore';
     }
   }
 }
@@ -833,7 +820,7 @@ function applyConfig(config) {
   populateForm();
   updateSimulatorPreview();
   if (elements.activeBranch) {
-    elements.activeBranch.textContent = currentConfig.branch || "—";
+    elements.activeBranch.textContent = currentConfig.branch || '—';
   }
   saveConfig(currentConfig);
   loadActivity();
@@ -845,48 +832,48 @@ function resetConfig() {
 }
 
 function setupEvents() {
-  elements.configForm?.addEventListener("submit", (event) => {
+  elements.configForm?.addEventListener('submit', (event) => {
     event.preventDefault();
     applyConfig({
-      repo: sanitizeRepo(elements.repoInput?.value || ""),
-      branch: (elements.branchInput?.value || "main").trim(),
-      dataRoot: (elements.dataRootInput?.value || "").trim(),
+      repo: sanitizeRepo(elements.repoInput?.value || ''),
+      branch: (elements.branchInput?.value || 'main').trim(),
+      dataRoot: (elements.dataRootInput?.value || '').trim(),
     });
   });
 
-  elements.resetButton?.addEventListener("click", () => {
+  elements.resetButton?.addEventListener('click', () => {
     resetConfig();
   });
 
   const openSimulator = () => {
     const simulatorUrl = computeSimulatorUrl();
-    window.open(simulatorUrl, "_blank", "noopener");
+    window.open(simulatorUrl, '_blank', 'noopener');
   };
 
-  elements.openButton?.addEventListener("click", openSimulator);
-  elements.heroOpenButton?.addEventListener("click", openSimulator);
+  elements.openButton?.addEventListener('click', openSimulator);
+  elements.heroOpenButton?.addEventListener('click', openSimulator);
 
-  elements.refreshActivity?.addEventListener("click", () => {
+  elements.refreshActivity?.addEventListener('click', () => {
     loadActivity();
   });
 
-  elements.refreshChangelog?.addEventListener("click", () => {
+  elements.refreshChangelog?.addEventListener('click', () => {
     loadChangelog();
   });
 
-  elements.refreshDatasets?.addEventListener("click", () => {
+  elements.refreshDatasets?.addEventListener('click', () => {
     loadDatasetOverview();
   });
 
-  incomingControls.dateInput?.addEventListener("change", () => {
+  incomingControls.dateInput?.addEventListener('change', () => {
     updateIncomingCommandPreview();
   });
 
-  incomingControls.copyButton?.addEventListener("click", () => {
+  incomingControls.copyButton?.addEventListener('click', () => {
     copyIncomingCommand();
   });
 
-  incomingControls.refreshStatus?.addEventListener("click", () => {
+  incomingControls.refreshStatus?.addEventListener('click', () => {
     refreshIncomingStatus();
   });
 }
@@ -895,7 +882,7 @@ function init() {
   populateForm();
   updateSimulatorPreview();
   if (elements.activeBranch) {
-    elements.activeBranch.textContent = currentConfig.branch || "—";
+    elements.activeBranch.textContent = currentConfig.branch || '—';
   }
   setupEvents();
   loadChangelog();

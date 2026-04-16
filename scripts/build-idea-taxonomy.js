@@ -62,11 +62,7 @@ function toRelative(filePath) {
 function uniqueSorted(iterable) {
   const source = Array.isArray(iterable) ? iterable : Array.from(iterable || []);
   return Array.from(
-    new Set(
-      source
-        .map((value) => (value == null ? '' : String(value).trim()))
-        .filter(Boolean)
-    )
+    new Set(source.map((value) => (value == null ? '' : String(value).trim())).filter(Boolean)),
   ).sort((a, b) => a.localeCompare(b));
 }
 
@@ -242,7 +238,7 @@ function main() {
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(taxonomy, null, 2) + '\n', 'utf8');
   console.log(`Idea taxonomy aggiornata → ${toRelative(OUTPUT_FILE)}`);
   console.log(
-    `Biomi: ${taxonomy.biomes.length}, Ecosistemi: ${taxonomy.ecosystems.length}, Specie: ${taxonomy.species.length}, Tratti: ${taxonomy.traits.length}, Funzioni: ${taxonomy.gameFunctions.length}`
+    `Biomi: ${taxonomy.biomes.length}, Ecosistemi: ${taxonomy.ecosystems.length}, Specie: ${taxonomy.species.length}, Tratti: ${taxonomy.traits.length}, Funzioni: ${taxonomy.gameFunctions.length}`,
   );
 }
 

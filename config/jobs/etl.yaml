@@ -1,7 +1,7 @@
 jobs:
   - id: analytics-squadsync-canary
-    description: "Rigenera il report SquadSync utilizzando il dataset giornaliero canary."
-    schedule: "20 06 * * *"
+    description: 'Rigenera il report SquadSync utilizzando il dataset giornaliero canary.'
+    schedule: '20 06 * * *'
     command: >-
       python scripts/analytics/etl_squadsync.py
       data/analytics/squadsync_canary.csv
@@ -14,5 +14,5 @@ jobs:
       - analytics-oncall
       - squad-leads
     notes:
-      - "Usa dataset mock fino al completamento integrazione con data lake."
-      - "Verifica engagement medio > 0.55 prima di pubblicare alert Slack."
+      - 'Usa dataset mock fino al completamento integrazione con data lake.'
+      - 'Verifica engagement medio > 0.55 prima di pubblicare alert Slack.'

@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Flusso di localizzazione dei trait
 
 Questo documento descrive come estrarre i testi dai file trait, sincronizzare i

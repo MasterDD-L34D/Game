@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Revisione automatica del glossario dei tratti
 
 Questo documento sintetizza l’analisi automatica del file `data/core/traits/glossary.json` condotta dallo script `trait_review.py`. Lo script esegue le seguenti operazioni:
@@ -21,15 +22,17 @@ Questo documento sintetizza l’analisi automatica del file `data/core/traits/gl
    - mismatch di traduzione (grande differenza nella lunghezza delle due etichette);
    - refusi noti come "sghiaccio";
    - espressioni colloquiali nei nomi italiani.
-   Le anomalie sono esportate in `trait_anomalies_auto.csv` con il tipo di problema e una nota esplicativa.
+     Le anomalie sono esportate in `trait_anomalies_auto.csv` con il tipo di problema e una nota esplicativa.
 4. **Ricerca di duplicati**: segnala etichette italiane o inglesi uguali assegnate a più `trait_id`. Questi duplicati sono riportati in `trait_duplicates.csv`.
 
 ## Come interpretare i risultati
+
 - **trait_categories.csv**: mostra quante varianti esistono per ciascun prefisso. I prefissi con valori elevati indicano famiglie di tratti molto estese (es. antenne, branchie, artigli). È utile verificare che tutte le varianti abbiano descrizioni distinte e coerenti.
 - **trait_anomalies_auto.csv**: elenca i tratti che infrangono le regole di consistenza. Questa tabella dovrebbe essere rivista manualmente per decidere se correggere i nomi, completare le traduzioni o rimuovere eventuali placeholder.
 - **trait_duplicates.csv**: identifica etichette duplicate. Se la stessa etichetta è associata a più `trait_id`, occorre verificare se si tratta di un vero duplicato o se le voci vanno differenziate.
 
 ## Prossimi passi
+
 1. **Eseguire lo script**: assicurarsi che `trait_review.py` sia nella cartella `scripts/` del repository. Dal root del progetto, eseguire:
 
 ```bash

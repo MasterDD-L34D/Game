@@ -6,7 +6,8 @@ const path = require('node:path');
 const DEFAULT_LOG_PATH = path.join(process.cwd(), 'logs', 'agent_workflow.log');
 const TELEMETRY_ENABLED_VALUES = new Set(['1', 'true', 'yes', 'on']);
 
-const isTelemetryEnabled = () => TELEMETRY_ENABLED_VALUES.has(String(process.env.AGENT_TELEMETRY_ENABLED || '').toLowerCase());
+const isTelemetryEnabled = () =>
+  TELEMETRY_ENABLED_VALUES.has(String(process.env.AGENT_TELEMETRY_ENABLED || '').toLowerCase());
 
 const resolveLogPath = () => process.env.AGENT_TELEMETRY_PATH || DEFAULT_LOG_PATH;
 
@@ -92,13 +93,7 @@ const logCommandApplication = async ({
     metadata,
   });
 
-const logPatchConfirmation = async ({
-  sessionId,
-  patchId,
-  accepted,
-  durationMs,
-  metadata,
-}) =>
+const logPatchConfirmation = async ({ sessionId, patchId, accepted, durationMs, metadata }) =>
   appendEvent({
     step: 'patch_confirmation',
     sessionId,

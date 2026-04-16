@@ -6,10 +6,7 @@
     "job": "invoker"
   },
   "pack": "A",
-  "combo": [
-    "job_ability",
-    "trait_T1"
-  ],
+  "combo": ["job_ability", "trait_T1"],
   "total_cost": 7,
   "cost_breakdown": [
     {

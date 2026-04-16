@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # ADR-2025-12-07: Orchestratore pipeline generazione specie
 
 - **Data**: 2025-12-07

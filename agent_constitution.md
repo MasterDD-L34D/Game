@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Agent Constitution – Game / Evo Tactics
 
 Versione: 0.1  
@@ -20,6 +21,7 @@ Ultimo aggiornamento: 2025-11-23
 Questa costituzione definisce le regole, i ruoli, i limiti e i flussi di lavoro per tutti gli agenti (umani e AI) che operano sul progetto **Game / Evo Tactics**.
 
 Obiettivi principali:
+
 - Mantenere il progetto ordinato e coerente (codice, lore, asset, documentazione).
 - Permettere a più agenti di lavorare in autonomia senza creare caos.
 - Garantire sicurezza, tracciabilità e rollback di ogni modifica.
@@ -135,6 +137,7 @@ Obiettivi principali:
 - **ALTO**: modifiche al motore, formati dati globali, refactor massivi.
 
 Le azioni ad **alto impatto** richiedono sempre:
+
 - piano scritto
 - review umana
 - esecuzione in branch/sandbox.
@@ -155,6 +158,7 @@ Le azioni ad **alto impatto** richiedono sempre:
 ## 7. Logging e tracciabilità
 
 Ogni task significativo deve registrare:
+
 - ID task
 - Agente
 - Owner umano (se presente)
@@ -165,6 +169,7 @@ Ogni task significativo deve registrare:
 - Note / TODO
 
 Il log può essere in:
+
 - file `logs/agent_activity.md`
 - descrizioni di PR/issue.
 
@@ -205,4 +210,5 @@ Il log può essere in:
 - Ogni versione deve aggiornare il changelog.
 
 ### Changelog
+
 - v0.1 – Prima versione della costituzione agenti per Game / Evo Tactics.

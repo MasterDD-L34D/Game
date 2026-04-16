@@ -1,7 +1,7 @@
 jobs:
   - id: hud-smart-alerts-canary
-    description: "Valida gli HUD smart alerts canary (ack rate e drop da filtri)."
-    schedule: "15 07 * * *"
+    description: 'Valida gli HUD smart alerts canary (ack rate e drop da filtri).'
+    schedule: '15 07 * * *'
     command: >-
       python scripts/qa/hud_smart_alerts.py
       logs/playtests
@@ -11,5 +11,5 @@ jobs:
       - qa-hud
       - ops-oncall
     notes:
-      - "Ack rate minimo 80%: escalation verso QA lead se sotto soglia."
-      - "Filter ratio massimo 25%: aprire follow-up su tuning filtri HUD."
+      - 'Ack rate minimo 80%: escalation verso QA lead se sotto soglia.'
+      - 'Filter ratio massimo 25%: aprire follow-up su tuning filtri HUD.'

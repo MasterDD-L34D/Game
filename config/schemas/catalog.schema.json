@@ -5,11 +5,7 @@
   "description": "Schema canonico per i cataloghi di tratti del pacchetto Evo Tactics.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "trait_glossary",
-    "traits"
-  ],
+  "required": ["schema_version", "trait_glossary", "traits"],
   "properties": {
     "schema_version": {
       "type": "string",
@@ -35,18 +31,12 @@
         "^[a-z0-9_]+$": {
           "type": "object",
           "additionalProperties": false,
-          "required": [
-            "query",
-            "traits"
-          ],
+          "required": ["query", "traits"],
           "properties": {
             "query": {
               "type": "object",
               "additionalProperties": false,
-              "required": [
-                "source",
-                "filters"
-              ],
+              "required": ["source", "filters"],
               "properties": {
                 "source": {
                   "type": "string",

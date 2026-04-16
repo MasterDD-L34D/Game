@@ -1,7 +1,7 @@
 jobs:
   - id: qa-rollout-metrics
-    description: "Schedula e aggiorna i monitor Mission Control canary."
-    schedule: "*/30 6-23 * * 1-5"
+    description: 'Schedula e aggiorna i monitor Mission Control canary.'
+    schedule: '*/30 6-23 * * 1-5'
     command: >-
       python tools/monitoring/schedule_metrics.py
       --flags config/featureFlags.json
@@ -17,5 +17,5 @@ jobs:
     dependencies:
       - scripts/analytics/etl_squadsync.py
     notes:
-      - "Ruota il monitoraggio nelle finestre QA Bravo/Delta/ops Foxtrot."
-      - "Interrompere il job in caso di fallback Mission Control."
+      - 'Ruota il monitoraggio nelle finestre QA Bravo/Delta/ops Foxtrot.'
+      - 'Interrompere il job in caso di fallback Mission Control.'

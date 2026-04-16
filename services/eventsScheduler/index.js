@@ -13,11 +13,13 @@ function isValidTimeZone(timeZone) {
 }
 
 function slugify(value) {
-  return String(value || '')
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '') || undefined;
+  return (
+    String(value || '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || undefined
+  );
 }
 
 function normalizeNumber(value, fallback = 0) {
@@ -211,8 +213,13 @@ function normalizeEvent(definition, defaultTimezone, source, index = 0) {
         .sort((a, b) => a.start.getTime() - b.start.getTime())
     : [];
 
-  const tags = Array.isArray(definition.tags) ? definition.tags.map((tag) => String(tag)) : undefined;
-  const metadata = definition.metadata && typeof definition.metadata === 'object' ? { ...definition.metadata } : undefined;
+  const tags = Array.isArray(definition.tags)
+    ? definition.tags.map((tag) => String(tag))
+    : undefined;
+  const metadata =
+    definition.metadata && typeof definition.metadata === 'object'
+      ? { ...definition.metadata }
+      : undefined;
 
   const title = definition.title || definition.name || `Evento ${index + 1}`;
   const id = String(definition.id ?? slugify(title) ?? `event-${index + 1}`);
@@ -276,7 +283,9 @@ function normalizeEvents(definitions, timezone, source, allowUtcFallback = false
 
 export function createEventsScheduler(options = {}) {
   let timezone =
-    typeof options.timezone === 'string' && options.timezone.trim() ? options.timezone.trim() : 'UTC';
+    typeof options.timezone === 'string' && options.timezone.trim()
+      ? options.timezone.trim()
+      : 'UTC';
   let timezoneValid = isValidTimeZone(timezone);
   let now = typeof options.now === 'function' ? options.now : () => new Date();
   let baseDefinitions = Array.isArray(options.events) ? options.events.map(cloneDefinition) : [];
@@ -288,7 +297,8 @@ export function createEventsScheduler(options = {}) {
   let fallbackEvents = normalizeEvents(fallbackDefinitions, timezone, 'manualFallback', true);
 
   const usingFallback = () =>
-    (!timezoneValid && fallbackEvents.length > 0) || (events.length === 0 && fallbackEvents.length > 0);
+    (!timezoneValid && fallbackEvents.length > 0) ||
+    (events.length === 0 && fallbackEvents.length > 0);
   const dataset = () => (usingFallback() ? fallbackEvents : events);
 
   function refresh() {
@@ -344,7 +354,9 @@ export function createEventsScheduler(options = {}) {
         return [];
       }
       return dataset()
-        .filter((event) => event.start.getTime() <= ref.getTime() && ref.getTime() < event.end.getTime())
+        .filter(
+          (event) => event.start.getTime() <= ref.getTime() && ref.getTime() < event.end.getTime(),
+        )
         .map(serializeEvent);
     },
     getNextEvent(reference) {

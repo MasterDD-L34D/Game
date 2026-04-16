@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Feedback digitali — SESSION-2025-11-12
 
 - Sentinella — modulo digitale salvato 2025-11-12T17:05Z

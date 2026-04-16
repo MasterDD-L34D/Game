@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Archivio Incoming — Registro decisioni agentiche
 
 `AG-Orchestrator` utilizza questa tabella per registrare gli asset spostati in archivio o scartati con potenziale futuro. L'aggiornamento avviene durante il post-sync della "Incoming Review".
