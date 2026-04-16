@@ -37,10 +37,12 @@ from rules.hydration import (  # noqa: E402
 )
 from rules.resolver import (  # noqa: E402
     ATTACK_CD_BASE,
+    DAMAGE_STEP_CAP,
     DISORIENT_ATTACK_MALUS_PER_INTENSITY,
     FRACTURE_STEP_REDUCTION_PER_INTENSITY,
     PANIC_ATTACK_MALUS_PER_INTENSITY,
     PANIC_DEFAULT_DURATION,
+    PT_POOL_CAP,
     RAGE_ATTACK_BONUS_PER_INTENSITY,
     RAGE_DAMAGE_STEP_BONUS_PER_INTENSITY,
     RAGE_DEFENSE_MALUS_PER_INTENSITY,
@@ -1179,3 +1181,60 @@ def test_spinta_sbilanciato_decay_via_begin_turn(catalog):
         assert sbilanciato2 == []
     else:
         assert sbilanciato2[0]["remaining_turns"] == initial_duration - 1
+
+
+# --- Fairness caps (Pilastro 6) -------------------------------------------
+
+
+def test_damage_step_capped_at_max(catalog):
+    """Buff damage_step enorme (e.g. Surge Burst 99) viene clampato a DAMAGE_STEP_CAP."""
+    state = _mini_state(catalog)
+    attacker = state["units"][0]
+    # Inietta buff damage_step=99 (simula Surge Burst offensive)
+    attacker["buffs"] = [
+        {
+            "stat": "damage_step",
+            "amount": 99,
+            "remaining_turns": 1,
+            "source_unit_id": "atk",
+            "source_trait_id": "test_surge",
+        }
+    ]
+    attack = _attack()
+    # nat 15 hit (14/20), damage roll medio (4/8)
+    rng = rng_from_sequence([14 / 20, 4 / 8])
+    result = resolve_action(state, attack, catalog, rng)
+    assert result["turn_log_entry"]["roll"]["damage_step"] <= DAMAGE_STEP_CAP
+
+
+def test_pt_pool_capped_at_max(catalog):
+    """PT pool non supera PT_POOL_CAP anche con accumulo elevato."""
+    state = _mini_state(catalog)
+    attacker = state["units"][0]
+    attacker["pt"] = PT_POOL_CAP - 1
+    attack = _attack()
+    # nat 20 crit (19/20 → maps to 20), damage roll (4/8)
+    rng = rng_from_sequence([19 / 20, 4 / 8])
+    result = resolve_action(state, attack, catalog, rng)
+    actor_after = next(
+        u for u in result["next_state"]["units"] if u["id"] == "atk"
+    )
+    assert actor_after["pt"] <= PT_POOL_CAP
+
+
+def test_pp_accumulates_without_cap(catalog):
+    """PP non ha cap di pool — serve PP>=10 per Ultimate (design intent)."""
+    state = _mini_state(catalog)
+    attacker = state["units"][0]
+    attacker["pp"] = 9
+    target = state["units"][1]
+    target["hp"]["current"] = 1  # will die on hit
+    attack = _attack()
+    # nat 15 hit (14/20), damage roll alto (7/8) → kill
+    rng = rng_from_sequence([14 / 20, 7 / 8])
+    result = resolve_action(state, attack, catalog, rng)
+    actor_after = next(
+        u for u in result["next_state"]["units"] if u["id"] == "atk"
+    )
+    # 9 + 1 (hit) + 2 (kill) = 12
+    assert actor_after["pp"] == 12

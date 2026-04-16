@@ -233,7 +233,12 @@
         "pt": {
           "type": "integer",
           "minimum": 0,
-          "description": "Pool di Punti Tecnica (PT) accumulati dall'unita'. Fonte: docs/10-SISTEMA_TATTICO.md. Spesi via action.pt_spend. Parata genera PT difensivi sommati a questo pool."
+          "description": "Pool di Punti Tecnica (PT) accumulati dall'unita'. Fonte: docs/10-SISTEMA_TATTICO.md. Spesi via action.pt_spend. Parata genera PT difensivi sommati a questo pool. Cap: PT_POOL_CAP (12)."
+        },
+        "pp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Pool di Power Points (PP) combo meter. Fonte: docs/combat/combat-canon.md §3b. Inizializzato a 0, accumulato via hit (+1) e kill (+2). Soglie: 3 (Tier 1), 6 (Tier 2), 10 (Ultimate). Nessun cap di pool."
         },
         "reactions": {
           "type": "object",
@@ -316,6 +321,7 @@
         "mos",
         "damage_step",
         "pt_gained",
+        "pp_gained",
         "is_crit",
         "is_fumble"
       ],
@@ -328,6 +334,11 @@
         "mos": { "type": "integer", "minimum": 0 },
         "damage_step": { "type": "integer", "minimum": 0 },
         "pt_gained": { "type": "integer", "minimum": 0 },
+        "pp_gained": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "PP guadagnati da questo roll (0-3: +1 hit, +2 kill)."
+        },
         "is_crit": { "type": "boolean" },
         "is_fumble": { "type": "boolean" },
         "parry": {

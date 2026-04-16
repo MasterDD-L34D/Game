@@ -78,6 +78,8 @@ Tier 1 e 2 non consumano PP (rimangono disponibili finche' PP >= soglia). Tier 3
 - Check: in ability branch, `if unit.pp >= threshold` sblocca il tier corrispondente
 - Assist tracking: mantenere `unit.recent_damage_dealt[target_id]` con timestamp turno; se target muore entro 2 turni e l'attaccante non e' il killer, +1 PP assist
 
+> **Cap**: PP non ha cap di pool (serve accumulo a 10+ per Ultimate). Il gain per azione e' naturalmente limitato a 3 (1 hit + 2 kill).
+
 ## 3c. SG (Surge Gauge) — Stress-Linked Burst
 
 SG e' un meter individuale derivato dallo stress della unit. Collega il sistema di stress/temperamento al combat, creando un trade-off tra potenza burst e rischio panic.
@@ -119,6 +121,8 @@ Questo crea tensione strategica: accumulare stress per burst piu' potenti vs ris
 - Prerequisito: `unit.sg >= 75` check in ability branch
 - Post-burst: `unit.stress = 0.25` (reset, NON a 0 — la unit resta leggermente stressata)
 - Interazione panic: il check panic in `policy.js` ha priority sul burst — se panic triggera prima dell'azione del giocatore, la unit scappa
+
+> **Cap damage step**: Surge Burst offensive imposta `damage_step: 99` come buff, ma il resolver clampa a `DAMAGE_STEP_CAP` (6) dopo tutti i modificatori. Il burst garantisce comunque step massimi indipendentemente dal MoS del roll.
 
 ## 4. Timing: ordine di risoluzione
 

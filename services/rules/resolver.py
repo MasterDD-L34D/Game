@@ -95,6 +95,13 @@ SUPPORTED_PT_SPEND_TYPES = frozenset({"perforazione", "spinta"})
 #: Riduzione armor applicata dalla spesa PT "perforazione".
 PERFORAZIONE_ARMOR_REDUCTION = 2
 
+#: Cap massimo sugli step di danno dopo tutti i modificatori (MoS + trait +
+#: status + buff). Surge Burst (damage_step=99) clampa qui.
+DAMAGE_STEP_CAP = 6
+
+#: Cap massimo sul pool PT accumulabile da una singola unità in combattimento.
+PT_POOL_CAP = 12
+
 #: Breakpoints dello stress float 0-1 che triggerano status mentali
 #: automatici (Fase 8). Fonte: ``docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md``
 #: "breakpoints 0.25/0.5/0.75".
@@ -633,7 +640,7 @@ def resolve_action(
                     attack_total=int(total),
                 )
                 if parry_info["success"]:
-                    target["pt"] = int(target.get("pt", 0)) + int(parry_info["pt_defensive_gained"])
+                    target["pt"] = min(PT_POOL_CAP, int(target.get("pt", 0)) + int(parry_info["pt_defensive_gained"]))
             else:
                 parry_info = {
                     "attempted": True,
@@ -656,6 +663,7 @@ def resolve_action(
             )
         if parry_info and parry_info.get("success"):
             step_count = max(0, step_count - int(parry_info["step_reduced"]))
+        step_count = min(step_count, DAMAGE_STEP_CAP)
         pt_gained = compute_pt_gained(natural, mos)
 
         damage_applied = 0
@@ -792,7 +800,7 @@ def resolve_action(
                     statuses_applied.append(applied)
 
         # --- STEP 4: accumulo PT dell'attore sul roll ------------------
-        actor["pt"] = int(actor.get("pt", 0)) + int(pt_gained)
+        actor["pt"] = min(PT_POOL_CAP, int(actor.get("pt", 0)) + int(pt_gained))
 
         # --- STEP 4b: PP combo meter (combat-canon.md §3b) ------------
         pp_gained = 0
