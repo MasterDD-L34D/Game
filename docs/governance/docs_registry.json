@@ -245,6 +245,45 @@
       "track": "authored"
     },
     {
+      "path": "docs/adr/ADR-2026-04-16-grid-type-hex-axial.md",
+      "title": "ADR-2026-04-16: Grid Type — Hex con coordinate axial",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-16-networking-colyseus.md",
+      "title": "ADR-2026-04-16: Networking Co-op — Colyseus",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-16-ai-architecture-utility.md",
+      "title": "ADR-2026-04-16: AI Sistema — Utility AI Architecture",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-2026-04-15-round-based-combat-model.md",
       "title": "ADR-2026-04-15: Round-based combat model",
       "doc_status": "active",
