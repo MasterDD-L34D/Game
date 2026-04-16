@@ -61,15 +61,24 @@ const metaPlugin = {
   },
 };
 
+const tutorialPlugin = {
+  name: 'tutorial',
+  register(app) {
+    const { createTutorialRouter } = require('../routes/tutorial');
+    app.use('/api/tutorial', createTutorialRouter());
+  },
+};
+
 /**
  * Lista plugin built-in. Aggiungere nuovi plugin qui.
  * Ordine = ordine di registrazione.
  */
-const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin];
+const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin, tutorialPlugin];
 
 module.exports = {
   loadPlugins,
   BUILTIN_PLUGINS,
   narrativePlugin,
   metaPlugin,
+  tutorialPlugin,
 };
