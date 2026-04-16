@@ -18,6 +18,47 @@ notes: >
   gelo (solo criostasi_adattiva; documentato nel README come estensione da
   stabilizzare nel prossimo combat pack). Distribuzione: offensive 4,
   defensive 9, hybrid 1, mobility 3, utility 13. Trait con mod non-zero: 14/30.
+
+# O1 pattern (OpenRA template inheritance): baseline defaults per classe.
+# Trait possono usare `inherits: <class>` per ereditare campi dalla classe.
+# hydration.py risolve inherits depth-first: campi espliciti sovrascrivono.
+_defaults:
+  offensive:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  defensive:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  hybrid:
+    attack_mod: 1
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects: []
+  utility:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+  mobility:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects: []
+
 traits:
   struttura_elastica_amorfa:
     attack_mod: 0
