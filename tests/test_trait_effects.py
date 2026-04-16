@@ -514,5 +514,86 @@ def test_resolver_uses_active_effects_registry():
     if entry["roll"]["success"]:
         assert "trait_effects" in entry
         assert len(entry["trait_effects"]) >= 1
-        # damage_applied should include +2 extra -1 reduction = net +1
-        # (on top of base damage)
+
+
+# ------------------------------------------------------------------
+# PP combo meter + SG surge burst
+# ------------------------------------------------------------------
+
+
+def test_pp_accumulates_on_hit(catalog):
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    atk = build_party_unit("atk", "test", [], catalog)
+    tgt = build_party_unit("tgt", "test", [], catalog)
+    atk["pp"] = 0
+    state = {"session_id": "t", "seed": "pp", "turn": 1, "units": [atk, tgt], "log": []}
+    action = {"id": "a1", "type": "attack", "actor_id": "atk", "target_id": "tgt", "ap_cost": 1, "damage_dice": {"count": 1, "sides": 6, "modifier": 2}}
+    rng = iter([19 / 20, 5 / 8])
+    result = resolve_action(state, action, catalog, lambda: next(rng))
+    atk_after = next(u for u in result["next_state"]["units"] if u["id"] == "atk")
+    if result["turn_log_entry"]["roll"]["success"]:
+        assert atk_after["pp"] >= 1
+        assert result["turn_log_entry"]["roll"]["pp_gained"] >= 1
+
+
+def test_pp_bonus_on_kill(catalog):
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    atk = build_party_unit("atk", "test", [], catalog)
+    tgt = build_party_unit("tgt", "test", [], catalog)
+    tgt["hp"]["current"] = 1
+    atk["pp"] = 0
+    state = {"session_id": "t", "seed": "pp", "turn": 1, "units": [atk, tgt], "log": []}
+    action = {"id": "a1", "type": "attack", "actor_id": "atk", "target_id": "tgt", "ap_cost": 1, "damage_dice": {"count": 1, "sides": 6, "modifier": 5}}
+    rng = iter([19 / 20, 5 / 8])
+    result = resolve_action(state, action, catalog, lambda: next(rng))
+    atk_after = next(u for u in result["next_state"]["units"] if u["id"] == "atk")
+    if result["turn_log_entry"]["roll"]["success"]:
+        assert atk_after["pp"] >= 3
+
+
+def test_surge_burst_offensive(catalog):
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    atk = build_party_unit("atk", "test", [], catalog)
+    atk["stress"] = 0.80
+    state = {"session_id": "t", "seed": "sg", "turn": 1, "units": [atk], "log": []}
+    action = {"id": "surge", "type": "ability", "actor_id": "atk", "ability_id": "surge_burst_offensive", "ap_cost": 0}
+    result = resolve_action(state, action, catalog, lambda: 0.5)
+    atk_after = next(u for u in result["next_state"]["units"] if u["id"] == "atk")
+    assert atk_after["stress"] == 0.25
+    assert any(b["source_ability"] == "surge_burst_offensive" for b in atk_after.get("buffs", []))
+
+
+def test_surge_burst_recovery_heals(catalog):
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    atk = build_party_unit("atk", "test", [], catalog)
+    atk["hp"]["current"] = 4
+    atk["hp"]["max"] = 10
+    atk["stress"] = 0.80
+    atk["statuses"] = [{"id": "bleeding", "intensity": 1, "remaining_turns": 2}]
+    state = {"session_id": "t", "seed": "sg", "turn": 1, "units": [atk], "log": []}
+    action = {"id": "surge", "type": "ability", "actor_id": "atk", "ability_id": "surge_burst_recovery", "ap_cost": 0}
+    result = resolve_action(state, action, catalog, lambda: 0.5)
+    atk_after = next(u for u in result["next_state"]["units"] if u["id"] == "atk")
+    assert atk_after["hp"]["current"] == 7
+    assert atk_after["stress"] == 0.25
+    assert len(atk_after["statuses"]) == 0
+
+
+def test_surge_burst_requires_sg_75(catalog):
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    atk = build_party_unit("atk", "test", [], catalog)
+    atk["stress"] = 0.50
+    state = {"session_id": "t", "seed": "sg", "turn": 1, "units": [atk], "log": []}
+    action = {"id": "surge", "type": "ability", "actor_id": "atk", "ability_id": "surge_burst_offensive", "ap_cost": 0}
+    with pytest.raises(ValueError, match="SG >= 75"):
+        resolve_action(state, action, catalog, lambda: 0.5)
