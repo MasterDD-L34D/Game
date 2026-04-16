@@ -44,28 +44,28 @@ Può essere usato per:
 
 ### EPIC A — Governance, docs e baseline
 
-| Stato | Task                                      | Dettagli operativi                                                                                                                                         |
-| ----- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ☐     | FD-000 - Pubblicare source authority map  | Caricare [`docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md`](EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md) e farlo linkare da freeze, index e playbook. |
-| ☐→☑  | FD-001 - Pubblicare freeze                | Caricare [`docs/core/90-FINAL-DESIGN-FREEZE.md`](../core/90-FINAL-DESIGN-FREEZE.md) e trattarlo come sorgente master.                                      |
-| ☐→☑  | FD-002 - Pubblicare roadmap bundle        | Caricare tutti i file `docs/planning/EVO_FINAL_DESIGN_*`.                                                                                                  |
-| ☐     | FD-003 - Aggiornare docs registry         | Inserire i nuovi file in [`docs/governance/docs_registry.json`](../governance/docs_registry.json).                                                         |
-| ☐     | FD-004 - Aggiornare index docs            | Linkare il freeze e le roadmap da entrypoint o hub appropriati.                                                                                            |
-| ☐     | FD-005 - Aprire changelog di final design | Aggiungere voce dedicata in `docs/changelog.md` o log equivalente.                                                                                         |
-| ☐     | FD-006 - Definire owner matrix definitiva | Confermare owner logici e owner umani per milestone e gate.                                                                                                |
-| ☐     | FD-007 - Congelare pilastri canonici      | Scegliere un set unico di pilastri e dichiarare il product boundary.                                                                                       |
-| ☐     | FD-008 - Scrivere overview canonico unico | Stabilire la sintesi che unifica overview, core docs, Canvas e deep research.                                                                              |
-| ☐     | FD-009 - Formalizzare controllo autorita  | Regola di risoluzione conflitti tra governance, ADR, YAML, freeze e file operativi.                                                                        |
+| Stato | Task                                      | Dettagli operativi                                                                                       |
+| ----- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| ☑    | FD-000 - Pubblicare source authority map  | DONE: pubblicata in PR #1378. Linkata da freeze, index, playbook, combat hub.                            |
+| ☑    | FD-001 - Pubblicare freeze                | DONE: PR #1378. `docs/core/90-FINAL-DESIGN-FREEZE.md` attivo come sorgente master.                       |
+| ☑    | FD-002 - Pubblicare roadmap bundle        | DONE: PR #1378. Tutti i 7 file `EVO_FINAL_DESIGN_*` pubblicati.                                          |
+| ☑    | FD-003 - Aggiornare docs registry         | DONE: 479 entries in registry. Bundle + combat-canon + trait-trade-offs tutti registrati.                |
+| ☑    | FD-004 - Aggiornare index docs            | DONE: freeze e roadmap linkati da combat hub, cross-cutting hub, 00-INDEX. Combat Canon aggiunto.        |
+| ☑    | FD-005 - Aprire changelog di final design | DONE: `docs/planning/changelog.md` sezione [2026-04-17] con 24+ PR + rollback plan 03A.                  |
+| ☐     | FD-006 - Definire owner matrix definitiva | PENDING: confermare owner logici e owner umani per milestone e gate.                                     |
+| ☐     | FD-007 - Congelare pilastri canonici      | PENDING: set unico di pilastri + product boundary.                                                       |
+| ☐     | FD-008 - Scrivere overview canonico unico | PENDING: sintesi che unifica overview, core docs, Canvas e deep research.                                |
+| ☑    | FD-009 - Formalizzare controllo autorita  | DONE: `EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md` (A0-A5 hierarchy, §4 conflict rules, §5 lookup matrix). |
 
 ### EPIC B — Session model, controls e in-match HUD
 
-| Stato | Task                                          | Dettagli operativi                                                           |
-| ----- | --------------------------------------------- | ---------------------------------------------------------------------------- |
-| ☐     | FD-010 - Definire session model               | Distinguere loop di sessione, pacing turni, companion/UI e mission control.  |
-| ☐     | FD-011 - Scrivere controls spec minima        | Input, affordance, targeting, navigazione e conferme base.                   |
-| ☐     | FD-012 - Scrivere HUD in-match spec minima    | AP, reazioni, targeting, status, biome feedback, warning e priorita visuali. |
-| ☐     | FD-013 - Dichiarare boundary gioco vs tooling | Mission Console e dashboard non sono HUD di gameplay.                        |
-| ☐     | FD-014 - Linkare controls/HUD nel freeze      | Rendere esplicito il gap chiuso e non lasciarlo implicito.                   |
+| Stato | Task                                          | Dettagli operativi                                                                             |
+| ----- | --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| ☑    | FD-010 - Definire session model               | DONE: ADR-2026-04-16 M1-M17. Round model (planning→commit→resolve) default ON. Legacy removed. |
+| ☐     | FD-011 - Scrivere controls spec minima        | PENDING: input, affordance, targeting, navigazione e conferme base.                            |
+| ☐     | FD-012 - Scrivere HUD in-match spec minima    | PENDING: AP, reazioni, targeting, status, biome feedback, warning e priorita visuali.          |
+| ☑    | FD-013 - Dichiarare boundary gioco vs tooling | DONE: Mission Console ≠ gameplay HUD (ADR-2026-04-14 + serve script #1416).                    |
+| ☐     | FD-014 - Linkare controls/HUD nel freeze      | PENDING: rendere esplicito gap chiuso.                                                         |
 
 ### EPIC C — Combat canon e resolver
 
@@ -74,13 +74,13 @@ Può essere usato per:
 | ☑    | FD-020 - Scrivere Combat Canon Spec          | DONE: `docs/combat/combat-canon.md` — specifica unificata con action types, status shipping, timing, formule, non-scope.                                |
 | ☑    | FD-021 - Bloccare action types shipping      | DONE: attack, move, defend, parry, ability (Fase 3b #1409), heal (#1386). Tutti funzionali.                                                             |
 | ☑    | FD-022 - Bloccare status shipping            | DONE: 6 status shipping (bleeding, fracture, disorient, rage, panic, stunned) + 2 placeholder (focused, sbilanciato). Dichiarato in combat-canon.md §2. |
-| ☐     | FD-023 - Bloccare PT spend shipping          | `perforazione`, `spinta`, costi, limitazioni e timing.                                                                                                  |
+| ☑    | FD-023 - Bloccare PT spend shipping          | DONE: `perforazione` (armor -2) + `spinta` (sbilanciato) implementati in resolver.py. Panic blocca PT. Documentato in combat-canon.md.                  |
 | ☑    | FD-024 - Formalizzare timing begin_turn      | DONE: begin_turn/begin_round implementati con tick status, decay, bleeding, buff decay, cooldown. Documentato in round-loop.md.                         |
-| ☐     | FD-025 - Formalizzare ordine mitigazioni     | Armor, resistenze, parry, MoS, damage step.                                                                                                             |
+| ☑    | FD-025 - Formalizzare ordine mitigazioni     | DONE: documentato in combat-canon.md §5 + resolver-api.md: d20→MoS→damage_dice→step_bonus→resist→armor→clamp. Ordine deterministico.                    |
 | ☑    | FD-026 - Esplicitare active_effects deferred | DONE: active_effects ora LIVE (Fase 3a #1408 + 3b #1409). 8 ability + attack-triggered trait effects. Non più NOOP.                                     |
 | ☐     | FD-027 - Verificare determinismo             | RNG namespacing, seed strategy e ripetibilità risultati.                                                                                                |
 | ☑    | FD-028 - Rieseguire suite Python combat      | DONE: 237/237 verdi (resolver + orchestrator + hydration + trait_effects + demo_cli).                                                                   |
-| ☐     | FD-029 - Rieseguire suite Node contract      | `contracts-combat`, `contracts-hydration-snapshot`, `contracts-trait-mechanics`.                                                                        |
+| ☑    | FD-029 - Rieseguire suite Node contract      | DONE: 23/23 contract tests verdi (combat + hydration-snapshot + trait-mechanics).                                                                       |
 | ☐     | FD-030 - Rieseguire demo CLI auto            | Smoke stabile con log archiviabile.                                                                                                                     |
 
 ### EPIC D — Balance layer
