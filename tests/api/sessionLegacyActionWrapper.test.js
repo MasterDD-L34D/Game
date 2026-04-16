@@ -170,9 +170,7 @@ test('with flag on, /action attack sets session.roundState to resolved phase', a
 // Flag off — /action path legacy invariato
 // ─────────────────────────────────────────────────────────────────
 
-test('with flag off, /action returns legacy response WITHOUT round_wrapper metadata', async (t) => {
-  const restore = withRoundFlag('false');
-  t.after(restore);
+test('M17: /action attack always returns round_wrapper (no legacy path)', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -189,12 +187,10 @@ test('with flag off, /action returns legacy response WITHOUT round_wrapper metad
     })
     .expect(200);
 
-  // Legacy fields presenti
   assert.ok('roll' in res.body);
   assert.ok('damage_dealt' in res.body);
-  // Nessuna metadata round wrapper
-  assert.equal(res.body.round_wrapper, undefined);
-  assert.equal(res.body.round_phase, undefined);
+  assert.equal(res.body.round_wrapper, true);
+  assert.ok(res.body.round_phase);
 });
 
 test('with flag on, /action move path resta legacy (non toccato dal wrapper)', async (t) => {

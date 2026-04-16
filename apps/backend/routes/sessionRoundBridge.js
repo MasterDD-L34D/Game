@@ -21,7 +21,6 @@ const {
   PHASE_COMMITTED,
   PHASE_RESOLVED,
 } = require('../services/roundOrchestrator');
-const { isRoundModelEnabled } = require('./sessionConstants');
 const { publicSessionView, facingFromMove } = require('./sessionHelpers');
 
 function createRoundBridge(deps) {
@@ -43,17 +42,8 @@ function createRoundBridge(deps) {
   // Guards + adapters
   // ────────────────────────────────────────────────────────────────
 
-  function roundModelGuard(_req, res) {
-    if (!isRoundModelEnabled()) {
-      res.status(503).json({
-        error: 'round_model_disabled',
-        message:
-          'Feature flag USE_ROUND_MODEL non attivo. Imposta USE_ROUND_MODEL=true per abilitare gli endpoint round-based (vedi ADR-2026-04-16).',
-      });
-      return false;
-    }
-    return true;
-  }
+  // M17: roundModelGuard removed. Round endpoints always active.
+  // USE_ROUND_MODEL flag no longer checked (default true since M16).
 
   function adaptSessionToRoundState(session) {
     const units = (session.units || []).map((u) => {
@@ -481,7 +471,6 @@ function createRoundBridge(deps) {
   function mountRoundEndpoints(router) {
     router.post('/declare-intent', (req, res, next) => {
       try {
-        if (!roundModelGuard(req, res)) return;
         const { session_id: sessionId, actor_id: actorId, action } = req.body || {};
         const { error, session } = resolveSession(sessionId);
         if (error) return res.status(error.status).json(error.body);
@@ -515,7 +504,6 @@ function createRoundBridge(deps) {
 
     router.post('/clear-intent/:actorId', (req, res, next) => {
       try {
-        if (!roundModelGuard(req, res)) return;
         const sessionId = (req.body && req.body.session_id) || req.query.session_id;
         const actorId = req.params.actorId;
         const { error, session } = resolveSession(sessionId);
@@ -539,7 +527,6 @@ function createRoundBridge(deps) {
 
     router.post('/commit-round', (req, res, next) => {
       try {
-        if (!roundModelGuard(req, res)) return;
         const sessionId = req.body && req.body.session_id;
         const { error, session } = resolveSession(sessionId);
         if (error) return res.status(error.status).json(error.body);
@@ -565,7 +552,6 @@ function createRoundBridge(deps) {
 
     router.post('/resolve-round', (req, res, next) => {
       try {
-        if (!roundModelGuard(req, res)) return;
         const sessionId = req.body && req.body.session_id;
         const { error, session } = resolveSession(sessionId);
         if (error) return res.status(error.status).json(error.body);
@@ -595,7 +581,6 @@ function createRoundBridge(deps) {
   }
 
   return {
-    roundModelGuard,
     adaptSessionToRoundState,
     ensureRoundState,
     placeholderResolveAction,

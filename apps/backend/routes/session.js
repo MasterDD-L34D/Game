@@ -54,7 +54,6 @@ const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIn
 // Extracted modules — constants + pure helpers (token optimization).
 // See sessionConstants.js and sessionHelpers.js for the extracted code.
 const {
-  isRoundModelEnabled,
   GRID_SIZE,
   DEFAULT_HP,
   DEFAULT_AP,
@@ -645,66 +644,17 @@ function createSessionRouter(options = {}) {
           });
         }
 
-        // PR 4 (ADR-2026-04-16): se USE_ROUND_MODEL e' attivo, delega
-        // al wrapper handleLegacyAttackViaRound che esegue la stessa
-        // pipeline performAttack dentro un round cycle (planning →
-        // commit → resolve) sincronizzando session.roundState. La
-        // response shape resta legacy-compat (+ campi round_wrapper
-        // e round_phase come metadata). Path flag-off invariato.
-        if (isRoundModelEnabled()) {
-          const wrapped = await handleLegacyAttackViaRound({
-            session,
-            actor,
-            target,
-            requestedCapPt,
-          });
-          return res.json(wrapped);
-        }
-
-        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
-        const hpBefore = target.hp;
-        const targetPositionAtAttack = { ...target.position };
-        const { result, evaluation, damageDealt, killOccurred, parry } = performAttack(
+        // M17 (ADR-2026-04-16): round flow is the only attack path.
+        // Legacy sequential attack code removed. handleLegacyAttackViaRound
+        // executes performAttack inside a round cycle (planning → commit →
+        // resolve) and returns a legacy-compat response shape.
+        const wrapped = await handleLegacyAttackViaRound({
           session,
           actor,
           target,
-        );
-        const event = buildAttackEvent({
-          session,
-          actor,
-          target,
-          result,
-          evaluation,
-          damageDealt,
-          hpBefore,
-          targetPositionAtAttack,
+          requestedCapPt,
         });
-        // SPRINT_021: traccia parata reattiva nell'evento per il log + VC.
-        if (parry) event.parry = parry;
-        // SPRINT_003 fase 1: traccia cost nell'evento + consume dal budget.
-        if (requestedCapPt > 0) {
-          event.cost = { cap_pt: requestedCapPt };
-          consumeCapPt(session, requestedCapPt);
-        }
-        await appendEvent(session, event);
-        if (killOccurred) {
-          await emitKillAndAssists(session, actor, target, event);
-        }
-        return res.json({
-          roll: result.roll,
-          mos: result.mos,
-          result: result.hit ? 'hit' : 'miss',
-          pt: result.pt,
-          damage_dealt: damageDealt,
-          target_hp: target.hp,
-          trait_effects: evaluation.trait_effects,
-          cap_pt_used: session.cap_pt_used,
-          cap_pt_max: session.cap_pt_max,
-          actor_position: { ...actor.position },
-          target_position: { ...targetPositionAtAttack },
-          parry,
-          state: publicSessionView(session),
-        });
+        return res.json(wrapped);
       }
 
       if (actionType === 'move') {
@@ -828,108 +778,12 @@ function createSessionRouter(options = {}) {
       const { error, session } = resolveSession(body.session_id);
       if (error) return res.status(error.status).json(error.body);
 
-      // PR 5 (ADR-2026-04-16 M5b): delega al wrapper round-based
-      // se USE_ROUND_MODEL=true. Il wrapper usa declareSistemaIntents
-      // per emettere intents SIS, poi commit + resolve via orchestrator
-      // con real resolveAction bindato al session. Response shape
-      // legacy-compat + round_wrapper/round_phase metadata.
-      if (isRoundModelEnabled()) {
-        const wrapped = await handleTurnEndViaRound(session);
-        return res.json(wrapped);
-      }
-
-      // Helper: damage-over-time (bleeding) applicato a una singola unita'.
-      // Ritorna l'evento descrittore se applicato, null altrimenti.
-      const bleedingEvents = [];
-      const applyBleedingTo = async (unit) => {
-        if (!unit || !unit.status || unit.hp <= 0) return;
-        const bleedTurns = Number(unit.status.bleeding) || 0;
-        if (bleedTurns <= 0) return;
-        const dmg = 1;
-        const hpBefore = unit.hp;
-        unit.hp = Math.max(0, unit.hp - dmg);
-        session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
-        await appendEvent(session, {
-          ts: new Date().toISOString(),
-          session_id: session.session_id,
-          action_type: 'bleeding',
-          actor_id: unit.id,
-          actor_species: unit.species,
-          actor_job: unit.job,
-          target_id: unit.id,
-          turn: session.turn,
-          damage_dealt: dmg,
-          result: 'hit',
-          hp_before: hpBefore,
-          hp_after: unit.hp,
-          bleeding_remaining: bleedTurns - 1,
-          trait_effects: [],
-        });
-        bleedingEvents.push({
-          unit_id: unit.id,
-          damage: dmg,
-          hp_after: unit.hp,
-          killed: unit.hp === 0,
-        });
-      };
-
-      // Helper: reset ap_remaining rispettando fracture (se attivo, cap a 1).
-      const resetApWithStatus = (unit) => {
-        if (!unit) return;
-        const fractureActive = Number(unit.status?.fracture) > 0;
-        unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
-      };
-
-      // Helper: decrementa tutte le status durations di UNA unita' (end-of-turn).
-      // Questo e' la variante per-unit della vecchia logica global.
-      // SPRINT_019: separato per timing corretto di fracture e bleeding.
-      const decrementStatuses = (unit) => {
-        if (!unit || !unit.status) return;
-        for (const key of Object.keys(unit.status)) {
-          const v = Number(unit.status[key]);
-          if (v > 0) {
-            unit.status[key] = v - 1;
-          }
-        }
-      };
-
-      // === END OF CURRENT UNIT'S TURN ===
-      // 1a. Bleeding damage applicato all'unita' che sta finendo (se bleeding)
-      const current = session.units.find((u) => u.id === session.active_unit);
-      await applyBleedingTo(current);
-      // 1b. Reset ap_remaining per il prossimo turno dell'unita' corrente
-      // (fracture check usando il valore CORRENTE di fracture, pre-decrement)
-      if (current) resetApWithStatus(current);
-      // 1c. Decrement delle status durations dell'unita' corrente
-      decrementStatuses(current);
-
-      // 2. Passa il turno all'unita' successiva (initiative-based order)
-      session.active_unit = nextUnitId(session);
-      session.turn += 1;
-
-      // 3. SPRINT_020: usa l'helper advanceThroughAiTurns per eseguire
-      //    tutti i SIS nell'ordine, fino al primo player. Supporta ordine
-      //    arbitrario di turn_order e multi-SIS.
-      const aiPhase = await advanceThroughAiTurns(session);
-      const iaActions = aiPhase.iaActions;
-      // Merge bleeding events: quelli dal current turn (calcolati sopra)
-      // + quelli dalla AI phase (emessi in advanceThroughAiTurns).
-      if (Array.isArray(aiPhase.bleedingEvents)) {
-        for (const b of aiPhase.bleedingEvents) bleedingEvents.push(b);
-      }
-
-      return res.json({
-        session_id: session.session_id,
-        turn: session.turn,
-        active_unit: session.active_unit,
-        ia_actions: iaActions,
-        ia_action: iaActions[0] || null,
-        // SPRINT_019: side_effects contiene i danni da status fisici
-        // applicati a inizio /turn/end (bleeding e simili). Il frontend
-        // li logga separatamente con emoji 🩸.
-        side_effects: bleedingEvents,
-        state: publicSessionView(session),
-      });
+      // M17 (ADR-2026-04-16): round flow is the only /turn/end path.
+      // Legacy sequential turn code removed. handleTurnEndViaRound
+      // handles bleeding, AP reset, status decay, declareSistemaIntents,
+      // commit, resolve, and returns legacy-compat response shape.
+      const wrapped = await handleTurnEndViaRound(session);
+      return res.json(wrapped);
     } catch (err) {
       next(err);
     }

@@ -168,9 +168,7 @@ test('with flag on, multiple /turn/end calls work sequentially', async (t) => {
 // Flag off — legacy path invariato
 // ─────────────────────────────────────────────────────────────────
 
-test('with flag off, /turn/end returns legacy response WITHOUT round_wrapper', async (t) => {
-  const restore = withRoundFlag('false');
-  t.after(restore);
+test('M17: /turn/end always returns round_wrapper (no legacy path)', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -183,8 +181,8 @@ test('with flag off, /turn/end returns legacy response WITHOUT round_wrapper', a
     .expect(200);
 
   assert.ok('ia_actions' in res.body);
-  assert.equal(res.body.round_wrapper, undefined);
-  assert.equal(res.body.round_phase, undefined);
+  assert.equal(res.body.round_wrapper, true);
+  assert.ok(res.body.round_phase);
 });
 
 // ─────────────────────────────────────────────────────────────────
