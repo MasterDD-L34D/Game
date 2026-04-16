@@ -85,15 +85,15 @@ Può essere usato per:
 
 ### EPIC D — Balance layer
 
-| Stato | Task                                     | Dettagli operativi                                                            |
-| ----- | ---------------------------------------- | ----------------------------------------------------------------------------- |
-| ☑    | FD-040 - Audit `trait_mechanics.yaml`    | DONE: 33/33 trait coperti, tutti con 1+ ability. Audit script eseguito.       |
-| ☑    | FD-041 - Tabella mod offensivi/difensivi | DONE: 6 off, 10 def, 1 hybrid, 16 utility. Tabella generata in audit.         |
-| ☑    | FD-042 - Verificare AP costs             | DONE: AP 1=11, AP 2=17, AP 3=5. Distribuzione ragionevole.                    |
-| 🟡    | FD-043 - Rivedere resistenze e cap       | ⚠️ fuoco stacks a 75% (5 trait). fisico 45%, mentale 25%. Serve cap decision. |
-| ☐     | FD-044 - Documentare trade-off           | PENDING: per-trait costo/contesto/counter (game design).                      |
-| ☑    | FD-045 - Chiudere policy placeholder     | DONE: 16 all-zero-mod trait giustificati da abilities (utility class).        |
-| ☐     | FD-046 - Congelare caps PT / PP / SG     | PENDING: PT cap=1 (fairness). PP/SG non esistono. Decisione deferred.         |
+| Stato | Task                                     | Dettagli operativi                                                                                                           |
+| ----- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| ☑    | FD-040 - Audit `trait_mechanics.yaml`    | DONE: 33/33 trait coperti, tutti con 1+ ability. Audit script eseguito.                                                      |
+| ☑    | FD-041 - Tabella mod offensivi/difensivi | DONE: 6 off, 10 def, 1 hybrid, 16 utility. Tabella generata in audit.                                                        |
+| ☑    | FD-042 - Verificare AP costs             | DONE: AP 1=11, AP 2=17, AP 3=5. Distribuzione ragionevole.                                                                   |
+| ☑    | FD-043 - Rivedere resistenze e cap       | DONE: decisione Master DD = no cap, stacking libero. Fuoco 75% accettato (diversity > hard cap).                             |
+| ☑    | FD-044 - Documentare trade-off           | DONE: `docs/combat/trait-trade-offs.md` con 33 sezioni dettagliate per trait.                                                |
+| ☑    | FD-045 - Chiudere policy placeholder     | DONE: 16 all-zero-mod trait giustificati da abilities (utility class).                                                       |
+| ☑    | FD-046 - Congelare caps PT / PP / SG     | DONE: PT cap=1. PP = combo meter (+hit/kill/assist, sblocca ability). SG = stress burst (individuale). Vedi combat-canon.md. |
 
 ### EPIC E — Progression, economy e identity
 

@@ -59,10 +59,7 @@ function proxyToBackend(req, res) {
   proxy.on('error', () => {
     res.writeHead(502, { 'Content-Type': 'application/json' });
     res.end(
-      JSON.stringify({
-        error: 'Backend non raggiungibile',
-        hint: 'Avvia npm run start:api',
-      }),
+      JSON.stringify({ error: 'Backend non raggiungibile', hint: 'Avvia npm run start:api' }),
     );
   });
 
