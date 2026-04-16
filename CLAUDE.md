@@ -194,8 +194,9 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - Terrain defense modifier nel calcolo CD
 - Narrative service con inkjs (briefing/debrief con scelte)
 - Plugin registration pattern per servizi backend
+- **P4 completato**: MBTI axes E_I+S_N implementati, 16 Forms YAML, PF_session endpoint, Ennea theme effects, deriveMbtiType()
 
-**Test totali**: Python rules engine 196/196 · Node (endpoint+AI+services) 61/61 AI
+**Test totali**: Python rules engine 196/196 · Node (endpoint+AI+services) 61/61 AI · VC scoring 21/21
 
 ### Pilastri di design — stato attuale
 
@@ -204,7 +205,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 | 1   | Tattica leggibile (FFT)      |  🟢   |
 | 2   | Evoluzione emergente (Spore) |  🟢   |
 | 3   | Identità Specie × Job        |  🟢   |
-| 4   | Temperamenti MBTI/Ennea      |  🟡   |
+| 4   | Temperamenti MBTI/Ennea      |  🟢   |
 | 5   | Co-op vs Sistema             |  🟢   |
 | 6   | Fairness                     |  🟢   |
 
