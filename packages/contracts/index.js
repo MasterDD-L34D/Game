@@ -7,6 +7,7 @@ const speciesBiomesSchema = require('./schemas/speciesBiomes.schema.json');
 const combatSchema = require('./schemas/combat.schema.json');
 const traitMechanicsSchema = require('./schemas/traitMechanics.schema.json');
 const glossarySchema = require('./schemas/glossary.schema.json');
+const narrativeSchema = require('./schemas/narrative.schema.json');
 
 module.exports = {
   generationSnapshotSchema,
@@ -16,4 +17,5 @@ module.exports = {
   combatSchema,
   traitMechanicsSchema,
   glossarySchema,
+  narrativeSchema,
 };

@@ -249,6 +249,7 @@ export declare const speciesBiomesSchema: Record<string, unknown>;
 export declare const combatSchema: Record<string, unknown>;
 export declare const traitMechanicsSchema: Record<string, unknown>;
 export declare const glossarySchema: Record<string, unknown>;
+export declare const narrativeSchema: Record<string, unknown>;
 
 export interface GlossaryTraitEntry {
   _id: string;
