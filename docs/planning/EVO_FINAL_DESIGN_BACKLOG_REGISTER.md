@@ -161,17 +161,17 @@ Può essere usato per:
 
 ### EPIC J — QA, validator, smoke, release
 
-| Stato | Task                                             | Dettagli operativi                                 |
-| ----- | ------------------------------------------------ | -------------------------------------------------- |
-| ☐     | FD-100 - Rieseguire validator dataset            | Validazione principale dei dati.                   |
-| ☐     | FD-101 - Rieseguire ecosystem/package validation | Pack e spawn pack verdi.                           |
-| ☐     | FD-102 - Rieseguire smoke CLI profili            | `hud`, `playtest`, `support`, `telemetry`.         |
-| ☐     | FD-103 - Rieseguire test web minimi              | Solo se toccata UI o bundle relativo.              |
-| ☐     | FD-104 - Definire playtest matrix                | Scenario, obiettivi, log, owner, questioni aperte. |
-| ☐     | FD-105 - Chiudere triage bug P0/P1               | Nessun gate finale con P0 aperti.                  |
-| ☐     | FD-106 - Preparare changelog                     | Note merge e release candidate.                    |
-| ☐     | FD-107 - Preparare rollback plan 03A             | Richiesto dal processo di contribution.            |
-| ☐     | FD-108 - Ottenere approvazione Master DD         | Gate finale di merge.                              |
+| Stato | Task                                             | Dettagli operativi                                                         |
+| ----- | ------------------------------------------------ | -------------------------------------------------------------------------- |
+| ☑    | FD-100 - Rieseguire validator dataset            | DONE: `validate-datasets` → 0 warnings, 14 controlli verdi.                |
+| ☑    | FD-101 - Rieseguire ecosystem/package validation | DONE: `validate-ecosystem-pack` → tutti exit 0.                            |
+| 🟡    | FD-102 - Rieseguire smoke CLI profili            | PARTIAL: CI green, locale exit 1 (PyYAML env mismatch non bloccante).      |
+| ☑    | FD-103 - Rieseguire test web minimi              | SKIP: nessuna UI toccata in sessione 2026-04-17.                           |
+| ☐     | FD-104 - Definire playtest matrix                | PENDING: richiede decisioni di game design (scenari, obiettivi, owner).    |
+| ☑    | FD-105 - Chiudere triage bug P0/P1               | DONE: 0 issue aperte (33→0 in sessione). Nessun P0/P1 residuo.             |
+| ☑    | FD-106 - Preparare changelog                     | DONE: `docs/planning/changelog.md` sezione [2026-04-17] con 24+ PR.        |
+| ☑    | FD-107 - Preparare rollback plan 03A             | DONE: rollback plan in changelog §Rollback plan 03A (5 livelli di revert). |
+| ☐     | FD-108 - Ottenere approvazione Master DD         | PENDING: gate finale — richiede review umana.                              |
 
 ### EPIC K — Game <-> Game-Database
 

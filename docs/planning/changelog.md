@@ -11,6 +11,47 @@ review_cycle_days: 14
 
 # Changelog
 
+## [2026-04-17] — Sessione marathon (24+ PR merged)
+
+### Added
+
+- **Round orchestrator Python batch 2** (#1383-#1386): predicates DSL (6 ops, 8 fields), cooldown multi-round, counter/overwatch con anti-recursion, heal action + healed event. 217→237 Python test.
+- **Node session engine migration** (ADR-2026-04-16, #1387-#1405): 17/17 step M1-M17. Foundation JS module, 4 endpoint, declareSistemaIntents, wrapper /action + /turn/end, equivalence tests, flip default true, legacy removed.
+- **Fase 3 active effects** (#1408-#1409): trait_effects.py + ability action type + buff system. 33/33 trait con abilities (damage/heal/status/buff). `ability` non piu' NOOP.
+- **Combat Canon Spec** (`docs/combat/combat-canon.md`): specifica canonica unificata.
+- **Timer planning phase**: planning_deadline_ms + is_planning_expired() + Node setTimeout enforcement.
+- **Session.js split**: 1967→851 LOC (-57%), 4 moduli (constants + helpers + roundBridge + router).
+- **Test helpers extraction**: sessionTestHelpers.js shared, -210 LOC duplication.
+
+### Changed
+
+- **Workflow**: 28→16 (-43%). 9 rimossi, 3 consolidati, Node 22 + FORCE_NODE24.
+- **Token optimization**: CLAUDE.md guidance, docs/planning 836K→428K (-49%).
+- **Backlog triage**: EPIC C 6/11 DONE, 82 PENDING (D-K).
+- **traitMechanics.schema.json**: active_effects accetta oggetti ability.
+
+### Fixed
+
+- 23 issue bot bulk-closed + #1338/#1345/#1347 chiuse.
+- daily-tracker-refresh path stale + README marker tolerance.
+- Null guard sessionRoundBridge + M13 test resilience.
+
+### Removed
+
+- Legacy sequential-turn fallback (M17): flag checks + fallback code.
+
+### Rollback plan 03A
+
+Se necessario rollback dell'intera sessione 2026-04-17:
+
+1. **Instant (round model off)**: non piu' possibile via flag — richiede revert.
+2. **Revert combat PR** (#1408-#1412): `git revert` rimuove ability action, buff system, 33 abilities, timer, combat canon. Round orchestrator Python torna a pre-Fase-3 (217 test). Non rompe Node.
+3. **Revert Node migration** (#1387-#1405): `git revert` in ordine inverso rimette session.js monolitico (1967 LOC), ri-abilita sequential-turn, ri-aggiunge flag checks. 45 AI test restano verdi (DI-isolated).
+4. **Revert workflow cleanup** (#1391-#1393, #1400): `git revert` ripristina 12 workflow rimossi. Node 20 warning ri-appare.
+5. **Revert token optimization** (#1401-#1403): `git revert` rimette session.js monolitico + planning docs non archiviati.
+
+Nessun revert richiede migration DB o data change. Tutti i revert sono additivi (ripristinano file) senza effetti collaterali su dati runtime.
+
 ## [Unreleased]
 
 ### Added
