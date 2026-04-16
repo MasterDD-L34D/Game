@@ -49,12 +49,43 @@ const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring'
 // DEFAULT_ATTACK_RANGE e' ora autoritativo in policy.js (usato sia qui che dall'IA).
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
-// PR 5 (ADR-2026-04-16 M5b): declareSistemaIntents module (PR #1389)
-// e' la versione pure/round-based dell'AI SIS runner. Usata solo quando
-// USE_ROUND_MODEL=true per emettere intents invece di eseguire azioni
-// in sequenza. Il sistemaTurnRunner legacy resta invariato per il path
-// flag-off.
 const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIntents');
+
+// Extracted modules — constants + pure helpers (token optimization).
+// See sessionConstants.js and sessionHelpers.js for the extracted code.
+const {
+  isRoundModelEnabled,
+  GRID_SIZE,
+  DEFAULT_HP,
+  DEFAULT_AP,
+  DEFAULT_MOD,
+  DEFAULT_DC,
+  DEFAULT_GUARDIA,
+  DEFAULT_INITIATIVE,
+  DEFAULT_FACING,
+  VALID_FACINGS,
+  JOB_INITIATIVE,
+  JOB_STATS,
+  ASSIST_WINDOW_TURNS,
+} = require('./sessionConstants');
+const {
+  rollD20,
+  clampPosition,
+  normaliseUnit,
+  buildDefaultUnits,
+  normaliseUnitsPayload,
+  resolveAttack,
+  timestampStamp,
+  publicSessionView,
+  buildTurnOrder,
+  nextUnitId,
+  manhattanDistance,
+  pickLowestHpEnemy,
+  stepTowards,
+  isBackstab,
+  facingFromMove,
+} = require('./sessionHelpers');
+
 // ADR-2026-04-16: round-based combat model migration. PR 2 di N —
 // endpoint stubs dietro feature flag USE_ROUND_MODEL. Il modulo e'
 // completamente isolato (PR #1387), esposto qui solo come dipendenza
@@ -69,343 +100,8 @@ const {
 } = require('../services/roundOrchestrator');
 
 // Feature flag: l'intera superficie round-based e' disabilitata se
-// M16 (ADR-2026-04-16): USE_ROUND_MODEL default flippato a true.
-// Il round-based combat model e' ora attivo per default. Per tornare
-// al sequential-turn model legacy, impostare USE_ROUND_MODEL=false
-// nell'environment. I test di equivalenza comportamentale (PR #1397,
-// M6-M14) verificano parita' strutturale tra i due flow.
-//
-// Per disattivare: USE_ROUND_MODEL=false npm run start:api
-// Per rollback completo: git revert i PR #1387-#1397 della serie
-//   feat/round-orchestrator-* + feat/turn-end-wrapper-*
-function isRoundModelEnabled() {
-  const val = String(process.env.USE_ROUND_MODEL || 'true').toLowerCase();
-  return val !== 'false';
-}
-
-const GRID_SIZE = 6;
-const DEFAULT_HP = 10;
-const DEFAULT_AP = 2;
-const DEFAULT_MOD = 3;
-const DEFAULT_DC = 12;
-const DEFAULT_GUARDIA = 1;
-// DEFAULT_ATTACK_RANGE importato da services/ai/policy.js — autoritativo.
-// SPRINT_020: default initiative per unita' senza override esplicito.
-const DEFAULT_INITIATIVE = 10;
-// SPRINT_022: facing direction (backstab). Default 'S' = looking down
-// sulla griglia (verso y crescenti). Le 4 direzioni cardinali.
-const DEFAULT_FACING = 'S';
-const VALID_FACINGS = new Set(['N', 'S', 'E', 'W']);
-// SPRINT_020: initiative per job canonico. Skirmisher e ranger sono
-// mobili/veloci → init alta. Vanguard e harvester sono lenti → init bassa.
-// Fa da fallback se input.initiative e job_stats non lo sovrascrivono.
-const JOB_INITIATIVE = {
-  skirmisher: 15,
-  ranger: 14,
-  invoker: 12,
-  artificer: 11,
-  warden: 9,
-  vanguard: 8,
-  harvester: 8,
-};
-
-// SPRINT_006: stats per job (attack_range principalmente). I 6 job canonici
-// sono quelli di data/core/telemetry.yaml:telemetry.hud_breakdown.roles.
-// Strategie:
-//   - vanguard/harvester: melee puri (range 1) — devono essere adiacenti
-//   - skirmisher/warden/artificer: range medio (2) — versatili
-//   - ranger/invoker: long-range (3) — DPS da distanza
-// Se il job non e' in questa tabella (es. "unknown") si usa DEFAULT_ATTACK_RANGE.
-const JOB_STATS = {
-  vanguard: { attack_range: 1 },
-  skirmisher: { attack_range: 2 },
-  warden: { attack_range: 2 },
-  artificer: { attack_range: 2 },
-  harvester: { attack_range: 1 },
-  ranger: { attack_range: 3 },
-  invoker: { attack_range: 3 },
-};
-
-// SPRINT_003 fase 0: finestra temporale (in turni) entro cui un damage
-// hit conta come assist per un kill avvenuto nel turno corrente.
-const ASSIST_WINDOW_TURNS = 2;
-
-function rollD20(rng) {
-  return Math.floor(rng() * 20) + 1;
-}
-
-function clampPosition(x, y) {
-  return {
-    x: Math.min(Math.max(0, Number(x) || 0), GRID_SIZE - 1),
-    y: Math.min(Math.max(0, Number(y) || 0), GRID_SIZE - 1),
-  };
-}
-
-// Unit defaults allineati a SPRINT_002 fase 1:
-// hp 10, ap 2, ap_remaining 2, mod 3, dc 12, guardia 1, griglia 6x6.
-function normaliseUnit(raw, fallbackIndex) {
-  const input = raw && typeof raw === 'object' ? raw : {};
-  const id = String(input.id || `unit_${fallbackIndex + 1}`);
-  const position =
-    input.position && typeof input.position === 'object'
-      ? clampPosition(input.position.x, input.position.y)
-      : fallbackIndex === 0
-        ? { x: 0, y: 0 }
-        : { x: GRID_SIZE - 1, y: GRID_SIZE - 1 };
-  const traits = Array.isArray(input.traits) ? input.traits.filter(Boolean).map(String) : [];
-  const ap = Number.isFinite(Number(input.ap)) ? Number(input.ap) : DEFAULT_AP;
-  // SPRINT_006: attack_range cerca override esplicito prima, poi JOB_STATS,
-  // poi DEFAULT_ATTACK_RANGE. Cosi' i test che passano attack_range diretto
-  // continuano a funzionare; il default diventa "sensibile al job".
-  const job = input.job ? String(input.job) : 'unknown';
-  const jobStats = JOB_STATS[job] || {};
-  const attackRange = Number.isFinite(Number(input.attack_range))
-    ? Number(input.attack_range)
-    : Number.isFinite(Number(jobStats.attack_range))
-      ? Number(jobStats.attack_range)
-      : DEFAULT_ATTACK_RANGE;
-  const hp = Number.isFinite(Number(input.hp)) ? Number(input.hp) : DEFAULT_HP;
-  // SPRINT_006 fase 2: max_hp per REGOLA_002 retreat. Override esplicito
-  // possibile dall'input (utile per scenari di test che partono con SIS
-  // gia' ferito). Default: parte a hp iniziale (unita' fresca = full HP).
-  const maxHp = Number.isFinite(Number(input.max_hp)) ? Number(input.max_hp) : hp;
-  // SPRINT_013 (issue #10): oggetto status per stati temporanei.
-  // Ogni chiave e' il nome dello stato, valore = turns_remaining.
-  // 0 o mancante = inattivo. Accetta override iniziale dall'input.
-  // SPRINT_019: aggiunti status fisici bleeding e fracture dal design
-  // doc docs/core/10-SISTEMA_TATTICO.md. bleeding = DoT non riducibile,
-  // fracture = ap_remaining reset a 1 invece di ap pieno.
-  const status =
-    input.status && typeof input.status === 'object'
-      ? { ...input.status }
-      : {
-          panic: 0,
-          rage: 0,
-          stunned: 0,
-          focused: 0,
-          confused: 0,
-          bleeding: 0,
-          fracture: 0,
-        };
-  // SPRINT_020: initiative cascade — override esplicito → job-based →
-  // DEFAULT_INITIATIVE. Permette ai test di forzare il turn order.
-  const initiative = Number.isFinite(Number(input.initiative))
-    ? Number(input.initiative)
-    : Number.isFinite(Number(JOB_INITIATIVE[job]))
-      ? Number(JOB_INITIATIVE[job])
-      : DEFAULT_INITIATIVE;
-  // SPRINT_022: facing direction. Accetta override, fallback 'S'.
-  // P1 di default spawna in alto-sinistra e guarda in basso,
-  // SIS in basso-destra e guarda in alto.
-  const rawFacing = input.facing ? String(input.facing).toUpperCase() : null;
-  const facing = VALID_FACINGS.has(rawFacing) ? rawFacing : fallbackIndex === 0 ? 'S' : 'N';
-  return {
-    id,
-    species: input.species ? String(input.species) : 'unknown',
-    job,
-    traits,
-    hp,
-    max_hp: maxHp,
-    status,
-    ap,
-    ap_remaining: Number.isFinite(Number(input.ap_remaining)) ? Number(input.ap_remaining) : ap,
-    mod: Number.isFinite(Number(input.mod)) ? Number(input.mod) : DEFAULT_MOD,
-    dc: Number.isFinite(Number(input.dc)) ? Number(input.dc) : DEFAULT_DC,
-    guardia: Number.isFinite(Number(input.guardia)) ? Number(input.guardia) : DEFAULT_GUARDIA,
-    attack_range: attackRange,
-    initiative,
-    facing,
-    position,
-    controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
-  };
-}
-
-function buildDefaultUnits() {
-  // SPRINT_002 default: unit_1 in (0,0) e unit_2 in (5,5). unit_2 e'
-  // pilotato dal "sistema" cosi' POST /turn/end puo' far scattare
-  // REGOLA_001 anche senza payload custom.
-  return [
-    normaliseUnit(
-      {
-        id: 'unit_1',
-        species: 'velox',
-        job: 'skirmisher',
-        traits: ['zampe_a_molla'],
-        position: { x: 0, y: 0 },
-        controlled_by: 'player',
-      },
-      0,
-    ),
-    normaliseUnit(
-      {
-        id: 'unit_2',
-        species: 'carapax',
-        job: 'vanguard',
-        traits: ['pelle_elastomera'],
-        position: { x: 5, y: 5 },
-        controlled_by: 'sistema',
-      },
-      1,
-    ),
-  ];
-}
-
-function normaliseUnitsPayload(raw) {
-  if (!Array.isArray(raw) || raw.length === 0) {
-    return buildDefaultUnits();
-  }
-  return raw.map((entry, index) => normaliseUnit(entry, index));
-}
-
-function resolveAttack({ actor, target, rng }) {
-  const die = rollD20(rng);
-  const roll = die + (actor.mod || 0);
-  const dc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
-  const mos = roll - dc;
-  const hit = mos >= 0;
-  let pt = 0;
-  if (hit) {
-    if (die >= 15 && die <= 19) pt += 1;
-    if (die === 20) pt += 2;
-    pt += Math.floor(mos / 5);
-  }
-  return { die, roll, mos, hit, dc, pt };
-}
-
-function timestampStamp(date) {
-  const iso = date.toISOString();
-  return iso
-    .replace(/[-:]/g, '')
-    .replace(/\..*Z$/, '')
-    .replace('T', '_');
-}
-
-function publicSessionView(session) {
-  return {
-    session_id: session.session_id,
-    turn: session.turn,
-    active_unit: session.active_unit,
-    // SPRINT_020: esposto l'ordine dei turni + indice per il frontend.
-    turn_order: session.turn_order || [],
-    turn_index: session.turn_index || 0,
-    units: session.units,
-    grid: session.grid,
-    grid_size: session.grid.width,
-    log_events_count: session.events.length,
-  };
-}
-
-// SPRINT_020: sistema di iniziativa (CT a scatti) dal design doc
-// docs/core/10-SISTEMA_TATTICO.md linea 14.
-//
-// Ogni unita' ha un initiative score. Al /start si calcola turn_order
-// = array di unit_id ordinati per initiative descending (tie-breaker:
-// ordine di dichiarazione). session.turn_index punta alla posizione
-// corrente. nextUnitId avanza l'indice, skippa unita' morte, wraps
-// attorno alla fine del ciclo (nuovo round).
-//
-// NOTA: VEL extra turns (unita' veloci che prendono piu' azioni per
-// round) non ancora implementato. Per ora ordine statico, un'azione
-// per unita' per round. Deferred a sprint-021 se serve.
-function buildTurnOrder(units) {
-  // Copy + sort descending by initiative. Stable sort mantiene l'ordine
-  // di dichiarazione come tie-breaker.
-  return units
-    .map((u, idx) => ({ id: u.id, init: Number(u.initiative) || 0, idx }))
-    .sort((a, b) => b.init - a.init || a.idx - b.idx)
-    .map((e) => e.id);
-}
-
-function nextUnitId(session) {
-  // Backward compat: se session.turn_order esiste, usa la nuova logica.
-  // Altrimenti fallback al ciclo units lineare (sessioni legacy pre-sprint-020).
-  const order = session.turn_order;
-  if (Array.isArray(order) && order.length > 0) {
-    const n = order.length;
-    let idx = Number.isFinite(session.turn_index) ? session.turn_index : -1;
-    for (let i = 0; i < n; i += 1) {
-      idx = (idx + 1) % n;
-      const candidateId = order[idx];
-      const unit = session.units.find((u) => u.id === candidateId);
-      if (unit && unit.hp > 0) {
-        session.turn_index = idx;
-        return candidateId;
-      }
-    }
-    // Tutti morti
-    return null;
-  }
-  // Legacy fallback
-  const units = session.units;
-  if (!units.length) return null;
-  const currentIdx = units.findIndex((u) => u.id === session.active_unit);
-  const nextIdx = currentIdx < 0 ? 0 : (currentIdx + 1) % units.length;
-  return units[nextIdx].id;
-}
-
-function manhattanDistance(a, b) {
-  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-}
-
-function pickLowestHpEnemy(session, actor) {
-  const enemies = session.units.filter((u) => u.id !== actor.id && u.hp > 0);
-  if (!enemies.length) return null;
-  return enemies.reduce((lowest, candidate) => {
-    if (!lowest) return candidate;
-    return candidate.hp < lowest.hp ? candidate : lowest;
-  }, null);
-}
-
-function stepTowards(from, to) {
-  // Un singolo passo Manhattan verso la destinazione.
-  const next = { ...from };
-  if (from.x !== to.x) {
-    next.x += from.x < to.x ? 1 : -1;
-  } else if (from.y !== to.y) {
-    next.y += from.y < to.y ? 1 : -1;
-  }
-  return clampPosition(next.x, next.y);
-}
-
-// SPRINT_022: facing helpers — determina se l'actor sta attaccando
-// il target "dalle spalle" (backstab). Il facing di un'unita' e'
-// una direzione cardinale (N/S/E/W). La cella "dietro" e' l'opposta
-// del facing:
-//   - facing N → dietro = cella con y > target.y
-//   - facing S → dietro = cella con y < target.y
-//   - facing E → dietro = cella con x < target.x
-//   - facing W → dietro = cella con x > target.x
-//
-// Backstab = actor.position e' nella semipiano dietro rispetto al
-// facing del target. Non richiede adiacenza stretta (funziona anche
-// per attacchi ranged).
-function isBackstab(actor, target) {
-  if (!actor?.position || !target?.position) return false;
-  const f = target.facing || DEFAULT_FACING;
-  const dx = actor.position.x - target.position.x;
-  const dy = actor.position.y - target.position.y;
-  if (f === 'N') return dy > 0;
-  if (f === 'S') return dy < 0;
-  if (f === 'E') return dx < 0;
-  if (f === 'W') return dx > 0;
-  return false;
-}
-
-// SPRINT_022: auto-compute new facing quando l'unita' si muove.
-// La direzione di facing diventa quella del movimento (asse col
-// delta maggiore, tie-breaker su x).
-function facingFromMove(from, to) {
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
-  if (dx === 0 && dy === 0) return null;
-  if (Math.abs(dx) >= Math.abs(dy)) {
-    return dx > 0 ? 'E' : 'W';
-  }
-  return dy > 0 ? 'S' : 'N';
-}
-
-// stepAway e selectAiPolicy sono stati estratti in services/ai/policy.js
-// (SPRINT_010 issue #2). Qui viene mantenuto solo l'import a inizio file.
+// Constants + pure helpers extracted to sessionConstants.js + sessionHelpers.js
+// (imported above). Only createSessionRouter closure remains inline.
 
 function createSessionRouter(options = {}) {
   const router = Router();
