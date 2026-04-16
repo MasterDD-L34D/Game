@@ -59,5 +59,8 @@
     "supertest": "^6.3.4",
     "tsx": "^4.19.0",
     "wait-on": "^8.0.2"
+  },
+  "dependencies": {
+    "xstate": "^5.30.0"
   }
 }

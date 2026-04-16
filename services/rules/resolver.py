@@ -250,6 +250,33 @@ def apply_armor(damage: int, armor: int) -> int:
     return max(0, damage - max(0, armor))
 
 
+def compute_swarm_attacks(
+    actor: Mapping[str, Any],
+    scaling: Optional[Mapping[str, Any]] = None,
+) -> int:
+    """W7 pattern: scaling attacks (wesnoth swarm).
+
+    Se l'actor ha ``scaling_attacks`` nei trait, il numero di attacchi
+    scala col ratio HP corrente/max. Piu HP = piu attacchi.
+
+    scaling = { min: 1, max: 4, scale_by: 'hp_ratio' }
+    """
+    if not scaling:
+        return 1
+    min_atk = int(scaling.get("min", 1))
+    max_atk = int(scaling.get("max", 1))
+    scale_by = scaling.get("scale_by", "hp_ratio")
+    if scale_by == "hp_ratio":
+        max_hp = max(1, int(actor.get("max_hp") or actor.get("hp", 1)))
+        ratio = int(actor.get("hp", 1)) / max_hp
+    elif scale_by == "pp_ratio":
+        max_pp = max(1, int(actor.get("pp_max", 10)))
+        ratio = int(actor.get("pp", 0)) / max_pp
+    else:
+        ratio = 1.0
+    return max(min_atk, _floor(min_atk + (max_atk - min_atk) * ratio))
+
+
 def roll_damage_dice(
     dice: Mapping[str, Any],
     rng: RandomFloatGenerator,
@@ -1216,6 +1243,7 @@ __all__ = [
     "begin_turn",
     "check_stress_breakpoints",
     "compute_pt_gained",
+    "compute_swarm_attacks",
     "compute_step_count",
     "compute_step_flat_bonus",
     "get_status",
