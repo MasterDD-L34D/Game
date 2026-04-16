@@ -248,3 +248,14 @@ export declare const telemetrySchema: Record<string, unknown>;
 export declare const speciesBiomesSchema: Record<string, unknown>;
 export declare const combatSchema: Record<string, unknown>;
 export declare const traitMechanicsSchema: Record<string, unknown>;
+export declare const glossarySchema: Record<string, unknown>;
+
+export interface GlossaryTraitEntry {
+  _id: string;
+  labels: { it?: string; en?: string };
+  descriptions?: { it?: string | null; en?: string | null };
+}
+
+export interface GlossaryResponse {
+  traits: GlossaryTraitEntry[];
+}

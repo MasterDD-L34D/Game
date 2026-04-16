@@ -327,7 +327,7 @@ Cosa c'è già nel codice (Game side):
 
 Cosa **manca** per attivare la feature in produzione:
 
-- **Endpoint Game-Database `GET /api/traits/glossary`** (lato `MasterDD-L34D/Game-Database`). Lo scaffold Game-side assume il contract `{ traits: [{ _id, labels: { it, en }, descriptions: { it, en } }, ...] }` ma quel route non esiste oggi. Aprire una PR sibling sul Game-Database prima di settare `GAME_DATABASE_ENABLED=true` in qualsiasi ambiente reale.
+- ~~**Endpoint Game-Database `GET /api/traits/glossary`**~~ ✅ **Implementato** (aprile 2026). L'endpoint è stato aggiunto in `Game-Database/server/routes/traits.js` con response shape `{ traits: [{ _id, labels: { it, en }, descriptions: { it, en } }] }`, allineato al contract atteso da `fetchRemoteGlossary()`. Test aggiunto in `taxonomyRouters.test.js`. Schema condiviso in `packages/contracts/schemas/glossary.schema.json` (Game) e `server/schemas/glossary.schema.json` (Game-Database, copia con `$comment` canonical).
 - **Decisione cache invalidation** (TTL-based vs webhook). Lo scaffold usa TTL fisso a 5 minuti. Se l'editor del Game-Database aggiorna labels e ne vuole vedere il riflesso nel Game runtime sub-minuto, va aggiunto un meccanismo di invalidation (push o long-poll). Per il primo rilascio TTL è sufficiente.
 - **Documentazione operativa** (run-book, dashboard `source: http | local-fallback | local`, alert se la `local-fallback` rate sale sopra una soglia). Da scrivere quando l'integrazione viene attivata.
 
@@ -444,7 +444,7 @@ Oggi nessuno sta attivamente tracciando i segnali sopra. Se vogliamo essere disc
 - Etichettare eventuali issue GitHub rilevanti con `needs: game-database-sync` per farle galleggiare in un filtro.
 - In mancanza di entrambi, questa sezione resta come memoria istituzionale e chiunque tocchi il Game backend può tornare a leggerla.
 
-**Stato attuale (2026-04-14)**: nessuno dei trigger è scattato. Le tre alternative restano deferred. Prossima review raccomandata: 2026-Q3 o on-demand se un use case emerge prima.
+**Stato attuale (2026-04-16)**: Alternativa B parzialmente implementata (endpoint glossary + schema condiviso + import pipeline ottimizzato), feature-flagged OFF di default. Nessun trigger per C o D è scattato. Prossima review raccomandata: 2026-Q3 o on-demand se un use case emerge prima.
 
 ## Conseguenze
 
@@ -494,3 +494,10 @@ Oggi nessuno sta attivamente tracciando i segnali sopra. Se vogliamo essere disc
 Il piano operativo che traduce questo ADR in runbook (cadenza sync, dry-run, `sync:evo-pack`/`evo:import`, trigger per riaprire alternative avanzate) vive in [`docs/planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md`](../planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md). Il piano consumer **non sovrascrive** questo ADR: in caso di conflitto, vince l'ADR per tutto cio' che riguarda il confine architetturale (vedi [`SOURCE_AUTHORITY_MAP §4.1`](../planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md)).
 
 Il [`Final Design Freeze v0.9 §5 Vincolo architetturale non negoziabile`](../core/90-FINAL-DESIGN-FREEZE.md) recepisce questo ADR come baseline di prodotto: qualunque proposta di introdurre dipendenze runtime `Game ← HTTP ← Game-Database` va trattata come ADR separato, non come patch di design.
+
+## Changelog
+
+| Data       | Modifica                                                                                                                                                                                                                                                                                                                                                                      |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-04-14 | ADR creato. Approccio A (doc + port fix + env var stub) accettato. Scaffold client HTTP (Alt B) implementato feature-flagged OFF.                                                                                                                                                                                                                                             |
+| 2026-04-16 | Alt B: endpoint `GET /api/traits/glossary` implementato in Game-Database. Schema condiviso `glossary.schema.json` aggiunto a `@game/contracts` e copiato in Game-Database. Import pipeline ottimizzato con batch Prisma `$transaction` + metriche. Fix conflitto porta Postgres (Game-Database docker-compose: host 5432→5433). `.env.example` aggiornati in entrambi i repo. |

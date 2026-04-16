@@ -866,6 +866,25 @@ function createApp(options = {}) {
   app.get('/api/v1/catalog/pools', sendCatalogPools);
   app.get('/api/catalog/pools', sendCatalogPools);
 
+  const catalogInvalidateToken = process.env.CATALOG_INVALIDATE_TOKEN || '';
+  app.post('/api/catalog/invalidate', async (req, res) => {
+    if (!catalogInvalidateToken) {
+      return res.status(403).json({ error: 'CATALOG_INVALIDATE_TOKEN not configured' });
+    }
+    const auth = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
+    if (auth !== catalogInvalidateToken) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+    try {
+      if (catalogService && typeof catalogService.reload === 'function') {
+        await catalogService.reload();
+      }
+      return res.json({ ok: true, message: 'Catalog cache invalidated' });
+    } catch (error) {
+      return res.status(500).json({ error: error.message || 'Invalidation failed' });
+    }
+  });
+
   async function close() {
     if (generationOrchestrator && typeof generationOrchestrator.close === 'function') {
       await generationOrchestrator.close();
