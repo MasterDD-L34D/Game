@@ -209,4 +209,73 @@ round (machine)
 
 ### Lungo termine (architettura)
 
-8. **X2 → X1 → X3** — migrazione progressiva a xstate (richiede approvazione dipendenza npm)
+8. **X2 → X1 → X3** — migrazione progressiva a xstate ✅ COMPLETATO
+
+---
+
+## Round 2 — Deep Dive: OpenRA, bevy, ink, langium
+
+Analisi approfondita di 4 repo aggiuntivi. Pattern estratti con effort e priorita.
+
+### Da OpenRA/OpenRA (16.6k stars, GPL-3.0)
+
+| #   | Pattern                                                        | Effort | Priorita |
+| --- | -------------------------------------------------------------- | ------ | -------- |
+| O1  | Template inheritance YAML (`^Abstract`, `Inherits:`, `-Trait`) | 2d     | Media    |
+| O2  | Pack manifest (`pack_manifest.yaml`) per content isolation     | 1d     | Alta     |
+| O3  | Auto-generated trait docs da YAML (`gen_trait_docs.py`)        | 0.5d   | Alta     |
+
+**O1 — Template Inheritance**: trait_mechanics.yaml supporta `inherits:` per condividere baseline tra trait della stessa classe. `_defaults:` sezione per offensive/defensive/hybrid/mobility/utility. `hydration.py` risolve merge depth-first.
+
+**O2 — Pack Manifest**: `pack_manifest.yaml` alla root del pack lista tutti i file dati. Validator legge manifest, non glob — cattura drift. Rimuove accoppiamento implicito.
+
+**O3 — Auto-Generated Trait Docs**: script Python `gen_trait_docs.py` legge `trait_mechanics.yaml`, emette Markdown con tabella per trait (name, class, mods, resistances, abilities). Output in `docs/generated/trait-reference.md`. Wire in `npm run sync:evo-pack`.
+
+### Da bevyengine/bevy (45.6k stars, Apache-2.0)
+
+| #   | Pattern                                                | Effort | Priorita |
+| --- | ------------------------------------------------------ | ------ | -------- |
+| V1  | Plugin `register(app)` per modularita servizi          | 2d     | Media    |
+| V2  | Actor bundle schema (JSON Schema per actor validation) | 1d     | Media    |
+| V3  | Phase pipeline con run conditions                      | 3d     | Bassa    |
+
+**V1 — Plugin Registration**: ogni servizio esporta `register(app)` che auto-registra route, middleware, state. `index.js` li carica in loop. Disaccoppia wiring.
+
+**V2 — Actor Bundle Schema**: `actor_bundle.schema.json` in contracts che valida {base_stats, job_slot, trait_slots, temperament} su `/start`. Garantisce actor completi.
+
+**V3 — Phase Pipeline**: round orchestrator come array di {phase, systems[], runCondition}. Gia coperto da X1 (xstate statechart).
+
+### Da inkle/ink (4.7k stars, MIT)
+
+| #   | Pattern                                             | Effort | Priorita |
+| --- | --------------------------------------------------- | ------ | -------- |
+| I1  | Briefing/debrief narrativo con inkjs                | 3d     | Media    |
+| I2  | External functions binding (VC scores, trait names) | incl.  | Media    |
+| I3  | Variable observation per combat modifiers           | incl.  | Bassa    |
+
+**I1 — Narrative Service**: `npm install inkjs` (zero deps). Nuovo `services/narrative/`. Endpoints `/api/v1/narrative/briefing/:missionId`, `/api/v1/narrative/debrief/:sessionId`. Knots = missioni, stitches = fasi tattiche.
+
+**I2 — External Functions**: `story.BindExternalFunction("getVCScore", ...)` per leggere dati sessione viva. Tags `# speaker:commander` per UI rendering.
+
+### Da eclipse-langium/langium (991 stars, MIT)
+
+| #   | Pattern                                                     | Effort | Priorita          |
+| --- | ----------------------------------------------------------- | ------ | ----------------- |
+| L1  | YAML-to-multi-target codegen (alternativa pragmatica a DSL) | 2d     | Alta              |
+| L2  | DSL completo con LSP (Langium)                              | 2-3w   | Bassa (prematura) |
+
+**L1 — Codegen da YAML**: script che genera TS types + Python dataclasses + JSON Schema da `trait_mechanics.yaml`. Elimina drift manuale tra 4 sources. ROI immediato.
+
+**L2 — DSL Langium**: grammatica + parser + LSP + Monaco per Trait Editor. ROI solo a 80+ trait. Prematura ora.
+
+### Roadmap Round 2
+
+**Quick wins (questa sessione)**:
+
+1. **O3** — Auto-generated trait docs (0.5d)
+2. **O2** — Pack manifest (1d)
+3. **L1** — YAML codegen multi-target (2d)
+
+**Prossimo sprint**: 4. **I1+I2** — Narrative service inkjs (3d) 5. **O1** — Template inheritance YAML (2d) 6. **V1** — Plugin registration (2d)
+
+**Lungo termine**: 7. **V2** — Actor bundle schema 8. **L2** — DSL Langium (quando trait > 80)
