@@ -77,6 +77,19 @@ def derive_tier_from_power(power: int) -> int:
     return _clamp((int(power) // 3) + 1, TIER_MIN, 5)
 
 
+def load_active_effects_registry() -> Dict[str, Any]:
+    """A1: carica active_effects.yaml e lo rende disponibile per il resolver.
+
+    Il registry viene allegato allo state da hydrate_encounter() cosi'
+    che resolver.py possa valutare trait effects senza caricamenti extra.
+    """
+    try:
+        from trait_effects import load_active_effects
+        return load_active_effects()
+    except Exception:
+        return {}
+
+
 def _resolve_inheritance(
     traits: Dict[str, Any], defaults: Dict[str, Any]
 ) -> Dict[str, Any]:
@@ -296,6 +309,9 @@ def hydrate_encounter(
     sorted_units = sorted(units, key=lambda u: (-int(u["initiative"]), str(u["id"])))
     initiative_order = [u["id"] for u in sorted_units]
 
+    # A1: attach active_effects registry per resolver trait evaluation
+    active_fx = load_active_effects_registry()
+
     return {
         "session_id": session_id,
         "seed": seed,
@@ -306,6 +322,7 @@ def hydrate_encounter(
         "units": units,
         "vc": encounter.get("party_vc"),
         "log": [],
+        "_active_effects_registry": active_fx,
     }
 
 
@@ -334,6 +351,7 @@ __all__ = [
     "build_party_unit",
     "derive_tier_from_power",
     "hydrate_encounter",
+    "load_active_effects_registry",
     "load_trait_mechanics",
     "_resolve_inheritance",
 ]

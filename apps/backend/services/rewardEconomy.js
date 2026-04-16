@@ -1,0 +1,142 @@
+// C1+C2+C3: Reward economy — PE/PI/Seed generation and conversion.
+//
+// PE = Progression Experience (earned per session from VC performance)
+// PI = Build Investment (converted from PE at checkpoints, 5:1 ratio)
+// Seed = Growth/breeding resource (from mating, harvester job, special events)
+//
+// Fonte: Final Design Freeze v0.9 §19
+
+'use strict';
+
+// PE generation base values per encounter difficulty
+const PE_BASE_BY_DIFFICULTY = {
+  tutorial: 3,
+  standard: 5,
+  elite: 8,
+  boss: 12,
+};
+
+// VC performance bonus thresholds
+const VC_BONUS_THRESHOLDS = [
+  { min: 0.7, bonus: 3, label: 'eccellente' },
+  { min: 0.5, bonus: 2, label: 'buono' },
+  { min: 0.3, bonus: 1, label: 'sufficiente' },
+];
+
+// PE→PI conversion ratio (§19.2)
+const PE_PER_PI = 5;
+
+/**
+ * C1: Calcola PE guadagnati da una sessione.
+ *
+ * @param {object} vcSnapshot — output di buildVcSnapshot()
+ * @param {object} encounterData — { difficulty, biome_id, ... }
+ * @returns {{ per_actor: Record<string, {pe_base, pe_bonus, pe_total, bonus_reason}>, session_total }}
+ */
+function computeSessionPE(vcSnapshot, encounterData = {}) {
+  const difficulty = encounterData.difficulty || 'standard';
+  const peBase = PE_BASE_BY_DIFFICULTY[difficulty] || PE_BASE_BY_DIFFICULTY.standard;
+  const perActor = {};
+  let sessionTotal = 0;
+
+  for (const [unitId, actorVc] of Object.entries(vcSnapshot.per_actor || {})) {
+    const indices = actorVc.aggregate_indices || {};
+    // Average of non-null indices as overall performance score
+    const values = Object.values(indices).filter((v) => v !== null && typeof v === 'number');
+    const avgPerf = values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0;
+
+    let peBonus = 0;
+    let bonusReason = 'nessun bonus';
+    for (const threshold of VC_BONUS_THRESHOLDS) {
+      if (avgPerf >= threshold.min) {
+        peBonus = threshold.bonus;
+        bonusReason = threshold.label;
+        break;
+      }
+    }
+
+    // Ennea trigger bonus: +1 PE per archetype triggered
+    const enneaCount = (actorVc.ennea_archetypes || []).length;
+    const enneaBonus = Math.min(enneaCount, 2); // max +2 from ennea
+
+    const peTotal = peBase + peBonus + enneaBonus;
+    perActor[unitId] = {
+      pe_base: peBase,
+      pe_vc_bonus: peBonus,
+      pe_ennea_bonus: enneaBonus,
+      pe_total: peTotal,
+      vc_performance: Math.round(avgPerf * 100) / 100,
+      bonus_reason: bonusReason,
+    };
+    sessionTotal += peTotal;
+  }
+
+  return { per_actor: perActor, session_total: sessionTotal };
+}
+
+/**
+ * C2: Converte PE in PI con ratio 5:1.
+ *
+ * @param {number} peBalance — PE accumulati
+ * @returns {{ pi_gained: number, pe_remaining: number }}
+ */
+function convertPE(peBalance) {
+  const piGained = Math.floor(peBalance / PE_PER_PI);
+  const peRemaining = peBalance % PE_PER_PI;
+  return { pi_gained: piGained, pe_remaining: peRemaining };
+}
+
+/**
+ * C3: Assembla debrief summary completo per fine sessione.
+ *
+ * @param {object} session — session state
+ * @param {object} vcSnapshot — VC snapshot
+ * @param {object} peResult — output di computeSessionPE()
+ * @param {object} pfSession — output di computePfSession() per actor (opzionale)
+ * @returns {object} debrief payload
+ */
+function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
+  const conversion = convertPE(peResult.session_total);
+
+  return {
+    session_id: session.session_id,
+    turns_played: vcSnapshot.turns_played || 0,
+    // Economy
+    economy: {
+      pe_earned: peResult.per_actor,
+      pe_session_total: peResult.session_total,
+      pi_converted: conversion.pi_gained,
+      pe_remaining: conversion.pe_remaining,
+      seed_earned: 0, // Seed from mating/harvester — wired in D2
+    },
+    // VC performance
+    vc_summary: {
+      per_actor: Object.fromEntries(
+        Object.entries(vcSnapshot.per_actor || {}).map(([uid, vc]) => [
+          uid,
+          {
+            aggregate_indices: vc.aggregate_indices,
+            mbti_type: vc.mbti_type,
+            ennea_archetypes: vc.ennea_archetypes,
+          },
+        ]),
+      ),
+    },
+    // Personality projection
+    pf_session: pfSession,
+    // Combat stats
+    combat: {
+      total_events: (session.events || []).length,
+      kills: Object.values(session.damage_taken || {}).filter((v) => v <= 0).length,
+    },
+  };
+}
+
+module.exports = {
+  PE_BASE_BY_DIFFICULTY,
+  PE_PER_PI,
+  VC_BONUS_THRESHOLDS,
+  computeSessionPE,
+  convertPE,
+  buildDebriefSummary,
+};

@@ -141,13 +141,21 @@ function timestampStamp(date) {
 }
 
 function publicSessionView(session) {
+  // A2: expose PP/SG/surge_ready per unit for UI consumption
+  const unitsWithGauges = (session.units || []).map((u) => ({
+    ...u,
+    pp: u.pp || 0,
+    sg: Math.floor((u.stress || 0) * 100),
+    surge_ready: Math.floor((u.stress || 0) * 100) >= 75,
+    pp_tier: (u.pp || 0) >= 10 ? 3 : (u.pp || 0) >= 6 ? 2 : (u.pp || 0) >= 3 ? 1 : 0,
+  }));
   return {
     session_id: session.session_id,
     turn: session.turn,
     active_unit: session.active_unit,
     turn_order: session.turn_order || [],
     turn_index: session.turn_index || 0,
-    units: session.units,
+    units: unitsWithGauges,
     grid: session.grid,
     grid_size: session.grid.width,
     log_events_count: session.events.length,
