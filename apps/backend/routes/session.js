@@ -806,11 +806,24 @@ function createSessionRouter(options = {}) {
       if (activeSessionId === session.session_id) {
         activeSessionId = null;
       }
+      // C3: assemble debrief summary with PE/PI/VC/PF
+      let debrief = null;
+      try {
+        const vcSnapshot = buildVcSnapshot(session, telemetryConfig);
+        const { computeSessionPE, buildDebriefSummary } = require('../services/rewardEconomy');
+        const peResult = computeSessionPE(vcSnapshot, {
+          difficulty: session.difficulty || 'standard',
+        });
+        debrief = buildDebriefSummary(session, vcSnapshot, peResult);
+      } catch {
+        // debrief is best-effort — don't block session end
+      }
       res.json({
         session_id: session.session_id,
         finalized: true,
         log_file: logFile,
         events_count: eventsCount,
+        debrief,
       });
     } catch (err) {
       next(err);

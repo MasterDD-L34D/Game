@@ -52,14 +52,24 @@ const narrativePlugin = {
   },
 };
 
+const metaPlugin = {
+  name: 'meta',
+  register(app) {
+    const { createMetaRouter } = require('../routes/meta');
+    app.use('/api/v1/meta', createMetaRouter());
+    app.use('/api/meta', createMetaRouter());
+  },
+};
+
 /**
  * Lista plugin built-in. Aggiungere nuovi plugin qui.
  * Ordine = ordine di registrazione.
  */
-const BUILTIN_PLUGINS = [narrativePlugin];
+const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin];
 
 module.exports = {
   loadPlugins,
   BUILTIN_PLUGINS,
   narrativePlugin,
+  metaPlugin,
 };

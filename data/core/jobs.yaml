@@ -1,0 +1,338 @@
+# Job System — Evo-Tactics
+# 7 job con stats + 3 abilita ciascuno (2 R1 + 1 R2).
+# Fonte: Final Design Freeze v0.9 §11
+#
+# Ogni ability segue lo schema active_effects: ability_id, name_it,
+# cost_ap, effect_type, target, durata, costo PI per unlock.
+#
+# Regola di design (§11.1): ogni job ha 1 fantasy flavor, 2 R1 unlock,
+# 1 R2 unlock, clear PI costs, PT/PP/SG usage dichiarato.
+
+version: "0.1.0"
+
+jobs:
+  skirmisher:
+    label: "Schermidore"
+    description_it: "DPS mobile, posizionamento aggressivo. Favorisce combo PP e kiting."
+    fantasy_flavor: "Lama che danza tra le ombre del campo di battaglia."
+    initiative: 15
+    attack_range: 2
+    resource_usage: { primary: PP, secondary: PT }
+    abilities:
+      unlock_r1_1:
+        ability_id: dash_strike
+        name_it: "Assalto Fulmineo"
+        description_it: "Muove di 2 celle e attacca. Bonus +1 attack_mod se bersaglio non adiacente a inizio turno."
+        cost_ap: 2
+        cost_pi: 3
+        effect_type: move_attack
+        move_distance: 2
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_condition: "target_not_adjacent"
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: evasive_maneuver
+        name_it: "Manovra Evasiva"
+        description_it: "Dopo un attacco, muove di 1 cella senza provocare reazioni. +1 defense_mod per 1 turno."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: attack_move
+        move_distance: 1
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 1
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: blade_flurry
+        name_it: "Turbine di Lame"
+        description_it: "3 attacchi rapidi a -1 damage_step ciascuno. Consuma PP >= 6 (Tier 2). Ogni hit genera +1 PP."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pp: 6
+        effect_type: multi_attack
+        attack_count: 3
+        damage_step_mod: -1
+        pp_per_hit: 1
+        target: enemy
+        rank: 2
+
+  vanguard:
+    label: "Avanguardia"
+    description_it: "Iniziatore, tank di prima linea. Attira aggressione, protegge alleati."
+    fantasy_flavor: "Muro vivente che si frappone tra il caos e la squadra."
+    initiative: 8
+    attack_range: 1
+    resource_usage: { primary: PT, secondary: SG }
+    abilities:
+      unlock_r1_1:
+        ability_id: shield_bash
+        name_it: "Colpo di Scudo"
+        description_it: "Attacco che infligge sbilanciato (1 turno) e spinge il target di 1 cella."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: attack_push
+        push_distance: 1
+        apply_status: { status_id: sbilanciato, duration: 1, intensity: 1 }
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: taunt
+        name_it: "Provocazione"
+        description_it: "Forza un nemico adiacente ad attaccare questo turno. +2 defense_mod per 1 turno."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: aggro_pull
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: fortify
+        name_it: "Fortificazione"
+        description_it: "Consumo 3 PT. +3 armor e +2 defense_mod per 2 turni. Non puo muoversi."
+        cost_ap: 1
+        cost_pi: 8
+        cost_pt: 3
+        effect_type: buff
+        buff_stat: armor
+        buff_amount: 3
+        buff_duration: 2
+        buff_stat_2: defense_mod
+        buff_amount_2: 2
+        immobilize: true
+        target: self
+        rank: 2
+
+  warden:
+    label: "Guardiano"
+    description_it: "Controllore/difensore. Zona di controllo, debuff nemici, protezione alleati."
+    fantasy_flavor: "Sentinella che intesse vincoli di forza tra le celle della griglia."
+    initiative: 9
+    attack_range: 2
+    resource_usage: { primary: PT, secondary: PP }
+    abilities:
+      unlock_r1_1:
+        ability_id: binding_field
+        name_it: "Campo Vincolante"
+        description_it: "Crea zona 3x3 centrata. Nemici dentro: -1 movement per 2 turni."
+        cost_ap: 2
+        cost_pi: 3
+        effect_type: aoe_debuff
+        aoe_size: 3
+        debuff_stat: movement
+        debuff_amount: -1
+        debuff_duration: 2
+        target: area
+        rank: 1
+      unlock_r1_2:
+        ability_id: intercept
+        name_it: "Intercettazione"
+        description_it: "Reazione: quando un alleato adiacente viene attaccato, subisci il danno al suo posto."
+        cost_ap: 0
+        cost_pi: 3
+        effect_type: reaction
+        trigger: ally_attacked_adjacent
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: sanctuary
+        name_it: "Santuario"
+        description_it: "Zona 2x2. Alleati dentro: +2 defense_mod, -0.05 stress/turno per 3 turni. Costa 4 PT."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pt: 4
+        effect_type: aoe_buff
+        aoe_size: 2
+        buff_stat: defense_mod
+        buff_amount: 2
+        stress_reduction: 0.05
+        buff_duration: 3
+        target: area
+        rank: 2
+
+  artificer:
+    label: "Artefice"
+    description_it: "Supporto/utilita. Buff alleati, debuff nemici, micro-gestione risorse."
+    fantasy_flavor: "Tessitore di sinergie biologiche che amplifica il potenziale della squadra."
+    initiative: 11
+    attack_range: 2
+    resource_usage: { primary: PP, secondary: Seed }
+    abilities:
+      unlock_r1_1:
+        ability_id: catalyst_pulse
+        name_it: "Impulso Catalizzante"
+        description_it: "Buff alleato a range 2: +1 attack_mod e +1 damage_step per 2 turni."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_stat_2: damage_step
+        buff_amount_2: 1
+        buff_duration: 2
+        target: ally
+        rank: 1
+      unlock_r1_2:
+        ability_id: disrupt_field
+        name_it: "Campo Destabilizzante"
+        description_it: "Debuff nemico a range 2: -1 defense_mod per 2 turni. Se target ha status, +1 turno durata."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: debuff
+        debuff_stat: defense_mod
+        debuff_amount: -1
+        debuff_duration: 2
+        extend_status_if_present: 1
+        target: enemy
+        rank: 1
+      unlock_r2:
+        ability_id: resonance_amplifier
+        name_it: "Amplificatore di Risonanza"
+        description_it: "Tutti gli alleati in range 3: +2 PP istantanei. Consuma 4 PP propri."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pp: 4
+        effect_type: team_buff
+        pp_grant: 2
+        range: 3
+        target: all_allies
+        rank: 2
+
+  invoker:
+    label: "Invocatore"
+    description_it: "Blaster a lungo raggio. Danno direzionale, controllo area."
+    fantasy_flavor: "Canalizzatore di energie primordiali che piega lo spazio a distanza."
+    initiative: 12
+    attack_range: 3
+    resource_usage: { primary: SG, secondary: PP }
+    abilities:
+      unlock_r1_1:
+        ability_id: focused_blast
+        name_it: "Esplosione Focalizzata"
+        description_it: "Attacco a range 3 con +2 damage_step. Se MoS >= 10, applica disorient (1 turno)."
+        cost_ap: 2
+        cost_pi: 3
+        effect_type: ranged_attack
+        damage_step_mod: 2
+        conditional_status: { condition: "mos >= 10", status_id: disorient, duration: 1 }
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: energy_barrier
+        name_it: "Barriera Energetica"
+        description_it: "Scudo su se stesso: assorbe i prossimi 8 HP di danno. Dura 2 turni o fino a esaurimento."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: shield
+        shield_hp: 8
+        shield_duration: 2
+        target: self
+        rank: 1
+      unlock_r2:
+        ability_id: cataclysm
+        name_it: "Cataclisma"
+        description_it: "AoE 2x2 a range 3. 2d8+3 danno. Richiede SG >= 75 (Surge Burst). Reset stress a 0.25."
+        cost_ap: 2
+        cost_pi: 8
+        cost_sg: 75
+        effect_type: surge_aoe
+        damage_dice: { count: 2, sides: 8, modifier: 3 }
+        aoe_size: 2
+        range: 3
+        stress_reset: 0.25
+        target: area
+        rank: 2
+
+  ranger:
+    label: "Ricognitore"
+    description_it: "Range massimo, mobilita alta. Scouting, kiting, mordi e fuggi."
+    fantasy_flavor: "Occhio vigile che colpisce da dove nessuno guarda."
+    initiative: 14
+    attack_range: 3
+    resource_usage: { primary: PP, secondary: PT }
+    abilities:
+      unlock_r1_1:
+        ability_id: mark_target
+        name_it: "Segna Bersaglio"
+        description_it: "Marca un nemico: tutti gli alleati hanno +1 attack_mod contro di lui per 2 turni."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: debuff
+        debuff_stat: marked
+        debuff_duration: 2
+        team_bonus: { stat: attack_mod, amount: 1 }
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: overwatch_shot
+        name_it: "Tiro di Sorveglianza"
+        description_it: "Reazione: attacca automaticamente il primo nemico che si muove in range. -1 damage_step."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: reaction
+        trigger: enemy_moves_in_range
+        damage_step_mod: -1
+        target: enemy
+        rank: 1
+      unlock_r2:
+        ability_id: kill_shot
+        name_it: "Colpo Letale"
+        description_it: "Attacco singolo con +3 damage_step. Se target HP < 30%, danno raddoppiato. Consuma 6 PP."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pp: 6
+        effect_type: execution_attack
+        damage_step_mod: 3
+        execute_threshold_hp_pct: 0.3
+        execute_damage_multiplier: 2
+        target: enemy
+        rank: 2
+
+  harvester:
+    label: "Raccoglitore"
+    description_it: "Risorsa/crescita. Bridge meta-economy, genera seed, supporto passivo."
+    fantasy_flavor: "Custode del ciclo vitale che trae nutrimento dal caos del campo."
+    initiative: 8
+    attack_range: 1
+    resource_usage: { primary: Seed, secondary: PT }
+    abilities:
+      unlock_r1_1:
+        ability_id: essence_drain
+        name_it: "Drenaggio d'Essenza"
+        description_it: "Attacco mischia che cura se stesso per 50% del danno inflitto. Genera +1 Seed."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: drain_attack
+        lifesteal_pct: 50
+        seed_gain: 1
+        target: enemy
+        rank: 1
+      unlock_r1_2:
+        ability_id: growth_spore
+        name_it: "Spora di Crescita"
+        description_it: "Cura alleato a range 2 per 1d6+2 HP. Se l'alleato e in bleeding, rimuovi bleeding."
+        cost_ap: 1
+        cost_pi: 3
+        effect_type: heal
+        heal_dice: { count: 1, sides: 6, modifier: 2 }
+        remove_status: bleeding
+        range: 2
+        target: ally
+        rank: 1
+      unlock_r2:
+        ability_id: symbiotic_bloom
+        name_it: "Fioritura Simbiotica"
+        description_it: "Tutti gli alleati in range 2: cura 2d4 HP + genera 1 Seed ciascuno. Consuma 4 PT."
+        cost_ap: 2
+        cost_pi: 8
+        cost_pt: 4
+        effect_type: team_heal
+        heal_dice: { count: 2, sides: 4, modifier: 0 }
+        seed_gain: 1
+        range: 2
+        target: all_allies
+        rank: 2

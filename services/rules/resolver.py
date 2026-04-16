@@ -1174,7 +1174,12 @@ def predict_combat(
             mos = max(0, total - cd)
             total_mos += mos
             step_count = compute_step_count(mos, trait_step)
-            raw = roll_damage_dice(_simple_rng, dice, step_count)
+            base_roll = roll_damage_dice(dice, _simple_rng)
+            step_bonus = compute_step_flat_bonus(
+                int(dice.get("count", 1)), int(dice.get("sides", 6)),
+                int(dice.get("modifier", 0)), step_count,
+            )
+            raw = base_roll + step_bonus
             after_resist = apply_resistance(raw, resistances, channel)
             final = apply_armor(after_resist, target_armor)
             total_damage += final
