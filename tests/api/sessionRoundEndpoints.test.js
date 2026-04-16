@@ -64,7 +64,9 @@ async function startSession(app) {
 // Feature flag guard — 503 when off
 // ─────────────────────────────────────────────────────────────────
 
-test('round endpoints return 503 when USE_ROUND_MODEL is unset', async (t) => {
+test('round endpoints are ENABLED by default when USE_ROUND_MODEL is unset (M16 flip)', async (t) => {
+  // M16: default flippato a true. Endpoint round-based attivi quando
+  // USE_ROUND_MODEL e' unset (o vuoto). 503 solo con explicit 'false'.
   const restore = withRoundFlag('');
   t.after(restore);
   const { app, close } = createApp({ databasePath: null });
@@ -72,19 +74,20 @@ test('round endpoints return 503 when USE_ROUND_MODEL is unset', async (t) => {
     if (typeof close === 'function') await close().catch(() => {});
   });
 
+  // Endpoint attivi (non 503) — riceveranno 400 o 404 per session
+  // mancante, non 503 (flag non e' off).
   for (const path of [
     '/api/session/declare-intent',
     '/api/session/commit-round',
     '/api/session/resolve-round',
   ]) {
     const res = await request(app).post(path).send({ session_id: 'x' });
-    assert.equal(res.status, 503, `${path} should 503`);
-    assert.equal(res.body.error, 'round_model_disabled');
+    assert.notEqual(res.status, 503, `${path} should NOT be 503 with default flag`);
   }
   const clearRes = await request(app)
     .post('/api/session/clear-intent/p1')
     .send({ session_id: 'x' });
-  assert.equal(clearRes.status, 503);
+  assert.notEqual(clearRes.status, 503);
 });
 
 test('round endpoints return 503 when USE_ROUND_MODEL=false explicitly', async (t) => {

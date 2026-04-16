@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Simulazione completa – Pipeline SPECIE+BIOMI “Frattura Abissale Sinaptica”
 
 Pipeline di riferimento: `docs/pipelines/PIPELINE_SPECIES_BIOMES_Frattura_Abissale_Sinaptica.md` (10 step standard).
@@ -38,7 +39,7 @@ Pipeline di riferimento: `docs/pipelines/PIPELINE_SPECIES_BIOMES_Frattura_Abissa
 4. **Trait ambientali e correnti elettroluminescenti** (trait-curator)
    - Agente: trait-curator
    - Produce: set di trait per livelli e correnti (slug/glossario); aggiornamento draft di `data/core/traits/biome_pools.json` con pool per cresta/soglia/frattura; mapping in `data/core/traits/glossary.json`; eventuali nuovi slug in `data/traits/index.json`; note su affinity in `data/traits/species_affinity.json`.
-   - Legge: data/core/traits/biome_pools.json; data/core/traits/glossary.json; data/traits/index.json; data/traits/species_affinity.json; docs/trait_reference_manual.md; Trait Editor/docs/howto-author-trait.md; output step 3.
+   - Legge: data/core/traits/biome_pools.json; data/core/traits/glossary.json; data/traits/index.json; data/traits/species_affinity.json; docs/trait_reference_manual.md; apps/trait-editor/docs/howto-author-trait.md; output step 3.
    - Scrive (solo simulato): patch proposte per pool/glossario e memo sui trait temporanei.
    - Dipendenze: usa struttura bioma e pool plan dello step 3.
 

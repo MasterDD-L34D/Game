@@ -61,7 +61,7 @@ Obiettivi principali:
   - docs/
   - data/
   - biomes/
-  - Trait Editor/
+  - apps/trait-editor/
   - tools/
   - assets/
 - progettare alcune pipeline di refactor (per blocchi) e poi eseguirle in STRICT MODE:

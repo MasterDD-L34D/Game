@@ -44,10 +44,16 @@
     "docs:migrate:dry": "python tools/docs_governance_migrator.py generate-frontmatter --dry-run",
     "docs:migrate:report": "python tools/docs_governance_migrator.py report"
   },
+  "lint-staged": {
+    "*.{js,cjs,mjs,ts,tsx,jsx,json,md,yml,yaml,css,html}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
     "ajv-cli": "^5.0.0",
     "husky": "^9.1.6",
     "js-yaml": "^4.1.0",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.3.3",
     "supertest": "^6.3.4",
     "tsx": "^4.19.0",

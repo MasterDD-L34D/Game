@@ -13,11 +13,11 @@ review_cycle_days: 14
 
 ## Panoramica
 
-Il pacchetto **Trait Editor/** mette a disposizione un editor standalone per la manutenzione del catalogo trait senza dover avviare l'intera webapp di gioco. L'obiettivo è velocizzare le iterazioni sul dataset, sfruttando un'interfaccia dedicata ma coerente con i modelli descritti nello [schema e dataset dei trait](../README_TRAITS.md). Il capitolo estende il workflow operativo presentato in [Workflow & strumenti](05-workflow-strumenti.md) con indicazioni specifiche per l'esecuzione e la sincronizzazione del pacchetto.
+Il pacchetto **apps/trait-editor/** mette a disposizione un editor standalone per la manutenzione del catalogo trait senza dover avviare l'intera webapp di gioco. L'obiettivo è velocizzare le iterazioni sul dataset, sfruttando un'interfaccia dedicata ma coerente con i modelli descritti nello [schema e dataset dei trait](../README_TRAITS.md). Il capitolo estende il workflow operativo presentato in [Workflow & strumenti](05-workflow-strumenti.md) con indicazioni specifiche per l'esecuzione e la sincronizzazione del pacchetto.
 
 ## Documentazione locale
 
-- Una copia curata dei capitoli essenziali è distribuita insieme al pacchetto nella cartella [`Trait Editor/docs/`](../../Trait Editor/docs/README.md).
+- Una copia curata dei capitoli essenziali è distribuita insieme al pacchetto nella cartella [`apps/trait-editor/docs/`](../../apps/trait-editor/docs/README.md).
 - Ogni file locale riporta il percorso d'origine (es. `docs/traits-manuale/05-workflow-strumenti.md`, `README_HOWTO_AUTHOR_TRAIT.md`) per facilitare i confronti.
 - Per mantenere sincronizzati i contenuti, confronta periodicamente i file con le rispettive controparti nel monorepo e aggiorna note o date di revisione in entrambi i percorsi.
 
@@ -52,7 +52,7 @@ Il pacchetto **Trait Editor/** mette a disposizione un editor standalone per la 
 
 ## Configurazione del datasource
 
-- L'editor legge i dati dei trait a partire dal servizio `TraitDataService` e dalle variabili `VITE_*` documentate in `Trait Editor/README.md`. Verificare il file prima di avviare l'applicazione.
+- L'editor legge i dati dei trait a partire dal servizio `TraitDataService` e dalle variabili `VITE_*` documentate in `apps/trait-editor/README.md`. Verificare il file prima di avviare l'applicazione.
 - Per sincronizzare il catalogo con i dati ufficiali, impostare le variabili d'ambiente prima di eseguire `npm run dev`/`npm run preview`:
   ```bash
   export VITE_TRAIT_DATA_SOURCE=remote
@@ -65,5 +65,5 @@ Il pacchetto **Trait Editor/** mette a disposizione un editor standalone per la 
 ## Risorse collegate
 
 - [Schema e dataset dei trait](../README_TRAITS.md)
-- [Pacchetto standalone Trait Editor](../../Trait Editor/README.md)
+- [Pacchetto standalone Trait Editor](../../apps/trait-editor/README.md)
 - [Checklist operative del workflow](05-workflow-strumenti.md)

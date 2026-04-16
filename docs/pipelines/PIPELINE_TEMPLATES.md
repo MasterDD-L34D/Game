@@ -190,7 +190,7 @@ Step ufficiali (eseguire in ordine):
 
 2. Proposta di normalizzazione e mapping slug
    - Agente: Trait Curator
-   - Input: Report audit (step 1); Trait Editor/docs/howto-author-trait.md; docs/trait_reference_manual.md
+   - Input: Report audit (step 1); apps/trait-editor/docs/howto-author-trait.md; docs/trait_reference_manual.md
    - Output: Piano mapping per slug e famiglie; Check-list per aggiornamenti glossario e locali
    - Rischio: Alto
 
@@ -305,7 +305,7 @@ Questa pipeline gestisce feature biologiche avanzate, in cui:
      - data/traits/index.json
      - data/traits/species_affinity.json
      - docs/trait_reference_manual.md
-     - Trait Editor/docs/howto-author-trait.md
+     - apps/trait-editor/docs/howto-author-trait.md
    - Output:
      - trait ambientali del bioma
      - nuovi trait / mapping slug

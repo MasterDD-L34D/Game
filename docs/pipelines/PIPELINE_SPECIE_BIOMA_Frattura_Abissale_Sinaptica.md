@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Pipeline SPECIE+BIOMI – Frattura Abissale Sinaptica
 
 1. Kickoff e vincoli cross-dataset
@@ -30,7 +31,7 @@ review_cycle_days: 14
 
 4. Definizione correnti elettroluminescenti e pool/trait ambientali
    - Agente: trait-curator
-   - Input (file reali): data/core/traits/biome_pools.json; data/core/traits/glossary.json; data/traits/index.json; data/traits/species_affinity.json; docs/trait_reference_manual.md; Trait Editor/docs/howto-author-trait.md
+   - Input (file reali): data/core/traits/biome_pools.json; data/core/traits/glossary.json; data/traits/index.json; data/traits/species_affinity.json; docs/trait_reference_manual.md; apps/trait-editor/docs/howto-author-trait.md
    - Output: elenco trait ambientali per ciascun livello (correnti temporanee, effetti su slot), proposte di nuovi trait o mapping slug, draft aggiornamento pool e glossary
    - Rischio: Alto
 

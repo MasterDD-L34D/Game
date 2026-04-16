@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # PIPELINE_TRAIT_STANDARD.md
 
 Pipeline Ufficiale di Curatela Trait – Evo Tactics
@@ -48,7 +49,7 @@ di qualsiasi famiglia (locomotivo, difensivo, cognitivo, ambientale, ecc.).
 **Input:**
 
 - Report audit (step 1)
-- Trait Editor/docs/howto-author-trait.md
+- apps/trait-editor/docs/howto-author-trait.md
 - docs/trait_reference_manual.md
 
 **Output:**

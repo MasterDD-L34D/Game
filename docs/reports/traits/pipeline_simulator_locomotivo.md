@@ -19,7 +19,7 @@ Questa simulazione esegue virtualmente la pipeline «PIPELINE_TRAIT_REFACTOR» p
 
 2. **Proposta di normalizzazione e mapping slug**  
    - **Agente:** Trait Curator  
-   - **Output simulato:** piano di rename/mapping per slug e campi `famiglia_tipologia`, check-list per aggiornare glossario e locali. Basato sul report dello step 1, linee guida `Trait Editor/docs/howto-author-trait.md` e `docs/trait_reference_manual.md`.  
+   - **Output simulato:** piano di rename/mapping per slug e campi `famiglia_tipologia`, check-list per aggiornare glossario e locali. Basato sul report dello step 1, linee guida `apps/trait-editor/docs/howto-author-trait.md` e `docs/trait_reference_manual.md`.  
    - **Dipendenze:** richiede report dello step 1.
 
 3. **Consolidamento catalogo e draft di aggiornamento**  

@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Esecuzione Step 4 (Strict-Mode) – Frattura Abissale Sinaptica
 
 ## Titolo step
@@ -19,7 +20,7 @@ Trait ambientali e correnti elettroluminescenti – Agente previsto: trait-curat
 - `data/core/traits/biome_pools.json` per stato attuale dei pool ambientali.
 - `data/core/traits/glossary.json` e `docs/trait_reference_manual.md` per definizioni e convenzioni.
 - `data/traits/index.json` e `data/traits/species_affinity.json` per coerenza slug/affinity.
-- `Trait Editor/docs/howto-author-trait.md` per requisiti editoriali.
+- `apps/trait-editor/docs/howto-author-trait.md` per requisiti editoriali.
 - Output Step 3 (scheda bioma e piano pool per livello).
 
 ## Output attesi
