@@ -467,11 +467,46 @@ def begin_round(state: Mapping[str, Any]) -> Dict[str, Any]:
             unit["reaction_cooldown_remaining"] = cd - 1
     next_state["round_phase"] = PHASE_PLANNING
     next_state["pending_intents"] = []
+    # Timer planning phase: se planning_deadline_ms e' configurato nello
+    # state, begin_round registra il timestamp di inizio planning. Il
+    # caller (session engine) puo' usare planning_started_at per enforce
+    # il timeout e auto-committare quando scade. Il rules engine Python
+    # non fa enforcement diretto (e' il session engine Node che gestisce
+    # il timer via setTimeout / setInterval).
+    deadline = state.get("planning_deadline_ms")
+    if deadline is not None and int(deadline) > 0:
+        next_state["planning_deadline_ms"] = int(deadline)
+        import time
+
+        next_state["planning_started_at"] = int(time.time() * 1000)
     return {
         "next_state": next_state,
         "expired": expired_all,
         "bleeding_total": bleeding_total,
     }
+
+
+def is_planning_expired(state: Mapping[str, Any]) -> bool:
+    """Controlla se il timer della planning phase e' scaduto.
+
+    Ritorna True se:
+    - ``planning_deadline_ms`` e' presente e > 0
+    - ``planning_started_at`` e' presente
+    - il tempo trascorso supera ``planning_deadline_ms``
+
+    Il caller (session engine Node) usa questa funzione per decidere se
+    auto-committare il round quando il timer scade. Il rules engine
+    Python non auto-committa: e' responsabilita' del caller.
+    """
+
+    deadline = state.get("planning_deadline_ms")
+    started = state.get("planning_started_at")
+    if deadline is None or started is None:
+        return False
+    import time
+
+    now = int(time.time() * 1000)
+    return (now - int(started)) >= int(deadline)
 
 
 def declare_intent(
@@ -1418,6 +1453,7 @@ __all__ = [
     "compute_resolve_priority",
     "declare_intent",
     "declare_reaction",
+    "is_planning_expired",
     "load_action_speed_table",
     "preview_round",
     "reload_action_speed_table",
