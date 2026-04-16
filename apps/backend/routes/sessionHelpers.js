@@ -19,6 +19,7 @@ const {
 } = require('./sessionConstants');
 
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
+const { buildAtlasLive } = require('../services/atlasLive');
 
 function rollD20(rng) {
   return Math.floor(rng() * 20) + 1;
@@ -202,6 +203,12 @@ function publicSessionView(session) {
     surge_ready: Math.floor((u.stress || 0) * 100) >= 75,
     pp_tier: (u.pp || 0) >= 10 ? 3 : (u.pp || 0) >= 6 ? 2 : (u.pp || 0) >= 3 ? 1 : 0,
   }));
+  const pressure = Number.isFinite(Number(session.sistema_pressure))
+    ? Number(session.sistema_pressure)
+    : 0;
+  const tier = computeSistemaTier(pressure);
+  // Atlas live in-match telemetry (pressure player-side, momentum, warnings)
+  const atlas = buildAtlasLive(session);
   return {
     session_id: session.session_id,
     turn: session.turn,
@@ -212,6 +219,9 @@ function publicSessionView(session) {
     grid: session.grid,
     grid_size: session.grid.width,
     log_events_count: session.events.length,
+    sistema_pressure: pressure,
+    sistema_tier: tier,
+    atlas,
   };
 }
 
@@ -303,6 +313,33 @@ function facingFromMove(from, to) {
   return dy > 0 ? 'S' : 'N';
 }
 
+// Sistema Pressure — AI War "AI Progress" pattern.
+// Mappa pressure integer (0..100) → tier capabilities SIS.
+// Tiers hardcoded qui come fallback; il sorgente autoritativo e'
+// packs/evo_tactics_pack/data/balance/sistema_pressure.yaml (future wiring).
+const SISTEMA_PRESSURE_TIERS = [
+  { threshold: 0, label: 'Calm', intents_per_round: 1, reinforcement_budget: 0 },
+  { threshold: 25, label: 'Alert', intents_per_round: 2, reinforcement_budget: 1 },
+  { threshold: 50, label: 'Escalated', intents_per_round: 2, reinforcement_budget: 2 },
+  { threshold: 75, label: 'Critical', intents_per_round: 3, reinforcement_budget: 3 },
+  { threshold: 95, label: 'Apex', intents_per_round: 3, reinforcement_budget: 4 },
+];
+
+function computeSistemaTier(pressure) {
+  const p = Number.isFinite(Number(pressure)) ? Math.max(0, Math.min(100, Number(pressure))) : 0;
+  let tier = SISTEMA_PRESSURE_TIERS[0];
+  for (const t of SISTEMA_PRESSURE_TIERS) {
+    if (p >= t.threshold) tier = t;
+  }
+  return tier;
+}
+
+function applyPressureDelta(current, delta) {
+  const base = Number.isFinite(Number(current)) ? Number(current) : 0;
+  const d = Number.isFinite(Number(delta)) ? Number(delta) : 0;
+  return Math.max(0, Math.min(100, base + d));
+}
+
 module.exports = {
   rollD20,
   clampPosition,
@@ -320,4 +357,7 @@ module.exports = {
   isBackstab,
   facingFromMove,
   predictCombat,
+  computeSistemaTier,
+  applyPressureDelta,
+  SISTEMA_PRESSURE_TIERS,
 };

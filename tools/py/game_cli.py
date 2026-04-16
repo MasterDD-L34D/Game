@@ -12,6 +12,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
+from author_encounter import (
+    DEFAULT_OUTPUT_DIR as AUTHOR_ENCOUNTER_DEFAULT_DIR,
+    AuthoringError,
+    run_interactive as run_author_encounter,
+)
 from generate_encounter import generate as generate_encounter
 from investigate_sources import (
     InvestigationResult,
@@ -213,6 +218,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="Numero massimo di caratteri mostrati nella preview",
     )
 
+    author_parser = subparsers.add_parser(
+        "author-encounter",
+        help="Autore guidato di un encounter YAML (pattern Fallout Tactics: tool investment)",
+    )
+    author_parser.add_argument(
+        "--interactive",
+        action="store_true",
+        help="Modalita' interattiva (default se nessun altro input)",
+    )
+    author_parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Directory di output (default: docs/planning/encounters/)",
+    )
+
     return parser
 
 
@@ -238,6 +259,20 @@ def command_generate_encounter(args: argparse.Namespace) -> int:
 
 def command_validate_datasets(args: argparse.Namespace) -> int:
     return validate_datasets_main()
+
+
+def command_author_encounter(args: argparse.Namespace) -> int:
+    """Interactive encounter authoring (pattern Fallout Tactics postmortem)."""
+    output_dir = args.output_dir or AUTHOR_ENCOUNTER_DEFAULT_DIR
+    try:
+        run_author_encounter(output_dir=output_dir)
+    except AuthoringError as exc:
+        sys.stderr.write(f"[error] {exc}\n")
+        return 1
+    except KeyboardInterrupt:
+        sys.stderr.write("\n[cancelled]\n")
+        return 130
+    return 0
 
 
 def command_validate_ecosystem_pack(args: argparse.Namespace) -> int:
@@ -463,6 +498,8 @@ def main(argv: Optional[Any] = None) -> int:
         exit_code = command_validate_ecosystem_pack(args)
     elif args.command == "investigate":
         exit_code = command_investigate(args)
+    elif args.command == "author-encounter":
+        exit_code = command_author_encounter(args)
     else:  # pragma: no cover - dovrebbe essere inaccessibile
         parser.error(f"Comando sconosciuto: {args.command}")
 

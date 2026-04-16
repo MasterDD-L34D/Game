@@ -573,6 +573,10 @@ function createSessionRouter(options = {}) {
         // SPRINT_003 fase 1: fairness cap PT per-sessione.
         cap_pt_used: 0,
         cap_pt_max: fairnessConfig.cap_pt_max,
+        // AI War pattern (2026-04-17): single escalation dial 0..100.
+        // Gate SIS intent pool + reinforcement budget via computeSistemaTier().
+        // Updated da roundOrchestrator/session handlers su victory/KO events.
+        sistema_pressure: 0,
       };
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
