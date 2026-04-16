@@ -11,27 +11,115 @@ review_cycle_days: 90
 
 # Risorse esterne curate — Game Design Reference
 
-Indice filtrato di risorse esterne rilevanti per Evo-Tactics, estratto da [awesome-game-design](https://github.com/Roobyx/awesome-game-design) e integrato con fonti aggiuntive. Solo materiale con applicabilita diretta ai 6 pilastri di design.
+Indice filtrato di risorse esterne rilevanti per Evo-Tactics. Solo materiale con applicabilita diretta ai 6 pilastri di design o all'infrastruttura del progetto.
 
 > Ultima revisione: 2026-04-16. Prossima: entro 90 giorni o al cambio di pilastro.
 
 ---
 
-## A. Tool di bilanciamento
+## A. Repo open-source — DEEP DIVE (analisi approfondita raccomandata)
+
+Repo da studiare per pattern architetturali, non da adottare come dipendenze.
+
+| Repo                                                                        | Stars | Licenza    | Verdict   | Valore chiave per Evo-Tactics                                                                                                                                                               |
+| --------------------------------------------------------------------------- | ----: | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **[wesnoth/wesnoth](https://github.com/wesnoth/wesnoth)**                   |  6.6k | GPL-2.0    | DEEP DIVE | Gold standard tattico a turni. Separazione data/engine, AI composite (Lua-scriptable), 20 anni di balance iteration. `data/core/` + `src/ai/` sono reference diretti per P1/P5/P6.          |
+| **[boardgameio/boardgame.io](https://github.com/boardgameio/boardgame.io)** | 12.3k | MIT        | DEEP DIVE | Framework turn-based JS/TS. Round flow (`flow.ts`), server authority, MCTS AI bot. Pattern diretti per round orchestrator e session engine.                                                 |
+| **[statelyai/xstate](https://github.com/statelyai/xstate)**                 | 29.5k | MIT        | DEEP DIVE | Statechart + actor model per JS/TS. Modellare round orchestrator come hierarchical statechart. Actor model per Sistema. Visual editor per docs.                                             |
+| **[OpenRA/OpenRA](https://github.com/OpenRA/OpenRA)**                       | 16.6k | GPL-3.0    | DEEP DIVE | YAML-driven actor-trait composition. Engine/content boundary con mod SDK. Auto-generated trait docs. Pattern per data pipeline e ecosystem pack isolation.                                  |
+| **[bevyengine/bevy](https://github.com/bevyengine/bevy)**                   | 45.6k | Apache-2.0 | DEEP DIVE | ECS composition: Components as data, Systems as behavior, Bundles as archetypes. Required Components = mandatory trait slots. Plugin modularity per servizi.                                |
+| **[inkle/ink](https://github.com/inkle/ink)**                               |  4.7k | MIT        | DEEP DIVE | Standard narrativa branching. inkjs runtime per browser. Briefing/debrief, eventi testuali, scelte narrative. Colma gap narrativo reale nel progetto.                                       |
+| **[eclipse-langium/langium](https://github.com/eclipse-langium/langium)**   |   991 | MIT        | DEEP DIVE | Framework DSL TypeScript. Unificare trait_mechanics.yaml + Python + TS + JSON Schema in un'unica source of truth con LSP, validation, code generation. Investimento lungo ma trasformativo. |
+
+### Estraibili per repo (top 3)
+
+<details>
+<summary><b>wesnoth</b> — P1, P3, P5, P6</summary>
+
+1. **Separazione content/gameplay/balance**: `data/` (WML config) vs `src/` (engine). 20 anni di proof che data-driven scala.
+2. **AI composite pattern**: `src/ai/` con strategie composabili + Lua scripting per scenario-specific AI. Blueprint per Sistema.
+3. **Attack prediction transparency**: probabilita completa esposta al giocatore. Pattern per rendere d20 leggibile.
+
+</details>
+
+<details>
+<summary><b>boardgame.io</b> — P1, P5, P6</summary>
+
+1. **Round/phase/turn flow**: `flow.ts` + `turn-order.ts` — separazione fasi, validazione mosse, turni. Pattern per roundOrchestrator.
+2. **Server-authoritative state + event log**: reducer deterministico + time-travel replay. Per VC scoring replay.
+3. **AI bot interface**: `src/ai/` MCTS + enumerate-moves. Clean interface per Sistema policy engine.
+
+</details>
+
+<details>
+<summary><b>xstate</b> — P1, P5</summary>
+
+1. **Round orchestrator come statechart**: planning → execution → resolution → cleanup come hierarchical state machine.
+2. **Actor model per Sistema**: Sistema come actor con propria FSM. Comunicazione via eventi.
+3. **Guard-based move validation**: pattern per validare mosse prima delle transizioni di stato.
+
+</details>
+
+<details>
+<summary><b>OpenRA</b> — P1, P3</summary>
+
+1. **YAML actor-trait composition**: actors assemblati da definizioni dichiarative YAML. Applicabile a trait hydration.
+2. **Engine/content boundary + Mod SDK**: engine pubblica API stabile, mod overridano regole senza toccare engine.
+3. **Auto-generated trait docs**: documentazione generata automaticamente da annotazioni codice.
+
+</details>
+
+<details>
+<summary><b>bevy</b> — P2, P3</summary>
+
+1. **ECS composition**: Species = archetype bundle, Job = system set. Required Components = mandatory trait slots.
+2. **Plugin modularity**: ogni feature e' plugin indipendente. Pattern per modularizzare combat/generation/scoring.
+3. **System scheduling + run conditions**: ordinamento esplicito, esecuzione parallela. Per sequencing fasi round.
+
+</details>
+
+<details>
+<summary><b>ink</b> — narrativa</summary>
+
+1. **Branching syntax** (knots/stitches/weave) per briefing/debrief/flavour text.
+2. **inkjs runtime** per playback narrativo nel browser (Mission Console).
+3. **Conditional text + variable tracking** per stato narrativo legato a outcome sessione.
+
+</details>
+
+<details>
+<summary><b>langium</b> — tooling/DSL</summary>
+
+1. **Grammar-driven DSL** per trait_mechanics.yaml — definizioni tipizzate con cross-reference, autocomplete LSP.
+2. **Code generator pipeline**: DSL → TypeScript types + Python dataclasses + JSON Schema.
+3. **Parser browser-compatible**: Trait Editor con syntax highlighting e validazione senza backend.
+
+</details>
+
+## B. Repo open-source — TAKE (integrare/riferire)
+
+| Repo                                                                                    | Stars | Licenza    | Valore chiave                                                                                                                                                                  |
+| --------------------------------------------------------------------------------------- | ----: | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **[colyseus/colyseus](https://github.com/colyseus/colyseus)**                           |  6.8k | MIT        | Framework multiplayer Node.js. Authoritative state sync, room lifecycle (maps to session engine), reconnection. Per co-op su dispositivi separati.                             |
+| **[mermaid-js/mermaid](https://github.com/mermaid-js/mermaid)**                         | 87.4k | MIT        | Diagrammi as code in markdown. State diagram per round FSM, sequence per pipeline, class per Species x Job. Rendering nativo GitHub, zero build step. ROI immediato per docs/. |
+| **[LazyHatGuy/GDDMarkdownTemplate](https://github.com/LazyHatGuy/GDDMarkdownTemplate)** |    50 | Other      | Template GDD 13 sezioni. Audit matrix per gap analysis vs docs/core/: mission structure, HUD, AI breakdown, management. 30min di lavoro concreto.                              |
+| **[microsoft/playwright](https://github.com/microsoft/playwright)**                     | 86.6k | Apache-2.0 | Gia nel toolchain (`tools/ts/`). Upgrade a pattern recenti: trace-on-failure, codegen, test isolation. Infra QA.                                                               |
+
+## C. Tool di bilanciamento
 
 | Risorsa                                  | Link                                                 | Rilevanza Evo-Tactics                                                                                                                                                            |
 | ---------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Machinations**                         | <https://machinations.io/>                           | Modellazione visuale economia di gioco. Utile per: trait economy, damage step scaling, cap_pt budget, PP combo meter. Alternativa ai fogli di calcolo per Pilastro 6 (Fairness). |
 | **Game Design Patterns Wiki** (Chalmers) | <https://virt10.itu.chalmers.se/index.php/Main_Page> | Catalogo accademico di pattern. Pattern mappabili: Action Point Allowance, Rock-Paper-Scissors (counter system), Asymmetric Abilities (specie x job), Team Combos.               |
 
-## B. Pattern e architettura gameplay
+## D. Pattern e architettura gameplay
 
 | Risorsa                       | Link                                                                         | Rilevanza Evo-Tactics                                                                                                                                                                  |
 | ----------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Game Programming Patterns** | <https://gameprogrammingpatterns.com/>                                       | Libro gratuito. Pattern gia in uso nel codebase: State Machine (session engine), Observer (event system), Command (action pipeline), Component (trait system). Reference per refactor. |
 | **Overwatch ECS — GDC Talk**  | <https://www.gdcvault.com/play/1024001/-Overwatch-Gameplay-Architecture-and> | Architettura ECS di Overwatch (Timothy Ford). Rilevante per grid spatial module e combat pipeline. Pattern composizione vs ereditarieta per trait/ability.                             |
 
-## C. Postmortem tattici e cooperativi (genere affine)
+## E. Postmortem tattici e cooperativi (genere affine)
 
 | Gioco                     | Studio          | Link                                                                                                                        | Pilastro                      | Note                                                                                                       |
 | ------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -48,23 +136,24 @@ Indice filtrato di risorse esterne rilevanti per Evo-Tactics, estratto da [aweso
 | **System Shock 2**        | Irrational      | [Postmortem](https://www.gamedeveloper.com/design/postmortem-irrational-games-system-shock-2)                               | P2+P3 (Evoluzione + Identita) | Immersive sim con RPG systems, emergent gameplay da interazioni sistema. Build diversity.                  |
 | **Baldur's Gate II**      | BioWare         | [Postmortem](https://www.gamedeveloper.com/design/postmortem-bioware-s-i-baldur-s-gate-ii-the-shadows-of-amn-i-)            | P1+P3 (Tattica + Identita)    | Tattico RPG con party management profondo, identita companion, encounter design.                           |
 
-## D. GDD di riferimento
+## F. GDD di riferimento
 
 | Documento                         | Link                                                                                                                    | Utilita                                                                            |
 | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | **Diablo 1 — Pitch doc** (Condor) | [PDF](http://www.graybeardgames.com/download/diablo_pitch.pdf)                                                          | Struttura pitch per sistema complesso con progression loop + loot economy.         |
 | **Deus Ex — Design doc annotato** | [Articolo](https://www.gamasutra.com/view/news/285520/Annotated_version_of_an_original_Deus_Ex_design_doc_surfaces.php) | Design doc per gioco con sistemi interconnessi, scelte giocatore, build emergenti. |
 | **GTA — Original GDD** (Rockstar) | [PDF](https://www.gamedevs.org/uploads/grand-theft-auto.pdf)                                                            | Esempio storico di GDD per open-world con sistemi complessi.                       |
+| **GDD Markdown Template**         | [Repo](https://github.com/LazyHatGuy/GDDMarkdownTemplate)                                                               | Template 13 sezioni. Audit matrix per gap analysis vs docs/core/.                  |
 
-## E. Risorse future (non prioritarie ora)
+## G. Narrativa e dialoghi (futuri)
 
-| Risorsa                      | Link                                | Quando serve                                                                                             |
-| ---------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| **Yarn Spinner**             | <https://yarnspinner.dev/>          | Se aggiungiamo narrativa/dialoghi nel gameplay coop. Integrabile con Node. Usato in Night in the Woods.  |
-| **Arrow**                    | <https://github.com/mhgolkar/Arrow> | Storytelling non-lineare open-source. Alternativa a Yarn Spinner se serve branching narrativo complesso. |
-| **Ink/Inky** (Inkle Studios) | <https://www.inklestudios.com/ink/> | Linguaggio narrativo scriptato. Usato in 80 Days, Heaven's Vault.                                        |
+| Risorsa                      | Link                                                                       | Quando serve                                                                                                                     |
+| ---------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Ink/Inky** (Inkle Studios) | [Repo](https://github.com/inkle/ink) / <https://www.inklestudios.com/ink/> | Standard narrativa branching. inkjs per browser. Priorita quando serve briefing/debrief narrativo. Vedi sezione A per deep dive. |
+| **Yarn Spinner**             | <https://yarnspinner.dev/>                                                 | Alternativa a Ink per dialoghi. Formato piu semplice per writer, ma meno espressivo. Unity-centric.                              |
+| **Arrow**                    | <https://github.com/mhgolkar/Arrow>                                        | Tool visuale VCS-friendly. Standalone app, non libreria.                                                                         |
 
-## F. Apprendimento e teoria
+## H. Apprendimento e teoria
 
 | Risorsa                                      | Link                                                           | Note                                                                                                                                       |
 | -------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -74,11 +163,11 @@ Indice filtrato di risorse esterne rilevanti per Evo-Tactics, estratto da [aweso
 | **The Door Problem** (Liz England)           | <https://lizengland.com/blog/2014/04/the-door-problem/>        | Essay classico su cosa fa un game designer. Utile per comunicare ruoli e responsabilita nel team.                                          |
 | **Game Maker's Toolkit** (Mark Brown)        | <https://www.youtube.com/@GMTK>                                | Video analisi design. Episodi specifici su: boss design, difficulty, puzzle design, tattica.                                               |
 | **Designer Notes** (Soren Johnson)           | <https://www.designer-notes.com/>                              | Podcast + blog. Johnson ha lavorato su Civilization IV — rilevante per sistemi strategici e AI design.                                     |
-| **Game Design Patterns Wiki** (Chalmers)     | <https://virt10.itu.chalmers.se/index.php/Main_Page>           | Catalogo accademico. Gia in sezione A, ripetuto qui come learning resource.                                                                |
 | **Asking Gamedevs**                          | <https://askingamedev.tumblr.com/>                             | Q&A da veterani industria. Risposte pratiche su produzione, design, carriera.                                                              |
-| **Game Developer Deep Dives**                | <https://www.gamedeveloper.com/keyword/deep-dive>              | Serie postmortem tecnici approfonditi. Complemento ai postmortem in sezione C.                                                             |
+| **Game Developer Deep Dives**                | <https://www.gamedeveloper.com/keyword/deep-dive>              | Serie postmortem tecnici approfonditi. Complemento ai postmortem in sezione E.                                                             |
+| **2DGD_F0TH**                                | [Repo](https://github.com/2DGD-F0TH/2DGD_F0TH)                 | Ebook gratuito 500+ pagine: game loop, collision, design patterns, algoritmi. Codice in Python, Lua, C++, JS.                              |
 
-## G. Community e risorse
+## I. Community e meta-risorse
 
 | Risorsa                              | Link                                                                   | Note                                                                                     |
 | ------------------------------------ | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
@@ -87,16 +176,19 @@ Indice filtrato di risorse esterne rilevanti per Evo-Tactics, estratto da [aweso
 | **r/gamedesign Wiki**                | <https://www.reddit.com/r/gamedesign/wiki/index/>                      | Risorse curate dalla community Reddit. Buon punto di partenza per topic specifici.       |
 | **IGDA Resources**                   | <https://igda.org/resources-learning/>                                 | Libreria International Game Developers Association.                                      |
 | **GameDev.net**                      | <https://www.gamedev.net/>                                             | Community storica game dev con articoli e forum.                                         |
+| **magictools**                       | [Repo](https://github.com/ellisonleao/magictools)                      | 16.5k stars. Meta-lista massiva di risorse game dev. Browse per gap.                     |
+| **awesome-game-ai**                  | [Repo](https://github.com/datamllab/awesome-game-ai)                   | Multi-agent RL, imperfect-info game theory. Reference per fog-of-war + AI tattica.       |
 
 ---
 
 ## Mapping pilastri
 
-| Pilastro                          | Risorse chiave                                                         |
-| --------------------------------- | ---------------------------------------------------------------------- |
-| P1 — Tattica leggibile (FFT)      | Halfway, Frozen Synapse, Overwatch ECS, Baldur's Gate II               |
-| P2 — Evoluzione emergente (Spore) | Hades, Cogmind, Magicka, Binding of Isaac, System Shock 2, Lost Garden |
-| P3 — Identita Specie x Job        | Cogmind, Deus Ex design doc, System Shock 2, Baldur's Gate II          |
-| P4 — Temperamenti MBTI/Ennea      | Theory of Fun, Book of Lenses (framework lenti per analisi)            |
-| P5 — Co-op vs Sistema             | AI War, Natural Selection 2, Designer Notes                            |
-| P6 — Fairness                     | Machinations, Balatro, SpaceChem, Game Programming Patterns            |
+| Pilastro                          | Risorse chiave                                                                                                   |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| P1 — Tattica leggibile (FFT)      | **wesnoth**, boardgame.io, xstate, Halfway, Frozen Synapse, Overwatch ECS, Baldur's Gate II                      |
+| P2 — Evoluzione emergente (Spore) | **bevy** (ECS), Hades, Cogmind, Magicka, Binding of Isaac, System Shock 2, Lost Garden                           |
+| P3 — Identita Specie x Job        | **OpenRA** (trait composition), **bevy** (ECS bundles), Cogmind, Deus Ex, Baldur's Gate II                       |
+| P4 — Temperamenti MBTI/Ennea      | **xstate** (personality FSM), Theory of Fun, Book of Lenses                                                      |
+| P5 — Co-op vs Sistema             | **wesnoth** (AI composite), **boardgame.io** (MCTS bot), **colyseus** (multiplayer), AI War, Natural Selection 2 |
+| P6 — Fairness                     | **wesnoth** (20yr balance), Machinations, Balatro, SpaceChem, Game Programming Patterns                          |
+| Infra/tooling                     | **mermaid** (docs diagrams), **playwright** (E2E), **langium** (DSL), GDD Template (audit)                       |
