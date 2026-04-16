@@ -5,7 +5,21 @@
 #
 # Vedi docs/planning/tactical-architecture-patterns.md §W5
 
-version: "0.1.0"
+version: "0.2.0"
+
+# Asymmetric AI resource model (AI War pattern: Park 2012)
+# SIS non usa la stessa economia dei PG. Niente PT pool, niente trait cost.
+# Il Sistema riceve un "intent budget" per round derivato da sistema_pressure
+# (vedi sistema_pressure.yaml). Questo e' un invariante di design:
+# risolve fairness via outcome measurement, non via simmetria di regole.
+# Source: reference_tactical_postmortems.md §A.2
+sistema_resource_model:
+  economy: "intent_budget"        # non "pt_pool"
+  budget_source: "sistema_pressure"  # tier lookup da sistema_pressure.yaml
+  ignores_fog_of_war: true        # SIS vede stato completo
+  ignores_trait_costs: true       # intent non consuma PT/AP del PG model
+  reinforcement_from_pressure: true
+  note: "Asymmetry invariant — do NOT refactor to mirror player rules"
 
 profiles:
   aggressive:

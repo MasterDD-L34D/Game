@@ -107,10 +107,10 @@ Repo da studiare per pattern architetturali, non da adottare come dipendenze.
 
 ## C. Tool di bilanciamento
 
-| Risorsa                                  | Link                                                 | Rilevanza Evo-Tactics                                                                                                                                                            |
-| ---------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Machinations**                         | <https://machinations.io/>                           | Modellazione visuale economia di gioco. Utile per: trait economy, damage step scaling, cap_pt budget, PP combo meter. Alternativa ai fogli di calcolo per Pilastro 6 (Fairness). |
-| **Game Design Patterns Wiki** (Chalmers) | <https://virt10.itu.chalmers.se/index.php/Main_Page> | Catalogo accademico di pattern. Pattern mappabili: Action Point Allowance, Rock-Paper-Scissors (counter system), Asymmetric Abilities (specie x job), Team Combos.               |
+| Risorsa                                  | Link                                                 | Rilevanza Evo-Tactics                                                                                                                                                                                                                                      |
+| ---------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Machinations**                         | <https://machinations.io/>                           | Modellazione visuale economia di gioco. 4 modelli specificati in [`docs/balance/MACHINATIONS_MODELS.md`](../balance/MACHINATIONS_MODELS.md): d20 attack economy, PT pool combo meter, damage step fairness cap, status propagation. Pilastro 6 (Fairness). |
+| **Game Design Patterns Wiki** (Chalmers) | <https://virt10.itu.chalmers.se/index.php/Main_Page> | Catalogo accademico di pattern. Pattern mappabili: Action Point Allowance, Rock-Paper-Scissors (counter system), Asymmetric Abilities (specie x job), Team Combos.                                                                                         |
 
 ## D. Pattern e architettura gameplay
 

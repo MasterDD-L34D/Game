@@ -1922,6 +1922,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/balance/MACHINATIONS_MODELS.md",
+      "title": "Machinations — modelli di bilanciamento per Evo-Tactics",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-04-17",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 60,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/biomes/Frattura_Abissale_Sinaptica_biome.md",
       "title": "'Frattura Abissale Sinaptica – Step 3 (Modellazione tecnica, STRICT MODE / SANDBOX)'",
       "doc_status": "active",
