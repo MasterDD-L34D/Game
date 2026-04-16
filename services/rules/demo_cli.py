@@ -44,6 +44,27 @@ from services.rules.hydration import (  # noqa: E402
     load_trait_mechanics,
 )
 from services.rules.resolver import begin_turn, resolve_action  # noqa: E402
+from services.rules.grid import (  # noqa: E402
+    get_pos,
+    get_attack_range,
+    manhattan,
+    in_range,
+    is_adjacent,
+    is_backstab,
+    is_elevated,
+    is_surrounded,
+    elevation_advantage,
+    step_towards,
+    step_away,
+    auto_face,
+    is_cell_free,
+    is_in_bounds,
+    render_grid,
+    DEFAULT_WIDTH,
+    DEFAULT_HEIGHT,
+    BACKSTAB_DAMAGE_BONUS,
+    ADJACENCY_DAMAGE_BONUS,
+)
 
 DEFAULT_ENCOUNTER_PATH = REPO_ROOT / "docs" / "examples" / "encounter_caverna.txt"
 DEFAULT_MECHANICS_PATH = (
@@ -63,16 +84,25 @@ DEFAULT_PARTY: List[Dict[str, Any]] = [
         "id": "party-01",
         "species_id": "anguis_magnetica",
         "trait_ids": ["artigli_sette_vie", "coda_frusta_cinetica"],
+        "position": {"x": 0, "y": 0, "z": 0},
+        "facing": "E",
+        "attack_range": 2,  # coda_frusta = mid-range
     },
     {
         "id": "party-02",
         "species_id": "aetherloom_stalker",
         "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
+        "position": {"x": 0, "y": 1, "z": 0},
+        "facing": "E",
+        "attack_range": 1,  # melee
     },
     {
         "id": "party-03",
         "species_id": "crysalis_ember",
         "trait_ids": ["cute_resistente_sali", "criostasi_adattiva"],
+        "position": {"x": 0, "y": 2, "z": 0},
+        "facing": "E",
+        "attack_range": 1,  # melee tank
     },
 ]
 
@@ -88,6 +118,16 @@ DEFAULT_HOSTILE_TRAITS: List[List[str]] = [
     ["spore_psichiche_silenziate"],
     [],
 ]
+#: Hostile spawn positions (right side of 6x6 grid).
+DEFAULT_HOSTILE_POSITIONS: List[Dict[str, Any]] = [
+    {"x": 5, "y": 0, "z": 0},
+    {"x": 5, "y": 1, "z": 0},
+    {"x": 5, "y": 2, "z": 0},
+    {"x": 5, "y": 3, "z": 0},
+]
+DEFAULT_HOSTILE_FACINGS: List[str] = ["W", "W", "W", "W"]
+#: Attack ranges per hostile (echo_seer is ranged).
+DEFAULT_HOSTILE_RANGES: List[int] = [1, 1, 3, 1]
 
 #: Damage dice di default per attack di ogni unita' in modalita' demo.
 #: Coerente col Frattura draft "1d8+3 elettrico" del Polpo tier 3.
@@ -183,6 +223,34 @@ def build_defend_action(action_id: str, actor_id: str, ap_cost: int = 1) -> Dict
     }
 
 
+def build_move_action(action_id: str, actor_id: str, dest: Dict[str, int], ap_cost: int = 1) -> Dict[str, Any]:
+    return {
+        "id": action_id,
+        "type": "move",
+        "actor_id": actor_id,
+        "target_id": None,
+        "ability_id": None,
+        "ap_cost": ap_cost,
+        "destination": dest,
+    }
+
+
+def apply_move(state: Dict[str, Any], actor_id: str, dest: Dict[str, int]) -> Dict[str, Any]:
+    """Apply movement: update position + facing, consume AP."""
+    state = copy.deepcopy(state)
+    for unit in state.get("units", []):
+        if unit.get("id") == actor_id:
+            old_pos = get_pos(unit)
+            unit["position"] = {"x": dest["x"], "y": dest["y"], "z": dest.get("z", old_pos.get("z", 0))}
+            unit["facing"] = auto_face(old_pos, dest)
+            ap = unit.get("ap") or {}
+            dist = manhattan(old_pos, dest)
+            ap["current"] = max(0, int(ap.get("current", 0)) - max(1, dist))
+            unit["ap"] = ap
+            break
+    return state
+
+
 # ---------------------------------------------------------------------------
 # Pretty printing
 # ---------------------------------------------------------------------------
@@ -193,6 +261,9 @@ def format_unit_line(unit: Mapping[str, Any]) -> str:
     ap = unit.get("ap") or {}
     reactions = unit.get("reactions") or {}
     statuses = unit.get("statuses") or []
+    p = get_pos(unit)
+    facing = unit.get("facing", "?")
+    rng = get_attack_range(unit)
     status_str = (
         ", ".join(f"{s['id']}({s.get('intensity', 1)},{s.get('remaining_turns', 0)}t)" for s in statuses)
         if statuses
@@ -206,6 +277,8 @@ def format_unit_line(unit: Mapping[str, Any]) -> str:
         f"AP {ap.get('current', 0)}/{ap.get('max', 0)} "
         f"armor {unit.get('armor', 0)} "
         f"pt {unit.get('pt', 0)} "
+        f"rng {rng} "
+        f"({p['x']},{p['y']},{p['z']}){facing} "
         f"react {reactions.get('current', 0)}/{reactions.get('max', 0)} "
         f"stress {float(unit.get('stress', 0.0)):.2f} "
         f"status: {status_str}"
@@ -213,13 +286,17 @@ def format_unit_line(unit: Mapping[str, Any]) -> str:
 
 
 def format_state_board(state: Mapping[str, Any]) -> str:
-    lines = [f"--- Turn {state.get('turn', '?')} | active: {state.get('active_unit_id', '?')} ---"]
+    units = state.get("units", [])
+    lines = [f"--- Round {state.get('turn', '?')} | active: {state.get('active_unit_id', '?')} ---"]
+    lines.append("")
+    lines.append(render_grid(units))
+    lines.append("")
     lines.append("PARTY:")
-    for unit in state.get("units", []):
+    for unit in units:
         if unit.get("side") == "party":
             lines.append("  " + format_unit_line(unit))
     lines.append("HOSTILE:")
-    for unit in state.get("units", []):
+    for unit in units:
         if unit.get("side") == "hostile":
             lines.append("  " + format_unit_line(unit))
     return "\n".join(lines)
@@ -263,22 +340,79 @@ def ai_action_for_unit(
     unit_id: str,
     action_index: int,
 ) -> Optional[Dict[str, Any]]:
-    """AI minimale: attack al primo target opposto vivo, damage dice default.
+    """Grid-aware AI: attack if in range, move towards if not, retreat if low HP.
 
-    Se non ci sono target validi, ritorna ``None`` (skip).
+    Implements REGOLA_001 (approach+attack), REGOLA_002 (retreat at low HP),
+    REGOLA_003 (kite for ranged units). Prefers backstab targets when in range.
     """
 
     unit = find_unit(state, unit_id)
     if unit is None or not is_alive(unit):
         return None
-    target_id = ai_pick_target(state, str(unit.get("side")))
-    if target_id is None:
+
+    actor_side = str(unit.get("side"))
+    opponent_side = "hostile" if actor_side == "party" else "party"
+    enemies = alive_units_by_side(state, opponent_side)
+    if not enemies:
         return None
-    return build_attack_action(
-        action_id=f"act-{unit_id}-{action_index:02d}",
-        actor_id=unit_id,
-        target_id=target_id,
-    )
+
+    attack_range = get_attack_range(unit)
+    actor_pos = get_pos(unit)
+    hp = unit.get("hp") or {}
+    hp_pct = int(hp.get("current", 0)) / max(1, int(hp.get("max", 1)))
+    all_units = state.get("units", [])
+
+    # Sort enemies by distance
+    enemies_with_dist = [(e, manhattan(actor_pos, get_pos(e))) for e in enemies]
+    enemies_with_dist.sort(key=lambda x: x[1])
+
+    # Targets in attack range
+    targets_in_range = [(e, d) for e, d in enemies_with_dist if d <= attack_range]
+
+    # REGOLA_002: retreat at low HP (< 30%)
+    if hp_pct <= 0.3 and enemies_with_dist:
+        nearest_enemy = enemies_with_dist[0][0]
+        retreat_pos = step_away(actor_pos, get_pos(nearest_enemy))
+        if retreat_pos and is_cell_free(retreat_pos, all_units, unit_id) and is_in_bounds(retreat_pos):
+            return build_move_action(
+                action_id=f"act-{unit_id}-{action_index:02d}",
+                actor_id=unit_id,
+                dest=retreat_pos,
+            )
+
+    # REGOLA_003: kite for ranged units (range >= 3 and enemy adjacent)
+    if attack_range >= 3 and enemies_with_dist and enemies_with_dist[0][1] <= 1:
+        nearest_enemy = enemies_with_dist[0][0]
+        kite_pos = step_away(actor_pos, get_pos(nearest_enemy))
+        if kite_pos and is_cell_free(kite_pos, all_units, unit_id) and is_in_bounds(kite_pos):
+            return build_move_action(
+                action_id=f"act-{unit_id}-{action_index:02d}",
+                actor_id=unit_id,
+                dest=kite_pos,
+            )
+
+    # REGOLA_001: attack if in range (prefer backstab targets)
+    if targets_in_range:
+        backstab_targets = [(e, d) for e, d in targets_in_range if is_backstab(unit, e)]
+        target = backstab_targets[0][0] if backstab_targets else targets_in_range[0][0]
+        return build_attack_action(
+            action_id=f"act-{unit_id}-{action_index:02d}",
+            actor_id=unit_id,
+            target_id=str(target["id"]),
+        )
+
+    # No target in range → move towards nearest enemy
+    if enemies_with_dist:
+        nearest_enemy = enemies_with_dist[0][0]
+        dest = step_towards(actor_pos, get_pos(nearest_enemy))
+        if is_cell_free(dest, all_units, unit_id) and is_in_bounds(dest):
+            return build_move_action(
+                action_id=f"act-{unit_id}-{action_index:02d}",
+                actor_id=unit_id,
+                dest=dest,
+            )
+
+    return None
 
 
 def interactive_action_for_unit(
@@ -286,41 +420,85 @@ def interactive_action_for_unit(
     unit_id: str,
     action_index: int,
 ) -> Optional[Dict[str, Any]]:
-    """Chiede all'utente l'azione per una party unit via stdin."""
+    """Chiede all'utente l'azione per una party unit via stdin.
+
+    Menu completo: attack, move, defend, quit.
+    Range validation su attack. Grid-based movement.
+    """
 
     unit = find_unit(state, unit_id)
     if unit is None or not is_alive(unit):
         return None
+
+    actor_pos = get_pos(unit)
+    attack_range = get_attack_range(unit)
     targets = alive_units_by_side(state, "hostile")
-    print(f"\nAzione per {unit_id} (AP {unit['ap']['current']}, PT {unit.get('pt', 0)}):")
-    print("  [a] Attack")
-    print("  [d] Defend (skip turn)")
-    print("  [q] Quit demo")
+    all_units = state.get("units", [])
+    targets_in_range = [t for t in targets if in_range(unit, t, attack_range)]
+    surrounded = is_surrounded(unit, all_units)
+
+    print(f"\nAzione per {unit_id} (AP {unit['ap']['current']}, PT {unit.get('pt', 0)}, "
+          f"pos ({actor_pos['x']},{actor_pos['y']}), rng {attack_range})"
+          f"{' ⚠ CIRCONDATO' if surrounded else ''}:")
+    print(f"  [a] Attack ({len(targets_in_range)} target in range)")
+    print(f"  [m] Move (1 step, AP 1)")
+    print(f"  [d] Defend (skip)")
+    print(f"  [q] Quit demo")
     choice = input("> ").strip().lower() or "a"
+
     if choice == "q":
         raise SystemExit("Demo interrotta dall'utente.")
+
     if choice == "d":
         return build_defend_action(
             action_id=f"act-{unit_id}-{action_index:02d}",
             actor_id=unit_id,
         )
-    if choice != "a":
-        print(f"  (scelta '{choice}' non valida, eseguo attack)")
-    if not targets:
-        print("  Nessun target valido, defend.")
+
+    if choice == "m":
+        print(f"  Direzione: [w] Nord  [s] Sud  [a] Ovest  [d] Est")
+        dir_choice = input("> ").strip().lower() or "d"
+        dx, dy = {"w": (0, -1), "s": (0, 1), "a": (-1, 0), "d": (1, 0)}.get(dir_choice, (1, 0))
+        dest = {"x": actor_pos["x"] + dx, "y": actor_pos["y"] + dy, "z": actor_pos.get("z", 0)}
+        if not is_in_bounds(dest):
+            print("  Fuori griglia! Defend.")
+            return build_defend_action(action_id=f"act-{unit_id}-{action_index:02d}", actor_id=unit_id)
+        if not is_cell_free(dest, all_units, unit_id):
+            print("  Cella occupata! Defend.")
+            return build_defend_action(action_id=f"act-{unit_id}-{action_index:02d}", actor_id=unit_id)
+        return build_move_action(
+            action_id=f"act-{unit_id}-{action_index:02d}",
+            actor_id=unit_id,
+            dest=dest,
+        )
+
+    # Attack
+    if not targets_in_range:
+        if targets:
+            nearest = min(targets, key=lambda t: manhattan(actor_pos, get_pos(t)))
+            nd = manhattan(actor_pos, get_pos(nearest))
+            print(f"  Nessun target in range {attack_range}. Piu' vicino: {nearest['id']} a distanza {nd}.")
+            print(f"  Muoviti con [m] prima. Defend per ora.")
+        else:
+            print("  Nessun target valido.")
         return build_defend_action(
             action_id=f"act-{unit_id}-{action_index:02d}",
             actor_id=unit_id,
         )
-    print("  Target:")
-    for i, t in enumerate(targets, start=1):
-        print(f"    [{i}] {t['id']} HP {t['hp']['current']}/{t['hp']['max']} armor {t['armor']}")
+
+    print("  Target in range:")
+    for i, t in enumerate(targets_in_range, start=1):
+        tp = get_pos(t)
+        dist = manhattan(actor_pos, tp)
+        backstab = " ★BACKSTAB" if is_backstab(unit, t) else ""
+        print(f"    [{i}] {t['id']} HP {t['hp']['current']}/{t['hp']['max']} "
+              f"armor {t['armor']} dist {dist}{backstab}")
     tgt_choice = input("> ").strip() or "1"
     try:
-        idx = max(1, min(len(targets), int(tgt_choice))) - 1
+        idx = max(1, min(len(targets_in_range), int(tgt_choice))) - 1
     except ValueError:
         idx = 0
-    target_id = str(targets[idx]["id"])
+    target_id = str(targets_in_range[idx]["id"])
     return build_attack_action(
         action_id=f"act-{unit_id}-{action_index:02d}",
         actor_id=unit_id,
@@ -356,7 +534,7 @@ def run_combat(
     def write(line: str = "") -> None:
         out.write(line + "\n")
 
-    write("=== Evo-Tactics rules engine — demo combat ===")
+    write("=== Evo-Tactics rules engine -- demo combat ===")
     write(format_state_board(state))
 
     rounds = 0
@@ -403,6 +581,17 @@ def run_combat(
                 if action is None:
                     break
 
+                # Handle move action locally (resolver treats it as NOOP)
+                if action.get("type") == "move" and action.get("destination"):
+                    dest = action["destination"]
+                    old_pos = get_pos(find_unit(state, unit_id) or {})
+                    state = apply_move(state, unit_id, dest)
+                    new_pos = dest
+                    write(f"  -> {unit_id} move ({old_pos['x']},{old_pos['y']}) -> ({new_pos['x']},{new_pos['y']}) "
+                          f"facing {auto_face(old_pos, new_pos)}")
+                    action_index += 1
+                    continue
+
                 # Seed namespaced unico per questa action
                 action_ns = f"attack-T{state.get('turn', 1)}-{unit_id}-{action_index}"
                 rng = namespaced_rng(seed, action_ns)
@@ -414,6 +603,21 @@ def run_combat(
                     break
 
                 state = result["next_state"]
+                # Add spatial info to attack log
+                if action.get("type") == "attack" and action.get("target_id"):
+                    attacker = find_unit(state, unit_id)
+                    target = find_unit(state, str(action["target_id"]))
+                    if attacker and target:
+                        dist = manhattan(get_pos(attacker), get_pos(target))
+                        extras = []
+                        if is_backstab(attacker, target):
+                            extras.append("BACKSTAB")
+                        if is_adjacent(attacker, target):
+                            extras.append("ADJ")
+                        if is_elevated(attacker):
+                            extras.append("ELEVATED")
+                        if extras:
+                            write(f"     [{', '.join(extras)}] dist={dist}")
                 write(format_turn_log_entry(result["turn_log_entry"]))
                 action_index += 1
 
@@ -500,6 +704,25 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         hostile_species_ids=DEFAULT_HOSTILE_SPECIES,
         hostile_trait_ids=DEFAULT_HOSTILE_TRAITS,
     )
+
+    # Inject grid positions + facing + attack_range (hydration is grid-agnostic)
+    party_defs = {p["id"]: p for p in DEFAULT_PARTY}
+    for unit in state.get("units", []):
+        uid = unit.get("id", "")
+        if uid in party_defs:
+            unit["position"] = copy.deepcopy(party_defs[uid].get("position", {"x": 0, "y": 0, "z": 0}))
+            unit["facing"] = party_defs[uid].get("facing", "E")
+            unit["attack_range"] = party_defs[uid].get("attack_range", 1)
+        elif uid.startswith("hostile-"):
+            # Map hostile-01..04 to positions
+            try:
+                idx = int(uid.split("-")[1]) - 1
+            except (ValueError, IndexError):
+                idx = 0
+            if idx < len(DEFAULT_HOSTILE_POSITIONS):
+                unit["position"] = copy.deepcopy(DEFAULT_HOSTILE_POSITIONS[idx])
+                unit["facing"] = DEFAULT_HOSTILE_FACINGS[idx] if idx < len(DEFAULT_HOSTILE_FACINGS) else "W"
+                unit["attack_range"] = DEFAULT_HOSTILE_RANGES[idx] if idx < len(DEFAULT_HOSTILE_RANGES) else 1
 
     getter: ActionGetter = ai_action_for_unit if args.auto else interactive_action_for_unit
 
