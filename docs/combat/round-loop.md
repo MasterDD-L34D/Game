@@ -423,10 +423,14 @@ Ricarica `ACTION_SPEED` dal filesystem (hot reload) e muta il dict modulo-level 
 - ✅ **Payload `overwatch`**: attacco opportunistico su `moved_adjacent`. Synthetic `attack` (flag `_is_overwatch=True`) del listener verso il mover. Anti-recursion attiva, non triggera su mover morto.
 - ✅ **Evento `healed` + action type `heal`**: nuovo branch `heal` nel resolver atomico (roll `heal_dice`, clamp a `hp_max`, log `healing_applied`). Orchestrator estende `SUPPORTED_REACTION_EVENTS` con `healed` e aggiunge injection post-heal. Predicates DSL esteso con field `healing`. Action speed `heal: -1`.
 
+- ✅ **Migrazione Node session engine**: ADR-2026-04-16 M1-M17 tutti completati. Round model default ON, legacy rimosso. session.js split in 4 moduli (851 LOC).
+- ✅ **Active effects trait (Fase 3)**: attack-triggered effects (#1408) + ability action type + buff system (#1409). 8 trait abilities live. `ability` rimosso da NOOP_ACTION_TYPES.
+- ✅ **Timer planning phase**: `planning_deadline_ms` + `planning_started_at` nello state. `is_planning_expired(state)` helper esportato. Enforcement lato caller (session engine Node).
+
 **Ancora aperti** (evoluzioni future):
 
-1. **Migrazione effettiva Node session engine**: portare `apps/backend/routes/session.js` al round model. ADR c'e', codice Node intoccato. Sprint dedicato di ~5 giornate.
-2. **Timer opzionale di planning phase**: `planning_deadline_ms` nello state. Enforcement del session engine Node, non del rules engine Python.
+1. **Ability per i restanti 22 trait**: solo 8 su 30 hanno active_effects. Balance pass + content expansion.
+2. **Node enforcement timer**: `setTimeout` in session engine che auto-committa quando `is_planning_expired()` ritorna True.
 
 ---
 
