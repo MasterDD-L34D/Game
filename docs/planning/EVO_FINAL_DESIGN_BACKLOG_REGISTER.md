@@ -87,13 +87,13 @@ Può essere usato per:
 
 | Stato | Task                                     | Dettagli operativi                                                            |
 | ----- | ---------------------------------------- | ----------------------------------------------------------------------------- |
-| ☐     | FD-040 - Audit `trait_mechanics.yaml`    | Copertura completa del set shipping, placeholder review, note giustificative. |
-| ☐     | FD-041 - Tabella mod offensivi/difensivi | Audit di attack/defense/damage/resistance.                                    |
-| ☐     | FD-042 - Verificare AP costs             | Allineare `cost_ap` a fantasy, pacing e leggibilità.                          |
-| ☐     | FD-043 - Rivedere resistenze e cap       | Evitare stack difensivi rotti.                                                |
-| ☐     | FD-044 - Documentare trade-off           | Ogni trait core deve avere costo, contesto e counter.                         |
-| ☐     | FD-045 - Chiudere policy placeholder     | Nessun placeholder 0 ingiustificato sullo shipping set.                       |
-| ☐     | FD-046 - Congelare caps PT / PP / SG     | Cap definitivi e rationale.                                                   |
+| ☑    | FD-040 - Audit `trait_mechanics.yaml`    | DONE: 33/33 trait coperti, tutti con 1+ ability. Audit script eseguito.       |
+| ☑    | FD-041 - Tabella mod offensivi/difensivi | DONE: 6 off, 10 def, 1 hybrid, 16 utility. Tabella generata in audit.         |
+| ☑    | FD-042 - Verificare AP costs             | DONE: AP 1=11, AP 2=17, AP 3=5. Distribuzione ragionevole.                    |
+| 🟡    | FD-043 - Rivedere resistenze e cap       | ⚠️ fuoco stacks a 75% (5 trait). fisico 45%, mentale 25%. Serve cap decision. |
+| ☐     | FD-044 - Documentare trade-off           | PENDING: per-trait costo/contesto/counter (game design).                      |
+| ☑    | FD-045 - Chiudere policy placeholder     | DONE: 16 all-zero-mod trait giustificati da abilities (utility class).        |
+| ☐     | FD-046 - Congelare caps PT / PP / SG     | PENDING: PT cap=1 (fairness). PP/SG non esistono. Decisione deferred.         |
 
 ### EPIC E — Progression, economy e identity
 
@@ -175,15 +175,15 @@ Può essere usato per:
 
 ### EPIC K — Game <-> Game-Database
 
-| Stato | Task                                  | Dettagli operativi                                                          |
-| ----- | ------------------------------------- | --------------------------------------------------------------------------- |
-| ☑    | FD-110 - Mantenere confine attuale    | Runtime Game locale; DB come CMS / import target.                           |
-| ☐     | FD-111 - Formalizzare import contract | Elenco file, comando, log destination, frequenza.                           |
-| ☐     | FD-112 - Scrivere runbook import      | `sync:evo-pack` lato Game, `evo:import` lato DB, dry-run/verbose/repo path. |
-| ☐     | FD-113 - Decidere cadence             | Manuale, batch o cron lato Game-Database.                                   |
-| ☐     | FD-114 - Preparare pattern B          | Opzione raccomandata futura: cron job DB-side con PR di sync.               |
-| ☐     | FD-115 - Definire trigger futuri      | Quando riaprire B o C dell’ADR topology.                                    |
-| ☐     | FD-116 - Bloccare runtime dependency  | Vietato introdurre Game <- HTTP come prerequisito dello shipping freeze.    |
+| Stato | Task                                  | Dettagli operativi                                                                                  |
+| ----- | ------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| ☑    | FD-110 - Mantenere confine attuale    | DONE: confine mantenuto, ADR-2026-04-14 rispettato.                                                 |
+| ☑    | FD-111 - Formalizzare import contract | DONE: documentato in EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md §3 (file→dominio→dest→owner→frequenza). |
+| ☑    | FD-112 - Scrivere runbook import      | DONE: runbook in GAME_DATABASE_SYNC.md §4 (sync:evo-pack → evo:import --dry-run/--verbose/--repo).  |
+| ☑    | FD-113 - Decidere cadence             | DONE: "manuale durante freeze" — documentato in GAME_DATABASE_SYNC.md §5.                           |
+| ☐     | FD-114 - Preparare pattern B          | PENDING: cron job DB-side con PR di sync. Descritto come opzione in SYNC doc §6. Non implementato.  |
+| ☑    | FD-115 - Definire trigger futuri      | DONE: trigger di riapertura B/C documentati in GAME_DATABASE_SYNC.md §7 (post-stabilizzazione).     |
+| ☑    | FD-116 - Bloccare runtime dependency  | DONE: dichiarato in ADR-2026-04-14 + GAME_DATABASE_SYNC.md: "Game ← HTTP vietato nel freeze scope". |
 
 ## 5. Vista priorità
 
