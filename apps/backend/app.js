@@ -21,6 +21,7 @@ const { createSessionRouter } = require('./routes/session');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const { createCatalogService } = require('./services/catalog');
+const { loadPlugins, BUILTIN_PLUGINS } = require('./services/pluginLoader');
 const { createSchemaValidator, SchemaValidationError } = require('./middleware/schemaValidator');
 const { generationSnapshotSchema, speciesSchema, telemetrySchema } = require('@game/contracts');
 const qualitySuggestionSchema = require('../../schemas/quality/suggestion.schema.json');
@@ -368,6 +369,9 @@ function createApp(options = {}) {
 
   const publicDir = options.publicDir || path.resolve(__dirname, 'public');
   app.use(express.static(publicDir));
+
+  // V1 pattern: plugin-based service registration
+  loadPlugins(app, BUILTIN_PLUGINS, options);
 
   const monitoringRouter = createMonitoringRouter();
   app.use('/monitoring', monitoringRouter);
