@@ -668,6 +668,48 @@ def resolve_action(
                 source_action_id=action.get("id"),
             )
 
+        # --- STEP 2c: active_effects dai trait (Fase 3) ----------------
+        # Valuta extra_damage, damage_reduction e apply_status dai trait
+        # di actor e target tramite il registry active_effects caricato
+        # dal caller (passato via action._active_effects_registry o via
+        # il parametro opzionale active_effects_registry). Se il registry
+        # non e' disponibile, nessun effetto (backward compat).
+        active_fx_registry = action.get("_active_effects_registry") or {}
+        if active_fx_registry and success:
+            from .trait_effects import evaluate_attack_traits
+
+            kill_occurred = (
+                int((target.get("hp") or {}).get("current", 0)) <= 0
+            )
+            fx = evaluate_attack_traits(
+                registry=active_fx_registry,
+                actor_trait_ids=list(actor.get("trait_ids", [])),
+                target_trait_ids=list(target.get("trait_ids", [])),
+                hit=True,
+                mos=int(mos),
+                kill=kill_occurred,
+                melee=False,  # Python resolver non tracka distanza
+            )
+            # Apply damage modifier (extra_damage - damage_reduction)
+            if fx["damage_modifier"] != 0:
+                damage_applied = max(0, damage_applied + fx["damage_modifier"])
+                target_hp = target.get("hp", {})
+                target_hp["current"] = int(target_hp.get("current", 0)) - fx["damage_modifier"]
+                target["hp"] = target_hp
+            # Apply statuses from trait effects
+            for sfx in fx.get("statuses_to_apply", []):
+                side = str(sfx.get("target_side", "target"))
+                status_target = actor if side == "actor" else target
+                applied = apply_status(
+                    status_target,
+                    status_id=str(sfx.get("status_id", "")),
+                    duration=int(sfx.get("duration", 1)),
+                    intensity=1,
+                    source_unit_id=actor.get("id"),
+                    source_action_id=action.get("id"),
+                )
+                # Collect for log in STEP 3 below
+
         # --- STEP 3: status auto-trigger dai trait attaccante ---------
         statuses_applied: List[Dict[str, Any]] = []
         if spinta_active and success:
@@ -744,6 +786,9 @@ def resolve_action(
         log_entry["roll"] = roll_result
         log_entry["damage_applied"] = int(damage_applied)
         log_entry["statuses_applied"] = statuses_applied
+        # Fase 3: active_effects trait evaluation results
+        if active_fx_registry and success:
+            log_entry["trait_effects"] = fx.get("trait_effects", [])
     elif action_type == "heal":
         # --- Heal action ---------------------------------------------------
         # Ripristina HP a un target (self, alleato, o anche hostile se il
