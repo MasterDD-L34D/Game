@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # REF_PACKS_AND_DERIVED – Pack, snapshot e fixture
 
 Versione: 0.6

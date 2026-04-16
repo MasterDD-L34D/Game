@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # REF_PLANNING_RIPRESA_2026 – Checkpoint rapido di riapertura
 
 Versione: 0.2

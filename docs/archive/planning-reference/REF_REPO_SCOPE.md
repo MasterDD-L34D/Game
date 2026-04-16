@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # REF_REPO_SCOPE – Refactor globale repository Game / Evo Tactics
 
 Versione: 0.6

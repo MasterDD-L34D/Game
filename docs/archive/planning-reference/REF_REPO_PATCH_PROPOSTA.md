@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # REF_REPO_PATCH_PROPOSTA – Applicazione iniziale dello scope
 
 Versione: 0.7
