@@ -468,6 +468,40 @@ function createRoundBridge(deps) {
   // Round endpoint routes (mounted by session.js)
   // ────────────────────────────────────────────────────────────────
 
+  // Timer enforcement: auto-commit quando planning_deadline_ms scade.
+  // Map di timers attivi per session_id, cancellati a commit/resolve.
+  const planningTimers = new Map();
+
+  function startPlanningTimer(session) {
+    const deadline = session.roundState && session.roundState.planning_deadline_ms;
+    if (!deadline || deadline <= 0) return;
+    // Cancel existing timer
+    const existing = planningTimers.get(session.session_id);
+    if (existing) clearTimeout(existing);
+    const timerId = setTimeout(() => {
+      planningTimers.delete(session.session_id);
+      // Auto-commit: se ancora in planning, committa + resolve
+      if (session.roundState && session.roundState.round_phase === PHASE_PLANNING) {
+        try {
+          session.roundState = roundOrchestrator.commitRound(session.roundState).nextState;
+          const result = resolveRoundPure(session.roundState, null, rng, placeholderResolveAction);
+          session.roundState = result.nextState;
+        } catch (_e) {
+          // Timer auto-commit failed silently (state may have changed)
+        }
+      }
+    }, Number(deadline));
+    planningTimers.set(session.session_id, timerId);
+  }
+
+  function cancelPlanningTimer(sessionId) {
+    const existing = planningTimers.get(sessionId);
+    if (existing) {
+      clearTimeout(existing);
+      planningTimers.delete(sessionId);
+    }
+  }
+
   function mountRoundEndpoints(router) {
     router.post('/declare-intent', (req, res, next) => {
       try {
@@ -486,6 +520,9 @@ function createRoundBridge(deps) {
         let current = state;
         if (current.round_phase !== PHASE_PLANNING) {
           current = roundOrchestrator.beginRound(current).nextState;
+          // Start planning timer if deadline configured
+          session.roundState = current;
+          startPlanningTimer(session);
         }
         const { nextState } = roundOrchestrator.declareIntent(current, actorId, action);
         session.roundState = nextState;
@@ -535,6 +572,7 @@ function createRoundBridge(deps) {
             .status(400)
             .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
         }
+        cancelPlanningTimer(session.session_id);
         const { nextState } = roundOrchestrator.commitRound(session.roundState);
         session.roundState = nextState;
         res.json({

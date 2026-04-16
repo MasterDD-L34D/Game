@@ -26,21 +26,43 @@ traits:
     cost_ap: 1
     resistances:
       - { channel: fisico, modifier_pct: 10 }
-    active_effects: []
+    active_effects:
+      - ability_id: elastic_absorb
+        name_it: "Assorbimento Elastico"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
   filamenti_digestivi_compattanti:
     attack_mod: 0
     defense_mod: 0
     damage_step: 0
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: digest_heal
+        name_it: "Digestione Rigenerante"
+        cost_ap: 2
+        effect_type: heal
+        heal_dice: { count: 1, sides: 6, modifier: 1 }
+        target: self
   sacche_galleggianti_ascensoriali:
     attack_mod: 0
     defense_mod: 1
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: buoyant_lift
+        name_it: "Sollevamento Ascensionale"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
   grassi_termici:
     attack_mod: 0
     defense_mod: 0
@@ -61,7 +83,15 @@ traits:
     damage_step: 0
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: waxy_coat
+        name_it: "Rivestimento Ceroso"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 3
+        target: self
     notes: "candidato defensive quando description_it sara arricchita (attualmente boilerplate generico)"
   scheletro_idro_regolante:
     attack_mod: 0
@@ -69,35 +99,74 @@ traits:
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: hydro_fortify
+        name_it: "Fortificazione Idrostatica"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
   olfatto_risonanza_magnetica:
     attack_mod: 0
     defense_mod: 0
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: magnetic_sense
+        name_it: "Senso Magnetico"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
   mimetismo_cromatico_passivo:
     attack_mod: 0
     defense_mod: 1
     damage_step: 0
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: chromatic_fade
+        name_it: "Dissolvenza Cromatica"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 1
+        target: self
   eco_interno_riflesso:
     attack_mod: 0
     defense_mod: 0
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: echo_pulse
+        name_it: "Impulso Ecolocativo"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
   coda_frusta_cinetica:
     attack_mod: 1
     defense_mod: 1
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: tail_whip
+        name_it: "Frustata Cinetica"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
     notes: "classe hybrid (tensione tra desc 'colpo devastante' e tag scout+tank)"
   artigli_sette_vie:
     attack_mod: 1
@@ -105,7 +174,14 @@ traits:
     damage_step: 1
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: cleave_strike
+        name_it: "Fendente a Sette Vie"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 3 }
+        channel: fisico
+        target: enemy
   spore_psichiche_silenziate:
     attack_mod: 1
     defense_mod: 0
@@ -135,7 +211,15 @@ traits:
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: spin_burst
+        name_it: "Rotazione Esplosiva"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 1
+        buff_duration: 1
+        target: self
     notes: "mobility con discount FME Alto (3 -> 2)"
   focus_frazionato:
     attack_mod: 0
@@ -143,14 +227,30 @@ traits:
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: divided_focus
+        name_it: "Focus Frazionato"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
   ventriglio_gastroliti:
     attack_mod: 0
     defense_mod: 0
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: energy_burst
+        name_it: "Scarica Energetica"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: damage_step
+        buff_amount: 2
+        buff_duration: 1
+        target: self
   sonno_emisferico_alternato:
     attack_mod: 0
     defense_mod: 0
@@ -158,7 +258,13 @@ traits:
     cost_ap: 2
     resistances:
       - { channel: mentale, modifier_pct: 10 }
-    active_effects: []
+    active_effects:
+      - ability_id: vigilant_rest
+        name_it: "Riposo Vigile"
+        cost_ap: 2
+        effect_type: heal
+        heal_dice: { count: 1, sides: 4, modifier: 1 }
+        target: self
   sangue_piroforico:
     attack_mod: 1
     defense_mod: 0
@@ -181,7 +287,15 @@ traits:
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: explosive_rush
+        name_it: "Scatto Esplosivo"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
     notes: "mobility con discount FME Alto (3 -> 2)"
   empatia_coordinativa:
     attack_mod: 0
@@ -189,7 +303,15 @@ traits:
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: coordinated_boost
+        name_it: "Coordinazione Empatica"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
   cute_resistente_sali:
     attack_mod: 0
     defense_mod: 1
@@ -198,7 +320,15 @@ traits:
     resistances:
       - { channel: fuoco, modifier_pct: 15 }
       - { channel: taglio, modifier_pct: 10 }
-    active_effects: []
+    active_effects:
+      - ability_id: salt_harden
+        name_it: "Indurimento Salino"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
   criostasi_adattiva:
     attack_mod: 0
     defense_mod: 1
@@ -238,21 +368,45 @@ traits:
     damage_step: 0
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: slowing_touch
+        name_it: "Tocco Rallentante"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: disorient
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
   risonanza_di_branco:
     attack_mod: 0
     defense_mod: 0
     damage_step: 0
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: pack_call
+        name_it: "Richiamo del Branco"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 2
+        target: self
   occhi_infrarosso_composti:
     attack_mod: 0
     defense_mod: 0
     damage_step: 0
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: thermal_scan
+        name_it: "Scansione Termica"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 1
+        buff_duration: 1
+        target: self
   mantello_meteoritico:
     attack_mod: 0
     defense_mod: 2
@@ -277,7 +431,15 @@ traits:
     damage_step: 0
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: taste_weakness
+        name_it: "Assaggio delle Debolezze"
+        cost_ap: 1
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 1
+        target: self
   frusta_fiammeggiante:
     attack_mod: 1
     defense_mod: 0
@@ -299,21 +461,42 @@ traits:
     damage_step: 0
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: neutralize_toxin
+        name_it: "Neutralizzazione Tossine"
+        cost_ap: 2
+        effect_type: heal
+        heal_dice: { count: 1, sides: 4, modifier: 2 }
+        target: self
   zoccoli_risonanti_steppe:
     attack_mod: 0
     defense_mod: 0
     damage_step: 0
     cost_ap: 1
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: resonant_stomp
+        name_it: "Pestata Risonante"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: disorient
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
   ipertrofia_muscolare_massiva:
     attack_mod: 1
     defense_mod: 0
     damage_step: 1
     cost_ap: 2
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: power_strike
+        name_it: "Colpo Devastante"
+        cost_ap: 3
+        effect_type: damage
+        damage_dice: { count: 2, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
     notes: "hybrid (TRT-02): massa muscolare aumenta sia attacco che danno"
   pelage_idrorepellente_avanzato:
     attack_mod: 0
@@ -323,7 +506,15 @@ traits:
     resistances:
       - { channel: cryo, modifier_pct: 25 }
       - { channel: acido, modifier_pct: 15 }
-    active_effects: []
+    active_effects:
+      - ability_id: hydro_shield
+        name_it: "Scudo Idrorepellente"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
     notes: "defensive (TRT-02): pelage avanzato con resistenze cryo e acido"
   cannone_sonico_a_raggio:
     attack_mod: 1
