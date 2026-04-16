@@ -123,7 +123,7 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 
 - **Generation pipeline (Flow)**. HTTP request → `apps/backend/routes/*` → `services/generation/*` (Node) → Python bridge (`services/generation/orchestrator.py`) via a worker pool sized by `config/orchestrator.json`. Inputs are normalized (slug, trait_ids, seed, biome_id); when trait validation fails, a hardcoded fallback set (`artigli_sette_vie`, `coda_frusta_cinetica`, `scheletro_idro_regolante`) is applied and logged as structured JSON (`component = generation-orchestrator`). Responses always combine `blueprint` + `validation` + `meta` — don't change that shape without also updating `packages/contracts` and the dashboard renderers.
 - **Combat pipeline (Rules Engine)**. Il rules engine d20 in `services/rules/` risolve azioni tattiche (attacco d20 vs DC, Margin of Success, damage step, parata reattiva, status fisici/mentali). `hydration.py` carica i valori meccanici da `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`; `resolver.py` esegue la risoluzione; `worker.py` espone il bridge per il backend. Lo schema payload è in `packages/contracts/schemas/combat.schema.json`. Vedi `docs/hubs/combat.md` per il canonical hub e `docs/adr/ADR-2026-04-13-rules-engine-d20.md` per le decisioni architetturali.
-- **Session engine (sprint 006–019)**. `apps/backend/routes/session.js` — state engine completo: attacco d20 + MoS + PT, movimento, status system (panic/rage/stunned/focused/confused/bleeding/fracture), trait effects 2-pass (`services/traitEffects.js`, 7 trait vivi in `data/core/traits/active_effects.yaml`), VC scoring (`services/vcScoring.js` — 20+ raw metrics, 6 aggregate, 4 MBTI, 6 Ennea), AI engine (`services/ai/policy.js` + `sistemaTurnRunner.js`). Schema raw event: `{ action_type, turn, actor_id, target_id, damage_dealt, result, position_from, position_to }` — non rompere questo formato, è usato da vcScoring.
+- **Session engine (sprint 006–019, round model since ADR-2026-04-16)**. Split in 4 moduli (851+602+248+58 LOC): `session.js` (createSessionRouter closure, /start /action /turn/end /end /state /:id/vc), `sessionRoundBridge.js` (round flow wrappers + 4 round endpoints), `sessionHelpers.js` (15 pure functions), `sessionConstants.js` (constants + defaults). **Round model ON by default** (M17 complete): `/action` attack e `/turn/end` passano attraverso il round orchestrator (`apps/backend/services/roundOrchestrator.js`). AI SIS usa `declareSistemaIntents.js` (intents puri). Legacy sequential-turn code rimosso. Schema raw event: `{ action_type, turn, actor_id, target_id, damage_dealt, result, position_from, position_to }` — non rompere questo formato, è usato da vcScoring.
 - **Contracts are the seam**. `packages/contracts` holds AJV schemas + TS types loaded by the backend (schema registry validates both live and mock responses) and by `scripts/mock/generate-demo-data.js`. A schema change ripples to backend tests and mock snapshots.
 - **Mock parity**. `/api/mock/*` endpoints serve the JSON that `npm run mock:generate` writes. The production Mission Console bundle (`docs/mission-console/`) reads the same data — mocks are not just test fixtures, they back the "offline" UX.
 - **Auth**. Backend routes honor JWT (`AUTH_SECRET`, `AUTH_AUDIENCE`, `AUTH_ISSUER`, `AUTH_ROLES_CLAIM`, etc.) when configured, otherwise open. Legacy Bearer tokens `TRAIT_EDITOR_TOKEN`/`TRAITS_API_TOKEN` protect trait routes; accepted roles are `reviewer`/`editor`/`admin` (admin always allowed).
@@ -165,13 +165,24 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-16)
+## 🎮 Sprint context (aggiornato: 2026-04-17)
 
 > Sezione aggiunta post-sprint 019. Aggiorna a ogni sessione significativa.
 
 **Visione**: "Tattica profonda a turni, cooperativa contro il Sistema, condivisa su TV: come giochi modella ciò che diventi."
 
-**Sprint completati**: 001–019 · **PR mergiati sessione 16/04**: 15 (#1354→#1368) · **Test AI**: 45/45 pass · **Ultimo commit**: `2f5673c5`
+**Sprint completati**: 001–019 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Ultimo commit**: `c1996e48`
+
+**Milestone completate sessione 16-17/04**:
+
+- Final Design Freeze v0.9 pubblicato (PR #1378, sessione precedente)
+- Round orchestrator Python batch 2: predicates DSL, cooldown, counter/overwatch, heal/healed (+42 test, 217/217 verdi)
+- **ADR-2026-04-16 Node session engine migration: 17/17 step completati** (#1387-#1405). Round model default ON, legacy removed.
+- Workflow cleanup: 28→16 (-43%), 0 broken, Node 22 + FORCE_NODE24
+- Issue cleanup: 33→0 (-100%)
+- Token optimization: session.js -57% (1967→851 LOC, split in 4 moduli), docs/planning -49%
+
+**Test totali**: Python rules engine 217/217 · Node (endpoint+AI+services) 253/253
 
 ### Pilastri di design — stato attuale
 
