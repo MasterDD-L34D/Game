@@ -17,7 +17,7 @@
       "name": "dev-stack",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev:stack"],
-      "port": 3333
+      "port": 3334
     }
   ]
 }
