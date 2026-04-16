@@ -663,6 +663,11 @@ function createSessionRouter(options = {}) {
         if (!target) {
           return res.status(400).json({ error: `target "${targetId}" non trovato` });
         }
+        if ((target.hp ?? 0) <= 0) {
+          return res
+            .status(400)
+            .json({ error: `target "${targetId}" gia' abbattuto (hp ${target.hp ?? 0})` });
+        }
         if ((actor.ap_remaining ?? 0) < 1) {
           return res
             .status(400)

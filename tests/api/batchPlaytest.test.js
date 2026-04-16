@@ -57,7 +57,12 @@ async function runOnePlaytest(app) {
     }
 
     for (const player of alivePlayers) {
-      const target = aliveEnemies[0];
+      // Re-read state between player attacks to avoid targeting dead enemies.
+      const liveStateRes = await request(app).get('/api/session/state').query({ session_id: sid });
+      const liveEnemies = liveStateRes.body.units.filter(
+        (u) => u.controlled_by === 'sistema' && u.hp > 0,
+      );
+      const target = liveEnemies[0];
       if (!target) break;
       const actionRes = await request(app).post('/api/session/action').send({
         session_id: sid,
@@ -80,7 +85,8 @@ async function runOnePlaytest(app) {
     const turnRes = await request(app).post('/api/session/turn/end').send({ session_id: sid });
     if (turnRes.status === 200 && turnRes.body.ia_actions) {
       for (const ia of turnRes.body.ia_actions) {
-        if (ia.action_type === 'attack' && ia.result === 'hit') {
+        // Backend emits `type: 'attack'` (not action_type). See sessionRoundBridge.js:367.
+        if ((ia.type === 'attack' || ia.action_type === 'attack') && ia.result === 'hit') {
           stats.enemy_damage += ia.damage_dealt || 0;
         }
       }
