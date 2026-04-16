@@ -69,10 +69,18 @@ const {
 } = require('../services/roundOrchestrator');
 
 // Feature flag: l'intera superficie round-based e' disabilitata se
-// USE_ROUND_MODEL !== 'true'. In quel caso ogni nuovo endpoint
-// ritorna 503. Di default e' false (comportamento legacy invariato).
+// M16 (ADR-2026-04-16): USE_ROUND_MODEL default flippato a true.
+// Il round-based combat model e' ora attivo per default. Per tornare
+// al sequential-turn model legacy, impostare USE_ROUND_MODEL=false
+// nell'environment. I test di equivalenza comportamentale (PR #1397,
+// M6-M14) verificano parita' strutturale tra i due flow.
+//
+// Per disattivare: USE_ROUND_MODEL=false npm run start:api
+// Per rollback completo: git revert i PR #1387-#1397 della serie
+//   feat/round-orchestrator-* + feat/turn-end-wrapper-*
 function isRoundModelEnabled() {
-  return String(process.env.USE_ROUND_MODEL || '').toLowerCase() === 'true';
+  const val = String(process.env.USE_ROUND_MODEL || 'true').toLowerCase();
+  return val !== 'false';
 }
 
 const GRID_SIZE = 6;
