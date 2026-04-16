@@ -61,6 +61,7 @@
     "wait-on": "^8.0.2"
   },
   "dependencies": {
+    "inkjs": "^2.4.0",
     "xstate": "^5.30.0"
   }
 }
