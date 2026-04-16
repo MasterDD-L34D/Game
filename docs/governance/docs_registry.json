@@ -6453,6 +6453,71 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/core/00C-WHERE_TO_USE_WHAT.md",
+      "title": "Where to Use What — Evo Tactics",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/core/00D-ENGINES_AS_GAME_FEATURES.md",
+      "title": "Engines as Game Features — Evo Tactics",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 14,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/pitch/evo_tactics_one_page_pitch.md",
+      "title": "Evo Tactics — One-Page Pitch",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/pitch/evo_tactics_publisher_sheet.md",
+      "title": "Evo Tactics — Publisher Sheet",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/pitch/evo_tactics_game_vision_reconstructed.md",
+      "title": "Evo Tactics — Visione Ricostruita del Gioco",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
     }
   ]
 }

@@ -70,6 +70,7 @@ L'asse di progressione collega tutti i livelli:
 - **Trait** attivi idratati dal resolver d20. Solo in `active_effects.yaml`, mai hardcoded. → [`data/core/traits/active_effects.yaml`](../../data/core/traits/active_effects.yaml)
 - **Forme base 16** — sistema identitario con 4 assi MBTI e seed innata. → [`22-FORME_BASE_16.md`](22-FORME_BASE_16.md), [`mbti_forms.yaml`](../../data/core/forms/mbti_forms.yaml)
 - **Morph/Mutazioni** — sbloccati via Nido (gene slot, ambient mutation). → [`27-MATING_NIDO.md`](27-MATING_NIDO.md) §Eredita'
+- **Job base 6+1** — Skirmisher, Vanguard, Warden, Artificer, Invoker, Harvester (base) + Ranger (extended). Ogni job e' un ruolo che l'organismo assume nel team e nell'ecosistema di missione, non una classe fantasy tradizionale. → [`jobs.yaml`](../../data/core/jobs.yaml)
 
 → [`00-SOURCE-OF-TRUTH.md`](00-SOURCE-OF-TRUTH.md) §5
 

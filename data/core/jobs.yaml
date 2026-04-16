@@ -1,6 +1,7 @@
 # Job System — Evo-Tactics
-# 7 job con stats + 3 abilita ciascuno (2 R1 + 1 R2).
-# Fonte: Final Design Freeze v0.9 §11
+# Base 6 dal vision doc (Skirmisher, Vanguard, Warden, Artificer, Invoker,
+# Harvester) + Ranger aggiunto come 7o job. Roster aperto a espansione.
+# Fonte: Final Design Freeze v0.9 §11, evo_tactics_game_vision_reconstructed.md
 #
 # Ogni ability segue lo schema active_effects: ability_id, name_it,
 # cost_ap, effect_type, target, durata, costo PI per unlock.
@@ -12,7 +13,18 @@ version: "0.1.0"
 
 jobs:
   skirmisher:
+    id: skirmisher
     label: "Schermidore"
+    label_it: "Schermidore"
+    label_en: "Skirmisher"
+    role: damage
+    description: >-
+      DPS mobile con posizionamento aggressivo. Favorisce combo PP e kiting.
+      Il ruolo che questo organismo assume e' quello di lama veloce che colpisce
+      e si ritira, sfruttando il movimento per generare vantaggio tattico.
+    signature_mechanic: "Hit-and-run: attacca e riposiziona nello stesso turno, generando PP da combo di movimento."
+    synergy_tags: [warden, artificer, ranger]
+    status: base
     description_it: "DPS mobile, posizionamento aggressivo. Favorisce combo PP e kiting."
     fantasy_flavor: "Lama che danza tra le ombre del campo di battaglia."
     initiative: 15
@@ -60,7 +72,18 @@ jobs:
         rank: 2
 
   vanguard:
+    id: vanguard
     label: "Avanguardia"
+    label_it: "Avanguardia"
+    label_en: "Vanguard"
+    role: tank
+    description: >-
+      Iniziatore e tank di prima linea. Attira aggressione nemica e protegge
+      gli alleati. Il Vanguard definisce la linea del fronte e controlla lo
+      spazio fisico della griglia con presenza e resistenza.
+    signature_mechanic: "Aggro pull: forza nemici ad attaccarlo, guadagnando buff difensivi proporzionali al danno assorbito."
+    synergy_tags: [warden, harvester, invoker]
+    status: base
     description_it: "Iniziatore, tank di prima linea. Attira aggressione, protegge alleati."
     fantasy_flavor: "Muro vivente che si frappone tra il caos e la squadra."
     initiative: 8
@@ -108,7 +131,18 @@ jobs:
         rank: 2
 
   warden:
+    id: warden
     label: "Guardiano"
+    label_it: "Guardiano"
+    label_en: "Warden"
+    role: control
+    description: >-
+      Controllore e difensore di zona. Crea campi di controllo che limitano il
+      movimento nemico e proteggono gli alleati. Il Warden intesse vincoli
+      tattici sulla griglia, negando spazio al nemico.
+    signature_mechanic: "Zone control: piazza aree persistenti che debuffano nemici e buffano alleati contemporaneamente."
+    synergy_tags: [vanguard, invoker, artificer]
+    status: base
     description_it: "Controllore/difensore. Zona di controllo, debuff nemici, protezione alleati."
     fantasy_flavor: "Sentinella che intesse vincoli di forza tra le celle della griglia."
     initiative: 9
@@ -155,7 +189,18 @@ jobs:
         rank: 2
 
   artificer:
+    id: artificer
     label: "Artefice"
+    label_it: "Artefice"
+    label_en: "Artificer"
+    role: support
+    description: >-
+      Supporto e utility. Amplifica il potenziale della squadra con buff
+      alleati, debuff nemici e micro-gestione delle risorse. Tessitore di
+      sinergie biologiche che orchestra il team.
+    signature_mechanic: "Resource amplification: redistribuisce PP tra alleati e estende durata status positivi."
+    synergy_tags: [skirmisher, ranger, harvester]
+    status: base
     description_it: "Supporto/utilita. Buff alleati, debuff nemici, micro-gestione risorse."
     fantasy_flavor: "Tessitore di sinergie biologiche che amplifica il potenziale della squadra."
     initiative: 11
@@ -203,7 +248,18 @@ jobs:
         rank: 2
 
   invoker:
+    id: invoker
     label: "Invocatore"
+    label_it: "Invocatore"
+    label_en: "Invoker"
+    role: damage
+    description: >-
+      Blaster a lungo raggio con danno direzionale e controllo area. Canalizza
+      energie primordiali che piegano lo spazio a distanza. Alto rischio, alto
+      rendimento — il Surge Gate e' la sua risorsa chiave.
+    signature_mechanic: "Surge Gate burst: accumula SG fino a soglia, poi rilascia AoE devastante con reset stress."
+    synergy_tags: [warden, vanguard, artificer]
+    status: base
     description_it: "Blaster a lungo raggio. Danno direzionale, controllo area."
     fantasy_flavor: "Canalizzatore di energie primordiali che piega lo spazio a distanza."
     initiative: 12
@@ -248,7 +304,18 @@ jobs:
         rank: 2
 
   ranger:
+    id: ranger
     label: "Ricognitore"
+    label_it: "Ricognitore"
+    label_en: "Ranger"
+    role: scout
+    description: >-
+      Range massimo e mobilita' alta. Scouting, kiting e mordi-e-fuggi.
+      Occhio vigile della squadra che marca bersagli e colpisce da dove nessuno
+      guarda. Aggiunto come 7o job oltre i 6 base del vision doc.
+    signature_mechanic: "Mark & overwatch: marca nemici dando bonus attacco al team, poi punisce chi si muove in range."
+    synergy_tags: [skirmisher, artificer, invoker]
+    status: extended
     description_it: "Range massimo, mobilita alta. Scouting, kiting, mordi e fuggi."
     fantasy_flavor: "Occhio vigile che colpisce da dove nessuno guarda."
     initiative: 14
@@ -293,7 +360,18 @@ jobs:
         rank: 2
 
   harvester:
+    id: harvester
     label: "Raccoglitore"
+    label_it: "Raccoglitore"
+    label_en: "Harvester"
+    role: utility
+    description: >-
+      Risorsa e crescita. Bridge verso la meta-economy, genera Seed e offre
+      supporto passivo. Custode del ciclo vitale che trae nutrimento dal caos
+      del campo e lo redistribuisce alla squadra.
+    signature_mechanic: "Drain & bloom: ruba risorse dai nemici e le converte in cure e Seed per il team."
+    synergy_tags: [vanguard, warden, artificer]
+    status: base
     description_it: "Risorsa/crescita. Bridge meta-economy, genera seed, supporto passivo."
     fantasy_flavor: "Custode del ciclo vitale che trae nutrimento dal caos del campo."
     initiative: 8
