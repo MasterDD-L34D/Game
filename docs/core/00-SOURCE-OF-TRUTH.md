@@ -8,11 +8,12 @@ language: it
 review_cycle_days: 30
 ---
 
-# Evo Tactics — Source of Truth Unificata v3
+# Evo Tactics — Source of Truth Unificata v4
 
 _Base ricostruita dalla copia `Game.zip` del repo attuale. Questo documento non sostituisce le fonti runtime, ma le riunisce in una lettura unica e operativa._
 
-_v3 (2026-04-16): aggiunte §14–§18 (Grid, Level Design, Networking, Screen Flow, Audience). Sezioni ⚠️ sono placeholder con domande aperte — verranno popolate da deep dive su repo esterni (Tier 0–3)._
+_v3 (2026-04-16): aggiunte §14–§18 (Grid, Level Design, Networking, Screen Flow, Audience)._
+_v4 (2026-04-16): deep dive 4 aree (Grid, AI, Level Design, Networking) da 12+ repo esterni. §14-§16 arricchite con pattern concreti e raccomandazioni. §17 formalizzata con mermaid. §19 aggiunta: registro 28 decisioni GDD (12 chiuse, 9 proposte, 7 bloccate). AI SIS §13.5 arricchita con roadmap Utility AI._
 
 ## Stato lettura
 
@@ -645,6 +646,31 @@ Implementato in `apps/backend/services/statusEffectsMachine.js` come FSM xstate 
 
 **Profili data-driven** (`ai_profiles.yaml`): 3 personalità (aggressive, balanced, cautious) con soglie override. `ai_intent_scores.yaml`: costanti combat (default_attack_range, retreat_hp_pct, kite_buffer).
 
+#### Evoluzione AI — evidenze deep dive repo (2026-04-16)
+
+Analizzati: yuka (JS, goal-driven + fuzzy), GOApy (Python, GOAP/A\*), UtilityAI (C#, considerations), Behaviac (C++, BT/HTN).
+
+**Raccomandazione: Utility AI.** Motivazioni:
+
+1. **Fit naturale** con `selectAiPolicy(actor, target)` → wrapper ogni opzione come Action con Considerations
+2. **Scoring** per azione: `score = Π(consideration_i(state))`, curva lineare/quadratica/log per fattore
+3. **Difficulty profiles** = peso considerations: easy=random noise alto, hard=ottimale
+4. **Overhead zero** per turn-based (nessun planning multi-step necessario)
+5. **~400 LOC** per port minimo (Brain + Action + Consideration base classes)
+
+**Roadmap AI proposta:**
+
+1. `enumerateLegalActions(state, unitId)` → lista azioni valide (boardgame.io pattern)
+2. Per ogni azione: score da N considerations (distanza, HP, copertura, alleati, stress)
+3. Selezione: highest score (hard), weighted random top-3 (normal), random (easy)
+4. Profili in `ai_profiles.yaml` → pesi consideration per profilo
+
+**Pattern scartati:**
+
+- GOAP: overhead A\* planning ogni turno, overkill per 3-5 azioni possibili
+- Behavior Tree: rigido, meno adattivo a cambio parametri
+- Yuka goals: buono per hierarchical goals ma action enum manuale
+
 ### 13.6 Narrative engine
 
 **inkjs** in `services/narrative/narrativeEngine.js`. Carica storie `.ink.json` compilate e le esegue fino a nodi di scelta.
@@ -681,8 +707,9 @@ Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrat
 | §14 Grid & Map             | `terrain_defense.yaml` (solo dati)                        | ⚠️ Da definire                        |
 | §15 Level Design           | `enc_tutorial_01.yaml` (1 esempio)                        | ⚠️ Da definire                        |
 | §16 Networking/Co-op       | —                                                         | ⚠️ Da definire                        |
-| §17 Screen Flow            | `draft-screen-flow.md` (bozza)                            | ⚠️ Da formalizzare                    |
-| §18 Audience/Accessibilità | —                                                         | ⚠️ Da definire                        |
+| §17 Screen Flow            | `draft-screen-flow.md` (mermaid)                          | ✅ Formalizzato                       |
+| §18 Audience/Accessibilità | —                                                         | 🟡 Proposte, attesa Master DD         |
+| §19 Decisioni GDD          | 28 domande                                                | 12✅ 9🟡 7🔴                          |
 
 ---
 
@@ -692,17 +719,29 @@ Questa sezione copre la struttura spaziale del campo di battaglia. Attualmente i
 
 ### 14.1 Tipo di griglia
 
-**Decisione aperta:** hex o square?
+**Decisione aperta:** hex o square? → ADR dedicato richiesto.
 
-| Criterio                 | Hex                                                    | Square                              |
-| ------------------------ | ------------------------------------------------------ | ----------------------------------- |
-| Leggibilità TV (10-foot) | Meno intuitiva, più elegante                           | Più intuitiva per casual            |
-| Distanza/adiacenza       | 6 vicini equidistanti, no diagonali ambigue            | 8 vicini, diagonali costano √2      |
-| Copertura/LOS            | Naturale, nessun edge case diagonale                   | Edge case angoli, LOS ambigua       |
-| Complessità impl.        | Coordinate axial/cube, librerie mature                 | Banale, nessuna libreria necessaria |
-| Reference tattici        | FFT (square), Fire Emblem (square), AncientBeast (hex) | —                                   |
+| Criterio                 | Hex                                         | Square                              |
+| ------------------------ | ------------------------------------------- | ----------------------------------- |
+| Leggibilità TV (10-foot) | Meno intuitiva, più elegante                | Più intuitiva per casual            |
+| Distanza/adiacenza       | 6 vicini equidistanti, no diagonali ambigue | 8 vicini, diagonali costano √2      |
+| Copertura/LOS            | Naturale, nessun edge case diagonale        | Edge case angoli, LOS ambigua       |
+| Complessità impl.        | Coordinate axial/cube, librerie mature      | Banale, nessuna libreria necessaria |
+| Reference tattici        | AncientBeast (hex, 16×9)                    | FFT (square), Fire Emblem (square)  |
 
-**Da risolvere:** scelta grid type → ADR dedicato.
+**Evidenze da deep dive repo (2026-04-16):**
+
+- **AncientBeast** usa hex 16×9 con `hexes[y][x]`, supporta unità multi-hex (size 1-3), walkability check, pathfinding con `getMovementRange(x, y, distance, size, id)`. Funziona bene per creature di dimensioni diverse.
+- **Red Blob Games** (reference canonico): raccomanda **coordinate axial (q,r)** per la maggior parte dei progetti. Distanza = `max(|q|, |r|, |s|)/2`. Cube per algoritmi, axial per storage.
+- **easystarjs**: solo square, A\* asincrono, npm ready, ~7kb. Sufficiente se square.
+- **honeycomb-grid** (npm): hex grid JS/TS, Node ≥16, MIT, 695★. No pathfinding built-in ma esempio A\* incluso. Coordinate axial/cube.
+
+**Raccomandazione preliminare:** hex con coordinate axial. Motivazioni:
+
+1. Creature di dimensioni diverse (species size da `species.yaml`) mappano meglio su hex (AncientBeast pattern)
+2. LOS/range senza ambiguità diagonale — critico per d20 range attacks
+3. Leggibilità TV compensata da hex grandi e alto contrasto (già previsto in §6)
+4. `honeycomb-grid` + A\* custom = stack leggero
 
 ### 14.2 Terreno
 
@@ -711,41 +750,52 @@ Dati già esistenti in `packs/evo_tactics_pack/data/balance/terrain_defense.yaml
 - terrain types con defense_mod
 - integrati nel calcolo CD del resolver (`CD = 10 + tier + defense_mod + terrain_mod`)
 
-**Mancante:**
+**Mancante — da aggiungere a `terrain_defense.yaml`:**
 
-- movement cost per terrain type
-- elevation model (quanti livelli? effetto su range/LOS?)
-- cover system (binario o gradi?)
-- hazard tiles (da `biomes.yaml` hazard list → tile effect)
+- `movement_cost: int` per terrain type (Red Blob Games: Dijkstra con costi variabili)
+- `elevation: int` (proposta: 3 livelli — basso/medio/alto; +1 range per livello sopra, -1 sotto)
+- `cover: float` (proposta: 0/0.25/0.5 — nessuna/parziale/piena; applicato come moltiplicatore damage)
+- `hazard_effect: string` (ref a hazard da `biomes.yaml` → effetto tile: damage/status/movement penalty)
+- `blocks_los: bool` (muri, vegetazione densa)
 
 ### 14.3 Pathfinding
 
-**Nessuna implementazione.** Opzioni:
+**Nessuna implementazione.** Approccio raccomandato da analisi:
 
-- A\* asincrono (stile easystarjs) — semplice, sufficiente per turni
-- Dijkstra con range limit — per mostrare area raggiungibile
-- JPS (Jump Point Search) — ottimizzazione su griglie uniformi
+| Algoritmo               | Uso                                                                      | Libreria                           |
+| ----------------------- | ------------------------------------------------------------------------ | ---------------------------------- |
+| **Dijkstra flood-fill** | `getReachableTiles(unit, ap)` — area raggiungibile con costi terreno     | Custom (~80 LOC)                   |
+| **A\***                 | `findPath(from, to)` — percorso ottimale per animazione movimento        | easystarjs (square) o custom (hex) |
+| **BFS range**           | `getTilesInRange(center, range)` — area attacco/abilità (ignora terreno) | Custom (~30 LOC)                   |
 
-**Da implementare:** `getReachableTiles(unit, ap)` → set di tile raggiungibili dato AP residuo e costi movimento.
+Red Blob Games: BFS level-by-level per range limit, Dijkstra per costi variabili. Entrambi ~50-80 LOC su hex.
+
+**API target:**
+
+```js
+getReachableTiles(unit, ap) → Set<HexCoord>     // movement
+findPath(from, to, unit) → HexCoord[]            // animation
+getTilesInRange(center, range) → Set<HexCoord>   // attack/ability
+getLineOfSight(from, to) → {clear: bool, tiles: HexCoord[]}
+```
 
 ### 14.4 Field of View / Line of Sight
 
-**Nessuna implementazione.** Necessario per:
+**Nessuna implementazione.** Approccio da Red Blob Games:
 
-- attacchi a distanza (range check)
-- copertura (LOS parziale)
-- fog of war (se previsto)
-- reazioni overwatch (trigger su LOS)
+- **LOS**: interpolazione lineare fra due hex, N+1 sample points, rounding a hex. Epsilon bias per evitare ambiguità bordi.
+- **FOV**: ray-cast da centro unità verso tutti hex in range, stop su `blocks_los` tiles.
+- Necessario per: range attacks, copertura, overwatch trigger, fog of war (opzionale).
 
 ### 14.5 Mappa design → codice
 
-| Componente   | Modulo                 | Stato            |
-| ------------ | ---------------------- | ---------------- |
-| Terrain data | `terrain_defense.yaml` | Dati presenti    |
-| Grid engine  | —                      | Non implementato |
-| Pathfinding  | —                      | Non implementato |
-| FOV/LOS      | —                      | Non implementato |
-| Map editor   | —                      | Non previsto     |
+| Componente   | Modulo                 | Stato                         | Libreria candidata     |
+| ------------ | ---------------------- | ----------------------------- | ---------------------- |
+| Terrain data | `terrain_defense.yaml` | Dati presenti, campi mancanti | —                      |
+| Grid engine  | —                      | Non implementato              | `honeycomb-grid` (hex) |
+| Pathfinding  | —                      | Non implementato              | Custom Dijkstra/A\*    |
+| FOV/LOS      | —                      | Non implementato              | Custom ray-cast        |
+| Map editor   | —                      | Non previsto                  | —                      |
 
 ---
 
@@ -817,13 +867,22 @@ tags: [string] # tutorial, boss, survival, timed...
 
 ### 15.4 Difficulty formula
 
-**Da definire.** Proposta iniziale:
+**Evidenze da deep dive repo (2026-04-16):**
+
+- **AncientBeast**: nessuna formula esplicita; difficulty emerge da creature stats (18 attributi) e risorse (plasma). Budget implicito.
+- **wesnoth**: `difficulty_level` con scaling stat per livello (easy/normal/hard). Dati in `data/campaigns/`, tag `{QUANTITY}` per nemici scalati.
+- **rpg_tactical_fantasy_game**: XML data-driven, balance modificabile senza toccare codice.
+
+**Formula proposta per Evo-Tactics:**
 
 ```
-difficulty = f(enemy_count, avg_enemy_tier, terrain_complexity, hazard_count, objective_type)
+raw_score = (enemy_count × avg_enemy_tier) + terrain_penalty + hazard_count × 2
+biome_mult = biome.difficulty_base  # da biomes.yaml
+objective_mult = {eliminate: 1.0, survive: 1.2, escort: 1.5, boss: 2.0}
+difficulty = clamp(raw_score × biome_mult × objective_mult, 1, 5)
 ```
 
-Reference: wesnoth usa `difficulty_level` con scaling stat per livello; Evo-Tactics potrebbe usare tier nemico + moltiplicatore bioma.
+**Scaling per difficoltà (pattern wesnoth):** tag `{QUANTITY}` applicato a enemy_count. Easy=0.7×, Normal=1.0×, Hard=1.3×.
 
 ### 15.5 Progressione campagna
 
@@ -833,17 +892,33 @@ Reference: wesnoth usa `difficulty_level` con scaling stat per livello; Evo-Tact
 2. Arco bioma (3-5 encounter)
 3. Meta-narrativa campagna
 
-**Mancante:** quanti encounter per bioma? Ordine fisso o scelta? Branching?
+**Evidenze da repo:**
 
-### 15.6 Mappa design → codice
+- **wesnoth**: campagne come sequenze lineari di scenario con branching limitato. Ogni scenario = encounter + map + dialogue. ~10-15 scenario per campagna.
+- **AncientBeast**: nessuna campagna, solo PvP.
 
-| Componente         | Modulo                 | Stato                    |
-| ------------------ | ---------------------- | ------------------------ |
-| Encounter template | `enc_tutorial_01.yaml` | 1 esempio, no schema AJV |
-| Encounter loader   | —                      | Non implementato         |
-| Difficulty system  | —                      | Non implementato         |
-| Campaign graph     | —                      | Non implementato         |
-| Map data format    | —                      | Non definito             |
+**Proposta Evo-Tactics:**
+
+- 7 biomi = 7 archi
+- 4-5 encounter per arco (tutorial → standard × 2-3 → boss)
+- Branching: scelta encounter opzionale dopo il secondo (narrativa ink)
+- ~30-35 encounter totali per campagna completa
+
+### 15.6 Map data format
+
+**Evidenze:** nessun repo analizzato usa YAML per mappe. AncientBeast hard-coded, wesnoth usa WML, Python RPG usa file custom.
+
+**Decisione per Evo-Tactics:** YAML coerente col resto del repo. Ogni encounter = 1 file `.encounter.yaml` con map data inline o ref a `.map.yaml` separato per mappe grandi.
+
+### 15.7 Mappa design → codice
+
+| Componente         | Modulo                 | Stato            | Prossimo passo                 |
+| ------------------ | ---------------------- | ---------------- | ------------------------------ |
+| Encounter template | `enc_tutorial_01.yaml` | 1 esempio        | Schema AJV in `schemas/evo/`   |
+| Encounter loader   | —                      | Non implementato | Parser YAML → session state    |
+| Difficulty system  | —                      | Non implementato | Formula §15.4                  |
+| Campaign graph     | —                      | Non implementato | Grafo archi bioma              |
+| Map data format    | —                      | Non definito     | `.encounter.yaml` con hex grid |
 
 ---
 
@@ -863,13 +938,31 @@ Da §6 e dai design doc:
 
 ### 16.2 Modello architetturale (da scegliere)
 
-| Opzione                    | Pro                                       | Contro                                            |
-| -------------------------- | ----------------------------------------- | ------------------------------------------------- |
-| **A. Express + Socket.io** | Già Express in uso, minimo overhead       | State sync manuale, no matchmaking built-in       |
-| **B. Colyseus**            | State sync automatico, rooms, matchmaking | Nuova dipendenza, possibile conflitto con Express |
-| **C. Custom WebSocket**    | Controllo totale                          | Tutto da implementare                             |
+**Evidenze da deep dive Colyseus (2026-04-16):**
 
-**Da risolvere:** ADR networking. Fattore critico: round model xstate è già autoritativo — serve solo transport layer + state diff.
+| Opzione                    | Pro                                                             | Contro                             | Fit      |
+| -------------------------- | --------------------------------------------------------------- | ---------------------------------- | -------- |
+| **A. Express + Socket.io** | Già Express in uso, minimo overhead                             | State sync manuale, no matchmaking | Basso    |
+| **B. Colyseus**            | State sync delta automatico, rooms, matchmaking, reconnect, MIT | Nuova dipendenza                   | **Alto** |
+| **C. Custom WebSocket**    | Controllo totale                                                | Tutto da implementare              | Basso    |
+
+**Colyseus deep dive:**
+
+- Server-authoritative Node.js, room-based. Delta-compression + binary encoding automatico.
+- Supporto esplicito turn-based. SDK per Unity, Godot, web.
+- **Coesiste con Express** su porta/route separata. Session state mappa naturalmente a Room state.
+- xstate FSM integra direttamente — room state riflette fase turno corrente.
+- Stima effort: **2-3 settimane** per refactor session.js → Colyseus Schema + room events, Express intatto per API/auth.
+
+**Confronto alternative:**
+
+- **Socket.io**: low-level, nessun state sync, tutto manuale
+- **Nakama**: feature-rich (accounts, social, storage), overhead maggiore
+- **Photon**: proprietario, meno adatto a turn-based authority model
+
+**Raccomandazione: Colyseus (opzione B).** Round model xstate già autoritativo — Colyseus aggiunge solo transport + delta sync + reconnect.
+
+**Da risolvere:** ADR networking con scelta definitiva.
 
 ### 16.3 State sync
 
@@ -904,51 +997,64 @@ Il companion (§6) è un **client leggero** che:
 
 ---
 
-## 17. Screen Flow ⚠️ DA FORMALIZZARE
+## 17. Screen Flow ✅ FORMALIZZATO
 
-Il flusso schermate è descritto in §2 e in `draft-screen-flow.md` ma manca un diagramma formale.
+Il flusso schermate è ora definito in `draft-screen-flow.md` con diagramma mermaid completo.
 
-### 17.1 Flusso principale
+### 17.1 Diagramma navigazione (da `draft-screen-flow.md`)
 
-```
-Boot → Menu → Campagna → Selezione Bioma → Selezione Encounter
-  → Lobby / Draft / Squad Setup
-    → Briefing (ink)
-      → Match (round loop)
-        → Debrief (ink)
-          → Risultati & VC
-            → Albero Evolutivo
-              → [nuova partita | menu]
+```mermaid
+graph TD
+    BOOT[Boot / Splash] --> MENU[Menu Principale]
+    MENU --> LOBBY[Lobby Co-op]
+    MENU --> COLLECTION[Collezione Creature]
+    MENU --> SETTINGS[Impostazioni]
+    MENU --> CAMPAIGN[Selezione Campagna]
+    CAMPAIGN --> BIOME_SELECT[Selezione Bioma]
+    BIOME_SELECT --> ENCOUNTER_SELECT[Selezione Encounter]
+    LOBBY --> DRAFT[Draft / Squad Setup]
+    ENCOUNTER_SELECT --> DRAFT
+    DRAFT --> BRIEFING[Briefing Pre-Match]
+    BRIEFING --> MATCH[Match TBT]
+    MATCH --> DEBRIEF[Debrief Post-Match]
+    DEBRIEF --> RESULTS[Risultati & VC]
+    RESULTS --> EVOLUTION[Albero Evolutivo]
+    EVOLUTION --> DRAFT
+    EVOLUTION --> MENU
+    SETTINGS --> CONTROLS[Mappatura Controlli]
+    SETTINGS --> AUDIO_SET[Audio / Volume]
+    SETTINGS --> DISPLAY[Display / Accessibilità]
 ```
 
 ### 17.2 Flusso match (round loop interno)
 
-```
-beginRound → Planning Phase (tutti i giocatori dichiarano intenti)
-  → commitRound → Resolving Phase (coda priorità)
-    → resolvedRound → check vittoria/sconfitta
-      → [sì] → Debrief
-      → [no] → beginRound successivo
+```mermaid
+graph LR
+    BR[beginRound] --> PL[Planning Phase]
+    PL --> CM[commitRound]
+    CM --> RS[Resolving Phase]
+    RS --> CK{Vittoria?}
+    CK -->|no| BR
+    CK -->|sì| DB[Debrief]
 ```
 
-### 17.3 Schermate non definite
+### 17.3 Schermate — stato
 
-| Schermata         | Stato        | Note                                      |
-| ----------------- | ------------ | ----------------------------------------- |
-| Boot/splash       | Non definita | Logo, versione, caricamento               |
-| Menu principale   | Non definita | Campagna, opzioni, profilo                |
-| Selezione bioma   | Non definita | Mappa mondo? Lista?                       |
-| Lobby/draft       | Non definita | Distribuzione creature fra giocatori      |
-| Opzioni/settings  | Non definita | Audio, video, accessibilità, controlli    |
-| Profilo giocatore | Non definita | Storico VC, tipo MBTI, creature sbloccate |
-| Save/Load         | Non definita | Slot salvataggio campagna                 |
+| Schermata           | Stato             | Input (§19)                       |
+| ------------------- | ----------------- | --------------------------------- |
+| Boot/splash         | Non definita      | —                                 |
+| Menu principale     | Definita in draft | Controller D-pad navigation       |
+| Selezione bioma     | Non definita      | Mappa mondo o lista (da decidere) |
+| Lobby/draft         | Definita in draft | Co-op join flow (§16 Colyseus)    |
+| Settings            | Definita in draft | Audio + Display + Controlli       |
+| Collezione creature | Definita in draft | Tratti + VC profile               |
+| Save/Load           | Non definita      | Slot campagna (non documentato)   |
 
 ### 17.4 Mappa design → codice
 
 | Componente        | Modulo                  | Stato                                 |
 | ----------------- | ----------------------- | ------------------------------------- |
-| Screen flow doc   | `draft-screen-flow.md`  | Bozza testuale                        |
-| Diagramma formale | —                       | Non esistente (generare con mermaid)  |
+| Screen flow doc   | `draft-screen-flow.md`  | ✅ Diagramma mermaid completo         |
 | Navigation engine | —                       | Non implementato                      |
 | Mission Console   | `docs/mission-console/` | Bundle pre-built, source non nel repo |
 
@@ -976,22 +1082,76 @@ beginRound → Planning Phase (tutti i giocatori dichiarano intenti)
 
 ### 18.2 Accessibilità
 
-**Nessun doc dedicato.** Open questions attive (#22-#28):
+**Decisioni prese (Fase 4, 2026-04-16):**
 
-- Colorblind mode?
-- Text-to-speech?
-- Difficoltà regolabile?
-- Sottotitoli per suoni?
-- Controlli: keyboard + controller + touch?
-
-**Standard minimo consigliato:** WCAG 2.1 AA per UI, remappable controls, font size scaling (TV-first richiede font grande per default).
+- **Controlli**: controller primary (TV-first, D-pad), keyboard fallback (PC), touch per companion app
+- **Colorblind mode**: previsto al lancio (WCAG 2.1 AA)
+- **Difficoltà regolabile**: sì, scaling enemy count (Easy=0.7×, Normal=1.0×, Hard=1.3× — pattern wesnoth, §15.4)
+- **Text-to-speech**: post-lancio
+- **Sottotitoli**: non necessari (§19 Q19: solo testo, nessun voice-over)
+- **Indicatori visivi per deaf/HoH**: sì, per eventi sonori importanti (turno nemico, hazard trigger)
+- **Font**: grande per default (TV 10-foot requirement)
+- **Remappable controls**: previsto
 
 ### 18.3 Mappa design → codice
 
-| Componente             | Modulo | Stato            |
-| ---------------------- | ------ | ---------------- |
-| Player personas        | —      | Non definite     |
-| Accessibility settings | —      | Non implementato |
-| Colorblind mode        | —      | Non implementato |
-| Difficulty settings    | —      | Non implementato |
-| Controls mapping       | —      | Non documentato  |
+| Componente             | Modulo | Stato                                           |
+| ---------------------- | ------ | ----------------------------------------------- |
+| Player personas        | —      | 3 proposte (§18.1), da validare                 |
+| Accessibility settings | —      | Non implementato                                |
+| Colorblind mode        | —      | Non implementato, previsto lancio               |
+| Difficulty settings    | —      | Non implementato, formula in §15.4              |
+| Controls mapping       | —      | Controller primary + keyboard + touch companion |
+
+---
+
+## 19. Registro decisioni GDD (Open Questions)
+
+Questa sezione traccia le 28 domande aperte dai draft GDD e il loro stato di risoluzione. Aggiornata con evidenze da deep dive Fase 2 su repo esterni (2026-04-16).
+
+### 19.1 Decisioni chiuse (✅ 12/28)
+
+| #   | Domanda                    | Decisione                             | Evidenza                                                   |
+| --- | -------------------------- | ------------------------------------- | ---------------------------------------------------------- |
+| 11  | Volume default             | Musica 70%, SFX 100%, master 80%      | Standard gamedev, configurabile in Settings                |
+| 13  | Editor livelli             | YAML manuale                          | Tutti repo analizzati = hand-crafted. Repo YAML-first      |
+| 14  | Procedurale o hand-crafted | Hand-crafted con wave procedurale     | AncientBeast, wesnoth, rpg_tactical_fantasy = hand-crafted |
+| 15  | Formula difficulty         | `clamp(raw × biome × obj, 1, 5)`      | SoT §15.4, wesnoth scaling pattern                         |
+| 17  | Schema AJV encounter       | Da creare in `schemas/evo/`           | Template in §15.2 + `draft-level-design.md`                |
+| 18  | Procedurale vs scritta     | Mix: briefing Ink + wave procedurale  | narrativeEngine.js operativo, Director = procedurale       |
+| 19  | Voice-over o testo         | Solo testo                            | Ink engine = testo. Budget indie. Tono intimo              |
+| 21  | Tool narrativo             | Ink (inkjs)                           | Già implementato §13.6. Decisione chiusa                   |
+| 24  | Tutorial                   | Integrato nei primi encounter         | `enc_tutorial_01.yaml`. SoT §2 esplicito                   |
+| 25  | Matchmaking                | In lobby                              | `draft-screen-flow.md`: MENU → LOBBY                       |
+| 28  | Controlli                  | Controller primary + keyboard + touch | TV-first = controller. Touch = companion                   |
+
+### 19.2 Proposte da validare con Master DD (🟡 9/28)
+
+| #   | Domanda              | Proposta                               | Motivazione                          |
+| --- | -------------------- | -------------------------------------- | ------------------------------------ |
+| 3   | Localizzazione       | it + en al lancio                      | Docs già it-en. Glossary bilingue    |
+| 10  | Voci creature        | Nessuna voce, SFX ambientali           | Creature non parlano. Bio-plausibile |
+| 12  | Prototipo audio      | freesound.org → asset pack             | Zero audio oggi, non bloccante       |
+| 16  | Livelli co-op/PvP    | Solo co-op al lancio                   | Pilastro #5 = co-op vs Sistema       |
+| 20  | NPC named            | Creature anonime + Sistema come "voce" | "Lore suggerita dal gameplay" (§7)   |
+| 22  | Accessibilità lancio | Colorblind + difficoltà regolabile     | WCAG 2.1 AA. TTS post-lancio         |
+| 23  | Indicatori deaf      | Visivi per eventi sonori               | Solo testo → quasi coperto           |
+| 26  | Loading screen       | Tip durante loading                    | Low effort, high polish              |
+| 27  | Replay match         | Event log in debrief                   | VC scoring già traccia raw events    |
+
+### 19.3 Bloccate su Master DD (🔴 7/28)
+
+| #   | Domanda          | Categoria     | Note                         |
+| --- | ---------------- | ------------- | ---------------------------- |
+| 1   | Modello business | Business      | premium/F2P/early access     |
+| 2   | Rating PEGI      | Business      | Dipende da contenuti visual  |
+| 4   | Stile rendering  | Art Direction | pixel art/low-poly/2D/ibrido |
+| 5   | Animazioni       | Art Direction | sprite/skeletal/procedurale  |
+| 6   | Budget asset     | Art Direction | Dipende da Q4-Q5             |
+| 7   | Moodboard        | Art Direction | Nessun asset visivo nel repo |
+| 8   | Tool pipeline    | Art Direction | Dipende da Q4                |
+| 9   | Budget musicale  | Business      | compositore/royalty-free     |
+
+### 19.4 Pattern emergente
+
+**Tutti i gap irrisolti = Art Direction + Business Model.** Coerente con GDD Audit: gap critici §10 (Game Art) e §1 (Copyright/licensing). Il progetto è forte su meccaniche, debole su produzione asset — priorità Master DD per sbloccare.
