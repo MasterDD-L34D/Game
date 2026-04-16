@@ -45,14 +45,14 @@ Classificazione ufficiale dei 10 sistemi di design di Evo Tactics. Ogni sistema 
 
 ## TODO aperti post-matrice
 
-1. [ ] Consolidare duplicati Nido (27-MATING vs Mating-Reclutamento)
-2. [ ] Deduplicare 24-TELEMETRIA_VC vs Telemetria-VC
-3. [ ] Risolvere naming Sentience (T0-T5 vs T1-T6)
-4. [ ] Consolidare 3 copie GDD snapshot in archive
-5. [ ] Documentare pipeline rebuild Mission Console
-6. [ ] Chiarire XP Cipher (trovato? scartato? rinominato?)
-7. [ ] Completare gene slot in mating.yaml
-8. [ ] Convertire canvas .txt A.L.I.E.N.A. in .md con frontmatter
+1. [x] Consolidare duplicati Nido — `27-MATING_NIDO.md` ora redirect a `Mating-Reclutamento-Nido.md`
+2. [x] Deduplicare Telemetria — `24-TELEMETRIA_VC.md` ora redirect a `Telemetria-VC.md`
+3. [ ] Risolvere naming Sentience (T0-T5 vs T1-T6) — richiede decisione design
+4. [x] Consolidare GDD snapshot — 3 copie → 1 in `docs/archive/gdd-baseline/GDD_v1_baseline.md`
+5. [ ] Documentare pipeline rebuild Mission Console — nessun source nel repo, serve doc processo esterno
+6. [x] Chiarire XP Cipher — esiste nel backlog come FD-058 ("Chiudere XP Cipher gap"), non scartato. Owner: L. Serra (PROG-04)
+7. [ ] Completare gene slot in mating.yaml — richiede decisione design
+8. [x] Convertire canvas .txt A.L.I.E.N.A. in .md con frontmatter — fatto (A, C, D convertiti)
 
 ---
 
