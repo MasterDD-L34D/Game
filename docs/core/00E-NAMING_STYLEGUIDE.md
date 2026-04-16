@@ -1,0 +1,249 @@
+---
+title: Naming Styleguide — Specie e Biomi (Bilingue IT/EN)
+doc_status: active
+doc_owner: master-dd
+workstream: cross-cutting
+last_verified: '2026-04-16'
+source_of_truth: true
+language: it-en
+review_cycle_days: 30
+---
+
+# Naming Styleguide — Specie e Biomi
+
+Style guide canonica per il naming di specie e biomi in Evo Tactics. Stratifica nomi tecnici (codice) e nomi player-facing (display) con supporto bilingue.
+
+**Autorita'**: livello **A1** (hub). Vincoli formali al livello A2 (schema). Vedi [`00B-CANONICAL_PROMOTION_MATRIX.md`](00B-CANONICAL_PROMOTION_MATRIX.md).
+
+## Principio di base
+
+> **Codice in inglese, display primario in italiano, display alternativo in inglese.**
+
+- Slug, id, genus, epithet, schema fields → **inglese ASCII**
+- `display_name` → **italiano** (player-facing primary, TV/HUD)
+- `display_name_en` → **inglese** (i18n alternate)
+
+## Modello a doppio livello
+
+Ogni specie/bioma ha:
+
+1. **Layer canonico (codice)**: stabile, non localizzato, machine-readable
+2. **Layer player-facing (display)**: leggibile, localizzato, TV-first
+
+```yaml
+# Esempio specie
+- id: sp_arenavolux_sagittalis
+  slug: arenavolux-sagittalis # canonico (kebab-case ASCII)
+  genus: Arenavolux # canonico
+  epithet: sagittalis # canonico
+  clade_tag: Apex # enum
+  display_name: 'Predatore delle Dune' # IT player-facing
+  display_name_en: 'Dune Skiver' # EN alternate
+  legacy_slug: dune_stalker # opzionale, per migrazione
+```
+
+```yaml
+# Esempio bioma
+- id: ferrous-badlands
+  slug: ferrous-badlands # canonico
+  biome_class: arid # enum
+  display_name: 'Calanchi Ferrosi' # IT player-facing
+  display_name_en: 'Ferrous Badlands' # EN alternate
+  legacy_slug: badlands # opzionale
+```
+
+## Regole formali — Specie
+
+### genus
+
+- Una parola, iniziale maiuscola, ASCII
+- 4-18 caratteri
+- No spazi, apostrofi, diacritici
+- Terminazioni latinizzanti preferite (`-us`, `-a`, `-ax`, `-ops`, `-eros`)
+- Deve suggerire affinita' o analogie del taxon (Madrid Code 2025)
+- Regex: `^[A-Z][a-z]{3,17}$`
+
+### epithet
+
+- Una parola, minuscola, ASCII
+- 3-30 caratteri (limite editoriale, coerente con Madrid Code 2026)
+- Esprime habitat, funzione, forma, comportamento
+- Suffissi geografici: `-ensis`, `-(a)nus`, `-inus`, `-icus`
+- Suffissi funzionali: `-cola`, `-fer`, `-ptera`, `-denta`, `-scuta`
+- Regex: `^[a-z][a-z-]{2,29}$`
+
+### clade_tag
+
+Enum strettamente controllato. Non incluso nello slug (stabile vs balance changes):
+
+- `Apex` — predatore di vertice
+- `Keystone` — specie chiave dell'ecosistema
+- `Bridge` — connettore cross-bioma
+- `Threat` — minaccia tattica primaria
+- `Playable` — disponibile come unita' giocatore
+- `Support` — ruolo di supporto
+
+### display_name (italiano)
+
+- 2 parole preferite, 3 max
+- Title Case in italiano
+- Pattern: `[Habitat / Materiale / Comportamento] + [Corpo / Ruolo]`
+- Esempi: "Predatore delle Dune", "Spazzino Ferroso", "Ala Risonante"
+
+### display_name_en
+
+- 2 parole preferite, 3 max
+- Title Case in inglese
+- Stesso pattern semantico
+- Esempi: "Dune Skiver", "Rust Scavenger", "Echo Wing"
+
+### slug
+
+- Derivato dal nome canonico (genus-epithet), kebab-case ASCII
+- **Mai** dal display name (evita i18n problems)
+- Esempio: `arenavolux-sagittalis`
+
+### id
+
+- Prefisso `sp_` + slug normalizzato underscore
+- Esempio: `sp_arenavolux_sagittalis`
+
+### legacy_slug (opzionale)
+
+- Slug esistente pre-migrazione
+- Mantenuto per backward compat foodweb/ecosystem/test
+- Esempio: `legacy_slug: dune_stalker`
+
+## Regole formali — Biomi
+
+### slug
+
+- Lowercase ASCII, kebab-case
+- Descrittivo: `[Materiale/Processo/Clima] + [Landform/Habitat]`
+- Esempi: `ferrous-badlands`, `basalt-grottos`, `cold-mirror-fen`
+
+### biome_class
+
+Enum controllato:
+
+- `arid`, `subterranean`, `wetland`, `upland`, `canopy`
+- `littoral`, `geothermal`, `salt`, `deltaic`, `clastic`
+
+### display_name (italiano) e display_name_en
+
+- 2-3 parole, Title Case
+- Stesso pattern descrittivo nelle due lingue
+- IT esempio: "Calanchi Ferrosi" / EN: "Ferrous Badlands"
+
+### Regola toponimi
+
+I core biomes **non** usano proper noun o toponimi narrativi. Solo descrittivi e trasferibili. Eccezione: contenuti campagna specifici.
+
+## Morph slots (specie)
+
+Chiavi obbligatorie, snake_case:
+
+- `locomotion`, `offense`, `defense`, `senses`, `metabolism`
+
+Pattern valori:
+
+- `locomotion`: `*_legs`, `*_pads`, `*_wings`, `*_fins`, `*_tendrils`
+- `offense`: `*_claws`, `*_fangs`, `*_beak`, `*_jaws`, `*_spurs`
+- `defense`: `*_hide`, `*_frill`, `*_scutes`, `*_carapace`, `*_quills`
+- `senses`: `*_eyes`, `*_ocelli`, `*_pinnae`, `*_whiskers`, `*_pits`
+- `metabolism`: `*_gland`, `*_filter`, `*_lung`, `*_gut`, `*_rumen`
+
+## Diacritici e translitterazione
+
+**Campi canonici** (slug, id, genus, epithet) = ASCII-only.
+**Campi display** possono contenere diacritici se servono.
+
+Tabella translitterazione:
+
+| Originale | ASCII |
+| --------- | ----- |
+| ä         | ae    |
+| ö         | oe    |
+| ü         | ue    |
+| é è ê     | e     |
+| ñ         | n     |
+| ø         | oe    |
+| å         | ao    |
+| æ         | ae    |
+| œ         | oe    |
+| ß         | ss    |
+
+## Palette fonemiche
+
+**Bias, non gabbia.** Naming deve restare leggibile e semanticamente motivato.
+
+### Ferro-xeno (Apex/Threat, biomi metallici/aridi/subterranei)
+
+- Cluster: `k`, `t`, `kr`, `sk`, `tr`, `ct`, `x`, `r`
+- Vocali agili/taglienti: `i`, `e`
+- Vocali massive: `o`, `u`
+- Esempi: Lithoraptor, Ferrimordax, Pyrosaltus
+
+### Bio-liminale (Keystone/Bridge/Support, canopy/wetland/airy)
+
+- Sonoranti: `m`, `n`, `l`, `s`, `v`, `r`
+- Sillabe `CV`/`CVCV`, code sonore
+- Vocali grandi/placide: `o`, `u`, `a`
+- Vocali leggere: `e`, `i`
+- Esempi: Lucinerva, Cavatympa, Nebulocornis
+
+## Unicita' e collisioni
+
+- `slug` unico per tipo entita'
+- Coppia `(genus, epithet)` unica tra tutte le specie
+- `display_name` warning su duplicato (non hard fail)
+- `biome.slug` unico globalmente
+- `foodweb.node_id` unico almeno nel pack
+
+**Chiave di collisione normalizzata**: due varianti ortografiche stretto-simili (`ae`/`oe`/`e`, `i`/`j`/`y`, `u`/`v`, `c`/`k`, `ph`/`f`, doppie consonanti) collidono dopo normalizzazione → CI fallisce.
+
+## Pipeline di validazione
+
+Vedi [`docs/guide/naming-pipeline.md`](../guide/naming-pipeline.md) per regex completi, JSON Schema, e check linter.
+
+```mermaid
+flowchart LR
+  A[Nuovo nome] --> B[ASCII normalize]
+  B --> C[Regex genus/epithet]
+  C --> D[JSON Schema]
+  D --> E[Phonotactic lint]
+  E --> F[Unique slug + homonym key]
+  F --> G[Referential integrity<br/>species ↔ biomes ↔ foodweb]
+  G --> H[A.L.I.E.N.A. semantic check]
+  H --> I[CI pass]
+```
+
+## Migrazione da naming legacy
+
+Le specie/biomi esistenti pre-2026-04 mantengono il loro slug originale come `legacy_slug` durante la migrazione. Il nuovo `slug` (genus-epithet) e' aggiunto incrementalmente. Nessun rename forzato dei foodweb/ecosystem esistenti finche' la migrazione non e' completa.
+
+Esempio:
+
+```yaml
+# Prima
+- id: dune_stalker
+  display_name: 'Dune Stalker'
+
+# Dopo
+- id: sp_arenavolux_sagittalis # nuovo id canonico
+  slug: arenavolux-sagittalis # nuovo slug
+  legacy_slug: dune_stalker # mantenuto
+  genus: Arenavolux
+  epithet: sagittalis
+  display_name: 'Predatore delle Dune'
+  display_name_en: 'Dune Stalker' # preserva nome originale come EN
+```
+
+## Riferimenti
+
+- ICZN — codice zoologico
+- IAPT Madrid Code 2025 (botanico)
+- Treccani — nomenclatura binomia
+- Hayes & Wilson — fonotattica MaxEnt
+- Speculative evolution: Dixon (After Man, New Dinosaurs), All Yesterdays
+- Documento sorgente: `Naming di specie e biomi per Evo Tactics.docx` (utente, 2026-04-16)

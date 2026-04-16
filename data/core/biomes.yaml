@@ -51,6 +51,10 @@ frequencies:
 
 biomes:
   abisso_vulcanico:
+    legacy_slug: abisso_vulcanico
+    biome_class: geothermal
+    display_name_it: Abisso Vulcanico
+    display_name_en: Volcanic Abyss
     label: Abisso Vulcanico
     summary: Camini abissali con lava pressurizzata e fauna bio-termica.
     diff_base: 5
@@ -87,6 +91,10 @@ biomes:
       - Stabilire condotti di raffreddamento attorno alle fucine naturali.
       - Recuperare artefatti termici prima dell'eruzione cataclismica.
   atollo_obsidiana:
+    legacy_slug: atollo_obsidiana
+    biome_class: littoral
+    display_name_it: Atollo di Ossidiana
+    display_name_en: Obsidian Atoll
     label: Atollo Obsidiana
     summary: Arcipelago magnetico con maree EMP e piattaforme mobili.
     diff_base: 4
@@ -118,6 +126,10 @@ biomes:
       - Proteggere i reattori a risonanza dagli attacchi delle maree.
       - Recuperare shard ossidiani prima dell'arrivo della tempesta.
   badlands:
+    legacy_slug: badlands
+    biome_class: arid
+    display_name_it: Calanchi Ferromagnetici
+    display_name_en: Ferromagnetic Badlands
     label: Badlands Ferro-Magnetiche
     summary: Altipiani arrugginiti con tempeste ferrose e rovine sepolte.
     diff_base: 4
@@ -150,6 +162,10 @@ biomes:
       - Recuperare relè Aeon arrugginiti prima che vengano fusi.
       - Convincere i clan magnetotattici a cooperare contro le tempeste.
   caldera_glaciale:
+    legacy_slug: caldera_glaciale
+    biome_class: upland
+    display_name_it: Caldera Glaciale
+    display_name_en: Glacial Caldera
     label: Caldera Glaciale
     summary: Crateri glaciali con geyser criogenici e pareti ricoperte di ghiaccio
       vivo.
@@ -183,6 +199,10 @@ biomes:
       - Stabilire ponti termici per attraversare crepacci dinamici.
       - Proteggere gli estrattori di ghiaccio vivo durante le eruzioni.
   canopia_ionica:
+    legacy_slug: canopia_ionica
+    biome_class: canopy
+    display_name_it: Canopia Ionica
+    display_name_en: Ionic Canopy
     label: Canopia Ionica
     summary: Foresta verticale sospesa da campi elettrostatici e rampicanti conduttivi.
     diff_base: 3
@@ -214,6 +234,10 @@ biomes:
       - Sincronizzare la rete ionica per aprire corridoi sicuri.
       - Recuperare semi conduttivi custoditi dai guardiani della canopia.
   canyons_risonanti:
+    legacy_slug: canyons_risonanti
+    biome_class: clastic
+    display_name_it: Canyon Risonanti
+    display_name_en: Resonant Canyons
     label: Canyons Risonanti
     summary: Labirinto ventoso di gole armoniche alimentate da risonanza.
     diff_base: 4
@@ -246,6 +270,10 @@ biomes:
       - Stabilizzare ponti risonanti prima delle tempeste di vento.
       - Seguire tracce sonore per rintracciare nidi dispersivi.
   caverna:
+    legacy_slug: caverna
+    biome_class: subterranean
+    display_name_it: Caverna Risonante
+    display_name_en: Resonant Cavern
     label: Caverna Risonante
     summary: Gallerie cristalline dove eco e pressioni invertite modellano la fauna.
     diff_base: 3
@@ -281,6 +309,10 @@ biomes:
       - Disinnescare camere di eco instabile prima del collasso.
       - Estrarre cristalli risonanti senza allertare i custodi del nido.
   palude:
+    legacy_slug: palude
+    biome_class: wetland
+    display_name_it: Palude Tossica
+    display_name_en: Toxic Marsh
     label: Palude Tossica
     summary: Acque stagnanti bio-luminescenti con fauna mutagena.
     diff_base: 3
@@ -314,6 +346,10 @@ biomes:
       - Recuperare reagenti bio-luminescenti per le squadre mediche.
       - Placare le colonie simbiotiche prima che scatenino la nube tossica.
   dorsale_termale_tropicale:
+    legacy_slug: dorsale_termale_tropicale
+    biome_class: geothermal
+    display_name_it: Dorsale Termale Tropicale
+    display_name_en: Tropical Thermal Ridge
     label: Dorsale Termale Tropicale
     summary: Catena montuosa sommersa con fumarole calde e fauna simbiotica.
     diff_base: 4
@@ -347,6 +383,10 @@ biomes:
       - Sigillare sfiati per proteggere gli avamposti sommersi.
       - Scortare i droni estrattori attraverso vortici bioluminescenti.
   foresta_acida:
+    legacy_slug: foresta_acida
+    biome_class: canopy
+    display_name_it: Foresta Acida
+    display_name_en: Acid Forest
     label: Foresta Acida
     summary: Bacini tropicali saturi di piogge corrosive e flora predatoria.
     diff_base: 4
@@ -379,6 +419,10 @@ biomes:
       - Neutralizzare bacini corrotti prima della tempesta acida.
       - Raccogliere reagenti rari dai guardiani fototropici.
   foresta_miceliale:
+    legacy_slug: foresta_miceliale
+    biome_class: canopy
+    display_name_it: Foresta Miceliale
+    display_name_en: Mycelial Forest
     label: Foresta Miceliale
     summary: Canopia micotica bioluminescente dove la rete fungina coordina la fauna.
     diff_base: 3
@@ -412,6 +456,10 @@ biomes:
       - Mappare nodi miceliali per isolare la rete neurale.
       - Convincere i guardiani a condividere antidoti spora.
   foresta_temperata:
+    legacy_slug: foresta_temperata
+    biome_class: canopy
+    display_name_it: Foresta Temperata Umida
+    display_name_en: Temperate Wet Forest
     label: Foresta Temperata Umida
     summary: Boschi piovosi con canopy densa, nebbie calde e radure bioenergetiche.
     diff_base: 3
@@ -444,6 +492,10 @@ biomes:
       - Proteggere i reattori a risonanza dagli attacchi delle maree.
       - Recuperare shard ossidiani prima dell'arrivo della tempesta.
   stratosfera_tempestosa:
+    legacy_slug: stratosfera_tempestosa
+    biome_class: upland
+    display_name_it: Stratosfera Tempestosa
+    display_name_en: Storm Stratosphere
     label: Stratosfera Tempestosa
     summary: Piattaforme aerostatiche tra nubi di tempesta, fulmini e venti supersonici.
     diff_base: 5
@@ -476,6 +528,10 @@ biomes:
       - Stabilizzare gli ancoraggi stratosferici prima del collasso.
       - Recuperare celle di energia trasportate da fulmini guidati.
   mezzanotte_orbitale:
+    legacy_slug: mezzanotte_orbitale
+    biome_class: upland
+    display_name_it: Mezzanotte Orbitale
+    display_name_en: Orbital Midnight
     label: Mezzanotte Orbitale
     summary: Stazione orbitale in decadimento con gravità variabile.
     diff_base: 4
@@ -509,6 +565,10 @@ biomes:
       - Ripristinare i reattori Aeon prima del blackout totale.
       - Neutralizzare l'allarme a cascata per evitare l'arrivo dei rinforzi.
   pianura_salina_iperarida:
+    legacy_slug: pianura_salina_iperarida
+    biome_class: salt
+    display_name_it: Pianura Salina Iperarida
+    display_name_en: Hyperarid Salt Flats
     label: Pianura Salina Iperarida
     summary: Distese saline ciclotroniche che riflettono radiazione e drenano umidità.
     diff_base: 4
@@ -540,6 +600,10 @@ biomes:
       - Stabilire torri condensatrici per sostenere gli avamposti.
       - Recuperare cristalli prismatici senza attirare predatori desertici.
   reef_luminescente:
+    legacy_slug: reef_luminescente
+    biome_class: littoral
+    display_name_it: Scogliera Luminescente
+    display_name_en: Luminescent Reef
     label: Reef Luminescente
     summary: Barriere coralline sintetiche con correnti luminescenti e fauna sensibile
       alla risonanza.
@@ -572,6 +636,10 @@ biomes:
       - Proteggere le colonie coralline da razzie di risonanza.
       - Convincere i custodi del reef a condividere i filtri luminescenti.
   savana:
+    legacy_slug: savana
+    biome_class: arid
+    display_name_it: Savana Ionizzata
+    display_name_en: Ionized Savannah
     label: Savana Ionizzata
     summary: Dune fotoniche con branchi adattivi e rovine sepolte.
     diff_base: 2
@@ -607,6 +675,10 @@ biomes:
     aliases:
     - savanna
   steppe_algoritmiche:
+    legacy_slug: steppe_algoritmiche
+    biome_class: arid
+    display_name_it: Steppe Algoritmiche
+    display_name_en: Algorithmic Steppes
     label: Steppe Algoritmiche
     summary: Pianure modulari controllate da IA agricole con pattern mutevoli.
     diff_base: 3
@@ -638,6 +710,10 @@ biomes:
       - Ripristinare i nodi sincroni per evitare la tempesta algoritmica.
       - Tracciare branchi dronici deviati prima della fusione.
   rovine_planari:
+    legacy_slug: rovine_planari
+    biome_class: clastic
+    display_name_it: Rovine Planari Fratturate
+    display_name_en: Fractured Planar Ruins
     label: Rovine Planari Fratturate
     summary: Metropoli extraplanare in rovina con portali instabili e correnti di
       energia astrale.
@@ -672,6 +748,10 @@ biomes:
       - Sigillare i portali corrotti prima del collasso dimensionale.
       - Recuperare reliquie pathfinder riadattate ai protocolli Evo Tactics.
   frattura_abissale_sinaptica:
+    legacy_slug: frattura_abissale_sinaptica
+    biome_class: deltaic
+    display_name_it: Frattura Abissale Sinaptica
+    display_name_en: Synaptic Abyssal Rift
     label: Frattura Abissale Sinaptica
     summary: Bioma abissale stratificato con tre livelli luminosi/pressori e correnti elettroluminescenti che modulano trait temporanei.
     diff_base: 5
