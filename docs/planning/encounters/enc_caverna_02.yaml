@@ -1,0 +1,117 @@
+# =============================================================================
+# Encounter Prototipo 2: Medio — "Eco nella Caverna"
+# Difficulty: 3/5 · Grid: 10×10 · Bioma: caverna
+# Scopo: cattura punto, reazioni, FOV ridotto, 2 wave
+# =============================================================================
+
+encounter_id: enc_caverna_02
+name: 'Eco nella Caverna'
+biome_id: caverna
+difficulty_rating: 3
+estimated_turns: 12
+
+# --- Briefing narrativo ---
+briefing:
+  pre_match: >
+    Le gallerie cristalline risuonano di frequenze sconosciute. Un nodo
+    risonante pulsa al centro della grotta — chi lo controlla,
+    controlla le eco. I bracconieri echomantici lo sanno.
+  objective_text: 'Cattura il nodo risonante e mantienilo per 3 turni.'
+  post_match_win: >
+    Il nodo si sincronizza con le vostre creature. Le eco portano
+    nuove informazioni — il Sistema ha appena perso un occhio.
+  post_match_lose: >
+    Le eco si spengono. I bracconieri reclamano il nodo e le
+    gallerie tornano ostili. Dovrete trovare un'altra via.
+
+# --- Layout griglia ---
+grid:
+  size: [10, 10]
+  terrain:
+    heights:
+      - { pos: [4, 4], level: 2 } # piattaforma nodo risonante (centro)
+      - { pos: [5, 4], level: 2 }
+      - { pos: [4, 5], level: 2 }
+      - { pos: [5, 5], level: 2 }
+      - { pos: [2, 1], level: 1 } # sporgenza laterale
+      - { pos: [7, 8], level: 1 } # sporgenza laterale
+    covers:
+      - { pos: [3, 3], type: full } # stalattite
+      - { pos: [6, 6], type: full } # stalattite
+      - { pos: [1, 5], type: half } # roccia
+      - { pos: [8, 4], type: half } # roccia
+    difficult_terrain:
+      - { pos: [2, 7], type: rubble }
+      - { pos: [7, 2], type: rubble }
+      - { pos: [3, 8], type: rubble }
+    hazards:
+      - { pos: [0, 9], type: acid_pool, damage_step: 1 }
+      - { pos: [9, 0], type: acid_pool, damage_step: 1 }
+
+# --- Obiettivo ---
+objective:
+  type: capture_point
+  target_zone: [[4, 4], [5, 5]] # piattaforma 2×2
+  hold_turns: 3
+  description: 'Controlla il nodo risonante per 3 turni consecutivi'
+
+# --- Spawn giocatori ---
+player_spawn:
+  - { pos: [0, 4], slot: 1 }
+  - { pos: [0, 5], slot: 2 }
+  - { pos: [1, 3], slot: 3 }
+
+# --- Wave nemiche ---
+waves:
+  - wave_id: 1
+    turn_trigger: 0
+    spawn_points:
+      - { pos: [9, 4] }
+      - { pos: [9, 5] }
+      - { pos: [8, 3] }
+    units:
+      - species_archetype: bracconieri_echomantici
+        count: 2
+        tier: base
+        affixes: []
+        ai_profile: aggressive
+      - species_archetype: cartografi_subsonici
+        count: 1
+        tier: base
+        affixes: []
+        ai_profile: support # buffa alleati, non attacca direttamente
+
+  - wave_id: 2
+    turn_trigger: 4
+    spawn_points:
+      - { pos: [5, 0] }
+      - { pos: [4, 9] }
+    units:
+      - species_archetype: guardiani_risonanza
+        count: 2
+        tier: elite
+        affixes: [eco]
+        ai_profile: territorial # difende zona nodo
+
+# --- Condizioni speciali ---
+conditions:
+  - type: fog_of_war
+    fov_radius: 5
+    description: 'Visibilità ridotta nelle gallerie cristalline'
+  - type: environmental_event
+    trigger_turn: 6
+    effect: echo_feedback
+    description: 'Risonanza amplificata: tutte le unità subiscono -1 DC per 2 turni'
+
+# --- Note design ---
+design_notes:
+  teach:
+    - 'Cattura punto: necessità di posizionamento e tenuta'
+    - 'Reazioni: parata/counter quando nemici attaccano su nodo'
+    - 'FOV: pianificazione con informazione limitata'
+    - 'Wave 2: adattamento a rinforzi mid-match'
+    - 'Terrain: copertura full vs half, difficile, hazard'
+  difficulty_levers:
+    - 'Ridurre hold_turns a 2 per easier'
+    - 'Rimuovere wave 2 per easier'
+    - 'Aggiungere wave 3 turno 8 per harder'
