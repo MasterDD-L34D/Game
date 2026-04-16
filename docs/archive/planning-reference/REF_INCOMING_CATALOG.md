@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # REF_INCOMING_CATALOG – Catalogo incoming/backlog
 
 Versione: 0.6

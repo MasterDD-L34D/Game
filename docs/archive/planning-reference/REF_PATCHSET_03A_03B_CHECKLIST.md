@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # PATCHSET 03A → 03B – Checklist esecutiva e criteri di blocco
 
 Versione: 0.1

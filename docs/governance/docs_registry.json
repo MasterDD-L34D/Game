@@ -3547,7 +3547,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/02A_validator_report.md",
+      "path": "docs/archive/planning-reference/02A_validator_report.md",
       "title": "PATCHSET-02A – Baseline validator (report-only)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3690,7 +3690,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_BACKUP_AND_ROLLBACK.md",
+      "path": "docs/archive/planning-reference/REF_BACKUP_AND_ROLLBACK.md",
       "title": "REF_BACKUP_AND_ROLLBACK – Runbook archivi, manifest e rollback",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3703,7 +3703,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_CORE_DERIVED_MATRIX.md",
+      "path": "docs/archive/planning-reference/REF_CORE_DERIVED_MATRIX.md",
       "title": "REF_CORE_DERIVED_MATRIX – Matrice 01B (core vs derived)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3716,7 +3716,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_INCOMING_CATALOG.md",
+      "path": "docs/archive/planning-reference/REF_INCOMING_CATALOG.md",
       "title": "REF_INCOMING_CATALOG – Catalogo incoming/backlog",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3729,7 +3729,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE0-4_LOG.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE0-4_LOG.md",
       "title": "Log sandbox – pipeline migrazione (Fasi 0–4)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3742,7 +3742,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE0_KICKOFF.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE0_KICKOFF.md",
       "title": "Kickoff Fase 0 – Migrazione (sandbox)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3755,7 +3755,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE1_DESIGN.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE1_DESIGN.md",
       "title": "Log sandbox – Fase 1 Design (concept & alias)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3768,7 +3768,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE2_MODELING.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE2_MODELING.md",
       "title": "Log sandbox – Fase 2 Modellazione (mapping & validator)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3781,7 +3781,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE3_BALANCING.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE3_BALANCING.md",
       "title": "Log sandbox – Fase 3 Bilanciamento (curve & simulazioni)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3794,7 +3794,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE4_VALIDATION.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE4_VALIDATION.md",
       "title": "Log sandbox – Fase 4 Validazione (aggregazione esiti e gate)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3807,7 +3807,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE5_ASSET_CATALOG.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE5_ASSET_CATALOG.md",
       "title": "Log sandbox – Fase 5 Asset & Catalogo",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3820,7 +3820,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE6_DOC_ARCHIVE.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE6_DOC_ARCHIVE.md",
       "title": "Log sandbox – Fase 6 Documentazione & Archiviazione",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3833,7 +3833,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_MIGRATION_PHASE7_EXEC_PLAN_PATCHSET.md",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE7_EXEC_PLAN_PATCHSET.md",
       "title": "Log sandbox – Fase 7 Piano esecutivo & Patchset",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3846,7 +3846,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_PACKS_AND_DERIVED.md",
+      "path": "docs/archive/planning-reference/REF_PACKS_AND_DERIVED.md",
       "title": "REF_PACKS_AND_DERIVED – Pack, snapshot e fixture",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3859,7 +3859,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md",
+      "path": "docs/archive/planning-reference/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md",
       "title": "PATCHSET-02A → 03A/03B – Runbook operativo",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3872,7 +3872,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_PATCHSET_03A_03B_CHECKLIST.md",
+      "path": "docs/archive/planning-reference/REF_PATCHSET_03A_03B_CHECKLIST.md",
       "title": "PATCHSET 03A → 03B – Checklist esecutiva e criteri di blocco",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3885,7 +3885,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_PLANNING_RIPRESA_2026.md",
+      "path": "docs/archive/planning-reference/REF_PLANNING_RIPRESA_2026.md",
       "title": "REF_PLANNING_RIPRESA_2026 – Checkpoint rapido di riapertura",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3898,7 +3898,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_REDIRECT_PLAN_STAGING.md",
+      "path": "docs/archive/planning-reference/REF_REDIRECT_PLAN_STAGING.md",
       "title": "REF_REDIRECT_PLAN_STAGING – Redirect mapping, rollback e backup (bozza)",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3911,7 +3911,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_REPO_MIGRATION_PLAN.md",
+      "path": "docs/archive/planning-reference/REF_REPO_MIGRATION_PLAN.md",
       "title": "REF_REPO_MIGRATION_PLAN – Sequenza patchset",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3924,7 +3924,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_REPO_PATCH_PROPOSTA.md",
+      "path": "docs/archive/planning-reference/REF_REPO_PATCH_PROPOSTA.md",
       "title": "REF_REPO_PATCH_PROPOSTA – Applicazione iniziale dello scope",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3937,7 +3937,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_REPO_SCOPE.md",
+      "path": "docs/archive/planning-reference/REF_REPO_SCOPE.md",
       "title": "REF_REPO_SCOPE – Refactor globale repository Game / Evo Tactics",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3950,7 +3950,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_REPO_SOURCES_OF_TRUTH.md",
+      "path": "docs/archive/planning-reference/REF_REPO_SOURCES_OF_TRUTH.md",
       "title": "REF_REPO_SOURCES_OF_TRUTH – Canonico dati core",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3963,7 +3963,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/REF_TOOLING_AND_CI.md",
+      "path": "docs/archive/planning-reference/REF_TOOLING_AND_CI.md",
       "title": "REF_TOOLING_AND_CI – Allineamento tooling e CI",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3976,7 +3976,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/TKT-03AB-FREEZE.md",
+      "path": "docs/archive/planning-reference/TKT-03AB-FREEZE.md",
       "title": "TKT-03AB-FREEZE — Freeze core/derived/incoming",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -3989,7 +3989,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/agenda_PATCHSET-00_2025-12-07.md",
+      "path": "docs/archive/planning-reference/agenda_PATCHSET-00_2025-12-07.md",
       "title": "Agenda breve – Kickoff PATCHSET-00 (15')",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -4015,7 +4015,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/ci-inventory.md",
+      "path": "docs/archive/planning-reference/ci-inventory.md",
       "title": "Inventario workflow CI e script locali",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -4028,7 +4028,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/ci-log-automation.md",
+      "path": "docs/archive/planning-reference/ci-log-automation.md",
       "title": "Raccolta automatica log CI",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
@@ -4132,7 +4132,7 @@
       "track": "migrated"
     },
     {
-      "path": "docs/planning/migration_targeted_workplan.md",
+      "path": "docs/archive/planning-reference/migration_targeted_workplan.md",
       "title": "Piano di attività mirate per avviare la migrazione",
       "doc_status": "draft",
       "doc_owner": "platform-docs",
