@@ -199,6 +199,33 @@ def compute_step_flat_bonus(
     return math.floor(bonus)
 
 
+def merge_resistances(
+    trait_resistances: Iterable[Mapping[str, Any]],
+    species_resistances: Optional[Mapping[str, int]] = None,
+) -> List[Dict[str, Any]]:
+    """W2 pattern: unisce resistenze trait + species archetype.
+
+    Le trait resistances (lista di {channel, modifier_pct}) vengono combinate
+    con la species resistance matrix (dict channel → pct dove 100=neutro).
+    Species fornisce il baseline, trait sovrascrive/somma.
+
+    Returns lista nel formato atteso da ``apply_resistance``.
+    """
+    merged: Dict[str, int] = {}
+    # Species baseline (100=neutro, convert a modifier_pct format: 80→+20 resist)
+    if species_resistances:
+        for ch, pct in species_resistances.items():
+            merged[ch] = 100 - pct  # 80→20, 120→-20
+
+    # Trait resistances sommano al baseline
+    for res in trait_resistances or []:
+        ch = res.get("channel")
+        if ch:
+            merged[ch] = merged.get(ch, 0) + int(res.get("modifier_pct", 0))
+
+    return [{"channel": ch, "modifier_pct": pct} for ch, pct in merged.items()]
+
+
 def apply_resistance(damage: int, resistances: Iterable[Mapping[str, Any]], channel: Optional[str]) -> int:
     """Applica la resistenza del target per il canale dell'attacco.
 
@@ -1043,6 +1070,112 @@ def resolve_action(
     }
 
 
+# ─────────────────────────────────────────────────────────────────
+# W1 pattern: combat prediction distribution
+# ─────────────────────────────────────────────────────────────────
+
+
+def predict_combat(
+    attacker: Mapping[str, Any],
+    target: Mapping[str, Any],
+    catalog: Mapping[str, Any],
+    n: int = 1000,
+) -> Dict[str, Any]:
+    """Simula *n* attacchi e restituisce distribuzione outcome.
+
+    Non muta attacker/target. Usa un RNG lineare deterministico
+    (seed = 42) per riproducibilita'.
+
+    Returns dict con:
+        hit_pct, crit_pct, fumble_pct, kill_pct,
+        avg_damage, min_damage, max_damage,
+        avg_mos, cd, attack_mod
+    """
+    import copy
+
+    attack_mod = aggregate_mod(attacker.get("trait_ids", []), catalog, "attack_mod")
+    defense_mod_target = aggregate_mod(
+        target.get("trait_ids", []), catalog, "defense_mod"
+    )
+    terrain_defense = int(target.get("terrain_defense_mod", 0))
+    cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target + terrain_defense
+    trait_step = aggregate_mod(attacker.get("trait_ids", []), catalog, "damage_step")
+
+    target_hp = int(target.get("hp", 10))
+    target_armor = int(target.get("armor", 0))
+    resistances = target.get("resistances") or []
+    channel = (attacker.get("damage_dice") or {}).get("channel")
+    dice = attacker.get("damage_dice") or {"count": 1, "sides": 6, "modifier": 0}
+
+    hits = 0
+    crits = 0
+    fumbles = 0
+    kills = 0
+    total_damage = 0
+    min_dmg = float("inf")
+    max_dmg = 0
+    total_mos = 0
+
+    # Deterministic simple RNG (mulberry32-style counter)
+    _seed = 42
+
+    def _simple_rng() -> float:
+        nonlocal _seed
+        _seed = (_seed + 0x6D2B79F5) & 0xFFFFFFFF
+        t = _seed
+        t = ((t ^ (t >> 15)) * (t | 1)) & 0xFFFFFFFF
+        t = (t ^ ((t ^ (t >> 7)) * (t | 61))) & 0xFFFFFFFF
+        return ((t ^ (t >> 14)) & 0xFFFFFFFF) / 0x100000000
+
+    for _ in range(n):
+        natural = int(_simple_rng() * 20) + 1
+        total = natural + attack_mod
+        is_fumble = natural == NATURAL_FUMBLE
+        is_crit = natural == NATURAL_MAX
+
+        if is_fumble:
+            success = False
+            fumbles += 1
+        elif is_crit:
+            success = True
+            crits += 1
+        else:
+            success = total >= cd
+
+        if success:
+            hits += 1
+            mos = max(0, total - cd)
+            total_mos += mos
+            step_count = compute_step_count(mos, trait_step)
+            raw = roll_damage_dice(_simple_rng, dice, step_count)
+            after_resist = apply_resistance(raw, resistances, channel)
+            final = apply_armor(after_resist, target_armor)
+            total_damage += final
+            if final < min_dmg:
+                min_dmg = final
+            if final > max_dmg:
+                max_dmg = final
+            if final >= target_hp:
+                kills += 1
+        else:
+            if 0 < min_dmg:
+                min_dmg = 0
+
+    return {
+        "simulations": n,
+        "hit_pct": round(hits / n * 100, 1),
+        "crit_pct": round(crits / n * 100, 1),
+        "fumble_pct": round(fumbles / n * 100, 1),
+        "kill_pct": round(kills / n * 100, 1),
+        "avg_damage": round(total_damage / max(hits, 1), 1),
+        "min_damage": int(min_dmg) if min_dmg != float("inf") else 0,
+        "max_damage": int(max_dmg),
+        "avg_mos": round(total_mos / max(hits, 1), 1),
+        "cd": cd,
+        "attack_mod": attack_mod,
+    }
+
+
 def _consume_ap(unit: Dict[str, Any], ap_cost: int) -> None:
     ap = unit.get("ap") or {}
     current = int(ap.get("current", 0))
@@ -1075,6 +1208,7 @@ __all__ = [
     "STRESS_BREAKPOINT_RAGE",
     "SUPPORTED_PT_SPEND_TYPES",
     "aggregate_mod",
+    "merge_resistances",
     "apply_armor",
     "apply_pt_spend",
     "apply_resistance",
@@ -1085,6 +1219,7 @@ __all__ = [
     "compute_step_count",
     "compute_step_flat_bonus",
     "get_status",
+    "predict_combat",
     "resolve_action",
     "resolve_parry",
     "roll_damage_dice",
