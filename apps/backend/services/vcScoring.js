@@ -467,26 +467,72 @@ function computeMbtiAxes(raw) {
     J_P: null,
   };
 
+  // E_I: Extraversion vs Introversion (P4 completion)
+  // close_engage = spatial engagement, support_bias = team interaction,
+  // time_to_commit inversed = speed to action
+  const closeEngage = clamp01(raw.close_engage);
+  const supportBias = clamp01(raw.support_bias);
+  const timeToCommit = clamp01(raw.time_to_commit);
+  if (closeEngage !== null && supportBias !== null && timeToCommit !== null) {
+    const value = 1 - 0.5 * closeEngage - 0.25 * supportBias - 0.25 * (1 - timeToCommit);
+    axes.E_I = { value: clamp01(value), coverage: 'full' };
+  } else if (closeEngage !== null && supportBias !== null) {
+    const value = 1 - 0.6 * closeEngage - 0.4 * supportBias;
+    axes.E_I = { value: clamp01(value), coverage: 'partial' };
+  }
+
+  // S_N: Sensing vs Intuition (P4 completion)
+  // new_tiles = exploration diversity (N), setup_ratio = methodical (S),
+  // evasion_ratio = improvisation (N)
+  const newTiles = clamp01(raw.new_tiles);
+  const setupRatio = clamp01(raw.setup_ratio);
+  const evasionRatio = clamp01(raw.evasion_ratio);
+  if (newTiles !== null && setupRatio !== null && evasionRatio !== null) {
+    const value = 1 - 0.4 * newTiles + 0.3 * setupRatio - 0.3 * evasionRatio;
+    axes.S_N = { value: clamp01(value), coverage: 'full' };
+  } else if (newTiles !== null && setupRatio !== null) {
+    const value = 1 - 0.55 * newTiles + 0.45 * setupRatio;
+    axes.S_N = { value: clamp01(value), coverage: 'partial' };
+  }
+
+  // T_F: Thinking vs Feeling
   const utility = clamp01(raw.utility_actions);
   const support = clamp01(raw.support_bias);
   if (utility !== null && support !== null) {
-    // formula originale: 1 - 0.5*utility_actions + 0.5*support_bias
     const value = 1 - 0.5 * utility + 0.5 * support;
     axes.T_F = { value: clamp01(value), coverage: 'full' };
   }
 
+  // J_P: Judging vs Perceiving
   const setupProxy = clamp01(raw.setup_ratio);
-  const timeToCommit = clamp01(raw.time_to_commit);
   if (setupProxy !== null && timeToCommit !== null) {
-    // formula originale: 1 - 0.6*setup - 0.2*time_to_commit + 0.2*last_second
-    // last_second null -> scartato; rinormalizza i pesi rimanenti
-    // (-0.6 e -0.2) su |total| = 0.8. Mantiene il segno.
     const totalWeight = 0.6 + 0.2;
     const normalised = 1 - (0.6 / totalWeight) * setupProxy - (0.2 / totalWeight) * timeToCommit;
     axes.J_P = { value: clamp01(normalised), coverage: 'partial' };
   }
 
   return axes;
+}
+
+/**
+ * P4: derive MBTI 4-letter type from axes values.
+ * Threshold: 0.5 (center) — above = first letter, below = second letter.
+ * Returns null if any axis is null.
+ */
+function deriveMbtiType(axes) {
+  if (!axes) return null;
+  const get = (axis) => (axis && axis.value !== undefined ? axis.value : null);
+  const ei = get(axes.E_I);
+  const sn = get(axes.S_N);
+  const tf = get(axes.T_F);
+  const jp = get(axes.J_P);
+  if (ei === null || sn === null || tf === null || jp === null) return null;
+  return (
+    (ei >= 0.5 ? 'I' : 'E') +
+    (sn >= 0.5 ? 'S' : 'N') +
+    (tf >= 0.5 ? 'T' : 'F') +
+    (jp >= 0.5 ? 'J' : 'P')
+  );
 }
 
 // ----------- parser whitelisted per ennea_themes[].when --------------
@@ -652,6 +698,7 @@ function buildVcSnapshot(session, config) {
       raw_metrics: rawMetrics,
       aggregate_indices: aggregate,
       mbti_axes: mbti,
+      mbti_type: deriveMbtiType(mbti),
       ennea_archetypes: ennea,
     };
   }
@@ -699,6 +746,7 @@ module.exports = {
   computeRawMetrics,
   computeAggregateIndices,
   computeMbtiAxes,
+  deriveMbtiType,
   computeEnneaArchetypes,
   buildVcSnapshot,
   tokenizeCondition,

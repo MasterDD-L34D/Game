@@ -46,8 +46,10 @@ telemetry_targets:
     R4: {target: 0.12, min: 0.08, max: 0.16}
     R5: {target: 0.04, min: 0.02, max: 0.06}
 mbti_axes:
-  E_I: {formula: "1 - 0.6*cohesion - 0.2*assists - 0.2*formation_time"}
-  S_N: {formula: "1 - 0.4*pattern_entropy - 0.3*cover_discipline + 0.3*pattern_break"}
+  # E_I: close_engage proxy cohesion, support_bias proxy assists, time_to_commit inversed
+  E_I: {formula: "1 - 0.5*close_engage - 0.25*support_bias - 0.25*(1-time_to_commit)"}
+  # S_N: new_tiles = exploration (N), setup_ratio = methodical (S), evasion_ratio = improvisation (N)
+  S_N: {formula: "1 - 0.4*new_tiles + 0.3*setup_ratio - 0.3*evasion_ratio"}
   T_F: {formula: "1 - 0.5*utility_actions + 0.5*support_bias"}
   J_P: {formula: "1 - 0.6*setup - 0.2*time_to_commit + 0.2*last_second"}
 ennea_themes:

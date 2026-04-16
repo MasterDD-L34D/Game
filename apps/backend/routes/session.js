@@ -832,6 +832,29 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // P4: PF_session endpoint — personality form projection on-demand.
+  router.get('/:id/pf', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const snapshot = buildVcSnapshot(session, telemetryConfig);
+      const { loadForms, computePfSession } = require('../services/personalityProjection');
+      let formsData;
+      try {
+        formsData = loadForms();
+      } catch {
+        formsData = { forms: {} };
+      }
+      const pfResult = {};
+      for (const [unitId, actorVc] of Object.entries(snapshot.per_actor || {})) {
+        pfResult[unitId] = computePfSession(actorVc, formsData);
+      }
+      res.json({ session_id: session.session_id, pf_session: pfResult });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   // ────────────────────────────────────────────────────────────────
   // Round-based combat endpoints (ADR-2026-04-16, PR 2 di N)
   // ────────────────────────────────────────────────────────────────
