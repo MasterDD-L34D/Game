@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Piano di integrazione — `incoming/lavoro_da_classificare`
 
 Questo documento raccoglie le azioni operative per completare la revisione e

@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # ADR-XXX: Motivazioni refactor CLI e allineamento toolchain
 
 - **Data**: 2025-11-20

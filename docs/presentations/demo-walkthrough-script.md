@@ -8,14 +8,17 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Walkthrough video demo — Preset "Bundle demo pubblico"
 
 ## Obiettivi
+
 - Evidenziare la generazione ecosistema con preset demo e pannelli guida.
 - Mostrare la catena export (dossier HTML/PDF + press kit) come materiale condivisibile.
 - Integrare cue telemetrici e HUD live per allineare marketing/QA.
 
 ## Sequenza narrativa (15 minuti)
+
 1. **Hook & contesto (0:00-1:00)**
    - Overlay intro con il badge `Preset · Bundle demo pubblico`.
    - Richiamare il perché: onboarding <10 minuti per squadre 3-4 giocatrici.
@@ -38,17 +41,20 @@ review_cycle_days: 14
    - Invitare a compilare feedback via `docs/checklist/demo-release.md` nuova sezione review.
 
 ## Script parlato sintetico
+
 - "Benvenuti nell'ecosistema Alpha: in 90 secondi entriamo nel preset demo pubblico."
 - "Guardate come il composer suggerisce combinazioni con sinergia >70% mentre aggiorniamo ruoli e tag."
 - "Il dossier HTML/PDF è pronto alla condivisione: stessi token grafici della landing, CTA evidenziate."
 - "Chiudiamo con i seed dinamici: Tempesta Ferrosa e Nodo Sinfonico guidano la regia della live."
 
 ## Asset da preparare
+
 - Slide di opening/closing con badge e metriche principali.
 - Browser window pulita con i pannelli `composer`, `export`, `dossier` già pre-caricati.
 - Overlay streaming con timeline della demo e indicatori telemetrici (ripresi da `public/`).
 
 ## Next step
+
 - Registrare prova tecnica (screen capture 1080p) entro 48h.
 - Condividere script + registrazione grezza in `docs/presentations/assets/` e linkare in `docs/changelog.md`.
 - Allineare con marketing per scaletta Q&A live.

@@ -29,15 +29,15 @@ Il codice vive sotto `services/rules/` (~1,900 righe di Python, 82 test) e il co
 
 ### Guide di estensione
 
-- [trait-mechanics-guide.md](trait-mechanics-guide.md) — come popolare o modificare una entry di `trait_mechanics.yaml`, con esempi worked per offensive/defensive/hybrid. *(PR B2)*
-- [status-effects-guide.md](status-effects-guide.md) — catalog dei 5 status implementati (bleeding, fracture, disorient, rage, panic) e procedura per aggiungerne di nuovi. *(PR B2)*
-- [action-types-guide.md](action-types-guide.md) — action types supportati, PT spend (perforazione / spinta), parry response e ability stub. *(PR B2)*
+- [trait-mechanics-guide.md](trait-mechanics-guide.md) — come popolare o modificare una entry di `trait_mechanics.yaml`, con esempi worked per offensive/defensive/hybrid. _(PR B2)_
+- [status-effects-guide.md](status-effects-guide.md) — catalog dei 5 status implementati (bleeding, fracture, disorient, rage, panic) e procedura per aggiungerne di nuovi. _(PR B2)_
+- [action-types-guide.md](action-types-guide.md) — action types supportati, PT spend (perforazione / spinta), parry response e ability stub. _(PR B2)_
 
 ### Integrazione e operations
 
-- [worker-bridge.md](worker-bridge.md) — protocollo JSON-line stdin/stdout per chiamare il rules engine dal backend Node. *(PR B3)*
-- [determinism.md](determinism.md) — RNG namespacing e riproducibilità dei combat. *(PR B3)*
-- [testing.md](testing.md) — come scrivere unit test e snapshot test del resolver. *(PR B3)*
+- [worker-bridge.md](worker-bridge.md) — protocollo JSON-line stdin/stdout per chiamare il rules engine dal backend Node. _(PR B3)_
+- [determinism.md](determinism.md) — RNG namespacing e riproducibilità dei combat. _(PR B3)_
+- [testing.md](testing.md) — come scrivere unit test e snapshot test del resolver. _(PR B3)_
 
 ## Scope e non-scope
 
@@ -58,22 +58,22 @@ Il codice vive sotto `services/rules/` (~1,900 righe di Python, 82 test) e il co
 
 ## File principali del codice
 
-| File | Righe | Responsabilità |
-|---|---|---|
-| `services/rules/resolver.py` | ~810 | Funzioni pure: `resolve_action`, `begin_turn`, `apply_status`, `resolve_parry`, `apply_pt_spend`, formule damage/resistance/armor |
-| `services/rules/hydration.py` | ~310 | `hydrate_encounter`, `load_trait_mechanics`, costruzione party/hostile units, aggregazione resistenze |
-| `services/rules/demo_cli.py` | ~520 | CLI interattiva/auto: `run_combat`, action builders, pretty printer stato + turn log |
-| `services/rules/worker.py` | ~265 | Bridge JSON-line stdin/stdout verso il backend Node, heartbeat, catalog caching |
+| File                          | Righe | Responsabilità                                                                                                                    |
+| ----------------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `services/rules/resolver.py`  | ~810  | Funzioni pure: `resolve_action`, `begin_turn`, `apply_status`, `resolve_parry`, `apply_pt_spend`, formule damage/resistance/armor |
+| `services/rules/hydration.py` | ~310  | `hydrate_encounter`, `load_trait_mechanics`, costruzione party/hostile units, aggregazione resistenze                             |
+| `services/rules/demo_cli.py`  | ~520  | CLI interattiva/auto: `run_combat`, action builders, pretty printer stato + turn log                                              |
+| `services/rules/worker.py`    | ~265  | Bridge JSON-line stdin/stdout verso il backend Node, heartbeat, catalog caching                                                   |
 
 Test corrispondenti:
 
-| Test file | Test | Scope |
-|---|---|---|
-| `tests/test_resolver.py` | 64 | Unit test per ogni funzione pubblica + scenari end-to-end |
-| `tests/test_hydration.py` | 18 | Encounter → CombatState, resistenze aggregate, initiative order |
-| `tests/api/contracts-combat.test.js` | 23 | Schema validation di CombatState, action, turn log |
-| `tests/api/contracts-hydration-snapshot.test.js` | 7 | Snapshot test di un encounter reale |
-| `tests/api/contracts-trait-mechanics.test.js` | 15 | Allineamento inventory vs mechanics (33 core traits) |
+| Test file                                        | Test | Scope                                                           |
+| ------------------------------------------------ | ---- | --------------------------------------------------------------- |
+| `tests/test_resolver.py`                         | 64   | Unit test per ogni funzione pubblica + scenari end-to-end       |
+| `tests/test_hydration.py`                        | 18   | Encounter → CombatState, resistenze aggregate, initiative order |
+| `tests/api/contracts-combat.test.js`             | 23   | Schema validation di CombatState, action, turn log              |
+| `tests/api/contracts-hydration-snapshot.test.js` | 7    | Snapshot test di un encounter reale                             |
+| `tests/api/contracts-trait-mechanics.test.js`    | 15   | Allineamento inventory vs mechanics (33 core traits)            |
 
 ## ADR di riferimento
 

@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Sistema **A.L.I.E.N.A.** — Documento Integrato
 
 Versione: 1.0 · Data: 10 novembre 2025  

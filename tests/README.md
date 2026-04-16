@@ -4,8 +4,8 @@
 
 Questo modulo raccoglie test MBTI in italiano (gratuiti o accessibili) e le relative **descrizioni di personalità** per ciascuno dei 16 tipi. Il materiale è pensato per:
 
-- uso personale o educativo  
-- documentazione del progetto (es. giochi narrativi, profili NPC, storytelling adattivo)  
+- uso personale o educativo
+- documentazione del progetto (es. giochi narrativi, profili NPC, storytelling adattivo)
 - creazione di un archivio scaricabile locale (offline/print-friendly)
 
 ---
@@ -36,13 +36,13 @@ Questo modulo raccoglie test MBTI in italiano (gratuiti o accessibili) e le rela
 
 ## 🔍 Fonti Test Affidabili (Italiano)
 
-| Nome Test                          | Tipo                                  | Link                                                                           | Note                                                     |
-|-----------------------------------|---------------------------------------|--------------------------------------------------------------------------------|----------------------------------------------------------|
-| **16Personalities (IT)**          | Web interattivo                       | [16personalities.com/it](https://www.16personalities.com/it)                  | Include spiegazione dettagliata dei 16 tipi (stampabile) |
-| **FreeMBTItest.org (IT)**         | Web quiz + risultati PDF              | [freembtitest.org/it](https://freembtitest.org/it)                             | 93 domande a scelta multipla                             |
-| **16Superpoteri**                 | Web quiz + descrizione PDF stampabile | [16superpoteri.com/test](https://16superpoteri.com/test/)                      | Nessun PDF ufficiale ma risultati stampabili             |
-| **IDR Labs – Jung Type Test (IT)**| Web quiz rapido                       | [idrlabs.com/it/jung-test](https://www.idrlabs.com/it/jung-test/)             | Basato su Jung, simile a MBTI                            |
-| **Domande A/B (stampabile)**      | Domande offline                       | incluso nel repo (`mbti_domande_AB_stampabile.pdf`)                            | Derivato da risorse pubbliche per educazione             |
+| Nome Test                          | Tipo                                  | Link                                                              | Note                                                     |
+| ---------------------------------- | ------------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------- |
+| **16Personalities (IT)**           | Web interattivo                       | [16personalities.com/it](https://www.16personalities.com/it)      | Include spiegazione dettagliata dei 16 tipi (stampabile) |
+| **FreeMBTItest.org (IT)**          | Web quiz + risultati PDF              | [freembtitest.org/it](https://freembtitest.org/it)                | 93 domande a scelta multipla                             |
+| **16Superpoteri**                  | Web quiz + descrizione PDF stampabile | [16superpoteri.com/test](https://16superpoteri.com/test/)         | Nessun PDF ufficiale ma risultati stampabili             |
+| **IDR Labs – Jung Type Test (IT)** | Web quiz rapido                       | [idrlabs.com/it/jung-test](https://www.idrlabs.com/it/jung-test/) | Basato su Jung, simile a MBTI                            |
+| **Domande A/B (stampabile)**       | Domande offline                       | incluso nel repo (`mbti_domande_AB_stampabile.pdf`)               | Derivato da risorse pubbliche per educazione             |
 
 ---
 
@@ -70,11 +70,11 @@ In alternativa, trovi profili già pronti nei file Markdown `.md`, convertibili 
 
 La documentazione si basa sulle versioni italiane dei profili pubblicati da **16Personalities**.
 
-| Tipo | URL sorgente |
-| ---- | ------------ |
-| Tutti | [https://www.16personalities.com/it/tipi-di-personalita](https://www.16personalities.com/it/tipi-di-personalita) |
-| Esempio (INFJ) | [https://www.16personalities.com/it/personalita-infj](https://www.16personalities.com/it/personalita-infj) |
-| Esempio (INTP) | [https://www.16personalities.com/it/personalita-intp](https://www.16personalities.com/it/personalita-intp) |
+| Tipo           | URL sorgente                                                                                                     |
+| -------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Tutti          | [https://www.16personalities.com/it/tipi-di-personalita](https://www.16personalities.com/it/tipi-di-personalita) |
+| Esempio (INFJ) | [https://www.16personalities.com/it/personalita-infj](https://www.16personalities.com/it/personalita-infj)       |
+| Esempio (INTP) | [https://www.16personalities.com/it/personalita-intp](https://www.16personalities.com/it/personalita-intp)       |
 
 Nel file [`tests/mbti_fonti_link.txt`](mbti_fonti_link.txt) trovi l'elenco completo delle URL per tutti i 16 tipi.
 

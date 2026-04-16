@@ -8,14 +8,15 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Calendario Operazioni
 
 Questo calendario consolida le principali attività ricorrenti di manutenzione e controllo operative. Le finestre temporali sono espresse in UTC salvo indicazioni differenti.
 
 ## Panoramica mensile
 
-| Frequenza | Finestra | Attività | Automazione | Owner principale | Output | Checklist |
-|-----------|----------|----------|-------------|------------------|--------|-----------|
+| Frequenza           | Finestra  | Attività                   | Automazione                                          | Owner principale                                          | Output                                              | Checklist                                                          |
+| ------------------- | --------- | -------------------------- | ---------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------ |
 | Mensile (1° giorno) | 06:00 UTC | Manutenzione dataset trait | Workflow GitHub Actions `Traits Monthly Maintenance` | Data Operations (rotazione: @biome-lead, @traits-curator) | `logs/monthly_trait_maintenance/` (report + status) | Vedi [Checklist manutenzione trait](#checklist-manutenzione-trait) |
 
 ## Dettaglio attività

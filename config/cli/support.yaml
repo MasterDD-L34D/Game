@@ -5,7 +5,7 @@ description: >-
 env:
   GAME_CLI_DEFAULT_SEED: support-smoke
   GAME_CLI_LOG_LEVEL: DEBUG
-  GAME_CLI_EXPECTED_CHANNEL: "#support-ops"
+  GAME_CLI_EXPECTED_CHANNEL: '#support-ops'
   GAME_CLI_ESCALATION_PLAYBOOK: docs/support/token-rotation.md
 smoke:
   commands:
@@ -13,7 +13,7 @@ smoke:
     - roll-pack --seed support-smoke ENFJ sentinel
     - validate-ecosystem-pack --json-out logs/cli/support-pack.json
 contacts:
-  slack: "#support-ops"
+  slack: '#support-ops'
   leads:
     - nome: S. Leone
       ruolo: QA Core Lead
@@ -22,7 +22,7 @@ contacts:
 token_rotation:
   cadence: weekly
   window: Monday 08:00 CET
-  notification_channel: "#support-ops"
+  notification_channel: '#support-ops'
   rotation_owners:
     - Support Lead (G. Parodi)
     - QA Core (S. Leone)

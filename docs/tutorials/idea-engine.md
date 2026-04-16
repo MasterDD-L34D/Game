@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Tutorial rapido — Idea Engine end-to-end
 
 ![Idea Engine overview](../../assets/tutorials/idea-engine-feedback.svg)

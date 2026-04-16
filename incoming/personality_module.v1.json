@@ -18,14 +18,8 @@
         "virtue": "Serenità",
         "stress_to": 4,
         "growth_to": 7,
-        "wings": [
-          "1w9",
-          "1w2"
-        ],
-        "wings_names_ei": [
-          "1w9 – The Idealist",
-          "1w2 – The Advocate"
-        ],
+        "wings": ["1w9", "1w2"],
+        "wings_names_ei": ["1w9 – The Idealist", "1w2 – The Advocate"],
         "wings_detail": {
           "1w2": {
             "name_ei": "The Advocate",
@@ -49,14 +43,8 @@
         "virtue": "Umiltà",
         "stress_to": 8,
         "growth_to": 4,
-        "wings": [
-          "2w1",
-          "2w3"
-        ],
-        "wings_names_ei": [
-          "2w1 – The Servant",
-          "2w3 – The Host/Hostess"
-        ],
+        "wings": ["2w1", "2w3"],
+        "wings_names_ei": ["2w1 – The Servant", "2w3 – The Host/Hostess"],
         "wings_detail": {
           "2w1": {
             "name_ei": "The Servant",
@@ -80,14 +68,8 @@
         "virtue": "Veridicità (autenticità)",
         "stress_to": 9,
         "growth_to": 6,
-        "wings": [
-          "3w2",
-          "3w4"
-        ],
-        "wings_names_ei": [
-          "3w2 – The Charmer",
-          "3w4 – The Professional"
-        ],
+        "wings": ["3w2", "3w4"],
+        "wings_names_ei": ["3w2 – The Charmer", "3w4 – The Professional"],
         "wings_detail": {
           "3w2": {
             "name_ei": "The Charmer",
@@ -111,14 +93,8 @@
         "virtue": "Equanimità",
         "stress_to": 2,
         "growth_to": 1,
-        "wings": [
-          "4w3",
-          "4w5"
-        ],
-        "wings_names_ei": [
-          "4w3 – The Aristocrat",
-          "4w5 – The Bohemian"
-        ],
+        "wings": ["4w3", "4w5"],
+        "wings_names_ei": ["4w3 – The Aristocrat", "4w5 – The Bohemian"],
         "wings_detail": {
           "4w3": {
             "name_ei": "The Aristocrat",
@@ -142,14 +118,8 @@
         "virtue": "Distacco",
         "stress_to": 7,
         "growth_to": 8,
-        "wings": [
-          "5w4",
-          "5w6"
-        ],
-        "wings_names_ei": [
-          "5w4 – The Iconoclast",
-          "5w6 – The Problem Solver"
-        ],
+        "wings": ["5w4", "5w6"],
+        "wings_names_ei": ["5w4 – The Iconoclast", "5w6 – The Problem Solver"],
         "wings_detail": {
           "5w4": {
             "name_ei": "The Iconoclast",
@@ -173,14 +143,8 @@
         "virtue": "Coraggio",
         "stress_to": 3,
         "growth_to": 9,
-        "wings": [
-          "6w5",
-          "6w7"
-        ],
-        "wings_names_ei": [
-          "6w5 – The Defender",
-          "6w7 – The Buddy"
-        ],
+        "wings": ["6w5", "6w7"],
+        "wings_names_ei": ["6w5 – The Defender", "6w7 – The Buddy"],
         "wings_detail": {
           "6w5": {
             "name_ei": "The Defender",
@@ -204,14 +168,8 @@
         "virtue": "Sobrietà",
         "stress_to": 1,
         "growth_to": 5,
-        "wings": [
-          "7w6",
-          "7w8"
-        ],
-        "wings_names_ei": [
-          "7w6 – The Entertainer",
-          "7w8 – The Realist"
-        ],
+        "wings": ["7w6", "7w8"],
+        "wings_names_ei": ["7w6 – The Entertainer", "7w8 – The Realist"],
         "wings_detail": {
           "7w6": {
             "name_ei": "The Entertainer",
@@ -235,14 +193,8 @@
         "virtue": "Innocenza",
         "stress_to": 5,
         "growth_to": 2,
-        "wings": [
-          "8w7",
-          "8w9"
-        ],
-        "wings_names_ei": [
-          "8w7 – The Maverick",
-          "8w9 – The Bear"
-        ],
+        "wings": ["8w7", "8w9"],
+        "wings_names_ei": ["8w7 – The Maverick", "8w9 – The Bear"],
         "wings_detail": {
           "8w7": {
             "name_ei": "The Maverick",
@@ -266,14 +218,8 @@
         "virtue": "Azione",
         "stress_to": 6,
         "growth_to": 3,
-        "wings": [
-          "9w8",
-          "9w1"
-        ],
-        "wings_names_ei": [
-          "9w8 – The Referee",
-          "9w1 – The Dreamer"
-        ],
+        "wings": ["9w8", "9w1"],
+        "wings_names_ei": ["9w8 – The Referee", "9w1 – The Dreamer"],
         "wings_detail": {
           "9w1": {
             "name_ei": "The Dreamer",
@@ -290,105 +236,57 @@
       "Centri (emozione di base)": [
         {
           "group": "Istintivo (8-9-1) – Rabbia",
-          "types": [
-            8,
-            9,
-            1
-          ]
+          "types": [8, 9, 1]
         },
         {
           "group": "Emotivo (2-3-4) – Vergogna",
-          "types": [
-            2,
-            3,
-            4
-          ]
+          "types": [2, 3, 4]
         },
         {
           "group": "Mentale (5-6-7) – Paura",
-          "types": [
-            5,
-            6,
-            7
-          ]
+          "types": [5, 6, 7]
         }
       ],
       "Harmonic (gestione del conflitto)": [
         {
           "group": "Positive Outlook/Ottimisti",
-          "types": [
-            2,
-            7,
-            9
-          ]
+          "types": [2, 7, 9]
         },
         {
           "group": "Competency/Competenti",
-          "types": [
-            1,
-            3,
-            5
-          ]
+          "types": [1, 3, 5]
         },
         {
           "group": "Reactive/Reattivi",
-          "types": [
-            4,
-            6,
-            8
-          ]
+          "types": [4, 6, 8]
         }
       ],
       "Hornevian (stile sociale)": [
         {
           "group": "Compliant/Obbediente",
-          "types": [
-            1,
-            2,
-            6
-          ]
+          "types": [1, 2, 6]
         },
         {
           "group": "Withdrawn/Ritirato",
-          "types": [
-            4,
-            5,
-            9
-          ]
+          "types": [4, 5, 9]
         },
         {
           "group": "Assertive/Affermativo",
-          "types": [
-            3,
-            7,
-            8
-          ]
+          "types": [3, 7, 8]
         }
       ],
       "Object Relations": [
         {
           "group": "Attachment/Attaccamento",
-          "types": [
-            3,
-            6,
-            9
-          ]
+          "types": [3, 6, 9]
         },
         {
           "group": "Frustration/Frustrazione",
-          "types": [
-            1,
-            4,
-            7
-          ]
+          "types": [1, 4, 7]
         },
         {
           "group": "Rejection/Rifiuto",
-          "types": [
-            2,
-            5,
-            8
-          ]
+          "types": [2, 5, 8]
         }
       ]
     },
@@ -466,41 +364,16 @@
     "version": "0.1-draft",
     "updated_at": "2025-10-24T13:27:01.245279",
     "conventions": {
-      "stat_ops": [
-        "add_flat",
-        "add_pct",
-        "mult_pct",
-        "set_min",
-        "set_max"
-      ],
-      "timing": [
-        "passive",
-        "once_per_encounter",
-        "per_turn",
-        "triggered"
-      ],
-      "scopes": [
-        "self",
-        "ally",
-        "party",
-        "enemy",
-        "area"
-      ],
-      "duration": [
-        "instant",
-        "1T",
-        "until_end_of_encounter"
-      ]
+      "stat_ops": ["add_flat", "add_pct", "mult_pct", "set_min", "set_max"],
+      "timing": ["passive", "once_per_encounter", "per_turn", "triggered"],
+      "scopes": ["self", "ally", "party", "enemy", "area"],
+      "duration": ["instant", "1T", "until_end_of_encounter"]
     },
     "hooks": [
       {
         "id": "triad.core_emotion.rabbia",
         "eligibility": {
-          "types": [
-            8,
-            9,
-            1
-          ]
+          "types": [8, 9, 1]
         },
         "trigger": {
           "event": "on_first_blood_received"
@@ -519,11 +392,7 @@
       {
         "id": "triad.core_emotion.vergogna",
         "eligibility": {
-          "types": [
-            2,
-            3,
-            4
-          ]
+          "types": [2, 3, 4]
         },
         "trigger": {
           "event": "on_ally_downed"
@@ -542,11 +411,7 @@
       {
         "id": "triad.core_emotion.paura",
         "eligibility": {
-          "types": [
-            5,
-            6,
-            7
-          ]
+          "types": [5, 6, 7]
         },
         "trigger": {
           "event": "on_ambush_initiated"
@@ -565,11 +430,7 @@
       {
         "id": "hornevian.obbediente",
         "eligibility": {
-          "types": [
-            1,
-            2,
-            6
-          ]
+          "types": [1, 2, 6]
         },
         "trigger": {
           "event": "on_coordinate_action"
@@ -587,11 +448,7 @@
       {
         "id": "hornevian.ritirato",
         "eligibility": {
-          "types": [
-            4,
-            5,
-            9
-          ]
+          "types": [4, 5, 9]
         },
         "trigger": {
           "event": "on_stealth_start"
@@ -609,11 +466,7 @@
       {
         "id": "hornevian.assertivo",
         "eligibility": {
-          "types": [
-            3,
-            7,
-            8
-          ]
+          "types": [3, 7, 8]
         },
         "trigger": {
           "event": "on_initiative_win"
@@ -631,11 +484,7 @@
       {
         "id": "harmonic.ottimisti",
         "eligibility": {
-          "types": [
-            2,
-            7,
-            9
-          ]
+          "types": [2, 7, 9]
         },
         "trigger": {
           "event": "on_setback"
@@ -653,11 +502,7 @@
       {
         "id": "harmonic.competenti",
         "eligibility": {
-          "types": [
-            1,
-            3,
-            5
-          ]
+          "types": [1, 3, 5]
         },
         "trigger": {
           "event": "on_skill_check_under_pressure"
@@ -675,11 +520,7 @@
       {
         "id": "harmonic.reattivi",
         "eligibility": {
-          "types": [
-            4,
-            6,
-            8
-          ]
+          "types": [4, 6, 8]
         },
         "trigger": {
           "event": "on_damage_taken_then_counter"
@@ -697,11 +538,7 @@
       {
         "id": "objrel.attaccamento",
         "eligibility": {
-          "types": [
-            3,
-            6,
-            9
-          ]
+          "types": [3, 6, 9]
         },
         "trigger": {
           "event": "on_adjacent_ally"
@@ -719,11 +556,7 @@
       {
         "id": "objrel.frustrazione",
         "eligibility": {
-          "types": [
-            1,
-            4,
-            7
-          ]
+          "types": [1, 4, 7]
         },
         "trigger": {
           "event": "on_goal_blocked"
@@ -741,11 +574,7 @@
       {
         "id": "objrel.rifiuto",
         "eligibility": {
-          "types": [
-            2,
-            5,
-            8
-          ]
+          "types": [2, 5, 8]
         },
         "trigger": {
           "event": "on_isolation"
@@ -827,191 +656,94 @@
     "updated_at": "2025-10-24T13:30:16.633235",
     "stats": {
       "hp_max": {
-        "aliases": [
-          "hpmax",
-          "max_hp",
-          "hpMax",
-          "health_max"
-        ]
+        "aliases": ["hpmax", "max_hp", "hpMax", "health_max"]
       },
       "initiative": {
-        "aliases": [
-          "init",
-          "initiativeScore",
-          "init_score"
-        ]
+        "aliases": ["init", "initiativeScore", "init_score"]
       },
       "melee_damage": {
-        "aliases": [
-          "melee_dmg",
-          "atk_melee_damage",
-          "mdmg"
-        ]
+        "aliases": ["melee_dmg", "atk_melee_damage", "mdmg"]
       },
       "ranged_damage": {
-        "aliases": [
-          "ranged_dmg",
-          "atk_ranged_damage",
-          "rdmg"
-        ]
+        "aliases": ["ranged_dmg", "atk_ranged_damage", "rdmg"]
       },
       "support_power": {
-        "aliases": [
-          "support",
-          "heal_power",
-          "buff_power"
-        ]
+        "aliases": ["support", "heal_power", "buff_power"]
       },
       "evasion": {
-        "aliases": [
-          "evade",
-          "dodge",
-          "evasionRate"
-        ]
+        "aliases": ["evade", "dodge", "evasionRate"]
       },
       "stealth": {
-        "aliases": [
-          "sneak",
-          "concealment",
-          "stealth_score"
-        ]
+        "aliases": ["sneak", "concealment", "stealth_score"]
       },
       "stamina_regen": {
-        "aliases": [
-          "stam_regen",
-          "energy_regen",
-          "endurance_regen"
-        ]
+        "aliases": ["stam_regen", "energy_regen", "endurance_regen"]
       },
       "aura_radius": {
-        "aliases": [
-          "auraRange",
-          "teamAuraRadius"
-        ]
+        "aliases": ["auraRange", "teamAuraRadius"]
       },
       "charisma_checks": {
-        "aliases": [
-          "cha_checks",
-          "presence",
-          "influence"
-        ]
+        "aliases": ["cha_checks", "presence", "influence"]
       },
       "counter_chance": {
-        "aliases": [
-          "counter",
-          "riposte_chance"
-        ]
+        "aliases": ["counter", "riposte_chance"]
       },
       "skill_success": {
-        "aliases": [
-          "skill_check_bonus",
-          "skill_success_rate"
-        ]
+        "aliases": ["skill_check_bonus", "skill_success_rate"]
       },
       "burst_damage": {
-        "aliases": [
-          "burst",
-          "alpha_damage"
-        ]
+        "aliases": ["burst", "alpha_damage"]
       },
       "bond_aura": {
-        "aliases": [
-          "link_aura",
-          "ally_bonus"
-        ]
+        "aliases": ["link_aura", "ally_bonus"]
       },
       "self_reliance": {
-        "aliases": [
-          "solo_bonus",
-          "independent_bonus"
-        ]
+        "aliases": ["solo_bonus", "independent_bonus"]
       },
       "initiative_adv": {
-        "aliases": [
-          "init_adv",
-          "initiative_advantage"
-        ]
+        "aliases": ["init_adv", "initiative_advantage"]
       }
     },
     "events": {
       "on_first_blood_received": {
-        "aliases": [
-          "on_first_blood",
-          "on_first_hit_taken"
-        ]
+        "aliases": ["on_first_blood", "on_first_hit_taken"]
       },
       "on_ally_downed": {
-        "aliases": [
-          "on_ally_down",
-          "on_ally_ko"
-        ]
+        "aliases": ["on_ally_down", "on_ally_ko"]
       },
       "on_ambush_initiated": {
-        "aliases": [
-          "on_ambush",
-          "on_surprise_round"
-        ]
+        "aliases": ["on_ambush", "on_surprise_round"]
       },
       "on_coordinate_action": {
-        "aliases": [
-          "on_team_action",
-          "on_help_action"
-        ]
+        "aliases": ["on_team_action", "on_help_action"]
       },
       "on_stealth_start": {
-        "aliases": [
-          "on_enter_stealth"
-        ]
+        "aliases": ["on_enter_stealth"]
       },
       "on_initiative_win": {
-        "aliases": [
-          "on_win_initiative"
-        ]
+        "aliases": ["on_win_initiative"]
       },
       "on_setback": {
-        "aliases": [
-          "on_fail_check",
-          "on_damage_spike",
-          "on_objective_loss"
-        ]
+        "aliases": ["on_fail_check", "on_damage_spike", "on_objective_loss"]
       },
       "on_skill_check_under_pressure": {
-        "aliases": [
-          "on_skill_clutch",
-          "on_skill_check_high_dc"
-        ]
+        "aliases": ["on_skill_clutch", "on_skill_check_high_dc"]
       },
       "on_damage_taken_then_counter": {
-        "aliases": [
-          "on_hit_then_counter"
-        ]
+        "aliases": ["on_hit_then_counter"]
       },
       "on_adjacent_ally": {
-        "aliases": [
-          "on_ally_close",
-          "on_bond_range"
-        ]
+        "aliases": ["on_ally_close", "on_bond_range"]
       },
       "on_goal_blocked": {
-        "aliases": [
-          "on_objective_denied",
-          "on_interrupt"
-        ]
+        "aliases": ["on_objective_denied", "on_interrupt"]
       },
       "on_isolation": {
-        "aliases": [
-          "on_no_ally_near",
-          "on_solo_state"
-        ]
+        "aliases": ["on_no_ally_near", "on_solo_state"]
       }
     },
     "limits": {
-      "exclusive_groups": [
-        "core_emotion",
-        "hornevian",
-        "harmonic",
-        "object_rel"
-      ],
+      "exclusive_groups": ["core_emotion", "hornevian", "harmonic", "object_rel"],
       "per_encounter_activation": {
         "core_emotion": 1,
         "hornevian": 2,

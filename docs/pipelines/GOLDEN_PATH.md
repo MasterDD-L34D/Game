@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # GOLDEN_PATH – Pipeline globale per nuove feature
 
 Questo documento definisce il percorso standard (Golden Path) per introdurre

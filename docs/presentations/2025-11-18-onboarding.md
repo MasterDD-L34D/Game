@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Onboarding Support/QA — 18 novembre 2025
 
 ## Obiettivi sessione

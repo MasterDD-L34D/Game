@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Automazioni CI — Mappa sito, Link checker, Lighthouse, E2E, Search
 
 Questa cartella contiene workflow e script per mantenere il sito **fruibile**, **indicizzabile** e **affidabile**.

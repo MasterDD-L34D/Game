@@ -31,7 +31,9 @@ const makeSquad = (name: string, engagements: number[]): SquadSyncSquad => ({
     totalDeployments: engagements.length * 3,
     totalStandups: engagements.length * 4,
     totalIncidents: Math.max(1, engagements.length - 1),
-    engagementScore: Number((engagements.reduce((acc, value) => acc + value, 0) / engagements.length).toFixed(3)),
+    engagementScore: Number(
+      (engagements.reduce((acc, value) => acc + value, 0) / engagements.length).toFixed(3),
+    ),
   },
   daily: engagements.map((value, index) => ({
     date: `2025-11-0${index + 1}`,
@@ -125,7 +127,10 @@ const baseReport: SquadSyncReport = {
 const registerSuites = (describeFn: typeof nodeDescribe, itFn: typeof nodeIt) => {
   describeFn('AdaptiveEngine priority pipeline', () => {
     itFn('ordina per priorità e ripulisce le risposte scadute', () => {
-      const engine = createAdaptiveEngine({ ttlMs: 5 * 60_000, now: () => new Date('2025-11-06T12:00:00Z') });
+      const engine = createAdaptiveEngine({
+        ttlMs: 5 * 60_000,
+        now: () => new Date('2025-11-06T12:00:00Z'),
+      });
       const inputs: AdaptiveResponseInput[] = [
         {
           squad: 'Alpha',
@@ -174,11 +179,38 @@ const registerSuites = (describeFn: typeof nodeDescribe, itFn: typeof nodeIt) =>
     });
 
     itFn('calcola riepiloghi per variante A/B', () => {
-      const engine = createAdaptiveEngine({ ttlMs: 0, now: () => new Date('2025-11-06T12:00:00Z') });
+      const engine = createAdaptiveEngine({
+        ttlMs: 0,
+        now: () => new Date('2025-11-06T12:00:00Z'),
+      });
       engine.ingestMany([
-        { squad: 'Bravo', priority: 'critical', metric: 'engagement', title: 'A', message: 'A', value: 0.5, variant: 'adaptive' },
-        { squad: 'Bravo', priority: 'warning', metric: 'incidents', title: 'B', message: 'B', value: 3, variant: 'control' },
-        { squad: 'Delta', priority: 'info', metric: 'deployments', title: 'C', message: 'C', value: 9, variant: 'adaptive' },
+        {
+          squad: 'Bravo',
+          priority: 'critical',
+          metric: 'engagement',
+          title: 'A',
+          message: 'A',
+          value: 0.5,
+          variant: 'adaptive',
+        },
+        {
+          squad: 'Bravo',
+          priority: 'warning',
+          metric: 'incidents',
+          title: 'B',
+          message: 'B',
+          value: 3,
+          variant: 'control',
+        },
+        {
+          squad: 'Delta',
+          priority: 'info',
+          metric: 'deployments',
+          title: 'C',
+          message: 'C',
+          value: 9,
+          variant: 'adaptive',
+        },
       ]);
 
       const snapshot = engine.snapshot();

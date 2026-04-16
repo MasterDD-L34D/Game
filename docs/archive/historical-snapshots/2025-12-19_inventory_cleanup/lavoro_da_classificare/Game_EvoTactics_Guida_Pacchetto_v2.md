@@ -8,75 +8,82 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Guida Operativa & Manuale — Evo Tactics Pack v2
+
 **Data:** 2025-11-05  
 **Autore:** Master DD / GPT‑5 Pro (per Progetto Gioco Evo Tactics)
 
-> Questo documento integra **tutto il lavoro** svolto nella conversazione: schema dati dei *trait*,
+> Questo documento integra **tutto il lavoro** svolto nella conversazione: schema dati dei _trait_,
 > traccia di **Senzienza T1–T6**, template di authoring, strumenti (validator, export, merge),
 > pipeline CI, convenzioni (UCUM/ENVO/SemVer), più il piano operativo per l’import dei 297 “neuroni”
-> ispirati ad *Ancestors: The Humankind Odyssey*. Il **pacchetto non è incluso**: qui trovi **tutto il contenuto**
+> ispirati ad _Ancestors: The Humankind Odyssey_. Il **pacchetto non è incluso**: qui trovi **tutto il contenuto**
 > necessario (codice e specifiche) per ricostruirlo nel repo.
 
 ---
 
 ## Indice
-1. [Panoramica & Obiettivi](#panoramica--obiettivi)  
-2. [Cosa contiene il Pacchetto v2](#cosa-contiene-il-pacchetto-v2)  
-3. [Standard e Convenzioni (UCUM, ENVO, SemVer, JSON Schema)](#standard-e-convenzioni)  
-4. [Specifiche: Schema Trait (species-agnostico)](#specifiche-schema-trait)  
-5. [Specifiche: Catalogo Trait & Glossario](#specifiche-catalogo-trait--glossario)  
-6. [Specifiche: Sentience Track T1–T6](#specifiche-sentience-track-t1t6)  
-7. [Template di Authoring (blank + esempi)](#template-di-authoring)  
-8. [Guida specie/creatura: cosa serve per completare i tratti](#guida-speciecreatura-cosa-serve-per-completare-i-tratti)  
-9. [Strumenti: Validator, Export CSV, Seed Merge](#strumenti-validator-export-csv-seed-merge)  
-10. [CI: GitHub Actions (validazione)](#ci-github-actions-validazione)  
-11. [Migrazione v1.x → v2 (breaking/non-breaking)](#migrazione-v1x--v2)  
-12. [Piano operativo: dump 297 neuroni (Ancestors)](#piano-operativo-dump-297-neuroni-ancestors)  
-13. [Branch layout & Checklist PR](#branch-layout--checklist-pr)  
-14. [Appendice A — JSON Schema completi](#appendice-a--json-schema-completi)  
-15. [Appendice B — Trait di esempio](#appendice-b--trait-di-esempio)  
-16. [Appendice C — Issue template](#appendice-c--issue-template)  
+
+1. [Panoramica & Obiettivi](#panoramica--obiettivi)
+2. [Cosa contiene il Pacchetto v2](#cosa-contiene-il-pacchetto-v2)
+3. [Standard e Convenzioni (UCUM, ENVO, SemVer, JSON Schema)](#standard-e-convenzioni)
+4. [Specifiche: Schema Trait (species-agnostico)](#specifiche-schema-trait)
+5. [Specifiche: Catalogo Trait & Glossario](#specifiche-catalogo-trait--glossario)
+6. [Specifiche: Sentience Track T1–T6](#specifiche-sentience-track-t1t6)
+7. [Template di Authoring (blank + esempi)](#template-di-authoring)
+8. [Guida specie/creatura: cosa serve per completare i tratti](#guida-speciecreatura-cosa-serve-per-completare-i-tratti)
+9. [Strumenti: Validator, Export CSV, Seed Merge](#strumenti-validator-export-csv-seed-merge)
+10. [CI: GitHub Actions (validazione)](#ci-github-actions-validazione)
+11. [Migrazione v1.x → v2 (breaking/non-breaking)](#migrazione-v1x--v2)
+12. [Piano operativo: dump 297 neuroni (Ancestors)](#piano-operativo-dump-297-neuroni-ancestors)
+13. [Branch layout & Checklist PR](#branch-layout--checklist-pr)
+14. [Appendice A — JSON Schema completi](#appendice-a--json-schema-completi)
+15. [Appendice B — Trait di esempio](#appendice-b--trait-di-esempio)
+16. [Appendice C — Issue template](#appendice-c--issue-template)
 17. [Riferimenti](#riferimenti)
 
 ---
 
 ## Panoramica & Obiettivi
-- **Obiettivo**: standardizzare definizione, validazione e integrazione dei *trait* (morfologia, sensi,
-  abilità, comportamento, cognizione) e della **Senzienza** in gioco, con strumenti ripetibili.  
-- **Approccio**: tratti **species-agnostici** (riusabili da più specie) + *hook* di Senzienza T1–T6
-  per capacità sociali/cognitive.  
+
+- **Obiettivo**: standardizzare definizione, validazione e integrazione dei _trait_ (morfologia, sensi,
+  abilità, comportamento, cognizione) e della **Senzienza** in gioco, con strumenti ripetibili.
+- **Approccio**: tratti **species-agnostici** (riusabili da più specie) + _hook_ di Senzienza T1–T6
+  per capacità sociali/cognitive.
 - **Output**: catalogo JSON validato (schema 2020‑12), metriche UCUM, ambienti ENVO, CI GitHub,
   tool CLI (validatore, export, merge), guide e check.
 
 ---
 
 ## Cosa contiene il Pacchetto v2
+
 **Tutto è riportato in questo documento** per poter ricreare i file nel repo.
 
-- **Schema trait**: `trait_entry.schema.json` (species‑agnostico).  
-- **Schema catalogo**: `trait_catalog.schema.json` (intestazione + mappa di trait).  
-- **Sentience Track**: `sentience_track.schema.json` + `sentience_track.json` (T1→T6, gating).  
-- **Template authoring**: `trait_template.json` (blank) + esempi compilati.  
-- **Strumenti**: `trait_template_validator.py`, `export_csv.py`, `seed_merge.py`.  
-- **CI**: `.github/workflows/validate_traits.yml`.  
+- **Schema trait**: `trait_entry.schema.json` (species‑agnostico).
+- **Schema catalogo**: `trait_catalog.schema.json` (intestazione + mappa di trait).
+- **Sentience Track**: `sentience_track.schema.json` + `sentience_track.json` (T1→T6, gating).
+- **Template authoring**: `trait_template.json` (blank) + esempi compilati.
+- **Strumenti**: `trait_template_validator.py`, `export_csv.py`, `seed_merge.py`.
+- **CI**: `.github/workflows/validate_traits.yml`.
 - **Documentazione**: README/Manuale, Branch layout, Checklist operativa.
 
 > Nota: dove il repo ha già file equivalenti, **mantieni le path** proposte e sostituisci i contenuti
-con quelli qui riportati.
+> con quelli qui riportati.
 
 ---
 
 ## Standard e Convenzioni
-- **JSON Schema Draft 2020‑12** — convalida strutturale dei JSON.  
-- **UCUM** — unità per `metrics[].unit` (es. `m`, `s`, `m/s`, `Cel`, `%`, `1`).  
-- **ENVO** — ID/URI per biomi, habitat, materiali (in `requisiti_ambientali`).  
-- **SemVer 2.0.0** — versioni dei trait e dei pack (MAJOR.MINOR.PATCH).  
+
+- **JSON Schema Draft 2020‑12** — convalida strutturale dei JSON.
+- **UCUM** — unità per `metrics[].unit` (es. `m`, `s`, `m/s`, `Cel`, `%`, `1`).
+- **ENVO** — ID/URI per biomi, habitat, materiali (in `requisiti_ambientali`).
+- **SemVer 2.0.0** — versioni dei trait e dei pack (MAJOR.MINOR.PATCH).
 - **Nomenclatura** — `trait_code`: preferito `TR-0001`… (quattro cifre); compatibile anche `AAA-TRxx` per legacy.
 
 ---
 
 ## Specifiche: Schema Trait
+
 > File: `packs/evo_tactics_pack/docs/catalog/trait_entry.schema.json`
 
 ```json
@@ -198,14 +205,16 @@ con quelli qui riportati.
 ```
 
 ### Nomenclatura e compatibilità
-- **trait_code**: preferito `TR-0001…` (compatibile con `AAA-TRxx` legacy).  
-- **tier**: esteso a `T1..T6` per allineamento con Senzienza.  
-- **metrics.unit**: **UCUM** obbligatorio.  
+
+- **trait_code**: preferito `TR-0001…` (compatibile con `AAA-TRxx` legacy).
+- **tier**: esteso a `T1..T6` per allineamento con Senzienza.
+- **metrics.unit**: **UCUM** obbligatorio.
 - **ENVO**: `applicability.envo_terms[]` (URI PURL) **oppure** `requisiti_ambientali[].condizioni.biome_class` (label/ID).
 
 ---
 
 ## Specifiche: Catalogo Trait & Glossario
+
 > File: `packs/evo_tactics_pack/docs/catalog/trait_catalog.schema.json`
 
 ```json
@@ -232,6 +241,7 @@ con quelli qui riportati.
 ---
 
 ## Specifiche: Sentience Track T1–T6
+
 > File: `packs/evo_tactics_pack/docs/catalog/sentience_track.schema.json` + `sentience_track.json` (esempio)
 
 ```json
@@ -265,6 +275,7 @@ con quelli qui riportati.
 ```
 
 **Esempio (estratto) `sentience_track.json`:**
+
 ```json
 {{
   "schema_version": "1.0.0",
@@ -286,6 +297,7 @@ con quelli qui riportati.
 ---
 
 ## Template di Authoring
+
 > File: `packs/evo_tactics_pack/docs/catalog/trait_template.json`
 
 ```json
@@ -312,24 +324,28 @@ con quelli qui riportati.
 ---
 
 ## Guida specie/creatura: cosa serve per completare i tratti
+
 Per **ogni specie/creatura** fornisci:
-1) **Panoramica funzionale** (2 frasi) + *niche statement* (ENVO).  
-2) **Elenco trait** (ordinati per *famiglia_tipologia* e *tier*).  
-3) **Metriche UCUM** per i trait chiave (range/soglie/condizioni).  
-4) **Requisiti ambientali** (ENVO: biome/material/process).  
-5) **Sinergie/Conflitti** (con motivazione breve).  
-6) **Sentience target** (T1–T6) + *gating* di abilità sociali/cognitive.  
-7) **Testability** (observable + scene_prompt).  
-8) **Versioning** (SemVer + autore/data).
+
+1. **Panoramica funzionale** (2 frasi) + _niche statement_ (ENVO).
+2. **Elenco trait** (ordinati per _famiglia_tipologia_ e _tier_).
+3. **Metriche UCUM** per i trait chiave (range/soglie/condizioni).
+4. **Requisiti ambientali** (ENVO: biome/material/process).
+5. **Sinergie/Conflitti** (con motivazione breve).
+6. **Sentience target** (T1–T6) + _gating_ di abilità sociali/cognitive.
+7. **Testability** (observable + scene_prompt).
+8. **Versioning** (SemVer + autore/data).
 
 ---
 
 ## Strumenti: Validator, Export CSV, Seed Merge
+
 **Validator (`tools/py/trait_template_validator.py`)** — vedi estratto nel testo.  
 **Export CSV (`tools/py/export_csv.py`)** — estratto presente.  
 **Merge (`tools/py/seed_merge.py`)** — estratto presente.
 
 **Uso rapido:**
+
 ```bash
 python tools/py/trait_template_validator.py
 python tools/py/export_csv.py
@@ -339,20 +355,23 @@ python tools/py/seed_merge.py --base packs/.../trait_reference.json --in packs/.
 ---
 
 ## CI: GitHub Actions (validazione)
+
 > File: `.github/workflows/validate_traits.yml` — vedi sezione dedicata.
 
 ---
 
 ## Migrazione v1.x → v2
-- **tier**: esteso a `T1..T6`; valori v1 restano validi.  
-- **trait_code**: normalizza a `TR-0001`; registra alias legacy.  
-- **metrics.unit**: migra a UCUM (`°C`→`Cel`, adimensionale→`1`).  
-- **ENVO**: preferisci PURL in `applicability.envo_terms[]`; in alternativa `requisiti_ambientali[].condizioni.biome_class`.  
+
+- **tier**: esteso a `T1..T6`; valori v1 restano validi.
+- **trait_code**: normalizza a `TR-0001`; registra alias legacy.
+- **metrics.unit**: migra a UCUM (`°C`→`Cel`, adimensionale→`1`).
+- **ENVO**: preferisci PURL in `applicability.envo_terms[]`; in alternativa `requisiti_ambientali[].condizioni.biome_class`.
 - **versioning**: allinea a SemVer, con date ISO.
 
 ---
 
 ## Piano operativo: dump 297 neuroni (Ancestors)
+
 **Goal**: `data/ancestors/neurons_dump.json` con campi minimi e mapping ai trait.
 
 **Fasi**: raccolta fonti community → normalizzazione rami → mapping neurone→trait → conflitti/sinergie → QA → export.  
@@ -361,18 +380,22 @@ python tools/py/seed_merge.py --base packs/.../trait_reference.json --in packs/.
 ---
 
 ## Branch layout & Checklist PR
+
 **Branch**: `traits/core`, `traits/sentience`, `data/ancestors`, `ci`.  
 **Checklist**: schema OK, catalogo valido, docs aggiornati, SemVer bump.
 
 ---
 
 ## Appendice A — JSON Schema completi
-*(Ripeti i tre schema in forma integrale nel repo; vedi sezioni precedenti per i blocchi.)*
+
+_(Ripeti i tre schema in forma integrale nel repo; vedi sezioni precedenti per i blocchi.)_
 
 ## Appendice B — Trait di esempio
-*(Propriocezione, Equilibrio vestibolare, Nocicezione, Termocezione, Chemiocezione interna — vedi pacchetto v1.2; adegua codici/UCUM).*
+
+_(Propriocezione, Equilibrio vestibolare, Nocicezione, Termocezione, Chemiocezione interna — vedi pacchetto v1.2; adegua codici/UCUM)._
 
 ## Appendice C — Issue template
+
 ```
 ---
 name: "✨ Richiesta nuovo trait"
@@ -395,6 +418,7 @@ assignees: []
 ---
 
 ## Riferimenti
+
 - JSON Schema 2020‑12 — metaschema & guide ufficiali.
 - SemVer 2.0.0 — specifica.
 - UCUM — specifica e adozione (es. FDA); `Cel` per °C, `1` per adimensionale.

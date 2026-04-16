@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Archivio sorgenti Evo-Tactics
 
 Inserire in questa cartella i file originali (DOCX, PDF, fogli di calcolo)

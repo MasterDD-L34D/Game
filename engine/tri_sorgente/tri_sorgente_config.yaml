@@ -1,9 +1,9 @@
 config:
   softmax_temperature: 0.7
   pools:
-    R: 5   # da Roll
-    A: 4   # da Azioni
-    P: 4   # da Personalità
+    R: 5 # da Roll
+    A: 4 # da Azioni
+    P: 4 # da Personalità
   weights:
     w_roll: 0.9
     w_pers: 1.0
@@ -21,9 +21,9 @@ config:
     extra_per_match: 0.05
     cap: 0.25
   skip_economy:
-    fg_by_tier: { "low": 1, "mid": 2, "high": 3 }
+    fg_by_tier: { 'low': 1, 'mid': 2, 'high': 3 }
     cap_per_act: 6
-    consecutive_decay: [2,1,0]  # valori FG per 1°, 2°, 3° skip consecutivi
+    consecutive_decay: [2, 1, 0] # valori FG per 1°, 2°, 3° skip consecutivi
   diversity:
     min_sinergiche: 1
     soft_max_same_primary_tag: 2
@@ -31,9 +31,9 @@ config:
   recent_actions:
     # definisci il dizionario base; può essere esteso per bioma/tier
     cariche_effettuate: { per_event: 0.10, cap: 0.20 }
-    salti_lunghi:       { per_event: 0.05, cap: 0.15 }
-    colpi_critici:      { per_event: 0.05, cap: 0.15 }
-    cure_erogate:       { per_event: 0.05, cap: 0.15 }
-    danni_subiti:       { per_event: 0.05, cap: 0.15 }
-    assist:             { per_event: 0.05, cap: 0.15 }
-    colpi_mancati:      { per_event: 0.05, cap: 0.15 }
+    salti_lunghi: { per_event: 0.05, cap: 0.15 }
+    colpi_critici: { per_event: 0.05, cap: 0.15 }
+    cure_erogate: { per_event: 0.05, cap: 0.15 }
+    danni_subiti: { per_event: 0.05, cap: 0.15 }
+    assist: { per_event: 0.05, cap: 0.15 }
+    colpi_mancati: { per_event: 0.05, cap: 0.15 }

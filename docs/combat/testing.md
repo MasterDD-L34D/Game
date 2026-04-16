@@ -16,13 +16,13 @@ Il rules engine è coperto da **82 test Python** (64 resolver + 18 hydration) e 
 
 ## Panoramica test esistenti
 
-| File | Tipo | Test | Scope |
-|---|---|---|---|
-| `tests/test_resolver.py` | Python unit | 64 | Funzioni pure del resolver: pipeline attack, status, PT spend, parry, stress, formule |
-| `tests/test_hydration.py` | Python unit | 18 | `hydrate_encounter`, `load_trait_mechanics`, aggregazione resistenze, initiative ordering |
-| `tests/api/contracts-combat.test.js` | Node contract | 23 | Schema JSON validation: CombatState, action, turn_log, status_effect, roll_result, parry_result |
-| `tests/api/contracts-hydration-snapshot.test.js` | Node snapshot | 7 | Hydration di un encounter reale contro snapshot `tests/snapshots/hydration_caverna.json` |
-| `tests/api/contracts-trait-mechanics.test.js` | Node contract | 15 | `trait_mechanics.yaml` valida contro schema + allineamento con `traits_inventory.json` (33 core) |
+| File                                             | Tipo          | Test | Scope                                                                                            |
+| ------------------------------------------------ | ------------- | ---- | ------------------------------------------------------------------------------------------------ |
+| `tests/test_resolver.py`                         | Python unit   | 64   | Funzioni pure del resolver: pipeline attack, status, PT spend, parry, stress, formule            |
+| `tests/test_hydration.py`                        | Python unit   | 18   | `hydrate_encounter`, `load_trait_mechanics`, aggregazione resistenze, initiative ordering        |
+| `tests/api/contracts-combat.test.js`             | Node contract | 23   | Schema JSON validation: CombatState, action, turn_log, status_effect, roll_result, parry_result  |
+| `tests/api/contracts-hydration-snapshot.test.js` | Node snapshot | 7    | Hydration di un encounter reale contro snapshot `tests/snapshots/hydration_caverna.json`         |
+| `tests/api/contracts-trait-mechanics.test.js`    | Node contract | 15   | `trait_mechanics.yaml` valida contro schema + allineamento con `traits_inventory.json` (33 core) |
 
 ## Eseguire i test
 
@@ -174,13 +174,24 @@ test('CombatState valido accetta stato minimale', () => {
     turn: 1,
     initiative_order: ['u-1'],
     active_unit_id: 'u-1',
-    units: [{
-      id: 'u-1', species_id: 'sp-1', side: 'party', tier: 1,
-      hp: { current: 10, max: 10 }, ap: { current: 2, max: 2 },
-      armor: 0, initiative: 5, stress: 0, statuses: [],
-      resistances: [], trait_ids: [], pt: 0,
-      reactions: { current: 1, max: 1 },
-    }],
+    units: [
+      {
+        id: 'u-1',
+        species_id: 'sp-1',
+        side: 'party',
+        tier: 1,
+        hp: { current: 10, max: 10 },
+        ap: { current: 2, max: 2 },
+        armor: 0,
+        initiative: 5,
+        stress: 0,
+        statuses: [],
+        resistances: [],
+        trait_ids: [],
+        pt: 0,
+        reactions: { current: 1, max: 1 },
+      },
+    ],
     log: [],
   };
   assert.doesNotThrow(() => validator.validate(SCHEMA_ID, state));

@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Evo Tactics – Guida completa per il Game Repository (v2.1)
 
 ## Scopo e contesto
@@ -24,7 +25,7 @@ I **Tratti** sono definizioni atomiche riutilizzabili e agnostiche rispetto alle
 
 ### Naming e stile
 
-Per le specie: utilizzare un binomiale (*Genus species*) con radici greco‑latine coerenti con la firma funzionale e un nome volgare evocativo (es. “Viverna‑Elastico”). Le abbreviazioni specie sono ottenute concatenando le prime tre lettere del Genus e le prime due della specie (es. *Elastovaranus hydrus* → EHY).
+Per le specie: utilizzare un binomiale (_Genus species_) con radici greco‑latine coerenti con la firma funzionale e un nome volgare evocativo (es. “Viverna‑Elastico”). Le abbreviazioni specie sono ottenute concatenando le prime tre lettere del Genus e le prime due della specie (es. _Elastovaranus hydrus_ → EHY).
 
 Per i tratti: adottare denominazioni in **Title Case** composte da sostantivo e qualificatore (“Rostro Emostatico‑Litico”, “Coda Prensile Muscolare”, “Scudo Gluteale Cheratinizzato”). La funzione primaria è espressa come verbo + oggetto (“inoculare tossine”, “rilevare vibrazioni”) e deve essere testabile. Nelle descrizioni funzionali includere range realistici con unità UCUM; evitare lirismi.
 
@@ -44,7 +45,7 @@ Il pacchetto definisce dieci specie principali (Viverna‑Elastico, Ghiotton‑S
 
 ## Ecotipi
 
-Ogni specie può manifestare varianti ecologiche (ecotipi) che modificano i valori di alcune metriche dei tratti per adattarsi a biomi differenti. Gli ecotipi sono elencati nel campo `ecotypes` delle specie e descritti nel file `ecotypes/<genus_species>_ecotypes.json`. Ad esempio, *Elastovaranus hydrus* ha ecotipi “Gole Ventose” e “Letti Fluviali”, mentre *Gulogluteus scutiger* include “Chioma Umida” e “Forre Umide”.
+Ogni specie può manifestare varianti ecologiche (ecotipi) che modificano i valori di alcune metriche dei tratti per adattarsi a biomi differenti. Gli ecotipi sono elencati nel campo `ecotypes` delle specie e descritti nel file `ecotypes/<genus_species>_ecotypes.json`. Ad esempio, _Elastovaranus hydrus_ ha ecotipi “Gole Ventose” e “Letti Fluviali”, mentre _Gulogluteus scutiger_ include “Chioma Umida” e “Forre Umide”.
 
 ## Integrazione nel repository `Game`
 

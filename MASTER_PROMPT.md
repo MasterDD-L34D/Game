@@ -8,12 +8,13 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # MASTER_PROMPT.md – Prompt Master per Game / Evo Tactics
 
 Questo file contiene un prompt da incollare all’inizio di ogni nuova sessione
 di ChatGPT/Codex quando lavori sul repo **Game / Evo Tactics**.
 
---- 
+---
 
 ## Master Prompt (da copiare/incollare)
 

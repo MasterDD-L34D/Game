@@ -89,13 +89,13 @@ test('CLI genera proposte YAML con delta e punteggi ordinati', async (t) => {
   assert.equal(proposal.items[0].summary.peak_severity, 'critical');
   assert.equal(proposal.items[0].metrics.win_rate.action, 'buff');
   assert.equal(proposal.items[0].metrics.win_rate.severity, 'critical');
-  assert.equal(proposal.items[0].metrics.win_rate.score > proposal.items[1].metrics.win_rate.score, true);
+  assert.equal(
+    proposal.items[0].metrics.win_rate.score > proposal.items[1].metrics.win_rate.score,
+    true,
+  );
   assert.equal(proposal.items[1].metrics.win_rate.action, 'nerf');
   assert.equal(proposal.items[1].metrics.pick_rate.severity, 'moderate');
-  assert.match(
-    proposal.items[1].metrics.pick_rate.recommendation,
-    /Ridurre pick rate di/,
-  );
+  assert.match(proposal.items[1].metrics.pick_rate.recommendation, /Ridurre pick rate di/);
 });
 
 test('modalità dry-run stampa YAML su STDOUT senza creare file', async (t) => {
@@ -117,9 +117,13 @@ test('modalità dry-run stampa YAML su STDOUT senza creare file', async (t) => {
   };
 
   const datasetPath = writeDataset(tempDir, dataset);
-  const stdout = execFileSync('node', [CLI, '--items', datasetPath, '--output', outputDir, '--dry-run'], {
-    encoding: 'utf8',
-  });
+  const stdout = execFileSync(
+    'node',
+    [CLI, '--items', datasetPath, '--output', outputDir, '--dry-run'],
+    {
+      encoding: 'utf8',
+    },
+  );
 
   assert.ok(stdout.includes('summary:'), 'dry-run deve produrre YAML');
   const generated = fs.readdirSync(outputDir).filter((file) => file.endsWith('.yaml'));
@@ -147,9 +151,13 @@ test('modalità check confronta i delta con il file più recente', async (t) => 
   const datasetPath = writeDataset(tempDir, baseDataset);
   execFileSync('node', [CLI, '--items', datasetPath, '--output', outputDir]);
 
-  const checkOk = spawnSync('node', [CLI, '--items', datasetPath, '--output', outputDir, '--check'], {
-    encoding: 'utf8',
-  });
+  const checkOk = spawnSync(
+    'node',
+    [CLI, '--items', datasetPath, '--output', outputDir, '--check'],
+    {
+      encoding: 'utf8',
+    },
+  );
   assert.equal(checkOk.status, 0, checkOk.stderr);
 
   const updatedDataset = {
@@ -164,9 +172,13 @@ test('modalità check confronta i delta con il file più recente', async (t) => 
   };
   fs.writeFileSync(datasetPath, JSON.stringify(updatedDataset, null, 2));
 
-  const checkFail = spawnSync('node', [CLI, '--items', datasetPath, '--output', outputDir, '--check'], {
-    encoding: 'utf8',
-  });
+  const checkFail = spawnSync(
+    'node',
+    [CLI, '--items', datasetPath, '--output', outputDir, '--check'],
+    {
+      encoding: 'utf8',
+    },
+  );
   assert.notEqual(checkFail.status, 0, 'il controllo deve fallire se i delta cambiano');
   assert.ok(
     (checkFail.stderr || '').includes('non è aggiornata'),

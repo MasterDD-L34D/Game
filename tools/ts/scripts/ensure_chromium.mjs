@@ -27,7 +27,7 @@ async function findPlaywrightExecutable() {
   const caches = [
     process.env.PLAYWRIGHT_BROWSERS_PATH,
     path.join(projectRoot, 'node_modules', '.cache', 'ms-playwright'),
-    path.join(projectRoot, 'node_modules', 'playwright-core', '.local-browsers')
+    path.join(projectRoot, 'node_modules', 'playwright-core', '.local-browsers'),
   ].filter(Boolean);
 
   for (const base of caches) {
@@ -39,10 +39,26 @@ async function findPlaywrightExecutable() {
         const chromiumCandidates = [
           path.join(base, entry.name, 'chrome-linux', 'chrome'),
           path.join(base, entry.name, 'chrome-linux64', 'chrome'),
-          path.join(base, entry.name, 'chrome-mac', 'Chromium.app', 'Contents', 'MacOS', 'Chromium'),
-          path.join(base, entry.name, 'chrome-mac-arm64', 'Chromium.app', 'Contents', 'MacOS', 'Chromium'),
+          path.join(
+            base,
+            entry.name,
+            'chrome-mac',
+            'Chromium.app',
+            'Contents',
+            'MacOS',
+            'Chromium',
+          ),
+          path.join(
+            base,
+            entry.name,
+            'chrome-mac-arm64',
+            'Chromium.app',
+            'Contents',
+            'MacOS',
+            'Chromium',
+          ),
           path.join(base, entry.name, 'chrome-win', 'chrome.exe'),
-          path.join(base, entry.name, 'chrome-win64', 'chrome.exe')
+          path.join(base, entry.name, 'chrome-win64', 'chrome.exe'),
         ];
         for (const candidate of chromiumCandidates) {
           if (await pathExists(candidate)) {
@@ -76,7 +92,7 @@ async function findPuppeteerExecutable() {
           path.join(buildDir, 'chrome-mac', 'Chromium.app', 'Contents', 'MacOS', 'Chromium'),
           path.join(buildDir, 'chrome-mac-arm64', 'Chromium.app', 'Contents', 'MacOS', 'Chromium'),
           path.join(buildDir, 'chrome-win', 'chrome.exe'),
-          path.join(buildDir, 'chrome-win64', 'chrome.exe')
+          path.join(buildDir, 'chrome-win64', 'chrome.exe'),
         ];
         for (const candidate of chromiumCandidates) {
           if (await pathExists(candidate)) {
@@ -108,7 +124,7 @@ function run(command, args, options) {
     cwd: projectRoot,
     stdio: ['inherit', 'pipe', 'inherit'],
     encoding: 'utf-8',
-    ...options
+    ...options,
   });
   return result;
 }
@@ -124,7 +140,9 @@ async function installSystemDependencies({ quiet = false } = {}) {
   }
   const result = run('npx', args, { env: depsEnv });
   if (result.status !== 0 && !quiet) {
-    console.warn('[ensure-chromium] Failed to install Playwright system dependencies (continuing)...');
+    console.warn(
+      '[ensure-chromium] Failed to install Playwright system dependencies (continuing)...',
+    );
   }
   return { attempted: true, status: result.status ?? 0 };
 }
@@ -199,21 +217,26 @@ export async function ensureChromiumExecutable({ quiet = false } = {}) {
   }
   if (puppeteerInstall.executable) {
     if (!quiet) {
-      console.log(`[ensure-chromium] Puppeteer provided Chromium executable at ${puppeteerInstall.executable}`);
+      console.log(
+        `[ensure-chromium] Puppeteer provided Chromium executable at ${puppeteerInstall.executable}`,
+      );
     }
     return puppeteerInstall.executable;
   }
   const puppeteerExecutable = await findPuppeteerExecutable();
   if (puppeteerExecutable) {
     if (!quiet) {
-      console.log(`[ensure-chromium] Located Puppeteer Chromium executable at ${puppeteerExecutable}`);
+      console.log(
+        `[ensure-chromium] Located Puppeteer Chromium executable at ${puppeteerExecutable}`,
+      );
     }
     return puppeteerExecutable;
   }
   throw new Error('Unable to locate Chromium executable after Puppeteer fallback.');
 }
 
-const invokedDirectly = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+const invokedDirectly =
+  process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 
 if (invokedDirectly) {
   (async () => {

@@ -156,13 +156,15 @@ function parseArgs(argv) {
 }
 
 function printHelp() {
-  console.log(`Utilizzo: node scripts/sync_trait_lists.js [opzioni]\n\n` +
-    `Opzioni:\n` +
-    `  --dry-run           Mostra i file che verrebbero aggiornati senza scrivere su disco.\n` +
-    `  --skip-deprecated   Non rigenera gli stub legacy nelle cartelle per tipologia.\n` +
-    `  --only-catalogs     Alias di --skip-deprecated.\n` +
-    `  --catalog <path>    Aggiunge un file catalogo extra da sincronizzare.\n` +
-    `  --help              Mostra questo messaggio.\n`);
+  console.log(
+    `Utilizzo: node scripts/sync_trait_lists.js [opzioni]\n\n` +
+      `Opzioni:\n` +
+      `  --dry-run           Mostra i file che verrebbero aggiornati senza scrivere su disco.\n` +
+      `  --skip-deprecated   Non rigenera gli stub legacy nelle cartelle per tipologia.\n` +
+      `  --only-catalogs     Alias di --skip-deprecated.\n` +
+      `  --catalog <path>    Aggiunge un file catalogo extra da sincronizzare.\n` +
+      `  --help              Mostra questo messaggio.\n`,
+  );
 }
 
 function main() {

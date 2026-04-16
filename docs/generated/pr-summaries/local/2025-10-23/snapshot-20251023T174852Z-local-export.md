@@ -13,6 +13,7 @@
 - **Export originale:** /workspace/Game/data/derived/exports/local-conversation.json
 
 ## Estratto diff
+
     --- /workspace/Game/data/external/chatgpt/local/2025-10-23/snapshot-20251023T174839Z-local-export.json
     +++ data/external/chatgpt/local/2025-10-23/snapshot-20251023T174852Z-local-export.json
     @@ -15,8 +15,8 @@

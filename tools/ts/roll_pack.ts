@@ -116,9 +116,7 @@ export function roll_pack(
   const raw = readFileSync(resolvedDataPath, 'utf8');
   const data = yaml.load(raw) as Data;
 
-  const resolvedSeed = typeof seedOrOptions === 'string'
-    ? seedOrOptions
-    : seedOrOptions?.seed;
+  const resolvedSeed = typeof seedOrOptions === 'string' ? seedOrOptions : seedOrOptions?.seed;
 
   const rng = createRandom(resolveSeed(resolvedSeed));
 
@@ -134,8 +132,9 @@ export function roll_pack(
     const formData = data.forms[normalizedForm];
     const bias = formData?.bias_d12;
     if (!bias) throw new Error('Forma sconosciuta: ' + form);
-    const entry = (Object.entries(bias) as [FormPackKey, Range][])
-      .find(([, r]) => inRange(d12!, r));
+    const entry = (Object.entries(bias) as [FormPackKey, Range][]).find(([, r]) =>
+      inRange(d12!, r),
+    );
     if (!entry) throw new Error('Bias d12 non copre il lancio: ' + d12);
     const [packKey] = entry; // A|B|C
     pick = { pack: packKey, combo: formData[packKey] };

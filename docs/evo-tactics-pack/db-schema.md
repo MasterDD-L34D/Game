@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Evo Tactics Pack – MongoDB Schema
 
 Questo documento descrive la struttura dati pensata per servire l'ecosistema **Evo Tactics Pack** quando viene proiettato dentro un datastore MongoDB. Le sorgenti primarie dei dati sono i cataloghi JSON generati nello repository (`packs/evo_tactics_pack/docs/catalog`). Il modello è organizzato in sei collezioni principali: `biomes`, `species`, `traits`, `biome_pools`, `sessions` e `activity_logs`.

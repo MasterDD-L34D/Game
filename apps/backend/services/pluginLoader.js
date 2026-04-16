@@ -46,7 +46,7 @@ function loadPlugins(app, plugins, options = {}) {
 const narrativePlugin = {
   name: 'narrative',
   register(app) {
-    const { createNarrativeRouter } = require('../../services/narrative/narrativeRoutes');
+    const { createNarrativeRouter } = require('../../../services/narrative/narrativeRoutes');
     app.use('/api/v1/narrative', createNarrativeRouter());
     app.use('/api/narrative', createNarrativeRouter());
   },

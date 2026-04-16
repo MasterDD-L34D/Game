@@ -16,14 +16,14 @@ function createSandbox() {
           },
           setProperty(key, value) {
             scriptProperties.set(key, value);
-          }
+          },
         };
-      }
+      },
     },
     Logger: {
       log(message) {
         logs.push(String(message));
-      }
+      },
     },
     CacheService: {
       getScriptCache() {
@@ -31,28 +31,28 @@ function createSandbox() {
           get() {
             return null;
           },
-          put() {}
+          put() {},
         };
-      }
+      },
     },
     UrlFetchApp: {
       fetch() {
         throw new Error('fetch non supportato nel test');
-      }
+      },
     },
     DriveApp: {
       getFolderById() {
         throw new Error('Drive non mockato in questo test');
-      }
+      },
     },
     SpreadsheetApp: {},
     ScriptApp: {},
     MimeType: {
       PLAIN_TEXT: 'text/plain',
-      GOOGLE_SHEETS: 'application/vnd.google-apps.spreadsheet'
+      GOOGLE_SHEETS: 'application/vnd.google-apps.spreadsheet',
     },
     console,
-    __logs: logs
+    __logs: logs,
   };
 
   const scriptPath = join(process.cwd(), 'scripts', 'driveSync.gs');
@@ -73,17 +73,17 @@ test('normalizeSourceConfig_ merge filters and logLevel', () => {
       filters: {
         allowedRecipients: ['HUD', 'pi.balance.alerts'],
         allowedStatuses: ['Raised'],
-        recipientsMode: 'all'
-      }
+        recipientsMode: 'all',
+      },
     },
     {
       folderId: 'folder-123',
       destinationFolderId: 'folder-456',
       filters: {
         allowedStatuses: ['Cleared'],
-        blockedRecipients: ['legacy-team']
-      }
-    }
+        blockedRecipients: ['legacy-team'],
+      },
+    },
   );
 
   assert.equal(normalized.logLevel, 'debug');
@@ -100,15 +100,15 @@ test('applyDatasetFilters_ filters hud_alert_log and does not mutate source', ()
       {
         mission_id: 'alpha',
         status: 'raised',
-        recipients: ['HUD', 'pi.balance.alerts']
+        recipients: ['HUD', 'pi.balance.alerts'],
       },
       {
         mission_id: 'alpha',
         status: 'cleared',
-        recipients: ['hud']
-      }
+        recipients: ['hud'],
+      },
     ],
-    meta: { cycle: 4 }
+    meta: { cycle: 4 },
   };
   const copyForCall = JSON.parse(JSON.stringify(dataset));
   const normalizedSource = {
@@ -117,12 +117,16 @@ test('applyDatasetFilters_ filters hud_alert_log and does not mutate source', ()
       blockedRecipients: [],
       allowedStatuses: ['raised'],
       blockedStatuses: [],
-      recipientsMode: 'any'
+      recipientsMode: 'any',
     },
-    logLevel: 'debug'
+    logLevel: 'debug',
   };
 
-  const result = sandbox.applyDatasetFilters_(copyForCall, normalizedSource, 'session-metrics.yaml');
+  const result = sandbox.applyDatasetFilters_(
+    copyForCall,
+    normalizedSource,
+    'session-metrics.yaml',
+  );
   assert.equal(result.data.hud_alert_log.length, 1);
   assert.equal(result.data.hud_alert_log[0].status, 'raised');
   assert.equal(result.summary.hud_alert_log.removed, 1);
@@ -130,7 +134,7 @@ test('applyDatasetFilters_ filters hud_alert_log and does not mutate source', ()
   assert.equal(result.summary.hud_alert_log.total, 2);
   assert.equal(dataset.hud_alert_log.length, 2, 'il dataset originale non deve essere mutato');
   assert.ok(Array.isArray(result.logs));
-  assert.ok(result.logs.some(entry => entry.level === 'info'));
+  assert.ok(result.logs.some((entry) => entry.level === 'info'));
 });
 
 test('dispatchLogs_ rispetta il livello di log', () => {
@@ -138,7 +142,7 @@ test('dispatchLogs_ rispetta il livello di log', () => {
   const logs = sandbox.__logs;
   sandbox.dispatchLogs_('info', [
     { level: 'info', message: 'info message', meta: { removed: 1 } },
-    { level: 'debug', message: 'debug message', meta: { removed: 0 } }
+    { level: 'debug', message: 'debug message', meta: { removed: 0 } },
   ]);
   assert.equal(logs.length, 1);
   assert.ok(logs[0].includes('info message'));
@@ -146,7 +150,7 @@ test('dispatchLogs_ rispetta il livello di log', () => {
   logs.length = 0;
   sandbox.dispatchLogs_('debug', [
     { level: 'info', message: 'info2', meta: { removed: 0 } },
-    { level: 'debug', message: 'debug2', meta: { removed: 0 } }
+    { level: 'debug', message: 'debug2', meta: { removed: 0 } },
   ]);
   assert.equal(logs.length, 2);
 });
@@ -159,14 +163,14 @@ test('isYamlCandidate_ rispetta la whitelist di asset approvati', () => {
     assets: [
       {
         driveSourceId: 'vc-logs',
-        fileName: 'session-metrics.yaml'
-      }
-    ]
+        fileName: 'session-metrics.yaml',
+      },
+    ],
   });
 
   const source = sandbox.normalizeSourceConfig_(
     { id: 'vc-logs' },
-    { folderId: 'folder', destinationFolderId: 'folder', sheetNamePrefix: '' }
+    { folderId: 'folder', destinationFolderId: 'folder', sheetNamePrefix: '' },
   );
 
   assert.equal(sandbox.isYamlCandidate_('session-metrics.yaml', source), true);
@@ -174,7 +178,7 @@ test('isYamlCandidate_ rispetta la whitelist di asset approvati', () => {
 
   const hubSource = sandbox.normalizeSourceConfig_(
     { id: 'hub-ops' },
-    { folderId: 'folder', destinationFolderId: 'folder', sheetNamePrefix: '' }
+    { folderId: 'folder', destinationFolderId: 'folder', sheetNamePrefix: '' },
   );
   assert.equal(sandbox.isYamlCandidate_('session-metrics.yaml', hubSource), false);
 });

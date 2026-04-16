@@ -13,6 +13,7 @@
 - **Export originale:** /workspace/Game/data/derived/exports/notes-conversation.json
 
 ## Estratto diff
+
     --- /workspace/Game/data/external/chatgpt/notes/2025-10-23/snapshot-20251023T174852Z-daily-notes.json
     +++ data/external/chatgpt/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.json
     @@ -15,8 +15,8 @@

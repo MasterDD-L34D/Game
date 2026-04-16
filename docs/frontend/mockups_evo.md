@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Evo Console — Mockup mission console
 
 Questa pagina documenta il mockup di riferimento per la console Evo-Tactics

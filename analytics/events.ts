@@ -43,7 +43,9 @@ export interface EventsAnalytics {
   recordPurchase(payload: EventPurchasePayload): void;
 }
 
-const sanitizeMetadata = (metadata?: Record<string, unknown>): Record<string, unknown> | undefined => {
+const sanitizeMetadata = (
+  metadata?: Record<string, unknown>,
+): Record<string, unknown> | undefined => {
   if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
     return undefined;
   }
@@ -84,12 +86,15 @@ const normalizeAmount = (amount: number): number | undefined => {
 };
 
 const compact = <T extends Record<string, unknown>>(payload: T): T => {
-  return Object.entries(payload).reduce((acc, [key, value]) => {
-    if (value !== undefined && value !== null) {
-      (acc as Record<string, unknown>)[key] = value;
-    }
-    return acc;
-  }, {} as Record<string, unknown>) as T;
+  return Object.entries(payload).reduce(
+    (acc, [key, value]) => {
+      if (value !== undefined && value !== null) {
+        (acc as Record<string, unknown>)[key] = value;
+      }
+      return acc;
+    },
+    {} as Record<string, unknown>,
+  ) as T;
 };
 
 export function createEventsAnalytics(adapter: AnalyticsAdapter): EventsAnalytics {

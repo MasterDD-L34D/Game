@@ -13,7 +13,8 @@ Module._initPaths();
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const React = require('../../tools/ts/node_modules/react') as typeof import('react');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { renderToStaticMarkup } = require('../../tools/ts/node_modules/react-dom/server') as typeof import('../../tools/ts/node_modules/react-dom/server');
+const { renderToStaticMarkup } =
+  require('../../tools/ts/node_modules/react-dom/server') as typeof import('../../tools/ts/node_modules/react-dom/server');
 
 type HudOverlayModule = typeof import('../../public/hud/Overlay');
 type OverlayProps = HudOverlayModule['HudOverlayProps'];
@@ -35,7 +36,12 @@ describe('HudOverlay component', () => {
           weighted_index_threshold: 0.6,
         },
         panels: [
-          { id: 'trend-risk', type: 'metric', source: 'indices.risk.weighted_index', format: 'percentage' },
+          {
+            id: 'trend-risk',
+            type: 'metric',
+            source: 'indices.risk.weighted_index',
+            format: 'percentage',
+          },
         ],
         threshold_badge: {
           label: 'Soglia attuale',
@@ -75,7 +81,7 @@ describe('HudOverlay component', () => {
 
   it('renderizza badge soglia, timeline e card contestuale', () => {
     const markup = renderToStaticMarkup(
-      React.createElement(HudOverlay, { missionTag: 'smart-risk-alerts', layout })
+      React.createElement(HudOverlay, { missionTag: 'smart-risk-alerts', layout }),
     );
 
     assert.match(markup, /hud-overlay__threshold-value/);
@@ -90,7 +96,7 @@ describe('HudOverlay component', () => {
       React.createElement(HudOverlay, {
         missionTag: 'inesistente',
         layout: { overlays: [], legacy_fallback: { component: 'Legacy', description: 'fallback' } },
-      })
+      }),
     );
 
     assert.match(markup, /Legacy/);

@@ -51,13 +51,22 @@ export class PublishingWorkflow {
   constructor(options = {}) {
     const cwd = options.cwd || process.cwd();
     this.sourceRoot = path.resolve(cwd, options.sourceRoot || 'packs/evo_tactics_pack/out/patches');
-    this.stagingRoot = path.resolve(cwd, options.stagingRoot || 'packs/evo_tactics_pack/out/staging');
-    this.productionRoot = path.resolve(cwd, options.productionRoot || 'packs/evo_tactics_pack/out/production');
+    this.stagingRoot = path.resolve(
+      cwd,
+      options.stagingRoot || 'packs/evo_tactics_pack/out/staging',
+    );
+    this.productionRoot = path.resolve(
+      cwd,
+      options.productionRoot || 'packs/evo_tactics_pack/out/production',
+    );
     this.validationReport = path.resolve(
       cwd,
-      options.validationReport || 'packs/evo_tactics_pack/out/validation/last_report.json'
+      options.validationReport || 'packs/evo_tactics_pack/out/validation/last_report.json',
     );
-    this.stateFile = path.resolve(cwd, options.stateFile || 'services/publishing/workflowState.json');
+    this.stateFile = path.resolve(
+      cwd,
+      options.stateFile || 'services/publishing/workflowState.json',
+    );
     this.initialised = false;
     this.state = { packages: {} };
   }
@@ -240,7 +249,7 @@ export class PublishingWorkflow {
         }
         return acc;
       },
-      { total: 0, validated: 0, staged: 0, approved: 0, production: 0 }
+      { total: 0, validated: 0, staged: 0, approved: 0, production: 0 },
     );
 
     return {

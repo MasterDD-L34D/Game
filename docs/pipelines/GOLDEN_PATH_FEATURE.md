@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # GOLDEN_PATH_FEATURE – Pipeline istanziata per nuove feature complesse
 
 Questa guida istanzia il Golden Path (vedi `docs/pipelines/GOLDEN_PATH.md`) per

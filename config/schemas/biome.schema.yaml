@@ -11,16 +11,16 @@ properties:
     type: object
     minProperties: 1
     patternProperties:
-      "^[a-z0-9_]+$":
-        $ref: "#/$defs/biomeEntry"
+      '^[a-z0-9_]+$':
+        $ref: '#/$defs/biomeEntry'
     additionalProperties: false
   vc_adapt:
     type: object
     patternProperties:
-      "^[a-z0-9_]+$":
+      '^[a-z0-9_]+$':
         type: object
         patternProperties:
-          "^[a-z0-9_]+$":
+          '^[a-z0-9_]+$':
             type: number
         additionalProperties: false
     additionalProperties: false
@@ -50,11 +50,11 @@ properties:
   frequencies:
     type: object
     patternProperties:
-      "^[a-z0-9_]+$":
+      '^[a-z0-9_]+$':
         type: object
         minProperties: 1
         patternProperties:
-          "^[a-z0-9_]+$":
+          '^[a-z0-9_]+$':
             type: number
         additionalProperties: false
     additionalProperties: false
@@ -90,12 +90,12 @@ $defs:
         minItems: 1
         items:
           type: string
-          pattern: "^[a-z0-9_]+$"
+          pattern: '^[a-z0-9_]+$'
       aliases:
         type: array
         items:
           type: string
-          pattern: "^[a-z0-9_]+$"
+          pattern: '^[a-z0-9_]+$'
       hazard:
         type: object
         additionalProperties: false
@@ -118,7 +118,7 @@ $defs:
             type: object
             minProperties: 1
             patternProperties:
-              "^[a-z0-9_]+$":
+              '^[a-z0-9_]+$':
                 type: number
       npc_archetypes:
         type: object
@@ -157,7 +157,7 @@ $defs:
             type: object
             minProperties: 1
             patternProperties:
-              "^[a-z0-9_]+$":
+              '^[a-z0-9_]+$':
                 type: number
       narrative:
         type: object

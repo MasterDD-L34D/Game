@@ -231,6 +231,7 @@ def test_resolve_attack_with_poisoned_reduces_damage_step():
 ```
 
 Aggiungere almeno 1 test per:
+
 - Trigger meccanico corretto (intensity=1, intensity=2)
 - Stacking con altri status (es. disorient + poisoned)
 - Decay corretto via `begin_turn` → rimozione a `remaining_turns=0`

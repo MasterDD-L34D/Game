@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Step 1 – Raccolta informazioni di base
 
 **Data:** 03/11/2025
@@ -17,7 +18,7 @@ Per avviare correttamente il piano di integrazione per il progetto **Evo‑Tacti
 ## Attività svolte
 
 1. **Lettura del README principale**
-   - Analizzate le sezioni *Panoramica*, *Settori e dipendenze* e *Tour del repository* per identificare la struttura del progetto e le dipendenze tra moduli (dataset, CLI Python/TypeScript, backend Idea Engine, webapp).
+   - Analizzate le sezioni _Panoramica_, _Settori e dipendenze_ e _Tour del repository_ per identificare la struttura del progetto e le dipendenze tra moduli (dataset, CLI Python/TypeScript, backend Idea Engine, webapp).
    - Evidenziato che il monorepo include dati YAML, script di generazione/validazione, pack di ecosistemi, workflow CI e una dashboard di test.
 
 2. **Analisi dei workflow CI/CD**
@@ -40,4 +41,3 @@ Per avviare correttamente il piano di integrazione per il progetto **Evo‑Tacti
 ## Prossime azioni
 
 Passare allo **Step 2**: definire e consolidare il Game Design Document (GDD), raccogliendo concept, target, regole di gioco, architettura dati e monetizzazione.
-

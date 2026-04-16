@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Deploy rapido · Evo Tactics Pack
 
 Questa checklist descrive come produrre e pubblicare il pacchetto

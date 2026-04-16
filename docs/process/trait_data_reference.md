@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Trait Data Reference & Workflow
 
 Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare per mantenerli coerenti. È pensata come riferimento rapido durante l'aggiornamento dei registri o la creazione di nuovi tratti.
@@ -103,11 +104,11 @@ d'ambiente:
 Ogni token deve includere il claim `roles` (array o stringa) con almeno uno dei
 ruoli riconosciuti dal middleware RBAC:
 
-| Ruolo    | Permessi principali |
-| -------- | ------------------- |
-| reviewer | Lettura catalogo e validazione (`GET`, `POST /validate`). |
+| Ruolo    | Permessi principali                                                                            |
+| -------- | ---------------------------------------------------------------------------------------------- |
+| reviewer | Lettura catalogo e validazione (`GET`, `POST /validate`).                                      |
 | editor   | Tutti i permessi di `reviewer` più creazione, clonazione, aggiornamento e ripristino versioni. |
-| admin    | Tutti i permessi precedenti più eliminazione definitiva dei trait. |
+| admin    | Tutti i permessi precedenti più eliminazione definitiva dei trait.                             |
 
 I token vengono validati tramite header `Authorization: Bearer <jwt>`; in
 ambiente legacy è ancora possibile utilizzare `TRAIT_EDITOR_TOKEN`, ma solo per

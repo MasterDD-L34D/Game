@@ -8,9 +8,11 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Sources (permalink)
 
 ## Ancestors Wiki (Fandom)
+
 - Neurons: https://ancestors.fandom.com/wiki/Neurons
 - Senses (neuronal branch): https://ancestors.fandom.com/wiki/Senses_%28neuronal_branch%29
 - Dexterity (neuronal branch): https://ancestors.fandom.com/wiki/Dexterity_%28neuronal_branch%29
@@ -24,6 +26,7 @@ review_cycle_days: 14
 - Meteorite Site: https://ancestors.fandom.com/wiki/Meteorite_Site
 
 ## Scientific framing (Britannica)
+
 - Proprioception: https://www.britannica.com/science/proprioception
 - Vestibular system: https://www.britannica.com/science/vestibular-system
 - Nociception: https://www.britannica.com/science/nociception
@@ -31,4 +34,5 @@ review_cycle_days: 14
 - Thermoreception: https://www.britannica.com/science/thermoreception
 
 ## Anthroposophy (conceptual flavour)
+
 - Steiner, GA 9, Theosophy (Body/Soul/Spirit): https://rsarchive.org/Books/GA009/English/AP1971/GA009_c01_4.html

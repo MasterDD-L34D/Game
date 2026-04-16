@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Checklist iterativa tratti
 
 Queste checklist guidano ogni iterazione di aggiunta o revisione tratti,

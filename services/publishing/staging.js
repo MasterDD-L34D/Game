@@ -48,14 +48,16 @@ async function collectPatchMetadata(workflow, packageId) {
     } catch (error) {
       data = {};
     }
-    const patchId = typeof data.id === 'string' && data.id.trim()
-      ? data.id.trim()
-      : entry.name.replace(/\.patch\.yaml$/, '');
-    const title = typeof data.title === 'string' && data.title.trim()
-      ? data.title.trim()
-      : typeof data.name === 'string' && data.name.trim()
-        ? data.name.trim()
-        : titleCase(patchId.replace(/[-_]+/g, ' '));
+    const patchId =
+      typeof data.id === 'string' && data.id.trim()
+        ? data.id.trim()
+        : entry.name.replace(/\.patch\.yaml$/, '');
+    const title =
+      typeof data.title === 'string' && data.title.trim()
+        ? data.title.trim()
+        : typeof data.name === 'string' && data.name.trim()
+          ? data.name.trim()
+          : titleCase(patchId.replace(/[-_]+/g, ' '));
 
     patches.push({
       id: patchId,
@@ -79,7 +81,10 @@ async function buildIndices(workflow, packages) {
       ...pkg,
       sourcePath: path.relative(workflow.sourceRoot, pkg.path),
       stagingPath: path.relative(workflow.stagingRoot, path.join(workflow.stagingRoot, pkg.id)),
-      productionPath: path.relative(workflow.productionRoot, path.join(workflow.productionRoot, pkg.id)),
+      productionPath: path.relative(
+        workflow.productionRoot,
+        path.join(workflow.productionRoot, pkg.id),
+      ),
       patchCount: patches.length,
       patches,
       displayName: titleCase(pkg.id),
@@ -179,7 +184,7 @@ async function runCli() {
   const args = parseCliArgs(process.argv.slice(2));
   if (args.help) {
     process.stdout.write(
-      'Usage: node services/publishing/staging.js [--actor=NAME] [--include-unvalidated]\n'
+      'Usage: node services/publishing/staging.js [--actor=NAME] [--include-unvalidated]\n',
     );
     process.exit(0);
   }
@@ -193,7 +198,7 @@ async function runCli() {
       `Staging completed. Packages staged: ${result.staged.length}. ` +
         `Skipped: ${result.skipped.length}.\n` +
         `Index: ${relativeToCwd(result.indices.indexPath)}\n` +
-        `Site manifest: ${relativeToCwd(result.indices.manifestPath)}\n`
+        `Site manifest: ${relativeToCwd(result.indices.manifestPath)}\n`,
     );
   } catch (error) {
     process.stderr.write(`Staging failed: ${error.message}\n`);

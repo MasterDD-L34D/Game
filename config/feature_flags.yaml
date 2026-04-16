@@ -1,7 +1,7 @@
 feature_flags:
   analytics:
     squadsync_view:
-      description: "Abilita la pagina Analytics > SquadSync e il resolver GraphQL associato."
+      description: 'Abilita la pagina Analytics > SquadSync e il resolver GraphQL associato.'
       default: false
       rollout:
         phase: canary
@@ -13,10 +13,10 @@ feature_flags:
         contact: squad-sync@gamestudio.local
         playbook: docs/Canvas/feature-updates.md
       metrics:
-        - "Engagement medio > 0.58 nelle squadre canary"
-        - "Tempo medio stand-up < 11 minuti"
+        - 'Engagement medio > 0.58 nelle squadre canary'
+        - 'Tempo medio stand-up < 11 minuti'
     adaptive_engine_tap:
-      description: "Attiva il motore adaptive per SquadSync con programma TAP dedicato."
+      description: 'Attiva il motore adaptive per SquadSync con programma TAP dedicato.'
       default: false
       rollout:
         phase: limited_availability
@@ -31,26 +31,26 @@ feature_flags:
       owner: analytics
       controls:
         contact: analytics-duty@gamestudio.local
-        slack: "#analytics-squadsync"
+        slack: '#analytics-squadsync'
         playbook: docs/process/telemetry_ingestion_pipeline.md
       metrics:
-        - "Ack rate adaptive ≥ 82% su finestre 24h"
-        - "Tempo medio risposta adaptive ≤ 5m"
-        - "Tilt medio post-risposta < 0.48"
+        - 'Ack rate adaptive ≥ 82% su finestre 24h'
+        - 'Tempo medio risposta adaptive ≤ 5m'
+        - 'Tilt medio post-risposta < 0.48'
   idea_engine:
     feedback_enhancements:
-      description: "Attiva il modulo feedback con fallback Slack #feedback-enhancements."
+      description: 'Attiva il modulo feedback con fallback Slack #feedback-enhancements.'
       default: true
       rollout:
         phase: general_availability
       owner: support_ops
       controls:
         contact: support-qa@gamestudio.local
-        slack: "#feedback-enhancements"
+        slack: '#feedback-enhancements'
         playbook: docs/tutorials/idea-engine-feedback.md
       metrics:
-        - "Tempo medio risposta feedback < 24h"
-        - "Numero escalation Slack gestite per sprint >= 3"
+        - 'Tempo medio risposta feedback < 24h'
+        - 'Numero escalation Slack gestite per sprint >= 3'
   hud:
     smart_overlay_tap:
       description: "Abilita l'overlay telemetrico Smart HUD per il programma TAP."
@@ -68,9 +68,9 @@ feature_flags:
       owner: ui_systems
       controls:
         contact: ui-systems@gamestudio.local
-        slack: "#hud-alerts"
+        slack: '#hud-alerts'
         playbook: docs/process/qa_hud.md
       metrics:
-        - "Durata alert P95 ≤ 2 turni"
-        - "Ack rate ≥ 85% sulle coorti TAP"
+        - 'Durata alert P95 ≤ 2 turni'
+        - 'Ack rate ≥ 85% sulle coorti TAP'
         - "Tilt medio < 0.50 dopo l'overlay"

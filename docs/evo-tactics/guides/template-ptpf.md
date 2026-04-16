@@ -15,6 +15,7 @@ Il template PTPF consolidato è ora conservato in [`docs/archive/evo-tactics/gui
 Per gli snapshot di inventario utilizza i file `docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md`.
 
 > **Stato archivio (ROL-03 chiuso)**
+>
 > - Percorso archivio: `docs/archive/evo-tactics/guides/template-ptpf.md`
 > - Snapshot inventario: `docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md`
 > - Nota operativa: questo file è mantenuto come stub; usa la copia in archivio per modifiche o consultazioni.

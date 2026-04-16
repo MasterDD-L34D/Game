@@ -7,10 +7,7 @@ const projectRoot = path.resolve(scriptDir, '..');
 const distDir = path.join(projectRoot, 'dist');
 
 async function resolveTsDistDir() {
-  const candidates = [
-    path.join(distDir, 'tools', 'ts'),
-    path.join(distDir, 'ts'),
-  ];
+  const candidates = [path.join(distDir, 'tools', 'ts'), path.join(distDir, 'ts')];
 
   for (const candidate of candidates) {
     try {

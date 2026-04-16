@@ -125,14 +125,6 @@
       "passthrough_filename": true
     }
   ],
-  "include_exts": [
-    ".yaml",
-    ".yml",
-    ".md",
-    ".json"
-  ],
-  "exclude_stems": [
-    "index",
-    "species_index"
-  ]
+  "include_exts": [".yaml", ".yml", ".md", ".json"],
+  "exclude_stems": ["index", "species_index"]
 }

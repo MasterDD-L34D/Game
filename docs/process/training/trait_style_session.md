@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Trait Style Session
 
 Sessione formativa dedicata alla guida di stile dei trait: nomenclatura,

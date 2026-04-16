@@ -4,8 +4,8 @@
       <div>
         <h2>Moderazione community</h2>
         <p>
-          Supervisione centralizzata di segnalazioni, trascrizioni vocali e classificazione automatica
-          della tossicità.
+          Supervisione centralizzata di segnalazioni, trascrizioni vocali e classificazione
+          automatica della tossicità.
         </p>
       </div>
       <dl class="moderation-dashboard__meta">
@@ -51,7 +51,9 @@
       </label>
       <fieldset class="moderation-dashboard__actions">
         <legend>Azioni rapide</legend>
-        <button type="button" @click="bulkResolve" :disabled="!selectedCount">Segna come risolti</button>
+        <button type="button" @click="bulkResolve" :disabled="!selectedCount">
+          Segna come risolti
+        </button>
         <button type="button" @click="bulkEscalate" :disabled="!selectedCount">Escalation</button>
         <button type="button" @click="bulkSilence" :disabled="!selectedCount">Silenzia</button>
       </fieldset>
@@ -102,7 +104,12 @@
         <tbody>
           <tr v-for="item in filteredCases" :key="item.id">
             <td>
-              <input type="checkbox" :value="item.id" :checked="isSelected(item.id)" @change="toggleSelection(item.id)" />
+              <input
+                type="checkbox"
+                :value="item.id"
+                :checked="isSelected(item.id)"
+                @change="toggleSelection(item.id)"
+              />
             </td>
             <td>{{ item.id }}</td>
             <td>
@@ -110,17 +117,23 @@
               <small class="table__meta">{{ item.timestamp }} · {{ item.owner }}</small>
             </td>
             <td>
-              <span class="badge" :class="`badge--${item.channel}`">{{ channelLabel(item.channel) }}</span>
+              <span class="badge" :class="`badge--${item.channel}`">{{
+                channelLabel(item.channel)
+              }}</span>
             </td>
             <td>
-              <span class="badge" :class="`badge--${item.severity}`">{{ severityLabel(item.severity) }}</span>
+              <span class="badge" :class="`badge--${item.severity}`">{{
+                severityLabel(item.severity)
+              }}</span>
             </td>
             <td>
               {{ stateLabel(item.state) }}
               <small v-if="item.muted" class="table__muted">utente silenziato</small>
             </td>
             <td class="table__actions">
-              <button type="button" @click="resolve(item.id)" :disabled="item.state === 'resolved'">Risolvi</button>
+              <button type="button" @click="resolve(item.id)" :disabled="item.state === 'resolved'">
+                Risolvi
+              </button>
               <button type="button" @click="escalate(item.id)">Escala</button>
             </td>
           </tr>
@@ -226,12 +239,20 @@ const filteredCases = computed(() => {
   });
 });
 
-const allSelected = computed(() => filteredCases.value.length > 0 && filteredCases.value.every((item) => selectedIds.value.has(item.id)));
+const allSelected = computed(
+  () =>
+    filteredCases.value.length > 0 &&
+    filteredCases.value.every((item) => selectedIds.value.has(item.id)),
+);
 const selectedCount = computed(() => selectedIds.value.size);
 
 const openCases = computed(() => cases.value.filter((item) => item.state !== 'resolved').length);
-const highSeverityCount = computed(() => cases.value.filter((item) => item.severity === 'high').length);
-const processedTranscriptions = computed(() => cases.value.filter((item) => item.channel === 'voice').length);
+const highSeverityCount = computed(
+  () => cases.value.filter((item) => item.severity === 'high').length,
+);
+const processedTranscriptions = computed(
+  () => cases.value.filter((item) => item.channel === 'voice').length,
+);
 const averageResponseTime = computed(() => '2h 15m');
 const slaTarget = '3h';
 const modelAccuracy = '93.2%';

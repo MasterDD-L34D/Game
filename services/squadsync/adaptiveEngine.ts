@@ -126,10 +126,19 @@ export class AdaptiveEngine {
   private readonly store: Map<string, AdaptiveResponse>;
 
   constructor(options: AdaptiveEngineOptions = {}) {
-    this.ttlMs = typeof options.ttlMs === 'number' && Number.isFinite(options.ttlMs) ? Math.max(0, options.ttlMs) : 6 * 60 * 60 * 1000;
+    this.ttlMs =
+      typeof options.ttlMs === 'number' && Number.isFinite(options.ttlMs)
+        ? Math.max(0, options.ttlMs)
+        : 6 * 60 * 60 * 1000;
     this.now = typeof options.now === 'function' ? options.now : () => new Date();
-    this.maxTotal = typeof options.maxTotal === 'number' && Number.isFinite(options.maxTotal) ? Math.max(1, Math.floor(options.maxTotal)) : 200;
-    this.maxPerSquad = typeof options.maxPerSquad === 'number' && Number.isFinite(options.maxPerSquad) ? Math.max(1, Math.floor(options.maxPerSquad)) : 20;
+    this.maxTotal =
+      typeof options.maxTotal === 'number' && Number.isFinite(options.maxTotal)
+        ? Math.max(1, Math.floor(options.maxTotal))
+        : 200;
+    this.maxPerSquad =
+      typeof options.maxPerSquad === 'number' && Number.isFinite(options.maxPerSquad)
+        ? Math.max(1, Math.floor(options.maxPerSquad))
+        : 20;
     this.store = new Map();
   }
 
@@ -140,7 +149,10 @@ export class AdaptiveEngine {
 
   ingest(input: AdaptiveResponseInput): AdaptiveResponse {
     const createdAt = normaliseDate(input.createdAt, this.now);
-    const ttl = typeof input.ttlMs === 'number' && Number.isFinite(input.ttlMs) ? Math.max(0, input.ttlMs) : this.ttlMs;
+    const ttl =
+      typeof input.ttlMs === 'number' && Number.isFinite(input.ttlMs)
+        ? Math.max(0, input.ttlMs)
+        : this.ttlMs;
     const expiresAtDate = input.expiresAt
       ? normaliseDate(input.expiresAt, () => new Date(createdAt.getTime() + ttl))
       : new Date(createdAt.getTime() + ttl);
@@ -233,15 +245,20 @@ export class AdaptiveEngine {
     }
   }
 
-  getResponses(options: {
-    squad?: string;
-    variant?: string;
-    range?: AdaptiveRange;
-    limit?: number;
-  } = {}): AdaptiveResponse[] {
+  getResponses(
+    options: {
+      squad?: string;
+      variant?: string;
+      range?: AdaptiveRange;
+      limit?: number;
+    } = {},
+  ): AdaptiveResponse[] {
     this.purgeExpired();
     const { squad, variant, range } = options;
-    const limit = typeof options.limit === 'number' && Number.isFinite(options.limit) ? Math.max(1, options.limit) : null;
+    const limit =
+      typeof options.limit === 'number' && Number.isFinite(options.limit)
+        ? Math.max(1, options.limit)
+        : null;
     const filtered = Array.from(this.store.values()).filter((response) => {
       if (squad && response.squad !== squad) {
         return false;
@@ -264,12 +281,14 @@ export class AdaptiveEngine {
     return ordered;
   }
 
-  snapshot(options: {
-    squad?: string;
-    variant?: string;
-    range?: AdaptiveRange;
-    limit?: number;
-  } = {}): AdaptiveSnapshot {
+  snapshot(
+    options: {
+      squad?: string;
+      variant?: string;
+      range?: AdaptiveRange;
+      limit?: number;
+    } = {},
+  ): AdaptiveSnapshot {
     const responses = this.getResponses(options);
     const summary = this.buildSummary(responses);
     return { responses, summary };

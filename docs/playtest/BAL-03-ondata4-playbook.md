@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Playbook BAL-03 — Ondata 4 (richiesta QA)
 
 **Stato:** ⏳ In attesa di ricezione dal QA lead.
@@ -19,10 +20,12 @@ Il 2025-11-07 è stata inviata una richiesta formale al QA lead per ottenere il 
 - Parametri e metriche target da monitorare (telemetria, performance, KPI)
 
 ## Azioni intraprese
+
 - Registrata la richiesta nel report di verifica (`docs/playtest/REPORT-2025-11-06-bal03.md`).
 - Annotata la mancanza del playbook nei log `logs/playtests/2025-11-07-vc/session-metrics.yaml`.
 
 ## Prossimi passi
+
 1. QA lead fornisce il documento o conferma il canale di condivisione (Confluence/Drive).
 2. Allegare qui il playbook ricevuto (o un export PDF) non appena disponibile.
 3. Aggiornare la checklist di test e programmare la nuova sessione BAL-03.

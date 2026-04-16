@@ -8,9 +8,11 @@ language: it
 review_cycle_days: 30
 ---
 
-# Evo Tactics — Source of Truth Unificata v1
+# Evo Tactics — Source of Truth Unificata v3
 
 _Base ricostruita dalla copia `Game.zip` del repo attuale. Questo documento non sostituisce le fonti runtime, ma le riunisce in una lettura unica e operativa._
+
+_v3 (2026-04-16): aggiunte §14–§18 (Grid, Level Design, Networking, Screen Flow, Audience). Sezioni ⚠️ sono placeholder con domande aperte — verranno popolate da deep dive su repo esterni (Tier 0–3)._
 
 ## Stato lettura
 
@@ -662,17 +664,334 @@ Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrat
 
 ### 13.8 Mappa design → codice
 
-| Sezione design            | Modulo implementato                                       | Stato                                 |
-| ------------------------- | --------------------------------------------------------- | ------------------------------------- |
-| §1 Tesi / Combat          | `roundOrchestrator.js`, `resolver.py`                     | Operativo                             |
-| §2 Prima partita          | `enc_tutorial_01.yaml` + session engine                   | Definito, non giocabile end-to-end    |
-| §3 Worldgen               | `biomes.yaml`, ecosystems, foodwebs                       | Dati completi, generatore non runtime |
-| §4 Foodweb                | Validators + data YAML                                    | Validazione completa, non runtime     |
-| §5 Specie/Trait/Job/Forme | `species.yaml`, `trait_mechanics.yaml`, `mbti_forms.yaml` | Dati + hydration operativi            |
-| §6 TV + companion         | Design docs                                               | Solo design, nessun frontend          |
-| §7 Narrativa              | `narrativeEngine.js` + inkjs                              | Engine operativo, contenuti minimi    |
-| §8 Mappa 4 livelli        | —                                                         | Framework concettuale                 |
-| §10 Meta-loop Nido        | `mating.yaml`, `27-MATING_NIDO.md`                        | Solo dati, non implementato           |
-| VC/MBTI/Ennea             | `vcScoring.js`, `enneaEffects.js`                         | Operativo (P4 completo)               |
-| AI SIS                    | `policy.js`, `declareSistemaIntents.js`                   | Operativo, data-driven                |
-| Status system             | `statusEffectsMachine.js`                                 | Operativo (xstate v5)                 |
+| Sezione design             | Modulo implementato                                       | Stato                                 |
+| -------------------------- | --------------------------------------------------------- | ------------------------------------- |
+| §1 Tesi / Combat           | `roundOrchestrator.js`, `resolver.py`                     | Operativo                             |
+| §2 Prima partita           | `enc_tutorial_01.yaml` + session engine                   | Definito, non giocabile end-to-end    |
+| §3 Worldgen                | `biomes.yaml`, ecosystems, foodwebs                       | Dati completi, generatore non runtime |
+| §4 Foodweb                 | Validators + data YAML                                    | Validazione completa, non runtime     |
+| §5 Specie/Trait/Job/Forme  | `species.yaml`, `trait_mechanics.yaml`, `mbti_forms.yaml` | Dati + hydration operativi            |
+| §6 TV + companion          | Design docs                                               | Solo design, nessun frontend          |
+| §7 Narrativa               | `narrativeEngine.js` + inkjs                              | Engine operativo, contenuti minimi    |
+| §8 Mappa 4 livelli         | —                                                         | Framework concettuale                 |
+| §10 Meta-loop Nido         | `mating.yaml`, `27-MATING_NIDO.md`                        | Solo dati, non implementato           |
+| VC/MBTI/Ennea              | `vcScoring.js`, `enneaEffects.js`                         | Operativo (P4 completo)               |
+| AI SIS                     | `policy.js`, `declareSistemaIntents.js`                   | Operativo, data-driven                |
+| Status system              | `statusEffectsMachine.js`                                 | Operativo (xstate v5)                 |
+| §14 Grid & Map             | `terrain_defense.yaml` (solo dati)                        | ⚠️ Da definire                        |
+| §15 Level Design           | `enc_tutorial_01.yaml` (1 esempio)                        | ⚠️ Da definire                        |
+| §16 Networking/Co-op       | —                                                         | ⚠️ Da definire                        |
+| §17 Screen Flow            | `draft-screen-flow.md` (bozza)                            | ⚠️ Da formalizzare                    |
+| §18 Audience/Accessibilità | —                                                         | ⚠️ Da definire                        |
+
+---
+
+## 14. Grid & Map System ⚠️ DA DEFINIRE
+
+Questa sezione copre la struttura spaziale del campo di battaglia. Attualmente il repo ha dati di terreno (biomes.yaml, terrain_defense.yaml) ma **nessuna implementazione grid/pathfinding**.
+
+### 14.1 Tipo di griglia
+
+**Decisione aperta:** hex o square?
+
+| Criterio                 | Hex                                                    | Square                              |
+| ------------------------ | ------------------------------------------------------ | ----------------------------------- |
+| Leggibilità TV (10-foot) | Meno intuitiva, più elegante                           | Più intuitiva per casual            |
+| Distanza/adiacenza       | 6 vicini equidistanti, no diagonali ambigue            | 8 vicini, diagonali costano √2      |
+| Copertura/LOS            | Naturale, nessun edge case diagonale                   | Edge case angoli, LOS ambigua       |
+| Complessità impl.        | Coordinate axial/cube, librerie mature                 | Banale, nessuna libreria necessaria |
+| Reference tattici        | FFT (square), Fire Emblem (square), AncientBeast (hex) | —                                   |
+
+**Da risolvere:** scelta grid type → ADR dedicato.
+
+### 14.2 Terreno
+
+Dati già esistenti in `packs/evo_tactics_pack/data/balance/terrain_defense.yaml`:
+
+- terrain types con defense_mod
+- integrati nel calcolo CD del resolver (`CD = 10 + tier + defense_mod + terrain_mod`)
+
+**Mancante:**
+
+- movement cost per terrain type
+- elevation model (quanti livelli? effetto su range/LOS?)
+- cover system (binario o gradi?)
+- hazard tiles (da `biomes.yaml` hazard list → tile effect)
+
+### 14.3 Pathfinding
+
+**Nessuna implementazione.** Opzioni:
+
+- A\* asincrono (stile easystarjs) — semplice, sufficiente per turni
+- Dijkstra con range limit — per mostrare area raggiungibile
+- JPS (Jump Point Search) — ottimizzazione su griglie uniformi
+
+**Da implementare:** `getReachableTiles(unit, ap)` → set di tile raggiungibili dato AP residuo e costi movimento.
+
+### 14.4 Field of View / Line of Sight
+
+**Nessuna implementazione.** Necessario per:
+
+- attacchi a distanza (range check)
+- copertura (LOS parziale)
+- fog of war (se previsto)
+- reazioni overwatch (trigger su LOS)
+
+### 14.5 Mappa design → codice
+
+| Componente   | Modulo                 | Stato            |
+| ------------ | ---------------------- | ---------------- |
+| Terrain data | `terrain_defense.yaml` | Dati presenti    |
+| Grid engine  | —                      | Non implementato |
+| Pathfinding  | —                      | Non implementato |
+| FOV/LOS      | —                      | Non implementato |
+| Map editor   | —                      | Non previsto     |
+
+---
+
+## 15. Level Design & Encounter Templates ⚠️ DA DEFINIRE
+
+Il repo ha un solo encounter definito (`enc_tutorial_01.yaml`). Manca una struttura sistematica per livelli e encounter.
+
+### 15.1 Struttura encounter attuale
+
+Da `enc_tutorial_01.yaml`:
+
+```yaml
+encounter_id: enc_tutorial_01
+name: Primi Passi nella Savana
+biome: savana
+difficulty: 1 # scala 1-5
+estimated_turns: 6
+objectives: [eliminate_sentinels]
+restrictions: [no_hazard, no_reactions, no_status]
+didactic_focus: [movement, attack_base, cover, elevation, MoS]
+```
+
+### 15.2 Struttura encounter target (da definire)
+
+**Schema proposto** (da validare con analisi repo esterni):
+
+```yaml
+encounter_id: string # slug unico
+name: string # nome display
+biome: string # ref a biomes.yaml
+difficulty: 1-5 # rating
+estimated_turns: int
+map: # ← NUOVO
+  size: [width, height]
+  terrain: [[terrain_type]] # matrice o ref a file .map
+  elevation: [[int]] # matrice altezze
+  spawn_zones:
+    players: [{ x, y }]
+    sistema: [{ x, y }]
+objectives:
+  primary: string # condizione vittoria
+  secondary: [string] # opzionali, bonus VC
+  fail: string # condizione sconfitta
+enemy_roster:
+  - species: string
+    tier: int
+    count: int
+    ai_profile: string # ref a ai_profiles.yaml
+rewards:
+  pe: int
+  unlocks: [string]
+restrictions: [string]
+narrative:
+  briefing_ink: string # ref a file .ink.json
+  debrief_ink: string
+tags: [string] # tutorial, boss, survival, timed...
+```
+
+### 15.3 Tipologie di encounter
+
+| Tipo     | Obiettivo              | Durata        | Esempio                          |
+| -------- | ---------------------- | ------------- | -------------------------------- |
+| Tutorial | Insegnare meccanica    | 4-6 turni     | enc_tutorial_01                  |
+| Standard | Eliminare/sopravvivere | 8-12 turni    | Pattuglia savana                 |
+| Boss     | Apex predator          | 12-20 turni   | Apex del bioma                   |
+| Survival | Resistere N turni      | N turni fissi | Ondata StressWave                |
+| Escort   | Proteggere unità       | Variabile     | Migrazione cross-bioma           |
+| Puzzle   | Posizionamento tattico | 3-5 turni     | Superare hazard senza combattere |
+
+### 15.4 Difficulty formula
+
+**Da definire.** Proposta iniziale:
+
+```
+difficulty = f(enemy_count, avg_enemy_tier, terrain_complexity, hazard_count, objective_type)
+```
+
+Reference: wesnoth usa `difficulty_level` con scaling stat per livello; Evo-Tactics potrebbe usare tier nemico + moltiplicatore bioma.
+
+### 15.5 Progressione campagna
+
+**Non formalizzata.** Il SoT §7 descrive 3 livelli narrativi:
+
+1. Encounter singolo (briefing/debrief)
+2. Arco bioma (3-5 encounter)
+3. Meta-narrativa campagna
+
+**Mancante:** quanti encounter per bioma? Ordine fisso o scelta? Branching?
+
+### 15.6 Mappa design → codice
+
+| Componente         | Modulo                 | Stato                    |
+| ------------------ | ---------------------- | ------------------------ |
+| Encounter template | `enc_tutorial_01.yaml` | 1 esempio, no schema AJV |
+| Encounter loader   | —                      | Non implementato         |
+| Difficulty system  | —                      | Non implementato         |
+| Campaign graph     | —                      | Non implementato         |
+| Map data format    | —                      | Non definito             |
+
+---
+
+## 16. Networking & Co-op Architecture ⚠️ DA DEFINIRE
+
+Co-op 4 giocatori vs Sistema è pilastro #5. Oggi il sistema gira **single-machine only**.
+
+### 16.1 Requisiti co-op
+
+Da §6 e dai design doc:
+
+- 4 giocatori contemporanei
+- TV shared screen (host) + companion personale (client)
+- Planning simultaneo → commit → risoluzione
+- Stato autoritativo sul server
+- Reconnect dopo disconnessione
+
+### 16.2 Modello architetturale (da scegliere)
+
+| Opzione                    | Pro                                       | Contro                                            |
+| -------------------------- | ----------------------------------------- | ------------------------------------------------- |
+| **A. Express + Socket.io** | Già Express in uso, minimo overhead       | State sync manuale, no matchmaking built-in       |
+| **B. Colyseus**            | State sync automatico, rooms, matchmaking | Nuova dipendenza, possibile conflitto con Express |
+| **C. Custom WebSocket**    | Controllo totale                          | Tutto da implementare                             |
+
+**Da risolvere:** ADR networking. Fattore critico: round model xstate è già autoritativo — serve solo transport layer + state diff.
+
+### 16.3 State sync
+
+Round model attuale (`roundOrchestrator.js`) è già strutturato per stato autoritativo:
+
+- `beginRound()` → stato iniziale
+- `declareIntent()` → accumulo intenti (latest-wins)
+- `commitRound()` → lock
+- `resolveRound()` → esecuzione
+
+**Pattern naturale:** ogni fase emette delta → broadcast a client. Planning phase: intenti privati per giocatore (playerView pattern da boardgame.io).
+
+### 16.4 Companion app
+
+Il companion (§6) è un **client leggero** che:
+
+- riceve stato ridotto (proprie unità + mappa visibile)
+- invia intenti di planning
+- mostra VC/telemetria personale
+
+**Non è un secondo frontend completo.** È una vista filtrata dello stato condiviso.
+
+### 16.5 Mappa design → codice
+
+| Componente        | Modulo                               | Stato                        |
+| ----------------- | ------------------------------------ | ---------------------------- |
+| Session state     | `session.js`, `roundOrchestrator.js` | Autoritativo, single-machine |
+| Transport layer   | —                                    | Non implementato             |
+| State sync        | —                                    | Non implementato             |
+| Companion client  | —                                    | Non implementato             |
+| Matchmaking/lobby | —                                    | Non implementato             |
+
+---
+
+## 17. Screen Flow ⚠️ DA FORMALIZZARE
+
+Il flusso schermate è descritto in §2 e in `draft-screen-flow.md` ma manca un diagramma formale.
+
+### 17.1 Flusso principale
+
+```
+Boot → Menu → Campagna → Selezione Bioma → Selezione Encounter
+  → Lobby / Draft / Squad Setup
+    → Briefing (ink)
+      → Match (round loop)
+        → Debrief (ink)
+          → Risultati & VC
+            → Albero Evolutivo
+              → [nuova partita | menu]
+```
+
+### 17.2 Flusso match (round loop interno)
+
+```
+beginRound → Planning Phase (tutti i giocatori dichiarano intenti)
+  → commitRound → Resolving Phase (coda priorità)
+    → resolvedRound → check vittoria/sconfitta
+      → [sì] → Debrief
+      → [no] → beginRound successivo
+```
+
+### 17.3 Schermate non definite
+
+| Schermata         | Stato        | Note                                      |
+| ----------------- | ------------ | ----------------------------------------- |
+| Boot/splash       | Non definita | Logo, versione, caricamento               |
+| Menu principale   | Non definita | Campagna, opzioni, profilo                |
+| Selezione bioma   | Non definita | Mappa mondo? Lista?                       |
+| Lobby/draft       | Non definita | Distribuzione creature fra giocatori      |
+| Opzioni/settings  | Non definita | Audio, video, accessibilità, controlli    |
+| Profilo giocatore | Non definita | Storico VC, tipo MBTI, creature sbloccate |
+| Save/Load         | Non definita | Slot salvataggio campagna                 |
+
+### 17.4 Mappa design → codice
+
+| Componente        | Modulo                  | Stato                                 |
+| ----------------- | ----------------------- | ------------------------------------- |
+| Screen flow doc   | `draft-screen-flow.md`  | Bozza testuale                        |
+| Diagramma formale | —                       | Non esistente (generare con mermaid)  |
+| Navigation engine | —                       | Non implementato                      |
+| Mission Console   | `docs/mission-console/` | Bundle pre-built, source non nel repo |
+
+---
+
+## 18. Target Audience & Accessibilità ⚠️ DA DEFINIRE
+
+### 18.1 Target audience
+
+**Non formalizzato.** Segnali impliciti dai doc:
+
+| Segnale                 | Fonte                 | Implicazione                        |
+| ----------------------- | --------------------- | ----------------------------------- |
+| "Salotto TV-first"      | §6, draft-screen-flow | Casual-friendly entry point         |
+| "Tattica profonda"      | §1, pilastro #1       | Core gamer depth                    |
+| "Co-op vs Sistema"      | §1, pilastro #5       | Social/party game element           |
+| "MBTI/Ennea"            | §13.4                 | Interesse psicologico/introspezione |
+| "d20, MoS, damage step" | §13.2                 | Tabletop RPG familiarity            |
+
+**Proposta player personas** (da validare con Master DD):
+
+1. **Tattico da salotto** — gioca FFT/Fire Emblem, vuole profondità su TV condivisa
+2. **Giocatore di ruolo** — viene dal tabletop, apprezza d20 e personalità creature
+3. **Curioso casual** — attratto dal co-op TV, resta per progressione creature
+
+### 18.2 Accessibilità
+
+**Nessun doc dedicato.** Open questions attive (#22-#28):
+
+- Colorblind mode?
+- Text-to-speech?
+- Difficoltà regolabile?
+- Sottotitoli per suoni?
+- Controlli: keyboard + controller + touch?
+
+**Standard minimo consigliato:** WCAG 2.1 AA per UI, remappable controls, font size scaling (TV-first richiede font grande per default).
+
+### 18.3 Mappa design → codice
+
+| Componente             | Modulo | Stato            |
+| ---------------------- | ------ | ---------------- |
+| Player personas        | —      | Non definite     |
+| Accessibility settings | —      | Non implementato |
+| Colorblind mode        | —      | Non implementato |
+| Difficulty settings    | —      | Non implementato |
+| Controls mapping       | —      | Non documentato  |

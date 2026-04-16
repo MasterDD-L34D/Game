@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Incoming Review — Registro sessioni agentiche
 
 `AG-Orchestrator` annota ogni sessione asincrona seguendo il [template](../templates/incoming_triage_meeting.md). Le nuove sezioni vengono aggiunte in cima al file.
@@ -17,6 +18,7 @@ review_cycle_days: 14
 ---
 
 ## 2025-10-30 — Facilitatore: `AG-Orchestrator`
+
 - Report: `reports/incoming/sessione-2025-11-14/report.html`
 - Agenti coinvolti: `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`
 - Decisioni chiave:
@@ -29,6 +31,7 @@ review_cycle_days: 14
   - `AG-Orchestrator`: notificare i caretaker nel canale `#incoming-triage-agenti` con link al report HTML `sessione-2025-11-14` e alla cartella di log `20251030-133350` per la revisione asincrona.
 
 ## 2025-11-13 — Facilitatore: `AG-Orchestrator`
+
 - Report: `docs/process/incoming_agent_streams.md`
 - Agenti coinvolti: `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`
 - Decisioni chiave:
@@ -37,8 +40,8 @@ review_cycle_days: 14
 - Follow-up:
   - Verificare nella prossima sessione che ogni caretaker abbia preso in carico gli aggiornamenti di responsabilità/dependenze elencati.
 
-
 ## 2025-10-29 — Facilitatore: `AG-Orchestrator`
+
 - Report: `reports/incoming/sessione-2025-10-29/report.html`
 - Agenti coinvolti: `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`
 - Decisioni chiave:
@@ -51,6 +54,7 @@ review_cycle_days: 14
   - `AG-Orchestrator` (entro 2025-10-29): creare card Kanban dedicate ai tre asset prioritari e notificare caretaker.
 
 ## YYYY-MM-DD — Facilitatore: `AG-Orchestrator`
+
 - Report: `reports/incoming/sessione-YYYY-MM-DD/index.html`
 - Agenti coinvolti: `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`
 - Decisioni chiave:
@@ -58,4 +62,4 @@ review_cycle_days: 14
 - Follow-up:
   - ...
 
-*(Aggiungere nuove sezioni sopra questa riga di placeholder.)*
+_(Aggiungere nuove sezioni sopra questa riga di placeholder.)_

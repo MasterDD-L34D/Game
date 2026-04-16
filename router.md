@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # ROUTER.md – Router automatico degli agenti (Game / Evo Tactics)
 
 Questo file definisce le regole per l’instradamento automatico dei task

@@ -15,7 +15,7 @@
       "rationale": "Aumenta la soglia di attivazione riducendo l'effetto bloom sulle superfici metalliche dello Skydock."
     },
     "colorGrading": {
-      "previous": [1.08, 1.06, 1.00],
+      "previous": [1.08, 1.06, 1.0],
       "updated": [0.92, 0.98, 1.05],
       "rationale": "Bilancia i canali RGB spostando il picco dal bianco puro verso il blu/viola previsto dal concept."
     },
@@ -28,7 +28,7 @@
         "type": "exponential",
         "power": 2.0
       },
-      "rationale": "Allunga la coda di dissolvenza su 1.4s per evitare chiusura brusca registrata nei video." 
+      "rationale": "Allunga la coda di dissolvenza su 1.4s per evitare chiusura brusca registrata nei video."
     }
   },
   "validation": {

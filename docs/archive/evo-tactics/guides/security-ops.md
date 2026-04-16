@@ -18,11 +18,11 @@ placeholder generale.
 
 ## 1. Scope & Responsabilità
 
-| Squadra                  | Ruolo                                       | Artefatti collegati                                                      |
-| ------------------------ | ------------------------------------------- | ------------------------------------------------------------------------ |
-| **Design Ops**           | Garantire coerenza dei deliverable.         | `docs/evo-tactics/README.md`, `docs/evo-tactics-pack/README.md`.         |
+| Squadra                  | Ruolo                                       | Artefatti collegati                                                                                        |
+| ------------------------ | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Design Ops**           | Garantire coerenza dei deliverable.         | `docs/evo-tactics/README.md`, `docs/evo-tactics-pack/README.md`.                                           |
 | **Security Engineering** | Esegue auditing e secret scanning.          | `incoming/lavoro_da_classificare/security.yml`, `incoming/lavoro_da_classificare/init_security_checks.sh`. |
-| **Support/QA Bridge**    | Gestisce rotazione token e validazioni CLI. | `config/cli/support.yaml`, `docs/support/token-rotation.md`.             |
+| **Support/QA Bridge**    | Gestisce rotazione token e validazioni CLI. | `config/cli/support.yaml`, `docs/support/token-rotation.md`.                                               |
 
 ## 2. Workflow di validazione
 
@@ -40,12 +40,12 @@ placeholder generale.
 
 ## 3. Controlli applicativi
 
-| Controllo                | Obiettivo                                     | Script/Documento                                                         |
-| ------------------------ | --------------------------------------------- | ------------------------------------------------------------------------ |
+| Controllo                | Obiettivo                                     | Script/Documento                                                                                            |
+| ------------------------ | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | **Static Analysis**      | Individuare regressioni Python/Node.          | `incoming/lavoro_da_classificare/security.yml`, `reports/trait_balance_summary.md` (per correlare impatti). |
-| **Trait Drift Alerting** | Normalizzare soglie e payload.                | `scripts/api/telemetry_alerts.py`, `reports/daily_tracker_summary.json`.  |
-| **Vault & Token Ops**    | Assicurare rotazione settimanale dei segreti. | `docs/support/token-rotation.md`, `config/cli/support.yaml`.             |
-| **Dataset Integrity**    | Validare YAML/JSON condivisi.                 | `incoming/docs/yaml_validator.py`, `reports/pathfinder_trait_gap.csv`.    |
+| **Trait Drift Alerting** | Normalizzare soglie e payload.                | `scripts/api/telemetry_alerts.py`, `reports/daily_tracker_summary.json`.                                    |
+| **Vault & Token Ops**    | Assicurare rotazione settimanale dei segreti. | `docs/support/token-rotation.md`, `config/cli/support.yaml`.                                                |
+| **Dataset Integrity**    | Validare YAML/JSON condivisi.                 | `incoming/docs/yaml_validator.py`, `reports/pathfinder_trait_gap.csv`.                                      |
 
 ## 4. Incident Response
 

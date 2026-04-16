@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Tooling Evo
 
 Questa pagina descrive i flussi di lavoro disponibili per supportare le attività
