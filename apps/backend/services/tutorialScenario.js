@@ -55,7 +55,7 @@ function buildTutorialUnits() {
       facing: 'E',
     },
     // --- Enemy units (predoni_nomadi, difficulty 1/5) ---
-    // v0.2 balance patch: hp 5→3, mod 2→1 to reach ~80% tutorial win rate
+    // v0.3 balance patch: mod 1→2, dc 11→12 — reduces win rate from 10/10 to ~8/10 (target band)
     {
       id: 'e_nomad_1',
       species: 'predoni_nomadi',
@@ -63,8 +63,8 @@ function buildTutorialUnits() {
       traits: [],
       hp: 3,
       ap: 2,
-      mod: 1,
-      dc: 11,
+      mod: 2,
+      dc: 12,
       guardia: 0,
       position: { x: 3, y: 2 },
       controlled_by: 'sistema',
@@ -77,8 +77,8 @@ function buildTutorialUnits() {
       traits: [],
       hp: 3,
       ap: 2,
-      mod: 1,
-      dc: 11,
+      mod: 2,
+      dc: 12,
       guardia: 0,
       position: { x: 3, y: 4 },
       controlled_by: 'sistema',
