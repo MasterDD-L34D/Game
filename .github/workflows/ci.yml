@@ -71,7 +71,7 @@ jobs:
               - 'apps/backend/**'
               - 'services/**/*.js'
               - 'tests/**/*.js'
-              - 'Trait Editor/**'
+              - 'apps/trait-editor/**'
             site_audit:
               - 'ops/site-audit/**'
               - 'Makefile'
@@ -216,15 +216,15 @@ jobs:
         run: npm run test:api
 
       - name: Install Trait Editor dependencies
-        working-directory: Trait Editor
+        working-directory: apps/trait-editor
         run: npm ci --no-audit --no-fund
 
       - name: Run Trait Editor unit tests
-        working-directory: Trait Editor
+        working-directory: apps/trait-editor
         run: npm run test
 
       - name: Build Trait Editor
-        working-directory: Trait Editor
+        working-directory: apps/trait-editor
         run: npm run build
 
   cli-checks:

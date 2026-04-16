@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Pipeline SPECIE+BIOMI ISTANZIATA – Frattura Abissale Sinaptica
 
 Pipeline instanziata dal modello `docs/pipelines/PIPELINE_SPECIES_BIOMES_STANDARD.md` per il bioma complesso "Frattura Abissale Sinaptica" con tre livelli ambientali (cresta fotofase, soglia crepuscolare, frattura nera), correnti elettroluminescenti e quattro specie collegate (Polpo Araldo Sinaptico, Sciame di Larve Neurali, Leviatano Risonante, Simbionte Corallino Riflesso).
@@ -28,7 +29,7 @@ Pipeline instanziata dal modello `docs/pipelines/PIPELINE_SPECIES_BIOMES_STANDAR
    - Rischio: Alto
 
 4. Trait ambientali e correnti elettroluminescenti (trait-curator)
-   - Input (file reali): data/core/traits/biome_pools.json; data/core/traits/glossary.json; data/traits/index.json; data/traits/species_affinity.json; docs/trait_reference_manual.md; Trait Editor/docs/howto-author-trait.md; output step 3
+   - Input (file reali): data/core/traits/biome_pools.json; data/core/traits/glossary.json; data/traits/index.json; data/traits/species_affinity.json; docs/trait_reference_manual.md; apps/trait-editor/docs/howto-author-trait.md; output step 3
    - Output attesi: elenco trait ambientali e temporanei per ogni livello (correnti che alterano slot/trait), proposta di nuovi slug o mapping nel glossary, draft aggiornamento pool per cresta fotofase/soglia crepuscolare/frattura nera
    - Rischio: Alto
 

@@ -43,7 +43,7 @@ Audit completo post-merge PR #1390. 33 issue aperte, 28 workflow GitHub Actions.
 | **#1343** | media | — | decisione rimuovere apps/dashboard + packages/angular* | **Decisione** (non bug). Gia' documentato in ADR-2026-04-14-dashboard-scaffold. Richiede confirmation umana per proceed. |
 | **#1344** | media | documentation | triage contenuto incoming/ (69 file, 6.6MB) | **Backlog**. Lavoro grosso, parzialmente fatto nelle sessioni docs-restructuring. |
 | **#1345** | media | documentation | triage 7 file pseudo-archive in reports/ | **Quick win**. 30min. |
-| **#1346** | bassa | — | rinomina "Trait Editor/" → apps/trait-editor/ | **Backlog**. Cosmetico. Blast radius medio (symlink, imports). |
+| **#1346** | bassa | — | rinomina "apps/trait-editor/" → apps/trait-editor/ | **Backlog**. Cosmetico. Blast radius medio (symlink, imports). |
 | **#1347** | bassa | — | housekeeping untracked + .gitignore | **Quick win**. 15min. |
 | **#1348** | bassa | — | dx(husky): lint-staged auto-fix Prettier | **Backlog**. DX improvement. Blast radius basso. |
 
@@ -230,7 +230,7 @@ Ordine suggerito per le 10 issue umane:
 4. **#1339**: /api/v1/atlas 500 — combat team review
 5. **#1343**: dashboard removal decision — richiede ADR
 6. **#1344**: incoming/ triage — lavoro grosso backlog
-7. **#1346**: rename Trait Editor/ — backlog
+7. **#1346**: rename apps/trait-editor/ — backlog
 8. **#1348**: husky auto-fix — backlog
 
 ## 5. Metriche attese post-cleanup

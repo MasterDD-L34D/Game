@@ -11,7 +11,7 @@ review_cycle_days: 14
 
 # Trait Editor standalone — Setup, sviluppo e deploy
 
-Il pacchetto [`Trait Editor/`](../Trait Editor/) fornisce un editor AngularJS dedicato alla manutenzione dei trait senza avviare l'intera webapp. Questa guida riassume i prerequisiti, i comandi principali e le azioni consigliate prima di distribuire una nuova versione.
+Il pacchetto [`apps/trait-editor/`](../apps/trait-editor/) fornisce un editor AngularJS dedicato alla manutenzione dei trait senza avviare l'intera webapp. Questa guida riassume i prerequisiti, i comandi principali e le azioni consigliate prima di distribuire una nuova versione.
 
 ## Prerequisiti
 
@@ -106,6 +106,6 @@ Per pipeline automatiche puoi riutilizzare lo script `npm run ci:stack` dalla ro
 
 ## Troubleshooting rapido
 
-- **Dipendenze AngularJS non installate** → Esegui `npm install` nella root di `Trait Editor/` per ripristinare i moduli (`angular`, `angular-route`, `angular-animate`, `angular-sanitize`) prima di lanciare `npm run build`.
+- **Dipendenze AngularJS non installate** → Esegui `npm install` nella root di `apps/trait-editor/` per ripristinare i moduli (`angular`, `angular-route`, `angular-animate`, `angular-sanitize`) prima di lanciare `npm run build`.
 - **Dataset remoto non raggiungibile** → Controlla il log del browser: l'app registra `console.error('Impossibile caricare i tratti:', error)` e fa fallback ai mock con `console.warn('Falling back to sample traits after remote fetch failure:', error)`.
 - **Deploy in sottocartella** → Verifica che `VITE_BASE_PATH`/`BASE_PATH` combaci con il percorso pubblicato; riesegui `npm run build` se cambi il prefisso.

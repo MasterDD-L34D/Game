@@ -8,6 +8,7 @@ source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
+
 # Pipeline SPECIES+BIOMES STANDARD (10 step)
 
 Pipeline di riferimento per nuove coppie bioma/specie, basata sugli agenti definiti in `agents/agents_index.json` e sugli schemi dati del repo Game.
@@ -28,7 +29,7 @@ Pipeline di riferimento per nuove coppie bioma/specie, basata sugli agenti defin
    - Rischio: Alto
 
 4. Trait ambientali (trait-curator)
-   - Input (file reali): data/core/traits/biome_pools.json; data/core/traits/glossary.json; data/traits/index.json; data/traits/species_affinity.json; docs/trait_reference_manual.md; Trait Editor/docs/howto-author-trait.md
+   - Input (file reali): data/core/traits/biome_pools.json; data/core/traits/glossary.json; data/traits/index.json; data/traits/species_affinity.json; docs/trait_reference_manual.md; apps/trait-editor/docs/howto-author-trait.md
    - Output attesi: elenco trait ambientali/temporanei, proposte di nuovi trait o mapping slug, draft aggiornamento pool e glossary
    - Rischio: Alto
 

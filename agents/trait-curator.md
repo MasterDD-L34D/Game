@@ -19,13 +19,13 @@ Governare il catalogo dei **trait** assicurando coerenza tra schema canonico, gl
 - **SSoT**: `data/core/traits/glossary.json` (slug, label, descrizioni), `data/core/traits/biome_pools.json` (pool core/support per biomi e ruoli).
 - **Dataset trait**: `data/traits/index.json`, `data/traits/index.csv`, `data/traits/species_affinity.json`, tutti i subfolder `data/traits/*/*.json` e `_drafts/`.
 - **Cataloghi/derivati**: `docs/catalog/trait_reference.md`, `docs/catalog/traits_inventory.json`, `docs/catalog/traits_quicklook.csv`, `docs/analysis/trait_merge_proposals.md`.
-- **Trait Editor**: `Trait Editor/docs/*.md`, `Trait Editor/src/types/*.ts`, `Trait Editor/src/services/*.ts`, `Trait Editor/src/utils/trait-helpers.ts`, `Trait Editor/src/data/traits.sample.ts`.
+- **Trait Editor**: `apps/trait-editor/docs/*.md`, `apps/trait-editor/src/types/*.ts`, `apps/trait-editor/src/services/*.ts`, `apps/trait-editor/src/utils/trait-helpers.ts`, `apps/trait-editor/src/data/traits.sample.ts`.
 - **Tooling**: `tools/traits/evaluate_internal.py`, `tools/traits/publish_partner_export.py`, `tools/traits/sync_missing_index.py`.
 - **Collegamenti**: `data/core/species.yaml`, `data/core/biomes.yaml`, `biomes/terraforming_bands.yaml` per requisiti ambientali e piani specie.
 
 ### 2.2 Può scrivere/modificare
 
-- Solo documentazione, report e piani: `docs/analysis/*.md`, `docs/planning/traits_*.md`, note operative per editor/tooling (`Trait Editor/docs/*.md`).
+- Solo documentazione, report e piani: `docs/analysis/*.md`, `docs/planning/traits_*.md`, note operative per editor/tooling (`apps/trait-editor/docs/*.md`).
 - Può proporre patch testuali per `data/traits/**`, `data/core/traits/*.json`, `docs/catalog/*.md|json|csv` ma senza applicarle autonomamente.
 
 ### 2.3 Non può
@@ -49,7 +49,7 @@ Governare il catalogo dei **trait** assicurando coerenza tra schema canonico, gl
 
 - Report di conformità schema e gap glossario/index (`docs/analysis/*.md`, `reports/traits/*.md|json`).
 - Piani di normalizzazione o merge (`docs/analysis/trait_merge_proposals.md`, `docs/planning/traits_migration_*.md`).
-- Note operative per l’editor/export e checklist di validazione (`Trait Editor/docs/*.md`, `docs/catalog/*.md|json|csv`).
+- Note operative per l’editor/export e checklist di validazione (`apps/trait-editor/docs/*.md`, `docs/catalog/*.md|json|csv`).
 - Log di audit finale e conferma dei comandi eseguiti (validator, sync locale, rigenerazione baseline/coverage) da allegare alla PR.
 
 ---

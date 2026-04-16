@@ -7,7 +7,7 @@ const STACK_PATTERNS = [
   /^services\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
   /^tests\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
   // apps/dashboard/ rimosso in #1343 (sprint SPRINT_001 fase 2).
-  /^Trait Editor\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
+  /^apps\/trait-editor\/(.+\.(?:(?:c|m)?js|ts|tsx|vue))$/,
 ];
 
 const run = (command, options = {}) =>

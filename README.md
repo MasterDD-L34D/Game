@@ -288,7 +288,7 @@ Per dettagli architetturali consultare `docs/adr/ADR-2026-04-13-rules-engine-d20
      ```
   3. Controlla i log in `docs/reports/incoming/` e `docs/logs/traits_tracking.md`.
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
-- **Trait Editor standalone** (`Trait Editor/`): consulta [docs/trait-editor.md](docs/trait-editor.md) per setup, variabili `VITE_*`, script disponibili (`npm run dev`, `npm run build`, `npm run preview`) e workflow di deploy statico con dataset remoti.
+- **Trait Editor standalone** (`apps/trait-editor/`): consulta [docs/trait-editor.md](docs/trait-editor.md) per setup, variabili `VITE_*`, script disponibili (`npm run dev`, `npm run build`, `npm run preview`) e workflow di deploy statico con dataset remoti.
 
 ## Stato database Evo Tactics
 
