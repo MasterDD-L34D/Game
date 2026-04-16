@@ -5,7 +5,7 @@ tags: [combat, rules-engine, d20, tactical]
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-04-16
+last_verified: 2026-04-17
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -62,7 +62,15 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 - `packs/evo_tactics_pack/data/balance/terrain_defense.yaml` — modificatori CD per tipo terreno (roccia +2, lava -1, etc.). Pattern W4.
 - `packs/evo_tactics_pack/data/balance/movement_profiles.yaml` — profili movimento (heavy/medium/light) con terrain cost multiplier. Pattern W6.
 - `packs/evo_tactics_pack/data/balance/species_resistances.yaml` — matrice resistenze per 5 archetipi specie (corazzato/bioelettrico/psionico/termico/adattivo). Pattern W2.
+- `packs/evo_tactics_pack/data/balance/sistema_pressure.yaml` — AI War "AI Progress" meter: 5 tier da Calm (0) a Apex (95) con intents_per_round + reinforcement_budget + unlocked_intent_types. Gate capabilities SIS via `computeSistemaTier()` in `sessionHelpers.js`.
 - `packs/evo_tactics_pack/pack_manifest.yaml` — manifest esplicito di tutti i file dati del pack. Pattern O2.
+
+## Invarianti di design combat
+
+Stabiliti 2026-04-17 da lezioni AI War + Fallout Tactics postmortem (vedi `memory/reference_tactical_postmortems.md`).
+
+- **Single combat mode**. Round model (ADR-2026-04-15) è l'**unico** modello di combat. Qualsiasi "quick mode" o "real-time variant" è un breaking change, non una feature flag. Lesson: Fallout Tactics shipped 3 modi (CTB/ITB/STB) nessuno canonico — confusion player + reviewer split.
+- **Asymmetric AI rules**. SIS non usa l'economia PG. Niente PT pool, niente trait cost. Intent budget derivato da `sistema_pressure` (vedi `sistema_resource_model` in `ai_profiles.yaml`). SIS può ignorare fog-of-war, avere budget reinforcement invisibile, non build economia. Fairness garantita via outcome measurement (`vcScoring`), non simmetria di regole. Lesson AI War: AI che mimano player "fall apart in advanced play" (Park).
 
 ## Schemi e tipi generati
 
