@@ -86,10 +86,54 @@
         "active_effects": {
           "type": "array",
           "items": {
-            "type": "string",
-            "pattern": "^[a-z0-9_]+$"
-          },
-          "uniqueItems": true
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              {
+                "type": "object",
+                "required": ["ability_id", "effect_type", "cost_ap"],
+                "properties": {
+                  "ability_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+                  "name_it": { "type": "string" },
+                  "cost_ap": { "type": "integer", "minimum": 0 },
+                  "effect_type": {
+                    "type": "string",
+                    "enum": ["damage", "heal", "apply_status", "buff"]
+                  },
+                  "damage_dice": {
+                    "type": "object",
+                    "properties": {
+                      "count": { "type": "integer" },
+                      "sides": { "type": "integer" },
+                      "modifier": { "type": "integer" }
+                    }
+                  },
+                  "heal_dice": {
+                    "type": "object",
+                    "properties": {
+                      "count": { "type": "integer" },
+                      "sides": { "type": "integer" },
+                      "modifier": { "type": "integer" }
+                    }
+                  },
+                  "channel": { "type": "string" },
+                  "target": { "type": "string", "enum": ["enemy", "self", "ally"] },
+                  "status_id": { "type": "string" },
+                  "status_duration": { "type": "integer", "minimum": 1 },
+                  "status_intensity": { "type": "integer", "minimum": 1 },
+                  "buff_stat": {
+                    "type": "string",
+                    "enum": ["attack_mod", "defense_mod", "damage_step"]
+                  },
+                  "buff_amount": { "type": "integer" },
+                  "buff_duration": { "type": "integer", "minimum": 1 }
+                },
+                "additionalProperties": false
+              }
+            ]
+          }
         },
         "on_hit_status": { "$ref": "#/$defs/on_hit_status" },
         "on_hit_stress_delta": {
