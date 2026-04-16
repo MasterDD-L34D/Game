@@ -52,6 +52,12 @@ global_rules:
 
 species:
   - id: dune_stalker
+    legacy_slug: dune_stalker
+    genus: Arenavenator
+    epithet: vagans
+    clade_tag: Threat
+    display_name_it: Predatore delle Dune
+    display_name_en: Dune Stalker
     display_name: Dune Stalker
     estimated_weight: 11
     weight_budget: 12
@@ -84,6 +90,12 @@ species:
           Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline
           in cui si rifugia il branco durante le tempeste desertiche.
   - id: polpo_araldo_sinaptico
+    legacy_slug: polpo_araldo_sinaptico
+    genus: Synaptopus
+    epithet: praeco
+    clade_tag: Keystone
+    display_name_it: Polpo Araldo Sinaptico
+    display_name_en: Synaptic Herald Octopus
     display_name: Polpo Araldo Sinaptico
     estimated_weight: 14
     weight_budget: 14
@@ -101,6 +113,12 @@ species:
     synergy_hints: []
 
   - id: sciame_larve_neurali
+    legacy_slug: sciame_larve_neurali
+    genus: Neurolarva
+    epithet: gregaria
+    clade_tag: Threat
+    display_name_it: Sciame di Larve Neurali
+    display_name_en: Neural Larva Swarm
     display_name: Sciame di Larve Neurali
     estimated_weight: 9
     weight_budget: 10
@@ -118,6 +136,12 @@ species:
     synergy_hints: []
 
   - id: leviatano_risonante
+    legacy_slug: leviatano_risonante
+    genus: Resonoleviathan
+    epithet: abyssalis
+    clade_tag: Apex
+    display_name_it: Leviatano Risonante
+    display_name_en: Resonant Leviathan
     display_name: Leviatano Risonante
     estimated_weight: 28
     weight_budget: 30
@@ -135,6 +159,12 @@ species:
     synergy_hints: []
 
   - id: simbionte_corallino_riflesso
+    legacy_slug: simbionte_corallino_riflesso
+    genus: Corallosymbion
+    epithet: speculans
+    clade_tag: Support
+    display_name_it: Simbionte Corallino Riflesso
+    display_name_en: Mirror Coral Symbiont
     display_name: Simbionte Corallino Riflesso
     estimated_weight: 15
     weight_budget: 15
@@ -152,6 +182,12 @@ species:
     synergy_hints: []
 
   - id: anguis_magnetica
+    legacy_slug: anguis_magnetica
+    genus: Anguimagnus
+    epithet: litoralis
+    clade_tag: Bridge
+    display_name_it: Anguilla Magnetica
+    display_name_en: Magnetic Eel
     display_name: Anguis Magnetica
     estimated_weight: 9
     weight_budget: 10
@@ -174,6 +210,12 @@ species:
     synergy_hints: []
 
   - id: chemnotela_toxica
+    legacy_slug: chemnotela_toxica
+    genus: Chemnotela
+    epithet: toxifera
+    clade_tag: Threat
+    display_name_it: Tessitrice Tossica
+    display_name_en: Toxic Weaver
     display_name: Chemnotela Toxica
     estimated_weight: 11
     weight_budget: 12
@@ -196,6 +238,12 @@ species:
     synergy_hints: []
 
   - id: elastovaranus_hydrus
+    legacy_slug: elastovaranus_hydrus
+    genus: Elastovaranus
+    epithet: hydraulicus
+    clade_tag: Playable
+    display_name_it: Varano Idraulico Elastico
+    display_name_en: Hydraulic Elastic Varan
     display_name: Elastovaranus Hydrus
     estimated_weight: 12
     weight_budget: 12
@@ -218,6 +266,12 @@ species:
     synergy_hints: []
 
   - id: gulogluteus_scutiger
+    legacy_slug: gulogluteus_scutiger
+    genus: Gulogluteus
+    epithet: scutiger
+    clade_tag: Playable
+    display_name_it: Scudo Roccioso Prensile
+    display_name_en: Prehensile Rock Shield
     display_name: Gulogluteus Scutiger
     estimated_weight: 10
     weight_budget: 10
@@ -240,6 +294,12 @@ species:
     synergy_hints: []
 
   - id: perfusuas_pedes
+    legacy_slug: perfusuas_pedes
+    genus: Perfusuas
+    epithet: subterraneus
+    clade_tag: Bridge
+    display_name_it: Miriapode delle Cripte
+    display_name_en: Crypt Myriapod
     display_name: Perfusuas Pedes
     estimated_weight: 13
     weight_budget: 13
@@ -262,6 +322,12 @@ species:
     synergy_hints: []
 
   - id: proteus_plasma
+    legacy_slug: proteus_plasma
+    genus: Proteoplasma
+    epithet: amoebiforme
+    clade_tag: Playable
+    display_name_it: Plasma Proteico
+    display_name_en: Protean Plasma
     display_name: Proteus Plasma
     estimated_weight: 8
     weight_budget: 8
@@ -284,6 +350,12 @@ species:
     synergy_hints: []
 
   - id: rupicapra_sensoria
+    legacy_slug: rupicapra_sensoria
+    genus: Rupicapra
+    epithet: sensoria
+    clade_tag: Keystone
+    display_name_it: Stambecco Sensoriale
+    display_name_en: Sensory Ibex
     display_name: Rupicapra Sensoria
     estimated_weight: 16
     weight_budget: 16
@@ -306,6 +378,12 @@ species:
     synergy_hints: []
 
   - id: soniptera_resonans
+    legacy_slug: soniptera_resonans
+    genus: Soniptera
+    epithet: resonans
+    clade_tag: Threat
+    display_name_it: Ala Risonante
+    display_name_en: Resonant Wing
     display_name: Soniptera Resonans
     estimated_weight: 7
     weight_budget: 8
@@ -328,6 +406,12 @@ species:
     synergy_hints: []
 
   - id: terracetus_ambulator
+    legacy_slug: terracetus_ambulator
+    genus: Terracetus
+    epithet: ambulator
+    clade_tag: Keystone
+    display_name_it: Cetaceo Terrestre
+    display_name_en: Walking Cetacean
     display_name: Terracetus Ambulator
     estimated_weight: 14
     weight_budget: 14
@@ -350,6 +434,12 @@ species:
     synergy_hints: []
 
   - id: umbra_alaris
+    legacy_slug: umbra_alaris
+    genus: Umbralaris
+    epithet: silens
+    clade_tag: Playable
+    display_name_it: Ala d'Ombra
+    display_name_en: Shadow Wing
     display_name: Umbra Alaris
     estimated_weight: 6
     weight_budget: 7
