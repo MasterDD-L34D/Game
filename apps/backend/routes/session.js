@@ -83,6 +83,7 @@ const {
   stepTowards,
   isBackstab,
   facingFromMove,
+  predictCombat,
 } = require('./sessionHelpers');
 const { createRoundBridge } = require('./sessionRoundBridge');
 
@@ -600,6 +601,32 @@ function createSessionRouter(options = {}) {
     const { error, session } = resolveSession(req.query?.session_id);
     if (error) return res.status(error.status).json(error.body);
     res.json(publicSessionView(session));
+  });
+
+  // Halfway lesson (decision surfacing): pre-combat prediction.
+  // Ritorna hit%, crit%, fumble%, avg MoS, avg PT per un attacco
+  // actor → target senza eseguirlo. Il client mostra questi numeri
+  // per rendere la tattica leggibile (P1).
+  router.post('/predict', (req, res) => {
+    const body = req.body || {};
+    const { error, session } = resolveSession(body.session_id);
+    if (error) return res.status(error.status).json(error.body);
+
+    const actor = session.units.find((u) => u.id === body.actor_id);
+    if (!actor) {
+      return res.status(400).json({ error: `actor_id "${body.actor_id}" non trovato` });
+    }
+    const target = session.units.find((u) => u.id === body.target_id);
+    if (!target) {
+      return res.status(400).json({ error: `target_id "${body.target_id}" non trovato` });
+    }
+
+    const prediction = predictCombat(actor, target);
+    res.json({
+      actor_id: actor.id,
+      target_id: target.id,
+      ...prediction,
+    });
   });
 
   router.post('/action', async (req, res, next) => {

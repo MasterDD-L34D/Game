@@ -77,8 +77,8 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["perforazione"],
-          "description": "Categoria di spesa PT dal docs/10-SISTEMA_TATTICO.md ('spese su perforazione, spinte, condizioni e combo'). Attualmente implementata solo 'perforazione' (riduce armor del target di 2 per questo attacco); le altre 3 sono rimandate."
+          "enum": ["perforazione", "spinta"],
+          "description": "Categoria di spesa PT dal docs/10-SISTEMA_TATTICO.md. 'perforazione' riduce armor target di 2 per questo attacco; 'spinta' applica status 'sbilanciato' (-1 defense_mod, 1 turno) su hit. Le categorie 'condizioni' e 'combo' sono rimandate."
         },
         "amount": { "type": "integer", "minimum": 1 }
       },

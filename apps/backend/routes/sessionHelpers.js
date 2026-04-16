@@ -132,6 +132,59 @@ function resolveAttack({ actor, target, rng }) {
   return { die, roll, mos, hit, dc, pt };
 }
 
+/**
+ * Predizione combattimento (Halfway lesson: decision surfacing).
+ * Simula N attacchi con la stessa formula di resolveAttack e ritorna
+ * distribuzione statistica per il client.
+ *
+ * @param {{ mod?: number }} actor
+ * @param {{ dc?: number, dc_difesa?: number, mod?: number }} target
+ * @param {number} [n=1000] — simulazioni
+ * @returns {{ simulations, hit_pct, crit_pct, fumble_pct, avg_mos, dc, attack_mod, avg_pt }}
+ */
+function predictCombat(actor, target, n = 1000) {
+  const attackMod = actor.mod || 0;
+  const dc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
+
+  let hits = 0;
+  let crits = 0;
+  let fumbles = 0;
+  let totalMos = 0;
+  let totalPt = 0;
+
+  // Analytic simulation over all 20 d20 faces, weighted equally
+  // (faster and more accurate than random sampling for d20)
+  for (let die = 1; die <= 20; die++) {
+    const roll = die + attackMod;
+    const mos = roll - dc;
+    const hit = mos >= 0;
+
+    if (hit) {
+      hits++;
+      let pt = 0;
+      if (die >= 15 && die <= 19) pt += 1;
+      if (die === 20) pt += 2;
+      pt += Math.floor(mos / 5);
+      totalPt += pt;
+      totalMos += mos;
+    }
+    if (die === 20) crits++;
+    if (die === 1) fumbles++;
+  }
+
+  const total = 20; // exact enumeration over d20
+  return {
+    simulations: total,
+    hit_pct: Math.round((hits / total) * 1000) / 10,
+    crit_pct: Math.round((crits / total) * 1000) / 10,
+    fumble_pct: Math.round((fumbles / total) * 1000) / 10,
+    avg_mos: hits > 0 ? Math.round((totalMos / hits) * 10) / 10 : 0,
+    avg_pt: hits > 0 ? Math.round((totalPt / hits) * 10) / 10 : 0,
+    dc,
+    attack_mod: attackMod,
+  };
+}
+
 function timestampStamp(date) {
   const iso = date.toISOString();
   return iso
@@ -253,4 +306,5 @@ module.exports = {
   stepTowards,
   isBackstab,
   facingFromMove,
+  predictCombat,
 };
