@@ -30,13 +30,8 @@ test('encounter schema is valid JSON', () => {
 });
 
 // Discover all encounter YAML files
-// Legacy encounters (pre-schema) excluded until migrated
-const LEGACY_SKIP = new Set(['enc_caverna_02.yaml', 'enc_frattura_03.yaml']);
-
 const encounterFiles = fs.existsSync(ENCOUNTERS_DIR)
-  ? fs
-      .readdirSync(ENCOUNTERS_DIR)
-      .filter((f) => f.startsWith('enc_') && f.endsWith('.yaml') && !LEGACY_SKIP.has(f))
+  ? fs.readdirSync(ENCOUNTERS_DIR).filter((f) => f.startsWith('enc_') && f.endsWith('.yaml'))
   : [];
 
 test(`found ${encounterFiles.length} encounter files`, () => {

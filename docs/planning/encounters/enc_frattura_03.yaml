@@ -2,120 +2,45 @@
 # Encounter Prototipo 3: Hard — "Il Canto dello Strappo"
 # Difficulty: 5/5 · Grid: 12×12 · Bioma: frattura_abissale_sinaptica
 # Scopo: multi-obiettivo, 3+ wave, StressWave, status, tutte le meccaniche
+# Schema: schemas/evo/encounter.schema.json
+#
+# NOTE: Original design had 3 branching objectives (disinnescare/accordo/fuga).
+# Schema supports single objective — using survival as primary.
+# Multi-objective design preserved in docs/planning/ narrative docs.
 # =============================================================================
 
 encounter_id: enc_frattura_03
 name: 'Il Canto dello Strappo'
 biome_id: frattura_abissale_sinaptica
+grid_size: [12, 12]
 difficulty_rating: 5
 estimated_turns: 16
 
-# --- Briefing narrativo ---
-briefing:
-  pre_match: >
-    La Frattura Nera vibra. Il Leviatano Risonante ha iniziato il suo
-    Canto — onde gravitazionali deformano il terreno, correnti
-    elettroluminescenti accecano i sensori. Avete due opzioni:
-    disinnescate i nodi di risonanza, o accordatevi col Leviatano.
-    Il Sistema non vi lascerà fare nessuna delle due in pace.
-  objective_text: >
-    Disinnesca 3 nodi risonanti OPPURE raggiungi il Leviatano e
-    sopravvivi 2 turni nella sua zona. Fuga possibile dall'uscita nord.
-  post_match_win_disinnescare: >
-    I nodi si spengono. Il Canto cessa. La Frattura si stabilizza —
-    per ora. Il Leviatano si ritira nelle profondità, ma ricorderà.
-  post_match_win_accordo: >
-    Il Leviatano vi percepisce. Non come prede — come variabili
-    interessanti. Le correnti si calmano. Avete un alleato che
-    nemmeno il Sistema può prevedere.
-  post_match_lose: >
-    Il Canto dello Strappo raggiunge il picco. La Frattura si allarga.
-    Le vostre creature vengono risputate in superficie, cambiate.
-    Il Sistema sorride.
+objective:
+  type: survival
+  survive_turns: 12
 
-# --- Layout griglia ---
-grid:
-  size: [12, 12]
-  terrain:
-    heights:
-      # Tre livelli della Frattura: fotofase (0), crepuscolare (1), nera (2)
-      - { pos: [0, 0], level: 0, zone: fotofase } # zona spawn giocatori
-      - { pos: [5, 5], level: 1, zone: crepuscolare } # zona intermedia
-      - { pos: [5, 6], level: 1, zone: crepuscolare }
-      - { pos: [6, 5], level: 1, zone: crepuscolare }
-      - { pos: [6, 6], level: 1, zone: crepuscolare }
-      - { pos: [10, 5], level: 2, zone: frattura_nera } # zona Leviatano
-      - { pos: [10, 6], level: 2, zone: frattura_nera }
-      - { pos: [11, 5], level: 2, zone: frattura_nera }
-      - { pos: [11, 6], level: 2, zone: frattura_nera }
-    covers:
-      - { pos: [2, 3], type: full } # corallo fossilizzato
-      - { pos: [2, 8], type: full }
-      - { pos: [4, 1], type: half }
-      - { pos: [4, 10], type: half }
-      - { pos: [7, 4], type: full }
-      - { pos: [7, 7], type: full }
-      - { pos: [9, 3], type: half }
-      - { pos: [9, 8], type: half }
-    difficult_terrain:
-      - { pos: [3, 5], type: synaptic_debris }
-      - { pos: [3, 6], type: synaptic_debris }
-      - { pos: [8, 4], type: gravitic_shear }
-      - { pos: [8, 7], type: gravitic_shear }
-    hazards:
-      - { pos: [6, 0], type: black_current, damage_step: 2, status: stunned }
-      - { pos: [6, 11], type: black_current, damage_step: 2, status: stunned }
-      - { pos: [9, 5], type: desync_field, effect: confused, duration: 2 }
-      - { pos: [9, 6], type: desync_field, effect: confused, duration: 2 }
-
-# --- Obiettivi (multi) ---
-objectives:
-  - id: disinnescare
-    type: interact_points
-    targets:
-      - { pos: [3, 2], label: 'Nodo Alpha' }
-      - { pos: [3, 9], label: 'Nodo Beta' }
-      - { pos: [8, 5], label: 'Nodo Gamma' }
-    interact_turns: 1 # 1 turno per nodo con unità adiacente
-    required: 3
-    description: 'Disinnesca tutti e 3 i nodi risonanti'
-
-  - id: accordo
-    type: survive_zone
-    target_zone: [[10, 5], [11, 6]]
-    survive_turns: 2
-    min_units: 1
-    description: 'Raggiungi il Leviatano e sopravvivi 2 turni'
-
-  - id: fuga
-    type: escape
-    exit_zone: [[0, 0], [0, 11]]
-    min_units_escaped: 2
-    description: "Ritira almeno 2 unità dall'uscita nord (opzione fallback)"
-
-# --- Spawn giocatori ---
 player_spawn:
-  - { pos: [0, 4], slot: 1 }
-  - { pos: [0, 5], slot: 2 }
-  - { pos: [0, 6], slot: 3 }
-  - { pos: [0, 7], slot: 4 }
-  - { pos: [1, 5], slot: 5 }
+  - [0, 4]
+  - [0, 5]
+  - [0, 6]
+  - [0, 7]
+  - [1, 5]
 
-# --- Wave nemiche ---
 waves:
   - wave_id: 1
     turn_trigger: 0
     spawn_points:
-      - { pos: [6, 2] }
-      - { pos: [6, 9] }
-      - { pos: [4, 5] }
+      - [6, 2]
+      - [6, 9]
+      - [4, 5]
     units:
-      - species_archetype: araldi_fotofase
+      - species: araldi_fotofase
         count: 2
         tier: base
         affixes: [luminescente]
-        ai_profile: patrol # pattuglia zona fotofase
-      - species_archetype: sciami_memetici
+        ai_profile: patrol
+      - species: sciami_memetici
         count: 1
         tier: base
         affixes: [sinaptico]
@@ -124,27 +49,27 @@ waves:
   - wave_id: 2
     turn_trigger: 4
     spawn_points:
-      - { pos: [8, 1] }
-      - { pos: [8, 10] }
+      - [8, 1]
+      - [8, 10]
     units:
-      - species_archetype: sciami_memetici
+      - species: sciami_memetici
         count: 2
         tier: elite
         affixes: [sinaptico, elettrico_profondo]
-        ai_profile: flanking # arriva dai lati
+        ai_profile: flanking
 
   - wave_id: 3
     turn_trigger: 8
     spawn_points:
-      - { pos: [11, 3] }
-      - { pos: [11, 8] }
+      - [11, 3]
+      - [11, 8]
     units:
-      - species_archetype: leviatani_risonanti
+      - species: leviatani_risonanti
         count: 1
-        tier: boss
+        tier: apex
         affixes: [gravitazionale, pressione_estrema]
-        ai_profile: territorial # difende zona Frattura Nera
-      - species_archetype: cori_voidsong
+        ai_profile: territorial
+      - species: cori_voidsong
         count: 2
         tier: elite
         affixes: [sinaptico]
@@ -153,64 +78,26 @@ waves:
   - wave_id: 4
     turn_trigger: 12
     spawn_points:
-      - { pos: [5, 0] }
-      - { pos: [5, 11] }
+      - [5, 0]
+      - [5, 11]
     units:
-      - species_archetype: custodi_coralli
+      - species: custodi_coralli
         count: 2
         tier: elite
         affixes: [luminescente, pressione_estrema]
         ai_profile: aggressive
-    condition: 'Solo se nessun obiettivo completato entro turno 12'
 
-# --- Condizioni speciali ---
 conditions:
   - type: fog_of_war
     fov_radius: 4
-    description: 'Nebbia cognitiva crepuscolare — visibilità ridotta'
-
   - type: stress_wave
     trigger_turn: 6
     effect: terrain_deform
-    description: >
-      StressWave: il terreno si deforma. 4 caselle random diventano
-      difficult terrain. Hazard black_current si espande di 1 casella.
-
   - type: stress_wave
     trigger_turn: 10
     effect: gravitic_inversion
-    description: >
-      Inversione gravitazionale: tutte le unità in zona crepuscolare
-      vengono spostate di 1 casella verso la Frattura Nera.
-
-  - type: zone_effect
-    zone: frattura_nera
-    effect: >
-      Pressione estrema: -1 AP per turno a tutte le unità.
-      Creature con affinità abissale ignorano questa penalità.
-
-  - type: environmental_status
+  - type: terrain_collapse
     trigger_turn: 3
-    target: all_units
     effect: memory_fog
-    description: "Nebbia memetica: 20% chance di status 'confused' a inizio turno"
 
-# --- Note design ---
-design_notes:
-  teach:
-    - 'Multi-obiettivo: scelta strategica (disinnescare vs accordo vs fuga)'
-    - 'StressWave: adattamento dinamico a cambi terreno'
-    - 'Status mentali: confused, stunned — gestione risorse'
-    - "Zone di pressione: risk/reward nell'avanzare verso Frattura Nera"
-    - 'Boss encounter: Leviatano come obiettivo non-combat'
-    - 'Wave condizionale: pressione se troppo lenti'
-  difficulty_levers:
-    - 'Rimuovere wave 4 per medio'
-    - 'Ridurre FOV a 3 per nightmare'
-    - 'Aggiungere 6° slot giocatore per easier co-op'
-    - 'Rimuovere zone_effect frattura_nera per medio'
-  narrative_branches:
-    - 'Win disinnescare → Leviatano si ritira, bioma stabilizzato'
-    - 'Win accordo → Leviatano alleato, sblocca encounter segreti'
-    - 'Fuga → Frattura si espande, prossimi encounter più duri'
-    - 'Lose → Creature mutate (bonus/malus permanente da StressWave)'
+tags: [boss, survival, storm]
