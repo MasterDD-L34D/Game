@@ -2115,6 +2115,17 @@
       "track": "authored"
     },
     {
+      "path": "docs/combat/trait-trade-offs.md",
+      "title": "Trait Trade-offs Guide",
+      "doc_status": "active",
+      "doc_owner": "combat-team",
+      "workstream": "combat",
+      "source_of_truth": false,
+      "last_verified": "2026-04-17",
+      "language": "it-en",
+      "review_cycle_days": 14
+    },
+    {
       "path": "docs/combat/worker-bridge.md",
       "title": "Worker Bridge — Node to Python protocol",
       "doc_status": "active",

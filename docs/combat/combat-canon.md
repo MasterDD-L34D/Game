@@ -47,6 +47,79 @@ Buff temporanei via `unit.buffs[]`: `{stat, amount, remaining_turns, source_abil
 
 Stat supportate: `attack_mod`, `defense_mod`, `damage_step`. Decay in `begin_turn`. Sommati in attack pipeline dopo `aggregate_mod`.
 
+## 3b. PP (Power Points) — Combo Meter
+
+PP e' un combo meter individuale che si carica con azioni di successo durante il combattimento.
+
+### Regole PP
+
+- Inizializzazione: `unit.pp = 0` a inizio combattimento
+- Accumulo:
+  - **+1 PP** per hit riuscito (attack roll >= CD)
+  - **+2 PP** per kill (bersaglio portato a 0 HP)
+  - **+1 PP** per assist (damage inflitto a un bersaglio ucciso entro 2 turni)
+- PP persiste tra round nello stesso combattimento
+- PP **NON** persiste tra combattimenti separati
+
+### Soglie PP — Ability potenziate
+
+| Soglia   | Tier | Effetto                                              |
+| -------- | ---- | ---------------------------------------------------- |
+| PP >= 3  | 1    | Ability base potenziata (empowered version, low)     |
+| PP >= 6  | 2    | Ability forte potenziata (empowered version, strong) |
+| PP >= 10 | 3    | Ultimate — consuma tutti i PP, reset a 0             |
+
+Tier 1 e 2 non consumano PP (rimangono disponibili finche' PP >= soglia). Tier 3 consuma tutti i PP e resetta `unit.pp = 0`.
+
+### Implementazione
+
+- Campo: `unit.pp` (integer, >= 0)
+- Incremento: in `resolve_action`, dopo conferma hit/kill/assist
+- Check: in ability branch, `if unit.pp >= threshold` sblocca il tier corrispondente
+- Assist tracking: mantenere `unit.recent_damage_dealt[target_id]` con timestamp turno; se target muore entro 2 turni e l'attaccante non e' il killer, +1 PP assist
+
+## 3c. SG (Surge Gauge) — Stress-Linked Burst
+
+SG e' un meter individuale derivato dallo stress della unit. Collega il sistema di stress/temperamento al combat, creando un trade-off tra potenza burst e rischio panic.
+
+### Regole SG
+
+- Derivazione: `unit.sg = Math.floor(unit.stress * 100)` — integer 0-100, mirror di stress float 0.0-1.0
+- SG non si accumula indipendentemente: segue lo stress 1:1
+- Quando `SG >= 75` (stress >= 0.75): la unit puo' attivare **Surge Burst**
+
+### Surge Burst — Scelta al momento dell'attivazione
+
+| Variante        | ability_id              | Effetto                                                   |
+| --------------- | ----------------------- | --------------------------------------------------------- |
+| Offensive burst | `surge_burst_offensive` | Prossimo attacco infligge **doppio danno** (1 uso)        |
+| Defensive burst | `surge_burst_defensive` | Ignora la **prossima istanza di danno** subita (1 uso)    |
+| Recovery burst  | `surge_burst_recovery`  | Heal **50% degli HP mancanti** + rimuove 1 status (1 uso) |
+
+Dopo l'attivazione di qualsiasi variante: `unit.stress = 0.25`, `unit.sg = 25`.
+
+### Trade-off design
+
+Il trade-off fondamentale: stress alto = SG alto = burst potente, **ma** stress >= 0.75 attiva anche la soglia panic in `policy.js`. La unit rischia di entrare in panic (retreat forzato dall'AI policy) **prima** che il giocatore riesca ad attivare il Surge Burst.
+
+Sequenza decisionale:
+
+1. Stress sale → SG sale → si avvicina alla soglia 75
+2. A SG 75+: il giocatore **deve scegliere** se usare Surge Burst immediatamente
+3. Se non usa burst: l'AI policy puo' triggerare panic → la unit scappa invece di combattere
+4. Se usa burst: potenza enorme ma stress resetta a 0.25 → deve riaccumulare
+
+Questo crea tensione strategica: accumulare stress per burst piu' potenti vs rischio di perdere il controllo della unit.
+
+### Implementazione
+
+- Campo: `unit.sg` (derived, integer 0-100, = `Math.floor(stress * 100)`)
+- Non serve storage separato: SG e' calcolato on-the-fly da stress
+- Surge Burst: action type `ability` con `ability_id: "surge_burst_offensive|defensive|recovery"`
+- Prerequisito: `unit.sg >= 75` check in ability branch
+- Post-burst: `unit.stress = 0.25` (reset, NON a 0 — la unit resta leggermente stressata)
+- Interazione panic: il check panic in `policy.js` ha priority sul burst — se panic triggera prima dell'azione del giocatore, la unit scappa
+
 ## 4. Timing: ordine di risoluzione
 
 Riferimento completo: [round-loop.md §3](round-loop.md).
@@ -96,7 +169,6 @@ Riferimento completo: [resolver-api.md](resolver-api.md).
 
 - Grid/position tracking nel Python resolver (solo JS)
 - Multi-target abilities (AoE)
-- PP / SG resource systems
 - Ability cooldown (distinct from reaction cooldown)
 - Status stacking rules (oggi: max duration wins)
 - Combo / chain actions
