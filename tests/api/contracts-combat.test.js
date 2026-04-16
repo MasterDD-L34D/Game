@@ -123,6 +123,7 @@ test('combat schema accetta stato con party_vc completa, status attivi e turn lo
           mos: 8,
           damage_step: 2,
           pt_gained: 2,
+          pp_gained: 0,
           is_crit: false,
           is_fumble: false,
         },

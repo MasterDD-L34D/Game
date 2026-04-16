@@ -11,6 +11,11 @@
     },
     "generated_from": { "type": "string" },
     "notes": { "type": "string" },
+    "_defaults": {
+      "type": "object",
+      "description": "OpenRA-style default templates per class (offensive, defensive, hybrid, mobility, utility). Chiavi sono nomi di classe, valori sono entry parziali usate come base di merge.",
+      "additionalProperties": true
+    },
     "traits": {
       "type": "object",
       "minProperties": 1,
