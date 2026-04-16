@@ -221,7 +221,7 @@
     {
       "path": "docs/adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md",
       "title": "ADR-2026-04-14: Dashboard scaffold vs Mission Console bundle dichotomy",
-      "doc_status": "active",
+      "doc_status": "superseded",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-14",

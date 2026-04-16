@@ -21,14 +21,14 @@ Ogni sezione include i passi da eseguire e gli esiti attesi. Segnare ogni punto 
 
 ## 1. Setup iniziale
 
-- [ ] Installare le dipendenze (`npm install` nella root e in `apps/dashboard/` se necessario).
+- [ ] Installare le dipendenze (`npm install` nella root).
 - [ ] Aggiornare i dati locali (`npm run export:qa` se serve rigenerare gli snapshot demo).
-- [ ] Avviare la webapp (`npm --prefix apps/dashboard run dev`) oppure distribuire il build statico (`npm --prefix apps/dashboard run build`).
-- [ ] Aprire la dashboard QA su `http://localhost:5173` (o URL deploy) e verificare il caricamento iniziale.
+- [ ] Servire il bundle Mission Console da `docs/mission-console/` (es. `npx serve docs/mission-console`) oppure usare il deploy GitHub Pages.
+- [ ] Aprire la dashboard QA sull'URL deploy e verificare il caricamento iniziale.
 
 ## 2. Scenario Offline / Fallback
 
-- [ ] Simulare l'assenza dell'API remoto (es. disabilitando il proxy o avviando `npm --prefix apps/dashboard run preview` senza API).
+- [ ] Simulare l'assenza dell'API remoto (es. disabilitando il proxy o servendo il bundle statico senza API).
 - [ ] Confermare che lo snapshot iniziale venga caricato da **fallback** (badge "fallback" o "demo").
 - [ ] Verificare che il dataset Nebula mostri l'etichetta "Dataset fallback" nella vista Atlas.
 - [ ] Controllare nella barra di stato del Flow Shell la presenza del badge `fallback` o `demo` su Snapshot, Species e Trait diagnostics.

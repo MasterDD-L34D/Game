@@ -25,7 +25,7 @@
       "status": "active",
       "dependencies": ["backend", "dataset-pack"],
       "components": [
-        { "path": "apps/dashboard", "kind": "code", "state": "active" },
+        { "path": "apps/dashboard", "kind": "code", "state": "removed", "removed_in": "#1343" },
         { "path": "docs/test-interface", "kind": "docs", "state": "review_needed" }
       ]
     },

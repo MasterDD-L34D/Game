@@ -1,6 +1,6 @@
 ---
 title: 'ADR-2026-04-14: Dashboard scaffold vs Mission Console bundle dichotomy'
-doc_status: active
+doc_status: superseded
 doc_owner: platform-docs
 workstream: cross-cutting
 last_verified: 2026-04-14
@@ -12,9 +12,13 @@ review_cycle_days: 90
 # ADR-2026-04-14: Dashboard scaffold vs Mission Console bundle dichotomy
 
 - **Data**: 2026-04-14
-- **Stato**: Accettato
+- **Stato**: Risolto — scaffold rimosso 2026-04-16 (#1343, Option A eseguita)
 - **Owner**: Platform Docs
-- **Stakeholder**: Atlas team (futura UI), Backend squad (ownership di `apps/dashboard/`), Ops (deploy GitHub Pages)
+- **Stakeholder**: Atlas team (futura UI), Backend squad, Ops (deploy GitHub Pages)
+
+## Risoluzione (2026-04-16)
+
+Option A eseguita: `apps/dashboard/` e `packages/angular*` rimossi dal repo (#1343). CI, scripts e backend già aggiornati con commenti di riferimento. Resta solo `docs/mission-console/` come bundle production (Vue 3, GitHub Pages). Se in futuro serve un dashboard dev, si partirà da zero con Vue 3 (Option B originale).
 
 ## Contesto
 

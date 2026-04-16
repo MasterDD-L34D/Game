@@ -15,22 +15,18 @@ review_cycle_days: 14
 
 ## Scope
 
-Dashboard e consultazione runtime del progetto. **Nota architetturale**: il repo ha due dashboard sovrapposti — lo scaffold AngularJS `apps/dashboard/` (sorgente non funzionante runtime) e il bundle Vue pre-built `docs/mission-console/` (artifact production servito da GitHub Pages). Vedi [ADR-2026-04-14](../adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md) per la dicotomia completa.
+Dashboard e consultazione runtime del progetto. Il bundle Vue 3 pre-built `docs/mission-console/` è l'artifact production servito da GitHub Pages. Lo scaffold AngularJS `apps/dashboard/` è stato rimosso in #1343. Vedi [ADR-2026-04-14](../adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md) (superseded) per lo storico.
 
-- Source scaffold: `apps/dashboard/` (AngularJS 1.8.3 stub, dev server non renderizza)
 - Production bundle: `docs/mission-console/` (Vue 3, frozen)
 - Supporto statico legacy: `docs/frontend/test-interface/`
-- Fallback dati web: `apps/dashboard/public/data/`
 
 ## Documenti live
 
 - [QA checklist](../qa/qa-checklist.md)
 - [Telemetry guide](../core/Telemetria-VC.md)
 - [Trait editor API](../traits/trait-editor-api.md)
-- [ADR dashboard dichotomy](../adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md)
+- [ADR dashboard dichotomy](../adr/ADR-2026-04-14-dashboard-scaffold-vs-mission-console.md) (superseded)
 
 ## Gate principali
 
-- `npm run test --workspace apps/dashboard` (unit test Vitest su logica pura)
-- `npm run build --workspace apps/dashboard` (build Vite, **no deploy**)
-- `npm run test:e2e` (Playwright — limitato dallo stub Angular)
+- Backend test suite (`npm run test:api`) — copre mock parity e schema contracts
