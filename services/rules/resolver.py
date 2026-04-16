@@ -610,7 +610,9 @@ def resolve_action(
         if target_sbilanciato is not None:
             defense_mod_target -= int(target_sbilanciato.get("intensity", 1))
 
-        cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target
+        # W4 pattern: terrain defense modifier — terreno favorevole alza CD.
+        terrain_defense = int(target.get("terrain_defense_mod", 0))
+        cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target + terrain_defense
 
         natural = roll_die(rng, 20)
         total = natural + attack_mod

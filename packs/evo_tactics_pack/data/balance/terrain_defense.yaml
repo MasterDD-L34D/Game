@@ -1,0 +1,32 @@
+# Terrain Defense Modifiers — Evo-Tactics
+# Pattern W4 (wesnoth terrain defense).
+# Mappa biome affix → bonus CD per il difensore su quel terreno.
+# Valore positivo = piu difficile colpire chi sta su quel terreno.
+# Applicato in resolver.py: cd += terrain_defense_mod
+#
+# Vedi docs/planning/tactical-architecture-patterns.md §W4
+
+version: "0.1.0"
+
+# Affixes from data/core/biomes.yaml → defense modifier
+terrain_defense:
+  # Copertura naturale
+  roccia: 2
+  vegetazione_densa: 2
+  corallo: 1
+  cristalli: 1
+
+  # Terreno aperto / ostile
+  sabbia: 0
+  lava: -1
+  acqua_profonda: -1
+
+  # Terreni speciali
+  termico: 0
+  luminescente: 0
+  spore_diluite: 0
+  ghiaccio: -1
+  nebbia: 1
+
+# Default per affixes non mappati: 0 (nessun effetto)
+default_modifier: 0

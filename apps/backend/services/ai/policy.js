@@ -24,16 +24,51 @@
 // (REGOLA_003 kite, stati emotivi panic/rage/confused, ecc.) senza
 // toccare l'orchestrazione di runSistemaTurn (vedi sistemaTurnRunner.js).
 
-const DEFAULT_ATTACK_RANGE = 2;
-// HP fallback per unit senza max_hp esplicito. Allineato al DEFAULT_HP
-// di session.js. Se cambi uno, ricordati di cambiare anche l'altro.
+// --- AI Intent Score Registry (W3 pattern) ---
+// Valori di default inline, sovrascrivibili via loadAiConfig() da YAML.
+let _cfg = {
+  DEFAULT_ATTACK_RANGE: 2,
+  DEFAULT_MAX_HP_FALLBACK: 10,
+  LOW_HP_RETREAT_THRESHOLD: 0.3,
+  KITE_BUFFER: 1,
+};
+
+/**
+ * Carica configurazione AI da YAML parsed (ai_intent_scores.yaml).
+ * Chiamare una volta all'avvio del backend o nei test.
+ */
+function loadAiConfig(yaml) {
+  if (!yaml) return _cfg;
+  const c = yaml.combat || {};
+  const t = yaml.thresholds || {};
+  _cfg = {
+    DEFAULT_ATTACK_RANGE: c.default_attack_range ?? _cfg.DEFAULT_ATTACK_RANGE,
+    DEFAULT_MAX_HP_FALLBACK: c.default_max_hp_fallback ?? _cfg.DEFAULT_MAX_HP_FALLBACK,
+    LOW_HP_RETREAT_THRESHOLD: t.retreat_hp_pct ?? _cfg.LOW_HP_RETREAT_THRESHOLD,
+    KITE_BUFFER: c.kite_buffer ?? _cfg.KITE_BUFFER,
+  };
+  return _cfg;
+}
+
+/**
+ * Applica un profilo personalita (W5 pattern) sopra la config base.
+ * Ritorna una copia di _cfg con gli override del profilo applicati.
+ */
+function applyProfile(profile) {
+  if (!profile || !profile.overrides) return { ..._cfg };
+  const o = profile.overrides;
+  return {
+    ..._cfg,
+    DEFAULT_ATTACK_RANGE: o.default_attack_range ?? _cfg.DEFAULT_ATTACK_RANGE,
+    LOW_HP_RETREAT_THRESHOLD: o.retreat_hp_pct ?? _cfg.LOW_HP_RETREAT_THRESHOLD,
+    KITE_BUFFER: o.kite_buffer ?? _cfg.KITE_BUFFER,
+  };
+}
+
+// Accessors per backward compatibility
+const DEFAULT_ATTACK_RANGE = /* legacy ref */ 2;
 const DEFAULT_MAX_HP_FALLBACK = 10;
-// Soglia di retreat REGOLA_002 (HP ratio).
 const LOW_HP_RETREAT_THRESHOLD = 0.3;
-// SPRINT_012 (issue #2): target range "da evitare" per REGOLA_003 kite.
-// La regola e' che il SIS con range > target's range dovrebbe mantenersi
-// a >= target.attack_range + KITE_BUFFER dal nemico.
-const KITE_BUFFER = 1;
 
 function manhattanDistance(a, b) {
   if (!a || !b) return 0;
@@ -91,7 +126,7 @@ function checkEmotionalOverrides(actor, target) {
     // rage = "carica" — attacca se possibile, altrimenti avvicina
     // ignorando qualunque consideration di HP o safe zone.
     const dist = manhattanDistance(actor.position, target.position);
-    const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+    const range = actor.attack_range ?? _cfg.DEFAULT_ATTACK_RANGE;
     return {
       rule: 'STATO_RAGE',
       intent: dist <= range ? 'attack' : 'approach',
@@ -103,24 +138,27 @@ function checkEmotionalOverrides(actor, target) {
   return null;
 }
 
-function selectAiPolicy(actor, target) {
+function selectAiPolicy(actor, target, profile) {
   // SPRINT_013: stati emotivi hanno priorita' assoluta, bypassano HP
   // check e range check.
   const emotional = checkEmotionalOverrides(actor, target);
   if (emotional) return emotional;
 
+  // W5: profile override — se fornito, sovrascrive soglie base
+  const cfg = profile ? applyProfile(profile) : _cfg;
+
   const maxHp =
-    Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : DEFAULT_MAX_HP_FALLBACK;
+    Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : cfg.DEFAULT_MAX_HP_FALLBACK;
   const hpRatio = actor.hp / maxHp;
 
   // REGOLA_002: autoconservazione prima di tutto
-  if (hpRatio <= LOW_HP_RETREAT_THRESHOLD) {
+  if (hpRatio <= cfg.LOW_HP_RETREAT_THRESHOLD) {
     return { rule: 'REGOLA_002', intent: 'retreat' };
   }
 
   const distance = manhattanDistance(actor.position, target.position);
-  const actorRange = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
-  const targetRange = target.attack_range ?? DEFAULT_ATTACK_RANGE;
+  const actorRange = actor.attack_range ?? cfg.DEFAULT_ATTACK_RANGE;
+  const targetRange = target.attack_range ?? cfg.DEFAULT_ATTACK_RANGE;
 
   // SPRINT_012 (issue #2): REGOLA_003 kite opportunistico.
   // Se l'actor ha range superiore al target, preferisce colpire da fuori
@@ -135,7 +173,7 @@ function selectAiPolicy(actor, target) {
   // target.attack_range, altrimenti il kite non e' meccanicamente possibile
   // (sarebbe un attacco reciproco) e la policy cade su REGOLA_001.
   if (actorRange > targetRange) {
-    const safeMinDist = targetRange + KITE_BUFFER;
+    const safeMinDist = targetRange + cfg.KITE_BUFFER;
     if (distance >= safeMinDist && distance <= actorRange) {
       return { rule: 'REGOLA_003', intent: 'attack' };
     }
@@ -158,6 +196,8 @@ module.exports = {
   DEFAULT_ATTACK_RANGE,
   DEFAULT_MAX_HP_FALLBACK,
   LOW_HP_RETREAT_THRESHOLD,
+  loadAiConfig,
+  applyProfile,
   manhattanDistance,
   stepAway,
   selectAiPolicy,

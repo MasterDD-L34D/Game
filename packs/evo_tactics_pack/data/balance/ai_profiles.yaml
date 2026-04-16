@@ -1,0 +1,30 @@
+# AI Personality Profiles — Evo-Tactics
+# Pattern W5 (wesnoth micro-AI).
+# Ogni profilo sovrascrive soglie da ai_intent_scores.yaml.
+# Il Sistema carica un profilo per sessione/encounter.
+#
+# Vedi docs/planning/tactical-architecture-patterns.md §W5
+
+version: "0.1.0"
+
+profiles:
+  aggressive:
+    label: "Aggressivo"
+    description: "Attacca con poca considerazione per HP. Retreat solo in extremis."
+    overrides:
+      retreat_hp_pct: 0.15
+      kite_buffer: 0
+      default_attack_range: 2
+
+  balanced:
+    label: "Bilanciato"
+    description: "Comportamento default del Sistema. Nessun override."
+    overrides: {}
+
+  cautious:
+    label: "Cauto"
+    description: "Retreat aggressivo, mantiene distanza. Preferisce kiting."
+    overrides:
+      retreat_hp_pct: 0.5
+      kite_buffer: 2
+      default_attack_range: 2

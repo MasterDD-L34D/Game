@@ -894,6 +894,37 @@ function rngFromSequence(values) {
   };
 }
 
+// ─────────────────────────────────────────────────────────────────
+// B1 pattern: auto phase transition check
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * Controlla se la fase corrente dovrebbe avanzare automaticamente.
+ * Ritorna la prossima fase target, oppure null se non serve avanzare.
+ *
+ * planning → committed: tutti gli alive units hanno un main intent
+ * resolving → resolved: resolution queue vuota (tutte le azioni risolte)
+ */
+function shouldAutoAdvance(state) {
+  const phase = state && state.round_phase;
+  if (phase === PHASE_PLANNING) {
+    const units = (state.units || []).filter((u) => u && u.hp > 0);
+    if (units.length === 0) return null;
+    const pending = (state.pending_intents || []).filter((i) => !_isReactionIntent(i));
+    const unitIds = new Set(units.map((u) => String(u.id)));
+    const declaredIds = new Set(pending.map((i) => String(i.unit_id)));
+    for (const id of unitIds) {
+      if (!declaredIds.has(id)) return null;
+    }
+    return PHASE_COMMITTED;
+  }
+  if (phase === PHASE_RESOLVING) {
+    const queue = state._resolutionQueue || state.resolution_queue || [];
+    if (queue.length === 0) return PHASE_RESOLVED;
+  }
+  return null;
+}
+
 module.exports = {
   // Phase constants
   PHASE_PLANNING,
@@ -920,6 +951,7 @@ module.exports = {
   commitRound,
   resolveRound,
   previewRound,
+  shouldAutoAdvance,
   // Factory
   createRoundOrchestrator,
   // Test helpers

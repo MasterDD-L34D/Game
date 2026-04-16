@@ -147,6 +147,9 @@ function createSessionRouter(options = {}) {
     // ordinare deterministicamente gli eventi in VC scoring senza
     // dipendere dal timestamp (che puo' avere granularita' ms uguali).
     event.action_index = session.action_counter++;
+    // B4 pattern: distingue azioni player da trigger automatici sistema
+    // (bleed tick, status expiry, kill check). Default false.
+    if (event.automatic === undefined) event.automatic = false;
     session.events.push(event);
     await persistEvents(session);
   }
@@ -322,6 +325,7 @@ function createSessionRouter(options = {}) {
       ts: new Date().toISOString(),
       session_id: session.session_id,
       action_type: 'kill',
+      automatic: true,
       actor_id: attackEvent.actor_id, // puo' essere 'sistema' per IA
       actor_species: killer.species,
       actor_job: killer.job,
@@ -489,6 +493,7 @@ function createSessionRouter(options = {}) {
         ts: new Date().toISOString(),
         session_id: session.session_id,
         action_type: 'bleeding',
+        automatic: true,
         actor_id: unit.id,
         actor_species: unit.species,
         actor_job: unit.job,

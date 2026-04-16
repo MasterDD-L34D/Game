@@ -36,7 +36,7 @@
 // stesso throughput di 1 turno SIS vecchio). Eventuali upgrade
 // (multi-action intents) sono PR futura.
 
-const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE } = require('./policy');
+const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE, loadAiConfig } = require('./policy');
 
 function createDeclareSistemaIntents(deps) {
   const { pickLowestHpEnemy, stepTowards, manhattanDistance, gridSize = 6 } = deps || {};
@@ -130,7 +130,7 @@ function createDeclareSistemaIntents(deps) {
           ability_id: null,
           ap_cost: 1,
           channel: null,
-          damage_dice: { count: 1, sides: 6, modifier: 2 },
+          damage_dice: deps._damageDice || { count: 1, sides: 6, modifier: 2 },
           source_ia_rule: policy.rule,
         };
         intents.push({ unit_id: actor.id, action });
