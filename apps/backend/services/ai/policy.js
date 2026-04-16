@@ -138,7 +138,7 @@ function checkEmotionalOverrides(actor, target) {
   return null;
 }
 
-function selectAiPolicy(actor, target, profile) {
+function selectAiPolicy(actor, target, profile, threatCtx) {
   // SPRINT_013: stati emotivi hanno priorita' assoluta, bypassano HP
   // check e range check.
   const emotional = checkEmotionalOverrides(actor, target);
@@ -146,6 +146,30 @@ function selectAiPolicy(actor, target, profile) {
 
   // W5: profile override — se fornito, sovrascrive soglie base
   const cfg = profile ? applyProfile(profile) : _cfg;
+
+  // REGOLA_004_THREAT (AI War pattern): escalation reattiva.
+  // Priorita' superiore a HP retreat — durante escalation, il Sistema
+  // ignora autoconservazione per punire passivita' o fare all-in.
+  if (threatCtx) {
+    if (threatCtx.escalation_tier === 'passive') {
+      // Giocatori non attaccano → forza ingaggio per rompere stallo
+      const dist = manhattanDistance(actor.position, target.position);
+      const range = actor.attack_range ?? cfg.DEFAULT_ATTACK_RANGE;
+      return {
+        rule: 'REGOLA_004_THREAT',
+        intent: dist <= range ? 'attack' : 'approach',
+      };
+    }
+    if (threatCtx.escalation_tier === 'critical') {
+      // SIS in svantaggio grave → all-in disperato, ignora HP retreat
+      const dist = manhattanDistance(actor.position, target.position);
+      const range = actor.attack_range ?? cfg.DEFAULT_ATTACK_RANGE;
+      return {
+        rule: 'REGOLA_004_THREAT',
+        intent: dist <= range ? 'attack' : 'approach',
+      };
+    }
+  }
 
   const maxHp =
     Number.isFinite(actor.max_hp) && actor.max_hp > 0 ? actor.max_hp : cfg.DEFAULT_MAX_HP_FALLBACK;

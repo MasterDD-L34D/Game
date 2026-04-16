@@ -29,18 +29,29 @@ apps/backend/
 │   └── session.js                 ← router HTTP, state session in-memory
 └── services/
     ├── ai/
-    │   ├── policy.js              ← funzioni PURE: regole, stati, geo
-    │   └── sistemaTurnRunner.js   ← orchestratore turno con DI
+    │   ├── policy.js              ← funzioni PURE: regole, stati, geo, threat
+    │   ├── threatAssessment.js    ← AI War pattern: threat index + escalation
+    │   ├── declareSistemaIntents.js ← intent producer per round model
+    │   ├── sistemaTurnRunner.js   ← orchestratore turno legacy con DI
+    │   ├── utilityBrain.js        ← utility AI scoring (opt-in)
+    │   └── sistemaActor.js        ← xstate actor model
     ├── vcScoring.js               ← event → metric → aggregate → ennea
     ├── traitEffects.js            ← modificatori damage trait
     └── fairnessCap.js             ← cap_pt budget enforcement
+
+packs/evo_tactics_pack/data/balance/
+├── ai_intent_scores.yaml          ← costanti decisionali + threat config
+└── ai_profiles.yaml               ← profili personalita + threat overrides
 
 data/core/
 └── telemetry.yaml                 ← pesi indici + ennea_themes[]
 
 tests/ai/
-├── policy.test.js                 ← 34 test puri
-└── sistemaTurnRunner.test.js      ← 11 test runner con DI stubs
+├── policy.test.js                 ← 34+ test puri
+├── declareSistemaIntents.test.js  ← intent generation tests
+├── sistemaTurnRunner.test.js      ← 11 test runner con DI stubs
+├── threatAssessment.test.js       ← threat index + REGOLA_004 integration
+└── utilityBrain.test.js           ← utility AI curves + scoring
 ```
 
 ## Flusso di un turno SIS
@@ -111,22 +122,44 @@ session.js). Sono le "decisioni" dell'IA. Testate in
      rage    → { STATO_RAGE, attack/approach }
      panic   → { STATO_PANIC, retreat }
 
-2. HP ratio check
+2. REGOLA_004_THREAT (AI War pattern, threatAssessment.js)
+     passive tier  → { REGOLA_004_THREAT, attack/approach }  ← punisce turtling
+     critical tier → { REGOLA_004_THREAT, attack/approach }  ← all-in disperato
+     normal/aggressive → noop, cade al livello successivo
+
+3. HP ratio check
      hp/max_hp <= 0.3 → { REGOLA_002, retreat }
 
-3. Range comparison
+4. Range comparison
      actor.range > target.range:
        safe zone       → { REGOLA_003, attack }
        dentro target   → { REGOLA_003, retreat }
        fuori actor     → { REGOLA_003, approach }
 
-4. Default
+5. Default
      in range → { REGOLA_001, attack }
      fuori    → { REGOLA_001, approach }
 ```
 
-Gli stati emotivi hanno **priorità assoluta** — bypassano HP check,
-range check, e kite. Un SIS `rage` con HP 10% attacca comunque.
+Gli stati emotivi hanno **priorità assoluta** — bypassano threat, HP
+check, range check, e kite. Un SIS `rage` con HP 10% attacca comunque.
+
+### Threat Assessment (AI War pattern)
+
+`threatAssessment.js` computa un indice di minaccia composito da
+session.events. Iniettato via DI in `declareSistemaIntents()`.
+
+**Escalation tiers:**
+
+| Tier         | Trigger                       | Comportamento SIS                   |
+| ------------ | ----------------------------- | ----------------------------------- |
+| `passive`    | 3+ turni senza attacco player | Forza ingaggio, ignora HP retreat   |
+| `normal`     | Combattimento bilanciato      | Comportamento default               |
+| `aggressive` | Danno player elevato          | Comportamento default (tier futuro) |
+| `critical`   | SIS perso >60% HP             | All-in disperato, ignora retreat    |
+
+**Config:** `packs/evo_tactics_pack/data/balance/ai_intent_scores.yaml` → sezione `threat`.
+Ogni profilo in `ai_profiles.yaml` può sovrascrivere `threat_passivity_threshold`.
 
 ### Intent possibili
 

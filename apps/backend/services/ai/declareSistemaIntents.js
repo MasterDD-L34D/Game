@@ -47,6 +47,8 @@ function createDeclareSistemaIntents(deps) {
     gridSize = 6,
     useUtilityAi = false, // opt-in: set true to use Utility AI brain
     difficultyProfile = {}, // { selection: 'argmax'|'weighted_top3'|'random', noise: 0-1 }
+    computeThreatIndex, // AI War pattern: optional, injected from threatAssessment.js
+    threatConfig, // override per threat thresholds (from ai_intent_scores.yaml → threat)
   } = deps || {};
 
   if (typeof pickLowestHpEnemy !== 'function') {
@@ -76,6 +78,10 @@ function createDeclareSistemaIntents(deps) {
       return { intents: [], decisions: [] };
     }
 
+    // AI War pattern: compute threat context once per round
+    const threatCtx =
+      typeof computeThreatIndex === 'function' ? computeThreatIndex(session, threatConfig) : null;
+
     const intents = [];
     const decisions = [];
 
@@ -100,7 +106,7 @@ function createDeclareSistemaIntents(deps) {
       if (useUtilityAi) {
         policy = selectAiPolicyUtility(actor, target, {}, difficultyProfile);
       } else {
-        policy = selectAiPolicy(actor, target);
+        policy = selectAiPolicy(actor, target, null, threatCtx);
       }
       const distance = manhattanDistance(actor.position, target.position);
 
