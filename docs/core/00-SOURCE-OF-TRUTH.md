@@ -8,12 +8,13 @@ language: it
 review_cycle_days: 30
 ---
 
-# Evo Tactics — Source of Truth Unificata v4
+# Evo Tactics — Source of Truth Unificata v5
 
 _Base ricostruita dalla copia `Game.zip` del repo attuale. Questo documento non sostituisce le fonti runtime, ma le riunisce in una lettura unica e operativa._
 
 _v3 (2026-04-16): aggiunte §14–§18 (Grid, Level Design, Networking, Screen Flow, Audience)._
 _v4 (2026-04-16): deep dive 4 aree (Grid, AI, Level Design, Networking) da 12+ repo esterni. §14-§16 arricchite con pattern concreti e raccomandazioni. §17 formalizzata con mermaid. §19 aggiunta: registro 28 decisioni GDD (12 chiuse, 9 proposte, 7 bloccate). AI SIS §13.5 arricchita con roadmap Utility AI._
+_v5 (2026-04-16): merge visione prescrittiva da `evo_tactics_game_vision_reconstructed.md`. §20–§23 aggiungono Tri-Sorgente, A.L.I.E.N.A., companion detail, engine-to-feature mapping. Doc sorgente convertito in redirect._
 
 ## Stato lettura
 
@@ -27,6 +28,7 @@ _v4 (2026-04-16): deep dive 4 aree (Grid, AI, Level Design, Networking) da 12+ r
 | ☑    | TV + companion + salotto ricostruiti             | Supportati da [`11-REGOLE_D20_TV.md`](11-REGOLE_D20_TV.md), [`30-UI_TV_IDENTITA.md`](30-UI_TV_IDENTITA.md), [`DesignDoc-Overview.md`](DesignDoc-Overview.md), [`17-SCREEN_FLOW.md`](17-SCREEN_FLOW.md) |
 | ☑    | Premessa narrativa recuperata                    | Supportata da [`draft-narrative-lore.md`](../planning/draft-narrative-lore.md)                                                                                                                         |
 | ☑    | Documento master promosso nel repo               | Questo file è ora canonico in `docs/core/00-SOURCE-OF-TRUTH.md`                                                                                                                                        |
+| ☑    | Visione prescrittiva integrata (§20–§23)         | Merge da [`evo_tactics_game_vision_reconstructed.md`](../pitch/evo_tactics_game_vision_reconstructed.md) — contenuto nuovo (Tri-Sorgente, A.L.I.E.N.A., companion detail, loop prescrittivo)           |
 
 ---
 
@@ -1156,3 +1158,130 @@ Questa sezione traccia le 28 domande aperte dai draft GDD e il loro stato di ris
 ### 19.4 Pattern emergente
 
 **Tutti i gap irrisolti = Art Direction + Business Model.** Coerente con GDD Audit: gap critici §10 (Game Art) e §1 (Copyright/licensing). Il progetto è forte su meccaniche, debole su produzione asset — priorità Master DD per sbloccare.
+
+---
+
+## 20. Tri-Sorgente — progressione a carte ⚠️ PRESCRITTIVO
+
+> **Nota**: le sezioni §20–§23 sono **prescrittive** (come il gioco _dovrebbe_ essere), a differenza di §1–§19 che sono descrittive (cosa _esiste_ nel repo). Origine: [`evo_tactics_game_vision_reconstructed.md`](../pitch/evo_tactics_game_vision_reconstructed.md).
+
+### 20.1 Meccanica
+
+Dopo scontri minori o eventi, il gioco offre **3 carte + Skip**. Le tre offerte nascono da sorgenti distinte:
+
+1. **Contesto** — bioma, ecosistema, pressione della missione corrente.
+2. **Identità** — Forma, profilo VC, assi MBTI/Ennea del giocatore.
+3. **Azioni recenti** — telemetria effettiva dell'ultimo match (aggressività, rischio, setup, ecc.).
+
+Se il giocatore salta tutte e tre, converte in **Frammenti Genetici** (valuta spendibile nel Nido).
+
+### 20.2 Perché è importante
+
+La Tri-Sorgente è il ponte tra:
+
+- run-based progression (ogni match offre scelte);
+- build identity (le offerte riflettono chi sei);
+- evoluzione tipo Spore (mutazioni emergenti);
+- agency leggibile (sempre 3 opzioni chiare + opt-out).
+
+### 20.3 Effetto desiderato
+
+> "Il gioco non mi sta dando loot a caso. Mi sta offrendo mutazioni che hanno senso per dove sono, per chi sto diventando e per come ho giocato."
+
+### 20.4 Stato implementativo
+
+| Componente         | Stato                                                            |
+| ------------------ | ---------------------------------------------------------------- |
+| Offerta 3 carte    | Non implementato. Richiede UI companion + integrazione vcScoring |
+| Sorgente contesto  | Dati disponibili (biomes.yaml, encounter context)                |
+| Sorgente identità  | Operativo (vcScoring.js, deriveMbtiType, enneaEffects)           |
+| Sorgente azioni    | Operativo (raw event tracking in session engine)                 |
+| Frammenti Genetici | Non implementato. Schema valuta da definire                      |
+
+---
+
+## 21. A.L.I.E.N.A. e framework autoriali profondi ⚠️ PRESCRITTIVO
+
+### 21.1 Ruolo
+
+Framework come **A.L.I.E.N.A.** (se presente in docs legacy o planning) non devono diventare meccaniche player-facing. Funzionano come **sistemi autoriali dietro le quinte** che garantiscono:
+
+- coerenza ambiente ↔ specie;
+- linee evolutive credibili;
+- comportamento NPC coerente;
+- ancoraggio narrativo e culturale.
+
+### 21.2 Principio di design
+
+Il giocatore non "usa" A.L.I.E.N.A. — ne percepisce il risultato in un mondo più robusto, leggibile e meno arbitrario.
+
+Questo si applica anche a qualsiasi altro framework profondo (foodweb rules, trophic constraints, ecosystem validators): **il giocatore sente la coerenza, non vede le regole**.
+
+### 21.3 Stato implementativo
+
+I validator foodweb, trophic roles e ecosystem gap (`packs/evo_tactics_pack/validators/rules/`) già implementano questo principio a livello dati. Manca un layer autoriale runtime che condizioni spawn/offerte/eventi in-game.
+
+---
+
+## 22. Companion app — visione dettagliata ⚠️ PRESCRITTIVO
+
+### 22.1 Funzioni oltre il design doc
+
+Il §6 descrive il concetto generale. Qui si dettaglia la visione target del companion su telefono:
+
+| Area                  | Funzione specifica                                          |
+| --------------------- | ----------------------------------------------------------- |
+| **Draft / build**     | Selezione Forme, upgrade, Job, pacchetti PI                 |
+| **Planning tattico**  | Dichiarazione intenti, macro-azioni, chat tattica           |
+| **Info private**      | Stats creature proprie, profilo VC, assi MBTI personali     |
+| **Meta-loop sociale** | Recruit, trust, affinity, mating, gestione Nido             |
+| **Debrief**           | Risultati personali, Tri-Sorgente (§20), suggerimenti build |
+| **Second screen**     | Mini-mappa tattica, albero evolutivo, warning budget        |
+
+### 22.2 Distinzione UX critica
+
+Tre layer UX distinti, mai mischiati:
+
+1. **Gameplay HUD** — TV, stato campo, risoluzione round.
+2. **Mission Console / tooling** — strumenti operativi (oggi il bundle pre-built in `docs/mission-console/`).
+3. **Telemetry / debrief UI** — VC, MBTI, Ennea, suggerimenti evoluzione.
+
+### 22.3 Stato implementativo
+
+| Componente        | Stato                                          |
+| ----------------- | ---------------------------------------------- |
+| Companion client  | Non implementato (§16.5)                       |
+| Draft UI          | Non implementato                               |
+| VC personal view  | Endpoint `GET /api/session/:id/pf` operativo   |
+| Meta-loop sociale | Solo dati (`mating.yaml`, `27-MATING_NIDO.md`) |
+
+---
+
+## 23. Loop prescrittivo completo & engine-to-feature mapping ⚠️ PRESCRITTIVO
+
+### 23.1 Loop ideale del gioco
+
+Il loop completo che unifica tutti i sistemi:
+
+**Bioma → Ecosistema → Missione → Planning condivisa → Resolve → Debrief → Tri-Sorgente → Telemetria / Identità → Nido / Relazioni / Recruit → Nuova missione**
+
+Questa sequenza integra:
+
+- il mondo (§3–§4);
+- il combat (§13.1–§13.3);
+- l'identità (§5, §13.4);
+- la progressione a carte (§20);
+- il meta-loop sociale (§5, `27-MATING_NIDO.md`).
+
+### 23.2 Engine-to-feature mapping
+
+Per la mappa dettagliata di come i moduli tecnici del repo si traducono in feature di gioco percepite dal giocatore, vedi [`00D-ENGINES_AS_GAME_FEATURES.md`](00D-ENGINES_AS_GAME_FEATURES.md).
+
+### 23.3 Delta prescrittivo vs descrittivo
+
+| Sistema             | Descrittivo (§1–§19)              | Prescrittivo (§20–§23)                      |
+| ------------------- | --------------------------------- | ------------------------------------------- |
+| Progressione        | VC scoring + MBTI/Ennea operativi | Tri-Sorgente come ponte run↔identity (§20) |
+| Framework autoriali | Validator foodweb/trophic attivi  | A.L.I.E.N.A. come layer autoriale (§21)     |
+| Companion           | Concetto in design docs           | Funzioni specifiche per area UX (§22)       |
+| Loop                | Sequenza match documentata        | Loop completo con meta-loop integrato (§23) |

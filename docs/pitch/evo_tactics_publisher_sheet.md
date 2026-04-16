@@ -11,6 +11,8 @@ review_cycle_days: 30
 
 # Evo Tactics — Publisher Sheet
 
+> **Nota**: la companion app su telefono e' nel design target ma non nella prima release. Il vertical slice puo' essere giocato su TV + browser.
+
 ## Project Name
 
 **Evo Tactics**

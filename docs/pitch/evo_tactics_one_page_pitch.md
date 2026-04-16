@@ -11,6 +11,8 @@ review_cycle_days: 30
 
 # Evo Tactics — One-Page Pitch
 
+> **Nota**: la companion app su telefono e' nel design target ma non nella prima release. Il vertical slice puo' essere giocato su TV + browser.
+
 ## Titolo
 
 # EVO TACTICS

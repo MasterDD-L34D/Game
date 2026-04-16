@@ -1,15 +1,17 @@
 ---
 title: Engines as Game Features — Evo Tactics
 doc_status: active
-doc_owner: platform-docs
+doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-16
-source_of_truth: false
+last_verified: '2026-04-16'
+source_of_truth: true
 language: it-en
 review_cycle_days: 14
 ---
 
 # Engines as Game Features — Evo Tactics
+
+> **Stato**: piano approvato (2026-04-16). Le trasformazioni engine→feature qui descritte sono design intent, non brainstorming. Aperto a espansione, rinominazioni in tema Evo-Tactics, e raffinamento dell'aspetto game-facing. I nomi diegetici e le interfacce specifiche vanno rifiniti durante l'implementazione.
 
 ## 0. Scopo
 
