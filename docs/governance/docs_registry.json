@@ -6284,6 +6284,19 @@
       "review_cycle_days": 14,
       "primary": false,
       "track": "migrated"
+    },
+    {
+      "path": "docs/core/00-SOURCE-OF-TRUTH.md",
+      "title": "Source of Truth Unificata v1 — visione integrale del progetto Evo Tactics",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": true,
+      "track": "new"
     }
   ]
 }
