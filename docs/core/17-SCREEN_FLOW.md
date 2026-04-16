@@ -1,6 +1,16 @@
-# Screen Flow — DRAFT
+---
+doc_status: active
+doc_owner: master-dd
+workstream: atlas
+last_verified: '2026-04-16'
+source_of_truth: false
+language: it
+review_cycle_days: 30
+---
 
-> Bozza GDD. Da promuovere in docs/core/ dopo review.
+# Screen Flow
+
+> Promosso da docs/planning/draft-screen-flow.md (2026-04-16). Diagramma mermaid incluso in SoT §17.
 
 ## Scopo
 

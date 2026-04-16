@@ -37,9 +37,19 @@
 // (multi-action intents) sono PR futura.
 
 const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE, loadAiConfig } = require('./policy');
+const { selectAiPolicyUtility } = require('./utilityBrain');
 
 function createDeclareSistemaIntents(deps) {
-  const { pickLowestHpEnemy, stepTowards, manhattanDistance, gridSize = 6 } = deps || {};
+  const {
+    pickLowestHpEnemy,
+    stepTowards,
+    manhattanDistance,
+    gridSize = 6,
+    useUtilityAi = false, // opt-in: set true to use Utility AI brain
+    difficultyProfile = {}, // { selection: 'argmax'|'weighted_top3'|'random', noise: 0-1 }
+    computeThreatIndex, // AI War pattern: optional, injected from threatAssessment.js
+    threatConfig, // override per threat thresholds (from ai_intent_scores.yaml → threat)
+  } = deps || {};
 
   if (typeof pickLowestHpEnemy !== 'function') {
     throw new Error('createDeclareSistemaIntents: pickLowestHpEnemy is required');
@@ -68,6 +78,10 @@ function createDeclareSistemaIntents(deps) {
       return { intents: [], decisions: [] };
     }
 
+    // AI War pattern: compute threat context once per round
+    const threatCtx =
+      typeof computeThreatIndex === 'function' ? computeThreatIndex(session, threatConfig) : null;
+
     const intents = [];
     const decisions = [];
 
@@ -87,7 +101,13 @@ function createDeclareSistemaIntents(deps) {
         continue;
       }
 
-      let policy = selectAiPolicy(actor, target);
+      // Select policy: Utility AI (opt-in) or legacy rules
+      let policy;
+      if (useUtilityAi) {
+        policy = selectAiPolicyUtility(actor, target, {}, difficultyProfile);
+      } else {
+        policy = selectAiPolicy(actor, target, null, threatCtx);
+      }
       const distance = manhattanDistance(actor.position, target.position);
 
       // Fallback cornered: stessa logica di sistemaTurnRunner. Se

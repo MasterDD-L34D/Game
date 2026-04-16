@@ -1,32 +1,150 @@
-# Terrain Defense Modifiers — Evo-Tactics
-# Pattern W4 (wesnoth terrain defense).
-# Mappa biome affix → bonus CD per il difensore su quel terreno.
-# Valore positivo = piu difficile colpire chi sta su quel terreno.
+# Terrain Defense & Movement — Evo-Tactics
+# Pattern W4 (wesnoth terrain defense) + §14.2 SoT v4 extensions.
+# Mappa terrain type → defense_mod, movement_cost, cover, blocks_los.
 # Applicato in resolver.py: cd += terrain_defense_mod
+# Applicato in hexGrid.js: costFn(from, to) usa movement_cost
 #
-# Vedi docs/planning/tactical-architecture-patterns.md §W4
+# Vedi docs/core/00-SOURCE-OF-TRUTH.md §14.2
+# Vedi docs/adr/ADR-2026-04-16-grid-type-hex-axial.md
 
-version: "0.1.0"
+version: '0.2.0'
 
-# Affixes from data/core/biomes.yaml → defense modifier
-terrain_defense:
+# ─── Terrain types ───
+# defense_mod:   bonus CD difensore (+ = più difficile colpire)
+# movement_cost: AP per attraversare (1 = normale, 2 = difficile, null = impassabile)
+# cover:         riduzione danno (0 = nessuna, 0.25 = parziale, 0.5 = piena)
+# blocks_los:    blocca linea di vista
+# hazard_effect: ref a hazard da biomes.yaml (null = nessuno)
+
+terrain_types:
   # Copertura naturale
+  roccia:
+    defense_mod: 2
+    movement_cost: 1
+    cover: 0.5
+    blocks_los: false
+    hazard_effect: null
+
+  vegetazione_densa:
+    defense_mod: 2
+    movement_cost: 2
+    cover: 0.5
+    blocks_los: true
+    hazard_effect: null
+
+  corallo:
+    defense_mod: 1
+    movement_cost: 2
+    cover: 0.25
+    blocks_los: false
+    hazard_effect: null
+
+  cristalli:
+    defense_mod: 1
+    movement_cost: 1
+    cover: 0.25
+    blocks_los: false
+    hazard_effect: null
+
+  # Terreno aperto / ostile
+  sabbia:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: null
+
+  pianura:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: null
+
+  lava:
+    defense_mod: -1
+    movement_cost: 2
+    cover: 0
+    blocks_los: false
+    hazard_effect: heat_damage
+
+  acqua_profonda:
+    defense_mod: -1
+    movement_cost: null # impassabile
+    cover: 0
+    blocks_los: false
+    hazard_effect: drowning
+
+  # Terreni speciali
+  termico:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: heat_stress
+
+  luminescente:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: null
+
+  spore_diluite:
+    defense_mod: 0
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: spore_status
+
+  ghiaccio:
+    defense_mod: -1
+    movement_cost: 1
+    cover: 0
+    blocks_los: false
+    hazard_effect: slip
+
+  nebbia:
+    defense_mod: 1
+    movement_cost: 1
+    cover: 0.25
+    blocks_los: true
+    hazard_effect: null
+
+  muro:
+    defense_mod: 0
+    movement_cost: null # impassabile
+    cover: 0
+    blocks_los: true
+    hazard_effect: null
+
+# ─── Elevation ───
+# 3 livelli: 0 (basso), 1 (medio), 2 (alto)
+# Effetti:
+#   attaccante sopra: +1 attack_mod, +1 range
+#   attaccante sotto: -1 attack_mod
+#   LOS: alto→basso = chiara, basso→alto = check intermedi
+
+elevation:
+  levels: 3
+  attack_mod_above: 1
+  attack_mod_below: -1
+  range_bonus_above: 1
+
+# ─── Legacy compatibility ───
+# Vecchio formato flat per backward compat con resolver.py
+terrain_defense:
   roccia: 2
   vegetazione_densa: 2
   corallo: 1
   cristalli: 1
-
-  # Terreno aperto / ostile
   sabbia: 0
   lava: -1
   acqua_profonda: -1
-
-  # Terreni speciali
   termico: 0
   luminescente: 0
   spore_diluite: 0
   ghiaccio: -1
   nebbia: 1
 
-# Default per affixes non mappati: 0 (nessun effetto)
 default_modifier: 0

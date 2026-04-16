@@ -196,7 +196,19 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - Plugin registration pattern per servizi backend
 - **P4 completato**: MBTI axes E_I+S_N implementati, 16 Forms YAML, PF_session endpoint, Ennea theme effects, deriveMbtiType()
 
-**Test totali**: Python rules engine 196/196 · Node (endpoint+AI+services) 61/61 AI · VC scoring 21/21
+**Milestone sessione SoT deep dive (#1441)**:
+
+- **SoT v1→v4**: 13→19 sezioni, deep dive 12+ repo esterni (AncientBeast, wesnoth, yuka, GOApy, UtilityAI, easystarjs, honeycomb-grid, Colyseus)
+- **3 ADR nuovi**: Grid hex axial, Networking Colyseus, AI Utility Architecture
+- **hexGrid.js** (195 LOC): axial coordinates, Dijkstra flood-fill, A\* pathfinding, BFS range, LOS ray-cast (23 test)
+- **utilityBrain.js** (310 LOC): 7 considerations, 6 curve, 3 difficulty profiles, bridge selectAiPolicy (14 test)
+- **encounter.schema.json**: AJV schema completo, 3 encounter validati, test CI
+- **terrain_defense.yaml v0.2**: +movement_cost, cover, blocks_los, hazard_effect, elevation (3 livelli)
+- **2 draft promossi**: 15-LEVEL_DESIGN.md, 17-SCREEN_FLOW.md
+- **28 Open Questions**: 12✅ chiuse, 9🟡 proposte, 7🔴 bloccate (Art Direction + Business)
+- **Utility AI wired opt-in** in declareSistemaIntents.js (zero breaking change)
+
+**Test totali**: Python rules engine 196/196 · Node AI 98/98 · VC scoring 21/21 · Encounter schema 6/6
 
 ### Pilastri di design — stato attuale
 

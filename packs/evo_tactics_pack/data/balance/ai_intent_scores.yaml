@@ -22,6 +22,15 @@ combat:
 thresholds:
   retreat_hp_pct: 0.3 # REGOLA_002: hp_ratio <= questo → retreat
 
+# --- Threat assessment (AI War pattern) ---
+# REGOLA_004_THREAT: escalation reattiva basata su passivita/pressione
+threat:
+  passivity_threshold_turns: 3 # turni senza attacco player → tier 'passive'
+  escalation_damage_ratio: 0.6 # ratio danno subito SIS → tier 'critical'
+  aggression_weight: 0.4 # peso player_aggression nel threat_level composito
+  passivity_weight: 0.35 # peso player_passivity (invertito)
+  pressure_weight: 0.25 # peso damage_pressure
+
 # --- Griglia ---
 grid:
   default_size: 6

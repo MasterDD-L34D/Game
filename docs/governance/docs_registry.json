@@ -245,6 +245,45 @@
       "track": "authored"
     },
     {
+      "path": "docs/adr/ADR-2026-04-16-grid-type-hex-axial.md",
+      "title": "ADR-2026-04-16: Grid Type — Hex con coordinate axial",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-16-networking-colyseus.md",
+      "title": "ADR-2026-04-16: Networking Co-op — Colyseus",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-16-ai-architecture-utility.md",
+      "title": "ADR-2026-04-16: AI Sistema — Utility AI Architecture",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-2026-04-15-round-based-combat-model.md",
       "title": "ADR-2026-04-15: Round-based combat model",
       "doc_status": "active",
@@ -2318,6 +2357,32 @@
       "language": "it-en",
       "review_cycle_days": 14,
       "primary": true,
+      "track": "authored"
+    },
+    {
+      "path": "docs/core/15-LEVEL_DESIGN.md",
+      "title": "Level Design — encounter template, grid layout, wave config, difficulty",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/core/17-SCREEN_FLOW.md",
+      "title": "Screen Flow — navigazione schermate, mermaid flowchart",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "atlas",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
       "track": "authored"
     },
     {
