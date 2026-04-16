@@ -171,7 +171,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Visione**: "Tattica profonda a turni, cooperativa contro il Sistema, condivisa su TV: come giochi modella ciò che diventi."
 
-**Sprint completati**: 001–019 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Ultimo commit**: `c1996e48`
+**Sprint completati**: 001–019 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Ultimo commit**: `609d1ca9`
 
 **Milestone completate sessione 16-17/04**:
 
@@ -182,7 +182,20 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - Issue cleanup: 33→0 (-100%)
 - Token optimization: session.js -57% (1967→851 LOC, split in 4 moduli), docs/planning -49%
 
-**Test totali**: Python rules engine 217/217 · Node (endpoint+AI+services) 253/253
+**Milestone sessione repo analysis (#1422-#1431)**:
+
+- 18 repo esterni analizzati con scorecard (7 deep dive: wesnoth, boardgame.io, xstate, OpenRA, bevy, ink, langium)
+- 24 pattern architetturali estratti e implementati (+3816 LOC)
+- Nuove dipendenze: `xstate@5` (state machines), `inkjs` (narrative engine)
+- **Nuovi moduli**: statusEffectsMachine.js (xstate FSM), roundStatechart.js, sistemaActor.js, sessionValidation.js, narrativeEngine.js + narrativeRoutes.js, pluginLoader.js, gen_trait_docs.py, gen_trait_types.py
+- **Nuovi YAML balance**: ai_intent_scores, ai_profiles, terrain_defense, movement_profiles, species_resistances, pack_manifest
+- AI Sistema ora data-driven (intent scores + profiles in YAML)
+- Combat prediction: `predict_combat()` simula N=1000 attacchi
+- Terrain defense modifier nel calcolo CD
+- Narrative service con inkjs (briefing/debrief con scelte)
+- Plugin registration pattern per servizi backend
+
+**Test totali**: Python rules engine 196/196 · Node (endpoint+AI+services) 61/61 AI
 
 ### Pilastri di design — stato attuale
 
@@ -193,7 +206,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 | 3   | Identità Specie × Job        |  🟢   |
 | 4   | Temperamenti MBTI/Ennea      |  🟡   |
 | 5   | Co-op vs Sistema             |  🟢   |
-| 6   | Fairness                     |  🟡   |
+| 6   | Fairness                     |  🟢   |
 
 ### Guardrail sprint (non negoziabili)
 
