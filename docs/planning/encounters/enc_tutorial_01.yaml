@@ -2,79 +2,51 @@
 # Encounter Prototipo 1: Tutorial — "Primi Passi nella Savana"
 # Difficulty: 1/5 · Grid: 8×8 · Bioma: savana
 # Scopo: insegnare movimento, attacco base, e Margin of Success
+# Schema: schemas/evo/encounter.schema.json
 # =============================================================================
 
 encounter_id: enc_tutorial_01
 name: 'Primi Passi nella Savana'
 biome_id: savana
+grid_size: [8, 8]
 difficulty_rating: 1
 estimated_turns: 6
 
-# --- Briefing narrativo ---
-briefing:
-  pre_match: >
-    Dune fotoniche fino all'orizzonte. Le vostre creature si muovono
-    per la prima volta su terreno aperto — i predoni nomadi non vi
-    hanno ancora notato. È il momento di imparare a coordinarvi.
-  objective_text: 'Eliminate le due sentinelle nemiche.'
-  post_match_win: >
-    Le sentinelle cadono. La savana respira. Il Sistema vi osserva —
-    ora sa che esistete.
-  post_match_lose: >
-    Le dune coprono le vostre tracce. Ritirata necessaria.
-    La savana non perdona gli impreparati.
-
-# --- Layout griglia ---
-grid:
-  size: [8, 8]
-  terrain:
-    # Griglia semplice: pianura con 2 alture e 1 copertura
-    heights:
-      - { pos: [3, 2], level: 1 } # collina bassa
-      - { pos: [4, 5], level: 1 } # collina bassa
-    covers:
-      - { pos: [2, 3], type: half } # roccia bassa
-      - { pos: [5, 4], type: half } # roccia bassa
-    difficult_terrain: []
-    hazards: [] # nessun hazard nel tutorial
-
-# --- Obiettivo ---
 objective:
   type: elimination
-  description: 'Sconfiggi tutte le unità nemiche'
 
-# --- Spawn giocatori ---
 player_spawn:
-  - { pos: [0, 3], slot: 1 }
-  - { pos: [0, 4], slot: 2 }
+  - [0, 3]
+  - [0, 4]
 
-# --- Wave nemiche ---
 waves:
   - wave_id: 1
     turn_trigger: 0
     spawn_points:
-      - { pos: [7, 3] }
-      - { pos: [7, 5] }
+      - [7, 3]
+      - [7, 5]
     units:
-      - species_archetype: predoni_nomadi
+      - species: predoni_nomadi
         count: 2
         tier: base
-        affixes: []
-        ai_profile: defensive # non attaccano subito, aspettano
+        ai_profile: defensive
 
-# --- Condizioni speciali ---
 conditions: []
-# Nessuna condizione speciale — tutorial puro
 
-# --- Note design ---
-design_notes:
-  teach:
-    - 'Movimento: AP cost, terreno difficile (assente qui)'
-    - 'Attacco base: d20 vs DC, mostrare MoS'
-    - 'Posizionamento: vantaggio altura (+1 step da collina)'
-    - 'Copertura: half cover come concetto'
-  avoid:
-    - 'Reazioni (introdotte in enc_02)'
-    - 'Status effects'
-    - 'StressWave'
-    - 'Trait complessi'
+tags: [tutorial]
+
+restrictions:
+  - no_hazard
+  - no_reactions
+  - no_status
+
+didactic_focus:
+  - movement
+  - attack_base
+  - cover
+  - elevation
+  - MoS
+
+narrative:
+  briefing_ink: stories/tutorial_01_briefing.ink.json
+  debrief_ink: stories/tutorial_01_debrief.ink.json

@@ -2373,6 +2373,19 @@
       "track": "authored"
     },
     {
+      "path": "docs/core/17-SCREEN_FLOW.md",
+      "title": "Screen Flow — navigazione schermate, mermaid flowchart",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "atlas",
+      "last_verified": "2026-04-16",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/core/DesignDoc-Overview.md",
       "title": "Evo Tactics — Design Doc Overview",
       "doc_status": "active",
