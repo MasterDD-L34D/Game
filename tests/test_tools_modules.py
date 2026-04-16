@@ -35,6 +35,7 @@ def test_game_cli_exports_commands() -> None:
         "validate-datasets",
         "validate-ecosystem-pack",
         "investigate",
+        "author-encounter",
     }
 
 
