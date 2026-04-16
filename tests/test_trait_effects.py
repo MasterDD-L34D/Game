@@ -20,11 +20,27 @@ for path in (SERVICES, TOOLS_PY):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
+from rules.hydration import load_trait_mechanics
 from rules.trait_effects import (
     DEFAULT_ACTIVE_EFFECTS_PATH,
     evaluate_attack_traits,
     load_active_effects,
 )
+
+MECHANICS_PATH = (
+    PROJECT_ROOT
+    / "packs"
+    / "evo_tactics_pack"
+    / "data"
+    / "balance"
+    / "trait_mechanics.yaml"
+)
+
+
+@pytest.fixture(scope="module")
+def catalog():
+    return load_trait_mechanics(MECHANICS_PATH)
+
 
 # ------------------------------------------------------------------
 # Loader
@@ -253,6 +269,189 @@ def test_empty_registry_no_effects():
 # ------------------------------------------------------------------
 # Integration: resolver with _active_effects_registry
 # ------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------
+# Ability action type (Fase 3b)
+# ------------------------------------------------------------------
+
+
+def test_ability_damage_applies_to_target(catalog):
+    """ability type=damage rolls dice and applies to target HP."""
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    attacker = build_party_unit("atk", "test", ["cannone_sonico_a_raggio"], catalog)
+    target = build_party_unit("tgt", "test", [], catalog)
+    state = {
+        "session_id": "t",
+        "seed": "ab",
+        "turn": 1,
+        "units": [attacker, target],
+        "log": [],
+    }
+    action = {
+        "id": "ab-dmg",
+        "type": "ability",
+        "actor_id": "atk",
+        "target_id": "tgt",
+        "ability_id": "sonic_blast",
+        "ap_cost": 3,
+    }
+    hp_before = target["hp"]["current"]
+    rng_iter = iter([5 / 6, 3 / 6])  # 2d6: ~6+4=10, +1 mod = 11
+    result = resolve_action(state, action, catalog, lambda: next(rng_iter))
+    entry = result["turn_log_entry"]
+    assert entry["damage_applied"] > 0
+    tgt_after = next(u for u in result["next_state"]["units"] if u["id"] == "tgt")
+    assert tgt_after["hp"]["current"] < hp_before
+
+
+def test_ability_heal_restores_hp(catalog):
+    """ability type=heal restores HP on target."""
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    actor = build_party_unit("atk", "test", ["grassi_termici"], catalog)
+    target = build_party_unit("tgt", "test", [], catalog)
+    target["hp"]["current"] = max(1, target["hp"]["max"] // 2)
+    hp_before = target["hp"]["current"]
+    state = {
+        "session_id": "t",
+        "seed": "ab",
+        "turn": 1,
+        "units": [actor, target],
+        "log": [],
+    }
+    action = {
+        "id": "ab-heal",
+        "type": "ability",
+        "actor_id": "atk",
+        "target_id": "tgt",
+        "ability_id": "thermal_pulse",
+        "ap_cost": 2,
+    }
+    rng_iter = iter([3 / 4])  # 1d4: ~3, +2 mod = 5
+    result = resolve_action(state, action, catalog, lambda: next(rng_iter))
+    entry = result["turn_log_entry"]
+    assert entry["healing_applied"] > 0
+    tgt_after = next(u for u in result["next_state"]["units"] if u["id"] == "tgt")
+    assert tgt_after["hp"]["current"] > hp_before
+
+
+def test_ability_apply_status_on_target(catalog):
+    """ability type=apply_status applies status to target."""
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    actor = build_party_unit("atk", "test", ["spore_psichiche_silenziate"], catalog)
+    target = build_party_unit("tgt", "test", [], catalog)
+    state = {
+        "session_id": "t",
+        "seed": "ab",
+        "turn": 1,
+        "units": [actor, target],
+        "log": [],
+    }
+    action = {
+        "id": "ab-status",
+        "type": "ability",
+        "actor_id": "atk",
+        "target_id": "tgt",
+        "ability_id": "spore_burst",
+        "ap_cost": 2,
+    }
+    result = resolve_action(state, action, catalog, lambda: 0.5)
+    entry = result["turn_log_entry"]
+    assert len(entry["statuses_applied"]) == 1
+    tgt_after = next(u for u in result["next_state"]["units"] if u["id"] == "tgt")
+    disorients = [s for s in tgt_after.get("statuses", []) if s.get("id") == "disorient"]
+    assert len(disorients) == 1
+
+
+def test_ability_buff_adds_to_unit_buffs(catalog):
+    """ability type=buff adds buff to actor.buffs[]."""
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+
+    actor = build_party_unit("atk", "test", ["sangue_piroforico"], catalog)
+    target = build_party_unit("tgt", "test", [], catalog)
+    state = {
+        "session_id": "t",
+        "seed": "ab",
+        "turn": 1,
+        "units": [actor, target],
+        "log": [],
+    }
+    action = {
+        "id": "ab-buff",
+        "type": "ability",
+        "actor_id": "atk",
+        "target_id": "tgt",
+        "ability_id": "ignition_surge",
+        "ap_cost": 2,
+    }
+    result = resolve_action(state, action, catalog, lambda: 0.5)
+    atk_after = next(u for u in result["next_state"]["units"] if u["id"] == "atk")
+    buffs = atk_after.get("buffs", [])
+    assert len(buffs) == 1
+    assert buffs[0]["stat"] == "attack_mod"
+    assert buffs[0]["amount"] == 2
+    assert buffs[0]["remaining_turns"] == 2
+
+
+def test_ability_unknown_ability_id_raises(catalog):
+    """ability with unknown ability_id raises ValueError."""
+    from rules.hydration import build_party_unit
+    from rules.resolver import resolve_action
+    import pytest as _pytest
+
+    actor = build_party_unit("atk", "test", ["grassi_termici"], catalog)
+    target = build_party_unit("tgt", "test", [], catalog)
+    state = {
+        "session_id": "t",
+        "seed": "ab",
+        "turn": 1,
+        "units": [actor, target],
+        "log": [],
+    }
+    action = {
+        "id": "ab-bad",
+        "type": "ability",
+        "actor_id": "atk",
+        "target_id": "tgt",
+        "ability_id": "nonexistent_ability",
+        "ap_cost": 1,
+    }
+    with _pytest.raises(ValueError, match="nonexistent_ability"):
+        resolve_action(state, action, catalog, lambda: 0.5)
+
+
+def test_buff_decays_in_begin_turn(catalog):
+    """Buff remaining_turns decrements in begin_turn, removed when 0."""
+    from rules.hydration import build_party_unit
+    from rules.resolver import begin_turn
+
+    actor = build_party_unit("atk", "test", [], catalog)
+    actor["buffs"] = [
+        {"stat": "attack_mod", "amount": 2, "remaining_turns": 2, "source_ability": "test"},
+        {"stat": "defense_mod", "amount": 1, "remaining_turns": 1, "source_ability": "test"},
+    ]
+    state = {
+        "session_id": "t",
+        "seed": "ab",
+        "turn": 1,
+        "units": [actor],
+        "log": [],
+    }
+    result = begin_turn(state, "atk")
+    atk_after = next(u for u in result["next_state"]["units"] if u["id"] == "atk")
+    buffs = atk_after.get("buffs", [])
+    # attack_mod buff: 2-1=1 remaining, still alive
+    # defense_mod buff: 1-1=0, removed
+    assert len(buffs) == 1
+    assert buffs[0]["stat"] == "attack_mod"
+    assert buffs[0]["remaining_turns"] == 1
 
 
 def test_resolver_uses_active_effects_registry():

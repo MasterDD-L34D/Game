@@ -48,7 +48,13 @@ traits:
     cost_ap: 1
     resistances:
       - { channel: fuoco, modifier_pct: 10 }
-    active_effects: []
+    active_effects:
+      - ability_id: thermal_pulse
+        name_it: "Impulso Termico"
+        cost_ap: 2
+        effect_type: heal
+        heal_dice: { count: 1, sides: 4, modifier: 2 }
+        target: self
   cuticole_cerose:
     attack_mod: 0
     defense_mod: 0
@@ -107,7 +113,15 @@ traits:
     cost_ap: 3
     resistances:
       - { channel: mentale, modifier_pct: 15 }
-    active_effects: []
+    active_effects:
+      - ability_id: spore_burst
+        name_it: "Esplosione di Spore"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: disorient
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
     on_hit_status:
       status_id: disorient
       duration: 2
@@ -152,7 +166,15 @@ traits:
     cost_ap: 2
     resistances:
       - { channel: fuoco, modifier_pct: 20 }
-    active_effects: []
+    active_effects:
+      - ability_id: ignition_surge
+        name_it: "Innesco Piroforico"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
   respiro_a_scoppio:
     attack_mod: 0
     defense_mod: 0
@@ -184,7 +206,15 @@ traits:
     cost_ap: 3
     resistances:
       - { channel: gelo, modifier_pct: 20 }
-    active_effects: []
+    active_effects:
+      - ability_id: frozen_stasis
+        name_it: "Criostasi Difensiva"
+        cost_ap: 3
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 1
+        target: self
     notes: "introduce canale non-canonico 'gelo' (vedi README.md sezione canali)"
   carapace_fase_variabile:
     attack_mod: 0
@@ -193,7 +223,15 @@ traits:
     cost_ap: 3
     resistances:
       - { channel: fisico, modifier_pct: 15 }
-    active_effects: []
+    active_effects:
+      - ability_id: phase_shift
+        name_it: "Sfasamento di Fase"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
   secrezione_rallentante_palmi:
     attack_mod: 0
     defense_mod: 1
@@ -223,7 +261,15 @@ traits:
     resistances:
       - { channel: fisico, modifier_pct: 20 }
       - { channel: fuoco, modifier_pct: 20 }
-    active_effects: []
+    active_effects:
+      - ability_id: meteoric_shield
+        name_it: "Scudo Meteoritico"
+        cost_ap: 3
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 4
+        buff_duration: 1
+        target: self
     notes: "T3 bump applied to defense_mod (defensive class + T3)"
   lingua_tattile_trama:
     attack_mod: 0
@@ -239,7 +285,14 @@ traits:
     cost_ap: 2
     resistances:
       - { channel: fuoco, modifier_pct: 10 }
-    active_effects: []
+    active_effects:
+      - ability_id: whip_lash
+        name_it: "Frustata Infuocata"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 2 }
+        channel: fuoco
+        target: enemy
   enzimi_chelanti:
     attack_mod: 0
     defense_mod: 0
@@ -278,7 +331,14 @@ traits:
     damage_step: 2
     cost_ap: 3
     resistances: []
-    active_effects: []
+    active_effects:
+      - ability_id: sonic_blast
+        name_it: "Detonazione Sonica"
+        cost_ap: 3
+        effect_type: damage
+        damage_dice: { count: 2, sides: 6, modifier: 1 }
+        channel: mentale
+        target: enemy
     on_hit_status:
       status_id: disorient
       trigger_dc: 15

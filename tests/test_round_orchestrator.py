@@ -1748,13 +1748,15 @@ def test_ability_used_reaction_triggers_after_ability(catalog):
     un action type='ability'."""
 
     state = _make_state(catalog, initiative_a=14, initiative_b=10)
+    # Give alpha a trait with an active_effect so ability resolves
+    state["units"][0]["trait_ids"] = ["cannone_sonico_a_raggio"]
     state = begin_round(state)["next_state"]
     ability_action = {
         "id": "ab-test",
         "type": "ability",
         "actor_id": "alpha",
-        "target_id": None,
-        "ability_id": "mega_shout",
+        "target_id": "bravo",
+        "ability_id": "sonic_blast",
         "ap_cost": 1,
         "channel": None,
     }
@@ -1776,7 +1778,7 @@ def test_ability_used_reaction_triggers_after_ability(catalog):
     result = resolve_round(state, catalog, rng)
     assert len(result["reactions_triggered"]) == 1
     assert result["reactions_triggered"][0]["event"] == "ability_used"
-    assert result["reactions_triggered"][0]["ability_id"] == "mega_shout"
+    assert result["reactions_triggered"][0]["ability_id"] == "sonic_blast"
 
 
 # ------------------------------------------------------------------
