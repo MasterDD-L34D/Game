@@ -41,29 +41,39 @@ export async function renderAbilities(unit, state, onAbility) {
 
   titleEl.textContent = `Abilities · ${unit.job}`;
   for (const ab of detail.abilities) {
+    const abilityId = ab.ability_id || ab.id;
+    const label = ab.name_it || ab.label_it || ab.name || ab.label || abilityId || '???';
+    const desc = ab.description_it || ab.description_en || ab.description || '';
+    const apCost = ab.cost_ap ?? ab.ap_cost ?? 1;
+
     const row = document.createElement('div');
     row.className = 'ability-row';
-    const apCost = ab.cost_ap ?? ab.ap_cost ?? 1;
     const apCurrent = unit.ap_remaining ?? unit.ap;
     const canAfford = apCurrent >= apCost;
     row.classList.toggle('disabled', !canAfford);
 
-    const needsTarget =
-      !!ab.needs_target ||
-      ['attack', 'debuff', 'heal', 'aoe_debuff'].some(
-        (t) => ab.effect_type && ab.effect_type.includes(t),
-      );
+    // target semantic: 'enemy' | 'ally' | 'self' | 'aoe_enemies' | ...
+    const tgt = ab.target || '';
+    const needsEnemyTarget = tgt === 'enemy' || tgt.includes('enemy');
+    const needsAllyTarget = tgt === 'ally' || tgt === 'ally_or_self';
+    const needsTarget = needsEnemyTarget || needsAllyTarget;
 
     row.innerHTML = `
       <div class="ab-head">
-        <strong>${ab.label_it || ab.label || ab.id}</strong>
+        <strong>${label}</strong>
         <span class="ab-cost">AP ${apCost}</span>
       </div>
-      <div class="ab-effect">${ab.effect_type || ''} ${ab.description_it || ab.description || ''}</div>
+      <div class="ab-effect"><code>${ab.effect_type || '—'}</code> · ${tgt || 'self'}${ab.cost_pi ? ` · PI ${ab.cost_pi}` : ''}</div>
+      <div class="ab-desc">${desc}</div>
     `;
     row.addEventListener('click', () => {
       if (!canAfford) return;
-      onAbility({ ability_id: ab.id, needs_target: needsTarget, effect_type: ab.effect_type });
+      onAbility({
+        ability_id: abilityId,
+        needs_target: needsTarget,
+        target_kind: needsEnemyTarget ? 'enemy' : needsAllyTarget ? 'ally' : 'self',
+        effect_type: ab.effect_type,
+      });
     });
     container.appendChild(row);
   }
