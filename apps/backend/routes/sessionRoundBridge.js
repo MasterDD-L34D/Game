@@ -66,6 +66,7 @@ function createRoundBridge(deps) {
       }
       return {
         id: String(u.id),
+        controlled_by: u.controlled_by || null,
         hp: {
           current: Number(u.hp || 0),
           max: Number(u.max_hp || u.hp || 0),
@@ -337,17 +338,11 @@ function createRoundBridge(deps) {
   }
 
   // ────────────────────────────────────────────────────────────────
-  // Legacy turn/end wrapper (flag-on)
+  // End-of-round side effects (hazard + bleeding + AP reset + status decay)
+  // Helper estratto: usato sia da handleTurnEndViaRound sia da /round/begin-planning.
   // ────────────────────────────────────────────────────────────────
 
-  async function handleTurnEndViaRound(session) {
-    // Reset tracker combo a fine round: archivia last_round_combos come
-    // previous_round_combos (letto dal debrief) e pulisce la lista attacchi.
-    resetRoundAttackTracker(session);
-    session.roundState = adaptSessionToRoundState(session);
-
-    // Hazard tiles: applica danno a unita' che terminano il turno su tile pericolosi.
-    // Es. enc_tutorial_03 fumarole. Skip se nessun hazard configurato.
+  async function applyEndOfRoundSideEffects(session) {
     const hazardEvents = [];
     if (Array.isArray(session.hazard_tiles) && session.hazard_tiles.length > 0) {
       for (const unit of session.units) {
@@ -446,6 +441,222 @@ function createRoundBridge(deps) {
         }
       }
     }
+
+    return { hazardEvents, bleedingEvents };
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // Unified round resolver (player + SIS in same round)
+  // Usato dal flow simultaneo /round/begin-planning → /declare-intent* → /commit-round.
+  // Handle sia player-controlled che sistema-controlled intents nello stesso resolve pass.
+  // ────────────────────────────────────────────────────────────────
+
+  function buildUnifiedRoundResolver(session) {
+    const iaActions = [];
+    const playerActions = [];
+    const kills = [];
+
+    const resolveFn = (state, action, _catalog, _rng) => {
+      const next = JSON.parse(JSON.stringify(state));
+      const actorId = String(action.actor_id || '');
+      const actor = session.units.find((u) => u.id === actorId);
+      if (!actor) {
+        return { nextState: next, turnLogEntry: { action, skipped: 'no_actor' } };
+      }
+      const isSis = actor.controlled_by === 'sistema';
+      const bucket = isSis ? iaActions : playerActions;
+      const faction = isSis ? 'sistema' : 'player';
+      const turnLogEntry = {
+        turn: Number(next.turn || 1),
+        action: { ...action },
+        damage_applied: 0,
+      };
+
+      if (action.type === 'attack' && action.target_id) {
+        const target = session.units.find((u) => u.id === String(action.target_id));
+        if (!target || target.hp <= 0) {
+          turnLogEntry.skipped = 'target_dead';
+          bucket.push({
+            actor: faction,
+            unit_id: actorId,
+            type: 'skip',
+            reason: 'target_dead',
+            ia_rule: action.source_ia_rule,
+          });
+        } else {
+          const hpBefore = target.hp;
+          const targetPosAtk = { ...target.position };
+          const res = performAttack(session, actor, target);
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+
+          let combo = null;
+          if (!isSis) {
+            const comboInfo = detectFocusFireCombo(session, actor, target);
+            if (res.result && res.result.hit && comboInfo.is_combo && res.damageDealt > 0) {
+              const extra = comboInfo.bonus_damage;
+              const hpNow = Number(target.hp || 0);
+              const applied = Math.min(extra, hpNow);
+              if (applied > 0) {
+                target.hp = hpNow - applied;
+                res.damageDealt = res.damageDealt + applied;
+                if (session.damage_taken) {
+                  session.damage_taken[target.id] =
+                    (session.damage_taken[target.id] || 0) + applied;
+                }
+              }
+              combo = { ...comboInfo, bonus_applied: applied };
+            }
+            recordAttackForCombo(session, actor, target, comboInfo);
+          }
+
+          const event = buildAttackEvent({
+            session,
+            actor,
+            target,
+            result: res.result,
+            evaluation: res.evaluation,
+            damageDealt: res.damageDealt,
+            hpBefore,
+            targetPositionAtAttack: targetPosAtk,
+          });
+          if (isSis) {
+            event.actor_id = 'sistema';
+            event.actor_species = actor.species;
+            event.actor_job = actor.job;
+            event.ia_rule = action.source_ia_rule;
+            event.ia_controlled_unit = actor.id;
+          }
+          if (res.parry) event.parry = res.parry;
+          session.events.push(event);
+          session.action_counter++;
+
+          turnLogEntry.damage_applied = res.damageDealt;
+          turnLogEntry.roll = res.result.roll;
+          turnLogEntry.hit = res.result.hit;
+
+          if (target.hp <= 0) {
+            kills.push({ actor, target, event });
+          }
+
+          bucket.push({
+            actor: faction,
+            unit_id: actorId,
+            type: 'attack',
+            target: target.id,
+            die: res.result.die,
+            roll: res.result.roll,
+            mos: res.result.mos,
+            result: res.result.hit ? 'hit' : 'miss',
+            pt: res.result.pt,
+            damage_dealt: res.damageDealt,
+            trait_effects: res.evaluation.trait_effects,
+            actor_position: { ...actor.position },
+            target_position: targetPosAtk,
+            ia_rule: action.source_ia_rule,
+            parry: res.parry,
+            combo,
+          });
+        }
+      } else if (action.type === 'move' && action.move_to) {
+        const dest = action.move_to;
+        const positionFrom = { ...actor.position };
+        const blocker = session.units.find(
+          (u) =>
+            u.id !== actor.id && u.hp > 0 && u.position.x === dest.x && u.position.y === dest.y,
+        );
+        if (blocker) {
+          bucket.push({
+            actor: faction,
+            unit_id: actorId,
+            type: 'skip',
+            reason: `blocked by ${blocker.id} at (${dest.x},${dest.y})`,
+            position_from: positionFrom,
+            position_to: positionFrom,
+            ia_rule: action.source_ia_rule,
+          });
+          turnLogEntry.skipped = 'blocked';
+        } else {
+          actor.position = { x: dest.x, y: dest.y };
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+          const newFacing = facingFromMove(positionFrom, actor.position);
+          if (newFacing) actor.facing = newFacing;
+          const event = buildMoveEvent({ session, actor, positionFrom });
+          if (isSis) {
+            event.actor_id = 'sistema';
+            event.ia_rule = action.source_ia_rule;
+            event.ia_controlled_unit = actor.id;
+          }
+          session.events.push(event);
+          session.action_counter++;
+          bucket.push({
+            actor: faction,
+            unit_id: actorId,
+            type: 'move',
+            target: action.target_id || null,
+            position_from: positionFrom,
+            position_to: { ...actor.position },
+            ia_rule: action.source_ia_rule,
+          });
+        }
+      } else {
+        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+      }
+
+      const uOrch = next.units.find((u) => u.id === actorId);
+      if (uOrch) {
+        if (uOrch.hp) {
+          uOrch.hp.current = Number(actor.hp || 0);
+          uOrch.hp.max = Number(actor.max_hp || actor.hp || 0);
+        }
+        if (uOrch.ap) {
+          uOrch.ap.current = Number(
+            actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0,
+          );
+        }
+      }
+      if (action.type === 'attack' && action.target_id) {
+        const tgtLegacy = session.units.find((u) => u.id === String(action.target_id));
+        const tgtOrch = next.units.find((u) => u.id === String(action.target_id));
+        if (tgtLegacy && tgtOrch && tgtOrch.hp) {
+          tgtOrch.hp.current = Number(tgtLegacy.hp || 0);
+        }
+      }
+      return { nextState: next, turnLogEntry };
+    };
+
+    return { resolveFn, iaActions, playerActions, kills };
+  }
+
+  async function postResolveKills(session, kills) {
+    for (const { actor, target, event } of kills) {
+      await emitKillAndAssists(session, actor, target, event);
+      if (typeof session.sistema_pressure === 'number') {
+        if (actor.controlled_by === 'player' && target.controlled_by === 'sistema') {
+          session.sistema_pressure = applyPressureDelta(
+            session.sistema_pressure,
+            PRESSURE_DELTAS.pg_kills_sis,
+          );
+        } else if (actor.controlled_by === 'sistema' && target.controlled_by === 'player') {
+          session.sistema_pressure = applyPressureDelta(
+            session.sistema_pressure,
+            PRESSURE_DELTAS.sg_pg_down,
+          );
+        }
+      }
+    }
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // Legacy turn/end wrapper (flag-on)
+  // ────────────────────────────────────────────────────────────────
+
+  async function handleTurnEndViaRound(session) {
+    // Reset tracker combo a fine round: archivia last_round_combos come
+    // previous_round_combos (letto dal debrief) e pulisce la lista attacchi.
+    resetRoundAttackTracker(session);
+    session.roundState = adaptSessionToRoundState(session);
+
+    const { hazardEvents, bleedingEvents } = await applyEndOfRoundSideEffects(session);
 
     session.roundState = adaptSessionToRoundState(session);
     session.roundState = roundOrchestrator.beginRound(session.roundState).nextState;
@@ -663,6 +874,50 @@ function createRoundBridge(deps) {
   }
 
   function mountRoundEndpoints(router) {
+    // Round simultaneo: apre la planning phase, applica side effects fine-round
+    // (hazard + bleeding + AP reset + status decay), fa dichiarare intents SIS
+    // in parallelo ai player. Client poi chiama /declare-intent per ogni player
+    // unit, infine /commit-round (con auto_resolve=true per risolvere in un colpo).
+    router.post('/round/begin-planning', async (req, res, next) => {
+      try {
+        const sessionId = req.body && req.body.session_id;
+        const { error, session } = resolveSession(sessionId);
+        if (error) return res.status(error.status).json(error.body);
+
+        resetRoundAttackTracker(session);
+
+        const { hazardEvents, bleedingEvents } = await applyEndOfRoundSideEffects(session);
+
+        session.roundState = adaptSessionToRoundState(session);
+        session.roundState = roundOrchestrator.beginRound(session.roundState).nextState;
+
+        const { intents: sisIntents, decisions: sisDecisions } = declareSistemaIntents(session);
+        let cur = session.roundState;
+        for (const { unit_id, action } of sisIntents) {
+          cur = roundOrchestrator.declareIntent(cur, unit_id, action).nextState;
+        }
+        session.roundState = cur;
+
+        startPlanningTimer(session);
+
+        await persistEvents(session);
+
+        res.json({
+          session_id: session.session_id,
+          turn: session.turn,
+          round_phase: session.roundState.round_phase,
+          pending_intents: session.roundState.pending_intents,
+          sistema_decisions: sisDecisions,
+          sistema_intents_count: sisIntents.length,
+          hazard_events: hazardEvents,
+          side_effects: bleedingEvents,
+          state: publicSessionView(session),
+        });
+      } catch (err) {
+        next(err);
+      }
+    });
+
     router.post('/declare-intent', (req, res, next) => {
       try {
         const { session_id: sessionId, actor_id: actorId, action } = req.body || {};
@@ -722,9 +977,11 @@ function createRoundBridge(deps) {
       }
     });
 
-    router.post('/commit-round', (req, res, next) => {
+    router.post('/commit-round', async (req, res, next) => {
       try {
-        const sessionId = req.body && req.body.session_id;
+        const body = req.body || {};
+        const sessionId = body.session_id;
+        const autoResolve = body.auto_resolve === true;
         const { error, session } = resolveSession(sessionId);
         if (error) return res.status(error.status).json(error.body);
         if (!session.roundState) {
@@ -733,12 +990,44 @@ function createRoundBridge(deps) {
             .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
         }
         cancelPlanningTimer(session.session_id);
-        const { nextState } = roundOrchestrator.commitRound(session.roundState);
-        session.roundState = nextState;
-        res.json({
+        const { nextState: committed } = roundOrchestrator.commitRound(session.roundState);
+        session.roundState = committed;
+
+        if (!autoResolve) {
+          return res.json({
+            session_id: session.session_id,
+            round_phase: committed.round_phase,
+            pending_intents: committed.pending_intents,
+          });
+        }
+
+        // auto_resolve=true: risolve round in simultanea usando unified resolver
+        const { resolveFn, iaActions, playerActions, kills } = buildUnifiedRoundResolver(session);
+        const result = resolveRoundPure(session.roundState, null, rng, resolveFn);
+        session.roundState = result.nextState;
+
+        await postResolveKills(session, kills);
+        await persistEvents(session);
+        session.turn += 1;
+
+        if (typeof session.sistema_pressure === 'number') {
+          session.sistema_pressure = applyPressureDelta(
+            session.sistema_pressure,
+            PRESSURE_DELTAS.round_decay,
+          );
+        }
+
+        return res.json({
           session_id: session.session_id,
-          round_phase: nextState.round_phase,
-          pending_intents: nextState.pending_intents,
+          turn: session.turn,
+          round_phase: session.roundState.round_phase,
+          resolution_queue: result.resolutionQueue,
+          turn_log_entries: result.turnLogEntries,
+          reactions_triggered: result.reactionsTriggered,
+          skipped: result.skipped,
+          player_actions: playerActions,
+          ia_actions: iaActions,
+          state: publicSessionView(session),
         });
       } catch (err) {
         if (err && /round_phase/.test(String(err.message || ''))) {

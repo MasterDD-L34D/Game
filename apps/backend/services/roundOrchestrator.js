@@ -905,10 +905,14 @@ function rngFromSequence(values) {
  * planning → committed: tutti gli alive units hanno un main intent
  * resolving → resolved: resolution queue vuota (tutte le azioni risolte)
  */
-function shouldAutoAdvance(state) {
+function shouldAutoAdvance(state, opts = {}) {
+  const { requirePlayerOnly = false } = opts;
   const phase = state && state.round_phase;
   if (phase === PHASE_PLANNING) {
-    const units = (state.units || []).filter((u) => u && u.hp > 0);
+    let units = (state.units || []).filter((u) => u && u.hp > 0);
+    if (requirePlayerOnly) {
+      units = units.filter((u) => u && u.controlled_by === 'player');
+    }
     if (units.length === 0) return null;
     const pending = (state.pending_intents || []).filter((i) => !_isReactionIntent(i));
     const unitIds = new Set(units.map((u) => String(u.id)));

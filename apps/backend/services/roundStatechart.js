@@ -51,6 +51,14 @@ function createRoundMachine(opts = {}) {
         const declared = new Set((context.pending_intents || []).map((i) => String(i.unit_id)));
         return alive.every((u) => declared.has(String(u.id)));
       },
+      allPlayerIntentsDeclared: ({ context }) => {
+        const alivePlayers = (context.units || []).filter(
+          (u) => u && u.hp > 0 && u.controlled_by === 'player',
+        );
+        if (alivePlayers.length === 0) return false;
+        const declared = new Set((context.pending_intents || []).map((i) => String(i.unit_id)));
+        return alivePlayers.every((u) => declared.has(String(u.id)));
+      },
       queueEmpty: ({ context }) => (context.resolution_queue || []).length === 0,
       hasVictory: ({ context }) => checkVictory(context),
       noVictory: ({ context }) => !checkVictory(context),
