@@ -169,19 +169,24 @@ function createRoundBridge(deps) {
         capturedResults.intercept = res.intercept || null;
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
         // stesso target in questo round, +1 dmg al secondo/terzo attacco.
+        // Fix flake (iter6): combo metadata esposta anche su hit con damage=0
+        // (parry completo, cap damage). Bonus_applied=0 ma is_combo=true.
         const comboInfo = detectFocusFireCombo(session, actor, target);
-        if (res.result && res.result.hit && comboInfo.is_combo && res.damageDealt > 0) {
-          const extra = comboInfo.bonus_damage;
-          const hpNow = Number(target.hp || 0);
-          const applied = Math.min(extra, hpNow);
-          if (applied > 0) {
-            target.hp = hpNow - applied;
-            capturedResults.damageDealt = res.damageDealt + applied;
-            if (session.damage_taken) {
-              session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + applied;
-            }
-            if (target.hp <= 0 && !capturedResults.killOccurred) {
-              capturedResults.killOccurred = true;
+        if (res.result && res.result.hit && comboInfo.is_combo) {
+          let applied = 0;
+          if (res.damageDealt > 0) {
+            const extra = comboInfo.bonus_damage;
+            const hpNow = Number(target.hp || 0);
+            applied = Math.min(extra, hpNow);
+            if (applied > 0) {
+              target.hp = hpNow - applied;
+              capturedResults.damageDealt = res.damageDealt + applied;
+              if (session.damage_taken) {
+                session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + applied;
+              }
+              if (target.hp <= 0 && !capturedResults.killOccurred) {
+                capturedResults.killOccurred = true;
+              }
             }
           }
           capturedResults.combo = { ...comboInfo, bonus_applied: applied };
