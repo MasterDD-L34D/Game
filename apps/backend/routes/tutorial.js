@@ -22,6 +22,7 @@ const {
   buildTutorialUnits04,
   buildTutorialUnits05,
 } = require('../services/tutorialScenario');
+const { HARDCORE_SCENARIO_06, buildHardcoreUnits06 } = require('../services/hardcoreScenario');
 
 function createTutorialRouter() {
   const router = Router();
@@ -66,6 +67,14 @@ function createTutorialRouter() {
     });
   });
 
+  router.get('/enc_tutorial_06_hardcore', (_req, res) => {
+    res.json({
+      ...HARDCORE_SCENARIO_06,
+      units: buildHardcoreUnits06(),
+      usage: 'POST the units array to /api/session/start with modulation="full" to begin.',
+    });
+  });
+
   router.get('/', (_req, res) => {
     res.json({
       scenarios: [
@@ -98,6 +107,12 @@ function createTutorialRouter() {
           name: TUTORIAL_SCENARIO_05.name,
           difficulty: TUTORIAL_SCENARIO_05.difficulty_rating,
           href: `/api/tutorial/${TUTORIAL_SCENARIO_05.id}`,
+        },
+        {
+          id: HARDCORE_SCENARIO_06.id,
+          name: HARDCORE_SCENARIO_06.name,
+          difficulty: HARDCORE_SCENARIO_06.difficulty_rating,
+          href: `/api/tutorial/${HARDCORE_SCENARIO_06.id}`,
         },
       ],
     });
