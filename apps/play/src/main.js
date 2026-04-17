@@ -6,6 +6,7 @@ import { renderUnits, appendLog, updateStatus } from './ui.js';
 import { renderAbilities, clearAbilities } from './abilityPanel.js';
 import { detectEndgame, showEndgame, hideEndgame, nextScenarioId } from './endgame.js';
 import { recordMove, pushPopup } from './anim.js';
+import { openReplay } from './replayPanel.js';
 
 const state = {
   sid: null,
@@ -253,6 +254,13 @@ async function startNewSession() {
 }
 
 document.getElementById('new-session').addEventListener('click', startNewSession);
+document.getElementById('open-replay').addEventListener('click', () => {
+  if (!state.sid) {
+    alert('Nessuna sessione attiva.');
+    return;
+  }
+  openReplay(state.sid);
+});
 document.getElementById('end-turn').addEventListener('click', async () => {
   if (!state.sid) return;
   appendLog(logEl, '→ fine turno');
