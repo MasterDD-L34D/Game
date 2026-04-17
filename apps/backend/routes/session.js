@@ -653,8 +653,17 @@ function createSessionRouter(options = {}) {
       // SPRINT_020: calcola turn_order via iniziativa descending.
       const turnOrder = buildTurnOrder(units);
       const firstActiveId = turnOrder[0] || null;
+      // Telemetry B (TKT-01/02): scenario_id + pressure_start persistiti per
+      // abilitare sweep riproducibile via script (docs/playtest/2026-04-17-*).
+      const scenarioId = req.body?.scenario_id ?? null;
+      const pressureStart = Number.isFinite(Number(req.body?.pressure_start))
+        ? Number(req.body.pressure_start)
+        : null;
       const session = {
         session_id: sessionId,
+        scenario_id: scenarioId,
+        pressure_start: pressureStart,
+        pressure: pressureStart,
         turn: 1,
         active_unit: firstActiveId,
         turn_order: turnOrder,
@@ -688,6 +697,22 @@ function createSessionRouter(options = {}) {
       activeSessionId = sessionId;
       await fs.mkdir(logsDir, { recursive: true });
       await fs.writeFile(logFilePath, '[]\n', 'utf8');
+      await appendEvent(session, {
+        action_type: 'session_start',
+        turn: 0,
+        actor_id: null,
+        target_id: null,
+        damage_dealt: 0,
+        result: 'ok',
+        position_from: null,
+        position_to: null,
+        scenario_id: scenarioId,
+        pressure: pressureStart,
+        units_count: units.length,
+        player_count: units.filter((u) => u.controlled_by === 'player').length,
+        sistema_count: units.filter((u) => u.controlled_by === 'sistema').length,
+        automatic: true,
+      });
       // SPRINT_020: se la prima unita' in ordine di iniziativa e' un SIS,
       // esegui immediatamente i suoi turni (e di eventuali successivi SIS)
       // fino a fermarsi al primo player. Il frontend riceve gia' lo stato
@@ -1385,9 +1410,18 @@ function createSessionRouter(options = {}) {
       const body = req.body || {};
       const { error, session } = resolveSession(body.session_id);
       if (error) return res.status(error.status).json(error.body);
-      await persistEvents(session);
-      const eventsCount = session.events.length;
-      const logFile = session.logFilePath;
+      // Telemetry B (TKT-03/05): compute outcome + VC snapshot, persist
+      // session_end event prima della finalizzazione.
+      const sistemaAlive = session.units.filter(
+        (u) => u.controlled_by === 'sistema' && (u.hp ?? 0) > 0,
+      ).length;
+      const playerAlive = session.units.filter(
+        (u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0,
+      ).length;
+      let outcome = 'abandon';
+      if (sistemaAlive === 0 && playerAlive > 0) outcome = 'win';
+      else if (playerAlive === 0 && sistemaAlive > 0) outcome = 'wipe';
+      else if (playerAlive === 0 && sistemaAlive === 0) outcome = 'draw';
       // VC snapshot + debrief computed pre-delete so response carries final state
       // (harness scripts no longer need a separate GET /:id/vc before /end).
       let vcSnapshot = null;
@@ -1402,6 +1436,29 @@ function createSessionRouter(options = {}) {
       } catch {
         // vc + debrief are best-effort — don't block session end
       }
+      await appendEvent(session, {
+        action_type: 'session_end',
+        turn: session.turn,
+        actor_id: null,
+        target_id: null,
+        damage_dealt: 0,
+        result: outcome,
+        position_from: null,
+        position_to: null,
+        scenario_id: session.scenario_id || null,
+        outcome,
+        pressure_start: session.pressure_start ?? null,
+        pressure_end: session.pressure ?? null,
+        player_alive: playerAlive,
+        sistema_alive: sistemaAlive,
+        vc_aggregate: vcSnapshot?.aggregate ?? null,
+        vc_mbti: vcSnapshot?.mbti ?? null,
+        vc_ennea: vcSnapshot?.ennea ?? null,
+        automatic: true,
+      });
+      await persistEvents(session);
+      const eventsCount = session.events.length;
+      const logFile = session.logFilePath;
       sessions.delete(session.session_id);
       if (activeSessionId === session.session_id) {
         activeSessionId = null;
@@ -1411,6 +1468,7 @@ function createSessionRouter(options = {}) {
         finalized: true,
         log_file: logFile,
         events_count: eventsCount,
+        outcome,
         vc_snapshot: vcSnapshot,
         debrief,
       });
