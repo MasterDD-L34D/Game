@@ -33,12 +33,12 @@ Tracker ufficiale delle decisioni Master DD sui 9 DRAFT prodotti nel branch `exp
 
 ## Tier 2 · Mid review
 
-| #    | DRAFT            | Decisione                  | Outcome                                                                                                       | Commit  | Data       |
-| ---- | ---------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------- | ------- | ---------- |
-| T2.1 | XP Cipher (G1.1) | Park definitivo?           | ✅ C (Park + cleanup 8 cross-refs)                                                                            | pending | 2026-04-17 |
-| T2.2 | Personas (A5)    | 3 persone + playtest plan? | ✅ ESTESE a 10 personas (3 → 10: +speedrunner/streamer/tryharder/collezionista/powerbuilder/narrative/social) | pending | 2026-04-17 |
-| T2.3 | Difficulty (A3)  | 5-PR split + profiles?     | ✅ SI · UNLOCK nightmare · default NORMAL · additive OK                                                       | pending | 2026-04-17 |
-| T2.4 | Replay (A4)      | Endpoint + pseudonymize?   | ✅ SI · endpoint in Q-001 · OPT-IN pseudonymize · engine first                                                | pending | 2026-04-17 |
+| #    | DRAFT            | Decisione                  | Outcome                                                                                                       | Commit   | Data       |
+| ---- | ---------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------- | -------- | ---------- |
+| T2.1 | XP Cipher (G1.1) | Park definitivo?           | ✅ C (Park + cleanup 8 cross-refs)                                                                            | 9728b9b2 | 2026-04-17 |
+| T2.2 | Personas (A5)    | 3 persone + playtest plan? | ✅ ESTESE a 10 personas (3 → 10: +speedrunner/streamer/tryharder/collezionista/powerbuilder/narrative/social) | 9728b9b2 | 2026-04-17 |
+| T2.3 | Difficulty (A3)  | 5-PR split + profiles?     | ✅ SI · UNLOCK nightmare · default NORMAL · additive OK                                                       | 9728b9b2 | 2026-04-17 |
+| T2.4 | Replay (A4)      | Endpoint + pseudonymize?   | ✅ SI · endpoint in Q-001 · OPT-IN pseudonymize · engine first                                                | 9728b9b2 | 2026-04-17 |
 
 ## Tier 3 · Deep review
 
