@@ -68,6 +68,56 @@ Questi 4 tipi sono in `NOOP_ACTION_TYPES = frozenset({"defend", "parry", "abilit
 - **`ability`**: **centrale per Fase 3**. Attiverà `active_effects` dei trait (attualmente NOOP nel catalog).
 - **`parry`**: distinto dal `parry_response` opt-in. Il `parry` come action type indipendente sarà implementato quando le reactions avranno un proprio timing (fuori dal turn dell'attore).
 
+## AP budget per turno (canonico)
+
+> **FRICTION #2+#3 resolution** dal playtest 2026-04-17 (vedi `docs/playtests/2026-04-17/notes.md`).
+
+Regola canonica: **AP è un budget azioni per turno, spendibile liberamente** secondo il costo di ciascuna action. Non esiste un template fisso "1 move + 1 attack" — qualunque combinazione di azioni che somma ≤ `ap_remaining` è valida.
+
+### Refresh AP
+
+- A inizio turno: `actor.ap_remaining = actor.ap_max` (default 2 per tutte le unità base)
+- Eccezione status `fracture`: `ap_remaining = min(1, ap_max)` (vedi `combat-canon.md` §status effects)
+
+### Costo per action type
+
+| Type      |       AP cost       | Note                                                  |
+| --------- | :-----------------: | ----------------------------------------------------- |
+| `attack`  |        **1**        | per attack roll, indipendente dal damage              |
+| `move`    |        **N**        | N = celle Manhattan spostate (`dist ≤ ap_remaining`)  |
+| `ability` | **ability.ap_cost** | per-ability dichiarato in `action_effects` trait YAML |
+| `defend`  |          1          | NOOP (Fase 2) — consumo AP senza logica               |
+| `parry`   |          1          | NOOP come action type (reactive via `parry_response`) |
+
+### Combinazioni valide (ap_max=2)
+
+- ✅ **2 attack**: `1 AP + 1 AP = 2 AP` → **doppio attacco = valid**
+- ✅ 1 attack + 1 move 1-cell: `1 + 1 = 2 AP`
+- ✅ 1 move 2-cell + 0 action: `2 + 0 = 2 AP`
+- ✅ 1 ability(ap_cost=2): consuma tutto il budget
+- ❌ 1 move 3-cell: `3 > 2` → rigettato con errore
+- ❌ 3 attack: 3° attack rigettato a `ap_remaining < 1`
+
+### Enforcement
+
+- `POST /api/session/action` verifica `ap_remaining >= action_cost` prima di eseguire (session.js:717+)
+- Errori espliciti: `"AP insufficienti per attaccare (termina il turno)"`, `"AP insufficienti per muoversi (termina il turno)"`, `"AP insufficienti per muoversi di N celle (ap residui: M)"`
+
+### Ability override AP
+
+Abilità con `ap_cost` esplicito in `data/core/jobs.yaml` o `data/core/traits/active_effects.yaml` possono costare più di 1 AP. Il resolver lo legge dal dataset, non hardcoded.
+
+Esempio Skirmisher `hit-and-run` (spec in arrivo, vedi FRICTION #4 roadmap):
+
+```yaml
+abilities:
+  hit_and_run:
+    ap_cost: 2 # attack + reposition atomico
+    effect_type: compound
+```
+
+---
+
 ## PT spend: perforazione e spinta
 
 Il campo `action.pt_spend` permette all'attore di consumare PT dal proprio pool per ottenere effetti aggiuntivi su un attack. Supportato solo per `type: "attack"`.

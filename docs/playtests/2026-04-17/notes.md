@@ -91,11 +91,16 @@ FRICTION #2 (T2 S1): AP budget → azioni ambiguo.
   Trigger: S1 miss, AP residuo, cosa può fare?
   Impact: agent interpreta strict (1 attack/turno).
   Design need: spec esplicita "AP 2 = N attack max".
+  ✅ RESOLVED 2026-04-17: doc canonico in docs/combat/action-types-guide.md
+     §"AP budget per turno". Test tests/api/apBudget.test.js.
 
 FRICTION #3 (T2 P2): Master richiede doppio attack, regola mancante.
   Trigger: "mossa P2 è doppio attacco".
   Impact: agent applica permissivo + flagga friction.
   Design need: 2 attack/turno = sì/no/condizionato?
+  ✅ RESOLVED 2026-04-17: doppio attack VALID per design (1 AP + 1 AP = 2 AP).
+     Codice già corretto (session.js:717+), mancava solo doc. Spec +
+     test committati.
 
 FRICTION #4 (T3 P1): job Skirmisher "hit-and-run" non integrato.
   Trigger: review job description post-partita.
