@@ -77,8 +77,9 @@ function setAbilityTargetMode(on) {
 
 function handleAbilitySelect(ab) {
   if (!state.selected) return;
-  if (!ab.needs_target) {
-    // Self-cast or no target
+
+  // Self-cast senza target + senza position (es. buff fortify)
+  if (!ab.needs_target && !ab.needs_position) {
     doAction({
       action_type: 'ability',
       actor_id: state.selected,
@@ -86,9 +87,27 @@ function handleAbilitySelect(ab) {
     });
     return;
   }
-  state.pendingAbility = ab;
+
+  // Ability self-position (es. evasive_maneuver: target=self + position destinazione)
+  // Inizia direttamente pickPosition step
+  if (!ab.needs_target && ab.needs_position) {
+    state.pendingAbility = { ...ab, collected_target: state.selected, awaiting: 'position' };
+    setAbilityTargetMode(true);
+    updateHint(
+      `${ab.ability_id}: click cella destinazione (max ${ab.move_distance} celle). ESC annulla.`,
+    );
+    return;
+  }
+
+  // Ability con target (enemy/ally) + position (move_attack) → 2 step: target poi position
+  // Oppure solo target (attack, debuff, heal) → 1 step: target
+  state.pendingAbility = { ...ab, awaiting: 'target' };
   setAbilityTargetMode(true);
-  updateHint(`Seleziona target per ability ${ab.ability_id}. Click unità o ESC per annullare.`);
+  const kind =
+    ab.target_kind === 'enemy' ? 'nemico' : ab.target_kind === 'ally' ? 'alleato' : 'unità';
+  updateHint(
+    `${ab.ability_id}: click ${kind} target${ab.needs_position ? ' (poi click cella destinazione)' : ''}. ESC annulla.`,
+  );
 }
 
 document.addEventListener('keydown', (e) => {
@@ -104,14 +123,28 @@ function handleUnitClick(unit) {
   // Ability targeting mode
   if (state.pendingAbility) {
     const ab = state.pendingAbility;
-    state.pendingAbility = null;
-    setAbilityTargetMode(false);
-    doAction({
-      action_type: 'ability',
-      actor_id: state.selected,
-      ability_id: ab.ability_id,
-      target_id: unit.id,
-    });
+    if (ab.awaiting === 'target') {
+      ab.collected_target = unit.id;
+      if (ab.needs_position) {
+        ab.awaiting = 'position';
+        updateHint(
+          `${ab.ability_id}: target=${unit.id}. Ora click cella destinazione (max ${ab.move_distance}). ESC annulla.`,
+        );
+        return;
+      }
+      // Target only → submit
+      state.pendingAbility = null;
+      setAbilityTargetMode(false);
+      doAction({
+        action_type: 'ability',
+        actor_id: state.selected,
+        ability_id: ab.ability_id,
+        target_id: unit.id,
+      });
+      return;
+    }
+    // Awaiting position but user clicked unit → ignore
+    updateHint(`Click cella vuota per destinazione (ESC annulla).`);
     return;
   }
   if (unit.controlled_by === 'player') {
@@ -150,6 +183,20 @@ canvas.addEventListener('click', (ev) => {
     return;
   }
   if (state.pendingAbility) {
+    const ab = state.pendingAbility;
+    if (ab.awaiting === 'position') {
+      // Submit ability con target (può essere self o collected) + position
+      state.pendingAbility = null;
+      setAbilityTargetMode(false);
+      doAction({
+        action_type: 'ability',
+        actor_id: state.selected,
+        ability_id: ab.ability_id,
+        target_id: ab.collected_target || state.selected,
+        position: { x, y },
+      });
+      return;
+    }
     updateHint(`Ability richiede unit target. Premi ESC per annullare.`);
     return;
   }

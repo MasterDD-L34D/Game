@@ -57,6 +57,10 @@ export async function renderAbilities(unit, state, onAbility) {
     const needsEnemyTarget = tgt === 'enemy' || tgt.includes('enemy');
     const needsAllyTarget = tgt === 'ally' || tgt === 'ally_or_self';
     const needsTarget = needsEnemyTarget || needsAllyTarget;
+    // effect_type che richiedono anche position (move destination)
+    const effectType = ab.effect_type || '';
+    const needsPosition = effectType === 'move_attack' || effectType === 'attack_move';
+    // move_attack: target then position; attack_move: target=self + position dopo
 
     row.innerHTML = `
       <div class="ab-head">
@@ -71,8 +75,11 @@ export async function renderAbilities(unit, state, onAbility) {
       onAbility({
         ability_id: abilityId,
         needs_target: needsTarget,
+        needs_position: needsPosition,
         target_kind: needsEnemyTarget ? 'enemy' : needsAllyTarget ? 'ally' : 'self',
-        effect_type: ab.effect_type,
+        effect_type: effectType,
+        move_distance: Number(ab.move_distance) || 0,
+        raw: ab,
       });
     });
     container.appendChild(row);
