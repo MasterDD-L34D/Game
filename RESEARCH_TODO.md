@@ -44,9 +44,11 @@ Mai iniziare una COULD se c'è una MUST incompleta. Scope creep = silent killer.
 
 ## Status tracker
 
-- [ ] **M1** Primo playtest documentato
+- [x] **M1** Primo playtest documentato — completata 2026-04-17 (tabletop guidato, seed 2026, outcome WIN PG R3, 4 friction logged. Vedi `docs/playtests/2026-04-17/notes.md`)
 - [x] **M2** Taglio backlog feature — completata 2026-04-16 (sessione "repo analysis": 33 issue → 0, vedi `CLAUDE.md` §182)
 - [x] **M3** Pitch 3 frasi — completata 2026-04-17 (commit `9bd92550`, PR #1482 merged, vedi `docs/PITCH.md`)
+
+**✅ Tutte e 3 le MUST chiuse il 2026-04-17.**
 
 Ultimo aggiornamento: 2026-04-17.
 

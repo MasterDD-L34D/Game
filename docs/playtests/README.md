@@ -21,7 +21,7 @@ playtest: [YYYY-MM-DD] first documented session
 
 ## Perché
 
-Dal deep research (RESEARCH_TODO M1): _"nessun playtest documentato" è il red flag principale. Wayline e UniversityXP sono unanimi: senza playtest reali, il design è un'ipotesi._
+Dal deep research (RESEARCH*TODO M1): *"nessun playtest documentato" è il red flag principale. Wayline e UniversityXP sono unanimi: senza playtest reali, il design è un'ipotesi.\_
 
 Un **playtest con post-it batte dieci dashboard** (Caveman Rule #3).
 
@@ -35,6 +35,6 @@ Un **playtest con post-it batte dieci dashboard** (Caveman Rule #3).
 
 _(vuoto: questo è il primo setup. Aggiorna qui dopo ogni playtest chiuso.)_
 
-| Data       | Titolo                              | Outcome | Commit |
-| ---------- | ----------------------------------- | ------- | ------ |
-| 2026-04-17 | First documented session (scaffold) | pending | —      |
+| Data       | Titolo                                      | Outcome                 | Commit |
+| ---------- | ------------------------------------------- | ----------------------- | ------ |
+| 2026-04-17 | First documented session (tabletop guidato) | WIN PG R3 · 4 frictions | _TBD_  |
