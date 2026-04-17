@@ -41,6 +41,28 @@ const TUTORIAL_SCENARIO_02 = {
   briefing_post: "La pattuglia è dissolta. Il cacciatore non e' bastato a tenerli insieme.",
 };
 
+const TUTORIAL_SCENARIO_03 = {
+  id: 'enc_tutorial_03',
+  name: 'Pozzo della Caverna Risonante',
+  biome_id: 'caverna_risonante',
+  difficulty_rating: 3,
+  estimated_turns: 10,
+  grid_size: 6,
+  objective: 'elimination',
+  objective_text:
+    'Elimina i guardiani sotterranei. Attento alle fumarole tossiche: tile (2,2) e (3,3) infliggono danno a fine turno se occupate.',
+  briefing_pre:
+    'Una caverna risonante con due fumarole attive. Le creature locali resistono al gas; voi no. Posizionate con cura e usate combo per finire in fretta.',
+  briefing_post: 'I guardiani sono caduti. Il riverbero della caverna si placa.',
+  // Hazard tiles: lista coordinate dove unita' subisce danno a fine turno.
+  // Letti da applyHazardDamage in handleTurnEndViaRound (futuro). Per ora
+  // metadata visibile da /api/tutorial/enc_tutorial_03 per HUD/UI.
+  hazard_tiles: [
+    { x: 2, y: 2, damage: 1, type: 'fumarole_tossica' },
+    { x: 3, y: 3, damage: 1, type: 'fumarole_tossica' },
+  ],
+};
+
 function buildTutorialUnits() {
   return [
     // --- Player units ---
@@ -189,9 +211,76 @@ function buildTutorialUnits02() {
   ];
 }
 
+// enc_tutorial_03: caverna risonante con hazard tiles (fumarole tossiche).
+// Difficulty 3/5. Player vs 2 guardiani caverna. I tile hazard sono
+// metadata: applicare danno e' wiring futuro nel turn/end handler.
+function buildTutorialUnits03() {
+  return [
+    {
+      id: 'p_scout',
+      species: 'dune_stalker',
+      job: 'skirmisher',
+      traits: ['zampe_a_molla'],
+      hp: 10,
+      ap: 3,
+      mod: 3,
+      dc: 12,
+      guardia: 1,
+      position: { x: 0, y: 1 },
+      controlled_by: 'player',
+      facing: 'E',
+    },
+    {
+      id: 'p_tank',
+      species: 'dune_stalker',
+      job: 'vanguard',
+      traits: ['pelle_elastomera'],
+      hp: 12,
+      ap: 3,
+      mod: 2,
+      dc: 13,
+      guardia: 1,
+      position: { x: 0, y: 4 },
+      controlled_by: 'player',
+      facing: 'E',
+    },
+    // Guardiani caverna: stat tier 3, alta DC, alto HP.
+    {
+      id: 'e_guardiano_1',
+      species: 'guardiano_caverna',
+      job: 'vanguard',
+      traits: [],
+      hp: 7,
+      ap: 2,
+      mod: 2,
+      dc: 13,
+      guardia: 0,
+      position: { x: 4, y: 1 },
+      controlled_by: 'sistema',
+      facing: 'W',
+    },
+    {
+      id: 'e_guardiano_2',
+      species: 'guardiano_caverna',
+      job: 'vanguard',
+      traits: [],
+      hp: 7,
+      ap: 2,
+      mod: 2,
+      dc: 13,
+      guardia: 0,
+      position: { x: 4, y: 4 },
+      controlled_by: 'sistema',
+      facing: 'W',
+    },
+  ];
+}
+
 module.exports = {
   TUTORIAL_SCENARIO,
   TUTORIAL_SCENARIO_02,
+  TUTORIAL_SCENARIO_03,
   buildTutorialUnits,
   buildTutorialUnits02,
+  buildTutorialUnits03,
 };

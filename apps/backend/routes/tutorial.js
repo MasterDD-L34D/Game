@@ -1,7 +1,8 @@
 // Tutorial encounter route — serves pre-built scenario definitions.
 //
-// GET /enc_tutorial_01 → primo scenario (2v2 elimination, savana)
-// GET /enc_tutorial_02 → secondo scenario (2v3 con cacciatore corazzato)
+// GET /enc_tutorial_01 → primo scenario (2v2 elimination, savana, diff 1/5)
+// GET /enc_tutorial_02 → secondo scenario (2v3 con cacciatore corazzato, diff 2/5)
+// GET /enc_tutorial_03 → terzo scenario (caverna, hazard tiles, diff 3/5)
 // GET /              → lista scenari disponibili
 //
 // Registered via pluginLoader as tutorialPlugin at /api/tutorial.
@@ -12,8 +13,10 @@ const { Router } = require('express');
 const {
   TUTORIAL_SCENARIO,
   TUTORIAL_SCENARIO_02,
+  TUTORIAL_SCENARIO_03,
   buildTutorialUnits,
   buildTutorialUnits02,
+  buildTutorialUnits03,
 } = require('../services/tutorialScenario');
 
 function createTutorialRouter() {
@@ -35,6 +38,14 @@ function createTutorialRouter() {
     });
   });
 
+  router.get('/enc_tutorial_03', (_req, res) => {
+    res.json({
+      ...TUTORIAL_SCENARIO_03,
+      units: buildTutorialUnits03(),
+      usage: 'POST the units array to /api/session/start to begin a playable session.',
+    });
+  });
+
   router.get('/', (_req, res) => {
     res.json({
       scenarios: [
@@ -49,6 +60,12 @@ function createTutorialRouter() {
           name: TUTORIAL_SCENARIO_02.name,
           difficulty: TUTORIAL_SCENARIO_02.difficulty_rating,
           href: `/api/tutorial/${TUTORIAL_SCENARIO_02.id}`,
+        },
+        {
+          id: TUTORIAL_SCENARIO_03.id,
+          name: TUTORIAL_SCENARIO_03.name,
+          difficulty: TUTORIAL_SCENARIO_03.difficulty_rating,
+          href: `/api/tutorial/${TUTORIAL_SCENARIO_03.id}`,
         },
       ],
     });

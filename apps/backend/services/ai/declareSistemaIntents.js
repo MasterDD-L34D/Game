@@ -112,6 +112,29 @@ function createDeclareSistemaIntents(deps) {
     const decisions = [];
     let intentsEmitted = 0;
 
+    // AI War pattern — decentralized unit AI: conflict resolution.
+    // No global planner. Ogni unit sceglie il proprio target indipendentemente;
+    // un post-pass qui garantisce che due SIS non sprechino focus-fire stackando
+    // sullo stesso PG quando altri PG sono vulnerabili. Primo arrivato (ordine
+    // session.units) keep, altri ri-pickano escludendo target gia' presi.
+    const takenTargetIds = new Set();
+
+    // Helper inline: ripicka target escludendo IDs gia' presi.
+    // Mantenuto inline per non allargare l'API pubblica di pickLowestHpEnemy.
+    function pickTargetExcluding(actor, excludeSet) {
+      const actorFaction = actor.controlled_by;
+      const candidates = session.units.filter(
+        (u) =>
+          u &&
+          u.id !== actor.id &&
+          u.hp > 0 &&
+          u.controlled_by !== actorFaction &&
+          !excludeSet.has(u.id),
+      );
+      if (!candidates.length) return null;
+      return candidates.reduce((lowest, c) => (!lowest || c.hp < lowest.hp ? c : lowest), null);
+    }
+
     for (const actor of session.units) {
       if (!actor) continue;
       if (actor.controlled_by !== 'sistema') continue;
@@ -126,7 +149,14 @@ function createDeclareSistemaIntents(deps) {
         continue;
       }
 
-      const target = pickLowestHpEnemy(session, actor);
+      // Prima scelta: lowest-HP globale (pick classico).
+      let target = pickLowestHpEnemy(session, actor);
+      // Se gia' preso da altro SIS, ri-pick escludendo i presi.
+      // Fall back al pick originale solo se non ci sono alternative.
+      if (target && takenTargetIds.has(target.id)) {
+        const alt = pickTargetExcluding(actor, takenTargetIds);
+        if (alt) target = alt;
+      }
       if (!target) {
         decisions.push({
           unit_id: actor.id,
@@ -191,6 +221,9 @@ function createDeclareSistemaIntents(deps) {
         };
         intents.push({ unit_id: actor.id, action });
         intentsEmitted++;
+        // Decentralized conflict resolution: mark target come preso cosi'
+        // il prossimo SIS nel loop evita lo stack.
+        takenTargetIds.add(target.id);
         decisions.push({
           unit_id: actor.id,
           rule: policy.rule,

@@ -222,6 +222,10 @@ function publicSessionView(session) {
     sistema_pressure: pressure,
     sistema_tier: tier,
     atlas,
+    last_round_combos: Array.isArray(session.last_round_combos) ? session.last_round_combos : [],
+    previous_round_combos: Array.isArray(session.previous_round_combos)
+      ? session.previous_round_combos
+      : [],
   };
 }
 
@@ -340,6 +344,18 @@ function applyPressureDelta(current, delta) {
   return Math.max(0, Math.min(100, base + d));
 }
 
+// Mirror dei delta events da sistema_pressure.yaml.
+// Mantenuto qui per evitare YAML loader in hot path (round flow).
+// Sync con packs/evo_tactics_pack/data/balance/sistema_pressure.yaml §deltas.
+const PRESSURE_DELTAS = Object.freeze({
+  pg_kills_sis: 20, // player KO sistema → pressure sale (engage)
+  sg_pg_down: -10, // sistema KO player → pressure cala (Sistema si placa)
+  pg_victory_encounter: 15,
+  pg_trait_unlock: 5,
+  pg_biome_clear: 20,
+  round_decay: -1, // decay naturale per round senza eventi
+});
+
 module.exports = {
   rollD20,
   clampPosition,
@@ -360,4 +376,5 @@ module.exports = {
   computeSistemaTier,
   applyPressureDelta,
   SISTEMA_PRESSURE_TIERS,
+  PRESSURE_DELTAS,
 };
