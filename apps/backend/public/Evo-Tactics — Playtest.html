@@ -496,6 +496,7 @@
         <button class="btn scenario-btn"        data-scenario="berserker"     onclick="startSession('berserker')">Berserker</button>
         <button class="btn scenario-btn"        data-scenario="shock_troops"  onclick="startSession('shock_troops')">Shock Troops</button>
         <button class="btn scenario-btn"        data-scenario="bloody_mess"   onclick="startSession('bloody_mess')">Bloody Mess</button>
+        <button class="btn scenario-btn"        data-scenario="coop_2v2"      onclick="startSession('coop_2v2')">2v2 Co-op</button>
       </div>
     </div>
 
@@ -520,9 +521,12 @@ const API = (typeof window !== 'undefined' && window.location && window.location
   : 'http://127.0.0.1:3334';
 
 let state       = null;   // stato sessione corrente
-let selected    = null;   // id unità selezionata
+let selected    = null;   // id unità player corrente per pianificare
 let planningActive = false; // true quando /round/begin-planning aperto
-let pendingIntent  = null;  // ordine player corrente (attack|move) — override a nuovo click
+let pendingIntents = {};    // { unit_id: action } — ordini player dichiarati
+// Helper: check se unità è player-controlled
+function isPlayerUnit(u) { return u && u.controlled_by === 'player' && Number(u.hp || 0) > 0; }
+function playerUnits() { return (state?.units || []).filter(isPlayerUnit); }
 let maxHp       = {};     // hp iniziali per le barre
 
 /* ── FETCH HELPERS ── */
@@ -596,6 +600,17 @@ const SCENARIOS = {
       { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera','martello_osseo'], controlled_by:'sistema', position:{x:5,y:5} },
     ],
   },
+  // Round simultaneo 2v2 — test planning-first multi-player
+  coop_2v2: {
+    label: '2v2 Co-op',
+    desc: 'P1 velox + P2 carapax vs 2 SIS — pianifica per entrambi prima di risolvere',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'],    controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:5} },
+      { id:'unit_3', species:'lupo',    job:'vanguard',   traits:['intimidatore'],     controlled_by:'sistema', position:{x:5,y:0} },
+      { id:'unit_4', species:'falco',   job:'ranger',                                   controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
 };
 
 let currentScenarioId = 'classic';
@@ -605,7 +620,7 @@ async function startSession(scenarioId) {
   document.getElementById('overlay').classList.remove('show');
   selected = null;
   planningActive = false;
-  pendingIntent  = null;
+  pendingIntents = {};
   const id = scenarioId && SCENARIOS[scenarioId] ? scenarioId : currentScenarioId;
   currentScenarioId = id;
   const scenario = SCENARIOS[id];
@@ -649,7 +664,8 @@ function render() {
     : `Round ${state.turn} — SISTEMA`;
   badge.className   = isPlayerTurn ? 'player' : 'sistema';
   if (!isPlayerTurn) setHint('Il Sistema sta agendo…');
-  else if (pendingIntent) setHint(formatIntentHint(pendingIntent));
+  else if (selected && pendingIntents[selected]) setHint(formatIntentHint(selected, pendingIntents[selected]));
+  else if (Object.keys(pendingIntents).length > 0) setHint(`${Object.keys(pendingIntents).length}/${playerUnits().length} pianificate — seleziona altra unità o "Risolvi Round"`);
   else if (!selected) setHint('Clicca la tua unità per pianificare');
   else setHint('Pianifica: clicca nemico per attaccare o cella per muoverti');
 }
@@ -779,32 +795,36 @@ function renderStats() {
   renderStatusRow('s-status', sis);
 }
 
-/* ── CLICK CELLA (planning-first, SoT §13.1) ──
-   Click propria unità = seleziona. Click nemico/cella = declara intent
-   (non risolve subito). "Risolvi Round" = commit + auto_resolve. */
+/* ── CLICK CELLA (planning-first multi-player, SoT §13.1) ──
+   Click propria unità = seleziona quella unità per pianificare.
+   Click nemico/cella = dichiara intent per l'unità selezionata.
+   "Risolvi Round" = commit + auto_resolve di TUTTI gli intent (player + SIS). */
 async function onCellClick(x, y, unit) {
   if (!state || !isMyTurn()) return;
 
-  // click sulla propria unità → seleziona/deseleziona
-  if (unit && unit.id === 'unit_1') {
-    selected = (selected === 'unit_1') ? null : 'unit_1';
+  // click su propria unità → seleziona quella (per pianificarla)
+  if (unit && isPlayerUnit(unit)) {
+    selected = (selected === unit.id) ? null : unit.id;
     if (selected) {
       await ensurePlanningStarted();
-      setHint(pendingIntent ? formatIntentHint(pendingIntent) : 'Pianifica: clicca nemico per attaccare o cella per muoverti');
+      const intent = pendingIntents[selected];
+      setHint(intent
+        ? formatIntentHint(selected, intent)
+        : `Pianifica ${unitLabel(selected)}: clicca nemico per attaccare o cella per muoverti`);
     } else {
       setHint('Clicca la tua unità per pianificare');
     }
     renderGrid(); return;
   }
 
-  if (!selected) { setHint('Prima seleziona la tua unità'); return; }
+  if (!selected) { setHint('Prima seleziona una tua unità'); return; }
 
-  // click su nemico → intent attack
-  if (unit && unit.id !== 'unit_1') {
-    await declarePlayerIntent({
-      id: `p1-atk-${Date.now()}`,
+  // click su nemico → intent attack per unità selezionata
+  if (unit && unit.controlled_by !== 'player') {
+    await declarePlayerIntent(selected, {
+      id: `${selected}-atk-${Date.now()}`,
       type: 'attack',
-      actor_id: 'unit_1',
+      actor_id: selected,
       target_id: unit.id,
       ap_cost: 1,
       damage_dice: { count: 1, sides: 6, modifier: 2 },
@@ -814,10 +834,10 @@ async function onCellClick(x, y, unit) {
 
   // click su cella vuota → intent move
   if (!unit) {
-    await declarePlayerIntent({
-      id: `p1-mv-${Date.now()}`,
+    await declarePlayerIntent(selected, {
+      id: `${selected}-mv-${Date.now()}`,
       type: 'move',
-      actor_id: 'unit_1',
+      actor_id: selected,
       ap_cost: 1,
       move_to: { x, y },
     });
@@ -826,6 +846,12 @@ async function onCellClick(x, y, unit) {
 }
 
 /* ── Planning-first helpers ── */
+function unitLabel(unitId) {
+  const units = playerUnits();
+  const idx = units.findIndex(u => u.id === unitId);
+  return idx >= 0 ? `P${idx + 1}` : unitId;
+}
+
 async function ensurePlanningStarted() {
   if (planningActive) return;
   try {
@@ -833,13 +859,13 @@ async function ensurePlanningStarted() {
     state = res.state ?? state;
     const sideEffects = res.side_effects || [];
     for (const se of sideEffects) {
-      const who = se.unit_id === 'unit_1' ? 'P1' : 'SIS';
+      const who = unitLabel(se.unit_id);
       const kill = se.killed ? ' → KO' : '';
       addLog('miss', `🩸 ${who} sanguina (−${se.damage} HP, hp ${se.hp_after})${kill}`);
     }
     const hazardEvents = res.hazard_events || [];
     for (const hz of hazardEvents) {
-      const who = hz.unit_id === 'unit_1' ? 'P1' : 'SIS';
+      const who = unitLabel(hz.unit_id);
       const kill = hz.killed ? ' → KO' : '';
       addLog('miss', `☠ ${who} su hazard ${hz.hazard_type} (−${hz.damage}, hp ${hz.hp_after})${kill}`);
     }
@@ -850,20 +876,33 @@ async function ensurePlanningStarted() {
   } catch(e) { setHint(`Errore planning: ${e.message}`); }
 }
 
-async function declarePlayerIntent(action) {
+async function declarePlayerIntent(unitId, action) {
   try {
     await ensurePlanningStarted();
-    await api('/api/session/declare-intent', { actor_id: 'unit_1', action });
-    pendingIntent = action;
-    setHint(formatIntentHint(action));
+    await api('/api/session/declare-intent', { actor_id: unitId, action });
+    pendingIntents[unitId] = action;
+    setHint(formatIntentHint(unitId, action));
     render();
   } catch(e) { setHint(`Errore intent: ${e.message}`); }
 }
 
-function formatIntentHint(action) {
-  if (action.type === 'attack') return `🗡 Intent: attaccare ${action.target_id === 'unit_2' ? 'SIS' : action.target_id}. Cambia ordine o "Risolvi Round".`;
-  if (action.type === 'move') return `🚶 Intent: muovere a (${action.move_to.x},${action.move_to.y}). Cambia ordine o "Risolvi Round".`;
-  return 'Intent dichiarato. "Risolvi Round" per partire.';
+function targetDescription(targetId) {
+  const u = (state?.units || []).find(x => x.id === targetId);
+  if (!u) return targetId;
+  return u.controlled_by === 'player' ? unitLabel(targetId) : `SIS ${targetId}`;
+}
+
+function formatIntentHint(unitId, action) {
+  const who = unitLabel(unitId);
+  const players = playerUnits();
+  const declared = Object.keys(pendingIntents).length;
+  const remaining = players.length - declared;
+  const tail = remaining > 0
+    ? ` — ${remaining} unit${remaining === 1 ? 'à' : 'à'} da pianificare.`
+    : ' — tutti pronti, clicca "Risolvi Round".';
+  if (action.type === 'attack') return `🗡 ${who} attacca ${targetDescription(action.target_id)}.${tail}`;
+  if (action.type === 'move')   return `🚶 ${who} muove a (${action.move_to.x},${action.move_to.y}).${tail}`;
+  return `Intent ${who} dichiarato.${tail}`;
 }
 
 /* SPRINT_014: snapshot stati attivi pre-azione per diff e log "entered/exited" */
@@ -944,20 +983,21 @@ async function resolveRound() {
     for (const ia of iaActs) logIaAction(ia);
     const playerActs = commit.player_actions || [];
     for (const pa of playerActs) {
+      const who = unitLabel(pa.unit_id);
       if (pa.type === 'attack') {
         addLog(pa.result === 'hit' ? 'hit' : 'miss',
-          `⚔ P1 → ${pa.target}: d20=${pa.die}+${pa.roll - pa.die}=${pa.roll} MoS=${pa.mos} dmg=${pa.damage_dealt}`);
+          `⚔ ${who} → ${targetDescription(pa.target)}: d20=${pa.die}+${pa.roll - pa.die}=${pa.roll} MoS=${pa.mos} dmg=${pa.damage_dealt}`);
       } else if (pa.type === 'move') {
-        addLog('info', `🚶 P1 (${pa.position_from.x},${pa.position_from.y}) → (${pa.position_to.x},${pa.position_to.y})`);
+        addLog('info', `🚶 ${who} (${pa.position_from.x},${pa.position_from.y}) → (${pa.position_to.x},${pa.position_to.y})`);
       } else if (pa.type === 'skip') {
-        addLog('miss', `⏭ P1 skip: ${pa.reason}`);
+        addLog('miss', `⏭ ${who} skip: ${pa.reason}`);
       }
     }
 
     logStatusDiff(preStatus, snapshotStatuses(state));
     checkGameOver();
     planningActive = false;
-    pendingIntent  = null;
+    pendingIntents = {};
     selected       = null;
     render();
   } catch(e) { setHint(`Errore: ${e.message}`); }
@@ -1047,10 +1087,10 @@ async function runSimultaneousRound() {
 /* ── GAME OVER ── */
 function checkGameOver() {
   const units = state.units || [];
-  const p1    = units.find(u => u.id === 'unit_1');
-  const sis   = units.find(u => u.id !== 'unit_1');
-  if (p1 && p1.hp <= 0) showGameOver('SCONFITTA', 'Il Sistema ha vinto.');
-  if (sis && sis.hp <= 0) showGameOver('VITTORIA', 'Hai eliminato il Sistema.');
+  const playersAlive = units.filter(u => u.controlled_by === 'player' && Number(u.hp||0) > 0);
+  const sisAlive     = units.filter(u => u.controlled_by === 'sistema' && Number(u.hp||0) > 0);
+  if (playersAlive.length === 0) showGameOver('SCONFITTA', 'Il Sistema ha vinto.');
+  else if (sisAlive.length === 0) showGameOver('VITTORIA', 'Hai eliminato il Sistema.');
 }
 
 function showGameOver(title, sub) {
