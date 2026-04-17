@@ -31,7 +31,8 @@ def make_fake_repo(path: Path, commits: list[tuple[str, str, str]]) -> None:
         subprocess.run(["git", "commit", "-qm", msg], cwd=path, check=True)
 
 
-def test_scenario(name: str, commits: list[tuple[str, str, str]], extra_dirty: list[str] | None = None) -> None:
+def run_scenario(name: str, commits: list[tuple[str, str, str]], extra_dirty: list[str] | None = None) -> None:
+    # Rinominato da test_scenario per evitare collection pytest (helper, non test).
     print(f"\n{'=' * 70}")
     print(f"SCENARIO: {name}")
     print("=" * 70)
@@ -79,7 +80,7 @@ def test_scenario(name: str, commits: list[tuple[str, str, str]], extra_dirty: l
 
 
 # SCENARIO 1: repo in deriva (troppi INFRA)
-test_scenario(
+run_scenario(
     "Repo in deriva — 6 INFRA di fila",
     [
         ("add trait fire", "traits/fire.yaml", "name: fire\n"),
@@ -93,7 +94,7 @@ test_scenario(
 )
 
 # SCENARIO 2: appena chiuso un commit gameplay
-test_scenario(
+run_scenario(
     "Fresh gameplay commit",
     [
         ("refactor auth", "src/auth.py", "x = 1\n"),
@@ -103,7 +104,7 @@ test_scenario(
 )
 
 # SCENARIO 3: WIP selvaggio (molti dirty)
-test_scenario(
+run_scenario(
     "WIP selvaggio — molti file dirty",
     [
         ("initial", "README.md", "# game\n"),
@@ -112,7 +113,7 @@ test_scenario(
 )
 
 # SCENARIO 4: repo sano
-test_scenario(
+run_scenario(
     "Repo sano — mix bilanciato",
     [
         ("add trait ice", "traits/ice.yaml", "name: ice\n"),
