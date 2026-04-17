@@ -314,6 +314,57 @@ position from/to su move    └─ new_tiles ───────┘           
 Vedi `apps/backend/services/vcScoring.js` e `data/core/telemetry.yaml`
 per i pesi dei singoli indici e le condizioni dei themes.
 
+## Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1)
+
+Architettura Utility AI formalizzata in [ADR-2026-04-16](../adr/ADR-2026-04-16-ai-architecture-utility.md), attivazione gradual via feature flag data-driven formalizzata in [ADR-2026-04-17](../adr/ADR-2026-04-17-utility-ai-default-activation.md) (Opzione C).
+
+### Flag per-profile in `ai_profiles.yaml`
+
+Ogni profile AI ha campo opzionale `use_utility_brain: boolean`:
+
+```yaml
+profiles:
+  aggressive:
+    use_utility_brain: true # ADR-2026-04-17 first flip
+    overrides: { ... }
+  balanced:
+    use_utility_brain: false # gradual rollout: attesa metriche VC fairness
+    overrides: {}
+  cautious:
+    use_utility_brain: false # flip dopo validation su aggressive
+    overrides: { ... }
+```
+
+### Loader + wiring
+
+- `apps/backend/services/ai/aiProfilesLoader.js` — carica YAML al boot (log: `[ai-profiles] caricato …: N profile, utility_brain ON: [aggressive]`)
+- `apps/backend/routes/session.js:444` — passa `aiProfiles` a `createDeclareSistemaIntents({ aiProfiles })`
+- `apps/backend/services/ai/declareSistemaIntents.js:80-88` — funzione `resolveUseUtilityBrain(actor)`:
+  1. Se `aiProfiles.profiles[actor.ai_profile].use_utility_brain === true/false` → ritorna quel valore
+  2. Altrimenti → fallback a `useUtilityAi` global (default `false`)
+- `declareSistemaIntents.js:186-192` — dispatch: se utility ON → `selectAiPolicyUtility(actor, target, {}, difficultyProfile)`; altrimenti → `selectAiPolicy(actor, target, null, threatCtx)` (legacy REGOLA\_\*)
+
+### Criterio rollout batch successivo
+
+Flip prossimo profile quando:
+
+1. VC fairness metrics invariati su N≥20 partite con `aggressive` Utility AI
+2. Nessuna regressione in `tests/ai/*.test.js` (161/161 baseline)
+3. Playtest human valida "Sistema si fa sentire" senza "barare"
+
+Ordine profile pianificato: `aggressive → flanking → patrol → support → territorial → balanced → cautious`
+
+(Profile `flanking/patrol/support/territorial` non ancora in YAML — aggiunti on-demand quando encounter richiede.)
+
+### Test
+
+- `tests/ai/utilityBrain.test.js` — unit test utility brain core (curves, scoring, selectAction, enumerateLegalActions)
+- `tests/ai/utilityAiProfileWiring.test.js` — smoke test wiring loader → dispatch (8 test):
+  - loader carica 3 profile + graceful fallback su file mancante
+  - `aggressive` ha `use_utility_brain=true`, `balanced`/`cautious` false
+  - dispatch: actor con profile flag → utility; actor con profile false → REGOLA\_\*; fallback global se profile assente
+  - `aiProfiles=null` → ignora profile, usa global
+
 ## Riferimenti
 
 - **Sprint history**:
@@ -324,6 +375,7 @@ per i pesi dei singoli indici e le condizioni dei themes.
   - sprint-012: REGOLA_003 kite opportunistico
   - sprint-013: stati emotivi panic/rage/stunned (issue #10)
   - sprint-015: test suite 45 test (policy + runner)
+  - 2026-04-17 Q-001 T3.1: Utility AI gradual rollout wired (loader + aggressive flip)
 - **PRs**: #1354 → #1363 sulla branch `main`
 - **Backlog residuo**: metriche telemetria che richiedono feature di
   gameplay (heal action, guard system, fog of war, objective system,
