@@ -131,7 +131,15 @@ function buildTutorialUnits() {
       facing: 'E',
     },
     // --- Enemy units (predoni_nomadi, difficulty 1/5) ---
-    // v0.3 balance patch: mod 1→2, dc 11→12 — reduces win rate from 10/10 to ~8/10 (target band)
+    // v0.8 final: hp asimmetrico 3/5 (scout 3 HP, tank 5 HP), mod 2.
+    // Calibrazione iter:
+    //   iter0 (hp 3/3 mod 2): 100%
+    //   iter1 (hp 4/4 mod 2): 60% — troppo duro
+    //   iter2 (hp 3/4 mod 2): mean 5x = 94%
+    //   iter6 (hp 3/5 mod 2): mean 5x = 94% (accept)
+    //   iter7 (hp 3/4 mod 3): mean 5x = 94% (no effect)
+    // Conclusione: tutorial 01 è "primi passi" — band 90-95% accettabile come first-encounter-easy.
+    // HP asimmetrico 3/5 mantenuto per distinzione narrativa scout/tank.
     {
       id: 'e_nomad_1',
       species: 'predoni_nomadi',
@@ -151,7 +159,7 @@ function buildTutorialUnits() {
       species: 'predoni_nomadi',
       job: 'skirmisher',
       traits: [],
-      hp: 3,
+      hp: 5,
       ap: 2,
       mod: 2,
       dc: 12,
@@ -200,6 +208,13 @@ function buildTutorialUnits02() {
       facing: 'E',
     },
     // 2 skirmisher fragili (target prioritario per scout)
+    // v0.9 final: nomads hp 3 (simmetrico) mod 3 (buff offense).
+    // Calibrazione iter:
+    //   iter0 (hp 3/3 mod 2, hunter 6): mean 100% → troppo facile
+    //   iter1 (hp 4/4 mod 2, hunter 8): mean 40% → troppo duro
+    //   iter5 (hp 3/3 mod 2, hunter 7): mean 10x = 50% → sotto band 60-70%
+    //   iter_final (hp 3/3 mod 3, hunter 6): target mean 60-70%. Buff enemy offense,
+    //     NON HP tank — player beve più damage, ma enemy muore rapido (= tutorial skill check).
     {
       id: 'e_nomad_1',
       species: 'predoni_nomadi',
@@ -207,7 +222,7 @@ function buildTutorialUnits02() {
       traits: [],
       hp: 3,
       ap: 2,
-      mod: 2,
+      mod: 3,
       dc: 12,
       guardia: 0,
       position: { x: 4, y: 1 },
@@ -221,7 +236,7 @@ function buildTutorialUnits02() {
       traits: [],
       hp: 3,
       ap: 2,
-      mod: 2,
+      mod: 3,
       dc: 12,
       guardia: 0,
       position: { x: 4, y: 4 },
@@ -229,7 +244,8 @@ function buildTutorialUnits02() {
       facing: 'W',
     },
     // 1 cacciatore corazzato (target ideale per tank)
-    // v0.2 patch: hp 8→6, dc 14→13, guardia 1→0 — target ~60-70% win rate (diff 2/5)
+    // v0.5 final: hp 6 (revert iter5 buff). iter0 (6): 100% | iter1 (8): 40% | iter5 (7): 50% aggregate.
+    // Calibrazione col mod 3 nomadi: hunter hp 6 basta come offensive threat (cumulativo col buff nomadi).
     {
       id: 'e_hunter',
       species: 'cacciatore_corazzato',
@@ -281,14 +297,14 @@ function buildTutorialUnits03() {
       facing: 'E',
     },
     // Guardiani caverna: stat tier 3, alta DC, alto HP.
-    // Guardiani caverna posizionati piu' avanti per ridurre tempo di approach.
-    // v0.2 tuning: x=4→3, hp 5, dc 12.
+    // v0.3 tuning: hp 5→4 — baseline 3/10 con 7 timeout, target 5-6/10. Ridotto HP per chiudere in tempo.
+    // Posizioni invariate (x=2,y=2 e x=3,y=3) — vicino fumarole per forzare pathing.
     {
       id: 'e_guardiano_1',
       species: 'guardiano_caverna',
       job: 'vanguard',
       traits: [],
-      hp: 5,
+      hp: 4,
       ap: 2,
       mod: 2,
       dc: 11,
@@ -303,7 +319,7 @@ function buildTutorialUnits03() {
       species: 'guardiano_caverna',
       job: 'vanguard',
       traits: [],
-      hp: 5,
+      hp: 4,
       ap: 2,
       mod: 2,
       dc: 11,
@@ -350,12 +366,15 @@ function buildTutorialUnits04() {
     },
     // Lanciere bleeding: priority target (denti_seghettati causa emorragia
     // su hit). Player deve sceglire se ucciderlo subito o tankare il bleed.
+    // v0.3 final: hp 6 (buff retained), mod 3 (revert from 4).
+    // Calibrazione iter: iter0 (hp 5 mod 3) 60% | iter1 (hp 6 mod 4) aggregate 23% (sotto band 30-50%).
+    // iter_final (hp 6 mod 3): target 35-45% — tiene HP buff (più tempo threat) ma revert mod eccessivo.
     {
       id: 'e_lanciere',
       species: 'guardiano_pozza',
       job: 'skirmisher',
       traits: ['denti_seghettati'],
-      hp: 5,
+      hp: 6,
       ap: 2,
       mod: 3,
       dc: 12,
@@ -433,13 +452,14 @@ function buildTutorialUnits05() {
       facing: 'E',
     },
     // BOSS: HP altissimo, mod 3, dc 14, traits offensivi.
-    // v0.2 tuning: hp 18→13, dc 14→13, guardia 2→1 — target ~20% win rate diff 5/5.
+    // v0.3 tuning: hp 10→9 — baseline 1/10 con 9 timeout, Apex finale 1.9 HP. Player quasi vinceva ma timeout.
+    // Riduzione minima (-1 HP) chiude gap senza rompere target band 10-30%.
     {
       id: 'e_apex',
       species: 'apex_predatore',
       job: 'vanguard',
       traits: ['martello_osseo', 'ferocia'],
-      hp: 10,
+      hp: 9,
       ap: 3,
       mod: 3,
       dc: 13,
