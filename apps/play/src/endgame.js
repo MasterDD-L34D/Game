@@ -1,4 +1,39 @@
-// End-game detection + overlay.
+// End-game detection + overlay (con VC debrief integrato).
+
+import { api } from './api.js';
+
+function renderVcBlock(vcSnapshot) {
+  if (!vcSnapshot || !vcSnapshot.per_actor) return '';
+  const players = Object.entries(vcSnapshot.per_actor).filter(
+    ([, v]) => v && v.controlled_by === 'player',
+  );
+  if (players.length === 0) return '';
+
+  const rows = players.map(([uid, v]) => {
+    const mbti = v.mbti || v.mbti_type || '—';
+    const enneaEntries = v.ennea || v.ennea_top || {};
+    const topEnnea = Array.isArray(enneaEntries)
+      ? enneaEntries[0]
+      : Object.entries(enneaEntries).sort((a, b) => b[1] - a[1])[0];
+    const enneaStr = topEnnea
+      ? Array.isArray(topEnnea)
+        ? `${topEnnea[0]} (${Number(topEnnea[1]).toFixed(2)})`
+        : String(topEnnea)
+      : '—';
+    const aggr = v.aggregates || {};
+    const agg = Object.entries(aggr)
+      .slice(0, 3)
+      .map(([k, val]) => `${k}: ${typeof val === 'number' ? val.toFixed(2) : val}`)
+      .join(' · ');
+    return `<div class="vc-row">
+      <strong>${uid}</strong>
+      <span class="vc-mbti">${mbti}</span>
+      <span class="vc-ennea">Ennea ${enneaStr}</span>
+      <div class="vc-agg">${agg || '—'}</div>
+    </div>`;
+  });
+  return `<div class="vc-block"><h3>VC · come hai giocato</h3>${rows.join('')}</div>`;
+}
 
 export function detectEndgame(state) {
   if (!state || !Array.isArray(state.units)) return null;
@@ -33,7 +68,23 @@ export function showEndgame(result, state, handlers) {
     HP persi PG: <strong>${playerHpLost}</strong><br>
     HP inflitti a Sistema: <strong>${sistemaHpLost}</strong><br>
     Session: <code>${(state.session_id || '').slice(0, 8) || '—'}</code>
+    <div id="vc-debrief-slot" class="vc-loading">⏳ Calcolo VC…</div>
   `;
+
+  // Async VC fetch (non blocca overlay)
+  if (state.session_id) {
+    api.vc(state.session_id).then((r) => {
+      const slot = document.getElementById('vc-debrief-slot');
+      if (!slot) return;
+      if (r.ok && r.data) {
+        slot.className = '';
+        slot.innerHTML = renderVcBlock(r.data);
+      } else {
+        slot.className = 'vc-error';
+        slot.textContent = '⚠ VC non disponibile';
+      }
+    });
+  }
 
   document.getElementById('endgame-next').onclick = handlers.next;
   document.getElementById('endgame-retry').onclick = handlers.retry;
