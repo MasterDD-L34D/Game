@@ -1020,6 +1020,34 @@ function createSessionRouter(options = {}) {
     return 0;
   }
 
+  // Canonical priority (ADR-2026-04-15):
+  // priority = unit.initiative + action_speed - status_penalty
+  // action_speed: defend/parry +2, attack 0, ability -1, move -2
+  // status_penalty: panic 2×intensity, disorient 1×intensity
+  const ACTION_SPEED_TABLE = {
+    defend: 2,
+    parry: 2,
+    attack: 0,
+    ability: -1,
+    heal: -1,
+    move: -2,
+    turn: 0,
+    skip: 0,
+  };
+
+  function computeIntentPriority(actor, action) {
+    const base = Number(actor?.initiative || 0);
+    const speed =
+      typeof ACTION_SPEED_TABLE[action?.type] === 'number' ? ACTION_SPEED_TABLE[action.type] : 0;
+    let penalty = 0;
+    if (actor?.status) {
+      const panic = Number(actor.status.panic) || 0;
+      const disorient = Number(actor.status.disorient) || 0;
+      penalty = panic * 2 + disorient;
+    }
+    return base + speed - penalty;
+  }
+
   router.post('/round/execute', async (req, res, next) => {
     try {
       const body = req.body || {};
@@ -1028,6 +1056,7 @@ function createSessionRouter(options = {}) {
 
       const playerIntents = Array.isArray(body.player_intents) ? body.player_intents : [];
       const aiAuto = body.ai_auto !== false;
+      const usePriorityQueue = body.priority_queue === true;
 
       // Validazione intent + AP cumulativo per actor.
       const apByUnit = {};
@@ -1073,10 +1102,61 @@ function createSessionRouter(options = {}) {
         });
       }
 
-      // Dispatch sequenziale intent player.
+      // Canonical priority queue (opt-in via priority_queue: true):
+      // - Mescola player intents + AI intents (se ai_auto) in una sola coda
+      // - Calcola priority per ogni intent (initiative + action_speed - penalty)
+      // - Sort stable: priority desc, originalIdx asc (preserva ordine per-actor)
+      // - Dispatch in priority order
+      // - End-of-round ticks via handleTurnEndViaRound(ai_auto=false path impossibile,
+      //   fallback: skip AI declare by emptying sistema_pending_intents)
+      let dispatchQueue = normalized.map((n) => ({
+        actor: n.actor,
+        raw: n.raw,
+        source: 'player',
+        priority: computeIntentPriority(n.actor, n.raw.action),
+        originalIdx: n.index,
+      }));
+
+      if (usePriorityQueue && aiAuto) {
+        try {
+          const { intents: aiIntents } = declareSistemaIntents(session);
+          for (let i = 0; i < aiIntents.length; i += 1) {
+            const aiIntent = aiIntents[i];
+            const actor = session.units.find((u) => u.id === aiIntent.unit_id);
+            if (!actor) continue;
+            const actionType = aiIntent.action?.type || 'skip';
+            const action =
+              actionType === 'move' && aiIntent.action.move_to
+                ? { type: 'move', position: aiIntent.action.move_to }
+                : actionType === 'attack'
+                  ? { type: 'attack', target_id: aiIntent.action.target_id }
+                  : { type: actionType };
+            dispatchQueue.push({
+              actor,
+              raw: { actor_id: actor.id, action },
+              source: 'ai',
+              priority: computeIntentPriority(actor, action),
+              originalIdx: 10000 + i,
+            });
+          }
+        } catch (_aiErr) {
+          // AI intent generation failed — continue with player only
+        }
+      }
+
+      if (usePriorityQueue) {
+        dispatchQueue.sort((a, b) => {
+          if (b.priority !== a.priority) return b.priority - a.priority;
+          if (a.actor.id !== b.actor.id)
+            return String(a.actor.id).localeCompare(String(b.actor.id));
+          return a.originalIdx - b.originalIdx;
+        });
+      }
+
+      // Dispatch in declared/priority order.
       const results = [];
       const eventsCountBefore = session.events.length;
-      for (const { actor, raw } of normalized) {
+      for (const { actor, raw } of dispatchQueue) {
         if (Number(actor.hp) <= 0) {
           results.push({ actor_id: actor.id, skipped: 'actor_dead_mid_round' });
           continue;
@@ -1213,9 +1293,50 @@ function createSessionRouter(options = {}) {
 
       // AI auto-declare: usa handleTurnEndViaRound (bleeding + hazard +
       // status decay + AI intents + commit + resolve).
+      // Con priority_queue=true, AI intents sono già dispatched nel queue,
+      // quindi saltiamo handleTurnEndViaRound (no double-dispatch).
       let aiResult = null;
-      if (aiAuto) {
+      if (aiAuto && !usePriorityQueue) {
         aiResult = await handleTurnEndViaRound(session);
+      } else if (usePriorityQueue) {
+        // End-of-round ticks minimali: bleeding + status decay + AP reset + turn++.
+        // NO AI declare (già fatto via priority queue).
+        for (const unit of session.units) {
+          if (!unit || Number(unit.hp) <= 0) continue;
+          // Bleeding tick
+          const bleedTurns = Number(unit.status?.bleeding) || 0;
+          if (bleedTurns > 0) {
+            unit.hp = Math.max(0, Number(unit.hp) - 1);
+            if (session.damage_taken) {
+              session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + 1;
+            }
+          }
+          // AP reset
+          const fractureActive = Number(unit.status?.fracture) > 0;
+          unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+          // Status decay + bonus clear
+          if (unit.status) {
+            for (const key of Object.keys(unit.status)) {
+              const v = Number(unit.status[key]);
+              if (v > 0) unit.status[key] = v - 1;
+            }
+            for (const key of Object.keys(unit.status)) {
+              if (!key.endsWith('_buff') && !key.endsWith('_debuff')) continue;
+              if (Number(unit.status[key]) > 0) continue;
+              const stat = key.replace(/_buff$|_debuff$/, '');
+              const bonusKey = `${stat}_bonus`;
+              if (unit[bonusKey] !== undefined) unit[bonusKey] = 0;
+            }
+            if (
+              unit.status.shield_buff !== undefined &&
+              Number(unit.status.shield_buff) <= 0 &&
+              unit.shield_hp
+            ) {
+              unit.shield_hp = 0;
+            }
+          }
+        }
+        session.turn += 1;
       }
 
       const eventsEmitted = session.events.slice(eventsCountBefore);
@@ -1224,6 +1345,7 @@ function createSessionRouter(options = {}) {
         round: session.turn,
         results,
         ai_result: aiResult,
+        priority_queue_used: usePriorityQueue,
         events_emitted_count: eventsEmitted.length,
         events: eventsEmitted,
         ap_consumed: apByUnit,
