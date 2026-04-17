@@ -63,6 +63,26 @@ const TUTORIAL_SCENARIO_03 = {
   ],
 };
 
+const TUTORIAL_SCENARIO_04 = {
+  id: 'enc_tutorial_04',
+  name: 'Pozza Acida del Bosco',
+  biome_id: 'foresta_acida',
+  difficulty_rating: 4,
+  estimated_turns: 12,
+  grid_size: 6,
+  objective: 'elimination',
+  objective_text:
+    'Sconfiggi i 3 guardiani della pozza. Attento al lanciere: il suo morso causa emorragia.',
+  briefing_pre:
+    'La pozza acida nasconde 3 guardiani: 2 corrieri rapidi e un lanciere con denti seghettati. Il bleeding accumula danno turno per turno: prioritizza il lanciere o tieni HP alto.',
+  briefing_post: 'La pozza si calma. I corpi dei guardiani si dissolvono nel liquido.',
+  hazard_tiles: [
+    { x: 2, y: 1, damage: 1, type: 'pozza_acida' },
+    { x: 3, y: 4, damage: 1, type: 'pozza_acida' },
+    { x: 2, y: 3, damage: 1, type: 'pozza_acida' },
+  ],
+};
+
 function buildTutorialUnits() {
   return [
     // --- Player units ---
@@ -280,11 +300,97 @@ function buildTutorialUnits03() {
   ];
 }
 
+// enc_tutorial_04: foresta acida diff 4/5. 2v3 con un lanciere bleeding
+// (trait denti_seghettati) + 3 hazard tiles distribuiti.
+function buildTutorialUnits04() {
+  return [
+    {
+      id: 'p_scout',
+      species: 'dune_stalker',
+      job: 'skirmisher',
+      traits: ['zampe_a_molla'],
+      hp: 10,
+      ap: 3,
+      mod: 3,
+      dc: 12,
+      guardia: 1,
+      position: { x: 1, y: 1 },
+      controlled_by: 'player',
+      facing: 'E',
+    },
+    {
+      id: 'p_tank',
+      species: 'dune_stalker',
+      job: 'vanguard',
+      traits: ['pelle_elastomera'],
+      hp: 12,
+      ap: 3,
+      mod: 2,
+      dc: 13,
+      guardia: 1,
+      position: { x: 1, y: 4 },
+      controlled_by: 'player',
+      facing: 'E',
+    },
+    // Lanciere bleeding: priority target (denti_seghettati causa emorragia
+    // su hit). Player deve sceglire se ucciderlo subito o tankare il bleed.
+    {
+      id: 'e_lanciere',
+      species: 'guardiano_pozza',
+      job: 'skirmisher',
+      traits: ['denti_seghettati'],
+      hp: 5,
+      ap: 2,
+      mod: 3,
+      dc: 12,
+      guardia: 0,
+      attack_range: 2,
+      position: { x: 3, y: 2 },
+      controlled_by: 'sistema',
+      facing: 'W',
+    },
+    // Corriere 1: rapido ma fragile
+    {
+      id: 'e_corriere_1',
+      species: 'guardiano_pozza',
+      job: 'skirmisher',
+      traits: [],
+      hp: 4,
+      ap: 3,
+      mod: 2,
+      dc: 11,
+      guardia: 0,
+      attack_range: 2,
+      position: { x: 4, y: 0 },
+      controlled_by: 'sistema',
+      facing: 'W',
+    },
+    // Corriere 2: stesso pattern
+    {
+      id: 'e_corriere_2',
+      species: 'guardiano_pozza',
+      job: 'skirmisher',
+      traits: [],
+      hp: 4,
+      ap: 3,
+      mod: 2,
+      dc: 11,
+      guardia: 0,
+      attack_range: 2,
+      position: { x: 4, y: 5 },
+      controlled_by: 'sistema',
+      facing: 'W',
+    },
+  ];
+}
+
 module.exports = {
   TUTORIAL_SCENARIO,
   TUTORIAL_SCENARIO_02,
   TUTORIAL_SCENARIO_03,
+  TUTORIAL_SCENARIO_04,
   buildTutorialUnits,
   buildTutorialUnits02,
   buildTutorialUnits03,
+  buildTutorialUnits04,
 };
