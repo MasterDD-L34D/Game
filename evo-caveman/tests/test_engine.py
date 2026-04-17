@@ -81,7 +81,7 @@ class TestShouldSpeak:
         snap = _snap(["INFRA"] * 5 + ["DOCS"] * 5)
         speak, reason = should_speak(snap)
         assert speak
-        assert "drift" in reason.lower()
+        assert "deriva" in reason.lower()
 
     def test_speaks_on_gameplay_commit(self) -> None:
         snap = _snap(["GAMEPLAY", "INFRA"])
