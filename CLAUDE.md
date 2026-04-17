@@ -171,7 +171,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Visione**: "Tattica profonda a turni, cooperativa contro il Sistema, condivisa su TV: come giochi modella ciò che diventi."
 
-**Sprint completati**: 001–020 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Ultimo commit**: `43b321a7`
+**Sprint completati**: 001–020 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Sessione 17/04 M2 (ability + canonical)**: 16 PR (#1498→#1527) · **Ultimo commit**: `3ca22204`
 
 **Milestone completate sessione 16-17/04**:
 
@@ -221,7 +221,20 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - **Status effects** — bleeding via trait `denti_seghettati` su enemy
 - Vedi [`docs/process/sprint-2026-04-17.md`](docs/process/sprint-2026-04-17.md) per dettagli completi
 
-**Test totali aggiornati**: Python rules engine 196/196 · Node AI 98/98 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** (sessione 17/04)
+**Milestone sessione 17/04 M2 (#1498-#1527, 16 PR — ability executor + SoT canonical)**:
+
+- **Ability executor**: 0 → **18/18 effect_type live** (move_attack, attack_move, buff, heal, multi_attack, attack_push, debuff, ranged_attack, drain_attack, execution_attack, shield, team_buff, team_heal, aoe_buff, aoe_debuff, surge_aoe, reaction, aggro_pull)
+- **Reaction trigger system**: intercept (ally_attacked_adjacent) + overwatch_shot (enemy_moves_in_range INTO) con kill chain + reaction cap 1/actor
+- **Stat bonus wiring**: actor.attack_mod_bonus + target.defense_mod_bonus consumati in resolveAttack + predictCombat, decay via status[stat_buff|debuff]
+- **SoT canonical round model**: `POST /api/session/round/execute` batch endpoint con priority queue (ADR-2026-04-15 compliant). Formula: `initiative + action_speed - status_penalty`
+- **AP canonical**: tutorial 02-05 allineati a `ap_max=2`. Tutorial 01 eccezione easy documentata
+- **CLI playtest**: `tools/py/master_dm.py` REPL per Master DM tabletop → batch canonical endpoint
+- **FRICTION 7/7 risolte**: AP budget + ability syntax + effective_reach + effect_trigger on_hit/always
+- **Polish**: squadCombo flake eliminato (50/50), kill chain on intercept death, aggro_warning player, reaction cap 1
+- **M3 automated**: N=30 aggregate post ap=2. T04 33% ✓ centrato (hp tune -1), T05 ~20% ✓ in band (hp 9→11)
+- Vedi [`docs/process/sprint-2026-04-17-m2-canonical.md`](docs/process/sprint-2026-04-17-m2-canonical.md) per dettagli completi
+
+**Test totali aggiornati**: Python rules engine 196/196 · Node AI 197/197 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** · **Ability/canonical 60+** (M2 sessione) · **Totale 700+**
 
 ### Pilastri di design — stato attuale
 
