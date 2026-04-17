@@ -552,7 +552,41 @@ function createSessionRouter(options = {}) {
       const sessionId = newSessionId();
       const now = new Date();
       const logFilePath = path.join(logsDir, `session_${timestampStamp(now)}.json`);
-      const units = normaliseUnitsPayload(req.body?.units);
+      let units = normaliseUnitsPayload(req.body?.units);
+
+      // Q-001 T2.3 PR-3: applica difficulty profile scaling (opt-in, default normal)
+      const requestedProfile =
+        typeof req.body?.difficulty_profile === 'string'
+          ? req.body.difficulty_profile.trim()
+          : 'normal';
+      let difficultyProfileMeta = null;
+      try {
+        const { getDifficultyConfig } = require('../../../services/difficulty/loader');
+        const { applyPlayerProfile } = require('../../../services/difficulty/difficultyCalculator');
+        const diffCfg = getDifficultyConfig();
+        if (diffCfg.player_difficulty_profiles[requestedProfile]) {
+          const mockEncounter = {
+            waves: [{ units: units.map((u) => ({ species: u.id, count: 1, tier: 'base' })) }],
+          };
+          const scaled = applyPlayerProfile(mockEncounter, requestedProfile, diffCfg);
+          difficultyProfileMeta = scaled._difficultyProfile;
+
+          // Applica enemy_hp_multiplier + player_hp_multiplier a units SIS vs player
+          const hpMultEnemy = difficultyProfileMeta.enemy_hp_multiplier || 1.0;
+          const hpMultPlayer = difficultyProfileMeta.player_hp_multiplier || 1.0;
+          units = units.map((u) => {
+            if (!u) return u;
+            const isSis = u.controlled_by === 'sistema';
+            const mult = isSis ? hpMultEnemy : hpMultPlayer;
+            if (mult === 1.0) return u;
+            const newMax = Math.round(Number(u.max_hp || u.hp || 10) * mult);
+            return { ...u, hp: newMax, max_hp: newMax };
+          });
+        }
+      } catch {
+        // best-effort: se config non carica, skip profile scaling
+      }
+
       // SPRINT_020: calcola turn_order via iniziativa descending.
       const turnOrder = buildTurnOrder(units);
       const firstActiveId = turnOrder[0] || null;
@@ -583,6 +617,8 @@ function createSessionRouter(options = {}) {
         // Lista {x, y, damage, type}. Applicato a fine turno via
         // applyHazardDamage in handleTurnEndViaRound.
         hazard_tiles: Array.isArray(req.body?.hazard_tiles) ? req.body.hazard_tiles : [],
+        // Q-001 T2.3: difficulty profile scaling metadata (null se profile invalid)
+        _difficultyProfile: difficultyProfileMeta,
       };
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
@@ -905,6 +941,29 @@ function createSessionRouter(options = {}) {
         pfResult[unitId] = computePfSession(actorVc, formsData);
       }
       res.json({ session_id: session.session_id, pf_session: pfResult });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // Q-001 T2.3 PR-3: List available difficulty profiles.
+  router.get('/difficulty/profiles', (req, res, next) => {
+    try {
+      const { getDifficultyConfig } = require('../../../services/difficulty/loader');
+      const cfg = getDifficultyConfig();
+      const profiles = cfg.player_difficulty_profiles || {};
+      const list = Object.entries(profiles).map(([id, profile]) => ({
+        id,
+        label_it: profile.label_it,
+        label_en: profile.label_en,
+        description_it: profile.description_it,
+        description_en: profile.description_en,
+        enemy_count_multiplier: profile.enemy_count_multiplier,
+        enemy_hp_multiplier: profile.enemy_hp_multiplier,
+        enemy_damage_multiplier: profile.enemy_damage_multiplier,
+        player_hp_multiplier: profile.player_hp_multiplier,
+      }));
+      res.json({ profiles: list, default: 'normal' });
     } catch (err) {
       next(err);
     }
