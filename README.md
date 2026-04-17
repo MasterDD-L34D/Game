@@ -24,6 +24,7 @@ Full pitch: [`docs/PITCH.md`](docs/PITCH.md).
 Monorepo polyglot. Mappa essenziale:
 
 - `apps/backend/` — Express API "Idea Engine" (porta 3334)
+- `apps/play/` — Browser 2D frontend (Vite, porta 5180) — gioco giocabile
 - `services/rules/` — rules engine d20 (Python): resolver, hydration, demo CLI
 - `services/generation/` — generatore specie (Node+Python worker pool)
 - `services/ai/` — AI Sistema (policy legacy + Utility AI opt-in per profile)
@@ -78,8 +79,10 @@ Policy: prima di iniziare lavoro che supera 50 righe fuori `apps/backend/`, ferm
 
 - Sprint 001–020 completati (vedi `CLAUDE.md` §sprint-context)
 - Q-001 open questions triage **✅ chiusa** (PR #1463), 8 follow-up PR mergiate (#1472-#1480)
-- MUST RESEARCH_TODO **3/3 ✅** (M1 playtest, M2 backlog, M3 pitch) — 2026-04-17
-- Pillar status attuale: **tutti 🟡** post-playtest (revisione onesta, non regressione)
+- MUST RESEARCH_TODO **3/3 ✅** + SHOULD **4/4 ✅** — 2026-04-17
+- **Gioco giocabile ✅** — CLI (`node tools/js/play.js`) e browser 2D (`npm run play:dev`)
+- Frontend sprint α-ε merged: ability UI, animations, status icons, VC debrief, replay viewer, SFX synth
+- Pillar status attuale: P1/P3/P5 🟢 post-playtest · P2/P4/P6 🟡
 - Test totali: Python 196, Node AI 150+, VC 21, Encounter 8, Replay 20, Difficulty 23, i18n 4
 
 ## Licensing
