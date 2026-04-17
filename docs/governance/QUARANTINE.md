@@ -41,11 +41,12 @@ Registro file/area in lavorazione su branch non-main. Scopo: avvisare main e cod
 ### Q-001 · Open Questions Triage + Idee Non Implementate
 
 - **Branch**: `explore/open-questions-triage`
-- **PR**: #1463 (DRAFT)
+- **PR**: #1463 (ready)
 - **Owner**: @MasterDD-L34D (assisted by Claude Code agent)
 - **Start**: 2026-04-17
-- **Ready-for-review**: 2026-04-17 (stesso giorno, scope ristretto a DRAFT)
-- **ETA merge**: post-decisioni Master DD sui DRAFT
+- **Ready-for-review**: 2026-04-17
+- **Approved**: 2026-04-17 (tutte 11 decisioni T1+T2+T3 chiuse)
+- **ETA merge**: imminent (waiting PR conversion draft→ready)
 - **Reason**: Lavoro sistematico su SoT §19 proposte (9🟡) + idee non implementate (Colyseus, Accessibility, Replay, Difficulty settings, Persona validation) + **audit gap implementativo di tutti i docs nuovi/modificati dal 2026-04-15** (core, ADR, hubs, balance, appendici) per identificare cosa manca tra descrizione e implementazione reale
 - **Files/Areas potenzialmente toccate**:
   - `docs/core/00-SOURCE-OF-TRUTH.md` (§16, §18, §19)

@@ -1,6 +1,6 @@
 ---
-title: 'Tri-Sorgente Node Bridge — Design Spec (DRAFT)'
-doc_status: draft
+title: 'Tri-Sorgente Node Bridge — Design Spec'
+doc_status: active
 doc_owner: backend-team
 workstream: flow
 last_verified: 2026-04-17
@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Tri-Sorgente Node Bridge — Design Spec
 
-**Stato**: 🟡 DRAFT — design doc, richiede approvazione Master DD + backend-team
+**Stato**: 🟢 ACTIVE — approvato Master DD 2026-04-17 (Q-001 T3.2)
 **Branch**: `explore/open-questions-triage` (Q-001)
 **Risolve**: G2.1 audit gap implementativo 2026-04-17
 
@@ -177,11 +177,11 @@ interface TriSorgenteOfferResponse {
 3. Implementation step-by-step (schema → worker → bridge → route → integration → test)
 4. Gate M4: tri-sorgente wired in session loop
 
-## Aperto per Master DD
+## Decisione Master DD (2026-04-17) — Q-001 T3.2
 
-- Approvi design bridge pattern Python worker pool? **[SI/NO/ALT]**
-- Approvi split in PR dedicata post-Q-001? **[SI/NO]**
-- Side-effect nel session state (`pendingOffers` new field) accettabile? **[SI/NO]**
-- Test coverage target ≥ 80% OK? **[SI/NO]**
+- Design bridge Python worker pool: **SI** (mirror services/generation/)
+- Split PR dedicata post-Q-001: **SI** (`feat/tri-sorgente-bridge`, +640 LOC)
+- Side-effect session state `pendingOffers`: **SI** (additive)
+- Test coverage target ≥ 80%: **SI** (baseline repo)
 
-Alla conferma design → implementation branch parte.
+Implementation branch parte dopo merge Q-001.

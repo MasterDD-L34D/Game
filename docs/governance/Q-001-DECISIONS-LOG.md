@@ -42,10 +42,10 @@ Tracker ufficiale delle decisioni Master DD sui 9 DRAFT prodotti nel branch `exp
 
 ## Tier 3 · Deep review
 
-| #    | DRAFT                      | Decisione                    | Outcome | Commit | Data |
-| ---- | -------------------------- | ---------------------------- | ------- | ------ | ---- |
-| T3.1 | Utility AI (G1.2)          | Opzione A/B/C?               | ☐ TBD   | —      | —    |
-| T3.2 | Tri-Sorgente bridge (G2.1) | Python worker pool approach? | ☐ TBD   | —      | —    |
+| #    | DRAFT                      | Decisione                    | Outcome                                            | Commit  | Data       |
+| ---- | -------------------------- | ---------------------------- | -------------------------------------------------- | ------- | ---------- |
+| T3.1 | Utility AI (G1.2)          | Opzione A/B/C?               | ✅ C · aggressive first · metriche VC gate         | pending | 2026-04-17 |
+| T3.2 | Tri-Sorgente bridge (G2.1) | Python worker pool approach? | ✅ SI · split PR · pendingOffers OK · 80% coverage | pending | 2026-04-17 |
 
 ## Follow-up branch plan (post-approval)
 
@@ -72,10 +72,16 @@ Branch feature da aprire dopo approval:
 
 ## Merge plan Q-001
 
-- Dopo Tier 1 approve → merge parziale Q-001 (items T1.\*)
-- Dopo Tier 2+3 approve → merge completo Q-001
-- QUARANTINE Q-001 → sposta in § Resolved con hash merge
-- ADR DRAFT → active (frontmatter flip)
+- Dopo Tier 1 approve → merge parziale Q-001 (items T1.\*) ✅
+- Dopo Tier 2+3 approve → merge completo Q-001 ✅ **11/11 DECISIONI CHIUSE**
+- QUARANTINE Q-001 → sposta in § Resolved con hash merge → **pending merge**
+- ADR DRAFT → active (frontmatter flip) ✅
+
+## Status finale
+
+**🟢 TUTTE 11 DECISIONI APPROVATE · PR #1463 READY FOR MERGE**
+
+Dopo merge Q-001, aprire 16 branch feature secondo Follow-up Branch Plan sequenziali.
 
 ## Decision format
 

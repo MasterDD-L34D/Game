@@ -1,6 +1,6 @@
 ---
-title: 'ADR 2026-04-17 — Utility AI: Default Activation Decision (DRAFT per Master DD)'
-doc_status: draft
+title: 'ADR 2026-04-17 — Utility AI: Default Activation Decision'
+doc_status: active
 doc_owner: governance
 workstream: cross-cutting
 last_verified: 2026-04-17
@@ -9,9 +9,9 @@ language: it
 review_cycle_days: 30
 ---
 
-# ADR-2026-04-17 · Utility AI Default Activation (DRAFT)
+# ADR-2026-04-17 · Utility AI Default Activation
 
-**Stato**: 🟡 DRAFT — richiede validazione Master DD (guardrail Pilastro 5)
+**Stato**: 🟢 ACCEPTED — Master DD 2026-04-17 (Q-001 T3.1) · Opzione C gradual rollout
 **Branch**: `explore/open-questions-triage` (Q-001)
 **Risolve**: G1.2 audit gap implementativo 2026-04-17
 **Supersede (parziale)**: [ADR-2026-04-16 AI Utility Architecture](./ADR-2026-04-16-ai-architecture-utility.md) nella sola clausola "integrazione sprint futuro"
@@ -78,15 +78,26 @@ ADR-2026-04-16 ha formalizzato **Utility AI** come scelta architetturale per AI 
 5. Aggiornare ADR-2026-04-16 status → "Accettato (gradual rollout)"
 6. PR separata per flip dei restanti 6 profile dopo playtest batch N=10
 
-## Aperto per Master DD
+## Decisione Master DD (2026-04-17) — Q-001 T3.1
 
-- Opzione preferita: **[A/B/C]**?
-- Se C, profile da flippare per primo: **[aggressive/altro]**?
-- Criterio rollout batch 2: **[tempo / metriche VC / playtest feedback]**?
+- Opzione scelta: **C** (feature flag data-driven in `ai_profiles.yaml` per profile, gradual rollout)
+- Primo profile flip: **aggressive** (comportamento più osservabile per validation)
+- Criterio rollout batch successivo: **metriche VC** (fairness invariante Pilastro 6 = gate)
 
-Alla conferma l'ADR passa da `doc_status: draft` → `active` e si procede con implementazione nel branch Q-001 **o in branch feature dedicato** (decisione Master DD — `services/ai/` è guardrail).
+### Piano esecuzione approvato
 
-## Alternative parcheggiate
+Branch feature dedicato: `feat/utility-ai-flip` (touches `services/ai/` guardrail → approval richiesta via questo ADR).
+
+Sequenza:
+
+1. Aggiungere campo `use_utility_brain: boolean` a tutti 7 profile in `data/core/ai_profiles.yaml` (default `false`)
+2. Modificare `declareSistemaIntents.js:69-143` per leggere flag da profile invece di param hardcoded
+3. Flip `aggressive.use_utility_brain: true`
+4. Run test suite → baseline `node --test tests/ai/*.test.js` (141/141 attuale) + smoke VC fairness
+5. Criterio rollout batch 2: se VC fairness metrics invariati su N=20 partite → flip prossimo profile
+6. Ordine profile suggerito: aggressive → flanking → patrol → support → territorial → balanced → cautious
+
+### Alternative parcheggiate
 
 - **GOAP**: già rifiutato in ADR-2026-04-16
 - **Behavior Tree**: già rifiutato in ADR-2026-04-16
