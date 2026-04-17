@@ -13,6 +13,10 @@
 // PR4.b tune (2026-04-18): batch N=30 ha mostrato wr 100% / K/D 4.0, fuori
 // banda. Applicate Iter 1+2+3 (HP +55%, stats +1 mod/dc, pressure_start
 // 75→85). Ref: docs/playtest/2026-04-18-hardcore-06-calibration.md.
+//
+// PR4.c tune (2026-04-18): Iter 1 validation N=10 wr 100% (migliorato ma
+// ancora fuori band). Iter 2: HP enemy totale 64→92 (pari a player pool),
+// BOSS attack_range 2→3. Stima wr 30-50% post-Iter 2.
 
 'use strict';
 
@@ -71,31 +75,31 @@ function buildHardcoreUnits06() {
   }
 
   const enemies = [
-    // BOSS Apex (center-right) — HP alto, crit bonus, attack_range 2.
-    // PR4.b: hp 14→22 (+57%), mod 4→5, dc 14→15.
+    // BOSS Apex (center-right) — HP alto, crit bonus, attack_range 3.
+    // PR4.b: hp 14→22 mod 4→5 dc 14→15. PR4.c: hp 22→30, attack_range 2→3.
     {
       id: 'e_apex_boss',
       species: 'apex_predatore',
       job: 'vanguard',
       traits: ['martello_osseo', 'ferocia'],
-      hp: 22,
+      hp: 30,
       ap: 3,
       mod: 5,
       dc: 15,
       guardia: 2,
-      attack_range: 2,
+      attack_range: 3,
       position: { x: 8, y: 5 },
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
     },
-    // 2 elite hunter — flanking. PR4.b: hp 7→10, mod 3→4, dc 13→14.
+    // 2 elite hunter — flanking. PR4.b: hp 7→10 mod/dc +1. PR4.c: hp 10→14.
     {
       id: 'e_elite_hunter_1',
       species: 'cacciatore_corazzato',
       job: 'vanguard',
       traits: [],
-      hp: 10,
+      hp: 14,
       ap: 2,
       mod: 4,
       dc: 14,
@@ -111,7 +115,7 @@ function buildHardcoreUnits06() {
       species: 'cacciatore_corazzato',
       job: 'vanguard',
       traits: [],
-      hp: 10,
+      hp: 14,
       ap: 2,
       mod: 4,
       dc: 14,
@@ -122,13 +126,13 @@ function buildHardcoreUnits06() {
       ai_profile: 'aggressive',
       facing: 'W',
     },
-    // 3 minion nomad — PR4.b: hp 4→6, mod 2→3, dc 11→12.
+    // 3 minion nomad — PR4.b: hp 4→6 mod/dc +1. PR4.c: hp 6→8.
     {
       id: 'e_minion_1',
       species: 'predoni_nomadi',
       job: 'skirmisher',
       traits: [],
-      hp: 6,
+      hp: 8,
       ap: 2,
       mod: 3,
       dc: 12,
@@ -143,7 +147,7 @@ function buildHardcoreUnits06() {
       species: 'predoni_nomadi',
       job: 'skirmisher',
       traits: [],
-      hp: 6,
+      hp: 8,
       ap: 2,
       mod: 3,
       dc: 12,
@@ -158,7 +162,7 @@ function buildHardcoreUnits06() {
       species: 'predoni_nomadi',
       job: 'skirmisher',
       traits: [],
-      hp: 6,
+      hp: 8,
       ap: 2,
       mod: 3,
       dc: 12,

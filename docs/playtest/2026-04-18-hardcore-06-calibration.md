@@ -169,9 +169,59 @@ Pressure reinforcement: spawn +1 minion at turn 4 (pos 8,5) via sistema spawn ev
 
 Oppure: ridurre player side (modulation `hardcore_quartet` 4p invece di full 8p) → rimuove asimmetria focus-fire.
 
-## 11. Next step
+## 11. PR4.c iter 2 — risultati (N=10, post HP +37% + boss rng)
 
-1. **PR4.b (this)**: merge Iter 1 tune anche se ancora fuori band — stabilisce baseline iter 1 e raccoglie data.
-2. **PR4.c**: Iter 2 (HP +37%, boss AoE, reinforcement) o modulation switch. Re-run N=30.
-3. Parallel: fix VC snapshot + AI tally bug (issues #1, #2).
-4. Close ADR-2026-04-17 M3 quando band target raggiunta.
+Tune Iter 2 applicato:
+
+| Enemy     | HP      | attack_range |
+| --------- | ------- | ------------ |
+| BOSS apex | 22 → 30 | 2 → 3        |
+| Elite ×2  | 10 → 14 | 2 (invar.)   |
+| Minion ×3 | 6 → 8   | 1 (invar.)   |
+
+Total enemy HP: 64 → **82** (+28%). Stats mod/dc invariate (già bumpate in Iter 1).
+
+Raw: `docs/playtest/2026-04-18-hardcore-06-batch-iter2.json`.
+
+| Metric               | Iter 0 | Iter 1 | **Iter 2** | Target  | Band |
+| -------------------- | ------ | ------ | ---------- | ------- | :--: |
+| win_rate             | 100%   | 100%   | **80%**    | 15-25%  |  🔴  |
+| timeout_rate         | 0%     | 0%     | **20%**    | 0%      |  🟡  |
+| defeat_rate          | 0%     | 0%     | **0%**     | 75-85%  |  🔴  |
+| turns avg            | 17.3   | 22.0   | **29.8**   | 14-18   |  🔴  |
+| K/D avg              | 4.0    | 2.9    | **2.67**   | 0.6-0.9 |  🔴  |
+| players_alive_on_win | 6.33   | 5.8    | **5.5**    | 2-3     |  🔴  |
+| dmg_taken            | 20.7   | 29.2   | **28.2**   | 60-70   |  🔴  |
+
+### Insight critico (Iter 2)
+
+Dmg_taken stagnante a ~28 tra Iter 1 e Iter 2 (stesso mod/dc). HP buff **solo allunga i round** senza aumentare letalità AI. 2 timeout = player non riesce a chiudere in 40 round ma **nemmeno muore**.
+
+**Root cause**: enemy dmg output troppo basso. 6 attaccanti × ~25 round × hit rate basso = 28 dmg totali → 0.19 dmg/atk. AI probabilmente skippa o non raggiunge player (greedy player attrae ma da distanza).
+
+## 12. Iter 3 proposto (focus lethality, non HP)
+
+Obiettivo: raddoppiare dmg output enemy **senza** toccare HP.
+
+```diff
+- BOSS ap 3 → 4                # più azioni per round
+- Elite ap 2 → 3
+- Minion ap 2 → 3
+- BOSS mod +5 → +7             # +10% hit, +crit chance
+- BOSS damage_bonus: +2        # base damage buff
+- Elite mod +4 → +5
+- Minion mod +3 → +4
+
+# Alternativa structural:
+- objective: 'elimination' → 'survive_turns:8'  # player deve resistere, non killare boss
+- Reinforcement: spawn minion ogni 5 turni (max 3 extra waves)
+```
+
+**Alt B — ridurre player side**: `modulation: 'hardcore_quartet'` (4p) invece di full 8p. Focus-fire 4v6 asymmetric diversa, forse più bilanciato nativamente.
+
+## 13. Next step
+
+1. **PR #1539 (this branch)**: Iter 1 + Iter 2 insieme. Validano harness + stabiliscono che HP-only tune non basta.
+2. **PR4.c**: Iter 3 focus lethality (ap +1, mod +2, damage_bonus) o modulation switch quartet.
+3. **Parallel**: fix VC snapshot + AI tally bug (issues #1, #2) — batch runner upgrade.
+4. Close ADR-2026-04-17 M3 quando wr 15-25% raggiunto.
