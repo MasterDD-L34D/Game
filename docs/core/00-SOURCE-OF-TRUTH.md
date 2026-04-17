@@ -1159,6 +1159,28 @@ Questa sezione traccia le 28 domande aperte dai draft GDD e il loro stato di ris
 
 **Tutti i gap irrisolti = Art Direction + Business Model.** Coerente con GDD Audit: gap critici §10 (Game Art) e §1 (Copyright/licensing). Il progetto è forte su meccaniche, debole su produzione asset — priorità Master DD per sbloccare.
 
+### 19.5 Q-001 deliverables (branch explore/open-questions-triage, 2026-04-17)
+
+Branch dedicato ha prodotto DRAFT concreti per sbloccare decisioni Master DD:
+
+| Item                     | Area       | Deliverable                                                                          | Stato        |
+| ------------------------ | ---------- | ------------------------------------------------------------------------------------ | ------------ |
+| Q3 Localizzazione        | i18n       | `data/i18n/{it,en}/common.json` scaffold + `docs/architecture/i18n-strategy.md`      | 🟡 DRAFT     |
+| Q10 Voci creature        | audio      | `docs/audio/creature-sfx-spec.md` (taxonomia bio-plausibile)                         | 🟡 DRAFT     |
+| Q22 Accessibility        | a11y       | `data/core/ui/accessibility.yaml` + schema AJV + preset                              | 🟡 DRAFT     |
+| Q23 Deaf indicators      | a11y       | `docs/frontend/accessibility-deaf-visual-parity.md` (matrice eventi)                 | 🟡 DRAFT     |
+| Q26 Loading tips         | UX         | `data/core/ui/loading_tips.yaml` (22 tip bilingual)                                  | 🟢 additive  |
+| Q27 Replay match         | backend    | `docs/architecture/replay-from-event-log.md` (5-PR split)                            | 🟡 DRAFT     |
+| §15.4 Difficulty         | gameplay   | `data/core/difficulty.yaml` + schema + `docs/architecture/difficulty-integration.md` | 🟡 DRAFT     |
+| §18.1 Personas           | research   | `docs/planning/personas/player-personas-validation.md` (3 schede + playtest plan)    | 🟡 DRAFT     |
+| G1.1 XP Cipher           | governance | `docs/adr/ADR-2026-04-17-xp-cipher-official-park.md` (raccomanda park)               | 🟡 ADR DRAFT |
+| G1.2 Utility AI          | ai         | `docs/adr/ADR-2026-04-17-utility-ai-default-activation.md` (Opt C gradual)           | 🟡 ADR DRAFT |
+| G2.1 Tri-Sorgente bridge | backend    | `docs/architecture/tri-sorgente-node-bridge.md`                                      | 🟡 DRAFT     |
+
+**Audit report**: `docs/reports/2026-04-17-audit-gap-implementativo-docs.md` (gap docs 48h verificati + falsi positivi rettificati).
+
+Tutte le decisioni Master DD richieste sono marcate nelle "Aperto per Master DD" section dei rispettivi DRAFT.
+
 ---
 
 ## 20. Tri-Sorgente — progressione a carte ⚠️ PRESCRITTIVO
