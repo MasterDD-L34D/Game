@@ -194,6 +194,20 @@
     50% { opacity: .65; }
   }
 
+  /* Cell highlight durante animazione resolve: cella attore pulsa arancione
+     mentre la sua azione viene processata. */
+  .cell.resolving {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245,158,11,.7), inset 0 0 14px rgba(245,158,11,.35);
+    animation: pulse-resolving 0.4s ease-in-out;
+    z-index: 4;
+  }
+  @keyframes pulse-resolving {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
   /* Pannello ordini pendenti */
   .orders-list { display: flex; flex-direction: column; gap: 4px; }
   .orders-empty { color: var(--muted); font-size: 11px; font-style: italic; padding: 4px 0; }
@@ -1158,6 +1172,16 @@ async function resolveRound() {
     for (const qItem of queue) {
       const act = actByUnit.get(String(qItem.unit_id));
       if (!act) continue;
+
+      // Cell highlight: evidenzia cella attore su posizione iniziale (pre-move)
+      const actor = (state.units || []).find((u) => u.id === String(qItem.unit_id));
+      const pos = act.position_from || actor?.position;
+      let highlightedCell = null;
+      if (pos) {
+        highlightedCell = document.querySelector(`.cell[data-x='${pos.x}'][data-y='${pos.y}']`);
+        if (highlightedCell) highlightedCell.classList.add('resolving');
+      }
+
       if (act.actor === 'sistema') {
         logIaAction(act);
       } else {
@@ -1176,7 +1200,9 @@ async function resolveRound() {
           addLog('miss', `⏭ ${who} skip: ${act.reason}`);
         }
       }
+
       await new Promise((r) => setTimeout(r, RESOLVE_STEP_MS));
+      if (highlightedCell) highlightedCell.classList.remove('resolving');
     }
 
     logStatusDiff(preStatus, snapshotStatuses(state));
@@ -1280,6 +1306,55 @@ function setBar(id, v, max) {
   const el = document.getElementById(id);
   if (el) el.style.width = `${Math.max(0, Math.round((v / (max||10)) * 100))}%`;
 }
+
+/* ── KEYBOARD SHORTCUTS (D) ──
+   1-9: seleziona player unit N (se esiste + viva + è turno player)
+   Enter: Risolvi Round
+   Esc: deseleziona, oppure cancella intent se c'è */
+document.addEventListener('keydown', async (ev) => {
+  if (!state || !isMyTurn()) return;
+  if (ev.target && ['INPUT', 'TEXTAREA'].includes(ev.target.tagName)) return;
+
+  // Digit 1-9 → select player N
+  if (/^[1-9]$/.test(ev.key)) {
+    const idx = parseInt(ev.key, 10) - 1;
+    const players = playerUnits();
+    if (idx < players.length) {
+      ev.preventDefault();
+      const target = players[idx];
+      selected = (selected === target.id) ? null : target.id;
+      if (selected) {
+        await ensurePlanningStarted();
+        const intent = pendingIntents[selected];
+        setHint(intent
+          ? formatIntentHint(selected, intent) + ' (shift-click unit per cancellare)'
+          : `Pianifica ${unitLabel(selected)}: clicca nemico per attaccare o cella per muoverti`);
+      }
+      render();
+    }
+    return;
+  }
+
+  if (ev.key === 'Enter') {
+    ev.preventDefault();
+    const btn = document.getElementById('btn-end-turn');
+    if (btn && !btn.disabled) resolveRound();
+    return;
+  }
+
+  if (ev.key === 'Escape') {
+    ev.preventDefault();
+    // Priorità: se selected ha intent → clear intent; altrimenti deseleziona
+    if (selected && pendingIntents[selected]) {
+      await clearPlayerIntent(selected);
+    } else if (selected) {
+      selected = null;
+      render();
+      setHint('Clicca la tua unità per pianificare');
+    }
+    return;
+  }
+});
 
 /* ── AVVIO ── */
 startSession();
