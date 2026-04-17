@@ -34,10 +34,15 @@ test('Hazard: tile damage applied at turn end', async (t) => {
   });
 
   const scenario = await request(app).get('/api/tutorial/enc_tutorial_03');
-  // Posiziona p_scout direttamente su tile hazard (2,2) prima di /start
-  const units = scenario.body.units.map((u) =>
-    u.id === 'p_scout' ? { ...u, position: { x: 2, y: 2 } } : u,
-  );
+  // Posiziona p_scout direttamente su tile hazard (2,2) prima di /start.
+  // Sposta i guardiani fuori attack_range=2 dallo scout (x=5) per isolare
+  // hazard damage da combat damage. Senza questo override, il default
+  // guardiano_1 at (2,2) collide con lo scout e lo attacca (fail pre-1469).
+  const units = scenario.body.units.map((u) => {
+    if (u.id === 'p_scout') return { ...u, position: { x: 2, y: 2 } };
+    if (u.controlled_by === 'sistema') return { ...u, position: { x: 5, y: 5 } };
+    return u;
+  });
 
   const startRes = await request(app)
     .post('/api/session/start')
