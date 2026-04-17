@@ -166,6 +166,7 @@ function createRoundBridge(deps) {
         capturedResults.damageDealt = res.damageDealt;
         capturedResults.killOccurred = res.killOccurred;
         capturedResults.parry = res.parry;
+        capturedResults.intercept = res.intercept || null;
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
         // stesso target in questo round, +1 dmg al secondo/terzo attacco.
         const comboInfo = detectFocusFireCombo(session, actor, target);
@@ -245,11 +246,32 @@ function createRoundBridge(deps) {
         targetPositionAtAttack,
       });
       if (capturedResults.parry) event.parry = capturedResults.parry;
+      if (capturedResults.intercept) event.intercept = capturedResults.intercept;
       if (requestedCapPt > 0) {
         event.cost = { cap_pt: requestedCapPt };
         consumeCapPt(session, requestedCapPt);
       }
       await appendEvent(session, event);
+      // iter4: emit reaction_trigger event quando intercept fires.
+      if (capturedResults.intercept) {
+        await appendEvent(session, {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          actor_id: capturedResults.intercept.interceptor_id,
+          action_type: 'reaction_trigger',
+          ability_id: capturedResults.intercept.ability_id,
+          trigger: 'ally_attacked_adjacent',
+          target_id: capturedResults.intercept.interceptor_id,
+          original_target_id: capturedResults.intercept.target_id,
+          attacker_id: capturedResults.intercept.attacker_id,
+          turn: session.turn,
+          damage_rerouted: capturedResults.intercept.damage_rerouted,
+          interceptor_hp_before: capturedResults.intercept.interceptor_hp_before,
+          interceptor_hp_after: capturedResults.intercept.interceptor_hp_after,
+          interceptor_killed: capturedResults.intercept.interceptor_killed,
+          trait_effects: [],
+        });
+      }
       if (capturedResults.killOccurred) {
         await emitKillAndAssists(session, actor, target, event);
         // Sistema pressure (AI War pattern — sistema_pressure.yaml §deltas):
@@ -286,6 +308,7 @@ function createRoundBridge(deps) {
       actor_position: { ...actor.position },
       target_position: targetPositionAtAttack,
       parry: capturedResults.parry,
+      intercept: capturedResults.intercept || null,
       combo: capturedResults.combo || null,
       state: publicSessionView(session),
       round_wrapper: true,
