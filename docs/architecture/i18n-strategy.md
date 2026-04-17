@@ -1,6 +1,6 @@
 ---
-title: 'Localization (i18n) Strategy — it + en (DRAFT)'
-doc_status: draft
+title: 'Localization (i18n) Strategy — it + en'
+doc_status: active
 doc_owner: frontend-team
 workstream: atlas
 last_verified: 2026-04-17
@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Localization Strategy — it + en
 
-**Stato**: 🟡 DRAFT — scaffold iniziale, richiede approvazione Master DD + frontend team
+**Stato**: 🟢 ACTIVE — approvato Master DD 2026-04-17 (Q-001 T1.5)
 **Branch**: `explore/open-questions-triage` (Q-001)
 **Risolve**: A6 (SoT §19 Q3 — "Localizzazione: it + en al lancio")
 
@@ -163,12 +163,12 @@ function t(key, params = {}) {
 | Bioma               | Biome                | —                  |
 | Senzienza           | Sentience            | —                  |
 
-## Aperto per Master DD + frontend
+## Decisione Master DD (2026-04-17) — Q-001 T1.5
 
-- Approvi struttura filesystem data/i18n/ o preferisci packages/i18n? **[DATA/PACKAGES]**
-- Namespace split (common/combat/tutorial/narrative) OK? **[SI/NO/ALT]**
-- Format JSON (non YAML) per i18n accettabile? **[SI/NO]**
-- Mustache interpolation sufficiente o serve ICU dal lancio? **[MUSTACHE/ICU]**
-- Priorità PR-2 (CI validation) vs PR-3 (runtime loader) first? **[PR-2/PR-3]**
+- Path: **DATA** — `data/i18n/` confermato (coerente con altri dataset)
+- Namespace split: **SI** — common/combat/tutorial/narrative
+- Format: **JSON** — no YAML per runtime speed
+- Interpolation: **MUSTACHE** — ICU rimandato a post-launch se serve pluralization complex
+- Priorità: **PR-2** prima (CI validation parity check) → poi PR-3 runtime
 
-Alla conferma PR-1 scaffold attuale va in Q-001, altre PR in branch dedicati.
+Follow-up branch sequenza: `feat/i18n-validation` → `feat/i18n-runtime` → `feat/i18n-migration`.

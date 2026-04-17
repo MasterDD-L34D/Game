@@ -1,6 +1,6 @@
 ---
-title: 'Creature SFX — Voice-less Audio Spec (DRAFT)'
-doc_status: draft
+title: 'Creature SFX — Voice-less Audio Spec'
+doc_status: active
 doc_owner: audio-team
 workstream: atlas
 last_verified: 2026-04-17
@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Creature SFX — Voice-less Audio Spec
 
-**Stato**: 🟡 DRAFT — richiede validazione Master DD + audio team (quando esisterà)
+**Stato**: 🟢 ACTIVE — approvato Master DD 2026-04-17 (Q-001 T1.4)
 **Branch**: `explore/open-questions-triage` (Q-001)
 **Risolve**: A9 (SoT §19 Q10 — "Nessuna voce, SFX ambientali. Creature non parlano. Bio-plausibile")
 **Budget riferimento**: freesound.org asset pack (SoT §19 Q12)
@@ -157,14 +157,14 @@ Implementazione deferred a post-audio pipeline setup.
 - "Distinguibili fra specie diverse?" — test discrimination
 - "Identifichi lo stato (panic/rage) senza UI?" — test clarity
 
-## Aperto per Master DD + audio team
+## Decisione Master DD (2026-04-17) — Q-001 T1.4
 
-- 13 categorie timbriche sufficienti? **[SI/NO/+N]**
-- Pipeline procedurale (pool + modifier) OK o preferisci samples dedicati per specie? **[PROC/DEDI/HYBRID]**
-- Budget target 50 MB audio bundle accettabile? **[SI/NO/+quanto]**
-- Priorità timing: audio vertical slice Q2 o post-M4? **[Q2/POST]**
+- 13 categorie timbriche: **SI** — taxonomia confermata
+- Pipeline: **HYBRID** — pool+modifier default, samples dedicati per boss/apex/creature signature
+- Budget 50MB bundle: **SI**
+- Timing audio: **POST-M4** — vertical slice prima, audio fase dedicata successiva
 
-Alla conferma DRAFT → active + inserimento `audio_profile` in schema species + avvio task freesound curation.
+Follow-up branch: `feat/sfx-curation` post-M4 (freesound bank + license tracking).
 
 ## Cross-reference
 

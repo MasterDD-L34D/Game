@@ -1,6 +1,6 @@
 ---
-title: 'Accessibility — Deaf/HoH Visual Parity Matrix (DRAFT)'
-doc_status: draft
+title: 'Accessibility — Deaf/HoH Visual Parity Matrix'
+doc_status: active
 doc_owner: ui-team
 workstream: atlas
 last_verified: 2026-04-17
@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Accessibility — Deaf/HoH Visual Parity Matrix
 
-**Stato**: 🟡 DRAFT — audit proposto per Master DD + UI team
+**Stato**: 🟢 ACTIVE — approvato Master DD 2026-04-17 (Q-001 T1.3)
 **Branch**: `explore/open-questions-triage` (Q-001)
 **Risolve**: A8 (SoT §18.2 — "Indicatori visivi per eventi sonori importanti")
 **Policy di riferimento**: WCAG 2.1 AA (SC 1.2.1, 1.2.2, 1.4.7)
@@ -115,11 +115,10 @@ Prima di shippare:
 - SoT §19 Q19 — "Voice-over o testo: Solo testo" (sottotitoli per dialogo = risolti)
 - WCAG 2.1 AA — SC 1.2.1 (Audio-only prerecorded), SC 1.2.2 (Captions), SC 1.4.7 (Low or no background audio)
 
-## Aperto per Master DD + UI team
+## Decisione Master DD (2026-04-17) — Q-001 T1.3
 
-- Matrice eventi coverage sufficiente? **[SI/NO/+eventi]**
-- Priority assignments P0/P1/P2/P3 corretti? **[SI/NO/ADJUST]**
-- Settings schema YAML OK prima di implementare? **[SI/NO/ALT]**
-- Fase playtest Deaf simulation priorità pre/post-M4? **[PRE/POST]**
+- Matrice eventi coverage: **SI** — 13 tattici + 5 narrativi + 5 UI confermati
+- Priority P0-P3: **SI** — assegnazioni confermate
+- Playtest Deaf simulation: **POST-M4** — fase validation dopo vertical slice
 
-Alla conferma DRAFT → active + schema `data/core/ui/accessibility.yaml` committabile + UI implementation tracking.
+Follow-up branch: `feat/a11y-ui` (Settings panel) dopo T1.2 approve.

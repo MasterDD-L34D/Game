@@ -23,13 +23,13 @@ Tracker ufficiale delle decisioni Master DD sui 9 DRAFT prodotti nel branch `exp
 
 ## Tier 1 · Quick approve
 
-| #    | DRAFT                    | Decisione                               | Outcome | Commit | Data |
-| ---- | ------------------------ | --------------------------------------- | ------- | ------ | ---- |
-| T1.1 | Loading tips YAML (Q26)  | Contenuto 22 tip OK?                    | ☐ TBD   | —      | —    |
-| T1.2 | Accessibility YAML (Q22) | Struttura + 5 preset OK?                | ☐ TBD   | —      | —    |
-| T1.3 | Deaf parity matrix (Q23) | Priority P0-P3 OK?                      | ☐ TBD   | —      | —    |
-| T1.4 | SFX spec (Q10)           | 13 categorie + procedural pipeline OK?  | ☐ TBD   | —      | —    |
-| T1.5 | i18n scaffold (Q3)       | `data/i18n/` JSON + namespace split OK? | ☐ TBD   | —      | —    |
+| #    | DRAFT                    | Decisione                               | Outcome                                        | Commit  | Data       |
+| ---- | ------------------------ | --------------------------------------- | ---------------------------------------------- | ------- | ---------- |
+| T1.1 | Loading tips YAML (Q26)  | Contenuto 22 tip OK?                    | ✅ SI (content confermato)                     | pending | 2026-04-17 |
+| T1.2 | Accessibility YAML (Q22) | Struttura + 6 preset OK?                | ✅ SI (7 cat + 6 preset + volumi default)      | pending | 2026-04-17 |
+| T1.3 | Deaf parity matrix (Q23) | Priority P0-P3 OK?                      | ✅ SI · playtest POST-M4                       | pending | 2026-04-17 |
+| T1.4 | SFX spec (Q10)           | 13 categorie + procedural pipeline OK?  | ✅ SI · HYBRID pipeline · 50MB · POST-M4       | pending | 2026-04-17 |
+| T1.5 | i18n scaffold (Q3)       | `data/i18n/` JSON + namespace split OK? | ✅ DATA · split · JSON · MUSTACHE · PR-2 first | pending | 2026-04-17 |
 
 ## Tier 2 · Mid review
 
