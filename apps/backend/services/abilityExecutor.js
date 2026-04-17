@@ -608,6 +608,9 @@ function createAbilityExecutor(deps) {
   }
 
   // attack_push (shield_bash): attack + push target 1 cella + apply_status.
+  // FRICTION #7 (playtest 2026-04-17-02): ability paga AP, status default
+  // gated on hit. Override esplicito via ability.effect_trigger='always'
+  // applica push + apply_status anche su miss (caso "sbilanciato sempre").
   async function executeAttackPush({ session, actor, ability, body }) {
     const targetId = String(body.target_id || '');
     const target = session.units.find((u) => u.id === targetId);
@@ -623,10 +626,13 @@ function createAbilityExecutor(deps) {
     const targetPositionAtAttack = { ...target.position };
     const res = performAttack(session, actor, target);
 
+    const trigger = String(ability.effect_trigger || 'on_hit');
+    const allowEffect = (trigger === 'always' || res.result.hit) && target.hp > 0;
+
     // Push: calcola destinazione, verifica griglia + non occupata. Fallisce
     // silenziosamente se bloccato (attack va comunque a segno).
     let pushed = null;
-    if (res.result.hit && target.hp > 0) {
+    if (allowEffect) {
       const pushDist = Math.max(1, Number(ability.push_distance || 1));
       const pushFrom = { ...target.position };
       let destX = pushFrom.x;
@@ -648,9 +654,9 @@ function createAbilityExecutor(deps) {
       }
     }
 
-    // apply_status su target
+    // apply_status su target (rispetta effect_trigger come push)
     let appliedStatus = null;
-    if (res.result.hit && target.hp > 0 && ability.apply_status && ability.apply_status.status_id) {
+    if (allowEffect && ability.apply_status && ability.apply_status.status_id) {
       const sid = String(ability.apply_status.status_id);
       const dur = Number(ability.apply_status.duration || 1);
       if (!target.status) target.status = {};
@@ -672,6 +678,7 @@ function createAbilityExecutor(deps) {
     event.ability_id = ability.ability_id;
     event.effect_type = 'attack_push';
     event.ap_spent = Number(ability.cost_ap || 0);
+    event.effect_trigger = trigger;
     if (pushed) event.pushed = pushed;
     if (appliedStatus) event.applied_status = appliedStatus;
     if (res.parry) event.parry = res.parry;
@@ -689,6 +696,7 @@ function createAbilityExecutor(deps) {
         actor_id: actor.id,
         ability_id: ability.ability_id,
         effect_type: 'attack_push',
+        effect_trigger: trigger,
         attack: {
           target_id: target.id,
           die: res.result.die,
@@ -1622,9 +1630,21 @@ function createAbilityExecutor(deps) {
   return { executeAbility, findAbility, SUPPORTED_EFFECT_TYPES };
 }
 
+// Test helper: override l'index per test deterministici. Reset con
+// resetAbilityIndex() per ricaricare da jobs.yaml.
+function _setAbilityForTest(abilityId, spec) {
+  const idx = ensureAbilityIndex();
+  idx.set(String(abilityId), spec);
+}
+function _resetAbilityIndex() {
+  abilityIndex = null;
+}
+
 module.exports = {
   createAbilityExecutor,
   findAbility,
   ensureAbilityIndex,
   SUPPORTED_EFFECT_TYPES,
+  _setAbilityForTest,
+  _resetAbilityIndex,
 };
