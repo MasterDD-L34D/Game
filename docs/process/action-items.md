@@ -21,7 +21,7 @@ review_cycle_days: 14
 
 ## Stato attuale
 
-- **2025-11-07** — Workflow `daily-pr-summary` senza merge; follow-up HUD overlay telemetrico → UI Systems (F. Conti), XP Cipher (PROG-04) → Progression Design (L. Serra), contrasto EVT-03 → VFX/Lighting (G. Leone). Documentazione allineata in changelog, roadmap, checklist e Canvas con riferimento al report playtest.
+- **2025-11-07** — Workflow `daily-pr-summary` senza merge; follow-up HUD overlay telemetrico → UI Systems (F. Conti), contrasto EVT-03 → VFX/Lighting (G. Leone). XP Cipher (ex PROG-04) **parked** via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md) (2026-04-17). Documentazione allineata in changelog, roadmap, checklist e Canvas con riferimento al report playtest.
 - La pipeline `scripts/chatgpt_sync.py` è tornata operativa con fonti locali e diff aggiornati al 2025-10-24; nessun proxy richiesto per gli export offline.【F:logs/chatgpt_sync.log†L160-L214】【F:docs/chatgpt_sync_status.md†L19-L33】
 - Le checklist e la roadmap evidenziano attività aperte su encounter aggiuntivi, automazione Google Sheet e miglioramenti HUD, ma i punti critici di telemetria sono stati riallineati.【F:docs/checklist/milestones.md†L8-L20】【F:docs/piani/roadmap.md†L1-L32】
 - La validazione dataset (`python tools/py/validate_datasets.py`) continua a passare; ora `npm test` in `tools/ts` verifica i 3 casi `roll_pack` (run 2025-10-26, tutti passed).【F:tools/py/validate_datasets.py†L1-L116】【1e2f1a†L1-L11】

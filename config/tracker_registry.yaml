@@ -137,7 +137,7 @@ progress_sections:
   - category: 'Operativo'
     items:
       - name: 'Telemetria VC'
-        description: 'Le milestone operative hanno completato playtest, normalizzazione e documentazione; restano overlay HUD, ribilanciamento XP Cipher e contrasto EVT-03.'
+        description: 'Le milestone operative hanno completato playtest, normalizzazione e documentazione; restano overlay HUD e contrasto EVT-03. XP Cipher parked via ADR-2026-04-17.'
         compute:
           type: checkbox
           path: docs/process/milestones.md

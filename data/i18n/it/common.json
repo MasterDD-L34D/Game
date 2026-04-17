@@ -1,0 +1,106 @@
+{
+  "_meta": {
+    "locale": "it",
+    "language_name": "Italiano",
+    "direction": "ltr",
+    "version": 1,
+    "updated": "2026-04-17",
+    "completion_percent": 5
+  },
+  "ui": {
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "back": "Indietro",
+    "next": "Avanti",
+    "yes": "Sì",
+    "no": "No",
+    "close": "Chiudi",
+    "save": "Salva",
+    "load": "Carica",
+    "settings": "Impostazioni",
+    "exit": "Esci",
+    "loading": "Caricamento…"
+  },
+  "menu": {
+    "new_game": "Nuova partita",
+    "continue": "Continua",
+    "load_game": "Carica partita",
+    "settings": "Impostazioni",
+    "credits": "Crediti",
+    "quit": "Esci dal gioco"
+  },
+  "combat": {
+    "your_turn": "Il tuo turno",
+    "system_turn": "Turno del Sistema",
+    "round": "Round {{n}}",
+    "hit": "Colpito",
+    "miss": "Mancato",
+    "critical": "Critico!",
+    "blocked": "Parato",
+    "dodged": "Schivato",
+    "attack": "Attacca",
+    "move": "Muovi",
+    "defend": "Difendi",
+    "ability": "Abilità",
+    "end_turn": "Fine turno",
+    "damage_dealt": "Danno inflitto: {{n}}",
+    "damage_taken": "Danno subito: {{n}}",
+    "hp_remaining": "HP: {{current}} / {{max}}"
+  },
+  "status": {
+    "panic": "Panico",
+    "rage": "Furia",
+    "stunned": "Stordito",
+    "focused": "Concentrato",
+    "confused": "Confuso",
+    "bleeding": "Sanguinante",
+    "fracture": "Frattura"
+  },
+  "objective": {
+    "elimination": "Elimina tutti i nemici",
+    "capture_point": "Cattura il punto per {{n}} turni",
+    "escort": "Proteggi {{target}}",
+    "sabotage": "Sabota in meno di {{n}} turni",
+    "survival": "Sopravvivi {{n}} turni",
+    "escape": "Raggiungi l'uscita"
+  },
+  "result": {
+    "victory": "Vittoria",
+    "defeat": "Sconfitta",
+    "draw": "Pareggio",
+    "retry": "Riprova",
+    "continue_story": "Continua la storia"
+  },
+  "settings": {
+    "category_gameplay": "Gameplay",
+    "category_audio": "Audio",
+    "category_video": "Video",
+    "category_controls": "Controlli",
+    "category_accessibility": "Accessibilità",
+    "category_language": "Lingua",
+    "volume_master": "Volume principale",
+    "volume_music": "Musica",
+    "volume_sfx": "Effetti sonori",
+    "difficulty": "Difficoltà",
+    "language_select": "Seleziona lingua"
+  },
+  "errors": {
+    "network_offline": "Nessuna connessione di rete",
+    "save_failed": "Salvataggio fallito",
+    "load_failed": "Caricamento fallito",
+    "invalid_action": "Azione non valida",
+    "out_of_range": "Fuori portata",
+    "not_enough_pt": "PT insufficienti"
+  },
+  "difficulty": {
+    "easy": "Facile",
+    "normal": "Normale",
+    "hard": "Difficile",
+    "nightmare": "Incubo"
+  },
+  "accessibility": {
+    "deaf_hoh_enabled": "Modalità Sordi/HoH attiva",
+    "colorblind_enabled": "Modalità Daltonismo attiva",
+    "reduce_motion_enabled": "Riduci animazioni attivo"
+  }
+}
