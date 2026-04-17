@@ -63,6 +63,22 @@ const TUTORIAL_SCENARIO_03 = {
   ],
 };
 
+const TUTORIAL_SCENARIO_05 = {
+  id: 'enc_tutorial_05',
+  name: "Solo contro l'Apex",
+  biome_id: 'rovine_planari',
+  difficulty_rating: 5,
+  estimated_turns: 14,
+  grid_size: 6,
+  objective: 'elimination',
+  objective_text:
+    "Sconfiggi l'apex predatore. Singolo nemico con HP altissimo, attacchi multipli e bonus su critico.",
+  briefing_pre:
+    'Le rovine planari celano un Apex: 1v2 a vostro favore, ma il suo HP e i bonus crit possono ribaltare ogni round. Cooperate o cadrete uno alla volta.',
+  briefing_post: "L'Apex si dissolve nelle rovine. Avete fatto la storia.",
+  hazard_tiles: [],
+};
+
 const TUTORIAL_SCENARIO_04 = {
   id: 'enc_tutorial_04',
   name: 'Pozza Acida del Bosco',
@@ -384,13 +400,67 @@ function buildTutorialUnits04() {
   ];
 }
 
+// enc_tutorial_05: BOSS FIGHT 1v2 contro Apex predator. Singolo enemy
+// con HP altissimo, ferocia (crit kill resets), martello_osseo (bonus crit).
+function buildTutorialUnits05() {
+  return [
+    {
+      id: 'p_scout',
+      species: 'dune_stalker',
+      job: 'skirmisher',
+      traits: ['zampe_a_molla'],
+      hp: 12,
+      ap: 3,
+      mod: 4,
+      dc: 13,
+      guardia: 1,
+      position: { x: 0, y: 2 },
+      controlled_by: 'player',
+      facing: 'E',
+    },
+    {
+      id: 'p_tank',
+      species: 'dune_stalker',
+      job: 'vanguard',
+      traits: ['pelle_elastomera'],
+      hp: 14,
+      ap: 3,
+      mod: 3,
+      dc: 14,
+      guardia: 2,
+      position: { x: 0, y: 3 },
+      controlled_by: 'player',
+      facing: 'E',
+    },
+    // BOSS: HP altissimo, mod 3, dc 14, traits offensivi.
+    // v0.2 tuning: hp 18→13, dc 14→13, guardia 2→1 — target ~20% win rate diff 5/5.
+    {
+      id: 'e_apex',
+      species: 'apex_predatore',
+      job: 'vanguard',
+      traits: ['martello_osseo', 'ferocia'],
+      hp: 10,
+      ap: 3,
+      mod: 3,
+      dc: 13,
+      guardia: 1,
+      attack_range: 2,
+      position: { x: 5, y: 2 },
+      controlled_by: 'sistema',
+      facing: 'W',
+    },
+  ];
+}
+
 module.exports = {
   TUTORIAL_SCENARIO,
   TUTORIAL_SCENARIO_02,
   TUTORIAL_SCENARIO_03,
   TUTORIAL_SCENARIO_04,
+  TUTORIAL_SCENARIO_05,
   buildTutorialUnits,
   buildTutorialUnits02,
   buildTutorialUnits03,
   buildTutorialUnits04,
+  buildTutorialUnits05,
 };

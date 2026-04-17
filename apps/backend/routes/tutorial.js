@@ -15,10 +15,12 @@ const {
   TUTORIAL_SCENARIO_02,
   TUTORIAL_SCENARIO_03,
   TUTORIAL_SCENARIO_04,
+  TUTORIAL_SCENARIO_05,
   buildTutorialUnits,
   buildTutorialUnits02,
   buildTutorialUnits03,
   buildTutorialUnits04,
+  buildTutorialUnits05,
 } = require('../services/tutorialScenario');
 
 function createTutorialRouter() {
@@ -56,6 +58,14 @@ function createTutorialRouter() {
     });
   });
 
+  router.get('/enc_tutorial_05', (_req, res) => {
+    res.json({
+      ...TUTORIAL_SCENARIO_05,
+      units: buildTutorialUnits05(),
+      usage: 'POST the units array to /api/session/start to begin a playable session.',
+    });
+  });
+
   router.get('/', (_req, res) => {
     res.json({
       scenarios: [
@@ -82,6 +92,12 @@ function createTutorialRouter() {
           name: TUTORIAL_SCENARIO_04.name,
           difficulty: TUTORIAL_SCENARIO_04.difficulty_rating,
           href: `/api/tutorial/${TUTORIAL_SCENARIO_04.id}`,
+        },
+        {
+          id: TUTORIAL_SCENARIO_05.id,
+          name: TUTORIAL_SCENARIO_05.name,
+          difficulty: TUTORIAL_SCENARIO_05.difficulty_rating,
+          href: `/api/tutorial/${TUTORIAL_SCENARIO_05.id}`,
         },
       ],
     });
