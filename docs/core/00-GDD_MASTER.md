@@ -88,7 +88,7 @@ Il gioco e' progettato per il **salotto**: TV come schermo principale (griglia, 
 
 Il mondo e' governato da un'entita' antagonista (il **Sistema**) che rappresenta ordine soffocante e conformita'. Le creature (e i giocatori) cooperano _contro_ il Sistema. La narrativa emerge dal gameplay — non cutscene, ma conseguenze ecologiche e sociali delle azioni tattiche. Narrative service con inkjs per briefing/debrief con scelte.
 
-→ [`00-SOURCE-OF-TRUTH.md`](00-SOURCE-OF-TRUTH.md) §7 | [`draft-narrative-lore.md`](../planning/draft-narrative-lore.md) | `apps/backend/services/narrativeEngine.js`
+→ [`00-SOURCE-OF-TRUTH.md`](00-SOURCE-OF-TRUTH.md) §7 | [`draft-narrative-lore.md`](../planning/draft-narrative-lore.md) | `services/narrative/narrativeEngine.js`
 
 ---
 

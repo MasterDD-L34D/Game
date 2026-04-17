@@ -3,7 +3,7 @@ title: Art Direction, Audio Direction, Business Model — Decisioni canoniche
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-04-17'
+last_verified: 2026-04-17
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -150,7 +150,7 @@ freesound.org. Creature SFX spec in `docs/audio/creature-sfx-spec.md` (Q10 DRAFT
 ### 4.2 Integrazione tecnica fase 1
 
 1. Estendere schema `ai_profiles.yaml` con campo opzionale `narrative_voice: { tone, vocabulary, knots: [...] }`.
-2. Mappare `sistema_pressure` tier (Calm / Tense / Apex) → ink knot selection in `apps/backend/services/narrativeEngine.js`.
+2. Mappare `sistema_pressure` tier (Calm / Tense / Apex) → ink knot selection in `services/narrative/narrativeEngine.js`.
 3. Scrivere 5-8 knot Ink per profilo Sistema (briefing + debrief + taunt condizionali).
 4. Contratto inkjs invariato — zero breaking change.
 

@@ -1168,7 +1168,7 @@ Questa sezione traccia le 28 domande aperte dai draft GDD e il loro stato di ris
 
 - **Attore narrativo**: Sistema unica voce antagonista, multi-profile in `packs/evo_tactics_pack/data/balance/ai_profiles.yaml`
 - **Creature player**: mute, slot anonimi ("Wolf-03"), identità emerge da trait + MBTI + scelte playtest
-- **Integrazione tecnica**: aggiungere `narrative_voice` per profilo Sistema in `ai_profiles.yaml`; mappare `sistema_pressure` tier (Calm/Apex) → ink knot selection in `apps/backend/services/narrativeEngine.js`
+- **Integrazione tecnica**: aggiungere `narrative_voice` per profilo Sistema in `ai_profiles.yaml`; mappare `sistema_pressure` tier (Calm/Apex) → ink knot selection in `services/narrative/narrativeEngine.js`
 - **Costo**: basso (300-500 LOC ink, zero deps, zero refactor schema)
 
 **Fase 2 (quando apriamo workstream narrative campaign / story mode): transizione a Pattern B — Overlord + Custodi named** (Descent ibrido)
