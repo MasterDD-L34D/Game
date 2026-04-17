@@ -190,21 +190,22 @@ test('M11: multi-SIS produces actions for each SIS unit', async (t) => {
     const res = await turnEnd(app, sid);
     return res.body;
   });
-  // Legacy produces 1 set of actions per SIS in turn order.
-  // Round produces 1 intent per SIS in session.units order (resolved by priority).
-  // Both should have actions from both SIS units.
+  // Legacy: produces 1 set of actions per SIS in turn order.
+  // Round: caps intents per round via sistema_pressure tier (Calm=1 default).
+  // Both SIS are *eligible* but only intentsCap act per round. Structural
+  // assertion: both SIS appear in round_decisions (eligible), not necessarily
+  // in ia_actions (which is pressure-capped). See AI War wiring PR #1462.
   const offSisIds = new Set(off.ia_actions.map((a) => a.unit_id || a.ia_controlled_unit));
   const onSisIds = new Set(on.ia_actions.map((a) => a.unit_id));
-  // Note: legacy runner interleaves turns (sis_a all actions, then advance
-  // to sis_b, all actions). Round model declares 1 intent per SIS, resolves
-  // all in 1 round. So off may have more actions (2 per SIS with AP 2) but
-  // on has exactly 1 per SIS (round semantic). Structural check: both SIS
-  // should appear.
+  const onDecisionUnitIds = new Set(
+    (on.round_decisions || []).map((d) => d.unit_id).filter(Boolean),
+  );
   assert.ok(offSisIds.has('sis_a'), 'off: sis_a should act');
-  assert.ok(onSisIds.has('sis_a'), 'on: sis_a should act');
-  // sis_b may or may not act depending on turn advancement in legacy
-  // (turn must reach sis_b). In round model, all SIS declare in same round.
-  assert.ok(onSisIds.has('sis_b'), 'on: sis_b should act in round model');
+  assert.ok(onSisIds.has('sis_a'), 'on: sis_a should act (first under pressure cap)');
+  assert.ok(
+    onDecisionUnitIds.has('sis_b'),
+    'on: sis_b should be eligible (in round_decisions) even if pressure-capped',
+  );
 });
 
 // ─────────────────────────────────────────────────────────────────
