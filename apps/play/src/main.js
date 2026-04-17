@@ -311,10 +311,14 @@ async function startNewSession() {
     updateHint('Backend non raggiungibile? Verifica npm run start:api.');
     return;
   }
-  const st = await api.start(sc.data.units, {
+  const modSel = document.getElementById('modulation-select');
+  const modulation = modSel && modSel.value ? modSel.value : undefined;
+  const startOpts = {
     sistema_pressure_start: sc.data.sistema_pressure_start || 0,
     hazard_tiles: sc.data.hazard_tiles || [],
-  });
+  };
+  if (modulation) startOpts.modulation = modulation;
+  const st = await api.start(sc.data.units, startOpts);
   if (!st.ok) {
     appendLog(logEl, `✖ session start: ${st.status}`, 'error');
     return;
@@ -415,5 +419,29 @@ muteBtn.addEventListener('click', () => {
   muteBtn.title = isMuted() ? 'Unmute SFX' : 'Mute SFX';
 });
 
-startNewSession();
+// Popola modulation picker da /api/party/modulations (PR 3 co-op scaling).
+// Fallback silenzioso se backend < ADR-2026-04-17 o endpoint non risponde.
+async function loadModulations() {
+  const modSel = document.getElementById('modulation-select');
+  if (!modSel) return;
+  const res = await api.modulations();
+  if (!res.ok || !Array.isArray(res.data?.modulations)) return;
+  const current = modSel.value;
+  // Mantieni option "auto" come primo, aggiungi preset
+  for (const m of res.data.modulations) {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    const pgTotal = Array.isArray(m.pg_per_player)
+      ? m.pg_per_player.reduce((a, b) => a + b, 0)
+      : m.deployed;
+    opt.textContent = `${m.id} · ${m.players}p × ${pgTotal / m.players}PG = ${m.deployed} schierati`;
+    opt.title = m.description || '';
+    modSel.appendChild(opt);
+  }
+  modSel.value = current;
+  // Riavvia sessione se user cambia modulation (default: auto → 6x6)
+  modSel.addEventListener('change', () => startNewSession());
+}
+
+loadModulations().then(() => startNewSession());
 window.__evo = { state, api, refresh };

@@ -32,4 +32,6 @@ export const api = {
     }),
   vc: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/vc`),
   replay: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/replay`),
+  modulations: () => jsonFetch('/api/party/modulations'),
+  partyConfig: () => jsonFetch('/api/party/config'),
 };
