@@ -50,6 +50,7 @@ const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring'
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
 const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIntents');
+const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
 
 // Extracted modules — constants + pure helpers (token optimization).
 // See sessionConstants.js and sessionHelpers.js for the extracted code.
@@ -441,11 +442,17 @@ function createSessionRouter(options = {}) {
   // closure session.js. Produce intents pure (nessuna mutazione) per
   // tutte le unita' SIS-controlled. Usato solo quando USE_ROUND_MODEL
   // e' attivo nel wrapper /turn/end legacy.
+  //
+  // ADR-2026-04-17 Q-001 T3.1: ai_profiles.yaml caricato al boot. Flag
+  // `use_utility_brain` per-profile controlla attivazione Utility AI
+  // (gradual rollout). Default global `useUtilityAi=false` fallback.
+  const aiProfiles = loadAiProfiles();
   const declareSistemaIntents = createDeclareSistemaIntents({
     pickLowestHpEnemy,
     stepTowards,
     manhattanDistance,
     gridSize: GRID_SIZE,
+    aiProfiles,
   });
 
   // Round bridge factory — all round-model functions live in sessionRoundBridge.js.
