@@ -159,6 +159,19 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 - Do not commit binary archives under `reports/backups/**` — upload externally and update the `manifest.txt` (Archive/SHA256/Location/On-call/Last verified) per `docs/planning/REF_BACKUP_AND_ROLLBACK.md`, then log in `logs/agent_activity.md`. `npm run lint:backups` enforces this.
 - Husky runs a Prettier pre-commit on staged files; re-run `npm run prepare` after a fresh checkout.
 
+## Session workflow patterns (Claude Code)
+
+Pattern osservati nella sessione 2026-04-18 (7 PR merged, sprint round simultaneo) e codificati in memory per persistenza. Dettagli completi nei file `feedback_*.md` in `C:/Users/VGit/.claude/projects/C--Users-VGit-Desktop-Game/memory/`.
+
+1. **Piano file:line prima di codice** (`feedback_plan_before_code_file_line.md`) — feature >1 file o >50 LOC → tabella file:line + rischi + effort, attendi "procedi"
+2. **Delega research a sub-agent** (`feedback_delegate_research_to_agents.md`) — scope >3 query / >5 file / audit cross-repo → spawn `general-purpose` / `Explore` / specifici, paralleli quando possibile
+3. **Checkpoint memory su meta-pause** (`feedback_checkpoint_memory_on_interrupt.md`) — utente dice "a che punto" / "prima di procedere" → salva `project_<sprint>_progress.md` PRIMA di analizzare
+4. **Tabella opzioni fine milestone** (`feedback_always_options_table.md`) — sempre A/B/C con valore/effort/rischio + consiglio caveman finale. Ultima riga = STOP esplicito.
+5. **CI auto-merge gate** (`feedback_ci_auto_merge_gate.md`) — CI 100% verde + diff <200 LOC + non-destructive + no guardrail paths → `gh pr merge --squash --delete-branch` senza chiedere
+6. **Caveman voice permanente** (`feedback_caveman_voice_permanent.md`) — default ON in questo repo; off solo su "stop caveman"
+
+Memory files auto-caricati via `MEMORY.md` ogni sessione — applica senza ricordare.
+
 ## Platform notes
 
 Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) — use Unix paths and `/dev/null`, not `NUL`. Line endings are managed by `.gitattributes`/Prettier; don't fight them.
