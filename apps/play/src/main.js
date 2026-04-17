@@ -1,10 +1,11 @@
 // Evo-Tactics Play — entry point. Orchestration layer.
 
 import { api } from './api.js';
-import { render, canvasToCell } from './render.js';
+import { render, canvasToCell, needsAnimFrame } from './render.js';
 import { renderUnits, appendLog, updateStatus } from './ui.js';
 import { renderAbilities, clearAbilities } from './abilityPanel.js';
 import { detectEndgame, showEndgame, hideEndgame, nextScenarioId } from './endgame.js';
+import { recordMove, pushPopup } from './anim.js';
 
 const state = {
   sid: null,
@@ -172,16 +173,56 @@ async function doAction(body) {
   await refresh();
 }
 
+// Track last events count to detect new events for anim
+let lastEventsCount = 0;
+
+function processNewEvents(prevWorld, newWorld) {
+  const prevUnits = new Map((prevWorld?.units || []).map((u) => [u.id, u]));
+  const events = (newWorld?.events || []).slice(lastEventsCount);
+  for (const ev of events) {
+    if (ev.action_type === 'move' && ev.position_from && ev.position_to) {
+      recordMove(
+        ev.actor_id,
+        { x: ev.position_from[0], y: ev.position_from[1] },
+        { x: ev.position_to[0], y: ev.position_to[1] },
+      );
+    }
+    if (
+      (ev.action_type === 'attack' || ev.action_type === 'ability') &&
+      ev.damage_dealt &&
+      ev.target_id
+    ) {
+      const target = (newWorld.units || []).find((u) => u.id === ev.target_id);
+      if (target && target.position) {
+        const color = ev.damage_dealt < 0 ? '#4caf50' : '#ff5252';
+        const txt = ev.damage_dealt < 0 ? `+${-ev.damage_dealt}` : `-${ev.damage_dealt}`;
+        pushPopup(target.position.x, target.position.y, txt, color);
+      }
+    }
+  }
+  lastEventsCount = (newWorld?.events || []).length;
+}
+
 async function refresh() {
   const r = await api.state(state.sid);
   if (r.ok) {
+    const prev = state.world;
     state.world = r.data;
+    processNewEvents(prev, state.world);
     if (state.selected) {
       const sel = state.world.units.find((u) => u.id === state.selected);
       if (!sel || sel.hp <= 0) state.selected = null;
     }
     redraw();
+    // Animation loop
+    if (needsAnimFrame()) requestAnimationFrame(animTick);
   }
+}
+
+function animTick() {
+  if (!state.world) return;
+  redraw();
+  if (needsAnimFrame()) requestAnimationFrame(animTick);
 }
 
 async function startNewSession() {
@@ -205,6 +246,7 @@ async function startNewSession() {
   state.world = st.data.state;
   state.selected = null;
   state.target = null;
+  lastEventsCount = (state.world?.events || []).length;
   appendLog(logEl, `✓ sessione ${state.sid.slice(0, 8)}…`);
   updateHint('Sessione iniziata. Seleziona una tua unità.');
   redraw();

@@ -1,4 +1,6 @@
-// Canvas 2D rendering — grid + units.
+// Canvas 2D rendering — grid + units + animations + status icons.
+
+import { getInterpolatedPos, drawPopups, hasActiveAnims } from './anim.js';
 
 const CELL = 64; // pixel per cell
 const COLORS = {
@@ -14,6 +16,19 @@ const COLORS = {
   hpFull: '#4caf50',
   hpWarn: '#ffc107',
   hpCrit: '#f44336',
+};
+
+const STATUS_ICONS = {
+  panic: { glyph: '!', bg: '#ff9800' },
+  rage: { glyph: '⚡', bg: '#f44336' },
+  stunned: { glyph: '★', bg: '#9c27b0' },
+  focused: { glyph: '◎', bg: '#03a9f4' },
+  confused: { glyph: '?', bg: '#ffc107' },
+  bleeding: { glyph: '☽', bg: '#e91e63' },
+  fracture: { glyph: '✕', bg: '#795548' },
+  sbilanciato: { glyph: '↯', bg: '#ffeb3b' },
+  taunted_by: { glyph: '⎯', bg: '#ffc107' },
+  aggro_locked: { glyph: '◉', bg: '#ff5722' },
 };
 
 export function fitCanvas(canvas, width, height) {
@@ -37,9 +52,41 @@ function drawCell(ctx, x, yPx, fill) {
   ctx.strokeRect(x * CELL + 0.5, yPx * CELL + 0.5, CELL - 1, CELL - 1);
 }
 
+function drawStatusIcons(ctx, unit, cx, yPxTop) {
+  const status = unit.status || {};
+  const icons = [];
+  for (const [key, meta] of Object.entries(STATUS_ICONS)) {
+    const val = status[key];
+    if (val !== undefined && val !== null && (typeof val !== 'number' || val > 0)) {
+      icons.push(meta);
+    }
+  }
+  if (icons.length === 0) return;
+  const size = 12;
+  const gap = 2;
+  const startX = cx + CELL * 0.18;
+  for (let i = 0; i < icons.length && i < 4; i++) {
+    const ic = icons[i];
+    const ix = startX + i * (size + gap);
+    const iy = yPxTop + 4;
+    ctx.fillStyle = ic.bg;
+    ctx.beginPath();
+    ctx.arc(ix + size / 2, iy + size / 2, size / 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#000';
+    ctx.font = 'bold 10px "SF Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(ic.glyph, ix + size / 2, iy + size / 2 + 1);
+  }
+}
+
 function drawUnit(ctx, unit, gridH, highlight = {}) {
   if (!unit.position) return;
-  const { x, y } = unit.position;
+  // Interpolate position via anim module
+  const interpolated = getInterpolatedPos(unit.id, unit.position);
+  const x = interpolated.x;
+  const y = interpolated.y;
   const yPx = gridH - 1 - y;
   const cx = x * CELL + CELL / 2;
   const cy = yPx * CELL + CELL / 2;
@@ -107,6 +154,9 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     ctx.fillStyle = ratio < 0.3 ? COLORS.hpCrit : ratio < 0.6 ? COLORS.hpWarn : COLORS.hpFull;
     ctx.fillRect(barX, barY, barW * ratio, 4);
   }
+
+  // Status icons (top-right)
+  if (!dead) drawStatusIcons(ctx, unit, cx, yPx * CELL);
 }
 
 export function render(canvas, state, highlight = {}) {
@@ -127,6 +177,13 @@ export function render(canvas, state, highlight = {}) {
 
   // Units
   for (const u of state.units || []) drawUnit(ctx, u, h, highlight);
+
+  // Damage popups on top
+  drawPopups(ctx, CELL, h);
+}
+
+export function needsAnimFrame() {
+  return hasActiveAnims();
 }
 
 export const CELL_SIZE = CELL;
