@@ -87,9 +87,36 @@ export function appendLog(logEl, msg, kind = 'event') {
   logEl.scrollTop = logEl.scrollHeight;
 }
 
+// Sistema pressure tier mapping (mirror PRESSURE_TIER_INTENT_CAP backend).
+// Esposto come progress meter UI per leggibilità tattica (AI War pattern).
+const PRESSURE_TIERS = [
+  { threshold: 95, label: 'APEX', color: '#d32f2f', intents: 4 },
+  { threshold: 75, label: 'CRITICAL', color: '#f57c00', intents: 3 },
+  { threshold: 50, label: 'ESCALATED', color: '#fbc02d', intents: 3 },
+  { threshold: 25, label: 'ALERT', color: '#7cb342', intents: 2 },
+  { threshold: 0, label: 'CALM', color: '#43a047', intents: 1 },
+];
+
+function pressureTier(p) {
+  const v = Number.isFinite(Number(p)) ? Math.max(0, Math.min(100, Number(p))) : 0;
+  for (const t of PRESSURE_TIERS) if (v >= t.threshold) return { ...t, value: v };
+  return { ...PRESSURE_TIERS[PRESSURE_TIERS.length - 1], value: v };
+}
+
 export function updateStatus(state) {
   const turnEl = document.getElementById('turn-info');
   const activeEl = document.getElementById('active-info');
   if (turnEl) turnEl.textContent = `Turn ${state.turn || 0}`;
   if (activeEl) activeEl.textContent = `Active: ${state.active_unit || '—'}`;
+
+  // AI Progress meter (sistema_pressure gauge) — pillar 5 visibility.
+  // Mostra tier corrente + valore + cap intents/round del SIS.
+  const pressureEl = document.getElementById('pressure-meter');
+  if (pressureEl) {
+    const tier = pressureTier(state.sistema_pressure);
+    pressureEl.innerHTML = `
+      <div class="pressure-label">SISTEMA <strong style="color:${tier.color}">${tier.label}</strong> · ${tier.value}/100 · cap ${tier.intents} intents/round</div>
+      <div class="pressure-bar"><div class="pressure-fill" style="width:${tier.value}%;background:${tier.color}"></div></div>
+    `;
+  }
 }
