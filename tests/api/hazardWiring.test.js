@@ -70,12 +70,17 @@ test('Hazard: no damage when no unit on hazard tiles', async (t) => {
   });
 
   const scenario = await request(app).get('/api/tutorial/enc_tutorial_03');
+  // Override positioning per garantire nessuna unita' su (2,2) o (3,3).
+  // Nota: in enc_tutorial_03 default i guardiani SONO su hazard (design choice).
+  const safeUnits = scenario.body.units.map((u, i) => ({
+    ...u,
+    position: { x: i, y: 5 },
+  }));
   const startRes = await request(app)
     .post('/api/session/start')
-    .send({ units: scenario.body.units, hazard_tiles: scenario.body.hazard_tiles });
+    .send({ units: safeUnits, hazard_tiles: scenario.body.hazard_tiles });
   const sid = startRes.body.session_id;
 
-  // Nessuna unita' parte su tile hazard (default positions: 0,1 / 0,4 / 4,1 / 4,4)
   const turnRes = await request(app).post('/api/session/turn/end').send({ session_id: sid });
   assert.equal(turnRes.status, 200);
   assert.equal(turnRes.body.hazard_events.length, 0, 'no hazard events when no unit on tile');
