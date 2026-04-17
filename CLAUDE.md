@@ -165,13 +165,13 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-17)
+## 🎮 Sprint context (aggiornato: 2026-04-18)
 
 > Sezione aggiunta post-sprint 019. Aggiorna a ogni sessione significativa.
 
 **Visione**: "Tattica profonda a turni, cooperativa contro il Sistema, condivisa su TV: come giochi modella ciò che diventi."
 
-**Sprint completati**: 001–020 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Sessione 17/04 M2 (ability + canonical)**: 16 PR (#1498→#1527) · **Ultimo commit**: `3ca22204`
+**Sprint completati**: 001–020 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Sessione 17/04 M2 (ability + canonical)**: 16 PR (#1498→#1527) · **Sessione 17-18/04 (co-op scaling 4→8)**: 6 PR (#1529, #1530, #1531, #1534, #1537, #1542)
 
 **Milestone completate sessione 16-17/04**:
 
@@ -234,7 +234,25 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - **M3 automated**: N=30 aggregate post ap=2. T04 33% ✓ centrato (hp tune -1), T05 ~20% ✓ in band (hp 9→11)
 - Vedi [`docs/process/sprint-2026-04-17-m2-canonical.md`](docs/process/sprint-2026-04-17-m2-canonical.md) per dettagli completi
 
-**Test totali aggiornati**: Python rules engine 196/196 · Node AI 197/197 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** · **Ability/canonical 60+** (M2 sessione) · **Totale 700+**
+**Milestone sessione 17-18/04 co-op scaling 4→8 (ADR-2026-04-17, 6 PR)**:
+
+- **PR #1529 data**: `data/core/party.yaml` canonical 11 modulation preset (solo→full 8p), schema AJV `schemas/evo/party.schema.json`, ADR `ADR-2026-04-17-coop-scaling-4to8.md`
+- **PR #1530 engine**: `services/party/loader.js` (memoized YAML loader), `apps/backend/routes/party.js` (4 endpoint /api/party/{config,modulations,modulations/:id,grid-size}), `session.js /start` accetta `modulation` param, grid dinamica 6×6/8×8/10×10. AI factories (sistemaTurnRunner, declareSistemaIntents, abilityExecutor) leggono session.grid per-call. +7 test partyRoutes.
+- **PR #1531 UI**: lobby modulation picker in `apps/play/index.html`, popolato da `/api/party/modulations`, change event riavvia sessione, canvas auto-fit
+- **PR #1534 hardcore encounter**: `enc_tutorial_06_hardcore` "Cattedrale dell'Apex" 8p vs 6 enemy (1 BOSS + 2 elite + 3 minion), grid 10×10, pressure 75, +3 test
+- **PR #1537 docs(playtest)**: tutorial 01-05 sweep report (11 run su 20 log), addendum predict_combat N=1000 baseline. Identificato bug aggregate_mod ignora unit.mod (TKT-06). Backlog TKT-07 sweep #2.
+- **PR #1542 calibration iter 1**: batch N=13 hardcore_06 → 84.6% win (target 15-25%, +59pp out of band). Tune: boss hp 14→22, +1 elite (3 totali), guardia +1. Harness `tools/py/batch_calibrate_hardcore06.py` + report `docs/playtest/2026-04-18-hardcore-06-calibration.md` + 4 backlog ticket (TKT-08..11).
+
+**Backlog ticket aperti** (sessione 17-18/04):
+
+- TKT-06 predict_combat include unit.mod stat
+- TKT-07 tutorial sweep #2 N=10/scenario post telemetry fix
+- TKT-08 backend stability under batch (morì run #14 batch N=30)
+- TKT-09 ai_intent_distribution non emessa via /round/execute response
+- TKT-10 harness retry+resume incrementale (JSONL write per-run)
+- TKT-11 predict_combat 8p aggregate sanity (boss vs full party)
+
+**Test totali aggiornati**: Python rules engine 196/196 · Node AI 197/197 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** · **Ability/canonical 60+** (M2) · **Party + hardcore 10/10** (co-op arc) · **Totale 710+**
 
 ### Pilastri di design — stato attuale
 
