@@ -1127,6 +1127,11 @@ async function doAction(body) {
 /* ── Risolvi Round (planning-first, sostituisce endTurn) ──
    Commit + auto_resolve: risolve player intent + SIS intents insieme,
    ordinato per reaction_speed. */
+// Delay tra azioni in fase di animazione resolve (ms).
+// Sblocca "feeling" round simultaneo: azioni escono una per volta ordinate
+// per reaction_speed invece che tutte in blocco.
+const RESOLVE_STEP_MS = 450;
+
 async function resolveRound() {
   const btn = document.getElementById('btn-end-turn');
   btn.disabled = true;
@@ -1143,19 +1148,35 @@ async function resolveRound() {
     const queue = commit.resolution_queue || [];
     addLog('info', `🎯 Queue risolta (${queue.length} azion${queue.length === 1 ? 'e' : 'i'})`);
 
-    const iaActs = commit.ia_actions || [];
-    for (const ia of iaActs) logIaAction(ia);
-    const playerActs = commit.player_actions || [];
-    for (const pa of playerActs) {
-      const who = unitLabel(pa.unit_id);
-      if (pa.type === 'attack') {
-        addLog(pa.result === 'hit' ? 'hit' : 'miss',
-          `⚔ ${who} → ${targetDescription(pa.target)}: d20=${pa.die}+${pa.roll - pa.die}=${pa.roll} MoS=${pa.mos} dmg=${pa.damage_dealt}`);
-      } else if (pa.type === 'move') {
-        addLog('info', `🚶 ${who} (${pa.position_from.x},${pa.position_from.y}) → (${pa.position_to.x},${pa.position_to.y})`);
-      } else if (pa.type === 'skip') {
-        addLog('miss', `⏭ ${who} skip: ${pa.reason}`);
+    // Unifica player_actions + ia_actions in lookup by unit_id.
+    // Poi itera resolution_queue (ordinata per reaction_speed server-side)
+    // per log sequenziale con pause.
+    const actByUnit = new Map();
+    for (const pa of commit.player_actions || []) actByUnit.set(String(pa.unit_id), pa);
+    for (const ia of commit.ia_actions || []) actByUnit.set(String(ia.unit_id), ia);
+
+    for (const qItem of queue) {
+      const act = actByUnit.get(String(qItem.unit_id));
+      if (!act) continue;
+      if (act.actor === 'sistema') {
+        logIaAction(act);
+      } else {
+        const who = unitLabel(act.unit_id);
+        if (act.type === 'attack') {
+          addLog(
+            act.result === 'hit' ? 'hit' : 'miss',
+            `⚔ ${who} → ${targetDescription(act.target)}: d20=${act.die}+${act.roll - act.die}=${act.roll} MoS=${act.mos} dmg=${act.damage_dealt}`,
+          );
+        } else if (act.type === 'move') {
+          addLog(
+            'info',
+            `🚶 ${who} (${act.position_from.x},${act.position_from.y}) → (${act.position_to.x},${act.position_to.y})`,
+          );
+        } else if (act.type === 'skip') {
+          addLog('miss', `⏭ ${who} skip: ${act.reason}`);
+        }
       }
+      await new Promise((r) => setTimeout(r, RESOLVE_STEP_MS));
     }
 
     logStatusDiff(preStatus, snapshotStatuses(state));
@@ -1165,87 +1186,6 @@ async function resolveRound() {
     selected       = null;
     render();
   } catch(e) { setHint(`Errore: ${e.message}`); }
-}
-
-/* Legacy beta button handler — mantenuto per retrocompat opt-in. */
-async function runSimultaneousRound() { return resolveRound(); }
-
-/* ── Round simultaneo (ADR-2026-04-15 + SoT §13.1) ──
-   Flow: begin-planning → player declare-intent → commit-round(auto_resolve).
-   Player pianifica in parallelo a SIS. Risoluzione ordinata per reaction_speed. */
-async function runSimultaneousRound() {
-  const btn = document.getElementById('btn-round-sim');
-  btn.disabled = true;
-  setHint('⚡ Round simultaneo — fase pianificazione…');
-  const preStatus = snapshotStatuses(state);
-  try {
-    // 1) Begin planning: SIS dichiara intents, hazard/bleeding applicati
-    const plan = await api('/api/session/round/begin-planning', {});
-    state = plan.state ?? state;
-    const sisCount = plan.sistema_intents_count || 0;
-    addLog('info', `⚡ Planning aperto — SIS ha dichiarato ${sisCount} intent${sisCount !== 1 ? 's' : ''}`);
-
-    const sideEffects = plan.side_effects || [];
-    for (const se of sideEffects) {
-      const who = se.unit_id === 'unit_1' ? 'P1' : 'SIS';
-      const kill = se.killed ? ' → KO' : '';
-      addLog('miss', `🩸 ${who} sanguina (−${se.damage} HP, hp ${se.hp_after})${kill}`);
-    }
-    const hazardEvents = plan.hazard_events || [];
-    for (const hz of hazardEvents) {
-      const who = hz.unit_id === 'unit_1' ? 'P1' : 'SIS';
-      const kill = hz.killed ? ' → KO' : '';
-      addLog('miss', `☠ ${who} su hazard ${hz.hazard_type} (−${hz.damage}, hp ${hz.hp_after})${kill}`);
-    }
-
-    // 2) Player dichiara intent (attack default contro SIS in range, oppure skip)
-    const p1 = state.units.find(u => u.controlled_by === 'player' && u.hp > 0);
-    const sis = state.units.find(u => u.controlled_by === 'sistema' && u.hp > 0);
-    if (p1 && sis) {
-      const dist = Math.abs(p1.position.x - sis.position.x) + Math.abs(p1.position.y - sis.position.y);
-      const range = p1.attack_range ?? 1;
-      const playerAction = (dist <= range)
-        ? { id: `p-atk-${Date.now()}`, type: 'attack', actor_id: p1.id, target_id: sis.id, ap_cost: 1, damage_dice: { count: 1, sides: 6, modifier: 2 } }
-        : { id: `p-mv-${Date.now()}`, type: 'move', actor_id: p1.id, ap_cost: 1, move_to: { x: p1.position.x + Math.sign(sis.position.x - p1.position.x), y: p1.position.y + Math.sign(sis.position.y - p1.position.y) } };
-
-      setHint('⚡ Ready — risoluzione simultanea…');
-      await api('/api/session/declare-intent', {
-        actor_id: p1.id,
-        action: playerAction,
-      });
-    }
-
-    // 3) Commit con auto_resolve — round simultaneo risolve ordinato
-    const commit = await api('/api/session/commit-round', { auto_resolve: true });
-    state = commit.state ?? state;
-
-    // Log resolution queue ordinata (player + SIS interleaved per reaction_speed)
-    const queue = commit.resolution_queue || [];
-    addLog('info', `🎯 Queue risolta (${queue.length} azion${queue.length === 1 ? 'e' : 'i'})`);
-
-    const playerActs = commit.player_actions || [];
-    const iaActs = commit.ia_actions || [];
-    for (const ia of iaActs) logIaAction(ia);
-    for (const pa of playerActs) {
-      if (pa.type === 'attack') {
-        addLog(pa.result === 'hit' ? 'hit' : 'miss',
-          `⚔ P1 → ${pa.target}: d20=${pa.die}+${pa.roll - pa.die}=${pa.roll} MoS=${pa.mos} dmg=${pa.damage_dealt}`);
-      } else if (pa.type === 'move') {
-        addLog('info', `🚶 P1 (${pa.position_from.x},${pa.position_from.y}) → (${pa.position_to.x},${pa.position_to.y})`);
-      } else if (pa.type === 'skip') {
-        addLog('miss', `⏭ P1 skip: ${pa.reason}`);
-      }
-    }
-
-    logStatusDiff(preStatus, snapshotStatuses(state));
-    checkGameOver();
-    selected = null;
-    render();
-  } catch(e) {
-    setHint(`Errore: ${e.message}`);
-  } finally {
-    btn.disabled = false;
-  }
 }
 
 /* ── GAME OVER ── */
