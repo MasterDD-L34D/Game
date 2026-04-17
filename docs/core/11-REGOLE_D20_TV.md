@@ -53,7 +53,31 @@ Regole canoniche per turno, AP budget, syntax input. Chiude FRICTION #1-#3 dal p
 ### Enforcement
 
 - **Codice**: `apps/backend/services/roundOrchestrator.js` + `sessionRoundBridge.js` validano `ap.current >= ap_cost` prima di eseguire azione.
-- **Test canonical**: [`tests/api/apBudget.test.js`](../../tests/api/apBudget.test.js) — asserisce 2 attack/turn valido con `ap_max=2` su tutorial_01.
+- **Test canonical**: [`tests/api/apBudget.test.js`](../../tests/api/apBudget.test.js) — asserisce budget valido con `ap_max` dinamico.
+- **Scenari**: tutorial 02-05 allineati a `ap_max=2` canonical. Tutorial 01 mantiene `ap_max=3` come eccezione esplicita (onboarding easy) — vedi `apps/backend/services/tutorialScenario.js`.
+
+### Batch execution: `POST /api/session/round/execute`
+
+Endpoint canonical per eseguire un round completo in una singola request. Accetta tutti gli intents player + opzionale AI auto-declare + risolve sequenzialmente.
+
+**Body**:
+
+```json
+{
+  "session_id": "uuid",
+  "player_intents": [
+    { "actor_id": "p_scout", "action": { "type": "attack", "target_id": "e_nomad_1" } },
+    { "actor_id": "p_tank", "action": { "type": "move", "position": { "x": 2, "y": 3 } } }
+  ],
+  "ai_auto": true
+}
+```
+
+**Validazione cumulativa**: `Σ ap_cost ≤ ap_remaining` per ogni actor. Violations → 400 con lista dettagliata.
+
+**Response**: aggregato di `results[]` (per intent), `ai_result` (se ai_auto), `events[]`, `ap_consumed`, `state`.
+
+**CLI assistant**: [`tools/py/master_dm.py`](../../tools/py/master_dm.py) — REPL canonical syntax → batch endpoint.
 
 ### Varianti future (opt-in, non default)
 
