@@ -287,13 +287,15 @@ def main():
             print("intents cleared.")
             continue
         if line == "end":
-            # Commit round
+            # Commit round (canonical: priority_queue=true ordina player+AI
+            # intents per initiative + action_speed - status_penalty).
             status, resp = http_post(
                 f"{host}/api/session/round/execute",
                 {
                     "session_id": session_id,
                     "player_intents": pending_intents,
                     "ai_auto": True,
+                    "priority_queue": True,
                 },
             )
             if status != 200:
