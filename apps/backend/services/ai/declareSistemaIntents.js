@@ -39,6 +39,27 @@
 const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE, loadAiConfig } = require('./policy');
 const { selectAiPolicyUtility } = require('./utilityBrain');
 
+// Sistema pressure tier → max intents per round (AI War pattern).
+// Mirror dei tier definiti in packs/.../sistema_pressure.yaml e in
+// sessionHelpers.SISTEMA_PRESSURE_TIERS. Definito qui per evitare
+// dipendenza circolare con sessionHelpers.
+const PRESSURE_TIER_INTENT_CAP = [
+  { threshold: 0, intents_per_round: 1 }, // Calm
+  { threshold: 25, intents_per_round: 2 }, // Alert
+  { threshold: 50, intents_per_round: 2 }, // Escalated
+  { threshold: 75, intents_per_round: 3 }, // Critical
+  { threshold: 95, intents_per_round: 3 }, // Apex
+];
+
+function intentsCapForPressure(pressure) {
+  const p = Number.isFinite(Number(pressure)) ? Math.max(0, Math.min(100, Number(pressure))) : 0;
+  let cap = PRESSURE_TIER_INTENT_CAP[0].intents_per_round;
+  for (const t of PRESSURE_TIER_INTENT_CAP) {
+    if (p >= t.threshold) cap = t.intents_per_round;
+  }
+  return cap;
+}
+
 function createDeclareSistemaIntents(deps) {
   const {
     pickLowestHpEnemy,
@@ -82,13 +103,28 @@ function createDeclareSistemaIntents(deps) {
     const threatCtx =
       typeof computeThreatIndex === 'function' ? computeThreatIndex(session, threatConfig) : null;
 
+    // AI War pattern: pressure-driven intent cap.
+    // Tier piu' alto (player vincente) → SIS dichiara piu' intents.
+    // Calm: 1 intent/round, Critical/Apex: 3.
+    const intentsCap = intentsCapForPressure(session.sistema_pressure);
+
     const intents = [];
     const decisions = [];
+    let intentsEmitted = 0;
 
     for (const actor of session.units) {
       if (!actor) continue;
       if (actor.controlled_by !== 'sistema') continue;
       if (Number(actor.hp || 0) <= 0) continue;
+      if (intentsEmitted >= intentsCap) {
+        decisions.push({
+          unit_id: actor.id,
+          rule: 'PRESSURE_CAP',
+          intent: 'skip',
+          reason: `pressure cap raggiunto (${intentsEmitted}/${intentsCap})`,
+        });
+        continue;
+      }
 
       const target = pickLowestHpEnemy(session, actor);
       if (!target) {
@@ -154,6 +190,7 @@ function createDeclareSistemaIntents(deps) {
           source_ia_rule: policy.rule,
         };
         intents.push({ unit_id: actor.id, action });
+        intentsEmitted++;
         decisions.push({
           unit_id: actor.id,
           rule: policy.rule,
@@ -218,6 +255,7 @@ function createDeclareSistemaIntents(deps) {
         source_ia_rule: policy.rule,
       };
       intents.push({ unit_id: actor.id, action: moveAction });
+      intentsEmitted++;
       decisions.push({
         unit_id: actor.id,
         rule: policy.rule,
