@@ -524,6 +524,8 @@
         <button class="btn scenario-btn"        data-scenario="shock_troops"  onclick="startSession('shock_troops')">Shock Troops</button>
         <button class="btn scenario-btn"        data-scenario="bloody_mess"   onclick="startSession('bloody_mess')">Bloody Mess</button>
         <button class="btn scenario-btn"        data-scenario="coop_2v2"      onclick="startSession('coop_2v2')">2v2 Co-op</button>
+        <button class="btn scenario-btn"        data-scenario="coop_3v3"      onclick="startSession('coop_3v3')">3v3 Squad</button>
+        <button class="btn scenario-btn"        data-scenario="coop_4v4"      onclick="startSession('coop_4v4')">4v4 Full Party</button>
       </div>
     </div>
 
@@ -647,6 +649,34 @@ const SCENARIOS = {
       { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:5} },
       { id:'unit_3', species:'lupo',    job:'vanguard',   traits:['intimidatore'],     controlled_by:'sistema', position:{x:5,y:0} },
       { id:'unit_4', species:'falco',   job:'ranger',                                   controlled_by:'sistema', position:{x:5,y:5} },
+    ],
+  },
+  // Round simultaneo 3v3 — stress test intent cap + pressure tier SIS
+  coop_3v3: {
+    label: '3v3 Squad',
+    desc: '3 player vs 3 SIS — pianifica 3 ordini, SIS dichiara 1-3 intent per pressure tier',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'],    controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:2} },
+      { id:'unit_3', species:'falco',   job:'ranger',                                   controlled_by:'player',  position:{x:0,y:4} },
+      { id:'unit_4', species:'lupo',    job:'vanguard',   traits:['intimidatore'],     controlled_by:'sistema', position:{x:5,y:0} },
+      { id:'unit_5', species:'volpina', job:'invoker',                                   controlled_by:'sistema', position:{x:5,y:2} },
+      { id:'unit_6', species:'carapax', job:'vanguard',   traits:['stordimento'],      controlled_by:'sistema', position:{x:5,y:4} },
+    ],
+  },
+  // Round simultaneo 4v4 — massimo stress: 8 unit su 6x6 grid
+  coop_4v4: {
+    label: '4v4 Full Party',
+    desc: '4 player vs 4 SIS — massimo co-op, grid 6x6 piena al 22%',
+    units: [
+      { id:'unit_1', species:'velox',   job:'skirmisher', traits:['zampe_a_molla'],    controlled_by:'player',  position:{x:0,y:0} },
+      { id:'unit_2', species:'carapax', job:'vanguard',   traits:['pelle_elastomera'], controlled_by:'player',  position:{x:0,y:2} },
+      { id:'unit_3', species:'falco',   job:'ranger',                                   controlled_by:'player',  position:{x:0,y:3} },
+      { id:'unit_4', species:'volpina', job:'invoker',                                   controlled_by:'player',  position:{x:0,y:5} },
+      { id:'unit_5', species:'lupo',    job:'vanguard',   traits:['intimidatore'],     controlled_by:'sistema', position:{x:5,y:0} },
+      { id:'unit_6', species:'carapax', job:'vanguard',   traits:['stordimento'],      controlled_by:'sistema', position:{x:5,y:2} },
+      { id:'unit_7', species:'falco',   job:'ranger',                                   controlled_by:'sistema', position:{x:5,y:3} },
+      { id:'unit_8', species:'velox',   job:'skirmisher', traits:['denti_seghettati'], controlled_by:'sistema', position:{x:5,y:5} },
     ],
   },
 };
