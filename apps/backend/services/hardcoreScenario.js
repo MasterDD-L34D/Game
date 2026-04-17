@@ -2,15 +2,16 @@
 //
 // tutorial_06_hardcore: "Cattedrale dell'Apex"
 // Party: 8 schierati (modulation full o quartet_hardcore), grid 10x10.
-// Enemy: 1 BOSS apex + 2 elite hunter + 3 minion nomad = 6.
+// Enemy: 1 BOSS apex + 3 elite hunter + 3 minion nomad = 7 (iter 1).
 // Difficulty 6/5 (boss + swarm). pressure_start 75 → Critical/Apex tier.
 //
-// Baseline calibration target (atteso post batch N=30):
-//   win_rate ~15-25% (BOSS hardcore, player deve coordinarsi 8-way)
-//   turns avg ~14-18
-//   K/D ratio player ~0.6-0.9
+// Calibration history:
+//   iter 0 (PR #1534): boss hp 14, 2 elite hp 7. N=13 → 84.6% win, fuori band.
+//     Vedi docs/playtest/2026-04-18-hardcore-06-calibration.md.
+//   iter 1 (PR4.b): boss hp 14→22 (+57%) guardia 2→3, +1 elite (3 totali)
+//     hp 7→9 (+29%). Target post-tune win 25-40%.
 //
-// Se batch rivela fuori band → tune hp apex/elite in iter successive (PR4.b).
+// Se iter1 ancora >50% win → iter 2: +1 minion, boss mod 4→5, hazard dmg 1→2.
 
 'use strict';
 
@@ -23,9 +24,9 @@ const HARDCORE_SCENARIO_06 = {
   grid_size: 10,
   objective: 'elimination',
   objective_text:
-    'Sconfiggi il BOSS Apex e i suoi 5 guardiani. Party 8 unità vs 6 nemici asimmetrici: coordina focus-fire e combo squadSync per superare la pressione massima.',
+    'Sconfiggi il BOSS Apex e i suoi 6 guardiani. Party 8 unità vs 7 nemici asimmetrici: coordina focus-fire e combo squadSync per superare la pressione massima.',
   briefing_pre:
-    "Le rovine risuonano del passo pesante dell'Apex. Due elite cacciatori pattugliano i fianchi, tre predoni bloccano i corridoi. Party al completo (8 schierati): ogni PG conta, il focus-fire moltiplica il danno, il BOSS non perdona errori di posizionamento.",
+    "Le rovine risuonano del passo pesante dell'Apex. Tre elite cacciatori controllano i fianchi e il centro, tre predoni bloccano i corridoi. Party al completo (8 schierati): ogni PG conta, il focus-fire moltiplica il danno, il BOSS non perdona errori di posizionamento.",
   briefing_post:
     "L'Apex è caduto. La cattedrale si quieta. Avete dimostrato che 8 mani battono una mandibola.",
   hazard_tiles: [
@@ -70,30 +71,34 @@ function buildHardcoreUnits06() {
 
   const enemies = [
     // BOSS Apex (center-right) — HP alto, crit bonus, attack_range 2.
-    // Baseline: hp 14 mod 4 dc 14 (più duro del tutorial_05 hp 11).
+    // Iter 0 (PR #1534): hp 14 mod 4 dc 14 guardia 2.
+    // Iter 1 (PR4.b post calibration N=13 → 84.6% win rate, target 15-25%):
+    //   hp 14→22 (+57%), guardia 2→3 (+1 dmg reduction). Boss deve sopravvivere
+    //   8-12 round invece di 5-8 (player kill-time troppo veloce con 8p swarm).
     {
       id: 'e_apex_boss',
       species: 'apex_predatore',
       job: 'vanguard',
       traits: ['martello_osseo', 'ferocia'],
-      hp: 14,
+      hp: 22,
       ap: 3,
       mod: 4,
       dc: 14,
-      guardia: 2,
+      guardia: 3,
       attack_range: 2,
       position: { x: 8, y: 5 },
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
     },
-    // 2 elite hunter — flanking, mod 3, hp 7.
+    // 3 elite hunter — flanking + mid (iter 1: +1 elite + hp 7→9).
+    // Spread aggro, force player split focus-fire.
     {
       id: 'e_elite_hunter_1',
       species: 'cacciatore_corazzato',
       job: 'vanguard',
       traits: [],
-      hp: 7,
+      hp: 9,
       ap: 2,
       mod: 3,
       dc: 13,
@@ -109,13 +114,29 @@ function buildHardcoreUnits06() {
       species: 'cacciatore_corazzato',
       job: 'vanguard',
       traits: [],
-      hp: 7,
+      hp: 9,
       ap: 2,
       mod: 3,
       dc: 13,
       guardia: 1,
       attack_range: 2,
       position: { x: 7, y: 8 },
+      controlled_by: 'sistema',
+      ai_profile: 'aggressive',
+      facing: 'W',
+    },
+    {
+      id: 'e_elite_hunter_3',
+      species: 'cacciatore_corazzato',
+      job: 'vanguard',
+      traits: [],
+      hp: 9,
+      ap: 2,
+      mod: 3,
+      dc: 13,
+      guardia: 1,
+      attack_range: 2,
+      position: { x: 7, y: 5 },
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
