@@ -6596,6 +6596,19 @@
       "review_cycle_days": 30,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/process/sprint-2026-04-17.md",
+      "title": "Sprint 2026-04-17 — End-to-End Game Loop + Tutorial Arc 1→5",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-17",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
     }
   ]
 }

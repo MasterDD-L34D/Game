@@ -171,7 +171,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Visione**: "Tattica profonda a turni, cooperativa contro il Sistema, condivisa su TV: come giochi modella ciò che diventi."
 
-**Sprint completati**: 001–019 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Ultimo commit**: `609d1ca9`
+**Sprint completati**: 001–020 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Ultimo commit**: `43b321a7`
 
 **Milestone completate sessione 16-17/04**:
 
@@ -208,7 +208,20 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - **28 Open Questions**: 12✅ chiuse, 9🟡 proposte, 7🔴 bloccate (Art Direction + Business)
 - **Utility AI wired opt-in** in declareSistemaIntents.js (zero breaking change)
 
-**Test totali**: Python rules engine 196/196 · Node AI 98/98 · VC scoring 21/21 · Encounter schema 6/6
+**Milestone sessione 17/04 game loop arc (#1447-#1471, 21 PR)**:
+
+- **Mega-task documentale canonico** — GDD Master, Promotion Matrix, naming styleguide bilingue (45 specie + 40 biomi), 5 doc canonical nuovi, 8/8 TODO chiusi
+- **Game loop end-to-end funzionante per la prima volta** — primo playtest digitale + N=10 batch harness rivela 3 bug critici (target dead, AI fratricide, enemy damage 0)
+- **Curva tutorial completa 1→5** (5 encounter giocabili: savana, savana asimmetrica, caverna+hazard, foresta+bleeding, BOSS Apex). Win rate decrescente: 80%→80%→50%→30%→20%
+- **Atlas live** in /api/session/state — pressure/momentum/warning_signals
+- **Sistema pressure tier** wirato — pressure +20 su KO player → tier gates SIS intents (Calm 1 → Apex 3). AI passive→aggressive
+- **SquadSync focus_fire combo** — 2+ player same target same round = +1 bonus dmg
+- **Hazard tile damage** — wired in handleTurnEndViaRound, hazard_events response
+- **VC calibration iter1 applied** — Ennea threshold lower + MBTI dead-band 0.45-0.55, 4/6 archetipi reachable
+- **Status effects** — bleeding via trait `denti_seghettati` su enemy
+- Vedi [`docs/process/sprint-2026-04-17.md`](docs/process/sprint-2026-04-17.md) per dettagli completi
+
+**Test totali aggiornati**: Python rules engine 196/196 · Node AI 98/98 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** (sessione 17/04)
 
 ### Pilastri di design — stato attuale
 
