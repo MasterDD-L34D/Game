@@ -79,6 +79,9 @@ function makeSession(overrides = {}) {
     turn: 1,
     units,
     grid: { width: 6, height: 6 },
+    // Default high pressure: tier=Apex (cap=3) → tutti gli intents emessi.
+    // Test che vogliono testare il pressure cap impostano sistema_pressure: 0.
+    sistema_pressure: overrides.sistema_pressure ?? 100,
   };
 }
 
@@ -499,6 +502,162 @@ test('multi-unit SIS produces intents in session.units order', () => {
 // ─────────────────────────────────────────────────────────────────
 // Purity
 // ─────────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────────
+// Sistema pressure tier — intent cap
+// ─────────────────────────────────────────────────────────────────
+
+test('pressure=0 (Calm): cap=1 — only first SIS unit emits intent', () => {
+  const declare = buildDeclare();
+  const session = makeSession({
+    sistema_pressure: 0,
+    units: [
+      {
+        id: 'p1',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        position: { x: 0, y: 0 },
+        controlled_by: 'player',
+        status: {},
+      },
+      {
+        id: 'sis_a',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 0 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+      {
+        id: 'sis_b',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 1 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+      {
+        id: 'sis_c',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 2 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+    ],
+  });
+  const { intents, decisions } = declare(session);
+  assert.equal(intents.length, 1, 'cap=1 at Calm tier');
+  const skipped = decisions.filter((d) => d.rule === 'PRESSURE_CAP');
+  assert.equal(skipped.length, 2, '2 SIS skipped by pressure cap');
+});
+
+test('pressure=50 (Escalated): cap=2', () => {
+  const declare = buildDeclare();
+  const session = makeSession({
+    sistema_pressure: 50,
+    units: [
+      {
+        id: 'p1',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        position: { x: 0, y: 0 },
+        controlled_by: 'player',
+        status: {},
+      },
+      {
+        id: 'sis_a',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 0 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+      {
+        id: 'sis_b',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 1 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+      {
+        id: 'sis_c',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 2 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+    ],
+  });
+  const { intents } = declare(session);
+  assert.equal(intents.length, 2, 'cap=2 at Escalated tier');
+});
+
+test('pressure=80 (Critical): cap=3 — all SIS emit', () => {
+  const declare = buildDeclare();
+  const session = makeSession({
+    sistema_pressure: 80,
+    units: [
+      {
+        id: 'p1',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        position: { x: 0, y: 0 },
+        controlled_by: 'player',
+        status: {},
+      },
+      {
+        id: 'sis_a',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 0 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+      {
+        id: 'sis_b',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 1 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+      {
+        id: 'sis_c',
+        hp: 10,
+        max_hp: 10,
+        ap: 2,
+        attack_range: 2,
+        position: { x: 2, y: 2 },
+        controlled_by: 'sistema',
+        status: {},
+      },
+    ],
+  });
+  const { intents } = declare(session);
+  assert.equal(intents.length, 3, 'cap=3 at Critical tier');
+});
 
 test('does not mutate session or units', () => {
   const declare = buildDeclare();
