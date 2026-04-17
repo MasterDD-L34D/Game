@@ -69,11 +69,19 @@ const tutorialPlugin = {
   },
 };
 
+const jobsPlugin = {
+  name: 'jobs',
+  register(app) {
+    const { createJobsRouter } = require('../routes/jobs');
+    app.use('/api/jobs', createJobsRouter());
+  },
+};
+
 /**
  * Lista plugin built-in. Aggiungere nuovi plugin qui.
  * Ordine = ordine di registrazione.
  */
-const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin, tutorialPlugin];
+const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin, tutorialPlugin, jobsPlugin];
 
 module.exports = {
   loadPlugins,
@@ -81,4 +89,5 @@ module.exports = {
   narrativePlugin,
   metaPlugin,
   tutorialPlugin,
+  jobsPlugin,
 };
