@@ -149,10 +149,12 @@ function createAbilityExecutor(deps) {
     if (!dest || typeof dest.x !== 'number' || typeof dest.y !== 'number') {
       return { status: 400, body: { error: 'position { x, y } richiesta per move_attack' } };
     }
-    if (!isWithinGrid(dest, gridSize)) {
+    if (!isWithinGrid(dest, session.grid?.width || gridSize)) {
       return {
         status: 400,
-        body: { error: `posizione fuori griglia (${gridSize}x${gridSize})` },
+        body: {
+          error: `posizione fuori griglia (${session.grid?.width || gridSize}x${session.grid?.height || gridSize})`,
+        },
       };
     }
     const moveDist = manhattanDistance(actor.position, dest);
@@ -287,10 +289,12 @@ function createAbilityExecutor(deps) {
     if (!dest || typeof dest.x !== 'number' || typeof dest.y !== 'number') {
       return { status: 400, body: { error: 'position { x, y } richiesta per attack_move' } };
     }
-    if (!isWithinGrid(dest, gridSize)) {
+    if (!isWithinGrid(dest, session.grid?.width || gridSize)) {
       return {
         status: 400,
-        body: { error: `posizione fuori griglia (${gridSize}x${gridSize})` },
+        body: {
+          error: `posizione fuori griglia (${session.grid?.width || gridSize}x${session.grid?.height || gridSize})`,
+        },
       };
     }
 
@@ -640,7 +644,7 @@ function createAbilityExecutor(deps) {
       let destY = pushFrom.y;
       for (let step = 0; step < pushDist; step += 1) {
         const next = computePushDestination(actor, { position: { x: destX, y: destY } });
-        if (!isWithinGrid(next, gridSize)) break;
+        if (!isWithinGrid(next, session.grid?.width || gridSize)) break;
         const blocker = session.units.find(
           (u) =>
             u.id !== target.id && u.hp > 0 && u.position.x === next.x && u.position.y === next.y,
@@ -1280,7 +1284,7 @@ function createAbilityExecutor(deps) {
     if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
       return { status: 400, body: { error: 'position { x, y } richiesta per aoe_buff' } };
     }
-    if (!isWithinGrid(center, gridSize)) {
+    if (!isWithinGrid(center, session.grid?.width || gridSize)) {
       return { status: 400, body: { error: 'centro AoE fuori griglia' } };
     }
     const range = Number(ability.range || 0);
@@ -1354,7 +1358,7 @@ function createAbilityExecutor(deps) {
     if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
       return { status: 400, body: { error: 'position { x, y } richiesta per aoe_debuff' } };
     }
-    if (!isWithinGrid(center, gridSize)) {
+    if (!isWithinGrid(center, session.grid?.width || gridSize)) {
       return { status: 400, body: { error: 'centro AoE fuori griglia' } };
     }
     const range = Number(ability.range || 0);
@@ -1427,7 +1431,7 @@ function createAbilityExecutor(deps) {
     if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
       return { status: 400, body: { error: 'position { x, y } richiesta per surge_aoe' } };
     }
-    if (!isWithinGrid(center, gridSize)) {
+    if (!isWithinGrid(center, session.grid?.width || gridSize)) {
       return { status: 400, body: { error: 'centro AoE fuori griglia' } };
     }
     const range = Number(ability.range || 0);
