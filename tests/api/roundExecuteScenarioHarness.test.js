@@ -81,11 +81,14 @@ async function runOneBatch(app) {
       }
     }
 
-    // Batch round/execute con ai_auto=true
+    // Batch round/execute con ai_auto=true + priority_queue=true (canonical).
+    // Canonical flow ordina player + AI intents per priority e dispatcha in
+    // ordine di initiative + action_speed - status_penalty.
     const batchRes = await request(app).post('/api/session/round/execute').send({
       session_id: sid,
       player_intents: intents,
       ai_auto: true,
+      priority_queue: true,
     });
     stats.batch_requests += 1;
 
@@ -100,20 +103,28 @@ async function runOneBatch(app) {
       `round ${r} batch: ${JSON.stringify(batchRes.body).slice(0, 200)}`,
     );
 
-    // Conta hit/miss/damage dai results
+    // Conta hit/miss/damage dai results. Con priority_queue=true, results[]
+    // include player + AI intents mescolati. Distingui via controlled_by
+    // dallo state corrente (alivePlayers lookup set).
+    const playerIds = new Set(alivePlayers.map((u) => u.id));
     for (const result of batchRes.body.results || []) {
       if (result.action_type === 'attack' && result.result) {
         const r = result.result;
+        const isPlayer = playerIds.has(result.actor_id);
         if (r.result === 'hit') {
-          stats.player_hits += 1;
-          stats.player_damage += Number(r.damage_dealt || 0);
-        } else if (r.result === 'miss') {
+          if (isPlayer) {
+            stats.player_hits += 1;
+            stats.player_damage += Number(r.damage_dealt || 0);
+          } else {
+            stats.enemy_damage += Number(r.damage_dealt || 0);
+          }
+        } else if (r.result === 'miss' && isPlayer) {
           stats.player_misses += 1;
         }
       }
     }
 
-    // AI damage da ai_result
+    // ai_result è null con priority_queue=true (AI nel queue, non handleTurnEndViaRound).
     const ai = batchRes.body.ai_result;
     if (ai && Array.isArray(ai.ia_actions)) {
       for (const ia of ai.ia_actions) {
