@@ -6570,6 +6570,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/balance/vc-calibration-iter1.md",
+      "title": "VC Scoring Calibration — Iteration 1 (analysis)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-04-17",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
     }
   ]
 }

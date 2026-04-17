@@ -21,7 +21,17 @@ const {
   PHASE_COMMITTED,
   PHASE_RESOLVED,
 } = require('../services/roundOrchestrator');
-const { publicSessionView, facingFromMove } = require('./sessionHelpers');
+const {
+  publicSessionView,
+  facingFromMove,
+  applyPressureDelta,
+  PRESSURE_DELTAS,
+} = require('./sessionHelpers');
+const {
+  detectFocusFireCombo,
+  recordAttackForCombo,
+  resetRoundAttackTracker,
+} = require('../services/squadCoordination');
 
 function createRoundBridge(deps) {
   const {
@@ -156,6 +166,26 @@ function createRoundBridge(deps) {
         capturedResults.damageDealt = res.damageDealt;
         capturedResults.killOccurred = res.killOccurred;
         capturedResults.parry = res.parry;
+        // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
+        // stesso target in questo round, +1 dmg al secondo/terzo attacco.
+        const comboInfo = detectFocusFireCombo(session, actor, target);
+        if (res.result && res.result.hit && comboInfo.is_combo && res.damageDealt > 0) {
+          const extra = comboInfo.bonus_damage;
+          const hpNow = Number(target.hp || 0);
+          const applied = Math.min(extra, hpNow);
+          if (applied > 0) {
+            target.hp = hpNow - applied;
+            capturedResults.damageDealt = res.damageDealt + applied;
+            if (session.damage_taken) {
+              session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + applied;
+            }
+            if (target.hp <= 0 && !capturedResults.killOccurred) {
+              capturedResults.killOccurred = true;
+            }
+          }
+          capturedResults.combo = { ...comboInfo, bonus_applied: applied };
+        }
+        recordAttackForCombo(session, actor, target, comboInfo);
         for (const uOrch of next.units) {
           const uLegacy = session.units.find((u) => u.id === uOrch.id);
           if (uLegacy) {
@@ -222,17 +252,21 @@ function createRoundBridge(deps) {
       await appendEvent(session, event);
       if (capturedResults.killOccurred) {
         await emitKillAndAssists(session, actor, target, event);
-        // Sistema pressure: +20 quando il player KO una unita' SIS.
-        // AI War pattern (sistema_pressure.yaml): pressure sale su victory_delta.
-        if (
-          actor.controlled_by === 'player' &&
-          target.controlled_by === 'sistema' &&
-          typeof session.sistema_pressure === 'number'
-        ) {
-          session.sistema_pressure = Math.max(
-            0,
-            Math.min(100, (session.sistema_pressure || 0) + 20),
-          );
+        // Sistema pressure (AI War pattern — sistema_pressure.yaml §deltas):
+        //   player KO sistema  → +pg_kills_sis  (pressure sale)
+        //   sistema KO player  → +sg_pg_down    (pressure cala, Sistema si placa)
+        if (typeof session.sistema_pressure === 'number') {
+          if (actor.controlled_by === 'player' && target.controlled_by === 'sistema') {
+            session.sistema_pressure = applyPressureDelta(
+              session.sistema_pressure,
+              PRESSURE_DELTAS.pg_kills_sis,
+            );
+          } else if (actor.controlled_by === 'sistema' && target.controlled_by === 'player') {
+            session.sistema_pressure = applyPressureDelta(
+              session.sistema_pressure,
+              PRESSURE_DELTAS.sg_pg_down,
+            );
+          }
         }
       }
     }
@@ -252,6 +286,7 @@ function createRoundBridge(deps) {
       actor_position: { ...actor.position },
       target_position: targetPositionAtAttack,
       parry: capturedResults.parry,
+      combo: capturedResults.combo || null,
       state: publicSessionView(session),
       round_wrapper: true,
       round_phase: result.nextState.round_phase,
@@ -263,6 +298,9 @@ function createRoundBridge(deps) {
   // ────────────────────────────────────────────────────────────────
 
   async function handleTurnEndViaRound(session) {
+    // Reset tracker combo a fine round: archivia last_round_combos come
+    // previous_round_combos (letto dal debrief) e pulisce la lista attacchi.
+    resetRoundAttackTracker(session);
     session.roundState = adaptSessionToRoundState(session);
 
     const bleedingEvents = [];
@@ -461,6 +499,16 @@ function createRoundBridge(deps) {
 
     await persistEvents(session);
     session.turn += 1;
+
+    // Round decay (AI War pattern — sistema_pressure.yaml §deltas.round_decay):
+    // pressure cala di 1 per round senza eventi di victory/defeat.
+    // Escape valve per non lasciare SIS in stato "Apex" dopo picchi isolati.
+    if (typeof session.sistema_pressure === 'number') {
+      session.sistema_pressure = applyPressureDelta(
+        session.sistema_pressure,
+        PRESSURE_DELTAS.round_decay,
+      );
+    }
 
     return {
       session_id: session.session_id,
