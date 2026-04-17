@@ -976,6 +976,264 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // ───────────────────────────────────────────────────────────────
+  // POST /round/execute — batch round resolver (Fase 1 SoT-alignment).
+  //
+  // Accetta TUTTI gli intents player di un round + opzionale AI auto-declare
+  // + risolve in una singola richiesta. Allineato al round model canonico
+  // (ADR-2026-04-15): internamente usa gli stessi dispatcher di /action
+  // (performAttack, abilityExecutor, move handler) in ordine di dichiarazione,
+  // seguito da AI turn end se ai_auto=true.
+  //
+  // Body:
+  //   {
+  //     session_id: string,
+  //     player_intents: [
+  //       { actor_id, action: { type: 'attack'|'move'|'ability', ...} },
+  //       ...
+  //     ],
+  //     ai_auto?: boolean (default true),
+  //     preview_only?: boolean (default false)  // MVP: not implemented, reserved
+  //   }
+  //
+  // AP budget validato cumulativamente per actor PRIMA del dispatch:
+  // Σ ap_cost ≤ ap_remaining → 400 violations se superato.
+  // ───────────────────────────────────────────────────────────────
+  function estimateApCost(action, actor) {
+    if (!action) return 0;
+    if (action.type === 'attack') return 1;
+    if (action.type === 'move') {
+      const dest = action.position;
+      if (!dest || !actor || !actor.position) return 1;
+      return manhattanDistance(actor.position, dest);
+    }
+    if (action.type === 'ability') {
+      try {
+        const { findAbility } = require('../services/abilityExecutor');
+        const ab = findAbility(action.ability_id);
+        return ab ? Number(ab.cost_ap || 0) : 0;
+      } catch {
+        return 0;
+      }
+    }
+    if (action.type === 'turn' || action.type === 'skip') return 0;
+    return 0;
+  }
+
+  router.post('/round/execute', async (req, res, next) => {
+    try {
+      const body = req.body || {};
+      const { error, session } = resolveSession(body.session_id);
+      if (error) return res.status(error.status).json(error.body);
+
+      const playerIntents = Array.isArray(body.player_intents) ? body.player_intents : [];
+      const aiAuto = body.ai_auto !== false;
+
+      // Validazione intent + AP cumulativo per actor.
+      const apByUnit = {};
+      const violations = [];
+      const normalized = [];
+      for (let i = 0; i < playerIntents.length; i += 1) {
+        const raw = playerIntents[i];
+        if (!raw || !raw.actor_id || !raw.action) {
+          violations.push({ index: i, error: 'intent richiede actor_id + action' });
+          continue;
+        }
+        const actor = session.units.find((u) => u.id === raw.actor_id);
+        if (!actor) {
+          violations.push({ index: i, actor_id: raw.actor_id, error: 'actor non trovato' });
+          continue;
+        }
+        if (Number(actor.hp) <= 0) {
+          violations.push({
+            index: i,
+            actor_id: raw.actor_id,
+            error: 'actor morto',
+          });
+          continue;
+        }
+        const cost = estimateApCost(raw.action, actor);
+        apByUnit[raw.actor_id] = (apByUnit[raw.actor_id] || 0) + cost;
+        if (apByUnit[raw.actor_id] > Number(actor.ap_remaining ?? actor.ap ?? 0)) {
+          violations.push({
+            index: i,
+            actor_id: raw.actor_id,
+            error: `AP budget superato: Σ ${apByUnit[raw.actor_id]} > ${actor.ap_remaining ?? actor.ap ?? 0}`,
+            requested: apByUnit[raw.actor_id],
+            available: Number(actor.ap_remaining ?? actor.ap ?? 0),
+          });
+          continue;
+        }
+        normalized.push({ index: i, actor, raw });
+      }
+      if (violations.length > 0) {
+        return res.status(400).json({
+          error: 'AP budget or intent validation failed',
+          violations,
+        });
+      }
+
+      // Dispatch sequenziale intent player.
+      const results = [];
+      const eventsCountBefore = session.events.length;
+      for (const { actor, raw } of normalized) {
+        if (Number(actor.hp) <= 0) {
+          results.push({ actor_id: actor.id, skipped: 'actor_dead_mid_round' });
+          continue;
+        }
+        const action = raw.action;
+        if (action.type === 'attack') {
+          const target = session.units.find((u) => u.id === action.target_id);
+          if (!target || Number(target.hp) <= 0) {
+            results.push({
+              actor_id: actor.id,
+              skipped: 'target_dead_or_missing',
+              target_id: action.target_id,
+            });
+            continue;
+          }
+          const range = Number(actor.attack_range) || DEFAULT_ATTACK_RANGE;
+          if (manhattanDistance(actor.position, target.position) > range) {
+            results.push({
+              actor_id: actor.id,
+              skipped: 'target_out_of_range',
+              target_id: action.target_id,
+            });
+            continue;
+          }
+          const wrapped = await handleLegacyAttackViaRound({
+            session,
+            actor,
+            target,
+            requestedCapPt: 0,
+          });
+          results.push({ actor_id: actor.id, action_type: 'attack', result: wrapped });
+        } else if (action.type === 'move') {
+          const dest = action.position;
+          if (
+            !dest ||
+            typeof dest.x !== 'number' ||
+            typeof dest.y !== 'number' ||
+            dest.x < 0 ||
+            dest.x >= GRID_SIZE ||
+            dest.y < 0 ||
+            dest.y >= GRID_SIZE
+          ) {
+            results.push({ actor_id: actor.id, skipped: 'invalid_position' });
+            continue;
+          }
+          const blocker = session.units.find(
+            (u) =>
+              u.id !== actor.id && u.hp > 0 && u.position.x === dest.x && u.position.y === dest.y,
+          );
+          if (blocker) {
+            results.push({
+              actor_id: actor.id,
+              skipped: 'cell_occupied',
+              blocker_id: blocker.id,
+            });
+            continue;
+          }
+          const dist = manhattanDistance(actor.position, dest);
+          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
+          const positionFrom = { ...actor.position };
+          actor.position = { x: dest.x, y: dest.y };
+          const newFacing = facingFromMove(positionFrom, actor.position);
+          if (newFacing) actor.facing = newFacing;
+          const moveEvent = buildMoveEvent({ session, actor, positionFrom });
+          await appendEvent(session, moveEvent);
+          const overwatchResult = reactionEngine.triggerOnMove(
+            session,
+            actor,
+            positionFrom,
+            (overwatchUnit, mover) => performAttack(session, overwatchUnit, mover),
+          );
+          if (overwatchResult) {
+            await appendEvent(session, {
+              ts: new Date().toISOString(),
+              session_id: session.session_id,
+              actor_id: overwatchResult.overwatch_id,
+              action_type: 'reaction_trigger',
+              ability_id: overwatchResult.ability_id,
+              trigger: 'enemy_moves_in_range',
+              target_id: overwatchResult.mover_id,
+              turn: session.turn,
+              from_position: overwatchResult.from_position,
+              to_position: overwatchResult.to_position,
+              die: overwatchResult.die,
+              roll: overwatchResult.roll,
+              mos: overwatchResult.mos,
+              result: overwatchResult.hit ? 'hit' : 'miss',
+              damage_dealt: overwatchResult.damage_dealt,
+              mover_hp_before: overwatchResult.mover_hp_before,
+              mover_hp_after: overwatchResult.mover_hp_after,
+              mover_killed: overwatchResult.mover_killed,
+              damage_step_mod: overwatchResult.damage_step_mod,
+              trait_effects: [],
+            });
+          }
+          results.push({
+            actor_id: actor.id,
+            action_type: 'move',
+            result: {
+              position_from: positionFrom,
+              position_to: { ...actor.position },
+              overwatch: overwatchResult,
+            },
+          });
+        } else if (action.type === 'ability') {
+          const dispatch = await abilityExecutor.executeAbility({
+            session,
+            actor,
+            body: action,
+          });
+          results.push({
+            actor_id: actor.id,
+            action_type: 'ability',
+            status: dispatch.status,
+            result: dispatch.body,
+          });
+        } else if (action.type === 'turn') {
+          const rawFacing = action.facing ? String(action.facing).toUpperCase() : null;
+          if (VALID_FACINGS.has(rawFacing)) {
+            actor.facing = rawFacing;
+            results.push({ actor_id: actor.id, action_type: 'turn', facing: rawFacing });
+          } else {
+            results.push({ actor_id: actor.id, skipped: 'invalid_facing' });
+          }
+        } else if (action.type === 'skip') {
+          results.push({ actor_id: actor.id, action_type: 'skip' });
+        } else {
+          results.push({
+            actor_id: actor.id,
+            skipped: `unknown action type: ${action.type}`,
+          });
+        }
+      }
+
+      // AI auto-declare: usa handleTurnEndViaRound (bleeding + hazard +
+      // status decay + AI intents + commit + resolve).
+      let aiResult = null;
+      if (aiAuto) {
+        aiResult = await handleTurnEndViaRound(session);
+      }
+
+      const eventsEmitted = session.events.slice(eventsCountBefore);
+
+      return res.json({
+        round: session.turn,
+        results,
+        ai_result: aiResult,
+        events_emitted_count: eventsEmitted.length,
+        events: eventsEmitted,
+        ap_consumed: apByUnit,
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   router.post('/end', async (req, res, next) => {
     try {
       const body = req.body || {};
