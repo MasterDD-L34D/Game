@@ -219,9 +219,80 @@ Obiettivo: raddoppiare dmg output enemy **senza** toccare HP.
 
 **Alt B — ridurre player side**: `modulation: 'hardcore_quartet'` (4p) invece di full 8p. Focus-fire 4v6 asymmetric diversa, forse più bilanciato nativamente.
 
-## 13. Next step
+## 13. Iter 3 — ap/mod buff (N=10)
 
-1. **PR #1539 (this branch)**: Iter 1 + Iter 2 insieme. Validano harness + stabiliscono che HP-only tune non basta.
-2. **PR4.c**: Iter 3 focus lethality (ap +1, mod +2, damage_bonus) o modulation switch quartet.
-3. **Parallel**: fix VC snapshot + AI tally bug (issues #1, #2) — batch runner upgrade.
-4. Close ADR-2026-04-17 M3 quando wr 15-25% raggiunto.
+Iter 3 tune applicato:
+
+| Enemy  | ap  | mod   |
+| ------ | --- | ----- |
+| BOSS   | 3→4 | +5→+7 |
+| Elite  | 2→3 | +4→+5 |
+| Minion | 2→3 | +3→+4 |
+
+Risultati: wr 70% (7 victory, 3 timeout), turns 30.6, K/D 2.49, dmg_taken **29.4** (stagnante vs Iter 2 28.2).
+
+**Shock finding**: ap+1 mod+2 sugli enemy non muove dmg_taken. Batch harness `ai_intent_distribution` empty.
+
+## 14. Root cause probe (tools/py/probe_ai.py)
+
+Single probe N=1 su `/round/execute` con player_intents=[] rivela:
+
+- `ai_result` = **None** sempre in `priority_queue=true` mode. AI actions vivono in `results[]` array.
+- Cap **3 azioni/round** observed (pressure 85 = Critical tier, not Apex). Threshold Apex = p≥90.
+- **Approach phase 3-4 round** prima che enemy entri in range. Boss start x=8, player x=0-1, ap=4 → 2 round solo per closing.
+- Hit rate enemy ~50%, dmg 2-3/hit → max ~33 dmg teorici su 27 round attivi × 3 atk/round ÷ 8 PG pool.
+
+**Lezione harness**: `ai_intent_distribution` empty non era bug scenario, era bug batch runner che leggeva `ai_result.ia_actions` invece di filtrare `results[]` per actor*id prefix `e*`.
+
+## 15. Iter 4 — Apex pressure + closer spawn (N=10, harness patched)
+
+Tune Iter 4:
+
+- `sistema_pressure_start`: 85→**95** (Apex tier, 4 intents/round unlocked)
+- Enemy positions chiusi: BOSS (8,5)→(6,5), Elite (7,2)(7,8)→(5,2)(5,8), Minion (6,4)(6,6)(9,5)→(4,4)(4,6)(7,5)
+- Batch runner: tally AI da `results[]` + `ai_result.ia_actions` fallback
+
+Risultati N=10:
+
+| Metric           | Iter 3 | **Iter 4** | Target  | Band |
+| ---------------- | ------ | ---------- | ------- | :--: |
+| win_rate         | 70%    | **90%**    | 15-25%  |  🔴  |
+| turns avg        | 30.6   | **28.8**   | 14-18   |  🔴  |
+| K/D avg          | 2.49   | **2.35**   | 0.6-0.9 |  🔴  |
+| dmg_taken        | 29.4   | **30.8**   | 60-70   |  🔴  |
+| dmg_dealt        | 79.4   | 80.8       | 82 max  |  🟢  |
+| AI actions total | N/A    | **461**    | ~600    |  🟡  |
+
+### AI intent distribution (Iter 4, 10 run totali)
+
+| Tier     | move | attack | unknown | Total |
+| -------- | ---- | ------ | ------- | :---: |
+| Apex     | 224  | 167    | 64      |  455  |
+| Critical | 2    | 4      | 0       |   6   |
+
+**Ratio move:attack = 1.34:1** → AI spende 57% azioni in movimento. Focus-fire player elimina enemy prima che smettano di approach.
+
+## 16. Diagnosi finale
+
+Dopo 4 iter (HP +130%, stats +2 mod, +2 ap, pressure 75→95, positions closer), wr da 100% a 90%, dmg_taken da 20.7 a 30.8. **Band ancora lontana** (target 15-25% wr).
+
+**Bottleneck strutturale**: focus-fire 8 PG vs 6 enemy. Player concentra su 1 target/round (3-5 damage/round su 1 enemy hp 8-14-30 → boss muore in 8-10 round). Enemy spalmano 3-4 azioni su 8 PG target, diluendo damage.
+
+**Tune HP/stats ha limite asintotico**: finché 8v6 focus-fire asimmetrico esiste, wr ≥ 80%.
+
+## 17. Recommendation finale
+
+**Iter 5 strutturale** (Alt B raccomandato):
+
+- **Switch modulation**: default `hardcore_quartet` (4p × 2 PG = 4 deployed) invece di `full` (8p × 1 PG). Rimuove asimmetria 8v6.
+- **Oppure buff enemy count**: 6→10 enemy (+2 minion, +1 elite, +1 boss minion) con proper spawn grid.
+- **Oppure objective change**: `elimination` → `survive_turns:10` — player deve resistere 10 round contro waves, non killare boss.
+
+Tune HP/stats/pressure **esaurita**: dopo Iter 4 resa marginale <1pp wr riduzione per iter.
+
+## 18. Next step
+
+1. **PR #1539 (this)**: merge Iter 1+2+3+4 come calibration baseline. Documenta limite tune numerico.
+2. **PR4.c (nuovo)**: Iter 5 structural — modulation switch `hardcore_quartet` + re-run N=30.
+3. **Fix pending** (issues #1, #2): VC snapshot (→ fetch pre-end), AI tally (fixed in Iter 4 harness).
+4. Block ADR-2026-04-17 M3 close finché band raggiunta.

@@ -172,10 +172,16 @@ def run_one(host, run_idx):
         state = resp.get("state", state)
         pressure_samples.append(state.get("sistema_pressure", pstart))
 
-        # Tally AI actions (ia_actions).
+        # Tally AI actions. Priority queue mixes sistema into `results` — detect
+        # by actor_id prefix `e_`. Fallback: ai_result.ia_actions (legacy).
+        tier = pressure_tier(state.get("sistema_pressure", pstart))
+        for r in resp.get("results", []):
+            actor = r.get("actor_id", "")
+            if actor.startswith("e_"):
+                key = (tier, r.get("action_type", "unknown"))
+                ai_intent_tally[key] = ai_intent_tally.get(key, 0) + 1
         ai_res = resp.get("ai_result") or {}
         for a in ai_res.get("ia_actions", []):
-            tier = pressure_tier(state.get("sistema_pressure", pstart))
             key = (tier, a.get("type", "unknown"))
             ai_intent_tally[key] = ai_intent_tally.get(key, 0) + 1
 
