@@ -43,12 +43,16 @@ const { selectAiPolicyUtility } = require('./utilityBrain');
 // Mirror dei tier definiti in packs/.../sistema_pressure.yaml e in
 // sessionHelpers.SISTEMA_PRESSURE_TIERS. Definito qui per evitare
 // dipendenza circolare con sessionHelpers.
+// Rebalance 2026-04-17 post-playtest human: Master reporting "solo 1 SIS muove"
+// in T1 tutorial_02 era troppo passivo. Tutti tier +1 intent (tranne Calm che
+// resta 1 per preservare tutorial_01 "gentle start"). Cap Apex sale a 4 per
+// BOSS scenari (tutorial_05) dove Sistema deve sentirsi minaccia vera.
 const PRESSURE_TIER_INTENT_CAP = [
-  { threshold: 0, intents_per_round: 1 }, // Calm
-  { threshold: 25, intents_per_round: 2 }, // Alert
-  { threshold: 50, intents_per_round: 2 }, // Escalated
-  { threshold: 75, intents_per_round: 3 }, // Critical
-  { threshold: 95, intents_per_round: 3 }, // Apex
+  { threshold: 0, intents_per_round: 1 }, // Calm (tutorial_01 only)
+  { threshold: 25, intents_per_round: 2 }, // Alert (tutorial_02 baseline)
+  { threshold: 50, intents_per_round: 3 }, // Escalated (tutorial_03 baseline)
+  { threshold: 75, intents_per_round: 3 }, // Critical (tutorial_04 baseline)
+  { threshold: 95, intents_per_round: 4 }, // Apex (tutorial_05 BOSS baseline)
 ];
 
 function intentsCapForPressure(pressure) {

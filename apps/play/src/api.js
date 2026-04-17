@@ -17,8 +17,11 @@ async function jsonFetch(path, opts = {}) {
 
 export const api = {
   scenario: (id) => jsonFetch(`/api/tutorial/${encodeURIComponent(id)}`),
-  start: (units) =>
-    jsonFetch('/api/session/start', { method: 'POST', body: JSON.stringify({ units }) }),
+  start: (units, opts = {}) =>
+    jsonFetch('/api/session/start', {
+      method: 'POST',
+      body: JSON.stringify({ units, ...opts }),
+    }),
   state: (sid) => jsonFetch(`/api/session/state?session_id=${encodeURIComponent(sid)}`),
   action: (body) =>
     jsonFetch('/api/session/action', { method: 'POST', body: JSON.stringify(body) }),

@@ -25,6 +25,7 @@ const TUTORIAL_SCENARIO = {
   briefing_pre:
     'Due predoni nomadi hanno preso posizione nella savana. Avvicinati con cautela e eliminali.',
   briefing_post: 'Le sentinelle sono cadute. La via è libera — per ora.',
+  sistema_pressure_start: 0, // Calm: 1 intent/round, tutorial gentle
 };
 
 const TUTORIAL_SCENARIO_02 = {
@@ -39,6 +40,7 @@ const TUTORIAL_SCENARIO_02 = {
   briefing_pre:
     'La pattuglia nomade questa volta include un cacciatore con corazza pesante. Coordina scout e tank: il danno asimmetrico premia chi sceglie il bersaglio giusto.',
   briefing_post: "La pattuglia è dissolta. Il cacciatore non e' bastato a tenerli insieme.",
+  sistema_pressure_start: 25, // Alert: 2 intents/round
 };
 
 const TUTORIAL_SCENARIO_03 = {
@@ -61,6 +63,7 @@ const TUTORIAL_SCENARIO_03 = {
     { x: 2, y: 2, damage: 1, type: 'fumarole_tossica' },
     { x: 3, y: 3, damage: 1, type: 'fumarole_tossica' },
   ],
+  sistema_pressure_start: 50, // Escalated: 3 intents/round
 };
 
 const TUTORIAL_SCENARIO_05 = {
@@ -77,6 +80,7 @@ const TUTORIAL_SCENARIO_05 = {
     'Le rovine planari celano un Apex: 1v2 a vostro favore, ma il suo HP e i bonus crit possono ribaltare ogni round. Cooperate o cadrete uno alla volta.',
   briefing_post: "L'Apex si dissolve nelle rovine. Avete fatto la storia.",
   hazard_tiles: [],
+  sistema_pressure_start: 95, // Apex: 4 intents/round, BOSS pressione massima
 };
 
 const TUTORIAL_SCENARIO_04 = {
@@ -97,6 +101,7 @@ const TUTORIAL_SCENARIO_04 = {
     { x: 3, y: 4, damage: 1, type: 'pozza_acida' },
     { x: 2, y: 3, damage: 1, type: 'pozza_acida' },
   ],
+  sistema_pressure_start: 75, // Critical: 3 intents/round, swarm unlocked
 };
 
 function buildTutorialUnits() {

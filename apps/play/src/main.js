@@ -311,7 +311,10 @@ async function startNewSession() {
     updateHint('Backend non raggiungibile? Verifica npm run start:api.');
     return;
   }
-  const st = await api.start(sc.data.units);
+  const st = await api.start(sc.data.units, {
+    sistema_pressure_start: sc.data.sistema_pressure_start || 0,
+    hazard_tiles: sc.data.hazard_tiles || [],
+  });
   if (!st.ok) {
     appendLog(logEl, `✖ session start: ${st.status}`, 'error');
     return;

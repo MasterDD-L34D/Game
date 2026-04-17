@@ -654,7 +654,8 @@ function createSessionRouter(options = {}) {
         // AI War pattern (2026-04-17): single escalation dial 0..100.
         // Gate SIS intent pool + reinforcement budget via computeSistemaTier().
         // Updated da roundOrchestrator/session handlers su victory/KO events.
-        sistema_pressure: 0,
+        // Scenario può impostare pressure_start (tutorial_02=25, 03=50, 04=75, 05=95).
+        sistema_pressure: Math.max(0, Math.min(100, Number(req.body?.sistema_pressure_start) || 0)),
         // Hazard tiles dal scenario (es. enc_tutorial_03 fumarole).
         // Lista {x, y, damage, type}. Applicato a fine turno via
         // applyHazardDamage in handleTurnEndViaRound.
