@@ -51,6 +51,7 @@ const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
 const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIntents');
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
+const { createAbilityExecutor } = require('../services/abilityExecutor');
 
 // Extracted modules — constants + pure helpers (token optimization).
 // See sessionConstants.js and sessionHelpers.js for the extracted code.
@@ -480,6 +481,19 @@ function createSessionRouter(options = {}) {
   });
   const { handleLegacyAttackViaRound, handleTurnEndViaRound } = roundBridge;
 
+  // FRICTION #4 MVP (playtest 2026-04-17): ability executor.
+  // POST /api/session/action con action_type='ability' → executor dispatcher
+  // (move_attack, attack_move, buff, heal; altri effect_type = 501).
+  const abilityExecutor = createAbilityExecutor({
+    performAttack,
+    buildAttackEvent,
+    buildMoveEvent,
+    appendEvent,
+    manhattanDistance,
+    gridSize: GRID_SIZE,
+    rng,
+  });
+
   // SPRINT_020: helper riutilizzabile che avanza attraverso tutti i turni
   // IA non-player fino a fermarsi su un player vivo (o nessuno). Ritorna
   // { iaActions, bleedingEvents } accumulati dall'intera catena. Usato
@@ -854,8 +868,19 @@ function createSessionRouter(options = {}) {
         });
       }
 
+      if (actionType === 'ability') {
+        const result = await abilityExecutor.executeAbility({ session, actor, body });
+        const payload = { ...result.body };
+        if (result.status === 200) {
+          payload.state = publicSessionView(session);
+          payload.cap_pt_used = session.cap_pt_used;
+          payload.cap_pt_max = session.cap_pt_max;
+        }
+        return res.status(result.status).json(payload);
+      }
+
       return res.status(400).json({
-        error: `action_type sconosciuto: "${actionType}" (atteso "attack", "move" o "turn")`,
+        error: `action_type sconosciuto: "${actionType}" (atteso "attack", "move", "turn" o "ability")`,
       });
     } catch (err) {
       next(err);
