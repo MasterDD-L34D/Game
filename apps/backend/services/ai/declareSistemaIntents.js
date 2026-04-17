@@ -66,11 +66,26 @@ function createDeclareSistemaIntents(deps) {
     stepTowards,
     manhattanDistance,
     gridSize = 6,
-    useUtilityAi = false, // opt-in: set true to use Utility AI brain
+    useUtilityAi = false, // global fallback; per-actor override via aiProfiles + actor.ai_profile
+    aiProfiles = null, // { profiles: { aggressive: { use_utility_brain: true, ... }, ... } } — from ai_profiles.yaml (ADR-2026-04-17 Q-001 T3.1)
     difficultyProfile = {}, // { selection: 'argmax'|'weighted_top3'|'random', noise: 0-1 }
     computeThreatIndex, // AI War pattern: optional, injected from threatAssessment.js
     threatConfig, // override per threat thresholds (from ai_intent_scores.yaml → threat)
   } = deps || {};
+
+  /**
+   * Resolve Utility AI flag per-actor (ADR-2026-04-17 gradual rollout).
+   * Priorità: profile.use_utility_brain (se aiProfiles loaded + actor.ai_profile) → useUtilityAi global.
+   */
+  function resolveUseUtilityBrain(actor) {
+    if (aiProfiles && aiProfiles.profiles && actor && actor.ai_profile) {
+      const profile = aiProfiles.profiles[actor.ai_profile];
+      if (profile && typeof profile.use_utility_brain === 'boolean') {
+        return profile.use_utility_brain;
+      }
+    }
+    return useUtilityAi;
+  }
 
   if (typeof pickLowestHpEnemy !== 'function') {
     throw new Error('createDeclareSistemaIntents: pickLowestHpEnemy is required');
@@ -167,9 +182,10 @@ function createDeclareSistemaIntents(deps) {
         continue;
       }
 
-      // Select policy: Utility AI (opt-in) or legacy rules
+      // Select policy: Utility AI (per-actor via ai_profile.use_utility_brain) or legacy rules
+      const actorUseUtility = resolveUseUtilityBrain(actor);
       let policy;
-      if (useUtilityAi) {
+      if (actorUseUtility) {
         policy = selectAiPolicyUtility(actor, target, {}, difficultyProfile);
       } else {
         policy = selectAiPolicy(actor, target, null, threatCtx);

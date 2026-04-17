@@ -25,6 +25,8 @@ profiles:
   aggressive:
     label: "Aggressivo"
     description: "Attacca con poca considerazione per HP. Retreat solo in extremis."
+    # Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1): primo profile flip
+    use_utility_brain: true
     overrides:
       retreat_hp_pct: 0.15
       kite_buffer: 0
@@ -34,11 +36,15 @@ profiles:
   balanced:
     label: "Bilanciato"
     description: "Comportamento default del Sistema. Nessun override."
+    # Utility AI gradual rollout: attesa metriche VC fairness su aggressive
+    use_utility_brain: false
     overrides: {}
 
   cautious:
     label: "Cauto"
     description: "Retreat aggressivo, mantiene distanza. Preferisce kiting."
+    # Utility AI gradual rollout: flip dopo validation su aggressive + balanced
+    use_utility_brain: false
     overrides:
       retreat_hp_pct: 0.5
       kite_buffer: 2
