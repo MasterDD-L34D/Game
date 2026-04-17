@@ -745,6 +745,128 @@ test('FRICTION #7: ability con effect_trigger=always applica push + status anche
   assert.equal(res.body.applied_status.id, 'sbilanciato');
 });
 
+test('iter4 intercept: ally adjacent reroute damage to interceptor', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid, state } = await startSession(app);
+  // p_scout (1,2), p_tank (1,3) adiacenti. e_nomad_1 (3,2) range 2 → può colpire scout.
+  // 1. p_tank arma intercept (warden ability via abilityIndex, no job check)
+  const armRes = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_tank',
+    ability_id: 'intercept',
+  });
+  assert.equal(armRes.status, 200, `intercept armed: ${JSON.stringify(armRes.body)}`);
+  assert.equal(armRes.body.effect_type, 'reaction');
+
+  // Verify reaction registered
+  const stateAfterArm = await request(app).get('/api/session/state').query({ session_id: sid });
+  const tank = stateAfterArm.body.units.find((u) => u.id === 'p_tank');
+  assert.ok(Array.isArray(tank.reactions) && tank.reactions.length === 1);
+  const tankHpBefore = tank.hp;
+  const scout = stateAfterArm.body.units.find((u) => u.id === 'p_scout');
+  const scoutHpBefore = scout.hp;
+
+  // 2. e_nomad_1 attacks p_scout (no side check on /action)
+  const atkRes = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'attack',
+    actor_id: 'e_nomad_1',
+    target_id: 'p_scout',
+  });
+  assert.equal(atkRes.status, 200);
+
+  // 3. If hit, intercept should have rerouted damage to tank.
+  if (atkRes.body.result === 'hit' && atkRes.body.damage_dealt > 0) {
+    const stateAfter = await request(app).get('/api/session/state').query({ session_id: sid });
+    const scoutAfter = stateAfter.body.units.find((u) => u.id === 'p_scout');
+    const tankAfter = stateAfter.body.units.find((u) => u.id === 'p_tank');
+    assert.equal(
+      scoutAfter.hp,
+      scoutHpBefore,
+      `scout HP unchanged (intercept rerouted): before=${scoutHpBefore}, after=${scoutAfter.hp}`,
+    );
+    assert.ok(
+      tankAfter.hp < tankHpBefore,
+      `tank HP < before (received rerouted damage): before=${tankHpBefore}, after=${tankAfter.hp}`,
+    );
+    // Reaction consumed
+    assert.equal(
+      Array.isArray(tankAfter.reactions) ? tankAfter.reactions.length : 0,
+      0,
+      'reaction consumed after fire',
+    );
+  }
+});
+
+test('iter4 overwatch_shot: mover in range post-move fires reaction', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid, state } = await startSession(app);
+  // 1. e_nomad_1 (3,2) arma overwatch_shot. nomad ap=2 → cast (1 AP) ok.
+  const armRes = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'e_nomad_1',
+    ability_id: 'overwatch_shot',
+  });
+  assert.equal(armRes.status, 200, `overwatch armed: ${JSON.stringify(armRes.body)}`);
+
+  // 2. p_scout (1,2) move a (2,2) → ancora in range 2 di e_nomad (3,2). Trigger fires.
+  const scoutHpBefore = state.units.find((u) => u.id === 'p_scout').hp;
+  const moveRes = await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_scout',
+      position: { x: 2, y: 2 },
+    });
+  assert.equal(moveRes.status, 200);
+  assert.ok(moveRes.body.overwatch, 'overwatch fired su move');
+  assert.equal(moveRes.body.overwatch.overwatch_id, 'e_nomad_1');
+  assert.equal(moveRes.body.overwatch.mover_id, 'p_scout');
+
+  // Verify reaction consumed
+  const stateAfter = await request(app).get('/api/session/state').query({ session_id: sid });
+  const nomadAfter = stateAfter.body.units.find((u) => u.id === 'e_nomad_1');
+  assert.equal(
+    Array.isArray(nomadAfter.reactions) ? nomadAfter.reactions.length : 0,
+    0,
+    'reaction consumed',
+  );
+});
+
+test('iter4 no reaction armed: damage applies normalmente', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid, state } = await startSession(app);
+  const scoutHpBefore = state.units.find((u) => u.id === 'p_scout').hp;
+
+  const atkRes = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'attack',
+    actor_id: 'e_nomad_1',
+    target_id: 'p_scout',
+  });
+  assert.equal(atkRes.status, 200);
+  if (atkRes.body.result === 'hit' && atkRes.body.damage_dealt > 0) {
+    const stateAfter = await request(app).get('/api/session/state').query({ session_id: sid });
+    const scoutAfter = stateAfter.body.units.find((u) => u.id === 'p_scout');
+    assert.ok(scoutAfter.hp < scoutHpBefore, 'scout HP scende normalmente (no intercept armed)');
+  }
+});
+
 test('raw event persistito con action_type=ability + ability_id', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {

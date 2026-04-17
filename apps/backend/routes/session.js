@@ -52,6 +52,7 @@ const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
 const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIntents');
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
 const { createAbilityExecutor } = require('../services/abilityExecutor');
+const reactionEngine = require('../services/reactionEngine');
 
 // Extracted modules — constants + pure helpers (token optimization).
 // See sessionConstants.js and sessionHelpers.js for the extracted code.
@@ -199,6 +200,7 @@ function createSessionRouter(options = {}) {
     let wasBackstab = false;
     let panicTriggered = false;
     let parryResult = null;
+    let interceptResult = null;
     if (result.hit) {
       const baseDamage = 1 + result.pt;
       // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
@@ -253,6 +255,15 @@ function createSessionRouter(options = {}) {
       if (target.hp === 0) {
         killOccurred = true;
       }
+      // iter4 reaction engine: intercept reroute damage da target a alleato
+      // adiacente con `intercept` armed. Restore target.hp + transfer to interceptor.
+      if (damageDealt > 0) {
+        interceptResult = reactionEngine.triggerOnDamage(session, actor, target, damageDealt);
+        if (interceptResult) {
+          killOccurred = false; // target survived
+          panicTriggered = false; // panic non si applica se danno deviato
+        }
+      }
       // SPRINT_013 (issue #10): trigger panic nel target se subisce un
       // colpo critico (MoS >= 8). Il target non e' ancora morto (target.hp
       // potrebbe essere a 0 ma panic su un'unita' KO e' innocuo). Applica
@@ -303,6 +314,7 @@ function createSessionRouter(options = {}) {
       panicTriggered,
       status_applies: statusApplies,
       parry: parryResult,
+      intercept: interceptResult,
     };
   }
 
@@ -830,6 +842,38 @@ function createSessionRouter(options = {}) {
           consumeCapPt(session, requestedCapPt);
         }
         await appendEvent(session, event);
+        // iter4 reaction engine: overwatch_shot fires se enemy con reaction
+        // armed ha il mover in attack_range post-move.
+        const overwatchResult = reactionEngine.triggerOnMove(
+          session,
+          actor,
+          positionFrom,
+          (overwatchUnit, mover) => performAttack(session, overwatchUnit, mover),
+        );
+        if (overwatchResult) {
+          await appendEvent(session, {
+            ts: new Date().toISOString(),
+            session_id: session.session_id,
+            actor_id: overwatchResult.overwatch_id,
+            action_type: 'reaction_trigger',
+            ability_id: overwatchResult.ability_id,
+            trigger: 'enemy_moves_in_range',
+            target_id: overwatchResult.mover_id,
+            turn: session.turn,
+            from_position: overwatchResult.from_position,
+            to_position: overwatchResult.to_position,
+            die: overwatchResult.die,
+            roll: overwatchResult.roll,
+            mos: overwatchResult.mos,
+            result: overwatchResult.hit ? 'hit' : 'miss',
+            damage_dealt: overwatchResult.damage_dealt,
+            mover_hp_before: overwatchResult.mover_hp_before,
+            mover_hp_after: overwatchResult.mover_hp_after,
+            mover_killed: overwatchResult.mover_killed,
+            damage_step_mod: overwatchResult.damage_step_mod,
+            trait_effects: [],
+          });
+        }
         return res.json({
           ok: true,
           actor_id: actor.id,
@@ -838,6 +882,7 @@ function createSessionRouter(options = {}) {
           facing: actor.facing,
           cap_pt_used: session.cap_pt_used,
           cap_pt_max: session.cap_pt_max,
+          overwatch: overwatchResult,
           state: publicSessionView(session),
         });
       }
