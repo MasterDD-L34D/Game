@@ -174,14 +174,15 @@ Se stai modificando la progressione a carte:
 | Recruit / Trust / Affinity | meta docs attivi          | social docs + relevant runtime data  | overview, source of truth          | promoted core | vecchie note sociali isolate  |
 | Mating                     | `27-MATING_NIDO`          | `data/core/mating.yaml` + rules docs | source of truth                    | promoted core | narrative notes senza gating  |
 
-## 4.8 UI TV / companion / Mission Console / HUD / XP Cipher
+## 4.8 UI TV / companion / Mission Console / HUD
 
 | Tema                         | Leggi prima                  | Fonti primarie                              | Fonti secondarie | Stato                  | Non usare come fonte primaria                     |
 | ---------------------------- | ---------------------------- | ------------------------------------------- | ---------------- | ---------------------- | ------------------------------------------------- |
 | UI TV gameplay               | `30-UI_TV_IDENTITA` + freeze | HUD/debrief docs, gameplay UI specs         | GDD master       | promoted core          | Mission Console docs come se fossero HUD in-match |
 | Companion / device personali | UI/overview docs correnti    | screen flow + companion references          | GDD master       | core-support           | tooling notes da soli                             |
 | Mission Console              | ADR / docs mission console   | mission-console bundle/docs, boundary notes | governance/hub   | promoted core boundary | confonderla con HUD gameplay                      |
-| XP Cipher                    | freeze/backlog canonico      | docs/task/implementation correnti           | GDD master       | promoted core gap      | archive senza verificare stato attuale            |
+
+> **Nota**: XP Cipher parcheggiato via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md) — meccaniche XP-like coperte da jobs/mating/VC/economy, nessuna implementazione dedicata prevista.
 
 ### Boundary da ricordare sempre
 

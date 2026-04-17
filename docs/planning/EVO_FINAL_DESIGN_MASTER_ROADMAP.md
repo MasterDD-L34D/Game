@@ -43,11 +43,11 @@ Evo Tactics va finalizzato come:
 
 ## 4. Stato delle fonti
 
-| Stato | Task         | Dettagli operativi                                                                                                                                         |
-| ----- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ☑    | Fonti 2026   | Il backbone documentale e gli ADR sono stati riallineati e verificati il 2026-04-14.                                                                       |
-| ☑    | Storico 2025 | Checklist, action items e alcuni report operativi contengono ancora task dell’ondata VC 2025: utili come storico, non come piano da copiare integralmente. |
-| ☑    | Implicazione | La roadmap finale deve recuperare solo ciò che serve davvero al freeze: HUD overlay, XP Cipher gap, vertical slice, validator, smoke, import cadence.      |
+| Stato | Task         | Dettagli operativi                                                                                                                                                                                                                                |
+| ----- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ☑    | Fonti 2026   | Il backbone documentale e gli ADR sono stati riallineati e verificati il 2026-04-14.                                                                                                                                                              |
+| ☑    | Storico 2025 | Checklist, action items e alcuni report operativi contengono ancora task dell’ondata VC 2025: utili come storico, non come piano da copiare integralmente.                                                                                        |
+| ☑    | Implicazione | La roadmap finale deve recuperare solo ciò che serve davvero al freeze: HUD overlay, vertical slice, validator, smoke, import cadence. _(XP Cipher parked via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md), out of scope.)_ |
 
 ## 5. Roadmap macro
 
@@ -103,13 +103,13 @@ Evo Tactics va finalizzato come:
 
 ### M2 — Balance & Progression Freeze
 
-| Stato | Task                       | Dettagli operativi                                                                                                    |
-| ----- | -------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| ☐     | Trait mechanics audit      | Rivedere `attack_mod`, `defense_mod`, `damage_step`, `resistances`, `cost_ap`, `active_effects`.                      |
-| ☐     | Build identity matrix      | Tabella Specie × Morph × Job × Surge × Bioma con note su sinergie, costi e counter.                                   |
-| ☐     | Economy freeze             | Bloccare PE, PI, Seed, PP, SG e rispettive conversioni e limiti.                                                      |
-| ☐     | Unlock freeze              | Selezionare il set ufficiale di unlock rules del primo design shipping.                                               |
-| ☐     | Chiudere gap storici utili | Portare a termine HUD overlay e XP Cipher gap, perché sono gli ultimi task aperti chiaramente visibili nello storico. |
+| Stato | Task                       | Dettagli operativi                                                                                                                                   |
+| ----- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ☐     | Trait mechanics audit      | Rivedere `attack_mod`, `defense_mod`, `damage_step`, `resistances`, `cost_ap`, `active_effects`.                                                     |
+| ☐     | Build identity matrix      | Tabella Specie × Morph × Job × Surge × Bioma con note su sinergie, costi e counter.                                                                  |
+| ☐     | Economy freeze             | Bloccare PE, PI, Seed, PP, SG e rispettive conversioni e limiti.                                                                                     |
+| ☐     | Unlock freeze              | Selezionare il set ufficiale di unlock rules del primo design shipping.                                                                              |
+| ☐     | Chiudere gap storici utili | Portare a termine HUD overlay (ultimo task aperto storico). XP Cipher parked via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md). |
 
 ### M3 — Content Shipping Slice
 

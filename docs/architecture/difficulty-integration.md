@@ -1,6 +1,6 @@
 ---
-title: 'Difficulty Integration — Implementation Spec (DRAFT)'
-doc_status: draft
+title: 'Difficulty Integration — Implementation Spec'
+doc_status: active
 doc_owner: backend-team
 workstream: flow
 last_verified: 2026-04-17
@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Difficulty Integration — Implementation Spec
 
-**Stato**: 🟡 DRAFT — richiede validazione Master DD
+**Stato**: 🟢 ACTIVE — approvato Master DD 2026-04-17 (Q-001 T2.3)
 **Branch**: `explore/open-questions-triage` (Q-001)
 **Risolve**: A3 (SoT §15.4 formula non implementata)
 
@@ -114,15 +114,17 @@ Proposta: creo ora lo schema minimo per validare `data/core/difficulty.yaml`, co
 - **PR-3** tocca `apps/backend/routes/session.js` — richiede coordinamento con team AI (già quarantine Q-001)
 - **Backward compat**: encounter YAML esistenti hanno `difficulty_rating` hardcoded. Calculator opera in add-on, non sovrascrive: solo validation CI segnala drift. No breaking change.
 
-## Aperto per Master DD
+## Decisione Master DD (2026-04-17) — Q-001 T2.3
 
-- Approvi 5-PR split? **[SI/NO/ALT]**
-- PR-1 (YAML + schema in Q-001) OK? **[SI/NO]**
-- Nightmare profile come post-clear unlock (tipo New Game+) o sempre disponibile? **[UNLOCK/ALWAYS]**
-- Player profile default: `normal` OK? **[SI/NO]**
-- Side-effect session state `_difficultyProfile` accettabile? **[SI/NO]**
+- 5-PR split: **SI**
+- PR-1 (YAML + schema) merge in Q-001: **SI**
+- Nightmare profile: **UNLOCK** post-clear (New Game+ retention hook P1/P2)
+- Default profile: **NORMAL**
+- Side-effect `_difficultyProfile` session state: **SI** (additive, no break)
 
-Alla conferma: PR-1 merge con Q-001, PR-2+ in branch dedicati sequenziali.
+Follow-up branch sequenza: `feat/difficulty-calc` → `feat/difficulty-integration` → `feat/difficulty-ci` → `feat/difficulty-ui`.
+
+**Nightmare unlock logic**: flag `player_progress.nightmare_unlocked: boolean` triggerato su first campaign victory (gate M6).
 
 ## Cross-reference
 

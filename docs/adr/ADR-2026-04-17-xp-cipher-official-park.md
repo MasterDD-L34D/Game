@@ -1,6 +1,6 @@
 ---
-title: 'ADR 2026-04-17 — XP Cipher: Official Park (DRAFT per Master DD)'
-doc_status: draft
+title: 'ADR 2026-04-17 — XP Cipher: Official Park'
+doc_status: active
 doc_owner: governance
 workstream: cross-cutting
 last_verified: 2026-04-17
@@ -9,9 +9,9 @@ language: it
 review_cycle_days: 30
 ---
 
-# ADR-2026-04-17 · XP Cipher Official Park (DRAFT)
+# ADR-2026-04-17 · XP Cipher Official Park
 
-**Stato**: 🟡 DRAFT — richiede validazione Master DD
+**Stato**: 🟢 ACCEPTED — Master DD 2026-04-17 (Q-001 T2.1)
 **Branch**: `explore/open-questions-triage` (Q-001)
 **Risolve**: G1.1 audit gap implementativo 2026-04-17
 
@@ -85,10 +85,18 @@ Se Master DD approva:
 - **Audit futuri**: `grep XP Cipher` restituirà solo questo ADR + cross-refs storici cleaned
 - **Reversibilità**: se in futuro emergerà necessità di XP system dedicato (non coperto da VC/Nido/Jobs), nuovo ADR con spec completa.
 
-## Aperto per Master DD
+## Decisione Master DD (2026-04-17) — Q-001 T2.1
 
-- Conferma park ufficiale? **[SI/NO]**
-- Conferma cleanup delle 8 cross-refs come elencate? **[SI/NO/PARZIALE]**
-- Alternativa preferita (A/B/C)?
+- Alternativa scelta: **C** (Official park + cleanup)
+- Cleanup 8 cross-refs: **ORA** nello stesso branch Q-001
 
-Alla conferma l'ADR passa da `doc_status: draft` → `active` e il cleanup viene eseguito nello stesso branch `Q-001`.
+**Cleanup eseguito nei commit successivi a questo ADR.** Riferimenti aggiornati in:
+
+1. docs/core/00B-CANONICAL_PROMOTION_MATRIX.md
+2. docs/core/00C-WHERE_TO_USE_WHAT.md
+3. docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md (FD-058)
+4. docs/planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md
+5. docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md
+6. docs/planning/roadmap_operativa.md
+7. docs/process/action-items.md
+8. config/tracker_registry.yaml

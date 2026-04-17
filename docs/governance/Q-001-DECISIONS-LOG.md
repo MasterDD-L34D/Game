@@ -23,22 +23,22 @@ Tracker ufficiale delle decisioni Master DD sui 9 DRAFT prodotti nel branch `exp
 
 ## Tier 1 · Quick approve
 
-| #    | DRAFT                    | Decisione                               | Outcome                                        | Commit  | Data       |
-| ---- | ------------------------ | --------------------------------------- | ---------------------------------------------- | ------- | ---------- |
-| T1.1 | Loading tips YAML (Q26)  | Contenuto 22 tip OK?                    | ✅ SI (content confermato)                     | pending | 2026-04-17 |
-| T1.2 | Accessibility YAML (Q22) | Struttura + 6 preset OK?                | ✅ SI (7 cat + 6 preset + volumi default)      | pending | 2026-04-17 |
-| T1.3 | Deaf parity matrix (Q23) | Priority P0-P3 OK?                      | ✅ SI · playtest POST-M4                       | pending | 2026-04-17 |
-| T1.4 | SFX spec (Q10)           | 13 categorie + procedural pipeline OK?  | ✅ SI · HYBRID pipeline · 50MB · POST-M4       | pending | 2026-04-17 |
-| T1.5 | i18n scaffold (Q3)       | `data/i18n/` JSON + namespace split OK? | ✅ DATA · split · JSON · MUSTACHE · PR-2 first | pending | 2026-04-17 |
+| #    | DRAFT                    | Decisione                               | Outcome                                        | Commit   | Data       |
+| ---- | ------------------------ | --------------------------------------- | ---------------------------------------------- | -------- | ---------- |
+| T1.1 | Loading tips YAML (Q26)  | Contenuto 22 tip OK?                    | ✅ SI (content confermato)                     | 452a6c90 | 2026-04-17 |
+| T1.2 | Accessibility YAML (Q22) | Struttura + 6 preset OK?                | ✅ SI (7 cat + 6 preset + volumi default)      | 452a6c90 | 2026-04-17 |
+| T1.3 | Deaf parity matrix (Q23) | Priority P0-P3 OK?                      | ✅ SI · playtest POST-M4                       | 452a6c90 | 2026-04-17 |
+| T1.4 | SFX spec (Q10)           | 13 categorie + procedural pipeline OK?  | ✅ SI · HYBRID pipeline · 50MB · POST-M4       | 452a6c90 | 2026-04-17 |
+| T1.5 | i18n scaffold (Q3)       | `data/i18n/` JSON + namespace split OK? | ✅ DATA · split · JSON · MUSTACHE · PR-2 first | 452a6c90 | 2026-04-17 |
 
 ## Tier 2 · Mid review
 
-| #    | DRAFT            | Decisione                  | Outcome | Commit | Data |
-| ---- | ---------------- | -------------------------- | ------- | ------ | ---- |
-| T2.1 | XP Cipher (G1.1) | Park definitivo?           | ☐ TBD   | —      | —    |
-| T2.2 | Personas (A5)    | 3 persone + playtest plan? | ☐ TBD   | —      | —    |
-| T2.3 | Difficulty (A3)  | 5-PR split + profiles?     | ☐ TBD   | —      | —    |
-| T2.4 | Replay (A4)      | Endpoint + pseudonymize?   | ☐ TBD   | —      | —    |
+| #    | DRAFT            | Decisione                  | Outcome                                                                                                       | Commit  | Data       |
+| ---- | ---------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------- | ------- | ---------- |
+| T2.1 | XP Cipher (G1.1) | Park definitivo?           | ✅ C (Park + cleanup 8 cross-refs)                                                                            | pending | 2026-04-17 |
+| T2.2 | Personas (A5)    | 3 persone + playtest plan? | ✅ ESTESE a 10 personas (3 → 10: +speedrunner/streamer/tryharder/collezionista/powerbuilder/narrative/social) | pending | 2026-04-17 |
+| T2.3 | Difficulty (A3)  | 5-PR split + profiles?     | ✅ SI · UNLOCK nightmare · default NORMAL · additive OK                                                       | pending | 2026-04-17 |
+| T2.4 | Replay (A4)      | Endpoint + pseudonymize?   | ✅ SI · endpoint in Q-001 · OPT-IN pseudonymize · engine first                                                | pending | 2026-04-17 |
 
 ## Tier 3 · Deep review
 

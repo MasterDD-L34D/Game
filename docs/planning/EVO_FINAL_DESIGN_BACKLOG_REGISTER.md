@@ -97,17 +97,17 @@ Può essere usato per:
 
 ### EPIC E — Progression, economy e identity
 
-| Stato | Task                                  | Dettagli operativi                                            |
-| ----- | ------------------------------------- | ------------------------------------------------------------- |
-| ☐     | FD-050 - Bloccare economy PE          | Curve, reward sources, pacing e checkpoint.                   |
-| ☐     | FD-051 - Bloccare economy PI          | Costi build, unlock, respec soft.                             |
-| ☐     | FD-052 - Bloccare Seed economy        | Meta bridge controllato, no scope creep.                      |
-| ☐     | FD-053 - Definire conversioni economy | PE→PI, seed acquisition, reward bundle.                       |
-| ☐     | FD-054 - Congelare unlock rules       | Set shipping dichiarato e testabile.                          |
-| ☐     | FD-055 - Build identity matrix        | Specie × Morph × Job × Surge × Bioma.                         |
-| ☐     | FD-056 - MBTI/PF gate soft            | Penalty / surcharge / suggestion model non opaco.             |
-| ☐     | FD-057 - Enneagramma secondario       | Modulo attivo ma non dominante sul balance core.              |
-| ☐     | FD-058 - Chiudere XP Cipher gap       | Trattare il gap storico o formalizzarne l’uscita dallo scope. |
+| Stato | Task                                  | Dettagli operativi                                                                                                                                                              |
+| ----- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ☐     | FD-050 - Bloccare economy PE          | Curve, reward sources, pacing e checkpoint.                                                                                                                                     |
+| ☐     | FD-051 - Bloccare economy PI          | Costi build, unlock, respec soft.                                                                                                                                               |
+| ☐     | FD-052 - Bloccare Seed economy        | Meta bridge controllato, no scope creep.                                                                                                                                        |
+| ☐     | FD-053 - Definire conversioni economy | PE→PI, seed acquisition, reward bundle.                                                                                                                                         |
+| ☐     | FD-054 - Congelare unlock rules       | Set shipping dichiarato e testabile.                                                                                                                                            |
+| ☐     | FD-055 - Build identity matrix        | Specie × Morph × Job × Surge × Bioma.                                                                                                                                           |
+| ☐     | FD-056 - MBTI/PF gate soft            | Penalty / surcharge / suggestion model non opaco.                                                                                                                               |
+| ☐     | FD-057 - Enneagramma secondario       | Modulo attivo ma non dominante sul balance core.                                                                                                                                |
+| ☑    | FD-058 - Chiudere XP Cipher gap       | **Parked** via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md) (Q-001 T2.1, 2026-04-17). Out of scope: meccaniche XP-like coperte da jobs/mating/VC/economy. |
 
 ### EPIC F — Species, morph, jobs, traits, gear
 

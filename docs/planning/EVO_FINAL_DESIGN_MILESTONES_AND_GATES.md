@@ -172,14 +172,14 @@ Va usato come riferimento da:
 
 ### Exit criteria
 
-| Stato | Task                         | Dettagli operativi                                                                            |
-| ----- | ---------------------------- | --------------------------------------------------------------------------------------------- |
-| ☐     | Trait mechanics audit chiuso | Nessun trait core senza mapping o placeholder non giustificato.                               |
-| ☐     | Build matrix pronta          | Specie × Morph × Job × Surge × Bioma con sinergie e counter.                                  |
-| ☐     | Economy freeze chiusa        | PE, PI, Seed, PP, SG, conversioni e cap stabiliti.                                            |
-| ☐     | Unlock rules freeze          | Set shipping delle unlock rules dichiarato.                                                   |
-| ☐     | MBTI/PF gating soft chiuso   | Gating documentato senza hard lock opaco.                                                     |
-| ☐     | Legacy gaps chiusi           | HUD overlay dependency nota; XP Cipher gap trattato o formalmente parcheggiato con decisione. |
+| Stato | Task                         | Dettagli operativi                                                                                                                     |
+| ----- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| ☐     | Trait mechanics audit chiuso | Nessun trait core senza mapping o placeholder non giustificato.                                                                        |
+| ☐     | Build matrix pronta          | Specie × Morph × Job × Surge × Bioma con sinergie e counter.                                                                           |
+| ☐     | Economy freeze chiusa        | PE, PI, Seed, PP, SG, conversioni e cap stabiliti.                                                                                     |
+| ☐     | Unlock rules freeze          | Set shipping delle unlock rules dichiarato.                                                                                            |
+| ☐     | MBTI/PF gating soft chiuso   | Gating documentato senza hard lock opaco.                                                                                              |
+| ☑    | Legacy gaps chiusi           | HUD overlay dependency nota; XP Cipher **parked** via [ADR-2026-04-17](../adr/ADR-2026-04-17-xp-cipher-official-park.md) (2026-04-17). |
 
 ### Evidenze richieste
 

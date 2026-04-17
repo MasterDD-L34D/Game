@@ -1,6 +1,6 @@
 ---
-title: 'Match Replay from Event Log — Implementation Spec (DRAFT)'
-doc_status: draft
+title: 'Match Replay from Event Log — Implementation Spec'
+doc_status: active
 doc_owner: backend-team
 workstream: flow
 last_verified: 2026-04-17
@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Match Replay from Event Log — Implementation Spec
 
-**Stato**: 🟡 DRAFT — richiede validazione Master DD (tocca session.js, quarantine Q-001)
+**Stato**: 🟢 ACTIVE — approvato Master DD 2026-04-17 (Q-001 T2.4)
 **Branch**: `explore/open-questions-triage` (Q-001)
 **Risolve**: A4 (SoT §19 Q27 "Replay match — Event log in debrief")
 
@@ -179,15 +179,15 @@ Schema AJV in `packages/contracts/schemas/replay.schema.json` (PR-2).
 - **Corrupt event handling** — event manipolato, replay flagga error non crasha
 - **Large replay** — 1000+ events non timeout
 
-## Aperto per Master DD
+## Decisione Master DD (2026-04-17) — Q-001 T2.4
 
-- Approvi 5-PR split? **[SI/NO/ALT]**
-- PR-2 modifica minima a session.js (solo read endpoint) — accettabile nella quarantine Q-001 o split? **[Q-001/SPLIT]**
-- Pseudonymize nomi creature prima di share pubblico? **[SI/NO/OPT-IN]**
-- Export version 1 stabile o iterabile? **[STABLE/ITER]**
-- Priorità: replay engine (PR-3) vs UI player (PR-4) prima? **[PR-3/PR-4]**
+- 5-PR split: **SI**
+- PR-2 endpoint in Q-001: **SI** (read-only, zero behavioral change su session.js, safe nella quarantine)
+- Pseudonymize share pubblico: **OPT-IN** (privacy default, user sceglie se condividere nomi)
+- Export version: **ITER** (incrementale, migration field pronto)
+- Priorità implementazione: **PR-3 engine first** (UI depends engine logic)
 
-Alla conferma PR-1 merge con Q-001, altre PR in branch dedicati.
+Follow-up branch sequenza: `feat/replay-endpoint` (+ PR-2 inclusa Q-001) → `feat/replay-engine` → `feat/replay-ui` → `feat/replay-export`.
 
 ## Cross-reference
 
