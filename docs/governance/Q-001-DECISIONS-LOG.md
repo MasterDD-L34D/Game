@@ -42,10 +42,10 @@ Tracker ufficiale delle decisioni Master DD sui 9 DRAFT prodotti nel branch `exp
 
 ## Tier 3 · Deep review
 
-| #    | DRAFT                      | Decisione                    | Outcome                                            | Commit  | Data       |
-| ---- | -------------------------- | ---------------------------- | -------------------------------------------------- | ------- | ---------- |
-| T3.1 | Utility AI (G1.2)          | Opzione A/B/C?               | ✅ C · aggressive first · metriche VC gate         | pending | 2026-04-17 |
-| T3.2 | Tri-Sorgente bridge (G2.1) | Python worker pool approach? | ✅ SI · split PR · pendingOffers OK · 80% coverage | pending | 2026-04-17 |
+| #    | DRAFT                      | Decisione                    | Outcome                                            | Commit   | Data       |
+| ---- | -------------------------- | ---------------------------- | -------------------------------------------------- | -------- | ---------- |
+| T3.1 | Utility AI (G1.2)          | Opzione A/B/C?               | ✅ C · aggressive first · metriche VC gate         | e2d99282 | 2026-04-17 |
+| T3.2 | Tri-Sorgente bridge (G2.1) | Python worker pool approach? | ✅ SI · split PR · pendingOffers OK · 80% coverage | e2d99282 | 2026-04-17 |
 
 ## Follow-up branch plan (post-approval)
 
