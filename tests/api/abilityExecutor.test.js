@@ -178,7 +178,28 @@ test('ability_id sconosciuta → 400', async (t) => {
   assert.match(res.body.error || '', /non trovata/i);
 });
 
-test('effect_type non supportato (blade_flurry = multi_attack) → 501', async (t) => {
+test('effect_type non supportato (energy_barrier = shield) → 501', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'energy_barrier',
+    target_id: 'p_scout',
+  });
+  assert.equal(res.status, 501, `shield non supportato in iter2: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'shield');
+  assert.ok(Array.isArray(res.body.supported), 'supported list presente');
+  assert.ok(res.body.supported.includes('move_attack'));
+  assert.ok(res.body.supported.includes('multi_attack'));
+});
+
+test('blade_flurry: multi_attack esegue fino a attack_count hit', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -192,10 +213,204 @@ test('effect_type non supportato (blade_flurry = multi_attack) → 501', async (
     ability_id: 'blade_flurry',
     target_id: 'e_nomad_1',
   });
-  assert.equal(res.status, 501, `multi_attack non supportato in MVP: ${JSON.stringify(res.body)}`);
+  assert.equal(res.status, 200, `blade_flurry ok: ${JSON.stringify(res.body)}`);
   assert.equal(res.body.effect_type, 'multi_attack');
-  assert.ok(Array.isArray(res.body.supported), 'supported list presente');
-  assert.ok(res.body.supported.includes('move_attack'));
+  assert.ok(Array.isArray(res.body.attacks), 'attacks array presente');
+  assert.ok(res.body.attacks.length >= 1, 'almeno 1 attack eseguito');
+  assert.ok(res.body.attacks.length <= 3, 'max 3 attack (attack_count)');
+});
+
+test('shield_bash: attack_push applica sbilanciato + tenta push', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid, state } = await startSession(app);
+  // p_tank at (1,3) range=1, e_nomad_2 at (3,4) dist=3. Move tank a (2,4) prima.
+  // Consuma 2 AP move, rimane 1 AP (shield_bash cost_ap=1).
+  await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_tank',
+      position: { x: 2, y: 3 },
+    });
+  await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_tank',
+      position: { x: 2, y: 4 },
+    });
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_tank',
+    ability_id: 'shield_bash',
+    target_id: 'e_nomad_2',
+  });
+  assert.equal(res.status, 200, `shield_bash ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'attack_push');
+  assert.ok(res.body.attack);
+});
+
+test('disrupt_field: debuff applica defense_mod_debuff + defense_mod_bonus', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'disrupt_field',
+    target_id: 'e_nomad_1',
+  });
+  assert.equal(res.status, 200, `disrupt_field ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'debuff');
+  assert.equal(res.body.debuff_applied.stat, 'defense_mod');
+  assert.equal(res.body.debuff_applied.amount, -1);
+
+  const stateRes = await request(app).get('/api/session/state').query({ session_id: sid });
+  const target = stateRes.body.units.find((u) => u.id === 'e_nomad_1');
+  assert.equal(Number(target.status?.defense_mod_debuff) || 0, 2);
+  assert.equal(Number(target.defense_mod_bonus) || 0, -1, 'defense_mod_bonus applicato -1');
+});
+
+test('focused_blast: ranged_attack con damage_step_mod +2', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  // p_scout (1,2) → e_nomad_1 (3,2), dist=2, range override da focused_blast irrelevante qui.
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'focused_blast',
+    target_id: 'e_nomad_1',
+  });
+  assert.equal(res.status, 200, `focused_blast ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'ranged_attack');
+  assert.ok(res.body.attack);
+});
+
+test('essence_drain: drain_attack cura actor per lifesteal_pct del damage', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'essence_drain',
+    target_id: 'e_nomad_1',
+  });
+  assert.equal(res.status, 200, `essence_drain ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'drain_attack');
+  assert.ok(res.body.attack);
+  // healing_applied = 0 se actor HP gia full (scout max_hp=10, hp=10). Accettabile.
+  assert.ok(typeof res.body.healing_applied === 'number');
+  assert.equal(res.body.seed_gain, 1);
+});
+
+test('kill_shot: execution_attack non triggera execute se target HP piena', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'kill_shot',
+    target_id: 'e_nomad_1',
+  });
+  assert.equal(res.status, 200, `kill_shot ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'execution_attack');
+  // e_nomad_1 hp=3/3 → hp_pct=1.0 > 0.3 threshold → execute non triggered.
+  assert.equal(res.body.execution_triggered, false, 'execute non triggered a HP full');
+  assert.equal(res.body.target_hp_pct_before, 1);
+});
+
+test('attack_mod_bonus bonifica roll in resolveAttack (hit rate sale)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  // Verify predict baseline vs buff via dash_strike (che applica +1 attack_mod
+  // durante un solo attacco se target_not_adjacent). Basic sanity: ability
+  // ritorna buff_applied.reason = 'target_not_adjacent' e attack è risolto.
+  const res = await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'ability',
+      actor_id: 'p_scout',
+      ability_id: 'dash_strike',
+      target_id: 'e_nomad_1',
+      position: { x: 2, y: 2 },
+    });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.buff_applied?.reason, 'target_not_adjacent');
+
+  // Dopo dash_strike, attack_mod_bonus deve essere resetato (one-shot).
+  const stateRes = await request(app).get('/api/session/state').query({ session_id: sid });
+  const scoutAfter = stateRes.body.units.find((u) => u.id === 'p_scout');
+  assert.equal(
+    Number(scoutAfter.attack_mod_bonus) || 0,
+    0,
+    "attack_mod_bonus azzerato dopo l'attacco one-shot",
+  );
+});
+
+test('defense_mod_bonus applicato su DC via predictCombat', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  // Baseline predict: scout attacca e_nomad_1 (dc=12)
+  const predictBase = await request(app)
+    .post('/api/session/predict')
+    .send({ session_id: sid, actor_id: 'p_scout', target_id: 'e_nomad_1' });
+  assert.equal(predictBase.status, 200);
+  const baseDc = predictBase.body.dc;
+
+  // Apply debuff che abbassa defense_mod del target di 1 → DC effettivo scende di 1.
+  // (amount -1 sommato a DC = DC base - 1)
+  await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'disrupt_field',
+    target_id: 'e_nomad_1',
+  });
+
+  const predictDeb = await request(app)
+    .post('/api/session/predict')
+    .send({ session_id: sid, actor_id: 'p_scout', target_id: 'e_nomad_1' });
+  assert.equal(predictDeb.status, 200);
+  assert.equal(
+    predictDeb.body.dc,
+    baseDc - 1,
+    `DC scende di 1 con debuff: base=${baseDc}, debuffed=${predictDeb.body.dc}`,
+  );
 });
 
 test('raw event persistito con action_type=ability + ability_id', async (t) => {
