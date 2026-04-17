@@ -577,6 +577,174 @@ test('overwatch_shot: reaction registra trigger su actor.reactions[]', async (t)
   assert.match(res.body.note || '', /trigger system pending/i);
 });
 
+test('FRICTION #6: effective_reach esposto in GET /api/jobs/:id per ogni ability', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const res = await request(app).get('/api/jobs/skirmisher');
+  assert.equal(res.status, 200);
+  const dash = res.body.abilities.find((a) => a.ability_id === 'dash_strike');
+  // dash_strike: move_distance=2 + skirmisher attack_range=2 = 4
+  assert.equal(dash.effective_reach, 4, `dash_strike effective_reach = move(2) + range(2) = 4`);
+
+  const evasive = res.body.abilities.find((a) => a.ability_id === 'evasive_maneuver');
+  // attack_move: solo attack_range=2 (move dopo non contribuisce)
+  assert.equal(evasive.effective_reach, 2);
+
+  const flurry = res.body.abilities.find((a) => a.ability_id === 'blade_flurry');
+  // multi_attack: attack_range=2
+  assert.equal(flurry.effective_reach, 2);
+
+  // Invoker focused_blast: ranged_attack range override implicito (no range field → attack_range=3)
+  const inv = await request(app).get('/api/jobs/invoker');
+  const blast = inv.body.abilities.find((a) => a.ability_id === 'focused_blast');
+  assert.equal(blast.effective_reach, 3, `focused_blast: invoker attack_range=3`);
+
+  // Vanguard fortify (buff self): effective_reach=0
+  const van = await request(app).get('/api/jobs/vanguard');
+  const fortify = van.body.abilities.find((a) => a.ability_id === 'fortify');
+  assert.equal(fortify.effective_reach, 0, 'self-buff = reach 0');
+});
+
+test('FRICTION #7: shield_bash default on_hit (miss → no push, no status)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  // Inietta rng deterministico nel session router per forzare miss
+  // (die=1, garantito miss vs DC>=12).
+  const fixedRng = (() => {
+    let calls = 0;
+    return () => {
+      calls += 1;
+      if (calls === 1) return 0; // rollD20 → die=1
+      return 0.5;
+    };
+  })();
+  const { app: app2, close: close2 } = createApp({
+    databasePath: null,
+    session: { rng: fixedRng },
+  });
+  t.after(async () => {
+    if (typeof close2 === 'function') await close2().catch(() => {});
+  });
+
+  const scenario = await request(app2).get('/api/tutorial/enc_tutorial_01');
+  const startRes = await request(app2)
+    .post('/api/session/start')
+    .send({ units: scenario.body.units });
+  const sid = startRes.body.session_id;
+
+  // Move tank a (2,4) per essere in range di e_nomad_2 (3,4)
+  await request(app2)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_tank',
+      position: { x: 2, y: 3 },
+    });
+  await request(app2)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_tank',
+      position: { x: 2, y: 4 },
+    });
+
+  const res = await request(app2).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_tank',
+    ability_id: 'shield_bash',
+    target_id: 'e_nomad_2',
+  });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.attack.hit, false, 'attack miss confermato (die=1)');
+  assert.equal(res.body.effect_trigger, 'on_hit', 'default on_hit');
+  assert.equal(res.body.pushed, null, 'no push su miss');
+  assert.equal(res.body.applied_status, null, 'no status su miss');
+
+  // Verifica via /state che e_nomad_2 NON abbia sbilanciato
+  const stateRes = await request(app2).get('/api/session/state').query({ session_id: sid });
+  const enemy = stateRes.body.units.find((u) => u.id === 'e_nomad_2');
+  assert.equal(Number(enemy.status?.sbilanciato) || 0, 0, 'sbilanciato non applicato su miss');
+});
+
+test('FRICTION #7: ability con effect_trigger=always applica push + status anche su miss', async (t) => {
+  const {
+    _setAbilityForTest,
+    _resetAbilityIndex,
+  } = require('../../apps/backend/services/abilityExecutor');
+  // Inietta variant di shield_bash con effect_trigger=always
+  _setAbilityForTest('shield_bash_always', {
+    ability_id: 'shield_bash_always',
+    effect_type: 'attack_push',
+    cost_ap: 1,
+    push_distance: 1,
+    apply_status: { status_id: 'sbilanciato', duration: 1 },
+    effect_trigger: 'always',
+    target: 'enemy',
+    rank: 1,
+  });
+  t.after(() => _resetAbilityIndex());
+
+  // RNG forzato a die=1 (miss garantito)
+  const fixedRng = (() => {
+    let calls = 0;
+    return () => {
+      calls += 1;
+      if (calls === 1) return 0;
+      return 0.5;
+    };
+  })();
+  const { app, close } = createApp({ databasePath: null, session: { rng: fixedRng } });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const scenario = await request(app).get('/api/tutorial/enc_tutorial_01');
+  const startRes = await request(app)
+    .post('/api/session/start')
+    .send({ units: scenario.body.units });
+  const sid = startRes.body.session_id;
+
+  await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_tank',
+      position: { x: 2, y: 3 },
+    });
+  await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_tank',
+      position: { x: 2, y: 4 },
+    });
+
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_tank',
+    ability_id: 'shield_bash_always',
+    target_id: 'e_nomad_2',
+  });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.attack.hit, false, 'attack miss confermato');
+  assert.equal(res.body.effect_trigger, 'always');
+  // Su miss + always → status applicato comunque
+  assert.ok(res.body.applied_status, 'sbilanciato applicato anche su miss');
+  assert.equal(res.body.applied_status.id, 'sbilanciato');
+});
+
 test('raw event persistito con action_type=ability + ability_id', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
