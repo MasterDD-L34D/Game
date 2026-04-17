@@ -2244,15 +2244,15 @@
     },
     {
       "path": "docs/core/11-REGOLE_D20_TV.md",
-      "title": "Adattamento TV/d20",
+      "title": "Adattamento TV/d20 — Regole canoniche turno",
       "doc_status": "active",
-      "doc_owner": "platform-docs",
+      "doc_owner": "master-dd",
       "workstream": "cross-cutting",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
+      "last_verified": "2026-04-17",
+      "source_of_truth": true,
       "language": "it-en",
       "review_cycle_days": 14,
-      "primary": false,
+      "primary": true,
       "track": "migrated"
     },
     {
