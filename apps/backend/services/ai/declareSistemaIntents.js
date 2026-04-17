@@ -117,6 +117,7 @@ function createDeclareSistemaIntents(deps) {
     if (!session || !Array.isArray(session.units)) {
       return { intents: [], decisions: [] };
     }
+    const effectiveGrid = session.grid?.width || gridSize;
 
     // AI War pattern: compute threat context once per round
     const threatCtx =
@@ -217,7 +218,7 @@ function createDeclareSistemaIntents(deps) {
       // approach altrimenti).
       if (policy.intent === 'retreat') {
         const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
-        const canRetreat = stepAway(actor.position, target.position, gridSize) !== null;
+        const canRetreat = stepAway(actor.position, target.position, effectiveGrid) !== null;
         if (!canRetreat) {
           policy =
             distance <= range
@@ -273,7 +274,7 @@ function createDeclareSistemaIntents(deps) {
       const positionFrom = { ...actor.position };
       const nextPos =
         policy.intent === 'retreat'
-          ? stepAway(actor.position, target.position, gridSize)
+          ? stepAway(actor.position, target.position, effectiveGrid)
           : stepTowards(actor.position, target.position);
 
       if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {

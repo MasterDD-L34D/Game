@@ -62,6 +62,7 @@ function createSistemaTurnRunner(deps) {
   }
 
   return async function runSistemaTurn(session) {
+    const effectiveGrid = session.grid?.width || gridSize;
     const actor = session.units.find((u) => u.id === session.active_unit);
     if (!actor) return [];
     if ((actor.ap_remaining ?? 0) <= 0) {
@@ -93,7 +94,7 @@ function createSistemaTurnRunner(deps) {
               ? { rule: 'REGOLA_001', intent: 'attack' }
               : { rule: 'REGOLA_001', intent: 'approach' };
         } else {
-          const canRetreat = stepAway(actor.position, target.position, gridSize) !== null;
+          const canRetreat = stepAway(actor.position, target.position, effectiveGrid) !== null;
           if (!canRetreat) {
             corneredThisTurn = true;
             policy =
@@ -178,7 +179,7 @@ function createSistemaTurnRunner(deps) {
       const positionFrom = { ...actor.position };
       const nextPos =
         policy.intent === 'retreat'
-          ? stepAway(actor.position, target.position, gridSize)
+          ? stepAway(actor.position, target.position, effectiveGrid)
           : stepTowards(actor.position, target.position);
 
       if (!nextPos || (nextPos.x === positionFrom.x && nextPos.y === positionFrom.y)) {

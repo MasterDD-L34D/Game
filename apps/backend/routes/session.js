@@ -629,6 +629,24 @@ function createSessionRouter(options = {}) {
         // best-effort: se config non carica, skip profile scaling
       }
 
+      // ADR-2026-04-17: grid auto-scale basato su deployed PG count (party.yaml)
+      let gridW = GRID_SIZE;
+      let gridH = GRID_SIZE;
+      try {
+        const { gridSizeFor, getModulation } = require('../../../services/party/loader');
+        const requestedModulation = req.body?.modulation;
+        let deployedCount = units.filter((u) => u && u.controlled_by === 'player').length;
+        if (requestedModulation) {
+          const preset = getModulation(requestedModulation);
+          if (preset) deployedCount = preset.deployed;
+        }
+        const [gw, gh] = gridSizeFor(deployedCount);
+        gridW = gw;
+        gridH = gh;
+      } catch {
+        // fallback GRID_SIZE default
+      }
+
       // SPRINT_020: calcola turn_order via iniziativa descending.
       const turnOrder = buildTurnOrder(units);
       const firstActiveId = turnOrder[0] || null;
@@ -641,7 +659,7 @@ function createSessionRouter(options = {}) {
         units,
         // Q-001 T2.4: snapshot iniziale per replay (deep copy, immutable)
         units_snapshot_initial: JSON.parse(JSON.stringify(units)),
-        grid: { width: GRID_SIZE, height: GRID_SIZE },
+        grid: { width: gridW, height: gridH },
         logFilePath,
         events: [],
         created_at: now.toISOString(),
@@ -812,10 +830,10 @@ function createSessionRouter(options = {}) {
         ) {
           return res.status(400).json({ error: 'position { x, y } numerica richiesta per move' });
         }
-        if (dest.x < 0 || dest.x >= GRID_SIZE || dest.y < 0 || dest.y >= GRID_SIZE) {
-          return res
-            .status(400)
-            .json({ error: `posizione fuori griglia (${GRID_SIZE}x${GRID_SIZE})` });
+        const _gw = session.grid?.width || GRID_SIZE;
+        const _gh = session.grid?.height || GRID_SIZE;
+        if (dest.x < 0 || dest.x >= _gw || dest.y < 0 || dest.y >= _gh) {
+          return res.status(400).json({ error: `posizione fuori griglia (${_gw}x${_gh})` });
         }
         if ((actor.ap_remaining ?? 0) < 1) {
           return res
@@ -1191,14 +1209,16 @@ function createSessionRouter(options = {}) {
           results.push({ actor_id: actor.id, action_type: 'attack', result: wrapped });
         } else if (action.type === 'move') {
           const dest = action.position;
+          const _gw2 = session.grid?.width || GRID_SIZE;
+          const _gh2 = session.grid?.height || GRID_SIZE;
           if (
             !dest ||
             typeof dest.x !== 'number' ||
             typeof dest.y !== 'number' ||
             dest.x < 0 ||
-            dest.x >= GRID_SIZE ||
+            dest.x >= _gw2 ||
             dest.y < 0 ||
-            dest.y >= GRID_SIZE
+            dest.y >= _gh2
           ) {
             results.push({ actor_id: actor.id, skipped: 'invalid_position' });
             continue;
