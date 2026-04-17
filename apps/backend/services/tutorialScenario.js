@@ -246,6 +246,7 @@ function buildTutorialUnits02() {
     // 1 cacciatore corazzato (target ideale per tank)
     // v0.5 final: hp 6 (revert iter5 buff). iter0 (6): 100% | iter1 (8): 40% | iter5 (7): 50% aggregate.
     // Calibrazione col mod 3 nomadi: hunter hp 6 basta come offensive threat (cumulativo col buff nomadi).
+    // v0.6 P6 human-balance: ai_profile=aggressive → Utility AI attivo (pressure umana rivelava SIS passivo).
     {
       id: 'e_hunter',
       species: 'cacciatore_corazzato',
@@ -258,6 +259,7 @@ function buildTutorialUnits02() {
       guardia: 0,
       position: { x: 3, y: 3 },
       controlled_by: 'sistema',
+      ai_profile: 'aggressive',
       facing: 'W',
     },
   ];
@@ -299,6 +301,7 @@ function buildTutorialUnits03() {
     // Guardiani caverna: stat tier 3, alta DC, alto HP.
     // v0.3 tuning: hp 5→4 — baseline 3/10 con 7 timeout, target 5-6/10. Ridotto HP per chiudere in tempo.
     // Posizioni invariate (x=2,y=2 e x=3,y=3) — vicino fumarole per forzare pathing.
+    // v0.4 P6 human-balance: ai_profile=aggressive → Utility AI pressure tier Calm→Apex.
     {
       id: 'e_guardiano_1',
       species: 'guardiano_caverna',
@@ -312,6 +315,7 @@ function buildTutorialUnits03() {
       attack_range: 2,
       position: { x: 2, y: 2 },
       controlled_by: 'sistema',
+      ai_profile: 'aggressive',
       facing: 'W',
     },
     {
@@ -327,6 +331,7 @@ function buildTutorialUnits03() {
       attack_range: 2,
       position: { x: 3, y: 3 },
       controlled_by: 'sistema',
+      ai_profile: 'aggressive',
       facing: 'W',
     },
   ];
@@ -369,6 +374,7 @@ function buildTutorialUnits04() {
     // v0.3 final: hp 6 (buff retained), mod 3 (revert from 4).
     // Calibrazione iter: iter0 (hp 5 mod 3) 60% | iter1 (hp 6 mod 4) aggregate 23% (sotto band 30-50%).
     // iter_final (hp 6 mod 3): target 35-45% — tiene HP buff (più tempo threat) ma revert mod eccessivo.
+    // v0.4 P6 human-balance: ai_profile=aggressive → Utility AI per priority target behavior.
     {
       id: 'e_lanciere',
       species: 'guardiano_pozza',
@@ -382,6 +388,7 @@ function buildTutorialUnits04() {
       attack_range: 2,
       position: { x: 3, y: 2 },
       controlled_by: 'sistema',
+      ai_profile: 'aggressive',
       facing: 'W',
     },
     // Corriere 1: rapido ma fragile
@@ -454,6 +461,7 @@ function buildTutorialUnits05() {
     // BOSS: HP altissimo, mod 3, dc 14, traits offensivi.
     // v0.3 tuning: hp 10→9 — baseline 1/10 con 9 timeout, Apex finale 1.9 HP. Player quasi vinceva ma timeout.
     // Riduzione minima (-1 HP) chiude gap senza rompere target band 10-30%.
+    // v0.4 P6 human-balance: ai_profile=aggressive → Utility AI mandatory per boss (coordina mosse).
     {
       id: 'e_apex',
       species: 'apex_predatore',
@@ -467,6 +475,7 @@ function buildTutorialUnits05() {
       attack_range: 2,
       position: { x: 5, y: 2 },
       controlled_by: 'sistema',
+      ai_profile: 'aggressive',
       facing: 'W',
     },
   ];
