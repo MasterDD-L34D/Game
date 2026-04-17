@@ -58,7 +58,7 @@ Regole canoniche per turno, AP budget, syntax input. Chiude FRICTION #1-#3 dal p
 
 ### Batch execution: `POST /api/session/round/execute`
 
-Endpoint canonical per eseguire un round completo in una singola request. Accetta tutti gli intents player + opzionale AI auto-declare + risolve sequenzialmente.
+Endpoint canonical per eseguire un round completo in una singola request.
 
 **Body**:
 
@@ -69,13 +69,27 @@ Endpoint canonical per eseguire un round completo in una singola request. Accett
     { "actor_id": "p_scout", "action": { "type": "attack", "target_id": "e_nomad_1" } },
     { "actor_id": "p_tank", "action": { "type": "move", "position": { "x": 2, "y": 3 } } }
   ],
-  "ai_auto": true
+  "ai_auto": true,
+  "priority_queue": false
 }
 ```
 
 **Validazione cumulativa**: `Σ ap_cost ≤ ap_remaining` per ogni actor. Violations → 400 con lista dettagliata.
 
-**Response**: aggregato di `results[]` (per intent), `ai_result` (se ai_auto), `events[]`, `ap_consumed`, `state`.
+**Response**: aggregato di `results[]` (per intent), `ai_result` (se `ai_auto` + `priority_queue=false`), `events[]`, `ap_consumed`, `state`, `priority_queue_used`.
+
+**Priority queue** (opt-in, canonical ADR-2026-04-15): quando `priority_queue: true`, tutti gli intents (player + AI se `ai_auto`) vengono ordinati per:
+
+```
+priority = unit.initiative + action_speed - status_penalty
+```
+
+- `action_speed`: defend/parry **+2**, attack **0**, ability/heal **-1**, move **-2**, turn/skip **0**
+- `status_penalty`: panic **2×intensity**, disorient **1×intensity**
+
+Tiebreak: priority desc, actor_id alfabetico asc, declaration order asc. Con `priority_queue=true`, `ai_result=null` (AI intents dispatched inline) + end-of-round ticks (bleeding, status decay, AP reset) applicati inline.
+
+**Modalità default** (`priority_queue=false`): dispatch in declaration order + `ai_auto` esegue `handleTurnEndViaRound` dopo (legacy behavior, compat).
 
 **CLI assistant**: [`tools/py/master_dm.py`](../../tools/py/master_dm.py) — REPL canonical syntax → batch endpoint.
 
