@@ -46,7 +46,108 @@ function createRoundBridge(deps) {
     roundOrchestrator,
     rng,
     resolveSession,
+    manhattanDistance,
+    gridSize,
+    defaultAttackRange,
   } = deps;
+
+  // Validates a player intent action against current session state.
+  // Returns null if valid, { code, message } on rejection.
+  function validatePlayerIntent(session, actorId, action) {
+    if (!action || typeof action !== 'object') {
+      return { code: 'INVALID_ACTION', message: 'action deve essere object' };
+    }
+    const actor = (session.units || []).find((u) => u.id === actorId);
+    if (!actor) {
+      return { code: 'NO_ACTOR', message: `actor "${actorId}" non trovato` };
+    }
+    if (Number(actor.hp || 0) <= 0) {
+      return { code: 'ACTOR_DEAD', message: `actor "${actorId}" è KO (hp ${actor.hp})` };
+    }
+    const apCost = Number(action.ap_cost || 0);
+    const apAvail = Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0);
+    if (apCost > apAvail) {
+      return {
+        code: 'AP_INSUFFICIENT',
+        message: `AP insufficienti: costo ${apCost}, disponibili ${apAvail}`,
+      };
+    }
+
+    if (action.type === 'attack') {
+      if (!action.target_id) {
+        return { code: 'NO_TARGET', message: 'attack richiede target_id' };
+      }
+      const target = (session.units || []).find((u) => u.id === String(action.target_id));
+      if (!target) {
+        return { code: 'TARGET_NOT_FOUND', message: `target "${action.target_id}" non trovato` };
+      }
+      if (Number(target.hp || 0) <= 0) {
+        return {
+          code: 'TARGET_DEAD',
+          message: `target "${action.target_id}" è KO`,
+        };
+      }
+      if (actor.controlled_by && target.controlled_by === actor.controlled_by) {
+        return {
+          code: 'FRIENDLY_FIRE',
+          message: `non puoi attaccare un alleato (${target.controlled_by})`,
+        };
+      }
+      if (typeof manhattanDistance === 'function') {
+        const dist = manhattanDistance(actor.position, target.position);
+        const range = actor.attack_range ?? defaultAttackRange ?? 1;
+        if (dist > range) {
+          return {
+            code: 'OUT_OF_RANGE',
+            message: `target fuori range (distanza ${dist} > range ${range})`,
+          };
+        }
+      }
+    } else if (action.type === 'move') {
+      const dest = action.move_to;
+      if (
+        !dest ||
+        typeof dest.x !== 'number' ||
+        typeof dest.y !== 'number' ||
+        !Number.isFinite(dest.x) ||
+        !Number.isFinite(dest.y)
+      ) {
+        return { code: 'NO_DEST', message: 'move richiede move_to {x,y} numeriche' };
+      }
+      const size = gridSize || 6;
+      if (dest.x < 0 || dest.x >= size || dest.y < 0 || dest.y >= size) {
+        return {
+          code: 'OUT_OF_GRID',
+          message: `posizione (${dest.x},${dest.y}) fuori griglia ${size}x${size}`,
+        };
+      }
+      if (typeof manhattanDistance === 'function') {
+        const dist = manhattanDistance(actor.position, dest);
+        if (dist > apAvail) {
+          return {
+            code: 'MOVE_TOO_FAR',
+            message: `move di ${dist} celle richiede ${dist} AP (disponibili ${apAvail})`,
+          };
+        }
+      }
+      const blocker = (session.units || []).find(
+        (u) =>
+          u.id !== actor.id &&
+          Number(u.hp || 0) > 0 &&
+          u.position &&
+          u.position.x === dest.x &&
+          u.position.y === dest.y,
+      );
+      if (blocker) {
+        return {
+          code: 'CELL_OCCUPIED',
+          message: `cella (${dest.x},${dest.y}) occupata da ${blocker.id}`,
+        };
+      }
+    }
+    // type === 'skip' or other → no validation
+    return null;
+  }
 
   // ────────────────────────────────────────────────────────────────
   // Guards + adapters
@@ -931,6 +1032,20 @@ function createRoundBridge(deps) {
             .status(400)
             .json({ error: "action richiesto (object con campi 'type', 'actor_id', ...)" });
         }
+
+        // Validate player intent against session state (range/AP/target/etc).
+        // SIS intents bypassano (generati da declareSistemaIntents già validato).
+        const actor = (session.units || []).find((u) => u.id === actorId);
+        if (actor && actor.controlled_by === 'player') {
+          const validationError = validatePlayerIntent(session, actorId, action);
+          if (validationError) {
+            return res.status(400).json({
+              error: validationError.message,
+              code: validationError.code,
+            });
+          }
+        }
+
         const state = ensureRoundState(session);
         let current = state;
         if (current.round_phase !== PHASE_PLANNING) {
