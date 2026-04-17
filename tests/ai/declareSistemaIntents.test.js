@@ -559,7 +559,7 @@ test('pressure=0 (Calm): cap=1 — only first SIS unit emits intent', () => {
   assert.equal(skipped.length, 2, '2 SIS skipped by pressure cap');
 });
 
-test('pressure=50 (Escalated): cap=2', () => {
+test('pressure=50 (Escalated): cap=3', () => {
   const declare = buildDeclare();
   const session = makeSession({
     sistema_pressure: 50,
@@ -606,7 +606,7 @@ test('pressure=50 (Escalated): cap=2', () => {
     ],
   });
   const { intents } = declare(session);
-  assert.equal(intents.length, 2, 'cap=2 at Escalated tier');
+  assert.equal(intents.length, 3, 'cap=3 at Escalated tier (post 2026-04-17 rebalance)');
 });
 
 test('pressure=80 (Critical): cap=3 — all SIS emit', () => {

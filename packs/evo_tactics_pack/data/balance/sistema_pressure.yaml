@@ -18,6 +18,9 @@ version: "0.1.0"
 
 # Tier soglie → capabilities SIS
 # Ogni tier sblocca un pool più largo di intents + reinforcement slot
+# Rebalance 2026-04-17 post-playtest: +1 cap Escalated/Apex per maggior
+# presenza SIS (human feedback "hunter non agisce T1"). Calm resta 1 per
+# tutorial_01 gentle.
 tiers:
   - threshold: 0
     label: "Calm"
@@ -31,7 +34,7 @@ tiers:
     unlocked_intent_types: ["attack_basic", "move", "skip", "flank"]
   - threshold: 50
     label: "Escalated"
-    intents_per_round: 2
+    intents_per_round: 3 # was 2
     reinforcement_budget: 2
     unlocked_intent_types: ["attack_basic", "move", "skip", "flank", "focus_fire"]
   - threshold: 75
@@ -41,7 +44,7 @@ tiers:
     unlocked_intent_types: ["attack_basic", "move", "skip", "flank", "focus_fire", "swarm"]
   - threshold: 95
     label: "Apex"
-    intents_per_round: 3
+    intents_per_round: 4 # was 3, BOSS scenari
     reinforcement_budget: 4
     unlocked_intent_types: ["attack_basic", "move", "skip", "flank", "focus_fire", "swarm", "overwhelm"]
 
