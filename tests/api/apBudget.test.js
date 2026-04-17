@@ -102,7 +102,10 @@ test('AP budget: player con ap_max=2 può fare 2 attack nello stesso turno', asy
   );
 });
 
-test('AP budget: 3° attack rigettato quando ap_remaining=0', async (t) => {
+test('AP budget: attack rigettato quando ap_remaining=0', async (t) => {
+  // Drain AP deterministicamente via move (1 AP/cella Manhattan), poi verifica
+  // che l'attacco venga rigettato con 400. Non dipende da attack damage/kill:
+  // robusto a variazioni di damage roll e di ap_max per scenario.
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -110,34 +113,65 @@ test('AP budget: 3° attack rigettato quando ap_remaining=0', async (t) => {
 
   const { sid, state } = await startSession(app);
   const player = state.units.find((u) => u.controlled_by === 'player');
+  const initialAp = Number(player.ap_remaining ?? player.ap);
+  assert.ok(initialAp >= 1, `ap_max >= 1 atteso, actual=${initialAp}`);
 
-  let currentState = state;
-  for (let i = 0; i < 3; i++) {
-    const target = findInRange(currentState.units, player.id);
-    if (!target) return; // target moriti, test OK
+  const gridSize = state.grid_size || state.grid?.width || 6;
 
-    const res = await request(app).post('/api/session/action').send({
+  // Drain AP via move ping-pong tra due celle adiacenti libere.
+  for (let i = 0; i < initialAp; i += 1) {
+    const stateRes = await request(app).get('/api/session/state').query({ session_id: sid });
+    const snap = stateRes.body;
+    const self = snap.units.find((u) => u.id === player.id);
+    const occupied = new Set(
+      snap.units
+        .filter((u) => u.hp > 0 && u.id !== player.id)
+        .map((u) => `${u.position.x},${u.position.y}`),
+    );
+    const from = self.position;
+    const candidates = [
+      { x: from.x + 1, y: from.y },
+      { x: from.x - 1, y: from.y },
+      { x: from.x, y: from.y + 1 },
+      { x: from.x, y: from.y - 1 },
+    ].filter(
+      (p) =>
+        p.x >= 0 && p.x < gridSize && p.y >= 0 && p.y < gridSize && !occupied.has(`${p.x},${p.y}`),
+    );
+    assert.ok(candidates.length > 0, `cella libera adiacente attesa a step ${i}`);
+    const mres = await request(app).post('/api/session/action').send({
       session_id: sid,
-      action_type: 'attack',
+      action_type: 'move',
       actor_id: player.id,
-      target_id: target.id,
+      position: candidates[0],
     });
-
-    if (i < 2) {
-      assert.equal(res.status, 200, `attack #${i + 1} should succeed`);
-    } else {
-      // 3rd attack should fail with AP insufficient
-      assert.equal(res.status, 400, 'attack #3 should be rejected');
-      assert.match(
-        res.body.error || '',
-        /AP insufficienti|ap_remaining/i,
-        'errore esplicito su AP insufficienti',
-      );
-    }
-
-    const s = await request(app).get('/api/session/state').query({ session_id: sid });
-    currentState = s.body;
+    assert.equal(mres.status, 200, `move #${i + 1} should succeed: ${JSON.stringify(mres.body)}`);
   }
+
+  const drained = await request(app).get('/api/session/state').query({ session_id: sid });
+  const playerDrained = drained.body.units.find((u) => u.id === player.id);
+  assert.equal(
+    playerDrained.ap_remaining,
+    0,
+    `ap_remaining atteso 0 dopo ${initialAp} move, actual=${playerDrained.ap_remaining}`,
+  );
+
+  // Qualsiasi enemy vivo basta: check AP precede check range in session.js.
+  const enemy = drained.body.units.find((u) => u.controlled_by === 'sistema' && u.hp > 0);
+  assert.ok(enemy, 'almeno un enemy vivo atteso nel tutorial_01');
+
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'attack',
+    actor_id: player.id,
+    target_id: enemy.id,
+  });
+  assert.equal(res.status, 400, `attack con ap_remaining=0 rigettato: ${JSON.stringify(res.body)}`);
+  assert.match(
+    res.body.error || '',
+    /AP insufficienti|ap_remaining/i,
+    'errore esplicito su AP insufficienti',
+  );
 });
 
 test('AP budget: move di N celle costa N AP (Manhattan)', async (t) => {
