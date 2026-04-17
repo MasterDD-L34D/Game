@@ -73,10 +73,24 @@ function updateHint(msg) {
 
 function setAbilityTargetMode(on) {
   document.body.classList.toggle('ability-target-mode', on);
+  const cancelBtn = document.getElementById('cancel-pending');
+  if (cancelBtn) cancelBtn.classList.toggle('hidden', !on);
+}
+
+function cancelPendingAbility(silent = false) {
+  if (!state.pendingAbility && !document.body.classList.contains('ability-target-mode')) return;
+  state.pendingAbility = null;
+  setAbilityTargetMode(false);
+  if (!silent) updateHint("Ability annullata. Seleziona un'altra azione.");
 }
 
 function handleAbilitySelect(ab) {
   if (!state.selected) return;
+
+  // Click ability mentre un'altra pending → cancella precedente e ricomincia
+  if (state.pendingAbility) {
+    cancelPendingAbility(true);
+  }
 
   // Self-cast senza target + senza position (es. buff fortify)
   if (!ab.needs_target && !ab.needs_position) {
@@ -112,9 +126,7 @@ function handleAbilitySelect(ab) {
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && state.pendingAbility) {
-    state.pendingAbility = null;
-    setAbilityTargetMode(false);
-    updateHint(`Ability annullata.`);
+    cancelPendingAbility();
   }
 });
 
@@ -209,11 +221,13 @@ canvas.addEventListener('click', (ev) => {
 
 async function doAction(body) {
   if (!state.sid) return;
+  // Safety: hard clear any pending ability + target mode prima di ogni action
+  cancelPendingAbility(true);
   body.session_id = state.sid;
   const r = await api.action(body);
   if (!r.ok) {
     appendLog(logEl, `✖ ${r.data?.error || `HTTP ${r.status}`}`, 'error');
-    updateHint(r.data?.error || 'Azione rifiutata.');
+    updateHint(`❌ ${r.data?.error || 'Azione rifiutata.'} · riprova o seleziona altra azione.`);
     return;
   }
   const tag = body.ability_id
@@ -312,8 +326,13 @@ async function startNewSession() {
   redraw();
 }
 
-document.getElementById('new-session').addEventListener('click', startNewSession);
+document.getElementById('cancel-pending').addEventListener('click', () => cancelPendingAbility());
+document.getElementById('new-session').addEventListener('click', () => {
+  cancelPendingAbility(true);
+  startNewSession();
+});
 document.getElementById('open-replay').addEventListener('click', () => {
+  cancelPendingAbility(true);
   if (!state.sid) {
     alert('Nessuna sessione attiva.');
     return;

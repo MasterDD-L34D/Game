@@ -296,6 +296,43 @@ footer {
   border-top: 1px solid var(--border);
   font-size: 0.85rem;
   color: var(--dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+#cancel-pending {
+  background: var(--sistema);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  border-radius: 3px;
+}
+#cancel-pending:hover {
+  background: #d32f2f;
+}
+#cancel-pending.hidden {
+  display: none;
+}
+
+body.ability-target-mode footer {
+  background: linear-gradient(90deg, rgba(255, 204, 0, 0.15), rgba(255, 82, 82, 0.15));
+  color: var(--accent);
+  font-weight: bold;
+  animation: pulse-footer 1.5s ease-in-out infinite;
+}
+@keyframes pulse-footer {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
 }
 
 /* Ability panel */
