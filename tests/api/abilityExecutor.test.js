@@ -178,7 +178,20 @@ test('ability_id sconosciuta → 400', async (t) => {
   assert.match(res.body.error || '', /non trovata/i);
 });
 
-test('effect_type non supportato (taunt = aggro_pull) → 501', async (t) => {
+test('effect_type non supportato → 501 (sentinel test, ability sintetica unsupported_xyz)', async (t) => {
+  const {
+    _setAbilityForTest,
+    _resetAbilityIndex,
+  } = require('../../apps/backend/services/abilityExecutor');
+  _setAbilityForTest('synthetic_unknown', {
+    ability_id: 'synthetic_unknown',
+    effect_type: 'unknown_xyz',
+    cost_ap: 1,
+    target: 'self',
+    rank: 1,
+  });
+  t.after(() => _resetAbilityIndex());
+
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -189,13 +202,13 @@ test('effect_type non supportato (taunt = aggro_pull) → 501', async (t) => {
     session_id: sid,
     action_type: 'ability',
     actor_id: 'p_tank',
-    ability_id: 'taunt',
+    ability_id: 'synthetic_unknown',
   });
-  assert.equal(res.status, 501, `aggro_pull non supportato: ${JSON.stringify(res.body)}`);
-  assert.equal(res.body.effect_type, 'aggro_pull');
+  assert.equal(res.status, 501, `unknown effect_type: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'unknown_xyz');
   assert.ok(Array.isArray(res.body.supported));
-  assert.ok(res.body.supported.includes('shield'));
-  assert.ok(res.body.supported.includes('aoe_debuff'));
+  assert.ok(res.body.supported.includes('aggro_pull'), 'aggro_pull ora supportato in iter5');
+  assert.equal(res.body.supported.length, 18, '18/18 effect_type supportati');
 });
 
 test('blade_flurry: multi_attack esegue fino a attack_count hit', async (t) => {
@@ -865,6 +878,171 @@ test('iter4 no reaction armed: damage applies normalmente', async (t) => {
     const scoutAfter = stateAfter.body.units.find((u) => u.id === 'p_scout');
     assert.ok(scoutAfter.hp < scoutHpBefore, 'scout HP scende normalmente (no intercept armed)');
   }
+});
+
+test('iter5 taunt: aggro_pull applica defense buff + aggro_locked su target', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  // p_tank (1,3) → move (2,3) → move (3,3) adjacente a e_nomad_1 (3,2). 2 AP usati.
+  await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_tank',
+      position: { x: 2, y: 3 },
+    });
+  await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'move',
+      actor_id: 'p_tank',
+      position: { x: 3, y: 3 },
+    });
+
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_tank',
+    ability_id: 'taunt',
+    target_id: 'e_nomad_1',
+  });
+  assert.equal(res.status, 200, `taunt ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'aggro_pull');
+  assert.equal(res.body.target_id, 'e_nomad_1');
+  assert.equal(res.body.aggro_source, 'p_tank');
+  assert.equal(res.body.buff_applied.stat, 'defense_mod');
+  assert.equal(res.body.buff_applied.amount, 2);
+
+  // Verifica state
+  const stateRes = await request(app).get('/api/session/state').query({ session_id: sid });
+  const enemy = stateRes.body.units.find((u) => u.id === 'e_nomad_1');
+  assert.ok(Number(enemy.status?.aggro_locked) >= 1, 'enemy.status.aggro_locked attivo');
+  assert.equal(enemy.aggro_source, 'p_tank');
+  const tank = stateRes.body.units.find((u) => u.id === 'p_tank');
+  assert.equal(Number(tank.defense_mod_bonus) || 0, 2);
+});
+
+test('iter5 declareSistemaIntents respect aggro_locked → target = aggro_source', async (t) => {
+  const {
+    createDeclareSistemaIntents,
+  } = require('../../apps/backend/services/ai/declareSistemaIntents');
+  const declare = createDeclareSistemaIntents({
+    pickLowestHpEnemy: (sess, actor) => {
+      // Default pick: lowest hp enemy
+      return (sess.units || [])
+        .filter((u) => u.controlled_by !== actor.controlled_by && Number(u.hp) > 0)
+        .sort((a, b) => Number(a.hp) - Number(b.hp))[0];
+    },
+    stepTowards: (from, to) => ({
+      x: from.x + Math.sign(to.x - from.x),
+      y: from.y + Math.sign(to.y - from.y),
+    }),
+    manhattanDistance: (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y),
+    gridSize: 6,
+  });
+
+  const session = {
+    units: [
+      {
+        id: 'p_scout',
+        controlled_by: 'player',
+        hp: 5,
+        max_hp: 10,
+        position: { x: 1, y: 2 },
+        attack_range: 2,
+      },
+      {
+        id: 'p_tank',
+        controlled_by: 'player',
+        hp: 12,
+        max_hp: 12,
+        position: { x: 3, y: 3 },
+        attack_range: 1,
+      },
+      {
+        id: 'e_nomad_1',
+        controlled_by: 'sistema',
+        hp: 3,
+        max_hp: 3,
+        position: { x: 3, y: 2 },
+        attack_range: 2,
+        // Aggro-locked su p_tank (NON il lowest-hp che sarebbe p_scout)
+        status: { aggro_locked: 1 },
+        aggro_source: 'p_tank',
+      },
+    ],
+  };
+
+  const { decisions } = declare(session);
+  const decision = decisions.find((d) => d.unit_id === 'e_nomad_1');
+  assert.ok(decision, 'decision per e_nomad presente');
+  assert.equal(
+    decision.target_id,
+    'p_tank',
+    'aggro override → target = p_tank (non p_scout lowest-hp)',
+  );
+  assert.equal(decision.aggro_override, true);
+});
+
+test('iter5 senza aggro_locked, AI sceglie lowest-hp normale (regression)', async (t) => {
+  const {
+    createDeclareSistemaIntents,
+  } = require('../../apps/backend/services/ai/declareSistemaIntents');
+  const declare = createDeclareSistemaIntents({
+    pickLowestHpEnemy: (sess, actor) => {
+      return (sess.units || [])
+        .filter((u) => u.controlled_by !== actor.controlled_by && Number(u.hp) > 0)
+        .sort((a, b) => Number(a.hp) - Number(b.hp))[0];
+    },
+    stepTowards: (from, to) => ({
+      x: from.x + Math.sign(to.x - from.x),
+      y: from.y + Math.sign(to.y - from.y),
+    }),
+    manhattanDistance: (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y),
+    gridSize: 6,
+  });
+
+  const session = {
+    units: [
+      {
+        id: 'p_scout',
+        controlled_by: 'player',
+        hp: 5,
+        max_hp: 10,
+        position: { x: 1, y: 2 },
+        attack_range: 2,
+      },
+      {
+        id: 'p_tank',
+        controlled_by: 'player',
+        hp: 12,
+        max_hp: 12,
+        position: { x: 3, y: 3 },
+        attack_range: 1,
+      },
+      {
+        id: 'e_nomad_1',
+        controlled_by: 'sistema',
+        hp: 3,
+        max_hp: 3,
+        position: { x: 3, y: 2 },
+        attack_range: 2,
+        // No aggro: AI sceglie lowest-hp
+      },
+    ],
+  };
+
+  const { decisions } = declare(session);
+  const decision = decisions.find((d) => d.unit_id === 'e_nomad_1');
+  assert.ok(decision);
+  assert.equal(decision.target_id, 'p_scout', 'no aggro → lowest-hp pick (p_scout)');
+  assert.equal(decision.aggro_override, undefined);
 });
 
 test('raw event persistito con action_type=ability + ability_id', async (t) => {

@@ -5,7 +5,7 @@
 // dispatch per effect_type, emette raw event schema-compat:
 //   { action_type: 'ability', ability_id, effect_type, phase?, ... }
 //
-// Implementa 17 effect_type (16 attivi + 1 stub reaction):
+// Implementa 18/18 effect_type (TUTTI supportati):
 //   - move_attack (dash_strike): move + attack + conditional buff
 //   - attack_move (evasive_maneuver): attack + move + self-buff
 //   - buff (fortify): self-buff stat + duration
@@ -23,8 +23,8 @@
 //   - aoe_debuff (binding_field): area NxN, debuff enemies
 //   - surge_aoe (cataclysm): area NxN, damage_dice + stress_reset, shield-aware
 //   - reaction (intercept, overwatch_shot): register actor.reactions[] (trigger sys = follow-up)
-//
-// Non implementato (→ 501): aggro_pull (richiede AI integration).
+//   - aggro_pull (taunt): self-buff defense + target.status.aggro_locked
+//     (declareSistemaIntents respect override per SIS units)
 //
 // Stat bonus wiring: actor.attack_mod_bonus + target.defense_mod_bonus
 // consumati in sessionHelpers.resolveAttack + predictCombat. Decay via
@@ -75,6 +75,7 @@ const SUPPORTED_EFFECT_TYPES = new Set([
   'aoe_debuff',
   'surge_aoe',
   'reaction',
+  'aggro_pull',
 ]);
 
 // Push direction from actor to target: target spostato di 1 cella
@@ -1558,6 +1559,84 @@ function createAbilityExecutor(deps) {
     };
   }
 
+  // aggro_pull (taunt): forza target a attaccare actor per N turni.
+  // Self-buff defense_mod (per spec). Target.status.aggro_locked = duration
+  // + target.aggro_source = actor.id. declareSistemaIntents rispetta override
+  // se target è SIS. Su PG (target=player) il flag è informativo (no AI).
+  async function executeAggroPull({ session, actor, ability, body }) {
+    const targetId = String(body.target_id || '');
+    const target = session.units.find((u) => u.id === targetId);
+    if (!target || target.hp <= 0) {
+      return { status: 400, body: { error: `target "${targetId}" non valido (morto o assente)` } };
+    }
+    if (target.controlled_by === actor.controlled_by) {
+      return { status: 400, body: { error: 'aggro_pull richiede target nemico' } };
+    }
+    // Target deve essere adiacente (taunt mischia per design)
+    const range = Number(ability.range || 1);
+    if (manhattanDistance(actor.position, target.position) > range) {
+      return {
+        status: 400,
+        body: {
+          error: `target fuori range (${range}, dist=${manhattanDistance(actor.position, target.position)})`,
+        },
+      };
+    }
+
+    // Self-buff defense (es. taunt: defense_mod +2 1 turno)
+    let buffApplied = null;
+    if (ability.buff_stat) {
+      const amt = Number(ability.buff_amount || 0);
+      const dur = Number(ability.buff_duration || 1);
+      applySelfBuff(actor, ability.buff_stat, amt, dur);
+      buffApplied = { stat: ability.buff_stat, amount: amt, duration: dur };
+    }
+
+    // Aggro lock su target
+    const aggroDuration = Number(ability.aggro_duration || ability.buff_duration || 1);
+    if (!target.status) target.status = {};
+    target.status.aggro_locked = Math.max(Number(target.status.aggro_locked) || 0, aggroDuration);
+    target.aggro_source = actor.id;
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'aggro_pull',
+      target_id: target.id,
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      aggro_duration: aggroDuration,
+      buff_applied: buffApplied,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'aggro_pull',
+        target_id: target.id,
+        aggro_duration: aggroDuration,
+        aggro_source: actor.id,
+        buff_applied: buffApplied,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
   async function executeAbility({ session, actor, body }) {
     const abilityId = String(body.ability_id || '');
     if (!abilityId) {
@@ -1614,6 +1693,8 @@ function createAbilityExecutor(deps) {
         return executeSurgeAoe({ session, actor, ability, body });
       case 'reaction':
         return executeReaction({ session, actor, ability });
+      case 'aggro_pull':
+        return executeAggroPull({ session, actor, ability, body });
       default:
         return {
           status: 501,

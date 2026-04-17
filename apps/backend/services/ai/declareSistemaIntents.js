@@ -164,11 +164,26 @@ function createDeclareSistemaIntents(deps) {
         continue;
       }
 
-      // Prima scelta: lowest-HP globale (pick classico).
-      let target = pickLowestHpEnemy(session, actor);
+      // iter5 aggro_pull (taunt): se actor ha status.aggro_locked attivo,
+      // forza target = aggro_source (vivo). Override pickLowestHpEnemy.
+      let target = null;
+      let aggroOverride = false;
+      const aggroLocked = Number(actor.status?.aggro_locked) || 0;
+      const aggroSource = actor.aggro_source;
+      if (aggroLocked > 0 && aggroSource) {
+        const lock = (session.units || []).find(
+          (u) => u && u.id === aggroSource && Number(u.hp) > 0,
+        );
+        if (lock) {
+          target = lock;
+          aggroOverride = true;
+        }
+      }
+      if (!target) target = pickLowestHpEnemy(session, actor);
       // Se gia' preso da altro SIS, ri-pick escludendo i presi.
       // Fall back al pick originale solo se non ci sono alternative.
-      if (target && takenTargetIds.has(target.id)) {
+      // Aggro override IGNORA il taken-set (taunt forza il bersaglio).
+      if (!aggroOverride && target && takenTargetIds.has(target.id)) {
         const alt = pickTargetExcluding(actor, takenTargetIds);
         if (alt) target = alt;
       }
@@ -245,6 +260,7 @@ function createDeclareSistemaIntents(deps) {
           rule: policy.rule,
           intent: 'attack',
           target_id: target.id,
+          aggro_override: aggroOverride || undefined,
         });
         continue;
       }
@@ -311,6 +327,7 @@ function createDeclareSistemaIntents(deps) {
         intent: policy.intent, // 'approach' o 'retreat'
         target_id: target.id,
         move_to: nextPos,
+        aggro_override: aggroOverride || undefined,
       });
     }
 
