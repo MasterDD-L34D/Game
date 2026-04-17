@@ -167,6 +167,33 @@
   }
   .cell.targetable:hover { background: rgba(226,75,74,.2); }
 
+  /* Preview intent (planning phase): marker su target/dest scelto. */
+  .cell.attack-target {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239,68,68,.5), inset 0 0 10px rgba(239,68,68,.25);
+    animation: pulse-intent 1.4s ease-in-out infinite;
+  }
+  .cell.move-dest {
+    border-color: var(--p1-light);
+    background: rgba(59,139,212,.25);
+    box-shadow: inset 0 0 10px rgba(59,139,212,.40);
+    animation: pulse-intent 1.4s ease-in-out infinite;
+  }
+  .intent-marker {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 14px;
+    line-height: 1;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,.9));
+    pointer-events: none;
+    z-index: 3;
+  }
+  @keyframes pulse-intent {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .65; }
+  }
+
   /* token unità */
   .token {
     width: 36px; height: 36px;
@@ -711,6 +738,17 @@ function renderGrid() {
   const unitMap = {};
   units.forEach(u => { unitMap[`${u.position.x},${u.position.y}`] = u; });
 
+  // Build preview map da pendingIntents: attack target + move dest → celle evidenziate
+  const previewMap = {}; // `${x},${y}` → { type, actor }
+  for (const [actorId, act] of Object.entries(pendingIntents)) {
+    if (act.type === 'attack' && act.target_id) {
+      const t = units.find(v => v.id === act.target_id);
+      if (t) previewMap[`${t.position.x},${t.position.y}`] = { type: 'attack-target', actor: actorId };
+    } else if (act.type === 'move' && act.move_to) {
+      previewMap[`${act.move_to.x},${act.move_to.y}`] = { type: 'move-dest', actor: actorId };
+    }
+  }
+
   for (let y = 0; y < 6; y++) {
     for (let x = 0; x < 6; x++) {
       const cell = document.createElement('div');
@@ -719,36 +757,32 @@ function renderGrid() {
 
       const u = unitMap[`${x},${y}`];
       if (u) {
-        const isP1 = u.id === 'unit_1';
-        const cls  = isP1 ? 'p1' : 'sistema';
+        const isPlayer = u.controlled_by === 'player';
+        const cls  = isPlayer ? 'p1' : 'sistema';
         const hp   = u.hp ?? 0;
         const dead = hp <= 0;
         const statuses = activeStatuses(u);
-        // SPRINT_014: glow della cella per il primo stato attivo (priorita')
         if (!dead && statuses.length) {
           cell.classList.add(`has-status-${statuses[0].key}`);
         }
         const badgeHtml = (!dead && statuses.length)
           ? `<span class="status-badge" title="${statuses.map(s=>s.key+' '+s.turns).join(', ')}">${STATUS_EMOJI[statuses[0].key]}</span>`
           : '';
-        // SPRINT_022: facing arrow sul token quando vivo
         const facing = u.facing || 'S';
         const facingHtml = !dead
-          ? `<span class="facing-arrow ${facing} ${isP1 ? 'p1-color' : 'sistema-color'}" title="facing ${facing}"></span>`
+          ? `<span class="facing-arrow ${facing} ${isPlayer ? 'p1-color' : 'sistema-color'}" title="facing ${facing}"></span>`
           : '';
+        const label = isPlayer ? unitLabel(u.id) : 'SIS';
         cell.innerHTML = `
           <div class="token ${cls} ${selected === u.id ? 'selected' : ''} ${dead ? 'dead' : ''}">
-            <span>${isP1 ? 'P1' : 'SIS'}</span>
+            <span>${label}</span>
             <span class="token-job">${u.job?.slice(0,4) ?? ''}</span>
           </div>${facingHtml}${badgeHtml}`;
       }
 
-      // highlight celle raggiungibili / attaccabili (solo se AP disponibili).
-      // SPRINT_008: reachable usa ap_remaining (cost=dist), non ap max.
-      // SPRINT_009: mostra il costo AP effettivo sulla cella e distingue
-      // visivamente reachable a costo 2 (arancio) per evitare mis-click.
+      // Highlight reachable / targetable per unità selezionata
       if (selected) {
-        const sel = units.find(u => u.id === selected);
+        const sel = units.find(v => v.id === selected);
         const apLeft = sel?.ap_remaining ?? sel?.ap ?? 0;
         const range  = sel?.attack_range ?? 2;
         if (sel && !u && apLeft > 0) {
@@ -762,10 +796,21 @@ function renderGrid() {
             cell.appendChild(costBadge);
           }
         }
-        if (u && u.id !== selected && u.id !== 'unit_1' && apLeft > 0) {
+        if (u && u.id !== selected && u.controlled_by !== 'player' && apLeft > 0) {
           const distT = Math.abs(x - sel.position.x) + Math.abs(y - sel.position.y);
           if (distT <= range) cell.classList.add('targetable');
         }
+      }
+
+      // Preview intent: sovrappone marker planning sulla cella target/dest
+      const preview = previewMap[`${x},${y}`];
+      if (preview) {
+        cell.classList.add(preview.type);
+        const marker = document.createElement('span');
+        marker.className = 'intent-marker';
+        marker.textContent = preview.type === 'attack-target' ? '⚔' : '🚶';
+        marker.title = `${unitLabel(preview.actor)} ${preview.type === 'attack-target' ? 'attacca qui' : 'muove qui'}`;
+        cell.appendChild(marker);
       }
 
       cell.addEventListener('click', () => onCellClick(x, y, u));
