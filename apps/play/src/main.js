@@ -7,6 +7,7 @@ import { renderAbilities, clearAbilities } from './abilityPanel.js';
 import { detectEndgame, showEndgame, hideEndgame, nextScenarioId } from './endgame.js';
 import { recordMove, pushPopup } from './anim.js';
 import { openReplay } from './replayPanel.js';
+import { sfx, setMuted, isMuted } from './sfx.js';
 
 const state = {
   sid: null,
@@ -43,6 +44,8 @@ function redraw() {
     const outcome = detectEndgame(state.world);
     if (outcome) {
       state.endgameShown = true;
+      if (outcome === 'victory') sfx.win();
+      else sfx.defeat();
       showEndgame(
         outcome,
         { ...state.world, session_id: state.sid },
@@ -118,6 +121,7 @@ function handleUnitClick(unit) {
     }
     state.selected = unit.id;
     state.target = null;
+    sfx.select();
     updateHint(`Selezionato ${unit.id}. Click cella=move · click nemico=attack · sidebar=ability.`);
     redraw();
   } else {
@@ -178,7 +182,6 @@ async function doAction(body) {
 let lastEventsCount = 0;
 
 function processNewEvents(prevWorld, newWorld) {
-  const prevUnits = new Map((prevWorld?.units || []).map((u) => [u.id, u]));
   const events = (newWorld?.events || []).slice(lastEventsCount);
   for (const ev of events) {
     if (ev.action_type === 'move' && ev.position_from && ev.position_to) {
@@ -190,14 +193,23 @@ function processNewEvents(prevWorld, newWorld) {
     }
     if (
       (ev.action_type === 'attack' || ev.action_type === 'ability') &&
-      ev.damage_dealt &&
+      ev.damage_dealt !== undefined &&
       ev.target_id
     ) {
       const target = (newWorld.units || []).find((u) => u.id === ev.target_id);
-      if (target && target.position) {
+      if (target && target.position && ev.damage_dealt !== 0) {
         const color = ev.damage_dealt < 0 ? '#4caf50' : '#ff5252';
         const txt = ev.damage_dealt < 0 ? `+${-ev.damage_dealt}` : `-${ev.damage_dealt}`;
         pushPopup(target.position.x, target.position.y, txt, color);
+      }
+      // SFX
+      if (ev.damage_dealt < 0) sfx.heal();
+      else if (ev.damage_dealt > 0) {
+        // crit heuristic: dmg > 6 = crit
+        if (Number(ev.damage_dealt) >= 6) sfx.crit();
+        else sfx.hit();
+      } else if (ev.result === 'miss' || ev.result === 'MISS') {
+        sfx.miss();
       }
     }
   }
@@ -263,6 +275,7 @@ document.getElementById('open-replay').addEventListener('click', () => {
 });
 document.getElementById('end-turn').addEventListener('click', async () => {
   if (!state.sid) return;
+  sfx.turn_end();
   appendLog(logEl, '→ fine turno');
   const r = await api.endTurn(state.sid);
   if (!r.ok) {
@@ -270,8 +283,17 @@ document.getElementById('end-turn').addEventListener('click', async () => {
     return;
   }
   state.world = r.data?.state || state.world;
+  sfx.sis_turn();
   await refresh();
   appendLog(logEl, '✓ SIS ha agito');
+});
+
+// Mute toggle
+const muteBtn = document.getElementById('toggle-mute');
+muteBtn.addEventListener('click', () => {
+  setMuted(!isMuted());
+  muteBtn.textContent = isMuted() ? '🔇' : '🔊';
+  muteBtn.title = isMuted() ? 'Unmute SFX' : 'Mute SFX';
 });
 
 startNewSession();
