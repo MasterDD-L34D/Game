@@ -121,3 +121,50 @@ Threshold suggeriti (prelim, da validare post-TKT-05):
 **Remediation prioritaria** (in ordine): TKT-01 (scenario_id) → TKT-05 (VC persist) → TKT-02 (outcome persist). Con questi 3 fix, questo report diventerebbe affidabile e riproducibile via script su ogni sweep futuro.
 
 **Sample size**: tutorial_01 N=6 (accettabile per smoke), 02/03/04/05 N=1 (pilota singolo). Per balance calibration servirebbero ≥10 run per scenario.
+
+---
+
+## Addendum 2026-04-18 — rettifica + predict_combat baseline
+
+**Scoperta post-sweep**: scenari `tutorial_02..05` già implementati in [`apps/backend/services/tutorialScenario.js`](../../apps/backend/services/tutorialScenario.js) con iter history documentata in-file. Band target code vs GDD:
+
+| Scenario | Band code (in-file)  | GDD target | Gap             |
+| -------- | -------------------- | ---------- | --------------- |
+| 01       | 90-95% tutorial_easy | 80%        | +10-15pp accept |
+| 02       | 60-70% (iter_final)  | 80%        | −10-20pp        |
+| 03       | ~50% (hp 5→4)        | 50%        | ≈0              |
+| 04       | 35-45% (post ap=2)   | 30%        | +5-15pp         |
+| 05       | 15-30% boss          | 20%        | ≈0              |
+
+**Sweep win 100% su 04/05 non affidabile** — scenario_id inferito da roster, sample N=1, log pre-telemetry. Cause possibili: (a) log erano `tutorial_01` misattribuiti, (b) branch divergente, (c) sample size 1.
+
+**Azione scartata**: balance tuning diretto. Rischio regressione su scenari già iter-tunati.
+
+### predict_combat baseline (N=1000, RNG seed 42)
+
+Pairwise attack-only, no multi-unit tactics. Dati usable per sanity check CD + dmg:
+
+| Matchup                          | hit% | crit% | kill% | avg_dmg |  CD | attack_mod |
+| -------------------------------- | ---: | ----: | ----: | ------: | --: | ---------: |
+| T02 p_scout → e_hunter (hp 6)    | 45.9 |   4.6 |   6.9 |     3.5 |  12 |          0 |
+| T02 e_hunter → p_scout (hp 10)   | 45.9 |   4.6 |   0.0 |     3.5 |  12 |          0 |
+| T04 p_scout → e_lanciere (hp 5)  | 45.9 |   4.6 |  15.4 |     3.5 |  12 |          0 |
+| T04 e_lanciere → p_scout (hp 10) | 45.9 |   4.6 |   0.0 |     3.5 |  12 |          0 |
+| T05 p_scout → e_apex (hp 11)     | 41.6 |   5.0 |   0.0 |     3.4 |  13 |          0 |
+| T05 e_apex → p_scout (hp 12)     | 45.9 |   4.6 |   0.0 | **5.0** |  12 |          0 |
+
+**Osservazione**: `attack_mod=0` in tutti — aggregate_mod su `trait_ids` ritorna 0 perché trait_mechanics.yaml non espone `attack_mod` per `zampe_a_molla`/`martello_osseo`. Trait `mod` su unit (mod:3/4) non considerato da predict_combat (solo trait catalog). **Bug potenziale**: player `mod` stat ignorato da sim → hit% atteso più alto runtime.
+
+**T05 boss asimmetria**: sistema avg_dmg 5.0 > player avg_dmg 3.4. BOSS out-damages player pairwise; 2v1 numerical advantage compensa. Time-to-kill estimate: player kills boss ~4 round, boss kills player ~2.5 round (1 player down → aggro shift). Band 15-30% coerente con sim.
+
+### Conclusioni rettifica
+
+1. **Scenari già calibrati**. No tuning blind.
+2. **Sweep #1 invalid** per inference. Sweep #2 richiede telemetry merged (PR #1535) + N≥10/scenario.
+3. **predict_combat**: aggregate_mod non include unit `mod` stat → sim under-estima hit%. Gap da verificare (TKT-06 aperto).
+
+### TKT backlog aggiornato
+
+- **TKT-01..05**: telemetry persistence — **IN PROGRESS** PR #1535
+- **TKT-06** (nuovo): `predict_combat` include unit-level `mod` in attack calc (attualmente solo trait-derived)
+- **TKT-07** (nuovo): sweep #2 dopo merge PR #1535, N=10/scenario, calibration data-driven
