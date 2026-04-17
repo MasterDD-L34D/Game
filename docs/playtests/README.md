@@ -35,7 +35,8 @@ Un **playtest con post-it batte dieci dashboard** (Caveman Rule #3).
 
 _(vuoto: questo è il primo setup. Aggiorna qui dopo ogni playtest chiuso.)_
 
-| Data          | Titolo                                             | Outcome                                              | Commit     |
-| ------------- | -------------------------------------------------- | ---------------------------------------------------- | ---------- |
-| 2026-04-17    | First documented session (tabletop guidato)        | WIN PG R3 · 4 frictions                              | _a92f9a14_ |
-| 2026-04-17-02 | Utility AI + abilities (tabletop, enc_tutorial_02) | WIN PG R2 · 3 new frictions + P1/P3/P5 upgrade 🟡→🟢 | _TBD_      |
+| Data          | Titolo                                                     | Outcome                                              | Commit     |
+| ------------- | ---------------------------------------------------------- | ---------------------------------------------------- | ---------- |
+| 2026-04-17    | First documented session (tabletop guidato)                | WIN PG R3 · 4 frictions                              | _a92f9a14_ |
+| 2026-04-17-02 | Utility AI + abilities (tabletop, enc_tutorial_02)         | WIN PG R2 · 3 new frictions + P1/P3/P5 upgrade 🟡→🟢 | _08da5dc2_ |
+| 2026-04-17-03 | Browser MVP smoke validation (agent curl + Master pending) | Backend 6/6 endpoints ✅ · P4 upgrade 🟡→🟢          | _TBD_      |
