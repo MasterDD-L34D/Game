@@ -3,14 +3,16 @@
 // tutorial_06_hardcore: "Cattedrale dell'Apex"
 // Party: 8 schierati (modulation full o quartet_hardcore), grid 10x10.
 // Enemy: 1 BOSS apex + 2 elite hunter + 3 minion nomad = 6.
-// Difficulty 6/5 (boss + swarm). pressure_start 75 → Critical/Apex tier.
+// Difficulty 6/5 (boss + swarm). pressure_start 85 → Apex tier.
 //
 // Baseline calibration target (atteso post batch N=30):
 //   win_rate ~15-25% (BOSS hardcore, player deve coordinarsi 8-way)
 //   turns avg ~14-18
 //   K/D ratio player ~0.6-0.9
 //
-// Se batch rivela fuori band → tune hp apex/elite in iter successive (PR4.b).
+// PR4.b tune (2026-04-18): batch N=30 ha mostrato wr 100% / K/D 4.0, fuori
+// banda. Applicate Iter 1+2+3 (HP +55%, stats +1 mod/dc, pressure_start
+// 75→85). Ref: docs/playtest/2026-04-18-hardcore-06-calibration.md.
 
 'use strict';
 
@@ -33,7 +35,7 @@ const HARDCORE_SCENARIO_06 = {
     { x: 5, y: 5, damage: 1, type: 'rovine_instabili' },
     { x: 3, y: 6, damage: 1, type: 'rovine_instabili' },
   ],
-  sistema_pressure_start: 75, // Critical: 3 intents/round + swarm AI unlocked
+  sistema_pressure_start: 85, // Apex: 3 intents/round + swarm + reinforcement
   recommended_modulation: 'full', // 8p × 1 PG → grid 10x10 auto
 };
 
@@ -70,16 +72,16 @@ function buildHardcoreUnits06() {
 
   const enemies = [
     // BOSS Apex (center-right) — HP alto, crit bonus, attack_range 2.
-    // Baseline: hp 14 mod 4 dc 14 (più duro del tutorial_05 hp 11).
+    // PR4.b: hp 14→22 (+57%), mod 4→5, dc 14→15.
     {
       id: 'e_apex_boss',
       species: 'apex_predatore',
       job: 'vanguard',
       traits: ['martello_osseo', 'ferocia'],
-      hp: 14,
+      hp: 22,
       ap: 3,
-      mod: 4,
-      dc: 14,
+      mod: 5,
+      dc: 15,
       guardia: 2,
       attack_range: 2,
       position: { x: 8, y: 5 },
@@ -87,16 +89,16 @@ function buildHardcoreUnits06() {
       ai_profile: 'aggressive',
       facing: 'W',
     },
-    // 2 elite hunter — flanking, mod 3, hp 7.
+    // 2 elite hunter — flanking. PR4.b: hp 7→10, mod 3→4, dc 13→14.
     {
       id: 'e_elite_hunter_1',
       species: 'cacciatore_corazzato',
       job: 'vanguard',
       traits: [],
-      hp: 7,
+      hp: 10,
       ap: 2,
-      mod: 3,
-      dc: 13,
+      mod: 4,
+      dc: 14,
       guardia: 1,
       attack_range: 2,
       position: { x: 7, y: 2 },
@@ -109,10 +111,10 @@ function buildHardcoreUnits06() {
       species: 'cacciatore_corazzato',
       job: 'vanguard',
       traits: [],
-      hp: 7,
+      hp: 10,
       ap: 2,
-      mod: 3,
-      dc: 13,
+      mod: 4,
+      dc: 14,
       guardia: 1,
       attack_range: 2,
       position: { x: 7, y: 8 },
@@ -120,16 +122,16 @@ function buildHardcoreUnits06() {
       ai_profile: 'aggressive',
       facing: 'W',
     },
-    // 3 minion nomad — fragili ma numerosi, mod 2 hp 4.
+    // 3 minion nomad — PR4.b: hp 4→6, mod 2→3, dc 11→12.
     {
       id: 'e_minion_1',
       species: 'predoni_nomadi',
       job: 'skirmisher',
       traits: [],
-      hp: 4,
+      hp: 6,
       ap: 2,
-      mod: 2,
-      dc: 11,
+      mod: 3,
+      dc: 12,
       guardia: 0,
       attack_range: 1,
       position: { x: 6, y: 4 },
@@ -141,10 +143,10 @@ function buildHardcoreUnits06() {
       species: 'predoni_nomadi',
       job: 'skirmisher',
       traits: [],
-      hp: 4,
+      hp: 6,
       ap: 2,
-      mod: 2,
-      dc: 11,
+      mod: 3,
+      dc: 12,
       guardia: 0,
       attack_range: 1,
       position: { x: 6, y: 6 },
@@ -156,10 +158,10 @@ function buildHardcoreUnits06() {
       species: 'predoni_nomadi',
       job: 'skirmisher',
       traits: [],
-      hp: 4,
+      hp: 6,
       ap: 2,
-      mod: 2,
-      dc: 11,
+      mod: 3,
+      dc: 12,
       guardia: 0,
       attack_range: 1,
       position: { x: 9, y: 5 },
