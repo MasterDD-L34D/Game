@@ -293,3 +293,56 @@ body.ability-target-mode canvas#grid {
   background: var(--accent);
   color: var(--bg);
 }
+
+.vc-block {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  text-align: left;
+}
+.vc-block h3 {
+  color: var(--accent);
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+.vc-row {
+  background: var(--cell);
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border-left: 3px solid var(--player);
+  font-size: 0.85rem;
+}
+.vc-row strong {
+  display: inline-block;
+  min-width: 80px;
+}
+.vc-mbti {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 2px 6px;
+  font-weight: bold;
+  margin: 0 8px;
+  border-radius: 3px;
+}
+.vc-ennea {
+  color: var(--dim);
+  font-size: 0.75rem;
+}
+.vc-agg {
+  margin-top: 4px;
+  color: var(--dim);
+  font-size: 0.7rem;
+}
+.vc-loading {
+  color: var(--dim);
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 16px;
+}
+.vc-error {
+  color: var(--sistema);
+  font-size: 0.8rem;
+  margin-top: 16px;
+}

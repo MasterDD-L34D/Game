@@ -27,4 +27,6 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ session_id: sid }),
     }),
+  vc: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/vc`),
+  replay: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/replay`),
 };
