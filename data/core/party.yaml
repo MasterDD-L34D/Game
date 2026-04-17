@@ -1,0 +1,89 @@
+# =============================================================================
+# Party configuration canonica — Evo-Tactics
+# ADR: docs/adr/ADR-2026-04-17-coop-scaling-4to8.md
+# Pilastro 5 (Co-op vs Sistema) esteso 4 → 8 player
+# Schema: schemas/evo/party.schema.json
+# =============================================================================
+
+version: 1
+updated: '2026-04-17'
+
+party:
+  # SoT §pilastro 5 originale: 4 giocatori coop.
+  # ADR-2026-04-17 estende a 8 per campagne party casual TV+companion.
+  max_players_coop: 8
+
+  # Creature schierate PG per encounter. Cap per mantenere grid leggibile.
+  max_deployed_per_encounter: 8
+
+  # Roster totale disponibile per campagna (schierabili + Nido reserve).
+  # 8 schierabili + 8 Nido reserve = 16 creature totali in rotazione.
+  max_roster_total: 16
+
+  # Grid scaling automatico basato su N schierati.
+  # Mantiene fill ratio < 25% per leggibilità tattica.
+  grid_scaling:
+    deployed_1_4: '6x6' # 36 celle, fill <= 22%
+    deployed_5_6: '8x8' # 64 celle, fill <= 19%
+    deployed_7_8: '10x10' # 100 celle, fill <= 16%
+
+  # Preset encounter standard.
+  defaults:
+    tutorial: 2 # onboarding gentle (tutorial_01)
+    standard: 4 # encounter base SoT-coerente
+    boss: 6 # boss encounter (PG +1 per challenge)
+    hardcore: 8 # full coop max
+
+  # Distribuzione PG per player count. Total PG schierati costante per modalità.
+  # Formula: sum(player.pg_controlled) == deployed_total
+  modulation:
+    solo:
+      description: '1 player controlla tutto il party'
+      pg_per_player: [4]
+      deployed: 4
+    duo:
+      description: '2 player, 2 PG ciascuno'
+      pg_per_player: [2, 2]
+      deployed: 4
+    duo_hardcore:
+      description: '2 player, 4 PG ciascuno'
+      pg_per_player: [4, 4]
+      deployed: 8
+    trio:
+      description: '3 player, distribuzione 2+1+1'
+      pg_per_player: [2, 1, 1]
+      deployed: 4
+    trio_mid:
+      description: '3 player, 2 PG ciascuno'
+      pg_per_player: [2, 2, 2]
+      deployed: 6
+    quartet:
+      description: '4 player × 1 PG (SoT canonico)'
+      pg_per_player: [1, 1, 1, 1]
+      deployed: 4
+    quartet_hardcore:
+      description: '4 player × 2 PG'
+      pg_per_player: [2, 2, 2, 2]
+      deployed: 8
+    quintet:
+      description: '5 player, 2+2+2+1+1 = 8'
+      pg_per_player: [2, 2, 2, 1, 1]
+      deployed: 8
+    sextet:
+      description: '6 player, 2+2+1+1+1+1 = 8'
+      pg_per_player: [2, 2, 1, 1, 1, 1]
+      deployed: 8
+    septet:
+      description: '7 player, 2+1+1+1+1+1+1 = 8'
+      pg_per_player: [2, 1, 1, 1, 1, 1, 1]
+      deployed: 8
+    full:
+      description: '8 player × 1 PG (max coop hardcore)'
+      pg_per_player: [1, 1, 1, 1, 1, 1, 1, 1]
+      deployed: 8
+
+# Invarianti design:
+# - sum(pg_per_player) == deployed (per ogni modulation)
+# - deployed <= max_deployed_per_encounter
+# - len(pg_per_player) <= max_players_coop
+# - grid_size ricavata automaticamente da deployed via grid_scaling

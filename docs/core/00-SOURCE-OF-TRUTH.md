@@ -927,13 +927,13 @@ difficulty = clamp(raw_score × biome_mult × objective_mult, 1, 5)
 
 ## 16. Networking & Co-op Architecture 🟡 ADR PROPOSTO
 
-Co-op 4 giocatori vs Sistema è pilastro #5. Oggi il sistema gira **single-machine only**.
+Co-op **1-8 giocatori** vs Sistema è pilastro #5 (esteso da 4 a 8 via [ADR-2026-04-17](../adr/ADR-2026-04-17-coop-scaling-4to8.md)). Oggi il sistema gira **single-machine only**.
 
 ### 16.1 Requisiti co-op
 
-Da §6 e dai design doc:
+Da §6, dai design doc e da `data/core/party.yaml`:
 
-- 4 giocatori contemporanei
+- **1-8 giocatori** contemporanei (default 4 canonico, 8 hardcore)
 - TV shared screen (host) + companion personale (client)
 - Planning simultaneo → commit → risoluzione
 - Stato autoritativo sul server
