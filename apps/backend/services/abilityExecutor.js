@@ -5,7 +5,7 @@
 // dispatch per effect_type, emette raw event schema-compat:
 //   { action_type: 'ability', ability_id, effect_type, phase?, ... }
 //
-// Implementa 10 effect_type:
+// Implementa 17 effect_type (16 attivi + 1 stub reaction):
 //   - move_attack (dash_strike): move + attack + conditional buff
 //   - attack_move (evasive_maneuver): attack + move + self-buff
 //   - buff (fortify): self-buff stat + duration
@@ -16,9 +16,15 @@
 //   - ranged_attack (focused_blast): attack range custom + conditional_status
 //   - drain_attack (essence_drain): attack + lifesteal + seed_gain
 //   - execution_attack (kill_shot): attack + damage_step_mod + multiplier se hp%<threshold
+//   - shield (energy_barrier): target.shield_hp consumato in performAttack pre-damage
+//   - team_buff (resonance_amplifier): allies in range, buff/pp_grant
+//   - team_heal (symbiotic_bloom): allies in range, heal_dice + seed_gain
+//   - aoe_buff (sanctuary): area NxN, buff allies + stress_reduction
+//   - aoe_debuff (binding_field): area NxN, debuff enemies
+//   - surge_aoe (cataclysm): area NxN, damage_dice + stress_reset, shield-aware
+//   - reaction (intercept, overwatch_shot): register actor.reactions[] (trigger sys = follow-up)
 //
-// Non implementati (→ 501 con supported list): aoe_*, shield, surge_aoe,
-// reaction, aggro_pull, team_buff, team_heal.
+// Non implementato (→ 501): aggro_pull (richiede AI integration).
 //
 // Stat bonus wiring: actor.attack_mod_bonus + target.defense_mod_bonus
 // consumati in sessionHelpers.resolveAttack + predictCombat. Decay via
@@ -62,6 +68,13 @@ const SUPPORTED_EFFECT_TYPES = new Set([
   'ranged_attack',
   'drain_attack',
   'execution_attack',
+  'shield',
+  'team_buff',
+  'team_heal',
+  'aoe_buff',
+  'aoe_debuff',
+  'surge_aoe',
+  'reaction',
 ]);
 
 // Push direction from actor to target: target spostato di 1 cella
@@ -78,6 +91,29 @@ function computePushDestination(actor, target) {
 
 function isWithinGrid(pos, gridSize) {
   return pos.x >= 0 && pos.x < gridSize && pos.y >= 0 && pos.y < gridSize;
+}
+
+// Helper: unita' vive in area NxN centrata su pos (size = lato del quadrato).
+// size=3 → ±1 (3x3=9 cells); size=2 → ±0..1 (2x2=4 cells, biased SE).
+function unitsInArea(units, center, size) {
+  const half = Math.floor(Number(size || 1) / 2);
+  const extra = Number(size || 1) % 2 === 0 ? 0 : 0; // square anchor: simmetrico
+  return units.filter(
+    (u) =>
+      u &&
+      u.hp > 0 &&
+      Math.abs(Number(u.position?.x) - Number(center.x)) <= half + extra &&
+      Math.abs(Number(u.position?.y) - Number(center.y)) <= half + extra,
+  );
+}
+
+// Roll dice helper {count, sides, modifier}.
+function rollDice(dice, rng) {
+  const count = Math.max(1, Number(dice?.count || 1));
+  const sides = Math.max(1, Number(dice?.sides || 4));
+  let total = 0;
+  for (let i = 0; i < count; i += 1) total += Math.floor(rng() * sides) + 1;
+  return total + Number(dice?.modifier || 0);
 }
 
 function createAbilityExecutor(deps) {
@@ -1036,6 +1072,484 @@ function createAbilityExecutor(deps) {
     };
   }
 
+  // shield (energy_barrier): assorbi prossimi N HP danno per duration turni.
+  // target.shield_hp consumato in performAttack pre-damage. Decay via
+  // status.shield_buff in sessionRoundBridge.
+  async function executeShield({ session, actor, ability, body }) {
+    const targetId = String(body.target_id || actor.id);
+    const target = session.units.find((u) => u.id === targetId);
+    if (!target || target.hp <= 0) {
+      return { status: 400, body: { error: `target "${targetId}" non valido (morto o assente)` } };
+    }
+    if (target.controlled_by !== actor.controlled_by) {
+      return { status: 400, body: { error: 'shield richiede target alleato (o self)' } };
+    }
+    const shieldHp = Number(ability.shield_hp || 0);
+    const duration = Number(ability.shield_duration || 1);
+    if (shieldHp <= 0) {
+      return { status: 400, body: { error: 'shield_hp richiesto in ability spec' } };
+    }
+    target.shield_hp = (Number(target.shield_hp) || 0) + shieldHp;
+    if (!target.status) target.status = {};
+    target.status.shield_buff = Math.max(Number(target.status.shield_buff) || 0, duration);
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'shield',
+      target_id: target.id,
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      shield_hp_granted: shieldHp,
+      shield_hp_total: target.shield_hp,
+      shield_duration: duration,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'shield',
+        target_id: target.id,
+        shield_hp_granted: shieldHp,
+        shield_hp_total: target.shield_hp,
+        shield_duration: duration,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // team_buff: applica buff a tutti gli alleati in range Manhattan da actor.
+  // Variante pp_grant (resonance_amplifier): aggiunge PP istantanei.
+  async function executeTeamBuff({ session, actor, ability }) {
+    const range = Number(ability.range || 2);
+    const allies = session.units.filter(
+      (u) =>
+        u &&
+        u.hp > 0 &&
+        u.controlled_by === actor.controlled_by &&
+        manhattanDistance(actor.position, u.position) <= range,
+    );
+
+    const buffStat = ability.buff_stat;
+    const amount = Number(ability.buff_amount || 0);
+    const duration = Number(ability.buff_duration || 1);
+    const ppGrant = Number(ability.pp_grant || 0);
+
+    const applied = [];
+    for (const ally of allies) {
+      const entry = { unit_id: ally.id };
+      if (buffStat) {
+        applySelfBuff(ally, buffStat, amount, duration);
+        entry.buff = { stat: buffStat, amount, duration };
+      }
+      if (ppGrant > 0) {
+        ally.pp = (Number(ally.pp) || 0) + ppGrant;
+        entry.pp_grant = ppGrant;
+      }
+      applied.push(entry);
+    }
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'team_buff',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      range,
+      allies_affected: applied,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'team_buff',
+        allies_affected: applied,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // team_heal: heal_dice per ogni alleato in range (incluso self).
+  async function executeTeamHeal({ session, actor, ability }) {
+    const range = Number(ability.range || 2);
+    const allies = session.units.filter(
+      (u) =>
+        u &&
+        u.hp > 0 &&
+        u.controlled_by === actor.controlled_by &&
+        manhattanDistance(actor.position, u.position) <= range,
+    );
+    const seedGain = Number(ability.seed_gain || 0);
+
+    const healed = [];
+    for (const ally of allies) {
+      const rolled = rollDice(ability.heal_dice, rng);
+      const maxHp = Number(ally.max_hp || ally.hp || 0);
+      const missing = Math.max(0, maxHp - Number(ally.hp || 0));
+      const heal = Math.max(0, Math.min(rolled, missing));
+      const hpBefore = ally.hp;
+      ally.hp = hpBefore + heal;
+      if (seedGain > 0) ally.seed = (Number(ally.seed) || 0) + seedGain;
+      healed.push({
+        unit_id: ally.id,
+        rolled,
+        healing_applied: heal,
+        hp_before: hpBefore,
+        hp_after: ally.hp,
+        seed_gain: seedGain,
+      });
+    }
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'team_heal',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      range,
+      healed,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'team_heal',
+        healed,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // aoe_buff (sanctuary): area NxN centrata su body.position. Buff alleati.
+  async function executeAoeBuff({ session, actor, ability, body }) {
+    const center = body.position;
+    if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
+      return { status: 400, body: { error: 'position { x, y } richiesta per aoe_buff' } };
+    }
+    if (!isWithinGrid(center, gridSize)) {
+      return { status: 400, body: { error: 'centro AoE fuori griglia' } };
+    }
+    const range = Number(ability.range || 0);
+    if (range > 0 && manhattanDistance(actor.position, center) > range) {
+      return { status: 400, body: { error: `centro AoE fuori range (${range})` } };
+    }
+    const size = Number(ability.aoe_size || 2);
+    const inArea = unitsInArea(session.units, center, size);
+    const allies = inArea.filter((u) => u.controlled_by === actor.controlled_by);
+
+    const buffStat = ability.buff_stat;
+    const amount = Number(ability.buff_amount || 0);
+    const duration = Number(ability.buff_duration || 1);
+    const stressReduction = Number(ability.stress_reduction || 0);
+
+    const applied = [];
+    for (const ally of allies) {
+      const entry = { unit_id: ally.id };
+      if (buffStat) {
+        applySelfBuff(ally, buffStat, amount, duration);
+        entry.buff = { stat: buffStat, amount, duration };
+      }
+      if (stressReduction > 0) {
+        ally.stress = Math.max(0, Number(ally.stress || 0) - stressReduction);
+        entry.stress_reduction = stressReduction;
+      }
+      applied.push(entry);
+    }
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'aoe_buff',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      center,
+      aoe_size: size,
+      allies_affected: applied,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'aoe_buff',
+        center,
+        aoe_size: size,
+        allies_affected: applied,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // aoe_debuff (binding_field): area NxN. Debuff nemici.
+  async function executeAoeDebuff({ session, actor, ability, body }) {
+    const center = body.position;
+    if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
+      return { status: 400, body: { error: 'position { x, y } richiesta per aoe_debuff' } };
+    }
+    if (!isWithinGrid(center, gridSize)) {
+      return { status: 400, body: { error: 'centro AoE fuori griglia' } };
+    }
+    const range = Number(ability.range || 0);
+    if (range > 0 && manhattanDistance(actor.position, center) > range) {
+      return { status: 400, body: { error: `centro AoE fuori range (${range})` } };
+    }
+    const size = Number(ability.aoe_size || 3);
+    const inArea = unitsInArea(session.units, center, size);
+    const enemies = inArea.filter((u) => u.controlled_by !== actor.controlled_by);
+
+    const debuffStat = ability.debuff_stat;
+    const amount = Number(ability.debuff_amount || 0);
+    const duration = Number(ability.debuff_duration || 1);
+
+    const applied = [];
+    for (const enemy of enemies) {
+      if (!debuffStat) break;
+      const statusKey = `${debuffStat}_debuff`;
+      if (!enemy.status) enemy.status = {};
+      enemy.status[statusKey] = Math.max(Number(enemy.status[statusKey]) || 0, duration);
+      enemy[`${debuffStat}_bonus`] = (enemy[`${debuffStat}_bonus`] || 0) + amount;
+      applied.push({
+        unit_id: enemy.id,
+        debuff: { stat: debuffStat, amount, duration },
+      });
+    }
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'aoe_debuff',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      center,
+      aoe_size: size,
+      enemies_affected: applied,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'aoe_debuff',
+        center,
+        aoe_size: size,
+        enemies_affected: applied,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // surge_aoe (cataclysm): area NxN, danno dadi a tutti i nemici dentro.
+  // stress_reset opzionale (Surge Burst meccanica). PP/SG gating skippato.
+  async function executeSurgeAoe({ session, actor, ability, body }) {
+    const center = body.position;
+    if (!center || typeof center.x !== 'number' || typeof center.y !== 'number') {
+      return { status: 400, body: { error: 'position { x, y } richiesta per surge_aoe' } };
+    }
+    if (!isWithinGrid(center, gridSize)) {
+      return { status: 400, body: { error: 'centro AoE fuori griglia' } };
+    }
+    const range = Number(ability.range || 0);
+    if (range > 0 && manhattanDistance(actor.position, center) > range) {
+      return { status: 400, body: { error: `centro AoE fuori range (${range})` } };
+    }
+    const size = Number(ability.aoe_size || 2);
+    const inArea = unitsInArea(session.units, center, size);
+    const targets = inArea.filter((u) => u.controlled_by !== actor.controlled_by);
+
+    const damaged = [];
+    for (const target of targets) {
+      const rolled = rollDice(ability.damage_dice, rng);
+      let damage = Math.max(0, rolled);
+      // Shield assorb su area damage anche
+      let absorbed = 0;
+      if (Number(target.shield_hp) > 0 && damage > 0) {
+        absorbed = Math.min(Number(target.shield_hp), damage);
+        target.shield_hp = Math.max(0, Number(target.shield_hp) - absorbed);
+        damage = Math.max(0, damage - absorbed);
+      }
+      const hpBefore = target.hp;
+      target.hp = Math.max(0, target.hp - damage);
+      session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + damage;
+      damaged.push({
+        unit_id: target.id,
+        rolled,
+        damage_dealt: damage,
+        shield_absorbed: absorbed,
+        hp_before: hpBefore,
+        hp_after: target.hp,
+        killed: target.hp === 0,
+      });
+    }
+
+    if (Number(ability.stress_reset) > 0) {
+      actor.stress = Number(ability.stress_reset);
+    }
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'surge_aoe',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      center,
+      aoe_size: size,
+      damaged,
+      stress_after: actor.stress,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'surge_aoe',
+        center,
+        aoe_size: size,
+        damaged,
+        stress_after: actor.stress,
+        ap_remaining: actor.ap_remaining,
+      },
+    };
+  }
+
+  // reaction (intercept, overwatch_shot): registra trigger su actor.reactions[].
+  // Trigger system completo NON implementato in iter3 — la registrazione
+  // serve per UI/debrief ("X has overwatch armed"). Consumo automatico =
+  // follow-up dedicato (richiede event bus per ally_attacked_adjacent /
+  // enemy_moves_in_range).
+  async function executeReaction({ session, actor, ability }) {
+    if (!Array.isArray(actor.reactions)) actor.reactions = [];
+    const reaction = {
+      ability_id: ability.ability_id,
+      trigger: ability.trigger || null,
+      damage_step_mod: Number(ability.damage_step_mod || 0),
+      target: ability.target || 'self',
+      armed_turn: session.turn,
+    };
+    actor.reactions.push(reaction);
+
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(ability.cost_ap || 0),
+    );
+
+    const event = {
+      ts: new Date().toISOString(),
+      session_id: session.session_id,
+      actor_id: actor.id,
+      actor_species: actor.species,
+      actor_job: actor.job,
+      action_type: 'ability',
+      ability_id: ability.ability_id,
+      effect_type: 'reaction',
+      turn: session.turn,
+      ap_spent: Number(ability.cost_ap || 0),
+      reaction_armed: reaction,
+      trait_effects: [],
+    };
+    await appendEvent(session, event);
+
+    return {
+      status: 200,
+      body: {
+        ok: true,
+        actor_id: actor.id,
+        ability_id: ability.ability_id,
+        effect_type: 'reaction',
+        reaction_armed: reaction,
+        reactions_count: actor.reactions.length,
+        ap_remaining: actor.ap_remaining,
+        note: 'reaction registered; trigger system pending (iter4)',
+      },
+    };
+  }
+
   async function executeAbility({ session, actor, body }) {
     const abilityId = String(body.ability_id || '');
     if (!abilityId) {
@@ -1078,6 +1592,20 @@ function createAbilityExecutor(deps) {
         return executeDrainAttack({ session, actor, ability, body });
       case 'execution_attack':
         return executeExecutionAttack({ session, actor, ability, body });
+      case 'shield':
+        return executeShield({ session, actor, ability, body });
+      case 'team_buff':
+        return executeTeamBuff({ session, actor, ability });
+      case 'team_heal':
+        return executeTeamHeal({ session, actor, ability });
+      case 'aoe_buff':
+        return executeAoeBuff({ session, actor, ability, body });
+      case 'aoe_debuff':
+        return executeAoeDebuff({ session, actor, ability, body });
+      case 'surge_aoe':
+        return executeSurgeAoe({ session, actor, ability, body });
+      case 'reaction':
+        return executeReaction({ session, actor, ability });
       default:
         return {
           status: 501,

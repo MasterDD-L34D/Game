@@ -393,6 +393,14 @@ function createRoundBridge(deps) {
           const bonusKey = `${stat}_bonus`;
           if (unit[bonusKey] !== undefined) unit[bonusKey] = 0;
         }
+        // Shield ability: status.shield_buff scaduto → azzera shield_hp.
+        if (
+          unit.status.shield_buff !== undefined &&
+          Number(unit.status.shield_buff) <= 0 &&
+          unit.shield_hp
+        ) {
+          unit.shield_hp = 0;
+        }
       }
     }
 

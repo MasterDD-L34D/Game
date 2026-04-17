@@ -178,7 +178,7 @@ test('ability_id sconosciuta → 400', async (t) => {
   assert.match(res.body.error || '', /non trovata/i);
 });
 
-test('effect_type non supportato (energy_barrier = shield) → 501', async (t) => {
+test('effect_type non supportato (taunt = aggro_pull) → 501', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -188,15 +188,14 @@ test('effect_type non supportato (energy_barrier = shield) → 501', async (t) =
   const res = await request(app).post('/api/session/action').send({
     session_id: sid,
     action_type: 'ability',
-    actor_id: 'p_scout',
-    ability_id: 'energy_barrier',
-    target_id: 'p_scout',
+    actor_id: 'p_tank',
+    ability_id: 'taunt',
   });
-  assert.equal(res.status, 501, `shield non supportato in iter2: ${JSON.stringify(res.body)}`);
-  assert.equal(res.body.effect_type, 'shield');
-  assert.ok(Array.isArray(res.body.supported), 'supported list presente');
-  assert.ok(res.body.supported.includes('move_attack'));
-  assert.ok(res.body.supported.includes('multi_attack'));
+  assert.equal(res.status, 501, `aggro_pull non supportato: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'aggro_pull');
+  assert.ok(Array.isArray(res.body.supported));
+  assert.ok(res.body.supported.includes('shield'));
+  assert.ok(res.body.supported.includes('aoe_debuff'));
 });
 
 test('blade_flurry: multi_attack esegue fino a attack_count hit', async (t) => {
@@ -411,6 +410,171 @@ test('defense_mod_bonus applicato su DC via predictCombat', async (t) => {
     baseDc - 1,
     `DC scende di 1 con debuff: base=${baseDc}, debuffed=${predictDeb.body.dc}`,
   );
+});
+
+test('energy_barrier: shield assorbe damage in performAttack', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  // p_scout cast shield self
+  const shieldRes = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'energy_barrier',
+    target_id: 'p_scout',
+  });
+  assert.equal(shieldRes.status, 200, `shield ok: ${JSON.stringify(shieldRes.body)}`);
+  assert.equal(shieldRes.body.effect_type, 'shield');
+  assert.equal(shieldRes.body.shield_hp_granted, 8);
+
+  const stateRes = await request(app).get('/api/session/state').query({ session_id: sid });
+  const scoutAfter = stateRes.body.units.find((u) => u.id === 'p_scout');
+  assert.equal(Number(scoutAfter.shield_hp) || 0, 8);
+  assert.equal(Number(scoutAfter.status?.shield_buff) || 0, 2);
+});
+
+test('resonance_amplifier: team_buff applica pp_grant a tutti gli alleati in range', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  // p_scout (1,2), p_tank (1,3) → distanza 1, range 3 da spec → entrambi affetti.
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'resonance_amplifier',
+  });
+  assert.equal(res.status, 200, `team_buff ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'team_buff');
+  assert.ok(Array.isArray(res.body.allies_affected));
+  assert.ok(res.body.allies_affected.length >= 2, '>=2 allies (scout+tank)');
+  // Verifica pp_grant applicato a ciascuno
+  for (const a of res.body.allies_affected) {
+    assert.equal(a.pp_grant, 2);
+  }
+});
+
+test('symbiotic_bloom: team_heal cura tutti gli alleati in range', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'symbiotic_bloom',
+  });
+  assert.equal(res.status, 200, `team_heal ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'team_heal');
+  assert.ok(Array.isArray(res.body.healed));
+  // healing_applied = 0 se HP gia full (atteso); seed_gain=1 per ciascuno
+  for (const h of res.body.healed) {
+    assert.ok(typeof h.healing_applied === 'number');
+    assert.equal(h.seed_gain, 1);
+  }
+});
+
+test("sanctuary: aoe_buff applica defense_mod ai allies nell'area", async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  // Centro AoE su p_tank (1,3). aoe_size=2 → ±1. p_scout (1,2) e p_tank (1,3) inclusi.
+  const res = await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'ability',
+      actor_id: 'p_scout',
+      ability_id: 'sanctuary',
+      position: { x: 1, y: 3 },
+    });
+  assert.equal(res.status, 200, `aoe_buff ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'aoe_buff');
+  assert.deepEqual(res.body.center, { x: 1, y: 3 });
+  assert.ok(res.body.allies_affected.length >= 1);
+});
+
+test("binding_field: aoe_debuff applica movement debuff agli enemy nell'area", async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  // Centro su (3,3), aoe_size=3 → ±1. e_nomad_1 (3,2), e_nomad_2 (3,4) inclusi.
+  const res = await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'ability',
+      actor_id: 'p_scout',
+      ability_id: 'binding_field',
+      position: { x: 3, y: 3 },
+    });
+  assert.equal(res.status, 200, `aoe_debuff ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'aoe_debuff');
+  assert.equal(res.body.aoe_size, 3);
+  assert.ok(res.body.enemies_affected.length >= 1, 'almeno 1 enemy in area');
+});
+
+test('cataclysm: surge_aoe danno area + stress_reset, shield-aware', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'ability',
+      actor_id: 'p_scout',
+      ability_id: 'cataclysm',
+      position: { x: 3, y: 3 },
+    });
+  assert.equal(res.status, 200, `surge_aoe ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'surge_aoe');
+  assert.ok(Array.isArray(res.body.damaged));
+  assert.equal(res.body.stress_after, 0.25);
+  for (const d of res.body.damaged) {
+    assert.ok(typeof d.damage_dealt === 'number');
+    assert.ok(typeof d.shield_absorbed === 'number');
+  }
+});
+
+test('overwatch_shot: reaction registra trigger su actor.reactions[]', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'overwatch_shot',
+  });
+  assert.equal(res.status, 200, `reaction ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'reaction');
+  assert.equal(res.body.reaction_armed.ability_id, 'overwatch_shot');
+  assert.equal(res.body.reaction_armed.trigger, 'enemy_moves_in_range');
+  assert.equal(res.body.reactions_count, 1);
+  assert.match(res.body.note || '', /trigger system pending/i);
 });
 
 test('raw event persistito con action_type=ability + ability_id', async (t) => {

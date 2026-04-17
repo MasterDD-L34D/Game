@@ -236,6 +236,15 @@ function createSessionRouter(options = {}) {
       if (parryResult && parryResult.success) {
         target.guardia = Math.max(0, Number(target.guardia) - 1);
       }
+      // Ability shield (energy_barrier): assorbi damage da target.shield_hp
+      // prima di applicarlo a HP. Status target.status.shield_buff tracking
+      // duration; al decay roundBridge azzera shield_hp.
+      if (Number(target.shield_hp) > 0 && damageDealt > 0) {
+        const absorbed = Math.min(Number(target.shield_hp), damageDealt);
+        target.shield_hp = Math.max(0, Number(target.shield_hp) - absorbed);
+        damageDealt = Math.max(0, damageDealt - absorbed);
+        target.shield_absorbed_last = absorbed;
+      }
       // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
       // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
       // dagli eventi per restare stateless.
