@@ -96,9 +96,48 @@ p_tank: skip                           # passa turno
 
 ### Parser
 
-- Master/agent DM deve rifiutare input non-canonico con messaggio: `SYNTAX: <actor_id>: [move [x,y]] [atk <target_id>] | skip`.
+- Master/agent DM deve rifiutare input non-canonico con messaggio: `SYNTAX: <actor_id>: [move [x,y]] [atk <target_id>] | skip | ability <ability_id> [target=<target_id>]`.
 - Parser di riferimento: `apps/backend/routes/session.js` (accetta già `{actor_id, action_type, target_id, position}`).
 - Testi liberi ("vai a nord", "colpisci il nemico vicino") NON accettati — Master traduce in canonico prima.
+
+## Ability syntax (FRICTION #4)
+
+**Formato canonico per job abilities** (dash_strike, taunt, binding_field, etc.):
+
+```
+<actor_id>: ability <ability_id> target=<target_id>
+<actor_id>: ability <ability_id>  # su self-target o no-target
+```
+
+### Esempi validi
+
+```
+p_scout: ability dash_strike target=e_nomad_1   # Skirmisher hit-and-run
+p_tank: ability taunt                           # Vanguard aggro pull (no explicit target)
+p_scout: ability evasive_maneuver               # self-target buff
+p_tank: ability fortify                         # self buff 2 turni
+```
+
+### Catalog abilities
+
+**Runtime discoverability**: `GET /api/jobs` per lista job, `GET /api/jobs/:job_id` per dettaglio con cost/trigger.
+
+**7 job base**: `skirmisher`, `vanguard`, `warden`, `artificer`, `invoker`, `ranger`, `harvester`. Ogni job ha 2 R1 abilities + 1 R2 (`unlock_r1_1`, `unlock_r1_2`, `unlock_r2`). Spec completa in [`data/core/jobs.yaml`](../../data/core/jobs.yaml).
+
+### Cost spec per ability
+
+Ogni ability specifica:
+
+- `cost_ap`: AP consumati (tipico 0-2)
+- `cost_pi`: Punti Investimento per unlock (3 R1, 8 R2) — meta-progression, non runtime
+- `cost_pt` / `cost_pp` / `cost_sg` / `cost_seed`: risorse rigenerabili in-match (opzionali)
+- `effect_type`: es. `move_attack`, `attack_move`, `multi_attack`, `buff`, `debuff`, `heal`, `shield`, `aoe_debuff`, `reaction`, `ranged_attack`, `execution_attack`
+
+### Enforcement
+
+- **Runtime executor**: TODO follow-up PR (action_type `ability` in session route + effect dispatcher per `effect_type`).
+- **Discoverability oggi**: Master/agent DM può curlare `GET /api/jobs/:job_id` durante playtest per lookup rapido.
+- **Fallback playtest senza executor**: Master applica manualmente effect (es. `dash_strike` = move 2 celle + attack con +1 mod se target non-adjacent a inizio turno), traccia evento raw come `ability` action_type placeholder.
 
 ## Ordine turno (initiative)
 
