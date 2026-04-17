@@ -102,6 +102,9 @@ const TUTORIAL_SCENARIO_04 = {
 function buildTutorialUnits() {
   return [
     // --- Player units ---
+    // NOTE: tutorial_01 eccezione canonical: ap=3 (vs SoT ap_max=2) per
+    // onboarding easy. Tutorial 02-05 allineati a ap=2. Vedi
+    // docs/core/11-REGOLE_D20_TV.md §"AP budget canonico".
     {
       id: 'p_scout',
       species: 'dune_stalker',
@@ -178,14 +181,15 @@ function buildTutorialUnits() {
 // dare scelta tattica.
 function buildTutorialUnits02() {
   return [
-    // Player units (stessi del tutorial 01)
+    // Player units (stessi del tutorial 01 ma ap=2 SoT canonical; 01 resta
+    // ap=3 come "tutorial_easy" eccezione per onboarding).
     {
       id: 'p_scout',
       species: 'dune_stalker',
       job: 'skirmisher',
       traits: ['zampe_a_molla'],
       hp: 10,
-      ap: 3,
+      ap: 2,
       mod: 3,
       dc: 12,
       guardia: 1,
@@ -199,7 +203,7 @@ function buildTutorialUnits02() {
       job: 'vanguard',
       traits: ['pelle_elastomera'],
       hp: 12,
-      ap: 3,
+      ap: 2,
       mod: 2,
       dc: 13,
       guardia: 1,
@@ -270,13 +274,14 @@ function buildTutorialUnits02() {
 // metadata: applicare danno e' wiring futuro nel turn/end handler.
 function buildTutorialUnits03() {
   return [
+    // Player units — ap=2 SoT canonical (da tutorial 02 in poi).
     {
       id: 'p_scout',
       species: 'dune_stalker',
       job: 'skirmisher',
       traits: ['zampe_a_molla'],
       hp: 10,
-      ap: 3,
+      ap: 2,
       mod: 3,
       dc: 12,
       guardia: 1,
@@ -290,7 +295,7 @@ function buildTutorialUnits03() {
       job: 'vanguard',
       traits: ['pelle_elastomera'],
       hp: 12,
-      ap: 3,
+      ap: 2,
       mod: 2,
       dc: 13,
       guardia: 1,
@@ -341,13 +346,14 @@ function buildTutorialUnits03() {
 // (trait denti_seghettati) + 3 hazard tiles distribuiti.
 function buildTutorialUnits04() {
   return [
+    // Player units — ap=2 SoT canonical.
     {
       id: 'p_scout',
       species: 'dune_stalker',
       job: 'skirmisher',
       traits: ['zampe_a_molla'],
       hp: 10,
-      ap: 3,
+      ap: 2,
       mod: 3,
       dc: 12,
       guardia: 1,
@@ -361,7 +367,7 @@ function buildTutorialUnits04() {
       job: 'vanguard',
       traits: ['pelle_elastomera'],
       hp: 12,
-      ap: 3,
+      ap: 2,
       mod: 2,
       dc: 13,
       guardia: 1,
@@ -430,13 +436,15 @@ function buildTutorialUnits04() {
 // con HP altissimo, ferocia (crit kill resets), martello_osseo (bonus crit).
 function buildTutorialUnits05() {
   return [
+    // Player units — ap=2 SoT canonical anche per BOSS (asimmetria solo
+    // su enemy stats, non via budget turn).
     {
       id: 'p_scout',
       species: 'dune_stalker',
       job: 'skirmisher',
       traits: ['zampe_a_molla'],
       hp: 12,
-      ap: 3,
+      ap: 2,
       mod: 4,
       dc: 13,
       guardia: 1,
@@ -450,7 +458,7 @@ function buildTutorialUnits05() {
       job: 'vanguard',
       traits: ['pelle_elastomera'],
       hp: 14,
-      ap: 3,
+      ap: 2,
       mod: 3,
       dc: 14,
       guardia: 2,
