@@ -303,6 +303,45 @@ function createRoundBridge(deps) {
     resetRoundAttackTracker(session);
     session.roundState = adaptSessionToRoundState(session);
 
+    // Hazard tiles: applica danno a unita' che terminano il turno su tile pericolosi.
+    // Es. enc_tutorial_03 fumarole. Skip se nessun hazard configurato.
+    const hazardEvents = [];
+    if (Array.isArray(session.hazard_tiles) && session.hazard_tiles.length > 0) {
+      for (const unit of session.units) {
+        if (!unit || Number(unit.hp || 0) <= 0) continue;
+        const hazard = session.hazard_tiles.find(
+          (h) =>
+            Number(h.x) === Number(unit.position?.x) && Number(h.y) === Number(unit.position?.y),
+        );
+        if (!hazard) continue;
+        const dmg = Number(hazard.damage) || 1;
+        const hpBefore = unit.hp;
+        unit.hp = Math.max(0, unit.hp - dmg);
+        session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+        await appendEvent(session, {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          action_type: 'hazard',
+          actor_id: hazard.type || 'hazard',
+          target_id: unit.id,
+          turn: session.turn,
+          damage_dealt: dmg,
+          result: 'hit',
+          hp_before: hpBefore,
+          hp_after: unit.hp,
+          hazard_type: hazard.type || 'unknown',
+          position: { x: hazard.x, y: hazard.y },
+        });
+        hazardEvents.push({
+          unit_id: unit.id,
+          hazard_type: hazard.type,
+          damage: dmg,
+          hp_after: unit.hp,
+          killed: unit.hp === 0,
+        });
+      }
+    }
+
     const bleedingEvents = [];
     for (const unit of session.units) {
       if (!unit || !unit.status || Number(unit.hp || 0) <= 0) continue;
@@ -517,6 +556,7 @@ function createRoundBridge(deps) {
       ia_actions: iaActions,
       ia_action: iaActions[0] || null,
       side_effects: bleedingEvents,
+      hazard_events: hazardEvents,
       state: publicSessionView(session),
       round_wrapper: true,
       round_phase: session.roundState.round_phase,

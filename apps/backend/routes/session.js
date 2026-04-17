@@ -577,6 +577,10 @@ function createSessionRouter(options = {}) {
         // Gate SIS intent pool + reinforcement budget via computeSistemaTier().
         // Updated da roundOrchestrator/session handlers su victory/KO events.
         sistema_pressure: 0,
+        // Hazard tiles dal scenario (es. enc_tutorial_03 fumarole).
+        // Lista {x, y, damage, type}. Applicato a fine turno via
+        // applyHazardDamage in handleTurnEndViaRound.
+        hazard_tiles: Array.isArray(req.body?.hazard_tiles) ? req.body.hazard_tiles : [],
       };
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
