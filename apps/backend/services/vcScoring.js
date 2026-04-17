@@ -516,9 +516,19 @@ function computeMbtiAxes(raw) {
 
 /**
  * P4: derive MBTI 4-letter type from axes values.
- * Threshold: 0.5 (center) — above = first letter, below = second letter.
+ * VC Calibration iter1 (2026-04-17): dead-band 0.45-0.55 ritorna 'X'
+ * per evitare false classification da rumore in sessioni corte.
  * Returns null if any axis is null.
  */
+const MBTI_DEAD_BAND_LOW = 0.45;
+const MBTI_DEAD_BAND_HIGH = 0.55;
+
+function letterOrUncertain(value, lo, hi) {
+  if (value < MBTI_DEAD_BAND_LOW) return lo;
+  if (value > MBTI_DEAD_BAND_HIGH) return hi;
+  return 'X'; // dead-band: indeterminato
+}
+
 function deriveMbtiType(axes) {
   if (!axes) return null;
   const get = (axis) => (axis && axis.value !== undefined ? axis.value : null);
@@ -528,10 +538,10 @@ function deriveMbtiType(axes) {
   const jp = get(axes.J_P);
   if (ei === null || sn === null || tf === null || jp === null) return null;
   return (
-    (ei >= 0.5 ? 'I' : 'E') +
-    (sn >= 0.5 ? 'S' : 'N') +
-    (tf >= 0.5 ? 'T' : 'F') +
-    (jp >= 0.5 ? 'J' : 'P')
+    letterOrUncertain(ei, 'E', 'I') +
+    letterOrUncertain(sn, 'N', 'S') +
+    letterOrUncertain(tf, 'F', 'T') +
+    letterOrUncertain(jp, 'P', 'J')
   );
 }
 

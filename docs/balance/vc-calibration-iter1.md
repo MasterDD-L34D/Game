@@ -1,6 +1,6 @@
 ---
-title: VC Scoring Calibration — Iteration 1 (analysis)
-doc_status: draft
+title: VC Scoring Calibration — Iteration 1 (analysis + applied)
+doc_status: active
 doc_owner: master-dd
 workstream: dataset-pack
 last_verified: '2026-04-17'
@@ -10,6 +10,8 @@ review_cycle_days: 30
 ---
 
 # VC Scoring Calibration — Iteration 1
+
+> **Stato**: proposte applicate 2026-04-17. Vedi sezione "Applied changes" in fondo.
 
 Prima analisi VC scoring vs dati osservati nei batch playtest tutorial. Iterazione conservativa, **non applicare modifiche al config senza N≥50 sessioni varie**.
 
@@ -87,3 +89,35 @@ Mirror del pattern `Cacciatore` (gia' usa `attacks_started>=5`).
 - `data/core/telemetry.yaml`
 - `tests/api/batchPlaytest.test.js`
 - `tests/api/firstPlaytest.test.js`
+
+## Applied changes (2026-04-17)
+
+### #1 Ennea threshold lower (data/core/telemetry.yaml)
+
+- `Coordinatore(2)`: cohesion>0.70 → **>0.55**
+- `Esploratore(7)`: explore>0.70 → **>0.45**
+- `Architetto(5)`: setup>0.70 → **>0.50**
+- `Stoico(9)`: tilt>0.65 (invariato — tilt non implementato)
+
+### #2 MBTI dead-band (apps/backend/services/vcScoring.js)
+
+`deriveMbtiType` ora usa dead-band 0.45-0.55 → ritorna `X` per asse indeterminato. Esempi:
+
+- `INTJ`: tutti gli assi nettamente fuori dead-band
+- `XNTJ`: E/I nel dead-band, asse N/T/J chiari
+- `XXXX`: classification incerta, sessione troppo corta
+
+### #3 Risk null weights — NOT applied
+
+Decisione: non azzerare `self_heal` e `overcap_guard` in YAML. Servono per quando heal/overcap saranno derivati. Aspetto piu' dati.
+
+### #4 insufficient_data guard — NOT applied
+
+Aggiungere `min_attacks` su Ennea triggers richiede update parser whitelist in vcScoring. Rinviato a iter2 con piu' contesto.
+
+## Iter2 todo
+
+- Implementare `tilt` window model (richiede storico per-round)
+- Derivare `formation_time`, `support_actions`, `cover_before_attack`
+- Run batch su tutti e 3 gli encounter (1, 2, 3) e aggregare N≥30
+- Applicare proposta #4 (insufficient_data guard) se Ennea triggers troppo rumorosi

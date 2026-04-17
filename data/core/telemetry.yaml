@@ -53,11 +53,14 @@ mbti_axes:
   T_F: {formula: "1 - 0.5*utility_actions + 0.5*support_bias"}
   J_P: {formula: "1 - 0.6*setup - 0.2*time_to_commit + 0.2*last_second"}
 ennea_themes:
+  # VC Calibration iter1 (2026-04-17): soglie abbassate per indici
+  # con weight parziali (cohesion/explore/setup/tilt). Vedi
+  # docs/balance/vc-calibration-iter1.md per analisi.
   - {id: "Conquistatore(3)", when: "aggro>0.65 && risk>0.55"}
-  - {id: "Coordinatore(2)",  when: "cohesion>0.70"}
-  - {id: "Esploratore(7)",   when: "explore>0.70"}
-  - {id: "Architetto(5)",    when: "setup>0.70"}
-  - {id: "Stoico(9)",        when: "tilt>0.65"}
+  - {id: "Coordinatore(2)",  when: "cohesion>0.55"}     # da 0.70 (formation_time/support_actions null)
+  - {id: "Esploratore(7)",   when: "explore>0.45"}       # da 0.70 (time_in_fow/optionals null)
+  - {id: "Architetto(5)",    when: "setup>0.50"}         # da 0.70 (overwatch/trap/cover null)
+  - {id: "Stoico(9)",        when: "tilt>0.65"}          # tilt non implementato — soglia invariata
   # SPRINT_005 fase 2: archetipo mordi-e-fuggi.
   # Trigger multi-criterio che premia il giocatore mobile:
   #   evasion_ratio > 0.6        → la maggioranza degli attacchi e' seguita da ritirata
