@@ -377,16 +377,17 @@ function buildTutorialUnits04() {
     },
     // Lanciere bleeding: priority target (denti_seghettati causa emorragia
     // su hit). Player deve sceglire se ucciderlo subito o tankare il bleed.
-    // v0.3 final: hp 6 (buff retained), mod 3 (revert from 4).
-    // Calibrazione iter: iter0 (hp 5 mod 3) 60% | iter1 (hp 6 mod 4) aggregate 23% (sotto band 30-50%).
-    // iter_final (hp 6 mod 3): target 35-45% — tiene HP buff (più tempo threat) ma revert mod eccessivo.
+    // v0.3 final (pre ap=2): hp 6 mod 3 → 20% win (sotto band 30-45%).
+    // v0.5 post ap=2 (M3 validation): hp 6→5, compensare 33% meno AP player
+    //   per riportare in band. Calibrazione iter: iter0 (hp 5 mod 3) 60% @ ap=3;
+    //   @ ap=2 hp 5 atteso ~35-45% (band).
     // v0.4 P6 human-balance: ai_profile=aggressive → Utility AI per priority target behavior.
     {
       id: 'e_lanciere',
       species: 'guardiano_pozza',
       job: 'skirmisher',
       traits: ['denti_seghettati'],
-      hp: 6,
+      hp: 5,
       ap: 2,
       mod: 3,
       dc: 12,
@@ -397,13 +398,13 @@ function buildTutorialUnits04() {
       ai_profile: 'aggressive',
       facing: 'W',
     },
-    // Corriere 1: rapido ma fragile
+    // Corriere 1: rapido ma fragile (hp 4→3 post ap=2).
     {
       id: 'e_corriere_1',
       species: 'guardiano_pozza',
       job: 'skirmisher',
       traits: [],
-      hp: 4,
+      hp: 3,
       ap: 3,
       mod: 2,
       dc: 11,
@@ -413,13 +414,13 @@ function buildTutorialUnits04() {
       controlled_by: 'sistema',
       facing: 'W',
     },
-    // Corriere 2: stesso pattern
+    // Corriere 2: stesso pattern (hp 4→3 post ap=2).
     {
       id: 'e_corriere_2',
       species: 'guardiano_pozza',
       job: 'skirmisher',
       traits: [],
-      hp: 4,
+      hp: 3,
       ap: 3,
       mod: 2,
       dc: 11,
@@ -467,15 +468,16 @@ function buildTutorialUnits05() {
       facing: 'E',
     },
     // BOSS: HP altissimo, mod 3, dc 14, traits offensivi.
-    // v0.3 tuning: hp 10→9 — baseline 1/10 con 9 timeout, Apex finale 1.9 HP. Player quasi vinceva ma timeout.
-    // Riduzione minima (-1 HP) chiude gap senza rompere target band 10-30%.
+    // v0.3 (pre ap=2): hp 9 → 40% win (band 15-30%, leggermente sopra).
+    // v0.5 post ap=2 M3: hp 9→11 (+22%). Player ap ridotto da 3→2 rompe
+    //   bilancio precedente — compensazione minima mantenendo band boss.
     // v0.4 P6 human-balance: ai_profile=aggressive → Utility AI mandatory per boss (coordina mosse).
     {
       id: 'e_apex',
       species: 'apex_predatore',
       job: 'vanguard',
       traits: ['martello_osseo', 'ferocia'],
-      hp: 9,
+      hp: 11,
       ap: 3,
       mod: 3,
       dc: 13,
