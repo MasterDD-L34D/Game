@@ -120,8 +120,13 @@ function normaliseUnitsPayload(raw) {
 
 function resolveAttack({ actor, target, rng }) {
   const die = rollD20(rng);
-  const roll = die + (actor.mod || 0);
-  const dc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
+  // Ability buff bonus temporanei (es. evasive_maneuver defense_mod +1,
+  // dash_strike attack_mod +1). Dormono come actor[stat]_bonus finche'
+  // status[stat]_buff > 0 (decadimento in sessionRoundBridge.clearExpiredBonuses).
+  const attackMod = Number(actor.mod || 0) + Number(actor.attack_mod_bonus || 0);
+  const roll = die + attackMod;
+  const baseDc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
+  const dc = Number(baseDc) + Number(target.defense_mod_bonus || 0);
   const mos = roll - dc;
   const hit = mos >= 0;
   let pt = 0;
@@ -144,8 +149,9 @@ function resolveAttack({ actor, target, rng }) {
  * @returns {{ simulations, hit_pct, crit_pct, fumble_pct, avg_mos, dc, attack_mod, avg_pt }}
  */
 function predictCombat(actor, target, n = 1000) {
-  const attackMod = actor.mod || 0;
-  const dc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
+  const attackMod = Number(actor.mod || 0) + Number(actor.attack_mod_bonus || 0);
+  const baseDc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
+  const dc = Number(baseDc) + Number(target.defense_mod_bonus || 0);
 
   let hits = 0;
   let crits = 0;

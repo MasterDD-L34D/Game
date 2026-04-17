@@ -384,6 +384,15 @@ function createRoundBridge(deps) {
           const v = Number(unit.status[key]);
           if (v > 0) unit.status[key] = v - 1;
         }
+        // Ability executor: quando status[<stat>_buff] scade (=0),
+        // azzera actor[<stat>_bonus]. Evita leak tra round.
+        for (const key of Object.keys(unit.status)) {
+          if (!key.endsWith('_buff')) continue;
+          if (Number(unit.status[key]) > 0) continue;
+          const stat = key.slice(0, -'_buff'.length);
+          const bonusKey = `${stat}_bonus`;
+          if (unit[bonusKey] !== undefined) unit[bonusKey] = 0;
+        }
       }
     }
 
