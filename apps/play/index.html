@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evo-Tactics — Play</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>🦴 Evo-Tactics</h1>
+        <div class="status">
+          <span id="turn-info">—</span>
+          <span id="active-info">—</span>
+        </div>
+      </header>
+      <main>
+        <section class="board">
+          <canvas id="grid" width="512" height="512"></canvas>
+          <div class="controls">
+            <button id="end-turn">Fine turno</button>
+            <button id="new-session">Nuova sessione</button>
+            <select id="scenario-select">
+              <option value="enc_tutorial_01">Tutorial 01 · Primi passi</option>
+              <option value="enc_tutorial_02">Tutorial 02 · Pattuglia</option>
+            </select>
+          </div>
+        </section>
+        <aside class="sidebar">
+          <h2>Unità</h2>
+          <ul id="units"></ul>
+          <h2>Log</h2>
+          <div id="log"></div>
+        </aside>
+      </main>
+      <footer>
+        <span id="selected-hint">Seleziona una tua unità per vedere azioni.</span>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
