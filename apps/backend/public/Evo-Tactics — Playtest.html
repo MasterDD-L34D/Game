@@ -813,7 +813,7 @@ function renderGrid() {
         cell.appendChild(marker);
       }
 
-      cell.addEventListener('click', () => onCellClick(x, y, u));
+      cell.addEventListener('click', (ev) => onCellClick(x, y, u, ev));
       grid.appendChild(cell);
     }
   }
@@ -855,8 +855,14 @@ function renderStats() {
    Click propria unità = seleziona quella unità per pianificare.
    Click nemico/cella = dichiara intent per l'unità selezionata.
    "Risolvi Round" = commit + auto_resolve di TUTTI gli intent (player + SIS). */
-async function onCellClick(x, y, unit) {
+async function onCellClick(x, y, unit, ev) {
   if (!state || !isMyTurn()) return;
+
+  // Shift-click su propria unità con intent pendente → cancella intent
+  if (ev && ev.shiftKey && unit && isPlayerUnit(unit) && pendingIntents[unit.id]) {
+    await clearPlayerIntent(unit.id);
+    return;
+  }
 
   // click su propria unità → seleziona quella (per pianificarla)
   if (unit && isPlayerUnit(unit)) {
@@ -865,7 +871,7 @@ async function onCellClick(x, y, unit) {
       await ensurePlanningStarted();
       const intent = pendingIntents[selected];
       setHint(intent
-        ? formatIntentHint(selected, intent)
+        ? formatIntentHint(selected, intent) + ' (shift-click unit per cancellare)'
         : `Pianifica ${unitLabel(selected)}: clicca nemico per attaccare o cella per muoverti`);
     } else {
       setHint('Clicca la tua unità per pianificare');
@@ -930,6 +936,19 @@ async function ensurePlanningStarted() {
     addLog('info', `⚡ Planning — SIS pianifica ${sisCount} intent${sisCount !== 1 ? 's' : ''} (nascosti)`);
     render();
   } catch(e) { setHint(`Errore planning: ${e.message}`); }
+}
+
+async function clearPlayerIntent(unitId) {
+  try {
+    await api(`/api/session/clear-intent/${encodeURIComponent(unitId)}`, {});
+    delete pendingIntents[unitId];
+    const who = unitLabel(unitId);
+    addLog('info', `❌ Ordine ${who} cancellato`);
+    const remaining = Object.keys(pendingIntents).length;
+    const total = playerUnits().length;
+    setHint(`Ordine ${who} cancellato — ${remaining}/${total} pianificate`);
+    render();
+  } catch(e) { setHint(`Errore clear: ${e.message}`); }
 }
 
 async function declarePlayerIntent(unitId, action) {
