@@ -14,7 +14,11 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const { loadTelemetryConfig, buildVcSnapshot } = require('../../apps/backend/services/vcScoring');
+const {
+  loadTelemetryConfig,
+  buildVcSnapshot,
+  deriveMbtiType,
+} = require('../../apps/backend/services/vcScoring');
 
 const CONFIG_PATH = path.resolve(__dirname, '..', '..', 'data', 'core', 'telemetry.yaml');
 const telemetryConfig = loadTelemetryConfig(CONFIG_PATH, {
@@ -348,4 +352,70 @@ test('buildVcSnapshot: turns_played = max(event.turn)', () => {
   const events = [makeAttackEvent({ turn: 3 }), makeAttackEvent({ turn: 7 })];
   const snapshot = buildVcSnapshot(makeSession({ events }), telemetryConfig);
   assert.equal(snapshot.meta.turns_played, 7);
+});
+
+// ─────────────────────────────────────────────────────────────────
+// deriveMbtiType dead-band (VC Calibration iter1 + bot fix 2026-04-17)
+// ─────────────────────────────────────────────────────────────────
+
+test('deriveMbtiType: axes tutti chiari → tipo 4-lettere', () => {
+  const axes = {
+    E_I: { value: 0.2 }, // < 0.45 → E
+    S_N: { value: 0.8 }, // > 0.55 → S
+    T_F: { value: 0.8 }, // > 0.55 → T
+    J_P: { value: 0.2 }, // < 0.45 → P
+  };
+  assert.equal(deriveMbtiType(axes), 'ESTP');
+});
+
+test('deriveMbtiType: axis null → null (no partial type)', () => {
+  const axes = {
+    E_I: { value: 0.2 },
+    S_N: { value: 0.8 },
+    T_F: null,
+    J_P: { value: 0.2 },
+  };
+  assert.equal(deriveMbtiType(axes), null);
+});
+
+test('deriveMbtiType: axis in dead-band → null (no X char in output)', () => {
+  // Bot review fix: dead-band axes MUST propagate null so mating fallback
+  // `partyMember.mbti_type || 'NEUTRA'` triggers correctly. Returning
+  // a string with 'X' would bypass fallback and cause compat lookup miss.
+  const axes = {
+    E_I: { value: 0.5 }, // dead-band
+    S_N: { value: 0.8 },
+    T_F: { value: 0.8 },
+    J_P: { value: 0.2 },
+  };
+  assert.equal(deriveMbtiType(axes), null);
+});
+
+test('deriveMbtiType: multipli dead-band → null', () => {
+  const axes = {
+    E_I: { value: 0.5 },
+    S_N: { value: 0.5 },
+    T_F: { value: 0.5 },
+    J_P: { value: 0.5 },
+  };
+  assert.equal(deriveMbtiType(axes), null);
+});
+
+test('deriveMbtiType: nessun X in output string (ever)', () => {
+  // Property test: per qualsiasi combinazione valid/dead-band, output
+  // non deve mai contenere 'X'.
+  const samples = [
+    { E_I: 0.1, S_N: 0.5, T_F: 0.5, J_P: 0.5 },
+    { E_I: 0.5, S_N: 0.1, T_F: 0.5, J_P: 0.5 },
+    { E_I: 0.5, S_N: 0.5, T_F: 0.1, J_P: 0.5 },
+    { E_I: 0.5, S_N: 0.5, T_F: 0.5, J_P: 0.1 },
+    { E_I: 0.45, S_N: 0.55, T_F: 0.5, J_P: 0.5 },
+  ];
+  for (const s of samples) {
+    const axes = Object.fromEntries(Object.entries(s).map(([k, v]) => [k, { value: v }]));
+    const type = deriveMbtiType(axes);
+    if (type !== null) {
+      assert.ok(!type.includes('X'), `type ${type} must not contain X`);
+    }
+  }
 });

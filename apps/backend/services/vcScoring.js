@@ -516,9 +516,14 @@ function computeMbtiAxes(raw) {
 
 /**
  * P4: derive MBTI 4-letter type from axes values.
- * VC Calibration iter1 (2026-04-17): dead-band 0.45-0.55 ritorna 'X'
- * per evitare false classification da rumore in sessioni corte.
- * Returns null if any axis is null.
+ * VC Calibration iter1 (2026-04-17): dead-band 0.45-0.55 considerato
+ * indeterminato per evitare false classification da rumore in sessioni corte.
+ *
+ * Returns null se (a) uno degli assi è null oppure (b) almeno un asse cade
+ * in dead-band. Rationale: downstream mating logic usa
+ * `partyMember.mbti_type || 'NEUTRA'` come fallback. Ritornare una stringa
+ * non-vuota (es. 'XNTJ') bypasserebbe il fallback e genererebbe lookup
+ * fallito nella compat table, distorcendo i compat modifiers silenziosamente.
  */
 const MBTI_DEAD_BAND_LOW = 0.45;
 const MBTI_DEAD_BAND_HIGH = 0.55;
@@ -526,7 +531,7 @@ const MBTI_DEAD_BAND_HIGH = 0.55;
 function letterOrUncertain(value, lo, hi) {
   if (value < MBTI_DEAD_BAND_LOW) return lo;
   if (value > MBTI_DEAD_BAND_HIGH) return hi;
-  return 'X'; // dead-band: indeterminato
+  return null; // dead-band: indeterminato → propaga null
 }
 
 function deriveMbtiType(axes) {
@@ -537,12 +542,14 @@ function deriveMbtiType(axes) {
   const tf = get(axes.T_F);
   const jp = get(axes.J_P);
   if (ei === null || sn === null || tf === null || jp === null) return null;
-  return (
-    letterOrUncertain(ei, 'E', 'I') +
-    letterOrUncertain(sn, 'N', 'S') +
-    letterOrUncertain(tf, 'F', 'T') +
-    letterOrUncertain(jp, 'P', 'J')
-  );
+  const letters = [
+    letterOrUncertain(ei, 'E', 'I'),
+    letterOrUncertain(sn, 'N', 'S'),
+    letterOrUncertain(tf, 'F', 'T'),
+    letterOrUncertain(jp, 'P', 'J'),
+  ];
+  if (letters.some((l) => l === null)) return null;
+  return letters.join('');
 }
 
 // ----------- parser whitelisted per ennea_themes[].when --------------
