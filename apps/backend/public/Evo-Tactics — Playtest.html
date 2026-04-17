@@ -194,6 +194,25 @@
     50% { opacity: .65; }
   }
 
+  /* Pannello ordini pendenti */
+  .orders-list { display: flex; flex-direction: column; gap: 4px; }
+  .orders-empty { color: var(--muted); font-size: 11px; font-style: italic; padding: 4px 0; }
+  .order-row {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; padding: 4px 6px;
+    background: rgba(59,139,212,.08);
+    border: 1px solid rgba(59,139,212,.25);
+    border-radius: 4px;
+  }
+  .order-row .order-label { color: var(--p1-light); font-weight: 700; min-width: 22px; }
+  .order-row .order-text { flex: 1; color: var(--text); }
+  .order-row .order-clear {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--miss); font-size: 10px; line-height: 1;
+    padding: 2px 5px; border-radius: 3px; cursor: pointer;
+  }
+  .order-row .order-clear:hover { background: rgba(186,117,23,.2); border-color: var(--miss); }
+
   /* token unità */
   .token {
     width: 36px; height: 36px;
@@ -512,6 +531,14 @@
       </div>
     </div>
 
+    <!-- Ordini pendenti (planning phase) -->
+    <div class="panel" id="panel-orders">
+      <div class="panel-title">Ordini pendenti</div>
+      <div id="orders-list" class="orders-list">
+        <div class="orders-empty">Pianifica per vedere gli ordini</div>
+      </div>
+    </div>
+
     <!-- SPRINT_017: Scenari -->
     <div class="panel">
       <div class="panel-title">Scenario</div>
@@ -724,6 +751,7 @@ function render() {
   if (!state) return;
   renderGrid();
   renderStats();
+  renderOrdersPanel();
   const isPlayerTurn = isMyTurn();
   document.getElementById('btn-end-turn').disabled = !isPlayerTurn;
   const badge = document.getElementById('turn-badge');
@@ -858,6 +886,37 @@ function renderStatusRow(targetId, unit) {
   el.innerHTML = statuses.map(s =>
     `<span class="status-chip ${s.key}">${STATUS_EMOJI[s.key]} ${s.key} <span class="status-chip-dur">${s.turns}t</span></span>`
   ).join('');
+}
+
+function renderOrdersPanel() {
+  const el = document.getElementById('orders-list');
+  if (!el) return;
+  const players = playerUnits();
+  const total = players.length;
+  if (!planningActive || total === 0) {
+    el.innerHTML = '<div class="orders-empty">Pianifica per vedere gli ordini</div>';
+    return;
+  }
+  const rows = players.map((u) => {
+    const intent = pendingIntents[u.id];
+    const label = unitLabel(u.id);
+    if (!intent) {
+      return `<div class="order-row" style="opacity:.55">
+        <span class="order-label">${label}</span>
+        <span class="order-text">— in attesa</span>
+      </div>`;
+    }
+    let desc = '';
+    if (intent.type === 'attack') desc = `⚔ attacca ${targetDescription(intent.target_id)}`;
+    else if (intent.type === 'move') desc = `🚶 (${intent.move_to.x},${intent.move_to.y})`;
+    else desc = intent.type;
+    return `<div class="order-row">
+      <span class="order-label">${label}</span>
+      <span class="order-text">${desc}</span>
+      <button class="order-clear" title="Cancella ordine" onclick="clearPlayerIntent('${u.id}')">✕</button>
+    </div>`;
+  });
+  el.innerHTML = rows.join('');
 }
 
 function renderStats() {
