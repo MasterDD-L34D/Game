@@ -1141,35 +1141,44 @@ Questa sezione traccia le 28 domande aperte dai draft GDD e il loro stato di ris
 
 ### 19.4 Decisioni Gameplay / Narrative / UX
 
-| #   | Domanda                     | Decisione                                                                                                                                                                                           |
-| --- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 13  | Editor livelli              | YAML manuale                                                                                                                                                                                        |
-| 14  | Procedurale vs hand-crafted | Hand-crafted + wave procedurale                                                                                                                                                                     |
-| 15  | Formula difficulty          | §15.4 SoT                                                                                                                                                                                           |
-| 16  | Livelli co-op/PvP           | **Solo co-op vs Sistema al lancio** (PvP/raid post-lancio)                                                                                                                                          |
-| 17  | Schema AJV encounter        | `schemas/evo/encounter.schema.json`                                                                                                                                                                 |
-| 18  | Procedurale vs scritta      | Mix: Ink briefing + Director/StressWave                                                                                                                                                             |
-| 19  | Voice-over                  | Solo testo                                                                                                                                                                                          |
-| 20  | Identità narrativa          | **Pattern A (Sistema-centric)**: creature anonime + Sistema unica voce Ink multi-profile (Calm→Apex). Hooks per Pattern B (Overlord + Custodi named, Descent-style) se playtest chiede calore umano |
-| 21  | Tool narrativo              | Ink (inkjs)                                                                                                                                                                                         |
-| 22  | Accessibilità               | Colorblind + difficoltà scalabile lancio, TTS post-lancio                                                                                                                                           |
-| 23  | Deaf indicators             | Indicatori visivi per eventi sonori                                                                                                                                                                 |
-| 24  | Tutorial                    | Integrato nei primi encounter                                                                                                                                                                       |
-| 25  | Matchmaking                 | In lobby                                                                                                                                                                                            |
-| 26  | Loading screen              | Tip durante loading                                                                                                                                                                                 |
-| 27  | Replay match                | Event log replayable nel debrief                                                                                                                                                                    |
-| 28  | Controlli                   | Controller primary + keyboard + touch companion                                                                                                                                                     |
+| #   | Domanda                     | Decisione                                                                                                                                                                                                                                                                                                     |
+| --- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 13  | Editor livelli              | YAML manuale                                                                                                                                                                                                                                                                                                  |
+| 14  | Procedurale vs hand-crafted | Hand-crafted + wave procedurale                                                                                                                                                                                                                                                                               |
+| 15  | Formula difficulty          | §15.4 SoT                                                                                                                                                                                                                                                                                                     |
+| 16  | Livelli co-op/PvP           | **Solo co-op vs Sistema al lancio** (PvP/raid post-lancio)                                                                                                                                                                                                                                                    |
+| 17  | Schema AJV encounter        | `schemas/evo/encounter.schema.json`                                                                                                                                                                                                                                                                           |
+| 18  | Procedurale vs scritta      | Mix: Ink briefing + Director/StressWave                                                                                                                                                                                                                                                                       |
+| 19  | Voice-over                  | Solo testo                                                                                                                                                                                                                                                                                                    |
+| 20  | Identità narrativa          | **Fase 1 (ora/EA): Pattern A Sistema-centric** (creature anonime + Sistema unica voce Ink multi-profile). **Fase 2 (quando scriviamo storia): transizione a Pattern B Overlord + Custodi named** (Descent ibrido). Reference repos tracciati in [`00F-ART_AUDIO_BUSINESS.md`](00F-ART_AUDIO_BUSINESS.md) §4.4 |
+| 21  | Tool narrativo              | Ink (inkjs)                                                                                                                                                                                                                                                                                                   |
+| 22  | Accessibilità               | Colorblind + difficoltà scalabile lancio, TTS post-lancio                                                                                                                                                                                                                                                     |
+| 23  | Deaf indicators             | Indicatori visivi per eventi sonori                                                                                                                                                                                                                                                                           |
+| 24  | Tutorial                    | Integrato nei primi encounter                                                                                                                                                                                                                                                                                 |
+| 25  | Matchmaking                 | In lobby                                                                                                                                                                                                                                                                                                      |
+| 26  | Loading screen              | Tip durante loading                                                                                                                                                                                                                                                                                           |
+| 27  | Replay match                | Event log replayable nel debrief                                                                                                                                                                                                                                                                              |
+| 28  | Controlli                   | Controller primary + keyboard + touch companion                                                                                                                                                                                                                                                               |
 
-### 19.5 Pattern narrativo D5 (Q20) — dettaglio Pattern A
+### 19.5 Pattern narrativo D5 (Q20) — piano a due fasi
 
-**Scelta ufficiale Master DD**: Sistema-centric (ispirazione AI War + Ink, ricerca agent sessione 17/04).
+**Scelta ufficiale Master DD 2026-04-17**: transizione pianificata, non opt-in incerto.
+
+**Fase 1 (ora → MVP/EA): Pattern A — Sistema-centric** (ispirazione AI War + Ink, ricerca agent sessione 17/04)
 
 - **Attore narrativo**: Sistema unica voce antagonista, multi-profile in `packs/evo_tactics_pack/data/balance/ai_profiles.yaml`
 - **Creature player**: mute, slot anonimi ("Wolf-03"), identità emerge da trait + MBTI + scelte playtest
 - **Integrazione tecnica**: aggiungere `narrative_voice` per profilo Sistema in `ai_profiles.yaml`; mappare `sistema_pressure` tier (Calm/Apex) → ink knot selection in `apps/backend/services/narrativeEngine.js`
 - **Costo**: basso (300-500 LOC ink, zero deps, zero refactor schema)
-- **Pattern B futuro**: 2-4 Custodi named (Descent-style Overlord + Heroes) opt-in aggiungibili senza breaking change se playtest futuro rivela gap "calore umano"
-- Alternative scartate: Pattern C (Comandante player-named — poca caratterizzazione autoriale), Pattern D (Ramza-light — contraddice ownership co-op)
+
+**Fase 2 (quando apriamo workstream narrative campaign / story mode): transizione a Pattern B — Overlord + Custodi named** (Descent ibrido)
+
+- **Trigger**: green-light Master DD post-EA playtest.
+- **Contenuto**: 2-4 Custodi named (background + barks + skill narrativi) + Ink multi-speaker + campaign arc strutturato (Descent campaign book pattern).
+- **Continuità**: Pattern A preservato — Sistema continua come Overlord persistente. Custodi = layer sopra, no strip/rewrite.
+- **Reference repos tracciati** per story writing: Descent Road to Legend, wesnoth (campaign dialogue), inkle/ink + inkle/inky, OpenRA, FFT War of the Lions — dettaglio in [`00F-ART_AUDIO_BUSINESS.md`](00F-ART_AUDIO_BUSINESS.md) §4.4.
+
+**Alternative scartate**: Pattern C (Comandante player-named — poca caratterizzazione autoriale, manca anchor narrativo), Pattern D (Ramza-light — single POV contraddice co-op), Descent puro (Heroes fissi contraddice creature modulari).
 
 ### 19.5 Q-001 deliverables (branch explore/open-questions-triage, 2026-04-17)
 

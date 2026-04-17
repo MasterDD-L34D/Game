@@ -135,7 +135,9 @@ freesound.org. Creature SFX spec in `docs/audio/creature-sfx-spec.md` (Q10 DRAFT
 
 ## 4. Identità Narrativa (Q20 / D5)
 
-### 4.1 Pattern scelto: **A — Sistema-centric**
+**Decisione**: **fase A ora → fase B quando scriviamo storia**. Transizione pianificata, no opt-in incerto.
+
+### 4.1 Fase 1 (ora → MVP/EA): **Pattern A — Sistema-centric**
 
 **Scelta Master DD** 2026-04-17 (ispirazione AI War + Ink, ricerca agent sessione 17/04).
 
@@ -143,8 +145,9 @@ freesound.org. Creature SFX spec in `docs/audio/creature-sfx-spec.md` (Q10 DRAFT
 - **Multi-profile**: `packs/evo_tactics_pack/data/balance/ai_profiles.yaml` estende ogni profilo (Calm/Apex/etc.) con `narrative_voice`.
 - **Creature player**: mute, slot anonimi ("Wolf-03"). Identità emerge da tratti + MBTI + decisioni playtest.
 - **Briefing/debrief**: solo Sistema parla al player, tono varia per pressure tier.
+- **Perché ora**: non abbiamo ancora una storia scritta; Pattern A costa poco e preserva emergent identity durante EA playtest.
 
-### 4.2 Integrazione tecnica
+### 4.2 Integrazione tecnica fase 1
 
 1. Estendere schema `ai_profiles.yaml` con campo opzionale `narrative_voice: { tone, vocabulary, knots: [...] }`.
 2. Mappare `sistema_pressure` tier (Calm / Tense / Apex) → ink knot selection in `apps/backend/services/narrativeEngine.js`.
@@ -153,22 +156,45 @@ freesound.org. Creature SFX spec in `docs/audio/creature-sfx-spec.md` (Q10 DRAFT
 
 **Costo stimato**: 300-500 LOC ink, 0 nuove dipendenze, 0 refactor schema.
 
-### 4.3 Pattern B (futuro opt-in)
+### 4.3 Fase 2 (quando scriviamo storia): **Pattern B — Overlord + Custodi named** (Descent ibrido)
 
-**Overlord + 2-4 Custodi named** (Descent-style).
+**Trigger di transizione**: quando apriamo il workstream "narrative campaign / story mode" (post-EA playtest, previo green-light Master DD).
 
-Aggiungibile **senza breaking change** se playtest rivela gap "calore umano":
+**Perché B e non A puro**:
+
+- Storia significativa richiede POV umano (Custodi) che cresce arc-by-arc, non solo Sistema antagonista.
+- Descent Overlord + Heroes = equilibrio testato tra antagonista persistente + cast POV memorabile.
+- Ibrido preserva Pattern A (Sistema continua a parlare) e aggiunge 2-4 Custodi named come layer sopra — no strip, no rewrite.
+
+**Contenuto fase 2**:
 
 - Nuovo YAML `data/core/custodi.yaml` con 2-4 Custodi (background + barks + skill narrativi, no meccaniche).
-- Ink scenes multi-speaker (Sistema vs Custode).
-- Custode scelto a inizio campagna (co-op: 1 Custode per player fino a 4).
-- Stato "parked": non prioritario per EA, valutare post-playtest pubblico.
+- Ink scenes multi-speaker (Sistema vs Custode vs Custode).
+- Custode scelto a inizio campagna (co-op: 1 Custode per player fino a 4; solo = scegli 1).
+- Campaign arc strutturato: intro → 3-5 atti → climax → epilogo (Descent campaign book pattern).
+- Sistema rimane Overlord persistente cross-campaign.
 
-### 4.4 Alternative scartate
+### 4.4 Reference repos per fase 2 (story writing)
 
-- **Pattern C** (Comandante player-named): ownership sì, ma poca caratterizzazione autoriale. Rischia generico.
-- **Pattern D** (Ramza-light FFT): contraddice ownership co-op (single-player bias), alto costo writing campaign arc lineare.
-- **Descent puro**: Heroes named fissi contraddice creature modulari (in Evo-Tactics creature sono sotto il player, non sono i player).
+Tracciati ufficialmente per ispirazione quando apriamo workstream narrative. Cross-ref `memory/reference_external_repos.md`.
+
+| Repo                                             | URL                                                                       | Cosa estrarre                                                                                                                            |
+| ------------------------------------------------ | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Descent: Road to Legend** (campaign structure) | https://descent2e.fandom.com/wiki/Road_to_Legend                          | Overlord plot-card rhythm, quest branching win/loss, campaign book format                                                                |
+| **wesnoth/wesnoth**                              | https://github.com/wesnoth/wesnoth                                        | Campaign dialogue inline pattern (`[message]` WML), leader named come unità giocabile, narrator senza portrait — vedi `data/campaigns/*` |
+| **inkle/ink**                                    | https://github.com/inkle/ink                                              | Multi-speaker knot, stitches, variable state per scelte morali — già in uso (inkjs)                                                      |
+| **inkle/inky**                                   | https://github.com/inkle/inky                                             | IDE editor Ink per writing pass — valutare per team writing                                                                              |
+| **OpenRA/OpenRA**                                | https://github.com/OpenRA/OpenRA                                          | Mission briefing + campaign scripting (Lua) — pattern missione con objectives narrativi                                                  |
+| **80 Days / Sorcery** (inkle)                    | https://www.inklestudios.com                                              | Gold standard Ink branching + character voicing multi-speaker (non-open source, studio per pattern)                                      |
+| **FFT War of the Lions**                         | https://en.wikipedia.org/wiki/Final_Fantasy_Tactics:_The_War_of_the_Lions | Dialogo named compagni + generic recruits — acted scenes pattern                                                                         |
+
+**Aggiornamento repo list**: quando apriamo fase 2, aggiorna `memory/reference_external_repos.md` promuovendo questi a tier "narrative-focus".
+
+### 4.5 Alternative scartate
+
+- **Pattern C** (Comandante player-named): ownership sì, ma poca caratterizzazione autoriale. Rischia generico. Manca anchor narrativo per storia.
+- **Pattern D** (Ramza-light FFT): protagonista single POV contraddice ownership co-op. Alto costo writing campaign arc lineare. Meglio ibrido Custodi multi-POV.
+- **Descent puro** (Heroes = creature): Heroes named fissi contraddice creature modulari (in Evo-Tactics creature sono sotto il player, non sono i player).
 
 ---
 
