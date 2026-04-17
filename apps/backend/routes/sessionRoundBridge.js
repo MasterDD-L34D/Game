@@ -254,7 +254,7 @@ function createRoundBridge(deps) {
       await appendEvent(session, event);
       // iter4: emit reaction_trigger event quando intercept fires.
       if (capturedResults.intercept) {
-        await appendEvent(session, {
+        const reactionEvent = {
           ts: new Date().toISOString(),
           session_id: session.session_id,
           actor_id: capturedResults.intercept.interceptor_id,
@@ -270,7 +270,22 @@ function createRoundBridge(deps) {
           interceptor_hp_after: capturedResults.intercept.interceptor_hp_after,
           interceptor_killed: capturedResults.intercept.interceptor_killed,
           trait_effects: [],
-        });
+        };
+        await appendEvent(session, reactionEvent);
+        // iter6 follow-up #1: emit kill chain quando interceptor muore per
+        // reroute damage. Killer = original attacker (chi ha tirato il danno),
+        // target = interceptor. Assist da damage_taken history standard.
+        if (
+          capturedResults.intercept.interceptor_killed &&
+          capturedResults.intercept.interceptor_unit
+        ) {
+          await emitKillAndAssists(
+            session,
+            actor,
+            capturedResults.intercept.interceptor_unit,
+            reactionEvent,
+          );
+        }
       }
       if (capturedResults.killOccurred) {
         await emitKillAndAssists(session, actor, target, event);

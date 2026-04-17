@@ -1508,10 +1508,10 @@ function createAbilityExecutor(deps) {
   }
 
   // reaction (intercept, overwatch_shot): registra trigger su actor.reactions[].
-  // Trigger system completo NON implementato in iter3 — la registrazione
-  // serve per UI/debrief ("X has overwatch armed"). Consumo automatico =
-  // follow-up dedicato (richiede event bus per ally_attacked_adjacent /
-  // enemy_moves_in_range).
+  // iter4: consumo automatico in reactionEngine.triggerOnDamage/Move.
+  // iter6 follow-up #4: cap max 1 reaction armata per actor — re-arm sostituisce
+  // la precedente (ritorno include `replaced_previous` se applicabile). Evita
+  // stacking di overwatch/intercept multipli senza cooldown.
   async function executeReaction({ session, actor, ability }) {
     if (!Array.isArray(actor.reactions)) actor.reactions = [];
     const reaction = {
@@ -1521,7 +1521,13 @@ function createAbilityExecutor(deps) {
       target: ability.target || 'self',
       armed_turn: session.turn,
     };
-    actor.reactions.push(reaction);
+    let replacedPrevious = null;
+    if (actor.reactions.length >= 1) {
+      replacedPrevious = actor.reactions[0];
+      actor.reactions = [reaction]; // replace (cap 1)
+    } else {
+      actor.reactions.push(reaction);
+    }
 
     actor.ap_remaining = Math.max(
       0,
@@ -1540,6 +1546,7 @@ function createAbilityExecutor(deps) {
       turn: session.turn,
       ap_spent: Number(ability.cost_ap || 0),
       reaction_armed: reaction,
+      replaced_previous: replacedPrevious,
       trait_effects: [],
     };
     await appendEvent(session, event);
@@ -1552,9 +1559,9 @@ function createAbilityExecutor(deps) {
         ability_id: ability.ability_id,
         effect_type: 'reaction',
         reaction_armed: reaction,
+        replaced_previous: replacedPrevious,
         reactions_count: actor.reactions.length,
         ap_remaining: actor.ap_remaining,
-        note: 'reaction registered; trigger system pending (iter4)',
       },
     };
   }

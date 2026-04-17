@@ -779,6 +779,24 @@ function createSessionRouter(options = {}) {
           target,
           requestedCapPt,
         });
+        // iter6 follow-up #3: aggro_warning per player units. Player con
+        // status.aggro_locked > 0 + aggro_source attivo che attacca un target
+        // diverso da source riceve warning informativo (no enforcement,
+        // libertà tattica preservata). PG taunted = "dovresti attaccare X"
+        // ma può comunque scegliere altro.
+        if (
+          actor.controlled_by === 'player' &&
+          Number(actor.status?.aggro_locked) > 0 &&
+          actor.aggro_source &&
+          actor.aggro_source !== target.id
+        ) {
+          wrapped.aggro_warning = {
+            actor_id: actor.id,
+            forced_target: actor.aggro_source,
+            attacked_target: target.id,
+            note: 'taunted: ignoring forced target (no enforcement on player)',
+          };
+        }
         return res.json(wrapped);
       }
 

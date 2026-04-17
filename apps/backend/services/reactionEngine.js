@@ -93,6 +93,7 @@ function triggerOnDamage(session, attacker, target, damageDealt) {
 
     return {
       interceptor_id: unit.id,
+      interceptor_unit: unit, // ref per emitKillAndAssists chain
       target_id: target.id,
       attacker_id: attacker ? attacker.id : null,
       ability_id: reaction.ability_id || 'intercept',
@@ -107,18 +108,20 @@ function triggerOnDamage(session, attacker, target, damageDealt) {
 }
 
 /**
- * Overwatch trigger: dopo move, scan enemies con overwatch_shot armed
- * la cui posizione è in attack_range del mover. Primo eligible fires:
- * usa performAttack callback con damage_step_mod -1 applicato post-hoc.
+ * Overwatch trigger: dopo move, scan enemies con overwatch_shot armed.
+ * iter6: fires SOLO se mover entra IN range (fromPos OUT-of-range AND
+ * currentPos IN-range). Movimento dentro la stessa "range zone" non
+ * triggera (evita spam su micro-movimenti che non cambiano threat).
  *
  * @param {object} session
- * @param {object} mover unità che si è mossa
- * @param {object} fromPos posizione precedente (per logging)
+ * @param {object} mover unità che si è mossa (.position = nuova)
+ * @param {object} fromPos posizione precedente (richiesta per check INTO)
  * @param {function} performAttack callback (overwatchUnit, mover) → { result, damageDealt, evaluation, parry }
  * @returns null se nessun overwatch fired, altrimenti { overwatch_id, damage_dealt, ... }.
  */
 function triggerOnMove(session, mover, fromPos, performAttack) {
   if (!session || !mover || !isAlive(mover)) return null;
+  if (!fromPos) return null;
 
   for (const unit of session.units || []) {
     if (!unit) continue;
@@ -126,7 +129,10 @@ function triggerOnMove(session, mover, fromPos, performAttack) {
     if (unit.controlled_by === mover.controlled_by) continue;
     if (!isAlive(unit) || isStunned(unit)) continue;
     const range = Number(unit.attack_range) || 2;
-    if (manhattan(unit.position, mover.position) > range) continue;
+    const distNow = manhattan(unit.position, mover.position);
+    const distBefore = manhattan(unit.position, fromPos);
+    if (distNow > range) continue; // not in range now
+    if (distBefore <= range) continue; // already was in range — not "INTO"
     const found = findReaction(unit, 'enemy_moves_in_range');
     if (!found) continue;
 
