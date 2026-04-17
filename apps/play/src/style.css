@@ -190,3 +190,106 @@ footer {
   font-size: 0.85rem;
   color: var(--dim);
 }
+
+/* Ability panel */
+.hidden-empty {
+  display: none;
+}
+#abilities {
+  margin-bottom: 16px;
+}
+.ab-empty {
+  font-size: 0.8rem;
+  color: var(--dim);
+  font-style: italic;
+  padding: 4px;
+}
+.ability-row {
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background: var(--cell);
+  border-left: 3px solid var(--accent);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.ability-row:hover {
+  background: rgba(255, 204, 0, 0.08);
+}
+.ability-row.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-left-color: var(--dim);
+}
+.ab-head {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+.ab-cost {
+  color: var(--accent);
+}
+.ab-effect {
+  color: var(--dim);
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+/* Awaiting target mode */
+body.ability-target-mode canvas#grid {
+  cursor: crosshair;
+}
+body.ability-target-mode canvas#grid {
+  box-shadow: 0 0 0 3px var(--accent) inset;
+}
+
+/* Endgame overlay */
+#endgame-overlay.hidden {
+  display: none;
+}
+#endgame-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.endgame-card {
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  padding: 32px 48px;
+  text-align: center;
+  min-width: 320px;
+}
+.endgame-card h2 {
+  margin: 0 0 16px;
+  font-size: 2.2rem;
+}
+.endgame-card h2.win {
+  color: #4caf50;
+}
+.endgame-card h2.lose {
+  color: #f44336;
+}
+.endgame-card p {
+  line-height: 1.6;
+}
+.endgame-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 20px;
+}
+.endgame-actions button {
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.endgame-actions button:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
