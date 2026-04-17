@@ -22,29 +22,44 @@ Regole canoniche per turno, AP budget, syntax input. Chiude FRICTION #1-#3 dal p
 
 ## AP budget canonico (FRICTION #2 + #3)
 
-**Regola canonica**: `AP 2 = 1 attack MAX + N move` dove `N ≤ AP rimanenti`.
+**Regola canonica**: AP è **budget spendibile liberamente** per turno. Nessun template fisso "1 attack + 1 move". Qualunque combinazione valida se `Σ ap_cost ≤ ap_max`.
 
-| AP spesi          | Azioni valide                |
-| ----------------- | ---------------------------- |
-| 0                 | nessuna azione (skip turno)  |
-| 1 attack          | 1 attacco, 0 move residui    |
-| 1 attack + 1 move | 1 attacco + 1 step movimento |
-| 2 move            | 2 step movimento, 0 attacchi |
-| 1 move + skip     | 1 step + skip                |
+### Costi azioni
 
-**No doppio attack.** Un'unità attacca al massimo **1 volta per turno**, indipendentemente da AP residui. Motivazione:
+| Azione                     | AP cost                      |
+| -------------------------- | ---------------------------- |
+| `attack`                   | 1                            |
+| `move` (1 cella Manhattan) | 1                            |
+| `ability` (generic)        | variabile (spec per ability) |
+| `skip`                     | 0                            |
 
-- Tensione tattica: "devo colpire adesso" ha peso. 2 attacchi/turno trivializzano target priority.
-- Coerenza con reference (FFT, XCOM, Wesnoth): tutti 1 attack/turn.
-- Matematica bilanciamento: player scout mod 3 \* 2 attack/turn = Sistema wipe garantito round 2.
+### Combinazioni valide con `ap_max=2`
 
-**Eccezioni future** (post-M4, opt-in):
+| Build                     | AP  | Note                                                                       |
+| ------------------------- | --- | -------------------------------------------------------------------------- |
+| 2 attack                  | 1+1 | **FRICTION #3 resolution**: doppio attack stesso o diversi target = valido |
+| 1 attack + 1 move 1-cella | 1+1 | hit-and-run base                                                           |
+| 1 move 2-celle            | 1+1 | reposizionamento puro                                                      |
+| 1 attack + skip           | 1+0 | save AP se nessun'altra opzione                                            |
+| 1 ability (cost=2)        | 2   | abilità pesante                                                            |
+| skip                      | 0   | passa turno                                                                |
 
-- Trait `ferocia_lampo` (placeholder): consente 2nd attack se MoS ≥10 al primo.
-- Job `berserker` (placeholder): 2nd attack a -2 mod.
-- Entrambi richiedono spec esplicita, non default.
+### Motivazione
 
-**Codice**: `apps/backend/services/roundOrchestrator.js` deve rifiutare 2° attack stesso turno (enforcement TODO — oggi consente via AP budget, ma batch test e playtest human usano già 1/turn convenzionalmente).
+- **Libertà tattica**: player sceglie tempo/target senza template forzato (contro Halfway lesson "prescriptive turn = frustrating").
+- **Economy meaningful**: 2 attack vs move = trade-off esplicito damage-now vs position-now.
+- **AI symmetry**: Sistema gode stesso budget → asimmetria solo via profili AI + HP/DC, non via regole turno.
+
+### Enforcement
+
+- **Codice**: `apps/backend/services/roundOrchestrator.js` + `sessionRoundBridge.js` validano `ap.current >= ap_cost` prima di eseguire azione.
+- **Test canonical**: [`tests/api/apBudget.test.js`](../../tests/api/apBudget.test.js) — asserisce 2 attack/turn valido con `ap_max=2` su tutorial_01.
+
+### Varianti future (opt-in, non default)
+
+- Trait `ferocia_lampo` (placeholder): 2° attack guadagna bonus se MoS ≥10 al primo.
+- Job `berserker` (placeholder): 2° attack gratuito (ap_cost=0) sotto HP 25%.
+- Entrambi richiedono spec esplicita (non alterano regola base AP).
 
 ## Syntax mosse canonica (FRICTION #1)
 
