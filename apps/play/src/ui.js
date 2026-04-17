@@ -1,5 +1,33 @@
 // UI helpers — sidebar units + log.
 
+const STATUS_LABELS = {
+  panic: { label: 'Panic', icon: '!', color: '#ff9800' },
+  rage: { label: 'Rage', icon: '⚡', color: '#f44336' },
+  stunned: { label: 'Stun', icon: '★', color: '#9c27b0' },
+  focused: { label: 'Focus', icon: '◎', color: '#03a9f4' },
+  confused: { label: 'Confuse', icon: '?', color: '#ffc107' },
+  bleeding: { label: 'Bleed', icon: '☽', color: '#e91e63' },
+  fracture: { label: 'Fract', icon: '✕', color: '#795548' },
+  sbilanciato: { label: 'Sbil', icon: '↯', color: '#ffeb3b' },
+  taunted_by: { label: 'Taunt', icon: '⎯', color: '#ffc107' },
+  aggro_locked: { label: 'Aggro', icon: '◉', color: '#ff5722' },
+};
+
+function renderStatusChips(unit) {
+  const status = unit.status || {};
+  const chips = [];
+  for (const [key, meta] of Object.entries(STATUS_LABELS)) {
+    const v = status[key];
+    if (v !== undefined && v !== null && (typeof v !== 'number' || v > 0)) {
+      const label = typeof v === 'number' && v > 1 ? `${meta.label} (${v})` : meta.label;
+      chips.push(
+        `<span class="status-chip" style="background:${meta.color}" title="${key}">${meta.icon} ${label}</span>`,
+      );
+    }
+  }
+  return chips.join('');
+}
+
 export function renderUnits(ul, state, selectedId, onClick) {
   ul.innerHTML = '';
   for (const u of state.units || []) {
@@ -11,14 +39,39 @@ export function renderUnits(ul, state, selectedId, onClick) {
 
     const ratio = u.hp / (u.max_hp || u.hp || 1);
     const hpClass = ratio < 0.3 ? 'crit' : ratio < 0.6 ? 'warn' : '';
+    const apRemaining = u.ap_remaining ?? u.ap;
+    const apMax = u.ap;
+    const apRatio = apMax > 0 ? apRemaining / apMax : 0;
+
+    const statusChips = renderStatusChips(u);
 
     li.innerHTML = `
-      <strong>${u.id}</strong>
-      <span class="hp-bar ${hpClass}"><span style="width:${Math.max(0, ratio * 100).toFixed(0)}%"></span></span>
-      ${u.hp}/${u.max_hp || u.hp}
-      · AP ${u.ap_remaining ?? u.ap}/${u.ap}
-      ${u.position ? `· [${u.position.x},${u.position.y}]` : ''}
-      ${u.job ? `· <em>${u.job}</em>` : ''}
+      <div class="unit-head">
+        <strong>${u.id}</strong>
+        ${u.job ? `<span class="unit-job">${u.job}</span>` : ''}
+        ${u.species ? `<span class="unit-species" title="species">${u.species}</span>` : ''}
+      </div>
+      <div class="unit-bars">
+        <div class="bar-row">
+          <span class="bar-label">HP</span>
+          <span class="hp-bar ${hpClass}"><span style="width:${Math.max(0, ratio * 100).toFixed(0)}%"></span></span>
+          <span class="bar-value">${u.hp}/${u.max_hp || u.hp}</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">AP</span>
+          <span class="ap-bar"><span style="width:${Math.max(0, apRatio * 100).toFixed(0)}%"></span></span>
+          <span class="bar-value">${apRemaining}/${apMax}</span>
+        </div>
+      </div>
+      <div class="unit-stats">
+        ${u.position ? `<span>📍 [${u.position.x},${u.position.y}]</span>` : ''}
+        ${u.dc != null ? `<span>DC ${u.dc}</span>` : ''}
+        ${u.mod != null ? `<span>+${u.mod}</span>` : ''}
+        ${u.attack_range ? `<span>range ${u.attack_range}</span>` : ''}
+        ${u.guardia ? `<span>guardia ${u.guardia}</span>` : ''}
+      </div>
+      ${statusChips ? `<div class="unit-status-row">${statusChips}</div>` : ''}
+      ${u.ai_profile ? `<div class="unit-ai">AI: <code>${u.ai_profile}</code></div>` : ''}
     `;
     li.addEventListener('click', () => onClick(u));
     ul.appendChild(li);

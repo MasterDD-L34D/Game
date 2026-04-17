@@ -273,6 +273,52 @@ document.getElementById('open-replay').addEventListener('click', () => {
   }
   openReplay(state.sid);
 });
+function normalizePos(pos) {
+  if (!pos) return null;
+  if (Array.isArray(pos)) return { x: Number(pos[0]) || 0, y: Number(pos[1]) || 0 };
+  return { x: Number(pos.x) || 0, y: Number(pos.y) || 0 };
+}
+
+function processIaActions(iaActions) {
+  if (!Array.isArray(iaActions)) return;
+  let delay = 0;
+  for (const a of iaActions) {
+    const type = a.type || a.action_type;
+    const actorId = a.unit_id || a.actor_id;
+    const from = normalizePos(a.position_from);
+    const to = normalizePos(a.position_to);
+    const targetId = a.target || a.target_id;
+    const dmg = a.damage_dealt ?? a.damage ?? 0;
+
+    setTimeout(() => {
+      if (type === 'move' && from && to) {
+        recordMove(actorId, from, to);
+        sfx.sis_turn();
+      } else if (type === 'attack' || type === 'ability') {
+        const target = (state.world?.units || []).find((u) => u.id === targetId);
+        if (target && target.position && dmg) {
+          pushPopup(
+            target.position.x,
+            target.position.y,
+            dmg < 0 ? `+${-dmg}` : `-${dmg}`,
+            dmg < 0 ? '#4caf50' : '#ff5252',
+          );
+        }
+        if (dmg < 0) sfx.heal();
+        else if (dmg > 0) Number(dmg) >= 6 ? sfx.crit() : sfx.hit();
+        else sfx.miss();
+      }
+      appendLog(
+        logEl,
+        `SIS · ${actorId}: ${type}${targetId ? ` → ${targetId}` : ''}${dmg ? ` (${dmg})` : ''}`,
+        'event',
+      );
+      if (needsAnimFrame()) requestAnimationFrame(animTick);
+    }, delay);
+    delay += 350; // stagger SIS actions so visible
+  }
+}
+
 document.getElementById('end-turn').addEventListener('click', async () => {
   if (!state.sid) return;
   sfx.turn_end();
@@ -282,10 +328,14 @@ document.getElementById('end-turn').addEventListener('click', async () => {
     appendLog(logEl, `✖ end turn: ${r.status}`, 'error');
     return;
   }
-  state.world = r.data?.state || state.world;
-  sfx.sis_turn();
-  await refresh();
-  appendLog(logEl, '✓ SIS ha agito');
+  // Process SIS actions animations
+  if (r.data?.ia_actions) processIaActions(r.data.ia_actions);
+  // Wait for all SIS actions animated then refresh state
+  const totalDelay = Array.isArray(r.data?.ia_actions) ? r.data.ia_actions.length * 350 + 200 : 200;
+  setTimeout(async () => {
+    await refresh();
+    appendLog(logEl, '✓ turno giocatore pronto');
+  }, totalDelay);
 });
 
 // Mute toggle
