@@ -24,12 +24,17 @@
             <select id="scenario-select">
               <option value="enc_tutorial_01">Tutorial 01 · Primi passi</option>
               <option value="enc_tutorial_02">Tutorial 02 · Pattuglia</option>
+              <option value="enc_tutorial_03">Tutorial 03 · Hazard savana</option>
+              <option value="enc_tutorial_04">Tutorial 04 · Bleeding foresta</option>
+              <option value="enc_tutorial_05">Tutorial 05 · BOSS Apex</option>
             </select>
           </div>
         </section>
         <aside class="sidebar">
           <h2>Unità</h2>
           <ul id="units"></ul>
+          <h2 id="abilities-title" class="hidden-empty">Abilities</h2>
+          <div id="abilities"></div>
           <h2>Log</h2>
           <div id="log"></div>
         </aside>
@@ -37,6 +42,17 @@
       <footer>
         <span id="selected-hint">Seleziona una tua unità per vedere azioni.</span>
       </footer>
+      <div id="endgame-overlay" class="hidden">
+        <div class="endgame-card">
+          <h2 id="endgame-title">—</h2>
+          <p id="endgame-stats">—</p>
+          <div class="endgame-actions">
+            <button id="endgame-next">Prossimo encounter</button>
+            <button id="endgame-retry">Rigioca</button>
+            <button id="endgame-close">Chiudi</button>
+          </div>
+        </div>
+      </div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
