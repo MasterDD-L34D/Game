@@ -563,6 +563,8 @@ function createSessionRouter(options = {}) {
         turn_order: turnOrder,
         turn_index: 0,
         units,
+        // Q-001 T2.4: snapshot iniziale per replay (deep copy, immutable)
+        units_snapshot_initial: JSON.parse(JSON.stringify(units)),
         grid: { width: GRID_SIZE, height: GRID_SIZE },
         logFilePath,
         events: [],
@@ -903,6 +905,33 @@ function createSessionRouter(options = {}) {
         pfResult[unitId] = computePfSession(actorVc, formsData);
       }
       res.json({ session_id: session.session_id, pf_session: pfResult });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // Q-001 T2.4 PR-2: Match replay from event log (read-only).
+  // Espone session.events + metadata per replay engine/UI download.
+  // Schema: packages/contracts/schemas/replay.schema.json
+  router.get('/:id/replay', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const events = Array.isArray(session.events) ? session.events : [];
+      const turnsPlayed = events.reduce((m, e) => Math.max(m, Number(e?.turn) || 0), 0);
+      res.json({
+        session_id: session.session_id,
+        started_at: session.created_at || null,
+        ended_at: session.ended_at || null,
+        result: session.result || null,
+        events,
+        units_snapshot_initial: session.units_snapshot_initial || null,
+        meta: {
+          turns_played: turnsPlayed,
+          events_count: events.length,
+          export_version: 1,
+        },
+      });
     } catch (err) {
       next(err);
     }
