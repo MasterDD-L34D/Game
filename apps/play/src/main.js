@@ -312,6 +312,11 @@ async function startNewSession() {
     return;
   }
   const modSel = document.getElementById('modulation-select');
+  // Se scenario raccomanda modulation (es. hardcore → 'full') e user non ha
+  // scelto manualmente, applica recommended (aggiorna dropdown per UI clarity).
+  if (sc.data.recommended_modulation && modSel && !modSel.value) {
+    modSel.value = sc.data.recommended_modulation;
+  }
   const modulation = modSel && modSel.value ? modSel.value : undefined;
   const startOpts = {
     sistema_pressure_start: sc.data.sistema_pressure_start || 0,

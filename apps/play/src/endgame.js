@@ -103,6 +103,7 @@ export function nextScenarioId(current) {
     'enc_tutorial_03',
     'enc_tutorial_04',
     'enc_tutorial_05',
+    'enc_tutorial_06_hardcore',
   ];
   const idx = order.indexOf(current);
   if (idx < 0 || idx >= order.length - 1) return order[0]; // loop to start
