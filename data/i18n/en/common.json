@@ -1,0 +1,106 @@
+{
+  "_meta": {
+    "locale": "en",
+    "language_name": "English",
+    "direction": "ltr",
+    "version": 1,
+    "updated": "2026-04-17",
+    "completion_percent": 5
+  },
+  "ui": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "save": "Save",
+    "load": "Load",
+    "settings": "Settings",
+    "exit": "Exit",
+    "loading": "Loading…"
+  },
+  "menu": {
+    "new_game": "New Game",
+    "continue": "Continue",
+    "load_game": "Load Game",
+    "settings": "Settings",
+    "credits": "Credits",
+    "quit": "Quit Game"
+  },
+  "combat": {
+    "your_turn": "Your Turn",
+    "system_turn": "System Turn",
+    "round": "Round {{n}}",
+    "hit": "Hit",
+    "miss": "Miss",
+    "critical": "Critical!",
+    "blocked": "Blocked",
+    "dodged": "Dodged",
+    "attack": "Attack",
+    "move": "Move",
+    "defend": "Defend",
+    "ability": "Ability",
+    "end_turn": "End Turn",
+    "damage_dealt": "Damage dealt: {{n}}",
+    "damage_taken": "Damage taken: {{n}}",
+    "hp_remaining": "HP: {{current}} / {{max}}"
+  },
+  "status": {
+    "panic": "Panic",
+    "rage": "Rage",
+    "stunned": "Stunned",
+    "focused": "Focused",
+    "confused": "Confused",
+    "bleeding": "Bleeding",
+    "fracture": "Fracture"
+  },
+  "objective": {
+    "elimination": "Eliminate all enemies",
+    "capture_point": "Hold the point for {{n}} turns",
+    "escort": "Protect {{target}}",
+    "sabotage": "Sabotage within {{n}} turns",
+    "survival": "Survive {{n}} turns",
+    "escape": "Reach the exit"
+  },
+  "result": {
+    "victory": "Victory",
+    "defeat": "Defeat",
+    "draw": "Draw",
+    "retry": "Retry",
+    "continue_story": "Continue Story"
+  },
+  "settings": {
+    "category_gameplay": "Gameplay",
+    "category_audio": "Audio",
+    "category_video": "Video",
+    "category_controls": "Controls",
+    "category_accessibility": "Accessibility",
+    "category_language": "Language",
+    "volume_master": "Master Volume",
+    "volume_music": "Music",
+    "volume_sfx": "Sound Effects",
+    "difficulty": "Difficulty",
+    "language_select": "Select Language"
+  },
+  "errors": {
+    "network_offline": "No network connection",
+    "save_failed": "Save failed",
+    "load_failed": "Load failed",
+    "invalid_action": "Invalid action",
+    "out_of_range": "Out of range",
+    "not_enough_pt": "Not enough PT"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "normal": "Normal",
+    "hard": "Hard",
+    "nightmare": "Nightmare"
+  },
+  "accessibility": {
+    "deaf_hoh_enabled": "Deaf/HoH mode enabled",
+    "colorblind_enabled": "Colorblind mode enabled",
+    "reduce_motion_enabled": "Reduce motion enabled"
+  }
+}
