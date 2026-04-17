@@ -499,6 +499,9 @@ function createSessionRouter(options = {}) {
     roundOrchestrator,
     rng,
     resolveSession,
+    manhattanDistance,
+    gridSize: GRID_SIZE,
+    defaultAttackRange: DEFAULT_ATTACK_RANGE,
   });
   const { handleLegacyAttackViaRound, handleTurnEndViaRound } = roundBridge;
 

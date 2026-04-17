@@ -170,7 +170,13 @@ test('commit-round without declared intent still allowed (empty round)', async (
     .send({
       session_id: sessionId,
       actor_id: 'p1',
-      action: { id: 'a', type: 'move', actor_id: 'p1', ap_cost: 1 },
+      action: {
+        id: 'a',
+        type: 'move',
+        actor_id: 'p1',
+        ap_cost: 1,
+        move_to: { x: 2, y: 3 },
+      },
     })
     .expect(200);
   await request(app)
