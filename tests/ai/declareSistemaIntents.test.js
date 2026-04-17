@@ -674,3 +674,88 @@ test('returns empty when session is null or missing units', () => {
   assert.deepEqual(declare(null), { intents: [], decisions: [] });
   assert.deepEqual(declare({}), { intents: [], decisions: [] });
 });
+
+// ─────────────────────────────────────────────────────────────────
+// Utility AI per-actor (ADR-2026-04-17 Q-001 T3.1 gradual rollout)
+// ─────────────────────────────────────────────────────────────────
+
+const AI_PROFILES_FIXTURE = {
+  profiles: {
+    aggressive: { use_utility_brain: true, overrides: {} },
+    balanced: { use_utility_brain: false, overrides: {} },
+  },
+};
+
+function makeSessionWithProfile(aiProfile) {
+  const units = [
+    {
+      id: 'p1',
+      hp: 10,
+      max_hp: 10,
+      ap: 2,
+      ap_remaining: 2,
+      attack_range: 2,
+      position: { x: 0, y: 0 },
+      controlled_by: 'player',
+      status: {},
+    },
+    {
+      id: 'sis',
+      hp: 10,
+      max_hp: 10,
+      ap: 2,
+      ap_remaining: 2,
+      attack_range: 1,
+      position: { x: 1, y: 0 },
+      controlled_by: 'sistema',
+      status: {},
+      ai_profile: aiProfile,
+    },
+  ];
+  return {
+    session_id: 'test',
+    turn: 1,
+    units,
+    grid: { width: 6, height: 6 },
+    sistema_pressure: 100,
+  };
+}
+
+test('aiProfiles dep: actor with ai_profile=aggressive resolves to Utility AI (profile.use_utility_brain=true)', () => {
+  const declare = createDeclareSistemaIntents({
+    pickLowestHpEnemy,
+    stepTowards,
+    manhattanDistance,
+    gridSize: 6,
+    aiProfiles: AI_PROFILES_FIXTURE,
+    useUtilityAi: false, // global fallback, overridden by profile
+  });
+  const result = declare(makeSessionWithProfile('aggressive'));
+  assert.equal(result.intents.length, 1);
+});
+
+test('aiProfiles dep: actor with ai_profile=balanced resolves to legacy rules (profile.use_utility_brain=false)', () => {
+  const declare = createDeclareSistemaIntents({
+    pickLowestHpEnemy,
+    stepTowards,
+    manhattanDistance,
+    gridSize: 6,
+    aiProfiles: AI_PROFILES_FIXTURE,
+    useUtilityAi: true, // global true, overridden by profile=false
+  });
+  const result = declare(makeSessionWithProfile('balanced'));
+  assert.equal(result.intents.length, 1);
+});
+
+test('aiProfiles dep: actor without ai_profile falls back to global useUtilityAi', () => {
+  const declare = createDeclareSistemaIntents({
+    pickLowestHpEnemy,
+    stepTowards,
+    manhattanDistance,
+    gridSize: 6,
+    aiProfiles: AI_PROFILES_FIXTURE,
+    useUtilityAi: false,
+  });
+  const result = declare(makeSessionWithProfile(undefined));
+  assert.equal(result.intents.length, 1);
+});
