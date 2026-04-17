@@ -1110,54 +1110,66 @@ graph LR
 
 ## 19. Registro decisioni GDD (Open Questions)
 
-Questa sezione traccia le 28 domande aperte dai draft GDD e il loro stato di risoluzione. Aggiornata con evidenze da deep dive Fase 2 su repo esterni (2026-04-16).
+Questa sezione traccia le 28 domande aperte dai draft GDD e il loro stato di risoluzione. **Tutte chiuse** — batch decisioni Master DD sessione serale 2026-04-17. Dettaglio canonical: [`docs/core/00F-ART_AUDIO_BUSINESS.md`](00F-ART_AUDIO_BUSINESS.md).
 
-### 19.1 Decisioni chiuse (✅ 12/28)
+### 19.1 Decisioni Business / Identity
 
-| #   | Domanda                    | Decisione                             | Evidenza                                                   |
-| --- | -------------------------- | ------------------------------------- | ---------------------------------------------------------- |
-| 11  | Volume default             | Musica 70%, SFX 100%, master 80%      | Standard gamedev, configurabile in Settings                |
-| 13  | Editor livelli             | YAML manuale                          | Tutti repo analizzati = hand-crafted. Repo YAML-first      |
-| 14  | Procedurale o hand-crafted | Hand-crafted con wave procedurale     | AncientBeast, wesnoth, rpg_tactical_fantasy = hand-crafted |
-| 15  | Formula difficulty         | `clamp(raw × biome × obj, 1, 5)`      | SoT §15.4, wesnoth scaling pattern                         |
-| 17  | Schema AJV encounter       | Da creare in `schemas/evo/`           | Template in §15.2 + `15-LEVEL_DESIGN.md`                   |
-| 18  | Procedurale vs scritta     | Mix: briefing Ink + wave procedurale  | narrativeEngine.js operativo, Director = procedurale       |
-| 19  | Voice-over o testo         | Solo testo                            | Ink engine = testo. Budget indie. Tono intimo              |
-| 21  | Tool narrativo             | Ink (inkjs)                           | Già implementato §13.6. Decisione chiusa                   |
-| 24  | Tutorial                   | Integrato nei primi encounter         | `enc_tutorial_01.yaml`. SoT §2 esplicito                   |
-| 25  | Matchmaking                | In lobby                              | `17-SCREEN_FLOW.md`: MENU → LOBBY                          |
-| 28  | Controlli                  | Controller primary + keyboard + touch | TV-first = controller. Touch = companion                   |
+| #   | Domanda          | Decisione                                                          |
+| --- | ---------------- | ------------------------------------------------------------------ |
+| 1   | Modello business | **Early Access Steam → premium 1.0** (indie tattico niche, no F2P) |
+| 2   | Rating PEGI      | **PEGI 16** (taglio adulto, rif. Mewgenics)                        |
+| 3   | Localizzazione   | **it+en al lancio**, struttura i18n-ready (glossary già bilingue)  |
 
-### 19.2 Proposte da validare con Master DD (🟡 9/28)
+### 19.2 Decisioni Art Direction
 
-| #   | Domanda              | Proposta                               | Motivazione                          |
-| --- | -------------------- | -------------------------------------- | ------------------------------------ |
-| 3   | Localizzazione       | it + en al lancio                      | Docs già it-en. Glossary bilingue    |
-| 10  | Voci creature        | Nessuna voce, SFX ambientali           | Creature non parlano. Bio-plausibile |
-| 12  | Prototipo audio      | freesound.org → asset pack             | Zero audio oggi, non bloccante       |
-| 16  | Livelli co-op/PvP    | Solo co-op al lancio                   | Pilastro #5 = co-op vs Sistema       |
-| 20  | NPC named            | Creature anonime + Sistema come "voce" | "Lore suggerita dal gameplay" (§7)   |
-| 22  | Accessibilità lancio | Colorblind + difficoltà regolabile     | WCAG 2.1 AA. TTS post-lancio         |
-| 23  | Indicatori deaf      | Visivi per eventi sonori               | Solo testo → quasi coperto           |
-| 26  | Loading screen       | Tip durante loading                    | Low effort, high polish              |
-| 27  | Replay match         | Event log in debrief                   | VC scoring già traccia raw events    |
+| #   | Domanda               | Decisione                                                                         |
+| --- | --------------------- | --------------------------------------------------------------------------------- |
+| 4   | Stile rendering       | **2.5D isometrico** (leggibilità FFT-like, scala indie, TV-friendly)              |
+| 5   | Animazioni            | **Sprite animato 4-8 frame/azione** (idle, move, attack, hit, ko)                 |
+| 6   | Budget asset/creatura | **Medio** (sprite multi-stato, no 3D rig)                                         |
+| 7   | Moodboard             | **Rimanda**: 3 reference al prossimo sprint art (FFT, Wargroove, Into the Breach) |
+| 8   | Asset pipeline tool   | **Aseprite primary + Blender opzionale** per backgrounds iso                      |
 
-### 19.3 Bloccate su Master DD (🔴 7/28)
+### 19.3 Decisioni Audio
 
-| #   | Domanda          | Categoria     | Note                         |
-| --- | ---------------- | ------------- | ---------------------------- |
-| 1   | Modello business | Business      | premium/F2P/early access     |
-| 2   | Rating PEGI      | Business      | Dipende da contenuti visual  |
-| 4   | Stile rendering  | Art Direction | pixel art/low-poly/2D/ibrido |
-| 5   | Animazioni       | Art Direction | sprite/skeletal/procedurale  |
-| 6   | Budget asset     | Art Direction | Dipende da Q4-Q5             |
-| 7   | Moodboard        | Art Direction | Nessun asset visivo nel repo |
-| 8   | Tool pipeline    | Art Direction | Dipende da Q4                |
-| 9   | Budget musicale  | Business      | compositore/royalty-free     |
+| #   | Domanda         | Decisione                                                             |
+| --- | --------------- | --------------------------------------------------------------------- |
+| 9   | Budget musicale | **freesound.org prototype → asset pack produzione** (no composer MVP) |
+| 10  | Voci creature   | **Solo SFX ambientali/azione**, nessuna voce (bio-plausibile)         |
+| 11  | Volume default  | Musica 70%, SFX 100%, master 80%                                      |
+| 12  | Prototype audio | freesound.org                                                         |
 
-### 19.4 Pattern emergente
+### 19.4 Decisioni Gameplay / Narrative / UX
 
-**Tutti i gap irrisolti = Art Direction + Business Model.** Coerente con GDD Audit: gap critici §10 (Game Art) e §1 (Copyright/licensing). Il progetto è forte su meccaniche, debole su produzione asset — priorità Master DD per sbloccare.
+| #   | Domanda                     | Decisione                                                                                                                                                                                           |
+| --- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 13  | Editor livelli              | YAML manuale                                                                                                                                                                                        |
+| 14  | Procedurale vs hand-crafted | Hand-crafted + wave procedurale                                                                                                                                                                     |
+| 15  | Formula difficulty          | §15.4 SoT                                                                                                                                                                                           |
+| 16  | Livelli co-op/PvP           | **Solo co-op vs Sistema al lancio** (PvP/raid post-lancio)                                                                                                                                          |
+| 17  | Schema AJV encounter        | `schemas/evo/encounter.schema.json`                                                                                                                                                                 |
+| 18  | Procedurale vs scritta      | Mix: Ink briefing + Director/StressWave                                                                                                                                                             |
+| 19  | Voice-over                  | Solo testo                                                                                                                                                                                          |
+| 20  | Identità narrativa          | **Pattern A (Sistema-centric)**: creature anonime + Sistema unica voce Ink multi-profile (Calm→Apex). Hooks per Pattern B (Overlord + Custodi named, Descent-style) se playtest chiede calore umano |
+| 21  | Tool narrativo              | Ink (inkjs)                                                                                                                                                                                         |
+| 22  | Accessibilità               | Colorblind + difficoltà scalabile lancio, TTS post-lancio                                                                                                                                           |
+| 23  | Deaf indicators             | Indicatori visivi per eventi sonori                                                                                                                                                                 |
+| 24  | Tutorial                    | Integrato nei primi encounter                                                                                                                                                                       |
+| 25  | Matchmaking                 | In lobby                                                                                                                                                                                            |
+| 26  | Loading screen              | Tip durante loading                                                                                                                                                                                 |
+| 27  | Replay match                | Event log replayable nel debrief                                                                                                                                                                    |
+| 28  | Controlli                   | Controller primary + keyboard + touch companion                                                                                                                                                     |
+
+### 19.5 Pattern narrativo D5 (Q20) — dettaglio Pattern A
+
+**Scelta ufficiale Master DD**: Sistema-centric (ispirazione AI War + Ink, ricerca agent sessione 17/04).
+
+- **Attore narrativo**: Sistema unica voce antagonista, multi-profile in `packs/evo_tactics_pack/data/balance/ai_profiles.yaml`
+- **Creature player**: mute, slot anonimi ("Wolf-03"), identità emerge da trait + MBTI + scelte playtest
+- **Integrazione tecnica**: aggiungere `narrative_voice` per profilo Sistema in `ai_profiles.yaml`; mappare `sistema_pressure` tier (Calm/Apex) → ink knot selection in `apps/backend/services/narrativeEngine.js`
+- **Costo**: basso (300-500 LOC ink, zero deps, zero refactor schema)
+- **Pattern B futuro**: 2-4 Custodi named (Descent-style Overlord + Heroes) opt-in aggiungibili senza breaking change se playtest futuro rivela gap "calore umano"
+- Alternative scartate: Pattern C (Comandante player-named — poca caratterizzazione autoriale), Pattern D (Ramza-light — contraddice ownership co-op)
 
 ### 19.5 Q-001 deliverables (branch explore/open-questions-triage, 2026-04-17)
 
