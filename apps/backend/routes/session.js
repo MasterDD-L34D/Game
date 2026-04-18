@@ -1421,10 +1421,24 @@ function createSessionRouter(options = {}) {
       const playerAlive = session.units.filter(
         (u) => u.controlled_by === 'player' && (u.hp ?? 0) > 0,
       ).length;
-      let outcome = 'abandon';
-      if (sistemaAlive === 0 && playerAlive > 0) outcome = 'win';
+      // ADR-2026-04-20: objective evaluator prende precedenza su elimination
+      // fallback quando encounter.objective.type è definito.
+      let objectiveFinal = null;
+      if (session.encounter && session.encounter.objective) {
+        try {
+          const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
+          objectiveFinal = evaluateObjective(session, session.encounter);
+        } catch {
+          // best-effort — non blocca fine sessione
+        }
+      }
+      let outcome;
+      if (objectiveFinal && objectiveFinal.outcome) {
+        outcome = objectiveFinal.outcome;
+      } else if (sistemaAlive === 0 && playerAlive > 0) outcome = 'win';
       else if (playerAlive === 0 && sistemaAlive > 0) outcome = 'wipe';
       else if (playerAlive === 0 && sistemaAlive === 0) outcome = 'draw';
+      else outcome = 'abandon';
       // VC snapshot + debrief computed pre-delete so response carries final state
       // (harness scripts no longer need a separate GET /:id/vc before /end).
       let vcSnapshot = null;
@@ -1472,6 +1486,7 @@ function createSessionRouter(options = {}) {
         log_file: logFile,
         events_count: eventsCount,
         outcome,
+        objective_state: objectiveFinal,
         vc_snapshot: vcSnapshot,
         debrief,
       });
