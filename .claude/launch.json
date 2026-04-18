@@ -25,6 +25,12 @@
       "runtimeArgs": ["run", "start:api"],
       "port": 3335,
       "env": { "PORT": "3335" }
+    },
+    {
+      "name": "play",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "play:dev"],
+      "port": 5180
     }
   ]
 }
