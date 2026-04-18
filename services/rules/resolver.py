@@ -610,10 +610,14 @@ def resolve_action(
                 elif pt_spend.get("type") == "spinta":
                     spinta_active = True
 
-        attack_mod = aggregate_mod(actor.get("trait_ids", []), catalog, "attack_mod")
+        # TKT-06 parity con JS resolveAttack: include actor.mod + target.mod
+        # (stat base species/job) nei modifier aggregati.
+        attack_mod = aggregate_mod(actor.get("trait_ids", []), catalog, "attack_mod") + int(
+            actor.get("mod", 0)
+        )
         defense_mod_target = aggregate_mod(
             target.get("trait_ids", []), catalog, "defense_mod"
-        )
+        ) + int(target.get("mod", 0))
         trait_damage_step = aggregate_mod(
             actor.get("trait_ids", []), catalog, "damage_step"
         )
@@ -1120,10 +1124,14 @@ def predict_combat(
     """
     import copy
 
-    attack_mod = aggregate_mod(attacker.get("trait_ids", []), catalog, "attack_mod")
+    # TKT-06 parity con JS resolveAttack: include unit.mod stat in attack_mod + cd.
+    # aggregate_mod copre solo i trait; unit.mod è lo stat base species/job.
+    attack_mod = aggregate_mod(attacker.get("trait_ids", []), catalog, "attack_mod") + int(
+        attacker.get("mod", 0)
+    )
     defense_mod_target = aggregate_mod(
         target.get("trait_ids", []), catalog, "defense_mod"
-    )
+    ) + int(target.get("mod", 0))
     terrain_defense = int(target.get("terrain_defense_mod", 0))
     cd = ATTACK_CD_BASE + int(target.get("tier", 1)) + defense_mod_target + terrain_defense
     trait_step = aggregate_mod(attacker.get("trait_ids", []), catalog, "damage_step")
