@@ -109,7 +109,15 @@ main {
 canvas#grid {
   background: var(--cell);
   border: 2px solid var(--border);
-  cursor: pointer;
+  /* W3.4 — tactical crosshair cursor. Active hover pulse via transition. */
+  cursor: crosshair;
+  transition:
+    border-color 0.18s ease-out,
+    box-shadow 0.18s ease-out;
+}
+canvas#grid:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(255, 204, 0, 0.28);
 }
 
 .controls {
