@@ -63,6 +63,7 @@ from rules.resolver import (  # noqa: E402
     compute_step_count,
     compute_step_flat_bonus,
     get_status,
+    predict_combat,
     resolve_action,
     resolve_parry,
 )
@@ -1238,3 +1239,50 @@ def test_pp_accumulates_without_cap(catalog):
     )
     # 9 + 1 (hit) + 2 (kill) = 12
     assert actor_after["pp"] == 12
+
+
+# --- TKT-06: unit.mod parity con JS resolveAttack --------------------------
+
+
+def test_predict_combat_includes_attacker_mod(catalog):
+    """TKT-06: predict_combat somma attacker.mod allo attack_mod aggregato.
+
+    Parity con JS sessionHelpers.predictCombat che usa `actor.mod` come base.
+    """
+    attacker = {"mod": 3, "trait_ids": [], "damage_dice": {"count": 1, "sides": 6, "modifier": 0}}
+    target = {"hp": 10, "tier": 1, "trait_ids": []}
+    baseline = predict_combat({"mod": 0, "trait_ids": []}, target, catalog, n=100)
+    boosted = predict_combat(attacker, target, catalog, n=100)
+    assert boosted["attack_mod"] == baseline["attack_mod"] + 3
+    # Più attack_mod → più hit_pct a parità di CD
+    assert boosted["hit_pct"] >= baseline["hit_pct"]
+
+
+def test_predict_combat_includes_target_mod(catalog):
+    """TKT-06: predict_combat somma target.mod al CD (via defense_mod)."""
+    attacker = {"mod": 0, "trait_ids": [], "damage_dice": {"count": 1, "sides": 6, "modifier": 0}}
+    baseline = predict_combat(attacker, {"hp": 10, "tier": 1, "mod": 0, "trait_ids": []}, catalog, n=100)
+    armored = predict_combat(attacker, {"hp": 10, "tier": 1, "mod": 4, "trait_ids": []}, catalog, n=100)
+    assert armored["cd"] == baseline["cd"] + 4
+    # Più CD → meno hit_pct
+    assert armored["hit_pct"] <= baseline["hit_pct"]
+
+
+def test_resolve_action_includes_actor_mod(catalog):
+    """TKT-06: resolve_action(attack) include actor.mod nel total tiro.
+
+    nat 8 + actor.mod 4 = 12 vs CD 12 (power 4 tier 2) → success mos 0.
+    Senza fix (pre-TKT-06), total sarebbe 8 < 12 → miss.
+    """
+    state = _mini_state(catalog)
+    actor = state["units"][0]
+    actor["mod"] = 4
+    rng = rng_from_sequence([
+        7 / 20,  # nat 8
+        4 / 8,   # damage 5
+    ])
+    result = resolve_action(state, _attack(), catalog, rng)
+    roll = result["turn_log_entry"]["roll"]
+    assert roll["natural"] == 8
+    assert roll["success"] is True, "actor.mod=4 deve promuovere nat 8 a hit (total 12 = CD 12)"
+    assert roll["mos"] == 0
