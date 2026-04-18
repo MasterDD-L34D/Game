@@ -3,7 +3,7 @@ title: 43 — Asset Sourcing canonical (zero-cost + AI pipeline)
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-04-18'
+last_verified: 2026-04-18
 source_of_truth: true
 language: it
 review_cycle_days: 90
@@ -53,12 +53,12 @@ related:
 
 ### Tool approvati
 
-| Tool                                 | URL                                         | Uso                     |      Licenza output commerciale       |          Fit 32×32 pixel           |
-| ------------------------------------ | ------------------------------------------- | ----------------------- | :-----------------------------------: | :--------------------------------: |
-| **Retro Diffusion**                  | https://www.retrodiffusion.ai               | Primary pixel-art 32×32 | ✅ (SaaS ToS, verifica current 2026)  |             ⭐⭐⭐⭐⭐             |
-| **Adobe Firefly**                    | https://www.adobe.com/products/firefly.html | Legal-safe fallback     |      ✅ (indemnification Adobe)       |       ⭐⭐ (no pixel native)       |
-| **Stable Diffusion XL + LoRA local** | https://stability.ai + https://civitai.com  | Custom offline          | ✅ (open model) + LoRA CC0 verificare | ⭐⭐⭐⭐ (con LoRA "pixel-art-xl") |
-| **Flux Pro**                         | https://blackforestlabs.ai                  | Alta qualità non-pixel  |          ✅ (licenza chiara)          |                ⭐⭐                |
+| Tool                                 | URL                                         | Uso                     |                      Licenza output commerciale                       |          Fit 32×32 pixel           |
+| ------------------------------------ | ------------------------------------------- | ----------------------- | :-------------------------------------------------------------------: | :--------------------------------: |
+| **Retro Diffusion**                  | https://www.retrodiffusion.ai               | Primary pixel-art 32×32 | ✅ Premium $10-25/mo (commercial + no watermark, verified 2026-04-18) |             ⭐⭐⭐⭐⭐             |
+| **Adobe Firefly**                    | https://www.adobe.com/products/firefly.html | Legal-safe fallback     |                      ✅ (indemnification Adobe)                       |       ⭐⭐ (no pixel native)       |
+| **Stable Diffusion XL + LoRA local** | https://stability.ai + https://civitai.com  | Custom offline          |                 ✅ (open model) + LoRA CC0 verificare                 | ⭐⭐⭐⭐ (con LoRA "pixel-art-xl") |
+| **Flux Pro**                         | https://blackforestlabs.ai                  | Alta qualità non-pixel  |                          ✅ (licenza chiara)                          |                ⭐⭐                |
 
 ### Tool NON usabili (senza review esplicita)
 
@@ -229,8 +229,10 @@ All AI-generated outputs received significant human authorship contribution
 inclusion. No AI-generated output depicting or replicating the style of
 specific living artists was used.
 
-AI tools: Retro Diffusion (https://www.retrodiffusion.ai), with SaaS
-terms of service permitting commercial use as of 2026.
+AI tools: Retro Diffusion (https://www.retrodiffusion.ai) Premium tier
+($10-25/mo), terms of service permit commercial use + no watermark
+(verified 2026-04-18). Training data: licensed assets from Astropulse +
+other pixel artists with consent (ethical claim per company statement).
 ```
 
 ### Steam store submission (quando pubblicato)
