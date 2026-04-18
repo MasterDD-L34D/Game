@@ -19,11 +19,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 COMMIT_PATTERNS = [
-    (("traits/", "biomes/", "rules/", "jobs/", "species/", "combat", "turn", "play:"), "GAMEPLAY"),
-    (("data/", "datasets/", "yaml", "schema", "data:"), "DATA"),
-    (("docker", "ci/", ".github/workflows", "prisma", "migration", "deploy", "compose", "infra:"), "INFRA"),
+    (("traits/", "biomes/", "rules/", "jobs/", "species/", "engine/game", "combat", "turn", "round", "session/", "session.js", "playtest", "play:", "play(", "ai/", "intent"), "GAMEPLAY"),
+    (("data/", "datasets/", "yaml", "schema", "data:", "data("), "DATA"),
+    (("docker", "ci/", ".github/workflows", "prisma", "migration", "deploy", "compose", "infra:", "infra(", "chore("), "INFRA"),
     (("cli/", "tools/", "validator", "dashboard", "analytics", "script"), "TOOLING"),
-    (("readme", "docs/", "changelog", "canvas", ".md", "doc:"), "DOCS"),
+    (("readme", "docs/", "changelog", "canvas", ".md", "doc:", "docs(", "doc("), "DOCS"),
 ]
 
 

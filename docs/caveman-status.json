@@ -2,75 +2,75 @@
   "_meta": {
     "generator": "caveman_status_stdlib (fallback)",
     "version": "0.2.0-stdlib",
-    "generated_at": "2026-04-17T11:17:27.060654+00:00",
-    "repo_root": "C:\\Users\\VGit\\Desktop\\Game\\.claude\\worktrees\\clever-khayyam",
+    "generated_at": "2026-04-18T00:03:42.130832+00:00",
+    "repo_root": "C:\\Users\\VGit\\Desktop\\Game",
     "note": "File generato via tools/py/caveman_status_stdlib.py (stdlib-only). Quando evo-caveman CLI è installato, rigenerare con `caveman export`."
   },
   "snapshot": {
-    "dirty_files_count": 5,
+    "dirty_files_count": 10,
     "recent_commits_count": 10,
-    "gameplay_ratio": 0.0,
+    "gameplay_ratio": 0.8,
     "consecutive_infra_commits": 0,
-    "is_drifting": true,
+    "is_drifting": false,
     "recent_commits": [
       {
-        "sha": "949f6ca0",
+        "sha": "fcadf364",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest-ui): cell highlight durante resolve + keyboard shortcuts (#1549)",
+        "files_count": 0
+      },
+      {
+        "sha": "aa4731f1",
         "kind": "DOCS",
-        "message_first_line": "doc: COMMIT_STYLE canonico (RESEARCH_TODO S2) (#1489)",
+        "message_first_line": "docs(claude-md): session workflow patterns section (#1547)",
         "files_count": 0
       },
       {
-        "sha": "8cc1287f",
-        "kind": "DOCS",
-        "message_first_line": "doc: README refresh — Why/What/How/For-agents (RESEARCH_TODO S3) (#1487)",
-        "files_count": 0
-      },
-      {
-        "sha": "8c3f6fd3",
-        "kind": "TOOLING",
-        "message_first_line": "doc: add PILLARS_STATUS dashboard — RESEARCH_TODO S1 (#1486)",
-        "files_count": 0
-      },
-      {
-        "sha": "7ae85d52",
+        "sha": "ac5188bf",
         "kind": "ALTRO",
-        "message_first_line": "playtest: [2026-04-17] first documented session (#1485)",
+        "message_first_line": "chore: sprint context + GDD ADR placeholders + AI meter UI + harness fixes (#1546)",
         "files_count": 0
       },
       {
-        "sha": "193a31a5",
-        "kind": "DOCS",
-        "message_first_line": "doc: scaffold M1 first playtest (setup + notes template) (#1484)",
+        "sha": "c9f08caf",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest-ui): resolve animation sequenziale + cleanup dead code (#1545)",
         "files_count": 0
       },
       {
-        "sha": "4d526cd4",
-        "kind": "ALTRO",
-        "message_first_line": "docs(canonical): chiude 8 Open Questions Master DD — Art/Audio/Business/Narrative (#1481)",
+        "sha": "9976db41",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest-ui): pannello \"Ordini pendenti\" laterale (#1544)",
         "files_count": 0
       },
       {
-        "sha": "2b58cd73",
-        "kind": "DOCS",
-        "message_first_line": "doc: commit RESEARCH_TODO.md as source of truth + mark M2/M3 done (#1483)",
+        "sha": "d3828f5f",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest): scenari 3v3 + 4v4 co-op planning-first (#1543)",
         "files_count": 0
       },
       {
-        "sha": "aee9609e",
-        "kind": "DOCS",
-        "message_first_line": "doc: add project pitch (3 sentences max) — RESEARCH_TODO M3 (#1482)",
+        "sha": "35278ac6",
+        "kind": "GAMEPLAY",
+        "message_first_line": "play(balance): hardcore_06 iter 1 — boss hp +57%, +1 elite (PR4.b post calibration) (#1542)",
         "files_count": 0
       },
       {
-        "sha": "9ae81ec3",
-        "kind": "ALTRO",
-        "message_first_line": "feat(difficulty): session integration + /profiles endpoint (Q-001 T2.3 PR-3 of 5) (#1480)",
+        "sha": "6e601158",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest-ui): shift-click own unit → clear pending intent (#1541)",
         "files_count": 0
       },
       {
-        "sha": "17003bd0",
-        "kind": "ALTRO",
-        "message_first_line": "feat(replay): deterministic engine MVP (Q-001 T2.4 PR-3 of 5) (#1479)",
+        "sha": "18069352",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest-ui): visual preview intent + multi-player token labels (#1540)",
+        "files_count": 0
+      },
+      {
+        "sha": "814611fb",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(round): /declare-intent server-side validation (range/AP/target/grid) (#1538)",
         "files_count": 0
       }
     ]
