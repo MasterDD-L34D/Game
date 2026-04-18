@@ -308,12 +308,18 @@ def run_one(host, run_idx):
                            for u_id, u in final_units.items() if u.get("controlled_by") == "player")
     boss_hp_remaining = final_units.get("e_apex_boss", {}).get("hp", 0)
 
-    # VC scores.
-    vc_status, vc = get(f"{host}/api/session/{sid}/vc")
-    vc_data = vc if vc_status == 200 else {}
-
-    # Cleanup.
-    post(f"{host}/api/session/end", {"session_id": sid})
+    # VC scores — TKT-D FU-M3: PR #1564 espone vc_snapshot direttamente
+    # nel response di /end, risparmiando una GET /vc per run.
+    end_status, end_res = post(f"{host}/api/session/end", {"session_id": sid})
+    vc_data = {}
+    if end_status == 200 and isinstance(end_res, dict):
+        vc_snapshot = end_res.get("vc_snapshot") or {}
+        vc_data = vc_snapshot
+    else:
+        # Fallback legacy: GET /vc se /end non ha vc_snapshot (non dovrebbe mai
+        # accadere post PR #1564, tenuto per sicurezza).
+        vc_status, vc = get(f"{host}/api/session/{sid}/vc")
+        vc_data = vc if vc_status == 200 else {}
 
     return {
         "run": run_idx,
