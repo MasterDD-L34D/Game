@@ -83,6 +83,7 @@ export function renderUnits(ul, state, selectedId, onClick, pendingIntents = nul
         ${u.dc != null ? `<span>DC ${u.dc}</span>` : ''}
         ${u.mod != null ? `<span>+${u.mod}</span>` : ''}
         ${u.attack_range ? `<span>range ${u.attack_range}</span>` : ''}
+        ${u.initiative != null ? `<span title="Reaction speed — priority queue ADR-2026-04-15">⚡ ${u.initiative}</span>` : ''}
         ${u.guardia ? `<span>guardia ${u.guardia}</span>` : ''}
       </div>
       ${statusChips ? `<div class="unit-status-row">${statusChips}</div>` : ''}

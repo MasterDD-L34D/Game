@@ -1,40 +1,9 @@
 {
-  "generated_at": "2026-04-17T13:35:52+00:00",
+  "generated_at": "2026-04-18T21:55:52+00:00",
   "summary": {
-    "total": 5,
+    "total": 0,
     "errors": 0,
-    "warnings": 5
+    "warnings": 0
   },
-  "issues": [
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/hubs/combat.md",
-      "message": "Campo last_verified differente tra frontmatter (2026-04-17) e registry (2026-04-14)"
-    },
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/core/00-SOURCE-OF-TRUTH.md",
-      "message": "Campo last_verified differente tra frontmatter ('2026-04-16') e registry (2026-04-16)"
-    },
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/core/00-GDD_MASTER.md",
-      "message": "Campo last_verified differente tra frontmatter ('2026-04-16') e registry (2026-04-16)"
-    },
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/core/00B-CANONICAL_PROMOTION_MATRIX.md",
-      "message": "Campo last_verified differente tra frontmatter ('2026-04-16') e registry (2026-04-16)"
-    },
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/core/00E-NAMING_STYLEGUIDE.md",
-      "message": "Campo last_verified differente tra frontmatter ('2026-04-16') e registry (2026-04-16)"
-    }
-  ]
+  "issues": []
 }

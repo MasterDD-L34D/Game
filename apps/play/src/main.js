@@ -23,7 +23,66 @@ const state = {
   lastResolutionOrder: new Map(),
   // W4.6 — planning timer start timestamp (null = not active)
   planningTimerStart: null,
+  // W5.D — eval set Flint v0.3 decision trace (JSONL pairs per decision)
+  evalSet: [],
 };
+
+// W5.D — Build eval set entry per decision. Each entry = prompt (pre-action state)
+// + response (user choice) pair per Flint v0.3 classifier gate.
+function captureDecision(body) {
+  if (!state.world) return;
+  const actor = (state.world.units || []).find((u) => u.id === body.actor_id);
+  if (!actor) return;
+  const visibleEnemies = (state.world.units || [])
+    .filter((u) => u.controlled_by === 'sistema' && u.hp > 0)
+    .map((u) => ({ id: u.id, hp: `${u.hp}/${u.max_hp}`, pos: [u.position?.x, u.position?.y] }));
+  const entry = {
+    id: `t${state.world.turn}_${actor.id}_${state.evalSet.length + 1}`,
+    ts: new Date().toISOString(),
+    prompt: {
+      session_id: state.sid,
+      turn: state.world.turn,
+      actor: actor.id,
+      actor_job: actor.job,
+      actor_hp: `${actor.hp}/${actor.max_hp}`,
+      actor_ap: `${actor.ap_remaining ?? actor.ap}/${actor.ap}`,
+      actor_pos: [actor.position?.x, actor.position?.y],
+      visible_enemies: visibleEnemies,
+      sistema_pressure: state.world.sistema_pressure,
+      sistema_tier: state.world.sistema_tier,
+    },
+    response: {
+      action_type: body.action_type,
+      target_id: body.target_id || null,
+      position: body.position || null,
+      ability_id: body.ability_id || null,
+    },
+    meta: {
+      round_flow: useRoundFlow() ? 'simultaneous' : 'sequential',
+      confirm_action: useConfirmAction(),
+    },
+  };
+  state.evalSet.push(entry);
+}
+
+// W5.D — Download eval set as JSONL (line-delimited JSON).
+function downloadEvalSet() {
+  if (state.evalSet.length === 0) {
+    alert('Eval set vuoto. Gioca qualche azione prima.');
+    return;
+  }
+  const jsonl = state.evalSet.map((e) => JSON.stringify(e)).join('\n');
+  const blob = new Blob([jsonl], { type: 'application/x-jsonlines' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `eval_set_flint_v0.3_${state.sid?.slice(0, 8) || 'nosid'}_${Date.now()}.jsonl`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+window.__dbg = window.__dbg || {};
+window.__dbg.downloadEvalSet = downloadEvalSet;
+window.__dbg.evalSetSize = () => state.evalSet.length;
 
 // W4.6 — Planning timer 30s config + interval handle
 const PLANNING_TIMER_MS = 30_000;
@@ -340,6 +399,12 @@ async function doAction(body) {
   cancelPendingAbility(true);
   body.session_id = state.sid;
 
+  // W5.D — capture decision pre-commit for Flint v0.3 eval set.
+  // Non duplica su confirm pending (skip primo click confirm).
+  if (!useConfirmAction() || _pendingConfirm != null) {
+    captureDecision(body);
+  }
+
   // Confirm action: primo click pending, secondo click stessa action = commit
   if (useConfirmAction()) {
     if (!confirmMatch(_pendingConfirm, body)) {
@@ -555,6 +620,8 @@ async function startNewSession() {
   state.pendingIntents.clear();
   state.lastResolutionOrder.clear();
   stopPlanningTimer();
+  // W5.D — reset eval set per session
+  state.evalSet = [];
   lastEventsCount = (state.world?.events || []).length;
   appendLog(logEl, `✓ sessione ${state.sid.slice(0, 8)}…`);
   const flags = [];
@@ -569,6 +636,9 @@ document.getElementById('cancel-pending').addEventListener('click', () => cancel
 document.getElementById('new-session').addEventListener('click', () => {
   cancelPendingAbility(true);
   startNewSession();
+});
+document.getElementById('download-eval').addEventListener('click', () => {
+  downloadEvalSet();
 });
 document.getElementById('open-replay').addEventListener('click', () => {
   cancelPendingAbility(true);
