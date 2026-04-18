@@ -1388,27 +1388,30 @@ function createSessionRouter(options = {}) {
       await persistEvents(session);
       const eventsCount = session.events.length;
       const logFile = session.logFilePath;
-      sessions.delete(session.session_id);
-      if (activeSessionId === session.session_id) {
-        activeSessionId = null;
-      }
-      // C3: assemble debrief summary with PE/PI/VC/PF
+      // VC snapshot + debrief computed pre-delete so response carries final state
+      // (harness scripts no longer need a separate GET /:id/vc before /end).
+      let vcSnapshot = null;
       let debrief = null;
       try {
-        const vcSnapshot = buildVcSnapshot(session, telemetryConfig);
+        vcSnapshot = buildVcSnapshot(session, telemetryConfig);
         const { computeSessionPE, buildDebriefSummary } = require('../services/rewardEconomy');
         const peResult = computeSessionPE(vcSnapshot, {
           difficulty: session.difficulty || 'standard',
         });
         debrief = buildDebriefSummary(session, vcSnapshot, peResult);
       } catch {
-        // debrief is best-effort — don't block session end
+        // vc + debrief are best-effort — don't block session end
+      }
+      sessions.delete(session.session_id);
+      if (activeSessionId === session.session_id) {
+        activeSessionId = null;
       }
       res.json({
         session_id: session.session_id,
         finalized: true,
         log_file: logFile,
         events_count: eventsCount,
+        vc_snapshot: vcSnapshot,
         debrief,
       });
     } catch (err) {
