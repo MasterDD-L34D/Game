@@ -6869,6 +6869,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/process/2026-04-18-M4-retrospective-art-integration-gap.md",
+      "title": "M4 Retrospective — Art integration gap (M3.6-M3.10 lesson)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-18",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
     }
   ]
 }
