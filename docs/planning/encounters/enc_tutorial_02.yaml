@@ -61,3 +61,10 @@ didactic_focus:
 narrative:
   briefing_ink: stories/tutorial_02_briefing.ink.json
   debrief_ink: stories/tutorial_02_debrief.ink.json
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: esposizione
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca
+  accent_override: '#d4884a'

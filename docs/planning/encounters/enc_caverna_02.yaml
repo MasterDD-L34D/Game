@@ -63,3 +63,9 @@ tags: [standard]
 narrative:
   briefing_ink: stories/enc_caverna_02_briefing.ink.json
   debrief_ink: stories/enc_caverna_02_debrief.ink.json
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: claustrofobia
+  lighting: bassa_puntiforme
+  particle_effect: bioluminescenza_drift

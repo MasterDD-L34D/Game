@@ -67,3 +67,9 @@ didactic_focus:
   - time_pressure
 
 narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: archeologico
+  lighting: fredda_obliqua
+  particle_effect: polvere_millenaria

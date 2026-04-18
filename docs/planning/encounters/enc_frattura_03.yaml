@@ -101,3 +101,10 @@ conditions:
     effect: memory_fog
 
 tags: [boss, survival, storm]
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: tensione_mistero
+  lighting: bassa_bioluminescente
+  particle_effect: onde_sinaptiche
+  accent_override: '#3d1e5a'

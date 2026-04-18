@@ -277,6 +277,30 @@
         "max_total_spawns": { "type": "integer", "minimum": 0 },
         "min_distance_from_pg": { "type": "integer", "minimum": 0, "default": 3 }
       }
+    },
+    "visual_mood": {
+      "type": "object",
+      "description": "Art direction metadata per encounter (docs/core/41-ART-DIRECTION.md). Referenzia palette bioma + lighting + particle effect + optional accent override. Opzionale, no-op runtime.",
+      "additionalProperties": false,
+      "properties": {
+        "mood_tag": {
+          "type": "string",
+          "description": "Mood from 41-AD palette matrix (es. esposizione, claustrofobia, tensione_mistero, densita_tossica, onirico_sporale, archeologico, vivacita_acquatica, pericolo_calore, astratto_digitale)"
+        },
+        "lighting": {
+          "type": "string",
+          "description": "Light direction from 41-AD (es. alta_calda_dall_alto, bassa_puntiforme, filtrata_verdastra, diffusa_violacea, fredda_obliqua, bassa_bioluminescente, chiaroscuro_subacqueo, calda_dal_basso, neutra_diffusa)"
+        },
+        "particle_effect": {
+          "type": "string",
+          "description": "Particelle ambientali semantiche (es. polvere_secca, spore_fluttuanti, bioluminescenza_drift, scintille_magma, onde_sinaptiche, bolle_reef, cenere_sospesa)"
+        },
+        "accent_override": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "description": "Optional palette accent override per encounter (hex 6 o 8 digit). Override accent 1 del bioma se presente."
+        }
+      }
     }
   }
 }
