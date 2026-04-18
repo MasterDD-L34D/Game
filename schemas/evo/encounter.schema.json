@@ -214,6 +214,50 @@
       "type": "array",
       "items": { "type": "string" },
       "description": "Mechanics highlighted in tutorial encounters"
+    },
+    "reinforcement_pool": {
+      "type": "array",
+      "description": "ADR-2026-04-19: SIS reinforcement candidates (weighted selection).",
+      "items": {
+        "type": "object",
+        "required": ["unit_id"],
+        "additionalProperties": true,
+        "properties": {
+          "unit_id": { "type": "string", "minLength": 1 },
+          "weight": { "type": "number", "minimum": 0 },
+          "max_spawns": { "type": "integer", "minimum": 1 },
+          "hp": { "type": "integer", "minimum": 1 },
+          "mod": { "type": "integer" },
+          "dc": { "type": "integer", "minimum": 1 },
+          "ai_profile": { "type": "string" }
+        }
+      }
+    },
+    "reinforcement_entry_tiles": {
+      "type": "array",
+      "description": "ADR-2026-04-19: tiles where reinforcement units may spawn (Manhattan ≥ min_distance_from_pg from any PG).",
+      "items": {
+        "type": "array",
+        "items": { "type": "integer", "minimum": 0 },
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "reinforcement_policy": {
+      "type": "object",
+      "description": "ADR-2026-04-19: gating rules for reinforcementSpawner.tick().",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": { "type": "boolean", "default": false },
+        "min_tier": {
+          "type": "string",
+          "enum": ["Calm", "Alert", "Escalated", "Critical", "Apex"],
+          "default": "Alert"
+        },
+        "cooldown_rounds": { "type": "integer", "minimum": 0, "default": 0 },
+        "max_total_spawns": { "type": "integer", "minimum": 0 },
+        "min_distance_from_pg": { "type": "integer", "minimum": 0, "default": 3 }
+      }
     }
   }
 }
