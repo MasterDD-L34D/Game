@@ -1,9 +1,9 @@
 ---
 title: 'ADR 2026-04-20 — Objective parametrizzato (Option C)'
-doc_status: draft
+doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: 2026-04-20
+last_verified: 2026-04-18
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -15,8 +15,11 @@ related:
 
 # ADR-2026-04-20 · Objective parametrizzato
 
-**Stato**: 🟡 DRAFT
-**Branch**: `docs/adr-reinforcement-spawn` (ADR A + B coabitano)
+**Stato**: 🟢 ACCEPTED
+**Branch**: `docs/adr-reinforcement-spawn` + wiring `feat/wire-g-h-step1` (#1571) + `feat/wire-g-h-step2` (#1573)
+**Implementazione**: `apps/backend/services/combat/objectiveEvaluator.js` (#1568) + wiring `sessionRoundBridge` + `/end` (#1571, #1573)
+**Coverage encounter**: `enc_capture_01` + `enc_escort_01` + `enc_survival_01` + `enc_hardcore_reinf_01` (#1574)
+**Harness**: `tools/py/batch_calibrate_non_elim.py` (#1575)
 
 ## Contesto
 
