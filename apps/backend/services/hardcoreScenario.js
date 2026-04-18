@@ -191,7 +191,32 @@ function buildHardcoreUnits06() {
   return [...players, ...enemies];
 }
 
+// Iter 5 Option A (addendum 2026-04-18): variant quartet 4p.
+// Rimuove asimmetria focus-fire 8v6 (full modulation) che plateaued wr a 80-90%.
+// Quartet 4p test batch N=10: wr 10% (in band target 15-25%), K/D median 0.5.
+// Boss hp 40→22 compromise: full quartet (boss hp 40) = wr 0% overshoot.
+// Ref: docs/playtest/2026-04-18-hardcore-06-addendum-iter2-4.md §17 Option A.
+function buildHardcoreUnits06Quartet() {
+  const full = buildHardcoreUnits06();
+  const players = full.filter((u) => u.controlled_by === 'player').slice(0, 4);
+  const enemies = full
+    .filter((u) => u.controlled_by === 'sistema')
+    .map((e) => (e.id === 'e_apex_boss' ? { ...e, hp: 22 } : e));
+  return [...players, ...enemies];
+}
+
+const HARDCORE_SCENARIO_06_QUARTET = {
+  ...HARDCORE_SCENARIO_06,
+  id: 'enc_tutorial_06_hardcore_quartet',
+  name: "Cattedrale dell'Apex (Quartet 4p)",
+  objective_text:
+    'Iter 5 variant: 4 PG vs BOSS Apex + 5 guardiani. Quartet modulation bilancia focus-fire (target win_rate 15-25%).',
+  recommended_modulation: 'quartet',
+};
+
 module.exports = {
   HARDCORE_SCENARIO_06,
+  HARDCORE_SCENARIO_06_QUARTET,
   buildHardcoreUnits06,
+  buildHardcoreUnits06Quartet,
 };

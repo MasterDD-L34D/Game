@@ -22,7 +22,12 @@ const {
   buildTutorialUnits04,
   buildTutorialUnits05,
 } = require('../services/tutorialScenario');
-const { HARDCORE_SCENARIO_06, buildHardcoreUnits06 } = require('../services/hardcoreScenario');
+const {
+  HARDCORE_SCENARIO_06,
+  HARDCORE_SCENARIO_06_QUARTET,
+  buildHardcoreUnits06,
+  buildHardcoreUnits06Quartet,
+} = require('../services/hardcoreScenario');
 
 function createTutorialRouter() {
   const router = Router();
@@ -75,6 +80,15 @@ function createTutorialRouter() {
     });
   });
 
+  // Iter 5 Option A variant — quartet 4p balanced (target wr 15-25%).
+  router.get('/enc_tutorial_06_hardcore_quartet', (_req, res) => {
+    res.json({
+      ...HARDCORE_SCENARIO_06_QUARTET,
+      units: buildHardcoreUnits06Quartet(),
+      usage: 'POST units + modulation="quartet" → 4p vs 6 enemy (boss hp 22 balanced).',
+    });
+  });
+
   router.get('/', (_req, res) => {
     res.json({
       scenarios: [
@@ -113,6 +127,12 @@ function createTutorialRouter() {
           name: HARDCORE_SCENARIO_06.name,
           difficulty: HARDCORE_SCENARIO_06.difficulty_rating,
           href: `/api/tutorial/${HARDCORE_SCENARIO_06.id}`,
+        },
+        {
+          id: HARDCORE_SCENARIO_06_QUARTET.id,
+          name: HARDCORE_SCENARIO_06_QUARTET.name,
+          difficulty: HARDCORE_SCENARIO_06_QUARTET.difficulty_rating,
+          href: `/api/tutorial/${HARDCORE_SCENARIO_06_QUARTET.id}`,
         },
       ],
     });
