@@ -40,7 +40,47 @@ function formatIntent(intent) {
   return t || 'intent';
 }
 
-export function renderUnits(ul, state, selectedId, onClick, pendingIntents = null) {
+// W6.3 — Extract recent events for a unit (last 5 events where unit is actor or target).
+function recentUnitEvents(state, unitId, limit = 5) {
+  const events = Array.isArray(state.events) ? state.events : [];
+  const filtered = events.filter(
+    (e) =>
+      e.actor_id === unitId ||
+      e.target_id === unitId ||
+      e.ia_controlled_unit === unitId ||
+      e.unit_id === unitId,
+  );
+  return filtered.slice(-limit).reverse();
+}
+
+function formatEventLine(ev, unitId) {
+  const t = ev.action_type || ev.type || 'event';
+  const dmg = ev.damage_dealt;
+  const role = ev.target_id === unitId ? 'subìto' : 'inflitto';
+  if (t === 'attack' || t === 'ability') {
+    if (dmg == null) return `${t}`;
+    if (dmg === 0) return `miss`;
+    if (dmg < 0) return `heal +${-dmg}`;
+    return dmg > 0 ? `-${dmg} HP (${role})` : `${t}`;
+  }
+  if (t === 'move') {
+    const f = ev.position_from;
+    const to = ev.position_to;
+    if (Array.isArray(f) && Array.isArray(to)) return `move [${f[0]},${f[1]}]→[${to[0]},${to[1]}]`;
+    return `move`;
+  }
+  if (t === 'spawn' || ev.result === 'spawned') return 'spawn';
+  return t;
+}
+
+export function renderUnits(
+  ul,
+  state,
+  selectedId,
+  onClick,
+  pendingIntents = null,
+  onCancelIntent = null,
+) {
   ul.innerHTML = '';
   for (const u of state.units || []) {
     const li = document.createElement('li');
@@ -93,12 +133,43 @@ export function renderUnits(ul, state, selectedId, onClick, pendingIntents = nul
         if (!pendingIntents) return '';
         const intent = pendingIntents.get ? pendingIntents.get(u.id) : pendingIntents[u.id];
         if (intent) {
-          return `<div class="intent-badge declared" title="Intent dichiarato">✓ ${formatIntent(intent)}</div>`;
+          return `<div class="intent-row">
+            <div class="intent-badge declared" title="Intent dichiarato">✓ ${formatIntent(intent)}</div>
+            <button class="intent-cancel" data-unit-id="${u.id}" title="Annulla intent (re-click action per nuovo)">✕</button>
+          </div>`;
         }
         return `<div class="intent-badge pending" title="Nessun intent dichiarato">⏳ in attesa</div>`;
       })()}
+      ${(() => {
+        // W6.3 — Per-PG expanded HUD: traits + recent events filtered per unit.
+        // Mostrato solo per player PG vivi (info combattimento personalizzata).
+        if (u.controlled_by !== 'player' || u.hp <= 0) return '';
+        const traits = Array.isArray(u.traits) ? u.traits : [];
+        const evRows = recentUnitEvents(state, u.id, 4);
+        const traitsHtml = traits.length
+          ? `<div class="unit-traits" title="Trait attivi (evoluzione)">🧬 ${traits.map((t) => `<code>${t}</code>`).join(' ')}</div>`
+          : '';
+        const eventsHtml = evRows.length
+          ? `<details class="unit-log-details"><summary>📜 Ultimi eventi (${evRows.length})</summary><ul class="unit-log">${evRows
+              .map((e) => `<li>T${e.turn || '?'}: ${formatEventLine(e, u.id)}</li>`)
+              .join('')}</ul></details>`
+          : '';
+        return `${traitsHtml}${eventsHtml}`;
+      })()}
     `;
-    li.addEventListener('click', () => onClick(u));
+    li.addEventListener('click', (ev) => {
+      // W6.2b — skip select se click su intent-cancel btn (gestito separatamente).
+      if (ev.target && ev.target.classList.contains('intent-cancel')) return;
+      onClick(u);
+    });
+    // W6.2b — cancel intent per PG button
+    const cancelBtn = li.querySelector('.intent-cancel');
+    if (cancelBtn && onCancelIntent) {
+      cancelBtn.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        onCancelIntent(cancelBtn.dataset.unitId);
+      });
+    }
     ul.appendChild(li);
   }
 }

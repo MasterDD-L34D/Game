@@ -101,7 +101,14 @@ function redraw() {
     active: state.world.active_unit,
     resolutionOrder: state.lastResolutionOrder,
   });
-  renderUnits(unitsUl, state.world, state.selected, handleUnitClick, state.pendingIntents);
+  renderUnits(
+    unitsUl,
+    state.world,
+    state.selected,
+    handleUnitClick,
+    state.pendingIntents,
+    handleCancelIntent,
+  );
   updateStatus(state.world);
   // ability panel
   const selUnit = (state.world.units || []).find((u) => u.id === state.selected);
@@ -206,6 +213,26 @@ document.addEventListener('keydown', (e) => {
       updateHint('Pending cancellato. Seleziona unità o altra azione.');
       redraw();
     }
+  }
+});
+
+// W6.2b — Cancel pending intent for a specific PG.
+function handleCancelIntent(unitId) {
+  if (!state.pendingIntents.has(unitId)) return;
+  state.pendingIntents.delete(unitId);
+  appendLog(logEl, `${unitId}: intent annullato`);
+  updateHint(`Intent ${unitId} annullato. Re-pianifica o "Fine turno" per risolvere.`);
+  redraw();
+}
+
+// W6.2b — ESC global: annulla tutti pending intents (planning reset).
+document.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape' && state.pendingIntents.size > 0 && !state.pendingAbility) {
+    const n = state.pendingIntents.size;
+    state.pendingIntents.clear();
+    appendLog(logEl, `ESC: ${n} intent annullati`);
+    updateHint(`${n} intent cleared. Ri-pianifica round.`);
+    redraw();
   }
 });
 
@@ -461,7 +488,7 @@ async function doAction(body) {
       updateHint(`❌ ${r.data?.error || 'Intent rifiutato.'} · riprova`);
       return;
     }
-    // W4.1 — track intent client-side per badge sidebar
+    // W4.1 — track intent client-side per badge sidebar. Latest-wins (re-declare override).
     state.pendingIntents.set(body.actor_id, action);
     const tag = body.ability_id
       ? `→ ability ${body.ability_id}${body.target_id ? ` → ${body.target_id}` : ''}`
@@ -470,18 +497,33 @@ async function doAction(body) {
         : `→ atk ${body.target_id}`;
     appendLog(logEl, `${body.actor_id}: ${tag} (pending)`);
     redraw();
-    // W4.5 — auto-commit when all alive player units have declared
+    // W6.1 — Auto-commit rimosso (user bug report: "scatta il round appena clicco secondo PG").
+    // Explicit "Fine turno" only. User può re-declare per cambiare idea.
+    // Opt-in tramite localStorage flag `evo:auto-commit` = 'true' (power-user).
     const alivePlayers = (state.world?.units || []).filter(
       (u) => u.controlled_by === 'player' && u.hp > 0,
     );
     const allDeclared = alivePlayers.every((u) => state.pendingIntents.has(u.id));
     if (allDeclared && alivePlayers.length > 0) {
-      updateHint(`✓ Tutti i player dichiarati (${alivePlayers.length}). Risolvo round…`);
-      setTimeout(() => triggerCommitRound(), 250);
+      const autoCommit = (() => {
+        try {
+          return localStorage.getItem('evo:auto-commit') === 'true';
+        } catch {
+          return false;
+        }
+      })();
+      if (autoCommit) {
+        updateHint(`✓ Tutti dichiarati. Auto-commit 250ms…`);
+        setTimeout(() => triggerCommitRound(), 250);
+      } else {
+        updateHint(
+          `✓ Tutti i player dichiarati (${alivePlayers.length}/${alivePlayers.length}). Click "Fine turno" per risolvere — o re-click per cambiare intent.`,
+        );
+      }
     } else {
       const remaining = alivePlayers.length - state.pendingIntents.size;
       updateHint(
-        `✓ Intent dichiarato ${body.actor_id}. ${remaining} player restante/i o "Fine turno".`,
+        `✓ Intent dichiarato ${body.actor_id}. ${remaining} PG restante/i. Click "Fine turno" per risolvere.`,
       );
     }
     return;

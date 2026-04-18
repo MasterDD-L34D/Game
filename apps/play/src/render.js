@@ -287,6 +287,7 @@ function drawRangeOverlay(ctx, state, gridH, selectedId) {
   }
 
   // Move range (Manhattan <= AP, escluse celle occupate).
+  // W6.2a — AP cost label per tile (user bug: "non mostrati costi caselle movimento").
   if (ap > 0) {
     ctx.save();
     for (let gy = 0; gy < gridH; gy += 1) {
@@ -300,6 +301,12 @@ function drawRangeOverlay(ctx, state, gridH, selectedId) {
         ctx.strokeStyle = RANGE_TINT.moveBorder;
         ctx.lineWidth = 1.5;
         ctx.strokeRect(gx * CELL + 2, yPx * CELL + 2, CELL - 4, CELL - 4);
+        // AP cost label (angolo top-left tile)
+        ctx.fillStyle = 'rgba(0, 184, 212, 0.92)';
+        ctx.font = 'bold 11px "SF Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText(`${d} AP`, gx * CELL + 5, yPx * CELL + 4);
       }
     }
     ctx.restore();
