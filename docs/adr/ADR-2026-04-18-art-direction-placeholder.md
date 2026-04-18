@@ -1,6 +1,6 @@
 ---
-title: 'ADR 2026-04-18 — Art Direction placeholder + roadmap'
-doc_status: draft
+title: 'ADR 2026-04-18 — Art Direction canonical (naturalistic stylized)'
+doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
 last_verified: 2026-04-18
@@ -8,12 +8,18 @@ source_of_truth: false
 language: it
 review_cycle_days: 90
 supersedes: []
+related:
+  - 'docs/core/41-ART-DIRECTION.md'
+  - 'docs/core/42-STYLE-GUIDE-UI.md'
+  - 'docs/planning/draft-art-direction.md'
 ---
 
-# ADR-2026-04-18 · Art Direction placeholder + roadmap
+# ADR-2026-04-18 · Art Direction canonical
 
-**Stato**: 🟡 DRAFT — direzione provvisoria, awaiting Master DD final approval
-**Issue tracker**: GDD audit gap critico #1 (asset visivi assenti)
+**Stato**: 🟢 ACCEPTED — direzione canonicizzata sprint M3.6
+**Canonical doc**: [`docs/core/41-ART-DIRECTION.md`](../core/41-ART-DIRECTION.md)
+**UI style guide**: [`docs/core/42-STYLE-GUIDE-UI.md`](../core/42-STYLE-GUIDE-UI.md)
+**Issue tracker**: GDD audit gap critico #1 (asset visivi assenti) — ora unblock
 
 ## Contesto
 
@@ -57,17 +63,21 @@ Senza decisione direzione, **ogni asset commission è bloccato** e il game loop 
 - **Contra**: decisione presa pre-playtest visivo (rischio rework), nessun art lead onboard ancora
 - **Neutrale**: canvas 2D corrente resta valido come placeholder, no rewrite engine richiesto
 
-## Roadmap
+## Roadmap (aggiornata post-M3.6 close)
 
-| Step                                                                              | Owner                 | Stima |   Stato    |
-| --------------------------------------------------------------------------------- | --------------------- | ----- | :--------: |
-| 1. Mood board moodboard.md (10 ref + 5 anti-ref)                                  | Master DD             | 2h    |  🟡 todo   |
-| 2. Palette canonica per 4 biomi shipping (savana, caverna, foresta acida, rovine) | art-curator           | 1d    | 🔴 blocked |
-| 3. Silhouette study 4 specie shipping (ant_dweller, dune_stalker, predoni, apex)  | illustrator freelance | 3d    | 🔴 blocked |
-| 4. UI mockup 1 schermata canonica (combat HUD)                                    | UI designer           | 2d    | 🔴 blocked |
-| 5. Style guide canonica → docs/frontend/styleguide.md                             | art-curator           | 1d    | 🔴 blocked |
+| Step                                                                      | Owner                 | Stima |      Stato      |
+| ------------------------------------------------------------------------- | --------------------- | ----- | :-------------: |
+| 1. Mood board (10 ref + 5 anti-ref) canonicizzata                         | Master DD             | 2h    |  ✅ done (ADR)  |
+| 2. Palette canonica per 9 biomi (savana, caverna, foresta, frattura, ...) | art-curator           | 1d    | ✅ done (41-AD) |
+| 3. Silhouette language specie (job-to-shape mapping)                      | illustrator freelance | 3d    |  ✅ spec done   |
+| 4. UI design tokens canonici (colors, typography, spacing, icon grid)     | UI designer           | 2d    | ✅ done (42-SG) |
+| 5. Style guide canonica consolidata                                       | art-curator           | 1d    | ✅ done (42-SG) |
+| 6. Encounter visual_mood field + retrofit 9 scenari                       | claude-agent          | 0.5d  |  ✅ done (#P4)  |
+| 7. Styleguide lint tool (`tools/py/styleguide_lint.py`)                   | claude-agent          | 0.5d  |  ✅ done (#P5)  |
+| 8. Asset commission (freelance illustrator + UI designer)                 | budget holder         | TBD   |   🔴 blocked    |
+| 9. Moodboard visivo + 4 key art reference                                 | art lead              | 1w    |   🔴 blocked    |
 
-Step 1 = unblock per Master DD direttamente. Step 2-5 richiedono budget + freelance.
+Step 1-7 sbloccati dal sprint M3.6 (docs/spec only). Step 8-9 richiedono budget esterno + commission.
 
 ## Open Questions chiuse da questo ADR
 
