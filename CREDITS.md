@@ -29,13 +29,27 @@ Pipeline collaborativa documentata in `docs/core/43-ASSET-SOURCING.md` + `docs/a
 
 ### UI icons
 
-- **Lucide** (ISC / MIT-like) — https://lucide.dev
-  - Base UI icons (menu, buttons, toggles): _[to be populated quando usati]_
-- **Game-icons.net** (CC-BY 3.0) — https://game-icons.net
-  - **Attribution required**: ogni icon usato deve essere listato qui con autore originale
-  - _[to be populated quando usati]_
-- **Heroicons** (MIT) — https://heroicons.com
-  - Fallback UI elements: _[to be populated]_
+#### Custom human-authored (© 2026 Master DD)
+
+Shape geometrici semplici authored in SVG manuale (no AI, no community derivative). Palette derivata da `docs/core/42-STYLE-GUIDE-UI.md`. License: MIT (stesso del repo).
+
+| Asset           | Path                                 | Shape           | Color token              | Uso                     |
+| --------------- | ------------------------------------ | --------------- | ------------------------ | ----------------------- |
+| faction_player  | `data/art/icons/faction_player.svg`  | Triangolo       | `#4a8ad4` player blue    | Outline unit player     |
+| faction_sistema | `data/art/icons/faction_sistema.svg` | Rombo           | `#d44a4a` sistema red    | Outline unit sistema    |
+| faction_neutral | `data/art/icons/faction_neutral.svg` | Esagono         | `#e8c040` neutral yellow | Outline NPC reclutabile |
+| action_attack   | `data/art/icons/action_attack.svg`   | Slash diagonale | `#d44a4a` sistema red    | Attack action button    |
+| action_move     | `data/art/icons/action_move.svg`     | Freccia destra  | `#40d4a8` path cyan      | Move action button      |
+| action_skip     | `data/art/icons/action_skip.svg`     | Pause 2-bar     | `#6a6e78` neutral gray   | Skip/end-turn button    |
+| status_stunned  | `data/art/icons/status_stunned.svg`  | Fulmine         | `#d4884a` debuff orange  | Status icon sopra unit  |
+
+Totale: **7 icon** committed 2026-04-18 sprint M3.9 (first real assets, Flint kill-60 enforcement).
+
+#### Community sources (TBD quando usati)
+
+- **Lucide** (ISC / MIT-like) — https://lucide.dev — base UI generic
+- **Game-icons.net** (CC-BY 3.0) — https://game-icons.net — ability/status tactical (attribution obbligatoria per-icon)
+- **Heroicons** (MIT) — https://heroicons.com — fallback UI
 
 ### Typography
 
