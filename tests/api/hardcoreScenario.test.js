@@ -15,21 +15,23 @@ test('GET /api/tutorial/enc_tutorial_06_hardcore returns 14 units + recommended 
     assert.equal(res.body.id, 'enc_tutorial_06_hardcore');
     assert.equal(res.body.difficulty_rating, 6);
     assert.equal(res.body.recommended_modulation, 'full');
-    assert.equal(res.body.sistema_pressure_start, 75);
+    assert.equal(res.body.sistema_pressure_start, 85); // iter 2: 75→85
     assert.ok(Array.isArray(res.body.units));
-    // iter 1 (PR4.b): +1 elite, totale 8 player + 7 enemy = 15.
-    assert.equal(res.body.units.length, 15);
+    // iter 2: rimosso 3° elite, totale 8 player + 6 enemy = 14.
+    assert.equal(res.body.units.length, 14);
     const players = res.body.units.filter((u) => u.controlled_by === 'player');
     const enemies = res.body.units.filter((u) => u.controlled_by === 'sistema');
     assert.equal(players.length, 8);
-    assert.equal(enemies.length, 7);
+    assert.equal(enemies.length, 6);
     const boss = enemies.find((u) => u.id === 'e_apex_boss');
     assert.ok(boss);
-    assert.equal(boss.hp, 22); // iter 1: 14→22
-    assert.equal(boss.guardia, 3); // iter 1: 2→3
+    assert.equal(boss.hp, 40); // iter 2: 22→40
+    assert.equal(boss.mod, 5); // iter 2: 4→5
+    assert.equal(boss.guardia, 4); // iter 2: 3→4
+    assert.equal(boss.attack_range, 3); // iter 2: 2→3
+    assert.ok(boss.traits.includes('ondata_psichica'), 'iter 2 AOE trait');
     const elite3 = enemies.find((u) => u.id === 'e_elite_hunter_3');
-    assert.ok(elite3, 'iter 1 third elite present');
-    assert.equal(elite3.hp, 9);
+    assert.ok(!elite3, 'iter 2: third elite removed');
   } finally {
     await close();
   }
@@ -67,8 +69,8 @@ test('POST /api/session/start with hardcore units + modulation=full → grid 10x
     assert.equal(state.body.grid?.width, 10);
     assert.equal(state.body.grid?.height, 10);
     assert.equal(state.body.grid_size, 10);
-    assert.equal(state.body.units.length, 15);
-    assert.equal(state.body.sistema_pressure, 75);
+    assert.equal(state.body.units.length, 14); // iter 2: 15→14
+    assert.equal(state.body.sistema_pressure, 85); // iter 2: 75→85
   } finally {
     await close();
   }
