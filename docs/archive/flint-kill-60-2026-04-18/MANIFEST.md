@@ -107,6 +107,29 @@ Lista completa + altre 40+: vedi `~/.claude/projects/C--Users-VGit-Desktop-Game/
 
 ---
 
+## Skills rimosse
+
+### `skills/flint-narrative.md` — Skill blocco narrativo Claude Code locale
+
+| Dimensione     | Valore                                        |
+| -------------- | --------------------------------------------- |
+| Valore scope   | 🔴 Basso (novelty decay 5-7 giorni)           |
+| Applicabilità  | single-user (narrative alter-ego Evo-Tactics) |
+| Stato sviluppo | killed                                        |
+| Re-open cost   | XS (move back to `.claude/skills/`)           |
+
+**Cosa faceva**: auto-trigger blocco `🦴/🪨/🔥 *...*` a fine risposta su trigger phrase ("fatto", "merged", "caveman"). 5 categorie (micro_sprint / design_hint / mini_game / evo_twist / scope_check).
+
+**Perché killed (2026-04-18)**: confusione concettuale con plugin upstream `caveman:caveman`. Plugin = voice compression ONLY. Skill narrativa = **ex-Flint**, non caveman. Utente ha identificato drift: continuavo a generare blocchi nonostante avessi codificato "no auto-trigger" in feedback. Coerenza kill 60% richiede rimozione completa dell'auto-trigger.
+
+**Riferimenti fonte**: stesse di Flint kill 60% (dev.to/azrael654 novelty decay, Lethain meta-productivity).
+
+**Preservato separato**: `flint-narrative-skill/` nella repo root resta come asset destinato upload Claude.ai web (non CLI). Se un giorno serve narrativa su claude.ai, zip + upload.
+
+**Re-open condition**: utente esplicito richiede "riattiva narrativa caveman block". Nessun auto-trigger mai più in base all'episodio 2026-04-18.
+
+---
+
 ## README/FLINT.md sections rimosse
 
 | File                                   | Contenuto                                                      |  Valore  | Re-open |
