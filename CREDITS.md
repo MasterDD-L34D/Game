@@ -87,12 +87,12 @@ _[to be populated quando asset AI generati + integrati]_
 
 ### Tool approvati per AI generation
 
-| Tool                                                            | Uso                     |  License output commerciale   |
-| --------------------------------------------------------------- | ----------------------- | :---------------------------: |
-| **Retro Diffusion** (https://www.retrodiffusion.ai)             | Primary pixel-art 32×32 | SaaS ToS (verificare current) |
-| **Adobe Firefly** (https://www.adobe.com/products/firefly.html) | Fallback non-pixel      |     Indemnification Adobe     |
-| **Stable Diffusion XL + LoRA local** (https://stability.ai)     | Custom offline          |     Open model + LoRA CC0     |
-| **Flux Pro** (https://blackforestlabs.ai)                       | Alta qualità non-pixel  |   Licenza commercial chiara   |
+| Tool                                                            | Uso                     |                    License output commerciale                     |
+| --------------------------------------------------------------- | ----------------------- | :---------------------------------------------------------------: |
+| **Retro Diffusion** (https://www.retrodiffusion.ai)             | Primary pixel-art 32×32 | Premium $10-25/mo commercial + no watermark (verified 2026-04-18) |
+| **Adobe Firefly** (https://www.adobe.com/products/firefly.html) | Fallback non-pixel      |                       Indemnification Adobe                       |
+| **Stable Diffusion XL + LoRA local** (https://stability.ai)     | Custom offline          |                       Open model + LoRA CC0                       |
+| **Flux Pro** (https://blackforestlabs.ai)                       | Alta qualità non-pixel  |                     Licenza commercial chiara                     |
 
 **NON USATI**: Midjourney (default), PixelLab.ai (training undisclosed), Suno/Udio (audio, lawsuits pending).
 
