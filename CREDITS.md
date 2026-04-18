@@ -57,6 +57,20 @@ Totale: **7 icon** committed 2026-04-18 sprint M3.9 (first real assets, Flint ki
 - **Noto Sans** (OFL) — https://fonts.google.com/noto/specimen/Noto+Sans — fallback multilingua
 - **Press Start 2P** (OFL) — https://fonts.google.com/specimen/Press+Start+2P — pixel header (titoli only)
 
+### Tileset (procedural Python — © 2026 Master DD)
+
+Custom algorithm human-authored via `tools/py/art/generate_tile.py`. Palette locked a sub-palette bioma da `docs/core/41-ART-DIRECTION.md`. Licenza: MIT (stesso del repo). Zero AI, zero community derivative. Deterministic RNG hash-based → output riproducibile.
+
+| Asset                            | Path                                                 | Pattern                  | Biome palette               |
+| -------------------------------- | ---------------------------------------------------- | ------------------------ | --------------------------- |
+| savana/grass_01.png              | `data/art/tilesets/savana/grass_01.png`              | grass tufts + dirt       | ocra + verde secco          |
+| caverna_sotterranea/stone_01.png | `data/art/tilesets/caverna_sotterranea/stone_01.png` | cracks + bioluminescenza | basalto + cyan              |
+| foresta_acida/moss_01.png        | `data/art/tilesets/foresta_acida/moss_01.png`        | moss + spore accent      | verde veleno + giallo spore |
+
+Totale: **3 tile procedurali** committed 2026-04-18 sprint M3.10 (first real tileset).
+
+Genera nuovo: `python3 tools/py/art/generate_tile.py --biome <b> --variant <grass|stone|moss>`.
+
 ### Tileset + sprite (community CC0)
 
 - **Kenney.nl** (CC0) — https://kenney.nl/assets
