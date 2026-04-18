@@ -70,3 +70,9 @@ didactic_focus:
   - position_retention
 
 narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: claustrofobia
+  lighting: bassa_puntiforme
+  particle_effect: bioluminescenza_drift

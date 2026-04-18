@@ -56,3 +56,9 @@ tags: [standard]
 narrative:
   briefing_ink: stories/savana_01_briefing.ink.json
   debrief_ink: stories/savana_01_debrief.ink.json
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: esposizione
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca

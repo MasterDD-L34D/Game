@@ -73,3 +73,9 @@ didactic_focus:
   - target_prioritization
 
 narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: esposizione
+  lighting: alta_calda_dall_alto
+  particle_effect: polvere_secca

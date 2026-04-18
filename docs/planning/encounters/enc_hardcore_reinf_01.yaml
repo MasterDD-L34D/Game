@@ -80,3 +80,10 @@ didactic_focus:
   - ai_progress_reading
 
 narrative: {}
+
+# Art direction metadata (docs/core/41-ART-DIRECTION.md)
+visual_mood:
+  mood_tag: archeologico
+  lighting: fredda_obliqua
+  particle_effect: cenere_sospesa
+  accent_override: '#b8935a'
