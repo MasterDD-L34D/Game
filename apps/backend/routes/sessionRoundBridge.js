@@ -1179,6 +1179,28 @@ function createRoundBridge(deps) {
           );
         }
 
+        // ADR-2026-04-19 + 04-20 wiring (commit-round path).
+        // Graceful no-op if session.encounter undefined.
+        const reinforcementResult = reinforcementTick(session, session.encounter);
+        for (const rec of reinforcementResult.spawned || []) {
+          if (rec.skipped) continue;
+          await appendEvent(session, {
+            action_type: 'reinforcement_spawn',
+            turn: session.turn,
+            actor_id: rec.spawned_unit_id,
+            target_id: null,
+            damage_dealt: 0,
+            result: 'spawned',
+            position_from: null,
+            position_to: rec.spawn_tile,
+            unit_id: rec.unit_id,
+            wave_index: rec.wave_index,
+            tier_at_spawn: rec.tier_at_spawn,
+            automatic: true,
+          });
+        }
+        const objectiveResult = evaluateObjective(session, session.encounter);
+
         return res.json({
           session_id: session.session_id,
           turn: session.turn,
@@ -1189,6 +1211,8 @@ function createRoundBridge(deps) {
           skipped: result.skipped,
           player_actions: playerActions,
           ia_actions: iaActions,
+          reinforcement_spawned: reinforcementResult.spawned || [],
+          objective_state: objectiveResult,
           state: publicSessionView(session),
         });
       } catch (err) {
