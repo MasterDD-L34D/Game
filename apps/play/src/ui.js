@@ -36,6 +36,9 @@ export function renderUnits(ul, state, selectedId, onClick) {
     if (u.hp <= 0) li.classList.add('dead');
     if (u.id === state.active_unit) li.classList.add('active');
     if (u.id === selectedId) li.classList.add('selected');
+    // W2.4 — data-job attribute drives CSS accent per job class
+    const jobKey = (u.job || u.class || '').toString().toLowerCase().trim();
+    if (jobKey) li.setAttribute('data-job', jobKey);
 
     const ratio = u.hp / (u.max_hp || u.hp || 1);
     const hpClass = ratio < 0.3 ? 'crit' : ratio < 0.6 ? 'warn' : '';

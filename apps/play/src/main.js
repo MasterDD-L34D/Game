@@ -5,9 +5,10 @@ import { render, canvasToCell, needsAnimFrame } from './render.js';
 import { renderUnits, appendLog, updateStatus } from './ui.js';
 import { renderAbilities, clearAbilities } from './abilityPanel.js';
 import { detectEndgame, showEndgame, hideEndgame, nextScenarioId } from './endgame.js';
-import { recordMove, pushPopup } from './anim.js';
+import { recordMove, pushPopup, flashUnit, attackRay } from './anim.js';
 import { openReplay } from './replayPanel.js';
 import { sfx, setMuted, isMuted } from './sfx.js';
+import { initHelpPanel } from './helpPanel.js';
 
 const state = {
   sid: null,
@@ -191,6 +192,53 @@ function findUnitAt(x, y) {
     (u) => u.hp > 0 && u.position && u.position.x === x && u.position.y === y,
   );
 }
+
+// W2.5 — Hover tooltip su canvas: intent SIS, HP/AP, job, status
+const tooltipEl = document.getElementById('unit-tooltip');
+
+function buildUnitTooltip(unit) {
+  if (!unit) return '';
+  const faction = unit.controlled_by === 'player' ? 'player' : 'sistema';
+  const factionLabel = faction === 'player' ? 'Tua unità' : 'Sistema';
+  const job = unit.job || unit.class || '—';
+  const hp = `${unit.hp}/${unit.max_hp || unit.hp}`;
+  const ap = unit.ap_remaining != null ? `${unit.ap_remaining}/${unit.ap || 0}` : `${unit.ap || 0}`;
+  const statusKeys = Object.entries(unit.status || {})
+    .filter(([, v]) => v !== undefined && v !== null && (typeof v !== 'number' || v > 0))
+    .map(([k]) => k);
+  const statusTxt = statusKeys.length ? `Status: ${statusKeys.join(', ')}` : '';
+  let intentBlock = '';
+  if (faction === 'sistema' && unit.hp > 0) {
+    // Stub: icona pugno = intento attacco (mirror drawSisIntentIcon).
+    // TODO ADR-04-18 Plan-Reveal: real intent da threat_preview payload backend.
+    intentBlock = `<span class="tt-intent">✊ Intento: attacco (stub)</span>`;
+  }
+  return `
+    <strong>${unit.id}</strong>
+    <div class="tt-faction-${faction}">${factionLabel} · <em>${job}</em></div>
+    <div>HP ${hp} · AP ${ap}</div>
+    ${statusTxt ? `<div>${statusTxt}</div>` : ''}
+    ${intentBlock}
+  `;
+}
+
+canvas.addEventListener('mousemove', (ev) => {
+  if (!state.world || !tooltipEl) return;
+  const { x, y } = canvasToCell(canvas, ev, state.world.grid.height);
+  const unit = findUnitAt(x, y);
+  if (!unit) {
+    tooltipEl.classList.add('hidden');
+    return;
+  }
+  tooltipEl.innerHTML = buildUnitTooltip(unit);
+  tooltipEl.style.left = `${ev.clientX + 14}px`;
+  tooltipEl.style.top = `${ev.clientY + 14}px`;
+  tooltipEl.classList.remove('hidden');
+});
+
+canvas.addEventListener('mouseleave', () => {
+  if (tooltipEl) tooltipEl.classList.add('hidden');
+});
 
 canvas.addEventListener('click', (ev) => {
   if (!state.world) return;
@@ -387,10 +435,18 @@ function processNewEvents(prevWorld, newWorld) {
       ev.target_id
     ) {
       const target = (newWorld.units || []).find((u) => u.id === ev.target_id);
+      const actor = (newWorld.units || []).find((u) => u.id === ev.actor_id);
+      // W2.3 — Attack ray actor → target
+      if (actor?.position && target?.position) {
+        const rayColor = actor.controlled_by === 'sistema' ? '#ff5252' : '#ffcc00';
+        attackRay(actor.position, target.position, rayColor);
+      }
       if (target && target.position && ev.damage_dealt !== 0) {
         const color = ev.damage_dealt < 0 ? '#4caf50' : '#ff5252';
         const txt = ev.damage_dealt < 0 ? `+${-ev.damage_dealt}` : `-${ev.damage_dealt}`;
         pushPopup(target.position.x, target.position.y, txt, color);
+        // W2.3 — Flash target
+        flashUnit(ev.target_id, color);
       }
       // SFX
       if (ev.damage_dealt < 0) sfx.heal();
@@ -510,6 +566,11 @@ function processIaActions(iaActions) {
         sfx.sis_turn();
       } else if (type === 'attack' || type === 'ability') {
         const target = (state.world?.units || []).find((u) => u.id === targetId);
+        const actor = (state.world?.units || []).find((u) => u.id === actorId);
+        // W2.3 — Attack ray + flash for SIS
+        if (actor?.position && target?.position) {
+          attackRay(actor.position, target.position, '#ff5252');
+        }
         if (target && target.position && dmg) {
           pushPopup(
             target.position.x,
@@ -517,6 +578,7 @@ function processIaActions(iaActions) {
             dmg < 0 ? `+${-dmg}` : `-${dmg}`,
             dmg < 0 ? '#4caf50' : '#ff5252',
           );
+          flashUnit(targetId, dmg < 0 ? '#4caf50' : '#ff5252');
         }
         if (dmg < 0) sfx.heal();
         else if (dmg > 0) Number(dmg) >= 6 ? sfx.crit() : sfx.hit();
@@ -623,6 +685,32 @@ async function loadModulations() {
   modSel.value = current;
   // Riavvia sessione se user cambia modulation (default: auto → 6x6)
   modSel.addEventListener('change', () => startNewSession());
+}
+
+// M4 P0 W2 — Help panel (? key, top-right button, auto-open prima sessione)
+initHelpPanel('help-open');
+
+// M4 P0 W2 — Fullscreen toggle
+const fsBtn = document.getElementById('fullscreen-toggle');
+if (fsBtn) {
+  fsBtn.addEventListener('click', async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+        fsBtn.textContent = '⛶⃞';
+        fsBtn.title = 'Esci da schermo intero';
+      } else {
+        await document.exitFullscreen();
+        fsBtn.textContent = '⛶';
+        fsBtn.title = 'Schermo intero';
+      }
+    } catch (e) {
+      appendLog(logEl, `✖ fullscreen: ${e.message}`, 'error');
+    }
+  });
+  document.addEventListener('fullscreenchange', () => {
+    fsBtn.textContent = document.fullscreenElement ? '⛶⃞' : '⛶';
+  });
 }
 
 loadModulations().then(() => startNewSession());

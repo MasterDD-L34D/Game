@@ -1,6 +1,6 @@
 // Canvas 2D rendering — grid + units + animations + status icons.
 
-import { getInterpolatedPos, drawPopups, hasActiveAnims } from './anim.js';
+import { getInterpolatedPos, drawPopups, drawRays, getFlashAlpha, hasActiveAnims } from './anim.js';
 
 const CELL = 64; // pixel per cell
 const COLORS = {
@@ -16,6 +16,22 @@ const COLORS = {
   hpFull: '#4caf50',
   hpWarn: '#ffc107',
   hpCrit: '#f44336',
+};
+
+// W2.4 — Job/class color accent (outer ring oltre faction).
+// Mirror sidebar CSS `#units li[data-job=...]` palette.
+const JOB_COLORS = {
+  vanguard: '#5d4037',
+  tank: '#5d4037',
+  skirmisher: '#7e57c2',
+  scout: '#66bb6a',
+  sniper: '#ffb300',
+  ranged: '#ffb300',
+  healer: '#29b6f6',
+  support: '#29b6f6',
+  controller: '#ab47bc',
+  mage: '#ab47bc',
+  boss: '#d32f2f',
 };
 
 const STATUS_ICONS = {
@@ -97,13 +113,31 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
       ? COLORS.player
       : COLORS.sistema;
 
-  // Body circle
+  // Body circle — job accent ring first, then body.
+  const jobColor = JOB_COLORS[(unit.job || unit.class || '').toLowerCase()] || null;
+  if (!dead && jobColor) {
+    ctx.fillStyle = jobColor;
+    ctx.beginPath();
+    ctx.arc(cx, cy, CELL * 0.38, 0, Math.PI * 2);
+    ctx.fill();
+  }
   ctx.fillStyle = color;
   ctx.globalAlpha = dead ? 0.4 : 1;
   ctx.beginPath();
   ctx.arc(cx, cy, CELL * 0.32, 0, Math.PI * 2);
   ctx.fill();
   ctx.globalAlpha = 1;
+
+  // W2.3 — Flash overlay on hit/heal
+  const flash = !dead ? getFlashAlpha(unit.id) : null;
+  if (flash) {
+    ctx.globalAlpha = flash.alpha;
+    ctx.fillStyle = flash.color;
+    ctx.beginPath();
+    ctx.arc(cx, cy, CELL * 0.42, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
 
   // Selected ring
   if (highlight.selected === unit.id) {
@@ -216,6 +250,9 @@ export function render(canvas, state, highlight = {}) {
 
   // Units
   for (const u of state.units || []) drawUnit(ctx, u, h, highlight);
+
+  // W2.3 — Attack rays (sopra unità, sotto popups)
+  drawRays(ctx, CELL, h);
 
   // Damage popups on top
   drawPopups(ctx, CELL, h);

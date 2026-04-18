@@ -646,3 +646,236 @@ body.ability-target-mode canvas#grid {
 #replay-event-info code {
   color: var(--accent);
 }
+
+/* M4 P0 Wave 2 — Help panel overlay */
+.help-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 150;
+  padding: 20px;
+  overflow-y: auto;
+}
+.help-panel.hidden {
+  display: none;
+}
+.help-panel-card {
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  width: min(780px, 95vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+}
+.help-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: linear-gradient(90deg, rgba(255, 204, 0, 0.15), transparent);
+  border-bottom: 1px solid var(--border);
+}
+.help-panel-header h2 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+.help-panel-close {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--fg);
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.help-panel-close:hover {
+  background: var(--sistema);
+  color: #fff;
+}
+.help-panel-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+.help-panel-body section {
+  margin-bottom: 20px;
+}
+.help-panel-body h3 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+}
+.help-panel-body p {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+.help-panel-body ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.85rem;
+}
+.help-panel-body li {
+  margin-bottom: 5px;
+}
+.help-panel-body b {
+  color: var(--fg);
+}
+.help-panel-body kbd {
+  background: var(--cell);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+.help-panel-footer {
+  padding: 12px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--dim);
+  text-align: center;
+}
+.help-icon {
+  display: inline-block;
+  width: 22px;
+  text-align: center;
+  font-weight: bold;
+  margin-right: 4px;
+}
+.help-icon-player {
+  color: var(--player);
+}
+.help-icon-sistema {
+  color: var(--sistema);
+}
+.help-icon-intent {
+  color: #ff8a65;
+}
+.help-icon-warn {
+  color: #ff9800;
+}
+.help-icon-stun {
+  color: #9c27b0;
+}
+.help-icon-bleed {
+  color: #e91e63;
+}
+
+/* W2.5 — Unit hover tooltip (floating) */
+.unit-tooltip {
+  position: fixed;
+  z-index: 90;
+  background: rgba(0, 0, 0, 0.92);
+  border: 1px solid var(--accent);
+  color: var(--fg);
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  pointer-events: none;
+  max-width: 280px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+.unit-tooltip.hidden {
+  display: none;
+}
+.unit-tooltip strong {
+  color: var(--accent);
+}
+.unit-tooltip .tt-intent {
+  color: var(--sistema);
+  font-weight: bold;
+  display: block;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+.unit-tooltip .tt-faction-player {
+  color: var(--player);
+}
+.unit-tooltip .tt-faction-sistema {
+  color: var(--sistema);
+}
+
+/* Help open button — top-right of header */
+#help-open {
+  background: var(--cell);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+}
+#help-open:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Fullscreen toggle button */
+#fullscreen-toggle {
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 3px;
+}
+#fullscreen-toggle:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Header right-side cluster */
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Unit sidebar job accent (W2.4 color per tipo) */
+#units li[data-job='vanguard'],
+#units li[data-job='tank'] {
+  border-left-width: 5px;
+  border-left-color: #5d4037; /* brown-earth */
+}
+#units li[data-job='skirmisher'] {
+  border-left-width: 5px;
+  border-left-color: #7e57c2; /* purple */
+}
+#units li[data-job='scout'] {
+  border-left-width: 5px;
+  border-left-color: #66bb6a; /* green */
+}
+#units li[data-job='sniper'],
+#units li[data-job='ranged'] {
+  border-left-width: 5px;
+  border-left-color: #ffb300; /* amber */
+}
+#units li[data-job='healer'],
+#units li[data-job='support'] {
+  border-left-width: 5px;
+  border-left-color: #29b6f6; /* light-blue */
+}
+#units li[data-job='controller'],
+#units li[data-job='mage'] {
+  border-left-width: 5px;
+  border-left-color: #ab47bc; /* magenta */
+}
+#units li[data-job='boss'] {
+  border-left-width: 5px;
+  border-left-color: #d32f2f; /* dark-red */
+}

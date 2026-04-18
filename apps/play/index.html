@@ -18,10 +18,15 @@
           <div class="pressure-label">SISTEMA — · 0/100 · cap 1 intents/round</div>
           <div class="pressure-bar"><div class="pressure-fill" style="width: 0%"></div></div>
         </div>
+        <div class="header-actions">
+          <button id="fullscreen-toggle" title="Schermo intero">⛶</button>
+          <button id="help-open" title="Aiuto (?)">?</button>
+        </div>
       </header>
       <main>
         <section class="board">
           <canvas id="grid" width="512" height="512"></canvas>
+          <div id="unit-tooltip" class="unit-tooltip hidden"></div>
           <div class="controls">
             <button id="end-turn">Fine turno</button>
             <button id="new-session">Nuova sessione</button>
