@@ -143,12 +143,6 @@ def main() -> int:
                 for c in commits
             ],
         },
-        "achievements": {
-            "unlocked_count": None,
-            "total_count": 8,
-            "items": [],
-            "note": "Achievements computed by flint CLI, not stdlib fallback",
-        },
         "last_spoke_unix": None,
     }
 

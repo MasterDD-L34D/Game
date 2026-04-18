@@ -14,7 +14,6 @@ cd flint && uv tool install .
 # Uso manuale
 caveman              # parlata contestuale
 caveman status       # lettura dello stato del repo
-caveman achievements # trofei da pattern di commit
 caveman speak -c scope_check  # forza una categoria
 
 # Hook automatico (opt-in, parla solo quando serve)
@@ -30,16 +29,6 @@ caveman install-hook
 | `mini_game`    | su richiesta, pausa creativa | _"apri Spotify shuffle. prossimo titolo = nuovo trait"_ |
 | `evo_twist`    | per playtest guidato         | _"'Regola del 2': gioca con solo 2 specie e 2 job"_     |
 | `scope_check`  | se non fatto da un po'       | _"MoSCoW: l'ultima feature è MUST? se no, rimandala"_   |
-
-## Achievements (sbloccati dai commit)
-
-Il caveman traccia anche alcuni achievement ispirati a **GitMood** ma ancorati
-a game design, non a sentiment. Alcuni sono celebrazioni, altri warning.
-
-```bash
-caveman achievements     # sbloccati
-caveman achievements --all  # tutti i possibili
-```
 
 Esempi: 🎯 Game-First Striker (3 GAMEPLAY di fila), ✂️ Ruthless Cutter
 (commit di rimozione), ⚠️ Docker Addict (troppi INFRA), 🦴 Unga Bunga

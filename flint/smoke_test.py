@@ -10,7 +10,6 @@ from pathlib import Path
 # Aggiungo src al path senza installare il pacchetto
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from flint.achievements import compute_achievements
 from flint.engine import decide_category, generate, should_speak
 from flint.repo import snapshot
 from flint.seeds import Category
@@ -70,13 +69,7 @@ def run_scenario(name: str, commits: list[tuple[str, str, str]], extra_dirty: li
         print(f"    {out.render_plain()}")
         print(f"    (categoria: {out.category.value}, ~{out.minutes} min, seed_id: {out.seed_id})")
 
-        # Achievements
-        achs = compute_achievements(snap)
-        if achs:
-            print(f"\n>>> ACHIEVEMENTS:")
-            for a in achs:
-                status = "✓" if a.unlocked else "⚠"
-                print(f"    {status} {a.emoji} {a.title}")
+        # Achievements removed 2026-04-18 (kill 60%).
 
 
 # SCENARIO 1: repo in deriva (troppi INFRA)
