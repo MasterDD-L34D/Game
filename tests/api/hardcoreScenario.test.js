@@ -50,6 +50,27 @@ test('GET /api/tutorial lists hardcore scenario', async () => {
   }
 });
 
+test('GET /api/tutorial/enc_tutorial_06_hardcore_quartet returns 4p + 6e + boss hp 22', async () => {
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    const res = await request(app)
+      .get('/api/tutorial/enc_tutorial_06_hardcore_quartet')
+      .expect(200);
+    assert.equal(res.body.id, 'enc_tutorial_06_hardcore_quartet');
+    assert.equal(res.body.recommended_modulation, 'quartet');
+    assert.ok(Array.isArray(res.body.units));
+    assert.equal(res.body.units.length, 10); // 4 player + 6 enemy
+    const players = res.body.units.filter((u) => u.controlled_by === 'player');
+    const enemies = res.body.units.filter((u) => u.controlled_by === 'sistema');
+    assert.equal(players.length, 4);
+    assert.equal(enemies.length, 6);
+    const boss = enemies.find((u) => u.id === 'e_apex_boss');
+    assert.equal(boss.hp, 22, 'iter 5A quartet: boss hp 40→22 balanced');
+  } finally {
+    await close();
+  }
+});
+
 test('POST /api/session/start with hardcore units + modulation=full → grid 10x10', async () => {
   const { app, close } = createApp({ databasePath: null });
   try {

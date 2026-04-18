@@ -101,8 +101,68 @@ Cambia loop da "kill boss" a "resist waves". Difficoltà controllabile via wave 
 3. **Pressure tier threshold documentation** — non documentato che pressure>=90 sblocca 4 intents/round. Aggiungere a `docs/hubs/combat.md` o session engine comments. (priority: low)
 4. **Approach phase ≥3 round** — ogni scenario wastes 3 round in closing distance. Fix: scenario designer può usare closer spawn positions OR AI gets "charge" bonus first round. (priority: low)
 
+## Iter 5 — Option A structural switch (eseguito)
+
+Post PR #1548 merged, testata **Option A** (modulation quartet 4p) contro scenario post-#1551 (boss hp 40 guardia 4).
+
+### Iter 5A N=10 (pure quartet, boss hp 40)
+
+| Metric    | Value        | Target  |     Band     |
+| --------- | ------------ | ------- | :----------: |
+| win_rate  | **0%**       | 15-25%  | 🔴 overshoot |
+| K/D avg   | **0.55**     | 0.6-0.9 | 🟡 near band |
+| turns avg | 21.1         | 14-18   |      🟡      |
+| dmg_taken | 40/40 (wipe) | ~30     |      🔴      |
+
+Quartet 4p vs boss hp 40 = wipe totale. Conferma teoria focus-fire: cambiando 8p→4p, attrition si inverte (player HP 92→44, enemy HP invariato 70).
+
+### Iter 5B N=10 (quartet + boss hp 40→22 compromise)
+
+| Metric               | Value           | Target  |          Band          |
+| -------------------- | --------------- | ------- | :--------------------: |
+| win_rate             | **10%** (1V/9L) | 15-25%  |  🟢 **quasi in band**  |
+| K/D median           | **0.5**         | 0.6-0.9 |       🟢 in band       |
+| K/D avg              | 1.15            | 0.6-0.9 |    🟡 (1V outlier)     |
+| turns avg            | 23.3            | 14-18   |           🟡           |
+| dmg_dealt            | 20/70           | ~30     |           🟡           |
+| dmg_taken            | 38.1/40         | ~30     |           🟡           |
+| boss_hp_on_loss      | 19.8/22         | 0-4     | 🔴 (boss ancora forte) |
+| players_alive_on_win | 3/4             | 2-3     |           🟢           |
+
+**Risultato**: 10% wr → vicino a band 15-25%. 1 victory sample = flukey; N=30 servirà per conferma. K/D median 0.5 in band.
+
+**AI engagement healthy**: Apex atk 141, Critical atk 78, High atk 45 = 264 attack total. Ratio atk:move = 2.6:1 (vs mio iter 4 1.34:1). AI saturates pressure tiers.
+
+### Formalizzazione Iter 5A (this PR)
+
+Introdotto variant code scenario:
+
+- `apps/backend/services/hardcoreScenario.js`:
+  - `HARDCORE_SCENARIO_06_QUARTET` (id `enc_tutorial_06_hardcore_quartet`, recommended_modulation `quartet`)
+  - `buildHardcoreUnits06Quartet()` — 4 player (primi 4 layout) + 6 enemy (boss hp 40→22)
+- `apps/backend/routes/tutorial.js`:
+  - Route `GET /api/tutorial/enc_tutorial_06_hardcore_quartet`
+  - Listed in `/api/tutorial`
+- `tests/api/hardcoreScenario.test.js`: +1 test quartet variant
+
+Scenario "full" (8p, boss hp 40) **invariato** — backward compat. Iter 5 aggiunge variant opzionale.
+
+### Option B+C — rejected per iter 5
+
+Verifica engine:
+
+- **B (enemy count 6→10 + reinforcement)**: `reinforcement_budget` esiste nei pressure tier (`sessionHelpers.js`:331-335) **ma nessuna spawn logic** consuma budget. Servirebbe: (1) scenario schema `reinforcement_waves: [{turn, units}]`, (2) session engine hook `applyReinforcementSpawn()` in round machine. ADR + engine work.
+- **C (objective `survive_turns:10` + waves)**: session usa solo `objective: 'elimination'` con detection implicita (no hp player = defeat, no hp sistema = victory). Servirebbe state machine per obiettivi parametrizzati + wave scheduler. ADR + engine work.
+
+**Follow-up tickets** (out of scope iter 5):
+
+1. ADR-2026-04-19 reinforcement-spawn — schema + engine hook
+2. ADR-2026-04-20 objective-parametrizzato — wave scheduler + survive_turns
+
 ## Riferimenti
 
 - [Calibration iter 0+1 (main report)](./2026-04-18-hardcore-06-calibration.md)
 - [PR #1539 closed](https://github.com/MasterDD-L34D/Game/pull/1539) — superseded by PR #1542 + this addendum
+- [PR #1548 merged](https://github.com/MasterDD-L34D/Game/pull/1548) — addendum iter 2-4 + probe_ai.py
+- [PR #1551 merged](https://github.com/MasterDD-L34D/Game/pull/1551) — iter 2 tune (boss hp 14→40)
 - [ADR-2026-04-17 co-op scaling](../adr/ADR-2026-04-17-coop-scaling-4to8.md)
