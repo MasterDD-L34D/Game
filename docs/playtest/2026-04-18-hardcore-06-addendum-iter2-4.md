@@ -89,6 +89,23 @@ Cambia loop da "kill boss" a "resist waves". Difficoltà controllabile via wave 
 
 **Preferenza caveman**: **A** (zero content, zero engine change, test preset esistente). B solo se A non basta. C = scope ADR separato.
 
+## Raw batch data (reports/playtest/)
+
+Raw JSON completi committati per reproducibility / future analysis:
+
+| File                                | Iter                   | N   | wr         |
+| ----------------------------------- | ---------------------- | --- | ---------- |
+| `hardcore06_iter0_n30_vibrant.json` | 0 baseline (full 8p)   | 30  | 100%       |
+| `hardcore06_iter1_n10_vibrant.json` | 1 HP +55%              | 10  | 100%       |
+| `hardcore06_iter2_n10_vibrant.json` | 2 HP +37% + rng3       | 10  | 80%        |
+| `hardcore06_iter3_n10_vibrant.json` | 3 ap/mod buff          | 10  | 70%        |
+| `hardcore06_iter4_n10_vibrant.json` | 4 pressure95+closer    | 10  | 90%        |
+| `hardcore06_iter5a_n10.json`        | 5A quartet 4p, boss 40 | 10  | 0%         |
+| `hardcore06_iter5b_n10.json`        | 5B quartet 4p, boss 22 | 10  | 10%        |
+| `hardcore06_iter5b_n30.json`        | 5B validation N=30     | 30  | **20% ✅** |
+
+File già su main da PR #1542/#1551: `hardcore06_iter1_n30.json/.jsonl`, `hardcore06_iter2_n30.json/.jsonl` — path `_vibrant` distingue dati sperimentali branch parallelo `claude/vibrant-curie-e6ddac`.
+
 ## Harness artifacts (novel)
 
 - `tools/py/probe_ai.py` — single-round probe, dumps `results[]` + `ai_result` shape. Usato per root cause. **Nuovo file in questo addendum.**
