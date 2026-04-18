@@ -692,6 +692,9 @@ function createSessionRouter(options = {}) {
         hazard_tiles: Array.isArray(req.body?.hazard_tiles) ? req.body.hazard_tiles : [],
         // Q-001 T2.3: difficulty profile scaling metadata (null se profile invalid)
         _difficultyProfile: difficultyProfileMeta,
+        // ADR-2026-04-19 + 04-20: encounter payload per reinforcementSpawner + objectiveEvaluator.
+        // Feature flag OFF default: se undefined, entrambi moduli ritornano no-op.
+        encounter: req.body?.encounter ?? null,
       };
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
