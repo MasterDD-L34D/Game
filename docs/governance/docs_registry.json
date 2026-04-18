@@ -2412,6 +2412,19 @@
       "track": "new"
     },
     {
+      "path": "docs/core/42-STYLE-GUIDE-UI.md",
+      "title": "42 — Style Guide UI canonical",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-18",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/core/90-FINAL-DESIGN-FREEZE.md",
       "title": "Final Design Freeze v0.9 — Evo Tactics",
       "doc_status": "draft",
