@@ -202,12 +202,28 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     ctx.fill();
   }
 
-  // Unit label (first 2 chars)
-  ctx.fillStyle = '#fff';
-  ctx.font = 'bold 12px "SF Mono", monospace';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(unit.id.slice(0, 4), cx, cy);
+  // Unit label — M4 step A fix: se SVG icon rendered, sposta label sotto
+  // per non sovrapporre icon; altrimenti centered su body circle (legacy).
+  const labelText = unit.id.slice(0, 4);
+  if (drewIcon) {
+    // Label sotto icon + background stripe per leggibilità su tile bg
+    const labelY = cy + bodySize / 2 + 3;
+    ctx.font = 'bold 10px "SF Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    const metrics = ctx.measureText(labelText);
+    const labelW = metrics.width + 4;
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(cx - labelW / 2, labelY - 1, labelW, 12);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(labelText, cx, labelY);
+  } else {
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 12px "SF Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(labelText, cx, cy);
+  }
 
   // HP bar below
   if (!dead) {
