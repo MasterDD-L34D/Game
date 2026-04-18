@@ -88,3 +88,31 @@ Policy: prima di iniziare lavoro che supera 50 righe fuori `apps/backend/`, ferm
 ## Licensing
 
 MIT. Contenuto docs bilingual it-en. Commit messages + code identifiers in English, docs + comments in Italian.
+
+## Asset Attribution & AI Disclosure
+
+Evo-Tactics usa una pipeline **zero-cost** di asset acquisition (ADR-2026-04-18 zero-cost-asset-policy). Team: solo-dev + AI curator. No budget, no freelance commission.
+
+### Attribution
+
+- **UI icons** from Game-icons.net (CC-BY 3.0): full list in [`CREDITS.md`](CREDITS.md)
+- **Base tileset** from Kenney.nl (CC0) + selected OpenGameArt.org contributors
+- **Typography**: Inter, Noto Sans, Press Start 2P (Google Fonts, OFL)
+- **Additional community assets**: see [`CREDITS.md`](CREDITS.md) for complete attribution list
+
+### AI-Generated Content Disclosure
+
+Some visual assets in this game were generated using AI image synthesis tools (Retro Diffusion, Stable Diffusion + pixel-art LoRA) and subsequently **edited, composited, and refined by human artists** using Libresprite (GPL). All AI-generated outputs received significant human authorship contribution (palette lock to 32-color indexed master palette, manual pixel cleanup, compositional decisions) prior to inclusion.
+
+**Ethical commitments**:
+
+- ❌ No AI-generated output replicating the style of specific living artists
+- ❌ No training data from unauthorized scraped sources (tools approvati hanno training licensed o claim etico — vedi [`docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md`](docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md))
+- ✅ Human authorship layer documented per-asset in [`CREDITS.md`](CREDITS.md) provenance log
+- ✅ Disclosure compliant Steam AI policy (Jan 2024) + EU AI Act (Ago 2024-2025)
+
+Pipeline completa + tool approvati: [`docs/core/43-ASSET-SOURCING.md`](docs/core/43-ASSET-SOURCING.md).
+
+### Inspiration (no derivative use)
+
+Evo-Tactics design si ispira concettualmente a Final Fantasy Tactics (Pilastro 1), Spore (Pilastro 2), Slay the Spire / Into the Breach / Wildermyth / Don't Starve / AncientBeast (art direction ref). **Nessun asset o codice copiato** dalle suddette opere.
