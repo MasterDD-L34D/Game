@@ -323,6 +323,19 @@
       "track": "authored"
     },
     {
+      "path": "docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md",
+      "title": "ADR-2026-04-18: Zero-cost asset policy + AI-generated legal framework",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-18",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-2026-04-19-reinforcement-spawn-engine.md",
       "title": "ADR-2026-04-19: Reinforcement spawn engine (Option B)",
       "doc_status": "active",
