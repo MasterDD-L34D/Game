@@ -71,6 +71,25 @@
           "type": "integer",
           "minimum": 1,
           "description": "Turn limit (sabotage, escape)"
+        },
+        "sabotage_turns_required": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "ADR-2026-04-20: turns PG must be in target_zone to complete sabotage"
+        },
+        "min_units_in_zone": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "ADR-2026-04-20: min PG count in target_zone to count as held/sabotaging"
+        },
+        "loss_conditions": {
+          "type": "object",
+          "description": "ADR-2026-04-20: decouple defeat conditions from win conditions",
+          "additionalProperties": false,
+          "properties": {
+            "time_limit": { "type": "integer", "minimum": 1 },
+            "player_wipe": { "type": "boolean", "default": true }
+          }
         }
       },
       "additionalProperties": false
