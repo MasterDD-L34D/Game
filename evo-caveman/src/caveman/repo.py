@@ -17,11 +17,11 @@ CommitKind = Literal["GAMEPLAY", "INFRA", "TOOLING", "DOCS", "DATA", "ALTRO"]
 # o nei file toccati del commit (lowercase).
 _COMMIT_PATTERNS: Final[tuple[tuple[tuple[str, ...], CommitKind], ...]] = (
     # GAMEPLAY ha priorità: se un commit tocca traits/ anche solo di striscio, conta.
-    (("traits/", "biomes/", "rules/", "jobs/", "species/", "engine/game", "combat", "turn"), "GAMEPLAY"),
-    (("data/", "datasets/", "yaml", "schema"), "DATA"),
-    (("docker", "ci/", ".github/workflows", "prisma", "migration", "deploy", "compose"), "INFRA"),
+    (("traits/", "biomes/", "rules/", "jobs/", "species/", "engine/game", "combat", "turn", "round", "session/", "session.js", "playtest", "play(", "ai/", "intent"), "GAMEPLAY"),
+    (("data/", "datasets/", "yaml", "schema", "data("), "DATA"),
+    (("docker", "ci/", ".github/workflows", "prisma", "migration", "deploy", "compose", "chore("), "INFRA"),
     (("cli/", "tools/", "validator", "dashboard", "analytics", "script"), "TOOLING"),
-    (("readme", "docs/", "changelog", "canvas", ".md"), "DOCS"),
+    (("readme", "docs/", "changelog", "canvas", ".md", "docs("), "DOCS"),
 )
 
 

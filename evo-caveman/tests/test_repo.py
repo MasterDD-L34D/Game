@@ -30,6 +30,26 @@ class TestClassifyCommit:
     def test_fallback_altro(self) -> None:
         assert _classify_commit("random stuff", ("random/file.txt",)) == "ALTRO"
 
+    def test_conventional_commit_playtest(self) -> None:
+        """Pattern 'playtest' intercetta feat(playtest-ui) e simili."""
+        assert _classify_commit("feat(playtest-ui): new button", ("apps/backend/public/x.html",)) == "GAMEPLAY"
+
+    def test_conventional_commit_round(self) -> None:
+        """Pattern 'round' intercetta feat(round) e simili."""
+        assert _classify_commit("feat(round): add orchestrator", ("apps/backend/services/round.js",)) == "GAMEPLAY"
+
+    def test_conventional_commit_play_scope(self) -> None:
+        """Pattern 'play(' intercetta play(balance), play(tutorial) ecc."""
+        assert _classify_commit("play(balance): hardcore iter", ("packs/evo/data/balance/x.yaml",)) == "GAMEPLAY"
+
+    def test_conventional_commit_docs_scope(self) -> None:
+        """Pattern 'docs(' intercetta docs(claude-md), docs(core) ecc."""
+        assert _classify_commit("docs(core): update vision", ("docs/core/01.md",)) == "DOCS"
+
+    def test_ai_directory(self) -> None:
+        """Pattern 'ai/' intercetta commit su apps/backend/services/ai/."""
+        assert _classify_commit("feat: new ai brain", ("apps/backend/services/ai/policy.js",)) == "GAMEPLAY"
+
 
 class TestSnapshotMetrics:
     def _make_snap(self, kinds: list[str]) -> RepoSnapshot:
