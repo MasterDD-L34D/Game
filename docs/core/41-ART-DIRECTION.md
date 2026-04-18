@@ -16,7 +16,7 @@ related:
 
 # 41 — Art Direction canonical
 
-> Promosso da `docs/planning/draft-art-direction.md` post ADR-2026-04-18 ACCEPTED (sprint M3.6). Canonical per tutte le commission art + UI.
+> Promosso da `docs/planning/draft-art-direction.md` post ADR-2026-04-18 ACCEPTED (sprint M3.6). Canonical per tutti gli asset art + UI. Pipeline acquisition zero-cost in `docs/core/43-ASSET-SOURCING.md` (ADR-2026-04-18 zero-cost-asset-policy, M3.7).
 
 ## Direzione sintetica
 
@@ -113,7 +113,7 @@ Biomi usati negli encounter correnti (data/core/biomes.yaml allinea ulteriori 11
 | `abisso_vulcanico`            | Rosso lava #c83a1e          | Basalto #1e1e22        | Arancio magma #f06a28        | Pericolo, calore   | Calda dal basso        |
 | `steppe_algoritmiche`         | Grigio acciaio #6a6e78      | Verde matrix #40c860   | Bianco circuito #f0f0f4      | Astratto, digitale | Neutra diffusa         |
 
-Palette extension (11 biomi non-shipping) deferred a art-curator post budget commission.
+Palette extension (11 biomi non-shipping) deferred — AI gap-fill disponibile via pipeline `43-ASSET-SOURCING.md`, priorità post-MVP playtest.
 
 ## Colori funzionali universali
 
@@ -153,17 +153,21 @@ Gate obbligatori per ogni schermata UI (vedi `42-STYLE-GUIDE-UI.md §accessibili
 - **No color-only information**: icone + colore sempre accoppiati
 - **Screen reader parity**: ogni elemento visivo critico ha `aria-label` (vedi `docs/frontend/accessibility-deaf-visual-parity.md`)
 
-## Asset commission spec (per freelance)
+## Asset acquisition spec (pipeline zero-cost)
+
+**IMPORTANTE**: Evo-Tactics usa pipeline **zero-cost** (ADR-2026-04-18 zero-cost-asset-policy + `docs/core/43-ASSET-SOURCING.md`). NO freelance commission.
 
 **Deliverable MVP** (shipping encounter 01-06):
 
-| Asset                                                  | Quantità | Tool       | Format              | Spec                                    |
-| ------------------------------------------------------ | :------: | ---------- | ------------------- | --------------------------------------- |
-| Tileset bioma (9 biomi shipping)                       |    9     | Pyxel Edit | PNG palette indexed | 32×32 tile, 16-24 colori bioma          |
-| Sprite sheet specie shipping (4 base + 4 evo + 2 BOSS) |    10    | Aseprite   | PNG palette indexed | 32×32, 10-16 frame per specie           |
-| Icon status (8 functional + 12 traits)                 |    20    | Figma      | SVG                 | 16×16, palette funzionale               |
-| UI mockup 1 schermata combat HUD                       |    1     | Figma      | PNG + spec          | 1920×1080, token `42-STYLE-GUIDE-UI.md` |
-| Particelle ambientali (9 biomi)                        |    9     | Aseprite   | PNG sprite sheet    | 8×8 particle, 4 frame loop              |
+| Asset                                                  | Quantità | Fonte primaria         | Fonte secondaria     | Format              | Spec                                    |
+| ------------------------------------------------------ | :------: | ---------------------- | -------------------- | ------------------- | --------------------------------------- |
+| Tileset bioma (9 biomi shipping)                       |    9     | Kenney/OGA CC0         | AI (Retro Diffusion) | PNG palette indexed | 32×32 tile, 16-24 colori bioma          |
+| Sprite sheet specie shipping (4 base + 4 evo + 2 BOSS) |    10    | AI + Libresprite edit  | OGA CC0 base         | PNG palette indexed | 32×32, 10-16 frame per specie           |
+| Icon status (8 functional + 12 traits)                 |    20    | Game-icons.net (CC-BY) | Lucide (MIT)         | SVG                 | 16×16, palette funzionale               |
+| UI mockup 1 schermata combat HUD                       |    1     | Krita/GIMP + user      | AI wireframe         | PNG + spec          | 1920×1080, token `42-STYLE-GUIDE-UI.md` |
+| Particelle ambientali (9 biomi)                        |    9     | AI + Libresprite       | OGA CC0              | PNG sprite sheet    | 8×8 particle, 4 frame loop              |
+
+**Workflow canonico**: vedi `docs/core/43-ASSET-SOURCING.md §human authorship layer`. Palette lock + Libresprite cleanup + provenance log in `CREDITS.md` OBBLIGATORI.
 
 **Fuori scope MVP** (post-playtest visual):
 
@@ -180,8 +184,8 @@ Gate obbligatori per ogni schermata UI (vedi `42-STYLE-GUIDE-UI.md §accessibili
 
 ## Q-OPEN residue (post-M3.6)
 
-- Q-OPEN-15b: budget frame specie evoluta T3 (10+4 o 10+8?) — blocked su artist onboard
-- Q-OPEN-19b: palette 11 biomi non-shipping — blocked su commission
+- Q-OPEN-15b: budget frame specie evoluta T3 (10+4 o 10+8?) — decision post-MVP playtest (pipeline zero-cost permette iter, ma coerenza richiede decisione canonica)
+- Q-OPEN-19b: palette 11 biomi non-shipping — AI gap-fill disponibile (43-ASSET-SOURCING), priorità post-MVP playtest
 - Q-OPEN-25: Day/night cycle post-MVP — blocked su playtest visual
 
 ## Riferimenti
