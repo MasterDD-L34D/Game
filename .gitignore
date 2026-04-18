@@ -49,6 +49,13 @@ reports/backups/**/*.zip
 # Claude Code per-user whitelist (auto-aggiornato dai hook)
 .claude/settings.local.json
 
+# Claude Code sub-worktrees (local dev state, non da committare)
+.claude/worktrees/
+
+# Python venv artifact (creati da pip install side effect su Windows)
+Lib/
+scripts/pip*.exe
+
 # Backend runtime artifacts (log audit, snapshot di stato)
 apps/backend/logs/
 reports/status.json
