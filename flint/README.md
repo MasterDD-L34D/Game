@@ -14,8 +14,7 @@
    - `mini_game` — pausa creativa 2-5 min, sempre diversa
    - `evo_twist` — playtest guidato con vincolo
    - `scope_check` — anti scope/future creep (MoSCoW, RICE, SPACE) ✨ NEW
-4. **Achievements**: sblocca celebrazioni e warning dai pattern di commit (Game-First Striker, Ruthless Cutter, ⚠️ Docker Addict…). ✨ NEW
-5. **Hook git opzionale** con throttling 90 min: niente spam, parla solo se hai rotto la rotta o chiuso un GAMEPLAY.
+4. **Hook git opzionale** con throttling 90 min: niente spam, parla solo se hai rotto la rotta o chiuso un GAMEPLAY.
 
 ## Install
 
@@ -37,8 +36,6 @@ uv sync --all-extras --all-groups
 caveman                              # parlata contestuale (usa stato repo corrente)
 caveman speak -c scope_check         # forza categoria
 caveman status                       # tabella commit + metriche
-caveman achievements                 # achievement sbloccati
-caveman achievements --all           # tutti gli achievement possibili
 caveman check                        # hook-mode: exit 0 se parla, 1 se zitto
 caveman check --force                # ignora throttling
 caveman install-hook                 # post-commit hook opt-in
@@ -76,8 +73,6 @@ Dopo ogni `git commit`:
 
 Disattiva: `caveman uninstall-hook`.
 
-## Achievement
-
 | Emoji | Titolo             | Condizione                             |
 | ----- | ------------------ | -------------------------------------- |
 | 🎯    | Game-First Striker | 3 commit GAMEPLAY di fila              |
@@ -106,7 +101,6 @@ flint/
 │   ├── repo.py             # snapshot repo via git (<100ms)
 │   ├── seeds.py            # 50+ seed contestualizzati, 5 categorie
 │   ├── engine.py           # decisione + throttling + persistenza
-│   ├── achievements.py     # ✨ NEW: 8 achievement da pattern commit
 │   └── cli.py              # Typer + Rich, 6 subcomandi
 └── tests/
     ├── test_repo.py
@@ -136,7 +130,6 @@ CI GitHub Actions gira su ogni push: ruff + ruff format + mypy + pytest su Pytho
 
 Dal deep research (aprile 2026):
 
-- **GitMood** — sentiment analysis sui commit, achievements. Stesso spirito, ma il caveman è ancorato a game design, non a emozioni.
 - **DocWeave** — genera doc da commit. Scope diverso.
 - **git-commits-analysis / commits-analyzer** — produttività pura, dashboard. Noi siamo più "compagno di lavoro" che dashboard.
 - **prek** (hook manager 2026 in Rust) — alternativa a pre-commit. Caveman può convivere: caveman è un post-commit hook singolo, prek è il gestore globale.

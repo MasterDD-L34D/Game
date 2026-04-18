@@ -13,7 +13,8 @@ from rich.table import Table
 from rich.text import Text
 
 from . import __version__
-from .achievements import ALL_ACHIEVEMENTS, compute_achievements
+# Achievements removed (kill 60% 2026-04-18): Sam Liberty + NTNU research —
+# tangible rewards undermine intrinsic motivation for solo devs.
 from .engine import generate, mark_spoke, should_speak
 from .repo import snapshot
 from .seeds import Category
@@ -217,38 +218,6 @@ def uninstall_hook(
 
 
 @app.command()
-def achievements(
-    repo: Annotated[Path, typer.Option("--repo", "-r")] = Path("."),
-    show_all: Annotated[bool, typer.Option("--all", help="Mostra tutti gli achievement possibili.")] = False,
-) -> None:
-    """🏆 Mostra achievement sbloccati dai pattern di commit del repo."""
-    if show_all:
-        console.print("[bold]Tutti gli achievement possibili:[/bold]\n")
-        table = Table(show_lines=False)
-        table.add_column("Emoji", width=4)
-        table.add_column("Titolo", style="bold")
-        table.add_column("Condizione")
-        for a in ALL_ACHIEVEMENTS:
-            table.add_row(a["emoji"], a["title"], a["how"])
-        console.print(table)
-        return
-
-    snap = snapshot(repo.resolve())
-    achs = compute_achievements(snap)
-
-    if not achs:
-        console.print("[dim]Nessun achievement sbloccato ancora. Fai commit di gameplay![/dim]")
-        return
-
-    console.print("[bold]🏆 Achievements sbloccati:[/bold]\n")
-    for a in achs:
-        color = "green" if a.unlocked else "yellow"
-        status = "✓" if a.unlocked else "⚠"
-        console.print(f"  [{color}]{status}[/{color}] {a.emoji}  [bold]{a.title}[/bold]")
-        console.print(f"      [dim]{a.description}[/dim]")
-
-
-@app.command()
 def export(
     output: Annotated[
         Path | None,
@@ -272,7 +241,6 @@ def export(
 
     repo_root = Path.cwd()
     snap = snapshot(repo_root)
-    achs = compute_achievements(snap)
 
     last_spoke_path = repo_root / ".git" / "flint_last_spoke"
     last_spoke = None
@@ -305,31 +273,15 @@ def export(
                 for c in snap.recent_commits
             ],
         },
-        "achievements": {
-            "unlocked_count": sum(1 for a in achs if a.unlocked),
-            "total_count": len(achs),
-            "items": [
-                {
-                    "id": a.id,
-                    "title": a.title,
-                    "emoji": a.emoji,
-                    "unlocked": a.unlocked,
-                    "description": a.description,
-                }
-                for a in achs
-            ],
-        },
         "last_spoke_unix": last_spoke,
     }
 
     dest = output or (repo_root / "docs" / "flint-status.json")
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    console.print(f"[green]✓[/green] Esportato stato caveman in [bold]{dest}[/bold]")
+    console.print(f"[green]✓[/green] Esportato stato flint in [bold]{dest}[/bold]")
     console.print(
-        f"  commits={len(snap.recent_commits)} gameplay_ratio={snap.gameplay_ratio():.0%} "
-        f"drift={'YES' if snap.is_drifting() else 'no'} "
-        f"achievements={sum(1 for a in achs if a.unlocked)}/{len(achs)}"
+        f"  commits={len(snap.recent_commits)} gameplay_ratio={snap.gameplay_ratio():.0%}"
     )
 
 

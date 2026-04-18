@@ -161,16 +161,15 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 
 ## Session workflow patterns (Claude Code)
 
-Pattern osservati nella sessione 2026-04-18 (7 PR merged, sprint round simultaneo) e codificati in memory per persistenza. Dettagli completi nei file `feedback_*.md` in `C:/Users/VGit/.claude/projects/C--Users-VGit-Desktop-Game/memory/`.
+Pattern codificati in memory per persistenza cross-session. Dettagli in `feedback_*.md` sotto `C:/Users/VGit/.claude/projects/C--Users-VGit-Desktop-Game/memory/`.
 
-1. **Piano file:line prima di codice** (`feedback_plan_before_code_file_line.md`) — feature >1 file o >50 LOC → tabella file:line + rischi + effort, attendi "procedi"
-2. **Delega research a sub-agent** (`feedback_delegate_research_to_agents.md`) — scope >3 query / >5 file / audit cross-repo → spawn `general-purpose` / `Explore` / specifici, paralleli quando possibile
-3. **Checkpoint memory su meta-pause** (`feedback_checkpoint_memory_on_interrupt.md`) — utente dice "a che punto" / "prima di procedere" → salva `project_<sprint>_progress.md` PRIMA di analizzare
-4. **Tabella opzioni fine milestone** (`feedback_always_options_table.md`) — sempre A/B/C con valore/effort/rischio + consiglio caveman finale. Ultima riga = STOP esplicito.
-5. **CI auto-merge gate** (`feedback_ci_auto_merge_gate.md`) — CI 100% verde + diff <200 LOC + non-destructive + no guardrail paths → `gh pr merge --squash --delete-branch` senza chiedere
-6. **Caveman voice permanente** (`feedback_caveman_voice_permanent.md`) — default ON in questo repo; off solo su "stop caveman"
+**File principali**:
 
-Memory files auto-caricati via `MEMORY.md` ogni sessione — applica senza ricordare.
+- [`feedback_claude_workflow_consolidated.md`](~/.claude/projects/C--Users-VGit-Desktop-Game/memory/feedback_claude_workflow_consolidated.md) — **8 pattern consolidati in 1 file** (kill-60 post-research 2026-04-18): tabella opzioni, caveman voice, checkpoint memory, CI auto-merge, delega research, piano file:line, admit+reinvestigate, probe-before-batch
+- [`feedback_meta_checkpoint_directive.md`](~/.claude/projects/C--Users-VGit-Desktop-Game/memory/feedback_meta_checkpoint_directive.md) — pausa riflessiva 5-step, auto-trigger su "analizza"/"ricorda"/"checkpoint", comando `/meta-checkpoint`
+- [`reference_flint_optimization_guide.md`](~/.claude/projects/C--Users-VGit-Desktop-Game/memory/reference_flint_optimization_guide.md) — 40+ fonti research + kill-60 decision log + follow-up priorities
+
+Memory files auto-caricati via `MEMORY.md` ogni sessione.
 
 ## Platform notes
 

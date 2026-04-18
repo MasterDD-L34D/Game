@@ -99,7 +99,7 @@ Esempi:
 
 ### `cut:` — remove
 
-Commit che **tolgono roba** (deprecated, dead code, archive). Opzionale ma raccomandato per tracking Ruthless Cutter achievement.
+Commit che **tolgono roba** (deprecated, dead code, archive). Opzionale.
 
 Include:
 
@@ -162,7 +162,7 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
 - ❌ `update`, `fix`, `wip` senza prefix → respinto da convention check (quando installato)
 - ❌ Conventional Commits full (es. `feat(scope): ...`) — overkill, usa minimal
 - ❌ Prefix multipli (`play,data:`) — scegli il più impattante
-- ❌ Messaggi > 80 char in prima riga → caveman achievement `📜 Wordy Committer` WARN
+- ❌ Messaggi > 80 char in prima riga → linter warn
 
 ---
 

@@ -2,17 +2,23 @@
   "_meta": {
     "generator": "flint_status_stdlib (fallback)",
     "version": "0.2.0-stdlib",
-    "generated_at": "2026-04-18T00:39:23.956963+00:00",
+    "generated_at": "2026-04-18T00:56:11.367051+00:00",
     "repo_root": "C:\\Users\\VGit\\Desktop\\Game",
     "note": "File generato via tools/py/flint_status_stdlib.py (stdlib-only). Quando flint CLI è installato, rigenerare con `flint export`."
   },
   "snapshot": {
-    "dirty_files_count": 34,
+    "dirty_files_count": 16,
     "recent_commits_count": 10,
-    "gameplay_ratio": 0.5,
-    "consecutive_infra_commits": 2,
+    "gameplay_ratio": 0.4,
+    "consecutive_infra_commits": 3,
     "is_drifting": false,
     "recent_commits": [
+      {
+        "sha": "8c32c5ed",
+        "kind": "INFRA",
+        "message_first_line": "chore(rename): evo-caveman → flint — separa package custom dal plugin Anthropic (#1554)",
+        "files_count": 0
+      },
       {
         "sha": "1b2cf2d9",
         "kind": "INFRA",
@@ -66,20 +72,8 @@
         "kind": "GAMEPLAY",
         "message_first_line": "feat(playtest-ui): resolve animation sequenziale + cleanup dead code (#1545)",
         "files_count": 0
-      },
-      {
-        "sha": "9976db41",
-        "kind": "GAMEPLAY",
-        "message_first_line": "feat(playtest-ui): pannello \"Ordini pendenti\" laterale (#1544)",
-        "files_count": 0
       }
     ]
-  },
-  "achievements": {
-    "unlocked_count": null,
-    "total_count": 8,
-    "items": [],
-    "note": "Achievements computed by flint CLI, not stdlib fallback"
   },
   "last_spoke_unix": null
 }
