@@ -77,28 +77,51 @@ I due sono **ortogonali e complementari**. Flint può girare senza caveman. Cave
 
 ## 3. Architettura componenti
 
-### Componenti attivi (post kill-60 2026-04-18)
+### Componenti attivi (post v0.2.2 self-contained)
+
+**`flint/` è self-contained**: copiare la folder in nuovo repo + run `install.py` → ready.
 
 ```
-flint/                              ← package root
-├── src/flint/
-│   ├── cli.py                      ← Typer CLI, subcommands
-│   ├── repo.py                     ← snapshot + classify commit
-│   ├── engine.py                   ← decide_category + generate narrative
-│   ├── seeds.py                    ← 5 categorie output templates
-│   └── __init__.py
-├── tests/                          ← pytest test_repo + test_engine
-├── pyproject.toml                  ← package metadata (PEP 621 + 735)
+flint/                              ← package root, ALL-IN-ONE portable
 ├── PROJECT.md                      ← questo file (canonical definition)
+├── INSTALL.md                      ← guide adozione (3 modalità)
+├── install.py                      ← script auto-install
 ├── README.md                       ← user-facing quick start
 ├── FLINT.md                        ← rituale + quick links
-└── DEEP_RESEARCH.md                ← findings 2026
+├── DEEP_RESEARCH.md                ← findings 2026
+├── pyproject.toml · Makefile · smoke_test.py
+├── .github/workflows/flint-ci.yml
+│
+├── src/flint/                      ← Python package
+│   ├── cli.py · repo.py · engine.py · seeds.py
+│   └── __init__.py · __main__.py
+├── tests/                          ← pytest test_repo + test_engine
+│
+├── tools/                          ← NEW (v0.2.2): stdlib fallback
+│   └── flint_status_stdlib.py      ← zero-deps, Python 3.8+
+│
+├── claude-integration/             ← NEW (v0.2.2): Claude Code templates
+│   ├── README.md                   ← wire-up guide
+│   ├── memory/                     ← copy to ~/.claude/projects/<hash>/memory/
+│   │   ├── MEMORY.md.template
+│   │   ├── feedback_claude_workflow_consolidated.md
+│   │   ├── feedback_meta_checkpoint_directive.md
+│   │   └── reference_flint_optimization_guide.md
+│   ├── commands/                   ← copy to .claude/commands/
+│   │   └── meta-checkpoint.md
+│   └── CLAUDE.md-section-template.md
+│
+└── archive-template/               ← NEW (v0.2.2): template future kill decisions
+    └── MANIFEST-template.md
+```
 
-tools/py/
-└── flint_status_stdlib.py          ← fallback stdlib-only (no deps)
+**Repo Evo-Tactics backwards compat** (mirror paths — non rotti):
 
-docs/
-└── flint-status.json               ← snapshot on-demand (non auto)
+```
+tools/py/flint_status_stdlib.py     ← duplicato di flint/tools/ (Evo-Tactics usa questo)
+docs/flint-status.json              ← snapshot on-demand (non auto)
+.claude/commands/meta-checkpoint.md ← copia di flint/claude-integration/commands/
+~/.claude/projects/<hash>/memory/   ← copia di flint/claude-integration/memory/
 ```
 
 ### Componenti archiviati (killed 2026-04-18)
@@ -527,30 +550,106 @@ flint status
 
 ## Appendix A — Sources essenziali
 
-MUST READ prima di decidere keep/kill/extend Flint:
+MUST READ prima di decidere keep/kill/extend Flint. Curati per copertura **dialettica**: 3 contro (rischio tool/gamification/bit-rot) + 2 pro-discipline (solo-dev) + 2 tecnici (classifier SOTA).
 
-1. [Sam Liberty — Gamification undermines motivation](https://medium.com/design-bootcamp/gamification-does-not-increase-motivation-heres-what-to-know-c6a0e9bdc136)
-2. [Karl Zylinski — Solodevs engine trap](https://zylinski.se/posts/solodevs-and-the-trap-of-the-game-engine/)
-3. [Lethain — Skepticism meta-productivity tools](https://lethain.com/developer-meta-productivity-tools/)
-4. [ICSE 2021 — Gamification empirical (Moldon et al.)](https://johanneswachs.com/papers/msw_icse21.pdf)
-5. [Sonar — Bit Rot silent killer](https://www.sonarsource.com/blog/bit-rot-the-silent-killer)
-6. [dev.to/azrael654 — Productivity tools = procrastination](https://dev.to/azrael654/most-developer-productivity-tools-are-just-procrastination-with-better-ux-39gl)
-7. [SciTePress 2024 — Commit classification in-context LLM](https://www.scitepress.org/Papers/2024/126867/126867.pdf)
+**Critica / rischi** (pro-kill):
 
-Lista completa 40+ sources: `~/.claude/projects/C--Users-VGit-Desktop-Game/memory/reference_flint_optimization_guide.md`.
+1. [Sam Liberty — Gamification undermines motivation](https://medium.com/design-bootcamp/gamification-does-not-increase-motivation-heres-what-to-know-c6a0e9bdc136) — NTNU research, tangible rewards = Skinner box
+2. [Karl Zylinski — Solodevs engine trap](https://zylinski.se/posts/solodevs-and-the-trap-of-the-game-engine/) — solodev fanno tool invece che gioco
+3. [Lethain — Skepticism meta-productivity tools](https://lethain.com/developer-meta-productivity-tools/) — codify-before-validate è premature
+4. [Sonar — Bit Rot silent killer](https://www.sonarsource.com/blog/bit-rot-the-silent-killer) — maintenance 2-10× original cost
+5. [dev.to/azrael654 — Productivity tools = procrastination](https://dev.to/azrael654/most-developer-productivity-tools-are-just-procrastination-with-better-ux-39gl) — novelty decay tool
+
+**Tecnico / stato-arte**:
+
+6. [ICSE 2021 — Gamification empirical (Moldon et al.)](https://johanneswachs.com/papers/msw_icse21.pdf) — streak counter studio empirico GitHub
+7. [SciTePress 2024 — Commit classification in-context LLM](https://www.scitepress.org/Papers/2024/126867/126867.pdf) — alternative classifier senza training set
+
+**Lista completa 40+ sources** (landscape + tooling + distribution 2026): `claude-integration/memory/reference_flint_optimization_guide.md` (self-contained) oppure `~/.claude/projects/C--Users-VGit-Desktop-Game/memory/reference_flint_optimization_guide.md` (user-level Evo-Tactics).
+
+**Valutazione onesta delle fonti**: 80% letteratura contro tool discipline solo-dev, 20% a favore con condizioni (engagement mediator). Evidenza netta: **kill aggressivo > scale-up** per solo-dev. Flint v0.2.x onesto con questa evidenza.
 
 ## Appendix B — Changelog high-level
 
-- **2026-04-18** v0.2.1: PROJECT.md canonical + kill-60 + archive + research-critique workflow + `dammi un flint` composite on-demand
-- **2026-04-18** v0.2.0: Rename evo-caveman → flint (package + binary + JSON path + skill)
-- **2026-04-17** v0.2.0-pre: Classifier bug fix (pattern conventional commit scopes)
-- **2026-04-16** v0.2.0-rc: Initial drop caveman v0.2 (PR #1490, commit bfb8e103)
+- **2026-04-18** **v0.2.2** — Self-contained portable folder (PR #<pending>)
+  - `flint/tools/` stdlib fallback duplicato (cross-repo portable)
+  - `flint/claude-integration/` memory + commands + CLAUDE.md template
+  - `flint/install.py` auto-install script (dry-run, --force, --skip-memory)
+  - `flint/INSTALL.md` 3-modalità adoption guide
+  - `flint/archive-template/MANIFEST-template.md` future kill decisions
+- **2026-04-18** **v0.2.1** — PROJECT.md canonical ([PR #1561](https://github.com/MasterDD-L34D/Game/pull/1561))
+  - PROJECT.md 10 sezioni + Appendix A/B/C
+  - Flint narrative skill archiviata ([PR #1558](https://github.com/MasterDD-L34D/Game/pull/1558)) — auto-trigger disabilitato
+  - Flint kill-60 archive preservation ([PR #1557](https://github.com/MasterDD-L34D/Game/pull/1557)) — MANIFEST + classification 4D
+  - Flint kill-60 execution ([PR #1556](https://github.com/MasterDD-L34D/Game/pull/1556)) — achievements + hook + 8 memory → 1 consolidato
+- **2026-04-18** **v0.2.0** — Rename evo-caveman → flint ([PR #1554](https://github.com/MasterDD-L34D/Game/pull/1554))
+  - Package/binary/path/skill rename atomic (27 file)
+  - Separazione semantica vs plugin upstream `caveman:caveman`
+- **2026-04-17** **v0.2.0-pre** — Classifier fix ([PR #1550](https://github.com/MasterDD-L34D/Game/pull/1550))
+  - Pattern conventional commit scopes (playtest, round, play(, docs(, ai/)
+  - Smoke test pytest collect fix
+- **2026-04-16** **v0.2.0-rc** — Initial drop caveman v0.2 ([PR #1490](https://github.com/MasterDD-L34D/Game/pull/1490))
+  - CLI Typer + Rich + 5 categorie narrative
+  - Achievement system (poi killed v0.2.1)
+  - Hook post-commit (poi killed v0.2.1)
 
 ## Appendix C — Governance
 
-- **Maintainer**: Eduardo (MasterDD-L34D)
-- **License**: MIT (se estratto repo standalone in v1.0)
-- **Contributing**: N/A fino v1.0 (single-user validation phase)
-- **Review cycle**: 90 giorni (questo doc) / 7 giorni (decision gate post-kill)
-- **Related repos**: [Evo-Tactics (parent)](https://github.com/MasterDD-L34D/Game)
-- **Archive policy**: ogni kill documentato in `docs/archive/flint-<kill-name>-<date>/` con MANIFEST.md
+### Maintainer
+
+- **Primary**: Eduardo (MasterDD-L34D), solo maintainer
+- **Contact**: issues su [Evo-Tactics parent repo](https://github.com/MasterDD-L34D/Game/issues) con label `flint`
+
+### License
+
+- **Current status (v0.2.x)**: **Undeclared** — nessun `LICENSE` file nella repo Evo-Tactics per Flint specifico. Uso implicito: single-user non commercial.
+- **Pianificato v1.0** (repo extraction): **MIT** dichiarato con `LICENSE` file + headline `pyproject.toml`
+- **Cosa significa oggi**: non distribuire Flint esternamente senza clearance maintainer.
+
+### Versioning
+
+- **SemVer-ish**: `MAJOR.MINOR.PATCH` ma pre-1.0 → breaking change senza bump major (phase validation).
+- **Post-v1.0**: strict SemVer. Breaking = major bump + migration guide in CHANGELOG.
+
+### Breaking change policy (v1.0+)
+
+- Deprecation warning ≥2 minor version prima di remove
+- Migration guide obbligatoria in release notes
+- CI matrix copre N-2 Python versions (es. v1.0 su Py 3.10, 3.11, 3.12)
+
+### Security
+
+- **Pre-v1.0**: best-effort. Segnalazioni via GitHub issue (no SECURITY.md).
+- **Post-v1.0**: `SECURITY.md` + vulnerability disclosure policy (90 gg embargo).
+
+### Support tier
+
+- **Pre-v1.0**: best-effort single maintainer. No SLA.
+- **Post-v1.0**: community-supported (GitHub issues + discussions), no enterprise tier.
+
+### Contributing
+
+- **Pre-v1.0**: **N/A** (single-user validation phase). Feature request = issue, NO PR esterne.
+- **Post-v1.0**: `CONTRIBUTING.md` + code of conduct + 3-person review gate.
+
+### Review cycle
+
+- **PROJECT.md** (questo doc): 90 giorni
+- **Decision gate** post-kill (archive decisions): 7 giorni
+- **Roadmap** (Appendix B changelog): ogni release
+- **Sources** (Appendix A): 6 mesi
+
+### Archive policy
+
+Ogni decisione kill / archive → `docs/archive/flint-<kill-name>-<YYYY-MM-DD>/` con:
+
+- `MANIFEST.md` usando `flint/archive-template/MANIFEST-template.md`
+- Classification 4D per ogni asset
+- Decision gate espliciti (condizioni re-open parziale + totale + kill-100)
+- Sources MUST READ che hanno guidato decisione
+
+### Related projects
+
+- **Parent / host repo**: [Evo-Tactics](https://github.com/MasterDD-L34D/Game) — Flint nato qui, estratto standalone in v1.0
+- **Upstream complementare**: Plugin `caveman:caveman` (Anthropic marketplace) — voce compressa, ortogonale a Flint
+- **Inspiration**: GitMood (archiviato), Focumon, Git-Velocity CLI — vedi Appendix A sources #1-2 lista completa
