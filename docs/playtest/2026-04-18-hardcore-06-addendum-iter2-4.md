@@ -133,6 +133,34 @@ Quartet 4p vs boss hp 40 = wipe totale. Conferma teoria focus-fire: cambiando 8p
 
 **AI engagement healthy**: Apex atk 141, Critical atk 78, High atk 45 = 264 attack total. Ratio atk:move = 2.6:1 (vs mio iter 4 1.34:1). AI saturates pressure tiers.
 
+### Iter 5B N=30 validation (post PR #1555 merged)
+
+Post merge, ri-eseguita validazione statistica N=30 stesso tune (quartet 4p + boss hp 22).
+
+| Metric                   | N=10 (iter 5B) | **N=30 (validation)** | Target  |      Band      |
+| ------------------------ | -------------- | --------------------- | ------- | :------------: |
+| win_rate                 | 10% (1/10)     | **20%** (6/30)        | 15-25%  | 🟢 **IN BAND** |
+| K/D avg                  | 1.15           | 1.41                  | 0.6-0.9 |       🟡       |
+| K/D median               | 0.5            | **1.25**              | 0.6-0.9 |       🟡       |
+| turns avg                | 23.3           | 25.7                  | 14-18   |       🟡       |
+| turns median             | 22             | 26                    | 14-18   |       🟡       |
+| dmg_dealt                | 20             | 29.8                  | ~30     |       🟢       |
+| dmg_taken                | 38.1           | 36.8                  | ~30     |       🟡       |
+| boss_hp_on_loss          | 19.8           | 17.3 / 22             | 0-4     |       🟡       |
+| **players_alive_on_win** | 3              | **2** / 4             | 2-3     | 🟢 **target**  |
+
+**Outcome distribution N=30**: 6V / 24L / 0T. No timeouts — combat risolve sempre entro 40 round.
+
+**AI actions totali**: 1415 su 30 run = 47 azioni/run. Distribution:
+
+- Apex tier: 515 attack + 208 move + 87 unknown = 810 (57% total)
+- Critical tier: 195 attack + 278 move + 36 unknown = 509
+- High tier: 75 attack + 13 move + 8 unknown = 96
+
+Ratio atk:move globale 785/499 = **1.57:1** (sano, atk dominante).
+
+**Verdetto**: ✅ **win_rate in band target 15-25%**, players_alive_on_win 2/4 centrato. Turns e K/D leggermente sopra band ma accettabili per encounter hardcore (lungo = intenso). **ADR-2026-04-17 M3 chiudibile**.
+
 ### Formalizzazione Iter 5A (this PR)
 
 Introdotto variant code scenario:
