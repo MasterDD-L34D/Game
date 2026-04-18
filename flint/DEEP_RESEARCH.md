@@ -1,10 +1,10 @@
 # 🔍 DEEP_RESEARCH.md
 
-> Sintesi della ricerca di aprile 2026 per il progetto `evo-caveman`.
+> Sintesi della ricerca di aprile 2026 per il progetto `flint`.
 > Aggiornato al 17 aprile 2026.
 
 Questo file raccoglie scoperte, fonti e take-aways per informare il design
-di `evo-caveman` e il workflow su Evo-Tactics. Non è letteratura pura:
+di `flint` e il workflow su Evo-Tactics. Non è letteratura pura:
 solo ciò che ha influenzato scelte concrete.
 
 ---
@@ -70,7 +70,7 @@ I tool restano MIT, la community potrà forkare se peggiorano.
 
 - Link: https://www.ismatsamadov.com/blog/uv-ruff-replaced-pip-flake8-black-python-toolchain
 - Link: https://docs.astral.sh/uv/guides/tools/
-- **Take-away applicato:** `evo-caveman` usa uv + ruff strict. CI con
+- **Take-away applicato:** `flint` usa uv + ruff strict. CI con
   `astral-sh/setup-uv@v5` e cache su `uv.lock`.
 
 ### PEP 735 — `[dependency-groups]`
@@ -99,7 +99,7 @@ Installi con: `uv sync --all-groups` o `uv sync --group dev`.
 - run: uv run pytest
 ```
 
-- **Take-away applicato:** `.github/workflows/caveman-ci.yml` segue questo pattern,
+- **Take-away applicato:** `.github/workflows/flint-ci.yml` segue questo pattern,
   matrix su Python 3.12 + 3.13, più un job "dogfooding" che fa girare
   `caveman status` sul repo stesso (meta!).
 
@@ -213,7 +213,7 @@ Idee valide viste durante la ricerca, rimandate per tenere lo scope stretto:
 - **Integration con GitHub API per issue metrics** (siamo 100% local-first)
 - **Burnout detection** (troppo invasivo per un companion leggero)
 - **Self-improving via session analysis** (pattern emergente, ancora immaturo)
-- **Prek-compatibility** (utile se evo-caveman diventa distribuito)
+- **Prek-compatibility** (utile se flint diventa distribuito)
 - **Dashboard web** (vs filosofia "playtest > dashboard")
 
 Scope creep prevention applicato al caveman stesso: cut your darlings.

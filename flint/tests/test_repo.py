@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from caveman.repo import Commit, RepoSnapshot, _classify_commit, snapshot
+from flint.repo import Commit, RepoSnapshot, _classify_commit, snapshot
 
 
 class TestClassifyCommit:

@@ -1,4 +1,4 @@
-"""🦴 evo-caveman: companion CLI per il repo Evo-Tactics."""
+"""🦴 flint: companion CLI per il repo Evo-Tactics."""
 
 from __future__ import annotations
 

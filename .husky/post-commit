@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-# Auto-rigenera docs/caveman-status.json dopo ogni commit.
-# Usa fallback stdlib se evo-caveman CLI non installato.
+# Auto-rigenera docs/flint-status.json dopo ogni commit.
+# Usa fallback stdlib se flint CLI non installato.
 # Skip graceful se Python manca o script fallisce: non blocca commit futuri.
 
 set -u
@@ -16,14 +16,14 @@ for f in "$git_dir/rebase-merge" "$git_dir/rebase-apply" "$git_dir/MERGE_HEAD" "
   fi
 done
 
-# Preferisci evo-caveman CLI se installato, fallback a stdlib script
-if command -v caveman >/dev/null 2>&1; then
-  caveman export --output docs/caveman-status.json >/dev/null 2>&1 || true
+# Preferisci flint CLI se installato, fallback a stdlib script
+if command -v flint >/dev/null 2>&1; then
+  flint export --output docs/flint-status.json >/dev/null 2>&1 || true
 elif command -v python3 >/dev/null 2>&1; then
-  PYTHONIOENCODING=utf-8 python3 tools/py/caveman_status_stdlib.py \
-    --output docs/caveman-status.json >/dev/null 2>&1 || true
+  PYTHONIOENCODING=utf-8 python3 tools/py/flint_status_stdlib.py \
+    --output docs/flint-status.json >/dev/null 2>&1 || true
 fi
 
-# Non auto-staggia docs/caveman-status.json: utente decide quando committare snapshot.
-# Volendo post-commit auto-stage: git add docs/caveman-status.json && git commit --amend --no-edit --no-verify
+# Non auto-staggia docs/flint-status.json: utente decide quando committare snapshot.
+# Volendo post-commit auto-stage: git add docs/flint-status.json && git commit --amend --no-edit --no-verify
 exit 0

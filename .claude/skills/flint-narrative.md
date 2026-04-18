@@ -1,5 +1,5 @@
 ---
-name: caveman-narrative
+name: flint-narrative
 description: >
   Aggiunge blocco narrativo caveman a fine risposta per riancorare al gameplay Evo-Tactics.
   USA quando (a) Master chiude un task/sprint/milestone ("fatto", "pushato", "finito",
@@ -39,9 +39,9 @@ Emoji a rotazione: 🦴 🪨 🔥 · Italiano rotto coerente · Mai più di 1 bl
 | 4   | **evo_twist**    | Per playtest guidato → variante di Evo-Tactics con vincolo      |
 | 5   | **scope_check**  | ~1 volta ogni 6+ turni → MoSCoW/RICE/scope creep check          |
 
-**Dettagli e banca idee**: `caveman-mode-skill/references/categories.md` (read-only reference nel repo).
+**Dettagli e banca idee**: `flint-narrative-skill/references/categories.md` (read-only reference nel repo).
 
-**6 pilastri Evo-Tactics**: `caveman-mode-skill/references/pillars.md`.
+**6 pilastri Evo-Tactics**: `flint-narrative-skill/references/pillars.md`.
 
 ## Esempi buoni
 
@@ -81,9 +81,9 @@ Emoji a rotazione: 🦴 🪨 🔥 · Italiano rotto coerente · Mai più di 1 bl
 ## Relazione con altre skill/plugin caveman
 
 - **Plugin `caveman:caveman`** (globale): compressione voce (fragments, drop articles). Attivo sempre via SessionStart hook. Complementa questa skill (voice vs narrative block).
-- **`caveman-mode-skill/` nella repo root**: stessa fonte. Destinata a upload claude.ai web. Riferimento read-only per `references/`.
-- **`evo-caveman/` CLI Python**: coach autonomo su commit (gameplay_ratio, drift, achievements). Separato — non invocare da qui.
-- **`CAVEMAN.md` + `docs/caveman-status.json`**: doc utente + snapshot stato repo. Leggi se serve contesto design discipline.
+- **`flint-narrative-skill/` nella repo root**: stessa fonte. Destinata a upload claude.ai web. Riferimento read-only per `references/`.
+- **`flint/` CLI Python**: coach autonomo su commit (gameplay_ratio, drift, achievements). Separato — non invocare da qui.
+- **`CAVEMAN.md` + `docs/flint-status.json`**: doc utente + snapshot stato repo. Leggi se serve contesto design discipline.
 
 ## Mantra finale
 

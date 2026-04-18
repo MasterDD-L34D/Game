@@ -168,7 +168,7 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
 
 ## Integrazione caveman CLI
 
-**Pending**: quando `evo-caveman` (drop v0.2) sarà installato nel repo, `evo-caveman/src/caveman/repo.py` userà prefix come **primo segnale** di classificazione commit (più affidabile del keyword matching attuale su GAMEPLAY/INFRA/etc).
+**Pending**: quando `flint` (drop v0.2) sarà installato nel repo, `flint/src/caveman/repo.py` userà prefix come **primo segnale** di classificazione commit (più affidabile del keyword matching attuale su GAMEPLAY/INFRA/etc).
 
 Mapping:
 

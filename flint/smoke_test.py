@@ -10,10 +10,10 @@ from pathlib import Path
 # Aggiungo src al path senza installare il pacchetto
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from caveman.achievements import compute_achievements
-from caveman.engine import decide_category, generate, should_speak
-from caveman.repo import snapshot
-from caveman.seeds import Category
+from flint.achievements import compute_achievements
+from flint.engine import decide_category, generate, should_speak
+from flint.repo import snapshot
+from flint.seeds import Category
 
 
 def make_fake_repo(path: Path, commits: list[tuple[str, str, str]]) -> None:

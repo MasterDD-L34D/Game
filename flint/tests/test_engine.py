@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from caveman.engine import decide_category, generate, should_speak
-from caveman.repo import Commit, RepoSnapshot
-from caveman.seeds import Category
+from flint.engine import decide_category, generate, should_speak
+from flint.repo import Commit, RepoSnapshot
+from flint.seeds import Category
 
 
 def _snap(kinds: list[str], dirty: int = 0, root: Path | None = None) -> RepoSnapshot:
