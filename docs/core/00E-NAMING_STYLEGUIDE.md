@@ -3,7 +3,7 @@ title: Naming Styleguide — Specie e Biomi (Bilingue IT/EN)
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-04-16'
+last_verified: 2026-04-16
 source_of_truth: true
 language: it-en
 review_cycle_days: 30

@@ -3,7 +3,7 @@ title: 41 — Art Direction canonical
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-04-18'
+last_verified: 2026-04-18
 source_of_truth: true
 language: it
 review_cycle_days: 90
