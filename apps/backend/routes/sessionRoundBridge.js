@@ -764,6 +764,27 @@ function createRoundBridge(deps) {
 
     const { intents, decisions } = declareSistemaIntents(session);
 
+    // Telemetry B (TKT-04): persist AI decisions per-round per abilitare
+    // distribuzione intent analisi (docs/playtest/2026-04-17-*).
+    for (const decision of decisions) {
+      const actor = session.units.find((u) => u.id === decision.unit_id);
+      await appendEvent(session, {
+        action_type: 'ai_intent',
+        turn: session.turn,
+        actor_id: decision.unit_id,
+        target_id: decision.target_id ?? null,
+        damage_dealt: 0,
+        result: decision.intent || 'unknown',
+        position_from: actor?.position ?? null,
+        position_to: null,
+        rule: decision.rule ?? null,
+        intent: decision.intent ?? null,
+        reason: decision.reason ?? null,
+        tier: actor?.tier ?? null,
+        automatic: true,
+      });
+    }
+
     let cur = session.roundState;
     for (const { unit_id, action } of intents) {
       cur = roundOrchestrator.declareIntent(cur, unit_id, action).nextState;

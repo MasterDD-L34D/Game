@@ -26,12 +26,14 @@ test('replay endpoint returns payload with session events + meta', async (t) => 
   assert.equal(startRes.status, 200);
   const sid = startRes.body.session_id;
 
-  // Fresh session — events vuoti ma struttura intatta
+  // Fresh session — telemetry emits session_start event on /start (PR #1535)
   const freshReplay = await request(app).get(`/api/session/${sid}/replay`);
   assert.equal(freshReplay.status, 200);
   assert.equal(freshReplay.body.session_id, sid);
   assert.ok(Array.isArray(freshReplay.body.events));
-  assert.equal(freshReplay.body.meta.events_count, 0);
+  assert.equal(freshReplay.body.meta.events_count, freshReplay.body.events.length);
+  assert.ok(freshReplay.body.meta.events_count >= 1, 'session_start event emitted');
+  assert.equal(freshReplay.body.events[0].action_type, 'session_start');
   assert.equal(freshReplay.body.meta.export_version, 1);
   assert.ok(freshReplay.body.started_at, 'started_at populated');
   assert.ok(freshReplay.body.units_snapshot_initial, 'initial snapshot captured');
