@@ -52,12 +52,12 @@ Permitido **solo per gap non coperti da community** + **human post-process obbli
 
 #### Tool approvati
 
-| Tool                                            | Uso                                | Giustificazione                                                              |
-| ----------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
-| **Retro Diffusion** (SaaS)                      | Primary pixel-art 32×32 generation | Specialized pixel-art, claim training dati licenziati (verifica ToS current) |
-| **Adobe Firefly**                               | Fallback legale-safe (non-pixel)   | Indemnification Adobe, training Adobe Stock + PD + licensed                  |
-| **Stable Diffusion XL + pixel-art LoRA locale** | Custom control, offline            | Local = no SaaS lock-in; verifica LoRA singolo license CC0                   |
-| **Flux Pro**                                    | Alta qualità non-pixel             | Licenza commercial chiara Black Forest Labs                                  |
+| Tool                                            | Uso                                | Giustificazione                                                                                                                                       |
+| ----------------------------------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Retro Diffusion** (SaaS)                      | Primary pixel-art 32×32 generation | Specialized pixel-art. Premium $10-25/mo → commercial use + no watermark. Training: licensed assets + pixel artists consent. **Verified 2026-04-18**. |
+| **Adobe Firefly**                               | Fallback legale-safe (non-pixel)   | Indemnification Adobe, training Adobe Stock + PD + licensed                                                                                           |
+| **Stable Diffusion XL + pixel-art LoRA locale** | Custom control, offline            | Local = no SaaS lock-in; verifica LoRA singolo license CC0                                                                                            |
+| **Flux Pro**                                    | Alta qualità non-pixel             | Licenza commercial chiara Black Forest Labs                                                                                                           |
 
 #### Tool NON USABILI (senza review esplicita)
 
