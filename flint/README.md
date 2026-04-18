@@ -1,8 +1,20 @@
-# 🦴 flint v0.2
+# 🦴 flint v0.2.1
 
-> Companion CLI per il repo **Evo-Tactics**. Un caveman che legge i tuoi commit e ti aiuta a non perdere la rotta.
+> Companion CLI per solo-dev / piccoli team. Legge i tuoi commit e ti aiuta a non perdere la rotta di design/scope. Integrato primariamente con [Evo-Tactics](https://github.com/MasterDD-L34D/Game) ma progettato per essere ripetibile su altri progetti.
+
+**📘 Canonical doc**: [PROJECT.md](./PROJECT.md) — project definition, architettura, integration pattern, roadmap, lessons learned.
+
+**🗂 Archive kill-60 (2026-04-18)**: [docs/archive/flint-kill-60-2026-04-18/](../docs/archive/flint-kill-60-2026-04-18/) — classificazione + decision gate + sources.
 
 **Stack 2026:** Python 3.12+ · uv · Typer · Rich · Ruff strict · mypy strict · pytest+cov · GitHub Actions CI · PEP 735 dependency-groups.
+
+---
+
+## ⚠️ Post kill-60 (2026-04-18)
+
+Tool passato da 4/10 → diagnostica passiva. Rimossi: achievement system, post-commit hook auto-rigenera, auto-trigger narrative block, 8 memory files consolidati in 1. Dettagli decisione + sources: [archive MANIFEST](../docs/archive/flint-kill-60-2026-04-18/MANIFEST.md).
+
+Sezioni "Hook automatico" e "Achievement" sotto sono **storiche** — preservate per re-open condizionale, non per uso corrente.
 
 ## Cosa fa
 
