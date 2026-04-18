@@ -32,6 +32,8 @@ const {
   recordAttackForCombo,
   resetRoundAttackTracker,
 } = require('../services/squadCoordination');
+const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
+const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
 
 function createRoundBridge(deps) {
   const {
@@ -942,6 +944,28 @@ function createRoundBridge(deps) {
       );
     }
 
+    // ADR-2026-04-19 + 04-20 wiring (feature flag OFF by default).
+    // session.encounter undefined → both modules return no-op.
+    const reinforcementResult = reinforcementTick(session, session.encounter);
+    for (const rec of reinforcementResult.spawned || []) {
+      if (rec.skipped) continue;
+      await appendEvent(session, {
+        action_type: 'reinforcement_spawn',
+        turn: session.turn,
+        actor_id: rec.spawned_unit_id,
+        target_id: null,
+        damage_dealt: 0,
+        result: 'spawned',
+        position_from: null,
+        position_to: rec.spawn_tile,
+        unit_id: rec.unit_id,
+        wave_index: rec.wave_index,
+        tier_at_spawn: rec.tier_at_spawn,
+        automatic: true,
+      });
+    }
+    const objectiveResult = evaluateObjective(session, session.encounter);
+
     return {
       session_id: session.session_id,
       turn: session.turn,
@@ -954,6 +978,8 @@ function createRoundBridge(deps) {
       round_wrapper: true,
       round_phase: session.roundState.round_phase,
       round_decisions: decisions,
+      reinforcement_spawned: reinforcementResult.spawned || [],
+      objective_state: objectiveResult,
     };
   }
 
