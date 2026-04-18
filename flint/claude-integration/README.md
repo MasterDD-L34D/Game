@@ -11,9 +11,11 @@ claude-integration/
 │   ├── MEMORY.md.template              ← index template (personalizza)
 │   ├── feedback_claude_workflow_consolidated.md    ← 9 pattern workflow
 │   ├── feedback_meta_checkpoint_directive.md       ← auto-trigger meta-pause
+│   ├── reference_classification_4d.md              ← framework 4D keep/kill
 │   └── reference_flint_optimization_guide.md       ← 40+ sources research
 ├── commands/                           ← slash commands
-│   └── meta-checkpoint.md              ← /meta-checkpoint
+│   ├── meta-checkpoint.md              ← /meta-checkpoint (self-audit)
+│   └── classify-4d.md                  ← /classify-4d (asset triage)
 └── CLAUDE.md-section-template.md       ← sezione da paste in CLAUDE.md
 ```
 
@@ -48,8 +50,9 @@ Apri `CLAUDE.md` del tuo repo. Paste contenuto di `CLAUDE.md-section-template.md
 ### 4. Verify
 
 - Riavvia Claude Code session
-- Check skill list — deve apparire `meta-checkpoint`
+- Check skill list — devono apparire `meta-checkpoint` + `classify-4d`
 - Test: scrivi "dammi un flint" → risposta composta A+C+D+E (+G se venerdì)
+- Test: `/classify-4d <file>` → tabella 4D + raccomandazione atomica
 
 ## Installazione (automatica)
 
