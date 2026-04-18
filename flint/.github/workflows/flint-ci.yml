@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - 'evo-caveman/**'
-      - '.github/workflows/caveman-ci.yml'
+      - 'flint/**'
+      - '.github/workflows/flint-ci.yml'
   pull_request:
     paths:
-      - 'evo-caveman/**'
+      - 'flint/**'
   workflow_dispatch:
 
 concurrency:
@@ -17,7 +17,7 @@ concurrency:
 
 defaults:
   run:
-    working-directory: evo-caveman
+    working-directory: flint
 
 jobs:
   lint-and-test:
@@ -31,13 +31,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # caveman ha bisogno dello storico git
+          fetch-depth: 0 # flint ha bisogno dello storico git
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: 'evo-caveman/uv.lock'
+          cache-dependency-glob: 'flint/uv.lock'
 
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
@@ -62,10 +62,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: evo-caveman/htmlcov
+          path: flint/htmlcov
           if-no-files-found: ignore
 
-  caveman-self-check:
+  flint-self-check:
     name: Caveman self-check (dogfooding)
     runs-on: ubuntu-latest
     needs: lint-and-test
@@ -77,12 +77,12 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Install caveman
-        working-directory: evo-caveman
+      - name: Install flint
+        working-directory: flint
         run: uv sync
 
-      - name: Run caveman status sul repo
+      - name: Run flint status sul repo
         run: |
-          cd evo-caveman
-          uv run caveman status --repo ..
+          cd flint
+          uv run flint status --repo ..
         continue-on-error: true # non blocca la CI, è solo informativo

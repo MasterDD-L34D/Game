@@ -9,7 +9,7 @@ e ricorda di **mettere il gioco prima del codice**.
 
 ```bash
 # Install (una volta)
-cd evo-caveman && uv tool install .
+cd flint && uv tool install .
 
 # Uso manuale
 caveman              # parlata contestuale
@@ -77,7 +77,7 @@ Sono file locali, sicuri, rimossi da `git clean -fdx`.
 
 ```bash
 caveman uninstall-hook
-uv tool uninstall evo-caveman
+uv tool uninstall flint
 rm .git/caveman_state.json .git/caveman_last_spoke
 ```
 

@@ -1,4 +1,4 @@
-"""Entry point per `python -m caveman`."""
+"""Entry point per `python -m flint`."""
 
 from __future__ import annotations
 

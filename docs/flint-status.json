@@ -1,0 +1,85 @@
+{
+  "_meta": {
+    "generator": "flint_status_stdlib (fallback)",
+    "version": "0.2.0-stdlib",
+    "generated_at": "2026-04-18T00:39:23.956963+00:00",
+    "repo_root": "C:\\Users\\VGit\\Desktop\\Game",
+    "note": "File generato via tools/py/flint_status_stdlib.py (stdlib-only). Quando flint CLI è installato, rigenerare con `flint export`."
+  },
+  "snapshot": {
+    "dirty_files_count": 34,
+    "recent_commits_count": 10,
+    "gameplay_ratio": 0.5,
+    "consecutive_infra_commits": 2,
+    "is_drifting": false,
+    "recent_commits": [
+      {
+        "sha": "1b2cf2d9",
+        "kind": "INFRA",
+        "message_first_line": "chore(commands): /meta-checkpoint — pausa riflessiva codifica workflow (#1553)",
+        "files_count": 0
+      },
+      {
+        "sha": "5acdf5c6",
+        "kind": "INFRA",
+        "message_first_line": "chore(caveman): wire skill narrative CLI + post-commit hook + dedup CAVEMAN.md (#1552)",
+        "files_count": 0
+      },
+      {
+        "sha": "695452e8",
+        "kind": "ALTRO",
+        "message_first_line": "fix(caveman): classifier GAMEPLAY/DOCS copre conventional commit scopes (#1550)",
+        "files_count": 0
+      },
+      {
+        "sha": "092bff14",
+        "kind": "GAMEPLAY",
+        "message_first_line": "play(harness+balance): probe rule + TKT-09 AI metric fix + iter 2 hardcore tune (#1551)",
+        "files_count": 0
+      },
+      {
+        "sha": "4d4c05b0",
+        "kind": "GAMEPLAY",
+        "message_first_line": "play(calibration): hardcore06 addendum iter 2-4 + root cause probe (#1548)",
+        "files_count": 0
+      },
+      {
+        "sha": "fcadf364",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest-ui): cell highlight durante resolve + keyboard shortcuts (#1549)",
+        "files_count": 0
+      },
+      {
+        "sha": "aa4731f1",
+        "kind": "DOCS",
+        "message_first_line": "docs(claude-md): session workflow patterns section (#1547)",
+        "files_count": 0
+      },
+      {
+        "sha": "ac5188bf",
+        "kind": "ALTRO",
+        "message_first_line": "chore: sprint context + GDD ADR placeholders + AI meter UI + harness fixes (#1546)",
+        "files_count": 0
+      },
+      {
+        "sha": "c9f08caf",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest-ui): resolve animation sequenziale + cleanup dead code (#1545)",
+        "files_count": 0
+      },
+      {
+        "sha": "9976db41",
+        "kind": "GAMEPLAY",
+        "message_first_line": "feat(playtest-ui): pannello \"Ordini pendenti\" laterale (#1544)",
+        "files_count": 0
+      }
+    ]
+  },
+  "achievements": {
+    "unlocked_count": null,
+    "total_count": 8,
+    "items": [],
+    "note": "Achievements computed by flint CLI, not stdlib fallback"
+  },
+  "last_spoke_unix": null
+}

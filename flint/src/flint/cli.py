@@ -1,4 +1,4 @@
-"""CLI caveman — Typer + Rich."""
+"""CLI flint — Typer + Rich."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ from .repo import snapshot
 from .seeds import Category
 
 app = typer.Typer(
-    name="caveman",
+    name="flint",
     help="🦴 Caveman companion per il repo Evo-Tactics.",
     no_args_is_help=False,
     rich_markup_mode="rich",
@@ -31,7 +31,7 @@ console = Console(stderr=False)
 
 def _version_callback(value: bool) -> None:
     if value:
-        console.print(f"🦴 evo-caveman v{__version__}")
+        console.print(f"🦴 flint v{__version__}")
         raise typer.Exit
 
 
@@ -186,14 +186,14 @@ def install_hook(
         raise typer.Exit(1)
 
     hook_content = """#!/usr/bin/env bash
-# 🦴 caveman post-commit hook — parla solo quando serve
-# Installato da: caveman install-hook
+# 🦴 flint post-commit hook — parla solo quando serve
+# Installato da: flint install-hook
 # Per disinstallare: rm .git/hooks/post-commit
 
-if command -v caveman >/dev/null 2>&1; then
-    caveman check 2>/dev/null || true
-elif command -v python >/dev/null 2>&1 && python -c "import caveman" 2>/dev/null; then
-    python -m caveman check 2>/dev/null || true
+if command -v flint >/dev/null 2>&1; then
+    flint check 2>/dev/null || true
+elif command -v python >/dev/null 2>&1 && python -c "import flint" 2>/dev/null; then
+    python -m flint check 2>/dev/null || true
 fi
 """
     hook_path.write_text(hook_content)
@@ -255,7 +255,7 @@ def export(
         typer.Option(
             "--output",
             "-o",
-            help="Destinazione JSON (default: docs/caveman-status.json).",
+            help="Destinazione JSON (default: docs/flint-status.json).",
         ),
     ] = None,
 ) -> None:
@@ -274,7 +274,7 @@ def export(
     snap = snapshot(repo_root)
     achs = compute_achievements(snap)
 
-    last_spoke_path = repo_root / ".git" / "caveman_last_spoke"
+    last_spoke_path = repo_root / ".git" / "flint_last_spoke"
     last_spoke = None
     if last_spoke_path.exists():
         try:
@@ -284,7 +284,7 @@ def export(
 
     payload = {
         "_meta": {
-            "generator": "evo-caveman export",
+            "generator": "flint export",
             "version": __version__,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "repo_root": str(repo_root),
@@ -322,7 +322,7 @@ def export(
         "last_spoke_unix": last_spoke,
     }
 
-    dest = output or (repo_root / "docs" / "caveman-status.json")
+    dest = output or (repo_root / "docs" / "flint-status.json")
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     console.print(f"[green]✓[/green] Esportato stato caveman in [bold]{dest}[/bold]")

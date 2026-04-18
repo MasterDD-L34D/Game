@@ -107,7 +107,7 @@ def decide_category(snap: RepoSnapshot, *, force: Category | None = None) -> Cat
 
 
 def _state_file(repo_root: Path) -> Path:
-    return repo_root / ".git" / "caveman_state.json"
+    return repo_root / ".git" / "flint_state.json"
 
 
 def _load_used_seeds(repo_root: Path) -> dict[str, list[int]]:
@@ -201,7 +201,7 @@ def should_speak(snap: RepoSnapshot, *, respect_throttle: bool = True) -> tuple[
 
 
 def _last_spoke_file(repo_root: Path) -> Path:
-    return repo_root / ".git" / "caveman_last_spoke"
+    return repo_root / ".git" / "flint_last_spoke"
 
 
 def _load_last_spoke(repo_root: Path) -> float | None:

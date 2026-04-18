@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Genera docs/caveman-status.json con stdlib-only (no typer/rich deps).
+"""Genera docs/flint-status.json con stdlib-only (no typer/rich deps).
 
-Fallback usato quando evo-caveman CLI non è installato. Produce JSON
-shape-compatible con `caveman export`. Usato da CI e dal setup iniziale
+Fallback usato quando flint CLI non è installato. Produce JSON
+shape-compatible con `flint export`. Usato da CI e dal setup iniziale
 S4 (RESEARCH_TODO).
 
 Usage:
-    python3 tools/py/caveman_status_stdlib.py [--output path]
+    python3 tools/py/flint_status_stdlib.py [--output path]
 """
 
 from __future__ import annotations
@@ -108,7 +108,7 @@ def compute_metrics(commits: list[dict]) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", "-o", default="docs/caveman-status.json")
+    parser.add_argument("--output", "-o", default="docs/flint-status.json")
     args = parser.parse_args()
 
     repo = Path.cwd()
@@ -118,13 +118,13 @@ def main() -> int:
 
     payload = {
         "_meta": {
-            "generator": "caveman_status_stdlib (fallback)",
+            "generator": "flint_status_stdlib (fallback)",
             "version": "0.2.0-stdlib",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "repo_root": str(repo),
             "note": (
-                "File generato via tools/py/caveman_status_stdlib.py (stdlib-only). "
-                "Quando evo-caveman CLI è installato, rigenerare con `caveman export`."
+                "File generato via tools/py/flint_status_stdlib.py (stdlib-only). "
+                "Quando flint CLI è installato, rigenerare con `flint export`."
             ),
         },
         "snapshot": {
@@ -147,7 +147,7 @@ def main() -> int:
             "unlocked_count": None,
             "total_count": 8,
             "items": [],
-            "note": "Achievements computed by caveman CLI, not stdlib fallback",
+            "note": "Achievements computed by flint CLI, not stdlib fallback",
         },
         "last_spoke_unix": None,
     }
@@ -155,7 +155,7 @@ def main() -> int:
     dest = Path(args.output)
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"OK: exported caveman status → {dest}")
+    print(f"OK: exported flint status → {dest}")
     print(
         f"  commits={len(commits)} gameplay_ratio={metrics['gameplay_ratio']:.0%} "
         f"drifting={metrics['is_drifting']}"

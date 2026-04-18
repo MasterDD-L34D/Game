@@ -8,17 +8,17 @@ Drop completo per il repo **Game**. Contiene:
 evo-tactics-drop/
 ├── INDEX.md              ← sei qui
 ├── CAVEMAN.md            ← da mettere nella root di Game/ (doc utente veloce)
-├── evo-caveman/          ← CLI tool, da mettere in Game/evo-caveman/
+├── flint/          ← CLI tool, da mettere in Game/flint/
 │   ├── pyproject.toml    ← stack 2026: uv, ruff, mypy, dependency-groups
 │   ├── README.md
 │   ├── CAVEMAN.md
 │   ├── DEEP_RESEARCH.md  ← report della ricerca con fonti
 │   ├── Makefile
 │   ├── smoke_test.py
-│   ├── .github/workflows/caveman-ci.yml
+│   ├── .github/workflows/flint-ci.yml
 │   ├── src/caveman/      ← pacchetto Python
 │   └── tests/
-└── caveman-mode-skill/   ← da installare su Claude.ai come skill custom
+└── flint-narrative-skill/   ← da installare su Claude.ai come skill custom
     ├── SKILL.md
     └── references/
         ├── categories.md
@@ -33,20 +33,20 @@ evo-tactics-drop/
 cd /path/to/Game
 
 # Copia la cartella del tool
-cp -r /path/to/evo-tactics-drop/evo-caveman .
+cp -r /path/to/evo-tactics-drop/flint .
 
 # Copia il file doc in root
 cp /path/to/evo-tactics-drop/CAVEMAN.md .
 
 # Commit (caveman friendly!)
-git add evo-caveman CAVEMAN.md
-git commit -m "add evo-caveman v0.2 (gameplay-first companion)"
+git add flint FLINT.md
+git commit -m "add flint v0.2 (gameplay-first companion)"
 ```
 
 ### 2. Installa il CLI
 
 ```bash
-cd evo-caveman
+cd flint
 uv sync --all-groups     # se usi uv (raccomandato)
 # oppure
 pip install -e ".[dev]"
@@ -67,10 +67,10 @@ caveman install-hook
 
 ### 4. Installa la skill su Claude.ai
 
-1. Zippa la cartella `caveman-mode-skill/`:
+1. Zippa la cartella `flint-narrative-skill/`:
    ```bash
    cd /path/to/evo-tactics-drop
-   zip -r caveman-mode.zip caveman-mode-skill/
+   zip -r caveman-mode.zip flint-narrative-skill/
    ```
 2. Vai su Claude.ai → Settings → Features → Custom Skills
 3. Upload del file `caveman-mode.zip`

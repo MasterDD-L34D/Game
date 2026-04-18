@@ -1,4 +1,4 @@
-# 🦴 evo-caveman v0.2
+# 🦴 flint v0.2
 
 > Companion CLI per il repo **Evo-Tactics**. Un caveman che legge i tuoi commit e ti aiuta a non perdere la rotta.
 
@@ -21,13 +21,13 @@
 
 ```bash
 # Stack 2026: uv raccomandato
-uv tool install evo-caveman
+uv tool install flint
 
 # Legacy: pipx
-pipx install evo-caveman
+pipx install flint
 
 # Dev locale
-cd evo-caveman
+cd flint
 uv sync --all-extras --all-groups
 ```
 
@@ -92,14 +92,14 @@ Disattiva: `caveman uninstall-hook`.
 ## Architettura
 
 ```
-evo-caveman/
+flint/
 ├── pyproject.toml          # PEP 735 dependency-groups, ruff strict, mypy strict
 ├── Makefile
 ├── README.md
 ├── CAVEMAN.md              # doc utente veloce
 ├── DEEP_RESEARCH.md        # scoperte ricerca 2026
 ├── smoke_test.py
-├── .github/workflows/caveman-ci.yml  # uv + matrix py3.12/3.13
+├── .github/workflows/flint-ci.yml  # uv + matrix py3.12/3.13
 ├── src/caveman/
 │   ├── __init__.py
 │   ├── __main__.py
