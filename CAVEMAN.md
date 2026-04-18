@@ -2,50 +2,17 @@
 
 > Rituale di lavoro + tool CLI per tenere **Evo-Tactics** sulla rotta giusta.
 
-Questo repo ha un companion CLI chiamato `caveman` che legge lo stato del progetto
-e ricorda di **mettere il gioco prima del codice**.
+Canonical doc → [evo-caveman/CAVEMAN.md](evo-caveman/CAVEMAN.md)
 
-## Quick start
+## Quick links
 
-```bash
-# Install (una volta)
-cd evo-caveman && uv tool install .
+- **CLI `caveman`** (coach autonomo su commit): [evo-caveman/README.md](evo-caveman/README.md)
+- **Stato repo live**: [docs/caveman-status.json](docs/caveman-status.json) (rigenerato da post-commit hook)
+- **Fallback stdlib** (no deps): `python3 tools/py/caveman_status_stdlib.py`
+- **Skill narrative** (Claude Code): [.claude/skills/caveman-narrative.md](.claude/skills/caveman-narrative.md)
+- **Skill narrative** (Claude.ai web upload): [caveman-mode-skill/](caveman-mode-skill/)
 
-# Uso manuale
-caveman              # parlata contestuale
-caveman status       # lettura dello stato del repo
-caveman achievements # trofei da pattern di commit
-caveman speak -c scope_check  # forza una categoria
-
-# Hook automatico (opt-in, parla solo quando serve)
-caveman install-hook
-```
-
-## Le 5 categorie di parlata
-
-| Categoria      | Quando                       | Esempio                                                 |
-| -------------- | ---------------------------- | ------------------------------------------------------- |
-| `micro_sprint` | dopo GAMEPLAY, o molti dirty | _"hai 7 file dirty, committa UNO solo adesso"_          |
-| `design_hint`  | repo in deriva               | _"counter visibile PRIMA della mossa, non dopo"_        |
-| `mini_game`    | su richiesta, pausa creativa | _"apri Spotify shuffle. prossimo titolo = nuovo trait"_ |
-| `evo_twist`    | per playtest guidato         | _"'Regola del 2': gioca con solo 2 specie e 2 job"_     |
-| `scope_check`  | se non fatto da un po'       | _"MoSCoW: l'ultima feature è MUST? se no, rimandala"_   |
-
-## Achievements (sbloccati dai commit)
-
-Il caveman traccia anche alcuni achievement ispirati a **GitMood** ma ancorati
-a game design, non a sentiment. Alcuni sono celebrazioni, altri warning.
-
-```bash
-caveman achievements     # sbloccati
-caveman achievements --all  # tutti i possibili
-```
-
-Esempi: 🎯 Game-First Striker (3 GAMEPLAY di fila), ✂️ Ruthless Cutter
-(commit di rimozione), ⚠️ Docker Addict (troppi INFRA), 🦴 Unga Bunga
-(gameplay ratio ≥60%).
-
-## Regole del Caveman (valgono anche senza il tool)
+## Regole essenziali
 
 1. **Se un bambino non capisce una regola in 30 secondi, la regola è rotta.**
 2. **Se l'infra va avanti senza il gioco, il gioco muore.**
@@ -56,30 +23,9 @@ Esempi: 🎯 Game-First Striker (3 GAMEPLAY di fila), ✂️ Ruthless Cutter
 
 ## 3 domande del venerdì
 
-Se non vuoi usare il tool, ogni venerdì chiediti:
-
 1. **Cosa farebbe il Caveman adesso in 10 minuti?** → prossimo commit
 2. **Quale pilastro è più solo questa settimana?** → dove scavare
 3. **Se spegnessi Docker per 48 ore, cosa resterebbe del gioco?** → il core
-
-Se rispondere richiede più di 2 minuti, stai lavorando troppo "in alto".
-
-## Stato files
-
-Lo state del caveman vive in `.git/` (non versionato):
-
-- `.git/caveman_state.json` — seed usati di recente (anti-ripetizione)
-- `.git/caveman_last_spoke` — timestamp ultima parlata (throttle hook)
-
-Sono file locali, sicuri, rimossi da `git clean -fdx`.
-
-## Disinstallazione
-
-```bash
-caveman uninstall-hook
-uv tool uninstall evo-caveman
-rm .git/caveman_state.json .git/caveman_last_spoke
-```
 
 ---
 
