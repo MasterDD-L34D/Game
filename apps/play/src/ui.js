@@ -73,6 +73,44 @@ function formatEventLine(ev, unitId) {
   return t;
 }
 
+// W7.D — Lazy cache abilities per job from /api/jobs. Populated on first render.
+const _abilitiesCache = new Map(); // job → [{ability_id, display_name, ap_cost}]
+let _abilitiesFetchPromise = null;
+
+async function ensureAbilities() {
+  if (_abilitiesFetchPromise) return _abilitiesFetchPromise;
+  _abilitiesFetchPromise = fetch('/api/jobs')
+    .then((r) => r.json())
+    .then((data) => {
+      const jobs = Array.isArray(data?.jobs) ? data.jobs : [];
+      for (const j of jobs) {
+        const key = (j.id || j.job || '').toLowerCase();
+        if (!key) continue;
+        const raw = Array.isArray(j.abilities)
+          ? j.abilities
+          : Array.isArray(j.ability_ids)
+            ? j.ability_ids
+            : [];
+        // Normalize: support sia array of strings che array of objects.
+        const normalized = raw.map((x) =>
+          typeof x === 'string'
+            ? { ability_id: x, display_name: x.replace(/_/g, ' ') }
+            : x && typeof x === 'object'
+              ? x
+              : { ability_id: String(x) },
+        );
+        _abilitiesCache.set(key, normalized);
+      }
+      return _abilitiesCache;
+    })
+    .catch(() => _abilitiesCache);
+  return _abilitiesFetchPromise;
+}
+
+function getAbilitiesForJob(job) {
+  return _abilitiesCache.get((job || '').toLowerCase()) || [];
+}
+
 export function renderUnits(
   ul,
   state,
@@ -80,7 +118,15 @@ export function renderUnits(
   onClick,
   pendingIntents = null,
   onCancelIntent = null,
+  predictedOrder = null,
 ) {
+  // Kick off abilities fetch (idempotent, populates cache for next render).
+  ensureAbilities().then(() => {
+    // Trigger re-render only if abilities weren't available first pass.
+    if (ul.dataset.abilitiesRefetched) return;
+    ul.dataset.abilitiesRefetched = '1';
+    ul.dispatchEvent(new CustomEvent('abilities-ready'));
+  });
   ul.innerHTML = '';
   for (const u of state.units || []) {
     const li = document.createElement('li');
@@ -133,7 +179,12 @@ export function renderUnits(
         if (!pendingIntents) return '';
         const intent = pendingIntents.get ? pendingIntents.get(u.id) : pendingIntents[u.id];
         if (intent) {
+          const rank = predictedOrder && predictedOrder.get ? predictedOrder.get(u.id) : null;
+          const rankHtml = rank
+            ? `<span class="priority-rank" title="Ordine predetto (initiative + action_speed − status_penalty)">#${rank}</span>`
+            : '';
           return `<div class="intent-row">
+            ${rankHtml}
             <div class="intent-badge declared" title="Intent dichiarato">✓ ${formatIntent(intent)}</div>
             <button class="intent-cancel" data-unit-id="${u.id}" title="Annulla intent (re-click action per nuovo)">✕</button>
           </div>`;
@@ -141,20 +192,30 @@ export function renderUnits(
         return `<div class="intent-badge pending" title="Nessun intent dichiarato">⏳ in attesa</div>`;
       })()}
       ${(() => {
-        // W6.3 — Per-PG expanded HUD: traits + recent events filtered per unit.
-        // Mostrato solo per player PG vivi (info combattimento personalizzata).
+        // W6.3 / W7.C — Per-PG expanded HUD: traits + abilities + recent events filtered.
+        // W7.C: default <details open> perché user non trovava la sezione collapsed.
+        // W7.D: ability chips inline per player (prima era solo shared bottom bar).
         if (u.controlled_by !== 'player' || u.hp <= 0) return '';
         const traits = Array.isArray(u.traits) ? u.traits : [];
+        const abilities = getAbilitiesForJob(u.job);
         const evRows = recentUnitEvents(state, u.id, 4);
         const traitsHtml = traits.length
           ? `<div class="unit-traits" title="Trait attivi (evoluzione)">🧬 ${traits.map((t) => `<code>${t}</code>`).join(' ')}</div>`
           : '';
+        const abilitiesHtml = abilities.length
+          ? `<div class="unit-abilities" title="Abilities conosciute">⚔ ${abilities
+              .map(
+                (a) =>
+                  `<span class="ab-chip" title="${(a.effect_type || '').toString()} · AP ${a.ap_cost ?? 1}">${a.display_name || a.ability_id}</span>`,
+              )
+              .join('')}</div>`
+          : '';
         const eventsHtml = evRows.length
-          ? `<details class="unit-log-details"><summary>📜 Ultimi eventi (${evRows.length})</summary><ul class="unit-log">${evRows
+          ? `<details class="unit-log-details" open><summary>📜 Ultimi eventi (${evRows.length})</summary><ul class="unit-log">${evRows
               .map((e) => `<li>T${e.turn || '?'}: ${formatEventLine(e, u.id)}</li>`)
               .join('')}</ul></details>`
           : '';
-        return `${traitsHtml}${eventsHtml}`;
+        return `${traitsHtml}${abilitiesHtml}${eventsHtml}`;
       })()}
     `;
     li.addEventListener('click', (ev) => {

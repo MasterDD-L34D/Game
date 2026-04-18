@@ -27,6 +27,37 @@ const state = {
   evalSet: [],
 };
 
+// W7.B — ACTION_SPEED table mirror server-side (roundOrchestrator.py spec ADR-2026-04-15).
+// Usato per predicted priority preview in planning phase (UX: user capisce ordine pre-commit).
+const ACTION_SPEED = {
+  defend: 2,
+  parry: 2,
+  attack: 0,
+  ability: -1,
+  move: -2,
+};
+
+// W7.B — Compute resolve priority order among declared player intents.
+// Formula: unit.initiative + action_speed(action) - status_penalty.
+// NOTE: include solo PG (SIS intents server-side, non esposti in planning).
+function computePlayerPriorityOrder(pendingIntents, units) {
+  const items = [];
+  for (const [uid, intent] of pendingIntents.entries()) {
+    const unit = units.find((u) => u.id === uid);
+    if (!unit) continue;
+    const actSpd = ACTION_SPEED[intent.type] ?? 0;
+    const panic = (unit.status && unit.status.panic) || 0;
+    const disorient = (unit.status && unit.status.disorient) || 0;
+    const statusPenalty = panic * 2 + disorient;
+    const priority = (unit.initiative || 0) + actSpd - statusPenalty;
+    items.push({ uid, priority });
+  }
+  items.sort((a, b) => b.priority - a.priority || a.uid.localeCompare(b.uid));
+  const map = new Map();
+  items.forEach((it, i) => map.set(it.uid, i + 1));
+  return map;
+}
+
 // W5.D — Build eval set entry per decision. Each entry = prompt (pre-action state)
 // + response (user choice) pair per Flint v0.3 classifier gate.
 function captureDecision(body) {
@@ -101,6 +132,7 @@ function redraw() {
     active: state.world.active_unit,
     resolutionOrder: state.lastResolutionOrder,
   });
+  const predictedOrder = computePlayerPriorityOrder(state.pendingIntents, state.world.units || []);
   renderUnits(
     unitsUl,
     state.world,
@@ -108,6 +140,7 @@ function redraw() {
     handleUnitClick,
     state.pendingIntents,
     handleCancelIntent,
+    predictedOrder,
   );
   updateStatus(state.world);
   // ability panel
@@ -674,10 +707,18 @@ async function startNewSession() {
   redraw();
 }
 
+// W7.D — re-render quando abilities fetched per popolare chips per-unit.
+unitsUl.addEventListener('abilities-ready', () => {
+  if (state.world) redraw();
+});
+
 document.getElementById('cancel-pending').addEventListener('click', () => cancelPendingAbility());
 document.getElementById('new-session').addEventListener('click', () => {
   cancelPendingAbility(true);
   startNewSession();
+});
+document.getElementById('reset-round')?.addEventListener('click', async () => {
+  await emergencyResetRound();
 });
 document.getElementById('download-eval').addEventListener('click', () => {
   downloadEvalSet();
@@ -744,61 +785,105 @@ function processIaActions(iaActions) {
 
 // W4 — commit-round factored out so auto-commit (W4.5) e end-turn button
 // possono condividere la stessa logica + reveal overlay + priority badge.
+// W7.A — Emergency reset state (usato da error handler o user "Reset" button).
+// Clear tutti flag round + overlay + re-fetch state server per recover da block.
+async function emergencyResetRound() {
+  state.roundInit = false;
+  state.pendingIntents.clear();
+  state.lastResolutionOrder.clear();
+  _pendingConfirm = null;
+  stopPlanningTimer();
+  const overlay = document.getElementById('commit-reveal');
+  if (overlay) {
+    overlay.classList.add('fade-out');
+    overlay.classList.remove('visible');
+  }
+  if (state.sid) {
+    try {
+      const r = await api.state(state.sid);
+      if (r.ok) {
+        state.world = r.data;
+        redraw();
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+  updateHint(`🔄 Reset stato round. Pianifica di nuovo.`);
+}
+window.__dbg = window.__dbg || {};
+window.__dbg.emergencyResetRound = emergencyResetRound;
+
 async function triggerCommitRound() {
   if (!state.sid) return;
   sfx.turn_end();
   appendLog(logEl, '→ risolvo round');
   stopPlanningTimer();
 
-  if (!state.roundInit) {
-    const bp = await api.beginPlanning(state.sid);
-    if (!bp.ok) {
-      appendLog(logEl, `✖ begin-planning: ${bp.data?.error || bp.status}`, 'error');
+  try {
+    if (!state.roundInit) {
+      const bp = await api.beginPlanning(state.sid);
+      if (!bp.ok) {
+        appendLog(logEl, `✖ begin-planning: ${bp.data?.error || bp.status}`, 'error');
+        await emergencyResetRound();
+        return;
+      }
+      state.roundInit = true;
+    }
+    const r = await api.commitRound(state.sid, true);
+    if (!r.ok) {
+      appendLog(logEl, `✖ commit-round: ${r.data?.error || r.status}`, 'error');
+      await emergencyResetRound();
       return;
     }
-    state.roundInit = true;
-  }
-  const r = await api.commitRound(state.sid, true);
-  if (!r.ok) {
-    appendLog(logEl, `✖ commit-round: ${r.data?.error || r.status}`, 'error');
-    return;
-  }
-  state.roundInit = false;
-  _pendingConfirm = null;
-  state.pendingIntents.clear();
+    state.roundInit = false;
+    _pendingConfirm = null;
+    state.pendingIntents.clear();
 
-  const playerActions = r.data?.player_actions || [];
-  const iaActions = r.data?.ia_actions || [];
-  const resolutionQueue = r.data?.resolution_queue || [];
-  const allActions = [...playerActions, ...iaActions];
+    const playerActions = r.data?.player_actions || [];
+    const iaActions = r.data?.ia_actions || [];
+    const resolutionQueue = r.data?.resolution_queue || [];
+    const allActions = [...playerActions, ...iaActions];
 
-  // W4.3 — build resolution order map: unit_id → rank (1-based).
-  // Preferisci resolution_queue (server-computed priority), fallback ordine allActions.
-  state.lastResolutionOrder.clear();
-  const queueItems = resolutionQueue.length > 0 ? resolutionQueue : allActions;
-  queueItems.forEach((item, idx) => {
-    const uid = item.unit_id || item.actor_id;
-    if (uid && !state.lastResolutionOrder.has(uid)) {
-      state.lastResolutionOrder.set(uid, idx + 1);
-    }
-  });
-
-  // W4.2 — commit reveal overlay pre-animations (700ms)
-  const turnNum = (state.world?.turn || 0) + 1;
-  showCommitReveal(turnNum, allActions.length);
-
-  const REVEAL_MS = 700;
-  setTimeout(() => {
-    if (allActions.length > 0) processIaActions(allActions);
-  }, REVEAL_MS);
-
-  const totalDelay = REVEAL_MS + allActions.length * 350 + 200;
-  setTimeout(async () => {
-    await refresh();
+    // W4.3 — build resolution order map: unit_id → rank (1-based).
+    // Preferisci resolution_queue (server-computed priority), fallback ordine allActions.
     state.lastResolutionOrder.clear();
-    redraw();
-    appendLog(logEl, `✓ round ${state.world?.turn || '?'} risolto (${allActions.length} azioni)`);
-  }, totalDelay);
+    const queueItems = resolutionQueue.length > 0 ? resolutionQueue : allActions;
+    queueItems.forEach((item, idx) => {
+      const uid = item.unit_id || item.actor_id;
+      if (uid && !state.lastResolutionOrder.has(uid)) {
+        state.lastResolutionOrder.set(uid, idx + 1);
+      }
+    });
+
+    // W4.2 — commit reveal overlay pre-animations (700ms)
+    const turnNum = (state.world?.turn || 0) + 1;
+    showCommitReveal(turnNum, allActions.length);
+
+    const REVEAL_MS = 700;
+    setTimeout(() => {
+      if (allActions.length > 0) processIaActions(allActions);
+    }, REVEAL_MS);
+
+    const totalDelay = REVEAL_MS + allActions.length * 350 + 200;
+    setTimeout(async () => {
+      try {
+        await refresh();
+        state.lastResolutionOrder.clear();
+        redraw();
+        appendLog(
+          logEl,
+          `✓ round ${state.world?.turn || '?'} risolto (${allActions.length} azioni)`,
+        );
+      } catch (err) {
+        appendLog(logEl, `✖ refresh dopo round: ${err?.message || err}`, 'error');
+        await emergencyResetRound();
+      }
+    }, totalDelay);
+  } catch (err) {
+    appendLog(logEl, `✖ commit-round exception: ${err?.message || err}`, 'error');
+    await emergencyResetRound();
+  }
 }
 
 // W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" flash 700ms.
