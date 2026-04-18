@@ -310,6 +310,32 @@
       "track": "authored"
     },
     {
+      "path": "docs/adr/ADR-2026-04-19-reinforcement-spawn-engine.md",
+      "title": "ADR-2026-04-19: Reinforcement spawn engine (Option B)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-04-19",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-20-objective-parametrizzato.md",
+      "title": "ADR-2026-04-20: Objective parametrizzato (Option C)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-04-20",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-XXX-refactor-cli.md",
       "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
       "doc_status": "active",
