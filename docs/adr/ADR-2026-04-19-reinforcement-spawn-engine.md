@@ -1,9 +1,9 @@
 ---
 title: 'ADR 2026-04-19 — Reinforcement spawn engine (Option B)'
-doc_status: draft
+doc_status: active
 doc_owner: master-dd
 workstream: combat
-last_verified: 2026-04-19
+last_verified: 2026-04-18
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -15,8 +15,11 @@ related:
 
 # ADR-2026-04-19 · Reinforcement spawn engine
 
-**Stato**: 🟡 PROPOSED
-**Branch**: `docs/adr-reinforcement-spawn`
+**Stato**: 🟢 ACCEPTED
+**Branch**: `docs/adr-reinforcement-spawn` + wiring `feat/wire-g-h-step1` (#1571) + `feat/wire-g-h-step2` (#1573)
+**Implementazione**: `apps/backend/services/combat/reinforcementSpawner.js` (#1567) + wiring `sessionRoundBridge` (#1571, #1573)
+**Coverage encounter**: `enc_hardcore_reinf_01` (#1574)
+**Harness**: `tools/py/batch_calibrate_non_elim.py` (#1575)
 
 ## Contesto
 
