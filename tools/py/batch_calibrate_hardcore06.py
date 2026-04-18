@@ -153,6 +153,87 @@ def detect_outcome(state):
     return None
 
 
+def probe_one(host):
+    """N=1 verbose probe — dump shape API per ogni response (TKT-09 root cause:
+    in priority_queue mode AI actions stanno in `results[]` non `ai_result`).
+
+    Memory feedback_probe_before_batch.md: sempre N=1 + schema dump prima batch.
+    """
+    print("\n=== PROBE N=1 ===\n", flush=True)
+    status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
+    print(f"GET /api/tutorial/{SCENARIO_ID} -> {status}, keys: {list(sc.keys())}", flush=True)
+    print(f"  sistema_pressure_start: {sc.get('sistema_pressure_start')}", flush=True)
+    print(f"  units count: {len(sc.get('units', []))}", flush=True)
+    if status != 200:
+        return None
+
+    units = sc["units"]
+    status, start = post(f"{host}/api/session/start", {
+        "units": units,
+        "modulation": "full",
+        "sistema_pressure_start": sc.get("sistema_pressure_start", 75),
+        "hazard_tiles": sc.get("hazard_tiles", []),
+    })
+    print(f"\nPOST /api/session/start -> {status}, keys: {list(start.keys()) if isinstance(start, dict) else 'N/A'}", flush=True)
+    if status != 200:
+        print(f"  ERROR: {start}", flush=True)
+        return None
+    sid = start["session_id"]
+    state = start["state"]
+    print(f"  session_id: {sid[:12]}...", flush=True)
+    print(f"  state.grid: {state.get('grid')}", flush=True)
+    print(f"  state.units count: {len(state.get('units', []))}", flush=True)
+
+    # Single round to inspect /round/execute response.
+    intents = plan_player_intents(state, None)
+    print(f"\nplan_player_intents -> {len(intents)} intents", flush=True)
+    status, resp = post(f"{host}/api/session/round/execute", {
+        "session_id": sid,
+        "player_intents": intents,
+        "ai_auto": True,
+        "priority_queue": True,
+    })
+    print(f"\nPOST /api/session/round/execute -> {status}, top-level keys: {list(resp.keys()) if isinstance(resp, dict) else 'N/A'}", flush=True)
+    if status == 200:
+        print(f"  state present: {bool(resp.get('state'))}", flush=True)
+        print(f"  results count: {len(resp.get('results', []))}", flush=True)
+        if resp.get("results"):
+            print(f"  results[0] keys: {list(resp['results'][0].keys())}", flush=True)
+            print(f"  results[0] sample: {json.dumps(resp['results'][0], indent=2)[:500]}", flush=True)
+        print(f"  ai_result present: {bool(resp.get('ai_result'))}", flush=True)
+        if resp.get("ai_result"):
+            print(f"  ai_result keys: {list(resp['ai_result'].keys())}", flush=True)
+            print(f"  ai_result.ia_actions count: {len(resp['ai_result'].get('ia_actions', []))}", flush=True)
+        # Check actor_id distribution in results[]
+        actors = {}
+        for r in resp.get("results", []):
+            aid = r.get("actor_id", "?")
+            actors[aid] = actors.get(aid, 0) + 1
+        print(f"  results actor_id distribution: {actors}", flush=True)
+
+    # Cleanup.
+    post(f"{host}/api/session/end", {"session_id": sid})
+    print("\n=== PROBE END ===\n", flush=True)
+    return resp
+
+
+def _ai_actions_from_resp(resp, sis_actor_ids):
+    """Estrai AI actions da /round/execute response.
+    TKT-09 fix: in priority_queue mode AI actions sono in results[] (non ai_result.ia_actions).
+    Filtra per actor_id appartenente a SIS-controlled.
+    """
+    actions = []
+    # Path 1: results[] filter SIS actors (priority_queue mode).
+    for r in resp.get("results", []):
+        if r.get("actor_id") in sis_actor_ids:
+            actions.append(r)
+    # Path 2 (fallback): legacy ai_result.ia_actions (non-priority mode).
+    ai_res = resp.get("ai_result") or {}
+    for a in ai_res.get("ia_actions", []):
+        actions.append(a)
+    return actions
+
+
 def run_one(host, run_idx):
     # Fetch scenario.
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
@@ -178,6 +259,7 @@ def run_one(host, run_idx):
     pressure_samples = []
     dmg_to_boss = 0
     initial_units = {u["id"]: dict(u) for u in units}
+    sis_actor_ids = {u["id"] for u in units if u.get("controlled_by") == "sistema"}
 
     outcome = None
     for rnd in range(1, MAX_ROUNDS + 1):
@@ -201,11 +283,14 @@ def run_one(host, run_idx):
         state = resp.get("state", state)
         pressure_samples.append(state.get("sistema_pressure", pstart))
 
-        # Tally AI actions (ia_actions).
-        ai_res = resp.get("ai_result") or {}
-        for a in ai_res.get("ia_actions", []):
+        # Tally AI actions — TKT-09 fix: read from results[] (priority_queue) +
+        # fallback ai_result.ia_actions. Vedi feedback_probe_before_batch.md.
+        ai_actions = _ai_actions_from_resp(resp, sis_actor_ids)
+        for a in ai_actions:
             tier = pressure_tier(state.get("sistema_pressure", pstart))
-            key = (tier, a.get("type", "unknown"))
+            # action_type per priority_queue results[], type per legacy ia_actions
+            atype = a.get("action_type") or a.get("type", "unknown")
+            key = (tier, atype)
             ai_intent_tally[key] = ai_intent_tally.get(key, 0) + 1
 
     if outcome is None:
@@ -312,6 +397,9 @@ def main():
     ap.add_argument("--jsonl", default=None, help="JSONL incremental output (resume)")
     ap.add_argument("--cooldown", type=float, default=0.5, help="Sec between runs")
     ap.add_argument("--skip-health", action="store_true", help="Skip /api/health probe")
+    ap.add_argument("--probe", action="store_true",
+                    help="Run N=1 verbose probe (schema dump) — REQUIRED prima di batch nuovo. "
+                         "Vedi memory feedback_probe_before_batch.md")
     args = ap.parse_args()
 
     # Health probe (TKT-08): fail fast se backend non risponde.
@@ -320,6 +408,11 @@ def main():
             print(f"ERROR: backend health check failed at {args.host}/api/health", flush=True)
             return 1
         print(f"OK: backend healthy at {args.host}", flush=True)
+
+    # Probe mode: dump shape API + exit 0. Validate metric collection prima batch.
+    if args.probe:
+        probe_one(args.host)
+        return 0
 
     runs = []
     jsonl_fh = open(args.jsonl, "a", encoding="utf-8") if args.jsonl else None

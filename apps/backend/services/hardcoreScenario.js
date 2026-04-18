@@ -2,16 +2,21 @@
 //
 // tutorial_06_hardcore: "Cattedrale dell'Apex"
 // Party: 8 schierati (modulation full o quartet_hardcore), grid 10x10.
-// Enemy: 1 BOSS apex + 3 elite hunter + 3 minion nomad = 7 (iter 1).
-// Difficulty 6/5 (boss + swarm). pressure_start 75 → Critical/Apex tier.
+// Enemy: 1 BOSS apex + 2 elite hunter + 3 minion nomad = 6 (iter 2).
+// Difficulty 6/5 (BOSS-focused + swarm). pressure_start 85 → Apex tier rapido.
 //
 // Calibration history:
-//   iter 0 (PR #1534): boss hp 14, 2 elite hp 7. N=13 → 84.6% win, fuori band.
+//   iter 0 (PR #1534): boss hp 14, 2 elite hp 7, pressure 75. N=13 → 84.6% win.
 //     Vedi docs/playtest/2026-04-18-hardcore-06-calibration.md.
-//   iter 1 (PR4.b): boss hp 14→22 (+57%) guardia 2→3, +1 elite (3 totali)
-//     hp 7→9 (+29%). Target post-tune win 25-40%.
+//   iter 1 (PR #1542): boss hp 14→22 guardia +1, +1 elite (3 totali) hp 7→9.
+//     N=30 validation → 96.7% win. PEGGIO. Damage spread non funziona vs 8p.
+//     Vedi docs/playtest/2026-04-18-hardcore-06-iter1-validation.md.
+//   iter 2 (this): rimuovi 3° elite, BOSS single-source massicciamente buffed
+//     (hp 22→40 +82%, mod 4→5, guardia 3→4, range 2→3, +trait ondata_psichica
+//     AOE on crit). Hazard tile damage 1→2. pressure 75→85. Damage CONCENTRATO.
 //
-// Se iter1 ancora >50% win → iter 2: +1 minion, boss mod 4→5, hazard dmg 1→2.
+// Target iter 2: win 30-50% (band larga, hardcore challenging non impossible).
+// Iter 3 conditional (>60% ancora): aggiungi mini-boss + AP player ridotto round 1.
 
 'use strict';
 
@@ -24,17 +29,21 @@ const HARDCORE_SCENARIO_06 = {
   grid_size: 10,
   objective: 'elimination',
   objective_text:
-    'Sconfiggi il BOSS Apex e i suoi 6 guardiani. Party 8 unità vs 7 nemici asimmetrici: coordina focus-fire e combo squadSync per superare la pressione massima.',
+    'Sconfiggi il BOSS Apex (hp 40, AOE psichica su crit) e i suoi 5 guardiani. Party 8 unità vs 6 nemici: il BOSS singolo regge focus-fire 8-way, attenti alle pozze instabili (2 dmg/turn).',
   briefing_pre:
-    "Le rovine risuonano del passo pesante dell'Apex. Tre elite cacciatori controllano i fianchi e il centro, tre predoni bloccano i corridoi. Party al completo (8 schierati): ogni PG conta, il focus-fire moltiplica il danno, il BOSS non perdona errori di posizionamento.",
+    "Le rovine risuonano del passo pesante dell'Apex. L'aria vibra di pressione psichica — ogni colpo critico del BOSS sprigiona un'onda che ferisce a distanza. Due elite cacciatori difendono i fianchi, tre predoni bloccano i corridoi. Le pozze di rovine instabili (2 dmg/turn) sono trappole mortali. Party al completo (8 schierati): focus-fire totale sul BOSS, ma cura la posizione.",
   briefing_post:
     "L'Apex è caduto. La cattedrale si quieta. Avete dimostrato che 8 mani battono una mandibola.",
   hazard_tiles: [
-    { x: 4, y: 4, damage: 1, type: 'rovine_instabili' },
-    { x: 5, y: 5, damage: 1, type: 'rovine_instabili' },
-    { x: 3, y: 6, damage: 1, type: 'rovine_instabili' },
+    // Iter 2: damage 1→2 (player muore in 5-7 turn fermo su tile, era 10-14)
+    { x: 4, y: 4, damage: 2, type: 'rovine_instabili' },
+    { x: 5, y: 5, damage: 2, type: 'rovine_instabili' },
+    { x: 3, y: 6, damage: 2, type: 'rovine_instabili' },
   ],
-  sistema_pressure_start: 75, // Critical: 3 intents/round + swarm AI unlocked
+  // Iter 2 (post N=30 iter 1 → 96.7% win): pressure 75→85 per portare AI a
+  // tier Apex piu rapidamente (4 intents/round). Vedi
+  // docs/playtest/2026-04-18-hardcore-06-iter1-validation.md
+  sistema_pressure_start: 85,
   recommended_modulation: 'full', // 8p × 1 PG → grid 10x10 auto
 };
 
@@ -72,20 +81,23 @@ function buildHardcoreUnits06() {
   const enemies = [
     // BOSS Apex (center-right) — HP alto, crit bonus, attack_range 2.
     // Iter 0 (PR #1534): hp 14 mod 4 dc 14 guardia 2.
-    // Iter 1 (PR4.b post calibration N=13 → 84.6% win rate, target 15-25%):
-    //   hp 14→22 (+57%), guardia 2→3 (+1 dmg reduction). Boss deve sopravvivere
-    //   8-12 round invece di 5-8 (player kill-time troppo veloce con 8p swarm).
+    // Iter 1 (PR #1542 N=13 → 84.6% win): hp 14→22, guardia 2→3, +1 elite.
+    //   N=30 validation → 96.7% win. PEGGIO. Damage spread su 4 target consente
+    //   aggro rotation. Tune sbagliato direzionalmente.
+    // Iter 2 (post N=30 → 96.7% win): rimuovi 3° elite, BOSS single-source
+    //   damage massicciamente buffed (hp +82%, mod +1, guardia +1, range +1).
+    //   Strategia: damage CONCENTRATO su tank player vs spread.
     {
       id: 'e_apex_boss',
       species: 'apex_predatore',
       job: 'vanguard',
-      traits: ['martello_osseo', 'ferocia'],
-      hp: 22,
+      traits: ['martello_osseo', 'ferocia', 'ondata_psichica'],
+      hp: 40,
       ap: 3,
-      mod: 4,
+      mod: 5,
       dc: 14,
-      guardia: 3,
-      attack_range: 2,
+      guardia: 4,
+      attack_range: 3,
       position: { x: 8, y: 5 },
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
@@ -125,22 +137,9 @@ function buildHardcoreUnits06() {
       ai_profile: 'aggressive',
       facing: 'W',
     },
-    {
-      id: 'e_elite_hunter_3',
-      species: 'cacciatore_corazzato',
-      job: 'vanguard',
-      traits: [],
-      hp: 9,
-      ap: 2,
-      mod: 3,
-      dc: 13,
-      guardia: 1,
-      attack_range: 2,
-      position: { x: 7, y: 5 },
-      controlled_by: 'sistema',
-      ai_profile: 'aggressive',
-      facing: 'W',
-    },
+    // Iter 2: e_elite_hunter_3 RIMOSSO. Damage concentrato su BOSS singolo
+    // (boss hp 22→40 +82%) > damage spread su 3 elite. Aggro rotation player
+    // troppo facile con 4 target distinti.
     // 3 minion nomad — fragili ma numerosi, mod 2 hp 4.
     {
       id: 'e_minion_1',
