@@ -34,6 +34,14 @@ const JOB_COLORS = {
   boss: '#d32f2f',
 };
 
+// W3.1 — Range overlay tints (Wave 3 fix #5).
+const RANGE_TINT = {
+  move: 'rgba(0, 184, 212, 0.20)', // player blue, semi-trans
+  moveBorder: 'rgba(0, 184, 212, 0.55)',
+  attack: 'rgba(255, 82, 82, 0.28)', // sistema red
+  attackBorder: 'rgba(255, 82, 82, 0.75)',
+};
+
 const STATUS_ICONS = {
   panic: { glyph: '!', bg: '#ff9800' },
   rage: { glyph: '⚡', bg: '#f44336' },
@@ -232,6 +240,59 @@ function drawSisIntentIcon(ctx, unit, cx, yPxTop, kind = 'fist') {
   ctx.fillText(glyph, ix, iy + size / 2 + 1);
 }
 
+// W3.1 — Range overlay: movimento (Manhattan <= AP) + attacco (Chebyshev <= range).
+// Wave 3 fix #5: player no sapeva dove poteva muovere/attaccare senza trial-and-error.
+function drawRangeOverlay(ctx, state, gridH, selectedId) {
+  const unit = (state.units || []).find((u) => u.id === selectedId);
+  if (!unit || !unit.position || unit.hp <= 0) return;
+  const gridW = state.grid?.width || 0;
+  const ap = Number(unit.ap ?? 0);
+  const atkRange = Number(unit.range ?? unit.attack_range ?? 1);
+  const ux = unit.position.x;
+  const uy = unit.position.y;
+
+  // Occupied cells (alive units) — block movement target.
+  const occupied = new Set();
+  for (const u of state.units || []) {
+    if (u.hp > 0 && u.position) occupied.add(`${u.position.x},${u.position.y}`);
+  }
+
+  // Move range (Manhattan <= AP, escluse celle occupate).
+  if (ap > 0) {
+    ctx.save();
+    for (let gy = 0; gy < gridH; gy += 1) {
+      for (let gx = 0; gx < gridW; gx += 1) {
+        const d = Math.abs(gx - ux) + Math.abs(gy - uy);
+        if (d === 0 || d > ap) continue;
+        if (occupied.has(`${gx},${gy}`)) continue;
+        const yPx = gridH - 1 - gy;
+        ctx.fillStyle = RANGE_TINT.move;
+        ctx.fillRect(gx * CELL, yPx * CELL, CELL, CELL);
+        ctx.strokeStyle = RANGE_TINT.moveBorder;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(gx * CELL + 2, yPx * CELL + 2, CELL - 4, CELL - 4);
+      }
+    }
+    ctx.restore();
+  }
+
+  // Attack range: highlight enemy unit cells raggiungibili (Chebyshev).
+  for (const other of state.units || []) {
+    if (other.id === unit.id || !other.position || other.hp <= 0) continue;
+    if (other.controlled_by === unit.controlled_by) continue;
+    const dCheb = Math.max(Math.abs(other.position.x - ux), Math.abs(other.position.y - uy));
+    if (dCheb > atkRange) continue;
+    const yPx = gridH - 1 - other.position.y;
+    ctx.save();
+    ctx.fillStyle = RANGE_TINT.attack;
+    ctx.fillRect(other.position.x * CELL, yPx * CELL, CELL, CELL);
+    ctx.strokeStyle = RANGE_TINT.attackBorder;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(other.position.x * CELL + 2, yPx * CELL + 2, CELL - 4, CELL - 4);
+    ctx.restore();
+  }
+}
+
 export function render(canvas, state, highlight = {}) {
   if (!state || !state.grid) return;
   const w = state.grid.width;
@@ -247,6 +308,9 @@ export function render(canvas, state, highlight = {}) {
       drawCell(ctx, gx, yPx, fill);
     }
   }
+
+  // W3.1 — Range overlay BEFORE units (so unit rings/icons overlap on top).
+  if (highlight.selected) drawRangeOverlay(ctx, state, h, highlight.selected);
 
   // Units
   for (const u of state.units || []) drawUnit(ctx, u, h, highlight);

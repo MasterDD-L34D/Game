@@ -275,15 +275,17 @@ canvas.addEventListener('click', (ev) => {
   doAction({ action_type: 'move', actor_id: state.selected, position: { x, y } });
 });
 
-// M4 A.1 — Feature flag round model simultaneous.
-// Toggle: localStorage.setItem('evo:round-flow','simultaneous') + reload.
-// Default OFF = legacy /api/session/action + /api/session/turn/end (ADR pre-04-15).
-// ON = /api/session/declare-intent + /commit-round (ADR-2026-04-15 round model).
+// M4 A.1 / W3 — Feature flag round model simultaneous.
+// W3 fix #1: default ON (ADR-2026-04-15 round model canonical). User playtest M4 run1
+// reported sequential feel: root cause = flag OFF default. Flip default ON, opt-out
+// con localStorage.setItem('evo:round-flow','sequential') per regression test.
+// ON = /api/session/declare-intent + /commit-round (simultaneous).
+// Opt-out = /api/session/action + /api/session/turn/end (legacy).
 function useRoundFlow() {
   try {
-    return localStorage.getItem('evo:round-flow') === 'simultaneous';
+    return localStorage.getItem('evo:round-flow') !== 'sequential';
   } catch {
-    return false;
+    return true;
   }
 }
 
@@ -619,23 +621,20 @@ document.getElementById('end-turn').addEventListener('click', async () => {
     // Reset roundInit per prossimo turno
     state.roundInit = false;
     _pendingConfirm = null;
-    // Process resolution_queue as animations (shape differs da ia_actions)
-    const queue = r.data?.resolution_queue || [];
-    if (queue.length > 0) {
-      // Animazioni stagger per ogni action risolta
-      queue.forEach((action, i) => {
-        setTimeout(() => {
-          // Popup only, actual state refresh post-all
-        }, i * 200);
-      });
-    }
-    setTimeout(
-      async () => {
-        await refresh();
-        appendLog(logEl, `✓ round ${state.world?.turn || '?'} risolto (${queue.length} azioni)`);
-      },
-      queue.length * 200 + 300,
-    );
+    // W3 fix #2/#3 — Process player_actions + ia_actions via processIaActions.
+    // Root cause precedente: publicSessionView no expose events[], solo count.
+    // processNewEvents mai triggerato in simultaneous flow → no FX visivi.
+    // Shape player_actions == ia_actions (sessionRoundBridge.js buildUnifiedRoundResolver
+    // usa stessa bucket.push({type, unit_id, target, position_from, position_to, damage_dealt})).
+    const playerActions = r.data?.player_actions || [];
+    const iaActions = r.data?.ia_actions || [];
+    const allActions = [...playerActions, ...iaActions];
+    if (allActions.length > 0) processIaActions(allActions);
+    const totalDelay = allActions.length * 350 + 200;
+    setTimeout(async () => {
+      await refresh();
+      appendLog(logEl, `✓ round ${state.world?.turn || '?'} risolto (${allActions.length} azioni)`);
+    }, totalDelay);
     return;
   }
 
