@@ -143,20 +143,59 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
   ctx.textBaseline = 'middle';
   ctx.fillText(unit.id.slice(0, 4), cx, cy);
 
-  // HP bar below
+  // HP bar — M4 P0.2: float sopra unit sprite (visibile da lontano TV-first).
+  // Legacy: bar sotto tile. New: bar sopra testa + valore numerico chunky.
   if (!dead) {
     const ratio = unit.hp / (unit.max_hp || unit.hp || 1);
-    const barW = CELL * 0.6;
+    const barW = CELL * 0.72;
     const barX = cx - barW / 2;
-    const barY = yPx * CELL + CELL - 8;
-    ctx.fillStyle = '#111';
-    ctx.fillRect(barX, barY, barW, 4);
+    const barY = yPx * CELL + 3;
+    // Background dark per contrast
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(barX - 1, barY - 1, barW + 2, 7);
+    // Fill color coded
     ctx.fillStyle = ratio < 0.3 ? COLORS.hpCrit : ratio < 0.6 ? COLORS.hpWarn : COLORS.hpFull;
-    ctx.fillRect(barX, barY, barW * ratio, 4);
+    ctx.fillRect(barX, barY, barW * ratio, 5);
+    // Numeric value sopra bar (TV-first scan)
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 9px "SF Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    const maxHp = unit.max_hp || unit.hp || 0;
+    ctx.fillText(`${unit.hp}/${maxHp}`, cx, barY - 1);
   }
 
   // Status icons (top-right)
   if (!dead) drawStatusIcons(ctx, unit, cx, yPx * CELL);
+
+  // M4 P0.3 — SIS enemy intent icon (Slay the Spire pattern).
+  // Stub euristico: SIS controlled_by='sistema' + HP>0 → fist icon (attack intent).
+  // TODO ADR-04-18 Plan-Reveal: real intents da threat_preview payload backend.
+  if (!dead && unit.controlled_by === 'sistema') {
+    drawSisIntentIcon(ctx, unit, cx, yPx * CELL, 'fist');
+  }
+}
+
+// M4 P0.3 — SIS intent icon above unit (fist=attack, arrow=move, shield=defend).
+function drawSisIntentIcon(ctx, unit, cx, yPxTop, kind = 'fist') {
+  const ix = cx + CELL * 0.25;
+  const iy = yPxTop + CELL * 0.08;
+  const size = 14;
+  // Badge bg
+  ctx.fillStyle = 'rgba(80,0,0,0.85)';
+  ctx.beginPath();
+  ctx.arc(ix, iy + size / 2, size / 2 + 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = '#ff5252';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  // Glyph
+  const glyph = kind === 'fist' ? '✊' : kind === 'move' ? '➜' : kind === 'shield' ? '🛡' : '?';
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 11px "SF Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(glyph, ix, iy + size / 2 + 1);
 }
 
 export function render(canvas, state, highlight = {}) {

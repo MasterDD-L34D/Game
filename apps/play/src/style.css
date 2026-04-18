@@ -25,6 +25,14 @@ body {
   height: 100%;
 }
 
+/* M4 P0.5 — TV-first safe zone 5% (42-STYLE-GUIDE-UI.md).
+ * Padding orizzontale su #app garantisce nessun UI critico nei bordi 5%
+ * del viewport su TV 1080p @ 3m distance. */
+#app {
+  padding-left: max(env(safe-area-inset-left, 0), 2.5vw);
+  padding-right: max(env(safe-area-inset-right, 0), 2.5vw);
+}
+
 #app {
   display: flex;
   flex-direction: column;
@@ -316,6 +324,52 @@ canvas#grid {
 }
 #log div.error {
   color: var(--sistema);
+}
+
+/* M4 P0.1 — Ability bar sticky bottom, always-visible (user feedback) */
+.ability-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--panel);
+  border-top: 2px solid var(--accent);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 80px;
+  z-index: 20;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+}
+.ability-bar-title {
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: bold;
+  white-space: nowrap;
+}
+.ability-bar-title.hidden-empty {
+  display: inline;
+  opacity: 0.4;
+}
+.ability-bar-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex: 1;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.ability-bar-row .ability-row {
+  min-width: 180px;
+  max-width: 260px;
+  margin-bottom: 0 !important;
+  flex-shrink: 0;
+}
+.ability-bar-row:empty::before {
+  content: 'Seleziona una tua unità per vedere le ability';
+  color: var(--dim);
+  font-style: italic;
+  font-size: 0.85rem;
+  padding: 8px 0;
 }
 
 footer {

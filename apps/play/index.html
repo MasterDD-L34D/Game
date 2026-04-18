@@ -43,12 +43,15 @@
         <aside class="sidebar">
           <h2>Unità</h2>
           <ul id="units"></ul>
-          <h2 id="abilities-title" class="hidden-empty">Abilities</h2>
-          <div id="abilities"></div>
           <h2>Log</h2>
           <div id="log"></div>
         </aside>
       </main>
+      <!-- M4 P0.1 — Ability bar sticky bottom, always-visible (user feedback) -->
+      <div id="ability-bar" class="ability-bar">
+        <span id="abilities-title" class="ability-bar-title hidden-empty">Abilities</span>
+        <div id="abilities" class="ability-bar-row"></div>
+      </div>
       <footer>
         <span id="selected-hint">Seleziona una tua unità per vedere azioni.</span>
         <button id="cancel-pending" class="hidden">✕ Annulla ability</button>
