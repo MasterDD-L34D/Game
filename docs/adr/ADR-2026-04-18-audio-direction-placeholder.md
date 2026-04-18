@@ -1,6 +1,6 @@
 ---
-title: 'ADR 2026-04-18 — Audio Direction placeholder + roadmap'
-doc_status: draft
+title: 'ADR 2026-04-18 — Audio Direction canonical (ambient organic + percussive)'
+doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
 last_verified: 2026-04-18
@@ -8,13 +8,18 @@ source_of_truth: false
 language: it
 review_cycle_days: 90
 supersedes: []
+related:
+  - 'docs/adr/ADR-2026-04-18-art-direction-placeholder.md'
+  - 'docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md'
+  - 'docs/core/43-ASSET-SOURCING.md'
 ---
 
-# ADR-2026-04-18 · Audio Direction placeholder + roadmap
+# ADR-2026-04-18 · Audio Direction canonical
 
-**Stato**: 🟡 DRAFT — direzione provvisoria, awaiting Master DD final approval
-**Issue tracker**: GDD audit gap critico #2 (audio assente)
+**Stato**: 🟢 ACCEPTED — sprint M3.8
+**Issue tracker**: GDD audit gap critico #2 (audio) — direction canonicizzata, implementation deferred post-MVP visuale
 **Pair ADR**: `ADR-2026-04-18-art-direction-placeholder.md`
+**Policy acquisition**: `ADR-2026-04-18-zero-cost-asset-policy.md` applicabile ad audio (zero-cost community + user hands-on)
 
 ## Contesto
 
@@ -56,17 +61,20 @@ Open Questions GDD ha 2 BLOCKED audio:
 - **Contra**: ambient loop = rischio fatica auditiva ses sessions lunghe (mitigare: layered loops 3+ min minimo), nessun audio lead onboard
 - **Neutrale**: Web Audio API esistente (`apps/play/src/sfx.js`) può ospitare sample loading senza rewrite
 
-## Roadmap
+## Roadmap aggiornata (post M3.8 zero-cost)
 
-| Step                                                                               | Owner     | Stima        |        Stato        |
-| ---------------------------------------------------------------------------------- | --------- | ------------ | :-----------------: |
-| 1. SFX cue list canonica (~20 entries) — `docs/audio/sfx_cues.md`                  | Master DD | 2h           |       🟡 todo       |
-| 2. Ambient brief 4 biome (mood + reference) — `docs/audio/ambient_biomes.md`       | Master DD | 2h           |       🟡 todo       |
-| 3. Audio designer freelance commission MVP set                                     | Master DD | 1w lead time | 🔴 blocked (budget) |
-| 4. Pipeline integration: sample loading in sfx.js, fallback synth se asset missing | dev       | 1d           | 🔴 blocked (assets) |
-| 5. Music intensity hook: legare a `sistema_pressure_tier` via event bus            | dev       | 1d           | 🔴 blocked (track)  |
+| Step                                                                               | Owner     | Stima |      Stato       |
+| ---------------------------------------------------------------------------------- | --------- | ----- | :--------------: |
+| 1. SFX cue list canonica (~20 entries) — `docs/audio/sfx_cues.md`                  | Master DD | 2h    |     🟡 todo      |
+| 2. Ambient brief 9 biome (mood + reference) — `docs/audio/ambient_biomes.md`       | Master DD | 3h    |     🟡 todo      |
+| 3. SFX acquisition zero-cost (freesound CC0/CC-BY + Bfxr/sfxr/Chiptone generate)   | Master DD | 4h    |     🟢 todo      |
+| 4. Ambient track acquisition (OGA + Incompetech CC-BY + Pixabay Music CC0)         | Master DD | 4h    |     🟢 todo      |
+| 5. Pipeline integration: sample loading in sfx.js, fallback synth se asset missing | dev       | 1d    | 🟡 todo post-3+4 |
+| 6. Music intensity hook: legare a `sistema_pressure_tier` via event bus            | dev       | 1d    |  🟡 todo post-4  |
 
-Step 1+2 = unblock per Master DD direttamente (text-only deliverable). Step 3-5 richiedono asset.
+Step 1+2 text-only. Step 3-6 zero-cost (community + user curation). NO freelance commission (vincolo team M3.7 ADR zero-cost-asset-policy).
+
+**Audio AI deferred**: Suno/Udio RIAA lawsuits 2024 pending → no AI music generation fino risoluzione lawsuit 2026-2027. Se needed, human-composed via Beepbox (chiptune online) come alternativa se user vuole custom.
 
 ## Open Questions chiuse da questo ADR
 
