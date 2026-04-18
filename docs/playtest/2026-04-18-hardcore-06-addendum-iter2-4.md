@@ -159,10 +159,52 @@ Verifica engine:
 1. ADR-2026-04-19 reinforcement-spawn — schema + engine hook
 2. ADR-2026-04-20 objective-parametrizzato — wave scheduler + survive_turns
 
+## N=30 Iter 2 Validation — full modulation (post #1555)
+
+Eseguito N=30 batch su `enc_tutorial_06_hardcore` full modulation (boss hp 40 + AOE) con harness fixed (probe + AI tally `results[]` filter SIS, post #1551). Backend port 3350, fresh main commit `1b2cf2d9`.
+
+### Aggregate N=30 full modulation
+
+| Metric         | Iter 2 N=10 (addendum) | **Iter 2 N=30 (this)** | Iter 5A N=10 quartet | Iter 5B N=10 quartet hp22 |
+| -------------- | ---------------------- | ---------------------- | -------------------- | ------------------------- |
+| win_rate       | 80%                    | **83.3%** (25V/0L/5T)  | 0% wipe              | 10% (1V/9L)               |
+| K/D            | 2.67                   | **3.4**                | 0.55                 | 0.5 median                |
+| turns_avg      | 29.8                   | **28.9**               | 21.1                 | 23.3                      |
+| dmg_taken_avg  | 28.2                   | **22.2**               | 40                   | 38.1                      |
+| timeout        | n/a                    | **5/30** (16.7%)       | 0 wipe               | n/a                       |
+| ai_intent_dist | empty                  | **1134** entries       | 264 atk              | n/a                       |
+
+### Insight ratificazione
+
+1. **Convergenza N=10 → N=30**: wr 80% → 83.3% (Δ +3.3pp), K/D 2.67 → 3.4. Sample size adequate, signal stable. **Iter 2 full modulation plateau confermato 80-90%**.
+2. **Timeout sale 1/30 → 5/30** (vs iter 1): boss hp 40 + range 3 + AOE permette sopravvivenza alcune run, conferma damage concentration funziona ma non basta a invertire wr.
+3. **dmg_taken 22.2 < addendum 28.2**: harness greedy in N=30 minimizza esposizione hazard tile (player skirmisher ranged sceglie path safer). Confirma "greedy = upper bound difficulty" per SIS.
+4. **TKT-09 fix validato N=30**: 1134 ai_intent entries (133 Critical|move, 422 Apex|attack, 376 Apex|move). AI saturates Apex tier post round ~3.
+
+### Decisione (Master DD: option A)
+
+Master DD scelta **A — accept iter 2** + documenta band greedy→umano:
+
+- **Greedy AI player wr 83% = umano stimato 40-60%** (umano sbaglia path, fugge, non tanka focus-fire ottimale)
+- **Iter 5A quartet (4p, hp 22) wr 10%** = umano stimato 15-25% (in band hardcore target)
+- **Two-modulation strategy**: full = "casual hardcore TV" (greedy 83% / umano 40-60%), quartet = "competitive hardcore" (greedy 10% / umano 15-25%)
+
+Iter 3+ NON necessario. Strategia structural Option A (#1555) gia chiude band hardcore vero. Full modulation resta come "challenging ma fair" per casual party 8p.
+
+### Tickets da chiudere
+
+- ✅ TKT-08 backend stability: N=30 zero crash con harness retry+health
+- ✅ TKT-09 ai_intent emit: harness `_ai_actions_from_resp` ora taglia `results[]` SIS-filtered (1134 entries N=30)
+- ✅ TKT-10 harness resilience: jsonl 30 righe incrementali, no data loss, --cooldown 1s rispettato
+- 🟡 TKT-12 explicit `action_type=skipped` emit (115+61 unknown ancora visibili)
+- 🟡 TKT-13 AI tier dist → atlas live UI gauge (data ora disponibile)
+
 ## Riferimenti
 
 - [Calibration iter 0+1 (main report)](./2026-04-18-hardcore-06-calibration.md)
 - [PR #1539 closed](https://github.com/MasterDD-L34D/Game/pull/1539) — superseded by PR #1542 + this addendum
 - [PR #1548 merged](https://github.com/MasterDD-L34D/Game/pull/1548) — addendum iter 2-4 + probe_ai.py
-- [PR #1551 merged](https://github.com/MasterDD-L34D/Game/pull/1551) — iter 2 tune (boss hp 14→40)
+- [PR #1551 merged](https://github.com/MasterDD-L34D/Game/pull/1551) — iter 2 tune (boss hp 14→40) + harness probe + AI tally fix
+- [PR #1555 merged](https://github.com/MasterDD-L34D/Game/pull/1555) — Iter 5 Option A quartet variant
 - [ADR-2026-04-17 co-op scaling](../adr/ADR-2026-04-17-coop-scaling-4to8.md)
+- Reports: `reports/playtest/hardcore06_iter1_n30.{json,jsonl}`, `reports/playtest/hardcore06_iter2_n30.{json,jsonl}`
