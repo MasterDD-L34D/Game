@@ -17,7 +17,17 @@ const state = {
   target: null, // target preview (enemy hovered)
   pendingAbility: null, // { ability_id, needs_target, effect_type }
   endgameShown: false,
+  // W4.1 — round model client-side tracking per badge UI
+  pendingIntents: new Map(), // unit_id → intent object (reset post commit)
+  // W4.3 — resolution order from last commit (unit_id → priority rank 1..N)
+  lastResolutionOrder: new Map(),
+  // W4.6 — planning timer start timestamp (null = not active)
+  planningTimerStart: null,
 };
+
+// W4.6 — Planning timer 30s config + interval handle
+const PLANNING_TIMER_MS = 30_000;
+let planningTimerHandle = null;
 
 const canvas = document.getElementById('grid');
 const unitsUl = document.getElementById('units');
@@ -30,8 +40,9 @@ function redraw() {
     selected: state.selected,
     target: state.target,
     active: state.world.active_unit,
+    resolutionOrder: state.lastResolutionOrder,
   });
-  renderUnits(unitsUl, state.world, state.selected, handleUnitClick);
+  renderUnits(unitsUl, state.world, state.selected, handleUnitClick, state.pendingIntents);
   updateStatus(state.world);
   // ability panel
   const selUnit = (state.world.units || []).find((u) => u.id === state.selected);
@@ -376,6 +387,8 @@ async function doAction(body) {
         return;
       }
       state.roundInit = true;
+      // W4.6 — start planning timer on first declare
+      startPlanningTimer();
     }
     const r = await api.declareIntent(state.sid, body.actor_id, action);
     if (!r.ok) {
@@ -383,13 +396,29 @@ async function doAction(body) {
       updateHint(`❌ ${r.data?.error || 'Intent rifiutato.'} · riprova`);
       return;
     }
+    // W4.1 — track intent client-side per badge sidebar
+    state.pendingIntents.set(body.actor_id, action);
     const tag = body.ability_id
       ? `→ ability ${body.ability_id}${body.target_id ? ` → ${body.target_id}` : ''}`
       : body.action_type === 'move'
         ? `→ move [${body.position.x},${body.position.y}]`
         : `→ atk ${body.target_id}`;
     appendLog(logEl, `${body.actor_id}: ${tag} (pending)`);
-    updateHint(`✓ Intent dichiarato ${body.actor_id}. Altri player o "Fine turno" per risolvere.`);
+    redraw();
+    // W4.5 — auto-commit when all alive player units have declared
+    const alivePlayers = (state.world?.units || []).filter(
+      (u) => u.controlled_by === 'player' && u.hp > 0,
+    );
+    const allDeclared = alivePlayers.every((u) => state.pendingIntents.has(u.id));
+    if (allDeclared && alivePlayers.length > 0) {
+      updateHint(`✓ Tutti i player dichiarati (${alivePlayers.length}). Risolvo round…`);
+      setTimeout(() => triggerCommitRound(), 250);
+    } else {
+      const remaining = alivePlayers.length - state.pendingIntents.size;
+      updateHint(
+        `✓ Intent dichiarato ${body.actor_id}. ${remaining} player restante/i o "Fine turno".`,
+      );
+    }
     return;
   }
 
@@ -522,6 +551,10 @@ async function startNewSession() {
   // M4 A.1+A.2: reset flag state per nuova sessione
   state.roundInit = false;
   _pendingConfirm = null;
+  // W4 — reset round tracking
+  state.pendingIntents.clear();
+  state.lastResolutionOrder.clear();
+  stopPlanningTimer();
   lastEventsCount = (state.world?.events || []).length;
   appendLog(logEl, `✓ sessione ${state.sid.slice(0, 8)}…`);
   const flags = [];
@@ -597,56 +630,148 @@ function processIaActions(iaActions) {
   }
 }
 
-document.getElementById('end-turn').addEventListener('click', async () => {
+// W4 — commit-round factored out so auto-commit (W4.5) e end-turn button
+// possono condividere la stessa logica + reveal overlay + priority badge.
+async function triggerCommitRound() {
   if (!state.sid) return;
   sfx.turn_end();
-  appendLog(logEl, '→ fine turno');
+  appendLog(logEl, '→ risolvo round');
+  stopPlanningTimer();
 
-  // M4 A.1 — Round model simultaneous: commit-round auto_resolve
-  if (useRoundFlow()) {
-    // Ensure begin-planning called almeno una volta (first turn may skip if no declare)
-    if (!state.roundInit) {
-      const bp = await api.beginPlanning(state.sid);
-      if (!bp.ok) {
-        appendLog(logEl, `✖ begin-planning: ${bp.data?.error || bp.status}`, 'error');
-        return;
-      }
-      state.roundInit = true;
-    }
-    const r = await api.commitRound(state.sid, true);
-    if (!r.ok) {
-      appendLog(logEl, `✖ commit-round: ${r.data?.error || r.status}`, 'error');
+  if (!state.roundInit) {
+    const bp = await api.beginPlanning(state.sid);
+    if (!bp.ok) {
+      appendLog(logEl, `✖ begin-planning: ${bp.data?.error || bp.status}`, 'error');
       return;
     }
-    // Reset roundInit per prossimo turno
-    state.roundInit = false;
-    _pendingConfirm = null;
-    // W3 fix #2/#3 — Process player_actions + ia_actions via processIaActions.
-    // Root cause precedente: publicSessionView no expose events[], solo count.
-    // processNewEvents mai triggerato in simultaneous flow → no FX visivi.
-    // Shape player_actions == ia_actions (sessionRoundBridge.js buildUnifiedRoundResolver
-    // usa stessa bucket.push({type, unit_id, target, position_from, position_to, damage_dealt})).
-    const playerActions = r.data?.player_actions || [];
-    const iaActions = r.data?.ia_actions || [];
-    const allActions = [...playerActions, ...iaActions];
-    if (allActions.length > 0) processIaActions(allActions);
-    const totalDelay = allActions.length * 350 + 200;
-    setTimeout(async () => {
-      await refresh();
-      appendLog(logEl, `✓ round ${state.world?.turn || '?'} risolto (${allActions.length} azioni)`);
-    }, totalDelay);
+    state.roundInit = true;
+  }
+  const r = await api.commitRound(state.sid, true);
+  if (!r.ok) {
+    appendLog(logEl, `✖ commit-round: ${r.data?.error || r.status}`, 'error');
     return;
   }
+  state.roundInit = false;
+  _pendingConfirm = null;
+  state.pendingIntents.clear();
 
-  // Legacy flow (default)
+  const playerActions = r.data?.player_actions || [];
+  const iaActions = r.data?.ia_actions || [];
+  const resolutionQueue = r.data?.resolution_queue || [];
+  const allActions = [...playerActions, ...iaActions];
+
+  // W4.3 — build resolution order map: unit_id → rank (1-based).
+  // Preferisci resolution_queue (server-computed priority), fallback ordine allActions.
+  state.lastResolutionOrder.clear();
+  const queueItems = resolutionQueue.length > 0 ? resolutionQueue : allActions;
+  queueItems.forEach((item, idx) => {
+    const uid = item.unit_id || item.actor_id;
+    if (uid && !state.lastResolutionOrder.has(uid)) {
+      state.lastResolutionOrder.set(uid, idx + 1);
+    }
+  });
+
+  // W4.2 — commit reveal overlay pre-animations (700ms)
+  const turnNum = (state.world?.turn || 0) + 1;
+  showCommitReveal(turnNum, allActions.length);
+
+  const REVEAL_MS = 700;
+  setTimeout(() => {
+    if (allActions.length > 0) processIaActions(allActions);
+  }, REVEAL_MS);
+
+  const totalDelay = REVEAL_MS + allActions.length * 350 + 200;
+  setTimeout(async () => {
+    await refresh();
+    state.lastResolutionOrder.clear();
+    redraw();
+    appendLog(logEl, `✓ round ${state.world?.turn || '?'} risolto (${allActions.length} azioni)`);
+  }, totalDelay);
+}
+
+// W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" flash 700ms.
+function showCommitReveal(turnNum, actionCount) {
+  let overlay = document.getElementById('commit-reveal');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'commit-reveal';
+    document.body.appendChild(overlay);
+  }
+  overlay.innerHTML = `<div class="cr-inner"><div class="cr-title">⚔ ROUND ${turnNum}</div><div class="cr-sub">${actionCount} azione${actionCount === 1 ? '' : 'i'} simultanea${actionCount === 1 ? '' : 'e'}</div></div>`;
+  overlay.classList.remove('fade-out');
+  overlay.classList.add('visible');
+  setTimeout(() => {
+    overlay.classList.add('fade-out');
+    overlay.classList.remove('visible');
+  }, 650);
+}
+
+// W4.6 — Planning timer: 30s countdown, auto-commit on expiry.
+function startPlanningTimer() {
+  stopPlanningTimer();
+  state.planningTimerStart = performance.now();
+  const el = getPlanningTimerEl();
+  el.classList.remove('hidden');
+  planningTimerHandle = setInterval(() => {
+    if (state.planningTimerStart == null) return;
+    const elapsed = performance.now() - state.planningTimerStart;
+    const remaining = Math.max(0, PLANNING_TIMER_MS - elapsed);
+    updatePlanningTimerUI(remaining);
+    if (remaining <= 0) {
+      appendLog(logEl, `⏱ Timer scaduto — auto-commit`);
+      stopPlanningTimer();
+      triggerCommitRound();
+    }
+  }, 100);
+}
+
+function stopPlanningTimer() {
+  if (planningTimerHandle) clearInterval(planningTimerHandle);
+  planningTimerHandle = null;
+  state.planningTimerStart = null;
+  const el = document.getElementById('planning-timer');
+  if (el) el.classList.add('hidden');
+}
+
+function getPlanningTimerEl() {
+  let el = document.getElementById('planning-timer');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'planning-timer';
+    el.className = 'hidden';
+    el.innerHTML = `<span class="pt-label">Planning</span><div class="pt-bar"><div class="pt-fill"></div></div><span class="pt-value">30</span>`;
+    const status = document.querySelector('header .status') || document.querySelector('header');
+    if (status) status.appendChild(el);
+  }
+  return el;
+}
+
+function updatePlanningTimerUI(remainingMs) {
+  const el = document.getElementById('planning-timer');
+  if (!el) return;
+  const secs = Math.ceil(remainingMs / 1000);
+  const ratio = remainingMs / PLANNING_TIMER_MS;
+  el.querySelector('.pt-value').textContent = String(secs);
+  const fill = el.querySelector('.pt-fill');
+  fill.style.width = `${(ratio * 100).toFixed(1)}%`;
+  fill.style.background = ratio < 0.2 ? '#f44336' : ratio < 0.5 ? '#ffc107' : '#4caf50';
+}
+
+document.getElementById('end-turn').addEventListener('click', async () => {
+  if (!state.sid) return;
+  if (useRoundFlow()) {
+    await triggerCommitRound();
+    return;
+  }
+  // Legacy flow (default off): immediate end-turn
+  sfx.turn_end();
+  appendLog(logEl, '→ fine turno');
   const r = await api.endTurn(state.sid);
   if (!r.ok) {
     appendLog(logEl, `✖ end turn: ${r.status}`, 'error');
     return;
   }
-  // Process SIS actions animations
   if (r.data?.ia_actions) processIaActions(r.data.ia_actions);
-  // Wait for all SIS actions animated then refresh state
   const totalDelay = Array.isArray(r.data?.ia_actions) ? r.data.ia_actions.length * 350 + 200 : 200;
   setTimeout(async () => {
     await refresh();

@@ -105,6 +105,27 @@ function drawStatusIcons(ctx, unit, cx, yPxTop) {
   }
 }
 
+// W4.3 — Priority rank badge (resolution order 1..N) during resolve phase.
+function drawPriorityBadge(ctx, rank, cx, yPxTop) {
+  const size = 18;
+  const ix = cx - CELL * 0.32;
+  const iy = yPxTop + CELL * 0.08;
+  ctx.save();
+  ctx.fillStyle = 'rgba(255, 204, 0, 0.92)';
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(ix, iy + size / 2, size / 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#000';
+  ctx.font = 'bold 12px "SF Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(String(rank), ix, iy + size / 2 + 1);
+  ctx.restore();
+}
+
 function drawUnit(ctx, unit, gridH, highlight = {}) {
   if (!unit.position) return;
   // Interpolate position via anim module
@@ -215,6 +236,14 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
   // TODO ADR-04-18 Plan-Reveal: real intents da threat_preview payload backend.
   if (!dead && unit.controlled_by === 'sistema') {
     drawSisIntentIcon(ctx, unit, cx, yPx * CELL, 'fist');
+  }
+
+  // W4.3 — Resolution priority badge (visible during commit-round reveal phase).
+  if (!dead && highlight.resolutionOrder) {
+    const rank = highlight.resolutionOrder.get
+      ? highlight.resolutionOrder.get(unit.id)
+      : highlight.resolutionOrder[unit.id];
+    if (rank) drawPriorityBadge(ctx, rank, cx, yPx * CELL);
   }
 }
 

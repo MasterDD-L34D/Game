@@ -28,7 +28,19 @@ function renderStatusChips(unit) {
   return chips.join('');
 }
 
-export function renderUnits(ul, state, selectedId, onClick) {
+// W4.1 — Format pending intent for sidebar badge display.
+function formatIntent(intent) {
+  if (!intent) return '';
+  const t = intent.type || intent.action_type;
+  if (t === 'move' && intent.move_to) return `move [${intent.move_to.x},${intent.move_to.y}]`;
+  if (t === 'move' && intent.position) return `move [${intent.position.x},${intent.position.y}]`;
+  if (t === 'attack') return `atk ${intent.target_id || intent.target || '?'}`;
+  if (t === 'ability')
+    return `ability ${intent.ability_id || '?'}${intent.target_id ? ` → ${intent.target_id}` : ''}`;
+  return t || 'intent';
+}
+
+export function renderUnits(ul, state, selectedId, onClick, pendingIntents = null) {
   ul.innerHTML = '';
   for (const u of state.units || []) {
     const li = document.createElement('li');
@@ -75,6 +87,15 @@ export function renderUnits(ul, state, selectedId, onClick) {
       </div>
       ${statusChips ? `<div class="unit-status-row">${statusChips}</div>` : ''}
       ${u.ai_profile ? `<div class="unit-ai">AI: <code>${u.ai_profile}</code></div>` : ''}
+      ${(() => {
+        if (u.controlled_by !== 'player' || u.hp <= 0) return '';
+        if (!pendingIntents) return '';
+        const intent = pendingIntents.get ? pendingIntents.get(u.id) : pendingIntents[u.id];
+        if (intent) {
+          return `<div class="intent-badge declared" title="Intent dichiarato">✓ ${formatIntent(intent)}</div>`;
+        }
+        return `<div class="intent-badge pending" title="Nessun intent dichiarato">⏳ in attesa</div>`;
+      })()}
     `;
     li.addEventListener('click', () => onClick(u));
     ul.appendChild(li);

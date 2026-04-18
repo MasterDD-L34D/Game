@@ -115,6 +115,124 @@ canvas#grid {
     border-color 0.18s ease-out,
     box-shadow 0.18s ease-out;
 }
+
+/* W4.1 — Intent badge sidebar (pending / declared). */
+.intent-badge {
+  margin-top: 4px;
+  padding: 2px 6px;
+  font-size: 0.68rem;
+  border-radius: 3px;
+  display: inline-block;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+}
+.intent-badge.pending {
+  background: rgba(128, 128, 128, 0.18);
+  color: #bdbdbd;
+  font-style: italic;
+  font-weight: normal;
+}
+.intent-badge.declared {
+  background: rgba(76, 175, 80, 0.22);
+  color: #81c784;
+  border-left: 2px solid #4caf50;
+}
+
+/* W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" fullscreen flash. */
+#commit-reveal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0);
+  transition:
+    opacity 0.22s ease-out,
+    background 0.22s ease-out;
+}
+#commit-reveal.visible {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.55);
+}
+#commit-reveal.fade-out {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0);
+}
+#commit-reveal .cr-inner {
+  text-align: center;
+  animation: cr-pulse 0.7s ease-out;
+}
+#commit-reveal .cr-title {
+  font-size: 2.8rem;
+  color: var(--accent);
+  font-weight: bold;
+  text-shadow: 0 0 24px rgba(255, 204, 0, 0.7);
+  letter-spacing: 0.05em;
+}
+#commit-reveal .cr-sub {
+  font-size: 1.1rem;
+  color: var(--fg);
+  margin-top: 6px;
+  letter-spacing: 0.08em;
+}
+@keyframes cr-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* W4.6 — Planning timer header widget. */
+#planning-timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 140px;
+  font-size: 0.78rem;
+  color: var(--dim);
+}
+#planning-timer.hidden {
+  display: none;
+}
+#planning-timer .pt-label {
+  letter-spacing: 0.04em;
+}
+#planning-timer .pt-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 70px;
+}
+#planning-timer .pt-fill {
+  height: 100%;
+  width: 100%;
+  background: #4caf50;
+  transition:
+    width 0.1s linear,
+    background 0.3s ease-out;
+}
+#planning-timer .pt-value {
+  min-width: 20px;
+  text-align: right;
+  font-weight: bold;
+  color: var(--fg);
+}
 canvas#grid:hover {
   border-color: var(--accent);
   box-shadow: 0 0 12px rgba(255, 204, 0, 0.28);
