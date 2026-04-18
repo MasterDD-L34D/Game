@@ -1,6 +1,8 @@
-# Art Direction — DRAFT
+# Art Direction — DRAFT (SUPERSEDED)
 
-> Bozza GDD. Da promuovere in docs/core/ dopo review.
+> **Bozza promossa** in [`docs/core/41-ART-DIRECTION.md`](../core/41-ART-DIRECTION.md) (sprint M3.6, 2026-04-18). Questo draft resta come reference storica pre-canonicizzazione.
+>
+> **Non editare questo file** — modifiche devono andare nel canonical doc.
 
 ## Scopo
 
