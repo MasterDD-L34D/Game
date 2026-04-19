@@ -36,7 +36,9 @@ from rules.hydration import (  # noqa: E402
     build_hostile_unit_from_group,
     build_party_unit,
     derive_tier_from_power,
+    get_archetype_resistances,
     hydrate_encounter,
+    load_species_resistances,
     load_trait_mechanics,
 )
 
@@ -47,6 +49,14 @@ MECHANICS_PATH = (
     / "data"
     / "balance"
     / "trait_mechanics.yaml"
+)
+SPECIES_RESISTANCES_PATH = (
+    PROJECT_ROOT
+    / "packs"
+    / "evo_tactics_pack"
+    / "data"
+    / "balance"
+    / "species_resistances.yaml"
 )
 ENCOUNTER_PATH = PROJECT_ROOT / "docs" / "examples" / "encounter_caverna.txt"
 SNAPSHOT_PATH = PROJECT_ROOT / "tests" / "snapshots" / "hydration_caverna.json"
@@ -320,3 +330,162 @@ def test_hydrate_encounter_without_explicit_hostile_species(catalog):
     hostile = [u for u in state["units"] if u["side"] == "hostile"][0]
     assert hostile["species_id"] == "hostile_control"
     assert state["vc"] is None
+
+
+# --- ADR-2026-04-19 M5-#1b wire: species_resistances.yaml + build_*_unit
+# Test la pipeline completa species archetype (100-neutral) -> merge_resistances
+# -> delta -> resistances field della unit. Verifica backward compat (param
+# species_archetype opzionale = fallback ad aggregate_resistances trait-only).
+
+
+def test_load_species_resistances_reads_yaml():
+    data = load_species_resistances(SPECIES_RESISTANCES_PATH)
+    assert "species_archetypes" in data
+    archetypes = data["species_archetypes"]
+    for required_id in ("corazzato", "psionico", "adattivo"):
+        assert required_id in archetypes
+    corazzato = archetypes["corazzato"]["resistances"]
+    assert corazzato["fisico"] == 80  # 20% resist
+    assert corazzato["psionico"] == 120  # 20% vuln
+    assert data.get("default_archetype") == "adattivo"
+
+
+def test_get_archetype_resistances_returns_dict_for_valid_id():
+    data = load_species_resistances(SPECIES_RESISTANCES_PATH)
+    result = get_archetype_resistances("psionico", data)
+    assert result is not None
+    assert result["fisico"] == 120  # vuln in 100-neutral scale
+    assert result["psionico"] == 70  # resist
+
+
+def test_get_archetype_resistances_falls_back_to_default():
+    data = load_species_resistances(SPECIES_RESISTANCES_PATH)
+    result = get_archetype_resistances("unknown_archetype_xyz", data)
+    # fallback su default_archetype "adattivo" -> tutti canali 100 (neutro)
+    assert result is not None
+    assert all(pct == 100 for pct in result.values())
+
+
+def test_get_archetype_resistances_returns_none_if_no_data():
+    assert get_archetype_resistances("corazzato", None) is None
+
+
+def test_build_party_unit_with_species_archetype_applies_baseline(catalog):
+    """ADR-2026-04-19 smoking gun: psionico vulnerability + trait stack."""
+    species_data = load_species_resistances(SPECIES_RESISTANCES_PATH)
+    archetype_dict = get_archetype_resistances("psionico", species_data)
+    unit = build_party_unit(
+        unit_id="p1",
+        species_id="test_psionico",
+        trait_ids=[],
+        catalog=catalog,
+        species_archetype=archetype_dict,
+    )
+    # Atteso format delta dopo merge_resistances:
+    # psionico.fisico: 120 (vuln) -> {channel: fisico, modifier_pct: -20}
+    by_channel = {r["channel"]: r["modifier_pct"] for r in unit["resistances"]}
+    assert by_channel["fisico"] == -20
+    assert by_channel["taglio"] == -20
+    assert by_channel["psionico"] == 30  # 100-70
+
+
+def test_build_party_unit_backward_compat_without_archetype(catalog):
+    """Senza species_archetype: fallback trait-only (pre-ADR behavior)."""
+    unit_baseline = build_party_unit("p1", "sp", [], catalog)
+    assert unit_baseline["resistances"] == []  # trait-only, vuoto
+
+    unit_with_trait = build_party_unit(
+        "p2", "sp", ["mantello_meteoritico"], catalog
+    )
+    by_channel = {r["channel"]: r["modifier_pct"] for r in unit_with_trait["resistances"]}
+    # mantello_meteoritico ha resistances, trait-only passa invariato
+    assert len(by_channel) > 0
+
+
+def test_build_party_unit_species_plus_trait_stack_additive(catalog):
+    """species corazzato + trait additivo: somma algebrica delta format."""
+    species_data = load_species_resistances(SPECIES_RESISTANCES_PATH)
+    archetype_dict = get_archetype_resistances("corazzato", species_data)
+    # mantello_meteoritico aggiunge fisico+20 (resist)
+    unit = build_party_unit(
+        "p1",
+        "sp",
+        ["mantello_meteoritico"],
+        catalog,
+        species_archetype=archetype_dict,
+    )
+    by_channel = {r["channel"]: r["modifier_pct"] for r in unit["resistances"]}
+    # corazzato.fisico: 80 -> +20 baseline; trait mantello_meteoritico fisico+20
+    # somma atteso: +40 (resist 40%)
+    assert by_channel["fisico"] == 40
+
+
+def test_build_hostile_unit_with_species_archetype(catalog):
+    species_data = load_species_resistances(SPECIES_RESISTANCES_PATH)
+    archetype_dict = get_archetype_resistances("bioelettrico", species_data)
+    group = {"power": 5, "role": "threat", "affixes": []}
+    unit = build_hostile_unit_from_group(
+        "h1", "bioelettrico_drone", group, [], catalog,
+        species_archetype=archetype_dict,
+    )
+    # bioelettrico.elettrico: 70 -> +30 resist; .fisico: 120 -> -20 vuln
+    by_channel = {r["channel"]: r["modifier_pct"] for r in unit["resistances"]}
+    assert by_channel["elettrico"] == 30
+    assert by_channel["fisico"] == -20
+
+
+def test_hydrate_encounter_with_species_resistances_end_to_end(catalog):
+    """Integration test: YAML load -> hydrate_encounter -> unit.resistances."""
+    species_data = load_species_resistances(SPECIES_RESISTANCES_PATH)
+    encounter = {
+        "biome": "test",
+        "tb": 5,
+        "groups": [
+            {"power": 4, "role": "threat"},
+            {"power": 6, "role": "keystone"},
+        ],
+        "party_vc": None,
+    }
+    party = [{"id": "p1", "species_id": "sp", "trait_ids": []}]
+    state = hydrate_encounter(
+        encounter,
+        party,
+        catalog,
+        "seed",
+        "sid",
+        species_resistances_data=species_data,
+        party_archetypes=["psionico"],
+        hostile_archetypes=["corazzato", "bioelettrico"],
+    )
+    party_unit = state["units"][0]
+    # psionico: fisico=120 -> -20 vuln
+    assert any(
+        r["channel"] == "fisico" and r["modifier_pct"] == -20
+        for r in party_unit["resistances"]
+    )
+    hostile_0 = state["units"][1]  # corazzato
+    assert any(
+        r["channel"] == "fisico" and r["modifier_pct"] == 20
+        for r in hostile_0["resistances"]
+    )
+    hostile_1 = state["units"][2]  # bioelettrico
+    assert any(
+        r["channel"] == "fisico" and r["modifier_pct"] == -20
+        for r in hostile_1["resistances"]
+    )
+
+
+def test_hydrate_encounter_no_species_data_backward_compat(catalog):
+    """Senza species_resistances_data: comportamento pre-ADR invariato."""
+    encounter = {
+        "biome": "test",
+        "tb": 5,
+        "groups": [{"power": 3, "role": "control"}],
+        "party_vc": None,
+    }
+    party = [{"id": "p1", "species_id": "sp", "trait_ids": []}]
+    # Non passare species_resistances_data + archetypes: deve usare
+    # aggregate_resistances (trait-only).
+    state = hydrate_encounter(encounter, party, catalog, "s", "ss")
+    assert state["units"][0]["resistances"] == []
+    assert state["units"][1]["resistances"] == []
