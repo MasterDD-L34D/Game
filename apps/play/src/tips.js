@@ -1,49 +1,56 @@
-// W8h/8i — Contextual first-time tip modal (Evo-Tactics onboarding philosophy:
-// learn-by-doing). Tips triggered by interaction first-time, persistono seen
-// flag via localStorage.
+// W8h/8i/8j — Contextual first-time tip modal con spotlight highlight.
+// Evo-Tactics onboarding: learn-by-doing + pointer a elementi concreti.
 //
-// W8i correction: popup → MODAL BLOCCANTE center-screen con backdrop dim.
-// Auto-dismiss rimosso — solo click "OK" chiude. Support multi-step pages via
-// "Avanti ►" / "◄ Indietro" buttons per info complesse.
+// W8j: user feedback "tip poco chiari lato umano, quello di cui parlo non viene
+// evidenziato". Fix: ogni page dichiara `highlights: [selector]` → elementi target
+// glow+pulse durante modal open. Copy riscritta conversational, meno jargon.
 
 const LS_PREFIX = 'evo:tip-';
+const HIGHLIGHT_CLASS = 'tip-highlight-target';
 
-// Tip catalog canonical. `pages` array supporta multi-step (se 1 pagina = classic tip).
-// Ogni page: { body: string, heading?: string }.
+// Tip catalog — ogni page ha: body (human-friendly) + highlights (CSS selectors
+// degli elementi reali cui si riferisce il testo). Se highlights missing = nessun
+// target evidenziato.
 const TIPS = {
   'select-unit': {
     icon: '👆',
-    title: 'Seleziona unità',
+    title: 'Seleziona una tua unità',
     pages: [
       {
-        body: 'Click su una unità BLU per selezionarla.\n\nVedrai apparire sul canvas:\n• BLU = celle movimento (con costo AP)\n• ROSSO = nemici attaccabili entro range',
+        body: "Benvenuto! Nella colonna a destra sotto 'I tuoi PG' ci sono le tue unità (bordo blu spesso). Clicca una per selezionarla.\n\nLa card lampeggiante ora è quella selezionata: appariranno dati sul canvas per aiutarti a muoverti e attaccare.",
+        highlights: ['#units li.player'],
       },
       {
-        body: "Puoi anche usare le ability dalla barra in fondo o dalle chip nella scheda PG.\n\nOgni azione dichiarata = 'intent'. Si risolvono tutte insieme quando clicchi 'Fine turno'.",
+        body: "Ogni unità ha icone ⚔ (attacchi speciali) sotto la sua card.\n\nPuoi anche usarle dalla barra in basso. Ogni azione che fai si chiama 'intento': non succede subito, si accumula e tutti insieme si risolvono quando clicchi 'Fine turno'.",
+        highlights: ['.unit-abilities', '#end-turn'],
       },
     ],
   },
   'first-move': {
     icon: '➡️',
-    title: 'Movimento dichiarato',
+    title: 'Hai dichiarato un movimento',
     pages: [
       {
-        body: 'Intent salvato ✓\n\nOgni cella costa 1 AP. Puoi cambiare idea: re-click altra cella per override, ✕ accanto al badge per annullare.',
+        body: "Bravo! Hai detto all'unità dove andare. Vedi il badge verde '✓ move' con il numero di ordine nella sua card.\n\nOgni casella costa 1 AP (punti azione). La distanza è mostrata dai numeri bianchi sulle caselle blu del canvas.",
+        highlights: ['.intent-badge.declared', '.intent-row'],
       },
       {
-        body: "Quando hai finito di pianificare tutti i PG, clicca 'Fine turno' (o premi Enter). Round si risolve simultaneamente.",
+        body: "Puoi cambiare idea: clicca un'altra casella per sovrascrivere, oppure il pulsante ✕ accanto al badge per annullare solo questa unità.\n\nQuando tutti i tuoi PG sono pronti, premi 'Fine turno' (o il tasto Invio).",
+        highlights: ['.intent-cancel', '#end-turn'],
       },
     ],
   },
   'first-attack': {
     icon: '⚔️',
-    title: 'Attacco dichiarato',
+    title: 'Hai dichiarato un attacco',
     pages: [
       {
-        body: 'Attacco = 1 AP. Tirata d20 + mod vs DC target.\n\nHit chance visibile nel tooltip. Margin of Success determina damage (1-3 o ability-specific).',
+        body: "L'unità attaccherà il nemico quando risolvi il round. Costo: 1 AP.\n\nCome funziona: si tira un d20 (1-20) + modificatore vs la difesa del nemico. Se colpisci, i danni dipendono da quanto hai superato la difesa.",
+        highlights: ['.intent-badge.declared'],
       },
       {
-        body: "Premi 'Fine turno' (o Enter) per risolvere. Attacchi simultanei vs nemici = combo focus_fire +1 damage bonus (co-op).",
+        body: "Tip co-op: se DUE unità attaccano lo STESSO nemico nello stesso round, ottengono +1 danno bonus (focus fire).\n\nPremi 'Fine turno' (o Invio) per risolvere tutto insieme.",
+        highlights: ['#end-turn'],
       },
     ],
   },
@@ -52,54 +59,61 @@ const TIPS = {
     title: 'Ability selezionata',
     pages: [
       {
-        body: 'Click target (nemico/alleato/cella) per dichiarare ability.\n\nAP cost visibile sulla chip. Cooldown dopo uso.',
+        body: "Hai scelto un'abilità speciale. Ora clicca il bersaglio: un nemico, un alleato, o una casella, a seconda dell'abilità.\n\nIl costo AP è scritto sulla chip gialla (⚔).",
+        highlights: ['#abilities', '.unit-abilities'],
       },
       {
-        body: 'ESC annulla ability pending. Re-click stessa ability = cambia target. Combo PP (movement combo points) alimenta ability Tier 2+.',
+        body: "Se cambi idea: premi ESC per annullare. Oppure clicca un'altra abilità per cambiare scelta.\n\nLe abilità più potenti richiedono PP (punti potenza) guadagnati combinando movimenti + attacchi.",
+        highlights: [],
       },
     ],
   },
   'range-overlay': {
     icon: '🎯',
-    title: 'Range visualizzato',
+    title: 'Leggere il canvas',
     pages: [
       {
-        body: "Overlay canvas post-selezione unità:\n\n• BLU semi-trasparente = celle movimento (Manhattan distance ≤ AP)\n• Numero 'N AP' = costo movimento (white on dark badge)\n• ROSSO = nemici entro attack range (Chebyshev distance)",
+        body: "Quando selezioni un'unità, appaiono colori sulla griglia:\n\n• BLU = caselle dove puoi muoverti. Il numero bianco dice quanti AP costa.\n• ROSSO = nemici nel raggio d'attacco.\n\nSe non ci sono caselle rosse, il nemico è troppo lontano — devi avvicinarti prima.",
+        highlights: ['canvas#grid'],
       },
     ],
   },
   'intent-declared': {
     icon: '💾',
-    title: 'Intent salvato',
+    title: 'Pianifichi prima, agisci dopo',
     pages: [
       {
-        body: 'Re-click stessa action per cambiare idea (latest-wins).\n\n✕ accanto al badge = annulla solo quella unità. ESC = annulla tutti i pending.',
+        body: "Tutte le azioni dei tuoi PG si ACCUMULANO come 'intenti'. Non succede niente finché non clicchi 'Fine turno'.\n\n✕ annulla UN SOLO intent. ESC annulla TUTTI. Re-click stessa azione = sovrascrivi (utile se cambi idea).",
+        highlights: ['#end-turn', '.intent-row'],
       },
     ],
   },
   'round-resolve': {
     icon: '⚔️',
-    title: 'Round simultaneo',
+    title: 'Round simultaneo — chi agisce prima?',
     pages: [
       {
-        body: 'Tutte azioni risolte contemporaneamente per ordine di reaction_speed.\n\nFormula: initiative + action_speed(attack/move/ability) - status_penalty',
+        body: "Quando premi 'Fine turno', TUTTI gli intenti (tuoi + del Sistema) si risolvono insieme.\n\nL'ordine dipende dalla 'velocità di reazione' (icona ⚡ sulla card unità): numero più alto = agisce prima. Le azioni veloci (parata +2, attacco 0) contano più delle lente (movimento -2).",
+        highlights: ['#units li .unit-stats span', '#end-turn'],
       },
       {
-        body: 'Badge #1/#2/#3 sopra unità post-commit mostra ordine risoluzione. FX ray+popup+flash staggered 350ms per chiarezza visiva.',
+        body: "Durante la risoluzione vedrai:\n\n• Un overlay '⚔ ROUND N · X azioni simultanee'\n• Numeri #1/#2/#3 sopra le unità (ordine risoluzione)\n• Effetti staggerati: ray attacco → danno popup → flash",
+        highlights: [],
       },
     ],
   },
   'invalid-action': {
     icon: '❌',
-    title: 'Azione invalida',
-    pages: [{ body: '' }], // dynamic via showTip(key, overrideMessage)
+    title: 'Azione non valida',
+    pages: [{ body: '', highlights: [] }], // dynamic body via showTip(key, overrideBody)
   },
   'sis-intent': {
     icon: '✊',
-    title: 'Intento Sistema',
+    title: 'Cosa farà il nemico?',
     pages: [
       {
-        body: "L'icona ✊ sopra nemico = intento attacco prossimo turno (Slay the Spire pattern).\n\nHover per dettagli futuri (threat_preview payload ADR-04-18 backlog).",
+        body: "L'icona ✊ sopra un nemico = sta per attaccarti al prossimo turno.\n\nPassa il mouse sul nemico per vedere dettagli (quale unità colpirà, stima danni). Usa questa info per pianificare difesa o parata.",
+        highlights: ['canvas#grid'],
       },
     ],
   },
@@ -123,11 +137,9 @@ function setLS(key, value) {
 export function hasTipBeenShown(tipKey) {
   return getLS(tipKey) === 'shown';
 }
-
 export function markTipShown(tipKey) {
   setLS(tipKey, 'shown');
 }
-
 export function resetAllTips() {
   try {
     const keys = Object.keys(localStorage).filter((k) => k.startsWith(LS_PREFIX));
@@ -156,6 +168,7 @@ function getOrCreateModal() {
         <span class="tip-modal-pageinfo" aria-hidden="true"></span>
       </div>
       <div class="tip-modal-body"></div>
+      <div class="tip-modal-hint">💡 Elementi evidenziati sulla schermata si riferiscono a questo tip</div>
       <div class="tip-modal-actions">
         <button class="tip-btn tip-btn-prev" type="button">◄ Indietro</button>
         <button class="tip-btn tip-btn-next" type="button">Avanti ►</button>
@@ -169,6 +182,27 @@ function getOrCreateModal() {
   modal.querySelector('.tip-btn-prev').addEventListener('click', prevPage);
   modal.querySelector('.tip-modal-backdrop').addEventListener('click', dismissModal);
   return modal;
+}
+
+// W8j — Clear all highlight markers from previous page/tip.
+function clearHighlights() {
+  document.querySelectorAll('.' + HIGHLIGHT_CLASS).forEach((el) => {
+    el.classList.remove(HIGHLIGHT_CLASS);
+  });
+}
+
+// W8j — Apply .tip-highlight-target class to elements matching selectors.
+// CSS glow + pulse + z-index above backdrop makes target visually obvious.
+function applyHighlights(selectors) {
+  clearHighlights();
+  if (!Array.isArray(selectors)) return;
+  for (const sel of selectors) {
+    try {
+      document.querySelectorAll(sel).forEach((el) => el.classList.add(HIGHLIGHT_CLASS));
+    } catch {
+      /* invalid selector, skip */
+    }
+  }
 }
 
 function renderCurrentPage() {
@@ -190,12 +224,14 @@ function renderCurrentPage() {
   const prevBtn = modal.querySelector('.tip-btn-prev');
   const nextBtn = modal.querySelector('.tip-btn-next');
   const okBtn = modal.querySelector('.tip-btn-ok');
-  // Prev visible solo se not first page
   prevBtn.style.display = modalPageIdx > 0 ? '' : 'none';
-  // Next visible solo se not last page
   nextBtn.style.display = modalPageIdx < totalPages - 1 ? '' : 'none';
-  // OK visible solo su last page (o single-page)
   okBtn.style.display = modalPageIdx >= totalPages - 1 ? '' : 'none';
+  // W8j — highlight elements target di questa page
+  applyHighlights(page.highlights || []);
+  // Show/hide hint banner based on highlights presence
+  const hintEl = modal.querySelector('.tip-modal-hint');
+  if (hintEl) hintEl.style.display = page.highlights && page.highlights.length > 0 ? '' : 'none';
 }
 
 function nextPage() {
@@ -220,24 +256,22 @@ function dismissModal() {
     document.removeEventListener('keydown', currentEscHandler);
     currentEscHandler = null;
   }
+  clearHighlights();
   modalCurrentTip = null;
   modalPageIdx = 0;
 }
 
-// W8i — Core API. showTip(tipKey, overrideBody?).
-// Se tip già seen → no-op silenzioso. Multi-page via pages array in catalog.
-// overrideBody sostituisce page 0 body (usato per invalid-action dynamic message).
 export function showTip(tipKey, overrideBody = null) {
   if (hasTipBeenShown(tipKey)) return;
   const meta = TIPS[tipKey];
   if (!meta) return;
 
-  // Clone meta se override (non mutare catalog)
   let active = meta;
   if (overrideBody) {
+    const origPages = meta.pages || [{ body: '' }];
     active = {
       ...meta,
-      pages: [{ body: overrideBody }, ...(meta.pages ? meta.pages.slice(1) : [])],
+      pages: [{ ...origPages[0], body: overrideBody }, ...origPages.slice(1)],
     };
   }
 
@@ -248,11 +282,10 @@ export function showTip(tipKey, overrideBody = null) {
   renderCurrentPage();
   markTipShown(tipKey);
 
-  // ESC dismiss (anche con modal aperto)
   if (currentEscHandler) document.removeEventListener('keydown', currentEscHandler);
   currentEscHandler = (e) => {
     if (e.key === 'Escape') dismissModal();
-    if (e.key === 'ArrowRight' || e.key === 'Enter') {
+    if (e.key === 'Enter' || e.key === 'ArrowRight') {
       const pages = modalCurrentTip?.pages || [];
       if (modalPageIdx < pages.length - 1) nextPage();
       else dismissModal();
@@ -262,30 +295,30 @@ export function showTip(tipKey, overrideBody = null) {
   document.addEventListener('keydown', currentEscHandler);
 }
 
-// W8h — Error recovery tip builder. Maps backend error → player-friendly tip.
+// Error recovery (W8h, preserved).
 export function buildRecoveryTipMessage(errorText) {
   if (!errorText) return null;
   const lower = String(errorText).toLowerCase();
   const map = [
     {
       match: /range|too far|distanza|lontano/,
-      msg: "📍 Troppo lontano. Sposta prima l'unità più vicino (numeri blu = costo AP per ogni cella).",
+      msg: "📍 Troppo lontano! Muovi prima l'unità più vicina al bersaglio. I numeri bianchi sulle caselle blu ti dicono quanti AP costa arrivare.",
     },
     {
       match: /ap|azioni esaurite|insufficient/,
-      msg: '⚡ AP esaurite. Questa unità non può fare altro turno. Cambia PG o "Fine turno".',
+      msg: '⚡ Questa unità ha finito le azioni (AP). Usa un altro PG oppure clicca "Fine turno" per concludere.',
     },
     {
       match: /target|bersaglio|invalid/,
-      msg: '🎯 Target invalido. Seleziona nemico (rombo rosso) entro range (celle rosse).',
+      msg: '🎯 Bersaglio non valido. Per attaccare, clicca un nemico (card rossa nella colonna) che sia nel raggio (caselle rosse sul canvas).',
     },
     {
       match: /occupied|occupata|blocker|blocked/,
-      msg: '🧍 Cella occupata. Scegli cella vuota (overlay blu senza unità).',
+      msg: "🧍 La casella è già occupata da un'altra unità. Scegli una casella blu vuota.",
     },
     {
       match: /dead|ko|hp 0/,
-      msg: "☠ Unità KO. Seleziona un'altra unità viva.",
+      msg: "☠ Questa unità è KO (HP 0). Seleziona un'altra unità ancora viva.",
     },
   ];
   for (const rule of map) {
