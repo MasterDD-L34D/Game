@@ -53,6 +53,15 @@ const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIn
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
 const { createAbilityExecutor } = require('../services/abilityExecutor');
 const reactionEngine = require('../services/reactionEngine');
+// M6-#1 (ADR-2026-04-19 + spike 2026-04-19): Node native resistance engine.
+// Applica channel-specific resist/vuln su damage pre-hp. Evidence spike:
+// 84.6% → 20% win rate hardcore-06 con flat 50% resist (leva confermata).
+const {
+  loadSpeciesResistances,
+  applyResistance,
+  computeUnitResistances,
+  DEFAULT_SPECIES_RESISTANCES_PATH,
+} = require('../services/combat/resistanceEngine');
 
 // Extracted modules — constants + pure helpers (token optimization).
 // See sessionConstants.js and sessionHelpers.js for the extracted code.
@@ -115,6 +124,21 @@ function createSessionRouter(options = {}) {
   const traitRegistry = options.traitRegistry || loadActiveTraitRegistry();
   const fairnessConfig = options.fairnessConfig || loadFairnessConfig();
   const telemetryConfig = options.telemetryConfig || loadTelemetryConfig();
+  // M6-#1: species resistances data caricato una volta a session-router init.
+  // Override path via env GAME_SPECIES_RESISTANCES_PATH o options.
+  // Failure soft: null se file mancante → no channel resistance applicata.
+  let speciesResistancesData = null;
+  try {
+    const srPath =
+      options.speciesResistancesPath ||
+      process.env.GAME_SPECIES_RESISTANCES_PATH ||
+      DEFAULT_SPECIES_RESISTANCES_PATH;
+    speciesResistancesData = loadSpeciesResistances(srPath);
+  } catch (err) {
+    console.warn(
+      `[session] species_resistances.yaml non caricato (${err.message}). Channel resistance disabilitata.`,
+    );
+  }
 
   const sessions = new Map();
   let activeSessionId = null;
@@ -234,6 +258,29 @@ function createSessionRouter(options = {}) {
         backstabBonus +
         parryDelta;
       damageDealt = Math.max(0, adjusted);
+      // M6-#1 (ADR-2026-04-19): applica channel resistance post damage.
+      // Resolve target.resistances lazy: computa da resistance_archetype +
+      // trait_ids al primo hit (cache su target._resistances).
+      // Channel da action.channel (client-provided) o default "fisico".
+      // Se speciesResistancesData null (file mancante) → no-op.
+      if (speciesResistancesData && damageDealt > 0) {
+        if (!Array.isArray(target._resistances)) {
+          const traitResists = [];
+          for (const tid of Array.isArray(target.traits) ? target.traits : []) {
+            const entry = traitRegistry && traitRegistry[tid];
+            if (entry && Array.isArray(entry.resistances)) {
+              for (const r of entry.resistances) traitResists.push(r);
+            }
+          }
+          target._resistances = computeUnitResistances(
+            target.resistance_archetype || null,
+            speciesResistancesData,
+            traitResists,
+          );
+        }
+        const channel = action && typeof action.channel === 'string' ? action.channel : 'fisico';
+        damageDealt = applyResistance(damageDealt, target._resistances, channel);
+      }
       // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
       if (parryResult && parryResult.success) {
         target.guardia = Math.max(0, Number(target.guardia) - 1);
