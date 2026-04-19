@@ -7,6 +7,8 @@ Target: win_rate 15-25%, turns 14-18, K/D 0.6-0.9.
 
 import argparse
 import json
+import os
+import re
 import statistics
 import sys
 import time
@@ -16,6 +18,116 @@ import urllib.request
 SCENARIO_ID = "enc_tutorial_06_hardcore"
 MAX_ROUNDS = 40
 DEFAULT_HOST = "http://localhost:3340"
+DAMAGE_CURVES_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "..", "data", "core", "balance", "damage_curves.yaml"
+)
+
+
+def load_target_bands(encounter_class):
+    """M7-#2 Phase D: legge target_bands da damage_curves.yaml via
+    mini-YAML parser stdlib-only (no PyYAML dep).
+
+    Ritorna dict {win_rate:[lo,hi], defeat_rate:[lo,hi], timeout_rate:[lo,hi]}
+    o None se class non trovata.
+    """
+    if not os.path.exists(DAMAGE_CURVES_PATH):
+        return None
+    try:
+        with open(DAMAGE_CURVES_PATH, "r", encoding="utf-8") as f:
+            raw = f.read()
+    except OSError:
+        return None
+
+    # Mini parser: cerca blocco "encounter_classes:" → <class>: → target_bands:
+    # Pattern compact. Usa regex line-based (YAML semplice, non flow).
+    lines = raw.splitlines()
+    idx_class = None
+    in_classes = False
+    class_indent = None
+    for i, line in enumerate(lines):
+        if line.startswith("encounter_classes:"):
+            in_classes = True
+            continue
+        if not in_classes:
+            continue
+        # Match "  <name>:"
+        m = re.match(r"^(\s+)(\w+):\s*$", line)
+        if m and m.group(2) == encounter_class:
+            idx_class = i
+            class_indent = len(m.group(1))
+            break
+        # Break out if top-level section ended.
+        if line and not line.startswith(" ") and not line.startswith("#"):
+            break
+    if idx_class is None:
+        return None
+
+    # Scan subsequent lines for target_bands block.
+    bands = {}
+    j = idx_class + 1
+    while j < len(lines):
+        line = lines[j]
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            j += 1
+            continue
+        # End of class block = indent <= class_indent.
+        if line and len(line) - len(line.lstrip()) <= class_indent:
+            break
+        if "target_bands:" in line:
+            # Parse 3 following indented lines.
+            k = j + 1
+            while k < len(lines):
+                bl = lines[k]
+                bstripped = bl.strip()
+                if not bstripped or bstripped.startswith("#"):
+                    k += 1
+                    continue
+                # Expect "      win_rate: [lo, hi]"
+                bm = re.match(r"^\s+(\w+):\s*\[([\d.]+)\s*,\s*([\d.]+)\]", bl)
+                if bm:
+                    bands[bm.group(1)] = [float(bm.group(2)), float(bm.group(3))]
+                    k += 1
+                    continue
+                break
+            break
+        j += 1
+
+    return bands if bands else None
+
+
+def verdict_for(win_rate, defeat_rate, timeout_rate, bands):
+    """Ritorna (verdict, reasons) dati rates vs bands.
+    verdict in {GREEN, AMBER, RED}.
+    """
+    if not bands:
+        return "UNKNOWN", ["no bands for class"]
+    reasons = []
+    score = 0  # 0 green, 1 amber, 2 red
+    for key, observed in [
+        ("win_rate", win_rate),
+        ("defeat_rate", defeat_rate),
+        ("timeout_rate", timeout_rate),
+    ]:
+        band = bands.get(key)
+        if not band:
+            continue
+        lo, hi = band
+        if lo <= observed <= hi:
+            continue
+        # Distance-based amber vs red (±5pp amber tolerance).
+        dist = min(abs(observed - lo), abs(observed - hi))
+        if dist <= 0.05:
+            score = max(score, 1)
+            reasons.append(f"{key}={observed:.2f} near band [{lo},{hi}] (amber)")
+        else:
+            score = 2
+            reasons.append(f"{key}={observed:.2f} out of band [{lo},{hi}] (red)")
+    if score == 0:
+        return "GREEN", ["all rates in band"]
+    if score == 1:
+        return "AMBER", reasons
+    return "RED", reasons
 
 
 def _retry(fn, retries=5, backoff_base=0.5):
@@ -368,7 +480,7 @@ def run_one(host, run_idx):
     }
 
 
-def aggregate(runs):
+def aggregate(runs, encounter_class=None):
     ok = [r for r in runs if "error" not in r]
     if not ok:
         return {"error": "no successful runs"}
@@ -387,9 +499,27 @@ def aggregate(runs):
         for k, v in r["ai_intent_tally"].items():
             ai_global[k] = ai_global.get(k, 0) + v
 
+    n = len(ok)
+    wr = len(wins) / n
+    dr = len(losses) / n
+    tr = len(timeouts) / n
+    # M7-#2 Phase D: verdict vs class target_bands (ADR-2026-04-20).
+    verdict = None
+    verdict_reasons = []
+    bands = None
+    if encounter_class:
+        bands = load_target_bands(encounter_class)
+        verdict, verdict_reasons = verdict_for(wr, dr, tr, bands)
+
     return {
-        "N": len(ok),
-        "win_rate": len(wins) / len(ok),
+        "N": n,
+        "encounter_class": encounter_class,
+        "target_bands": bands,
+        "verdict": verdict,
+        "verdict_reasons": verdict_reasons,
+        "win_rate": wr,
+        "defeat_rate": dr,
+        "timeout_rate": tr,
         "win_count": len(wins),
         "loss_count": len(losses),
         "timeout_count": len(timeouts),
@@ -432,6 +562,10 @@ def main():
     ap.add_argument("--probe", action="store_true",
                     help="Run N=1 verbose probe (schema dump) — REQUIRED prima di batch nuovo. "
                          "Vedi memory feedback_probe_before_batch.md")
+    ap.add_argument("--encounter-class", default="hardcore",
+                    help="M7-#2 Phase D: class key da damage_curves.yaml. "
+                         "Default 'hardcore' (coerente con enc_tutorial_06_hardcore). "
+                         "Valori: tutorial|tutorial_advanced|standard|hardcore|boss")
     args = ap.parse_args()
 
     # Health probe (TKT-08): fail fast se backend non risponde.
@@ -478,7 +612,7 @@ def main():
             jsonl_fh.close()
 
     elapsed = time.time() - t0
-    agg = aggregate(runs)
+    agg = aggregate(runs, encounter_class=args.encounter_class)
     agg["elapsed_sec"] = round(elapsed, 1)
     agg["failures"] = failures
 
