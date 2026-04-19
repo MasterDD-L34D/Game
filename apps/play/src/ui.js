@@ -1,17 +1,63 @@
 // UI helpers — sidebar units + log.
 
+// W8 — Status labels + SVG icon paths per TV-first spec (42-SG §status, ≥16px, no color-only).
+// SVG shapes inline (no external load). Paths disegnati su viewBox 24×24.
 const STATUS_LABELS = {
-  panic: { label: 'Panic', icon: '!', color: '#ff9800' },
-  rage: { label: 'Rage', icon: '⚡', color: '#f44336' },
-  stunned: { label: 'Stun', icon: '★', color: '#9c27b0' },
-  focused: { label: 'Focus', icon: '◎', color: '#03a9f4' },
-  confused: { label: 'Confuse', icon: '?', color: '#ffc107' },
-  bleeding: { label: 'Bleed', icon: '☽', color: '#e91e63' },
-  fracture: { label: 'Fract', icon: '✕', color: '#795548' },
-  sbilanciato: { label: 'Sbil', icon: '↯', color: '#ffeb3b' },
-  taunted_by: { label: 'Taunt', icon: '⎯', color: '#ffc107' },
-  aggro_locked: { label: 'Aggro', icon: '◉', color: '#ff5722' },
+  panic: {
+    label: 'Panic',
+    color: '#ff9800',
+    svg: '<path d="M12 2L2 22h20L12 2zm0 6l6 12H6l6-12zm-1 2v5h2v-5h-2zm0 7v2h2v-2h-2z" fill="currentColor"/>',
+  },
+  rage: {
+    label: 'Rage',
+    color: '#f44336',
+    svg: '<path d="M13 2L3 14h8l-1 8 11-12h-8l1-8z" fill="currentColor"/>',
+  },
+  stunned: {
+    label: 'Stun',
+    color: '#9c27b0',
+    svg: '<path d="M12 2l2.4 7.4H22l-6.2 4.6 2.4 7.4L12 17l-6.2 4.4 2.4-7.4L2 9.4h7.6L12 2z" fill="currentColor"/>',
+  },
+  focused: {
+    label: 'Focus',
+    color: '#03a9f4',
+    svg: '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/>',
+  },
+  confused: {
+    label: 'Confuse',
+    color: '#ffc107',
+    svg: '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><text x="12" y="17" text-anchor="middle" font-size="14" font-weight="bold" fill="currentColor">?</text>',
+  },
+  bleeding: {
+    label: 'Bleed',
+    color: '#e91e63',
+    svg: '<path d="M12 2c-4 6-7 10-7 14a7 7 0 0 0 14 0c0-4-3-8-7-14z" fill="currentColor"/>',
+  },
+  fracture: {
+    label: 'Fract',
+    color: '#795548',
+    svg: '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2.5"/>',
+  },
+  sbilanciato: {
+    label: 'Sbil',
+    color: '#ffeb3b',
+    svg: '<path d="M2 12c3-4 5-4 8 0s5 4 8 0 3-4 4-2v4c-1-2-1-2-4 2s-5 4-8 0-5-4-8 0v-4z" fill="currentColor"/>',
+  },
+  taunted_by: {
+    label: 'Taunt',
+    color: '#ffc107',
+    svg: '<path d="M6 7h12v2H6zM6 11h12v2H6zM6 15h12v2H6z" fill="currentColor"/>',
+  },
+  aggro_locked: {
+    label: 'Aggro',
+    color: '#ff5722',
+    svg: '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="currentColor"/>',
+  },
 };
+
+function statusIconSvg(svgBody, color) {
+  return `<svg class="status-svg" viewBox="0 0 24 24" width="14" height="14" style="color:${color};vertical-align:middle">${svgBody}</svg>`;
+}
 
 function renderStatusChips(unit) {
   const status = unit.status || {};
@@ -21,7 +67,7 @@ function renderStatusChips(unit) {
     if (v !== undefined && v !== null && (typeof v !== 'number' || v > 0)) {
       const label = typeof v === 'number' && v > 1 ? `${meta.label} (${v})` : meta.label;
       chips.push(
-        `<span class="status-chip" style="background:${meta.color}" title="${key}">${meta.icon} ${label}</span>`,
+        `<span class="status-chip" style="background:${meta.color}" title="${key}">${statusIconSvg(meta.svg, '#000')} ${label}</span>`,
       );
     }
   }
