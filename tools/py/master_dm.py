@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# @deprecated (M6-#4 Phase 1, 2026-04-19)
+# Python rules engine deprecated in favour of Node runtime canonical.
+# User direction "1 solo gioco online, senza master" → tabletop DM feature
+# morta. Node session engine (apps/backend/) = single source of truth.
+# Vedi services/rules/DEPRECATED.md + docs/adr/ADR-2026-04-19-kill-python-rules-engine.md
+# NO new features. NO bug fixes non-blocking. Porting a Node.
+
 """Master DM CLI — Fase 3 playtest assistant.
 
 REPL che traduce mosse canoniche (11-REGOLE_D20_TV.md §Syntax) in
