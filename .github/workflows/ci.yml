@@ -425,8 +425,10 @@ jobs:
       - name: Verify tutorial species YAML existence
         run: node --test tests/scripts/tutorialSpeciesExistence.test.js
 
-      - name: Verify species-index integrity (primary + fallback + mirrors)
-        run: node --test tests/scripts/speciesIndexIntegrity.test.js
+      # NOTE: Verify species-index integrity step rimosso da questo PR
+      # perché dipende da tests/scripts/speciesIndexIntegrity.test.js che
+      # esiste solo su PR #1631 (M5-#2). Post merge #1631 → main, il file
+      # sarà disponibile e il step può essere ri-aggiunto a data-path job.
 
       - name: Upload trait style guide report
         if: always()
