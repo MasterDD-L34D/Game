@@ -31,7 +31,11 @@ jobs:
         id: import
         run: |
           cd _game-database/server
-          node scripts/ingest/import-taxonomy.js --dry-run --repo ${{ github.workspace }} > /tmp/import-report.json 2>&1
+          # Redirect stdout to file for JSON parsing; stderr stays in CI log.
+          # Previously `2>&1` mescolava progress text ("Repo: ...") con JSON,
+          # causando SyntaxError nel Check for errors step. Latent bug esposto
+          # da M5-#2 (prima PR con catalog non-empty post species-reviewer fix).
+          node scripts/ingest/import-taxonomy.js --dry-run --repo ${{ github.workspace }} > /tmp/import-report.json
           cat /tmp/import-report.json
 
       - name: Check for errors
