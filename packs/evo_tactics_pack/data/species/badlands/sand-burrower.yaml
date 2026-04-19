@@ -1,5 +1,6 @@
 id: sand-burrower
 schema_version: '1.7'
+resistance_archetype: corazzato
 display_name: Sand Burrower
 biomes:
 - badlands

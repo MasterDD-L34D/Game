@@ -1,5 +1,6 @@
 id: cacciatore_corazzato
 schema_version: '1.7'
+resistance_archetype: corazzato
 display_name: Cacciatore Corazzato
 display_name_en: Armored Hunter
 biomes:

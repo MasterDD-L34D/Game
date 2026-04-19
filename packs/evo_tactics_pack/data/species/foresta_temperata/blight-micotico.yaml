@@ -1,5 +1,6 @@
 id: blight-micotico
 schema_version: '1.7'
+resistance_archetype: psionico
 display_name: Blight Micotico
 biomes:
 - foresta_temperata

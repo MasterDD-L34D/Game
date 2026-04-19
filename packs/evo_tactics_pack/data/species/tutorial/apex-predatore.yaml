@@ -1,5 +1,6 @@
 id: apex_predatore
 schema_version: '1.7'
+resistance_archetype: corazzato
 display_name: Predatore Apex
 display_name_en: Apex Predator
 biomes:

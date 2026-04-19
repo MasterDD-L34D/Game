@@ -1,5 +1,6 @@
 id: nano-rust-bloom
 schema_version: '1.7'
+resistance_archetype: corazzato
 display_name: Nano Rust Bloom
 biomes:
 - badlands

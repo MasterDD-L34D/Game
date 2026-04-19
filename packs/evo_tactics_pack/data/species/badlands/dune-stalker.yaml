@@ -1,5 +1,6 @@
 id: dune-stalker
 schema_version: '1.7'
+resistance_archetype: corazzato
 display_name: Dune Stalker
 biomes:
 - badlands

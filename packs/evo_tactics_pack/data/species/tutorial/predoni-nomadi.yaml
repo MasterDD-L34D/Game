@@ -1,5 +1,6 @@
 id: predoni_nomadi
 schema_version: '1.7'
+resistance_archetype: adattivo
 display_name: Predoni Nomadi
 display_name_en: Nomad Raiders
 biomes:
