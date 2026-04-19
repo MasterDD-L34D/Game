@@ -278,7 +278,12 @@ function createSessionRouter(options = {}) {
             traitResists,
           );
         }
-        const channel = action && typeof action.channel === 'string' ? action.channel : 'fisico';
+        // M6-#1 hotfix: `action` non in scope di performAttack(session, actor, target).
+        // Bug merged #1639 causava ReferenceError silenzioso su ogni attack
+        // (evidence: batch iter2 0 damage/0 win su 10 run). Default "fisico"
+        // hardcoded. Channel routing dinamico via action/ability = M6-#1b
+        // follow-up refactor firma.
+        const channel = 'fisico';
         damageDealt = applyResistance(damageDealt, target._resistances, channel);
       }
       // Consuma guardia solo se parata riuscita (mitigazione cumulativa)
