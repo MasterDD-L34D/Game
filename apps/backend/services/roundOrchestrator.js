@@ -275,21 +275,28 @@ function buildResolutionQueue(state, speedTable = DEFAULT_ACTION_SPEED) {
   }
   const pending = (state && state.pending_intents) || [];
   const queue = [];
-  for (const intent of pending) {
-    if (_isReactionIntent(intent)) continue;
+  // P0-2 fix (session-debugger): preserve declaration index as stable
+  // tiebreaker. Prima: priority desc, unit_id asc — 2 intents stessa unit
+  // avevano stessa chiave (priority+uid), ordine arbitrario cross-runtime.
+  // Ora: priority desc, unit_id asc, intent_index asc → stable multi-intent.
+  pending.forEach((intent, idx) => {
+    if (_isReactionIntent(intent)) return;
     const uid = String(intent.unit_id || '');
     const unit = unitsMap.get(uid);
-    if (!unit) continue;
+    if (!unit) return;
     const action = intent.action || {};
     queue.push({
       unit_id: uid,
       action,
       priority: computeResolvePriority(unit, action, speedTable),
+      intent_index: idx,
     });
-  }
+  });
   queue.sort((a, b) => {
     if (b.priority !== a.priority) return b.priority - a.priority;
-    return a.unit_id.localeCompare(b.unit_id);
+    const uidCmp = a.unit_id.localeCompare(b.unit_id);
+    if (uidCmp !== 0) return uidCmp;
+    return a.intent_index - b.intent_index;
   });
   return queue;
 }

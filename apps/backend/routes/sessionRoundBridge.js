@@ -66,12 +66,22 @@ function createRoundBridge(deps) {
     if (Number(actor.hp || 0) <= 0) {
       return { code: 'ACTOR_DEAD', message: `actor "${actorId}" è KO (hp ${actor.hp})` };
     }
+    // P1-3 hardening (session-debugger review): sum pending intents already
+    // declared for this actor in current round. Prima validava solo nuovo
+    // intent contro actor.ap_remaining → multi-intent exploit via curl bypass
+    // client Wave 8N budget check (2 attack ap_cost=2 cada, actor.ap=3: backend
+    // accettava entrambi singolarmente, resolveFn scalava -1 cada = consumo
+    // 2 AP invece di 4 richiesti).
     const apCost = Number(action.ap_cost || 0);
     const apAvail = Number(actor.ap_remaining != null ? actor.ap_remaining : actor.ap || 0);
-    if (apCost > apAvail) {
+    const pendingForActor = ((session.roundState && session.roundState.pending_intents) || [])
+      .filter((i) => String(i.unit_id || '') === String(actorId))
+      .reduce((sum, i) => sum + Number((i.action && i.action.ap_cost) || 0), 0);
+    const totalProposed = pendingForActor + apCost;
+    if (totalProposed > apAvail) {
       return {
         code: 'AP_INSUFFICIENT',
-        message: `AP insufficienti: costo ${apCost}, disponibili ${apAvail}`,
+        message: `AP insufficienti: costo totale ${totalProposed} (pending ${pendingForActor} + nuovo ${apCost}), disponibili ${apAvail}`,
       };
     }
 
@@ -327,7 +337,10 @@ function createRoundBridge(deps) {
       return placeholderResolveAction(state, action, _catalog, _rng);
     };
 
-    actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+    actor.ap_remaining = Math.max(
+      0,
+      (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+    );
     const hpBefore = target.hp;
     const targetPositionAtAttack = { ...target.position };
 
@@ -590,7 +603,10 @@ function createRoundBridge(deps) {
           const hpBefore = target.hp;
           const targetPosAtk = { ...target.position };
           const res = performAttack(session, actor, target);
-          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+          actor.ap_remaining = Math.max(
+            0,
+            (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+          );
 
           let combo = null;
           if (!isSis) {
@@ -680,7 +696,10 @@ function createRoundBridge(deps) {
           turnLogEntry.skipped = 'blocked';
         } else {
           actor.position = { x: dest.x, y: dest.y };
-          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+          actor.ap_remaining = Math.max(
+            0,
+            (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+          );
           const newFacing = facingFromMove(positionFrom, actor.position);
           if (newFacing) actor.facing = newFacing;
           const event = buildMoveEvent({ session, actor, positionFrom });
@@ -702,7 +721,10 @@ function createRoundBridge(deps) {
           });
         }
       } else {
-        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+        actor.ap_remaining = Math.max(
+          0,
+          (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+        );
       }
 
       const uOrch = next.units.find((u) => u.id === actorId);
@@ -823,7 +845,10 @@ function createRoundBridge(deps) {
           const hpBefore = target.hp;
           const targetPosAtk = { ...target.position };
           const res = performAttack(session, actor, target);
-          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+          actor.ap_remaining = Math.max(
+            0,
+            (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+          );
           const event = buildAttackEvent({
             session,
             actor,
@@ -883,7 +908,10 @@ function createRoundBridge(deps) {
           turnLogEntry.skipped = 'blocked';
         } else {
           actor.position = { x: dest.x, y: dest.y };
-          actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+          actor.ap_remaining = Math.max(
+            0,
+            (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+          );
           const newFacing = facingFromMove(positionFrom, actor.position);
           if (newFacing) actor.facing = newFacing;
           const event = buildMoveEvent({ session, actor, positionFrom });
@@ -903,7 +931,10 @@ function createRoundBridge(deps) {
           });
         }
       } else {
-        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - 1);
+        actor.ap_remaining = Math.max(
+          0,
+          (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+        );
       }
 
       const uOrch = next.units.find((u) => u.id === actorId);
