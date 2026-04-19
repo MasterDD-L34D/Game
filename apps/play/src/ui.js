@@ -320,16 +320,24 @@ function renderUnitLi(
       ${(() => {
         if (u.controlled_by !== 'player' || !isUnitAlive(u)) return '';
         if (!pendingIntents) return '';
-        const intent = pendingIntents.get ? pendingIntents.get(u.id) : pendingIntents[u.id];
-        if (intent) {
+        // W8k — pendingIntents è array [{unit_id, action, ts}] — filter per questa unit.
+        const arr = Array.isArray(pendingIntents) ? pendingIntents : [];
+        const unitIntents = arr.filter((pi) => pi.unit_id === u.id);
+        if (unitIntents.length > 0) {
           const rank = predictedOrder && predictedOrder.get ? predictedOrder.get(u.id) : null;
           const rankHtml = rank
             ? `<span class="priority-rank" title="Ordine predetto (initiative + action_speed − status_penalty)">#${Number(rank) || 0}</span>`
             : '';
-          return `<div class="intent-row">
+          const intentsHtml = unitIntents
+            .map(
+              (pi, idx) =>
+                `<div class="intent-badge declared" title="Intent #${idx + 1}">✓ ${idx + 1}. ${esc(formatIntent(pi.action))}</div>`,
+            )
+            .join('');
+          return `<div class="intent-row intent-row-multi">
             ${rankHtml}
-            <div class="intent-badge declared" title="Intent dichiarato">✓ ${esc(formatIntent(intent))}</div>
-            <button class="intent-cancel" data-unit-id="${esc(u.id)}" title="Annulla intent (re-click action per nuovo)">✕</button>
+            <div class="intent-list">${intentsHtml}</div>
+            <button class="intent-cancel" data-unit-id="${esc(u.id)}" title="Annulla TUTTI ${unitIntents.length} intent di questa unità">✕ ${unitIntents.length}</button>
           </div>`;
         }
         return `<div class="intent-badge pending" title="Nessun intent dichiarato">⏳ in attesa</div>`;

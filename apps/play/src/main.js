@@ -25,8 +25,11 @@ const state = {
   target: null, // target preview (enemy hovered)
   pendingAbility: null, // { ability_id, needs_target, effect_type }
   endgameShown: false,
-  // W4.1 — round model client-side tracking per badge UI
-  pendingIntents: new Map(), // unit_id → intent object (reset post commit)
+  // W4.1 / W8k — round model client-side tracking per badge UI.
+  // W8k: era Map<unit_id, intent> (latest-wins), ora array [{unit_id, action, ts}]
+  // (append per multi-intent support). User può dichiarare N intents per unit
+  // finché AP sufficiente (sum controlled backend side).
+  pendingIntents: [],
   // W4.3 — resolution order from last commit (unit_id → priority rank 1..N)
   lastResolutionOrder: new Map(),
   // W4.6 — planning timer start timestamp (null = not active)
@@ -63,17 +66,23 @@ const ACTION_SPEED = {
 // W7.B — Compute resolve priority order among declared player intents.
 // Formula: unit.initiative + action_speed(action) - status_penalty.
 // NOTE: include solo PG (SIS intents server-side, non esposti in planning).
+// W8k — pendingIntents is array [{unit_id, action, ts}]. Compute priority per
+// unique unit_id (primo intent determina rank base; multi-intent stessa unit
+// risolti in ordine di declare per ADR-04-15 resolution queue ordering).
 function computePlayerPriorityOrder(pendingIntents, units) {
+  const seen = new Set();
   const items = [];
-  for (const [uid, intent] of pendingIntents.entries()) {
-    const unit = units.find((u) => u.id === uid);
+  for (const pi of pendingIntents) {
+    if (seen.has(pi.unit_id)) continue;
+    seen.add(pi.unit_id);
+    const unit = units.find((u) => u.id === pi.unit_id);
     if (!unit) continue;
-    const actSpd = ACTION_SPEED[intent.type] ?? 0;
+    const actSpd = ACTION_SPEED[pi.action?.type] ?? 0;
     const panic = (unit.status && unit.status.panic) || 0;
     const disorient = (unit.status && unit.status.disorient) || 0;
     const statusPenalty = panic * 2 + disorient;
     const priority = (unit.initiative || 0) + actSpd - statusPenalty;
-    items.push({ uid, priority });
+    items.push({ uid: pi.unit_id, priority });
   }
   items.sort((a, b) => b.priority - a.priority || a.uid.localeCompare(b.uid));
   const map = new Map();
@@ -275,20 +284,23 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// W6.2b — Cancel pending intent for a specific PG.
+// W6.2b / W8k — Cancel TUTTI intent per una unit (array filter). Per cancel
+// per-index specifico usa handleCancelIntentIndex.
 function handleCancelIntent(unitId) {
-  if (!state.pendingIntents.has(unitId)) return;
-  state.pendingIntents.delete(unitId);
-  appendLog(logEl, `${unitId}: intent annullato`);
-  updateHint(`Intent ${unitId} annullato. Re-pianifica o "Fine turno" per risolvere.`);
+  const before = state.pendingIntents.length;
+  state.pendingIntents = state.pendingIntents.filter((pi) => pi.unit_id !== unitId);
+  const removed = before - state.pendingIntents.length;
+  if (removed === 0) return;
+  appendLog(logEl, `${unitId}: ${removed} intent annullati`);
+  updateHint(`${removed} intent ${unitId} annullati. Re-pianifica o "Fine turno".`);
   redraw();
 }
 
-// W6.2b — ESC global: annulla tutti pending intents (planning reset).
+// W8k — ESC global: annulla tutti pending intents.
 document.addEventListener('keydown', (ev) => {
-  if (ev.key === 'Escape' && state.pendingIntents.size > 0 && !state.pendingAbility) {
-    const n = state.pendingIntents.size;
-    state.pendingIntents.clear();
+  if (ev.key === 'Escape' && state.pendingIntents.length > 0 && !state.pendingAbility) {
+    const n = state.pendingIntents.length;
+    state.pendingIntents = [];
     appendLog(logEl, `ESC: ${n} intent annullati`);
     updateHint(`${n} intent cleared. Ri-pianifica round.`);
     redraw();
@@ -561,8 +573,9 @@ async function doAction(body) {
       if (recovery) showTip('invalid-action', recovery);
       return;
     }
-    // W4.1 — track intent client-side per badge sidebar. Latest-wins (re-declare override).
-    state.pendingIntents.set(body.actor_id, action);
+    // W4.1 / W8k — track intent client-side per badge sidebar. Multi-intent
+    // per unit (array append). Backend anche append post-W8k.
+    state.pendingIntents.push({ unit_id: body.actor_id, action, ts: Date.now() });
     const tag = body.ability_id
       ? `→ ability ${body.ability_id}${body.target_id ? ` → ${body.target_id}` : ''}`
       : body.action_type === 'move'
@@ -581,7 +594,9 @@ async function doAction(body) {
     const alivePlayers = (state.world?.units || []).filter(
       (u) => u.controlled_by === 'player' && u.hp > 0,
     );
-    const allDeclared = alivePlayers.every((u) => state.pendingIntents.has(u.id));
+    // W8k — allDeclared true se ogni PG vivo ha almeno 1 intent in array.
+    const declaredUnitIds = new Set(state.pendingIntents.map((pi) => pi.unit_id));
+    const allDeclared = alivePlayers.every((u) => declaredUnitIds.has(u.id));
     if (allDeclared && alivePlayers.length > 0) {
       const autoCommit = getLocalStorageFlag('evo:auto-commit');
       if (autoCommit) {
@@ -593,7 +608,7 @@ async function doAction(body) {
         );
       }
     } else {
-      const remaining = alivePlayers.length - state.pendingIntents.size;
+      const remaining = alivePlayers.length - declaredUnitIds.size;
       updateHint(
         `✓ Intent dichiarato ${body.actor_id}. ${remaining} PG restante/i. Click "Fine turno" per risolvere.`,
       );
@@ -749,7 +764,7 @@ async function startNewSession() {
   state.roundInit = false;
   _pendingConfirm = null;
   // W4 — reset round tracking
-  state.pendingIntents.clear();
+  state.pendingIntents = [];
   state.lastResolutionOrder.clear();
   stopPlanningTimer();
   // W5.D — reset eval set per session
@@ -789,6 +804,29 @@ document.getElementById('new-session').addEventListener('click', () => {
 document.getElementById('reset-round')?.addEventListener('click', async () => {
   await emergencyResetRound();
 });
+// W8k — timer toggle header btn (user request: disable timer during testing).
+document.getElementById('timer-toggle')?.addEventListener('click', (ev) => {
+  const btn = ev.currentTarget;
+  const wasOff = getLocalStorageFlag('evo:planning-timer', 'off');
+  try {
+    localStorage.setItem('evo:planning-timer', wasOff ? 'on' : 'off');
+  } catch {
+    /* ignore */
+  }
+  const nowOff = !wasOff;
+  btn.style.opacity = nowOff ? '0.4' : '1';
+  btn.title = `Planning timer ${nowOff ? 'OFF' : 'ON'} (click per toggle)`;
+  if (nowOff) stopPlanningTimer();
+  appendLog(logEl, `⏱ Timer planning ${nowOff ? 'OFF' : 'ON'}`);
+});
+// Init button state on load
+(() => {
+  const btn = document.getElementById('timer-toggle');
+  if (!btn) return;
+  const off = getLocalStorageFlag('evo:planning-timer', 'off');
+  btn.style.opacity = off ? '0.4' : '1';
+  btn.title = `Planning timer ${off ? 'OFF' : 'ON'} (click per toggle)`;
+})();
 document.getElementById('download-eval').addEventListener('click', () => {
   downloadEvalSet();
 });
@@ -848,7 +886,7 @@ function processIaActions(iaActions) {
 // Clear tutti flag round + overlay + re-fetch state server per recover da block.
 async function emergencyResetRound() {
   state.roundInit = false;
-  state.pendingIntents.clear();
+  state.pendingIntents = [];
   state.lastResolutionOrder.clear();
   _pendingConfirm = null;
   stopPlanningTimer();
@@ -918,7 +956,7 @@ async function triggerCommitRound() {
     }
     state.roundInit = false;
     _pendingConfirm = null;
-    state.pendingIntents.clear();
+    state.pendingIntents = [];
 
     const playerActions = r.data?.player_actions || [];
     const iaActions = r.data?.ia_actions || [];
@@ -983,9 +1021,15 @@ function showCommitReveal(turnNum, actionCount) {
   }, 650);
 }
 
-// W4.6 — Planning timer: 30s countdown, auto-commit on expiry.
+// W4.6 / W8k — Planning timer: 30s countdown, auto-commit on expiry.
+// W8k: opt-out via localStorage flag `evo:planning-timer:off` (user feedback:
+// "in fase di test è scomodo"). Toggleable da header btn.
 function startPlanningTimer() {
   stopPlanningTimer();
+  // W8k — skip timer se flag off.
+  if (getLocalStorageFlag('evo:planning-timer', 'off')) {
+    return;
+  }
   state.planningTimerStart = performance.now();
   const el = getPlanningTimerEl();
   el.classList.remove('hidden');

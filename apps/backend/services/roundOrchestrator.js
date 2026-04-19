@@ -362,9 +362,13 @@ function beginRound(state) {
 }
 
 /**
- * Preview-only: accumula l'intent in pending_intents. Latest-wins per
- * unit_id (sostituisce eventuale main intent precedente ma NON le
- * reaction intents per la stessa unit).
+ * Preview-only: accumula l'intent in pending_intents.
+ *
+ * W8k (2026-04-19) SPEC CHANGE: APPEND invece di latest-wins.
+ * Una unit può dichiarare N main intents per round (es. 2 attacchi stesso
+ * target), fino al limite AP. Override ADR-2026-04-15 canonical per UX user
+ * feedback. Per "cambiare idea" ora: chiamare clearIntent(unitId) prima.
+ * Reaction intents preservati in ogni caso.
  *
  * Raise: se round_phase e' settato ed e' diverso da 'planning'.
  *        Se la fase e' null/undefined, imposta planning implicitamente.
@@ -378,11 +382,8 @@ function declareIntent(state, unitId, action) {
     throw new Error(`unit_id non trovato nello state: ${unitId}`);
   }
   const nextState = _deepClone(state || {});
-  const pending = (nextState.pending_intents || []).filter((i) => {
-    // Rimuovi solo main intents per la stessa unit, preserva reactions
-    if (_isReactionIntent(i)) return true;
-    return String(i.unit_id || '') !== String(unitId);
-  });
+  // W8k — append, non filter per unit_id. Multi-intent supported.
+  const pending = (nextState.pending_intents || []).map((i) => _deepClone(i));
   pending.push({ unit_id: String(unitId), action: _deepClone(action || {}) });
   nextState.pending_intents = pending;
   if (phase === undefined || phase === null) {

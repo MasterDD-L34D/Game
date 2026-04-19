@@ -365,13 +365,22 @@ def test_declare_intent_records_action_without_consuming_ap(catalog):
     assert next_state["pending_intents"][0]["action"]["type"] == "attack"
 
 
-def test_declare_intent_replaces_previous_intent_for_same_unit(catalog):
+def test_declare_intent_appends_multiple_intents_for_same_unit(catalog):
+    # W8k override ADR-2026-04-15 canonical: multi-intent per unit supported.
+    # User feedback 2026-04-19: "Sto cercando di fare 2 att con lo scout ma
+    # posso registrarne solo uno". Backend ora append invece di latest-wins.
     state = begin_round(_make_state(catalog))["next_state"]
     state = declare_intent(state, "alpha", _attack("alpha", "bravo"))["next_state"]
-    # Cambia idea: ora muove invece di attaccare
+    # Secondo intent stessa unit — APPEND invece di replace.
+    state = declare_intent(state, "alpha", _move("alpha"))["next_state"]
+    assert len(state["pending_intents"]) == 2
+    assert state["pending_intents"][0]["action"]["type"] == "attack"
+    assert state["pending_intents"][1]["action"]["type"] == "move"
+    # Per "cambiare idea" ora: clear_intent(unit_id) prima di nuovo declare.
+    state = clear_intent(state, "alpha")["next_state"]
+    assert len(state["pending_intents"]) == 0
     state = declare_intent(state, "alpha", _move("alpha"))["next_state"]
     assert len(state["pending_intents"]) == 1
-    assert state["pending_intents"][0]["action"]["type"] == "move"
 
 
 def test_declare_intent_accepts_multiple_units(catalog):
