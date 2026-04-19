@@ -2,7 +2,7 @@
 
 import { api } from './api.js';
 import { render, canvasToCell, needsAnimFrame } from './render.js';
-import { renderUnits, appendLog, updateStatus } from './ui.js';
+import { renderUnits, appendLog, updateStatus, isUnitAlive, isUnitDead } from './ui.js';
 import { renderAbilities, clearAbilities } from './abilityPanel.js';
 import { detectEndgame, showEndgame, hideEndgame, nextScenarioId } from './endgame.js';
 import {
@@ -497,18 +497,21 @@ async function doAction(body) {
 
   // Round flow simultaneous: declare intent invece di action immediate
   if (useRoundFlow()) {
-    // Map body → action shape per declareIntent
+    // Map body → action shape per declareIntent.
+    // W8d — Math.max(0, ...) clamp: ap_cost non può essere negativo (defensive vs
+    // malformed client body + backend side).
+    const rawApCost =
+      body.action_type === 'attack'
+        ? 1
+        : body.action_type === 'move'
+          ? manhattanApCost(body)
+          : body.action_type === 'ability'
+            ? body.ap_cost || 1
+            : 0;
     const action = {
       type: body.action_type,
       actor_id: body.actor_id,
-      ap_cost:
-        body.action_type === 'attack'
-          ? 1
-          : body.action_type === 'move'
-            ? manhattanApCost(body)
-            : body.action_type === 'ability'
-              ? body.ap_cost || 1
-              : 0,
+      ap_cost: Math.max(0, Number(rawApCost) || 0),
     };
     if (body.action_type === 'attack') action.target_id = body.target_id;
     if (body.action_type === 'move') action.move_to = body.position;

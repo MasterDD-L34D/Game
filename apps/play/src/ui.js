@@ -1,5 +1,26 @@
 // UI helpers — sidebar units + log.
 
+// W8d — HTML escape helper per XSS prevention su user-controlled fields.
+// Backend può ritornare unit.id / job / trait / ability strings con caratteri speciali.
+// innerHTML flow deve escapare <, >, &, ", ' prima di injection.
+function esc(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// W8d — Canonical unit state predicates (prima: `hp <= 0` vs `hp > 0` vs mix).
+export function isUnitAlive(unit) {
+  return !!(unit && Number(unit.hp || 0) > 0);
+}
+export function isUnitDead(unit) {
+  return !unit || Number(unit.hp || 0) <= 0;
+}
+
 // W8 / W8c — Status labels + SVG icon paths per TV-first spec (42-SG §status, ≥16px).
 // MIRROR di CSS `:root --status-*` tokens (style.css). Source of truth = CSS.
 // Inline background here needed per chip (element doesn't inherit token automatically).
@@ -182,7 +203,7 @@ export function renderUnits(
   for (const u of state.units || []) {
     const li = document.createElement('li');
     li.classList.add(u.controlled_by === 'player' ? 'player' : 'sistema');
-    if (u.hp <= 0) li.classList.add('dead');
+    if (isUnitDead(u)) li.classList.add('dead');
     if (u.id === state.active_unit) li.classList.add('active');
     if (u.id === selectedId) li.classList.add('selected');
     // W2.4 — data-job attribute drives CSS accent per job class
@@ -197,67 +218,66 @@ export function renderUnits(
 
     const statusChips = renderStatusChips(u);
 
+    // W8d — All user-controlled string fields esc() escaped per XSS prevention.
     li.innerHTML = `
       <div class="unit-head">
-        <strong>${u.id}</strong>
-        ${u.job ? `<span class="unit-job">${u.job}</span>` : ''}
-        ${u.species ? `<span class="unit-species" title="species">${u.species}</span>` : ''}
+        <strong>${esc(u.id)}</strong>
+        ${u.job ? `<span class="unit-job">${esc(u.job)}</span>` : ''}
+        ${u.species ? `<span class="unit-species" title="species">${esc(u.species)}</span>` : ''}
       </div>
       <div class="unit-bars">
         <div class="bar-row">
           <span class="bar-label">HP</span>
           <span class="hp-bar ${hpClass}"><span style="width:${Math.max(0, ratio * 100).toFixed(0)}%"></span></span>
-          <span class="bar-value">${u.hp}/${u.max_hp || u.hp}</span>
+          <span class="bar-value">${Number(u.hp) || 0}/${Number(u.max_hp || u.hp) || 0}</span>
         </div>
         <div class="bar-row">
           <span class="bar-label">AP</span>
           <span class="ap-bar"><span style="width:${Math.max(0, apRatio * 100).toFixed(0)}%"></span></span>
-          <span class="bar-value">${apRemaining}/${apMax}</span>
+          <span class="bar-value">${Number(apRemaining) || 0}/${Number(apMax) || 0}</span>
         </div>
       </div>
       <div class="unit-stats">
-        ${u.position ? `<span>📍 [${u.position.x},${u.position.y}]</span>` : ''}
-        ${u.dc != null ? `<span>DC ${u.dc}</span>` : ''}
-        ${u.mod != null ? `<span>+${u.mod}</span>` : ''}
-        ${u.attack_range ? `<span>range ${u.attack_range}</span>` : ''}
-        ${u.initiative != null ? `<span title="Reaction speed — priority queue ADR-2026-04-15">⚡ ${u.initiative}</span>` : ''}
-        ${u.guardia ? `<span>guardia ${u.guardia}</span>` : ''}
+        ${u.position ? `<span>📍 [${Number(u.position.x) || 0},${Number(u.position.y) || 0}]</span>` : ''}
+        ${u.dc != null ? `<span>DC ${Number(u.dc) || 0}</span>` : ''}
+        ${u.mod != null ? `<span>+${Number(u.mod) || 0}</span>` : ''}
+        ${u.attack_range ? `<span>range ${Number(u.attack_range) || 0}</span>` : ''}
+        ${u.initiative != null ? `<span title="Reaction speed — priority queue ADR-2026-04-15">⚡ ${Number(u.initiative) || 0}</span>` : ''}
+        ${u.guardia ? `<span>guardia ${Number(u.guardia) || 0}</span>` : ''}
       </div>
       ${statusChips ? `<div class="unit-status-row">${statusChips}</div>` : ''}
-      ${u.ai_profile ? `<div class="unit-ai">AI: <code>${u.ai_profile}</code></div>` : ''}
+      ${u.ai_profile ? `<div class="unit-ai">AI: <code>${esc(u.ai_profile)}</code></div>` : ''}
       ${(() => {
-        if (u.controlled_by !== 'player' || u.hp <= 0) return '';
+        if (u.controlled_by !== 'player' || !isUnitAlive(u)) return '';
         if (!pendingIntents) return '';
         const intent = pendingIntents.get ? pendingIntents.get(u.id) : pendingIntents[u.id];
         if (intent) {
           const rank = predictedOrder && predictedOrder.get ? predictedOrder.get(u.id) : null;
           const rankHtml = rank
-            ? `<span class="priority-rank" title="Ordine predetto (initiative + action_speed − status_penalty)">#${rank}</span>`
+            ? `<span class="priority-rank" title="Ordine predetto (initiative + action_speed − status_penalty)">#${Number(rank) || 0}</span>`
             : '';
           return `<div class="intent-row">
             ${rankHtml}
-            <div class="intent-badge declared" title="Intent dichiarato">✓ ${formatIntent(intent)}</div>
-            <button class="intent-cancel" data-unit-id="${u.id}" title="Annulla intent (re-click action per nuovo)">✕</button>
+            <div class="intent-badge declared" title="Intent dichiarato">✓ ${esc(formatIntent(intent))}</div>
+            <button class="intent-cancel" data-unit-id="${esc(u.id)}" title="Annulla intent (re-click action per nuovo)">✕</button>
           </div>`;
         }
         return `<div class="intent-badge pending" title="Nessun intent dichiarato">⏳ in attesa</div>`;
       })()}
       ${(() => {
         // W6.3 / W7.C — Per-PG expanded HUD: traits + abilities + recent events filtered.
-        // W7.C: default <details open> perché user non trovava la sezione collapsed.
-        // W7.D: ability chips inline per player (prima era solo shared bottom bar).
-        if (u.controlled_by !== 'player' || u.hp <= 0) return '';
+        if (u.controlled_by !== 'player' || !isUnitAlive(u)) return '';
         const traits = Array.isArray(u.traits) ? u.traits : [];
         const abilities = getAbilitiesForJob(u.job);
         const evRows = recentUnitEvents(state, u.id, 4);
         const traitsHtml = traits.length
-          ? `<div class="unit-traits" title="Trait attivi (evoluzione)">🧬 ${traits.map((t) => `<code>${t}</code>`).join(' ')}</div>`
+          ? `<div class="unit-traits" title="Trait attivi (evoluzione)">🧬 ${traits.map((t) => `<code>${esc(t)}</code>`).join(' ')}</div>`
           : '';
         const abilitiesHtml = abilities.length
           ? `<div class="unit-abilities" title="Click chip → seleziona unità + popola panel Abilities a destra">⚔ ${abilities
               .map(
                 (a) =>
-                  `<span class="ab-chip" data-ability-id="${a.ability_id}" title="${(a.effect_type || '').toString()} · AP ${a.ap_cost ?? 1} · click = seleziona unità e apre abilities">${a.display_name || a.ability_id}</span>`,
+                  `<span class="ab-chip" data-ability-id="${esc(a.ability_id)}" title="${esc((a.effect_type || '').toString())} · AP ${Number(a.ap_cost ?? 1) || 0} · click = seleziona unità e apre abilities">${esc(a.display_name || a.ability_id)}</span>`,
               )
               .join('')}</div>`
           : '';
