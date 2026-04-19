@@ -322,7 +322,8 @@ function createRoundBridge(deps) {
     const realResolveAction = (state, action, _catalog, _rng) => {
       const next = JSON.parse(JSON.stringify(state));
       if (action.type === 'attack' && action.target_id) {
-        const res = performAttack(session, actor, target);
+        // M6-#1b: passa action per channel routing in performAttack
+        const res = performAttack(session, actor, target, action);
         capturedResults.result = res.result;
         capturedResults.evaluation = res.evaluation;
         capturedResults.damageDealt = res.damageDealt;
@@ -651,7 +652,8 @@ function createRoundBridge(deps) {
         } else {
           const hpBefore = target.hp;
           const targetPosAtk = { ...target.position };
-          const res = performAttack(session, actor, target);
+          // M6-#1b: passa action per channel routing
+          const res = performAttack(session, actor, target, action);
           actor.ap_remaining = Math.max(
             0,
             (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
@@ -893,7 +895,8 @@ function createRoundBridge(deps) {
         } else {
           const hpBefore = target.hp;
           const targetPosAtk = { ...target.position };
-          const res = performAttack(session, actor, target);
+          // M6-#1b: passa action per channel routing
+          const res = performAttack(session, actor, target, action);
           actor.ap_remaining = Math.max(
             0,
             (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
