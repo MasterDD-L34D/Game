@@ -18,6 +18,7 @@ const { createTraitRouter } = require('./routes/traits');
 const { createQualityRouter } = require('./routes/quality');
 const { createValidatorsRouter } = require('./routes/validators');
 const { createSessionRouter } = require('./routes/session');
+const { createFeedbackRouter } = require('./routes/feedback');
 const { createPartyRouter } = require('./routes/party');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
@@ -680,6 +681,8 @@ function createApp(options = {}) {
   // Stato in memoria, log eventi su disco in logs/session_*.json.
   app.use('/api/session', createSessionRouter(options.session || {}));
   app.use('/api/party', createPartyRouter());
+  // M7 demo playtest: feedback collection (/api/feedback, /api/feedback/summary)
+  app.use('/api', createFeedbackRouter(options.feedback || {}));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {

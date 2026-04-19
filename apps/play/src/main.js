@@ -18,6 +18,7 @@ import { sfx, setMuted, isMuted } from './sfx.js';
 import { initHelpPanel } from './helpPanel.js';
 import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
 import { toggleCodex } from './codexPanel.js';
+import { initFeedbackPanel } from './feedbackPanel.js';
 
 const state = {
   sid: null,
@@ -1232,6 +1233,8 @@ async function loadModulations() {
 
 // M4 P0 W2 — Help panel (? key, top-right button, auto-open prima sessione)
 initHelpPanel('help-open');
+// M7 feedback panel — playtest collection
+initFeedbackPanel({ getSessionId: () => state.sid });
 
 // W8O — Resize listener: redraw canvas quando viewport cambia (CELL dinamico).
 let _resizeTimeout = null;

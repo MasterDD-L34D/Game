@@ -14,6 +14,9 @@ export default defineConfig({
     // Allow import da data/art/ (M3.9-M3.10 assets) fuori apps/play/.
     // M4 step A integration: render.js può import faction SVG + tileset PNG.
     fs: { allow: [repoRoot] },
+    // M7 demo ngrok: allow tunnel host. `true` = skip DNS rebinding check.
+    // Solo per demo playtest — no auth gate, non-production.
+    allowedHosts: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3334',
