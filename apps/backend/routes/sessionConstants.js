@@ -10,10 +10,15 @@ function isRoundModelEnabled() {
 }
 
 const GRID_SIZE = 6;
-const DEFAULT_HP = 10;
+// M7 Quick Win (balance-auditor 2026-04-19): DPR asymmetry fix.
+// Evidence: enemy BOSS mod=5 vs player default cd=12 hp=10 → skirmisher killed
+// in 2 attacks (75% hit, 4.88 avg dmg). Ratio player/enemy DPR 0.65x.
+// Bump hp 10→14 + dc 12→13: enemy BOSS kill time 2→~3.5 atk, player survival
+// vs boss focus-fire +40%. 0 defeat baseline rimosso senza calibration archaeology.
+const DEFAULT_HP = 14;
 const DEFAULT_AP = 2;
 const DEFAULT_MOD = 3;
-const DEFAULT_DC = 12;
+const DEFAULT_DC = 13;
 const DEFAULT_GUARDIA = 1;
 const DEFAULT_INITIATIVE = 10;
 const DEFAULT_FACING = 'S';
@@ -39,6 +44,30 @@ const JOB_STATS = {
   invoker: { attack_range: 3 },
 };
 
+// M6-Z: default resistance_archetype per job (player units).
+// vanguard = tank corazzato (vuln psionico), warden = caster psionico (vuln fisico),
+// skirmisher/ranger/invoker/artificer/harvester = adattivo (neutral default).
+// Enemies scenario sovrascrivono via scenario config (hardcoreScenario).
+const JOB_ARCHETYPE = {
+  vanguard: 'corazzato',
+  warden: 'psionico',
+  skirmisher: 'adattivo',
+  ranger: 'adattivo',
+  invoker: 'psionico',
+  artificer: 'adattivo',
+  harvester: 'adattivo',
+};
+
+// M6-Z: mapping archetype → canale exploit vuln (per enemy AI channel choice).
+// Derivato da species_resistances.yaml: per ogni archetype, canale con pct > 100 (vuln).
+const ARCHETYPE_VULN_CHANNEL = {
+  corazzato: 'psionico', // corazzato.psionico: 120 (vuln)
+  bioelettrico: 'fisico', // bioelettrico.fisico: 120
+  psionico: 'fisico', // psionico.fisico: 120
+  termico: 'ionico', // termico.ionico: 120
+  adattivo: null, // no vuln = default fisico fallback
+};
+
 const ASSIST_WINDOW_TURNS = 2;
 
 module.exports = {
@@ -54,5 +83,7 @@ module.exports = {
   VALID_FACINGS,
   JOB_INITIATIVE,
   JOB_STATS,
+  JOB_ARCHETYPE,
+  ARCHETYPE_VULN_CHANNEL,
   ASSIST_WINDOW_TURNS,
 };
