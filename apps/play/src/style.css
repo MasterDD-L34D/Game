@@ -1647,10 +1647,12 @@ body.ability-target-mode canvas#grid {
 }
 
 /* W2.5 — Unit hover tooltip (floating) */
+/* M7 fix: z-index era 90 → nascosto dietro panels (100-9000+). Bump a 9700
+   per stare sopra panels/overlays ma sotto feedback modal (9999) + endgame. */
 .unit-tooltip {
   position: fixed;
-  z-index: 90;
-  background: rgba(0, 0, 0, 0.92);
+  z-index: 9700;
+  background: rgba(0, 0, 0, 0.95);
   border: 1px solid var(--accent);
   color: var(--fg);
   padding: 8px 12px;
@@ -1659,7 +1661,7 @@ body.ability-target-mode canvas#grid {
   pointer-events: none;
   max-width: 280px;
   line-height: 1.4;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
 }
 .unit-tooltip.hidden {
   display: none;
