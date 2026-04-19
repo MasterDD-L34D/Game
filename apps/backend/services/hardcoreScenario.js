@@ -24,6 +24,8 @@ const HARDCORE_SCENARIO_06 = {
   id: 'enc_tutorial_06_hardcore',
   name: "Cattedrale dell'Apex",
   biome_id: 'rovine_planari',
+  // M7-#2 Phase C: hardcore class (multiplier 1.4x + enrage 40% HP)
+  encounter_class: 'hardcore',
   difficulty_rating: 6,
   estimated_turns: 16,
   grid_size: 10,

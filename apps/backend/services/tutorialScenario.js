@@ -17,6 +17,8 @@ const TUTORIAL_SCENARIO = {
   id: 'enc_tutorial_01',
   name: 'Primi Passi nella Savana',
   biome_id: 'savana',
+  // M7-#2 Phase C: tutorial class (multiplier 1.0x, no enrage)
+  encounter_class: 'tutorial',
   difficulty_rating: 1,
   estimated_turns: 6,
   grid_size: 6,
@@ -32,6 +34,8 @@ const TUTORIAL_SCENARIO_02 = {
   id: 'enc_tutorial_02',
   name: 'Pattuglia Asimmetrica',
   biome_id: 'savana',
+  // M7-#2 Phase C: tutorial class (multiplier 1.0x, no enrage)
+  encounter_class: 'tutorial',
   difficulty_rating: 2,
   estimated_turns: 8,
   grid_size: 6,
@@ -47,6 +51,9 @@ const TUTORIAL_SCENARIO_03 = {
   id: 'enc_tutorial_03',
   name: 'Pozzo della Caverna Risonante',
   biome_id: 'caverna_risonante',
+  // M7-#2 Phase C: tutorial_advanced class (multiplier 1.1x + enrage 25% HP)
+  // Hazard tiles + guardiani tank → skill check tier-3
+  encounter_class: 'tutorial_advanced',
   difficulty_rating: 3,
   estimated_turns: 10,
   grid_size: 6,
@@ -70,6 +77,8 @@ const TUTORIAL_SCENARIO_05 = {
   id: 'enc_tutorial_05',
   name: "Solo contro l'Apex",
   biome_id: 'rovine_planari',
+  // M7-#2 Phase C: boss class (multiplier 1.6x + enrage 50% HP) — apex solo fight
+  encounter_class: 'boss',
   difficulty_rating: 5,
   estimated_turns: 14,
   grid_size: 6,
@@ -87,6 +96,9 @@ const TUTORIAL_SCENARIO_04 = {
   id: 'enc_tutorial_04',
   name: 'Pozza Acida del Bosco',
   biome_id: 'foresta_acida',
+  // M7-#2 Phase C: tutorial_advanced class (multiplier 1.1x + enrage 25% HP)
+  // Bleeding + hazard + 2v3 → difficulty gap prima del boss (tutorial_05)
+  encounter_class: 'tutorial_advanced',
   difficulty_rating: 4,
   estimated_turns: 12,
   grid_size: 6,

@@ -11,6 +11,9 @@ biome_id: savana
 grid_size: [10, 10]
 difficulty_rating: 2
 estimated_turns: 10
+# M7-#2 Phase C (ADR-2026-04-20): standard class (multiplier 1.0x, no enrage)
+# Prima missione non-tutorial. No boss, gating baseline Pilastro 1.
+encounter_class: standard
 
 objective:
   type: elimination
