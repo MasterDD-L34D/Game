@@ -23,9 +23,15 @@ async function loadJobDetail(jobId) {
   return r;
 }
 
+// W8-emergency: render token guards against overlapping async render calls.
+// Bug: auto-select + abilities-ready event fire 2 renders; both clear+await+append
+// → doubles rows in DOM. Token ensures only latest call's appends land.
+let _renderToken = 0;
+
 export async function renderAbilities(unit, state, onAbility) {
   const titleEl = document.getElementById('abilities-title');
   const container = document.getElementById('abilities');
+  const myToken = ++_renderToken;
   container.innerHTML = '';
   if (!unit || !unit.job) {
     titleEl.classList.add('hidden-empty');
@@ -34,12 +40,14 @@ export async function renderAbilities(unit, state, onAbility) {
   titleEl.classList.remove('hidden-empty');
 
   const detail = await loadJobDetail(unit.job);
+  if (myToken !== _renderToken) return; // stale call — newer render already took over
   if (!detail || !Array.isArray(detail.abilities) || detail.abilities.length === 0) {
     container.innerHTML = `<div class="ab-empty">Nessuna ability per ${unit.job}</div>`;
     return;
   }
 
   titleEl.textContent = `Abilities · ${unit.job}`;
+  container.innerHTML = ''; // clear again post-await in case stale empty-state appended
   for (const ab of detail.abilities) {
     const abilityId = ab.ability_id || ab.id;
     const label = ab.name_it || ab.label_it || ab.name || ab.label || abilityId || '???';

@@ -597,6 +597,38 @@ function manhattanApCost(body) {
 // Track last events count to detect new events for anim
 let lastEventsCount = 0;
 
+// W8c — Colori FX centralized per consistency (Refactor C: color tokens).
+const FX_COLORS = {
+  rayPlayer: '#ffcc00',
+  raySistema: '#ff5252',
+  damage: '#ff5252',
+  heal: '#4caf50',
+};
+
+// W8c — Shared damage/heal FX trigger (Refactor A: prima duplicato 2× in
+// processNewEvents + processIaActions). Signature single: actor+target+damage → fire FX+SFX.
+// Input: actor/target = unit object (with position), damage = number (neg=heal, pos=damage, 0=miss).
+// Side effects: attackRay + pushPopup + flashUnit + sfx.hit/crit/heal/miss.
+function handleDamageEvent({ actor, target, damage, targetId, result }) {
+  const dmg = Number(damage || 0);
+  // Attack ray: actor → target (faction-colored).
+  if (actor?.position && target?.position) {
+    const rayColor = actor.controlled_by === 'sistema' ? FX_COLORS.raySistema : FX_COLORS.rayPlayer;
+    attackRay(actor.position, target.position, rayColor);
+  }
+  // Damage popup + flash on target (skip if dmg === 0 / miss).
+  if (target?.position && dmg !== 0) {
+    const color = dmg < 0 ? FX_COLORS.heal : FX_COLORS.damage;
+    const txt = dmg < 0 ? `+${-dmg}` : `-${dmg}`;
+    pushPopup(target.position.x, target.position.y, txt, color);
+    flashUnit(targetId || target.id, color);
+  }
+  // SFX selection: heal / crit (≥6) / hit / miss.
+  if (dmg < 0) sfx.heal();
+  else if (dmg > 0) dmg >= 6 ? sfx.crit() : sfx.hit();
+  else if (result === 'miss' || result === 'MISS' || dmg === 0) sfx.miss();
+}
+
 function processNewEvents(prevWorld, newWorld) {
   const events = (newWorld?.events || []).slice(lastEventsCount);
   for (const ev of events) {
@@ -612,29 +644,15 @@ function processNewEvents(prevWorld, newWorld) {
       ev.damage_dealt !== undefined &&
       ev.target_id
     ) {
-      const target = (newWorld.units || []).find((u) => u.id === ev.target_id);
-      const actor = (newWorld.units || []).find((u) => u.id === ev.actor_id);
-      // W2.3 — Attack ray actor → target
-      if (actor?.position && target?.position) {
-        const rayColor = actor.controlled_by === 'sistema' ? '#ff5252' : '#ffcc00';
-        attackRay(actor.position, target.position, rayColor);
-      }
-      if (target && target.position && ev.damage_dealt !== 0) {
-        const color = ev.damage_dealt < 0 ? '#4caf50' : '#ff5252';
-        const txt = ev.damage_dealt < 0 ? `+${-ev.damage_dealt}` : `-${ev.damage_dealt}`;
-        pushPopup(target.position.x, target.position.y, txt, color);
-        // W2.3 — Flash target
-        flashUnit(ev.target_id, color);
-      }
-      // SFX
-      if (ev.damage_dealt < 0) sfx.heal();
-      else if (ev.damage_dealt > 0) {
-        // crit heuristic: dmg > 6 = crit
-        if (Number(ev.damage_dealt) >= 6) sfx.crit();
-        else sfx.hit();
-      } else if (ev.result === 'miss' || ev.result === 'MISS') {
-        sfx.miss();
-      }
+      const target = getUnits(newWorld).find((u) => u.id === ev.target_id);
+      const actor = getUnits(newWorld).find((u) => u.id === ev.actor_id);
+      handleDamageEvent({
+        actor,
+        target,
+        damage: ev.damage_dealt,
+        targetId: ev.target_id,
+        result: ev.result,
+      });
     }
   }
   lastEventsCount = (newWorld?.events || []).length;
@@ -709,8 +727,20 @@ async function startNewSession() {
   const flags = [];
   if (useRoundFlow()) flags.push('round=simultaneous');
   if (useConfirmAction()) flags.push('confirm=on');
-  const hint = flags.length > 0 ? ` [${flags.join(', ')}]` : '';
-  updateHint(`Sessione iniziata${hint}. Seleziona una tua unità.`);
+  const hintFlags = flags.length > 0 ? ` [${flags.join(', ')}]` : '';
+  // W8-emergency (bug #1+#8): auto-select first alive player so ability panel
+  // populates immediately + user discovers flow. Previously user had to click
+  // a unit to see the Abilities sidebar — undiscoverable affordance.
+  const firstPlayer = getUnits(state.world).find((u) => u.controlled_by === 'player' && u.hp > 0);
+  if (firstPlayer) {
+    state.selected = firstPlayer.id;
+    sfx.select();
+    updateHint(
+      `Sessione iniziata${hintFlags}. ${firstPlayer.id} selezionato → abilità a destra (click ⚔) · click cella=move · click nemico=attack.`,
+    );
+  } else {
+    updateHint(`Sessione iniziata${hintFlags}. Seleziona una tua unità.`);
+  }
   redraw();
 }
 
@@ -760,28 +790,18 @@ function processIaActions(iaActions) {
         recordMove(actorId, from, to);
         sfx.sis_turn();
       } else if (type === 'attack' || type === 'ability') {
-        const target = (state.world?.units || []).find((u) => u.id === targetId);
-        const actor = (state.world?.units || []).find((u) => u.id === actorId);
-        // W2.3 — Attack ray + flash for SIS
-        if (actor?.position && target?.position) {
-          attackRay(actor.position, target.position, '#ff5252');
-        }
-        if (target && target.position && dmg) {
-          pushPopup(
-            target.position.x,
-            target.position.y,
-            dmg < 0 ? `+${-dmg}` : `-${dmg}`,
-            dmg < 0 ? '#4caf50' : '#ff5252',
-          );
-          flashUnit(targetId, dmg < 0 ? '#4caf50' : '#ff5252');
-        }
-        if (dmg < 0) sfx.heal();
-        else if (dmg > 0) Number(dmg) >= 6 ? sfx.crit() : sfx.hit();
-        else sfx.miss();
+        // W8c — Refactor A: handleDamageEvent centralizza ray+popup+flash+SFX.
+        const target = getUnits(state.world).find((u) => u.id === targetId);
+        const actor = getUnits(state.world).find((u) => u.id === actorId);
+        handleDamageEvent({ actor, target, damage: dmg, targetId, result: a.result });
       }
+      const actorLabel = (() => {
+        const a = getUnits(state.world).find((u) => u.id === actorId);
+        return a?.controlled_by === 'sistema' ? 'SIS' : 'PG';
+      })();
       appendLog(
         logEl,
-        `SIS · ${actorId}: ${type}${targetId ? ` → ${targetId}` : ''}${dmg ? ` (${dmg})` : ''}`,
+        `${actorLabel} · ${actorId}: ${type}${targetId ? ` → ${targetId}` : ''}${dmg ? ` (${dmg})` : ''}`,
         'event',
       );
       if (needsAnimFrame()) requestAnimationFrame(animTick);
@@ -829,17 +849,36 @@ async function triggerCommitRound() {
 
   try {
     if (!state.roundInit) {
-      const bp = await api.beginPlanning(state.sid);
+      let bp = await api.beginPlanning(state.sid);
+      if (bp.networkError) {
+        appendLog(logEl, `… rete interrotta, ritento begin-planning`, 'warn');
+        await new Promise((res) => setTimeout(res, 400));
+        bp = await api.beginPlanning(state.sid);
+      }
       if (!bp.ok) {
-        appendLog(logEl, `✖ begin-planning: ${bp.data?.error || bp.status}`, 'error');
+        const msg = bp.networkError
+          ? `rete persa (verifica backend :3334)`
+          : bp.data?.error || bp.status;
+        appendLog(logEl, `✖ begin-planning: ${msg}`, 'error');
+        updateHint(`✖ Begin-planning fallito: ${msg}`);
         await emergencyResetRound();
         return;
       }
       state.roundInit = true;
     }
-    const r = await api.commitRound(state.sid, true);
+    let r = await api.commitRound(state.sid, true);
+    // W8-emergency (bug #5): transient network drop — auto-retry once after 400ms.
+    if (r.networkError) {
+      appendLog(logEl, `… rete interrotta, ritento commit-round`, 'warn');
+      await new Promise((res) => setTimeout(res, 400));
+      r = await api.commitRound(state.sid, true);
+    }
     if (!r.ok) {
-      appendLog(logEl, `✖ commit-round: ${r.data?.error || r.status}`, 'error');
+      const msg = r.networkError
+        ? `rete persa (verifica backend :3334)`
+        : r.data?.error || r.status;
+      appendLog(logEl, `✖ commit-round: ${msg}`, 'error');
+      updateHint(`✖ Commit-round fallito: ${msg}. Usa "🔄 Reset" per ripartire.`);
       await emergencyResetRound();
       return;
     }

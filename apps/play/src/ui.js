@@ -1,7 +1,8 @@
 // UI helpers — sidebar units + log.
 
-// W8 — Status labels + SVG icon paths per TV-first spec (42-SG §status, ≥16px, no color-only).
-// SVG shapes inline (no external load). Paths disegnati su viewBox 24×24.
+// W8 / W8c — Status labels + SVG icon paths per TV-first spec (42-SG §status, ≥16px).
+// MIRROR di CSS `:root --status-*` tokens (style.css). Source of truth = CSS.
+// Inline background here needed per chip (element doesn't inherit token automatically).
 const STATUS_LABELS = {
   panic: {
     label: 'Panic',
@@ -102,7 +103,8 @@ function recentUnitEvents(state, unitId, limit = 5) {
   return filtered.slice(-limit).reverse();
 }
 
-function formatEventLine(ev, unitId) {
+// W8c — export per reuse cross-module (main.js log + future replay/bottom log).
+export function formatEventLine(ev, unitId) {
   const t = ev.action_type || ev.type || 'event';
   const dmg = ev.damage_dealt;
   const role = ev.target_id === unitId ? 'subìto' : 'inflitto';
@@ -252,10 +254,10 @@ export function renderUnits(
           ? `<div class="unit-traits" title="Trait attivi (evoluzione)">🧬 ${traits.map((t) => `<code>${t}</code>`).join(' ')}</div>`
           : '';
         const abilitiesHtml = abilities.length
-          ? `<div class="unit-abilities" title="Abilities conosciute">⚔ ${abilities
+          ? `<div class="unit-abilities" title="Click chip → seleziona unità + popola panel Abilities a destra">⚔ ${abilities
               .map(
                 (a) =>
-                  `<span class="ab-chip" title="${(a.effect_type || '').toString()} · AP ${a.ap_cost ?? 1}">${a.display_name || a.ability_id}</span>`,
+                  `<span class="ab-chip" data-ability-id="${a.ability_id}" title="${(a.effect_type || '').toString()} · AP ${a.ap_cost ?? 1} · click = seleziona unità e apre abilities">${a.display_name || a.ability_id}</span>`,
               )
               .join('')}</div>`
           : '';
