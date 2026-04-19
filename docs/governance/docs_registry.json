@@ -466,6 +466,19 @@
       "track": "new"
     },
     {
+      "path": "docs/architecture/resistance-engine-gap.md",
+      "title": "Gap architetturale Node↔Python resistance engine (M5-#1c discovery)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-04-19",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/architecture/evo_tactics_pack_mongodb.md",
       "title": "Evo Tactics Pack MongoDB (superseded)",
       "doc_status": "superseded",
