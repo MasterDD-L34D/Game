@@ -349,6 +349,19 @@
       "track": "authored"
     },
     {
+      "path": "docs/adr/ADR-2026-04-18-plan-reveal-round.md",
+      "title": "ADR-2026-04-18: Plan & Reveal round model (contemporary hybrid)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-04-18",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-2026-04-19-reinforcement-spawn-engine.md",
       "title": "ADR-2026-04-19: Reinforcement spawn engine (Option B)",
       "doc_status": "active",
