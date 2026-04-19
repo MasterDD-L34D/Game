@@ -34,6 +34,7 @@ const TUTORIAL_SCENARIO_02 = {
   id: 'enc_tutorial_02',
   name: 'Pattuglia Asimmetrica',
   biome_id: 'savana',
+  // M7-#2 Phase C: tutorial class (multiplier 1.0x, no enrage)
   encounter_class: 'tutorial',
   difficulty_rating: 2,
   estimated_turns: 8,
@@ -50,6 +51,8 @@ const TUTORIAL_SCENARIO_03 = {
   id: 'enc_tutorial_03',
   name: 'Pozzo della Caverna Risonante',
   biome_id: 'caverna_risonante',
+  // M7-#2 Phase C: tutorial_advanced class (multiplier 1.1x + enrage 25% HP)
+  // Hazard tiles + guardiani tank → skill check tier-3
   encounter_class: 'tutorial_advanced',
   difficulty_rating: 3,
   estimated_turns: 10,
@@ -93,7 +96,7 @@ const TUTORIAL_SCENARIO_04 = {
   id: 'enc_tutorial_04',
   name: 'Pozza Acida del Bosco',
   biome_id: 'foresta_acida',
-  // M7-#2 Phase C: tutorial_advanced class (multiplier 1.2x, no enrage)
+  // M7-#2 Phase C: tutorial_advanced class (multiplier 1.1x + enrage 25% HP)
   // Bleeding + hazard + 2v3 → difficulty gap prima del boss (tutorial_05)
   encounter_class: 'tutorial_advanced',
   difficulty_rating: 4,
