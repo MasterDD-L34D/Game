@@ -14,6 +14,8 @@ biome_id: savana
 grid_size: [12, 8]
 difficulty_rating: 3
 estimated_turns: 12
+# M7-#2 Phase C (ADR-2026-04-20): standard class (multiplier 1.0x, no enrage)
+encounter_class: standard
 
 objective:
   type: escort

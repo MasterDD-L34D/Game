@@ -819,6 +819,9 @@ async function startNewSession() {
     hazard_tiles: sc.data.hazard_tiles || [],
   };
   if (modulation) startOpts.modulation = modulation;
+  // M7-#2 Phase C: pipe encounter_class da scenario a backend per apply
+  // damage_curves.yaml multiplier + enrage threshold.
+  if (sc.data.encounter_class) startOpts.encounter_class = sc.data.encounter_class;
   const st = await api.start(sc.data.units, startOpts);
   if (!st.ok) {
     appendLog(logEl, `✖ session start: ${st.status}`, 'error');

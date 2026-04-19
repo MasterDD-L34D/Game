@@ -278,6 +278,11 @@
         "min_distance_from_pg": { "type": "integer", "minimum": 0, "default": 3 }
       }
     },
+    "encounter_class": {
+      "type": "string",
+      "enum": ["tutorial", "tutorial_advanced", "standard", "hardcore", "boss"],
+      "description": "M7-#2 Phase C (ADR-2026-04-20): damage scaling class. Controls enemy_damage_multiplier (1.0→1.6) + boss_enrage_threshold_hp. Vedi data/core/balance/damage_curves.yaml."
+    },
     "visual_mood": {
       "type": "object",
       "description": "Art direction metadata per encounter (docs/core/41-ART-DIRECTION.md). Referenzia palette bioma + lighting + particle effect + optional accent override. Opzionale, no-op runtime.",

@@ -15,6 +15,9 @@ biome_id: frattura_abissale_sinaptica
 grid_size: [12, 12]
 difficulty_rating: 5
 estimated_turns: 16
+# M7-#2 Phase C (ADR-2026-04-20): hardcore class (multiplier 1.4x + enrage 40% HP)
+# Multi-wave survival, no singolo boss — damage scaling enemy-wide.
+encounter_class: hardcore
 
 objective:
   type: survival

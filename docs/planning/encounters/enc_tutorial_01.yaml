@@ -11,6 +11,8 @@ biome_id: savana
 grid_size: [8, 8]
 difficulty_rating: 1
 estimated_turns: 6
+# M7-#2 Phase C (ADR-2026-04-20): tutorial class (multiplier 1.0x, no enrage)
+encounter_class: tutorial
 
 objective:
   type: elimination

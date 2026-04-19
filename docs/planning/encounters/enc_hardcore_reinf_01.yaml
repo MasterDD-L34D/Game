@@ -14,6 +14,9 @@ biome_id: rovine_planari
 grid_size: [10, 10]
 difficulty_rating: 5
 estimated_turns: 15
+# M7-#2 Phase C (ADR-2026-04-20): hardcore class (multiplier 1.4x + enrage 40% HP)
+# Reinforcement waves continue → damage scaling pressure-amplificato.
+encounter_class: hardcore
 
 objective:
   type: elimination
