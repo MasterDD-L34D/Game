@@ -780,7 +780,10 @@ def test_full_round_end_to_end_preview_then_commit_then_resolve(catalog):
     state = declare_intent(state, "bravo", _attack("bravo", "alpha"))["next_state"]
     assert state["round_phase"] == PHASE_PLANNING
     assert state["units"][0]["ap"]["current"] == ap_snapshot
-    # Cambio idea: alpha ora difende invece di attaccare
+    # Cambio idea: alpha ora difende invece di attaccare.
+    # W8k (2026-04-19): declare_intent ora APPEND invece di latest-wins.
+    # Per "cambiare idea": clear_intent prima di nuovo declare.
+    state = clear_intent(state, "alpha")["next_state"]
     state = declare_intent(state, "alpha", _defend("alpha"))["next_state"]
     assert len(state["pending_intents"]) == 2
 
