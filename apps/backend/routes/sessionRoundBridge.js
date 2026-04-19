@@ -171,10 +171,16 @@ function createRoundBridge(deps) {
   function adaptSessionToRoundState(session) {
     const units = (session.units || []).map((u) => {
       const statusObj = u.status || {};
+      // M5-#5 (P0-F audit): intensity preservation. Precedente `intensity: 1`
+      // hardcoded faceva collassare il panic penalty calcolo a intensity*2 = 2
+      // sempre, perdendo stack. Leggi da status_intensity parallel dict quando
+      // presente, default 1 (backward compat per session pre-M5-#5).
+      const intensityMap = u.status_intensity || {};
       const statuses = [];
       for (const [id, turns] of Object.entries(statusObj)) {
         if (Number(turns) > 0) {
-          statuses.push({ id, intensity: 1, remaining_turns: Number(turns) });
+          const intensity = Number(intensityMap[id]) || 1;
+          statuses.push({ id, intensity, remaining_turns: Number(turns) });
         }
       }
       return {
@@ -211,6 +217,48 @@ function createRoundBridge(deps) {
       session.roundState = adaptSessionToRoundState(session);
     }
     return session.roundState;
+  }
+
+  // M5-#5 (P0-F audit): reverse adapter roundState → session.
+  // Il roundOrchestrator muta status array (id/intensity/remaining_turns)
+  // durante decay + status_applies, ma senza back-sync le mutazioni restavano
+  // solo in session.roundState (effimero), non nel session.units canonical
+  // (dict `status` consumato da legacy session.js:1369-1374 decay tick).
+  // Questo helper propaga lo state finale roundState → session.units[].status
+  // (dict `status` + parallel `status_intensity` per preservare stack).
+  // Chiamato dopo ogni operazione orchestrator che può mutare statuses
+  // (resolveRound, commitRound hosting status_applies, addStatus eventuali).
+  function syncStatusesFromRoundState(session) {
+    if (!session || !session.roundState || !Array.isArray(session.roundState.units)) {
+      return;
+    }
+    for (const roundUnit of session.roundState.units) {
+      const sessionUnit = (session.units || []).find((u) => String(u.id) === String(roundUnit.id));
+      if (!sessionUnit) continue;
+      if (!sessionUnit.status) sessionUnit.status = {};
+      if (!sessionUnit.status_intensity) sessionUnit.status_intensity = {};
+
+      // 1. Rimuovi status dal dict legacy che non sono più nello roundState
+      //    (decaied to 0 o rimossi). `statuses` array è source-of-truth post-orchestrator.
+      const liveIds = new Set(
+        (roundUnit.statuses || []).filter((s) => Number(s.remaining_turns) > 0).map((s) => s.id),
+      );
+      for (const id of Object.keys(sessionUnit.status)) {
+        if (!liveIds.has(id)) {
+          delete sessionUnit.status[id];
+          delete sessionUnit.status_intensity[id];
+        }
+      }
+
+      // 2. Scrivi (create/update) status attivi dall'array into dict.
+      for (const s of roundUnit.statuses || []) {
+        const turns = Number(s.remaining_turns);
+        if (turns > 0) {
+          sessionUnit.status[s.id] = turns;
+          sessionUnit.status_intensity[s.id] = Number(s.intensity) || 1;
+        }
+      }
+    }
   }
 
   function placeholderResolveAction(state, action, _catalog, _rng) {
@@ -353,6 +401,7 @@ function createRoundBridge(deps) {
     cur = roundOrchestrator.commitRound(cur).nextState;
     const result = resolveRoundPure(cur, null, rng, realResolveAction);
     session.roundState = result.nextState;
+    syncStatusesFromRoundState(session);
 
     // Guard: if round queue skipped the action (actor/target dead mid-resolve),
     // capturedResults.result is null. Build a minimal event + return miss.
@@ -961,6 +1010,7 @@ function createRoundBridge(deps) {
 
     const result = resolveRoundPure(session.roundState, null, rng, realResolveAction);
     session.roundState = result.nextState;
+    syncStatusesFromRoundState(session);
 
     await persistEvents(session);
     session.turn += 1;
@@ -1036,6 +1086,7 @@ function createRoundBridge(deps) {
           session.roundState = roundOrchestrator.commitRound(session.roundState).nextState;
           const result = resolveRoundPure(session.roundState, null, rng, placeholderResolveAction);
           session.roundState = result.nextState;
+          syncStatusesFromRoundState(session);
         } catch (_e) {
           // Timer auto-commit failed silently (state may have changed)
         }
@@ -1198,6 +1249,7 @@ function createRoundBridge(deps) {
         const { resolveFn, iaActions, playerActions, kills } = buildUnifiedRoundResolver(session);
         const result = resolveRoundPure(session.roundState, null, rng, resolveFn);
         session.roundState = result.nextState;
+        syncStatusesFromRoundState(session);
 
         await postResolveKills(session, kills);
         await persistEvents(session);
@@ -1266,6 +1318,7 @@ function createRoundBridge(deps) {
         }
         const result = resolveRoundPure(session.roundState, null, rng, placeholderResolveAction);
         session.roundState = result.nextState;
+        syncStatusesFromRoundState(session);
         res.json({
           session_id: session.session_id,
           round_phase: result.nextState.round_phase,
