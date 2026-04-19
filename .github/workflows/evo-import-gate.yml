@@ -31,7 +31,15 @@ jobs:
         id: import
         run: |
           cd _game-database/server
-          node scripts/ingest/import-taxonomy.js --dry-run --repo ${{ github.workspace }} > /tmp/import-report.json 2>&1
+          # Game-Database import-taxonomy.js stampa una riga progress "Repo: ..."
+          # su stdout PRIMA del JSON report. Latent bug esposto da M5-#2
+          # (prima PR con catalog non-empty post species-reviewer fix):
+          # il JSON.parse downstream falisce con "Unexpected token 'R'".
+          # Fix: (a) stderr separato dallo stdout (no 2>&1), (b) sed filter
+          # estrae da prima riga `{` fino a fine stdout per JSON puro.
+          # Upstream fix auspicabile: emit JSON-only a stdout, progress a stderr.
+          node scripts/ingest/import-taxonomy.js --dry-run --repo ${{ github.workspace }} \
+            | sed -n '/^{/,$p' > /tmp/import-report.json
           cat /tmp/import-report.json
 
       - name: Check for errors
