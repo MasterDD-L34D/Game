@@ -1528,6 +1528,48 @@
       "label_en": "Evo Traits Aggregate",
       "description_it": "Dump normalizzato dei trait Evo (TR-*) per allineare indice legacy e QA.",
       "description_en": "Normalized Evo trait dump (TR-*) used to align legacy index and QA."
+    },
+    "pelli_anti_ustione": {
+      "label_it": "Pelli Anti-Ustione",
+      "label_en": "Burn-Resistant Skins",
+      "description_it": "Strato dermico isolante che dissipa calore radiante ed evita danni da ustione da esposizione prolungata a superfici roventi o ondate termiche.",
+      "description_en": "Insulating dermal layer that dissipates radiant heat and prevents burn damage from prolonged contact with scorching surfaces or thermal waves."
+    },
+    "pelli_cave": {
+      "label_it": "Pelli Cave",
+      "label_en": "Hollow Skins",
+      "description_it": "Tessuti cutanei porosi con sacche d'aria interne che fungono da barriera termica leggera riducendo il trasferimento di calore in condizioni aride.",
+      "description_en": "Porous skin tissues with internal air pockets acting as a lightweight thermal barrier, reducing heat transfer under arid conditions."
+    },
+    "pelli_fitte": {
+      "label_it": "Pelli Fitte",
+      "label_en": "Dense Skins",
+      "description_it": "Derma a densità elevata con fibre intrecciate che assorbe microimpatti e riduce la perdita idrica per evaporazione in ambienti ventosi.",
+      "description_en": "High-density derma with interwoven fibers that absorbs microimpacts and reduces water loss by evaporation in windy environments."
+    },
+    "pigmenti_aurorali": {
+      "label_it": "Pigmenti Aurorali",
+      "label_en": "Auroral Pigments",
+      "description_it": "Cromofori dermici che fluorescono sotto luce polare o tempesta magnetica, mimetizzando il soggetto tra bagliori atmosferici.",
+      "description_en": "Dermal chromophores fluorescing under polar light or magnetic storms, blending the subject into atmospheric glows."
+    },
+    "pigmenti_termici": {
+      "label_it": "Pigmenti Termici",
+      "label_en": "Thermal Pigments",
+      "description_it": "Melanine dinamiche che variano albedo in risposta alla temperatura, bilanciando assorbimento ed emissione IR per la termoregolazione.",
+      "description_en": "Dynamic melanins shifting albedo in response to temperature, balancing IR absorption and emission for thermoregulation."
+    },
+    "proteine_shock_termico": {
+      "label_it": "Proteine Shock Termico",
+      "label_en": "Heat Shock Proteins",
+      "description_it": "Chaperonine inducibili che stabilizzano polipeptidi sotto stress termico, prevenendo denaturazione cellulare in picchi di temperatura.",
+      "description_en": "Inducible chaperones that stabilize polypeptides under thermal stress, preventing cellular denaturation during temperature spikes."
+    },
+    "reti_capillari_radici": {
+      "label_it": "Reti Capillari Radici",
+      "label_en": "Root Capillary Networks",
+      "description_it": "Microvascolatura dermica connessa a terminazioni radicali simbiotiche, rimuovendo calore e scambiando fluidi con substrati vegetali per regolare la temperatura basale.",
+      "description_en": "Dermal microvasculature connected to symbiotic root terminals, shedding heat and exchanging fluids with plant substrates to regulate core temperature."
     }
   }
 }
