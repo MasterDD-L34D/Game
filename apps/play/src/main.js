@@ -564,10 +564,11 @@ async function doAction(body) {
           : body.action_type === 'ability'
             ? body.ap_cost || 1
             : 0;
+    const apCost = Math.max(0, Number(rawApCost) || 0);
     const action = {
       type: body.action_type,
       actor_id: body.actor_id,
-      ap_cost: Math.max(0, Number(rawApCost) || 0),
+      ap_cost: apCost,
     };
     if (body.action_type === 'attack') action.target_id = body.target_id;
     if (body.action_type === 'move') action.move_to = body.position;
@@ -575,6 +576,30 @@ async function doAction(body) {
       action.ability_id = body.ability_id;
       action.target_id = body.target_id;
       if (body.position) action.position = body.position;
+    }
+    // W8N — AP budget check client-side: somma ap_cost pending per actor,
+    // verifica (total + apCost) ≤ actor.ap. User feedback: multi-intent non
+    // teneva conto del budget AP. Reject + tip se insufficient.
+    const actorUnit = getUnits(state.world).find((u) => u.id === body.actor_id);
+    const actorAp = Number(actorUnit?.ap_remaining ?? actorUnit?.ap ?? 0);
+    const alreadyPending = state.pendingIntents
+      .filter((pi) => pi.unit_id === body.actor_id)
+      .reduce((sum, pi) => sum + (Number(pi.action?.ap_cost) || 0), 0);
+    const remaining = actorAp - alreadyPending;
+    if (apCost > remaining) {
+      appendLog(
+        logEl,
+        `✖ ${body.actor_id}: AP insufficiente (serve ${apCost}, residuo ${remaining}/${actorAp})`,
+        'error',
+      );
+      updateHint(
+        `❌ AP insufficiente: ${body.actor_id} ha ${remaining}/${actorAp} AP, questa azione costa ${apCost}. Annulla un intent o scegli azione meno costosa.`,
+      );
+      showTip(
+        'invalid-action',
+        `⚡ AP insufficiente. ${body.actor_id} ha già ${alreadyPending} AP pending su ${actorAp} totali. Serve ${apCost} AP per questa azione ma restano solo ${remaining}. Rimuovi un intent (✕ sidebar) o ESC per reset totale.`,
+      );
+      return;
     }
     // Ensure roundState initialized
     if (!state.roundInit) {

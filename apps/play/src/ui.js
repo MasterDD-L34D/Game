@@ -304,7 +304,16 @@ function renderUnitLi(
         <div class="bar-row">
           <span class="bar-label">AP</span>
           <span class="ap-bar"><span style="width:${Math.max(0, apRatio * 100).toFixed(0)}%"></span></span>
-          <span class="bar-value">${Number(apRemaining) || 0}/${Number(apMax) || 0}</span>
+          <span class="bar-value">${Number(apRemaining) || 0}/${Number(apMax) || 0}${(() => {
+            // W8N — AP pending delta: mostra AP consumato da intent pending
+            // per questa unit (es. "3/3 −2" = 3 totali, 2 già impegnati).
+            if (!Array.isArray(pendingIntents) || pendingIntents.length === 0) return '';
+            const pendingSum = pendingIntents
+              .filter((pi) => pi.unit_id === u.id)
+              .reduce((s, pi) => s + (Number(pi.action?.ap_cost) || 0), 0);
+            if (pendingSum <= 0) return '';
+            return ` <span class="ap-pending" title="AP già impegnati in intent pending">−${pendingSum}</span>`;
+          })()}</span>
         </div>
       </div>
       <div class="unit-stats">

@@ -654,6 +654,18 @@ canvas#grid {
   margin-top: 0;
   flex: 1;
 }
+/* W8N — AP pending indicator: mostra AP già impegnati in intent pending. */
+.ap-pending {
+  display: inline-block;
+  margin-left: 3px;
+  padding: 0 4px;
+  background: rgba(255, 152, 0, 0.22);
+  color: #ffb74d;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 0.85em;
+}
+
 /* W8k — Multi-intent list per unit (stacked badges). */
 .intent-row-multi {
   align-items: flex-start;
