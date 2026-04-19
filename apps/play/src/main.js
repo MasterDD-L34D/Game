@@ -284,24 +284,46 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// W6.2b / W8k — Cancel TUTTI intent per una unit (array filter). Per cancel
-// per-index specifico usa handleCancelIntentIndex.
-function handleCancelIntent(unitId) {
+// W6.2b / W8k / W8k2 — Cancel TUTTI intent per una unit.
+// W8k2 CRITICAL FIX (user feedback run5): prima clear solo client-side →
+// backend manteneva pending_intents → timer scaduto → attacchi cancellati
+// partivano comunque. Ora chiamiamo api.clearIntent(sid, unitId) per sync server.
+async function handleCancelIntent(unitId) {
   const before = state.pendingIntents.length;
   state.pendingIntents = state.pendingIntents.filter((pi) => pi.unit_id !== unitId);
   const removed = before - state.pendingIntents.length;
   if (removed === 0) return;
-  appendLog(logEl, `${unitId}: ${removed} intent annullati`);
+  // W8k2 — sync backend: rimuovi pending_intents per questa unit server-side.
+  if (state.sid) {
+    try {
+      await api.clearIntent(state.sid, unitId);
+    } catch {
+      /* backend may be offline; client state già pulito */
+    }
+  }
+  appendLog(logEl, `${unitId}: ${removed} intent annullati (client+server)`);
   updateHint(`${removed} intent ${unitId} annullati. Re-pianifica o "Fine turno".`);
   redraw();
 }
 
-// W8k — ESC global: annulla tutti pending intents.
-document.addEventListener('keydown', (ev) => {
+// W8k / W8k2 — ESC global: annulla TUTTI pending intents (client + server).
+document.addEventListener('keydown', async (ev) => {
   if (ev.key === 'Escape' && state.pendingIntents.length > 0 && !state.pendingAbility) {
     const n = state.pendingIntents.length;
+    const uniqueUnits = [...new Set(state.pendingIntents.map((pi) => pi.unit_id))];
     state.pendingIntents = [];
-    appendLog(logEl, `ESC: ${n} intent annullati`);
+    // W8k2 CRITICAL — backend clear per ogni unit affetta (altrimenti timer
+    // scaduto risolverebbe intent già annullati client-side).
+    if (state.sid) {
+      for (const uid of uniqueUnits) {
+        try {
+          await api.clearIntent(state.sid, uid);
+        } catch {
+          /* ignore */
+        }
+      }
+    }
+    appendLog(logEl, `ESC: ${n} intent annullati (client+server)`);
     updateHint(`${n} intent cleared. Ri-pianifica round.`);
     redraw();
   }
@@ -804,28 +826,29 @@ document.getElementById('new-session').addEventListener('click', () => {
 document.getElementById('reset-round')?.addEventListener('click', async () => {
   await emergencyResetRound();
 });
-// W8k — timer toggle header btn (user request: disable timer during testing).
+// W8k / W8k2 — timer toggle header btn. DEFAULT OFF (user feedback).
+// User clicca per opt-in ON.
 document.getElementById('timer-toggle')?.addEventListener('click', (ev) => {
   const btn = ev.currentTarget;
-  const wasOff = getLocalStorageFlag('evo:planning-timer', 'off');
+  const wasOn = getLocalStorageFlag('evo:planning-timer', 'on');
   try {
-    localStorage.setItem('evo:planning-timer', wasOff ? 'on' : 'off');
+    localStorage.setItem('evo:planning-timer', wasOn ? 'off' : 'on');
   } catch {
     /* ignore */
   }
-  const nowOff = !wasOff;
-  btn.style.opacity = nowOff ? '0.4' : '1';
-  btn.title = `Planning timer ${nowOff ? 'OFF' : 'ON'} (click per toggle)`;
-  if (nowOff) stopPlanningTimer();
-  appendLog(logEl, `⏱ Timer planning ${nowOff ? 'OFF' : 'ON'}`);
+  const nowOn = !wasOn;
+  btn.style.opacity = nowOn ? '1' : '0.4';
+  btn.title = `Planning timer ${nowOn ? 'ON' : 'OFF'} (click per toggle)`;
+  if (!nowOn) stopPlanningTimer();
+  appendLog(logEl, `⏱ Timer planning ${nowOn ? 'ON' : 'OFF'}`);
 });
-// Init button state on load
+// Init button state on load — default OFF (dimmed).
 (() => {
   const btn = document.getElementById('timer-toggle');
   if (!btn) return;
-  const off = getLocalStorageFlag('evo:planning-timer', 'off');
-  btn.style.opacity = off ? '0.4' : '1';
-  btn.title = `Planning timer ${off ? 'OFF' : 'ON'} (click per toggle)`;
+  const on = getLocalStorageFlag('evo:planning-timer', 'on');
+  btn.style.opacity = on ? '1' : '0.4';
+  btn.title = `Planning timer ${on ? 'ON' : 'OFF'} (click per toggle)`;
 })();
 document.getElementById('download-eval').addEventListener('click', () => {
   downloadEvalSet();
@@ -1021,13 +1044,13 @@ function showCommitReveal(turnNum, actionCount) {
   }, 650);
 }
 
-// W4.6 / W8k — Planning timer: 30s countdown, auto-commit on expiry.
-// W8k: opt-out via localStorage flag `evo:planning-timer:off` (user feedback:
-// "in fase di test è scomodo"). Toggleable da header btn.
+// W4.6 / W8k / W8k2 — Planning timer: 30s countdown, auto-commit on expiry.
+// W8k2 (user feedback run5): DEFAULT OFF. User opts-in via header btn ⏱
+// (localStorage flag `evo:planning-timer=on`). Prima era default ON fastidioso.
 function startPlanningTimer() {
   stopPlanningTimer();
-  // W8k — skip timer se flag off.
-  if (getLocalStorageFlag('evo:planning-timer', 'off')) {
+  // W8k2 — skip timer unless flag explicit 'on'.
+  if (!getLocalStorageFlag('evo:planning-timer', 'on')) {
     return;
   }
   state.planningTimerStart = performance.now();
