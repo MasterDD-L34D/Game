@@ -1,5 +1,6 @@
 id: guardiano_pozza
 schema_version: '1.7'
+resistance_archetype: adattivo
 display_name: Guardiano della Pozza
 display_name_en: Pond Warden
 biomes:

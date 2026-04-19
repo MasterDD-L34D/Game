@@ -1,5 +1,6 @@
 id: thaw-rot
 schema_version: '1.7'
+resistance_archetype: corazzato
 display_name: Thaw Rot
 biomes:
 - cryosteppe

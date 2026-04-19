@@ -1,5 +1,6 @@
 id: lupus-temperatus
 schema_version: '1.7'
+resistance_archetype: psionico
 display_name: Lupo della Foresta
 biomes:
 - foresta_temperata

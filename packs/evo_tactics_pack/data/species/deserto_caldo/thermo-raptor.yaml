@@ -1,5 +1,6 @@
 id: thermo-raptor
 schema_version: '1.7'
+resistance_archetype: corazzato
 display_name: Thermo Raptor
 biomes:
 - deserto_caldo

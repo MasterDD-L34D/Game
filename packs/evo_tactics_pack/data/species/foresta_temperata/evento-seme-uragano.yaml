@@ -1,5 +1,6 @@
 id: evento-seme-uragano
 schema_version: '1.7'
+resistance_archetype: bioelettrico
 display_name: 'Evento: Seme d''Uragano'
 biomes:
 - foresta_temperata

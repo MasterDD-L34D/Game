@@ -1,5 +1,6 @@
 id: silica-bloom
 schema_version: '1.7'
+resistance_archetype: corazzato
 display_name: Silica Bloom
 biomes:
 - deserto_caldo
