@@ -2,6 +2,47 @@
 
 import { getInterpolatedPos, drawPopups, hasActiveAnims } from './anim.js';
 
+// M4 step A — feature flag integration M3.9-M3.10 assets.
+// Toggle via: localStorage.setItem('evo:new-art', 'true') + page reload.
+// Default OFF = shapes base (current behavior). ON = SVG icon + PNG tile bg.
+import playerIconUrl from '../../../data/art/icons/faction_player.svg?url';
+import sistemaIconUrl from '../../../data/art/icons/faction_sistema.svg?url';
+import neutralIconUrl from '../../../data/art/icons/faction_neutral.svg?url';
+import savanaTileUrl from '../../../data/art/tilesets/savana/grass_01.png?url';
+import cavernaTileUrl from '../../../data/art/tilesets/caverna_sotterranea/stone_01.png?url';
+import forestaTileUrl from '../../../data/art/tilesets/foresta_acida/moss_01.png?url';
+
+const NEW_ART_URLS = {
+  icon: { player: playerIconUrl, sistema: sistemaIconUrl, neutral: neutralIconUrl },
+  tile: {
+    savana: savanaTileUrl,
+    caverna_sotterranea: cavernaTileUrl,
+    foresta_acida: forestaTileUrl,
+  },
+};
+
+const imageCache = new Map();
+function getImage(url) {
+  if (!imageCache.has(url)) {
+    const img = new Image();
+    img.src = url;
+    imageCache.set(url, img);
+  }
+  return imageCache.get(url);
+}
+
+// Preload tutti asset (fire-and-forget).
+Object.values(NEW_ART_URLS.icon).forEach(getImage);
+Object.values(NEW_ART_URLS.tile).forEach(getImage);
+
+function useNewArt() {
+  try {
+    return localStorage.getItem('evo:new-art') === 'true';
+  } catch {
+    return false;
+  }
+}
+
 const CELL = 64; // pixel per cell
 const COLORS = {
   grid: '#2a2a2a',
@@ -44,9 +85,15 @@ export function canvasToCell(canvas, ev, gridH) {
   return { x, y };
 }
 
-function drawCell(ctx, x, yPx, fill) {
-  ctx.fillStyle = fill;
-  ctx.fillRect(x * CELL, yPx * CELL, CELL, CELL);
+function drawCell(ctx, x, yPx, fill, tileImg) {
+  // M4 step A: tile bg PNG se flag ON + asset loaded.
+  if (tileImg && tileImg.complete && tileImg.naturalWidth > 0) {
+    ctx.imageSmoothingEnabled = false; // pixel art preserve
+    ctx.drawImage(tileImg, x * CELL, yPx * CELL, CELL, CELL);
+  } else {
+    ctx.fillStyle = fill;
+    ctx.fillRect(x * CELL, yPx * CELL, CELL, CELL);
+  }
   ctx.strokeStyle = COLORS.border;
   ctx.lineWidth = 1;
   ctx.strokeRect(x * CELL + 0.5, yPx * CELL + 0.5, CELL - 1, CELL - 1);
@@ -97,13 +144,32 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
       ? COLORS.player
       : COLORS.sistema;
 
-  // Body circle
-  ctx.fillStyle = color;
-  ctx.globalAlpha = dead ? 0.4 : 1;
-  ctx.beginPath();
-  ctx.arc(cx, cy, CELL * 0.32, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.globalAlpha = 1;
+  // Body — M4 step A: SVG icon se flag ON + asset loaded, altrimenti circle fallback.
+  const bodySize = CELL * 0.64;
+  const bodyX = cx - bodySize / 2;
+  const bodyY = cy - bodySize / 2;
+  let drewIcon = false;
+  if (useNewArt() && !dead) {
+    const faction =
+      unit.controlled_by === 'player'
+        ? 'player'
+        : unit.controlled_by === 'sistema'
+          ? 'sistema'
+          : 'neutral';
+    const iconImg = getImage(NEW_ART_URLS.icon[faction]);
+    if (iconImg && iconImg.complete && iconImg.naturalWidth > 0) {
+      ctx.drawImage(iconImg, bodyX, bodyY, bodySize, bodySize);
+      drewIcon = true;
+    }
+  }
+  if (!drewIcon) {
+    ctx.fillStyle = color;
+    ctx.globalAlpha = dead ? 0.4 : 1;
+    ctx.beginPath();
+    ctx.arc(cx, cy, CELL * 0.32, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
 
   // Selected ring
   if (highlight.selected === unit.id) {
@@ -136,12 +202,28 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     ctx.fill();
   }
 
-  // Unit label (first 2 chars)
-  ctx.fillStyle = '#fff';
-  ctx.font = 'bold 12px "SF Mono", monospace';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(unit.id.slice(0, 4), cx, cy);
+  // Unit label — M4 step A fix: se SVG icon rendered, sposta label sotto
+  // per non sovrapporre icon; altrimenti centered su body circle (legacy).
+  const labelText = unit.id.slice(0, 4);
+  if (drewIcon) {
+    // Label sotto icon + background stripe per leggibilità su tile bg
+    const labelY = cy + bodySize / 2 + 3;
+    ctx.font = 'bold 10px "SF Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    const metrics = ctx.measureText(labelText);
+    const labelW = metrics.width + 4;
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(cx - labelW / 2, labelY - 1, labelW, 12);
+    ctx.fillStyle = '#fff';
+    ctx.fillText(labelText, cx, labelY);
+  } else {
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 12px "SF Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(labelText, cx, cy);
+  }
 
   // HP bar below
   if (!dead) {
@@ -159,6 +241,15 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
   if (!dead) drawStatusIcons(ctx, unit, cx, yPx * CELL);
 }
 
+// M4 step A: biome-to-tile mapping (PNG procedural da M3.10).
+function resolveTileImg(state) {
+  if (!useNewArt()) return null;
+  const biome = state?.biome_id || state?.scenario?.biome_id || 'savana';
+  const url = NEW_ART_URLS.tile[biome];
+  if (!url) return null;
+  return getImage(url);
+}
+
 export function render(canvas, state, highlight = {}) {
   if (!state || !state.grid) return;
   const w = state.grid.width;
@@ -166,12 +257,13 @@ export function render(canvas, state, highlight = {}) {
   if (canvas.width !== w * CELL || canvas.height !== h * CELL) fitCanvas(canvas, w, h);
 
   const ctx = canvas.getContext('2d');
-  // Checkered grid
+  const tileImg = resolveTileImg(state);
+  // Checkered grid (o tile PNG se flag ON + asset loaded)
   for (let gy = 0; gy < h; gy += 1) {
     for (let gx = 0; gx < w; gx += 1) {
       const yPx = h - 1 - gy;
       const fill = (gx + gy) % 2 === 0 ? COLORS.grid : COLORS.gridAlt;
-      drawCell(ctx, gx, yPx, fill);
+      drawCell(ctx, gx, yPx, fill, tileImg);
     }
   }
 

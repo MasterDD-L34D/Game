@@ -23,9 +23,14 @@ async function loadJobDetail(jobId) {
   return r;
 }
 
+// Token per prevent async race condition duplicate append.
+// Ogni call incrementa _renderToken; fetch callback controlla se ancora valido.
+let _renderToken = 0;
+
 export async function renderAbilities(unit, state, onAbility) {
   const titleEl = document.getElementById('abilities-title');
   const container = document.getElementById('abilities');
+  const myToken = ++_renderToken;
   container.innerHTML = '';
   if (!unit || !unit.job) {
     titleEl.classList.add('hidden-empty');
@@ -34,10 +39,14 @@ export async function renderAbilities(unit, state, onAbility) {
   titleEl.classList.remove('hidden-empty');
 
   const detail = await loadJobDetail(unit.job);
+  // Abort se altra chiamata già in corso (ha superato questo token)
+  if (myToken !== _renderToken) return;
   if (!detail || !Array.isArray(detail.abilities) || detail.abilities.length === 0) {
     container.innerHTML = `<div class="ab-empty">Nessuna ability per ${unit.job}</div>`;
     return;
   }
+  // Clear ancora prima append (sicurezza contro fetch precedenti in volo)
+  container.innerHTML = '';
 
   titleEl.textContent = `Abilities · ${unit.job}`;
   for (const ab of detail.abilities) {
