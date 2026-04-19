@@ -49,6 +49,8 @@ export async function renderAbilities(unit, state, onAbility) {
     container.innerHTML = `<div class="ab-empty">Nessuna ability per ${unit.job}</div>`;
     return;
   }
+  // Clear ancora prima append (sicurezza contro fetch precedenti in volo)
+  container.innerHTML = '';
 
   titleEl.textContent = `Abilities · ${unit.job}`;
   for (const ab of detail.abilities) {

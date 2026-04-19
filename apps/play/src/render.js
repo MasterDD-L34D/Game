@@ -181,9 +181,15 @@ export function canvasToCell(canvas, ev, gridH) {
   return { x, y };
 }
 
-function drawCell(ctx, x, yPx, fill) {
-  ctx.fillStyle = fill;
-  ctx.fillRect(x * CELL, yPx * CELL, CELL, CELL);
+function drawCell(ctx, x, yPx, fill, tileImg) {
+  // M4 step A: tile bg PNG se flag ON + asset loaded.
+  if (tileImg && tileImg.complete && tileImg.naturalWidth > 0) {
+    ctx.imageSmoothingEnabled = false; // pixel art preserve
+    ctx.drawImage(tileImg, x * CELL, yPx * CELL, CELL, CELL);
+  } else {
+    ctx.fillStyle = fill;
+    ctx.fillRect(x * CELL, yPx * CELL, CELL, CELL);
+  }
   ctx.strokeStyle = COLORS.border;
   ctx.lineWidth = 1;
   ctx.strokeRect(x * CELL + 0.5, yPx * CELL + 0.5, CELL - 1, CELL - 1);
@@ -484,12 +490,13 @@ export function render(canvas, state, highlight = {}) {
   fitCanvas(canvas, w, h);
 
   const ctx = canvas.getContext('2d');
-  // Checkered grid
+  const tileImg = resolveTileImg(state);
+  // Checkered grid (o tile PNG se flag ON + asset loaded)
   for (let gy = 0; gy < h; gy += 1) {
     for (let gx = 0; gx < w; gx += 1) {
       const yPx = h - 1 - gy;
       const fill = (gx + gy) % 2 === 0 ? COLORS.grid : COLORS.gridAlt;
-      drawCell(ctx, gx, yPx, fill);
+      drawCell(ctx, gx, yPx, fill, tileImg);
     }
   }
 

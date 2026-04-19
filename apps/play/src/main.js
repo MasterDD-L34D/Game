@@ -1142,6 +1142,47 @@ document.getElementById('end-turn').addEventListener('click', async () => {
   // Legacy flow (default off): immediate end-turn
   sfx.turn_end();
   appendLog(logEl, '→ fine turno');
+
+  // M4 A.1 — Round model simultaneous: commit-round auto_resolve
+  if (useRoundFlow()) {
+    // Ensure begin-planning called almeno una volta (first turn may skip if no declare)
+    if (!state.roundInit) {
+      const bp = await api.beginPlanning(state.sid);
+      if (!bp.ok) {
+        appendLog(logEl, `✖ begin-planning: ${bp.data?.error || bp.status}`, 'error');
+        return;
+      }
+      state.roundInit = true;
+    }
+    const r = await api.commitRound(state.sid, true);
+    if (!r.ok) {
+      appendLog(logEl, `✖ commit-round: ${r.data?.error || r.status}`, 'error');
+      return;
+    }
+    // Reset roundInit per prossimo turno
+    state.roundInit = false;
+    _pendingConfirm = null;
+    // Process resolution_queue as animations (shape differs da ia_actions)
+    const queue = r.data?.resolution_queue || [];
+    if (queue.length > 0) {
+      // Animazioni stagger per ogni action risolta
+      queue.forEach((action, i) => {
+        setTimeout(() => {
+          // Popup only, actual state refresh post-all
+        }, i * 200);
+      });
+    }
+    setTimeout(
+      async () => {
+        await refresh();
+        appendLog(logEl, `✓ round ${state.world?.turn || '?'} risolto (${queue.length} azioni)`);
+      },
+      queue.length * 200 + 300,
+    );
+    return;
+  }
+
+  // Legacy flow (default)
   const r = await api.endTurn(state.sid);
   if (!r.ok) {
     appendLog(logEl, `✖ end turn: ${r.status}`, 'error');

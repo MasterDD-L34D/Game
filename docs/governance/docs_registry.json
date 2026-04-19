@@ -349,6 +349,19 @@
       "track": "authored"
     },
     {
+      "path": "docs/adr/ADR-2026-04-18-plan-reveal-round.md",
+      "title": "ADR-2026-04-18: Plan & Reveal round model (contemporary hybrid)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-04-18",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "authored"
+    },
+    {
       "path": "docs/adr/ADR-2026-04-19-reinforcement-spawn-engine.md",
       "title": "ADR-2026-04-19: Reinforcement spawn engine (Option B)",
       "doc_status": "active",
@@ -2453,6 +2466,19 @@
     {
       "path": "docs/core/43-ASSET-SOURCING.md",
       "title": "43 — Asset Sourcing canonical (zero-cost + AI pipeline)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-18",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/core/44-HUD-LAYOUT-REFERENCES.md",
+      "title": "44 — HUD Layout References + Round Model Research",
       "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "cross-cutting",
@@ -6860,6 +6886,19 @@
     {
       "path": "docs/playtest/kenney-community-asset-guide.md",
       "title": "Kenney community asset guide — zero-skill download & integrate",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-18",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/process/2026-04-18-M4-retrospective-art-integration-gap.md",
+      "title": "M4 Retrospective — Art integration gap (M3.6-M3.10 lesson)",
       "doc_status": "active",
       "doc_owner": "master-dd",
       "workstream": "ops-qa",
