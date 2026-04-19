@@ -292,6 +292,21 @@ document.addEventListener('keydown', (ev) => {
   }
 });
 
+// W8e — Enter key = "Fine turno" shortcut (keyboard alternative to button).
+// Skip se focus è dentro input/textarea/select o help modal aperto.
+document.addEventListener('keydown', (ev) => {
+  if (ev.key !== 'Enter') return;
+  const active = document.activeElement;
+  if (active && /^(input|textarea|select|button)$/i.test(active.tagName)) return;
+  const helpOpen =
+    document.getElementById('help-panel') &&
+    !document.getElementById('help-panel').classList.contains('hidden');
+  if (helpOpen) return;
+  if (!state.sid) return;
+  ev.preventDefault();
+  document.getElementById('end-turn').click();
+});
+
 function handleUnitClick(unit) {
   if (!state.world) return;
   // Ability targeting mode

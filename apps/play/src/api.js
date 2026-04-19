@@ -29,6 +29,21 @@ async function jsonFetch(path, opts = {}) {
   return { ok: res.ok, status: res.status, data };
 }
 
+// W8e — Retry helper for transient network errors (research pass 3 finding #7).
+// Wraps jsonFetch with 1 retry after delay when networkError flag is set.
+// Used for idempotent POST endpoints (declare-intent/commit-round are re-declarable
+// server-side via latest-wins).
+async function jsonFetchRetry(path, opts = {}, { retries = 1, delayMs = 400 } = {}) {
+  let attempt = 0;
+  let result = await jsonFetch(path, opts);
+  while (result.networkError && attempt < retries) {
+    attempt += 1;
+    await new Promise((r) => setTimeout(r, delayMs));
+    result = await jsonFetch(path, opts);
+  }
+  return result;
+}
+
 export const api = {
   scenario: (id) => jsonFetch(`/api/tutorial/${encodeURIComponent(id)}`),
   start: (units, opts = {}) =>
@@ -52,7 +67,8 @@ export const api = {
       body: JSON.stringify({ session_id: sid }),
     }),
   declareIntent: (sid, actorId, action) =>
-    jsonFetch('/api/session/declare-intent', {
+    // W8e — retry on network drop (idempotent server-side: latest-wins per unit).
+    jsonFetchRetry('/api/session/declare-intent', {
       method: 'POST',
       body: JSON.stringify({ session_id: sid, actor_id: actorId, action }),
     }),
