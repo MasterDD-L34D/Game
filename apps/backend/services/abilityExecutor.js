@@ -219,7 +219,10 @@ function createAbilityExecutor(deps) {
     }
     const hpBefore = target.hp;
     const targetPositionAtAttack = { ...target.position };
-    const res = performAttack(session, actor, target);
+    // M7-#3: pass ability channel for resistance routing (default null → fisico fallback)
+    const res = performAttack(session, actor, target, {
+      channel: ability && ability.channel ? ability.channel : null,
+    });
     if (buffApplied && (ability.buff_stat || 'attack_mod') === 'attack_mod') {
       actor.attack_mod_bonus = Math.max(0, (actor.attack_mod_bonus || 0) - buffApplied.amount);
     }
@@ -300,7 +303,10 @@ function createAbilityExecutor(deps) {
 
     const hpBefore = target.hp;
     const targetPositionAtAttack = { ...target.position };
-    const res = performAttack(session, actor, target);
+    // M7-#3: pass ability channel for resistance routing (default null → fisico fallback)
+    const res = performAttack(session, actor, target, {
+      channel: ability && ability.channel ? ability.channel : null,
+    });
     const attackEvent = buildAttackEvent({
       session,
       actor,
@@ -535,7 +541,10 @@ function createAbilityExecutor(deps) {
       if (target.hp <= 0) break;
       const hpBefore = target.hp;
       const targetPositionAtAttack = { ...target.position };
-      const res = performAttack(session, actor, target);
+      // M7-#3: pass ability channel for resistance routing (default null → fisico fallback)
+      const res = performAttack(session, actor, target, {
+        channel: ability && ability.channel ? ability.channel : null,
+      });
 
       // Applica damage_step_mod post-hoc: se res.damageDealt > 0, aggiusta hp.
       // damage_step_mod può essere negativo (reduce) o positivo (amplify).
@@ -629,7 +638,10 @@ function createAbilityExecutor(deps) {
 
     const hpBefore = target.hp;
     const targetPositionAtAttack = { ...target.position };
-    const res = performAttack(session, actor, target);
+    // M7-#3: pass ability channel for resistance routing (default null → fisico fallback)
+    const res = performAttack(session, actor, target, {
+      channel: ability && ability.channel ? ability.channel : null,
+    });
 
     const trigger = String(ability.effect_trigger || 'on_hit');
     const allowEffect = (trigger === 'always' || res.result.hit) && target.hp > 0;
@@ -810,7 +822,10 @@ function createAbilityExecutor(deps) {
 
     const hpBefore = target.hp;
     const targetPositionAtAttack = { ...target.position };
-    const res = performAttack(session, actor, target);
+    // M7-#3: pass ability channel for resistance routing (default null → fisico fallback)
+    const res = performAttack(session, actor, target, {
+      channel: ability && ability.channel ? ability.channel : null,
+    });
 
     const damageStepMod = Number(ability.damage_step_mod || 0);
     let adjustedDamage = res.damageDealt;
@@ -907,7 +922,10 @@ function createAbilityExecutor(deps) {
 
     const hpBefore = target.hp;
     const targetPositionAtAttack = { ...target.position };
-    const res = performAttack(session, actor, target);
+    // M7-#3: pass ability channel for resistance routing (default null → fisico fallback)
+    const res = performAttack(session, actor, target, {
+      channel: ability && ability.channel ? ability.channel : null,
+    });
 
     const lifestealPct = Number(ability.lifesteal_pct || 0);
     let healed = 0;
@@ -993,7 +1011,10 @@ function createAbilityExecutor(deps) {
     const executionTriggered = threshold > 0 && hpPct < threshold;
 
     const targetPositionAtAttack = { ...target.position };
-    const res = performAttack(session, actor, target);
+    // M7-#3: pass ability channel for resistance routing (default null → fisico fallback)
+    const res = performAttack(session, actor, target, {
+      channel: ability && ability.channel ? ability.channel : null,
+    });
 
     let adjustedDamage = res.damageDealt;
     const damageStepMod = Number(ability.damage_step_mod || 0);
