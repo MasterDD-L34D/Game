@@ -1,71 +1,107 @@
-// W8h — Contextual first-time tip system (Evo-Tactics onboarding philosophy:
-// learn-by-doing, non scripted). Tips triggered by interaction first-time,
-// dismissible, persistono seen flag via localStorage.
+// W8h/8i — Contextual first-time tip modal (Evo-Tactics onboarding philosophy:
+// learn-by-doing). Tips triggered by interaction first-time, persistono seen
+// flag via localStorage.
 //
-// Reference: Into the Breach (predicted damage reveal), Slay the Spire (hover),
-// Fell Seal (first-ability tip), Dark Souls (minimal scripted).
+// W8i correction: popup → MODAL BLOCCANTE center-screen con backdrop dim.
+// Auto-dismiss rimosso — solo click "OK" chiude. Support multi-step pages via
+// "Avanti ►" / "◄ Indietro" buttons per info complesse.
 
 const LS_PREFIX = 'evo:tip-';
 
-// Tip catalog canonical — ogni tip triggered una volta per localStorage key.
+// Tip catalog canonical. `pages` array supporta multi-step (se 1 pagina = classic tip).
+// Ogni page: { body: string, heading?: string }.
 const TIPS = {
   'select-unit': {
     icon: '👆',
     title: 'Seleziona unità',
-    message:
-      'Click su una unità blu per selezionarla. Range move (blu) + attack (rosso) appariranno sul canvas.',
-    duration: 5000,
+    pages: [
+      {
+        body: 'Click su una unità BLU per selezionarla.\n\nVedrai apparire sul canvas:\n• BLU = celle movimento (con costo AP)\n• ROSSO = nemici attaccabili entro range',
+      },
+      {
+        body: "Puoi anche usare le ability dalla barra in fondo o dalle chip nella scheda PG.\n\nOgni azione dichiarata = 'intent'. Si risolvono tutte insieme quando clicchi 'Fine turno'.",
+      },
+    ],
   },
   'first-move': {
     icon: '➡️',
     title: 'Movimento dichiarato',
-    message:
-      'Intent salvato ✓. Ogni cella costa 1 AP. Seleziona altra unità o "Fine turno" per risolvere.',
-    duration: 4000,
+    pages: [
+      {
+        body: 'Intent salvato ✓\n\nOgni cella costa 1 AP. Puoi cambiare idea: re-click altra cella per override, ✕ accanto al badge per annullare.',
+      },
+      {
+        body: "Quando hai finito di pianificare tutti i PG, clicca 'Fine turno' (o premi Enter). Round si risolve simultaneamente.",
+      },
+    ],
   },
   'first-attack': {
     icon: '⚔️',
     title: 'Attacco dichiarato',
-    message: 'Attacco costa 1 AP. Premi "Fine turno" (o Enter) per risolvere round simultaneo.',
-    duration: 4000,
+    pages: [
+      {
+        body: 'Attacco = 1 AP. Tirata d20 + mod vs DC target.\n\nHit chance visibile nel tooltip. Margin of Success determina damage (1-3 o ability-specific).',
+      },
+      {
+        body: "Premi 'Fine turno' (o Enter) per risolvere. Attacchi simultanei vs nemici = combo focus_fire +1 damage bonus (co-op).",
+      },
+    ],
   },
   'first-ability': {
     icon: '✨',
     title: 'Ability selezionata',
-    message: 'Click target (nemico/alleato/cella). ESC per annullare. AP cost indicato sulla chip.',
-    duration: 4000,
+    pages: [
+      {
+        body: 'Click target (nemico/alleato/cella) per dichiarare ability.\n\nAP cost visibile sulla chip. Cooldown dopo uso.',
+      },
+      {
+        body: 'ESC annulla ability pending. Re-click stessa ability = cambia target. Combo PP (movement combo points) alimenta ability Tier 2+.',
+      },
+    ],
   },
   'range-overlay': {
     icon: '🎯',
     title: 'Range visualizzato',
-    message: 'BLU = celle movimento (costo AP indicato) · ROSSO = nemici attaccabili entro range.',
-    duration: 4500,
+    pages: [
+      {
+        body: "Overlay canvas post-selezione unità:\n\n• BLU semi-trasparente = celle movimento (Manhattan distance ≤ AP)\n• Numero 'N AP' = costo movimento (white on dark badge)\n• ROSSO = nemici entro attack range (Chebyshev distance)",
+      },
+    ],
   },
   'intent-declared': {
     icon: '💾',
     title: 'Intent salvato',
-    message:
-      'Re-click stessa action per cambiare idea. ✕ per annullare singolo. ESC annulla tutti.',
-    duration: 3500,
+    pages: [
+      {
+        body: 'Re-click stessa action per cambiare idea (latest-wins).\n\n✕ accanto al badge = annulla solo quella unità. ESC = annulla tutti i pending.',
+      },
+    ],
   },
   'round-resolve': {
     icon: '⚔️',
     title: 'Round simultaneo',
-    message:
-      'Tutte azioni risolte contemporaneamente per reaction_speed (initiative + action_speed).',
-    duration: 4000,
+    pages: [
+      {
+        body: 'Tutte azioni risolte contemporaneamente per ordine di reaction_speed.\n\nFormula: initiative + action_speed(attack/move/ability) - status_penalty',
+      },
+      {
+        body: 'Badge #1/#2/#3 sopra unità post-commit mostra ordine risoluzione. FX ray+popup+flash staggered 350ms per chiarezza visiva.',
+      },
+    ],
   },
   'invalid-action': {
     icon: '❌',
     title: 'Azione invalida',
-    message: '', // dynamic per error context
-    duration: 4500,
+    pages: [{ body: '' }], // dynamic via showTip(key, overrideMessage)
   },
   'sis-intent': {
     icon: '✊',
-    title: 'Intento SIS',
-    message: "L'icona ✊ sopra nemico = intento attacco prossimo turno. Hover per dettagli.",
-    duration: 4000,
+    title: 'Intento Sistema',
+    pages: [
+      {
+        body: "L'icona ✊ sopra nemico = intento attacco prossimo turno (Slay the Spire pattern).\n\nHover per dettagli futuri (threat_preview payload ADR-04-18 backlog).",
+      },
+    ],
   },
 };
 
@@ -92,7 +128,6 @@ export function markTipShown(tipKey) {
   setLS(tipKey, 'shown');
 }
 
-// W8h debug — reset all tips (power user: localStorage.clear OR via __dbg).
 export function resetAllTips() {
   try {
     const keys = Object.keys(localStorage).filter((k) => k.startsWith(LS_PREFIX));
@@ -102,71 +137,132 @@ export function resetAllTips() {
   }
 }
 
-let currentDismissTimer = null;
 let currentEscHandler = null;
+let modalPageIdx = 0;
+let modalCurrentTip = null;
 
-function getOrCreatePopup() {
-  let popup = document.getElementById('tip-popup');
-  if (popup) return popup;
-  popup = document.createElement('div');
-  popup.id = 'tip-popup';
-  popup.className = 'tip-popup hidden';
-  popup.innerHTML = `
-    <div class="tip-content">
-      <div class="tip-header">
-        <span class="tip-icon"></span>
-        <strong class="tip-title"></strong>
-        <button class="tip-close" title="Chiudi (ESC)">✕</button>
+function getOrCreateModal() {
+  let modal = document.getElementById('tip-modal-root');
+  if (modal) return modal;
+  modal = document.createElement('div');
+  modal.id = 'tip-modal-root';
+  modal.className = 'tip-modal-root hidden';
+  modal.innerHTML = `
+    <div class="tip-modal-backdrop"></div>
+    <div class="tip-modal" role="dialog" aria-modal="true" aria-labelledby="tip-modal-title">
+      <div class="tip-modal-header">
+        <span class="tip-modal-icon" aria-hidden="true"></span>
+        <strong class="tip-modal-title" id="tip-modal-title"></strong>
+        <span class="tip-modal-pageinfo" aria-hidden="true"></span>
       </div>
-      <div class="tip-body"></div>
-      <div class="tip-dismiss">ESC o click ✕ per chiudere · non verrà mostrato di nuovo</div>
+      <div class="tip-modal-body"></div>
+      <div class="tip-modal-actions">
+        <button class="tip-btn tip-btn-prev" type="button">◄ Indietro</button>
+        <button class="tip-btn tip-btn-next" type="button">Avanti ►</button>
+        <button class="tip-btn tip-btn-ok" type="button">OK</button>
+      </div>
     </div>
   `;
-  document.body.appendChild(popup);
-  popup.querySelector('.tip-close').addEventListener('click', dismissTip);
-  return popup;
+  document.body.appendChild(modal);
+  modal.querySelector('.tip-btn-ok').addEventListener('click', dismissModal);
+  modal.querySelector('.tip-btn-next').addEventListener('click', nextPage);
+  modal.querySelector('.tip-btn-prev').addEventListener('click', prevPage);
+  modal.querySelector('.tip-modal-backdrop').addEventListener('click', dismissModal);
+  return modal;
 }
 
-function dismissTip() {
-  const popup = document.getElementById('tip-popup');
-  if (popup) popup.classList.add('hidden');
-  if (currentDismissTimer) {
-    clearTimeout(currentDismissTimer);
-    currentDismissTimer = null;
+function renderCurrentPage() {
+  const modal = document.getElementById('tip-modal-root');
+  if (!modal || !modalCurrentTip) return;
+  const pages = modalCurrentTip.pages || [{ body: '' }];
+  const page = pages[modalPageIdx] || pages[0];
+  const totalPages = pages.length;
+  modal.querySelector('.tip-modal-icon').textContent = modalCurrentTip.icon || '';
+  modal.querySelector('.tip-modal-title').textContent = modalCurrentTip.title || '';
+  modal.querySelector('.tip-modal-body').textContent = page.body || '';
+  const pageInfo = modal.querySelector('.tip-modal-pageinfo');
+  if (totalPages > 1) {
+    pageInfo.textContent = `${modalPageIdx + 1} / ${totalPages}`;
+    pageInfo.style.display = '';
+  } else {
+    pageInfo.style.display = 'none';
   }
+  const prevBtn = modal.querySelector('.tip-btn-prev');
+  const nextBtn = modal.querySelector('.tip-btn-next');
+  const okBtn = modal.querySelector('.tip-btn-ok');
+  // Prev visible solo se not first page
+  prevBtn.style.display = modalPageIdx > 0 ? '' : 'none';
+  // Next visible solo se not last page
+  nextBtn.style.display = modalPageIdx < totalPages - 1 ? '' : 'none';
+  // OK visible solo su last page (o single-page)
+  okBtn.style.display = modalPageIdx >= totalPages - 1 ? '' : 'none';
+}
+
+function nextPage() {
+  if (!modalCurrentTip) return;
+  const total = (modalCurrentTip.pages || []).length;
+  if (modalPageIdx < total - 1) {
+    modalPageIdx += 1;
+    renderCurrentPage();
+  }
+}
+function prevPage() {
+  if (modalPageIdx > 0) {
+    modalPageIdx -= 1;
+    renderCurrentPage();
+  }
+}
+
+function dismissModal() {
+  const modal = document.getElementById('tip-modal-root');
+  if (modal) modal.classList.add('hidden');
   if (currentEscHandler) {
     document.removeEventListener('keydown', currentEscHandler);
     currentEscHandler = null;
   }
+  modalCurrentTip = null;
+  modalPageIdx = 0;
 }
 
-// W8h — Core API. showTip(tipKey, overrideMessage?).
-// Se tip già seen → no-op silenzioso. Idempotent.
-export function showTip(tipKey, overrideMessage = null) {
+// W8i — Core API. showTip(tipKey, overrideBody?).
+// Se tip già seen → no-op silenzioso. Multi-page via pages array in catalog.
+// overrideBody sostituisce page 0 body (usato per invalid-action dynamic message).
+export function showTip(tipKey, overrideBody = null) {
   if (hasTipBeenShown(tipKey)) return;
   const meta = TIPS[tipKey];
   if (!meta) return;
-  const popup = getOrCreatePopup();
-  popup.querySelector('.tip-icon').textContent = meta.icon;
-  popup.querySelector('.tip-title').textContent = meta.title;
-  popup.querySelector('.tip-body').textContent = overrideMessage || meta.message;
-  popup.classList.remove('hidden');
+
+  // Clone meta se override (non mutare catalog)
+  let active = meta;
+  if (overrideBody) {
+    active = {
+      ...meta,
+      pages: [{ body: overrideBody }, ...(meta.pages ? meta.pages.slice(1) : [])],
+    };
+  }
+
+  modalCurrentTip = active;
+  modalPageIdx = 0;
+  const modal = getOrCreateModal();
+  modal.classList.remove('hidden');
+  renderCurrentPage();
   markTipShown(tipKey);
 
-  // Dismiss timer
-  if (currentDismissTimer) clearTimeout(currentDismissTimer);
-  currentDismissTimer = setTimeout(dismissTip, meta.duration || 4000);
-
-  // ESC dismiss
+  // ESC dismiss (anche con modal aperto)
   if (currentEscHandler) document.removeEventListener('keydown', currentEscHandler);
   currentEscHandler = (e) => {
-    if (e.key === 'Escape') dismissTip();
+    if (e.key === 'Escape') dismissModal();
+    if (e.key === 'ArrowRight' || e.key === 'Enter') {
+      const pages = modalCurrentTip?.pages || [];
+      if (modalPageIdx < pages.length - 1) nextPage();
+      else dismissModal();
+    }
+    if (e.key === 'ArrowLeft') prevPage();
   };
   document.addEventListener('keydown', currentEscHandler);
 }
 
 // W8h — Error recovery tip builder. Maps backend error → player-friendly tip.
-// Returns null if no match (caller falls back to standard error display).
 export function buildRecoveryTipMessage(errorText) {
   if (!errorText) return null;
   const lower = String(errorText).toLowerCase();

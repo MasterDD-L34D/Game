@@ -224,81 +224,122 @@ canvas#grid {
     box-shadow 0.18s ease-out;
 }
 
-/* W8h — Contextual first-time tip popup (onboarding learn-by-doing).
- * Bottom-left, non-blocking, dismissible via ESC or ✕. Persistono seen via localStorage. */
-.tip-popup {
+/* W8i — Tip modal bloccante center-screen con backdrop dim.
+ * User feedback: "non sono riuscito a leggerli, bloccare il gioco con figlio opaco
+ * finché non si clicca OK, o prossimo per info più complesse".
+ * Replaces W8h popup laterale non-blocking. */
+.tip-modal-root {
   position: fixed;
-  bottom: 24px;
-  left: 24px;
-  z-index: 85; /* sopra canvas (20), sotto help modal (9000+) */
-  max-width: 340px;
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-  transition: all 0.3s ease-out;
-}
-.tip-popup:not(.hidden) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-.tip-popup.hidden {
-  display: none;
-}
-.tip-popup .tip-content {
-  background: var(--panel);
-  border: 2px solid var(--accent);
-  border-radius: 6px;
-  padding: 12px 14px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-}
-.tip-popup .tip-header {
+  inset: 0;
+  z-index: 9500; /* sopra tutto tranne endgame (9999) */
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  justify-content: center;
+  pointer-events: auto;
 }
-.tip-popup .tip-icon {
-  font-size: 1.3rem;
+.tip-modal-root.hidden {
+  display: none;
+}
+.tip-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+.tip-modal {
+  position: relative;
+  z-index: 2;
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 20px 24px;
+  max-width: 520px;
+  min-width: 340px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.75);
+  animation: tip-modal-in 0.22s ease-out;
+}
+@keyframes tip-modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.tip-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.tip-modal-icon {
+  font-size: 1.8rem;
   flex-shrink: 0;
 }
-.tip-popup .tip-title {
+.tip-modal-title {
   color: var(--accent);
-  font-size: 1rem;
+  font-size: 1.2rem;
   flex: 1;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
-.tip-popup .tip-close {
-  background: transparent;
-  border: 1px solid var(--dim);
+.tip-modal-pageinfo {
+  font-size: 0.75rem;
+  color: var(--dim);
+  font-family: 'SF Mono', monospace;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.tip-modal-body {
+  font-size: 1rem;
   color: var(--fg);
-  width: 26px;
-  height: 26px;
-  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-bottom: 18px;
+  white-space: pre-wrap;
+  min-height: 80px;
+}
+.tip-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: center;
+}
+.tip-btn {
+  background: var(--cell);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  padding: 8px 18px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
   border-radius: 4px;
-  padding: 0;
-  line-height: 1;
+  min-width: 100px;
 }
-.tip-popup .tip-close:hover {
-  background: var(--sistema);
-  border-color: var(--sistema);
-  color: #fff;
+.tip-btn:hover {
+  background: var(--panel);
+  border-color: var(--accent);
+  color: var(--accent);
 }
-.tip-popup .tip-body {
-  font-size: 0.9rem;
-  color: var(--fg);
-  line-height: 1.45;
-  margin-bottom: 8px;
+.tip-btn.tip-btn-ok {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  font-weight: 700;
 }
-.tip-popup .tip-dismiss {
-  font-size: 0.7rem;
-  color: var(--dim);
-  text-align: center;
-  font-style: italic;
-  padding-top: 6px;
-  border-top: 1px solid var(--border);
+.tip-btn.tip-btn-ok:hover {
+  background: #fff;
+  color: var(--bg);
+}
+.tip-btn.tip-btn-prev {
+  margin-right: auto;
 }
 
 /* W4.1 / W6 — Intent badge sidebar (pending / declared) + cancel btn. */
