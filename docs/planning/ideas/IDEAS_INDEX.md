@@ -3,7 +3,7 @@ title: Ideas Index
 doc_status: active
 doc_owner: master-dd
 workstream: planning
-last_verified: 2026-04-18
+last_verified: 2026-04-19
 source_of_truth: true
 language: it-en
 review_cycle_days: 30
@@ -11,7 +11,7 @@ review_cycle_days: 30
 
 # Ideas Index
 
-> Registro canonico idee parked durante sessioni intensive. Aggiornato sessione 2026-04-18 (20 PR merged, kill-60 Flint, round simultaneo ADR-2026-04-15).
+> Registro canonico idee parked durante sessioni intensive. Aggiornato sessione 2026-04-19 (Sprint M4 Wave 4-7 shipped + run4 playtest bug report + Wave 8 visual research).
 >
 > **Regola**: ogni idea = trigger re-open esplicito + classificazione 4D (valore/applicabilità/stato/re-open cost).
 >
@@ -93,6 +93,21 @@ Codificati in memory + commit. Riferimento cross-session.
 | C5  | Flint rename evo-caveman → flint (separazione upstream)          | PR #1556 + #1558                                    |  ✅ merged   |
 | C6  | Flint self-contained portable (install.py + claude-integration/) | `flint/INSTALL.md`                                  |    ✅ doc    |
 | C7  | PROJECT.md canonical definition (10 sezioni + Appendix A/B/C)    | `flint/PROJECT.md`                                  | ✅ canonical |
+
+## Sezione 6b — Completate sessione 2026-04-18/19 Sprint M4 Wave (5 items)
+
+Sprint A P0 Wave stack su branch `feat/play-sprint-a-p0-hud-v2`.
+
+| #   | Item                                                       | Commit / PR           |   Stato   |
+| --- | ---------------------------------------------------------- | --------------------- | :-------: |
+| W2  | Wave 2 HUD cosmetic (help+fullscreen+FX+colors+tooltip)    | PR #1607 / `bac64f5e` | ✅ merged |
+| W3  | Wave 3 range overlay + FX wire + simultaneous default      | PR #1608 / `01917041` | ✅ merged |
+| W4  | Wave 4 round feedback layer (5 items ADR-2026-04-15)       | `14c3cba3`            | ✅ merged |
+| W5  | Wave 5 preflight polish (speed label + events tail + eval) | `6dd6274b`            | ✅ merged |
+| W6  | Wave 6 planning control + per-PG HUD (4 bug run3)          | `c28e6581`            | ✅ merged |
+| W7  | Wave 7 planning preview + per-PG abilities + def reset     | `fb927f60`            | ✅ merged |
+
+**Wave 8 in-flight** — branch `feat/play-sprint-a-p0-wave8-visual-base-typo-icons`. Scope originale: typography Inter + SVG status icons. **Scope rivisitato** post run4 playtest 2026-04-19: Opzione A fix-first → W8-emergency (3 P0 bug) → W8b visual → W9 UX → W10 polish.
 
 ## Top-5 priority re-open (se Evo-Tactics torna attivo)
 

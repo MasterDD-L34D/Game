@@ -17,6 +17,18 @@ related:
 
 Post user playtest run3 + 7 Wave HUD/FX stack shipped. User pivot: research visual base → moodboard → progressive capability activation keeping Wave 2-7 mechanics.
 
+> **Update 2026-04-19 post run4 playtest**: user report rivela 8 bug (3 P0 blocker — commit-round crash + abilità non attivabili/visibili). Wave 8 scope originale (typography + icons) preserved ma **posticipato**. Sequenza aggiornata raccomandata (Opzione A fix-first):
+>
+> | Wave             | Scope                                                                           | Priority |
+> | ---------------- | ------------------------------------------------------------------------------- | :------: |
+> | **W8-emergency** | Bug P0: #5 crash `/round/execute` + #1/#8 abilità affordance/visibility         |    🔴    |
+> | **W8b**          | Visual base originale (typography Inter + SVG status icons)                     |    🟡    |
+> | **W9**           | P1 UX: #4 action affordance + #2 result persistent + #6 kill chain              |    🟡    |
+> | **W10**          | P2 polish: #3 enemy inspect + #7 unit card legend                               |    🟢    |
+> | W11+             | Moodboard HTML + palette-lock + creature silhouette + tileset (originale W9-13) |    🟢    |
+>
+> Cross-ref bug report: `~/.claude/projects/.../memory/project_sprint_M4_wave4_7_shipped.md`.
+
 ## Executive summary
 
 Spec canonica 41-AD + 42-SG = architecturally sound. Target "tactical readability over decoration" (Into the Breach + AncientBeast). Current `apps/play/src/style.css` = solid functional baseline MA utilitarian (dark palette, 8-12px monospace, grid-centric). **Gap = visual polish + mood coherence**, not design.

@@ -1,17 +1,39 @@
 ---
-title: Roadmap Operativa
-doc_status: draft
+title: Roadmap Operativa (SUPERSEDED)
+doc_status: superseded
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-04-19
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
+supersedes_reason: stale 2025-11 VC/HUD context, non rispecchia sprint M1-M4 aprile 2026
 ---
 
-# Roadmap Operativa
+# Roadmap Operativa (SUPERSEDED 2026-04-19)
 
-## Procedura post-ottobre 2025
+> ⚠️ **STALE — Do NOT use.** Doc ferma al 2025-11-14 (ondata 1 VC/HUD/telemetria). Non rispecchia:
+>
+> - Sprint M1-M4 aprile 2026 (round orchestrator, combat canon, ability executor, co-op scaling 4→8)
+> - Sprint M4 P0 Wave 1-7 (HUD/FX/planning/per-PG abilities merged 2026-04-18/19)
+> - Wave 8 in-flight (visual base typography + icons)
+> - Daily PR summary blocco vuoto aprile 2026 = workflow rotto o disconnesso
+>
+> **Sorgenti canoniche attuali** (2026-04-19):
+>
+> - Sprint context: `CLAUDE.md` §Sprint context (repo-level, aggiornato ogni sessione)
+> - Backlog: `docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md`
+> - Milestones: `docs/planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md`
+> - Ideas parked: `docs/planning/ideas/IDEAS_INDEX.md`
+> - Changelog: `docs/planning/changelog.md`
+>
+> **Pendente**: rewrite completo o rimozione post-verifica script dipendenti (es. `scripts/daily_tracker_refresh.py` referenzia sezione daily-pr-summary).
+>
+> Contenuto originale preservato sotto come archive read-only.
+
+---
+
+## Procedura post-ottobre 2025 (ARCHIVE)
 
 1. **Sync settimanale (martedì 15:00 CET)** — Importa log telemetrici e note playtest in `docs/chatgpt_changes/sync-<AAAA-MM-GG>.md`, annota la build `game-cli` utilizzata e aggiorna `docs/chatgpt_sync_status.md` se cambiano fonti, credenziali o profili abilitati.【F:docs/README.md†L11-L30】【F:docs/chatgpt_sync_status.md†L1-L40】
 2. **Checklist & log** — Spunta lo stato in `docs/checklist/*.md`, collega `logs/playtests/<data>-vc`, allega i log CLI giornalieri generati da `scripts/cli_smoke.sh` (`logs/cli/smoke-YYYYMMDDTHHMMSSZ.log` o versioni con `--label`/`--log-subdir`) e registra eventuali nuovi report nel Nido/telemetria.【F:docs/README.md†L11-L30】【F:docs/checklist/milestones.md†L1-L20】
