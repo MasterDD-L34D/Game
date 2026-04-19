@@ -35,7 +35,8 @@ The monorepo uses npm workspaces declared in root `package.json`:
 
 - `apps/backend/` — Express "Idea Engine" API (entry `index.js`, Prisma schema under `apps/backend/prisma/`). Serves `/api/*` including `/api/v1/generation/species`, `/api/v1/atlas/*`, `/api/mock/*`, `/api/ideas/*`.
 - `services/generation/` — Node/Python bridge: `SpeciesBuilder`, `TraitCatalog`, biome synthesizer, runtime validators. The Python orchestrator (`services/generation/orchestrator.py`) is called from Node via a pool configured by `config/orchestrator.json` (`poolSize`, `requestTimeoutMs`).
-- `services/rules/` — Rules engine d20 per il loop tattico: `resolver.py` (risoluzione azioni d20), `hydration.py` (idratazione trait meccanici da `trait_mechanics.yaml`), `demo_cli.py` (CLI demo turni), `worker.py` (bridge backend). Dati di bilanciamento in `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`.
+- `services/rules/` — ⚠️ **DEPRECATED (M6-#4 Phase 1, 2026-04-19)**. Rules engine d20 Python pensato per tabletop Master DM. **User direction**: "1 solo gioco online, senza master" → Python engine = dead weight. **Runtime canonical**: Node (`apps/backend/services/combat/`, `apps/backend/routes/session.js`). Phase 2 feature freeze + Phase 3 removal pending. Vedi `services/rules/DEPRECATED.md` + `docs/adr/ADR-2026-04-19-kill-python-rules-engine.md`. NO new features; porting a Node.
+- `apps/backend/services/combat/` — Node native combat logic canonical (M6-#1 2026-04-19). `resistanceEngine.js` (channel resistance per archetype), `reinforcementSpawner.js`, `objectiveEvaluator.js`. Replace Python `services/rules/`.
 - `packages/contracts/` — shared JSON Schema + TypeScript types used by backend, CLI mocks, and dashboard for Flow/Atlas payloads.
 - `packages/ui/` — shared UI components.
 - `tools/py/` — unified Python CLI (`game_cli.py`), validators, showcase builders. Legacy wrappers (`roll_pack.py`, `generate_encounter.py`) redirect to the shared parser.

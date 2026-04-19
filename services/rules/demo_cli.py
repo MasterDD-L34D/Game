@@ -1,3 +1,10 @@
+# @deprecated (M6-#4 Phase 1, 2026-04-19)
+# Python rules engine deprecated in favour of Node runtime canonical.
+# User direction "1 solo gioco online, senza master" → tabletop DM feature
+# morta. Node session engine (apps/backend/) = single source of truth.
+# Vedi services/rules/DEPRECATED.md + docs/adr/ADR-2026-04-19-kill-python-rules-engine.md
+# NO new features. NO bug fixes non-blocking. Porting a Node.
+
 """CLI demo del rules engine d20 di Evo-Tactics.
 
 Orchestri un combat completo da terminale, dall'hydration di un encounter
