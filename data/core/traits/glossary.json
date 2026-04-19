@@ -1570,6 +1570,18 @@
       "label_en": "Root Capillary Networks",
       "description_it": "Microvascolatura dermica connessa a terminazioni radicali simbiotiche, rimuovendo calore e scambiando fluidi con substrati vegetali per regolare la temperatura basale.",
       "description_en": "Dermal microvasculature connected to symbiotic root terminals, shedding heat and exchanging fluids with plant substrates to regulate core temperature."
+    },
+    "martello_osseo": {
+      "label_it": "Martello Osseo",
+      "label_en": "Bone Hammer",
+      "description_it": "Protuberanza ossea terminale (coda o arto) che concentra massa per impatti pesanti; amplifica il danno fisico a scapito della velocità di recupero.",
+      "description_en": "Terminal bony protrusion (tail or limb) concentrating mass for heavy impacts; amplifies physical damage at the cost of recovery speed."
+    },
+    "ferocia": {
+      "label_it": "Ferocia",
+      "label_en": "Ferocity",
+      "description_it": "Stato psicofisico predatoriale che aumenta l'aggressività e la potenza offensiva sotto stress; favorisce attacchi multipli consecutivi.",
+      "description_en": "Predatory psycho-physical state increasing aggression and offensive power under stress; favors consecutive multi-attacks."
     }
   }
 }
