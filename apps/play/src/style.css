@@ -515,14 +515,70 @@ canvas#grid:hover {
   margin-bottom: 4px;
   border-left: 3px solid var(--dim);
   font-size: 0.85rem;
-  cursor: pointer;
+  cursor: default;
 }
 
-#units li.player {
-  border-left-color: var(--player);
+/* W8f — Section headers distinguish player vs SIS groups (user feedback: "sono tutte uguali"). */
+#units li.unit-section-header {
+  padding: 8px 6px 4px;
+  margin-bottom: 2px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  border-left: none;
+  background: transparent;
+  cursor: default;
+  pointer-events: none;
 }
+#units li.unit-section-header.section-player {
+  color: var(--player);
+  border-bottom: 1px solid rgba(0, 184, 212, 0.25);
+}
+#units li.unit-section-header.section-sistema {
+  color: var(--sistema);
+  border-bottom: 1px solid rgba(255, 82, 82, 0.25);
+  margin-top: 8px;
+}
+
+/* W8f — Player li: prominent + clickable. Thicker border + hover elevation + cursor pointer. */
+#units li.player {
+  border-left: 6px solid var(--player);
+  background: rgba(0, 184, 212, 0.04);
+  cursor: pointer;
+  transition:
+    background 0.15s ease-out,
+    transform 0.12s ease-out;
+}
+#units li.player:hover {
+  background: rgba(0, 184, 212, 0.12);
+  transform: translateX(2px);
+}
+/* W8f — Sistema li: dimmed, target-only (click = attack target quando PG selected). */
 #units li.sistema {
-  border-left-color: var(--sistema);
+  border-left: 3px solid var(--sistema);
+  background: rgba(255, 82, 82, 0.04);
+  opacity: 0.78;
+  cursor: pointer;
+}
+#units li.sistema:hover {
+  background: rgba(255, 82, 82, 0.1);
+  opacity: 1;
+}
+
+/* W8f — Display name "Species · Job" primary + tech id compact secondary. */
+.unit-display-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.unit-tech-id {
+  font-size: 0.62rem;
+  color: var(--dim);
+  opacity: 0.6;
+  margin-left: 4px;
+  font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
 }
 #units li.active {
   background: rgba(255, 204, 0, 0.1);

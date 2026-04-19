@@ -200,7 +200,48 @@ export function renderUnits(
     ul.dispatchEvent(new CustomEvent('abilities-ready'));
   });
   ul.innerHTML = '';
-  for (const u of state.units || []) {
+  // W8f — Raggruppa player prima (prominenti, clickabili), SIS dopo (dimmed).
+  // Aggiungi section header per chiarezza (user feedback: "sono tutte uguali").
+  const units = state.units || [];
+  const players = units.filter((u) => u.controlled_by === 'player');
+  const sistemi = units.filter((u) => u.controlled_by !== 'player');
+  const groups = [
+    { label: 'I tuoi PG — click per selezionare', units: players, kind: 'player' },
+    { label: 'Sistema — nemici', units: sistemi, kind: 'sistema' },
+  ];
+  for (const g of groups) {
+    if (g.units.length === 0) continue;
+    const sep = document.createElement('li');
+    sep.className = `unit-section-header section-${g.kind}`;
+    sep.textContent = g.label;
+    sep.setAttribute('aria-hidden', 'true');
+    ul.appendChild(sep);
+    for (const u of g.units)
+      renderUnitLi(
+        ul,
+        state,
+        u,
+        selectedId,
+        onClick,
+        pendingIntents,
+        onCancelIntent,
+        predictedOrder,
+      );
+  }
+}
+
+// W8f — Extract per-unit li render (was inline). Called after section grouping.
+function renderUnitLi(
+  ul,
+  state,
+  u,
+  selectedId,
+  onClick,
+  pendingIntents,
+  onCancelIntent,
+  predictedOrder,
+) {
+  {
     const li = document.createElement('li');
     li.classList.add(u.controlled_by === 'player' ? 'player' : 'sistema');
     if (isUnitDead(u)) li.classList.add('dead');
@@ -218,12 +259,26 @@ export function renderUnits(
 
     const statusChips = renderStatusChips(u);
 
+    // W8f — Display name: species + job primary, technical id small below.
+    // Canonical: "Dune Stalker · Scout" invece di "p_scout".
+    const speciesName = (u.species || '').toString().replace(/_/g, ' ');
+    const speciesCap = speciesName
+      ? speciesName.charAt(0).toUpperCase() + speciesName.slice(1)
+      : '';
+    const jobCap = u.job ? u.job.charAt(0).toUpperCase() + u.job.slice(1) : '';
+    const displayName = speciesCap
+      ? jobCap
+        ? `${speciesCap} · ${jobCap}`
+        : speciesCap
+      : u.id || '—';
+
     // W8d — All user-controlled string fields esc() escaped per XSS prevention.
+    // W8f — Display name "Species · Job" primary (es. "Dune Stalker · Scout"),
+    // id tecnico piccolo sotto (debug/reference).
     li.innerHTML = `
       <div class="unit-head">
-        <strong>${esc(u.id)}</strong>
-        ${u.job ? `<span class="unit-job">${esc(u.job)}</span>` : ''}
-        ${u.species ? `<span class="unit-species" title="species">${esc(u.species)}</span>` : ''}
+        <strong class="unit-display-name">${esc(displayName)}</strong>
+        <code class="unit-tech-id" title="Internal unit id">${esc(u.id)}</code>
       </div>
       <div class="unit-bars">
         <div class="bar-row">
