@@ -17,6 +17,7 @@ import { openReplay } from './replayPanel.js';
 import { sfx, setMuted, isMuted } from './sfx.js';
 import { initHelpPanel } from './helpPanel.js';
 import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
+import { toggleCodex } from './codexPanel.js';
 
 const state = {
   sid: null,
@@ -605,11 +606,13 @@ async function doAction(body) {
         : `→ atk ${body.target_id}`;
     appendLog(logEl, `${body.actor_id}: ${tag} (pending)`);
     redraw();
-    // W8h — Onboarding tips (first-time per action type + first intent).
+    // W8h / W8L — Onboarding tip (solo first-time per action type).
+    // W8L fix: rimosso setTimeout intent-declared redundant (sovrapponeva +
+    // user non poteva leggere first-move perché chiudeva subito). Content
+    // già in first-move/first-attack page 2.
     if (body.action_type === 'move') showTip('first-move');
     else if (body.action_type === 'attack') showTip('first-attack');
     else if (body.action_type === 'ability') showTip('first-ability');
-    setTimeout(() => showTip('intent-declared'), 1100);
     // W6.1 — Auto-commit rimosso (user bug report: "scatta il round appena clicco secondo PG").
     // Explicit "Fine turno" only. User può re-declare per cambiare idea.
     // Opt-in tramite localStorage flag `evo:auto-commit` = 'true' (power-user).
@@ -825,6 +828,10 @@ document.getElementById('new-session').addEventListener('click', () => {
 });
 document.getElementById('reset-round')?.addEventListener('click', async () => {
   await emergencyResetRound();
+});
+// W8L — Codex btn header (in-game wiki: Tips re-read + Glossario + Abilità + Status).
+document.getElementById('codex-open')?.addEventListener('click', () => {
+  toggleCodex();
 });
 // W8k / W8k2 — timer toggle header btn. DEFAULT OFF (user feedback).
 // User clicca per opt-in ON.
