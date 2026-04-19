@@ -1,9 +1,10 @@
 // Minimal animation layer — interpolated unit positions + damage popups + flash + attack rays.
 
-const ANIM_MS = 240; // move tween duration (slight boost per W2.3 visual clarity)
-const POPUP_MS = 1100; // popup fade-out
-const FLASH_MS = 320; // unit flash on hit
-const RAY_MS = 280; // attack ray line
+// W8O — FX durate bumped per visibilità (user: "combat oscuro e no ncodificato").
+const ANIM_MS = 260; // move tween duration
+const POPUP_MS = 1800; // popup fade-out (era 1100, troppo veloce)
+const FLASH_MS = 480; // unit flash on hit (era 320)
+const RAY_MS = 420; // attack ray line (era 280)
 
 // W8b — Shared anim constants used by main.js (commit-round timing + SIS stagger).
 export const ACTION_ANIM_STAGGER_MS = 350; // ms delay between staggered round actions
@@ -126,14 +127,16 @@ export function drawPopups(ctx, cellSize, gridH) {
     const yPx = gridH - 1 - p.y;
     const alpha = 1 - t;
     ctx.globalAlpha = alpha;
-    ctx.fillStyle = p.color;
-    ctx.font = 'bold 18px "SF Mono", monospace';
+    // W8O — font più grande (bump 18→26px) + stroke outline per contrast.
+    ctx.font = 'bold 26px "SF Mono", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText(
-      p.text,
-      p.x * cellSize + cellSize / 2,
-      yPx * cellSize + cellSize / 2 - 14 - t * 30,
-    );
+    const px = p.x * cellSize + cellSize / 2;
+    const py = yPx * cellSize + cellSize / 2 - 18 - t * 40;
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = 'rgba(0,0,0,0.85)';
+    ctx.strokeText(p.text, px, py);
+    ctx.fillStyle = p.color;
+    ctx.fillText(p.text, px, py);
     ctx.globalAlpha = 1;
   }
 }

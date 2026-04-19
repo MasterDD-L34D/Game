@@ -3,7 +3,14 @@
 import { getInterpolatedPos, drawPopups, drawRays, getFlashAlpha, hasActiveAnims } from './anim.js';
 import { getSpeciesDisplayIt } from './speciesNames.js';
 
-const CELL = 64; // pixel per cell
+// W8O — CELL ora dinamico (responsive). Era const 64 → canvas sempre w*64 × h*64
+// piccolo in viewport grande. User feedback: "la mappa occupa parte troppo piccola
+// dello schermo, deve adattarsi mantenendo stesso numero quadretti".
+// fitCanvas() compute CELL da container available space. getter pubblico per anim.
+let CELL = 64;
+export function getCellSize() {
+  return CELL;
+}
 const COLORS = {
   grid: '#2a2a2a',
   gridAlt: '#303030',
@@ -154,6 +161,14 @@ const STATUS_ICONS = {
 };
 
 export function fitCanvas(canvas, width, height) {
+  // W8O — compute CELL from available container space. Keep grid N cells costant.
+  // Max cell size 96px (leggibile TV), min 40 (mobile). Use min(container W, 78vh).
+  const parent = canvas.parentElement;
+  const containerW = parent ? parent.clientWidth : window.innerWidth;
+  const containerH = window.innerHeight * 0.78;
+  const byW = Math.floor(containerW / width);
+  const byH = Math.floor(containerH / height);
+  CELL = Math.max(40, Math.min(96, Math.min(byW, byH)));
   canvas.width = width * CELL;
   canvas.height = height * CELL;
 }
@@ -465,7 +480,8 @@ export function render(canvas, state, highlight = {}) {
   if (!state || !state.grid) return;
   const w = state.grid.width;
   const h = state.grid.height;
-  if (canvas.width !== w * CELL || canvas.height !== h * CELL) fitCanvas(canvas, w, h);
+  // W8O — sempre refit (CELL dinamico risponde a viewport resize).
+  fitCanvas(canvas, w, h);
 
   const ctx = canvas.getContext('2d');
   // Checkered grid

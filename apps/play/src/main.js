@@ -1192,6 +1192,15 @@ async function loadModulations() {
 // M4 P0 W2 — Help panel (? key, top-right button, auto-open prima sessione)
 initHelpPanel('help-open');
 
+// W8O — Resize listener: redraw canvas quando viewport cambia (CELL dinamico).
+let _resizeTimeout = null;
+window.addEventListener('resize', () => {
+  if (_resizeTimeout) clearTimeout(_resizeTimeout);
+  _resizeTimeout = setTimeout(() => {
+    if (state.world) redraw();
+  }, 120);
+});
+
 // M4 P0 W2 — Fullscreen toggle
 const fsBtn = document.getElementById('fullscreen-toggle');
 if (fsBtn) {

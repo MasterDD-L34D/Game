@@ -32,22 +32,25 @@ export async function renderAbilities(unit, state, onAbility) {
   const titleEl = document.getElementById('abilities-title');
   const container = document.getElementById('abilities');
   const myToken = ++_renderToken;
-  container.innerHTML = '';
+  // W8O fix: empty unit → clear + return. Altri casi: NON wipe prima del await
+  // check. Prima era: wipe sempre → se stale return → container vuoto (bug
+  // round 2 "barra si è buggata"). Ora wipe solo post-await se ancora latest.
   if (!unit || !unit.job) {
     titleEl.classList.add('hidden-empty');
+    container.innerHTML = '';
     return;
   }
   titleEl.classList.remove('hidden-empty');
 
   const detail = await loadJobDetail(unit.job);
-  if (myToken !== _renderToken) return; // stale call — newer render already took over
+  if (myToken !== _renderToken) return; // stale call — no DOM mutation, lascia render più recente
+  container.innerHTML = '';
   if (!detail || !Array.isArray(detail.abilities) || detail.abilities.length === 0) {
     container.innerHTML = `<div class="ab-empty">Nessuna ability per ${unit.job}</div>`;
     return;
   }
 
   titleEl.textContent = `Abilities · ${unit.job}`;
-  container.innerHTML = ''; // clear again post-await in case stale empty-state appended
   for (const ab of detail.abilities) {
     const abilityId = ab.ability_id || ab.id;
     const label = ab.name_it || ab.label_it || ab.name || ab.label || abilityId || '???';
