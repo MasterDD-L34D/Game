@@ -194,12 +194,17 @@ test('declareIntent accumulates intent in pending_intents', () => {
   assert.equal(state.pending_intents[1].unit_id, 'bravo');
 });
 
-test('declareIntent latest-wins for same unit', () => {
+test('declareIntent appends for same unit (W8k override — multi-intent)', () => {
+  // W8k 2026-04-19 override ADR-2026-04-15: declareIntent APPEND invece di
+  // latest-wins. Pre-W8k era latest-wins (1 intent per unit), post W8k
+  // unit può dichiarare N intent finché AP budget sufficiente. Per
+  // "cambiare idea" ora: clearIntent(unit) + declareIntent nuovo.
   let state = makeState({ round_phase: PHASE_PLANNING });
   state = declareIntent(state, 'alpha', attackAction('alpha', 'bravo')).nextState;
   state = declareIntent(state, 'alpha', moveAction('alpha')).nextState;
-  assert.equal(state.pending_intents.length, 1);
-  assert.equal(state.pending_intents[0].action.type, 'move');
+  assert.equal(state.pending_intents.length, 2, 'APPEND: 2 intent accumulati per alpha');
+  assert.equal(state.pending_intents[0].action.type, 'attack');
+  assert.equal(state.pending_intents[1].action.type, 'move');
 });
 
 test('clearIntent removes pending intent', () => {
