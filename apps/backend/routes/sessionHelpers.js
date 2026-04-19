@@ -16,6 +16,7 @@ const {
   VALID_FACINGS,
   JOB_INITIATIVE,
   JOB_STATS,
+  JOB_ARCHETYPE,
 } = require('./sessionConstants');
 
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
@@ -63,6 +64,12 @@ function normaliseUnit(raw, fallbackIndex) {
       : DEFAULT_INITIATIVE;
   const rawFacing = input.facing ? String(input.facing).toUpperCase() : null;
   const facing = VALID_FACINGS.has(rawFacing) ? rawFacing : fallbackIndex === 0 ? 'S' : 'N';
+  // M6-Z: resistance_archetype derived from input o job mapping.
+  // Priority: explicit input field > JOB_ARCHETYPE[job] > null (fallback default adattivo
+  // applicato da resistanceEngine.getArchetypeResistances se absente).
+  const resistanceArchetype = input.resistance_archetype
+    ? String(input.resistance_archetype)
+    : JOB_ARCHETYPE[job] || null;
   return {
     id,
     species: input.species ? String(input.species) : 'unknown',
@@ -81,6 +88,7 @@ function normaliseUnit(raw, fallbackIndex) {
     facing,
     position,
     controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
+    resistance_archetype: resistanceArchetype,
   };
 }
 
@@ -360,6 +368,15 @@ function applyPressureDelta(current, delta) {
 // Mirror dei delta events da sistema_pressure.yaml.
 // Mantenuto qui per evitare YAML loader in hot path (round flow).
 // Sync con packs/evo_tactics_pack/data/balance/sistema_pressure.yaml §deltas.
+//
+// NOTA DESIGN (balance-auditor 2026-04-19 review): la direzione corrente è:
+// - pg_kills_sis +20 = AI escalates in risposta a threat player
+// - sg_pg_down -10 = AI mercy quando team soffre
+// - round_decay -1 = natural ease su stall
+// Balance-auditor propone inversione: player killing → AI ease (reward), enemy
+// killing → AI escalate (AI Progress meter). Entrambe valide design-wise.
+// Test `postmortemWiring.test.js` encode la direzione corrente come contract.
+// Inversione = design decision, non bug. Tracciato in M7 sprint pending ADR.
 const PRESSURE_DELTAS = Object.freeze({
   pg_kills_sis: 20, // player KO sistema → pressure sale (engage)
   sg_pg_down: -10, // sistema KO player → pressure cala (Sistema si placa)

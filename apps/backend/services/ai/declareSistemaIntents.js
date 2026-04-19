@@ -38,6 +38,15 @@
 
 const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE, loadAiConfig } = require('./policy');
 const { selectAiPolicyUtility } = require('./utilityBrain');
+const { ARCHETYPE_VULN_CHANNEL } = require('../../routes/sessionConstants');
+
+// M6-Z: pick canale attacco che sfrutta vuln del target basato su archetype.
+// Fallback "fisico" default se target senza archetype o archetype adattivo.
+function pickExploitChannel(target) {
+  if (!target || !target.resistance_archetype) return 'fisico';
+  const vuln = ARCHETYPE_VULN_CHANNEL[target.resistance_archetype];
+  return vuln || 'fisico';
+}
 
 // Sistema pressure tier → max intents per round (AI War pattern).
 // Mirror dei tier definiti in packs/.../sistema_pressure.yaml e in
@@ -244,6 +253,7 @@ function createDeclareSistemaIntents(deps) {
         // portabile: il resolver (placeholder in PR 2, reale in PR 4)
         // puo' override via i trait/stats dell'actor. Il field
         // `source_ia_rule` e' metadata per la UI/log.
+        // M6-Z: canale exploit target.resistance_archetype (enemy AI smart).
         const action = {
           id: `sis-attack-${actor.id}`,
           type: 'attack',
@@ -251,7 +261,7 @@ function createDeclareSistemaIntents(deps) {
           target_id: target.id,
           ability_id: null,
           ap_cost: 1,
-          channel: null,
+          channel: pickExploitChannel(target),
           damage_dice: deps._damageDice || { count: 1, sides: 6, modifier: 2 },
           source_ia_rule: policy.rule,
         };
