@@ -18,8 +18,10 @@ const COLORS = {
   hpCrit: '#f44336',
 };
 
-// W2.4 — Job/class color accent (outer ring oltre faction).
-// Mirror sidebar CSS `#units li[data-job=...]` palette.
+// W2.4 / W8c — Job/class color accent (outer ring oltre faction).
+// MIRROR di CSS `:root --job-*` tokens (style.css). Source of truth = CSS.
+// Canvas 2D API non supporta CSS custom properties → duplicazione necessaria.
+// Any job color change MUST update both locations sync.
 const JOB_COLORS = {
   vanguard: '#5d4037',
   tank: '#5d4037',
