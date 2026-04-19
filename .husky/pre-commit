@@ -12,3 +12,7 @@ fi
 npx lint-staged
 
 node tools/check_backups_binary.js
+
+# M7-#1: replace_all safety warn (non-blocking). Rileva rename massivi
+# identificatori ambigui (pattern che causò #1628 + #1641 bug production).
+node scripts/lint/replace_all_safety.js || true
