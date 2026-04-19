@@ -224,6 +224,83 @@ canvas#grid {
     box-shadow 0.18s ease-out;
 }
 
+/* W8h — Contextual first-time tip popup (onboarding learn-by-doing).
+ * Bottom-left, non-blocking, dismissible via ESC or ✕. Persistono seen via localStorage. */
+.tip-popup {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 85; /* sopra canvas (20), sotto help modal (9000+) */
+  max-width: 340px;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all 0.3s ease-out;
+}
+.tip-popup:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.tip-popup.hidden {
+  display: none;
+}
+.tip-popup .tip-content {
+  background: var(--panel);
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+.tip-popup .tip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.tip-popup .tip-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.tip-popup .tip-title {
+  color: var(--accent);
+  font-size: 1rem;
+  flex: 1;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.tip-popup .tip-close {
+  background: transparent;
+  border: 1px solid var(--dim);
+  color: var(--fg);
+  width: 26px;
+  height: 26px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0;
+  line-height: 1;
+}
+.tip-popup .tip-close:hover {
+  background: var(--sistema);
+  border-color: var(--sistema);
+  color: #fff;
+}
+.tip-popup .tip-body {
+  font-size: 0.9rem;
+  color: var(--fg);
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+.tip-popup .tip-dismiss {
+  font-size: 0.7rem;
+  color: var(--dim);
+  text-align: center;
+  font-style: italic;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
 /* W4.1 / W6 — Intent badge sidebar (pending / declared) + cancel btn. */
 .intent-row {
   display: flex;

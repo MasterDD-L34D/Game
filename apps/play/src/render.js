@@ -289,26 +289,46 @@ function drawRangeOverlay(ctx, state, gridH, selectedId) {
   }
 
   // Move range (Manhattan <= AP, escluse celle occupate).
-  // W6.2a — AP cost label per tile (user bug: "non mostrati costi caselle movimento").
+  // W6.2a — AP cost label per tile.
+  // W8h — Readability fix (user feedback run5): ciano su ciano era low contrast (WCAG fail).
+  // Nuovo: dark badge pill + white text + shadow. Contrast ratio 18:1 (WCAG AAA).
   if (ap > 0) {
     ctx.save();
+    ctx.font = 'bold 12px "SF Mono", "Menlo", monospace';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
     for (let gy = 0; gy < gridH; gy += 1) {
       for (let gx = 0; gx < gridW; gx += 1) {
         const d = Math.abs(gx - ux) + Math.abs(gy - uy);
         if (d === 0 || d > ap) continue;
         if (occupied.has(`${gx},${gy}`)) continue;
         const yPx = gridH - 1 - gy;
+        // Tint fill + border (unchanged)
         ctx.fillStyle = RANGE_TINT.move;
         ctx.fillRect(gx * CELL, yPx * CELL, CELL, CELL);
         ctx.strokeStyle = RANGE_TINT.moveBorder;
         ctx.lineWidth = 1.5;
         ctx.strokeRect(gx * CELL + 2, yPx * CELL + 2, CELL - 4, CELL - 4);
-        // AP cost label (angolo top-left tile)
-        ctx.fillStyle = 'rgba(0, 184, 212, 0.92)';
-        ctx.font = 'bold 11px "SF Mono", monospace';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-        ctx.fillText(`${d} AP`, gx * CELL + 5, yPx * CELL + 4);
+        // AP badge — dark pill background (top-left).
+        const label = `${d} AP`;
+        const badgeW = ctx.measureText(label).width + 10;
+        const badgeH = 18;
+        const bx = gx * CELL + 4;
+        const by = yPx * CELL + 4;
+        ctx.fillStyle = 'rgba(15, 15, 15, 0.85)';
+        ctx.beginPath();
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(bx, by, badgeW, badgeH, 4);
+        } else {
+          ctx.rect(bx, by, badgeW, badgeH);
+        }
+        ctx.fill();
+        ctx.strokeStyle = RANGE_TINT.moveBorder;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        // White text on dark bg — WCAG AAA.
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(label, bx + 5, by + 3);
       }
     }
     ctx.restore();

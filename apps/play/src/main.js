@@ -16,6 +16,7 @@ import {
 import { openReplay } from './replayPanel.js';
 import { sfx, setMuted, isMuted } from './sfx.js';
 import { initHelpPanel } from './helpPanel.js';
+import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
 
 const state = {
   sid: null,
@@ -136,6 +137,8 @@ function downloadEvalSet() {
 window.__dbg = window.__dbg || {};
 window.__dbg.downloadEvalSet = downloadEvalSet;
 window.__dbg.evalSetSize = () => state.evalSet.length;
+// W8h — reset all tip seen flags (per re-playtest first-time flow).
+window.__dbg.resetTips = resetAllTips;
 
 // W4.6 — Planning timer 30s config + interval handle
 const PLANNING_TIMER_MS = 30_000;
@@ -346,6 +349,9 @@ function handleUnitClick(unit) {
     sfx.select();
     updateHint(`Selezionato ${unit.id}. Click cella=move · click nemico=attack · sidebar=ability.`);
     redraw();
+    // W8h — onboarding tips (first-time only). Range overlay visible → spiega colori.
+    showTip('select-unit');
+    setTimeout(() => showTip('range-overlay'), 900);
   } else {
     if (!state.selected) {
       updateHint('Seleziona prima una tua unità.');
@@ -550,6 +556,9 @@ async function doAction(body) {
     if (!r.ok) {
       appendLog(logEl, `✖ ${r.data?.error || `HTTP ${r.status}`}`, 'error');
       updateHint(`❌ ${r.data?.error || 'Intent rifiutato.'} · riprova`);
+      // W8h — Error recovery tip: parse error → specific tip (first time error only).
+      const recovery = buildRecoveryTipMessage(r.data?.error || '');
+      if (recovery) showTip('invalid-action', recovery);
       return;
     }
     // W4.1 — track intent client-side per badge sidebar. Latest-wins (re-declare override).
@@ -561,6 +570,11 @@ async function doAction(body) {
         : `→ atk ${body.target_id}`;
     appendLog(logEl, `${body.actor_id}: ${tag} (pending)`);
     redraw();
+    // W8h — Onboarding tips (first-time per action type + first intent).
+    if (body.action_type === 'move') showTip('first-move');
+    else if (body.action_type === 'attack') showTip('first-attack');
+    else if (body.action_type === 'ability') showTip('first-ability');
+    setTimeout(() => showTip('intent-declared'), 1100);
     // W6.1 — Auto-commit rimosso (user bug report: "scatta il round appena clicco secondo PG").
     // Explicit "Fine turno" only. User può re-declare per cambiare idea.
     // Opt-in tramite localStorage flag `evo:auto-commit` = 'true' (power-user).
@@ -864,6 +878,8 @@ async function triggerCommitRound() {
   sfx.turn_end();
   appendLog(logEl, '→ risolvo round');
   stopPlanningTimer();
+  // W8h — Onboarding tip first time round resolve.
+  showTip('round-resolve');
 
   try {
     if (!state.roundInit) {
