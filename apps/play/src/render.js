@@ -490,7 +490,12 @@ export function render(canvas, state, highlight = {}) {
   fitCanvas(canvas, w, h);
 
   const ctx = canvas.getContext('2d');
-  const tileImg = resolveTileImg(state);
+  // HOTFIX 2026-04-19: resolveTileImg() era definita in PR #1602 (USE_NEW_ART flag)
+  // ma rimossa inavvertitamente da Wave 8O (#1626) canvas refactor. ReferenceError
+  // in render() interrompeva redraw → units sidebar vuota + canvas non disegnato.
+  // Fallback a null disabilita tile art (opt-in feature), drawCell già gestisce
+  // tileImg falsy con checkered grid fallback (vedi drawCell line 189).
+  const tileImg = null;
   // Checkered grid (o tile PNG se flag ON + asset loaded)
   for (let gy = 0; gy < h; gy += 1) {
     for (let gx = 0; gx < w; gx += 1) {
