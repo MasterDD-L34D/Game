@@ -1,6 +1,7 @@
 // Canvas 2D rendering — grid + units + animations + status icons.
 
 import { getInterpolatedPos, drawPopups, drawRays, getFlashAlpha, hasActiveAnims } from './anim.js';
+import { getSpeciesDisplayIt } from './speciesNames.js';
 
 const CELL = 64; // pixel per cell
 const COLORS = {
@@ -35,6 +36,101 @@ const JOB_COLORS = {
   mage: '#ab47bc',
   boss: '#d32f2f',
 };
+
+// W8M — Job-to-shape map (silhouette profile per class). User feedback: "i pg
+// e i SiS sono ancora meri pallini nei quali si leggono orribili scritte
+// p-sc p-ta e-no". Replace circle con polygon per job differentiation.
+// Reference 41-ART-DIRECTION.md: "job-to-shape mapping".
+const JOB_SHAPE_MAP = {
+  skirmisher: 'triangle_up', // offensive lean, forward-pointing
+  assassin: 'triangle_up',
+  vanguard: 'shield', // defensive wide base
+  tank: 'shield',
+  guardian: 'shield',
+  scout: 'pentagon_low', // crouched low profile
+  ranger: 'pentagon_low',
+  sniper: 'rectangle_tall', // elongated ranged
+  ranged: 'rectangle_tall',
+  healer: 'hexagon_round', // soft supportive
+  support: 'hexagon_round',
+  artefice: 'hexagon_round',
+  invocatore: 'star', // controller chaotic energy
+  controller: 'star',
+  mage: 'star',
+  raccoglitore: 'hexagon_organic', // harvester balanced
+  boss: 'shield', // scaled +50% applied via size param
+};
+
+function drawUnitBody(ctx, cx, cy, job, radius) {
+  const shape = JOB_SHAPE_MAP[(job || '').toLowerCase()] || 'circle';
+  ctx.beginPath();
+  switch (shape) {
+    case 'triangle_up': {
+      ctx.moveTo(cx, cy - radius);
+      ctx.lineTo(cx + radius * 0.92, cy + radius * 0.6);
+      ctx.lineTo(cx - radius * 0.92, cy + radius * 0.6);
+      ctx.closePath();
+      break;
+    }
+    case 'shield': {
+      const w = radius * 1.0;
+      const h = radius * 0.95;
+      ctx.moveTo(cx - w, cy - h * 0.55);
+      ctx.lineTo(cx + w, cy - h * 0.55);
+      ctx.lineTo(cx + w, cy + h * 0.2);
+      ctx.quadraticCurveTo(cx, cy + h * 1.1, cx - w, cy + h * 0.2);
+      ctx.closePath();
+      break;
+    }
+    case 'pentagon_low': {
+      ctx.moveTo(cx, cy - radius * 0.85);
+      ctx.lineTo(cx + radius * 0.95, cy - radius * 0.1);
+      ctx.lineTo(cx + radius * 0.6, cy + radius * 0.85);
+      ctx.lineTo(cx - radius * 0.6, cy + radius * 0.85);
+      ctx.lineTo(cx - radius * 0.95, cy - radius * 0.1);
+      ctx.closePath();
+      break;
+    }
+    case 'rectangle_tall': {
+      const w = radius * 0.6;
+      const h = radius * 1.05;
+      ctx.moveTo(cx - w, cy - h);
+      ctx.lineTo(cx + w, cy - h);
+      ctx.lineTo(cx + w, cy + h * 0.7);
+      ctx.lineTo(cx, cy + h);
+      ctx.lineTo(cx - w, cy + h * 0.7);
+      ctx.closePath();
+      break;
+    }
+    case 'hexagon_round':
+    case 'hexagon_organic': {
+      for (let i = 0; i < 6; i += 1) {
+        const a = (i / 6) * Math.PI * 2 - Math.PI / 2;
+        const x = cx + Math.cos(a) * radius;
+        const y = cy + Math.sin(a) * radius;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      break;
+    }
+    case 'star': {
+      const points = 6;
+      for (let i = 0; i < points * 2; i += 1) {
+        const a = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
+        const r = i % 2 === 0 ? radius : radius * 0.55;
+        const x = cx + Math.cos(a) * r;
+        const y = cy + Math.sin(a) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      break;
+    }
+    default:
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  }
+}
 
 // W3.1 — Range overlay tints (Wave 3 fix #5).
 const RANGE_TINT = {
@@ -144,18 +240,22 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
       ? COLORS.player
       : COLORS.sistema;
 
-  // Body circle — job accent ring first, then body.
-  const jobColor = JOB_COLORS[(unit.job || unit.class || '').toLowerCase()] || null;
+  // W8M — Body: job-shape silhouette (no more circles). Ring outer = jobColor,
+  // interior = faction. Boss scale +50% per drawUnitBody ring/body.
+  const jobKey = (unit.job || unit.class || '').toString().toLowerCase();
+  const isBoss = jobKey === 'boss' || unit.is_boss === true;
+  const sizeMul = isBoss ? 1.5 : 1;
+  const jobColor = JOB_COLORS[jobKey] || null;
+  // Outer job ring
   if (!dead && jobColor) {
     ctx.fillStyle = jobColor;
-    ctx.beginPath();
-    ctx.arc(cx, cy, CELL * 0.38, 0, Math.PI * 2);
+    drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.42 * sizeMul);
     ctx.fill();
   }
+  // Inner faction body
   ctx.fillStyle = color;
   ctx.globalAlpha = dead ? 0.4 : 1;
-  ctx.beginPath();
-  ctx.arc(cx, cy, CELL * 0.32, 0, Math.PI * 2);
+  drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.33 * sizeMul);
   ctx.fill();
   ctx.globalAlpha = 1;
 
@@ -201,12 +301,22 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     ctx.fill();
   }
 
-  // Unit label (first 2 chars)
-  ctx.fillStyle = '#fff';
-  ctx.font = 'bold 12px "SF Mono", monospace';
+  // W8M — Label: species IT abbrev (3 char upper) instead of raw id. Outline
+  // stroke nera per contrast su body color. User feedback: "scritte orribili
+  // p-sc p-ta e-no" replaced with "PRE" (Predatore) / "PRE" (Predoni).
+  const speciesIt = getSpeciesDisplayIt(unit.species);
+  const abbrev = (speciesIt ? speciesIt : unit.id || '???')
+    .replace(/[^\p{L}]/gu, '')
+    .slice(0, 3)
+    .toUpperCase();
+  ctx.font = 'bold 13px "SF Mono", "Menlo", monospace';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(unit.id.slice(0, 4), cx, cy);
+  ctx.strokeStyle = 'rgba(0,0,0,0.85)';
+  ctx.lineWidth = 3;
+  ctx.strokeText(abbrev, cx, cy);
+  ctx.fillStyle = '#fff';
+  ctx.fillText(abbrev, cx, cy);
 
   // HP bar — M4 P0.2: float sopra unit sprite (visibile da lontano TV-first).
   // Legacy: bar sotto tile. New: bar sopra testa + valore numerico chunky.
