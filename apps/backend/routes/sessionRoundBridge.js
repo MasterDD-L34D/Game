@@ -339,7 +339,7 @@ function createRoundBridge(deps) {
 
     actor.ap_remaining = Math.max(
       0,
-      (actor.ap_remaining ?? actor.ap) - Number(action.ap_cost || 1),
+      (actor.ap_remaining ?? actor.ap) - Number(roundAction.ap_cost || 1),
     );
     const hpBefore = target.hp;
     const targetPositionAtAttack = { ...target.position };
