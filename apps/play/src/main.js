@@ -441,9 +441,26 @@ canvas.addEventListener('mousemove', (ev) => {
     return;
   }
   tooltipEl.innerHTML = buildUnitTooltip(unit);
-  tooltipEl.style.left = `${ev.clientX + 14}px`;
-  tooltipEl.style.top = `${ev.clientY + 14}px`;
+  // M7 fix: boundary-aware positioning. Se tooltip esce da viewport
+  // riposiziona a sx/sopra del cursore. Evita clip dietro canvas/panels.
   tooltipEl.classList.remove('hidden');
+  const ttRect = tooltipEl.getBoundingClientRect();
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const offset = 14;
+  let left = ev.clientX + offset;
+  let top = ev.clientY + offset;
+  if (left + ttRect.width + 8 > vw) {
+    left = ev.clientX - ttRect.width - offset;
+  }
+  if (top + ttRect.height + 8 > vh) {
+    top = ev.clientY - ttRect.height - offset;
+  }
+  // Clamp a viewport minima
+  left = Math.max(8, left);
+  top = Math.max(8, top);
+  tooltipEl.style.left = `${left}px`;
+  tooltipEl.style.top = `${top}px`;
 });
 
 canvas.addEventListener('mouseleave', () => {
