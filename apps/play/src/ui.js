@@ -1,5 +1,7 @@
 // UI helpers — sidebar units + log.
 
+import { getSpeciesDisplayIt } from './speciesNames.js';
+
 // W8d — HTML escape helper per XSS prevention su user-controlled fields.
 // Backend può ritornare unit.id / job / trait / ability strings con caratteri speciali.
 // innerHTML flow deve escapare <, >, &, ", ' prima di injection.
@@ -146,7 +148,9 @@ export function formatEventLine(ev, unitId) {
 }
 
 // W7.D — Lazy cache abilities per job from /api/jobs. Populated on first render.
+// W8g — Also cache job display label IT (per 00E-NAMING_STYLEGUIDE canonical).
 const _abilitiesCache = new Map(); // job → [{ability_id, display_name, ap_cost}]
+const _jobLabelsIt = new Map(); // job_id → "Schermidore" / "Avanguardia" / etc.
 let _abilitiesFetchPromise = null;
 
 async function ensureAbilities() {
@@ -158,6 +162,9 @@ async function ensureAbilities() {
       for (const j of jobs) {
         const key = (j.id || j.job || '').toLowerCase();
         if (!key) continue;
+        // W8g — store IT label (primary display per 00E naming styleguide).
+        const labelIt = j.label || j.label_it || j.displayName || '';
+        if (labelIt) _jobLabelsIt.set(key, labelIt);
         const raw = Array.isArray(j.abilities)
           ? j.abilities
           : Array.isArray(j.ability_ids)
@@ -181,6 +188,19 @@ async function ensureAbilities() {
 
 function getAbilitiesForJob(job) {
   return _abilitiesCache.get((job || '').toLowerCase()) || [];
+}
+
+// W8g — Canonical job display label IT from jobs.yaml. Fallback capitalize slug.
+export function getJobLabelIt(jobId) {
+  if (!jobId) return '';
+  const key = String(jobId).toLowerCase();
+  if (_jobLabelsIt.has(key)) return _jobLabelsIt.get(key);
+  // Fallback: capitalize underscore-separated slug.
+  return String(jobId)
+    .replace(/_/g, ' ')
+    .split(' ')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 }
 
 export function renderUnits(
@@ -259,18 +279,13 @@ function renderUnitLi(
 
     const statusChips = renderStatusChips(u);
 
-    // W8f — Display name: species + job primary, technical id small below.
-    // Canonical: "Dune Stalker · Scout" invece di "p_scout".
-    const speciesName = (u.species || '').toString().replace(/_/g, ' ');
-    const speciesCap = speciesName
-      ? speciesName.charAt(0).toUpperCase() + speciesName.slice(1)
-      : '';
-    const jobCap = u.job ? u.job.charAt(0).toUpperCase() + u.job.slice(1) : '';
-    const displayName = speciesCap
-      ? jobCap
-        ? `${speciesCap} · ${jobCap}`
-        : speciesCap
-      : u.id || '—';
+    // W8f / W8g — Display name in ITALIANO per 00E-NAMING_STYLEGUIDE canonical.
+    // Species: getSpeciesDisplayIt() map statica (MIRROR species.yaml display_name_it).
+    // Job: getJobLabelIt() da /api/jobs label (IT). Fallback capitalize slug se mancante.
+    // Esempio: "Predatore delle Dune · Schermidore" (invece di "Dune stalker · Skirmisher").
+    const speciesIt = getSpeciesDisplayIt(u.species);
+    const jobIt = getJobLabelIt(u.job);
+    const displayName = speciesIt ? (jobIt ? `${speciesIt} · ${jobIt}` : speciesIt) : u.id || '—';
 
     // W8d — All user-controlled string fields esc() escaped per XSS prevention.
     // W8f — Display name "Species · Job" primary (es. "Dune Stalker · Scout"),
