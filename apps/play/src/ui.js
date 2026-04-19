@@ -55,8 +55,9 @@ const STATUS_LABELS = {
   },
 };
 
+// W8b — icon 16×16 per 42-STYLE-GUIDE-UI.md §Icon grid spec (was 14px).
 function statusIconSvg(svgBody, color) {
-  return `<svg class="status-svg" viewBox="0 0 24 24" width="14" height="14" style="color:${color};vertical-align:middle">${svgBody}</svg>`;
+  return `<svg class="status-svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="color:${color};vertical-align:middle">${svgBody}</svg>`;
 }
 
 function renderStatusChips(unit) {
@@ -66,8 +67,10 @@ function renderStatusChips(unit) {
     const v = status[key];
     if (v !== undefined && v !== null && (typeof v !== 'number' || v > 0)) {
       const label = typeof v === 'number' && v > 1 ? `${meta.label} (${v})` : meta.label;
+      // W8b — ARIA role="img" + aria-label per WCAG (42-SG accessibility).
+      // Icon aria-hidden (decorative), label testuale primary.
       chips.push(
-        `<span class="status-chip" style="background:${meta.color}" title="${key}">${statusIconSvg(meta.svg, '#000')} ${label}</span>`,
+        `<span class="status-chip" style="background:${meta.color}" title="${key}" role="img" aria-label="${meta.label}${typeof v === 'number' && v > 1 ? ` (intensità ${v})` : ''}">${statusIconSvg(meta.svg, '#000')} ${label}</span>`,
       );
     }
   }

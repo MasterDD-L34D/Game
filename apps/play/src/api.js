@@ -1,11 +1,25 @@
 // API client — proxy /api → backend (vedi vite.config.js).
 // Mirror shape di tools/js/play.js ma per browser.
 
+// W8-emergency (bug #5): wrap fetch in try/catch. Browser TypeError "Failed to fetch"
+// (network drop, backend restart, CORS) previously crashed callers without handle.
+// Now returns networkError flag so UI can retry + display friendly message.
 async function jsonFetch(path, opts = {}) {
-  const res = await fetch(path, {
-    ...opts,
-    headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
-  });
+  let res;
+  try {
+    res = await fetch(path, {
+      ...opts,
+      headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+    });
+  } catch (err) {
+    return {
+      ok: false,
+      status: 0,
+      data: null,
+      networkError: true,
+      errorMessage: err?.message || String(err),
+    };
+  }
   let data = null;
   try {
     data = await res.json();

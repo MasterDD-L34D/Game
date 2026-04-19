@@ -5,7 +5,14 @@ import { render, canvasToCell, needsAnimFrame } from './render.js';
 import { renderUnits, appendLog, updateStatus } from './ui.js';
 import { renderAbilities, clearAbilities } from './abilityPanel.js';
 import { detectEndgame, showEndgame, hideEndgame, nextScenarioId } from './endgame.js';
-import { recordMove, pushPopup, flashUnit, attackRay } from './anim.js';
+import {
+  recordMove,
+  pushPopup,
+  flashUnit,
+  attackRay,
+  ACTION_ANIM_STAGGER_MS,
+  COMMIT_REVEAL_MS,
+} from './anim.js';
 import { openReplay } from './replayPanel.js';
 import { sfx, setMuted, isMuted } from './sfx.js';
 import { initHelpPanel } from './helpPanel.js';
@@ -26,6 +33,21 @@ const state = {
   // W5.D — eval set Flint v0.3 decision trace (JSONL pairs per decision)
   evalSet: [],
 };
+
+// W8b — Shared utility helpers (from Wave 8 research audit).
+// getUnits: canonical unit list access (prima: 12+ repeated `state.world?.units || []`).
+function getUnits(world) {
+  return world && Array.isArray(world.units) ? world.units : [];
+}
+
+// getLocalStorageFlag: defensive localStorage boolean flag read (prima: 4 try/catch inline).
+function getLocalStorageFlag(key, truthyValue = 'true', defaultValue = false) {
+  try {
+    return localStorage.getItem(key) === truthyValue;
+  } catch {
+    return defaultValue;
+  }
+}
 
 // W7.B — ACTION_SPEED table mirror server-side (roundOrchestrator.py spec ADR-2026-04-15).
 // Usato per predicted priority preview in planning phase (UX: user capisce ordine pre-commit).
@@ -125,7 +147,8 @@ const logEl = document.getElementById('log');
 const hintEl = document.getElementById('selected-hint');
 
 function redraw() {
-  if (!state.world) return;
+  // W8b — guard: session must be active AND world state loaded.
+  if (!state.sid || !state.world) return;
   render(canvas, state.world, {
     selected: state.selected,
     target: state.target,
@@ -405,13 +428,10 @@ canvas.addEventListener('click', (ev) => {
   doAction({ action_type: 'move', actor_id: state.selected, position: { x, y } });
 });
 
-// M4 A.1 / W3 — Feature flag round model simultaneous.
-// W3 fix #1: default ON (ADR-2026-04-15 round model canonical). User playtest M4 run1
-// reported sequential feel: root cause = flag OFF default. Flip default ON, opt-out
-// con localStorage.setItem('evo:round-flow','sequential') per regression test.
-// ON = /api/session/declare-intent + /commit-round (simultaneous).
-// Opt-out = /api/session/action + /api/session/turn/end (legacy).
+// M4 A.1 / W3 — Feature flag round model simultaneous (default ON post Wave 3).
+// Opt-out: localStorage.setItem('evo:round-flow','sequential') per regression test.
 function useRoundFlow() {
+  // Inverted check: NOT 'sequential' = default ON (any other value = simultaneous).
   try {
     return localStorage.getItem('evo:round-flow') !== 'sequential';
   } catch {
@@ -419,16 +439,8 @@ function useRoundFlow() {
   }
 }
 
-// M4 A.2 — Feature flag confirm action (2-step commit).
-// Toggle: localStorage.setItem('evo:confirm-action','true') + reload.
-// ON = primo click = pending preview (ghost), secondo click stessa cella/target = confirm.
-function useConfirmAction() {
-  try {
-    return localStorage.getItem('evo:confirm-action') === 'true';
-  } catch {
-    return false;
-  }
-}
+// M4 A.2 — Feature flag confirm action (opt-in).
+const useConfirmAction = () => getLocalStorageFlag('evo:confirm-action');
 
 // Pending confirm state: { body, tag, ts }. Reset su cancel o commit.
 let _pendingConfirm = null;
@@ -454,7 +466,8 @@ function confirmMatch(prev, next) {
 }
 
 async function doAction(body) {
-  if (!state.sid) return;
+  // W8b — guard: both session + world must exist (doAction reads state.world units).
+  if (!state.sid || !state.world) return;
   // Safety: hard clear any pending ability + target mode prima di ogni action
   cancelPendingAbility(true);
   body.session_id = state.sid;
@@ -538,13 +551,7 @@ async function doAction(body) {
     );
     const allDeclared = alivePlayers.every((u) => state.pendingIntents.has(u.id));
     if (allDeclared && alivePlayers.length > 0) {
-      const autoCommit = (() => {
-        try {
-          return localStorage.getItem('evo:auto-commit') === 'true';
-        } catch {
-          return false;
-        }
-      })();
+      const autoCommit = getLocalStorageFlag('evo:auto-commit');
       if (autoCommit) {
         updateHint(`✓ Tutti dichiarati. Auto-commit 250ms…`);
         setTimeout(() => triggerCommitRound(), 250);
@@ -779,7 +786,7 @@ function processIaActions(iaActions) {
       );
       if (needsAnimFrame()) requestAnimationFrame(animTick);
     }, delay);
-    delay += 350; // stagger SIS actions so visible
+    delay += ACTION_ANIM_STAGGER_MS; // W8b: stagger via shared constant
   }
 }
 
@@ -856,16 +863,16 @@ async function triggerCommitRound() {
       }
     });
 
-    // W4.2 — commit reveal overlay pre-animations (700ms)
+    // W4.2 — commit reveal overlay pre-animations.
+    // W8b: constants from anim.js (COMMIT_REVEAL_MS, ACTION_ANIM_STAGGER_MS).
     const turnNum = (state.world?.turn || 0) + 1;
     showCommitReveal(turnNum, allActions.length);
 
-    const REVEAL_MS = 700;
     setTimeout(() => {
       if (allActions.length > 0) processIaActions(allActions);
-    }, REVEAL_MS);
+    }, COMMIT_REVEAL_MS);
 
-    const totalDelay = REVEAL_MS + allActions.length * 350 + 200;
+    const totalDelay = COMMIT_REVEAL_MS + allActions.length * ACTION_ANIM_STAGGER_MS + 200;
     setTimeout(async () => {
       try {
         await refresh();
@@ -969,7 +976,9 @@ document.getElementById('end-turn').addEventListener('click', async () => {
     return;
   }
   if (r.data?.ia_actions) processIaActions(r.data.ia_actions);
-  const totalDelay = Array.isArray(r.data?.ia_actions) ? r.data.ia_actions.length * 350 + 200 : 200;
+  const totalDelay = Array.isArray(r.data?.ia_actions)
+    ? r.data.ia_actions.length * ACTION_ANIM_STAGGER_MS + 200
+    : 200;
   setTimeout(async () => {
     await refresh();
     appendLog(logEl, '✓ turno giocatore pronto');

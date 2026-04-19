@@ -5,6 +5,10 @@ const POPUP_MS = 1100; // popup fade-out
 const FLASH_MS = 320; // unit flash on hit
 const RAY_MS = 280; // attack ray line
 
+// W8b — Shared anim constants used by main.js (commit-round timing + SIS stagger).
+export const ACTION_ANIM_STAGGER_MS = 350; // ms delay between staggered round actions
+export const COMMIT_REVEAL_MS = 700; // ms commit reveal overlay duration
+
 const movers = new Map(); // unit_id → { fromX, fromY, toX, toY, start }
 const popups = []; // [{ x, y, text, color, start }]
 const flashes = new Map(); // unit_id → { start, color }
