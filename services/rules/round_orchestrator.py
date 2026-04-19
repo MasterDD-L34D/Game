@@ -516,10 +516,16 @@ def declare_intent(
 ) -> Dict[str, Any]:
     """Registra un intent nella fase di planning. Preview-only.
 
-    NON muta AP/HP/log dello stato. Se l'unita' ha gia' un intent dichiarato
-    nel round corrente, viene sostituito (latest-wins). Questo riflette il
-    flusso UI: il giocatore puo' cambiare idea quante volte vuole prima del
-    commit.
+    NON muta AP/HP/log dello stato.
+
+    W8k (2026-04-19): SPEC CHANGE — ora APPEND invece di latest-wins.
+    Un'unita' puo' dichiarare N intents per round (es. 2 attacchi stesso target),
+    fino al limite AP. Backend non enforce limite (frontend filtra). Rationale:
+    user feedback "Sto cercando di fare 2 att con lo scout ma posso registrarne
+    solo uno". Override ADR-2026-04-15 latest-wins canonical per UX.
+
+    Per "cambiare idea" ora: chiamare ``clear_intent(unit_id)`` prima di nuovo
+    declare_intent (client-side: re-click azione).
 
     Raises:
         ValueError: se ``state.round_phase`` non e' ``'planning'``
@@ -535,11 +541,8 @@ def declare_intent(
     if _find_unit(state, unit_id) is None:
         raise KeyError(f"unit_id non trovato nello state: {unit_id}")
     next_state = copy.deepcopy(state)
-    intents = [
-        dict(i)
-        for i in next_state.get("pending_intents", [])
-        if str(i.get("unit_id", "")) != unit_id
-    ]
+    # W8k — append, no filter per unit_id (multi-intent per unit supported).
+    intents = [dict(i) for i in next_state.get("pending_intents", [])]
     intents.append({"unit_id": unit_id, "action": dict(action)})
     next_state["pending_intents"] = intents
     # Se era None, imposta planning per rendere esplicita la fase

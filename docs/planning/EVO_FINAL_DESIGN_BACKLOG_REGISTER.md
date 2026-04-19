@@ -3,7 +3,7 @@ title: Evo Final Design — Backlog Register
 doc_status: draft
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-15
+last_verified: 2026-04-19
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
@@ -59,13 +59,13 @@ Può essere usato per:
 
 ### EPIC B — Session model, controls e in-match HUD
 
-| Stato | Task                                          | Dettagli operativi                                                                             |
-| ----- | --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| ☑    | FD-010 - Definire session model               | DONE: ADR-2026-04-16 M1-M17. Round model (planning→commit→resolve) default ON. Legacy removed. |
-| ☐     | FD-011 - Scrivere controls spec minima        | PENDING: input, affordance, targeting, navigazione e conferme base.                            |
-| ☐     | FD-012 - Scrivere HUD in-match spec minima    | PENDING: AP, reazioni, targeting, status, biome feedback, warning e priorita visuali.          |
-| ☑    | FD-013 - Dichiarare boundary gioco vs tooling | DONE: Mission Console ≠ gameplay HUD (ADR-2026-04-14 + serve script #1416).                    |
-| ☐     | FD-014 - Linkare controls/HUD nel freeze      | PENDING: rendere esplicito gap chiuso.                                                         |
+| Stato | Task                                          | Dettagli operativi                                                                                                                                                                                                                                                      |
+| ----- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ☑    | FD-010 - Definire session model               | DONE: ADR-2026-04-16 M1-M17. Round model (planning→commit→resolve) default ON. Legacy removed.                                                                                                                                                                          |
+| ☐→☑  | FD-011 - Scrivere controls spec minima        | PARTIAL: Wave 2-7 (M4, 2026-04-18/19) ship input+hover tooltip+range overlay+planning toggle+per-PG abilities panel. Run4 playtest 2026-04-19 rivela 3 P0 gap (ability trigger non scopribile + commit-round crash + ability panel vuoto). Spec formale ancora pending. |
+| ☐→☑  | FD-012 - Scrivere HUD in-match spec minima    | PARTIAL: Wave 2-7 ship HUD cosmetic+help overlay+job colors+priority queue+speed label+per-PG panel+events tail. Run4 rivela gap: result persistent visibility + kill chain + enemy inspect separation + unit card legend. Spec formale pending.                        |
+| ☑    | FD-013 - Dichiarare boundary gioco vs tooling | DONE: Mission Console ≠ gameplay HUD (ADR-2026-04-14 + serve script #1416).                                                                                                                                                                                             |
+| ☐     | FD-014 - Linkare controls/HUD nel freeze      | PENDING: rendere esplicito gap chiuso.                                                                                                                                                                                                                                  |
 
 ### EPIC C — Combat canon e resolver
 

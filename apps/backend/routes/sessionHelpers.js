@@ -225,6 +225,13 @@ function publicSessionView(session) {
     grid: session.grid,
     grid_size: session.grid.width,
     log_events_count: session.events.length,
+    // W5.C — expose last N events tail per frontend FX trigger robustness.
+    // Wave 3 trovò root cause FX mancanti: processNewEvents legge newWorld.events
+    // ma publicSessionView espose solo count. Wire frontend-side via
+    // processIaActions(player+ia actions) copre commit-round flow, ma per legacy
+    // /action flow + generic fallback serve events[] array.
+    // Tail 30 limita payload (full log può essere lungo, multi-round).
+    events: Array.isArray(session.events) ? session.events.slice(-30) : [],
     sistema_pressure: pressure,
     sistema_tier: tier,
     atlas,

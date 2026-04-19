@@ -2,12 +2,22 @@
 
 import { api } from './api.js';
 import { render, canvasToCell, needsAnimFrame } from './render.js';
-import { renderUnits, appendLog, updateStatus } from './ui.js';
+import { renderUnits, appendLog, updateStatus, isUnitAlive, isUnitDead } from './ui.js';
 import { renderAbilities, clearAbilities } from './abilityPanel.js';
 import { detectEndgame, showEndgame, hideEndgame, nextScenarioId } from './endgame.js';
-import { recordMove, pushPopup } from './anim.js';
+import {
+  recordMove,
+  pushPopup,
+  flashUnit,
+  attackRay,
+  ACTION_ANIM_STAGGER_MS,
+  COMMIT_REVEAL_MS,
+} from './anim.js';
 import { openReplay } from './replayPanel.js';
 import { sfx, setMuted, isMuted } from './sfx.js';
+import { initHelpPanel } from './helpPanel.js';
+import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
+import { toggleCodex } from './codexPanel.js';
 
 const state = {
   sid: null,
@@ -16,7 +26,133 @@ const state = {
   target: null, // target preview (enemy hovered)
   pendingAbility: null, // { ability_id, needs_target, effect_type }
   endgameShown: false,
+  // W4.1 / W8k — round model client-side tracking per badge UI.
+  // W8k: era Map<unit_id, intent> (latest-wins), ora array [{unit_id, action, ts}]
+  // (append per multi-intent support). User può dichiarare N intents per unit
+  // finché AP sufficiente (sum controlled backend side).
+  pendingIntents: [],
+  // W4.3 — resolution order from last commit (unit_id → priority rank 1..N)
+  lastResolutionOrder: new Map(),
+  // W4.6 — planning timer start timestamp (null = not active)
+  planningTimerStart: null,
+  // W5.D — eval set Flint v0.3 decision trace (JSONL pairs per decision)
+  evalSet: [],
 };
+
+// W8b — Shared utility helpers (from Wave 8 research audit).
+// getUnits: canonical unit list access (prima: 12+ repeated `state.world?.units || []`).
+function getUnits(world) {
+  return world && Array.isArray(world.units) ? world.units : [];
+}
+
+// getLocalStorageFlag: defensive localStorage boolean flag read (prima: 4 try/catch inline).
+function getLocalStorageFlag(key, truthyValue = 'true', defaultValue = false) {
+  try {
+    return localStorage.getItem(key) === truthyValue;
+  } catch {
+    return defaultValue;
+  }
+}
+
+// W7.B — ACTION_SPEED table mirror server-side (roundOrchestrator.py spec ADR-2026-04-15).
+// Usato per predicted priority preview in planning phase (UX: user capisce ordine pre-commit).
+const ACTION_SPEED = {
+  defend: 2,
+  parry: 2,
+  attack: 0,
+  ability: -1,
+  move: -2,
+};
+
+// W7.B — Compute resolve priority order among declared player intents.
+// Formula: unit.initiative + action_speed(action) - status_penalty.
+// NOTE: include solo PG (SIS intents server-side, non esposti in planning).
+// W8k — pendingIntents is array [{unit_id, action, ts}]. Compute priority per
+// unique unit_id (primo intent determina rank base; multi-intent stessa unit
+// risolti in ordine di declare per ADR-04-15 resolution queue ordering).
+function computePlayerPriorityOrder(pendingIntents, units) {
+  const seen = new Set();
+  const items = [];
+  for (const pi of pendingIntents) {
+    if (seen.has(pi.unit_id)) continue;
+    seen.add(pi.unit_id);
+    const unit = units.find((u) => u.id === pi.unit_id);
+    if (!unit) continue;
+    const actSpd = ACTION_SPEED[pi.action?.type] ?? 0;
+    const panic = (unit.status && unit.status.panic) || 0;
+    const disorient = (unit.status && unit.status.disorient) || 0;
+    const statusPenalty = panic * 2 + disorient;
+    const priority = (unit.initiative || 0) + actSpd - statusPenalty;
+    items.push({ uid: pi.unit_id, priority });
+  }
+  items.sort((a, b) => b.priority - a.priority || a.uid.localeCompare(b.uid));
+  const map = new Map();
+  items.forEach((it, i) => map.set(it.uid, i + 1));
+  return map;
+}
+
+// W5.D — Build eval set entry per decision. Each entry = prompt (pre-action state)
+// + response (user choice) pair per Flint v0.3 classifier gate.
+function captureDecision(body) {
+  if (!state.world) return;
+  const actor = (state.world.units || []).find((u) => u.id === body.actor_id);
+  if (!actor) return;
+  const visibleEnemies = (state.world.units || [])
+    .filter((u) => u.controlled_by === 'sistema' && u.hp > 0)
+    .map((u) => ({ id: u.id, hp: `${u.hp}/${u.max_hp}`, pos: [u.position?.x, u.position?.y] }));
+  const entry = {
+    id: `t${state.world.turn}_${actor.id}_${state.evalSet.length + 1}`,
+    ts: new Date().toISOString(),
+    prompt: {
+      session_id: state.sid,
+      turn: state.world.turn,
+      actor: actor.id,
+      actor_job: actor.job,
+      actor_hp: `${actor.hp}/${actor.max_hp}`,
+      actor_ap: `${actor.ap_remaining ?? actor.ap}/${actor.ap}`,
+      actor_pos: [actor.position?.x, actor.position?.y],
+      visible_enemies: visibleEnemies,
+      sistema_pressure: state.world.sistema_pressure,
+      sistema_tier: state.world.sistema_tier,
+    },
+    response: {
+      action_type: body.action_type,
+      target_id: body.target_id || null,
+      position: body.position || null,
+      ability_id: body.ability_id || null,
+    },
+    meta: {
+      round_flow: useRoundFlow() ? 'simultaneous' : 'sequential',
+      confirm_action: useConfirmAction(),
+    },
+  };
+  state.evalSet.push(entry);
+}
+
+// W5.D — Download eval set as JSONL (line-delimited JSON).
+function downloadEvalSet() {
+  if (state.evalSet.length === 0) {
+    alert('Eval set vuoto. Gioca qualche azione prima.');
+    return;
+  }
+  const jsonl = state.evalSet.map((e) => JSON.stringify(e)).join('\n');
+  const blob = new Blob([jsonl], { type: 'application/x-jsonlines' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `eval_set_flint_v0.3_${state.sid?.slice(0, 8) || 'nosid'}_${Date.now()}.jsonl`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+window.__dbg = window.__dbg || {};
+window.__dbg.downloadEvalSet = downloadEvalSet;
+window.__dbg.evalSetSize = () => state.evalSet.length;
+// W8h — reset all tip seen flags (per re-playtest first-time flow).
+window.__dbg.resetTips = resetAllTips;
+
+// W4.6 — Planning timer 30s config + interval handle
+const PLANNING_TIMER_MS = 30_000;
+let planningTimerHandle = null;
 
 const canvas = document.getElementById('grid');
 const unitsUl = document.getElementById('units');
@@ -24,13 +160,24 @@ const logEl = document.getElementById('log');
 const hintEl = document.getElementById('selected-hint');
 
 function redraw() {
-  if (!state.world) return;
+  // W8b — guard: session must be active AND world state loaded.
+  if (!state.sid || !state.world) return;
   render(canvas, state.world, {
     selected: state.selected,
     target: state.target,
     active: state.world.active_unit,
+    resolutionOrder: state.lastResolutionOrder,
   });
-  renderUnits(unitsUl, state.world, state.selected, handleUnitClick);
+  const predictedOrder = computePlayerPriorityOrder(state.pendingIntents, state.world.units || []);
+  renderUnits(
+    unitsUl,
+    state.world,
+    state.selected,
+    handleUnitClick,
+    state.pendingIntents,
+    handleCancelIntent,
+    predictedOrder,
+  );
   updateStatus(state.world);
   // ability panel
   const selUnit = (state.world.units || []).find((u) => u.id === state.selected);
@@ -138,6 +285,66 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// W6.2b / W8k / W8k2 — Cancel TUTTI intent per una unit.
+// W8k2 CRITICAL FIX (user feedback run5): prima clear solo client-side →
+// backend manteneva pending_intents → timer scaduto → attacchi cancellati
+// partivano comunque. Ora chiamiamo api.clearIntent(sid, unitId) per sync server.
+async function handleCancelIntent(unitId) {
+  const before = state.pendingIntents.length;
+  state.pendingIntents = state.pendingIntents.filter((pi) => pi.unit_id !== unitId);
+  const removed = before - state.pendingIntents.length;
+  if (removed === 0) return;
+  // W8k2 — sync backend: rimuovi pending_intents per questa unit server-side.
+  if (state.sid) {
+    try {
+      await api.clearIntent(state.sid, unitId);
+    } catch {
+      /* backend may be offline; client state già pulito */
+    }
+  }
+  appendLog(logEl, `${unitId}: ${removed} intent annullati (client+server)`);
+  updateHint(`${removed} intent ${unitId} annullati. Re-pianifica o "Fine turno".`);
+  redraw();
+}
+
+// W8k / W8k2 — ESC global: annulla TUTTI pending intents (client + server).
+document.addEventListener('keydown', async (ev) => {
+  if (ev.key === 'Escape' && state.pendingIntents.length > 0 && !state.pendingAbility) {
+    const n = state.pendingIntents.length;
+    const uniqueUnits = [...new Set(state.pendingIntents.map((pi) => pi.unit_id))];
+    state.pendingIntents = [];
+    // W8k2 CRITICAL — backend clear per ogni unit affetta (altrimenti timer
+    // scaduto risolverebbe intent già annullati client-side).
+    if (state.sid) {
+      for (const uid of uniqueUnits) {
+        try {
+          await api.clearIntent(state.sid, uid);
+        } catch {
+          /* ignore */
+        }
+      }
+    }
+    appendLog(logEl, `ESC: ${n} intent annullati (client+server)`);
+    updateHint(`${n} intent cleared. Ri-pianifica round.`);
+    redraw();
+  }
+});
+
+// W8e — Enter key = "Fine turno" shortcut (keyboard alternative to button).
+// Skip se focus è dentro input/textarea/select o help modal aperto.
+document.addEventListener('keydown', (ev) => {
+  if (ev.key !== 'Enter') return;
+  const active = document.activeElement;
+  if (active && /^(input|textarea|select|button)$/i.test(active.tagName)) return;
+  const helpOpen =
+    document.getElementById('help-panel') &&
+    !document.getElementById('help-panel').classList.contains('hidden');
+  if (helpOpen) return;
+  if (!state.sid) return;
+  ev.preventDefault();
+  document.getElementById('end-turn').click();
+});
+
 function handleUnitClick(unit) {
   if (!state.world) return;
   // Ability targeting mode
@@ -177,6 +384,9 @@ function handleUnitClick(unit) {
     sfx.select();
     updateHint(`Selezionato ${unit.id}. Click cella=move · click nemico=attack · sidebar=ability.`);
     redraw();
+    // W8h — onboarding tips (first-time only). Range overlay visible → spiega colori.
+    showTip('select-unit');
+    setTimeout(() => showTip('range-overlay'), 900);
   } else {
     if (!state.selected) {
       updateHint('Seleziona prima una tua unità.');
@@ -191,6 +401,53 @@ function findUnitAt(x, y) {
     (u) => u.hp > 0 && u.position && u.position.x === x && u.position.y === y,
   );
 }
+
+// W2.5 — Hover tooltip su canvas: intent SIS, HP/AP, job, status
+const tooltipEl = document.getElementById('unit-tooltip');
+
+function buildUnitTooltip(unit) {
+  if (!unit) return '';
+  const faction = unit.controlled_by === 'player' ? 'player' : 'sistema';
+  const factionLabel = faction === 'player' ? 'Tua unità' : 'Sistema';
+  const job = unit.job || unit.class || '—';
+  const hp = `${unit.hp}/${unit.max_hp || unit.hp}`;
+  const ap = unit.ap_remaining != null ? `${unit.ap_remaining}/${unit.ap || 0}` : `${unit.ap || 0}`;
+  const statusKeys = Object.entries(unit.status || {})
+    .filter(([, v]) => v !== undefined && v !== null && (typeof v !== 'number' || v > 0))
+    .map(([k]) => k);
+  const statusTxt = statusKeys.length ? `Status: ${statusKeys.join(', ')}` : '';
+  let intentBlock = '';
+  if (faction === 'sistema' && unit.hp > 0) {
+    // Stub: icona pugno = intento attacco (mirror drawSisIntentIcon).
+    // TODO ADR-04-18 Plan-Reveal: real intent da threat_preview payload backend.
+    intentBlock = `<span class="tt-intent">✊ Intento: attacco (stub)</span>`;
+  }
+  return `
+    <strong>${unit.id}</strong>
+    <div class="tt-faction-${faction}">${factionLabel} · <em>${job}</em></div>
+    <div>HP ${hp} · AP ${ap}</div>
+    ${statusTxt ? `<div>${statusTxt}</div>` : ''}
+    ${intentBlock}
+  `;
+}
+
+canvas.addEventListener('mousemove', (ev) => {
+  if (!state.world || !tooltipEl) return;
+  const { x, y } = canvasToCell(canvas, ev, state.world.grid.height);
+  const unit = findUnitAt(x, y);
+  if (!unit) {
+    tooltipEl.classList.add('hidden');
+    return;
+  }
+  tooltipEl.innerHTML = buildUnitTooltip(unit);
+  tooltipEl.style.left = `${ev.clientX + 14}px`;
+  tooltipEl.style.top = `${ev.clientY + 14}px`;
+  tooltipEl.classList.remove('hidden');
+});
+
+canvas.addEventListener('mouseleave', () => {
+  if (tooltipEl) tooltipEl.classList.add('hidden');
+});
 
 canvas.addEventListener('click', (ev) => {
   if (!state.world) return;
@@ -227,28 +484,19 @@ canvas.addEventListener('click', (ev) => {
   doAction({ action_type: 'move', actor_id: state.selected, position: { x, y } });
 });
 
-// M4 A.1 — Feature flag round model simultaneous.
-// Toggle: localStorage.setItem('evo:round-flow','simultaneous') + reload.
-// Default OFF = legacy /api/session/action + /api/session/turn/end (ADR pre-04-15).
-// ON = /api/session/declare-intent + /commit-round (ADR-2026-04-15 round model).
+// M4 A.1 / W3 — Feature flag round model simultaneous (default ON post Wave 3).
+// Opt-out: localStorage.setItem('evo:round-flow','sequential') per regression test.
 function useRoundFlow() {
+  // Inverted check: NOT 'sequential' = default ON (any other value = simultaneous).
   try {
-    return localStorage.getItem('evo:round-flow') === 'simultaneous';
+    return localStorage.getItem('evo:round-flow') !== 'sequential';
   } catch {
-    return false;
+    return true;
   }
 }
 
-// M4 A.2 — Feature flag confirm action (2-step commit).
-// Toggle: localStorage.setItem('evo:confirm-action','true') + reload.
-// ON = primo click = pending preview (ghost), secondo click stessa cella/target = confirm.
-function useConfirmAction() {
-  try {
-    return localStorage.getItem('evo:confirm-action') === 'true';
-  } catch {
-    return false;
-  }
-}
+// M4 A.2 — Feature flag confirm action (opt-in).
+const useConfirmAction = () => getLocalStorageFlag('evo:confirm-action');
 
 // Pending confirm state: { body, tag, ts }. Reset su cancel o commit.
 let _pendingConfirm = null;
@@ -274,10 +522,17 @@ function confirmMatch(prev, next) {
 }
 
 async function doAction(body) {
-  if (!state.sid) return;
+  // W8b — guard: both session + world must exist (doAction reads state.world units).
+  if (!state.sid || !state.world) return;
   // Safety: hard clear any pending ability + target mode prima di ogni action
   cancelPendingAbility(true);
   body.session_id = state.sid;
+
+  // W5.D — capture decision pre-commit for Flint v0.3 eval set.
+  // Non duplica su confirm pending (skip primo click confirm).
+  if (!useConfirmAction() || _pendingConfirm != null) {
+    captureDecision(body);
+  }
 
   // Confirm action: primo click pending, secondo click stessa action = commit
   if (useConfirmAction()) {
@@ -298,18 +553,22 @@ async function doAction(body) {
 
   // Round flow simultaneous: declare intent invece di action immediate
   if (useRoundFlow()) {
-    // Map body → action shape per declareIntent
+    // Map body → action shape per declareIntent.
+    // W8d — Math.max(0, ...) clamp: ap_cost non può essere negativo (defensive vs
+    // malformed client body + backend side).
+    const rawApCost =
+      body.action_type === 'attack'
+        ? 1
+        : body.action_type === 'move'
+          ? manhattanApCost(body)
+          : body.action_type === 'ability'
+            ? body.ap_cost || 1
+            : 0;
+    const apCost = Math.max(0, Number(rawApCost) || 0);
     const action = {
       type: body.action_type,
       actor_id: body.actor_id,
-      ap_cost:
-        body.action_type === 'attack'
-          ? 1
-          : body.action_type === 'move'
-            ? manhattanApCost(body)
-            : body.action_type === 'ability'
-              ? body.ap_cost || 1
-              : 0,
+      ap_cost: apCost,
     };
     if (body.action_type === 'attack') action.target_id = body.target_id;
     if (body.action_type === 'move') action.move_to = body.position;
@@ -317,6 +576,30 @@ async function doAction(body) {
       action.ability_id = body.ability_id;
       action.target_id = body.target_id;
       if (body.position) action.position = body.position;
+    }
+    // W8N — AP budget check client-side: somma ap_cost pending per actor,
+    // verifica (total + apCost) ≤ actor.ap. User feedback: multi-intent non
+    // teneva conto del budget AP. Reject + tip se insufficient.
+    const actorUnit = getUnits(state.world).find((u) => u.id === body.actor_id);
+    const actorAp = Number(actorUnit?.ap_remaining ?? actorUnit?.ap ?? 0);
+    const alreadyPending = state.pendingIntents
+      .filter((pi) => pi.unit_id === body.actor_id)
+      .reduce((sum, pi) => sum + (Number(pi.action?.ap_cost) || 0), 0);
+    const remaining = actorAp - alreadyPending;
+    if (apCost > remaining) {
+      appendLog(
+        logEl,
+        `✖ ${body.actor_id}: AP insufficiente (serve ${apCost}, residuo ${remaining}/${actorAp})`,
+        'error',
+      );
+      updateHint(
+        `❌ AP insufficiente: ${body.actor_id} ha ${remaining}/${actorAp} AP, questa azione costa ${apCost}. Annulla un intent o scegli azione meno costosa.`,
+      );
+      showTip(
+        'invalid-action',
+        `⚡ AP insufficiente. ${body.actor_id} ha già ${alreadyPending} AP pending su ${actorAp} totali. Serve ${apCost} AP per questa azione ma restano solo ${remaining}. Rimuovi un intent (✕ sidebar) o ESC per reset totale.`,
+      );
+      return;
     }
     // Ensure roundState initialized
     if (!state.roundInit) {
@@ -326,20 +609,60 @@ async function doAction(body) {
         return;
       }
       state.roundInit = true;
+      // W4.6 — start planning timer on first declare
+      startPlanningTimer();
     }
     const r = await api.declareIntent(state.sid, body.actor_id, action);
     if (!r.ok) {
       appendLog(logEl, `✖ ${r.data?.error || `HTTP ${r.status}`}`, 'error');
       updateHint(`❌ ${r.data?.error || 'Intent rifiutato.'} · riprova`);
+      // W8h — Error recovery tip: parse error → specific tip (first time error only).
+      const recovery = buildRecoveryTipMessage(r.data?.error || '');
+      if (recovery) showTip('invalid-action', recovery);
       return;
     }
+    // W4.1 / W8k — track intent client-side per badge sidebar. Multi-intent
+    // per unit (array append). Backend anche append post-W8k.
+    state.pendingIntents.push({ unit_id: body.actor_id, action, ts: Date.now() });
     const tag = body.ability_id
       ? `→ ability ${body.ability_id}${body.target_id ? ` → ${body.target_id}` : ''}`
       : body.action_type === 'move'
         ? `→ move [${body.position.x},${body.position.y}]`
         : `→ atk ${body.target_id}`;
     appendLog(logEl, `${body.actor_id}: ${tag} (pending)`);
-    updateHint(`✓ Intent dichiarato ${body.actor_id}. Altri player o "Fine turno" per risolvere.`);
+    redraw();
+    // W8h / W8L — Onboarding tip (solo first-time per action type).
+    // W8L fix: rimosso setTimeout intent-declared redundant (sovrapponeva +
+    // user non poteva leggere first-move perché chiudeva subito). Content
+    // già in first-move/first-attack page 2.
+    if (body.action_type === 'move') showTip('first-move');
+    else if (body.action_type === 'attack') showTip('first-attack');
+    else if (body.action_type === 'ability') showTip('first-ability');
+    // W6.1 — Auto-commit rimosso (user bug report: "scatta il round appena clicco secondo PG").
+    // Explicit "Fine turno" only. User può re-declare per cambiare idea.
+    // Opt-in tramite localStorage flag `evo:auto-commit` = 'true' (power-user).
+    const alivePlayers = (state.world?.units || []).filter(
+      (u) => u.controlled_by === 'player' && u.hp > 0,
+    );
+    // W8k — allDeclared true se ogni PG vivo ha almeno 1 intent in array.
+    const declaredUnitIds = new Set(state.pendingIntents.map((pi) => pi.unit_id));
+    const allDeclared = alivePlayers.every((u) => declaredUnitIds.has(u.id));
+    if (allDeclared && alivePlayers.length > 0) {
+      const autoCommit = getLocalStorageFlag('evo:auto-commit');
+      if (autoCommit) {
+        updateHint(`✓ Tutti dichiarati. Auto-commit 250ms…`);
+        setTimeout(() => triggerCommitRound(), 250);
+      } else {
+        updateHint(
+          `✓ Tutti i player dichiarati (${alivePlayers.length}/${alivePlayers.length}). Click "Fine turno" per risolvere — o re-click per cambiare intent.`,
+        );
+      }
+    } else {
+      const remaining = alivePlayers.length - declaredUnitIds.size;
+      updateHint(
+        `✓ Intent dichiarato ${body.actor_id}. ${remaining} PG restante/i. Click "Fine turno" per risolvere.`,
+      );
+    }
     return;
   }
 
@@ -371,6 +694,38 @@ function manhattanApCost(body) {
 // Track last events count to detect new events for anim
 let lastEventsCount = 0;
 
+// W8c — Colori FX centralized per consistency (Refactor C: color tokens).
+const FX_COLORS = {
+  rayPlayer: '#ffcc00',
+  raySistema: '#ff5252',
+  damage: '#ff5252',
+  heal: '#4caf50',
+};
+
+// W8c — Shared damage/heal FX trigger (Refactor A: prima duplicato 2× in
+// processNewEvents + processIaActions). Signature single: actor+target+damage → fire FX+SFX.
+// Input: actor/target = unit object (with position), damage = number (neg=heal, pos=damage, 0=miss).
+// Side effects: attackRay + pushPopup + flashUnit + sfx.hit/crit/heal/miss.
+function handleDamageEvent({ actor, target, damage, targetId, result }) {
+  const dmg = Number(damage || 0);
+  // Attack ray: actor → target (faction-colored).
+  if (actor?.position && target?.position) {
+    const rayColor = actor.controlled_by === 'sistema' ? FX_COLORS.raySistema : FX_COLORS.rayPlayer;
+    attackRay(actor.position, target.position, rayColor);
+  }
+  // Damage popup + flash on target (skip if dmg === 0 / miss).
+  if (target?.position && dmg !== 0) {
+    const color = dmg < 0 ? FX_COLORS.heal : FX_COLORS.damage;
+    const txt = dmg < 0 ? `+${-dmg}` : `-${dmg}`;
+    pushPopup(target.position.x, target.position.y, txt, color);
+    flashUnit(targetId || target.id, color);
+  }
+  // SFX selection: heal / crit (≥6) / hit / miss.
+  if (dmg < 0) sfx.heal();
+  else if (dmg > 0) dmg >= 6 ? sfx.crit() : sfx.hit();
+  else if (result === 'miss' || result === 'MISS' || dmg === 0) sfx.miss();
+}
+
 function processNewEvents(prevWorld, newWorld) {
   const events = (newWorld?.events || []).slice(lastEventsCount);
   for (const ev of events) {
@@ -386,21 +741,15 @@ function processNewEvents(prevWorld, newWorld) {
       ev.damage_dealt !== undefined &&
       ev.target_id
     ) {
-      const target = (newWorld.units || []).find((u) => u.id === ev.target_id);
-      if (target && target.position && ev.damage_dealt !== 0) {
-        const color = ev.damage_dealt < 0 ? '#4caf50' : '#ff5252';
-        const txt = ev.damage_dealt < 0 ? `+${-ev.damage_dealt}` : `-${ev.damage_dealt}`;
-        pushPopup(target.position.x, target.position.y, txt, color);
-      }
-      // SFX
-      if (ev.damage_dealt < 0) sfx.heal();
-      else if (ev.damage_dealt > 0) {
-        // crit heuristic: dmg > 6 = crit
-        if (Number(ev.damage_dealt) >= 6) sfx.crit();
-        else sfx.hit();
-      } else if (ev.result === 'miss' || ev.result === 'MISS') {
-        sfx.miss();
-      }
+      const target = getUnits(newWorld).find((u) => u.id === ev.target_id);
+      const actor = getUnits(newWorld).find((u) => u.id === ev.actor_id);
+      handleDamageEvent({
+        actor,
+        target,
+        damage: ev.damage_dealt,
+        targetId: ev.target_id,
+        result: ev.result,
+      });
     }
   }
   lastEventsCount = (newWorld?.events || []).length;
@@ -464,20 +813,77 @@ async function startNewSession() {
   // M4 A.1+A.2: reset flag state per nuova sessione
   state.roundInit = false;
   _pendingConfirm = null;
+  // W4 — reset round tracking
+  state.pendingIntents = [];
+  state.lastResolutionOrder.clear();
+  stopPlanningTimer();
+  // W5.D — reset eval set per session
+  state.evalSet = [];
   lastEventsCount = (state.world?.events || []).length;
   appendLog(logEl, `✓ sessione ${state.sid.slice(0, 8)}…`);
   const flags = [];
   if (useRoundFlow()) flags.push('round=simultaneous');
   if (useConfirmAction()) flags.push('confirm=on');
-  const hint = flags.length > 0 ? ` [${flags.join(', ')}]` : '';
-  updateHint(`Sessione iniziata${hint}. Seleziona una tua unità.`);
+  const hintFlags = flags.length > 0 ? ` [${flags.join(', ')}]` : '';
+  // W8-emergency (bug #1+#8): auto-select first alive player so ability panel
+  // populates immediately + user discovers flow. Previously user had to click
+  // a unit to see the Abilities sidebar — undiscoverable affordance.
+  const firstPlayer = getUnits(state.world).find((u) => u.controlled_by === 'player' && u.hp > 0);
+  if (firstPlayer) {
+    state.selected = firstPlayer.id;
+    sfx.select();
+    updateHint(
+      `Sessione iniziata${hintFlags}. ${firstPlayer.id} selezionato → abilità a destra (click ⚔) · click cella=move · click nemico=attack.`,
+    );
+  } else {
+    updateHint(`Sessione iniziata${hintFlags}. Seleziona una tua unità.`);
+  }
   redraw();
 }
+
+// W7.D — re-render quando abilities fetched per popolare chips per-unit.
+unitsUl.addEventListener('abilities-ready', () => {
+  if (state.world) redraw();
+});
 
 document.getElementById('cancel-pending').addEventListener('click', () => cancelPendingAbility());
 document.getElementById('new-session').addEventListener('click', () => {
   cancelPendingAbility(true);
   startNewSession();
+});
+document.getElementById('reset-round')?.addEventListener('click', async () => {
+  await emergencyResetRound();
+});
+// W8L — Codex btn header (in-game wiki: Tips re-read + Glossario + Abilità + Status).
+document.getElementById('codex-open')?.addEventListener('click', () => {
+  toggleCodex();
+});
+// W8k / W8k2 — timer toggle header btn. DEFAULT OFF (user feedback).
+// User clicca per opt-in ON.
+document.getElementById('timer-toggle')?.addEventListener('click', (ev) => {
+  const btn = ev.currentTarget;
+  const wasOn = getLocalStorageFlag('evo:planning-timer', 'on');
+  try {
+    localStorage.setItem('evo:planning-timer', wasOn ? 'off' : 'on');
+  } catch {
+    /* ignore */
+  }
+  const nowOn = !wasOn;
+  btn.style.opacity = nowOn ? '1' : '0.4';
+  btn.title = `Planning timer ${nowOn ? 'ON' : 'OFF'} (click per toggle)`;
+  if (!nowOn) stopPlanningTimer();
+  appendLog(logEl, `⏱ Timer planning ${nowOn ? 'ON' : 'OFF'}`);
+});
+// Init button state on load — default OFF (dimmed).
+(() => {
+  const btn = document.getElementById('timer-toggle');
+  if (!btn) return;
+  const on = getLocalStorageFlag('evo:planning-timer', 'on');
+  btn.style.opacity = on ? '1' : '0.4';
+  btn.title = `Planning timer ${on ? 'ON' : 'OFF'} (click per toggle)`;
+})();
+document.getElementById('download-eval').addEventListener('click', () => {
+  downloadEvalSet();
 });
 document.getElementById('open-replay').addEventListener('click', () => {
   cancelPendingAbility(true);
@@ -509,32 +915,231 @@ function processIaActions(iaActions) {
         recordMove(actorId, from, to);
         sfx.sis_turn();
       } else if (type === 'attack' || type === 'ability') {
-        const target = (state.world?.units || []).find((u) => u.id === targetId);
-        if (target && target.position && dmg) {
-          pushPopup(
-            target.position.x,
-            target.position.y,
-            dmg < 0 ? `+${-dmg}` : `-${dmg}`,
-            dmg < 0 ? '#4caf50' : '#ff5252',
-          );
-        }
-        if (dmg < 0) sfx.heal();
-        else if (dmg > 0) Number(dmg) >= 6 ? sfx.crit() : sfx.hit();
-        else sfx.miss();
+        // W8c — Refactor A: handleDamageEvent centralizza ray+popup+flash+SFX.
+        const target = getUnits(state.world).find((u) => u.id === targetId);
+        const actor = getUnits(state.world).find((u) => u.id === actorId);
+        handleDamageEvent({ actor, target, damage: dmg, targetId, result: a.result });
       }
+      const actorLabel = (() => {
+        const a = getUnits(state.world).find((u) => u.id === actorId);
+        return a?.controlled_by === 'sistema' ? 'SIS' : 'PG';
+      })();
       appendLog(
         logEl,
-        `SIS · ${actorId}: ${type}${targetId ? ` → ${targetId}` : ''}${dmg ? ` (${dmg})` : ''}`,
+        `${actorLabel} · ${actorId}: ${type}${targetId ? ` → ${targetId}` : ''}${dmg ? ` (${dmg})` : ''}`,
         'event',
       );
       if (needsAnimFrame()) requestAnimationFrame(animTick);
     }, delay);
-    delay += 350; // stagger SIS actions so visible
+    delay += ACTION_ANIM_STAGGER_MS; // W8b: stagger via shared constant
   }
+}
+
+// W4 — commit-round factored out so auto-commit (W4.5) e end-turn button
+// possono condividere la stessa logica + reveal overlay + priority badge.
+// W7.A — Emergency reset state (usato da error handler o user "Reset" button).
+// Clear tutti flag round + overlay + re-fetch state server per recover da block.
+async function emergencyResetRound() {
+  state.roundInit = false;
+  state.pendingIntents = [];
+  state.lastResolutionOrder.clear();
+  _pendingConfirm = null;
+  stopPlanningTimer();
+  const overlay = document.getElementById('commit-reveal');
+  if (overlay) {
+    overlay.classList.add('fade-out');
+    overlay.classList.remove('visible');
+  }
+  if (state.sid) {
+    try {
+      const r = await api.state(state.sid);
+      if (r.ok) {
+        state.world = r.data;
+        redraw();
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+  updateHint(`🔄 Reset stato round. Pianifica di nuovo.`);
+}
+window.__dbg = window.__dbg || {};
+window.__dbg.emergencyResetRound = emergencyResetRound;
+
+async function triggerCommitRound() {
+  if (!state.sid) return;
+  sfx.turn_end();
+  appendLog(logEl, '→ risolvo round');
+  stopPlanningTimer();
+  // W8h — Onboarding tip first time round resolve.
+  showTip('round-resolve');
+
+  try {
+    if (!state.roundInit) {
+      let bp = await api.beginPlanning(state.sid);
+      if (bp.networkError) {
+        appendLog(logEl, `… rete interrotta, ritento begin-planning`, 'warn');
+        await new Promise((res) => setTimeout(res, 400));
+        bp = await api.beginPlanning(state.sid);
+      }
+      if (!bp.ok) {
+        const msg = bp.networkError
+          ? `rete persa (verifica backend :3334)`
+          : bp.data?.error || bp.status;
+        appendLog(logEl, `✖ begin-planning: ${msg}`, 'error');
+        updateHint(`✖ Begin-planning fallito: ${msg}`);
+        await emergencyResetRound();
+        return;
+      }
+      state.roundInit = true;
+    }
+    let r = await api.commitRound(state.sid, true);
+    // W8-emergency (bug #5): transient network drop — auto-retry once after 400ms.
+    if (r.networkError) {
+      appendLog(logEl, `… rete interrotta, ritento commit-round`, 'warn');
+      await new Promise((res) => setTimeout(res, 400));
+      r = await api.commitRound(state.sid, true);
+    }
+    if (!r.ok) {
+      const msg = r.networkError
+        ? `rete persa (verifica backend :3334)`
+        : r.data?.error || r.status;
+      appendLog(logEl, `✖ commit-round: ${msg}`, 'error');
+      updateHint(`✖ Commit-round fallito: ${msg}. Usa "🔄 Reset" per ripartire.`);
+      await emergencyResetRound();
+      return;
+    }
+    state.roundInit = false;
+    _pendingConfirm = null;
+    state.pendingIntents = [];
+
+    const playerActions = r.data?.player_actions || [];
+    const iaActions = r.data?.ia_actions || [];
+    const resolutionQueue = r.data?.resolution_queue || [];
+    const allActions = [...playerActions, ...iaActions];
+
+    // W4.3 — build resolution order map: unit_id → rank (1-based).
+    // Preferisci resolution_queue (server-computed priority), fallback ordine allActions.
+    state.lastResolutionOrder.clear();
+    const queueItems = resolutionQueue.length > 0 ? resolutionQueue : allActions;
+    queueItems.forEach((item, idx) => {
+      const uid = item.unit_id || item.actor_id;
+      if (uid && !state.lastResolutionOrder.has(uid)) {
+        state.lastResolutionOrder.set(uid, idx + 1);
+      }
+    });
+
+    // W4.2 — commit reveal overlay pre-animations.
+    // W8b: constants from anim.js (COMMIT_REVEAL_MS, ACTION_ANIM_STAGGER_MS).
+    const turnNum = (state.world?.turn || 0) + 1;
+    showCommitReveal(turnNum, allActions.length);
+
+    setTimeout(() => {
+      if (allActions.length > 0) processIaActions(allActions);
+    }, COMMIT_REVEAL_MS);
+
+    const totalDelay = COMMIT_REVEAL_MS + allActions.length * ACTION_ANIM_STAGGER_MS + 200;
+    setTimeout(async () => {
+      try {
+        await refresh();
+        state.lastResolutionOrder.clear();
+        redraw();
+        appendLog(
+          logEl,
+          `✓ round ${state.world?.turn || '?'} risolto (${allActions.length} azioni)`,
+        );
+      } catch (err) {
+        appendLog(logEl, `✖ refresh dopo round: ${err?.message || err}`, 'error');
+        await emergencyResetRound();
+      }
+    }, totalDelay);
+  } catch (err) {
+    appendLog(logEl, `✖ commit-round exception: ${err?.message || err}`, 'error');
+    await emergencyResetRound();
+  }
+}
+
+// W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" flash 700ms.
+function showCommitReveal(turnNum, actionCount) {
+  let overlay = document.getElementById('commit-reveal');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'commit-reveal';
+    document.body.appendChild(overlay);
+  }
+  overlay.innerHTML = `<div class="cr-inner"><div class="cr-title">⚔ ROUND ${turnNum}</div><div class="cr-sub">${actionCount} azione${actionCount === 1 ? '' : 'i'} simultanea${actionCount === 1 ? '' : 'e'}</div></div>`;
+  overlay.classList.remove('fade-out');
+  overlay.classList.add('visible');
+  setTimeout(() => {
+    overlay.classList.add('fade-out');
+    overlay.classList.remove('visible');
+  }, 650);
+}
+
+// W4.6 / W8k / W8k2 — Planning timer: 30s countdown, auto-commit on expiry.
+// W8k2 (user feedback run5): DEFAULT OFF. User opts-in via header btn ⏱
+// (localStorage flag `evo:planning-timer=on`). Prima era default ON fastidioso.
+function startPlanningTimer() {
+  stopPlanningTimer();
+  // W8k2 — skip timer unless flag explicit 'on'.
+  if (!getLocalStorageFlag('evo:planning-timer', 'on')) {
+    return;
+  }
+  state.planningTimerStart = performance.now();
+  const el = getPlanningTimerEl();
+  el.classList.remove('hidden');
+  planningTimerHandle = setInterval(() => {
+    if (state.planningTimerStart == null) return;
+    const elapsed = performance.now() - state.planningTimerStart;
+    const remaining = Math.max(0, PLANNING_TIMER_MS - elapsed);
+    updatePlanningTimerUI(remaining);
+    if (remaining <= 0) {
+      appendLog(logEl, `⏱ Timer scaduto — auto-commit`);
+      stopPlanningTimer();
+      triggerCommitRound();
+    }
+  }, 100);
+}
+
+function stopPlanningTimer() {
+  if (planningTimerHandle) clearInterval(planningTimerHandle);
+  planningTimerHandle = null;
+  state.planningTimerStart = null;
+  const el = document.getElementById('planning-timer');
+  if (el) el.classList.add('hidden');
+}
+
+function getPlanningTimerEl() {
+  let el = document.getElementById('planning-timer');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'planning-timer';
+    el.className = 'hidden';
+    el.innerHTML = `<span class="pt-label">Planning</span><div class="pt-bar"><div class="pt-fill"></div></div><span class="pt-value">30</span>`;
+    const status = document.querySelector('header .status') || document.querySelector('header');
+    if (status) status.appendChild(el);
+  }
+  return el;
+}
+
+function updatePlanningTimerUI(remainingMs) {
+  const el = document.getElementById('planning-timer');
+  if (!el) return;
+  const secs = Math.ceil(remainingMs / 1000);
+  const ratio = remainingMs / PLANNING_TIMER_MS;
+  el.querySelector('.pt-value').textContent = String(secs);
+  const fill = el.querySelector('.pt-fill');
+  fill.style.width = `${(ratio * 100).toFixed(1)}%`;
+  fill.style.background = ratio < 0.2 ? '#f44336' : ratio < 0.5 ? '#ffc107' : '#4caf50';
 }
 
 document.getElementById('end-turn').addEventListener('click', async () => {
   if (!state.sid) return;
+  if (useRoundFlow()) {
+    await triggerCommitRound();
+    return;
+  }
+  // Legacy flow (default off): immediate end-turn
   sfx.turn_end();
   appendLog(logEl, '→ fine turno');
 
@@ -583,10 +1188,10 @@ document.getElementById('end-turn').addEventListener('click', async () => {
     appendLog(logEl, `✖ end turn: ${r.status}`, 'error');
     return;
   }
-  // Process SIS actions animations
   if (r.data?.ia_actions) processIaActions(r.data.ia_actions);
-  // Wait for all SIS actions animated then refresh state
-  const totalDelay = Array.isArray(r.data?.ia_actions) ? r.data.ia_actions.length * 350 + 200 : 200;
+  const totalDelay = Array.isArray(r.data?.ia_actions)
+    ? r.data.ia_actions.length * ACTION_ANIM_STAGGER_MS + 200
+    : 200;
   setTimeout(async () => {
     await refresh();
     appendLog(logEl, '✓ turno giocatore pronto');
@@ -623,6 +1228,41 @@ async function loadModulations() {
   modSel.value = current;
   // Riavvia sessione se user cambia modulation (default: auto → 6x6)
   modSel.addEventListener('change', () => startNewSession());
+}
+
+// M4 P0 W2 — Help panel (? key, top-right button, auto-open prima sessione)
+initHelpPanel('help-open');
+
+// W8O — Resize listener: redraw canvas quando viewport cambia (CELL dinamico).
+let _resizeTimeout = null;
+window.addEventListener('resize', () => {
+  if (_resizeTimeout) clearTimeout(_resizeTimeout);
+  _resizeTimeout = setTimeout(() => {
+    if (state.world) redraw();
+  }, 120);
+});
+
+// M4 P0 W2 — Fullscreen toggle
+const fsBtn = document.getElementById('fullscreen-toggle');
+if (fsBtn) {
+  fsBtn.addEventListener('click', async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+        fsBtn.textContent = '⛶⃞';
+        fsBtn.title = 'Esci da schermo intero';
+      } else {
+        await document.exitFullscreen();
+        fsBtn.textContent = '⛶';
+        fsBtn.title = 'Schermo intero';
+      }
+    } catch (e) {
+      appendLog(logEl, `✖ fullscreen: ${e.message}`, 'error');
+    }
+  });
+  document.addEventListener('fullscreenchange', () => {
+    fsBtn.textContent = document.fullscreenElement ? '⛶⃞' : '⛶';
+  });
 }
 
 loadModulations().then(() => startNewSession());

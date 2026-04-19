@@ -7,6 +7,15 @@ import { render } from './render.js';
 
 let viewer = null;
 
+// W8b — normalize position shape (accept array or object, return {x,y} or null).
+// Canonical converter — backend può ritornare sia [x,y] che {x,y} in events.
+function normalizePos(pos) {
+  if (!pos) return null;
+  if (Array.isArray(pos)) return { x: Number(pos[0]) || 0, y: Number(pos[1]) || 0 };
+  if (typeof pos === 'object') return { x: Number(pos.x) || 0, y: Number(pos.y) || 0 };
+  return null;
+}
+
 function applyEvent(units, ev) {
   if (!ev || !Array.isArray(units)) return units;
   const out = units.map((u) => ({ ...u, position: u.position ? { ...u.position } : null }));
@@ -17,7 +26,8 @@ function applyEvent(units, ev) {
     case 'move':
     case 'step':
       if (actor && ev.position_to) {
-        actor.position = { x: ev.position_to[0], y: ev.position_to[1] };
+        const np = normalizePos(ev.position_to);
+        if (np) actor.position = np;
       }
       break;
     case 'attack':

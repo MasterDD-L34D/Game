@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Evo-Tactics — Play</title>
+    <!-- W8 visual base — Inter/Noto Sans per TV-first spec 42-STYLE-GUIDE-UI.md -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
@@ -18,14 +25,91 @@
           <div class="pressure-label">SISTEMA — · 0/100 · cap 1 intents/round</div>
           <div class="pressure-bar"><div class="pressure-fill" style="width: 0%"></div></div>
         </div>
+        <div class="header-actions">
+          <button id="fullscreen-toggle" class="hud-btn" title="Schermo intero — Alt+Enter">
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 7V3h4M17 3h4v4M21 17v4h-4M7 21H3v-4" />
+            </svg>
+            <span class="hud-label">Schermo</span>
+          </button>
+          <button id="timer-toggle" class="hud-btn" title="Timer planning 30s ON/OFF">
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="13" r="8" />
+              <path d="M12 9v4l2 2M9 1h6M12 5v1" />
+            </svg>
+            <span class="hud-label">Timer</span>
+          </button>
+          <button
+            id="codex-open"
+            class="hud-btn"
+            title="Codex — Guida meccanica + glossario + tips re-read"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"
+              />
+            </svg>
+            <span class="hud-label">Codex</span>
+          </button>
+          <button id="help-open" class="hud-btn" title="Aiuto — tutorial overlay (?)">
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01" />
+            </svg>
+            <span class="hud-label">Aiuto</span>
+          </button>
+        </div>
       </header>
       <main>
         <section class="board">
           <canvas id="grid" width="512" height="512"></canvas>
+          <div id="unit-tooltip" class="unit-tooltip hidden"></div>
           <div class="controls">
             <button id="end-turn">Fine turno</button>
             <button id="new-session">Nuova sessione</button>
+            <button id="reset-round" title="Emergency reset round state (se tutto bloccato)">
+              🔄 Reset
+            </button>
             <button id="open-replay">📽 Replay</button>
+            <button id="download-eval" title="Scarica eval set Flint v0.3 (JSONL decision pairs)">
+              📊 Eval
+            </button>
             <button id="toggle-mute" title="Mute SFX">🔊</button>
             <select id="scenario-select">
               <option value="enc_tutorial_01">Tutorial 01 · Primi passi</option>
