@@ -53,6 +53,14 @@ const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIn
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
 const { createAbilityExecutor } = require('../services/abilityExecutor');
 const reactionEngine = require('../services/reactionEngine');
+// M7-#2 Phase B: damage scaling curves runtime (ADR-2026-04-20).
+const {
+  loadDamageCurves,
+  getEncounterClass,
+  applyEnemyDamageMultiplier,
+  shouldEnrageBoss,
+  getEnrageModBonus,
+} = require('../services/balance/damageCurves');
 // M6-#1 (ADR-2026-04-19 + spike 2026-04-19): Node native resistance engine.
 // Applica channel-specific resist/vuln su damage pre-hp. Evidence spike:
 // 84.6% → 20% win rate hardcore-06 con flat 50% resist (leva confermata).
@@ -209,6 +217,28 @@ function createSessionRouter(options = {}) {
   }
 
   function performAttack(session, actor, target, action = null) {
+    // M7-#2 Phase B: boss enrage check. Se actor è boss tier + HP < threshold
+    // per encounter class → temporary mod bonus (non-persistente).
+    // Identificazione boss: id contains "_boss" OR actor.tier === 'boss'.
+    let enrageApplied = false;
+    let enrageModBonus = 0;
+    try {
+      const actorIsBoss =
+        (actor && typeof actor.id === 'string' && /_boss\b/.test(actor.id)) ||
+        actor?.tier === 'boss';
+      if (actorIsBoss && session?.encounter_class) {
+        if (shouldEnrageBoss(actor, session.encounter_class)) {
+          enrageModBonus = getEnrageModBonus();
+          if (enrageModBonus > 0) {
+            actor.mod = Number(actor.mod || 0) + enrageModBonus;
+            enrageApplied = true;
+          }
+        }
+      }
+    } catch (err) {
+      // non-blocking: se curves missing, no enrage
+    }
+
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
@@ -216,6 +246,11 @@ function createSessionRouter(options = {}) {
       target,
       attackResult: result,
     });
+
+    // Revert enrage bonus post-attack (non-persistente, solo per questo hit)
+    if (enrageApplied) {
+      actor.mod = Number(actor.mod || 0) - enrageModBonus;
+    }
     let damageDealt = 0;
     let killOccurred = false;
     let adjacencyBonus = 0;
@@ -683,6 +718,28 @@ function createSessionRouter(options = {}) {
         // best-effort: se config non carica, skip profile scaling
       }
 
+      // M7-#2 Phase B: apply damage scaling curves per encounter class.
+      // Lo YAML damage_curves.yaml definisce enemy_damage_multiplier per class.
+      // Encounter senza class dichiarato → fallback "standard" (1.2x).
+      // Idempotente: se class=tutorial (multiplier 1.0) no-op.
+      let encounterClassUsed = null;
+      try {
+        const curves = loadDamageCurves();
+        if (curves) {
+          const encCls = getEncounterClass(req.body, curves);
+          encounterClassUsed = encCls;
+          units = units.map((u) => {
+            if (!u) return u;
+            if (u.controlled_by !== 'sistema') return u;
+            const clone = { ...u };
+            applyEnemyDamageMultiplier(clone, encCls, curves);
+            return clone;
+          });
+        }
+      } catch (err) {
+        console.warn('[damage-curves] apply failed:', err.message);
+      }
+
       // ADR-2026-04-17: grid auto-scale basato su deployed PG count (party.yaml)
       let gridW = GRID_SIZE;
       let gridH = GRID_SIZE;
@@ -713,6 +770,8 @@ function createSessionRouter(options = {}) {
       const session = {
         session_id: sessionId,
         scenario_id: scenarioId,
+        // M7-#2 Phase B: persist encounter class per enrage check runtime
+        encounter_class: encounterClassUsed || 'standard',
         pressure_start: pressureStart,
         pressure: pressureStart,
         turn: 1,
