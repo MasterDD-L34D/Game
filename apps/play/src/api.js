@@ -30,6 +30,28 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ session_id: sid }),
     }),
+  // ADR-2026-04-15 round model endpoints (wired M4 A.1).
+  // Flow: beginPlanning → N × declareIntent → commitRound(auto_resolve=true)
+  beginPlanning: (sid) =>
+    jsonFetch('/api/session/round/begin-planning', {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid }),
+    }),
+  declareIntent: (sid, actorId, action) =>
+    jsonFetch('/api/session/declare-intent', {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid, actor_id: actorId, action }),
+    }),
+  clearIntent: (sid, actorId) =>
+    jsonFetch(`/api/session/clear-intent/${encodeURIComponent(actorId)}`, {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid }),
+    }),
+  commitRound: (sid, autoResolve = true) =>
+    jsonFetch('/api/session/commit-round', {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid, auto_resolve: autoResolve }),
+    }),
   vc: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/vc`),
   replay: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/replay`),
   modulations: () => jsonFetch('/api/party/modulations'),

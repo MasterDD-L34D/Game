@@ -125,8 +125,16 @@ function handleAbilitySelect(ab) {
 }
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && state.pendingAbility) {
-    cancelPendingAbility();
+  if (e.key === 'Escape') {
+    if (state.pendingAbility) {
+      cancelPendingAbility();
+    }
+    // M4 A.2 — ESC cancella pending confirm action
+    if (_pendingConfirm) {
+      _pendingConfirm = null;
+      updateHint('Pending cancellato. Seleziona unità o altra azione.');
+      redraw();
+    }
   }
 });
 
@@ -219,11 +227,123 @@ canvas.addEventListener('click', (ev) => {
   doAction({ action_type: 'move', actor_id: state.selected, position: { x, y } });
 });
 
+// M4 A.1 — Feature flag round model simultaneous.
+// Toggle: localStorage.setItem('evo:round-flow','simultaneous') + reload.
+// Default OFF = legacy /api/session/action + /api/session/turn/end (ADR pre-04-15).
+// ON = /api/session/declare-intent + /commit-round (ADR-2026-04-15 round model).
+function useRoundFlow() {
+  try {
+    return localStorage.getItem('evo:round-flow') === 'simultaneous';
+  } catch {
+    return false;
+  }
+}
+
+// M4 A.2 — Feature flag confirm action (2-step commit).
+// Toggle: localStorage.setItem('evo:confirm-action','true') + reload.
+// ON = primo click = pending preview (ghost), secondo click stessa cella/target = confirm.
+function useConfirmAction() {
+  try {
+    return localStorage.getItem('evo:confirm-action') === 'true';
+  } catch {
+    return false;
+  }
+}
+
+// Pending confirm state: { body, tag, ts }. Reset su cancel o commit.
+let _pendingConfirm = null;
+// Debug: expose pending per inspect via preview_eval
+window.__dbg = window.__dbg || {};
+Object.defineProperty(window.__dbg, 'pendingConfirm', {
+  get() {
+    return _pendingConfirm;
+  },
+});
+
+function confirmMatch(prev, next) {
+  if (!prev) return false;
+  if (prev.body.action_type !== next.action_type) return false;
+  if (prev.body.actor_id !== next.actor_id) return false;
+  if (next.action_type === 'attack' || next.action_type === 'ability') {
+    return prev.body.target_id === next.target_id;
+  }
+  if (next.action_type === 'move') {
+    return prev.body.position?.x === next.position?.x && prev.body.position?.y === next.position?.y;
+  }
+  return false;
+}
+
 async function doAction(body) {
   if (!state.sid) return;
   // Safety: hard clear any pending ability + target mode prima di ogni action
   cancelPendingAbility(true);
   body.session_id = state.sid;
+
+  // Confirm action: primo click pending, secondo click stessa action = commit
+  if (useConfirmAction()) {
+    if (!confirmMatch(_pendingConfirm, body)) {
+      _pendingConfirm = { body: { ...body }, ts: Date.now() };
+      const tag = body.ability_id
+        ? `ability ${body.ability_id}${body.target_id ? ` → ${body.target_id}` : ''}`
+        : body.action_type === 'move'
+          ? `move [${body.position.x},${body.position.y}]`
+          : `atk ${body.target_id}`;
+      updateHint(`⏳ PENDING ${tag} — click di nuovo per confermare, ESC per annullare`);
+      redraw();
+      return;
+    }
+    // Seconda click = confirm
+    _pendingConfirm = null;
+  }
+
+  // Round flow simultaneous: declare intent invece di action immediate
+  if (useRoundFlow()) {
+    // Map body → action shape per declareIntent
+    const action = {
+      type: body.action_type,
+      actor_id: body.actor_id,
+      ap_cost:
+        body.action_type === 'attack'
+          ? 1
+          : body.action_type === 'move'
+            ? manhattanApCost(body)
+            : body.action_type === 'ability'
+              ? body.ap_cost || 1
+              : 0,
+    };
+    if (body.action_type === 'attack') action.target_id = body.target_id;
+    if (body.action_type === 'move') action.move_to = body.position;
+    if (body.action_type === 'ability') {
+      action.ability_id = body.ability_id;
+      action.target_id = body.target_id;
+      if (body.position) action.position = body.position;
+    }
+    // Ensure roundState initialized
+    if (!state.roundInit) {
+      const bp = await api.beginPlanning(state.sid);
+      if (!bp.ok) {
+        appendLog(logEl, `✖ begin-planning: ${bp.data?.error || bp.status}`, 'error');
+        return;
+      }
+      state.roundInit = true;
+    }
+    const r = await api.declareIntent(state.sid, body.actor_id, action);
+    if (!r.ok) {
+      appendLog(logEl, `✖ ${r.data?.error || `HTTP ${r.status}`}`, 'error');
+      updateHint(`❌ ${r.data?.error || 'Intent rifiutato.'} · riprova`);
+      return;
+    }
+    const tag = body.ability_id
+      ? `→ ability ${body.ability_id}${body.target_id ? ` → ${body.target_id}` : ''}`
+      : body.action_type === 'move'
+        ? `→ move [${body.position.x},${body.position.y}]`
+        : `→ atk ${body.target_id}`;
+    appendLog(logEl, `${body.actor_id}: ${tag} (pending)`);
+    updateHint(`✓ Intent dichiarato ${body.actor_id}. Altri player o "Fine turno" per risolvere.`);
+    return;
+  }
+
+  // Legacy flow (default OFF): action immediate
   const r = await api.action(body);
   if (!r.ok) {
     appendLog(logEl, `✖ ${r.data?.error || `HTTP ${r.status}`}`, 'error');
@@ -237,6 +357,15 @@ async function doAction(body) {
       : `atk ${body.target_id}`;
   appendLog(logEl, `${body.actor_id}: ${tag}`);
   await refresh();
+}
+
+function manhattanApCost(body) {
+  if (!state.world || !body.actor_id || !body.position) return 1;
+  const actor = (state.world.units || []).find((u) => u.id === body.actor_id);
+  if (!actor || !actor.position) return 1;
+  return (
+    Math.abs(body.position.x - actor.position.x) + Math.abs(body.position.y - actor.position.y)
+  );
 }
 
 // Track last events count to detect new events for anim
@@ -332,9 +461,16 @@ async function startNewSession() {
   state.world = st.data.state;
   state.selected = null;
   state.target = null;
+  // M4 A.1+A.2: reset flag state per nuova sessione
+  state.roundInit = false;
+  _pendingConfirm = null;
   lastEventsCount = (state.world?.events || []).length;
   appendLog(logEl, `✓ sessione ${state.sid.slice(0, 8)}…`);
-  updateHint('Sessione iniziata. Seleziona una tua unità.');
+  const flags = [];
+  if (useRoundFlow()) flags.push('round=simultaneous');
+  if (useConfirmAction()) flags.push('confirm=on');
+  const hint = flags.length > 0 ? ` [${flags.join(', ')}]` : '';
+  updateHint(`Sessione iniziata${hint}. Seleziona una tua unità.`);
   redraw();
 }
 
@@ -401,6 +537,47 @@ document.getElementById('end-turn').addEventListener('click', async () => {
   if (!state.sid) return;
   sfx.turn_end();
   appendLog(logEl, '→ fine turno');
+
+  // M4 A.1 — Round model simultaneous: commit-round auto_resolve
+  if (useRoundFlow()) {
+    // Ensure begin-planning called almeno una volta (first turn may skip if no declare)
+    if (!state.roundInit) {
+      const bp = await api.beginPlanning(state.sid);
+      if (!bp.ok) {
+        appendLog(logEl, `✖ begin-planning: ${bp.data?.error || bp.status}`, 'error');
+        return;
+      }
+      state.roundInit = true;
+    }
+    const r = await api.commitRound(state.sid, true);
+    if (!r.ok) {
+      appendLog(logEl, `✖ commit-round: ${r.data?.error || r.status}`, 'error');
+      return;
+    }
+    // Reset roundInit per prossimo turno
+    state.roundInit = false;
+    _pendingConfirm = null;
+    // Process resolution_queue as animations (shape differs da ia_actions)
+    const queue = r.data?.resolution_queue || [];
+    if (queue.length > 0) {
+      // Animazioni stagger per ogni action risolta
+      queue.forEach((action, i) => {
+        setTimeout(() => {
+          // Popup only, actual state refresh post-all
+        }, i * 200);
+      });
+    }
+    setTimeout(
+      async () => {
+        await refresh();
+        appendLog(logEl, `✓ round ${state.world?.turn || '?'} risolto (${queue.length} azioni)`);
+      },
+      queue.length * 200 + 300,
+    );
+    return;
+  }
+
+  // Legacy flow (default)
   const r = await api.endTurn(state.sid);
   if (!r.ok) {
     appendLog(logEl, `✖ end turn: ${r.status}`, 'error');
