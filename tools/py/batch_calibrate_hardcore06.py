@@ -94,6 +94,24 @@ def step_toward(src, dst, grid_w, grid_h):
     return {"x": nx, "y": ny}
 
 
+# M6-#1b iter3: smart channel policy. Player exploit vulnerability
+# dell'archetype del target (esplicitato in hardcore-06 scenario).
+# Mapping statico basato su tutorial species (M5-#3) + species_resistances.yaml.
+# Apex boss + elite hunter = archetype corazzato (vuln psionico, mentale).
+# Altri enemies = adattivo neutral (nessun vantaggio particolare).
+CHANNEL_EXPLOIT_MAP = {
+    "e_apex_boss": "psionico",
+    "e_elite_hunter_1": "psionico",
+    "e_elite_hunter_2": "psionico",
+}
+
+
+def _pick_channel_for(target_id):
+    """Return attack channel che sfrutta vuln del target.
+    Default 'fisico' se target non ha weakness mappata."""
+    return CHANNEL_EXPLOIT_MAP.get(target_id, "fisico")
+
+
 def plan_player_intents(state, occupied):
     units = state.get("units", [])
     grid = state.get("grid", {})
@@ -122,9 +140,14 @@ def plan_player_intents(state, occupied):
         # Nearest enemy (prefer lower priority = minions first).
         enemies_sorted = sorted(enemies, key=lambda e: (enemy_priority(e), manhattan(pl["position"], e["position"])))
         target = enemies_sorted[0]
+        target_id = target["id"]
+        channel = _pick_channel_for(target_id)  # M6-#1b iter3 channel exploit
         dist = manhattan(pl["position"], target["position"])
         if dist <= rng and ap >= 1:
-            intents.append({"actor_id": pl["id"], "action": {"type": "attack", "target_id": target["id"]}})
+            intents.append({
+                "actor_id": pl["id"],
+                "action": {"type": "attack", "target_id": target_id, "channel": channel}
+            })
         elif ap >= 2:
             new_pos = step_toward(pl["position"], target["position"], gw, gh)
             if (new_pos["x"], new_pos["y"]) in reserved:
@@ -136,7 +159,10 @@ def plan_player_intents(state, occupied):
             intents.append({"actor_id": pl["id"], "action": {"type": "move", "position": new_pos}})
             new_dist = manhattan(new_pos, target["position"])
             if new_dist <= rng and ap >= 2:
-                intents.append({"actor_id": pl["id"], "action": {"type": "attack", "target_id": target["id"]}})
+                intents.append({
+                    "actor_id": pl["id"],
+                    "action": {"type": "attack", "target_id": target_id, "channel": channel}
+                })
             reserved.discard((pl["position"]["x"], pl["position"]["y"]))
             reserved.add((new_pos["x"], new_pos["y"]))
         else:
