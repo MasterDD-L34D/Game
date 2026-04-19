@@ -417,6 +417,17 @@ jobs:
       - name: Refresh release status report
         run: node tools/deploy/generateStatusReport.js --status reports/status.json
 
+      # M5-#3 (P0-D audit): verify scenario JS species refs ↔ YAML files.
+      # Wirato ANCHE qui (oltre che in test:api/stack-quality) perché path
+      # filter `data` cattura packs/** edits che skippano `stack`. Senza
+      # questo, pack-only PR potrebbero reintrodurre phantom species senza
+      # detection (codex-bot review feedback su #1632).
+      - name: Verify tutorial species YAML existence
+        run: node --test tests/scripts/tutorialSpeciesExistence.test.js
+
+      - name: Verify species-index integrity (primary + fallback + mirrors)
+        run: node --test tests/scripts/speciesIndexIntegrity.test.js
+
       - name: Upload trait style guide report
         if: always()
         uses: actions/upload-artifact@v4

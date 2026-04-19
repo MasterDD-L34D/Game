@@ -33,7 +33,16 @@ const SPECIES_REF_PATTERN = /species:\s*['"]([a-z0-9_]+)['"]/g;
 function collectScenarioSpeciesRefs() {
   const refs = new Set();
   for (const file of SCENARIO_FILES) {
-    if (!fs.existsSync(file)) continue;
+    // Fail-fast: se un file dichiarato SCENARIO_FILES manca (rename/delete),
+    // il guard perderebbe coverage silenziosamente. Assertion esplicita
+    // costringe ad aggiornare SCENARIO_FILES quando lo scenario JS si sposta.
+    // (codex-bot review feedback su #1632.)
+    assert.ok(
+      fs.existsSync(file),
+      `Scenario file tracked but missing: ${file}.` +
+        ' Update SCENARIO_FILES in tests/scripts/tutorialSpeciesExistence.test.js' +
+        ' o ripristina il file.',
+    );
     const src = fs.readFileSync(file, 'utf8');
     let match;
     // Reset stateful regex
