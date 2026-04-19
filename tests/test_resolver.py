@@ -63,6 +63,7 @@ from rules.resolver import (  # noqa: E402
     compute_step_count,
     compute_step_flat_bonus,
     get_status,
+    merge_resistances,
     predict_combat,
     resolve_action,
     resolve_parry,
@@ -189,6 +190,80 @@ def test_apply_resistance_multiplicative_floor():
 def test_apply_resistance_negative_pct_amplifies():
     # -20% vulnerability -> floor(10 * 1.2) = 12
     assert apply_resistance(10, [{"channel": "fuoco", "modifier_pct": -20}], "fuoco") == 12
+
+
+# --- ADR-2026-04-19 Resistance convention: species (100-neutral) + trait (delta)
+# Lock convention tramite regression test. Scenario end-to-end smoking gun
+# (species vulnerability fluisce correttamente tramite merge_resistances ->
+# apply_resistance) previene regressione segnalata da parallel-agent audit
+# 2026-04-19 (balance-auditor + sot-planner).
+
+
+def test_merge_resistances_species_only_converts_100_neutral_to_delta():
+    """species scale 100-neutral -> delta format via merge_resistances.
+
+    psionico.fisico: 120 (20% vuln in species scale)
+        -> {channel: fisico, modifier_pct: -20}  (delta)
+    """
+    species = {"fisico": 120, "taglio": 120, "psionico": 70}
+    result = merge_resistances([], species)
+    by_channel = {r["channel"]: r["modifier_pct"] for r in result}
+    assert by_channel["fisico"] == -20  # 100 - 120 = -20 (vuln)
+    assert by_channel["taglio"] == -20
+    assert by_channel["psionico"] == 30  # 100 - 70 = +30 (resist)
+
+
+def test_merge_resistances_trait_only_passes_through_delta():
+    """trait list solo (zero species): delta format invariato."""
+    traits = [
+        {"channel": "fuoco", "modifier_pct": 20},
+        {"channel": "fisico", "modifier_pct": -15},
+    ]
+    result = merge_resistances(traits, None)
+    by_channel = {r["channel"]: r["modifier_pct"] for r in result}
+    assert by_channel["fuoco"] == 20
+    assert by_channel["fisico"] == -15
+
+
+def test_merge_resistances_species_plus_trait_stack_additive():
+    """species baseline + trait stack: somma algebrica in delta format.
+
+    corazzato.psionico: 120 -> -20 baseline (vulnerabilità)
+    trait psionico: +30 (resistenza)
+    risultato atteso: -20 + 30 = +10 (10% resist netto)
+    """
+    species = {"fisico": 80, "psionico": 120}
+    traits = [{"channel": "psionico", "modifier_pct": 30}]
+    result = merge_resistances(traits, species)
+    by_channel = {r["channel"]: r["modifier_pct"] for r in result}
+    assert by_channel["fisico"] == 20  # solo species: 100 - 80 = +20 (resist)
+    assert by_channel["psionico"] == 10  # -20 + 30 = +10
+
+
+def test_species_vulnerability_end_to_end_smoking_gun():
+    """REGRESSION GUARD: parallel-agent audit 2026-04-19.
+
+    Pipeline completa species 100-neutral -> merge_resistances -> delta
+    -> apply_resistance. Verifica che species vulnerability (pct > 100)
+    produca amplify damage, NON clamp a zero.
+
+    Scenario balance-auditor: psionico archetype con fisico: 120
+    vs attacker fisico damage=10. Atteso: 10 * 1.2 = 12 (amplify 20%).
+    Bug storico se caller passa species dict raw a apply_resistance:
+    factor = (100 - 120) / 100 = -0.20 -> floor(10 * -0.20) = -2 -> clamp 0.
+    Test forza passaggio via merge_resistances (ADR-2026-04-19 invariant).
+    """
+    species_psionico = {"fisico": 120, "taglio": 120, "psionico": 70}
+    merged = merge_resistances([], species_psionico)
+    # merged è delta format, pronto per apply_resistance
+    damage_after = apply_resistance(10, merged, "fisico")
+    assert damage_after == 12, (
+        f"Species vulnerability non applicata. Expected 12 (amplify 20%),"
+        f" got {damage_after}. ADR-2026-04-19 convention broken."
+    )
+    # controllo canale resistant stesso archetype
+    damage_psionico = apply_resistance(10, merged, "psionico")
+    assert damage_psionico == 7  # floor(10 * 0.70) = 7
 
 
 def test_apply_armor_sottrae_flat():
