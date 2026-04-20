@@ -365,10 +365,14 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
   if (!dead) drawStatusIcons(ctx, unit, cx, yPx * CELL);
 
   // M4 P0.3 — SIS enemy intent icon (Slay the Spire pattern).
-  // Stub euristico: SIS controlled_by='sistema' + HP>0 → fist icon (attack intent).
-  // TODO ADR-04-18 Plan-Reveal: real intents da threat_preview payload backend.
+  // M8 Plan-Reveal P0 (ADR-2026-04-18): real intent icon da threat_preview
+  // payload backend (/round/begin-planning). Fallback 'fist' se preview
+  // assente (legacy flow o first-paint pre-begin-planning).
   if (!dead && unit.controlled_by === 'sistema') {
-    drawSisIntentIcon(ctx, unit, cx, yPx * CELL, 'fist');
+    const preview = Array.isArray(highlight.threatPreview) ? highlight.threatPreview : [];
+    const row = preview.find((r) => r && r.actor_id === unit.id);
+    const icon = (row && row.intent_icon) || 'fist';
+    drawSisIntentIcon(ctx, unit, cx, yPx * CELL, icon);
   }
 
   // W4.3 — Resolution priority badge (visible during commit-round reveal phase).

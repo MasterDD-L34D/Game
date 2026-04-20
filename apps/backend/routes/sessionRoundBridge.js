@@ -34,6 +34,7 @@ const {
 } = require('../services/squadCoordination');
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
+const { buildThreatPreview } = require('../services/ai/threatPreview');
 
 function createRoundBridge(deps) {
   const {
@@ -1135,6 +1136,12 @@ function createRoundBridge(deps) {
 
         await persistEvents(session);
 
+        // M8 Plan-Reveal P0 (ADR-2026-04-18): UI threat preview payload.
+        // SIS intents normalizzati in {actor_id, intent_type, intent_icon,
+        // target_id, threat_tiles} consumati dal frontend render.js +
+        // main.js tooltip. Empty array se nessun SIS intent.
+        const threatPreview = buildThreatPreview(session);
+
         res.json({
           session_id: session.session_id,
           turn: session.turn,
@@ -1142,6 +1149,7 @@ function createRoundBridge(deps) {
           pending_intents: session.roundState.pending_intents,
           sistema_decisions: sisDecisions,
           sistema_intents_count: sisIntents.length,
+          threat_preview: threatPreview,
           hazard_events: hazardEvents,
           side_effects: bleedingEvents,
           state: publicSessionView(session),
