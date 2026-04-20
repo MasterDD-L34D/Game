@@ -49,11 +49,12 @@ test('getEncounterClass: explicit class passes through', () => {
 test('applyEnemyDamageMultiplier: scales mod by class multiplier', () => {
   _resetCache();
   const unit = { mod: 5 };
-  const applied = applyEnemyDamageMultiplier(unit, 'hardcore'); // mult 1.4
+  // M7-#2 Phase E iter7: hardcore 1.4 → 1.8
+  const applied = applyEnemyDamageMultiplier(unit, 'hardcore');
   assert.equal(applied, true);
-  assert.equal(unit.mod, 7); // round(5 * 1.4) = 7
+  assert.equal(unit.mod, 9); // round(5 * 1.8) = 9
   assert.equal(unit._mod_base, 5);
-  assert.equal(unit._mod_multiplier_applied, 1.4);
+  assert.equal(unit._mod_multiplier_applied, 1.8);
 });
 
 test('applyEnemyDamageMultiplier: no-op on tutorial class (mult 1.0)', () => {
@@ -64,11 +65,12 @@ test('applyEnemyDamageMultiplier: no-op on tutorial class (mult 1.0)', () => {
   assert.equal(unit.mod, 5);
 });
 
-test('applyEnemyDamageMultiplier: boss class multiplier 1.6', () => {
+test('applyEnemyDamageMultiplier: boss class multiplier 2.0', () => {
   _resetCache();
   const unit = { mod: 5 };
+  // M7-#2 Phase E iter7: boss 1.6 → 2.0 (mantiene monotonic > hardcore 1.8)
   applyEnemyDamageMultiplier(unit, 'boss');
-  assert.equal(unit.mod, 8); // round(5 * 1.6) = 8
+  assert.equal(unit.mod, 10); // round(5 * 2.0) = 10
 });
 
 test('shouldEnrageBoss: boss HP below threshold → true', () => {
@@ -93,7 +95,8 @@ test('shouldEnrageBoss: tutorial class → never enrage (threshold null)', () =>
 test('getEnrageModBonus: returns boss tier bonus', () => {
   _resetCache();
   loadDamageCurves();
-  assert.equal(getEnrageModBonus(), 1);
+  // M7-#2 Phase E iter7: enrage_mod_bonus 1 → 3 (late-fight drama)
+  assert.equal(getEnrageModBonus(), 3);
 });
 
 test('getTargetBands: returns 3 rate ranges for class', () => {
