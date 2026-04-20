@@ -31,7 +31,7 @@ Fonte dati: `data/core/biomes.yaml`, `packs/evo_tactics_pack/data/balance/`.
 
 ### 2. Layout Griglia
 
-- **Dimensione**: piccola (8×8, scontri rapidi), media (12×12, standard), grande (16×16, raid).
+- **Dimensione** (post ADR-2026-04-16 hex axial + ADR-2026-04-17 coop-scaling): piccola (6×6, 1-2 party), media (8×8, 2-4 party), grande (10×10, 4-8 party raid). Vedi `data/core/party.yaml` modulation preset. **Vecchio 8/12/16 obsoleto pre-coop-scaling**.
 - **Elementi**: terreno piatto, alture (vantaggio tiro/backstab), coperture (half/full), terreno difficile, caselle speciali (spawn, obiettivo, interattive).
 - **Simmetria**: co-op vs Sistema → asimmetria intenzionale. Giocatori partono da zona protetta; Sistema controlla punti strategici.
 
@@ -106,14 +106,17 @@ difficulty_rating: 3 # 1-5
 estimated_turns: 10
 ```
 
-## Progressione difficoltà
+## Progressione difficoltà (post ADR-2026-04-17 hex axial + coop-scaling)
 
-| Fase campagna       | Grid   | Wave    | Obiettivi             | Condizioni          |
-| ------------------- | ------ | ------- | --------------------- | ------------------- |
-| Tutorial (1-3)      | 8×8    | 1 wave  | Eliminazione          | Nessuna             |
-| Esplorazione (4-10) | 10×10  | 2 wave  | Mix (cattura, escort) | Fog leggera         |
-| Confronto (11-18)   | 12×12  | 3 wave  | Mix completo          | StressWave, terrain |
-| Endgame (19-25)     | 14×14+ | 4+ wave | Multi-obiettivo       | Tutto attivo        |
+| Fase campagna       | Grid  | Party | Wave    | Obiettivi             | Condizioni          | Class (ADR-04-20)        |
+| ------------------- | ----- | ----- | ------- | --------------------- | ------------------- | ------------------------ |
+| Tutorial (1-3)      | 6×6   | 2p    | 1 wave  | Eliminazione          | Nessuna             | tutorial (1.0x)          |
+| Tutorial_adv (4-5)  | 6×6   | 2p    | 2 wave  | Hazard + boss tier-1  | Status + hazard     | tutorial_advanced (1.1x) |
+| Esplorazione (6-10) | 8×8   | 4p    | 2 wave  | Mix (cattura, escort) | Fog leggera         | standard (1.2x)          |
+| Confronto (11-18)   | 10×10 | 4-6p  | 3 wave  | Mix completo          | StressWave, terrain | hardcore (1.8x)          |
+| Endgame (19-25)     | 10×10 | 8p    | 4+ wave | Multi-obiettivo       | Tutto + enrage      | boss (2.0x)              |
+
+Turn_limit_defeat (ADR-2026-04-20 + M9 P6): hardcore=25, boss=20 (force decision pressure Long War pattern).
 
 ## Relazione Bioma → Livello
 

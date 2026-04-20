@@ -577,7 +577,11 @@ Il round model è implementato in `apps/backend/services/roundOrchestrator.js` e
 
 ### 13.2 Rules engine d20
 
-Implementato in `services/rules/resolver.py`. È il motore meccanico puro.
+> ⚠️ **Deprecato 2026-04-19** (ADR-2026-04-19-kill-python-rules-engine). Motore Python `services/rules/resolver.py` pensato per Master DM tabletop. User direction "1 solo gioco online, senza master" → Python = dead weight. Runtime canonical è ora Node: `apps/backend/services/combat/` + `apps/backend/routes/session.js`. Vedi `services/rules/DEPRECATED.md`.
+
+**Runtime canonical Node (M6-#1 2026-04-19)**: `apps/backend/services/combat/resistanceEngine.js` (archetype-based), `apps/backend/services/combat/objectiveEvaluator.js` (multi-type outcomes), `apps/backend/services/balance/damageCurves.js` (class multipliers + enrage + turn_limit_defeat).
+
+**Python legacy** (per riferimento, non implementare nuove feature):
 
 **Flusso attacco d20:**
 
@@ -721,7 +725,9 @@ Questa sezione copre la struttura spaziale del campo di battaglia. Attualmente i
 
 ### 14.1 Tipo di griglia
 
-**Decisione aperta:** hex o square? → ADR dedicato richiesto.
+> ✅ **Decisione chiusa 2026-04-16** (ADR-2026-04-16-grid-type-hex-axial): **hex axial coordinates**. Implementato `hexGrid.js` pianificato Node native port M12+ (attualmente Python `services/rules/hex_grid.py` legacy DEPRECATED).
+
+**Sizes canonical post ADR-2026-04-17 coop-scaling**: 6×6 / 8×8 / 10×10 (non 8/12/16 legacy pre-scaling). Vedi `data/core/party.yaml` modulation preset (solo→full 8p) + `packages/contracts/schemas/party.schema.json`.
 
 | Criterio                 | Hex                                         | Square                              |
 | ------------------------ | ------------------------------------------- | ----------------------------------- |

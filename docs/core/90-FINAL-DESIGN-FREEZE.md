@@ -171,7 +171,9 @@ Regola di governance: ogni feature deve dichiarare in quale punto del loop impat
 
 ### 7.3 Resolver freeze
 
-Il **resolver atomico** (`services/rules/resolver.py`) supporta stabilmente:
+> ⚠️ **DEPRECATO 2026-04-19** (ADR-2026-04-19-kill-python-rules-engine). Runtime canonical Node `apps/backend/services/combat/` + `apps/backend/routes/session.js`. Python preservato solo riferimento spec storico. Vedi `services/rules/DEPRECATED.md`. **M12+ phase 3 removal pending**.
+
+Il **resolver atomico legacy Python** (`services/rules/resolver.py`) supportava stabilmente:
 
 - `resolve_action` — risoluzione atomica di una singola intenzione (attack / defend / parry / move / ability stub)
 - `begin_turn` — reset AP/reactions per unita' + decay status + bleeding tick
