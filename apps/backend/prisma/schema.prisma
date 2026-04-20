@@ -83,3 +83,77 @@ model SpeciesBiome {
   @@unique([speciesId, biomeId])
   @@map("species_biomes")
 }
+
+// ─── M10 Campaign persistence (ADR-2026-04-21) ────────────────────────
+// Phase A: schema added. Phase B migration + route wire. Campaign state
+// persists cross-session per player. Single-player MVP (multi-device cloud
+// sync deferred M12+).
+
+model Campaign {
+  id              String        @id @default(uuid())
+  playerId        String        @map("player_id")
+  campaignDefId   String        @default("default_campaign_mvp") @map("campaign_def_id")
+  currentChapter  Int           @default(1) @map("current_chapter")
+  currentAct      Int           @default(0) @map("current_act")
+  branchChoices   String        @default("[]") @map("branch_choices") // JSON array of binary choices
+  completionPct   Float         @default(0.0) @map("completion_pct")
+  finalState      String?       @map("final_state") // 'completed' | 'abandoned' | null
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+  chapters        Chapter[]
+  partyRoster     PartyRoster[]
+  saves           SaveSnapshot[]
+
+  @@index([playerId])
+  @@map("campaigns")
+}
+
+model Chapter {
+  id            String    @id @default(uuid())
+  campaignId    String    @map("campaign_id")
+  campaign      Campaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  chapterIdx    Int       @map("chapter_idx") // sequential 1..N
+  actIdx        Int       @map("act_idx")     // 0..2 (Act 0 tutorial, Act 1 main, Act 2 endgame post-MVP)
+  encounterId   String    @map("encounter_id") // refs encounter YAML
+  outcome       String?   // 'victory' | 'defeat' | 'timeout' | null
+  peEarned      Int       @default(0) @map("pe_earned")
+  piEarned      Int       @default(0) @map("pi_earned")
+  branchChosen  String?   @map("branch_chosen") // Descent binary choice key
+  completedAt   DateTime? @map("completed_at")
+
+  @@index([campaignId, chapterIdx])
+  @@map("chapters")
+}
+
+model PartyRoster {
+  id              String   @id @default(uuid())
+  campaignId      String   @map("campaign_id")
+  campaign        Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  unitId          String   @map("unit_id") // PG identifier in-encounter
+  species         String
+  job             String
+  tier            String   @default("base") // base/veteran/elite (mythic post-MVP P0 Q58)
+  hpBase          Int      @map("hp_base")
+  traits          String   @default("[]") // JSON array trait IDs (inborn)
+  acquiredTraits  String   @default("[]") @map("acquired_traits") // JSON array (PI pack runtime)
+  xpTotal         Int      @default(0) @map("xp_total")
+  level           Int      @default(1)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([campaignId])
+  @@map("party_rosters")
+}
+
+model SaveSnapshot {
+  id             String   @id @default(uuid())
+  campaignId     String   @map("campaign_id")
+  campaign       Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  sessionId      String?  @map("session_id") // optional: active session during save
+  saveType       String   @map("save_type") // 'auto' | 'manual' | 'checkpoint'
+  snapshotData   String   @map("snapshot_data") // JSON full state serialized
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@index([campaignId, createdAt])
+  @@map("save_snapshots")
+}
