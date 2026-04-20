@@ -267,16 +267,40 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Test totali aggiornati**: Python rules engine 196/196 · Node AI 197/197 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** · **Ability/canonical 60+** (M2) · **Party + hardcore 10/10** (co-op arc) · **Totale 710+**
 
-### Pilastri di design — stato attuale
+### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
+
+Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 🟢 confondevano **"dataset shipped"** con **"runtime shipped"**.
+
+- `docs/planning/2026-04-20-pilastri-reality-audit.md` — breakdown dettagliato per Pilastro.
+- `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` — roadmap 3-sprint con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
 
 | #   | Pilastro                     | Stato |
 | --- | ---------------------------- | :---: |
 | 1   | Tattica leggibile (FFT)      |  🟢   |
-| 2   | Evoluzione emergente (Spore) |  🟢   |
-| 3   | Identità Specie × Job        |  🟢   |
-| 4   | Temperamenti MBTI/Ennea      |  🟢   |
-| 5   | Co-op vs Sistema             |  🟢   |
-| 6   | Fairness                     |  🟢   |
+| 2   | Evoluzione emergente (Spore) |  🟡   |
+| 3   | Identità Specie × Job        |  🟡   |
+| 4   | Temperamenti MBTI/Ennea      |  🟡   |
+| 5   | Co-op vs Sistema             |  🟡   |
+| 6   | Fairness                     |  🟡   |
+
+**Score**: 1/6 🟢 + 5/6 🟡 (zero 🔴 post deep-audit).
+
+**Gap principali + evidence-based strategy**:
+
+- **P2 🟡**: `metaProgression.js` + 6 route meta runtime in-memory. Persistence + PI pack spender = **Wesnoth advancement + AI War pack unlock** (non Spore sim). ~15-20h.
+- **P3 🟡**: 7 jobs + abilities rank r1/r2 live. Level curves YAML-only. **XCOM EU/EW perk-pair** 7 livelli × 2 perks. ~15-17h.
+- **P4 🟡**: T_F **FULL**, altri 3 axes partial/null. **Disco Elysium thought cabinet** diegetic reveal. Non shippare axes senza focus group validation. ~8h.
+- **P5 🟡**: Zero network. **Jackbox room-code WebSocket** (3 OSS clones pubblici). Colyseus fallback. ~18-20h.
+- **P6 🟡**: Hardcore iter7 RED deadlock. Multiplier knob exhausted. **Long War 2 mission timers + pod count > HP**. ~5-7h.
+
+**Sprint roadmap M9-M12** (single dev + AI pair, kill-60, decisione user 2026-04-20):
+
+| Sprint  | Big rock                            | Effort | Demo impact                            |
+| ------- | ----------------------------------- | ------ | -------------------------------------- |
+| M9      | P6 timeout + P4 axes + P3 XP proof  | ~20h   | Hardcore playable, MBTI 4/4            |
+| M10     | P2 PI pack runtime + P3 full levels | ~25h   | Trait acquisition campaign             |
+| **M11** | **P5 Jackbox co-op TV (LOCKED)**    | ~20h   | 4 amici + phones + TV = tactical co-op |
+| M12+    | P2 full Form evoluzione (deferred)  | ~35h   | Spore-core ciclo next                  |
 
 ### Guardrail sprint (non negoziabili)
 
