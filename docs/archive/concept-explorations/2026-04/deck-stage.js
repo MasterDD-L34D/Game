@@ -509,8 +509,11 @@
 
       if (broadcast) {
         // (1) Legacy: host-window postMessage for speaker-notes renderers.
+        // Fix Codex P2: when embedded in iframe, target parent window instead of self.
+        // Fallback to window.postMessage when no parent (top-level deck view).
         try {
-          window.postMessage({ slideIndexChanged: curr }, '*');
+          const target = window.parent && window.parent !== window ? window.parent : window;
+          target.postMessage({ slideIndexChanged: curr }, '*');
         } catch (e) {}
 
         // (2) In-page CustomEvent on the <deck-stage> element itself.

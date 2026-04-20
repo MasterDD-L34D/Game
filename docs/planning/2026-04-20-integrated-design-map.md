@@ -150,15 +150,16 @@ Classificate P0/P1/P2 per priorità. P0 = blocca M9 real work. P1 = blocca M10�
 
 Il deck v2 + 4 HTML vertical-slice + screenshots NON vanno in `docs/core/` o `docs/planning/`. Vanno in **`docs/archive/concept-explorations/2026-04/`** con il README già preparato. Tre di queste esplorazioni hanno contenuto **operativo** che tocca le lacune sopra.
 
-| Exploration                                     | Tocca lacuna                                | Azione                                                                    |
-| ----------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
-| Nota 1 deck v2 — **BiomeMemory**                | L06 (P2 PI pack), L08 (Biome runtime)       | Issue di triage: parcheggia o integra in PI pack v2                       |
-| Nota 2 deck v2 — **Costo ambientale del trait** | L06 (P2), L08 (Biome)                       | Issue di triage: pilot su 4 trait × 3 biomi shipping, poi generalizza     |
-| Nota 3 deck v2 — **Onboarding narrativo 60s**   | **L05 (P0 narrative arc)**                  | Issue di triage: design doc primi 60s come spec P0                        |
-| `Vertical Slice - Evoluzione Visible.html`      | L06 (P2 runtime) + Q22 form shift threshold | Usare come **UX reference** quando Claude Code implementa PI pack spender |
-| `Vertical Slice - Debrief Emotivo.html`         | L05 (narrative arc)                         | Usare come **UX reference** per design doc onboarding + debrief           |
-| `Vertical Slice - Minute 0 Onboarding.html`     | L05 + L04 (campagna)                        | Usare come **UX reference** minute-0                                      |
-| `Vertical Slice - Nido Ritual.html`             | Rituali Nido (Convergenza/Veglia/Consiglio) | Exploration pura. Archivia. Non è priorità P0/P1.                         |
+| Exploration                                     | Tocca lacuna                                | Azione                                                                                                     |
+| ----------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Nota 1 deck v2 — **BiomeMemory**                | L06 (P2 PI pack), L08 (Biome runtime)       | Issue di triage: parcheggia o integra in PI pack v2                                                        |
+| Nota 2 deck v2 — **Costo ambientale del trait** | L06 (P2), L08 (Biome)                       | Issue di triage: pilot su 4 trait × 3 biomi shipping, poi generalizza                                      |
+| Nota 3 deck v2 — **Onboarding narrativo 60s**   | **L05 (P0 narrative arc)**                  | Issue di triage: design doc primi 60s come spec P0                                                         |
+| `Vertical Slice - Minute 2 Combat.html`         | L06 (P2 runtime) + Q22 form shift threshold | Usare come **UX reference** quando Claude Code implementa PI pack spender (evoluzione visibile mid-combat) |
+| `Vertical Slice - Minute 3 Consequence.html`    | L05 (narrative arc)                         | Usare come **UX reference** per design doc debrief emotivo post-encounter                                  |
+| `Vertical Slice - Minute 0 Onboarding.html`     | L05 + L04 (campagna)                        | Usare come **UX reference** minute-0 primo contatto giocatore                                              |
+| `Vertical Slice - 60s Onboarding.html`          | L05 (narrative arc onboarding)              | Usare come **UX reference** onboarding compresso 60s                                                       |
+| `Vertical Slice - Risveglio del Leviatano.html` | L04 boss climax + L08 biome runtime         | Exploration pura boss fight climactic. Archivia. Non P0/P1.                                                |
 
 ---
 
@@ -238,8 +239,8 @@ Leggi:
 - docs/planning/2026-04-20-integrated-design-map.md §3 L06
 - apps/backend/services/metaProgression.js (195 LOC in-memory)
 - apps/backend/routes/meta.js (6 endpoint recruit/mating/nest/affinity/trust)
-- docs/archive/concept-explorations/2026-04/Vertical Slice - Evoluzione Visible.html
-  (solo come UX reference, non come spec)
+- docs/archive/concept-explorations/2026-04/Vertical Slice - Minute 2 Combat.html
+  (solo come UX reference per evoluzione visibile mid-combat, non come spec)
 
 Task: progetta la persistence Prisma per metaProgression.
 - Schema: SquadMember, AffinityLog, TrustLog, NestState, MatingEvent
