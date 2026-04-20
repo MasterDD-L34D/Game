@@ -19,6 +19,7 @@ import { initHelpPanel } from './helpPanel.js';
 import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
 import { toggleCodex } from './codexPanel.js';
 import { initFeedbackPanel } from './feedbackPanel.js';
+import { initCampaignPanel } from './campaignPanel.js';
 
 const state = {
   sid: null,
@@ -1294,6 +1295,8 @@ async function loadModulations() {
 initHelpPanel('help-open');
 // M7 feedback panel — playtest collection
 initFeedbackPanel({ getSessionId: () => state.sid });
+// M10 Phase D — campaign panel (ADR-2026-04-21)
+initCampaignPanel();
 
 // W8O — Resize listener: redraw canvas quando viewport cambia (CELL dinamico).
 let _resizeTimeout = null;
