@@ -32,6 +32,7 @@ const EVENT_TYPES = [
   'player_joined',
   'player_connected',
   'player_disconnected',
+  'host_transferred',
   'chat',
   'room_closed',
   'error',
@@ -226,6 +227,19 @@ export class LobbyClient {
       case 'player_disconnected':
         this._emit(msg.type, msg.payload || {});
         return;
+      case 'host_transferred': {
+        // TKT-M11B-05 — server promoted someone to host. Update local role
+        // if the promoted id matches ours so sendState guards flip accordingly.
+        const payload = msg.payload || {};
+        if (payload.new_host_id && payload.new_host_id === this.playerId) {
+          this.role = 'host';
+        } else if (this.role === 'host' && payload.new_host_id !== this.playerId) {
+          // We used to be host but aren't anymore (rare edge: admin force-transfer).
+          this.role = 'player';
+        }
+        this._emit('host_transferred', payload);
+        return;
+      }
       case 'chat':
         this._emit('chat', msg.payload || {});
         return;
