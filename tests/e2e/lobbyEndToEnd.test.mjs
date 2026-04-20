@@ -369,6 +369,62 @@ test('e2e: Phase B+ host publishes state with campaign_summary merged — all pl
   }
 });
 
+test('e2e: Phase C roster — player_joined + player_connected + player_disconnected signals propagate in order', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+    });
+    await host.connect();
+
+    const joinEvents = [];
+    const connectEvents = [];
+    const disconnectEvents = [];
+    host.on('player_joined', (e) => joinEvents.push(e));
+    host.on('player_connected', (e) => connectEvents.push(e));
+    host.on('player_disconnected', (e) => disconnectEvents.push(e));
+
+    // REST join triggers player_joined broadcast to already-connected host.
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+    await new Promise((r) => setTimeout(r, 50));
+    assert.equal(joinEvents.length, 1);
+    assert.equal(joinEvents[0].player_id, p1.player_id);
+    assert.equal(joinEvents[0].name, 'Phone1');
+    assert.equal(joinEvents[0].role, 'player');
+
+    // WS attach triggers player_connected broadcast.
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+      reconnect: false,
+    });
+    await c1.connect();
+    await new Promise((r) => setTimeout(r, 50));
+    assert.equal(connectEvents.length, 1);
+    assert.equal(connectEvents[0].player_id, p1.player_id);
+
+    // Drop triggers player_disconnected.
+    const disconnectReceived = new Promise((resolve) => host.once('player_disconnected', resolve));
+    c1.socket.terminate();
+    await disconnectReceived;
+    assert.equal(disconnectEvents.length, 1);
+    assert.equal(disconnectEvents[0].player_id, p1.player_id);
+
+    host.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
 test('e2e: LobbyClient auth failure rejects with connect() promise reject', async () => {
   const { lobby, wsHandle, wsUrl } = await spinUp();
   try {
