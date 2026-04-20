@@ -267,26 +267,39 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Test totali aggiornati**: Python rules engine 196/196 · Node AI 197/197 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** · **Ability/canonical 60+** (M2) · **Party + hardcore 10/10** (co-op arc) · **Totale 710+**
 
-### Pilastri di design — stato reale (audit 2026-04-20)
+### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
 
-Revisione honest post-M7: statuses precedenti 6/6 🟢 confondevano **"dataset shipped"** con **"runtime shipped"**. Vedi `docs/planning/2026-04-20-pilastri-reality-audit.md` per breakdown dettagliato.
+Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 🟢 confondevano **"dataset shipped"** con **"runtime shipped"**.
+
+- `docs/planning/2026-04-20-pilastri-reality-audit.md` — breakdown dettagliato per Pilastro.
+- `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` — roadmap 3-sprint con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
 
 | #   | Pilastro                     | Stato |
 | --- | ---------------------------- | :---: |
 | 1   | Tattica leggibile (FFT)      |  🟢   |
-| 2   | Evoluzione emergente (Spore) |  🔴   |
+| 2   | Evoluzione emergente (Spore) |  🟡   |
 | 3   | Identità Specie × Job        |  🟡   |
 | 4   | Temperamenti MBTI/Ennea      |  🟡   |
 | 5   | Co-op vs Sistema             |  🟡   |
 | 6   | Fairness                     |  🟡   |
 
-**Gap principali**:
+**Score**: 1/6 🟢 + 5/6 🟡 (zero 🔴 post deep-audit).
 
-- **P2 🔴**: 84 species YAML + trait catalog ready, MA runtime evoluzione/leveling/form-transformation = zero. Flow genera blueprint, no apply.
-- **P3 🟡**: 7 jobs + archetype + shape render OK. Character progression system assente. Level curves YAML-only.
-- **P4 🟡**: VC scoring live. MBTI solo E_I+S_N axes (4/8), 4/16 Forms reach. Ennea partial.
-- **P5 🟡**: Single-client funziona. Network sync multi-client (canonical "TV condivisa 4-8 player") = zero. Modulation = config locale.
-- **P6 🟡**: Resistance+damage curves+cap live. MA iter7 hardcore 0% defeat = broken balance, non fair (M9 structural fix pending).
+**Gap principali + evidence-based strategy**:
+
+- **P2 🟡**: `metaProgression.js` + 6 route meta runtime in-memory. Persistence + PI pack spender = **Wesnoth advancement + AI War pack unlock** (non Spore sim). ~15-20h.
+- **P3 🟡**: 7 jobs + abilities rank r1/r2 live. Level curves YAML-only. **XCOM EU/EW perk-pair** 7 livelli × 2 perks. ~15-17h.
+- **P4 🟡**: T_F **FULL**, altri 3 axes partial/null. **Disco Elysium thought cabinet** diegetic reveal. Non shippare axes senza focus group validation. ~8h.
+- **P5 🟡**: Zero network. **Jackbox room-code WebSocket** (3 OSS clones pubblici). Colyseus fallback. ~18-20h.
+- **P6 🟡**: Hardcore iter7 RED deadlock. Multiplier knob exhausted. **Long War 2 mission timers + pod count > HP**. ~5-7h.
+
+**Sprint roadmap M9-M11** (single dev + AI pair, kill-60):
+
+| Sprint | Big rock                              | Effort | Demo impact                 |
+| ------ | ------------------------------------- | ------ | --------------------------- |
+| M9     | P6 timeout + P4 axes + P3 XP proof    | ~20h   | Hardcore playable, MBTI 4/4 |
+| M10    | P2 PI pack runtime + P3 full levels   | ~25h   | Trait acquisition campaign  |
+| M11    | P2 full Form evoluzione OR P5 Jackbox | ~40h   | ONE big rock scelta binaria |
 
 ### Guardrail sprint (non negoziabili)
 

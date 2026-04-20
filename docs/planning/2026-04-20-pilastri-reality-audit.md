@@ -18,20 +18,24 @@ related:
 
 ## TL;DR
 
-**CLAUDE.md dichiarava 6/6 🟢. Reality 1/6 🟢, 4/6 🟡, 1/6 🔴.**
+**CLAUDE.md dichiarava 6/6 🟢. Reality 1/6 🟢, 5/6 🟡** (dopo deep repo audit 2026-04-20 agent Explore).
 
 Root cause: status inflation confondeva **"dataset shipped"** con **"runtime shipped"**. Pattern ricorrente dal Sprint 020 → Sprint sessione M7.
 
+**Aggiornamento post-deep-audit**: P2 era stato classificato 🔴 (first pass), ma deep audit ha rivelato che `apps/backend/services/metaProgression.js` + `apps/backend/routes/meta.js` (6 endpoint recruit/mating/nest/affinity/trust) sono **runtime in-memory**. Gap reale = persistence + PI pack spender, non "zero runtime". Revisione 🔴 → 🟡.
+
+Vedi `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` per roadmap evidence-based con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
+
 ## Tabella reality
 
-|  #  | Pilastro                     | Stated |  Real  | Gap primario                  |
-| :-: | ---------------------------- | :----: | :----: | ----------------------------- |
-|  1  | Tattica leggibile (FFT)      |   🟢   |   🟢   | Nessuno major                 |
-|  2  | Evoluzione emergente (Spore) |   🟢   | **🔴** | Runtime evoluzione = zero     |
-|  3  | Identità Specie × Job        |   🟢   | **🟡** | Character progression assente |
-|  4  | Temperamenti MBTI/Ennea      |   🟢   | **🟡** | 4/16 Forms + 2/4 MBTI axes    |
-|  5  | Co-op vs Sistema             |   🟢   | **🟡** | Network multi-client = zero   |
-|  6  | Fairness                     |   🟢   | **🟡** | Hardcore deadlock 0% defeat   |
+|  #  | Pilastro                     | Stated | First pass | **Deep audit** | Gap primario                        |
+| :-: | ---------------------------- | :----: | :--------: | :------------: | ----------------------------------- |
+|  1  | Tattica leggibile (FFT)      |   🟢   |     🟢     |       🟢       | Nessuno major                       |
+|  2  | Evoluzione emergente (Spore) |   🟢   |     🔴     |     **🟡**     | Persistence + PI spender (non zero) |
+|  3  | Identità Specie × Job        |   🟢   |     🟡     |       🟡       | Level curves non applicate          |
+|  4  | Temperamenti MBTI/Ennea      |   🟢   |     🟡     |       🟡       | T_F full, 3 altri partial/null      |
+|  5  | Co-op vs Sistema             |   🟢   |     🟡     |       🟡       | Network multi-client = zero         |
+|  6  | Fairness                     |   🟢   |     🟡     |       🟡       | Hardcore deadlock 0% defeat         |
 
 ## Detail per Pilastro
 
