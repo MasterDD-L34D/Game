@@ -38,6 +38,11 @@ const state = {
   planningTimerStart: null,
   // W5.D — eval set Flint v0.3 decision trace (JSONL pairs per decision)
   evalSet: [],
+  // M8 Plan-Reveal P0 (ADR-2026-04-18): SIS threat_preview da /begin-planning.
+  // Array [{actor_id, intent_type, intent_icon, target_id, threat_tiles}].
+  // Consumato da render.js (icon) + main.js tooltip (label).
+  // Reset a ogni begin-planning (nuovo round) o commit-round (resolved).
+  threatPreview: [],
 };
 
 // W8b — Shared utility helpers (from Wave 8 research audit).
@@ -168,6 +173,8 @@ function redraw() {
     target: state.target,
     active: state.world.active_unit,
     resolutionOrder: state.lastResolutionOrder,
+    // M8 Plan-Reveal P0: SIS intent icons + threat tile highlight
+    threatPreview: state.threatPreview,
   });
   const predictedOrder = computePlayerPriorityOrder(state.pendingIntents, state.world.units || []);
   renderUnits(
@@ -419,9 +426,29 @@ function buildUnitTooltip(unit) {
   const statusTxt = statusKeys.length ? `Status: ${statusKeys.join(', ')}` : '';
   let intentBlock = '';
   if (faction === 'sistema' && unit.hp > 0) {
-    // Stub: icona pugno = intento attacco (mirror drawSisIntentIcon).
-    // TODO ADR-04-18 Plan-Reveal: real intent da threat_preview payload backend.
-    intentBlock = `<span class="tt-intent">✊ Intento: attacco (stub)</span>`;
+    // M8 Plan-Reveal P0 (ADR-2026-04-18): real intent from threat_preview
+    // payload populated on /round/begin-planning. Fallback 'attacco' se
+    // preview vuota (legacy flow / pre-declare phase).
+    const preview = Array.isArray(state.threatPreview) ? state.threatPreview : [];
+    const row = preview.find((r) => r && r.actor_id === unit.id);
+    const glyphMap = { fist: '✊', move: '➜', shield: '🛡', '?': '?' };
+    const labelMap = {
+      attack: 'attacco',
+      move: 'movimento',
+      approach: 'avvicinamento',
+      retreat: 'ritirata',
+      skip: 'difesa',
+      defend: 'difesa',
+      overwatch: 'sentinella',
+    };
+    if (row) {
+      const glyph = glyphMap[row.intent_icon] || '?';
+      const label = labelMap[row.intent_type] || row.intent_type || 'ignoto';
+      const targetTxt = row.target_id ? ` → ${row.target_id}` : '';
+      intentBlock = `<span class="tt-intent">${glyph} Intento: ${label}${targetTxt}</span>`;
+    } else {
+      intentBlock = `<span class="tt-intent">✊ Intento: attacco</span>`;
+    }
   }
   return `
     <strong>${unit.id}</strong>
@@ -627,6 +654,8 @@ async function doAction(body) {
         return;
       }
       state.roundInit = true;
+      // M8 Plan-Reveal P0: store SIS threat preview per render + tooltip
+      state.threatPreview = Array.isArray(bp.data?.threat_preview) ? bp.data.threat_preview : [];
       // W4.6 — start planning timer on first declare
       startPlanningTimer();
     }
@@ -1013,6 +1042,8 @@ async function triggerCommitRound() {
         return;
       }
       state.roundInit = true;
+      // M8 Plan-Reveal P0: store threat_preview
+      state.threatPreview = Array.isArray(bp.data?.threat_preview) ? bp.data.threat_preview : [];
     }
     let r = await api.commitRound(state.sid, true);
     // W8-emergency (bug #5): transient network drop — auto-retry once after 400ms.
@@ -1033,6 +1064,10 @@ async function triggerCommitRound() {
     state.roundInit = false;
     _pendingConfirm = null;
     state.pendingIntents = [];
+    // M8 Plan-Reveal P0: clear threat preview post-resolve (intents consumed).
+    // Fix Codex review #1658: legacy branch reset era dead code su useRoundFlow()=true
+    // → stale SIS intents mostrati post-resolve. Reset qui è l'active path.
+    state.threatPreview = [];
 
     const playerActions = r.data?.player_actions || [];
     const iaActions = r.data?.ia_actions || [];
@@ -1174,6 +1209,8 @@ document.getElementById('end-turn').addEventListener('click', async () => {
         return;
       }
       state.roundInit = true;
+      // M8 Plan-Reveal P0: store threat_preview (empty array se no intents)
+      state.threatPreview = Array.isArray(bp.data?.threat_preview) ? bp.data.threat_preview : [];
     }
     const r = await api.commitRound(state.sid, true);
     if (!r.ok) {
@@ -1182,6 +1219,8 @@ document.getElementById('end-turn').addEventListener('click', async () => {
     }
     // Reset roundInit per prossimo turno
     state.roundInit = false;
+    // M8 Plan-Reveal P0: clear threat preview post-resolve (intents consumed)
+    state.threatPreview = [];
     _pendingConfirm = null;
     // Process resolution_queue as animations (shape differs da ia_actions)
     const queue = r.data?.resolution_queue || [];
