@@ -32,7 +32,11 @@ const _cache = new Map();
  * @returns {object|null} parsed + validated campaign, null su missing/invalid
  */
 function loadCampaign(campaignId, dir = CAMPAIGN_DIR) {
-  if (_cache.has(campaignId)) return _cache.get(campaignId);
+  // Codex P2 fix: cache key include dir, altrimenti load second dir stesso id
+  // ritorna entry cached (stale). Tests + mod fixtures + env-specific bundles
+  // ora correctly keyed.
+  const cacheKey = `${dir}::${campaignId}`;
+  if (_cache.has(cacheKey)) return _cache.get(cacheKey);
 
   const filePath = path.join(dir, `${campaignId}.yaml`);
   if (!fs.existsSync(filePath)) {
@@ -44,7 +48,7 @@ function loadCampaign(campaignId, dir = CAMPAIGN_DIR) {
     const raw = fs.readFileSync(filePath, 'utf8');
     const data = yaml.load(raw);
     validateCampaign(data);
-    _cache.set(campaignId, data);
+    _cache.set(cacheKey, data);
     return data;
   } catch (err) {
     console.warn(`[campaign-loader] load "${campaignId}" failed: ${err.message}`);
@@ -82,10 +86,17 @@ function validateCampaign(data) {
     throw new Error('campaign: acts array empty');
   }
 
+  // Codex P2 fix: act_idx must be unique (downstream .find() silently drops
+  // duplicates). Also enforce integer + non-negative.
+  const seenIndices = new Set();
   data.acts.forEach((act, i) => {
-    if (typeof act.act_idx !== 'number') {
-      throw new Error(`campaign.act[${i}]: act_idx missing`);
+    if (typeof act.act_idx !== 'number' || !Number.isInteger(act.act_idx) || act.act_idx < 0) {
+      throw new Error(`campaign.act[${i}]: act_idx missing or not non-negative integer`);
     }
+    if (seenIndices.has(act.act_idx)) {
+      throw new Error(`campaign.act[${i}]: act_idx=${act.act_idx} duplicated (must be unique)`);
+    }
+    seenIndices.add(act.act_idx);
     if (!Array.isArray(act.encounters)) {
       throw new Error(`campaign.act[${i}]: encounters not array`);
     }

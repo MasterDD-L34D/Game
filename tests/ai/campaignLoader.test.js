@@ -156,3 +156,60 @@ test('loadCampaign: caching — second call returns same instance', () => {
   const b = loadCampaign('default_campaign_mvp');
   assert.equal(a, b, 'cached instance');
 });
+
+// ─── Codex P2 fixes ─────────────────────────────────────────────────
+
+test('loadCampaign: cache keyed by dir + id (no cross-dir leakage)', () => {
+  _resetCache();
+  const fs = require('node:fs');
+  const os = require('node:os');
+  const path = require('node:path');
+  // Create 2 tmp dirs with different campaign content (same id)
+  const tmpA = fs.mkdtempSync(path.join(os.tmpdir(), 'camp-a-'));
+  const tmpB = fs.mkdtempSync(path.join(os.tmpdir(), 'camp-b-'));
+  const minimal = (name) =>
+    `schema_version: '1.0'\ncampaign_id: test_id\nname: '${name}'\nacts:\n  - act_idx: 0\n    encounters: []\n`;
+  fs.writeFileSync(path.join(tmpA, 'test_id.yaml'), minimal('from_A'));
+  fs.writeFileSync(path.join(tmpB, 'test_id.yaml'), minimal('from_B'));
+
+  const a = loadCampaign('test_id', tmpA);
+  const b = loadCampaign('test_id', tmpB);
+  assert.equal(a.name, 'from_A');
+  assert.equal(b.name, 'from_B', 'different dir → different data (not stale cached)');
+
+  fs.rmSync(tmpA, { recursive: true, force: true });
+  fs.rmSync(tmpB, { recursive: true, force: true });
+});
+
+test('validateCampaign: rejects duplicate act_idx', () => {
+  assert.throws(() => {
+    validateCampaign({
+      schema_version: '1.0',
+      campaign_id: 'dup_act',
+      acts: [
+        { act_idx: 0, encounters: [] },
+        { act_idx: 0, encounters: [] }, // duplicate
+      ],
+    });
+  }, /act_idx=0 duplicated/);
+});
+
+test('validateCampaign: rejects negative act_idx', () => {
+  assert.throws(() => {
+    validateCampaign({
+      schema_version: '1.0',
+      campaign_id: 'neg_act',
+      acts: [{ act_idx: -1, encounters: [] }],
+    });
+  }, /not non-negative integer/);
+});
+
+test('validateCampaign: rejects non-integer act_idx', () => {
+  assert.throws(() => {
+    validateCampaign({
+      schema_version: '1.0',
+      campaign_id: 'float_act',
+      acts: [{ act_idx: 1.5, encounters: [] }],
+    });
+  }, /not non-negative integer/);
+});
