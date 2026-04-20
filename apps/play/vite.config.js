@@ -27,5 +27,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    // M11 Phase B — multi-entry: game shell + lobby picker.
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        lobby: path.resolve(__dirname, 'lobby.html'),
+      },
+    },
   },
 });

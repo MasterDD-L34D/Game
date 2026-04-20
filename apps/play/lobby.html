@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evo-Tactics — Lobby</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0d12;
+        --panel: #151922;
+        --panel-2: #1d2230;
+        --border: #2a3040;
+        --text: #e8eaf0;
+        --muted: #8891a3;
+        --accent: #4fc3f7;
+        --accent-host: #ffb74d;
+        --danger: #ef5350;
+        --ok: #66bb6a;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', 'Noto Sans', system-ui, sans-serif;
+      }
+      .lobby-wrap {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+      }
+      header.lobby-head {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+      header.lobby-head h1 {
+        font-size: 2rem;
+        margin: 0 0 6px;
+        letter-spacing: 0.5px;
+      }
+      header.lobby-head p {
+        color: var(--muted);
+        margin: 0;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      @media (max-width: 720px) {
+        .cards {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 22px 22px 24px;
+      }
+      .card h2 {
+        margin: 0 0 14px;
+        font-size: 1.15rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card h2 .role-chip {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: var(--panel-2);
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+      .card.host h2 .role-chip {
+        color: var(--accent-host);
+        border-color: var(--accent-host);
+      }
+      .card.join h2 .role-chip {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .form-row label {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      .form-row input,
+      .form-row select {
+        padding: 10px 12px;
+        font-size: 1rem;
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: inherit;
+      }
+      .form-row input:focus,
+      .form-row select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .code-input {
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.4rem;
+      }
+      .btn {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--panel-2);
+        color: var(--text);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .btn:hover:not(:disabled) {
+        background: var(--border);
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #001014;
+        border-color: var(--accent);
+      }
+      .btn-primary:hover:not(:disabled) {
+        background: #66d1fb;
+      }
+      .btn-host {
+        background: var(--accent-host);
+        color: #201000;
+        border-color: var(--accent-host);
+      }
+      .btn-host:hover:not(:disabled) {
+        background: #ffc875;
+      }
+      .status {
+        margin-top: 12px;
+        min-height: 1.4em;
+        font-size: 0.9rem;
+      }
+      .status.err {
+        color: var(--danger);
+      }
+      .status.ok {
+        color: var(--ok);
+      }
+      .share-panel {
+        margin-top: 20px;
+        padding: 16px;
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        display: none;
+      }
+      .share-panel.visible {
+        display: block;
+      }
+      .share-code {
+        font-size: 2.8rem;
+        font-weight: 700;
+        letter-spacing: 12px;
+        text-align: center;
+        color: var(--accent-host);
+        font-family: 'Noto Sans', monospace;
+        margin: 6px 0 12px;
+      }
+      .share-url {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .share-url input {
+        flex: 1;
+        padding: 8px 10px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--text);
+        font-family: 'Noto Sans', monospace;
+        font-size: 0.85rem;
+      }
+      .share-url button {
+        padding: 8px 12px;
+      }
+      .existing-session {
+        margin-bottom: 20px;
+        padding: 14px 18px;
+        background: #1a2538;
+        border: 1px solid #2c4057;
+        border-radius: 10px;
+        display: none;
+      }
+      .existing-session.visible {
+        display: block;
+      }
+      .existing-session .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .existing-session .actions .btn {
+        flex: 1;
+      }
+      footer.lobby-foot {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-top: 32px;
+      }
+      footer.lobby-foot a {
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lobby-wrap">
+      <header class="lobby-head">
+        <h1>🦴 Evo-Tactics Lobby</h1>
+        <p>Crea una stanza (host · TV) o unisciti con codice a 4 lettere (player · phone).</p>
+      </header>
+
+      <!-- Resume banner if localStorage has a stored session. -->
+      <div id="existing-session" class="existing-session">
+        <div>
+          Sessione attiva su stanza <strong id="existing-code">—</strong> (<span id="existing-role"
+            >—</span
+          >).
+        </div>
+        <div class="actions">
+          <button id="existing-resume" class="btn btn-primary">↩ Riprendi</button>
+          <button id="existing-forget" class="btn">✕ Dimentica</button>
+        </div>
+      </div>
+
+      <div class="cards">
+        <!-- HOST -->
+        <div class="card host">
+          <h2>📺 Crea stanza <span class="role-chip">host · TV</span></h2>
+          <form id="form-create" autocomplete="off">
+            <div class="form-row">
+              <label for="host-name">Nome host</label>
+              <input
+                id="host-name"
+                name="host_name"
+                type="text"
+                maxlength="40"
+                required
+                placeholder="Es. Marco (TV)"
+              />
+            </div>
+            <div class="form-row">
+              <label for="campaign-id">Campagna (opzionale)</label>
+              <input
+                id="campaign-id"
+                name="campaign_id"
+                type="text"
+                maxlength="80"
+                placeholder="Lascia vuoto per sessione libera"
+              />
+            </div>
+            <div class="form-row">
+              <label for="max-players">Max player</label>
+              <select id="max-players" name="max_players">
+                <option value="2">2</option>
+                <option value="4" selected>4</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-host" id="btn-create">Crea stanza</button>
+            <div class="status" id="status-create"></div>
+          </form>
+          <div class="share-panel" id="share-panel">
+            <div style="color: var(--muted); font-size: 0.85rem; text-align: center">
+              Condividi questo codice
+            </div>
+            <div class="share-code" id="share-code">—</div>
+            <div class="share-url">
+              <input id="share-url-input" readonly />
+              <button class="btn" id="share-copy">📋</button>
+            </div>
+            <button id="share-enter" class="btn btn-primary" style="margin-top: 12px">
+              ▶ Entra nella TV
+            </button>
+          </div>
+        </div>
+
+        <!-- JOIN -->
+        <div class="card join">
+          <h2>📱 Unisciti <span class="role-chip">player · phone</span></h2>
+          <form id="form-join" autocomplete="off">
+            <div class="form-row">
+              <label for="join-code">Codice stanza (4 lettere)</label>
+              <input
+                id="join-code"
+                name="code"
+                type="text"
+                minlength="4"
+                maxlength="4"
+                required
+                placeholder="ABCD"
+                class="code-input"
+                pattern="[A-Za-z]{4}"
+              />
+            </div>
+            <div class="form-row">
+              <label for="player-name">Nome player</label>
+              <input
+                id="player-name"
+                name="player_name"
+                type="text"
+                maxlength="40"
+                required
+                placeholder="Es. Anna"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-join">Entra</button>
+            <div class="status" id="status-join"></div>
+          </form>
+        </div>
+      </div>
+
+      <footer class="lobby-foot">M11 Phase B · Jackbox room-code lobby · ADR-2026-04-20</footer>
+    </div>
+    <script type="module" src="/src/lobby.js"></script>
+  </body>
+</html>
