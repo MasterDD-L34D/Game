@@ -122,6 +122,31 @@ function getTargetBands(encounterClass, curves = null) {
   return cls.target_bands;
 }
 
+/**
+ * M9 P6: turn_limit_defeat per class. Null = no forced outcome.
+ * Consumed da sessionOutcomeResolver per force decision pressure.
+ *
+ * @returns {number|null} turn threshold, null se disabilitato
+ */
+function getTurnLimitDefeat(encounterClass, curves = null) {
+  const data = curves || loadDamageCurves();
+  if (!data || !data.encounter_classes) return null;
+  const cls = data.encounter_classes[encounterClass];
+  if (!cls || cls.turn_limit_defeat == null) return null;
+  const n = Number(cls.turn_limit_defeat);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+/**
+ * M9 P6: check se session turn corrente viola turn_limit_defeat per class.
+ * Ritorna true se turn >= limit (defeat va applicato).
+ */
+function isTurnLimitExceeded(turn, encounterClass, curves = null) {
+  const limit = getTurnLimitDefeat(encounterClass, curves);
+  if (limit == null) return false;
+  return Number(turn || 0) >= limit;
+}
+
 module.exports = {
   loadDamageCurves,
   getEncounterClass,
@@ -129,6 +154,8 @@ module.exports = {
   shouldEnrageBoss,
   getEnrageModBonus,
   getTargetBands,
+  getTurnLimitDefeat,
+  isTurnLimitExceeded,
   DEFAULT_CLASS,
   DEFAULT_PATH,
   _resetCache,

@@ -96,6 +96,63 @@ def load_target_bands(encounter_class):
     return bands if bands else None
 
 
+def load_turn_limit_defeat(encounter_class):
+    """M9 P6: legge turn_limit_defeat da damage_curves.yaml per class.
+    Ritorna int>0 o None (no limit).
+
+    Mini-parser consistente con load_target_bands.
+    """
+    if not os.path.exists(DAMAGE_CURVES_PATH):
+        return None
+    try:
+        with open(DAMAGE_CURVES_PATH, "r", encoding="utf-8") as f:
+            raw = f.read()
+    except OSError:
+        return None
+
+    lines = raw.splitlines()
+    idx_class = None
+    in_classes = False
+    class_indent = None
+    for i, line in enumerate(lines):
+        if line.startswith("encounter_classes:"):
+            in_classes = True
+            continue
+        if not in_classes:
+            continue
+        m = re.match(r"^(\s+)(\w+):\s*$", line)
+        if m and m.group(2) == encounter_class:
+            idx_class = i
+            class_indent = len(m.group(1))
+            break
+        if line and not line.startswith(" ") and not line.startswith("#"):
+            break
+    if idx_class is None:
+        return None
+
+    j = idx_class + 1
+    while j < len(lines):
+        line = lines[j]
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            j += 1
+            continue
+        if line and len(line) - len(line.lstrip()) <= class_indent:
+            break
+        m = re.match(r"^\s+turn_limit_defeat:\s*(\S+)", line)
+        if m:
+            val = m.group(1).strip()
+            if val.lower() in ("null", "~", "none"):
+                return None
+            try:
+                n = int(val)
+                return n if n > 0 else None
+            except ValueError:
+                return None
+        j += 1
+    return None
+
+
 def verdict_for(win_rate, defeat_rate, timeout_rate, bands):
     """Ritorna (verdict, reasons) dati rates vs bands.
     verdict in {GREEN, AMBER, RED}.
@@ -282,12 +339,20 @@ def plan_player_intents(state, occupied):
     return intents
 
 
-def detect_outcome(state):
+def detect_outcome(state, turn_limit_defeat=None):
+    """M9 P6: turn_limit_defeat forza decision pressure.
+    Se turn >= limit + neither faction wiped → 'defeat' (invece di timeout).
+    Param None = legacy behavior (timeout rimane timeout).
+    """
     units = state.get("units", [])
     pa = [u for u in units if u.get("controlled_by") == "player" and u.get("hp", 0) > 0]
     ea = [u for u in units if u.get("controlled_by") == "sistema" and u.get("hp", 0) > 0]
     if not pa: return "defeat"
     if not ea: return "victory"
+    if turn_limit_defeat is not None:
+        current_turn = int(state.get("turn", 0) or 0)
+        if current_turn >= turn_limit_defeat:
+            return "defeat"
     return None
 
 
@@ -372,7 +437,7 @@ def _ai_actions_from_resp(resp, sis_actor_ids):
     return actions
 
 
-def run_one(host, run_idx):
+def run_one(host, run_idx, turn_limit_defeat=None):
     # Fetch scenario.
     status, sc = get(f"{host}/api/tutorial/{SCENARIO_ID}")
     if status != 200:
@@ -401,7 +466,7 @@ def run_one(host, run_idx):
 
     outcome = None
     for rnd in range(1, MAX_ROUNDS + 1):
-        outcome = detect_outcome(state)
+        outcome = detect_outcome(state, turn_limit_defeat)
         if outcome:
             break
         intents = plan_player_intents(state, None)
@@ -416,7 +481,7 @@ def run_one(host, run_idx):
             st_status, st = get(f"{host}/api/session/state?session_id={sid}")
             if st_status == 200:
                 state = st
-                outcome = detect_outcome(state)
+                outcome = detect_outcome(state, turn_limit_defeat)
             break
         state = resp.get("state", state)
         pressure_samples.append(state.get("sistema_pressure", pstart))
@@ -432,7 +497,7 @@ def run_one(host, run_idx):
             ai_intent_tally[key] = ai_intent_tally.get(key, 0) + 1
 
     if outcome is None:
-        outcome = detect_outcome(state) or "timeout"
+        outcome = detect_outcome(state, turn_limit_defeat) or "timeout"
 
     # Final metrics.
     final_units = {u["id"]: u for u in state.get("units", [])}
@@ -585,13 +650,18 @@ def main():
         probe_one(args.host)
         return 0
 
+    # M9 P6: load turn_limit_defeat per class (force decision pressure).
+    turn_limit_defeat = load_turn_limit_defeat(args.encounter_class)
+    if turn_limit_defeat:
+        print(f"M9 P6: turn_limit_defeat={turn_limit_defeat} for class '{args.encounter_class}' (Long War pattern)", flush=True)
+
     runs = []
     jsonl_fh = open(args.jsonl, "a", encoding="utf-8") if args.jsonl else None
     t0 = time.time()
     failures = 0
     try:
         for i in range(args.n):
-            r = run_one(args.host, i)
+            r = run_one(args.host, i, turn_limit_defeat=turn_limit_defeat)
             runs.append(r)
             if "error" in r:
                 failures += 1
