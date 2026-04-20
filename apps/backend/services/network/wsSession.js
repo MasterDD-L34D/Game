@@ -35,6 +35,10 @@ const ROOM_CODE_LENGTH = 4;
 const MAX_ROOM_CREATE_RETRIES = 20;
 const DEFAULT_MAX_PLAYERS = 8;
 const DEFAULT_HEARTBEAT_MS = 30_000;
+// TKT-M11B-05 — host-transfer grace window. If the host socket closes and
+// does not reattach within this window, the oldest connected player is
+// promoted to host role. Set to 0 to disable automatic host transfer.
+const DEFAULT_HOST_TRANSFER_GRACE_MS = 30_000;
 
 function generateRoomCode() {
   let out = '';
@@ -59,13 +63,23 @@ function generatePlayerId() {
  * Other roles can emit `intent` + `chat`.
  */
 class Room {
-  constructor({ code, hostId, hostName, maxPlayers = DEFAULT_MAX_PLAYERS, campaignId = null }) {
+  constructor({
+    code,
+    hostId,
+    hostName,
+    maxPlayers = DEFAULT_MAX_PLAYERS,
+    campaignId = null,
+    hostTransferGraceMs = DEFAULT_HOST_TRANSFER_GRACE_MS,
+  }) {
     this.code = code;
     this.hostId = hostId;
     this.maxPlayers = maxPlayers;
     this.campaignId = campaignId;
     this.createdAt = Date.now();
     this.closed = false;
+    this.hostTransferGraceMs = hostTransferGraceMs;
+    // TKT-M11B-05 — pending host-transfer timer handle.
+    this._hostTransferTimer = null;
     // player_id → { id, name, role, token, socket?, connected, joinedAt }
     this.players = new Map();
     // Host state published, last-write-wins; version monotonic.
@@ -201,6 +215,71 @@ class Room {
     return entry;
   }
 
+  /**
+   * TKT-M11B-05 — promote an existing player to host role. Broadcasts
+   * `host_transferred` with the new hostId. Returns the promoted player, or
+   * null if the candidate does not exist.
+   *
+   * The promoted player's `player_token` (issued at join) now authenticates
+   * host operations (POST /api/lobby/close, WS `state`). No new token is
+   * minted to keep the protocol simple — clients reuse what they already have.
+   */
+  transferHostTo(newHostId, { reason = 'host_transferred' } = {}) {
+    if (this.closed) return null;
+    const candidate = this.players.get(newHostId);
+    if (!candidate) return null;
+    const previousHostId = this.hostId;
+    const previousHost = this.players.get(previousHostId);
+    if (previousHost) previousHost.role = 'player';
+    candidate.role = 'host';
+    this.hostId = newHostId;
+    this.clearHostTransferTimer();
+    this.broadcast({
+      type: 'host_transferred',
+      payload: {
+        new_host_id: newHostId,
+        previous_host_id: previousHostId,
+        reason,
+        ts: Date.now(),
+      },
+    });
+    return candidate;
+  }
+
+  /**
+   * TKT-M11B-05 — pick the oldest *connected* non-host player and promote.
+   * Returns the promoted player, or null if no eligible candidate exists.
+   */
+  transferHostAuto({ reason = 'host_dropped' } = {}) {
+    if (this.closed) return null;
+    const candidates = Array.from(this.players.values())
+      .filter((p) => p.id !== this.hostId && p.connected)
+      .sort((a, b) => (a.joinedAt || 0) - (b.joinedAt || 0));
+    if (candidates.length === 0) return null;
+    return this.transferHostTo(candidates[0].id, { reason });
+  }
+
+  scheduleHostTransfer(onFire) {
+    this.clearHostTransferTimer();
+    if (!this.hostTransferGraceMs || this.hostTransferGraceMs <= 0) return;
+    this._hostTransferTimer = setTimeout(() => {
+      this._hostTransferTimer = null;
+      try {
+        onFire?.();
+      } catch {
+        // noop
+      }
+    }, this.hostTransferGraceMs);
+    this._hostTransferTimer.unref?.();
+  }
+
+  clearHostTransferTimer() {
+    if (this._hostTransferTimer) {
+      clearTimeout(this._hostTransferTimer);
+      this._hostTransferTimer = null;
+    }
+  }
+
   close(reason = 'host_closed') {
     this.closed = true;
     for (const p of this.players.values()) {
@@ -239,7 +318,7 @@ class LobbyService {
     this.maxPlayers = maxPlayers;
   }
 
-  createRoom({ hostName, campaignId = null, maxPlayers } = {}) {
+  createRoom({ hostName, campaignId = null, maxPlayers, hostTransferGraceMs } = {}) {
     if (!hostName || typeof hostName !== 'string') {
       throw new Error('host_name_required');
     }
@@ -261,6 +340,8 @@ class LobbyService {
       hostName,
       maxPlayers: maxPlayers || this.maxPlayers,
       campaignId,
+      hostTransferGraceMs:
+        hostTransferGraceMs !== undefined ? hostTransferGraceMs : DEFAULT_HOST_TRANSFER_GRACE_MS,
     });
     this.rooms.set(code, room);
     const host = room.getPlayer(hostId);
@@ -379,7 +460,13 @@ function createWsServer({ lobby, server = null, port = null, path = '/ws' } = {}
     }
 
     room.attachSocket(playerId, socket);
-    // Hello ack + snapshot.
+    // TKT-M11B-05 — if the returning player is (now or still) host, any
+    // pending host-transfer timer must be cancelled.
+    if (playerId === room.hostId) {
+      room.clearHostTransferTimer();
+    }
+    // Hello ack + snapshot. Note: player.role reflects the latest mutation,
+    // including a potential mid-session transferHost promotion.
     socket.send(
       JSON.stringify({
         type: 'hello',
@@ -460,6 +547,19 @@ function createWsServer({ lobby, server = null, port = null, path = '/ws' } = {}
         type: 'player_disconnected',
         payload: { player_id: playerId },
       });
+      // TKT-M11B-05 — if the host's socket dropped, schedule an auto host
+      // transfer. If the host reconnects before the grace window, the timer
+      // is cleared in the hello/attach path above.
+      if (playerId === room.hostId && !room.closed) {
+        room.scheduleHostTransfer(() => {
+          const promoted = room.transferHostAuto({ reason: 'host_dropped' });
+          if (!promoted) {
+            // No eligible candidate; close the room as a fallback so clients
+            // stop waiting indefinitely.
+            room.close('host_dropped_no_candidate');
+          }
+        });
+      }
     });
 
     socket.on('error', () => {

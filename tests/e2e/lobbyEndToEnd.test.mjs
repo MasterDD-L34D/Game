@@ -425,6 +425,150 @@ test('e2e: Phase C roster — player_joined + player_connected + player_disconne
   }
 });
 
+// ---------------------------------------------------------------------------
+// TKT-M11B-05 — host transfer on host socket drop.
+// ---------------------------------------------------------------------------
+
+test('e2e: TKT-05 host drops → oldest connected player promoted → can sendState', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV', hostTransferGraceMs: 80 });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+    const p2 = lobby.joinRoom({ code: room.code, playerName: 'Phone2' });
+
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+      reconnect: false,
+    });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+      reconnect: false,
+    });
+    const c2 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p2.player_id,
+      token: p2.player_token,
+      role: 'player',
+      reconnect: false,
+    });
+    await Promise.all([host.connect(), c1.connect(), c2.connect()]);
+
+    const c1Transfer = new Promise((resolve) => c1.once('host_transferred', resolve));
+    const c2Transfer = new Promise((resolve) => c2.once('host_transferred', resolve));
+
+    // Host drops (no reconnect). Grace window is 80ms; wait > grace + safety.
+    host.socket.terminate();
+    const [t1, t2] = await Promise.all([c1Transfer, c2Transfer]);
+
+    // Oldest connected non-host candidate (p1 joined before p2) is promoted.
+    assert.equal(t1.new_host_id, p1.player_id);
+    assert.equal(t2.new_host_id, p1.player_id);
+    assert.equal(t1.previous_host_id, room.host_id);
+    assert.equal(t1.reason, 'host_dropped');
+
+    // Client-side role flipped on promoted LobbyClient.
+    assert.equal(c1.role, 'host');
+    assert.equal(c2.role, 'player');
+
+    // New host can publish state; peers receive it.
+    const c2StateReceived = new Promise((resolve) => c2.once('state', resolve));
+    c1.sendState({ promoted: true, turn: 0 });
+    const state = await c2StateReceived;
+    assert.deepEqual(state.payload, { promoted: true, turn: 0 });
+    assert.equal(state.version, 1);
+
+    c1.close();
+    c2.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('e2e: TKT-05 host reconnects within grace window → no transfer', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV', hostTransferGraceMs: 300 });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+      reconnect: false,
+    });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+      reconnect: false,
+    });
+    await Promise.all([host.connect(), c1.connect()]);
+
+    let transferFired = false;
+    c1.on('host_transferred', () => {
+      transferFired = true;
+    });
+
+    host.socket.terminate();
+    // Reconnect host immediately (well within grace of 300ms).
+    await new Promise((r) => setTimeout(r, 50));
+    const hostAgain = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+      reconnect: false,
+    });
+    await hostAgain.connect();
+    // Wait past original grace window to confirm the transfer did NOT fire.
+    await new Promise((r) => setTimeout(r, 400));
+    assert.equal(transferFired, false);
+    assert.equal(c1.role, 'player');
+
+    hostAgain.close();
+    c1.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('e2e: TKT-05 host drops with no connected peers → room closes (no eligible candidate)', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV', hostTransferGraceMs: 80 });
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+      reconnect: false,
+    });
+    await host.connect();
+    host.socket.terminate();
+    // Wait past grace.
+    await new Promise((r) => setTimeout(r, 200));
+    const r = lobby.getRoom(room.code);
+    assert.equal(r.closed, true);
+  } finally {
+    await wsHandle.close();
+  }
+});
+
 test('e2e: LobbyClient auth failure rejects with connect() promise reject', async () => {
   const { lobby, wsHandle, wsUrl } = await spinUp();
   try {

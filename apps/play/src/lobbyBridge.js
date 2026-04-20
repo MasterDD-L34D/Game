@@ -15,7 +15,13 @@
 //   TKT-M11B-03 — Campaign live-mirror (setCampaignSummary on host, rendered
 //                 in spectator overlay on players)
 
-import { LobbyClient, loadLobbySession, clearLobbySession, resolveWsUrl } from './network.js';
+import {
+  LobbyClient,
+  loadLobbySession,
+  clearLobbySession,
+  resolveWsUrl,
+  saveLobbySession,
+} from './network.js';
 
 function createBanner(session, onLeave) {
   let banner = document.getElementById('lobby-banner');
@@ -643,6 +649,61 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
         cb(normalized);
       } catch (err) {
         if (typeof console !== 'undefined') console.error('[lobbyBridge] onPlayerIntent cb', err);
+      }
+    }
+  });
+  // TKT-M11B-05 — react to server-promoted host transfer. If we are the new
+  // host, update session + banner + spawn host panel. Otherwise update the
+  // roster roles + banner note.
+  client.on('host_transferred', (payload) => {
+    const newHostId = payload?.new_host_id;
+    const prevHostId = payload?.previous_host_id;
+    if (!newHostId) return;
+    // Update local roster roles.
+    if (prevHostId && bridge._players.has(prevHostId)) {
+      bridge._players.get(prevHostId).role = 'player';
+    }
+    if (bridge._players.has(newHostId)) {
+      bridge._players.get(newHostId).role = 'host';
+    }
+    refreshRosterUi();
+    const promotedSelf = newHostId === session.player_id;
+    if (promotedSelf) {
+      // Persist new role so refresh / reconnect treat us as host.
+      bridge.role = 'host';
+      bridge.isHost = true;
+      bridge.isPlayer = false;
+      bridge.session = { ...session, role: 'host' };
+      saveLobbySession(bridge.session);
+      // Swap banner role class + text so status reflects promotion.
+      if (bridge.banner) {
+        bridge.banner.classList.remove('lobby-banner-player');
+        bridge.banner.classList.add('lobby-banner-host');
+        const roleEl = bridge.banner.querySelector('.lobby-banner-role');
+        if (roleEl) roleEl.textContent = '📺 HOST';
+      }
+      // Remove spectator overlay (we're the TV now).
+      if (bridge.overlay) {
+        bridge.overlay.remove();
+        bridge.overlay = null;
+      }
+      // Spawn host roster panel (was player; panel not yet created).
+      createHostRosterPanel(bridge);
+      updateHostRoster(bridge);
+      try {
+        document.body.classList.remove('lobby-role-player');
+        document.body.classList.add('lobby-role-host');
+      } catch {
+        // noop
+      }
+      if (typeof console !== 'undefined') {
+        console.info(`[lobbyBridge] promoted to host (reason=${payload.reason || 'unknown'})`);
+      }
+    } else {
+      if (typeof console !== 'undefined') {
+        console.info(
+          `[lobbyBridge] host transferred: ${prevHostId || '?'} → ${newHostId} (reason=${payload.reason || '?'})`,
+        );
       }
     }
   });
