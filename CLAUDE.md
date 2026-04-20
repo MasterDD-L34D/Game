@@ -265,7 +265,26 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - TKT-10 harness retry+resume incrementale (JSONL write per-run)
 - TKT-11 predict_combat 8p aggregate sanity (boss vs full party)
 
-**Test totali aggiornati**: Python rules engine 196/196 · Node AI 197/197 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** · **Ability/canonical 60+** (M2) · **Party + hardcore 10/10** (co-op arc) · **Totale 710+**
+**Test totali aggiornati**: Python rules engine 196/196 · Node AI 197/197 · VC scoring 21/21 · Encounter schema 6/6 · **Session/playtest/atlas 309/309** · **Ability/canonical 60+** (M2) · **Party + hardcore 10/10** (co-op arc) · **Lobby/WS 15/15** (M11 Phase A) · **Totale 725+**
+
+**Milestone sessione 2026-04-20 M11 Phase A (Jackbox WebSocket backend, PR #1680)**:
+
+- **PR #1680 merged** `db4325f0` (sequenza C→B→A: C ✅ B ✅ A ✅, M11 Phase A chiuso)
+- **P5 🟡 → 🟡-progressing**: network beachhead live. Phase B (frontend lobby + TV view) next session chiude P5 → 🟢
+- **Stack**: `ws@8.18.3` pre-installato, **zero nuove deps**. Colyseus ADR-2026-04-16 resta tier-2 fallback.
+- **Runtime**: `apps/backend/services/network/wsSession.js` (LobbyService + Room + createWsServer) + `routes/lobby.js` (5 REST endpoint) + `app.js`/`index.js` wire. WS server isolato su porta **3341** (`LOBBY_WS_PORT`, disable via `LOBBY_WS_ENABLED=false`).
+- **Code gen**: 4-letter da alfabeto 20 consonanti `BCDFGHJKLMNPQRSTVWXZ` (no vocali → no parole). Spazio 160k.
+- **Protocollo**: host-authoritative (solo host può pubblicare `state`), intent relayed al solo host (non broadcast peers), reconnect via token stabile, 30s heartbeat ping/pong.
+- **Tests**: 15/15 nuovi (9 REST + 6 WS integration: 4-player sync + host-auth gate + intent relay scope + reconnect survives drop + auth failures).
+- **ADR-2026-04-20 Accepted**: [docs/adr/ADR-2026-04-20-m11-jackbox-phase-a.md](docs/adr/ADR-2026-04-20-m11-jackbox-phase-a.md).
+
+**Fuori scope M11 Phase A (delegato Phase B next session, ~8-10h)**:
+
+- Frontend lobby picker `apps/play/src/lobby.html` + TV dual-view (shared spectator vs phone-private input)
+- Client reconnect logic `apps/play/src/network.js` (backoff + state replay)
+- Campaign-state live mirror via WS `state` channel (link M10 campaign engine)
+- Prisma persistence adapter (Phase C opzionale, default in-memory)
+- Rate-limit / DoS hardening (Phase D se produzione pubblica)
 
 ### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
 
@@ -274,14 +293,14 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 - `docs/planning/2026-04-20-pilastri-reality-audit.md` — breakdown dettagliato per Pilastro.
 - `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` — roadmap 3-sprint con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
 
-| #   | Pilastro                     | Stato |
-| --- | ---------------------------- | :---: |
-| 1   | Tattica leggibile (FFT)      |  🟢   |
-| 2   | Evoluzione emergente (Spore) |  🟡   |
-| 3   | Identità Specie × Job        |  🟡   |
-| 4   | Temperamenti MBTI/Ennea      |  🟡   |
-| 5   | Co-op vs Sistema             |  🟡   |
-| 6   | Fairness                     |  🟡   |
+| #   | Pilastro                     |       Stato       |
+| --- | ---------------------------- | :---------------: |
+| 1   | Tattica leggibile (FFT)      |        🟢         |
+| 2   | Evoluzione emergente (Spore) |        🟡         |
+| 3   | Identità Specie × Job        |        🟡         |
+| 4   | Temperamenti MBTI/Ennea      |        🟡         |
+| 5   | Co-op vs Sistema             | 🟡 (Phase A live) |
+| 6   | Fairness                     |        🟡         |
 
 **Score**: 1/6 🟢 + 5/6 🟡 (zero 🔴 post deep-audit).
 
