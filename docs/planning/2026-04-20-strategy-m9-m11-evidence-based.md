@@ -32,11 +32,12 @@ related:
 
 **Roadmap** (single dev + AI pair, kill-60 per sprint):
 
-| Sprint | Big rock                             | Effort | Demo impact                 |
-| ------ | ------------------------------------ | ------ | --------------------------- |
-| M9     | P6 timeout + P4 axes + P3 XP proof   | ~20h   | Hardcore playable, MBTI 4/4 |
-| M10    | P2 PI pack runtime + P3 full levels  | ~25h   | Trait acquisition campaign  |
-| M11    | P2 full Form evoluzione O P5 Jackbox | ~40h   | ONE big, brutally honest    |
+| Sprint | Big rock                            | Effort | Demo impact                            |
+| ------ | ----------------------------------- | ------ | -------------------------------------- |
+| M9     | P6 timeout + P4 axes + P3 XP proof  | ~20h   | Hardcore playable, MBTI 4/4            |
+| M10    | P2 PI pack runtime + P3 full levels | ~25h   | Trait acquisition campaign             |
+| M11    | **P5 Jackbox co-op TV (LOCKED)**    | ~20h   | 4 amici + phones + TV = tactical co-op |
+| M12+   | P2 full Form evoluzione             | ~35h   | Deferred — Spore-core ciclo next       |
 
 ## Revised Pilastri real (post repo audit)
 
@@ -235,31 +236,42 @@ Single dev + AI pair. Kill-60 strict.
 
 ---
 
-### Sprint M11 (3 settimane, ~40h) — "Big rock scelta"
+### Sprint M11 (3 settimane, ~20h) — **P5 Jackbox co-op TV LOCKED**
 
-**Decisione binaria**: P2 full evoluzione O P5 network. NON entrambi.
+**Decisione user 2026-04-20**: **P5 Jackbox network selected**. P2 full Form evoluzione deferred M12+.
 
-**Option A — P5 Jackbox network** (~20h):
+**Rationale user** (player POV):
 
-- WebSocket room-code server
-- Frontend phone + TV dual view
-- 4-player sync test
-- **Demo**: 4 amici, 4 phones, 1 TV. "Wow" moment.
-- **Rischio**: netcode debug può spiralizzare se edge case reconnect.
+- Demo amici live su ngrok = leverage attuale
+- "Serata coi 3 amici, pizza + TV + 4 phone. Tactical co-op vero" = esperienza sociale
+- Spore-evoluzione può aspettare M12
 
-**Option B — P2 full Form evoluzione** (~35h):
+**Scope M11**:
 
-- `services/evolution/formEngine.js` (16 form transition matrix)
-- Mating/Nido loop completo `services/evolution/matingEngine.js`
-- Apex form reach post 3-chain
-- **Demo**: unit morfa ISTJ→INTJ mid-campaign. Spore-core identity shipped.
-- **Rischio**: design canonical denso, 35h può coprire solo 8/16 forms.
+- `services/network/wsSession.js` — WebSocket server, 4-letter room code, host authoritative (~8-10h)
+- `apps/play/src/network.js` — client reconnect logic (~4h)
+- `apps/play/lobby.html` + TV dual-view (TV shared + phone private input) (~3h)
+- Routes `/api/lobby/{create,join,close}` + tests (~3h)
+- Integration test 4-player sync + reconnect edge cases (~2h)
 
-**Recommendation brutal**: **Option A (Jackbox network)** se demo amici è priority attuale (ngrok tunnel + friends playing = high leverage). **Option B** se design-core identity priority > demo spectacle.
+**Proven reference**:
 
-**DoD** (indipendente da scelta):
+- Jackbox architecture pattern ([writeup](https://www.abtach.ae/blog/how-to-build-a-game-like-jackbox/))
+- OSS clones: [hammre/party-box](https://github.com/hammre/party-box), [axlan/jill_box](https://github.com/axlan/jill_box), [InvoxiPlayGames/johnbox](https://github.com/InvoxiPlayGames/johnbox)
+- Daikon Games 7-day spike ([writeup](https://www.patreon.com/posts/free-radish-how-34077166))
 
-- Scorecard 5/6 🟢, 1/6 🟡 (l'altro big rock pending M12+)
+**Demo impact**: 4 amici, 4 phones, 1 TV. Planning phase tutti declarano, TV mostra animazioni resolve, chat vocale naturale. Pilastro 5 promessa "TV condivisa co-op" finalmente live.
+
+**Fallback**: se Jackbox pattern insufficiente per reconnect robusto a 4-8p, switch a Colyseus ([github.com/colyseus/colyseus](https://github.com/colyseus/colyseus)) Node native authoritative state sync — 2x effort ma production-grade.
+
+**Deferred M12+**: P2 full Form evoluzione (formEngine.js + Mating/Nido loop + Apex). M10 ha già PI pack runtime come primo piede, M12 estende a form transitions.
+
+**DoD M11**:
+
+- 4 clients connect to single host, declare intents simultaneously
+- Reconnect survive 1 drop/player
+- TV view shows resolve animation, phone view shows own unit actions
+- Scorecard end M11: **5/6 🟢** (P1, P3, P4, P5, P6) + **1/6 🟡** (P2 in progress M12)
 - Sprint close + CLAUDE.md sync + audit doc addendum
 
 ---

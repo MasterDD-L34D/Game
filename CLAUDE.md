@@ -293,13 +293,14 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 - **P5 🟡**: Zero network. **Jackbox room-code WebSocket** (3 OSS clones pubblici). Colyseus fallback. ~18-20h.
 - **P6 🟡**: Hardcore iter7 RED deadlock. Multiplier knob exhausted. **Long War 2 mission timers + pod count > HP**. ~5-7h.
 
-**Sprint roadmap M9-M11** (single dev + AI pair, kill-60):
+**Sprint roadmap M9-M12** (single dev + AI pair, kill-60, decisione user 2026-04-20):
 
-| Sprint | Big rock                              | Effort | Demo impact                 |
-| ------ | ------------------------------------- | ------ | --------------------------- |
-| M9     | P6 timeout + P4 axes + P3 XP proof    | ~20h   | Hardcore playable, MBTI 4/4 |
-| M10    | P2 PI pack runtime + P3 full levels   | ~25h   | Trait acquisition campaign  |
-| M11    | P2 full Form evoluzione OR P5 Jackbox | ~40h   | ONE big rock scelta binaria |
+| Sprint  | Big rock                            | Effort | Demo impact                            |
+| ------- | ----------------------------------- | ------ | -------------------------------------- |
+| M9      | P6 timeout + P4 axes + P3 XP proof  | ~20h   | Hardcore playable, MBTI 4/4            |
+| M10     | P2 PI pack runtime + P3 full levels | ~25h   | Trait acquisition campaign             |
+| **M11** | **P5 Jackbox co-op TV (LOCKED)**    | ~20h   | 4 amici + phones + TV = tactical co-op |
+| M12+    | P2 full Form evoluzione (deferred)  | ~35h   | Spore-core ciclo next                  |
 
 ### Guardrail sprint (non negoziabili)
 
