@@ -31,6 +31,7 @@ const {
   getEncountersForAct,
   resolveBranch,
 } = require('../services/campaign/campaignLoader');
+const { summariseCampaign } = require('../services/campaign/campaignEngine');
 
 function createCampaignRouter(options = {}) {
   const router = express.Router();
@@ -75,6 +76,18 @@ function createCampaignRouter(options = {}) {
     if (!playerId) return res.status(400).json({ error: 'player_id query param richiesto' });
     const campaigns = listCampaignsForPlayer(playerId);
     return res.json({ campaigns, count: campaigns.length });
+  });
+
+  // M10 Phase C: GET /api/campaign/summary — UI state snapshot via engine
+  router.get('/campaign/summary', (req, res) => {
+    const id = req.query.id;
+    if (!id) return res.status(400).json({ error: 'id query param richiesto' });
+    const campaign = getCampaign(id);
+    if (!campaign) return res.status(404).json({ error: 'campaign non trovato' });
+    const defDoc = loadCampaignDef(campaign.campaignDefId);
+    if (!defDoc) return res.status(500).json({ error: 'campaign def mancante' });
+    const summary = summariseCampaign(campaign, defDoc);
+    return res.json(summary);
   });
 
   // POST /api/campaign/advance
