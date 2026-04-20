@@ -25,6 +25,43 @@ narrative_hook: |
 
 total_acts: 2
 
+# ─── Onboarding 60s (pre-Act 0) ───────────────────────────────────────
+# Choice identitaria, NON tutorial. Vedi docs/core/51-ONBOARDING-60S.md.
+# Phase A (2026-04-21): spec canonical. Phase B (M11+): frontend choice picker.
+
+onboarding:
+  schema_version: '1.0'
+  timing_seconds: 60
+  deliberation_timeout_seconds: 30
+  default_choice_on_timeout: option_a
+
+  briefing:
+    duration_seconds: 10
+    lines:
+      - 'Il tuo branco è stato marcato.'
+      - "L'Apex ti troverà, ovunque andrai."
+      - 'Come vuoi che ti ricordino?'
+
+  choices:
+    - option_key: option_a
+      label: 'Come veloce e sfuggente'
+      trait_id: zampe_a_molla
+      narrative: 'Non saremo mai abbastanza forti. Dobbiamo essere altrove quando l''Apex arriva.'
+    - option_key: option_b
+      label: 'Come duro e inamovibile'
+      trait_id: pelle_elastomera
+      narrative: 'Ci guarderà in faccia, e noi resteremo. Questo è il branco che sopravvive.'
+    - option_key: option_c
+      label: 'Come letale e preciso'
+      trait_id: denti_seghettati
+      narrative: 'Non scappiamo e non ci nascondiamo. Mordiamo prima, e mordiamo profondo.'
+
+  transition:
+    duration_seconds: 10
+    line: 'Così sarà.'
+
+  next_encounter: enc_tutorial_01 # Act 0 chapter 1 inception
+
 acts:
   # ─── Act 0: Onboarding (tutorial 01-05) ──────────────────────────────
   - act_idx: 0
