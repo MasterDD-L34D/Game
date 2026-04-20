@@ -528,7 +528,7 @@ def aggregate(runs, encounter_class=None):
         "turns_stdev": statistics.pstdev(turns) if len(turns) > 1 else 0.0,
         "turns_min": min(turns),
         "turns_max": max(turns),
-        "turns_hist": _hist(turns, bins=[(1,5),(6,10),(11,15),(16,20),(21,30),(31,40)]),
+        "turns_hist": _hist(turns, bins=[(1,5),(6,10),(11,15),(16,20),(21,30),(31,40),(41,999)]),
         "kd_avg": statistics.mean(kd),
         "kd_median": statistics.median(kd),
         "dmg_dealt_avg": statistics.mean(r["dmg_dealt_player"] for r in ok),
@@ -544,9 +544,14 @@ def aggregate(runs, encounter_class=None):
 
 
 def _hist(values, bins):
+    """Build histogram labeled buckets. Open-ended bucket (hi >= 999) labeled "{lo}+".
+
+    Codex review fix: MAX_ROUNDS=40 esaurito → run ending at round 41 were dropped
+    by finite bins. Open-ended bucket cattura timeout + late-resolve run.
+    """
     out = {}
     for lo, hi in bins:
-        label = f"{lo}-{hi}"
+        label = f"{lo}+" if hi >= 999 else f"{lo}-{hi}"
         out[label] = sum(1 for v in values if lo <= v <= hi)
     return out
 

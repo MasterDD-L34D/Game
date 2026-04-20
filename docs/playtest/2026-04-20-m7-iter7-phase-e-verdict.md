@@ -44,6 +44,16 @@ Per Flint kill-60 directive: **no 3rd iteration**. Park con structural fix roadm
 iter6: 19 V / 0 L / 11 T
 iter7: 10 V / 0 L / **20 T** ← stalemate pattern amplificato
 
+### Turns histogram (post Codex P2 fix: aggiunto bucket 41+)
+
+| Bucket  |  iter6 |  iter7 |
+| ------- | -----: | -----: |
+| 21-30   |     10 |      4 |
+| 31-40   |      9 |      5 |
+| **41+** | **11** | **21** |
+
+Bucket 41+ = MAX_ROUNDS esaurito. iter7 21/30 run (70%) chiudono ultimo round — deadlock pattern inequivocabile.
+
 ## Root cause analysis
 
 ### 1. Damage amplification works but not enough
