@@ -108,15 +108,19 @@ estimated_turns: 10
 
 ## Progressione difficoltà (post ADR-2026-04-17 hex axial + coop-scaling)
 
-| Fase campagna       | Grid  | Party | Wave    | Obiettivi             | Condizioni          | Class (ADR-04-20)        |
-| ------------------- | ----- | ----- | ------- | --------------------- | ------------------- | ------------------------ |
-| Tutorial (1-3)      | 6×6   | 2p    | 1 wave  | Eliminazione          | Nessuna             | tutorial (1.0x)          |
-| Tutorial_adv (4-5)  | 6×6   | 2p    | 2 wave  | Hazard + boss tier-1  | Status + hazard     | tutorial_advanced (1.1x) |
-| Esplorazione (6-10) | 8×8   | 4p    | 2 wave  | Mix (cattura, escort) | Fog leggera         | standard (1.2x)          |
-| Confronto (11-18)   | 10×10 | 4-6p  | 3 wave  | Mix completo          | StressWave, terrain | hardcore (1.8x)          |
-| Endgame (19-25)     | 10×10 | 8p    | 4+ wave | Multi-obiettivo       | Tutto + enrage      | boss (2.0x)              |
+Grid size deriva da **deployed PG** via `party.yaml` grid_scaling: 1-4 PG → 6×6, 5-6 PG → 8×8, 7-8 PG → 10×10. La tabella sotto riporta modulation tipica e grid risultante.
+
+| Fase campagna       | Deployed | Grid  | Wave    | Obiettivi             | Condizioni          | Class (ADR-04-20)        |
+| ------------------- | -------- | ----- | ------- | --------------------- | ------------------- | ------------------------ |
+| Tutorial (1-3)      | 2 PG     | 6×6   | 1 wave  | Eliminazione          | Nessuna             | tutorial (1.0x)          |
+| Tutorial_adv (4-5)  | 2 PG     | 6×6   | 2 wave  | Hazard + boss tier-1  | Status + hazard     | tutorial_advanced (1.1x) |
+| Esplorazione (6-10) | 4 PG     | 6×6   | 2 wave  | Mix (cattura, escort) | Fog leggera         | standard (1.2x)          |
+| Confronto (11-18)   | 6 PG     | 8×8   | 3 wave  | Mix completo          | StressWave, terrain | hardcore (1.8x)          |
+| Endgame (19-25)     | 8 PG     | 10×10 | 4+ wave | Multi-obiettivo       | Tutto + enrage      | boss (2.0x)              |
 
 Turn_limit_defeat (ADR-2026-04-20 + M9 P6): hardcore=25, boss=20 (force decision pressure Long War pattern).
+
+**Note**: encounter tutorial 01-05 usano 6×6 perché modulation scout (2 PG). Hardcore-06 override esplicito 10×10 via `grid_size: 10` (8 PG full modulation). Vedi `apps/backend/services/party/loader.js` `gridSizeFor(deployed)`.
 
 ## Relazione Bioma → Livello
 
