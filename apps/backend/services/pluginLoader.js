@@ -56,8 +56,13 @@ const metaPlugin = {
   name: 'meta',
   register(app) {
     const { createMetaRouter } = require('../routes/meta');
-    app.use('/api/v1/meta', createMetaRouter());
-    app.use('/api/meta', createMetaRouter());
+    const { createMetaStore } = require('../services/metaProgression');
+    const { prisma } = require('../db/prisma');
+    // Share one store between /api/v1/meta and /api/meta. Pre-adapter, each
+    // mount built its own Map → aliases saw divergent state (latent bug).
+    const store = createMetaStore({ prisma, campaignId: null });
+    app.use('/api/v1/meta', createMetaRouter({ store }));
+    app.use('/api/meta', createMetaRouter({ store }));
   },
 };
 
