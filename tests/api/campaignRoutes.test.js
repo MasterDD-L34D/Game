@@ -206,3 +206,34 @@ test('POST /api/campaign/advance: on finalized campaign = 409', async (t) => {
   const res = await request('POST', `${url}/api/campaign/advance`, { id, outcome: 'victory' });
   assert.equal(res.status, 409);
 });
+
+// M10 Phase C: summary endpoint
+
+test('GET /api/campaign/summary: returns full UI snapshot', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('GET', `${url}/api/campaign/summary?id=${id}`);
+  assert.equal(res.status, 200);
+  assert.ok(res.body.campaign);
+  assert.ok(res.body.current_encounter);
+  assert.equal(res.body.current_encounter.encounter_id, 'enc_tutorial_01');
+  assert.equal(res.body.next_encounter.next_encounter_id, 'enc_tutorial_02');
+  assert.equal(res.body.progress, 0);
+  assert.equal(res.body.can_advance, true);
+  assert.equal(res.body.can_choose, false);
+  assert.deepEqual(res.body.branch_path, []);
+  assert.equal(res.body.completion_status, 'in_progress');
+});
+
+test('GET /api/campaign/summary: missing id = 400', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('GET', `${url}/api/campaign/summary`);
+  assert.equal(res.status, 400);
+});
+
+test('GET /api/campaign/summary: unknown id = 404', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('GET', `${url}/api/campaign/summary?id=nonexistent-uuid`);
+  assert.equal(res.status, 404);
+});
