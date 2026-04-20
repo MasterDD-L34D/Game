@@ -20,6 +20,7 @@ const { createValidatorsRouter } = require('./routes/validators');
 const { createSessionRouter } = require('./routes/session');
 const { createFeedbackRouter } = require('./routes/feedback');
 const { createPartyRouter } = require('./routes/party');
+const { createCampaignRouter } = require('./routes/campaign');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const { createCatalogService } = require('./services/catalog');
@@ -683,6 +684,8 @@ function createApp(options = {}) {
   app.use('/api/party', createPartyRouter());
   // M7 demo playtest: feedback collection (/api/feedback, /api/feedback/summary)
   app.use('/api', createFeedbackRouter(options.feedback || {}));
+  // M10 Phase B: campaign persistence + branching (ADR-2026-04-21)
+  app.use('/api', createCampaignRouter(options.campaign || {}));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {
