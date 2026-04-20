@@ -16,7 +16,7 @@ related:
 
 # ADR-2026-04-20 · Damage scaling curves
 
-**Stato**: 🟡 PROPOSED (accept on user confirmation + M7-#3 channel routing merged)
+**Stato**: 🟢 ACCEPTED — implementation chiusa (Phase A+B+C+D+E shipped 2026-04-20, PR #1652/#1653/#1654/#1656/#1657). Calibration **parked iter7 RED**, structural fix → M9 (NON ulteriore multiplier tune).
 **Trigger**: M6 iter5 evidence (70% win rate post M7 quick wins, 0 defeat 4 iter consecutivi) → Flint verdict "lever sbagliata, damage scaling è feature non debt"
 
 ## Contesto
@@ -220,6 +220,63 @@ Scelta: **A** (statico). Più semplice + testabile + compatibile con predict_com
 ### Q3: Target bands overlap acceptable?
 
 Tutorial defeat 10-20% vs standard defeat 25-40% ha overlap zero. Bands non-overlapping → encounter class determinabile post-hoc da win_rate.
+
+## Implementation log (post-accept)
+
+### Phase A — ADR + YAML (shipped 2026-04-20, PR #1652)
+
+- `data/core/balance/damage_curves.yaml` creato, 5 encounter_classes + enemy_tiers + player_classes
+- CI guard `tests/scripts/damageCurvesIntegrity.test.js` (10 test)
+
+### Phase B — Runtime (shipped 2026-04-20, PR #1653)
+
+- `apps/backend/services/balance/damageCurves.js` loader + 4 helper
+- `session.js /start` applica `enemy_damage_multiplier` a `unit.mod` enemy spawn
+- `performAttack` boss enrage hook: check `shouldEnrageBoss` pre-attack, applica `enrage_mod_bonus`, revert post
+- 13/13 test verdi
+
+### Phase C — Encounter annotation (shipped 2026-04-20, PR #1654)
+
+- 9 YAML encounter + 5 JS tutorial scenario + 1 hardcore annotati con `encounter_class`
+- Schema `schemas/evo/encounter.schema.json` esteso con enum 5 valori
+- Frontend `apps/play/src/main.js` propaga `encounter_class` in `startOpts`
+- 12/12 schema test + 254/254 api test verdi
+
+### Phase D — Harness verdict (shipped 2026-04-20, PR #1656)
+
+- `batch_calibrate_hardcore06.py`: `load_target_bands()` mini-YAML stdlib-only parser
+- `verdict_for()` emette GREEN/AMBER (±5pp edge) / RED (>5pp out) / UNKNOWN
+- CLI `--encounter-class` flag
+- 9/9 pytest verdi
+
+### Phase E — Hardcore tune (shipped 2026-04-20)
+
+Post iter6 RED (wr 63.3%, defeat 0%), tune YAML knob:
+
+- `hardcore.enemy_damage_multiplier`: 1.4 → **1.8** (+28%)
+- `boss.enemy_damage_multiplier`: 1.6 → **2.0** (mantiene monotonic)
+- `enemy_tiers.boss.enrage_mod_bonus`: 1 → **3** (late-fight drama)
+
+Test aggiornati per nuovi valori (23/23 verdi).
+
+## Calibration log
+
+| Iter  | Config                              |   N |   Win | Defeat | Timeout | Verdict | Commit         |
+| ----- | ----------------------------------- | --: | ----: | -----: | ------: | :-----: | -------------- |
+| iter6 | hardcore 1.4x, enrage 1             |  30 | 63.3% |   0.0% |   36.7% | 🔴 RED  | PR #1657       |
+| iter7 | hardcore 1.8x, boss 2.0x, enrage +3 |  30 | 33.3% |   0.0% |   66.7% | 🔴 RED  | Phase E branch |
+
+Target band (ADR): win 15-25%, defeat 40-55%, timeout 15-25%.
+
+**iter7 outcome**: wr ↓ -30pp (direzionalmente giusto, ancora +8pp over), defeat stuck 0%, timeout raddoppiato (stalemate pattern). Verdict Flint kill-60: **multiplier knob exhausted, park + structural fix M9**. Vedi `docs/playtest/2026-04-20-m7-iter7-phase-e-verdict.md`.
+
+## Lesson (post iter6+iter7)
+
+1. **Feature shipped correctly**: verdict auto emesso validates Phase D ROI.
+2. **Numeri starting-point ≠ calibrated**: ADR multiplier 1.4x scelto come educated guess, non N=30 pre-validated. Phase E tune necessary post-playtest.
+3. **Pattern validato**: data-driven verdict > ad-hoc eyeballing. Pre-Phase D, iter6 avrebbe richiesto lettura manuale win_rate + confronto mentale con band.
+4. **Multiplier knob plateaued**: iter7 conferma scaling lineare mult→wr exists, MA defeat_rate stuck a 0%. Structural fix obbligatorio (M9): timeout=defeat, concentrate enemy aggro, o ridurre player HP pool. NON ulteriore multiplier tune.
+5. **Kill-60 disciplined**: 2 iter sufficienti per diagnose. 3rd iter sarebbe stato wasted cycle. Parking ship value > perfection.
 
 ## Autori
 
