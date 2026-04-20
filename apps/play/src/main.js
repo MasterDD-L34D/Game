@@ -1064,6 +1064,10 @@ async function triggerCommitRound() {
     state.roundInit = false;
     _pendingConfirm = null;
     state.pendingIntents = [];
+    // M8 Plan-Reveal P0: clear threat preview post-resolve (intents consumed).
+    // Fix Codex review #1658: legacy branch reset era dead code su useRoundFlow()=true
+    // → stale SIS intents mostrati post-resolve. Reset qui è l'active path.
+    state.threatPreview = [];
 
     const playerActions = r.data?.player_actions || [];
     const iaActions = r.data?.ia_actions || [];
