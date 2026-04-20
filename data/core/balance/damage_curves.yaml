@@ -30,6 +30,8 @@ encounter_classes:
       timeout_rate: [0.05, 0.10]
     enemy_damage_multiplier: 1.0
     boss_enrage_threshold_hp: null  # no enrage tutorial tier
+    # M9 P6: turn_limit_defeat null = no forced outcome (tutorial forgiving)
+    turn_limit_defeat: null
 
   tutorial_advanced:
     description: 'Late tutorial (04-05). Introduce mechanics status/boss (apex tier-1).'
@@ -39,6 +41,7 @@ encounter_classes:
       timeout_rate: [0.05, 0.15]
     enemy_damage_multiplier: 1.1
     boss_enrage_threshold_hp: 0.25
+    turn_limit_defeat: null
 
   standard:
     description: 'Mid-game encounters. Balanced threat, most common.'
@@ -48,6 +51,7 @@ encounter_classes:
       timeout_rate: [0.10, 0.20]
     enemy_damage_multiplier: 1.2
     boss_enrage_threshold_hp: 0.30
+    turn_limit_defeat: 30  # soft limit per standard, rare trigger
 
   hardcore:
     description: 'High-difficulty 8p co-op. Team tactical peak required.'
@@ -59,6 +63,11 @@ encounter_classes:
     # Vedi docs/playtest/2026-04-20-m7-iter6-hardcore-verdict.md § Option A+D.
     enemy_damage_multiplier: 1.8
     boss_enrage_threshold_hp: 0.40
+    # M9 P6 (Flint Long War pattern): force decision pressure.
+    # Turn >= 25 + player still alive + objective not completed → defeat.
+    # iter7 median turns_win=28 → budget 25 = risky but reachable con focus-fire.
+    # Elimina stalemate pattern (iter7 timeout 67%).
+    turn_limit_defeat: 25
 
   boss:
     description: 'Apex boss fight. Signature mechanics, dramatic enrage.'
@@ -70,6 +79,8 @@ encounter_classes:
     # Boss 1v2 player (solo fight), scaling piu aggressivo giustificato.
     enemy_damage_multiplier: 2.0
     boss_enrage_threshold_hp: 0.50
+    # M9 P6: boss 1v2 dura media 20 round. Limit 20 = kill boss o perdi.
+    turn_limit_defeat: 20
 
 # ─── Enemy tiers ──────────────────────────────────────────────────────
 # Base stats pre-class multiplier. Encounter spawn li legge + applica

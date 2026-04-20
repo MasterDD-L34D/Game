@@ -13,7 +13,12 @@ sys.path.insert(0, os.path.join(ROOT, "tools", "py"))
 
 import pytest
 
-from batch_calibrate_hardcore06 import load_target_bands, verdict_for
+from batch_calibrate_hardcore06 import (
+    load_target_bands,
+    verdict_for,
+    load_turn_limit_defeat,
+    detect_outcome,
+)
 
 
 def test_load_all_classes():
@@ -82,6 +87,81 @@ def test_verdict_tutorial_band_permissive():
     b = load_target_bands("tutorial")
     v, _ = verdict_for(0.70, 0.15, 0.07, b)
     assert v == "GREEN"
+
+
+# M9 P6 tests — turn_limit_defeat force decision pressure
+
+
+def test_turn_limit_defeat_class_values():
+    assert load_turn_limit_defeat("tutorial") is None
+    assert load_turn_limit_defeat("tutorial_advanced") is None
+    assert load_turn_limit_defeat("standard") == 30
+    assert load_turn_limit_defeat("hardcore") == 25
+    assert load_turn_limit_defeat("boss") == 20
+
+
+def test_turn_limit_defeat_missing_class_returns_none():
+    assert load_turn_limit_defeat("nonexistent") is None
+
+
+def test_detect_outcome_legacy_mode_preserves_behavior():
+    """turn_limit None = legacy (timeout reaches MAX_ROUNDS naturally)."""
+    state_alive = {
+        "units": [
+            {"controlled_by": "player", "hp": 10},
+            {"controlled_by": "sistema", "hp": 5},
+        ],
+        "turn": 40,
+    }
+    assert detect_outcome(state_alive, None) is None
+
+
+def test_detect_outcome_turn_limit_triggers_defeat():
+    """turn >= limit + both alive = defeat (M9 P6)."""
+    state = {
+        "units": [
+            {"controlled_by": "player", "hp": 10},
+            {"controlled_by": "sistema", "hp": 5},
+        ],
+        "turn": 25,
+    }
+    assert detect_outcome(state, 25) == "defeat"
+
+
+def test_detect_outcome_turn_limit_not_yet_reached():
+    """turn < limit + both alive = in progress (None)."""
+    state = {
+        "units": [
+            {"controlled_by": "player", "hp": 10},
+            {"controlled_by": "sistema", "hp": 5},
+        ],
+        "turn": 24,
+    }
+    assert detect_outcome(state, 25) is None
+
+
+def test_detect_outcome_player_wipe_priority_over_turn_limit():
+    """Player wipe = defeat anche a turn < limit (priority)."""
+    state = {
+        "units": [
+            {"controlled_by": "player", "hp": 0},
+            {"controlled_by": "sistema", "hp": 5},
+        ],
+        "turn": 10,
+    }
+    assert detect_outcome(state, 25) == "defeat"
+
+
+def test_detect_outcome_victory_priority_over_turn_limit():
+    """Sistema wipe = victory anche oltre limit."""
+    state = {
+        "units": [
+            {"controlled_by": "player", "hp": 10},
+            {"controlled_by": "sistema", "hp": 0},
+        ],
+        "turn": 30,
+    }
+    assert detect_outcome(state, 25) == "victory"
 
 
 if __name__ == "__main__":

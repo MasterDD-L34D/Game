@@ -12,6 +12,8 @@ const {
   shouldEnrageBoss,
   getEnrageModBonus,
   getTargetBands,
+  getTurnLimitDefeat,
+  isTurnLimitExceeded,
   DEFAULT_CLASS,
   _resetCache,
 } = require('../../apps/backend/services/balance/damageCurves');
@@ -113,4 +115,54 @@ test('getTargetBands: null on unknown class', () => {
   _resetCache();
   loadDamageCurves();
   assert.equal(getTargetBands('unknown_class'), null);
+});
+
+// M9 P6 — turn_limit_defeat tests
+
+test('getTurnLimitDefeat: hardcore returns 25', () => {
+  _resetCache();
+  loadDamageCurves();
+  assert.equal(getTurnLimitDefeat('hardcore'), 25);
+});
+
+test('getTurnLimitDefeat: boss returns 20', () => {
+  _resetCache();
+  loadDamageCurves();
+  assert.equal(getTurnLimitDefeat('boss'), 20);
+});
+
+test('getTurnLimitDefeat: tutorial returns null (no limit)', () => {
+  _resetCache();
+  loadDamageCurves();
+  assert.equal(getTurnLimitDefeat('tutorial'), null);
+});
+
+test('getTurnLimitDefeat: unknown class returns null', () => {
+  _resetCache();
+  loadDamageCurves();
+  assert.equal(getTurnLimitDefeat('nonexistent'), null);
+});
+
+test('isTurnLimitExceeded: hardcore turn 25 → true', () => {
+  _resetCache();
+  loadDamageCurves();
+  assert.equal(isTurnLimitExceeded(25, 'hardcore'), true);
+});
+
+test('isTurnLimitExceeded: hardcore turn 24 → false', () => {
+  _resetCache();
+  loadDamageCurves();
+  assert.equal(isTurnLimitExceeded(24, 'hardcore'), false);
+});
+
+test('isTurnLimitExceeded: tutorial turn 999 → false (no limit)', () => {
+  _resetCache();
+  loadDamageCurves();
+  assert.equal(isTurnLimitExceeded(999, 'tutorial'), false);
+});
+
+test('isTurnLimitExceeded: turn 0 never triggers', () => {
+  _resetCache();
+  loadDamageCurves();
+  assert.equal(isTurnLimitExceeded(0, 'hardcore'), false);
 });
