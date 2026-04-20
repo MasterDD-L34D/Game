@@ -86,4 +86,28 @@ export const api = {
   replay: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/replay`),
   modulations: () => jsonFetch('/api/party/modulations'),
   partyConfig: () => jsonFetch('/api/party/config'),
+  // M10 Phase D — Campaign API
+  campaignStart: (playerId, campaignDefId = 'default_campaign_mvp') =>
+    jsonFetch('/api/campaign/start', {
+      method: 'POST',
+      body: JSON.stringify({ player_id: playerId, campaign_def_id: campaignDefId }),
+    }),
+  campaignSummary: (id) => jsonFetch(`/api/campaign/summary?id=${encodeURIComponent(id)}`),
+  campaignAdvance: (id, outcome, peEarned = 0, piEarned = 0) =>
+    jsonFetch('/api/campaign/advance', {
+      method: 'POST',
+      body: JSON.stringify({ id, outcome, pe_earned: peEarned, pi_earned: piEarned }),
+    }),
+  campaignChoose: (id, branchKey) =>
+    jsonFetch('/api/campaign/choose', {
+      method: 'POST',
+      body: JSON.stringify({ id, branch_key: branchKey }),
+    }),
+  campaignEnd: (id, finalState = 'abandoned') =>
+    jsonFetch('/api/campaign/end', {
+      method: 'POST',
+      body: JSON.stringify({ id, final_state: finalState }),
+    }),
+  campaignList: (playerId) =>
+    jsonFetch(`/api/campaign/list?player_id=${encodeURIComponent(playerId)}`),
 };

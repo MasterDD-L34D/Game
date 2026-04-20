@@ -2067,3 +2067,230 @@ body.ability-target-mode canvas#grid {
     padding: 6px 10px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════ */
+/*   M10 Phase D — Campaign panel UI                                */
+/* ═══════════════════════════════════════════════════════════════ */
+
+#campaign-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+}
+#campaign-overlay.hidden {
+  display: none;
+}
+
+.camp-card {
+  max-width: 720px;
+  width: 90%;
+}
+
+.camp-header h2 {
+  margin: 0 0 8px 0;
+  color: #ffcc00;
+  font-size: 1.4em;
+}
+
+.camp-status-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.camp-pill {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.85em;
+  color: #e8e8e8;
+}
+
+.camp-pill-status-completed {
+  background: rgba(76, 175, 80, 0.25);
+  border-color: #4caf50;
+  color: #aed581;
+}
+
+.camp-pill-status-in_progress {
+  background: rgba(0, 184, 212, 0.2);
+  border-color: #00b8d4;
+  color: #80deea;
+}
+
+.camp-pill-status-abandoned {
+  background: rgba(244, 67, 54, 0.25);
+  border-color: #f44336;
+  color: #ef9a9a;
+}
+
+.camp-progress {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.camp-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #0288d1, #4caf50);
+  transition: width 0.4s ease;
+}
+
+.camp-progress-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.camp-empty {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.camp-empty h2 {
+  color: #ffcc00;
+  margin-bottom: 8px;
+}
+
+.camp-empty p {
+  color: #bbb;
+  margin-bottom: 20px;
+}
+
+.camp-briefing {
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #00b8d4;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+}
+
+.camp-act-info {
+  color: #80deea;
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.camp-briefing h3 {
+  margin: 0 0 10px 0;
+  color: #e8e8e8;
+  font-size: 1.1em;
+}
+
+.camp-narrative {
+  color: #bdbdbd;
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
+}
+
+.camp-choice {
+  background: rgba(255, 204, 0, 0.08);
+  border: 2px solid #ffcc00;
+  padding: 16px;
+  margin: 14px 0;
+  border-radius: 6px;
+}
+
+.camp-choice h3 {
+  margin: 0 0 8px 0;
+  color: #ffcc00;
+}
+
+.camp-choice-desc {
+  color: #e8e8e8;
+  margin-bottom: 14px;
+  font-style: italic;
+}
+
+.camp-choice-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.camp-choice-btn {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 204, 0, 0.4);
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.camp-choice-btn:hover {
+  background: rgba(255, 204, 0, 0.15);
+  border-color: #ffcc00;
+  transform: translateX(3px);
+}
+
+.camp-choice-btn strong {
+  display: block;
+  color: #ffcc00;
+  margin-bottom: 3px;
+}
+
+.camp-choice-btn small {
+  color: #bdbdbd;
+  line-height: 1.4;
+}
+
+.camp-completed {
+  background: rgba(76, 175, 80, 0.1);
+  border-left: 4px solid #4caf50;
+  padding: 16px;
+  border-radius: 4px;
+  margin: 14px 0;
+  text-align: center;
+}
+
+.camp-completed h3 {
+  color: #aed581;
+  margin: 0 0 6px 0;
+}
+
+.camp-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.hud-btn-danger {
+  background: linear-gradient(135deg, #c62828, #b71c1c);
+  color: #fff;
+  border: 1px solid #d32f2f;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.hud-btn-danger:hover {
+  background: linear-gradient(135deg, #d32f2f, #c62828);
+}
