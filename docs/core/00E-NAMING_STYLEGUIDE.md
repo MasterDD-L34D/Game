@@ -239,6 +239,93 @@ Esempio:
   display_name_en: 'Dune Stalker' # preserva nome originale come EN
 ```
 
+## Terminologia canonica generale (IT/EN mapping)
+
+Estensione 2026-04-20 (Prompt 1 §6 integrated-design-map). Risoluzione drift terminology del 4-agent audit consolidato (#1663 §2).
+
+### Encounter / Missione / Scenario
+
+| Contesto                   | Termine canonico       | Sinonimi tollerati | Esempio                                                              |
+| -------------------------- | ---------------------- | ------------------ | -------------------------------------------------------------------- |
+| **Schema / code / config** | `encounter` (EN)       | —                  | `schemas/evo/encounter.schema.json`, `encounter_id: enc_tutorial_01` |
+| **Player-facing prose IT** | `missione`             | scontro, partita   | "Prossima missione: Caverna di Eco"                                  |
+| **Dev-facing prose EN**    | `encounter`            | —                  | "enc_tutorial_06_hardcore validates"                                 |
+| **Playtest artifact**      | `scenario` (EN legacy) | —                  | `tutorialScenario.js`, `hardcoreScenario.js`                         |
+
+Mai mixare nella stessa frase. `missione` in briefing narrativo, `encounter` in tech docs.
+
+### Sistema (antagonist AI)
+
+| Contesto                    | Termine canonico                       | Note                                            |
+| --------------------------- | -------------------------------------- | ----------------------------------------------- |
+| Design docs prose IT        | `Sistema`                              | Player-facing antagonist (non "AI")             |
+| Tabelle compact / diagrammi | `SIS`                                  | Abbreviazione tollerata solo cella tabella      |
+| Code identifiers            | `sistema` (snake*case) o `SIS*` prefix | `controlled_by: 'sistema'`, `SIS_PRESSURE_TIER` |
+| Architecture docs           | `AI Sistema`                           | Implementazione AI data-driven                  |
+
+**Non ammesso**: mixare "AI" generico con "Sistema" nella stessa sezione senza disambiguazione.
+
+### Status fisici e mentali (IT ↔ EN)
+
+Canonical code keys EN (snake_case). Display IT in prose + UI briefing.
+
+| EN (code)      | IT (prose/UI)   | Categoria |
+| -------------- | --------------- | --------- |
+| `bleeding`     | Sanguinamento   | fisico    |
+| `fracture`     | Frattura        | fisico    |
+| `disorient`    | Disorientamento | fisico    |
+| `sbilanciato`  | Sbilanciato     | fisico    |
+| `stunned`      | Stordito        | mentale   |
+| `rage`         | Furia           | mentale   |
+| `panic`        | Panico          | mentale   |
+| `focused`      | Concentrato     | mentale   |
+| `confused`     | Confuso         | mentale   |
+| `taunted_by`   | Provocato       | mentale   |
+| `aggro_locked` | Bersaglio fisso | mentale   |
+
+**Regola**: tabella reference canonical. In prose IT usare forma maiuscola ("Sanguinamento"); in code `bleeding`. Mapping doc `docs/core/10-SISTEMA_TATTICO.md §Status` + `apps/backend/services/statusEffectsMachine.js`.
+
+### Economia risorse (PE/PT/PP/SG/PI/Seed)
+
+Vedi `docs/core/26-ECONOMY_CANONICAL.md` per glossario completo. Sintesi drift recenti:
+
+| Token    | Canonical                              | Scope                                     | Note                                                 |
+| -------- | -------------------------------------- | ----------------------------------------- | ---------------------------------------------------- |
+| **PE**   | Punti Esperienza                       | campaign-wide progression currency        | NON build currency (era ambiguo pre-2026-04-20)      |
+| **PI**   | Pacchetto Invocazione (build currency) | campaign-wide                             | Earned via 5 PE → 1 PI conversion                    |
+| **PT**   | Punti Tecnica                          | combat-scoped, per-round reset (P0 Q51 B) | NON budget azione (precedente ambiguità Freeze §7.2) |
+| **PP**   | Power Pool                             | combat-scoped, max **3** (P0 Q54 A)       | Ultimate costa 3 PP consume all                      |
+| **SG**   | Surge Gauge                            | combat-scoped, 0..3                       | Formula accumulation Q52 P2 pending                  |
+| **Seed** | Seed gene                              | campaign-wide, non scalare                | Mating + Harvester ability                           |
+
+**Mai confondere**: PE = progression, PI = build (distinti). PT token-driven (crit/MoS), PP pool cap 3 (non 10).
+
+### Archetype / archetipo
+
+- Code + schemas: `archetype` (EN snake/kebab) — `archetype_field`, `species_resistances.yaml`
+- Prose IT: `archetipo` — "archetipo corazzato resiste a fisico"
+- Mixing OK solo dove si cita campo code inline (backtick)
+
+### Forma / Form / form
+
+- Prose IT + title canonical: `Forma` (MBTI-based 16 Forms)
+- Code + YAML: `form` (EN lowercase) — `mbti_forms.yaml`, `form_seed_bias`
+- Plurale IT: `Forme` (title case quando riferito al sistema 16 Forms)
+
+### Trait / tratto
+
+- Code + schemas: `trait` (EN) — `trait_mechanics.yaml`, `active_effects.yaml`, `trait_T1/T2/T3`
+- Prose IT: `tratto` / `tratti`
+
+### Altri termini stabili
+
+| Termine               | Canonical                                              | Note                                                      |
+| --------------------- | ------------------------------------------------------ | --------------------------------------------------------- |
+| intent/intento        | `intent` code, `intento` prose IT                      |                                                           |
+| action/azione         | `action` code, `azione` prose IT                       |                                                           |
+| resistance/resistenza | `resistance` code EN, `resistenza` prose IT            | ADR-2026-04-19 convention                                 |
+| pressure/pressione    | `pressure` (Sistema tier system), `pressione` prose IT | 5 tier canonical Calm-Apex (vedi `sistema_pressure.yaml`) |
+
 ## Riferimenti
 
 - ICZN — codice zoologico
@@ -247,3 +334,5 @@ Esempio:
 - Hayes & Wilson — fonotattica MaxEnt
 - Speculative evolution: Dixon (After Man, New Dinosaurs), All Yesterdays
 - Documento sorgente: `Naming di specie e biomi per Evo Tactics.docx` (utente, 2026-04-16)
+- 4-agent audit (2026-04-20, #1663) — terminology drift §2
+- `docs/core/26-ECONOMY_CANONICAL.md` — economia tokens full glossario
