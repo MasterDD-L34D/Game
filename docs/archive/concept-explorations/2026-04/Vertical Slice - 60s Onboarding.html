@@ -1,0 +1,3178 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title>Evo Tactics · Vertical Slice · 60s Onboarding</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Kalam:wght@300;400;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --abyss: #070d16;
+        --abyss-2: #0f1c2e;
+        --abyss-3: #18304a;
+        --paper: #efe9dc;
+        --paper-2: #e6dfcf;
+        --ink: #1a1814;
+        --ink-2: #3a332a;
+        --ink-3: #6b6357;
+        --mint: #6fd9c4;
+        --amber: #e8b059;
+        --rust: #b8492a;
+        --moss: #2a5c4a;
+        --iris: #8a79c2;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #14110c;
+        color: var(--paper);
+        font-family: 'Kalam', cursive;
+        overflow-x: hidden;
+      }
+      body {
+        padding: 14px 18px 70px;
+      }
+
+      /* top */
+      .topbar {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        padding: 0 4px 10px;
+        border-bottom: 1px dashed #3a3530;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      .topbar h1 {
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 20px;
+        margin: 0;
+        color: var(--paper);
+      }
+      .topbar h1 em {
+        font-style: italic;
+        color: #8a8477;
+        font-weight: 400;
+      }
+      .stamp {
+        display: inline-block;
+        border: 1.5px solid var(--amber);
+        color: var(--amber);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        padding: 3px 8px;
+        transform: rotate(-2deg);
+      }
+      .meta {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #8a8477;
+        margin-left: auto;
+      }
+
+      /* stage layout: TV + phone side-by-side */
+      .stage {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 24px;
+        align-items: flex-start;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .tv-wrap {
+        position: relative;
+      }
+      .tv {
+        background: #0a0806;
+        border-radius: 10px;
+        padding: 12px;
+        box-shadow:
+          0 4px 0 rgba(0, 0, 0, 0.3),
+          0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      }
+      .tv-screen {
+        aspect-ratio: 16/9;
+        background: var(--abyss);
+        position: relative;
+        overflow: hidden;
+        border-radius: 3px;
+      }
+      .tv-stand {
+        width: 50%;
+        height: 8px;
+        background: #0a0806;
+        margin: 0 auto;
+        border-radius: 0 0 10px 10px;
+      }
+      .tv-stand::after {
+        content: '';
+        display: block;
+        width: 40%;
+        height: 12px;
+        background: #0a0806;
+        margin: 0 auto;
+        border-radius: 0 0 6px 6px;
+        margin-top: -1px;
+      }
+
+      /* phone */
+      .phone-wrap {
+        position: sticky;
+        top: 14px;
+      }
+      .phone {
+        background: #0a0806;
+        border-radius: 36px;
+        padding: 14px 10px;
+        box-shadow:
+          0 4px 0 rgba(0, 0, 0, 0.3),
+          0 20px 40px -15px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        position: relative;
+      }
+      .phone::before {
+        content: '';
+        position: absolute;
+        top: 26px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90px;
+        height: 18px;
+        background: #0a0806;
+        border-radius: 12px;
+        z-index: 5;
+      }
+      .phone-screen {
+        aspect-ratio: 9/19.5;
+        background: var(--abyss);
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+      }
+      .phone-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: #8a8477;
+        letter-spacing: 2px;
+        text-align: center;
+        margin-top: 10px;
+        padding-bottom: 4px;
+      }
+      .phone-label .dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--mint);
+        margin-right: 6px;
+        vertical-align: middle;
+        animation: dotPulse 1.6s ease-in-out infinite;
+      }
+      @keyframes dotPulse {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* timeline controls */
+      .timeline {
+        margin-top: 14px;
+        background: #1c1812;
+        border: 1px solid #3a3530;
+        padding: 12px 14px;
+        border-radius: 6px;
+      }
+      .timeline .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .timeline button {
+        background: #2a2420;
+        color: var(--paper);
+        border: 1px solid #4a4238;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+        letter-spacing: 1px;
+      }
+      .timeline button:hover {
+        background: #3a3228;
+      }
+      .timeline button.active {
+        background: var(--amber);
+        color: #1a1408;
+        border-color: var(--amber);
+      }
+      .timeline .scrub {
+        flex: 1;
+        min-width: 240px;
+        height: 28px;
+        position: relative;
+        background: #0a0806;
+        border: 1px solid #3a3530;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .timeline .scrub-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, var(--mint), var(--amber), var(--rust));
+        opacity: 0.4;
+        pointer-events: none;
+      }
+      .timeline .scrub-thumb {
+        position: absolute;
+        top: -3px;
+        width: 4px;
+        height: 34px;
+        background: var(--paper);
+        pointer-events: none;
+        box-shadow: 0 0 0 1px #000;
+      }
+      .timeline .scrub-ticks {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .timeline .scrub-ticks span {
+        position: absolute;
+        top: -18px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        color: #8a8477;
+        transform: translateX(-50%);
+      }
+      .timeline .scrub-ticks span::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: -4px;
+        width: 1px;
+        height: 6px;
+        background: #8a8477;
+      }
+      .timeline .meta-row {
+        display: flex;
+        gap: 14px;
+        margin-top: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: #8a8477;
+        letter-spacing: 1px;
+        flex-wrap: wrap;
+      }
+      .timeline .meta-row b {
+        color: var(--mint);
+        font-weight: 500;
+      }
+
+      /* Tweaks */
+      .tweaks {
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        background: var(--paper);
+        color: var(--ink);
+        border: 2px solid var(--ink);
+        padding: 12px 14px;
+        z-index: 100;
+        max-width: 300px;
+        box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+        display: none;
+        font-family: 'Kalam', cursive;
+      }
+      .tweaks.on {
+        display: block;
+      }
+      .tweaks h4 {
+        font-family: 'Fraunces', serif;
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .tweaks .row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .tweaks label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 1px;
+        color: var(--ink-3);
+        min-width: 66px;
+      }
+      .tweaks button {
+        font-family: 'Kalam', cursive;
+        font-size: 13px;
+        background: var(--paper-2);
+        color: var(--ink);
+        border: 1.5px solid var(--ink-2);
+        padding: 2px 8px;
+        cursor: pointer;
+        border-radius: 2px;
+      }
+      .tweaks button.on {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      /* Scene system */
+      .scene {
+        position: absolute;
+        inset: 0;
+      }
+      svg {
+        display: block;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fadeUp {
+        animation: fadeUp 0.5s ease both;
+      }
+      @keyframes softPulse {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      .softPulse {
+        animation: softPulse 2.2s ease-in-out infinite;
+      }
+      @keyframes rotateSlow {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* phone content */
+      .ph-inner {
+        position: absolute;
+        inset: 0;
+        padding: 52px 16px 20px;
+        display: flex;
+        flex-direction: column;
+        color: var(--paper);
+        font-family: 'Kalam', cursive;
+      }
+      .ph-status {
+        position: absolute;
+        top: 10px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 22px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        color: #8a8477;
+        letter-spacing: 1;
+      }
+      .ph-header {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        color: var(--mint);
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      .ph-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 10px;
+      }
+      .ph-foot {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        color: #8a8477;
+        letter-spacing: 1;
+        text-align: center;
+        padding-top: 8px;
+        border-top: 1px solid #1a2838;
+      }
+
+      /* postit */
+      .postit {
+        position: absolute;
+        background: #f6e88a;
+        color: #5a4a2a;
+        padding: 6px 10px;
+        font-family: 'Kalam', cursive;
+        font-size: 12px;
+        line-height: 1.25;
+        box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.2);
+        max-width: 190px;
+        z-index: 40;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <h1>Evo Tactics · <em>Vertical Slice · 60s Onboarding</em></h1>
+      <span class="stamp">LOOP v0.2</span>
+      <span class="meta"
+        >TV + 1 phone split · couch co-op · A.L.I.E.N.A. silente · Flint voice</span
+      >
+    </div>
+
+    <div class="stage">
+      <!-- ============ TV ============ -->
+      <div class="tv-wrap">
+        <div class="tv">
+          <div class="tv-screen" id="tvScreen">
+            <!-- TV SCENE 1: 0:00 worldgen -->
+            <div class="scene" data-tv="worldgen">
+              <svg viewBox="0 0 1600 900" width="100%" height="100%">
+                <defs>
+                  <radialGradient id="bg1" cx="50%" cy="55%" r="70%">
+                    <stop offset="0" stop-color="#18304a" />
+                    <stop offset="60%" stop-color="#0f1c2e" />
+                    <stop offset="100%" stop-color="#050810" />
+                  </radialGradient>
+                  <filter id="glow"><feGaussianBlur stdDeviation="3" /></filter>
+                </defs>
+                <rect width="1600" height="900" fill="url(#bg1)" />
+
+                <!-- particles -->
+                <g fill="#6fd9c4" opacity=".35">
+                  <circle cx="140" cy="220" r="1.5" />
+                  <circle cx="380" cy="180" r="1" />
+                  <circle cx="540" cy="340" r="1.2" />
+                  <circle cx="820" cy="260" r="1" />
+                  <circle cx="1120" cy="300" r="1.4" />
+                  <circle cx="1380" cy="200" r="1" />
+                  <circle cx="220" cy="580" r="1.2" />
+                  <circle cx="700" cy="620" r="1" />
+                  <circle cx="1260" cy="540" r="1.3" />
+                </g>
+
+                <!-- Letterbox -->
+                <rect x="0" y="0" width="1600" height="52" fill="#040810" />
+                <rect x="0" y="848" width="1600" height="52" fill="#040810" />
+
+                <!-- Top HUD -->
+                <g font-family="JetBrains Mono" font-size="12" fill="#6fd9c4" letter-spacing="3">
+                  <text x="30" y="32">EVO TACTICS · GENESI</text>
+                  <text x="1570" y="32" text-anchor="end">A.L.I.E.N.A. ◉ UP</text>
+                </g>
+
+                <!-- Center: ecosystem forming -->
+                <g transform="translate(800,450)">
+                  <!-- web -->
+                  <g fill="none" stroke="#6fd9c4" stroke-width="1" opacity=".5" id="webLinks">
+                    <path
+                      d="M-280,-80 L-60,-30 L240,-120 L380,40 L120,200 L-180,160 Z"
+                      stroke-dasharray="3 3"
+                    />
+                    <path d="M-60,-30 L120,200" />
+                    <path d="M240,-120 L120,200" />
+                    <path d="M-280,-80 L240,-120" />
+                    <path d="M-180,160 L380,40" />
+                  </g>
+                  <!-- biome nodes -->
+                  <g
+                    font-family="Fraunces"
+                    font-size="13"
+                    font-style="italic"
+                    fill="#efe9dc"
+                    text-anchor="middle"
+                  >
+                    <g transform="translate(-280,-80)">
+                      <circle r="36" fill="#1a3a4a" stroke="#6fd9c4" stroke-width="1.5" />
+                      <text y="4">Foresta</text>
+                      <text y="20" font-family="JetBrains Mono" font-size="9" fill="#6fd9c4">
+                        crescita
+                      </text>
+                    </g>
+                    <g transform="translate(-60,-30)">
+                      <circle
+                        r="32"
+                        fill="#2a4a3a"
+                        stroke="#6fd9c4"
+                        stroke-width="1.5"
+                        class="softPulse"
+                      />
+                      <text y="4">Palude</text>
+                    </g>
+                    <g transform="translate(240,-120)">
+                      <circle r="36" fill="#4a3a1a" stroke="#e8b059" stroke-width="1.5" />
+                      <text y="4">Cresta</text>
+                      <text y="20" font-family="JetBrains Mono" font-size="9" fill="#e8b059">
+                        luce
+                      </text>
+                    </g>
+                    <g transform="translate(380,40)">
+                      <circle r="32" fill="#3a2a4a" stroke="#8a79c2" stroke-width="1.5" />
+                      <text y="4">Soglia</text>
+                    </g>
+                    <g transform="translate(120,200)">
+                      <circle
+                        r="40"
+                        fill="#3a0a0a"
+                        stroke="#b8492a"
+                        stroke-width="1.8"
+                        class="softPulse"
+                      />
+                      <text y="4">Frattura</text>
+                      <text y="20" font-family="JetBrains Mono" font-size="9" fill="#b8492a">
+                        apex
+                      </text>
+                    </g>
+                    <g transform="translate(-180,160)">
+                      <circle
+                        r="30"
+                        fill="#1a2838"
+                        stroke="#6fd9c4"
+                        stroke-width="1.2"
+                        stroke-dasharray="3 2"
+                      />
+                      <text y="4">Abisso</text>
+                    </g>
+                  </g>
+                  <!-- species flashes -->
+                  <g fill="#e8b059" class="softPulse">
+                    <circle cx="-60" cy="-50" r="2.5" />
+                    <circle cx="-40" cy="-10" r="2" />
+                    <circle cx="220" cy="-100" r="2.5" />
+                    <circle cx="260" cy="-140" r="2" />
+                    <circle cx="400" cy="20" r="2" />
+                    <circle cx="100" cy="220" r="3" />
+                  </g>
+                </g>
+
+                <!-- Title -->
+                <text
+                  x="60"
+                  y="130"
+                  font-family="Fraunces"
+                  font-size="54"
+                  font-style="italic"
+                  fill="#efe9dc"
+                >
+                  Un mondo si sta facendo.
+                </text>
+                <text
+                  x="60"
+                  y="168"
+                  font-family="Fraunces"
+                  font-size="18"
+                  font-style="italic"
+                  fill="#6fd9c4"
+                >
+                  Nessun altro lo vedrà così.
+                </text>
+
+                <!-- QR panel -->
+                <g transform="translate(60,700)">
+                  <rect width="280" height="120" fill="#efe9dc" stroke="#1a1814" stroke-width="2" />
+                  <!-- QR placeholder -->
+                  <g transform="translate(12,12)" fill="#1a1814">
+                    <rect x="0" y="0" width="96" height="96" fill="#efe9dc" />
+                    <g>
+                      <rect x="0" y="0" width="20" height="20" />
+                      <rect x="76" y="0" width="20" height="20" />
+                      <rect x="0" y="76" width="20" height="20" />
+                      <rect x="6" y="6" width="8" height="8" fill="#efe9dc" />
+                      <rect x="82" y="6" width="8" height="8" fill="#efe9dc" />
+                      <rect x="6" y="82" width="8" height="8" fill="#efe9dc" />
+                      <rect x="28" y="4" width="4" height="4" />
+                      <rect x="36" y="4" width="4" height="4" />
+                      <rect x="44" y="12" width="4" height="4" />
+                      <rect x="52" y="4" width="4" height="4" />
+                      <rect x="60" y="12" width="4" height="4" />
+                      <rect x="28" y="16" width="4" height="4" />
+                      <rect x="40" y="24" width="4" height="4" />
+                      <rect x="48" y="32" width="4" height="4" />
+                      <rect x="56" y="24" width="4" height="4" />
+                      <rect x="64" y="32" width="4" height="4" />
+                      <rect x="4" y="32" width="4" height="4" />
+                      <rect x="12" y="40" width="4" height="4" />
+                      <rect x="20" y="48" width="4" height="4" />
+                      <rect x="4" y="56" width="4" height="4" />
+                      <rect x="32" y="48" width="4" height="4" />
+                      <rect x="40" y="56" width="4" height="4" />
+                      <rect x="56" y="48" width="4" height="4" />
+                      <rect x="64" y="56" width="4" height="4" />
+                      <rect x="72" y="40" width="4" height="4" />
+                      <rect x="80" y="48" width="4" height="4" />
+                      <rect x="88" y="56" width="4" height="4" />
+                      <rect x="32" y="64" width="4" height="4" />
+                      <rect x="48" y="72" width="4" height="4" />
+                      <rect x="60" y="68" width="4" height="4" />
+                      <rect x="72" y="76" width="4" height="4" />
+                      <rect x="84" y="84" width="4" height="4" />
+                    </g>
+                  </g>
+                  <g transform="translate(128,24)" fill="#1a1814" font-family="JetBrains Mono">
+                    <text font-size="10" letter-spacing="2" fill="#6b6357">CODICE</text>
+                    <text y="44" font-size="40" font-weight="700" letter-spacing="6">KRNA</text>
+                    <text y="68" font-size="10" fill="#6b6357">evo.tv/join</text>
+                    <text y="96" font-size="10" fill="#b8492a" letter-spacing="1">
+                      ◉ 1/8 CONNESSI
+                    </text>
+                  </g>
+                </g>
+
+                <!-- Validators -->
+                <g transform="translate(1160,660)">
+                  <rect width="380" height="170" fill="#0a1826" stroke="#6fd9c4" stroke-width="1" />
+                  <text
+                    x="14"
+                    y="24"
+                    font-family="Fraunces"
+                    font-size="14"
+                    font-weight="600"
+                    fill="#efe9dc"
+                  >
+                    § Worldgen · validatori
+                  </text>
+                  <g font-family="JetBrains Mono" font-size="11" fill="#6fd9c4" letter-spacing="1">
+                    <text x="14" y="50">✓ 6 biomi interconnessi</text>
+                    <text x="14" y="72">✓ 2 keystone species garantite</text>
+                    <text x="14" y="94">✓ 1 spillover potenziale (Cresta→Frattura)</text>
+                    <text x="14" y="116">✓ affix coerenti · diff 5</text>
+                    <text x="14" y="138" fill="#e8b059">◉ gen pass #1 · no reroll</text>
+                  </g>
+                </g>
+
+                <!-- ALIENA log top-right -->
+                <g transform="translate(1200,70)">
+                  <rect
+                    width="360"
+                    height="90"
+                    fill="none"
+                    stroke="#6fd9c4"
+                    stroke-width=".8"
+                    stroke-dasharray="3 3"
+                  />
+                  <text
+                    x="14"
+                    y="22"
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#6fd9c4"
+                    letter-spacing="2"
+                  >
+                    A.L.I.E.N.A. · LOG
+                  </text>
+                  <g font-family="JetBrains Mono" font-size="10" fill="#efe9dc">
+                    <text x="14" y="44">t+0.3s · biomi stabili · 6/6</text>
+                    <text x="14" y="60">t+0.9s · specie seed · 14 allocate</text>
+                    <text x="14" y="76">t+1.2s · trait assegnati · wiki aperta</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            <!-- TV SCENE 2: 0:15 voting Form -->
+            <div class="scene" data-tv="vote" style="display: none">
+              <svg viewBox="0 0 1600 900" width="100%" height="100%">
+                <rect width="1600" height="900" fill="#0f1c2e" />
+                <rect x="0" y="0" width="1600" height="52" fill="#040810" />
+                <rect x="0" y="848" width="1600" height="52" fill="#040810" />
+                <g font-family="JetBrains Mono" font-size="12" fill="#6fd9c4" letter-spacing="3">
+                  <text x="30" y="32">GENESI · FORM VOTE IN CORSO</text>
+                  <text x="1570" y="32" text-anchor="end">3/8 CONNESSI · VOTING 8/15</text>
+                </g>
+
+                <!-- Ecosystem pulsing with votes reshaping it -->
+                <g transform="translate(800,440)">
+                  <g fill="none" stroke="#6fd9c4" stroke-width="1.2" opacity=".6">
+                    <path d="M-280,-80 L-60,-30" stroke-width="2.5" stroke="#8a79c2" />
+                    <path d="M-60,-30 L240,-120" />
+                    <path d="M240,-120 L380,40" stroke-width="2.5" stroke="#e8b059" />
+                    <path d="M380,40 L120,200" stroke-width="3" stroke="#b8492a" />
+                    <path d="M120,200 L-180,160" />
+                    <path d="M-180,160 L-280,-80" />
+                    <path d="M-60,-30 L120,200" stroke-dasharray="3 3" />
+                  </g>
+                  <g
+                    font-family="Fraunces"
+                    font-size="13"
+                    font-style="italic"
+                    fill="#efe9dc"
+                    text-anchor="middle"
+                  >
+                    <g transform="translate(-280,-80)">
+                      <circle r="34" fill="#1a3a4a" stroke="#6fd9c4" stroke-width="1.5" />
+                      <text y="4">Foresta</text>
+                    </g>
+                    <g transform="translate(-60,-30)">
+                      <circle
+                        r="40"
+                        fill="#3a4a3a"
+                        stroke="#6fd9c4"
+                        stroke-width="2"
+                        class="softPulse"
+                      />
+                      <text y="4">Palude</text>
+                      <text y="22" font-family="JetBrains Mono" font-size="9" fill="#6fd9c4">
+                        + rigoglio
+                      </text>
+                    </g>
+                    <g transform="translate(240,-120)">
+                      <circle r="36" fill="#4a3a1a" stroke="#e8b059" stroke-width="1.8" />
+                      <text y="4">Cresta</text>
+                    </g>
+                    <g transform="translate(380,40)">
+                      <circle r="38" fill="#3a2a4a" stroke="#8a79c2" stroke-width="2" />
+                      <text y="4">Soglia</text>
+                      <text y="22" font-family="JetBrains Mono" font-size="9" fill="#8a79c2">
+                        + mistero
+                      </text>
+                    </g>
+                    <g transform="translate(120,200)">
+                      <circle
+                        r="44"
+                        fill="#4a0a0a"
+                        stroke="#b8492a"
+                        stroke-width="2.2"
+                        class="softPulse"
+                      />
+                      <text y="4">Frattura</text>
+                      <text y="22" font-family="JetBrains Mono" font-size="9" fill="#b8492a">
+                        + tensione
+                      </text>
+                    </g>
+                    <g transform="translate(-180,160)">
+                      <circle r="28" fill="#1a2838" stroke="#6fd9c4" stroke-width="1.2" />
+                      <text y="4">Abisso</text>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- voting indicators around screen -->
+                <g font-family="JetBrains Mono" font-size="10" fill="#e8b059" letter-spacing="1.5">
+                  <text x="60" y="130">P1 · voto 3/5 ↯</text>
+                  <text x="60" y="150" fill="#8a8477">P2 · voto 1/5 ↯</text>
+                  <text x="60" y="170" fill="#8a8477">P3 · voto 4/5 ↯</text>
+                  <text x="60" y="190" fill="#6b6357" font-style="italic">P4..P8 · in attesa</text>
+                </g>
+
+                <text
+                  x="60"
+                  y="720"
+                  font-family="Fraunces"
+                  font-size="32"
+                  font-style="italic"
+                  fill="#efe9dc"
+                >
+                  Ogni vostra inclinazione
+                </text>
+                <text
+                  x="60"
+                  y="760"
+                  font-family="Fraunces"
+                  font-size="32"
+                  font-style="italic"
+                  fill="#6fd9c4"
+                >
+                  plasma il mondo.
+                </text>
+
+                <!-- ALIENA log -->
+                <g transform="translate(1160,680)">
+                  <rect width="380" height="150" fill="#0a1826" stroke="#6fd9c4" stroke-width="1" />
+                  <text
+                    x="14"
+                    y="22"
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#6fd9c4"
+                    letter-spacing="2"
+                  >
+                    A.L.I.E.N.A. · AGGREGATO
+                  </text>
+                  <g font-family="JetBrains Mono" font-size="10" fill="#efe9dc">
+                    <text x="14" y="44">vettori ricevuti · 8/15</text>
+                    <text x="14" y="60">bias collettivo · simbiotico +0.42</text>
+                    <text x="14" y="76">bias collettivo · esplorativo +0.31</text>
+                    <text x="14" y="92">biomi modificati · 3 (palude · frattura · soglia)</text>
+                    <text x="14" y="108" fill="#e8b059">connessioni riallocate · 5</text>
+                    <text x="14" y="128" fill="#6fd9c4">◉ wiki · 12 voci nuove</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            <!-- TV SCENE 3: 0:30 creature grid -->
+            <div class="scene" data-tv="creatures" style="display: none">
+              <svg viewBox="0 0 1600 900" width="100%" height="100%">
+                <rect width="1600" height="900" fill="#0b1524" />
+                <rect x="0" y="0" width="1600" height="52" fill="#040810" />
+                <rect x="0" y="848" width="1600" height="52" fill="#040810" />
+                <g font-family="JetBrains Mono" font-size="12" fill="#6fd9c4" letter-spacing="3">
+                  <text x="30" y="32">GENESI · SELEZIONE SPECIE</text>
+                  <text x="1570" y="32" text-anchor="end">7/8 CREATURE · 3/3 PLAYER</text>
+                </g>
+
+                <text
+                  x="60"
+                  y="104"
+                  font-family="Fraunces"
+                  font-size="28"
+                  font-style="italic"
+                  fill="#efe9dc"
+                >
+                  Sette creature.
+                </text>
+                <text
+                  x="60"
+                  y="140"
+                  font-family="Fraunces"
+                  font-size="28"
+                  font-style="italic"
+                  fill="#6fd9c4"
+                >
+                  Tre mani che scelgono.
+                </text>
+
+                <!-- grid of 7 creatures -->
+                <g transform="translate(60,180)">
+                  <g font-family="Kalam" font-size="13" fill="#efe9dc">
+                    <!-- card template repeated -->
+                    <!-- card 1 -->
+                    <g transform="translate(0,0)">
+                      <rect
+                        width="200"
+                        height="240"
+                        fill="#0a1826"
+                        stroke="#6fd9c4"
+                        stroke-width="1.5"
+                      />
+                      <rect x="0" y="0" width="200" height="140" fill="#12263a" />
+                      <!-- silhouette: octo-like -->
+                      <g
+                        transform="translate(100,72)"
+                        stroke="#6fd9c4"
+                        stroke-width="1.8"
+                        fill="none"
+                      >
+                        <circle r="22" fill="#6fd9c4" opacity=".15" />
+                        <path
+                          d="M0,-14 q-10,2 -14,14 q-4,10 -10,10 M0,-14 q10,2 14,14 q4,10 10,10 M-8,-8 q-20,14 -14,26 M8,-8 q20,14 14,26"
+                        />
+                        <circle r="6" fill="#6fd9c4" opacity=".5" />
+                      </g>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="14"
+                        font-style="italic"
+                      >
+                        Polpo Araldo
+                      </text>
+                      <text
+                        x="100"
+                        y="190"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#6fd9c4"
+                        letter-spacing="1.5"
+                      >
+                        CRESTA · keystone
+                      </text>
+                      <g
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#efe9dc"
+                        letter-spacing="1"
+                      >
+                        <text x="10" y="212">sinaptico · luminescente</text>
+                        <text x="10" y="226" fill="#e8b059">affix: eco_lucido</text>
+                      </g>
+                    </g>
+                    <!-- card 2 -->
+                    <g transform="translate(220,0)">
+                      <rect
+                        width="200"
+                        height="240"
+                        fill="#0a1826"
+                        stroke="#2a5c4a"
+                        stroke-width="1.5"
+                      />
+                      <rect x="0" y="0" width="200" height="140" fill="#14281e" />
+                      <g
+                        transform="translate(100,72)"
+                        stroke="#8fbb8f"
+                        stroke-width="1.8"
+                        fill="none"
+                      >
+                        <path d="M-20,14 q4,-30 20,-22 q14,6 20,22 z" fill="#2a5c4a" opacity=".3" />
+                        <path d="M-6,10 l0,-16 M6,10 l0,-16" />
+                      </g>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="14"
+                        font-style="italic"
+                      >
+                        Micelia Corallina
+                      </text>
+                      <text
+                        x="100"
+                        y="190"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#8fbb8f"
+                        letter-spacing="1.5"
+                      >
+                        PALUDE · support
+                      </text>
+                      <g
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#efe9dc"
+                        letter-spacing="1"
+                      >
+                        <text x="10" y="212">simbiotico · radicato</text>
+                        <text x="10" y="226" fill="#e8b059">affix: rete_viva</text>
+                      </g>
+                    </g>
+                    <!-- card 3 TAKEN by P2 -->
+                    <g transform="translate(440,0)">
+                      <rect
+                        width="200"
+                        height="240"
+                        fill="#0a1826"
+                        stroke="#b8492a"
+                        stroke-width="2"
+                      />
+                      <rect x="0" y="0" width="200" height="140" fill="#2a0d08" />
+                      <g
+                        transform="translate(100,72)"
+                        stroke="#b8492a"
+                        stroke-width="1.8"
+                        fill="none"
+                      >
+                        <path
+                          d="M-22,8 L0,-20 L22,8 L14,14 L0,6 L-14,14 Z"
+                          fill="#b8492a"
+                          opacity=".25"
+                        />
+                        <circle cx="-5" cy="-4" r="2" fill="#e8b059" />
+                      </g>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="14"
+                        font-style="italic"
+                      >
+                        Falco Fratturato
+                      </text>
+                      <text
+                        x="100"
+                        y="190"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#b8492a"
+                        letter-spacing="1.5"
+                      >
+                        FRATTURA · predator
+                      </text>
+                      <g
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#efe9dc"
+                        letter-spacing="1"
+                      >
+                        <text x="10" y="212">gravitazionale · rapido</text>
+                        <text x="10" y="226" fill="#e8b059">affix: strappo</text>
+                      </g>
+                      <!-- claim stamp -->
+                      <g transform="translate(100,120) rotate(-6)">
+                        <rect x="-52" y="-14" width="104" height="28" fill="#b8492a" />
+                        <text
+                          text-anchor="middle"
+                          y="6"
+                          font-family="JetBrains Mono"
+                          font-size="13"
+                          fill="#efe9dc"
+                          letter-spacing="2"
+                          font-weight="700"
+                        >
+                          P2 · MARA
+                        </text>
+                      </g>
+                    </g>
+                    <!-- card 4 -->
+                    <g transform="translate(660,0)">
+                      <rect
+                        width="200"
+                        height="240"
+                        fill="#0a1826"
+                        stroke="#8a79c2"
+                        stroke-width="1.5"
+                      />
+                      <rect x="0" y="0" width="200" height="140" fill="#221a2e" />
+                      <g
+                        transform="translate(100,72)"
+                        stroke="#8a79c2"
+                        stroke-width="1.8"
+                        fill="none"
+                      >
+                        <ellipse rx="20" ry="10" fill="#8a79c2" opacity=".2" />
+                        <path d="M-18,-2 q8,-14 18,-10 q10,4 18,10" fill="none" />
+                      </g>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="14"
+                        font-style="italic"
+                      >
+                        Sciame Mnemico
+                      </text>
+                      <text
+                        x="100"
+                        y="190"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#8a79c2"
+                        letter-spacing="1.5"
+                      >
+                        SOGLIA · control
+                      </text>
+                      <g
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#efe9dc"
+                        letter-spacing="1"
+                      >
+                        <text x="10" y="212">sciame · mnemico</text>
+                        <text x="10" y="226" fill="#e8b059">affix: nebbia</text>
+                      </g>
+                    </g>
+                    <!-- card 5 TAKEN by P3 -->
+                    <g transform="translate(880,0)">
+                      <rect
+                        width="200"
+                        height="240"
+                        fill="#0a1826"
+                        stroke="#2a5c4a"
+                        stroke-width="2"
+                      />
+                      <rect x="0" y="0" width="200" height="140" fill="#0f2a22" />
+                      <g
+                        transform="translate(100,72)"
+                        stroke="#2a5c4a"
+                        stroke-width="1.8"
+                        fill="none"
+                      >
+                        <circle r="16" fill="#2a5c4a" opacity=".3" />
+                        <path
+                          d="M-14,-14 q14,10 14,28 q0,-18 14,-28 M-14,14 q14,-10 14,-28 M14,14 q-14,-10 -14,-28"
+                        />
+                      </g>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="14"
+                        font-style="italic"
+                      >
+                        Gufo di Radice
+                      </text>
+                      <text
+                        x="100"
+                        y="190"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#8fbb8f"
+                        letter-spacing="1.5"
+                      >
+                        FORESTA · guardian
+                      </text>
+                      <g
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#efe9dc"
+                        letter-spacing="1"
+                      >
+                        <text x="10" y="212">notturno · tessitore</text>
+                        <text x="10" y="226" fill="#e8b059">affix: calma</text>
+                      </g>
+                      <g transform="translate(100,120) rotate(4)">
+                        <rect x="-52" y="-14" width="104" height="28" fill="#2a5c4a" />
+                        <text
+                          text-anchor="middle"
+                          y="6"
+                          font-family="JetBrains Mono"
+                          font-size="13"
+                          fill="#efe9dc"
+                          letter-spacing="2"
+                          font-weight="700"
+                        >
+                          P3 · VEN
+                        </text>
+                      </g>
+                    </g>
+                    <!-- card 6 HIGHLIGHT P1 selecting (phone user) -->
+                    <g transform="translate(1100,0)">
+                      <rect
+                        width="200"
+                        height="240"
+                        fill="#0a1826"
+                        stroke="#e8b059"
+                        stroke-width="2.5"
+                        class="softPulse"
+                      />
+                      <rect x="0" y="0" width="200" height="140" fill="#2a1f08" />
+                      <g
+                        transform="translate(100,72)"
+                        stroke="#e8b059"
+                        stroke-width="1.8"
+                        fill="none"
+                      >
+                        <circle r="18" fill="#e8b059" opacity=".2" />
+                        <path d="M-20,-4 q10,-18 20,0 q10,18 20,0" />
+                        <circle cx="-4" cy="-4" r="2" fill="#e8b059" />
+                        <circle cx="4" cy="-4" r="2" fill="#e8b059" />
+                      </g>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="14"
+                        font-style="italic"
+                        fill="#e8b059"
+                      >
+                        Serpente Aurora
+                      </text>
+                      <text
+                        x="100"
+                        y="190"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#e8b059"
+                        letter-spacing="1.5"
+                      >
+                        CRESTA · scout
+                      </text>
+                      <g
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#efe9dc"
+                        letter-spacing="1"
+                      >
+                        <text x="10" y="212">luminescente · agile</text>
+                        <text x="10" y="226" fill="#e8b059">affix: soglia_luce</text>
+                      </g>
+                      <g transform="translate(100,250)">
+                        <text
+                          text-anchor="middle"
+                          font-family="JetBrains Mono"
+                          font-size="10"
+                          fill="#e8b059"
+                          letter-spacing="2"
+                        >
+                          P1 · STA GUARDANDO
+                        </text>
+                      </g>
+                    </g>
+                    <!-- card 7 -->
+                    <g transform="translate(1320,0)">
+                      <rect
+                        width="200"
+                        height="240"
+                        fill="#0a1826"
+                        stroke="#6fd9c4"
+                        stroke-width="1.5"
+                      />
+                      <rect x="0" y="0" width="200" height="140" fill="#1a2838" />
+                      <g
+                        transform="translate(100,72)"
+                        stroke="#6fd9c4"
+                        stroke-width="1.8"
+                        fill="none"
+                      >
+                        <path d="M-22,8 q10,-22 22,-8 q12,14 22,8 M-10,14 l0,-10 M10,14 l0,-10" />
+                      </g>
+                      <text
+                        x="100"
+                        y="172"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="14"
+                        font-style="italic"
+                      >
+                        Balena di Nebbia
+                      </text>
+                      <text
+                        x="100"
+                        y="190"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#6fd9c4"
+                        letter-spacing="1.5"
+                      >
+                        ABISSO · tank
+                      </text>
+                      <g
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#efe9dc"
+                        letter-spacing="1"
+                      >
+                        <text x="10" y="212">pressione · lento</text>
+                        <text x="10" y="226" fill="#e8b059">affix: calma_profonda</text>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- ALIENA bottom -->
+                <g transform="translate(60,780)">
+                  <text
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#6fd9c4"
+                    letter-spacing="2"
+                  >
+                    A.L.I.E.N.A. · WIKI LIVE
+                  </text>
+                  <text y="22" font-family="JetBrains Mono" font-size="11" fill="#efe9dc">
+                    19 voci registrate · 7 specie · 6 biomi · 3 affix · 3 connessioni
+                  </text>
+                </g>
+              </svg>
+            </div>
+
+            <!-- TV SCENE 4: 0:45 swap window -->
+            <div class="scene" data-tv="swap" style="display: none">
+              <svg viewBox="0 0 1600 900" width="100%" height="100%">
+                <rect width="1600" height="900" fill="#0b1524" />
+                <rect x="0" y="0" width="1600" height="52" fill="#040810" />
+                <rect x="0" y="848" width="1600" height="52" fill="#040810" />
+                <g font-family="JetBrains Mono" font-size="12" fill="#e8b059" letter-spacing="3">
+                  <text x="30" y="32">GENESI · FINESTRA DI RIPENSAMENTO</text>
+                  <text x="1570" y="32" text-anchor="end">SWAP-WINDOW · 07s</text>
+                </g>
+
+                <text
+                  x="60"
+                  y="110"
+                  font-family="Fraunces"
+                  font-size="34"
+                  font-style="italic"
+                  fill="#efe9dc"
+                >
+                  Cambiare idea?
+                </text>
+                <text
+                  x="60"
+                  y="148"
+                  font-family="Fraunces"
+                  font-size="20"
+                  font-style="italic"
+                  fill="#e8b059"
+                >
+                  Solo una volta. Solo tra le non-scelte.
+                </text>
+
+                <!-- timer bar -->
+                <g transform="translate(60,180)">
+                  <rect width="800" height="10" fill="#1a2838" stroke="#e8b059" />
+                  <rect width="560" height="10" fill="#e8b059" id="swapBar" />
+                  <text x="820" y="10" font-family="JetBrains Mono" font-size="11" fill="#e8b059">
+                    07 / 10
+                  </text>
+                </g>
+
+                <!-- 3 chosen (locked) + 4 unchosen dimmed -->
+                <g transform="translate(60,240)">
+                  <!-- CHOSEN row -->
+                  <text
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#8a8477"
+                    letter-spacing="2"
+                  >
+                    SCELTE · BLOCCATE
+                  </text>
+                  <g transform="translate(0,20)">
+                    <g transform="translate(0,0)">
+                      <rect
+                        width="160"
+                        height="80"
+                        fill="#0a1826"
+                        stroke="#e8b059"
+                        stroke-width="2"
+                      />
+                      <text
+                        x="80"
+                        y="30"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="13"
+                        fill="#e8b059"
+                      >
+                        Serpente Aurora
+                      </text>
+                      <text
+                        x="80"
+                        y="50"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="10"
+                        fill="#e8b059"
+                      >
+                        P1 · LOCK
+                      </text>
+                      <text
+                        x="80"
+                        y="70"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="9"
+                        fill="#6b6357"
+                      >
+                        il tuo
+                      </text>
+                    </g>
+                    <g transform="translate(180,0)">
+                      <rect
+                        width="160"
+                        height="80"
+                        fill="#0a1826"
+                        stroke="#b8492a"
+                        stroke-width="2"
+                      />
+                      <text
+                        x="80"
+                        y="30"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="13"
+                        fill="#b8492a"
+                      >
+                        Falco Fratturato
+                      </text>
+                      <text
+                        x="80"
+                        y="50"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="10"
+                        fill="#b8492a"
+                      >
+                        P2 · LOCK
+                      </text>
+                    </g>
+                    <g transform="translate(360,0)">
+                      <rect
+                        width="160"
+                        height="80"
+                        fill="#0a1826"
+                        stroke="#2a5c4a"
+                        stroke-width="2"
+                      />
+                      <text
+                        x="80"
+                        y="30"
+                        text-anchor="middle"
+                        font-family="Fraunces"
+                        font-size="13"
+                        fill="#2a5c4a"
+                      >
+                        Gufo di Radice
+                      </text>
+                      <text
+                        x="80"
+                        y="50"
+                        text-anchor="middle"
+                        font-family="JetBrains Mono"
+                        font-size="10"
+                        fill="#2a5c4a"
+                      >
+                        P3 · LOCK
+                      </text>
+                    </g>
+                  </g>
+
+                  <!-- UNCHOSEN row -->
+                  <g transform="translate(0,130)">
+                    <text
+                      font-family="JetBrains Mono"
+                      font-size="10"
+                      fill="#6fd9c4"
+                      letter-spacing="2"
+                    >
+                      NON-SCELTE · DISPONIBILI PER SWAP
+                    </text>
+                    <g
+                      transform="translate(0,20)"
+                      font-family="Fraunces"
+                      font-size="13"
+                      fill="#efe9dc"
+                    >
+                      <g transform="translate(0,0)">
+                        <rect
+                          width="160"
+                          height="80"
+                          fill="#0a1826"
+                          stroke="#6fd9c4"
+                          stroke-width="1.2"
+                          stroke-dasharray="3 3"
+                        />
+                        <text x="80" y="30" text-anchor="middle">Polpo Araldo</text>
+                        <text
+                          x="80"
+                          y="50"
+                          text-anchor="middle"
+                          font-family="JetBrains Mono"
+                          font-size="9"
+                          fill="#6fd9c4"
+                        >
+                          keystone
+                        </text>
+                      </g>
+                      <g transform="translate(180,0)">
+                        <rect
+                          width="160"
+                          height="80"
+                          fill="#0a1826"
+                          stroke="#8fbb8f"
+                          stroke-width="1.2"
+                          stroke-dasharray="3 3"
+                        />
+                        <text x="80" y="30" text-anchor="middle">Micelia Corallina</text>
+                        <text
+                          x="80"
+                          y="50"
+                          text-anchor="middle"
+                          font-family="JetBrains Mono"
+                          font-size="9"
+                          fill="#8fbb8f"
+                        >
+                          support
+                        </text>
+                      </g>
+                      <g transform="translate(360,0)">
+                        <rect
+                          width="160"
+                          height="80"
+                          fill="#0a1826"
+                          stroke="#8a79c2"
+                          stroke-width="1.2"
+                          stroke-dasharray="3 3"
+                        />
+                        <text x="80" y="30" text-anchor="middle">Sciame Mnemico</text>
+                        <text
+                          x="80"
+                          y="50"
+                          text-anchor="middle"
+                          font-family="JetBrains Mono"
+                          font-size="9"
+                          fill="#8a79c2"
+                        >
+                          control
+                        </text>
+                      </g>
+                      <g transform="translate(540,0)">
+                        <rect
+                          width="160"
+                          height="80"
+                          fill="#0a1826"
+                          stroke="#6fd9c4"
+                          stroke-width="1.2"
+                          stroke-dasharray="3 3"
+                        />
+                        <text x="80" y="30" text-anchor="middle">Balena di Nebbia</text>
+                        <text
+                          x="80"
+                          y="50"
+                          text-anchor="middle"
+                          font-family="JetBrains Mono"
+                          font-size="9"
+                          fill="#6fd9c4"
+                        >
+                          tank
+                        </text>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- Flint voice -->
+                <g transform="translate(60,560)">
+                  <rect
+                    width="780"
+                    height="120"
+                    fill="#efe9dc"
+                    stroke="#e8b059"
+                    stroke-width="1.5"
+                  />
+                  <g transform="translate(20,28)">
+                    <circle r="16" cx="16" cy="16" fill="#1a1814" />
+                    <circle
+                      r="22"
+                      cx="16"
+                      cy="16"
+                      fill="none"
+                      stroke="#e8b059"
+                      stroke-width="1"
+                      stroke-dasharray="2 3"
+                    />
+                  </g>
+                  <text
+                    x="72"
+                    y="38"
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#6b6357"
+                    letter-spacing="2"
+                  >
+                    FLINT · voce
+                  </text>
+                  <text
+                    x="72"
+                    y="68"
+                    font-family="Fraunces"
+                    font-size="18"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    « Dieci secondi per ripensarci.
+                  </text>
+                  <text
+                    x="72"
+                    y="92"
+                    font-family="Fraunces"
+                    font-size="18"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    Dopo, il mondo vi prende sul serio. »
+                  </text>
+                </g>
+              </svg>
+            </div>
+
+            <!-- TV SCENE 5: 1:00 breath -->
+            <div class="scene" data-tv="breath" style="display: none">
+              <svg viewBox="0 0 1600 900" width="100%" height="100%">
+                <defs>
+                  <radialGradient id="bgBreath" cx="50%" cy="55%" r="70%">
+                    <stop offset="0" stop-color="#1a3a4e" />
+                    <stop offset="60%" stop-color="#0f1c2e" />
+                    <stop offset="100%" stop-color="#050810" />
+                  </radialGradient>
+                </defs>
+                <rect width="1600" height="900" fill="url(#bgBreath)" />
+                <rect x="0" y="0" width="1600" height="52" fill="#040810" />
+                <rect x="0" y="848" width="1600" height="52" fill="#040810" />
+                <g font-family="JetBrains Mono" font-size="12" fill="#6fd9c4" letter-spacing="3">
+                  <text x="30" y="32">SQUADRA FORMATA · IL MONDO RESPIRA</text>
+                  <text x="1570" y="32" text-anchor="end">T-0 · MARA/VEN/P1 ONLINE</text>
+                </g>
+
+                <!-- full ecosystem with claimed creatures glowing -->
+                <g transform="translate(800,450)">
+                  <g fill="none" stroke="#6fd9c4" stroke-width="1.5" opacity=".7">
+                    <path d="M-280,-80 L-60,-30" />
+                    <path d="M-60,-30 L240,-120" />
+                    <path d="M240,-120 L380,40" stroke="#e8b059" stroke-width="2.5" />
+                    <path d="M380,40 L120,200" stroke="#b8492a" stroke-width="3" />
+                    <path d="M120,200 L-180,160" />
+                    <path d="M-180,160 L-280,-80" />
+                    <path d="M-60,-30 L120,200" stroke-dasharray="4 3" />
+                    <path
+                      d="M240,-120 L-280,-80"
+                      stroke="#2a5c4a"
+                      stroke-width="2"
+                      stroke-dasharray="3 2"
+                    />
+                  </g>
+                  <g
+                    font-family="Fraunces"
+                    font-size="13"
+                    font-style="italic"
+                    fill="#efe9dc"
+                    text-anchor="middle"
+                  >
+                    <g transform="translate(-280,-80)">
+                      <circle
+                        r="38"
+                        fill="#1a3a4a"
+                        stroke="#2a5c4a"
+                        stroke-width="2"
+                        class="softPulse"
+                      />
+                      <text y="4">Foresta</text>
+                      <text y="22" font-family="JetBrains Mono" font-size="9" fill="#2a5c4a">
+                        ● P3 VEN
+                      </text>
+                    </g>
+                    <g transform="translate(-60,-30)">
+                      <circle r="32" fill="#2a4a3a" stroke="#6fd9c4" stroke-width="1.2" />
+                      <text y="4">Palude</text>
+                    </g>
+                    <g transform="translate(240,-120)">
+                      <circle
+                        r="40"
+                        fill="#4a3a1a"
+                        stroke="#e8b059"
+                        stroke-width="2.5"
+                        class="softPulse"
+                      />
+                      <text y="4">Cresta</text>
+                      <text y="22" font-family="JetBrains Mono" font-size="9" fill="#e8b059">
+                        ● P1 TU
+                      </text>
+                    </g>
+                    <g transform="translate(380,40)">
+                      <circle r="32" fill="#3a2a4a" stroke="#8a79c2" stroke-width="1.2" />
+                      <text y="4">Soglia</text>
+                    </g>
+                    <g transform="translate(120,200)">
+                      <circle
+                        r="46"
+                        fill="#4a0a0a"
+                        stroke="#b8492a"
+                        stroke-width="2.5"
+                        class="softPulse"
+                      />
+                      <text y="4">Frattura</text>
+                      <text y="22" font-family="JetBrains Mono" font-size="9" fill="#b8492a">
+                        ● P2 MARA
+                      </text>
+                    </g>
+                    <g transform="translate(-180,160)">
+                      <circle r="28" fill="#1a2838" stroke="#6fd9c4" stroke-width="1" />
+                      <text y="4">Abisso</text>
+                    </g>
+                  </g>
+                </g>
+
+                <text
+                  x="60"
+                  y="130"
+                  font-family="Fraunces"
+                  font-size="42"
+                  font-style="italic"
+                  fill="#efe9dc"
+                >
+                  Il mondo è vostro.
+                </text>
+                <text
+                  x="60"
+                  y="170"
+                  font-family="Fraunces"
+                  font-size="20"
+                  font-style="italic"
+                  fill="#6fd9c4"
+                >
+                  Nessun altro lo vedrà così.
+                </text>
+
+                <!-- Flint line -->
+                <g transform="translate(60,680)">
+                  <rect
+                    width="720"
+                    height="110"
+                    fill="#efe9dc"
+                    stroke="#6fd9c4"
+                    stroke-width="1.5"
+                  />
+                  <g transform="translate(20,26)">
+                    <circle r="14" cx="14" cy="14" fill="#1a1814" />
+                    <circle
+                      r="20"
+                      cx="14"
+                      cy="14"
+                      fill="none"
+                      stroke="#e8b059"
+                      stroke-width="1"
+                      stroke-dasharray="2 3"
+                    />
+                  </g>
+                  <text
+                    x="64"
+                    y="34"
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#6b6357"
+                    letter-spacing="2"
+                  >
+                    FLINT · voce
+                  </text>
+                  <text
+                    x="64"
+                    y="64"
+                    font-family="Fraunces"
+                    font-size="18"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    « La marea luminosa si ritira.
+                  </text>
+                  <text
+                    x="64"
+                    y="88"
+                    font-family="Fraunces"
+                    font-size="18"
+                    font-style="italic"
+                    fill="#1a1814"
+                  >
+                    Il primo bioma vi osserva. »
+                  </text>
+                </g>
+
+                <!-- ALIENA summary -->
+                <g transform="translate(900,680)">
+                  <rect width="640" height="110" fill="#0a1826" stroke="#6fd9c4" stroke-width="1" />
+                  <text
+                    x="16"
+                    y="24"
+                    font-family="JetBrains Mono"
+                    font-size="10"
+                    fill="#6fd9c4"
+                    letter-spacing="2"
+                  >
+                    A.L.I.E.N.A. · SQUADRA REGISTRATA
+                  </text>
+                  <g font-family="JetBrains Mono" font-size="10" fill="#efe9dc">
+                    <text x="16" y="48">3 specie claimate · 4 residue nel mondo</text>
+                    <text x="16" y="64">form dominante di gruppo · SIMBIOTICO-ESPLORATIVO</text>
+                    <text x="16" y="80">wiki · 22 voci · export torneo disponibile</text>
+                    <text x="16" y="98" fill="#e8b059">
+                      ◉ destinazione suggerita · Cresta Fotofase
+                    </text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            <!-- overlay postit, controllato da JS -->
+            <div id="tvPostit"></div>
+          </div>
+          <!-- /tv-screen -->
+          <div class="tv-stand"></div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline">
+          <div class="row">
+            <button id="btnPlay">▶ PLAY</button>
+            <div class="scrub" id="scrub">
+              <div class="scrub-fill" id="scrubFill"></div>
+              <div class="scrub-thumb" id="scrubThumb" style="left: 0%"></div>
+              <div class="scrub-ticks">
+                <span style="left: 0%">0:00 worldgen</span>
+                <span style="left: 16%">0:10 entra</span>
+                <span style="left: 25%">0:15 voto Form</span>
+                <span style="left: 50%">0:30 scelta</span>
+                <span style="left: 75%">0:45 swap</span>
+                <span style="left: 100%">1:00 respiro</span>
+              </div>
+            </div>
+            <span
+              style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--amber)"
+              id="tCode"
+              >0:00</span
+            >
+          </div>
+          <div class="meta-row">
+            <span><b>TV</b> → <span id="metaTv">worldgen</span></span>
+            <span><b>PHONE</b> → <span id="metaPh">scan QR</span></span>
+            <span><b>A.L.I.E.N.A.</b> <span id="metaAliena">logging · silent</span></span>
+            <span><b>FLINT</b> <span id="metaFlint">—</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ PHONE ============ -->
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-screen" id="phoneScreen">
+            <!-- PH 1: 0:00 pre-join -->
+            <div class="scene" data-ph="preJoin">
+              <div class="ph-status"><span>EVO · P1</span><span>9:41</span></div>
+              <div class="ph-inner">
+                <div class="ph-header">── SCANSIONE QR ──</div>
+                <div
+                  class="ph-body"
+                  style="align-items: center; justify-content: center; text-align: center"
+                >
+                  <div
+                    style="
+                      font-family: 'Fraunces', serif;
+                      font-style: italic;
+                      font-size: 18px;
+                      line-height: 1.3;
+                      color: var(--paper);
+                      margin-bottom: 14px;
+                    "
+                  >
+                    Inquadra il codice<br />sulla TV.
+                  </div>
+                  <div
+                    style="
+                      width: 150px;
+                      height: 150px;
+                      border: 2px dashed var(--mint);
+                      border-radius: 8px;
+                      position: relative;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <div
+                      style="
+                        position: absolute;
+                        top: 8px;
+                        left: 8px;
+                        width: 20px;
+                        height: 20px;
+                        border-top: 3px solid var(--amber);
+                        border-left: 3px solid var(--amber);
+                      "
+                    ></div>
+                    <div
+                      style="
+                        position: absolute;
+                        top: 8px;
+                        right: 8px;
+                        width: 20px;
+                        height: 20px;
+                        border-top: 3px solid var(--amber);
+                        border-right: 3px solid var(--amber);
+                      "
+                    ></div>
+                    <div
+                      style="
+                        position: absolute;
+                        bottom: 8px;
+                        left: 8px;
+                        width: 20px;
+                        height: 20px;
+                        border-bottom: 3px solid var(--amber);
+                        border-left: 3px solid var(--amber);
+                      "
+                    ></div>
+                    <div
+                      style="
+                        position: absolute;
+                        bottom: 8px;
+                        right: 8px;
+                        width: 20px;
+                        height: 20px;
+                        border-bottom: 3px solid var(--amber);
+                        border-right: 3px solid var(--amber);
+                      "
+                    ></div>
+                    <div
+                      style="
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 11px;
+                        color: var(--mint);
+                        letter-spacing: 2px;
+                      "
+                    >
+                      viewfinder
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 10px;
+                      color: var(--mint);
+                      margin-top: 14px;
+                      letter-spacing: 2px;
+                    "
+                  >
+                    — o —
+                  </div>
+                  <div
+                    style="
+                      font-family: 'Fraunces', serif;
+                      font-style: italic;
+                      font-size: 14px;
+                      color: var(--paper);
+                      margin-top: 8px;
+                    "
+                  >
+                    codice:
+                    <span
+                      style="
+                        font-family: 'JetBrains Mono', monospace;
+                        font-weight: 700;
+                        color: var(--amber);
+                        letter-spacing: 4px;
+                      "
+                      >KRNA</span
+                    >
+                  </div>
+                </div>
+                <div class="ph-foot">evo.tv · lobby aperta</div>
+              </div>
+            </div>
+
+            <!-- PH 2: 0:10 joined, getting avatar -->
+            <div class="scene" data-ph="joined" style="display: none">
+              <div class="ph-status"><span>EVO · P1</span><span>9:41</span></div>
+              <div class="ph-inner">
+                <div class="ph-header">── COLLEGATO · LOBBY ──</div>
+                <div class="ph-body" style="align-items: center; text-align: center">
+                  <div
+                    style="
+                      font-family: 'Fraunces', serif;
+                      font-style: italic;
+                      font-size: 20px;
+                      color: var(--amber);
+                      margin: 10px 0 6px;
+                    "
+                  >
+                    Benvenuto.
+                  </div>
+                  <div
+                    style="
+                      font-family: 'Kalam', cursive;
+                      font-size: 14px;
+                      color: var(--paper);
+                      margin-bottom: 18px;
+                    "
+                  >
+                    Scegli il tuo nome
+                  </div>
+                  <div
+                    style="
+                      width: 100%;
+                      border: 1.5px solid var(--mint);
+                      border-radius: 6px;
+                      padding: 10px 14px;
+                      font-family: 'Fraunces', serif;
+                      font-style: italic;
+                      font-size: 18px;
+                      color: var(--mint);
+                      text-align: left;
+                    "
+                  >
+                    RUN<span style="animation: softPulse 1s ease-in-out infinite">|</span>
+                  </div>
+                  <div
+                    style="
+                      margin-top: 20px;
+                      display: flex;
+                      gap: 6px;
+                      align-items: center;
+                      flex-wrap: wrap;
+                      justify-content: center;
+                    "
+                  >
+                    <span
+                      style="
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 9px;
+                        color: #8a8477;
+                        letter-spacing: 1.5;
+                      "
+                      >ALTRI IN LOBBY</span
+                    >
+                    <span
+                      style="
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 50%;
+                        background: var(--rust);
+                        border: 1.5px solid var(--paper);
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 9px;
+                        color: var(--paper);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 700;
+                      "
+                      >M</span
+                    >
+                    <span
+                      style="
+                        width: 24px;
+                        height: 24px;
+                        border-radius: 50%;
+                        background: var(--moss);
+                        border: 1.5px solid var(--paper);
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 9px;
+                        color: var(--paper);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 700;
+                      "
+                      >V</span
+                    >
+                    <span
+                      style="
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 9px;
+                        color: #8a8477;
+                      "
+                      >+0</span
+                    >
+                  </div>
+                </div>
+                <div class="ph-foot">in attesa · gen 78%</div>
+              </div>
+            </div>
+
+            <!-- PH 3: 0:15 Form vote (tinder-style) -->
+            <div class="scene" data-ph="vote" style="display: none">
+              <div class="ph-status"><span>EVO · P1</span><span>9:41</span></div>
+              <div class="ph-inner">
+                <div class="ph-header">── FORM · 3 / 5 ──</div>
+                <div class="ph-body">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 9px;
+                      color: #8a8477;
+                      letter-spacing: 2px;
+                    "
+                  >
+                    <span>SIMBIOSI</span><span>ASSE · III</span><span>PREDAZIONE</span>
+                  </div>
+                  <div
+                    style="height: 3px; background: #1a2838; position: relative; margin-bottom: 4px"
+                  >
+                    <div
+                      style="
+                        position: absolute;
+                        inset: 0 0 0 0;
+                        background: linear-gradient(90deg, var(--moss), var(--rust));
+                        opacity: 0.4;
+                      "
+                    ></div>
+                    <div
+                      style="
+                        position: absolute;
+                        left: 60%;
+                        top: -3px;
+                        width: 3px;
+                        height: 9px;
+                        background: var(--amber);
+                      "
+                    ></div>
+                  </div>
+
+                  <div
+                    style="
+                      background: #0a1826;
+                      border: 1.5px solid var(--mint);
+                      border-radius: 10px;
+                      padding: 14px 14px;
+                      margin-top: 6px;
+                      transform: rotate(-1deg);
+                    "
+                  >
+                    <div
+                      style="
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 9px;
+                        color: var(--mint);
+                        letter-spacing: 2px;
+                      "
+                    >
+                      DOMANDA 3
+                    </div>
+                    <div
+                      style="
+                        font-family: 'Fraunces', serif;
+                        font-style: italic;
+                        font-size: 18px;
+                        color: var(--paper);
+                        line-height: 1.3;
+                        margin-top: 6px;
+                      "
+                    >
+                      Una creatura ferita blocca il cammino.
+                    </div>
+                    <div
+                      style="
+                        font-family: 'Kalam', cursive;
+                        font-size: 13px;
+                        color: #b8c5d0;
+                        margin-top: 6px;
+                      "
+                    >
+                      Cosa scegli?
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 6px; margin-top: 8px; flex-direction: column">
+                    <div
+                      style="
+                        background: #14281e;
+                        border: 1.2px solid var(--moss);
+                        border-radius: 8px;
+                        padding: 10px 12px;
+                        font-family: 'Kalam', cursive;
+                        font-size: 13px;
+                        color: var(--paper);
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+                      "
+                    >
+                      <span
+                        style="
+                          color: var(--moss);
+                          font-family: 'JetBrains Mono', monospace;
+                          font-size: 11px;
+                          font-weight: 700;
+                        "
+                        >← A</span
+                      >
+                      <span>la aiuto, anche se rallenta</span>
+                    </div>
+                    <div
+                      style="
+                        background: #2a1a1a;
+                        border: 1.2px solid var(--rust);
+                        border-radius: 8px;
+                        padding: 10px 12px;
+                        font-family: 'Kalam', cursive;
+                        font-size: 13px;
+                        color: var(--paper);
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+                      "
+                    >
+                      <span
+                        style="
+                          color: var(--rust);
+                          font-family: 'JetBrains Mono', monospace;
+                          font-size: 11px;
+                          font-weight: 700;
+                        "
+                        >B →</span
+                      >
+                      <span>passo oltre, ogni minuto conta</span>
+                    </div>
+                    <div
+                      style="
+                        background: #221a2e;
+                        border: 1px dashed var(--iris);
+                        border-radius: 8px;
+                        padding: 8px 12px;
+                        font-family: 'Kalam', cursive;
+                        font-size: 12px;
+                        color: #b8a9d8;
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+                      "
+                    >
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px"
+                        >↑</span
+                      >
+                      <span>la osservo per capirla</span>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 9px;
+                      color: #8a8477;
+                      letter-spacing: 1.5;
+                      text-align: center;
+                      margin-top: 4px;
+                    "
+                  >
+                    swipe · 3s rimanenti
+                  </div>
+                </div>
+                <div class="ph-foot">forma il tuo Form · 2 rimaste</div>
+              </div>
+            </div>
+
+            <!-- PH 4: 0:30 creature select -->
+            <div class="scene" data-ph="pick" style="display: none">
+              <div class="ph-status"><span>EVO · P1</span><span>9:42</span></div>
+              <div class="ph-inner">
+                <div class="ph-header">── SCEGLI LA TUA SPECIE ──</div>
+                <div class="ph-body">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px">
+                    <!-- mini card 1 taken -->
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1.5px solid #3a3530;
+                        border-radius: 6px;
+                        padding: 8px;
+                        position: relative;
+                        opacity: 0.5;
+                      "
+                    >
+                      <div
+                        style="
+                          height: 52px;
+                          background: #2a0d08;
+                          border-radius: 3px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          font-family: 'Kalam', cursive;
+                          color: var(--rust);
+                          font-size: 11px;
+                        "
+                      >
+                        ▲ falco
+                      </div>
+                      <div
+                        style="
+                          font-family: 'Fraunces', serif;
+                          font-style: italic;
+                          font-size: 11px;
+                          color: var(--paper);
+                          margin-top: 4px;
+                        "
+                      >
+                        Falco Fratturato
+                      </div>
+                      <div
+                        style="
+                          font-family: 'JetBrains Mono', monospace;
+                          font-size: 8px;
+                          color: var(--rust);
+                          letter-spacing: 1;
+                        "
+                      >
+                        P2 MARA
+                      </div>
+                    </div>
+                    <!-- card 2 available -->
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1.5px solid var(--mint);
+                        border-radius: 6px;
+                        padding: 8px;
+                      "
+                    >
+                      <div
+                        style="
+                          height: 52px;
+                          background: #12263a;
+                          border-radius: 3px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          font-family: 'Kalam', cursive;
+                          color: var(--mint);
+                          font-size: 11px;
+                        "
+                      >
+                        ◉ polpo
+                      </div>
+                      <div
+                        style="
+                          font-family: 'Fraunces', serif;
+                          font-style: italic;
+                          font-size: 11px;
+                          color: var(--paper);
+                          margin-top: 4px;
+                        "
+                      >
+                        Polpo Araldo
+                      </div>
+                      <div
+                        style="
+                          font-family: 'JetBrains Mono', monospace;
+                          font-size: 8px;
+                          color: var(--mint);
+                          letter-spacing: 1;
+                        "
+                      >
+                        keystone · cresta
+                      </div>
+                    </div>
+                    <!-- card 3 taken -->
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1.5px solid #3a3530;
+                        border-radius: 6px;
+                        padding: 8px;
+                        opacity: 0.5;
+                      "
+                    >
+                      <div
+                        style="
+                          height: 52px;
+                          background: #0f2a22;
+                          border-radius: 3px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          font-family: 'Kalam', cursive;
+                          color: var(--moss);
+                          font-size: 11px;
+                        "
+                      >
+                        ⊙ gufo
+                      </div>
+                      <div
+                        style="
+                          font-family: 'Fraunces', serif;
+                          font-style: italic;
+                          font-size: 11px;
+                          color: var(--paper);
+                          margin-top: 4px;
+                        "
+                      >
+                        Gufo di Radice
+                      </div>
+                      <div
+                        style="
+                          font-family: 'JetBrains Mono', monospace;
+                          font-size: 8px;
+                          color: var(--moss);
+                          letter-spacing: 1;
+                        "
+                      >
+                        P3 VEN
+                      </div>
+                    </div>
+                    <!-- card 4 HIGHLIGHT -->
+                    <div
+                      style="
+                        background: #2a1f08;
+                        border: 2px solid var(--amber);
+                        border-radius: 6px;
+                        padding: 8px;
+                        box-shadow: 0 0 0 3px rgba(232, 176, 89, 0.2);
+                        transform: scale(1.04);
+                      "
+                    >
+                      <div
+                        style="
+                          height: 52px;
+                          background: #4a3a1a;
+                          border-radius: 3px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          font-family: 'Kalam', cursive;
+                          color: var(--amber);
+                          font-size: 12px;
+                          font-weight: 700;
+                        "
+                      >
+                        ~ serpente ~
+                      </div>
+                      <div
+                        style="
+                          font-family: 'Fraunces', serif;
+                          font-style: italic;
+                          font-size: 11px;
+                          color: var(--amber);
+                          margin-top: 4px;
+                          font-weight: 600;
+                        "
+                      >
+                        Serpente Aurora
+                      </div>
+                      <div
+                        style="
+                          font-family: 'JetBrains Mono', monospace;
+                          font-size: 8px;
+                          color: var(--amber);
+                          letter-spacing: 1;
+                        "
+                      >
+                        scout · cresta
+                      </div>
+                    </div>
+                    <!-- card 5 -->
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1.5px solid var(--iris);
+                        border-radius: 6px;
+                        padding: 8px;
+                      "
+                    >
+                      <div
+                        style="
+                          height: 52px;
+                          background: #221a2e;
+                          border-radius: 3px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          font-family: 'Kalam', cursive;
+                          color: var(--iris);
+                          font-size: 11px;
+                        "
+                      >
+                        ∴ sciame
+                      </div>
+                      <div
+                        style="
+                          font-family: 'Fraunces', serif;
+                          font-style: italic;
+                          font-size: 11px;
+                          color: var(--paper);
+                          margin-top: 4px;
+                        "
+                      >
+                        Sciame Mnemico
+                      </div>
+                      <div
+                        style="
+                          font-family: 'JetBrains Mono', monospace;
+                          font-size: 8px;
+                          color: var(--iris);
+                          letter-spacing: 1;
+                        "
+                      >
+                        control · soglia
+                      </div>
+                    </div>
+                    <!-- card 6 -->
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1.5px solid var(--mint);
+                        border-radius: 6px;
+                        padding: 8px;
+                      "
+                    >
+                      <div
+                        style="
+                          height: 52px;
+                          background: #1a2838;
+                          border-radius: 3px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          font-family: 'Kalam', cursive;
+                          color: var(--mint);
+                          font-size: 11px;
+                        "
+                      >
+                        ◯ balena
+                      </div>
+                      <div
+                        style="
+                          font-family: 'Fraunces', serif;
+                          font-style: italic;
+                          font-size: 11px;
+                          color: var(--paper);
+                          margin-top: 4px;
+                        "
+                      >
+                        Balena Nebbia
+                      </div>
+                      <div
+                        style="
+                          font-family: 'JetBrains Mono', monospace;
+                          font-size: 8px;
+                          color: var(--mint);
+                          letter-spacing: 1;
+                        "
+                      >
+                        tank · abisso
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style="
+                      background: var(--amber);
+                      color: #1a1408;
+                      text-align: center;
+                      font-family: 'Fraunces', serif;
+                      font-weight: 700;
+                      font-size: 14px;
+                      padding: 10px;
+                      border-radius: 6px;
+                      margin-top: 6px;
+                      letter-spacing: 1;
+                    "
+                  >
+                    ▶ CLAIM · SERPENTE AURORA
+                  </div>
+                </div>
+                <div class="ph-foot">2 specie ancora libere</div>
+              </div>
+            </div>
+
+            <!-- PH 5: 0:35 Form revealed (private) -->
+            <div class="scene" data-ph="form" style="display: none">
+              <div class="ph-status"><span>EVO · P1</span><span>9:42</span></div>
+              <div class="ph-inner">
+                <div class="ph-header">── IL TUO FORM · PRIVATO ──</div>
+                <div class="ph-body">
+                  <div
+                    style="
+                      font-family: 'Fraunces', serif;
+                      font-style: italic;
+                      font-size: 16px;
+                      color: var(--paper);
+                      margin-bottom: 6px;
+                      line-height: 1.3;
+                    "
+                  >
+                    Hai scelto. Ecco dove ti trovi adesso.
+                  </div>
+
+                  <!-- Radar chart 5 axes -->
+                  <div
+                    style="
+                      background: #0a1826;
+                      border: 1.5px solid var(--mint);
+                      border-radius: 8px;
+                      padding: 10px;
+                      margin: 6px 0;
+                    "
+                  >
+                    <svg viewBox="0 0 200 200" width="100%" style="display: block">
+                      <g
+                        transform="translate(100,100)"
+                        fill="none"
+                        stroke="#3a5266"
+                        stroke-width=".8"
+                      >
+                        <polygon points="0,-76 72,-24 45,62 -45,62 -72,-24" />
+                        <polygon points="0,-57 54,-18 34,47 -34,47 -54,-18" />
+                        <polygon points="0,-38 36,-12 22,31 -22,31 -36,-12" />
+                        <polygon points="0,-19 18,-6 11,16 -11,16 -18,-6" />
+                        <line x1="0" y1="-76" x2="0" y2="76" />
+                        <line x1="-72" y1="-24" x2="72" y2="24" />
+                        <line x1="72" y1="-24" x2="-72" y2="24" />
+                        <line x1="-45" y1="62" x2="45" y2="-62" />
+                        <line x1="45" y1="62" x2="-45" y2="-62" />
+                      </g>
+                      <!-- value shape -->
+                      <g transform="translate(100,100)">
+                        <polygon
+                          points="0,-60 50,-16 28,40 -18,32 -40,-14"
+                          fill="#e8b059"
+                          opacity=".3"
+                          stroke="#e8b059"
+                          stroke-width="2"
+                        />
+                        <circle cx="0" cy="-60" r="3" fill="#e8b059" />
+                        <circle cx="50" cy="-16" r="3" fill="#e8b059" />
+                        <circle cx="28" cy="40" r="3" fill="#e8b059" />
+                        <circle cx="-18" cy="32" r="3" fill="#e8b059" />
+                        <circle cx="-40" cy="-14" r="3" fill="#e8b059" />
+                      </g>
+                      <!-- labels -->
+                      <g
+                        font-family="JetBrains Mono"
+                        font-size="8"
+                        fill="#efe9dc"
+                        text-anchor="middle"
+                        letter-spacing="1"
+                      >
+                        <text x="100" y="18">ESPLOR.</text>
+                        <text x="186" y="82">SIMBIO</text>
+                        <text x="152" y="180">AGILE</text>
+                        <text x="48" y="180">CAUTO</text>
+                        <text x="14" y="82">PRED.</text>
+                      </g>
+                    </svg>
+                  </div>
+
+                  <div
+                    style="
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 10px;
+                      color: var(--amber);
+                      letter-spacing: 1.5;
+                    "
+                  >
+                    FORM #1 · SIMBIOTICO-ESPLORATIVO ↗
+                  </div>
+                  <div
+                    style="
+                      font-family: 'Kalam', cursive;
+                      font-size: 12px;
+                      color: #b8c5d0;
+                      line-height: 1.3;
+                    "
+                  >
+                    le tue 5 risposte + la scelta del Serpente Aurora.<br />
+                    cambia ancora, a ogni turno.
+                  </div>
+                </div>
+                <div class="ph-foot">privato · solo tu lo vedi</div>
+              </div>
+            </div>
+
+            <!-- PH 6: 0:45 swap -->
+            <div class="scene" data-ph="swap" style="display: none">
+              <div class="ph-status"><span>EVO · P1</span><span>9:42</span></div>
+              <div class="ph-inner">
+                <div class="ph-header" style="color: var(--amber)">── SWAP · 07s ──</div>
+                <div class="ph-body">
+                  <div
+                    style="
+                      font-family: 'Fraunces', serif;
+                      font-style: italic;
+                      font-size: 16px;
+                      color: var(--amber);
+                      line-height: 1.3;
+                    "
+                  >
+                    Cambiare idea?
+                  </div>
+                  <div style="font-family: 'Kalam', cursive; font-size: 12px; color: #b8c5d0">
+                    solo tra le 4 specie non scelte.
+                  </div>
+
+                  <!-- timer -->
+                  <div
+                    style="
+                      height: 6px;
+                      background: #1a2838;
+                      border-radius: 3px;
+                      overflow: hidden;
+                      margin: 6px 0;
+                    "
+                  >
+                    <div style="height: 100%; width: 70%; background: var(--amber)"></div>
+                  </div>
+
+                  <div
+                    style="
+                      background: #2a1f08;
+                      border: 1.5px solid var(--amber);
+                      border-radius: 6px;
+                      padding: 10px 12px;
+                      margin-top: 4px;
+                    "
+                  >
+                    <div
+                      style="
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 10px;
+                        color: var(--amber);
+                        letter-spacing: 2;
+                      "
+                    >
+                      LA TUA
+                    </div>
+                    <div
+                      style="
+                        font-family: 'Fraunces', serif;
+                        font-style: italic;
+                        font-size: 14px;
+                        color: var(--paper);
+                        margin-top: 2px;
+                      "
+                    >
+                      Serpente Aurora
+                    </div>
+                  </div>
+
+                  <div
+                    style="
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 9px;
+                      color: #8a8477;
+                      letter-spacing: 2;
+                      margin-top: 6px;
+                    "
+                  >
+                    DISPONIBILI
+                  </div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px">
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1px dashed var(--mint);
+                        padding: 6px 8px;
+                        border-radius: 4px;
+                        font-family: 'Kalam', cursive;
+                        font-size: 11px;
+                        color: var(--paper);
+                      "
+                    >
+                      Polpo Araldo
+                    </div>
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1px dashed var(--moss);
+                        padding: 6px 8px;
+                        border-radius: 4px;
+                        font-family: 'Kalam', cursive;
+                        font-size: 11px;
+                        color: var(--paper);
+                      "
+                    >
+                      Micelia Cor.
+                    </div>
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1px dashed var(--iris);
+                        padding: 6px 8px;
+                        border-radius: 4px;
+                        font-family: 'Kalam', cursive;
+                        font-size: 11px;
+                        color: var(--paper);
+                      "
+                    >
+                      Sciame Mn.
+                    </div>
+                    <div
+                      style="
+                        background: #0a1826;
+                        border: 1px dashed var(--mint);
+                        padding: 6px 8px;
+                        border-radius: 4px;
+                        font-family: 'Kalam', cursive;
+                        font-size: 11px;
+                        color: var(--paper);
+                      "
+                    >
+                      Balena Nebbia
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 10px; display: flex; gap: 6px">
+                    <div
+                      style="
+                        flex: 1;
+                        background: transparent;
+                        border: 1.5px solid var(--mint);
+                        text-align: center;
+                        font-family: 'Fraunces', serif;
+                        font-size: 13px;
+                        color: var(--mint);
+                        padding: 9px;
+                        border-radius: 6px;
+                      "
+                    >
+                      TIENI
+                    </div>
+                    <div
+                      style="
+                        flex: 1;
+                        background: transparent;
+                        border: 1px dashed var(--amber);
+                        text-align: center;
+                        font-family: 'Fraunces', serif;
+                        font-style: italic;
+                        font-size: 13px;
+                        color: var(--amber);
+                        padding: 9px;
+                        border-radius: 6px;
+                      "
+                    >
+                      cambia…
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-foot">una volta sola · nessun ritorno</div>
+              </div>
+            </div>
+
+            <!-- PH 7: 1:00 ready -->
+            <div class="scene" data-ph="ready" style="display: none">
+              <div class="ph-status"><span>EVO · P1</span><span>9:43</span></div>
+              <div class="ph-inner">
+                <div class="ph-header">── PRONTO ──</div>
+                <div
+                  class="ph-body"
+                  style="align-items: center; text-align: center; justify-content: center"
+                >
+                  <div
+                    style="
+                      width: 90px;
+                      height: 90px;
+                      border-radius: 50%;
+                      background: radial-gradient(circle, var(--amber) 0%, #8a5a20 70%);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      margin: 10px 0;
+                      box-shadow: 0 0 0 4px rgba(232, 176, 89, 0.2);
+                    "
+                  >
+                    <span
+                      style="
+                        font-family: 'Kalam', cursive;
+                        font-size: 11px;
+                        color: #1a1408;
+                        font-weight: 700;
+                        text-align: center;
+                        line-height: 1.1;
+                      "
+                      >Serpente<br />Aurora</span
+                    >
+                  </div>
+                  <div
+                    style="
+                      font-family: 'Fraunces', serif;
+                      font-style: italic;
+                      font-size: 16px;
+                      color: var(--paper);
+                      line-height: 1.3;
+                    "
+                  >
+                    Sei nella Cresta<br />Fotofase.
+                  </div>
+                  <div
+                    style="
+                      font-family: 'JetBrains Mono', monospace;
+                      font-size: 10px;
+                      color: var(--mint);
+                      margin-top: 10px;
+                      letter-spacing: 1.5;
+                    "
+                  >
+                    FORM · SIMBIOTICO-ESPLORATIVO
+                  </div>
+                  <div
+                    style="
+                      background: var(--mint);
+                      color: #042018;
+                      font-family: 'Fraunces', serif;
+                      font-weight: 700;
+                      font-size: 14px;
+                      padding: 10px 20px;
+                      border-radius: 6px;
+                      margin-top: 16px;
+                      letter-spacing: 1;
+                    "
+                  >
+                    ▶ GUARDA LA TV
+                  </div>
+                </div>
+                <div class="ph-foot">il gioco sta per iniziare</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-label"><span class="dot"></span>P1 · RUN · PHONE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tweaks -->
+    <div class="tweaks" id="tweaks">
+      <h4>Tweaks</h4>
+      <div class="row">
+        <label>SEGUI</label>
+        <button data-follow="auto" class="on">autoplay</button>
+        <button data-follow="manual">manuale</button>
+      </div>
+      <div class="row">
+        <label>POSTIT</label>
+        <button data-postit="on" class="on">acceso</button>
+        <button data-postit="off">spento</button>
+      </div>
+      <div class="row">
+        <label>JUMP</label>
+        <button data-jump="0">0:00</button>
+        <button data-jump="0.16">0:10</button>
+        <button data-jump="0.25">0:15</button>
+        <button data-jump="0.5">0:30</button>
+        <button data-jump="0.6">0:35</button>
+        <button data-jump="0.75">0:45</button>
+        <button data-jump="1">1:00</button>
+      </div>
+      <div class="row">
+        <label>SPEED</label>
+        <button data-speed="0.5">0.5×</button>
+        <button data-speed="1" class="on">1×</button>
+        <button data-speed="2">2×</button>
+      </div>
+    </div>
+
+    <script>
+      /* =============== timeline state machine =============== */
+      const PHASES = [
+        // {t: 0..1, tvScene, phScene, postit, metaPh, metaAliena, metaFlint}
+        {
+          t: 0.0,
+          tv: 'worldgen',
+          ph: 'preJoin',
+          postit: { x: 1040, y: 200, rot: -2, text: 'Aha · "un mondo si sta facendo."' },
+          metaPh: 'scan QR · codice KRNA',
+          metaAliena: 'logging · 3 righe',
+          metaFlint: '—',
+        },
+        {
+          t: 0.16,
+          tv: 'worldgen',
+          ph: 'joined',
+          postit: null,
+          metaPh: 'joined · pick name',
+          metaAliena: '1/8 connessi',
+          metaFlint: '—',
+        },
+        {
+          t: 0.25,
+          tv: 'vote',
+          ph: 'vote',
+          postit: { x: 60, y: 420, rot: 2, text: 'Aha · "ogni mia scelta plasma il mondo."' },
+          metaPh: 'voto Form 3/5 · swipe',
+          metaAliena: 'aggrega vettori · silenzio',
+          metaFlint: '—',
+        },
+        {
+          t: 0.5,
+          tv: 'creatures',
+          ph: 'pick',
+          postit: null,
+          metaPh: 'scegli specie · 7 carte',
+          metaAliena: 'wiki live · 19 voci',
+          metaFlint: '—',
+        },
+        {
+          t: 0.6,
+          tv: 'creatures',
+          ph: 'form',
+          postit: { x: 60, y: 560, rot: -1, text: 'Aha · "il mio Form è privato, mio, mobile."' },
+          metaPh: 'Form rivelato · privato',
+          metaAliena: 'ignora · privacy',
+          metaFlint: '—',
+        },
+        {
+          t: 0.75,
+          tv: 'swap',
+          ph: 'swap',
+          postit: null,
+          metaPh: 'swap window · 10s',
+          metaAliena: 'log · window aperta',
+          metaFlint: '« dieci secondi per ripensarci »',
+        },
+        {
+          t: 1.0,
+          tv: 'breath',
+          ph: 'ready',
+          postit: { x: 1040, y: 560, rot: -1, text: 'Aha · "il mondo reagisce. siamo dentro."' },
+          metaPh: 'pronto · aspetta TV',
+          metaAliena: 'squadra registrata · export ok',
+          metaFlint: '« la marea si ritira… »',
+        },
+      ];
+
+      const scrub = document.getElementById('scrub');
+      const thumb = document.getElementById('scrubThumb');
+      const btnPlay = document.getElementById('btnPlay');
+      const tCode = document.getElementById('tCode');
+      const metaTv = document.getElementById('metaTv');
+      const metaPh = document.getElementById('metaPh');
+      const metaAliena = document.getElementById('metaAliena');
+      const metaFlint = document.getElementById('metaFlint');
+      const tvPostit = document.getElementById('tvPostit');
+
+      let state = { t: 0, playing: false, speed: 1, postitOn: true };
+
+      function currentPhase(t) {
+        let found = PHASES[0];
+        for (const p of PHASES) {
+          if (t >= p.t - 0.001) found = p;
+        }
+        return found;
+      }
+
+      function show(selector, root, attr) {
+        root.querySelectorAll(`[${attr}]`).forEach((n) => {
+          n.style.display = n.getAttribute(attr) === selector ? '' : 'none';
+        });
+      }
+
+      function render() {
+        const p = currentPhase(state.t);
+        show(p.tv, document.getElementById('tvScreen'), 'data-tv');
+        show(p.ph, document.getElementById('phoneScreen'), 'data-ph');
+        thumb.style.left = state.t * 100 + '%';
+        const secs = Math.round(state.t * 60);
+        tCode.textContent = `0:${String(secs).padStart(2, '0')}`;
+        metaTv.textContent = p.tv;
+        metaPh.textContent = p.metaPh;
+        metaAliena.textContent = p.metaAliena;
+        metaFlint.textContent = p.metaFlint;
+
+        // postit
+        tvPostit.innerHTML = '';
+        if (p.postit && state.postitOn) {
+          const d = document.createElement('div');
+          d.className = 'postit fadeUp';
+          d.style.left = p.postit.x + 'px';
+          d.style.top = p.postit.y + 'px';
+          d.style.transform = `rotate(${p.postit.rot}deg)`;
+          d.innerHTML = `<b>${p.tv}</b> · 0:${String(secs).padStart(2, '0')}<br/>${p.postit.text}`;
+          tvPostit.appendChild(d);
+        }
+
+        try {
+          localStorage.setItem('et_60s_t', state.t);
+        } catch (e) {}
+      }
+
+      function setT(t) {
+        state.t = Math.max(0, Math.min(1, t));
+        render();
+      }
+
+      // play loop
+      let last = performance.now();
+      function tick(now) {
+        const dt = (now - last) / 1000;
+        last = now;
+        if (state.playing) {
+          setT(state.t + dt * 0.016 * state.speed); // full = ~60s at 1x
+          if (state.t >= 1) {
+            state.playing = false;
+            btnPlay.textContent = '▶ REPLAY';
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      btnPlay.addEventListener('click', () => {
+        if (state.t >= 1) {
+          setT(0);
+        }
+        state.playing = !state.playing;
+        btnPlay.textContent = state.playing ? '❚❚ PAUSE' : '▶ PLAY';
+        btnPlay.classList.toggle('active', state.playing);
+      });
+
+      scrub.addEventListener('click', (e) => {
+        const r = scrub.getBoundingClientRect();
+        setT((e.clientX - r.left) / r.width);
+      });
+      let dragging = false;
+      scrub.addEventListener('mousedown', (e) => {
+        dragging = true;
+        const r = scrub.getBoundingClientRect();
+        setT((e.clientX - r.left) / r.width);
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        const r = scrub.getBoundingClientRect();
+        setT((e.clientX - r.left) / r.width);
+      });
+      window.addEventListener('mouseup', () => {
+        dragging = false;
+      });
+
+      /* restore */
+      try {
+        const v = parseFloat(localStorage.getItem('et_60s_t'));
+        if (!Number.isNaN(v)) setT(v);
+        else setT(0);
+      } catch (e) {
+        setT(0);
+      }
+
+      /* =============== tweaks =============== */
+      const tweaks = document.getElementById('tweaks');
+      tweaks.querySelectorAll('button').forEach((b) => {
+        b.addEventListener('click', () => {
+          const group = b.parentElement;
+          // jump and speed don't need 'on' state logic beyond current
+          if (b.dataset.jump !== undefined) {
+            setT(parseFloat(b.dataset.jump));
+            return;
+          }
+          group.querySelectorAll('button').forEach((x) => x.classList.remove('on'));
+          b.classList.add('on');
+          if (b.dataset.speed) {
+            state.speed = parseFloat(b.dataset.speed);
+          }
+          if (b.dataset.follow) {
+            state.playing = b.dataset.follow === 'auto';
+            btnPlay.textContent = state.playing ? '❚❚ PAUSE' : '▶ PLAY';
+            btnPlay.classList.toggle('active', state.playing);
+          }
+          if (b.dataset.postit) {
+            state.postitOn = b.dataset.postit === 'on';
+            render();
+          }
+          persist();
+        });
+      });
+
+      const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/ {
+        follow: 'auto',
+        postit: 'on',
+        speed: '1',
+      }; /*EDITMODE-END*/
+
+      function persist() {
+        const edits = {
+          follow: tweaks.querySelector('[data-follow].on')?.dataset.follow,
+          postit: tweaks.querySelector('[data-postit].on')?.dataset.postit,
+          speed: tweaks.querySelector('[data-speed].on')?.dataset.speed,
+        };
+        try {
+          window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+        } catch (e) {}
+      }
+
+      window.addEventListener('message', (e) => {
+        if (!e.data || !e.data.type) return;
+        if (e.data.type === '__activate_edit_mode') tweaks.classList.add('on');
+        if (e.data.type === '__deactivate_edit_mode') tweaks.classList.remove('on');
+      });
+      window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    </script>
+  </body>
+</html>
