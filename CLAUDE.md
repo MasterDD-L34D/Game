@@ -286,6 +286,24 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - Prisma persistence adapter (Phase C opzionale, default in-memory)
 - Rate-limit / DoS hardening (Phase D se produzione pubblica)
 
+**Milestone sessione 2026-04-20 M11 Phase B + B+ + C + TKT-05 (stack 4 PR mergiati)**:
+
+- **PR #1682 merged** `d35dde92` — Phase B: `apps/play/lobby.html` + `apps/play/src/network.js` (LobbyClient + reconnect backoff 1s→30s + stateVersion reconcile) + `apps/play/src/lobbyBridge.js` (banner + spectator overlay) + main.js bootstrap gate + 5 e2e test
+- **PR #1686 merged** `d14b2655` — Phase B+ (TKT-01/02/03): phone intent composer (roster + unit/action/target select) + host `onPlayerIntent` hook → `api.declareIntent` + `setCampaignSummary` + 2 e2e test
+- **PR #1684 merged** `583be2a8` — Phase C (TKT-04/06 partial): host TV roster panel (status dots + collapsible) + `body.lobby-role-{host,player}` classes + ngrok playbook `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md` + 1 e2e test
+- **PR #1685 merged** `d97eb5f8` — TKT-05 host-transfer: `Room.transferHostAuto` FIFO + `scheduleHostTransfer` grace 30s default + `host_transferred` broadcast backward-compat + bridge re-wire (banner swap + overlay remove + host panel spawn) + 3 e2e test
+- **Test stack lobby**: 11 e2e + 15 Phase A REST/WS + 307 AI = **333/333** · format:check verde
+- **Flow end-to-end programmatico**: phone composer → `sendPlayerIntent` → WS → host `onPlayerIntent` → `api.declareIntent` → round ready → `publishWorld` → player overlay render
+- **Pilastro 5 status**: **🟡** (flow + resilience 100% chiuso) → **🟢 atteso dopo TKT-M11B-06 playtest live** (non-automatizzabile, next session userland)
+- **Handoff doc**: [`docs/planning/2026-04-22-next-session-kickoff-m11-playtest.md`](docs/planning/2026-04-22-next-session-kickoff-m11-playtest.md)
+
+**Residuo backlog M11**:
+
+- TKT-M11B-04 canvas TV widescreen layout (P2, polish)
+- TKT-M11B-06 playtest live execution (P1, userland)
+- Prisma room persistence (P3, deferred)
+- Rate-limit / DoS hardening (P3, solo deploy pubblico)
+
 ### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
 
 Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 🟢 confondevano **"dataset shipped"** con **"runtime shipped"**.
