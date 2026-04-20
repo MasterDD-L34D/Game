@@ -21,6 +21,8 @@ const { createSessionRouter } = require('./routes/session');
 const { createFeedbackRouter } = require('./routes/feedback');
 const { createPartyRouter } = require('./routes/party');
 const { createCampaignRouter } = require('./routes/campaign');
+const { createLobbyRouter } = require('./routes/lobby');
+const { LobbyService } = require('./services/network/wsSession');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const { createCatalogService } = require('./services/catalog');
@@ -686,6 +688,10 @@ function createApp(options = {}) {
   app.use('/api', createFeedbackRouter(options.feedback || {}));
   // M10 Phase B: campaign persistence + branching (ADR-2026-04-21)
   app.use('/api', createCampaignRouter(options.campaign || {}));
+  // M11 Phase A: Jackbox-style co-op lobby (ADR-2026-04-20).
+  // REST only; WebSocket server bootstraps in index.js on port 3341.
+  const lobby = (options.lobby && options.lobby.service) || new LobbyService(options.lobby || {});
+  app.use('/api', createLobbyRouter({ lobby }));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {
@@ -899,7 +905,7 @@ function createApp(options = {}) {
     }
   }
 
-  return { app, repo, generationOrchestrator, close };
+  return { app, repo, generationOrchestrator, lobby, close };
 }
 
 module.exports = { createApp };

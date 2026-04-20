@@ -2,6 +2,7 @@
 const http = require('node:http');
 const path = require('node:path');
 const { createApp } = require('./app');
+const { createWsServer } = require('./services/network/wsSession');
 
 // Default port changed from 3333 to 3334 in 2026-04 to avoid collision with
 // the sibling Game-Database service which owns port 3333 for its REST API.
@@ -25,7 +26,7 @@ const gameDatabaseEnabled = process.env.GAME_DATABASE_ENABLED === 'true';
 const gameDatabaseTimeoutMs = Number.parseInt(process.env.GAME_DATABASE_TIMEOUT_MS || '', 10);
 const gameDatabaseTtlMs = Number.parseInt(process.env.GAME_DATABASE_TTL_MS || '', 10);
 
-const { app } = createApp({
+const { app, lobby } = createApp({
   dataRoot,
   gameDatabase: {
     enabled: gameDatabaseEnabled,
@@ -34,6 +35,21 @@ const { app } = createApp({
     ttlMs: Number.isFinite(gameDatabaseTtlMs) ? gameDatabaseTtlMs : undefined,
   },
 });
+
+// M11 Phase A — Jackbox WebSocket server on dedicated port (ADR-2026-04-20).
+// Separate port 3341 (default) to avoid collisions with:
+//   HTTP :3334 (this backend), Vite :5180, calibration :3340.
+// Override via LOBBY_WS_PORT env; disable via LOBBY_WS_ENABLED=false.
+const wsEnabled = process.env.LOBBY_WS_ENABLED !== 'false';
+const wsPort = Number.parseInt(process.env.LOBBY_WS_PORT || '3341', 10);
+const wsHost = process.env.LOBBY_WS_HOST || host;
+let lobbyWs = null;
+if (wsEnabled && lobby) {
+  lobbyWs = createWsServer({ lobby, port: wsPort });
+  console.log(`[lobby-ws] WebSocket server online on ws://${wsHost}:${wsPort}/ws`);
+} else {
+  console.log('[lobby-ws] WebSocket server disabled (LOBBY_WS_ENABLED=false)');
+}
 
 // Issue #1342: avverti se ORCHESTRATOR_AUTOCLOSE_MS e' settato in modo
 // che potrebbe rompere il backend live (valori bassi pensati per i test).
@@ -72,10 +88,17 @@ server.listen(port, host, () => {
   }
 });
 
-process.on('SIGTERM', () => {
+async function shutdown(signal) {
+  console.log(`[idea-engine] ${signal} received — shutting down`);
+  if (lobbyWs) {
+    try {
+      await lobbyWs.close();
+    } catch {
+      // noop
+    }
+  }
   server.close(() => process.exit(0));
-});
+}
 
-process.on('SIGINT', () => {
-  server.close(() => process.exit(0));
-});
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
