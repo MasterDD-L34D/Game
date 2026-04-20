@@ -311,6 +311,124 @@ function updateSpectatorState(overlay, version, payload, bridge) {
   bridge._lastUnits = units;
 }
 
+// TKT-M11B-04 — Host-side roster panel. Lists all players currently
+// registered in the room (live), with connection status dots.
+function createHostRosterPanel(bridge) {
+  let panel = document.getElementById('lobby-host-roster');
+  if (panel) return panel;
+  panel = document.createElement('div');
+  panel.id = 'lobby-host-roster';
+  panel.className = 'lobby-host-roster';
+  panel.innerHTML = `
+    <div class="lobby-host-roster-header">
+      <strong>📺 Roster</strong>
+      <span class="lobby-host-roster-code">${bridge.code}</span>
+      <button type="button" class="lobby-host-roster-toggle" title="Espandi/comprimi">▾</button>
+    </div>
+    <ul class="lobby-host-roster-list" id="lobby-host-roster-list">
+      <li class="lobby-host-roster-empty">(nessun player connesso)</li>
+    </ul>
+  `;
+  if (!document.getElementById('lobby-host-roster-styles')) {
+    const style = document.createElement('style');
+    style.id = 'lobby-host-roster-styles';
+    style.textContent = `
+      .lobby-host-roster {
+        position: fixed; left: 12px; bottom: 12px; z-index: 9997;
+        background: rgba(21, 25, 34, 0.92); border: 1px solid #2a3040;
+        border-radius: 10px; padding: 10px 14px;
+        font-family: Inter, system-ui, sans-serif; color: #e8eaf0;
+        min-width: 200px; max-width: 280px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      }
+      .lobby-host-roster-header {
+        display: flex; align-items: center; gap: 8px; font-size: 0.85rem;
+        margin-bottom: 6px;
+      }
+      .lobby-host-roster-code {
+        font-family: 'Noto Sans', monospace; letter-spacing: 3px;
+        color: #ffb74d; font-weight: 700;
+      }
+      .lobby-host-roster-toggle {
+        margin-left: auto; background: transparent; border: none; color: #8891a3;
+        cursor: pointer; font-size: 1rem; padding: 0 4px;
+      }
+      .lobby-host-roster-toggle:hover { color: #e8eaf0; }
+      .lobby-host-roster.collapsed .lobby-host-roster-list { display: none; }
+      .lobby-host-roster-list {
+        list-style: none; margin: 0; padding: 0;
+        max-height: 240px; overflow-y: auto;
+      }
+      .lobby-host-roster-list li {
+        display: flex; align-items: center; gap: 6px;
+        padding: 4px 0; font-size: 0.8rem; border-top: 1px solid #2a3040;
+      }
+      .lobby-host-roster-list li:first-child { border-top: none; }
+      .lobby-host-roster-list .dot {
+        width: 7px; height: 7px; border-radius: 50%; background: #78909c;
+        flex-shrink: 0;
+      }
+      .lobby-host-roster-list li.connected .dot { background: #66bb6a; }
+      .lobby-host-roster-list li.disconnected .dot { background: #ef5350; }
+      .lobby-host-roster-list .role {
+        font-size: 0.7rem; color: #8891a3; text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .lobby-host-roster-list .role.host { color: #ffb74d; }
+      .lobby-host-roster-list .name {
+        flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .lobby-host-roster-empty {
+        color: #8891a3; font-style: italic; justify-content: center;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  document.body.appendChild(panel);
+  panel.querySelector('.lobby-host-roster-toggle').addEventListener('click', () => {
+    panel.classList.toggle('collapsed');
+  });
+  return panel;
+}
+
+function updateHostRoster(bridge) {
+  const list = document.getElementById('lobby-host-roster-list');
+  if (!list) return;
+  const entries = Array.from(bridge._players.values());
+  if (entries.length === 0) {
+    list.innerHTML = '<li class="lobby-host-roster-empty">(nessun player connesso)</li>';
+    return;
+  }
+  // Host first, players by joinedAt asc.
+  entries.sort((a, b) => {
+    if (a.role === 'host' && b.role !== 'host') return -1;
+    if (b.role === 'host' && a.role !== 'host') return 1;
+    return (a.joinedAt || 0) - (b.joinedAt || 0);
+  });
+  list.innerHTML = entries
+    .map((p) => {
+      const state = p.connected === false ? 'disconnected' : p.connected ? 'connected' : '';
+      const roleCls = p.role === 'host' ? 'host' : 'player';
+      return `
+        <li class="${state}">
+          <span class="dot"></span>
+          <span class="name">${escapeHtml(p.name || p.id || '?')}</span>
+          <span class="role ${roleCls}">${p.role || 'player'}</span>
+        </li>
+      `;
+    })
+    .join('');
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function wireComposer(overlay, bridge) {
   if (!overlay) return;
   const actionSelect = overlay.querySelector('#lobby-composer-action');
@@ -411,6 +529,8 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     _lastUnits: [],
     _campaignSummary: null,
     _playerIntentListeners: new Set(),
+    // TKT-M11B-04 — live roster tracking (Map<id, { name, role, connected, joinedAt }>).
+    _players: new Map(),
   };
 
   const leave = () => {
@@ -435,11 +555,31 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
   });
   bridge.client = client;
 
+  const seedPlayer = (p) => {
+    if (!p || !p.id) return;
+    bridge._players.set(p.id, {
+      id: p.id,
+      name: p.name || p.id,
+      role: p.role || 'player',
+      connected: p.connected !== undefined ? p.connected : p.id === session.player_id,
+      joinedAt: p.joined_at || p.joinedAt || Date.now(),
+    });
+  };
+
+  const refreshRosterUi = () => {
+    if (bridge.isHost) updateHostRoster(bridge);
+    const count = bridge._players.size;
+    setBannerPlayerCount(bridge.banner, count);
+  };
+
   client.on('open', () => setBannerStatus(bridge.banner, 'connecting', 'open · attesa hello…'));
   client.on('hello', (payload) => {
     setBannerStatus(bridge.banner, 'connected', 'connesso');
-    const count = Array.isArray(payload?.room?.players) ? payload.room.players.length : 0;
-    setBannerPlayerCount(bridge.banner, count);
+    // Seed full roster from room snapshot (includes host + all joined players).
+    bridge._players.clear();
+    const players = Array.isArray(payload?.room?.players) ? payload.room.players : [];
+    for (const p of players) seedPlayer(p);
+    refreshRosterUi();
     if (payload?.state !== undefined) {
       bridge._lastState = payload.state;
       bridge._lastStateVersion = payload.state_version || 0;
@@ -447,12 +587,38 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
         updateSpectatorState(bridge.overlay, bridge._lastStateVersion, payload.state, bridge);
     }
   });
-  client.on('player_joined', () => {
-    const count = Number(bridge.banner?.querySelector('.lobby-banner-players')?.dataset.count || 0);
-    setBannerPlayerCount(bridge.banner, count + 1);
+  client.on('player_joined', (payload) => {
+    if (payload?.player_id) {
+      seedPlayer({
+        id: payload.player_id,
+        name: payload.name,
+        role: payload.role || 'player',
+        connected: false, // joined REST but not yet WS-attached
+        joinedAt: Date.now(),
+      });
+      refreshRosterUi();
+    }
   });
-  client.on('player_disconnected', () => {
-    // No-op: roster count = cumulative joined; presence inferred from state.
+  client.on('player_connected', (payload) => {
+    if (!payload?.player_id) return;
+    const existing = bridge._players.get(payload.player_id);
+    if (existing) existing.connected = true;
+    else
+      seedPlayer({
+        id: payload.player_id,
+        name: payload.name,
+        role: payload.role || 'player',
+        connected: true,
+      });
+    refreshRosterUi();
+  });
+  client.on('player_disconnected', (payload) => {
+    if (!payload?.player_id) return;
+    const existing = bridge._players.get(payload.player_id);
+    if (existing) {
+      existing.connected = false;
+      refreshRosterUi();
+    }
   });
   client.on('state', ({ version, payload }) => {
     bridge._lastState = payload;
@@ -510,6 +676,32 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     wireComposer(bridge.overlay, bridge);
     updateSpectatorState(bridge.overlay, 0, bridge._lastState ?? {}, bridge);
   }
+  if (bridge.isHost) {
+    // TKT-M11B-04 — roster panel bottom-left showing who's in the room.
+    createHostRosterPanel(bridge);
+    updateHostRoster(bridge);
+    // Mark host's own slot as connected until WS opens (hello refreshes).
+    bridge._players.set(session.player_id, {
+      id: session.player_id,
+      name: 'Host',
+      role: 'host',
+      connected: false,
+      joinedAt: Date.now(),
+    });
+    updateHostRoster(bridge);
+    // Tag body for CSS hooks (TV layout polish).
+    try {
+      document.body.classList.add('lobby-role-host');
+    } catch {
+      // noop (jsdom-less envs)
+    }
+  } else {
+    try {
+      document.body.classList.add('lobby-role-player');
+    } catch {
+      // noop
+    }
+  }
 
   bridge.publishWorld = (world) => {
     if (!bridge.isHost) return false;
@@ -533,6 +725,7 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     bridge._campaignSummary = summary || null;
   };
   bridge.getCampaignSummary = () => bridge._campaignSummary;
+  bridge.getPlayers = () => Array.from(bridge._players.values());
   bridge.on = (event, cb) => bridge.client.on(event, cb);
   bridge.off = (event, cb) => bridge.client.off(event, cb);
   bridge.leave = leave;
