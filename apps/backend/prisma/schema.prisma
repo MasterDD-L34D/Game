@@ -157,3 +157,88 @@ model SaveSnapshot {
   @@index([campaignId, createdAt])
   @@map("save_snapshots")
 }
+
+// ─── L06 Meta progression persistence (ADR-2026-04-21-meta-progression-prisma) ────────
+// Promotes metaProgression.js in-memory Map → DB-backed. Adapter pattern
+// preserves in-memory fallback when DATABASE_URL unset (dev/demo ngrok).
+// Scope: NPC affinity/trust, nest state, mating events, audit logs.
+
+model NpcRelation {
+  id              String   @id @default(uuid())
+  campaignId      String?  @map("campaign_id") // optional (legacy in-memory has no campaign)
+  npcId           String   @map("npc_id")
+  affinity        Int      @default(0) // range -2..+2 enforced app-level
+  trust           Int      @default(0) // range 0..5 enforced app-level
+  recruited       Boolean  @default(false)
+  mated           Boolean  @default(false)
+  matingCooldown  Int      @default(0) @map("mating_cooldown")
+  mbtiType        String?  @map("mbti_type")
+  traitIds        String   @default("[]") @map("trait_ids") // JSON array
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  affinityLogs    AffinityLog[]
+  trustLogs       TrustLog[]
+  matingEvents    MatingEvent[]
+
+  @@unique([campaignId, npcId])
+  @@index([campaignId])
+  @@map("npc_relations")
+}
+
+model AffinityLog {
+  id          String      @id @default(uuid())
+  relationId  String      @map("relation_id")
+  relation    NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  delta       Int
+  before      Int
+  after       Int
+  reason      String?
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  @@index([relationId, createdAt])
+  @@map("affinity_logs")
+}
+
+model TrustLog {
+  id          String      @id @default(uuid())
+  relationId  String      @map("relation_id")
+  relation    NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  delta       Int
+  before      Int
+  after       Int
+  reason      String?
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  @@index([relationId, createdAt])
+  @@map("trust_logs")
+}
+
+model NestState {
+  id                String   @id @default(uuid())
+  campaignId        String?  @unique @map("campaign_id") // one nest per campaign (null = legacy global)
+  level             Int      @default(0)
+  biome             String?
+  requirementsMet   Boolean  @default(false) @map("requirements_met")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@map("nest_states")
+}
+
+model MatingEvent {
+  id                String      @id @default(uuid())
+  relationId        String      @map("relation_id")
+  relation          NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  success           Boolean
+  roll              Int
+  modifier          Int
+  total             Int
+  threshold         Int
+  offspringTraits   String      @default("[]") @map("offspring_traits") // JSON array
+  seedGenerated     Int         @default(0) @map("seed_generated")
+  reason            String?     // e.g. 'roll_failed', 'gate_not_met'
+  createdAt         DateTime    @default(now()) @map("created_at")
+
+  @@index([relationId, createdAt])
+  @@map("mating_events")
+}
