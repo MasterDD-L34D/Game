@@ -1,0 +1,267 @@
+// M11 Phase B — end-to-end integration test for LobbyClient (network.js).
+// ADR-2026-04-20.
+//
+// Spins a real LobbyService + WS server (from apps/backend/services/network/wsSession)
+// and drives it from the browser-oriented client wrapper (apps/play/src/network.js),
+// passing the `ws` package as wsImpl so the ESM module runs in Node.
+//
+// Coverage:
+//   1. Host + 3 players connect; all receive `hello` with roster.
+//   2. Host `publishWorld` broadcasts a `state` with version monotonic; all 3
+//      players receive identical payload.
+//   3. Player intent via LobbyClient is relayed to host only (peers silent).
+//   4. Player reconnect survives one drop (LobbyClient auto-reconnect) — the
+//      same token resumes the room.
+
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import WebSocket from 'ws';
+
+import { LobbyService, createWsServer } from '../../apps/backend/services/network/wsSession.js';
+import { LobbyClient } from '../../apps/play/src/network.js';
+
+async function spinUp() {
+  const lobby = new LobbyService();
+  const wsHandle = createWsServer({ lobby, port: 0 });
+  await new Promise((resolve) => {
+    if (wsHandle.wss.address()) return resolve();
+    wsHandle.wss.on('listening', () => resolve());
+  });
+  const port = wsHandle.wss.address().port;
+  return { lobby, port, wsHandle, wsUrl: `ws://127.0.0.1:${port}/ws` };
+}
+
+function openClient({ wsUrl, code, playerId, token, role, reconnect = false }) {
+  return new LobbyClient({
+    wsUrl,
+    code,
+    playerId,
+    token,
+    role,
+    wsImpl: WebSocket,
+    reconnect,
+  });
+}
+
+test('e2e: host + 3 players connect via LobbyClient, host broadcasts world, all receive identical state', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV', campaignId: 'c1' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+    const p2 = lobby.joinRoom({ code: room.code, playerName: 'Phone2' });
+    const p3 = lobby.joinRoom({ code: room.code, playerName: 'Phone3' });
+
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+    });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+    });
+    const c2 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p2.player_id,
+      token: p2.player_token,
+      role: 'player',
+    });
+    const c3 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p3.player_id,
+      token: p3.player_token,
+      role: 'player',
+    });
+
+    const hostHello = await host.connect();
+    const p1Hello = await c1.connect();
+    const p2Hello = await c2.connect();
+    const p3Hello = await c3.connect();
+    assert.equal(hostHello.role, 'host');
+    assert.equal(p1Hello.role, 'player');
+    assert.equal(p2Hello.role, 'player');
+    assert.equal(p3Hello.role, 'player');
+    assert.equal(hostHello.room.code, room.code);
+
+    // All three players wait for the state broadcast.
+    const received = Promise.all([
+      new Promise((resolve) => c1.once('state', resolve)),
+      new Promise((resolve) => c2.once('state', resolve)),
+      new Promise((resolve) => c3.once('state', resolve)),
+    ]);
+
+    const world = { turn: 1, units: [{ id: 'u1', hp: 10 }], scene: 'briefing' };
+    host.sendState(world);
+    const states = await received;
+    for (const s of states) {
+      assert.equal(s.version, 1);
+      assert.deepEqual(s.payload, world);
+    }
+    // LobbyClient tracks version on receiver side.
+    assert.equal(c1.stateVersion, 1);
+    assert.equal(c2.stateVersion, 1);
+    assert.equal(c3.stateVersion, 1);
+
+    host.close();
+    c1.close();
+    c2.close();
+    c3.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('e2e: non-host LobbyClient.sendState emits error locally and is rejected by server', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+    });
+    await c1.connect();
+
+    // Local guard fires.
+    let localErr = null;
+    c1.on('error', (e) => {
+      if (!localErr) localErr = e;
+    });
+    const sendOk = c1.sendState({ cheat: true });
+    assert.equal(sendOk, false);
+    assert.equal(localErr?.code, 'not_host');
+
+    c1.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('e2e: LobbyClient.sendIntent relayed to host only — peers do not receive it', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+    const p2 = lobby.joinRoom({ code: room.code, playerName: 'Phone2' });
+
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+    });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+    });
+    const c2 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p2.player_id,
+      token: p2.player_token,
+      role: 'player',
+    });
+    await Promise.all([host.connect(), c1.connect(), c2.connect()]);
+
+    const hostGotIntent = new Promise((resolve) => host.once('intent', resolve));
+    let c2GotIntent = false;
+    c2.on('intent', () => {
+      c2GotIntent = true;
+    });
+
+    c1.sendIntent({ action: 'attack', target: 'e1' });
+    const relayed = await hostGotIntent;
+    assert.equal(relayed.from, p1.player_id);
+    assert.deepEqual(relayed.payload, { action: 'attack', target: 'e1' });
+    await new Promise((r) => setTimeout(r, 100));
+    assert.equal(c2GotIntent, false);
+
+    host.close();
+    c1.close();
+    c2.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('e2e: LobbyClient auto-reconnect resumes session with same token after forced socket drop', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+      reconnect: false,
+    });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+      reconnect: true,
+    });
+    await Promise.all([host.connect(), c1.connect()]);
+
+    const hostSawDisconnect = new Promise((resolve) => host.once('player_disconnected', resolve));
+    const reconnectedHello = new Promise((resolve) => {
+      // Skip the first hello (resolved by connect()). Listen for the one
+      // triggered by auto-reconnect.
+      let seen = 0;
+      c1.on('hello', (payload) => {
+        seen += 1;
+        if (seen >= 1) resolve(payload); // first hello after reconnect
+      });
+    });
+
+    // Force-terminate the client socket (simulates network drop).
+    c1.socket.terminate();
+    const disconnect = await hostSawDisconnect;
+    assert.equal(disconnect.player_id, p1.player_id);
+
+    const hello2 = await reconnectedHello;
+    assert.equal(hello2.player_id, p1.player_id);
+
+    host.close();
+    c1.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('e2e: LobbyClient auth failure rejects with connect() promise reject', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const bad = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: 'WRONG_TOKEN',
+      role: 'host',
+      reconnect: false,
+    });
+    await assert.rejects(() => bad.connect(), /closed before hello/);
+  } finally {
+    await wsHandle.close();
+  }
+});

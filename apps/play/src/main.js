@@ -20,6 +20,7 @@ import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
 import { toggleCodex } from './codexPanel.js';
 import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
+import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
 
 const state = {
   sid: null,
@@ -814,6 +815,21 @@ async function refresh() {
       if (!sel || sel.hp <= 0) state.selected = null;
     }
     redraw();
+    // M11 Phase B — if host of a lobby, broadcast world snapshot to players.
+    // Players render it as read-only spectator state. Payload kept small:
+    // only fields players need to understand the board.
+    if (lobbyBridge?.isHost && state.world) {
+      lobbyBridge.publishWorld({
+        session_id: state.sid,
+        turn: state.world.turn,
+        round: state.world.round,
+        active_id: state.world.active_id,
+        units: state.world.units,
+        events: state.world.events,
+        pressure: state.world.pressure,
+        threatPreview: state.threatPreview,
+      });
+    }
     // Animation loop
     if (needsAnimFrame()) requestAnimationFrame(animTick);
   }
@@ -1298,6 +1314,11 @@ initFeedbackPanel({ getSessionId: () => state.sid });
 // M10 Phase D — campaign panel (ADR-2026-04-21)
 initCampaignPanel();
 
+// M11 Phase B — lobby bridge (Jackbox room-code WS). Null if no session stored.
+// Host role: publishes world state to players after each /session/state refresh.
+// Player role: renders read-only spectator overlay and skips local session auto-start.
+const lobbyBridge = initLobbyBridgeIfPresent();
+
 // W8O — Resize listener: redraw canvas quando viewport cambia (CELL dinamico).
 let _resizeTimeout = null;
 window.addEventListener('resize', () => {
@@ -1330,5 +1351,14 @@ if (fsBtn) {
   });
 }
 
-loadModulations().then(() => startNewSession());
-window.__evo = { state, api, refresh };
+// M11 Phase B — bootstrap gate:
+//   - No lobby session: local game auto-start (legacy path).
+//   - Host: auto-start local game; refresh() broadcasts world to players.
+//   - Player: skip auto-start; spectator overlay renders host state via WS.
+if (lobbyBridge?.isPlayer) {
+  // Spectator mode — do not create a local session. UI is handled by lobbyBridge overlay.
+  loadModulations();
+} else {
+  loadModulations().then(() => startNewSession());
+}
+window.__evo = { state, api, refresh, lobbyBridge };
