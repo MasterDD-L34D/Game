@@ -184,7 +184,7 @@ Ripeti per #6, #7.
 
 **Se FRICTION #5-#7 NON riprodotte**: marca "aging out" in log + parcheggia su backlog 30gg.
 
-**Se T04 win rate ≠ band 30-45%**: iter next stat tune (hp -5% più o -10%) + commit tune in `docs/core/balance/damage_curves.yaml` tutorial_advanced class.
+**Se T04 win rate ≠ band 30-45%**: iter next stat tune (hp -5% più o -10%) + commit tune in `data/core/balance/damage_curves.yaml` tutorial_advanced class (NON `docs/core/balance/` — runtime dataset vive in `data/core/`).
 
 **Se T05 fallback giocato**: verifica boss drama feel + iter hp nel range 9-13.
 

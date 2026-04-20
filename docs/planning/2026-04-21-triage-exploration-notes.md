@@ -185,7 +185,6 @@ trait_costs:
     rovine_planari: {}
   # ... 2 altri trait
 ```
-````
 
 Runtime wire: `apps/backend/services/traitEffects.js` hook in session
 init legge biome_id → applica penalty/bonus a unit.mod + movement.
@@ -219,7 +218,6 @@ init legge biome_id → applica penalty/bonus a unit.mod + movement.
 - `docs/archive/concept-explorations/2026-04/Evo Tactics Pitch Deck v2.html` Nota 2
 - `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` (shipping)
 - `docs/planning/2026-04-20-design-audit-consolidated.md` Q66 stress_modifiers
-
 ````
 
 ### Doc toccare
@@ -249,6 +247,7 @@ Supporto: `Vertical Slice - 60s Onboarding.html` in archive — UX mockup concep
 ### Rischio scope creep
 
 🟢 **BASSO**. Spec design isolato (primi 60s), no nuovo system, no nuova economy. Richiede:
+
 - 1 doc canonical onboarding flow
 - 1 narrative choice (3 opzioni trait/memoria/pressione)
 - Propaga a campaign_tree.yaml come pre-Act 0 prompt
@@ -259,7 +258,7 @@ Motivo: L05 è P0 blocking per narrative arc. Cheapest P0 close = scrivere desig
 
 ### Issue draft
 
-```markdown
+````markdown
 ---
 title: [P0 design] Onboarding narrativo 60s — 3 scelte identitarie pre-Act 0
 labels: design, p0-narrative, mvp-scope
@@ -281,15 +280,16 @@ regole. Risponde al gap P0 #2 audit 4-agent ("Narrative arc framework").
 
 ### Flow 60s (pre-Act 0)
 
-````
-
+```
 [00:00] Apri gioco → splash "Sopravvivi all'Apex"
 [00:10] Briefing audio breve (2-3 frasi): "Il tuo branco è stato marcato.
-L'Apex ti troverà. Come vuoi che ti ricordino?"
-[00:20] 3 scelte identitarie (30s max deliberazione): - OPZIONE A: "Come veloce e sfuggente" → trait `zampe_a_molla` pre-slot - OPZIONE B: "Come duro e inamovibile" → trait `pelle_elastomera` pre-slot - OPZIONE C: "Come letale e preciso" → trait `denti_seghettati` pre-slot
+        L'Apex ti troverà. Come vuoi che ti ricordino?"
+[00:20] 3 scelte identitarie (30s max deliberazione):
+        - OPZIONE A: "Come veloce e sfuggente" → trait `zampe_a_molla` pre-slot
+        - OPZIONE B: "Come duro e inamovibile" → trait `pelle_elastomera` pre-slot
+        - OPZIONE C: "Come letale e preciso" → trait `denti_seghettati` pre-slot
 [00:50] Transizione narrativa breve (10s): "Così sarà."
 [01:00] Enter enc_tutorial_01 (Act 0 chapter 1)
-
 ```
 
 ### Impatto runtime
@@ -342,7 +342,7 @@ Jackbox network permette scelta sync per co-op.
 - `docs/archive/concept-explorations/2026-04/Vertical Slice - 60s Onboarding.html`
 - `docs/planning/2026-04-20-design-audit-consolidated.md` §1 gap #2 narrative arc
 - `docs/adr/ADR-2026-04-21-campaign-save-persistence.md` (per Act 0 hook)
-```
+````
 
 ### Doc toccare
 
