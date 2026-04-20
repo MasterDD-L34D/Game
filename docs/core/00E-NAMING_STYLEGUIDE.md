@@ -275,7 +275,7 @@ Canonical code keys EN (snake_case). Display IT in prose + UI briefing.
 | `fracture`     | Frattura        | fisico    |
 | `disorient`    | Disorientamento | fisico    |
 | `sbilanciato`  | Sbilanciato     | fisico    |
-| `stunned`      | Stordito        | fisico    |
+| `stunned`      | Stordito        | mentale   |
 | `rage`         | Furia           | mentale   |
 | `panic`        | Panico          | mentale   |
 | `focused`      | Concentrato     | mentale   |
