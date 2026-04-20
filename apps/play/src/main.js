@@ -877,6 +877,32 @@ async function startNewSession() {
   state.world = st.data.state;
   state.selected = null;
   state.target = null;
+  // M11 Phase B+ (TKT-M11B-03) — if host room carries campaign_id, bootstrap
+  // campaign runtime and cache summary so publishWorld mirrors it to players.
+  if (lobbyBridge?.isHost && lobbyBridge.session.campaign_id) {
+    try {
+      const campRes = await api.campaignStart(
+        lobbyBridge.session.player_id,
+        lobbyBridge.session.campaign_id,
+      );
+      if (campRes.ok) {
+        const summary = campRes.data?.campaign || campRes.data || null;
+        lobbyBridge.setCampaignSummary(summary);
+        appendLog(
+          logEl,
+          `🗺 Campagna ${summary?.id || lobbyBridge.session.campaign_id} avviata (live-mirror ON)`,
+        );
+      } else {
+        appendLog(
+          logEl,
+          `✖ campagna bootstrap: ${campRes.data?.error || campRes.status}`,
+          'error',
+        );
+      }
+    } catch (err) {
+      appendLog(logEl, `✖ campagna bootstrap: ${err?.message || err}`, 'error');
+    }
+  }
   // M4 A.1+A.2: reset flag state per nuova sessione
   state.roundInit = false;
   _pendingConfirm = null;
@@ -1318,6 +1344,47 @@ initCampaignPanel();
 // Host role: publishes world state to players after each /session/state refresh.
 // Player role: renders read-only spectator overlay and skips local session auto-start.
 const lobbyBridge = initLobbyBridgeIfPresent();
+
+// M11 Phase B+ (TKT-M11B-02) — host bridges player WS intents to backend's
+// declare-intent endpoint so that phone-submitted intents participate in the
+// round alongside host-declared ones.
+if (lobbyBridge?.isHost) {
+  lobbyBridge.onPlayerIntent(async (intent) => {
+    if (!state.sid) {
+      appendLog(logEl, `⚠ intent ricevuto da ${intent.from_player_id} ma sessione non avviata`);
+      return;
+    }
+    if (!intent.actor_id || !intent.action) {
+      appendLog(logEl, `⚠ intent malformato da ${intent.from_player_id}`);
+      return;
+    }
+    // Lazy-init round planning if first intent arrives before host's own.
+    if (!state.roundInit) {
+      const bp = await api.beginPlanning(state.sid);
+      if (bp.ok) {
+        state.roundInit = true;
+        state.threatPreview = Array.isArray(bp.data?.threat_preview) ? bp.data.threat_preview : [];
+      }
+    }
+    const r = await api.declareIntent(state.sid, intent.actor_id, intent.action);
+    const tag = `${intent.action.type}${intent.action.target_id ? ` → ${intent.action.target_id}` : ''}`;
+    if (r.ok) {
+      appendLog(
+        logEl,
+        `📱→🧠 ${String(intent.from_player_id || '?').slice(0, 8)}: ${intent.actor_id} ${tag}`,
+      );
+      state.pendingIntents.push({
+        unit_id: intent.actor_id,
+        action: intent.action,
+        ts: intent.ts || Date.now(),
+        from_lobby: intent.from_player_id,
+      });
+      redraw();
+    } else {
+      appendLog(logEl, `✖ intent relay (${intent.actor_id} ${tag}): ${r.data?.error || r.status}`);
+    }
+  });
+}
 
 // W8O — Resize listener: redraw canvas quando viewport cambia (CELL dinamico).
 let _resizeTimeout = null;

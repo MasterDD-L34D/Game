@@ -248,6 +248,127 @@ test('e2e: LobbyClient auto-reconnect resumes session with same token after forc
   }
 });
 
+// ---------------------------------------------------------------------------
+// Phase B+ (TKT-M11B-01/02/03) — structured intent payload + campaign mirror.
+// ---------------------------------------------------------------------------
+
+test('e2e: Phase B+ structured intent payload { actor_id, action } survives relay intact', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+    });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+    });
+    await Promise.all([host.connect(), c1.connect()]);
+
+    const hostGotIntent = new Promise((resolve) => host.once('intent', resolve));
+
+    // Simulate exactly what lobbyBridge.sendPlayerIntent(payload) transmits
+    // when the spectator-overlay composer submits an attack intent.
+    const phoneComposerPayload = {
+      actor_id: 'u_player_1',
+      action: {
+        type: 'attack',
+        actor_id: 'u_player_1',
+        target_id: 'e_enemy_1',
+        ap_cost: 1,
+      },
+    };
+    c1.sendIntent(phoneComposerPayload);
+    const relayed = await hostGotIntent;
+
+    // Bridge expects entry { id, from, payload, ts } with payload echoing the phone composer.
+    assert.equal(typeof relayed.id, 'string');
+    assert.equal(relayed.from, p1.player_id);
+    assert.ok(relayed.ts > 0);
+    assert.deepEqual(relayed.payload, phoneComposerPayload);
+    // Bridge normalization path (done inside lobbyBridge.js): main.js extracts
+    // actor_id + action for api.declareIntent.
+    assert.equal(relayed.payload.actor_id, 'u_player_1');
+    assert.equal(relayed.payload.action.type, 'attack');
+    assert.equal(relayed.payload.action.target_id, 'e_enemy_1');
+
+    host.close();
+    c1.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
+test('e2e: Phase B+ host publishes state with campaign_summary merged — all players receive it', async () => {
+  const { lobby, wsHandle, wsUrl } = await spinUp();
+  try {
+    const room = lobby.createRoom({ hostName: 'TV', campaignId: 'apex_arc_mvp' });
+    const p1 = lobby.joinRoom({ code: room.code, playerName: 'Phone1' });
+    const p2 = lobby.joinRoom({ code: room.code, playerName: 'Phone2' });
+
+    const host = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: room.host_id,
+      token: room.host_token,
+      role: 'host',
+    });
+    const c1 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p1.player_id,
+      token: p1.player_token,
+      role: 'player',
+    });
+    const c2 = openClient({
+      wsUrl,
+      code: room.code,
+      playerId: p2.player_id,
+      token: p2.player_token,
+      role: 'player',
+    });
+    await Promise.all([host.connect(), c1.connect(), c2.connect()]);
+
+    // Shape produced by lobbyBridge.publishWorld(world) when
+    // setCampaignSummary(summary) has been called on the host bridge.
+    const world = { turn: 2, round: 3, active_id: 'u_player_1', units: [] };
+    const campaign_summary = {
+      id: 'apex_arc_mvp',
+      current_node_id: 'node_02',
+      pe: 4,
+      pi: 1,
+    };
+    const enriched = { ...world, campaign_summary };
+
+    const received = Promise.all([
+      new Promise((resolve) => c1.once('state', resolve)),
+      new Promise((resolve) => c2.once('state', resolve)),
+    ]);
+    host.sendState(enriched);
+    const states = await received;
+    for (const s of states) {
+      assert.equal(s.version, 1);
+      assert.deepEqual(s.payload.campaign_summary, campaign_summary);
+      assert.equal(s.payload.turn, 2);
+    }
+
+    host.close();
+    c1.close();
+    c2.close();
+  } finally {
+    await wsHandle.close();
+  }
+});
+
 test('e2e: LobbyClient auth failure rejects with connect() promise reject', async () => {
   const { lobby, wsHandle, wsUrl } = await spinUp();
   try {
