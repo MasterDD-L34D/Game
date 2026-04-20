@@ -61,6 +61,11 @@ const {
   shouldEnrageBoss,
   getEnrageModBonus,
 } = require('../services/balance/damageCurves');
+// M11 pilot (ADR-2026-04-21c, issue #1674) — trait environmental costs.
+// Applica penalty/bonus biome-specific a unit basato su trait set × biome_id.
+// Pilot 4×3: thermal_armor, zampe_a_molla, pelle_elastomera, denti_seghettati
+// × savana, caverna_risonante, rovine_planari.
+const { loadTraitEnvironmentalCosts, applyBiomeTraitCosts } = require('../services/traitEffects');
 // M6-#1 (ADR-2026-04-19 + spike 2026-04-19): Node native resistance engine.
 // Applica channel-specific resist/vuln su damage pre-hp. Evidence spike:
 // 84.6% → 20% win rate hardcore-06 con flat 50% resist (leva confermata).
@@ -718,6 +723,31 @@ function createSessionRouter(options = {}) {
         // best-effort: se config non carica, skip profile scaling
       }
 
+      // M11 pilot (ADR-2026-04-21c, issue #1674): apply biome environmental
+      // trait costs. Legge biome_id da req.body (top-level) con fallback
+      // req.body.encounter?.biome_id. Pilot scope 4 trait × 3 biomi = 12 cell.
+      // Session-scoped compute (no Prisma persistence).
+      const biomeIdRaw = req.body?.biome_id || req.body?.encounter?.biome_id || null;
+      let biomeCostsLog = [];
+      if (biomeIdRaw) {
+        try {
+          const biomeCostsRegistry = loadTraitEnvironmentalCosts();
+          if (biomeCostsRegistry && biomeCostsRegistry.trait_costs) {
+            units = units.map((u) => {
+              if (!u) return u;
+              const clone = { ...u };
+              const applied = applyBiomeTraitCosts(clone, biomeIdRaw, biomeCostsRegistry);
+              if (applied && applied.length) {
+                biomeCostsLog.push({ unit_id: clone.id, applied });
+              }
+              return clone;
+            });
+          }
+        } catch (err) {
+          console.warn('[trait-env-costs] apply failed:', err.message);
+        }
+      }
+
       // M7-#2 Phase B: apply damage scaling curves per encounter class.
       // Lo YAML damage_curves.yaml definisce enemy_damage_multiplier per class.
       // Encounter senza class dichiarato → fallback "standard" (1.2x).
@@ -805,6 +835,9 @@ function createSessionRouter(options = {}) {
         // ADR-2026-04-19 + 04-20: encounter payload per reinforcementSpawner + objectiveEvaluator.
         // Feature flag OFF default: se undefined, entrambi moduli ritornano no-op.
         encounter: req.body?.encounter ?? null,
+        // M11 pilot (ADR-2026-04-21c): biome_id + log trait env deltas applicati.
+        biome_id: biomeIdRaw,
+        biome_costs_log: biomeCostsLog,
       };
       sessions.set(sessionId, session);
       activeSessionId = sessionId;

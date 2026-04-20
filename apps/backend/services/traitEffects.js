@@ -33,6 +33,24 @@ const DEFAULT_REGISTRY_PATH = path.resolve(
   'active_effects.yaml',
 );
 
+// M11 pilot (ADR-2026-04-21c, issue #1674) — trait environmental costs.
+// YAML pilot 4 trait × 3 biomi, 12 cell, stat delta ±1/±2. Session-scoped
+// compute (no Prisma, no new economy channel).
+const BIOME_COST_DEFAULT_PATH = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'data',
+  'core',
+  'balance',
+  'trait_environmental_costs.yaml',
+);
+
+const BIOME_COST_STATS_ALLOWED = new Set(['attack_mod', 'defense_mod', 'mobility']);
+
+let _biomeCostCache = null;
+
 function loadActiveTraitRegistry(yamlPath = DEFAULT_REGISTRY_PATH, logger = console) {
   try {
     const text = fs.readFileSync(yamlPath, 'utf8');
@@ -233,10 +251,98 @@ function evaluateStatusTraits({ registry, actor, target, attackResult, killOccur
   return { trait_effects: traitEffects, status_applies: statusApplies };
 }
 
+// M11 pilot (ADR-2026-04-21c, issue #1674) — biome penalty loader.
+// Carica `trait_environmental_costs.yaml` (4 trait × 3 biomi = 12 cell).
+// Cache singleton: chiamate successive ritornano cached (idempotent).
+// Soft-fail su ENOENT → registry vuoto, biome penalty no-op.
+function loadTraitEnvironmentalCosts(yamlPath = BIOME_COST_DEFAULT_PATH, logger = console) {
+  if (_biomeCostCache !== null) return _biomeCostCache;
+  try {
+    const text = fs.readFileSync(yamlPath, 'utf8');
+    const parsed = yaml.load(text);
+    _biomeCostCache = parsed && typeof parsed === 'object' ? parsed : {};
+    return _biomeCostCache;
+  } catch (err) {
+    if (err && err.code === 'ENOENT') {
+      logger.warn(`[trait-env-costs] ${yamlPath} non trovato, biome penalty no-op`);
+      _biomeCostCache = {};
+      return _biomeCostCache;
+    }
+    logger.warn(`[trait-env-costs] errore ${yamlPath}:`, err.message || err);
+    _biomeCostCache = {};
+    return _biomeCostCache;
+  }
+}
+
+// Reset cache (per test isolation).
+function _resetBiomeCostCache() {
+  _biomeCostCache = null;
+}
+
+// Applica penalty/bonus biome-specific a unit.attack_mod_bonus /
+// unit.defense_mod_bonus / unit.mobility basato su trait × biome_id.
+//
+// Mutates `unit` in place. Idempotent via marker `_biome_costs_applied`:
+// chiamate ripetute su stessa unit sono no-op. Per rebase (hot-swap biome)
+// il caller deve resettare il marker esplicitamente.
+//
+// @param unit — { traits: [], mod, attack_mod_bonus, defense_mod_bonus, mobility, ... }
+// @param biomeId — 'savana' | 'caverna_risonante' | 'rovine_planari' | ...
+// @param data — optional pre-loaded registry (dependency injection per test)
+// @returns array { trait, biome, delta: { stat: n, ... } } applied per log.
+function applyBiomeTraitCosts(unit, biomeId, data) {
+  if (!unit || !biomeId) return [];
+  if (unit._biome_costs_applied) return [];
+  const registry = data || loadTraitEnvironmentalCosts();
+  const traitCosts = registry && registry.trait_costs ? registry.trait_costs : null;
+  if (!traitCosts) return [];
+
+  const unitTraits = Array.isArray(unit.traits) ? unit.traits : [];
+  const applied = [];
+
+  for (const traitId of unitTraits) {
+    const traitEntry = traitCosts[traitId];
+    if (!traitEntry) continue;
+    const cell = traitEntry[biomeId];
+    // Cell vuota (biome neutral per questo trait) → skip, no delta.
+    if (!cell || typeof cell !== 'object' || Object.keys(cell).length === 0) continue;
+
+    const delta = {};
+    for (const [stat, rawValue] of Object.entries(cell)) {
+      if (stat === 'rationale') continue;
+      if (!BIOME_COST_STATS_ALLOWED.has(stat)) continue;
+      const n = Number(rawValue);
+      if (!Number.isFinite(n) || n === 0) continue;
+
+      if (stat === 'attack_mod') {
+        unit.attack_mod_bonus = Number(unit.attack_mod_bonus || 0) + n;
+      } else if (stat === 'defense_mod') {
+        unit.defense_mod_bonus = Number(unit.defense_mod_bonus || 0) + n;
+      } else if (stat === 'mobility') {
+        unit.mobility = Number(unit.mobility || 0) + n;
+      }
+      delta[stat] = n;
+    }
+
+    if (Object.keys(delta).length > 0) {
+      applied.push({ trait: traitId, biome: biomeId, delta });
+    }
+  }
+
+  unit._biome_costs_applied = true;
+  unit._biome_costs_log = applied;
+  return applied;
+}
+
 module.exports = {
   loadActiveTraitRegistry,
   evaluateAttackTraits,
   evaluateStatusTraits,
   isElevated,
   DEFAULT_REGISTRY_PATH,
+  // M11 pilot — biome penalty
+  loadTraitEnvironmentalCosts,
+  applyBiomeTraitCosts,
+  BIOME_COST_DEFAULT_PATH,
+  _resetBiomeCostCache,
 };
