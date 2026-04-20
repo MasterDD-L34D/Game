@@ -103,7 +103,7 @@ Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 - **label**: puntare a `i18n:traits.<id>.label`; le stringhe localizzate vivono nel glossario/i18n, non nel file tratto.
 - **famiglia_tipologia**: categoria generale (es. Difensivo/Termoregolazione, Locomotivo/Balistico, Sensoriale/Tatto-Vibro…).
 - **fattore_mantenimento_energetico**: _Basso, Medio_ o _Alto_, indicativo del costo per mantenere il tratto attivo.
-- **tier**: T1–T5 (con costo/complessità/impatti crescenti). Tier elevati indicano poteri eccezionali con costi metabolici o vincoli severi.
+- **tier**: T1–T6 (con costo/complessità/impatti crescenti). Tier elevati indicano poteri eccezionali con costi metabolici o vincoli severi. Allineato a Sentience Track T1-T6 (vedi sezione sotto). **Nota**: esiste scala disgiunta `trait_T1/T2/T3` per trait acquistabili runtime (vedi `PI-Pacchetti-Forme.md`) — NON confondere con tier generale 1-6.
 - **slot**: elenco opzionale per definire ruoli speciali o raggruppamenti (può restare vuoto).
 - **sinergie** e **conflitti**: liste di `id` trait (non `trait_code`). Nel pack puoi mostrare entrambi come alias, ma nei JSON del repository vanno usati solo gli `id` snake_case (vedi tabella di mapping in [docs/traits_evo_pack_alignment.md](./traits_evo_pack_alignment.md)).
 - **data_origin**: usare solo gli slug ufficiali.

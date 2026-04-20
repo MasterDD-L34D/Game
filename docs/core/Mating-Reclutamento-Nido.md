@@ -17,15 +17,17 @@ review_cycle_days: 14
 
 ## Affinità & Fiducia
 
-- Scala -3..+3 distinta per Affinità (empatia) e Fiducia (affidabilità). Azioni sociali: `Dialogo mirato` (check d20 con mod Charisma PI), `Supporto tattico` (token assist), `Condivisione risorse` (sacrifica loot). Eventi negativi: fallimento obiettivi, tradimenti, StressWave >0.70.【F:docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt†L17-L45】
-- Compatibilità minima: Affinità ≥1 e Fiducia ≥0. Trigger romance richiede consenso via companion app e assegna bonus `Bond Link` (reroll cooperativo) e `Shared Resilience` (-0.05 StressWave su fallimento condiviso).【F:docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt†L33-L60】
+> **Rev 2026-04-20 (P0 Q11 default B)**: scala canonical allineata a `Freeze §20` + `metaProgression.js` runtime. Canvas D scala -3..+3 deprecata.
+
+- **Affinità**: scala **-2..+2** (empatia). **Fiducia**: scala **0..5** (affidabilità cumulativa). Azioni sociali: `Dialogo mirato` (check d20 con mod Charisma PI), `Supporto tattico` (token assist), `Condivisione risorse` (sacrifica loot). Eventi negativi: fallimento obiettivi, tradimenti, StressWave >0.70.【F:docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt†L17-L45】
+- **Compatibilità minima reclutamento**: Affinità ≥0 e Fiducia ≥2 (allineato `metaProgression.js canRecruit`). **Gate mating**: Fiducia ≥3 + nest.requirements_met. Trigger romance richiede consenso via companion app e assegna bonus `Bond Link` (reroll cooperativo) e `Shared Resilience` (-0.05 StressWave su fallimento condiviso).【F:docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt†L33-L60】
 
 ## Reclutamento ex-nemici
 
 1. Individua NPG `convertible` dal Canvas C.
 2. Completa due prove narrative → +1 Affinità.
 3. Missione `Trust Trial` come opzionale durante la stessa incursione.
-4. Con Fiducia ≥1 l'NPG diventa `Recruit` per il Nido; fallimento → ritorno ostile e StressWave globale +0.08.【F:docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt†L45-L82】【F:docs/SistemaNPG-PF-Mutazioni.md†L31-L70】
+4. Con Affinità ≥0 e Fiducia ≥2 l'NPG diventa `Recruit` per il Nido; fallimento → ritorno ostile e StressWave globale +0.08.【F:docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt†L45-L82】【F:docs/SistemaNPG-PF-Mutazioni.md†L31-L70】
 
 ## Standard di Nido
 
