@@ -93,11 +93,29 @@ const formsPlugin = {
   },
 };
 
+// M13 P3 — character progression (XP + perk-pair) engine + routes.
+const progressionPlugin = {
+  name: 'progression',
+  register(app) {
+    const { createProgressionRouter } = require('../routes/progression');
+    const router = createProgressionRouter();
+    app.use('/api/v1/progression', router);
+    app.use('/api/progression', router);
+  },
+};
+
 /**
  * Lista plugin built-in. Aggiungere nuovi plugin qui.
  * Ordine = ordine di registrazione.
  */
-const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin, tutorialPlugin, jobsPlugin, formsPlugin];
+const BUILTIN_PLUGINS = [
+  narrativePlugin,
+  metaPlugin,
+  tutorialPlugin,
+  jobsPlugin,
+  formsPlugin,
+  progressionPlugin,
+];
 
 module.exports = {
   loadPlugins,
@@ -107,4 +125,5 @@ module.exports = {
   tutorialPlugin,
   jobsPlugin,
   formsPlugin,
+  progressionPlugin,
 };
