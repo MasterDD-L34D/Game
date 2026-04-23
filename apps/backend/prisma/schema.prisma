@@ -225,6 +225,25 @@ model NestState {
   @@map("nest_states")
 }
 
+// ─── M13 P3 Character progression persistence (ADR-2026-04-24 pending) ────
+// XP + perk-pair picks per unit × campaign.
+
+model UnitProgression {
+  id          String   @id @default(uuid())
+  campaignId  String?  @map("campaign_id")
+  unitId      String   @map("unit_id")
+  job         String
+  xpTotal     Int      @default(0) @map("xp_total")
+  level       Int      @default(1)
+  pickedPerks String   @default("[]") @map("picked_perks") // JSON array of { level, perk_id, choice }
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@unique([campaignId, unitId])
+  @@index([campaignId])
+  @@map("unit_progressions")
+}
+
 // ─── M12 Phase D Form evolution persistence (ADR-2026-04-23 addendum) ─────
 // Promotes formSessionStore in-memory Map → DB-backed write-through cache.
 // Adapter preserves in-memory fallback when DATABASE_URL unset (dev/demo/tests).
