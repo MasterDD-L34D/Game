@@ -82,11 +82,22 @@ const jobsPlugin = {
   },
 };
 
+// M12 Phase A — form evolution engine + routes.
+const formsPlugin = {
+  name: 'forms',
+  register(app) {
+    const { createFormsRouter } = require('../routes/forms');
+    const router = createFormsRouter();
+    app.use('/api/v1/forms', router);
+    app.use('/api/forms', router);
+  },
+};
+
 /**
  * Lista plugin built-in. Aggiungere nuovi plugin qui.
  * Ordine = ordine di registrazione.
  */
-const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin, tutorialPlugin, jobsPlugin];
+const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin, tutorialPlugin, jobsPlugin, formsPlugin];
 
 module.exports = {
   loadPlugins,
@@ -95,4 +106,5 @@ module.exports = {
   metaPlugin,
   tutorialPlugin,
   jobsPlugin,
+  formsPlugin,
 };
