@@ -24,7 +24,9 @@ services:
     region: frankfurt
     branch: main
     rootDir: .
-    buildCommand: npm ci && npm run play:build
+    # --include=dev forza install devDependencies anche con NODE_ENV=production
+    # (vite sta in apps/play/devDependencies — serve al build).
+    buildCommand: npm ci --include=dev && npm run play:build
     startCommand: node apps/backend/index.js
     healthCheckPath: /api/lobby/state
     autoDeploy: true
