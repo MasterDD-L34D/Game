@@ -116,6 +116,7 @@ test('M5-#3 phantom species stubs are present (regression guard)', () => {
     'guardiano_caverna',
     'guardiano_pozza',
     'apex_predatore',
+    'predone_agile', // M13-P6 (2026-04-24) — scenario 07 pod_rush
   ];
   for (const id of expectedPhantoms) {
     assert.ok(yamlIds.has(id), `Missing phantom species stub: ${id}`);
