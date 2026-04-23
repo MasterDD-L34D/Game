@@ -147,3 +147,86 @@ Target: unità attiva in 5 encounter tutorial arriva Lv4 (50 XP) circa a metà c
 - Pilastri audit: [`docs/planning/2026-04-20-pilastri-reality-audit.md`](../planning/2026-04-20-pilastri-reality-audit.md)
 - Jobs canonical: `data/core/jobs.yaml`
 - ADR-2026-04-23 M12 Phase D (pattern Prisma write-through adapter): [`docs/adr/ADR-2026-04-23-m12-phase-a-form-evolution.md`](ADR-2026-04-23-m12-phase-a-form-evolution.md)
+
+---
+
+## Addendum Phase B (2026-04-24/25) — resolver wire + UI + balance
+
+Phase B chiude P3 runtime (🟡+ → 🟢 candidato). 4 wire sopra Phase A.
+
+### 1. Campaign advance XP grant
+
+`POST /api/campaign/advance` body accetta:
+
+```json
+{ "survivors": [{ "id": "u1", "job": "skirmisher" }], "xp_per_unit": 12 }
+```
+
+Response additive: `{ "xp_grants": [{ unit_id, amount, level_before, level_after, leveled_up }] }`.
+
+Default `xp_per_unit` da `xp_curve.yaml:xp_grants.mission_victory` (12). Solo victory grants.
+
+Helper puro `grantXpToSurvivors(units, amount, { engine, store, campaignId })` in `progressionApply.js`. Auto-seed se unit sconosciuto (richiede `unit.job`).
+
+### 2. Session /start apply perks
+
+`applyProgressionToUnits(units, { campaignId })` chiamato post biome costs. Mutate player units:
+
+- Stat bonuses additivi su: hp_max, ap, attack_mod→unit.mod, defense_mod→unit.dc, initiative, attack_range
+- `unit._perk_passives` + `unit._perk_ability_mods` attached
+- Guard `_progression_applied` idempotente
+- Graceful no-op se unit non in store
+
+### 3. Combat resolver passive damage
+
+`computePerkDamageBonus(actor, target, ctx)` in `session.js` attack flow (post parryDelta).
+
+**5 passive tags runtime-wired**:
+
+| Tag                     | Condition                         |
+| ----------------------- | --------------------------------- |
+| `flank_bonus`           | Ally adjacent to target           |
+| `first_strike_bonus`    | Actor's first attack in session   |
+| `execution_bonus`       | Target HP/HP_max < threshold      |
+| `isolated_target_bonus` | No ally adjacent to target        |
+| `long_range_bonus`      | Manhattan distance ≥ min_distance |
+
+### 4. Frontend progressionPanel
+
+- `apps/play/src/progressionPanel.js` overlay pattern formsPanel (XP bar + per-level perk pair cards + effective stats chips)
+- Header btn `📈 Lv` in `apps/play/index.html`
+- `api.js` +8 metodi client
+- Auto-open in `advanceCampaignWithEvolvePrompt`: se `xp_grants[].leveled_up` true, select unit + open panel
+
+### 5. Balance pass
+
+`tests/api/progressionBalance.test.js` itera 64 combinazioni × 7 jobs = **448 builds**. Stat caps:
+
+| Stat         | Cap |
+| ------------ | --: |
+| hp_max       |  10 |
+| ap           |   3 |
+| attack_mod   |   3 |
+| defense_mod  |   4 |
+| initiative   |   4 |
+| attack_range |   2 |
+
+Aggregate |sum| ≤ 20. Schema + passive tag coverage verified.
+
+### Test delta Phase B
+
+- `progressionApply.test.js` NEW — 16 test
+- `progressionBalance.test.js` NEW — 4 test
+- `campaignRoutes.test.js` +4 XP grant tests
+
+**Baseline post-Phase B**: AI 307 + progression 44 + campaign 31 + altri = **462+**.
+
+### Pilastro 3 post-Phase B
+
+- Pre-A: 🟡 → Post-A: 🟡+ → **Post-B: 🟢 candidato** (residuo: playtest live validation)
+
+### Fuori scope Phase C
+
+- Ability_mod runtime apply in abilityExecutor (YAML field delta)
+- Passive tags residui (~15 non wired): retaliate*on_hit, aura*\*, survive_death_once, ecc.
+- Respec / perk reset / Prestige system

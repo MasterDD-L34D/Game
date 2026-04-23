@@ -283,6 +283,74 @@ test('advance: defeat never triggers evolve_opportunity', async (t) => {
   assert.equal(res.body.evolve_opportunity, false);
 });
 
+// M13 P3 Phase B — XP grant hook on victory.
+
+test('advance: victory + survivors array grants XP to each', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'victory',
+    pe_earned: 5,
+    survivors: [
+      { id: 'u_a', job: 'skirmisher' },
+      { id: 'u_b', job: 'vanguard' },
+    ],
+    xp_per_unit: 15,
+  });
+  assert.equal(res.status, 200);
+  assert.ok(Array.isArray(res.body.xp_grants));
+  assert.equal(res.body.xp_grants.length, 2);
+  const byId = Object.fromEntries(res.body.xp_grants.map((g) => [g.unit_id, g]));
+  assert.equal(byId.u_a.amount, 15);
+  assert.equal(byId.u_a.level_after, 2);
+  assert.equal(byId.u_a.leveled_up, true);
+});
+
+test('advance: victory without survivors → xp_grants empty', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'victory',
+    pe_earned: 3,
+  });
+  assert.equal(res.status, 200);
+  assert.deepEqual(res.body.xp_grants, []);
+});
+
+test('advance: defeat never grants XP even with survivors', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'defeat',
+    survivors: [{ id: 'u_x', job: 'skirmisher' }],
+    xp_per_unit: 100,
+  });
+  assert.equal(res.status, 200);
+  assert.deepEqual(res.body.xp_grants, []);
+});
+
+test('advance: xp_per_unit defaults to xp_curve.yaml mission_victory', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'victory',
+    pe_earned: 5,
+    survivors: [{ id: 'u_default', job: 'ranger' }],
+    // no xp_per_unit → default 12
+  });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.xp_grants[0].amount, 12);
+  assert.equal(res.body.xp_grants[0].level_after, 2); // 12 XP = level 2 (10 ≤ xp < 25)
+});
+
 test('computeEvolveOpportunity exported pure helper', () => {
   const mod = require('../../apps/backend/routes/campaign');
   assert.equal(mod.PE_EVOLVE_TRIGGER_THRESHOLD, 8);
