@@ -266,6 +266,41 @@ model FormSessionState {
   @@map("form_session_states")
 }
 
+// M11 Phase D — lobby persistence (ADR-2026-04-26).
+// Rooms + players survive backend restart when LOBBY_PRISMA_ENABLED=true.
+model LobbyRoom {
+  code                String         @id
+  hostId              String         @map("host_id")
+  hostName            String         @map("host_name")
+  campaignId          String?        @map("campaign_id")
+  maxPlayers          Int            @default(8) @map("max_players")
+  hostTransferGraceMs Int            @default(30000) @map("host_transfer_grace_ms")
+  closed              Boolean        @default(false)
+  stateVersion        Int            @default(0) @map("state_version")
+  lastState           String?        @map("last_state")
+  createdAt           DateTime       @default(now()) @map("created_at")
+  updatedAt           DateTime       @updatedAt @map("updated_at")
+  players             LobbyPlayer[]
+
+  @@index([closed])
+  @@map("lobby_rooms")
+}
+
+model LobbyPlayer {
+  id              String    @id
+  roomCode        String    @map("room_code")
+  room            LobbyRoom @relation(fields: [roomCode], references: [code], onDelete: Cascade)
+  name            String
+  role            String
+  token           String
+  connected       Boolean   @default(false)
+  joinedAt        DateTime  @default(now()) @map("joined_at")
+  disconnectedAt  DateTime? @map("disconnected_at")
+
+  @@index([roomCode])
+  @@map("lobby_players")
+}
+
 model MatingEvent {
   id                String      @id @default(uuid())
   relationId        String      @map("relation_id")

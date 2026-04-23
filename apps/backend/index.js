@@ -3,6 +3,7 @@ const http = require('node:http');
 const path = require('node:path');
 const { createApp } = require('./app');
 const { createWsServer } = require('./services/network/wsSession');
+const { createLobbyPersistence } = require('./services/network/lobbyPersistence');
 
 // Default port changed from 3333 to 3334 in 2026-04 to avoid collision with
 // the sibling Game-Database service which owns port 3333 for its REST API.
@@ -51,6 +52,27 @@ if (wsEnabled && lobby) {
   console.log('[lobby-ws] WebSocket server disabled (LOBBY_WS_ENABLED=false)');
 }
 
+// M11 Phase D — optional Prisma persistence (ADR-2026-04-26).
+// Opt-in via LOBBY_PRISMA_ENABLED=true. Graceful fallback if @prisma/client
+// not installed or DB unreachable — rooms survive in-memory only.
+let lobbyPersistence = null;
+if (lobby && process.env.LOBBY_PRISMA_ENABLED === 'true') {
+  lobbyPersistence = createLobbyPersistence({ lobby });
+  if (lobbyPersistence.enabled) {
+    lobby.setPersistence(lobbyPersistence);
+    lobbyPersistence
+      .hydrate()
+      .then((stats) => {
+        console.log(`[lobby-prisma] hydrated ${stats.rooms} rooms + ${stats.players} players`);
+      })
+      .catch((err) => console.warn('[lobby-prisma] hydrate failed:', err.message));
+  } else {
+    console.log('[lobby-prisma] client unavailable, skipping persistence');
+  }
+} else {
+  console.log('[lobby-prisma] persistence disabled (LOBBY_PRISMA_ENABLED!=true)');
+}
+
 // Issue #1342: avverti se ORCHESTRATOR_AUTOCLOSE_MS e' settato in modo
 // che potrebbe rompere il backend live (valori bassi pensati per i test).
 const rawAutoclose = process.env.ORCHESTRATOR_AUTOCLOSE_MS;
@@ -93,6 +115,13 @@ async function shutdown(signal) {
   if (lobbyWs) {
     try {
       await lobbyWs.close();
+    } catch {
+      // noop
+    }
+  }
+  if (lobbyPersistence) {
+    try {
+      await lobbyPersistence.close();
     } catch {
       // noop
     }

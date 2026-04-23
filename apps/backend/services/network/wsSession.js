@@ -316,6 +316,66 @@ class LobbyService {
   constructor({ maxPlayers = DEFAULT_MAX_PLAYERS } = {}) {
     this.rooms = new Map(); // code → Room
     this.maxPlayers = maxPlayers;
+    // ADR-2026-04-26 — optional persistence adapter (opt-in via env).
+    // When set, mutations are sync-written via write-through pattern.
+    this._persistence = null;
+  }
+
+  setPersistence(adapter) {
+    this._persistence = adapter || null;
+  }
+
+  _persist(method, ...args) {
+    const adapter = this._persistence;
+    if (!adapter || typeof adapter[method] !== 'function') return;
+    const p = adapter[method](...args);
+    if (p && typeof p.catch === 'function') {
+      p.catch((err) => console.warn(`[lobby-prisma] ${method} rejected:`, err.message));
+    }
+  }
+
+  /** ADR-2026-04-26 — rehydrate a persisted room at boot. */
+  rehydrateRoom({
+    code,
+    hostId,
+    hostName,
+    campaignId,
+    maxPlayers,
+    hostTransferGraceMs,
+    stateVersion = 0,
+    lastState = null,
+    players = [],
+  }) {
+    if (!code || !hostId) return null;
+    const room = new Room({
+      code,
+      hostId,
+      hostName: hostName || 'host',
+      maxPlayers: maxPlayers || this.maxPlayers,
+      campaignId,
+      hostTransferGraceMs,
+    });
+    // Reset default host player added by constructor — replace with persisted set.
+    room.players.clear();
+    for (const p of players) {
+      room.players.set(p.id, {
+        id: p.id,
+        name: p.name,
+        role: p.role,
+        token: p.token,
+        connected: false,
+        socket: null,
+        joinedAt: p.joinedAt ? new Date(p.joinedAt).getTime() : Date.now(),
+      });
+    }
+    room.stateVersion = stateVersion;
+    try {
+      room.state = lastState ? JSON.parse(lastState) : null;
+    } catch {
+      room.state = null;
+    }
+    this.rooms.set(code, room);
+    return room;
   }
 
   createRoom({ hostName, campaignId = null, maxPlayers, hostTransferGraceMs } = {}) {
@@ -345,6 +405,7 @@ class LobbyService {
     });
     this.rooms.set(code, room);
     const host = room.getPlayer(hostId);
+    this._persist('persistCreate', code, room);
     return {
       code,
       host_id: hostId,
@@ -364,6 +425,14 @@ class LobbyService {
       throw new Error('player_name_required');
     }
     const { playerId, token } = room.addPlayer({ name: playerName });
+    const newPlayer = room.getPlayer(playerId);
+    this._persist('persistJoin', normalized, {
+      id: playerId,
+      name: newPlayer.name,
+      role: newPlayer.role,
+      token,
+      connected: false,
+    });
     // Broadcast presence to any already-connected sockets.
     room.broadcast({
       type: 'player_joined',
@@ -382,6 +451,7 @@ class LobbyService {
     }
     room.close();
     this.rooms.delete(normalized);
+    this._persist('persistClose', normalized);
     return { code: normalized, closed: true };
   }
 
@@ -460,6 +530,7 @@ function createWsServer({ lobby, server = null, port = null, path = '/ws' } = {}
     }
 
     room.attachSocket(playerId, socket);
+    lobby._persist('persistConnected', code, playerId, true);
     // TKT-M11B-05 — if the returning player is (now or still) host, any
     // pending host-transfer timer must be cancelled.
     if (playerId === room.hostId) {
@@ -514,6 +585,7 @@ function createWsServer({ lobby, server = null, port = null, path = '/ws' } = {}
             return;
           }
           room.publishState(msg.payload ?? null);
+          lobby._persist('persistState', code, room.stateVersion, room.state);
           break;
 
         case 'intent':
@@ -543,6 +615,7 @@ function createWsServer({ lobby, server = null, port = null, path = '/ws' } = {}
 
     socket.on('close', () => {
       room.detachSocket(playerId);
+      lobby._persist('persistConnected', code, playerId, false);
       room.broadcast({
         type: 'player_disconnected',
         payload: { player_id: playerId },
