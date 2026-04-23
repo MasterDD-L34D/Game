@@ -25,8 +25,10 @@ const {
 const {
   HARDCORE_SCENARIO_06,
   HARDCORE_SCENARIO_06_QUARTET,
+  HARDCORE_SCENARIO_07_POD_RUSH,
   buildHardcoreUnits06,
   buildHardcoreUnits06Quartet,
+  buildHardcoreUnits07,
 } = require('../services/hardcoreScenario');
 
 function createTutorialRouter() {
@@ -86,6 +88,16 @@ function createTutorialRouter() {
       ...HARDCORE_SCENARIO_06_QUARTET,
       units: buildHardcoreUnits06Quartet(),
       usage: 'POST units + modulation="quartet" → 4p vs 6 enemy (boss hp 22 balanced).',
+    });
+  });
+
+  // M13 P6 (ADR-2026-04-24) — Assalto Spietato pod-rush + timer 10.
+  router.get('/enc_tutorial_07_hardcore_pod_rush', (_req, res) => {
+    res.json({
+      ...HARDCORE_SCENARIO_07_POD_RUSH,
+      units: buildHardcoreUnits07(),
+      usage:
+        'POST units + modulation="quartet" → 4p vs 3 iniziali + pod reinforcement. Timer 10 rounds, expire = escalate pressure +30.',
     });
   });
 
