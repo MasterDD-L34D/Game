@@ -22,6 +22,7 @@ import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
 import { initFormsPanel, openFormsPanel } from './formsPanel.js';
+import { initThoughtsPanel, openThoughtsPanel } from './thoughtsPanel.js';
 import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
 
 const state = {
@@ -1610,6 +1611,15 @@ async function advanceCampaignWithEvolvePrompt(campaignId, outcome, peEarned = 0
   return res;
 }
 
+// P4 Thought Cabinet — header btn 🧠 + overlay.
+initThoughtsPanel({
+  getSessionId: () => state.sid,
+  getSelectedUnit: () =>
+    state.world && state.selected
+      ? getUnits(state.world).find((u) => u.id === state.selected) || null
+      : null,
+});
+
 window.__evo = {
   state,
   api,
@@ -1617,5 +1627,6 @@ window.__evo = {
   refreshVcSnapshot,
   advanceCampaignWithEvolvePrompt,
   openFormsPanel,
+  openThoughtsPanel,
   lobbyBridge,
 };

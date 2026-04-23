@@ -1,0 +1,203 @@
+# Thought Cabinet MBTI — Evo-Tactics Pillar 4 (P4 completion)
+# Pattern ispirato a Disco Elysium: thoughts diegetici che si sbloccano
+# quando un'unità mostra comportamento consistente su un asse MBTI.
+#
+# Copertura: 3 axes (E_I, S_N, J_P) × 2 direzioni × 3 soglie = 18 thoughts.
+# T_F escluso: già surfacato via job_affinities nei Forms.
+#
+# Convenzione direction (coerente con vcScoring letterOrUncertain):
+#   - axis E_I: low → 'E' (estroverso), high → 'I' (introverso)
+#   - axis S_N: low → 'N' (intuitivo), high → 'S' (sensoriale)
+#   - axis J_P: low → 'P' (percepire), high → 'J' (giudicare)
+#
+# Unlock: cumulative (una volta sbloccato, resta) per session:unit.
+# Reveal: UI formsPanel tooltip + popup evolve.
+
+version: "0.1.0"
+
+thoughts:
+  # --- Asse E_I: Estroverso (low) ---
+  e_voce_collettiva:
+    axis: E_I
+    direction: low
+    threshold: 0.35
+    pole_letter: E
+    tier: 1
+    title_it: "Voce Collettiva"
+    flavor_it: "Parla ai compagni anche senza necessità tattica. Ogni azione è conferma condivisa."
+    effect_hint_it: "Preferisce ingaggi ravvicinati, cerca supporto di squadra."
+
+  e_scintilla_carisma:
+    axis: E_I
+    direction: low
+    threshold: 0.25
+    pole_letter: E
+    tier: 2
+    title_it: "Scintilla di Carisma"
+    flavor_it: "Ogni azione è spettacolo. Forzare il fronte diventa istinto, non scelta."
+    effect_hint_it: "Intraprende rischi visibili; tira il team con sé."
+
+  e_campione_folla:
+    axis: E_I
+    direction: low
+    threshold: 0.15
+    pole_letter: E
+    tier: 3
+    title_it: "Campione della Folla"
+    flavor_it: "Il silenzio è l'unico nemico. Sempre in prima linea, sempre visibile."
+    effect_hint_it: "Pattern estremo E; unlock job aggressivi (assaltatore)."
+
+  # --- Asse E_I: Introverso (high) ---
+  i_osservatore:
+    axis: E_I
+    direction: high
+    threshold: 0.65
+    pole_letter: I
+    tier: 1
+    title_it: "Osservatore"
+    flavor_it: "Preferisce studiare prima di impegnarsi. Ogni mossa ponderata."
+    effect_hint_it: "Ingaggi distanti; valuta prima di committare."
+
+  i_calcolo_silente:
+    axis: E_I
+    direction: high
+    threshold: 0.75
+    pole_letter: I
+    tier: 2
+    title_it: "Calcolo Silente"
+    flavor_it: "Ogni intervento pesato. Evita il caos anche quando potrebbe risolvere."
+    effect_hint_it: "Economia azioni alta; rari utilizzi di abilità rumorose."
+
+  i_lupo_solitario:
+    axis: E_I
+    direction: high
+    threshold: 0.85
+    pole_letter: I
+    tier: 3
+    title_it: "Lupo Solitario"
+    flavor_it: "Opera meglio ai margini, lontano dagli altri. Il team è strumento, non rifugio."
+    effect_hint_it: "Pattern estremo I; unlock job furtivo/esploratore."
+
+  # --- Asse S_N: Intuitivo (low) ---
+  n_intuizione_terrena:
+    axis: S_N
+    direction: low
+    threshold: 0.35
+    pole_letter: N
+    tier: 1
+    title_it: "Intuizione Terrena"
+    flavor_it: "Sente pattern nascosti nel biome. Cerca nuove vie anche senza motivo."
+    effect_hint_it: "Alta esplorazione; new_tiles elevato."
+
+  n_pioniere_possibile:
+    axis: S_N
+    direction: low
+    threshold: 0.25
+    pole_letter: N
+    tier: 2
+    title_it: "Pioniere del Possibile"
+    flavor_it: "Inventa soluzioni che non esistono nel manuale. Il terreno è tela, non mappa."
+    effect_hint_it: "Preferisce evade/flank a setup diretto."
+
+  n_visionario:
+    axis: S_N
+    direction: low
+    threshold: 0.15
+    pole_letter: N
+    tier: 3
+    title_it: "Visionario"
+    flavor_it: "Vede mosse 3 round avanti, a costo di realismo immediato. Il piano è astratto."
+    effect_hint_it: "Pattern estremo N; unlock job esploratore/tattico."
+
+  # --- Asse S_N: Sensoriale (high) ---
+  s_occhio_pratico:
+    axis: S_N
+    direction: high
+    threshold: 0.65
+    pole_letter: S
+    tier: 1
+    title_it: "Occhio Pratico"
+    flavor_it: "Si fida di ciò che può toccare. Il piano prima, l'istinto dopo."
+    effect_hint_it: "Setup ratio alto; basso uso di improvvisazione."
+
+  s_metodologia_ferro:
+    axis: S_N
+    direction: high
+    threshold: 0.75
+    pole_letter: S
+    tier: 2
+    title_it: "Metodologia di Ferro"
+    flavor_it: "Setup prima di tutto. Non improvvisa mai; ogni azione ha un passo precedente."
+    effect_hint_it: "Riduce evasion; massimizza copertura."
+
+  s_veterano_terreno:
+    axis: S_N
+    direction: high
+    threshold: 0.85
+    pole_letter: S
+    tier: 3
+    title_it: "Veterano del Terreno"
+    flavor_it: "Ogni tile nota, ogni copertura memorizzata. Il biome è mappa incisa."
+    effect_hint_it: "Pattern estremo S; unlock job sentinella/controllore."
+
+  # --- Asse J_P: Percepire (low) ---
+  p_adattatore:
+    axis: J_P
+    direction: low
+    threshold: 0.35
+    pole_letter: P
+    tier: 1
+    title_it: "Adattatore"
+    flavor_it: "Cambia piano al volo senza attrito. L'errore di ieri è solo dato nuovo."
+    effect_hint_it: "Cambia intent frequentemente senza penalty."
+
+  p_improvvisatore:
+    axis: J_P
+    direction: low
+    threshold: 0.25
+    pole_letter: P
+    tier: 2
+    title_it: "Improvvisatore"
+    flavor_it: "Il piano è suggerimento; l'istante è legge. Decide quando la carta è in aria."
+    effect_hint_it: "Reaction penalty ridotta; bonus improvvisazione."
+
+  p_anima_selvaggia:
+    axis: J_P
+    direction: low
+    threshold: 0.15
+    pole_letter: P
+    tier: 3
+    title_it: "Anima Selvaggia"
+    flavor_it: "Non pianifica. Reagisce. Vince. Il cervello tattico vive nel presente continuo."
+    effect_hint_it: "Pattern estremo P; unlock job furtivo/assaltatore."
+
+  # --- Asse J_P: Giudicare (high) ---
+  j_disciplina:
+    axis: J_P
+    direction: high
+    threshold: 0.65
+    pole_letter: J
+    tier: 1
+    title_it: "Disciplina"
+    flavor_it: "Rispetta il piano anche sotto pressione. L'improvvisazione è lusso, non strumento."
+    effect_hint_it: "Bonus se mantiene intent round successivo."
+
+  j_architetto_round:
+    axis: J_P
+    direction: high
+    threshold: 0.75
+    pole_letter: J
+    tier: 2
+    title_it: "Architetto del Round"
+    flavor_it: "Ogni mossa incastonata. Fallito = ricalcolo immediato, non panico."
+    effect_hint_it: "Setup ratio alto; preferisce round planning."
+
+  j_maestro_ordine:
+    axis: J_P
+    direction: high
+    threshold: 0.85
+    pole_letter: J
+    tier: 3
+    title_it: "Maestro di Ordine"
+    flavor_it: "Il caos del nemico non lo raggiunge mai. Il piano è prima, durante, dopo."
+    effect_hint_it: "Pattern estremo J; unlock job tattico/controllore."

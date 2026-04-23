@@ -43,6 +43,8 @@ const {
 } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
+// P4 Thought Cabinet: evaluateThoughts per /thoughts endpoint.
+const { evaluateThoughts: evaluateMbtiThoughts } = require('../services/thoughts/thoughtCabinet');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -160,6 +162,8 @@ function createSessionRouter(options = {}) {
 
   const sessions = new Map();
   let activeSessionId = null;
+  // P4 Thought Cabinet: sessionId -> Map<unitId, Set<thoughtId>>
+  const thoughtsStore = new Map();
 
   function newSessionId() {
     return crypto.randomUUID();
@@ -1698,6 +1702,37 @@ function createSessionRouter(options = {}) {
         pfResult[unitId] = computePfSession(actorVc, formsData);
       }
       res.json({ session_id: session.session_id, pf_session: pfResult });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // P4 Thought Cabinet: on-demand evaluation. Reads current VC snapshot per
+  // actor, crosses mbti_axes against 18 YAML thoughts, cumulatively unlocks
+  // into in-memory store. Returns per-actor { unlocked, newly, details[] }.
+  router.get('/:id/thoughts', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const snapshot = buildVcSnapshot(session, telemetryConfig);
+      let bucket = thoughtsStore.get(session.session_id);
+      if (!bucket) {
+        bucket = new Map();
+        thoughtsStore.set(session.session_id, bucket);
+      }
+      const perActor = {};
+      for (const [unitId, actorVc] of Object.entries(snapshot.per_actor || {})) {
+        const axes = actorVc && actorVc.mbti_axes ? actorVc.mbti_axes : null;
+        let already = bucket.get(unitId);
+        if (!already) {
+          already = new Set();
+          bucket.set(unitId, already);
+        }
+        const { unlocked, newly } = evaluateMbtiThoughts(axes, already);
+        for (const id of newly) already.add(id);
+        perActor[unitId] = { unlocked, newly };
+      }
+      res.json({ session_id: session.session_id, per_actor: perActor });
     } catch (err) {
       next(err);
     }
