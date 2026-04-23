@@ -421,3 +421,174 @@
     max-width: 360px;
   }
 }
+
+/* M11 onboarding — primo accesso player */
+.lobby-onboarding {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  background: rgba(8, 10, 16, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.lobby-onboarding-card {
+  max-width: 480px;
+  width: 100%;
+  background: #151922;
+  border: 1px solid #2a3040;
+  border-radius: 14px;
+  padding: 24px 24px 20px;
+  color: #e8eaf0;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+.lobby-onboarding-card h2 {
+  margin: 6px 0 10px;
+  font-size: 1.2rem;
+}
+
+.lobby-onboarding-card p {
+  margin: 0 0 18px;
+  line-height: 1.5;
+  color: #c7cbd6;
+}
+
+.lobby-onboarding-progress {
+  font-size: 0.8rem;
+  color: #8891a3;
+  letter-spacing: 1px;
+}
+
+.lobby-onboarding-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.lobby-onboarding-actions button {
+  padding: 9px 14px;
+  font-size: 0.92rem;
+  border-radius: 8px;
+  border: 1px solid #2a3040;
+  background: #1d2230;
+  color: #e8eaf0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.lobby-onboarding-actions button:hover:not(:disabled) {
+  background: #2a3040;
+}
+
+.lobby-onboarding-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.lobby-onboarding-actions .lobby-onboarding-next {
+  background: #4fc3f7;
+  color: #001014;
+  border-color: #4fc3f7;
+}
+
+.lobby-onboarding-actions .lobby-onboarding-next:hover {
+  background: #66d1fb;
+}
+
+.lobby-onboarding-actions .lobby-onboarding-skip {
+  margin-right: auto;
+  color: #8891a3;
+  background: transparent;
+  border-color: transparent;
+}
+
+.lobby-onboarding-actions .lobby-onboarding-skip:hover {
+  color: #e8eaf0;
+  background: #1d2230;
+}
+
+/* Host share hint */
+.lobby-host-share-hint {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9998;
+  max-width: 340px;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.lobby-host-share-card {
+  background: linear-gradient(180deg, #1a2538 0%, #151922 100%);
+  border: 1px solid #ffb74d;
+  border-radius: 12px;
+  padding: 16px 18px;
+  color: #e8eaf0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.lobby-host-share-title {
+  font-size: 0.88rem;
+  color: #ffb74d;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.lobby-host-share-code {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 8px;
+  text-align: center;
+  color: #ffb74d;
+  margin: 8px 0 12px;
+  font-family: 'Noto Sans', monospace;
+}
+
+.lobby-host-share-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.lobby-host-share-url {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 9px;
+  background: #0b0d12;
+  border: 1px solid #2a3040;
+  border-radius: 6px;
+  color: #c7cbd6;
+  font-family: 'Noto Sans', monospace;
+  font-size: 0.78rem;
+}
+
+.lobby-host-share-copy {
+  padding: 7px 12px;
+  font-size: 0.85rem;
+  background: #ffb74d;
+  color: #201000;
+  border: 1px solid #ffb74d;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lobby-host-share-copy:hover {
+  background: #ffc875;
+}
+
+.lobby-host-share-status {
+  font-size: 0.78rem;
+  color: #66bb6a;
+  min-height: 1.1em;
+  margin-bottom: 6px;
+}
+
+.lobby-host-share-hint-body {
+  font-size: 0.78rem;
+  color: #8891a3;
+  line-height: 1.4;
+}
