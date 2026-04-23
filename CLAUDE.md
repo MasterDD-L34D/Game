@@ -316,6 +316,23 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - `tests/scripts/crossPlatformRunners.test.js` guard
 - Baseline: **333/333** (AI 307 + lobby 15 + e2e 11)
 
+**Milestone sessione 2026-04-23 M12 Phase A + B + C (stack 3 PR mergiati)**:
+
+- **PR #1689 merged** `0d26ca6a` — Phase A: `apps/backend/services/forms/formEvolution.js` `FormEvolutionEngine` class + `apps/backend/routes/forms.js` 5 endpoint REST (registry/:id/evaluate/options/evolve) + 5 regole di gating (confidence/PE/cooldown/cap/same-form) + 25 test (16 unit + 9 route) + ADR `docs/adr/ADR-2026-04-23-m12-phase-a-form-evolution.md`
+- **PR #1690 merged** `578e1cc9` — Phase B: `formSessionStore.js` (in-memory keyed `${sid}:${uid}` + Prisma slot reserved) + `packRoller.js` (data/packs.yaml loader + mulberry32 seeded RNG + d20/d12/BIAS/SCELTA) + 7 nuovi endpoint (session CRUD + pack/roll + pack/costs) + 27 test (6 store + 11 pack + 10 session+pack route)
+- **PR #1691 merged** `080bf3b9` — Phase C: `apps/play/src/formsPanel.js` overlay modale (16 MBTI form cards + confidence bar + eligibility + evolve + pack roll) + `apps/play/src/api.js` +13 metodi client + header button 🧬 Evo + 5 unit test inferVcAxes helper
+- **Test M12 suite**: 16 engine + 9 route + 6 store + 11 pack + 10 route sessione+pack + 5 panel = **57 test** · format:check verde
+- **Grand total main post-merge**: **390/390** (307 AI + 26 lobby + 57 M12 + altri)
+- **Flow end-to-end**: unit VC axes → projectForm → engine.evaluate (gating) → engine.evolve → formSessionStore.applyDelta → UI panel render + pack roll preview
+- **Pilastro 2 status**: 🔴 → 🟡 (Phase A) → 🟡+ (Phase B) → **🟡++** (Phase C) → 🟢 candidato post-Phase D
+- **Handoff doc**: [`docs/planning/2026-04-24-next-session-kickoff-m12-phase-d.md`](docs/planning/2026-04-24-next-session-kickoff-m12-phase-d.md)
+
+**Residuo backlog M12**:
+
+- **M12 Phase D** — campaign advance trigger (`evolve_opportunity` additive field) + VC snapshot live pipe + animated form transition + Prisma adapter (P1, ~4-6h autonomous)
+- Campaign integration (auto-open panel post-victory + pe_earned ≥ 8)
+- VC snapshot pipe dal backend `/api/session/:id/vc` a `state.world.vc_snapshot`
+
 ### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
 
 Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 🟢 confondevano **"dataset shipped"** con **"runtime shipped"**.
@@ -323,14 +340,14 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 - `docs/planning/2026-04-20-pilastri-reality-audit.md` — breakdown dettagliato per Pilastro.
 - `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` — roadmap 3-sprint con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
 
-| #   | Pilastro                     |           Stato            |
-| --- | ---------------------------- | :------------------------: |
-| 1   | Tattica leggibile (FFT)      |             🟢             |
-| 2   | Evoluzione emergente (Spore) |             🟡             |
-| 3   | Identità Specie × Job        |             🟡             |
-| 4   | Temperamenti MBTI/Ennea      |             🟡             |
-| 5   | Co-op vs Sistema             | 🟡 (playtest pending → 🟢) |
-| 6   | Fairness                     |             🟡             |
+| #   | Pilastro                     |             Stato             |
+| --- | ---------------------------- | :---------------------------: |
+| 1   | Tattica leggibile (FFT)      |              🟢               |
+| 2   | Evoluzione emergente (Spore) | 🟡++ (A+B+C shipped, Phase D) |
+| 3   | Identità Specie × Job        |              🟡               |
+| 4   | Temperamenti MBTI/Ennea      |              🟡               |
+| 5   | Co-op vs Sistema             |  🟡 (playtest pending → 🟢)   |
+| 6   | Fairness                     |              🟡               |
 
 **Score**: 1/6 🟢 + 5/6 🟡 (zero 🔴 post deep-audit).
 
