@@ -327,6 +327,12 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - **Pilastro 2 status**: 🔴 → 🟡 (Phase A) → 🟡+ (Phase B) → **🟡++** (Phase C) → 🟢 candidato post-Phase D
 - **Handoff doc**: [`docs/planning/2026-04-24-next-session-kickoff-m12-phase-d.md`](docs/planning/2026-04-24-next-session-kickoff-m12-phase-d.md)
 
+**Sessione 2026-04-25 P3.B + P6.B + verify sweep (3 PR)**:
+
+- **PR #1696 merged** `9319eedd` — Verification post-merge: registry 3 new docs (2 ADR + 1 handoff) + workstream fix `planning` → `cross-cutting`. Governance 0 errors. Baseline 467/467.
+- **PR #1697 merged** `a462d4d5` — M13 P3 Phase B: campaign advance XP grant hook (survivors+xp_per_unit opzionali, response.xp_grants[]). Session /start applyProgressionToUnits (stat bonuses + \_perk_passives/ability_mods). Combat resolver 5 passive tags wired (flank_bonus, first_strike_bonus, execution_bonus, isolated_target_bonus, long_range_bonus). Frontend progressionPanel overlay (pattern formsPanel) + header btn 📈 Lv + auto-open on leveled_up. Balance pass 448 builds validated. **Pilastro 3**: 🟡+ → **🟢 candidato**. +24 test.
+- **PR #1698 merged** `135b5b1f` — M13 P6 Phase B: calibration harness Python tools/py/batch_calibrate_hardcore07.py (N=10 target win 30-50%, execution userland). HUD timer countdown bottom-right overlay + CSS @keyframes mt-pulse (red warning + strikethrough expired). Campaign auto-timeout: state.lastMissionTimer cache → advance override outcome='timeout' quando timer.expired. **Pilastro 6**: 🟡+ → **🟢 candidato**. +10 test.
+
 **Sessione 2026-04-24 M12.D + M13.P3 + M13.P6 (3 PR)**:
 
 - **PR #1693 merged** `2cfd4540` — M12 Phase D: campaign `/advance` response += `evolve_opportunity` additive flag (victory + pe_earned ≥ 8). `main.js refresh` fire-and-forget `api.vc(sid)` → `state.vcSnapshot` pipe. `formsPanel.onEvolveSuccess` callback → `pushPopup('🧬 ' + form_id)` + `flashUnit` + `sfx.select`. Prisma write-through adapter `FormSessionState` model + migration 0003 + graceful in-memory fallback. **Pilastro 2**: 🟡++ → **🟢 candidato**. +10 test (27 campaignRoutes + 6 formSessionStorePrisma).
@@ -349,16 +355,16 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 - `docs/planning/2026-04-20-pilastri-reality-audit.md` — breakdown dettagliato per Pilastro.
 - `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` — roadmap 3-sprint con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
 
-| #   | Pilastro                     |                       Stato                        |
-| --- | ---------------------------- | :------------------------------------------------: |
-| 1   | Tattica leggibile (FFT)      |                         🟢                         |
-| 2   | Evoluzione emergente (Spore) |  🟢 candidato (Phase D shipped, playtest pending)  |
-| 3   | Identità Specie × Job        | 🟡+ (engine + 84 perks live, resolver/UI pending)  |
-| 4   | Temperamenti MBTI/Ennea      |                         🟡                         |
-| 5   | Co-op vs Sistema             |             🟡 (playtest pending → 🟢)             |
-| 6   | Fairness                     | 🟡+ (timer engine live, calibration + HUD pending) |
+| #   | Pilastro                     |                        Stato                         |
+| --- | ---------------------------- | :--------------------------------------------------: |
+| 1   | Tattica leggibile (FFT)      |                          🟢                          |
+| 2   | Evoluzione emergente (Spore) |   🟢 candidato (Phase D shipped, playtest pending)   |
+| 3   | Identità Specie × Job        |   🟢 candidato (Phase B shipped, playtest gating)    |
+| 4   | Temperamenti MBTI/Ennea      |                          🟡                          |
+| 5   | Co-op vs Sistema             |              🟡 (playtest pending → 🟢)              |
+| 6   | Fairness                     | 🟢 candidato (Phase B shipped, calibration userland) |
 
-**Score**: 1/6 🟢 + 1/6 🟢 candidato + 3/6 🟡+ + 2/6 🟡 (zero 🔴).
+**Score**: 1/6 🟢 + **3/6 🟢 candidato** + 2/6 🟡 (zero 🔴).
 
 **Gap principali + evidence-based strategy**:
 
