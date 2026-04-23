@@ -1651,6 +1651,9 @@ function createSessionRouter(options = {}) {
       const eventsCount = session.events.length;
       const logFile = session.logFilePath;
       sessions.delete(session.session_id);
+      // P4 Thought Cabinet: release per-session unlock cache on teardown.
+      // Prevents linear memory growth over process lifetime (Codex review #1702).
+      thoughtsStore.delete(session.session_id);
       if (activeSessionId === session.session_id) {
         activeSessionId = null;
       }
