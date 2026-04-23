@@ -1,6 +1,6 @@
 ---
 title: 'Next session kickoff — M13 Phase B (P3 resolver wire / P6 calibration) + P4 MBTI completion'
-workstream: planning
+workstream: cross-cutting
 category: handoff
 status: draft
 owner: master-dd
