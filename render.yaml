@@ -1,0 +1,49 @@
+# Render Blueprint — Evo-Tactics backend (M11 co-op WS)
+# ADR-2026-04-26 — hosting stack decision (free web service, WS keepalive).
+#
+# Deploy:
+#   1. Commit this file on main (or target branch).
+#   2. Render dashboard → New → Blueprint → connect repo → apply.
+#   3. Env var DATABASE_URL (optional, set if LOBBY_PRISMA_ENABLED=true).
+#   4. Custom domain opzionale.
+#
+# Render free tier:
+#   - 512MB RAM, spin-down 15min idle, WS msg keepalive (Feb 2026 update).
+#   - Build minutes: 500/mese, sufficiente per solo-dev.
+#
+# WS upgrade: LOBBY_WS_SHARED=true attach WS al server HTTP existente
+# sulla stessa PORT esposta da Render (nessun secondo port pubblico).
+#
+# Healthcheck: GET /api/lobby/state (no auth, sempre 200).
+
+services:
+  - type: web
+    name: evo-tactics-backend
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    rootDir: .
+    buildCommand: npm ci && npm run play:build
+    startCommand: node apps/backend/index.js
+    healthCheckPath: /api/lobby/state
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22.19.0
+      - key: NODE_ENV
+        value: production
+      - key: LOBBY_WS_ENABLED
+        value: 'true'
+      - key: LOBBY_WS_SHARED
+        value: 'true'
+      - key: LOBBY_PRISMA_ENABLED
+        value: 'false'
+      - key: GAME_DATABASE_ENABLED
+        value: 'false'
+      - key: IDEA_ENGINE_DISABLE_STATUS_REFRESH
+        value: '1'
+      # Render injects PORT automaticamente; backend legge process.env.PORT.
+      # CORS wide open per demo (tighten in prod).
+      - key: CORS_ORIGIN
+        value: '*'
