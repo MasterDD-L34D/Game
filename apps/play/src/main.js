@@ -21,6 +21,7 @@ import { toggleCodex } from './codexPanel.js';
 import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
+import { initFormsPanel } from './formsPanel.js';
 
 const state = {
   sid: null,
@@ -1339,6 +1340,27 @@ initHelpPanel('help-open');
 initFeedbackPanel({ getSessionId: () => state.sid });
 // M10 Phase D — campaign panel (ADR-2026-04-21)
 initCampaignPanel();
+// M12 Phase C — forms evolution panel (ADR-2026-04-23-m12-phase-a)
+initFormsPanel({
+  getSessionId: () => state.sid,
+  getSelectedUnit: () =>
+    state.world && state.selected
+      ? getUnits(state.world).find((u) => u.id === state.selected) || null
+      : null,
+  getVcSnapshot: () => ({
+    // Placeholder axes; real VC data lives backend-side.
+    // Until /api/session/:id/vc is piped into state, we return neutral defaults
+    // so panel works, and backend projectForm falls back to center of grid.
+    round: state.world?.round ?? state.world?.turn ?? 0,
+    turn: state.world?.turn ?? 0,
+    mbti_axes: state.world?.vc_snapshot?.mbti_axes || {
+      E_I: { value: 0.5 },
+      S_N: { value: 0.5 },
+      T_F: { value: 0.5 },
+      J_P: { value: 0.5 },
+    },
+  }),
+});
 
 // M11 Phase B — lobby bridge (Jackbox room-code WS). Null if no session stored.
 // Host role: publishes world state to players after each /session/state refresh.

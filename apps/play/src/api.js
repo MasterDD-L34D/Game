@@ -110,4 +110,51 @@ export const api = {
     }),
   campaignList: (playerId) =>
     jsonFetch(`/api/campaign/list?player_id=${encodeURIComponent(playerId)}`),
+  // M12 Phase A+B+C — Forms / evolution engine.
+  formsRegistry: () => jsonFetch('/api/v1/forms/registry'),
+  formsGet: (id) => jsonFetch(`/api/v1/forms/${encodeURIComponent(id)}`),
+  formsEvaluate: (body) =>
+    jsonFetch('/api/v1/forms/evaluate', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  formsOptions: (body) =>
+    jsonFetch('/api/v1/forms/options', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  formsEvolve: (body) =>
+    jsonFetch('/api/v1/forms/evolve', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  formsSessionList: (sid) => jsonFetch(`/api/v1/forms/session/${encodeURIComponent(sid)}`),
+  formsSessionGet: (sid, unitId) =>
+    jsonFetch(`/api/v1/forms/session/${encodeURIComponent(sid)}/${encodeURIComponent(unitId)}`),
+  formsSessionSeed: (sid, unitId, body) =>
+    jsonFetch(
+      `/api/v1/forms/session/${encodeURIComponent(sid)}/${encodeURIComponent(unitId)}/seed`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body || {}),
+      },
+    ),
+  formsSessionEvolve: (sid, unitId, body) =>
+    jsonFetch(
+      `/api/v1/forms/session/${encodeURIComponent(sid)}/${encodeURIComponent(unitId)}/evolve`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    ),
+  formsSessionClear: (sid) =>
+    jsonFetch(`/api/v1/forms/session/${encodeURIComponent(sid)}`, {
+      method: 'DELETE',
+    }),
+  formsPackRoll: (body) =>
+    jsonFetch('/api/v1/forms/pack/roll', {
+      method: 'POST',
+      body: JSON.stringify(body || {}),
+    }),
+  formsPackCosts: () => jsonFetch('/api/v1/forms/pack/costs'),
 };
