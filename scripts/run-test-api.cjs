@@ -21,6 +21,7 @@ const steps = [
   'node --test tests/scripts/speciesTraitReferences.test.js',
   'node --test tests/scripts/replaceAllSafety.test.js',
   'node --test tests/scripts/damageCurvesIntegrity.test.js',
+  'node --test tests/scripts/crossPlatformRunners.test.js',
 ];
 
 const env = {
