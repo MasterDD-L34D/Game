@@ -1,5 +1,5 @@
 // M12 Phase B — In-memory session store for form evolution state.
-// ADR-2026-04-23-m12-phase-a (Phase B extension).
+// M12 Phase D — Prisma write-through adapter (ADR-2026-04-23 addendum).
 //
 // Scopes unit form state per session_id so that /api/v1/forms/session/:sid/*
 // endpoints can read/write without piggybacking on session.js (guardrail:
@@ -8,8 +8,10 @@
 // Storage shape: Map<`${sessionId}:${unitId}`, unitState>
 //   unitState = { current_form_id, pe, last_evolve_round, evolve_count, last_delta?, updated_at }
 //
-// Prisma adapter: constructor accepts `{ prisma }` for future persistence.
-// Phase B ships in-memory only; Phase C wires a Prisma table if deploy needs it.
+// Prisma adapter: constructor accepts `{ prisma }`. When `prisma.formSessionState`
+// is present, writes fire-and-forget upsert + `hydrate(sessionId)` pre-loads
+// the in-memory Map from DB. Keeps route API synchronous; failures log and fall
+// back to in-memory only.
 
 'use strict';
 
@@ -17,9 +19,84 @@ function makeKey(sessionId, unitId) {
   return `${sessionId}:${unitId}`;
 }
 
-function createFormSessionStore({ prisma = null } = {}) {
+function prismaSupportsForms(prisma) {
+  return Boolean(
+    prisma &&
+      prisma.formSessionState &&
+      typeof prisma.formSessionState.upsert === 'function' &&
+      typeof prisma.formSessionState.findMany === 'function',
+  );
+}
+
+function createFormSessionStore({ prisma = null, logger = null } = {}) {
   const states = new Map();
-  const prismaBackend = prisma || null; // reserved for Phase C
+  const usePrisma = prismaSupportsForms(prisma);
+  const log = logger || console;
+
+  function persistAsync(sessionId, unitId, next) {
+    if (!usePrisma) return;
+    const lastDelta = next.last_delta ? JSON.stringify(next.last_delta) : null;
+    prisma.formSessionState
+      .upsert({
+        where: { sessionId_unitId: { sessionId, unitId } },
+        create: {
+          sessionId,
+          unitId,
+          currentFormId: next.current_form_id ?? null,
+          pe: Number(next.pe ?? 0),
+          lastEvolveRound: next.last_evolve_round ?? null,
+          evolveCount: Number(next.evolve_count ?? 0),
+          lastDelta,
+        },
+        update: {
+          currentFormId: next.current_form_id ?? null,
+          pe: Number(next.pe ?? 0),
+          lastEvolveRound: next.last_evolve_round ?? null,
+          evolveCount: Number(next.evolve_count ?? 0),
+          lastDelta,
+        },
+      })
+      .catch((err) => {
+        log.warn?.(
+          `[formSessionStore] prisma upsert failed for ${sessionId}:${unitId}:`,
+          err?.message || err,
+        );
+      });
+  }
+
+  function fromPrismaRow(row) {
+    let lastDelta = null;
+    if (row.lastDelta) {
+      try {
+        lastDelta = JSON.parse(row.lastDelta);
+      } catch {
+        lastDelta = null;
+      }
+    }
+    return {
+      id: row.unitId,
+      current_form_id: row.currentFormId ?? null,
+      pe: row.pe ?? 0,
+      last_evolve_round: row.lastEvolveRound ?? null,
+      evolve_count: row.evolveCount ?? 0,
+      last_delta: lastDelta,
+      updated_at: row.updatedAt ? new Date(row.updatedAt).getTime() : Date.now(),
+    };
+  }
+
+  async function hydrate(sessionId) {
+    if (!usePrisma || !sessionId) return 0;
+    try {
+      const rows = await prisma.formSessionState.findMany({ where: { sessionId } });
+      for (const row of rows) {
+        states.set(makeKey(sessionId, row.unitId), fromPrismaRow(row));
+      }
+      return rows.length;
+    } catch (err) {
+      log.warn?.(`[formSessionStore] hydrate failed for ${sessionId}:`, err?.message || err);
+      return 0;
+    }
+  }
 
   function getUnitState(sessionId, unitId) {
     if (!sessionId || !unitId) return null;
@@ -46,6 +123,7 @@ function createFormSessionStore({ prisma = null } = {}) {
       updated_at: Date.now(),
     };
     states.set(key, next);
+    persistAsync(sessionId, unitId, next);
     return { ...next };
   }
 
@@ -92,6 +170,14 @@ function createFormSessionStore({ prisma = null } = {}) {
         removed += 1;
       }
     }
+    if (usePrisma) {
+      prisma.formSessionState.deleteMany({ where: { sessionId } }).catch((err) => {
+        log.warn?.(
+          `[formSessionStore] prisma deleteMany failed for ${sessionId}:`,
+          err?.message || err,
+        );
+      });
+    }
     return removed;
   }
 
@@ -114,8 +200,9 @@ function createFormSessionStore({ prisma = null } = {}) {
     clearSession,
     clearAll,
     size,
-    _prisma: prismaBackend, // reserved
+    hydrate,
+    _mode: usePrisma ? 'prisma' : 'in-memory',
   };
 }
 
-module.exports = { createFormSessionStore };
+module.exports = { createFormSessionStore, prismaSupportsForms };
