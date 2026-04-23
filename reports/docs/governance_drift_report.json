@@ -1,17 +1,11 @@
 {
-  "generated_at": "2026-04-20T19:38:56+00:00",
+  "generated_at": "2026-04-23T20:40:47+00:00",
   "summary": {
-    "total": 4,
+    "total": 5,
     "errors": 0,
-    "warnings": 4
+    "warnings": 5
   },
   "issues": [
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/core/51-ONBOARDING-60S.md",
-      "message": "Campo last_verified differente tra frontmatter ('2026-04-21') e registry (2026-04-21)"
-    },
     {
       "level": "warning",
       "code": "frontmatter_registry_mismatch",
@@ -29,6 +23,18 @@
       "code": "frontmatter_registry_mismatch",
       "path": "docs/core/44-HUD-LAYOUT-REFERENCES.md",
       "message": "Campo last_verified differente tra frontmatter ('2026-04-18') e registry (2026-04-18)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/core/51-ONBOARDING-60S.md",
+      "message": "Campo last_verified differente tra frontmatter ('2026-04-21') e registry (2026-04-21)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/incoming.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-20"
     }
   ]
 }
