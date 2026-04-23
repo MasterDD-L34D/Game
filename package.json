@@ -46,7 +46,10 @@
     "docs:migrate:dry": "python tools/docs_governance_migrator.py generate-frontmatter --dry-run",
     "docs:migrate:report": "python tools/docs_governance_migrator.py report",
     "play:dev": "npm run dev --workspace apps/play",
-    "play:build": "npm run build --workspace apps/play"
+    "play:build": "npm run build --workspace apps/play",
+    "demo:build": "npm run build --workspace apps/play",
+    "demo:start": "node scripts/run-demo.cjs",
+    "demo": "npm run demo:build && npm run demo:start"
   },
   "lint-staged": {
     "*.{js,cjs,mjs,ts,tsx,jsx,json,md,yml,yaml,css,html}": [

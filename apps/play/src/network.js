@@ -401,8 +401,31 @@ export function clearLobbySession() {
   }
 }
 
-/** Resolve the WS URL: VITE env if defined, else same-origin ws:// with port 3341. */
+/**
+ * Resolve the WS URL. Priority (demo one-tunnel friendly):
+ *   1. URL query `?ws=wss://...` (shareable override, per-session)
+ *   2. `window.LOBBY_WS_URL` (runtime injection, e.g. inline <script>)
+ *   3. `window.LOBBY_WS_SAME_ORIGIN === true` → same-origin `/ws` (shared HTTP+WS)
+ *   4. VITE_LOBBY_WS_URL (build-time env)
+ *   5. same-origin host with port 3341 (default dedicated-port backend)
+ */
 export function resolveWsUrl() {
+  if (typeof window !== 'undefined' && window.location) {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('ws');
+      if (q) return q;
+    } catch {
+      // noop
+    }
+    if (typeof window.LOBBY_WS_URL === 'string' && window.LOBBY_WS_URL) {
+      return window.LOBBY_WS_URL;
+    }
+    if (window.LOBBY_WS_SAME_ORIGIN === true) {
+      const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      return `${proto}//${window.location.host}/ws`;
+    }
+  }
   try {
     if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_LOBBY_WS_URL) {
       return import.meta.env.VITE_LOBBY_WS_URL;
