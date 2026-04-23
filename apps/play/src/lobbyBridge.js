@@ -22,6 +22,7 @@ import {
   resolveWsUrl,
   saveLobbySession,
 } from './network.js';
+import './lobbyBridge.css';
 
 function createBanner(session, onLeave) {
   let banner = document.getElementById('lobby-banner');
@@ -38,94 +39,6 @@ function createBanner(session, onLeave) {
     <span class="lobby-banner-players" data-count="0"></span>
     <button class="lobby-banner-leave" type="button" title="Esci dalla stanza">✕ Esci</button>
   `;
-  if (!document.getElementById('lobby-banner-styles')) {
-    const style = document.createElement('style');
-    style.id = 'lobby-banner-styles';
-    style.textContent = `
-      .lobby-banner {
-        position: fixed; top: 8px; right: 8px; z-index: 9999;
-        display: flex; align-items: center; gap: 10px;
-        padding: 6px 12px; border-radius: 999px;
-        font-family: Inter, system-ui, sans-serif; font-size: 0.85rem;
-        color: #e8eaf0; background: rgba(21, 25, 34, 0.92);
-        border: 1px solid #2a3040; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-      }
-      .lobby-banner-host { border-color: #ffb74d; }
-      .lobby-banner-player { border-color: #4fc3f7; }
-      .lobby-banner-role { font-weight: 700; letter-spacing: 0.5px; }
-      .lobby-banner-host .lobby-banner-role { color: #ffb74d; }
-      .lobby-banner-player .lobby-banner-role { color: #4fc3f7; }
-      .lobby-banner-code { font-family: 'Noto Sans', monospace; letter-spacing: 3px; font-weight: 700; }
-      .lobby-banner-status { display: flex; align-items: center; gap: 5px; }
-      .lobby-banner-status .dot { width: 8px; height: 8px; border-radius: 50%; background: #ffa726; }
-      .lobby-banner-status[data-status="connected"] .dot { background: #66bb6a; }
-      .lobby-banner-status[data-status="reconnecting"] .dot { background: #ef5350; }
-      .lobby-banner-status[data-status="closed"] .dot { background: #78909c; }
-      .lobby-banner-leave {
-        border: none; background: transparent; color: #ef9a9a;
-        cursor: pointer; font-size: 0.9rem; padding: 2px 6px;
-      }
-      .lobby-banner-leave:hover { color: #ef5350; }
-      .lobby-spectator-overlay {
-        position: fixed; inset: 0; background: rgba(11, 13, 18, 0.78); z-index: 9998;
-        display: flex; align-items: center; justify-content: center;
-        color: #e8eaf0; font-family: Inter, system-ui, sans-serif; padding: 24px;
-      }
-      .lobby-spectator-card {
-        max-width: 640px; width: 100%; background: #151922; border: 1px solid #2a3040;
-        border-radius: 12px; padding: 24px; text-align: left;
-        max-height: calc(100vh - 48px); overflow-y: auto;
-      }
-      .lobby-spectator-card h2 { margin: 0 0 8px; color: #4fc3f7; text-align: center; }
-      .lobby-spectator-card p { color: #8891a3; margin: 4px 0; }
-      .lobby-spectator-status-row { text-align: center; margin-bottom: 12px; }
-      .lobby-campaign-summary {
-        background: #1a2538; border: 1px solid #2c4057; border-radius: 8px;
-        padding: 10px 14px; margin: 12px 0; font-size: 0.9rem;
-      }
-      .lobby-campaign-summary .title { color: #ffb74d; font-weight: 700; margin-bottom: 4px; }
-      .lobby-roster {
-        display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0;
-      }
-      .lobby-roster-chip {
-        padding: 4px 10px; border-radius: 999px; font-size: 0.8rem;
-        background: #1d2230; border: 1px solid #2a3040; color: #e8eaf0;
-      }
-      .lobby-roster-chip.dead { opacity: 0.45; text-decoration: line-through; }
-      .lobby-roster-chip.player { border-color: #66bb6a; }
-      .lobby-roster-chip.enemy { border-color: #ef5350; }
-      .lobby-composer {
-        margin-top: 14px; padding: 14px; background: #0b0d12;
-        border: 1px solid #2a3040; border-radius: 10px;
-      }
-      .lobby-composer h3 { margin: 0 0 8px; color: #ffb74d; font-size: 0.95rem; }
-      .lobby-composer-row {
-        display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px;
-      }
-      .lobby-composer-row label { font-size: 0.8rem; color: #8891a3; }
-      .lobby-composer select,
-      .lobby-composer input {
-        padding: 8px 10px; background: #151922; border: 1px solid #2a3040;
-        border-radius: 6px; color: #e8eaf0; font-family: inherit; font-size: 0.9rem;
-      }
-      .lobby-composer-row-inline { display: flex; gap: 8px; }
-      .lobby-composer-row-inline > * { flex: 1; }
-      .lobby-composer-submit {
-        width: 100%; padding: 10px 14px; background: #4fc3f7; color: #001014;
-        border: none; border-radius: 6px; font-weight: 700; cursor: pointer;
-      }
-      .lobby-composer-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-      .lobby-composer-status { margin-top: 8px; min-height: 1.2em; font-size: 0.85rem; }
-      .lobby-composer-status.ok { color: #66bb6a; }
-      .lobby-composer-status.err { color: #ef5350; }
-      .lobby-intents-sent {
-        margin-top: 12px; font-size: 0.8rem; color: #8891a3;
-      }
-      .lobby-intents-sent ul { margin: 4px 0; padding-left: 18px; }
-      .lobby-intents-sent li { font-family: monospace; color: #e8eaf0; }
-    `;
-    document.head.appendChild(style);
-  }
   document.body.appendChild(banner);
   banner.querySelector('.lobby-banner-leave').addEventListener('click', () => onLeave());
   return banner;
@@ -143,7 +56,7 @@ function setBannerPlayerCount(banner, count) {
   const el = banner?.querySelector('.lobby-banner-players');
   if (!el) return;
   el.dataset.count = String(count);
-  el.textContent = `${count} player`;
+  el.textContent = `${count} ${count === 1 ? 'player' : 'players'}`;
 }
 
 function renderSpectatorOverlay(session) {
@@ -156,14 +69,14 @@ function renderSpectatorOverlay(session) {
     <div class="lobby-spectator-card">
       <h2>📱 Player · Stanza ${session.code}</h2>
       <div class="lobby-spectator-status-row">
-        <span id="lobby-spectator-turn" style="color:#ffb74d">In attesa dell'host…</span>
+        <span id="lobby-spectator-turn" class="lobby-spectator-turn">In attesa dell'host…</span>
       </div>
-      <div id="lobby-campaign-summary" class="lobby-campaign-summary" style="display:none">
+      <div id="lobby-campaign-summary" class="lobby-campaign-summary lobby-hidden">
         <div class="title">🗺 Campagna</div>
         <div id="lobby-campaign-body">—</div>
       </div>
       <div>
-        <p style="margin-top:0"><strong>Roster</strong></p>
+        <p class="lobby-roster-title"><strong>Roster</strong></p>
         <div id="lobby-roster" class="lobby-roster">
           <span class="lobby-roster-chip">(nessuno stato ancora)</span>
         </div>
@@ -210,9 +123,9 @@ function renderSpectatorOverlay(session) {
         <strong>Intent inviati:</strong>
         <ul id="lobby-intents-list"></ul>
       </div>
-      <details style="margin-top:12px">
-        <summary style="cursor:pointer;color:#8891a3;font-size:0.85rem">State JSON raw</summary>
-        <pre id="lobby-spectator-state" style="background:#0b0d12;border:1px solid #2a3040;border-radius:6px;padding:10px;font-size:0.75rem;max-height:220px;overflow:auto">(nessuno stato ancora)</pre>
+      <details class="lobby-raw-state">
+        <summary>State JSON raw</summary>
+        <pre id="lobby-spectator-state">(nessuno stato ancora)</pre>
       </details>
     </div>
   `;
@@ -258,13 +171,13 @@ function updateSpectatorState(overlay, version, payload, bridge) {
   const campaignBody = overlay.querySelector('#lobby-campaign-body');
   if (campaignBox && campaignBody) {
     if (campaign) {
-      campaignBox.style.display = 'block';
+      campaignBox.classList.remove('lobby-hidden');
       const pe = campaign.pe ?? campaign.pe_total ?? 0;
       const pi = campaign.pi ?? campaign.pi_total ?? 0;
       const node = campaign.current_node_id || campaign.state || '—';
       campaignBody.textContent = `${campaign.id || '—'} · nodo ${node} · PE ${pe} · PI ${pi}`;
     } else {
-      campaignBox.style.display = 'none';
+      campaignBox.classList.add('lobby-hidden');
     }
   }
 
@@ -335,61 +248,6 @@ function createHostRosterPanel(bridge) {
       <li class="lobby-host-roster-empty">(nessun player connesso)</li>
     </ul>
   `;
-  if (!document.getElementById('lobby-host-roster-styles')) {
-    const style = document.createElement('style');
-    style.id = 'lobby-host-roster-styles';
-    style.textContent = `
-      .lobby-host-roster {
-        position: fixed; left: 12px; bottom: 12px; z-index: 9997;
-        background: rgba(21, 25, 34, 0.92); border: 1px solid #2a3040;
-        border-radius: 10px; padding: 10px 14px;
-        font-family: Inter, system-ui, sans-serif; color: #e8eaf0;
-        min-width: 200px; max-width: 280px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-      }
-      .lobby-host-roster-header {
-        display: flex; align-items: center; gap: 8px; font-size: 0.85rem;
-        margin-bottom: 6px;
-      }
-      .lobby-host-roster-code {
-        font-family: 'Noto Sans', monospace; letter-spacing: 3px;
-        color: #ffb74d; font-weight: 700;
-      }
-      .lobby-host-roster-toggle {
-        margin-left: auto; background: transparent; border: none; color: #8891a3;
-        cursor: pointer; font-size: 1rem; padding: 0 4px;
-      }
-      .lobby-host-roster-toggle:hover { color: #e8eaf0; }
-      .lobby-host-roster.collapsed .lobby-host-roster-list { display: none; }
-      .lobby-host-roster-list {
-        list-style: none; margin: 0; padding: 0;
-        max-height: 240px; overflow-y: auto;
-      }
-      .lobby-host-roster-list li {
-        display: flex; align-items: center; gap: 6px;
-        padding: 4px 0; font-size: 0.8rem; border-top: 1px solid #2a3040;
-      }
-      .lobby-host-roster-list li:first-child { border-top: none; }
-      .lobby-host-roster-list .dot {
-        width: 7px; height: 7px; border-radius: 50%; background: #78909c;
-        flex-shrink: 0;
-      }
-      .lobby-host-roster-list li.connected .dot { background: #66bb6a; }
-      .lobby-host-roster-list li.disconnected .dot { background: #ef5350; }
-      .lobby-host-roster-list .role {
-        font-size: 0.7rem; color: #8891a3; text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      .lobby-host-roster-list .role.host { color: #ffb74d; }
-      .lobby-host-roster-list .name {
-        flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      }
-      .lobby-host-roster-empty {
-        color: #8891a3; font-style: italic; justify-content: center;
-      }
-    `;
-    document.head.appendChild(style);
-  }
   document.body.appendChild(panel);
   panel.querySelector('.lobby-host-roster-toggle').addEventListener('click', () => {
     panel.classList.toggle('collapsed');

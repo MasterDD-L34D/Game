@@ -1,22 +1,14 @@
 # QA export changelog
 
 Generato: 2026-04-14T19:23:03.693761Z
-Baseline precedente: 2025-12-09T20:02:28.734099Z
+Baseline precedente: 2026-04-14T19:23:03.693761Z
 
 ## Metriche baseline
 - Tratti totali: 254 (0 vs precedente)
 - Glossario OK: 254 (0 vs precedente)
 - Glossario mancanti: 0 (0 vs precedente)
-- Mismatch matrice: 76 (-3 vs precedente)
+- Mismatch matrice: 76 (0 vs precedente)
 - Tratti con conflitti: 34 (0 vs precedente)
-
-### tratti con mismatch matrice
-- Risolti:
-  - cannone_sonico_a_raggio, ipertrofia_muscolare_massiva, pelage_idrorepellente_avanzato
-
-### tratti senza copertura QA
-- Risolti:
-  - cannone_sonico_a_raggio, ipertrofia_muscolare_massiva, pelage_idrorepellente_avanzato
 
 ## Highlights UI
 - Solo matrice: Strategist, adattamento_volo, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, corteccia_memetica, eco_sismico
