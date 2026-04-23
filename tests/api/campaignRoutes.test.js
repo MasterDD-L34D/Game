@@ -237,3 +237,60 @@ test('GET /api/campaign/summary: unknown id = 404', async (t) => {
   const res = await request('GET', `${url}/api/campaign/summary?id=nonexistent-uuid`);
   assert.equal(res.status, 404);
 });
+
+// M12 Phase D — evolve_opportunity flag (ADR-2026-04-23 addendum).
+
+test('advance: victory + pe_earned >= 8 sets evolve_opportunity=true', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'victory',
+    pe_earned: 8,
+  });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.evolve_opportunity, true);
+  assert.equal(res.body.evolve_pe_threshold, 8);
+  assert.equal(res.body.evolve_pe_earned, 8);
+});
+
+test('advance: victory + pe_earned < 8 sets evolve_opportunity=false', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'victory',
+    pe_earned: 5,
+  });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.evolve_opportunity, false);
+  assert.equal(res.body.evolve_pe_earned, 5);
+});
+
+test('advance: defeat never triggers evolve_opportunity', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'defeat',
+    pe_earned: 20,
+  });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.retry, true);
+  assert.equal(res.body.evolve_opportunity, false);
+});
+
+test('computeEvolveOpportunity exported pure helper', () => {
+  const mod = require('../../apps/backend/routes/campaign');
+  assert.equal(mod.PE_EVOLVE_TRIGGER_THRESHOLD, 8);
+  assert.deepEqual(mod.computeEvolveOpportunity('victory', 8), {
+    evolve_opportunity: true,
+    evolve_pe_threshold: 8,
+    evolve_pe_earned: 8,
+  });
+  assert.equal(mod.computeEvolveOpportunity('victory', 7).evolve_opportunity, false);
+  assert.equal(mod.computeEvolveOpportunity('timeout', 50).evolve_opportunity, false);
+});

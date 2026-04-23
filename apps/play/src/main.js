@@ -21,7 +21,7 @@ import { toggleCodex } from './codexPanel.js';
 import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
-import { initFormsPanel } from './formsPanel.js';
+import { initFormsPanel, openFormsPanel } from './formsPanel.js';
 
 const state = {
   sid: null,
@@ -46,6 +46,10 @@ const state = {
   // Consumato da render.js (icon) + main.js tooltip (label).
   // Reset a ogni begin-planning (nuovo round) o commit-round (resolved).
   threatPreview: [],
+  // M12 Phase D — VC snapshot live pipe (ADR-2026-04-23 addendum).
+  // Shape: { session_id, per_actor: { uid: { mbti_axes, mbti_type, ennea_themes, ... } }, round }.
+  // Fetched from /api/session/:id/vc post-commitRound refresh, consumed by formsPanel.
+  vcSnapshot: null,
 };
 
 // W8b — Shared utility helpers (from Wave 8 research audit).
@@ -805,12 +809,27 @@ function processNewEvents(prevWorld, newWorld) {
   lastEventsCount = (newWorld?.events || []).length;
 }
 
+// M12 Phase D — pipe VC snapshot to state for formsPanel.
+// Fire-and-forget: failures are non-critical (panel falls back to neutral 0.5).
+async function refreshVcSnapshot() {
+  if (!state.sid) return;
+  try {
+    const r = await api.vc(state.sid);
+    if (r.ok) {
+      state.vcSnapshot = r.data;
+    }
+  } catch {
+    /* non-critical */
+  }
+}
+
 async function refresh() {
   const r = await api.state(state.sid);
   if (r.ok) {
     const prev = state.world;
     state.world = r.data;
     processNewEvents(prev, state.world);
+    refreshVcSnapshot();
     if (state.selected) {
       const sel = state.world.units.find((u) => u.id === state.selected);
       if (!sel || sel.hp <= 0) state.selected = null;
@@ -1340,26 +1359,46 @@ initHelpPanel('help-open');
 initFeedbackPanel({ getSessionId: () => state.sid });
 // M10 Phase D — campaign panel (ADR-2026-04-21)
 initCampaignPanel();
-// M12 Phase C — forms evolution panel (ADR-2026-04-23-m12-phase-a)
+// M12 Phase C+D — forms evolution panel (ADR-2026-04-23-m12-phase-a).
+// Phase D: live VC snapshot pipe (state.vcSnapshot) + evolve animation callback.
 initFormsPanel({
   getSessionId: () => state.sid,
   getSelectedUnit: () =>
     state.world && state.selected
       ? getUnits(state.world).find((u) => u.id === state.selected) || null
       : null,
-  getVcSnapshot: () => ({
-    // Placeholder axes; real VC data lives backend-side.
-    // Until /api/session/:id/vc is piped into state, we return neutral defaults
-    // so panel works, and backend projectForm falls back to center of grid.
-    round: state.world?.round ?? state.world?.turn ?? 0,
-    turn: state.world?.turn ?? 0,
-    mbti_axes: state.world?.vc_snapshot?.mbti_axes || {
-      E_I: { value: 0.5 },
-      S_N: { value: 0.5 },
-      T_F: { value: 0.5 },
-      J_P: { value: 0.5 },
-    },
-  }),
+  getVcSnapshot: () => {
+    const selUid = state.selected;
+    const perActor = state.vcSnapshot?.per_actor || {};
+    const actorVc = selUid ? perActor[selUid] : null;
+    const mbti = actorVc?.mbti_axes;
+    return {
+      round: state.world?.round ?? state.world?.turn ?? 0,
+      turn: state.world?.turn ?? 0,
+      mbti_axes:
+        mbti && Object.keys(mbti).length > 0
+          ? mbti
+          : {
+              E_I: { value: 0.5 },
+              S_N: { value: 0.5 },
+              T_F: { value: 0.5 },
+              J_P: { value: 0.5 },
+            },
+      mbti_type: actorVc?.mbti_type || null,
+    };
+  },
+  onEvolveSuccess: ({ unitId, delta }) => {
+    const unit = state.world ? getUnits(state.world).find((u) => u.id === unitId) : null;
+    if (unit?.position) {
+      pushPopup(unit.position.x, unit.position.y, `🧬 ${delta.new_form_id}`, '#66d1fb');
+    }
+    flashUnit(unitId, '#66d1fb');
+    sfx.select();
+    appendLog(
+      logEl,
+      `🧬 ${unitId} → ${delta.new_form_id} (${delta.label}) · PE ${delta.pe_before}→${delta.pe_after}`,
+    );
+  },
 });
 
 // M11 Phase B — lobby bridge (Jackbox room-code WS). Null if no session stored.
@@ -1450,4 +1489,28 @@ if (lobbyBridge?.isPlayer) {
 } else {
   loadModulations().then(() => startNewSession());
 }
-window.__evo = { state, api, refresh, lobbyBridge };
+// M12 Phase D — campaign advance helper with evolve auto-open.
+// Wraps api.campaignAdvance; if backend returns evolve_opportunity=true, opens
+// the forms panel after the encounter outcome is recorded. Consumed by campaign
+// flow triggers (manual user action, harness, host-bridge mirror).
+async function advanceCampaignWithEvolvePrompt(campaignId, outcome, peEarned = 0, piEarned = 0) {
+  const res = await api.campaignAdvance(campaignId, outcome, peEarned, piEarned);
+  if (res.ok && res.data?.evolve_opportunity) {
+    appendLog(
+      logEl,
+      `🧬 Evolve opportunity unlocked (+${res.data.evolve_pe_earned} PE ≥ ${res.data.evolve_pe_threshold})`,
+    );
+    openFormsPanel();
+  }
+  return res;
+}
+
+window.__evo = {
+  state,
+  api,
+  refresh,
+  refreshVcSnapshot,
+  advanceCampaignWithEvolvePrompt,
+  openFormsPanel,
+  lobbyBridge,
+};

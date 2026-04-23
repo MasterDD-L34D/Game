@@ -168,3 +168,69 @@ Mount su **sia** `/api/v1/forms` sia `/api/forms` (backward-compat con conventio
 - Pilastri audit: [`docs/planning/2026-04-20-pilastri-reality-audit.md`](../planning/2026-04-20-pilastri-reality-audit.md)
 - Strategy M9-M11: [`docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md`](../planning/2026-04-20-strategy-m9-m11-evidence-based.md)
 - personalityProjection impl: `apps/backend/services/personalityProjection.js`
+
+---
+
+## Addendum M12 Phase D (2026-04-24) — campaign trigger + VC pipe + anim + Prisma
+
+Phase D chiude Pilastro 2 (🟡++ → 🟢 candidato) con 4 wire aggiuntivi sopra l'engine A+B+C.
+
+### 1. Campaign advance trigger
+
+`POST /api/campaign/advance` aggiunge in response i campi additivi:
+
+```json
+{ "evolve_opportunity": boolean, "evolve_pe_threshold": 8, "evolve_pe_earned": N }
+```
+
+Regola: `outcome === 'victory' && pe_earned >= 8`. Helper puro `computeEvolveOpportunity(outcome, peEarned)` esportato da `apps/backend/routes/campaign.js` per consumers backend. **Frontend wire**: `window.__evo.advanceCampaignWithEvolvePrompt(id, outcome, pe, pi)` in `apps/play/src/main.js` chiama `api.campaignAdvance` e apre automaticamente `formsPanel` se flag set.
+
+### 2. VC snapshot live pipe
+
+`refresh()` in `main.js` ora fa fire-and-forget di `api.vc(sid)` dopo ogni state refresh, caching `state.vcSnapshot` (shape `{ per_actor: { uid: { mbti_axes, mbti_type, ennea_themes } }, round }`). `formsPanel.getVcSnapshot()` restituisce i veri axes del PG selezionato (non più fallback 0.5 ovunque).
+
+### 3. Animated form transition
+
+`formsPanel` espone `onEvolveSuccess({ unitId, delta })` callback. Consumer in `main.js`: `pushPopup('🧬 ' + new_form_id)` + `flashUnit(unitId, '#66d1fb')` + `sfx.select()` + log entry. Non bloccante, riusa stack FX esistente (`apps/play/src/anim.js`).
+
+### 4. Prisma write-through adapter
+
+Nuova tabella `FormSessionState` (migration `0003_form_session_state`). `formSessionStore` ora rileva `prisma.formSessionState` disponibile → `_mode: 'prisma'` + write-through upsert fire-and-forget su ogni `setUnitState/applyDelta/clearSession`. Sync API preservata (nessun breaking change route). Async `hydrate(sessionId)` preload per sessioni ripristinate post-restart.
+
+Failure mode: errore Prisma → log warn, in-memory cache resta autoritativo (graceful degrade pattern `metaProgression.createMetaStore`).
+
+### Schema migration
+
+```sql
+CREATE TABLE form_session_states (
+  id TEXT PRIMARY KEY,
+  session_id TEXT NOT NULL,
+  unit_id TEXT NOT NULL,
+  current_form_id TEXT,
+  pe INTEGER NOT NULL DEFAULT 0,
+  last_evolve_round INTEGER,
+  evolve_count INTEGER NOT NULL DEFAULT 0,
+  last_delta TEXT,
+  created_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE UNIQUE INDEX form_session_states_session_id_unit_id_key ON form_session_states(session_id, unit_id);
+CREATE INDEX form_session_states_session_id_idx ON form_session_states(session_id);
+```
+
+### Test delta Phase D
+
+- `tests/api/campaignRoutes.test.js` +4 test `evolve_opportunity` variants (27/27 totale)
+- `tests/api/formSessionStorePrisma.test.js` +6 test adapter (supports detection, mode, write-through, hydrate, clear, failure fallback)
+
+**Totale test M12 suite**: 25 (A) + 27 (B) + 5 (C) + 4 (D-campaign) + 6 (D-prisma) = **67**. Baseline full-stack: **360+/360+** (307 AI + 26 lobby + 27 campaign routes + 67 M12 + altri).
+
+### Pilastro 2 post-Phase D
+
+- Pre-M12: 🔴 (dataset only)
+- Post-A: 🟡 (engine + REST)
+- Post-B: 🟡+ (session persistence + pack roller)
+- Post-C: 🟡++ (frontend panel UI)
+- **Post-D**: **🟢 candidato** (campaign trigger + VC pipe + animation + DB persistence)
+
+Residuo gating 🟢: end-to-end playtest validation in-session (non-automatizzabile, userland), campaign integration live test (hooked via `window.__evo.advanceCampaignWithEvolvePrompt` ma non ancora chiamato dallo scenario loop).

@@ -225,6 +225,28 @@ model NestState {
   @@map("nest_states")
 }
 
+// ─── M12 Phase D Form evolution persistence (ADR-2026-04-23 addendum) ─────
+// Promotes formSessionStore in-memory Map → DB-backed write-through cache.
+// Adapter preserves in-memory fallback when DATABASE_URL unset (dev/demo/tests).
+// Scope: per-session unit form state (current form, PE, cooldown, evolve count).
+
+model FormSessionState {
+  id              String   @id @default(uuid())
+  sessionId       String   @map("session_id")
+  unitId          String   @map("unit_id")
+  currentFormId   String?  @map("current_form_id")
+  pe              Int      @default(0)
+  lastEvolveRound Int?     @map("last_evolve_round")
+  evolveCount     Int      @default(0) @map("evolve_count")
+  lastDelta       String?  @map("last_delta") // JSON
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@unique([sessionId, unitId])
+  @@index([sessionId])
+  @@map("form_session_states")
+}
+
 model MatingEvent {
   id                String      @id @default(uuid())
   relationId        String      @map("relation_id")

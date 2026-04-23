@@ -19,6 +19,7 @@ const STATE = {
   getSessionId: () => null,
   getSelectedUnit: () => null,
   getVcSnapshot: () => ({}),
+  onEvolveSuccess: null,
   lastUnitId: null,
   cachedOptions: null,
   lastPackRoll: null,
@@ -308,6 +309,14 @@ async function handleEvolveClick(opt) {
     `✓ Evoluta in ${res.data.delta.new_form_id} (${res.data.delta.label}) · PE ${res.data.delta.pe_after}`,
     'ok',
   );
+  // M12 Phase D — fire side-effect hook so host can render animation/popup/log.
+  if (typeof STATE.onEvolveSuccess === 'function') {
+    try {
+      STATE.onEvolveSuccess({ unitId: unit.id, delta: res.data.delta });
+    } catch {
+      /* non-critical */
+    }
+  }
   await refresh();
 }
 
@@ -350,11 +359,13 @@ export function initFormsPanel({
   getSessionId,
   getSelectedUnit,
   getVcSnapshot,
+  onEvolveSuccess,
   buttonId = 'forms-open',
 } = {}) {
   STATE.getSessionId = typeof getSessionId === 'function' ? getSessionId : () => null;
   STATE.getSelectedUnit = typeof getSelectedUnit === 'function' ? getSelectedUnit : () => null;
   STATE.getVcSnapshot = typeof getVcSnapshot === 'function' ? getVcSnapshot : () => ({});
+  STATE.onEvolveSuccess = typeof onEvolveSuccess === 'function' ? onEvolveSuccess : null;
   buildOverlay();
   const btn = document.getElementById(buttonId);
   if (btn) {
