@@ -22,6 +22,7 @@ import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
 import { initFormsPanel, openFormsPanel } from './formsPanel.js';
+import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
 
 const state = {
   sid: null,
@@ -1401,6 +1402,25 @@ initFormsPanel({
   },
 });
 
+// M13 P3 Phase B — progression panel (perk pick overlay).
+initProgressionPanel({
+  getSessionId: () => state.sid,
+  getSelectedUnit: () =>
+    state.world && state.selected
+      ? getUnits(state.world).find((u) => u.id === state.selected) || null
+      : null,
+  getCampaignId: () => {
+    try {
+      return localStorage.getItem('evoTacticsCampaignId') || null;
+    } catch {
+      return null;
+    }
+  },
+  onPickSuccess: ({ unitId, perk }) => {
+    appendLog(logEl, `📈 ${unitId} → perk ${perk?.id || '?'}`);
+  },
+});
+
 // M11 Phase B — lobby bridge (Jackbox room-code WS). Null if no session stored.
 // Host role: publishes world state to players after each /session/state refresh.
 // Player role: renders read-only spectator overlay and skips local session auto-start.
@@ -1494,13 +1514,33 @@ if (lobbyBridge?.isPlayer) {
 // the forms panel after the encounter outcome is recorded. Consumed by campaign
 // flow triggers (manual user action, harness, host-bridge mirror).
 async function advanceCampaignWithEvolvePrompt(campaignId, outcome, peEarned = 0, piEarned = 0) {
-  const res = await api.campaignAdvance(campaignId, outcome, peEarned, piEarned);
-  if (res.ok && res.data?.evolve_opportunity) {
+  // Collect survivors for XP grant (M13 P3 Phase B).
+  const survivors = state.world
+    ? getUnits(state.world)
+        .filter((u) => u.controlled_by === 'player' && Number(u.hp) > 0)
+        .map((u) => ({ id: u.id, job: u.job, hp: u.hp, controlled_by: u.controlled_by }))
+    : [];
+  const extra = survivors.length > 0 ? { survivors } : {};
+  const res = await api.campaignAdvance(campaignId, outcome, peEarned, piEarned, extra);
+  const data = res.data || {};
+  if (res.ok && data.evolve_opportunity) {
     appendLog(
       logEl,
-      `🧬 Evolve opportunity unlocked (+${res.data.evolve_pe_earned} PE ≥ ${res.data.evolve_pe_threshold})`,
+      `🧬 Evolve opportunity unlocked (+${data.evolve_pe_earned} PE ≥ ${data.evolve_pe_threshold})`,
     );
     openFormsPanel();
+  }
+  // Auto-open progression panel if any survivor leveled up → pending perk pick.
+  const grants = Array.isArray(data.xp_grants) ? data.xp_grants : [];
+  const leveled = grants.find((g) => g.leveled_up);
+  if (leveled) {
+    appendLog(logEl, `📈 ${leveled.unit_id} level ${leveled.level_before}→${leveled.level_after}`);
+    // Select the leveled unit and open panel.
+    if (state.world) {
+      const target = getUnits(state.world).find((u) => u.id === leveled.unit_id);
+      if (target) state.selected = target.id;
+    }
+    setTimeout(() => openProgressionPanel(), 200);
   }
   return res;
 }

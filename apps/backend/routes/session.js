@@ -111,6 +111,11 @@ const {
   predictCombat,
 } = require('./sessionHelpers');
 const { createRoundBridge } = require('./sessionRoundBridge');
+// M13 P3 Phase B — progression perks apply + runtime passive damage bonus.
+const {
+  applyProgressionToUnits,
+  computePerkDamageBonus,
+} = require('../services/progression/progressionApply');
 
 // ADR-2026-04-16: round-based combat model migration. PR 2 di N —
 // endpoint stubs dietro feature flag USE_ROUND_MODEL. Il modulo e'
@@ -290,14 +295,23 @@ function createSessionRouter(options = {}) {
       // SPRINT_021: parata reattiva. SPRINT_022: saltata se backstab.
       parryResult = wasBackstab ? null : rollParry(target);
       const parryDelta = parryResult && parryResult.success ? parryResult.damage_delta : 0;
+      // M13 P3 Phase B — perk passive damage bonus (5 tags live).
+      const perkBonus = computePerkDamageBonus(actor, target, {
+        units: session.units || [],
+        isFirstStrike: !actor._first_strike_used,
+      });
       const adjusted =
         baseDamage +
         evaluation.damage_modifier +
         adjacencyBonus +
         rageBonus +
         backstabBonus +
+        perkBonus.bonus +
         parryDelta;
       damageDealt = Math.max(0, adjusted);
+      if (perkBonus.applied.some((p) => p.tag === 'first_strike_bonus')) {
+        actor._first_strike_used = true;
+      }
       // M6-#1 (ADR-2026-04-19): applica channel resistance post damage.
       // Resolve target.resistances lazy: computa da resistance_archetype +
       // trait_ids al primo hit (cache su target._resistances).
@@ -746,6 +760,19 @@ function createSessionRouter(options = {}) {
         } catch (err) {
           console.warn('[trait-env-costs] apply failed:', err.message);
         }
+      }
+
+      // M13 P3 Phase B — apply progression perks (effectiveStats + passives).
+      // Mutates player units in-place: stat bonuses applied, _perk_passives
+      // + _perk_ability_mods attached for runtime lookup. No-op se unit
+      // non registrato in progressionStore. campaign_id da req.body opzionale.
+      let progressionApplied = [];
+      try {
+        const campaignIdForProgression = req.body?.campaign_id || null;
+        const res = applyProgressionToUnits(units, { campaignId: campaignIdForProgression });
+        progressionApplied = res.applied || [];
+      } catch (err) {
+        console.warn('[progression] apply failed:', err.message);
       }
 
       // M7-#2 Phase B: apply damage scaling curves per encounter class.
