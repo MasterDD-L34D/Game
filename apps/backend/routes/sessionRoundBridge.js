@@ -34,6 +34,7 @@ const {
 } = require('../services/squadCoordination');
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
+const { tick: missionTimerTick } = require('../services/combat/missionTimer');
 const { buildThreatPreview } = require('../services/ai/threatPreview');
 
 function createRoundBridge(deps) {
@@ -1049,6 +1050,46 @@ function createRoundBridge(deps) {
         automatic: true,
       });
     }
+
+    // M13 P6 (ADR-2026-04-24) — mission timer tick. Feature flag OFF unless
+    // encounter declares mission_timer.enabled. Expired → emits event +
+    // side_effects (pressure escalate / spawn wave / outcome defeat handled
+    // by caller via timer_state in response).
+    const timerResult = missionTimerTick(session, session.encounter);
+    if (timerResult.warning) {
+      await appendEvent(session, {
+        action_type: 'mission_timer_warning',
+        turn: session.turn,
+        actor_id: null,
+        target_id: null,
+        damage_dealt: 0,
+        result: 'warning',
+        remaining_turns: timerResult.remaining_turns,
+        turn_limit: timerResult.turn_limit,
+        automatic: true,
+      });
+    }
+    if (timerResult.expired && timerResult.action) {
+      await appendEvent(session, {
+        action_type: 'mission_timer_expired',
+        turn: session.turn,
+        actor_id: null,
+        target_id: null,
+        damage_dealt: 0,
+        result: timerResult.action,
+        turn_limit: timerResult.turn_limit,
+        side_effects: timerResult.side_effects || {},
+        automatic: true,
+      });
+      // Apply side_effects: escalate pressure inline (caller-safe).
+      if (timerResult.action === 'escalate_pressure') {
+        const delta = Number(timerResult.side_effects?.pressure_delta) || 0;
+        if (delta && typeof session.sistema_pressure === 'number') {
+          session.sistema_pressure = applyPressureDelta(session.sistema_pressure, delta);
+        }
+      }
+    }
+
     const objectiveResult = evaluateObjective(session, session.encounter);
 
     return {
@@ -1065,6 +1106,7 @@ function createRoundBridge(deps) {
       round_decisions: decisions,
       reinforcement_spawned: reinforcementResult.spawned || [],
       objective_state: objectiveResult,
+      mission_timer: timerResult,
     };
   }
 
@@ -1293,6 +1335,42 @@ function createRoundBridge(deps) {
             automatic: true,
           });
         }
+
+        // M13 P6 — mission timer tick (commit-round path).
+        const timerResult = missionTimerTick(session, session.encounter);
+        if (timerResult.warning) {
+          await appendEvent(session, {
+            action_type: 'mission_timer_warning',
+            turn: session.turn,
+            actor_id: null,
+            target_id: null,
+            damage_dealt: 0,
+            result: 'warning',
+            remaining_turns: timerResult.remaining_turns,
+            turn_limit: timerResult.turn_limit,
+            automatic: true,
+          });
+        }
+        if (timerResult.expired && timerResult.action) {
+          await appendEvent(session, {
+            action_type: 'mission_timer_expired',
+            turn: session.turn,
+            actor_id: null,
+            target_id: null,
+            damage_dealt: 0,
+            result: timerResult.action,
+            turn_limit: timerResult.turn_limit,
+            side_effects: timerResult.side_effects || {},
+            automatic: true,
+          });
+          if (timerResult.action === 'escalate_pressure') {
+            const delta = Number(timerResult.side_effects?.pressure_delta) || 0;
+            if (delta && typeof session.sistema_pressure === 'number') {
+              session.sistema_pressure = applyPressureDelta(session.sistema_pressure, delta);
+            }
+          }
+        }
+
         const objectiveResult = evaluateObjective(session, session.encounter);
 
         return res.json({
@@ -1307,6 +1385,7 @@ function createRoundBridge(deps) {
           ia_actions: iaActions,
           reinforcement_spawned: reinforcementResult.spawned || [],
           objective_state: objectiveResult,
+          mission_timer: timerResult,
           state: publicSessionView(session),
         });
       } catch (err) {

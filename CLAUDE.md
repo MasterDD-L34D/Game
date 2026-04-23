@@ -184,7 +184,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Visione**: "Tattica profonda a turni, cooperativa contro il Sistema, condivisa su TV: come giochi modella ciò che diventi."
 
-**Sprint completati**: 001–020 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Sessione 17/04 M2 (ability + canonical)**: 16 PR (#1498→#1527) · **Sessione 17-18/04 (co-op scaling 4→8)**: 6 PR (#1529, #1530, #1531, #1534, #1537, #1542)
+**Sprint completati**: 001–020 + M11/M12/M13 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Sessione 17/04 M2 (ability + canonical)**: 16 PR (#1498→#1527) · **Sessione 17-18/04 (co-op scaling 4→8)**: 6 PR (#1529, #1530, #1531, #1534, #1537, #1542)
 
 **Milestone completate sessione 16-17/04**:
 
@@ -327,11 +327,20 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - **Pilastro 2 status**: 🔴 → 🟡 (Phase A) → 🟡+ (Phase B) → **🟡++** (Phase C) → 🟢 candidato post-Phase D
 - **Handoff doc**: [`docs/planning/2026-04-24-next-session-kickoff-m12-phase-d.md`](docs/planning/2026-04-24-next-session-kickoff-m12-phase-d.md)
 
-**Residuo backlog M12**:
+**Sessione 2026-04-24 M12.D + M13.P3 + M13.P6 (3 PR)**:
 
-- **M12 Phase D** — campaign advance trigger (`evolve_opportunity` additive field) + VC snapshot live pipe + animated form transition + Prisma adapter (P1, ~4-6h autonomous)
-- Campaign integration (auto-open panel post-victory + pe_earned ≥ 8)
-- VC snapshot pipe dal backend `/api/session/:id/vc` a `state.world.vc_snapshot`
+- **PR #1693 merged** `2cfd4540` — M12 Phase D: campaign `/advance` response += `evolve_opportunity` additive flag (victory + pe_earned ≥ 8). `main.js refresh` fire-and-forget `api.vc(sid)` → `state.vcSnapshot` pipe. `formsPanel.onEvolveSuccess` callback → `pushPopup('🧬 ' + form_id)` + `flashUnit` + `sfx.select`. Prisma write-through adapter `FormSessionState` model + migration 0003 + graceful in-memory fallback. **Pilastro 2**: 🟡++ → **🟢 candidato**. +10 test (27 campaignRoutes + 6 formSessionStorePrisma).
+- **PR #1694 merged** `24169c41` — M13 P3 character progression XCOM EU/EW perk-pair: `data/core/progression/xp_curve.yaml` (7 levels threshold 0→275) + `perks.yaml` (**7 jobs × 6 levels × 2 perks = 84 perks canonical**). `ProgressionEngine` class + 6 pure helpers + `progressionStore` in-memory + Prisma write-through (`UnitProgression` model + migration 0004). 8 endpoint `/api/v1/progression/*` (registry/jobs/:id/perks/:uid CRUD + xp + pick + effective). Plugin wire. **Pilastro 3**: 🟡 → **🟡+** (engine + REST live; resolver/UI integration Phase B pending). +24 test (13 engine + 11 routes).
+- **PR #1695 open** — M13 P6 hardcore mission timer (Long War 2 pattern): `apps/backend/services/combat/missionTimer.js` (135 LOC) + wire `sessionRoundBridge` both paths. Hardcore 06 iter3 += timer 15 rounds, `on_expire: escalate_pressure` +30 + 2 extra spawns. Nuovo **scenario 07 "Assalto Spietato"** quartet 4p timer 10 + pod activation reinforcement (6 spawn cap). Risolve iter1 N=30 → 96.7% win deadlock (multiplier knob exhausted). **Pilastro 6**: 🟡 → **🟡+** (engine live; calibration N=10 + UI HUD Phase B pending). +17 test.
+
+**Score pilastri post-sessione 2026-04-24**: 1/6 🟢 (P1) + **1/6 🟢 candidato** (P2 post-D) + **3/6 🟡+** (P3/P5/P6) + 2/6 🟡 (P4/P6 residual). Branch baseline: AI 307 + progression 24 + M12 63 + lobby 26 + campaign 27 + timer 17 = **~464/464** verde.
+
+**Residuo backlog post-sessione 2026-04-24**:
+
+- **M13 P3 Phase B** (~8h): campaign advance XP grant hook + combat resolver wire (effectiveStats/listAbilityMods/listPassives) + frontend pick perk overlay + balance N=10 sim
+- **M13 P6 Phase B** (~3-5h): calibration harness `tools/py/batch_calibrate_hardcore07.py` N=10 + frontend HUD timer countdown + campaign outcome='timeout' auto-set on timer expire
+- **M12 Phase D follow-up**: playtest live end-to-end (userland, chiude P2 🟢 definitivo)
+- **TKT-M11B-06 playtest live** (userland, chiude P5 🟢)
 
 ### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
 
@@ -340,16 +349,16 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 - `docs/planning/2026-04-20-pilastri-reality-audit.md` — breakdown dettagliato per Pilastro.
 - `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` — roadmap 3-sprint con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
 
-| #   | Pilastro                     |             Stato             |
-| --- | ---------------------------- | :---------------------------: |
-| 1   | Tattica leggibile (FFT)      |              🟢               |
-| 2   | Evoluzione emergente (Spore) | 🟡++ (A+B+C shipped, Phase D) |
-| 3   | Identità Specie × Job        |              🟡               |
-| 4   | Temperamenti MBTI/Ennea      |              🟡               |
-| 5   | Co-op vs Sistema             |  🟡 (playtest pending → 🟢)   |
-| 6   | Fairness                     |              🟡               |
+| #   | Pilastro                     |                       Stato                        |
+| --- | ---------------------------- | :------------------------------------------------: |
+| 1   | Tattica leggibile (FFT)      |                         🟢                         |
+| 2   | Evoluzione emergente (Spore) |  🟢 candidato (Phase D shipped, playtest pending)  |
+| 3   | Identità Specie × Job        | 🟡+ (engine + 84 perks live, resolver/UI pending)  |
+| 4   | Temperamenti MBTI/Ennea      |                         🟡                         |
+| 5   | Co-op vs Sistema             |             🟡 (playtest pending → 🟢)             |
+| 6   | Fairness                     | 🟡+ (timer engine live, calibration + HUD pending) |
 
-**Score**: 1/6 🟢 + 5/6 🟡 (zero 🔴 post deep-audit).
+**Score**: 1/6 🟢 + 1/6 🟢 candidato + 3/6 🟡+ + 2/6 🟡 (zero 🔴).
 
 **Gap principali + evidence-based strategy**:
 
