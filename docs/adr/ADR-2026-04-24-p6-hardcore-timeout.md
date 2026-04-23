@@ -140,3 +140,76 @@ Baseline AI 307 + progression 24 (P3) + M12 63 + lobby 26 + campaign 27 + timer 
 - Reinforcement Option B: [`docs/adr/ADR-2026-04-19-reinforcement-option-b.md`](ADR-2026-04-19-reinforcement-option-b.md)
 - Hardcore calibration: [`docs/playtest/2026-04-18-hardcore-06-calibration.md`](../playtest/2026-04-18-hardcore-06-calibration.md)
 - Hardcore iter1 validation: [`docs/playtest/2026-04-18-hardcore-06-iter1-validation.md`](../playtest/2026-04-18-hardcore-06-iter1-validation.md)
+
+---
+
+## Addendum Phase B (2026-04-25) — calibration harness + HUD + auto-timeout
+
+Phase B chiude P6 runtime (🟡+ → 🟢 candidato). 3 wire sopra engine Phase A.
+
+### 1. Calibration harness hardcore 07
+
+`tools/py/batch_calibrate_hardcore07.py` — stdlib-only Python runner. N=10 default, quartet modulation. Target win rate **30-50%**.
+
+Metriche raccolte per run:
+
+- `outcome` (victory/defeat/timeout)
+- `rounds` (effettivi)
+- `timer_expired` (bool)
+- `players_alive`, `enemies_alive`, `kills`, `losses`, `kd`
+
+Summary aggregato: win/defeat/timeout rate + timer_expire_rate + rounds avg/median + KD avg + `in_band` flag.
+
+Usage:
+
+```bash
+npm run start:api &   # Terminal 1 (richiesto backend :3334)
+python tools/py/batch_calibrate_hardcore07.py --n 10 --out reports/hardcore07-iter0.json
+```
+
+Harness execution **userland** (richiede backend live). Report deferred docs/playtest/ quando eseguito.
+
+### 2. HUD timer countdown frontend
+
+`apps/play/src/main.js` `updateMissionTimerHud(timer)` chiamato in `triggerCommitRound` post-resolve. Bottom-right overlay `<div id="mission-timer-hud">`:
+
+- Icon ⏱ + `remaining/limit` countdown
+- `.mt-warning` class (red pulse 1.2s) quando `remaining ≤ 3` o `timer.warning=true`
+- `.mt-expired` class (strikethrough + dark red) quando `timer.expired=true`
+
+CSS in `apps/play/src/style.css`:
+
+- Position fixed bottom-right 20px/20px
+- Pulse animation via `@keyframes mt-pulse`
+- Hidden quando `!timer.enabled`
+
+### 3. Campaign auto-timeout
+
+`state.lastMissionTimer` cached da ogni `commit-round` response. `advanceCampaignWithEvolvePrompt(id, outcome, ...)` pre-processa outcome:
+
+| `state.lastMissionTimer.expired` | outcome declared | outcome finale          |
+| -------------------------------- | ---------------- | ----------------------- |
+| false / null                     | any              | passthrough             |
+| true                             | null/undefined   | `'timeout'`             |
+| true                             | `'victory'`      | `'timeout'` (override)  |
+| true                             | `'defeat'`       | `'defeat'` (rispettato) |
+
+Log entry `⏱ Auto-timeout: mission_timer expired → outcome='timeout'` emesso quando override applicato. Gating campaign retry coerente con timer behavior (M13 P6 Phase A pattern).
+
+### Test delta Phase B
+
+- `tests/api/missionTimerHud.test.js` NEW — 10 test (inferOutcome 5 + hudClass 5)
+- Calibration harness: script-level (non unit test)
+
+**Baseline post-Phase B**: AI 307 + timer 12 Phase A + 5 scenario + 10 HUD = **334 (subset)**. Full stack con progression + M12: 472+.
+
+### Pilastro 6 post-Phase B
+
+- Pre-A: 🟡 → Post-A: 🟡+ → **Post-B: 🟢 candidato** (residuo: calibration harness execution userland + N=10 report)
+
+### Fuori scope Phase C
+
+- Dynamic timer extension (boss kill → +3 rounds)
+- Multiple nested timers (soft phase + hard fail)
+- Timer persistence across retry
+- Fairness score metric includere timer_expire_rate in `fairnessCap` tracking
