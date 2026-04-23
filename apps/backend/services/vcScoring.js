@@ -66,6 +66,20 @@ const DERIVABLE_RAW_KEYS = new Set([
   //             percorso. Componente di `explore`.
   '1vX',
   'new_tiles',
+  // P4 iter2 (2026-04-26): nuove raw metrics additive per axes refinement
+  // MBTI secondo handoff Opzione A. Alimentano computeMbtiAxesIter2 (opt-in
+  // via env VC_AXES_ITER=2). Non mutano iter1 axes (backward compat).
+  //
+  // enemy_target_ratio: eventi con target di team avverso / eventi totali
+  //   con target. Proxy per Extraversion (bias verso contatto con nemico).
+  // concrete_action_ratio: (attacks + moves) / total_actions. Proxy per
+  //   Sensing (azioni fisiche dirette vs abstract ability/buff).
+  // action_switch_rate: numero di transizioni action_type != prev /
+  //   (total_actions - 1). Proxy per Perceiving (alta variance = P,
+  //   bassa = J).
+  'enemy_target_ratio',
+  'concrete_action_ratio',
+  'action_switch_rate',
 ]);
 
 function loadTelemetryConfig(yamlPath = DEFAULT_TELEMETRY_PATH, logger = console) {
@@ -173,6 +187,17 @@ function computeRawMetrics(events, units, gridSize = 6) {
       //   della sessione, per new_tiles (count) in explore.
       oneVxOneAttacks: 0,
       visitedTiles: new Set(),
+      // P4 iter2: raw counters per axes refinement.
+      // events_with_target: eventi che hanno un target_id valorizzato.
+      // events_targeting_enemy: di cui target è team avverso.
+      // action_switches: transizioni action_type diverso da quella precedente.
+      // prev_action_type: cache per switch counting.
+      events_with_target: 0,
+      events_targeting_enemy: 0,
+      action_switches: 0,
+      prev_action_type: null,
+      concrete_action_count: 0,
+      abstract_action_count: 0,
     };
   }
 
@@ -208,6 +233,33 @@ function computeRawMetrics(events, units, gridSize = 6) {
     const bucketId = event.ia_controlled_unit || actorId;
     const bucket = perActor[bucketId];
     if (!bucket) continue;
+
+    // P4 iter2 sidecar: target-team + action-type tracking, independent
+    // from iter1 branches. Triggered solo per action_type "significativi"
+    // (attack/move/ability). Exclude: kill/assist/bleeding/session_* che
+    // sono eventi automatici o di tracking derivato.
+    const ITER2_ACTION_TYPES = new Set(['attack', 'move', 'ability']);
+    if (ITER2_ACTION_TYPES.has(event.action_type)) {
+      // action_switches + concrete/abstract count
+      if (bucket.prev_action_type !== null && bucket.prev_action_type !== event.action_type) {
+        bucket.action_switches += 1;
+      }
+      bucket.prev_action_type = event.action_type;
+      if (event.action_type === 'attack' || event.action_type === 'move') {
+        bucket.concrete_action_count += 1;
+      } else if (event.action_type === 'ability') {
+        bucket.abstract_action_count += 1;
+      }
+      // enemy_target tracking: event con target_id di team avverso
+      if (event.target_id && event.target_id !== bucketId) {
+        bucket.events_with_target += 1;
+        const actorTeam = unitTeamMap[bucketId];
+        const targetTeam = unitTeamMap[event.target_id];
+        if (actorTeam && targetTeam && actorTeam !== targetTeam) {
+          bucket.events_targeting_enemy += 1;
+        }
+      }
+    }
 
     if (event.action_type === 'attack') {
       bucket.attacks_started += 1;
@@ -376,6 +428,17 @@ function computeRawMetrics(events, units, gridSize = 6) {
     const newTilesRaw = bucket.visitedTiles.size;
     const newTilesNorm = safeDivide(newTilesRaw, Math.max(1, gridSize * gridSize));
 
+    // P4 iter2 derived metrics.
+    const enemyTargetRatio =
+      bucket.events_with_target > 0
+        ? bucket.events_targeting_enemy / bucket.events_with_target
+        : null;
+    const iter2Total = bucket.concrete_action_count + bucket.abstract_action_count;
+    const concreteActionRatio = iter2Total > 0 ? bucket.concrete_action_count / iter2Total : null;
+    // action_switch_rate: numero switch / (iter2Total - 1). Quando iter2Total
+    // <=1 non derivabile (nessuna transizione possibile).
+    const actionSwitchRate = iter2Total > 1 ? bucket.action_switches / (iter2Total - 1) : null;
+
     finalRaw[unitId] = {
       attacks_started: attacksStarted,
       attack_hit_rate: attackHitRate,
@@ -400,6 +463,10 @@ function computeRawMetrics(events, units, gridSize = 6) {
       '1vX': oneVxOneRatio,
       new_tiles: newTilesNorm,
       new_tiles_count: newTilesRaw,
+      // P4 iter2 additive.
+      enemy_target_ratio: enemyTargetRatio,
+      concrete_action_ratio: concreteActionRatio,
+      action_switch_rate: actionSwitchRate,
     };
   }
 
@@ -532,6 +599,56 @@ function letterOrUncertain(value, lo, hi) {
   if (value < MBTI_DEAD_BAND_LOW) return lo;
   if (value > MBTI_DEAD_BAND_HIGH) return hi;
   return null; // dead-band: indeterminato → propaga null
+}
+
+/**
+ * P4 iter2 (2026-04-26) — axes refinement con raw metrics canoniche.
+ *
+ * Handoff spec:
+ *   - E_I: enemy_target_ratio (extraversion proxy diretto; bias verso nemico)
+ *   - S_N: concrete_action_ratio (sensing proxy; azioni fisiche vs astratte)
+ *   - J_P: action_switch_rate (perceiving proxy; alta variance tipo action = P)
+ *   - T_F: invariato rispetto iter1 (utility + support_bias)
+ *
+ * Coverage = 'full' quando la raw metric primaria è non-null. Convenzione
+ * direzione coerente con iter1 letterOrUncertain: value basso = lettera
+ * iniziale del pair (E/N/F/P), value alto = seconda (I/S/T/J).
+ *
+ * Opt-in: `buildVcSnapshot` usa iter2 quando env `VC_AXES_ITER=2` oppure
+ * `telemetryConfig.use_axes_iter2 === true`. Default = iter1 (backward compat).
+ */
+function computeMbtiAxesIter2(raw) {
+  const axes = { E_I: null, S_N: null, T_F: null, J_P: null };
+
+  // E_I: extravert attacca nemico → basso value. Invertiamo: value = 1 - ratio.
+  const enemyRatio = raw.enemy_target_ratio;
+  if (enemyRatio !== null && enemyRatio !== undefined) {
+    axes.E_I = { value: clamp01(1 - enemyRatio), coverage: 'full' };
+  }
+
+  // S_N: sensing = concreto (attacco/move) → alto value (vicino 1 = S).
+  // concrete_action_ratio alto = S side (letterOrUncertain high=S).
+  const concreteRatio = raw.concrete_action_ratio;
+  if (concreteRatio !== null && concreteRatio !== undefined) {
+    axes.S_N = { value: clamp01(concreteRatio), coverage: 'full' };
+  }
+
+  // T_F: invariato (stesso formula iter1).
+  const utility = clamp01(raw.utility_actions);
+  const support = clamp01(raw.support_bias);
+  if (utility !== null && support !== null) {
+    const value = 1 - 0.5 * utility + 0.5 * support;
+    axes.T_F = { value: clamp01(value), coverage: 'full' };
+  }
+
+  // J_P: high switch rate = P side (improvvisa). letterOrUncertain P=low,
+  // J=high → invertiamo: value = 1 - switch_rate.
+  const switchRate = raw.action_switch_rate;
+  if (switchRate !== null && switchRate !== undefined) {
+    axes.J_P = { value: clamp01(1 - switchRate), coverage: 'full' };
+  }
+
+  return axes;
 }
 
 function deriveMbtiType(axes) {
@@ -706,10 +823,18 @@ function buildVcSnapshot(session, config) {
   const gridSize = session?.grid?.width || 6;
   const raw = computeRawMetrics(events, units, gridSize);
 
+  // P4 iter2 opt-in: env VC_AXES_ITER=2 o config.use_axes_iter2.
+  // Default = iter1 (backward compat). Config override ha priorità su env
+  // per permettere test isolati.
+  const iter2 =
+    config?.use_axes_iter2 === true ||
+    (config?.use_axes_iter2 === undefined && process.env.VC_AXES_ITER === '2');
+  const axesFn = iter2 ? computeMbtiAxesIter2 : computeMbtiAxes;
+
   const perActor = {};
   for (const [unitId, rawMetrics] of Object.entries(raw)) {
     const aggregate = computeAggregateIndices(rawMetrics, config);
-    const mbti = computeMbtiAxes(rawMetrics);
+    const mbti = axesFn(rawMetrics);
     const ennea = computeEnneaArchetypes(aggregate, config, rawMetrics);
     perActor[unitId] = {
       raw_metrics: rawMetrics,
@@ -763,6 +888,7 @@ module.exports = {
   computeRawMetrics,
   computeAggregateIndices,
   computeMbtiAxes,
+  computeMbtiAxesIter2,
   deriveMbtiType,
   computeEnneaArchetypes,
   buildVcSnapshot,
