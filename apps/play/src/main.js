@@ -51,6 +51,8 @@ const state = {
   // Shape: { session_id, per_actor: { uid: { mbti_axes, mbti_type, ennea_themes, ... } }, round }.
   // Fetched from /api/session/:id/vc post-commitRound refresh, consumed by formsPanel.
   vcSnapshot: null,
+  // M13 P6 Phase B — last mission_timer response (cached for auto-timeout inference).
+  lastMissionTimer: null,
 };
 
 // W8b — Shared utility helpers (from Wave 8 research audit).
@@ -1128,6 +1130,11 @@ async function triggerCommitRound() {
     state.roundInit = false;
     _pendingConfirm = null;
     state.pendingIntents = [];
+    // M13 P6 Phase B — mission timer HUD update + state cache.
+    if (r.data?.mission_timer?.enabled) {
+      state.lastMissionTimer = r.data.mission_timer;
+      updateMissionTimerHud(r.data.mission_timer);
+    }
     // M8 Plan-Reveal P0: clear threat preview post-resolve (intents consumed).
     // Fix Codex review #1658: legacy branch reset era dead code su useRoundFlow()=true
     // → stale SIS intents mostrati post-resolve. Reset qui è l'active path.
@@ -1178,6 +1185,50 @@ async function triggerCommitRound() {
     await emergencyResetRound();
   }
 }
+
+// M13 P6 Phase B — mission timer HUD.
+// Bottom-right overlay con countdown. Red pulse quando remaining ≤ warning_at.
+function updateMissionTimerHud(timer) {
+  if (!timer || !timer.enabled) {
+    const el = document.getElementById('mission-timer-hud');
+    if (el) el.classList.add('hidden');
+    return;
+  }
+  let el = document.getElementById('mission-timer-hud');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'mission-timer-hud';
+    el.innerHTML = `
+      <div class="mt-icon">⏱</div>
+      <div class="mt-body">
+        <div class="mt-count"><span id="mt-remaining">—</span>/<span id="mt-limit">—</span></div>
+        <div class="mt-label">rounds</div>
+      </div>
+    `;
+    document.body.appendChild(el);
+  }
+  el.classList.remove('hidden');
+  const remaining = Number(timer.remaining_turns ?? 0);
+  const limit = Number(timer.turn_limit ?? 0);
+  const remEl = document.getElementById('mt-remaining');
+  const limEl = document.getElementById('mt-limit');
+  if (remEl) remEl.textContent = String(remaining);
+  if (limEl) limEl.textContent = String(limit);
+  el.classList.toggle('mt-warning', timer.warning === true || remaining <= 3);
+  el.classList.toggle('mt-expired', timer.expired === true);
+  if (timer.warning) {
+    appendLog(logEl, `⏱ Timer warning: ${remaining} rounds rimasti`, 'warn');
+  }
+  if (timer.expired) {
+    appendLog(
+      logEl,
+      `⏱ Timer expired → ${timer.action || 'defeat'}${timer.side_effects?.pressure_delta ? ' (+' + timer.side_effects.pressure_delta + ' pressure)' : ''}`,
+      'error',
+    );
+  }
+}
+window.__dbg = window.__dbg || {};
+window.__dbg.updateMissionTimerHud = updateMissionTimerHud;
 
 // W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" flash 700ms.
 function showCommitReveal(turnNum, actionCount) {
@@ -1514,6 +1565,20 @@ if (lobbyBridge?.isPlayer) {
 // the forms panel after the encounter outcome is recorded. Consumed by campaign
 // flow triggers (manual user action, harness, host-bridge mirror).
 async function advanceCampaignWithEvolvePrompt(campaignId, outcome, peEarned = 0, piEarned = 0) {
+  // M13 P6 Phase B — auto-timeout: se mission timer è scaduto quando advance
+  // viene chiamato senza outcome esplicito (o con 'victory' prematuro), forza
+  // 'timeout' per gating corretto campaign retry.
+  let resolvedOutcome = outcome;
+  const timer = state.lastMissionTimer;
+  if (timer?.expired && outcome !== 'defeat') {
+    if (!outcome || outcome === 'victory') {
+      appendLog(
+        logEl,
+        `⏱ Auto-timeout: mission_timer expired → outcome='timeout' (era '${outcome || 'none'}')`,
+      );
+      resolvedOutcome = 'timeout';
+    }
+  }
   // Collect survivors for XP grant (M13 P3 Phase B).
   const survivors = state.world
     ? getUnits(state.world)
@@ -1521,7 +1586,7 @@ async function advanceCampaignWithEvolvePrompt(campaignId, outcome, peEarned = 0
         .map((u) => ({ id: u.id, job: u.job, hp: u.hp, controlled_by: u.controlled_by }))
     : [];
   const extra = survivors.length > 0 ? { survivors } : {};
-  const res = await api.campaignAdvance(campaignId, outcome, peEarned, piEarned, extra);
+  const res = await api.campaignAdvance(campaignId, resolvedOutcome, peEarned, piEarned, extra);
   const data = res.data || {};
   if (res.ok && data.evolve_opportunity) {
     appendLog(
