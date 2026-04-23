@@ -46,24 +46,24 @@ model Feedback {
 }
 
 model Species {
-  id             String          @id
+  id             String         @id
   name           String
   classification String?
-  tags           String[]        @default([])
-  createdAt      DateTime        @default(now()) @map("created_at")
-  updatedAt      DateTime        @updatedAt @map("updated_at")
+  tags           String[]       @default([])
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
   biomes         SpeciesBiome[]
 
   @@map("species")
 }
 
 model Biome {
-  id        String          @id
+  id        String         @id
   name      String
   climate   String?
   region    String?
-  createdAt DateTime        @default(now()) @map("created_at")
-  updatedAt DateTime        @updatedAt @map("updated_at")
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
   species   SpeciesBiome[]
 
   @@map("biomes")
@@ -90,69 +90,69 @@ model SpeciesBiome {
 // sync deferred M12+).
 
 model Campaign {
-  id              String        @id @default(uuid())
-  playerId        String        @map("player_id")
-  campaignDefId   String        @default("default_campaign_mvp") @map("campaign_def_id")
-  currentChapter  Int           @default(1) @map("current_chapter")
-  currentAct      Int           @default(0) @map("current_act")
-  branchChoices   String        @default("[]") @map("branch_choices") // JSON array of binary choices
-  completionPct   Float         @default(0.0) @map("completion_pct")
-  finalState      String?       @map("final_state") // 'completed' | 'abandoned' | null
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
-  chapters        Chapter[]
-  partyRoster     PartyRoster[]
-  saves           SaveSnapshot[]
+  id             String         @id @default(uuid())
+  playerId       String         @map("player_id")
+  campaignDefId  String         @default("default_campaign_mvp") @map("campaign_def_id")
+  currentChapter Int            @default(1) @map("current_chapter")
+  currentAct     Int            @default(0) @map("current_act")
+  branchChoices  String         @default("[]") @map("branch_choices") // JSON array of binary choices
+  completionPct  Float          @default(0.0) @map("completion_pct")
+  finalState     String?        @map("final_state") // 'completed' | 'abandoned' | null
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+  chapters       Chapter[]
+  partyRoster    PartyRoster[]
+  saves          SaveSnapshot[]
 
   @@index([playerId])
   @@map("campaigns")
 }
 
 model Chapter {
-  id            String    @id @default(uuid())
-  campaignId    String    @map("campaign_id")
-  campaign      Campaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  chapterIdx    Int       @map("chapter_idx") // sequential 1..N
-  actIdx        Int       @map("act_idx")     // 0..2 (Act 0 tutorial, Act 1 main, Act 2 endgame post-MVP)
-  encounterId   String    @map("encounter_id") // refs encounter YAML
-  outcome       String?   // 'victory' | 'defeat' | 'timeout' | null
-  peEarned      Int       @default(0) @map("pe_earned")
-  piEarned      Int       @default(0) @map("pi_earned")
-  branchChosen  String?   @map("branch_chosen") // Descent binary choice key
-  completedAt   DateTime? @map("completed_at")
+  id           String    @id @default(uuid())
+  campaignId   String    @map("campaign_id")
+  campaign     Campaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  chapterIdx   Int       @map("chapter_idx") // sequential 1..N
+  actIdx       Int       @map("act_idx") // 0..2 (Act 0 tutorial, Act 1 main, Act 2 endgame post-MVP)
+  encounterId  String    @map("encounter_id") // refs encounter YAML
+  outcome      String? // 'victory' | 'defeat' | 'timeout' | null
+  peEarned     Int       @default(0) @map("pe_earned")
+  piEarned     Int       @default(0) @map("pi_earned")
+  branchChosen String?   @map("branch_chosen") // Descent binary choice key
+  completedAt  DateTime? @map("completed_at")
 
   @@index([campaignId, chapterIdx])
   @@map("chapters")
 }
 
 model PartyRoster {
-  id              String   @id @default(uuid())
-  campaignId      String   @map("campaign_id")
-  campaign        Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  unitId          String   @map("unit_id") // PG identifier in-encounter
-  species         String
-  job             String
-  tier            String   @default("base") // base/veteran/elite (mythic post-MVP P0 Q58)
-  hpBase          Int      @map("hp_base")
-  traits          String   @default("[]") // JSON array trait IDs (inborn)
-  acquiredTraits  String   @default("[]") @map("acquired_traits") // JSON array (PI pack runtime)
-  xpTotal         Int      @default(0) @map("xp_total")
-  level           Int      @default(1)
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid())
+  campaignId     String   @map("campaign_id")
+  campaign       Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  unitId         String   @map("unit_id") // PG identifier in-encounter
+  species        String
+  job            String
+  tier           String   @default("base") // base/veteran/elite (mythic post-MVP P0 Q58)
+  hpBase         Int      @map("hp_base")
+  traits         String   @default("[]") // JSON array trait IDs (inborn)
+  acquiredTraits String   @default("[]") @map("acquired_traits") // JSON array (PI pack runtime)
+  xpTotal        Int      @default(0) @map("xp_total")
+  level          Int      @default(1)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@index([campaignId])
   @@map("party_rosters")
 }
 
 model SaveSnapshot {
-  id             String   @id @default(uuid())
-  campaignId     String   @map("campaign_id")
-  campaign       Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  sessionId      String?  @map("session_id") // optional: active session during save
-  saveType       String   @map("save_type") // 'auto' | 'manual' | 'checkpoint'
-  snapshotData   String   @map("snapshot_data") // JSON full state serialized
-  createdAt      DateTime @default(now()) @map("created_at")
+  id           String   @id @default(uuid())
+  campaignId   String   @map("campaign_id")
+  campaign     Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  sessionId    String?  @map("session_id") // optional: active session during save
+  saveType     String   @map("save_type") // 'auto' | 'manual' | 'checkpoint'
+  snapshotData String   @map("snapshot_data") // JSON full state serialized
+  createdAt    DateTime @default(now()) @map("created_at")
 
   @@index([campaignId, createdAt])
   @@map("save_snapshots")
@@ -164,21 +164,21 @@ model SaveSnapshot {
 // Scope: NPC affinity/trust, nest state, mating events, audit logs.
 
 model NpcRelation {
-  id              String   @id @default(uuid())
-  campaignId      String?  @map("campaign_id") // optional (legacy in-memory has no campaign)
-  npcId           String   @map("npc_id")
-  affinity        Int      @default(0) // range -2..+2 enforced app-level
-  trust           Int      @default(0) // range 0..5 enforced app-level
-  recruited       Boolean  @default(false)
-  mated           Boolean  @default(false)
-  matingCooldown  Int      @default(0) @map("mating_cooldown")
-  mbtiType        String?  @map("mbti_type")
-  traitIds        String   @default("[]") @map("trait_ids") // JSON array
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-  affinityLogs    AffinityLog[]
-  trustLogs       TrustLog[]
-  matingEvents    MatingEvent[]
+  id             String        @id @default(uuid())
+  campaignId     String?       @map("campaign_id") // optional (legacy in-memory has no campaign)
+  npcId          String        @map("npc_id")
+  affinity       Int           @default(0) // range -2..+2 enforced app-level
+  trust          Int           @default(0) // range 0..5 enforced app-level
+  recruited      Boolean       @default(false)
+  mated          Boolean       @default(false)
+  matingCooldown Int           @default(0) @map("mating_cooldown")
+  mbtiType       String?       @map("mbti_type")
+  traitIds       String        @default("[]") @map("trait_ids") // JSON array
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+  affinityLogs   AffinityLog[]
+  trustLogs      TrustLog[]
+  matingEvents   MatingEvent[]
 
   @@unique([campaignId, npcId])
   @@index([campaignId])
@@ -186,41 +186,41 @@ model NpcRelation {
 }
 
 model AffinityLog {
-  id          String      @id @default(uuid())
-  relationId  String      @map("relation_id")
-  relation    NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
-  delta       Int
-  before      Int
-  after       Int
-  reason      String?
-  createdAt   DateTime    @default(now()) @map("created_at")
+  id         String      @id @default(uuid())
+  relationId String      @map("relation_id")
+  relation   NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  delta      Int
+  before     Int
+  after      Int
+  reason     String?
+  createdAt  DateTime    @default(now()) @map("created_at")
 
   @@index([relationId, createdAt])
   @@map("affinity_logs")
 }
 
 model TrustLog {
-  id          String      @id @default(uuid())
-  relationId  String      @map("relation_id")
-  relation    NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
-  delta       Int
-  before      Int
-  after       Int
-  reason      String?
-  createdAt   DateTime    @default(now()) @map("created_at")
+  id         String      @id @default(uuid())
+  relationId String      @map("relation_id")
+  relation   NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  delta      Int
+  before     Int
+  after      Int
+  reason     String?
+  createdAt  DateTime    @default(now()) @map("created_at")
 
   @@index([relationId, createdAt])
   @@map("trust_logs")
 }
 
 model NestState {
-  id                String   @id @default(uuid())
-  campaignId        String?  @unique @map("campaign_id") // one nest per campaign (null = legacy global)
-  level             Int      @default(0)
-  biome             String?
-  requirementsMet   Boolean  @default(false) @map("requirements_met")
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
+  id              String   @id @default(uuid())
+  campaignId      String?  @unique @map("campaign_id") // one nest per campaign (null = legacy global)
+  level           Int      @default(0)
+  biome           String?
+  requirementsMet Boolean  @default(false) @map("requirements_met")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   @@map("nest_states")
 }
@@ -266,19 +266,59 @@ model FormSessionState {
   @@map("form_session_states")
 }
 
+// ─── M13 P5 Lobby persistence (Opzione C handoff 2026-04-26) ──────────────
+// Durable reconnect dopo backend restart. Write-through adapter: in-memory
+// LobbyService Map resta authoritative; Prisma upsert fire-and-forget al
+// mutation + hydrate su init. Graceful fallback quando DATABASE_URL unset.
+
+model LobbySession {
+  id           String        @id @default(uuid())
+  code         String        @unique
+  hostId       String        @map("host_id")
+  campaignId   String?       @map("campaign_id")
+  maxPlayers   Int           @default(8) @map("max_players")
+  state        String? // JSON snapshot of last published host state
+  stateVersion Int           @default(0) @map("state_version")
+  closed       Boolean       @default(false)
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  players      LobbyPlayer[]
+
+  @@index([campaignId])
+  @@index([createdAt])
+  @@map("lobby_sessions")
+}
+
+model LobbyPlayer {
+  id        String       @id @default(uuid())
+  sessionId String       @map("session_id")
+  session   LobbySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  playerId  String       @map("player_id")
+  name      String
+  role      String // 'host' | 'player'
+  token     String       @unique
+  connected Boolean      @default(false)
+  joinedAt  DateTime     @map("joined_at")
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  @@unique([sessionId, playerId])
+  @@index([sessionId])
+  @@map("lobby_players")
+}
+
 model MatingEvent {
-  id                String      @id @default(uuid())
-  relationId        String      @map("relation_id")
-  relation          NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
-  success           Boolean
-  roll              Int
-  modifier          Int
-  total             Int
-  threshold         Int
-  offspringTraits   String      @default("[]") @map("offspring_traits") // JSON array
-  seedGenerated     Int         @default(0) @map("seed_generated")
-  reason            String?     // e.g. 'roll_failed', 'gate_not_met'
-  createdAt         DateTime    @default(now()) @map("created_at")
+  id              String      @id @default(uuid())
+  relationId      String      @map("relation_id")
+  relation        NpcRelation @relation(fields: [relationId], references: [id], onDelete: Cascade)
+  success         Boolean
+  roll            Int
+  modifier        Int
+  total           Int
+  threshold       Int
+  offspringTraits String      @default("[]") @map("offspring_traits") // JSON array
+  seedGenerated   Int         @default(0) @map("seed_generated")
+  reason          String? // e.g. 'roll_failed', 'gate_not_met'
+  createdAt       DateTime    @default(now()) @map("created_at")
 
   @@index([relationId, createdAt])
   @@map("mating_events")

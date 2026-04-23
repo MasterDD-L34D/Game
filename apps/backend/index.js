@@ -47,6 +47,20 @@ let lobbyWs = null;
 if (wsEnabled && lobby) {
   lobbyWs = createWsServer({ lobby, port: wsPort });
   console.log(`[lobby-ws] WebSocket server online on ws://${wsHost}:${wsPort}/ws`);
+  // Opzione C: hydrate rooms from Prisma if persistence wired.
+  // Graceful no-op when DATABASE_URL unset.
+  if (typeof lobby.hydrate === 'function') {
+    lobby
+      .hydrate()
+      .then((count) => {
+        if (count > 0) {
+          console.log(`[lobby-ws] Prisma hydrate: ${count} room(s) restored`);
+        }
+      })
+      .catch((err) => {
+        console.warn('[lobby-ws] Prisma hydrate failed:', err?.message || err);
+      });
+  }
 } else {
   console.log('[lobby-ws] WebSocket server disabled (LOBBY_WS_ENABLED=false)');
 }

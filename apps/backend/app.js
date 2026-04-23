@@ -690,7 +690,13 @@ function createApp(options = {}) {
   app.use('/api', createCampaignRouter(options.campaign || {}));
   // M11 Phase A: Jackbox-style co-op lobby (ADR-2026-04-20).
   // REST only; WebSocket server bootstraps in index.js on port 3341.
-  const lobby = (options.lobby && options.lobby.service) || new LobbyService(options.lobby || {});
+  // Opzione C (2026-04-26): optional Prisma write-through persistence.
+  // Graceful fallback when DATABASE_URL unset (dev/demo/tests).
+  const lobbyOptions = { ...(options.lobby || {}) };
+  if (!lobbyOptions.service && lobbyOptions.prisma === undefined && repo.prisma) {
+    lobbyOptions.prisma = repo.prisma;
+  }
+  const lobby = lobbyOptions.service || new LobbyService(lobbyOptions);
   app.use('/api', createLobbyRouter({ lobby }));
 
   app.get('/api/deployments/status', async (req, res) => {

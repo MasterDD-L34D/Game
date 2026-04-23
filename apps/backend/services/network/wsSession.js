@@ -70,34 +70,63 @@ class Room {
     maxPlayers = DEFAULT_MAX_PLAYERS,
     campaignId = null,
     hostTransferGraceMs = DEFAULT_HOST_TRANSFER_GRACE_MS,
+    // Opzione C: optional persistence hook. Fire-and-forget after mutation.
+    onMutate = null,
+    // Hydrate path: reuse data from Prisma snapshot (skips host player seed).
+    hydrateFromSeed = null,
   }) {
     this.code = code;
     this.hostId = hostId;
     this.maxPlayers = maxPlayers;
     this.campaignId = campaignId;
-    this.createdAt = Date.now();
-    this.closed = false;
+    this.createdAt = hydrateFromSeed?.createdAt || Date.now();
+    this.closed = Boolean(hydrateFromSeed?.closed);
     this.hostTransferGraceMs = hostTransferGraceMs;
     // TKT-M11B-05 — pending host-transfer timer handle.
     this._hostTransferTimer = null;
     // player_id → { id, name, role, token, socket?, connected, joinedAt }
     this.players = new Map();
     // Host state published, last-write-wins; version monotonic.
-    this.state = null;
-    this.stateVersion = 0;
+    this.state = hydrateFromSeed?.state ?? null;
+    this.stateVersion = hydrateFromSeed?.stateVersion ?? 0;
     // Intent queue (Phase A: FIFO, host drains on demand)
     this.intents = [];
+    this._onMutate = typeof onMutate === 'function' ? onMutate : null;
 
-    const hostToken = generateToken();
-    this.players.set(hostId, {
-      id: hostId,
-      name: hostName,
-      role: 'host',
-      token: hostToken,
-      socket: null,
-      connected: false,
-      joinedAt: this.createdAt,
-    });
+    if (hydrateFromSeed?.players?.length) {
+      for (const p of hydrateFromSeed.players) {
+        this.players.set(p.id, {
+          id: p.id,
+          name: p.name,
+          role: p.role,
+          token: p.token,
+          socket: null,
+          connected: false,
+          joinedAt: p.joinedAt,
+        });
+      }
+    } else {
+      const hostToken = generateToken();
+      this.players.set(hostId, {
+        id: hostId,
+        name: hostName,
+        role: 'host',
+        token: hostToken,
+        socket: null,
+        connected: false,
+        joinedAt: this.createdAt,
+      });
+    }
+  }
+
+  _notifyMutate(event) {
+    if (this._onMutate) {
+      try {
+        this._onMutate(this, event);
+      } catch {
+        // persistence errors swallowed: in-memory stays authoritative
+      }
+    }
   }
 
   addPlayer({ name, role = 'player' }) {
@@ -118,6 +147,7 @@ class Room {
       connected: false,
       joinedAt: Date.now(),
     });
+    this._notifyMutate({ kind: 'player_added', playerId });
     return { playerId, token };
   }
 
@@ -199,6 +229,7 @@ class Room {
       version: this.stateVersion,
       payload: newState,
     });
+    this._notifyMutate({ kind: 'state_published', version: this.stateVersion });
     return this.stateVersion;
   }
 
@@ -234,6 +265,7 @@ class Room {
     candidate.role = 'host';
     this.hostId = newHostId;
     this.clearHostTransferTimer();
+    this._notifyMutate({ kind: 'host_transferred', newHostId, previousHostId });
     this.broadcast({
       type: 'host_transferred',
       payload: {
@@ -292,6 +324,7 @@ class Room {
         }
       }
     }
+    this._notifyMutate({ kind: 'closed', reason });
   }
 
   snapshot() {
@@ -311,11 +344,61 @@ class Room {
 /**
  * LobbyService — in-memory registry of Rooms.
  * Single process only (Phase A). Redis-adapter swap in Phase B+ if needed.
+ *
+ * Opzione C (2026-04-26): optional Prisma write-through. Pass `{ prisma }`
+ * to enable persistence; `hydrate()` replays non-closed rooms on boot.
+ * In-memory Map resta authoritative; errori persistenza non rompono il flow.
  */
 class LobbyService {
-  constructor({ maxPlayers = DEFAULT_MAX_PLAYERS } = {}) {
+  constructor({
+    maxPlayers = DEFAULT_MAX_PLAYERS,
+    prisma = null,
+    logger = null,
+    persistence = null,
+  } = {}) {
     this.rooms = new Map(); // code → Room
     this.maxPlayers = maxPlayers;
+    this.prisma = prisma;
+    this.logger = logger || console;
+    // Lazy require to keep module load order permissive when prisma absent.
+    this._persistence = persistence || (prisma ? require('./lobbyPersistence') : null);
+    this._persistEnabled = Boolean(
+      this._persistence && this._persistence.prismaSupportsLobby?.(prisma),
+    );
+  }
+
+  _onMutate() {
+    if (!this._persistEnabled) return () => {};
+    const self = this;
+    return (room /* , event */) => {
+      self._persistence.persistRoomAsync(self.prisma, room, { logger: self.logger }).catch(() => {
+        // persist errors already logged inside adapter; swallow to protect
+        // in-memory flow.
+      });
+    };
+  }
+
+  async hydrate() {
+    if (!this._persistEnabled) return 0;
+    const seeds = await this._persistence.hydrateRooms(this.prisma, { logger: this.logger });
+    let restored = 0;
+    for (const seed of seeds) {
+      if (seed.closed) continue;
+      if (this.rooms.has(seed.code)) continue;
+      const room = new Room({
+        code: seed.code,
+        hostId: seed.hostId,
+        hostName: null, // unused when hydrateFromSeed provides players
+        maxPlayers: seed.maxPlayers,
+        campaignId: seed.campaignId,
+        hostTransferGraceMs: DEFAULT_HOST_TRANSFER_GRACE_MS,
+        onMutate: this._onMutate(),
+        hydrateFromSeed: seed,
+      });
+      this.rooms.set(seed.code, room);
+      restored += 1;
+    }
+    return restored;
   }
 
   createRoom({ hostName, campaignId = null, maxPlayers, hostTransferGraceMs } = {}) {
@@ -342,8 +425,15 @@ class LobbyService {
       campaignId,
       hostTransferGraceMs:
         hostTransferGraceMs !== undefined ? hostTransferGraceMs : DEFAULT_HOST_TRANSFER_GRACE_MS,
+      onMutate: this._onMutate(),
     });
     this.rooms.set(code, room);
+    // Opzione C: initial persist snapshot so reconnect survives restart.
+    if (this._persistEnabled) {
+      this._persistence
+        .persistRoomAsync(this.prisma, room, { logger: this.logger })
+        .catch(() => {});
+    }
     const host = room.getPlayer(hostId);
     return {
       code,
@@ -382,6 +472,11 @@ class LobbyService {
     }
     room.close();
     this.rooms.delete(normalized);
+    if (this._persistEnabled) {
+      this._persistence
+        .deleteRoomAsync(this.prisma, normalized, { logger: this.logger })
+        .catch(() => {});
+    }
     return { code: normalized, closed: true };
   }
 
