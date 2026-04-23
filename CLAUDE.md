@@ -178,7 +178,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-18)
+## 🎮 Sprint context (aggiornato: 2026-04-23)
 
 > Sezione aggiunta post-sprint 019. Aggiorna a ogni sessione significativa.
 
@@ -299,10 +299,22 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Residuo backlog M11**:
 
-- TKT-M11B-04 canvas TV widescreen layout (P2, polish)
-- TKT-M11B-06 playtest live execution (P1, userland)
+- ~~TKT-M11B-04 canvas TV widescreen layout~~ ✅ merged #1688
+- **TKT-M11B-06** playtest live execution (P1, userland, chiude P5 🟢)
 - Prisma room persistence (P3, deferred)
 - Rate-limit / DoS hardening (P3, solo deploy pubblico)
+
+**M12 big rock next**:
+
+- P2 full Form evoluzione (Spore-core, ~35h, 2-3 sprint — split M12.A/B/C)
+
+**Sessione 2026-04-23** (PR #1688 merged `2f26e8be`):
+
+- `apps/play/src/lobbyBridge.css` NEW (423 LOC CSS extract)
+- `apps/play/src/lobbyBridge.js` -152 LOC cleaner bridge
+- `scripts/run-{test-api,test-stack,export-qa}.cjs` cross-platform runner
+- `tests/scripts/crossPlatformRunners.test.js` guard
+- Baseline: **333/333** (AI 307 + lobby 15 + e2e 11)
 
 ### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
 
@@ -311,14 +323,14 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 - `docs/planning/2026-04-20-pilastri-reality-audit.md` — breakdown dettagliato per Pilastro.
 - `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` — roadmap 3-sprint con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
 
-| #   | Pilastro                     |       Stato       |
-| --- | ---------------------------- | :---------------: |
-| 1   | Tattica leggibile (FFT)      |        🟢         |
-| 2   | Evoluzione emergente (Spore) |        🟡         |
-| 3   | Identità Specie × Job        |        🟡         |
-| 4   | Temperamenti MBTI/Ennea      |        🟡         |
-| 5   | Co-op vs Sistema             | 🟡 (Phase A live) |
-| 6   | Fairness                     |        🟡         |
+| #   | Pilastro                     |           Stato            |
+| --- | ---------------------------- | :------------------------: |
+| 1   | Tattica leggibile (FFT)      |             🟢             |
+| 2   | Evoluzione emergente (Spore) |             🟡             |
+| 3   | Identità Specie × Job        |             🟡             |
+| 4   | Temperamenti MBTI/Ennea      |             🟡             |
+| 5   | Co-op vs Sistema             | 🟡 (playtest pending → 🟢) |
+| 6   | Fairness                     |             🟡             |
 
 **Score**: 1/6 🟢 + 5/6 🟡 (zero 🔴 post deep-audit).
 
@@ -327,7 +339,7 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 - **P2 🟡**: `metaProgression.js` + 6 route meta runtime in-memory. Persistence + PI pack spender = **Wesnoth advancement + AI War pack unlock** (non Spore sim). ~15-20h.
 - **P3 🟡**: 7 jobs + abilities rank r1/r2 live. Level curves YAML-only. **XCOM EU/EW perk-pair** 7 livelli × 2 perks. ~15-17h.
 - **P4 🟡**: T_F **FULL**, altri 3 axes partial/null. **Disco Elysium thought cabinet** diegetic reveal. Non shippare axes senza focus group validation. ~8h.
-- **P5 🟡**: Zero network. **Jackbox room-code WebSocket** (3 OSS clones pubblici). Colyseus fallback. ~18-20h.
+- **P5 🟡**: **M11 SHIPPED** (Phase A–C + TKT-05, 4 PR, 333/333 test). Stack live: lobby.html + network.js + host-transfer + ngrok playbook. Chiude → 🟢 dopo TKT-M11B-06 playtest live (userland, non-automatizzabile).
 - **P6 🟡**: Hardcore iter7 RED deadlock. Multiplier knob exhausted. **Long War 2 mission timers + pod count > HP**. ~5-7h.
 
 **Sprint roadmap M9-M12** (single dev + AI pair, kill-60, decisione user 2026-04-20):
