@@ -178,17 +178,43 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-26 — M16-M20 co-op MVP full loop shipped)
+## 🎮 Sprint context (aggiornato: 2026-04-26 — Vision Gap V1-V7 + M16-M20 co-op MVP)
 
-**Sessione 2026-04-26**: M16-M20 autonomous stack (PR #1721/#1722/#1723/#1724/#1725). Co-op Jackbox full loop shipped dopo first-principles pass (coop-truths + mvp-spec + migration-plan).
+**Sessione 2026-04-26 sera (Vision Gap autonomous)**: Audit post-M20 rileva 7 verità promesse in `docs/core/` zero runtime. PR [#1726](https://github.com/MasterDD-L34D/Game/pull/1726) branch `feat/p5-vision-gaps` chiude 6/7 in 3 commit.
 
-**Nuova state machine co-op**: `lobby → character_creation → world_setup → combat → debrief → (loop|ended)`. Ogni fase ha phone UI overlay dedicato + TV host roster sync.
+**Gap chiusi**:
 
-**Tests nuovi**: 26 (coopOrchestrator + coopRoutes + coopWorldVote + coopDebrief) + 15 regression = **41/41 verde**.
+- **V1 Onboarding 60s Phase B**: `/api/campaign/start` accetta `initial_trait_choice`, `onboardingPanel.js` Disco Elysium 3-stage overlay
+- **V2 Tri-Sorgente reward API Node-native**: `rewardOffer.js` + pool R/A/P + softmax T=0.7 + `/api/rewards/{offer,skip}` + `/fragments`, skipFragmentStore + 15-card seed pool
+- **V4 PI-Pacchetti tematici 16×3 machine-readable**: `form_pack_bias.yaml` + `formPackRecommender.js` (d20 universal/bias_forma/bias_job/scelta)
+- **V5 SG earn formula Opzione C mixed**: ADR-2026-04-26 chiude Q52 P2. `sgTracker.js` 5 dmg taken OR 8 dmg dealt → +1 SG, cap 2/turn, pool max 3. **Wired** in session.js damage step
+- **V7 Biome-aware spawn bias**: `biomeSpawnBias.js` affix+archetype weight (primary 3x, support 2x, affix 1.5x per match, cap 3x). **Wired** in reinforcementSpawner
+- **Telemetry endpoint**: `POST /api/session/telemetry` batch JSONL append (cap 200, anonymous events OK, logs gitignored)
 
-**Pilastro 5 co-op** bumpato 🟡 → **🟢 candidato** (residuo: playtest live amici).
+**Deferred**: V3 Mating/Nido (~20h post-MVP), V6 UI TV dashboard polish (~6h post-playtest).
 
-Handoff: [`docs/process/sprint-2026-04-26-M16-M20-close.md`](docs/process/sprint-2026-04-26-M16-M20-close.md) + [`docs/playtest/2026-04-26-coop-full-loop-playbook.md`](docs/playtest/2026-04-26-coop-full-loop-playbook.md).
+**Tests**: +65 nuovi (5+5+12+17+12+14) · AI regression 307/307 · **411/411 verde aggregate**.
+
+**Sessione 2026-04-26 mattina (M16-M20 co-op)**: PR #1721/#1722/#1723/#1724/#1725. State machine `lobby → character_creation → world_setup → combat → debrief → (loop|ended)`. +41 test.
+
+**Score pilastri aggiornato**:
+
+| #   | Pilastro   |                 Stato                 |
+| --- | ---------- | :-----------------------------------: |
+| 1   | Tattica    |                  🟢                   |
+| 2   | Evoluzione |       🟢c+ (tri-sorgente live)        |
+| 3   | Specie×Job |                  🟢c                  |
+| 4   | MBTI       | 🟡++ (PI pacchetti + Thought Cabinet) |
+| 5   | Co-op      |      🟢c (residuo playtest live)      |
+| 6   | Fairness   |     🟢c+ (SG wired + biome bias)      |
+
+Handoff: [`docs/planning/2026-04-26-vision-gap-sprint-handoff.md`](docs/planning/2026-04-26-vision-gap-sprint-handoff.md) + [`docs/process/sprint-2026-04-26-M16-M20-close.md`](docs/process/sprint-2026-04-26-M16-M20-close.md).
+
+**Next session residuo** (autonomous 4h + userland 2h):
+
+- UI polish: wire onboardingPanel in main.js, reward offer in debriefPanel, pack recommender in char creation
+- Runtime: sgTracker.accumulate in abilityExecutor.js (5 sites), lifecycle reset hooks
+- **TKT-M11B-06 playtest live 2-4 amici** (userland, unico bloccante umano)
 
 ---
 

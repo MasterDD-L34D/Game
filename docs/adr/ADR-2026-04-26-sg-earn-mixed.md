@@ -1,6 +1,6 @@
 ---
 title: 'ADR-2026-04-26 — SG (Surge Gauge) earn formula — Opzione C mixed'
-doc_status: accepted
+doc_status: active
 doc_owner: master-dd
 workstream: combat
 last_verified: '2026-04-26'

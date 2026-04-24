@@ -4575,6 +4575,28 @@
       "review_cycle_days": 14
     },
     {
+      "path": "docs/planning/2026-04-26-vision-gap-sprint-handoff.md",
+      "title": "Vision Gap Sprint V1-V7 — handoff post-PR #1726",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-26-sg-earn-mixed.md",
+      "title": "ADR-2026-04-26 — SG (Surge Gauge) earn formula — Opzione C mixed",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "combat",
+      "last_verified": "2026-04-26",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 180
+    },
+    {
       "path": "docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md",
       "title": "Evo Final Design — Backlog Register",
       "doc_status": "draft",

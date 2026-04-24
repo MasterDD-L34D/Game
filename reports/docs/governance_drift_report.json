@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-23T21:15:45+00:00",
+  "generated_at": "2026-04-24T02:59:23+00:00",
   "summary": {
-    "total": 5,
+    "total": 6,
     "errors": 0,
-    "warnings": 5
+    "warnings": 6
   },
   "issues": [
     {
@@ -35,6 +35,12 @@
       "code": "stale_document",
       "path": "docs/hubs/incoming.md",
       "message": "Documento stale: revisione scaduta il 2026-04-20"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/adr/ADR-2026-04-26-sg-earn-mixed.md",
+      "message": "Campo last_verified differente tra frontmatter ('2026-04-26') e registry (2026-04-26)"
     }
   ]
 }
