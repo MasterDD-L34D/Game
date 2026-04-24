@@ -162,6 +162,45 @@ class CoopOrchestrator {
   }
 
   /**
+   * M18 — Player casts vote on proposed scenario. accept=true/false.
+   * Host remains arbiter and must still confirmWorld() to commit.
+   */
+  voteWorld(playerId, { scenarioId, accept = true, allPlayerIds = [] } = {}) {
+    if (this.phase !== 'world_setup') throw new Error('not_in_world_setup');
+    if (!playerId) throw new Error('player_id_required');
+    const sid = scenarioId || this.run?.scenarioStack?.[this.run.currentIndex];
+    this.worldVotes.set(playerId, {
+      scenario_id: sid,
+      accept: Boolean(accept),
+      ts: this.now(),
+    });
+    this._emit('world_vote', { player_id: playerId, scenario_id: sid, accept });
+    return this.worldTally(allPlayerIds);
+  }
+
+  /**
+   * M18 — Tally current world votes. Returns counts + breakdown.
+   */
+  worldTally(allPlayerIds = []) {
+    let accept = 0;
+    let reject = 0;
+    const perPlayer = {};
+    for (const [pid, vote] of this.worldVotes.entries()) {
+      if (vote.accept) accept += 1;
+      else reject += 1;
+      perPlayer[pid] = vote;
+    }
+    return {
+      scenario_id: this.run?.scenarioStack?.[this.run.currentIndex] || null,
+      accept,
+      reject,
+      total: allPlayerIds.length || accept + reject,
+      pending: Math.max(allPlayerIds.length - (accept + reject), 0),
+      per_player: perPlayer,
+    };
+  }
+
+  /**
    * Build the /session/start payload from current characters.
    * Used by M17+ host handler that forwards to existing session route.
    */
