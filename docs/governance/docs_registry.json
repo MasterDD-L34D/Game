@@ -5962,6 +5962,19 @@
       "track": "new"
     },
     {
+      "path": "docs/process/sprint-2026-04-24-playtest-prep.md",
+      "title": "Sprint 2026-04-24 — Playtest prep + smoke round 1",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-24",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/process/sprint-2026-04-18-m3-10-real-assets.md",
       "title": "Sprint 2026-04-18 M3.10 — Real assets (Flint kill-60 close)",
       "doc_status": "active",
