@@ -13,8 +13,9 @@
 
 ## Stato attuale
 
-- Branch lavoro: `claude/distracted-volhard-2f84a5` (worktree) **2 ahead, 0 behind** `origin/main` (rebased 2026-04-24)
-- Ultimo PR merged main: **#1731** `docs(sprint): playtest prep 2026-04-24 sprint close + CLAUDE.md + registry` (82206464)
+- Branch lavoro: `claude/sprint-3-archivio-close` (worktree reset post PR #1732 merge)
+- Ultimo PR merged main: **#1732** `chore(bootstrap): archivio Sprint 0+1+2 + 2 agent P0 + /compact skill + 4-gate DoD policy` (merge commit `1e7bc455`, 2026-04-24 12:52 UTC)
+- Sprint 3 archivio in progress: chiude gap readiness 21.5→24/24 con BACKLOG.md + OPEN_DECISIONS.md + master orchestrator decision (OD-006 risolta)
 - Sprint **2026-04-24 playtest prep** chiuso in main: 4 PR consecutivi (#1728-#1731) — fix V5 SG pool, launcher rewrite preflight+health+QR+ngrok, playtest-UI fix round 1, sprint close doc
 - Sprint 2026-04-26 Vision Gap V1-V7 chiuso (6/7, V3 deferred), PR #1726 merged
 - Sprint M16-M20 co-op MVP chiuso (PR #1721-#1725, state machine lobby→debrief live)
@@ -33,7 +34,7 @@
 - **#1727** (b9a6dc73): SG earn formula Opzione C wired in `abilityExecutor.js` (5 site), UI rewards/packs wires in `onboardingPanel.js`/`debriefPanel.js`/`characterCreation.js`
 - **#1726** (0d501169): V1 onboarding 60s, V2 tri-sorgente reward API, V4 PI-pacchetti YAML 16×3, V5 SG tracker 5/8 formula, V7 biome-aware spawn bias, telemetry JSONL endpoint
 - **#1725** (5fb94b99): M16-M20 sprint close docs + playtest playbook + CLAUDE.md update
-- **Sessione 2026-04-24 (corrente — PR #1732 draft aperta)**:
+- **Sessione 2026-04-24 (corrente — PR #1732 MERGED + Sprint 3 in-flight)**:
   - 5 research docs scritti (2062 righe totali): skills shopping list, archivio inventory, agent roster, tiktok extraction, triangle-strategy transfer plan
   - **Sprint 0 archivio** (root): PROJECT_BRIEF.md, COMPACT_CONTEXT.md (questo), DECISIONS_LOG.md
   - **Sprint 1 archivio** (root + `.claude/`): MODEL_ROUTING.md, TASK_PROTOCOL.md, SAFE_CHANGES.md, 4 prompt template in `.claude/prompts/` (02_game_design, 04_research_bridge, 05_claude_code_brief, 09_first_principles_checklist)
@@ -44,7 +45,8 @@
   - 4 memory saved: session-timing, smoke-test-policy (4-gate DoD), user-decision-shortcuts, archivio-reference
   - Policy **4-gate DoD** codificata in CLAUDE.md — obbligatoria per ogni nuovo agent/skill/feature
   - Branch rebased onto origin/main post merge PR #1728-#1731 — zero conflitti
-  - **PR #1732 draft** aperta con 3 commit (bootstrap Sprint 0 + policy 4-gate DoD + compact post-rebase)
+  - **PR #1732 MERGED** in main (`1e7bc455`, 5 commit squashed, 27 file, +5044 righe). Remote branch deleted post-merge.
+  - **Sprint 3** (questa fase): BACKLOG.md root + OPEN_DECISIONS.md root (OD-006 master orchestrator NON adottare, OD-007 Sprint 3 chiuso). Readiness audit 21.5→24/24 practical max.
 
 ## Decisioni prese
 
