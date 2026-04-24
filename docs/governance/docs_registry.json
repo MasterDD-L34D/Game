@@ -4630,6 +4630,17 @@
       "review_cycle_days": 180
     },
     {
+      "path": "docs/adr/ADR-2026-04-26-pincer-followup-queue.md",
+      "title": "ADR 2026-04-26 — Pincer follow-up intent queue (Triangle Strategy Mechanic 3B)",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
       "path": "docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md",
       "title": "Evo Final Design — Backlog Register",
       "doc_status": "draft",
