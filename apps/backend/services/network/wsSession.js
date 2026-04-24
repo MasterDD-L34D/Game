@@ -579,13 +579,62 @@ class LobbyService {
 }
 
 /**
+ * F-1 2026-04-25 — rebroadcast coop phase snapshot to room after host transfer.
+ * Mirrors the key messages from routes/coop.js:broadcastCoopState (not imported
+ * to avoid circular module load). Pure best-effort; swallows errors upstream.
+ */
+function rebroadcastCoopState(room, orch) {
+  if (!room || typeof room.broadcast !== 'function' || !orch) return;
+  const allIds = Array.from(room.players.values())
+    .filter((p) => p.id !== room.hostId && p.role !== 'host')
+    .map((p) => p.id);
+  room.broadcast({
+    type: 'phase_change',
+    payload: {
+      phase: orch.phase,
+      round: orch.run?.currentIndex ?? 0,
+      scenario: orch.run?.scenarioStack?.[orch.run?.currentIndex] || null,
+      reason: 'host_transferred',
+    },
+  });
+  if (typeof orch.characterReadyList === 'function') {
+    room.broadcast({
+      type: 'character_ready_list',
+      payload: orch.characterReadyList(allIds),
+    });
+  }
+  if (orch.phase === 'world_setup' && typeof orch.worldTally === 'function') {
+    room.broadcast({ type: 'world_tally', payload: orch.worldTally(allIds) });
+  }
+  if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
+    room.broadcast({
+      type: 'debrief_ready_list',
+      payload: {
+        outcome: orch.run?.outcome || 'victory',
+        ready_list: orch.debriefReadyList(allIds),
+      },
+    });
+  }
+}
+
+/**
  * Attach a WebSocketServer to an existing http.Server, gated on path.
  * Alternatively, pass `port` to spawn a standalone server (useful for tests).
  *
  * Connection URL: ws://host:port/ws?code=ABCD&player_id=p_xxx&token=YYY
  * Auth: player_id + token must match an existing room record.
+ *
+ * Optional `coopStore` (F-1): when present, host-transfer will rebroadcast
+ * the coop phase snapshot so the promoted host sees current phase without
+ * needing to poll GET /api/coop/state.
  */
-function createWsServer({ lobby, server = null, port = null, path = '/ws' } = {}) {
+function createWsServer({
+  lobby,
+  server = null,
+  port = null,
+  path = '/ws',
+  coopStore = null,
+} = {}) {
   if (!lobby) throw new Error('lobby_required');
   if (!server && (port === null || port === undefined)) {
     throw new Error('server_or_port_required');
@@ -778,6 +827,18 @@ function createWsServer({ lobby, server = null, port = null, path = '/ws' } = {}
             // No eligible candidate; close the room as a fallback so clients
             // stop waiting indefinitely.
             room.close('host_dropped_no_candidate');
+            return;
+          }
+          // F-1 2026-04-25 — rebroadcast coop state to the new host + peers
+          // so the promoted client sees the correct phase/run without needing
+          // to call GET /api/coop/state manually.
+          if (coopStore && typeof coopStore.get === 'function') {
+            try {
+              const orch = coopStore.get(room.code);
+              if (orch) rebroadcastCoopState(room, orch);
+            } catch {
+              // swallow — rebroadcast is best-effort.
+            }
           }
         });
       }

@@ -111,6 +111,10 @@ class CoopOrchestrator {
     if (!spec || !spec.form_id || !spec.name) {
       throw new Error('spec_invalid');
     }
+    // F-3 2026-04-25 — reject stale/ghost client with valid token but no longer in room.
+    if (allPlayerIds.length > 0 && !allPlayerIds.includes(playerId)) {
+      throw new Error('player_not_in_room');
+    }
     const normalized = {
       player_id: playerId,
       name: String(spec.name).slice(0, 30),
@@ -248,6 +252,31 @@ class CoopOrchestrator {
       return this.advanceScenarioOrEnd();
     }
     return null;
+  }
+
+  /**
+   * F-2 2026-04-25 — host-only force-advance escape hatch.
+   * Unstucks `character_creation` (player dropped before submit) or
+   * `debrief` (player dropped before choice). Only whitelisted transitions
+   * allowed to preserve invariants.
+   *
+   * Whitelist:
+   *   character_creation → world_setup (abandon ghost characters)
+   *   debrief → world_setup|ended (delegate to advanceScenarioOrEnd)
+   *
+   * @param reason — human-readable cause, logged in emit.
+   */
+  forceAdvance({ reason = 'host_override' } = {}) {
+    if (this.phase === 'character_creation') {
+      this._emit('force_advance', { from: 'character_creation', to: 'world_setup', reason });
+      this._setPhase('world_setup');
+      return { action: 'forced_to_world_setup', from: 'character_creation' };
+    }
+    if (this.phase === 'debrief') {
+      this._emit('force_advance', { from: 'debrief', reason });
+      return this.advanceScenarioOrEnd();
+    }
+    throw new Error(`force_advance_not_allowed_from:${this.phase}`);
   }
 
   advanceScenarioOrEnd() {

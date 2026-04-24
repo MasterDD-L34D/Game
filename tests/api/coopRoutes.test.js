@@ -159,6 +159,60 @@ test('state endpoint returns 404 for unknown room', async () => {
   assert.equal(res.status, 404);
 });
 
+test('F-2: POST /api/coop/run/force-advance unsticks character_creation', async () => {
+  const { app } = buildApp();
+  const createRes = await post(app, '/api/lobby/create', { host_name: 'H', max_players: 4 });
+  const { code, host_token: hostToken } = createRes.body;
+  await post(app, '/api/lobby/join', { code, player_name: 'Alice' });
+  await post(app, '/api/lobby/join', { code, player_name: 'Bob' });
+  await post(app, '/api/coop/run/start', { code, host_token: hostToken });
+  // Neither Alice nor Bob submits → stuck in character_creation.
+  const res = await post(app, '/api/coop/run/force-advance', {
+    code,
+    host_token: hostToken,
+    reason: 'alice_offline',
+  });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.phase, 'world_setup');
+  assert.equal(res.body.previous_phase, 'character_creation');
+});
+
+test('F-2: force-advance rejects non-host caller', async () => {
+  const { app } = buildApp();
+  const createRes = await post(app, '/api/lobby/create', { host_name: 'H' });
+  const { code, host_token: hostToken } = createRes.body;
+  await post(app, '/api/coop/run/start', { code, host_token: hostToken });
+  const res = await post(app, '/api/coop/run/force-advance', {
+    code,
+    host_token: 'wrong_token',
+  });
+  assert.equal(res.status, 403);
+});
+
+test('F-2: force-advance rejects when not_in_allowed_phase', async () => {
+  const { app } = buildApp();
+  const createRes = await post(app, '/api/lobby/create', { host_name: 'H' });
+  const { code, host_token: hostToken } = createRes.body;
+  // No run started yet → orch absent → 409.
+  const res1 = await post(app, '/api/coop/run/force-advance', { code, host_token: hostToken });
+  assert.equal(res1.status, 409);
+
+  await post(app, '/api/coop/run/start', { code, host_token: hostToken });
+  const joinRes = await post(app, '/api/lobby/join', { code, player_name: 'Alice' });
+  await post(app, '/api/coop/character/create', {
+    code,
+    player_id: joinRes.body.player_id,
+    player_token: joinRes.body.player_token,
+    name: 'Aria',
+    form_id: 'istj',
+  });
+  await post(app, '/api/coop/world/confirm', { code, host_token: hostToken });
+  // Now in combat — force-advance should be rejected.
+  const res2 = await post(app, '/api/coop/run/force-advance', { code, host_token: hostToken });
+  assert.equal(res2.status, 400);
+  assert.ok(res2.body.error?.startsWith('force_advance_not_allowed_from:combat'));
+});
+
 test('combat/end transitions combat → debrief (host authed)', async () => {
   const { app } = buildApp();
   const createRes = await post(app, '/api/lobby/create', { host_name: 'H' });

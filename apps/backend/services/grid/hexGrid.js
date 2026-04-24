@@ -218,6 +218,36 @@ function cubeRound(fq, fr) {
   return { q, r };
 }
 
+/**
+ * M14-A 2026-04-25 — Triangle Strategy Mechanic 3A elevation damage bonus.
+ * Pure helper; not wired into resolver in this PR. Caller passes elevation
+ * integers (0..N) and the bonus/penalty coefficients from terrain_defense.yaml
+ * (`elevation.attack_damage_bonus`, `attack_damage_penalty`).
+ *
+ * Contract:
+ *   delta >= 1  → 1 + bonus   (attacker above — Fextralife: +30% default)
+ *   delta == 0  → 1.0
+ *   delta <= -1 → 1 + penalty (attacker below — TS mirror penalty)
+ *
+ * Null/undefined elevations default to 0 (ground level).
+ * Returns the multiplier (never below 0.1 to avoid total negation).
+ */
+function elevationDamageMultiplier({
+  attackerElevation,
+  targetElevation,
+  bonus = 0.3,
+  penalty = -0.15,
+} = {}) {
+  const a = Number.isFinite(attackerElevation) ? attackerElevation : 0;
+  const t = Number.isFinite(targetElevation) ? targetElevation : 0;
+  const delta = a - t;
+  let mult;
+  if (delta >= 1) mult = 1 + bonus;
+  else if (delta <= -1) mult = 1 + penalty;
+  else mult = 1;
+  return Math.max(mult, 0.1);
+}
+
 module.exports = {
   DIRECTIONS,
   hexKey,
@@ -229,4 +259,5 @@ module.exports = {
   getTilesInRange,
   getLineOfSight,
   cubeRound,
+  elevationDamageMultiplier,
 };

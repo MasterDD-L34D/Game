@@ -202,6 +202,27 @@ function createCoopRouter({ lobby, coopStore } = {}) {
     }
   });
 
+  // F-2 2026-04-25 — host-only escape hatch for stuck character_creation/debrief.
+  router.post('/coop/run/force-advance', (req, res) => {
+    const { code, host_token: hostToken, reason } = req.body || {};
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const prevPhase = orch.phase;
+      const result = orch.forceAdvance({ reason });
+      broadcastCoopState(room, orch);
+      return res.json({
+        phase: orch.phase,
+        previous_phase: prevPhase,
+        result,
+      });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'force_advance_failed' });
+    }
+  });
+
   router.post('/coop/combat/end', (req, res) => {
     // Host notifies combat ended (victory/defeat). MVP: host controls.
     const {

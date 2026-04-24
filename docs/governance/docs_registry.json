@@ -4586,6 +4586,17 @@
       "review_cycle_days": 30
     },
     {
+      "path": "docs/planning/2026-04-25-M14-A-elevation-terrain.md",
+      "title": "M14-A Elevation + Terrain Reactions + Coop Hardening — Plan",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
       "path": "docs/adr/ADR-2026-04-26-sg-earn-mixed.md",
       "title": "ADR-2026-04-26 — SG (Surge Gauge) earn formula — Opzione C mixed",
       "doc_status": "active",
