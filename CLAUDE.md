@@ -29,6 +29,8 @@ multi-step sequences where fragment ambiguity risks misread, user confused or re
 
 **Evo-Tactics** is a co-op tactical game (d20-based, modular evolutionary progression) delivered as a polyglot monorepo. It ships YAML datasets, Python + TypeScript CLIs, an Express "Idea Engine" backend, a Vue/Vite dashboard, and publishing/validation pipelines. Most docs, commit messages, and inline comments are written in **Italian** — match that language when editing docs, but code identifiers stay English.
 
+**Bootstrap files** (Sprint 0 archivio operativo, 2026-04-24): `PROJECT_BRIEF.md` (identità stabile progetto), `COMPACT_CONTEXT.md` (snapshot 30s sessione corrente), `DECISIONS_LOG.md` (index 30 ADR). Leggi questi prima di CLAUDE.md per onboarding veloce.
+
 ## Repository layout (high-level)
 
 The monorepo uses npm workspaces declared in root `package.json`:
