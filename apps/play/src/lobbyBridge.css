@@ -394,6 +394,21 @@
   white-space: nowrap;
 }
 
+.lobby-host-roster-list .ready {
+  font-size: 0.82rem;
+  margin-left: 4px;
+}
+
+.lobby-host-roster-list li.intent-ready {
+  background: rgba(76, 175, 80, 0.08);
+  border-left: 2px solid #4caf50;
+  padding-left: 6px;
+}
+
+.lobby-host-roster-list li.intent-pending {
+  background: rgba(255, 183, 77, 0.05);
+}
+
 .lobby-host-roster-empty {
   color: #8891a3;
   font-style: italic;
