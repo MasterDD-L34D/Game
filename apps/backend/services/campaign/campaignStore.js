@@ -46,7 +46,7 @@ function _now() {
  * @param {string} [campaignDefId='default_campaign_mvp']
  * @returns {object} new campaign
  */
-function createCampaign(playerId, campaignDefId = 'default_campaign_mvp') {
+function createCampaign(playerId, campaignDefId = 'default_campaign_mvp', opts = {}) {
   if (!playerId || typeof playerId !== 'string') {
     throw new Error('createCampaign: playerId richiesto (string)');
   }
@@ -63,6 +63,9 @@ function createCampaign(playerId, campaignDefId = 'default_campaign_mvp') {
     finalState: null,
     chapters: [],
     partyRoster: [],
+    // V1 Onboarding Phase B — trait permanent pre-Act 0 shared roster
+    onboardingChoice: opts.onboardingChoice || null, // { option_key, trait_id }
+    acquiredTraits: Array.isArray(opts.acquiredTraits) ? [...opts.acquiredTraits] : [],
     createdAt: now,
     updatedAt: now,
   };

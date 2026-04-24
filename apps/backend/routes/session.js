@@ -1813,6 +1813,54 @@ function createSessionRouter(options = {}) {
   });
 
   // ────────────────────────────────────────────────────────────────
+  // Telemetry batch endpoint — playtest readiness instrumentation
+  // ────────────────────────────────────────────────────────────────
+  //
+  // POST /api/session/telemetry
+  //   body: { session_id?, player_id?, events: [{ ts, type, payload }] }
+  //   → append-only JSONL su logs/telemetry_YYYYMMDD.jsonl
+  //   → Pattern Rainbow Six Siege "Unfun matrix": capture ui_error,
+  //     input_latency_ms, client_fps, confusion signals
+  //
+  // Schema event payload libero; validation soft su top-level.
+  router.post('/telemetry', async (req, res, next) => {
+    try {
+      const { session_id, player_id, events } = req.body || {};
+      if (!Array.isArray(events) || events.length === 0) {
+        return res.status(400).json({ error: 'events array richiesto (non-empty)' });
+      }
+      if (events.length > 200) {
+        return res.status(413).json({ error: 'batch >200 eventi — split richiesto' });
+      }
+      const now = new Date();
+      const yyyymmdd = now.toISOString().slice(0, 10).replace(/-/g, '');
+      const logDir = path.join(process.cwd(), 'logs');
+      try {
+        await fs.mkdir(logDir, { recursive: true });
+      } catch {
+        /* dir exists */
+      }
+      const logPath = path.join(logDir, `telemetry_${yyyymmdd}.jsonl`);
+      const lines = events
+        .map((ev) => {
+          const entry = {
+            ts: ev?.ts || now.toISOString(),
+            session_id: session_id || null,
+            player_id: player_id || null,
+            type: ev?.type || 'unknown',
+            payload: ev?.payload ?? null,
+          };
+          return JSON.stringify(entry);
+        })
+        .join('\n');
+      await fs.appendFile(logPath, lines + '\n', 'utf8');
+      res.json({ ok: true, appended: events.length, log_path: path.basename(logPath) });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // ────────────────────────────────────────────────────────────────
   // Round-based combat endpoints (ADR-2026-04-16, PR 2 di N)
   // ────────────────────────────────────────────────────────────────
   //

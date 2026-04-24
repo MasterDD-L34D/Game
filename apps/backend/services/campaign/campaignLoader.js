@@ -166,6 +166,30 @@ function resolveBranch(campaign, actIdx, branchKey) {
 }
 
 /**
+ * Get onboarding spec (V1 Phase B). Returns null se campaign def senza
+ * sezione `onboarding:`.
+ *
+ * Shape: { schema_version, timing_seconds, deliberation_timeout_seconds,
+ *   default_choice_on_timeout, briefing{duration_seconds, lines[]},
+ *   choices[{option_key, label, trait_id, narrative}],
+ *   transition{duration_seconds, line}, next_encounter }
+ */
+function getOnboarding(campaign) {
+  if (!campaign || typeof campaign !== 'object') return null;
+  return campaign.onboarding || null;
+}
+
+/**
+ * Resolve onboarding trait_id da choice key. Ritorna null se key invalida.
+ */
+function resolveOnboardingTrait(campaign, optionKey) {
+  const ob = getOnboarding(campaign);
+  if (!ob || !Array.isArray(ob.choices)) return null;
+  const match = ob.choices.find((c) => c.option_key === optionKey);
+  return match?.trait_id || null;
+}
+
+/**
  * Extract all encounter IDs referenced (for integrity check vs YAML scenarios).
  */
 function extractAllEncounterIds(campaign) {
@@ -188,6 +212,8 @@ module.exports = {
   getActs,
   getEncountersForAct,
   resolveBranch,
+  getOnboarding,
+  resolveOnboardingTrait,
   extractAllEncounterIds,
   _resetCache,
   CAMPAIGN_DIR,

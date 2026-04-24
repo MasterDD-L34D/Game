@@ -215,7 +215,7 @@ log:
 | Anti-pattern attuale                                                             | Fix                                                                                |
 | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | `session.js` /start spawna units hardcoded da scenario. No `owner_id` per player | Param `characters[]` da coop orchestrator → unità create con `owner_id`            |
-| `publishWorld` su TV è chiamato da `main.js` host — accoppia UI↔backend          | Host TV invia `publishWorld` solo come relay; source of truth = backend coop state |
+| `publishWorld` su TV è chiamato da `main.js` host — accoppia UI↔backend         | Host TV invia `publishWorld` solo come relay; source of truth = backend coop state |
 | Form evolution in M12 è player-locale (formSessionStore)                         | Debrief usa stesso store, espone scelta al player via WS msg                       |
 | Scenario selection dropdown TV = host-only                                       | Voto party via nuovo WS msg `world_vote`                                           |
 

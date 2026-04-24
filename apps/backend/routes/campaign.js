@@ -30,6 +30,8 @@ const {
   loadCampaign: loadCampaignDef,
   getEncountersForAct,
   resolveBranch,
+  getOnboarding,
+  resolveOnboardingTrait,
 } = require('../services/campaign/campaignLoader');
 const { summariseCampaign } = require('../services/campaign/campaignEngine');
 const { grantXpToSurvivors } = require('../services/progression/progressionApply');
@@ -54,8 +56,12 @@ function createCampaignRouter(options = {}) {
   const router = express.Router();
 
   // POST /api/campaign/start
+  // Body: { player_id, campaign_def_id?, initial_trait_choice? }
+  //   initial_trait_choice: 'option_a' | 'option_b' | 'option_c' | null
+  //   → resolves trait via campaign.onboarding.choices[] (V1 Phase B).
+  //   → applied to roster as acquiredTraits[] (shared branco).
   router.post('/campaign/start', (req, res) => {
-    const { player_id, campaign_def_id } = req.body || {};
+    const { player_id, campaign_def_id, initial_trait_choice } = req.body || {};
     if (!player_id || typeof player_id !== 'string') {
       return res.status(400).json({ error: 'player_id richiesto (string)' });
     }
@@ -64,7 +70,28 @@ function createCampaignRouter(options = {}) {
     if (!defDoc) {
       return res.status(404).json({ error: `campaign def "${defId}" non trovato` });
     }
-    const campaign = createCampaign(player_id, defId);
+
+    // V1 Onboarding Phase B — resolve trait da choice key. Se key invalida,
+    // fallback su default_choice_on_timeout (option_a canonical). Se
+    // campaign def senza onboarding section, skip (legacy campaigns).
+    const onboarding = getOnboarding(defDoc);
+    let onboardingChoice = null;
+    let acquiredTraits = [];
+    if (onboarding && Array.isArray(onboarding.choices) && onboarding.choices.length > 0) {
+      const requested = typeof initial_trait_choice === 'string' ? initial_trait_choice : null;
+      const validKeys = onboarding.choices.map((c) => c.option_key);
+      const effectiveKey =
+        requested && validKeys.includes(requested)
+          ? requested
+          : onboarding.default_choice_on_timeout || validKeys[0];
+      const traitId = resolveOnboardingTrait(defDoc, effectiveKey);
+      if (traitId) {
+        onboardingChoice = { option_key: effectiveKey, trait_id: traitId };
+        acquiredTraits = [traitId];
+      }
+    }
+
+    const campaign = createCampaign(player_id, defId, { onboardingChoice, acquiredTraits });
     const firstAct = defDoc.acts[0];
     const firstEnc = (firstAct?.encounters || []).find((e) => !e.is_choice_node);
     return res.status(201).json({
@@ -74,6 +101,7 @@ function createCampaignRouter(options = {}) {
         name: defDoc.name,
         narrative_hook: defDoc.narrative_hook,
         total_acts: defDoc.total_acts,
+        onboarding: onboarding || null, // V1: UI consumer picker
       },
     });
   });
