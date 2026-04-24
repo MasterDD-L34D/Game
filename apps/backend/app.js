@@ -23,6 +23,7 @@ const { createFeedbackRouter } = require('./routes/feedback');
 const { createPartyRouter } = require('./routes/party');
 const { createCampaignRouter } = require('./routes/campaign');
 const { createRewardsRouter } = require('./routes/rewards');
+const { createFormPackRouter } = require('./routes/formPackRoutes');
 const { createLobbyRouter } = require('./routes/lobby');
 const { createCoopRouter } = require('./routes/coop');
 const { createCoopStore } = require('./services/coop/coopStore');
@@ -716,6 +717,8 @@ function createApp(options = {}) {
   app.use('/api', createCampaignRouter(options.campaign || {}));
   // V2 Tri-Sorgente post-match reward (2026-04-26 sprint V2)
   app.use('/api', createRewardsRouter());
+  // V4 PI-Pacchetti tematici (2026-04-26 sprint V4) — form recommend expose
+  app.use('/api', createFormPackRouter());
   // M11 Phase A: Jackbox-style co-op lobby (ADR-2026-04-20).
   // REST only; WebSocket server bootstraps in index.js on port 3341.
   // Opzione C (2026-04-26): optional Prisma write-through persistence.
