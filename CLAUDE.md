@@ -178,13 +178,13 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-18)
+## 🎮 Sprint context (aggiornato: 2026-04-23)
 
 > Sezione aggiunta post-sprint 019. Aggiorna a ogni sessione significativa.
 
 **Visione**: "Tattica profonda a turni, cooperativa contro il Sistema, condivisa su TV: come giochi modella ciò che diventi."
 
-**Sprint completati**: 001–020 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Sessione 17/04 M2 (ability + canonical)**: 16 PR (#1498→#1527) · **Sessione 17-18/04 (co-op scaling 4→8)**: 6 PR (#1529, #1530, #1531, #1534, #1537, #1542)
+**Sprint completati**: 001–020 + M11/M12/M13 · **Sessione 16-17/04**: 22 PR (#1383→#1405) · **Sessione 16/04 (repo analysis)**: 10 PR (#1422→#1431) · **Sessione 17/04 (game loop arc)**: 21 PR (#1447→#1471) · **Sessione 17/04 M2 (ability + canonical)**: 16 PR (#1498→#1527) · **Sessione 17-18/04 (co-op scaling 4→8)**: 6 PR (#1529, #1530, #1531, #1534, #1537, #1542)
 
 **Milestone completate sessione 16-17/04**:
 
@@ -299,10 +299,54 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Residuo backlog M11**:
 
-- TKT-M11B-04 canvas TV widescreen layout (P2, polish)
-- TKT-M11B-06 playtest live execution (P1, userland)
+- ~~TKT-M11B-04 canvas TV widescreen layout~~ ✅ merged #1688
+- **TKT-M11B-06** playtest live execution (P1, userland, chiude P5 🟢)
 - Prisma room persistence (P3, deferred)
 - Rate-limit / DoS hardening (P3, solo deploy pubblico)
+
+**M12 big rock next**:
+
+- P2 full Form evoluzione (Spore-core, ~35h, 2-3 sprint — split M12.A/B/C)
+
+**Sessione 2026-04-23** (PR #1688 merged `2f26e8be`):
+
+- `apps/play/src/lobbyBridge.css` NEW (423 LOC CSS extract)
+- `apps/play/src/lobbyBridge.js` -152 LOC cleaner bridge
+- `scripts/run-{test-api,test-stack,export-qa}.cjs` cross-platform runner
+- `tests/scripts/crossPlatformRunners.test.js` guard
+- Baseline: **333/333** (AI 307 + lobby 15 + e2e 11)
+
+**Milestone sessione 2026-04-23 M12 Phase A + B + C (stack 3 PR mergiati)**:
+
+- **PR #1689 merged** `0d26ca6a` — Phase A: `apps/backend/services/forms/formEvolution.js` `FormEvolutionEngine` class + `apps/backend/routes/forms.js` 5 endpoint REST (registry/:id/evaluate/options/evolve) + 5 regole di gating (confidence/PE/cooldown/cap/same-form) + 25 test (16 unit + 9 route) + ADR `docs/adr/ADR-2026-04-23-m12-phase-a-form-evolution.md`
+- **PR #1690 merged** `578e1cc9` — Phase B: `formSessionStore.js` (in-memory keyed `${sid}:${uid}` + Prisma slot reserved) + `packRoller.js` (data/packs.yaml loader + mulberry32 seeded RNG + d20/d12/BIAS/SCELTA) + 7 nuovi endpoint (session CRUD + pack/roll + pack/costs) + 27 test (6 store + 11 pack + 10 session+pack route)
+- **PR #1691 merged** `080bf3b9` — Phase C: `apps/play/src/formsPanel.js` overlay modale (16 MBTI form cards + confidence bar + eligibility + evolve + pack roll) + `apps/play/src/api.js` +13 metodi client + header button 🧬 Evo + 5 unit test inferVcAxes helper
+- **Test M12 suite**: 16 engine + 9 route + 6 store + 11 pack + 10 route sessione+pack + 5 panel = **57 test** · format:check verde
+- **Grand total main post-merge**: **390/390** (307 AI + 26 lobby + 57 M12 + altri)
+- **Flow end-to-end**: unit VC axes → projectForm → engine.evaluate (gating) → engine.evolve → formSessionStore.applyDelta → UI panel render + pack roll preview
+- **Pilastro 2 status**: 🔴 → 🟡 (Phase A) → 🟡+ (Phase B) → **🟡++** (Phase C) → 🟢 candidato post-Phase D
+- **Handoff doc**: [`docs/planning/2026-04-24-next-session-kickoff-m12-phase-d.md`](docs/planning/2026-04-24-next-session-kickoff-m12-phase-d.md)
+
+**Sessione 2026-04-25 P3.B + P6.B + verify sweep (3 PR)**:
+
+- **PR #1696 merged** `9319eedd` — Verification post-merge: registry 3 new docs (2 ADR + 1 handoff) + workstream fix `planning` → `cross-cutting`. Governance 0 errors. Baseline 467/467.
+- **PR #1697 merged** `a462d4d5` — M13 P3 Phase B: campaign advance XP grant hook (survivors+xp_per_unit opzionali, response.xp_grants[]). Session /start applyProgressionToUnits (stat bonuses + \_perk_passives/ability_mods). Combat resolver 5 passive tags wired (flank_bonus, first_strike_bonus, execution_bonus, isolated_target_bonus, long_range_bonus). Frontend progressionPanel overlay (pattern formsPanel) + header btn 📈 Lv + auto-open on leveled_up. Balance pass 448 builds validated. **Pilastro 3**: 🟡+ → **🟢 candidato**. +24 test.
+- **PR #1698 merged** `135b5b1f` — M13 P6 Phase B: calibration harness Python tools/py/batch_calibrate_hardcore07.py (N=10 target win 30-50%, execution userland). HUD timer countdown bottom-right overlay + CSS @keyframes mt-pulse (red warning + strikethrough expired). Campaign auto-timeout: state.lastMissionTimer cache → advance override outcome='timeout' quando timer.expired. **Pilastro 6**: 🟡+ → **🟢 candidato**. +10 test.
+
+**Sessione 2026-04-24 M12.D + M13.P3 + M13.P6 (3 PR)**:
+
+- **PR #1693 merged** `2cfd4540` — M12 Phase D: campaign `/advance` response += `evolve_opportunity` additive flag (victory + pe_earned ≥ 8). `main.js refresh` fire-and-forget `api.vc(sid)` → `state.vcSnapshot` pipe. `formsPanel.onEvolveSuccess` callback → `pushPopup('🧬 ' + form_id)` + `flashUnit` + `sfx.select`. Prisma write-through adapter `FormSessionState` model + migration 0003 + graceful in-memory fallback. **Pilastro 2**: 🟡++ → **🟢 candidato**. +10 test (27 campaignRoutes + 6 formSessionStorePrisma).
+- **PR #1694 merged** `24169c41` — M13 P3 character progression XCOM EU/EW perk-pair: `data/core/progression/xp_curve.yaml` (7 levels threshold 0→275) + `perks.yaml` (**7 jobs × 6 levels × 2 perks = 84 perks canonical**). `ProgressionEngine` class + 6 pure helpers + `progressionStore` in-memory + Prisma write-through (`UnitProgression` model + migration 0004). 8 endpoint `/api/v1/progression/*` (registry/jobs/:id/perks/:uid CRUD + xp + pick + effective). Plugin wire. **Pilastro 3**: 🟡 → **🟡+** (engine + REST live; resolver/UI integration Phase B pending). +24 test (13 engine + 11 routes).
+- **PR #1695 open** — M13 P6 hardcore mission timer (Long War 2 pattern): `apps/backend/services/combat/missionTimer.js` (135 LOC) + wire `sessionRoundBridge` both paths. Hardcore 06 iter3 += timer 15 rounds, `on_expire: escalate_pressure` +30 + 2 extra spawns. Nuovo **scenario 07 "Assalto Spietato"** quartet 4p timer 10 + pod activation reinforcement (6 spawn cap). Risolve iter1 N=30 → 96.7% win deadlock (multiplier knob exhausted). **Pilastro 6**: 🟡 → **🟡+** (engine live; calibration N=10 + UI HUD Phase B pending). +17 test.
+
+**Score pilastri post-sessione 2026-04-24**: 1/6 🟢 (P1) + **1/6 🟢 candidato** (P2 post-D) + **3/6 🟡+** (P3/P5/P6) + 2/6 🟡 (P4/P6 residual). Branch baseline: AI 307 + progression 24 + M12 63 + lobby 26 + campaign 27 + timer 17 = **~464/464** verde.
+
+**Residuo backlog post-sessione 2026-04-24**:
+
+- **M13 P3 Phase B** (~8h): campaign advance XP grant hook + combat resolver wire (effectiveStats/listAbilityMods/listPassives) + frontend pick perk overlay + balance N=10 sim
+- **M13 P6 Phase B** (~3-5h): calibration harness `tools/py/batch_calibrate_hardcore07.py` N=10 + frontend HUD timer countdown + campaign outcome='timeout' auto-set on timer expire
+- **M12 Phase D follow-up**: playtest live end-to-end (userland, chiude P2 🟢 definitivo)
+- **TKT-M11B-06 playtest live** (userland, chiude P5 🟢)
 
 ### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
 
@@ -311,23 +355,23 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 - `docs/planning/2026-04-20-pilastri-reality-audit.md` — breakdown dettagliato per Pilastro.
 - `docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md` — roadmap 3-sprint con pattern proven (Wesnoth + XCOM + Jackbox + Long War).
 
-| #   | Pilastro                     |       Stato       |
-| --- | ---------------------------- | :---------------: |
-| 1   | Tattica leggibile (FFT)      |        🟢         |
-| 2   | Evoluzione emergente (Spore) |        🟡         |
-| 3   | Identità Specie × Job        |        🟡         |
-| 4   | Temperamenti MBTI/Ennea      |        🟡         |
-| 5   | Co-op vs Sistema             | 🟡 (Phase A live) |
-| 6   | Fairness                     |        🟡         |
+| #   | Pilastro                     |                        Stato                         |
+| --- | ---------------------------- | :--------------------------------------------------: |
+| 1   | Tattica leggibile (FFT)      |                          🟢                          |
+| 2   | Evoluzione emergente (Spore) |   🟢 candidato (Phase D shipped, playtest pending)   |
+| 3   | Identità Specie × Job        |   🟢 candidato (Phase B shipped, playtest gating)    |
+| 4   | Temperamenti MBTI/Ennea      |                          🟡                          |
+| 5   | Co-op vs Sistema             |              🟡 (playtest pending → 🟢)              |
+| 6   | Fairness                     | 🟢 candidato (Phase B shipped, calibration userland) |
 
-**Score**: 1/6 🟢 + 5/6 🟡 (zero 🔴 post deep-audit).
+**Score**: 1/6 🟢 + **3/6 🟢 candidato** + 2/6 🟡 (zero 🔴).
 
 **Gap principali + evidence-based strategy**:
 
 - **P2 🟡**: `metaProgression.js` + 6 route meta runtime in-memory. Persistence + PI pack spender = **Wesnoth advancement + AI War pack unlock** (non Spore sim). ~15-20h.
 - **P3 🟡**: 7 jobs + abilities rank r1/r2 live. Level curves YAML-only. **XCOM EU/EW perk-pair** 7 livelli × 2 perks. ~15-17h.
 - **P4 🟡**: T_F **FULL**, altri 3 axes partial/null. **Disco Elysium thought cabinet** diegetic reveal. Non shippare axes senza focus group validation. ~8h.
-- **P5 🟡**: Zero network. **Jackbox room-code WebSocket** (3 OSS clones pubblici). Colyseus fallback. ~18-20h.
+- **P5 🟡**: **M11 SHIPPED** (Phase A–C + TKT-05, 4 PR, 333/333 test). Stack live: lobby.html + network.js + host-transfer + ngrok playbook. Chiude → 🟢 dopo TKT-M11B-06 playtest live (userland, non-automatizzabile).
 - **P6 🟡**: Hardcore iter7 RED deadlock. Multiplier knob exhausted. **Long War 2 mission timers + pod count > HP**. ~5-7h.
 
 **Sprint roadmap M9-M12** (single dev + AI pair, kill-60, decisione user 2026-04-20):

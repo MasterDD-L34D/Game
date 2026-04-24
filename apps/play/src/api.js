@@ -83,6 +83,7 @@ export const api = {
       body: JSON.stringify({ session_id: sid, auto_resolve: autoResolve }),
     }),
   vc: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/vc`),
+  thoughts: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts`),
   replay: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/replay`),
   modulations: () => jsonFetch('/api/party/modulations'),
   partyConfig: () => jsonFetch('/api/party/config'),
@@ -93,10 +94,16 @@ export const api = {
       body: JSON.stringify({ player_id: playerId, campaign_def_id: campaignDefId }),
     }),
   campaignSummary: (id) => jsonFetch(`/api/campaign/summary?id=${encodeURIComponent(id)}`),
-  campaignAdvance: (id, outcome, peEarned = 0, piEarned = 0) =>
+  campaignAdvance: (id, outcome, peEarned = 0, piEarned = 0, extra = {}) =>
     jsonFetch('/api/campaign/advance', {
       method: 'POST',
-      body: JSON.stringify({ id, outcome, pe_earned: peEarned, pi_earned: piEarned }),
+      body: JSON.stringify({
+        id,
+        outcome,
+        pe_earned: peEarned,
+        pi_earned: piEarned,
+        ...extra,
+      }),
     }),
   campaignChoose: (id, branchKey) =>
     jsonFetch('/api/campaign/choose', {
@@ -110,4 +117,82 @@ export const api = {
     }),
   campaignList: (playerId) =>
     jsonFetch(`/api/campaign/list?player_id=${encodeURIComponent(playerId)}`),
+  // M12 Phase A+B+C — Forms / evolution engine.
+  formsRegistry: () => jsonFetch('/api/v1/forms/registry'),
+  formsGet: (id) => jsonFetch(`/api/v1/forms/${encodeURIComponent(id)}`),
+  formsEvaluate: (body) =>
+    jsonFetch('/api/v1/forms/evaluate', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  formsOptions: (body) =>
+    jsonFetch('/api/v1/forms/options', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  formsEvolve: (body) =>
+    jsonFetch('/api/v1/forms/evolve', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  formsSessionList: (sid) => jsonFetch(`/api/v1/forms/session/${encodeURIComponent(sid)}`),
+  formsSessionGet: (sid, unitId) =>
+    jsonFetch(`/api/v1/forms/session/${encodeURIComponent(sid)}/${encodeURIComponent(unitId)}`),
+  formsSessionSeed: (sid, unitId, body) =>
+    jsonFetch(
+      `/api/v1/forms/session/${encodeURIComponent(sid)}/${encodeURIComponent(unitId)}/seed`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body || {}),
+      },
+    ),
+  formsSessionEvolve: (sid, unitId, body) =>
+    jsonFetch(
+      `/api/v1/forms/session/${encodeURIComponent(sid)}/${encodeURIComponent(unitId)}/evolve`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    ),
+  formsSessionClear: (sid) =>
+    jsonFetch(`/api/v1/forms/session/${encodeURIComponent(sid)}`, {
+      method: 'DELETE',
+    }),
+  formsPackRoll: (body) =>
+    jsonFetch('/api/v1/forms/pack/roll', {
+      method: 'POST',
+      body: JSON.stringify(body || {}),
+    }),
+  formsPackCosts: () => jsonFetch('/api/v1/forms/pack/costs'),
+  // M13 P3 — Progression
+  progressionRegistry: () => jsonFetch('/api/v1/progression/registry'),
+  progressionJobPerks: (jobId) =>
+    jsonFetch(`/api/v1/progression/jobs/${encodeURIComponent(jobId)}/perks`),
+  progressionGet: (unitId, campaignId = null) => {
+    const qs = campaignId ? `?campaign_id=${encodeURIComponent(campaignId)}` : '';
+    return jsonFetch(`/api/v1/progression/${encodeURIComponent(unitId)}${qs}`);
+  },
+  progressionSeed: (unitId, body) =>
+    jsonFetch(`/api/v1/progression/${encodeURIComponent(unitId)}/seed`, {
+      method: 'POST',
+      body: JSON.stringify(body || {}),
+    }),
+  progressionGrantXp: (unitId, body) =>
+    jsonFetch(`/api/v1/progression/${encodeURIComponent(unitId)}/xp`, {
+      method: 'POST',
+      body: JSON.stringify(body || {}),
+    }),
+  progressionPickPerk: (unitId, body) =>
+    jsonFetch(`/api/v1/progression/${encodeURIComponent(unitId)}/pick`, {
+      method: 'POST',
+      body: JSON.stringify(body || {}),
+    }),
+  progressionEffective: (unitId, campaignId = null) => {
+    const qs = campaignId ? `?campaign_id=${encodeURIComponent(campaignId)}` : '';
+    return jsonFetch(`/api/v1/progression/${encodeURIComponent(unitId)}/effective${qs}`);
+  },
+  progressionClearCampaign: (campaignId) =>
+    jsonFetch(`/api/v1/progression/campaign/${encodeURIComponent(campaignId)}`, {
+      method: 'DELETE',
+    }),
 };

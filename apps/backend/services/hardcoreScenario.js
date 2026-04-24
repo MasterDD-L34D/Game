@@ -47,6 +47,21 @@ const HARDCORE_SCENARIO_06 = {
   // docs/playtest/2026-04-18-hardcore-06-iter1-validation.md
   sistema_pressure_start: 85,
   recommended_modulation: 'full', // 8p × 1 PG → grid 10x10 auto
+  // M13 P6 (ADR-2026-04-24 iter3) — mission timer Long War 2 pattern.
+  // Hardcore 06 iter2 turtle deadlock (96.7% win) → timer forza commitment.
+  // 15 round = ~45-60s real-time per engagement. Expire → escalate_pressure +30
+  // (tier jump Critical→Apex finale) + spawn 2 extra enemy via pod activation.
+  // Strategia: player che kite senza pressing loses win window.
+  mission_timer: {
+    enabled: true,
+    turn_limit: 15,
+    soft_warning_at: 3,
+    on_expire: 'escalate_pressure',
+    on_expire_payload: {
+      pressure_delta: 30,
+      extra_spawns: 2,
+    },
+  },
 };
 
 function buildHardcoreUnits06() {
@@ -216,9 +231,158 @@ const HARDCORE_SCENARIO_06_QUARTET = {
   recommended_modulation: 'quartet',
 };
 
+// M13 P6 (ADR-2026-04-24) — hardcore 07 "Assalto Spietato".
+// Long War 2 pattern: timer stringente + pod activation reinforcement.
+// Strategia: NO BOSS tanky da focus-fire. 4 pod da 2 enemy ciascuno + timer 10
+// rounds. Pod si attivano a tier Alert/Escalated via reinforcementSpawner.
+// Player must clear + extract before timer expires. Turtle loses.
+//
+// Target win rate: 30-50% (band hardcore challenging).
+// Iter 0 calibration (this PR): 4 pod × 2 minion + 1 elite spawn cap 4,
+// timer 10 → expire = escalate +30 pressure (Apex tier).
+
+const HARDCORE_SCENARIO_07_POD_RUSH = {
+  id: 'enc_tutorial_07_hardcore_pod_rush',
+  name: 'Assalto Spietato',
+  biome_id: 'rovine_planari',
+  encounter_class: 'hardcore',
+  difficulty_rating: 7,
+  estimated_turns: 10,
+  grid_size: 10,
+  objective: 'elimination',
+  objective_text:
+    '10 round per eliminare la pattuglia + 3 pod reinforcement. Timer expire → pressure escalate (Apex). No boss: damage distribuito, priority decisioni conteggia più di burst. Party 4 PG quartet.',
+  briefing_pre:
+    "La pattuglia è solo il vanguard. Sensori rilevano 3 pod lungo i corridoi laterali: si attivano progressivamente a tier Alert+ (2 unità × pod). 10 round per aprirsi un varco — se l'alarm resta acceso oltre il limite, l'Apex Sistema invia rinforzi ondata finale. Non turtle: muovi, apri, incidi.",
+  briefing_post: "Il corridoio è libero. L'Apex ancora ignora la tua presenza.",
+  hazard_tiles: [
+    { x: 3, y: 3, damage: 2, type: 'rovine_instabili' },
+    { x: 6, y: 6, damage: 2, type: 'rovine_instabili' },
+  ],
+  sistema_pressure_start: 60,
+  recommended_modulation: 'quartet',
+  mission_timer: {
+    enabled: true,
+    turn_limit: 10,
+    soft_warning_at: 3,
+    on_expire: 'escalate_pressure',
+    on_expire_payload: { pressure_delta: 30, extra_spawns: 3 },
+  },
+  reinforcement_policy: {
+    enabled: true,
+    min_tier: 'Alert',
+    cooldown_rounds: 2,
+    max_total_spawns: 6,
+    min_distance_from_pg: 4,
+  },
+  reinforcement_pool: [
+    {
+      unit_id: 'cacciatore_corazzato',
+      hp: 8,
+      mod: 3,
+      dc: 12,
+      ai_profile: 'aggressive',
+      weight: 2,
+      max_spawns: 3,
+    },
+    {
+      unit_id: 'predone_agile',
+      hp: 6,
+      mod: 2,
+      dc: 11,
+      ai_profile: 'aggressive',
+      weight: 3,
+      max_spawns: 3,
+    },
+  ],
+  reinforcement_entry_tiles: [
+    [9, 0],
+    [9, 9],
+    [0, 0],
+    [0, 9],
+  ],
+};
+
+function buildHardcoreUnits07() {
+  const players = [
+    { id: 'p_scout_1', job: 'skirmisher', pos: [1, 3], hp: 10, mod: 3, dc: 12 },
+    { id: 'p_scout_2', job: 'ranger', pos: [1, 6], hp: 10, mod: 3, dc: 12 },
+    { id: 'p_tank_1', job: 'vanguard', pos: [2, 4], hp: 14, mod: 2, dc: 14 },
+    { id: 'p_support_1', job: 'warden', pos: [2, 5], hp: 11, mod: 2, dc: 13 },
+  ].map((pl) => ({
+    id: pl.id,
+    species: 'dune_stalker',
+    job: pl.job,
+    traits: pl.job === 'vanguard' ? ['pelle_elastomera'] : ['zampe_a_molla'],
+    hp: pl.hp,
+    ap: 2,
+    mod: pl.mod,
+    dc: pl.dc,
+    guardia: pl.job === 'vanguard' ? 2 : 1,
+    position: { x: pl.pos[0], y: pl.pos[1] },
+    controlled_by: 'player',
+    facing: 'E',
+  }));
+
+  // Vanguard pattern: 3 initial enemies, rest come from pod reinforcement.
+  const enemies = [
+    {
+      id: 'e_patrol_leader',
+      species: 'cacciatore_corazzato',
+      job: 'vanguard',
+      traits: ['martello_osseo'],
+      hp: 12,
+      ap: 2,
+      mod: 3,
+      dc: 13,
+      guardia: 2,
+      attack_range: 2,
+      position: { x: 6, y: 4 },
+      controlled_by: 'sistema',
+      ai_profile: 'aggressive',
+      facing: 'W',
+    },
+    {
+      id: 'e_patrol_scout_1',
+      species: 'predone_agile',
+      job: 'skirmisher',
+      traits: ['denti_seghettati'],
+      hp: 6,
+      ap: 2,
+      mod: 2,
+      dc: 11,
+      guardia: 0,
+      attack_range: 1,
+      position: { x: 7, y: 2 },
+      controlled_by: 'sistema',
+      ai_profile: 'aggressive',
+      facing: 'W',
+    },
+    {
+      id: 'e_patrol_scout_2',
+      species: 'predone_agile',
+      job: 'skirmisher',
+      traits: [],
+      hp: 6,
+      ap: 2,
+      mod: 2,
+      dc: 11,
+      guardia: 0,
+      attack_range: 1,
+      position: { x: 7, y: 7 },
+      controlled_by: 'sistema',
+      ai_profile: 'aggressive',
+      facing: 'W',
+    },
+  ];
+  return [...players, ...enemies];
+}
+
 module.exports = {
   HARDCORE_SCENARIO_06,
   HARDCORE_SCENARIO_06_QUARTET,
+  HARDCORE_SCENARIO_07_POD_RUSH,
   buildHardcoreUnits06,
   buildHardcoreUnits06Quartet,
+  buildHardcoreUnits07,
 };

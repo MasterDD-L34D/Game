@@ -1,0 +1,15 @@
+# Cloudflare Workers Assets config — Evo-Tactics play frontend static.
+# ADR-2026-04-26 hosting stack.
+#
+# Deploy: push su main → CF Workers auto-detect + deploy apps/play/dist.
+# Build command nel dashboard: npm ci && npm run play:build
+#
+# Workers Assets serve file statici HTML/JS/CSS via CDN globale CF.
+# SPA fallback: 404 → index.html per permettere client-side routing.
+
+name = "evo-tactics-play"
+compatibility_date = "2025-04-01"
+
+[assets]
+directory = "./apps/play/dist"
+not_found_handling = "single-page-application"

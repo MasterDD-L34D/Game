@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-04-19T22:26:35.315Z",
+  "kind": "form",
+  "player_name": "E2E-test",
+  "session_id": null,
+  "client_hash": "961769b8dc73d9b3",
+  "user_agent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; it-IT) WindowsPowerShell/5.1.26100.8115",
+  "answers": {
+    "fun_rating": "5",
+    "difficulty": "giusta",
+    "tension": "si"
+  }
+}

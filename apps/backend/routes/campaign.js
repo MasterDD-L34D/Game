@@ -32,6 +32,23 @@ const {
   resolveBranch,
 } = require('../services/campaign/campaignLoader');
 const { summariseCampaign } = require('../services/campaign/campaignEngine');
+const { grantXpToSurvivors } = require('../services/progression/progressionApply');
+const { loadXpCurve } = require('../services/progression/progressionLoader');
+
+// M12 Phase D — evolve opportunity trigger threshold (ADR-2026-04-23 addendum).
+// Victory + pe_earned >= PE_EVOLVE_TRIGGER_THRESHOLD → response.evolve_opportunity=true.
+// Consumed frontend-side (formsPanel auto-open) + lobby campaign mirror.
+const PE_EVOLVE_TRIGGER_THRESHOLD = 8;
+
+function computeEvolveOpportunity(outcome, peEarned) {
+  const pe = Number(peEarned) || 0;
+  const eligible = outcome === 'victory' && pe >= PE_EVOLVE_TRIGGER_THRESHOLD;
+  return {
+    evolve_opportunity: eligible,
+    evolve_pe_threshold: PE_EVOLVE_TRIGGER_THRESHOLD,
+    evolve_pe_earned: pe,
+  };
+}
 
 function createCampaignRouter(options = {}) {
   const router = express.Router();
@@ -92,7 +109,7 @@ function createCampaignRouter(options = {}) {
 
   // POST /api/campaign/advance
   router.post('/campaign/advance', (req, res) => {
-    const { id, outcome, pe_earned, pi_earned } = req.body || {};
+    const { id, outcome, pe_earned, pi_earned, survivors, xp_per_unit } = req.body || {};
     if (!id) return res.status(400).json({ error: 'id richiesto' });
     if (!['victory', 'defeat', 'timeout'].includes(outcome)) {
       return res.status(400).json({ error: 'outcome deve essere victory|defeat|timeout' });
@@ -130,6 +147,39 @@ function createCampaignRouter(options = {}) {
       branchChosen: lastBranch,
     });
 
+    // M12 Phase D — evolve opportunity flag additive (victory + pe ≥ threshold).
+    const evolveFlags = computeEvolveOpportunity(outcome, pe_earned);
+
+    // M13 P3 Phase B — XP grant hook su victory. Caller passa survivors
+    // opzionali (array unit objects o { id, job }); se omesso, skip grant.
+    // xp_per_unit default da xp_curve.yaml (mission_victory = 12).
+    let xpGrants = [];
+    if (outcome === 'victory' && Array.isArray(survivors) && survivors.length > 0) {
+      let amount = Number(xp_per_unit);
+      if (!Number.isFinite(amount) || amount <= 0) {
+        try {
+          const curve = loadXpCurve();
+          amount = Number(curve?.xp_grants?.mission_victory) || 12;
+        } catch {
+          amount = 12;
+        }
+      }
+      try {
+        xpGrants = grantXpToSurvivors(
+          survivors.map((s) =>
+            s && typeof s === 'object'
+              ? { ...s, controlled_by: s.controlled_by || 'player', hp: s.hp ?? 1 }
+              : null,
+          ),
+          amount,
+          { campaignId: id },
+        );
+      } catch (err) {
+        xpGrants = [];
+      }
+    }
+    const xpGrantsPayload = { xp_grants: xpGrants };
+
     // Compute next state
     let updated;
     if (outcome !== 'victory') {
@@ -139,6 +189,8 @@ function createCampaignRouter(options = {}) {
         campaign: updated,
         next_encounter_id: currentEncId, // retry same
         retry: true,
+        ...evolveFlags,
+        ...xpGrantsPayload,
       });
     }
 
@@ -160,6 +212,8 @@ function createCampaignRouter(options = {}) {
         next_encounter_id: null,
         choice_required: true,
         choice_node: nextEncEntry.choice,
+        ...evolveFlags,
+        ...xpGrantsPayload,
       });
     }
 
@@ -174,7 +228,13 @@ function createCampaignRouter(options = {}) {
           completionPct: 1.0,
           currentChapter: nextChapterIdx,
         });
-        return res.json({ campaign: updated, next_encounter_id: null, campaign_completed: true });
+        return res.json({
+          campaign: updated,
+          next_encounter_id: null,
+          campaign_completed: true,
+          ...evolveFlags,
+          ...xpGrantsPayload,
+        });
       }
       // Advance to next act
       const firstEncNextAct = (nextAct.encounters || []).find((e) => !e.is_choice_node);
@@ -186,6 +246,8 @@ function createCampaignRouter(options = {}) {
         campaign: updated,
         next_encounter_id: firstEncNextAct?.encounter_id || null,
         act_advanced: true,
+        ...evolveFlags,
+        ...xpGrantsPayload,
       });
     }
 
@@ -194,6 +256,8 @@ function createCampaignRouter(options = {}) {
     return res.json({
       campaign: updated,
       next_encounter_id: nextEncEntry.encounter_id,
+      ...evolveFlags,
+      ...xpGrantsPayload,
     });
   });
 
@@ -258,4 +322,8 @@ function createCampaignRouter(options = {}) {
   return router;
 }
 
-module.exports = { createCampaignRouter };
+module.exports = {
+  createCampaignRouter,
+  computeEvolveOpportunity,
+  PE_EVOLVE_TRIGGER_THRESHOLD,
+};

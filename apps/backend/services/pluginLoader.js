@@ -82,11 +82,40 @@ const jobsPlugin = {
   },
 };
 
+// M12 Phase A — form evolution engine + routes.
+const formsPlugin = {
+  name: 'forms',
+  register(app) {
+    const { createFormsRouter } = require('../routes/forms');
+    const router = createFormsRouter();
+    app.use('/api/v1/forms', router);
+    app.use('/api/forms', router);
+  },
+};
+
+// M13 P3 — character progression (XP + perk-pair) engine + routes.
+const progressionPlugin = {
+  name: 'progression',
+  register(app) {
+    const { createProgressionRouter } = require('../routes/progression');
+    const router = createProgressionRouter();
+    app.use('/api/v1/progression', router);
+    app.use('/api/progression', router);
+  },
+};
+
 /**
  * Lista plugin built-in. Aggiungere nuovi plugin qui.
  * Ordine = ordine di registrazione.
  */
-const BUILTIN_PLUGINS = [narrativePlugin, metaPlugin, tutorialPlugin, jobsPlugin];
+const BUILTIN_PLUGINS = [
+  narrativePlugin,
+  metaPlugin,
+  tutorialPlugin,
+  jobsPlugin,
+  formsPlugin,
+  progressionPlugin,
+];
 
 module.exports = {
   loadPlugins,
@@ -95,4 +124,6 @@ module.exports = {
   metaPlugin,
   tutorialPlugin,
   jobsPlugin,
+  formsPlugin,
+  progressionPlugin,
 };

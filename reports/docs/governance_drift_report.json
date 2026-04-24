@@ -1,16 +1,40 @@
 {
-  "generated_at": "2026-04-19T22:43:43+00:00",
+  "generated_at": "2026-04-23T21:15:45+00:00",
   "summary": {
-    "total": 1,
+    "total": 5,
     "errors": 0,
-    "warnings": 1
+    "warnings": 5
   },
   "issues": [
     {
       "level": "warning",
       "code": "frontmatter_registry_mismatch",
+      "path": "docs/adr/ADR-2026-04-21b-onboarding-narrative-60s.md",
+      "message": "Campo last_verified differente tra frontmatter ('2026-04-21') e registry (2026-04-21)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/adr/ADR-2026-04-21c-trait-environmental-costs.md",
+      "message": "Campo last_verified differente tra frontmatter ('2026-04-21') e registry (2026-04-21)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
       "path": "docs/core/44-HUD-LAYOUT-REFERENCES.md",
       "message": "Campo last_verified differente tra frontmatter ('2026-04-18') e registry (2026-04-18)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/core/51-ONBOARDING-60S.md",
+      "message": "Campo last_verified differente tra frontmatter ('2026-04-21') e registry (2026-04-21)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/incoming.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-20"
     }
   ]
 }

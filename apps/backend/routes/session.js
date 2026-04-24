@@ -43,6 +43,8 @@ const {
 } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
+// P4 Thought Cabinet: evaluateThoughts per /thoughts endpoint.
+const { evaluateThoughts: evaluateMbtiThoughts } = require('../services/thoughts/thoughtCabinet');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -111,6 +113,11 @@ const {
   predictCombat,
 } = require('./sessionHelpers');
 const { createRoundBridge } = require('./sessionRoundBridge');
+// M13 P3 Phase B — progression perks apply + runtime passive damage bonus.
+const {
+  applyProgressionToUnits,
+  computePerkDamageBonus,
+} = require('../services/progression/progressionApply');
 
 // ADR-2026-04-16: round-based combat model migration. PR 2 di N —
 // endpoint stubs dietro feature flag USE_ROUND_MODEL. Il modulo e'
@@ -155,6 +162,8 @@ function createSessionRouter(options = {}) {
 
   const sessions = new Map();
   let activeSessionId = null;
+  // P4 Thought Cabinet: sessionId -> Map<unitId, Set<thoughtId>>
+  const thoughtsStore = new Map();
 
   function newSessionId() {
     return crypto.randomUUID();
@@ -290,14 +299,23 @@ function createSessionRouter(options = {}) {
       // SPRINT_021: parata reattiva. SPRINT_022: saltata se backstab.
       parryResult = wasBackstab ? null : rollParry(target);
       const parryDelta = parryResult && parryResult.success ? parryResult.damage_delta : 0;
+      // M13 P3 Phase B — perk passive damage bonus (5 tags live).
+      const perkBonus = computePerkDamageBonus(actor, target, {
+        units: session.units || [],
+        isFirstStrike: !actor._first_strike_used,
+      });
       const adjusted =
         baseDamage +
         evaluation.damage_modifier +
         adjacencyBonus +
         rageBonus +
         backstabBonus +
+        perkBonus.bonus +
         parryDelta;
       damageDealt = Math.max(0, adjusted);
+      if (perkBonus.applied.some((p) => p.tag === 'first_strike_bonus')) {
+        actor._first_strike_used = true;
+      }
       // M6-#1 (ADR-2026-04-19): applica channel resistance post damage.
       // Resolve target.resistances lazy: computa da resistance_archetype +
       // trait_ids al primo hit (cache su target._resistances).
@@ -746,6 +764,19 @@ function createSessionRouter(options = {}) {
         } catch (err) {
           console.warn('[trait-env-costs] apply failed:', err.message);
         }
+      }
+
+      // M13 P3 Phase B — apply progression perks (effectiveStats + passives).
+      // Mutates player units in-place: stat bonuses applied, _perk_passives
+      // + _perk_ability_mods attached for runtime lookup. No-op se unit
+      // non registrato in progressionStore. campaign_id da req.body opzionale.
+      let progressionApplied = [];
+      try {
+        const campaignIdForProgression = req.body?.campaign_id || null;
+        const res = applyProgressionToUnits(units, { campaignId: campaignIdForProgression });
+        progressionApplied = res.applied || [];
+      } catch (err) {
+        console.warn('[progression] apply failed:', err.message);
       }
 
       // M7-#2 Phase B: apply damage scaling curves per encounter class.
@@ -1620,6 +1651,9 @@ function createSessionRouter(options = {}) {
       const eventsCount = session.events.length;
       const logFile = session.logFilePath;
       sessions.delete(session.session_id);
+      // P4 Thought Cabinet: release per-session unlock cache on teardown.
+      // Prevents linear memory growth over process lifetime (Codex review #1702).
+      thoughtsStore.delete(session.session_id);
       if (activeSessionId === session.session_id) {
         activeSessionId = null;
       }
@@ -1671,6 +1705,37 @@ function createSessionRouter(options = {}) {
         pfResult[unitId] = computePfSession(actorVc, formsData);
       }
       res.json({ session_id: session.session_id, pf_session: pfResult });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // P4 Thought Cabinet: on-demand evaluation. Reads current VC snapshot per
+  // actor, crosses mbti_axes against 18 YAML thoughts, cumulatively unlocks
+  // into in-memory store. Returns per-actor { unlocked, newly, details[] }.
+  router.get('/:id/thoughts', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const snapshot = buildVcSnapshot(session, telemetryConfig);
+      let bucket = thoughtsStore.get(session.session_id);
+      if (!bucket) {
+        bucket = new Map();
+        thoughtsStore.set(session.session_id, bucket);
+      }
+      const perActor = {};
+      for (const [unitId, actorVc] of Object.entries(snapshot.per_actor || {})) {
+        const axes = actorVc && actorVc.mbti_axes ? actorVc.mbti_axes : null;
+        let already = bucket.get(unitId);
+        if (!already) {
+          already = new Set();
+          bucket.set(unitId, already);
+        }
+        const { unlocked, newly } = evaluateMbtiThoughts(axes, already);
+        for (const id of newly) already.add(id);
+        perActor[unitId] = { unlocked, newly };
+      }
+      res.json({ session_id: session.session_id, per_actor: perActor });
     } catch (err) {
       next(err);
     }

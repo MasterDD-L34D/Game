@@ -21,6 +21,9 @@ import { toggleCodex } from './codexPanel.js';
 import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
+import { initFormsPanel, openFormsPanel } from './formsPanel.js';
+import { initThoughtsPanel, openThoughtsPanel } from './thoughtsPanel.js';
+import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
 
 const state = {
   sid: null,
@@ -45,6 +48,12 @@ const state = {
   // Consumato da render.js (icon) + main.js tooltip (label).
   // Reset a ogni begin-planning (nuovo round) o commit-round (resolved).
   threatPreview: [],
+  // M12 Phase D — VC snapshot live pipe (ADR-2026-04-23 addendum).
+  // Shape: { session_id, per_actor: { uid: { mbti_axes, mbti_type, ennea_themes, ... } }, round }.
+  // Fetched from /api/session/:id/vc post-commitRound refresh, consumed by formsPanel.
+  vcSnapshot: null,
+  // M13 P6 Phase B — last mission_timer response (cached for auto-timeout inference).
+  lastMissionTimer: null,
 };
 
 // W8b — Shared utility helpers (from Wave 8 research audit).
@@ -804,12 +813,27 @@ function processNewEvents(prevWorld, newWorld) {
   lastEventsCount = (newWorld?.events || []).length;
 }
 
+// M12 Phase D — pipe VC snapshot to state for formsPanel.
+// Fire-and-forget: failures are non-critical (panel falls back to neutral 0.5).
+async function refreshVcSnapshot() {
+  if (!state.sid) return;
+  try {
+    const r = await api.vc(state.sid);
+    if (r.ok) {
+      state.vcSnapshot = r.data;
+    }
+  } catch {
+    /* non-critical */
+  }
+}
+
 async function refresh() {
   const r = await api.state(state.sid);
   if (r.ok) {
     const prev = state.world;
     state.world = r.data;
     processNewEvents(prev, state.world);
+    refreshVcSnapshot();
     if (state.selected) {
       const sel = state.world.units.find((u) => u.id === state.selected);
       if (!sel || sel.hp <= 0) state.selected = null;
@@ -1107,6 +1131,11 @@ async function triggerCommitRound() {
     state.roundInit = false;
     _pendingConfirm = null;
     state.pendingIntents = [];
+    // M13 P6 Phase B — mission timer HUD update + state cache.
+    if (r.data?.mission_timer?.enabled) {
+      state.lastMissionTimer = r.data.mission_timer;
+      updateMissionTimerHud(r.data.mission_timer);
+    }
     // M8 Plan-Reveal P0: clear threat preview post-resolve (intents consumed).
     // Fix Codex review #1658: legacy branch reset era dead code su useRoundFlow()=true
     // → stale SIS intents mostrati post-resolve. Reset qui è l'active path.
@@ -1157,6 +1186,50 @@ async function triggerCommitRound() {
     await emergencyResetRound();
   }
 }
+
+// M13 P6 Phase B — mission timer HUD.
+// Bottom-right overlay con countdown. Red pulse quando remaining ≤ warning_at.
+function updateMissionTimerHud(timer) {
+  if (!timer || !timer.enabled) {
+    const el = document.getElementById('mission-timer-hud');
+    if (el) el.classList.add('hidden');
+    return;
+  }
+  let el = document.getElementById('mission-timer-hud');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'mission-timer-hud';
+    el.innerHTML = `
+      <div class="mt-icon">⏱</div>
+      <div class="mt-body">
+        <div class="mt-count"><span id="mt-remaining">—</span>/<span id="mt-limit">—</span></div>
+        <div class="mt-label">rounds</div>
+      </div>
+    `;
+    document.body.appendChild(el);
+  }
+  el.classList.remove('hidden');
+  const remaining = Number(timer.remaining_turns ?? 0);
+  const limit = Number(timer.turn_limit ?? 0);
+  const remEl = document.getElementById('mt-remaining');
+  const limEl = document.getElementById('mt-limit');
+  if (remEl) remEl.textContent = String(remaining);
+  if (limEl) limEl.textContent = String(limit);
+  el.classList.toggle('mt-warning', timer.warning === true || remaining <= 3);
+  el.classList.toggle('mt-expired', timer.expired === true);
+  if (timer.warning) {
+    appendLog(logEl, `⏱ Timer warning: ${remaining} rounds rimasti`, 'warn');
+  }
+  if (timer.expired) {
+    appendLog(
+      logEl,
+      `⏱ Timer expired → ${timer.action || 'defeat'}${timer.side_effects?.pressure_delta ? ' (+' + timer.side_effects.pressure_delta + ' pressure)' : ''}`,
+      'error',
+    );
+  }
+}
+window.__dbg = window.__dbg || {};
+window.__dbg.updateMissionTimerHud = updateMissionTimerHud;
 
 // W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" flash 700ms.
 function showCommitReveal(turnNum, actionCount) {
@@ -1339,6 +1412,66 @@ initHelpPanel('help-open');
 initFeedbackPanel({ getSessionId: () => state.sid });
 // M10 Phase D — campaign panel (ADR-2026-04-21)
 initCampaignPanel();
+// M12 Phase C+D — forms evolution panel (ADR-2026-04-23-m12-phase-a).
+// Phase D: live VC snapshot pipe (state.vcSnapshot) + evolve animation callback.
+initFormsPanel({
+  getSessionId: () => state.sid,
+  getSelectedUnit: () =>
+    state.world && state.selected
+      ? getUnits(state.world).find((u) => u.id === state.selected) || null
+      : null,
+  getVcSnapshot: () => {
+    const selUid = state.selected;
+    const perActor = state.vcSnapshot?.per_actor || {};
+    const actorVc = selUid ? perActor[selUid] : null;
+    const mbti = actorVc?.mbti_axes;
+    return {
+      round: state.world?.round ?? state.world?.turn ?? 0,
+      turn: state.world?.turn ?? 0,
+      mbti_axes:
+        mbti && Object.keys(mbti).length > 0
+          ? mbti
+          : {
+              E_I: { value: 0.5 },
+              S_N: { value: 0.5 },
+              T_F: { value: 0.5 },
+              J_P: { value: 0.5 },
+            },
+      mbti_type: actorVc?.mbti_type || null,
+    };
+  },
+  onEvolveSuccess: ({ unitId, delta }) => {
+    const unit = state.world ? getUnits(state.world).find((u) => u.id === unitId) : null;
+    if (unit?.position) {
+      pushPopup(unit.position.x, unit.position.y, `🧬 ${delta.new_form_id}`, '#66d1fb');
+    }
+    flashUnit(unitId, '#66d1fb');
+    sfx.select();
+    appendLog(
+      logEl,
+      `🧬 ${unitId} → ${delta.new_form_id} (${delta.label}) · PE ${delta.pe_before}→${delta.pe_after}`,
+    );
+  },
+});
+
+// M13 P3 Phase B — progression panel (perk pick overlay).
+initProgressionPanel({
+  getSessionId: () => state.sid,
+  getSelectedUnit: () =>
+    state.world && state.selected
+      ? getUnits(state.world).find((u) => u.id === state.selected) || null
+      : null,
+  getCampaignId: () => {
+    try {
+      return localStorage.getItem('evoTacticsCampaignId') || null;
+    } catch {
+      return null;
+    }
+  },
+  onPickSuccess: ({ unitId, perk }) => {
+    appendLog(logEl, `📈 ${unitId} → perk ${perk?.id || '?'}`);
+  },
+});
 
 // M11 Phase B — lobby bridge (Jackbox room-code WS). Null if no session stored.
 // Host role: publishes world state to players after each /session/state refresh.
@@ -1428,4 +1561,72 @@ if (lobbyBridge?.isPlayer) {
 } else {
   loadModulations().then(() => startNewSession());
 }
-window.__evo = { state, api, refresh, lobbyBridge };
+// M12 Phase D — campaign advance helper with evolve auto-open.
+// Wraps api.campaignAdvance; if backend returns evolve_opportunity=true, opens
+// the forms panel after the encounter outcome is recorded. Consumed by campaign
+// flow triggers (manual user action, harness, host-bridge mirror).
+async function advanceCampaignWithEvolvePrompt(campaignId, outcome, peEarned = 0, piEarned = 0) {
+  // M13 P6 Phase B — auto-timeout: se mission timer è scaduto quando advance
+  // viene chiamato senza outcome esplicito (o con 'victory' prematuro), forza
+  // 'timeout' per gating corretto campaign retry.
+  let resolvedOutcome = outcome;
+  const timer = state.lastMissionTimer;
+  if (timer?.expired && outcome !== 'defeat') {
+    if (!outcome || outcome === 'victory') {
+      appendLog(
+        logEl,
+        `⏱ Auto-timeout: mission_timer expired → outcome='timeout' (era '${outcome || 'none'}')`,
+      );
+      resolvedOutcome = 'timeout';
+    }
+  }
+  // Collect survivors for XP grant (M13 P3 Phase B).
+  const survivors = state.world
+    ? getUnits(state.world)
+        .filter((u) => u.controlled_by === 'player' && Number(u.hp) > 0)
+        .map((u) => ({ id: u.id, job: u.job, hp: u.hp, controlled_by: u.controlled_by }))
+    : [];
+  const extra = survivors.length > 0 ? { survivors } : {};
+  const res = await api.campaignAdvance(campaignId, resolvedOutcome, peEarned, piEarned, extra);
+  const data = res.data || {};
+  if (res.ok && data.evolve_opportunity) {
+    appendLog(
+      logEl,
+      `🧬 Evolve opportunity unlocked (+${data.evolve_pe_earned} PE ≥ ${data.evolve_pe_threshold})`,
+    );
+    openFormsPanel();
+  }
+  // Auto-open progression panel if any survivor leveled up → pending perk pick.
+  const grants = Array.isArray(data.xp_grants) ? data.xp_grants : [];
+  const leveled = grants.find((g) => g.leveled_up);
+  if (leveled) {
+    appendLog(logEl, `📈 ${leveled.unit_id} level ${leveled.level_before}→${leveled.level_after}`);
+    // Select the leveled unit and open panel.
+    if (state.world) {
+      const target = getUnits(state.world).find((u) => u.id === leveled.unit_id);
+      if (target) state.selected = target.id;
+    }
+    setTimeout(() => openProgressionPanel(), 200);
+  }
+  return res;
+}
+
+// P4 Thought Cabinet — header btn 🧠 + overlay.
+initThoughtsPanel({
+  getSessionId: () => state.sid,
+  getSelectedUnit: () =>
+    state.world && state.selected
+      ? getUnits(state.world).find((u) => u.id === state.selected) || null
+      : null,
+});
+
+window.__evo = {
+  state,
+  api,
+  refresh,
+  refreshVcSnapshot,
+  advanceCampaignWithEvolvePrompt,
+  openFormsPanel,
+  openThoughtsPanel,
+  lobbyBridge,
+};
