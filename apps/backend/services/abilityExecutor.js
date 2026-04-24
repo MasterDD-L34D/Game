@@ -128,6 +128,20 @@ function createAbilityExecutor(deps) {
     rng = Math.random,
   } = deps;
 
+  // V5 SG earn (ADR-2026-04-26 Opzione C mixed): accumulate dealt+taken
+  // su ogni damage step triggered da ability. Wrapped in try per non
+  // rompere flow se sgTracker module assente.
+  function applySgEarn(actor, target, damageDealt) {
+    if (!(Number(damageDealt) > 0)) return;
+    try {
+      const sgTracker = require('./combat/sgTracker');
+      sgTracker.accumulate(actor, { damage_dealt: damageDealt });
+      sgTracker.accumulate(target, { damage_taken: damageDealt });
+    } catch {
+      /* sgTracker optional */
+    }
+  }
+
   // Applica buff self come status[buffStat_buff] + actor[buffStat_bonus].
   // L'applicazione puntuale del bonus (es. a attack_mod effettivo) e'
   // demandata al consumer: qui tracciamo solo il buff per il log e per
@@ -226,6 +240,7 @@ function createAbilityExecutor(deps) {
     if (buffApplied && (ability.buff_stat || 'attack_mod') === 'attack_mod') {
       actor.attack_mod_bonus = Math.max(0, (actor.attack_mod_bonus || 0) - buffApplied.amount);
     }
+    applySgEarn(actor, target, res.damageDealt);
 
     const attackEvent = buildAttackEvent({
       session,
@@ -307,6 +322,7 @@ function createAbilityExecutor(deps) {
     const res = performAttack(session, actor, target, {
       channel: ability && ability.channel ? ability.channel : null,
     });
+    applySgEarn(actor, target, res.damageDealt);
     const attackEvent = buildAttackEvent({
       session,
       actor,
@@ -568,6 +584,7 @@ function createAbilityExecutor(deps) {
           adjustedDamage = res.damageDealt + extra;
         }
       }
+      applySgEarn(actor, target, adjustedDamage);
 
       const event = buildAttackEvent({
         session,
@@ -642,6 +659,7 @@ function createAbilityExecutor(deps) {
     const res = performAttack(session, actor, target, {
       channel: ability && ability.channel ? ability.channel : null,
     });
+    applySgEarn(actor, target, res.damageDealt);
 
     const trigger = String(ability.effect_trigger || 'on_hit');
     const allowEffect = (trigger === 'always' || res.result.hit) && target.hp > 0;
@@ -845,6 +863,7 @@ function createAbilityExecutor(deps) {
         adjustedDamage = res.damageDealt + extra;
       }
     }
+    applySgEarn(actor, target, adjustedDamage);
 
     // Conditional status: { condition: "mos >= 10", status_id, duration }
     let appliedStatus = null;
@@ -926,6 +945,7 @@ function createAbilityExecutor(deps) {
     const res = performAttack(session, actor, target, {
       channel: ability && ability.channel ? ability.channel : null,
     });
+    applySgEarn(actor, target, res.damageDealt);
 
     const lifestealPct = Number(ability.lifesteal_pct || 0);
     let healed = 0;
@@ -1057,6 +1077,7 @@ function createAbilityExecutor(deps) {
         }
       }
     }
+    applySgEarn(actor, target, adjustedDamage);
 
     const event = buildAttackEvent({
       session,
@@ -1477,6 +1498,7 @@ function createAbilityExecutor(deps) {
       const hpBefore = target.hp;
       target.hp = Math.max(0, target.hp - damage);
       session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + damage;
+      applySgEarn(actor, target, damage);
       damaged.push({
         unit_id: target.id,
         rolled,

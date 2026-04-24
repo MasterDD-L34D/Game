@@ -83,6 +83,15 @@ export function createPhaseCoordinator(bridge) {
         dbApi.reset();
         if (state.lastWorldState) dbApi.setState(state.lastWorldState, null);
         dbApi.show();
+        // V2 Tri-Sorgente — fetch reward offer if campaign present.
+        try {
+          const summary = bridge?.getCampaignSummary?.();
+          const cid = summary?.id || summary?.campaign_id || null;
+          const actorId = bridge?.session?.player_id || bridge?.session?.actor_id || null;
+          if (cid && dbApi.showRewardOffer) dbApi.showRewardOffer(cid, actorId);
+        } catch {
+          /* reward offer optional */
+        }
         break;
       }
       case 'ended':

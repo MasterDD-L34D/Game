@@ -109,6 +109,7 @@ export function renderCharacterCreation() {
         <div class="cc-preview-stats" id="cc-preview-stats">
           <span>HP —</span><span>AP —</span><span>ATK —</span><span>DEF —</span>
         </div>
+        <div class="cc-preview-packs" id="cc-preview-packs" aria-live="polite"></div>
       </div>
 
       <button type="button" class="cc-confirm" id="cc-confirm" disabled>
@@ -151,6 +152,8 @@ export function wireCharacterCreation(overlay, bridge) {
     confirmBtn.disabled = !valid;
   };
 
+  const packsEl = overlay.querySelector('#cc-preview-packs');
+
   const renderPreview = () => {
     if (!state.form) return;
     const stats = previewStats(state.form);
@@ -160,7 +163,38 @@ export function wireCharacterCreation(overlay, bridge) {
       <span>ATK ${stats.atk}</span>
       <span>DEF ${stats.def}</span>
     `;
+    fetchPacksForForm(state.form.id, state.form.job);
   };
+
+  // V4 PI-Pacchetti tematici — fetch form-appropriate pack bias hint.
+  async function fetchPacksForForm(formId, jobId) {
+    if (!packsEl || !formId) return;
+    packsEl.textContent = 'Pacchetti PI consigliati…';
+    try {
+      const res = await fetch(`/api/forms/${encodeURIComponent(formId)}/packs`);
+      if (!res.ok) {
+        packsEl.textContent = '';
+        return;
+      }
+      const data = await res.json();
+      const universal = Array.isArray(data.universal) ? data.universal.slice(0, 3) : [];
+      const biasForm = Array.isArray(data.bias_forma) ? data.bias_forma.slice(0, 3) : [];
+      const biasJob =
+        jobId && data.bias_job && Array.isArray(data.bias_job[jobId])
+          ? data.bias_job[jobId].slice(0, 3)
+          : [];
+      const list = [...biasForm, ...biasJob, ...universal];
+      if (!list.length) {
+        packsEl.textContent = '';
+        return;
+      }
+      packsEl.innerHTML =
+        `<div class="cc-preview-packs-title">Pacchetti PI consigliati</div>` +
+        list.map((p) => `<span class="cc-preview-pack">${p.label || p.id || p}</span>`).join(' ');
+    } catch {
+      packsEl.textContent = '';
+    }
+  }
 
   const renderParty = () => {
     const list = overlay.querySelector('#cc-party');
