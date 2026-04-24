@@ -110,7 +110,9 @@ export function renderHostShareHint({ session, container }) {
       </div>
       <div class="lobby-host-share-status" aria-live="polite"></div>
       <div class="lobby-host-share-hint-body">
-        In attesa di almeno un player. L'indicatore scompare quando qualcuno entra.
+        ⚠ Serve almeno 1 amico connesso prima di cliccare "Nuova sessione"
+        (altrimenti flow co-op skippato → char creation + world setup non appaiono).
+        L'indicatore scompare quando qualcuno entra.
       </div>
     </div>
   `;
@@ -130,6 +132,27 @@ export function renderHostShareHint({ session, container }) {
       status.textContent = 'Seleziona e Ctrl+C';
     }
   });
+  // Self-dismissing poll: ogni 1s controlla roster DOM, se contiene player
+  // non-host dismiss hint. Salvagente contro race event-driven dismiss.
+  const pollId = setInterval(() => {
+    const currentHint = document.getElementById('lobby-host-share-hint');
+    if (!currentHint) {
+      clearInterval(pollId);
+      return;
+    }
+    const rosterList = document.getElementById('lobby-host-roster-list');
+    if (!rosterList) return;
+    const items = rosterList.querySelectorAll('li:not(.lobby-host-roster-empty)');
+    let hasPlayer = false;
+    items.forEach((li) => {
+      const roleSpan = li.querySelector('.role');
+      if (roleSpan && !roleSpan.classList.contains('host')) hasPlayer = true;
+    });
+    if (hasPlayer) {
+      dismissHostShareHint();
+      clearInterval(pollId);
+    }
+  }, 1000);
   return hint;
 }
 

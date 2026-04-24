@@ -162,13 +162,15 @@ const STATUS_ICONS = {
 
 export function fitCanvas(canvas, width, height) {
   // W8O — compute CELL from available container space. Keep grid N cells costant.
-  // Max cell size 96px (leggibile TV), min 40 (mobile). Use min(container W, 78vh).
+  // Min 40 (mobile), max 160 (widescreen 4K/ultrawide). Use min(container W, 78vh).
+  // Playtest 2026-04-24: user segnala su 3436×1265 ultrawide canvas minuscolo
+  // top-left + resto schermo vuoto. Cap 96 era TV-safe ma sprecato su desktop.
   const parent = canvas.parentElement;
   const containerW = parent ? parent.clientWidth : window.innerWidth;
   const containerH = window.innerHeight * 0.78;
   const byW = Math.floor(containerW / width);
   const byH = Math.floor(containerH / height);
-  CELL = Math.max(40, Math.min(96, Math.min(byW, byH)));
+  CELL = Math.max(40, Math.min(160, Math.min(byW, byH)));
   canvas.width = width * CELL;
   canvas.height = height * CELL;
 }

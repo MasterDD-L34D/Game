@@ -160,9 +160,16 @@ header h1 {
 main {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 360px;
   gap: 16px;
   padding: 16px;
+  /* Playtest 2026-04-24: TV ultrawide sprecava vertical space. Stretch
+   * contenuto su full altezza viewport, canvas + sidebar scalano. */
+  min-height: 0;
+}
+.board {
+  min-height: 0;
+  justify-content: center;
 }
 
 /* W8e — Responsive breakpoints (research pass 3 #3).

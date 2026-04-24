@@ -894,7 +894,17 @@ async function maybeRunCoopHostFlow(scenarioId) {
   const players = Array.from(lobbyBridge._players?.values?.() || []).filter(
     (p) => p.role !== 'host' && p.id !== session.player_id,
   );
-  if (players.length === 0) return null; // solo host dev/test
+  if (players.length === 0) {
+    // Solo host, no amici connessi: skip flow co-op (char creation + world
+    // setup richiedono >=1 player). Fallback a combat legacy solo demo.
+    appendLog(
+      logEl,
+      '⚠ Solo host: flow co-op skippato (serve 1+ amico). Avvio combat solo-demo legacy.',
+      'warn',
+    );
+    updateHint('Co-op: invita 1+ amico via URL, poi ri-clicca Nuova sessione.');
+    return null;
+  }
 
   // Fetch current coop state
   let coopState = null;
