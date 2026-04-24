@@ -54,6 +54,13 @@ function createCoopRouter({ lobby, coopStore } = {}) {
       type: 'character_ready_list',
       payload: orch.characterReadyList(allPlayerIds(room)),
     });
+    // M18 — tally world votes if in setup phase.
+    if (orch.phase === 'world_setup') {
+      room.broadcast({
+        type: 'world_tally',
+        payload: orch.worldTally(allPlayerIds(room)),
+      });
+    }
   }
 
   router.post('/coop/run/start', (req, res) => {
@@ -115,6 +122,32 @@ function createCoopRouter({ lobby, coopStore } = {}) {
       snapshot: orch.snapshot(),
       character_ready_list: room ? orch.characterReadyList(allPlayerIds(room)) : [],
     });
+  });
+
+  router.post('/coop/world/vote', (req, res) => {
+    const {
+      code,
+      player_id: playerId,
+      player_token: playerToken,
+      scenario_id: scenarioId,
+      accept = true,
+    } = req.body || {};
+    const auth = authPlayer(code, playerId, playerToken);
+    if (!auth) return res.status(403).json({ error: 'player_auth_failed' });
+    const { room } = auth;
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const tally = orch.voteWorld(playerId, {
+        scenarioId,
+        accept,
+        allPlayerIds: allPlayerIds(room),
+      });
+      broadcastCoopState(room, orch);
+      return res.json({ phase: orch.phase, tally });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'world_vote_failed' });
+    }
   });
 
   router.post('/coop/world/confirm', (req, res) => {

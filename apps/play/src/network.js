@@ -46,6 +46,8 @@ const EVENT_TYPES = [
   // M17 additions
   'phase_change',
   'character_ready_list',
+  // M18 additions
+  'world_tally',
 ];
 
 function resolveDefaultWsImpl() {
@@ -256,6 +258,9 @@ export class LobbyClient {
         return;
       case 'character_ready_list':
         this._emit('character_ready_list', msg.payload || []);
+        return;
+      case 'world_tally':
+        this._emit('world_tally', msg.payload || {});
         return;
       case 'room_closed':
         this._emit('room_closed', msg.payload || {});

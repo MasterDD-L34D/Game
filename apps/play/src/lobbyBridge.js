@@ -670,22 +670,26 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     client.on('chat', (payload) => {
       if (phv2?.onChat) phv2.onChat(payload);
     });
-    // M17 — phase + character coop broadcasts from server.
+    // M17/M18 — phase + character + world coop broadcasts from server.
     client.on('phase_change', (payload) => {
-      coordinator.applyPhase(payload?.phase || 'lobby');
+      coordinator.onPhaseChange(payload);
     });
     client.on('character_ready_list', (list) => {
       coordinator.onCharacterReadyList(list);
     });
-    // keep party roster sync
-    const syncPartyToPhv2 = () => {
-      if (!phv2?.onPlayersChanged) return;
-      phv2.onPlayersChanged(Array.from(bridge._players.values()));
+    client.on('world_tally', (tally) => {
+      coordinator.onWorldTally(tally);
+    });
+    // keep party roster sync (phv2 + world setup)
+    const syncPartyToAll = () => {
+      const list = Array.from(bridge._players.values());
+      if (phv2?.onPlayersChanged) phv2.onPlayersChanged(list);
+      if (coordinator?.onPlayersChanged) coordinator.onPlayersChanged(list);
     };
-    client.on('hello', syncPartyToPhv2);
-    client.on('player_joined', syncPartyToPhv2);
-    client.on('player_connected', syncPartyToPhv2);
-    client.on('player_disconnected', syncPartyToPhv2);
+    client.on('hello', syncPartyToAll);
+    client.on('player_joined', syncPartyToAll);
+    client.on('player_connected', syncPartyToAll);
+    client.on('player_disconnected', syncPartyToAll);
   }
   if (bridge.isHost) {
     // TKT-M11B-04 — roster panel bottom-left showing who's in the room.

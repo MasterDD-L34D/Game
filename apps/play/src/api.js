@@ -217,6 +217,17 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ code, host_token: hostToken, scenario_id: scenarioId }),
     }),
+  coopWorldVote: (code, playerId, playerToken, scenarioId, accept = true) =>
+    jsonFetch('/api/coop/world/vote', {
+      method: 'POST',
+      body: JSON.stringify({
+        code,
+        player_id: playerId,
+        player_token: playerToken,
+        scenario_id: scenarioId,
+        accept,
+      }),
+    }),
   coopDebriefChoice: (code, playerId, playerToken, choice) =>
     jsonFetch('/api/coop/debrief/choice', {
       method: 'POST',
