@@ -112,6 +112,10 @@ def parse_frontmatter(path: Path) -> dict[str, Any] | None:
         key = key.strip()
         value = value.strip()
 
+        # Strip matching surrounding YAML quotes (single or double).
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+            value = value[1:-1]
+
         if value.lower() == "true":
             fields[key] = True
         elif value.lower() == "false":
