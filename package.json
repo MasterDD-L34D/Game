@@ -49,7 +49,8 @@
     "play:build": "npm run build --workspace apps/play",
     "demo:build": "npm run build --workspace apps/play",
     "demo:start": "node scripts/run-demo.cjs",
-    "demo": "npm run demo:build && npm run demo:start"
+    "demo": "npm run demo:build && npm run demo:start",
+    "demo:tunnel": "node scripts/run-demo-tunnel.cjs"
   },
   "lint-staged": {
     "*.{js,cjs,mjs,ts,tsx,jsx,json,md,yml,yaml,css,html}": [
