@@ -23,6 +23,11 @@ import {
   saveLobbySession,
 } from './network.js';
 import './lobbyBridge.css';
+import {
+  renderPlayerOnboarding,
+  renderHostShareHint,
+  dismissHostShareHint,
+} from './lobbyOnboarding.js';
 
 function createBanner(session, onLeave) {
   let banner = document.getElementById('lobby-banner');
@@ -461,6 +466,9 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
         joinedAt: Date.now(),
       });
       refreshRosterUi();
+      if (bridge.isHost && payload.player_id !== session.player_id) {
+        dismissHostShareHint();
+      }
     }
   });
   client.on('player_connected', (payload) => {
@@ -594,6 +602,7 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     bridge.overlay = renderSpectatorOverlay(session);
     wireComposer(bridge.overlay, bridge);
     updateSpectatorState(bridge.overlay, 0, bridge._lastState ?? {}, bridge);
+    renderPlayerOnboarding();
   }
   if (bridge.isHost) {
     // TKT-M11B-04 — roster panel bottom-left showing who's in the room.
@@ -608,6 +617,8 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
       joinedAt: Date.now(),
     });
     updateHostRoster(bridge);
+    // Share hint: code prominente + copy-URL finché stanza vuota.
+    renderHostShareHint({ session });
     // Tag body for CSS hooks (TV layout polish).
     try {
       document.body.classList.add('lobby-role-host');

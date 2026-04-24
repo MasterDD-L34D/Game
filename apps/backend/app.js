@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('node:path');
 const fs = require('node:fs/promises');
+const fsSync = require('node:fs');
 const { IdeaRepository, normaliseList } = require('./storage');
 const { buildCodexReport } = require('./report');
 const { createBiomeSynthesizer } = require('../../services/generation/biomeSynthesizer');
@@ -374,6 +375,28 @@ function createApp(options = {}) {
 
   const publicDir = options.publicDir || path.resolve(__dirname, 'public');
   app.use(express.static(publicDir));
+
+  // Demo one-tunnel mode: serve built apps/play/dist at /play.
+  // Opt-in via options.playDist or env PLAY_DIST_PATH. Missing dir = silent skip.
+  const playDist =
+    options.playDist || process.env.PLAY_DIST_PATH || path.resolve(__dirname, '..', 'play', 'dist');
+  try {
+    if (fsSync.existsSync(playDist) && fsSync.statSync(playDist).isDirectory()) {
+      // Runtime config for frontend — injects WS resolution hint.
+      // Shared mode (LOBBY_WS_SHARED=true) → frontend uses same-origin /ws.
+      // Dedicated mode → falls back to VITE env / port 3341.
+      const sameOrigin = process.env.LOBBY_WS_SHARED === 'true';
+      app.get('/play/runtime-config.js', (_req, res) => {
+        res
+          .type('application/javascript')
+          .send(`window.LOBBY_WS_SAME_ORIGIN=${sameOrigin ? 'true' : 'false'};\n`);
+      });
+      app.use('/play', express.static(playDist));
+      console.log(`[play-static] serving ${playDist} at /play (ws-same-origin=${sameOrigin})`);
+    }
+  } catch {
+    // silent: dist not built, dev flow via Vite still works
+  }
 
   // V1 pattern: plugin-based service registration
   loadPlugins(app, BUILTIN_PLUGINS, options);

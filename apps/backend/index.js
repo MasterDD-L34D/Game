@@ -41,29 +41,10 @@ const { app, lobby } = createApp({
 //   HTTP :3334 (this backend), Vite :5180, calibration :3340.
 // Override via LOBBY_WS_PORT env; disable via LOBBY_WS_ENABLED=false.
 const wsEnabled = process.env.LOBBY_WS_ENABLED !== 'false';
+const wsShared = process.env.LOBBY_WS_SHARED === 'true';
 const wsPort = Number.parseInt(process.env.LOBBY_WS_PORT || '3341', 10);
 const wsHost = process.env.LOBBY_WS_HOST || host;
 let lobbyWs = null;
-if (wsEnabled && lobby) {
-  lobbyWs = createWsServer({ lobby, port: wsPort });
-  console.log(`[lobby-ws] WebSocket server online on ws://${wsHost}:${wsPort}/ws`);
-  // Opzione C: hydrate rooms from Prisma if persistence wired.
-  // Graceful no-op when DATABASE_URL unset.
-  if (typeof lobby.hydrate === 'function') {
-    lobby
-      .hydrate()
-      .then((count) => {
-        if (count > 0) {
-          console.log(`[lobby-ws] Prisma hydrate: ${count} room(s) restored`);
-        }
-      })
-      .catch((err) => {
-        console.warn('[lobby-ws] Prisma hydrate failed:', err?.message || err);
-      });
-  }
-} else {
-  console.log('[lobby-ws] WebSocket server disabled (LOBBY_WS_ENABLED=false)');
-}
 
 // Issue #1342: avverti se ORCHESTRATOR_AUTOCLOSE_MS e' settato in modo
 // che potrebbe rompere il backend live (valori bassi pensati per i test).
@@ -82,6 +63,34 @@ const autocloseStatus = (() => {
 })();
 
 const server = http.createServer(app);
+
+// WS server: shared mode (single port for demo/ngrok) or dedicated port.
+if (wsEnabled && lobby) {
+  if (wsShared) {
+    lobbyWs = createWsServer({ lobby, server });
+    console.log(`[lobby-ws] WebSocket server attached to HTTP server on /ws (shared mode)`);
+  } else {
+    lobbyWs = createWsServer({ lobby, port: wsPort });
+    console.log(`[lobby-ws] WebSocket server online on ws://${wsHost}:${wsPort}/ws`);
+  }
+  // Opzione C: hydrate rooms from Prisma if persistence wired.
+  // Graceful no-op when DATABASE_URL unset.
+  if (typeof lobby.hydrate === 'function') {
+    lobby
+      .hydrate()
+      .then((count) => {
+        if (count > 0) {
+          console.log(`[lobby-ws] Prisma hydrate: ${count} room(s) restored`);
+        }
+      })
+      .catch((err) => {
+        console.warn('[lobby-ws] Prisma hydrate failed:', err?.message || err);
+      });
+  }
+} else {
+  console.log('[lobby-ws] WebSocket server disabled (LOBBY_WS_ENABLED=false)');
+}
+
 server.listen(port, host, () => {
   console.log(`[idea-engine] API online su http://${host}:${port}`);
   console.log(`[idea-engine] Database URL: ${databaseUrl ? '[set]' : '[missing]'}`);
