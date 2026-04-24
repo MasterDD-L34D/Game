@@ -360,6 +360,16 @@ function createSessionRouter(options = {}) {
       // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
       // dagli eventi per restare stateless.
       session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + damageDealt;
+      // V5 SG earn (ADR-2026-04-26 Opzione C mixed): accumulate dealt+taken.
+      if (damageDealt > 0) {
+        try {
+          const sgTracker = require('../services/combat/sgTracker');
+          sgTracker.accumulate(actor, { damage_dealt: damageDealt });
+          sgTracker.accumulate(target, { damage_taken: damageDealt });
+        } catch {
+          /* sgTracker optional */
+        }
+      }
       target.hp = Math.max(0, target.hp - damageDealt);
       if (target.hp === 0) {
         killOccurred = true;
@@ -1807,6 +1817,54 @@ function createSessionRouter(options = {}) {
           export_version: 1,
         },
       });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // ────────────────────────────────────────────────────────────────
+  // Telemetry batch endpoint — playtest readiness instrumentation
+  // ────────────────────────────────────────────────────────────────
+  //
+  // POST /api/session/telemetry
+  //   body: { session_id?, player_id?, events: [{ ts, type, payload }] }
+  //   → append-only JSONL su logs/telemetry_YYYYMMDD.jsonl
+  //   → Pattern Rainbow Six Siege "Unfun matrix": capture ui_error,
+  //     input_latency_ms, client_fps, confusion signals
+  //
+  // Schema event payload libero; validation soft su top-level.
+  router.post('/telemetry', async (req, res, next) => {
+    try {
+      const { session_id, player_id, events } = req.body || {};
+      if (!Array.isArray(events) || events.length === 0) {
+        return res.status(400).json({ error: 'events array richiesto (non-empty)' });
+      }
+      if (events.length > 200) {
+        return res.status(413).json({ error: 'batch >200 eventi — split richiesto' });
+      }
+      const now = new Date();
+      const yyyymmdd = now.toISOString().slice(0, 10).replace(/-/g, '');
+      const logDir = path.join(process.cwd(), 'logs');
+      try {
+        await fs.mkdir(logDir, { recursive: true });
+      } catch {
+        /* dir exists */
+      }
+      const logPath = path.join(logDir, `telemetry_${yyyymmdd}.jsonl`);
+      const lines = events
+        .map((ev) => {
+          const entry = {
+            ts: ev?.ts || now.toISOString(),
+            session_id: session_id || null,
+            player_id: player_id || null,
+            type: ev?.type || 'unknown',
+            payload: ev?.payload ?? null,
+          };
+          return JSON.stringify(entry);
+        })
+        .join('\n');
+      await fs.appendFile(logPath, lines + '\n', 'utf8');
+      res.json({ ok: true, appended: events.length, log_path: path.basename(logPath) });
     } catch (err) {
       next(err);
     }

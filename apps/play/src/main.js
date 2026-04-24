@@ -991,12 +991,44 @@ async function startNewSession() {
   state.target = null;
   // M11 Phase B+ (TKT-M11B-03) — if host room carries campaign_id, bootstrap
   // campaign runtime and cache summary so publishWorld mirrors it to players.
+  // V1 Onboarding Phase B (2026-04-26): if campaign def carries `onboarding`
+  // section AND no trait choice persisted for this session, open identity
+  // picker overlay pre-tutorial. User picks (or auto-timeout default) → pass
+  // initial_trait_choice to /start. Scoped: host only (first session).
   if (lobbyBridge?.isHost && lobbyBridge.session.campaign_id) {
     try {
-      const campRes = await api.campaignStart(
+      let initialTraitChoice = null;
+      // Peek campaign def onboarding via cheap summary (no creation yet).
+      const probe = await api.campaignStart(
         lobbyBridge.session.player_id,
         lobbyBridge.session.campaign_id,
       );
+      if (probe.ok && probe.data?.campaign_def?.onboarding && !window.__onboardingPicked) {
+        const onboarding = probe.data.campaign_def.onboarding;
+        try {
+          const { openOnboardingPanel } = await import('./onboardingPanel.js');
+          // Load CSS once
+          if (!document.getElementById('onboardingPanelCss')) {
+            const link = document.createElement('link');
+            link.id = 'onboardingPanelCss';
+            link.rel = 'stylesheet';
+            link.href = new URL('./onboardingPanel.css', import.meta.url).href;
+            document.head.appendChild(link);
+          }
+          initialTraitChoice = await openOnboardingPanel({ onboarding });
+          window.__onboardingPicked = initialTraitChoice;
+          appendLog(logEl, `🎭 Scelta identità: ${initialTraitChoice}`);
+        } catch (pickErr) {
+          appendLog(logEl, `⚠ onboarding skip: ${pickErr?.message || pickErr}`, 'warn');
+        }
+      }
+      const campRes = initialTraitChoice
+        ? await api.campaignStart(
+            lobbyBridge.session.player_id,
+            lobbyBridge.session.campaign_id,
+            initialTraitChoice,
+          )
+        : probe;
       if (campRes.ok) {
         const summary = campRes.data?.campaign || campRes.data || null;
         lobbyBridge.setCampaignSummary(summary);

@@ -118,15 +118,22 @@ Attuale impl `rewardEconomy.js`: conversion on session end automatic.
 - Condizioni (apply status): 2-4 PT
 - Combo (enhance attack): 1-3 PT
 
-## SG mechanics (Q52 P2 pending)
+## SG mechanics (Q52 RESOLVED 2026-04-26 — Opzione C mixed)
 
-**Pool**: 0..3.
+**Pool**: 0..3. Reset per encounter.
 
-**Earning formula**: **TBD** (Q52 P2). Opzioni:
+**Earning formula (ADR-2026-04-26-sg-earn-mixed)**:
 
-- A: +1 ogni N damage taken
-- B: +1 ogni N damage dealt
-- C: Mixed (both, lower rate each)
+- +1 SG ogni **5 damage taken** (difesa reward, encourage eating hits)
+- +1 SG ogni **8 damage dealt** (offesa reward, encourage aggression)
+- **Accumulator** per-unit persistent until threshold, rollover carry
+- **Cap** per turn: +2 SG max (anti-snowball su AoE burst)
+
+**Razionale scelta C**:
+
+- A-only = tank-biased (evita tempo defensive turtle)
+- B-only = dps-biased (mirror PP mechanics, redundant)
+- C bilancia: 1 SG full = ~25 dmg taken + ~40 dealt = ~1/round tactical engagement
 
 **Spending**: Surge Burst ability (damage step +2, ignores fracture reduction).
 
@@ -159,6 +166,6 @@ Attuale impl `rewardEconomy.js`: conversion on session end automatic.
 
 - Q17 PE cap (soft 18 telemetry.yaml o hard?) — P1
 - Q19 PE→PI checkpoint trigger — P1
-- Q52 SG formula accumulation — P2
+- ~~Q52 SG formula accumulation — P2~~ **RESOLVED 2026-04-26** — Opzione C mixed (ADR-2026-04-26-sg-earn-mixed)
 - Q53 Seed rate per harvester ability — P2
 - Q55 PE style bonus stackable cap — P1

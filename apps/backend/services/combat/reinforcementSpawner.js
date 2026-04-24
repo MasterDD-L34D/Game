@@ -65,7 +65,7 @@ function pickEntryTile(entryTiles, session, minDist) {
   return candidates.length > 0 ? candidates[0] : null;
 }
 
-function pickPoolEntry(pool, session, rng) {
+function pickPoolEntry(pool, session, rng, biomeConfig = null) {
   const history = session.reinforcement_state?.spawn_history || [];
   const counts = history.reduce((m, h) => {
     m[h.unit_id] = (m[h.unit_id] || 0) + 1;
@@ -76,14 +76,25 @@ function pickPoolEntry(pool, session, rng) {
     return (counts[entry.unit_id] || 0) < cap;
   });
   if (eligible.length === 0) return null;
-  const totalWeight = eligible.reduce((s, e) => s + (Number(e.weight) || 0), 0);
-  if (totalWeight <= 0) return eligible[0];
+  // V7 Biome-aware spawn bias (ADR-2026-04-26): augment weights if biomeConfig
+  // provided. Backward compatible: biomeConfig=null → unchanged behavior.
+  let weighted = eligible;
+  if (biomeConfig) {
+    try {
+      const { applyBiomeBias } = require('./biomeSpawnBias');
+      weighted = applyBiomeBias(eligible, biomeConfig);
+    } catch {
+      weighted = eligible;
+    }
+  }
+  const totalWeight = weighted.reduce((s, e) => s + (Number(e.weight) || 0), 0);
+  if (totalWeight <= 0) return weighted[0];
   let r = rng() * totalWeight;
-  for (const entry of eligible) {
+  for (const entry of weighted) {
     r -= Number(entry.weight) || 0;
     if (r <= 0) return entry;
   }
-  return eligible[eligible.length - 1];
+  return weighted[weighted.length - 1];
 }
 
 function ensureReinforcementState(session) {
@@ -143,6 +154,9 @@ function tick(session, encounter, opts = {}) {
 
   const spawned = [];
   const minDist = Number(policy.min_distance_from_pg) || DEFAULT_MIN_DISTANCE_FROM_PG;
+  // V7 Biome-aware spawn bias: pass encounter biome config to pickPoolEntry.
+  // opts.biomeConfig opzionale per test; fallback encounter.biome.
+  const biomeConfig = opts.biomeConfig || encounter?.biome || null;
 
   for (let i = 0; i < budget; i += 1) {
     const tile = pickEntryTile(entryTiles, session, minDist);
@@ -150,7 +164,7 @@ function tick(session, encounter, opts = {}) {
       spawned.push({ skipped: true, reason: 'no_walkable_entry' });
       break;
     }
-    const entry = pickPoolEntry(pool, session, rng);
+    const entry = pickPoolEntry(pool, session, rng, biomeConfig);
     if (!entry) {
       spawned.push({ skipped: true, reason: 'pool_exhausted' });
       break;

@@ -88,10 +88,15 @@ export const api = {
   modulations: () => jsonFetch('/api/party/modulations'),
   partyConfig: () => jsonFetch('/api/party/config'),
   // M10 Phase D — Campaign API
-  campaignStart: (playerId, campaignDefId = 'default_campaign_mvp') =>
+  // V1 Onboarding Phase B — optional initialTraitChoice (option_a|b|c)
+  campaignStart: (playerId, campaignDefId = 'default_campaign_mvp', initialTraitChoice = null) =>
     jsonFetch('/api/campaign/start', {
       method: 'POST',
-      body: JSON.stringify({ player_id: playerId, campaign_def_id: campaignDefId }),
+      body: JSON.stringify({
+        player_id: playerId,
+        campaign_def_id: campaignDefId,
+        ...(initialTraitChoice ? { initial_trait_choice: initialTraitChoice } : {}),
+      }),
     }),
   campaignSummary: (id) => jsonFetch(`/api/campaign/summary?id=${encodeURIComponent(id)}`),
   campaignAdvance: (id, outcome, peEarned = 0, piEarned = 0, extra = {}) =>

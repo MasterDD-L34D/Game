@@ -78,6 +78,60 @@ test('POST /api/campaign/start: invalid campaign_def_id = 404', async (t) => {
   assert.equal(res.status, 404);
 });
 
+// ─── V1 Onboarding Phase B ──────────────────────────────────────────────
+
+test('POST /api/campaign/start: onboarding exposed in campaign_def', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  assert.equal(res.status, 201);
+  assert.ok(res.body.campaign_def.onboarding, 'onboarding section surfaced');
+  assert.equal(res.body.campaign_def.onboarding.timing_seconds, 60);
+  assert.equal(res.body.campaign_def.onboarding.choices.length, 3);
+});
+
+test('POST /api/campaign/start: default_choice_on_timeout applied when no initial_trait_choice', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  assert.equal(res.status, 201);
+  assert.ok(res.body.campaign.onboardingChoice, 'choice applied');
+  assert.equal(res.body.campaign.onboardingChoice.option_key, 'option_a');
+  assert.equal(res.body.campaign.onboardingChoice.trait_id, 'zampe_a_molla');
+  assert.deepEqual(res.body.campaign.acquiredTraits, ['zampe_a_molla']);
+});
+
+test('POST /api/campaign/start: initial_trait_choice option_b → pelle_elastomera', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('POST', `${url}/api/campaign/start`, {
+    player_id: 'p1',
+    initial_trait_choice: 'option_b',
+  });
+  assert.equal(res.status, 201);
+  assert.equal(res.body.campaign.onboardingChoice.option_key, 'option_b');
+  assert.equal(res.body.campaign.onboardingChoice.trait_id, 'pelle_elastomera');
+  assert.deepEqual(res.body.campaign.acquiredTraits, ['pelle_elastomera']);
+});
+
+test('POST /api/campaign/start: initial_trait_choice option_c → denti_seghettati', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('POST', `${url}/api/campaign/start`, {
+    player_id: 'p1',
+    initial_trait_choice: 'option_c',
+  });
+  assert.equal(res.status, 201);
+  assert.equal(res.body.campaign.onboardingChoice.trait_id, 'denti_seghettati');
+});
+
+test('POST /api/campaign/start: invalid initial_trait_choice fallback su default', async (t) => {
+  const { url } = startTestServer(t);
+  const res = await request('POST', `${url}/api/campaign/start`, {
+    player_id: 'p1',
+    initial_trait_choice: 'option_z_invalid',
+  });
+  assert.equal(res.status, 201);
+  // Fallback su default_choice_on_timeout (option_a)
+  assert.equal(res.body.campaign.onboardingChoice.option_key, 'option_a');
+});
+
 test('GET /api/campaign/state: fetch campaign by id', async (t) => {
   const { url } = startTestServer(t);
   const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });

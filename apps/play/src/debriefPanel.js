@@ -41,6 +41,14 @@ export function renderDebriefPanel() {
         </div>
       </div>
 
+      <div class="db-section" id="db-rewards-section" style="display:none">
+        <div class="db-section-title">🎁 Ricompense Tri-Sorgente</div>
+        <div class="db-rewards-list" id="db-rewards-list">
+          <div class="db-empty">Caricamento offerte…</div>
+        </div>
+        <button type="button" class="db-skip-btn" id="db-rewards-skip">⏭ Skip (+1 Frammento Genetico)</button>
+      </div>
+
       <div class="db-section">
         <div class="db-section-title">Cronaca del round</div>
         <div class="db-narrative" id="db-narrative">
@@ -224,11 +232,69 @@ export function wireDebriefPanel(overlay, bridge) {
     }
   });
 
+  // V2 Tri-Sorgente — reward offer section
+  const rewardsSection = overlay.querySelector('#db-rewards-section');
+  const rewardsList = overlay.querySelector('#db-rewards-list');
+  const rewardsSkipBtn = overlay.querySelector('#db-rewards-skip');
+
+  async function fetchAndRenderRewards(campaignId, actorId) {
+    if (!rewardsSection || !campaignId) return;
+    rewardsSection.style.display = '';
+    rewardsList.innerHTML = '<div class="db-empty">Caricamento…</div>';
+    try {
+      const res = await fetch('/api/rewards/offer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ campaign_id: campaignId, actor_id: actorId || null }),
+      });
+      const data = await res.json();
+      if (!res.ok || !Array.isArray(data.offers)) {
+        rewardsList.innerHTML = '<div class="db-empty">Offerte non disponibili</div>';
+        return;
+      }
+      rewardsList.innerHTML = '';
+      for (const o of data.offers) {
+        const card = document.createElement('div');
+        card.className = 'db-evolve-card';
+        card.innerHTML = `
+          <div class="db-evolve-title">${o.card?.label || o.card?.id || '—'}</div>
+          <div class="db-evolve-blurb">${o.card?.rarity || 'common'} · score ${Number(o.score || 0).toFixed(2)}</div>
+        `;
+        rewardsList.appendChild(card);
+      }
+    } catch (err) {
+      rewardsList.innerHTML = `<div class="db-empty">Errore: ${err.message}</div>`;
+    }
+  }
+
+  if (rewardsSkipBtn) {
+    rewardsSkipBtn.addEventListener('click', async () => {
+      const cid = state.campaignId;
+      if (!cid) return;
+      try {
+        await fetch('/api/rewards/skip', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ campaign_id: cid, reason: 'skip_offer' }),
+        });
+        setStatus('✓ Skip: +1 Frammento Genetico', 'ok');
+        rewardsSection.style.display = 'none';
+      } catch (err) {
+        setStatus(`Errore skip: ${err.message}`, 'err');
+      }
+    });
+  }
+
   return {
     setState(worldState, outcome) {
       state.lastState = worldState;
       if (outcome) state.outcome = outcome;
       render();
+    },
+    // V2 Tri-Sorgente — called post-victory when campaign_id available
+    showRewardOffer(campaignId, actorId) {
+      state.campaignId = campaignId;
+      if (state.outcome === 'victory') fetchAndRenderRewards(campaignId, actorId);
     },
     setReadyList(list) {
       state.readySet.clear();
