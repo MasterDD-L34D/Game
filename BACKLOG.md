@@ -25,12 +25,30 @@
 
 ### Bug / tech debt identificati
 
-- [ ] **TKT-06** — `predict_combat` ignora `unit.mod` stat → damage 0 pattern falsi positivi
-- [ ] **TKT-07** — Tutorial sweep #2 N=10/scenario post telemetry fix (blocked by TKT-06)
-- [ ] **TKT-08** — Backend stability under batch (morì run #14 batch N=30)
-- [ ] **TKT-09** — `ai_intent_distribution` non emessa via `/round/execute` response
-- [ ] **TKT-10** — Harness retry+resume incrementale (JSONL write per-run)
-- [ ] **TKT-11** — `predict_combat` 8p aggregate sanity boss vs full party
+> **Audit 2026-04-24**: CLAUDE.md "Backlog ticket aperti" era stale. Verificato contro git history.
+
+- [x] ~~**TKT-06**~~ — `predict_combat` ignora `unit.mod` stat → **✅ CHIUSO in PR #1588 (`2d6394dd`)** 2026-04-18. `resolve_attack_v2` + `predict_combat` Python + JS `predictCombat` ora includono actor.mod + aggregate_mod parity.
+- [ ] **TKT-07** — Tutorial sweep #2 N=10/scenario post telemetry fix. Unblock (TKT-06 risolto). Sweep #2 run da confermare in `docs/playtest/*sweep*`.
+- [ ] **TKT-08** — Backend stability under batch (morì run #14 batch N=30). **Parziale**: PR #1551/#1559 harness migliorato; "backend stability full fix" non esplicitamente confermato.
+- [x] ~~**TKT-09**~~ — `ai_intent_distribution` mancante in `/round/execute` response → **✅ CHIUSO in PR #1551 (`092bff14`)** 2026-04-18. Harness `_ai_actions_from_resp` filtra `results[]` per `actor_id ∈ SIS`.
+- [ ] **TKT-10** — Harness retry+resume incrementale (JSONL write per-run). **Parziale**: PR #1551 probe_one addendum; retry+resume esplicito da confermare.
+- [ ] **TKT-11** — `predict_combat` 8p aggregate sanity boss vs full party. **Aperto** (nessun commit linkato).
+
+### Pre-playtest coop fixes (da audit coop-phase-validator 2026-04-24)
+
+Ref: `docs/qa/2026-04-24-coop-phase-validation-pre-playtest.md` (agent run verdict 🟡 minor, 0 blocker).
+
+- [ ] **F-1 (P1, ~1h)** — Host transfer mid-combat: `wsSession.js:765-784` promuove nuovo host dopo grace 30s ma non pusha current coop phase. Nuovo host vede UI stale fino a `GET /api/coop/state` manuale. Fix: wire `coopStore` in wsSession close handler per rebroadcast phase.
+- [ ] **F-2 (P1, ~1h)** — Stuck-phase se player droppa mid `character_creation` o `debrief`: `room.players` mantiene entry disconnesse (design reconnect), quindi guard `expected.size === characters.size` non fira. Worst case: host deve chiudere room. Fix: `/coop/run/force-advance` endpoint host-only.
+- [ ] **F-3 (P2)** — `submitCharacter` non check `playerId ∈ allPlayerIds`. Harmless (crea ghost entry che blocca auto-advance = same as F-2). Fix: guard al route layer o orchestrator.
+
+### Test coverage gaps coop (non bloccanti, da audit)
+
+- [ ] Phase-skip negative tests (`confirmWorld()` from lobby should throw)
+- [ ] Multi-player disconnect race test
+- [ ] Host-transfer + coop-state sync e2e
+- [ ] Room-code alphabet regex purity test
+- [ ] `startRun()` from combat phase untested
 
 ### Triangle Strategy transfer (design-driven, new)
 
@@ -96,6 +114,26 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 - TKT-06..11 aggiornati (chiusi o re-prioritizzati con evidenza)
 
 ---
+
+## Audit log
+
+**2026-04-24** (backlog audit post-Sprint 3):
+
+- CLAUDE.md "Backlog ticket aperti" sezione 17-18/04 era stale:
+  - TKT-06 listato come aperto → CHIUSO in PR #1588 (`2d6394dd`, 2026-04-18)
+  - TKT-09 listato come aperto → CHIUSO in PR #1551 (`092bff14`, 2026-04-18)
+  - TKT-08/TKT-10 parzialmente affrontati in PR #1551/#1559, marcati "parziale"
+  - TKT-11 confermato aperto
+
+**2026-04-24** (coop-phase-validator real run, primo uso post-policy 4-gate DoD):
+
+- Agent invocato su codice reale (non smoke test). Verdict 🟡 minor issues, 0 blocker, cleared per playtest.
+- 3 findings aggiunti al backlog (F-1, F-2, F-3)
+- 5 test coverage gap identificati (non bloccanti pre-playtest)
+- P1 fixes ~2h pre-playtest: F-1 (host transfer coop phase rebroadcast) + F-2 (force-advance endpoint)
+- Report: `docs/qa/2026-04-24-coop-phase-validation-pre-playtest.md`
+
+**Lesson**: CLAUDE.md narrative sprint context tende a fossilizzarsi — BACKLOG.md è single source of truth per stato ticket. Sync manuale post-merge PR importanti, o via skill `sprint-close`.
 
 ## Ref
 
