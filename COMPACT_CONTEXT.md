@@ -13,11 +13,13 @@
 
 ## Stato attuale
 
-- Branch lavoro: `claude/distracted-volhard-2f84a5` (worktree) allineato `origin/main` (0/0)
-- Ultimo PR merged main: **#1727** `feat(wire): V5 SG earn in abilityExecutor + UI wires (rewards/packs)` (b9a6dc73)
+- Branch lavoro: `claude/distracted-volhard-2f84a5` (worktree) **2 ahead, 0 behind** `origin/main` (rebased 2026-04-24)
+- Ultimo PR merged main: **#1731** `docs(sprint): playtest prep 2026-04-24 sprint close + CLAUDE.md + registry` (82206464)
+- Sprint **2026-04-24 playtest prep** chiuso in main: 4 PR consecutivi (#1728-#1731) — fix V5 SG pool, launcher rewrite preflight+health+QR+ngrok, playtest-UI fix round 1, sprint close doc
 - Sprint 2026-04-26 Vision Gap V1-V7 chiuso (6/7, V3 deferred), PR #1726 merged
 - Sprint M16-M20 co-op MVP chiuso (PR #1721-#1725, state machine lobby→debrief live)
-- Test suite: **411/411** verdi (AI 307 + round model 60+ + lobby 26 + M12 57 + M13 progression 24 + timer 17 + vision-gap 65)
+- Test suite: **AI 307/307** verdi (DoD gate #1 post-rebase). Altri: round model 60+, lobby 26, M12 57, M13 progression 24, timer 17, vision-gap 65 — aggregate 411+/411
+- Playtest round 2 pendente (userland, post #1730)
 
 ## Obiettivo di questa fase
 
@@ -31,12 +33,14 @@
 - **#1727** (b9a6dc73): SG earn formula Opzione C wired in `abilityExecutor.js` (5 site), UI rewards/packs wires in `onboardingPanel.js`/`debriefPanel.js`/`characterCreation.js`
 - **#1726** (0d501169): V1 onboarding 60s, V2 tri-sorgente reward API, V4 PI-pacchetti YAML 16×3, V5 SG tracker 5/8 formula, V7 biome-aware spawn bias, telemetry JSONL endpoint
 - **#1725** (5fb94b99): M16-M20 sprint close docs + playtest playbook + CLAUDE.md update
-- **Sessione 2026-04-24 (corrente)**:
+- **Sessione 2026-04-24 (corrente — branch locale 2 commit pronti)**:
   - 5 research docs scritti (2062 righe totali): skills shopping list, archivio inventory, agent roster, tiktok extraction, triangle-strategy transfer plan
   - 3 bootstrap file creati (root): PROJECT_BRIEF.md, COMPACT_CONTEXT.md (questo), DECISIONS_LOG.md
-  - 2 agent P0 creati: `.claude/agents/playtest-analyzer.md`, `.claude/agents/coop-phase-validator.md`
+  - 2 agent P0 creati + smoke-tested: `.claude/agents/playtest-analyzer.md` (USABLE), `.claude/agents/coop-phase-validator.md` (USABLE post-fix path rewrite)
   - 1 skill creata: `.claude/skills/compact.md`
-  - 1 memory saved: `feedback_session_timing_reset.md`
+  - 4 memory saved: session-timing, smoke-test-policy (4-gate DoD), user-decision-shortcuts, archivio-reference
+  - Policy **4-gate DoD** codificata in CLAUDE.md (`chore(policy)` commit) — obbligatoria per ogni nuovo agent/skill/feature
+  - Branch rebased onto origin/main post merge PR #1728-#1731 — zero conflitti, DoD verde
 
 ## Decisioni prese
 
