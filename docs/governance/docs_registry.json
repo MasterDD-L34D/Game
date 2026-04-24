@@ -2165,6 +2165,19 @@
       "track": "new"
     },
     {
+      "path": "docs/balance/macro-economy-source-sink.md",
+      "title": "Macro-Economy — Source/Pool/Sink flow (Machinations diagram)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/balance/tutorial-tuning-iter-2026-04-17.md",
       "title": "Tutorial Iter Tuning Pass — 2026-04-17",
       "doc_status": "active",
