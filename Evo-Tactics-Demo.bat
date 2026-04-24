@@ -17,15 +17,13 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Build play se dist mancante
-if not exist "apps\play\dist\lobby.html" (
-    echo [setup] build frontend mancante, eseguo npm run play:build...
-    call npm run play:build
-    if errorlevel 1 (
-        echo [errore] build fallito.
-        pause
-        exit /b 1
-    )
+REM Build play sempre — evita stale asset hash (HTML ref file non esistenti)
+echo [setup] build frontend (sincronizza asset hash)...
+call npm run play:build
+if errorlevel 1 (
+    echo [errore] build fallito.
+    pause
+    exit /b 1
 )
 
 echo [avvio] backend + ngrok tunnel...
