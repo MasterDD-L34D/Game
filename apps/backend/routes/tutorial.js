@@ -30,45 +30,90 @@ const {
   buildHardcoreUnits06Quartet,
   buildHardcoreUnits07,
 } = require('../services/hardcoreScenario');
+const { selectBriefing } = require('../services/narrative/briefingVariations');
+
+// Optional briefing variation: when ?variant_seed=N is passed, swap the
+// hardcoded briefing_pre/post with a YAML-pack variant (tutorial_briefings.yaml).
+// Backward-compatible: omitting the param yields the original strings.
+function applyBriefingVariation(scenario, req) {
+  const seed = req.query?.variant_seed;
+  if (seed === undefined || seed === null || seed === '') return scenario;
+  const ctx = {
+    seed,
+    biome: scenario.biome_id,
+    difficulty: scenario.difficulty_rating,
+    replay: req.query.replay === 'true' || req.query.replay === '1',
+    mbti_axes: parseMbtiAxes(req.query.mbti),
+  };
+  const pre = selectBriefing(scenario.id, 'pre', { ...ctx, fallback: scenario.briefing_pre });
+  const post = selectBriefing(scenario.id, 'post', { ...ctx, fallback: scenario.briefing_post });
+  return {
+    ...scenario,
+    briefing_pre: pre?.text || scenario.briefing_pre,
+    briefing_post: post?.text || scenario.briefing_post,
+    briefing_variants: {
+      pre: { id: pre?.id, source: pre?.source },
+      post: { id: post?.id, source: post?.source },
+    },
+  };
+}
+
+// Parses the optional `mbti=T:0.7,N:0.6` query into { T_F, S_N } floats.
+function parseMbtiAxes(raw) {
+  if (typeof raw !== 'string' || !raw.includes(':')) return undefined;
+  const out = {};
+  for (const pair of raw.split(',')) {
+    const [k, v] = pair.split(':').map((s) => s.trim());
+    const num = Number(v);
+    if (Number.isNaN(num)) continue;
+    if (k === 'T') out.T_F = Math.max(0, Math.min(1, num));
+    else if (k === 'F') out.T_F = Math.max(0, Math.min(1, 1 - num));
+    else if (k === 'N') out.S_N = Math.max(0, Math.min(1, num));
+    else if (k === 'S') out.S_N = Math.max(0, Math.min(1, 1 - num));
+    else if (k === 'E') out.E_I = Math.max(0, Math.min(1, num));
+    else if (k === 'P') out.J_P = Math.max(0, Math.min(1, num));
+  }
+  return Object.keys(out).length ? out : undefined;
+}
 
 function createTutorialRouter() {
   const router = Router();
 
-  router.get('/enc_tutorial_01', (_req, res) => {
+  router.get('/enc_tutorial_01', (req, res) => {
     res.json({
-      ...TUTORIAL_SCENARIO,
+      ...applyBriefingVariation(TUTORIAL_SCENARIO, req),
       units: buildTutorialUnits(),
       usage: 'POST the units array to /api/session/start to begin a playable session.',
     });
   });
 
-  router.get('/enc_tutorial_02', (_req, res) => {
+  router.get('/enc_tutorial_02', (req, res) => {
     res.json({
-      ...TUTORIAL_SCENARIO_02,
+      ...applyBriefingVariation(TUTORIAL_SCENARIO_02, req),
       units: buildTutorialUnits02(),
       usage: 'POST the units array to /api/session/start to begin a playable session.',
     });
   });
 
-  router.get('/enc_tutorial_03', (_req, res) => {
+  router.get('/enc_tutorial_03', (req, res) => {
     res.json({
-      ...TUTORIAL_SCENARIO_03,
+      ...applyBriefingVariation(TUTORIAL_SCENARIO_03, req),
       units: buildTutorialUnits03(),
       usage: 'POST the units array to /api/session/start to begin a playable session.',
     });
   });
 
-  router.get('/enc_tutorial_04', (_req, res) => {
+  router.get('/enc_tutorial_04', (req, res) => {
     res.json({
-      ...TUTORIAL_SCENARIO_04,
+      ...applyBriefingVariation(TUTORIAL_SCENARIO_04, req),
       units: buildTutorialUnits04(),
       usage: 'POST the units array to /api/session/start to begin a playable session.',
     });
   });
 
-  router.get('/enc_tutorial_05', (_req, res) => {
+  router.get('/enc_tutorial_05', (req, res) => {
     res.json({
-      ...TUTORIAL_SCENARIO_05,
+      ...applyBriefingVariation(TUTORIAL_SCENARIO_05, req),
       units: buildTutorialUnits05(),
       usage: 'POST the units array to /api/session/start to begin a playable session.',
     });
