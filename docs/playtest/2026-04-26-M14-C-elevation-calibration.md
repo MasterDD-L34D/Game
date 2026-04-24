@@ -53,22 +53,23 @@ durante `normaliseUnit`. Fix: clampa a integer (default 0) e passa attraverso
 session state. Senza questa patch il multiplier Triangle Strategy wired in session.js
 era effettivamente dead code per scenari.
 
-## Smoke tests nuovi (+4)
+## Smoke tests nuovi (+3)
 
-`tests/api/hardcoreScenario.test.js`:
+`tests/api/hardcoreScenario.test.js` (pre-M14-C 4 test → 7 totali):
 
 - `GET hardcore_06 raw units: BOSS + elite vantage = 1, player ground = 0`
 - `POST session start preserva elevation attraverso normalization`
 - `GET hardcore_07 patrol leader elevation=1 (vedetta)`
 
-Plus regression sanity — tutorial 03/04/05 tutti verdi (batch N=10 log invariati per 03/05, +10pp win su 04 dovuto a facing S flank).
+Plus regression sanity — tutorial 03/04/05 tutti verdi (batch N=10: 03/05 invariati
+a livello macro, tutorial 04 + 10pp win per facing S flank nuovo).
 
 ## Calibration N=10
 
 ### Hardcore 06 (full 8p vs BOSS + 2 elite + 3 minion)
 
 ```
-win_rate: 0.0% (target 30-50% post iter2 rework)
+win_rate: 0.0% (target band hardcore class: 15-25%, vedi data/core/balance/damage_curves.yaml)
 defeat_rate: 100.0%
 turns_avg: 25 (max)
 boss_hp_remaining_avg_on_loss: 30.6/40
@@ -76,10 +77,17 @@ dmg_dealt_avg: 39.4
 dmg_taken_avg: 28
 ```
 
-**Regressione vs baseline iter2 pre-M14-C (PR #1542)**: 96.7% win → 0% win.
-BOSS + elite a elevation 1 colpiscono con +30% multiplier su tutti gli 8 ground
-players: il focus-fire-swing che rendeva iter2 turtle-deadlock (96.7% win) è stato
-rovesciato completamente. BOSS HP 40 → party ne limalo solo 10 prima di wipe.
+**Regressione vs baseline pre-M14-C**:
+
+- iter0 (PR #1534): 84.6% win — tune iniziale
+- iter1 (PR #1542): 96.7% win — damage spread PEGGIO
+- iter2 (N=10 greedy, PR #1548 addendum): ~80% win — accepted con band greedy→umano
+- **iter2 + M14-C elevation (questa PR)**: **0% win**
+
+BOSS + elite a elevation 1 colpiscono con +30% multiplier su 8 ground players,
+_mentre_ i player dal basso hanno penalty -15% sul ritorno. Doppio swing:
+Apex single-source diventa tanto lethal quanto tanky. BOSS HP 40 → party lima
+~10 prima di wipe.
 
 **Interpretazione**: feature operativa, tuning invalidato. HP/mod re-tune differito
 (fuori scope P0). Iter successiva deve:
@@ -116,7 +124,7 @@ Verde:
 
 - `node --test tests/ai/*.test.js` → **307/307**
 - `node --test tests/services/*.test.js` → **177/177**
-- `node --test tests/api/hardcoreScenario.test.js` → **7/7** (4 nuovi + 3 esistenti)
+- `node --test tests/api/hardcoreScenario.test.js` → **7/7** (3 nuovi + 4 esistenti)
 - Tutorial 03 batch → timeout-heavy invariato (facing N solo, no dmg change)
 - Tutorial 04 batch → 70% → 80% win (+10pp da facing S flank, noise band accettabile per N=10)
 - Tutorial 05 batch → 0/10 timeout invariato vs pre-M14-C
@@ -131,15 +139,17 @@ Verde:
    non re-calibriamo.
 3. **Tutorial 05 elevation rolled back**: Apex + elevation 1 → 0/10 win (vs baseline
    0/10 timeout pre-M14-C). Identiche a livello macro (entrambi no-kill), ma il wire
-   elevation riduceva HP residuo Apex 5.2→7.3/18. Rollbackato per mantenere tuning
-   esistente; Apex elevation reintroducibile post HP/mod re-tune.
+   elevation **aumentava** HP residuo Apex 4.7 (baseline) → 7.3/18 (con elevation):
+   player dal basso penalty -15% dmg + Apex elevato -30% dmg in arrivo = Apex più
+   tanky e più lethal. Rollbackato per mantenere tuning esistente; Apex elevation
+   reintroducibile post HP/mod re-tune.
 
 ## Follow-up (ticket backlog)
 
 - `TKT-M14-C-HARDCORE06-RETUNE` — iter3 post-elevation: BOSS HP 40→25, or drop
-  elite elevation. Target win 30-50%.
+  elite elevation. Target band hardcore class 15-25% win.
 - `TKT-M14-C-HARDCORE07-RETUNE` — patrol +2 enemy start, reinforcement cooldown
-  1. Target win 30-50%.
+  1. Target harness 30-50% win (band definita in tools/py/batch_calibrate_hardcore07.py).
 - `TKT-M14-C-TUTORIAL05-ELEVATION` — re-introduce Apex elevation post
   HP/mod re-tune (probably HP 11→8 + apex ap 3→2).
 
