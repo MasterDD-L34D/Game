@@ -264,6 +264,17 @@ function createHostRosterPanel(bridge) {
 
 function updateHostRoster(bridge) {
   const list = document.getElementById('lobby-host-roster-list');
+  // M11 bugfix: dismiss share hint ogni volta che roster aggiornato e
+  // c'è almeno 1 player non-host. Robust anche se event player_joined/
+  // player_connected arriva prima del render hint o è missing.
+  try {
+    const hasOtherPlayer = Array.from(bridge._players.values()).some(
+      (p) => p && p.role !== 'host' && p.id !== bridge.session?.player_id,
+    );
+    if (hasOtherPlayer) dismissHostShareHint();
+  } catch {
+    /* ignore */
+  }
   if (!list) return;
   const entries = Array.from(bridge._players.values());
   if (entries.length === 0) {
