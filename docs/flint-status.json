@@ -2,75 +2,75 @@
   "_meta": {
     "generator": "flint_status_stdlib (fallback)",
     "version": "0.2.0-stdlib",
-    "generated_at": "2026-04-24T00:19:49.925324+00:00",
+    "generated_at": "2026-04-24T10:33:42.630190+00:00",
     "repo_root": "C:\\dev\\Game",
     "note": "File generato via tools/py/flint_status_stdlib.py (stdlib-only). Quando flint CLI è installato, rigenerare con `flint export`."
   },
   "snapshot": {
-    "dirty_files_count": 2,
+    "dirty_files_count": 4,
     "recent_commits_count": 10,
-    "gameplay_ratio": 0.3,
+    "gameplay_ratio": 0.1,
     "consecutive_infra_commits": 0,
-    "is_drifting": false,
+    "is_drifting": true,
     "recent_commits": [
       {
-        "sha": "c633ae7f",
-        "kind": "GAMEPLAY",
-        "message_first_line": "chore(swarm): register gameplay-prototyper + combat-engineer + sync runtime state",
-        "files_count": 0
-      },
-      {
-        "sha": "d319404e",
-        "kind": "GAMEPLAY",
-        "message_first_line": "docs(planning): M11 Phase B→TKT-05 close + next session handoff (P5 🟢 pending playtest) (#1687)",
-        "files_count": 0
-      },
-      {
-        "sha": "d97eb5f8",
+        "sha": "aa82d67f",
         "kind": "ALTRO",
-        "message_first_line": "feat(network): M11 TKT-M11B-05 — host-transfer on disconnect (FIFO first-come) (#1685)",
+        "message_first_line": "feat(swarm): first integration staging — magnetic_rift_resonance trait (#1720)",
         "files_count": 0
       },
       {
-        "sha": "583be2a8",
-        "kind": "ALTRO",
-        "message_first_line": "feat(network): M11 Phase C — host TV roster panel + ngrok playbook (TKT-04/06 partial) (#1684)",
-        "files_count": 0
-      },
-      {
-        "sha": "d14b2655",
-        "kind": "GAMEPLAY",
-        "message_first_line": "feat(network): M11 Phase B+ — phone intent UI + host relay + campaign mirror (TKT-01/02/03) (#1686)",
-        "files_count": 0
-      },
-      {
-        "sha": "d35dde92",
-        "kind": "ALTRO",
-        "message_first_line": "feat(network): M11 Phase B — Jackbox lobby frontend + TV spectator + WS client (P5) (#1682)",
-        "files_count": 0
-      },
-      {
-        "sha": "6d722e40",
-        "kind": "DOCS",
-        "message_first_line": "docs(planning): M11 Phase A close + Phase B handoff + CLAUDE.md sync (#1681)",
-        "files_count": 0
-      },
-      {
-        "sha": "db4325f0",
-        "kind": "ALTRO",
-        "message_first_line": "feat(network): M11 Phase A — Jackbox room-code WebSocket backend (P5) (#1680)",
-        "files_count": 0
-      },
-      {
-        "sha": "3272f844",
+        "sha": "7ad6c682",
         "kind": "INFRA",
-        "message_first_line": "feat(meta): Prisma persistence adapter for metaProgression (Prompt B / L06 partial) (#1679)",
+        "message_first_line": "docs(coop): 3-doc pre-execution spec seguendo filosofia archivio (truths + MVP + migration) (#1719)",
         "files_count": 0
       },
       {
-        "sha": "cc35e2d2",
+        "sha": "509e4747",
+        "kind": "GAMEPLAY",
+        "message_first_line": "chore(swarm): register gameplay-prototyper + combat-engineer (#1718)",
+        "files_count": 0
+      },
+      {
+        "sha": "cdd40d61",
         "kind": "ALTRO",
-        "message_first_line": "feat(balance): trait environmental costs pilot 4×3 (#1674) (#1678)",
+        "message_first_line": "feat(ui-m15): co-op UI v2 Jackbox pattern — phone card PG + party + chat + ready broadcast (#1717)",
+        "files_count": 0
+      },
+      {
+        "sha": "97606542",
+        "kind": "ALTRO",
+        "message_first_line": "fix(play): vite base './' per asset path relativi (fix 404 su /play mount) (#1716)",
+        "files_count": 0
+      },
+      {
+        "sha": "410194f9",
+        "kind": "ALTRO",
+        "message_first_line": "fix(launcher): build frontend sempre (evita stale asset hash) (#1715)",
+        "files_count": 0
+      },
+      {
+        "sha": "d56f19e6",
+        "kind": "ALTRO",
+        "message_first_line": "feat(p4): axes iter2 refinement — enemy_target + concrete_action + action_switch (Opzione A) (#1707)",
+        "files_count": 0
+      },
+      {
+        "sha": "8f4c5541",
+        "kind": "INFRA",
+        "message_first_line": "feat(lobby): Prisma write-through persistence + hydrate (Opzione C P5 P2→🟢-harden) (#1705)",
+        "files_count": 0
+      },
+      {
+        "sha": "9b3d9935",
+        "kind": "ALTRO",
+        "message_first_line": "feat(p4): Thought Cabinet — Disco Elysium diegetic reveal (P4 🟡→🟡+) (#1702)",
+        "files_count": 0
+      },
+      {
+        "sha": "9e68e223",
+        "kind": "ALTRO",
+        "message_first_line": "feat(launcher): 1-click demo launcher (backend + ngrok tunnel + share URL) (#1714)",
         "files_count": 0
       }
     ]

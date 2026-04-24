@@ -9,14 +9,17 @@
     "definition_file": "agents/lore-designer.md",
     "profile_file": ".ai/lore-designer/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 6,
-      "accepted": 6,
+      "level": 3,
+      "total_cycles": 25,
+      "accepted": 25,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
+        7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T06:16:44.471382",
       "last_demoted_at": null
     }
   },
@@ -25,14 +28,17 @@
     "definition_file": "agents/balancer.md",
     "profile_file": ".ai/balancer/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 4,
-      "accepted": 4,
+      "level": 3,
+      "total_cycles": 26,
+      "accepted": 26,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
+        7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T06:16:44.477642",
       "last_demoted_at": null
     }
   },
@@ -41,14 +47,17 @@
     "definition_file": "agents/asset-prep.md",
     "profile_file": ".ai/asset-prep/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 1,
-      "accepted": 1,
+      "level": 3,
+      "total_cycles": 22,
+      "accepted": 22,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5],
-      "last_promoted_at": null,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
+        7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T07:23:29.366626",
       "last_demoted_at": null
     }
   },
@@ -57,14 +66,17 @@
     "definition_file": "agents/archivist.md",
     "profile_file": ".ai/archivist/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 2,
-      "accepted": 2,
+      "level": 3,
+      "total_cycles": 21,
+      "accepted": 21,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
+        7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T07:07:12.788816",
       "last_demoted_at": null
     }
   },
@@ -73,14 +85,17 @@
     "definition_file": "agents/dev-tooling.md",
     "profile_file": ".ai/dev-tooling/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 2,
-      "accepted": 2,
+      "level": 3,
+      "total_cycles": 25,
+      "accepted": 25,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
+        7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T06:49:18.629778",
       "last_demoted_at": null
     }
   },
@@ -89,14 +104,17 @@
     "definition_file": "agents/trait-curator.md",
     "profile_file": ".ai/trait-curator/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 3,
-      "accepted": 3,
+      "level": 2,
+      "total_cycles": 25,
+      "accepted": 25,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 4.0, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 4.0, 7.5, 4.0, 7.5, 7.5, 7.5, 7.5, 4.0, 7.5, 7.5,
+        7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T05:14:24.486612",
       "last_demoted_at": null
     }
   },
@@ -105,14 +123,17 @@
     "definition_file": "agents/species-curator.md",
     "profile_file": ".ai/species-curator/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 3,
-      "accepted": 3,
+      "level": 3,
+      "total_cycles": 25,
+      "accepted": 25,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
+        7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T06:16:44.484049",
       "last_demoted_at": null
     }
   },
@@ -121,14 +142,17 @@
     "definition_file": "agents/biome-ecosystem-curator.md",
     "profile_file": ".ai/biome-ecosystem-curator/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 3,
-      "accepted": 3,
+      "level": 3,
+      "total_cycles": 24,
+      "accepted": 24,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5,
+        7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T06:49:18.638186",
       "last_demoted_at": null
     }
   },
@@ -165,6 +189,26 @@
       "security_alerts": 0,
       "rolling_window": [],
       "last_promoted_at": null,
+      "last_demoted_at": null
+    }
+  },
+  "biome-gameplay-integrator": {
+    "description": "Traduce le proprietà dei biomi in meccaniche di gioco con feedback circolare",
+    "profile_file": ".ai/biome-gameplay-integrator/PROFILE.md",
+    "definition_file": "agents/biome-gameplay-integrator.md",
+    "created_by": "dafne+eduardo",
+    "created_at": "2026-04-24T04:00:50.264037",
+    "stats": {
+      "level": 3,
+      "total_cycles": 17,
+      "accepted": 17,
+      "rejected": 0,
+      "duplicate": 0,
+      "security_alerts": 0,
+      "rolling_window": [
+        7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5
+      ],
+      "last_promoted_at": "2026-04-24T09:21:05.031323",
       "last_demoted_at": null
     }
   }
