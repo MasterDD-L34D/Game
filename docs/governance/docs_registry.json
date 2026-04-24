@@ -4597,6 +4597,17 @@
       "review_cycle_days": 30
     },
     {
+      "path": "docs/planning/2026-04-26-next-session-handoff-M14-C.md",
+      "title": "Next Session Handoff — M14-C Populate Scenarios + Wire AbilityExecutor",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14
+    },
+    {
       "path": "docs/adr/ADR-2026-04-26-sg-earn-mixed.md",
       "title": "ADR-2026-04-26 — SG (Surge Gauge) earn formula — Opzione C mixed",
       "doc_status": "active",
