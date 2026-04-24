@@ -2,17 +2,23 @@
   "_meta": {
     "generator": "flint_status_stdlib (fallback)",
     "version": "0.2.0-stdlib",
-    "generated_at": "2026-04-23T22:21:06.465128+00:00",
+    "generated_at": "2026-04-24T00:19:49.925324+00:00",
     "repo_root": "C:\\dev\\Game",
     "note": "File generato via tools/py/flint_status_stdlib.py (stdlib-only). Quando flint CLI è installato, rigenerare con `flint export`."
   },
   "snapshot": {
-    "dirty_files_count": 8,
+    "dirty_files_count": 2,
     "recent_commits_count": 10,
-    "gameplay_ratio": 0.2,
+    "gameplay_ratio": 0.3,
     "consecutive_infra_commits": 0,
     "is_drifting": false,
     "recent_commits": [
+      {
+        "sha": "c633ae7f",
+        "kind": "GAMEPLAY",
+        "message_first_line": "chore(swarm): register gameplay-prototyper + combat-engineer + sync runtime state",
+        "files_count": 0
+      },
       {
         "sha": "d319404e",
         "kind": "GAMEPLAY",
@@ -65,12 +71,6 @@
         "sha": "cc35e2d2",
         "kind": "ALTRO",
         "message_first_line": "feat(balance): trait environmental costs pilot 4×3 (#1674) (#1678)",
-        "files_count": 0
-      },
-      {
-        "sha": "c4a0a4d5",
-        "kind": "DOCS",
-        "message_first_line": "docs(planning): next-session kickoff — 3 prompt ready + baseline tests (#1677)",
         "files_count": 0
       }
     ]

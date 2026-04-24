@@ -10,12 +10,12 @@
     "profile_file": ".ai/lore-designer/PROFILE.md",
     "stats": {
       "level": 0,
-      "total_cycles": 4,
-      "accepted": 4,
+      "total_cycles": 6,
+      "accepted": 6,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5, 7.5],
+      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
@@ -26,12 +26,12 @@
     "profile_file": ".ai/balancer/PROFILE.md",
     "stats": {
       "level": 0,
-      "total_cycles": 3,
-      "accepted": 3,
+      "total_cycles": 4,
+      "accepted": 4,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5],
+      "rolling_window": [7.5, 7.5, 7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
@@ -90,12 +90,12 @@
     "profile_file": ".ai/trait-curator/PROFILE.md",
     "stats": {
       "level": 0,
-      "total_cycles": 2,
-      "accepted": 2,
+      "total_cycles": 3,
+      "accepted": 3,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 4.0],
+      "rolling_window": [7.5, 4.0, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
@@ -106,12 +106,12 @@
     "profile_file": ".ai/species-curator/PROFILE.md",
     "stats": {
       "level": 0,
-      "total_cycles": 2,
-      "accepted": 2,
+      "total_cycles": 3,
+      "accepted": 3,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5],
+      "rolling_window": [7.5, 7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
@@ -122,12 +122,12 @@
     "profile_file": ".ai/biome-ecosystem-curator/PROFILE.md",
     "stats": {
       "level": 0,
-      "total_cycles": 2,
-      "accepted": 2,
+      "total_cycles": 3,
+      "accepted": 3,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5],
+      "rolling_window": [7.5, 7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
