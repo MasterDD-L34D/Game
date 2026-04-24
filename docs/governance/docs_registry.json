@@ -5751,6 +5751,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/qa/2026-04-26-telemetry-viz-illuminator-smoke.md",
+      "title": "Telemetry Viz Illuminator Agent — Smoke Test (4-gate DoD G2)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/playtest/2026-04-26-M14-C-iter3-hardcore06.json",
       "title": "Hardcore 06 iter3 calibration output (N=10 elite elev=0)",
       "doc_status": "active",
