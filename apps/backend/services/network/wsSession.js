@@ -278,6 +278,13 @@ class Room {
       if (this.pendingIntents.has(p.id)) ready.push(p.id);
       else missing.push(p.id);
     }
+    const allReady = missing.length === 0 && participants.length > 0;
+    // M16 P0-3 — auto-transition planning → ready quando tutti hanno
+    // inviato intent. Host vede phase=ready e drive resolve via REST;
+    // dopo invia round_clear per reset (nextRound planning).
+    if (allReady && this.phase === 'planning') {
+      this.phase = 'ready';
+    }
     this.broadcast({
       type: 'round_ready',
       payload: {
@@ -286,7 +293,7 @@ class Room {
         ready,
         missing,
         total: participants.length,
-        all_ready: missing.length === 0 && participants.length > 0,
+        all_ready: allReady,
         ts: Date.now(),
       },
     });

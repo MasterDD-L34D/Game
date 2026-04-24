@@ -706,7 +706,28 @@ function createSessionRouter(options = {}) {
       const sessionId = newSessionId();
       const now = new Date();
       const logFilePath = path.join(logsDir, `session_${timestampStamp(now)}.json`);
-      let units = normaliseUnitsPayload(req.body?.units);
+
+      // M16 P0-1 (ADR coop-mvp-spec): if `characters` array provided, convert
+      // each character → unit with owner_id = player_id. Enemies from scenario
+      // appended via req.body.units. Both coexist: characters first, then
+      // units (scenario enemies) appended.
+      let characterUnits = [];
+      if (Array.isArray(req.body?.characters) && req.body.characters.length > 0) {
+        const { characterToUnit } = require('../services/coop/coopOrchestrator');
+        characterUnits = req.body.characters
+          .map((ch, idx) => characterToUnit(ch, { index: idx }))
+          .filter(Boolean);
+      }
+      const scenarioUnits = normaliseUnitsPayload(req.body?.units);
+      // If character path used, filter out any default player units from
+      // scenarioUnits to avoid duplicates (keep only sistema-controlled).
+      let units;
+      if (characterUnits.length > 0) {
+        const scenarioEnemies = scenarioUnits.filter((u) => u && u.controlled_by === 'sistema');
+        units = [...normaliseUnitsPayload(characterUnits), ...scenarioEnemies];
+      } else {
+        units = scenarioUnits;
+      }
 
       // Q-001 T2.3 PR-3: applica difficulty profile scaling (opt-in, default normal)
       const requestedProfile =

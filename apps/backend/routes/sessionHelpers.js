@@ -88,6 +88,11 @@ function normaliseUnit(raw, fallbackIndex) {
     facing,
     position,
     controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
+    // M16 P0-1 — owner_id mapping player→unit per co-op Jackbox flow.
+    // Set solo per unità player-controlled; enemy restano null.
+    owner_id: input.owner_id ? String(input.owner_id) : null,
+    name: input.name ? String(input.name) : null,
+    form_id: input.form_id ? String(input.form_id) : null,
     resistance_archetype: resistanceArchetype,
   };
 }
