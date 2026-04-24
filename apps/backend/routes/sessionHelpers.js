@@ -340,6 +340,88 @@ function isBackstab(actor, target) {
   return false;
 }
 
+/**
+ * M14-B 2026-04-25 — classify attacker quadrant relative to target facing.
+ * Extends isBackstab() with side-attack detection (flank).
+ * Returns: 'rear' | 'flank' | 'front'.
+ * Ref: docs/research/triangle-strategy-transfer-plan.md:186 (Mechanic 3C)
+ */
+function attackQuadrant(actor, target) {
+  if (!actor?.position || !target?.position) return 'front';
+  const f = target.facing || DEFAULT_FACING;
+  const dx = actor.position.x - target.position.x;
+  const dy = actor.position.y - target.position.y;
+  // Rear matches isBackstab() exactly to preserve legacy backstab semantics.
+  if (f === 'N' && dy > 0) return 'rear';
+  if (f === 'S' && dy < 0) return 'rear';
+  if (f === 'E' && dx < 0) return 'rear';
+  if (f === 'W' && dx > 0) return 'rear';
+  // Front: same side as facing.
+  if (f === 'N' && dy < 0 && dx === 0) return 'front';
+  if (f === 'S' && dy > 0 && dx === 0) return 'front';
+  if (f === 'E' && dx > 0 && dy === 0) return 'front';
+  if (f === 'W' && dx < 0 && dy === 0) return 'front';
+  // Flank: anything orthogonal to facing (side) OR a diagonal that isn't rear/front.
+  return 'flank';
+}
+
+/**
+ * M14-B 2026-04-25 — Triangle Strategy positional damage multiplier.
+ * Pure helper. Caller passes baseDamage + actor + target + opts; receives the
+ * adjusted damage + breakdown for logging.
+ *
+ * Multipliers applied (multiplicatively, TS-style):
+ *   elevation: delta >= 1 → +30% default (mirror penalty -15% when below)
+ *   flank:     side attack → +15% damage (default)
+ *   rear:      rear attack → +0% here; rear bonus remains in session.js as
+ *              legacy +1 flat (do not double-apply). Caller opts in via
+ *              rearMultiplier if desired.
+ *
+ * Cap: final multiplier clamped to [0.1, 2.0] to avoid stacking one-shots.
+ *
+ * Ref: docs/research/triangle-strategy-transfer-plan.md:229 (stacking risk)
+ */
+function computePositionalDamage({
+  actor,
+  target,
+  baseDamage,
+  elevationBonus = 0.3,
+  elevationPenalty = -0.15,
+  flankBonus = 0.15,
+  rearMultiplier = 0, // default 0: legacy +1 rear bonus preserved elsewhere
+} = {}) {
+  const base = Number.isFinite(baseDamage) ? baseDamage : 0;
+  if (base <= 0) {
+    return { damage: 0, quadrant: 'front', elevation_delta: 0, multiplier: 1, parts: {} };
+  }
+  const quadrant = attackQuadrant(actor, target);
+  const aElev = Number.isFinite(Number(actor?.elevation)) ? Number(actor.elevation) : 0;
+  const tElev = Number.isFinite(Number(target?.elevation)) ? Number(target.elevation) : 0;
+  const delta = aElev - tElev;
+
+  let elevMul = 1;
+  if (delta >= 1) elevMul = 1 + elevationBonus;
+  else if (delta <= -1) elevMul = 1 + elevationPenalty;
+  let flankMul = 1;
+  if (quadrant === 'flank') flankMul = 1 + flankBonus;
+  let rearMul = 1;
+  if (quadrant === 'rear') rearMul = 1 + rearMultiplier;
+
+  const total = Math.max(0.1, Math.min(2.0, elevMul * flankMul * rearMul));
+  const damage = Math.max(0, Math.floor(base * total));
+  return {
+    damage,
+    quadrant,
+    elevation_delta: delta,
+    multiplier: Math.round(total * 100) / 100,
+    parts: {
+      elevation: Math.round(elevMul * 100) / 100,
+      flank: Math.round(flankMul * 100) / 100,
+      rear: Math.round(rearMul * 100) / 100,
+    },
+  };
+}
+
 function facingFromMove(from, to) {
   const dx = to.x - from.x;
   const dy = to.y - from.y;
@@ -413,6 +495,8 @@ module.exports = {
   pickLowestHpEnemy,
   stepTowards,
   isBackstab,
+  attackQuadrant,
+  computePositionalDamage,
   facingFromMove,
   predictCombat,
   computeSistemaTier,
