@@ -64,6 +64,12 @@ function normaliseUnit(raw, fallbackIndex) {
       : DEFAULT_INITIATIVE;
   const rawFacing = input.facing ? String(input.facing).toUpperCase() : null;
   const facing = VALID_FACINGS.has(rawFacing) ? rawFacing : fallbackIndex === 0 ? 'S' : 'N';
+  // M14-C — preserve elevation integer (default 0 = ground). Triangle Strategy
+  // Mechanic 3A multiplier in computePositionalDamage reads unit.elevation; if
+  // stripped here the bonus never activates even when scenario spec sets it.
+  const elevation = Number.isFinite(Number(input.elevation))
+    ? Math.trunc(Number(input.elevation))
+    : 0;
   // M6-Z: resistance_archetype derived from input o job mapping.
   // Priority: explicit input field > JOB_ARCHETYPE[job] > null (fallback default adattivo
   // applicato da resistanceEngine.getArchetypeResistances se absente).
@@ -86,6 +92,7 @@ function normaliseUnit(raw, fallbackIndex) {
     attack_range: attackRange,
     initiative,
     facing,
+    elevation,
     position,
     controlled_by: input.controlled_by ? String(input.controlled_by) : 'player',
     // M16 P0-1 — owner_id mapping player→unit per co-op Jackbox flow.

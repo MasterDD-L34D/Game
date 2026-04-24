@@ -4608,6 +4608,17 @@
       "review_cycle_days": 14
     },
     {
+      "path": "docs/playtest/2026-04-26-M14-C-elevation-calibration.md",
+      "title": "M14-C Elevation Populate + Calibration N=10 — Hardcore 06/07",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
       "path": "docs/adr/ADR-2026-04-26-sg-earn-mixed.md",
       "title": "ADR-2026-04-26 — SG (Surge Gauge) earn formula — Opzione C mixed",
       "doc_status": "active",

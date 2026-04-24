@@ -354,7 +354,9 @@ function buildTutorialUnits03() {
       position: { x: 3, y: 3 },
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
-      facing: 'W',
+      // M14-C: facing nord → attacchi da W/E sono flank (+15% dmg).
+      // Elevation lasciato 0: tutorial 03 band win 50% è sensibile a +30%.
+      facing: 'N',
     },
   ];
 }
@@ -413,7 +415,8 @@ function buildTutorialUnits04() {
       position: { x: 3, y: 2 },
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
-      facing: 'W',
+      // M14-C: facing sud → player da W flanca, da nord attacca rear (con backstab).
+      facing: 'S',
     },
     // Corriere 1: rapido ma fragile (hp 4→3 post ap=2).
     {
@@ -504,6 +507,9 @@ function buildTutorialUnits05() {
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
+      // M14-C: elevation non aggiunta. Test N=10 mostrava 0/10 win (vs band 10-30%);
+      // scenario già tarato ap=2 → elevation +30% boss invalida curve. Deferred
+      // a iterazione post-playtest con HP/mod re-tune.
     },
   ];
 }
