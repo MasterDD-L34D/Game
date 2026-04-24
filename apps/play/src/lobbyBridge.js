@@ -515,6 +515,11 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
         connected: true,
       });
     refreshRosterUi();
+    // M11 bugfix: hint persisteva se player era già in room a host load.
+    // Dismiss anche su connection event (covers replay + late host load).
+    if (bridge.isHost && payload.player_id !== session.player_id) {
+      dismissHostShareHint();
+    }
   });
   client.on('player_disconnected', (payload) => {
     if (!payload?.player_id) return;
@@ -712,7 +717,12 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     });
     updateHostRoster(bridge);
     // Share hint: code prominente + copy-URL finché stanza vuota.
-    renderHostShareHint({ session });
+    // Se la stanza è già popolata (host reload con player già dentro),
+    // skip render: altrimenti hint resta visibile incorrect.
+    const hasOtherPlayers = Array.from(bridge._players.values()).some(
+      (p) => p && p.id !== session.player_id && p.role !== 'host',
+    );
+    if (!hasOtherPlayers) renderHostShareHint({ session });
     // Tag body for CSS hooks (TV layout polish).
     try {
       document.body.classList.add('lobby-role-host');

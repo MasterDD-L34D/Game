@@ -110,7 +110,9 @@ export function renderHostShareHint({ session, container }) {
       </div>
       <div class="lobby-host-share-status" aria-live="polite"></div>
       <div class="lobby-host-share-hint-body">
-        In attesa di almeno un player. L'indicatore scompare quando qualcuno entra.
+        ⚠ Serve almeno 1 amico connesso prima di cliccare "Nuova sessione"
+        (altrimenti flow co-op skippato → char creation + world setup non appaiono).
+        L'indicatore scompare quando qualcuno entra.
       </div>
     </div>
   `;
