@@ -5762,6 +5762,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/qa/2026-04-26-narrative-design-illuminator-smoke.md",
+      "title": "Narrative Design Illuminator Agent — Smoke Test (4-gate DoD G2)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90
+    },
+    {
       "path": "docs/qa/2026-04-26-economy-design-illuminator-smoke.md",
       "title": "Economy Design Illuminator Agent — Smoke Test (4-gate DoD G2)",
       "doc_status": "active",
