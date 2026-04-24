@@ -8,12 +8,19 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v1 (primo snapshot formale)
-- **Ultimo aggiornamento**: 2026-04-24 (sessione adozione archivio + skills + Triangle Strategy research)
+- **Versione compact**: v2 (post Illuminator Orchestra)
+- **Ultimo aggiornamento**: 2026-04-25 (sessione M14-C retune + Illuminator Orchestra 6 agent + 6 runtime apply)
 
-## Stato attuale
+## ⚡ TL;DR per ripartire
 
-- Branch lavoro: `claude/sprint-3-archivio-close` (worktree reset post PR #1732 merge)
+**6 agent illuminator pronti** + workflow validated 6× + 70+ pattern indexed primary-sourced. **NON perdere l'approccio research-first agent-driven**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+
+## Stato attuale (post sessione 2026-04-24/25 notte)
+
+- **20 PR merged** in main da #1736 (M14-A) a #1756 (Observable Plot dashboard)
+- Test suite **AI 307/307 verde** + services 177/177 + 57+ nuovi (telemetry 20, restricted-play 13, funnel 4)
+- Zero deps nuove, zero guardrail violations
+- Branch lavoro precedente: `claude/sprint-3-archivio-close` (worktree reset post PR #1732 merge)
 - Ultimo PR merged main: **#1732** `chore(bootstrap): archivio Sprint 0+1+2 + 2 agent P0 + /compact skill + 4-gate DoD policy` (merge commit `1e7bc455`, 2026-04-24 12:52 UTC)
 - Sprint 3 archivio in progress: chiude gap readiness 21.5→24/24 con BACKLOG.md + OPEN_DECISIONS.md + master orchestrator decision (OD-006 risolta)
 - Sprint **2026-04-24 playtest prep** chiuso in main: 4 PR consecutivi (#1728-#1731) — fix V5 SG pool, launcher rewrite preflight+health+QR+ngrok, playtest-UI fix round 1, sprint close doc
@@ -22,12 +29,38 @@
 - Test suite: **AI 307/307** verdi (DoD gate #1 post-rebase). Altri: round model 60+, lobby 26, M12 57, M13 progression 24, timer 17, vision-gap 65 — aggregate 411+/411
 - Playtest round 2 pendente (userland, post #1730)
 
-## Obiettivo di questa fase
+## 🎮 Agent Illuminator Orchestra (6 attivi)
 
-- Adottare archivio operativo esterno (`C:/dev/codemasterdd-ai-station/Archivio_Libreria_Operativa_Progetti/`) → bootstrap-kit integrato nel repo
-- Aggiungere 2 subagent P0: `playtest-analyzer`, `coop-phase-validator`
-- Codificare skill `/compact` (hack @okaashish) + memory session-timing-reset
-- Preparare ticket backlog da ricerca Triangle Strategy (10 meccaniche)
+| Agent                        | MBTI audit/research |        PR        |                          Smoke                           |
+| ---------------------------- | :-----------------: | :--------------: | :------------------------------------------------------: |
+| balance-illuminator          |    ENTJ-A / ENTP    | #1745 `bfd62ecb` |     docs/qa/2026-04-26-balance-illuminator-smoke.md      |
+| ui-design-illuminator        |    ISTP-A / ENFP    | #1746 `3184f25f` |    docs/qa/2026-04-26-ui-design-illuminator-smoke.md     |
+| pcg-level-design-illuminator |    INTJ-A / INTP    | #1747 `a7850ad5` | docs/qa/2026-04-26-pcg-level-design-illuminator-smoke.md |
+| telemetry-viz-illuminator    |   ISTJ-A / INTP-A   | #1748 `619cecb3` |  docs/qa/2026-04-26-telemetry-viz-illuminator-smoke.md   |
+| narrative-design-illuminator |   INFJ-A / INFP-A   | #1754 `84f92687` | docs/qa/2026-04-26-narrative-design-illuminator-smoke.md |
+| economy-design-illuminator   |    ENTJ-A / ENTP    | #1755 `f5286bfd` |  docs/qa/2026-04-26-economy-design-illuminator-smoke.md  |
+
+**Memory persistent saved**:
+
+- `feedback_agent_illuminator_workflow.md` — 5-step workflow validated 6×
+- `feedback_parallel_research_batches_pattern.md` — 8 WebSearch parallel cache-warm
+- `project_agent_illuminator_set_2026-04-26.md` — roster + 70+ pattern
+
+## 🔧 Runtime infrastructure shipped
+
+- `tools/py/telemetry_analyze.py` (15 pytest) — stdlib aggregation pipeline
+- `tools/py/restricted_play.py` (13 pytest) — Jaffe 2012 multi-policy harness
+- `apps/analytics/index.html` — Observable Plot dashboard CDN ESM
+- Backend telemetry hooks `tutorial_start` + `tutorial_complete` auto-log
+- `apps/play/lobby.html` WCAG 2.1 AA compliant
+- Backend hardcore species variety (1 → 4 distinte)
+
+## Obiettivo prossima fase
+
+- **Preserva approccio**: invoke illuminator agent per ogni nuova feature (non skip)
+- **TKT-M11B-06 playtest live** (userland only, 4 amici 90min, chiude P5 🟢)
+- **P0 residuali agent** (vedi handoff): MCTS smart policy ~4h, SPRT sequential ~2h, objective variety ~8h, Observable Plot funnel D1/D7/D30 ~4h
+- **Nuovi domini agent** se gap (art-direction, audio-design, localization, accessibility specifico)
 
 ## Cosa è già stato fatto (ultimi 3 PR + sessione corrente)
 
@@ -68,12 +101,13 @@
 
 ## Problemi aperti
 
-- **TKT-M11B-06 playtest live** (userland, P0, chiude P5 🟢)
+- **TKT-M11B-06 playtest live** (userland, P0, chiude P5 🟢) — invoke `playtest-analyzer` agent post-playtest per crunchare dati JSONL + dashboard `apps/analytics/index.html`
+- **M14-D pincer follow-up queue** (ADR #1741 ready, ~6h)
 - **M13 P3 Phase B residuo**: balance N=10 sim post XP grant (3-5h)
 - **M13 P6 Phase B residuo**: calibration harness N=10 hardcore 07 + HUD timer Phase B (3-5h)
-- **Sprint V1-V7 residuo UI wire**: onboardingPanel in main.js, reward offer in debriefPanel, pack recommender in charCreation (userland)
-- **V3 Mating/Nido deferred** (~20h post-MVP)
+- **V3 Mating/Nido deferred** (~20h post-MVP) — pattern design ready (`narrative-design-illuminator` + `pcg-level-design-illuminator` already covered Creatures/MHS2/Palworld/DQM/Viva Piñata)
 - **V6 UI TV polish deferred** (~6h post-playtest)
+- **P0 residuali agent illuminator** (vedi handoff doc): MCTS smart policy ~4h, SPRT sequential ~2h, objective variety ~8h, Observable Plot funnel D1/D7/D30 ~4h
 
 ## File / output importanti (sessione corrente)
 
@@ -88,8 +122,10 @@
 
 ## Prossimi 3 passi
 
-1. **Accept + merge PR #1732** (user action, 0 effort) — 4 commit, Sprint 0+1+2 archivio + 2 agent + skill /compact + policy 4-gate DoD. Summary approvabile: `docs/planning/2026-04-24-pr-1732-gamer-summary.md`. Risk 🟢 zero.
-2. **P1 skills install** (userland, ~35 min) — seguendo `docs/guide/claude-code-setup-p1-skills.md`: filesystem MCP + git/github MCP + superpowers plugin + serena semantic retrieval. Ambient Claude Code +30% efficienza.
-3. **TKT-M11B-06 playtest live** (userland, 2-4h con 2-4 amici) — unico bloccante P5 🟢 definitivo. Post-playtest: invoke `playtest-analyzer` agent per crunchare dati.
+1. **Read handoff doc** (`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`) — 90s onboarding alla orchestra agent + workflow validato 6×.
+2. **Pick P0 residual or new domain** — usa illuminator agent invocation in `--mode audit` per scope, poi runtime apply separato.
+3. **TKT-M11B-06 playtest live** (userland, 2-4h con 2-4 amici) — unico bloccante P5 🟢 definitivo. Post-playtest: invoke `playtest-analyzer` agent per crunchare dati JSONL + visualizza in `apps/analytics/index.html`.
 
-**Deferred**: Sprint 3 archivio (~30-60 min: BACKLOG.md + OPEN_DECISIONS.md + decisione master orchestrator), M13 P3 Phase B balance pass, M13 P6 Phase B calibration hardcore 07, Sprint Triangle Strategy M14-A (elevation/facing + terrain chain reactions, ~8h).
+**Deferred**: M13 P3 Phase B balance pass, M13 P6 Phase B calibration hardcore 07, M14-D pincer queue (ADR ready), V3 Mating/Nido (~20h post-MVP, pattern già researched).
+
+**🚨 NON perdere l'approccio illuminator**: ogni nuovo dominio = research-first agent illuminator. Memory salvata in 3 file, vedi handoff doc.

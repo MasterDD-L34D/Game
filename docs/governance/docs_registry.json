@@ -5784,6 +5784,17 @@
       "review_cycle_days": 90
     },
     {
+      "path": "docs/planning/2026-04-25-illuminator-orchestra-handoff.md",
+      "title": "Illuminator Orchestra — Next Session Handoff (preserva approccio)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14
+    },
+    {
       "path": "docs/playtest/2026-04-26-M14-C-iter3-hardcore06.json",
       "title": "Hardcore 06 iter3 calibration output (N=10 elite elev=0)",
       "doc_status": "active",
