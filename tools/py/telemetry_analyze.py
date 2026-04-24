@@ -55,6 +55,9 @@ KNOWN_EVENT_TYPES = frozenset(
         "pack_roll",
         "mbti_projection",
         "session_end",
+        # Tutorial funnel events (server-side auto-log in /session/start + /end):
+        "tutorial_start",
+        "tutorial_complete",
         # M16+ coop events (optional, tolerated):
         "lobby_join",
         "char_create",
@@ -72,6 +75,14 @@ FUNNEL_STAGES = (
     "ability_use",
     "damage_dealt",
     "session_end",
+)
+
+# Tutorial-specific funnel: onboarding drop-off analysis per scenario.
+# Server-side auto-log: tutorial_start on /session/start (scenario matches
+# ^enc_tutorial_\d+), tutorial_complete on /session/end with outcome.
+TUTORIAL_FUNNEL_STAGES = (
+    "tutorial_start",
+    "tutorial_complete",
 )
 
 
@@ -138,6 +149,40 @@ class Aggregates:
                 outcome = str(payload.get("outcome") or "unknown")
                 out[scenario][outcome] += 1
         return out
+
+    def tutorial_funnel(self) -> dict[str, dict]:
+        """Per-scenario tutorial funnel: start → complete + outcome breakdown.
+
+        Uses `tutorial_start` + `tutorial_complete` events (server-side auto-log).
+        Returns per-scenario dict: {started, completed, completion_rate, outcomes}.
+        """
+        by_scenario: dict[str, dict] = defaultdict(
+            lambda: {"started": 0, "completed": 0, "outcomes": Counter()}
+        )
+        # First pass: count starts.
+        for events in self.sessions.values():
+            for ev in events:
+                payload = ev.payload or {}
+                scenario = str(payload.get("scenario_id") or "unknown")
+                if ev.type == "tutorial_start":
+                    by_scenario[scenario]["started"] += 1
+                elif ev.type == "tutorial_complete":
+                    by_scenario[scenario]["completed"] += 1
+                    outcome = str(payload.get("outcome") or "unknown")
+                    by_scenario[scenario]["outcomes"][outcome] += 1
+        # Second pass: compute completion_rate.
+        result: dict[str, dict] = {}
+        for scenario, data in by_scenario.items():
+            started = data["started"] or 0
+            completed = data["completed"] or 0
+            rate = round(100 * completed / started, 1) if started else 0.0
+            result[scenario] = {
+                "started": started,
+                "completed": completed,
+                "completion_rate_pct": rate,
+                "outcomes": dict(data["outcomes"]),
+            }
+        return result
 
     def session_durations_minutes(self) -> list[float]:
         """Duration in minutes between first and last event per session."""
@@ -283,6 +328,27 @@ def format_markdown(agg: Aggregates, *, date_range: str | None = None) -> str:
         lines.append(f"- Min / Max = {min(durations):.2f} / {max(durations):.2f}")
         lines.append("")
 
+    tutorial = agg.tutorial_funnel()
+    if tutorial:
+        lines.append("## Tutorial funnel (onboarding drop-off)")
+        lines.append("")
+        lines.append("Per-scenario: tutorial_start → tutorial_complete + outcome breakdown.")
+        lines.append("")
+        lines.append("| Scenario | Started | Completed | Completion % | Victory | Defeat | Other |")
+        lines.append("| --- | ---: | ---: | ---: | ---: | ---: | ---: |")
+        for scenario, data in sorted(tutorial.items()):
+            started = data.get("started", 0)
+            completed = data.get("completed", 0)
+            rate = data.get("completion_rate_pct", 0.0)
+            outs = data.get("outcomes", {})
+            victory = outs.get("win", 0) + outs.get("victory", 0)
+            defeat = outs.get("wipe", 0) + outs.get("defeat", 0)
+            other = sum(outs.values()) - victory - defeat
+            lines.append(
+                f"| `{scenario}` | {started} | {completed} | {rate:.1f}% | {victory} | {defeat} | {other} |"
+            )
+        lines.append("")
+
     outcomes = agg.scenario_outcomes()
     if outcomes:
         lines.append("## Scenario outcomes")
@@ -327,6 +393,7 @@ def format_json(agg: Aggregates) -> dict:
         "malformed_lines": agg.malformed_lines,
         "type_counts": dict(agg.type_counts),
         "funnel": agg.funnel_counts(),
+        "tutorial_funnel": agg.tutorial_funnel(),
         "durations_min": agg.session_durations_minutes(),
         "scenario_outcomes": {k: dict(v) for k, v in agg.scenario_outcomes().items()},
         "unknown_types": dict(agg.unknown_types),
