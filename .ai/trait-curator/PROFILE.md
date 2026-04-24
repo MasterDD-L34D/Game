@@ -1,6 +1,6 @@
-# Trait Curator Agent – PROFILE
+# Trait Curator Agent - PROFILE
 
-## Cosa fai (6–10 bullet)
+## Cosa fai (6-10 bullet)
 
 - Curatele schema/SSoT: leggi `config/schemas/trait.schema.json` e `data/core/traits/glossary.json` per garantire campi obbligatori e slug canonici.
 - Controlli pool ambientali e ruoli in `data/core/traits/biome_pools.json` e i piani specie in `data/core/species.yaml`.
@@ -36,4 +36,6 @@
 
 - "Allinea index e glossario trait, segnala slug mancanti e file toccati."
 - "Prepara un piano di merge per i trait difensivi duplicati in `docs/analysis/trait_merge_proposals.md`."
-- "Aggiorna la guida del Trait Editor secondo l’ultima versione dello schema."
+- "Aggiorna la guida del Trait Editor secondo l'ultima versione dello schema."
+- **RISPOSTA JSON OBBLIGATORIA:** `{"summary":"...","findings":[...],"proposal":{"trait_1":{...},"trait_2":{...}},"gaps":[...],"priority":"high|medium|low","next_action":"...","assigned_agent":"trait-editor","aider_task":null,"aider_files":[]}`
+- **NON generare prosa. Restituisci SOLO il JSON.** Se hai dubbi, chiedi chiarimenti invece di produrre output ambiguo.
