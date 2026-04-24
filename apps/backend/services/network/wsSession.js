@@ -21,6 +21,11 @@
 //   { type: 'chat'         , payload: { from, text } }                      // bidirectional
 //   { type: 'ping'         , payload: { t } } / { type: 'pong', payload: { t } }
 //   { type: 'error'        , payload: { code, message } }                   // S→C
+//   M15 additions:
+//   { type: 'intent_cancel', payload: null }                                 // C→S (player)
+//   { type: 'phase'        , payload: { phase } }                            // C→S (host only)
+//   { type: 'round_clear'  , payload: null }                                 // C→S (host only)
+//   { type: 'round_ready'  , payload: { round, phase, ready, missing, total, all_ready, ts } } // S→C broadcast
 //
 // NOT in Phase A: persistence, reconnect-backoff client logic, lobby UI.
 // Phase B will layer frontend and deeper campaign integration.
@@ -91,6 +96,13 @@ class Room {
     this.stateVersion = hydrateFromSeed?.stateVersion ?? 0;
     // Intent queue (Phase A: FIFO, host drains on demand)
     this.intents = [];
+    // M15 — Simultaneous planning round state.
+    // player_id → latest intent entry this round. 1 intent per player per round.
+    this.pendingIntents = new Map();
+    // Phase lifecycle: idle|planning|ready|resolving|ended (optional hint, UI-driven)
+    this.phase = 'idle';
+    // Round counter (advances on clearRoundIntents).
+    this.roundIndex = 0;
     this._onMutate = typeof onMutate === 'function' ? onMutate : null;
 
     if (hydrateFromSeed?.players?.length) {
@@ -239,11 +251,76 @@ class Room {
       from,
       payload,
       ts: Date.now(),
+      round: this.roundIndex,
     };
     this.intents.push(entry);
-    // Relay intent directly to host (if connected).
+    // M15 — track latest intent per player for ready-set broadcast.
+    this.pendingIntents.set(from, entry);
+    // Relay intent to host (drain point).
     this.sendTo(this.hostId, { type: 'intent', payload: entry });
+    // Broadcast ready-set snapshot to everyone (players + host).
+    this.broadcastRoundReady();
     return entry;
+  }
+
+  /**
+   * M15 — Broadcast { ready:[player_id], missing:[player_id] } excluding host.
+   * Host is arbiter, not a participant. Called after each pushIntent and
+   * on explicit round lifecycle transitions.
+   */
+  broadcastRoundReady() {
+    const participants = Array.from(this.players.values()).filter(
+      (p) => p.id !== this.hostId && p.role !== 'host',
+    );
+    const ready = [];
+    const missing = [];
+    for (const p of participants) {
+      if (this.pendingIntents.has(p.id)) ready.push(p.id);
+      else missing.push(p.id);
+    }
+    this.broadcast({
+      type: 'round_ready',
+      payload: {
+        round: this.roundIndex,
+        phase: this.phase,
+        ready,
+        missing,
+        total: participants.length,
+        all_ready: missing.length === 0 && participants.length > 0,
+        ts: Date.now(),
+      },
+    });
+  }
+
+  /**
+   * M15 — Remove an intent (player cancels before commit).
+   * Returns true if removed.
+   */
+  cancelIntent(playerId) {
+    if (!this.pendingIntents.has(playerId)) return false;
+    this.pendingIntents.delete(playerId);
+    this.broadcastRoundReady();
+    return true;
+  }
+
+  /**
+   * M15 — Clear intents + advance round counter.
+   * Called by host after commit/resolve complete.
+   */
+  clearRoundIntents() {
+    this.pendingIntents.clear();
+    this.roundIndex += 1;
+    this.phase = 'planning';
+    this.broadcastRoundReady();
+  }
+
+  /**
+   * M15 — Update phase hint + broadcast. Host-only in practice.
+   */
+  setPhase(phase) {
+    if (typeof phase !== 'string') return;
+    this.phase = phase;
+    this.broadcastRoundReady();
   }
 
   /**
@@ -616,7 +693,49 @@ function createWsServer({ lobby, server = null, port = null, path = '/ws' } = {}
             socket.send(JSON.stringify({ type: 'error', payload: { code: 'host_cannot_intent' } }));
             return;
           }
+          // M15 — reject if phase != planning OR player already committed.
+          if (room.phase && room.phase !== 'planning' && room.phase !== 'idle') {
+            socket.send(
+              JSON.stringify({
+                type: 'error',
+                payload: { code: 'phase_locked', phase: room.phase },
+              }),
+            );
+            return;
+          }
           room.pushIntent({ from: playerId, payload: msg.payload ?? null });
+          break;
+
+        case 'intent_cancel':
+          if (player.role === 'host') return;
+          if (room.phase === 'resolving' || room.phase === 'ready') {
+            socket.send(
+              JSON.stringify({
+                type: 'error',
+                payload: { code: 'phase_locked', phase: room.phase },
+              }),
+            );
+            return;
+          }
+          room.cancelIntent(playerId);
+          break;
+
+        case 'phase':
+          // Host-only: set phase hint (planning|ready|resolving|ended).
+          if (player.role !== 'host') {
+            socket.send(JSON.stringify({ type: 'error', payload: { code: 'not_host' } }));
+            return;
+          }
+          room.setPhase(msg.payload?.phase);
+          break;
+
+        case 'round_clear':
+          // Host-only: end round, clear intents, advance counter.
+          if (player.role !== 'host') {
+            socket.send(JSON.stringify({ type: 'error', payload: { code: 'not_host' } }));
+            return;
+          }
+          room.clearRoundIntents();
           break;
 
         case 'chat': {

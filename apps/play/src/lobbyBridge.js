@@ -28,6 +28,8 @@ import {
   renderHostShareHint,
   dismissHostShareHint,
 } from './lobbyOnboarding.js';
+import { renderPhoneOverlayV2, wirePhoneComposerV2 } from './phoneComposerV2.js';
+import './phoneComposerV2.css';
 
 function createBanner(session, onLeave) {
   let banner = document.getElementById('lobby-banner');
@@ -274,15 +276,20 @@ function updateHostRoster(bridge) {
     if (b.role === 'host' && a.role !== 'host') return 1;
     return (a.joinedAt || 0) - (b.joinedAt || 0);
   });
+  const readySet = new Set(bridge._readySet || []);
   list.innerHTML = entries
     .map((p) => {
       const state = p.connected === false ? 'disconnected' : p.connected ? 'connected' : '';
       const roleCls = p.role === 'host' ? 'host' : 'player';
+      const isReady = readySet.has(p.id);
+      const readyCls = p.role === 'host' ? '' : isReady ? 'intent-ready' : 'intent-pending';
+      const readyIcon = p.role === 'host' ? '' : isReady ? '✅' : '💭';
       return `
-        <li class="${state}">
+        <li class="${state} ${readyCls}">
           <span class="dot"></span>
           <span class="name">${escapeHtml(p.name || p.id || '?')}</span>
           <span class="role ${roleCls}">${p.role || 'player'}</span>
+          <span class="ready">${readyIcon}</span>
         </li>
       `;
     })
@@ -398,6 +405,9 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     _lastUnits: [],
     _campaignSummary: null,
     _playerIntentListeners: new Set(),
+    _readySet: [],
+    _missingSet: [],
+    _currentPhase: 'idle',
     // TKT-M11B-04 — live roster tracking (Map<id, { name, role, connected, joinedAt }>).
     _players: new Map(),
   };
@@ -496,6 +506,13 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     bridge._lastState = payload;
     bridge._lastStateVersion = version;
     if (bridge.overlay) updateSpectatorState(bridge.overlay, version, payload, bridge);
+  });
+  // M15 — round ready broadcast: host roster shows ✅/💭 ticks.
+  client.on('round_ready', (payload) => {
+    bridge._readySet = Array.isArray(payload?.ready) ? payload.ready : [];
+    bridge._missingSet = Array.isArray(payload?.missing) ? payload.missing : [];
+    bridge._currentPhase = payload?.phase || bridge._currentPhase;
+    if (bridge.isHost) updateHostRoster(bridge);
   });
   // TKT-M11B-02 — host listens for player intents and fans them out to
   // registered listeners (main.js wires this to api.declareIntent).
@@ -599,10 +616,34 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
   });
 
   if (bridge.isPlayer) {
-    bridge.overlay = renderSpectatorOverlay(session);
-    wireComposer(bridge.overlay, bridge);
-    updateSpectatorState(bridge.overlay, 0, bridge._lastState ?? {}, bridge);
+    // M15 UI v2 — card PG + action tiles + party roster ready + chat.
+    bridge.session = session;
+    bridge.sendIntent = (payload) => client.sendIntent(payload);
+    bridge.cancelIntent = () => client.cancelIntent();
+    bridge.sendChat = (text) => client.sendChat(text);
+    bridge.overlay = renderPhoneOverlayV2(session);
+    const phv2 = wirePhoneComposerV2(bridge.overlay, bridge);
+    bridge._phv2Api = phv2;
     renderPlayerOnboarding();
+
+    client.on('state', ({ payload }) => {
+      if (phv2?.onState) phv2.onState(payload);
+    });
+    client.on('round_ready', (payload) => {
+      if (phv2?.onRoundReady) phv2.onRoundReady(payload);
+    });
+    client.on('chat', (payload) => {
+      if (phv2?.onChat) phv2.onChat(payload);
+    });
+    // keep party roster sync
+    const syncPartyToPhv2 = () => {
+      if (!phv2?.onPlayersChanged) return;
+      phv2.onPlayersChanged(Array.from(bridge._players.values()));
+    };
+    client.on('hello', syncPartyToPhv2);
+    client.on('player_joined', syncPartyToPhv2);
+    client.on('player_connected', syncPartyToPhv2);
+    client.on('player_disconnected', syncPartyToPhv2);
   }
   if (bridge.isHost) {
     // TKT-M11B-04 — roster panel bottom-left showing who's in the room.

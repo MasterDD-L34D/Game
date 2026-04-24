@@ -41,6 +41,8 @@ const EVENT_TYPES = [
   'close',
   'reconnect',
   'reconnect_failed',
+  // M15 additions
+  'round_ready',
 ];
 
 function resolveDefaultWsImpl() {
@@ -243,6 +245,9 @@ export class LobbyClient {
       case 'chat':
         this._emit('chat', msg.payload || {});
         return;
+      case 'round_ready':
+        this._emit('round_ready', msg.payload || {});
+        return;
       case 'room_closed':
         this._emit('room_closed', msg.payload || {});
         return;
@@ -339,6 +344,30 @@ export class LobbyClient {
   sendChat(text) {
     if (typeof text !== 'string' || !text.trim()) return false;
     return this._send({ type: 'chat', payload: { text: text.slice(0, 500) } });
+  }
+
+  /** M15 — cancel own pending intent before round commit. Non-host only. */
+  cancelIntent() {
+    if (this.role === 'host') return false;
+    return this._send({ type: 'intent_cancel', payload: null });
+  }
+
+  /** M15 — host advances or forces phase (planning|ready|resolving|ended). */
+  sendPhase(phase) {
+    if (this.role !== 'host') {
+      this._emit('error', { code: 'not_host' });
+      return false;
+    }
+    return this._send({ type: 'phase', payload: { phase } });
+  }
+
+  /** M15 — host clears round intents + advances round counter. */
+  sendRoundClear() {
+    if (this.role !== 'host') {
+      this._emit('error', { code: 'not_host' });
+      return false;
+    }
+    return this._send({ type: 'round_clear', payload: null });
   }
 
   ping(data = {}) {
