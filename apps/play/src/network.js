@@ -48,6 +48,8 @@ const EVENT_TYPES = [
   'character_ready_list',
   // M18 additions
   'world_tally',
+  // M19 additions
+  'debrief_ready_list',
 ];
 
 function resolveDefaultWsImpl() {
@@ -261,6 +263,9 @@ export class LobbyClient {
         return;
       case 'world_tally':
         this._emit('world_tally', msg.payload || {});
+        return;
+      case 'debrief_ready_list':
+        this._emit('debrief_ready_list', msg.payload || {});
         return;
       case 'room_closed':
         this._emit('room_closed', msg.payload || {});

@@ -1,18 +1,22 @@
-// M17/M18 — Phase coordinator: switch phone overlay based on coop phase.
+// M17/M18/M19 — Phase coordinator: switch phone overlay based on coop phase.
 // Phases: lobby | character_creation | world_setup | combat | debrief | ended.
 
 import { renderCharacterCreation, wireCharacterCreation } from './characterCreation.js';
 import './characterCreation.css';
 import { renderWorldSetup, wireWorldSetup } from './worldSetup.js';
 import './worldSetup.css';
+import { renderDebriefPanel, wireDebriefPanel } from './debriefPanel.js';
+import './debriefPanel.css';
 
 export function createPhaseCoordinator(bridge) {
   if (!bridge) return null;
   const state = {
     currentPhase: null,
+    lastWorldState: null,
     api: {
       characterCreation: null,
       worldSetup: null,
+      debrief: null,
     },
   };
 
@@ -32,11 +36,21 @@ export function createPhaseCoordinator(bridge) {
     return api;
   }
 
+  function ensureDebrief() {
+    if (state.api.debrief) return state.api.debrief;
+    const overlay = renderDebriefPanel();
+    const api = wireDebriefPanel(overlay, bridge);
+    state.api.debrief = api;
+    return api;
+  }
+
   function hideAllPhaseOverlays() {
     const cc = document.getElementById('char-creation-overlay');
     if (cc) cc.classList.add('cc-hidden');
     const ws = document.getElementById('world-setup-overlay');
     if (ws) ws.classList.add('ws-hidden');
+    const db = document.getElementById('debrief-overlay');
+    if (db) db.classList.add('db-hidden');
     const phv2 = document.getElementById('phone-overlay-v2');
     if (phv2) phv2.style.display = 'none';
   }
@@ -64,10 +78,13 @@ export function createPhaseCoordinator(bridge) {
         showCombatComposer();
         hideWaitingOverlay();
         break;
-      case 'debrief':
-        // MVP M18: show waiting card; M19 replaces with debrief UI.
-        showWaitingOverlay('🏁 Debrief — in attesa scelta');
+      case 'debrief': {
+        const dbApi = ensureDebrief();
+        dbApi.reset();
+        if (state.lastWorldState) dbApi.setState(state.lastWorldState, null);
+        dbApi.show();
         break;
+      }
       case 'ended':
         showWaitingOverlay('🏁 Partita finita — grazie per aver giocato');
         break;
@@ -108,6 +125,14 @@ export function createPhaseCoordinator(bridge) {
     }
   }
 
+  function onDebriefReadyList(payload) {
+    if (state.api.debrief) {
+      const readyIds = (payload?.ready_list || []).filter((e) => e.ready).map((e) => e.player_id);
+      state.api.debrief.setReadyList(readyIds);
+      state.api.debrief.setState(state.lastWorldState, payload?.outcome);
+    }
+  }
+
   function onPhaseChange(payload) {
     applyPhase(payload?.phase || 'lobby');
     if (state.api.worldSetup?.onPhaseChange) {
@@ -119,14 +144,26 @@ export function createPhaseCoordinator(bridge) {
     if (state.api.worldSetup?.onPlayersChanged) {
       state.api.worldSetup.onPlayersChanged(players);
     }
+    if (state.api.debrief?.setParty) {
+      state.api.debrief.setParty(players);
+    }
+  }
+
+  function onWorldState(worldState) {
+    state.lastWorldState = worldState;
+    if (state.currentPhase === 'debrief' && state.api.debrief) {
+      state.api.debrief.setState(worldState, null);
+    }
   }
 
   return {
     applyPhase,
     onCharacterReadyList,
     onWorldTally,
+    onDebriefReadyList,
     onPhaseChange,
     onPlayersChanged,
+    onWorldState,
     get phase() {
       return state.currentPhase;
     },
