@@ -37,6 +37,8 @@
   - 5 research docs scritti (2062 righe totali): skills shopping list, archivio inventory, agent roster, tiktok extraction, triangle-strategy transfer plan
   - **Sprint 0 archivio** (root): PROJECT_BRIEF.md, COMPACT_CONTEXT.md (questo), DECISIONS_LOG.md
   - **Sprint 1 archivio** (root + `.claude/`): MODEL_ROUTING.md, TASK_PROTOCOL.md, SAFE_CHANGES.md, 4 prompt template in `.claude/prompts/` (02_game_design, 04_research_bridge, 05_claude_code_brief, 09_first_principles_checklist)
+  - **Sprint 2 archivio** (root + docs): LIBRARY.md (reference index), PROMPT_LIBRARY.md (entrypoint), docs/reports/2026-04-24-repo-autonomy-readiness-audit.md (score 21.5/24 = semi-autonomia reale), docs/guide/claude-code-setup-p1-skills.md (install guide P1), docs/planning/2026-04-24-pr-1732-gamer-summary.md (patch-notes per user approval)
+  - 3 nuove memory (2026-04-24 sera): project_archivio_adoption_status (stato adoption), feedback_4gate_dod_application_pattern (template applicativo), MEMORY.md index esteso
   - 2 agent P0 creati + smoke-tested: `.claude/agents/playtest-analyzer.md` (USABLE), `.claude/agents/coop-phase-validator.md` (USABLE post-fix path rewrite)
   - 1 skill creata: `.claude/skills/compact.md`
   - 4 memory saved: session-timing, smoke-test-policy (4-gate DoD), user-decision-shortcuts, archivio-reference
@@ -84,6 +86,8 @@
 
 ## Prossimi 3 passi
 
-1. **TKT-M11B-06 playtest live** (userland, 2-4h sessione con 2-4 amici) — unico bloccante P5 🟢 definitivo
-2. **M13 P3 Phase B balance pass N=10** (autonomous, ~3h) + **M13 P6 Phase B calibration N=10 hardcore 07** (autonomous, ~2h userland run)
-3. **Sprint Triangle Strategy slice M14-A** (autonomous, ~8h): Mechanic 3 elevation/facing + Mechanic 4 terrain chain reactions (focus pilastro 1 Tattica, vedi `docs/research/triangle-strategy-transfer-plan.md` sezione "Suggested rollout")
+1. **Accept + merge PR #1732** (user action, 0 effort) — 4 commit, Sprint 0+1+2 archivio + 2 agent + skill /compact + policy 4-gate DoD. Summary approvabile: `docs/planning/2026-04-24-pr-1732-gamer-summary.md`. Risk 🟢 zero.
+2. **P1 skills install** (userland, ~35 min) — seguendo `docs/guide/claude-code-setup-p1-skills.md`: filesystem MCP + git/github MCP + superpowers plugin + serena semantic retrieval. Ambient Claude Code +30% efficienza.
+3. **TKT-M11B-06 playtest live** (userland, 2-4h con 2-4 amici) — unico bloccante P5 🟢 definitivo. Post-playtest: invoke `playtest-analyzer` agent per crunchare dati.
+
+**Deferred**: Sprint 3 archivio (~30-60 min: BACKLOG.md + OPEN_DECISIONS.md + decisione master orchestrator), M13 P3 Phase B balance pass, M13 P6 Phase B calibration hardcore 07, Sprint Triangle Strategy M14-A (elevation/facing + terrain chain reactions, ~8h).
