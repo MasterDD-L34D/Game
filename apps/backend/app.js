@@ -23,6 +23,8 @@ const { createFeedbackRouter } = require('./routes/feedback');
 const { createPartyRouter } = require('./routes/party');
 const { createCampaignRouter } = require('./routes/campaign');
 const { createLobbyRouter } = require('./routes/lobby');
+const { createCoopRouter } = require('./routes/coop');
+const { createCoopStore } = require('./services/coop/coopStore');
 const { LobbyService } = require('./services/network/wsSession');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
@@ -721,6 +723,9 @@ function createApp(options = {}) {
   }
   const lobby = lobbyOptions.service || new LobbyService(lobbyOptions);
   app.use('/api', createLobbyRouter({ lobby }));
+  // M17 — Co-op run orchestrator (character creation + world setup + debrief).
+  const coopStore = createCoopStore({ lobby });
+  app.use('/api', createCoopRouter({ lobby, coopStore }));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {

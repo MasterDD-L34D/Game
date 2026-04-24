@@ -277,17 +277,38 @@ function updateHostRoster(bridge) {
     return (a.joinedAt || 0) - (b.joinedAt || 0);
   });
   const readySet = new Set(bridge._readySet || []);
+  // M17 — character creation roster overlay: per-player pg form+species.
+  const charByPlayer = new Map();
+  for (const ch of bridge._characterReadyList || []) {
+    if (ch?.player_id) charByPlayer.set(ch.player_id, ch);
+  }
+  const inCharCreation = bridge._currentPhase === 'character_creation';
   list.innerHTML = entries
     .map((p) => {
       const state = p.connected === false ? 'disconnected' : p.connected ? 'connected' : '';
       const roleCls = p.role === 'host' ? 'host' : 'player';
-      const isReady = readySet.has(p.id);
-      const readyCls = p.role === 'host' ? '' : isReady ? 'intent-ready' : 'intent-pending';
-      const readyIcon = p.role === 'host' ? '' : isReady ? '✅' : '💭';
+      let readyCls = '';
+      let readyIcon = '';
+      let extraLabel = '';
+      if (p.role !== 'host') {
+        if (inCharCreation) {
+          const ch = charByPlayer.get(p.id);
+          const charReady = Boolean(ch?.ready);
+          readyCls = charReady ? 'intent-ready' : 'intent-pending';
+          readyIcon = charReady ? '🎭' : '💭';
+          if (charReady && ch) {
+            extraLabel = ` <span class="char-label">${escapeHtml(ch.name || '—')}${ch.form_id ? ` · ${escapeHtml(ch.form_id)}` : ''}</span>`;
+          }
+        } else {
+          const isReady = readySet.has(p.id);
+          readyCls = isReady ? 'intent-ready' : 'intent-pending';
+          readyIcon = isReady ? '✅' : '💭';
+        }
+      }
       return `
         <li class="${state} ${readyCls}">
           <span class="dot"></span>
-          <span class="name">${escapeHtml(p.name || p.id || '?')}</span>
+          <span class="name">${escapeHtml(p.name || p.id || '?')}${extraLabel}</span>
           <span class="role ${roleCls}">${p.role || 'player'}</span>
           <span class="ready">${readyIcon}</span>
         </li>
@@ -408,6 +429,7 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     _readySet: [],
     _missingSet: [],
     _currentPhase: 'idle',
+    _characterReadyList: [], // M17 character creation roster
     // TKT-M11B-04 — live roster tracking (Map<id, { name, role, connected, joinedAt }>).
     _players: new Map(),
   };
@@ -512,6 +534,15 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     bridge._readySet = Array.isArray(payload?.ready) ? payload.ready : [];
     bridge._missingSet = Array.isArray(payload?.missing) ? payload.missing : [];
     bridge._currentPhase = payload?.phase || bridge._currentPhase;
+    if (bridge.isHost) updateHostRoster(bridge);
+  });
+  // M17 — character creation phase: roster shows PG + form per player.
+  client.on('phase_change', (payload) => {
+    bridge._currentPhase = payload?.phase || bridge._currentPhase;
+    if (bridge.isHost) updateHostRoster(bridge);
+  });
+  client.on('character_ready_list', (list) => {
+    bridge._characterReadyList = Array.isArray(list) ? list : [];
     if (bridge.isHost) updateHostRoster(bridge);
   });
   // TKT-M11B-02 — host listens for player intents and fans them out to
@@ -624,6 +655,10 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     bridge.overlay = renderPhoneOverlayV2(session);
     const phv2 = wirePhoneComposerV2(bridge.overlay, bridge);
     bridge._phv2Api = phv2;
+    // M17 — phase coordinator switches overlay (character creation / world / combat / debrief)
+    const coordinator = createPhaseCoordinator(bridge);
+    bridge._phaseCoordinator = coordinator;
+    coordinator.applyPhase('lobby');
     renderPlayerOnboarding();
 
     client.on('state', ({ payload }) => {
@@ -634,6 +669,13 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     });
     client.on('chat', (payload) => {
       if (phv2?.onChat) phv2.onChat(payload);
+    });
+    // M17 — phase + character coop broadcasts from server.
+    client.on('phase_change', (payload) => {
+      coordinator.applyPhase(payload?.phase || 'lobby');
+    });
+    client.on('character_ready_list', (list) => {
+      coordinator.onCharacterReadyList(list);
     });
     // keep party roster sync
     const syncPartyToPhv2 = () => {
