@@ -178,6 +178,20 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-26 — M16-M20 co-op MVP full loop shipped)
+
+**Sessione 2026-04-26**: M16-M20 autonomous stack (PR #1721/#1722/#1723/#1724/#1725). Co-op Jackbox full loop shipped dopo first-principles pass (coop-truths + mvp-spec + migration-plan).
+
+**Nuova state machine co-op**: `lobby → character_creation → world_setup → combat → debrief → (loop|ended)`. Ogni fase ha phone UI overlay dedicato + TV host roster sync.
+
+**Tests nuovi**: 26 (coopOrchestrator + coopRoutes + coopWorldVote + coopDebrief) + 15 regression = **41/41 verde**.
+
+**Pilastro 5 co-op** bumpato 🟡 → **🟢 candidato** (residuo: playtest live amici).
+
+Handoff: [`docs/process/sprint-2026-04-26-M16-M20-close.md`](docs/process/sprint-2026-04-26-M16-M20-close.md) + [`docs/playtest/2026-04-26-coop-full-loop-playbook.md`](docs/playtest/2026-04-26-coop-full-loop-playbook.md).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-23)
 
 > Sezione aggiunta post-sprint 019. Aggiorna a ogni sessione significativa.
