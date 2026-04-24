@@ -13,6 +13,7 @@ pytest.importorskip("tools.py.telemetry_analyze", reason="PYTHONPATH=tools/py re
 from tools.py.telemetry_analyze import (  # noqa: E402
     FUNNEL_STAGES,
     KNOWN_EVENT_TYPES,
+    TUTORIAL_FUNNEL_STAGES,
     Aggregates,
     TelemetryEvent,
     aggregate,
@@ -218,3 +219,98 @@ def test_known_event_types_nonempty():
     assert "session_start" in KNOWN_EVENT_TYPES
     assert "session_end" in KNOWN_EVENT_TYPES
     assert len(KNOWN_EVENT_TYPES) >= 10
+
+
+def test_tutorial_funnel_schema_recognized():
+    """tutorial_start + tutorial_complete must be in KNOWN_EVENT_TYPES."""
+    assert "tutorial_start" in KNOWN_EVENT_TYPES
+    assert "tutorial_complete" in KNOWN_EVENT_TYPES
+    assert TUTORIAL_FUNNEL_STAGES == ("tutorial_start", "tutorial_complete")
+
+
+def test_tutorial_funnel_basic(tmp_path: Path):
+    """tutorial_funnel aggregates per scenario with started/completed/rate/outcomes."""
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    _write_jsonl(
+        logs / "telemetry_20260426.jsonl",
+        [
+            # Scenario enc_tutorial_01: 3 start, 2 complete (1 victory + 1 defeat)
+            {"ts": "2026-04-26T10:00:00Z", "session_id": "s1", "type": "tutorial_start",
+             "payload": {"scenario_id": "enc_tutorial_01", "party_size": 2}},
+            {"ts": "2026-04-26T10:30:00Z", "session_id": "s1", "type": "tutorial_complete",
+             "payload": {"scenario_id": "enc_tutorial_01", "outcome": "win"}},
+            {"ts": "2026-04-26T11:00:00Z", "session_id": "s2", "type": "tutorial_start",
+             "payload": {"scenario_id": "enc_tutorial_01", "party_size": 2}},
+            {"ts": "2026-04-26T11:30:00Z", "session_id": "s2", "type": "tutorial_complete",
+             "payload": {"scenario_id": "enc_tutorial_01", "outcome": "wipe"}},
+            {"ts": "2026-04-26T12:00:00Z", "session_id": "s3", "type": "tutorial_start",
+             "payload": {"scenario_id": "enc_tutorial_01", "party_size": 2}},
+            # s3 abandoned (no complete event) — drop-off signal
+            # Scenario enc_tutorial_02: 1 start, 0 complete (100% drop-off)
+            {"ts": "2026-04-26T13:00:00Z", "session_id": "s4", "type": "tutorial_start",
+             "payload": {"scenario_id": "enc_tutorial_02"}},
+        ],
+    )
+    agg = aggregate(read_events(logs))
+    funnel = agg.tutorial_funnel()
+    assert "enc_tutorial_01" in funnel
+    assert funnel["enc_tutorial_01"]["started"] == 3
+    assert funnel["enc_tutorial_01"]["completed"] == 2
+    assert funnel["enc_tutorial_01"]["completion_rate_pct"] == pytest.approx(66.7, rel=0.01)
+    assert funnel["enc_tutorial_01"]["outcomes"]["win"] == 1
+    assert funnel["enc_tutorial_01"]["outcomes"]["wipe"] == 1
+    # tutorial_02 abandoned
+    assert funnel["enc_tutorial_02"]["started"] == 1
+    assert funnel["enc_tutorial_02"]["completed"] == 0
+    assert funnel["enc_tutorial_02"]["completion_rate_pct"] == 0.0
+
+
+def test_tutorial_funnel_empty_returns_empty_dict(tmp_path: Path):
+    """No tutorial events → empty funnel dict."""
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    _write_jsonl(
+        logs / "telemetry_20260426.jsonl",
+        [{"ts": "2026-04-26T10:00:00Z", "session_id": "s1", "type": "session_start"}],
+    )
+    agg = aggregate(read_events(logs))
+    funnel = agg.tutorial_funnel()
+    assert funnel == {}
+
+
+def test_format_markdown_includes_tutorial_funnel(tmp_path: Path):
+    """Markdown report emits 'Tutorial funnel' section when data present."""
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    _write_jsonl(
+        logs / "telemetry_20260426.jsonl",
+        [
+            {"ts": "2026-04-26T10:00:00Z", "session_id": "s1", "type": "tutorial_start",
+             "payload": {"scenario_id": "enc_tutorial_01"}},
+            {"ts": "2026-04-26T10:30:00Z", "session_id": "s1", "type": "tutorial_complete",
+             "payload": {"scenario_id": "enc_tutorial_01", "outcome": "win"}},
+        ],
+    )
+    agg = aggregate(read_events(logs))
+    md = format_markdown(agg)
+    assert "Tutorial funnel" in md
+    assert "enc_tutorial_01" in md
+    assert "Completion %" in md
+
+
+def test_format_json_includes_tutorial_funnel(tmp_path: Path):
+    """JSON summary emits tutorial_funnel key."""
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    _write_jsonl(
+        logs / "telemetry_20260426.jsonl",
+        [
+            {"ts": "2026-04-26T10:00:00Z", "session_id": "s1", "type": "tutorial_start",
+             "payload": {"scenario_id": "enc_tutorial_01"}},
+        ],
+    )
+    agg = aggregate(read_events(logs))
+    data = format_json(agg)
+    assert "tutorial_funnel" in data
+    assert "enc_tutorial_01" in data["tutorial_funnel"]

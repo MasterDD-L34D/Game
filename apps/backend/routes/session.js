@@ -165,6 +165,35 @@ function createSessionRouter(options = {}) {
   const sessions = new Map();
   let activeSessionId = null;
 
+  // Telemetry helper — append JSONL entry to logs/telemetry_YYYYMMDD.jsonl.
+  // Same schema as POST /telemetry (ts, session_id, player_id, type, payload)
+  // but fired server-side for auto-instrumented events (tutorial_start/complete
+  // funnel — ref telemetry-viz-illuminator agent P0 #2).
+  async function appendTelemetryEvent({ session_id, player_id, type, payload }) {
+    try {
+      const now = new Date();
+      const yyyymmdd = now.toISOString().slice(0, 10).replace(/-/g, '');
+      const telemetryPath = path.join(logsDir, `telemetry_${yyyymmdd}.jsonl`);
+      const entry = {
+        ts: now.toISOString(),
+        session_id: session_id || null,
+        player_id: player_id || null,
+        type: type || 'unknown',
+        payload: payload ?? null,
+      };
+      await fs.mkdir(logsDir, { recursive: true });
+      await fs.appendFile(telemetryPath, JSON.stringify(entry) + '\n', 'utf8');
+    } catch {
+      // Non-blocking telemetry — never crash session on write failure.
+    }
+  }
+
+  // Pattern matcher per tutorial scenario IDs (funnel analysis input).
+  const TUTORIAL_SCENARIO_RE = /^enc_tutorial_\d+/;
+  function isTutorialScenario(scenarioId) {
+    return typeof scenarioId === 'string' && TUTORIAL_SCENARIO_RE.test(scenarioId);
+  }
+
   // V5 SG lifecycle helper: reset per-turn earn counter su tutte le unit vive.
   // Invocato dopo ogni session.turn += 1 (4 sites: advanceThroughAiTurns,
   // /action early-end fallback, sessionRoundBridge round flow x2).
@@ -939,6 +968,20 @@ function createSessionRouter(options = {}) {
       activeSessionId = sessionId;
       await fs.mkdir(logsDir, { recursive: true });
       await fs.writeFile(logFilePath, '[]\n', 'utf8');
+      // Funnel telemetry auto-log (agent telemetry-viz-illuminator P0 #2).
+      // Tutorial session_start → tutorial_start event (non-blocking).
+      if (isTutorialScenario(scenarioId)) {
+        appendTelemetryEvent({
+          session_id: sessionId,
+          player_id: null,
+          type: 'tutorial_start',
+          payload: {
+            scenario_id: scenarioId,
+            encounter_class: encounterClassUsed || 'standard',
+            party_size: units.filter((u) => u.controlled_by === 'player').length,
+          },
+        }).catch(() => {});
+      }
       await appendEvent(session, {
         action_type: 'session_start',
         turn: 0,
@@ -1713,6 +1756,22 @@ function createSessionRouter(options = {}) {
         vc_ennea: vcSnapshot?.ennea ?? null,
         automatic: true,
       });
+      // Funnel telemetry auto-log (agent telemetry-viz-illuminator P0 #2).
+      // Tutorial session_end → tutorial_complete event con outcome (non-blocking).
+      if (isTutorialScenario(session.scenario_id)) {
+        appendTelemetryEvent({
+          session_id: session.session_id,
+          player_id: null,
+          type: 'tutorial_complete',
+          payload: {
+            scenario_id: session.scenario_id,
+            outcome,
+            turns: session.turn,
+            player_alive: playerAlive,
+            sistema_alive: sistemaAlive,
+          },
+        }).catch(() => {});
+      }
       await persistEvents(session);
       const eventsCount = session.events.length;
       const logFile = session.logFilePath;
