@@ -78,10 +78,21 @@ function buildHardcoreUnits06() {
     { id: 'p_support_1', job: 'skirmisher', pos: [1, 1], hp: 11, mod: 3, dc: 13 },
     { id: 'p_support_2', job: 'skirmisher', pos: [1, 5], hp: 11, mod: 3, dc: 13 },
   ];
+  // pcg-level-design-illuminator P0 emergence fix: species variety.
+  // Pre: tutti i 8 player = `dune_stalker` (emergence 🔴 LOW).
+  // Post: species-job pairing canonica → 3+ specie distinte in composition.
+  // Ref: docs/qa/2026-04-26-pcg-level-design-illuminator-smoke.md
+  const SPECIES_BY_JOB = {
+    skirmisher: 'dune_stalker', // arid/agile baseline
+    vanguard: 'umbroid_lurker', // shadow/tanky archetype
+    ranger: 'echo_seer', // psionic scout
+    warden: 'mud_sentinel', // defensive support
+  };
   for (const pl of playerLayouts) {
+    const species = SPECIES_BY_JOB[pl.job] || 'dune_stalker';
     players.push({
       id: pl.id,
-      species: 'dune_stalker',
+      species,
       job: pl.job,
       traits: pl.job === 'vanguard' ? ['pelle_elastomera'] : ['zampe_a_molla'],
       hp: pl.hp,
@@ -318,6 +329,13 @@ const HARDCORE_SCENARIO_07_POD_RUSH = {
 };
 
 function buildHardcoreUnits07() {
+  // pcg-level-design-illuminator P0 emergence fix: species variety (4 distinti).
+  const SPECIES_BY_JOB = {
+    skirmisher: 'dune_stalker',
+    vanguard: 'umbroid_lurker',
+    ranger: 'echo_seer',
+    warden: 'mud_sentinel',
+  };
   const players = [
     { id: 'p_scout_1', job: 'skirmisher', pos: [1, 3], hp: 10, mod: 3, dc: 12 },
     { id: 'p_scout_2', job: 'ranger', pos: [1, 6], hp: 10, mod: 3, dc: 12 },
@@ -325,7 +343,7 @@ function buildHardcoreUnits07() {
     { id: 'p_support_1', job: 'warden', pos: [2, 5], hp: 11, mod: 2, dc: 13 },
   ].map((pl) => ({
     id: pl.id,
-    species: 'dune_stalker',
+    species: SPECIES_BY_JOB[pl.job] || 'dune_stalker',
     job: pl.job,
     traits: pl.job === 'vanguard' ? ['pelle_elastomera'] : ['zampe_a_molla'],
     hp: pl.hp,
