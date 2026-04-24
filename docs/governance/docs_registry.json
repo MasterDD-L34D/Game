@@ -2178,6 +2178,19 @@
       "track": "new"
     },
     {
+      "path": "docs/balance/2026-04-25-pi-shop-monte-carlo.md",
+      "title": "PI Shop Monte Carlo — N=1000",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/balance/tutorial-tuning-iter-2026-04-17.md",
       "title": "Tutorial Iter Tuning Pass — 2026-04-17",
       "doc_status": "active",

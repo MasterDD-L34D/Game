@@ -190,16 +190,18 @@ Identificati **5 gap** tramite cross-walk source ↔ sink. Severity: 🔴 = pinc
   - **C**: stub SG starter pack (+1 SG initial in tutorial).
 - **Severity 🟡**: only impatta first 1-2 encounter; salta a 🟢 in late game.
 
-### 🟡 Gap 4 — `PI shop` budget vs cost-curve unstudied
+### 🟢 Gap 4 — `PI shop` budget vs cost-curve **(closed via N=1000 sim)**
 
 - **Budget**: 7 (baseline) · 9 (veteran) · 11 (elite). Costi: 1-10 PI.
 - **Combinazione 7-PI baseline**: max 2-3 item (es. trait_T1=3 + cap_pt=2 + starter_bioma=1 = 6 PI; trait_T2=6 + starter_bioma=1 = 7 PI).
-- **Effetto**: scelta player vincolata, ma costo-totale non simulato N=1000 per bilanciamento. Risk: alcuni pack-combo dominanti (es. trait_T2 baseline) o irraggiungibili.
-- **Mitigazione**:
-  - **A**: Monte Carlo Python sim 1000 random rolls + spend optimization → distribuzione actual purchases.
-  - **B**: telemetry hook in `packRoller.js` per log rolls e captured purchases.
-  - **C**: revisione costi-curva in playtest live.
-- **Severity 🟡**: non rompe gameplay ma può creare boring optimum strategies (Monopoly trap).
+- **Verdict da Monte Carlo N=1000** ([report](2026-04-25-pi-shop-monte-carlo.md)):
+  - `cheapest`: 4.38 items avg, **0% stockpile** (sempre full-spend)
+  - `power`: 2.0 items avg, **0% stockpile** (big-ticket trait_T2/T3 priority)
+  - `random`: 2.96 items avg, **1.59% stockpile** (residual minimo)
+  - **Spread**: 4.38 vs 2.0 = 2.2× item-count range tra strategy estremi → strategy choice **MATTERS** (no boring optimum).
+  - Stockpile 0-1.6% trascurabile → no economy issue lato PI shop.
+- **Severity declassata 🟡 → 🟢**: cost-curve confirmed sano. Tuning post-playtest opzionale.
+- **Follow-up consigliato**: telemetry hook in `packRoller.js` per validare strategy distribution real-player vs sim (M14+).
 
 ### 🟢 Gap 5 — `SD` orphan placeholder
 
