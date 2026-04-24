@@ -64,7 +64,9 @@ for game in iterator:
     if LLR <= lower: return "FAIL"
 ```
 
-**Limiti**: richiede reference opponent (nostro caso: current build vs previous main branch). Non adatto per "in target band X-Y" (solo A vs B).
+**Limiti**: richiede reference opponent (nostro caso: current build vs previous main branch). Variante `SprtBand` estende a "in target band X-Y" via 2 SPRT paralleli.
+
+**Implementation**: `tools/py/sprt_calibrate.py` (`SprtBinary` Wald 1945 single-sided + `SprtBand` 2-test in-band wrapper, 27 pytest, stdlib-only). CLI: `--target-low 0.30 --target-high 0.50 --n-max 30`.
 
 **Fonte**: [Fishtest Mathematics](https://official-stockfish.github.io/docs/fishtest-wiki/Fishtest-Mathematics.html) + [Chessprogramming SPRT](https://www.chessprogramming.org/Sequential_Probability_Ratio_Test) + [SPRT Testing Guide](https://dannyhammer.github.io/engine-testing-guide/sprt.html)
 
