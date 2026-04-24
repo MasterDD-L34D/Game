@@ -472,3 +472,42 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 4. Nessun nuovo file in cartelle vietate
 5. Se toccato `vcScoring.js` o `policy.js` → aggiorna `docs/architecture/ai-policy-engine.md`
 6. Se toccato `services/rules/` → aggiorna `docs/hubs/combat.md`
+
+### DoD nuovi agent / skill / feature — 4-gate policy (dichiarazione 2026-04-24)
+
+**Policy permanente**: ogni nuovo `.claude/agents/*.md`, `.claude/skills/*.md`, o feature non banale (>50 LOC runtime o user-facing) deve passare 4 gate sequenziali prima di essere dichiarato "ready". Niente asset "draft" committato come "done".
+
+**Gate 1 — Research investigation** (prima di scrivere):
+
+- Path reali via `grep` (NON fidarsi di CLAUDE.md — può essere obsoleto/aspirazionale)
+- Prior art (ADR, SoT, repo esterni già studiati), reference pattern
+- Use case concreto + metrica di successo (chi lo usa, cosa sblocca, come sappiamo che funziona)
+
+**Gate 2 — Smoke test** (dopo primo draft):
+
+- Invoke `general-purpose` subagent: "leggi `.claude/<path>` come istruzioni, esegui step-by-step su repo reale, produce il report, ritorna critique USABLE/NEEDS-FIX/REWRITE + fix line-by-line"
+- Test su stato degradato noto (dati mancanti, dir vuote, first-run)
+- Report smoke salvato in `docs/playtest/` o `docs/qa/YYYY-MM-DD-<asset>-smoke.md`
+
+**Gate 3 — Tuning** (post-test iterazione):
+
+- Applica le suggestion line-by-line dalla critique
+- Edge case handling + graceful degradation verificato
+- Se verdict REWRITE → stop, riconsidera scope, eventualmente taglia
+
+**Gate 4 — Optimization** (polish finale):
+
+- Context efficiency: data source priority, read budget cap
+- Prompt density: caveman voice, no redundancy, numbered steps
+- Anti-pattern guards: "DO NOT do X" list esplicita nel file
+- Escalation path: cosa fa l'agent se fallisce o a chi passa il controllo
+
+**Eccezioni** (lightweight, saltano alcuni gate):
+
+- One-off prompts in `.claude/prompts/` → solo Gate 1
+- Edit triviali (typo, path rename) → nessun gate
+- Research docs `docs/research/*` → Gate 1 obbligatorio (citazioni fonti), altri opzionali
+
+**Motivation**: l'agent `coop-phase-validator` del 2026-04-24 fu scritto "a tavolino" con path sbagliati (`phaseMachine.js` inesistente). Smoke test trovò il file reale (`coopOrchestrator.js`) via grep. Senza test = commit agent rotto. Policy deriva da lezione diretta.
+
+Ref memoria: [`feedback_smoke_test_agents_before_ready.md`](~/.claude/projects/C--Users-edusc-Desktop-gioco-Game/memory/feedback_smoke_test_agents_before_ready.md).
