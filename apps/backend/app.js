@@ -945,7 +945,7 @@ function createApp(options = {}) {
     }
   }
 
-  return { app, repo, generationOrchestrator, lobby, close };
+  return { app, repo, generationOrchestrator, lobby, coopStore, close };
 }
 
 module.exports = { createApp };

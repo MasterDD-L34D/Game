@@ -130,6 +130,14 @@ elevation:
   attack_mod_above: 1
   attack_mod_below: -1
   range_bonus_above: 1
+  # M14-A 2026-04-25 (Triangle Strategy Mechanic 3A): damage multiplier
+  # applicato al danno finale in base al delta elevation attaccante-difensore.
+  # delta >= 1  → * (1 + attack_damage_bonus)
+  # delta == 0  → * 1
+  # delta <= -1 → * (1 + attack_damage_penalty) (penalty è negativo)
+  # Ref: docs/research/triangle-strategy-transfer-plan.md:185
+  attack_damage_bonus: 0.30
+  attack_damage_penalty: -0.15
 
 # ─── Legacy compatibility ───
 # Vecchio formato flat per backward compat con resolver.py

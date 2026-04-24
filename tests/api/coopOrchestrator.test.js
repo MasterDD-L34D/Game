@@ -120,6 +120,52 @@ test('characterToUnit standalone helper', () => {
   assert.equal(u.job, 'vanguard');
 });
 
+test('F-3: submitCharacter rejects playerId not in allPlayerIds', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun();
+  const all = ['p_a', 'p_b'];
+  assert.throws(
+    () => co.submitCharacter('p_ghost', { name: 'Ghost', form_id: 'istj' }, { allPlayerIds: all }),
+    /player_not_in_room/,
+  );
+  // Empty allPlayerIds list means permissive (backward-compatible behavior).
+  const ok = co.submitCharacter('p_anon', { name: 'Anon', form_id: 'istj' }, { allPlayerIds: [] });
+  assert.equal(ok.player_id, 'p_anon');
+});
+
+test('F-2: forceAdvance from character_creation → world_setup', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun();
+  assert.equal(co.phase, 'character_creation');
+  const result = co.forceAdvance({ reason: 'player_dropped' });
+  assert.equal(co.phase, 'world_setup');
+  assert.equal(result.action, 'forced_to_world_setup');
+  const kinds = co.log.map((e) => e.kind);
+  assert.ok(kinds.includes('force_advance'));
+});
+
+test('F-2: forceAdvance from debrief delegates to advanceScenarioOrEnd', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_01', 'enc_02'] });
+  const all = ['p_a'];
+  co.submitCharacter('p_a', { name: 'Aria', form_id: 'istj' }, { allPlayerIds: all });
+  co.confirmWorld();
+  co.endCombat({ outcome: 'victory' });
+  assert.equal(co.phase, 'debrief');
+  const result = co.forceAdvance({ reason: 'player_dropped_in_debrief' });
+  assert.equal(co.phase, 'world_setup');
+  assert.equal(result.action, 'next_scenario');
+});
+
+test('F-2: forceAdvance rejected from combat/lobby/ended', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  assert.throws(() => co.forceAdvance(), /force_advance_not_allowed_from:lobby/);
+  co.startRun();
+  co.submitCharacter('p_a', { name: 'Aria', form_id: 'istj' }, { allPlayerIds: ['p_a'] });
+  co.confirmWorld();
+  assert.throws(() => co.forceAdvance(), /force_advance_not_allowed_from:combat/);
+});
+
 test('log captures phase_change + run_started events', () => {
   const co = new CoopOrchestrator({ roomCode: 'ABCD' });
   co.startRun();
