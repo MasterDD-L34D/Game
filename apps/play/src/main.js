@@ -1176,6 +1176,21 @@ async function triggerCommitRound() {
           logEl,
           `✓ round ${state.world?.turn || '?'} risolto (${allActions.length} azioni)`,
         );
+        // M16 P0-2 — co-op Jackbox flow: host notifica clear round intents
+        // post-resolve. Reset pending map server-side + avanza roundIndex +
+        // broadcast round_ready con phase=planning ai player.
+        if (
+          lobbyBridge?.isHost &&
+          lobbyBridge?.client &&
+          typeof lobbyBridge.client.sendRoundClear === 'function'
+        ) {
+          try {
+            lobbyBridge.client.sendRoundClear();
+          } catch (e) {
+            // non-blocking — legacy flow OK se WS down
+            if (typeof console !== 'undefined') console.warn('[main] sendRoundClear', e);
+          }
+        }
       } catch (err) {
         appendLog(logEl, `✖ refresh dopo round: ${err?.message || err}`, 'error');
         await emergencyResetRound();
