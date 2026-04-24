@@ -212,6 +212,20 @@ function redraw() {
       state.endgameShown = true;
       if (outcome === 'victory') sfx.win();
       else sfx.defeat();
+      // M19 — if coop host, notify server to transition phase → debrief.
+      if (lobbyBridge?.isHost && lobbyBridge.session?.code && lobbyBridge.session?.token) {
+        const survivors = (state.world.units || [])
+          .filter((u) => u && u.controlled_by === 'player' && u.hp > 0)
+          .map((u) => u.id);
+        const xpEarned = outcome === 'victory' ? 10 : 2;
+        api
+          .coopCombatEnd(lobbyBridge.session.code, lobbyBridge.session.token, {
+            outcome,
+            xp_earned: xpEarned,
+            survivors,
+          })
+          .catch((err) => console.warn('[coop] combatEnd', err));
+      }
       showEndgame(
         outcome,
         { ...state.world, session_id: state.sid },

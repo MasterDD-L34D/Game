@@ -680,7 +680,14 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     client.on('world_tally', (tally) => {
       coordinator.onWorldTally(tally);
     });
-    // keep party roster sync (phv2 + world setup)
+    client.on('debrief_ready_list', (payload) => {
+      coordinator.onDebriefReadyList(payload);
+    });
+    // M19 — forward world state to coordinator for debrief panel narrative.
+    client.on('state', ({ payload }) => {
+      if (coordinator?.onWorldState) coordinator.onWorldState(payload);
+    });
+    // keep party roster sync (phv2 + world setup + debrief)
     const syncPartyToAll = () => {
       const list = Array.from(bridge._players.values());
       if (phv2?.onPlayersChanged) phv2.onPlayersChanged(list);

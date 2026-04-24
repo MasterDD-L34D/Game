@@ -179,6 +179,17 @@ class CoopOrchestrator {
   }
 
   /**
+   * M19 — List of player ids that have submitted a debrief choice.
+   */
+  debriefReadyList(allPlayerIds = []) {
+    return allPlayerIds.map((pid) => ({
+      player_id: pid,
+      ready: this.debriefChoices.has(pid),
+      choice: this.debriefChoices.get(pid) || null,
+    }));
+  }
+
+  /**
    * M18 — Tally current world votes. Returns counts + breakdown.
    */
   worldTally(allPlayerIds = []) {

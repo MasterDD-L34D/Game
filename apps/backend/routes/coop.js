@@ -61,6 +61,16 @@ function createCoopRouter({ lobby, coopStore } = {}) {
         payload: orch.worldTally(allPlayerIds(room)),
       });
     }
+    // M19 — debrief ready list if in debrief.
+    if (orch.phase === 'debrief') {
+      room.broadcast({
+        type: 'debrief_ready_list',
+        payload: {
+          outcome: orch.run?.outcome || 'victory',
+          ready_list: orch.debriefReadyList(allPlayerIds(room)),
+        },
+      });
+    }
   }
 
   router.post('/coop/run/start', (req, res) => {
