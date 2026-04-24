@@ -12,6 +12,8 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/src/style.css" />
+    <!-- Demo one-tunnel: runtime WS hint (no-op if dev Vite or static /play absent) -->
+    <script src="runtime-config.js" onerror="void 0"></script>
   </head>
   <body>
     <div id="app">
@@ -112,6 +114,28 @@
               <path d="M3 17l6-6 4 4 8-8M14 7h7v7" />
             </svg>
             <span class="hud-label">📈 Lv</span>
+          </button>
+          <button
+            id="thoughts-open"
+            class="hud-btn"
+            title="Thought Cabinet — MBTI thoughts sbloccati (P4)"
+          >
+            <svg
+              class="hud-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M9 3a4 4 0 0 0-4 4v3a4 4 0 0 0 2 3.46V17a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-3.54A4 4 0 0 0 19 10V7a4 4 0 0 0-4-4z"
+              />
+              <path d="M10 21h4" />
+            </svg>
+            <span class="hud-label">🧠 Mente</span>
           </button>
           <button id="forms-open" class="hud-btn" title="Evoluzione Form — scegli form MBTI (M12)">
             <svg
