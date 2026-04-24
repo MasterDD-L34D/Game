@@ -214,14 +214,21 @@ function timestampStamp(date) {
 }
 
 function publicSessionView(session) {
-  // A2: expose PP/SG/surge_ready per unit for UI consumption
-  const unitsWithGauges = (session.units || []).map((u) => ({
-    ...u,
-    pp: u.pp || 0,
-    sg: Math.floor((u.stress || 0) * 100),
-    surge_ready: Math.floor((u.stress || 0) * 100) >= 75,
-    pp_tier: (u.pp || 0) >= 10 ? 3 : (u.pp || 0) >= 6 ? 2 : (u.pp || 0) >= 3 ? 1 : 0,
-  }));
+  // A2: expose PP/SG/surge_ready per unit for UI consumption.
+  // V5 (ADR-2026-04-26): `sg` è ora pool integer 0..3 (Seed of Growth),
+  // gestito da sgTracker. Il gauge legacy stress-based (0..100) è esposto
+  // come `stress_gauge` + `surge_ready` per non collidere con V5 pool.
+  const unitsWithGauges = (session.units || []).map((u) => {
+    const stressGauge = Math.floor((u.stress || 0) * 100);
+    return {
+      ...u,
+      pp: u.pp || 0,
+      sg: Number.isFinite(Number(u.sg)) ? Number(u.sg) : 0,
+      stress_gauge: stressGauge,
+      surge_ready: stressGauge >= 75,
+      pp_tier: (u.pp || 0) >= 10 ? 3 : (u.pp || 0) >= 6 ? 2 : (u.pp || 0) >= 3 ? 1 : 0,
+    };
+  });
   const pressure = Number.isFinite(Number(session.sistema_pressure))
     ? Number(session.sistema_pressure)
     : 0;
