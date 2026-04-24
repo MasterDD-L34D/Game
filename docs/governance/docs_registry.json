@@ -5707,6 +5707,50 @@
       "track": "new"
     },
     {
+      "path": "docs/process/2026-04-26-calibration-harness-policy.md",
+      "title": "Calibration harness policy — diagnostic, not merge gate",
+      "doc_status": "draft",
+      "doc_owner": "claude-code",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90
+    },
+    {
+      "path": "docs/playtest/2026-04-26-M14-C-iter3-hardcore06.json",
+      "title": "Hardcore 06 iter3 calibration output (N=10 elite elev=0)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/playtest/2026-04-26-M14-C-iter4-hardcore06.json",
+      "title": "Hardcore 06 iter4 calibration output (N=10 BOSS mod 3, 10% win amber)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/playtest/2026-04-26-M14-C-iter5-hardcore06.json",
+      "title": "Hardcore 06 iter5 calibration output (N=10 BOSS hp 36, RNG noise equivalent to iter4)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "combat",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
       "path": "docs/process/2026-04-19-M5-audit-sprint-completion.md",
       "title": "M5 Sprint — Parallel-agent audit fix completion (6 PR, 6/6 P0 shipped)",
       "doc_status": "active",
