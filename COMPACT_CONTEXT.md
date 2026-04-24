@@ -33,22 +33,25 @@
 - **#1727** (b9a6dc73): SG earn formula Opzione C wired in `abilityExecutor.js` (5 site), UI rewards/packs wires in `onboardingPanel.js`/`debriefPanel.js`/`characterCreation.js`
 - **#1726** (0d501169): V1 onboarding 60s, V2 tri-sorgente reward API, V4 PI-pacchetti YAML 16×3, V5 SG tracker 5/8 formula, V7 biome-aware spawn bias, telemetry JSONL endpoint
 - **#1725** (5fb94b99): M16-M20 sprint close docs + playtest playbook + CLAUDE.md update
-- **Sessione 2026-04-24 (corrente — branch locale 2 commit pronti)**:
+- **Sessione 2026-04-24 (corrente — PR #1732 draft aperta)**:
   - 5 research docs scritti (2062 righe totali): skills shopping list, archivio inventory, agent roster, tiktok extraction, triangle-strategy transfer plan
-  - 3 bootstrap file creati (root): PROJECT_BRIEF.md, COMPACT_CONTEXT.md (questo), DECISIONS_LOG.md
+  - **Sprint 0 archivio** (root): PROJECT_BRIEF.md, COMPACT_CONTEXT.md (questo), DECISIONS_LOG.md
+  - **Sprint 1 archivio** (root + `.claude/`): MODEL_ROUTING.md, TASK_PROTOCOL.md, SAFE_CHANGES.md, 4 prompt template in `.claude/prompts/` (02_game_design, 04_research_bridge, 05_claude_code_brief, 09_first_principles_checklist)
   - 2 agent P0 creati + smoke-tested: `.claude/agents/playtest-analyzer.md` (USABLE), `.claude/agents/coop-phase-validator.md` (USABLE post-fix path rewrite)
   - 1 skill creata: `.claude/skills/compact.md`
   - 4 memory saved: session-timing, smoke-test-policy (4-gate DoD), user-decision-shortcuts, archivio-reference
-  - Policy **4-gate DoD** codificata in CLAUDE.md (`chore(policy)` commit) — obbligatoria per ogni nuovo agent/skill/feature
-  - Branch rebased onto origin/main post merge PR #1728-#1731 — zero conflitti, DoD verde
+  - Policy **4-gate DoD** codificata in CLAUDE.md — obbligatoria per ogni nuovo agent/skill/feature
+  - Branch rebased onto origin/main post merge PR #1728-#1731 — zero conflitti
+  - **PR #1732 draft** aperta con 3 commit (bootstrap Sprint 0 + policy 4-gate DoD + compact post-rebase)
 
 ## Decisioni prese
 
-- **Archivio operativo → adozione Sprint 0**: 3 bootstrap file root + link in CLAUDE.md (fatto sessione corrente)
+- **Archivio operativo → adozione Sprint 0 + Sprint 1**: 4 bootstrap file root (PROJECT_BRIEF, COMPACT_CONTEXT, DECISIONS_LOG, MODEL_ROUTING) + 3 file `.claude/` (TASK_PROTOCOL, SAFE_CHANGES, prompts/) + link in CLAUDE.md
 - **Agent roster P0**: solo `playtest-analyzer` + `coop-phase-validator`. Vision-gap-tracker deferred (P1), game-database-bridge dormiente (Alt B flag-OFF), archivio-librarian deferred (P2)
 - **Skills P0**: zero install NPM/MCP server in questa sessione (richiede approvazione utente setting). Solo skill locale `/compact` codificata
 - **Triangle Strategy**: 10 meccaniche → ticket di backlog design, non commit automatico. Rollout proposto in 3 sprint slice M14-A/M14-B/M15 (documento ricerca)
 - **Session timing reset**: comportamento salvato in memory (non codice), applicabile cross-session
+- **Policy 4-gate DoD**: dichiarazione permanente — ogni nuovo agent/skill/feature richiede research + smoke test + tuning + optimization prima di "ready". Applicata retroattivamente su 2 agent P0 + /compact skill (smoke test eseguiti). Sprint 1 prompts = eccezione (one-off prompts = solo Gate 1).
 
 ## Vincoli hard
 

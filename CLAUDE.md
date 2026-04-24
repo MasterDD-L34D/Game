@@ -29,7 +29,12 @@ multi-step sequences where fragment ambiguity risks misread, user confused or re
 
 **Evo-Tactics** is a co-op tactical game (d20-based, modular evolutionary progression) delivered as a polyglot monorepo. It ships YAML datasets, Python + TypeScript CLIs, an Express "Idea Engine" backend, a Vue/Vite dashboard, and publishing/validation pipelines. Most docs, commit messages, and inline comments are written in **Italian** — match that language when editing docs, but code identifiers stay English.
 
-**Bootstrap files** (Sprint 0 archivio operativo, 2026-04-24): `PROJECT_BRIEF.md` (identità stabile progetto), `COMPACT_CONTEXT.md` (snapshot 30s sessione corrente), `DECISIONS_LOG.md` (index 30 ADR). Leggi questi prima di CLAUDE.md per onboarding veloce.
+**Bootstrap files** (archivio operativo, Sprint 0+1 adottati 2026-04-24):
+
+- **Sprint 0 (root)**: `PROJECT_BRIEF.md` (identità stabile progetto), `COMPACT_CONTEXT.md` (snapshot 30s sessione corrente), `DECISIONS_LOG.md` (index 30 ADR), `MODEL_ROUTING.md` (quale AI/tool per quale fase).
+- **Sprint 1 (`.claude/`)**: `TASK_PROTOCOL.md` (7-fasi task flow), `SAFE_CHANGES.md` (whitelist 🟢/🟡/🔴), `prompts/` (4 prompt template: game design, research bridge, Claude brief, first-principles checklist).
+
+Leggi `PROJECT_BRIEF` + `COMPACT_CONTEXT` prima di CLAUDE.md per onboarding veloce. Policy 4-gate DoD (vedi sezione "DoD nuovi agent / skill / feature" più sotto) applicata a ogni nuovo agent/skill/feature.
 
 ## Repository layout (high-level)
 
