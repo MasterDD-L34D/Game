@@ -566,6 +566,39 @@ test('cataclysm: surge_aoe danno area + stress_reset, shield-aware', async (t) =
   for (const d of res.body.damaged) {
     assert.ok(typeof d.damage_dealt === 'number');
     assert.ok(typeof d.shield_absorbed === 'number');
+    // M14-C: positional_mult esposto anche quando elevation=0 (multiplier 1).
+    assert.ok(typeof d.positional_mult === 'number');
+    assert.ok(typeof d.elevation_delta === 'number');
+  }
+});
+
+// M14-C 2026-04-26 — surge_aoe honor elevation: attacker above targets = +30% dmg.
+test('cataclysm surge_aoe: actor elevation 1 vs target 0 → multiplier 1.3 riportato', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  // Usa scenario tutorial_01 ma muta units con elevation raise per p_scout.
+  const scenario = await request(app).get('/api/tutorial/enc_tutorial_01');
+  const units = scenario.body.units.map((u) => (u.id === 'p_scout' ? { ...u, elevation: 1 } : u));
+  const startRes = await request(app).post('/api/session/start').send({ units });
+  const sid = startRes.body.session_id;
+  const res = await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'ability',
+      actor_id: 'p_scout',
+      ability_id: 'cataclysm',
+      position: { x: 3, y: 3 },
+    });
+  assert.equal(res.status, 200, `surge_aoe elev ok: ${JSON.stringify(res.body)}`);
+  assert.ok(res.body.damaged.length > 0, 'almeno 1 target in area');
+  for (const d of res.body.damaged) {
+    // actor +1 vs target 0. Multiplier in [1.3, 1.3*1.15=1.495] (flank/front quadrant).
+    assert.ok(d.positional_mult >= 1.3, `target ${d.unit_id} elev bonus ≥ 1.3`);
+    assert.equal(d.elevation_delta, 1);
   }
 });
 

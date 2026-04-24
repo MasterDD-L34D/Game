@@ -1485,9 +1485,19 @@ function createAbilityExecutor(deps) {
     const targets = inArea.filter((u) => u.controlled_by !== actor.controlled_by);
 
     const damaged = [];
+    // M14-C 2026-04-26 — wire elevation multiplier su surge_aoe dice roll.
+    // Unico site in abilityExecutor che bypassa performAttack (L249 session.js)
+    // perche' rolla dadi diretti senza hit check. Per-target perche' ogni
+    // target AoE ha elevation/facing proprio rispetto all'actor.
+    const { computePositionalDamage } = require('../routes/sessionHelpers');
     for (const target of targets) {
       const rolled = rollDice(ability.damage_dice, rng);
-      let damage = Math.max(0, rolled);
+      const positional = computePositionalDamage({
+        actor,
+        target,
+        baseDamage: Math.max(0, rolled),
+      });
+      let damage = positional.damage;
       // Shield assorb su area damage anche
       let absorbed = 0;
       if (Number(target.shield_hp) > 0 && damage > 0) {
@@ -1507,6 +1517,8 @@ function createAbilityExecutor(deps) {
         hp_before: hpBefore,
         hp_after: target.hp,
         killed: target.hp === 0,
+        positional_mult: positional.multiplier,
+        elevation_delta: positional.elevation_delta,
       });
     }
 
