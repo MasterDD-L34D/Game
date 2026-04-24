@@ -25,12 +25,14 @@
 
 ### Bug / tech debt identificati
 
-- [ ] **TKT-06** — `predict_combat` ignora `unit.mod` stat → damage 0 pattern falsi positivi
-- [ ] **TKT-07** — Tutorial sweep #2 N=10/scenario post telemetry fix (blocked by TKT-06)
-- [ ] **TKT-08** — Backend stability under batch (morì run #14 batch N=30)
-- [ ] **TKT-09** — `ai_intent_distribution` non emessa via `/round/execute` response
-- [ ] **TKT-10** — Harness retry+resume incrementale (JSONL write per-run)
-- [ ] **TKT-11** — `predict_combat` 8p aggregate sanity boss vs full party
+> **Audit 2026-04-24**: CLAUDE.md "Backlog ticket aperti" era stale. Verificato contro git history. Status aggiornato sotto.
+
+- [x] ~~**TKT-06**~~ — `predict_combat` ignora `unit.mod` stat → **✅ CHIUSO in PR #1588 (`2d6394dd`)** 2026-04-18. Python resolver `resolve_attack_v2` + `predict_combat` + JS `predictCombat` ora includono `actor.mod + aggregate_mod`. Parity confermata.
+- [ ] **TKT-07** — Tutorial sweep #2 N=10/scenario post telemetry fix. **Verify needed**: blocker TKT-06 risolto, ma sweep #2 run effettiva da confermare (cerca in `docs/playtest/*sweep*`).
+- [ ] **TKT-08** — Backend stability under batch (morì run #14 batch N=30). **Parziale**: PR #1551/#1559 hanno migliorato harness ma "backend stability full fix" non esplicitamente confermato. Verify needed.
+- [x] ~~**TKT-09**~~ — `ai_intent_distribution` mancante in `/round/execute` response → **✅ CHIUSO in PR #1551 (`092bff14`)** 2026-04-18. Harness `_ai_actions_from_resp` filtra `results[]` per `actor_id ∈ SIS`, fallback legacy mode.
+- [ ] **TKT-10** — Harness retry+resume incrementale (JSONL write per-run). **Parziale**: PR #1551 probe_one N=1 pre-batch + addendum; retry+resume esplicito non confermato.
+- [ ] **TKT-11** — `predict_combat` 8p aggregate sanity boss vs full party. **Aperto** (nessun commit linkato in git history).
 
 ### Triangle Strategy transfer (design-driven, new)
 
@@ -96,6 +98,17 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 - TKT-06..11 aggiornati (chiusi o re-prioritizzati con evidenza)
 
 ---
+
+## Audit log
+
+**2026-04-24**: backlog audited post-Sprint 3 adoption. CLAUDE.md "Backlog ticket aperti" sezione 17-18/04 era stale:
+
+- TKT-06 listato come aperto → verificato CHIUSO in PR #1588 (`2d6394dd`, 2026-04-18)
+- TKT-09 listato come aperto → verificato CHIUSO in PR #1551 (`092bff14`, 2026-04-18)
+- TKT-08/TKT-10 parzialmente affrontati in PR #1551/#1559 → marcati "parziale, verify needed"
+- TKT-11 confermato aperto (nessun commit)
+
+**Lesson**: CLAUDE.md narrative sprint context tende a fossilizzarsi — questo file è single source of truth per stato ticket. Sync manuale post-merge PR importanti, o via skill `sprint-close`.
 
 ## Ref
 
