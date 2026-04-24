@@ -1,34 +1,40 @@
 @echo off
-REM 1-click demo launcher. Copia questo file sul Desktop.
-REM Avvia backend demo + ngrok tunnel + stampa URL per amici.
+REM Evo-Tactics 1-click demo launcher.
+REM Doppio clic (o tramite shortcut Desktop) = go.
 
+setlocal
+chcp 65001 >nul 2>&1
 cd /d "%~dp0"
 title Evo-Tactics Demo Launcher
-echo ====================================================
-echo   Evo-Tactics - demo launcher
-echo ====================================================
-echo.
 
-REM Verifica node
+REM Node presence (fail fast prima di lanciare Node)
 where node >nul 2>&1
 if errorlevel 1 (
-    echo [errore] node non trovato. Installa Node.js 22+.
+    echo.
+    echo   [X] node non trovato. Installa Node.js 18+ da https://nodejs.org
+    echo.
     pause
     exit /b 1
 )
 
-REM Build play sempre — evita stale asset hash (HTML ref file non esistenti)
-echo [setup] build frontend (sincronizza asset hash)...
-call npm run play:build
+REM Build frontend (sincronizza asset hash: evita .html ref file non esistenti)
+echo.
+echo   [setup] build frontend in corso...
+call npm run play:build >nul 2>&1
 if errorlevel 1 (
-    echo [errore] build fallito.
+    echo.
+    echo   [X] build fallito. Ri-lancia con output completo:
+    echo       npm run play:build
+    echo.
     pause
     exit /b 1
 )
+echo   [OK]   frontend buildato
 
-echo [avvio] backend + ngrok tunnel...
+REM Delega tutto (preflight + backend + ngrok + banner + auto-open) al Node launcher
 node scripts/run-demo-tunnel.cjs
 
 echo.
-echo [fine] demo terminata.
+echo   [fine] demo terminata.
 pause
+endlocal
