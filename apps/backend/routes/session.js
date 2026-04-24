@@ -360,6 +360,16 @@ function createSessionRouter(options = {}) {
       // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
       // dagli eventi per restare stateless.
       session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + damageDealt;
+      // V5 SG earn (ADR-2026-04-26 Opzione C mixed): accumulate dealt+taken.
+      if (damageDealt > 0) {
+        try {
+          const sgTracker = require('../services/combat/sgTracker');
+          sgTracker.accumulate(actor, { damage_dealt: damageDealt });
+          sgTracker.accumulate(target, { damage_taken: damageDealt });
+        } catch {
+          /* sgTracker optional */
+        }
+      }
       target.hp = Math.max(0, target.hp - damageDealt);
       if (target.hp === 0) {
         killOccurred = true;
