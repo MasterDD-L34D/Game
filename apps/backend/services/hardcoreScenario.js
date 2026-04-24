@@ -92,6 +92,7 @@ function buildHardcoreUnits06() {
       position: { x: pl.pos[0], y: pl.pos[1] },
       controlled_by: 'player',
       facing: 'E',
+      elevation: 0, // ground floor, cathedral nave
     });
   }
 
@@ -119,6 +120,8 @@ function buildHardcoreUnits06() {
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
+      // M14-C: BOSS sul palco/altare rialzato. Elevation +1 → +30% dmg vs ground.
+      elevation: 1,
     },
     // 3 elite hunter — flanking + mid (iter 1: +1 elite + hp 7→9).
     // Spread aggro, force player split focus-fire.
@@ -137,6 +140,8 @@ function buildHardcoreUnits06() {
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
+      // M14-C: gallerie laterali rialzate, +1 vantage (flank nord).
+      elevation: 1,
     },
     {
       id: 'e_elite_hunter_2',
@@ -153,6 +158,8 @@ function buildHardcoreUnits06() {
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
+      // M14-C: gallerie laterali rialzate, +1 vantage (flank sud).
+      elevation: 1,
     },
     // Iter 2: e_elite_hunter_3 RIMOSSO. Damage concentrato su BOSS singolo
     // (boss hp 22→40 +82%) > damage spread su 3 elite. Aggro rotation player
@@ -322,6 +329,8 @@ function buildHardcoreUnits07() {
     position: { x: pl.pos[0], y: pl.pos[1] },
     controlled_by: 'player',
     facing: 'E',
+    // M14-C: party parte a ground, corridoi di ingresso.
+    elevation: 0,
   }));
 
   // Vanguard pattern: 3 initial enemies, rest come from pod reinforcement.
@@ -341,6 +350,8 @@ function buildHardcoreUnits07() {
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
+      // M14-C: vedetta su torre di osservazione. +1 elevation = AP patrol hits hard.
+      elevation: 1,
     },
     {
       id: 'e_patrol_scout_1',

@@ -96,3 +96,67 @@ test('POST /api/session/start with hardcore units + modulation=full → grid 10x
     await close();
   }
 });
+
+// M14-C 2026-04-26 — elevation populate smoke. Verifica che il field sopravviva
+// normalisation (session.js) e sia leggibile post-spawn.
+// Raw scenario units espongono elevation solo per unit vantage-point; post-
+// normaliseUnit in /session/start tutte le unit hanno elevation integer (default 0).
+test('GET hardcore_06 raw units: BOSS + elite vantage = 1, player ground = 0', async () => {
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    const res = await request(app).get('/api/tutorial/enc_tutorial_06_hardcore').expect(200);
+    const boss = res.body.units.find((u) => u.id === 'e_apex_boss');
+    const elite1 = res.body.units.find((u) => u.id === 'e_elite_hunter_1');
+    const elite2 = res.body.units.find((u) => u.id === 'e_elite_hunter_2');
+    const p0 = res.body.units.find((u) => u.controlled_by === 'player');
+    assert.equal(boss.elevation, 1, 'BOSS su altare rialzato');
+    assert.equal(elite1.elevation, 1, 'elite 1 vantage');
+    assert.equal(elite2.elevation, 1, 'elite 2 vantage');
+    assert.equal(p0.elevation, 0, 'player ground floor (explicit)');
+  } finally {
+    await close();
+  }
+});
+
+test('POST session start preserva elevation attraverso normalization', async () => {
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    const sc = await request(app).get('/api/tutorial/enc_tutorial_06_hardcore').expect(200);
+    const res = await request(app)
+      .post('/api/session/start')
+      .send({
+        units: sc.body.units,
+        sistema_pressure_start: sc.body.sistema_pressure_start,
+        modulation: sc.body.recommended_modulation,
+        hazard_tiles: sc.body.hazard_tiles,
+      })
+      .expect(200);
+    const state = await request(app)
+      .get(`/api/session/state?session_id=${res.body.session_id}`)
+      .expect(200);
+    const boss = state.body.units.find((u) => u.id === 'e_apex_boss');
+    const p0 = state.body.units.find((u) => u.controlled_by === 'player');
+    const minion = state.body.units.find((u) => u.id === 'e_minion_1');
+    assert.equal(boss.elevation, 1, 'elevation survive normalise in session state');
+    assert.equal(p0.elevation, 0, 'player elevation=0 preserved');
+    // minion senza elevation esplicita → default 0 post-normalise.
+    assert.equal(minion.elevation, 0, 'unit senza elevation esplicita → 0');
+  } finally {
+    await close();
+  }
+});
+
+test('GET hardcore_07 patrol leader elevation=1 (vedetta)', async () => {
+  const { app, close } = createApp({ databasePath: null });
+  try {
+    const res = await request(app)
+      .get('/api/tutorial/enc_tutorial_07_hardcore_pod_rush')
+      .expect(200);
+    const leader = res.body.units.find((u) => u.id === 'e_patrol_leader');
+    const p0 = res.body.units.find((u) => u.controlled_by === 'player');
+    assert.equal(leader.elevation, 1);
+    assert.equal(p0.elevation, 0);
+  } finally {
+    await close();
+  }
+});

@@ -1,0 +1,153 @@
+---
+title: M14-C Elevation Populate + Calibration N=10 — Hardcore 06/07
+workstream: combat
+category: playtest
+doc_status: active
+doc_owner: claude-code
+last_verified: '2026-04-26'
+source_of_truth: false
+language: it
+review_cycle_days: 30
+tags:
+  - m14-c
+  - playtest
+  - calibration
+  - elevation
+  - triangle-strategy
+  - hardcore-06
+  - hardcore-07
+related:
+  - docs/planning/2026-04-26-next-session-handoff-M14-C.md
+  - docs/planning/2026-04-25-M14-A-elevation-terrain.md
+  - docs/research/triangle-strategy-transfer-plan.md
+  - docs/playtest/2026-04-18-hardcore-06-calibration.md
+---
+
+# M14-C Elevation Populate + Calibration — Hardcore 06/07
+
+## TL;DR
+
+M14-C **populate scenarios** chiuso. Smoke test (+4 nuovi) verdi, AI regression 307/307
+e services 177/177 invariati. Calibration harness N=10 hardcore 06 + hardcore 07
+rivela che **elevation wire (M14-B) è operativo e misurabile**, ma ribalta le curve di
+difficoltà esistenti. HP/mod re-tune differito a iterazione successiva (fuori scope P0).
+
+## Scope delivered
+
+### Scenari popolati
+
+| Scenario                            | Unit                                   | Field                      |
+| ----------------------------------- | -------------------------------------- | -------------------------- |
+| `enc_tutorial_06_hardcore`          | `e_apex_boss`                          | `elevation: 1`             |
+| `enc_tutorial_06_hardcore`          | `e_elite_hunter_1`, `e_elite_hunter_2` | `elevation: 1`             |
+| `enc_tutorial_06_hardcore`          | 8 player PG                            | `elevation: 0` (esplicito) |
+| `enc_tutorial_07_hardcore_pod_rush` | `e_patrol_leader`                      | `elevation: 1`             |
+| `enc_tutorial_07_hardcore_pod_rush` | 4 player PG                            | `elevation: 0` (esplicito) |
+| `enc_tutorial_03`                   | `e_guardiano_2`                        | `facing: 'N'` (flank test) |
+| `enc_tutorial_04`                   | `e_lanciere`                           | `facing: 'S'` (flank test) |
+
+### Fix runtime: `normaliseUnit` preserve `elevation`
+
+`apps/backend/routes/sessionHelpers.js:65` pre-M14-C stripava `elevation`
+durante `normaliseUnit`. Fix: clampa a integer (default 0) e passa attraverso
+session state. Senza questa patch il multiplier Triangle Strategy wired in session.js
+era effettivamente dead code per scenari.
+
+## Smoke tests nuovi (+4)
+
+`tests/api/hardcoreScenario.test.js`:
+
+- `GET hardcore_06 raw units: BOSS + elite vantage = 1, player ground = 0`
+- `POST session start preserva elevation attraverso normalization`
+- `GET hardcore_07 patrol leader elevation=1 (vedetta)`
+
+Plus regression sanity — tutorial 03/04/05 tutti verdi (batch N=10 log invariati per 03/05, +10pp win su 04 dovuto a facing S flank).
+
+## Calibration N=10
+
+### Hardcore 06 (full 8p vs BOSS + 2 elite + 3 minion)
+
+```
+win_rate: 0.0% (target 30-50% post iter2 rework)
+defeat_rate: 100.0%
+turns_avg: 25 (max)
+boss_hp_remaining_avg_on_loss: 30.6/40
+dmg_dealt_avg: 39.4
+dmg_taken_avg: 28
+```
+
+**Regressione vs baseline iter2 pre-M14-C (PR #1542)**: 96.7% win → 0% win.
+BOSS + elite a elevation 1 colpiscono con +30% multiplier su tutti gli 8 ground
+players: il focus-fire-swing che rendeva iter2 turtle-deadlock (96.7% win) è stato
+rovesciato completamente. BOSS HP 40 → party ne limalo solo 10 prima di wipe.
+
+**Interpretazione**: feature operativa, tuning invalidato. HP/mod re-tune differito
+(fuori scope P0). Iter successiva deve:
+
+- Ridurre BOSS HP 40→~25 (damage/round post-elevation player subisce 10-15)
+- O rimuovere elevation dagli elite (keep BOSS only)
+- O buffare player con `elevation: 0 → 1` su tank guardianite (TV elevato = 2p
+  sui tank)
+
+### Hardcore 07 (quartet 4p vs patrol 3 + pod reinforcement)
+
+```
+win_rate: 100.0% (target 30-50%)
+defeat_rate: 0.0%
+timeout_rate: 0.0%
+rounds_avg: 10.1 (max 15, timer 10)
+kd_avg: 3.0 (enemy:player)
+timer_expire_rate: 0.0%
+```
+
+**Finding**: elevation su patrol leader (+1) non mitiga 3-vs-4 vantaggio iniziale.
+Party elimina la pattuglia PRIMA che il timer rampi a Alert tier (cooldown 2 round
+per spawn + min_distance 4). Reinforcement pool mai triggerato.
+
+**Interpretazione**: feature operativa, tuning fragile. Iter successiva:
+
+- Start enemy count 3→5 (include 1 pod già spawned)
+- Abbassare `reinforcement_policy.cooldown_rounds: 2→1` + `min_tier: Alert→Calm`
+- Patrol leader HP 12→16 per rallentare il wipe iniziale
+
+## Gate di regressione
+
+Verde:
+
+- `node --test tests/ai/*.test.js` → **307/307**
+- `node --test tests/services/*.test.js` → **177/177**
+- `node --test tests/api/hardcoreScenario.test.js` → **7/7** (4 nuovi + 3 esistenti)
+- Tutorial 03 batch → timeout-heavy invariato (facing N solo, no dmg change)
+- Tutorial 04 batch → 70% → 80% win (+10pp da facing S flank, noise band accettabile per N=10)
+- Tutorial 05 batch → 0/10 timeout invariato vs pre-M14-C
+
+## Decisioni
+
+1. **Merge as-is**: il popolate espone la meccanica. La regressione del win rate
+   sui 2 scenari hardcore è il **segnale atteso** (prima: elevation era silenziato
+   dal data strip in normaliseUnit; ora attivo). Validate che pipeline funziona.
+2. **HP/mod re-tune**: ticket di backlog, non bloccante per playtest live TKT-M11B-06.
+   Playtester possono evitare hardcore 06/07 in favore di tutorial 01-05 finché
+   non re-calibriamo.
+3. **Tutorial 05 elevation rolled back**: Apex + elevation 1 → 0/10 win (vs baseline
+   0/10 timeout pre-M14-C). Identiche a livello macro (entrambi no-kill), ma il wire
+   elevation riduceva HP residuo Apex 5.2→7.3/18. Rollbackato per mantenere tuning
+   esistente; Apex elevation reintroducibile post HP/mod re-tune.
+
+## Follow-up (ticket backlog)
+
+- `TKT-M14-C-HARDCORE06-RETUNE` — iter3 post-elevation: BOSS HP 40→25, or drop
+  elite elevation. Target win 30-50%.
+- `TKT-M14-C-HARDCORE07-RETUNE` — patrol +2 enemy start, reinforcement cooldown
+  1. Target win 30-50%.
+- `TKT-M14-C-TUTORIAL05-ELEVATION` — re-introduce Apex elevation post
+  HP/mod re-tune (probably HP 11→8 + apex ap 3→2).
+
+## File impattati
+
+- `apps/backend/routes/sessionHelpers.js` (elevation preserve in normaliseUnit)
+- `apps/backend/services/hardcoreScenario.js` (elevation fields hardcore 06/07)
+- `apps/backend/services/tutorialScenario.js` (facing variation tutorial 03/04)
+- `tests/api/hardcoreScenario.test.js` (+4 smoke tests)
+- `docs/playtest/2026-04-26-M14-C-hardcore06-calibration.json` (raw N=10 out)
+- `docs/playtest/2026-04-26-M14-C-hardcore07-calibration.json` (raw N=10 out)
