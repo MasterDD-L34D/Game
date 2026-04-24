@@ -248,6 +248,46 @@ function elevationDamageMultiplier({
   return Math.max(mult, 0.1);
 }
 
+/**
+ * M14-B 2026-04-25 — Triangle Strategy Mechanic 3B pincer detection.
+ * Pure helper; does NOT enqueue follow-up intents (round orchestrator untouched).
+ * Caller receives metadata and can decide whether to emit a follow-up intent.
+ *
+ * Rule: an ally forms a pincer with `attacker` on `target` iff the ally sits
+ * on the antipodal hex from `attacker` relative to `target`. On a hex grid
+ * with 6 axial directions, "antipodal" means `ally - target == -(attacker - target)`.
+ *
+ * Requires attacker at hex distance exactly 1 from target (TS opposite-side
+ * adjacent rule).
+ *
+ * @param {{q,r}} attackerHex
+ * @param {{q,r}} targetHex
+ * @param {Array<{q,r,id?}>} allies — ally positions (attacker excluded upstream)
+ * @returns {{ pincer: boolean, opposite_ally_id: string|null, opposite_hex: {q,r}|null }}
+ *
+ * Ref: docs/research/triangle-strategy-transfer-plan.md:187,209
+ */
+function detectPincer(attackerHex, targetHex, allies) {
+  if (!attackerHex || !targetHex) {
+    return { pincer: false, opposite_ally_id: null, opposite_hex: null };
+  }
+  if (hexDistance(attackerHex, targetHex) !== 1) {
+    return { pincer: false, opposite_ally_id: null, opposite_hex: null };
+  }
+  const dq = attackerHex.q - targetHex.q;
+  const dr = attackerHex.r - targetHex.r;
+  const oppositeHex = { q: targetHex.q - dq, r: targetHex.r - dr };
+  if (!Array.isArray(allies)) {
+    return { pincer: false, opposite_ally_id: null, opposite_hex: oppositeHex };
+  }
+  const oppositeAlly = allies.find((a) => a && a.q === oppositeHex.q && a.r === oppositeHex.r);
+  return {
+    pincer: Boolean(oppositeAlly),
+    opposite_ally_id: oppositeAlly?.id ?? null,
+    opposite_hex: oppositeHex,
+  };
+}
+
 module.exports = {
   DIRECTIONS,
   hexKey,
@@ -260,4 +300,5 @@ module.exports = {
   getLineOfSight,
   cubeRound,
   elevationDamageMultiplier,
+  detectPincer,
 };

@@ -109,6 +109,8 @@ const {
   pickLowestHpEnemy,
   stepTowards,
   isBackstab,
+  attackQuadrant,
+  computePositionalDamage,
   facingFromMove,
   predictCombat,
 } = require('./sessionHelpers');
@@ -326,7 +328,17 @@ function createSessionRouter(options = {}) {
         backstabBonus +
         perkBonus.bonus +
         parryDelta;
-      damageDealt = Math.max(0, adjusted);
+      // M14-B 2026-04-25 — Triangle Strategy positional multiplier wire.
+      // Elevation delta >=1 → +30% dmg; flank → +15%; rear bonus already
+      // covered by legacy backstabBonus (rearMultiplier stays 0 to avoid
+      // double-apply). When unit.elevation/facing missing, multiplier = 1
+      // → zero behavior change vs pre-M14-B.
+      const positional = computePositionalDamage({
+        actor,
+        target,
+        baseDamage: Math.max(0, adjusted),
+      });
+      damageDealt = positional.damage;
       if (perkBonus.applied.some((p) => p.tag === 'first_strike_bonus')) {
         actor._first_strike_used = true;
       }
