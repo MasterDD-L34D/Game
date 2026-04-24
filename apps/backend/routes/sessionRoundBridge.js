@@ -55,6 +55,19 @@ function createRoundBridge(deps) {
     defaultAttackRange,
   } = deps;
 
+  // V5 SG lifecycle helper (ADR-2026-04-26): reset earn-per-turn counter
+  // su tutte le unit vive dopo ogni round advance.
+  function sgBeginTurnAll(session) {
+    try {
+      const sgTracker = require('../services/combat/sgTracker');
+      for (const u of session.units || []) {
+        if (u && u.hp > 0) sgTracker.beginTurn(u);
+      }
+    } catch {
+      /* sgTracker optional */
+    }
+  }
+
   // Validates a player intent action against current session state.
   // Returns null if valid, { code, message } on rejection.
   function validatePlayerIntent(session, actorId, action) {
@@ -1019,6 +1032,7 @@ function createRoundBridge(deps) {
 
     await persistEvents(session);
     session.turn += 1;
+    sgBeginTurnAll(session);
 
     // Round decay (AI War pattern — sistema_pressure.yaml §deltas.round_decay):
     // pressure cala di 1 per round senza eventi di victory/defeat.
@@ -1307,6 +1321,7 @@ function createRoundBridge(deps) {
         await postResolveKills(session, kills);
         await persistEvents(session);
         session.turn += 1;
+        sgBeginTurnAll(session);
 
         if (typeof session.sistema_pressure === 'number') {
           session.sistema_pressure = applyPressureDelta(

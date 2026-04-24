@@ -162,6 +162,20 @@ function createSessionRouter(options = {}) {
 
   const sessions = new Map();
   let activeSessionId = null;
+
+  // V5 SG lifecycle helper: reset per-turn earn counter su tutte le unit vive.
+  // Invocato dopo ogni session.turn += 1 (4 sites: advanceThroughAiTurns,
+  // /action early-end fallback, sessionRoundBridge round flow x2).
+  function sgBeginTurnAll(session) {
+    try {
+      const sgTracker = require('../services/combat/sgTracker');
+      for (const u of session.units || []) {
+        if (u && u.hp > 0) sgTracker.beginTurn(u);
+      }
+    } catch {
+      /* sgTracker optional */
+    }
+  }
   // P4 Thought Cabinet: sessionId -> Map<unitId, Set<thoughtId>>
   const thoughtsStore = new Map();
 
@@ -706,6 +720,7 @@ function createSessionRouter(options = {}) {
       const nextId = nextUnitId(session);
       session.active_unit = nextId;
       session.turn += 1;
+      sgBeginTurnAll(session);
     }
 
     return { iaActions, bleedingEvents };
@@ -901,6 +916,13 @@ function createSessionRouter(options = {}) {
         biome_id: biomeIdRaw,
         biome_costs_log: biomeCostsLog,
       };
+      // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
+      try {
+        const sgTracker = require('../services/combat/sgTracker');
+        for (const u of session.units || []) sgTracker.resetEncounter(u);
+      } catch {
+        /* sgTracker optional */
+      }
       sessions.set(sessionId, session);
       activeSessionId = sessionId;
       await fs.mkdir(logsDir, { recursive: true });
@@ -1594,6 +1616,7 @@ function createSessionRouter(options = {}) {
           }
         }
         session.turn += 1;
+        sgBeginTurnAll(session);
       }
 
       const eventsEmitted = session.events.slice(eventsCountBefore);
