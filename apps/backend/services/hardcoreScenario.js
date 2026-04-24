@@ -112,7 +112,7 @@ function buildHardcoreUnits06() {
       traits: ['martello_osseo', 'ferocia', 'ondata_psichica'],
       hp: 40,
       ap: 3,
-      mod: 5,
+      mod: 3, // M14-C iter4: mod 5→3. Elevation +30% + mod 5 → 0% win iter0+3.
       dc: 14,
       guardia: 4,
       attack_range: 3,
@@ -121,6 +121,7 @@ function buildHardcoreUnits06() {
       ai_profile: 'aggressive',
       facing: 'W',
       // M14-C: BOSS sul palco/altare rialzato. Elevation +1 → +30% dmg vs ground.
+      // iter4: mod 3 + elev 1.3x ≈ mod 4 flat — compensa danno elevato.
       elevation: 1,
     },
     // 3 elite hunter — flanking + mid (iter 1: +1 elite + hp 7→9).
@@ -140,8 +141,10 @@ function buildHardcoreUnits06() {
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
-      // M14-C: gallerie laterali rialzate, +1 vantage (flank nord).
-      elevation: 1,
+      // M14-C iter3 (2026-04-26): elevation 1→0. Iter0+elevation dava 0% win
+      // (BOSS+2 elite +30% dmg ribaltava turtle-deadlock). Solo BOSS mantiene
+      // quota per preservare la tensione narrativa "altare rialzato".
+      elevation: 0,
     },
     {
       id: 'e_elite_hunter_2',
@@ -158,8 +161,8 @@ function buildHardcoreUnits06() {
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
-      // M14-C: gallerie laterali rialzate, +1 vantage (flank sud).
-      elevation: 1,
+      // M14-C iter3 (2026-04-26): elevation 1→0 (come elite 1).
+      elevation: 0,
     },
     // Iter 2: e_elite_hunter_3 RIMOSSO. Damage concentrato su BOSS singolo
     // (boss hp 22→40 +82%) > damage spread su 3 elite. Aggro rotation player
@@ -275,10 +278,14 @@ const HARDCORE_SCENARIO_07_POD_RUSH = {
     on_expire: 'escalate_pressure',
     on_expire_payload: { pressure_delta: 30, extra_spawns: 3 },
   },
+  // M14-C iter1 (2026-04-26): iter0 con elevation patrol → 100% win. Party
+  // chiude la pattuglia in 10 round prima che reinforcement triggeri. Knobs:
+  // min_tier Alert→Calm (pressure_start 60 sempre Alert, quindi più avanti a Calm
+  // in caso di mercy decay), cooldown 2→1 (spawn ogni round eligible).
   reinforcement_policy: {
     enabled: true,
-    min_tier: 'Alert',
-    cooldown_rounds: 2,
+    min_tier: 'Calm',
+    cooldown_rounds: 1,
     max_total_spawns: 6,
     min_distance_from_pg: 4,
   },
@@ -340,7 +347,7 @@ function buildHardcoreUnits07() {
       species: 'cacciatore_corazzato',
       job: 'vanguard',
       traits: ['martello_osseo'],
-      hp: 12,
+      hp: 15, // M14-C iter1: 12→15 per rallentare wipe iniziale e far entrare reinforcement.
       ap: 2,
       mod: 3,
       dc: 13,
@@ -381,6 +388,24 @@ function buildHardcoreUnits07() {
       guardia: 0,
       attack_range: 1,
       position: { x: 7, y: 7 },
+      controlled_by: 'sistema',
+      ai_profile: 'aggressive',
+      facing: 'W',
+    },
+    // M14-C iter1: +1 predone centrale per anticipare pressure sul party
+    // (iter0 100% win → 4v3 troppo generoso prima che reinforcement triggeri).
+    {
+      id: 'e_patrol_scout_3',
+      species: 'predone_agile',
+      job: 'skirmisher',
+      traits: [],
+      hp: 6,
+      ap: 2,
+      mod: 2,
+      dc: 11,
+      guardia: 0,
+      attack_range: 1,
+      position: { x: 5, y: 4 },
       controlled_by: 'sistema',
       ai_profile: 'aggressive',
       facing: 'W',
