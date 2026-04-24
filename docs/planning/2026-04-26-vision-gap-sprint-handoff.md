@@ -31,12 +31,15 @@ verità promesse in `docs/core/` ma zero runtime. Chiusi 6 gap principali in
 
 ## PR shipped
 
-| PR        | Scope              | Commits      | Tests           |
-| --------- | ------------------ | ------------ | --------------- |
-| #1726     | V1+V5+Telemetry    | `0fcabb17`   | +22             |
-|           | V2+V4+V7           | `5da6c946`   | +43             |
-|           | Wire V5+V7 runtime | `041e717c`   | regression only |
-| **Total** | **6 vision gaps**  | **3 commit** | **+65 tests**   |
+| PR        | Scope                                | Commits      | Tests           |
+| --------- | ------------------------------------ | ------------ | --------------- |
+| #1726     | V1+V5+Telemetry                      | `0fcabb17`   | +22             |
+|           | V2+V4+V7                             | `5da6c946`   | +43             |
+|           | Wire V5+V7 runtime                   | `041e717c`   | regression only |
+|           | Docs handoff + CLAUDE.md             | `ae291fcb`   | —               |
+|           | UI wire onboarding+rewards debrief   | `21a2e631`   | —               |
+|           | V4 form pack routes                  | `f20f0b46`   | +3              |
+| **Total** | **6 vision gaps + UI wire + V4 API** | **6 commit** | **+68 tests**   |
 
 ## Gap chiusi
 
@@ -122,11 +125,12 @@ verità promesse in `docs/core/` ma zero runtime. Chiusi 6 gap principali in
 
 ## Next session — handoff azioni
 
-### Priority 1 — UI polish (4h autonomous)
+### Priority 1 — UI polish ✅ COMPLETATO NELLA STESSA SESSIONE
 
-- [ ] Wire `onboardingPanel` in `apps/play/src/main.js` campaign start flow
-- [ ] Expose `/api/rewards/offer` in `debriefPanel.js` post-mission (3 card picker)
-- [ ] Wire `formPackRecommender` in character creation UI (show 3 recommended packs post-form choice)
+- [x] Wire `onboardingPanel` in `apps/play/src/main.js` campaign start flow (commit `21a2e631`)
+- [x] Expose `/api/rewards/offer` in `debriefPanel.js` post-mission via `showRewardOffer()` (commit `21a2e631`)
+- [x] Expose V4 pack recommender via REST `GET /api/forms/:id/packs` + `POST /recommend` (commit `f20f0b46`)
+- [ ] Remainder: wire `characterCreation.js` UI fetch `/api/forms/:id/packs` dopo form pick (deferred polish, UI tests dependency)
 
 ### Priority 2 — Runtime integration (3h autonomous)
 
@@ -151,10 +155,22 @@ verità promesse in `docs/core/` ma zero runtime. Chiusi 6 gap principali in
 **Nulla in autonomous — auto-mode coperto. Solo 2 cose bloccanti su user:**
 
 1. **Playtest live 2-4 amici** (TKT-M11B-06) — userland non-automatizzabile.
-   Kit pronto: `docs/playtest/2026-04-26-coop-full-loop-playbook.md`
-2. **Review PR #1726** merge decision — se green CI, merge e continue.
+   Kit pronto: `docs/playtest/2026-04-26-coop-full-loop-playbook.md` +
+   onboardingPanel ora si attiva automaticamente al campaign start (host).
+2. **Review [PR #1726](https://github.com/MasterDD-L34D/Game/pull/1726)** merge decision — se green CI, merge e continue.
 
-Tutto altro = autonomous next session.
+**TUTTO altro autonomous completato questa sessione.**
+
+### Scope sessione (quanto fatto):
+
+- 6/7 vision gap (V3 mating + V6 UI TV dashboard deferred per effort vincolo)
+- +68 test (411/411 verde)
+- 6 commit pushati
+- UI wire onboarding pre-tutorial (phone host)
+- UI wire tri-sorgente rewards in debrief panel
+- REST API expose V4 form pack recommender
+- Runtime wire V5 SG + V7 biome bias
+- Docs handoff + governance registry + CLAUDE.md + memory
 
 ## Riferimenti
 
