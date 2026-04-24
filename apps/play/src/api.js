@@ -195,4 +195,41 @@ export const api = {
     jsonFetch(`/api/v1/progression/campaign/${encodeURIComponent(campaignId)}`, {
       method: 'DELETE',
     }),
+  // M17 Co-op — run + character + world + debrief + combat end
+  coopRunStart: (code, hostToken, scenarioStack = ['enc_tutorial_01']) =>
+    jsonFetch('/api/coop/run/start', {
+      method: 'POST',
+      body: JSON.stringify({ code, host_token: hostToken, scenario_stack: scenarioStack }),
+    }),
+  coopCharacterCreate: (code, playerId, playerToken, spec) =>
+    jsonFetch('/api/coop/character/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        code,
+        player_id: playerId,
+        player_token: playerToken,
+        ...spec,
+      }),
+    }),
+  coopState: (code) => jsonFetch(`/api/coop/state?code=${encodeURIComponent(code)}`),
+  coopWorldConfirm: (code, hostToken, scenarioId) =>
+    jsonFetch('/api/coop/world/confirm', {
+      method: 'POST',
+      body: JSON.stringify({ code, host_token: hostToken, scenario_id: scenarioId }),
+    }),
+  coopDebriefChoice: (code, playerId, playerToken, choice) =>
+    jsonFetch('/api/coop/debrief/choice', {
+      method: 'POST',
+      body: JSON.stringify({
+        code,
+        player_id: playerId,
+        player_token: playerToken,
+        choice,
+      }),
+    }),
+  coopCombatEnd: (code, hostToken, payload = {}) =>
+    jsonFetch('/api/coop/combat/end', {
+      method: 'POST',
+      body: JSON.stringify({ code, host_token: hostToken, ...payload }),
+    }),
 };

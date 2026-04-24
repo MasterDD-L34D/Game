@@ -409,6 +409,12 @@
   background: rgba(255, 183, 77, 0.05);
 }
 
+.lobby-host-roster-list .char-label {
+  font-size: 0.72rem;
+  color: #b39ddb;
+  margin-left: 4px;
+}
+
 .lobby-host-roster-empty {
   color: #8891a3;
   font-style: italic;

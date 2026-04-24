@@ -865,6 +865,72 @@ function animTick() {
   if (needsAnimFrame()) requestAnimationFrame(animTick);
 }
 
+/**
+ * M17 — Co-op host flow orchestration.
+ * Returns:
+ *   - null  → no co-op (solo host, no players). Proceed legacy.
+ *   - 'wait' → coop run just started OR phase not ready; caller MUST stop.
+ *   - { characters: [...] } → ready to start combat; caller pipes into api.start.
+ */
+async function maybeRunCoopHostFlow(scenarioId) {
+  if (!lobbyBridge?.isHost) return null;
+  const session = lobbyBridge.session;
+  if (!session?.code || !session?.token) return null;
+  // count players (exclude host)
+  const players = Array.from(lobbyBridge._players?.values?.() || []).filter(
+    (p) => p.role !== 'host' && p.id !== session.player_id,
+  );
+  if (players.length === 0) return null; // solo host dev/test
+
+  // Fetch current coop state
+  let coopState = null;
+  try {
+    const r = await api.coopState(session.code);
+    if (r.ok) coopState = r.data?.snapshot || null;
+  } catch {
+    // ignore — treat as lobby
+  }
+  const phase = coopState?.phase || 'lobby';
+
+  if (phase === 'lobby' || phase === 'ended') {
+    // Start run → auto transitions to character_creation.
+    const r = await api.coopRunStart(session.code, session.token, [scenarioId]);
+    if (!r.ok) {
+      appendLog(logEl, `✖ coop run start: ${r.data?.error || r.status}`, 'error');
+      return null;
+    }
+    appendLog(logEl, `🎭 Run co-op avviata — attendi PG dei ${players.length} player`);
+    updateHint('Fase: creazione PG. Ricliccare "Nuova sessione" quando tutti pronti.');
+    return 'wait';
+  }
+
+  if (phase === 'character_creation') {
+    const readyCount = coopState?.characters?.length || 0;
+    appendLog(logEl, `⏳ Attendi: ${readyCount}/${players.length} player hanno creato PG`, 'warn');
+    return 'wait';
+  }
+
+  if (phase === 'world_setup') {
+    // Confirm scenario + pipe characters into /session/start.
+    const r = await api.coopWorldConfirm(session.code, session.token, scenarioId);
+    if (!r.ok) {
+      appendLog(logEl, `✖ coop world confirm: ${r.data?.error || r.status}`, 'error');
+      return null;
+    }
+    appendLog(logEl, `✓ Scenario confermato, avvio combat con ${coopState.characters.length} PG`);
+    return { characters: coopState.characters };
+  }
+
+  if (phase === 'combat') {
+    appendLog(logEl, '⚠ Combat già in corso — usa Reset prima.', 'warn');
+    return 'wait';
+  }
+
+  // debrief / other phases — defer M19
+  appendLog(logEl, `Phase coop attuale: ${phase} (non gestita M17).`, 'warn');
+  return null;
+}
+
 async function startNewSession() {
   state.endgameShown = false;
   state.pendingAbility = null;
@@ -877,6 +943,11 @@ async function startNewSession() {
     updateHint('Backend non raggiungibile? Verifica npm run start:api.');
     return;
   }
+
+  // M17 — Co-op flow: if host of room with players, orchestrate coop phases.
+  const coopCtx = await maybeRunCoopHostFlow(scenarioId);
+  if (coopCtx === 'wait') return; // esc: wait for players to finish character creation
+  const coopCharacters = coopCtx?.characters || null;
   const modSel = document.getElementById('modulation-select');
   // Se scenario raccomanda modulation (es. hardcore → 'full') e user non ha
   // scelto manualmente, applica recommended (aggiorna dropdown per UI clarity).
@@ -892,6 +963,9 @@ async function startNewSession() {
   // M7-#2 Phase C: pipe encounter_class da scenario a backend per apply
   // damage_curves.yaml multiplier + enrage threshold.
   if (sc.data.encounter_class) startOpts.encounter_class = sc.data.encounter_class;
+  if (coopCharacters && coopCharacters.length > 0) {
+    startOpts.characters = coopCharacters;
+  }
   const st = await api.start(sc.data.units, startOpts);
   if (!st.ok) {
     appendLog(logEl, `✖ session start: ${st.status}`, 'error');

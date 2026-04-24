@@ -43,6 +43,9 @@ const EVENT_TYPES = [
   'reconnect_failed',
   // M15 additions
   'round_ready',
+  // M17 additions
+  'phase_change',
+  'character_ready_list',
 ];
 
 function resolveDefaultWsImpl() {
@@ -247,6 +250,12 @@ export class LobbyClient {
         return;
       case 'round_ready':
         this._emit('round_ready', msg.payload || {});
+        return;
+      case 'phase_change':
+        this._emit('phase_change', msg.payload || {});
+        return;
+      case 'character_ready_list':
+        this._emit('character_ready_list', msg.payload || []);
         return;
       case 'room_closed':
         this._emit('room_closed', msg.payload || {});
