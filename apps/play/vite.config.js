@@ -8,6 +8,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..', '..');
 
 export default defineConfig({
+  // base relativa: asset path risolvibili sotto qualsiasi mount (/play/ o /).
+  // Fix: HTML bundled referenzia /assets/... absolute ma backend serve
+  // sotto /play/assets/... → 404. Con './' diventa assets/ relativi.
+  base: './',
   server: {
     port: 5180,
     host: '127.0.0.1',
