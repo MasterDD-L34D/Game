@@ -68,6 +68,5 @@ jobs:
               --base main \
               --head "$BRANCH" \
               --title "chore(skiv-monitor): auto-update stato + feed creatura" \
-              --body "🦎 Auto-update da workflow \`skiv-monitor.yml\` (cron 4h). Merge sicuro: solo file in \`data/derived/skiv_monitor/\` + \`docs/skiv/MONITOR.md\`." \
-              --label "automation,skiv"
+              --body "🦎 Auto-update da workflow \`skiv-monitor.yml\` (cron 4h). Merge sicuro: solo file in \`data/derived/skiv_monitor/\` + \`docs/skiv/MONITOR.md\`."
           fi
