@@ -8,12 +8,32 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v6 (post Skiv extended session 2026-04-25 sera — 10 PR + 2 routine, 5/8 wishlist closed)
-- **Ultimo aggiornamento**: 2026-04-25 sera tardi (autonoma trust esteso, 5/8 wishlist Skiv chiuso)
+- **Versione compact**: v7 (post P1 follow-up session 2026-04-25 — 3 PR, thought cabinet + MAP-Elites HTTP)
+- **Ultimo aggiornamento**: 2026-04-25 (P1 follow-up autonoma: tier-2/3 effects + resolver wire + MAP-Elites live archive)
 
 ## ⚡ TL;DR per ripartire
 
-**6 agent illuminator pronti** + **15 P0 chiusi totali** (7 notte + 3 pomeriggio + 5 sera Skiv-driven) + **Skiv 5/8 wishlist closed**: synergy #2, biome resonance #4, Defy #5, Diary #7, Hybrid Path #6. Routine `trig_012Axz6...` (resolver wire) lunedì 2026-05-11 + routine `trig_01SB74yJ...` (Inner Voices #3) mercoledì 2026-05-13. Pattern stdlib-only + js-yaml + mulberry32 + monkeypatch DI + data-driven matcher + JSONL append validato 11×. **NON perdere Skiv** + **NON saltare workflow research-first**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+**6 agent illuminator pronti** + **15 P0 + 3 P1 chiusi** + **Skiv 5/8 wishlist closed**. P1 chiusi: Thought Cabinet tier-2/3 effects (#1778) + resolver wire (#1780) + MAP-Elites HTTP archive 85.2% coverage (#1782). Routine `trig_012Axz6...` lunedì 2026-05-11 + `trig_01SB74yJ...` mercoledì 2026-05-13. Pattern stdlib-only + JSONL + monkeypatch DI validato 11×. **NON perdere Skiv** + **NON saltare workflow research-first**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+
+## 🆕 Sessione 2026-04-25 P1 follow-up (3 PR)
+
+**3 PR derivati dai P0 (#1768 + #1769) chiusi**:
+
+| PR    | Title                                                        | Status          |
+| ----- | ------------------------------------------------------------ | --------------- |
+| #1778 | feat(narrative): Thought Cabinet tier-2/3 effects + tests    | merged          |
+| #1780 | feat(combat): Thought Cabinet passive resolver wire          | merged          |
+| #1782 | feat(balance): MAP-Elites HTTP live archive (85.2% coverage) | draft, CI green |
+
+**Nuovi test**: thoughtCabinet 46/46 (+7) · thoughtPassiveApply 8/8 NEW. Grand total post-P1: AI 307 · services 306 · api 633 · pytest 948. Governance 0/0.
+
+**MAP-Elites risultati**: 23/27 celle riempite (85.2% coverage), fitness max=1.0, avg=0.6812. Top elites: support + skirmisher in high-T/N range. 4 cells vuote in low-MBTI range (tank) = tuning target.
+
+**Thought Cabinet resolver wire**: `thoughtPassiveApply.js` new module. `updateThoughtPassives(unit, bonus, cost)` applica net delta a unit.mod/dc/hp_max/attack_range/ap. Wired in `/thoughts/tick` (on promotion) + `/thoughts/forget` (on forget + recompute). Pattern: snapshot flag `_thought_passive_delta` per revert pulito.
+
+**Residuali P1 attivi**: Synergy HUD telegraph + Defy enemy extension + Resonance tier badge.
+
+---
 
 ## 🆕 Sessione 2026-04-25 sera — Skiv extended (10 PR + 2 routine)
 
