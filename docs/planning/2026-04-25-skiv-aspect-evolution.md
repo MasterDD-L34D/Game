@@ -196,15 +196,68 @@ cat docs/playtest/2026-04-25-skiv-saga-state.md
 
 1. **Lineage propagation** (V3 Nido): legacy phase deve esporre
    `inheritable_traits` API che la prossima creatura della genus
-   eredita probabilisticamente?
+   eredita probabilisticamente? CK3 DNA pattern (P-B nell'agent
+   `creature-aspect-illuminator`) suggerisce gene chain compatto
+   ~50 byte trasmissibile.
 2. **Sprite asset budget**: 5 fasi × N MBTI variants × M mutation
-   stack = combinatorial. Limite 1 sprite per fase + overlay
-   dinamici per mutation/MBTI?
+   stack = combinatorial. Wildermyth solution: layered composition
+   con cache (RimWorld P11). LPC Universal Spritesheet (CC-BY-SA)
+   come prototype-baseline (`external/lpc-generator/` proposed).
 3. **Crystallization rollback**: se un axis MBTI scende sotto tier1
    (drift via gameplay opposto), Skiv **regredisce** visivamente
-   o resta "scarred"?
+   o resta "scarred"? Wildermyth: scar è permanente
+   (unidirectional). Citizen Sleeper: stress canonizzata
+   (failure è story, non rollback).
 4. **Frequency phase transitions**: 1 transizione per scenario è
-   ragionevole? Player feedback target.
+   ragionevole? Player feedback target. Emily Short warning zone
+   pattern: pre-segnale via diary `phase_signal: "<fase>_approaching"`
+   _prima_ del cambio meccanico (in lifecycle YAML come
+   `warning_zone_it`).
+
+## Research provenance
+
+Questo doc + lifecycle YAML sono il prodotto di 3 ricerche parallele
+(2026-04-25 agent batch):
+
+- **External repos** (general-purpose agent): 12 pattern primary-sourced
+  da Wildermyth / CK3 / Caves of Qud / Monster Hunter Stories / Disco
+  Elysium / Hades / Subnautica / Cogmind / RimWorld + LPC + Lai 2021.
+  Top picks: Wildermyth layered + Qud morphotype gating + MHS gene
+  grid + Disco portrait correlate.
+- **UI audit** (ui-design-illuminator): 12 gap concreti file:line
+  identificati nel client esistente (`apps/play/`). Top 3 P0:
+  thoughtsPanel slot+researching state, render.js canvas font,
+  Defy verb (assente UI surface).
+- **Narrative arcs** (narrative-design-illuminator): 7 pattern
+  - 5 narrative beats Skiv POV. Voice_it INTP-leaning-I:
+    analitica, autocontenuta, traccia relazione con branco.
+    Diary integration mapping per ciascuna transizione.
+
+Il nuovo agent `.claude/agents/creature-aspect-illuminator.md`
+compone tutto questo in un agent canonico per future species
+(post Skiv canonical).
+
+## Sources (primary)
+
+- [Wildermyth Image layers wiki](https://wildermyth.com/wiki/Image_layers)
+- [Wildermyth Story Inputs and Outputs wiki](https://wildermyth.com/wiki/Story_Inputs_and_Outputs)
+- [Wildermyth Modular Storytelling design](https://cjleo.com/2022/12/26/the-power-of-wildermyths-modular-storytelling-in-game-design/)
+- [Caves of Qud Mutations wiki](https://wiki.cavesofqud.com/wiki/Mutations)
+- [Caves of Qud Modding:Genotypes](https://wiki.cavesofqud.com/wiki/Modding:Genotypes_and_Subtypes)
+- [Crusader Kings 3 DNA dev diary](https://www.pcinvasion.com/crusader-kings-iiis-latest-dev-diary-explains-schemes-portraits-dna-council-members-and-your-court/)
+- [CK3 Legends of the Dead expansion](https://www.paradoxinteractive.com/media/press-releases/press-release/great-deeds-confer-immortality-in-new-crusader-kings-iii-expansion)
+- [Disco Elysium Thought Cabinet devblog](https://discoelysium.com/devblog/2019/09/30/introducing-the-thought-cabinet)
+- [Monster Hunter Stories 3 Gene Grid - Game8](https://game8.co/games/Monster-Hunter-Stories-3/archives/586640)
+- [Hades 2 Weapon Aspects wiki](https://hades2.wiki.fextralife.com/Weapon+Aspects)
+- [Subnautica Ghost Leviathan wiki](https://subnautica.fandom.com/wiki/Ghost_Leviathan)
+- [Citizen Sleeper Stress into Storytelling - Vice](https://www.vice.com/en/article/how-citizen-sleeper-turns-stress-into-intimate-storytelling/)
+- [Slay the Princess Voices wiki](https://slay-the-princess.fandom.com/wiki/Voices)
+- [Emily Short Narrative States](https://emshort.blog/2019/11/23/narrative-states/)
+- [Emily Short Storylets](https://emshort.blog/2019/11/29/storylets-you-want-them/)
+- [Frostpunk Emotional Narrative - GameDeveloper](https://www.gamedeveloper.com/design/frostpunk-an-analysis-of-emotional-narrative-engagement)
+- [Lai 2021 Virtual Creature Morphology Wiley](https://onlinelibrary.wiley.com/doi/10.1111/cgf.142661)
+- [Universal-LPC-Spritesheet GitHub](https://github.com/LiberatedPixelCup/Universal-LPC-Spritesheet-Character-Generator)
+- [Microsoft 10-foot Experience Guidelines](https://learn.microsoft.com/en-us/windows/win32/dxtecharts/introduction-to-the-10-foot-experience-for-windows-game-developers)
 
 ## Refs
 

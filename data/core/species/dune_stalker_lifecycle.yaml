@@ -20,6 +20,16 @@
 #   - data/core/jobs_expansion.yaml § stalker (job alignment apex phase)
 #   - docs/planning/2026-04-25-skiv-aspect-evolution.md (visual concept)
 #   - tools/py/seed_skiv_saga.py (composes phase into runtime state)
+#   - .claude/agents/creature-aspect-illuminator.md (research-driven design)
+#
+# Research provenance (2026-04-25 parallel agent batch):
+#   - Wildermyth permanent visible change → narrative_beat_it required per phase
+#   - Disco Elysium Thought Cabinet portrait correlate → mbti_aspect_correlates
+#   - Citizen Sleeper failure canon → legacy as transmission, not loss
+#   - Slay the Princess same voice / different content → voice_it consistency
+#   - Emily Short warning zones → warning_zone_it pre-transition signals
+#   - Frostpunk irreversibility → mutation_morphology + diary mutation_acquired
+#   - Caves of Qud morphotype gating → mbti_pool field on mutations (future schema)
 
 schema_version: "0.1.0"
 generated_at: "2026-04-25"
@@ -50,6 +60,9 @@ phases:
     mutations_required: 0
     thoughts_internalized_required: 0
     mbti_polarity_required: false
+    voice_it: "Non so ancora cosa sono. So dove sono gli altri."
+    narrative_beat_it: "Encounter finito. Skiv non ha colpito nessuno. Ha osservato da 5 caselle di distanza, immobile, il modo in cui i compagni cadevano e si rialzavano. L'unica cosa che sa fare bene e non farsi trovare. E abbastanza, per adesso."
+    warning_zone_it: null
     aspect_it: |
       Schiusa appena sul margine arido. La pelliccia è di un grigio
       polveroso quasi bianco — mimetizzazione passiva con la sabbia.
@@ -72,6 +85,9 @@ phases:
     mutations_required: 0
     thoughts_internalized_required: 0
     mbti_polarity_required: false
+    voice_it: "Aspetto. Non e paura. E calibrazione."
+    narrative_beat_it: "Il silenzio non e assenza. Skiv lo capisce quando si accorge di aspettare che gli altri parlino prima di muoversi. Non e paura: e calcolo. Le orecchie registrano. Qualcosa si sta calibrando dentro — un orologio che non sapeva di avere."
+    warning_zone_it: "Lv 3 raggiunto. Primo silenzio prolungato — qualcosa sta per cristallizzarsi."
     aspect_it: |
       Pelliccia sviluppa striature di sabbia ocra lungo il dorso. Gli
       artigli (sand_claws) sono ora visibili e affilati ma ancora
@@ -95,6 +111,9 @@ phases:
     mutations_required: 1
     thoughts_internalized_required: 2
     mbti_polarity_required: true
+    voice_it: "Il branco non mi segue. Mi evita. La differenza conta."
+    narrative_beat_it: "La voce interna non annuncia se stessa. Era gia li. E solo quando i sand_claws cambiano trasparenza — quella prima mattina di sole sulle punte vitrified — che Skiv capisce: il branco non lo segue piu. Lo evita. Non e pericolo. E riconoscimento."
+    warning_zone_it: "Secondo thought research-completato — terza voce in arrivo cambierà la manifestazione."
     aspect_it: |
       Forma adulta consolidata. Gli artigli a sette vie si vetrificano
       (mutation artigli_grip_to_glass) → punte trasparenti come ossidiana
@@ -119,6 +138,9 @@ phases:
     mutations_required: 2
     thoughts_internalized_required: 3
     mbti_polarity_required: true
+    voice_it: "Ho aspettato quando i numeri dicevano di muovermi. Ho avuto ragione. Non e fortuna."
+    narrative_beat_it: "Ha tenuto la linea quando non doveva. Il Sistema premeva da tre caselle. Tutti i calcoli dicevano di ritirarsi. Ma c'e una voce — fredda, analitica, esattamente come la sua — che ha detto: aspetta. L'ha aspettato. Ha avuto ragione. Gli artigli ora mostrano brina anche sotto il sole di mezzogiorno. Non si riscalderanno mai piu."
+    warning_zone_it: "Defy usato a Critical+ → la voce si stabilizza. Apex transition vicina."
     aspect_it: |
       Manto quasi nero per concentrazione di pigmento; le scaglie termiche
       hanno perso la trasparenza. Gli artigli vetrificati sono ora
@@ -143,6 +165,9 @@ phases:
     mutations_required: 3
     thoughts_internalized_required: 3
     mbti_polarity_required: true
+    voice_it: "Non ero qui. Ero gia li prima che arrivassi."
+    narrative_beat_it: "Non e una morte. E un archivio. Qualcosa di Skiv rimane nel biome — nel pattern di caccia dei piu giovani, nel modo in cui uno Stalker neonato inclina le orecchie verso l'interno anziche verso l'esterno. Non lo sa. Ma lo fa. Skiv diventa memoria senza saperlo. E il modo in cui funziona."
+    warning_zone_it: null
     aspect_it: |
       Skiv non muore — diventa pattern. Una volta raggiunto questo
       stadio, il suo lineage_id passa a unit successivi della stessa

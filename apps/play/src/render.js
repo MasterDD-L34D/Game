@@ -219,7 +219,8 @@ function drawStatusIcons(ctx, unit, cx, yPxTop) {
     ctx.arc(ix + size / 2, iy + size / 2, size / 2, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = '#000';
-    ctx.font = 'bold 10px "SF Mono", monospace';
+    // 10-foot rule: dynamic min 12px, scale with CELL (Microsoft TV guidelines).
+    ctx.font = `bold ${Math.max(12, Math.round(CELL * 0.16))}px "SF Mono", monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(ic.glyph, ix + size / 2, iy + size / 2 + 1);
@@ -332,7 +333,8 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     .replace(/[^\p{L}]/gu, '')
     .slice(0, 3)
     .toUpperCase();
-  ctx.font = 'bold 13px "SF Mono", "Menlo", monospace';
+  // 10-foot rule: dynamic font for species abbrev (min 14px, scale with CELL).
+  ctx.font = `bold ${Math.max(14, Math.round(CELL * 0.18))}px "SF Mono", "Menlo", monospace`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.strokeStyle = 'rgba(0,0,0,0.85)';
@@ -356,7 +358,8 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     ctx.fillRect(barX, barY, barW * ratio, 5);
     // Numeric value sopra bar (TV-first scan)
     ctx.fillStyle = '#fff';
-    ctx.font = 'bold 9px "SF Mono", monospace';
+    // 10-foot rule: HP numeric scales with CELL (min 12px, prev was 9px hard-fail TV).
+    ctx.font = `bold ${Math.max(12, Math.round(CELL * 0.15))}px "SF Mono", monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'bottom';
     const maxHp = unit.max_hp || unit.hp || 0;
@@ -402,7 +405,8 @@ function drawSisIntentIcon(ctx, unit, cx, yPxTop, kind = 'fist') {
   // Glyph
   const glyph = kind === 'fist' ? '✊' : kind === 'move' ? '➜' : kind === 'shield' ? '🛡' : '?';
   ctx.fillStyle = '#fff';
-  ctx.font = 'bold 11px "SF Mono", monospace';
+  // 10-foot rule: intent glyph (min 13px, scale with CELL).
+  ctx.font = `bold ${Math.max(13, Math.round(CELL * 0.17))}px "SF Mono", monospace`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(glyph, ix, iy + size / 2 + 1);
