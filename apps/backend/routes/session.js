@@ -78,6 +78,21 @@ const reactionEngine = require('../services/reactionEngine');
 // Status engine extension (2026-04-25 audit P0): wire 7 ancestor statuses
 // (linked/fed/healing/attuned/sensed/telepatic_link/frenzy) runtime-active.
 const { computeStatusModifiers } = require('../services/combat/statusModifiers');
+
+// Audit 2026-04-25 sera (balance-auditor): cap totale duration per status
+// type previene "sustained rage" durante kill chain (13 trait on_kill rage
+// sources). Re-apply via Math.max(current, turns) → cap via Math.min(MAX, ...).
+// Default rage/frenzy cap 5 turn (peer ferocia 3-turn variants caps + 2 round
+// max combat momentum). panic/stunned/confused inherit short caps (3-4)
+// per design intent. Status non listati → no cap (unchanged behavior).
+const STATUS_DURATION_CAPS = {
+  rage: 5,
+  frenzy: 5,
+  panic: 4,
+  stunned: 3,
+  confused: 3,
+  bleeding: 5,
+};
 // M7-#2 Phase B: damage scaling curves runtime (ADR-2026-04-20).
 const {
   loadDamageCurves,
@@ -557,7 +572,13 @@ function createSessionRouter(options = {}) {
         const unit = s.target_side === 'actor' ? actor : target;
         if (!unit || unit.hp <= 0 || !unit.status) continue;
         const current = Number(unit.status[s.stato]) || 0;
-        unit.status[s.stato] = Math.max(current, s.turns);
+        // Audit 2026-04-25 sera (balance-auditor): kill chain re-apply rage
+        // pattern → sustained rage durante kill streak. Cap totale per status
+        // type previene "permanent rage" scenario in late combat.
+        // Frenzy (PR #1822) stesso pattern, stesso cap.
+        const cap = STATUS_DURATION_CAPS[s.stato];
+        const merged = Math.max(current, s.turns);
+        unit.status[s.stato] = cap !== undefined ? Math.min(cap, merged) : merged;
       }
     }
 
