@@ -122,7 +122,10 @@ const {
   computePositionalDamage,
   facingFromMove,
   predictCombat,
+  applyApRefill,
 } = require('./sessionHelpers');
+// Skiv ticket #5 (Sprint B): Defy verb — player counter-pressure agency.
+const { applyDefy: applyDefyAction, DEFY_SG_COST } = require('../services/combat/defyEngine');
 const { createRoundBridge } = require('./sessionRoundBridge');
 // M13 P3 Phase B — progression perks apply + runtime passive damage bonus.
 const {
@@ -764,9 +767,8 @@ function createSessionRouter(options = {}) {
       });
     };
     const resetAp = (unit) => {
-      if (!unit) return;
-      const fractureActive = Number(unit.status?.fracture) > 0;
-      unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+      // Skiv #5: applyApRefill centralises fracture + defy_penalty handling.
+      applyApRefill(unit);
     };
     const decrement = (unit) => {
       if (!unit || !unit.status) return;
@@ -988,9 +990,20 @@ function createSessionRouter(options = {}) {
         biome_costs_log: biomeCostsLog,
       };
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
+      // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
+      // save-load + integration tests seed SG after the encounter zero-pass.
       try {
         const sgTracker = require('../services/combat/sgTracker');
         for (const u of session.units || []) sgTracker.resetEncounter(u);
+        const initialSg = req.body?.initial_sg;
+        if (initialSg && typeof initialSg === 'object') {
+          for (const [uid, pool] of Object.entries(initialSg)) {
+            const unit = (session.units || []).find((u) => u && u.id === uid);
+            if (!unit) continue;
+            const value = Math.max(0, Math.min(3, Math.floor(Number(pool) || 0)));
+            unit.sg = value;
+          }
+        }
       } catch {
         /* sgTracker optional */
       }
@@ -1675,9 +1688,8 @@ function createSessionRouter(options = {}) {
               session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + 1;
             }
           }
-          // AP reset
-          const fractureActive = Number(unit.status?.fracture) > 0;
-          unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+          // AP reset (Skiv #5: applyApRefill handles fracture + defy_penalty)
+          applyApRefill(unit);
           // Status decay + bonus clear
           if (unit.status) {
             for (const key of Object.keys(unit.status)) {
@@ -1714,6 +1726,51 @@ function createSessionRouter(options = {}) {
         events_emitted_count: eventsEmitted.length,
         events: eventsEmitted,
         ap_consumed: apByUnit,
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // Skiv ticket #5 (Sprint B 2/2): Defy verb. Player counter-pressure agency.
+  // Body: { session_id, actor_id }. Validates SG ≥ DEFY_SG_COST + actor is
+  // player-controlled + alive + pressure > 0; on success spends 2 SG, drops
+  // sistema_pressure by DEFY_PRESSURE_RELIEF (clamped at 0), and sets
+  // actor.status.defy_penalty so the actor refills with -1 AP next turn.
+  router.post('/defy', async (req, res, next) => {
+    try {
+      const body = req.body || {};
+      const { error, session } = resolveSession(body.session_id);
+      if (error) return res.status(error.status).json(error.body);
+      const actor = session.units.find((u) => u.id === body.actor_id);
+      if (!actor) {
+        return res.status(400).json({ error: 'actor_not_found', actor_id: body.actor_id || null });
+      }
+      const outcome = applyDefyAction(actor, session);
+      if (!outcome.ok) {
+        return res
+          .status(409)
+          .json({ error: outcome.error, detail: outcome.detail || null, actor_id: actor.id });
+      }
+      // Append narrative event for HUD/debrief consumption.
+      const event = {
+        event_type: 'defy',
+        actor_id: actor.id,
+        turn: Number(session.turn || 0),
+        sg_before: outcome.before.sg,
+        sg_after: outcome.after.sg,
+        pressure_before: outcome.before.pressure,
+        pressure_after: outcome.after.pressure,
+        relief: outcome.relief,
+        sg_cost: outcome.cost.sg,
+        ap_penalty_next_turn: outcome.cost.ap_next_turn,
+      };
+      if (Array.isArray(session.events)) session.events.push(event);
+      res.json({
+        session_id: session.session_id,
+        actor_id: actor.id,
+        ...outcome,
         state: publicSessionView(session),
       });
     } catch (err) {
