@@ -1171,6 +1171,32 @@ canvas#grid:hover {
 .status-chip .status-svg {
   flex-shrink: 0;
 }
+.synergy-telegraph {
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #ffd86e;
+  background: rgba(255, 198, 50, 0.1);
+  border: 1px solid rgba(255, 198, 50, 0.35);
+  border-radius: 6px;
+  padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  animation: syn-pulse 2.4s ease-in-out infinite;
+}
+.synergy-telegraph .syn-bonus {
+  color: #ffaa00;
+  font-weight: 700;
+}
+@keyframes syn-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
 .unit-ai {
   margin-top: 3px;
   font-size: 0.7rem;
