@@ -75,16 +75,26 @@
 - **File o moduli coinvolti**: `.claude/settings.json` (per skill install config).
 - **Prossima azione consigliata**: post-playtest round 2, run skill su `docs/playtest/*-calibration.md` raccolti.
 
-### [OD-008] Sentience index backfill scope ✅ RISOLTA 2026-04-25
+### [OD-008] Sentience index backfill scope ✅ RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera
 
 - **Livello**: game + system
-- **Stato**: **risolta 2026-04-25 (user verdict)**
-- **Verdict**: **Opzione B — backfill incrementale**. Quando si edita una species per altri motivi (Sprint C, content sprint, balance tweak), assegnare `sentience_index` T1-T5 via milestone matching (T1 = "Senses core", T2 = "AB 01 Endurance", ecc.). Zero overhead dedicato, drift chiuso a regime entro 3-4 sprint.
-- **Ragione**: sweep dedicato 8h è lavoro morto se non c'è use-case immediato runtime. Incrementale chiude drift senza overhead.
-- **Implementation guidance**: ogni agent che edita `data/core/species.yaml` o `data/core/species_expansion.yaml` per QUALSIASI motivo deve, se non già presente, aggiungere `sentience_index: T<N>` derivando il livello dalle milestone esistenti della species. Pattern reusable, no PR dedicato.
+- **Stato**: **OVERRIDE 2026-04-25 sera (user re-decisione)** — sostituisce verdict Opzione B precedente
+- **Verdict NEW**: **Opzione A — backfill TUTTE 45 species esistenti** in single PR (~6h). Zero gap residuo, drift chiuso immediatamente.
+- **Ragione override**: user vuole stato definito ora invece che drift "lazy" su 3-4 sprint. Sweep dedicato accettato come lavoro one-shot.
+- **Implementation plan**:
+  1. Per ogni species in `data/core/species.yaml` + `data/core/species_expansion.yaml` (45 totali), assegna `sentience_index: T0-T6` via matching:
+     - T0 = species senza milestones definite
+     - T1 = "Senses core" presente
+     - T2 = "AB 01 Endurance" presente
+     - T3-T5 = milestone progression aggregate
+     - T6 = full sentience marker (NPG-eligible)
+  2. Validate: `python3 tools/py/game_cli.py validate-datasets`
+  3. Schema enum check: `npm run schema:lint`
+  4. Test: `node --test tests/api/*.test.js` (regression)
+- **Verdict precedente preservato (riferimento)**: Opzione B incrementale — superseded da OVERRIDE.
 - **File o moduli coinvolti**: `data/core/species.yaml`, `data/core/species_expansion.yaml`, `schemas/core/enums.json` (enum già live).
 - **Ref**: card [M-2026-04-25-001](docs/museum/cards/cognitive_traits-sentience-tiers-v1.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
-- **Skiv-voice motivation** (user feedback): "sabbia ha strati, marcare quando passi sopra — sufficiente".
+- **Skiv-voice motivation** (user feedback): "sabbia ha strati, marcare quando passi sopra — sufficiente". Override: "marcare TUTTI i passaggi ora, non quando capita".
 
 ### [OD-009] Ennea source canonical — `data/core/personality/` vs `packs/evo_tactics_pack/...` ✅ RISOLTA confermata 2026-04-25
 
@@ -126,21 +136,26 @@
 - **File o moduli coinvolti**: `data/core/narrative/ennea_voices/` (NUOVO), `apps/backend/services/narrativeEngine.js` (extend), telemetry events.
 - **Ref**: card [M-2026-04-25-003](docs/museum/cards/enneagramma-dataset-9-types.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
 
-### [OD-011] Ancestors recovery scope ✅ RISOLTA 2026-04-25 (con remind autonomous)
+### [OD-011] Ancestors recovery scope ✅ RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera
 
 - **Livello**: game + system
-- **Stato**: **risolta 2026-04-25 (user verdict + remind autonomous task)**
-- **Verdict**: **Opzione A — wire 22 Self-Control trigger subito** (~5h, alimenta Skiv Sprint B coverage). Path B (caccia 263 neuroni mancanti) **non scartato**: scheduled come task autonomous per ricerca online fonti.
-- **Path A (immediate)**:
-  - Estendi `data/core/traits/active_effects.yaml` con 22 nuovi entry mappati da `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv` (Self-Control branch, codici CO 01-22)
-  - `effect_trigger` field già esiste (es. `on_take_damage`, `on_engage_choice`, `on_pressure_tier_up`)
-  - Test: `python3 tools/py/game_cli.py validate-datasets`
-  - Output: +22 trait reaction-aware in glossary, low-risk additive
-- **Path B (deferred autonomous)**: vedi nuovo ticket [TKT-ANCESTORS-RECOVERY](BACKLOG.md#tkt-ancestors-recovery) — caccia online dei 263 neuroni mancanti via fonti pubbliche (Ancestors Wiki + Britannica + biology references già citate in RFC). Claude ricerca autonomously quando ha budget tempo, NON userland action.
-- **Rationale**: 22 trigger sono già nelle mani, low risk, alimentano Skiv Sprint B (defy/counter). I 263 mancanti possono essere ricostruiti via research esterna invece di dipendere da `.zip` perduti.
-- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv`.
+- **Stato**: **OVERRIDE 2026-04-25 sera (user re-decisione)** — full scope upgrade da Path A solo a Path A + Path B insieme
+- **Verdict NEW**: **Opzione A FULL — recovery completo ~15-20h**:
+  1. Wire 22 Self-Control trigger immediato (Path A originale ~5h)
+  2. Estrai zip ancestors archive + restore 263 neuroni mancanti (Path B originale ~10-15h, ora **non deferred**)
+  3. Integra dump completo in `data/core/traits/active_effects.yaml` o split per branch (CO/AB/SE/PA/etc.)
+- **Ragione override**: user vuole gap chiuso completamente, non in fasi. Sprint B Skiv ottiene coverage massima invece che parziale.
+- **Implementation plan rivisto**:
+  1. Path A first (low-risk, ~5h): wire 22 CO trigger da `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv`
+  2. Path B parallel (~10-15h): identifica zip source (RFC mention archive `.zip` 263 neuroni — verifica path), estrai, sanitize, deduplicate vs existing 22, integra in glossary
+  3. Validate cross-pollution: nessun trait duplicato post-merge
+  4. Test full: `pytest tests/scripts/test_trace_hashes.py` + `python3 tools/py/game_cli.py validate-ecosystem-pack`
+- **Pre-req autonomous**: localizzare zip archive. RFC mention: probabilmente in `incoming/`, `reports/incoming/`, o esterno (Google Drive backup user). Se zip non locale → user upload prima del Path B start.
+- **Verdict precedente preservato (riferimento)**: Path A wire 22 + Path B autonomous deferred — superseded da OVERRIDE.
+- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv`, archive zip TBD.
 - **Ref**: card [M-2026-04-25-004](docs/museum/cards/ancestors-neurons-dump-csv.md), backlog [TKT-ANCESTORS-RECOVERY](BACKLOG.md).
-- **Skiv-voice motivation** (user feedback): "tracce fresche nelle dune — 34 marche chiare. Le altre 263... vento le ha coperte. Prima caccia ciò che vedi. Sabbia profonda dopo".
+- **Skiv-voice motivation** override: "tracce fresche + scava le coperte. Vento o no, tutte le 297 marche o niente".
+- **Skiv-voice motivation precedente**: "tracce fresche nelle dune — 34 marche chiare. Le altre 263... vento le ha coperte. Prima caccia ciò che vedi. Sabbia profonda dopo" (superseded).
 
 ### [OD-013] MBTI surface presentation — phased reveal vs accrual silenzioso vs full upfront
 
@@ -157,25 +172,23 @@
 - **Prossima azione consigliata**: user verdict A/B/C/skip + promote a 3 ticket BACKLOG (TKT-P4-MBTI-001/002/003) come da card.
 - **Ref**: card [M-2026-04-25-009 Triangle Strategy MBTI Transfer](docs/museum/cards/personality-triangle-strategy-transfer.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md), source [docs/research/triangle-strategy-transfer-plan.md](docs/research/triangle-strategy-transfer-plan.md).
 
-### [OD-012] Swarm trait integration scope ✅ RISOLTA 2026-04-25
+### [OD-012] Swarm trait integration scope ✅ RISOLTA 2026-04-25 → ⚠️ OVERRIDE 2026-04-25 sera
 
 - **Livello**: game + system
-- **Stato**: **risolta 2026-04-25 (user verdict)**
-- **Verdict**: **Opzione A — single-shot magnetic_rift Sprint A**, batch 5-10 deferred a PR successivo post-validation.
-- **Ragione (consigli annessi)**:
-  - **Validate pattern**: `biomeResonance.js` (PR #1785 shipped) supporta tier ladder ma non è ancora stato testato con tier-extension reale. Magnetic_rift è il primo banco di prova
-  - **Limit blast radius**: se rompe qualcosa nel sistema reactionary, hai limitato il danno a 1 trait + 1 biome stub
-  - **Skiv Sprint A direct fit**: trait T2 + biome `atollo_ossidiana` plug-in immediato per Sprint A (~2h)
-  - **Batch deferred**: dopo validation con Skiv playtest (post-MVP), sweep `feat/swarm-staging` branch per altri 5-10 candidate via `git log feat/swarm-staging`. Scaling solo dopo prova
-- **Implementation guidance**:
-  1. Aggiungi biome `atollo_ossidiana` placeholder in `data/core/biomes.yml` con `magnetic_field_strength: 1.0` flag
-  2. Aggiungi trait `magnetic_rift_resonance` in `data/core/traits/active_effects.yaml` con `requires_traits: [magnetic_sensitivity, rift_attunement]` (2 trait base mancanti, stub o decision se generalizzare)
-  3. Map T2 → `biomeResonance.js` tier_2 ladder
-  4. Test: `pytest tests/test_biome_synthesizer.py`
-- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `data/core/biomes.yml`, `apps/backend/services/combat/biomeResonance.js`, `incoming/swarm-candidates/traits/magnetic_rift_resonance.yaml` (source).
-- **Open sub-question**: status `telepatic_link` non esiste in registry. Add-only o map a status esistente (`linked` / `coordinated`)? — decisione lazy al wire time
+- **Stato**: **OVERRIDE 2026-04-25 sera (user re-decisione)** — sostituisce single-shot con batch
+- **Verdict NEW**: **Opzione B — batch 5-10 trait swarm** (~10h). Magnetic_rift come pilot incluso nel batch, ma scope esteso a 5-10 trait swarm in singolo PR.
+- **Ragione override**: user vuole velocità di integrazione + cluster validation. Trade-off: rischio blast radius leggermente più alto, mitigato da test regression.
+- **Implementation plan rivisto**:
+  1. Sweep candidate da `feat/swarm-staging` branch + `incoming/swarm-candidates/traits/` per identificare 5-10 trait
+  2. Pre-flight: `node --check` su ciascun YAML, schema lint AJV
+  3. Magnetic_rift first (pilot, ~2h): biome `atollo_ossidiana` placeholder + `requires_traits` deps stub
+  4. Batch wire altri 4-9 trait con pattern condiviso (`requires_traits`, `effect_trigger`, status mapping)
+  5. Test full: `pytest tests/test_biome_synthesizer.py` + `npm run schema:lint` + `node --test tests/ai/*.test.js` (regression baseline)
+  6. Status registry decision: per ogni nuovo status (`telepatic_link`, etc.), check existing (`linked`, `coordinated`) prima di add-only
+- **Verdict precedente preservato (riferimento)**: Opzione A single-shot magnetic_rift only — superseded da OVERRIDE.
+- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `data/core/biomes.yml`, `apps/backend/services/combat/biomeResonance.js`, `incoming/swarm-candidates/traits/*.yaml` (source pool), `feat/swarm-staging` branch (history mining).
 - **Ref**: card [M-2026-04-25-005](docs/museum/cards/old_mechanics-magnetic-rift-resonance.md).
-- **Skiv-voice motivation** (user feedback): "una pietra nuova. La giro nelle zampe. Sento il peso. Capisco la forma. Poi cerco le sorelle. Non prima".
+- **Skiv-voice motivation** override: "5-10 pietre alla volta. Sorelle insieme parlano meglio".
 
 ---
 
