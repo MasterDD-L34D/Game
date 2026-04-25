@@ -88,6 +88,35 @@ function injectStyles() {
     .skiv-feed-entry.cat-wf_fail { border-left-color: #ef5350; }
     .skiv-feed-entry.cat-wf_pass { border-left-color: #81c784; }
     .skiv-empty { color: #8a8a8a; font-style: italic; padding: 10px; text-align: center; }
+    .skiv-lifecycle-bar {
+      display: flex; gap: 4px; padding: 10px; background: #0b0d12;
+      border-radius: 8px; margin-top: 12px; overflow-x: auto;
+    }
+    .skiv-phase-cell {
+      flex: 1; min-width: 80px; padding: 6px 8px; border-radius: 4px;
+      text-align: center; font-size: 0.78rem; border: 1px solid #2a2a2a;
+    }
+    .skiv-phase-cell.past { background: #1a1a1a; color: #6a6a6a; }
+    .skiv-phase-cell.current {
+      background: linear-gradient(90deg, #5a4a2f, #c4a574);
+      color: #1a1a1a; font-weight: bold; border-color: #c4a574;
+      box-shadow: 0 0 8px rgba(196,165,116,0.5);
+    }
+    .skiv-phase-cell.future { background: #161618; color: #888; border-style: dashed; }
+    .skiv-next-gate {
+      margin-top: 10px; padding: 8px 10px; background: #0b0d12;
+      border-left: 3px solid #66d1fb; border-radius: 4px; font-size: 0.85rem;
+    }
+    .skiv-digest-box {
+      margin-top: 14px; padding: 14px; background: #1a1410;
+      border: 1px solid #c4a574; border-radius: 8px; font-size: 0.92rem;
+      font-style: italic; color: #e8d5b3;
+    }
+    .skiv-digest-box .digest-label {
+      display: block; font-style: normal; color: #c4a574;
+      font-weight: bold; margin-bottom: 6px; font-size: 0.78rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
   `;
   document.head.appendChild(style);
 }
@@ -106,6 +135,16 @@ function buildOverlay() {
         <button class="skiv-close-btn" id="skiv-close" aria-label="Chiudi">✕</button>
       </div>
       <pre class="skiv-ascii-card" id="skiv-card">${FALLBACK_CARD}</pre>
+      <div id="skiv-lifecycle-section" style="display:none">
+        <div class="skiv-lifecycle-bar" id="skiv-lifecycle-bar"></div>
+        <div class="skiv-next-gate" id="skiv-next-gate"></div>
+      </div>
+      <div id="skiv-digest-section" style="display:none">
+        <div class="skiv-digest-box" id="skiv-digest-box">
+          <span class="digest-label">🦎 Digestivo settimanale</span>
+          <span id="skiv-digest-text"></span>
+        </div>
+      </div>
       <div class="skiv-feed-section">
         <h3>Eventi recenti</h3>
         <ul class="skiv-feed-list" id="skiv-feed-list">
@@ -119,6 +158,11 @@ function buildOverlay() {
   STATE.cardEl = overlay.querySelector('#skiv-card');
   STATE.feedEl = overlay.querySelector('#skiv-feed-list');
   STATE.statusEl = overlay.querySelector('#skiv-status-chip');
+  STATE.lifecycleSectionEl = overlay.querySelector('#skiv-lifecycle-section');
+  STATE.lifecycleBarEl = overlay.querySelector('#skiv-lifecycle-bar');
+  STATE.nextGateEl = overlay.querySelector('#skiv-next-gate');
+  STATE.digestSectionEl = overlay.querySelector('#skiv-digest-section');
+  STATE.digestTextEl = overlay.querySelector('#skiv-digest-text');
   overlay.querySelector('#skiv-close').addEventListener('click', closeSkivPanel);
   overlay.addEventListener('click', (ev) => {
     if (ev.target === overlay) closeSkivPanel();
@@ -167,6 +211,45 @@ function renderFeedEntries(entries) {
   STATE.feedEl.innerHTML = html;
 }
 
+function renderLifecycle(state) {
+  if (!STATE.lifecycleBarEl || !STATE.lifecycleSectionEl) return;
+  const lc = state.lifecycle || {};
+  const phases = (lc.progression && lc.progression.phases) || [];
+  const cur = lc.progression ? lc.progression.current_index : 0;
+  if (phases.length === 0) {
+    STATE.lifecycleSectionEl.style.display = 'none';
+    return;
+  }
+  STATE.lifecycleSectionEl.style.display = '';
+  STATE.lifecycleBarEl.innerHTML = phases
+    .map((p, i) => {
+      const cls = i < cur ? 'past' : i === cur ? 'current' : 'future';
+      const label = escapeHtml(p.label_it || p.id || '?');
+      return `<div class="skiv-phase-cell ${cls}">${label}</div>`;
+    })
+    .join('');
+  if (lc.next_phase_label_it && STATE.nextGateEl) {
+    const ng = lc.next_gate || {};
+    const polReq = ng.polarity_required ? ' · polarità' : '';
+    STATE.nextGateEl.innerHTML =
+      `Prossima fase: <b>${escapeHtml(lc.next_phase_label_it)}</b><br>` +
+      `Manca: Lv ${ng.level || '?'} · ${ng.mutations_required || 0} mutazioni · ${ng.thoughts_internalized_required || 0} pensieri${polReq}`;
+  } else if (STATE.nextGateEl) {
+    STATE.nextGateEl.innerHTML = '<i>Apice raggiunto. Skiv è pieno.</i>';
+  }
+}
+
+function renderDigest(state) {
+  if (!STATE.digestSectionEl) return;
+  const text = state.weekly_digest;
+  if (!text) {
+    STATE.digestSectionEl.style.display = 'none';
+    return;
+  }
+  STATE.digestSectionEl.style.display = '';
+  if (STATE.digestTextEl) STATE.digestTextEl.textContent = text;
+}
+
 async function refresh() {
   if (!STATE.open) return;
   // Card (text/plain).
@@ -181,10 +264,14 @@ async function refresh() {
       const s = statusRes.data;
       const ts = (s.last_updated || '').slice(0, 19).replace('T', ' ') || 'mai';
       const lvl = s.level ?? '?';
-      STATE.statusEl.textContent = `Lv ${lvl} · ${ts}`;
+      const phase = s.phase_label_it ? ` · ${s.phase_label_it}` : '';
+      STATE.statusEl.textContent = `Lv ${lvl}${phase} · ${ts}`;
       if (s._fallback) {
         STATE.statusEl.textContent += ' (dormante)';
       }
+      // Lifecycle + digest render from full state.
+      renderLifecycle(s);
+      renderDigest(s);
     } else {
       STATE.statusEl.textContent = 'offline';
     }
