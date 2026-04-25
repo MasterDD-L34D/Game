@@ -1654,6 +1654,12 @@
       "label_en": "Radiant Paws",
       "description_it": "Zampe che generano pulsazione cinetica al touch-down: +2 danno extra da posizione sopraelevata.",
       "description_en": "Paws that generate kinetic pulse on touchdown: +2 extra damage from elevated position."
+    },
+    "sensori_sismici": {
+      "label_it": "Sensori Sismici",
+      "label_en": "Seismic Sensors",
+      "description_it": "Recettori cutanei che leggono microvibrazioni del terreno e anticipano lo spostamento di peso del bersaglio.",
+      "description_en": "Cutaneous receptors reading ground microvibrations to anticipate the target weight shift."
     }
   }
 }

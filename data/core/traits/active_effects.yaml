@@ -2035,3 +2035,59 @@ traits:
       Derma a densit� elevata con fibre intrecciate che assorbono
       microimpatti e dissipano colpi penetranti. Ogni hit melee subisce
       -2 danno.
+
+  # --- SENSORI (Wave 6) ---
+  # Famiglia sensoriale: percezione fine = bonus condizionali su MoS alto
+  # (acuita' che individua varchi) o riduzione (early warning del campo).
+
+  sensori_geomagnetici:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: sensori_geomagnetici_lock
+    description_it: |
+      Cristalli cranici che mappano corridoi geomagnetici invisibili e
+      individuano la firma magnetica del bersaglio. Su MoS >= 5 il colpo
+      sfrutta il lock per +1 danno (target_weakpoint via campo magnetico).
+
+  sensori_planctonici:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: sensori_planctonici_warning
+    description_it: |
+      Sensori diffusi che leggono pattern di plancton memetico e percepiscono
+      le perturbazioni in arrivo. L'early warning consente una micro-schivata
+      che assorbe -1 danno (minimo 0) sui colpi che colpiscono.
+
+  sensori_sismici:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+      melee_only: true
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: sensori_sismici_footfall
+    description_it: |
+      Recettori cutanei che leggono microvibrazioni del terreno e
+      anticipano lo spostamento di peso del bersaglio in mischia.
+      Su MoS >= 5 in melee, il colpo entra nell'apertura: +1 danno.
