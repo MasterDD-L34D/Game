@@ -112,6 +112,23 @@ function injectStyles() {
       40% { transform: scale(1.02); box-shadow: 0 0 24px rgba(198, 160, 255, 0.55); }
       100% { transform: scale(1); box-shadow: 0 0 18px rgba(198, 160, 255, 0.35); }
     }
+    .resonance-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      border-radius: 999px; padding: 3px 10px; font-size: 0.78rem;
+      font-weight: 600; letter-spacing: 0.02em; border: 1px solid transparent;
+    }
+    .resonance-badge.perfect {
+      background: rgba(198, 160, 255, 0.15); border-color: #c6a0ff;
+      color: #c6a0ff;
+    }
+    .resonance-badge.secondary {
+      background: rgba(102, 209, 251, 0.12); border-color: #66d1fb;
+      color: #66d1fb;
+    }
+    .resonance-badge.class_match {
+      background: rgba(255, 198, 107, 0.12); border-color: #ffc66b;
+      color: #ffc66b;
+    }
   `;
   document.head.appendChild(s);
 }
@@ -126,6 +143,7 @@ function buildOverlay() {
       <div class="thoughts-head">
         <h2>🧠 Thought Cabinet</h2>
         <span class="unit-chip" data-role="unit-chip">—</span>
+        <span data-role="resonance-badge"></span>
         <button class="close-btn" data-role="close" aria-label="Chiudi">✕</button>
       </div>
       <div data-role="body"></div>
@@ -363,11 +381,24 @@ function escapeHtml(s) {
   );
 }
 
+function renderResonanceBadge(tier, label) {
+  if (!tier || tier === 'none' || !label) return '';
+  const icons = { perfect: '🔮', secondary: '✨', class_match: '⚡' };
+  const icon = icons[tier] || '';
+  return `<span class="resonance-badge ${escapeHtml(tier)}">${icon} ${escapeHtml(label)}</span>`;
+}
+
 function render(unit, perActorEntry) {
   const overlay = buildOverlay();
   const body = overlay.querySelector('[data-role="body"]');
   const chip = overlay.querySelector('[data-role="unit-chip"]');
   chip.textContent = unit ? `${unit.label || unit.id}` : 'nessun PG selezionato';
+  const resBadgeEl = overlay.querySelector('[data-role="resonance-badge"]');
+  if (resBadgeEl) {
+    const tier = perActorEntry?.resonance_tier;
+    const label = perActorEntry?.resonance_label;
+    resBadgeEl.innerHTML = renderResonanceBadge(tier, label);
+  }
   if (!unit || !perActorEntry) {
     body.innerHTML =
       '<div class="thoughts-empty">Seleziona un PG per vedere i suoi thoughts sbloccati.</div>';
