@@ -88,25 +88,54 @@ function isMelee(actor, target) {
   return manhattan(actor.position, target.position) === 1;
 }
 
+function hasAllyAdjacent(actor, allUnits) {
+  if (!actor?.position || !Array.isArray(allUnits)) return false;
+  const side = actor.controlled_by;
+  for (const u of allUnits) {
+    if (!u || u === actor || u.id === actor.id) continue;
+    if (u.controlled_by !== side) continue;
+    if ((u.hp?.current ?? u.hp ?? 0) <= 0) continue;
+    if (!u.position) continue;
+    if (manhattan(actor.position, u.position) === 1) return true;
+  }
+  return false;
+}
+
+function hasTargetStatus(target, statusName) {
+  if (!target || !statusName) return false;
+  const status = target.status || {};
+  const entry = status[statusName];
+  if (!entry) return false;
+  if (typeof entry === 'object' && Number.isFinite(entry.turns)) return entry.turns > 0;
+  return Boolean(entry);
+}
+
 // Valida i trigger che NON dipendono dallo stato post-attack
 // (on_result, min_mos, requires). Ritorna true se tutti i check
 // statici passano, false se uno blocca.
-function passesBasicTriggers(trigger, actor, target, attackResult) {
+function passesBasicTriggers(trigger, actor, target, attackResult, ctx = {}) {
   if (trigger.action_type && trigger.action_type !== 'attack') return false;
   if (trigger.on_result === 'hit' && !attackResult.hit) return false;
   if (trigger.on_result === 'miss' && attackResult.hit) return false;
   if (Number.isFinite(trigger.min_mos) && attackResult.mos < trigger.min_mos) return false;
   if (trigger.requires === 'posizione_sopraelevata' && !isElevated(actor, target)) return false;
   if (trigger.melee_only === true && !isMelee(actor, target)) return false;
+  if (trigger.requires_ally_adjacent === true && !hasAllyAdjacent(actor, ctx.allUnits))
+    return false;
+  if (
+    typeof trigger.requires_target_status === 'string' &&
+    !hasTargetStatus(target, trigger.requires_target_status)
+  )
+    return false;
   return true;
 }
 
-function evaluateSingleTrait({ traitId, definition, actor, target, attackResult, side }) {
+function evaluateSingleTrait({ traitId, definition, actor, target, attackResult, side, ctx = {} }) {
   if (!definition) {
     return { trait: traitId, triggered: false, effect: 'none' };
   }
   const trigger = definition.trigger || {};
-  if (!passesBasicTriggers(trigger, actor, target, attackResult)) {
+  if (!passesBasicTriggers(trigger, actor, target, attackResult, ctx)) {
     return { trait: traitId, triggered: false, effect: 'none' };
   }
   // Status traits hanno un trigger aggiuntivo on_kill che richiede
@@ -142,9 +171,10 @@ function evaluateSingleTrait({ traitId, definition, actor, target, attackResult,
   return { trait: traitId, triggered: false, effect: 'none' };
 }
 
-function evaluateAttackTraits({ registry, actor, target, attackResult }) {
+function evaluateAttackTraits({ registry, actor, target, attackResult, allUnits = [] }) {
   const traitEffects = [];
   let damageModifier = 0;
+  const ctx = { allUnits };
 
   const actorTraits = Array.isArray(actor?.traits) ? actor.traits : [];
   for (const traitId of actorTraits) {
@@ -158,6 +188,7 @@ function evaluateAttackTraits({ registry, actor, target, attackResult }) {
       target,
       attackResult,
       side: 'actor',
+      ctx,
     });
     if (evaluation.triggered && Number.isFinite(evaluation.damage_delta)) {
       damageModifier += evaluation.damage_delta;
@@ -181,6 +212,7 @@ function evaluateAttackTraits({ registry, actor, target, attackResult }) {
       target,
       attackResult,
       side: 'target',
+      ctx,
     });
     if (evaluation.triggered && Number.isFinite(evaluation.damage_delta)) {
       damageModifier += evaluation.damage_delta;
@@ -208,9 +240,17 @@ function evaluateAttackTraits({ registry, actor, target, attackResult }) {
 //
 // Il caller (session.js performAttack) itera su status_applies e muta
 // actor.status / target.status di conseguenza.
-function evaluateStatusTraits({ registry, actor, target, attackResult, killOccurred }) {
+function evaluateStatusTraits({
+  registry,
+  actor,
+  target,
+  attackResult,
+  killOccurred,
+  allUnits = [],
+}) {
   const traitEffects = [];
   const statusApplies = [];
+  const ctx = { allUnits };
 
   const processTraits = (unitTraits, appliesToSide) => {
     for (const traitId of unitTraits || []) {
@@ -223,7 +263,7 @@ function evaluateStatusTraits({ registry, actor, target, attackResult, killOccur
 
       const trigger = definition.trigger || {};
       // Check basic triggers
-      if (!passesBasicTriggers(trigger, actor, target, attackResult)) {
+      if (!passesBasicTriggers(trigger, actor, target, attackResult, ctx)) {
         traitEffects.push({ trait: traitId, triggered: false, effect: 'none' });
         continue;
       }
