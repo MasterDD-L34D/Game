@@ -59,10 +59,14 @@ test('HARDCORE_SCENARIO_06 exports mission_timer iter3', () => {
 });
 
 test('HARDCORE_SCENARIO_07 pod_rush: timer + reinforcement policy wired', () => {
-  assert.equal(HARDCORE_SCENARIO_07_POD_RUSH.mission_timer.turn_limit, 10);
+  // M14-C iter2 (2026-04-25 sera): turn_limit 10→8, max_spawns 6→8, cooldown 1→0,
+  // min_distance 4→2 dopo N=10 iter1 90% WR (target 30-50%).
+  assert.equal(HARDCORE_SCENARIO_07_POD_RUSH.mission_timer.turn_limit, 8);
   assert.equal(HARDCORE_SCENARIO_07_POD_RUSH.mission_timer.on_expire, 'escalate_pressure');
   assert.equal(HARDCORE_SCENARIO_07_POD_RUSH.reinforcement_policy.enabled, true);
-  assert.equal(HARDCORE_SCENARIO_07_POD_RUSH.reinforcement_policy.max_total_spawns, 6);
+  assert.equal(HARDCORE_SCENARIO_07_POD_RUSH.reinforcement_policy.max_total_spawns, 8);
+  assert.equal(HARDCORE_SCENARIO_07_POD_RUSH.reinforcement_policy.cooldown_rounds, 0);
+  assert.equal(HARDCORE_SCENARIO_07_POD_RUSH.reinforcement_policy.min_distance_from_pg, 2);
   assert.ok(HARDCORE_SCENARIO_07_POD_RUSH.reinforcement_pool.length >= 2);
   assert.ok(HARDCORE_SCENARIO_07_POD_RUSH.reinforcement_entry_tiles.length >= 2);
 });
@@ -86,8 +90,8 @@ test('GET /api/tutorial/enc_tutorial_07_hardcore_pod_rush serves scenario', asyn
   assert.equal(res.status, 200);
   assert.equal(res.body.id, 'enc_tutorial_07_hardcore_pod_rush');
   assert.ok(res.body.mission_timer);
-  assert.equal(res.body.mission_timer.turn_limit, 10);
-  assert.equal(res.body.units.length, 8); // 4 player + 4 initial enemy (iter1)
+  assert.equal(res.body.mission_timer.turn_limit, 8); // M14-C iter2
+  assert.equal(res.body.units.length, 8); // 4 player + 4 initial enemy (iter1+2)
 });
 
 test('GET /api/tutorial/enc_tutorial_06_hardcore now includes mission_timer', async (t) => {
