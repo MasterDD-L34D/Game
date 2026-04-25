@@ -141,6 +141,23 @@ Disable via `LOBBY_WS_ENABLED=false`. REST routes restano operative (degrade gra
 - Prisma persistence adapter (opzionale, Phase C).
 - Rate-limit / DoS hardening (Phase D se produzione).
 
+## Addendum 2026-04-25 — TKT-M11B-05 host-transfer event semantics
+
+Aggiunto in [PR #1685](https://github.com/MasterDD-L34D/Game/pull/1685) post-Phase A:
+
+| Type               | Direzione | Payload                                                           |
+| ------------------ | :-------: | ----------------------------------------------------------------- |
+| `host_transferred` |    S→C    | `{ new_host_id, previous_host_id, reason, ts }` broadcast a tutti |
+
+**Naming**: il server emette **un singolo evento** con `type: 'host_transferred'`. Note di handoff precedenti hanno descritto questo broadcast come "backward-compatible" o "dual-name (new + old)" — terminologia imprecisa. Non esiste un alias legacy: i client devono ascoltare esattamente `host_transferred`. Fonte di verità: `apps/backend/services/network/wsSession.js:354`.
+
+**Trigger**:
+
+- Auto-transfer: host socket `close` → `scheduleHostTransfer(grace=30s)` → `transferHostAuto` (FIFO oldest connected non-host).
+- Esplicito: `Room.transferHostTo(newHostId, { reason })`.
+
+**Round state replay (F-2 2026-04-25)**: dopo `transferHostAuto`, il close-handler chiama anche `room.broadcastRoundReady()` per replay di `{ round, phase, ready, missing }` al nuovo host. Senza questo replay, una transizione mid-`resolving` lascia il nuovo host cieco sul canale WS e costretto a fallback REST `GET /api/coop/state`.
+
 ## Riferimenti
 
 - Jackbox architecture writeup — https://www.abtach.ae/blog/how-to-build-a-game-like-jackbox/
