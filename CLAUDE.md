@@ -67,6 +67,18 @@ Friction concreta sprint 2026-04-25 PR #1776: glossary.json aveva 37 char mojiba
 - **Subagent timeout 2x = stop retry**: se subagent stesso pattern timeout 2 volte, FERMA. Investiga prompt size / tool config. Non fare 5+ retry sperando vada.
 - **Distinguish hook output vs user**: `<user-prompt-submit-hook>` e similari sono hook. Riconosci tag, non rispondere come a un user.
 
+## 🦎 Skiv canonical creature (cross-PC entrypoint 2026-04-25)
+
+**Skiv** è la creatura canonical recap-card del progetto (`Arenavenator vagans` / `dune_stalker`). User esplicito 2026-04-25: _"non voglio perderlo!"_.
+
+**Hub canonical**: [`docs/skiv/CANONICAL.md`](docs/skiv/CANONICAL.md) — identity + persona/voice + dove vive (catalogo file repo) + sprint plan ~22h + recap format ASCII tamagotchi card + don't-reinvent rule. **Cross-PC via git** (memory PC-local NON sync, hub sì).
+
+**Skill on-demand**: [`.claude/skills/skiv.md`](.claude/skills/skiv.md) — invoca `/skiv` quando user chiede _"scheda Skiv / recap / a che punto siamo (con creatura)"_. Read REAL data da `data/core/species.yaml` + `species/dune_stalker_lifecycle.yaml` + `data/derived/skiv_saga.json` → render 6-part recap + ASCII card.
+
+**Voice rule**: italiano, prima persona, metafore desertiche (_sabbia, vento, ridge, sole basso_), all'"allenatore" (= user). Closing tipico: _"Sabbia segue."_ MAI registro pure-tecnico nel narrative beat.
+
+**Anti-pattern**: NON reinventare persona ad-hoc — Skiv è canonical. NON fabricare data (species id, trait id, gauge value): SEMPRE grep YAML reale prima.
+
 ## ✅ Verify Before Claim Done (anti-rescue policy 2026-04-25)
 
 Friction concreta `/insights` 2026-04-25: **25 buggy_code incidents** (top friction, vs 15 wrong_approach + 5 subagent_timeout). Pattern: first-pass implementation ships con bug, Claude poi fa rescue pass. Costo: doppio commit, doppio test cycle, user vede regressione prima di fix.
