@@ -352,7 +352,12 @@ def build_http_evaluator(
 # ─────────────────────────────────────────────────────────
 
 
-def format_markdown(archive: MapElitesArchive, history: list[dict], iterations: int) -> str:
+def format_markdown(
+    archive: MapElitesArchive,
+    history: list[dict],
+    iterations: int,
+    fitness_mode: str = "synthetic",
+) -> str:
     today = datetime.now().date().isoformat()
     stats = archive.stats()
     lines: list[str] = []
@@ -385,7 +390,12 @@ def format_markdown(archive: MapElitesArchive, history: list[dict], iterations: 
     lines.append(f"- Iterations: **{iterations}**")
     lines.append(f"- Feature dims: {[d.name for d in archive.dims]}")
     lines.append(f"- Bins per dim: **{archive.bins}** (total cells: {archive.total_cells()})")
-    lines.append(f"- Fitness: synthetic (mock — production should wire `restricted_play.run_one`)")
+    if fitness_mode == "http":
+        lines.append("- Fitness: **http** (live backend via `restricted_play.run_one`)")
+    else:
+        lines.append(
+            "- Fitness: synthetic (mock — production should wire `restricted_play.run_one`)"
+        )
     lines.append("")
     lines.append("## Archive stats")
     lines.append("")
@@ -567,7 +577,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.out_md:
         out_path = Path(args.out_md)
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        out_path.write_text(format_markdown(archive, history, args.iterations), encoding="utf-8")
+        out_path.write_text(
+            format_markdown(archive, history, args.iterations, fitness_mode=args.fitness),
+            encoding="utf-8",
+        )
         print(f"Markdown saved: {out_path}")
 
     if args.out_json:
