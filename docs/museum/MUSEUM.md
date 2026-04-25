@@ -22,7 +22,7 @@ _Vuoto. Dopo prima excavate session questa sezione popola con artifact score ≥
 
 ### Ancestors
 
-_Vuoto. Pending excavate `--domain ancestors`. Atteso: 30+ validation reports `evo_tactics_ancestors_\*`(Oct/Nov 2025),`reports/incoming/ancestors/ancestors*neurons_dump_01B_sanitized.sha256`.*
+Vuoto. Pending excavate `--domain ancestors`. Atteso: 30+ validation reports sotto `docs/reports/incoming/validation/` (pattern `evo_tactics_ancestors_repo_pack_*`, Oct/Nov 2025) + `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.sha256`.
 
 ### Cognitive traits / Sentience
 
