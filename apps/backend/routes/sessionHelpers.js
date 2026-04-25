@@ -287,6 +287,13 @@ function publicSessionView(session) {
       ? session.previous_round_synergies
       : [],
     synergy_preview: buildSynergyPreview(session),
+    // M14-A 2026-04-25 — Triangle Strategy terrain reactions tile state map.
+    // Exposed read-only to clients for hex tinting / FX overlay. Mutated
+    // server-side only (performAttack post damage + decay in turn_end).
+    tile_state_map:
+      session.tile_state_map && typeof session.tile_state_map === 'object'
+        ? session.tile_state_map
+        : {},
   };
 }
 
