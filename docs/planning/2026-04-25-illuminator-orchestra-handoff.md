@@ -26,10 +26,10 @@ related:
 
 # 🚀 NEXT SESSION HANDOFF — Illuminator Orchestra
 
-**Data handoff**: 2026-04-25 (bump pomeriggio — +3 PR chiusi)
+**Data handoff**: 2026-04-25 (bump sera — +3 Skiv PR, total 7 PR session)
 **Per**: Claude Code prossima sessione (autonoma o user-driven)
-**Status**: 🟢 6 agent live + **10 P0 runtime apply chiusi** + workflow validated 7×
-**Imperativo**: NON perdere l'approccio agent-driven research-first.
+**Status**: 🟢 6 agent live + **13 P0 runtime apply chiusi** + Skiv canonical persona introdotto + workflow validated 9× + 1 routine scheduled lunedì 2026-05-11
+**Imperativo**: NON perdere l'approccio agent-driven research-first + NON perdere Skiv (cross-session).
 
 ---
 
@@ -133,21 +133,24 @@ Use ONLY if dominio non coperto da agenti esistenti.
 
 ### P0 residuali agent esistenti (post 2026-04-25 sessione autonoma)
 
-**Closed in main** (sessione 2026-04-25 notte + pomeriggio, 10 PR mergiati):
+**Closed in main** (sessione 2026-04-25 notte + pomeriggio + sera Skiv, 13 PR mergiati):
 
-| Agent                        | P0                                                  | Effort | PR    | SHA        |
-| ---------------------------- | --------------------------------------------------- | :----: | ----- | ---------- |
-| balance-illuminator          | SPRT sequential early-stop                          |  ~2h   | #1758 | `7e17d84c` |
-| economy-design-illuminator   | Machinations diagram artifact                       |  ~3h   | #1758 | `7e17d84c` |
-| economy-design-illuminator   | Monte Carlo PI shop sim (follow-up #6)              |  ~4h   | #1759 | `488da05b` |
-| narrative-design-illuminator | Tutorial briefing variations (per-encounter)        |  ~4h   | #1760 | `6f397e6d` |
-| pcg-level-design-illuminator | XP budget encounter builder                         |  ~6h   | #1762 | `9901407e` |
-| narrative-design-illuminator | QBN MBTI-gated events (campaign-arc)                |  ~6h   | #1763 | `bec2bcd6` |
-| balance-illuminator          | MAP-Elites lightweight (Mouret 2015)                |  ~6h   | #1765 | `b22fc2b7` |
-| balance-illuminator          | **MAP-Elites HTTP fitness wrapper**                 |  ~2h   | #1768 | `fcd50315` |
-| narrative-design-illuminator | **Thought Cabinet Phase 2 (Disco internalization)** |  ~2h   | #1769 | `b04f3a92` |
+| Agent                        | P0                                               | Effort | PR    | SHA        |
+| ---------------------------- | ------------------------------------------------ | :----: | ----- | ---------- |
+| balance-illuminator          | SPRT sequential early-stop                       |  ~2h   | #1758 | `7e17d84c` |
+| economy-design-illuminator   | Machinations diagram artifact                    |  ~3h   | #1758 | `7e17d84c` |
+| economy-design-illuminator   | Monte Carlo PI shop sim (follow-up #6)           |  ~4h   | #1759 | `488da05b` |
+| narrative-design-illuminator | Tutorial briefing variations (per-encounter)     |  ~4h   | #1760 | `6f397e6d` |
+| pcg-level-design-illuminator | XP budget encounter builder                      |  ~6h   | #1762 | `9901407e` |
+| narrative-design-illuminator | QBN MBTI-gated events (campaign-arc)             |  ~6h   | #1763 | `bec2bcd6` |
+| balance-illuminator          | MAP-Elites lightweight (Mouret 2015)             |  ~6h   | #1765 | `b22fc2b7` |
+| balance-illuminator          | MAP-Elites HTTP fitness wrapper                  |  ~2h   | #1768 | `fcd50315` |
+| narrative-design-illuminator | Thought Cabinet Phase 2 (Disco internalization)  |  ~2h   | #1769 | `b04f3a92` |
+| **Skiv #2 (combat)**         | **Synergy combo detection (echo_backstab live)** |  ~5h   | #1772 | `cb1ca79e` |
+| **Skiv #5 (combat)**         | **Defy verb (counter-pressure agency)**          |  ~5h   | #1773 | `b2e079ba` |
+| **Skiv #4 (combat)**         | **Biome resonance reduces research_cost**        |  ~3h   | #1774 | `c06e02c4` |
 
-**Bonus shipped**: `tools/check_docs_governance.py` parser bug fix (5 false-positive warnings) + `docs/hubs/incoming.md` stale review bumped (in PR #1758) + handoff doc continuity update (#1764) + `tests/test_investigate_sources.py` `pytest.importorskip` (PR #1767, `02832dfc` — unblocks local pytest collection on venv senza pypdf).
+**Bonus shipped**: `tools/check_docs_governance.py` parser bug fix (5 false-positive warnings) + `docs/hubs/incoming.md` stale review bumped (in PR #1758) + handoff doc continuity update (#1764, #1770) + `tests/test_investigate_sources.py` `pytest.importorskip` (PR #1767, `02832dfc` — unblocks local pytest collection on venv senza pypdf).
 
 **Still residual**:
 
@@ -158,13 +161,29 @@ Use ONLY if dominio non coperto da agenti esistenti.
 | ui-design-illuminator        | Threat zone toggle phone                    |  ~3h   |        high (UI runtime)         |
 | pcg-level-design-illuminator | Objective variety (rescue/timer/extraction) |  ~8h   |       mid (data + engine)        |
 
+**Skiv wishlist residual** (vedi memoria `project_skiv_evolution_wishlist.md`):
+
+| #   | Ticket                           | Effort | Risk | Status                               |
+| --- | -------------------------------- | :----: | :--: | ------------------------------------ |
+| 1   | Resolver wire passive_bonus/cost |  ~4h   | mid  | ⏳ remote agent 2026-05-11 scheduled |
+| 2   | Synergy combo                    |  ~5h   | mid  | ✅ #1772                             |
+| 3   | Inner voices (Disco)             |  ~6h   | mid  | pending — dep #1                     |
+| 4   | Biome resonance                  |  ~3h   | low  | ✅ #1774                             |
+| 5   | Defy verb                        |  ~5h   | mid  | ✅ #1773                             |
+| 6   | Hybrid path perks                |  ~4h   | mid  | pending                              |
+| 7   | Diary persistente                |  ~8h   | low  | pending                              |
+| 8   | V3 Mating/Nido                   |  ~20h  | high | deferred                             |
+
 **Follow-up derivati dai P0 chiusi** (P1 candidates):
 
-| Origin PR | Follow-up                                                                                     | Effort |             Risk             |
-| --------- | --------------------------------------------------------------------------------------------- | :----: | :--------------------------: |
-| #1769     | Thought Cabinet: UI thought-sphere reveal + combat resolver wire (passive_bonus/passive_cost) |  ~4h   | high (UI runtime + resolver) |
-| #1769     | Thought Cabinet: populate effects on the remaining 12 tier-2/3 thoughts                       |  ~2h   |   low (content-only YAML)    |
-| #1768     | MAP-Elites HTTP: run archive live + commit report + tune knob exhaustion                      |  ~3h   |   mid (needs backend live)   |
+| Origin PR | Follow-up                                                                 | Effort |             Risk             |
+| --------- | ------------------------------------------------------------------------- | :----: | :--------------------------: |
+| #1769     | Thought Cabinet: populate effects on the remaining 12 tier-2/3 thoughts   |  ~2h   |   low (content-only YAML)    |
+| #1769     | Thought Cabinet: UI thought-sphere reveal + resolver wire (=Skiv #1)      |  ~4h   | high (UI runtime + resolver) |
+| #1768     | MAP-Elites HTTP: run archive live + commit report + tune knob exhaustion  |  ~3h   |   mid (needs backend live)   |
+| #1772     | Synergy: HUD telegraph "synergy ready" before attack lands                |  ~3h   |     mid (UI integration)     |
+| #1773     | Defy: extension to enemies (sistema can spend its own meter to push back) |  ~4h   |      mid (AI symmetry)       |
+| #1774     | Resonance: tier values (perfect / secondary / class-match) + UI badge     |  ~3h   |        low (additive)        |
 
 ### Big rocks (userland-bound o BIG effort)
 
@@ -174,13 +193,13 @@ Use ONLY if dominio non coperto da agenti esistenti.
 
 ---
 
-## 🚦 Test baseline (post 2026-04-25 sessione pomeriggio)
+## 🚦 Test baseline (post 2026-04-25 sessione sera completa)
 
 - AI regression `tests/ai/*.test.js` → **307/307 verde**
-- Services `tests/services/*.test.js` → **257/257 verde**
-- Pytest suite full → **948 verde** (was 936, +12: 9 map_elites + 3 restricted_play in #1768)
-- `tests/api/*.test.js` → **621/621 verde** (includes +30 thoughtCabinet/sessionThoughts Phase 2 in #1769)
-- New tests aggregate pomeriggio: **+42** (12 pytest + 23 unit thought + 7 integration route)
+- Services `tests/services/*.test.js` → **306/306 verde** (was 257, +49 in sessione: 22 synergy + 15 defy + 12 resonance)
+- Pytest suite full → **948 verde** (+12 vs notte: 9 map_elites + 3 restricted_play)
+- `tests/api/*.test.js` → **633/633 verde** (was 621, +12: 3 synergy + 8 defy + 1 resonance)
+- New tests aggregate sera: **+91 totali** (12 pytest + 23 unit thought + 7 integration thought + 22 synergy + 15 defy + 12 resonance)
 - Format check: verde · Governance strict: **0 errors / 0 warnings**
 
 **Pre-flight prossima sessione**:
