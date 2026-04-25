@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-04-25T05:50:00Z",
+  "updated_at": "2026-04-25T11:50:00Z",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -38,7 +38,7 @@
     "antenne_dustsense": {
       "label_it": "Antenne Dustsense",
       "label_en": "Dustsense Antennae",
-      "description_it": "Ricettori stratificati che stabilizzano lÃ¢â‚¬â„¢assorbimento multi-fonte in deserti ionici.",
+      "description_it": "Ricettori stratificati che stabilizzano l’assorbimento multi-fonte in deserti ionici.",
       "description_en": "Layered receptors stabilising multi-source absorption across ionic deserts."
     },
     "antenne_eco_turbina": {
@@ -74,7 +74,7 @@
     "antenne_tesla": {
       "label_it": "Antenne Tesla",
       "label_en": "Antenne Tesla",
-      "description_it": "Antenne Tesla permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di canopia ionica.",
+      "description_it": "Antenne Tesla permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di canopia ionica.",
       "description_en": "Antenne Tesla allow squads to redistribute load and modulate structural rigidity within canopia ionica."
     },
     "antenne_waveguide": {
@@ -164,13 +164,13 @@
     "artigli_vetrificati": {
       "label_it": "Artigli Vetrificati",
       "label_en": "Artigli Vetrificati",
-      "description_it": "Artigli Vetrificati permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di caldera glaciale.",
+      "description_it": "Artigli Vetrificati permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caldera glaciale.",
       "description_en": "Artigli Vetrificati allow squads to redistribute load and modulate structural rigidity within caldera glaciale."
     },
     "artiglio_cinetico_a_urto": {
       "label_it": "Artiglio Cinetico a Urto",
       "label_en": "Kinetic Impact Claw",
-      "description_it": "Infliggere onda dÃ¢â‚¬â„¢urto e frattura.",
+      "description_it": "Infliggere onda d’urto e frattura.",
       "description_en": "Deliver shockwaves that fracture targets."
     },
     "aura_di_dispersione_mentale": {
@@ -242,7 +242,7 @@
     "branchie_dual_mode": {
       "label_it": "Branchie Dual Mode",
       "label_en": "Branchie Dual Mode",
-      "description_it": "Branchie Dual Mode permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di laguna bioreattiva.",
+      "description_it": "Branchie Dual Mode permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di laguna bioreattiva.",
       "description_en": "Branchie Dual Mode allow squads to redistribute load and modulate structural rigidity within laguna bioreattiva."
     },
     "branchie_eoliche": {
@@ -284,7 +284,7 @@
     "bulbi_radici_permafrost": {
       "label_it": "Bulbi Radici del Permafrost",
       "label_en": "Bulbi Radici del Permafrost",
-      "description_it": "Bulbi radice che rilasciano calore e nutrimento alle unitÃƒÂ  connesse.",
+      "description_it": "Bulbi radice che rilasciano calore e nutrimento alle unità connesse.",
       "description_en": "Root bulbs releasing heat and stores to linked allies."
     },
     "camere_anticorrosione": {
@@ -308,7 +308,7 @@
     "campo_di_interferenza_acustica": {
       "label_it": "Campo di Interferenza Acustica",
       "label_en": "Acoustic Interference Field",
-      "description_it": "Mascherare posizione e velocitÃƒÂ .",
+      "description_it": "Mascherare posizione e velocità.",
       "description_en": "Mask position and velocity."
     },
     "cannone_sonico_a_raggio": {
@@ -326,7 +326,7 @@
     "capillari_criogenici": {
       "label_it": "Capillari Criogenici",
       "label_en": "Capillari Criogenici",
-      "description_it": "Capillari Criogenici permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di caldera glaciale.",
+      "description_it": "Capillari Criogenici permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caldera glaciale.",
       "description_en": "Capillari Criogenici allow squads to redistribute load and modulate structural rigidity within caldera glaciale."
     },
     "capillari_fluoridici": {
@@ -350,13 +350,13 @@
     "carapace_fase_variabile": {
       "label_en": "Phase-Shifting Carapace",
       "label_it": "Carapace a Variazione di Fase",
-      "description_it": "Corazza che varia densitÃƒÂ  per bilanciare difesa e mobilitÃƒÂ .",
+      "description_it": "Corazza che varia densità per bilanciare difesa e mobilità.",
       "description_en": "Shell shifts density to balance defense and mobility."
     },
     "carapace_luminiscente_abissale": {
       "label_it": "Carapace Luminiscente Abissale",
       "label_en": "Carapace Luminiscente Abissale",
-      "description_it": "Guscio bioluminescente che confonde i predatori nelle profonditÃƒÂ .",
+      "description_it": "Guscio bioluminescente che confonde i predatori nelle profondità.",
       "description_en": "Bioluminescent shell confusing predators in abyssal dark."
     },
     "carapace_segmenti_logici": {
@@ -398,12 +398,12 @@
     "cartilagini_pseudometalliche": {
       "label_it": "Cartilagini Pseudometalliche",
       "label_en": "Cartilagini Pseudometalliche",
-      "description_it": "Cartilagini Pseudometalliche permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di abisso vulcanico.",
+      "description_it": "Cartilagini Pseudometalliche permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
       "description_en": "Cartilagini Pseudometalliche allow squads to redistribute load and modulate structural rigidity within abisso vulcanico."
     },
     "cavita_risonanti_tundra": {
-      "label_it": "CavitÃƒÂ  Risonanti della Tundra",
-      "label_en": "CavitÃƒÂ  Risonanti della Tundra",
+      "label_it": "Cavità Risonanti della Tundra",
+      "label_en": "Cavità Risonanti della Tundra",
       "description_it": "Camere toraciche che proiettano richiami a lunga distanza nel gelo.",
       "description_en": "Chest chambers projecting long-range calls through tundra frost."
     },
@@ -488,7 +488,7 @@
     "cisti_iperbariche": {
       "label_it": "Cisti Iperbariche",
       "label_en": "Cisti Iperbariche",
-      "description_it": "Cisti Iperbariche permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di abisso vulcanico.",
+      "description_it": "Cisti Iperbariche permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
       "description_en": "Cisti Iperbariche allow squads to redistribute load and modulate structural rigidity within abisso vulcanico."
     },
     "coda_balanciere": {
@@ -564,7 +564,7 @@
       "description_en": "Piezo-neurotonic horns sending and receiving slow neural signals for pack alerts."
     },
     "coscienza_d_alveare_diffusa": {
-      "label_it": "Coscienza dÃ¢â‚¬â„¢Alveare Diffusa",
+      "label_it": "Coscienza d’Alveare Diffusa",
       "label_en": "Diffuse Hive Consciousness",
       "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
       "description_en": "Temporary inter-individual synaptic net merging decisions and short-term memory."
@@ -578,7 +578,7 @@
     "cromofori_alert_acido": {
       "label_it": "Cromofori Alert Acido",
       "label_en": "Cromofori Alert Acido",
-      "description_it": "Cromofori Alert Acido permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di foresta acida.",
+      "description_it": "Cromofori Alert Acido permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di foresta acida.",
       "description_en": "Cromofori Alert Acido allow squads to redistribute load and modulate structural rigidity within foresta acida."
     },
     "cuore_multicamera_bassa_pressione": {
@@ -632,7 +632,7 @@
     "denti_tuning_fork": {
       "label_it": "Denti Tuning Fork",
       "label_en": "Denti Tuning Fork",
-      "description_it": "Denti Tuning Fork permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di caverna risonante.",
+      "description_it": "Denti Tuning Fork permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caverna risonante.",
       "description_en": "Denti Tuning Fork allow squads to redistribute load and modulate structural rigidity within caverna risonante."
     },
     "echi_risonanti": {
@@ -710,7 +710,7 @@
     "ermafroditismo_cronologico": {
       "label_it": "Ermafroditismo Cronologico",
       "label_en": "Chronological Hermaphroditism",
-      "description_it": "Cambiare sesso dopo 1Ã¢â‚¬â€œ2 incubazioni.",
+      "description_it": "Cambiare sesso dopo 1–2 incubazioni.",
       "description_en": "Change sex after one or two incubations."
     },
     "estroflessione_gastrica_acida": {
@@ -734,7 +734,7 @@
     "filamenti_magnetotrofi": {
       "label_it": "Filamenti Magnetotrofi",
       "label_en": "Filamenti Magnetotrofi",
-      "description_it": "Filamenti Magnetotrofi permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di abisso vulcanico.",
+      "description_it": "Filamenti Magnetotrofi permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
       "description_en": "Filamenti Magnetotrofi allow squads to redistribute load and modulate structural rigidity within abisso vulcanico."
     },
     "filamenti_superconduttivi": {
@@ -824,7 +824,7 @@
     "ghiandole_condensa_ozono": {
       "label_it": "Ghiandole Condensa Ozono",
       "label_en": "Ghiandole Condensa Ozono",
-      "description_it": "Ghiandole Condensa Ozono permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di stratosfera tempestosa.",
+      "description_it": "Ghiandole Condensa Ozono permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di stratosfera tempestosa.",
       "description_en": "Ghiandole Condensa Ozono allow squads to redistribute load and modulate structural rigidity within stratosfera tempestosa."
     },
     "ghiandole_eco_mappanti": {
@@ -878,7 +878,7 @@
     "ghiandole_nebbia_ionica": {
       "label_it": "Ghiandole Nebbia Ionica",
       "label_en": "Ghiandole Nebbia Ionica",
-      "description_it": "Ghiandole Nebbia Ionica permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di canopia ionica.",
+      "description_it": "Ghiandole Nebbia Ionica permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di canopia ionica.",
       "description_en": "Ghiandole Nebbia Ionica allow squads to redistribute load and modulate structural rigidity within canopia ionica."
     },
     "ghiandole_resina_conduttiva": {
@@ -950,7 +950,7 @@
     "lamine_filtranti_aeree": {
       "label_it": "Lamine Filtranti Aeree",
       "label_en": "Lamine Filtranti Aeree",
-      "description_it": "Lamine Filtranti Aeree permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di mangrovieto cinetico.",
+      "description_it": "Lamine Filtranti Aeree permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di mangrovieto cinetico.",
       "description_en": "Lamine Filtranti Aeree allow squads to redistribute load and modulate structural rigidity within mangrovieto cinetico."
     },
     "lamine_scudo_silice": {
@@ -1010,7 +1010,7 @@
     "membrana_plastica_continua": {
       "label_it": "Membrana Plastica Continua",
       "label_en": "Continuous Plastic Membrane",
-      "description_it": "Assumere forme e densitÃƒÂ  diverse.",
+      "description_it": "Assumere forme e densità diverse.",
       "description_en": "Adopt different shapes and densities."
     },
     "membrane_captura_rugiada": {
@@ -1034,7 +1034,7 @@
     "membrane_pneumatofori": {
       "label_it": "Membrane Pneumatofori",
       "label_en": "Membrane Pneumatofori",
-      "description_it": "Membrane Pneumatofori permette alle squadre di ridistribuire carichi e modulare rigiditÃƒÂ  strutturale all'interno di mangrovieto cinetico.",
+      "description_it": "Membrane Pneumatofori permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di mangrovieto cinetico.",
       "description_en": "Membrane Pneumatofori allow squads to redistribute load and modulate structural rigidity within mangrovieto cinetico."
     },
     "metabolismo_di_condivisione_energetica": {
@@ -1058,7 +1058,7 @@
     "moltiplicazione_per_fusione": {
       "label_it": "Moltiplicazione per Fusione",
       "label_en": "Fusion Multiplication",
-      "description_it": "Aumentare massa e intelligenza unendo unitÃƒÂ .",
+      "description_it": "Aumentare massa e intelligenza unendo unità.",
       "description_en": "Grow mass and intellect by merging units."
     },
     "motore_biologico_silenzioso": {
@@ -1106,19 +1106,19 @@
     "occhi_cristallo_modulare": {
       "label_it": "Occhi a Cristallo Modulare",
       "label_en": "Modular Crystal Eyes",
-      "description_it": "Prismi sovrapposti che riallineano il fuoco tra spettro visibile e ionico, utili in microgravitÃƒÂ  variabile.",
+      "description_it": "Prismi sovrapposti che riallineano il fuoco tra spettro visibile e ionico, utili in microgravità variabile.",
       "description_en": "Layered prisms retuning focus across visible and ionic spectra, useful in variable microgravity."
     },
     "occhi_cinetici": {
       "label_it": "Occhi Cinetici",
       "label_en": "Kinetic Eyes",
-      "description_it": "Vedere il suono come pattern dÃ¢â‚¬â„¢aria.",
+      "description_it": "Vedere il suono come pattern d’aria.",
       "description_en": "See sound as patterns in the air."
     },
     "occhi_infrarosso_composti": {
       "label_en": "Infrared Compound Eyes",
       "label_it": "Occhi Composti ad Infrarosso",
-      "description_it": "Ommatidi infrarossi che seguono scie termiche nell'oscuritÃƒÂ .",
+      "description_it": "Ommatidi infrarossi che seguono scie termiche nell'oscurità.",
       "description_en": "Infrared ommatidia tracking thermal trails in darkness."
     },
     "olfatto_risonanza_magnetica": {
@@ -1148,7 +1148,7 @@
     "pianificatore": {
       "label_en": "Strategic Planner",
       "label_it": "Pianificatore",
-      "description_it": "Modulo strategico che mantiene prioritÃƒÂ  e finestre d'attacco allineate.",
+      "description_it": "Modulo strategico che mantiene priorità e finestre d'attacco allineate.",
       "description_en": "Strategic module keeping priorities and attack windows aligned."
     },
     "piume_solari_fotovoltaiche": {
@@ -1190,7 +1190,7 @@
     "rostro_emostatico_litico": {
       "label_it": "Rostro Emostatico-Litico",
       "label_en": "Hemo-Lytic Rostrum",
-      "description_it": "Rostro tubulare rigidizzato che inocula tossine ed enzimi e aspira fluidi dopo lÃ¢â‚¬â„¢impatto.",
+      "description_it": "Rostro tubulare rigidizzato che inocula tossine ed enzimi e aspira fluidi dopo l’impatto.",
       "description_en": "Reinforced tubular rostrum that injects toxins and enzymes, then draws fluids after impact."
     },
     "rostro_linguale_prensile": {
@@ -1202,7 +1202,7 @@
     "sacche_galleggianti_ascensoriali": {
       "label_en": "Elevating Buoyancy Sacs",
       "label_it": "Sacche galleggianti ascensoriali",
-      "description_it": "Sacche gassose regolabili per controllare assetto e profonditÃƒÂ .",
+      "description_it": "Sacche gassose regolabili per controllare assetto e profondità.",
       "description_en": "Adjustable gas sacs controlling buoyancy and depth."
     },
     "sacche_spore_stratosferiche": {
@@ -1280,12 +1280,12 @@
     "sistemi_chimio_sonici": {
       "label_it": "Sistemi Chimio-Sonici",
       "label_en": "Chemo-Sonic Systems",
-      "description_it": "Mappare spazio e correnti dÃ¢â‚¬â„¢aria senza vista.",
+      "description_it": "Mappare spazio e correnti d’aria senza vista.",
       "description_en": "Map space and airflow without sight."
     },
     "sonno_emisferico_alternato": {
       "label_en": "Unihemispheric Sleep",
-      "label_it": "Dormire con solo metÃƒÂ  cervello alla volta",
+      "label_it": "Dormire con solo metà cervello alla volta",
       "description_it": "Cervello alternato che veglia con un emisfero mentre l'altro riposa.",
       "description_en": "Alternating hemispheres keep watch while the other sleeps."
     },
@@ -1518,7 +1518,7 @@
       "description_en": "Luminous implosion followed by void and short teleport (temp)."
     },
     "coscienza_dalveare_diffusa": {
-      "label_it": "Coscienza dÃ¢â‚¬â„¢Alveare Diffusa",
+      "label_it": "Coscienza d’Alveare Diffusa",
       "label_en": "Diffuse Hive Consciousness",
       "description_it": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
       "description_en": "Temporary inter-individual synaptic net merging decisions and short-term memory."
@@ -1544,7 +1544,7 @@
     "pelli_fitte": {
       "label_it": "Pelli Fitte",
       "label_en": "Dense Skins",
-      "description_it": "Derma a densitÃƒÂ  elevata con fibre intrecciate che assorbe microimpatti e riduce la perdita idrica per evaporazione in ambienti ventosi.",
+      "description_it": "Derma a densità elevata con fibre intrecciate che assorbe microimpatti e riduce la perdita idrica per evaporazione in ambienti ventosi.",
       "description_en": "High-density derma with interwoven fibers that absorbs microimpacts and reduces water loss by evaporation in windy environments."
     },
     "pigmenti_aurorali": {
@@ -1574,13 +1574,13 @@
     "martello_osseo": {
       "label_it": "Martello Osseo",
       "label_en": "Bone Hammer",
-      "description_it": "Protuberanza ossea terminale (coda o arto) che concentra massa per impatti pesanti; amplifica il danno fisico a scapito della velocitÃƒÂ  di recupero.",
+      "description_it": "Protuberanza ossea terminale (coda o arto) che concentra massa per impatti pesanti; amplifica il danno fisico a scapito della velocità di recupero.",
       "description_en": "Terminal bony protrusion (tail or limb) concentrating mass for heavy impacts; amplifies physical damage at the cost of recovery speed."
     },
     "ferocia": {
       "label_it": "Ferocia",
       "label_en": "Ferocity",
-      "description_it": "Stato psicofisico predatoriale che aumenta l'aggressivitÃƒÂ  e la potenza offensiva sotto stress; favorisce attacchi multipli consecutivi.",
+      "description_it": "Stato psicofisico predatoriale che aumenta l'aggressività e la potenza offensiva sotto stress; favorisce attacchi multipli consecutivi.",
       "description_en": "Predatory psycho-physical state increasing aggression and offensive power under stress; favors consecutive multi-attacks."
     },
     "denti_seghettati": {
@@ -1646,7 +1646,7 @@
     "voce_imperiosa": {
       "label_it": "Voce Imperiosa",
       "label_en": "Imperious Voice",
-      "description_it": "Voce risonante che paralizza la volont� dei deboli applicando 2 turni di panic in melee.",
+      "description_it": "Voce risonante che paralizza la volontà dei deboli applicando 2 turni di panic in melee.",
       "description_en": "Resonant voice that paralyzes weak wills, applying 2 turns of panic in melee."
     },
     "zampe_radianti": {
