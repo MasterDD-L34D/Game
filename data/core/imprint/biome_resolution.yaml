@@ -1,0 +1,104 @@
+# Biome Resolution — 4-tuple → biome_id mapping
+#
+# Genesis: CAP-11 (audit Impronta CAP-10, archive AA01
+# 2026-04-25-cap-10-audit-impronta-archon-).
+#
+# 4 player parallelo choice su body parts (Pattern Jackbox L'Impronta v2):
+#   - locomotion: VELOCE | SILENZIOSA
+#   - offense:    PROFONDA | RAPIDA
+#   - defense:    DURA | FLESSIBILE
+#   - senses:     LONTANO | ACUTO
+#
+# 16 combo totali (2^4) → 7 biomi core (audit F-1 raccomanda Pattern D hybrid:
+# lookup base + team-composition modulation per ridurre canalizzazione).
+#
+# Biomi core selezionati da data/core/biomes.yaml (25 totali, scelti i più tactical):
+#   - savana
+#   - badlands
+#   - caverna_risonante
+#   - reef_luminescente
+#   - rovine_planari
+#   - palude_tossica
+#   - canopia_ionica
+
+schema_version: '1.0'
+
+# Lookup base — distribuzione bilanciata 16→7 (audit F-1: target ~20% canalizzazione max)
+# Codifica chiave: "L_O_D_S" dove ogni char è la prima lettera della scelta
+# (V=veloce, S=silenziosa, P=profonda, R=rapida, D=dura, F=flessibile, L=lontano, A=acuto).
+
+base_lookup:
+  # 4 combo → savana (ambiente aperto, veloce/lontano dominante)
+  V_P_D_L: savana          # veloce profonda dura lontano — savana classica predatore
+  V_P_F_L: savana          # veloce profonda flessibile lontano — savana agile
+  V_R_D_L: badlands        # veloce rapida dura lontano — pianura arida
+  V_R_F_L: badlands        # veloce rapida flessibile lontano — pianura agile
+
+  # 4 combo → caverna/sotterranei (silenzioso/acuto dominante)
+  S_P_D_A: caverna_risonante  # silenziosa profonda dura acuto — predatore caverna
+  S_P_F_A: caverna_risonante  # silenziosa profonda flessibile acuto — caverna umida
+  S_R_D_A: rovine_planari     # silenziosa rapida dura acuto — rovine
+  S_R_F_A: rovine_planari     # silenziosa rapida flessibile acuto — rovine antiche
+
+  # 4 combo ibride → biomi specializzati
+  V_P_D_A: rovine_planari       # veloce profondo duro acuto — rovine apertae
+  V_R_D_A: badlands             # veloce rapido duro acuto — badlands
+  S_P_D_L: palude_tossica       # silenziosa profonda dura lontano — palude
+  S_R_D_L: palude_tossica       # silenziosa rapida dura lontano — palude
+
+  # 4 combo extreme → biomi estremi
+  V_P_F_A: canopia_ionica       # veloce profondo flessibile acuto — canopia
+  V_R_F_A: canopia_ionica       # veloce rapido flessibile acuto — canopia
+  S_P_F_L: reef_luminescente    # silenziosa profonda flessibile lontano — reef
+  S_R_F_L: reef_luminescente    # silenziosa rapida flessibile lontano — reef
+
+# Distribuzione finale (per sanity check):
+# savana: 2, badlands: 3, caverna_risonante: 2, rovine_planari: 3,
+# palude_tossica: 2, canopia_ionica: 2, reef_luminescente: 2
+# → max canalizzazione 3/16 = 18.7% (target <20% audit F-1)
+
+# Team composition modulation — applicato al biome_id base
+# Ogni regola: se >= N player hanno trait nella tupla, applica affix.
+modulation:
+  - rule_id: cryo_dominance
+    condition:
+      trait: defense
+      value: DURA
+      min_player_count: 3
+    affix: hardened              # +durabilità tile, less terrain damage
+    biome_variants:
+      savana: savana_arida_dura
+      badlands: badlands_pietrosi
+      palude_tossica: palude_indurita
+
+  - rule_id: silent_majority
+    condition:
+      trait: locomotion
+      value: SILENZIOSA
+      min_player_count: 3
+    affix: stealth_advantage     # ambush bonus, lower visibility
+    biome_variants:
+      caverna_risonante: caverna_silenziosa
+      rovine_planari: rovine_sussurranti
+
+  - rule_id: long_range_focus
+    condition:
+      trait: senses
+      value: LONTANO
+      min_player_count: 3
+    affix: open_ground            # +line of sight, +range
+    biome_variants:
+      savana: savana_aperta_orizzonte
+      badlands: badlands_orizzonte
+
+  - rule_id: deep_strike
+    condition:
+      trait: offense
+      value: PROFONDA
+      min_player_count: 3
+    affix: punishing_terrain      # damage bonus +1 per round
+    biome_variants:
+      caverna_risonante: caverna_profonda_eco
+
+# Fallback (mai dovrebbe attivarsi se base_lookup è completo)
+fallback_biome: savana
