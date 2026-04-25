@@ -156,10 +156,11 @@ ollama pull qwen3:8b qwen2.5-coder
 - [x] ~~Aggiornare `CLAUDE.md` "Sibling repo topology": path~~ — done 2026-04-25 (clone + path update)
 - [x] ~~Decidere fate dei 6 zip rimanenti~~ — done 2026-04-25, archiviati in `gioco/_archive/2026-04-20-codemasterdd-handoffs/` con README index. Solo `game-swarm-package.zip` resta visibile a root.
 - [x] **Game-Database offline validation** — done 2026-04-25: `npm install` ✅, `.env` configurato (`DATABASE_URL=postgresql://postgres:postgres@localhost:5433/game`), `npx prisma generate` ✅ Client v5.22.0, `npx prisma validate` ✅ schema valid
-- [ ] **Game-Database end-to-end smoke** — BLOCKED: Docker Desktop daemon non parte autonomo su questa macchina (WSL distro `docker-desktop` STOPPED, nessun processo `Docker Desktop.exe` spawnato dopo `Start-Process`). Richiede primo avvio interattivo Docker Desktop GUI per accept license/login. Una volta running: `docker compose up -d` → `npm run dev:setup` → `npm run dev` → smoke `curl http://localhost:3333/api/traits/glossary`
-- [ ] **HTTP Alt B flag-ON validation** — deferred fino a end-to-end smoke 🟢 (richiede Game-Database server up)
-- [ ] `synesthesia/` valutare se spostare a path diverso (es. `~/Documents/UPO/`) per evitare confusione con workspace Evo-Tactics
-- [ ] Game-Database: scrivere `WORKSPACE_MAP.md` simmetrico nel suo repo (cross-link bidirezionale) — facoltativo, attivare solo se sviluppo Game-Database diventa attivo
+- [x] **Game-Database end-to-end smoke** — done 2026-04-25 (post Docker Desktop manual start userland): `docker compose up -d db` 🟢 healthy :5433, `npm run dev:setup` 🟢 (2 migrations applied + seed 200 record / 4 trait / 4 biomi / 3 specie / 3 ecosistemi), `npm run dev` 🟢 :3333, smoke 4 endpoint canonical: `/api/traits/glossary` (formato Alt B `{_id,labels,descriptions}` compliant), `/api/traits`, `/api/biomes`, `/api/species` tutti 200 OK
+- [x] **HTTP Alt B endpoint shape verification** — done 2026-04-25: `/api/traits/glossary` ritorna `{traits:[{_id,labels:{it,en},descriptions:{it,en}}]}` esattamente conforme a `packages/contracts/schemas/glossary.schema.json`. Game-side integration in `apps/backend/index.js:17-37` configurato OFF default + ON via env, code-path verificato.
+- [x] **HTTP Alt B runtime smoke (Game backend live)** — done 2026-04-25: `npm install` worktree completato + `PORT=3344 GAME_DATABASE_ENABLED=true GAME_DATABASE_URL=http://localhost:3333 LOBBY_WS_ENABLED=false node apps/backend/index.js`. Backend log conferma: `[game-database] HTTP integration ENABLED at http://localhost:3333` + `[game-database] trait glossary fetched via HTTP with local file fallback`. `/api/catalog/pools` e `/api/traits` rispondono 200 OK con dati live, integration full-stack PROVATA end-to-end.
+- [x] **Game-Database `WORKSPACE_MAP.md` simmetrico** — done 2026-04-25: scritto in `C:/Users/edusc/Documents/GitHub/Game-Database/WORKSPACE_MAP.md` con stack porte, bootstrap quick, data flow diagram, cross-link bidirezionale a Game/WORKSPACE_MAP.md.
+- [ ] `synesthesia/` valutare se spostare a path diverso (es. `~/Documents/UPO/`) per evitare confusione con workspace Evo-Tactics — decisione utente
 
 ---
 
