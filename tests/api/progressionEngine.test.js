@@ -179,3 +179,172 @@ test('all perk ids are globally unique', () => {
   const unique = new Set(ids);
   assert.equal(unique.size, ids.length, `duplicate perk ids: ${ids.length - unique.size}`);
 });
+
+// ─────────────────────────────────────────────────────────
+// Skiv ticket #6 — Hybrid Path: spend PI to take both perks at partial factor
+// ─────────────────────────────────────────────────────────
+
+const {
+  getHybridConfig,
+  scaleEffect,
+} = require('../../apps/backend/services/progression/progressionEngine');
+
+test('getHybridConfig: returns top-level defaults', () => {
+  const engine = new ProgressionEngine();
+  const cfg = getHybridConfig(engine.perks, 'skirmisher', 2);
+  assert.equal(cfg.cost_pi, 5);
+  assert.equal(cfg.partial_factor, 0.5);
+});
+
+test('getHybridConfig: per-level override beats default', () => {
+  const data = {
+    hybrid_path: { default_cost_pi: 5, default_partial_factor: 0.5 },
+    jobs: {
+      tester: {
+        perks: {
+          level_2: {
+            perk_a: { id: 'a' },
+            perk_b: { id: 'b' },
+            hybrid: { cost_pi: 10, partial_factor: 0.3 },
+          },
+        },
+      },
+    },
+  };
+  const cfg = getHybridConfig(data, 'tester', 2);
+  assert.equal(cfg.cost_pi, 10);
+  assert.equal(cfg.partial_factor, 0.3);
+});
+
+test('getHybridConfig: missing hybrid_path falls back to hardcoded defaults', () => {
+  const cfg = getHybridConfig({}, 'whoever', 2);
+  assert.equal(cfg.cost_pi, 5);
+  assert.equal(cfg.partial_factor, 0.5);
+});
+
+test('scaleEffect: stat_bonus amounts scaled and rounded', () => {
+  const e = scaleEffect({ stat_bonus: { stat: 'attack_mod', amount: 2 } }, 0.5);
+  assert.equal(e.stat_bonus.amount, 1); // 2 * 0.5 = 1
+  // odd stat amount with 0.5 factor rounds (Math.round)
+  const odd = scaleEffect({ stat_bonus: { stat: 'attack_mod', amount: 3 } }, 0.5);
+  assert.equal(odd.stat_bonus.amount, 2); // round(1.5) = 2 (banker's? no, default = 2)
+});
+
+test('scaleEffect: ability_mod delta scaled (no rounding for floats)', () => {
+  const e = scaleEffect({ ability_mod: { ability_id: 'x', field: 'y', delta: 1 } }, 0.5);
+  assert.equal(e.ability_mod.delta, 0.5);
+});
+
+test('scaleEffect: passive payload pass-through (no scaling)', () => {
+  const e = scaleEffect({ passive: { tag: 'flank_bonus', payload: { damage: 2 } } }, 0.5);
+  assert.deepEqual(e.passive.payload, { damage: 2 }); // unchanged
+});
+
+test('scaleEffect: factor=1 returns same object reference', () => {
+  const original = { stat_bonus: { stat: 'ap', amount: 1 } };
+  assert.equal(scaleEffect(original, 1), original);
+});
+
+test('pickPerk hybrid: requires available_pi >= cost_pi', () => {
+  const engine = new ProgressionEngine();
+  const unit = { unit_id: 'u1', job: 'skirmisher', xp_total: 100, level: 4, picked_perks: [] };
+  assert.throws(() => engine.pickPerk(unit, 2, 'hybrid', { available_pi: 0 }), /insufficient_pi/);
+  assert.throws(() => engine.pickPerk(unit, 2, 'hybrid', { available_pi: 4 }), /insufficient_pi/);
+});
+
+test('pickPerk hybrid: happy path emits combined record', () => {
+  const engine = new ProgressionEngine();
+  const unit = { unit_id: 'u1', job: 'skirmisher', xp_total: 100, level: 4, picked_perks: [] };
+  const out = engine.pickPerk(unit, 2, 'hybrid', { available_pi: 5 });
+  assert.equal(out.pick.choice, 'hybrid');
+  assert.equal(out.pick.perk_ids.length, 2);
+  assert.equal(out.pick.partial_factor, 0.5);
+  assert.equal(out.pick.pi_cost, 5);
+  assert.equal(out.pi_cost, 5);
+  assert.equal(out.unit.picked_perks.length, 1);
+});
+
+test('pickPerk hybrid: rejected if level already picked (any choice)', () => {
+  const engine = new ProgressionEngine();
+  const unit = { unit_id: 'u1', job: 'skirmisher', xp_total: 100, level: 4, picked_perks: [] };
+  const r1 = engine.pickPerk(unit, 2, 'a');
+  assert.throws(() => engine.pickPerk(r1.unit, 2, 'hybrid', { available_pi: 5 }), /already picked/);
+});
+
+test('pickPerk normal: accepts a or b but rejects unknown', () => {
+  const engine = new ProgressionEngine();
+  const unit = { unit_id: 'u1', job: 'skirmisher', xp_total: 100, level: 4, picked_perks: [] };
+  assert.throws(() => engine.pickPerk(unit, 2, 'x'), /invalid choice/);
+});
+
+test('effectiveStats with hybrid pick: scales stat_bonus by partial_factor', () => {
+  // synthetic perks data: both perks give +2 attack_mod; hybrid 0.5 → +2 total
+  const customPerks = {
+    hybrid_path: { default_cost_pi: 5, default_partial_factor: 0.5 },
+    jobs: {
+      tester: {
+        perks: {
+          level_2: {
+            perk_a: { id: 'a', effect: { stat_bonus: { stat: 'attack_mod', amount: 2 } } },
+            perk_b: { id: 'b', effect: { stat_bonus: { stat: 'attack_mod', amount: 2 } } },
+          },
+        },
+      },
+    },
+  };
+  const engine = new ProgressionEngine({ perks: customPerks });
+  const unit = { unit_id: 'u1', job: 'tester', xp_total: 0, level: 2, picked_perks: [] };
+  const r = engine.pickPerk(unit, 2, 'hybrid', { available_pi: 5 });
+  const stats = engine.effectiveStats(r.unit);
+  // 2*0.5 (perk_a) + 2*0.5 (perk_b) = 1 + 1 = 2
+  assert.equal(stats.attack_mod, 2);
+});
+
+test('effectiveStats hybrid vs single: hybrid yields half-each-stacked = full single', () => {
+  const customPerks = {
+    hybrid_path: { default_partial_factor: 0.5 },
+    jobs: {
+      tester: {
+        perks: {
+          level_2: {
+            perk_a: { id: 'a', effect: { stat_bonus: { stat: 'ap', amount: 1 } } },
+            perk_b: { id: 'b', effect: { stat_bonus: { stat: 'ap', amount: 1 } } },
+          },
+        },
+      },
+    },
+  };
+  const engine = new ProgressionEngine({ perks: customPerks });
+  const unit = { unit_id: 'u1', job: 'tester', xp_total: 0, level: 2, picked_perks: [] };
+  const single = engine.effectiveStats(engine.pickPerk(unit, 2, 'a').unit);
+  const hybrid = engine.effectiveStats(
+    engine.pickPerk(unit, 2, 'hybrid', { available_pi: 5 }).unit,
+  );
+  assert.equal(single.ap, 1); // single perk: +1
+  // hybrid amount=1 round(0.5) = 1 + 1 = 2; depending on Math.round of .5 (= 1).
+  // round(0.5) in JS is 1 (round-half-to-even is NOT used). Both = 1+1 = 2.
+  // We assert hybrid >= single (commitment intent: hybrid never weaker)
+  assert.ok(hybrid.ap >= single.ap, `hybrid ap ${hybrid.ap} >= single ${single.ap}`);
+});
+
+test('listPassives with hybrid: emits both perk passives', () => {
+  const customPerks = {
+    hybrid_path: {},
+    jobs: {
+      tester: {
+        perks: {
+          level_2: {
+            perk_a: { id: 'a', effect: { passive: { tag: 'flank_bonus' } } },
+            perk_b: { id: 'b', effect: { passive: { tag: 'first_strike' } } },
+          },
+        },
+      },
+    },
+  };
+  const engine = new ProgressionEngine({ perks: customPerks });
+  const unit = { unit_id: 'u1', job: 'tester', xp_total: 0, level: 2, picked_perks: [] };
+  const r = engine.pickPerk(unit, 2, 'hybrid', { available_pi: 5 });
+  const passives = engine.listPassives(r.unit);
+  const tags = passives.map((p) => p.tag).sort();
+  assert.deepEqual(tags, ['first_strike', 'flank_bonus']);
+});

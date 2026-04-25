@@ -17,8 +17,18 @@
 #
 # Perks evaluate additively unless noted. Stats applied at unit load time;
 # passive tags checked per-action via progressionEngine.listPassives(unitId).
+#
+# Skiv ticket #6 (Hybrid Path) — at any level a player can spend PI to take
+# BOTH perks at reduced factor instead of choosing one. Defaults below; per-level
+# overrides supported via `hybrid: { cost_pi, partial_factor }` in the level
+# entry. When choice='hybrid', engine emits a pick record listing both perk_ids
+# and scales numeric effects by `partial_factor` (default 0.5).
 
 version: '0.1.0'
+
+hybrid_path:
+  default_cost_pi: 5
+  default_partial_factor: 0.5
 
 jobs:
   skirmisher:
