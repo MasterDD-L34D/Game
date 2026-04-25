@@ -2,6 +2,23 @@
 // Post-combat summary: outcome + XP + narrative + ready button.
 // ADR coop-mvp-spec.md §2.6.
 
+// OD-001 Path A V3 Mating/Nido (2026-04-26): pure helper DOM-free per identify
+// recruitable enemies post-combat. Filtra unit team !== player/ally con hp<=0.
+// Preserva name/hp_max/mbti_type per UI label downstream.
+export function findRecruitableEnemies(world) {
+  if (!world || typeof world !== 'object') return [];
+  const units = Array.isArray(world.units) ? world.units : null;
+  if (!units) return [];
+  return units.filter((u) => {
+    if (!u || typeof u !== 'object') return false;
+    const team = u.team || u.faction || u.owner_team || 'enemy';
+    if (team === 'player' || team === 'ally') return false;
+    const hp = Number(u.hp);
+    if (!Number.isFinite(hp) || hp > 0) return false;
+    return true;
+  });
+}
+
 export function renderDebriefPanel() {
   if (typeof document === 'undefined') return null;
   let overlay = document.getElementById('debrief-overlay');
