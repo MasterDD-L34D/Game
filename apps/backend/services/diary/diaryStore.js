@@ -15,6 +15,8 @@
 //   - mbti_axis_threshold_crossed
 //   - defy_used
 //   - synergy_triggered
+//   - mutation_acquired   (post 2026-04-25 content sprint #1776 — 30 mutation catalog)
+//   - job_changed         (post 2026-04-25 — 4 expansion jobs)
 //
 // Storage: `data/derived/unit_diaries/<sanitised_unit_id>.jsonl` (gitignored).
 // Rotation/cleanup deferred to ops.
@@ -43,6 +45,9 @@ const ALLOWED_EVENT_TYPES = new Set([
   'mbti_axis_threshold_crossed',
   'defy_used',
   'synergy_triggered',
+  // Post 2026-04-25 content sprint #1776 (30 mutation catalog + 4 expansion jobs).
+  'mutation_acquired',
+  'job_changed',
 ]);
 
 const UNIT_ID_PATTERN = /^[A-Za-z0-9_\-]+$/;

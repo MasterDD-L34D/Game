@@ -22,14 +22,17 @@ function tmpBaseDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'diary-test-'));
 }
 
-test('ALLOWED_EVENT_TYPES: 6 V1 entries', () => {
-  assert.equal(ALLOWED_EVENT_TYPES.size, 6);
+test('ALLOWED_EVENT_TYPES: 8 entries post 2026-04-25 content sprint', () => {
+  assert.equal(ALLOWED_EVENT_TYPES.size, 8);
   assert.ok(ALLOWED_EVENT_TYPES.has('form_evolved'));
   assert.ok(ALLOWED_EVENT_TYPES.has('thought_internalized'));
   assert.ok(ALLOWED_EVENT_TYPES.has('scenario_completed'));
   assert.ok(ALLOWED_EVENT_TYPES.has('mbti_axis_threshold_crossed'));
   assert.ok(ALLOWED_EVENT_TYPES.has('defy_used'));
   assert.ok(ALLOWED_EVENT_TYPES.has('synergy_triggered'));
+  // Skiv Saga additions (mutation catalog + jobs expansion content sprint).
+  assert.ok(ALLOWED_EVENT_TYPES.has('mutation_acquired'));
+  assert.ok(ALLOWED_EVENT_TYPES.has('job_changed'));
 });
 
 test('sanitiseUnitId: accepts alnum + dash + underscore', () => {
