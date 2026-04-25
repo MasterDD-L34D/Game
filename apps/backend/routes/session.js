@@ -61,6 +61,10 @@ const {
   hasResonance: hasBiomeResonance,
   computeResonanceTier,
 } = require('../services/combat/biomeResonance');
+// Skiv ticket #1: Thought Cabinet resolver wire — apply passive stats on
+// internalize/forget transitions. Reads cabinet snapshot deltas, mutates
+// unit.attack_mod / defense_dc / hp_max etc per effect_bonus / effect_cost.
+const { updateThoughtPassives } = require('../services/thoughts/thoughtPassiveApply');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -2023,6 +2027,10 @@ function createSessionRouter(options = {}) {
       if (!outcome.ok) {
         return res.status(409).json({ error: outcome.error, thought_id });
       }
+      // Recompute passives post-forget and re-apply to live unit stats.
+      const postPassives = thoughtPassiveBonuses(state);
+      const unit = (session.units || []).find((u) => u && u.id === unit_id);
+      if (unit) updateThoughtPassives(unit, postPassives.bonus, postPassives.cost);
       res.json({
         session_id: session.session_id,
         unit_id,
@@ -2054,6 +2062,11 @@ function createSessionRouter(options = {}) {
       for (const [unitId, state] of iterable) {
         const { promoted } = tickThoughtResearch(state, delta);
         const passives = thoughtPassiveBonuses(state);
+        // Wire passives into live unit stats when thoughts are internalized.
+        if (promoted.length > 0) {
+          const unit = (session.units || []).find((u) => u && u.id === unitId);
+          if (unit) updateThoughtPassives(unit, passives.bonus, passives.cost);
+        }
         perActor[unitId] = {
           ...snapshotCabinet(state),
           promoted,
