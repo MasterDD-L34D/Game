@@ -829,6 +829,15 @@ function createWsServer({
             room.close('host_dropped_no_candidate');
             return;
           }
+          // F-2 2026-04-25 — replay round_ready snapshot to the promoted host
+          // (and peers) so combat-phase round state is not lost across host
+          // transfer. Without this, a transfer mid-`resolving`/`planning` left
+          // the new host blind to ready-set + roundIndex on the WS channel.
+          try {
+            room.broadcastRoundReady();
+          } catch {
+            // swallow — best-effort.
+          }
           // F-1 2026-04-25 — rebroadcast coop state to the new host + peers
           // so the promoted client sees the correct phase/run without needing
           // to call GET /api/coop/state manually.
