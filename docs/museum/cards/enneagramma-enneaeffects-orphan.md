@@ -75,23 +75,44 @@ Coverage: 6/9 archetipi (mancano 1 Reformer, 4 Individualist, 6 Loyalist).
 - **Skiv Sprint C**: voice palette + ennea buff combat → identità RPG forte ("type 5 Investigator combat buff = +1 stat awareness round_end")
 - **SOURCE-OF-TRUTH integrity**: card serve come correzione drift docs vs runtime, anti-pattern "claim canonical senza verify wire"
 
-## Concrete reuse paths
+## ⚠️ Scoperta architecture (2026-04-25 wire-attempt)
 
-1. **Minimal — wire in `sessionRoundBridge.js` (P0, ~2h)**
+Card originale stimava Minimal wire ~2h. **Audit pre-wire scopre architecture mismatch**:
+
+- File path corretto: `apps/backend/routes/sessionRoundBridge.js` (route, NON service)
+- **`vcSnapshot` è computato solo end-of-session** ([routes/session.js:1828](../../../apps/backend/routes/session.js)) via `buildVcSnapshot(session, telemetryConfig)`. Nessuna computazione per-round.
+- **`unit.ennea_archetypes` NON è popolato** sui units state. Vive solo in `vcSnapshot.per_actor[uid].ennea_archetypes`.
+- Function signatures reali in `enneaEffects.js`: `resolveEnneaEffects(activeArchetypes[])` + `applyEnneaBuffs(actor, effects)` (NON `applyEnneaEffects(unit, vcSnapshot)` come card assumeva).
+
+**Effort reale rivisto**:
+
+- ~2-3h refactoring vcSnapshot per round-aware computation + caching
+- ~1h wire in `routes/sessionRoundBridge.js` post-resolveRound
+- ~1h regression test (307/307 baseline + nuovi unit test)
+- ~1h documentation + handoff
+- **Total ~5-6h**, NON 2h. Hot path combat = high blast radius.
+
+## Concrete reuse paths (rivisti post-audit)
+
+1. **Minimal — wire post-resolveRound in route layer (P0, ~5-6h)**
 
    ```js
-   const { applyEnneaEffects } = require('./enneaEffects');
+   // apps/backend/routes/sessionRoundBridge.js
+   const { resolveEnneaEffects, applyEnneaBuffs } = require('../services/enneaEffects');
+   const { buildVcSnapshot } = require('../services/vcScoring');
 
-   // in onRoundEnd handler:
-   const enneaBuff = applyEnneaEffects(unit, vcSnapshot);
-   if (enneaBuff) {
-     unit.attack_mod_bonus += enneaBuff.attack_mod || 0;
-     unit.defense_mod_bonus += enneaBuff.defense_mod || 0;
-     unit.accuracy_bonus += enneaBuff.accuracy || 0;
+   // dopo resolveRoundPure() + syncStatusesFromRoundState():
+   const vcRoundSnapshot = buildVcSnapshot(session, telemetryConfig); // round-aware variant TBD
+   for (const unit of session.roundState.units || []) {
+     if ((unit.hp?.current || 0) <= 0) continue;
+     const archetypes = vcRoundSnapshot?.per_actor?.[unit.id]?.ennea_archetypes || [];
+     const effects = resolveEnneaEffects(archetypes);
+     applyEnneaBuffs(unit, effects);
    }
    ```
 
-   - Test: `node --test tests/api/sessionRoundBridge.test.js` (regress baseline)
+   - **Pre-req**: `buildVcSnapshot` deve supportare per-round mode (oggi solo end-session).
+   - Test: `node --test tests/api/sessionRoundBridge.test.js`
    - Test: `node --test tests/ai/*.test.js` (307/307 verde)
    - Output: P4 status 🟡+ verificabile
 

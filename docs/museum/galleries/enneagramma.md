@@ -86,12 +86,17 @@ Due voice file YAML + selector via `vcSnapshot.ennea_archetypes[0]`. A/B test in
 
 ## Reuse path consolidato (cross-card)
 
-### Path Single-step Quick (~5h totali)
+### Path Single-step Quick (~7-9h totali, RIVISTO post-audit 2026-04-25)
 
-1. **M-006 Minimal wire** (~2h): import `enneaEffects.js` in `sessionRoundBridge.js`, hook `onRoundEnd`. P4 status verificato 🟡+
-2. **M-002 Minimal load** (~3h): registry JSON load + extend `ENNEA_EFFECTS` da hook eligibility map. 6 archetipi → 16 hook coverage
+**⚠️ Audit pre-wire scoperta architecture mismatch**: `vcSnapshot` oggi è end-of-session only (NON per-round). `unit.ennea_archetypes` NON popolato sui units. Refactor `buildVcSnapshot` per round-aware mode = pre-req del wire.
 
-→ P4 🟢 candidato dopo 5h. Skiv Sprint C voice palette dependency unblocked.
+1. **vcSnapshot round-aware refactor** (~2-3h, pre-req): `buildVcSnapshot(session, config, { perRound: true })` modalità + caching
+2. **M-006 Minimal wire** (~2h): import `enneaEffects.js` in `routes/sessionRoundBridge.js`, hook post-resolveRound + post-vcSnapshot. P4 status verificato 🟡+
+3. **M-002 Minimal load** (~3h): registry JSON load + extend `ENNEA_EFFECTS` da hook eligibility map. 6 archetipi → 16 hook coverage
+
+→ P4 🟢 candidato dopo ~7-9h. Skiv Sprint C voice palette dependency unblocked.
+
+**NOT 5h come stima originale** — combat hot path richiede care + regression baseline 307/307 verde mandatory.
 
 ### Path Full Integration (~12h totali)
 
@@ -104,14 +109,14 @@ Due voice file YAML + selector via `vcSnapshot.ennea_archetypes[0]`. A/B test in
 ## Anti-pattern (NON fare)
 
 - ❌ **NON modificare SOURCE-OF-TRUTH §13.4 prima del wire**: claim "P4 completo" deve essere VERIFIED via integration test, non updated speculativamente
-- ❌ **NON copiare pack module** (`packs/evo_tactics_pack/tools/py/modules/personality/enneagram/`) come canonical: pack ha già processato indipendentemente, dual source = drift garantito. Decision OD-007 pending
+- ❌ **NON copiare pack module** (`packs/evo_tactics_pack/tools/py/modules/personality/enneagram/`) come canonical: pack ha già processato indipendentemente, dual source = drift garantito. Decision OD-009 ✅ RISOLTA via Option 3 hybrid (pack encyclopedia + data/core/ runtime + sync script)
 - ❌ **NON inventare tritype Skiv**: dataset non lo determina. User decision o telemetry-driven (post-playtest)
 - ❌ **NON fare wire isolato di M-006 senza M-002**: senza registry, coverage resta 6/9. Wire combinato = singolo PR cleaner
 
 ## Open decisions (cross-card)
 
-- **OD-007**: Ennea source canonical (`data/core/personality/` vs `packs/evo_tactics_pack/`)
-- **OD-008**: Skiv Type 5 (Investigator) vs Type 7 (Enthusiast) per voice palette default
+- **OD-009** ✅ RISOLTA: Ennea source canonical = Option 3 hybrid (pack encyclopedia + `data/core/personality/` runtime + sync script)
+- **OD-010** ✅ RISOLTA: Skiv voice palette default = skip-via-A/B (implementare Type 5 + Type 7 + telemetry-driven default)
 - **OD-future**: tritype Skiv determinabile via telemetry o user choice?
 
 ## Sources

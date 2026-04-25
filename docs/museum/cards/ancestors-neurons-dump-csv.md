@@ -107,5 +107,5 @@ CO 22,Discipline Hold,Mantiene formation sotto pressure,on_pressure_tier_up,form
 ## Next actions
 
 - **Sprint A/B Skiv kickoff**: 5 trigger Counterattack (CA 01-04) candidate per defy counter pattern
-- **OPEN_DECISIONS**: OD-009 "Ancestors recovery scope (full 297 neurons vs 34 sopravvissuti)"
+- **OPEN_DECISIONS**: OD-011 "Ancestors recovery scope" (full 297 neurons vs 34 sopravvissuti — decision pending user)
 - **Cross-link M-2026-04-25-001**: sentience tiers + neuron triggers = layer combinato P2/P3

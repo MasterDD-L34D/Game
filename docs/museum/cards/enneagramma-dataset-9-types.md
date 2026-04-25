@@ -118,4 +118,4 @@ Total: 9 tipi × ~13 campi = ~117 dati strutturati pronti runtime.
 
 - **Sprint C kickoff parallelo a M-2026-04-25-002**: convert YAML + Sprint C voice palette (~11h totale Minimal+Moderate)
 - **Cross-link M-2026-04-25-002 + M-2026-04-25-006**: trio integrato per Ennea runtime full
-- **OPEN_DECISIONS**: OD-008 "Skiv Type 5 (Investigator) vs Type 7 (Enthusiast) per voice palette"
+- **OPEN_DECISIONS**: OD-010 "Skiv voice palette default" ✅ RISOLTA proposed (skip-via-A/B: implementare entrambe palette + telemetry-driven default)

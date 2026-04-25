@@ -110,4 +110,4 @@ Schema completo: `eligibility` (read da `vcSnapshot`), `trigger` (timing + scope
 
 - **Sprint C kickoff**: load registry in `enneaEffects.js` + wire `onRoundEnd` (Minimal path 3h)
 - **Cross-card link**: M-2026-04-25-003 (dataset 9 tipi) + M-2026-04-25-006 (orphan) sono trio integrato
-- **Open decision**: OD-007 "Ennea source canonical: `data/core/personality/` vs `packs/evo_tactics_pack/`"
+- **Open decision**: OD-009 "Ennea source canonical" ✅ RISOLTA proposed (Option 3 hybrid: pack encyclopedia + data/core/ runtime + sync script)

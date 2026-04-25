@@ -107,5 +107,5 @@ Causa probabile: rollout plan `sentience_rollout_plan.md` ha TODO esplicito ("ri
 ## Next actions
 
 - **Sprint C kickoff**: `narrative-design-illuminator --target docs/museum/cards/cognitive_traits-sentience-tiers-v1.md` per Skiv voice palette
-- **OPEN_DECISIONS update**: aggiungi OD-006 "Sentience index backfill scope"
+- **OPEN_DECISIONS update**: vedi OD-008 "Sentience index backfill scope" (aperta, decisione user pending)
 - **Drift escalation**: `schema-ripple` agent per audit `sentience_index` consumers

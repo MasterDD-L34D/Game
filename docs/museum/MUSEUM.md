@@ -114,7 +114,7 @@ docs/museum/
 - Agent definition: [.claude/agents/repo-archaeologist.md](../../.claude/agents/repo-archaeologist.md)
 - Provenance standard: [DCMI Provenance](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/provenance/)
 - Backlog open: [BACKLOG.md](../../BACKLOG.md)
-- Open decisions: [OPEN_DECISIONS.md](../../OPEN_DECISIONS.md) (3 nuove OD candidate post-excavate: OD-006/007/008/009/010)
+- Open decisions: [OPEN_DECISIONS.md](../../OPEN_DECISIONS.md) (5 nuove OD post-excavate: OD-008 sentience backfill, OD-009 ✅ Ennea hybrid, OD-010 ✅ Skiv A/B, OD-011 ancestors recovery, OD-012 swarm scope)
 - ADR index: [DECISIONS_LOG.md](../../DECISIONS_LOG.md)
 - Skiv canonical: [data/core/species/dune_stalker_lifecycle.yaml](../../data/core/species/dune_stalker_lifecycle.yaml)
 
