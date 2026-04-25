@@ -28,6 +28,8 @@ const { createLobbyRouter } = require('./routes/lobby');
 const { createCoopRouter } = require('./routes/coop');
 // Skiv ticket #7 — unit diary persistence (cross-session memoria)
 const { createDiaryRouter } = require('./routes/diary');
+// Skiv-as-Monitor — git-event-driven creature feed (2026-04-25)
+const { createSkivRouter } = require('./routes/skiv');
 const { createCoopStore } = require('./services/coop/coopStore');
 const { LobbyService } = require('./services/network/wsSession');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
@@ -763,6 +765,11 @@ function createApp(options = {}) {
 
   // Skiv ticket #7 — unit diary persistence MVP (backend-only, JSONL append).
   app.use('/api', createDiaryRouter(options.diary || {}));
+
+  // Skiv-as-Monitor — git-event-driven creature feed (2026-04-25).
+  // Reads data/derived/skiv_monitor/{state.json, feed.jsonl} produced by
+  // tools/py/skiv_monitor.py via .github/workflows/skiv-monitor.yml.
+  app.use('/api', createSkivRouter(options.skiv || {}));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {

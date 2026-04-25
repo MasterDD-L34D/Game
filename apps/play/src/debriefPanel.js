@@ -61,6 +61,11 @@ export function renderDebriefPanel() {
       </button>
       <div class="db-status" id="db-status" aria-live="polite"></div>
 
+      <div class="db-section" id="db-skiv-section">
+        <div class="db-section-title">🦎 Skiv — riflessione</div>
+        <pre class="db-skiv-card" id="db-skiv-card">[ Skiv tace. Sabbia ferma. ]</pre>
+      </div>
+
       <div class="db-section">
         <div class="db-section-title">Party (<span id="db-party-count">0</span>)</div>
         <div class="db-party" id="db-party"></div>
@@ -173,6 +178,24 @@ export function wireDebriefPanel(overlay, bridge) {
     list.scrollTop = list.scrollHeight;
   };
 
+  // Skiv-as-Monitor — mini card render in debrief (Phase 2 wire 2026-04-25).
+  // Fetch text/plain ASCII card from backend; graceful fallback if offline.
+  const renderSkivMonitorCard = async () => {
+    const cardEl = overlay.querySelector('#db-skiv-card');
+    if (!cardEl) return;
+    try {
+      const res = await fetch('/api/skiv/card', { cache: 'no-store' });
+      if (!res.ok) {
+        cardEl.textContent = '[ Skiv dorme. Monitor non ha girato. ]';
+        return;
+      }
+      const text = await res.text();
+      cardEl.textContent = text || '[ Skiv tace. ]';
+    } catch {
+      cardEl.textContent = '[ Backend irraggiungibile. Sabbia tace. ]';
+    }
+  };
+
   const renderParty = () => {
     const list = overlay.querySelector('#db-party');
     const count = overlay.querySelector('#db-party-count');
@@ -199,6 +222,8 @@ export function wireDebriefPanel(overlay, bridge) {
     renderPgCard();
     renderNarrative();
     renderParty();
+    // Fire-and-forget: Skiv card refresh ad ogni render debrief.
+    renderSkivMonitorCard();
   };
 
   readyBtn.addEventListener('click', async () => {

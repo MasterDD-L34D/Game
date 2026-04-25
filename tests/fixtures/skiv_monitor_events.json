@@ -1,0 +1,69 @@
+[
+  {
+    "id": "pr-9001",
+    "kind": "pr_merged",
+    "ts": "2026-04-25T10:00:00Z",
+    "number": 9001,
+    "title": "feat(p2): wire form evolution slot 3",
+    "labels": ["feat/p2-evolution"],
+    "files_hint": [],
+    "html_url": "https://example/pr/9001",
+    "author": "test"
+  },
+  {
+    "id": "pr-9002",
+    "kind": "pr_merged",
+    "ts": "2026-04-25T11:00:00Z",
+    "number": 9002,
+    "title": "feat(p3): perk pair lvl 7 stalker",
+    "labels": ["feat/p3"],
+    "files_hint": [],
+    "html_url": "https://example/pr/9002",
+    "author": "test"
+  },
+  {
+    "id": "pr-9003",
+    "kind": "pr_merged",
+    "ts": "2026-04-25T12:00:00Z",
+    "number": 9003,
+    "title": "fix: clamp HP on damage step",
+    "labels": [],
+    "files_hint": [],
+    "html_url": "https://example/pr/9003",
+    "author": "test"
+  },
+  {
+    "id": "iss-555-open",
+    "kind": "issue_opened",
+    "ts": "2026-04-25T13:00:00Z",
+    "number": 555,
+    "title": "Skiv: aggiungi voice palette type 7",
+    "labels": ["P4", "skiv"],
+    "html_url": "https://example/iss/555"
+  },
+  {
+    "id": "wf-7777",
+    "kind": "workflow_failed",
+    "ts": "2026-04-25T14:00:00Z",
+    "name": "ci",
+    "head_sha": "deadbeef",
+    "html_url": "https://example/wf/7777"
+  },
+  {
+    "id": "wf-7778",
+    "kind": "workflow_passed",
+    "ts": "2026-04-25T15:00:00Z",
+    "name": "ci",
+    "head_sha": "cafebabe",
+    "html_url": "https://example/wf/7778"
+  },
+  {
+    "id": "iss-555-closed",
+    "kind": "issue_closed",
+    "ts": "2026-04-25T16:00:00Z",
+    "number": 555,
+    "title": "Skiv: aggiungi voice palette type 7",
+    "labels": ["P4", "skiv"],
+    "html_url": "https://example/iss/555"
+  }
+]

@@ -1,0 +1,60 @@
+{
+  "schema_version": "0.1.0",
+  "unit_id": "skiv",
+  "species_id": "dune_stalker",
+  "species_label": "Arenavenator vagans",
+  "biome": "savana",
+  "job": "stalker",
+  "level": 4,
+  "xp": 210,
+  "xp_next": 275,
+  "form": "INTP",
+  "form_confidence": 0.76,
+  "gauges": {
+    "hp": 12,
+    "hp_max": 14,
+    "ap": 2,
+    "ap_max": 2,
+    "sg": 2,
+    "sg_max": 3
+  },
+  "currencies": {
+    "pe": 42,
+    "pi": 8
+  },
+  "cabinet": {
+    "slots_max": 3,
+    "slots_used": 2,
+    "internalized": [
+      "i_osservatore",
+      "n_intuizione_terrena"
+    ]
+  },
+  "bond": {
+    "vega_enfj": 3,
+    "rhodo_istj": 2
+  },
+  "pressure_tier": 2,
+  "sentience_tier": "T2-T3",
+  "mood": "watchful",
+  "stress": 0,
+  "composure": 0,
+  "curiosity": 0,
+  "resolution_count": 0,
+  "perk_pending": 0,
+  "evolve_opportunity": 0,
+  "last_voice": "",
+  "last_event_id": "",
+  "last_updated": "",
+  "narrative_log_size": 0,
+  "counters": {
+    "prs_merged": 0,
+    "issues_opened": 0,
+    "issues_closed": 0,
+    "workflows_passed": 0,
+    "workflows_failed": 0,
+    "commits_silent": 0,
+    "commits_fix": 0,
+    "commits_revert": 0
+  }
+}

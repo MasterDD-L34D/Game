@@ -24,6 +24,7 @@ import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
 import { initFormsPanel, openFormsPanel } from './formsPanel.js';
 import { initThoughtsPanel, openThoughtsPanel } from './thoughtsPanel.js';
 import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
+import { initSkivPanel, openSkivPanel } from './skivPanel.js';
 
 const state = {
   sid: null,
@@ -1773,5 +1774,10 @@ window.__evo = {
   advanceCampaignWithEvolvePrompt,
   openFormsPanel,
   openThoughtsPanel,
+  openSkivPanel,
   lobbyBridge,
 };
+
+// Skiv-as-Monitor — overlay panel + header btn 🦎 Skiv (Phase 2 wire 2026-04-25).
+// Indipendente da session/campaign — feed creatura da git events sempre disponibile.
+initSkivPanel();
