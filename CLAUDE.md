@@ -25,6 +25,41 @@ multi-step sequences where fragment ambiguity risks misread, user confused or re
 
 ---
 
+## 🔁 Autonomous Execution (always on)
+
+Derived from `/insights` audit 2026-04-25 — friction "stopping early" + "config not applied" recurring.
+
+- **Non fermarsi prematuramente**: continuare fino a goal esplicito O blocking error reale. Se "perché ci fermiamo?" è già stato detto in passato → quel pattern è proibito.
+- **Surface blocker, don't end session**: se mancano prerequisiti (file, dipendenza, env), riporta blocco esplicito e proponi 2-3 path alternativi. Non inventare il piano mancante.
+- **Verify config changes**: dopo ogni edit a `*.json`, `*.yaml`, `.env`, config service → (1) re-read file, (2) restart/reload servizio se applicable, (3) probe live (test API call / `curl /health`). Mai "configurato X" senza i 3 step.
+- **Stop-on-missing-prereq**: se handoff doc / planning file referenziato non esiste, FERMA e chiedi. Non auto-creare il piano mancante per "salvare" la sessione.
+
+## 🌳 Worktree & Path Discipline
+
+Friction ricorrente da insights: 3 sessioni hanno editato main repo invece del worktree.
+
+- **Pre-edit check**: `pwd` + `git rev-parse --show-toplevel` prima di edit non triviali se incerto su contesto. Working directory in CLAUDE_WORKING_DIR ha priorità sui path assunti dalla memoria.
+- **Worktree path detection**: se `pwd` contiene `.claude/worktrees/<slug>/`, sei in worktree isolato. Edit qui, NON nel main repo path.
+- **Missing file = ASK**: se path referenziato non esiste (`docs/planning/2026-XX-XX-*.md`, ADR, handoff), chiedi prima di fabbricare. Lista path candidati via `ls`/`find` se utile.
+
+## 📤 Output Token Limits
+
+3 sessioni perse per output >500 token max.
+
+- **Long deliverables → file**: audit, multi-file summary, analisi ≥30 righe → scrivi in `docs/reports/YYYY-MM-DD-<slug>.md` o `docs/playtest/`, poi referenzia path. NON dump inline.
+- **Recap concisi**: end-of-turn = 1-2 frasi. Tabelle PR / ranked list ≤10 righe inline OK. Oltre → file.
+- **Tool result siphon**: se Read/Bash ritorna >2000 char e ti serve solo summary, riassumi in 5 bullet inline e referenzia il file.
+
+## 📡 System Notification Handling
+
+1 sessione: 12 timeout notifications interpretate come user message.
+
+- **Ripetizioni identiche = system signal**: stesso messaggio/error 2+ volte di fila NON è il user che ripete. È un loop tool / hook / notifier rotto. Diagnostica il sender, non rispondere conversazionalmente.
+- **Subagent timeout 2x = stop retry**: se subagent stesso pattern timeout 2 volte, FERMA. Investiga prompt size / tool config. Non fare 5+ retry sperando vada.
+- **Distinguish hook output vs user**: `<user-prompt-submit-hook>` e similari sono hook. Riconosci tag, non rispondere come a un user.
+
+---
+
 ## Project overview
 
 **Evo-Tactics** is a co-op tactical game (d20-based, modular evolutionary progression) delivered as a polyglot monorepo. It ships YAML datasets, Python + TypeScript CLIs, an Express "Idea Engine" backend, a Vue/Vite dashboard, and publishing/validation pipelines. Most docs, commit messages, and inline comments are written in **Italian** — match that language when editing docs, but code identifiers stay English.
