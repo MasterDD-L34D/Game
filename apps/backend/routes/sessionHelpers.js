@@ -22,6 +22,7 @@ const {
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { buildAtlasLive } = require('../services/atlasLive');
 const { applicableSynergies } = require('../services/combat/synergyDetector');
+const { elevationDamageMultiplier } = require('../services/grid/hexGrid');
 
 function rollD20(rng) {
   return Math.floor(rng() * 20) + 1;
@@ -441,9 +442,15 @@ function computePositionalDamage({
   const tElev = Number.isFinite(Number(target?.elevation)) ? Number(target.elevation) : 0;
   const delta = aElev - tElev;
 
-  let elevMul = 1;
-  if (delta >= 1) elevMul = 1 + elevationBonus;
-  else if (delta <= -1) elevMul = 1 + elevationPenalty;
+  // Single-source-of-truth: chiamata al helper canonico (CAP-06 refactor M14-A,
+  // archive/2026-04-aa01-001-2026-04-25-cap-06-m14a-elevation-refacto).
+  // Pre-refactor questa funzione duplicava inline la logica delta>=1 / delta<=-1.
+  const elevMul = elevationDamageMultiplier({
+    attackerElevation: aElev,
+    targetElevation: tElev,
+    bonus: elevationBonus,
+    penalty: elevationPenalty,
+  });
   let flankMul = 1;
   if (quadrant === 'flank') flankMul = 1 + flankBonus;
   let rearMul = 1;
