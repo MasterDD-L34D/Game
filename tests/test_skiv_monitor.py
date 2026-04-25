@@ -36,7 +36,8 @@ def test_map_event_pr_p2_evolve():
     assert out["category"] == "feat_p2"
     assert out["state_delta"].get("evolve_opportunity") == 1
     assert out["state_delta"].get("currencies.pe") == 5
-    assert "guscio" in out["voice"] or "pelle" in out["voice"] or "zampe" in out["voice"]
+    # Voice from feat_p2 palette (8 frasi post-expansion).
+    assert out["voice"] in sm.VOICE["feat_p2"]
 
 
 def test_map_event_pr_p3_xp():

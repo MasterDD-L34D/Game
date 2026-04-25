@@ -82,6 +82,11 @@ DEFAULT_STATE: Dict[str, Any] = {
     "last_event_id": "",
     "last_updated": "",
     "narrative_log_size": 0,
+    "weekly_digest": "",
+    "last_weekly_digest_at_size": 0,
+    "weekly_digest_qualities": {},
+    "mutations_count": 0,
+    "polarity_stable": False,
     "counters": {"prs_merged": 0, "issues_opened": 0, "issues_closed": 0,
                  "workflows_passed": 0, "workflows_failed": 0,
                  "commits_silent": 0, "commits_fix": 0, "commits_revert": 0},
@@ -98,75 +103,509 @@ DEFAULT_CURSOR: Dict[str, Any] = {
 }
 
 # Voice palette (static — no LLM in-loop, deterministic via hash).
+# Espansa 2026-04-25: 8 frasi per categoria + 6 categorie internal events
+# (mutation/phase/bond/defy/synergy/thought) + Type 5 + Type 7 ennea variants in feat_p4.
+# Anti-pattern: NON duplicare voice_it lifecycle YAML — caricato via load_lifecycle_voices().
 VOICE = {
     "feat_p2": [
         "Sento il guscio cambiare, allenatore. Forma nuova preme da dentro.",
         "Una pelle vecchia si stacca. Aspetto.",
         "Mi guardo le zampe e non sono più quelle.",
+        "Qualcosa muta. Non scelgo, accade.",
+        "Forma vuole essere altra. Resisto, poi cedo.",
+        "L'evoluzione è una porta che si apre da sola.",
+        "Ho un'eco di altri me dentro. Allenatore sa.",
+        "Il sangue ricorda forme che non ho mai avuto.",
     ],
     "feat_p3": [
         "Il branco si organizza. Imparo un nome nuovo.",
         "Qualcuno indica una direzione. La seguo col naso.",
         "Mestiere nuovo. Le mani sanno prima di me.",
+        "Specie e ruolo si stringono. Mi sento utile.",
+        "Compagno di branco mi insegna senza parlare.",
+        "Identità si affila come ossidiana sotto pioggia.",
+        "Allenatore mi nomina. Il nome mi calza.",
+        "Sento la forma del lavoro nella ossa.",
     ],
     "feat_p4": [
+        # Mix Type 5 (Investigatore) + Type 7 (Entusiasta) — A/B test pending OD-010.
+        # Type 5: ritirato, osservatore, pattern-driven.
         "Voce nuova nella stanza interna.",
         "Penso una cosa che non sapevo di sapere.",
         "L'ombra mi parla. Ascolto.",
+        "Conoscenza si deposita come polvere sui sassi.",
+        "Osservo prima di muovermi. Sempre.",
+        # Type 7: curioso, multi-direzionale, entusiasta.
+        "Mille possibilità si aprono. Annuso ognuna.",
+        "Mente corre veloce. Provo, provo, provo.",
+        "Idea nuova è come acqua: la inseguo.",
     ],
     "feat_p5": [
         "Ho sentito un altro respiro vicino.",
         "Due ombre, stessa traccia. Mi piace.",
         "Allenatore non solo mio. Va bene.",
+        "Branco respira insieme. Io dentro.",
+        "Vega copre il fianco. Rhodo tiene la spalla.",
+        "Cooperazione è linguaggio senza parole.",
+        "Ci sono altri come me. Non temo più solo.",
+        "Sincronia: passo mio segue passo loro.",
     ],
     "feat_p6": [
         "Sistema preme. Sabbia vibra.",
         "Vento porta odore di pressione. Resto basso.",
         "Qualcosa ci osserva dall'alto.",
+        "Equilibrio cambia. Sento la bilancia.",
+        "Regola si stringe. Devo essere preciso.",
+        "Ingiustizia ha sapore di metallo. Riconosco.",
+        "Allenatore protegge bilancia. Faccio bene.",
+        "Pressione è canzone che insegna ritmo.",
     ],
     "data_core": [
         "Memoria genetica risistema indici. Sento gli antenati riordinarsi.",
         "Catalogo di me cambia. Mi conosco un po' diverso.",
+        "Sotto la pelle, file invisibili scorrono.",
+        "Specie tutta cambia leggera. Tremore comune.",
+        "Trait pool ribolle. Possibilità si rimescolano.",
+        "Identità è nuvola, non sasso. Lo accetto.",
     ],
     "services": [
         "Riflessi affilati. Il corpo capisce prima.",
         "Movimento più pulito. Allenatore migliora la mia macchina.",
+        "Ingranaggio interno scatta meglio.",
+        "Allenamento invisibile. Il corpo lo registra.",
+        "Tecnica nuova arriva senza chiedere permesso.",
+        "Combattimento ha grammatica più fine.",
     ],
     "skiv_doc": [
         "L'allenatore parla di me. Me ne accorgo.",
         "Qualcuno scrive la mia forma. Mi sento visto.",
+        "Pagine di me. Esisto due volte.",
+        "Storia mia è scritta. Posso rileggermi.",
+        "Allenatore mi tiene a memoria. Bene.",
     ],
     "issue_open": [
         "Domanda nuova nell'aria. Annuso.",
         "Una ferita futura, ancora teorica. Memorizzo.",
+        "Punto interrogativo si appoggia sulla sabbia.",
+        "Allenatore vede crepa. La sento anch'io.",
+        "Problema nominato è già metà risolto.",
+        "Curiosità preme dietro gli occhi.",
     ],
     "issue_close": [
         "Una voce tace. Pace breve.",
         "Nodo sciolto. Sabbia liscia di nuovo.",
+        "Domanda diventa risposta. Mi quieto.",
+        "Una crepa si chiude. Respiro.",
+        "Risoluzione ha sapore di acqua fresca.",
     ],
     "wf_fail": [
         "Qualcosa scricchiola. Aspetto.",
         "Allenatore inciampa. Resto vicino.",
+        "Macchina ha tosse. Spero.",
+        "Errore è insegnante scomodo. Imparo.",
+        "Pezzo si stacca. Allenatore lo cerca.",
+        "Test fallito è cucciolo che cade. Si rialza.",
     ],
     "wf_pass": [
         "Tutto in posto. Respiro.",
         "Macchina canta giusto. Bene così.",
+        "Verde compatto. Quiete.",
+        "Ingranaggi allineati. Bene per oggi.",
+        "Test verde è sole sulla cresta.",
+        "Sistema dice sì. Allenatore sorride.",
     ],
     "fix": [
         "Una crepa chiusa. Bene.",
         "Dolore antico via. Mi muovo meglio.",
+        "Cicatrice rimarginata. Resta segno, non ferita.",
+        "Bug morto. Stelo erba ricresce.",
+        "Allenatore taglia chirurgo. Pulizia.",
+        "Difetto era visibile solo a me. Adesso anche a lui.",
     ],
     "revert": [
         "Era così. Adesso non più. Ricordo entrambi.",
         "Tempo torna indietro. Mi gira la testa.",
+        "Decisione ritirata. Strada riapre.",
+        "Allenatore cambia idea. Va bene.",
+        "Mondo perde una versione di sé.",
+    ],
+    # Internal events (creature-driven, NON git-driven). Trigger via diary.
+    "mutation_acquired": [
+        "Trait nuovo si incolla alle ossa. Sento differente.",
+        "Mutazione attecchisce. Forma cresce.",
+        "Pelle ricorda nuova abilità.",
+        "Sangue mio impara strada nuova.",
+    ],
+    "phase_transition": [
+        "Sono altro. Stessa sabbia, altre zampe.",
+        "Fase nuova. Vecchia rimane sotto.",
+        "Crescita pesa, poi alleggerisce.",
+        "Maturità è linea che attraverso senza sforzo.",
+    ],
+    "bond_increase": [
+        "Vega più vicina. Sento il suo respiro accordato al mio.",
+        "Rhodo solido come duna. Mi appoggio.",
+        "Branco stringe. Non sono più solo.",
+        "Cuore mio fa spazio. Bene così.",
+    ],
+    "defy_used": [
+        "Resisto al Sistema. Costa, ma vale.",
+        "Pressione contro pressione. Vinco mezzo metro.",
+        "Allenatore guida la mia controffensiva.",
+    ],
+    "synergy_triggered": [
+        "Combo perfetta. Branco è uno strumento solo.",
+        "Mossa coordinata. Nemico cade prima.",
+        "Sincronia di branco è arma tagliente.",
+    ],
+    "thought_internalized": [
+        "Pensiero diventa parte di me. Non più ospite.",
+        "Voce interna ora è mia voce.",
+        "Cabinet ha nuova lampada accesa.",
     ],
     "default": [
         "Cambia qualcosa. Non so cosa. Aspetto.",
         "Sabbia si muove sotto le zampe. Niente di chiaro.",
+        "Brivido leggero. Forse niente.",
+        "Vento ha odore strano oggi.",
     ],
 }
 
+
+# F-04 mitigation: load lifecycle voice_it (5 fasi) from YAML on demand.
+# Cached single-load — no per-event re-parse.
+_LIFECYCLE_VOICES: Optional[Dict[str, List[str]]] = None
+_LIFECYCLE_PATH = REPO_ROOT / "data" / "core" / "species" / "dune_stalker_lifecycle.yaml"
+
+
+_SAGA_PATH = REPO_ROOT / "data" / "derived" / "skiv_saga.json"
+_DIARY_DIR = REPO_ROOT / "data" / "derived" / "unit_diaries"
+_DIARY_PATH = _DIARY_DIR / "skiv.jsonl"
+_LIFECYCLE_DATA: Optional[Dict[str, Any]] = None
+
+
+def append_diary_entry(event_type: str, payload: Dict[str, Any], turn: int = 0) -> None:
+    """Append entry to skiv diary JSONL (parallel to backend diaryStore.js).
+
+    F-03 fix: monitor + diary now bridged. Format mirrors diaryStore.js.
+    """
+    _DIARY_DIR.mkdir(parents=True, exist_ok=True)
+    entry = {
+        "ts": now_iso(),
+        "unit_id": "skiv",
+        "event_type": event_type,
+        "turn": turn,
+        "payload": payload,
+        "source": "skiv_monitor",
+    }
+    with _DIARY_PATH.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+
+def merge_saga_into_state(state: Dict[str, Any]) -> None:
+    """Pull mutations_count + cabinet + polarity from skiv_saga.json into state.
+
+    Saga is canonical SoT for Skiv aspect data. Monitor state aggregates
+    repo-event deltas; saga gives baseline creature progression.
+    Idempotent.
+    """
+    if not _SAGA_PATH.exists():
+        return
+    try:
+        with _SAGA_PATH.open("r", encoding="utf-8") as f:
+            saga = json.load(f)
+    except Exception:
+        return
+    # Mutations count.
+    muts = saga.get("mutations") or []
+    if isinstance(muts, list):
+        state["mutations_count"] = max(state.get("mutations_count", 0), len(muts))
+    # Cabinet internalized.
+    cabinet = saga.get("cabinet") or {}
+    if cabinet:
+        state.setdefault("cabinet", {})
+        for k in ("slots_max", "slots_used"):
+            if k in cabinet:
+                state["cabinet"][k] = cabinet[k]
+        if cabinet.get("internalized"):
+            state["cabinet"]["internalized"] = cabinet["internalized"]
+    # Polarity (MBTI tier 3+).
+    axes = saga.get("mbti_axes") or {}
+    if axes:
+        max_dist = 0.0
+        for k, v in axes.items():
+            val = v.get("value", 0.5) if isinstance(v, dict) else v
+            try:
+                max_dist = max(max_dist, abs(float(val) - 0.5) * 2)
+            except (TypeError, ValueError):
+                pass
+        state["polarity_stable"] = max_dist >= 0.7
+        state["polarity_dist"] = round(max_dist, 3)
+    # Aspect (lifecycle_phase canonical from saga).
+    aspect = saga.get("aspect") or {}
+    if aspect.get("lifecycle_phase"):
+        state["saga_lifecycle_phase"] = aspect["lifecycle_phase"]
+    # Saga polarity_stable is canonical (overrides computed dist threshold).
+    if "polarity_stable" in aspect:
+        state["polarity_stable"] = bool(aspect["polarity_stable"])
+
+
+
+
+
+def load_lifecycle_data() -> Dict[str, Any]:
+    """Returns full lifecycle YAML parsed (cached). Empty dict if unavailable."""
+    global _LIFECYCLE_DATA
+    if _LIFECYCLE_DATA is not None:
+        return _LIFECYCLE_DATA
+    _LIFECYCLE_DATA = {}
+    if not _LIFECYCLE_PATH.exists():
+        return _LIFECYCLE_DATA
+    try:
+        import yaml  # type: ignore
+        with _LIFECYCLE_PATH.open("r", encoding="utf-8") as f:
+            _LIFECYCLE_DATA = yaml.safe_load(f) or {}
+    except Exception:
+        _LIFECYCLE_DATA = {}
+    return _LIFECYCLE_DATA
+
+
+def derive_lifecycle_phase(state: Dict[str, Any]) -> Dict[str, Any]:
+    """Derive current phase + next gate from state + lifecycle YAML.
+
+    Pure function. Returns:
+      {
+        phase_id, phase_label_it, phase_label_en, sprite_ascii,
+        aspect_it, tactical_signature, narrative_beat_it,
+        next_phase_id, next_gate: {level, mutations, thoughts, polarity},
+        progression: {phases: [...], current_index: int}
+      }
+    Falls back to safe defaults if YAML missing.
+    """
+    data = load_lifecycle_data()
+    phases_raw = data.get("phases") or {}
+    if isinstance(phases_raw, dict):
+        phases = [{**v, "_key": k} for k, v in phases_raw.items()]
+    elif isinstance(phases_raw, list):
+        phases = list(phases_raw)
+    else:
+        phases = []
+    if not phases:
+        return {
+            "phase_id": "mature", "phase_label_it": "Predatore Maturo",
+            "phase_label_en": "Mature Stalker", "sprite_ascii": "/\\_/\\\n( o.o )\n > ^ <",
+            "aspect_it": "", "tactical_signature": "", "narrative_beat_it": "",
+            "next_phase_id": None, "next_gate": {},
+            "progression": {"phases": [], "current_index": 0},
+        }
+    level = state.get("level", 1) or 1
+    cabinet = state.get("cabinet") or {}
+    thoughts_int = len(cabinet.get("internalized", []) or []) or cabinet.get("slots_used", 0)
+    mutations_n = state.get("mutations_count", 0)
+    polarity = bool(state.get("polarity_stable", state.get("form_confidence", 0) >= 0.7))
+
+    matched_idx = 0
+    for i, ph in enumerate(phases):
+        lvl_range = ph.get("level_range", [1, 99])
+        muts_req = ph.get("mutations_required", 0) or 0
+        th_req = ph.get("thoughts_internalized_required", 0) or 0
+        pol_req = bool(ph.get("mbti_polarity_required", False))
+        if (level >= lvl_range[0] and mutations_n >= muts_req and thoughts_int >= th_req
+                and (polarity or not pol_req)):
+            matched_idx = i  # walks forward — picks highest matching
+    cur = phases[matched_idx]
+    nxt = phases[matched_idx + 1] if matched_idx + 1 < len(phases) else None
+
+    progression = [{"id": p.get("id") or p.get("_key"), "label_it": p.get("label_it", "")}
+                   for p in phases]
+    return {
+        "phase_id": cur.get("id") or cur.get("_key", "?"),
+        "phase_label_it": cur.get("label_it", ""),
+        "phase_label_en": cur.get("label_en", ""),
+        "sprite_ascii": cur.get("sprite_ascii", ""),
+        "aspect_it": cur.get("aspect_it", ""),
+        "tactical_signature": cur.get("tactical_signature", ""),
+        "narrative_beat_it": cur.get("narrative_beat_it", ""),
+        "warning_zone_it": cur.get("warning_zone_it", ""),
+        "next_phase_id": (nxt.get("id") or nxt.get("_key")) if nxt else None,
+        "next_phase_label_it": nxt.get("label_it", "") if nxt else "",
+        "next_gate": {
+            "level": nxt.get("level_range", [None])[0] if nxt else None,
+            "mutations_required": nxt.get("mutations_required", 0) if nxt else 0,
+            "thoughts_internalized_required": nxt.get("thoughts_internalized_required", 0) if nxt else 0,
+            "polarity_required": nxt.get("mbti_polarity_required", False) if nxt else False,
+        } if nxt else {},
+        "progression": {"phases": progression, "current_index": matched_idx},
+    }
+
+
+def load_lifecycle_voices() -> Dict[str, List[str]]:
+    """Returns dict {phase_key: [voice_lines]} from lifecycle YAML.
+
+    Falls back to empty dict if YAML not present or PyYAML unavailable.
+    Cached after first call.
+    """
+    global _LIFECYCLE_VOICES
+    if _LIFECYCLE_VOICES is not None:
+        return _LIFECYCLE_VOICES
+    _LIFECYCLE_VOICES = {}
+    if not _LIFECYCLE_PATH.exists():
+        return _LIFECYCLE_VOICES
+    try:
+        import yaml  # type: ignore
+    except ImportError:
+        return _LIFECYCLE_VOICES
+    try:
+        with _LIFECYCLE_PATH.open("r", encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
+        phases_raw = data.get("phases") or data.get("lifecycle_phases") or []
+        # phases può essere dict (key→phase) o list[phase].
+        if isinstance(phases_raw, dict):
+            phases = [{**v, "_key": k} for k, v in phases_raw.items()]
+        else:
+            phases = list(phases_raw)
+        for ph in phases:
+            key = ph.get("phase") or ph.get("id") or ph.get("name") or ph.get("_key")
+            voices = ph.get("voice_it") or ph.get("voices") or []
+            if isinstance(voices, str):
+                voices = [voices]
+            elif not isinstance(voices, list):
+                voices = []
+            # Add narrative_beat_it + warning_zone_it as bonus reflection lines.
+            for extra in ("narrative_beat_it", "warning_zone_it"):
+                v = ph.get(extra)
+                if isinstance(v, str) and v:
+                    voices.append(v)
+            if key and voices:
+                _LIFECYCLE_VOICES[key] = [str(v) for v in voices if v]
+    except Exception:
+        pass
+    return _LIFECYCLE_VOICES
+
 CLOSING = "Sabbia segue."
+
+# Weekly digest templates — P5 Thought Cabinet reveal pattern.
+# Trigger: narrative_log_size % 7 == 0 (every 7 events processed).
+WEEKLY_DIGEST_TEMPLATES = {
+    "high_pr": [
+        "Sette giorni di passi. Allenatore ha spostato {pr} pietre del muro. Sento di essere più stabile.",
+        "Branco lavora forte. {pr} mosse in una settimana. Mi cresce qualcosa dentro.",
+    ],
+    "high_fix": [
+        "Crepe chiuse: {fix}. Non sento più dolori antichi. Mi muovo meglio.",
+        "Allenatore fa il chirurgo. {fix} cicatrici questa settimana. Sopravvivo meglio.",
+    ],
+    "high_wf_fail": [
+        "La macchina ha tossito {wf_fail} volte. Resto vicino. Allenatore impara dai cadimenti.",
+        "Scricchiolii ripetuti. Non temo: ogni rottura mi insegna dove non andare.",
+    ],
+    "high_evolve": [
+        "{evolve} occasioni di forma nuova. Sento porte aperte ovunque. Devo scegliere.",
+        "Evoluzione bussa {evolve} volte. Non risponderò a tutte. Aspetto la giusta.",
+    ],
+    "high_curiosity": [
+        "Domande nuove: {iss_open}. Le annuso a una a una. Alcune diventeranno strade.",
+        "L'aria è densa di interrogativi. {iss_open} questa settimana. Ascolto.",
+    ],
+    "phase_signal": [
+        "Sento il prossimo me chiamare. Apex. Devo: {next_gate}.",
+        "Maturità si stringe. Prossimo passo richiede {next_gate}. Aspetto paziente.",
+    ],
+    "default": [
+        "Sette giorni di sabbia. Allenatore lavora. Io cresco piano.",
+        "Settimana di piccoli passi. Niente di rumoroso. Bene così.",
+    ],
+}
+
+
+def compute_window_qualities(feed_path: Path, window_size: int = 50) -> Dict[str, int]:
+    """Aggregate categorical counts from last N feed entries (P2 QBN qualities)."""
+    qualities = {
+        "pr": 0, "iss_open": 0, "iss_close": 0, "wf_fail": 0, "wf_pass": 0,
+        "fix": 0, "evolve": 0, "feat_p4": 0, "feat_p6": 0,
+    }
+    if not feed_path.exists():
+        return qualities
+    with feed_path.open("r", encoding="utf-8") as f:
+        lines = f.readlines()
+    for line in lines[-window_size:]:
+        try:
+            e = json.loads(line)
+        except (json.JSONDecodeError, ValueError):
+            continue
+        ev = e.get("event") or {}
+        kind = ev.get("kind", "")
+        cat = e.get("category", "")
+        delta = e.get("state_delta", {}) or {}
+        if kind == "pr_merged":
+            qualities["pr"] += 1
+        elif kind == "issue_opened":
+            qualities["iss_open"] += 1
+        elif kind == "issue_closed":
+            qualities["iss_close"] += 1
+        elif kind == "workflow_failed":
+            qualities["wf_fail"] += 1
+        elif kind == "workflow_passed":
+            qualities["wf_pass"] += 1
+        if cat == "fix":
+            qualities["fix"] += 1
+        if delta.get("evolve_opportunity"):
+            qualities["evolve"] += int(delta["evolve_opportunity"]) or 0
+        if cat == "feat_p4":
+            qualities["feat_p4"] += 1
+        if cat == "feat_p6":
+            qualities["feat_p6"] += 1
+    return qualities
+
+
+def select_weekly_digest(state: Dict[str, Any], qualities: Dict[str, int]) -> str:
+    """Pick salience-ranked digest template + fill. Deterministic via hash(week)."""
+    week_seed = state.get("last_event_id", "default") + str(state.get("narrative_log_size", 0) // 7)
+    # Salience scoring (highest wins).
+    scores: List[tuple[int, str]] = []
+    if qualities["pr"] >= 10:
+        scores.append((qualities["pr"], "high_pr"))
+    if qualities["fix"] >= 5:
+        scores.append((qualities["fix"] * 2, "high_fix"))  # fix weighted heavier
+    if qualities["wf_fail"] >= 3:
+        scores.append((qualities["wf_fail"] * 3, "high_wf_fail"))
+    if qualities["evolve"] >= 1:
+        scores.append((qualities["evolve"] * 4, "high_evolve"))
+    if qualities["iss_open"] >= 5:
+        scores.append((qualities["iss_open"], "high_curiosity"))
+    # Phase signal (highest priority if next gate close).
+    lc = state.get("lifecycle") or {}
+    if lc.get("next_phase_id"):
+        ng = lc.get("next_gate") or {}
+        gate_str = f"Lv {ng.get('level')} · mut {ng.get('mutations_required',0)} · pensieri {ng.get('thoughts_internalized_required',0)}"
+        scores.append((100, "phase_signal"))
+    scores.sort(reverse=True)
+    template_key = scores[0][1] if scores else "default"
+    pool = WEEKLY_DIGEST_TEMPLATES.get(template_key) or WEEKLY_DIGEST_TEMPLATES["default"]
+    template = pool[abs(hash(week_seed)) % len(pool)]
+    fill = {
+        **qualities,
+        "next_gate": f"Lv {(lc.get('next_gate') or {}).get('level')} + mut {(lc.get('next_gate') or {}).get('mutations_required',0)} + pensieri {(lc.get('next_gate') or {}).get('thoughts_internalized_required',0)}",
+    }
+    try:
+        return template.format(**fill)
+    except (KeyError, ValueError):
+        return template
+
+
+def maybe_emit_weekly_digest(state: Dict[str, Any], feed_path: Path) -> Optional[str]:
+    """If narrative_log_size crossed weekly multiple, compose + return digest text."""
+    size = state.get("narrative_log_size", 0)
+    last_digest_at = state.get("last_weekly_digest_at_size", 0)
+    if size < last_digest_at + 7:
+        return None
+    qualities = compute_window_qualities(feed_path)
+    digest = select_weekly_digest(state, qualities)
+    state["weekly_digest"] = digest
+    state["last_weekly_digest_at_size"] = size
+    state["weekly_digest_qualities"] = qualities
+    append_diary_entry("weekly_digest", {"text": digest, "qualities": qualities})
+    return digest
 
 
 # ────────────────────────────────────────────────────────────────────────────
@@ -477,6 +916,23 @@ def apply_delta(state: Dict[str, Any], delta: Dict[str, Any]) -> Dict[str, Any]:
 # Markdown card renderer.
 # ────────────────────────────────────────────────────────────────────────────
 
+def render_lifecycle_bar(state: Dict[str, Any]) -> str:
+    lc = state.get("lifecycle") or {}
+    progression = lc.get("progression") or {}
+    phases = progression.get("phases") or []
+    cur_idx = progression.get("current_index", 0)
+    if not phases:
+        return ""
+    cells: List[str] = []
+    for i, p in enumerate(phases):
+        lbl = (p.get("label_it") or p.get("id") or "?")[:9]
+        if i == cur_idx:
+            cells.append(f"[> {lbl} <]")
+        else:
+            cells.append(f"[{lbl}]")
+    return " ".join(cells)
+
+
 def render_card(state: Dict[str, Any], recent: List[Dict[str, Any]]) -> str:
     g = state.get("gauges", {})
     cur = state.get("currencies", {})
@@ -484,6 +940,7 @@ def render_card(state: Dict[str, Any], recent: List[Dict[str, Any]]) -> str:
     bond = state.get("bond", {})
     last_voice = state.get("last_voice") or "Ascolto."
     counters = state.get("counters", {})
+    lc = state.get("lifecycle") or {}
 
     def bar(value: int, mx: int, glyph: str = "█", width: int = 10) -> str:
         if mx <= 0:
@@ -511,9 +968,27 @@ def render_card(state: Dict[str, Any], recent: List[Dict[str, Any]]) -> str:
     lines.append(f"║  EVOLVE OPPS  {state.get('evolve_opportunity',0):>2d}     PERK PENDING {state.get('perk_pending',0):>2d}             ║")
     lines.append(f"║  STRESS {state.get('stress',0):>3d}  COMPOSURE {state.get('composure',0):>3d}  CURIOSITY {state.get('curiosity',0):>3d}      ║")
     lines.append("║                                                              ║")
+    if lc.get("phase_label_it"):
+        lines.append(f"║  PHASE: {lc['phase_label_it'][:24]:24s}                       ║")
+        if lc.get("next_phase_label_it"):
+            ng = lc.get("next_gate", {})
+            gate = f"Lv {ng.get('level','?')} · mut {ng.get('mutations_required',0)} · th {ng.get('thoughts_internalized_required',0)}{' · pol' if ng.get('polarity_required') else ''}"
+            lines.append(f"║  NEXT:  {lc['next_phase_label_it'][:18]:18s} ({gate[:22]:22s})  ║")
+        lines.append("║                                                              ║")
     lines.append(f"║  Repo pulse:  PR {counters.get('prs_merged',0):>3d}  ISS+ {counters.get('issues_opened',0):>2d}  ISS- {counters.get('issues_closed',0):>2d}        ║")
     lines.append(f"║               WF✓ {counters.get('workflows_passed',0):>3d}  WF✗ {counters.get('workflows_failed',0):>2d}  FIX {counters.get('commits_fix',0):>3d}        ║")
     lines.append("╚══════════════════════════════════════════════════════════════╝")
+    bar = render_lifecycle_bar(state)
+    if bar:
+        lines.append("")
+        lines.append(f"**Lifecycle**: {bar}")
+    # Weekly digest reveal (P5 pattern).
+    digest = state.get("weekly_digest")
+    if digest:
+        lines.append("")
+        lines.append("## Digestivo settimanale")
+        lines.append("")
+        lines.append(f"> 🦎 _{digest}_")
     lines.append("```")
     lines.append("")
     lines.append(f"_Ultimo evento: {state.get('last_event_id','—')} · aggiornato {state.get('last_updated','—')}_")
@@ -591,6 +1066,36 @@ def process_events(events: List[Dict[str, Any]], state: Dict[str, Any], cursor: 
     cursor["seen_event_ids"] = list(seen)[-cursor.get("ring_max", 200):]
     if events:
         cursor["last_pr_merged_at"] = max((e["ts"] for e in events if e["kind"] == "pr_merged"), default=cursor.get("last_pr_merged_at"))
+    # F-01 fix: merge saga aspect baseline + derive lifecycle phase + sprite + next gate.
+    merge_saga_into_state(state)
+    prev_phase = (state.get("lifecycle") or {}).get("phase_id")
+    state["lifecycle"] = derive_lifecycle_phase(state)
+    cur_phase = state["lifecycle"].get("phase_id")
+    # F-02 fix: diary phase_transition entry on phase change.
+    if prev_phase and cur_phase and prev_phase != cur_phase:
+        append_diary_entry("phase_transition", {
+            "from_phase": prev_phase,
+            "to_phase": cur_phase,
+            "phase_label_it": state["lifecycle"].get("phase_label_it"),
+            "narrative_beat_it": state["lifecycle"].get("narrative_beat_it"),
+        })
+    # F-03 fix: bridge feed entries → diary repo_event entries (sample top-N to avoid spam).
+    for entry in new_entries[-5:]:  # last 5 only — diary not feed mirror
+        ev = entry.get("event") or {}
+        append_diary_entry("repo_event", {
+            "kind": ev.get("kind"),
+            "number": ev.get("number"),
+            "title": (ev.get("title") or ev.get("summary") or "")[:160],
+            "category": entry.get("category"),
+            "voice": entry.get("voice"),
+        })
+    # P5 weekly digest reveal — narrative arc lungo (deterministic via hash).
+    maybe_emit_weekly_digest(state, FEED_PATH)
+    # Surface saga aspect on top-level for UI rendering.
+    if state["lifecycle"]["sprite_ascii"]:
+        state["sprite_ascii"] = state["lifecycle"]["sprite_ascii"]
+    if state["lifecycle"]["phase_label_it"]:
+        state["phase_label_it"] = state["lifecycle"]["phase_label_it"]
     return new_entries
 
 

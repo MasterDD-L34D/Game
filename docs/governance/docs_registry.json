@@ -7437,6 +7437,19 @@
       "review_cycle_days": 14,
       "primary": false,
       "track": "migrated"
+    },
+    {
+      "path": "docs/research/2026-04-25-skiv-lifecycle-visual-research.md",
+      "title": "Skiv Lifecycle Visual Progression — Research patterns + top-2 shipping",
+      "doc_status": "active",
+      "doc_owner": "creature-aspect-illuminator",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 60,
+      "primary": false,
+      "track": "new"
     }
   ]
 }

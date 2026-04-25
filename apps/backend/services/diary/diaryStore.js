@@ -48,6 +48,12 @@ const ALLOWED_EVENT_TYPES = new Set([
   // Post 2026-04-25 content sprint #1776 (30 mutation catalog + 4 expansion jobs).
   'mutation_acquired',
   'job_changed',
+  // Skiv-as-Monitor depth wave 2026-04-25 — F-02/F-03 archaeologist findings.
+  // Bridge git events + lifecycle phase to diary autopopulate.
+  'phase_transition',
+  'phase_signal', // warning_zone_it pre-transition cue
+  'repo_event', // generic git event mirror (PR/issue/wf)
+  'weekly_digest', // narrative arc reveal
 ]);
 
 const UNIT_ID_PATTERN = /^[A-Za-z0-9_\-]+$/;

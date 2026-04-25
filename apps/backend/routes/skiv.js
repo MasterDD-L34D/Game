@@ -104,11 +104,27 @@ function bar(value, max, width = 10, glyph = '#') {
   return glyph.repeat(filled) + '.'.repeat(width - filled);
 }
 
+function renderLifecycleBar(state) {
+  // Phase progression bar [Cucciolo][Giovane][▶ Maturo ◀][Apex][Memoria].
+  const lc = state.lifecycle || {};
+  const phases = (lc.progression && lc.progression.phases) || [];
+  const cur = lc.progression ? lc.progression.current_index : 0;
+  if (phases.length === 0) return '';
+  const cells = phases.map((p, i) => {
+    const lbl = (p.label_it || p.id || '?').slice(0, 9);
+    if (i === cur) return `[> ${lbl} <]`;
+    if (i < cur) return `[${lbl}]`;
+    return `[${lbl}]`;
+  });
+  return cells.join(' ');
+}
+
 function renderAsciiCard(state, recent = []) {
   const g = state.gauges || {};
   const c = state.currencies || {};
   const cab = state.cabinet || {};
   const counters = state.counters || {};
+  const lc = state.lifecycle || {};
   const voice = (state.last_voice || 'Ascolto.').slice(0, 32).padEnd(32);
 
   const lines = [];
@@ -156,6 +172,22 @@ function renderAsciiCard(state, recent = []) {
     ).padStart(3)}  CURIOSITY ${String(state.curiosity || 0).padStart(3)}      ║`,
   );
   lines.push('║                                                              ║');
+  // Phase + next gate
+  if (lc.phase_label_it) {
+    lines.push(
+      `║  PHASE: ${(lc.phase_label_it || '').slice(0, 24).padEnd(24)}                       ║`,
+    );
+    if (lc.next_phase_label_it) {
+      const ng = lc.next_gate || {};
+      const gate = `Lv ${ng.level || '?'} · mut ${ng.mutations_required || 0} · th ${
+        ng.thoughts_internalized_required || 0
+      }${ng.polarity_required ? ' · pol' : ''}`;
+      lines.push(
+        `║  NEXT:  ${(lc.next_phase_label_it || '').slice(0, 18).padEnd(18)} (${gate.slice(0, 22).padEnd(22)})  ║`,
+      );
+    }
+    lines.push('║                                                              ║');
+  }
   lines.push(
     `║  Repo pulse:  PR ${String(counters.prs_merged || 0).padStart(3)}  ISS+ ${String(
       counters.issues_opened || 0,
@@ -167,6 +199,12 @@ function renderAsciiCard(state, recent = []) {
     ).padStart(2)}  FIX ${String(counters.commits_fix || 0).padStart(3)}        ║`,
   );
   lines.push('╚══════════════════════════════════════════════════════════════╝');
+  // Phase progression bar (5-cell) post box.
+  const lifecycleBar = renderLifecycleBar(state);
+  if (lifecycleBar) {
+    lines.push('');
+    lines.push('Lifecycle: ' + lifecycleBar);
+  }
   if (recent && recent.length) {
     lines.push('');
     lines.push('-- ultimi eventi --');
