@@ -20,9 +20,9 @@ Definito in `docs/pipeline-swarm-to-game.md` del repo evo-swarm:
 
 ## Stato integrazione
 
-| Data       | File                                  | Source agent                  | Artifact ID                                     | Status                           |
-| ---------- | ------------------------------------- | ----------------------------- | ----------------------------------------------- | -------------------------------- |
-| 2026-04-24 | `traits/magnetic_rift_resonance.yaml` | trait-curator + lore-designer | `trait-curator_2026-04-24T01-08-27.414378.json` | staging (pending Eduardo review) |
+| Data       | File                                  | Source agent                  | Artifact ID                                     | Status                                                                          |
+| ---------- | ------------------------------------- | ----------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------- |
+| 2026-04-24 | `traits/magnetic_rift_resonance.yaml` | trait-curator + lore-designer | `trait-curator_2026-04-24T01-08-27.414378.json` | **PROMOTED 2026-04-25** (OD-012 batch) → `data/core/traits/active_effects.yaml` |
 
 ## Out of scope del trait environmental costs M11
 
