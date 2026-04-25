@@ -248,6 +248,34 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ code, host_token: hostToken, ...payload }),
     }),
+  // OD-001 Path A V3 Mating/Nido — 7 endpoint /api/meta/* (2026-04-26).
+  metaNpgList: () => jsonFetch('/api/meta/npg'),
+  metaAffinity: (npc_id, delta) =>
+    jsonFetch('/api/meta/affinity', {
+      method: 'POST',
+      body: JSON.stringify({ npc_id, delta }),
+    }),
+  metaTrust: (npc_id, delta) =>
+    jsonFetch('/api/meta/trust', {
+      method: 'POST',
+      body: JSON.stringify({ npc_id, delta }),
+    }),
+  metaRecruit: (npc_id) =>
+    jsonFetch('/api/meta/recruit', {
+      method: 'POST',
+      body: JSON.stringify({ npc_id }),
+    }),
+  metaMating: (npc_id, party_member) =>
+    jsonFetch('/api/meta/mating', {
+      method: 'POST',
+      body: JSON.stringify({ npc_id, party_member }),
+    }),
+  metaNestGet: () => jsonFetch('/api/meta/nest'),
+  metaNestSetup: (biome, requirements_met = true) =>
+    jsonFetch('/api/meta/nest/setup', {
+      method: 'POST',
+      body: JSON.stringify({ biome, requirements_met }),
+    }),
   // Skiv-as-Monitor — git-event-driven creature feed (Phase 2 wire 2026-04-25).
   skivStatus: () => jsonFetch('/api/skiv/status'),
   skivFeed: (limit = 20) => jsonFetch(`/api/skiv/feed?limit=${encodeURIComponent(limit)}`),
