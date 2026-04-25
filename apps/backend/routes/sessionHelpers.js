@@ -266,6 +266,12 @@ function publicSessionView(session) {
     previous_round_combos: Array.isArray(session.previous_round_combos)
       ? session.previous_round_combos
       : [],
+    last_round_synergies: Array.isArray(session.last_round_synergies)
+      ? session.last_round_synergies
+      : [],
+    previous_round_synergies: Array.isArray(session.previous_round_synergies)
+      ? session.previous_round_synergies
+      : [],
   };
 }
 
