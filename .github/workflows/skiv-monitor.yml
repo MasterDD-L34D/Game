@@ -42,14 +42,32 @@ jobs:
           python tools/py/skiv_monitor.py \
             --repo "${{ github.repository }}"
 
-      - name: Commit Skiv state + monitor doc
+      - name: Commit Skiv state + monitor doc (push to auto branch + PR)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if git diff --quiet; then
             echo "[skiv-monitor] no state change, skipping commit"
             exit 0
           fi
+          # Branch protection main blocca direct push da Actions.
+          # Push a `auto/skiv-monitor-update` + open or update PR.
+          # Master DD review/merge poi confluisce in main.
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="auto/skiv-monitor-update"
+          git checkout -B "$BRANCH"
           git add data/derived/skiv_monitor/ docs/skiv/MONITOR.md
           git commit -m "chore(skiv-monitor): aggiorna stato + feed creatura"
-          git push
+          git push --force-with-lease origin "$BRANCH"
+          # Open or refresh PR (idempotent — gh pr create fails harmlessly if exists).
+          if gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number' | grep -q .; then
+            echo "[skiv-monitor] PR already open for $BRANCH"
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "chore(skiv-monitor): auto-update stato + feed creatura" \
+              --body "🦎 Auto-update da workflow \`skiv-monitor.yml\` (cron 4h). Merge sicuro: solo file in \`data/derived/skiv_monitor/\` + \`docs/skiv/MONITOR.md\`." \
+              --label "automation,skiv"
+          fi
