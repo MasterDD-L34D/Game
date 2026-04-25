@@ -70,12 +70,12 @@ Schema completo per integration: tier + biome trigger + effect status + requires
 - **Pillar P3 Specie×Job 🟢c+**: swarm trait categoria mancante in glossary attivo. T2 = mid-tier, plug-in low-risk
 - **Pillar P6 Fairness 🟢c**: biome-affinity trait è leverage per balance asimmetrico (player con `magnetic_sensitivity` su atollo_ossidiana = +tactical option)
 - **Skiv Sprint A**: il sistema `biomeResonance.js` (PR #1785) supporta tier ladder. Aggiungere T2 = primo tier-extension reale, valida architecture
-- **Biome `atollo_ossidiana` placeholder**: NON esiste in `data/core/biomes.yml`. Card serve come trigger per content bootstrap nuovo biome
+- **Biome `atollo_ossidiana` placeholder**: NON esiste in `data/core/biomes.yaml`. Card serve come trigger per content bootstrap nuovo biome
 
 ## Concrete reuse paths
 
 1. **Minimal — biome stub + trait reference (P0, ~2h)**
-   - Aggiungi biome `atollo_ossidiana` placeholder in `data/core/biomes.yml` con `magnetic_field_strength: 1.0` flag
+   - Aggiungi biome `atollo_ossidiana` placeholder in `data/core/biomes.yaml` con `magnetic_field_strength: 1.0` flag
    - Aggiungi trait `magnetic_rift_resonance` in `data/core/traits/active_effects.yaml`
    - Map T2 → `biomeResonance.js` tier_2 ladder
    - Test: `pytest tests/test_biome_synthesizer.py`
@@ -99,7 +99,7 @@ Schema completo per integration: tier + biome trigger + effect status + requires
 - Bus factor: 1
 - Related canonical (target): [apps/backend/services/combat/biomeResonance.js](../../../apps/backend/services/combat/biomeResonance.js) (PR #1785 shipped)
 - Related canonical: [data/core/traits/active_effects.yaml](../../../data/core/traits/active_effects.yaml) (extension target)
-- Related canonical: [data/core/biomes.yml](../../../data/core/biomes.yml) (atollo_ossidiana mancante)
+- Related canonical: [data/core/biomes.yaml](../../../data/core/biomes.yaml) (atollo_ossidiana mancante)
 - Related staging: [incoming/swarm-candidates/README.md](../../../incoming/swarm-candidates/README.md)
 - Inventory: [docs/museum/excavations/2026-04-25-old_mechanics-inventory.md](../excavations/2026-04-25-old_mechanics-inventory.md)
 

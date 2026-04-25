@@ -67,6 +67,32 @@ Friction concreta sprint 2026-04-25 PR #1776: glossary.json aveva 37 char mojiba
 - **Subagent timeout 2x = stop retry**: se subagent stesso pattern timeout 2 volte, FERMA. Investiga prompt size / tool config. Non fare 5+ retry sperando vada.
 - **Distinguish hook output vs user**: `<user-prompt-submit-hook>` e similari sono hook. Riconosci tag, non rispondere come a un user.
 
+## 🏛 Museum-first protocol (validato 2026-04-25)
+
+Friction concreta: 18 sprint hanno accumulato idee buone in `incoming/`, `docs/archive/`, `reports/incoming/`, branch chiusi, ADR superseded. Future agent rischia duplicate research O re-invent buried work.
+
+**Pattern**: **PRIMA** di WebSearch / repo dig su un dominio nuovo, consulta [`docs/museum/MUSEUM.md`](docs/museum/MUSEUM.md) per card curate Dublin-Core-style con provenance verificata + reuse path concreti.
+
+- **Tutti gli agent** (`balance-illuminator`, `creature-aspect-illuminator`, `narrative-design-illuminator`, `pcg-level-design-illuminator`, `economy-design-illuminator`, `telemetry-viz-illuminator`, `ui-design-illuminator`, `coop-phase-validator`, `sot-planner`, `playtest-analyzer`, `session-debugger`, `schema-ripple`, `migration-planner`, `species-reviewer`, `balance-auditor`) **leggono** museum.
+- **Solo `repo-archaeologist` scrive** card. Lifecycle: `excavated → curated → reviewed → revived | rejected`. Card additive-only.
+- **Validato 2026-04-25**: cross-agent test con `creature-aspect-illuminator` su Skiv Sprint A audit → ha letto MUSEUM.md spontaneously, consultato card M-005 magnetic_rift, identificato 6 GAP concreti, saved 10-15min repo dig (vedi [docs/qa/2026-04-25-museum-validation.md](docs/qa/2026-04-25-museum-validation.md)).
+
+**Trigger consultation**:
+
+- ✅ Domain research nuovo (es. "audit Skiv lifecycle for Sprint A") → leggi MUSEUM.md domain section
+- ✅ Architectural decision pending → leggi gallery galleries/<domain>.md se esiste
+- ✅ Reuse path estimation → card hanno effort stimato + blast-radius multiplier
+- ❌ Bug fix puntuali → museum non rilevante
+- ❌ Tweak parametri esistenti → museum non rilevante
+
+**Domain coverage 2026-04-25**: 8/8 (100%) — ancestors, cognitive_traits, enneagramma, personality, mating_nido, old_mechanics, species_candidate (pool secco), architecture. 11 card curate (5 score 5/5 + 6 score 4/5).
+
+**Antipatterns**:
+
+- ❌ Ignorare museum + WebSearch direct → duplicate research
+- ❌ Citare museum come fonte canonical → museum è "idee da valutare", NON `data/core/`
+- ❌ Auto-revive card senza ADR + user OK → museum è additive-only, decisione product needed
+
 ---
 
 ## Project overview

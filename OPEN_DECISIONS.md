@@ -9,16 +9,27 @@
 
 ## Aperte
 
-### [OD-001] V3 Mating/Nido — scope e timing
+### [OD-001] V3 Mating/Nido — scope e timing ⚠️ CORREZIONE 2026-04-25 (era disinformata)
 
 - **Livello**: game + system
-- **Stato**: in attesa (deferred post-MVP)
-- **Ambiguità**: sistema Mating/Nido è "promessa centrale" in `docs/core/Mating-Reclutamento-Nido.md` ma runtime zero. Scope stimato ~20h. Va implementato? Quando? Con quali tagli accettabili?
-- **Perché conta**: pilastro 2 (Evoluzione emergente Spore-core) sarebbe più forte con Mating. Senza, "evoluzione" rischia di ridursi a trait-pack-spender.
-- **Miglior default proposto**: deferred post-MVP (dopo P5 🟢 definitivo via playtest live + M14 Triangle Strategy slice). Reassess a M16+ con dati playtest reali.
-- **Rischio se ignorata**: pilastro 2 resta 🟢c (candidato) senza chiusura, vision-promise unkept.
-- **File o moduli coinvolti**: `docs/core/Mating-Reclutamento-Nido.md`, nuovo `apps/backend/services/mating/` (green-field).
-- **Prossima azione consigliata**: dopo M14 + M15 Triangle Strategy, valutare se Mating è ancora scope necessario o Form evolution M12+ basta.
+- **Stato**: **CORREZIONE 2026-04-25** — claim originale "runtime zero / green-field" era basato su audit incomplete. Reality: engine LIVE da 4 mesi. Vedi card [M-2026-04-25-007 Mating Engine Orphan](docs/museum/cards/mating_nido-engine-orphan.md).
+- **Reality verified 2026-04-25**:
+  - `apps/backend/services/metaProgression.js` (469 LOC): `canMate`, `rollMating`, `computeMatingRoll`, `setNest`, `tickCooldowns`, `recruitFromDefeat` engine D1+D2 LIVE. Intro `ea945a56` (PR #1435 Design Freeze v0.9), Prisma adapter `3272f844` (PR #1679, 2026-04-23)
+  - `apps/backend/routes/meta.js` (119 LOC): 7 endpoint REST `/api/meta/{npg,affinity,trust,recruit,mating,nest,nest/setup}` LIVE
+  - Prisma model `UnitProgression` + migration `0004` shipped
+  - **ZERO frontend integration** (`grep -rn "/api/meta" apps/play/` = 0 hit) → engine = dead path completo
+- **Decisione product P0 needed** (3 path):
+  - **Path A — Activate** (~12-15h): wire frontend `apps/play/src/{debriefPanel,nestHub}.js` chiama `/api/meta/*`. Output: V3 🟢 reale. Pillar P2/P3 🟢. Cross-link card M-008 nido itinerante (Skiv vagans pilot).
+  - **Path B — Demolish** (~2h): routes 410 Gone + service `// QUARANTINED` header + ADR. Output: drift docs/runtime risolto, sunk cost (~50-80h shippato) accettato. OD-001 chiude → "engine quarantined, V3 truly post-MVP".
+  - **Path C — Sandbox** (~5h): feature-flag OFF + sandbox script + OpenAPI doc. Output: engine pronto a riattivare senza re-scoping completo.
+- **Ambiguità originale residua**: solo se Path A → quanti tagli accettabili? Quale subset prioritario (recruit-only? mating-only? nest-only?)?
+- **Perché conta**: pilastro P2 (Evoluzione emergente) sarebbe **già operativo** se Path A. Senza decisione → drift docs/runtime resta + futuri agent confusione.
+- **Miglior default proposto**: **decisione product PRIMA del prossimo Sprint M14**. Path C (sandbox) è low-risk middle-ground se decisione blocked.
+- **Rischio se ignorata**: 50-80h sunk cost + OD/runtime drift permanente.
+- **File o moduli coinvolti**: `apps/backend/services/metaProgression.js`, `apps/backend/routes/meta.js`, `apps/backend/prisma/migrations/0004_unit_progression.sql`, frontend `apps/play/src/` (Path A only).
+- **Prossima azione consigliata**: **user review card M-007 + decision verdict Path A/B/C**. Cross-card link M-008 (nido itinerante Skiv) per Path A content.
+- **Skiv link**: weak diretto (vagans = loner mating-blocked). Indiretto: Path A abilita "recruit ex-nemico nel debrief" Skiv narrative beat (vagans seguendo vincente).
+- **Ref**: card [M-2026-04-25-007 Mating Engine Orphan](docs/museum/cards/mating_nido-engine-orphan.md), [M-2026-04-25-008 Nido Itinerante](docs/museum/cards/mating_nido-canvas-nido-itinerante.md), [excavations/2026-04-25-mating_nido-inventory.md](docs/museum/excavations/2026-04-25-mating_nido-inventory.md).
 
 ### [OD-002] V6 UI TV dashboard polish — priorità vs playtest feedback
 

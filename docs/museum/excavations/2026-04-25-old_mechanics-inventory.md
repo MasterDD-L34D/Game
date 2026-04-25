@@ -41,7 +41,7 @@ tags: [archaeology, museum, old_mechanics, deprecated]
 
 ### 🥇 #3 magnetic_rift_resonance.yaml — score 4/5
 
-**Reason**: PR #1720 (`feat(swarm): first integration staging`) ha staged trait ma MAI promosso. Schema completo (tier T2, trigger biome+ability, effect telepatic_link 5 turni, narrative hook + testability). **Skiv Sprint A direct fit**: il sistema biomeResonance (PR #1785) supporta tier ladder; `atollo_ossidiana` non esiste in `data/core/biomes.yml` ma può essere derivato da biome con `magnetic_field_strength` flag.
+**Reason**: PR #1720 (`feat(swarm): first integration staging`) ha staged trait ma MAI promosso. Schema completo (tier T2, trigger biome+ability, effect telepatic_link 5 turni, narrative hook + testability). **Skiv Sprint A direct fit**: il sistema biomeResonance (PR #1785) supporta tier ladder; `atollo_ossidiana` non esiste in `data/core/biomes.yaml` ma può essere derivato da biome con `magnetic_field_strength` flag.
 
 **Reuse path Minimal (~2h)**: aggiungi biome `atollo_ossidiana` placeholder + 1 trait reference in `data/core/traits/active_effects.yaml`. Map T2 → biomeResonance tier_2.
 
@@ -79,7 +79,7 @@ tags: [archaeology, museum, old_mechanics, deprecated]
 
 - `grep recon|engine_events|personality_module apps/backend/` → ZERO match (no false positive)
 - `grep magnetic_rift_resonance data/core apps/backend/` → ZERO match (truly buried)
-- `grep ossidiana data/core/biomes.yml` → ZERO (biome assumed but not exists)
+- `grep ossidiana data/core/biomes.yaml` → ZERO (biome assumed but not exists)
 
 ---
 

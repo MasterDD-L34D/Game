@@ -364,22 +364,84 @@ Solo se ≥3 card stesso domain. Aggrega card con narrative collegante. Esempio 
 
 3. **Cross-check canonical**: assicurati artifact NON è già live. Se è già live → skip + log warning.
 
-4. **Identify reuse paths**: 3 opzioni Minimal/Moderate/Full con effort estimate `<Nh>` realistic (1h-30h range).
+4. **Pre-card audit (MANDATORY, lessons-learned 2026-04-25 wire attempt)**
 
-5. **Match pillars**: leggi CLAUDE.md "Pilastri di design" sezione + match buried artifact contro 6 pillar.
+   Refinement post prima session: 4 lezioni concrete dalla wire attempt M-006. Skip qualunque step → card produrrà reuse_path con bug.
 
-6. **Write card** `docs/museum/cards/<domain>-<slug>.md` con frontmatter Dublin Core + body 5 sezioni.
+   **4a. Path verification** (5 min):
 
-7. **Update index** `docs/museum/MUSEUM.md`:
+   ```bash
+   # Ogni path che pensi di citare in reuse_path:
+   ls <suggested_target_path>          # esiste?
+   find apps/backend -name "<base>" 2>/dev/null  # se path 0 hit, cerca alternative
+   ```
+
+   Storia: card M-006 disse `apps/backend/services/sessionRoundBridge.js`. Reality: `apps/backend/routes/sessionRoundBridge.js` (route, NON service). Path drift = bug-by-default.
+
+   **4b. Function signature read** (10 min):
+
+   Per ogni function/symbol che citerai in reuse_path code snippet:
+
+   ```bash
+   Read <target_file>  # almeno 30 righe attorno alla function
+   grep -n "module.exports\|function\s\+<name>\|exports\." <file>  # signature reale
+   ```
+
+   Storia: card M-006 disse `applyEnneaEffects(unit, vcSnapshot)`. Reality: `resolveEnneaEffects(activeArchetypes)` + `applyEnneaBuffs(actor, effects)` (2 functions separate). Signature inventata = code snippet nel card è broken.
+
+   **4c. Data flow audit** (10 min):
+
+   Per ogni input X che il reuse_path consuma, traccia:
+
+   ```bash
+   grep -rn "X = \|set X\|X:" <consumer_file>  # dove popolato?
+   grep -rn "build<X>\|compute<X>\|<X>Fn" apps/  # quando computato?
+   ```
+
+   Domanda chiave: **quando viene calcolato X**? End-of-session? End-of-round? On-demand? Cached? Per-request?
+
+   Storia: card M-006 assumeva `vcSnapshot.ennea_archetypes` per-round disponibile. Reality: `buildVcSnapshot` chiamato solo end-of-session (debrief). Wire impossibile senza refactor 2-3h pre-req.
+
+   **4d. Blast radius assessment** (5 min):
+
+   Effort estimate × blast radius multiplier (reality-aligned):
+
+   | Layer toccato                         | Multiplier | Esempio                                      |
+   | ------------------------------------- | ---------- | -------------------------------------------- |
+   | Pure docs / data YAML                 | ×1.0       | sentience_traits → trait_glossary entry      |
+   | Service layer (data only)             | ×1.2       | extend `data/core/forms.yaml`                |
+   | Route layer (HTTP)                    | ×1.3       | nuovo endpoint `/api/v1/X`                   |
+   | Combat hot path / round orchestration | **×1.5**   | `roundOrchestrator.js`, `abilityExecutor.js` |
+   | Schema-changing                       | ×2.0       | `packages/contracts/schemas/*.json` modify   |
+   | vcSnapshot / VC scoring core          | ×1.7       | refactor `buildVcSnapshot` per round-aware   |
+
+   Estimate naive (es. "wire 2h") × multiplier corretto = realistic estimate. **Card M-006 stima 2h × 1.7 (vcSnapshot core) = 3.4h MINIMUM**, plus regression test + integration overhead = 7-9h reale (confermato wire attempt).
+
+   **4e. Schema drift severity check**:
+
+   Se trovi 2+ canonical sources per stesso concept (es. enneagramma in `compat_ennea` mating + `ennea_themes` telemetry + `reward_pool`), flag in card sezione "Risks":
+   - **HIGH**: drift parallelo (3+ sources, conteggi diversi) → propose ADR via escalation `sot-planner`
+   - **MEDIUM**: drift duale (2 sources, mostly aligned) → flag in OPEN_DECISIONS
+   - **LOW**: 1 source canonical + 1 cached/derived → no action
+
+   Storia: enneagramma drift `compat_ennea (3 archetipi) vs ennea_themes (6) vs reward_pool (9)` = HIGH severity, mai escalato pre-card.
+
+5. **Identify reuse paths**: 3 opzioni Minimal/Moderate/Full con effort estimate `<Nh>` realistic (1h-30h range), **post-multiplier blast radius**.
+
+6. **Match pillars**: leggi CLAUDE.md "Pilastri di design" sezione + match buried artifact contro 6 pillar.
+
+7. **Write card** `docs/museum/cards/<domain>-<slug>.md` con frontmatter Dublin Core + body 5 sezioni.
+
+8. **Update index** `docs/museum/MUSEUM.md`:
    - Trova sezione domain matching (es. `### Cognitive traits / Sentience`).
    - Se sezione contiene placeholder `_Vuoto. Pending excavate..._`, **SOSTITUISCI** la riga placeholder con la nuova entry. Mai appendere sotto il placeholder (drift visivo).
    - Format entry: `- [<title>](cards/<slug>.md) — score X/5 · <one-line hook> · <buried_reason>`
    - Se score ≥4: aggiungi anche riga in top section "🏆 Top relevance". Stesso pattern placeholder-replace al primo add.
    - Aggiorna `## 📊 Stats` (Excavations run, Cards total, Last excavate, Coverage %).
 
-8. **(Opzionale) Gallery**: se ≥3 card stesso domain, crea `docs/museum/galleries/<domain>.md` aggregando.
+9. **(Opzionale) Gallery**: se ≥3 card stesso domain, crea `docs/museum/galleries/<domain>.md` aggregando.
 
-9. **Report user**: 1 frase "Card scritta: [<path>](relative-path). Score X/5. Suggested next-step: <minimal-reuse-path>".
+10. **Report user**: 1 frase "Card scritta: [<path>](relative-path). Score X/5. Suggested next-step: <minimal-reuse-path>".
 
 ---
 
@@ -427,6 +489,10 @@ Solo se ≥3 card stesso domain. Aggrega card con narrative collegante. Esempio 
 - ❌ **Scrivere ADR autonomo**. Propose user, escalation a `sot-planner`.
 - ❌ **Eseguire fix mojibake** in-place su archive (rischio doppia corruzione, vedi CLAUDE.md "Encoding Discipline"). Se trovi mojibake → flag in card, non correggere.
 - ❌ **Usare TodoWrite per tracciare card**. Card già è tracciata da MUSEUM.md index. Doppio tracking = drift.
+- ❌ **Skippare pre-card audit step 4a-4e** (post-2026-04-25 lessons). Path verify + function signature read + data flow audit + blast radius multiplier sono OBBLIGATORI. Skip → card produrrà reuse_path con bug-by-default.
+- ❌ **Citare path senza `ls`-check**. Storia: card M-006 disse `services/sessionRoundBridge.js`, reality `routes/sessionRoundBridge.js`. Path drift = critic loss-of-trust.
+- ❌ **Inventare function signature**. Storia: card M-006 disse `applyEnneaEffects(unit, vcSnapshot)`, reality 2 functions separate. Read 30+ righe target file PRIMA di scrivere code snippet.
+- ❌ **Effort estimate naive senza multiplier blast radius**. Combat hot path 5h naive = 7-9h reale. Always apply multiplier post-table 4d.
 
 ---
 
