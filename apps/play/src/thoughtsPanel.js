@@ -55,6 +55,19 @@ function injectStyles() {
       padding: 28px 10px; text-align: center; color: #9aa3b5;
       font-style: italic;
     }
+    .slot-counter {
+      padding: 12px 16px; margin-bottom: 14px;
+      border: 1px solid #3a3050; border-radius: 8px;
+      background: #1a1626;
+      color: #d8c7ff; font-size: 1rem;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .slot-counter strong {
+      color: #ffd166; font-size: 1.1rem;
+    }
+    .slot-counter .slot-breakdown {
+      color: #9aa3b5; font-size: 0.9rem;
+    }
     .thoughts-axis {
       margin-bottom: 18px; border: 1px solid #2a3040; border-radius: 10px;
       padding: 14px 16px; background: #0d1118;
@@ -362,8 +375,29 @@ function render(unit, perActorEntry) {
   }
   const unlocked = new Set(perActorEntry.unlocked || []);
   const newly = new Set(perActorEntry.newly || []);
+  // GAP-04 (ui-design-illuminator audit 2026-04-25): slot counter visible.
+  // Backend already ships slots_max + slots_used + internalized + researching;
+  // Phase 2 PR #1769. Cold-start player must know "can I research now?".
+  const slotsMax = Number(perActorEntry.slots_max || 3);
+  const slotsUsed = Number(perActorEntry.slots_used || 0);
+  const researchingCount = Array.isArray(perActorEntry.researching)
+    ? perActorEntry.researching.length
+    : 0;
+  const internalizedCount = Array.isArray(perActorEntry.internalized)
+    ? perActorEntry.internalized.length
+    : 0;
+  const slotIcons = Array.from({ length: slotsMax })
+    .map((_, i) => (i < slotsUsed ? '●' : '○'))
+    .join('');
+  const slotCounter = `
+    <div class="slot-counter" role="status" aria-label="Slot Thought Cabinet">
+      Slots ${slotIcons} <strong>${slotsUsed}/${slotsMax}</strong>
+      <span class="slot-breakdown">· 🧠 ${internalizedCount} internalizzati · 🔬 ${researchingCount} in ricerca</span>
+    </div>
+  `;
   if (unlocked.size === 0) {
     body.innerHTML = `
+      ${slotCounter}
       <div class="thoughts-empty">
         Nessun thought ancora sbloccato. Gioca round con pattern MBTI consistente
         su E_I / S_N / J_P.
@@ -372,7 +406,8 @@ function render(unit, perActorEntry) {
     `;
     return;
   }
-  body.innerHTML = ['E_I', 'S_N', 'J_P'].map((a) => renderAxis(a, unlocked, newly)).join('');
+  body.innerHTML =
+    slotCounter + ['E_I', 'S_N', 'J_P'].map((a) => renderAxis(a, unlocked, newly)).join('');
 }
 
 export async function openThoughtsPanel() {

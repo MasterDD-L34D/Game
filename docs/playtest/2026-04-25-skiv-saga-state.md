@@ -62,6 +62,40 @@ Slots: 2/3 (1 libero per ricerca futura)
   - cost: 12 PE + 7 PI
   - effetto: +1 dmg always → +2 dmg condizionato MoS≥5 (burst trade-off)
 
+## Aspect — fase **mature** (Predatore Maturo)
+
+> Skiv è qui sull'asse di vita. Vedi `data/core/species/dune_stalker_lifecycle.yaml`
+> per le 5 fasi totali e i gating di transizione.
+
+```
+      /\_/\        *
+     (  o.o )       *
+      > ^ <
+      /|||\
+```
+
+Forma adulta consolidata. Gli artigli a sette vie si vetrificano
+(mutation artigli_grip_to_glass) → punte trasparenti come ossidiana
+che riflettono il sole. Le orecchie hanno scolpito conche per
+l'echolocation, visibili come solchi. Il pelo lungo il dorso si è
+condensato in una cresta scura. Lo sguardo è fisso, leggero
+socchiudere — primo segno di voce interna. Il branco lo riconosce
+come predatore-stalker, non più cucciolo.
+
+**Tactical signature**: Stalker Lv 4. Synergy echo_backstab live. Thought Cabinet 2/3 slot.
+
+### Mutation morphology (visual swap applicato)
+
+- **claws_glass** — Le punte degli artigli si vetrificano: trasparenza ossidiana riflettente sole. Lascia tracce iridescenti nella sabbia.
+- phase_unlock: `mature`
+
+### MBTI form correlates attivi
+
+- **I_high** — Postura chiusa, silenzioso, orecchie verso interno (ricezione).
+- **T_high** — Sguardo freddo socchiuso, decisioni rapide post-pause.
+- **N_high** — Movimenti sinuosi, scarsa pausa, sembra vedere senza guardare.
+- **P_high** — Routine assente; cambia direzione su input minimi.
+
 ## Diary timeline (8 events — one per whitelist slot)
 
 | # | Event type | Encounter | Turn | Payload key |

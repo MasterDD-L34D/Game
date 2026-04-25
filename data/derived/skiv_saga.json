@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-04-25T12:18:26Z",
+  "generated_at": "2026-04-25T12:55:34Z",
   "unit_id": "skiv",
   "species_id": "dune_stalker",
   "biome_id": "savana",
@@ -66,6 +66,39 @@
       "category": "physiological"
     }
   ],
+  "aspect": {
+    "lifecycle_phase": "mature",
+    "polarity_stable": true,
+    "mbti_form_label": "INTP-leaning-I",
+    "aspect_it": "Forma adulta consolidata. Gli artigli a sette vie si vetrificano\n(mutation artigli_grip_to_glass) → punte trasparenti come ossidiana\nche riflettono il sole. Le orecchie hanno scolpito conche per\nl'echolocation, visibili come solchi. Il pelo lungo il dorso si è\ncondensato in una cresta scura. Lo sguardo è fisso, leggero\nsocchiudere — primo segno di voce interna. Il branco lo riconosce\ncome predatore-stalker, non più cucciolo.",
+    "sprite_ascii": "      /\\_/\\        *\n     (  o.o )       *\n      > ^ <\n      /|||\\",
+    "tactical_signature": "Stalker Lv 4. Synergy echo_backstab live. Thought Cabinet 2/3 slot.",
+    "label_it": "Predatore Maturo",
+    "label_en": "Mature Stalker",
+    "mutation_morphology": {
+      "visual_swap_it": "Le punte degli artigli si vetrificano: trasparenza ossidiana riflettente sole. Lascia tracce iridescenti nella sabbia.",
+      "phase_unlock": "mature",
+      "aspect_token": "claws_glass"
+    },
+    "mbti_correlates": [
+      {
+        "polarity": "I_high",
+        "manifestation": "Postura chiusa, silenzioso, orecchie verso interno (ricezione)."
+      },
+      {
+        "polarity": "T_high",
+        "manifestation": "Sguardo freddo socchiuso, decisioni rapide post-pause."
+      },
+      {
+        "polarity": "N_high",
+        "manifestation": "Movimenti sinuosi, scarsa pausa, sembra vedere senza guardare."
+      },
+      {
+        "polarity": "P_high",
+        "manifestation": "Routine assente; cambia direzione su input minimi."
+      }
+    ]
+  },
   "diary": [
     {
       "ts": "2026-04-25T18:00:00Z",
@@ -190,5 +223,5 @@
       }
     }
   ],
-  "_notes": "Canonical creature state showcasing 2026-04-25 content sprint #1776 + Skiv 5/8 wishlist (synergy #2 + biome resonance #4 + Defy #5 + Diary #7 + Hybrid Path #6). Regenerate via tools/py/seed_skiv_saga.py."
+  "_notes": "Canonical creature state showcasing 2026-04-25 content sprint #1776 + Skiv 5/8 wishlist + lifecycle/aspect (this PR). Regenerate via tools/py/seed_skiv_saga.py."
 }
