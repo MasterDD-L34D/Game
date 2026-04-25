@@ -57,7 +57,10 @@ const {
 // Skiv ticket #4: biome resonance reduces research cost when species
 // biome_affinity matches session.biome_id. Looked up at the route layer
 // because thoughtCabinet engine stays YAML-agnostic about species data.
-const { hasResonance: hasBiomeResonance } = require('../services/combat/biomeResonance');
+const {
+  hasResonance: hasBiomeResonance,
+  computeResonanceTier,
+} = require('../services/combat/biomeResonance');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -1944,11 +1947,18 @@ function createSessionRouter(options = {}) {
         mergeUnlocked(state, newly);
         const snap = snapshotCabinet(state);
         const passives = thoughtPassiveBonuses(state);
+        const actor = (session.units || []).find((u) => u && u.id === unitId);
+        const tierInfo =
+          actor && session.biome_id
+            ? computeResonanceTier(actor.species, session.biome_id, actor.archetype || null)
+            : { tier: 'none', label_it: '', discount: 0 };
         perActor[unitId] = {
           ...snap,
           newly,
           passive_bonus: passives.bonus,
           passive_cost: passives.cost,
+          resonance_tier: tierInfo.tier,
+          resonance_label: tierInfo.label_it,
         };
       }
       res.json({ session_id: session.session_id, per_actor: perActor });
@@ -1970,13 +1980,14 @@ function createSessionRouter(options = {}) {
         return res.status(400).json({ error: 'unit_id e thought_id obbligatori' });
       }
       const { state } = getOrCreateCabinet(session.session_id, unit_id);
-      // Skiv #4: compute biome resonance from actor.species × session.biome_id.
       const actor = (session.units || []).find((u) => u && u.id === unit_id);
-      const resonance =
-        actor && session.biome_id ? hasBiomeResonance(actor.species, session.biome_id) : false;
+      const tierInfo =
+        actor && session.biome_id
+          ? computeResonanceTier(actor.species, session.biome_id, actor.archetype || null)
+          : { tier: 'none', label_it: '', discount: 0 };
       const outcome = startThoughtResearch(state, thought_id, {
         encounter: req.body?.encounter ?? null,
-        resonance,
+        resonance: tierInfo.discount > 0,
       });
       if (!outcome.ok) {
         return res.status(409).json({ error: outcome.error, thought_id });
@@ -1988,6 +1999,8 @@ function createSessionRouter(options = {}) {
         cost_total: outcome.cost_total,
         base_cost: outcome.base_cost,
         resonance_applied: outcome.resonance_applied,
+        resonance_tier: tierInfo.tier,
+        resonance_label: tierInfo.label_it,
         cabinet: snapshotCabinet(state),
       });
     } catch (err) {

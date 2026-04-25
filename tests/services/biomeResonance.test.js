@@ -1,4 +1,4 @@
-// Biome resonance — pure unit tests for Skiv ticket #4 (Sprint A).
+// Biome resonance — pure unit tests for Skiv #4 + tier values (P1 follow-up).
 
 'use strict';
 
@@ -9,7 +9,9 @@ const {
   loadSpeciesAffinityMap,
   resetCache,
   getSpeciesBiomeAffinity,
+  getBiomeFamily,
   hasResonance,
+  computeResonanceTier,
 } = require('../../apps/backend/services/combat/biomeResonance');
 
 test('loadSpeciesAffinityMap: parses biome_affinity from species YAML', () => {
@@ -89,4 +91,75 @@ test('hasResonance: with explicit map override', () => {
   assert.equal(hasResonance('test_species', 'test_biome', { map: customMap }), true);
   assert.equal(hasResonance('test_species', 'other', { map: customMap }), false);
   assert.equal(hasResonance('unknown', 'test_biome', { map: customMap }), false);
+});
+
+// ── getBiomeFamily ──────────────────────────────────────────────────────────
+
+test('getBiomeFamily: known open biome returns "open"', () => {
+  assert.equal(getBiomeFamily('savana'), 'open');
+  assert.equal(getBiomeFamily('pianura_aperta'), 'open');
+});
+
+test('getBiomeFamily: known deep biome returns "deep"', () => {
+  assert.equal(getBiomeFamily('frattura_abissale_sinaptica'), 'deep');
+  assert.equal(getBiomeFamily('caverna'), 'deep');
+});
+
+test('getBiomeFamily: unknown biome → null', () => {
+  assert.equal(getBiomeFamily('totally_unknown'), null);
+  assert.equal(getBiomeFamily(''), null);
+  assert.equal(getBiomeFamily(null), null);
+});
+
+// ── computeResonanceTier ────────────────────────────────────────────────────
+
+test('computeResonanceTier: perfect match → tier=perfect, discount=1', () => {
+  const map = { dune_stalker: 'savana' };
+  const r = computeResonanceTier('dune_stalker', 'savana', null, { map });
+  assert.equal(r.tier, 'perfect');
+  assert.equal(r.discount, 1);
+  assert.ok(r.label_it.length > 0);
+});
+
+test('computeResonanceTier: same family → tier=secondary, discount=0', () => {
+  // dune_stalker affinity=savana (open), encountering pianura_aperta (also open)
+  const map = { dune_stalker: 'savana' };
+  const r = computeResonanceTier('dune_stalker', 'pianura_aperta', null, { map });
+  assert.equal(r.tier, 'secondary');
+  assert.equal(r.discount, 0);
+  assert.ok(r.label_it.length > 0);
+});
+
+test('computeResonanceTier: archetype matches biome dominant → tier=class_match, discount=0', () => {
+  // No affinity, but archetype=skirmisher in savana (dominant=skirmisher)
+  const map = {};
+  const r = computeResonanceTier('unknown_sp', 'savana', 'skirmisher', { map });
+  assert.equal(r.tier, 'class_match');
+  assert.equal(r.discount, 0);
+  assert.ok(r.label_it.length > 0);
+});
+
+test('computeResonanceTier: no match → tier=none, discount=0', () => {
+  const map = { dune_stalker: 'savana' };
+  // savana (open) vs frattura_abissale_sinaptica (deep) — different families
+  // archetype=support does NOT match deep dominant (tank) → none
+  const r = computeResonanceTier('dune_stalker', 'frattura_abissale_sinaptica', 'support', { map });
+  assert.equal(r.tier, 'none');
+  assert.equal(r.discount, 0);
+  assert.equal(r.label_it, '');
+});
+
+test('computeResonanceTier: null/empty inputs → tier=none', () => {
+  assert.equal(computeResonanceTier('', 'savana').tier, 'none');
+  assert.equal(computeResonanceTier('sp', '').tier, 'none');
+  assert.equal(computeResonanceTier(null, 'savana').tier, 'none');
+  assert.equal(computeResonanceTier('sp', null).tier, 'none');
+});
+
+test('computeResonanceTier: perfect takes precedence over class_match', () => {
+  // If affinity matches AND archetype matches, perfect wins
+  const map = { dune_stalker: 'savana' };
+  const r = computeResonanceTier('dune_stalker', 'savana', 'skirmisher', { map });
+  assert.equal(r.tier, 'perfect');
+  assert.equal(r.discount, 1);
 });
