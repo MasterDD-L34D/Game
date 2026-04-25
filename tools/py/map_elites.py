@@ -15,8 +15,8 @@ Generic engine + concrete balance use case in the same module:
 - `run_map_elites`: evolution loop (random elite → mutate → evaluate)
 - Balance helpers: `build_random_solution`, `mutate_build`, `synthetic_fitness`
 
-Mock fitness for unit tests + CLI smoke; HTTP integration via
-`restricted_play.run_one` documented (deferred to next PR).
+Mock fitness for unit tests + CLI smoke; HTTP fitness wired via
+`restricted_play.run_one` (see `build_http_evaluator`).
 
 ## Usage
 
@@ -25,11 +25,18 @@ Mock fitness for unit tests + CLI smoke; HTTP integration via
         --iterations 1000 --bins 4 --seed 42 \\
         --out-md docs/balance/2026-04-25-map-elites-archive.md
 
+    # HTTP-backed fitness (needs backend at $MAP_ELITES_HOST or --host)
+    PYTHONPATH=. python3 tools/py/map_elites.py \\
+        --iterations 200 --bins 3 --seed 7 \\
+        --fitness http --scenario enc_tutorial_06_hardcore \\
+        --policy greedy --n-runs 3 --role player \\
+        --out-md docs/balance/$(date +%F)-map-elites-archive-http.md
+
 ## Non-goals
 
-- Live HTTP fitness via run_one (~+2h, separate PR for clarity)
 - CMA-ME / CMA-MEGA gradient variants (Fontaine 2020+)
 - Multi-objective fitness (Pareto MAP-Elites)
+- Session-state clone API (needed for MCTS smart policy, separate P0)
 
 ## References
 
@@ -46,13 +53,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import statistics
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Callable, Sequence
+from typing import Callable, Optional, Sequence
 
 
 # ─────────────────────────────────────────────────────────
@@ -269,6 +277,76 @@ BALANCE_FEATURE_DIMS = [
 ]
 
 
+DEFAULT_HTTP_HOST = os.environ.get("MAP_ELITES_HOST", "http://localhost:3334")
+
+
+def apply_build_to_unit(unit: dict, build: dict) -> dict:
+    """Inject build stats (hp/mod/dc/mbti/archetype) into a unit dict.
+
+    Only keys meaningful to the combat resolver are overridden; caller-controlled
+    fields (id, controlled_by, position, …) are preserved.
+    """
+    out = dict(unit)
+    out["hp"] = int(build["hp"])
+    out["hp_max"] = int(build["hp"])
+    out["mod"] = int(build["mod"])
+    out["attack_mod"] = int(build["mod"])
+    out["dc"] = int(build["dc"])
+    out["defense_dc"] = int(build["dc"])
+    out["archetype"] = build["archetype"]
+    out["mbti"] = {"t": float(build["mbti_t"]), "n": float(build["mbti_n"])}
+    return out
+
+
+def build_http_evaluator(
+    host: str,
+    scenario_id: str,
+    policy: str,
+    n_runs: int,
+    role: str = "player",
+    seed_base: int = 2000,
+    run_one_fn: Optional[Callable] = None,
+) -> Callable[[dict], tuple[float, tuple[float, float, float]]]:
+    """Return an evaluator that computes fitness via live HTTP sessions.
+
+    Each call: inject the build into every unit with `controlled_by == role`,
+    run `n_runs` sessions with the given policy, return (win_rate, behavior)
+    where behavior = (mbti_t, mbti_n, archetype_idx / 2).
+
+    `run_one_fn` allows test injection; defaults to `restricted_play.run_one`.
+    """
+    if role not in {"player", "sistema"}:
+        raise ValueError(f"role must be 'player' or 'sistema', got {role!r}")
+    if n_runs < 1:
+        raise ValueError("n_runs must be >= 1")
+
+    if run_one_fn is None:
+        from restricted_play import run_one as run_one_fn  # lazy import
+
+    def _evaluator(solution: dict) -> tuple[float, tuple[float, float, float]]:
+        def _override(unit: dict) -> dict:
+            if unit.get("controlled_by") == role:
+                return apply_build_to_unit(unit, solution)
+            return unit
+
+        wins = 0
+        for i in range(n_runs):
+            result = run_one_fn(
+                host, scenario_id, policy, seed=seed_base + i, unit_override=_override
+            )
+            if getattr(result, "outcome", None) == "victory":
+                wins += 1
+        fitness = wins / n_runs
+        behavior = (
+            float(solution["mbti_t"]),
+            float(solution["mbti_n"]),
+            ARCHETYPE_INDEX[solution["archetype"]] / max(1, len(ARCHETYPES) - 1),
+        )
+        return fitness, behavior
+
+    return _evaluator
+
+
 # ─────────────────────────────────────────────────────────
 # Markdown report
 # ─────────────────────────────────────────────────────────
@@ -425,19 +503,54 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--initial", type=int, default=10, help="Initial random solutions")
     parser.add_argument("--out-md", default=None)
     parser.add_argument("--out-json", default=None)
+    parser.add_argument(
+        "--fitness",
+        choices=("synthetic", "http"),
+        default="synthetic",
+        help="synthetic = CI-safe mock; http = live backend via restricted_play.run_one",
+    )
+    parser.add_argument("--host", default=DEFAULT_HTTP_HOST, help="Backend base URL (http only)")
+    parser.add_argument(
+        "--scenario", default=None, help="Scenario id (required for --fitness http)"
+    )
+    parser.add_argument("--policy", default="greedy", choices=("random", "greedy", "utility"))
+    parser.add_argument(
+        "--n-runs", type=int, default=3, help="Sessions per solution eval (http only)"
+    )
+    parser.add_argument("--role", default="player", choices=("player", "sistema"))
     args = parser.parse_args(argv)
+
+    if args.fitness == "http" and not args.scenario:
+        parser.error("--fitness http requires --scenario")
 
     rng = random.Random(args.seed)
     initial_solutions = [build_random_solution(rng) for _ in range(args.initial)]
 
-    print(
-        f"MAP-Elites: iterations={args.iterations} bins={args.bins} "
-        f"seed={args.seed} initial={args.initial}"
-    )
+    if args.fitness == "http":
+        evaluator = build_http_evaluator(
+            host=args.host,
+            scenario_id=args.scenario,
+            policy=args.policy,
+            n_runs=args.n_runs,
+            role=args.role,
+            seed_base=args.seed + 1000,
+        )
+        print(
+            f"MAP-Elites[http]: iterations={args.iterations} bins={args.bins} "
+            f"seed={args.seed} scenario={args.scenario} policy={args.policy} "
+            f"n_runs={args.n_runs} role={args.role}"
+        )
+    else:
+        evaluator = synthetic_fitness
+        print(
+            f"MAP-Elites[synthetic]: iterations={args.iterations} bins={args.bins} "
+            f"seed={args.seed} initial={args.initial}"
+        )
+
     archive, history = run_map_elites(
         initial_solutions=initial_solutions,
         mutator=mutate_build,
-        evaluator=synthetic_fitness,
+        evaluator=evaluator,
         feature_dims=BALANCE_FEATURE_DIMS,
         bins_per_dim=args.bins,
         iterations=args.iterations,

@@ -55,6 +55,7 @@ import urllib.request
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+from typing import Callable, Optional
 
 
 DEFAULT_HOST = "http://localhost:3334"
@@ -284,8 +285,19 @@ def detect_outcome(state: dict) -> str | None:
     return None
 
 
-def run_one(host: str, scenario_id: str, policy: str, seed: int) -> RunResult:
-    """Run one session with specified policy. Returns outcome."""
+def run_one(
+    host: str,
+    scenario_id: str,
+    policy: str,
+    seed: int,
+    unit_override: Optional[Callable[[dict], dict]] = None,
+) -> RunResult:
+    """Run one session with specified policy. Returns outcome.
+
+    If `unit_override` is provided it's applied to each unit dict before
+    `/api/session/start`. Enables MAP-Elites or similar tools to inject build
+    stats (hp/mod/dc/…) into specific roles without duplicating the runner.
+    """
     rng = random.Random(seed)
     plan_fn = POLICY_FUNCS[policy]
 
@@ -293,8 +305,11 @@ def run_one(host: str, scenario_id: str, policy: str, seed: int) -> RunResult:
     if status != 200:
         return RunResult(run=-1, outcome="error", rounds=0, players_alive=0, enemies_alive=0, kd=0.0)
 
+    raw_units = sc.get("units", [])
+    if unit_override is not None:
+        raw_units = [unit_override(u) for u in raw_units]
     start_body = {
-        "units": sc.get("units", []),
+        "units": raw_units,
         "modulation": sc.get("recommended_modulation", "quartet"),
         "sistema_pressure_start": sc.get("sistema_pressure_start", 60),
         "hazard_tiles": sc.get("hazard_tiles", []),
@@ -351,11 +366,18 @@ def run_one(host: str, scenario_id: str, policy: str, seed: int) -> RunResult:
     )
 
 
-def run_batch(host: str, scenario_id: str, policy: str, n: int, seed_base: int = 1000) -> dict:
+def run_batch(
+    host: str,
+    scenario_id: str,
+    policy: str,
+    n: int,
+    seed_base: int = 1000,
+    unit_override: Optional[Callable[[dict], dict]] = None,
+) -> dict:
     """Run N sessions with policy; return aggregate WR + stats."""
     runs: list[RunResult] = []
     for i in range(n):
-        r = run_one(host, scenario_id, policy, seed=seed_base + i)
+        r = run_one(host, scenario_id, policy, seed=seed_base + i, unit_override=unit_override)
         r.run = i + 1
         runs.append(r)
     ok = [r for r in runs if r.outcome in ("victory", "defeat", "timeout")]

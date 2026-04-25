@@ -16,7 +16,9 @@ from tools.py.map_elites import (  # noqa: E402
     Cell,
     FeatureDim,
     MapElitesArchive,
+    apply_build_to_unit,
     archive_to_dict,
+    build_http_evaluator,
     build_random_solution,
     format_markdown,
     mutate_build,
@@ -346,3 +348,162 @@ def test_balance_feature_dims_normalized():
 
 def test_archetypes_count():
     assert len(ARCHETYPES) == 3
+
+
+# ─────────────────────────────────────────────────────────
+# HTTP fitness wrapper (build_http_evaluator + apply_build_to_unit)
+# ─────────────────────────────────────────────────────────
+
+
+def _sample_build():
+    return {
+        "hp": 14,
+        "mod": 3,
+        "dc": 13,
+        "mbti_t": 0.7,
+        "mbti_n": 0.2,
+        "archetype": "tank",
+    }
+
+
+class _FakeRun:
+    """Minimal stand-in for restricted_play.RunResult."""
+
+    def __init__(self, outcome: str):
+        self.outcome = outcome
+
+
+def test_apply_build_to_unit_overrides_combat_keys():
+    unit = {"id": "u1", "controlled_by": "player", "position": {"x": 1, "y": 2}, "hp": 1}
+    out = apply_build_to_unit(unit, _sample_build())
+    assert out["hp"] == 14
+    assert out["hp_max"] == 14
+    assert out["mod"] == 3
+    assert out["attack_mod"] == 3
+    assert out["dc"] == 13
+    assert out["defense_dc"] == 13
+    assert out["archetype"] == "tank"
+    assert out["mbti"] == {"t": 0.7, "n": 0.2}
+
+
+def test_apply_build_to_unit_preserves_identity_fields():
+    unit = {"id": "u1", "controlled_by": "player", "position": {"x": 1, "y": 2}, "team": "A"}
+    out = apply_build_to_unit(unit, _sample_build())
+    assert out["id"] == "u1"
+    assert out["controlled_by"] == "player"
+    assert out["position"] == {"x": 1, "y": 2}
+    assert out["team"] == "A"
+
+
+def test_apply_build_to_unit_returns_new_dict():
+    unit = {"id": "u1", "hp": 1}
+    out = apply_build_to_unit(unit, _sample_build())
+    assert unit is not out
+    assert unit["hp"] == 1  # source not mutated
+
+
+def test_build_http_evaluator_rejects_invalid_role():
+    with pytest.raises(ValueError, match="role must be"):
+        build_http_evaluator("http://x", "enc", "greedy", n_runs=1, role="nobody")
+
+
+def test_build_http_evaluator_rejects_zero_runs():
+    with pytest.raises(ValueError, match="n_runs"):
+        build_http_evaluator("http://x", "enc", "greedy", n_runs=0)
+
+
+def test_build_http_evaluator_computes_winrate_fitness():
+    """Fitness = (wins / n_runs); 3 victories out of 4 → 0.75."""
+    outcomes = iter(["victory", "victory", "defeat", "victory"])
+    calls = []
+
+    def fake_run_one(host, scenario_id, policy, seed, unit_override=None):
+        calls.append({"host": host, "scenario": scenario_id, "policy": policy, "seed": seed})
+        return _FakeRun(next(outcomes))
+
+    evaluator = build_http_evaluator(
+        host="http://backend",
+        scenario_id="enc_test",
+        policy="greedy",
+        n_runs=4,
+        seed_base=500,
+        run_one_fn=fake_run_one,
+    )
+    fitness, behavior = evaluator(_sample_build())
+    assert fitness == 0.75
+    assert behavior == (0.7, 0.2, ARCHETYPE_INDEX["tank"] / (len(ARCHETYPES) - 1))
+    assert len(calls) == 4
+    assert [c["seed"] for c in calls] == [500, 501, 502, 503]
+    assert all(c["host"] == "http://backend" and c["policy"] == "greedy" for c in calls)
+
+
+def test_build_http_evaluator_override_applies_only_to_matching_role():
+    """Override hook mutates only units with controlled_by == role."""
+    scenario_units = [
+        {"id": "p1", "controlled_by": "player", "hp": 10, "mod": 1, "dc": 10, "archetype": "base"},
+        {"id": "e1", "controlled_by": "sistema", "hp": 5, "mod": 2, "dc": 11, "archetype": "wolf"},
+    ]
+    captured_overrides = []
+
+    def fake_run_one(host, scenario_id, policy, seed, unit_override=None):
+        assert unit_override is not None
+        rewritten = [unit_override(dict(u)) for u in scenario_units]
+        captured_overrides.append(rewritten)
+        return _FakeRun("defeat")
+
+    evaluator = build_http_evaluator(
+        host="http://x", scenario_id="s", policy="greedy", n_runs=1, role="player",
+        run_one_fn=fake_run_one,
+    )
+    fitness, _ = evaluator(_sample_build())
+    assert fitness == 0.0  # no victory
+    player_after, enemy_after = captured_overrides[0]
+    assert player_after["hp"] == 14 and player_after["archetype"] == "tank"
+    assert enemy_after["hp"] == 5 and enemy_after["archetype"] == "wolf"  # untouched
+
+
+def test_build_http_evaluator_role_sistema():
+    """Flip the role to override enemy stats instead of player."""
+    scenario_units = [
+        {"id": "p1", "controlled_by": "player", "hp": 10, "archetype": "base"},
+        {"id": "e1", "controlled_by": "sistema", "hp": 5, "archetype": "wolf"},
+    ]
+    captured = []
+
+    def fake_run_one(host, scenario_id, policy, seed, unit_override=None):
+        captured.append([unit_override(dict(u)) for u in scenario_units])
+        return _FakeRun("victory")
+
+    evaluator = build_http_evaluator(
+        host="http://x", scenario_id="s", policy="greedy", n_runs=2, role="sistema",
+        run_one_fn=fake_run_one,
+    )
+    fitness, _ = evaluator(_sample_build())
+    assert fitness == 1.0  # all victories
+    assert captured[0][0]["hp"] == 10  # player untouched
+    assert captured[0][1]["hp"] == 14 and captured[0][1]["archetype"] == "tank"
+
+
+def test_build_http_evaluator_behavior_vector_stable():
+    """Behavior depends only on solution axes, not on win/loss."""
+
+    def loser(*_a, **_kw):
+        return _FakeRun("defeat")
+
+    def winner(*_a, **_kw):
+        return _FakeRun("victory")
+
+    sol = {"hp": 10, "mod": 2, "dc": 12, "mbti_t": 0.3, "mbti_n": 0.9, "archetype": "skirmisher"}
+    _, b1 = build_http_evaluator("h", "s", "greedy", 1, run_one_fn=loser)(sol)
+    _, b2 = build_http_evaluator("h", "s", "greedy", 1, run_one_fn=winner)(sol)
+    assert b1 == b2
+    assert b1 == (0.3, 0.9, ARCHETYPE_INDEX["skirmisher"] / (len(ARCHETYPES) - 1))
+
+
+def test_build_http_evaluator_n_runs_one_binary_fitness():
+    """n_runs=1 collapses fitness to 0 or 1 exactly."""
+    sol = _sample_build()
+    ev_win = build_http_evaluator("h", "s", "greedy", 1, run_one_fn=lambda *a, **kw: _FakeRun("victory"))
+    ev_lose = build_http_evaluator("h", "s", "greedy", 1, run_one_fn=lambda *a, **kw: _FakeRun("timeout"))
+    assert ev_win(sol)[0] == 1.0
+    assert ev_lose(sol)[0] == 0.0

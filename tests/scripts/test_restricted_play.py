@@ -18,6 +18,7 @@ from tools.py.restricted_play import (  # noqa: E402
     plan_greedy,
     plan_random,
     plan_utility,
+    run_one,
 )
 
 
@@ -170,3 +171,84 @@ def test_format_markdown_smoke():
 def test_estimate_human_wr_error_on_no_data():
     """Empty results → error key."""
     assert estimate_human_wr({})["error"] == "no valid WR data"
+
+
+# ─────────────────────────────────────────────────────────
+# run_one unit_override plumbing (no real HTTP)
+# ─────────────────────────────────────────────────────────
+
+
+def test_run_one_unit_override_rewrites_units_before_session_start(monkeypatch):
+    """Hook must be applied to each unit before POST /api/session/start."""
+    from tools.py import restricted_play as rp
+
+    scenario_units = [
+        {"id": "p1", "controlled_by": "player", "hp": 10, "position": {"x": 0, "y": 0}},
+        {"id": "e1", "controlled_by": "sistema", "hp": 5, "position": {"x": 2, "y": 2}},
+    ]
+
+    monkeypatch.setattr(
+        rp, "http_get", lambda url: (200, {"units": scenario_units, "recommended_modulation": "solo"})
+    )
+
+    posts: list[tuple[str, dict]] = []
+
+    def fake_post(url, payload):
+        posts.append((url, payload))
+        if url.endswith("/api/session/start"):
+            # After first post, enemy dead → victory next state.
+            return 200, {
+                "session_id": "sid-test",
+                "state": {
+                    "units": payload["units"],
+                    "grid": {"width": 5, "height": 5},
+                },
+            }
+        if url.endswith("/api/session/round/execute"):
+            return 200, {
+                "state": {
+                    "units": [u for u in payload.get("session_id", []) if False]
+                    + [{"id": "p1", "controlled_by": "player", "hp": 10, "position": {"x": 0, "y": 0}}],
+                    "grid": {"width": 5, "height": 5},
+                }
+            }
+        return 200, {}
+
+    monkeypatch.setattr(rp, "http_post", fake_post)
+
+    def override(u):
+        if u["controlled_by"] == "player":
+            return {**u, "hp": 99, "tag": "hero"}
+        return u
+
+    result = rp.run_one(
+        "http://backend", "enc_test", policy="greedy", seed=1, unit_override=override
+    )
+    start_payload = next(p for url, p in posts if url.endswith("/api/session/start"))
+    assert start_payload["units"][0]["hp"] == 99  # override applied to player
+    assert start_payload["units"][0]["tag"] == "hero"
+    assert start_payload["units"][1]["hp"] == 5  # enemy untouched
+    assert result.outcome in ("victory", "defeat", "timeout")
+
+
+def test_run_one_without_unit_override_passes_units_through(monkeypatch):
+    """Baseline — no hook = no rewrite."""
+    from tools.py import restricted_play as rp
+
+    scenario_units = [
+        {"id": "p1", "controlled_by": "player", "hp": 7, "position": {"x": 0, "y": 0}},
+    ]
+    monkeypatch.setattr(rp, "http_get", lambda url: (200, {"units": scenario_units}))
+    posts: list[tuple[str, dict]] = []
+
+    def fake_post(url, payload):
+        posts.append((url, payload))
+        if url.endswith("/api/session/start"):
+            return 200, {"session_id": "s", "state": {"units": payload["units"], "grid": {"width": 5, "height": 5}}}
+        return 200, {}
+
+    monkeypatch.setattr(rp, "http_post", fake_post)
+
+    rp.run_one("http://backend", "enc", policy="greedy", seed=1)
+    start_payload = next(p for url, p in posts if url.endswith("/api/session/start"))
+    assert start_payload["units"][0]["hp"] == 7  # untouched
