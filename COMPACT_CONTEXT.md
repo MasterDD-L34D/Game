@@ -8,12 +8,30 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v2 (post Illuminator Orchestra)
-- **Ultimo aggiornamento**: 2026-04-25 (sessione M14-C retune + Illuminator Orchestra 6 agent + 6 runtime apply)
+- **Versione compact**: v3 (post 5 P0 illuminator residuals merged sessione 2026-04-25 notte)
+- **Ultimo aggiornamento**: 2026-04-25 (sessione autonoma 5 PR mergiati: SPRT, Macro-economy, PI Monte Carlo, Briefing variations, XP audit, QBN engine)
 
 ## ⚡ TL;DR per ripartire
 
-**6 agent illuminator pronti** + workflow validated 6× + 70+ pattern indexed primary-sourced. **NON perdere l'approccio research-first agent-driven**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+**6 agent illuminator pronti** + **6 P0 chiusi sessione 2026-04-25** + 80 nuovi test services + 24 pytest. Pattern stdlib-only + js-yaml + mulberry32 seed validato 6×. **NON perdere l'approccio research-first agent-driven**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+
+## 🆕 Sessione 2026-04-25 notte (autonoma post user trust)
+
+**5 PR mergiati main consecutivi** (#1758 → #1763, ~5h work in 1.5h cycle ciascuno):
+
+| PR    | Title                                               | SHA        |
+| ----- | --------------------------------------------------- | ---------- |
+| #1758 | SPRT + macro-economy diagram + governance bug fix   | `7e17d84c` |
+| #1759 | PI Shop Monte Carlo (Gap 4 🟡→🟢)                   | `488da05b` |
+| #1760 | Tutorial briefing variations (~30 variants)         | `6f397e6d` |
+| #1762 | Encounter XP budget audit (Pathfinder framework)    | `9901407e` |
+| #1763 | QBN engine MBTI-gated events (12 events + 3 routes) | `bec2bcd6` |
+
+**Tests aggregate post-merge**: AI 307/307 + services 257/257 + pytest 348/348 + governance 0/0.
+
+**P0 chiusi**: balance SPRT, economy Machinations diagram, economy PI Monte Carlo, narrative briefing variations, narrative QBN, pcg XP audit + bonus governance bug fix.
+
+**P0 residuali rimanenti**: balance MCTS (~4h), balance MAP-Elites (~6h), ui intent preview (~4h, UI runtime risk), ui threat zone toggle (~3h, UI), pcg objective variety (~8h), narrative Disco Elysium thought cabinet (~6h).
 
 ## Stato attuale (post sessione 2026-04-24/25 notte)
 

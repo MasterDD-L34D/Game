@@ -131,21 +131,31 @@ Vedi memoria persistente:
 
 Use ONLY if dominio non coperto da agenti esistenti.
 
-### P0 residuali agent esistenti
+### P0 residuali agent esistenti (post 2026-04-25 sessione autonoma)
 
-| Agent                        | P0 residual                                 | Effort |
-| ---------------------------- | ------------------------------------------- | :----: |
-| balance-illuminator          | MCTS smart policy (state clone API)         |  ~4h   |
-| balance-illuminator          | SPRT sequential early-stop                  |  ~2h   |
-| balance-illuminator          | MAP-Elites lightweight implementation       |  ~6h   |
-| ui-design-illuminator        | Intent preview floating-icon wire           |  ~4h   |
-| ui-design-illuminator        | Threat zone toggle phone                    |  ~3h   |
-| pcg-level-design-illuminator | Objective variety (rescue/timer/extraction) |  ~8h   |
-| pcg-level-design-illuminator | XP budget encounter builder                 |  ~6h   |
-| narrative-design-illuminator | Quality-Based Narrative MBTI gating         |  ~6h   |
-| narrative-design-illuminator | Tutorial briefing ink variation             |  ~4h   |
-| economy-design-illuminator   | Machinations diagram artifact               |  ~3h   |
-| economy-design-illuminator   | Source→sink macro-economy formal model      |  ~4h   |
+**Closed in main** (sessione 2026-04-25 notte, 5 PR mergiati):
+
+| Agent                        | P0                                           | Effort | PR    | SHA        |
+| ---------------------------- | -------------------------------------------- | :----: | ----- | ---------- |
+| balance-illuminator          | SPRT sequential early-stop                   |  ~2h   | #1758 | `7e17d84c` |
+| economy-design-illuminator   | Machinations diagram artifact                |  ~3h   | #1758 | `7e17d84c` |
+| economy-design-illuminator   | Monte Carlo PI shop sim (follow-up #6)       |  ~4h   | #1759 | `488da05b` |
+| narrative-design-illuminator | Tutorial briefing variations (per-encounter) |  ~4h   | #1760 | `6f397e6d` |
+| pcg-level-design-illuminator | XP budget encounter builder                  |  ~6h   | #1762 | `9901407e` |
+| narrative-design-illuminator | QBN MBTI-gated events (campaign-arc)         |  ~6h   | #1763 | `bec2bcd6` |
+
+**Bonus shipped**: `tools/check_docs_governance.py` parser bug fix (5 false-positive warnings) + `docs/hubs/incoming.md` stale review bumped (in PR #1758).
+
+**Still residual**:
+
+| Agent                        | P0 residual                                 | Effort |               Risk               |
+| ---------------------------- | ------------------------------------------- | :----: | :------------------------------: |
+| balance-illuminator          | MCTS smart policy (state clone API)         |  ~4h   | mid (needs session clone helper) |
+| balance-illuminator          | MAP-Elites lightweight implementation       |  ~6h   |      mid (new architecture)      |
+| ui-design-illuminator        | Intent preview floating-icon wire           |  ~4h   |        high (UI runtime)         |
+| ui-design-illuminator        | Threat zone toggle phone                    |  ~3h   |        high (UI runtime)         |
+| pcg-level-design-illuminator | Objective variety (rescue/timer/extraction) |  ~8h   |       mid (data + engine)        |
+| narrative-design-illuminator | Disco Elysium thought cabinet               |  ~6h   |    mid (frontend integration)    |
 
 ### Big rocks (userland-bound o BIG effort)
 
@@ -155,13 +165,14 @@ Use ONLY if dominio non coperto da agenti esistenti.
 
 ---
 
-## 🚦 Test baseline
+## 🚦 Test baseline (post 2026-04-25 sessione autonoma)
 
 - AI regression `tests/ai/*.test.js` → **307/307 verde**
-- Services `tests/services/*.test.js` → **177/177 verde**
-- New tests aggregate: 57+ (telemetry 20 + restricted-play 13 + funnel 4 + altri)
+- Services `tests/services/*.test.js` → **257/257 verde** (was 177, +80: 39 briefing + 41 QBN)
+- Pytest scripts: **348 totali** (273 pre-existing + 27 SPRT + 24 PI shop + 24 XP budget)
+- New tests aggregate sessione: **104 nuovi** (39+41 services + 24 SPRT + 24 PI shop + 24 XP budget)
 - Format check: verde
-- Governance strict: 0 errors
+- Governance strict: **0 errors / 0 warnings** (parser bug fix + stale incoming bump in #1758)
 
 **Pre-flight prossima sessione**:
 
