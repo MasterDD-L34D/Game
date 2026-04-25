@@ -328,6 +328,77 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-25 sera — massive autonomous session 16 PR + OD-008/011/012 override)
+
+**Sessione 2026-04-25 sera (autonomous trust mode)**: 16 PR consecutivi mergiati main da check-up audit a OD override esecuzione completa. User policy "trust autonomous" con verifica intermedia 5 OD museum-driven.
+
+**PR shipped main** (sequenza):
+
+| PR                                                       | Scope                                                                                                                                   | Status |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | :----: |
+| [#1802](https://github.com/MasterDD-L34D/Game/pull/1802) | docs M14-C calibration stale fix (cross-out tickets già chiusi PR #1744)                                                                |   ✅   |
+| [#1800](https://github.com/MasterDD-L34D/Game/pull/1800) | M11 co-op WS test gaps + round_ready replay host transfer                                                                               |   ✅   |
+| [#1801](https://github.com/MasterDD-L34D/Game/pull/1801) | schema AJV exports + 5 schema register runtime                                                                                          |   ✅   |
+| [#1803](https://github.com/MasterDD-L34D/Game/pull/1803) | balance audit fix — dominance + drift + cautious AI + spore                                                                             |   ✅   |
+| [#1796](https://github.com/MasterDD-L34D/Game/pull/1796) | repo-archaeologist agent + museum bootstrap + 4 excavation + 6 card                                                                     |   ✅   |
+| [#1712](https://github.com/MasterDD-L34D/Game/pull/1712) | Wrangler bot worker name fix                                                                                                            |   ✅   |
+| [#1804](https://github.com/MasterDD-L34D/Game/pull/1804) | WORKSPACE_MAP entry-point ecosystem                                                                                                     |   ✅   |
+| [#1805](https://github.com/MasterDD-L34D/Game/pull/1805) | SoT §13.4 P4 Ennea wire false claim fix                                                                                                 |   ✅   |
+| [#1807](https://github.com/MasterDD-L34D/Game/pull/1807) | OD-008/011/012 user override codify                                                                                                     |   ✅   |
+| [#1808](https://github.com/MasterDD-L34D/Game/pull/1808) | OD-008 sentience_tier backfill ALL 45 species (T0=2, T1=23, T2=14, T3=3, T4=0, T5=3, T6=0)                                              |   ✅   |
+| [#1811](https://github.com/MasterDD-L34D/Game/pull/1811) | OD-012 magnetic_rift_resonance promoted from staging (single trait pool limited)                                                        |   ✅   |
+| [#1813](https://github.com/MasterDD-L34D/Game/pull/1813) | OD-011 Path A — 22 ancestors reaction trigger (FR 8 + CO 6 + DO 7 + BB 2)                                                               |   ✅   |
+| [#1815](https://github.com/MasterDD-L34D/Game/pull/1815) | OD-011 Path B v07 wiki recovery 297/297 neurons (RFC v0.1 promise CHIUSA, CC BY-NC-SA Fandom via MediaWiki API)                         |   ✅   |
+| [#1817](https://github.com/MasterDD-L34D/Game/pull/1817) | OD-011 Path B wire — 267 ancestors neurons batch (Senses 37 + Dexterity 33 + PrevMed 30 + Ambulation 26 + TheraMed 24 + Comm 20 + ... ) |   ✅   |
+
+**Bug critici discoveries**:
+
+- **Stale doc trap**: M14-C calibration doc raccomandava obsolete tune già shipped #1744. Anti-pattern guard — futuri agent leggono "stato corretto reale".
+- **enneaEffects.js orphan**: 93 LOC PR #1433 mai `require`/`import`. SOURCE-OF-TRUTH §13.4 falso claim "Operativo P4 completo" → corretto a 🟡 reale.
+- **Schema AJV registry partial**: solo 3/10 schema registrati runtime; `combat`/`traitMechanics`/`glossary`/`narrative`/`speciesBiomes` esportati ma non validati live.
+- **OD-007 hybrid pattern enacted**: data/core/personality/ runtime + packs/ encyclopedia + sync script (raccomandato da card M-002).
+
+**Counters end-of-session**:
+
+- **active_effects.yaml traits**: 165 → **432** (+267 ancestors batch)
+- **Ancestors entries**: 22 (Path A) → **289** total (Path A + Path B wire)
+- **Species sentience_tier**: 0 → **45/45** (OD-008 full backfill)
+- **AI test baseline**: 311/311 ✅ verde post-merge (zero regression)
+- **Lines added active_effects.yaml**: ~3193 → ~8412 (+5219)
+- **Museum cards**: 11 (10 score 4-5/5 cross-domain)
+
+**Audit findings post-massive-session** (general-purpose + balance-auditor agent paralleli 2026-04-25 sera):
+
+- 🔴 P0 — **68/267 ancestor traits silently no-op**: status `linked`/`fed`/`healing`/`attuned`/`sensed`/`telepatic_link`/`frenzy` non consumati da `policy.js`/`resolver.py`. Tests pass per evaluator pass-1 (triggered:true + log) ma downstream consumption morta. M-future status-system extension richiesta (~6-8h).
+- 🟠 P1 — **`ancestor_self_control_determination` dominance**: T2 +2 unconditional MoS≥3 → bumped 5 (peer T2 parity)
+- 🟠 P1 — **`passesBasicTriggers` ignora `requires_ally_adjacent` + `requires_target_status`**: 2 trait fire ungated (`coscienza_d_alveare_diffusa`, `biochip_memoria`) → fix wire
+- 🟡 P2 — 13 rage on_kill sources chain potential (review)
+- 🟡 P2 — 220 dead-loop entries in evaluator (passive/movement traits non-attack-action) → analytics noise
+
+**Override scope FINAL**:
+
+- ✅ **OD-008 sentience full**: 45/45 species T0-T6 backfill
+- ✅✅ **OD-011 Path A + Path B + Wire**: RFC v0.1 promise CHIUSA, 297/297 neuroni recovery + 22+267 trait wired
+- 🟡 **OD-012 single trait** (magnetic_rift only, pool 5-10 non achievable, 1 staged solo): pool expansion follow-up
+
+**Pillar impact**:
+
+- **P2 Evoluzione 🟢c → 🟢c+ candidato**: ancestors base genetica popolata 297 neuroni
+- **P3 Specie×Job 🟢c+**: rami Ancestors mappabili job archetypes (Senses → Recon, Comm → Support, Settlement → Tank)
+
+**Restano autonomous procedibili next**:
+
+- **Status engine extension** (~6-8h): wire `linked`/`fed`/`healing`/`focused` runtime-active in `policy.js` + `resolver.py` consumers + 7 unit tests
+- **Pool swarm expansion**: autonomous Dafne regen session OR user-driven content design (4-9 trait candidate)
+- **Ancestor gallery doc**: consolidating 289 ancestor entries con domain breakdown
+
+**Bloccanti user input**:
+
+- **OD-001 Mating Path A/B/C verdict**: 50-80h sunk cost engine, frontend zero, decision blocking
+- **OD-013 MBTI surface presentation** (proposta, pending verdict A/B/C/skip)
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-25 — /parallel-sprint validation + jobs_expansion wire)
 
 **Sessione 2026-04-25 pomeriggio (autonomous)**: prima esecuzione live di `/parallel-sprint` skill (PR #1788) + wire jobs_expansion runtime loader. 4 PR mergiati su main, pipeline self-healing parzialmente validata.

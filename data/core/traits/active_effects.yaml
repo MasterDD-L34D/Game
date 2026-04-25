@@ -3156,7 +3156,7 @@ traits:
     trigger:
       action_type: attack
       on_result: hit
-      min_mos: 3
+      min_mos: 5 # bumped 3→5 post balance audit 2026-04-25 — peer T2 offensive parity
     effect:
       kind: extra_damage
       amount: 2
@@ -3164,7 +3164,7 @@ traits:
     description_it: |
       Determinazione (BB FR 01-04 collapsed, genetic=Yes) — meno dopamina
       richiesta nella risposta a minacce. Genetica T2: ogni colpo riuscito
-      con MoS >= 3 infligge +2 PT (versione potenziata di Tachipsichia).
+      con MoS >= 5 infligge +2 PT (versione potenziata di Tachipsichia).
       Source: ancestors_csv_01B BB FR 01 (4 righe duplicate collassate).
     provenance:
       source: ancestors_csv_01B

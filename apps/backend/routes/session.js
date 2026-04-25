@@ -348,6 +348,7 @@ function createSessionRouter(options = {}) {
       actor,
       target,
       attackResult: result,
+      allUnits: session.units || [],
     });
 
     // Revert enrage bonus post-attack (non-persistente, solo per questo hit)
@@ -504,6 +505,7 @@ function createSessionRouter(options = {}) {
         target,
         attackResult: result,
         killOccurred,
+        allUnits: session.units || [],
       });
       // Merge dei trait_effects di status nel risultato evaluation
       if (Array.isArray(statusEval.trait_effects)) {
