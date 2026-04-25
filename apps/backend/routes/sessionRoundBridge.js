@@ -167,10 +167,16 @@ function createRoundBridge(deps) {
       }
       if (typeof manhattanDistance === 'function') {
         const dist = manhattanDistance(actor.position, dest);
-        if (dist > apAvail) {
+        // Ennea Esploratore(7) move_bonus consumer: estende il budget di move
+        // di N celle oltre AP disponibili. Bonus consumato qui, non scalato
+        // dall'ap_cost in resolveFn — valido solo per move action, non altre.
+        const moveBudget = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
+        if (dist > moveBudget) {
           return {
             code: 'MOVE_TOO_FAR',
-            message: `move di ${dist} celle richiede ${dist} AP (disponibili ${apAvail})`,
+            message: `move di ${dist} celle richiede ${dist} AP (disponibili ${apAvail}${
+              actor.move_bonus_bonus ? ` +${actor.move_bonus_bonus} bonus` : ''
+            })`,
           };
         }
       }

@@ -150,7 +150,12 @@ function resolveAttack({ actor, target, rng }) {
   const attackMod = Number(actor.mod || 0) + Number(actor.attack_mod_bonus || 0);
   const roll = die + attackMod;
   const baseDc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
-  const dc = Number(baseDc) + Number(target.defense_mod_bonus || 0);
+  // Ennea Cacciatore(8) evasion_bonus consumer: alza DC del target. Stesso slot
+  // semantico di defense_mod_bonus ma stat distinto (decay separato + telemetria).
+  const dc =
+    Number(baseDc) +
+    Number(target.defense_mod_bonus || 0) +
+    Number(target.evasion_bonus_bonus || 0);
   const mos = roll - dc;
   const hit = mos >= 0;
   let pt = 0;
@@ -175,7 +180,11 @@ function resolveAttack({ actor, target, rng }) {
 function predictCombat(actor, target, n = 1000) {
   const attackMod = Number(actor.mod || 0) + Number(actor.attack_mod_bonus || 0);
   const baseDc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
-  const dc = Number(baseDc) + Number(target.defense_mod_bonus || 0);
+  // Mirror resolveAttack: evasion_bonus_bonus alza DC effettiva.
+  const dc =
+    Number(baseDc) +
+    Number(target.defense_mod_bonus || 0) +
+    Number(target.evasion_bonus_bonus || 0);
 
   let hits = 0;
   let crits = 0;

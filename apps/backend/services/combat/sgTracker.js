@@ -46,8 +46,13 @@ function initUnit(unit) {
  */
 function accumulate(unit, { damage_taken = 0, damage_dealt = 0 } = {}) {
   initUnit(unit);
-  const taken = Math.max(0, Number(damage_taken) || 0);
+  const takenRaw = Math.max(0, Number(damage_taken) || 0);
   const dealt = Math.max(0, Number(damage_dealt) || 0);
+  // Ennea Stoico(9) stress_reduction consumer: riduce damage_taken accumulato
+  // verso threshold SG. Cap 0.5 per evitare zero-stress exploit. Floor a 0.
+  // Non tocca damage_dealt (il bonus è "stabilità emotiva", non difesa).
+  const reduction = Math.min(0.5, Math.max(0, Number(unit.stress_reduction_bonus || 0)));
+  const taken = takenRaw * (1 - reduction);
   unit.sg_taken_acc += taken;
   unit.sg_dealt_acc += dealt;
 
