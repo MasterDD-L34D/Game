@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -59,7 +60,10 @@ jobs:
           git checkout -B "$BRANCH"
           git add data/derived/skiv_monitor/ docs/skiv/MONITOR.md
           git commit -m "chore(skiv-monitor): aggiorna stato + feed creatura"
-          git push --force-with-lease origin "$BRANCH"
+          # Fetch first so force-with-lease lease isn't stale (workflow checkout
+          # not aware of remote branch updates from previous run).
+          git fetch origin "$BRANCH" 2>/dev/null || true
+          git push --force origin "$BRANCH"
           # Open or refresh PR (idempotent — gh pr create fails harmlessly if exists).
           if gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number' | grep -q .; then
             echo "[skiv-monitor] PR already open for $BRANCH"
