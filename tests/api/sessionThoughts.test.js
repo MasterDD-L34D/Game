@@ -155,8 +155,32 @@ test('POST /:id/thoughts/research — happy path on an unlocked thought', async 
   assert.equal(res.body.unit_id, target.unit_id);
   assert.equal(res.body.thought_id, target.thought_id);
   assert.ok(res.body.cost_total >= 1);
+  // Skiv #4: response now plumbs base_cost + resonance_applied for HUD.
+  assert.ok(Number.isFinite(res.body.base_cost), 'base_cost is a number');
+  assert.equal(typeof res.body.resonance_applied, 'boolean');
   assert.equal(res.body.cabinet.slots_used, 1);
   assert.equal(res.body.cabinet.researching[0].id, target.thought_id);
+});
+
+test('POST /:id/thoughts/research — resonance_applied=false when biome_id missing', async (t) => {
+  // tutorial_01 bootstrap path doesn't pass biome_id → session.biome_id null,
+  // so resonance must always be false regardless of species.
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid } = await bootstrap(app);
+  const snap = await request(app).get(`/api/session/${sid}/thoughts`);
+  const target = anyUnlockedActor(snap.body.per_actor);
+  if (!target) {
+    t.skip('no unlocked thoughts in tutorial 01 seed state');
+    return;
+  }
+  const res = await request(app)
+    .post(`/api/session/${sid}/thoughts/research`)
+    .send({ unit_id: target.unit_id, thought_id: target.thought_id });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.resonance_applied, false);
 });
 
 test('POST /:id/thoughts/research — 400 when unit_id or thought_id missing', async (t) => {

@@ -54,6 +54,10 @@ const {
   snapshotCabinet,
   mergeUnlocked,
 } = require('../services/thoughts/thoughtCabinet');
+// Skiv ticket #4: biome resonance reduces research cost when species
+// biome_affinity matches session.biome_id. Looked up at the route layer
+// because thoughtCabinet engine stays YAML-agnostic about species data.
+const { hasResonance: hasBiomeResonance } = require('../services/combat/biomeResonance');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -1966,8 +1970,13 @@ function createSessionRouter(options = {}) {
         return res.status(400).json({ error: 'unit_id e thought_id obbligatori' });
       }
       const { state } = getOrCreateCabinet(session.session_id, unit_id);
+      // Skiv #4: compute biome resonance from actor.species × session.biome_id.
+      const actor = (session.units || []).find((u) => u && u.id === unit_id);
+      const resonance =
+        actor && session.biome_id ? hasBiomeResonance(actor.species, session.biome_id) : false;
       const outcome = startThoughtResearch(state, thought_id, {
         encounter: req.body?.encounter ?? null,
+        resonance,
       });
       if (!outcome.ok) {
         return res.status(409).json({ error: outcome.error, thought_id });
@@ -1977,6 +1986,8 @@ function createSessionRouter(options = {}) {
         unit_id,
         thought_id,
         cost_total: outcome.cost_total,
+        base_cost: outcome.base_cost,
+        resonance_applied: outcome.resonance_applied,
         cabinet: snapshotCabinet(state),
       });
     } catch (err) {

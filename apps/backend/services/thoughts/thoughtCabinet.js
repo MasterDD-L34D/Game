@@ -153,13 +153,26 @@ function startResearch(state, thoughtId, opts = {}) {
   if (state.internalized.has(thoughtId)) return { ok: false, error: 'already_internalized' };
   if (state.researching.has(thoughtId)) return { ok: false, error: 'already_researching' };
   if (!canResearchMore(state)) return { ok: false, error: 'no_free_slot' };
-  const cost = resolveResearchCost(entry);
+  const baseCost = resolveResearchCost(entry);
+  // Skiv ticket #4: biome resonance reduces research cost by 1 (min 1).
+  // Caller computes resonance via biomeResonance.hasResonance(species, biome_id).
+  const resonance = Boolean(opts.resonance);
+  const cost = resonance ? Math.max(1, baseCost - 1) : baseCost;
+  const resonanceApplied = resonance && cost < baseCost;
   state.researching.set(thoughtId, {
     cost_remaining: cost,
     cost_total: cost,
+    base_cost: baseCost,
+    resonance_applied: resonanceApplied,
     started_at_encounter: Number.isFinite(opts.encounter) ? opts.encounter : null,
   });
-  return { ok: true, state, cost_total: cost };
+  return {
+    ok: true,
+    state,
+    cost_total: cost,
+    base_cost: baseCost,
+    resonance_applied: resonanceApplied,
+  };
 }
 
 function tickResearch(state, delta = 1) {
@@ -218,6 +231,8 @@ function snapshotCabinet(state) {
       id,
       cost_remaining: e.cost_remaining,
       cost_total: e.cost_total,
+      base_cost: e.base_cost ?? e.cost_total,
+      resonance_applied: Boolean(e.resonance_applied),
       started_at_encounter: e.started_at_encounter,
     })),
     internalized: Array.from(state.internalized),
