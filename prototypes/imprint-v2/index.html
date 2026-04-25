@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>L'Impronta v2 — mockup primo minuto</title>
+    <style>
+      :root {
+        --bg: #0a0a0c;
+        --fg: #e8e8e8;
+        --accent: #d4a373;
+        --p1: #5fa8d3;
+        --p2: #d35f5f;
+        --p3: #5fd37e;
+        --p4: #d3c95f;
+        --muted: #555;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        overflow: hidden;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hidden {
+        display: none !important;
+      }
+
+      /* ── Modal selector (default view) ── */
+      #modeSelect {
+        text-align: center;
+        padding: 2rem;
+        max-width: 600px;
+      }
+      #modeSelect h1 {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+        color: var(--accent);
+      }
+      #modeSelect p {
+        color: #aaa;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+        font-size: 0.95rem;
+      }
+      #modeSelect .btn-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+      }
+      #modeSelect button {
+        background: #1a1a1e;
+        color: var(--fg);
+        border: 1px solid #333;
+        padding: 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.15s;
+      }
+      #modeSelect button:hover {
+        background: #2a2a2e;
+        border-color: var(--accent);
+      }
+      #modeSelect .tv-btn {
+        grid-column: 1 / 3;
+        background: #2a2a2e;
+        border-color: var(--accent);
+      }
+      #modeSelect .reset {
+        grid-column: 1 / 3;
+        margin-top: 0.5rem;
+        background: #3a1a1a;
+        border-color: #5a2a2a;
+        font-size: 0.85rem;
+      }
+      #modeSelect .hint {
+        font-size: 0.75rem;
+        color: #666;
+        margin-top: 1rem;
+        line-height: 1.4;
+      }
+
+      /* ── TV view ── */
+      #tvView {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+      }
+      #tvView .tv-header {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      #tvView h2 {
+        font-size: 1.3rem;
+        color: var(--accent);
+      }
+      #tvView .tv-subtitle {
+        font-size: 0.85rem;
+        color: #888;
+        margin-top: 0.3rem;
+        min-height: 1.2em;
+      }
+      #tvView .tv-creatures {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        padding: 1rem 0;
+      }
+      .creature-card {
+        background: linear-gradient(180deg, #1a1a22, #0f0f15);
+        border: 2px solid var(--muted);
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.4s ease;
+      }
+      .creature-card.p1 {
+        border-color: var(--p1);
+      }
+      .creature-card.p2 {
+        border-color: var(--p2);
+      }
+      .creature-card.p3 {
+        border-color: var(--p3);
+      }
+      .creature-card.p4 {
+        border-color: var(--p4);
+      }
+      .creature-card .player-tag {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.6;
+      }
+      .creature-card .silhouette {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        opacity: 0.3;
+        transition: opacity 0.5s;
+      }
+      .creature-card.has-choices .silhouette {
+        opacity: 0.85;
+      }
+      .creature-card .glyphs {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        min-height: 2em;
+      }
+      .creature-card .glyph {
+        background: #2a2a32;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        animation: glyphAppear 0.6s ease;
+      }
+      @keyframes glyphAppear {
+        from {
+          transform: scale(0.5) translateY(-10px);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+      #tvView .biome-reveal {
+        text-align: center;
+        padding: 1rem;
+        background: #1a1a22;
+        border-radius: 8px;
+        margin-top: 0.5rem;
+        min-height: 4em;
+      }
+      #tvView .biome-reveal .biome-name {
+        font-size: 1.4rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      #tvView .biome-reveal .biome-base {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 0.3rem;
+      }
+      #tvView .biome-reveal .modulations {
+        font-size: 0.75rem;
+        color: #aaa;
+        margin-top: 0.5rem;
+        font-style: italic;
+      }
+      #tvView .biome-reveal .pending {
+        color: #555;
+        font-style: italic;
+      }
+      #tvView .foodweb {
+        background: #15151b;
+        border-radius: 6px;
+        padding: 0.7rem;
+        margin-top: 0.5rem;
+        font-size: 0.75rem;
+        color: #999;
+      }
+      #tvView .foodweb-title {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: #ccc;
+      }
+      #tvView .foodweb-list {
+        display: flex;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+      }
+      #tvView .foodweb-item {
+        background: #20202a;
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+      }
+
+      /* ── Phone view ── */
+      #phoneView {
+        width: min(100vw, 500px);
+        height: 100vh;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      #phoneView .phone-header {
+        text-align: center;
+      }
+      #phoneView .phone-tag {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #fff;
+      }
+      .player-bg-p1 {
+        background: var(--p1);
+      }
+      .player-bg-p2 {
+        background: var(--p2);
+      }
+      .player-bg-p3 {
+        background: var(--p3);
+      }
+      .player-bg-p4 {
+        background: var(--p4);
+      }
+      #phoneView .body-part {
+        text-align: center;
+        font-size: 1.2rem;
+        color: var(--accent);
+        margin-top: 0.5rem;
+        letter-spacing: 1px;
+      }
+      #phoneView .question {
+        text-align: center;
+        font-size: 1rem;
+        color: #ddd;
+        line-height: 1.5;
+        padding: 0 0.5rem;
+      }
+      #phoneView .choices {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        gap: 1rem;
+        flex: 1;
+      }
+      #phoneView .choice-btn {
+        background: linear-gradient(135deg, #1a1a22, #0a0a12);
+        border: 2px solid #333;
+        color: var(--fg);
+        font-size: 1.4rem;
+        padding: 1.5rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.15s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #phoneView .choice-btn:hover {
+        border-color: var(--accent);
+        transform: scale(1.02);
+      }
+      #phoneView .choice-btn:active {
+        transform: scale(0.98);
+      }
+      #phoneView .choice-btn .choice-label {
+        font-weight: 600;
+      }
+      #phoneView .choice-btn .choice-desc {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 0.4rem;
+        font-style: italic;
+      }
+      #phoneView .choice-btn.selected {
+        background: linear-gradient(135deg, #2a2a3a, #1a1a2a);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      #phoneView .waiting-msg {
+        text-align: center;
+        padding: 2rem;
+        color: #888;
+        font-style: italic;
+        border: 1px dashed #444;
+        border-radius: 8px;
+      }
+      #phoneView .reset-link {
+        text-align: center;
+        font-size: 0.7rem;
+        color: #555;
+        cursor: pointer;
+      }
+      #phoneView .reset-link:hover {
+        color: #888;
+      }
+
+      /* ── Footer barre time-line (educational only) ── */
+      #timeline {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #15151b;
+        padding: 0.5rem 1rem;
+        font-size: 0.7rem;
+        color: #888;
+        text-align: center;
+        border-top: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Mode selector (default landing) -->
+    <div id="modeSelect">
+      <h1>L'Impronta v2 · mockup</h1>
+      <p>
+        Apri 5 tab nel browser (1 TV + 4 phone) o usa device separati su
+        <code>localhost</code>.<br />
+        Le scelte sincronizzano via <code>BroadcastChannel</code> (stesso browser) o sessionStorage
+        poll.
+      </p>
+
+      <div class="btn-grid">
+        <button class="tv-btn" onclick="setMode('tv')">📺 TV (centrale, 4 creature)</button>
+        <button onclick="setMode('p1')" style="border-color: var(--p1)">📱 Phone 1 — Zampe</button>
+        <button onclick="setMode('p2')" style="border-color: var(--p2)">
+          📱 Phone 2 — Mascella
+        </button>
+        <button onclick="setMode('p3')" style="border-color: var(--p3)">📱 Phone 3 — Pelle</button>
+        <button onclick="setMode('p4')" style="border-color: var(--p4)">📱 Phone 4 — Occhi</button>
+        <button class="reset" onclick="resetState()">🗑 Reset stato (cross-tab)</button>
+      </div>
+
+      <p class="hint">
+        Mockup CAP-13 (audit Impronta CAP-10 AA01).<br />
+        Falsificatore design "4 creature 1 bioma" + Pattern D hybrid bioma resolver.<br />
+        Test su 4 amici reali per validare framing primo minuto v2.
+      </p>
+    </div>
+
+    <!-- TV view -->
+    <div id="tvView" class="hidden">
+      <div class="tv-header">
+        <h2>📺 L'Impronta</h2>
+        <div class="tv-subtitle" id="tvSubtitle">Quattro di voi. Quattro creature. Un mondo.</div>
+      </div>
+      <div class="tv-creatures">
+        <div class="creature-card p1" data-player="p1">
+          <div class="player-tag" style="color: var(--p1)">Player 1 · Zampe</div>
+          <div class="silhouette">🦅</div>
+          <div class="glyphs"></div>
+        </div>
+        <div class="creature-card p2" data-player="p2">
+          <div class="player-tag" style="color: var(--p2)">Player 2 · Mascella</div>
+          <div class="silhouette">🦊</div>
+          <div class="glyphs"></div>
+        </div>
+        <div class="creature-card p3" data-player="p3">
+          <div class="player-tag" style="color: var(--p3)">Player 3 · Pelle</div>
+          <div class="silhouette">🦎</div>
+          <div class="glyphs"></div>
+        </div>
+        <div class="creature-card p4" data-player="p4">
+          <div class="player-tag" style="color: var(--p4)">Player 4 · Occhi</div>
+          <div class="silhouette">🦉</div>
+          <div class="glyphs"></div>
+        </div>
+      </div>
+      <div class="biome-reveal" id="biomeReveal">
+        <div class="pending">Il bioma emergerà quando avrete scelto tutti.</div>
+      </div>
+      <div class="foodweb hidden" id="foodwebSidebar">
+        <div class="foodweb-title">🌐 Foodweb del bioma (4 creature condividono ecosistema)</div>
+        <div class="foodweb-list" id="foodwebList"></div>
+      </div>
+    </div>
+
+    <!-- Phone view -->
+    <div id="phoneView" class="hidden">
+      <div class="phone-header">
+        <span class="phone-tag" id="phoneTag">Player 1</span>
+        <div class="body-part" id="bodyPart">Le tue zampe</div>
+      </div>
+      <div class="question" id="question">Veloci o silenziose?</div>
+      <div class="choices" id="choices"></div>
+      <div class="reset-link" onclick="resetMyChoice()">↻ cambia scelta</div>
+    </div>
+
+    <div id="timeline" class="hidden">
+      <span id="timelineText">Plasmatura: in attesa</span>
+    </div>
+
+    <script>
+      // ── State (cross-tab via BroadcastChannel + sessionStorage) ────────────────
+      const STATE_KEY = 'imprint_v2_state';
+      const channel = new BroadcastChannel('imprint_v2');
+
+      const PHONE_CONFIG = {
+        p1: {
+          name: 'Player 1',
+          bodyPart: 'Le tue zampe',
+          question: 'Veloci o silenziose?',
+          field: 'locomotion',
+          options: [
+            { value: 'VELOCE', label: 'VELOCE', desc: 'Movimento ampio, hit-and-run' },
+            { value: 'SILENZIOSA', label: 'SILENZIOSA', desc: 'Stealth, ambush' },
+          ],
+        },
+        p2: {
+          name: 'Player 2',
+          bodyPart: 'La tua mascella',
+          question: 'Profonda o rapida?',
+          field: 'offense',
+          options: [
+            { value: 'PROFONDA', label: 'PROFONDA', desc: 'Singolo morso devastante' },
+            { value: 'RAPIDA', label: 'RAPIDA', desc: 'Attacchi multipli, bleeding' },
+          ],
+        },
+        p3: {
+          name: 'Player 3',
+          bodyPart: 'La tua pelle',
+          question: 'Dura o flessibile?',
+          field: 'defense',
+          options: [
+            { value: 'DURA', label: 'DURA', desc: 'Armatura naturale, lentezza' },
+            { value: 'FLESSIBILE', label: 'FLESSIBILE', desc: 'Evasione, parry' },
+          ],
+        },
+        p4: {
+          name: 'Player 4',
+          bodyPart: 'I tuoi occhi',
+          question: 'Lontano o acuto?',
+          field: 'senses',
+          options: [
+            { value: 'LONTANO', label: 'LONTANO', desc: 'Range visivo amplio' },
+            { value: 'ACUTO', label: 'ACUTO', desc: 'Dettaglio, rilevamento traps' },
+          ],
+        },
+      };
+
+      // ── Bioma resolver (port da apps/backend/services/imprint/biomeResolver.js) ──
+      const BIOME_LOOKUP = {
+        V_P_D_L: 'savana',
+        V_P_F_L: 'savana',
+        V_R_D_L: 'badlands',
+        V_R_F_L: 'badlands',
+        S_P_D_A: 'caverna_risonante',
+        S_P_F_A: 'caverna_risonante',
+        S_R_D_A: 'rovine_planari',
+        S_R_F_A: 'rovine_planari',
+        V_P_D_A: 'rovine_planari',
+        V_R_D_A: 'badlands',
+        S_P_D_L: 'palude_tossica',
+        S_R_D_L: 'palude_tossica',
+        V_P_F_A: 'canopia_ionica',
+        V_R_F_A: 'canopia_ionica',
+        S_P_F_L: 'reef_luminescente',
+        S_R_F_L: 'reef_luminescente',
+      };
+
+      const BIOME_NAMES = {
+        savana: 'La Savana',
+        savana_arida_dura: 'La Savana Arida (terreno indurito)',
+        savana_aperta_orizzonte: "La Savana dell'Orizzonte (visibilità estesa)",
+        badlands: 'Le Pianure Aride',
+        badlands_pietrosi: 'Le Pianure Pietrose',
+        badlands_orizzonte: "Le Pianure dell'Orizzonte",
+        caverna_risonante: 'La Caverna Risonante',
+        caverna_silenziosa: 'La Caverna Silenziosa',
+        caverna_profonda_eco: "La Caverna dell'Eco Profonda",
+        rovine_planari: 'Le Rovine Planari',
+        rovine_sussurranti: 'Le Rovine Sussurranti',
+        palude_tossica: 'La Palude Tossica',
+        palude_indurita: 'La Palude Indurita',
+        canopia_ionica: 'La Canopia Ionica',
+        reef_luminescente: 'Il Reef Luminescente',
+      };
+
+      const FOODWEB_BY_BIOME = {
+        savana: ['🦬 Erbivori', '🦁 Predatori', '🪲 Insetti', '🌾 Vegetali'],
+        badlands: ['🦂 Aracnidi', '🐍 Rettili', '🦎 Lucertole', '🪨 Minerali bio'],
+        caverna_risonante: [
+          '🦇 Pipistrelli',
+          '🪱 Vermi luminescenti',
+          '🍄 Funghi',
+          '💧 Acque ferme',
+        ],
+        rovine_planari: ['👻 Echi spettrali', '🪲 Coleotteri', '🌿 Muschi', '⚙️ Reliquie'],
+        palude_tossica: ['🐸 Anfibi', '🦟 Insetti', '🪴 Vegetazione tossica', '💀 Decompositori'],
+        canopia_ionica: [
+          '🦜 Aviani',
+          '🐒 Arboreali',
+          '🌺 Fiori carnivori',
+          '☁️ Spore galleggianti',
+        ],
+        reef_luminescente: ['🐠 Pesci', '🪸 Coralli', '🦑 Cefalopodi', '✨ Plankton'],
+      };
+
+      const MODULATIONS = [
+        {
+          rule: 'cryo_dominance',
+          field: 'defense',
+          value: 'DURA',
+          minCount: 3,
+          variants: {
+            savana: 'savana_arida_dura',
+            badlands: 'badlands_pietrosi',
+            palude_tossica: 'palude_indurita',
+          },
+        },
+        {
+          rule: 'silent_majority',
+          field: 'locomotion',
+          value: 'SILENZIOSA',
+          minCount: 3,
+          variants: {
+            caverna_risonante: 'caverna_silenziosa',
+            rovine_planari: 'rovine_sussurranti',
+          },
+        },
+        {
+          rule: 'long_range_focus',
+          field: 'senses',
+          value: 'LONTANO',
+          minCount: 3,
+          variants: { savana: 'savana_aperta_orizzonte', badlands: 'badlands_orizzonte' },
+        },
+        {
+          rule: 'deep_strike',
+          field: 'offense',
+          value: 'PROFONDA',
+          minCount: 3,
+          variants: { caverna_risonante: 'caverna_profonda_eco' },
+        },
+      ];
+
+      function buildKey(team) {
+        // team: { p1: {field,value}, p2: {...}, ... }
+        const map = { locomotion: '?', offense: '?', defense: '?', senses: '?' };
+        for (const k in team) {
+          const c = team[k];
+          if (c) map[c.field] = c.value[0];
+        }
+        return `${map.locomotion}_${map.offense}_${map.defense}_${map.senses}`;
+      }
+
+      function resolveBiome(team) {
+        const key = buildKey(team);
+        if (key.includes('?')) return null;
+        const base = BIOME_LOOKUP[key];
+        if (!base) return null;
+        // Modulation
+        let final = base;
+        const applied = [];
+        const traitCounts = { locomotion: {}, offense: {}, defense: {}, senses: {} };
+        for (const k in team) {
+          const c = team[k];
+          if (!c) continue;
+          traitCounts[c.field][c.value] = (traitCounts[c.field][c.value] || 0) + 1;
+        }
+        for (const mod of MODULATIONS) {
+          const count = traitCounts[mod.field][mod.value] || 0;
+          if (count >= mod.minCount) {
+            const variant = mod.variants[final];
+            if (variant) {
+              final = variant;
+              applied.push(mod.rule);
+            }
+          }
+        }
+        return { biome_id: final, base_biome_id: base, applied_modulations: applied };
+      }
+
+      // ── Mode router ──────────────────────────────────────────────────────────
+      function getMode() {
+        const hash = location.hash.replace('#', '');
+        if (['tv', 'p1', 'p2', 'p3', 'p4'].includes(hash)) return hash;
+        return 'select';
+      }
+
+      function setMode(mode) {
+        location.hash = mode;
+        render();
+      }
+
+      function render() {
+        const mode = getMode();
+        document.getElementById('modeSelect').classList.toggle('hidden', mode !== 'select');
+        document.getElementById('tvView').classList.toggle('hidden', mode !== 'tv');
+        document.getElementById('phoneView').classList.toggle('hidden', !mode.startsWith('p'));
+        document.getElementById('timeline').classList.toggle('hidden', mode === 'select');
+
+        if (mode === 'tv') renderTV();
+        if (mode.startsWith('p')) renderPhone(mode);
+      }
+
+      // ── TV rendering ──────────────────────────────────────────────────────────
+      function renderTV() {
+        const state = loadState();
+        let chosenCount = 0;
+        ['p1', 'p2', 'p3', 'p4'].forEach((p) => {
+          const card = document.querySelector(`.creature-card[data-player="${p}"]`);
+          const glyphs = card.querySelector('.glyphs');
+          const choice = state[p];
+          glyphs.innerHTML = '';
+          if (choice) {
+            chosenCount += 1;
+            card.classList.add('has-choices');
+            const glyph = document.createElement('span');
+            glyph.className = 'glyph';
+            glyph.textContent = `${PHONE_CONFIG[p].bodyPart.split(' ').pop()}: ${choice.value}`;
+            glyphs.appendChild(glyph);
+          } else {
+            card.classList.remove('has-choices');
+          }
+        });
+
+        // Subtitle progressivo
+        const subtitle = document.getElementById('tvSubtitle');
+        if (chosenCount === 0)
+          subtitle.textContent = 'Quattro di voi. Quattro creature. Un mondo da scoprire.';
+        else if (chosenCount < 4)
+          subtitle.textContent = `${chosenCount}/4 scelte fatte. Le altre creature aspettano.`;
+        else subtitle.textContent = '✦ Il mondo si forma. ✦';
+
+        // Biome reveal
+        const biomeBox = document.getElementById('biomeReveal');
+        const biome = resolveBiome(state);
+        if (!biome) {
+          biomeBox.innerHTML =
+            '<div class="pending">Il bioma emergerà quando avrete scelto tutti.</div>';
+          document.getElementById('foodwebSidebar').classList.add('hidden');
+        } else {
+          let html = `<div class="biome-name">${BIOME_NAMES[biome.biome_id] || biome.biome_id}</div>`;
+          if (biome.biome_id !== biome.base_biome_id) {
+            html += `<div class="biome-base">(variante di ${BIOME_NAMES[biome.base_biome_id] || biome.base_biome_id})</div>`;
+          }
+          if (biome.applied_modulations.length) {
+            html += `<div class="modulations">⚡ Modulation: ${biome.applied_modulations.join(', ')}</div>`;
+          }
+          biomeBox.innerHTML = html;
+          // Foodweb
+          const foodweb = FOODWEB_BY_BIOME[biome.base_biome_id];
+          if (foodweb) {
+            document.getElementById('foodwebSidebar').classList.remove('hidden');
+            const list = document.getElementById('foodwebList');
+            list.innerHTML = '';
+            for (const item of foodweb) {
+              const span = document.createElement('span');
+              span.className = 'foodweb-item';
+              span.textContent = item;
+              list.appendChild(span);
+            }
+          }
+        }
+
+        document.getElementById('timelineText').textContent =
+          chosenCount < 4
+            ? `Plasmatura: ${chosenCount}/4`
+            : 'Bioma rivelato. Pronti per il round 0.';
+      }
+
+      // ── Phone rendering ──────────────────────────────────────────────────────
+      function renderPhone(mode) {
+        const config = PHONE_CONFIG[mode];
+        const state = loadState();
+        document.getElementById('phoneTag').textContent = config.name;
+        document.getElementById('phoneTag').className = `phone-tag player-bg-${mode}`;
+        document.getElementById('bodyPart').textContent = config.bodyPart;
+        document.getElementById('question').textContent = config.question;
+        const choices = document.getElementById('choices');
+        choices.innerHTML = '';
+        const myChoice = state[mode];
+        for (const opt of config.options) {
+          const btn = document.createElement('button');
+          btn.className =
+            'choice-btn' + (myChoice && myChoice.value === opt.value ? ' selected' : '');
+          btn.innerHTML = `<div class="choice-label">${opt.label}</div><div class="choice-desc">${opt.desc}</div>`;
+          btn.onclick = () => makeChoice(mode, opt.value);
+          choices.appendChild(btn);
+        }
+        document.getElementById('timelineText').textContent = myChoice
+          ? `${config.name}: ${myChoice.value} ✓ — aspetta gli altri`
+          : `${config.name}: scegli`;
+      }
+
+      // ── Choice logic ──────────────────────────────────────────────────────────
+      function loadState() {
+        try {
+          return JSON.parse(
+            sessionStorage.getItem(STATE_KEY) || localStorage.getItem(STATE_KEY) || '{}',
+          );
+        } catch {
+          return {};
+        }
+      }
+      function saveState(s) {
+        const json = JSON.stringify(s);
+        sessionStorage.setItem(STATE_KEY, json);
+        localStorage.setItem(STATE_KEY, json);
+        channel.postMessage({ type: 'state', state: s });
+      }
+      function makeChoice(player, value) {
+        const state = loadState();
+        const config = PHONE_CONFIG[player];
+        state[player] = { field: config.field, value };
+        saveState(state);
+        render();
+      }
+      function resetMyChoice() {
+        const mode = getMode();
+        const state = loadState();
+        delete state[mode];
+        saveState(state);
+        render();
+      }
+      function resetState() {
+        sessionStorage.removeItem(STATE_KEY);
+        localStorage.removeItem(STATE_KEY);
+        channel.postMessage({ type: 'reset' });
+        render();
+      }
+
+      // ── Cross-tab sync ────────────────────────────────────────────────────────
+      channel.onmessage = (e) => {
+        if (e.data.type === 'state' || e.data.type === 'reset') render();
+      };
+      window.addEventListener('storage', (e) => {
+        if (e.key === STATE_KEY) render();
+      });
+      window.addEventListener('hashchange', render);
+
+      // Polling fallback (if BroadcastChannel + storage event miss)
+      setInterval(render, 1500);
+
+      render();
+    </script>
+  </body>
+</html>
