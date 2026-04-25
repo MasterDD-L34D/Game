@@ -262,6 +262,47 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-25 — /parallel-sprint validation + jobs_expansion wire)
+
+**Sessione 2026-04-25 pomeriggio (autonomous)**: prima esecuzione live di `/parallel-sprint` skill (PR #1788) + wire jobs_expansion runtime loader. 4 PR mergiati su main, pipeline self-healing parzialmente validata.
+
+**PR shipped main**:
+
+| PR                                                       | Scope                                                                                                                                                                                          | SHA        | Status |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | :----: |
+| [#1791](https://github.com/MasterDD-L34D/Game/pull/1791) | Wave 6 sensori\_\* trait mechanics (3 entries: sensori_geomagnetici/planctonici/sismici) + glossary +1                                                                                         | `dc12dea1` |   ✅   |
+| [#1792](https://github.com/MasterDD-L34D/Game/pull/1792) | Wave 6 mente*\*+cervello*\* trait mechanics (3 entries: cervello_a_bassa_latenza/mente_lucida/cervello_predittivo, apply_status panic/stunned) + glossary +2                                   | `9ee6308d` |   ✅   |
+| [#1793](https://github.com/MasterDD-L34D/Game/pull/1793) | Wave 6 cuore*\*+midollo*\* trait mechanics (3 entries: cuore_multicamera_bassa_pressione/midollo_antivibrazione/cuore_in_furia, apply_status rage on_kill) + glossary +1                       | `b37de1f6` |   ✅   |
+| [#1795](https://github.com/MasterDD-L34D/Game/pull/1795) | Wire jobs_expansion runtime: jobsLoader merge additivo 4 jobs (stalker/symbiont/beastmaster/aberrant) + progressionLoader normalize 48 perks + 4 expansion test cases + parallel-sprint report | `b418eb01` |   ✅   |
+
+**Pipeline /parallel-sprint validation outcome**:
+
+- **Worker layer**: ✅ 3/3 DONE first round (~10 min)
+- **Critic layer**: 🟡 3/3 subagent FAILED (1 quota, 2 stall 600s) → recovery via main-thread direct verification
+- **Merge layer**: 🟡 NEEDS-MANUAL-RESOLUTION per shared-file additive PRs (3-step: `checkout --ours` → programmatic append → `rebase --continue`). Naive regex resolve mangia struttura YAML
+
+**Lessons learned** (vedi `docs/process/sprint-2026-04-25-parallel-validation.md`):
+
+- Critic prompt deve essere ≤30 righe, output budget esplicito
+- Fallback automatico a main-thread se 2/3 critic fail
+- Per shared-file additive ticket: structured patches (ticket-id-N-additions.yaml) > full-file diff
+- Alternative: split target file per famiglia (es. `data/core/traits/active_effects/sensori.yaml`) — schema loader può supportare directory walk
+
+**Trait mechanics counter**: 111 → **120** (+9, all glossary cross-referenced).
+**Glossary entries**: 275 → **279** (+4 new).
+**Jobs runtime**: 7 → **11** (4 expansion live).
+**Perks runtime**: 84 → **132** (+48 expansion).
+**AI test baseline**: 311/311 ✅ verde post-merge (zero regression).
+
+**Steps deferred** (next session pickup):
+
+- **STEP 3 Status effects v2 Phase A** (5 stati Tier 1: slowed/marked/burning/chilled/disoriented) — ~110 LOC + 5 trait + 5 test, **HIGH-RISK** runtime combat resolver. Decompose in 5 mini-PR sequenziali post design call.
+- **STEP 4 Content wave 6 manuale** (~20 trait residui) — additive ad active_effects.yaml, ~1h. Quick win bookmark next sprint.
+
+**Handoff doc**: [`docs/planning/2026-04-25-parallel-sprint-jobs-wire-handoff.md`](docs/planning/2026-04-25-parallel-sprint-jobs-wire-handoff.md).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-24 — Playtest prep + smoke round 1)
 
 **Sessione 2026-04-24 (playtest prep)**: 4 PR mergiati su main consecutivi per abilitare playtest live. Smoke round 1 rivelò bug reali → fix-round immediato.
