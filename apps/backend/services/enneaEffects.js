@@ -86,8 +86,96 @@ function applyEnneaBuffs(actor, effects) {
   }
 }
 
+/**
+ * Stat → mappatura runtime consumer.
+ * - 'mechanical': stat consumato live in resolveAttack / resolveX.
+ *   Pattern: increment actor[<stat>_bonus] + set status[<stat>_buff].
+ *   Decay loop in sessionRoundBridge.applyEndOfRoundSideEffects azzera
+ *   bonus quando _buff scende a 0.
+ * - 'log_only': stat dichiarato canonical ma nessun consumer runtime
+ *   (M-future wire). Loggato per audit trail, NON applicato.
+ */
+const STAT_RUNTIME_KIND = {
+  attack_mod: 'mechanical',
+  defense_mod: 'mechanical',
+  evasion_bonus: 'log_only', // M-future: resolveAttack non legge evasion_bonus_bonus
+  move_bonus: 'log_only', // M-future: nessun consumer per move/AP refill
+  stress_reduction: 'log_only', // M-future: ability-level only, no unit-level stash
+};
+
+/**
+ * Applica ennea effects come (bonus + status_buff) coerenti col decay loop
+ * esistente in sessionRoundBridge.applyEndOfRoundSideEffects.
+ *
+ * Per stat 'mechanical' (attack_mod, defense_mod):
+ *   - actor[<stat>_bonus] += amount   ← consumato live in resolveAttack
+ *   - actor.status[<stat>_buff] = max(corrente, duration)  ← stacking-safe
+ * Decay automatico: prossimo end-of-round, decay decrementa _buff a 0,
+ * poi bonus-zero loop azzera <stat>_bonus. Buff persiste 1 round.
+ *
+ * Per stat 'log_only' (evasion_bonus, move_bonus, stress_reduction):
+ *   - skip mutazione, ritorna in skipped[] con reason='no_consumer'.
+ *
+ * @param {object} actor — unit oggetto; muta in place
+ * @param {Array<{archetype, label, buffs}>} effects — output di resolveEnneaEffects
+ * @returns {{applied: Array, skipped: Array}}
+ */
+function applyEnneaToStatus(actor, effects) {
+  const applied = [];
+  const skipped = [];
+  if (!actor || !Array.isArray(effects) || effects.length === 0) {
+    return { applied, skipped };
+  }
+  // KO units skip — mirror applyTurnRegen pattern.
+  if (Number(actor.hp || 0) <= 0) {
+    for (const effect of effects) {
+      for (const buff of effect.buffs || []) {
+        skipped.push({
+          archetype: effect.archetype,
+          stat: buff.stat,
+          reason: 'actor_ko',
+        });
+      }
+    }
+    return { applied, skipped };
+  }
+  if (!actor.status) actor.status = {};
+  for (const effect of effects) {
+    for (const buff of effect.buffs || []) {
+      const stat = buff.stat;
+      const amount = Number(buff.amount) || 0;
+      const duration = Number(buff.duration) || 1;
+      const kind = STAT_RUNTIME_KIND[stat] || 'log_only';
+      if (kind === 'mechanical') {
+        const bonusKey = `${stat}_bonus`;
+        const buffKey = `${stat}_buff`;
+        actor[bonusKey] = (Number(actor[bonusKey]) || 0) + amount;
+        actor.status[buffKey] = Math.max(Number(actor.status[buffKey]) || 0, duration);
+        applied.push({
+          archetype: effect.archetype,
+          stat,
+          amount,
+          duration,
+          bonus_after: actor[bonusKey],
+        });
+      } else {
+        skipped.push({
+          archetype: effect.archetype,
+          stat,
+          amount,
+          duration,
+          reason: 'no_consumer',
+        });
+      }
+    }
+  }
+  return { applied, skipped };
+}
+
 module.exports = {
   ENNEA_EFFECTS,
+  STAT_RUNTIME_KIND,
   resolveEnneaEffects,
   applyEnneaBuffs,
+  applyEnneaToStatus,
 };

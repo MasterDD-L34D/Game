@@ -633,7 +633,7 @@ Implementato in `apps/backend/services/statusEffectsMachine.js` come FSM xstate 
 
 **6 archetipi Ennea** (condizionali su metriche): Conquistatore(3), Coordinatore(2), Esploratore(7), Architetto(5), Stoico(9), Cacciatore(8). Trigger: espressioni condizionali in `telemetry.yaml`.
 
-**Effetti Ennea** (`enneaEffects.js`): mappano archetipi a buff combat (attack_mod, defense_mod, move_bonus, stress_reduction, evasion_bonus). ⚠️ **Wire pending** — modulo orfano canonico (93 LOC, mai `require`/`import`). Vedi card museum [M-2026-04-25-006](../museum/cards/enneagramma-enneaeffects-orphan.md). Coverage 6/9 archetipi. Effort wire ~5-6h (`buildVcSnapshot` per-round refactor pre-req).
+**Effetti Ennea** (`enneaEffects.js`): mappano archetipi a buff combat (attack_mod, defense_mod, move_bonus, stress_reduction, evasion_bonus). ✅ **Wire live** (branch `feat/p4-ennea-effects-wire`, 2026-04-25): hook in `sessionRoundBridge.applyEndOfRoundSideEffects` post-decay, lazy-import `buildVcSnapshot` + `loadTelemetryConfig` (cached), apply via `applyEnneaToStatus` con coerenza decay loop esistente. **Coverage runtime 2/5 stat mechanical** (`attack_mod` + `defense_mod` consumati live in `resolveAttack`); 3/5 stat `log_only` (`move_bonus`, `stress_reduction`, `evasion_bonus`) flagged M-future per assenza consumer runtime. **6/9 archetipi configurati** in `telemetry.yaml`; tra questi 3 producono effetti meccanici (Conquistatore, Coordinatore, Architetto), 3 sono log-only (Esploratore, Stoico, Cacciatore). Skip round 1 (no events). Try/catch non-blocking. Card museum [M-2026-04-25-006](../museum/cards/enneagramma-enneaeffects-orphan.md) — reuse_path eseguito.
 
 **16 Forme YAML** (`data/core/forms/mbti_forms.yaml`): tipo MBTI → assi baseline, affinità Job, penalità.
 
@@ -696,26 +696,26 @@ Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrat
 
 ### 13.8 Mappa design → codice
 
-| Sezione design             | Modulo implementato                                       | Stato                                                                                                       |
-| -------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| §1 Tesi / Combat           | `roundOrchestrator.js`, `resolver.py`                     | Operativo                                                                                                   |
-| §2 Prima partita           | `enc_tutorial_01.yaml` + session engine                   | Definito, non giocabile end-to-end                                                                          |
-| §3 Worldgen                | `biomes.yaml`, ecosystems, foodwebs                       | Dati completi, generatore non runtime                                                                       |
-| §4 Foodweb                 | Validators + data YAML                                    | Validazione completa, non runtime                                                                           |
-| §5 Specie/Trait/Job/Forme  | `species.yaml`, `trait_mechanics.yaml`, `mbti_forms.yaml` | Dati + hydration operativi                                                                                  |
-| §6 TV + companion          | Design docs                                               | Solo design, nessun frontend                                                                                |
-| §7 Narrativa               | `narrativeEngine.js` + inkjs                              | Engine operativo, contenuti minimi                                                                          |
-| §8 Mappa 4 livelli         | —                                                         | Framework concettuale                                                                                       |
-| §10 Meta-loop Nido         | `mating.yaml`, `27-MATING_NIDO.md`                        | Solo dati, non implementato                                                                                 |
-| VC/MBTI/Ennea              | `vcScoring.js`, `enneaEffects.js`                         | 🟡 VC + MBTI operativi · Ennea effects orphan ([M-006](../museum/cards/enneagramma-enneaeffects-orphan.md)) |
-| AI SIS                     | `policy.js`, `declareSistemaIntents.js`                   | Operativo, data-driven                                                                                      |
-| Status system              | `statusEffectsMachine.js`                                 | Operativo (xstate v5)                                                                                       |
-| §14 Grid & Map             | `hexGrid.js` + `terrain_defense.yaml` v0.2                | 🟢 Engine operativo, 23 test                                                                                |
-| §15 Level Design           | `encounter.schema.json` + 3 encounter YAML                | 🟢 Schema + dati validati                                                                                   |
-| §16 Networking/Co-op       | ADR Colyseus (proposto)                                   | 🟡 ADR proposto, non implementato                                                                           |
-| §17 Screen Flow            | `17-SCREEN_FLOW.md` (mermaid)                             | ✅ Formalizzato                                                                                             |
-| §18 Audience/Accessibilità | —                                                         | 🟡 Proposte, attesa Master DD                                                                               |
-| §19 Decisioni GDD          | 28 domande                                                | 12✅ 9🟡 7🔴                                                                                                |
+| Sezione design             | Modulo implementato                                       | Stato                                                                                                                                                        |
+| -------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| §1 Tesi / Combat           | `roundOrchestrator.js`, `resolver.py`                     | Operativo                                                                                                                                                    |
+| §2 Prima partita           | `enc_tutorial_01.yaml` + session engine                   | Definito, non giocabile end-to-end                                                                                                                           |
+| §3 Worldgen                | `biomes.yaml`, ecosystems, foodwebs                       | Dati completi, generatore non runtime                                                                                                                        |
+| §4 Foodweb                 | Validators + data YAML                                    | Validazione completa, non runtime                                                                                                                            |
+| §5 Specie/Trait/Job/Forme  | `species.yaml`, `trait_mechanics.yaml`, `mbti_forms.yaml` | Dati + hydration operativi                                                                                                                                   |
+| §6 TV + companion          | Design docs                                               | Solo design, nessun frontend                                                                                                                                 |
+| §7 Narrativa               | `narrativeEngine.js` + inkjs                              | Engine operativo, contenuti minimi                                                                                                                           |
+| §8 Mappa 4 livelli         | —                                                         | Framework concettuale                                                                                                                                        |
+| §10 Meta-loop Nido         | `mating.yaml`, `27-MATING_NIDO.md`                        | Solo dati, non implementato                                                                                                                                  |
+| VC/MBTI/Ennea              | `vcScoring.js`, `enneaEffects.js`                         | 🟡+ VC + MBTI operativi · Ennea effects 6/9 wired runtime (3 mechanical + 3 log-only M-future) ([M-006](../museum/cards/enneagramma-enneaeffects-orphan.md)) |
+| AI SIS                     | `policy.js`, `declareSistemaIntents.js`                   | Operativo, data-driven                                                                                                                                       |
+| Status system              | `statusEffectsMachine.js`                                 | Operativo (xstate v5)                                                                                                                                        |
+| §14 Grid & Map             | `hexGrid.js` + `terrain_defense.yaml` v0.2                | 🟢 Engine operativo, 23 test                                                                                                                                 |
+| §15 Level Design           | `encounter.schema.json` + 3 encounter YAML                | 🟢 Schema + dati validati                                                                                                                                    |
+| §16 Networking/Co-op       | ADR Colyseus (proposto)                                   | 🟡 ADR proposto, non implementato                                                                                                                            |
+| §17 Screen Flow            | `17-SCREEN_FLOW.md` (mermaid)                             | ✅ Formalizzato                                                                                                                                              |
+| §18 Audience/Accessibilità | —                                                         | 🟡 Proposte, attesa Master DD                                                                                                                                |
+| §19 Decisioni GDD          | 28 domande                                                | 12✅ 9🟡 7🔴                                                                                                                                                 |
 
 ---
 
@@ -1239,13 +1239,13 @@ La Tri-Sorgente è il ponte tra:
 
 ### 20.4 Stato implementativo
 
-| Componente         | Stato                                                                 |
-| ------------------ | --------------------------------------------------------------------- |
-| Offerta 3 carte    | Non implementato. Richiede UI companion + integrazione vcScoring      |
-| Sorgente contesto  | Dati disponibili (biomes.yaml, encounter context)                     |
-| Sorgente identità  | 🟡 vcScoring + deriveMbtiType operativi · enneaEffects orphan (M-006) |
-| Sorgente azioni    | Operativo (raw event tracking in session engine)                      |
-| Frammenti Genetici | Non implementato. Schema valuta da definire                           |
+| Componente         | Stato                                                                                                                            |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Offerta 3 carte    | Non implementato. Richiede UI companion + integrazione vcScoring                                                                 |
+| Sorgente contesto  | Dati disponibili (biomes.yaml, encounter context)                                                                                |
+| Sorgente identità  | 🟡+ vcScoring + deriveMbtiType operativi · enneaEffects wired runtime 6/9 archetipi (3 mechanical + 3 log-only M-future) (M-006) |
+| Sorgente azioni    | Operativo (raw event tracking in session engine)                                                                                 |
+| Frammenti Genetici | Non implementato. Schema valuta da definire                                                                                      |
 
 ---
 

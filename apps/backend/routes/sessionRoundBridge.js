@@ -685,7 +685,66 @@ function createRoundBridge(deps) {
       }
     }
 
-    return { hazardEvents, bleedingEvents };
+    // P4 Ennea effects wire (post-OD audit, branch feat/p4-ennea-effects-wire).
+    // Applica buff/debuff per archetipi Ennea triggerati nel VC snapshot.
+    // Lazy-required + try/catch non-blocking: errori loggati, mai propagati.
+    // Skip round 1 (no events accumulated → empty per_actor).
+    const enneaEvents = [];
+    if (Number(session?.turn || 0) > 1) {
+      try {
+        const { buildVcSnapshot, loadTelemetryConfig } = require('../services/vcScoring');
+        const { resolveEnneaEffects, applyEnneaToStatus } = require('../services/enneaEffects');
+        // Cache telemetry config per-bridge-instance: YAML I/O 1x.
+        if (!applyEndOfRoundSideEffects._telemetryCfg) {
+          applyEndOfRoundSideEffects._telemetryCfg = loadTelemetryConfig();
+        }
+        const cfg = applyEndOfRoundSideEffects._telemetryCfg;
+        const snapshot = buildVcSnapshot(session, cfg);
+        const perActor = (snapshot && snapshot.per_actor) || {};
+        for (const unit of session.units) {
+          if (!unit) continue;
+          const actorData = perActor[unit.id];
+          if (!actorData || !Array.isArray(actorData.ennea_archetypes)) continue;
+          const triggered = actorData.ennea_archetypes
+            .filter((a) => a && a.triggered)
+            .map((a) => a.id);
+          if (triggered.length === 0) continue;
+          const effects = resolveEnneaEffects(triggered);
+          if (effects.length === 0) continue;
+          const { applied, skipped } = applyEnneaToStatus(unit, effects);
+          if (applied.length === 0 && skipped.length === 0) continue;
+          await appendEvent(session, {
+            ts: new Date().toISOString(),
+            session_id: session.session_id,
+            action_type: 'ennea_effects',
+            actor_id: unit.id,
+            actor_species: unit.species,
+            actor_job: unit.job,
+            target_id: unit.id,
+            turn: session.turn,
+            damage_dealt: 0,
+            result: 'buff',
+            ennea_applied: applied,
+            ennea_skipped: skipped,
+            triggered_archetypes: triggered,
+            automatic: true,
+          });
+          enneaEvents.push({
+            unit_id: unit.id,
+            applied,
+            skipped,
+            triggered,
+          });
+        }
+      } catch (err) {
+        // Non-blocking: log + continue. VC snapshot OR telemetry config errors
+        // must never break round flow. Surface in console.warn for ops audit.
+        // eslint-disable-next-line no-console
+        console.warn('[ennea-wire] failed:', err && err.message ? err.message : err);
+      }
+    }
+
+    return { hazardEvents, bleedingEvents, enneaEvents };
   }
 
   // ────────────────────────────────────────────────────────────────
