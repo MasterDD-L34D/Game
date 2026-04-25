@@ -2162,3 +2162,72 @@ traits:
       di reazione previsto, stordendo il target per 2 turni interi.
 
       '
+
+  # SPRINT_2026-04-25 Wave 6: trait famiglia cuore_* + midollo_*.
+  # Pattern apply_status (rage on_kill) per simulare adrenalina cardiovascolare.
+
+  cuore_multicamera_bassa_pressione:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 2
+      log_tag: cuore_multicamera_surge
+    description_it: 'Cuore a quattro camere a bassa pressione che modula il flusso
+
+      sanguigno con precisione: dopo un''uccisione 2 turni di rage
+
+      (no retreat, +1 dmg) grazie alla scarica adrenalinica controllata.
+
+      '
+
+  midollo_antivibrazione:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 1
+      log_tag: midollo_antivibrazione_pulse
+    description_it: 'Midollo osseo gel-smorzante che assorbe il contraccolpo dell''urto
+
+      letale e libera un breve impulso adrenalinico: 1 turno di rage
+
+      (no retreat, +1 dmg) post-kill senza rinculo.
+
+      '
+
+  cuore_in_furia:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 3
+      log_tag: cuore_in_furia_blaze
+    description_it: 'Cuore ipertrofico che entra in tachicardia rituale alla vista
+
+      della preda caduta: 3 turni di rage (no retreat, +1 dmg) come
+
+      tributo cardiaco al sangue versato.
+
+      '

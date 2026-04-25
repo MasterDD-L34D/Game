@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-04-25T11:50:00Z",
+  "updated_at": "2026-04-25T12:30:00Z",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -580,6 +580,12 @@
       "label_en": "Cromofori Alert Acido",
       "description_it": "Cromofori Alert Acido permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di foresta acida.",
       "description_en": "Cromofori Alert Acido allow squads to redistribute load and modulate structural rigidity within foresta acida."
+    },
+    "cuore_in_furia": {
+      "label_it": "Cuore in Furia",
+      "label_en": "Heart in Fury",
+      "description_it": "Cuore ipertrofico che entra in tachicardia rituale post-kill, scatenando 3 turni di rage adrenalinica.",
+      "description_en": "Hypertrophic heart entering ritual tachycardia post-kill, triggering 3 turns of adrenal rage."
     },
     "cuore_multicamera_bassa_pressione": {
       "label_it": "Cuore Multicamera Bassa Pressione",
