@@ -8,6 +8,7 @@ source_of_truth: false
 language: it
 review_cycle_days: 30
 tags: [archaeology, museum, enneagramma, gallery]
+coverage_runtime: '9/9 archetipi (post feat/p4-ennea-9-of-9-coverage)'
 ---
 
 # Gallery — Enneagramma (3 card aggregata)
@@ -32,15 +33,20 @@ Il dominio Enneagramma in Evo-Tactics ha una storia paradossale: **dataset full 
                         └── all incoming/ Ennagramma files touched (NO functional update)
 
 2026-04-25  [TODAY]   Excavated → curated → reviewed (this gallery)
+
+2026-04-25  feat/p4-ennea-9-of-9-coverage   Coverage 6/9 → 9/9 archetipi
+                        ├── apps/backend/services/enneaEffects.js +Riformatore(1)/Individualista(4)/Lealista(6)
+                        ├── data/core/telemetry.yaml +3 ennea_themes (raw-metric trigger)
+                        └── tests/services/enneaEffectsWire.test.js +9 test (24/24 verde)
 ```
 
 ### Il puzzle
 
-| Pezzo        | Cosa fa                                                                  | Stato        | Card                                                 |
-| ------------ | ------------------------------------------------------------------------ | ------------ | ---------------------------------------------------- |
-| **Dataset**  | 9 tipi schema 1.0.0 (id, fear, desire, passion, wings, stress/growth_to) | unintegrated | [M-003](../cards/enneagramma-dataset-9-types.md)     |
-| **Registry** | 16 hook eligibility/trigger/effects schema completo                      | unintegrated | [M-002](../cards/enneagramma-mechanics-registry.md)  |
-| **Effects**  | 93 LOC mappa archetipi → buff combat (6/9 archetipi)                     | abandoned    | [M-006](../cards/enneagramma-enneaeffects-orphan.md) |
+| Pezzo        | Cosa fa                                                                  | Stato                   | Card                                                 |
+| ------------ | ------------------------------------------------------------------------ | ----------------------- | ---------------------------------------------------- |
+| **Dataset**  | 9 tipi schema 1.0.0 (id, fear, desire, passion, wings, stress/growth_to) | unintegrated            | [M-003](../cards/enneagramma-dataset-9-types.md)     |
+| **Registry** | 16 hook eligibility/trigger/effects schema completo                      | unintegrated            | [M-002](../cards/enneagramma-mechanics-registry.md)  |
+| **Effects**  | 142 LOC mappa archetipi → buff combat (**9/9 archetipi** wired runtime)  | wired (post 2026-04-25) | [M-006](../cards/enneagramma-enneaeffects-orphan.md) |
 
 **Sintesi**: hai i dati (M-003), hai gli hook (M-002), hai il consumer (M-006). Mancano 5 righe di `require()` + 50 righe di mapping per chiudere il cerchio.
 

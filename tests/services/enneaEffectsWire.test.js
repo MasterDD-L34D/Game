@@ -221,3 +221,185 @@ test('STAT_RUNTIME_KIND: 2 mechanical (attack_mod, defense_mod) + 3 log_only', (
   assert.deepEqual(mech, ['attack_mod', 'defense_mod']);
   assert.deepEqual(log, ['evasion_bonus', 'move_bonus', 'stress_reduction']);
 });
+
+// ─────────────────────────────────────────────────────────────────
+// P4 9/9 coverage extension — Type 1 / 4 / 6 wire
+// ─────────────────────────────────────────────────────────────────
+
+test('ENNEA_EFFECTS: 9/9 archetype coverage', () => {
+  const ids = Object.keys(ENNEA_EFFECTS).sort();
+  assert.deepEqual(ids, [
+    'Architetto(5)',
+    'Cacciatore(8)',
+    'Conquistatore(3)',
+    'Coordinatore(2)',
+    'Esploratore(7)',
+    'Individualista(4)',
+    'Lealista(6)',
+    'Riformatore(1)',
+    'Stoico(9)',
+  ]);
+});
+
+test('applyEnneaToStatus: Riformatore(1) → attack_mod_bonus +1 + status.attack_mod_buff:1', () => {
+  const actor = makeActor();
+  const effects = resolveEnneaEffects(['Riformatore(1)']);
+  const { applied, skipped } = applyEnneaToStatus(actor, effects);
+  assert.equal(actor.attack_mod_bonus, 1);
+  assert.equal(actor.status.attack_mod_buff, 1);
+  assert.equal(applied.length, 1);
+  assert.equal(applied[0].archetype, 'Riformatore(1)');
+  assert.equal(applied[0].stat, 'attack_mod');
+  assert.equal(applied[0].duration, 1);
+  assert.equal(skipped.length, 0);
+});
+
+test('applyEnneaToStatus: Individualista(4) → defense_mod_bonus +1 + status.defense_mod_buff:1', () => {
+  const actor = makeActor();
+  const effects = resolveEnneaEffects(['Individualista(4)']);
+  const { applied, skipped } = applyEnneaToStatus(actor, effects);
+  assert.equal(actor.defense_mod_bonus, 1);
+  assert.equal(actor.status.defense_mod_buff, 1);
+  assert.equal(applied.length, 1);
+  assert.equal(applied[0].stat, 'defense_mod');
+  assert.equal(applied[0].duration, 1);
+  assert.equal(skipped.length, 0);
+});
+
+test('applyEnneaToStatus: Lealista(6) → defense_mod_bonus +1 + status.defense_mod_buff:2 (extended)', () => {
+  const actor = makeActor();
+  const effects = resolveEnneaEffects(['Lealista(6)']);
+  const { applied, skipped } = applyEnneaToStatus(actor, effects);
+  assert.equal(actor.defense_mod_bonus, 1);
+  // Lealista has duration 2 — buff lasts longer than other defense buffs.
+  assert.equal(actor.status.defense_mod_buff, 2);
+  assert.equal(applied.length, 1);
+  assert.equal(applied[0].stat, 'defense_mod');
+  assert.equal(applied[0].duration, 2);
+  assert.equal(skipped.length, 0);
+});
+
+test('applyEnneaToStatus: stack Riformatore + Architetto → attack_mod_bonus +2', () => {
+  const actor = makeActor();
+  const effects = resolveEnneaEffects(['Riformatore(1)', 'Architetto(5)']);
+  assert.equal(effects.length, 2);
+  const { applied, skipped } = applyEnneaToStatus(actor, effects);
+  assert.equal(actor.attack_mod_bonus, 2);
+  assert.equal(actor.status.attack_mod_buff, 1);
+  assert.equal(applied.length, 2);
+  assert.equal(skipped.length, 0);
+});
+
+test('applyEnneaToStatus: stack Lealista(2) + Coordinatore(1) → defense_mod_bonus +2, buff=max(2,1)=2', () => {
+  const actor = makeActor();
+  const effects = resolveEnneaEffects(['Lealista(6)', 'Coordinatore(2)']);
+  assert.equal(effects.length, 2);
+  const { applied, skipped } = applyEnneaToStatus(actor, effects);
+  assert.equal(actor.defense_mod_bonus, 2);
+  // Lealista duration 2 wins over Coordinatore duration 1 via Math.max.
+  assert.equal(actor.status.defense_mod_buff, 2);
+  assert.equal(applied.length, 2);
+  assert.equal(skipped.length, 0);
+});
+
+test('decay coerenza: Lealista(6) duration=2 → buff persiste 2 round end', () => {
+  const actor = makeActor();
+  const effects = resolveEnneaEffects(['Lealista(6)']);
+  applyEnneaToStatus(actor, effects);
+  assert.equal(actor.defense_mod_bonus, 1);
+  assert.equal(actor.status.defense_mod_buff, 2);
+
+  // Round 1 end: decrement
+  for (const key of Object.keys(actor.status)) {
+    const v = Number(actor.status[key]);
+    if (v > 0) actor.status[key] = v - 1;
+  }
+  // After round 1: buff still > 0, bonus must NOT be zeroed.
+  assert.equal(actor.status.defense_mod_buff, 1);
+  for (const key of Object.keys(actor.status)) {
+    if (!key.endsWith('_buff')) continue;
+    if (Number(actor.status[key]) > 0) continue;
+    const stat = key.slice(0, -'_buff'.length);
+    const bonusKey = `${stat}_bonus`;
+    if (actor[bonusKey] !== undefined) actor[bonusKey] = 0;
+  }
+  assert.equal(actor.defense_mod_bonus, 1);
+
+  // Round 2 end: now decay to 0, bonus zeroed.
+  for (const key of Object.keys(actor.status)) {
+    const v = Number(actor.status[key]);
+    if (v > 0) actor.status[key] = v - 1;
+  }
+  for (const key of Object.keys(actor.status)) {
+    if (!key.endsWith('_buff')) continue;
+    if (Number(actor.status[key]) > 0) continue;
+    const stat = key.slice(0, -'_buff'.length);
+    const bonusKey = `${stat}_bonus`;
+    if (actor[bonusKey] !== undefined) actor[bonusKey] = 0;
+  }
+  assert.equal(actor.status.defense_mod_buff, 0);
+  assert.equal(actor.defense_mod_bonus, 0);
+});
+
+// ─────────────────────────────────────────────────────────────────
+// computeEnneaArchetypes config-driven trigger eval (raw-metrics)
+// ─────────────────────────────────────────────────────────────────
+
+test('computeEnneaArchetypes: Riformatore(1) trigger when setup_ratio>0.5 && attack_hit_rate>0.65', () => {
+  const { computeEnneaArchetypes } = require('../../apps/backend/services/vcScoring');
+  const config = {
+    ennea_themes: [{ id: 'Riformatore(1)', when: 'setup_ratio>0.5 && attack_hit_rate>0.65' }],
+  };
+  const aggregate = {};
+  const triggered = computeEnneaArchetypes(aggregate, config, {
+    setup_ratio: 0.6,
+    attack_hit_rate: 0.7,
+  });
+  assert.equal(triggered.length, 1);
+  assert.equal(triggered[0].id, 'Riformatore(1)');
+  assert.equal(triggered[0].triggered, true);
+
+  const notTrig = computeEnneaArchetypes(aggregate, config, {
+    setup_ratio: 0.3,
+    attack_hit_rate: 0.7,
+  });
+  assert.equal(notTrig[0].triggered, false);
+});
+
+test('computeEnneaArchetypes: Individualista(4) trigger when low_hp_time>0.4 && damage_dealt_total>0', () => {
+  const { computeEnneaArchetypes } = require('../../apps/backend/services/vcScoring');
+  const config = {
+    ennea_themes: [{ id: 'Individualista(4)', when: 'low_hp_time>0.4 && damage_dealt_total>0' }],
+  };
+  const aggregate = {};
+  const triggered = computeEnneaArchetypes(aggregate, config, {
+    low_hp_time: 0.5,
+    damage_dealt_total: 3,
+  });
+  assert.equal(triggered[0].triggered, true);
+
+  const notTrig = computeEnneaArchetypes(aggregate, config, {
+    low_hp_time: 0.5,
+    damage_dealt_total: 0,
+  });
+  assert.equal(notTrig[0].triggered, false);
+});
+
+test('computeEnneaArchetypes: Lealista(6) trigger when assists>=2 && damage_taken_ratio<0.35', () => {
+  const { computeEnneaArchetypes } = require('../../apps/backend/services/vcScoring');
+  const config = {
+    ennea_themes: [{ id: 'Lealista(6)', when: 'assists>=2 && damage_taken_ratio<0.35' }],
+  };
+  const aggregate = {};
+  const triggered = computeEnneaArchetypes(aggregate, config, {
+    assists: 3,
+    damage_taken_ratio: 0.2,
+  });
+  assert.equal(triggered[0].triggered, true);
+
+  const notTrig = computeEnneaArchetypes(aggregate, config, {
+    assists: 1,
+    damage_taken_ratio: 0.2,
+  });
+  assert.equal(notTrig[0].triggered, false);
+});
