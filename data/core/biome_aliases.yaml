@@ -58,3 +58,7 @@ aliases:
     canonical: frattura_abissale_sinaptica
     status: expansion
     notes: "Alias T1 legato alle creste superficiali luminescenti del nuovo bioma."
+  atollo_ossidiana:
+    canonical: atollo_obsidiana
+    status: alias
+    notes: "Variante ortografica IT (doppia 's') usata dal swarm trait-curator (artifact 2026-04-24). Promosso OD-012 2026-04-25."

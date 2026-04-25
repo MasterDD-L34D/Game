@@ -1,6 +1,15 @@
 # magnetic_rift_resonance — staging trait da Dafne swarm
 # Proposto automaticamente dal ciclo lore-designer → trait-curator (2026-04-24 01:08 UTC).
-# NON ancora canonical: vedere incoming/swarm-candidates/README.md per workflow promozione.
+#
+# ━━━ PROMOTED 2026-04-25 (OD-012 swarm batch) ━━━
+# Trait + 2 prereq stub (magnetic_sensitivity, rift_attunement) promossi a
+# data/core/traits/active_effects.yaml. Biome alias atollo_ossidiana →
+# atollo_obsidiana aggiunto a data/core/biome_aliases.yaml. Flag
+# magnetic_field_strength=1.0 aggiunto su atollo_obsidiana in
+# data/core/biomes.yaml. atollo_obsidiana wired in apps/backend/services/
+# combat/biomeResonance.js (BIOME_FAMILIES.aquatic + archetype skirmisher).
+# File staging conservato come reference provenance.
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 version: 1.0
 staging: true # flag: rimuovere quando promosso in data/core/*
