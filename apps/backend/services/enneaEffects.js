@@ -44,6 +44,28 @@ const ENNEA_EFFECTS = {
     buffs: [{ stat: 'evasion_bonus', amount: 1, duration: 1 }],
     description: 'Bonus evasione per tattica hit-and-run',
   },
+  // P4 9/9 coverage extension (2026-04-25, branch feat/p4-ennea-9-of-9-coverage):
+  // Type 1 / 4 / 6 wire. Tutti e 3 mechanical (attack_mod / defense_mod) per
+  // massimizzare runtime impact. Trigger basati su raw metrics derivabili
+  // (setup_ratio, attack_hit_rate, low_hp_time, assists, damage_taken_ratio).
+  'Riformatore(1)': {
+    label: 'Disciplina Etica',
+    buffs: [{ stat: 'attack_mod', amount: 1, duration: 1 }],
+    description:
+      'Bonus attacco per attacchi metodici e precisi (high setup_ratio + attack_hit_rate)',
+  },
+  'Individualista(4)': {
+    label: 'Profondita Emotiva',
+    buffs: [{ stat: 'defense_mod', amount: 1, duration: 1 }],
+    description:
+      'Bonus difesa per resilienza emotiva sotto pressione (low_hp_time alto + contributo attivo)',
+  },
+  'Lealista(6)': {
+    label: 'Vigilanza Difensiva',
+    buffs: [{ stat: 'defense_mod', amount: 1, duration: 2 }],
+    description:
+      'Bonus difesa esteso per supporto team con anticipazione minacce (assists alti + risk basso)',
+  },
 };
 
 /**

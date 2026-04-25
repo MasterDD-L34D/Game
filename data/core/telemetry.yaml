@@ -68,6 +68,22 @@ ennea_themes:
   #   damage_taken_ratio < 0.4   → risk management: prende meno della meta' del danno totale
   #   first_blood > 0            → ha effettivamente ucciso il bersaglio
   - {id: "Cacciatore(8)",    when: "evasion_ratio>0.6 && attacks_started>=5 && damage_taken_ratio<0.4 && first_blood>0"}
+  # P4 9/9 coverage extension (2026-04-25, branch feat/p4-ennea-9-of-9-coverage).
+  # Trigger basati su raw metrics derivabili dai log correnti (no aggregate
+  # parziali). Soglie conservative — calibrabili in iter2 post-playtest.
+  #
+  # Riformatore(1) — perfezionista/principi: attacco metodico + precisione.
+  #   setup_ratio > 0.5      → maggioranza attacchi preceduti da posizionamento
+  #   attack_hit_rate > 0.65 → alta precisione
+  - {id: "Riformatore(1)",   when: "setup_ratio>0.5 && attack_hit_rate>0.65"}
+  # Individualista(4) — identita/melanconia: resilienza emotiva sotto pressione.
+  #   low_hp_time > 0.4      → tempo significativo in zona critica
+  #   damage_dealt_total > 0 → contribuisce nonostante la sofferenza
+  - {id: "Individualista(4)", when: "low_hp_time>0.4 && damage_dealt_total>0"}
+  # Lealista(6) — sicurezza/vigilanza: difensore di squadra anticipativo.
+  #   assists >= 2              → supporto team attivo
+  #   damage_taken_ratio < 0.35 → risk management (anticipa minacce)
+  - {id: "Lealista(6)",      when: "assists>=2 && damage_taken_ratio<0.35"}
 pe_economy:
   mission_base: {win: 5, draw: 3, dignified_loss: 2}
   style_bonus: {formula: "floor((sum_vc - 2.8)*3)", cap: 3}
