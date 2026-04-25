@@ -51,6 +51,18 @@ const BIOME_COST_STATS_ALLOWED = new Set(['attack_mod', 'defense_mod', 'mobility
 
 let _biomeCostCache = null;
 
+// Per-tag enemy gate (audit follow-up 2026-04-25) — wires runtime-inert
+// ancestor traits gated by enemy taxonomy: predator / irascible / wildlife.
+// Source files: data/core/species.yaml + data/core/species_expansion.yaml
+// (clade_tag + role_tags). Lazy-cached singleton, soft-fail su ENOENT.
+const SPECIES_DEFAULT_PATHS = [
+  path.resolve(__dirname, '..', '..', '..', 'data', 'core', 'species.yaml'),
+  path.resolve(__dirname, '..', '..', '..', 'data', 'core', 'species_expansion.yaml'),
+];
+
+const PREDATOR_ROLE_TAGS = new Set(['predator', 'apex', 'ambusher']);
+let _speciesTagIndexCache = null;
+
 function loadActiveTraitRegistry(yamlPath = DEFAULT_REGISTRY_PATH, logger = console) {
   try {
     const text = fs.readFileSync(yamlPath, 'utf8');
@@ -110,6 +122,97 @@ function hasTargetStatus(target, statusName) {
   return Boolean(entry);
 }
 
+// Per-tag enemy gate — carica species.yaml + species_expansion.yaml e
+// costruisce indice { species_id: { clade_tag, role_tags: Set } }.
+// Lazy + cached. Soft-fail: file mancante → indice vuoto, gate ritorna
+// `wildlife` come default conservativo.
+function loadSpeciesTagIndex(yamlPaths = SPECIES_DEFAULT_PATHS, logger = console) {
+  if (_speciesTagIndexCache !== null) return _speciesTagIndexCache;
+  const index = Object.create(null);
+  for (const yamlPath of yamlPaths) {
+    try {
+      const text = fs.readFileSync(yamlPath, 'utf8');
+      const parsed = yaml.load(text);
+      // Top-level key varia: species.yaml usa `species`, species_expansion.yaml
+      // usa `species_examples`. Accetta entrambe.
+      const list =
+        parsed && Array.isArray(parsed.species)
+          ? parsed.species
+          : parsed && Array.isArray(parsed.species_examples)
+            ? parsed.species_examples
+            : [];
+      for (const sp of list) {
+        if (!sp || !sp.id) continue;
+        const roleTags = Array.isArray(sp.role_tags)
+          ? sp.role_tags.map((t) => String(t).toLowerCase())
+          : [];
+        index[sp.id] = {
+          clade_tag: sp.clade_tag || null,
+          role_tags: new Set(roleTags),
+        };
+      }
+    } catch (err) {
+      if (err && err.code === 'ENOENT') {
+        logger.warn(`[enemy-tag-gate] ${yamlPath} non trovato, skip`);
+        continue;
+      }
+      logger.warn(`[enemy-tag-gate] errore ${yamlPath}:`, err.message || err);
+    }
+  }
+  _speciesTagIndexCache = index;
+  return _speciesTagIndexCache;
+}
+
+function _resetSpeciesTagIndexCache() {
+  _speciesTagIndexCache = null;
+}
+
+// Inferisce i tag enemy ('predator' | 'irascible' | 'wildlife') del target
+// basandosi su species + clade_tag + role_tags. Tassonomia:
+//   - predator: role_tags include predator/apex/ambusher OR clade_tag=Apex
+//   - irascible: clade_tag=Threat AND role_tags presenti AND non predator
+//                (es. [threat, forager], [threat, omnivore])
+//   - wildlife: tutto il resto fra organici (Bridge/Keystone/Support, o
+//     Threat senza role_tags). Default conservativo se species ignota.
+//
+// Ritorna sempre un array (mai null). Multi-tag possibile (un Apex predator
+// e' solo 'predator'; un Threat ambiguo puo' essere predator+wildlife).
+function inferEnemyTags(target, index = null) {
+  if (!target || !target.species) return ['wildlife'];
+  const idx = index || loadSpeciesTagIndex();
+  const entry = idx[target.species];
+  if (!entry) return ['wildlife'];
+  const tags = new Set();
+  const clade = entry.clade_tag;
+  const roles = entry.role_tags || new Set();
+
+  let isPredator = false;
+  for (const r of roles) {
+    if (PREDATOR_ROLE_TAGS.has(r)) {
+      isPredator = true;
+      break;
+    }
+  }
+  if (!isPredator && clade === 'Apex') isPredator = true;
+  if (isPredator) tags.add('predator');
+
+  // Irascible: Threat clade NON predator, con role_tags non-predator
+  // (forager, omnivore, ecc.). Conservativo: richiede role_tags.
+  if (!isPredator && clade === 'Threat' && roles.size > 0) {
+    tags.add('irascible');
+  }
+
+  // Wildlife: organici non classificati (Bridge/Keystone/Support, o Threat
+  // senza role_tags fallback). Esclude Playable.
+  if (!tags.size && clade && clade !== 'Playable') {
+    tags.add('wildlife');
+  }
+
+  // Fallback conservativo: nessun match → wildlife
+  if (!tags.size) tags.add('wildlife');
+  return Array.from(tags);
+}
+
 // Valida i trigger che NON dipendono dallo stato post-attack
 // (on_result, min_mos, requires). Ritorna true se tutti i check
 // statici passano, false se uno blocca.
@@ -127,6 +230,14 @@ function passesBasicTriggers(trigger, actor, target, attackResult, ctx = {}) {
     !hasTargetStatus(target, trigger.requires_target_status)
   )
     return false;
+  if (typeof trigger.requires_target_tag === 'string') {
+    const tags = inferEnemyTags(target, ctx.speciesTagIndex || null);
+    if (!tags.includes(trigger.requires_target_tag)) return false;
+  }
+  if (typeof trigger.requires_actor_tag === 'string') {
+    const tags = inferEnemyTags(actor, ctx.speciesTagIndex || null);
+    if (!tags.includes(trigger.requires_actor_tag)) return false;
+  }
   return true;
 }
 
@@ -385,4 +496,9 @@ module.exports = {
   applyBiomeTraitCosts,
   BIOME_COST_DEFAULT_PATH,
   _resetBiomeCostCache,
+  // Per-tag enemy gate (audit follow-up 2026-04-25)
+  loadSpeciesTagIndex,
+  inferEnemyTags,
+  SPECIES_DEFAULT_PATHS,
+  _resetSpeciesTagIndexCache,
 };
