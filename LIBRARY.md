@@ -173,9 +173,18 @@ Non in uso: Linear, Jira, Slack, Figma (possibili ma non configurati).
 
 ---
 
+## 🗺️ Workspace topology
+
+`C:/Users/edusc/Desktop/gioco/` ospita Game (questo) + sibling Game-Database (CMS, da clonare) + game-swarm (AI swarm esterno, zip non estratto) + codemasterdd-ai-station (archivio) + synesthesia (progetto UPO separato, NON Evo-Tactics) + 7 zip + sandbox.
+
+**Mappa fisica completa**: [`WORKSPACE_MAP.md`](WORKSPACE_MAP.md) — path, ruolo, stato adoption, entry point per ognuno + diagramma flussi + cleanup TODO.
+
+---
+
 ## 🔗 Ref veloci
 
 - **Cosa leggere prima**: `PROJECT_BRIEF.md` → `COMPACT_CONTEXT.md` → `CLAUDE.md`
+- **Dove sta cosa nel workspace**: `WORKSPACE_MAP.md`
 - **Prima di decidere**: `DECISIONS_LOG.md` + `docs/adr/`
 - **Prima di scrivere codice**: `.claude/TASK_PROTOCOL.md` + `.claude/SAFE_CHANGES.md`
 - **Prima di aggiungere agent/skill**: memory `feedback_smoke_test_agents_before_ready.md` (policy 4-gate DoD)
