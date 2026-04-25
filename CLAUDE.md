@@ -67,6 +67,37 @@ Friction concreta sprint 2026-04-25 PR #1776: glossary.json aveva 37 char mojiba
 - **Subagent timeout 2x = stop retry**: se subagent stesso pattern timeout 2 volte, FERMA. Investiga prompt size / tool config. Non fare 5+ retry sperando vada.
 - **Distinguish hook output vs user**: `<user-prompt-submit-hook>` e similari sono hook. Riconosci tag, non rispondere come a un user.
 
+## 🔑 API Keys & Secrets — canonical path
+
+Friction insights 2026-04-25: Tavily API key posizionata in repo `.env` invece del path canonico `~/.config/api-keys/keys.env` (OD-005). Move richiesto post-fact.
+
+- **Canonical**: TUTTI i secret (API key, token, credential) vivono in `~/.config/api-keys/keys.env`. Mai in repo `.env*`.
+- **Read pattern**: backend / script che servono secret → `source ~/.config/api-keys/keys.env` o `os.environ.get('KEY_NAME')` con `keys.env` esportato all'inizio del processo.
+- **Repo `.env*` = vietato per secrets**: solo per fixture pubblici, schema example, mai per token reali. `.env.example` / `.env.template` sono OK (vuoti).
+- **Auto-enforced**: hook `PreToolUse` `.claude/hooks/pre-edit-env-keys-guard.sh` (warn-only) emette `[env-keys-guard] WARN` quando target Edit/Write è un `.env*` fuori da `~/.config/api-keys/`. Se vedi warn, ferma e sposta nel path canonico.
+
+## 💾 Memory Save Ritual (end-of-session)
+
+Friction insights: 4+ sessioni il user ha esplicitamente chiesto memory save dimenticato. BACKLOG stale con ticket già chiusi shown come open.
+
+- **Save without being asked**: a fine sessione significativa (≥2 PR mergiati O nuovo agent/skill), aggiorna SENZA prompt:
+  1. `COMPACT_CONTEXT.md` (snapshot 30s)
+  2. Handoff doc (`docs/planning/YYYY-MM-DD-*-handoff.md` o equivalente)
+  3. Memory file persistent (`~/.claude/projects/.../memory/feedback_*` o `project_*`)
+  4. `BACKLOG.md` chiusura ticket completati + add nuovi residui
+  5. `MEMORY.md` index file (`~/.claude/projects/.../memory/MEMORY.md`) — 1 riga ≤150 char per ogni nuovo memory file
+- **Don't leave stale**: ticket "open" in BACKLOG che hanno PR mergiato → mark closed con SHA + commit.
+- **Skip rule**: micro-fix singolo (1 PR docs/typo) → no memory save necessario; signals + code change ≥50 LOC → save obbligatorio.
+
+## 📝 Commit & Hook Hygiene
+
+Friction insights: commit-msg hook ha caught Claude uppercase commit (retry richiesto), commit-guard ha bloccato Claude due volte per body length, PostEdit stderr leak per ordering errato.
+
+- **Lowercase commit prefix**: `feat:`, `fix:`, `docs:`, `chore:` — NON `Feat:` o `FEAT:`. commit-msg hook blocca uppercase.
+- **Body length cap**: rispetta limite commit-guard (verifica con `cat .git/hooks/commit-msg` se incerto). Long commit body → drop in PR description, non in commit msg.
+- **Stderr ordering nei hook**: `cmd 2>/dev/null` corretto (redirect 2 verso null); `cmd >/dev/null 2>&1` se vuoi sopprimere entrambi. Il pattern `cmd 2>&1 >/dev/null` è BUGGY (stderr ridiretto a vecchio stdout, poi stdout va a null → stderr leak su terminal).
+- **Hook self-block**: se un hook blocca un tuo commit, non skippare con `--no-verify`. Investiga il messaggio, fixa il commit body, retenta. Hook esistono per difendere il repo, anche da Claude.
+
 ---
 
 ## Project overview
