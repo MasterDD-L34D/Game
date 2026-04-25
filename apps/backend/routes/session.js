@@ -75,6 +75,9 @@ const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIn
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
 const { createAbilityExecutor } = require('../services/abilityExecutor');
 const reactionEngine = require('../services/reactionEngine');
+// Status engine extension (2026-04-25 audit P0): wire 7 ancestor statuses
+// (linked/fed/healing/attuned/sensed/telepatic_link/frenzy) runtime-active.
+const { computeStatusModifiers } = require('../services/combat/statusModifiers');
 // M7-#2 Phase B: damage scaling curves runtime (ADR-2026-04-20).
 const {
   loadDamageCurves,
@@ -342,6 +345,24 @@ function createSessionRouter(options = {}) {
       // non-blocking: se curves missing, no enrage
     }
 
+    // Status engine extension: stack 7 ancestor statuses on top of ability
+    // bonuses for this resolveAttack call only (revert post). Mirrors the
+    // enrage pattern above to avoid persistent leak into actor.attack_mod_bonus
+    // (owned by the ability executor + clearExpiredBonuses decay).
+    let statusMods = { attackDelta: 0, defenseDelta: 0, log: [] };
+    try {
+      statusMods = computeStatusModifiers(actor, target, session.units || []);
+      if (statusMods.attackDelta !== 0) {
+        actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + statusMods.attackDelta;
+      }
+      if (statusMods.defenseDelta !== 0) {
+        target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) + statusMods.defenseDelta;
+      }
+    } catch (err) {
+      // non-blocking: malformed status payload should never break combat
+      statusMods = { attackDelta: 0, defenseDelta: 0, log: [] };
+    }
+
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
@@ -354,6 +375,13 @@ function createSessionRouter(options = {}) {
     // Revert enrage bonus post-attack (non-persistente, solo per questo hit)
     if (enrageApplied) {
       actor.mod = Number(actor.mod || 0) - enrageModBonus;
+    }
+    // Revert status engine deltas (per-attack, non-persistente).
+    if (statusMods.attackDelta !== 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - statusMods.attackDelta;
+    }
+    if (statusMods.defenseDelta !== 0) {
+      target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - statusMods.defenseDelta;
     }
     let damageDealt = 0;
     let killOccurred = false;
@@ -512,6 +540,17 @@ function createSessionRouter(options = {}) {
         evaluation.trait_effects = (evaluation.trait_effects || []).concat(
           statusEval.trait_effects,
         );
+      }
+      // Status engine extension: surface status modifier log (linked,
+      // sensed, attuned, frenzy, telepatic_link) under trait_effects so
+      // observability surface is unified.
+      if (Array.isArray(statusMods.log) && statusMods.log.length > 0) {
+        const synthetic = statusMods.log.map((entry) => ({
+          trait: `status:${entry.status}`,
+          triggered: true,
+          effect: { kind: 'status_modifier', side: entry.side, detail: entry.effect },
+        }));
+        evaluation.trait_effects = (evaluation.trait_effects || []).concat(synthetic);
       }
       statusApplies = statusEval.status_applies || [];
       for (const s of statusApplies) {
@@ -1700,6 +1739,15 @@ function createSessionRouter(options = {}) {
             if (session.damage_taken) {
               session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + 1;
             }
+          }
+          // Status engine extension: HP regen ticks (`fed`/`healing`) before decay.
+          try {
+            const {
+              applyTurnRegen: _applyTurnRegen,
+            } = require('../services/combat/statusModifiers');
+            _applyTurnRegen(unit);
+          } catch {
+            /* status regen optional */
           }
           // AP reset (Skiv #5: applyApRefill handles fracture + defy_penalty)
           applyApRefill(unit);

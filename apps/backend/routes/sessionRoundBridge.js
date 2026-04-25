@@ -42,6 +42,8 @@ const { tick: reinforcementTick } = require('../services/combat/reinforcementSpa
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
 const { tick: missionTimerTick } = require('../services/combat/missionTimer');
 const { buildThreatPreview } = require('../services/ai/threatPreview');
+// Status engine extension (2026-04-25 audit P0).
+const { applyTurnRegen } = require('../services/combat/statusModifiers');
 
 function createRoundBridge(deps) {
   const {
@@ -624,6 +626,34 @@ function createRoundBridge(deps) {
         hp_after: unit.hp,
         killed: unit.hp === 0,
       });
+    }
+
+    // Status engine extension: HP regen ticks (`fed` + `healing`).
+    // Applied AFTER bleeding (KO units skipped automatically) and BEFORE
+    // universal status decay so the last live tick still produces regen.
+    const regenEvents = [];
+    for (const unit of session.units) {
+      if (!unit) continue;
+      const ticks = applyTurnRegen(unit);
+      for (const tick of ticks) {
+        await appendEvent(session, {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          action_type: 'regen',
+          actor_id: unit.id,
+          actor_species: unit.species,
+          actor_job: unit.job,
+          target_id: unit.id,
+          turn: session.turn,
+          damage_dealt: -tick.amount,
+          result: 'heal',
+          hp_before: tick.hp_before,
+          hp_after: tick.hp_after,
+          status_source: tick.status,
+          trait_effects: [],
+        });
+        regenEvents.push(tick);
+      }
     }
 
     for (const unit of session.units) {
