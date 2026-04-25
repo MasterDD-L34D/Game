@@ -67,6 +67,34 @@ Friction concreta sprint 2026-04-25 PR #1776: glossary.json aveva 37 char mojiba
 - **Subagent timeout 2x = stop retry**: se subagent stesso pattern timeout 2 volte, FERMA. Investiga prompt size / tool config. Non fare 5+ retry sperando vada.
 - **Distinguish hook output vs user**: `<user-prompt-submit-hook>` e similari sono hook. Riconosci tag, non rispondere come a un user.
 
+## ✅ Verify Before Claim Done (anti-rescue policy 2026-04-25)
+
+Friction concreta `/insights` 2026-04-25: **25 buggy_code incidents** (top friction, vs 15 wrong_approach + 5 subagent_timeout). Pattern: first-pass implementation ships con bug, Claude poi fa rescue pass. Costo: doppio commit, doppio test cycle, user vede regressione prima di fix.
+
+**Pattern**: prima di dichiarare task done O scrivere "✅ X works" O committare:
+
+1. **Run tests applicable** al diff: `node --test tests/<area>/*.test.js` (se modifichi backend), `pytest tests/test_<area>.py` (se modifichi tools/py), `npm run format:check` (se ≥3 file edit), `python tools/check_docs_governance.py` (se modifichi docs).
+2. **Diff vs intent**: `git diff` rileggi tu stesso, verifica che NON ci siano:
+   - File toccati fuori scope dichiarato
+   - Schema breaking change senza ADR
+   - Hardcode invece di config/data
+   - Mock/stub lasciati al posto di logic vera
+3. **Smoke probe live** se modifica backend: `curl /api/<endpoint>` o invocazione minimal flow E2E. Mai dichiarare "wired" senza un colpo di test.
+
+**Skip rules** (verify NON necessario):
+
+- Edit purely cosmetic (typo, formatting senza logic)
+- Single-file doc edit ≤30 LOC
+- Read-only operations (Glob/Grep/Read sequences)
+
+**Skill `/verify-done`** (vedi `.claude/skills/verify-done.md`): orchestrates il flow sopra in un colpo. Invoca prima di "ok l'ho finito".
+
+**Anti-pattern**:
+
+- ❌ Dichiarare done sulla base "ha compilato" → compile-only ≠ behavior verified
+- ❌ Skip test perché "modifica piccola" → 25 buggy_code dimostra falso senso di sicurezza
+- ❌ "I tests should pass" senza eseguirli → speculative claim, ottenuto da rescue pass
+
 ## 🏛 Museum-first protocol (validato 2026-04-25)
 
 Friction concreta: 18 sprint hanno accumulato idee buone in `incoming/`, `docs/archive/`, `reports/incoming/`, branch chiusi, ADR superseded. Future agent rischia duplicate research O re-invent buried work.
