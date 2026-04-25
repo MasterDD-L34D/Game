@@ -104,6 +104,18 @@ const progressionPlugin = {
   },
 };
 
+// M14 Path A — Unit-self mutation framework (post-encounter mutation catalog).
+// Decoupled from V3 mating per design semantics 2026-04-25.
+const mutationsPlugin = {
+  name: 'mutations',
+  register(app, options = {}) {
+    const { createMutationsRouter } = require('../routes/mutations');
+    const router = createMutationsRouter(options.mutations || {});
+    app.use('/api/v1/mutations', router);
+    app.use('/api/mutations', router);
+  },
+};
+
 /**
  * Lista plugin built-in. Aggiungere nuovi plugin qui.
  * Ordine = ordine di registrazione.
@@ -115,6 +127,7 @@ const BUILTIN_PLUGINS = [
   jobsPlugin,
   formsPlugin,
   progressionPlugin,
+  mutationsPlugin,
 ];
 
 module.exports = {
@@ -126,4 +139,5 @@ module.exports = {
   jobsPlugin,
   formsPlugin,
   progressionPlugin,
+  mutationsPlugin,
 };
