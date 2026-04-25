@@ -60,17 +60,29 @@ L'ecosystem Evo-Tactics è composto da **4 GitHub repo core + 3 progetti AI sate
 
 ### `C:/Users/edusc/.openclaw/` — OpenClaw runtime (active)
 
-| Slot                       | Note                                                                  |
-| -------------------------- | --------------------------------------------------------------------- |
-| `agents/dafne`             | Dafne agent profile (gestito anche da OpenClaw, NON solo da `Dafne/`) |
-| `subagents/`               | Subagent definitions                                                  |
-| `sandboxes/`               | Sandbox per agenti (es. `agent-dafne-c52ca5e1`)                       |
-| `skills/`                  | Skill definitions                                                     |
-| `memory/dafne.sqlite`      | Memory persistente Dafne                                              |
-| `telegram/`, `qqbot/`      | Integration bot                                                       |
-| `openclaw.json` + 8 backup | Config attivo (last modify 2026-04-24 20:24)                          |
+| Slot                       | Note                                                                                                                                         |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `agents/dafne`             | Dafne agent profile (gestito anche da OpenClaw, NON solo da `Dafne/`)                                                                        |
+| `subagents/`               | Subagent definitions                                                                                                                         |
+| `sandboxes/`               | Sandbox per agenti (es. `agent-dafne-c52ca5e1`)                                                                                              |
+| `skills/`                  | Skill definitions                                                                                                                            |
+| `memory/dafne.sqlite`      | Memory persistente Dafne                                                                                                                     |
+| `telegram/`, `qqbot/`      | Integration bot                                                                                                                              |
+| `workspace/`               | Template generico OpenClaw (IDENTITY.md "Fill this in during first conversation"). NON è Dafne workspace — quello è in `~/Dafne/workspace/`. |
+| `openclaw.json` + 8 backup | Config attivo (last modify 2026-04-24 20:24)                                                                                                 |
 
 **Status**: 🟢 attivo runtime (config touched 2026-04-24, multipli `openclaw.json.clobbered.*` indicano rescue tracking). Coordina Dafne agent.
+
+### Desktop `C:/Users/edusc/Desktop/` — entrypoint diretti
+
+| File                                           | Tipo                     | Note                                                                                                                                                                                                |
+| ---------------------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`WRITE-ACCESS-POLICY.md`**                   | Canonical governance doc | 🟢 `source_of_truth: true` — define se/quando/come/quanto un agente swarm può scrivere su repo. Doc anticipato pre-prima esperienza, review cycle "dopo ogni promozione di livello, o ogni 3 mesi". |
+| `Swarm AI Dashboard.url`                       | Browser bookmark         | Local dashboard `http://127.0.0.1:5000` (Dafne swarm runtime UI)                                                                                                                                    |
+| `Dafne.lnk` + `Dafne Widget.lnk` + `Swarm.lnk` | Launcher shortcuts       | Shortcut Windows verso `~/Dafne/start-dafne.cmd` + widget Tauri                                                                                                                                     |
+| `Claude Code.lnk`                              | Launcher                 | Claude Code CLI shortcut                                                                                                                                                                            |
+| `Docker Desktop.lnk`                           | Launcher                 | Docker Desktop shortcut                                                                                                                                                                             |
+| `files.zip`                                    | Zip generic              | Da non confondere con `gioco/_archive/.../files.zip` (era stesso o copia, archiviare se utile)                                                                                                      |
 
 ### `C:/dev/` — Location alternativa lavoro
 
@@ -82,7 +94,7 @@ L'ecosystem Evo-Tactics è composto da **4 GitHub repo core + 3 progetti AI sate
 | `AA01`                    | `C:/dev/AA01/`                    | 🟡 Versione tarball-based (aa01.tar.gz + AGENTS/GUIDE/README), diversa da `~/aa01/`                                                                                                                                                         |
 | `aider-tty-test`          | `C:/dev/aider-tty-test/`          | 🟡 Duplicato di `gioco/aider-tty-test/`                                                                                                                                                                                                     |
 | `backup-20260419-0518/`   | `C:/dev/backup-20260419-0518/`    | Snapshot                                                                                                                                                                                                                                    |
-| `scratch/`, `null/`       | `C:/dev/`                         | Scratch                                                                                                                                                                                                                                     |
+| `scratch/`, `null/`       | `C:/dev/`                         | Scratch (contiene anche `awesome-claude-code-toolkit/` clone `rohitg00/awesome-claude-code-toolkit` — toolkit Claude Code esterno: agents, commands, contexts, hooks, mcp-configs. Reference, NON parte ecosystem Evo-Tactics)              |
 
 **Raccomandazione**: `C:/dev/` contiene principalmente checkout duplicati. Decidere fate (consolidare o purgare) per evitare path-confusion. Path canonical da preferire:
 
