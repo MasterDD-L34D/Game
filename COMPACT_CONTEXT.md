@@ -8,31 +8,45 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v4 (post 3 P0 residuals chiusi sessione 2026-04-25 pomeriggio)
-- **Ultimo aggiornamento**: 2026-04-25 (sessione autonoma 3 PR mergiati: pypdf test fix, MAP-Elites HTTP fitness wrapper, Thought Cabinet Phase 2)
+- **Versione compact**: v5 (post Skiv mega-session 2026-04-25 sera — 7 PR + 1 routine)
+- **Ultimo aggiornamento**: 2026-04-25 sera (autonoma trust esteso: 7 PR mergiati Skiv wishlist)
 
 ## ⚡ TL;DR per ripartire
 
-**6 agent illuminator pronti** + **10 P0 chiusi totali** (7 sessione notte + 3 sessione pomeriggio) + **9° / 10° P0 chiusi** in questa sessione (HTTP wrapper + thought cabinet internalization). Pattern stdlib-only + js-yaml + mulberry32 + monkeypatch DI validato 7×. **NON perdere l'approccio research-first agent-driven**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+**6 agent illuminator pronti** + **13 P0 chiusi totali** (7 notte + 3 pomeriggio + 3 sera Skiv-driven) + **Skiv canonical creature persona** introdotta (vedi memoria `feedback_gamer_recap_creature_card_format.md` + `project_skiv_evolution_wishlist.md`). Pattern stdlib-only + js-yaml + mulberry32 + monkeypatch DI + data-driven matcher validato 9×. **NON perdere Skiv** + **NON saltare il workflow research-first agent-driven**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
 
-## 🆕 Sessione 2026-04-25 pomeriggio (autonoma, utente trust esteso)
+## 🆕 Sessione 2026-04-25 sera — Skiv mega-session (autonoma)
 
-**3 PR mergiati main consecutivi**:
+**7 PR mergiati main consecutivi**:
 
-| PR    | Title                                                   | SHA        |
-| ----- | ------------------------------------------------------- | ---------- |
-| #1767 | fix(tests): pytest.importorskip pypdf in collection     | `02832dfc` |
-| #1768 | feat(balance): MAP-Elites HTTP fitness wrapper P0 #2    | `fcd50315` |
-| #1769 | feat(narrative): Thought Cabinet Phase 2 (Disco intern) | `b04f3a92` |
+| PR    | Title                                                           | SHA        | Skiv ticket  |
+| ----- | --------------------------------------------------------------- | ---------- | ------------ |
+| #1767 | fix(tests): pytest.importorskip pypdf in collection             | `02832dfc` | infra        |
+| #1768 | feat(balance): MAP-Elites HTTP fitness wrapper                  | `fcd50315` | balance P0   |
+| #1769 | feat(narrative): Thought Cabinet Phase 2 (Disco internalize)    | `b04f3a92` | narrative P0 |
+| #1770 | docs(handoff): bump COMPACT_CONTEXT + handoff for 3 P0 closures | `1d1fdb0f` | docs         |
+| #1772 | feat(combat): synergy combo detection                           | `cb1ca79e` | Skiv #2      |
+| #1773 | feat(combat): Defy verb (counter-pressure agency)               | `b2e079ba` | Skiv #5      |
+| #1774 | feat(combat): biome resonance reduces research_cost             | `c06e02c4` | Skiv #4      |
 
-**Tests aggregate**: AI 307/307 · services 257/257 · pytest **948/948** (+12 map_elites/restricted_play) · thoughtCabinet **39/39** · sessionThoughts **11/11** · api **621/621** · governance 0/0.
+**+ 1 routine scheduled**: `trig_012Axz6S7TjfC8g1W2gE4Mg4` lunedì 2026-05-11 07:00 UTC — Sprint A residual (resolver wire #1) + tier-2/3 effects content + MAP-Elites HTTP archive.
 
-**P0 residuali chiusi**:
+**Tests aggregate post-merge**: AI 307/307 · services **306/306** (+49 in sessione: 22 synergy + 15 defy + 12 resonance) · api **633/633** (+12) · pytest **948/948** · governance 0/0.
 
-- balance: **MAP-Elites HTTP fitness wrapper** (#1768) — wire `run_one` HTTP, --fitness http|synthetic CLI flag, `unit_override` backward-compat hook su restricted_play, `build_http_evaluator` DI-testable
-- narrative: **Thought Cabinet Phase 2** (#1769) — createCabinetState + startResearch + tickResearch + forgetThought + passiveBonuses, 3 REST route (research/forget/tick), 6 tier-1 thoughts con effect_bonus+effect_cost
+**Skiv canonical creature**: introdotto come tamagotchi-style recap entity + 8-ticket wishlist con sprint A+B+C reorder. Salvato in memoria persistente (cross-session).
 
-**Fix bonus**: PR #1767 pypdf test collection error (local venv parziale) — `pytest.importorskip` allinea al pattern lazy del tool coperto.
+**Score pilastri post-sera**:
+
+| Pillar        | Pre-sera     | Post-sera (Skiv)            |
+| ------------- | ------------ | --------------------------- |
+| P1 Tattica    | 🟢           | **🟢+** (synergy beats)     |
+| P2 Evoluzione | 🟢 candidato | 🟢 candidato                |
+| P3 Identità   | 🟢 candidato | 🟢 candidato                |
+| P4 MBTI       | 🟡+          | **🟡+ deeper** (biome×spec) |
+| P5 Co-op      | 🟡 → 🟢      | 🟡 (playtest pending)       |
+| P6 Fairness   | 🟢 candidato | **🟢** (two-way pressure)   |
+
+→ **2🟢 + 2🟢-cand + 2🟡+** (zero 🔴).
 
 ## 🆕 Sessione 2026-04-25 notte (autonoma post user trust)
 
