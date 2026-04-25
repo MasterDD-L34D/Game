@@ -14,25 +14,38 @@ const path = require('node:path');
 const yaml = require('js-yaml');
 
 const DEFAULT_JOBS_PATH = path.resolve(__dirname, '..', '..', '..', 'data', 'core', 'jobs.yaml');
+const DEFAULT_JOBS_EXPANSION_PATH = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  '..',
+  'data',
+  'core',
+  'jobs_expansion.yaml',
+);
 
 /**
- * Carica data/core/jobs.yaml. Fallback silenzioso a struttura vuota se file mancante.
+ * Carica data/core/jobs.yaml + (additivamente) data/core/jobs_expansion.yaml.
+ * Fallback silenzioso a struttura vuota se file mancanti.
  *
- * @param {string} [yamlPath] override path.
- * @param {{ log?: Function, warn?: Function }} [logger] logger (default console).
+ * Job expansion sono identificati dal campo per-job `status: 'expansion'`
+ * (canonical, presente in entrambi i YAML — non aggiungiamo sentinel).
+ * Conflitto su jobId duplicato: la versione base vince, l'expansion viene
+ * loggata come override ignorato.
+ *
+ * @param {string} [yamlPath] override path canonico jobs.yaml.
+ * @param {{ log?: Function, warn?: Function, expansionPath?: string }} [logger]
  * @returns {{ version?: string, jobs: Record<string, object> } | null}
  */
 function loadJobs(yamlPath = DEFAULT_JOBS_PATH, logger = console) {
+  let parsed = null;
   try {
     const text = fs.readFileSync(yamlPath, 'utf8');
-    const parsed = yaml.load(text);
+    parsed = yaml.load(text);
     if (!parsed || typeof parsed !== 'object' || !parsed.jobs) {
       logger.warn(`[jobs] struttura invalida in ${yamlPath}, uso null`);
       return null;
     }
-    const count = Object.keys(parsed.jobs).length;
-    logger.log(`[jobs] caricato ${yamlPath}: ${count} job`);
-    return parsed;
   } catch (err) {
     if (err && err.code === 'ENOENT') {
       logger.warn(`[jobs] ${yamlPath} non trovato, uso null`);
@@ -43,6 +56,37 @@ function loadJobs(yamlPath = DEFAULT_JOBS_PATH, logger = console) {
     }
     return null;
   }
+
+  const expansionPath = (logger && logger.expansionPath) || DEFAULT_JOBS_EXPANSION_PATH;
+  try {
+    const expText = fs.readFileSync(expansionPath, 'utf8');
+    const expParsed = yaml.load(expText);
+    if (expParsed && typeof expParsed === 'object' && expParsed.jobs) {
+      let merged = 0;
+      for (const [jobId, jobBody] of Object.entries(expParsed.jobs)) {
+        if (parsed.jobs[jobId]) {
+          logger.warn(`[jobs] expansion override ignored for base job: ${jobId}`);
+          continue;
+        }
+        parsed.jobs[jobId] = jobBody;
+        merged += 1;
+      }
+      logger.log(
+        `[jobs] caricato ${yamlPath}: ${Object.keys(parsed.jobs).length - merged} base + ${merged} expansion = ${Object.keys(parsed.jobs).length} job`,
+      );
+      return parsed;
+    }
+  } catch (err) {
+    if (!(err && err.code === 'ENOENT')) {
+      logger.warn(
+        `[jobs] errore caricamento expansion ${expansionPath}: ${err && err.message ? err.message : err}`,
+      );
+    }
+  }
+
+  const count = Object.keys(parsed.jobs).length;
+  logger.log(`[jobs] caricato ${yamlPath}: ${count} job (no expansion)`);
+  return parsed;
 }
 
 /**
@@ -105,4 +149,10 @@ function extractAbilities(jobEntry) {
     .map((a) => ({ ...a, effective_reach: computeEffectiveReach(a, ar) }));
 }
 
-module.exports = { loadJobs, extractAbilities, computeEffectiveReach, DEFAULT_JOBS_PATH };
+module.exports = {
+  loadJobs,
+  extractAbilities,
+  computeEffectiveReach,
+  DEFAULT_JOBS_PATH,
+  DEFAULT_JOBS_EXPANSION_PATH,
+};
