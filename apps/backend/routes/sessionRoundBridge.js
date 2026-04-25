@@ -44,6 +44,15 @@ const { tick: missionTimerTick } = require('../services/combat/missionTimer');
 const { buildThreatPreview } = require('../services/ai/threatPreview');
 // Status engine extension (2026-04-25 audit P0).
 const { applyTurnRegen } = require('../services/combat/statusModifiers');
+// Telepatic-link reveal pipe (2026-04-25 audit follow-up). Lazy-loaded with
+// graceful fallback so missing module never blocks /round/begin-planning.
+let computeTelepathicReveal = null;
+try {
+  // eslint-disable-next-line global-require
+  ({ computeTelepathicReveal } = require('../services/combat/telepathicReveal'));
+} catch (_err) {
+  computeTelepathicReveal = null;
+}
 
 function createRoundBridge(deps) {
   const {
@@ -1345,6 +1354,19 @@ function createRoundBridge(deps) {
         // main.js tooltip. Empty array se nessun SIS intent.
         const threatPreview = buildThreatPreview(session);
 
+        // Telepatic-link reveal (2026-04-25 follow-up): per-actor enemy
+        // intent foresight when status.telepatic_link active. Additive
+        // field: empty array if no actor has the status. Wrapped try/catch
+        // so reveal pipe failure never blocks round planning.
+        let revealedIntents = [];
+        if (typeof computeTelepathicReveal === 'function') {
+          try {
+            revealedIntents = computeTelepathicReveal(session);
+          } catch (_err) {
+            revealedIntents = [];
+          }
+        }
+
         res.json({
           session_id: session.session_id,
           turn: session.turn,
@@ -1353,6 +1375,7 @@ function createRoundBridge(deps) {
           sistema_decisions: sisDecisions,
           sistema_intents_count: sisIntents.length,
           threat_preview: threatPreview,
+          revealed_intents: revealedIntents,
           hazard_events: hazardEvents,
           side_effects: bleedingEvents,
           state: publicSessionView(session),
