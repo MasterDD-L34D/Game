@@ -14,22 +14,30 @@
 
 ## 🗺️ Topologia repo (cartelle vive)
 
-| Slot                        | Path locale                                             | Tipo               | Ruolo                                                                         | Stato adoption                                                                | Entry point doc                                                                                            |
-| --------------------------- | ------------------------------------------------------- | ------------------ | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **Game** (questo)           | `C:/Users/edusc/Desktop/gioco/Game/`                    | Monorepo polyglot  | Runtime canonical: backend Express + Vue dashboard + dataset YAML + CLI tools | 🟢 attivo, MVP M16-M20 chiuso, 411/411 test                                   | `PROJECT_BRIEF.md` → `COMPACT_CONTEXT.md` → `CLAUDE.md`                                                    |
-| **Game-Database**           | NON clonato su questa macchina ⚠️                       | Sibling repo CMS   | Taxonomy CMS (Prisma + Postgres + Express + React) per glossary trait/specie  | 🟡 HTTP runtime Alt B scaffolded **flag-OFF** (`GAME_DATABASE_ENABLED=false`) | `docs/adr/ADR-2026-04-14-game-database-topology.md` (ADR canonical) + GitHub `MasterDD-L34D/Game-Database` |
-| **codemasterdd-ai-station** | `C:/Users/edusc/Desktop/gioco/codemasterdd-ai-station/` | Archivio operativo | Prompt library + bootstrap kit + Claude Code operating package + template     | 🟢 Sprint 0+1 integrati (PR #1732, 2026-04-24)                                | `LIBRARY.md` § Archivio operativo + memory `reference_archivio_libreria_operativa.md`                      |
-| **synesthesia**             | `C:/Users/edusc/Desktop/gioco/synesthesia/`             | Progetto separato  | Esame universitario UPO 2025-26 (web app archetipi multimediali)              | ❌ **NON parte di Evo-Tactics**, condivide solo concept 9-archetipi           | `synesthesia/README.md` (autonomo, ignorare per Game)                                                      |
-| **aider-tty-test**          | `C:/Users/edusc/Desktop/gioco/aider-tty-test/`          | Sandbox            | Test Aider TTY pairing                                                        | 🟢 sandbox isolato, side-effect zero                                          | n/a                                                                                                        |
-| **scratch**                 | `C:/Users/edusc/Desktop/gioco/scratch/`                 | Scratch            | Spazio temporaneo                                                             | 🟢 ephemeral, nessun commit                                                   | n/a                                                                                                        |
+| Slot                        | Path locale                                             | Tipo               | Ruolo                                                                                                    | Stato adoption                                                                                                     | Entry point doc                                                                                                       |
+| --------------------------- | ------------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| **Game** (questo)           | `C:/Users/edusc/Desktop/gioco/Game/`                    | Monorepo polyglot  | Runtime canonical: backend Express + Vue dashboard + dataset YAML + CLI tools                            | 🟢 attivo, MVP M16-M20 chiuso, 411/411 test                                                                        | `PROJECT_BRIEF.md` → `COMPACT_CONTEXT.md` → `CLAUDE.md`                                                               |
+| **Game-Database**           | `C:/Users/edusc/Documents/GitHub/Game-Database/`        | Sibling repo CMS   | Taxonomy CMS (Prisma + Postgres + Express + React MUI Tailwind TanStack Table) per glossary trait/specie | 🟢 clonato 2026-04-25 (branch `main`) · HTTP runtime Alt B scaffolded **flag-OFF** (`GAME_DATABASE_ENABLED=false`) | `Game-Database/README.md` + `Game-Database/CLAUDE.md` + `Game-Database/README_HOWTO_AUTHOR_TRAIT.md` + ADR-2026-04-14 |
+| **codemasterdd-ai-station** | `C:/Users/edusc/Desktop/gioco/codemasterdd-ai-station/` | Archivio operativo | Prompt library + bootstrap kit + Claude Code operating package + template                                | 🟢 Sprint 0+1 integrati (PR #1732, 2026-04-24)                                                                     | `LIBRARY.md` § Archivio operativo + memory `reference_archivio_libreria_operativa.md`                                 |
+| **synesthesia**             | `C:/Users/edusc/Desktop/gioco/synesthesia/`             | Progetto separato  | Esame universitario UPO 2025-26 (web app archetipi multimediali)                                         | ❌ **NON parte di Evo-Tactics**, condivide solo concept 9-archetipi                                                | `synesthesia/README.md` (autonomo, ignorare per Game)                                                                 |
+| **aider-tty-test**          | `C:/Users/edusc/Desktop/gioco/aider-tty-test/`          | Sandbox            | Test Aider TTY pairing                                                                                   | 🟢 sandbox isolato, side-effect zero                                                                               | n/a                                                                                                                   |
+| **scratch**                 | `C:/Users/edusc/Desktop/gioco/scratch/`                 | Scratch            | Spazio temporaneo                                                                                        | 🟢 ephemeral, nessun commit                                                                                        | n/a                                                                                                                   |
 
-⚠️ **Game-Database missing**: il path `C:/Users/VGit/Documents/GitHub/Game-Database/` referenziato in `CLAUDE.md` è obsoleto (utente legacy). Repo non presente su `edusc`. Per clonare:
+**Game-Database stack** (porte locali):
 
-```bash
-git clone https://github.com/MasterDD-L34D/Game-Database.git C:/Users/edusc/Documents/GitHub/Game-Database
+- Postgres (Docker compose): `localhost:5432` (host port 5433 raccomandato in CLAUDE.md per evitare collisione con Postgres Game)
+- Server Express + Prisma: `http://localhost:3333` (`server/`)
+- Dashboard React MUI: `http://localhost:5174` (`apps/dashboard/`)
+
+**Bootstrap quick** (PowerShell, dal repo Game-Database):
+
+```powershell
+docker compose up -d                      # Postgres
+Set-Location server; Copy-Item .env.example .env
+npm install; npm run dev:setup; npm run dev   # API :3333
+Set-Location ..\apps\dashboard; Copy-Item .env.local.example .env.local
+npm install; npm run dev                  # UI :5174
 ```
-
-Update CLAUDE.md path quando clonato.
 
 ---
 
@@ -145,10 +153,11 @@ ollama pull qwen3:8b qwen2.5-coder
 
 ## 🧭 Cleanup TODO
 
-- [ ] Aggiornare `CLAUDE.md` "Sibling repo topology": path `C:/Users/VGit/Documents/GitHub/Game-Database` → `C:/Users/edusc/Documents/GitHub/Game-Database` (post clone)
+- [x] ~~Aggiornare `CLAUDE.md` "Sibling repo topology": path~~ — done 2026-04-25 (clone + path update)
 - [ ] Decidere fate dei 6 zip rimanenti: estrarre, archiviare in `~/Archive/`, o purgare
 - [ ] `synesthesia/` valutare se spostare a path diverso (es. `~/Documents/UPO/`) per evitare confusione con workspace Evo-Tactics
-- [ ] Quando clonato, Game-Database deve avere il proprio `WORKSPACE_MAP.md` simmetrico (cross-link bidirezionale)
+- [ ] Game-Database: scrivere `WORKSPACE_MAP.md` simmetrico nel suo repo (cross-link bidirezionale) — facoltativo, attivare solo se sviluppo Game-Database diventa attivo
+- [ ] Game-Database: validare bootstrap stack locale (`docker compose up` + `dev:setup` + `dev`) end-to-end prima di considerare HTTP Alt B flag-ON
 
 ---
 
