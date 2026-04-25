@@ -429,9 +429,17 @@ export function updateStatus(state) {
   const pressureEl = document.getElementById('pressure-meter');
   if (pressureEl) {
     const tier = pressureTier(state.sistema_pressure);
+    const counter = Number(state.sistema_counter) || 0;
+    const counterPct = Math.min(100, Math.round((counter / 30) * 100));
+    const counterHtml =
+      counter > 0
+        ? `<div class="pushback-label">⚔ Pushback ${counter}/30</div>
+           <div class="pushback-bar"><div class="pushback-fill" style="width:${counterPct}%"></div></div>`
+        : '';
     pressureEl.innerHTML = `
       <div class="pressure-label">SISTEMA <strong style="color:${tier.color}">${tier.label}</strong> · ${tier.value}/100 · cap ${tier.intents} intents/round</div>
       <div class="pressure-bar"><div class="pressure-fill" style="width:${tier.value}%;background:${tier.color}"></div></div>
+      ${counterHtml}
     `;
   }
 }

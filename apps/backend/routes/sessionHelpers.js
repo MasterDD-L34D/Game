@@ -264,6 +264,7 @@ function publicSessionView(session) {
     events: Array.isArray(session.events) ? session.events.slice(-30) : [],
     sistema_pressure: pressure,
     sistema_tier: tier,
+    sistema_counter: Number(session.sistema_counter) || 0,
     atlas,
     last_round_combos: Array.isArray(session.last_round_combos) ? session.last_round_combos : [],
     previous_round_combos: Array.isArray(session.previous_round_combos)

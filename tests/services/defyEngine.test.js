@@ -1,4 +1,4 @@
-// Defy engine — pure unit tests for Skiv ticket #5 (Sprint B [2/2]).
+// Defy engine — pure unit tests for Skiv ticket #5 (Sprint B [2/2]) + Sistema Pushback.
 
 'use strict';
 
@@ -9,6 +9,9 @@ const {
   DEFY_SG_COST,
   DEFY_PRESSURE_RELIEF,
   DEFY_AP_PENALTY_TURNS,
+  DEFY_COUNTER_CHARGE,
+  PUSHBACK_THRESHOLD,
+  PUSHBACK_PRESSURE_RESTORE,
   ERR_NOT_FOUND,
   ERR_NOT_PLAYER,
   ERR_KO,
@@ -16,6 +19,7 @@ const {
   ERR_NO_PRESSURE,
   canDefy,
   applyDefy,
+  applySystemaPushback,
 } = require('../../apps/backend/services/combat/defyEngine');
 
 function buildPlayer(overrides = {}) {
@@ -141,4 +145,90 @@ test('applyDefy: actor without status object → creates status', () => {
 test('canDefy: non-finite pressure treated as 0 → blocked', () => {
   const sess = { sistema_pressure: 'invalid' };
   assert.equal(canDefy(buildPlayer(), sess).error, ERR_NO_PRESSURE);
+});
+
+// ─── Sistema Pushback (symmetric Defy extension) ────────────────────────────
+
+test('pushback constants — charge 15, threshold 30, restore 15', () => {
+  assert.equal(DEFY_COUNTER_CHARGE, 15);
+  assert.equal(PUSHBACK_THRESHOLD, 30);
+  assert.equal(PUSHBACK_PRESSURE_RESTORE, 15);
+});
+
+test('applyDefy: charges sistema_counter by DEFY_COUNTER_CHARGE on success', () => {
+  const actor = buildPlayer();
+  const sess = buildSession({ sistema_counter: 0 });
+  applyDefy(actor, sess);
+  assert.equal(sess.sistema_counter, DEFY_COUNTER_CHARGE);
+});
+
+test('applyDefy: counter accumulates across two Defys (capped at PUSHBACK_THRESHOLD)', () => {
+  const actor1 = buildPlayer({ sg: 10 });
+  const sess = buildSession({ sistema_pressure: 80, sistema_counter: 0 });
+  applyDefy(actor1, sess); // first: counter → 15
+  assert.equal(sess.sistema_counter, 15);
+  applyDefy(actor1, sess); // second: counter → 30 (capped at threshold)
+  assert.equal(sess.sistema_counter, PUSHBACK_THRESHOLD);
+});
+
+test('applyDefy: counter does not exceed PUSHBACK_THRESHOLD', () => {
+  const actor = buildPlayer();
+  const sess = buildSession({ sistema_counter: PUSHBACK_THRESHOLD });
+  applyDefy(actor, sess);
+  assert.equal(sess.sistema_counter, PUSHBACK_THRESHOLD);
+});
+
+test('applyDefy: failed Defy does not charge counter', () => {
+  const actor = buildPlayer({ sg: 0 });
+  const sess = buildSession({ sistema_counter: 0 });
+  applyDefy(actor, sess);
+  assert.equal(sess.sistema_counter, 0); // unchanged
+});
+
+test('applyDefy: after exposes sistema_counter in result', () => {
+  const actor = buildPlayer();
+  const sess = buildSession({ sistema_counter: 0 });
+  const out = applyDefy(actor, sess);
+  assert.equal(out.after.sistema_counter, DEFY_COUNTER_CHARGE);
+  assert.equal(out.before.sistema_counter, 0);
+});
+
+test('applySystemaPushback: no trigger when counter < threshold', () => {
+  const sess = buildSession({ sistema_counter: 15 });
+  const out = applySystemaPushback(sess);
+  assert.equal(out.triggered, false);
+  assert.equal(sess.sistema_counter, 15); // unchanged
+  assert.equal(sess.sistema_pressure, 50); // unchanged
+});
+
+test('applySystemaPushback: triggers at threshold — resets counter, restores pressure', () => {
+  const sess = buildSession({ sistema_pressure: 40, sistema_counter: 30 });
+  const out = applySystemaPushback(sess);
+  assert.equal(out.triggered, true);
+  assert.equal(sess.sistema_counter, 0);
+  assert.equal(sess.sistema_pressure, 40 + PUSHBACK_PRESSURE_RESTORE);
+  assert.equal(out.pressure_restored, PUSHBACK_PRESSURE_RESTORE);
+});
+
+test('applySystemaPushback: pressure clamps at 100', () => {
+  const sess = buildSession({ sistema_pressure: 95, sistema_counter: 30 });
+  const out = applySystemaPushback(sess);
+  assert.equal(out.triggered, true);
+  assert.equal(sess.sistema_pressure, 100);
+  assert.equal(out.pressure_restored, 5); // only 5 restored (clamped)
+});
+
+test('applySystemaPushback: missing sistema_counter (legacy session) → no trigger', () => {
+  const sess = buildSession({}); // no sistema_counter field
+  const out = applySystemaPushback(sess);
+  assert.equal(out.triggered, false);
+});
+
+test('applySystemaPushback: reports before/after correctly', () => {
+  const sess = buildSession({ sistema_pressure: 30, sistema_counter: 30 });
+  const out = applySystemaPushback(sess);
+  assert.equal(out.before.sistema_counter, 30);
+  assert.equal(out.before.pressure, 30);
+  assert.equal(out.after.sistema_counter, 0);
+  assert.equal(out.after.pressure, 30 + PUSHBACK_PRESSURE_RESTORE);
 });
