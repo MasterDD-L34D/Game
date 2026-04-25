@@ -133,3 +133,59 @@ test('POST /api/skiv/webhook — valid HMAC → 200 ok', async () => {
   assert.equal(r.body.ok, true);
   assert.equal(r.body.event_type, 'pull_request');
 });
+
+test('POST /api/skiv/webhook — pull_request merged → appends feed entry', async () => {
+  const crypto = require('node:crypto');
+  const secret = 'topsecret';
+  const dir = tmpDir();
+  const feedPath = path.join(dir, 'feed.jsonl');
+  const payload = {
+    action: 'closed',
+    pull_request: {
+      number: 9999,
+      merged: true,
+      merged_at: '2026-04-25T22:00:00Z',
+      title: 'feat(p2): test webhook live',
+      labels: [{ name: 'feat/p2-test' }],
+      html_url: 'https://example/pr/9999',
+      user: { login: 'webhook-test' },
+    },
+  };
+  const raw = JSON.stringify(payload);
+  const sig = 'sha256=' + crypto.createHmac('sha256', secret).update(raw).digest('hex');
+  const app = buildApp({ webhookSecret: secret, feedPath });
+  const r = await request(app)
+    .post('/api/skiv/webhook')
+    .set('X-Hub-Signature-256', sig)
+    .set('X-GitHub-Event', 'pull_request')
+    .set('Content-Type', 'application/json')
+    .send(raw);
+  assert.equal(r.status, 200);
+  assert.equal(r.body.processed, true);
+  assert.equal(r.body.entry_id, 'pr-9999');
+  // Wait briefly for async append.
+  await new Promise((res) => setTimeout(res, 50));
+  const feedContent = fs.readFileSync(feedPath, 'utf8');
+  const entry = JSON.parse(feedContent.trim().split('\n').pop());
+  assert.equal(entry.event.kind, 'pr_merged');
+  assert.equal(entry.event.number, 9999);
+  assert.equal(entry.category, 'feat_p2');
+  assert.equal(entry.source, 'webhook_live');
+});
+
+test('POST /api/skiv/webhook — non-actionable event_type returns processed:false', async () => {
+  const crypto = require('node:crypto');
+  const secret = 'topsecret';
+  const payload = { action: 'starred' };
+  const raw = JSON.stringify(payload);
+  const sig = 'sha256=' + crypto.createHmac('sha256', secret).update(raw).digest('hex');
+  const app = buildApp({ webhookSecret: secret });
+  const r = await request(app)
+    .post('/api/skiv/webhook')
+    .set('X-Hub-Signature-256', sig)
+    .set('X-GitHub-Event', 'star')
+    .set('Content-Type', 'application/json')
+    .send(raw);
+  assert.equal(r.status, 200);
+  assert.equal(r.body.processed, false);
+});

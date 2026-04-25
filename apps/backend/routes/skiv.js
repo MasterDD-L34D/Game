@@ -249,6 +249,127 @@ function renderAsciiCard(state, recent = []) {
   return lines.join('\n');
 }
 
+// Phase 4 webhook live: real-time event processing. Maps GitHub webhook payload
+// to feed entry + voice line. Mirrors Python map_event for these 3 event_type:
+// pull_request (opened/closed merged), issues (opened/closed), workflow_run.
+function buildFeedEntryFromWebhook(eventType, payload) {
+  const ts = new Date().toISOString();
+  if (eventType === 'pull_request') {
+    const action = payload.action;
+    const pr = payload.pull_request || {};
+    if (action === 'closed' && pr.merged) {
+      const labels = (pr.labels || []).map((l) => l.name);
+      const title = pr.title || '';
+      const blob = labels.join(' ') + ' ' + title;
+      let category = 'default';
+      let voice = 'Sabbia si muove sotto le zampe.';
+      if (/p2/i.test(blob)) {
+        category = 'feat_p2';
+        voice = 'Sento il guscio cambiare. Forma nuova preme.';
+      } else if (/p3/i.test(blob)) {
+        category = 'feat_p3';
+        voice = 'Mestiere nuovo. Le mani sanno prima di me.';
+      } else if (/p4/i.test(blob)) {
+        category = 'feat_p4';
+        voice = 'Voce nuova nella stanza interna.';
+      } else if (/p5/i.test(blob)) {
+        category = 'feat_p5';
+        voice = 'Ho sentito un altro respiro vicino.';
+      } else if (/p6/i.test(blob)) {
+        category = 'feat_p6';
+        voice = 'Sistema preme. Sabbia vibra.';
+      } else if (/^fix/i.test(title)) {
+        category = 'fix';
+        voice = 'Una crepa chiusa. Bene.';
+      } else if (/^revert/i.test(title)) {
+        category = 'revert';
+        voice = 'Era così. Adesso non più.';
+      }
+      return {
+        ts,
+        event: {
+          id: `pr-${pr.number}`,
+          kind: 'pr_merged',
+          ts: pr.merged_at || ts,
+          number: pr.number,
+          title,
+          labels,
+          html_url: pr.html_url,
+          author: (pr.user || {}).login || '?',
+        },
+        category,
+        voice,
+        source: 'webhook_live',
+      };
+    }
+  }
+  if (eventType === 'issues') {
+    const action = payload.action;
+    const issue = payload.issue || {};
+    if (action === 'opened') {
+      return {
+        ts,
+        event: {
+          id: `iss-${issue.number}-open`,
+          kind: 'issue_opened',
+          ts: issue.created_at || ts,
+          number: issue.number,
+          title: issue.title || '',
+          labels: (issue.labels || []).map((l) => l.name),
+          html_url: issue.html_url,
+        },
+        category: 'issue_open',
+        voice: "Domanda nuova nell'aria. Annuso.",
+        source: 'webhook_live',
+      };
+    }
+    if (action === 'closed') {
+      return {
+        ts,
+        event: {
+          id: `iss-${issue.number}-closed`,
+          kind: 'issue_closed',
+          ts: issue.closed_at || ts,
+          number: issue.number,
+          title: issue.title || '',
+          labels: (issue.labels || []).map((l) => l.name),
+          html_url: issue.html_url,
+        },
+        category: 'issue_close',
+        voice: 'Una voce tace. Pace breve.',
+        source: 'webhook_live',
+      };
+    }
+  }
+  if (eventType === 'workflow_run') {
+    const action = payload.action;
+    const run = payload.workflow_run || {};
+    if (action === 'completed' && (run.conclusion === 'success' || run.conclusion === 'failure')) {
+      const isPass = run.conclusion === 'success';
+      return {
+        ts,
+        event: {
+          id: `wf-${run.id}`,
+          kind: isPass ? 'workflow_passed' : 'workflow_failed',
+          ts: run.updated_at || ts,
+          name: run.name || '?',
+          head_sha: (run.head_sha || '').slice(0, 8),
+          html_url: run.html_url,
+        },
+        category: isPass ? 'wf_pass' : 'wf_fail',
+        voice: isPass ? 'Tutto in posto. Respiro.' : 'Qualcosa scricchiola. Aspetto.',
+        source: 'webhook_live',
+      };
+    }
+  }
+  return null;
+}
+
+async function appendWebhookEntry(entry, feedPath = FEED_PATH) {
+  await fsp.mkdir(path.dirname(feedPath), { recursive: true });
+  await fsp.appendFile(feedPath, JSON.stringify(entry) + '\n', 'utf8');
+}
+
 function verifyWebhookSignature(rawBody, signatureHeader, secret) {
   if (!signatureHeader || !secret) return false;
   const expected = 'sha256=' + crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
@@ -322,12 +443,24 @@ function createSkivRouter(opts = {}) {
         return res.status(401).json({ error: 'invalid_signature' });
       }
       const eventType = req.get('X-GitHub-Event') || 'unknown';
-      // Phase 4: parse + append to feed in-process. For now, defer to Python cron.
-      // Acknowledge receipt (idempotent) and let cron pick up the change.
+      // Phase 4 LIVE: parse payload + append to feed real-time.
+      const entry = buildFeedEntryFromWebhook(eventType, req.body || {});
+      if (!entry) {
+        return res.json({
+          ok: true,
+          event_type: eventType,
+          processed: false,
+          note: 'event_type not actionable for Skiv (skipped)',
+        });
+      }
+      appendWebhookEntry(entry, feedPath).catch((err) => {
+        console.error('[skiv] webhook feed append failed', err);
+      });
       return res.json({
         ok: true,
         event_type: eventType,
-        note: 'webhook accepted; feed will refresh at next cron tick',
+        processed: true,
+        entry_id: entry.event.id,
       });
     },
   );

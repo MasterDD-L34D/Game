@@ -88,6 +88,19 @@ function injectStyles() {
     .skiv-feed-entry.cat-wf_fail { border-left-color: #ef5350; }
     .skiv-feed-entry.cat-wf_pass { border-left-color: #81c784; }
     .skiv-empty { color: #8a8a8a; font-style: italic; padding: 10px; text-align: center; }
+    .skiv-sprite-frame {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 10px; background: linear-gradient(180deg, #2a1f12 0%, #1a1410 100%);
+      border: 1px solid #5a4a2f; border-radius: 8px; margin-bottom: 12px;
+    }
+    .skiv-sprite-frame img {
+      width: 100%; max-width: 320px; height: auto; border-radius: 6px;
+      filter: drop-shadow(0 2px 6px rgba(196, 165, 116, 0.3));
+    }
+    .skiv-sprite-caption {
+      margin-top: 8px; color: #c4a574; font-size: 0.78rem;
+      letter-spacing: 0.1em; text-transform: uppercase; font-weight: bold;
+    }
     .skiv-lifecycle-bar {
       display: flex; gap: 4px; padding: 10px; background: #0b0d12;
       border-radius: 8px; margin-top: 12px; overflow-x: auto;
@@ -134,6 +147,10 @@ function buildOverlay() {
         <span class="skiv-status-chip" id="skiv-status-chip">—</span>
         <button class="skiv-close-btn" id="skiv-close" aria-label="Chiudi">✕</button>
       </div>
+      <div class="skiv-sprite-frame" id="skiv-sprite-frame">
+        <img id="skiv-sprite-img" src="/skiv/mature.svg" alt="Skiv sprite" />
+        <div class="skiv-sprite-caption" id="skiv-sprite-caption">Predatore Maturo</div>
+      </div>
       <pre class="skiv-ascii-card" id="skiv-card">${FALLBACK_CARD}</pre>
       <div id="skiv-lifecycle-section" style="display:none">
         <div class="skiv-lifecycle-bar" id="skiv-lifecycle-bar"></div>
@@ -163,6 +180,8 @@ function buildOverlay() {
   STATE.nextGateEl = overlay.querySelector('#skiv-next-gate');
   STATE.digestSectionEl = overlay.querySelector('#skiv-digest-section');
   STATE.digestTextEl = overlay.querySelector('#skiv-digest-text');
+  STATE.spriteImgEl = overlay.querySelector('#skiv-sprite-img');
+  STATE.spriteCaptionEl = overlay.querySelector('#skiv-sprite-caption');
   overlay.querySelector('#skiv-close').addEventListener('click', closeSkivPanel);
   overlay.addEventListener('click', (ev) => {
     if (ev.target === overlay) closeSkivPanel();
@@ -209,6 +228,19 @@ function renderFeedEntries(entries) {
     })
     .join('');
   STATE.feedEl.innerHTML = html;
+}
+
+function renderSprite(state) {
+  if (!STATE.spriteImgEl) return;
+  const lc = state.lifecycle || {};
+  const phaseId = lc.phase_id || 'mature';
+  const validPhases = ['hatchling', 'juvenile', 'mature', 'apex', 'legacy'];
+  const sprite = validPhases.includes(phaseId) ? phaseId : 'mature';
+  STATE.spriteImgEl.src = `/skiv/${sprite}.svg?_=${Date.now()}`;
+  STATE.spriteImgEl.alt = `Skiv ${lc.phase_label_it || sprite}`;
+  if (STATE.spriteCaptionEl) {
+    STATE.spriteCaptionEl.textContent = lc.phase_label_it || 'Predatore Maturo';
+  }
 }
 
 function renderLifecycle(state) {
@@ -269,7 +301,8 @@ async function refresh() {
       if (s._fallback) {
         STATE.statusEl.textContent += ' (dormante)';
       }
-      // Lifecycle + digest render from full state.
+      // Lifecycle + digest + sprite render from full state.
+      renderSprite(s);
       renderLifecycle(s);
       renderDigest(s);
     } else {
