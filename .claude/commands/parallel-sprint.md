@@ -85,10 +85,16 @@ Agent({
     - Crea branch claude/sprint-<date>-<ticket-id> da origin/main
     - Implementa il ticket
     - Run smoke + format + tests locale
-    - Push branch
+    - **PRE-COMMIT MANDATORY**: salva il delta delle modifiche additivi su
+      shared file in `scratch/<ticket-id>_delta.json` come dict
+      {entry_id: <full body>}. Necessario per fallback rebase
+      (vedi Step 6 conflict resolution).
+      Esempio: { "trait_xy": {"tier": "T2", "effect": {...}, ...}, ... }
+    - Push branch (NON committare scratch/, è gitignore-style ephemeral)
     - Open draft PR (gh pr create --draft) con titolo, body 'Closes <ticket-id>',
       test plan checklist
-    - Return: { branch, pr_number, smoke_pass, tests_pass, format_pass, files_changed }
+    - Return: { branch, pr_number, smoke_pass, tests_pass, format_pass,
+                files_changed, delta_path: 'scratch/<ticket-id>_delta.json' }
 
     DO NOT MERGE. Solo open draft.
 
@@ -122,6 +128,18 @@ Categorizza:
 
 ### 4. Spawn critic subagent per ogni DONE/PARTIAL
 
+> **LESSON 2026-04-25** (prima execuzione live `/parallel-sprint`): 3/3 critic
+> subagent failed (1 quota exhaustion + 2 stall a 600s). Recovery via
+> main-thread direct Bash verification è 3x più veloce + deterministic.
+> Vedi `feedback_critic_subagent_failure_mode.md` per pattern completo.
+
+**Critic prompt budget MANDATORY**:
+
+- Max **30 righe** di prompt (no checklist verbose)
+- Output budget esplicito: "Return JSON sotto 50 token"
+- Una sola sezione checklist (no nested bullet lists)
+- Smoke test 1 comando (non 3-5 step composti)
+
 Per ogni PR aperto, spawn 1 critic subagent (parallel se possibile):
 
 ```
@@ -129,34 +147,43 @@ Agent({
   description: "Critic review PR <num>",
   subagent_type: "general-purpose",
   prompt: "
-    CRITIC REVIEWER — adversarial review.
+    CRITIC <num> — verdict APPROVED|NEEDS-FIX|REJECT.
 
-    PR: <num>, branch <branch>, ticket <ticket-id>.
+    Run via Bash (single shell, no narrative):
+    1. gh pr diff <num> | head -200 → diff overview
+    2. /verify-delegation skill checklist (5 anti-pattern)
+    3. Smoke: <single command from ticket spec>
+    4. gh pr checks <num> --required → CI status
 
-    Run validation steps:
-    1. gh pr diff <num> > /tmp/diff_<num>.patch
-    2. Apply /verify-delegation skill checklist:
-       - Silent error swallowing scan
-       - Encoding mojibake check
-       - Forbidden directory edits
-       - Test coverage delta (must be >0 for new logic)
-       - Tag/passive/effect_type drift
-    3. Smoke test changed code path
-    4. Run gh pr checks <num> — verify CI green
-    5. Verify PR body includes acceptance criteria as test plan checklist
+    Return JSON sotto 50 token:
+    { pr: <num>, verdict: 'APPROVED|NEEDS-FIX|REJECT',
+      issues: ['file:line: <bug>'], smoke: 'pass|fail' }
 
-    Verdict (ONE of):
-    - APPROVED: zero issue, ready to merge
-    - NEEDS-FIX: 1-3 issue elencate con file:line + suggested fix
-    - REJECT: silent-fail / forbidden dir / >5 issue / CI red
-
-    Return: { pr_number, verdict, issues[], suggested_fix[] }
-
-    Be adversarial. Don't approve based on 'looks good' — find what's broken.
+    Be adversarial. NO 'looks good'.
   ",
   run_in_background: true
 })
 ```
+
+**Fallback automatic main-thread** (NEW): se 2/3 critic fail (quota OR stall
+600s+) → main-thread esegue checklist direttamente via Bash batch. Pattern:
+
+```bash
+# Per ogni PR pending main-thread review
+cd worktree-X && \
+git diff origin/main..HEAD --stat && \
+git diff origin/main..HEAD | grep -E "^\+.*(catch|except.*pass|\|\| true)" | head && \
+grep -c "Ã" data/core/traits/*.{json,yaml} && \
+git diff --name-only origin/main..HEAD | grep -E "^(\.github/|packages/contracts/)" && \
+node -e "require('<changed module>'); console.log('smoke ok')" && \
+gh pr checks <num> --required
+```
+
+Documentare verdetto inline nel sprint report come "APPROVED (manual fallback)".
+
+**Anti-pattern**: NO retry sub-agent dopo 2 fail consecutivi (CLAUDE.md
+§📡 "Subagent timeout 2x = stop retry"). Investiga prompt size / tool
+config invece, OR vai a fallback main-thread.
 
 ### 5. Auto-retry loop (max 3 rounds)
 
@@ -191,14 +218,62 @@ Dopo retry, ri-spawn critic. Loop fino:
 
 ### 6. Merge approved PRs (sequential)
 
-Per ogni PR APPROVED:
+> **LESSON 2026-04-25**: 3 PR additive su stesso file
+> (`data/core/traits/active_effects.yaml`) → 3-way merge conflict ad ogni
+> rebase. Naive regex resolve mangia struttura YAML (multi-line description
+> blocks). PyYAML accepta MA js-yaml refuta → silent runtime break.
+> Vedi `feedback_parallel_sprint_yaml_conflict_pattern.md`.
+
+Per ogni PR APPROVED (sequenziale, NO parallel):
 
 ```bash
 gh pr ready <num>  # da draft a ready
-gh pr merge <num> --squash
+gh pr merge <num> --squash --delete-branch
 ```
 
-Ordine: merge in ordine di approval. Se conflict (improbabile per ticket disjoint), skip + flag.
+**Conflict on shared-file additive PRs (3-step manual rebase fallback)**:
+
+```bash
+# 1. Reset working tree to main baseline (post-prev merge)
+git checkout --ours <conflict-file>
+
+# 2. Programmatic append delta only
+#    (worker output should pre-save delta as JSON in scratch/ — see Step 2 below)
+python3 -c "
+import json, yaml
+delta = json.load(open('scratch/<ticket>_delta.json'))
+text = open('<conflict-file>').read()
+for tid, body in delta.items():
+    rendered = yaml.dump({tid: body}, allow_unicode=True, default_flow_style=False, sort_keys=False)
+    indented = '\n'.join('  ' + L for L in rendered.splitlines())
+    text += '\n' + indented + '\n'
+open('<conflict-file>', 'w', encoding='utf-8', newline='\n').write(text)
+"
+
+# 3. Mark resolved + continue rebase
+git add <conflict-file>
+GIT_EDITOR=true git rebase --continue
+git push --force-with-lease origin <branch>
+```
+
+**Validate post-rebase**: `node -e "require('<loader>').load()"` MUST succeed
+e count = baseline + delta atteso. PyYAML success ≠ js-yaml success.
+
+**Pre-spawn requirement** (NEW, see Step 2): chiedere a ogni worker di
+salvare il delta come JSON deliverable in `scratch/<ticket>_delta.json`
+(es. `{trait_id: {tier:..., effect:...}, ...}`). Pre-rebase extraction
+zero-cost; senza, è quasi impossibile ricostruire il delta da diff
+testuale di YAML multi-line.
+
+**Alternative root fix** (recommended se ticket family > 3 su stesso file):
+split target file per family in directory:
+
+- `data/core/traits/active_effects/sensori.yaml`
+- `data/core/traits/active_effects/mente.yaml`
+- ...
+- Loader: directory walk `*.yaml` → unified registry
+
+Beneficio: zero conflict, zero rebase, ogni PR tocca un file distinto.
 
 ### 7. Generate sprint report
 
@@ -258,16 +333,23 @@ Report: docs/process/sprint-YYYY-MM-DD-parallel-<slug>.md
 - ❌ NON >3 retry round — significa che il ticket è mal-scoped
 - ❌ NON spawnare worker se backlog ticket non ha acceptance criteria
 - ❌ NON usare per ticket sequential — overhead non vale, vai serial
+- ❌ NON retry sub-agent dopo 2 fail consecutivi (quota / stall) — vai a fallback main-thread (CLAUDE.md §📡)
+- ❌ NON usare regex naive per auto-resolve YAML conflict — rompe multi-line description block (PyYAML accept, js-yaml reject = silent runtime break)
+- ❌ NON spawnare worker senza richiedere `scratch/<ticket>_delta.json` come deliverable — pre-rebase extraction è zero-cost MA recupero post-rebase è quasi impossibile
 
 ## Cross-references
 
 - `CLAUDE.md` §🔁 Autonomous Execution
 - `CLAUDE.md` §🌳 Worktree & Path Discipline (ogni worker rispetta)
 - `CLAUDE.md` §🔤 Encoding Discipline (auto-detect via post-edit hook)
+- `CLAUDE.md` §📡 System Notification Handling (subagent timeout 2x = stop)
 - `.claude/commands/verify-delegation.md` (critic checklist)
 - `.claude/commands/handoff.md` (run after parallel-sprint chiude)
 - `BACKLOG.md` (default ticket source)
 - `/insights` audit 2026-04-25 — opportunità "Self-Healing Autonomous Sprint Pipelines"
+- `feedback_critic_subagent_failure_mode.md` (memory) — main-thread fallback pattern
+- `feedback_parallel_sprint_yaml_conflict_pattern.md` (memory) — 3-step rebase fallback
+- `docs/process/sprint-2026-04-25-parallel-validation.md` — first live validation report (3/3 worker DONE, 3/3 critic FAILED, 3/3 manual recovery, 3/3 merged with rebase fallback)
 
 ## Smoke test (dry-run before first real use)
 

@@ -54,12 +54,13 @@ test('hydration snapshot aggrega correttamente resistances per canale', () => {
   assert.equal(byChannel.fuoco, 40);
 });
 
-test('hydration snapshot contiene canale non-canonico gelo su party-03', () => {
+test('hydration snapshot propaga canale ionico (criostasi_adattiva) su party-03', () => {
+  // Balance audit 2026-04-25: canale `gelo` rimappato a `ionico` canonico.
   const state = loadSnapshot();
   const party03 = state.units.find((u) => u.id === 'party-03');
   assert.ok(party03, 'party-03 presente');
-  const hasGelo = party03.resistances.some((r) => r.channel === 'gelo');
-  assert.ok(hasGelo, 'criostasi_adattiva deve propagare il canale gelo');
+  const hasIonico = party03.resistances.some((r) => r.channel === 'ionico');
+  assert.ok(hasIonico, 'criostasi_adattiva deve propagare il canale ionico (ex-gelo)');
 });
 
 test('hydration snapshot hostile derivati da power: power 7 -> hp 110 armor 5 init 15', () => {

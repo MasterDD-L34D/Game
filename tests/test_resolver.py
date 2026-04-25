@@ -380,12 +380,12 @@ def test_attack_with_offensive_trait_attack_mod_increases_total(catalog):
 
 def test_attack_vs_defensive_trait_raises_cd(catalog):
     state = _mini_state(catalog)
-    # target con pelage_idrorepellente_avanzato (defense_mod +1, resist cryo 25 + acido 15)
+    # target con pelage_idrorepellente_avanzato (defense_mod +1, resist ionico 25)
+    # Balance audit 2026-04-25: canale `cryo`→`ionico` canonico, `acido` rimosso (non canonico).
     state["units"][1]["trait_ids"] = ["pelage_idrorepellente_avanzato"]
     # Riaggrega resistances manualmente come farebbe hydration
     state["units"][1]["resistances"] = [
-        {"channel": "cryo", "modifier_pct": 25},
-        {"channel": "acido", "modifier_pct": 15},
+        {"channel": "ionico", "modifier_pct": 25},
     ]
     # CD = 10 + 2 + 1 = 13
     # nat 12 -> total 12 < 13 -> fail

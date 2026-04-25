@@ -30,7 +30,7 @@ related:
 M14-C **populate scenarios** chiuso. Smoke test (+4 nuovi) verdi, AI regression 307/307
 e services 177/177 invariati. Calibration harness N=10 hardcore 06 + hardcore 07
 rivela che **elevation wire (M14-B) è operativo e misurabile**, ma ribalta le curve di
-difficoltà esistenti. HP/mod re-tune differito a iterazione successiva (fuori scope P0).
+difficoltà esistenti. ~~HP/mod re-tune differito~~ → **shipped** in [PR #1744](https://github.com/MasterDD-L34D/Game/pull/1744) iter4 (10% WR amber, band 15-25%, gap 5pp). Vedi sezione Follow-up + policy doc.
 
 ## Scope delivered
 
@@ -134,9 +134,7 @@ Verde:
 1. **Merge as-is**: il popolate espone la meccanica. La regressione del win rate
    sui 2 scenari hardcore è il **segnale atteso** (prima: elevation era silenziato
    dal data strip in normaliseUnit; ora attivo). Validate che pipeline funziona.
-2. **HP/mod re-tune**: ticket di backlog, non bloccante per playtest live TKT-M11B-06.
-   Playtester possono evitare hardcore 06/07 in favore di tutorial 01-05 finché
-   non re-calibriamo.
+2. ~~**HP/mod re-tune**: ticket di backlog~~ → **shipped** [PR #1744](https://github.com/MasterDD-L34D/Game/pull/1744) iter4 (research-backed: BOSS mod 5→3 compensa elevation +30% in arrivo, elite elevation rimossa). Calibration N=10 → 10% WR amber. Hardcore playable.
 3. **Tutorial 05 elevation rolled back**: Apex + elevation 1 → 0/10 win (vs baseline
    0/10 timeout pre-M14-C). Identiche a livello macro (entrambi no-kill), ma il wire
    elevation **aumentava** HP residuo Apex 4.7 (baseline) → 7.3/18 (con elevation):
@@ -146,12 +144,12 @@ Verde:
 
 ## Follow-up (ticket backlog)
 
-- `TKT-M14-C-HARDCORE06-RETUNE` — iter3 post-elevation: BOSS HP 40→25, or drop
-  elite elevation. Target band hardcore class 15-25% win.
-- `TKT-M14-C-HARDCORE07-RETUNE` — patrol +2 enemy start, reinforcement cooldown
-  1. Target harness 30-50% win (band definita in tools/py/batch_calibrate_hardcore07.py).
+- ~~`TKT-M14-C-HARDCORE06-RETUNE`~~ → **CHIUSO** [PR #1744](https://github.com/MasterDD-L34D/Game/pull/1744) iter4 (BOSS `mod 5→3` compensa elevation; elite 1+2 `elevation 1→0`). Calibration N=10 → 10% WR (amber, band 15-25%, gap 5pp). Direzione corretta.
+- ~~`TKT-M14-C-HARDCORE07-RETUNE`~~ → **CHIUSO** [PR #1744](https://github.com/MasterDD-L34D/Game/pull/1744) iter1 (+1 predone scout, `min_tier Alert→Calm`, `cooldown 2→1`, `patrol_leader.hp 12→15`).
 - `TKT-M14-C-TUTORIAL05-ELEVATION` — re-introduce Apex elevation post
   HP/mod re-tune (probably HP 11→8 + apex ap 3→2).
+
+> **Policy update 2026-04-26** — harness ≠ merge gate. Vedi [`docs/process/2026-04-26-calibration-harness-policy.md`](../process/2026-04-26-calibration-harness-policy.md) (Restricted Play multi-policy + `predictCombat` primary knob). Calibration RED non blocca merge se AI 307/307 verde + direzione coerente. Oracolo vero = `TKT-M11B-06` playtest live umano + telemetry JSONL.
 
 ## File impattati
 

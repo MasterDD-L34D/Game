@@ -132,7 +132,8 @@ def test_aggregate_resistances_sorts_alphabetically(catalog):
     )
     channels = [r["channel"] for r in result]
     assert channels == sorted(channels)
-    assert channels == ["fuoco", "gelo", "taglio"]
+    # Balance audit 2026-04-25: criostasi_adattiva canale `gelo`→`ionico` canonico.
+    assert channels == ["fuoco", "ionico", "taglio"]
 
 
 def test_aggregate_resistances_clamps_to_range():
