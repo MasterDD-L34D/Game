@@ -26,9 +26,9 @@ related:
 
 # 🚀 NEXT SESSION HANDOFF — Illuminator Orchestra
 
-**Data handoff**: 2026-04-25 (bump sera — +3 Skiv PR, total 7 PR session)
+**Data handoff**: 2026-04-25 (bump sera-extended — 10 PR + 2 routine session, 5/8 Skiv wishlist)
 **Per**: Claude Code prossima sessione (autonoma o user-driven)
-**Status**: 🟢 6 agent live + **13 P0 runtime apply chiusi** + Skiv canonical persona introdotto + workflow validated 9× + 1 routine scheduled lunedì 2026-05-11
+**Status**: 🟢 6 agent live + **15 P0 runtime apply chiusi** + Skiv 5/8 wishlist + workflow validated 11× + 2 routine scheduled (Mon 2026-05-11 + Wed 2026-05-13)
 **Imperativo**: NON perdere l'approccio agent-driven research-first + NON perdere Skiv (cross-session).
 
 ---
@@ -161,18 +161,18 @@ Use ONLY if dominio non coperto da agenti esistenti.
 | ui-design-illuminator        | Threat zone toggle phone                    |  ~3h   |        high (UI runtime)         |
 | pcg-level-design-illuminator | Objective variety (rescue/timer/extraction) |  ~8h   |       mid (data + engine)        |
 
-**Skiv wishlist residual** (vedi memoria `project_skiv_evolution_wishlist.md`):
+**Skiv wishlist status** (vedi memoria `project_skiv_evolution_wishlist.md`) — **5/8 closed**:
 
-| #   | Ticket                           | Effort | Risk | Status                               |
-| --- | -------------------------------- | :----: | :--: | ------------------------------------ |
-| 1   | Resolver wire passive_bonus/cost |  ~4h   | mid  | ⏳ remote agent 2026-05-11 scheduled |
-| 2   | Synergy combo                    |  ~5h   | mid  | ✅ #1772                             |
-| 3   | Inner voices (Disco)             |  ~6h   | mid  | pending — dep #1                     |
-| 4   | Biome resonance                  |  ~3h   | low  | ✅ #1774                             |
-| 5   | Defy verb                        |  ~5h   | mid  | ✅ #1773                             |
-| 6   | Hybrid path perks                |  ~4h   | mid  | pending                              |
-| 7   | Diary persistente                |  ~8h   | low  | pending                              |
-| 8   | V3 Mating/Nido                   |  ~20h  | high | deferred                             |
+| #   | Ticket                           | Effort | Risk | Status                                    |
+| --- | -------------------------------- | :----: | :--: | ----------------------------------------- |
+| 1   | Resolver wire passive_bonus/cost |  ~4h   | mid  | ⏳ routine 2026-05-11 scheduled           |
+| 2   | Synergy combo                    |  ~5h   | mid  | ✅ #1772                                  |
+| 3   | Inner voices (Disco)             |  ~6h   | mid  | ⏳ routine 2026-05-13 scheduled (post #1) |
+| 4   | Biome resonance                  |  ~3h   | low  | ✅ #1774                                  |
+| 5   | Defy verb                        |  ~5h   | mid  | ✅ #1773                                  |
+| 6   | Hybrid path perks                |  ~4h   | mid  | ✅ #1779                                  |
+| 7   | Diary persistente                |  ~8h   | low  | ✅ #1777 (MVP backend; UI viewer P1)      |
+| 8   | V3 Mating/Nido                   |  ~20h  | high | deferred                                  |
 
 **Follow-up derivati dai P0 chiusi** (P1 candidates):
 
