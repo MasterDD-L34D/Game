@@ -161,6 +161,35 @@ const {
   applyProgressionToUnits,
   computePerkDamageBonus,
 } = require('../services/progression/progressionApply');
+// M14-A 2026-04-25 — Triangle Strategy terrain reactions wire (post damage step).
+// Lazy require + try/catch in call sites: missing module never breaks combat.
+const {
+  reactTile: terrainReactTile,
+  ELEMENTS: TERRAIN_ELEMENTS,
+} = require('../services/combat/terrainReactions');
+
+// Italian channel → terrainReactions element mapping. Action.channel is the
+// canonical attack channel string ("fuoco", "ghiaccio", ...). Only mapped
+// channels trigger reactions; everything else (fisico, perforante, ...) skips.
+const CHANNEL_TO_ELEMENT = {
+  fuoco: 'fire',
+  fire: 'fire',
+  ghiaccio: 'ice',
+  ice: 'ice',
+  acqua: 'water',
+  water: 'water',
+  elettrico: 'lightning',
+  folgore: 'lightning',
+  lightning: 'lightning',
+};
+
+function tileKey(pos) {
+  if (!pos) return null;
+  const x = Number(pos.x);
+  const y = Number(pos.y);
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+  return `${x},${y}`;
+}
 
 // ADR-2026-04-16: round-based combat model migration. PR 2 di N —
 // endpoint stubs dietro feature flag USE_ROUND_MODEL. Il modulo e'
@@ -407,6 +436,7 @@ function createSessionRouter(options = {}) {
     let panicTriggered = false;
     let parryResult = null;
     let interceptResult = null;
+    let terrainReactionResult = null;
     if (result.hit) {
       const baseDamage = 1 + result.pt;
       // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
@@ -534,6 +564,49 @@ function createSessionRouter(options = {}) {
         target.status.panic = Math.max(Number(target.status.panic) || 0, 2);
         panicTriggered = true;
       }
+
+      // M14-A: terrain reaction post damage step (additive, non-blocking).
+      // action.channel ("fuoco"/"ghiaccio"/...) maps to terrainReactions element.
+      // Only fires for mapped channels; tile state mutated in session.tile_state_map.
+      // Burst damage from reaction (e.g. steam_burst, electrify) applied to target
+      // if still alive. Result attached to performAttack return for caller emit.
+      try {
+        const channel = (action && typeof action.channel === 'string' && action.channel) || null;
+        const element = channel ? CHANNEL_TO_ELEMENT[channel.toLowerCase()] : null;
+        const key = tileKey(target.position);
+        if (element && key && TERRAIN_ELEMENTS.includes(element)) {
+          if (!session.tile_state_map || typeof session.tile_state_map !== 'object') {
+            session.tile_state_map = {};
+          }
+          const prev = session.tile_state_map[key] || null;
+          const reaction = terrainReactTile(prev, { element, actor_id: actor.id });
+          // Persist tile state mutation (mkState always returns object).
+          session.tile_state_map[key] = reaction.nextState;
+          terrainReactionResult = {
+            position: { x: Number(target.position.x), y: Number(target.position.y) },
+            prev_state: prev ? prev.type : 'normal',
+            new_state: reaction.nextState.type,
+            source_channel: channel,
+            element,
+            burst_damage: Number(reaction.burstDamage) || 0,
+            effects: Array.isArray(reaction.effects) ? reaction.effects.slice() : [],
+          };
+          // Apply burst damage to occupant (still alive) — feeds back into HP.
+          if (terrainReactionResult.burst_damage > 0 && target.hp > 0) {
+            const burst = terrainReactionResult.burst_damage;
+            target.hp = Math.max(0, target.hp - burst);
+            damageDealt += burst;
+            session.damage_taken[target.id] = (session.damage_taken[target.id] || 0) + burst;
+            if (target.hp === 0) {
+              killOccurred = true;
+            }
+          }
+        }
+      } catch (err) {
+        // Non-blocking: malformed tile state must never break combat.
+        // eslint-disable-next-line no-console
+        console.warn('[terrain-reaction] skipped:', err && err.message ? err.message : err);
+      }
     }
 
     // SPRINT_018: valuta i trait di tipo apply_status (ferocia, intimidatore,
@@ -595,6 +668,7 @@ function createSessionRouter(options = {}) {
       status_applies: statusApplies,
       parry: parryResult,
       intercept: interceptResult,
+      terrain_reaction: terrainReactionResult,
     };
   }
 
@@ -675,8 +749,9 @@ function createSessionRouter(options = {}) {
     damageDealt,
     hpBefore,
     targetPositionAtAttack,
+    terrainReaction,
   }) {
-    return {
+    const event = {
       ts: new Date().toISOString(),
       session_id: session.session_id,
       actor_id: actor.id,
@@ -701,6 +776,11 @@ function createSessionRouter(options = {}) {
       position_from: { ...actor.position },
       position_to: { ...actor.position },
     };
+    // M14-A: surface terrain reaction on attack event for round log + clients.
+    if (terrainReaction && terrainReaction.new_state !== terrainReaction.prev_state) {
+      event.terrain_reaction = terrainReaction;
+    }
+    return event;
   }
 
   function buildMoveEvent({ session, actor, positionFrom }) {
@@ -1053,6 +1133,13 @@ function createSessionRouter(options = {}) {
         // Lista {x, y, damage, type}. Applicato a fine turno via
         // applyHazardDamage in handleTurnEndViaRound.
         hazard_tiles: Array.isArray(req.body?.hazard_tiles) ? req.body.hazard_tiles : [],
+        // M14-A 2026-04-25 — Triangle Strategy terrain reactions tile state map.
+        // Keyed by `${x},${y}` (orthogonal grid; future hex axial keys diff).
+        // State shape: { type: 'normal'|'fire'|'ice'|'water'|'electrified',
+        //               ttl: int, source_actor: id|null }
+        // Decay 1/round in applyEndOfRoundSideEffects; mutated in performAttack
+        // post damage when action.channel maps to a known element.
+        tile_state_map: {},
         // Q-001 T2.3: difficulty profile scaling metadata (null se profile invalid)
         _difficultyProfile: difficultyProfileMeta,
         // ADR-2026-04-19 + 04-20: encounter payload per reinforcementSpawner + objectiveEvaluator.
@@ -1221,11 +1308,14 @@ function createSessionRouter(options = {}) {
         // Legacy sequential attack code removed. handleLegacyAttackViaRound
         // executes performAttack inside a round cycle (planning → commit →
         // resolve) and returns a legacy-compat response shape.
+        // M14-A: optional `channel` body field propagates to performAttack
+        // for terrain reactions + channel resistances.
         const wrapped = await handleLegacyAttackViaRound({
           session,
           actor,
           target,
           requestedCapPt,
+          channel: typeof body.channel === 'string' ? body.channel : null,
         });
         // iter6 follow-up #3: aggro_warning per player units. Player con
         // status.aggro_locked > 0 + aggro_source attivo che attacca un target

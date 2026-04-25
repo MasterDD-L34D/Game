@@ -337,7 +337,13 @@ function createRoundBridge(deps) {
   // Legacy attack wrapper (flag-on)
   // ────────────────────────────────────────────────────────────────
 
-  async function handleLegacyAttackViaRound({ session, actor, target, requestedCapPt }) {
+  async function handleLegacyAttackViaRound({
+    session,
+    actor,
+    target,
+    requestedCapPt,
+    channel = null,
+  }) {
     const roundAction = {
       id: `legacy-attack-${actor.id}-${session.action_counter}`,
       type: 'attack',
@@ -345,7 +351,7 @@ function createRoundBridge(deps) {
       target_id: target.id,
       ability_id: null,
       ap_cost: 1,
-      channel: null,
+      channel: typeof channel === 'string' && channel.length > 0 ? channel : null,
       damage_dice: { count: 1, sides: 6, modifier: 2 },
     };
 
@@ -355,6 +361,7 @@ function createRoundBridge(deps) {
       damageDealt: 0,
       killOccurred: false,
       parry: null,
+      terrainReaction: null,
     };
 
     const realResolveAction = (state, action, _catalog, _rng) => {
@@ -368,6 +375,7 @@ function createRoundBridge(deps) {
         capturedResults.killOccurred = res.killOccurred;
         capturedResults.parry = res.parry;
         capturedResults.intercept = res.intercept || null;
+        capturedResults.terrainReaction = res.terrain_reaction || null;
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
         // stesso target in questo round, +1 dmg al secondo/terzo attacco.
         // Fix flake (iter6): combo metadata esposta anche su hit con damage=0
@@ -479,6 +487,7 @@ function createRoundBridge(deps) {
         damageDealt: capturedResults.damageDealt,
         hpBefore,
         targetPositionAtAttack,
+        terrainReaction: capturedResults.terrainReaction,
       });
       if (capturedResults.parry) event.parry = capturedResults.parry;
       if (capturedResults.intercept) event.intercept = capturedResults.intercept;
@@ -561,6 +570,7 @@ function createRoundBridge(deps) {
       intercept: capturedResults.intercept || null,
       combo: capturedResults.combo || null,
       synergy: capturedResults.synergy || null,
+      terrain_reaction: capturedResults.terrainReaction || null,
       state: publicSessionView(session),
       round_wrapper: true,
       round_phase: result.nextState.round_phase,
@@ -759,7 +769,36 @@ function createRoundBridge(deps) {
       }
     }
 
-    return { hazardEvents, bleedingEvents, enneaEvents };
+    // M14-A 2026-04-25 — Triangle Strategy terrain reactions tile state decay.
+    // Decrement ttl for every active tile. ttl <= 0 → revert to 'normal' state
+    // (or delete entry to keep map sparse). Non-blocking; missing map skipped.
+    const terrainDecayEvents = [];
+    if (session && session.tile_state_map && typeof session.tile_state_map === 'object') {
+      for (const key of Object.keys(session.tile_state_map)) {
+        const cur = session.tile_state_map[key];
+        if (!cur || typeof cur !== 'object') {
+          delete session.tile_state_map[key];
+          continue;
+        }
+        if (cur.type === 'normal') {
+          delete session.tile_state_map[key];
+          continue;
+        }
+        const ttl = Number(cur.ttl) || 0;
+        if (ttl <= 1) {
+          terrainDecayEvents.push({
+            key,
+            prev_state: cur.type,
+            new_state: 'normal',
+          });
+          delete session.tile_state_map[key];
+        } else {
+          cur.ttl = ttl - 1;
+        }
+      }
+    }
+
+    return { hazardEvents, bleedingEvents, enneaEvents, terrainDecayEvents };
   }
 
   // ────────────────────────────────────────────────────────────────
@@ -861,6 +900,7 @@ function createRoundBridge(deps) {
             damageDealt: res.damageDealt,
             hpBefore,
             targetPositionAtAttack: targetPosAtk,
+            terrainReaction: res.terrain_reaction || null,
           });
           if (isSis) {
             event.actor_id = 'sistema';
@@ -1086,6 +1126,7 @@ function createRoundBridge(deps) {
             damageDealt: res.damageDealt,
             hpBefore,
             targetPositionAtAttack: targetPosAtk,
+            terrainReaction: res.terrain_reaction || null,
           });
           event.actor_id = 'sistema';
           event.actor_species = actor.species;
