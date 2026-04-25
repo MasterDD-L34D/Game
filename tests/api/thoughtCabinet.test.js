@@ -385,16 +385,42 @@ test('passiveBonuses: stacks when the same stat appears in multiple thoughts', (
   assert.equal(out.bonus.attack_mod, 2);
 });
 
-test('passiveBonuses: thoughts without effect_bonus/cost contribute nothing', () => {
+test('passiveBonuses: tier-2 thought contributes effect_bonus/cost when internalized', () => {
   resetCache();
   const s = createCabinetState();
-  // tier 2 thought: no effect_bonus defined in YAML (only tier 1 populated)
+  // e_scintilla_carisma tier 2: attack_mod +2 / cost defense_dc 2
   mergeUnlocked(s, ['e_scintilla_carisma']);
   s.internalized.add('e_scintilla_carisma');
   const out = passiveBonuses(s);
-  assert.deepEqual(out.bonus, {});
-  assert.deepEqual(out.cost, {});
+  assert.equal(out.bonus.attack_mod, 2);
+  assert.equal(out.cost.defense_dc, 2);
   assert.deepEqual(out.internalized, ['e_scintilla_carisma']);
+});
+
+test('passiveBonuses: tier-3 J thoughts stack attack_mod across tiers', () => {
+  resetCache();
+  const s = createCabinetState();
+  // j_disciplina tier 1: attack_mod +1 / cost ap 1
+  // j_maestro_ordine tier 3: attack_mod +3 / cost ap 2
+  mergeUnlocked(s, ['j_disciplina', 'j_maestro_ordine']);
+  s.internalized.add('j_disciplina');
+  s.internalized.add('j_maestro_ordine');
+  const out = passiveBonuses(s);
+  assert.equal(out.bonus.attack_mod, 4); // 1 + 3 stacked
+  assert.equal(out.cost.ap, 3); // 1 + 2 stacked
+});
+
+test('resolveResearchCost: explicit field on tier-2/3 thoughts returns correct cost', () => {
+  resetCache();
+  const catalog = loadThoughts();
+  // Tier-2 explicit research_cost_encounters: 2
+  assert.equal(resolveResearchCost(catalog.thoughts['e_scintilla_carisma']), 2);
+  assert.equal(resolveResearchCost(catalog.thoughts['j_architetto_round']), 2);
+  assert.equal(resolveResearchCost(catalog.thoughts['s_metodologia_ferro']), 2);
+  // Tier-3 explicit research_cost_encounters: 3
+  assert.equal(resolveResearchCost(catalog.thoughts['i_lupo_solitario']), 3);
+  assert.equal(resolveResearchCost(catalog.thoughts['n_visionario']), 3);
+  assert.equal(resolveResearchCost(catalog.thoughts['j_maestro_ordine']), 3);
 });
 
 test('snapshotCabinet: returns serialisable shape with slots stats', () => {
