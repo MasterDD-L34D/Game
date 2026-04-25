@@ -230,8 +230,10 @@ def export(
 ) -> None:
     """Esporta stato corrente + metriche in JSON (per skill evo-tactics).
 
-    RESEARCH_TODO S4: produce file committabile con snapshot, achievements,
-    ultimo spoke, metriche aggregate (gameplay_ratio, drift flags).
+    Produce file committabile con snapshot dei commit recenti, ultimo spoke,
+    e metriche aggregate (``gameplay_ratio``, ``consecutive_infra_commits``,
+    ``is_drifting``). Achievements non inclusi: subsystem rimosso in
+    kill-60 2026-04-18 (vedi cli.py:16).
 
     Il file è letto dalla skill `evo-tactics-monitor` prima di fare web fetch,
     per briefing offline più accurati.

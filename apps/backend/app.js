@@ -26,6 +26,8 @@ const { createRewardsRouter } = require('./routes/rewards');
 const { createFormPackRouter } = require('./routes/formPackRoutes');
 const { createLobbyRouter } = require('./routes/lobby');
 const { createCoopRouter } = require('./routes/coop');
+// Skiv ticket #7 — unit diary persistence (cross-session memoria)
+const { createDiaryRouter } = require('./routes/diary');
 const { createCoopStore } = require('./services/coop/coopStore');
 const { LobbyService } = require('./services/network/wsSession');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
@@ -758,6 +760,9 @@ function createApp(options = {}) {
   // M17 — Co-op run orchestrator (character creation + world setup + debrief).
   const coopStore = createCoopStore({ lobby });
   app.use('/api', createCoopRouter({ lobby, coopStore }));
+
+  // Skiv ticket #7 — unit diary persistence MVP (backend-only, JSONL append).
+  app.use('/api', createDiaryRouter(options.diary || {}));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {

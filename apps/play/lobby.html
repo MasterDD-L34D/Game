@@ -36,11 +36,16 @@
         background: var(--bg);
         color: var(--text);
         font-family: 'Inter', 'Noto Sans', system-ui, sans-serif;
+        /* WCAG: body text >= 16px baseline for phone comfort. */
+        font-size: 16px;
+        line-height: 1.5;
       }
+      /* iOS notch + Android safe area support (10-foot TV + modern phone). */
       .lobby-wrap {
         max-width: 920px;
         margin: 0 auto;
-        padding: 32px 20px 48px;
+        padding: max(32px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+          max(48px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
       }
       header.lobby-head {
         text-align: center;
@@ -128,6 +133,8 @@
       }
       .btn {
         width: 100%;
+        /* WCAG 2.5.5: tap target >= 48x48px (mobile/phone Jackbox pattern). */
+        min-height: 48px;
         padding: 12px 16px;
         font-size: 1rem;
         font-weight: 600;
@@ -139,6 +146,16 @@
         transition:
           background 0.15s,
           border-color 0.15s;
+      }
+      .btn:focus-visible {
+        /* Keyboard navigation: visible focus ring WCAG 2.4.7. */
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .form-row input:focus-visible,
+      .form-row select:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 1px;
       }
       .btn:hover:not(:disabled) {
         background: var(--border);
@@ -167,6 +184,13 @@
         margin-top: 12px;
         min-height: 1.4em;
         font-size: 0.9rem;
+      }
+      /* Color + symbol redundancy for colorblind accessibility (WCAG 1.4.1). */
+      .status.err::before {
+        content: '⚠ ';
+      }
+      .status.ok::before {
+        content: '✓ ';
       }
       .status.err {
         color: var(--danger);
@@ -243,30 +267,43 @@
     </style>
   </head>
   <body>
-    <div class="lobby-wrap">
+    <main class="lobby-wrap" role="main">
       <header class="lobby-head">
-        <h1>🦴 Evo-Tactics Lobby</h1>
+        <h1 aria-label="Evo-Tactics Lobby">🦴 Evo-Tactics Lobby</h1>
         <p>Crea una stanza (host · TV) o unisciti con codice a 4 lettere (player · phone).</p>
       </header>
 
       <!-- Resume banner if localStorage has a stored session. -->
-      <div id="existing-session" class="existing-session">
+      <div
+        id="existing-session"
+        class="existing-session"
+        role="region"
+        aria-label="Sessione salvata"
+      >
         <div>
           Sessione attiva su stanza <strong id="existing-code">—</strong> (<span id="existing-role"
             >—</span
           >).
         </div>
         <div class="actions">
-          <button id="existing-resume" class="btn btn-primary">↩ Riprendi</button>
-          <button id="existing-forget" class="btn">✕ Dimentica</button>
+          <button
+            id="existing-resume"
+            class="btn btn-primary"
+            aria-label="Riprendi sessione salvata"
+          >
+            ↩ Riprendi
+          </button>
+          <button id="existing-forget" class="btn" aria-label="Dimentica sessione salvata">
+            ✕ Dimentica
+          </button>
         </div>
       </div>
 
-      <div class="cards">
+      <div class="cards" role="group" aria-label="Scegli ruolo">
         <!-- HOST -->
-        <div class="card host">
-          <h2>📺 Crea stanza <span class="role-chip">host · TV</span></h2>
-          <form id="form-create" autocomplete="off">
+        <section class="card host" aria-labelledby="host-title">
+          <h2 id="host-title">📺 Crea stanza <span class="role-chip">host · TV</span></h2>
+          <form id="form-create" autocomplete="off" aria-describedby="status-create">
             <div class="form-row">
               <label for="host-name">Nome host</label>
               <input
@@ -276,6 +313,7 @@
                 maxlength="40"
                 required
                 placeholder="Es. Marco (TV)"
+                aria-required="true"
               />
             </div>
             <div class="form-row">
@@ -290,7 +328,7 @@
             </div>
             <div class="form-row">
               <label for="max-players">Max player</label>
-              <select id="max-players" name="max_players">
+              <select id="max-players" name="max_players" aria-label="Numero massimo player">
                 <option value="2">2</option>
                 <option value="4" selected>4</option>
                 <option value="6">6</option>
@@ -298,27 +336,32 @@
               </select>
             </div>
             <button type="submit" class="btn btn-host" id="btn-create">Crea stanza</button>
-            <div class="status" id="status-create"></div>
+            <div class="status" id="status-create" role="status" aria-live="polite"></div>
           </form>
-          <div class="share-panel" id="share-panel">
+          <div
+            class="share-panel"
+            id="share-panel"
+            role="region"
+            aria-label="Codice stanza da condividere"
+          >
             <div style="color: var(--muted); font-size: 0.85rem; text-align: center">
               Condividi questo codice
             </div>
-            <div class="share-code" id="share-code">—</div>
+            <div class="share-code" id="share-code" aria-live="polite" aria-atomic="true">—</div>
             <div class="share-url">
-              <input id="share-url-input" readonly />
-              <button class="btn" id="share-copy">📋</button>
+              <input id="share-url-input" readonly aria-label="URL stanza" />
+              <button class="btn" id="share-copy" aria-label="Copia URL negli appunti">📋</button>
             </div>
             <button id="share-enter" class="btn btn-primary" style="margin-top: 12px">
               ▶ Entra nella TV
             </button>
           </div>
-        </div>
+        </section>
 
         <!-- JOIN -->
-        <div class="card join">
-          <h2>📱 Unisciti <span class="role-chip">player · phone</span></h2>
-          <form id="form-join" autocomplete="off">
+        <section class="card join" aria-labelledby="join-title">
+          <h2 id="join-title">📱 Unisciti <span class="role-chip">player · phone</span></h2>
+          <form id="form-join" autocomplete="off" aria-describedby="status-join">
             <div class="form-row">
               <label for="join-code">Codice stanza (4 lettere)</label>
               <input
@@ -331,6 +374,10 @@
                 placeholder="ABCD"
                 class="code-input"
                 pattern="[A-Za-z]{4}"
+                aria-required="true"
+                autocapitalize="characters"
+                autocomplete="off"
+                inputmode="text"
               />
             </div>
             <div class="form-row">
@@ -342,16 +389,19 @@
                 maxlength="40"
                 required
                 placeholder="Es. Anna"
+                aria-required="true"
               />
             </div>
             <button type="submit" class="btn btn-primary" id="btn-join">Entra</button>
-            <div class="status" id="status-join"></div>
+            <div class="status" id="status-join" role="status" aria-live="polite"></div>
           </form>
-        </div>
+        </section>
       </div>
 
-      <footer class="lobby-foot">M11 Phase B · Jackbox room-code lobby · ADR-2026-04-20</footer>
-    </div>
+      <footer class="lobby-foot" role="contentinfo">
+        M11 Phase B · Jackbox room-code lobby · ADR-2026-04-20
+      </footer>
+    </main>
     <script type="module" src="/src/lobby.js"></script>
   </body>
 </html>

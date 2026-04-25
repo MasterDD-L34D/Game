@@ -8,12 +8,98 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v1 (primo snapshot formale)
-- **Ultimo aggiornamento**: 2026-04-24 (sessione adozione archivio + skills + Triangle Strategy research)
+- **Versione compact**: v7 (post P1 follow-up session 2026-04-25 — 3 PR, thought cabinet + MAP-Elites HTTP)
+- **Ultimo aggiornamento**: 2026-04-25 (P1 follow-up autonoma: tier-2/3 effects + resolver wire + MAP-Elites live archive)
 
-## Stato attuale
+## ⚡ TL;DR per ripartire
 
-- Branch lavoro: `claude/sprint-3-archivio-close` (worktree reset post PR #1732 merge)
+**6 agent illuminator pronti** + **15 P0 + 3 P1 chiusi** + **Skiv 5/8 wishlist closed**. P1 chiusi: Thought Cabinet tier-2/3 effects (#1778) + resolver wire (#1780) + MAP-Elites HTTP archive 85.2% coverage (#1782). Routine `trig_012Axz6...` lunedì 2026-05-11 + `trig_01SB74yJ...` mercoledì 2026-05-13. Pattern stdlib-only + JSONL + monkeypatch DI validato 11×. **NON perdere Skiv** + **NON saltare workflow research-first**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+
+## 🆕 Sessione 2026-04-25 P1 follow-up (3 PR)
+
+**3 PR derivati dai P0 (#1768 + #1769) chiusi**:
+
+| PR    | Title                                                        | Status          |
+| ----- | ------------------------------------------------------------ | --------------- |
+| #1778 | feat(narrative): Thought Cabinet tier-2/3 effects + tests    | merged          |
+| #1780 | feat(combat): Thought Cabinet passive resolver wire          | merged          |
+| #1782 | feat(balance): MAP-Elites HTTP live archive (85.2% coverage) | draft, CI green |
+
+**Nuovi test**: thoughtCabinet 46/46 (+7) · thoughtPassiveApply 8/8 NEW. Grand total post-P1: AI 307 · services 306 · api 633 · pytest 948. Governance 0/0.
+
+**MAP-Elites risultati**: 23/27 celle riempite (85.2% coverage), fitness max=1.0, avg=0.6812. Top elites: support + skirmisher in high-T/N range. 4 cells vuote in low-MBTI range (tank) = tuning target.
+
+**Thought Cabinet resolver wire**: `thoughtPassiveApply.js` new module. `updateThoughtPassives(unit, bonus, cost)` applica net delta a unit.mod/dc/hp_max/attack_range/ap. Wired in `/thoughts/tick` (on promotion) + `/thoughts/forget` (on forget + recompute). Pattern: snapshot flag `_thought_passive_delta` per revert pulito.
+
+**Residuali P1 attivi**: Synergy HUD telegraph + Defy enemy extension + Resonance tier badge.
+
+---
+
+## 🆕 Sessione 2026-04-25 sera — Skiv extended (10 PR + 2 routine)
+
+**10 PR mergiati main consecutivi** (5/8 Skiv wishlist closed):
+
+| PR    | Title                                                         | SHA        | Skiv ticket    |
+| ----- | ------------------------------------------------------------- | ---------- | -------------- |
+| #1767 | fix(tests): pytest.importorskip pypdf in collection           | `02832dfc` | infra          |
+| #1768 | feat(balance): MAP-Elites HTTP fitness wrapper                | `fcd50315` | balance P0     |
+| #1769 | feat(narrative): Thought Cabinet Phase 2 (Disco internalize)  | `b04f3a92` | narrative P0   |
+| #1770 | docs(handoff): bump COMPACT_CONTEXT + handoff (3 P0 closures) | `1d1fdb0f` | docs           |
+| #1772 | feat(combat): synergy combo detection (echo_backstab)         | `cb1ca79e` | **Skiv #2 ✅** |
+| #1773 | feat(combat): Defy verb (counter-pressure agency)             | `b2e079ba` | **Skiv #5 ✅** |
+| #1774 | feat(combat): biome resonance reduces research_cost           | `c06e02c4` | **Skiv #4 ✅** |
+| #1775 | docs(handoff): Skiv mega-session bump (7 PR + 1 routine)      | `e1c0a9f5` | docs           |
+| #1777 | feat(diary): unit diary persistente MVP backend               | `f0bd514e` | **Skiv #7 ✅** |
+| #1779 | feat(progression): Hybrid Path perks                          | `8413fd47` | **Skiv #6 ✅** |
+
+**+ 2 routine scheduled**:
+
+- `trig_012Axz6S7TjfC8g1W2gE4Mg4` lunedì 2026-05-11 07:00 UTC — Sprint A residual (resolver wire #1 + tier-2/3 thought content + MAP-Elites HTTP archive)
+- `trig_01SB74yJvr6eyX4Gjq9H1jFB` mercoledì 2026-05-13 07:00 UTC — Skiv #3 Inner Voices (24-36 Disco-style diegetic, depends on resolver wire merge)
+
+**Tests aggregate post-merge**: AI 307/307 · services **323/323** (+66 sessione: 22 synergy + 15 defy + 12 resonance + 17 diary) · api **652/652** (+31 sessione: 3 synergy + 8 defy + 1 resonance + 8 diary + 11 hybrid) · pytest **948/948** · governance 0/0.
+
+**Skiv canonical creature**: introdotto come tamagotchi-style recap entity + 8-ticket wishlist con sprint A+B+C reorder. Salvato in memoria persistente. **5/8 wishlist closed** (~62%); residuali: #1 (scheduled), #3 (scheduled), #8 (deferred big rock).
+
+**Score pilastri post-sera-extended**:
+
+| Pillar          | Pre-sera     | Post-sera (Skiv 5/8)          |
+| --------------- | ------------ | ----------------------------- |
+| P1 Tattica      | 🟢           | **🟢+** (synergy beats)       |
+| P2 Evoluzione   | 🟢 candidato | 🟢 candidato                  |
+| P3 Identità×Job | 🟢 candidato | **🟢** (hybrid path)          |
+| P4 MBTI         | 🟡+          | **🟡+ deeper** (biome×spec)   |
+| P5 Co-op        | 🟡 → 🟢      | **🟡+** (diary cross-session) |
+| P6 Fairness     | 🟢 candidato | **🟢** (two-way pressure)     |
+
+→ **3🟢 + 1🟢-cand + 2🟡+** (zero 🔴). +2 pilastri saliti rispetto a sera baseline.
+
+## 🆕 Sessione 2026-04-25 notte (autonoma post user trust)
+
+**7 PR mergiati main consecutivi** (#1758 → #1765, ~7h work in 1.5h cycle ciascuno):
+
+| PR    | Title                                               | SHA        |
+| ----- | --------------------------------------------------- | ---------- |
+| #1758 | SPRT + macro-economy diagram + governance bug fix   | `7e17d84c` |
+| #1759 | PI Shop Monte Carlo (Gap 4 🟡→🟢)                   | `488da05b` |
+| #1760 | Tutorial briefing variations (~30 variants)         | `6f397e6d` |
+| #1762 | Encounter XP budget audit (Pathfinder framework)    | `9901407e` |
+| #1763 | QBN engine MBTI-gated events (12 events + 3 routes) | `bec2bcd6` |
+| #1764 | Handoff doc update (continuity per next session)    | `15ca7425` |
+| #1765 | MAP-Elites lightweight QD archive (Mouret 2015)     | `b22fc2b7` |
+
+**Tests aggregate post-merge**: AI 307/307 + services 257/257 + pytest **384/384** (+36 MAP-Elites) + governance 0/0.
+
+**7 P0 chiusi**: balance SPRT, economy Machinations diagram, economy PI Monte Carlo, narrative briefing variations, narrative QBN, pcg XP audit, balance MAP-Elites + bonus governance bug fix.
+
+**P0 residuali rimanenti** (post sessione pomeriggio): balance MCTS (~4h, blocked by session state clone API), ui intent preview (~4h, UI runtime risk), ui threat zone toggle (~3h, UI runtime risk), pcg objective variety (~8h). Thought Cabinet Phase 2 shipped (#1769) — UI reveal + combat resolver wire = follow-up P1.
+
+## Stato attuale (post sessione 2026-04-24/25 notte)
+
+- **20 PR merged** in main da #1736 (M14-A) a #1756 (Observable Plot dashboard)
+- Test suite **AI 307/307 verde** + services 177/177 + 57+ nuovi (telemetry 20, restricted-play 13, funnel 4)
+- Zero deps nuove, zero guardrail violations
+- Branch lavoro precedente: `claude/sprint-3-archivio-close` (worktree reset post PR #1732 merge)
 - Ultimo PR merged main: **#1732** `chore(bootstrap): archivio Sprint 0+1+2 + 2 agent P0 + /compact skill + 4-gate DoD policy` (merge commit `1e7bc455`, 2026-04-24 12:52 UTC)
 - Sprint 3 archivio in progress: chiude gap readiness 21.5→24/24 con BACKLOG.md + OPEN_DECISIONS.md + master orchestrator decision (OD-006 risolta)
 - Sprint **2026-04-24 playtest prep** chiuso in main: 4 PR consecutivi (#1728-#1731) — fix V5 SG pool, launcher rewrite preflight+health+QR+ngrok, playtest-UI fix round 1, sprint close doc
@@ -22,12 +108,38 @@
 - Test suite: **AI 307/307** verdi (DoD gate #1 post-rebase). Altri: round model 60+, lobby 26, M12 57, M13 progression 24, timer 17, vision-gap 65 — aggregate 411+/411
 - Playtest round 2 pendente (userland, post #1730)
 
-## Obiettivo di questa fase
+## 🎮 Agent Illuminator Orchestra (6 attivi)
 
-- Adottare archivio operativo esterno (`C:/dev/codemasterdd-ai-station/Archivio_Libreria_Operativa_Progetti/`) → bootstrap-kit integrato nel repo
-- Aggiungere 2 subagent P0: `playtest-analyzer`, `coop-phase-validator`
-- Codificare skill `/compact` (hack @okaashish) + memory session-timing-reset
-- Preparare ticket backlog da ricerca Triangle Strategy (10 meccaniche)
+| Agent                        | MBTI audit/research |        PR        |                          Smoke                           |
+| ---------------------------- | :-----------------: | :--------------: | :------------------------------------------------------: |
+| balance-illuminator          |    ENTJ-A / ENTP    | #1745 `bfd62ecb` |     docs/qa/2026-04-26-balance-illuminator-smoke.md      |
+| ui-design-illuminator        |    ISTP-A / ENFP    | #1746 `3184f25f` |    docs/qa/2026-04-26-ui-design-illuminator-smoke.md     |
+| pcg-level-design-illuminator |    INTJ-A / INTP    | #1747 `a7850ad5` | docs/qa/2026-04-26-pcg-level-design-illuminator-smoke.md |
+| telemetry-viz-illuminator    |   ISTJ-A / INTP-A   | #1748 `619cecb3` |  docs/qa/2026-04-26-telemetry-viz-illuminator-smoke.md   |
+| narrative-design-illuminator |   INFJ-A / INFP-A   | #1754 `84f92687` | docs/qa/2026-04-26-narrative-design-illuminator-smoke.md |
+| economy-design-illuminator   |    ENTJ-A / ENTP    | #1755 `f5286bfd` |  docs/qa/2026-04-26-economy-design-illuminator-smoke.md  |
+
+**Memory persistent saved**:
+
+- `feedback_agent_illuminator_workflow.md` — 5-step workflow validated 6×
+- `feedback_parallel_research_batches_pattern.md` — 8 WebSearch parallel cache-warm
+- `project_agent_illuminator_set_2026-04-26.md` — roster + 70+ pattern
+
+## 🔧 Runtime infrastructure shipped
+
+- `tools/py/telemetry_analyze.py` (15 pytest) — stdlib aggregation pipeline
+- `tools/py/restricted_play.py` (13 pytest) — Jaffe 2012 multi-policy harness
+- `apps/analytics/index.html` — Observable Plot dashboard CDN ESM
+- Backend telemetry hooks `tutorial_start` + `tutorial_complete` auto-log
+- `apps/play/lobby.html` WCAG 2.1 AA compliant
+- Backend hardcore species variety (1 → 4 distinte)
+
+## Obiettivo prossima fase
+
+- **Preserva approccio**: invoke illuminator agent per ogni nuova feature (non skip)
+- **TKT-M11B-06 playtest live** (userland only, 4 amici 90min, chiude P5 🟢)
+- **P0 residuali agent** (vedi handoff): MCTS smart policy ~4h, SPRT sequential ~2h, objective variety ~8h, Observable Plot funnel D1/D7/D30 ~4h
+- **Nuovi domini agent** se gap (art-direction, audio-design, localization, accessibility specifico)
 
 ## Cosa è già stato fatto (ultimi 3 PR + sessione corrente)
 
@@ -68,12 +180,13 @@
 
 ## Problemi aperti
 
-- **TKT-M11B-06 playtest live** (userland, P0, chiude P5 🟢)
+- **TKT-M11B-06 playtest live** (userland, P0, chiude P5 🟢) — invoke `playtest-analyzer` agent post-playtest per crunchare dati JSONL + dashboard `apps/analytics/index.html`
+- **M14-D pincer follow-up queue** (ADR #1741 ready, ~6h)
 - **M13 P3 Phase B residuo**: balance N=10 sim post XP grant (3-5h)
 - **M13 P6 Phase B residuo**: calibration harness N=10 hardcore 07 + HUD timer Phase B (3-5h)
-- **Sprint V1-V7 residuo UI wire**: onboardingPanel in main.js, reward offer in debriefPanel, pack recommender in charCreation (userland)
-- **V3 Mating/Nido deferred** (~20h post-MVP)
+- **V3 Mating/Nido deferred** (~20h post-MVP) — pattern design ready (`narrative-design-illuminator` + `pcg-level-design-illuminator` already covered Creatures/MHS2/Palworld/DQM/Viva Piñata)
 - **V6 UI TV polish deferred** (~6h post-playtest)
+- **P0 residuali agent illuminator** (vedi handoff doc): MCTS smart policy ~4h, SPRT sequential ~2h, objective variety ~8h, Observable Plot funnel D1/D7/D30 ~4h
 
 ## File / output importanti (sessione corrente)
 
@@ -88,8 +201,10 @@
 
 ## Prossimi 3 passi
 
-1. **Accept + merge PR #1732** (user action, 0 effort) — 4 commit, Sprint 0+1+2 archivio + 2 agent + skill /compact + policy 4-gate DoD. Summary approvabile: `docs/planning/2026-04-24-pr-1732-gamer-summary.md`. Risk 🟢 zero.
-2. **P1 skills install** (userland, ~35 min) — seguendo `docs/guide/claude-code-setup-p1-skills.md`: filesystem MCP + git/github MCP + superpowers plugin + serena semantic retrieval. Ambient Claude Code +30% efficienza.
-3. **TKT-M11B-06 playtest live** (userland, 2-4h con 2-4 amici) — unico bloccante P5 🟢 definitivo. Post-playtest: invoke `playtest-analyzer` agent per crunchare dati.
+1. **Read handoff doc** (`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`) — 90s onboarding alla orchestra agent + workflow validato 6×.
+2. **Pick P0 residual or new domain** — usa illuminator agent invocation in `--mode audit` per scope, poi runtime apply separato.
+3. **TKT-M11B-06 playtest live** (userland, 2-4h con 2-4 amici) — unico bloccante P5 🟢 definitivo. Post-playtest: invoke `playtest-analyzer` agent per crunchare dati JSONL + visualizza in `apps/analytics/index.html`.
 
-**Deferred**: Sprint 3 archivio (~30-60 min: BACKLOG.md + OPEN_DECISIONS.md + decisione master orchestrator), M13 P3 Phase B balance pass, M13 P6 Phase B calibration hardcore 07, Sprint Triangle Strategy M14-A (elevation/facing + terrain chain reactions, ~8h).
+**Deferred**: M13 P3 Phase B balance pass, M13 P6 Phase B calibration hardcore 07, M14-D pincer queue (ADR ready), V3 Mating/Nido (~20h post-MVP, pattern già researched).
+
+**🚨 NON perdere l'approccio illuminator**: ogni nuovo dominio = research-first agent illuminator. Memory salvata in 3 file, vedi handoff doc.

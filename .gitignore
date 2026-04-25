@@ -74,3 +74,6 @@ data/flow-shell/*.bak
 # Setup backlog logs (rigenerati da scripts/setup_*.sh, vedi #1345)
 reports/setup_backlog_*.log
 logs/telemetry_*.jsonl
+.pytest_cache/
+# Skiv ticket #7 — unit diary persistence (runtime, not committed)
+data/derived/unit_diaries/

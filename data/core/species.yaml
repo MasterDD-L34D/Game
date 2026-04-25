@@ -33,11 +33,18 @@ catalog:
             res:
               sonic: 1
   synergies:
+    # Schema (additive, runtime read by apps/backend/services/combat/synergyDetector.js):
+    #   id        — slug stabile (telemetria + log)
+    #   name      — label diegetic
+    #   when_all  — list di "slot.part" tutti richiesti per fire
+    #   effect    — opzionale; { bonus_damage: N }. Default 1 se assente.
     - id: echo_backstab
       name: Echo Backstab
       when_all:
         - senses.echolocation
         - offense.sand_claws
+      effect:
+        bonus_damage: 1
 
 global_rules:
   morph_budget:

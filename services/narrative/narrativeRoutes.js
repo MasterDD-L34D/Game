@@ -5,6 +5,8 @@
 //   POST /api/v1/narrative/start          — avvia storia, ritorna primo testo + scelte
 //   POST /api/v1/narrative/choice         — seleziona scelta, ritorna testo + scelte
 //   POST /api/v1/narrative/bind-session   — bind dati sessione a storia attiva
+//   POST /api/v1/narrative/qbn/draw       — draw QBN event from quality state
+//   POST /api/v1/narrative/qbn/choice     — apply player choice to QBN history
 //
 // Le storie sono gestite in-memory (Map storyId → Story instance).
 // Per persistenza tra restart, usare saveState/loadState.
@@ -21,6 +23,11 @@ const {
   listStories,
   saveState,
 } = require('./narrativeEngine');
+const {
+  drawEvent: qbnDrawEvent,
+  applyChoice: qbnApplyChoice,
+  listEventIds: qbnListEventIds,
+} = require('../../apps/backend/services/narrative/qbnEngine');
 
 function createNarrativeRouter() {
   const router = Router();
@@ -96,6 +103,35 @@ function createNarrativeRouter() {
         return res.status(404).json({ error: 'story not found' });
       }
       res.json({ storyId, stateJson: saveState(story) });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ── QBN sub-routes (Quality-Based Narrative) ────────────────────────
+
+  // GET /qbn/events — list event ids in pack (introspection)
+  router.get('/qbn/events', (_req, res) => {
+    res.json({ events: qbnListEventIds() });
+  });
+
+  // POST /qbn/draw — { vcSnapshot?, runState?, history?, seed? } → { event, eligible_count }
+  router.post('/qbn/draw', (req, res) => {
+    try {
+      const result = qbnDrawEvent(req.body || {});
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // POST /qbn/choice — { history, event_id, choice_id, session_index } → { history }
+  router.post('/qbn/choice', (req, res) => {
+    try {
+      const { history, event_id, choice_id, session_index } = req.body || {};
+      if (!event_id) return res.status(400).json({ error: 'event_id required' });
+      const next = qbnApplyChoice(history || {}, event_id, choice_id ?? null, session_index ?? 0);
+      res.json({ history: next });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

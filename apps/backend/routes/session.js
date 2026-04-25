@@ -43,8 +43,28 @@ const {
 } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
-// P4 Thought Cabinet: evaluateThoughts per /thoughts endpoint.
-const { evaluateThoughts: evaluateMbtiThoughts } = require('../services/thoughts/thoughtCabinet');
+// P4 Thought Cabinet: Phase 1 (threshold unlock) + Phase 2 (research → internalize).
+const {
+  evaluateThoughts: evaluateMbtiThoughts,
+  createCabinetState,
+  startResearch: startThoughtResearch,
+  tickResearch: tickThoughtResearch,
+  forgetThought: forgetThoughtFn,
+  passiveBonuses: thoughtPassiveBonuses,
+  snapshotCabinet,
+  mergeUnlocked,
+} = require('../services/thoughts/thoughtCabinet');
+// Skiv ticket #4: biome resonance reduces research cost when species
+// biome_affinity matches session.biome_id. Looked up at the route layer
+// because thoughtCabinet engine stays YAML-agnostic about species data.
+const {
+  hasResonance: hasBiomeResonance,
+  computeResonanceTier,
+} = require('../services/combat/biomeResonance');
+// Skiv ticket #1: Thought Cabinet resolver wire — apply passive stats on
+// internalize/forget transitions. Reads cabinet snapshot deltas, mutates
+// unit.attack_mod / defense_dc / hp_max etc per effect_bonus / effect_cost.
+const { updateThoughtPassives } = require('../services/thoughts/thoughtPassiveApply');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -113,7 +133,10 @@ const {
   computePositionalDamage,
   facingFromMove,
   predictCombat,
+  applyApRefill,
 } = require('./sessionHelpers');
+// Skiv ticket #5 (Sprint B): Defy verb — player counter-pressure agency.
+const { applyDefy: applyDefyAction, DEFY_SG_COST } = require('../services/combat/defyEngine');
 const { createRoundBridge } = require('./sessionRoundBridge');
 // M13 P3 Phase B — progression perks apply + runtime passive damage bonus.
 const {
@@ -165,6 +188,35 @@ function createSessionRouter(options = {}) {
   const sessions = new Map();
   let activeSessionId = null;
 
+  // Telemetry helper — append JSONL entry to logs/telemetry_YYYYMMDD.jsonl.
+  // Same schema as POST /telemetry (ts, session_id, player_id, type, payload)
+  // but fired server-side for auto-instrumented events (tutorial_start/complete
+  // funnel — ref telemetry-viz-illuminator agent P0 #2).
+  async function appendTelemetryEvent({ session_id, player_id, type, payload }) {
+    try {
+      const now = new Date();
+      const yyyymmdd = now.toISOString().slice(0, 10).replace(/-/g, '');
+      const telemetryPath = path.join(logsDir, `telemetry_${yyyymmdd}.jsonl`);
+      const entry = {
+        ts: now.toISOString(),
+        session_id: session_id || null,
+        player_id: player_id || null,
+        type: type || 'unknown',
+        payload: payload ?? null,
+      };
+      await fs.mkdir(logsDir, { recursive: true });
+      await fs.appendFile(telemetryPath, JSON.stringify(entry) + '\n', 'utf8');
+    } catch {
+      // Non-blocking telemetry — never crash session on write failure.
+    }
+  }
+
+  // Pattern matcher per tutorial scenario IDs (funnel analysis input).
+  const TUTORIAL_SCENARIO_RE = /^enc_tutorial_\d+/;
+  function isTutorialScenario(scenarioId) {
+    return typeof scenarioId === 'string' && TUTORIAL_SCENARIO_RE.test(scenarioId);
+  }
+
   // V5 SG lifecycle helper: reset per-turn earn counter su tutte le unit vive.
   // Invocato dopo ogni session.turn += 1 (4 sites: advanceThroughAiTurns,
   // /action early-end fallback, sessionRoundBridge round flow x2).
@@ -178,8 +230,29 @@ function createSessionRouter(options = {}) {
       /* sgTracker optional */
     }
   }
-  // P4 Thought Cabinet: sessionId -> Map<unitId, Set<thoughtId>>
+  // P4 Thought Cabinet: sessionId -> Map<unitId, CabinetState>.
+  // Phase 1 discovered ids live in `state.unlocked`; Phase 2 tracks research +
+  // internalized slots for Disco Elysium-style passive effects.
   const thoughtsStore = new Map();
+
+  function getCabinetBucket(sessionId) {
+    let bucket = thoughtsStore.get(sessionId);
+    if (!bucket) {
+      bucket = new Map();
+      thoughtsStore.set(sessionId, bucket);
+    }
+    return bucket;
+  }
+
+  function getOrCreateCabinet(sessionId, unitId) {
+    const bucket = getCabinetBucket(sessionId);
+    let state = bucket.get(unitId);
+    if (!state) {
+      state = createCabinetState();
+      bucket.set(unitId, state);
+    }
+    return { bucket, state };
+  }
 
   function newSessionId() {
     return crypto.randomUUID();
@@ -705,9 +778,8 @@ function createSessionRouter(options = {}) {
       });
     };
     const resetAp = (unit) => {
-      if (!unit) return;
-      const fractureActive = Number(unit.status?.fracture) > 0;
-      unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+      // Skiv #5: applyApRefill centralises fracture + defy_penalty handling.
+      applyApRefill(unit);
     };
     const decrement = (unit) => {
       if (!unit || !unit.status) return;
@@ -929,9 +1001,20 @@ function createSessionRouter(options = {}) {
         biome_costs_log: biomeCostsLog,
       };
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
+      // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
+      // save-load + integration tests seed SG after the encounter zero-pass.
       try {
         const sgTracker = require('../services/combat/sgTracker');
         for (const u of session.units || []) sgTracker.resetEncounter(u);
+        const initialSg = req.body?.initial_sg;
+        if (initialSg && typeof initialSg === 'object') {
+          for (const [uid, pool] of Object.entries(initialSg)) {
+            const unit = (session.units || []).find((u) => u && u.id === uid);
+            if (!unit) continue;
+            const value = Math.max(0, Math.min(3, Math.floor(Number(pool) || 0)));
+            unit.sg = value;
+          }
+        }
       } catch {
         /* sgTracker optional */
       }
@@ -939,6 +1022,20 @@ function createSessionRouter(options = {}) {
       activeSessionId = sessionId;
       await fs.mkdir(logsDir, { recursive: true });
       await fs.writeFile(logFilePath, '[]\n', 'utf8');
+      // Funnel telemetry auto-log (agent telemetry-viz-illuminator P0 #2).
+      // Tutorial session_start → tutorial_start event (non-blocking).
+      if (isTutorialScenario(scenarioId)) {
+        appendTelemetryEvent({
+          session_id: sessionId,
+          player_id: null,
+          type: 'tutorial_start',
+          payload: {
+            scenario_id: scenarioId,
+            encounter_class: encounterClassUsed || 'standard',
+            party_size: units.filter((u) => u.controlled_by === 'player').length,
+          },
+        }).catch(() => {});
+      }
       await appendEvent(session, {
         action_type: 'session_start',
         turn: 0,
@@ -1602,9 +1699,8 @@ function createSessionRouter(options = {}) {
               session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + 1;
             }
           }
-          // AP reset
-          const fractureActive = Number(unit.status?.fracture) > 0;
-          unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+          // AP reset (Skiv #5: applyApRefill handles fracture + defy_penalty)
+          applyApRefill(unit);
           // Status decay + bonus clear
           if (unit.status) {
             for (const key of Object.keys(unit.status)) {
@@ -1641,6 +1737,51 @@ function createSessionRouter(options = {}) {
         events_emitted_count: eventsEmitted.length,
         events: eventsEmitted,
         ap_consumed: apByUnit,
+        state: publicSessionView(session),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // Skiv ticket #5 (Sprint B 2/2): Defy verb. Player counter-pressure agency.
+  // Body: { session_id, actor_id }. Validates SG ≥ DEFY_SG_COST + actor is
+  // player-controlled + alive + pressure > 0; on success spends 2 SG, drops
+  // sistema_pressure by DEFY_PRESSURE_RELIEF (clamped at 0), and sets
+  // actor.status.defy_penalty so the actor refills with -1 AP next turn.
+  router.post('/defy', async (req, res, next) => {
+    try {
+      const body = req.body || {};
+      const { error, session } = resolveSession(body.session_id);
+      if (error) return res.status(error.status).json(error.body);
+      const actor = session.units.find((u) => u.id === body.actor_id);
+      if (!actor) {
+        return res.status(400).json({ error: 'actor_not_found', actor_id: body.actor_id || null });
+      }
+      const outcome = applyDefyAction(actor, session);
+      if (!outcome.ok) {
+        return res
+          .status(409)
+          .json({ error: outcome.error, detail: outcome.detail || null, actor_id: actor.id });
+      }
+      // Append narrative event for HUD/debrief consumption.
+      const event = {
+        event_type: 'defy',
+        actor_id: actor.id,
+        turn: Number(session.turn || 0),
+        sg_before: outcome.before.sg,
+        sg_after: outcome.after.sg,
+        pressure_before: outcome.before.pressure,
+        pressure_after: outcome.after.pressure,
+        relief: outcome.relief,
+        sg_cost: outcome.cost.sg,
+        ap_penalty_next_turn: outcome.cost.ap_next_turn,
+      };
+      if (Array.isArray(session.events)) session.events.push(event);
+      res.json({
+        session_id: session.session_id,
+        actor_id: actor.id,
+        ...outcome,
         state: publicSessionView(session),
       });
     } catch (err) {
@@ -1713,6 +1854,22 @@ function createSessionRouter(options = {}) {
         vc_ennea: vcSnapshot?.ennea ?? null,
         automatic: true,
       });
+      // Funnel telemetry auto-log (agent telemetry-viz-illuminator P0 #2).
+      // Tutorial session_end → tutorial_complete event con outcome (non-blocking).
+      if (isTutorialScenario(session.scenario_id)) {
+        appendTelemetryEvent({
+          session_id: session.session_id,
+          player_id: null,
+          type: 'tutorial_complete',
+          payload: {
+            scenario_id: session.scenario_id,
+            outcome,
+            turns: session.turn,
+            player_alive: playerAlive,
+            sistema_alive: sistemaAlive,
+          },
+        }).catch(() => {});
+      }
       await persistEvents(session);
       const eventsCount = session.events.length;
       const logFile = session.logFilePath;
@@ -1778,30 +1935,146 @@ function createSessionRouter(options = {}) {
 
   // P4 Thought Cabinet: on-demand evaluation. Reads current VC snapshot per
   // actor, crosses mbti_axes against 18 YAML thoughts, cumulatively unlocks
-  // into in-memory store. Returns per-actor { unlocked, newly, details[] }.
+  // into in-memory CabinetState. Response carries Phase 1 keys (unlocked,
+  // newly) + Phase 2 additive keys (researching, internalized, slots_max,
+  // slots_used, passive_bonus, passive_cost).
   router.get('/:id/thoughts', (req, res, next) => {
     try {
       const { error, session } = resolveSession(req.params.id);
       if (error) return res.status(error.status).json(error.body);
       const snapshot = buildVcSnapshot(session, telemetryConfig);
-      let bucket = thoughtsStore.get(session.session_id);
-      if (!bucket) {
-        bucket = new Map();
-        thoughtsStore.set(session.session_id, bucket);
-      }
       const perActor = {};
       for (const [unitId, actorVc] of Object.entries(snapshot.per_actor || {})) {
         const axes = actorVc && actorVc.mbti_axes ? actorVc.mbti_axes : null;
-        let already = bucket.get(unitId);
-        if (!already) {
-          already = new Set();
-          bucket.set(unitId, already);
-        }
-        const { unlocked, newly } = evaluateMbtiThoughts(axes, already);
-        for (const id of newly) already.add(id);
-        perActor[unitId] = { unlocked, newly };
+        const { state } = getOrCreateCabinet(session.session_id, unitId);
+        const { newly } = evaluateMbtiThoughts(axes, state.unlocked);
+        mergeUnlocked(state, newly);
+        const snap = snapshotCabinet(state);
+        const passives = thoughtPassiveBonuses(state);
+        const actor = (session.units || []).find((u) => u && u.id === unitId);
+        const tierInfo =
+          actor && session.biome_id
+            ? computeResonanceTier(actor.species, session.biome_id, actor.archetype || null)
+            : { tier: 'none', label_it: '', discount: 0 };
+        perActor[unitId] = {
+          ...snap,
+          newly,
+          passive_bonus: passives.bonus,
+          passive_cost: passives.cost,
+          resonance_tier: tierInfo.tier,
+          resonance_label: tierInfo.label_it,
+        };
       }
       res.json({ session_id: session.session_id, per_actor: perActor });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // P4 Phase 2 — begin research on an unlocked thought (Disco Elysium
+  // internalization). Body: { unit_id, thought_id }. Fails if the thought
+  // is not unlocked, already researching/internalized, or cabinet has no
+  // free slot (slots_max=3 by default).
+  router.post('/:id/thoughts/research', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const { unit_id, thought_id } = req.body || {};
+      if (!unit_id || !thought_id) {
+        return res.status(400).json({ error: 'unit_id e thought_id obbligatori' });
+      }
+      const { state } = getOrCreateCabinet(session.session_id, unit_id);
+      const actor = (session.units || []).find((u) => u && u.id === unit_id);
+      const tierInfo =
+        actor && session.biome_id
+          ? computeResonanceTier(actor.species, session.biome_id, actor.archetype || null)
+          : { tier: 'none', label_it: '', discount: 0 };
+      const outcome = startThoughtResearch(state, thought_id, {
+        encounter: req.body?.encounter ?? null,
+        resonance: tierInfo.discount > 0,
+      });
+      if (!outcome.ok) {
+        return res.status(409).json({ error: outcome.error, thought_id });
+      }
+      res.json({
+        session_id: session.session_id,
+        unit_id,
+        thought_id,
+        cost_total: outcome.cost_total,
+        base_cost: outcome.base_cost,
+        resonance_applied: outcome.resonance_applied,
+        resonance_tier: tierInfo.tier,
+        resonance_label: tierInfo.label_it,
+        cabinet: snapshotCabinet(state),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // P4 Phase 2 — forget a researching or internalized thought to free a
+  // slot. Body: { unit_id, thought_id }. Symmetric with research.
+  router.post('/:id/thoughts/forget', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const { unit_id, thought_id } = req.body || {};
+      if (!unit_id || !thought_id) {
+        return res.status(400).json({ error: 'unit_id e thought_id obbligatori' });
+      }
+      const { state } = getOrCreateCabinet(session.session_id, unit_id);
+      const outcome = forgetThoughtFn(state, thought_id);
+      if (!outcome.ok) {
+        return res.status(409).json({ error: outcome.error, thought_id });
+      }
+      // Recompute passives post-forget and re-apply to live unit stats.
+      const postPassives = thoughtPassiveBonuses(state);
+      const unit = (session.units || []).find((u) => u && u.id === unit_id);
+      if (unit) updateThoughtPassives(unit, postPassives.bonus, postPassives.cost);
+      res.json({
+        session_id: session.session_id,
+        unit_id,
+        thought_id,
+        freed_from: outcome.freed_from,
+        cabinet: snapshotCabinet(state),
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // P4 Phase 2 — advance research timers. Body: { delta?: 1, unit_ids?: [] }.
+  // Decrements cost_remaining for every researching thought on the listed
+  // units (all units if `unit_ids` omitted); thoughts hitting 0 are
+  // promoted to internalized. Intended to be called on encounter/campaign
+  // advance by the caller; round orchestrator stays untouched.
+  router.post('/:id/thoughts/tick', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const delta = Number.isFinite(req.body?.delta) ? req.body.delta : 1;
+      const unitIds = Array.isArray(req.body?.unit_ids) ? req.body.unit_ids : null;
+      const bucket = getCabinetBucket(session.session_id);
+      const perActor = {};
+      const iterable = unitIds
+        ? unitIds.map((id) => [id, bucket.get(id)]).filter(([, v]) => v)
+        : Array.from(bucket.entries());
+      for (const [unitId, state] of iterable) {
+        const { promoted } = tickThoughtResearch(state, delta);
+        const passives = thoughtPassiveBonuses(state);
+        // Wire passives into live unit stats when thoughts are internalized.
+        if (promoted.length > 0) {
+          const unit = (session.units || []).find((u) => u && u.id === unitId);
+          if (unit) updateThoughtPassives(unit, passives.bonus, passives.cost);
+        }
+        perActor[unitId] = {
+          ...snapshotCabinet(state),
+          promoted,
+          passive_bonus: passives.bonus,
+          passive_cost: passives.cost,
+        };
+      }
+      res.json({ session_id: session.session_id, delta, per_actor: perActor });
     } catch (err) {
       next(err);
     }

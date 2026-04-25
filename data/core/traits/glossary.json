@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-07-24T12:00:00Z",
+  "updated_at": "2026-04-25T12:30:00Z",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -580,6 +580,12 @@
       "label_en": "Cromofori Alert Acido",
       "description_it": "Cromofori Alert Acido permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di foresta acida.",
       "description_en": "Cromofori Alert Acido allow squads to redistribute load and modulate structural rigidity within foresta acida."
+    },
+    "cuore_in_furia": {
+      "label_it": "Cuore in Furia",
+      "label_en": "Heart in Fury",
+      "description_it": "Cuore ipertrofico che entra in tachicardia rituale post-kill, scatenando 3 turni di rage adrenalinica.",
+      "description_en": "Hypertrophic heart entering ritual tachycardia post-kill, triggering 3 turns of adrenal rage."
     },
     "cuore_multicamera_bassa_pressione": {
       "label_it": "Cuore Multicamera Bassa Pressione",
@@ -1582,6 +1588,96 @@
       "label_en": "Ferocity",
       "description_it": "Stato psicofisico predatoriale che aumenta l'aggressività e la potenza offensiva sotto stress; favorisce attacchi multipli consecutivi.",
       "description_en": "Predatory psycho-physical state increasing aggression and offensive power under stress; favors consecutive multi-attacks."
+    },
+    "denti_seghettati": {
+      "label_it": "Denti Seghettati",
+      "label_en": "Serrated Teeth",
+      "description_it": "Denti seghettati che lacerano la carne del bersaglio e applicano sanguinamento profondo (2 turni).",
+      "description_en": "Serrated teeth that lacerate flesh and apply deep bleeding (2 turns)."
+    },
+    "pelle_elastomera": {
+      "label_it": "Pelle Elastomera",
+      "label_en": "Elastomeric Skin",
+      "description_it": "Pelle elastomerica che ammortizza l'impatto dei colpi in arrivo riducendo il danno di 1.",
+      "description_en": "Elastomeric skin that absorbs incoming impact, reducing damage by 1."
+    },
+    "intimidatore": {
+      "label_it": "Aura Intimidatoria",
+      "label_en": "Intimidating Aura",
+      "description_it": "Presenza che terrorizza gli avversari adiacenti, applicando 2 turni di panic ad ogni hit melee riuscito.",
+      "description_en": "Presence that terrifies adjacent enemies, applying 2 turns of panic on melee hits."
+    },
+    "stordimento": {
+      "label_it": "Colpo Stordente",
+      "label_en": "Stunning Blow",
+      "description_it": "Colpo traumatico che applica 1 turno di stunned sui critici (MoS >= 8).",
+      "description_en": "Traumatic blow that applies 1 turn of stunned on crits (MoS >= 8)."
+    },
+    "aculei_velenosi": {
+      "label_it": "Aculei Velenosi",
+      "label_en": "Venomous Spines",
+      "description_it": "Aculei rivestiti di tossine emolitiche che inducono sanguinamento prolungato al contatto.",
+      "description_en": "Spines coated in hemolytic toxins that induce prolonged bleeding on contact."
+    },
+    "pungiglione_paralizzante": {
+      "label_it": "Pungiglione Paralizzante",
+      "label_en": "Paralyzing Stinger",
+      "description_it": "Pungiglione carico di neurotossina inibitrice che applica 2 turni di stunned sui colpi precisi.",
+      "description_en": "Stinger loaded with inhibitor neurotoxin that applies 2 turns of stunned on precise hits."
+    },
+    "canto_di_richiamo": {
+      "label_it": "Canto di Richiamo",
+      "label_en": "Calling Chant",
+      "description_it": "Canto rituale post-kill che amplifica la furia per 2 turni e onora la preda caduta.",
+      "description_en": "Post-kill ritual chant that amplifies fury for 2 turns and honors the fallen prey."
+    },
+    "midollo_iperattivo": {
+      "label_it": "Midollo Iperattivo",
+      "label_en": "Hyperactive Marrow",
+      "description_it": "Midollo osseo che pompa adrenalina ad ogni uccisione, scatenando 3 turni di rage.",
+      "description_en": "Bone marrow that pumps adrenaline on every kill, triggering 3 turns of rage."
+    },
+    "spore_paniche": {
+      "label_it": "Spore Paniche",
+      "label_en": "Panic Spores",
+      "description_it": "Rilascio di spore neurotossiche che inducono allucinazioni terrifiche e fuga (3 turni di panic).",
+      "description_en": "Release of neurotoxic spores that induce terrifying hallucinations and flight (3 turns of panic)."
+    },
+    "tentacoli_uncinati": {
+      "label_it": "Tentacoli Uncinati",
+      "label_en": "Hooked Tentacles",
+      "description_it": "Tentacoli con uncini cheratinosi che afferrano e immobilizzano per 1 turno (frattura).",
+      "description_en": "Tentacles with keratin hooks that grip and immobilize for 1 turn (fracture)."
+    },
+    "voce_imperiosa": {
+      "label_it": "Voce Imperiosa",
+      "label_en": "Imperious Voice",
+      "description_it": "Voce risonante che paralizza la volontà dei deboli applicando 2 turni di panic in melee.",
+      "description_en": "Resonant voice that paralyzes weak wills, applying 2 turns of panic in melee."
+    },
+    "zampe_radianti": {
+      "label_it": "Zampe Radianti",
+      "label_en": "Radiant Paws",
+      "description_it": "Zampe che generano pulsazione cinetica al touch-down: +2 danno extra da posizione sopraelevata.",
+      "description_en": "Paws that generate kinetic pulse on touchdown: +2 extra damage from elevated position."
+    },
+    "sensori_sismici": {
+      "label_it": "Sensori Sismici",
+      "label_en": "Seismic Sensors",
+      "description_it": "Recettori cutanei che leggono microvibrazioni del terreno e anticipano lo spostamento di peso del bersaglio.",
+      "description_en": "Cutaneous receptors reading ground microvibrations to anticipate the target weight shift."
+    },
+    "mente_lucida": {
+      "label_it": "Mente Lucida",
+      "label_en": "Lucid Mind",
+      "description_it": "Coscienza tattica ferma che legge il bersaglio oltre la difesa.",
+      "description_en": "Steady tactical awareness that reads the target beyond defenses."
+    },
+    "cervello_predittivo": {
+      "label_it": "Cervello Predittivo",
+      "label_en": "Predictive Brain",
+      "description_it": "Corteccia che anticipa i prossimi secondi del bersaglio.",
+      "description_en": "Cortex that anticipates the target's next seconds of motion."
     }
   }
 }

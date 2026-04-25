@@ -8,7 +8,10 @@ import sys
 import zipfile
 from pathlib import Path
 
-from pypdf import PdfWriter
+import pytest
+
+pypdf = pytest.importorskip("pypdf", reason="pypdf non installato; vedi tools/py/requirements.txt")
+PdfWriter = pypdf.PdfWriter
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 TOOLS_PY = PROJECT_ROOT / "tools" / "py"

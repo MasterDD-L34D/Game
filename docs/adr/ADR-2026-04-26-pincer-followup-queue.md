@@ -157,8 +157,10 @@ resolveRound tick:
    **no follow-up su move** — solo dopo hit confermato. Previene pincer-setup
    exploit (move in, alleato attacca, follow-up).
 3. **Hex vs grid mapping**: detectPincer richiede hex coords (axial). Session.js
-   attualmente usa {x, y} grid orthogonal. Conversion layer `gridToHex` richiesto
-   (banale: `{ q: x, r: y - x/2 }` per flat-top convention). Scope doc, non ADR.
+   attualmente usa {x, y} grid orthogonal. Conversion layer `gridToHex` richiesto;
+   la formula dipende dalla convenzione hex adottata (offset odd-r vs odd-q vs
+   doubled) — decisione rimandata a `ADR-2026-04-16-grid-type-hex-axial.md`
+   follow-up. Scope doc, non ADR.
 
 ## Alternativa valutata e scartata
 
@@ -196,7 +198,7 @@ se flag off.
 
 ## Reference
 
-- `apps/backend/services/grid/hexGrid.js:253` — detectPincer helper (shipped M14-B)
+- `apps/backend/services/grid/hexGrid.js:270` — detectPincer helper (shipped M14-B, docstring L251)
 - `apps/backend/services/roundOrchestrator.js:271` — buildResolutionQueue
 - `docs/research/triangle-strategy-transfer-plan.md:179-283` — Mechanic 3B spec
 - `docs/adr/ADR-2026-04-16-grid-type-hex-axial.md` — hex grid decision
