@@ -14,7 +14,12 @@
 
 ## 🏆 Top relevance (score 4-5 — revive priority)
 
-_Vuoto. Dopo prima excavate session questa sezione popola con artifact score ≥4._
+- [Sentience Traits v1.0 — tier T1-T6 + interoception](cards/cognitive_traits-sentience-tiers-v1.md) — **5/5** · Skiv Sprint C diary unblock 3h · unintegrated
+- [Enneagramma Mechanics Registry — 16 hook stub](cards/enneagramma-mechanics-registry.md) — **5/5** · plug-in `enneaEffects.js` 3h · unintegrated
+- [Enneagramma Dataset — 9 tipi canonical](cards/enneagramma-dataset-9-types.md) — **5/5** · Skiv voice palette type 5/7 · unintegrated
+- [Ancestors Neurons Dump — 34 trigger combat](cards/ancestors-neurons-dump-csv.md) — **4/5** · 22 reaction trigger Self-Control · unintegrated
+- [Magnetic Rift Resonance — swarm trait T2](cards/old_mechanics-magnetic-rift-resonance.md) — **4/5** · Skiv Sprint A biomeResonance 2h · deferred
+- [enneaEffects.js — orphan canonical 93 LOC](cards/enneagramma-enneaeffects-orphan.md) — **4/5** · wire onRoundEnd 2h · abandoned
 
 ---
 
@@ -22,49 +27,61 @@ _Vuoto. Dopo prima excavate session questa sezione popola con artifact score ≥
 
 ### Ancestors
 
-Vuoto. Pending excavate `--domain ancestors`. Atteso: 30+ validation reports sotto `docs/reports/incoming/validation/` (pattern `evo_tactics_ancestors_repo_pack_*`, Oct/Nov 2025) + `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.sha256`.
+- [Ancestors Neurons Dump 01B — 34 trigger combat](cards/ancestors-neurons-dump-csv.md) — score 4/5 · 22 Self-Control reaction trigger · unintegrated
+
+_Restanti: 8 artifact in inventory + 263 neuroni in binary `.zip` mancanti. Vedi [excavations/2026-04-25-ancestors-inventory.md](excavations/2026-04-25-ancestors-inventory.md)._
 
 ### Cognitive traits / Sentience
 
-_Vuoto. Pending excavate `--domain cognitive_traits`. Atteso: `incoming/sentience_traits_v1.0.yaml` (T1-T6 tier scale full), `incoming/sensienti_traits_v0.1.yaml`._
+- [Sentience Traits v1.0 — tier T1-T6 + interoception hooks](cards/cognitive_traits-sentience-tiers-v1.md) — score 5/5 · Skiv Sprint C unblock · unintegrated
+
+_Restanti: `incoming/sensienti_traits_v0.1.yaml` superseded (skip). False positive: `docs/guide/README_SENTIENCE.md` canonical T0-T6._
 
 ### Enneagramma
 
-_Vuoto. Pending excavate `--domain enneagramma`. Atteso: `incoming/Ennagramma/` 6 dataset CSV (master, stackings, triadi, varianti istintive, wings, dataset.json) + `incoming/enneagramma_mechanics_registry.template.json`._
+- [Enneagramma Mechanics Registry — 16 hook stub](cards/enneagramma-mechanics-registry.md) — score 5/5 · ready-to-wire · unintegrated
+- [Enneagramma Dataset — 9 tipi canonical](cards/enneagramma-dataset-9-types.md) — score 5/5 · vcScoring.js extension · unintegrated
+- [enneaEffects.js — orphan canonical](cards/enneagramma-enneaeffects-orphan.md) — score 4/5 · wire onRoundEnd · abandoned
+
+📎 **Gallery**: [galleries/enneagramma.md](galleries/enneagramma.md) — 3 card stesso domain, narrative aggregato.
 
 ### Personality / MBTI extended
 
-_Vuoto. Pending excavate `--domain personality`. Atteso: `incoming/personality_module.v1.json`._
+Vuoto. `incoming/personality_module.v1.json` (770 LOC dataset 9 tipi enneagram) score 4/5 candidate per next curate session. Vedi [excavations/2026-04-25-old_mechanics-inventory.md](excavations/2026-04-25-old_mechanics-inventory.md) #2.
 
 ### Mating / Nido / Reclutamento
 
-_Vuoto. Pending excavate `--domain mating_nido`. Tracker user OD-001. Doc `docs/core/Mating-Reclutamento-Nido.md` esistente, runtime zero._
+Vuoto. Pending excavate `--domain mating_nido`. Tracker user OD-001. Doc `docs/core/Mating-Reclutamento-Nido.md` esistente, runtime zero.
 
 ### Old mechanics
 
-_Vuoto. Pending excavate `--domain old_mechanics`. Atteso: `incoming/recon_meccaniche.json`, deprecated `services/rules/`, `docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/*.yml`._
+- [Magnetic Rift Resonance — swarm trait T2](cards/old_mechanics-magnetic-rift-resonance.md) — score 4/5 · Skiv Sprint A biomeResonance · deferred
+
+_Restanti: 4 candidate in inventory (engine_events.schema, integrated-design-map, recon_meccaniche, Python rules deprecated). Vedi [excavations/2026-04-25-old_mechanics-inventory.md](excavations/2026-04-25-old_mechanics-inventory.md)._
 
 ### Species candidate
 
-_Vuoto. Pending excavate `--domain species_candidate`. Atteso: `incoming/species/*.json` (10 specie pre-canonical), `incoming/swarm-candidates/traits/`._
+Vuoto. Pending excavate `--domain species_candidate`. Atteso: `incoming/species/*.json` (10 specie pre-canonical), `incoming/swarm-candidates/traits/`.
 
 ### Architecture
 
-_Vuoto. Pending excavate `--domain architecture`. Atteso: ADR superseded chain, `services/rules/DEPRECATED.md`, `docs/archive/concept-explorations/`._
+Vuoto (cross-link a `enneaEffects.js` orphan, vedi sezione Enneagramma). Pending excavate dedicato per ADR superseded chain + `services/rules/DEPRECATED.md` + `docs/archive/concept-explorations/`.
 
 ### Other
 
-_Reserved per artifact che non match domain sopra._
+Reserved per artifact che non match domain sopra.
 
 ---
 
 ## 📊 Stats
 
-- **Excavations run**: 0
-- **Cards total**: 0
-- **Galleries**: 0
-- **Last excavate**: never
-- **Coverage**: 0% (0/8 priority domains explored)
+- **Excavations run**: 4 (ancestors / cognitive_traits / enneagramma / old_mechanics — tutti 2026-04-25)
+- **Artifact identificati**: 28 totali (9 + 2 + 9 + 8)
+- **Cards total**: 6 curate (top score 5/5: 3 · top score 4/5: 3)
+- **Galleries**: 1 (enneagramma — 3 card stesso domain)
+- **Last excavate**: 2026-04-25
+- **Coverage**: 50% (4/8 priority domains explored — pending: personality / mating_nido / species_candidate / architecture)
+- **Skiv unblock**: 6/6 card hanno reuse path Skiv-aware (Sprint A: 1, Sprint B: 1, Sprint C: 4)
 
 ---
 
@@ -72,14 +89,22 @@ _Reserved per artifact che non match domain sopra._
 
 ```
 docs/museum/
-├── MUSEUM.md                          # this file (index)
-├── README.md                          # how to use the museum
+├── MUSEUM.md                                       # this file (index)
+├── README.md                                       # how to use the museum
 ├── excavations/
-│   └── YYYY-MM-DD-<domain>-inventory.md  # per excavate run
+│   ├── 2026-04-25-ancestors-inventory.md          # 9 artifact ancestors
+│   ├── 2026-04-25-cognitive_traits-inventory.md   # 2 artifact sentience
+│   ├── 2026-04-25-enneagramma-inventory.md        # 9 artifact enneagramma
+│   └── 2026-04-25-old_mechanics-inventory.md      # 8 artifact old mechanics
 ├── cards/
-│   └── <domain>-<slug>.md             # one per buried artifact (Dublin Core)
+│   ├── ancestors-neurons-dump-csv.md              # M-2026-04-25-004 score 4/5
+│   ├── cognitive_traits-sentience-tiers-v1.md     # M-2026-04-25-001 score 5/5
+│   ├── enneagramma-dataset-9-types.md             # M-2026-04-25-003 score 5/5
+│   ├── enneagramma-enneaeffects-orphan.md         # M-2026-04-25-006 score 4/5
+│   ├── enneagramma-mechanics-registry.md          # M-2026-04-25-002 score 5/5
+│   └── old_mechanics-magnetic-rift-resonance.md   # M-2026-04-25-005 score 4/5
 └── galleries/
-    └── <domain>.md                    # ≥3 cards same domain → narrative aggregate
+    └── enneagramma.md                              # 3 cards aggregato
 ```
 
 ---
@@ -89,11 +114,14 @@ docs/museum/
 - Agent definition: [.claude/agents/repo-archaeologist.md](../../.claude/agents/repo-archaeologist.md)
 - Provenance standard: [DCMI Provenance](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/provenance/)
 - Backlog open: [BACKLOG.md](../../BACKLOG.md)
-- Open decisions: [OPEN_DECISIONS.md](../../OPEN_DECISIONS.md)
+- Open decisions: [OPEN_DECISIONS.md](../../OPEN_DECISIONS.md) (3 nuove OD candidate post-excavate: OD-006/007/008/009/010)
 - ADR index: [DECISIONS_LOG.md](../../DECISIONS_LOG.md)
+- Skiv canonical: [data/core/species/dune_stalker_lifecycle.yaml](../../data/core/species/dune_stalker_lifecycle.yaml)
 
 ---
 
 ## 📅 Last verified
 
-**2026-04-25** — Bootstrap session. Schema + structure created. First excavate pending.
+**2026-04-25** — First excavate session shipped. 4 domini coperti, 6 card curate, 1 gallery. 5 OPEN_DECISIONS candidate emerse (sentience backfill scope, ennea source canonical, Skiv type 5 vs 7, ancestors recovery scope, swarm integration scope).
+
+**Next excavate consigliato**: `--domain personality` (per personality_module.v1.json 770 LOC) o `--domain species_candidate` (10 specie + swarm-candidates).
