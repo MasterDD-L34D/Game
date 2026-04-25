@@ -176,14 +176,14 @@ Use ONLY if dominio non coperto da agenti esistenti.
 
 **Follow-up derivati dai P0 chiusi** (P1 candidates):
 
-| Origin PR | Follow-up                                                                 | Effort |             Risk             |
-| --------- | ------------------------------------------------------------------------- | :----: | :--------------------------: |
-| #1769     | Thought Cabinet: populate effects on the remaining 12 tier-2/3 thoughts   |  ~2h   |   low (content-only YAML)    |
-| #1769     | Thought Cabinet: UI thought-sphere reveal + resolver wire (=Skiv #1)      |  ~4h   | high (UI runtime + resolver) |
-| #1768     | MAP-Elites HTTP: run archive live + commit report + tune knob exhaustion  |  ~3h   |   mid (needs backend live)   |
-| #1772     | Synergy: HUD telegraph "synergy ready" before attack lands                |  ~3h   |     mid (UI integration)     |
-| #1773     | Defy: extension to enemies (sistema can spend its own meter to push back) |  ~4h   |      mid (AI symmetry)       |
-| #1774     | Resonance: tier values (perfect / secondary / class-match) + UI badge     |  ~3h   |        low (additive)        |
+| Origin PR | Follow-up                                                                 | Effort |             Risk             | Status                     |
+| --------- | ------------------------------------------------------------------------- | :----: | :--------------------------: | -------------------------- |
+| #1769     | Thought Cabinet: populate effects on the remaining 12 tier-2/3 thoughts   |  ~2h   |   low (content-only YAML)    | ✅ #1778 merged            |
+| #1769     | Thought Cabinet: resolver wire passiveBonuses → unit stats                |  ~4h   | high (UI runtime + resolver) | ✅ #1780 merged            |
+| #1768     | MAP-Elites HTTP: run archive live + commit report                         |  ~3h   |   mid (needs backend live)   | ✅ #1782 (draft, CI green) |
+| #1772     | Synergy: HUD telegraph "synergy ready" before attack lands                |  ~3h   |     mid (UI integration)     | ⏳ pending                 |
+| #1773     | Defy: extension to enemies (sistema can spend its own meter to push back) |  ~4h   |      mid (AI symmetry)       | ⏳ pending                 |
+| #1774     | Resonance: tier values (perfect / secondary / class-match) + UI badge     |  ~3h   |        low (additive)        | ⏳ pending                 |
 
 ### Big rocks (userland-bound o BIG effort)
 
@@ -193,14 +193,23 @@ Use ONLY if dominio non coperto da agenti esistenti.
 
 ---
 
-## 🚦 Test baseline (post 2026-04-25 sessione sera completa)
+## 🚦 Test baseline (post P1 follow-up session 2026-04-25)
 
 - AI regression `tests/ai/*.test.js` → **307/307 verde**
-- Services `tests/services/*.test.js` → **306/306 verde** (was 257, +49 in sessione: 22 synergy + 15 defy + 12 resonance)
-- Pytest suite full → **948 verde** (+12 vs notte: 9 map_elites + 3 restricted_play)
-- `tests/api/*.test.js` → **633/633 verde** (was 621, +12: 3 synergy + 8 defy + 1 resonance)
-- New tests aggregate sera: **+91 totali** (12 pytest + 23 unit thought + 7 integration thought + 22 synergy + 15 defy + 12 resonance)
+- Services `tests/services/*.test.js` → **306/306 verde**
+- `tests/api/thoughtCabinet.test.js` → **46/46** (+7 vs 39 pre-P1: 2 tier-2/3 escalation + 5 biome resonance)
+- `tests/api/thoughtPassiveApply.test.js` → **8/8 NEW** (resolver wire)
+- Pytest suite full → **948 verde**
+- `tests/api/*.test.js` → **633/633 verde**
 - Format check: verde · Governance strict: **0 errors / 0 warnings**
+
+**P1 follow-up PRs shipped**:
+
+| PR    | Title                                                           | SHA pending CI  |
+| ----- | --------------------------------------------------------------- | --------------- |
+| #1778 | feat(narrative): Thought Cabinet tier-2/3 effects + test update | merged          |
+| #1780 | feat(combat): Thought Cabinet passive resolver wire             | merged          |
+| #1782 | feat(balance): MAP-Elites HTTP live archive (85.2% coverage)    | draft, CI green |
 
 **Pre-flight prossima sessione**:
 
