@@ -133,7 +133,7 @@ Use ONLY if dominio non coperto da agenti esistenti.
 
 ### P0 residuali agent esistenti (post 2026-04-25 sessione autonoma)
 
-**Closed in main** (sessione 2026-04-25 notte, 5 PR mergiati):
+**Closed in main** (sessione 2026-04-25 notte, 7 PR mergiati):
 
 | Agent                        | P0                                           | Effort | PR    | SHA        |
 | ---------------------------- | -------------------------------------------- | :----: | ----- | ---------- |
@@ -143,15 +143,16 @@ Use ONLY if dominio non coperto da agenti esistenti.
 | narrative-design-illuminator | Tutorial briefing variations (per-encounter) |  ~4h   | #1760 | `6f397e6d` |
 | pcg-level-design-illuminator | XP budget encounter builder                  |  ~6h   | #1762 | `9901407e` |
 | narrative-design-illuminator | QBN MBTI-gated events (campaign-arc)         |  ~6h   | #1763 | `bec2bcd6` |
+| balance-illuminator          | MAP-Elites lightweight (Mouret 2015)         |  ~6h   | #1765 | `b22fc2b7` |
 
-**Bonus shipped**: `tools/check_docs_governance.py` parser bug fix (5 false-positive warnings) + `docs/hubs/incoming.md` stale review bumped (in PR #1758).
+**Bonus shipped**: `tools/check_docs_governance.py` parser bug fix (5 false-positive warnings) + `docs/hubs/incoming.md` stale review bumped (in PR #1758) + handoff doc continuity update (#1764).
 
 **Still residual**:
 
 | Agent                        | P0 residual                                 | Effort |               Risk               |
 | ---------------------------- | ------------------------------------------- | :----: | :------------------------------: |
 | balance-illuminator          | MCTS smart policy (state clone API)         |  ~4h   | mid (needs session clone helper) |
-| balance-illuminator          | MAP-Elites lightweight implementation       |  ~6h   |      mid (new architecture)      |
+| balance-illuminator          | MAP-Elites HTTP fitness wrapper             |  ~2h   |   low (extends shipped engine)   |
 | ui-design-illuminator        | Intent preview floating-icon wire           |  ~4h   |        high (UI runtime)         |
 | ui-design-illuminator        | Threat zone toggle phone                    |  ~3h   |        high (UI runtime)         |
 | pcg-level-design-illuminator | Objective variety (rescue/timer/extraction) |  ~8h   |       mid (data + engine)        |
@@ -169,8 +170,8 @@ Use ONLY if dominio non coperto da agenti esistenti.
 
 - AI regression `tests/ai/*.test.js` → **307/307 verde**
 - Services `tests/services/*.test.js` → **257/257 verde** (was 177, +80: 39 briefing + 41 QBN)
-- Pytest scripts: **348 totali** (273 pre-existing + 27 SPRT + 24 PI shop + 24 XP budget)
-- New tests aggregate sessione: **104 nuovi** (39+41 services + 24 SPRT + 24 PI shop + 24 XP budget)
+- Pytest scripts: **384 totali** (273 pre-existing + 27 SPRT + 24 PI shop + 24 XP budget + 36 MAP-Elites)
+- New tests aggregate sessione: **140 nuovi** (39+41 services + 27+24+24+36 pytest)
 - Format check: verde
 - Governance strict: **0 errors / 0 warnings** (parser bug fix + stale incoming bump in #1758)
 

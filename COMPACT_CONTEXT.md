@@ -17,7 +17,7 @@
 
 ## 🆕 Sessione 2026-04-25 notte (autonoma post user trust)
 
-**5 PR mergiati main consecutivi** (#1758 → #1763, ~5h work in 1.5h cycle ciascuno):
+**7 PR mergiati main consecutivi** (#1758 → #1765, ~7h work in 1.5h cycle ciascuno):
 
 | PR    | Title                                               | SHA        |
 | ----- | --------------------------------------------------- | ---------- |
@@ -26,12 +26,14 @@
 | #1760 | Tutorial briefing variations (~30 variants)         | `6f397e6d` |
 | #1762 | Encounter XP budget audit (Pathfinder framework)    | `9901407e` |
 | #1763 | QBN engine MBTI-gated events (12 events + 3 routes) | `bec2bcd6` |
+| #1764 | Handoff doc update (continuity per next session)    | `15ca7425` |
+| #1765 | MAP-Elites lightweight QD archive (Mouret 2015)     | `b22fc2b7` |
 
-**Tests aggregate post-merge**: AI 307/307 + services 257/257 + pytest 348/348 + governance 0/0.
+**Tests aggregate post-merge**: AI 307/307 + services 257/257 + pytest **384/384** (+36 MAP-Elites) + governance 0/0.
 
-**P0 chiusi**: balance SPRT, economy Machinations diagram, economy PI Monte Carlo, narrative briefing variations, narrative QBN, pcg XP audit + bonus governance bug fix.
+**7 P0 chiusi**: balance SPRT, economy Machinations diagram, economy PI Monte Carlo, narrative briefing variations, narrative QBN, pcg XP audit, balance MAP-Elites + bonus governance bug fix.
 
-**P0 residuali rimanenti**: balance MCTS (~4h), balance MAP-Elites (~6h), ui intent preview (~4h, UI runtime risk), ui threat zone toggle (~3h, UI), pcg objective variety (~8h), narrative Disco Elysium thought cabinet (~6h).
+**P0 residuali rimanenti**: balance MCTS (~4h, needs session state clone API), ui intent preview (~4h, UI runtime risk), ui threat zone toggle (~3h, UI), pcg objective variety (~8h), narrative Disco Elysium thought cabinet (~6h).
 
 ## Stato attuale (post sessione 2026-04-24/25 notte)
 
