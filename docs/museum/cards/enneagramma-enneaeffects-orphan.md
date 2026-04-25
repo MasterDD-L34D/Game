@@ -1,23 +1,30 @@
 ---
-title: enneaEffects.js — orphan canonical 93 LOC mai wired (P4 status drift)
+title: enneaEffects.js — orphan canonical 93 LOC (REVIVED via PR #1825 + #1827 + #1830)
 museum_id: M-2026-04-25-006
 type: architecture
 domain: enneagramma
 provenance:
   found_at: apps/backend/services/enneaEffects.js
   git_sha_first: 61b20873
-  git_sha_last: 61b20873
-  last_modified: 2026-04-16
-  last_author: MasterDD-L34D
+  git_sha_last: b27a612c # 2026-04-25 sera, PR #1830 9/9 mechanical
+  last_modified: 2026-04-25
+  last_author: claude-code
   buried_reason: abandoned
 relevance_score: 4
-reuse_path: apps/backend/services/sessionRoundBridge.js (import + onRoundEnd hook ~2h)
+reuse_path: COMPLETED — sessionRoundBridge applyEndOfRoundSideEffects hook via PR #1825 (#1827 9/9 + #1830 3 stat consumers)
 related_pillars: [P4]
-status: curated
+status: revived
 excavated_by: repo-archaeologist
 excavated_on: 2026-04-25
+revived_on: 2026-04-25
 last_verified: 2026-04-25
+revival_pr_chain:
+  - https://github.com/MasterDD-L34D/Game/pull/1825 # 6/9 wire mechanical+log_only
+  - https://github.com/MasterDD-L34D/Game/pull/1827 # 9/9 archetype coverage
+  - https://github.com/MasterDD-L34D/Game/pull/1830 # 3 stat consumer move/stress/evasion → 9/9 mechanical
 ---
+
+> **🎉 REVIVED 2026-04-25 sera** — Card chiusa via PR chain 3 commit consecutivi. enneaEffects.js da 93 LOC orfana → 9/9 archetipi runtime mechanical live. P4 🟡 → 🟢 candidato definitivo. Reuse_path implementation: `sessionRoundBridge.applyEndOfRoundSideEffects` lazy-invoke `buildVcSnapshot(session, telemetryConfig)` post status decay (gate `session.turn > 1`, KO-skip, telemetry config caching static field). 311/311 AI baseline preserved + 31 NEW tests in `enneaEffectsWire.test.js`. Card preservata come reference excavate-revive lifecycle.
 
 # enneaEffects.js — orphan canonical (93 LOC, mai wired)
 
