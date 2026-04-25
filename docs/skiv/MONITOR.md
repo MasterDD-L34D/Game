@@ -3,7 +3,7 @@ title: Skiv Monitor — live creature feed
 doc_status: active
 doc_owner: docs-team
 workstream: cross-cutting
-last_verified: 2026-04-25T20:15:44Z
+last_verified: 2026-04-25T21:29:07Z
 source_of_truth: false
 language: it
 review_cycle_days: 7
@@ -19,43 +19,49 @@ tags: [skiv, monitor, autogen]
 ╔══════════════════════════════════════════════════════════════╗
 ║           E V O - T A C T I C S   ·   S K I V               ║
 ║                ╱\_/\                                         ║
-║               (  o.o )    "Nodo sciolto. Sabbia liscia di n"║
+║               (  o.o )    "Tutto in posto. Respiro.        "║
 ║                > ^ <                                         ║
 ║                                                              ║
 ║  Arenavenator vagans            · savana              ║
-║  stalker    Lv  4  ( 230/ 275 XP)            ║
+║  stalker    Lv  4  ( 210/ 275 XP)            ║
 ║                                                              ║
-║  HP █████████· 12/14     AP 2/2  SG 2/3   ║
+║  HP ███████··· 10/14     AP 2/2  SG 2/3   ║
 ║  PE   47   PI   8                                ║
 ║                                                              ║
-║  FORM  INTP   ( 76%)                              ║
+║  FORM  INTP   ( 84%)                              ║
 ║  CABINET 2/3   PRESSURE T2   SENT T2-T3 ║
 ║                                                              ║
-║  EVOLVE OPPS   1     PERK PENDING  1             ║
-║  STRESS   1  COMPOSURE   1  CURIOSITY   1      ║
+║  EVOLVE OPPS   1     PERK PENDING  0             ║
+║  STRESS   2  COMPOSURE  27  CURIOSITY   0      ║
 ║                                                              ║
-║  Repo pulse:  PR   3  ISS+  1  ISS-  1        ║
-║               WF✓   1  WF✗  1  FIX   1        ║
+║  Repo pulse:  PR  29  ISS+  0  ISS-  0        ║
+║               WF✓  27  WF✗  2  FIX   0        ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
 
-_Ultimo evento: iss-555-closed · aggiornato 2026-04-25T20:15:44Z_
+_Ultimo evento: wf-24941087493 · aggiornato 2026-04-25T21:29:07Z_
 
 ## Eventi recenti (ultimi 10)
 
-- `2026-04-25T16:00:00` · **issue_closed** #555 —
-  > 🦎 _Nodo sciolto. Sabbia liscia di nuovo._
-- `2026-04-25T15:00:00` · **workflow_passed** —
+- `2026-04-25T21:28:26` · **workflow_passed**  — 
   > 🦎 _Tutto in posto. Respiro._
-- `2026-04-25T14:00:00` · **workflow_failed** —
+- `2026-04-25T21:28:24` · **workflow_passed**  — 
+  > 🦎 _Macchina canta giusto. Bene così._
+- `2026-04-25T21:28:14` · **pr_merged** #1832 — 
+  > 🦎 _Movimento più pulito. Allenatore migliora la mia macchina._
+- `2026-04-25T21:27:39` · **workflow_passed**  — 
+  > 🦎 _Tutto in posto. Respiro._
+- `2026-04-25T21:27:38` · **workflow_passed**  — 
+  > 🦎 _Macchina canta giusto. Bene così._
+- `2026-04-25T21:27:27` · **workflow_passed**  — 
+  > 🦎 _Macchina canta giusto. Bene così._
+- `2026-04-25T21:27:26` · **workflow_passed**  — 
+  > 🦎 _Macchina canta giusto. Bene così._
+- `2026-04-25T21:27:08` · **workflow_passed**  — 
+  > 🦎 _Tutto in posto. Respiro._
+- `2026-04-25T21:26:22` · **workflow_failed**  — 
   > 🦎 _Qualcosa scricchiola. Aspetto._
-- `2026-04-25T13:00:00` · **issue_opened** #555 —
-  > 🦎 _Una ferita futura, ancora teorica. Memorizzo._
-- `2026-04-25T12:00:00` · **pr_merged** #9003 —
-  > 🦎 _Dolore antico via. Mi muovo meglio._
-- `2026-04-25T11:00:00` · **pr_merged** #9002 —
-  > 🦎 _Mestiere nuovo. Le mani sanno prima di me._
-- `2026-04-25T10:00:00` · **pr_merged** #9001 —
-  > 🦎 _Una pelle vecchia si stacca. Aspetto._
+- `2026-04-25T21:26:06` · **workflow_failed**  — 
+  > 🦎 _Allenatore inciampa. Resto vicino._
 
 > 🦎 _Sabbia segue._

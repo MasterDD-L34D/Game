@@ -9,9 +9,9 @@
   "xp": 210,
   "xp_next": 275,
   "form": "INTP",
-  "form_confidence": 0.76,
+  "form_confidence": 0.8400000000000001,
   "gauges": {
-    "hp": 12,
+    "hp": 10,
     "hp_max": 14,
     "ap": 2,
     "ap_max": 2,
@@ -19,7 +19,7 @@
     "sg_max": 3
   },
   "currencies": {
-    "pe": 42,
+    "pe": 47,
     "pi": 8
   },
   "cabinet": {
@@ -37,22 +37,22 @@
   "pressure_tier": 2,
   "sentience_tier": "T2-T3",
   "mood": "watchful",
-  "stress": 0,
-  "composure": 0,
+  "stress": 2,
+  "composure": 27,
   "curiosity": 0,
   "resolution_count": 0,
   "perk_pending": 0,
-  "evolve_opportunity": 0,
-  "last_voice": "",
-  "last_event_id": "",
-  "last_updated": "",
-  "narrative_log_size": 0,
+  "evolve_opportunity": 1,
+  "last_voice": "Tutto in posto. Respiro.",
+  "last_event_id": "wf-24941087493",
+  "last_updated": "2026-04-25T21:29:07Z",
+  "narrative_log_size": 58,
   "counters": {
-    "prs_merged": 0,
+    "prs_merged": 29,
     "issues_opened": 0,
     "issues_closed": 0,
-    "workflows_passed": 0,
-    "workflows_failed": 0,
+    "workflows_passed": 27,
+    "workflows_failed": 2,
     "commits_silent": 0,
     "commits_fix": 0,
     "commits_revert": 0
