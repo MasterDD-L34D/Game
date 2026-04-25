@@ -51,6 +51,12 @@ thoughts:
     title_it: "Scintilla di Carisma"
     flavor_it: "Ogni azione è spettacolo. Forzare il fronte diventa istinto, non scelta."
     effect_hint_it: "Intraprende rischi visibili; tira il team con sé."
+    research_cost_encounters: 2
+    effect_bonus:
+      attack_mod: 2     # +2 attack mod in ingaggio ravvicinato (presenza carismatica)
+    effect_cost:
+      defense_dc: 2     # -2 DC quando isolato (esposizione amplificata)
+    effect_cost_hint_it: "-2 DC quando isolato; l'esposizione aumenta con il carisma."
 
   e_campione_folla:
     axis: E_I
@@ -61,6 +67,12 @@ thoughts:
     title_it: "Campione della Folla"
     flavor_it: "Il silenzio è l'unico nemico. Sempre in prima linea, sempre visibile."
     effect_hint_it: "Pattern estremo E; unlock job aggressivi (assaltatore)."
+    research_cost_encounters: 3
+    effect_bonus:
+      attack_mod: 2     # +2 attack mod (presenza di leadership in combattimento)
+    effect_cost:
+      defense_dc: 3     # -3 DC quando isolato (campione = bersaglio prioritario)
+    effect_cost_hint_it: "-3 DC quando isolato; campione della folla o bersaglio facile."
 
   # --- Asse E_I: Introverso (high) ---
   i_osservatore:
@@ -88,6 +100,12 @@ thoughts:
     title_it: "Calcolo Silente"
     flavor_it: "Ogni intervento pesato. Evita il caos anche quando potrebbe risolvere."
     effect_hint_it: "Economia azioni alta; rari utilizzi di abilità rumorose."
+    research_cost_encounters: 2
+    effect_bonus:
+      hp_max: 1         # +1 hp_max (resistenza del solitario calcolato)
+    effect_cost:
+      ap: 1             # -1 AP (deliberato ma lento: valuta prima di agire)
+    effect_cost_hint_it: "-1 AP totale; il calcolo silente richiede tempo prima di agire."
 
   i_lupo_solitario:
     axis: E_I
@@ -98,6 +116,12 @@ thoughts:
     title_it: "Lupo Solitario"
     flavor_it: "Opera meglio ai margini, lontano dagli altri. Il team è strumento, non rifugio."
     effect_hint_it: "Pattern estremo I; unlock job furtivo/esploratore."
+    research_cost_encounters: 3
+    effect_bonus:
+      hp_max: 2         # +2 hp_max (autosufficienza assoluta del lupo solitario)
+    effect_cost:
+      ap: 2             # -2 AP (agisce con lentezza deliberata, evita lo spreco)
+    effect_cost_hint_it: "-2 AP totali; il lupo solitario agisce con lentezza deliberata."
 
   # --- Asse S_N: Intuitivo (low) ---
   n_intuizione_terrena:
@@ -125,6 +149,12 @@ thoughts:
     title_it: "Pioniere del Possibile"
     flavor_it: "Inventa soluzioni che non esistono nel manuale. Il terreno è tela, non mappa."
     effect_hint_it: "Preferisce evade/flank a setup diretto."
+    research_cost_encounters: 2
+    effect_bonus:
+      attack_mod: 1     # +1 attack mod (soluzioni creative = colpi inaspettati)
+    effect_cost:
+      defense_dc: 2     # -2 DC fuori da copertura (il pioniere si espone ai pattern)
+    effect_cost_hint_it: "-2 DC fuori da copertura; il pioniere esplora ma si espone."
 
   n_visionario:
     axis: S_N
@@ -135,6 +165,12 @@ thoughts:
     title_it: "Visionario"
     flavor_it: "Vede mosse 3 round avanti, a costo di realismo immediato. Il piano è astratto."
     effect_hint_it: "Pattern estremo N; unlock job esploratore/tattico."
+    research_cost_encounters: 3
+    effect_bonus:
+      attack_range: 2   # +2 range (vede 3 round avanti; engage da distanza)
+    effect_cost:
+      defense_dc: 3     # -3 DC fuori copertura (il visionario espone il fianco al presente)
+    effect_cost_hint_it: "-3 DC fuori da copertura; il visionario non vede il presente."
 
   # --- Asse S_N: Sensoriale (high) ---
   s_occhio_pratico:
@@ -162,6 +198,12 @@ thoughts:
     title_it: "Metodologia di Ferro"
     flavor_it: "Setup prima di tutto. Non improvvisa mai; ogni azione ha un passo precedente."
     effect_hint_it: "Riduce evasion; massimizza copertura."
+    research_cost_encounters: 2
+    effect_bonus:
+      defense_dc: 2     # +2 DC (setup sistematico = difesa superiore)
+    effect_cost:
+      mov_penalty: 2    # -2 max move (metodico: evita sprint e movimenti improvvisati)
+    effect_cost_hint_it: "-2 max move; la metodologia di ferro blocca la mobilità."
 
   s_veterano_terreno:
     axis: S_N
@@ -172,6 +214,12 @@ thoughts:
     title_it: "Veterano del Terreno"
     flavor_it: "Ogni tile nota, ogni copertura memorizzata. Il biome è mappa incisa."
     effect_hint_it: "Pattern estremo S; unlock job sentinella/controllore."
+    research_cost_encounters: 3
+    effect_bonus:
+      defense_dc: 3     # +3 DC (ogni copertura memorizzata = fortezza mobile)
+    effect_cost:
+      mov_penalty: 3    # -3 max move (il veterano conosce ogni pietra ma non si muove)
+    effect_cost_hint_it: "-3 max move; il veterano è inamovibile come il terreno che padroneggia."
 
   # --- Asse J_P: Percepire (low) ---
   p_adattatore:
@@ -199,6 +247,12 @@ thoughts:
     title_it: "Improvvisatore"
     flavor_it: "Il piano è suggerimento; l'istante è legge. Decide quando la carta è in aria."
     effect_hint_it: "Reaction penalty ridotta; bonus improvvisazione."
+    research_cost_encounters: 2
+    effect_bonus:
+      ap: 1             # +1 AP (l'improvvisatore agisce più volte per round)
+    effect_cost:
+      defense_dc: 2     # -2 DC (l'esposizione si radicalizza: nessuna copertura stabile)
+    effect_cost_hint_it: "-2 DC costante; l'improvvisatore non mantiene mai copertura."
 
   p_anima_selvaggia:
     axis: J_P
@@ -209,6 +263,12 @@ thoughts:
     title_it: "Anima Selvaggia"
     flavor_it: "Non pianifica. Reagisce. Vince. Il cervello tattico vive nel presente continuo."
     effect_hint_it: "Pattern estremo P; unlock job furtivo/assaltatore."
+    research_cost_encounters: 3
+    effect_bonus:
+      ap: 2             # +2 AP (velocità di reazione massima: agisce per istinto puro)
+    effect_cost:
+      defense_dc: 3     # -3 DC costante (nessuna copertura: vive nell'esposizione)
+    effect_cost_hint_it: "-3 DC costante; l'anima selvaggia non si copre mai."
 
   # --- Asse J_P: Giudicare (high) ---
   j_disciplina:
@@ -236,6 +296,12 @@ thoughts:
     title_it: "Architetto del Round"
     flavor_it: "Ogni mossa incastonata. Fallito = ricalcolo immediato, non panico."
     effect_hint_it: "Setup ratio alto; preferisce round planning."
+    research_cost_encounters: 2
+    effect_bonus:
+      attack_mod: 2     # +2 attack mod se mantiene piano (architettura tattica superiore)
+    effect_cost:
+      ap: 1             # -1 AP nel round di cambio intent (rigidità del piano)
+    effect_cost_hint_it: "-1 AP nel round in cui cambia tipo di azione; l'architettura richiede impegno."
 
   j_maestro_ordine:
     axis: J_P
@@ -246,3 +312,9 @@ thoughts:
     title_it: "Maestro di Ordine"
     flavor_it: "Il caos del nemico non lo raggiunge mai. Il piano è prima, durante, dopo."
     effect_hint_it: "Pattern estremo J; unlock job tattico/controllore."
+    research_cost_encounters: 3
+    effect_bonus:
+      attack_mod: 3     # +3 attack mod (maestria tattica assoluta = precisione massima)
+    effect_cost:
+      ap: 2             # -2 AP nel round di cambio (il maestro paga il costo dell'ordine assoluto)
+    effect_cost_hint_it: "-2 AP nel round di cambio intent; il maestro d'ordine non ama le sorprese."
