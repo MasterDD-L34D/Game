@@ -2820,6 +2820,7 @@ traits:
       action_type: attack
       on_result: hit
       min_mos: 5
+      requires_target_tag: predator
     effect:
       kind: apply_status
       target_side: actor
@@ -2843,6 +2844,7 @@ traits:
       action_type: attack
       on_result: hit
       min_mos: 5
+      requires_target_tag: irascible
     effect:
       kind: apply_status
       target_side: actor
@@ -2865,6 +2867,7 @@ traits:
       action_type: attack
       on_result: hit
       min_mos: 5
+      requires_target_tag: wildlife
     effect:
       kind: apply_status
       target_side: actor
@@ -2909,6 +2912,7 @@ traits:
       on_result: hit
       melee_only: true
       min_mos: 3
+      requires_target_tag: irascible
     effect:
       kind: extra_damage
       amount: 1
@@ -2930,6 +2934,7 @@ traits:
       on_result: hit
       melee_only: true
       min_mos: 3
+      requires_target_tag: wildlife
     effect:
       kind: extra_damage
       amount: 1
@@ -2950,6 +2955,7 @@ traits:
       on_result: hit
       melee_only: true
       min_mos: 3
+      requires_target_tag: predator
     effect:
       kind: extra_damage
       amount: 1
@@ -3033,6 +3039,7 @@ traits:
     trigger:
       action_type: attack
       on_result: hit
+      requires_actor_tag: predator
     effect:
       kind: damage_reduction
       amount: 1
@@ -3053,6 +3060,7 @@ traits:
     trigger:
       action_type: attack
       on_result: hit
+      requires_actor_tag: irascible
     effect:
       kind: damage_reduction
       amount: 1
@@ -3073,6 +3081,7 @@ traits:
     trigger:
       action_type: attack
       on_result: hit
+      requires_actor_tag: wildlife
     effect:
       kind: damage_reduction
       amount: 1
