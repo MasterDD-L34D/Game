@@ -51,6 +51,7 @@ JOBS_EXPANSION = DATA_DIR / "jobs_expansion.yaml"
 MUTATION_CATALOG = DATA_DIR / "mutations" / "mutation_catalog.yaml"
 MBTI_THOUGHTS = DATA_DIR / "thoughts" / "mbti_thoughts.yaml"
 SPECIES = DATA_DIR / "species.yaml"
+LIFECYCLE = DATA_DIR / "species" / "dune_stalker_lifecycle.yaml"
 
 DEFAULT_OUT_JSON = REPO_ROOT / "data" / "derived" / "skiv_saga.json"
 DEFAULT_OUT_MD = REPO_ROOT / "docs" / "playtest" / "2026-04-25-skiv-saga-state.md"
@@ -107,6 +108,7 @@ def validate_state(quiet: bool = False) -> dict:
     mutations = load_yaml(MUTATION_CATALOG)
     thoughts = load_yaml(MBTI_THOUGHTS)
     species = load_yaml(SPECIES)
+    lifecycle = load_yaml(LIFECYCLE) if LIFECYCLE.exists() else {}
 
     # Stalker job
     stalker_job = (jobs.get("jobs") or {}).get(SKIV_TO_JOB)
@@ -142,17 +144,31 @@ def validate_state(quiet: bool = False) -> dict:
         f"species biome_affinity {affinity} != saga biome {SKIV_BIOME_ID}"
     )
 
+    # Lifecycle (additivo, non blocking se file mancante per backward-compat)
+    lifecycle_phases = {}
+    if lifecycle:
+        lifecycle_phases = lifecycle.get("phases") or {}
+        anchor = lifecycle.get("skiv_saga_anchor") or {}
+        current_phase = anchor.get("current_phase")
+        if current_phase:
+            assert current_phase in lifecycle_phases, (
+                f"skiv_saga_anchor.current_phase '{current_phase}' "
+                f"not in lifecycle.phases"
+            )
+
     if not quiet:
         print(
             f"[validate] {len(thought_catalog)} thoughts, "
             f"{len(mutations.get('mutations') or {})} mutations, "
-            f"stalker job + perk {SKIV_PICKED_PERK['perk_id']} OK"
+            f"stalker job + perk {SKIV_PICKED_PERK['perk_id']} OK, "
+            f"lifecycle {len(lifecycle_phases)} phases"
         )
     return {
         "stalker_job": stalker_job,
         "mutation": mutation_entry,
         "thoughts": thought_catalog,
         "species": skiv_species,
+        "lifecycle": lifecycle,
     }
 
 
@@ -320,7 +336,85 @@ def compose_diary(start_iso: str = "2026-04-25T18:00:00Z") -> list[dict]:
     return out
 
 
+def compose_aspect(lifecycle: dict | None = None) -> dict:
+    """Derive Skiv's current lifecycle phase + aspect from saga progression.
+
+    Algoritmo gating (mirror lifecycle YAML schema):
+      hatchling: Lv 1, 0 mut, 0 thoughts
+      juvenile:  Lv 2-3
+      mature:    Lv 4-5 + ≥1 mut + ≥2 thoughts internalized + polarity stable
+      apex:      Lv 6-7 + ≥2 mut + ≥3 thoughts + tier3 axis
+      legacy:    Lv 7 maxed + ≥3 mut + cabinet pieno
+
+    Skiv saga di default → mature (Lv 4 + 1 mut + 2 internalized + INTP).
+    Se lifecycle YAML è disponibile, esponi anche aspect_it + sprite_ascii
+    + tactical_signature + mutation_morphology applicate.
+    """
+    n_mutations = len(SKIV_INTERNALIZED) and 1  # 1 mutation in saga (artigli_grip_to_glass)
+    n_internalized = len(SKIV_INTERNALIZED)
+    polarity_stable = any(
+        abs(SKIV_MBTI_AXES[ax]["value"] - 0.5) >= 0.15 for ax in SKIV_MBTI_AXES
+    )
+
+    # Saga-deterministic gating
+    if SKIV_LEVEL >= 7 and n_mutations >= 3:
+        phase = "legacy"
+    elif SKIV_LEVEL >= 6 and n_mutations >= 2 and n_internalized >= 3:
+        phase = "apex"
+    elif SKIV_LEVEL >= 4 and n_mutations >= 1 and n_internalized >= 2 and polarity_stable:
+        phase = "mature"
+    elif SKIV_LEVEL >= 2:
+        phase = "juvenile"
+    else:
+        phase = "hatchling"
+
+    aspect = {
+        "lifecycle_phase": phase,
+        "polarity_stable": polarity_stable,
+        "mbti_form_label": "INTP-leaning-I",
+    }
+
+    # Enrich with lifecycle YAML if present
+    if lifecycle:
+        phases = lifecycle.get("phases") or {}
+        phase_data = phases.get(phase) or {}
+        if phase_data:
+            aspect["aspect_it"] = (phase_data.get("aspect_it") or "").strip()
+            sprite = phase_data.get("sprite_ascii")
+            if isinstance(sprite, list):
+                aspect["sprite_ascii"] = "\n".join(sprite)
+            elif isinstance(sprite, str):
+                aspect["sprite_ascii"] = sprite.rstrip()
+            else:
+                aspect["sprite_ascii"] = ""
+            aspect["tactical_signature"] = phase_data.get("tactical_signature")
+            aspect["label_it"] = phase_data.get("label_it")
+            aspect["label_en"] = phase_data.get("label_en")
+
+        # Mutation visual swap
+        morphology = lifecycle.get("mutation_morphology") or {}
+        applied = morphology.get(SKIV_MUTATION_ID)
+        if applied:
+            aspect["mutation_morphology"] = applied
+
+        # MBTI correlate hints
+        correlates = lifecycle.get("mbti_aspect_correlates") or {}
+        active = []
+        if SKIV_MBTI_AXES["E_I"]["value"] >= 0.65 and "I_high" in correlates:
+            active.append({"polarity": "I_high", "manifestation": correlates["I_high"]})
+        if SKIV_MBTI_AXES["T_F"]["value"] >= 0.65 and "T_high" in correlates:
+            active.append({"polarity": "T_high", "manifestation": correlates["T_high"]})
+        if SKIV_MBTI_AXES["S_N"]["value"] <= 0.35 and "N_high" in correlates:
+            active.append({"polarity": "N_high", "manifestation": correlates["N_high"]})
+        if SKIV_MBTI_AXES["J_P"]["value"] <= 0.35 and "P_high" in correlates:
+            active.append({"polarity": "P_high", "manifestation": correlates["P_high"]})
+        aspect["mbti_correlates"] = active
+
+    return aspect
+
+
 def build_saga_state() -> dict:
+    lifecycle_data = load_yaml(LIFECYCLE) if LIFECYCLE.exists() else {}
     return {
         "schema_version": "0.1.0",
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -331,11 +425,11 @@ def build_saga_state() -> dict:
         "progression": compose_progression(),
         "cabinet": compose_cabinet(),
         "mutations": compose_mutations(),
+        "aspect": compose_aspect(lifecycle_data),
         "diary": compose_diary(),
         "_notes": (
             "Canonical creature state showcasing 2026-04-25 content sprint #1776 "
-            "+ Skiv 5/8 wishlist (synergy #2 + biome resonance #4 + Defy #5 + "
-            "Diary #7 + Hybrid Path #6). Regenerate via "
+            "+ Skiv 5/8 wishlist + lifecycle/aspect (this PR). Regenerate via "
             "tools/py/seed_skiv_saga.py."
         ),
     }
@@ -410,6 +504,27 @@ Slots: {slots_used}/3 (1 libero per ricerca futura)
   - cost: 12 PE + 7 PI
   - effetto: +1 dmg always → +2 dmg condizionato MoS≥5 (burst trade-off)
 
+## Aspect — fase **{aspect_phase}** ({aspect_label})
+
+> Skiv è qui sull'asse di vita. Vedi `data/core/species/dune_stalker_lifecycle.yaml`
+> per le 5 fasi totali e i gating di transizione.
+
+```
+{aspect_sprite}
+```
+
+{aspect_prose}
+
+**Tactical signature**: {aspect_tactical}
+
+### Mutation morphology (visual swap applicato)
+
+{aspect_morph}
+
+### MBTI form correlates attivi
+
+{aspect_mbti}
+
 ## Diary timeline (8 events — one per whitelist slot)
 
 {diary_table}
@@ -440,6 +555,26 @@ def render_markdown(state: dict) -> str:
     mut = state["mutations"][0]
     axes = state["mbti_axes"]
     diary = state["diary"]
+    aspect = state.get("aspect") or {}
+
+    aspect_sprite = aspect.get("sprite_ascii") or "(sprite pending lifecycle YAML)"
+    aspect_prose = aspect.get("aspect_it") or "(prose non disponibile)"
+    aspect_tactical = aspect.get("tactical_signature") or "—"
+    aspect_phase = aspect.get("lifecycle_phase", "unknown")
+    aspect_label = aspect.get("label_it", "—")
+    morph = aspect.get("mutation_morphology") or {}
+    if morph:
+        aspect_morph = (
+            f"- **{morph.get('aspect_token', '?')}** — {morph.get('visual_swap_it', '—')}\n"
+            f"- phase_unlock: `{morph.get('phase_unlock', '—')}`"
+        )
+    else:
+        aspect_morph = "_(nessuna mutation morphology nel lifecycle YAML)_"
+
+    mbti_lines = []
+    for entry in aspect.get("mbti_correlates") or []:
+        mbti_lines.append(f"- **{entry['polarity']}** — {entry['manifestation']}")
+    aspect_mbti = "\n".join(mbti_lines) or "_(nessun axis stabilmente polarizzato)_"
 
     diary_lines = [
         "| # | Event type | Encounter | Turn | Payload key |",
@@ -472,6 +607,13 @@ def render_markdown(state: dict) -> str:
         slots_used=cab["slots_used"],
         mutation_id=mut["id"],
         diary_table=diary_table,
+        aspect_phase=aspect_phase,
+        aspect_label=aspect_label,
+        aspect_sprite=aspect_sprite,
+        aspect_prose=aspect_prose,
+        aspect_tactical=aspect_tactical,
+        aspect_morph=aspect_morph,
+        aspect_mbti=aspect_mbti,
     )
 
 
