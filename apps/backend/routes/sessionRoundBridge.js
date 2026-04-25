@@ -32,6 +32,11 @@ const {
   recordAttackForCombo,
   resetRoundAttackTracker,
 } = require('../services/squadCoordination');
+const {
+  detectSynergyTrigger,
+  recordSynergyFire,
+  resetRoundSynergyTracker,
+} = require('../services/combat/synergyDetector');
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
 const { tick: missionTimerTick } = require('../services/combat/missionTimer');
@@ -370,6 +375,31 @@ function createRoundBridge(deps) {
           capturedResults.combo = { ...comboInfo, bonus_applied: applied };
         }
         recordAttackForCombo(session, actor, target, comboInfo);
+        // Skiv ticket #2: synergy combo (`echo_backstab` & co.). Indipendente
+        // dal focus_fire — può sommarsi nello stesso attacco. Cooldown 1/round.
+        const synergyInfo = detectSynergyTrigger(session, actor, target);
+        if (res.result && res.result.hit && synergyInfo.triggered) {
+          let appliedSyn = 0;
+          if (res.damageDealt > 0) {
+            const extra = synergyInfo.bonus_damage;
+            const hpNow = Number(target.hp || 0);
+            appliedSyn = Math.min(extra, hpNow);
+            if (appliedSyn > 0) {
+              target.hp = hpNow - appliedSyn;
+              capturedResults.damageDealt =
+                Number(capturedResults.damageDealt || res.damageDealt) + appliedSyn;
+              if (session.damage_taken) {
+                session.damage_taken[target.id] =
+                  (session.damage_taken[target.id] || 0) + appliedSyn;
+              }
+              if (target.hp <= 0 && !capturedResults.killOccurred) {
+                capturedResults.killOccurred = true;
+              }
+            }
+          }
+          capturedResults.synergy = { ...synergyInfo, bonus_applied: appliedSyn };
+          recordSynergyFire(session, actor, target, synergyInfo, appliedSyn);
+        }
         for (const uOrch of next.units) {
           const uLegacy = session.units.find((u) => u.id === uOrch.id);
           if (uLegacy) {
@@ -512,6 +542,7 @@ function createRoundBridge(deps) {
       parry: capturedResults.parry,
       intercept: capturedResults.intercept || null,
       combo: capturedResults.combo || null,
+      synergy: capturedResults.synergy || null,
       state: publicSessionView(session),
       round_wrapper: true,
       round_phase: result.nextState.round_phase,
@@ -675,6 +706,7 @@ function createRoundBridge(deps) {
           );
 
           let combo = null;
+          let synergy = null;
           if (!isSis) {
             const comboInfo = detectFocusFireCombo(session, actor, target);
             if (res.result && res.result.hit && comboInfo.is_combo && res.damageDealt > 0) {
@@ -692,6 +724,27 @@ function createRoundBridge(deps) {
               combo = { ...comboInfo, bonus_applied: applied };
             }
             recordAttackForCombo(session, actor, target, comboInfo);
+          }
+          // Skiv ticket #2: synergy fires for any actor (player + sistema)
+          // se la specie ha le parts richieste. Cooldown 1/round per actor.
+          const synergyInfo = detectSynergyTrigger(session, actor, target);
+          if (res.result && res.result.hit && synergyInfo.triggered) {
+            let appliedSyn = 0;
+            if (res.damageDealt > 0) {
+              const extra = synergyInfo.bonus_damage;
+              const hpNow = Number(target.hp || 0);
+              appliedSyn = Math.min(extra, hpNow);
+              if (appliedSyn > 0) {
+                target.hp = hpNow - appliedSyn;
+                res.damageDealt = res.damageDealt + appliedSyn;
+                if (session.damage_taken) {
+                  session.damage_taken[target.id] =
+                    (session.damage_taken[target.id] || 0) + appliedSyn;
+                }
+              }
+            }
+            synergy = { ...synergyInfo, bonus_applied: appliedSyn };
+            recordSynergyFire(session, actor, target, synergyInfo, appliedSyn);
           }
 
           const event = buildAttackEvent({
@@ -740,6 +793,7 @@ function createRoundBridge(deps) {
             ia_rule: action.source_ia_rule,
             parry: res.parry,
             combo,
+            synergy,
           });
         }
       } else if (action.type === 'move' && action.move_to) {
@@ -845,6 +899,8 @@ function createRoundBridge(deps) {
     // Reset tracker combo a fine round: archivia last_round_combos come
     // previous_round_combos (letto dal debrief) e pulisce la lista attacchi.
     resetRoundAttackTracker(session);
+    // Skiv ticket #2: reset synergy cooldown + archivia last_round_synergies.
+    resetRoundSynergyTracker(session);
     session.roundState = adaptSessionToRoundState(session);
 
     const { hazardEvents, bleedingEvents } = await applyEndOfRoundSideEffects(session);
@@ -1175,6 +1231,7 @@ function createRoundBridge(deps) {
         if (error) return res.status(error.status).json(error.body);
 
         resetRoundAttackTracker(session);
+        resetRoundSynergyTracker(session);
 
         const { hazardEvents, bleedingEvents } = await applyEndOfRoundSideEffects(session);
 
