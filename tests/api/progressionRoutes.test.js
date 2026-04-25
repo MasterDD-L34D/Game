@@ -53,7 +53,9 @@ test('GET /registry exposes thresholds + jobs', async (t) => {
   const res = await request('GET', `${url}/api/v1/progression/registry`);
   assert.equal(res.status, 200);
   assert.equal(res.body.xp_max_level, 7);
-  assert.equal(res.body.jobs.length, 7);
+  // 7 base + 4 expansion (stalker/symbiont/beastmaster/aberrant)
+  assert.equal(res.body.jobs.length, 11);
+  assert.ok(res.body.jobs.includes('stalker'));
   assert.equal(res.body.xp_thresholds[2], 10);
 });
 

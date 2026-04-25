@@ -139,7 +139,9 @@ test('snapshot exposes jobs + thresholds', () => {
   const snap = engine.snapshot();
   assert.ok(snap.jobs.includes('skirmisher'));
   assert.ok(snap.jobs.includes('harvester'));
-  assert.equal(snap.jobs.length, 7);
+  // 7 base + 4 expansion (stalker/symbiont/beastmaster/aberrant) loaded by progressionLoader
+  assert.equal(snap.jobs.length, 11);
+  assert.ok(snap.jobs.includes('stalker'));
   assert.equal(snap.xp_max_level, 7);
   assert.equal(snap.xp_thresholds[2], 10);
 });
