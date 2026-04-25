@@ -755,9 +755,17 @@ def detect_pillar(labels: Sequence[str], title: str) -> Optional[int]:
     return None
 
 
-def voice_pick(category: str, seed: str) -> str:
-    """Deterministic-ish pick from voice palette; avoids same line twice in a row via seed."""
-    pool = VOICE.get(category) or VOICE["default"]
+def voice_pick(category: str, seed: str, phase_id: Optional[str] = None) -> str:
+    """Deterministic-ish pick from voice palette; avoids same line twice in a row via seed.
+
+    F-04 fix: when phase_id provided, 1-in-4 chance to use lifecycle phase voice
+    (loaded from YAML) for narrative variety. Determinism preserved via seed hash.
+    """
+    pool = list(VOICE.get(category) or VOICE["default"])
+    if phase_id:
+        phase_voices = load_lifecycle_voices().get(phase_id) or []
+        if phase_voices and (abs(hash(seed + ":phase")) % 4 == 0):
+            pool = phase_voices
     idx = abs(hash(seed)) % len(pool)
     return pool[idx]
 
@@ -821,7 +829,8 @@ def map_event(event: Dict[str, Any]) -> Dict[str, Any]:
         category = "wf_fail"
         delta["counters.workflows_failed"] = 1
         delta["stress"] = 1
-        delta["gauges.hp"] = -1  # cosmetic
+        # No HP delta — wf_fail is cosmetic, NOT life-threatening.
+        # Cumulative HP-1 destroyed creature on backfill (73 fails → HP 0).
     elif kind == "workflow_passed":
         category = "wf_pass"
         delta["counters.workflows_passed"] = 1
@@ -829,7 +838,7 @@ def map_event(event: Dict[str, Any]) -> Dict[str, Any]:
 
     return {
         "category": category,
-        "voice": voice_pick(category, seed),
+        "voice": voice_pick(category, seed),  # phase_id wired in process_events
         "state_delta": delta,
         "summary": summary[:160],
     }
@@ -1049,6 +1058,10 @@ def process_events(events: List[Dict[str, Any]], state: Dict[str, Any], cursor: 
             continue
         mapping = map_event(ev)
         apply_delta(state, mapping["state_delta"])
+        # F-04: re-pick voice with current phase context (lifecycle-aware variety).
+        cur_phase = (state.get("lifecycle") or {}).get("phase_id")
+        if cur_phase:
+            mapping["voice"] = voice_pick(mapping["category"], eid, phase_id=cur_phase)
         state["last_event_id"] = eid
         state["last_voice"] = mapping["voice"]
         state["last_updated"] = now_iso()
