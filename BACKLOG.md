@@ -53,9 +53,9 @@
 
 Ref: `docs/qa/2026-04-24-coop-phase-validation-pre-playtest.md` (agent run verdict 🟡 minor, 0 blocker).
 
-- [ ] **F-1 (P1, ~1h)** — Host transfer mid-combat: `wsSession.js:765-784` promuove nuovo host dopo grace 30s ma non pusha current coop phase. Nuovo host vede UI stale fino a `GET /api/coop/state` manuale. Fix: wire `coopStore` in wsSession close handler per rebroadcast phase.
-- [ ] **F-2 (P1, ~1h)** — Stuck-phase se player droppa mid `character_creation` o `debrief`: `room.players` mantiene entry disconnesse (design reconnect), quindi guard `expected.size === characters.size` non fira. Worst case: host deve chiudere room. Fix: `/coop/run/force-advance` endpoint host-only.
-- [ ] **F-3 (P2)** — `submitCharacter` non check `playerId ∈ allPlayerIds`. Harmless (crea ghost entry che blocca auto-advance = same as F-2). Fix: guard al route layer o orchestrator.
+- [x] ~~**F-1 (P1, ~1h)**~~ — Host transfer mid-combat phase rebroadcast → **✅ CHIUSO PR #1736 (`b7abfe39`)** 2026-04-24. `wsSession.js` host transfer ora rebroadcast coop phase_change + character_ready_list al new host + peers post-promotion. coopStore inject opzionale in createWsServer (backward-compat se assente). Linea 627 nota: "Optional `coopStore` (F-1)".
+- [x] ~~**F-2 (P1, ~1h)**~~ — Stuck-phase escape hatch → **✅ CHIUSO PR #1736 (`b7abfe39`)** 2026-04-24. Endpoint `POST /api/coop/run/force-advance` host-only in `apps/backend/routes/coop.js:206`. Whitelist `character_creation → world_setup`, `debrief → next scenario/ended`. Implementato in `coopOrchestrator.js:269 forceAdvance({reason})`.
+- [x] ~~**F-3 (P2)**~~ — `submitCharacter` membership check → **✅ CHIUSO PR #1736 (`b7abfe39`)** 2026-04-24. Membership check `allPlayerIds` rifiuta ghost client con error `player_not_in_room` (quando `allPlayerIds` non vuoto).
 
 ### Test coverage gaps coop (non bloccanti, da audit)
 
@@ -69,7 +69,7 @@ Ref: `docs/qa/2026-04-24-coop-phase-validation-pre-playtest.md` (agent run verdi
 
 Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identificate, rollout 3 sprint slice:
 
-- [ ] **M14-A** — Mechanic 3 (elevation + facing) + Mechanic 4 (terrain chain reactions fire/ice/water/lightning). Effort M. ~8h. Target Pilastro 1 Tattica.
+- [🟡] **M14-A PARTIAL** — Mechanic 3 elevation damage multiplier + Mechanic 4 terrain reactions → **🟡 PARZIALE PR #1736 (`b7abfe39`)** 2026-04-24 ("slice ridotto, pure helpers, no wire resolver"). Helpers shipped: `elevationDamageMultiplier` in `hexGrid.js` (delta>=1 → 1.30, delta<=-1 → 0.85), `terrain_defense.yaml` attack_damage_bonus 0.30/-0.15, `apps/backend/services/combat/terrainReactions.js` (reactTile fire+ice→water/steam, fire+water→evaporate, lightning+water→electrified) + `chainElectrified` BFS maxDepth cap 5 TS-style. **Ancora aperto**: full resolver wire (combat damage step usa multiplier?), facing system. ~3-4h residui.
 - [ ] **M14-B** — Mechanic 1 (Conviction → MBTI axis reveal) + Mechanic 2 (Scales of Conviction → M18 world_setup upgrade). Effort L. ~12h. Target Pilastro 4 MBTI.
 - [ ] **M15** — Mechanic 7 (Initiative CT bar / Wait action) + Mechanic 6 (class promotion XCOM-style). Effort L. ~15h. Target Pilastro 3 Specie×Job.
 
