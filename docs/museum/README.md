@@ -73,4 +73,6 @@ rejected      # decided not to revive (link reason ADR)
 
 ## Bootstrap status
 
-**2026-04-25**: structure creata, `MUSEUM.md` index vuoto, 0 card. Prima excavate session pending (target consigliato: `--domain ancestors` per chiudere gap user 2026-04-25).
+**2026-04-25 sera (post-session-2)**: 100% domain coverage (8/8). 11 card curate (5 score 5/5 + 6 score 4/5). 8 inventory + 1 gallery (enneagramma). Cross-agent validation PASS (creature-aspect-illuminator consultato spontaneously, 6 GAP found, ~10-15min saved).
+
+Vedi [`MUSEUM.md`](MUSEUM.md) "📊 Stats" per breakdown corrente. Prossimo step: review user OD-001 correction (mating engine LIVE, decisione product Path A/B/C).

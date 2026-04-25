@@ -40,7 +40,7 @@ _Restanti: 8 artifact in inventory + 263 neuroni in binary `.zip` mancanti. Reco
 
 - [Sentience Traits v1.0 — tier T1-T6 + interoception hooks](cards/cognitive_traits-sentience-tiers-v1.md) — score 5/5 · Skiv Sprint C unblock · unintegrated
 
-_Restanti: `incoming/sensienti_traits_v0.1.yaml` superseded (skip). False positive: `docs/guide/README_SENTIENCE.md` canonical T0-T6._
+_Restanti: `incoming/sensienti_traits_v0.1.yaml` superseded (skip). False positive: `docs/guide/README_SENTIENCE.md` canonical T0-T6. Vedi [excavations/2026-04-25-cognitive_traits-inventory.md](excavations/2026-04-25-cognitive_traits-inventory.md)._
 
 ### Enneagramma
 
@@ -49,6 +49,8 @@ _Restanti: `incoming/sensienti_traits_v0.1.yaml` superseded (skip). False positi
 - [enneaEffects.js — orphan canonical](cards/enneagramma-enneaeffects-orphan.md) — score 4/5 · wire onRoundEnd · abandoned
 
 📎 **Gallery**: [galleries/enneagramma.md](galleries/enneagramma.md) — 3 card stesso domain, narrative aggregato.
+
+_Inventory completo: [excavations/2026-04-25-enneagramma-inventory.md](excavations/2026-04-25-enneagramma-inventory.md) (9 artifact + 1 orphan canonical, schema drift `compat_ennea` 3 vs `ennea_themes` 6 vs `reward_pool` 9)._
 
 ### Personality / MBTI extended
 
@@ -137,7 +139,7 @@ docs/museum/
 - Agent definition: [.claude/agents/repo-archaeologist.md](../../.claude/agents/repo-archaeologist.md) (REFINED 2026-04-25 post-session-1: path verify + signature read + blast radius + data flow audit)
 - Provenance standard: [DCMI Provenance](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/provenance/)
 - Backlog open: [BACKLOG.md](../../BACKLOG.md) — "Museum-driven autonomous tasks" sezione + 3 nuovi P4 ticket pending (TKT-P4-MBTI-001/002/003)
-- Open decisions: [OPEN_DECISIONS.md](../../OPEN_DECISIONS.md) — OD-008..012 risolte session-1, OD-001 CORREZIONE pending session-2 (mating disinformation), OD-013+ pending (Triangle Proposal A default)
+- Open decisions: [OPEN_DECISIONS.md](../../OPEN_DECISIONS.md) — OD-008..012 ✅ risolte session-1, **OD-001 CORREZIONE** pending user verdict session-2 (mating disinformation Path A/B/C), **OD-013** proposta session-2 (Triangle Strategy MBTI surface — Proposal A default)
 - ADR index: [DECISIONS_LOG.md](../../DECISIONS_LOG.md)
 - Skiv canonical: [data/core/species/dune_stalker_lifecycle.yaml](../../data/core/species/dune_stalker_lifecycle.yaml)
 - Cross-agent validation report: [docs/qa/2026-04-25-museum-validation.md](../qa/2026-04-25-museum-validation.md) (TBD post-commit)
@@ -152,7 +154,8 @@ docs/museum/
 
 - OD-008..012 risolte session-1 (sentience backfill / Ennea hybrid / Skiv voice A/B / ancestors recovery / swarm scope)
 - **OD-001 CORRECTION** (mating disinformation) — session-2 critical finding
-- OD-013+ TBD (Triangle Proposal default + BiomeMemory pilot scope + Legami pool resource)
+- OD-013 proposta (Triangle Strategy MBTI surface — Proposal A default)
+- OD-014+ TBD post-merge (BiomeMemory pilot scope, Legami pool resource — emergeranno da review user delle card)
 
 **Major finding session 2**: V3 mating engine GIÀ LIVE (PR #1679, 469 LOC + 7 endpoint). OD-001 era basata su audit incomplete. Decisione product Path A (activate ~12-15h) / Path B (demolish ~2h) / Path C (sandbox ~5h) pending.
 

@@ -142,6 +142,21 @@
 - **Ref**: card [M-2026-04-25-004](docs/museum/cards/ancestors-neurons-dump-csv.md), backlog [TKT-ANCESTORS-RECOVERY](BACKLOG.md).
 - **Skiv-voice motivation** (user feedback): "tracce fresche nelle dune — 34 marche chiare. Le altre 263... vento le ha coperte. Prima caccia ciò che vedi. Sabbia profonda dopo".
 
+### [OD-013] MBTI surface presentation — phased reveal vs accrual silenzioso vs full upfront
+
+- **Livello**: game + system
+- **Stato**: **proposta 2026-04-25** (museum card [M-2026-04-25-009 Triangle Strategy](docs/museum/cards/personality-triangle-strategy-transfer.md) trigger)
+- **Ambiguità**: P4 MBTI/Ennea attualmente 🟡. Triangle Strategy research doc propone 3 path per surface MBTI al player:
+  - **Proposal A — Phased reveal** (Disco Elysium pacing): solo axis con `confidence_per_axis > 0.7` mostrato, reveal progressivo durante campaign
+  - **Proposal B — Dialogue color codes** (diegetic): ogni MBTI axis ha color palette, player vede senza menu esplicito
+  - **Proposal C — Recruit gating** (depends on M-007 mating engine): recruit fails if MBTI distance > threshold
+- **Perché conta**: P4 closure path 🟡 → 🟢 senza nuova matematica. Triangle Proposals usano `vcScoring.js` esistente, ROI altissimo per effort moderato.
+- **Miglior default proposto**: **Proposal A (Phased reveal)** come pilot, ~6-8h. Hook in `vcScoring.js` per `confidence_per_axis`, frontend filter in debriefPanel. A/B con full upfront via flag se time permette. Proposal B (color codes) come Sprint+1. Proposal C deferred a OD-001 Path A.
+- **Rischio se ignorata**: P4 resta 🟡 indefinitamente, Triangle research stays buried. Skiv Sprint C voice palette manca contesto MBTI surface.
+- **File o moduli coinvolti**: `apps/backend/services/vcScoring.js`, `apps/backend/routes/session.js`, `apps/play/src/debriefPanel.js`, telemetry events.
+- **Prossima azione consigliata**: user verdict A/B/C/skip + promote a 3 ticket BACKLOG (TKT-P4-MBTI-001/002/003) come da card.
+- **Ref**: card [M-2026-04-25-009 Triangle Strategy MBTI Transfer](docs/museum/cards/personality-triangle-strategy-transfer.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md), source [docs/research/triangle-strategy-transfer-plan.md](docs/research/triangle-strategy-transfer-plan.md).
+
 ### [OD-012] Swarm trait integration scope ✅ RISOLTA 2026-04-25
 
 - **Livello**: game + system
