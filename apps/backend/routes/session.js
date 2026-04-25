@@ -993,6 +993,14 @@ function createSessionRouter(options = {}) {
         // Lista {x, y, damage, type}. Applicato a fine turno via
         // applyHazardDamage in handleTurnEndViaRound.
         hazard_tiles: Array.isArray(req.body?.hazard_tiles) ? req.body.hazard_tiles : [],
+        // M14-A CAP-07 (2026-04-25) — Triangle Strategy Mechanic 4 terrain reactions.
+        // Map<"x,y" string, {type, ttl, source_actor}> — dinamica, mutated da
+        // bridge applyTerrainReaction (services/combat/terrainReactionsBridge.js)
+        // quando ability con channel elementale colpisce un tile. TTL decay in
+        // applyEndOfRoundSideEffects (sessionRoundBridge). Cartesian keys per
+        // consistency con session.units[].position {x,y}; conversion ad axial
+        // (q,r) avviene solo dentro chainElectrified BFS via neighbors function.
+        tileStateMap: {},
         // Q-001 T2.3: difficulty profile scaling metadata (null se profile invalid)
         _difficultyProfile: difficultyProfileMeta,
         // ADR-2026-04-19 + 04-20: encounter payload per reinforcementSpawner + objectiveEvaluator.
