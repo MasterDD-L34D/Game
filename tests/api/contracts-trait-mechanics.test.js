@@ -165,7 +165,8 @@ test('trait_mechanics.yaml rispetta le invarianti euristiche documentate nell AD
 test('trait_mechanics.yaml rispetta cost_ap derivato da fattore_mantenimento_energetico', () => {
   const catalog = loadCatalog();
   const t = catalog.traits;
-  assert.equal(t.artigli_sette_vie.cost_ap, 1, 'Basso -> 1');
+  // Balance audit 2026-04-25: artigli_sette_vie cost_ap 1→2 (EV/AP outlier, dominance fix).
+  assert.equal(t.artigli_sette_vie.cost_ap, 2, 'Balance audit 2026-04-25: bumped 1→2');
   assert.equal(t.scheletro_idro_regolante.cost_ap, 2, 'Medio -> 2');
   assert.equal(t.criostasi_adattiva.cost_ap, 3, 'Alto -> 3');
 });
@@ -284,9 +285,23 @@ test('Fase 3-bis: resistances presenti e coerenti (permissivo)', () => {
     `almeno 8 trait dovrebbero avere resistances (pass Balancer 3-bis ne ha popolate 10). Trovati: ${withRes.length}`,
   );
   const allChannels = withRes.flatMap(([, entry]) => entry.resistances.map((r) => r.channel));
-  assert.ok(
-    allChannels.includes('gelo'),
-    "canale non-canonico 'gelo' deve essere presente (criostasi_adattiva, documentato in README)",
+  // Balance audit 2026-04-25: canali non-canonici (gelo/cryo/acido) rimossi.
+  // Tutti i channel devono essere nella lista canonica species_resistances.yaml:9.
+  const CANONICAL_CHANNELS = new Set([
+    'elettrico',
+    'psionico',
+    'fisico',
+    'fuoco',
+    'gravita',
+    'mentale',
+    'taglio',
+    'ionico',
+  ]);
+  const nonCanonical = allChannels.filter((ch) => !CANONICAL_CHANNELS.has(ch));
+  assert.deepEqual(
+    nonCanonical,
+    [],
+    `tutti i channel devono essere canonici. Drift trovati: ${nonCanonical.join(', ')}`,
   );
   for (const [id, entry] of withRes) {
     for (const res of entry.resistances) {

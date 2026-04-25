@@ -35,7 +35,16 @@ const { createReleaseReporter } = require('./services/releaseReporter');
 const { createCatalogService } = require('./services/catalog');
 const { loadPlugins, BUILTIN_PLUGINS } = require('./services/pluginLoader');
 const { createSchemaValidator, SchemaValidationError } = require('./middleware/schemaValidator');
-const { generationSnapshotSchema, speciesSchema, telemetrySchema } = require('@game/contracts');
+const {
+  generationSnapshotSchema,
+  speciesSchema,
+  telemetrySchema,
+  speciesBiomesSchema,
+  combatSchema,
+  traitMechanicsSchema,
+  glossarySchema,
+  narrativeSchema,
+} = require('@game/contracts');
 const qualitySuggestionSchema = require('../../schemas/quality/suggestion.schema.json');
 const qualitySuggestionApplySchema = require('../../schemas/quality/suggestions-apply-request.schema.json');
 const ideaTaxonomy = require('../../config/idea_engine_taxonomy.json');
@@ -326,6 +335,23 @@ function createApp(options = {}) {
   const speciesSchemaId = schemaValidator.registerSchema(
     speciesSchema.$id || 'contract://atlas/species',
     speciesSchema,
+  );
+  schemaValidator.registerSchema(combatSchema.$id || 'contract://combat/state', combatSchema);
+  schemaValidator.registerSchema(
+    traitMechanicsSchema.$id || 'contract://traits/mechanics',
+    traitMechanicsSchema,
+  );
+  schemaValidator.registerSchema(
+    glossarySchema.$id || 'contract://traits/glossary',
+    glossarySchema,
+  );
+  schemaValidator.registerSchema(
+    narrativeSchema.$id || 'contract://narrative/story-response',
+    narrativeSchema,
+  );
+  schemaValidator.registerSchema(
+    speciesBiomesSchema.$id || 'contract://atlas/species-biomes',
+    speciesBiomesSchema,
   );
 
   function validateWithSchema(payload, schemaId) {

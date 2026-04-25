@@ -7,7 +7,7 @@
 # Workers Assets serve file statici HTML/JS/CSS via CDN globale CF.
 # SPA fallback: 404 → index.html per permettere client-side routing.
 
-name = "evo-tactics-play"
+name = "evo"
 compatibility_date = "2025-04-01"
 
 [assets]

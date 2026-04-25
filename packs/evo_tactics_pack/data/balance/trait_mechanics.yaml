@@ -14,9 +14,9 @@ notes: >
   con regole deterministiche ancorate a fatti del repo: ogni mod e' giustificato
   dalla description_it del pack glossary o dalla famiglia_tipologia + usage_tags
   del trait. Canali canonici dal Frattura draft: elettrico, psionico, fisico,
-  fuoco, gravita, mentale, taglio, ionico. Canale non-canonico introdotto:
-  gelo (solo criostasi_adattiva; documentato nel README come estensione da
-  stabilizzare nel prossimo combat pack). Distribuzione: offensive 4,
+  fuoco, gravita, mentale, taglio, ionico. Balance audit 2026-04-25: canali
+  non-canonici `gelo`/`cryo` mappati a `ionico` (proxy per archetipo termico,
+  vedi species_resistances.yaml:57); `acido` rimosso (non canonico). Distribuzione: offensive 4,
   defensive 9, hybrid 1, mobility 3, utility 13. Trait con mod non-zero: 14/30.
 
 # O1 pattern (OpenRA template inheritance): baseline defaults per classe.
@@ -213,7 +213,7 @@ traits:
     attack_mod: 1
     defense_mod: 0
     damage_step: 1
-    cost_ap: 1
+    cost_ap: 2
     resistances: []
     active_effects:
       - ability_id: cleave_strike
@@ -223,11 +223,12 @@ traits:
         damage_dice: { count: 1, sides: 8, modifier: 3 }
         channel: fisico
         target: enemy
+    notes: "Balance audit 2026-04-25: cost_ap 1→2 to align EV/AP ratio with peer offensive trait `frusta_fiammeggiante` (was 67% above next-best)."
   spore_psichiche_silenziate:
     attack_mod: 1
     defense_mod: 0
     damage_step: 1
-    cost_ap: 3
+    cost_ap: 2
     resistances:
       - { channel: mentale, modifier_pct: 15 }
     active_effects:
@@ -245,7 +246,7 @@ traits:
       intensity: 1
       trigger_dc: 12
     on_hit_stress_delta: 0.05
-    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status e on_hit_stress_delta giustificati dalla desc_it ('sedano e confondono'); Balancer puo' estendere ad altri trait psi in futuro."
+    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status e on_hit_stress_delta giustificati dalla desc_it ('sedano e confondono'). Balance audit 2026-04-25: cost_ap 3→2 (zero damage step, era over-priced vs altri status-only trait)."
   nucleo_ovomotore_rotante:
     attack_mod: 0
     defense_mod: 0
@@ -376,7 +377,7 @@ traits:
     damage_step: 0
     cost_ap: 3
     resistances:
-      - { channel: gelo, modifier_pct: 20 }
+      - { channel: ionico, modifier_pct: 20 }
     active_effects:
       - ability_id: frozen_stasis
         name_it: "Criostasi Difensiva"
@@ -386,7 +387,7 @@ traits:
         buff_amount: 3
         buff_duration: 1
         target: self
-    notes: "introduce canale non-canonico 'gelo' (vedi README.md sezione canali)"
+    notes: "Balance audit 2026-04-25: canale `gelo` rimappato a `ionico` canonico (proxy termico, species_resistances.yaml:57)."
   carapace_fase_variabile:
     attack_mod: 0
     defense_mod: 1
@@ -545,8 +546,7 @@ traits:
     damage_step: 0
     cost_ap: 2
     resistances:
-      - { channel: cryo, modifier_pct: 25 }
-      - { channel: acido, modifier_pct: 15 }
+      - { channel: ionico, modifier_pct: 25 }
     active_effects:
       - ability_id: hydro_shield
         name_it: "Scudo Idrorepellente"
@@ -556,7 +556,7 @@ traits:
         buff_amount: 2
         buff_duration: 2
         target: self
-    notes: "defensive (TRT-02): pelage avanzato con resistenze cryo e acido"
+    notes: "defensive (TRT-02): pelage avanzato. Balance audit 2026-04-25: `cryo`→`ionico` canonico, resistenza `acido` rimossa (canale non canonico)."
   cannone_sonico_a_raggio:
     attack_mod: 1
     defense_mod: 0
