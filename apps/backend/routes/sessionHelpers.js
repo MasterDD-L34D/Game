@@ -101,6 +101,9 @@ function normaliseUnit(raw, fallbackIndex) {
     name: input.name ? String(input.name) : null,
     form_id: input.form_id ? String(input.form_id) : null,
     resistance_archetype: resistanceArchetype,
+    // V5 SG pool — preserve from input so save-load + tests carry value through.
+    // sgTracker.initUnit will keep this if already set, otherwise default to 0.
+    sg: Number.isFinite(Number(input.sg)) ? Number(input.sg) : 0,
   };
 }
 
@@ -472,6 +475,22 @@ function applyPressureDelta(current, delta) {
   return Math.max(0, Math.min(100, base + d));
 }
 
+/**
+ * Refill `unit.ap_remaining` honoring active modifiers:
+ *   - fracture status: cap at 1 AP
+ *   - defy_penalty (Skiv ticket #5): -1 AP for one turn after Defy use
+ *
+ * Mutates the unit. Single source of truth so future modifiers go here.
+ */
+function applyApRefill(unit) {
+  if (!unit) return;
+  const fractureActive = Number(unit.status?.fracture) > 0;
+  let cap = Number(unit.ap || 0);
+  if (fractureActive) cap = Math.min(1, cap);
+  if (Number(unit.status?.defy_penalty) > 0) cap = Math.max(0, cap - 1);
+  unit.ap_remaining = cap;
+}
+
 // Mirror dei delta events da sistema_pressure.yaml.
 // Mantenuto qui per evitare YAML loader in hot path (round flow).
 // Sync con packs/evo_tactics_pack/data/balance/sistema_pressure.yaml §deltas.
@@ -502,6 +521,7 @@ module.exports = {
   resolveAttack,
   timestampStamp,
   publicSessionView,
+  applyApRefill,
   buildTurnOrder,
   nextUnitId,
   manhattanDistance,

@@ -26,6 +26,7 @@ const {
   facingFromMove,
   applyPressureDelta,
   PRESSURE_DELTAS,
+  applyApRefill,
 } = require('./sessionHelpers');
 const {
   detectFocusFireCombo,
@@ -627,8 +628,8 @@ function createRoundBridge(deps) {
 
     for (const unit of session.units) {
       if (!unit) continue;
-      const fractureActive = Number(unit.status?.fracture) > 0;
-      unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+      // Skiv #5: applyApRefill centralises fracture + defy_penalty handling.
+      applyApRefill(unit);
       if (unit.status) {
         for (const key of Object.keys(unit.status)) {
           const v = Number(unit.status[key]);
