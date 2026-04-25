@@ -143,11 +143,10 @@ test('POST /:id/thoughts/research — happy path on an unlocked thought', async 
   const { sid } = await bootstrap(app);
   const snap = await request(app).get(`/api/session/${sid}/thoughts`);
   const target = anyUnlockedActor(snap.body.per_actor);
-  if (!target) {
-    // Tutorial 01 does not surface unlocked thoughts for every actor. Skip.
-    t.skip('no unlocked thoughts in tutorial 01 seed state');
-    return;
-  }
+  assert.ok(
+    target,
+    'tutorial 01 seed state must surface at least one unlocked thought (S_N/J_P axes derive from setup_ratio without combat events)',
+  );
   const res = await request(app)
     .post(`/api/session/${sid}/thoughts/research`)
     .send({ unit_id: target.unit_id, thought_id: target.thought_id });
@@ -172,10 +171,7 @@ test('POST /:id/thoughts/research — resonance_applied=false when biome_id miss
   const { sid } = await bootstrap(app);
   const snap = await request(app).get(`/api/session/${sid}/thoughts`);
   const target = anyUnlockedActor(snap.body.per_actor);
-  if (!target) {
-    t.skip('no unlocked thoughts in tutorial 01 seed state');
-    return;
-  }
+  assert.ok(target, 'tutorial 01 seed state must surface at least one unlocked thought');
   const res = await request(app)
     .post(`/api/session/${sid}/thoughts/research`)
     .send({ unit_id: target.unit_id, thought_id: target.thought_id });
@@ -221,10 +217,7 @@ test('POST /:id/thoughts/tick — advances researching + promotes when cost hits
   const { sid } = await bootstrap(app);
   const snap = await request(app).get(`/api/session/${sid}/thoughts`);
   const target = anyUnlockedActor(snap.body.per_actor);
-  if (!target) {
-    t.skip('no unlocked thoughts in tutorial 01 seed state');
-    return;
-  }
+  assert.ok(target, 'tutorial 01 seed state must surface at least one unlocked thought');
   // Start research for the unlocked thought
   const start = await request(app)
     .post(`/api/session/${sid}/thoughts/research`)
@@ -250,10 +243,7 @@ test('POST /:id/thoughts/forget — frees slot after internalization', async (t)
   const { sid } = await bootstrap(app);
   const snap = await request(app).get(`/api/session/${sid}/thoughts`);
   const target = anyUnlockedActor(snap.body.per_actor);
-  if (!target) {
-    t.skip('no unlocked thoughts in tutorial 01 seed state');
-    return;
-  }
+  assert.ok(target, 'tutorial 01 seed state must surface at least one unlocked thought');
   const start = await request(app)
     .post(`/api/session/${sid}/thoughts/research`)
     .send({ unit_id: target.unit_id, thought_id: target.thought_id });
