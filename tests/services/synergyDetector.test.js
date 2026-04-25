@@ -1,4 +1,4 @@
-// Synergy Combo Detection — pure unit tests for the detector module.
+// Synergy Combo Detection — pure unit tests for the detector module + buildSynergyPreview.
 
 'use strict';
 
@@ -16,6 +16,7 @@ const {
   recordSynergyFire,
   resetRoundSynergyTracker,
 } = require('../../apps/backend/services/combat/synergyDetector');
+const { buildSynergyPreview } = require('../../apps/backend/routes/sessionHelpers');
 
 function freshSession() {
   return { turn: 1, damage_taken: {} };
@@ -230,4 +231,75 @@ test('detectSynergyTrigger: explicit actor.parts can fire even on unknown specie
   const out = detectSynergyTrigger(freshSession(), actor, { id: 't1', hp: 5 });
   assert.equal(out.triggered, true);
   assert.equal(out.synergies[0].id, 'echo_backstab');
+});
+
+// ── buildSynergyPreview ─────────────────────────────────────────────────────
+
+test('buildSynergyPreview: unit with applicable synergy appears as ready', () => {
+  resetCache();
+  const session = {
+    turn: 1,
+    units: [{ id: 'p1', species: 'dune_stalker', hp: 10, controlled_by: 'player' }],
+  };
+  const preview = buildSynergyPreview(session);
+  assert.ok(Array.isArray(preview));
+  const entry = preview.find((s) => s.unit_id === 'p1');
+  assert.ok(entry, 'p1 should appear in preview');
+  assert.equal(entry.ready, true);
+  assert.equal(entry.on_cooldown, false);
+  assert.ok(entry.synergies.length >= 1);
+  assert.equal(entry.synergies[0].id, 'echo_backstab');
+});
+
+test('buildSynergyPreview: on_cooldown=true when unit fired this turn', () => {
+  resetCache();
+  const session = {
+    turn: 3,
+    _synergy_last_fire: { p1: 3 },
+    units: [{ id: 'p1', species: 'dune_stalker', hp: 10, controlled_by: 'player' }],
+  };
+  const preview = buildSynergyPreview(session);
+  const entry = preview.find((s) => s.unit_id === 'p1');
+  assert.ok(entry);
+  assert.equal(entry.ready, false);
+  assert.equal(entry.on_cooldown, true);
+});
+
+test('buildSynergyPreview: dead units excluded', () => {
+  resetCache();
+  const session = {
+    turn: 1,
+    units: [{ id: 'p1', species: 'dune_stalker', hp: 0, controlled_by: 'player' }],
+  };
+  const preview = buildSynergyPreview(session);
+  assert.equal(preview.length, 0, 'dead unit should not appear');
+});
+
+test('buildSynergyPreview: unit with no synergies not included', () => {
+  resetCache();
+  const session = {
+    turn: 1,
+    units: [{ id: 'p2', species: 'unknown_no_synergy', hp: 8, controlled_by: 'player' }],
+  };
+  const preview = buildSynergyPreview(session);
+  assert.ok(!preview.find((s) => s.unit_id === 'p2'));
+});
+
+test('buildSynergyPreview: empty units array → empty preview', () => {
+  const preview = buildSynergyPreview({ turn: 1, units: [] });
+  assert.deepEqual(preview, []);
+});
+
+test('buildSynergyPreview: cooldown expires next turn (different turn → ready again)', () => {
+  resetCache();
+  const session = {
+    turn: 4,
+    _synergy_last_fire: { p1: 3 }, // fired turn 3, now turn 4
+    units: [{ id: 'p1', species: 'dune_stalker', hp: 10, controlled_by: 'player' }],
+  };
+  const preview = buildSynergyPreview(session);
+  const entry = preview.find((s) => s.unit_id === 'p1');
+  assert.ok(entry);
+  assert.equal(entry.ready, true);
+  assert.equal(entry.on_cooldown, false);
 });

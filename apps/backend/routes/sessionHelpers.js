@@ -21,6 +21,7 @@ const {
 
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { buildAtlasLive } = require('../services/atlasLive');
+const { applicableSynergies } = require('../services/combat/synergyDetector');
 
 function rollD20(rng) {
   return Math.floor(rng() * 20) + 1;
@@ -275,7 +276,31 @@ function publicSessionView(session) {
     previous_round_synergies: Array.isArray(session.previous_round_synergies)
       ? session.previous_round_synergies
       : [],
+    synergy_preview: buildSynergyPreview(session),
   };
+}
+
+function buildSynergyPreview(session) {
+  const turn = Number(session.turn || 0);
+  const lastFires = session._synergy_last_fire || {};
+  return (session.units || [])
+    .filter((u) => u && u.hp > 0)
+    .map((u) => {
+      const synergies = applicableSynergies(u);
+      if (synergies.length === 0) return null;
+      const onCooldown = lastFires[u.id] !== undefined && lastFires[u.id] === turn;
+      return {
+        unit_id: u.id,
+        synergies: synergies.map((s) => ({
+          id: s.id,
+          name: s.name,
+          bonus_damage: s.effect?.bonus_damage ?? 1,
+        })),
+        on_cooldown: onCooldown,
+        ready: !onCooldown,
+      };
+    })
+    .filter(Boolean);
 }
 
 function buildTurnOrder(units) {
@@ -536,4 +561,5 @@ module.exports = {
   applyPressureDelta,
   SISTEMA_PRESSURE_TIERS,
   PRESSURE_DELTAS,
+  buildSynergyPreview,
 };
