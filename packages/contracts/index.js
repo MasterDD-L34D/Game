@@ -8,6 +8,8 @@ const combatSchema = require('./schemas/combat.schema.json');
 const traitMechanicsSchema = require('./schemas/traitMechanics.schema.json');
 const glossarySchema = require('./schemas/glossary.schema.json');
 const narrativeSchema = require('./schemas/narrative.schema.json');
+const replaySchema = require('./schemas/replay.schema.json');
+const triSorgenteSchema = require('./schemas/tri-sorgente.schema.json');
 
 module.exports = {
   generationSnapshotSchema,
@@ -18,4 +20,6 @@ module.exports = {
   traitMechanicsSchema,
   glossarySchema,
   narrativeSchema,
+  replaySchema,
+  triSorgenteSchema,
 };
