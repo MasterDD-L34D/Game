@@ -2091,3 +2091,74 @@ traits:
       Recettori cutanei che leggono microvibrazioni del terreno e
       anticipano lo spostamento di peso del bersaglio in mischia.
       Su MoS >= 5 in melee, il colpo entra nell'apertura: +1 danno.
+
+  # SPRINT_2026-04-25 Wave 6: trait famiglia mente_* + cervello_*.
+  # Pattern apply_status (panic|stunned) per simulare effetti mentali su target.
+
+  cervello_a_bassa_latenza:
+    tier: T2
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: bassa_latenza_stun
+    description_it: 'Sistema neurale a bassa latenza che processa traiettorie e tempi
+
+      di reazione del bersaglio. Su MoS >= 5 il colpo arriva nel
+
+      microsecondo cieco della reazione avversaria, stordendo il
+
+      target per 1 turno.
+
+      '
+
+  mente_lucida:
+    tier: T2
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 3
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 2
+      log_tag: mente_lucida_panic
+    description_it: 'Coscienza tattica ferma e affilata. Quando l''attore colpisce con
+
+      MoS >= 3, il bersaglio percepisce di essere stato "visto" oltre
+
+      ogni difesa: l''incertezza diventa panico per 2 turni.
+
+      '
+
+  cervello_predittivo:
+    tier: T3
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 6
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 2
+      log_tag: cervello_predittivo_stun
+    description_it: 'Corteccia predittiva che simula in tempo reale i prossimi due
+
+      secondi del bersaglio. Su MoS >= 6 il colpo cade nel punto cieco
+
+      di reazione previsto, stordendo il target per 2 turni interi.
+
+      '

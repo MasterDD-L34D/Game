@@ -1660,6 +1660,18 @@
       "label_en": "Seismic Sensors",
       "description_it": "Recettori cutanei che leggono microvibrazioni del terreno e anticipano lo spostamento di peso del bersaglio.",
       "description_en": "Cutaneous receptors reading ground microvibrations to anticipate the target weight shift."
+    },
+    "mente_lucida": {
+      "label_it": "Mente Lucida",
+      "label_en": "Lucid Mind",
+      "description_it": "Coscienza tattica ferma che legge il bersaglio oltre la difesa.",
+      "description_en": "Steady tactical awareness that reads the target beyond defenses."
+    },
+    "cervello_predittivo": {
+      "label_it": "Cervello Predittivo",
+      "label_en": "Predictive Brain",
+      "description_it": "Corteccia che anticipa i prossimi secondi del bersaglio.",
+      "description_en": "Cortex that anticipates the target's next seconds of motion."
     }
   }
 }
