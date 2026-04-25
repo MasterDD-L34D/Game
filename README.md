@@ -82,7 +82,7 @@ Policy: prima di iniziare lavoro che supera 50 righe fuori `apps/backend/`, ferm
 - MUST RESEARCH_TODO **3/3 ✅** + SHOULD **4/4 ✅** — 2026-04-17
 - **Gioco giocabile ✅** — CLI (`node tools/js/play.js`) e browser 2D (`npm run play:dev`)
 - Frontend sprint α-ε merged: ability UI, animations, status icons, VC debrief, replay viewer, SFX synth
-- Pillar status attuale: P1/P3/P5 🟢 post-playtest · P2/P4/P6 🟡
+- Pillar status attuale (2026-04-25, da [`docs/PILLARS_STATUS.md`](docs/PILLARS_STATUS.md)): tutti 6 pilastri 🟡 post-playtest 2026-04-17 (revisione onesta, non regressione). FRICTION #1-#4 da chiudere prima del playtest #2.
 - Test totali: Python 196, Node AI 150+, VC 21, Encounter 8, Replay 20, Difficulty 23, i18n 4
 
 ## Licensing
