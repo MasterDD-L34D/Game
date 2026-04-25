@@ -91,22 +91,77 @@ function applyXp(unit, amount, { curve } = {}) {
   };
 }
 
-function pickPerk(unit, level, choice, { perks } = {}) {
+/**
+ * Skiv ticket #6 — resolve hybrid path config (cost_pi + partial_factor).
+ * Per-level override `level.hybrid: { cost_pi, partial_factor }` wins over
+ * top-level `perksData.hybrid_path.{ default_cost_pi, default_partial_factor }`.
+ */
+function getHybridConfig(perksData, jobId, level) {
+  const top = perksData?.hybrid_path || {};
+  const defaults = {
+    cost_pi: Number.isFinite(Number(top.default_cost_pi)) ? Number(top.default_cost_pi) : 5,
+    partial_factor: Number.isFinite(Number(top.default_partial_factor))
+      ? Number(top.default_partial_factor)
+      : 0.5,
+  };
+  const levelEntry = perksData?.jobs?.[jobId]?.perks?.[`level_${level}`]?.hybrid;
+  if (!levelEntry || typeof levelEntry !== 'object') return defaults;
+  return {
+    cost_pi: Number.isFinite(Number(levelEntry.cost_pi))
+      ? Number(levelEntry.cost_pi)
+      : defaults.cost_pi,
+    partial_factor: Number.isFinite(Number(levelEntry.partial_factor))
+      ? Number(levelEntry.partial_factor)
+      : defaults.partial_factor,
+  };
+}
+
+function pickPerk(unit, level, choice, { perks, available_pi } = {}) {
   const perksData = perks || loadPerks();
-  if (!['a', 'b'].includes(choice)) {
-    throw new Error(`invalid choice "${choice}": must be 'a' or 'b'`);
+  if (!['a', 'b', 'hybrid'].includes(choice)) {
+    throw new Error(`invalid choice "${choice}": must be 'a', 'b', or 'hybrid'`);
   }
   if (unit.level < level) {
     throw new Error(`unit level ${unit.level} < required level ${level}`);
   }
   const existing = (unit.picked_perks || []).find((p) => p.level === level);
   if (existing) {
-    throw new Error(`perk at level ${level} already picked: ${existing.perk_id}`);
+    const id = existing.perk_id || (existing.perk_ids ? existing.perk_ids.join('+') : 'unknown');
+    throw new Error(`perk at level ${level} already picked: ${id}`);
   }
   const pair = getLevelPerkChoice(perksData, unit.job, level);
   if (!pair) {
     throw new Error(`no perk pair defined for job ${unit.job} level ${level}`);
   }
+
+  // Skiv #6 hybrid path branch
+  if (choice === 'hybrid') {
+    const hybrid = getHybridConfig(perksData, unit.job, level);
+    const availablePi = Number.isFinite(Number(available_pi)) ? Number(available_pi) : 0;
+    if (availablePi < hybrid.cost_pi) {
+      throw new Error(
+        `insufficient_pi: hybrid path requires ${hybrid.cost_pi} PI (available ${availablePi})`,
+      );
+    }
+    const pickRecord = {
+      level,
+      choice: 'hybrid',
+      perk_ids: [pair.perk_a.id, pair.perk_b.id],
+      partial_factor: hybrid.partial_factor,
+      pi_cost: hybrid.cost_pi,
+    };
+    const updated = {
+      ...unit,
+      picked_perks: [...(unit.picked_perks || []), pickRecord],
+    };
+    return {
+      unit: updated,
+      picked_perk: { perk_a: pair.perk_a, perk_b: pair.perk_b },
+      pick: pickRecord,
+      pi_cost: hybrid.cost_pi,
+    };
+  }
+
   const perk = choice === 'a' ? pair.perk_a : pair.perk_b;
   const pickRecord = { level, perk_id: perk.id, choice };
   const updated = {
@@ -116,11 +171,51 @@ function pickPerk(unit, level, choice, { perks } = {}) {
   return { unit: updated, picked_perk: perk, pick: pickRecord };
 }
 
+/**
+ * Skiv #6: scale numeric fields of an effect by partial_factor for hybrid picks.
+ * Touches stat_bonus / stat_bonus_2 / ability_mod (delta only) / passive (no
+ * scaling for tag-based effects since they're booleans/payloads — caller
+ * resolver decides). Returns a fresh effect object; original untouched.
+ */
+function scaleEffect(effect, factor) {
+  if (!effect || typeof effect !== 'object' || !Number.isFinite(factor) || factor === 1) {
+    return effect;
+  }
+  const out = {};
+  for (const [key, val] of Object.entries(effect)) {
+    if (key.startsWith('stat_bonus') && val && typeof val === 'object') {
+      out[key] = { ...val, amount: Math.round(Number(val.amount || 0) * factor) };
+    } else if (key === 'ability_mod' && val && typeof val === 'object') {
+      out[key] = { ...val, delta: Number(val.delta || 0) * factor };
+    } else {
+      out[key] = val; // passive tags + payloads: pass through
+    }
+  }
+  return out;
+}
+
 function collectPerkEffects(unit, perksData) {
   const effects = [];
   for (const pick of unit.picked_perks || []) {
     const pair = getLevelPerkChoice(perksData, unit.job, pick.level);
     if (!pair) continue;
+    if (pick.choice === 'hybrid' && Array.isArray(pick.perk_ids)) {
+      const factor = Number.isFinite(Number(pick.partial_factor))
+        ? Number(pick.partial_factor)
+        : 0.5;
+      for (const perkId of pick.perk_ids) {
+        const perk = pair.perk_a?.id === perkId ? pair.perk_a : pair.perk_b;
+        if (!perk) continue;
+        effects.push({
+          perk_id: perk.id,
+          effect: scaleEffect(perk.effect || {}, factor),
+          level: pick.level,
+          hybrid: true,
+          partial_factor: factor,
+        });
+      }
+      continue;
+    }
     const perk =
       pair[`perk_${pick.choice}`] || (pair.perk_a?.id === pick.perk_id ? pair.perk_a : pair.perk_b);
     if (!perk) continue;
@@ -198,8 +293,11 @@ class ProgressionEngine {
   pendingLevelUps(unit) {
     return computePendingLevelUps(unit, this.perks);
   }
-  pickPerk(unit, level, choice) {
-    return pickPerk(unit, level, choice, { perks: this.perks });
+  pickPerk(unit, level, choice, opts = {}) {
+    return pickPerk(unit, level, choice, { perks: this.perks, ...opts });
+  }
+  hybridConfig(jobId, level) {
+    return getHybridConfig(this.perks, jobId, level);
   }
   effectiveStats(unit) {
     return effectiveStats(unit, this.perks);
@@ -234,4 +332,6 @@ module.exports = {
   listPassives,
   listAbilityMods,
   getLevelPerkChoice,
+  getHybridConfig,
+  scaleEffect,
 };
