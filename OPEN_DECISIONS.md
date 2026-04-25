@@ -9,16 +9,27 @@
 
 ## Aperte
 
-### [OD-001] V3 Mating/Nido — scope e timing
+### [OD-001] V3 Mating/Nido — scope e timing ⚠️ CORREZIONE 2026-04-25 (era disinformata)
 
 - **Livello**: game + system
-- **Stato**: in attesa (deferred post-MVP)
-- **Ambiguità**: sistema Mating/Nido è "promessa centrale" in `docs/core/Mating-Reclutamento-Nido.md` ma runtime zero. Scope stimato ~20h. Va implementato? Quando? Con quali tagli accettabili?
-- **Perché conta**: pilastro 2 (Evoluzione emergente Spore-core) sarebbe più forte con Mating. Senza, "evoluzione" rischia di ridursi a trait-pack-spender.
-- **Miglior default proposto**: deferred post-MVP (dopo P5 🟢 definitivo via playtest live + M14 Triangle Strategy slice). Reassess a M16+ con dati playtest reali.
-- **Rischio se ignorata**: pilastro 2 resta 🟢c (candidato) senza chiusura, vision-promise unkept.
-- **File o moduli coinvolti**: `docs/core/Mating-Reclutamento-Nido.md`, nuovo `apps/backend/services/mating/` (green-field).
-- **Prossima azione consigliata**: dopo M14 + M15 Triangle Strategy, valutare se Mating è ancora scope necessario o Form evolution M12+ basta.
+- **Stato**: **CORREZIONE 2026-04-25** — claim originale "runtime zero / green-field" era basato su audit incomplete. Reality: engine LIVE da 4 mesi. Vedi card [M-2026-04-25-007 Mating Engine Orphan](docs/museum/cards/mating_nido-engine-orphan.md).
+- **Reality verified 2026-04-25**:
+  - `apps/backend/services/metaProgression.js` (469 LOC): `canMate`, `rollMating`, `computeMatingRoll`, `setNest`, `tickCooldowns`, `recruitFromDefeat` engine D1+D2 LIVE. Intro `ea945a56` (PR #1435 Design Freeze v0.9), Prisma adapter `3272f844` (PR #1679, 2026-04-23)
+  - `apps/backend/routes/meta.js` (119 LOC): 7 endpoint REST `/api/meta/{npg,affinity,trust,recruit,mating,nest,nest/setup}` LIVE
+  - Prisma model `UnitProgression` + migration `0004` shipped
+  - **ZERO frontend integration** (`grep -rn "/api/meta" apps/play/` = 0 hit) → engine = dead path completo
+- **Decisione product P0 needed** (3 path):
+  - **Path A — Activate** (~12-15h): wire frontend `apps/play/src/{debriefPanel,nestHub}.js` chiama `/api/meta/*`. Output: V3 🟢 reale. Pillar P2/P3 🟢. Cross-link card M-008 nido itinerante (Skiv vagans pilot).
+  - **Path B — Demolish** (~2h): routes 410 Gone + service `// QUARANTINED` header + ADR. Output: drift docs/runtime risolto, sunk cost (~50-80h shippato) accettato. OD-001 chiude → "engine quarantined, V3 truly post-MVP".
+  - **Path C — Sandbox** (~5h): feature-flag OFF + sandbox script + OpenAPI doc. Output: engine pronto a riattivare senza re-scoping completo.
+- **Ambiguità originale residua**: solo se Path A → quanti tagli accettabili? Quale subset prioritario (recruit-only? mating-only? nest-only?)?
+- **Perché conta**: pilastro P2 (Evoluzione emergente) sarebbe **già operativo** se Path A. Senza decisione → drift docs/runtime resta + futuri agent confusione.
+- **Miglior default proposto**: **decisione product PRIMA del prossimo Sprint M14**. Path C (sandbox) è low-risk middle-ground se decisione blocked.
+- **Rischio se ignorata**: 50-80h sunk cost + OD/runtime drift permanente.
+- **File o moduli coinvolti**: `apps/backend/services/metaProgression.js`, `apps/backend/routes/meta.js`, `apps/backend/prisma/migrations/0004_unit_progression.sql`, frontend `apps/play/src/` (Path A only).
+- **Prossima azione consigliata**: **user review card M-007 + decision verdict Path A/B/C**. Cross-card link M-008 (nido itinerante Skiv) per Path A content.
+- **Skiv link**: weak diretto (vagans = loner mating-blocked). Indiretto: Path A abilita "recruit ex-nemico nel debrief" Skiv narrative beat (vagans seguendo vincente).
+- **Ref**: card [M-2026-04-25-007 Mating Engine Orphan](docs/museum/cards/mating_nido-engine-orphan.md), [M-2026-04-25-008 Nido Itinerante](docs/museum/cards/mating_nido-canvas-nido-itinerante.md), [excavations/2026-04-25-mating_nido-inventory.md](docs/museum/excavations/2026-04-25-mating_nido-inventory.md).
 
 ### [OD-002] V6 UI TV dashboard polish — priorità vs playtest feedback
 
@@ -63,6 +74,108 @@
 - **Rischio se ignorata**: continui a fare calibration manuale, -30% efficienza.
 - **File o moduli coinvolti**: `.claude/settings.json` (per skill install config).
 - **Prossima azione consigliata**: post-playtest round 2, run skill su `docs/playtest/*-calibration.md` raccolti.
+
+### [OD-008] Sentience index backfill scope ✅ RISOLTA 2026-04-25
+
+- **Livello**: game + system
+- **Stato**: **risolta 2026-04-25 (user verdict)**
+- **Verdict**: **Opzione B — backfill incrementale**. Quando si edita una species per altri motivi (Sprint C, content sprint, balance tweak), assegnare `sentience_index` T1-T5 via milestone matching (T1 = "Senses core", T2 = "AB 01 Endurance", ecc.). Zero overhead dedicato, drift chiuso a regime entro 3-4 sprint.
+- **Ragione**: sweep dedicato 8h è lavoro morto se non c'è use-case immediato runtime. Incrementale chiude drift senza overhead.
+- **Implementation guidance**: ogni agent che edita `data/core/species.yaml` o `data/core/species_expansion.yaml` per QUALSIASI motivo deve, se non già presente, aggiungere `sentience_index: T<N>` derivando il livello dalle milestone esistenti della species. Pattern reusable, no PR dedicato.
+- **File o moduli coinvolti**: `data/core/species.yaml`, `data/core/species_expansion.yaml`, `schemas/core/enums.json` (enum già live).
+- **Ref**: card [M-2026-04-25-001](docs/museum/cards/cognitive_traits-sentience-tiers-v1.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
+- **Skiv-voice motivation** (user feedback): "sabbia ha strati, marcare quando passi sopra — sufficiente".
+
+### [OD-009] Ennea source canonical — `data/core/personality/` vs `packs/evo_tactics_pack/...` ✅ RISOLTA confermata 2026-04-25
+
+- **Livello**: system + repo
+- **Stato**: **risolta 2026-04-25 (user OK)** — vedi card M-2026-04-25-002 + M-2026-04-25-003
+- **Verdict confermato**: **Option 3 hybrid** (entrambi mantenuti):
+  - **Encyclopedia**: `packs/evo_tactics_pack/tools/py/modules/personality/enneagram/` rimane source-of-truth completo (CSV + JSON + TS + PY + schema + README + 16 web sources cited)
+  - **Runtime**: `data/core/personality/enneagramma_types.yaml` (NUOVO) = subset machine-readable per backend Node consumer
+  - **Sync**: `scripts/sync_ennea_from_pack.js` (NUOVO ~50 LOC) converte pack JSON → data/core YAML
+- **Pattern precedente**: `npm run sync:evo-pack` (`package.json:43`) fa già lo stesso per catalog. Pattern validato 1+ anno operativo.
+- **Pro**: zero perdita info pack, runtime efficient, encyclopedia preservata. Pattern repo-coerente.
+- **Con**: serve script sync ~50 LOC marginal cost.
+- **Action plan**:
+  1. Implementa wire M-006 (enneaEffects.js) con assunzione hybrid (legge da `data/core/personality/`)
+  2. Convert dataset pack → `data/core/personality/enneagramma_types.yaml`
+  3. Add sync script (deferrable, baseline copy manuale OK per M2 prima invocazione)
+- **File o moduli coinvolti**: `data/core/personality/` (NUOVO), `scripts/sync_ennea_from_pack.js` (NUOVO), `apps/backend/services/enneaEffects.js` (extend), `apps/backend/services/vcScoring.js` (extend coverage 6/9 → 9/9).
+- **Ref**: card [M-2026-04-25-002](docs/museum/cards/enneagramma-mechanics-registry.md), [M-2026-04-25-003](docs/museum/cards/enneagramma-dataset-9-types.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
+
+### [OD-010] Skiv voice palette default — Type 5 vs Type 7 ✅ RISOLTA confermata 2026-04-25
+
+- **Livello**: game + narrative
+- **Stato**: **risolta 2026-04-25 (user OK)** — skip-decision via A/B test data-driven
+- **Verdict confermato**: **NON pre-decidere**. Implementare entrambe palette vocali (Type 5 Investigator stoico + Type 7 Enthusiast caotico), instrumentare telemetry `ennea_voice_type_used`, decisione default emerge da playtest data invece che a-priori user choice.
+- **Skiv-voice motivation** (user feedback): "due voci nella mia testa. Una conta i granelli. L'altra ride mentre scivola. Lascia che il deserto scelga".
+- **Sprint C deliverable rivisto**:
+  ```
+  data/core/narrative/ennea_voices/
+  ├── type_5_investigator.yaml    # voce stoica taxonomica
+  └── type_7_enthusiast.yaml      # voce caotica giocosa
+  apps/backend/services/narrativeEngine.js
+    pickVoice(unit) → vcSnapshot.ennea_archetypes[0]
+                   → caso 5 || 7 → carica YAML matching
+                   → fallback: type_5 (default arbitrario, non choosen design)
+  ```
+- **Pro**: zero arbitrary user decision. A/B test naturale nel playtest. Pattern futuro per altre creature canoniche.
+- **Con**: 2× lavoro voice palette (~12h vs 6h single). Trade-off accettabile per data-driven design.
+- **Tritype Skiv** (5-3-9 / 5-1-2 / altro): **rimane decision pending POST-playtest**, non pre-decidere ora.
+- **File o moduli coinvolti**: `data/core/narrative/ennea_voices/` (NUOVO), `apps/backend/services/narrativeEngine.js` (extend), telemetry events.
+- **Ref**: card [M-2026-04-25-003](docs/museum/cards/enneagramma-dataset-9-types.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
+
+### [OD-011] Ancestors recovery scope ✅ RISOLTA 2026-04-25 (con remind autonomous)
+
+- **Livello**: game + system
+- **Stato**: **risolta 2026-04-25 (user verdict + remind autonomous task)**
+- **Verdict**: **Opzione A — wire 22 Self-Control trigger subito** (~5h, alimenta Skiv Sprint B coverage). Path B (caccia 263 neuroni mancanti) **non scartato**: scheduled come task autonomous per ricerca online fonti.
+- **Path A (immediate)**:
+  - Estendi `data/core/traits/active_effects.yaml` con 22 nuovi entry mappati da `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv` (Self-Control branch, codici CO 01-22)
+  - `effect_trigger` field già esiste (es. `on_take_damage`, `on_engage_choice`, `on_pressure_tier_up`)
+  - Test: `python3 tools/py/game_cli.py validate-datasets`
+  - Output: +22 trait reaction-aware in glossary, low-risk additive
+- **Path B (deferred autonomous)**: vedi nuovo ticket [TKT-ANCESTORS-RECOVERY](BACKLOG.md#tkt-ancestors-recovery) — caccia online dei 263 neuroni mancanti via fonti pubbliche (Ancestors Wiki + Britannica + biology references già citate in RFC). Claude ricerca autonomously quando ha budget tempo, NON userland action.
+- **Rationale**: 22 trigger sono già nelle mani, low risk, alimentano Skiv Sprint B (defy/counter). I 263 mancanti possono essere ricostruiti via research esterna invece di dipendere da `.zip` perduti.
+- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv`.
+- **Ref**: card [M-2026-04-25-004](docs/museum/cards/ancestors-neurons-dump-csv.md), backlog [TKT-ANCESTORS-RECOVERY](BACKLOG.md).
+- **Skiv-voice motivation** (user feedback): "tracce fresche nelle dune — 34 marche chiare. Le altre 263... vento le ha coperte. Prima caccia ciò che vedi. Sabbia profonda dopo".
+
+### [OD-013] MBTI surface presentation — phased reveal vs accrual silenzioso vs full upfront
+
+- **Livello**: game + system
+- **Stato**: **proposta 2026-04-25** (museum card [M-2026-04-25-009 Triangle Strategy](docs/museum/cards/personality-triangle-strategy-transfer.md) trigger)
+- **Ambiguità**: P4 MBTI/Ennea attualmente 🟡. Triangle Strategy research doc propone 3 path per surface MBTI al player:
+  - **Proposal A — Phased reveal** (Disco Elysium pacing): solo axis con `confidence_per_axis > 0.7` mostrato, reveal progressivo durante campaign
+  - **Proposal B — Dialogue color codes** (diegetic): ogni MBTI axis ha color palette, player vede senza menu esplicito
+  - **Proposal C — Recruit gating** (depends on M-007 mating engine): recruit fails if MBTI distance > threshold
+- **Perché conta**: P4 closure path 🟡 → 🟢 senza nuova matematica. Triangle Proposals usano `vcScoring.js` esistente, ROI altissimo per effort moderato.
+- **Miglior default proposto**: **Proposal A (Phased reveal)** come pilot, ~6-8h. Hook in `vcScoring.js` per `confidence_per_axis`, frontend filter in debriefPanel. A/B con full upfront via flag se time permette. Proposal B (color codes) come Sprint+1. Proposal C deferred a OD-001 Path A.
+- **Rischio se ignorata**: P4 resta 🟡 indefinitamente, Triangle research stays buried. Skiv Sprint C voice palette manca contesto MBTI surface.
+- **File o moduli coinvolti**: `apps/backend/services/vcScoring.js`, `apps/backend/routes/session.js`, `apps/play/src/debriefPanel.js`, telemetry events.
+- **Prossima azione consigliata**: user verdict A/B/C/skip + promote a 3 ticket BACKLOG (TKT-P4-MBTI-001/002/003) come da card.
+- **Ref**: card [M-2026-04-25-009 Triangle Strategy MBTI Transfer](docs/museum/cards/personality-triangle-strategy-transfer.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md), source [docs/research/triangle-strategy-transfer-plan.md](docs/research/triangle-strategy-transfer-plan.md).
+
+### [OD-012] Swarm trait integration scope ✅ RISOLTA 2026-04-25
+
+- **Livello**: game + system
+- **Stato**: **risolta 2026-04-25 (user verdict)**
+- **Verdict**: **Opzione A — single-shot magnetic_rift Sprint A**, batch 5-10 deferred a PR successivo post-validation.
+- **Ragione (consigli annessi)**:
+  - **Validate pattern**: `biomeResonance.js` (PR #1785 shipped) supporta tier ladder ma non è ancora stato testato con tier-extension reale. Magnetic_rift è il primo banco di prova
+  - **Limit blast radius**: se rompe qualcosa nel sistema reactionary, hai limitato il danno a 1 trait + 1 biome stub
+  - **Skiv Sprint A direct fit**: trait T2 + biome `atollo_ossidiana` plug-in immediato per Sprint A (~2h)
+  - **Batch deferred**: dopo validation con Skiv playtest (post-MVP), sweep `feat/swarm-staging` branch per altri 5-10 candidate via `git log feat/swarm-staging`. Scaling solo dopo prova
+- **Implementation guidance**:
+  1. Aggiungi biome `atollo_ossidiana` placeholder in `data/core/biomes.yml` con `magnetic_field_strength: 1.0` flag
+  2. Aggiungi trait `magnetic_rift_resonance` in `data/core/traits/active_effects.yaml` con `requires_traits: [magnetic_sensitivity, rift_attunement]` (2 trait base mancanti, stub o decision se generalizzare)
+  3. Map T2 → `biomeResonance.js` tier_2 ladder
+  4. Test: `pytest tests/test_biome_synthesizer.py`
+- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `data/core/biomes.yml`, `apps/backend/services/combat/biomeResonance.js`, `incoming/swarm-candidates/traits/magnetic_rift_resonance.yaml` (source).
+- **Open sub-question**: status `telepatic_link` non esiste in registry. Add-only o map a status esistente (`linked` / `coordinated`)? — decisione lazy al wire time
+- **Ref**: card [M-2026-04-25-005](docs/museum/cards/old_mechanics-magnetic-rift-resonance.md).
+- **Skiv-voice motivation** (user feedback): "una pietra nuova. La giro nelle zampe. Sento il peso. Capisco la forma. Poi cerco le sorelle. Non prima".
 
 ---
 

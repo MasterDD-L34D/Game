@@ -67,6 +67,72 @@ Friction concreta sprint 2026-04-25 PR #1776: glossary.json aveva 37 char mojiba
 - **Subagent timeout 2x = stop retry**: se subagent stesso pattern timeout 2 volte, FERMA. Investiga prompt size / tool config. Non fare 5+ retry sperando vada.
 - **Distinguish hook output vs user**: `<user-prompt-submit-hook>` e similari sono hook. Riconosci tag, non rispondere come a un user.
 
+## 🦎 Skiv canonical creature (cross-PC entrypoint 2026-04-25)
+
+**Skiv** è la creatura canonical recap-card del progetto (`Arenavenator vagans` / `dune_stalker`). User esplicito 2026-04-25: _"non voglio perderlo!"_.
+
+**Hub canonical**: [`docs/skiv/CANONICAL.md`](docs/skiv/CANONICAL.md) — identity + persona/voice + dove vive (catalogo file repo) + sprint plan ~22h + recap format ASCII tamagotchi card + don't-reinvent rule. **Cross-PC via git** (memory PC-local NON sync, hub sì).
+
+**Skill on-demand**: [`.claude/skills/skiv.md`](.claude/skills/skiv.md) — invoca `/skiv` quando user chiede _"scheda Skiv / recap / a che punto siamo (con creatura)"_. Read REAL data da `data/core/species.yaml` + `species/dune_stalker_lifecycle.yaml` + `data/derived/skiv_saga.json` → render 6-part recap + ASCII card.
+
+**Voice rule**: italiano, prima persona, metafore desertiche (_sabbia, vento, ridge, sole basso_), all'"allenatore" (= user). Closing tipico: _"Sabbia segue."_ MAI registro pure-tecnico nel narrative beat.
+
+**Anti-pattern**: NON reinventare persona ad-hoc — Skiv è canonical. NON fabricare data (species id, trait id, gauge value): SEMPRE grep YAML reale prima.
+
+## ✅ Verify Before Claim Done (anti-rescue policy 2026-04-25)
+
+Friction concreta `/insights` 2026-04-25: **25 buggy_code incidents** (top friction, vs 15 wrong_approach + 5 subagent_timeout). Pattern: first-pass implementation ships con bug, Claude poi fa rescue pass. Costo: doppio commit, doppio test cycle, user vede regressione prima di fix.
+
+**Pattern**: prima di dichiarare task done O scrivere "✅ X works" O committare:
+
+1. **Run tests applicable** al diff: `node --test tests/<area>/*.test.js` (se modifichi backend), `pytest tests/test_<area>.py` (se modifichi tools/py), `npm run format:check` (se ≥3 file edit), `python tools/check_docs_governance.py` (se modifichi docs).
+2. **Diff vs intent**: `git diff` rileggi tu stesso, verifica che NON ci siano:
+   - File toccati fuori scope dichiarato
+   - Schema breaking change senza ADR
+   - Hardcode invece di config/data
+   - Mock/stub lasciati al posto di logic vera
+3. **Smoke probe live** se modifica backend: `curl /api/<endpoint>` o invocazione minimal flow E2E. Mai dichiarare "wired" senza un colpo di test.
+
+**Skip rules** (verify NON necessario):
+
+- Edit purely cosmetic (typo, formatting senza logic)
+- Single-file doc edit ≤30 LOC
+- Read-only operations (Glob/Grep/Read sequences)
+
+**Skill `/verify-done`** (vedi `.claude/skills/verify-done.md`): orchestrates il flow sopra in un colpo. Invoca prima di "ok l'ho finito".
+
+**Anti-pattern**:
+
+- ❌ Dichiarare done sulla base "ha compilato" → compile-only ≠ behavior verified
+- ❌ Skip test perché "modifica piccola" → 25 buggy_code dimostra falso senso di sicurezza
+- ❌ "I tests should pass" senza eseguirli → speculative claim, ottenuto da rescue pass
+
+## 🏛 Museum-first protocol (validato 2026-04-25)
+
+Friction concreta: 18 sprint hanno accumulato idee buone in `incoming/`, `docs/archive/`, `reports/incoming/`, branch chiusi, ADR superseded. Future agent rischia duplicate research O re-invent buried work.
+
+**Pattern**: **PRIMA** di WebSearch / repo dig su un dominio nuovo, consulta [`docs/museum/MUSEUM.md`](docs/museum/MUSEUM.md) per card curate Dublin-Core-style con provenance verificata + reuse path concreti.
+
+- **Tutti gli agent** (`balance-illuminator`, `creature-aspect-illuminator`, `narrative-design-illuminator`, `pcg-level-design-illuminator`, `economy-design-illuminator`, `telemetry-viz-illuminator`, `ui-design-illuminator`, `coop-phase-validator`, `sot-planner`, `playtest-analyzer`, `session-debugger`, `schema-ripple`, `migration-planner`, `species-reviewer`, `balance-auditor`) **leggono** museum.
+- **Solo `repo-archaeologist` scrive** card. Lifecycle: `excavated → curated → reviewed → revived | rejected`. Card additive-only.
+- **Validato 2026-04-25**: cross-agent test con `creature-aspect-illuminator` su Skiv Sprint A audit → ha letto MUSEUM.md spontaneously, consultato card M-005 magnetic_rift, identificato 6 GAP concreti, saved 10-15min repo dig (vedi [docs/qa/2026-04-25-museum-validation.md](docs/qa/2026-04-25-museum-validation.md)).
+
+**Trigger consultation**:
+
+- ✅ Domain research nuovo (es. "audit Skiv lifecycle for Sprint A") → leggi MUSEUM.md domain section
+- ✅ Architectural decision pending → leggi gallery galleries/<domain>.md se esiste
+- ✅ Reuse path estimation → card hanno effort stimato + blast-radius multiplier
+- ❌ Bug fix puntuali → museum non rilevante
+- ❌ Tweak parametri esistenti → museum non rilevante
+
+**Domain coverage 2026-04-25**: 8/8 (100%) — ancestors, cognitive_traits, enneagramma, personality, mating_nido, old_mechanics, species_candidate (pool secco), architecture. 11 card curate (5 score 5/5 + 6 score 4/5).
+
+**Antipatterns**:
+
+- ❌ Ignorare museum + WebSearch direct → duplicate research
+- ❌ Citare museum come fonte canonical → museum è "idee da valutare", NON `data/core/`
+- ❌ Auto-revive card senza ADR + user OK → museum è additive-only, decisione product needed
+
 ## 🔑 API Keys & Secrets — canonical path
 
 Friction insights 2026-04-25: Tavily API key posizionata in repo `.env` invece del path canonico `~/.config/api-keys/keys.env` (OD-005). Move richiesto post-fact.
