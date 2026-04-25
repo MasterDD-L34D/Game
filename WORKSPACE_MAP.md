@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-`Game/` è il runtime. `Game-Database/` è il CMS taxonomy sibling (HTTP Alt B flag-OFF). `game-swarm/` è uno swarm AI esterno (Ollama+Aider+AG2) che produce artifact validati che il Game importa. `codemasterdd-ai-station/` è l'archivio operativo prompt+template. `synesthesia/` NON è Evo-Tactics (progetto universitario separato).
+`Game/` è il runtime. `Game-Database/` è il CMS taxonomy sibling (HTTP Alt B flag-OFF). `game-swarm/` è uno swarm AI esterno (Ollama+Aider+AG2) che produce artifact validati che il Game importa. `codemasterdd-ai-station/` è l'archivio operativo prompt+template. (`synesthesia/` UPO esame universitario è stato spostato 2026-04-25 a `~/Documents/UPO/`, NON parte di Evo-Tactics.)
 
 ---
 
@@ -19,9 +19,10 @@
 | **Game** (questo)           | `C:/Users/edusc/Desktop/gioco/Game/`                    | Monorepo polyglot  | Runtime canonical: backend Express + Vue dashboard + dataset YAML + CLI tools                            | 🟢 attivo, MVP M16-M20 chiuso, 411/411 test                                                                        | `PROJECT_BRIEF.md` → `COMPACT_CONTEXT.md` → `CLAUDE.md`                                                               |
 | **Game-Database**           | `C:/Users/edusc/Documents/GitHub/Game-Database/`        | Sibling repo CMS   | Taxonomy CMS (Prisma + Postgres + Express + React MUI Tailwind TanStack Table) per glossary trait/specie | 🟢 clonato 2026-04-25 (branch `main`) · HTTP runtime Alt B scaffolded **flag-OFF** (`GAME_DATABASE_ENABLED=false`) | `Game-Database/README.md` + `Game-Database/CLAUDE.md` + `Game-Database/README_HOWTO_AUTHOR_TRAIT.md` + ADR-2026-04-14 |
 | **codemasterdd-ai-station** | `C:/Users/edusc/Desktop/gioco/codemasterdd-ai-station/` | Archivio operativo | Prompt library + bootstrap kit + Claude Code operating package + template                                | 🟢 Sprint 0+1 integrati (PR #1732, 2026-04-24)                                                                     | `LIBRARY.md` § Archivio operativo + memory `reference_archivio_libreria_operativa.md`                                 |
-| **synesthesia**             | `C:/Users/edusc/Desktop/gioco/synesthesia/`             | Progetto separato  | Esame universitario UPO 2025-26 (web app archetipi multimediali)                                         | ❌ **NON parte di Evo-Tactics**, condivide solo concept 9-archetipi                                                | `synesthesia/README.md` (autonomo, ignorare per Game)                                                                 |
 | **aider-tty-test**          | `C:/Users/edusc/Desktop/gioco/aider-tty-test/`          | Sandbox            | Test Aider TTY pairing                                                                                   | 🟢 sandbox isolato, side-effect zero                                                                               | n/a                                                                                                                   |
 | **scratch**                 | `C:/Users/edusc/Desktop/gioco/scratch/`                 | Scratch            | Spazio temporaneo                                                                                        | 🟢 ephemeral, nessun commit                                                                                        | n/a                                                                                                                   |
+
+> **synesthesia** (progetto universitario UPO 2025-26) era qui, **spostato 2026-04-25** a `C:/Users/edusc/Documents/UPO/synesthesia/` per declutter workspace Evo-Tactics. Repo standalone, NON parte di Evo-Tactics.
 
 **Game-Database stack** (porte locali):
 
@@ -136,7 +137,7 @@ ollama pull qwen3:8b qwen2.5-coder
        │  (planner+coder swarm)                │
        └────────────────────────────────────┘
 
-   synesthesia/  ⟵  PROGETTO SEPARATO (UPO esame), zero coupling
+   ~/Documents/UPO/synesthesia/  ⟵  spostato 2026-04-25 (UPO esame), zero coupling
    aider-tty-test/, scratch/  ⟵  sandbox/scratch
 ```
 
@@ -160,7 +161,7 @@ ollama pull qwen3:8b qwen2.5-coder
 - [x] **HTTP Alt B endpoint shape verification** — done 2026-04-25: `/api/traits/glossary` ritorna `{traits:[{_id,labels:{it,en},descriptions:{it,en}}]}` esattamente conforme a `packages/contracts/schemas/glossary.schema.json`. Game-side integration in `apps/backend/index.js:17-37` configurato OFF default + ON via env, code-path verificato.
 - [x] **HTTP Alt B runtime smoke (Game backend live)** — done 2026-04-25: `npm install` worktree completato + `PORT=3344 GAME_DATABASE_ENABLED=true GAME_DATABASE_URL=http://localhost:3333 LOBBY_WS_ENABLED=false node apps/backend/index.js`. Backend log conferma: `[game-database] HTTP integration ENABLED at http://localhost:3333` + `[game-database] trait glossary fetched via HTTP with local file fallback`. `/api/catalog/pools` e `/api/traits` rispondono 200 OK con dati live, integration full-stack PROVATA end-to-end.
 - [x] **Game-Database `WORKSPACE_MAP.md` simmetrico** — done 2026-04-25: scritto in `C:/Users/edusc/Documents/GitHub/Game-Database/WORKSPACE_MAP.md` con stack porte, bootstrap quick, data flow diagram, cross-link bidirezionale a Game/WORKSPACE_MAP.md.
-- [ ] `synesthesia/` valutare se spostare a path diverso (es. `~/Documents/UPO/`) per evitare confusione con workspace Evo-Tactics — decisione utente
+- [x] **`synesthesia/` move** — done 2026-04-25: spostato da `C:/Users/edusc/Desktop/gioco/synesthesia/` a `C:/Users/edusc/Documents/UPO/synesthesia/`. Repo standalone (.git intatto, status clean). Workspace `gioco/` ora pulito (Game, \_archive, aider-tty-test, codemasterdd-ai-station, scratch + 1 zip game-swarm).
 
 ---
 
