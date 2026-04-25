@@ -64,22 +64,22 @@
 - **File o moduli coinvolti**: `.claude/settings.json` (per skill install config).
 - **Prossima azione consigliata**: post-playtest round 2, run skill su `docs/playtest/*-calibration.md` raccolti.
 
-### [OD-008] Sentience index backfill scope (45 species existing vs new only)
+### [OD-008] Sentience index backfill scope ✅ RISOLTA 2026-04-25
 
 - **Livello**: game + system
-- **Stato**: aperta (museum card M-2026-04-25-001 trigger)
-- **Ambiguità**: enum `sentience_index` T0-T6 LIVE in `schemas/core/enums.json` da 2026-04-16 (commit `3e1b4f22`) ma 0 species in `data/core/species.yaml` lo usa. Backfillare 45 species esistenti (~8h) o assegnare solo a species nuove da Sprint C in poi (~0h)?
-- **Perché conta**: silent drift schema-vs-runtime da 6 mesi. Senza backfill, l'enum resta tech debt latente.
-- **Miglior default proposto**: **backfill incrementale durante Sprint C natural editing** (non sweep dedicato). Quando edit species per altre ragioni, assegna T1-T5 via milestone matching. Zero overhead, drift chiuso a regime.
-- **Rischio se ignorata**: enum LIVE senza adoption diventa codice morto, futuri agent confusione su "è canonical?"
-- **File o moduli coinvolti**: `data/core/species.yaml`, `data/core/species_expansion.yaml`, `schemas/core/enums.json`.
-- **Prossima azione consigliata**: card review user, decisione tra: (A) backfill sweep dedicato 8h pre-Sprint-C, (B) incrementale durante Sprint C, (C) skip + flag enum deprecated.
+- **Stato**: **risolta 2026-04-25 (user verdict)**
+- **Verdict**: **Opzione B — backfill incrementale**. Quando si edita una species per altri motivi (Sprint C, content sprint, balance tweak), assegnare `sentience_index` T1-T5 via milestone matching (T1 = "Senses core", T2 = "AB 01 Endurance", ecc.). Zero overhead dedicato, drift chiuso a regime entro 3-4 sprint.
+- **Ragione**: sweep dedicato 8h è lavoro morto se non c'è use-case immediato runtime. Incrementale chiude drift senza overhead.
+- **Implementation guidance**: ogni agent che edita `data/core/species.yaml` o `data/core/species_expansion.yaml` per QUALSIASI motivo deve, se non già presente, aggiungere `sentience_index: T<N>` derivando il livello dalle milestone esistenti della species. Pattern reusable, no PR dedicato.
+- **File o moduli coinvolti**: `data/core/species.yaml`, `data/core/species_expansion.yaml`, `schemas/core/enums.json` (enum già live).
+- **Ref**: card [M-2026-04-25-001](docs/museum/cards/cognitive_traits-sentience-tiers-v1.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
+- **Skiv-voice motivation** (user feedback): "sabbia ha strati, marcare quando passi sopra — sufficiente".
 
-### [OD-009] Ennea source canonical — `data/core/personality/` vs `packs/evo_tactics_pack/...` ✅ RISOLTA (proposed)
+### [OD-009] Ennea source canonical — `data/core/personality/` vs `packs/evo_tactics_pack/...` ✅ RISOLTA confermata 2026-04-25
 
 - **Livello**: system + repo
-- **Stato**: **risolta 2026-04-25 (proposed via research)** — vedi card M-2026-04-25-002 + M-2026-04-25-003
-- **Verdict proposto**: **Option 3 hybrid** (entrambi mantenuti):
+- **Stato**: **risolta 2026-04-25 (user OK)** — vedi card M-2026-04-25-002 + M-2026-04-25-003
+- **Verdict confermato**: **Option 3 hybrid** (entrambi mantenuti):
   - **Encyclopedia**: `packs/evo_tactics_pack/tools/py/modules/personality/enneagram/` rimane source-of-truth completo (CSV + JSON + TS + PY + schema + README + 16 web sources cited)
   - **Runtime**: `data/core/personality/enneagramma_types.yaml` (NUOVO) = subset machine-readable per backend Node consumer
   - **Sync**: `scripts/sync_ennea_from_pack.js` (NUOVO ~50 LOC) converte pack JSON → data/core YAML
@@ -93,11 +93,12 @@
 - **File o moduli coinvolti**: `data/core/personality/` (NUOVO), `scripts/sync_ennea_from_pack.js` (NUOVO), `apps/backend/services/enneaEffects.js` (extend), `apps/backend/services/vcScoring.js` (extend coverage 6/9 → 9/9).
 - **Ref**: card [M-2026-04-25-002](docs/museum/cards/enneagramma-mechanics-registry.md), [M-2026-04-25-003](docs/museum/cards/enneagramma-dataset-9-types.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
 
-### [OD-010] Skiv voice palette default — Type 5 vs Type 7 ✅ RISOLTA (proposed via skip-decision)
+### [OD-010] Skiv voice palette default — Type 5 vs Type 7 ✅ RISOLTA confermata 2026-04-25
 
 - **Livello**: game + narrative
-- **Stato**: **risolta 2026-04-25 (proposed)** — skip-decision via A/B test data-driven
-- **Verdict proposto**: **NON pre-decidere**. Implementare entrambe palette vocali (Type 5 Investigator stoico + Type 7 Enthusiast caotico), instrumentare telemetry `ennea_voice_type_used`, decisione default emerge da playtest data invece che a-priori user choice.
+- **Stato**: **risolta 2026-04-25 (user OK)** — skip-decision via A/B test data-driven
+- **Verdict confermato**: **NON pre-decidere**. Implementare entrambe palette vocali (Type 5 Investigator stoico + Type 7 Enthusiast caotico), instrumentare telemetry `ennea_voice_type_used`, decisione default emerge da playtest data invece che a-priori user choice.
+- **Skiv-voice motivation** (user feedback): "due voci nella mia testa. Una conta i granelli. L'altra ride mentre scivola. Lascia che il deserto scelga".
 - **Sprint C deliverable rivisto**:
   ```
   data/core/narrative/ennea_voices/
@@ -114,29 +115,41 @@
 - **File o moduli coinvolti**: `data/core/narrative/ennea_voices/` (NUOVO), `apps/backend/services/narrativeEngine.js` (extend), telemetry events.
 - **Ref**: card [M-2026-04-25-003](docs/museum/cards/enneagramma-dataset-9-types.md), gallery [galleries/enneagramma.md](docs/museum/galleries/enneagramma.md).
 
-### [OD-011] Ancestors recovery scope — full 297 neuroni vs 34 sopravvissuti
+### [OD-011] Ancestors recovery scope ✅ RISOLTA 2026-04-25 (con remind autonomous)
 
 - **Livello**: game + system
-- **Stato**: aperta (museum card M-2026-04-25-004 trigger) — **decisione utente richiesta**
-- **Ambiguità**: RFC Sentience v0.1 prometteva 297 neuroni Ancestors estratti. Attualmente solo 34 sopravvissuti in CSV sanitized (`reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv`). Gli altri 263 sono in binary `.zip` referenziati da validation reports MA assenti dal repo. Revivere full extraction (~15-20h dig su Drive/PR esterni) o lasciare T0-T6 canonical senza basi neuronali (status quo)?
-- **Perché conta**: T0-T6 canonical attuale è solo descrittivo. 297 neuroni = base meccanica concreta per progression Spore-core e trait inheritance.
-- **Miglior default proposto**: **subset Self-Control 22 trigger ora, full extraction deferred**. Wire 22 Self-Control come `effect_trigger` in `active_effects.yaml` (~5h, P0 Skiv Sprint B coverage). Decisione "revivere 263 binary mancanti" dopo MVP.
-- **Rischio se ignorata**: T0-T6 resta scaffolding senza substance, gap promessa-runtime continua.
-- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `reports/incoming/ancestors/`, possibili recovery da Drive/PR esterni (userland action).
-- **Prossima azione consigliata**: card review user. Default: Minimal path (22 trigger Self-Control) come primo step.
-- **Ref**: card [M-2026-04-25-004](docs/museum/cards/ancestors-neurons-dump-csv.md).
+- **Stato**: **risolta 2026-04-25 (user verdict + remind autonomous task)**
+- **Verdict**: **Opzione A — wire 22 Self-Control trigger subito** (~5h, alimenta Skiv Sprint B coverage). Path B (caccia 263 neuroni mancanti) **non scartato**: scheduled come task autonomous per ricerca online fonti.
+- **Path A (immediate)**:
+  - Estendi `data/core/traits/active_effects.yaml` con 22 nuovi entry mappati da `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv` (Self-Control branch, codici CO 01-22)
+  - `effect_trigger` field già esiste (es. `on_take_damage`, `on_engage_choice`, `on_pressure_tier_up`)
+  - Test: `python3 tools/py/game_cli.py validate-datasets`
+  - Output: +22 trait reaction-aware in glossary, low-risk additive
+- **Path B (deferred autonomous)**: vedi nuovo ticket [TKT-ANCESTORS-RECOVERY](BACKLOG.md#tkt-ancestors-recovery) — caccia online dei 263 neuroni mancanti via fonti pubbliche (Ancestors Wiki + Britannica + biology references già citate in RFC). Claude ricerca autonomously quando ha budget tempo, NON userland action.
+- **Rationale**: 22 trigger sono già nelle mani, low risk, alimentano Skiv Sprint B (defy/counter). I 263 mancanti possono essere ricostruiti via research esterna invece di dipendere da `.zip` perduti.
+- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv`.
+- **Ref**: card [M-2026-04-25-004](docs/museum/cards/ancestors-neurons-dump-csv.md), backlog [TKT-ANCESTORS-RECOVERY](BACKLOG.md).
+- **Skiv-voice motivation** (user feedback): "tracce fresche nelle dune — 34 marche chiare. Le altre 263... vento le ha coperte. Prima caccia ciò che vedi. Sabbia profonda dopo".
 
-### [OD-012] Swarm trait integration scope — 1 vs 5-10 batch
+### [OD-012] Swarm trait integration scope ✅ RISOLTA 2026-04-25
 
 - **Livello**: game + system
-- **Stato**: aperta (museum card M-2026-04-25-005 trigger)
-- **Ambiguità**: PR #1720 ha staged `magnetic_rift_resonance.yaml` come "first integration staging" — never followed up. PR potrebbe contenere 5-10 swarm-trait candidates pending. Integrare solo magnetic_rift (~2h Skiv Sprint A direct fit) o batch 5-10 (~12-15h)?
-- **Perché conta**: swarm trait è categoria mancante in glossary. Ogni unitario richiede biome + status registry extension.
-- **Miglior default proposto**: **single-shot magnetic_rift Sprint A**, batch deferred post-playtest. Validare pattern tier-extension `biomeResonance.js` su 1 trait prima di scalare.
-- **Rischio se ignorata**: swarm system resta dormant, biome variety stunted.
-- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `data/core/biomes.yml` (atollo_ossidiana stub), `apps/backend/services/combat/biomeResonance.js`.
-- **Prossima azione consigliata**: dopo Skiv Sprint A wire validation, sweep PR #1720 staging branch per altri candidate via `git log feat/swarm-staging`.
+- **Stato**: **risolta 2026-04-25 (user verdict)**
+- **Verdict**: **Opzione A — single-shot magnetic_rift Sprint A**, batch 5-10 deferred a PR successivo post-validation.
+- **Ragione (consigli annessi)**:
+  - **Validate pattern**: `biomeResonance.js` (PR #1785 shipped) supporta tier ladder ma non è ancora stato testato con tier-extension reale. Magnetic_rift è il primo banco di prova
+  - **Limit blast radius**: se rompe qualcosa nel sistema reactionary, hai limitato il danno a 1 trait + 1 biome stub
+  - **Skiv Sprint A direct fit**: trait T2 + biome `atollo_ossidiana` plug-in immediato per Sprint A (~2h)
+  - **Batch deferred**: dopo validation con Skiv playtest (post-MVP), sweep `feat/swarm-staging` branch per altri 5-10 candidate via `git log feat/swarm-staging`. Scaling solo dopo prova
+- **Implementation guidance**:
+  1. Aggiungi biome `atollo_ossidiana` placeholder in `data/core/biomes.yml` con `magnetic_field_strength: 1.0` flag
+  2. Aggiungi trait `magnetic_rift_resonance` in `data/core/traits/active_effects.yaml` con `requires_traits: [magnetic_sensitivity, rift_attunement]` (2 trait base mancanti, stub o decision se generalizzare)
+  3. Map T2 → `biomeResonance.js` tier_2 ladder
+  4. Test: `pytest tests/test_biome_synthesizer.py`
+- **File o moduli coinvolti**: `data/core/traits/active_effects.yaml`, `data/core/biomes.yml`, `apps/backend/services/combat/biomeResonance.js`, `incoming/swarm-candidates/traits/magnetic_rift_resonance.yaml` (source).
+- **Open sub-question**: status `telepatic_link` non esiste in registry. Add-only o map a status esistente (`linked` / `coordinated`)? — decisione lazy al wire time
 - **Ref**: card [M-2026-04-25-005](docs/museum/cards/old_mechanics-magnetic-rift-resonance.md).
+- **Skiv-voice motivation** (user feedback): "una pietra nuova. La giro nelle zampe. Sento il peso. Capisco la forma. Poi cerco le sorelle. Non prima".
 
 ---
 

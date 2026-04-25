@@ -115,4 +115,4 @@ Schema completo per integration: tier + biome trigger + effect status + requires
 
 - **Sprint A Skiv kickoff**: dopo biomeResonance.js extension, applica magnetic_rift come primo tier T2 reale
 - **Cross-link M-2026-04-25-002 registry hooks**: status_apply event può emit via ennea_hook trigger
-- **OPEN_DECISIONS**: OD-012 "Swarm trait integration scope" (1 vs 5-10 candidate batch)
+- **OPEN_DECISIONS**: OD-012 ✅ RISOLTA 2026-04-25 — verdict A (single-shot magnetic_rift Sprint A, batch deferred post-validation)
