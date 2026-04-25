@@ -291,3 +291,18 @@
   font-size: 0.85rem;
   font-style: italic;
 }
+
+/* Skiv-as-Monitor mini card (Phase 2 wire 2026-04-25). */
+.db-skiv-card {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  white-space: pre;
+  background: #0b0d12;
+  color: #c4a574;
+  padding: 10px 12px;
+  border: 1px solid #5a4a2f;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  overflow-x: auto;
+  margin: 0;
+}

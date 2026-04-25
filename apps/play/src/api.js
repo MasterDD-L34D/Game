@@ -248,4 +248,24 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ code, host_token: hostToken, ...payload }),
     }),
+  // Skiv-as-Monitor — git-event-driven creature feed (Phase 2 wire 2026-04-25).
+  skivStatus: () => jsonFetch('/api/skiv/status'),
+  skivFeed: (limit = 20) => jsonFetch(`/api/skiv/feed?limit=${encodeURIComponent(limit)}`),
+  // /api/skiv/card returns text/plain ASCII; bypass jsonFetch json parse.
+  skivCard: async () => {
+    try {
+      const res = await fetch('/api/skiv/card', { cache: 'no-store' });
+      if (!res.ok) return { ok: false, status: res.status, text: '', networkError: false };
+      const text = await res.text();
+      return { ok: true, status: res.status, text };
+    } catch (err) {
+      return {
+        ok: false,
+        status: 0,
+        text: '',
+        networkError: true,
+        errorMessage: err?.message || String(err),
+      };
+    }
+  },
 };

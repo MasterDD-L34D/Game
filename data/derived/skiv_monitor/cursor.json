@@ -1,0 +1,9 @@
+{
+  "schema_version": "0.1.0",
+  "last_pr_merged_at": null,
+  "last_issue_event_at": null,
+  "last_workflow_run_at": null,
+  "last_commit_sha": null,
+  "seen_event_ids": [],
+  "ring_max": 200
+}
