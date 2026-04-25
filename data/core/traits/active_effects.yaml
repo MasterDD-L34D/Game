@@ -3191,3 +3191,5222 @@ traits:
     provenance:
       source: ancestors_csv_01B
       code: BB CO 01
+
+  # --- OD-011 Path B (v07 wiki recovery, 267 entries across 15 branches) ---
+  # Source: ancestors_neurons_dump_v07_wiki_recovery.csv (Fandom wiki, CC BY-NC-SA 3.0).
+  # Wired per branch-to-mechanic mapping (Senses=focused, AB/MT/SW=move_bonus,
+  # DE=extra_damage, CM=linked, IN=focused-on-miss, OM/MB=fed, ST/PM=damage_reduction,
+  # TM=healing, hominid lineages=fit-per-name). Most action_type=passive are
+  # runtime-inert per OD-012 precedent (only attack-trigger evaluated by
+  # apps/backend/services/traitEffects.js). Tier T2 = genetic=Yes (BB-prefixed).
+  # Statuses linked/fed/healing/awareness are runtime-inert until M-future
+  # status-system extension; description_it captures design intent.
+
+  ancestor_ambulation_endurance_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_endurance_01
+    description_it: |
+      Endurance (AB 01) - Moving requires a lot less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 01"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_movement_endurance_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_movement_endurance_02
+    description_it: |
+      Movement Endurance (AB 02) - Moving requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 02"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_movement_endurance_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_movement_endurance_03
+    description_it: |
+      Movement Endurance (AB 03) - Energy loss while moving is minimized Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 03"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_climb_endurance_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_climb_endurance_04
+    description_it: |
+      Climb Endurance (AB 04) - Climbing requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 04"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_climb_endurance_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_climb_endurance_05
+    description_it: |
+      Climb Endurance (AB 05) - Climbing requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 05"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_climb_endurance_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_climb_endurance_06
+    description_it: |
+      Climb Endurance (AB 06) - Energy loss while climbing is minimized. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 06"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_carrying_endurance_07:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_carrying_endurance_07
+    description_it: |
+      Carrying Endurance (AB 07) - Moving while carrying an item with both hands requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 07"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_carrying_endurance_08:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_carrying_endurance_08
+    description_it: |
+      Carrying Endurance (AB 08) - Moving while carrying an item with both hands requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 08"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_carrying_endurance_09:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_carrying_endurance_09
+    description_it: |
+      Carrying Endurance (AB 09) - Energy loss while carrying items is minimized. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 09"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_pain_endurance_10:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_pain_endurance_10
+    description_it: |
+      Pain Endurance (AB 10) - Moving while injured requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 10"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_pain_endurance_11:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_pain_endurance_11
+    description_it: |
+      Pain Endurance (AB 11) - Moving while injured requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 11"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_pain_endurance_12:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: ambulation_pain_endurance_12
+    description_it: |
+      Pain Endurance (AB 12) - Energy loss while moving with an injury is minimized. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AB 12"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_ambulation_speed_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_ambulation_speed_bb_01
+    description_it: |
+      Ambulation Speed (BB AB 01) - Movement speed is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 01"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_ambulation_speed_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_ambulation_speed_bb_02
+    description_it: |
+      Ambulation Speed (BB AB 02) - Movement speed is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 02"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_ambulation_speed_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_ambulation_speed_bb_03
+    description_it: |
+      Ambulation Speed (BB AB 03) - Movement speed is maximized. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 03"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_lower_body_strength_bb_04:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_lower_body_strength_bb_04
+    description_it: |
+      Lower Body Strength (BB AB 04) - Jump distance is increased. | | HOLD (button) to sprint, then RELEASE (button) to jump. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 04"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_lower_body_strength_bb_05:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_lower_body_strength_bb_05
+    description_it: |
+      Lower Body Strength (BB AB 05) - Jump distance is maximized. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 05"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_climb_speed_bb_06:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_climb_speed_bb_06
+    description_it: |
+      Climb Speed (BB AB 06) - Climbing speed is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 06"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_climb_speed_bb_07:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_climb_speed_bb_07
+    description_it: |
+      Climb Speed (BB AB 07) - Climbing speed is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 07"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_climb_speed_bb_08:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_climb_speed_bb_08
+    description_it: |
+      Climb Speed (BB AB 08) - Climbing speed is maximized. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 08"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_carrying_speed_bb_09:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_carrying_speed_bb_09
+    description_it: |
+      Carrying Speed (BB AB 09) - Movement speed while carrying items is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 09"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_carrying_speed_bb_10:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_carrying_speed_bb_10
+    description_it: |
+      Carrying Speed (BB AB 10) - Movement speed while carrying items is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 10"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_carrying_speed_bb_11:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_carrying_speed_bb_11
+    description_it: |
+      Carrying Speed (BB AB 11) - Movement speed while carrying items is maximized. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 11"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_pain_threshold_bb_12:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_pain_threshold_bb_12
+    description_it: |
+      Pain Threshold (BB AB 12) - Movement speed while injured is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 12"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_pain_threshold_bb_13:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_pain_threshold_bb_13
+    description_it: |
+      Pain Threshold (BB AB 13) - Movement speed while injured is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 13"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ambulation_pain_threshold_bb_14:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: ambulation_pain_threshold_bb_14
+    description_it: |
+      Pain Threshold (BB AB 14) - Movement speed while injured is maximized. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AB 14"
+      branch: "Ambulation"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_cognitive_inhibition_03:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ardipithecus_cognitive_inhibition_03
+    description_it: |
+      Cognitive Inhibition (CC 03) - Venturing into an unknown area causes less fear. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CC 03"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_mesolimbic_pathway_05:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ardipithecus_mesolimbic_pathway_05
+    description_it: |
+      Mesolimbic Pathway (DP 05) - The ability to synthesize neurotransmitters has increased. | More Dopamine can be accumulated. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 05"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_dopaminergic_pathways_06:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ardipithecus_dopaminergic_pathways_06
+    description_it: |
+      Dopaminergic Pathways (DP 06) - More dopamine is generated following displays of physical prowess. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 06"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_dopaminergic_pathways_07:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ardipithecus_dopaminergic_pathways_07
+    description_it: |
+      Dopaminergic Pathways (DP 07) - More dopamine is generated following social interactions. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 07"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_dopaminergic_pathways_08:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ardipithecus_dopaminergic_pathways_08
+    description_it: |
+      Dopaminergic Pathways (DP 08) - More dopamine is generated after discoveries or after creating and using a tool. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 08"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_life_expectancy_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: ardipithecus_life_expectancy_02
+    description_it: |
+      Life Expectancy (LF 02) - Life expectancy has increased. | More stamina and energy can be accumulated. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "LF 02"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_encephalization_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: ardipithecus_encephalization_02
+    description_it: |
+      Encephalization (NP 02) - The brain size has increased. | More Neuronal Energy can be accumulated. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NP 02"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_hyperfocus_01:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ardipithecus_hyperfocus_01
+    description_it: |
+      Hyperfocus (ZO 01) - When the dopamine level is high enough, intense concentration is possible. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ZO 01"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_locus_of_control_02:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ardipithecus_locus_of_control_02
+    description_it: |
+      Locus of Control (ZO 02) - It is possible to concentrate for a longer period of time. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ZO 02"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_locus_of_control_03:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ardipithecus_locus_of_control_03
+    description_it: |
+      Locus of Control (ZO 03) - It is possible to concentrate for a longer period of time. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ZO 03"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_autotelic_personality_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: ardipithecus_autotelic_personality_bb_01
+    description_it: |
+      Autotelic Personality (BB ZO 01) - The faculty of concentration requires less dopamine. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ZO 01"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_autotelic_personality_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: ardipithecus_autotelic_personality_bb_02
+    description_it: |
+      Autotelic Personality (BB ZO 02) - The faculty of concentration requires less dopamine. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ZO 02"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_ardipithecus_autotelic_personality_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: ardipithecus_autotelic_personality_bb_03
+    description_it: |
+      Autotelic Personality (BB ZO 03) - The faculty of concentration requires less dopamine. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ZO 03"
+      branch: "Ardipithecus Ramidus"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_inhibitory_control_04:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: australopithecus_inhibitory_control_04
+    description_it: |
+      Inhibitory Control (CC 04) - Venturing into an unknown area causes less fear. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CC 04"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_nigrostriatal_pathway_09:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: australopithecus_nigrostriatal_pathway_09
+    description_it: |
+      Nigrostriatal Pathway (DP 09) - The ability to synthesize neurotransmitters has increased. | More Dopamine can be accumulated. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 09"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_dopaminergic_pathways_10:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: australopithecus_dopaminergic_pathways_10
+    description_it: |
+      Dopaminergic Pathways (DP 10) - More dopamine is generated following displays of physical prowess. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 10"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_dopaminergic_pathways_11:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: australopithecus_dopaminergic_pathways_11
+    description_it: |
+      Dopaminergic Pathways (DP 11) - More dopamine is generated following social interactions. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 11"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_dopaminergic_pathways_12:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: australopithecus_dopaminergic_pathways_12
+    description_it: |
+      Dopaminergic Pathways (DP 12) - More dopamine is generated after discoveries or after creating and using a tool. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 12"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_dopaminergic_pathways_13:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: australopithecus_dopaminergic_pathways_13
+    description_it: |
+      Dopaminergic Pathways (DP 13) - More dopamine is generated. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 13"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_life_expectancy_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: australopithecus_life_expectancy_03
+    description_it: |
+      Life Expectancy (LF 03) - Life expectancy has increased. | More stamina and energy can be accumulated. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "LF 03"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_encephalization_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: australopithecus_encephalization_03
+    description_it: |
+      Encephalization (NP 03) - The brain size has increased. | More Neuronal Energy can be accumulated. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NP 03"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_thermo_regulation_01:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: australopithecus_thermo_regulation_01
+    description_it: |
+      Thermo Regulation (TH 01) - The impacts of climatic variations on the vitality are diminished. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "TH 01"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_thermoreceptors_efficiency_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: australopithecus_thermoreceptors_efficiency_bb_01
+    description_it: |
+      Thermoreceptors Efficiency (BB TH 01) - The impacts of climatic variations on the vitality are diminished. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB TH 01"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_preoptic_area_efficiency_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: australopithecus_preoptic_area_efficiency_bb_02
+    description_it: |
+      Preoptic Area Efficiency (BB TH 02) - The impacts of climatic variations on the vitality are diminished. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB TH 02"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_australopithecus_hypothalamic_nucleus_efficiency_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: australopithecus_hypothalamic_nucleus_efficiency_bb_03
+    description_it: |
+      Hypothalamic Nucleus Efficiency (BB TH 03) - The impacts of climatic variations on the vitality are diminished. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB TH 03"
+      branch: "Australopithecus Afarensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_kinesics_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_kinesics_01
+    description_it: |
+      Kinesics (CM 01) - The ability to gather all clan members is acquired. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CM 01"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_self_empowerment_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_self_empowerment_02
+    description_it: |
+      Self Empowerment (CM 02) - While following you, clan members are able to automatically mimic an intimidation or the action of conquering fear. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CM 02"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_body_language_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_body_language_03
+    description_it: |
+      Body Language (CM 03) - It is now possible to ask, from a distance, some clan members to come closer and follow. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CM 03"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_group_unity_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_group_unity_04
+    description_it: |
+      Group Unity (CM 04) - A group intimidation is more effective against any threat. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CM 04"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_mirror_neuron_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_mirror_neuron_05
+    description_it: |
+      Mirror Neuron (CM 05) - It is now possible to ask clan members to mimic the grabbing of an item, then eating it if it is food. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CM 05"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_imitation_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_imitation_06
+    description_it: |
+      Imitation (CM 06) - It is now possible to ask clan members to mimic switching hand and altering a particular item. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CM 06"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_group_unity_07:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_group_unity_07
+    description_it: |
+      Group Unity (CM 07) - A group intimidation is more effective against any threat. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CM 07"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_attachment_need_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_attachment_need_01
+    description_it: |
+      Attachment Need (HB 01) - During a generation time lapse, adults will automatically form couples and one baby will be born from their unions. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "HB 01"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_attachment_need_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_attachment_need_02
+    description_it: |
+      Attachment Need (HB 02) - During a generation time lapse, adults will automatically form couples and two babies will be born from their unions. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "HB 02"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_deimatic_behavior_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_deimatic_behavior_01
+    description_it: |
+      Deimatic Behavior (IT 01) - The chances of successfully intimidating a threat and scaring it away are increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "IT 01"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_induced_fear_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_induced_fear_02
+    description_it: |
+      Induced Fear (IT 02) - The chances of successfully intimidating a predator and scaring it away are increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "IT 02"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_induced_fear_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_induced_fear_03
+    description_it: |
+      Induced Fear (IT 03) - The chances of successfully intimidating an irascible opponent and scaring it away are increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "IT 03"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_danger_perception_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_danger_perception_04
+    description_it: |
+      Danger Perception (IT 04) - Predators induce less fear. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "IT 04"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_danger_perception_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_danger_perception_05
+    description_it: |
+      Danger Perception (IT 05) - Irascible opponents induce less fear. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "IT 05"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_dominant_species_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_dominant_species_06
+    description_it: |
+      Dominant Species (IT 06) - Intimidation effectiveness is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "IT 06"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_social_confidence_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_social_confidence_bb_01
+    description_it: |
+      Social Confidence (BB CM 01) - A call to gather all clan members now has a wider range. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CM 01"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_attachment_need_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_attachment_need_bb_01
+    description_it: |
+      Attachment Need (BB HB 01) - During a generation time lapse, each adult clan member will have automatically developed bonds with a mate so couples will be formed. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB HB 01"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_willpower_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_willpower_bb_01
+    description_it: |
+      Willpower (BB IT 01) - All threats induce less fear. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IT 01"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_willpower_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_willpower_bb_02
+    description_it: |
+      Willpower (BB IT 02) - All threats induce less fear. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IT 02"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_communication_willpower_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: linked
+      turns: 2
+      target: actor
+      log_tag: comm_willpower_bb_03
+    description_it: |
+      Willpower (BB IT 03) - All threats induce less fear. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IT 03"
+      branch: "Communication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_controlling_strength_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_controlling_strength_01
+    description_it: |
+      Controlling Strength (AL 01) - The success rate of an alteration using a tool is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AL 01"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_controlling_strength_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_controlling_strength_02
+    description_it: |
+      Controlling Strength (AL 02) - The success rate of an alteration using a tool is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AL 02"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_controlling_strength_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_controlling_strength_03
+    description_it: |
+      Controlling Strength (AL 03) - The success rate of an alteration using a tool is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AL 03"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_stripping_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_stripping_04
+    description_it: |
+      Stripping (AL 04) - The success rate of an alteration without a tool is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AL 04"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_stripping_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_stripping_05
+    description_it: |
+      Stripping (AL 05) - The success rate of an alteration without a tool is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AL 05"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_stripping_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_stripping_06
+    description_it: |
+      Stripping (AL 06) - The success rate of an alteration without a tool is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AL 06"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_fine_motor_skill_07:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_fine_motor_skill_07
+    description_it: |
+      Fine Motor Skill (AL 07) - The success rate of all alteration modes is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AL 07"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_item_manipulation_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_item_manipulation_01
+    description_it: |
+      Item Manipulation (DE 01) - The ability to switch an item from one hand to the other while moving is acquired. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DE 01"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_carrying_ability_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_carrying_ability_02
+    description_it: |
+      Carrying Ability (DE 02) - The ability to carry an item using both hands is acquired. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DE 02"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_carrying_ability_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_carrying_ability_03
+    description_it: |
+      Carrying Ability (DE 03) - Movement speed while carrying an item using both hands is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DE 03"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_carrying_ability_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_carrying_ability_04
+    description_it: |
+      Carrying Ability (DE 04) - Movement speed while carrying an item using both hands is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DE 04"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_gross_motor_skill_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_gross_motor_skill_05
+    description_it: |
+      Gross Motor Skill (DE 05) - The success rate for using a tool successfully is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DE 05"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_applied_force_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_applied_force_06
+    description_it: |
+      Applied Force (DE 06) - The success rate of all alteration modes is increased. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DE 06"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_handling_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_handling_01
+    description_it: |
+      Handling (HA 01) - The ability to drop an item while moving is acquired. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "HA 01"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_grasp_control_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_grasp_control_02
+    description_it: |
+      Grasp Control (HA 02) - The chances of dropping an item following a dodge are minimized. MOVE (button) to choose direction. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "HA 02"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_grasp_control_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_grasp_control_03
+    description_it: |
+      Grasp Control (HA 03) - The chances of dropping an item following a dodge are minimized. MOVE (button) to choose direction. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "HA 03"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_grasp_control_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_grasp_control_04
+    description_it: |
+      Grasp Control (HA 04) - The chances of dropping an item following a dodge are minimized. MOVE (button) to choose direction. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "HA 04"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_true_grip_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_true_grip_05
+    description_it: |
+      True Grip (HA 05) - The items always remain in hands after a dodge. MOVE (button) to choose direction. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "HA 05"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_kinesthetic_sense_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_kinesthetic_sense_01
+    description_it: |
+      Kinesthetic Sense (WH 01) - The success rate of a counterattack is increased. MOVE (button) to face the aggressor. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WH 01"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_kinesthetic_sense_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_kinesthetic_sense_02
+    description_it: |
+      Kinesthetic Sense (WH 02) - The success rate of a counterattack is increased. MOVE (button) to face the aggressor. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WH 02"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_thrusting_aim_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_thrusting_aim_03
+    description_it: |
+      Thrusting Aim (WH 03) - The success rate of a counterattack on a predator is increased. MOVE (button) to face the predator. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WH 03"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_thrusting_aim_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_thrusting_aim_04
+    description_it: |
+      Thrusting Aim (WH 04) - The success rate of a counterattack on an irascible animal is increased. MOVE (button) to face the irascible aggressor. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WH 04"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_thrusting_aim_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_thrusting_aim_05
+    description_it: |
+      Thrusting Aim (WH 05) - The success rate of a counterattack on a wildlife animal is increased. MOVE (button) to face the animal. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WH 05"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_true_aim_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: dexterity_true_aim_06
+    description_it: |
+      True Aim (WH 06) - The success rate of a counterattack is maximized. MOVE (button) to face the aggressor. Effetto: extra_damage (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WH 06"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_manual_dexterity_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_manual_dexterity_bb_01
+    description_it: |
+      Manual Dexterity (BB AL 01) - Fewer hits are required to successfully craft items using a tool. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AL 01"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_manual_dexterity_bb_01_2:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_manual_dexterity_bb_01_2
+    description_it: |
+      Manual Dexterity (BB AL 01-2) - Fewer hits are required to successfully craft items using a tool. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AL 01-2"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_manual_dexterity_bb_01_3:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_manual_dexterity_bb_01_3
+    description_it: |
+      Manual Dexterity (BB AL 01-3) - Fewer hits are required to successfully craft items using a tool. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AL 01-3"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_manual_dexterity_bb_01_4:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_manual_dexterity_bb_01_4
+    description_it: |
+      Manual Dexterity (BB AL 01-4) - Fewer hits are required to successfully craft items using a tool. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB AL 01-4"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_proprioceptor_efficiency_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_proprioceptor_efficiency_bb_01
+    description_it: |
+      Proprioceptor Efficiency (BB WH 01) - The probabilities of inflicting a lethal blow are increased. MOVE (button) to face the aggressor. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WH 01"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_proprioceptor_efficiency_bb_01_2:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_proprioceptor_efficiency_bb_01_2
+    description_it: |
+      Proprioceptor Efficiency (BB WH 01-2) - The probabilities of inflicting a lethal blow are increased. MOVE (button) to face the aggressor. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WH 01-2"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_proprioceptor_efficiency_bb_01_3:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_proprioceptor_efficiency_bb_01_3
+    description_it: |
+      Proprioceptor Efficiency (BB WH 01-3) - The probabilities of inflicting a lethal blow are increased. MOVE (button) to face the aggressor. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WH 01-3"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_proprioceptor_efficiency_bb_01_4:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_proprioceptor_efficiency_bb_01_4
+    description_it: |
+      Proprioceptor Efficiency (BB WH 01-4) - The probabilities of inflicting a lethal blow are increased. MOVE (button) to face the aggressor. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WH 01-4"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_dexterity_proprioceptor_efficiency_bb_01_5:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: dexterity_proprioceptor_efficiency_bb_01_5
+    description_it: |
+      Proprioceptor Efficiency (BB WH 01-5) - The probabilities of inflicting a lethal blow are increased. MOVE (button) to face the aggressor. Effetto: extra_damage (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WH 01-5"
+      branch: "Dexterity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_spatial_perception_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_spatial_perception_01
+    description_it: |
+      Spatial Perception (AN 01) - The range for detection of non-edible resources is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AN 01"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_evaluation_speed_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_evaluation_speed_02
+    description_it: |
+      Evaluation Speed (AN 02) - The environmental analysis speed is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AN 02"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_spatial_perception_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_spatial_perception_03
+    description_it: |
+      Spatial Perception (AN 03) - The range for detection of non-edible resources is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AN 03"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_spatial_perception_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_spatial_perception_04
+    description_it: |
+      Spatial Perception (AN 04) - The range for detection of non-edible resources is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AN 04"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_form_recognition_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_form_recognition_05
+    description_it: |
+      Form Recognition (AN 05) - Automatic identification of resources of the same nature close to the target is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AN 05"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_form_recognition_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_form_recognition_06
+    description_it: |
+      Form Recognition (AN 06) - Automatic identification of all resources of the same nature is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AN 06"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_form_recognition_07:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_form_recognition_07
+    description_it: |
+      Form Recognition (AN 07) - Automatic identification of all resources is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "AN 07"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_memory_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_memory_01
+    description_it: |
+      Memory (IN 01) - The range for detection of non-edible resources is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "IN 01"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_long_term_memory_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_long_term_memory_bb_01
+    description_it: |
+      Long Term Memory (BB IN 01) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IN 01"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_long_term_memory_bb_01_2:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_long_term_memory_bb_01_2
+    description_it: |
+      Long Term Memory (BB IN 01-2) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IN 01-2"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_wayfinding_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_wayfinding_bb_03
+    description_it: |
+      Wayfinding (BB IN 03) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IN 03"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_wayfinding_bb_03_2:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_wayfinding_bb_03_2
+    description_it: |
+      Wayfinding (BB IN 03-2) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IN 03-2"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_orientation_bb_05:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_orientation_bb_05
+    description_it: |
+      Orientation (BB IN 05) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IN 05"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_intelligence_orientation_bb_05_2:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: miss
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: intel_orientation_bb_05_2
+    description_it: |
+      Orientation (BB IN 05-2) - It is possible to remember the position of one more specific location. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB IN 05-2"
+      branch: "Intelligence"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_metabolism_prophylactic_ability_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: metab_prophylactic_ability_01
+    description_it: |
+      Prophylactic Ability (ME 01) - The shield duration against all poisonings and injuries is longer. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ME 01"
+      branch: "Metabolism"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_metabolism_analeptic_ability_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: metab_analeptic_ability_02
+    description_it: |
+      Analeptic Ability (ME 02) - The recovery time from a poisoning or an injury is now faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ME 02"
+      branch: "Metabolism"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_metabolism_nutrient_absorption_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: metab_nutrient_absorption_bb_01
+    description_it: |
+      Nutrient Absorption (BB ME 01) - More energy is gained per food portion. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ME 01"
+      branch: "Metabolism"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_metabolism_nutrient_absorption_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: metab_nutrient_absorption_bb_02
+    description_it: |
+      Nutrient Absorption (BB ME 02) - More energy is gained per food portion. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ME 02"
+      branch: "Metabolism"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_bipedalism_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_bipedalism_01
+    description_it: |
+      Bipedalism (BI 01) - Bipedalism is now acquired. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BI 01"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_motor_skill_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_motor_skill_01
+    description_it: |
+      Motor Skill (MS 01) - The ability to switch hands with an item is acquired. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "MS 01"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_acute_stress_response_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_acute_stress_response_02
+    description_it: |
+      Acute Stress Response (MS 02) - Reactions for escapes and counterattacks are faster. MOVE (button) to choose direction. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "MS 02"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_orthostasis_senses_00:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_orthostasis_senses_00
+    description_it: |
+      Orthostasis & Senses (WA 00) - The ability to detect more distant elements using the Senses is acquired. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WA 00"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_contextual_orthostatis_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_contextual_orthostatis_01
+    description_it: |
+      Contextual Orthostatis (WA 01) - The ability to detect more distant elements through intelligence is acquired. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WA 01"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_equilibrioception_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_equilibrioception_02
+    description_it: |
+      Equilibrioception (WA 02) - Standing upright at will to walk a few meters is acquired. | | TAP (button) to stand upright. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WA 02"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_proprioception_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_proprioception_03
+    description_it: |
+      Proprioception (WA 03) - A greater distance can be traveled while moving on two legs. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WA 03"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_vestibular_system_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_vestibular_system_05
+    description_it: |
+      Vestibular System (WA 05) - A greater distance can be traveled while moving on two legs. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WA 05"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_medial_lateral_stability_09:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_medial_lateral_stability_09
+    description_it: |
+      Medial-Lateral Stability (WA 09) - Walking speed on two legs in shallow water is increased. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WA 09"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_postural_balance_11:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_postural_balance_11
+    description_it: |
+      Postural Balance (WA 11) - Walking speed on two legs in shallow water is increased. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WA 11"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_postural_balance_12:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      log_tag: motricity_postural_balance_12
+    description_it: |
+      Postural Balance (WA 12) - Walking speed on two legs in shallow water is maximized. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "WA 12"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_anabolism_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_anabolism_bb_01
+    description_it: |
+      Anabolism (BB WA 01) - Less energy is consumed when performing actions. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 01"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_speed_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_speed_bb_02
+    description_it: |
+      Speed (BB WA 02) - The movement speed is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 02"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_orientation_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_orientation_bb_03
+    description_it: |
+      Orientation (BB WA 03) - It is possible to remember the position of one more specific location. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 03"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_lower_body_strength_bb_04:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_lower_body_strength_bb_04
+    description_it: |
+      Lower Body Strength (BB WA 04) - The jump distance is increased. | | HOLD (button) to sprint, then RELEASE (button) to jump. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 04"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_anabolism_water_bb_05:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_anabolism_water_bb_05
+    description_it: |
+      Anabolism-Water (BB WA 05) - Walking in shallow water requires less energy. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 05"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_stability_control_bb_06:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_stability_control_bb_06
+    description_it: |
+      Stability Control (BB WA 06) - The ability to maintain balance when walking in shallow water is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 06"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_stability_control_bb_07:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_stability_control_bb_07
+    description_it: |
+      Stability Control (BB WA 07) - The ability to maintain balance when walking in shallow water is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 07"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_upper_body_strength_bb_08:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_upper_body_strength_bb_08
+    description_it: |
+      Upper Body Strength (BB WA 08) - A greater distance is traveled when swinging from branch to branch. | MOVE (button) to Swing when hanging in foliage. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 08"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_motricity_anabolism_water_bb_09:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      log_tag: motricity_anabolism_water_bb_09
+    description_it: |
+      Anabolism-Water (BB WA 09) - Walking in shallow water requires less energy. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB WA 09"
+      branch: "Motricity"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_eumycota_food_acclimatization_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_eumycota_food_acclimatization_01
+    description_it: |
+      Eumycota Food Acclimatization (OM 01) - The symptoms following the ingestion of a mushroom are less severe. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 01"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_eumycota_food_acclimatization_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_eumycota_food_acclimatization_02
+    description_it: |
+      Eumycota Food Acclimatization (OM 02) - Acclimatization to Eumycotas (mushrooms) is complete. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 02"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_zygote_food_acclimatization_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_zygote_food_acclimatization_03
+    description_it: |
+      Zygote Food Acclimatization (OM 03) - The symptoms following the ingestion of an egg are less severe. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 03"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_zygote_food_acclimatization_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_zygote_food_acclimatization_04
+    description_it: |
+      Zygote Food Acclimatization (OM 04) - Acclimatization to Zygotes (eggs) is complete. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 04"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_oviparous_food_acclimatization_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_oviparous_food_acclimatization_05
+    description_it: |
+      Oviparous Food Acclimatization (OM 05) - The symptoms following the ingestion of meat from Oviparous are less severe. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 05"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_oviparous_food_acclimatization_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_oviparous_food_acclimatization_06
+    description_it: |
+      Oviparous Food Acclimatization (OM 06) - Acclimatization to meat from Oviparous is complete. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 06"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_mammal_food_acclimatization_07:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_mammal_food_acclimatization_07
+    description_it: |
+      Mammal Food Acclimatization (OM 07) - The symptoms following the ingestion of meat from mammals are less severe. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 07"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_mammal_food_acclimatization_08:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_mammal_food_acclimatization_08
+    description_it: |
+      Mammal Food Acclimatization (OM 08) - Acclimatization to meat from mammals is complete. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 08"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_omnivorous_09:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_omnivorous_09
+    description_it: |
+      Omnivorous (OM 09) - Every serving of food consumed provides more energy. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "OM 09"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_xenobiotic_metabolism_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_xenobiotic_metabolism_bb_01
+    description_it: |
+      Xenobiotic Metabolism (BB OM 01) - The elements used to eliminate food poisoning are more effective. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB OM 01"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_omnivore_xenobiotic_metabolism_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: omni_xenobiotic_metabolism_bb_02
+    description_it: |
+      Xenobiotic Metabolism (BB OM 02) - The elements used to fight food poisonings are more effective. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB OM 02"
+      branch: "Omnivore"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_orrorin_cognitive_control_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: orrorin_cognitive_control_01
+    description_it: |
+      Cognitive Control (CC 01) - It is now possible to control emotions and voluntarily choose to be Vigilant or Alert. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CC 01"
+      branch: "Orrorin Tugenensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_orrorin_attentional_control_02:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: orrorin_attentional_control_02
+    description_it: |
+      Attentional Control (CC 02) - Venturing into an unknown area causes less fear. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CC 02"
+      branch: "Orrorin Tugenensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_orrorin_mesocortical_pathway_01:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: orrorin_mesocortical_pathway_01
+    description_it: |
+      Mesocortical Pathway (DP 01) - The ability to synthesize neurotransmitters has increased. | More Dopamine can be accumulated. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 01"
+      branch: "Orrorin Tugenensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_orrorin_dopaminergic_pathways_02:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: orrorin_dopaminergic_pathways_02
+    description_it: |
+      Dopaminergic Pathways (DP 02) - More dopamine is generated following displays of physical prowess. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 02"
+      branch: "Orrorin Tugenensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_orrorin_dopaminergic_pathways_03:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: orrorin_dopaminergic_pathways_03
+    description_it: |
+      Dopaminergic Pathways (DP 03) - More dopamine is generated following social interactions. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 03"
+      branch: "Orrorin Tugenensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_orrorin_dopaminergic_pathways_04:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: orrorin_dopaminergic_pathways_04
+    description_it: |
+      Dopaminergic Pathways (DP 04) - More dopamine is generated after discoveries or after creating and using a tool. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "DP 04"
+      branch: "Orrorin Tugenensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_orrorin_life_expectancy_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: orrorin_life_expectancy_01
+    description_it: |
+      Life Expectancy (LF 01) - Life expectancy has increased. | More stamina and energy can be accumulated. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "LF 01"
+      branch: "Orrorin Tugenensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_orrorin_encephalization_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: fed
+      turns: 3
+      target: actor
+      log_tag: orrorin_encephalization_01
+    description_it: |
+      Encephalization (NP 01) - Brain size has increased. | More Neuronal Energy can be accumulated. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NP 01"
+      branch: "Orrorin Tugenensis"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_laceration_prevention_01:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_laceration_prevention_01
+    description_it: |
+      Laceration Prevention (SB 01) - The protection against hemorrhages lasts longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SB 01"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_external_clotting_efficiency_02:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_external_clotting_efficiency_02
+    description_it: |
+      External Clotting Efficiency (SB 02) - The protection against haemorrhages lasts longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SB 02"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_external_clotting_efficiency_03:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_external_clotting_efficiency_03
+    description_it: |
+      External Clotting Efficiency (SB 03) - The duration of a full protection against haemorrhages is maximized. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SB 03"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_bleeding_resistance_04:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_bleeding_resistance_04
+    description_it: |
+      Bleeding Resistance (SB 04) - One item with clotting properties is now enough to get full protection against haemorrhages. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SB 04"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_bleeding_resistance_05:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_bleeding_resistance_05
+    description_it: |
+      Bleeding Resistance (SB 05) - The protection against hemorrhages lasts longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SB 05"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_analgesia_01:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_analgesia_01
+    description_it: |
+      Analgesia (SI 01) - The protection against injuries lasts longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SI 01"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_trauma_prevention_02:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_trauma_prevention_02
+    description_it: |
+      Trauma Prevention (SI 02) - The protection against injuries lasts longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SI 02"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_trauma_prevention_03:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_trauma_prevention_03
+    description_it: |
+      Trauma Prevention (SI 03) - The protection against injuries lasts longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SI 03"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_trauma_prevention_04:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_trauma_prevention_04
+    description_it: |
+      Trauma Prevention (SI 04) - The duration of a protection against injuries is maximized. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SI 04"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_trauma_resistance_05:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_trauma_resistance_05
+    description_it: |
+      Trauma Resistance (SI 05) - One item with mending properties is now enough for a full protection against injuries. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SI 05"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_trauma_resistance_06:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_trauma_resistance_06
+    description_it: |
+      Trauma Resistance (SI 06) - The symptoms of injuries are greatly diminished. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SI 06"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_toxin_immunity_01:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_toxin_immunity_01
+    description_it: |
+      Toxin Immunity (ST 01) - The protection against intoxication is longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 01"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_venom_tolerance_02:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_venom_tolerance_02
+    description_it: |
+      Venom Tolerance (ST 02) - The protection against venom poisoning is longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 02"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_venom_tolerance_03:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_venom_tolerance_03
+    description_it: |
+      Venom Tolerance (ST 03) - The protection against venom poisoning is longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 03"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_venom_tolerance_04:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_venom_tolerance_04
+    description_it: |
+      Venom Tolerance (ST 04) - The protection against venom poisoning is maximized. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 04"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_venom_resistance_05:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_venom_resistance_05
+    description_it: |
+      Venom Resistance (ST 05) - One item with curative properties is now enough for a full venom protection. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 05"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_venom_resistance_06:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_venom_resistance_06
+    description_it: |
+      Venom Resistance (ST 06) - The symptoms of venom poisoning are greatly diminished. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 06"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_food_poisoning_tolerance_07:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_food_poisoning_tolerance_07
+    description_it: |
+      Food Poisoning Tolerance (ST 07) - The protection against food poisonings lasts longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 07"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_food_poisoning_tolerance_08:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_food_poisoning_tolerance_08
+    description_it: |
+      Food Poisoning Tolerance (ST 08) - The protection against food poisonings lasts longer. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 08"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_food_poisoning_tolerance_09:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_food_poisoning_tolerance_09
+    description_it: |
+      Food Poisoning Tolerance (ST 09) - The duration of the food poisonings' protection is maximized. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 09"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_food_poisoning_resistance_10:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_food_poisoning_resistance_10
+    description_it: |
+      Food Poisoning Resistance (ST 10) - One item with curative properties is now enough to get full protection against food poisonings. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 10"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_food_poisoning_resistance_11:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: prev_med_food_poisoning_resistance_11
+    description_it: |
+      Food Poisoning Resistance (ST 11) - The symptoms of food poisoning are greatly diminished. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "ST 11"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_vitamin_k_efficiency_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: prev_med_vitamin_k_efficiency_bb_01
+    description_it: |
+      Vitamin K Efficiency (BB SB 01) - Getting a full protection against hemorrhages requires fewer items with clotting properties. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SB 01"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_vitamin_k_efficiency_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: prev_med_vitamin_k_efficiency_bb_02
+    description_it: |
+      Vitamin K Efficiency (BB SB 02) - Getting a full protection against hemorrhages requires fewer items with clotting properties. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SB 02"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_endorphins_efficiency_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: prev_med_endorphins_efficiency_bb_01
+    description_it: |
+      Endorphins Efficiency (BB SI 01) - Having a full protection against injuries requires fewer items with mending properties. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SI 01"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_endorphins_efficiency_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: prev_med_endorphins_efficiency_bb_02
+    description_it: |
+      Endorphins Efficiency (BB SI 02) - Having a full protection against injuries requires fewer items with mending properties. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SI 02"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_xenobiotic_resistance_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: prev_med_xenobiotic_resistance_bb_01
+    description_it: |
+      Xenobiotic Resistance (BB ST 01) - Getting a full protection against venom poisonnings required fewer items with curative properties. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ST 01"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_xenobiotic_resistance_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: prev_med_xenobiotic_resistance_bb_02
+    description_it: |
+      Xenobiotic Resistance (BB ST 02) - Getting a full protection against food poisoning requires fewer items with curative properties. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ST 02"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_xenobiotic_metabolism_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: prev_med_xenobiotic_metabolism_bb_03
+    description_it: |
+      Xenobiotic Metabolism (BB ST 03) - Getting a full protection against venom poisonnings required fewer items with curative properties. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ST 03"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_preventive_med_xenobiotic_metabolism_bb_04:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: prev_med_xenobiotic_metabolism_bb_04
+    description_it: |
+      Xenobiotic Metabolism (BB ST 04) - Getting a full protection against food poisoning requires fewer items with curative properties. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB ST 04"
+      branch: "Preventive Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_perception_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_perception_01
+    description_it: |
+      Perception (SE 01) - The range for detection of odors and sounds is slightly increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SE 01"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_olfaction_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_olfaction_01
+    description_it: |
+      Olfaction (SO 01) - The range for detection of the source of an odor is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 01"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_chemoreceptor_acuity_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_chemoreceptor_acuity_02
+    description_it: |
+      Chemoreceptor Acuity (SO 02) - The range for detection of the source of an odor is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 02"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_threat_localization_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_threat_localization_03
+    description_it: |
+      Threat Localization (SO 03) - The range for detection of the source of an odor is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 03"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_threat_localization_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_threat_localization_04
+    description_it: |
+      Threat Localization (SO 04) - The range for detection of a threatening odor is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 04"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sensory_transduction_speed_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sensory_transduction_speed_05
+    description_it: |
+      Sensory Transduction Speed (SO 05) - The speed of concentration on a menacing smell is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 05"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_odorant_identification_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_odorant_identification_06
+    description_it: |
+      Odorant Identification (SO 06) - The range for detection of a non-threatening odor is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 06"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_odorant_identification_07:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_odorant_identification_07
+    description_it: |
+      Odorant Identification (SO 07) - The range for detection of a non-threatening odor is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 07"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sensory_transduction_speed_08:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sensory_transduction_speed_08
+    description_it: |
+      Sensory Transduction Speed (SO 08) - The ability to quickly concentrate on a non-threatening odor is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 08"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_odorant_chemotopy_09:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_odorant_chemotopy_09
+    description_it: |
+      Odorant Chemotopy (SO 09) - Automatic identification of non-threatening smells of the same species near the target is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 09"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_odorant_chemotopy_10:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_odorant_chemotopy_10
+    description_it: |
+      Odorant Chemotopy (SO 10) - The width of automatic identification for non-threatening odors from the same species is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 10"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_odorant_chemotopy_11:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_odorant_chemotopy_11
+    description_it: |
+      Odorant Chemotopy (SO 11) - Automatic identification of all non-threatening odors of the same species is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 11"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_odorant_chemotopy_12:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_odorant_chemotopy_12
+    description_it: |
+      Odorant Chemotopy (SO 12) - Automatic identification of all non-threatening odors is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 12"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_threat_chemotopy_13:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_threat_chemotopy_13
+    description_it: |
+      Threat Chemotopy (SO 13) - Automatic identification of other menacing odors of the same species near the target is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 13"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_threat_chemotopy_14:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_threat_chemotopy_14
+    description_it: |
+      Threat Chemotopy (SO 14) - Automatic identification of all threatening odors of the same species is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 14"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_threat_chemotopy_15:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_threat_chemotopy_15
+    description_it: |
+      Threat Chemotopy (SO 15) - Automatic identification of all threatening odors is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SO 15"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_localization_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_localization_01
+    description_it: |
+      Sound Localization (SS 01) - The range for detection of a sound source is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 01"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_interaural_time_difference_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_interaural_time_difference_02
+    description_it: |
+      Interaural Time Difference (SS 02) - The range for detection of a sound source is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 02"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_interaural_time_difference_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_interaural_time_difference_03
+    description_it: |
+      Interaural Time Difference (SS 03) - The range for detection of a sound source is increased. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 03"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_interaural_time_difference_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_interaural_time_difference_04
+    description_it: |
+      Interaural Time Difference (SS 04) - The range for detection of a sound source is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 04"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_localization_speed_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_localization_speed_05
+    description_it: |
+      Sound Localization Speed (SS 05) - The ability to quickly concentrate on a sound is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 05"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_detection_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_detection_06
+    description_it: |
+      Sound Detection (SS 06) - Automatic identification of other non-threatening individuals of the same species near the target is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 06"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_detection_07:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_detection_07
+    description_it: |
+      Sound Detection (SS 07) - Automatic identification of all non-threatening individuals of the same species is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 07"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_detection_08:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_detection_08
+    description_it: |
+      Sound Detection (SS 08) - Automatic identification of all non-threatening individuals is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 08"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_localization_speed_09:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_localization_speed_09
+    description_it: |
+      Sound Localization Speed (SS 09) - The ability to quickly concentrate on a sound is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 09"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_awareness_10:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_awareness_10
+    description_it: |
+      Sound Awareness (SS 10) - Automatic identification of other threatening individuals of the same species near the target is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 10"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_awareness_10_2:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_awareness_10_2
+    description_it: |
+      Sound Awareness (SS 10-2) - Automatic identification of all threatening individuals of the same species is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 10-2"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sound_awareness_10_3:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sound_awareness_10_3
+    description_it: |
+      Sound Awareness (SS 10-3) - Automatic identification of all threatening individuals is possible. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SS 10-3"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sensory_memory_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sensory_memory_01
+    description_it: |
+      Sensory Memory (SX 01) - Inspection of the quality of a food source is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SX 01"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sensory_memory_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sensory_memory_02
+    description_it: |
+      Sensory Memory (SX 02) - Inspection of the quality of a food source is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SX 02"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_sensory_memory_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_sensory_memory_03
+    description_it: |
+      Sensory Memory (SX 03) - Inspection of the quality of a food source brings immediate results. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SX 03"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_echoic_memory_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_echoic_memory_bb_01
+    description_it: |
+      Echoic Memory (BB SS 01) - It is possible to remember the position of one more item or living being. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SS 01"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_echoic_memory_bb_01_2:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_echoic_memory_bb_01_2
+    description_it: |
+      Echoic Memory (BB SS 01-2) - It is possible to remember the position of one more item or living being. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SS 01-2"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_olfactory_memory_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_olfactory_memory_bb_01
+    description_it: |
+      Olfactory Memory (BB SX 01) - It is possible to remember the position of one more item or living being. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SX 01"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_iconic_memory_bb_01_2:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_iconic_memory_bb_01_2
+    description_it: |
+      Iconic Memory (BB SX 01-2) - It is possible to remember the position of one more item or living being. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SX 01-2"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_olfactory_memory_bb_01_3:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_olfactory_memory_bb_01_3
+    description_it: |
+      Olfactory Memory (BB SX 01-3) - It is possible to remember the position of one more item or living being. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SX 01-3"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_senses_iconic_memory_bb_01_4:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: focused
+      turns: 1
+      target: actor
+      log_tag: senses_iconic_memory_bb_01_4
+    description_it: |
+      Iconic Memory (BB SX 01-4) - It is possible to remember the position of one more item or living being. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SX 01-4"
+      branch: "Senses"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_building_01:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: settle_building_01
+    description_it: |
+      Building (NE 01) - One less item is needed to complete a construction. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NE 01"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_building_efficiency_02:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: settle_building_efficiency_02
+    description_it: |
+      Building Efficiency (NE 02) - One less item is needed to complete a construction. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NE 02"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_deep_sleep_06:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: settle_deep_sleep_06
+    description_it: |
+      Deep Sleep (NE 06) - When sleeping in a sleep spot, less time is needed to fully recover. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NE 06"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_deep_sleep_07:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: settle_deep_sleep_07
+    description_it: |
+      Deep Sleep (NE 07) - When sleeping in a sleep spot, less time is needed to fully recover. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NE 07"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_sleep_recovery_08:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: settle_sleep_recovery_08
+    description_it: |
+      Sleep Recovery (NE 08) - The healing virtues of sleeping in a sleep spot are increased. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NE 08"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_well_rested_boost_09:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: settle_well_rested_boost_09
+    description_it: |
+      Well Rested Boost (NE 09) - Less energy is burnt for all actions done after awakening, for a limited time. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NE 09"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_well_rested_boost_09_2:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: settle_well_rested_boost_09_2
+    description_it: |
+      Well Rested Boost (NE 09-2) - Less energy is burnt for all actions done after awakening, for a limited time. Effetto: damage_reduction (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "NE 09-2"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_sleep_healing_efficiency_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: settle_sleep_healing_efficiency_bb_01
+    description_it: |
+      Sleep - Healing Efficiency (BB NE 01) - The healing virtues of sleeping in a sleep spot are increased. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB NE 01"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_sleep_healing_efficiency_bb_01_2:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: settle_sleep_healing_efficiency_bb_01_2
+    description_it: |
+      Sleep - Healing Efficiency (BB NE 01-2) - The healing virtues of sleeping in a sleep spot are increased. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB NE 01-2"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_settlement_sleep_healing_efficiency_bb_01_3:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: passive
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: settle_sleep_healing_efficiency_bb_01_3
+    description_it: |
+      Sleep - Healing Efficiency (BB NE 01-3) - The healing virtues of sleeping are maximized. Effetto: damage_reduction (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB NE 01-3"
+      branch: "Settlement"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_swim_aquatic_locomotion_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      conditions: water_only
+      log_tag: swim_aquatic_locomotion_01
+    description_it: |
+      Aquatic Locomotion (SW 01) - Swimming requires less energy and acceleration while swimming is possible. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SW 01"
+      branch: "Swim"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_swim_swim_endurance_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      conditions: water_only
+      log_tag: swim_swim_endurance_02
+    description_it: |
+      Swim Endurance (SW 02) - Swimming requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SW 02"
+      branch: "Swim"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_swim_hydro_dynamics_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      conditions: water_only
+      log_tag: swim_hydro_dynamics_03
+    description_it: |
+      Hydro-Dynamics (SW 03) - Swimming requires less energy. Effetto: buff_stat (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "SW 03"
+      branch: "Swim"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_swim_stroke_force_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      conditions: water_only
+      log_tag: swim_stroke_force_bb_01
+    description_it: |
+      Stroke Force (BB SW 01) - The swimming speed is maximized. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SW 01"
+      branch: "Swim"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_swim_stroke_force_bb_01_2:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: movement
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 2
+      conditions: water_only
+      log_tag: swim_stroke_force_bb_01_2
+    description_it: |
+      Stroke Force (BB SW 01-2) - The swimming speed is increased. Effetto: buff_stat (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB SW 01-2"
+      branch: "Swim"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_laceration_tolerance_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_laceration_tolerance_01
+    description_it: |
+      Laceration Tolerance (CB 01) - The body can withstand bleeding for a longer period of time. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CB 01"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_internal_clotting_efficiency_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_internal_clotting_efficiency_02
+    description_it: |
+      Internal Clotting Efficiency (CB 02) - The body can withstand bleeding for a longer period of time. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CB 02"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_internal_clotting_efficiency_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_internal_clotting_efficiency_03
+    description_it: |
+      Internal Clotting Efficiency (CB 03) - The ability for the body to withstand bleeding is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CB 03"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_healing_injury_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_healing_injury_01
+    description_it: |
+      Healing Injury (CI 01) - The recovery time following an injury is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CI 01"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_trauma_relief_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_trauma_relief_02
+    description_it: |
+      Trauma Relief (CI 02) - The recovery time following an injury is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CI 02"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_trauma_relief_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_trauma_relief_03
+    description_it: |
+      Trauma Relief (CI 03) - The recovery time following an injury is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CI 03"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_trauma_relief_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_trauma_relief_04
+    description_it: |
+      Trauma Relief (CI 04) - The speed of recovery following an injury is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CI 04"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_trauma_relief_efficiency_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_trauma_relief_efficiency_05
+    description_it: |
+      Trauma Relief Efficiency (CI 05) - One item with mending properties is now enough to fully recover from an injury. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CI 05"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_metabolic_detoxification_01:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_metabolic_detoxification_01
+    description_it: |
+      Metabolic Detoxification (CT 01) - The remission time from an intoxication is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CT 01"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_venom_elimination_02:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_venom_elimination_02
+    description_it: |
+      Venom Elimination (CT 02) - The remission time from a venom poisoning is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CT 02"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_venom_elimination_03:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_venom_elimination_03
+    description_it: |
+      Venom Elimination (CT 03) - The remission time from a venom poisoning is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CT 03"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_venom_elimination_04:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_venom_elimination_04
+    description_it: |
+      Venom Elimination (CT 04) - The remission time from a venom poisoning is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CT 04"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_food_poison_elimination_05:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_food_poison_elimination_05
+    description_it: |
+      Food Poison Elimination (CT 05) - The remission time from food poisoning is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CT 05"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_food_poison_elimination_06:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_food_poison_elimination_06
+    description_it: |
+      Food Poison Elimination (CT 06) - The remission time from food poisoning is faster. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CT 06"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_food_poison_elimination_07:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_food_poison_elimination_07
+    description_it: |
+      Food Poison Elimination (CT 07) - The remission time from food poisoning is maximized. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CT 07"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_detoxification_efficiency_08:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_detoxification_efficiency_08
+    description_it: |
+      Detoxification Efficiency (CT 08) - One curative element is now enough to cure all forms of intoxication. Effetto: apply_status (T1).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "CT 08"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_nociceptors_tolerance_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_nociceptors_tolerance_bb_01
+    description_it: |
+      Nociceptors Tolerance (BB CI 01) - The elements used to fight the effects of an injury are more effective. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CI 01"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_nociceptors_tolerance_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_nociceptors_tolerance_bb_02
+    description_it: |
+      Nociceptors Tolerance (BB CI 02) - The elements used to fight the effects of an injury are more effective. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CI 02"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_nociceptors_tolerance_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_nociceptors_tolerance_bb_03
+    description_it: |
+      Nociceptors Tolerance (BB CI 03) - The elements used to fight the effects of an injury are more effective. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CI 03"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_hydration_detoxification_efficiency_bb_01:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_hydration_detoxification_efficiency_bb_01
+    description_it: |
+      Hydration-Detoxification Efficiency (BB CT 01) - Water consumption reduces the duration of intoxication more effectively. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CT 01"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_hydration_detoxification_efficiency_bb_02:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_hydration_detoxification_efficiency_bb_02
+    description_it: |
+      Hydration-Detoxification Efficiency (BB CT 02) - Water consumption reduces the duration of intoxication more effectively. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CT 02"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_hydration_detoxification_efficiency_bb_03:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_hydration_detoxification_efficiency_bb_03
+    description_it: |
+      Hydration-Detoxification Efficiency (BB CT 03) - Water consumption reduces the duration of intoxication more effectively. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CT 03"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_xenobiotic_metabolism_bb_04:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_xenobiotic_metabolism_bb_04
+    description_it: |
+      Xenobiotic Metabolism (BB CT 04) - The elements used to fight venom poisonings are more effective. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CT 04"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
+
+  ancestor_therapeutic_med_xenobiotic_metabolism_bb_05:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: apply_status
+      stato: healing
+      turns: 2
+      target: actor
+      log_tag: ther_med_xenobiotic_metabolism_bb_05
+    description_it: |
+      Xenobiotic Metabolism (BB CT 05) - The elements used to fight food poisonings are more effective. Effetto: apply_status (T2).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: "BB CT 05"
+      branch: "Therapeutic Medication"
+      license: "CC BY-NC-SA 3.0 Fandom"
