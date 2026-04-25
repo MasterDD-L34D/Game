@@ -5847,6 +5847,61 @@
       "review_cycle_days": 14
     },
     {
+      "path": "docs/planning/2026-04-25-status-effects-roadmap.md",
+      "title": "Status Effects Roadmap — 5 live + 12 proposte (slowed/marked/burning/chilled/disoriented/taunted/linked/swarming/infected/enlightened/cursed/attuned)",
+      "doc_status": "draft",
+      "doc_owner": "trait-curator",
+      "workstream": "combat",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/planning/2026-04-25-creature-concept-catalog.md",
+      "title": "Creature Concept Catalog — 40+ creature cross-referenziate ai 20 biomi canonici + 8 apex + 10 encounter pack seed + 5 mutation gateway",
+      "doc_status": "draft",
+      "doc_owner": "catalog-curator",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/planning/2026-04-25-mutation-system-design.md",
+      "title": "Mutation System Design — M14+ runtime intent + 30 mutation catalog (T2 24, T3 6) + 5 categorie + integration M12/M13/M11",
+      "doc_status": "draft",
+      "doc_owner": "catalog-curator",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/planning/2026-04-25-jobs-expansion-design.md",
+      "title": "Jobs Expansion Design — 4 NUOVI job (Stalker/Symbiont/Beastmaster/Aberrant) + 48 perks + synergy matrix + balance band",
+      "doc_status": "draft",
+      "doc_owner": "balance-curator",
+      "workstream": "combat",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/planning/2026-04-25-content-sprint-handoff.md",
+      "title": "Content Sprint Notte 2026-04-25 — Handoff (111 trait + 30 mutations + 4 jobs + 48 perks + 4 design docs)",
+      "doc_status": "active",
+      "doc_owner": "claude-code",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-25",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14
+    },
+    {
       "path": "docs/playtest/2026-04-26-M14-C-iter3-hardcore06.json",
       "title": "Hardcore 06 iter3 calibration output (N=10 elite elev=0)",
       "doc_status": "active",
