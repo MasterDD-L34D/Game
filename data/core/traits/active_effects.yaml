@@ -160,3 +160,2455 @@ traits:
       Protuberanza ossea pesante come una mazza. Ogni critico (MoS >= 8)
       applica 2 turni di frattura: il target perde AP al reset di turno
       (ap_remaining = 1 invece di ap pieno), limitando il movimento.
+
+  # ============================================================================
+  # WAVE 1 — OFFENSIVE (2026-04-25 — autonomous content sprint)
+  # 25 trait offensivi che mappano famiglie del glossary su extra_damage e
+  # apply_status (bleeding/fracture). Riferiti tutti al glossary.json esistente.
+  # Filosofia: ogni famiglia di "appendici taglienti" ha 1-2 mechanics live.
+  # ============================================================================
+
+  # --- Famiglia ARTIGLI (claws) — extra_damage on melee + status modifiers ---
+  artigli_sette_vie:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: artigli_grip
+    description_it: |
+      Artigli multipli che assicurano presa stabile su superfici irregolari.
+      Ogni hit melee infligge +1 danno per la presa supplementare che impedisce
+      al bersaglio di liberarsi e amplifica la profondit� dello squarcio.
+
+  artigli_ipo_termici:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: artigli_freeze
+    description_it: |
+      Falangi criogeniche che inducono shock da freddo localizzato. Su MoS >= 5
+      in melee, applica 1 turno di stunned: il bersaglio salta il prossimo
+      turno per ipotermia da contatto rapido.
+
+  artigli_sghiaccio_glaciale:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 2
+      log_tag: artigli_glacier_lock
+    description_it: |
+      Artigli che congelano e fissano il bersaglio al terreno. Ogni hit melee
+      applica 2 turni di frattura (limitazione AP), simulando crampi e
+      cristalli intra-articolari che bloccano il movimento.
+
+  artigli_acidofagi:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 2
+      log_tag: artigli_acid_corrode
+    description_it: |
+      Artigli rivestiti di enzimi corrosivi che lacerano e digeriscono il
+      tessuto del bersaglio. Ogni hit melee applica 2 turni di sanguinamento
+      (1 PT non riducibile a fine turno).
+
+  artigli_vetrificati:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: artigli_glass_pierce
+    description_it: |
+      Artigli vetrificati per indurimento estremo. Su un colpo solido (MoS >= 5)
+      perforano cuticole e armature minerali infliggendo +2 danno extra di
+      penetrazione.
+
+  artigli_induzione:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: artigli_inductive_shock
+    description_it: |
+      Artigli che canalizzano scariche elettromagnetiche al contatto. Un colpo
+      ben piazzato (MoS >= 5) trasmette una scarica che disorienta il sistema
+      nervoso del bersaglio per 1 turno.
+
+  artigli_radice:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 1
+      log_tag: artigli_root_grip
+    description_it: |
+      Artigli che si ramificano come radici nel terreno e nella carne.
+      L'aggancio profondo applica 1 turno di frattura (bersaglio rallentato a
+      ap=1 al prossimo reset di turno).
+
+  artigli_scivolo_silente:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 8
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: artigli_silent_strike
+    description_it: |
+      Artigli a profilo aerodinamico che colpiscono senza preavviso. Su un
+      critico (MoS >= 8) infliggono +2 danno extra (bonus assassinio per
+      sorpresa).
+
+  artiglio_cinetico_a_urto:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 2
+      log_tag: artiglio_kinetic_smash
+    description_it: |
+      Artiglio singolo che concentra tutto il momento in un punto. MoS >= 5 in
+      melee applica 2 turni di frattura, simulando l'effetto di un maglio su
+      ossa lunghe.
+
+  # --- Famiglia DENTI/MASCELLE — bleeding extras ---
+  denti_chelatanti:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 3
+      log_tag: denti_chelate_bleed
+    description_it: |
+      Denti capaci di sequestrare metalli pesanti dal sangue del bersaglio
+      durante il morso. Applica 3 turni di sanguinamento prolungato, simulando
+      la perdita continua di emoglobina chelata.
+
+  denti_ossidoferro:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: denti_iron_oxide
+    description_it: |
+      Denti rivestiti di ossidi di ferro durissimi. Ogni morso melee infligge
+      +1 danno extra (penetrazione di scaglie e cuticole minerali).
+
+  denti_silice_termici:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 2
+      log_tag: denti_silica_thermal
+    description_it: |
+      Denti silicei che surriscaldano il bersaglio al contatto. MoS >= 5
+      applica 2 turni di sanguinamento da microustioni che non si rimarginano.
+
+  denti_tuning_fork:
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: denti_resonance_stun
+    description_it: |
+      Denti come diapason: ogni critico (MoS >= 8) trasmette vibrazioni nel
+      cranio del bersaglio causando 1 turno di disorientamento (stunned).
+
+  # --- Famiglia ALI — extra_damage on elevated dive ---
+  ali_fulminee:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      requires: posizione_sopraelevata
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: ali_dive_strike
+    description_it: |
+      Ali che permettono di attaccare in tuffo da posizione sopraelevata
+      (y > y_target). +2 danno extra che simula il momento d'urto del
+      picchio aereo.
+
+  ali_solari_fotoni:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      requires: posizione_sopraelevata
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 3
+      log_tag: ali_photon_lance
+    description_it: |
+      Ali fotovoltaiche che concentrano luce in un raggio incenerente durante
+      il tuffo. Da sopraelevato e MoS >= 5, +3 danno extra per
+      vetrificazione del bersaglio.
+
+  ali_ioniche:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      requires: posizione_sopraelevata
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: ali_ion_burst
+    description_it: |
+      Ali che rilasciano scariche ioniche durante la planata d'attacco.
+      L'attacco da posizione sopraelevata applica 1 turno di stunned per
+      shock elettrico al sistema nervoso.
+
+  ali_membrana_sonica:
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 2
+      log_tag: ali_sonic_terror
+    description_it: |
+      Le ali emettono ultrasuoni terrificanti durante il battito d'attacco.
+      MoS >= 5 applica 2 turni di panic (bersaglio fugge invece di
+      contrattaccare).
+
+  ali_fono_risonanti:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: ali_phono_resonance
+    description_it: |
+      Ali che generano una banda sonora amplissima in volo. Critico (MoS >= 8)
+      applica 1 turno di stunned per saturazione uditiva del bersaglio.
+
+  # --- Famiglia CODA — push e fracture ---
+  coda_frusta_cinetica:
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 2
+      log_tag: coda_whip_crack
+    description_it: |
+      Coda elastica che accumula slancio per un colpo a frusta devastante.
+      MoS >= 5 in melee applica 2 turni di frattura (bersaglio a ap=1 al
+      prossimo reset).
+
+  coda_balanciere:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: coda_balanced_strike
+    description_it: |
+      Coda di equilibratura che permette colpi di precisione anche in
+      movimento. +1 danno extra per stabilit� del baricentro durante l'attacco.
+
+  coda_contrappeso:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: coda_counterweight
+    description_it: |
+      Coda muscolosa usata come contrappeso per amplificare il momento di un
+      colpo singolo. MoS >= 5 in melee infligge +2 danno extra.
+
+  coda_prensile_muscolare:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 1
+      log_tag: coda_grip_lock
+    description_it: |
+      Coda prensile che afferra arti del bersaglio durante l'attacco.
+      Applica 1 turno di frattura (limitazione mobilit�) per torsione
+      articolare.
+
+  # --- Famiglia ACULEI/SPINE/PUNGIGLIONE — bleeding e stun ---
+  aculei_velenosi:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 3
+      log_tag: aculei_venom
+    description_it: |
+      Aculei che iniettano un cocktail di tossine emolitiche. Ogni hit melee
+      applica 3 turni di sanguinamento per disgregazione vascolare.
+
+  pungiglione_paralizzante:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 2
+      log_tag: pungiglione_paralysis
+    description_it: |
+      Pungiglione carico di neurotossina inibitrice. MoS >= 5 in melee applica
+      2 turni di stunned (bersaglio salta 2 turni successivi).
+
+  rostro_emostatico_litico:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 3
+      log_tag: rostro_lytic_drain
+    description_it: |
+      Rostro tubulare che inocula tossine emostatiche e aspira fluidi. Ogni
+      hit melee applica 3 turni di sanguinamento per dissoluzione progressiva
+      del tessuto.
+
+  # ============================================================================
+  # WAVE 2 — DEFENSIVE (2026-04-25 — autonomous content sprint)
+  # 22 trait difensivi: damage_reduction su carapaci/membrane/cuticole +
+  # alcune varianti sopravvivenza (es. on_kill heal-via-rage).
+  # ============================================================================
+
+  # --- PELLE / EPIDERMIDE ---
+  pelle_piezo_satura:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: pelle_piezo_reflect
+    description_it: |
+      Dermide che accumula carica piezoelettrica e riflette colpi precisi.
+      Su attacchi con MoS >= 5 (colpo solido) riduce il danno di 2,
+      simulando lo scudo elettrico generato dall'impatto stesso.
+
+  epidermide_dielettrica:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: epidermide_dielectric
+    description_it: |
+      Epidermide isolante che dissipa cariche elettriche e attenua impatti.
+      Ogni hit subisce -1 danno per dispersione dielettrica del trauma.
+
+  # --- SCAGLIE / CORAZZE ---
+  corazze_ferro_magnetico:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: corazze_magnetic
+    description_it: |
+      Placche ferrose che guidano campi magnetici profondi e deviano
+      proiettili metallici. -2 danno per ogni hit ricevuto, particolarmente
+      efficace contro armi cinetiche.
+
+  # --- CUTICOLE ---
+  cuticole_cerose:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: cuticole_wax
+    description_it: |
+      Cuticole rivestite di cera idrofobica che ammortizzano colpi melee.
+      Ogni hit ravvicinato subisce -1 danno per scorrimento del colpo sulla
+      superficie scivolosa.
+
+  cuticole_neutralizzanti:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: cuticole_neutralize
+    description_it: |
+      Cuticole che neutralizzano agenti chimici e enzimi corrosivi al
+      contatto. Su MoS >= 5 (colpo solido) riducono il danno di 2 grazie alla
+      reazione di neutralizzazione locale.
+
+  # --- CARAPACE ---
+  carapace_fase_variabile:
+    tier: T3
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: damage_reduction
+      amount: 3
+      log_tag: carapace_phase_shift
+    description_it: |
+      Corazza che varia densit� molecolare per bilanciare difesa e mobilit�.
+      Su un colpo solido (MoS >= 5) il carapace si ispessisce drasticamente
+      riducendo il danno di 3.
+
+  carapace_luminiscente_abissale:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: carapace_luminescent
+    description_it: |
+      Guscio bioluminescente che confonde i predatori abissali con bagliori
+      pulsanti. -1 danno per ogni hit ricevuto, simulando l'ondulazione
+      luminosa che destabilizza la mira avversaria.
+
+  carapace_segmenti_logici:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: carapace_segmented
+    description_it: |
+      Carapace a segmenti articolati che ridistribuiscono il carico d'urto.
+      Ogni hit melee subisce -2 danno grazie alla flessibilit� della
+      struttura segmentata che assorbe e devia il momento.
+
+  carapaci_ferruginosi:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: carapaci_ferro
+    description_it: |
+      Carapaci ferruginosi induriti da ossidazione controllata. Ogni hit
+      subisce -2 danno per la durezza superficiale che disperde l'impatto.
+
+  # --- MEMBRANE ---
+  membrane_eliofiltranti:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: membrane_helio_filter
+    description_it: |
+      Membrane traslucide che schermano radiazioni e patogeni sospesi.
+      -1 danno per ogni hit, simulando la dispersione termica e radiativa
+      del colpo nei tessuti translucidi.
+
+  membrane_pneumatofori:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: membrane_pneumatic
+    description_it: |
+      Membrane piene di gas pressurizzato che assorbono shock cinetici.
+      Ogni hit subisce -1 danno per ammortizzazione pneumatica del trauma.
+
+  membrane_fotoconvoglianti:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: membrane_photonic
+    description_it: |
+      Tessuti che trasportano cariche luminose tra nodi sinaptici.
+      Su un colpo solido (MoS >= 5) ridistribuiscono l'energia d'impatto in
+      luce dispersa, riducendo il danno di 2.
+
+  # --- CARTILAGINI ---
+  cartilagini_biofibre:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: cartilagini_biofiber
+    description_it: |
+      Cartilagini intrecciate con biofibre elastiche ad alta tenacit�.
+      Ogni hit melee subisce -1 danno per la deformazione elastica della
+      struttura intrecciata.
+
+  cartilagini_pseudometalliche:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: cartilagini_metallic
+    description_it: |
+      Cartilagini mineralizzate con leghe pseudometalliche bio-deposte.
+      Ogni hit subisce -2 danno per la durezza pseudo-metallica che ricorda
+      una corazza naturale evoluta.
+
+  cartilagini_flessoacustiche:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: cartilagini_acoustic
+    description_it: |
+      Cartilagini che dissipano onde acustiche e cinetiche flettendo
+      armonicamente. -1 danno per ogni hit, simulando l'assorbimento di
+      vibrazioni che altrimenti propagherebbero il trauma.
+
+  # --- SCHELETRO ---
+  scheletro_idro_regolante:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: scheletro_hydro_buffer
+    description_it: |
+      Ossa porose che modulano il contenuto idrico per mutare massa e
+      densit�. Su MoS >= 5 lo scheletro si idrata istantaneamente
+      assorbendo l'urto e riducendo il danno di 2.
+
+  scheletro_pneumatico_a_maglie:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: scheletro_pneumatic
+    description_it: |
+      Scheletro alveolato a maglie pneumatiche che alleggerisce il carico.
+      Ogni hit subisce -1 danno per dissipazione attraverso la struttura cava
+      a celle.
+
+  # --- BIOFILM / TESSUTI ---
+  biofilm_iperarido:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: biofilm_dry
+    description_it: |
+      Biofilm cristallizzato in ambiente iperarido che sigilla la cute.
+      -1 danno per ogni hit, simulando la barriera secca che impedisce
+      penetrazione enzimatica e batterica successiva.
+
+  biofilm_glow:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: biofilm_glow
+    description_it: |
+      Biofilm bioluminescente che emette pulsazioni accecanti al contatto.
+      Ogni hit melee subisce -1 danno per la momentanea perdita di mira
+      causata dal flash difensivo.
+
+  # --- LAMELLE ---
+  lamelle_termoforetiche:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: lamelle_thermo
+    description_it: |
+      Lamelle respiratorie che deviano gas estremi con gradienti termici.
+      Anche colpi cinetici subiscono -2 danno grazie al cuscinetto termico
+      generato dalle lamelle vibranti.
+
+  lamelle_shear:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: lamelle_shear_deflect
+    description_it: |
+      Lamelle che ruotano sotto sforzo di taglio (shear) deviando i colpi.
+      Su MoS >= 5 il pattern di rotazione devia parte dell'energia,
+      riducendo il danno di 1.
+
+  # --- BRANCHIE (defensive in environment) ---
+  branchie_metalloidi:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: branchie_metalloid
+    description_it: |
+      Branchie irrigidite da deposizione di metalloidi che fungono anche
+      da scudo accessorio. -1 danno per ogni hit ricevuto.
+
+  # ============================================================================
+  # WAVE 3 — STATUS APPLIERS (ghiandole/enzimi/voce/aura/spore/tentacoli)
+  # 23 trait che applicano stati: panic (terror/chemical), bleeding (toxic),
+  # stunned (sonic/neuro), fracture (impact), rage (chemical fury).
+  # ============================================================================
+
+  # --- GHIANDOLE — chemical applies ---
+  ghiandole_inchiostro_luce:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 2
+      log_tag: ghiandole_ink_blind
+    description_it: |
+      Ghiandole che secernono inchiostro luminescente al contatto. Ogni hit
+      melee acceca il bersaglio per 2 turni inducendo panic (fugge invece
+      di contrattaccare).
+
+  ghiandole_nebbia_acida:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 3
+      log_tag: ghiandole_acid_mist
+    description_it: |
+      Ghiandole che rilasciano una nebbia acida concentrata in raggio
+      ravvicinato. Ogni hit melee corrodersi il bersaglio per 3 turni
+      (sanguinamento, 1 PT non riducibile/turno).
+
+  ghiandole_nebbia_ionica:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: ghiandole_ion_fog
+    description_it: |
+      Ghiandole che producono nebbia ionizzata che disturba il sistema
+      nervoso del bersaglio. MoS >= 5 applica 1 turno di stunned.
+
+  ghiandole_iodoattive:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 2
+      log_tag: ghiandole_iodine
+    description_it: |
+      Ghiandole che secernono composti iodati ad alta reattivit�. MoS >= 5
+      in melee applica 2 turni di sanguinamento per scottatura iodica
+      profonda.
+
+  ghiandole_fango_calde:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 1
+      log_tag: ghiandole_mud_grip
+    description_it: |
+      Ghiandole che rilasciano fango caldo viscoso al contatto. Ogni hit
+      melee blocca temporaneamente gli arti del bersaglio (1 turno di
+      frattura, riduzione AP).
+
+  ghiandole_condensa_ozono:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: ghiandole_ozone_burst
+    description_it: |
+      Ghiandole che rilasciano ozono condensato durante l'attacco. Ogni
+      critico (MoS >= 8) applica 1 turno di stunned per scossa elettrochimica
+      sull'ipofisi del bersaglio.
+
+  # --- ENZIMI — bleeding ---
+  enzimi_chelanti:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 2
+      log_tag: enzimi_chelate
+    description_it: |
+      Enzimi che sequestrano metalli essenziali nel sangue del bersaglio.
+      Ogni hit melee applica 2 turni di sanguinamento per anemizzazione
+      progressiva.
+
+  enzimi_chelatori_rapidi:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 3
+      log_tag: enzimi_rapid_chelate
+    description_it: |
+      Enzimi chelatori ad azione rapida che destabilizzano l'emoglobina
+      in pochi secondi. MoS >= 5 in melee applica 3 turni di sanguinamento
+      severo.
+
+  enzimi_antipredatori_algali:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: enzimi_algal_repel
+    description_it: |
+      Enzimi superficiali che repellono i predatori al contatto, mordendo
+      le mucose dell'attaccante. Ogni hit melee subito subisce -2 danno per
+      la reazione difensiva chimica.
+
+  enzimi_antifase_termica:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: enzimi_thermal_phase
+    description_it: |
+      Enzimi che inducono cambi di fase termici locali per assorbire
+      energia cinetica come calore latente. -1 danno per ogni hit ricevuto.
+
+  # --- AURA / CAMPI ---
+  aura_di_dispersione_mentale:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 2
+      log_tag: aura_mental_disperse
+    description_it: |
+      Aura che frammenta i processi cognitivi nei nemici vicini. Ogni hit
+      applica 2 turni di panic per dissociazione mentale temporanea.
+
+  aura_scudo_radianza:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: aura_radiance_shield
+    description_it: |
+      Aura luminosa che irradia particelle protettive intorno al portatore.
+      -2 danno per ogni hit ricevuto grazie al cuscinetto fotonico.
+
+  # --- TENTACOLI ---
+  tentacoli_uncinati:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 1
+      log_tag: tentacoli_hook_grip
+    description_it: |
+      Tentacoli con uncini cheratinosi che afferrano e immobilizzano.
+      Ogni hit melee applica 1 turno di frattura (limitazione AP per
+      torsione articolare).
+
+  # --- SPORE ---
+  spore_paniche:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 3
+      log_tag: spore_panic
+    description_it: |
+      Rilascio di spore neurotossiche nella nube di contatto. Ogni hit
+      applica 3 turni di panic per allucinazioni terrifiche (bersaglio fugge).
+
+  # --- BATTERI / SIMBIONTI ---
+  batteri_endosimbionti_chemio:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 3
+      log_tag: batteri_chemio_rush
+    description_it: |
+      Batteri endosimbionti che rilasciano chemio-stimolanti nel sangue
+      dell'attaccante quando il bersaglio cade. 3 turni di rage post-kill
+      (bonus +1 dmg, no retreat).
+
+  # --- VOCE / CANTO / URLO (status family) ---
+  voce_imperiosa:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 2
+      log_tag: voce_command_terror
+    description_it: |
+      Voce risonante e imperiosa che paralizza la volont� dei deboli. MoS >= 5
+      in melee applica 2 turni di panic (bersaglio fugge).
+
+  canto_di_richiamo:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 2
+      log_tag: canto_kill_chant
+    description_it: |
+      Canto rituale che amplifica la furia dopo un'uccisione. 2 turni di
+      rage post-kill (no retreat, +1 dmg) per onorare la preda caduta.
+
+  # ============================================================================
+  # WAVE 4 — SENSORY / SPECIAL (antenne, occhi, sensori, filamenti, circolazione)
+  # 18 trait che amplificano l'azione iniziale, i critici, o resistono.
+  # ============================================================================
+
+  # --- ANTENNE — first-turn / range bonus reinterpretato come crit ---
+  antenne_tesla:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: antenne_tesla_charge
+    description_it: |
+      Antenne tesla che canalizzano scariche elettriche durante l'attacco.
+      Su MoS >= 5 (colpo ben pianificato) +2 danno extra per la scarica
+      ad alta tensione che colpisce in profondit�.
+
+  antenne_plasmatiche_tempesta:
+    tier: T3
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: extra_damage
+      amount: 3
+      log_tag: antenne_plasma_storm
+    description_it: |
+      Antenne che convogliano fulmini atmosferici. Su un critico (MoS >= 8)
+      scaricano una folgore concentrata, +3 danno extra.
+
+  antenne_dustsense:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: antenne_dust_track
+    description_it: |
+      Antenne sensibili a particelle in sospensione che permettono di
+      seguire la scia di calore del bersaglio. MoS >= 5 +1 danno extra
+      per precisione di pre-targeting.
+
+  antenne_microonde_cavernose:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: antenne_microwave_pulse
+    description_it: |
+      Antenne che emettono microonde focalizzate. Ogni critico (MoS >= 8)
+      applica 1 turno di stunned per disorientamento dell'apparato uditivo
+      del bersaglio.
+
+  # --- OCCHI — extra_damage on crit / ranged ---
+  occhi_cinetici:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: occhi_cinetic_track
+    description_it: |
+      Occhi che vedono il suono come pattern d'aria, predicendo i movimenti
+      del bersaglio. MoS >= 5 +1 danno extra per anticipazione cinetica.
+
+  occhi_cristallo_modulare:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: occhi_crystal_focus
+    description_it: |
+      Prismi sovrapposti che riallineano il fuoco tra spettro visibile e IR.
+      Su critico (MoS >= 8) +2 danno extra per puntamento ottimale dei
+      punti deboli.
+
+  occhi_infrarosso_composti:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: occhi_infrared
+    description_it: |
+      Ommatidi infrarossi che seguono scie termiche nell'oscurit�.
+      MoS >= 5 +1 danno extra per visione termica che individua organi vitali.
+
+  occhi_analizzatori_di_tensione:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: occhi_tension_read
+    description_it: |
+      Occhi che leggono tensioni nella seta e pattern di stress strutturale.
+      +1 danno extra a ogni hit per individuazione delle linee di rottura.
+
+  # --- FILAMENTI ---
+  filamenti_superconduttivi:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: filamenti_supercond
+    description_it: |
+      Filamenti superconduttivi che trasportano energia istantaneamente
+      al punto di contatto. MoS >= 5 in melee +2 danno extra per scarica
+      ad alta corrente.
+
+  filamenti_termoconduzione:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 2
+      log_tag: filamenti_thermal_burn
+    description_it: |
+      Filamenti che conducono calore al punto di contatto causando ustioni
+      profonde. Ogni hit melee applica 2 turni di sanguinamento per
+      necrosi termica.
+
+  filamenti_guidalampo:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: filamenti_lightning_guide
+    description_it: |
+      Filamenti che tracciano rotte sicure per le scariche elettriche.
+      Ogni critico (MoS >= 8) applica 1 turno di stunned per shock
+      neurologico.
+
+  # --- CIRCOLAZIONE / CUORE — on_kill rage variants ---
+  circolazione_doppia:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 2
+      log_tag: circolazione_double_rush
+    description_it: |
+      Doppio circuito sanguigno che separa ossigeno e adrenalina.
+      Ogni kill innesca 2 turni di rage (no retreat, +1 dmg) grazie alla
+      scarica adrenalinica isolata.
+
+  circolazione_supercritica:
+    tier: T3
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 3
+      log_tag: circolazione_super_rush
+    description_it: |
+      Circolazione iperpressurizzata che entra in fase supercritica al
+      kill. 3 turni di rage e bonus persistente del +1 dmg per onda
+      adrenalinica prolungata.
+
+  circolazione_bifasica:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 2
+      log_tag: circolazione_bifase
+    description_it: |
+      Circolazione bifasica che separa flussi nutrienti e tossine. Al kill,
+      2 turni di rage per surplus nutritivo immediato.
+
+  # --- CAMERE / RISONANZA ---
+  camere_risonanza_abyssal:
+    tier: T2
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: camere_abyssal_resonance
+    description_it: |
+      Caverne interne che amplificano onde elettriche e gravitazionali.
+      MoS >= 5 +2 danno extra per onde di urto generate internamente
+      durante il colpo.
+
+  camere_mirage:
+    tier: T1
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: camere_mirage_blur
+    description_it: |
+      Camere ottiche che proiettano un miraggio attorno al portatore,
+      sfasando la sua posizione apparente. -1 danno per ogni hit ricevuto
+      per la mira distorta.
+
+  # --- ZAMPE ---
+  zampe_radianti:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      requires: posizione_sopraelevata
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: zampe_radiant_dive
+    description_it: |
+      Zampe che generano una pulsazione cinetica al touch-down. Da posizione
+      sopraelevata +2 danno extra al pestone, simulando il momento di
+      atterraggio amplificato.
+
+  # --- MIDOLLO / OSSO (rage triggers) ---
+  midollo_iperattivo:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 3
+      log_tag: midollo_hyperactive
+    description_it: |
+      Midollo osseo iperattivo che pompa adrenalina ad ogni kill.
+      3 turni di rage post-kill per cascata neuroendocrina prolungata.
+
+  # ============================================================================
+  # WAVE 5 — RESIDUAL FAMILIES (2026-04-25 — autonomous content sprint cont.)
+  # 22 trait aggiuntivi: completa antenne (5), branchie (3), capillari (3),
+  # coda residue (3), filamenti (2), ghiandole avanzate (4), pelli (2).
+  # Porta totale a ~111.
+  # ============================================================================
+
+  # --- ANTENNE (range/sensory remnants) ---
+  antenne_eco_turbina:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: antenne_echo_turbine
+    description_it: |
+      Antenne che ruotano leggendo eco direzionali. Su MoS >= 5 +1 danno
+      extra per anticipazione del movimento del bersaglio.
+
+  antenne_flusso_mareale:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: antenne_tidal_flow
+    description_it: |
+      Antenne che leggono variazioni elettromagnetiche di marea. MoS >= 5
+      +2 danno extra per timing perfetto sull'ondata di pressione corporea
+      del bersaglio.
+
+  antenne_reagenti:
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: antenne_reactive_pulse
+    description_it: |
+      Antenne che reagiscono a stimoli con scariche-flash di feedback.
+      Critico (MoS >= 8) genera un impulso che applica 1 turno di stunned.
+
+  antenne_waveguide:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: antenne_waveguide_focus
+    description_it: |
+      Antenne a guida d'onda che concentrano l'energia in un punto preciso.
+      MoS >= 5 +1 danno extra per puntamento ottimizzato.
+
+  antenne_wideband:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: antenne_wideband_scan
+    description_it: |
+      Antenne a banda larga che leggono molteplici spettri simultaneamente.
+      Ogni hit +1 danno extra per multispettralit� dell'analisi pre-impatto.
+
+  # --- BRANCHIE (defensive in environment) ---
+  branchie_dual_mode:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: branchie_dual_mode
+    description_it: |
+      Branchie commutabili tra modalit� aerobica e anaerobica che
+      ridistribuiscono ossigeno in caso di trauma. -1 danno per ogni hit.
+
+  branchie_microfiltri:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: branchie_microfilter
+    description_it: |
+      Branchie a microfiltri che bloccano agenti chimici e particolato.
+      -1 danno per ogni hit grazie alla rete protettiva supplementare.
+
+  branchie_osmotiche_salmastra:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: branchie_osmotic_buffer
+    description_it: |
+      Branchie psioniche che filtrano sali e tossine in acque variabili.
+      Ogni hit subisce -2 danno per buffer osmotico che riduce shock e
+      penetrazione.
+
+  # --- CAPILLARI ---
+  capillari_criogenici:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: capillari_cryo_flash
+    description_it: |
+      Capillari che rilasciano fluido criogenico al contatto. MoS >= 5 in
+      melee applica 1 turno di stunned per shock termico localizzato.
+
+  capillari_fluoridici:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 2
+      log_tag: capillari_fluorinated
+    description_it: |
+      Capillari che inoculano composti fluoridici corrosivi al contatto.
+      Ogni hit melee applica 2 turni di sanguinamento per vasodilatazione
+      patologica.
+
+  capillari_fotovoltaici:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 2
+      log_tag: capillari_photo_charge
+    description_it: |
+      Capillari che ricaricano energia da impulsi luminosi. Al kill,
+      assorbono il flash di morte del bersaglio scatenando 2 turni di rage.
+
+  # --- CODA (residue) ---
+  coda_coppia_retroattiva:
+    tier: T1
+    category: traumatico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: fracture
+      turns: 1
+      log_tag: coda_retro_torque
+    description_it: |
+      Coda che genera coppia retroattiva durante l'attacco. MoS >= 5 in
+      melee applica 1 turno di frattura per torsione articolare imprevista.
+
+  coda_stabilizzatrice_filo:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: coda_stab_filo
+    description_it: |
+      Coda filiforme che stabilizza il corpo durante il colpo melee.
+      +1 danno extra per precisione costante durante movimenti veloci.
+
+  coda_stabilizzatrice_vortex:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: coda_vortex_strike
+    description_it: |
+      Coda che genera vortici aerodinamici amplificando il colpo.
+      MoS >= 5 in melee +2 danno extra per concentrazione di energia rotante.
+
+  # --- FILAMENTI (residue) ---
+  filamenti_magnetotrofi:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: filamenti_magneto_pull
+    description_it: |
+      Filamenti che attirano oggetti ferromagnetici (incluse armature
+      del bersaglio). MoS >= 5 +1 danno extra per impatto deviato dentro
+      la corazza nemica.
+
+  filamenti_echo:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: filamenti_echo_attenuate
+    description_it: |
+      Filamenti che rilanciano frequenze di squadra e attenuano shear.
+      -1 danno per ogni hit grazie alla dispersione armonica del trauma.
+
+  # --- GHIANDOLE (advanced) ---
+  ghiandole_eco_mappanti:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: ghiandole_echo_map
+    description_it: |
+      Ghiandole che secernono particelle che ritornano segnali eco precisi.
+      MoS >= 5 +1 danno extra per mappatura tattica del bersaglio in tempo
+      reale.
+
+  ghiandole_minerali:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: ghiandole_mineral_layer
+    description_it: |
+      Ghiandole che depositano strato minerale superficiale. -1 danno per
+      ogni hit per la coperturas mineralizzata che assorbe il primo
+      contatto.
+
+  ghiandole_resina_conduttiva:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: ghiandole_resin_shock
+    description_it: |
+      Ghiandole che secernono resina conduttiva al contatto: MoS >= 5
+      in melee scarica un impulso elettrico applicando 1 turno di stunned.
+
+  ghiandole_grafene:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: ghiandole_graphene_shield
+    description_it: |
+      Ghiandole che producono uno strato di grafene auto-rigenerante.
+      Su MoS >= 5 -2 danno per la durezza estrema della pellicola
+      cristallina.
+
+  # --- PELLI (residue) ---
+  pelli_anti_ustione:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: pelli_burn_proof
+    description_it: |
+      Strato dermico isolante che dissipa calore radiante e attutisce
+      impatti. -1 danno per ogni hit grazie all'effetto cuscinetto termico.
+
+  pelli_fitte:
+    tier: T2
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: damage_reduction
+      amount: 2
+      log_tag: pelli_fitte_dense
+    description_it: |
+      Derma a densit� elevata con fibre intrecciate che assorbono
+      microimpatti e dissipano colpi penetranti. Ogni hit melee subisce
+      -2 danno.
+
+  # --- SENSORI (Wave 6) ---
+  # Famiglia sensoriale: percezione fine = bonus condizionali su MoS alto
+  # (acuita' che individua varchi) o riduzione (early warning del campo).
+
+  sensori_geomagnetici:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: sensori_geomagnetici_lock
+    description_it: |
+      Cristalli cranici che mappano corridoi geomagnetici invisibili e
+      individuano la firma magnetica del bersaglio. Su MoS >= 5 il colpo
+      sfrutta il lock per +1 danno (target_weakpoint via campo magnetico).
+
+  sensori_planctonici:
+    tier: T1
+    category: fisiologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: sensori_planctonici_warning
+    description_it: |
+      Sensori diffusi che leggono pattern di plancton memetico e percepiscono
+      le perturbazioni in arrivo. L'early warning consente una micro-schivata
+      che assorbe -1 danno (minimo 0) sui colpi che colpiscono.
+
+  sensori_sismici:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+      melee_only: true
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: sensori_sismici_footfall
+    description_it: |
+      Recettori cutanei che leggono microvibrazioni del terreno e
+      anticipano lo spostamento di peso del bersaglio in mischia.
+      Su MoS >= 5 in melee, il colpo entra nell'apertura: +1 danno.
+
+  # SPRINT_2026-04-25 Wave 6: trait famiglia mente_* + cervello_*.
+  # Pattern apply_status (panic|stunned) per simulare effetti mentali su target.
+
+  cervello_a_bassa_latenza:
+    tier: T2
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: bassa_latenza_stun
+    description_it: 'Sistema neurale a bassa latenza che processa traiettorie e tempi
+
+      di reazione del bersaglio. Su MoS >= 5 il colpo arriva nel
+
+      microsecondo cieco della reazione avversaria, stordendo il
+
+      target per 1 turno.
+
+      '
+
+  mente_lucida:
+    tier: T2
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 3
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 2
+      log_tag: mente_lucida_panic
+    description_it: 'Coscienza tattica ferma e affilata. Quando l''attore colpisce con
+
+      MoS >= 3, il bersaglio percepisce di essere stato "visto" oltre
+
+      ogni difesa: l''incertezza diventa panico per 2 turni.
+
+      '
+
+  cervello_predittivo:
+    tier: T3
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 6
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 2
+      log_tag: cervello_predittivo_stun
+    description_it: 'Corteccia predittiva che simula in tempo reale i prossimi due
+
+      secondi del bersaglio. Su MoS >= 6 il colpo cade nel punto cieco
+
+      di reazione previsto, stordendo il target per 2 turni interi.
+
+      '
+
+  # SPRINT_2026-04-25 Wave 6: trait famiglia cuore_* + midollo_*.
+  # Pattern apply_status (rage on_kill) per simulare adrenalina cardiovascolare.
+
+  cuore_multicamera_bassa_pressione:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 2
+      log_tag: cuore_multicamera_surge
+    description_it: 'Cuore a quattro camere a bassa pressione che modula il flusso
+
+      sanguigno con precisione: dopo un''uccisione 2 turni di rage
+
+      (no retreat, +1 dmg) grazie alla scarica adrenalinica controllata.
+
+      '
+
+  midollo_antivibrazione:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 1
+      log_tag: midollo_antivibrazione_pulse
+    description_it: 'Midollo osseo gel-smorzante che assorbe il contraccolpo dell''urto
+
+      letale e libera un breve impulso adrenalinico: 1 turno di rage
+
+      (no retreat, +1 dmg) post-kill senza rinculo.
+
+      '
+
+  cuore_in_furia:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 3
+      log_tag: cuore_in_furia_blaze
+    description_it: 'Cuore ipertrofico che entra in tachicardia rituale alla vista
+
+      della preda caduta: 3 turni di rage (no retreat, +1 dmg) come
+
+      tributo cardiaco al sangue versato.
+
+      '
+
+  # ============================================================================
+  # WAVE 6 manuale (sprint 2026-04-25 STEP 4) - 20 trait additivi
+  # 7 extra_damage + 8 damage_reduction + 5 apply_status
+  # Famiglie coperte: appendici / articolazioni / armatura / baffi / barbigli /
+  #                   barriere / batteri / biochip / bozzolo / branchie / bulbi /
+  #                   canto / coscienza / ghiandole / gusci / lamine / lingua /
+  #                   luminescenza / membrana / pelli
+  # ============================================================================
+
+  branchie_eoliche:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: wind_read_precision
+    description_it: 'Branchie filtranti che leggono variazioni di pressione dell aria.
+
+      Su MoS >= 5 il bersaglio e anticipato in apertura: +1 PT.
+
+      '
+
+  articolazioni_a_leva_idraulica:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      min_mos: 5
+      requires: posizione_sopraelevata
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: hydraulic_leverage
+    description_it: 'Articolazioni a pistoni idraulici amplificano la spinta.
+
+      Attacco da posizione sopraelevata con MoS >= 5: +1 PT.
+
+      '
+
+  coscienza_d_alveare_diffusa:
+    tier: T3
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 3
+      requires_ally_adjacent: true
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: hivemind_focus
+    description_it: 'Rete sinaptica inter-individuo temporanea: alleato adiacente
+
+      amplifica il colpo. MoS >= 3 con alleato in Manhattan 1: +2 PT.
+
+      '
+
+  baffi_mareomotori:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: tidal_whisker_lock
+    description_it: 'Baffi sensori che leggono microcorrenti d acqua e aria.
+
+      Lettura precoce del movimento: MoS >= 5: +1 PT.
+
+      '
+
+  barbigli_sensori_plasma:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: plasma_barbel_precision
+    description_it: 'Barbigli sensori al plasma estraggono dati elettrici dal target.
+
+      MoS >= 5 entra nel punto debole bioelettrico: +2 PT.
+
+      '
+
+  biochip_memoria:
+    tier: T2
+    category: mentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      requires_target_status: bleeding
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: memory_canalization
+    description_it: 'Chip biologico che canalizza pattern di danno precedenti.
+
+      Se target ha bleeding attivo, il colpo successivo +1 PT.
+
+      '
+
+  lingua_cristallina:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: crystal_tongue_strike
+    description_it: 'Lingua cristallina che amplifica le micro-vibrazioni del bersaglio.
+
+      MoS >= 8 (critico): +2 PT da risonanza.
+
+      '
+
+  gusci_criovetro:
+    tier: T2
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: cryoglass_buffer
+    description_it: 'Gusci di criovetro disperdono l impatto in micro-fratture stabilizzate.
+
+      Ogni hit subisce -1 PT.
+
+      '
+
+  lamine_filtranti_aeree:
+    tier: T1
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: aerial_filter
+    description_it: 'Lamine filtranti distribuiscono carichi aerei sul corpo.
+
+      Ogni hit subisce -1 PT per dispersione strutturale.
+
+      '
+
+  luminescenza_aurorale:
+    tier: T2
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: auroral_dazzle
+    description_it: 'Luminescenza aurorale ad alta intensita abbaglia in mischia.
+
+      Attacchi melee subiscono -1 PT per riflesso difensivo.
+
+      '
+
+  membrana_plastica_continua:
+    tier: T2
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: plastic_membrane
+    description_it: 'Membrana plastica che assume forme su pressione locale.
+
+      Ogni hit dissipa -1 PT in deformazione.
+
+      '
+
+  pelli_cave:
+    tier: T1
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: hollow_skin
+    description_it: 'Tessuti cutanei porosi con sacche d aria interne.
+
+      Barriera termica + riduzione impatto: -1 PT su hit.
+
+      '
+
+  appendici_risonanti_marea:
+    tier: T2
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: tidal_resonance
+    description_it: 'Appendici risonanti dispergono energia in onde mareali interne.
+
+      Ogni hit subisce -1 PT per riflusso oscillante.
+
+      '
+
+  armatura_pietra_planare:
+    tier: T3
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: planar_stone_armor
+    description_it: 'Corazza scolpita da roccia extradimensionale ad alta densita.
+
+      Assorbimento massiccio: -2 PT su ogni hit.
+
+      '
+
+  bozzolo_magnetico:
+    tier: T2
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: magnetic_cocoon
+    description_it: 'Bozzolo magnetico devia proiettili e energia elettromagnetica.
+
+      Ogni hit subisce -1 PT per deflessione.
+
+      '
+
+  canto_infrasonico_tattico:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: panic
+      turns: 1
+      log_tag: infrasound_disorient
+    description_it: 'Canto infrasonico ad alta pressione disorienta il bersaglio.
+
+      MoS >= 5: panic 1 turno.
+
+      '
+
+  ghiandole_cambio_salino:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: bleeding
+      turns: 2
+      log_tag: salt_glandular_burn
+    description_it: 'Ghiandole di scambio salino rilasciano sale ipertonico al contatto.
+
+      MoS >= 5: bleeding 2 turni per shock osmotico.
+
+      '
+
+  barriere_miasma_glaciale:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: stunned
+      turns: 1
+      log_tag: glacial_miasma
+    description_it: 'Miasma glaciale rilascia microcristalli di ghiaccio.
+
+      MoS >= 8: stunned 1 turno per shock termico.
+
+      '
+
+  batteri_termofili_endosimbiosi:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 1
+      log_tag: thermophile_surge
+    description_it: 'Batteri termofili endosimbiotici rilasciano calore post-kill.
+
+      on_kill: rage 1 turno per surge metabolico.
+
+      '
+
+  bulbi_radici_permafrost:
+    tier: T2
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: rage
+      turns: 2
+      log_tag: permafrost_warmth
+    description_it: 'Bulbi radice rilasciano calore al kill, attivando surge.
+
+      on_kill: rage 2 turni per ridistribuzione termica.
+
+      '

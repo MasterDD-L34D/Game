@@ -76,26 +76,29 @@ function createProgressionRouter(opts = {}) {
   });
 
   router.post('/:unitId/pick', (req, res) => {
-    const { level, choice, campaign_id: campaignId = null } = req.body || {};
+    const { level, choice, campaign_id: campaignId = null, available_pi } = req.body || {};
     if (!Number.isFinite(Number(level))) {
       return res.status(400).json({ error: 'level (number) required' });
     }
-    if (!['a', 'b'].includes(choice)) {
-      return res.status(400).json({ error: "choice must be 'a' or 'b'" });
+    if (!['a', 'b', 'hybrid'].includes(choice)) {
+      return res.status(400).json({ error: "choice must be 'a', 'b', or 'hybrid'" });
     }
     const unit = store.get(campaignId, req.params.unitId);
     if (!unit) return res.status(404).json({ error: 'unit_progression_not_found' });
     try {
-      const result = engine.pickPerk(unit, Number(level), choice);
+      // Skiv #6: hybrid path needs available_pi; engine throws on insufficient.
+      const result = engine.pickPerk(unit, Number(level), choice, { available_pi });
       const persisted = store.set(campaignId, req.params.unitId, result.unit);
       res.json({
         ok: true,
         state: persisted,
         picked_perk: result.picked_perk,
         pick: result.pick,
+        pi_cost: result.pi_cost ?? null,
       });
     } catch (err) {
-      res.status(409).json({ ok: false, error: err.message });
+      const status = String(err.message || '').startsWith('insufficient_pi') ? 402 : 409;
+      res.status(status).json({ ok: false, error: err.message });
     }
   });
 

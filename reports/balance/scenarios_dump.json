@@ -1,0 +1,1327 @@
+[
+  {
+    "id": "enc_tutorial_01",
+    "name": "Primi Passi nella Savana",
+    "biome_id": "savana",
+    "encounter_class": "tutorial",
+    "difficulty_rating": 1,
+    "estimated_turns": 6,
+    "grid_size": 6,
+    "objective": "elimination",
+    "objective_text": "Sconfiggi tutte le unità nemiche.",
+    "briefing_pre": "Due predoni nomadi hanno preso posizione nella savana. Avvicinati con cautela e eliminali.",
+    "briefing_post": "Le sentinelle sono cadute. La via è libera — per ora.",
+    "sistema_pressure_start": 0,
+    "units": [
+      {
+        "id": "p_scout",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 3,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 2
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "p_tank",
+        "species": "dune_stalker",
+        "job": "vanguard",
+        "traits": [
+          "pelle_elastomera"
+        ],
+        "hp": 12,
+        "ap": 3,
+        "mod": 2,
+        "dc": 13,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 3
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "e_nomad_1",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 3,
+        "ap": 2,
+        "mod": 2,
+        "dc": 12,
+        "guardia": 0,
+        "position": {
+          "x": 3,
+          "y": 2
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      },
+      {
+        "id": "e_nomad_2",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 5,
+        "ap": 2,
+        "mod": 2,
+        "dc": 12,
+        "guardia": 0,
+        "position": {
+          "x": 3,
+          "y": 4
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      }
+    ]
+  },
+  {
+    "id": "enc_tutorial_02",
+    "name": "Pattuglia Asimmetrica",
+    "biome_id": "savana",
+    "encounter_class": "tutorial",
+    "difficulty_rating": 2,
+    "estimated_turns": 8,
+    "grid_size": 6,
+    "objective": "elimination",
+    "objective_text": "Sconfiggi tutta la pattuglia: due predoni e un cacciatore corazzato.",
+    "briefing_pre": "La pattuglia nomade questa volta include un cacciatore con corazza pesante. Coordina scout e tank: il danno asimmetrico premia chi sceglie il bersaglio giusto.",
+    "briefing_post": "La pattuglia è dissolta. Il cacciatore non e' bastato a tenerli insieme.",
+    "sistema_pressure_start": 25,
+    "units": [
+      {
+        "id": "p_scout",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 2
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "p_tank",
+        "species": "dune_stalker",
+        "job": "vanguard",
+        "traits": [
+          "pelle_elastomera"
+        ],
+        "hp": 12,
+        "ap": 2,
+        "mod": 2,
+        "dc": 13,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 3
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "e_nomad_1",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 3,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 0,
+        "position": {
+          "x": 4,
+          "y": 1
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      },
+      {
+        "id": "e_nomad_2",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 3,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 0,
+        "position": {
+          "x": 4,
+          "y": 4
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      },
+      {
+        "id": "e_hunter",
+        "species": "cacciatore_corazzato",
+        "job": "vanguard",
+        "traits": [],
+        "hp": 6,
+        "ap": 2,
+        "mod": 2,
+        "dc": 13,
+        "guardia": 0,
+        "position": {
+          "x": 3,
+          "y": 3
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W"
+      }
+    ]
+  },
+  {
+    "id": "enc_tutorial_03",
+    "name": "Pozzo della Caverna Risonante",
+    "biome_id": "caverna_risonante",
+    "encounter_class": "tutorial_advanced",
+    "difficulty_rating": 3,
+    "estimated_turns": 10,
+    "grid_size": 6,
+    "objective": "elimination",
+    "objective_text": "Elimina i guardiani sotterranei. Attento alle fumarole tossiche: tile (2,2) e (3,3) infliggono danno a fine turno se occupate.",
+    "briefing_pre": "Una caverna risonante con due fumarole attive. Le creature locali resistono al gas; voi no. Posizionate con cura e usate combo per finire in fretta.",
+    "briefing_post": "I guardiani sono caduti. Il riverbero della caverna si placa.",
+    "hazard_tiles": [
+      {
+        "x": 2,
+        "y": 2,
+        "damage": 1,
+        "type": "fumarole_tossica"
+      },
+      {
+        "x": 3,
+        "y": 3,
+        "damage": 1,
+        "type": "fumarole_tossica"
+      }
+    ],
+    "sistema_pressure_start": 50,
+    "units": [
+      {
+        "id": "p_scout",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 1
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "p_tank",
+        "species": "dune_stalker",
+        "job": "vanguard",
+        "traits": [
+          "pelle_elastomera"
+        ],
+        "hp": 12,
+        "ap": 2,
+        "mod": 2,
+        "dc": 13,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 4
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "e_guardiano_1",
+        "species": "guardiano_caverna",
+        "job": "vanguard",
+        "traits": [],
+        "hp": 4,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 2,
+        "position": {
+          "x": 2,
+          "y": 2
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W"
+      },
+      {
+        "id": "e_guardiano_2",
+        "species": "guardiano_caverna",
+        "job": "vanguard",
+        "traits": [],
+        "hp": 4,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 2,
+        "position": {
+          "x": 3,
+          "y": 3
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "N"
+      }
+    ]
+  },
+  {
+    "id": "enc_tutorial_04",
+    "name": "Pozza Acida del Bosco",
+    "biome_id": "foresta_acida",
+    "encounter_class": "tutorial_advanced",
+    "difficulty_rating": 4,
+    "estimated_turns": 12,
+    "grid_size": 6,
+    "objective": "elimination",
+    "objective_text": "Sconfiggi i 3 guardiani della pozza. Attento al lanciere: il suo morso causa emorragia.",
+    "briefing_pre": "La pozza acida nasconde 3 guardiani: 2 corrieri rapidi e un lanciere con denti seghettati. Il bleeding accumula danno turno per turno: prioritizza il lanciere o tieni HP alto.",
+    "briefing_post": "La pozza si calma. I corpi dei guardiani si dissolvono nel liquido.",
+    "hazard_tiles": [
+      {
+        "x": 2,
+        "y": 1,
+        "damage": 1,
+        "type": "pozza_acida"
+      },
+      {
+        "x": 3,
+        "y": 4,
+        "damage": 1,
+        "type": "pozza_acida"
+      },
+      {
+        "x": 2,
+        "y": 3,
+        "damage": 1,
+        "type": "pozza_acida"
+      }
+    ],
+    "sistema_pressure_start": 75,
+    "units": [
+      {
+        "id": "p_scout",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 1
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "p_tank",
+        "species": "dune_stalker",
+        "job": "vanguard",
+        "traits": [
+          "pelle_elastomera"
+        ],
+        "hp": 12,
+        "ap": 2,
+        "mod": 2,
+        "dc": 13,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 4
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "e_lanciere",
+        "species": "guardiano_pozza",
+        "job": "skirmisher",
+        "traits": [
+          "denti_seghettati"
+        ],
+        "hp": 5,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 0,
+        "attack_range": 2,
+        "position": {
+          "x": 3,
+          "y": 2
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "S"
+      },
+      {
+        "id": "e_corriere_1",
+        "species": "guardiano_pozza",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 3,
+        "ap": 3,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 2,
+        "position": {
+          "x": 4,
+          "y": 0
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      },
+      {
+        "id": "e_corriere_2",
+        "species": "guardiano_pozza",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 3,
+        "ap": 3,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 2,
+        "position": {
+          "x": 4,
+          "y": 5
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      }
+    ]
+  },
+  {
+    "id": "enc_tutorial_05",
+    "name": "Solo contro l'Apex",
+    "biome_id": "rovine_planari",
+    "encounter_class": "boss",
+    "difficulty_rating": 5,
+    "estimated_turns": 14,
+    "grid_size": 6,
+    "objective": "elimination",
+    "objective_text": "Sconfiggi l'apex predatore. Singolo nemico con HP altissimo, attacchi multipli e bonus su critico.",
+    "briefing_pre": "Le rovine planari celano un Apex: 1v2 a vostro favore, ma il suo HP e i bonus crit possono ribaltare ogni round. Cooperate o cadrete uno alla volta.",
+    "briefing_post": "L'Apex si dissolve nelle rovine. Avete fatto la storia.",
+    "hazard_tiles": [],
+    "sistema_pressure_start": 95,
+    "units": [
+      {
+        "id": "p_scout",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 12,
+        "ap": 2,
+        "mod": 4,
+        "dc": 13,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 2
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "p_tank",
+        "species": "dune_stalker",
+        "job": "vanguard",
+        "traits": [
+          "pelle_elastomera"
+        ],
+        "hp": 14,
+        "ap": 2,
+        "mod": 3,
+        "dc": 14,
+        "guardia": 2,
+        "position": {
+          "x": 0,
+          "y": 3
+        },
+        "controlled_by": "player",
+        "facing": "E"
+      },
+      {
+        "id": "e_apex",
+        "species": "apex_predatore",
+        "job": "vanguard",
+        "traits": [
+          "martello_osseo",
+          "ferocia"
+        ],
+        "hp": 11,
+        "ap": 3,
+        "mod": 3,
+        "dc": 13,
+        "guardia": 1,
+        "attack_range": 2,
+        "position": {
+          "x": 5,
+          "y": 2
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W"
+      }
+    ]
+  },
+  {
+    "id": "enc_tutorial_06_hardcore",
+    "name": "Cattedrale dell'Apex",
+    "biome_id": "rovine_planari",
+    "encounter_class": "hardcore",
+    "difficulty_rating": 6,
+    "estimated_turns": 16,
+    "grid_size": 10,
+    "objective": "elimination",
+    "objective_text": "Sconfiggi il BOSS Apex (hp 40, AOE psichica su crit) e i suoi 5 guardiani. Party 8 unità vs 6 nemici: il BOSS singolo regge focus-fire 8-way, attenti alle pozze instabili (2 dmg/turn).",
+    "briefing_pre": "Le rovine risuonano del passo pesante dell'Apex. L'aria vibra di pressione psichica — ogni colpo critico del BOSS sprigiona un'onda che ferisce a distanza. Due elite cacciatori difendono i fianchi, tre predoni bloccano i corridoi. Le pozze di rovine instabili (2 dmg/turn) sono trappole mortali. Party al completo (8 schierati): focus-fire totale sul BOSS, ma cura la posizione.",
+    "briefing_post": "L'Apex è caduto. La cattedrale si quieta. Avete dimostrato che 8 mani battono una mandibola.",
+    "hazard_tiles": [
+      {
+        "x": 4,
+        "y": 4,
+        "damage": 2,
+        "type": "rovine_instabili"
+      },
+      {
+        "x": 5,
+        "y": 5,
+        "damage": 2,
+        "type": "rovine_instabili"
+      },
+      {
+        "x": 3,
+        "y": 6,
+        "damage": 2,
+        "type": "rovine_instabili"
+      }
+    ],
+    "sistema_pressure_start": 85,
+    "recommended_modulation": "full",
+    "mission_timer": {
+      "enabled": true,
+      "turn_limit": 15,
+      "soft_warning_at": 3,
+      "on_expire": "escalate_pressure",
+      "on_expire_payload": {
+        "pressure_delta": 30,
+        "extra_spawns": 2
+      }
+    },
+    "units": [
+      {
+        "id": "p_scout_1",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 2
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_scout_2",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 4
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_scout_3",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 6
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_scout_4",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 8
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_tank_1",
+        "species": "umbroid_lurker",
+        "job": "vanguard",
+        "traits": [
+          "pelle_elastomera"
+        ],
+        "hp": 14,
+        "ap": 2,
+        "mod": 2,
+        "dc": 14,
+        "guardia": 2,
+        "position": {
+          "x": 1,
+          "y": 3
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_tank_2",
+        "species": "umbroid_lurker",
+        "job": "vanguard",
+        "traits": [
+          "pelle_elastomera"
+        ],
+        "hp": 14,
+        "ap": 2,
+        "mod": 2,
+        "dc": 14,
+        "guardia": 2,
+        "position": {
+          "x": 1,
+          "y": 7
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_support_1",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 11,
+        "ap": 2,
+        "mod": 3,
+        "dc": 13,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 1
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_support_2",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 11,
+        "ap": 2,
+        "mod": 3,
+        "dc": 13,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 5
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "e_apex_boss",
+        "species": "apex_predatore",
+        "job": "vanguard",
+        "traits": [
+          "martello_osseo",
+          "ferocia",
+          "ondata_psichica"
+        ],
+        "hp": 40,
+        "ap": 3,
+        "mod": 3,
+        "dc": 14,
+        "guardia": 4,
+        "attack_range": 3,
+        "position": {
+          "x": 8,
+          "y": 5
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W",
+        "elevation": 1
+      },
+      {
+        "id": "e_elite_hunter_1",
+        "species": "cacciatore_corazzato",
+        "job": "vanguard",
+        "traits": [],
+        "hp": 9,
+        "ap": 2,
+        "mod": 3,
+        "dc": 13,
+        "guardia": 1,
+        "attack_range": 2,
+        "position": {
+          "x": 7,
+          "y": 2
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W",
+        "elevation": 0
+      },
+      {
+        "id": "e_elite_hunter_2",
+        "species": "cacciatore_corazzato",
+        "job": "vanguard",
+        "traits": [],
+        "hp": 9,
+        "ap": 2,
+        "mod": 3,
+        "dc": 13,
+        "guardia": 1,
+        "attack_range": 2,
+        "position": {
+          "x": 7,
+          "y": 8
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W",
+        "elevation": 0
+      },
+      {
+        "id": "e_minion_1",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 4,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 6,
+          "y": 4
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      },
+      {
+        "id": "e_minion_2",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 4,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 6,
+          "y": 6
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      },
+      {
+        "id": "e_minion_3",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 4,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 9,
+          "y": 5
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      }
+    ]
+  },
+  {
+    "id": "enc_tutorial_06_hardcore_quartet",
+    "name": "Cattedrale dell'Apex (Quartet 4p)",
+    "biome_id": "rovine_planari",
+    "encounter_class": "hardcore",
+    "difficulty_rating": 6,
+    "estimated_turns": 16,
+    "grid_size": 10,
+    "objective": "elimination",
+    "objective_text": "Iter 5 variant: 4 PG vs BOSS Apex + 5 guardiani. Quartet modulation bilancia focus-fire (target win_rate 15-25%).",
+    "briefing_pre": "Le rovine risuonano del passo pesante dell'Apex. L'aria vibra di pressione psichica — ogni colpo critico del BOSS sprigiona un'onda che ferisce a distanza. Due elite cacciatori difendono i fianchi, tre predoni bloccano i corridoi. Le pozze di rovine instabili (2 dmg/turn) sono trappole mortali. Party al completo (8 schierati): focus-fire totale sul BOSS, ma cura la posizione.",
+    "briefing_post": "L'Apex è caduto. La cattedrale si quieta. Avete dimostrato che 8 mani battono una mandibola.",
+    "hazard_tiles": [
+      {
+        "x": 4,
+        "y": 4,
+        "damage": 2,
+        "type": "rovine_instabili"
+      },
+      {
+        "x": 5,
+        "y": 5,
+        "damage": 2,
+        "type": "rovine_instabili"
+      },
+      {
+        "x": 3,
+        "y": 6,
+        "damage": 2,
+        "type": "rovine_instabili"
+      }
+    ],
+    "sistema_pressure_start": 85,
+    "recommended_modulation": "quartet",
+    "mission_timer": {
+      "enabled": true,
+      "turn_limit": 15,
+      "soft_warning_at": 3,
+      "on_expire": "escalate_pressure",
+      "on_expire_payload": {
+        "pressure_delta": 30,
+        "extra_spawns": 2
+      }
+    },
+    "units": [
+      {
+        "id": "p_scout_1",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 2
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_scout_2",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 4
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_scout_3",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 6
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_scout_4",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 0,
+          "y": 8
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "e_apex_boss",
+        "species": "apex_predatore",
+        "job": "vanguard",
+        "traits": [
+          "martello_osseo",
+          "ferocia",
+          "ondata_psichica"
+        ],
+        "hp": 22,
+        "ap": 3,
+        "mod": 3,
+        "dc": 14,
+        "guardia": 4,
+        "attack_range": 3,
+        "position": {
+          "x": 8,
+          "y": 5
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W",
+        "elevation": 1
+      },
+      {
+        "id": "e_elite_hunter_1",
+        "species": "cacciatore_corazzato",
+        "job": "vanguard",
+        "traits": [],
+        "hp": 9,
+        "ap": 2,
+        "mod": 3,
+        "dc": 13,
+        "guardia": 1,
+        "attack_range": 2,
+        "position": {
+          "x": 7,
+          "y": 2
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W",
+        "elevation": 0
+      },
+      {
+        "id": "e_elite_hunter_2",
+        "species": "cacciatore_corazzato",
+        "job": "vanguard",
+        "traits": [],
+        "hp": 9,
+        "ap": 2,
+        "mod": 3,
+        "dc": 13,
+        "guardia": 1,
+        "attack_range": 2,
+        "position": {
+          "x": 7,
+          "y": 8
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W",
+        "elevation": 0
+      },
+      {
+        "id": "e_minion_1",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 4,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 6,
+          "y": 4
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      },
+      {
+        "id": "e_minion_2",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 4,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 6,
+          "y": 6
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      },
+      {
+        "id": "e_minion_3",
+        "species": "predoni_nomadi",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 4,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 9,
+          "y": 5
+        },
+        "controlled_by": "sistema",
+        "facing": "W"
+      }
+    ]
+  },
+  {
+    "id": "enc_tutorial_07_hardcore_pod_rush",
+    "name": "Assalto Spietato",
+    "biome_id": "rovine_planari",
+    "encounter_class": "hardcore",
+    "difficulty_rating": 7,
+    "estimated_turns": 10,
+    "grid_size": 10,
+    "objective": "elimination",
+    "objective_text": "10 round per eliminare la pattuglia + 3 pod reinforcement. Timer expire → pressure escalate (Apex). No boss: damage distribuito, priority decisioni conteggia più di burst. Party 4 PG quartet.",
+    "briefing_pre": "La pattuglia è solo il vanguard. Sensori rilevano 3 pod lungo i corridoi laterali: si attivano progressivamente a tier Alert+ (2 unità × pod). 10 round per aprirsi un varco — se l'alarm resta acceso oltre il limite, l'Apex Sistema invia rinforzi ondata finale. Non turtle: muovi, apri, incidi.",
+    "briefing_post": "Il corridoio è libero. L'Apex ancora ignora la tua presenza.",
+    "hazard_tiles": [
+      {
+        "x": 3,
+        "y": 3,
+        "damage": 2,
+        "type": "rovine_instabili"
+      },
+      {
+        "x": 6,
+        "y": 6,
+        "damage": 2,
+        "type": "rovine_instabili"
+      }
+    ],
+    "sistema_pressure_start": 60,
+    "recommended_modulation": "quartet",
+    "mission_timer": {
+      "enabled": true,
+      "turn_limit": 10,
+      "soft_warning_at": 3,
+      "on_expire": "escalate_pressure",
+      "on_expire_payload": {
+        "pressure_delta": 30,
+        "extra_spawns": 3
+      }
+    },
+    "reinforcement_policy": {
+      "enabled": true,
+      "min_tier": "Calm",
+      "cooldown_rounds": 1,
+      "max_total_spawns": 6,
+      "min_distance_from_pg": 4
+    },
+    "reinforcement_pool": [
+      {
+        "unit_id": "cacciatore_corazzato",
+        "hp": 8,
+        "mod": 3,
+        "dc": 12,
+        "ai_profile": "aggressive",
+        "weight": 2,
+        "max_spawns": 3
+      },
+      {
+        "unit_id": "predone_agile",
+        "hp": 6,
+        "mod": 2,
+        "dc": 11,
+        "ai_profile": "aggressive",
+        "weight": 3,
+        "max_spawns": 3
+      }
+    ],
+    "reinforcement_entry_tiles": [
+      [
+        9,
+        0
+      ],
+      [
+        9,
+        9
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        9
+      ]
+    ],
+    "units": [
+      {
+        "id": "p_scout_1",
+        "species": "dune_stalker",
+        "job": "skirmisher",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 3
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_scout_2",
+        "species": "echo_seer",
+        "job": "ranger",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 10,
+        "ap": 2,
+        "mod": 3,
+        "dc": 12,
+        "guardia": 1,
+        "position": {
+          "x": 1,
+          "y": 6
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_tank_1",
+        "species": "umbroid_lurker",
+        "job": "vanguard",
+        "traits": [
+          "pelle_elastomera"
+        ],
+        "hp": 14,
+        "ap": 2,
+        "mod": 2,
+        "dc": 14,
+        "guardia": 2,
+        "position": {
+          "x": 2,
+          "y": 4
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "p_support_1",
+        "species": "mud_sentinel",
+        "job": "warden",
+        "traits": [
+          "zampe_a_molla"
+        ],
+        "hp": 11,
+        "ap": 2,
+        "mod": 2,
+        "dc": 13,
+        "guardia": 1,
+        "position": {
+          "x": 2,
+          "y": 5
+        },
+        "controlled_by": "player",
+        "facing": "E",
+        "elevation": 0
+      },
+      {
+        "id": "e_patrol_leader",
+        "species": "cacciatore_corazzato",
+        "job": "vanguard",
+        "traits": [
+          "martello_osseo"
+        ],
+        "hp": 15,
+        "ap": 2,
+        "mod": 3,
+        "dc": 13,
+        "guardia": 2,
+        "attack_range": 2,
+        "position": {
+          "x": 6,
+          "y": 4
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W",
+        "elevation": 1
+      },
+      {
+        "id": "e_patrol_scout_1",
+        "species": "predone_agile",
+        "job": "skirmisher",
+        "traits": [
+          "denti_seghettati"
+        ],
+        "hp": 6,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 7,
+          "y": 2
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W"
+      },
+      {
+        "id": "e_patrol_scout_2",
+        "species": "predone_agile",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 6,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 7,
+          "y": 7
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W"
+      },
+      {
+        "id": "e_patrol_scout_3",
+        "species": "predone_agile",
+        "job": "skirmisher",
+        "traits": [],
+        "hp": 6,
+        "ap": 2,
+        "mod": 2,
+        "dc": 11,
+        "guardia": 0,
+        "attack_range": 1,
+        "position": {
+          "x": 5,
+          "y": 4
+        },
+        "controlled_by": "sistema",
+        "ai_profile": "aggressive",
+        "facing": "W"
+      }
+    ]
+  }
+]

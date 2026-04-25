@@ -67,12 +67,14 @@ test('HARDCORE_SCENARIO_07 pod_rush: timer + reinforcement policy wired', () => 
   assert.ok(HARDCORE_SCENARIO_07_POD_RUSH.reinforcement_entry_tiles.length >= 2);
 });
 
-test('buildHardcoreUnits07: 4p quartet + 3 initial enemies', () => {
+test('buildHardcoreUnits07: 4p quartet + 4 initial enemies (M14-C iter1)', () => {
   const units = buildHardcoreUnits07();
   const players = units.filter((u) => u.controlled_by === 'player');
   const enemies = units.filter((u) => u.controlled_by === 'sistema');
   assert.equal(players.length, 4);
-  assert.equal(enemies.length, 3);
+  // M14-C iter1: 3→4 initial (+1 predone scout_3) per anticipare pressure
+  // vs iter0 100% greedy win (reinforcement mai triggerato).
+  assert.equal(enemies.length, 4);
   // Party composition: skirmisher + ranger + vanguard + warden.
   const jobs = players.map((p) => p.job).sort();
   assert.deepEqual(jobs, ['ranger', 'skirmisher', 'vanguard', 'warden']);
@@ -85,7 +87,7 @@ test('GET /api/tutorial/enc_tutorial_07_hardcore_pod_rush serves scenario', asyn
   assert.equal(res.body.id, 'enc_tutorial_07_hardcore_pod_rush');
   assert.ok(res.body.mission_timer);
   assert.equal(res.body.mission_timer.turn_limit, 10);
-  assert.equal(res.body.units.length, 7); // 4 player + 3 initial enemy
+  assert.equal(res.body.units.length, 8); // 4 player + 4 initial enemy (iter1)
 });
 
 test('GET /api/tutorial/enc_tutorial_06_hardcore now includes mission_timer', async (t) => {

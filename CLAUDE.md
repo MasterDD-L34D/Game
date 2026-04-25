@@ -25,6 +25,81 @@ multi-step sequences where fragment ambiguity risks misread, user confused or re
 
 ---
 
+## 🔁 Autonomous Execution (always on)
+
+Derived from `/insights` audit 2026-04-25 — friction "stopping early" + "config not applied" recurring.
+
+- **Non fermarsi prematuramente**: continuare fino a goal esplicito O blocking error reale. Se "perché ci fermiamo?" è già stato detto in passato → quel pattern è proibito.
+- **Surface blocker, don't end session**: se mancano prerequisiti (file, dipendenza, env), riporta blocco esplicito e proponi 2-3 path alternativi. Non inventare il piano mancante.
+- **Verify config changes**: dopo ogni edit a `*.json`, `*.yaml`, `.env`, config service → (1) re-read file, (2) restart/reload servizio se applicable, (3) probe live (test API call / `curl /health`). Mai "configurato X" senza i 3 step.
+- **Stop-on-missing-prereq**: se handoff doc / planning file referenziato non esiste, FERMA e chiedi. Non auto-creare il piano mancante per "salvare" la sessione.
+
+## 🌳 Worktree & Path Discipline
+
+Friction ricorrente da insights: 3 sessioni hanno editato main repo invece del worktree.
+
+- **Pre-edit check**: `pwd` + `git rev-parse --show-toplevel` prima di edit non triviali se incerto su contesto. Working directory in CLAUDE_WORKING_DIR ha priorità sui path assunti dalla memoria.
+- **Worktree path detection**: se `pwd` contiene `.claude/worktrees/<slug>/`, sei in worktree isolato. Edit qui, NON nel main repo path.
+- **Missing file = ASK**: se path referenziato non esiste (`docs/planning/2026-XX-XX-*.md`, ADR, handoff), chiedi prima di fabbricare. Lista path candidati via `ls`/`find` se utile.
+- **Auto-enforced**: hook `PreToolUse` `.claude/hooks/pre-edit-worktree-guard.sh` (warn-only) emette `[worktree-guard] WARN` quando target Edit/Write/MultiEdit è fuori dal worktree corrente o tocca main repo da worktree. Se vedi il warn, ferma e verifica intent.
+
+## 🔤 Encoding Discipline
+
+Friction concreta sprint 2026-04-25 PR #1776: glossary.json aveva 37 char mojibake `Ã` da Python `json.dump` cross-platform. Bug invisibile finché CI `Generate QA baselines` ha failed.
+
+- **Sempre encoding esplicito**: `open(path, encoding='utf-8')` per read, `open(path, 'w', encoding='utf-8')` + `json.dump(..., ensure_ascii=False, indent=2)` per write. Nessun default-encoding implicito.
+- **Restore-from-git pattern**: se file ha mojibake, NON correggere in-place (rischio doppia corruzione). Restore da `git show origin/main:<path>` su file pulito + ri-applica modifiche con encoding UTF-8 esplicito.
+- **Auto-enforced**: hook `PostToolUse` `.claude/hooks/post-edit-validate.sh` emette `[hook] WARN: N mojibake sequences (Ã)` per file con >5 occorrenze di `Ã`. Threshold scelto per zero falsi positivi su Italian normale (es. "città" pulito = 0 match).
+
+## 📤 Output Token Limits
+
+3 sessioni perse per output >500 token max.
+
+- **Long deliverables → file**: audit, multi-file summary, analisi ≥30 righe → scrivi in `docs/reports/YYYY-MM-DD-<slug>.md` o `docs/playtest/`, poi referenzia path. NON dump inline.
+- **Recap concisi**: end-of-turn = 1-2 frasi. Tabelle PR / ranked list ≤10 righe inline OK. Oltre → file.
+- **Tool result siphon**: se Read/Bash ritorna >2000 char e ti serve solo summary, riassumi in 5 bullet inline e referenzia il file.
+
+## 📡 System Notification Handling
+
+1 sessione: 12 timeout notifications interpretate come user message.
+
+- **Ripetizioni identiche = system signal**: stesso messaggio/error 2+ volte di fila NON è il user che ripete. È un loop tool / hook / notifier rotto. Diagnostica il sender, non rispondere conversazionalmente.
+- **Subagent timeout 2x = stop retry**: se subagent stesso pattern timeout 2 volte, FERMA. Investiga prompt size / tool config. Non fare 5+ retry sperando vada.
+- **Distinguish hook output vs user**: `<user-prompt-submit-hook>` e similari sono hook. Riconosci tag, non rispondere come a un user.
+
+## 🔑 API Keys & Secrets — canonical path
+
+Friction insights 2026-04-25: Tavily API key posizionata in repo `.env` invece del path canonico `~/.config/api-keys/keys.env` (OD-005). Move richiesto post-fact.
+
+- **Canonical**: TUTTI i secret (API key, token, credential) vivono in `~/.config/api-keys/keys.env`. Mai in repo `.env*`.
+- **Read pattern**: backend / script che servono secret → `source ~/.config/api-keys/keys.env` o `os.environ.get('KEY_NAME')` con `keys.env` esportato all'inizio del processo.
+- **Repo `.env*` = vietato per secrets**: solo per fixture pubblici, schema example, mai per token reali. `.env.example` / `.env.template` sono OK (vuoti).
+- **Auto-enforced**: hook `PreToolUse` `.claude/hooks/pre-edit-env-keys-guard.sh` (warn-only) emette `[env-keys-guard] WARN` quando target Edit/Write è un `.env*` fuori da `~/.config/api-keys/`. Se vedi warn, ferma e sposta nel path canonico.
+
+## 💾 Memory Save Ritual (end-of-session)
+
+Friction insights: 4+ sessioni il user ha esplicitamente chiesto memory save dimenticato. BACKLOG stale con ticket già chiusi shown come open.
+
+- **Save without being asked**: a fine sessione significativa (≥2 PR mergiati O nuovo agent/skill), aggiorna SENZA prompt:
+  1. `COMPACT_CONTEXT.md` (snapshot 30s)
+  2. Handoff doc (`docs/planning/YYYY-MM-DD-*-handoff.md` o equivalente)
+  3. Memory file persistent (`~/.claude/projects/.../memory/feedback_*` o `project_*`)
+  4. `BACKLOG.md` chiusura ticket completati + add nuovi residui
+  5. `MEMORY.md` index file (`~/.claude/projects/.../memory/MEMORY.md`) — 1 riga ≤150 char per ogni nuovo memory file
+- **Don't leave stale**: ticket "open" in BACKLOG che hanno PR mergiato → mark closed con SHA + commit.
+- **Skip rule**: micro-fix singolo (1 PR docs/typo) → no memory save necessario; signals + code change ≥50 LOC → save obbligatorio.
+
+## 📝 Commit & Hook Hygiene
+
+Friction insights: commit-msg hook ha caught Claude uppercase commit (retry richiesto), commit-guard ha bloccato Claude due volte per body length, PostEdit stderr leak per ordering errato.
+
+- **Lowercase commit prefix**: `feat:`, `fix:`, `docs:`, `chore:` — NON `Feat:` o `FEAT:`. commit-msg hook blocca uppercase.
+- **Body length cap**: rispetta limite commit-guard (verifica con `cat .git/hooks/commit-msg` se incerto). Long commit body → drop in PR description, non in commit msg.
+- **Stderr ordering nei hook**: `cmd 2>/dev/null` corretto (redirect 2 verso null); `cmd >/dev/null 2>&1` se vuoi sopprimere entrambi. Il pattern `cmd 2>&1 >/dev/null` è BUGGY (stderr ridiretto a vecchio stdout, poi stdout va a null → stderr leak su terminal).
+- **Hook self-block**: se un hook blocca un tuo commit, non skippare con `--no-verify`. Investiga il messaggio, fixa il commit body, retenta. Hook esistono per difendere il repo, anche da Claude.
+
+---
+
 ## Project overview
 
 **Evo-Tactics** is a co-op tactical game (d20-based, modular evolutionary progression) delivered as a polyglot monorepo. It ships YAML datasets, Python + TypeScript CLIs, an Express "Idea Engine" backend, a Vue/Vite dashboard, and publishing/validation pipelines. Most docs, commit messages, and inline comments are written in **Italian** — match that language when editing docs, but code identifiers stay English.
@@ -184,6 +259,47 @@ Memory files auto-caricati via `MEMORY.md` ogni sessione.
 ## Platform notes
 
 Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) — use Unix paths and `/dev/null`, not `NUL`. Line endings are managed by `.gitattributes`/Prettier; don't fight them.
+
+---
+
+## 🎮 Sprint context (aggiornato: 2026-04-25 — /parallel-sprint validation + jobs_expansion wire)
+
+**Sessione 2026-04-25 pomeriggio (autonomous)**: prima esecuzione live di `/parallel-sprint` skill (PR #1788) + wire jobs_expansion runtime loader. 4 PR mergiati su main, pipeline self-healing parzialmente validata.
+
+**PR shipped main**:
+
+| PR                                                       | Scope                                                                                                                                                                                          | SHA        | Status |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | :----: |
+| [#1791](https://github.com/MasterDD-L34D/Game/pull/1791) | Wave 6 sensori\_\* trait mechanics (3 entries: sensori_geomagnetici/planctonici/sismici) + glossary +1                                                                                         | `dc12dea1` |   ✅   |
+| [#1792](https://github.com/MasterDD-L34D/Game/pull/1792) | Wave 6 mente*\*+cervello*\* trait mechanics (3 entries: cervello_a_bassa_latenza/mente_lucida/cervello_predittivo, apply_status panic/stunned) + glossary +2                                   | `9ee6308d` |   ✅   |
+| [#1793](https://github.com/MasterDD-L34D/Game/pull/1793) | Wave 6 cuore*\*+midollo*\* trait mechanics (3 entries: cuore_multicamera_bassa_pressione/midollo_antivibrazione/cuore_in_furia, apply_status rage on_kill) + glossary +1                       | `b37de1f6` |   ✅   |
+| [#1795](https://github.com/MasterDD-L34D/Game/pull/1795) | Wire jobs_expansion runtime: jobsLoader merge additivo 4 jobs (stalker/symbiont/beastmaster/aberrant) + progressionLoader normalize 48 perks + 4 expansion test cases + parallel-sprint report | `b418eb01` |   ✅   |
+
+**Pipeline /parallel-sprint validation outcome**:
+
+- **Worker layer**: ✅ 3/3 DONE first round (~10 min)
+- **Critic layer**: 🟡 3/3 subagent FAILED (1 quota, 2 stall 600s) → recovery via main-thread direct verification
+- **Merge layer**: 🟡 NEEDS-MANUAL-RESOLUTION per shared-file additive PRs (3-step: `checkout --ours` → programmatic append → `rebase --continue`). Naive regex resolve mangia struttura YAML
+
+**Lessons learned** (vedi `docs/process/sprint-2026-04-25-parallel-validation.md`):
+
+- Critic prompt deve essere ≤30 righe, output budget esplicito
+- Fallback automatico a main-thread se 2/3 critic fail
+- Per shared-file additive ticket: structured patches (ticket-id-N-additions.yaml) > full-file diff
+- Alternative: split target file per famiglia (es. `data/core/traits/active_effects/sensori.yaml`) — schema loader può supportare directory walk
+
+**Trait mechanics counter**: 111 → **120** (+9, all glossary cross-referenced).
+**Glossary entries**: 275 → **279** (+4 new).
+**Jobs runtime**: 7 → **11** (4 expansion live).
+**Perks runtime**: 84 → **132** (+48 expansion).
+**AI test baseline**: 311/311 ✅ verde post-merge (zero regression).
+
+**Steps deferred** (next session pickup):
+
+- **STEP 3 Status effects v2 Phase A** (5 stati Tier 1: slowed/marked/burning/chilled/disoriented) — ~110 LOC + 5 trait + 5 test, **HIGH-RISK** runtime combat resolver. Decompose in 5 mini-PR sequenziali post design call.
+- **STEP 4 Content wave 6 manuale** (~20 trait residui) — additive ad active_effects.yaml, ~1h. Quick win bookmark next sprint.
+
+**Handoff doc**: [`docs/planning/2026-04-25-parallel-sprint-jobs-wire-handoff.md`](docs/planning/2026-04-25-parallel-sprint-jobs-wire-handoff.md).
 
 ---
 

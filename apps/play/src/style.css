@@ -156,6 +156,36 @@ header h1 {
     background 0.2s ease-out;
   border-radius: 4px;
 }
+.pushback-label {
+  font-size: 0.7rem;
+  color: #ef9a9a;
+  letter-spacing: 0.03em;
+  margin-top: 3px;
+}
+.pushback-bar {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 100, 80, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 1px;
+}
+.pushback-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ef9a9a, #ff5252);
+  border-radius: 3px;
+  transition: width 0.4s ease-out;
+  animation: pushback-pulse 2s ease-in-out infinite;
+}
+@keyframes pushback-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
 
 main {
   flex: 1;
@@ -1170,6 +1200,32 @@ canvas#grid:hover {
 }
 .status-chip .status-svg {
   flex-shrink: 0;
+}
+.synergy-telegraph {
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #ffd86e;
+  background: rgba(255, 198, 50, 0.1);
+  border: 1px solid rgba(255, 198, 50, 0.35);
+  border-radius: 6px;
+  padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  animation: syn-pulse 2.4s ease-in-out infinite;
+}
+.synergy-telegraph .syn-bonus {
+  color: #ffaa00;
+  font-weight: 700;
+}
+@keyframes syn-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 .unit-ai {
   margin-top: 3px;
