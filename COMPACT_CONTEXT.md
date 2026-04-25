@@ -8,45 +8,51 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v5 (post Skiv mega-session 2026-04-25 sera — 7 PR + 1 routine)
-- **Ultimo aggiornamento**: 2026-04-25 sera (autonoma trust esteso: 7 PR mergiati Skiv wishlist)
+- **Versione compact**: v6 (post Skiv extended session 2026-04-25 sera — 10 PR + 2 routine, 5/8 wishlist closed)
+- **Ultimo aggiornamento**: 2026-04-25 sera tardi (autonoma trust esteso, 5/8 wishlist Skiv chiuso)
 
 ## ⚡ TL;DR per ripartire
 
-**6 agent illuminator pronti** + **13 P0 chiusi totali** (7 notte + 3 pomeriggio + 3 sera Skiv-driven) + **Skiv canonical creature persona** introdotta (vedi memoria `feedback_gamer_recap_creature_card_format.md` + `project_skiv_evolution_wishlist.md`). Pattern stdlib-only + js-yaml + mulberry32 + monkeypatch DI + data-driven matcher validato 9×. **NON perdere Skiv** + **NON saltare il workflow research-first agent-driven**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+**6 agent illuminator pronti** + **15 P0 chiusi totali** (7 notte + 3 pomeriggio + 5 sera Skiv-driven) + **Skiv 5/8 wishlist closed**: synergy #2, biome resonance #4, Defy #5, Diary #7, Hybrid Path #6. Routine `trig_012Axz6...` (resolver wire) lunedì 2026-05-11 + routine `trig_01SB74yJ...` (Inner Voices #3) mercoledì 2026-05-13. Pattern stdlib-only + js-yaml + mulberry32 + monkeypatch DI + data-driven matcher + JSONL append validato 11×. **NON perdere Skiv** + **NON saltare workflow research-first**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
 
-## 🆕 Sessione 2026-04-25 sera — Skiv mega-session (autonoma)
+## 🆕 Sessione 2026-04-25 sera — Skiv extended (10 PR + 2 routine)
 
-**7 PR mergiati main consecutivi**:
+**10 PR mergiati main consecutivi** (5/8 Skiv wishlist closed):
 
-| PR    | Title                                                           | SHA        | Skiv ticket  |
-| ----- | --------------------------------------------------------------- | ---------- | ------------ |
-| #1767 | fix(tests): pytest.importorskip pypdf in collection             | `02832dfc` | infra        |
-| #1768 | feat(balance): MAP-Elites HTTP fitness wrapper                  | `fcd50315` | balance P0   |
-| #1769 | feat(narrative): Thought Cabinet Phase 2 (Disco internalize)    | `b04f3a92` | narrative P0 |
-| #1770 | docs(handoff): bump COMPACT_CONTEXT + handoff for 3 P0 closures | `1d1fdb0f` | docs         |
-| #1772 | feat(combat): synergy combo detection                           | `cb1ca79e` | Skiv #2      |
-| #1773 | feat(combat): Defy verb (counter-pressure agency)               | `b2e079ba` | Skiv #5      |
-| #1774 | feat(combat): biome resonance reduces research_cost             | `c06e02c4` | Skiv #4      |
+| PR    | Title                                                         | SHA        | Skiv ticket    |
+| ----- | ------------------------------------------------------------- | ---------- | -------------- |
+| #1767 | fix(tests): pytest.importorskip pypdf in collection           | `02832dfc` | infra          |
+| #1768 | feat(balance): MAP-Elites HTTP fitness wrapper                | `fcd50315` | balance P0     |
+| #1769 | feat(narrative): Thought Cabinet Phase 2 (Disco internalize)  | `b04f3a92` | narrative P0   |
+| #1770 | docs(handoff): bump COMPACT_CONTEXT + handoff (3 P0 closures) | `1d1fdb0f` | docs           |
+| #1772 | feat(combat): synergy combo detection (echo_backstab)         | `cb1ca79e` | **Skiv #2 ✅** |
+| #1773 | feat(combat): Defy verb (counter-pressure agency)             | `b2e079ba` | **Skiv #5 ✅** |
+| #1774 | feat(combat): biome resonance reduces research_cost           | `c06e02c4` | **Skiv #4 ✅** |
+| #1775 | docs(handoff): Skiv mega-session bump (7 PR + 1 routine)      | `e1c0a9f5` | docs           |
+| #1777 | feat(diary): unit diary persistente MVP backend               | `f0bd514e` | **Skiv #7 ✅** |
+| #1779 | feat(progression): Hybrid Path perks                          | `8413fd47` | **Skiv #6 ✅** |
 
-**+ 1 routine scheduled**: `trig_012Axz6S7TjfC8g1W2gE4Mg4` lunedì 2026-05-11 07:00 UTC — Sprint A residual (resolver wire #1) + tier-2/3 effects content + MAP-Elites HTTP archive.
+**+ 2 routine scheduled**:
 
-**Tests aggregate post-merge**: AI 307/307 · services **306/306** (+49 in sessione: 22 synergy + 15 defy + 12 resonance) · api **633/633** (+12) · pytest **948/948** · governance 0/0.
+- `trig_012Axz6S7TjfC8g1W2gE4Mg4` lunedì 2026-05-11 07:00 UTC — Sprint A residual (resolver wire #1 + tier-2/3 thought content + MAP-Elites HTTP archive)
+- `trig_01SB74yJvr6eyX4Gjq9H1jFB` mercoledì 2026-05-13 07:00 UTC — Skiv #3 Inner Voices (24-36 Disco-style diegetic, depends on resolver wire merge)
 
-**Skiv canonical creature**: introdotto come tamagotchi-style recap entity + 8-ticket wishlist con sprint A+B+C reorder. Salvato in memoria persistente (cross-session).
+**Tests aggregate post-merge**: AI 307/307 · services **323/323** (+66 sessione: 22 synergy + 15 defy + 12 resonance + 17 diary) · api **652/652** (+31 sessione: 3 synergy + 8 defy + 1 resonance + 8 diary + 11 hybrid) · pytest **948/948** · governance 0/0.
 
-**Score pilastri post-sera**:
+**Skiv canonical creature**: introdotto come tamagotchi-style recap entity + 8-ticket wishlist con sprint A+B+C reorder. Salvato in memoria persistente. **5/8 wishlist closed** (~62%); residuali: #1 (scheduled), #3 (scheduled), #8 (deferred big rock).
 
-| Pillar        | Pre-sera     | Post-sera (Skiv)            |
-| ------------- | ------------ | --------------------------- |
-| P1 Tattica    | 🟢           | **🟢+** (synergy beats)     |
-| P2 Evoluzione | 🟢 candidato | 🟢 candidato                |
-| P3 Identità   | 🟢 candidato | 🟢 candidato                |
-| P4 MBTI       | 🟡+          | **🟡+ deeper** (biome×spec) |
-| P5 Co-op      | 🟡 → 🟢      | 🟡 (playtest pending)       |
-| P6 Fairness   | 🟢 candidato | **🟢** (two-way pressure)   |
+**Score pilastri post-sera-extended**:
 
-→ **2🟢 + 2🟢-cand + 2🟡+** (zero 🔴).
+| Pillar          | Pre-sera     | Post-sera (Skiv 5/8)          |
+| --------------- | ------------ | ----------------------------- |
+| P1 Tattica      | 🟢           | **🟢+** (synergy beats)       |
+| P2 Evoluzione   | 🟢 candidato | 🟢 candidato                  |
+| P3 Identità×Job | 🟢 candidato | **🟢** (hybrid path)          |
+| P4 MBTI         | 🟡+          | **🟡+ deeper** (biome×spec)   |
+| P5 Co-op        | 🟡 → 🟢      | **🟡+** (diary cross-session) |
+| P6 Fairness     | 🟢 candidato | **🟢** (two-way pressure)     |
+
+→ **3🟢 + 1🟢-cand + 2🟡+** (zero 🔴). +2 pilastri saliti rispetto a sera baseline.
 
 ## 🆕 Sessione 2026-04-25 notte (autonoma post user trust)
 
