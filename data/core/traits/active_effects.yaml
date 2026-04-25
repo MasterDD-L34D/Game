@@ -2700,3 +2700,494 @@ traits:
       magnetic_rift_resonance.
     biome_affinity:
       atollo_obsidiana: 0.8
+
+  # =====================================================================
+  # ANCESTORS NEURONS DUMP 01B — 22 trigger reaction-aware (OD-011 Path A)
+  # =====================================================================
+  # Source: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+  # Card:   docs/museum/cards/ancestors-neurons-dump-csv.md (M-2026-04-25-004)
+  # Branches mapped:
+  #   - Self-Control (FR 01-08): faster reactions / timing window → modeled as
+  #     small extra_damage on min_mos threshold (proxy "wider timing window
+  #     converted to damage edge"). 8 distinct entries.
+  #   - Attack/Counterattack (CO 01-06): counterattack prep speed → modeled as
+  #     melee extra_damage on hit. 6 distinct entries.
+  #   - Dodge (DO 01-06): dodge prep speed → modeled as target-side
+  #     damage_reduction on incoming hit. 6 distinct entries.
+  #   - BB-genetic exemplars (BB CO 01 + BB FR 01): T2 stronger variants. 2.
+  # Total: 22 entries.
+  #
+  # Schema notes:
+  # - All entries use existing `kind` enum (extra_damage / damage_reduction /
+  #   apply_status) — no schema extension required.
+  # - Status names introduced (tachypsychia, determination, ataraxia,
+  #   evasive_focus) are runtime-inert free strings (precedent OD-012).
+  # - Trigger fields: action_type/on_result/min_mos/melee_only — all already
+  #   honored by apps/backend/services/traitEffects.js#passesBasicTriggers.
+  # - Effects kept conservative (1-2 amount) per zampe_a_molla / pelle_elastomera
+  #   precedent. No game-breaking values.
+  # - "Branch-specific requires" hints (e.g. predator/irascible/wildlife) are
+  #   captured in description_it as design intent; runtime-inert until
+  #   M-future enemy-tag system is wired.
+
+  # --- Self-Control branch (FR 01-08): Tachypsychia / Time Dilation ---
+  ancestor_self_control_tachypsychia:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 3
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: ancestor_self_control_tachypsychia
+    description_it: |
+      Tachipsichia (FR 01) — finestra temporale percepita dilatata durante
+      l'attacco. Ogni colpo riuscito con MoS >= 3 sfrutta il timing esteso
+      per +1 PT extra. Source: ancestors_csv_01B FR 01.
+    provenance:
+      source: ancestors_csv_01B
+      code: FR 01
+
+  ancestor_self_control_temporal_distortion:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 4
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: ancestor_self_control_temporal_distortion
+    description_it: |
+      Distorsione temporale (FR 02-03) — finestra di timing ampia in combat.
+      Su MoS >= 4 trasforma la lettura del tempo in +1 PT. Source:
+      ancestors_csv_01B FR 02/03 (2 righe duplicate semanticamente
+      collassate).
+    provenance:
+      source: ancestors_csv_01B
+      code: FR 02-03
+
+  ancestor_self_control_temporal_max:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 6
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: ancestor_self_control_temporal_max
+    description_it: |
+      Distorsione temporale massimizzata (FR 04) — finestra di timing
+      maxed. Su MoS >= 6 +2 PT (tier finale della catena Tachipsichia).
+      Source: ancestors_csv_01B FR 04.
+    provenance:
+      source: ancestors_csv_01B
+      code: FR 04
+
+  ancestor_self_control_perceptual_dilation:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 4
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: ancestor_self_control_perceptual_dilation
+    description_it: |
+      Dilatazione percettiva (FR 05) — reazioni piu' rapide a stimoli minacciosi.
+      MoS >= 4 su attacco riuscito converte il margine reattivo in +1 PT.
+      Source: ancestors_csv_01B FR 05.
+    provenance:
+      source: ancestors_csv_01B
+      code: FR 05
+
+  ancestor_self_control_process_speed_predator:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: focused
+      turns: 2
+      log_tag: ancestor_self_control_process_speed_predator
+    description_it: |
+      Velocita' di processo interno vs predatori (FR 06) — l'unita' entra in
+      stato focused per 2 turni dopo un colpo MoS >= 5. Nota design: bonus
+      condizionato a target=predator runtime-inert finche' enemy-tag system
+      non e' wirato. Source: ancestors_csv_01B FR 06.
+    provenance:
+      source: ancestors_csv_01B
+      code: FR 06
+
+  ancestor_self_control_process_speed_irascible:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: focused
+      turns: 2
+      log_tag: ancestor_self_control_process_speed_irascible
+    description_it: |
+      Velocita' di processo interno vs irascibili (FR 07) — focused 2t dopo
+      colpo MoS >= 5. Bonus tag-irascible runtime-inert (M-future).
+      Source: ancestors_csv_01B FR 07.
+    provenance:
+      source: ancestors_csv_01B
+      code: FR 07
+
+  ancestor_self_control_process_speed_wildlife:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: focused
+      turns: 2
+      log_tag: ancestor_self_control_process_speed_wildlife
+    description_it: |
+      Velocita' di processo interno vs wildlife (FR 08) — focused 2t dopo
+      colpo MoS >= 5. Bonus tag-wildlife runtime-inert (M-future).
+      Source: ancestors_csv_01B FR 08.
+    provenance:
+      source: ancestors_csv_01B
+      code: FR 08
+
+  # --- Attack/Counterattack branch (CO 01-06) ---
+  ancestor_attack_fight_response:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: ancestor_attack_fight_response
+    description_it: |
+      Fight Response (CO 01) — preparazione al contrattacco potenziata.
+      Ogni colpo melee riuscito infligge +1 PT extra (proxy: counterattack
+      embedded in primary attack). Source: ancestors_csv_01B CO 01.
+    provenance:
+      source: ancestors_csv_01B
+      code: CO 01
+
+  ancestor_attack_counter_irascible:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 3
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: ancestor_attack_counter_irascible
+    description_it: |
+      Counter Maneuver vs irascibili (CO 02) — colpo melee MoS >= 3
+      capitalizza l'apertura difensiva. +1 PT. Tag-irascible runtime-inert.
+      Source: ancestors_csv_01B CO 02.
+    provenance:
+      source: ancestors_csv_01B
+      code: CO 02
+
+  ancestor_attack_counter_wildlife:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 3
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: ancestor_attack_counter_wildlife
+    description_it: |
+      Counter Maneuver vs wildlife (CO 03) — colpo melee MoS >= 3 +1 PT.
+      Tag-wildlife runtime-inert (M-future). Source: ancestors_csv_01B CO 03.
+    provenance:
+      source: ancestors_csv_01B
+      code: CO 03
+
+  ancestor_attack_counter_predator:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 3
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: ancestor_attack_counter_predator
+    description_it: |
+      Counter Maneuver vs predatori (CO 04) — colpo melee MoS >= 3 +1 PT.
+      Tag-predator runtime-inert (M-future). Source: ancestors_csv_01B CO 04.
+    provenance:
+      source: ancestors_csv_01B
+      code: CO 04
+
+  ancestor_attack_startle_response:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: ancestor_attack_startle_response
+    description_it: |
+      Startle Response (CO 05) — counterattack maxed. Su melee MoS >= 5
+      infligge +2 PT (proxy: prep speed massima → finestra reattiva
+      sfruttata). Source: ancestors_csv_01B CO 05.
+    provenance:
+      source: ancestors_csv_01B
+      code: CO 05
+
+  ancestor_attack_group_defense:
+    tier: T1
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: focused
+      turns: 1
+      log_tag: ancestor_attack_group_defense
+    description_it: |
+      Group Defense (CO 06) — alleati armati partecipano alla difesa.
+      Colpo melee riuscito → focused 1t (proxy: coordinated stance).
+      Logica clan-armed runtime-inert (M-future weapon tracking).
+      Source: ancestors_csv_01B CO 06.
+    provenance:
+      source: ancestors_csv_01B
+      code: CO 06
+
+  # --- Dodge branch (DO 01-06): target-side damage reduction ---
+  ancestor_dodge_flee_response:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ancestor_dodge_flee_response
+    description_it: |
+      Flee Response (DO 01) — preparazione schivata potenziata. Quando
+      l'unita' subisce un hit, riduce il danno di 1 PT (min 0). Source:
+      ancestors_csv_01B DO 01.
+    provenance:
+      source: ancestors_csv_01B
+      code: DO 01
+
+  ancestor_dodge_evasive_predator:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ancestor_dodge_evasive_predator
+    description_it: |
+      Evasive Action vs predatori (DO 02) — schivata mirata. Hit subito →
+      -1 PT incoming. Tag-predator runtime-inert. Source: ancestors_csv_01B
+      DO 02.
+    provenance:
+      source: ancestors_csv_01B
+      code: DO 02
+
+  ancestor_dodge_evasive_irascible:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ancestor_dodge_evasive_irascible
+    description_it: |
+      Evasive Action vs irascibili (BB DO 03 — flag genetic e' false
+      nonostante prefisso BB nel CSV, vedi note row). Hit subito → -1 PT.
+      Tag-irascible runtime-inert. Source: ancestors_csv_01B BB DO 03.
+    provenance:
+      source: ancestors_csv_01B
+      code: BB DO 03
+
+  ancestor_dodge_evasive_wildlife:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ancestor_dodge_evasive_wildlife
+    description_it: |
+      Evasive Action vs wildlife (DO 04) — hit subito → -1 PT.
+      Tag-wildlife runtime-inert. Source: ancestors_csv_01B DO 04.
+    provenance:
+      source: ancestors_csv_01B
+      code: DO 04
+
+  ancestor_dodge_withdrawal_reflex:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: damage_reduction
+      amount: 2
+      min: 0
+      log_tag: ancestor_dodge_withdrawal_reflex
+    description_it: |
+      Withdrawal Reflex (DO 05) — schivata melee massimizzata. Hit melee
+      subito → -2 PT (min 0). Source: ancestors_csv_01B DO 05.
+    provenance:
+      source: ancestors_csv_01B
+      code: DO 05
+
+  ancestor_dodge_ataraxia:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: focused
+      turns: 1
+      log_tag: ancestor_dodge_ataraxia
+    description_it: |
+      Atarassia (DO 06) — dose dopaminica dopo schivata/contrattacco
+      riuscito. Modellata come focused 1t sull'unita' colpita (resilienza
+      al panic). Reward loop dopaminergico runtime-inert, status applicato
+      come marker. Source: ancestors_csv_01B DO 06.
+    provenance:
+      source: ancestors_csv_01B
+      code: DO 06
+
+  ancestor_dodge_group_preservation:
+    tier: T1
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: damage_reduction
+      amount: 1
+      min: 0
+      log_tag: ancestor_dodge_group_preservation
+    description_it: |
+      Group Preservation (DO 07) — alleati disarmati possono schivare gli
+      attacchi quando l'unita' si muove con il gruppo. Hit subito → -1 PT
+      (proxy: protezione di branco). Logica clan-unarmed runtime-inert
+      (M-future positional check). Source: ancestors_csv_01B DO 07.
+    provenance:
+      source: ancestors_csv_01B
+      code: DO 07
+
+  # --- BB-genetic exemplars (T2 hereditary) ---
+  ancestor_self_control_determination:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 3
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: ancestor_self_control_determination
+    description_it: |
+      Determinazione (BB FR 01-04 collapsed, genetic=Yes) — meno dopamina
+      richiesta nella risposta a minacce. Genetica T2: ogni colpo riuscito
+      con MoS >= 3 infligge +2 PT (versione potenziata di Tachipsichia).
+      Source: ancestors_csv_01B BB FR 01 (4 righe duplicate collassate).
+    provenance:
+      source: ancestors_csv_01B
+      code: BB FR 01
+
+  ancestor_attack_released_strength:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: ancestor_attack_released_strength
+    description_it: |
+      Forza Liberata (BB CO 01-02 collapsed, genetic=Yes) — colpo
+      controattacco infligge piu' danno. Genetica T2: melee MoS >= 5 +2 PT
+      (versione potenziata di Startle Response). Source: ancestors_csv_01B
+      BB CO 01 (2 righe collassate).
+    provenance:
+      source: ancestors_csv_01B
+      code: BB CO 01
