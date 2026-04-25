@@ -244,6 +244,28 @@ model UnitProgression {
   @@map("unit_progressions")
 }
 
+// ─── L'Impronta v2 / CAP-12 — PlayerRunTelemetry persistence ──────────────
+// Personal-telemetry cross-run per player (audit Impronta CAP-10 F-4).
+// Riusa vcScoring.buildVcSnapshot output (26 raw_metrics + 4 MBTI axes + ennea).
+// MVP write-on-end-of-run; future: round-aware via TKT-MUSEUM-ENNEA-WIRE (P1).
+
+model PlayerRunTelemetry {
+  id           String   @id @default(uuid())
+  playerId     String   @map("player_id") // logical player owner (cross-run)
+  unitId       String   @map("unit_id")   // creature this run
+  campaignId   String?  @map("campaign_id")
+  runId        String   @map("run_id")    // session_id or campaign run uuid
+  vcSnapshot   String   @map("vc_snapshot") // JSON: { per_actor: {...}, meta: {...} }
+  selectedForm String?  @map("selected_form") // initial MBTI 16-card pick (e.g. "intj_stratega")
+  outcome      String?  // 'victory' | 'defeat' | 'abandon' | null
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([playerId])
+  @@index([campaignId])
+  @@index([runId])
+  @@map("player_run_telemetry")
+}
+
 // ─── M12 Phase D Form evolution persistence (ADR-2026-04-23 addendum) ─────
 // Promotes formSessionStore in-memory Map → DB-backed write-through cache.
 // Adapter preserves in-memory fallback when DATABASE_URL unset (dev/demo/tests).

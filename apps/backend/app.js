@@ -26,6 +26,8 @@ const { createRewardsRouter } = require('./routes/rewards');
 const { createFormPackRouter } = require('./routes/formPackRoutes');
 const { createLobbyRouter } = require('./routes/lobby');
 const { createCoopRouter } = require('./routes/coop');
+// CAP-12 (audit Impronta CAP-10) — personal-telemetry cross-run
+const { createPlayerTelemetryRouter } = require('./routes/playerTelemetry');
 // Skiv ticket #7 — unit diary persistence (cross-session memoria)
 const { createDiaryRouter } = require('./routes/diary');
 const { createCoopStore } = require('./services/coop/coopStore');
@@ -760,6 +762,10 @@ function createApp(options = {}) {
   // M17 — Co-op run orchestrator (character creation + world setup + debrief).
   const coopStore = createCoopStore({ lobby });
   app.use('/api', createCoopRouter({ lobby, coopStore }));
+
+  // CAP-12 (audit Impronta CAP-10) — personal telemetry endpoint
+  // POST /api/v1/player/:playerId/telemetry · GET /api/v1/player/:id/telemetry · GET /api/v1/run/:runId/telemetry
+  app.use('/api/v1', createPlayerTelemetryRouter());
 
   // Skiv ticket #7 — unit diary persistence MVP (backend-only, JSONL append).
   app.use('/api', createDiaryRouter(options.diary || {}));
