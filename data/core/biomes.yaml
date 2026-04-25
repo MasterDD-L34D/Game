@@ -99,6 +99,11 @@ biomes:
     summary: Arcipelago magnetico con maree EMP e piattaforme mobili.
     diff_base: 4
     mod_biome: 3
+    # Flag added 2026-04-25 (swarm batch OD-012 promotion). Consumed by
+    # magnetic_rift_resonance trait biome_affinity (data/core/traits/
+    # active_effects.yaml). Range 0.0–1.0; 1.0 = full magnetic field
+    # (canonical atollo). Other biomes default 0.0 (no flag = no resonance).
+    magnetic_field_strength: 1.0
     affixes:
     - resonance_tide
     - shard_storm

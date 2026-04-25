@@ -2612,3 +2612,91 @@ traits:
       on_kill: rage 2 turni per ridistribuzione termica.
 
       '
+
+  # ── Swarm batch OD-012 (promosso 2026-04-25 da incoming/swarm-candidates/) ──
+  # Provenance: dafne_swarm trait-curator artifact
+  # 2026-04-24T01-08-27.414378.json. Card spec:
+  # docs/museum/cards/old_mechanics-magnetic-rift-resonance.md (P0 minimal path).
+  #
+  # NOTE runtime: il trigger originale del swarm usava action_type=support +
+  # condizione_ambientale (biome_class). L'evaluator corrente
+  # (apps/backend/services/traitEffects.js passesBasicTriggers) supporta solo
+  # action_type=attack. Trigger qui sotto e' stato adattato a action_type=attack
+  # con min_mos alto + on_kill per limitare la firing-rate al boss-finish.
+  # Esposizione canonica del trait + ladder T2 e' il deliverable P0;
+  # l'evaluator extension (action_type=support, biome gating, requires-trait
+  # gating) e' follow-up M-future (vedi card §"Concrete reuse paths" P1).
+  magnetic_rift_resonance:
+    tier: T2
+    category: neurologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      on_kill: true
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: telepatic_link
+      turns: 5
+      log_tag: magnetic_resonance_active
+    description_it: |
+      Risonanza Magnetica Rift — i campi magnetici dell'atollo di ossidiana
+      oscillano in sincronia con le frequenze mentali degli abitanti, creando
+      onde di comunicazione tattica tra alleati vicini. Trigger: kill con MoS>=5
+      applica telepatic_link per 5 turni all'attaccante (e per estensione, agli
+      alleati in range — gestione propagazione TBD nell'evaluator). Biome
+      affinity: atollo_obsidiana (vedi data/core/biomes.yaml). Provenance:
+      dafne_swarm trait-curator 2026-04-24.
+    biome_affinity:
+      atollo_obsidiana: 0.9
+    requires_traits:
+    - magnetic_sensitivity
+    - rift_attunement
+
+  # Stub T1 — prerequisito narrativo di magnetic_rift_resonance.
+  # No-op runtime: trigger su action_type=attack ma nessun effect concreto
+  # (apply_status su 'sensed' che non e' consumato da policy.js). Serve come
+  # "marcatore" data-only finche' M-future non aggiunge percezione magnetica
+  # come stat-bonus (es. detection range +1 vs hidden enemies).
+  magnetic_sensitivity:
+    tier: T1
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: sensed
+      turns: 1
+      log_tag: magnetic_sensed_passive
+    description_it: |
+      Sensibilita' magnetica passiva — l'unita' percepisce campi magnetici
+      ambientali. Stub data-only (M-future: bonus detection in biomi
+      ferromagnetici). Prerequisito per magnetic_rift_resonance.
+
+  # Stub T2 — biome-affinity locked. Stesso pattern no-op del precedente.
+  rift_attunement:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: attuned
+      turns: 2
+      log_tag: rift_attunement_passive
+    description_it: |
+      Sintonia con le fratture ossidiane — l'unita' canalizza l'energia
+      magnetica del bioma. Stub data-only locked su atollo_obsidiana
+      (M-future: enforcement biome gating). Prerequisito per
+      magnetic_rift_resonance.
+    biome_affinity:
+      atollo_obsidiana: 0.8

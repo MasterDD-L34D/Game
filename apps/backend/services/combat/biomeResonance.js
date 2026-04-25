@@ -36,7 +36,7 @@ const BIOME_FAMILIES = {
   cold: ['cryosteppe', 'tundra', 'ghiacciaio', 'alpino'],
   forest: ['foresta_temperata', 'foresta_tropicale', 'giungla'],
   desert: ['deserto_caldo', 'badlands', 'saline', 'aride'],
-  aquatic: ['acquatico_costiero', 'palude', 'lagunare', 'corallino'],
+  aquatic: ['acquatico_costiero', 'palude', 'lagunare', 'corallino', 'atollo_obsidiana'],
   deep: ['frattura_abissale_sinaptica', 'caverna', 'grotta_bioluminescente', 'abissale'],
 };
 
@@ -64,6 +64,10 @@ const BIOME_ARCHETYPE_AFFINITY = {
   lagunare: 'support',
   corallino: 'support',
   grotta_bioluminescente: 'support',
+  // Swarm batch OD-012 (2026-04-25) — atollo magnetico, archetype skirmisher
+  // (raids EMP + piattaforme mobili = mobility-first). Vedi
+  // docs/museum/cards/old_mechanics-magnetic-rift-resonance.md.
+  atollo_obsidiana: 'skirmisher',
 };
 
 const TIER_LABELS = {
