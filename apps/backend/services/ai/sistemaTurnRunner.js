@@ -37,6 +37,7 @@
 // oscillare fra approach e retreat.
 
 const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE } = require('./policy');
+const { applySystemaPushback } = require('../combat/defyEngine');
 
 function createSistemaTurnRunner(deps) {
   const {
@@ -63,6 +64,20 @@ function createSistemaTurnRunner(deps) {
 
   return async function runSistemaTurn(session) {
     const effectiveGrid = session.grid?.width || gridSize;
+
+    // Sistema Pushback: fires before the turn loop when counter is charged.
+    const pushback = applySystemaPushback(session);
+    if (pushback.triggered && typeof appendEvent === 'function') {
+      await appendEvent(session, {
+        action_type: 'sistema_pushback',
+        actor_id: 'sistema',
+        turn: session.turn,
+        pressure_restored: pushback.pressure_restored,
+        pressure_after: pushback.after.pressure,
+        sistema_counter_spent: pushback.before.sistema_counter,
+      });
+    }
+
     const actor = session.units.find((u) => u.id === session.active_unit);
     if (!actor) return [];
     if ((actor.ap_remaining ?? 0) <= 0) {

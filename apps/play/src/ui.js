@@ -325,6 +325,19 @@ function renderUnitLi(
         ${u.guardia ? `<span>guardia ${Number(u.guardia) || 0}</span>` : ''}
       </div>
       ${statusChips ? `<div class="unit-status-row">${statusChips}</div>` : ''}
+      ${(() => {
+        if (!isUnitAlive(u)) return '';
+        const preview = Array.isArray(state.synergy_preview)
+          ? state.synergy_preview.find((s) => s.unit_id === u.id && s.ready)
+          : null;
+        if (!preview) return '';
+        const names = preview.synergies
+          .map(
+            (s) => `${esc(s.name)} <span class="syn-bonus">+${Number(s.bonus_damage) || 1}</span>`,
+          )
+          .join(', ');
+        return `<div class="synergy-telegraph" title="Sinergia pronta — si attiva al prossimo colpo">⚡ ${names}</div>`;
+      })()}
       ${u.ai_profile ? `<div class="unit-ai">AI: <code>${esc(u.ai_profile)}</code></div>` : ''}
       ${(() => {
         if (u.controlled_by !== 'player' || !isUnitAlive(u)) return '';
@@ -429,9 +442,17 @@ export function updateStatus(state) {
   const pressureEl = document.getElementById('pressure-meter');
   if (pressureEl) {
     const tier = pressureTier(state.sistema_pressure);
+    const counter = Number(state.sistema_counter) || 0;
+    const counterPct = Math.min(100, Math.round((counter / 30) * 100));
+    const counterHtml =
+      counter > 0
+        ? `<div class="pushback-label">⚔ Pushback ${counter}/30</div>
+           <div class="pushback-bar"><div class="pushback-fill" style="width:${counterPct}%"></div></div>`
+        : '';
     pressureEl.innerHTML = `
       <div class="pressure-label">SISTEMA <strong style="color:${tier.color}">${tier.label}</strong> · ${tier.value}/100 · cap ${tier.intents} intents/round</div>
       <div class="pressure-bar"><div class="pressure-fill" style="width:${tier.value}%;background:${tier.color}"></div></div>
+      ${counterHtml}
     `;
   }
 }

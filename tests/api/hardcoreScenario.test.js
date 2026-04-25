@@ -26,7 +26,7 @@ test('GET /api/tutorial/enc_tutorial_06_hardcore returns 14 units + recommended 
     const boss = enemies.find((u) => u.id === 'e_apex_boss');
     assert.ok(boss);
     assert.equal(boss.hp, 40); // iter 2: 22→40
-    assert.equal(boss.mod, 5); // iter 2: 4→5
+    assert.equal(boss.mod, 3); // iter 4 (M14-C): 5→3 per compensare elevation +30%
     assert.equal(boss.guardia, 4); // iter 2: 3→4
     assert.equal(boss.attack_range, 3); // iter 2: 2→3
     assert.ok(boss.traits.includes('ondata_psichica'), 'iter 2 AOE trait');
@@ -101,7 +101,8 @@ test('POST /api/session/start with hardcore units + modulation=full → grid 10x
 // normalisation (session.js) e sia leggibile post-spawn.
 // Raw scenario units espongono elevation solo per unit vantage-point; post-
 // normaliseUnit in /session/start tutte le unit hanno elevation integer (default 0).
-test('GET hardcore_06 raw units: BOSS + elite vantage = 1, player ground = 0', async () => {
+// iter3 post-calibration: solo BOSS mantiene elevation 1, elite scesi a ground.
+test('GET hardcore_06 raw units: BOSS vantage = 1, elite + player ground = 0', async () => {
   const { app, close } = createApp({ databasePath: null });
   try {
     const res = await request(app).get('/api/tutorial/enc_tutorial_06_hardcore').expect(200);
@@ -110,8 +111,8 @@ test('GET hardcore_06 raw units: BOSS + elite vantage = 1, player ground = 0', a
     const elite2 = res.body.units.find((u) => u.id === 'e_elite_hunter_2');
     const p0 = res.body.units.find((u) => u.controlled_by === 'player');
     assert.equal(boss.elevation, 1, 'BOSS su altare rialzato');
-    assert.equal(elite1.elevation, 1, 'elite 1 vantage');
-    assert.equal(elite2.elevation, 1, 'elite 2 vantage');
+    assert.equal(elite1.elevation, 0, 'iter3: elite 1 scesa a ground');
+    assert.equal(elite2.elevation, 0, 'iter3: elite 2 scesa a ground');
     assert.equal(p0.elevation, 0, 'player ground floor (explicit)');
   } finally {
     await close();

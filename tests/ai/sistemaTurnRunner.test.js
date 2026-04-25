@@ -494,3 +494,50 @@ test('runner: factory valida deps required', () => {
     /performAttack is required/,
   );
 });
+
+// ─── Sistema Pushback integration ──────────────────────────────────────────
+
+test('runner: pushback fires when sistema_counter >= 30, resets counter + restores pressure', async () => {
+  const { runner, appended } = buildRunner();
+  const session = makeSession();
+  session.sistema_pressure = 40;
+  session.sistema_counter = 30;
+  await runner(session);
+  // Counter reset to 0 and pressure increased
+  assert.equal(session.sistema_counter, 0);
+  assert.equal(session.sistema_pressure, 55); // 40 + 15
+  // A sistema_pushback event must have been emitted
+  const pushbackEvent = appended.find((e) => e.action_type === 'sistema_pushback');
+  assert.ok(pushbackEvent, 'sistema_pushback event emitted');
+  assert.equal(pushbackEvent.pressure_restored, 15);
+  assert.equal(pushbackEvent.actor_id, 'sistema');
+});
+
+test('runner: pushback does not fire when sistema_counter < 30', async () => {
+  const { runner, appended } = buildRunner();
+  const session = makeSession();
+  session.sistema_pressure = 40;
+  session.sistema_counter = 15;
+  await runner(session);
+  assert.equal(session.sistema_counter, 15); // unchanged
+  assert.equal(session.sistema_pressure, 40); // unchanged
+  const pushbackEvent = appended.find((e) => e.action_type === 'sistema_pushback');
+  assert.equal(pushbackEvent, undefined);
+});
+
+test('runner: pushback fires even on missing sistema_counter field (legacy sessions safe)', async () => {
+  const { runner } = buildRunner();
+  const session = makeSession(); // no sistema_counter field
+  await runner(session); // must not throw
+  assert.ok(true, 'no throw on missing campo');
+});
+
+test('runner: pushback pressure clamps at 100', async () => {
+  const { runner } = buildRunner();
+  const session = makeSession();
+  session.sistema_pressure = 95;
+  session.sistema_counter = 30;
+  await runner(session);
+  assert.equal(session.sistema_pressure, 100); // capped
+  assert.equal(session.sistema_counter, 0);
+});

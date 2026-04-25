@@ -21,6 +21,7 @@ const {
 
 const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { buildAtlasLive } = require('../services/atlasLive');
+const { applicableSynergies } = require('../services/combat/synergyDetector');
 
 function rollD20(rng) {
   return Math.floor(rng() * 20) + 1;
@@ -101,6 +102,9 @@ function normaliseUnit(raw, fallbackIndex) {
     name: input.name ? String(input.name) : null,
     form_id: input.form_id ? String(input.form_id) : null,
     resistance_archetype: resistanceArchetype,
+    // V5 SG pool — preserve from input so save-load + tests carry value through.
+    // sgTracker.initUnit will keep this if already set, otherwise default to 0.
+    sg: Number.isFinite(Number(input.sg)) ? Number(input.sg) : 0,
   };
 }
 
@@ -261,12 +265,43 @@ function publicSessionView(session) {
     events: Array.isArray(session.events) ? session.events.slice(-30) : [],
     sistema_pressure: pressure,
     sistema_tier: tier,
+    sistema_counter: Number(session.sistema_counter) || 0,
     atlas,
     last_round_combos: Array.isArray(session.last_round_combos) ? session.last_round_combos : [],
     previous_round_combos: Array.isArray(session.previous_round_combos)
       ? session.previous_round_combos
       : [],
+    last_round_synergies: Array.isArray(session.last_round_synergies)
+      ? session.last_round_synergies
+      : [],
+    previous_round_synergies: Array.isArray(session.previous_round_synergies)
+      ? session.previous_round_synergies
+      : [],
+    synergy_preview: buildSynergyPreview(session),
   };
+}
+
+function buildSynergyPreview(session) {
+  const turn = Number(session.turn || 0);
+  const lastFires = session._synergy_last_fire || {};
+  return (session.units || [])
+    .filter((u) => u && u.hp > 0)
+    .map((u) => {
+      const synergies = applicableSynergies(u);
+      if (synergies.length === 0) return null;
+      const onCooldown = lastFires[u.id] !== undefined && lastFires[u.id] === turn;
+      return {
+        unit_id: u.id,
+        synergies: synergies.map((s) => ({
+          id: s.id,
+          name: s.name,
+          bonus_damage: s.effect?.bonus_damage ?? 1,
+        })),
+        on_cooldown: onCooldown,
+        ready: !onCooldown,
+      };
+    })
+    .filter(Boolean);
 }
 
 function buildTurnOrder(units) {
@@ -466,6 +501,22 @@ function applyPressureDelta(current, delta) {
   return Math.max(0, Math.min(100, base + d));
 }
 
+/**
+ * Refill `unit.ap_remaining` honoring active modifiers:
+ *   - fracture status: cap at 1 AP
+ *   - defy_penalty (Skiv ticket #5): -1 AP for one turn after Defy use
+ *
+ * Mutates the unit. Single source of truth so future modifiers go here.
+ */
+function applyApRefill(unit) {
+  if (!unit) return;
+  const fractureActive = Number(unit.status?.fracture) > 0;
+  let cap = Number(unit.ap || 0);
+  if (fractureActive) cap = Math.min(1, cap);
+  if (Number(unit.status?.defy_penalty) > 0) cap = Math.max(0, cap - 1);
+  unit.ap_remaining = cap;
+}
+
 // Mirror dei delta events da sistema_pressure.yaml.
 // Mantenuto qui per evitare YAML loader in hot path (round flow).
 // Sync con packs/evo_tactics_pack/data/balance/sistema_pressure.yaml §deltas.
@@ -496,6 +547,7 @@ module.exports = {
   resolveAttack,
   timestampStamp,
   publicSessionView,
+  applyApRefill,
   buildTurnOrder,
   nextUnitId,
   manhattanDistance,
@@ -510,4 +562,5 @@ module.exports = {
   applyPressureDelta,
   SISTEMA_PRESSURE_TIERS,
   PRESSURE_DELTAS,
+  buildSynergyPreview,
 };
