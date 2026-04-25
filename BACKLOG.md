@@ -16,8 +16,8 @@
 
 ### Autonomous (Claude Code può fare)
 
-- [ ] **M13 P3 Phase B** — balance pass N=10 post XP grant hook. ~3h. Chiude Pilastro 3 🟢 definitivo.
-- [ ] **M13 P6 Phase B calibration** — N=10 hardcore 07 via `tools/py/batch_calibrate_hardcore07.py`. ~2h (parte userland). Chiude Pilastro 6 🟢 definitivo.
+- [x] ~~**M13 P3 Phase B**~~ — balance pass N=10 post XP grant hook → **✅ CHIUSO in PR #1697 (`a462d4d5`)** 2026-04-25. Campaign advance XP grant hook + combat resolver 5 passive tags wired (flank_bonus, first_strike_bonus, execution_bonus, isolated_target_bonus, long_range_bonus) + frontend progressionPanel overlay. Balance pass 448 builds validated. Pilastro 3 → 🟢 candidato.
+- [x] ~~**M13 P6 Phase B calibration**~~ — N=10 hardcore 07 → **✅ SHIPPED in PR #1698 (`135b5b1f`)** 2026-04-25 (esecuzione harness userland resta). Calibration harness `tools/py/batch_calibrate_hardcore07.py` + HUD timer countdown + campaign auto-timeout outcome. Pilastro 6 → 🟢 candidato. **Userland residual**: eseguire harness N=10, valutare win rate 30-50%.
 
 ---
 
@@ -53,7 +53,7 @@
   - Trigger: invocazione esplicita user O budget tempo idle in sessione successiva. Fino ad allora, dormiente.
 - [ ] **TKT-MUSEUM-ENNEA-WIRE (P1 autonomous)** — Wire enneaEffects.js + registry M-002 + dataset M-003 (Path A OD-009 + OD-010). ~7-9h totali. **Pre-req**: refactor `buildVcSnapshot` per round-aware mode (vedi card [M-006](docs/museum/cards/enneagramma-enneaeffects-orphan.md) audit findings). Combat hot path = high blast radius, richiede regression baseline 307/307 verde.
 - [ ] **TKT-MUSEUM-SKIV-VOICES (P1 autonomous)** — Implementa palette Type 5 + Type 7 in `data/core/narrative/ennea_voices/{type_5,type_7}.yaml` + selector in `narrativeEngine.js` + telemetry `ennea_voice_type_used`. ~6h. **Pre-req**: TKT-MUSEUM-ENNEA-WIRE shipped (vcSnapshot round-aware required).
-- [ ] **TKT-MUSEUM-SWARM-SKIV (P0 Sprint A)** — Single-shot magnetic_rift_resonance (OD-012). ~2h. Biome `atollo_ossidiana` placeholder + trait + tier T2 wire `biomeResonance.js`. Skiv Sprint A direct fit.
+- [x] ~~**TKT-MUSEUM-SWARM-SKIV (P0 Sprint A)**~~ — Single-shot magnetic_rift_resonance (OD-012) → **✅ CHIUSO 2026-04-25** in PR #1774 (`c06e02c4` biomeResonance.js + research_cost reduction) + PR #1779 (`8413fd47` Hybrid Path perks). magnetic_rift_resonance T2 trait + 2 prereq stub (magnetic_sensitivity, rift_attunement) promossi a `data/core/traits/active_effects.yaml`. Biome alias `atollo_ossidiana → atollo_obsidiana` in `biome_aliases.yaml`. Flag `magnetic_field_strength=1.0` su atollo_obsidiana in biomes.yaml. Wired in `apps/backend/services/combat/biomeResonance.js` (185 LOC, BIOME_FAMILIES.aquatic + skirmisher archetype). Staging file conservato come provenance.
 - [ ] **TKT-MUSEUM-ANCESTORS-22-TRIGGER (P0 Sprint B)** — 22 Self-Control trigger from CSV (OD-011 path A). ~5h. Estendi `data/core/traits/active_effects.yaml`. Skiv Sprint B coverage (defy/counter).
 
 ### Pre-playtest coop fixes (da audit coop-phase-validator 2026-04-24)
