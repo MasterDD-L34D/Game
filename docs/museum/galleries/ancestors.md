@@ -120,7 +120,7 @@ Derivative work obligation preserved per row for runtime + downstream consumers.
 
 ## Follow-up M-future
 
-- **3 stat consumer wire** (~7-10h totali): `move_bonus` (~2-3h), `stress_reduction` (~4-5h), `evasion_bonus` (~1-2h)
+- ✅ **3 stat consumer wire** — DONE branch `feat/stat-consumer-wire-move-stress-evasion`: `move_bonus` (validatePlayerIntent budget extend), `stress_reduction` (sgTracker damage_taken multiplier cap 0.5), `evasion_bonus` (resolveAttack+predictCombat DC). 5/5 stat mechanical, 0/5 log_only. Ennea P4 🟢 candidato.
 - **`telepatic_link` real intent-reveal pipe** wire to `buildThreatPreview` (~2-3h)
 - **Per-tag enemy-status check** (predator/irascible/wildlife): currently inert in `description_it` only, attiva runtime gate ~3-4h
 - **Job-archetype mapping pass** dataset → species canonical (post-playtest validation)

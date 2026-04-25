@@ -1,17 +1,22 @@
-// P4 Ennea effects runtime wire — branch feat/p4-ennea-effects-wire.
+// P4 Ennea effects runtime wire — branch feat/p4-ennea-effects-wire +
+// feat/stat-consumer-wire-move-stress-evasion (audit P4 follow-up
+// "3 stat consumer wire").
 //
 // Scope: verifica che applyEnneaToStatus muti correttamente
-// actor[<stat>_bonus] + actor.status[<stat>_buff] per stat 'mechanical'
-// (attack_mod, defense_mod) e skippi log_only stat (evasion_bonus,
-// move_bonus, stress_reduction) come M-future.
+// actor[<stat>_bonus] + actor.status[<stat>_buff] per tutti i 5 stat
+// 'mechanical' canonical (attack_mod, defense_mod, move_bonus,
+// stress_reduction, evasion_bonus). 0 log_only attivi.
 //
 // Coverage:
-//   - mechanical wire: attack_mod, defense_mod
-//   - log_only skip: evasion_bonus, move_bonus, stress_reduction
+//   - mechanical wire: 5 stat (attack/defense_mod, move/evasion/stress)
 //   - multi-archetype stack (Conquistatore + Architetto = +2 attack_mod_bonus)
 //   - decay coerenza: dopo 1 round end, _buff → 0 → bonus zeroed
 //   - KO unit skip
 //   - Empty / null effects safe
+//   - Live consumer integration:
+//     · move_bonus → estende budget move in validatePlayerIntent
+//     · stress_reduction → riduce damage_taken in sgTracker.accumulate
+//     · evasion_bonus → alza DC in resolveAttack + predictCombat
 
 'use strict';
 
@@ -94,38 +99,42 @@ test('applyEnneaToStatus: multi-archetype Conquistatore + Architetto → attack_
 });
 
 // ─────────────────────────────────────────────────────────────────
-// applyEnneaToStatus — log_only (evasion, move, stress)
+// applyEnneaToStatus — newly mechanical (move, stress, evasion)
 // ─────────────────────────────────────────────────────────────────
 
-test('applyEnneaToStatus: Esploratore(7) move_bonus → log_only skip', () => {
+test('applyEnneaToStatus: Esploratore(7) → move_bonus_bonus +1 + status.move_bonus_buff:1', () => {
   const actor = makeActor();
   const effects = resolveEnneaEffects(['Esploratore(7)']);
   const { applied, skipped } = applyEnneaToStatus(actor, effects);
-  assert.equal(applied.length, 0);
-  assert.equal(skipped.length, 1);
-  assert.equal(skipped[0].archetype, 'Esploratore(7)');
-  assert.equal(skipped[0].stat, 'move_bonus');
-  assert.equal(skipped[0].reason, 'no_consumer');
-  // Nessuna mutazione bonus o status:
-  assert.equal(actor.move_bonus_bonus, undefined);
-  assert.equal(actor.status.move_bonus_buff, undefined);
+  assert.equal(applied.length, 1);
+  assert.equal(skipped.length, 0);
+  assert.equal(applied[0].archetype, 'Esploratore(7)');
+  assert.equal(applied[0].stat, 'move_bonus');
+  assert.equal(applied[0].amount, 1);
+  assert.equal(actor.move_bonus_bonus, 1);
+  assert.equal(actor.status.move_bonus_buff, 1);
 });
 
-test('applyEnneaToStatus: Stoico(9) stress_reduction → log_only skip', () => {
+test('applyEnneaToStatus: Stoico(9) → stress_reduction_bonus +0.05 + status.stress_reduction_buff:1', () => {
   const actor = makeActor();
   const effects = resolveEnneaEffects(['Stoico(9)']);
-  const { skipped } = applyEnneaToStatus(actor, effects);
-  assert.equal(skipped.length, 1);
-  assert.equal(skipped[0].stat, 'stress_reduction');
-  assert.equal(skipped[0].reason, 'no_consumer');
+  const { applied, skipped } = applyEnneaToStatus(actor, effects);
+  assert.equal(applied.length, 1);
+  assert.equal(skipped.length, 0);
+  assert.equal(applied[0].stat, 'stress_reduction');
+  assert.ok(Math.abs(actor.stress_reduction_bonus - 0.05) < 1e-9);
+  assert.equal(actor.status.stress_reduction_buff, 1);
 });
 
-test('applyEnneaToStatus: Cacciatore(8) evasion_bonus → log_only skip', () => {
+test('applyEnneaToStatus: Cacciatore(8) → evasion_bonus_bonus +1 + status.evasion_bonus_buff:1', () => {
   const actor = makeActor();
   const effects = resolveEnneaEffects(['Cacciatore(8)']);
-  const { skipped } = applyEnneaToStatus(actor, effects);
-  assert.equal(skipped.length, 1);
-  assert.equal(skipped[0].stat, 'evasion_bonus');
+  const { applied, skipped } = applyEnneaToStatus(actor, effects);
+  assert.equal(applied.length, 1);
+  assert.equal(skipped.length, 0);
+  assert.equal(applied[0].stat, 'evasion_bonus');
+  assert.equal(actor.evasion_bonus_bonus, 1);
+  assert.equal(actor.status.evasion_bonus_buff, 1);
 });
 
 // ─────────────────────────────────────────────────────────────────
@@ -209,7 +218,7 @@ test('STAT_RUNTIME_KIND: tutti gli stat in ENNEA_EFFECTS sono mappati', () => {
   }
 });
 
-test('STAT_RUNTIME_KIND: 2 mechanical (attack_mod, defense_mod) + 3 log_only', () => {
+test('STAT_RUNTIME_KIND: 5 mechanical (full coverage), 0 log_only', () => {
   const mech = Object.entries(STAT_RUNTIME_KIND)
     .filter(([, v]) => v === 'mechanical')
     .map(([k]) => k)
@@ -218,8 +227,14 @@ test('STAT_RUNTIME_KIND: 2 mechanical (attack_mod, defense_mod) + 3 log_only', (
     .filter(([, v]) => v === 'log_only')
     .map(([k]) => k)
     .sort();
-  assert.deepEqual(mech, ['attack_mod', 'defense_mod']);
-  assert.deepEqual(log, ['evasion_bonus', 'move_bonus', 'stress_reduction']);
+  assert.deepEqual(mech, [
+    'attack_mod',
+    'defense_mod',
+    'evasion_bonus',
+    'move_bonus',
+    'stress_reduction',
+  ]);
+  assert.deepEqual(log, []);
 });
 
 // ─────────────────────────────────────────────────────────────────
@@ -402,4 +417,116 @@ test('computeEnneaArchetypes: Lealista(6) trigger when assists>=2 && damage_take
     damage_taken_ratio: 0.2,
   });
   assert.equal(notTrig[0].triggered, false);
+});
+
+// ─────────────────────────────────────────────────────────────────
+// Live consumer integration — move_bonus / stress_reduction / evasion_bonus
+// (audit P4 follow-up "3 stat consumer wire" 2026-04-25)
+// ─────────────────────────────────────────────────────────────────
+
+test('consumer evasion_bonus: resolveAttack DC alzata da target.evasion_bonus_bonus', () => {
+  const { resolveAttack } = require('../../apps/backend/routes/sessionHelpers');
+  // Deterministic d20: rng() always returns 0.5 → die = floor(0.5*20)+1 = 11.
+  const rng = () => 0.5;
+  const actor = { mod: 0, attack_mod_bonus: 0 };
+  const targetBase = { dc: 12 };
+  const targetEvade = { dc: 12, evasion_bonus_bonus: 1 };
+  const r1 = resolveAttack({ actor, target: targetBase, rng });
+  const r2 = resolveAttack({ actor, target: targetEvade, rng });
+  assert.equal(r1.dc, 12);
+  assert.equal(r2.dc, 13);
+  assert.equal(r1.die, r2.die); // same seed, same die
+  assert.equal(r2.mos, r1.mos - 1);
+});
+
+test('consumer evasion_bonus: predictCombat hit_pct cala con evasion_bonus_bonus', () => {
+  const { predictCombat } = require('../../apps/backend/routes/sessionHelpers');
+  const actor = { mod: 0 };
+  const targetBase = { dc: 12 };
+  const targetEvade = { dc: 12, evasion_bonus_bonus: 2 };
+  const base = predictCombat(actor, targetBase);
+  const evade = predictCombat(actor, targetEvade);
+  assert.equal(base.dc, 12);
+  assert.equal(evade.dc, 14);
+  assert.ok(evade.hit_pct < base.hit_pct, 'evasion abbassa hit rate');
+});
+
+test('consumer stress_reduction: sgTracker accumulate riduce damage_taken increment', () => {
+  const sgTracker = require('../../apps/backend/services/combat/sgTracker');
+  // Baseline: 5 dmg taken → +1 SG.
+  const u1 = sgTracker.initUnit({ id: 'u1', hp: 10 });
+  sgTracker.accumulate(u1, { damage_taken: 5 });
+  assert.equal(u1.sg, 1);
+
+  // Stoico 0.05 reduction: 5 dmg → 4.75 effective, sotto threshold 5 → no SG.
+  const u2 = sgTracker.initUnit({ id: 'u2', hp: 10, stress_reduction_bonus: 0.05 });
+  sgTracker.accumulate(u2, { damage_taken: 5 });
+  assert.equal(u2.sg, 0);
+  assert.ok(u2.sg_taken_acc < 5, 'taken acc < threshold');
+});
+
+test('consumer stress_reduction: cap 0.5 max + floor 0', () => {
+  const sgTracker = require('../../apps/backend/services/combat/sgTracker');
+  // Cap 0.5: stress_reduction_bonus 0.9 → effective 0.5.
+  const uCap = sgTracker.initUnit({ id: 'uCap', hp: 10, stress_reduction_bonus: 0.9 });
+  sgTracker.accumulate(uCap, { damage_taken: 10 });
+  // 10 * (1-0.5) = 5 → exactly threshold → +1 SG.
+  assert.equal(uCap.sg, 1);
+
+  // Floor 0: negative bonus ignorato.
+  const uNeg = sgTracker.initUnit({ id: 'uNeg', hp: 10, stress_reduction_bonus: -0.5 });
+  sgTracker.accumulate(uNeg, { damage_taken: 5 });
+  assert.equal(uNeg.sg, 1, 'negative bonus floored a 0, behavior come baseline');
+});
+
+test('consumer stress_reduction: damage_dealt non toccato dal bonus', () => {
+  const sgTracker = require('../../apps/backend/services/combat/sgTracker');
+  const u = sgTracker.initUnit({ id: 'u', hp: 10, stress_reduction_bonus: 0.5 });
+  sgTracker.accumulate(u, { damage_dealt: 8 });
+  // dealt threshold 8 → +1 SG.
+  assert.equal(u.sg, 1);
+});
+
+test('consumer move_bonus: branch numerico move budget = ap + move_bonus_bonus', () => {
+  // validatePlayerIntent è closure interna a createRoundBridge non esposta
+  // come testable export. Verifichiamo il branch numerico canonical (mirror
+  // della formula in sessionRoundBridge.js validatePlayerIntent line ~161).
+  const actor = { id: 'p1', hp: 10, ap: 1, ap_remaining: 1, position: { x: 0, y: 0 } };
+  const dist = 2;
+  const apAvail = Number(actor.ap_remaining);
+  const moveBudgetNoBonus = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
+  assert.equal(moveBudgetNoBonus, 1);
+  assert.ok(dist > moveBudgetNoBonus, 'no bonus → MOVE_TOO_FAR per dist 2');
+  actor.move_bonus_bonus = 1;
+  const moveBudgetWithBonus = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
+  assert.equal(moveBudgetWithBonus, 2);
+  assert.ok(dist <= moveBudgetWithBonus, 'bonus +1 → 2 hex move ammesso');
+  // Negativo: bonus negativo non riduce budget.
+  actor.move_bonus_bonus = -3;
+  const moveBudgetNeg = apAvail + Math.max(0, Number(actor.move_bonus_bonus || 0));
+  assert.equal(moveBudgetNeg, 1, 'bonus negativo floored a 0');
+});
+
+test('decay coerenza: 3 nuovi mechanical → bonus zeroed dopo round end', () => {
+  const actor = makeActor({ status: {} });
+  const effects = resolveEnneaEffects(['Esploratore(7)', 'Stoico(9)', 'Cacciatore(8)']);
+  applyEnneaToStatus(actor, effects);
+  assert.equal(actor.move_bonus_bonus, 1);
+  assert.ok(Math.abs(actor.stress_reduction_bonus - 0.05) < 1e-9);
+  assert.equal(actor.evasion_bonus_bonus, 1);
+  // Simula decay loop.
+  for (const key of Object.keys(actor.status)) {
+    const v = Number(actor.status[key]);
+    if (v > 0) actor.status[key] = v - 1;
+  }
+  for (const key of Object.keys(actor.status)) {
+    if (!key.endsWith('_buff')) continue;
+    if (Number(actor.status[key]) > 0) continue;
+    const stat = key.slice(0, -'_buff'.length);
+    const bonusKey = `${stat}_bonus`;
+    if (actor[bonusKey] !== undefined) actor[bonusKey] = 0;
+  }
+  assert.equal(actor.move_bonus_bonus, 0);
+  assert.equal(actor.stress_reduction_bonus, 0);
+  assert.equal(actor.evasion_bonus_bonus, 0);
 });

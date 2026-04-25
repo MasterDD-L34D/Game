@@ -114,15 +114,25 @@ function applyEnneaBuffs(actor, effects) {
  *   Pattern: increment actor[<stat>_bonus] + set status[<stat>_buff].
  *   Decay loop in sessionRoundBridge.applyEndOfRoundSideEffects azzera
  *   bonus quando _buff scende a 0.
- * - 'log_only': stat dichiarato canonical ma nessun consumer runtime
- *   (M-future wire). Loggato per audit trail, NON applicato.
+ * - 'log_only': stat dichiarato canonical ma nessun consumer runtime.
+ *   Loggato per audit trail, NON applicato.
+ *
+ * 9/9 mechanical wire (audit P4 follow-up "3 stat consumer wire", branch
+ * feat/stat-consumer-wire-move-stress-evasion):
+ *   - move_bonus: extends per-round move budget in validatePlayerIntent
+ *     (sessionRoundBridge line ~161). dist <= apAvail + move_bonus_bonus.
+ *   - stress_reduction: scales damage_taken increment in sgTracker.accumulate
+ *     (combat/sgTracker.js). adjusted = max(0, taken*(1-min(0.5,bonus))).
+ *   - evasion_bonus: adds to target DC in resolveAttack + predictCombat
+ *     (sessionHelpers line ~153/178). dc = baseDc + defense_mod_bonus +
+ *     evasion_bonus_bonus.
  */
 const STAT_RUNTIME_KIND = {
   attack_mod: 'mechanical',
   defense_mod: 'mechanical',
-  evasion_bonus: 'log_only', // M-future: resolveAttack non legge evasion_bonus_bonus
-  move_bonus: 'log_only', // M-future: nessun consumer per move/AP refill
-  stress_reduction: 'log_only', // M-future: ability-level only, no unit-level stash
+  evasion_bonus: 'mechanical',
+  move_bonus: 'mechanical',
+  stress_reduction: 'mechanical',
 };
 
 /**
