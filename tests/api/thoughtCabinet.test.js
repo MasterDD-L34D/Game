@@ -432,3 +432,62 @@ test('full lifecycle: unlock → research → tick → internalize → forget �
   assert.equal(f1.freed_from, 'internalized');
   assert.equal(canResearchMore(s), true);
 });
+
+// ─────────────────────────────────────────────────────────
+// Skiv ticket #4 — biome resonance reduces research_cost
+// ─────────────────────────────────────────────────────────
+
+test('startResearch: resonance=true reduces tier-2 cost from 2 to 1', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['n_pioniere_possibile']); // tier 2 → cost 2
+  const out = startResearch(s, 'n_pioniere_possibile', { resonance: true });
+  assert.equal(out.ok, true);
+  assert.equal(out.cost_total, 1);
+  assert.equal(out.base_cost, 2);
+  assert.equal(out.resonance_applied, true);
+});
+
+test('startResearch: resonance=true on tier-1 (cost 1) does NOT clamp below 1', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['e_voce_collettiva']); // tier 1 → cost 1
+  const out = startResearch(s, 'e_voce_collettiva', { resonance: true });
+  assert.equal(out.ok, true);
+  assert.equal(out.cost_total, 1, 'min 1 enforced');
+  assert.equal(out.base_cost, 1);
+  assert.equal(out.resonance_applied, false, 'no reduction reported when no actual saving');
+});
+
+test('startResearch: resonance=false (default) leaves cost untouched', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['n_visionario']); // tier 3 → cost 3
+  const out = startResearch(s, 'n_visionario');
+  assert.equal(out.ok, true);
+  assert.equal(out.cost_total, 3);
+  assert.equal(out.base_cost, 3);
+  assert.equal(out.resonance_applied, false);
+});
+
+test('startResearch: resonance reduces tier-3 cost from 3 to 2', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['n_visionario']);
+  const out = startResearch(s, 'n_visionario', { resonance: true });
+  assert.equal(out.cost_total, 2);
+  assert.equal(out.base_cost, 3);
+  assert.equal(out.resonance_applied, true);
+});
+
+test('snapshotCabinet: exposes resonance_applied + base_cost on researching entries', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['n_pioniere_possibile']);
+  startResearch(s, 'n_pioniere_possibile', { resonance: true });
+  const snap = snapshotCabinet(s);
+  assert.equal(snap.researching.length, 1);
+  assert.equal(snap.researching[0].cost_total, 1);
+  assert.equal(snap.researching[0].base_cost, 2);
+  assert.equal(snap.researching[0].resonance_applied, true);
+});
