@@ -154,10 +154,12 @@ ollama pull qwen3:8b qwen2.5-coder
 ## 🧭 Cleanup TODO
 
 - [x] ~~Aggiornare `CLAUDE.md` "Sibling repo topology": path~~ — done 2026-04-25 (clone + path update)
-- [ ] Decidere fate dei 6 zip rimanenti: estrarre, archiviare in `~/Archive/`, o purgare
+- [x] ~~Decidere fate dei 6 zip rimanenti~~ — done 2026-04-25, archiviati in `gioco/_archive/2026-04-20-codemasterdd-handoffs/` con README index. Solo `game-swarm-package.zip` resta visibile a root.
+- [x] **Game-Database offline validation** — done 2026-04-25: `npm install` ✅, `.env` configurato (`DATABASE_URL=postgresql://postgres:postgres@localhost:5433/game`), `npx prisma generate` ✅ Client v5.22.0, `npx prisma validate` ✅ schema valid
+- [ ] **Game-Database end-to-end smoke** — BLOCKED: Docker Desktop daemon non parte autonomo su questa macchina (WSL distro `docker-desktop` STOPPED, nessun processo `Docker Desktop.exe` spawnato dopo `Start-Process`). Richiede primo avvio interattivo Docker Desktop GUI per accept license/login. Una volta running: `docker compose up -d` → `npm run dev:setup` → `npm run dev` → smoke `curl http://localhost:3333/api/traits/glossary`
+- [ ] **HTTP Alt B flag-ON validation** — deferred fino a end-to-end smoke 🟢 (richiede Game-Database server up)
 - [ ] `synesthesia/` valutare se spostare a path diverso (es. `~/Documents/UPO/`) per evitare confusione con workspace Evo-Tactics
 - [ ] Game-Database: scrivere `WORKSPACE_MAP.md` simmetrico nel suo repo (cross-link bidirezionale) — facoltativo, attivare solo se sviluppo Game-Database diventa attivo
-- [ ] Game-Database: validare bootstrap stack locale (`docker compose up` + `dev:setup` + `dev`) end-to-end prima di considerare HTTP Alt B flag-ON
 
 ---
 
