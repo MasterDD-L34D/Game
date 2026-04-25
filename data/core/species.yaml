@@ -63,6 +63,7 @@ species:
     genus: Arenavenator
     epithet: vagans
     clade_tag: Threat
+    sentience_tier: T2
     display_name_it: Predatore delle Dune
     display_name_en: Dune Stalker
     display_name: Dune Stalker
@@ -101,6 +102,7 @@ species:
     genus: Synaptopus
     epithet: praeco
     clade_tag: Keystone
+    sentience_tier: T5
     display_name_it: Polpo Araldo Sinaptico
     display_name_en: Synaptic Herald Octopus
     display_name: Polpo Araldo Sinaptico
@@ -124,6 +126,7 @@ species:
     genus: Neurolarva
     epithet: gregaria
     clade_tag: Threat
+    sentience_tier: T0
     display_name_it: Sciame di Larve Neurali
     display_name_en: Neural Larva Swarm
     display_name: Sciame di Larve Neurali
@@ -147,6 +150,7 @@ species:
     genus: Resonoleviathan
     epithet: abyssalis
     clade_tag: Apex
+    sentience_tier: T5
     display_name_it: Leviatano Risonante
     display_name_en: Resonant Leviathan
     display_name: Leviatano Risonante
@@ -170,6 +174,7 @@ species:
     genus: Corallosymbion
     epithet: speculans
     clade_tag: Support
+    sentience_tier: T3
     display_name_it: Simbionte Corallino Riflesso
     display_name_en: Mirror Coral Symbiont
     display_name: Simbionte Corallino Riflesso
@@ -193,6 +198,7 @@ species:
     genus: Anguimagnus
     epithet: litoralis
     clade_tag: Bridge
+    sentience_tier: T1
     display_name_it: Anguilla Magnetica
     display_name_en: Magnetic Eel
     display_name: Anguis Magnetica
@@ -221,6 +227,7 @@ species:
     genus: Chemnotela
     epithet: toxifera
     clade_tag: Threat
+    sentience_tier: T2
     display_name_it: Tessitrice Tossica
     display_name_en: Toxic Weaver
     display_name: Chemnotela Toxica
@@ -249,6 +256,7 @@ species:
     genus: Elastovaranus
     epithet: hydraulicus
     clade_tag: Playable
+    sentience_tier: T2
     display_name_it: Varano Idraulico Elastico
     display_name_en: Hydraulic Elastic Varan
     display_name: Elastovaranus Hydrus
@@ -277,6 +285,7 @@ species:
     genus: Gulogluteus
     epithet: scutiger
     clade_tag: Playable
+    sentience_tier: T2
     display_name_it: Scudo Roccioso Prensile
     display_name_en: Prehensile Rock Shield
     display_name: Gulogluteus Scutiger
@@ -305,6 +314,7 @@ species:
     genus: Perfusuas
     epithet: subterraneus
     clade_tag: Bridge
+    sentience_tier: T1
     display_name_it: Miriapode delle Cripte
     display_name_en: Crypt Myriapod
     display_name: Perfusuas Pedes
@@ -333,6 +343,7 @@ species:
     genus: Proteoplasma
     epithet: amoebiforme
     clade_tag: Playable
+    sentience_tier: T0
     display_name_it: Plasma Proteico
     display_name_en: Protean Plasma
     display_name: Proteus Plasma
@@ -361,6 +372,7 @@ species:
     genus: Rupicapra
     epithet: sensoria
     clade_tag: Keystone
+    sentience_tier: T5
     display_name_it: Stambecco Sensoriale
     display_name_en: Sensory Ibex
     display_name: Rupicapra Sensoria
@@ -389,6 +401,7 @@ species:
     genus: Soniptera
     epithet: resonans
     clade_tag: Threat
+    sentience_tier: T2
     display_name_it: Ala Risonante
     display_name_en: Resonant Wing
     display_name: Soniptera Resonans
@@ -417,6 +430,7 @@ species:
     genus: Terracetus
     epithet: ambulator
     clade_tag: Keystone
+    sentience_tier: T3
     display_name_it: Cetaceo Terrestre
     display_name_en: Walking Cetacean
     display_name: Terracetus Ambulator
@@ -445,6 +459,7 @@ species:
     genus: Umbralaris
     epithet: silens
     clade_tag: Playable
+    sentience_tier: T3
     display_name_it: Ala d'Ombra
     display_name_en: Shadow Wing
     display_name: Umbra Alaris
