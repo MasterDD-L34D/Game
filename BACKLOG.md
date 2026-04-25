@@ -34,6 +34,12 @@
 - [ ] **TKT-10** — Harness retry+resume incrementale (JSONL write per-run). **Parziale**: PR #1551 probe_one addendum; retry+resume esplicito da confermare.
 - [ ] **TKT-11** — `predict_combat` 8p aggregate sanity boss vs full party. **Aperto** (nessun commit linkato).
 
+### Triangle Strategy MBTI surface tickets (proposed OD-013, pending user verdict)
+
+- [ ] **TKT-P4-MBTI-001** — Phased reveal MBTI Disco-Elysium-style (Proposal A, ~6-8h). Hook `vcScoring.js computeMbtiAxes` returns `confidence_per_axis`, frontend filter axis con confidence > 0.7. P4 🟡 → 🟡+. Card [M-2026-04-25-009](docs/museum/cards/personality-triangle-strategy-transfer.md).
+- [ ] **TKT-P4-MBTI-002** — Dialogue color codes diegetic (Proposal B, ~5-7h). Hook `narrativeEngine.pickVoice` + `render.js drawDialogue` color palette per MBTI axis. WCAG accessibility review needed (link `ui-design-illuminator`).
+- [ ] **TKT-P4-MBTI-003** — Recruit gating by MBTI thresholds (Proposal C, ~4-6h). Hook `metaProgression.recruitFromDefeat`. Pre-req: M-007 mating engine activate (Path A in OD-001).
+
 ### Museum-driven autonomous tasks (user verdict 2026-04-25)
 
 - [ ] **TKT-ANCESTORS-RECOVERY (P2 autonomous)** — Caccia online dei 263 neuroni Ancestors mancanti. RFC v0.1 prometteva 297, solo 34 sopravvissuti in CSV. Path B di [OD-011](OPEN_DECISIONS.md#od-011) scheduled come task autonomous quando Claude ha budget tempo. **NON userland action**. Sources candidate (già citate in [pack README](packs/evo_tactics_pack/tools/py/modules/personality/enneagram/README.md) + [RFC](docs/planning/research/sentience-rfc/RFC_Sentience_Traits_v0.1.md)):
