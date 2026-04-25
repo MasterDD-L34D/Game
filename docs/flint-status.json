@@ -2,75 +2,75 @@
   "_meta": {
     "generator": "flint_status_stdlib (fallback)",
     "version": "0.2.0-stdlib",
-    "generated_at": "2026-04-24T00:19:49.925324+00:00",
+    "generated_at": "2026-04-25T20:37:06.117973+00:00",
     "repo_root": "C:\\dev\\Game",
     "note": "File generato via tools/py/flint_status_stdlib.py (stdlib-only). Quando flint CLI è installato, rigenerare con `flint export`."
   },
   "snapshot": {
-    "dirty_files_count": 2,
+    "dirty_files_count": 1,
     "recent_commits_count": 10,
-    "gameplay_ratio": 0.3,
-    "consecutive_infra_commits": 0,
-    "is_drifting": false,
+    "gameplay_ratio": 0.0,
+    "consecutive_infra_commits": 1,
+    "is_drifting": true,
     "recent_commits": [
       {
-        "sha": "c633ae7f",
-        "kind": "GAMEPLAY",
-        "message_first_line": "chore(swarm): register gameplay-prototyper + combat-engineer + sync runtime state",
-        "files_count": 0
-      },
-      {
-        "sha": "d319404e",
-        "kind": "GAMEPLAY",
-        "message_first_line": "docs(planning): M11 Phase B→TKT-05 close + next session handoff (P5 🟢 pending playtest) (#1687)",
-        "files_count": 0
-      },
-      {
-        "sha": "d97eb5f8",
-        "kind": "ALTRO",
-        "message_first_line": "feat(network): M11 TKT-M11B-05 — host-transfer on disconnect (FIFO first-come) (#1685)",
-        "files_count": 0
-      },
-      {
-        "sha": "583be2a8",
-        "kind": "ALTRO",
-        "message_first_line": "feat(network): M11 Phase C — host TV roster panel + ngrok playbook (TKT-04/06 partial) (#1684)",
-        "files_count": 0
-      },
-      {
-        "sha": "d14b2655",
-        "kind": "GAMEPLAY",
-        "message_first_line": "feat(network): M11 Phase B+ — phone intent UI + host relay + campaign mirror (TKT-01/02/03) (#1686)",
-        "files_count": 0
-      },
-      {
-        "sha": "d35dde92",
-        "kind": "ALTRO",
-        "message_first_line": "feat(network): M11 Phase B — Jackbox lobby frontend + TV spectator + WS client (P5) (#1682)",
-        "files_count": 0
-      },
-      {
-        "sha": "6d722e40",
-        "kind": "DOCS",
-        "message_first_line": "docs(planning): M11 Phase A close + Phase B handoff + CLAUDE.md sync (#1681)",
-        "files_count": 0
-      },
-      {
-        "sha": "db4325f0",
-        "kind": "ALTRO",
-        "message_first_line": "feat(network): M11 Phase A — Jackbox room-code WebSocket backend (P5) (#1680)",
-        "files_count": 0
-      },
-      {
-        "sha": "3272f844",
+        "sha": "0f665ffe",
         "kind": "INFRA",
-        "message_first_line": "feat(meta): Prisma persistence adapter for metaProgression (Prompt B / L06 partial) (#1679)",
+        "message_first_line": "chore(swarm): agent ranking promotions 2026-04-25",
         "files_count": 0
       },
       {
-        "sha": "cc35e2d2",
+        "sha": "4ee9e30f",
         "kind": "ALTRO",
-        "message_first_line": "feat(balance): trait environmental costs pilot 4×3 (#1674) (#1678)",
+        "message_first_line": "docs: backlog drift fix #3 — F-1/F-2/F-3 + M14-A partial closures (#1820)",
+        "files_count": 0
+      },
+      {
+        "sha": "e5f0ba25",
+        "kind": "ALTRO",
+        "message_first_line": "Merge pull request #1819 from MasterDD-L34D/fix/post-od011-balance-gates-doc",
+        "files_count": 0
+      },
+      {
+        "sha": "e54f2bc8",
+        "kind": "ALTRO",
+        "message_first_line": "Merge branch 'main' into fix/post-od011-balance-gates-doc",
+        "files_count": 0
+      },
+      {
+        "sha": "7f49d71a",
+        "kind": "ALTRO",
+        "message_first_line": "fix(traits)+docs: post-OD-011 audit fixes — gates + balance + sprint context",
+        "files_count": 0
+      },
+      {
+        "sha": "6b2670a3",
+        "kind": "ALTRO",
+        "message_first_line": "docs: ancestors drift fix #2 — card numbers + 2 BACKLOG ticket closures (#1818)",
+        "files_count": 0
+      },
+      {
+        "sha": "0d5a068b",
+        "kind": "ALTRO",
+        "message_first_line": "Merge pull request #1817 from MasterDD-L34D/feat/od-011-path-b-wire",
+        "files_count": 0
+      },
+      {
+        "sha": "effc06e4",
+        "kind": "ALTRO",
+        "message_first_line": "feat(traits): OD-011 Path B wire — 267 ancestors neurons batch",
+        "files_count": 0
+      },
+      {
+        "sha": "bb19697b",
+        "kind": "ALTRO",
+        "message_first_line": "docs: backlog drift fix — 3 ticket stale chiusi con SHA (#1814)",
+        "files_count": 0
+      },
+      {
+        "sha": "65b61a3a",
+        "kind": "ALTRO",
+        "message_first_line": "Merge pull request #1815 from MasterDD-L34D/feat/od-011-path-b-wiki-recovery",
         "files_count": 0
       }
     ]

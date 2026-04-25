@@ -9,14 +9,14 @@
     "definition_file": "agents/lore-designer.md",
     "profile_file": ".ai/lore-designer/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 6,
-      "accepted": 6,
+      "level": 1,
+      "total_cycles": 9,
+      "accepted": 9,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5],
+      "last_promoted_at": "2026-04-25T21:16:40.735327",
       "last_demoted_at": null
     }
   },
@@ -24,6 +24,22 @@
     "description": "Gestisce stats, costi e bilanciamento numerico (incl. effetti di biomi) senza cambiare la narrativa; coordina con lore-designer/trait-curator quando necessario.",
     "definition_file": "agents/balancer.md",
     "profile_file": ".ai/balancer/PROFILE.md",
+    "stats": {
+      "level": 1,
+      "total_cycles": 8,
+      "accepted": 8,
+      "rejected": 0,
+      "duplicate": 0,
+      "security_alerts": 0,
+      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 4.0],
+      "last_promoted_at": "2026-04-25T21:16:40.742893",
+      "last_demoted_at": null
+    }
+  },
+  "asset-prep": {
+    "description": "Gestisce pipeline asset (immagini, schede) per unità e biomi.",
+    "definition_file": "agents/asset-prep.md",
+    "profile_file": ".ai/asset-prep/PROFILE.md",
     "stats": {
       "level": 0,
       "total_cycles": 4,
@@ -36,34 +52,18 @@
       "last_demoted_at": null
     }
   },
-  "asset-prep": {
-    "description": "Gestisce pipeline asset (immagini, schede) per unità e biomi.",
-    "definition_file": "agents/asset-prep.md",
-    "profile_file": ".ai/asset-prep/PROFILE.md",
-    "stats": {
-      "level": 0,
-      "total_cycles": 1,
-      "accepted": 1,
-      "rejected": 0,
-      "duplicate": 0,
-      "security_alerts": 0,
-      "rolling_window": [7.5],
-      "last_promoted_at": null,
-      "last_demoted_at": null
-    }
-  },
   "archivist": {
     "description": "Organizza documentazione, indici e struttura file (specie, biomi, ecosistemi).",
     "definition_file": "agents/archivist.md",
     "profile_file": ".ai/archivist/PROFILE.md",
     "stats": {
       "level": 0,
-      "total_cycles": 2,
-      "accepted": 2,
+      "total_cycles": 5,
+      "accepted": 5,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5],
+      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
@@ -74,12 +74,12 @@
     "profile_file": ".ai/dev-tooling/PROFILE.md",
     "stats": {
       "level": 0,
-      "total_cycles": 2,
-      "accepted": 2,
+      "total_cycles": 5,
+      "accepted": 5,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5],
+      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
@@ -89,14 +89,14 @@
     "definition_file": "agents/trait-curator.md",
     "profile_file": ".ai/trait-curator/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 3,
-      "accepted": 3,
+      "level": 1,
+      "total_cycles": 6,
+      "accepted": 6,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 4.0, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [7.5, 4.0, 7.5, 7.5, 7.5, 7.5],
+      "last_promoted_at": "2026-04-25T21:35:07.754852",
       "last_demoted_at": null
     }
   },
@@ -105,14 +105,14 @@
     "definition_file": "agents/species-curator.md",
     "profile_file": ".ai/species-curator/PROFILE.md",
     "stats": {
-      "level": 0,
-      "total_cycles": 3,
-      "accepted": 3,
+      "level": 1,
+      "total_cycles": 6,
+      "accepted": 6,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5],
-      "last_promoted_at": null,
+      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5, 7.5],
+      "last_promoted_at": "2026-04-25T21:35:07.763771",
       "last_demoted_at": null
     }
   },
@@ -122,12 +122,12 @@
     "profile_file": ".ai/biome-ecosystem-curator/PROFILE.md",
     "stats": {
       "level": 0,
-      "total_cycles": 3,
-      "accepted": 3,
+      "total_cycles": 5,
+      "accepted": 5,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [7.5, 7.5, 7.5],
+      "rolling_window": [7.5, 7.5, 7.5, 7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
@@ -140,12 +140,12 @@
     "created_at": "2026-04-23T23:43:49.876209",
     "stats": {
       "level": 0,
-      "total_cycles": 0,
-      "accepted": 0,
+      "total_cycles": 3,
+      "accepted": 3,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [],
+      "rolling_window": [7.5, 7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
@@ -158,12 +158,12 @@
     "created_at": "2026-04-23T23:43:49.941092",
     "stats": {
       "level": 0,
-      "total_cycles": 0,
-      "accepted": 0,
+      "total_cycles": 2,
+      "accepted": 2,
       "rejected": 0,
       "duplicate": 0,
       "security_alerts": 0,
-      "rolling_window": [],
+      "rolling_window": [7.5, 7.5],
       "last_promoted_at": null,
       "last_demoted_at": null
     }
