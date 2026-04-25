@@ -8,12 +8,31 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v3 (post 5 P0 illuminator residuals merged sessione 2026-04-25 notte)
-- **Ultimo aggiornamento**: 2026-04-25 (sessione autonoma 5 PR mergiati: SPRT, Macro-economy, PI Monte Carlo, Briefing variations, XP audit, QBN engine)
+- **Versione compact**: v4 (post 3 P0 residuals chiusi sessione 2026-04-25 pomeriggio)
+- **Ultimo aggiornamento**: 2026-04-25 (sessione autonoma 3 PR mergiati: pypdf test fix, MAP-Elites HTTP fitness wrapper, Thought Cabinet Phase 2)
 
 ## ⚡ TL;DR per ripartire
 
-**6 agent illuminator pronti** + **6 P0 chiusi sessione 2026-04-25** + 80 nuovi test services + 24 pytest. Pattern stdlib-only + js-yaml + mulberry32 seed validato 6×. **NON perdere l'approccio research-first agent-driven**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+**6 agent illuminator pronti** + **10 P0 chiusi totali** (7 sessione notte + 3 sessione pomeriggio) + **9° / 10° P0 chiusi** in questa sessione (HTTP wrapper + thought cabinet internalization). Pattern stdlib-only + js-yaml + mulberry32 + monkeypatch DI validato 7×. **NON perdere l'approccio research-first agent-driven**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+
+## 🆕 Sessione 2026-04-25 pomeriggio (autonoma, utente trust esteso)
+
+**3 PR mergiati main consecutivi**:
+
+| PR    | Title                                                   | SHA        |
+| ----- | ------------------------------------------------------- | ---------- |
+| #1767 | fix(tests): pytest.importorskip pypdf in collection     | `02832dfc` |
+| #1768 | feat(balance): MAP-Elites HTTP fitness wrapper P0 #2    | `fcd50315` |
+| #1769 | feat(narrative): Thought Cabinet Phase 2 (Disco intern) | `b04f3a92` |
+
+**Tests aggregate**: AI 307/307 · services 257/257 · pytest **948/948** (+12 map_elites/restricted_play) · thoughtCabinet **39/39** · sessionThoughts **11/11** · api **621/621** · governance 0/0.
+
+**P0 residuali chiusi**:
+
+- balance: **MAP-Elites HTTP fitness wrapper** (#1768) — wire `run_one` HTTP, --fitness http|synthetic CLI flag, `unit_override` backward-compat hook su restricted_play, `build_http_evaluator` DI-testable
+- narrative: **Thought Cabinet Phase 2** (#1769) — createCabinetState + startResearch + tickResearch + forgetThought + passiveBonuses, 3 REST route (research/forget/tick), 6 tier-1 thoughts con effect_bonus+effect_cost
+
+**Fix bonus**: PR #1767 pypdf test collection error (local venv parziale) — `pytest.importorskip` allinea al pattern lazy del tool coperto.
 
 ## 🆕 Sessione 2026-04-25 notte (autonoma post user trust)
 
@@ -33,7 +52,7 @@
 
 **7 P0 chiusi**: balance SPRT, economy Machinations diagram, economy PI Monte Carlo, narrative briefing variations, narrative QBN, pcg XP audit, balance MAP-Elites + bonus governance bug fix.
 
-**P0 residuali rimanenti**: balance MCTS (~4h, needs session state clone API), ui intent preview (~4h, UI runtime risk), ui threat zone toggle (~3h, UI), pcg objective variety (~8h), narrative Disco Elysium thought cabinet (~6h).
+**P0 residuali rimanenti** (post sessione pomeriggio): balance MCTS (~4h, blocked by session state clone API), ui intent preview (~4h, UI runtime risk), ui threat zone toggle (~3h, UI runtime risk), pcg objective variety (~8h). Thought Cabinet Phase 2 shipped (#1769) — UI reveal + combat resolver wire = follow-up P1.
 
 ## Stato attuale (post sessione 2026-04-24/25 notte)
 
