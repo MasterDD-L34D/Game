@@ -21,25 +21,27 @@ last_verified: 2026-04-25
 
 # Ancestors Neurons Dump 01B Sanitized — 34 trigger combat
 
+> **Reality check 2026-04-25**: card originale claim "22 Self-Control" + 5+3+4+4 ramo breakdown. `awk count $branch column` rivela **12 Self-Control + 10 Dodge + 8 Attack + 3 Ambulation + 1 Dexterity = 34** (consistente). Numbers fixed below.
+
 ## Summary (30s)
 
-- **34 entry CSV** sanitized, 5 rami coperti (Ambulation / Attack / Dexterity / Dodge / Self-Control), ~11% di 297 neuroni promessi RFC v0.1
-- **22 trigger Self-Control** = oro per reaction system (counter / dodge / intercept) — plug-in diretto in `active_effects.yaml`
+- **34 entry CSV** sanitized, 5 rami coperti (Self-Control / Dodge / Attack / Ambulation / Dexterity), ~11% di 297 neuroni promessi RFC v0.1
+- **12 trigger Self-Control** = stub data-only per future reaction-window mechanic — plug-in `active_effects.yaml` (impl 2026-04-25 PR #1815)
 - **Bridge Ancestors → trait runtime mai creato**: RFC menziona `data/neurons_bridge.csv` mai esistito — questa CSV è l'unica fonte machine-readable sopravvissuta
 
 ## What was buried
 
-CSV 34 righe, columns: `ramo`, `codice`, `nome_italiano`, `descrizione`, `trigger_combat`, `effetto_proposto`, `note`.
+CSV 34 righe, columns: `code`, `branch`, `name`, `genetic`, `effect_short`, `unlock_trigger_hint`, `sources`, `notes`.
 
-Distribuzione rami:
+Distribuzione rami (verificato awk 2026-04-25):
 
-| Ramo            | Count | Tipo trigger combat                      |
-| --------------- | ----- | ---------------------------------------- |
-| Self-Control    | 22    | Reaction (counter, dodge, intercept)     |
-| Ambulation (AB) | 5     | Movement modifier (sprint, climb, carry) |
-| Dexterity (DX)  | 3     | Aim/equilibrium                          |
-| Counterattack   | 4     | Reaction trigger                         |
-| Dodge (DO)      | 4     | Reaction trigger                         |
+| Ramo         | Count | Tipo trigger combat                                  |
+| ------------ | ----- | ---------------------------------------------------- |
+| Self-Control | 12    | Reaction window / time dilation / dopamine reduction |
+| Dodge        | 10    | Reaction trigger (evasion, withdrawal)               |
+| Attack       | 8     | Counterattack preparation speed                      |
+| Ambulation   | 3     | Movement modifier (sprint, climb, carry)             |
+| Dexterity    | 1     | Aim/equilibrium                                      |
 
 Codici esempio Self-Control:
 

@@ -2700,3 +2700,302 @@ traits:
       magnetic_rift_resonance.
     biome_affinity:
       atollo_obsidiana: 0.8
+
+  # ======================================================================
+  # ANCESTORS — Self-Control branch (12 trigger, OD-011 path A, 2026-04-25)
+  # ----------------------------------------------------------------------
+  # Source: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+  # Card:   docs/museum/cards/ancestors-neurons-dump-csv.md (M-2026-04-25-004)
+  #
+  # Reality check: card afferma "22 Self-Control" ma awk count CSV branch
+  # column = 12 (FR 01-08 + BB FR 01-04). Implementati i 12 reali.
+  #
+  # Tutti stub data-only seguendo pattern magnetic_sensitivity. Non esiste
+  # ancora mechanic "timing window" / "reaction speed" nel resolver d20:
+  # questi trait registrano semantica + provenance per future wire (M-future:
+  # quando si aggiunge `reaction_window` o `dopamine_cost` come stat).
+  #
+  # 3 famiglie di stub status (no consumer attivo):
+  #   time_dilated  — Tachypsychia + Temporal Distortion (FR 01-04)
+  #   reactive_focus— Perceptual + Internal Process Speed (FR 05-08)
+  #   disciplined   — Determination genetic (BB FR 01-04)
+  # ======================================================================
+
+  tachypsychia:
+    tier: T1
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: time_dilated
+      turns: 1
+      log_tag: tachypsychia_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: FR 01
+      csv_row: 20
+      genetic: false
+    description_it: |
+      Tachipsychia — finestra temporale percepita piu' ampia durante il
+      combattimento. Stub data-only (M-future: timing_window_+1 quando
+      l'unita' viene colpita).
+
+  temporal_distortion_minor:
+    tier: T1
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: time_dilated
+      turns: 1
+      log_tag: temporal_distortion_minor_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: FR 02
+      csv_row: 21
+      genetic: false
+    description_it: |
+      Distorsione temporale minore — variante introduttiva di tachypsychia.
+      Stub data-only (M-future: timing_window_+1 turn 1).
+
+  temporal_distortion_moderate:
+    tier: T2
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: time_dilated
+      turns: 2
+      log_tag: temporal_distortion_moderate_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: FR 03
+      csv_row: 22
+      genetic: false
+    description_it: |
+      Distorsione temporale moderata — finestra temporale estesa quando
+      l'attacco subito ha alta intensita' (min_mos 5). Stub data-only
+      (M-future: timing_window_+2).
+
+  temporal_distortion_max:
+    tier: T2
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: time_dilated
+      turns: 3
+      log_tag: temporal_distortion_max_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: FR 04
+      csv_row: 23
+      genetic: false
+    description_it: |
+      Distorsione temporale massima — la finestra temporale e' al picco
+      sotto colpi critici (min_mos 8). Stub data-only (M-future:
+      timing_window_+3).
+
+  perceptual_time_dilation:
+    tier: T1
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: reactive_focus
+      turns: 1
+      log_tag: perceptual_time_dilation_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: FR 05
+      csv_row: 24
+      genetic: false
+    description_it: |
+      Dilatazione temporale percettiva — reazioni piu' rapide alle minacce.
+      Stub data-only (M-future: reaction_speed_+1 quando minacciato).
+
+  internal_process_speed_predator:
+    tier: T1
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: reactive_focus
+      turns: 1
+      log_tag: ips_predator_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: FR 06
+      csv_row: 25
+      genetic: false
+      target_filter: predator
+    description_it: |
+      Velocita' processo interno (predator) — reazioni accelerate vs
+      predatori. Stub data-only (M-future: target_filter=predator gating
+      + reaction_speed_+1).
+
+  internal_process_speed_irascible:
+    tier: T1
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: reactive_focus
+      turns: 1
+      log_tag: ips_irascible_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: FR 07
+      csv_row: 26
+      genetic: false
+      target_filter: irascible
+    description_it: |
+      Velocita' processo interno (irascible) — reazioni accelerate vs
+      animali irascibili. Stub data-only (M-future: target_filter=irascible
+      gating).
+
+  internal_process_speed_wildlife:
+    tier: T1
+    category: comportamentale
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: reactive_focus
+      turns: 1
+      log_tag: ips_wildlife_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: FR 08
+      csv_row: 27
+      genetic: false
+      target_filter: wildlife
+    description_it: |
+      Velocita' processo interno (wildlife) — reazioni accelerate vs
+      fauna generica. Stub data-only (M-future: target_filter=wildlife
+      gating).
+
+  determination_t1:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: disciplined
+      turns: 2
+      log_tag: determination_t1_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: BB FR 01
+      csv_row: 28
+      genetic: true
+    description_it: |
+      Determinazione (genetica T1) — meno dopamina richiesta per
+      rispondere alle minacce. Stub data-only (M-future: dopamine_cost
+      reduction o stress_resistance bonus passivo).
+
+  determination_t2:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: disciplined
+      turns: 3
+      log_tag: determination_t2_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: BB FR 02
+      csv_row: 29
+      genetic: true
+    description_it: |
+      Determinazione (genetica T2) — variante intermedia, durata
+      estesa. Stub data-only (M-future: dopamine_cost reduction stronger).
+
+  determination_t3:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: disciplined
+      turns: 4
+      log_tag: determination_t3_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: BB FR 03
+      csv_row: 30
+      genetic: true
+    description_it: |
+      Determinazione (genetica T3) — variante avanzata, attivata da
+      colpi solidi (min_mos 5). Stub data-only.
+
+  determination_t4:
+    tier: T3
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 8
+    effect:
+      kind: apply_status
+      target_side: actor
+      stato: disciplined
+      turns: 5
+      log_tag: determination_t4_passive
+    ancestor_provenance:
+      source_csv: reports/incoming/ancestors/ancestors_neurons_dump_01B_sanitized.csv
+      csv_code: BB FR 04
+      csv_row: 31
+      genetic: true
+    description_it: |
+      Determinazione (genetica T4) — picco evolutivo, attivata da
+      colpi critici (min_mos 8). Stub data-only (M-future: dopamine_cost
+      reduction full + immunity passive).
