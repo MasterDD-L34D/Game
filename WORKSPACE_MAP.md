@@ -1,173 +1,218 @@
 # WORKSPACE_MAP — Evo-Tactics ecosystem
 
-> **Scope**: mappa fisica del workspace `C:/Users/edusc/Desktop/gioco/`. Risponde a "dove sta X, che ruolo ha, qual è l'entry point?".
+> **Scope**: mappa fisica COMPLETA dell'ecosystem (non solo `gioco/`). Risponde a "dove sta X, che ruolo ha, qual è l'entry point?". Audit a fondo 2026-04-25 post user feedback "non c'è punto chiaro di ingresso".
 > **Aggiornato**: 2026-04-25
-> **Sorgenti**: filesystem `gioco/` + `PROJECT_BRIEF.md` + `LIBRARY.md` + `docs/adr/ADR-2026-04-14-game-database-topology.md` + `game-swarm-package/README.md`.
+> **Sorgenti**: filesystem-wide grep (`Dafne`, `Game*`, `swarm*`, `aa01`, `.openclaw`) + `gh repo list MasterDD-L34D` + `git remote -v` cross-check + content lettura README/CLAUDE/INDEX di ogni progetto.
 
 ---
 
 ## TL;DR
 
-`Game/` è il runtime. `Game-Database/` è il CMS taxonomy sibling (HTTP Alt B flag-OFF). `game-swarm/` è uno swarm AI esterno (Ollama+Aider+AG2) che produce artifact validati che il Game importa. `codemasterdd-ai-station/` è l'archivio operativo prompt+template. (`synesthesia/` UPO esame universitario è stato spostato 2026-04-25 a `~/Documents/UPO/`, NON parte di Evo-Tactics.)
+L'ecosystem Evo-Tactics è composto da **4 GitHub repo core + 3 progetti AI satelliti + 2 location parallele di lavoro**. Non è solo `gioco/`. Game (runtime) si parla con Game-Database (CMS) via build-time + HTTP Alt B. **Dafne** (AI agent standalone con widget Tauri) ospita il **evo-swarm** (repo separato MasterDD-L34D/evo-swarm) che produce artifact staged in `Game/incoming/swarm-candidates/` per review umana prima di promozione canonical. AA01 (Archon Atelier) e OpenClaw sono runtime cognitivi paralleli che orchestrano Dafne + altri agent.
 
 ---
 
-## 🗺️ Topologia repo (cartelle vive)
+## 🗺️ Topologia COMPLETA per location
 
-| Slot                        | Path locale                                             | Tipo               | Ruolo                                                                                                    | Stato adoption                                                                                                     | Entry point doc                                                                                                       |
-| --------------------------- | ------------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| **Game** (questo)           | `C:/Users/edusc/Desktop/gioco/Game/`                    | Monorepo polyglot  | Runtime canonical: backend Express + Vue dashboard + dataset YAML + CLI tools                            | 🟢 attivo, MVP M16-M20 chiuso, 411/411 test                                                                        | `PROJECT_BRIEF.md` → `COMPACT_CONTEXT.md` → `CLAUDE.md`                                                               |
-| **Game-Database**           | `C:/Users/edusc/Documents/GitHub/Game-Database/`        | Sibling repo CMS   | Taxonomy CMS (Prisma + Postgres + Express + React MUI Tailwind TanStack Table) per glossary trait/specie | 🟢 clonato 2026-04-25 (branch `main`) · HTTP runtime Alt B scaffolded **flag-OFF** (`GAME_DATABASE_ENABLED=false`) | `Game-Database/README.md` + `Game-Database/CLAUDE.md` + `Game-Database/README_HOWTO_AUTHOR_TRAIT.md` + ADR-2026-04-14 |
-| **codemasterdd-ai-station** | `C:/Users/edusc/Desktop/gioco/codemasterdd-ai-station/` | Archivio operativo | Prompt library + bootstrap kit + Claude Code operating package + template                                | 🟢 Sprint 0+1 integrati (PR #1732, 2026-04-24)                                                                     | `LIBRARY.md` § Archivio operativo + memory `reference_archivio_libreria_operativa.md`                                 |
-| **aider-tty-test**          | `C:/Users/edusc/Desktop/gioco/aider-tty-test/`          | Sandbox            | Test Aider TTY pairing                                                                                   | 🟢 sandbox isolato, side-effect zero                                                                               | n/a                                                                                                                   |
-| **scratch**                 | `C:/Users/edusc/Desktop/gioco/scratch/`                 | Scratch            | Spazio temporaneo                                                                                        | 🟢 ephemeral, nessun commit                                                                                        | n/a                                                                                                                   |
+### Primary workspace `C:/Users/edusc/Desktop/gioco/` (post cleanup 2026-04-25)
 
-> **synesthesia** (progetto universitario UPO 2025-26) era qui, **spostato 2026-04-25** a `C:/Users/edusc/Documents/UPO/synesthesia/` per declutter workspace Evo-Tactics. Repo standalone, NON parte di Evo-Tactics.
+| Slot                      | Path                                               | Tipo               | Stato                                                         |
+| ------------------------- | -------------------------------------------------- | ------------------ | ------------------------------------------------------------- |
+| **Game** (questo)         | `gioco/Game/`                                      | Monorepo polyglot  | 🟢 runtime canonical Evo-Tactics (Express + Vue + YAML + CLI) |
+| `_archive/`               | `gioco/_archive/2026-04-20-codemasterdd-handoffs/` | Storico            | 🟢 6 zip storici codemasterdd (declutter post 2026-04-25)     |
+| `codemasterdd-ai-station` | `gioco/codemasterdd-ai-station/`                   | Archivio operativo | 🟢 Sprint 0+1 integrati (PR #1732 2026-04-24)                 |
+| `aider-tty-test`          | `gioco/aider-tty-test/`                            | Sandbox            | 🟢 isolato                                                    |
+| `scratch`                 | `gioco/scratch/`                                   | Scratch ephemeral  | 🟢                                                            |
+| `game-swarm-package.zip`  | `gioco/`                                           | Zip starter swarm  | 🟡 NOT estratto (deferred post-MVP, vedi Game Swarm)          |
 
-**Game-Database stack** (porte locali):
+> **synesthesia** spostato 2026-04-25 a `~/Documents/UPO/synesthesia/` (UPO esame, NON Evo-Tactics).
 
-- Postgres (Docker compose): `localhost:5432` (host port 5433 raccomandato in CLAUDE.md per evitare collisione con Postgres Game)
-- Server Express + Prisma: `http://localhost:3333` (`server/`)
-- Dashboard React MUI: `http://localhost:5174` (`apps/dashboard/`)
+### `C:/Users/edusc/Documents/`
 
-**Bootstrap quick** (PowerShell, dal repo Game-Database):
+| Slot              | Path                              | Stato                                                 |
+| ----------------- | --------------------------------- | ----------------------------------------------------- |
+| **Game-Database** | `Documents/GitHub/Game-Database/` | 🟢 sibling CMS taxonomy, clonato 2026-04-25, smoke OK |
+| `synesthesia`     | `Documents/UPO/synesthesia/`      | 🟢 spostato 2026-04-25 (esame UPO, standalone)        |
 
-```powershell
-docker compose up -d                      # Postgres
-Set-Location server; Copy-Item .env.example .env
-npm install; npm run dev:setup; npm run dev   # API :3333
-Set-Location ..\apps\dashboard; Copy-Item .env.local.example .env.local
-npm install; npm run dev                  # UI :5174
+### `C:/Users/edusc/Dafne/` — AI Agent standalone (81MB)
+
+| Slot                         | Path                     | Tipo                          | Note                                                                            |
+| ---------------------------- | ------------------------ | ----------------------------- | ------------------------------------------------------------------------------- |
+| `agent/`                     | `Dafne/agent/`           | Auth profiles + models config | Active (auth-profiles.json, auth-state.json, models.json + backup 2026-04-25)   |
+| **`workspace/`**             | `Dafne/workspace/`       | Dafne working files           | IDENTITY.md, MEMORY.md, SOUL.md, AGENTS.md, voice-models, skills, test_trait.py |
+| **`workspace/swarm/`**       | `Dafne/workspace/swarm/` | **evo-swarm repo clonato**    | 🟢 GitHub `MasterDD-L34D/evo-swarm` HEAD `25c148b`                              |
+| `widget-tauri/`              | `Dafne/widget-tauri/`    | Desktop widget (Tauri Rust)   | dist + src-tauri (compiled?)                                                    |
+| `start-dafne.cmd`            | `Dafne/`                 | Launcher Windows              | Backup 2026-04-25                                                               |
+| `make-{dafne,swarm}-icon.py` | `Dafne/`                 | Build script .ico             | Source per dafne.ico + swarm.ico                                                |
+
+### `C:/Users/edusc/aa01/` — Archon Atelier 01 (multi-agent cognitive studio)
+
+| Slot                                                  | Path                 | Note                                                                                    |
+| ----------------------------------------------------- | -------------------- | --------------------------------------------------------------------------------------- |
+| `archon/`                                             | `aa01/archon/`       | Orchestratore 12 strati, 7 ruoli universali, Pattern E (eredita ARCHON v2.0.2 + A00 v2) |
+| `inbox/`                                              | `aa01/inbox/`        | Capture zone                                                                            |
+| `workspace/`                                          | `aa01/workspace/`    | Lavoro attivo (es. `2026-04-aa01-001-2026-04-25-voice-test-protocol-dafne/`)            |
+| `archive/`                                            | `aa01/archive/`      | Lavori chiusi                                                                           |
+| `decision-log/`                                       | `aa01/decision-log/` | ADR cognitive                                                                           |
+| `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `CHANGELOG.md` | `aa01/`              | Onboarding multi-AI (last update 2026-04-25 03:56)                                      |
+
+**Status**: 🟢 attivo (CHANGELOG aggiornato 2026-04-25). NON git repo locally, archivio personale. Versione 1.0.0.
+
+### `C:/Users/edusc/.openclaw/` — OpenClaw runtime (active)
+
+| Slot                       | Note                                                                  |
+| -------------------------- | --------------------------------------------------------------------- |
+| `agents/dafne`             | Dafne agent profile (gestito anche da OpenClaw, NON solo da `Dafne/`) |
+| `subagents/`               | Subagent definitions                                                  |
+| `sandboxes/`               | Sandbox per agenti (es. `agent-dafne-c52ca5e1`)                       |
+| `skills/`                  | Skill definitions                                                     |
+| `memory/dafne.sqlite`      | Memory persistente Dafne                                              |
+| `telegram/`, `qqbot/`      | Integration bot                                                       |
+| `openclaw.json` + 8 backup | Config attivo (last modify 2026-04-24 20:24)                          |
+
+**Status**: 🟢 attivo runtime (config touched 2026-04-24, multipli `openclaw.json.clobbered.*` indicano rescue tracking). Coordina Dafne agent.
+
+### `C:/dev/` — Location alternativa lavoro
+
+| Slot                      | Path                              | Stato vs primary                                                                                                                                                                                                                            |
+| ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Game**                  | `C:/dev/Game/`                    | 🟡 SECONDO checkout Game su branch `swarm/register-biome-gameplay-integrator-2026-04-24`, 121 commits behind main, uncommitted changes (agents_index.json + flint-status.json). Probabile working copy abbandonato post-merge swarm staging |
+| `synesthesia`             | `C:/dev/synesthesia/`             | 🟡 TERZA copia synesthesia (identica `~/Documents/UPO/synesthesia/`, candidato cleanup)                                                                                                                                                     |
+| `codemasterdd-ai-station` | `C:/dev/codemasterdd-ai-station/` | 🟡 SECONDO clone (stesso remote di `gioco/codemasterdd-ai-station/`)                                                                                                                                                                        |
+| `AA01`                    | `C:/dev/AA01/`                    | 🟡 Versione tarball-based (aa01.tar.gz + AGENTS/GUIDE/README), diversa da `~/aa01/`                                                                                                                                                         |
+| `aider-tty-test`          | `C:/dev/aider-tty-test/`          | 🟡 Duplicato di `gioco/aider-tty-test/`                                                                                                                                                                                                     |
+| `backup-20260419-0518/`   | `C:/dev/backup-20260419-0518/`    | Snapshot                                                                                                                                                                                                                                    |
+| `scratch/`, `null/`       | `C:/dev/`                         | Scratch                                                                                                                                                                                                                                     |
+
+**Raccomandazione**: `C:/dev/` contiene principalmente checkout duplicati. Decidere fate (consolidare o purgare) per evitare path-confusion. Path canonical da preferire:
+
+- Game → `gioco/Game/` (worktrees attivi qui)
+- synesthesia → `~/Documents/UPO/synesthesia/` (post move)
+- codemasterdd-ai-station → `gioco/codemasterdd-ai-station/` (Sprint integrato)
+- AA01 → `~/aa01/` (CHANGELOG attivo, archon completo)
+
+---
+
+## 🐙 Ecosystem GitHub (org `MasterDD-L34D`, 13 repo totali)
+
+### Core Evo-Tactics (4 repo)
+
+| Repo                        | Ruolo                                                        | Local checkout                                                              | Stato     |
+| --------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------- | --------- |
+| **Game**                    | Runtime tactical co-op + dataset YAML                        | `gioco/Game/` (primary) + `C:/dev/Game/` (stale)                            | 🟢 active |
+| **Game-Database**           | Taxonomy CMS Prisma + Postgres + React                       | `~/Documents/GitHub/Game-Database/`                                         | 🟢 active |
+| **evo-swarm**               | Dafne AI swarm (orchestrator + agents specialist via Ollama) | `~/Dafne/workspace/swarm/`                                                  | 🟢 active |
+| **codemasterdd-ai-station** | Archivio operativo prompt + bootstrap kit                    | `gioco/codemasterdd-ai-station/` + `C:/dev/codemasterdd-ai-station/` (dupe) | 🟢 active |
+
+### Tangenziali / personali (9 repo)
+
+| Repo                       | Ruolo                                                              | Note                                    |
+| -------------------------- | ------------------------------------------------------------------ | --------------------------------------- |
+| `synesthesia`              | Esame universitario UPO 2025-26 (Prisma Interiore 9 archetipi)     | NON Evo-Tactics, condivide solo concept |
+| `vault`                    | Personal Obsidian vault (ACCESS + Karpathy LLM-wiki overlay)       | Knowledge personale                     |
+| `compass-marketplace`      | Marketplace skill `compass:*` (in `.claude/plugins/marketplaces/`) | Plugin Claude Code                      |
+| `Master-DD-Pathfinder-GPT` | GPT modulare Pathfinder                                            | Esterno Evo-Tactics                     |
+| `pathfinder-1e-homebrew`   | Pathfinder 1e custom rules                                         | RPG tabletop personale                  |
+| `torneo-cremesi-site`      | Sito statico torneo Cremesi (PF1e)                                 | Standalone                              |
+| `Item-generator`           | (no description)                                                   | Utility                                 |
+| `Gpt`                      | "per il gpt"                                                       | Storico                                 |
+| `LeaD`                     | "Una prova"                                                        | Test repo                               |
+
+---
+
+## 🔄 Relazioni runtime
+
 ```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                                                                          │
+│     ┌─────────────┐     build-time evo:import      ┌───────────────────┐ │
+│     │             │ ─────────────────────────────► │                   │ │
+│     │   Game/     │                                │  Game-Database/   │ │
+│     │ (runtime)   │ ◄─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │  (taxonomy CMS)   │ │
+│     │             │   HTTP Alt B (flag-OFF)        │                   │ │
+│     └──────▲──────┘   GET /api/traits/glossary     └───────────────────┘ │
+│            │                                                             │
+│            │ artifacts staged in                                          │
+│            │ incoming/swarm-candidates/                                   │
+│            │                                                             │
+│     ┌──────┴──────────┐                                                  │
+│     │  evo-swarm      │ ◄── ospitato in ~/Dafne/workspace/swarm/         │
+│     │  (Dafne swarm)  │                                                  │
+│     │  Ollama+CAMEL   │                                                  │
+│     └────────▲────────┘                                                  │
+│              │                                                           │
+│              │ orchestrato da                                            │
+│              │                                                           │
+│     ┌────────┴────────┐         ┌─────────────────┐                      │
+│     │  Dafne agent    │ ◄────── │  OpenClaw       │                      │
+│     │  (.openclaw +   │         │  runtime        │                      │
+│     │   ~/Dafne/agent)│         │  (~/.openclaw)  │                      │
+│     └─────────────────┘         └─────────────────┘                      │
+│                                                                          │
+│     ┌─────────────────┐         ┌─────────────────┐                      │
+│     │  AA01 cognitive │         │  codemasterdd-  │                      │
+│     │  studio         │         │  ai-station     │                      │
+│     │  (~/aa01)       │         │  (archivio)     │                      │
+│     └─────────────────┘         └─────────────────┘                      │
+│                                                                          │
+└──────────────────────────────────────────────────────────────────────────┘
 
----
-
-## 📦 Zip non estratti (in `gioco/`)
-
-| Zip                               | Contenuto stimato                                     | Decisione                                                                                 |
-| --------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `game-swarm-package.zip`          | Starter pack swarm AG2/CAMEL + 3 docx + deep-research | Estrai a `C:/dev/game-swarm/` quando si attiva swarm AI esterno (vedi sezione Game Swarm) |
-| `cm-agents-docs-batch2.zip`       | Batch 2 docs codemasterdd agent profiles              | Estrai dentro archivio `codemasterdd-ai-station/` se mai serve                            |
-| `cm-agents-planning.zip`          | Planning docs codemasterdd agent                      | Idem                                                                                      |
-| `codemasterdd-docs.zip`           | Docs misc codemasterdd                                | Probabile duplicato dell'archivio già adottato — verificare prima di estrarre             |
-| `codex-update-for-claude-web.zip` | Handoff Codex bot ↔ Claude web                       | Reference storica, estrai solo se debug Codex                                             |
-| `handoff-2026-04-21.zip`          | Snapshot handoff sessione 2026-04-21                  | Reference storica, archivio                                                               |
-| `files.zip`                       | Generic dump                                          | **Lasciare zippato** finché non si conosce contenuto                                      |
-
----
-
-## 🌐 Game Swarm (esterno, separato da Game/)
-
-**Cos'è**: pacchetto AG2 (autogen) + CAMEL pattern per orchestrare un team di agenti AI locali (planner = `qwen3:8b`, coder = `qwen2.5-coder` via Ollama + Aider) che lavora SEPARATO dal repo Game.
-
-**Filosofia**: il Game resta source-of-truth. Lo swarm comunica via **artifact validati** (JSON Schema, YAML) che vengono importati nel Game tramite adapter, non tramite edit diretti.
-
-**Path target installazione**: `C:/dev/game-swarm/` (FUORI da `gioco/`). Stato: zip non estratto, swarm non installato.
-
-**Pre-req**:
-
-- Python 3.10+
-- Ollama (download `https://ollama.com`)
-- Aider (`pip install aider`)
-- Godot 4.x CLI (per validation headless artifact)
-
-**Bootstrap quick** (vedi `game-swarm-package.zip > README.md` per dettagli):
-
-```bash
-mkdir C:/dev/game-swarm
-cd C:/dev/game-swarm
-unzip C:/Users/edusc/Desktop/gioco/game-swarm-package.zip
-python -m venv .venv && source .venv/Scripts/activate
-pip install -U pip "ag2[ollama,tracing]" pydantic PyYAML jsonschema pytest
-ollama pull qwen3:8b qwen2.5-coder
-```
-
-**Quando attivarlo**: deferred. M9-M12 roadmap NON include lo swarm. Va attivato dopo MVP playtest (post TKT-M11B-06) per task content generation in batch (es. trait wave 7+, biome variant generation).
-
-**Integrazione con Game**: tramite artifact in `data/derived/` o `packs/evo_tactics_pack/data/` con validation pipeline `npm run mock:generate` + `python3 tools/py/game_cli.py validate-datasets`. NON tramite HTTP runtime.
-
----
-
-## 🔗 Game ↔ Game-Database flow
-
-**Build-time (default, attualmente unico flusso live)**: Game produce `packs/evo_tactics_pack/docs/catalog/` → script `server/scripts/ingest/import-taxonomy.js` su Game-Database side (lanciato da `npm run evo:import`) importa nel Postgres.
-
-**Runtime HTTP Alt B (scaffolded, flag-OFF)**: Game backend chiama `GET /api/traits/glossary` su Game-Database (porta 3333). Schema in `packages/contracts/schemas/glossary.schema.json`. Cache TTL + fallback locale. Attivare con `GAME_DATABASE_ENABLED=true` quando Game-Database è up.
-
-**Port allocation** (ADR-2026-04-14):
-
-- Game backend: **3334**
-- Game-Database backend: **3333**
-- Game Postgres: **5432**
-- Game-Database Postgres host: **5433**
-
-**Tutto in ADR**: [`docs/adr/ADR-2026-04-14-game-database-topology.md`](docs/adr/ADR-2026-04-14-game-database-topology.md).
-
----
-
-## 📐 Diagramma flussi
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│  C:/Users/edusc/Desktop/gioco/                                      │
-│                                                                     │
-│  ┌──────────────┐    build-time    ┌──────────────────┐             │
-│  │              │  evo:import      │                  │             │
-│  │   Game/      │ ───────────────► │  Game-Database/  │             │
-│  │  (runtime)   │                  │  (taxonomy CMS)  │             │
-│  │              │ ◄─ ─ ─ ─ ─ ─ ─ ─ │                  │             │
-│  └──────┬───────┘  HTTP Alt B      └──────────────────┘             │
-│         │          (flag-OFF)                                        │
-│         │                                                            │
-│         │ legge prompt + template                                    │
-│         ▼                                                            │
-│  ┌──────────────────────────┐                                        │
-│  │ codemasterdd-ai-station/ │  archivio operativo                    │
-│  │  (Sprint 0+1 integrato)  │                                        │
-│  └──────────────────────────┘                                        │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
-                       │
-                       │ artifact validati (JSON/YAML)
-                       │
-                       ▼
-       ┌────────────────────────────────────┐
-       │  C:/dev/game-swarm/  (NON installato) │
-       │  AG2 + Ollama + Aider                 │
-       │  (planner+coder swarm)                │
-       └────────────────────────────────────┘
-
-   ~/Documents/UPO/synesthesia/  ⟵  spostato 2026-04-25 (UPO esame), zero coupling
-   aider-tty-test/, scratch/  ⟵  sandbox/scratch
+Workspace fisico:
+~/Desktop/gioco/Game             ← Game runtime (worktrees attivi qui)
+~/Documents/GitHub/Game-Database ← Game-Database CMS
+~/Documents/UPO/synesthesia      ← UPO esame (parcheggiato fuori scope)
+~/Dafne/                         ← Dafne agent + widget + swarm clone
+~/aa01/                          ← AA01 cognitive studio
+~/.openclaw/                     ← OpenClaw runtime config + sandboxes
+C:/dev/                          ← Location alternativa, mostly duplicati
 ```
 
 ---
 
 ## 🚦 Decisioni rapide
 
-- **"Voglio cambiare un trait"** → `data/core/traits/active_effects.yaml` in **Game**, poi `npm run sync:evo-pack`. Game-Database lo riceve al prossimo `npm run evo:import` lato Game-Database.
-- **"Voglio un nuovo glossary entry"** → solo **Game-Database** (CMS UI o direct Postgres). Game lo legge via HTTP quando flag ON, altrimenti via mirror in `packs/evo_tactics_pack/docs/catalog/`.
-- **"Voglio batch-generare 50 trait"** → swarm AI (deferred). Frattempo: prompt library in `codemasterdd-ai-station/02_LIBRARY/` + Claude Code session manuale.
-- **"Voglio aggiungere un repo esterno alla mappa"** → aggiungi riga in tabella **Topologia** sopra + sezione dedicata se non triviale + cross-link da `LIBRARY.md`.
+- **"Voglio cambiare un trait runtime"** → `Game/data/core/traits/active_effects.yaml` + `npm run sync:evo-pack`. Game-Database lo riceve via `npm run evo:import` lato CMS.
+- **"Voglio batch-generare contenuti via swarm"** → swarm già live in `~/Dafne/workspace/swarm/` (repo evo-swarm). Output va in `Game/incoming/swarm-candidates/<topic>/<name>.yaml` con `provenance:`. Eduardo review → promozione `data/core/*`.
+- **"Voglio testare una nuova abilità Dafne"** → `~/Dafne/workspace/test_trait.py` o subagent OpenClaw in `~/.openclaw/subagents/`.
+- **"Voglio prompt riusabile"** → archivio in `gioco/codemasterdd-ai-station/02_LIBRARY/` o `Game/.claude/prompts/`.
+- **"Voglio cambiare voce Dafne"** → `~/Dafne/workspace/voice-models/` o `~/aa01/workspace/2026-04-aa01-001-2026-04-25-voice-test-protocol-dafne/`.
+- **"Voglio attivare Game-Database HTTP runtime"** → `GAME_DATABASE_ENABLED=true` + `GAME_DATABASE_URL=http://localhost:3333` in Game `.env`. Validato 2026-04-25 end-to-end.
 
 ---
 
-## 🧭 Cleanup TODO
+## 🧹 Cleanup TODO + raccomandazioni
 
-- [x] ~~Aggiornare `CLAUDE.md` "Sibling repo topology": path~~ — done 2026-04-25 (clone + path update)
-- [x] ~~Decidere fate dei 6 zip rimanenti~~ — done 2026-04-25, archiviati in `gioco/_archive/2026-04-20-codemasterdd-handoffs/` con README index. Solo `game-swarm-package.zip` resta visibile a root.
-- [x] **Game-Database offline validation** — done 2026-04-25: `npm install` ✅, `.env` configurato (`DATABASE_URL=postgresql://postgres:postgres@localhost:5433/game`), `npx prisma generate` ✅ Client v5.22.0, `npx prisma validate` ✅ schema valid
-- [x] **Game-Database end-to-end smoke** — done 2026-04-25 (post Docker Desktop manual start userland): `docker compose up -d db` 🟢 healthy :5433, `npm run dev:setup` 🟢 (2 migrations applied + seed 200 record / 4 trait / 4 biomi / 3 specie / 3 ecosistemi), `npm run dev` 🟢 :3333, smoke 4 endpoint canonical: `/api/traits/glossary` (formato Alt B `{_id,labels,descriptions}` compliant), `/api/traits`, `/api/biomes`, `/api/species` tutti 200 OK
-- [x] **HTTP Alt B endpoint shape verification** — done 2026-04-25: `/api/traits/glossary` ritorna `{traits:[{_id,labels:{it,en},descriptions:{it,en}}]}` esattamente conforme a `packages/contracts/schemas/glossary.schema.json`. Game-side integration in `apps/backend/index.js:17-37` configurato OFF default + ON via env, code-path verificato.
-- [x] **HTTP Alt B runtime smoke (Game backend live)** — done 2026-04-25: `npm install` worktree completato + `PORT=3344 GAME_DATABASE_ENABLED=true GAME_DATABASE_URL=http://localhost:3333 LOBBY_WS_ENABLED=false node apps/backend/index.js`. Backend log conferma: `[game-database] HTTP integration ENABLED at http://localhost:3333` + `[game-database] trait glossary fetched via HTTP with local file fallback`. `/api/catalog/pools` e `/api/traits` rispondono 200 OK con dati live, integration full-stack PROVATA end-to-end.
-- [x] **Game-Database `WORKSPACE_MAP.md` simmetrico** — done 2026-04-25: scritto in `C:/Users/edusc/Documents/GitHub/Game-Database/WORKSPACE_MAP.md` con stack porte, bootstrap quick, data flow diagram, cross-link bidirezionale a Game/WORKSPACE_MAP.md.
-- [x] **`synesthesia/` move** — done 2026-04-25: spostato da `C:/Users/edusc/Desktop/gioco/synesthesia/` a `C:/Users/edusc/Documents/UPO/synesthesia/`. Repo standalone (.git intatto, status clean). Workspace `gioco/` ora pulito (Game, \_archive, aider-tty-test, codemasterdd-ai-station, scratch + 1 zip game-swarm).
+- [ ] **C:/dev/Game** → decidere: branch `swarm/register-biome-gameplay-integrator-2026-04-24` 121 commits behind main + uncommitted changes. Se lavoro abbandonato, eliminare. Se ancora utile, rebase + push o merge in main.
+- [ ] **C:/dev/synesthesia** → duplicato di `~/Documents/UPO/synesthesia/`. Eliminare dopo verifica.
+- [ ] **C:/dev/codemasterdd-ai-station** → duplicato di `gioco/codemasterdd-ai-station/`. Eliminare o tenere come backup esplicito.
+- [ ] **C:/dev/AA01** vs `~/aa01/` → versione tarball vs versione live. Decidere quale è canonical.
+- [ ] **C:/dev/aider-tty-test** → duplicato di `gioco/aider-tty-test/`.
+- [ ] **`game-swarm-package.zip`** → estrarre a `C:/dev/game-swarm/` SE si vuole un secondo swarm separato da Dafne (o lasciare zippato — Dafne swarm è già il runtime live).
+- [ ] **Cross-link bidirezionali**: scrivere `WORKSPACE_MAP.md` simmetrici anche in `Game-Database/` (✅ done 2026-04-25), `evo-swarm/`, `Dafne/`, `aa01/` se sviluppo attivo.
+
+---
+
+## ✅ Validazione end-to-end (2026-04-25)
+
+| Check                                     | Esito                                                                                       |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Game-Database `docker compose up`         | 🟢 Postgres :5433 healthy                                                                   |
+| Game-Database `npm run dev:setup`         | 🟢 2 migrations + seed (200 record / 4 trait / 4 biomi / 3 specie / 3 ecosistemi)           |
+| Game-Database `npm run dev`               | 🟢 server :3333 + 4 endpoint canonical 200 OK                                               |
+| Game `GAME_DATABASE_ENABLED=true` runtime | 🟢 backend :3344 fetcha glossary da Game-Database (log conferma "HTTP integration ENABLED") |
+| evo-swarm clone                           | 🟢 in `~/Dafne/workspace/swarm/`, HEAD `25c148b`                                            |
+| OpenClaw runtime                          | 🟢 config `openclaw.json` aggiornato 2026-04-24                                             |
+| AA01 cognitive studio                     | 🟢 CHANGELOG aggiornato 2026-04-25                                                          |
 
 ---
 
 ## 🔗 Cross-link
 
-- `LIBRARY.md` § "🗺️ Workspace topology" punta qui (entry-point veloce)
-- `PROJECT_BRIEF.md` § "Identità del progetto" cita Game-Database sibling
-- `docs/adr/ADR-2026-04-14-game-database-topology.md` (ADR canonical Game ↔ Game-Database)
-- `game-swarm-package/README.md` (dentro zip) per swarm bootstrap step-by-step
+- `LIBRARY.md` § Workspace topology — entry-point compatto
+- `PROJECT_BRIEF.md` § Identità — riferimento sibling Game-Database
+- `docs/adr/ADR-2026-04-14-game-database-topology.md` — ADR canonical Game ↔ Game-Database
+- `Game-Database/WORKSPACE_MAP.md` — pendant simmetrico (cross-link bidirezionale ✅)
+- `incoming/swarm-candidates/README.md` — workflow swarm → Game integration
+- `~/Dafne/workspace/swarm/INDEX.md` — entry-point Dafne swarm (per Eduardo / per Dafne / per agent specialist)
+- `~/aa01/README.md` — quickstart Archon Atelier
+- `~/.openclaw/openclaw.json` — runtime config (NON edit a mano)
