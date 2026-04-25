@@ -328,6 +328,47 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-25 sera-late — workspace audit + drift fixes 8 PR)
+
+**Sessione 2026-04-25 sera-late (workspace ecosystem audit)**: utente segnala "non c'è punto chiaro di ingresso tra Game-Database, game-swarm e altri repo collegati". Audit a fondo scopre ecosystem 3x più grande del precedentemente mappato + multi-PC race condition + drift sistematico BACKLOG.
+
+**PR shipped main** (8 Game + 1 Game-Database):
+
+| PR                                                                | Scope                                                     | SHA        | Status |
+| ----------------------------------------------------------------- | --------------------------------------------------------- | ---------- | :----: |
+| [#1804](https://github.com/MasterDD-L34D/Game/pull/1804)          | WORKSPACE_MAP iniziale + clone Game-Database + path edusc | `ad23d0bf` |   ✅   |
+| [#1806](https://github.com/MasterDD-L34D/Game/pull/1806)          | Stack validation + Alt B runtime smoke proven             | `113e832d` |   ✅   |
+| [#1809](https://github.com/MasterDD-L34D/Game/pull/1809)          | Synesthesia move a `~/Documents/UPO/`                     | `17aea1c0` |   ✅   |
+| [#1810](https://github.com/MasterDD-L34D/Game/pull/1810)          | WORKSPACE_MAP comprehensive ecosystem completo            | `effef40e` |   ✅   |
+| [#1812](https://github.com/MasterDD-L34D/Game/pull/1812)          | WORKSPACE_MAP sweep finale (Desktop + WRITE-ACCESS)       | `148a5a75` |   ✅   |
+| [#1814](https://github.com/MasterDD-L34D/Game/pull/1814)          | BACKLOG drift fix #1 (3 SHA closures)                     | `bb19697b` |   ✅   |
+| [#1818](https://github.com/MasterDD-L34D/Game/pull/1818)          | Ancestors drift fix #2 + card AI-hallucination fix        | `6b2670a3` |   ✅   |
+| [#1820](https://github.com/MasterDD-L34D/Game/pull/1820)          | BACKLOG drift fix #3 (F-1/F-2/F-3 + M14-A partial)        | `4ee9e30f` |   ✅   |
+| [GD#106](https://github.com/MasterDD-L34D/Game-Database/pull/106) | Game-Database WORKSPACE_MAP simmetrico                    | `ea3791e`  |   ✅   |
+
+PR #1816 closed-redundant (multi-PC race vs PR #1813 same scope OD-011) — caught early via `gh pr list --state merged`.
+
+**Discoveries chiave**:
+
+- `WORKSPACE_MAP` precedente copriva solo `gioco/`, miss massiccio. Realtà: 4 GitHub core (Game + Game-Database + evo-swarm + codemasterdd-ai-station) + 3 AI satelliti locali (~/Dafne/ 81MB, ~/aa01/ Archon Atelier, ~/.openclaw/ runtime) + C:/dev/ duplicati + Desktop entrypoints (WRITE-ACCESS-POLICY canonical, Swarm Dashboard :5000).
+- Game-Database stack validato end-to-end: Postgres :5433 + server :3333 + Game backend :3344 con flag `GAME_DATABASE_ENABLED=true` log-confirmed `[game-database] HTTP integration ENABLED` + `[game-database] trait glossary fetched via HTTP`.
+- Museum card `ancestors-neurons-dump-csv.md` AI-hallucinated: claim "22 Self-Control" smentito da `awk count $branch column` reale = 12. Schema columns fake. Esempi codici "CO 01 Pause Reflex" inventati (CO è branch Attack, SC reali usano FR codes). Fix con evidence reale.
+- BACKLOG drift sistematico: 5 ticket "open" già chiusi (M13 P3 #1697, M13 P6 #1698, SWARM-SKIV #1774, ANCESTORS-22 #1813, ANCESTORS-RECOVERY #1815, F-1/F-2/F-3 #1736). Mitigation memorizzata.
+- Multi-PC parallel race: 8 PR altro PC merged interleaved (OD-008/011/012, sentience tier backfill 45 species, ancestors 297/297 wiki recovery + 267 wire). Mio PR #1816 redundant chiuso post-detection.
+
+**Memory salvate** (cross-session):
+
+- `feedback_workspace_audit_scope_lesson.md` — "controlla a fondo" = filesystem-wide
+- `feedback_data_grounded_expert_pattern.md` — `awk`/`head -1` cross-check obbligatorio pre-card
+
+**Stato pillars post-sessione**: P3 + P6 → 🟢 candidato verificato (drift fix conferma chiusure precedenti). P5 🟡 (TKT-M11B-06 playtest userland resta unico bloccante). Altri stable.
+
+**Handoff**: [`docs/planning/2026-04-25-workspace-audit-drift-fixes-handoff.md`](docs/planning/2026-04-25-workspace-audit-drift-fixes-handoff.md).
+
+**Next session entry**: M14-A resolver wire residual (~3-4h, helpers shipped PR #1736, full integration combat damage step pending) o TKT-MUSEUM-ENNEA-WIRE (~7-9h, vcSnapshot round-aware refactor required) o userland TKT-M11B-06 playtest live.
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-25 sera — massive autonomous session 16 PR + OD-008/011/012 override)
 
 **Sessione 2026-04-25 sera (autonomous trust mode)**: 16 PR consecutivi mergiati main da check-up audit a OD override esecuzione completa. User policy "trust autonomous" con verifica intermedia 5 OD museum-driven.
