@@ -284,7 +284,7 @@ const HARDCORE_SCENARIO_07_POD_RUSH = {
   recommended_modulation: 'quartet',
   mission_timer: {
     enabled: true,
-    turn_limit: 10,
+    turn_limit: 8, // M14-C iter2 (2026-04-25 sera): 10→8 dopo N=10 90% WR. Stringe finestra.
     soft_warning_at: 3,
     on_expire: 'escalate_pressure',
     on_expire_payload: { pressure_delta: 30, extra_spawns: 3 },
@@ -293,12 +293,14 @@ const HARDCORE_SCENARIO_07_POD_RUSH = {
   // chiude la pattuglia in 10 round prima che reinforcement triggeri. Knobs:
   // min_tier Alert→Calm (pressure_start 60 sempre Alert, quindi più avanti a Calm
   // in caso di mercy decay), cooldown 2→1 (spawn ogni round eligible).
+  // M14-C iter2 (2026-04-25 sera): iter1 N=10 → 90% WR (target 30-50%). Knobs:
+  // cooldown 1→0 (spawn immediato), min_distance 4→2 (spawn più vicino).
   reinforcement_policy: {
     enabled: true,
     min_tier: 'Calm',
-    cooldown_rounds: 1,
-    max_total_spawns: 6,
-    min_distance_from_pg: 4,
+    cooldown_rounds: 0,
+    max_total_spawns: 8, // 6→8 totali (più pressione)
+    min_distance_from_pg: 2, // 4→2 spawn più vicino al party
   },
   reinforcement_pool: [
     {
@@ -365,7 +367,7 @@ function buildHardcoreUnits07() {
       species: 'cacciatore_corazzato',
       job: 'vanguard',
       traits: ['martello_osseo'],
-      hp: 15, // M14-C iter1: 12→15 per rallentare wipe iniziale e far entrare reinforcement.
+      hp: 18, // M14-C iter2 (2026-04-25 sera): 15→18 dopo N=10 90% WR. Patrol regge altri 1-2 round.
       ap: 2,
       mod: 3,
       dc: 13,
