@@ -75,3 +75,5 @@ data/flow-shell/*.bak
 reports/setup_backlog_*.log
 logs/telemetry_*.jsonl
 .pytest_cache/
+# Skiv ticket #7 — unit diary persistence (runtime, not committed)
+data/derived/unit_diaries/
