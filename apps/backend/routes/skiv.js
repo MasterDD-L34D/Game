@@ -125,14 +125,27 @@ function renderAsciiCard(state, recent = []) {
   const cab = state.cabinet || {};
   const counters = state.counters || {};
   const lc = state.lifecycle || {};
+  const bond = state.bond || {};
   const voice = (state.last_voice || 'Ascolto.').slice(0, 32).padEnd(32);
 
   const lines = [];
   lines.push('╔══════════════════════════════════════════════════════════════╗');
   lines.push('║           E V O - T A C T I C S   ·   S K I V               ║');
-  lines.push('║                ╱\\_/\\                                         ║');
-  lines.push(`║               (  o.o )    "${voice}"║`);
-  lines.push('║                > ^ <                                         ║');
+  // Phase-aware sprite (lifecycle YAML sprite_ascii) — fallback to default.
+  // sprite can be string (with \n) or array of lines (saga.json format).
+  const rawSprite = state.sprite_ascii || lc.sprite_ascii;
+  let phaseSprite;
+  if (Array.isArray(rawSprite)) phaseSprite = rawSprite;
+  else if (typeof rawSprite === 'string') phaseSprite = rawSprite.split('\n');
+  else phaseSprite = ['╱\\_/\\', '(  o.o )', ' > ^ <'];
+  for (let i = 0; i < 3; i += 1) {
+    const sLine = (phaseSprite[i] || '').slice(0, 18).padEnd(18);
+    if (i === 1) {
+      lines.push(`║         ${sLine}  "${voice}"║`);
+    } else {
+      lines.push(`║         ${sLine}                                  ║`);
+    }
+  }
   lines.push('║                                                              ║');
   lines.push(
     `║  ${(state.species_label || '?').slice(0, 30).padEnd(30)} · ${(state.biome || '?').slice(0, 12).padEnd(12)}        ║`,
@@ -172,6 +185,19 @@ function renderAsciiCard(state, recent = []) {
     ).padStart(3)}  CURIOSITY ${String(state.curiosity || 0).padStart(3)}      ║`,
   );
   lines.push('║                                                              ║');
+  // Bond hearts (F-05 archaeologist quickwin) — Vega + Rhodo cross-PG affinity.
+  const bondEntries = Object.entries(bond).slice(0, 3);
+  if (bondEntries.length > 0) {
+    const bondLine = bondEntries
+      .map(([id, n]) => {
+        const name = id.split('_')[0].slice(0, 5);
+        const hearts = '♥'.repeat(Math.min(Math.max(n || 0, 0), 5));
+        return `${name} ${hearts}`;
+      })
+      .join('  ');
+    lines.push(`║  Bond: ${bondLine.slice(0, 50).padEnd(50)}     ║`);
+    lines.push('║                                                              ║');
+  }
   // Phase + next gate
   if (lc.phase_label_it) {
     lines.push(
