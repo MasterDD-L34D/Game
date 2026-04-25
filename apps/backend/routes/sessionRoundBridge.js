@@ -41,6 +41,7 @@ const {
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
 const { tick: missionTimerTick } = require('../services/combat/missionTimer');
+const { decayTileStates } = require('../services/combat/terrainReactionsBridge');
 const { buildThreatPreview } = require('../services/ai/threatPreview');
 
 function createRoundBridge(deps) {
@@ -654,6 +655,11 @@ function createRoundBridge(deps) {
         }
       }
     }
+
+    // M14-A CAP-07 (2026-04-25) — Triangle Strategy Mechanic 4 terrain reactions.
+    // TTL decay per ogni tile in session.tileStateMap. Tile rimossi quando ttl <= 0.
+    // Bridge: services/combat/terrainReactionsBridge.js#decayTileStates.
+    decayTileStates(session);
 
     return { hazardEvents, bleedingEvents };
   }
