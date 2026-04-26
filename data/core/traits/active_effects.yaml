@@ -8452,3 +8452,335 @@ traits:
       code: "BB CT 05"
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
+
+  # =========================================================================
+  # QW2 / M-017: Starter Bioma trait — adattamento del Form al bioma di
+  # partenza. Slot `starter_bioma` nei pack di form_pack_bias.yaml viene
+  # risolto da formPackRecommender.js a `starter_bioma_<form_id>`.
+  #
+  # Schema: tier T1, kind=extra_damage, amount=1, trigger min_mos=5 (solo
+  # solid hit). Tier 1 leggibile + non combat-breaking (max +1 conditional).
+  # Il campo provenance.starter_biome documenta il bioma tematico associato
+  # al Form (mapping derivato da archetype theme + biomes.yaml shipping).
+  # Wire UI onboarding panel -> follow-up PR.
+  # =========================================================================
+
+  starter_bioma_istj:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_istj
+    description_it: |
+      Adattamento ISTJ alle Steppe Algoritmiche: terreno ordinato,
+      letture stabili. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: steppe_algoritmiche
+      form_id: ISTJ
+
+  starter_bioma_isfj:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_isfj
+    description_it: |
+      Adattamento ISFJ alla Foresta Temperata: ambienti familiari,
+      branco coeso. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: foresta_temperata
+      form_id: ISFJ
+
+  starter_bioma_infj:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_infj
+    description_it: |
+      Adattamento INFJ alla Foresta Miceliale: rete sottile,
+      intuizioni. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: foresta_miceliale
+      form_id: INFJ
+
+  starter_bioma_intj:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_intj
+    description_it: |
+      Adattamento INTJ alle Rovine Planari: geometria,
+      pianificazione. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: rovine_planari
+      form_id: INTJ
+
+  starter_bioma_istp:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_istp
+    description_it: |
+      Adattamento ISTP alla Caverna: agilita' tecnica,
+      trappole. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: caverna
+      form_id: ISTP
+
+  starter_bioma_isfp:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_isfp
+    description_it: |
+      Adattamento ISFP al Reef Luminescente: flusso aggraziato,
+      mobilita'. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: reef_luminescente
+      form_id: ISFP
+
+  starter_bioma_infp:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_infp
+    description_it: |
+      Adattamento INFP alla Foresta Acida: empatia mutualistica,
+      simbiosi. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: foresta_acida
+      form_id: INFP
+
+  starter_bioma_intp:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_intp
+    description_it: |
+      Adattamento INTP ai Canyons Risonanti: eco analitica,
+      focus. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: canyons_risonanti
+      form_id: INTP
+
+  starter_bioma_estp:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_estp
+    description_it: |
+      Adattamento ESTP alla Savana: spazio aperto,
+      velocita' offensiva. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: savana
+      form_id: ESTP
+
+  starter_bioma_esfp:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_esfp
+    description_it: |
+      Adattamento ESFP alla Dorsale Termale Tropicale: vibrante,
+      branco predatorio. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: dorsale_termale_tropicale
+      form_id: ESFP
+
+  starter_bioma_enfp:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_enfp
+    description_it: |
+      Adattamento ENFP alla Canopia Ionica: esplorazione aerea,
+      pathfinding. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: canopia_ionica
+      form_id: ENFP
+
+  starter_bioma_entp:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_entp
+    description_it: |
+      Adattamento ENTP all'Atollo di Ossidiana: volatilita' EMP,
+      combo sperimentali. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: atollo_obsidiana
+      form_id: ENTP
+
+  starter_bioma_estj:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_estj
+    description_it: |
+      Adattamento ESTJ alle Badlands: territorio ostile,
+      carica strutturata. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: badlands
+      form_id: ESTJ
+
+  starter_bioma_esfj:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_esfj
+    description_it: |
+      Adattamento ESFJ alla Pianura Salina Iperarida: comunita'
+      in scarsita', cura mutua. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: pianura_salina_iperarida
+      form_id: ESFJ
+
+  starter_bioma_enfj:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_enfj
+    description_it: |
+      Adattamento ENFJ alla Palude: ambiente nutriente,
+      leadership empatica. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: palude
+      form_id: ENFJ
+
+  starter_bioma_entj:
+    tier: T1
+    category: ecologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 5
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: starter_bioma_entj
+    description_it: |
+      Adattamento ENTJ all'Abisso Vulcanico: dominio territoriale,
+      pressione strategica. +1 danno sui colpi solidi (MoS >= 5).
+    provenance:
+      source: qw2_starter_bioma
+      starter_biome: abisso_vulcanico
+      form_id: ENTJ

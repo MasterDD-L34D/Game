@@ -1678,6 +1678,102 @@
       "label_en": "Predictive Brain",
       "description_it": "Corteccia che anticipa i prossimi secondi del bersaglio.",
       "description_en": "Cortex that anticipates the target's next seconds of motion."
+    },
+    "starter_bioma_istj": {
+      "label_it": "Adattamento Steppe (ISTJ)",
+      "label_en": "Steppe Adaptation (ISTJ)",
+      "description_it": "Adattamento ISTJ alle Steppe Algoritmiche: terreno ordinato, letture stabili. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ISTJ adaptation to the Algorithmic Steppes: ordered terrain, stable readings. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_isfj": {
+      "label_it": "Adattamento Foresta Temperata (ISFJ)",
+      "label_en": "Temperate Forest Adaptation (ISFJ)",
+      "description_it": "Adattamento ISFJ alla Foresta Temperata: ambienti familiari, branco coeso. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ISFJ adaptation to the Temperate Forest: familiar terrain, cohesive pack. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_infj": {
+      "label_it": "Adattamento Foresta Miceliale (INFJ)",
+      "label_en": "Mycelial Forest Adaptation (INFJ)",
+      "description_it": "Adattamento INFJ alla Foresta Miceliale: rete sottile, intuizioni. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "INFJ adaptation to the Mycelial Forest: subtle network, intuition. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_intj": {
+      "label_it": "Adattamento Rovine Planari (INTJ)",
+      "label_en": "Planar Ruins Adaptation (INTJ)",
+      "description_it": "Adattamento INTJ alle Rovine Planari: geometria, pianificazione. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "INTJ adaptation to the Planar Ruins: geometry, planning. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_istp": {
+      "label_it": "Adattamento Caverna (ISTP)",
+      "label_en": "Cavern Adaptation (ISTP)",
+      "description_it": "Adattamento ISTP alla Caverna: agilita' tecnica, trappole. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ISTP adaptation to the Cavern: technical agility, traps. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_isfp": {
+      "label_it": "Adattamento Reef Luminescente (ISFP)",
+      "label_en": "Luminescent Reef Adaptation (ISFP)",
+      "description_it": "Adattamento ISFP al Reef Luminescente: flusso aggraziato, mobilita'. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ISFP adaptation to the Luminescent Reef: graceful flow, mobility. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_infp": {
+      "label_it": "Adattamento Foresta Acida (INFP)",
+      "label_en": "Acid Forest Adaptation (INFP)",
+      "description_it": "Adattamento INFP alla Foresta Acida: empatia mutualistica, simbiosi. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "INFP adaptation to the Acid Forest: mutualistic empathy, symbiosis. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_intp": {
+      "label_it": "Adattamento Canyons Risonanti (INTP)",
+      "label_en": "Resonant Canyons Adaptation (INTP)",
+      "description_it": "Adattamento INTP ai Canyons Risonanti: eco analitica, focus. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "INTP adaptation to the Resonant Canyons: analytical echo, focus. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_estp": {
+      "label_it": "Adattamento Savana (ESTP)",
+      "label_en": "Savanna Adaptation (ESTP)",
+      "description_it": "Adattamento ESTP alla Savana: spazio aperto, velocita' offensiva. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ESTP adaptation to the Savanna: open space, offensive speed. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_esfp": {
+      "label_it": "Adattamento Dorsale Tropicale (ESFP)",
+      "label_en": "Tropical Ridge Adaptation (ESFP)",
+      "description_it": "Adattamento ESFP alla Dorsale Termale Tropicale: vibrante, branco predatorio. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ESFP adaptation to the Tropical Thermal Ridge: vibrant, predatory pack. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_enfp": {
+      "label_it": "Adattamento Canopia Ionica (ENFP)",
+      "label_en": "Ionic Canopy Adaptation (ENFP)",
+      "description_it": "Adattamento ENFP alla Canopia Ionica: esplorazione aerea, pathfinding. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ENFP adaptation to the Ionic Canopy: aerial exploration, pathfinding. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_entp": {
+      "label_it": "Adattamento Atollo Obsidiana (ENTP)",
+      "label_en": "Obsidian Atoll Adaptation (ENTP)",
+      "description_it": "Adattamento ENTP all'Atollo di Ossidiana: volatilita' EMP, combo sperimentali. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ENTP adaptation to the Obsidian Atoll: EMP volatility, experimental combos. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_estj": {
+      "label_it": "Adattamento Badlands (ESTJ)",
+      "label_en": "Badlands Adaptation (ESTJ)",
+      "description_it": "Adattamento ESTJ alle Badlands: territorio ostile, carica strutturata. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ESTJ adaptation to the Badlands: hostile territory, structured charge. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_esfj": {
+      "label_it": "Adattamento Pianura Salina (ESFJ)",
+      "label_en": "Saline Plain Adaptation (ESFJ)",
+      "description_it": "Adattamento ESFJ alla Pianura Salina Iperarida: comunita' in scarsita', cura mutua. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ESFJ adaptation to the Hyperarid Saline Plain: community in scarcity, mutual care. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_enfj": {
+      "label_it": "Adattamento Palude (ENFJ)",
+      "label_en": "Swamp Adaptation (ENFJ)",
+      "description_it": "Adattamento ENFJ alla Palude: ambiente nutriente, leadership empatica. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ENFJ adaptation to the Swamp: nourishing environment, empathic leadership. +1 damage on solid hits (MoS >= 5)."
+    },
+    "starter_bioma_entj": {
+      "label_it": "Adattamento Abisso Vulcanico (ENTJ)",
+      "label_en": "Volcanic Abyss Adaptation (ENTJ)",
+      "description_it": "Adattamento ENTJ all'Abisso Vulcanico: dominio territoriale, pressione strategica. +1 danno sui colpi solidi (MoS >= 5).",
+      "description_en": "ENTJ adaptation to the Volcanic Abyss: territorial dominance, strategic pressure. +1 damage on solid hits (MoS >= 5)."
     }
   }
 }
