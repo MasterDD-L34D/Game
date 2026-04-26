@@ -1,0 +1,18 @@
+{
+  "id": "TKT-ECONOMY-MACHINATIONS-MODELLI",
+  "title": "Machinations.io 4 modelli build economy simulation",
+  "pillar": "P6",
+  "effort_hours": 9,
+  "donor_game": {
+    "name": "Machinations.io",
+    "tier": "E",
+    "matrix_anchor": "docs/research/2026-04-26-tier-e-extraction-matrix.md#14-machinationsio"
+  },
+  "agent_owner": "economy-design-illuminator",
+  "status": "proposed",
+  "reuse_level": "minimal",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Build 4 modelli (d20 attack + PT economy + damage cap + status feedback) su web tool. Pre-validation."
+}

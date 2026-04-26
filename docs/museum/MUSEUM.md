@@ -32,6 +32,17 @@
 - [Emergenza specie da ecosistema](cards/worldgen-species-emergence-from-ecosystem.md) — **4/5** · biome_pools.json role_templates caricati non esposti · deferred
 - [Cross-bioma event propagation](cards/worldgen-cross-bioma-events-propagation.md) — **4/5** · 3 eventi, propagation logic esiste nel validator · unintegrated
 - [Voidling Bound — 6 Evolution Patterns](cards/evolution_genetics-voidling-bound-patterns.md) — **4/5** · P6 visual_swap_it P0 gap confirm + Apex terminal-endpoint + path-lock · unintegrated
+- [Spore — Part-pack runtime stack 6 pattern](cards/spore-part-pack-runtime-stack.md) — **5/5** · P2 fonte primaria, Moderate ~21h chiude P2 → 🟢 cand · unintegrated
+- [Tactics Ogre HP Floating + Charm + Auto-battle](cards/combat-tactics-ogre-hp-floating-charm.md) — **5/5** · HUD canonical 44-HUD ⭐⭐⭐⭐⭐, AP pip shipped #1901 · unintegrated
+- [MHS Gene Grid + CoQ Morphotype + Subnautica](cards/creature-mhs-gene-grid-coq-morphotype.md) — **5/5** · P2 stack canonical mutation pipeline 5-source convergence · unintegrated
+- [Disco Thought Cabinet + Internal Voice + Day Pacing](cards/narrative-disco-thought-cabinet-diegetic.md) — **5/5** · P4 surfacing P0 residuo, MBTI tag shipped #1897 · unintegrated
+- [Hades Multi-Currency + MT Pact Shards](cards/economy-hades-multi-currency-pact-menu.md) — **5/5** · P2 currency split + P6 opt-in difficulty 4-source convergence · unintegrated
+- [FFT CT Bar + Wait + Facing Crit](cards/combat-fft-ct-bar-wait-facing-crit.md) — **4/5** · P1 tactical legibility, Wait shipped #1896 · unintegrated
+- [Wildermyth Battle-Scar + Layered Portrait](cards/creature-wildermyth-battle-scar-portrait.md) — **4/5** · P3 narrative+visual permanent change 3-source convergence · unintegrated
+- [ITB Telegraph + Push/Pull Arrows](cards/ui-itb-telegraph-deterministic.md) — **4/5** · P1+P5 deterministic visibility, threat tile shipped #1884 · unintegrated
+- [Cogmind Tooltip Stratificati](cards/ui-cogmind-tooltip-stratificati-quick-win.md) — **4/5** · P2+P3 quick-win UI ~5h · unintegrated
+- [Tier E Quick Wins (DuckDB + SPRT + LLM critic)](cards/telemetry-duckdb-stockfish-llm-critic-quick-wins.md) — **4/5** · P6 ops bundle ~10-15h, Pathfinder XP shipped #1894 · unintegrated
+- [NS2 Strategist + Frozen Synapse Replay](cards/coop-ns2-frozen-synapse-replay-asymmetric.md) — **4/5** · P5 replay cinematico + 5p+ asymmetric · unintegrated
 
 ---
 
