@@ -12,6 +12,7 @@ forms:
   # --- NT: Razionali (Architetti) ---
   INTJ:
     label: "Stratega"
+    display_name_en: "Strategist"
     description_it: "Pianificatore freddo, setup meticoloso, poche azioni ma decisive."
     axes: {E_I: 0.75, S_N: 0.35, T_F: 0.80, J_P: 0.75}
     job_affinities: [tattico, controllore]
@@ -20,6 +21,7 @@ forms:
 
   INTP:
     label: "Analista"
+    display_name_en: "Analyst"
     description_it: "Sperimentatore, approccio non convenzionale, improvvisa."
     axes: {E_I: 0.70, S_N: 0.30, T_F: 0.75, J_P: 0.30}
     job_affinities: [esploratore, tattico]
@@ -28,6 +30,7 @@ forms:
 
   ENTJ:
     label: "Comandante"
+    display_name_en: "Commander"
     description_it: "Leader aggressivo, coordina squadra, prima linea."
     axes: {E_I: 0.25, S_N: 0.35, T_F: 0.80, J_P: 0.75}
     job_affinities: [assaltatore, tattico]
@@ -36,6 +39,7 @@ forms:
 
   ENTP:
     label: "Inventore"
+    display_name_en: "Inventor"
     description_it: "Creativo tattico, trova soluzioni non ortodosse."
     axes: {E_I: 0.30, S_N: 0.25, T_F: 0.70, J_P: 0.25}
     job_affinities: [esploratore, assaltatore]
@@ -45,6 +49,7 @@ forms:
   # --- NF: Idealisti (Diplomati) ---
   INFJ:
     label: "Custode"
+    display_name_en: "Custodian"
     description_it: "Protettore silenzioso, supporta da retrovie, anticipa bisogni."
     axes: {E_I: 0.75, S_N: 0.35, T_F: 0.25, J_P: 0.70}
     job_affinities: [guaritore, controllore]
@@ -53,6 +58,7 @@ forms:
 
   INFP:
     label: "Mediatore"
+    display_name_en: "Mediator"
     description_it: "Empatico, adattivo, risponde ai bisogni della squadra."
     axes: {E_I: 0.70, S_N: 0.30, T_F: 0.20, J_P: 0.30}
     job_affinities: [guaritore, esploratore]
@@ -61,6 +67,7 @@ forms:
 
   ENFJ:
     label: "Protagonista"
+    display_name_en: "Protagonist"
     description_it: "Ispiratore, motiva la squadra, buff di gruppo."
     axes: {E_I: 0.25, S_N: 0.30, T_F: 0.25, J_P: 0.70}
     job_affinities: [guaritore, tattico]
@@ -69,6 +76,7 @@ forms:
 
   ENFP:
     label: "Campione"
+    display_name_en: "Champion"
     description_it: "Entusiasta, esplora, trova risorse inaspettate."
     axes: {E_I: 0.30, S_N: 0.25, T_F: 0.30, J_P: 0.25}
     job_affinities: [esploratore, guaritore]
@@ -78,6 +86,7 @@ forms:
   # --- SJ: Guardiani (Sentinelle) ---
   ISTJ:
     label: "Ispettore"
+    display_name_en: "Inspector"
     description_it: "Disciplinato, segue protocollo, difesa posizionale."
     axes: {E_I: 0.75, S_N: 0.70, T_F: 0.75, J_P: 0.80}
     job_affinities: [sentinella, controllore]
@@ -86,6 +95,7 @@ forms:
 
   ISFJ:
     label: "Difensore"
+    display_name_en: "Defender"
     description_it: "Protegge alleati, healing, copertura."
     axes: {E_I: 0.70, S_N: 0.65, T_F: 0.30, J_P: 0.75}
     job_affinities: [sentinella, guaritore]
@@ -94,6 +104,7 @@ forms:
 
   ESTJ:
     label: "Esecutore"
+    display_name_en: "Executive"
     description_it: "Organizzatore aggressivo, setup rapido, colpisce duro."
     axes: {E_I: 0.25, S_N: 0.70, T_F: 0.80, J_P: 0.80}
     job_affinities: [assaltatore, sentinella]
@@ -102,6 +113,7 @@ forms:
 
   ESFJ:
     label: "Console"
+    display_name_en: "Consul"
     description_it: "Supporto sociale, buff di gruppo, coesione."
     axes: {E_I: 0.25, S_N: 0.65, T_F: 0.25, J_P: 0.75}
     job_affinities: [guaritore, sentinella]
@@ -111,6 +123,7 @@ forms:
   # --- SP: Artigiani (Esploratori) ---
   ISTP:
     label: "Virtuoso"
+    display_name_en: "Virtuoso"
     description_it: "Operatore solitario, reattivo, mordi e fuggi."
     axes: {E_I: 0.70, S_N: 0.65, T_F: 0.70, J_P: 0.25}
     job_affinities: [furtivo, assaltatore]
@@ -119,6 +132,7 @@ forms:
 
   ISFP:
     label: "Avventuriero"
+    display_name_en: "Adventurer"
     description_it: "Adattivo, flessibile, segue l'istinto."
     axes: {E_I: 0.65, S_N: 0.60, T_F: 0.30, J_P: 0.25}
     job_affinities: [esploratore, furtivo]
@@ -127,6 +141,7 @@ forms:
 
   ESTP:
     label: "Imprenditore"
+    display_name_en: "Entrepreneur"
     description_it: "Azione diretta, rischio calcolato, primo in campo."
     axes: {E_I: 0.25, S_N: 0.65, T_F: 0.70, J_P: 0.25}
     job_affinities: [assaltatore, furtivo]
@@ -135,6 +150,7 @@ forms:
 
   ESFP:
     label: "Intrattenitore"
+    display_name_en: "Entertainer"
     description_it: "Carismatico, reattivo, risponde alla situazione."
     axes: {E_I: 0.25, S_N: 0.60, T_F: 0.30, J_P: 0.20}
     job_affinities: [esploratore, assaltatore]
