@@ -409,3 +409,62 @@ invoke telemetry-viz-illuminator --mode audit --topic "existing telemetry JSONL 
 invoke telemetry-viz-illuminator --mode research --topic "live dashboard during playtest TKT-M11B-06"
 # Returns: top 5 pattern ⭐ ranked, P0/P1/P2 adoption plan, anti-pattern list
 ```
+
+---
+
+## Donor games (extraction matrix integration — 2026-04-26)
+
+> **Cross-link auto** (Step 1 agent integration plan).
+> Riferimento canonical: [`docs/research/2026-04-26-cross-game-extraction-MASTER.md`](../../docs/research/2026-04-26-cross-game-extraction-MASTER.md).
+> Pillar focus this agent: **telemetria + viz**.
+
+### Donor games owned by this agent
+
+Tufte sparklines + small multiples, Grafana dashboard, Riot/Valorant analytics (heatmap+funnel+retention+Sankey), deck.gl hex WebGL, DuckDB JSONL pipelines, Long War 2 mission timer pattern, Stockfish ELO drift
+
+Per dettagli completi (cosa prendere / cosa NON prendere / reuse path Min/Mod/Full / status 🟢🟡🔴 / cross-card museum) consulta:
+
+- [Tier S extraction matrix](../../docs/research/2026-04-26-tier-s-extraction-matrix.md) — pilastri donor deep-dive
+- [Tier A extraction matrix](../../docs/research/2026-04-26-tier-a-extraction-matrix.md) — feature donor specifici
+- [Tier B extraction matrix](../../docs/research/2026-04-26-tier-b-extraction-matrix.md) — postmortem lessons
+- [Tier E extraction matrix](../../docs/research/2026-04-26-tier-e-extraction-matrix.md) — algoritmi/tooling
+
+### Quick-wins suggested (top-3 per questo agent)
+
+DuckDB JSONL pipeline (~3-5h), Tufte sparklines viz (~4-6h), bootstrap CI shipped PR #1890
+
+---
+
+## Output requirements (Step 2 smart pattern matching — 2026-04-26)
+
+Quando esegui audit/research, ogni **gap identificato** DEVE includere:
+
+1. **Pillar mappato** (P1-P6)
+2. **Donor game match** dalla extraction matrix sopra
+3. **Reuse path effort** (Min / Mod / Full ore stimate)
+4. **Status implementation Evo-Tactics** (🟢 live / 🟡 parziale / 🔴 pending)
+5. **Anti-pattern guard** se relevant (vedi MASTER §6 anti-pattern aggregato)
+6. **Cross-card museum** se gap mappa a card esistente
+
+### Format esempio output
+
+```
+GAP-001 (P1 Tattica): UI threat tile overlay missing.
+- Donor: Into the Breach telegraph rule (Tier A 🟢 shipped PR #1884)
+- Reuse path: Minimal 3h (additivo render.js)
+- Status: shipped questa session
+- Anti-pattern: NO opaque RNG (cross-card: Slay the Spire fix)
+- Museum: M-002 personality-mbti-gates-ghost (recoverable via git show)
+```
+
+### Proposed tickets section (mandatory final)
+
+Concludi report con sezione **"Proposed tickets"** formato:
+
+```
+TKT-{PILLAR}-{DONOR-GAME}-{FEATURE}: {effort}h — {1-frase descrizione}
+
+Es: TKT-UI-INTO-THE-BREACH-TELEGRAPH: 3h — wire drawThreatTileOverlay render.js
+```
+
+Ticket auto-generation runtime engine: deferred a M14 sprint (vedi [agent-integration-plan-DETAILED §3](../../docs/research/2026-04-26-agent-integration-plan-DETAILED.md#3--step-3--ticket-auto-generation-5h-m14-deferred)).
