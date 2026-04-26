@@ -23,6 +23,7 @@ const steps = [
   'node --test tests/scripts/damageCurvesIntegrity.test.js',
   'node --test tests/scripts/crossPlatformRunners.test.js',
   'node --test tests/i18n/parity.test.js',
+  'node --test tests/play/*.test.js',
 ];
 
 const env = {

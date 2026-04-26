@@ -21,6 +21,7 @@ const { Router } = require('express');
 const { FormEvolutionEngine } = require('../services/forms/formEvolution');
 const { createFormSessionStore } = require('../services/forms/formSessionStore');
 const { loadPacks, rollPack, seededRng } = require('../services/forms/packRoller');
+const { resolveStarterBioma, listStarterBiomas } = require('../services/forms/formPackRecommender');
 
 function createFormsRouter(opts = {}) {
   const engine = opts.engine || new FormEvolutionEngine(opts);
@@ -30,6 +31,18 @@ function createFormsRouter(opts = {}) {
 
   router.get('/registry', (_req, res) => {
     res.json(engine.snapshot());
+  });
+
+  // QW2 / M-017 — list 16 form -> starter bioma map. MUST stay before /:id.
+  router.get('/starter-biomas', (_req, res) => {
+    res.json({ count: 16, items: listStarterBiomas() });
+  });
+
+  // QW2 / M-017 — single form starter bioma resolution. MUST stay before /:id.
+  router.get('/:formId/starter-bioma', (req, res) => {
+    const resolved = resolveStarterBioma(req.params.formId);
+    if (!resolved) return res.status(404).json({ error: 'form not found' });
+    res.json({ form_id: req.params.formId, ...resolved });
   });
 
   router.get('/:id', (req, res) => {
