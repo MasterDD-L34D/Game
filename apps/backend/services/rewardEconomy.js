@@ -98,6 +98,17 @@ function convertPE(peBalance) {
 function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
   const conversion = convertPE(peResult.session_total);
 
+  // 2026-04-26 P0 quick-win — Disco MBTI tag debrief (Tier S donor).
+  // Genera 1-2 narrative insight per actor (italiano, diegetic, NO statistic dump).
+  // Best-effort: missing module non blocca debrief.
+  let mbtiInsights = {};
+  try {
+    const { buildMbtiInsights } = require('./narrative/mbtiInsights');
+    mbtiInsights = buildMbtiInsights(vcSnapshot, { axisCount: 1, includeEnnea: true });
+  } catch {
+    // narrative module optional
+  }
+
   return {
     session_id: session.session_id,
     turns_played: vcSnapshot.turns_played || 0,
@@ -122,6 +133,8 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
         ]),
       ),
     },
+    // P0 Tier S — Disco MBTI tag debrief (P4 surfacing, narrative diegetic).
+    mbti_insights: mbtiInsights,
     // Personality projection
     pf_session: pfSession,
     // Combat stats
