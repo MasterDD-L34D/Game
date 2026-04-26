@@ -3561,6 +3561,19 @@
       "track": "new"
     },
     {
+      "path": "docs/guide/games-source-index.md",
+      "title": "Games Source Index — catalogo completo giochi-fonte + ricerche",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/guide/faq.md",
       "title": "Domande frequenti — Support & QA",
       "doc_status": "active",
@@ -7448,6 +7461,32 @@
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 60,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/research/2026-04-26-voidling-bound-evolution-patterns.md",
+      "title": "Voidling Bound — Evolution & Genetics Pattern Harvest (Pilastro 2+3)",
+      "doc_status": "active",
+      "doc_owner": "creature-aspect-illuminator",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
+    },
+    {
+      "path": "docs/museum/cards/evolution_genetics-voidling-bound-patterns.md",
+      "title": "Museum Card M-2026-04-26-001 — Voidling Bound 6 Evolution & Genetics Patterns",
+      "doc_status": "active",
+      "doc_owner": "repo-archaeologist",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "en",
+      "review_cycle_days": 90,
       "primary": false,
       "track": "new"
     }
