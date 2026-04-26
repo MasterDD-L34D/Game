@@ -1666,6 +1666,10 @@ function createRoundBridge(deps) {
     handleLegacyAttackViaRound,
     handleTurnEndViaRound,
     mountRoundEndpoints,
+    // TKT-08: expose timer cleanup for /end teardown.
+    // Auto-commit timers on planning-phase sessions otherwise outlive
+    // session.delete and accumulate in Node timer queue across batch runs.
+    cancelPlanningTimer,
   };
 }
 
