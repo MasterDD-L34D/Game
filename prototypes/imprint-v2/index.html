@@ -143,19 +143,52 @@
         border-color: var(--p4);
       }
       .creature-card .player-tag {
-        font-size: 0.7rem;
+        font-size: 1.1rem;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        opacity: 0.6;
+        letter-spacing: 2px;
+        opacity: 1;
+        text-align: center;
+      }
+      .creature-card .player-tag .pnum {
+        display: block;
+        font-size: 2.6rem;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: 0;
+        margin-bottom: 0.2rem;
+      }
+      .creature-card .player-tag .ppart {
+        font-size: 0.85rem;
+        opacity: 0.75;
       }
       .creature-card .silhouette {
         flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 4rem;
-        opacity: 0.3;
-        transition: opacity 0.5s;
+        font-size: 5rem;
+        opacity: 0.35;
+        transition:
+          opacity 0.5s,
+          transform 0.5s;
+      }
+      .creature-card.has-choices .silhouette {
+        opacity: 1;
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 12px currentColor);
+      }
+      .creature-card.p1.has-choices .silhouette {
+        color: var(--p1);
+      }
+      .creature-card.p2.has-choices .silhouette {
+        color: var(--p2);
+      }
+      .creature-card.p3.has-choices .silhouette {
+        color: var(--p3);
+      }
+      .creature-card.p4.has-choices .silhouette {
+        color: var(--p4);
       }
       .creature-card.has-choices .silhouette {
         opacity: 0.85;
@@ -234,6 +267,82 @@
         padding: 0.2rem 0.5rem;
         border-radius: 3px;
       }
+      #tvView .epilogue {
+        background: linear-gradient(135deg, #1a2230, #15151b);
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        animation: epilogueIn 0.6s ease;
+      }
+      @keyframes epilogueIn {
+        from {
+          transform: translateY(8px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      #tvView .epilogue-title {
+        font-size: 1rem;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      #tvView .epilogue-text {
+        font-size: 0.85rem;
+        color: #ccc;
+        line-height: 1.5;
+        margin-bottom: 0.7rem;
+      }
+      #tvView .epilogue-text strong {
+        color: var(--accent);
+      }
+      #tvView .epilogue-next {
+        display: block;
+        margin-top: 0.4rem;
+        color: #aaa;
+        font-style: italic;
+        font-size: 0.8rem;
+      }
+      #tvView .epilogue-actions {
+        display: flex;
+        gap: 0.6rem;
+        margin-bottom: 0.6rem;
+      }
+      #tvView .ep-btn {
+        flex: 1;
+        background: #2a2a32;
+        color: var(--fg);
+        border: 1px solid #3a3a42;
+        padding: 0.6rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      #tvView .ep-btn:hover {
+        background: #3a3a42;
+        border-color: var(--accent);
+      }
+      #tvView .ep-btn.primary {
+        background: var(--accent);
+        color: #15151b;
+        border-color: var(--accent);
+        font-weight: 600;
+      }
+      #tvView .ep-btn.primary:hover {
+        filter: brightness(1.15);
+      }
+      #tvView .epilogue-footer {
+        font-size: 0.7rem;
+        color: #666;
+        line-height: 1.4;
+        border-top: 1px solid #2a2a32;
+        padding-top: 0.5rem;
+      }
 
       /* ── Phone view ── */
       #phoneView {
@@ -242,7 +351,56 @@
         padding: 1.5rem;
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 1.2rem;
+        position: relative;
+      }
+      #phoneView::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        opacity: 0.08;
+        pointer-events: none;
+        background: var(--phone-color, transparent);
+      }
+      #phoneView.color-p1 {
+        --phone-color: var(--p1);
+      }
+      #phoneView.color-p2 {
+        --phone-color: var(--p2);
+      }
+      #phoneView.color-p3 {
+        --phone-color: var(--p3);
+      }
+      #phoneView.color-p4 {
+        --phone-color: var(--p4);
+      }
+      #phoneView .my-creature {
+        text-align: center;
+        padding: 0.5rem 0;
+        border-bottom: 2px solid var(--phone-color, var(--muted));
+      }
+      #phoneView .my-creature-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #aaa;
+        margin-bottom: 0.2rem;
+      }
+      #phoneView .my-creature-emoji {
+        font-size: 4.5rem;
+        line-height: 1;
+        filter: drop-shadow(0 0 14px var(--phone-color, var(--muted)));
+        transition: transform 0.3s;
+      }
+      #phoneView .my-creature-emoji.chosen {
+        transform: scale(1.15);
+      }
+      #phoneView .my-creature-id {
+        font-size: 1.6rem;
+        font-weight: 900;
+        letter-spacing: 1px;
+        color: var(--phone-color);
+        margin-top: 0.2rem;
       }
       #phoneView .phone-header {
         text-align: center;
@@ -393,22 +551,30 @@
       </div>
       <div class="tv-creatures">
         <div class="creature-card p1" data-player="p1">
-          <div class="player-tag" style="color: var(--p1)">Player 1 · Zampe</div>
+          <div class="player-tag" style="color: var(--p1)">
+            <span class="pnum">P1</span><span class="ppart">ZAMPE</span>
+          </div>
           <div class="silhouette">🦅</div>
           <div class="glyphs"></div>
         </div>
         <div class="creature-card p2" data-player="p2">
-          <div class="player-tag" style="color: var(--p2)">Player 2 · Mascella</div>
+          <div class="player-tag" style="color: var(--p2)">
+            <span class="pnum">P2</span><span class="ppart">MASCELLA</span>
+          </div>
           <div class="silhouette">🦊</div>
           <div class="glyphs"></div>
         </div>
         <div class="creature-card p3" data-player="p3">
-          <div class="player-tag" style="color: var(--p3)">Player 3 · Pelle</div>
+          <div class="player-tag" style="color: var(--p3)">
+            <span class="pnum">P3</span><span class="ppart">PELLE</span>
+          </div>
           <div class="silhouette">🦎</div>
           <div class="glyphs"></div>
         </div>
         <div class="creature-card p4" data-player="p4">
-          <div class="player-tag" style="color: var(--p4)">Player 4 · Occhi</div>
+          <div class="player-tag" style="color: var(--p4)">
+            <span class="pnum">P4</span><span class="ppart">OCCHI</span>
+          </div>
           <div class="silhouette">🦉</div>
           <div class="glyphs"></div>
         </div>
@@ -420,10 +586,43 @@
         <div class="foodweb-title">🌐 Foodweb del bioma (4 creature condividono ecosistema)</div>
         <div class="foodweb-list" id="foodwebList"></div>
       </div>
+      <div class="epilogue hidden" id="epiloguePanel">
+        <div class="epilogue-title">📍 Fine "L'Impronta" — Primi 60s completi</div>
+        <div class="epilogue-text">
+          <strong id="epilogueBiomeName">—</strong>: ora 4 creature distinte vivono lo stesso
+          ecosistema.
+          <br />
+          <span class="epilogue-next"
+            >▶ Prossima fase: <em>Round 0 esplorazione</em> (no nemici, tutorial-by-doing) →
+            Encounter 1 → Hazard mid-encounter → Debrief.</span
+          >
+        </div>
+        <div class="epilogue-actions">
+          <button
+            class="ep-btn primary"
+            onclick="alert('Cut to Round 0 — backend integration in CAP-14/15/20/21.\\n\\nIl mockup copre solo il primo minuto.\\n\\nVedi capture_proposals_impronta.md per la roadmap implementation.')"
+          >
+            ▶ Cut to Round 0 (placeholder)
+          </button>
+          <button class="ep-btn" onclick="resetState()">
+            ↻ Re-roll Impronta (prova combo diversa)
+          </button>
+        </div>
+        <div class="epilogue-footer">
+          📋 Mockup CAP-13 · scope = primi 60s. Round 0+ in CAP-14/15/20/21 (backend integration).
+          Acceptance falsificatore:
+          <em>3/4 player descrivono creature distinte e ricordano momenti distinti</em>.
+        </div>
+      </div>
     </div>
 
     <!-- Phone view -->
     <div id="phoneView" class="hidden">
+      <div class="my-creature">
+        <div class="my-creature-label">la tua creatura sulla TV</div>
+        <div class="my-creature-emoji" id="myCreatureEmoji">🦅</div>
+        <div class="my-creature-id" id="myCreatureId">P1</div>
+      </div>
       <div class="phone-header">
         <span class="phone-tag" id="phoneTag">Player 1</span>
         <div class="body-part" id="bodyPart">Le tue zampe</div>
@@ -673,10 +872,12 @@
         // Biome reveal
         const biomeBox = document.getElementById('biomeReveal');
         const biome = resolveBiome(state);
+        const epilogue = document.getElementById('epiloguePanel');
         if (!biome) {
           biomeBox.innerHTML =
             '<div class="pending">Il bioma emergerà quando avrete scelto tutti.</div>';
           document.getElementById('foodwebSidebar').classList.add('hidden');
+          epilogue && epilogue.classList.add('hidden');
         } else {
           let html = `<div class="biome-name">${BIOME_NAMES[biome.biome_id] || biome.biome_id}</div>`;
           if (biome.biome_id !== biome.base_biome_id) {
@@ -699,25 +900,53 @@
               list.appendChild(span);
             }
           }
+          // Epilogue panel — solo quando 4/4 scelte fatte
+          if (epilogue) {
+            if (chosenCount === 4) {
+              const nameEl = document.getElementById('epilogueBiomeName');
+              if (nameEl) nameEl.textContent = BIOME_NAMES[biome.biome_id] || biome.biome_id;
+              epilogue.classList.remove('hidden');
+            } else {
+              epilogue.classList.add('hidden');
+            }
+          }
         }
 
         document.getElementById('timelineText').textContent =
           chosenCount < 4
-            ? `Plasmatura: ${chosenCount}/4`
-            : 'Bioma rivelato. Pronti per il round 0.';
+            ? `Plasmatura: ${chosenCount}/4 — aspetta gli altri player`
+            : '✓ Bioma rivelato. Premi "Cut to Round 0" o "Re-roll" sull\'epilogue.';
       }
+
+      // Match TV-side silhouettes per player (manteniamoli coerenti)
+      const PLAYER_EMOJI = { p1: '🦅', p2: '🦊', p3: '🦎', p4: '🦉' };
 
       // ── Phone rendering ──────────────────────────────────────────────────────
       function renderPhone(mode) {
         const config = PHONE_CONFIG[mode];
         const state = loadState();
+        const myChoice = state[mode];
+
+        // Tinta dominante phoneView in base al player
+        const phoneViewEl = document.getElementById('phoneView');
+        phoneViewEl.classList.remove('color-p1', 'color-p2', 'color-p3', 'color-p4');
+        phoneViewEl.classList.add(`color-${mode}`);
+
+        // "La tua creatura sulla TV" — anchor visivo Phone↔TV
+        const myEmojiEl = document.getElementById('myCreatureEmoji');
+        const myIdEl = document.getElementById('myCreatureId');
+        if (myEmojiEl) {
+          myEmojiEl.textContent = PLAYER_EMOJI[mode] || '❓';
+          myEmojiEl.classList.toggle('chosen', !!myChoice);
+        }
+        if (myIdEl) myIdEl.textContent = mode.toUpperCase();
+
         document.getElementById('phoneTag').textContent = config.name;
         document.getElementById('phoneTag').className = `phone-tag player-bg-${mode}`;
         document.getElementById('bodyPart').textContent = config.bodyPart;
         document.getElementById('question').textContent = config.question;
         const choices = document.getElementById('choices');
         choices.innerHTML = '';
-        const myChoice = state[mode];
         for (const opt of config.options) {
           const btn = document.createElement('button');
           btn.className =
