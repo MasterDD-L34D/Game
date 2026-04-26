@@ -24,6 +24,17 @@ const STATE = {
   // Optional partyMember provider for mating roll (Phase D).
   // Returns { mbti_type, trait_ids } of the active player unit.
   getPartyMember: () => null,
+  // Sprint C — squad creatures provider for offspring mating UI.
+  // Returns Array<{id, name?, mbti_type?, trait_ids?, gene_slots?}>.
+  getSquadCreatures: () => [],
+  // Sprint C — Mating tab UI state.
+  matingTab: {
+    parentAId: null,
+    parentBId: null,
+    rolledThisSession: false,
+    lastResult: null,
+  },
+  activeTab: 'overview',
 };
 
 const BIOME_OPTIONS = [
@@ -112,6 +123,102 @@ function injectStyles() {
     }
     .nest-status.ok { color: #66bb6a; }
     .nest-status.err { color: #ef5350; }
+    /* Sprint C — Tab strip + Mating tab tier visual feedback */
+    .nest-tabs {
+      display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid #2a3040;
+    }
+    .nest-tab-btn {
+      background: transparent; color: #8891a3; border: none;
+      padding: 8px 14px; cursor: pointer; font-size: 0.9rem;
+      border-bottom: 2px solid transparent;
+    }
+    .nest-tab-btn:hover { color: #ffd180; }
+    .nest-tab-btn.active {
+      color: #ffd180; border-bottom-color: #ffd180; font-weight: 700;
+    }
+    .nest-tab-pane { display: none; }
+    .nest-tab-pane.active { display: block; }
+    /* Mating tab — parent selectors */
+    .mating-parent-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;
+    }
+    .mating-parent-grid select {
+      background: #0b0d12; color: #e8eaf0; border: 1px solid #2a3040;
+      border-radius: 6px; padding: 6px 10px; font-size: 0.9rem; width: 100%;
+    }
+    .mating-parent-label {
+      display: block; font-size: 0.78rem; color: #8891a3; margin-bottom: 4px;
+    }
+    .mating-roll-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+    }
+    .mating-cooldown-hint {
+      color: #ef9a9a; font-size: 0.78rem;
+    }
+    /* Tier visual feedback — no-glow / gold / rainbow */
+    .offspring-card {
+      background: #0b0d12; border: 2px solid #2a3040; border-radius: 10px;
+      padding: 14px 16px; margin-top: 10px; position: relative;
+      transition: all 0.3s ease;
+    }
+    .offspring-card.tier-no-glow {
+      border-color: #2a3040;
+    }
+    .offspring-card.tier-gold {
+      border-color: #ffd180;
+      box-shadow: 0 0 16px rgba(255, 209, 128, 0.45);
+      background: linear-gradient(180deg, #2a210d 0%, #0b0d12 80%);
+    }
+    .offspring-card.tier-rainbow {
+      border-image: linear-gradient(90deg,
+        #ff6b6b, #ffd93d, #6bcf7f, #4d9de0, #b06bff, #ff6b6b
+      ) 1;
+      box-shadow: 0 0 22px rgba(255, 100, 200, 0.5);
+      background: linear-gradient(180deg, #1a0d2a 0%, #0b0d12 80%);
+      animation: rainbow-pulse 3s ease-in-out infinite;
+    }
+    @keyframes rainbow-pulse {
+      0%, 100% { box-shadow: 0 0 22px rgba(255, 100, 200, 0.5); }
+      50% { box-shadow: 0 0 32px rgba(180, 200, 255, 0.7); }
+    }
+    .offspring-card .tier-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 999px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .tier-badge.tier-no-glow { background: #2a3040; color: #b0b8c5; }
+    .tier-badge.tier-gold { background: #c4a574; color: #1a1410; }
+    .tier-badge.tier-rainbow {
+      background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f, #4d9de0, #b06bff);
+      color: #1a1410;
+    }
+    .offspring-lineage {
+      font-family: 'Consolas', monospace; color: #66d1fb;
+      font-size: 0.78rem; margin-bottom: 6px;
+    }
+    .offspring-row {
+      margin: 6px 0; font-size: 0.85rem;
+    }
+    .offspring-row .offspring-label {
+      color: #8891a3; font-size: 0.78rem; margin-right: 6px;
+    }
+    .offspring-slot-chip {
+      display: inline-block; background: #1d2230; border: 1px solid #2a3040;
+      border-radius: 4px; padding: 2px 8px; margin: 0 4px 4px 0;
+      font-size: 0.78rem;
+    }
+    .offspring-slot-chip.from-a { border-color: #4d9de0; }
+    .offspring-slot-chip.from-b { border-color: #ff9d4d; }
+    .offspring-mutation {
+      display: inline-block; background: #1d2230; border: 1px solid #5a4a2f;
+      border-radius: 4px; padding: 2px 8px; font-size: 0.78rem; cursor: help;
+    }
+    .offspring-mutation.tier-rare {
+      border-color: #b06bff; color: #d6b3ff;
+    }
+    .offspring-actions {
+      display: flex; gap: 8px; margin-top: 12px;
+    }
   `;
   document.head.appendChild(style);
 }
@@ -134,28 +241,76 @@ function buildOverlay() {
         <span><strong>Bioma:</strong> <span id="nest-meta-biome">—</span></span>
         <span class="nest-pill" id="nest-meta-req">requisiti?</span>
       </div>
-      <div class="nest-section" id="nest-setup-section" style="display:none">
-        <h3>Setup nido</h3>
-        <div class="nest-setup-row">
-          <select id="nest-biome-select">
-            ${BIOME_OPTIONS.map((b) => `<option value="${b}">${b}</option>`).join('')}
-          </select>
-          <button type="button" class="nest-btn" id="nest-setup-btn">🪺 Inizializza</button>
+      <div class="nest-tabs" role="tablist">
+        <button type="button" class="nest-tab-btn active" data-tab-btn="overview" role="tab">
+          🏠 Overview
+        </button>
+        <button type="button" class="nest-tab-btn" data-tab-btn="mating" role="tab">
+          🧬 Mating
+        </button>
+        <button type="button" class="nest-tab-btn" data-tab-btn="lineage" role="tab">
+          🌳 Lineage
+        </button>
+      </div>
+      <div class="nest-tab-pane active" data-tab="overview">
+        <div class="nest-section" id="nest-setup-section" style="display:none">
+          <h3>Setup nido</h3>
+          <div class="nest-setup-row">
+            <select id="nest-biome-select">
+              ${BIOME_OPTIONS.map((b) => `<option value="${b}">${b}</option>`).join('')}
+            </select>
+            <button type="button" class="nest-btn" id="nest-setup-btn">🪺 Inizializza</button>
+          </div>
+        </div>
+        <div class="nest-section">
+          <h3>NPG nel nido (<span id="nest-npc-count">0</span>)</h3>
+          <div id="nest-npc-list">
+            <div class="nest-empty">Carico…</div>
+          </div>
+        </div>
+        <div class="nest-section" id="nest-mating-section" style="display:none">
+          <h3>NPG mating roll (seleziona 1 NPG)</h3>
+          <div class="nest-setup-row">
+            <button type="button" class="nest-btn" id="nest-mating-btn" disabled>
+              🧬 Tenta riproduzione (NPG)
+            </button>
+            <span id="nest-mating-hint" style="font-size:0.8rem;color:#8891a3"></span>
+          </div>
         </div>
       </div>
-      <div class="nest-section">
-        <h3>NPG nel nido (<span id="nest-npc-count">0</span>)</h3>
-        <div id="nest-npc-list">
-          <div class="nest-empty">Carico…</div>
+      <div class="nest-tab-pane" data-tab="mating">
+        <div class="nest-section">
+          <h3>🧬 Squad mating — offspring (MHS 3-tier)</h3>
+          <p style="font-size:0.78rem;color:#8891a3;margin:0 0 10px">
+            Seleziona due creature della squadra per generare un offspring.
+            Il tier (no-glow / gold / rainbow) è determinato da gene_slot match
+            e mutazione ambientale del bioma corrente.
+          </p>
+          <div class="mating-parent-grid">
+            <div>
+              <label class="mating-parent-label" for="mating-parent-a">Parent A</label>
+              <select id="mating-parent-a"><option value="">— seleziona —</option></select>
+            </div>
+            <div>
+              <label class="mating-parent-label" for="mating-parent-b">Parent B</label>
+              <select id="mating-parent-b"><option value="">— seleziona —</option></select>
+            </div>
+          </div>
+          <div class="mating-roll-row">
+            <button type="button" class="nest-btn" id="mating-roll-btn" disabled>
+              🎲 Roll Mating
+            </button>
+            <span id="mating-cooldown-hint" class="mating-cooldown-hint"></span>
+          </div>
+          <div id="mating-result-host"></div>
         </div>
       </div>
-      <div class="nest-section" id="nest-mating-section" style="display:none">
-        <h3>Mating roll (seleziona 1 NPG)</h3>
-        <div class="nest-setup-row">
-          <button type="button" class="nest-btn" id="nest-mating-btn" disabled>
-            🧬 Tenta riproduzione
-          </button>
-          <span id="nest-mating-hint" style="font-size:0.8rem;color:#8891a3"></span>
+      <div class="nest-tab-pane" data-tab="lineage">
+        <div class="nest-section">
+          <h3>🌳 Lineage</h3>
+          <p style="font-size:0.85rem;color:#8891a3">
+            Sprint D — albero genealogico offspring + tracking parent chain.
+          </p>
         </div>
       </div>
       <div class="nest-status" id="nest-status"></div>
@@ -168,8 +323,36 @@ function buildOverlay() {
   });
   overlay.querySelector('#nest-setup-btn').addEventListener('click', handleSetup);
   overlay.querySelector('#nest-mating-btn').addEventListener('click', handleMating);
+  // Sprint C — tab switch + Mating tab handlers
+  overlay.querySelectorAll('[data-tab-btn]').forEach((btn) => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tabBtn));
+  });
+  const parentASel = overlay.querySelector('#mating-parent-a');
+  const parentBSel = overlay.querySelector('#mating-parent-b');
+  if (parentASel) parentASel.addEventListener('change', handleParentChange);
+  if (parentBSel) parentBSel.addEventListener('change', handleParentChange);
+  const rollBtn = overlay.querySelector('#mating-roll-btn');
+  if (rollBtn) rollBtn.addEventListener('click', handleMatingRoll);
   STATE.overlayEl = overlay;
   return overlay;
+}
+
+function switchTab(tabName) {
+  if (typeof document === 'undefined') return;
+  if (!tabName) return;
+  STATE.activeTab = tabName;
+  if (!STATE.overlayEl) return;
+  STATE.overlayEl.querySelectorAll('[data-tab-btn]').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.tabBtn === tabName);
+  });
+  STATE.overlayEl.querySelectorAll('[data-tab]').forEach((pane) => {
+    pane.classList.toggle('active', pane.dataset.tab === tabName);
+  });
+  // Refresh squad creatures when entering mating tab.
+  if (tabName === 'mating') {
+    populateParentSelects();
+    updateRollButtonState();
+  }
 }
 
 function setStatus(text, kind = '') {
@@ -320,10 +503,202 @@ async function refresh() {
   STATE.cachedNest = res.data?.nest || { level: 0, biome: null, requirements_met: false };
   renderNest(STATE.cachedNest);
   renderNpcs(STATE.cachedNpcs);
+  // Sprint C — refresh Mating tab parent selectors when squad changes.
+  if (STATE.activeTab === 'mating') {
+    populateParentSelects();
+    updateRollButtonState();
+  }
   setStatus(
     `${STATE.cachedNpcs.length} NPG · nido Lv ${STATE.cachedNest.level}${STATE.cachedNest.biome ? ' (' + STATE.cachedNest.biome + ')' : ''}`,
     'ok',
   );
+}
+
+// ─── Sprint C — Mating tab (squad-mate offspring roll) ──────────────────
+
+function getSquadList() {
+  try {
+    const list = STATE.getSquadCreatures?.() || [];
+    return Array.isArray(list) ? list : [];
+  } catch {
+    return [];
+  }
+}
+
+function populateParentSelects() {
+  if (typeof document === 'undefined' || !STATE.overlayEl) return;
+  const aSel = STATE.overlayEl.querySelector('#mating-parent-a');
+  const bSel = STATE.overlayEl.querySelector('#mating-parent-b');
+  if (!aSel || !bSel) return;
+  const squad = getSquadList();
+  const optsHtml = ['<option value="">— seleziona —</option>']
+    .concat(
+      squad.map((c) => {
+        const id = String(c.id || '');
+        const label = c.name || c.id || 'unnamed';
+        return `<option value="${escapeAttr(id)}">${escapeText(label)}</option>`;
+      }),
+    )
+    .join('');
+  // Preserve current selection if still valid.
+  const prevA = STATE.matingTab.parentAId;
+  const prevB = STATE.matingTab.parentBId;
+  aSel.innerHTML = optsHtml;
+  bSel.innerHTML = optsHtml;
+  if (prevA && squad.find((c) => c.id === prevA)) aSel.value = prevA;
+  if (prevB && squad.find((c) => c.id === prevB)) bSel.value = prevB;
+}
+
+function handleParentChange() {
+  if (typeof document === 'undefined' || !STATE.overlayEl) return;
+  const a = STATE.overlayEl.querySelector('#mating-parent-a')?.value || '';
+  const b = STATE.overlayEl.querySelector('#mating-parent-b')?.value || '';
+  STATE.matingTab.parentAId = a || null;
+  STATE.matingTab.parentBId = b || null;
+  updateRollButtonState();
+}
+
+function updateRollButtonState() {
+  if (typeof document === 'undefined' || !STATE.overlayEl) return;
+  const btn = STATE.overlayEl.querySelector('#mating-roll-btn');
+  const hint = STATE.overlayEl.querySelector('#mating-cooldown-hint');
+  if (!btn) return;
+  const a = STATE.matingTab.parentAId;
+  const b = STATE.matingTab.parentBId;
+  const sameParent = a && b && a === b;
+  const onCooldown = STATE.matingTab.rolledThisSession;
+  let canRoll = Boolean(a && b) && !sameParent && !onCooldown;
+  btn.disabled = !canRoll;
+  if (hint) {
+    if (sameParent) hint.textContent = 'Stessa creatura — seleziona due parent diversi';
+    else if (onCooldown) hint.textContent = 'Cooldown attivo (1 mating per sessione)';
+    else if (!a || !b) hint.textContent = '';
+    else hint.textContent = `Ready: ${a} × ${b}`;
+  }
+}
+
+async function handleMatingRoll() {
+  if (typeof document === 'undefined' || !STATE.overlayEl) return;
+  const a = STATE.matingTab.parentAId;
+  const b = STATE.matingTab.parentBId;
+  if (!a || !b || a === b) return;
+  const squad = getSquadList();
+  const parentA = squad.find((c) => c.id === a);
+  const parentB = squad.find((c) => c.id === b);
+  if (!parentA || !parentB) {
+    setStatus('✖ Parent non trovato in squad cache', 'err');
+    return;
+  }
+  const biomeId = STATE.cachedNest?.biome || 'default';
+  setStatus(`Roll mating ${a} × ${b} in ${biomeId}…`);
+  const res = await api.metaMatingRoll(parentA, parentB, biomeId);
+  if (!res.ok) {
+    setStatus(`✖ Backend error: ${res.data?.error || res.status}`, 'err');
+    return;
+  }
+  const data = res.data || {};
+  if (!data.success) {
+    setStatus(`✖ Mating fail: ${data.reason || 'unknown'}`, 'err');
+    renderOffspringResult(null);
+    return;
+  }
+  STATE.matingTab.rolledThisSession = true;
+  STATE.matingTab.lastResult = data;
+  renderOffspringResult(data);
+  updateRollButtonState();
+  const tierLabel = data.tier || 'no-glow';
+  setStatus(
+    `🧬 Offspring ${tierLabel.toUpperCase()} generato (lineage ${data.offspring?.lineage_id || '?'})`,
+    'ok',
+  );
+}
+
+function renderOffspringResult(result) {
+  if (typeof document === 'undefined' || !STATE.overlayEl) return;
+  const host = STATE.overlayEl.querySelector('#mating-result-host');
+  if (!host) return;
+  if (!result || !result.success) {
+    host.innerHTML = '';
+    return;
+  }
+  const o = result.offspring || {};
+  const tier = result.tier || 'no-glow';
+  const tierClass = `tier-${tier}`;
+  const slotsHtml = (o.gene_slots || [])
+    .map((s) => {
+      const fromCls = s.from === 'parent_a' ? 'from-a' : 'from-b';
+      const lab = escapeText(s.label_it || s.slot_id);
+      const val = escapeText(String(s.value || ''));
+      return `<span class="offspring-slot-chip ${fromCls}">${lab}: ${val} <small>(${escapeText(s.from)})</small></span>`;
+    })
+    .join('');
+  const mut = o.environmental_mutation || {};
+  const mutTierCls = mut.tier === 2 ? 'tier-rare' : '';
+  const mutLabel = escapeText(mut.name_it || mut.id || 'nessuna');
+  const mutTooltip = `bioma: ${escapeAttr(mut.biome_id || '?')} | tier: ${mut.tier ?? '—'} | source: ${escapeAttr(mut.source || '?')}`;
+  const lineageDisplay = humanizeLineageId(o.lineage_id);
+  const bonusHtml = (o.tier_bonus_traits || [])
+    .map((t) => `<span class="offspring-slot-chip">${escapeText(t)}</span>`)
+    .join('');
+  host.innerHTML = `
+    <div class="offspring-card ${tierClass}">
+      <span class="tier-badge ${tierClass}">${tier}</span>
+      <div class="offspring-lineage">🆔 ${escapeText(lineageDisplay)}</div>
+      <div class="offspring-row">
+        <span class="offspring-label">Gene slots:</span>${slotsHtml || '—'}
+      </div>
+      <div class="offspring-row">
+        <span class="offspring-label">Mutazione ambientale:</span>
+        <span class="offspring-mutation ${mutTierCls}" title="${mutTooltip}">${mutLabel}</span>
+      </div>
+      ${
+        bonusHtml
+          ? `<div class="offspring-row"><span class="offspring-label">Bonus tier:</span>${bonusHtml}</div>`
+          : ''
+      }
+      <div class="offspring-row">
+        <span class="offspring-label">Phase:</span>
+        <span class="offspring-slot-chip">${escapeText(o.predicted_lifecycle_phase || 'hatchling')}</span>
+      </div>
+      <div class="offspring-actions">
+        <button type="button" class="nest-btn" id="offspring-add-btn">+ Aggiungi al Nido</button>
+      </div>
+    </div>
+  `;
+  const addBtn = host.querySelector('#offspring-add-btn');
+  if (addBtn) addBtn.addEventListener('click', () => handleAddOffspring(o));
+}
+
+async function handleAddOffspring(offspring) {
+  if (!offspring) return;
+  setStatus('Aggiungo al Nido…');
+  const res = await api.metaNestAddOffspring(offspring);
+  if (!res.ok) {
+    setStatus(`✖ Add failed: ${res.data?.error || res.status}`, 'err');
+    return;
+  }
+  setStatus(`✓ Offspring ${offspring.lineage_id} aggiunto al Nido`, 'ok');
+}
+
+function humanizeLineageId(id) {
+  if (!id) return '—';
+  // lineage_a1b2c3d4 → A1B2-C3D4 (more readable)
+  const m = String(id).match(/^lineage_([0-9a-f]+)$/i);
+  if (!m) return id;
+  const hex = m[1].toUpperCase();
+  if (hex.length >= 8) return `Lineage ${hex.slice(0, 4)}-${hex.slice(4, 8)}`;
+  return `Lineage ${hex}`;
+}
+
+function escapeText(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function escapeAttr(s) {
+  return escapeText(s).replace(/"/g, '&quot;');
 }
 
 export function openNestHub() {
@@ -336,15 +711,24 @@ export function closeNestHub() {
   if (STATE.overlayEl) STATE.overlayEl.classList.remove('visible');
 }
 
-export function initNestHub({ getPartyMember, buttonId = 'nest-open' } = {}) {
+export function initNestHub({ getPartyMember, getSquadCreatures, buttonId = 'nest-open' } = {}) {
   STATE.getPartyMember = typeof getPartyMember === 'function' ? getPartyMember : () => null;
+  STATE.getSquadCreatures = typeof getSquadCreatures === 'function' ? getSquadCreatures : () => [];
   buildOverlay();
   if (typeof document === 'undefined') {
-    return { openNestHub, closeNestHub, refresh };
+    return { openNestHub, closeNestHub, refresh, switchTab };
   }
   const btn = document.getElementById(buttonId);
   if (btn) {
     btn.addEventListener('click', openNestHub);
   }
-  return { openNestHub, closeNestHub, refresh };
+  return { openNestHub, closeNestHub, refresh, switchTab };
 }
+
+// Test surface — internal helpers for unit tests.
+export const __nestHubInternal = {
+  humanizeLineageId,
+  escapeText,
+  escapeAttr,
+  STATE,
+};

@@ -34,6 +34,7 @@ const MATING_THRESHOLD = 12; // DC base
 function createMetaTracker() {
   const npcs = new Map();
   const nest = { level: 0, biome: null, requirements_met: false };
+  const offspringRegistry = []; // Sprint C — list of offspring spec from rollMatingOffspring
 
   function getOrCreate(npcId) {
     if (!npcs.has(npcId)) {
@@ -144,6 +145,27 @@ function createMetaTracker() {
     return { ...nest };
   }
 
+  // Sprint C — squad-mate offspring roll (MHS 3-tier).
+  // Distinct from `rollMating(npcId, partyMember)` (NPC pair-bond DC roll).
+  function rollOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
+    const result = rollMatingOffspring({ parentA, parentB, biomeId, context });
+    if (result.success && result.offspring) {
+      offspringRegistry.push({ ...result.offspring, created_at: Date.now() });
+    }
+    return result;
+  }
+
+  function listOffspring() {
+    return offspringRegistry.map((o) => ({ ...o }));
+  }
+
+  function addOffspring(offspring) {
+    if (!offspring || typeof offspring !== 'object') return null;
+    const entry = { ...offspring, added_at: Date.now() };
+    offspringRegistry.push(entry);
+    return entry;
+  }
+
   return {
     updateAffinity,
     updateTrust,
@@ -155,6 +177,9 @@ function createMetaTracker() {
     tickCooldowns,
     listNpcs,
     getNest,
+    rollOffspring,
+    listOffspring,
+    addOffspring,
   };
 }
 
@@ -207,6 +232,303 @@ function parseJsonArray(raw) {
     return [];
   }
 }
+
+// ─── Sprint C — Offspring rollMating (MHS 3-tier visual feedback) ────────
+//
+// Pattern Monster Hunter Stories 3 genetics: offspring inherits 2 gene slots
+// (one per parent, weighted by inheritance_weight) + 1 environmental mutation
+// pulled from biome filter. Tier (no-glow/gold/rainbow) determines visual
+// feedback + bonus traits for offspring.
+//
+// Mating mutation = Layer 2 (offspring) ≠ Layer 1 self-encounter mutation
+// (M14 mutation_catalog). Layer 2 uses Layer 1 catalog filtered by biome
+// where mating happened.
+//
+// Refs:
+// - data/core/mating.yaml § gene_slots inheritance_rules
+// - data/core/mutations/mutation_catalog.yaml (M14, biome_boost field)
+// - docs/core/Mating-Reclutamento-Nido.md § Ereditarietà & Mutazioni
+
+const TIER_NO_GLOW = 'no-glow';
+const TIER_GOLD = 'gold';
+const TIER_RAINBOW = 'rainbow';
+
+const TIER_VISUAL_HINTS = {
+  [TIER_NO_GLOW]: { border_color: '#2a3040', glow: false, particles: false, sfx: 'tier_common' },
+  [TIER_GOLD]: { border_color: '#ffd180', glow: true, particles: false, sfx: 'tier_gold' },
+  [TIER_RAINBOW]: {
+    border_color: 'rainbow',
+    glow: true,
+    particles: true,
+    sfx: 'tier_rainbow',
+  },
+};
+
+/**
+ * Deterministic lineage_id from two parent ids.
+ * Format: lineage_<8-hex-prefix> derived from sorted-pair hash so order
+ * doesn't matter (parent_a + parent_b == parent_b + parent_a).
+ */
+function makeLineageId(parentAId, parentBId) {
+  const a = String(parentAId || '');
+  const b = String(parentBId || '');
+  const pair = [a, b].sort().join('|');
+  // FNV-1a-like 32-bit folding hash (deterministic, no external deps).
+  let h = 0x811c9dc5;
+  for (let i = 0; i < pair.length; i++) {
+    h ^= pair.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  const hex = h.toString(16).padStart(8, '0');
+  return `lineage_${hex}`;
+}
+
+/**
+ * Pick gene slots inherited from each parent.
+ * Each parent contributes 1 slot, weighted by slot inheritance_weight if available.
+ *
+ * @param {object} parentA — { id, gene_slots?: Array<{slot_id, value}> }
+ * @param {object} parentB
+ * @param {object} geneSlotsSchema — data/core/mating.yaml gene_slots
+ * @param {function} rng
+ * @returns {Array<{from: string, slot_id, value, label_it?, category}>}
+ */
+function inheritGeneSlots(parentA, parentB, geneSlotsSchema = {}, rng = Math.random) {
+  const inherited = [];
+  for (const [parentLabel, parent] of [
+    ['parent_a', parentA],
+    ['parent_b', parentB],
+  ]) {
+    const slots = Array.isArray(parent?.gene_slots) ? parent.gene_slots : [];
+    if (slots.length === 0) {
+      // No gene_slots on parent — fallback to a synthetic slot derived from parent id.
+      inherited.push({
+        from: parentLabel,
+        slot_id: 'corpo',
+        value: parent?.id || parentLabel,
+        category: 'struttura',
+      });
+      continue;
+    }
+    // Weighted random pick by inheritance_weight (default 0.5 if missing).
+    const weights = slots.map((s) => {
+      const meta = lookupSlotMeta(geneSlotsSchema, s.slot_id);
+      return Math.max(0.05, Number(meta?.inheritance_weight ?? 0.5));
+    });
+    const totalW = weights.reduce((a, b) => a + b, 0);
+    let pick = rng() * totalW;
+    let chosenIdx = 0;
+    for (let i = 0; i < weights.length; i++) {
+      pick -= weights[i];
+      if (pick <= 0) {
+        chosenIdx = i;
+        break;
+      }
+    }
+    const slot = slots[chosenIdx];
+    const meta = lookupSlotMeta(geneSlotsSchema, slot.slot_id);
+    inherited.push({
+      from: parentLabel,
+      slot_id: slot.slot_id,
+      value: slot.value,
+      label_it: meta?.label_it || slot.slot_id,
+      category: meta?.category || 'struttura',
+    });
+  }
+  return inherited;
+}
+
+function lookupSlotMeta(geneSlotsSchema, slotId) {
+  const cats = geneSlotsSchema?.categories || {};
+  for (const [catKey, cat] of Object.entries(cats)) {
+    const slots = cat?.slots || [];
+    for (const s of slots) {
+      if (s.id === slotId) {
+        return { ...s, category: catKey };
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Pick 1 environmental mutation filtered by biome_id_at_mating.
+ *
+ * Strategy:
+ *   1. If mutationCatalog is provided AND has entries with biome_boost matching:
+ *      pick weighted-random from those (prefer rare > advanced > base by tier).
+ *   2. Otherwise fallback: pick from biomeTraitsPool (random trait id).
+ *
+ * Returns: { id, type: 'mutation'|'trait', tier: 0|1|2|null, biome_id, source }.
+ */
+function pickEnvironmentalMutation({
+  biomeId,
+  mutationCatalog = null,
+  biomeTraitsPool = [],
+  rng = Math.random,
+}) {
+  // Prefer real mutation catalog entries matching biome.
+  if (mutationCatalog && typeof mutationCatalog === 'object') {
+    const byId = mutationCatalog.byId || {};
+    const matches = [];
+    for (const [id, entry] of Object.entries(byId)) {
+      const boostList = Array.isArray(entry?.biome_boost) ? entry.biome_boost : [];
+      if (biomeId && boostList.includes(biomeId)) {
+        matches.push({ id, entry });
+      }
+    }
+    if (matches.length > 0) {
+      const picked = matches[Math.floor(rng() * matches.length)];
+      const tier = Number(picked.entry?.tier ?? 1);
+      return {
+        id: picked.id,
+        type: 'mutation',
+        tier,
+        biome_id: biomeId || null,
+        source: 'mutation_catalog',
+        name_it: picked.entry?.name_it || picked.id,
+      };
+    }
+  }
+  // Fallback: random trait from biome pool.
+  if (Array.isArray(biomeTraitsPool) && biomeTraitsPool.length > 0) {
+    const traitId = biomeTraitsPool[Math.floor(rng() * biomeTraitsPool.length)];
+    return {
+      id: traitId,
+      type: 'trait',
+      tier: null,
+      biome_id: biomeId || null,
+      source: 'biome_trait_pool',
+      name_it: traitId,
+    };
+  }
+  // Empty fallback (no catalog + no pool).
+  return {
+    id: null,
+    type: 'none',
+    tier: null,
+    biome_id: biomeId || null,
+    source: 'fallback_empty',
+    name_it: null,
+  };
+}
+
+/**
+ * Compute offspring tier (no-glow / gold / rainbow).
+ *
+ * Rules (MHS pattern):
+ * - GOLD: gene_slot match (both inherited slots have same slot_id).
+ * - RAINBOW: environmental_mutation tier === 2 (rare in mutation_catalog).
+ * - NO-GLOW: default common offspring.
+ *
+ * Stochastic edge:
+ * - If neither match, tier remains no-glow (~70%); roll a small random for
+ *   rainbow/gold downgrade tolerance is unnecessary because gates are deterministic.
+ */
+function computeOffspringTier({ inheritedSlots, environmentalMutation }) {
+  const a = inheritedSlots?.[0];
+  const b = inheritedSlots?.[1];
+  const slotMatch = Boolean(a && b && a.slot_id === b.slot_id);
+  const mutTier = Number(environmentalMutation?.tier ?? -1);
+  const isRareMutation = environmentalMutation?.type === 'mutation' && mutTier >= 2;
+
+  if (isRareMutation) return TIER_RAINBOW;
+  if (slotMatch) return TIER_GOLD;
+  return TIER_NO_GLOW;
+}
+
+function tierBonusTraits(tier) {
+  if (tier === TIER_GOLD) return 1;
+  if (tier === TIER_RAINBOW) return 2;
+  return 0;
+}
+
+/**
+ * Sprint C — Roll mating offspring spec.
+ *
+ * Distinct from `rollMating(npcId, partyMember)` (NPC pair-bond MBTI compat
+ * d20 check). This is the **squad-mate roll**: parent_a + parent_b are two
+ * creatures of the player's squad, biome at mating decides environmental
+ * mutation flavor, output is full offspring spec with tier visual feedback.
+ *
+ * @param {object} input
+ * @param {object} input.parentA — { id, mbti_type?, trait_ids?, gene_slots? }
+ * @param {object} input.parentB — { id, mbti_type?, trait_ids?, gene_slots? }
+ * @param {string} input.biomeId
+ * @param {object} [input.context]
+ * @param {object} [input.context.geneSlotsSchema] — data/core/mating.yaml gene_slots
+ * @param {object} [input.context.mutationCatalog] — optional M14 catalog (loadMutationCatalog())
+ * @param {Array<string>} [input.context.biomeTraitsPool]
+ * @param {function} [input.context.rng]
+ * @returns {object} offspring spec + tier + visual_hints
+ */
+function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
+  if (!parentA || !parentB) {
+    throw new Error('rollMatingOffspring: parentA and parentB required');
+  }
+  if (parentA.id && parentB.id && parentA.id === parentB.id) {
+    return {
+      success: false,
+      reason: 'self_mate_prevented',
+      offspring: null,
+      tier: null,
+      visual_hints: null,
+    };
+  }
+  const rng = typeof context.rng === 'function' ? context.rng : Math.random;
+  const geneSlotsSchema = context.geneSlotsSchema || {};
+  const mutationCatalog = context.mutationCatalog || null;
+  const biomeTraitsPool = Array.isArray(context.biomeTraitsPool) ? context.biomeTraitsPool : [];
+
+  const lineageId = makeLineageId(parentA.id, parentB.id);
+  const inheritedSlots = inheritGeneSlots(parentA, parentB, geneSlotsSchema, rng);
+  const environmentalMutation = pickEnvironmentalMutation({
+    biomeId,
+    mutationCatalog,
+    biomeTraitsPool,
+    rng,
+  });
+  const tier = computeOffspringTier({ inheritedSlots, environmentalMutation });
+  const bonusTraits = tierBonusTraits(tier);
+
+  // Compose bonus traits list from union of parent trait pools, picked random,
+  // exclusive of duplicates already in environmental_mutation.id.
+  const parentTraitsAll = [
+    ...new Set([
+      ...(Array.isArray(parentA.trait_ids) ? parentA.trait_ids : []),
+      ...(Array.isArray(parentB.trait_ids) ? parentB.trait_ids : []),
+    ]),
+  ].filter((t) => t !== environmentalMutation?.id);
+
+  const bonus = [];
+  const available = [...parentTraitsAll];
+  for (let i = 0; i < bonusTraits && available.length > 0; i++) {
+    const idx = Math.floor(rng() * available.length);
+    bonus.push(available.splice(idx, 1)[0]);
+  }
+
+  const offspring = {
+    lineage_id: lineageId,
+    gene_slots: inheritedSlots,
+    environmental_mutation: environmentalMutation,
+    tier_bonus_traits: bonus,
+    tier,
+    predicted_lifecycle_phase: 'hatchling',
+    parent_a_id: parentA.id || null,
+    parent_b_id: parentB.id || null,
+    biome_id_at_mating: biomeId || null,
+  };
+
+  return {
+    success: true,
+    offspring,
+    tier,
+    visual_hints: TIER_VISUAL_HINTS[tier],
+  };
+}
+
+// Note: Sprint C exports are appended at the bottom of this file (after the
+// canonical `module.exports = { ... }` block) to avoid being overwritten.
 
 // ─── L06 adapter: Prisma + in-memory fallback ────────────────────────────
 
@@ -438,6 +760,34 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
     };
   }
 
+  // Sprint C — Offspring registry. No Prisma model yet (P0 follow-up
+  // ADR-2026-04-21-meta-progression-prisma adds it). When usePrisma=false,
+  // delegate to fallback tracker so we have a single in-memory source of truth.
+  // When usePrisma=true, use this _offspringMem until Prisma model lands.
+  const _offspringMem = [];
+
+  async function rollOffspring(input = {}) {
+    if (!usePrisma) return fallback.rollOffspring(input);
+    const result = rollMatingOffspring(input);
+    if (result.success && result.offspring) {
+      _offspringMem.push({ ...result.offspring, created_at: Date.now() });
+    }
+    return result;
+  }
+
+  async function listOffspring() {
+    if (!usePrisma) return fallback.listOffspring();
+    return _offspringMem.map((o) => ({ ...o }));
+  }
+
+  async function addOffspring(offspring) {
+    if (!usePrisma) return fallback.addOffspring(offspring);
+    if (!offspring || typeof offspring !== 'object') return null;
+    const entry = { ...offspring, added_at: Date.now() };
+    _offspringMem.push(entry);
+    return entry;
+  }
+
   return {
     updateAffinity,
     updateTrust,
@@ -449,6 +799,9 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
     tickCooldowns,
     listNpcs,
     getNest,
+    rollOffspring,
+    listOffspring,
+    addOffspring,
     // meta
     _mode: usePrisma ? 'prisma' : 'in-memory',
   };
@@ -467,3 +820,16 @@ module.exports = {
   TRUST_MAX,
   MATING_THRESHOLD,
 };
+
+// ─── Sprint C — additive exports (offspring roll + tier visual feedback) ──
+// Appended after the canonical export block so existing keys aren't shadowed.
+// Sprint D and other parallel sprints can also use this additive pattern.
+module.exports.makeLineageId = makeLineageId;
+module.exports.inheritGeneSlots = inheritGeneSlots;
+module.exports.pickEnvironmentalMutation = pickEnvironmentalMutation;
+module.exports.computeOffspringTier = computeOffspringTier;
+module.exports.rollMatingOffspring = rollMatingOffspring;
+module.exports.TIER_NO_GLOW = TIER_NO_GLOW;
+module.exports.TIER_GOLD = TIER_GOLD;
+module.exports.TIER_RAINBOW = TIER_RAINBOW;
+module.exports.TIER_VISUAL_HINTS = TIER_VISUAL_HINTS;

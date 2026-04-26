@@ -276,6 +276,18 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ biome, requirements_met }),
     }),
+  // OD-001 Path A Sprint C — offspring roll (MHS 3-tier visual feedback).
+  metaMatingRoll: (parent_a, parent_b, biome_id) =>
+    jsonFetch('/api/meta/mating/roll', {
+      method: 'POST',
+      body: JSON.stringify({ parent_a, parent_b, biome_id }),
+    }),
+  metaNestOffspringList: () => jsonFetch('/api/meta/nest/offspring'),
+  metaNestAddOffspring: (offspring) =>
+    jsonFetch('/api/meta/nest/add_offspring', {
+      method: 'POST',
+      body: JSON.stringify({ offspring }),
+    }),
   // Skiv-as-Monitor — git-event-driven creature feed (Phase 2 wire 2026-04-25).
   skivStatus: () => jsonFetch('/api/skiv/status'),
   skivFeed: (limit = 20) => jsonFetch(`/api/skiv/feed?limit=${encodeURIComponent(limit)}`),

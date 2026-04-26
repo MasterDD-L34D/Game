@@ -17,7 +17,45 @@
 'use strict';
 
 const { Router } = require('express');
+const path = require('node:path');
+const fs = require('node:fs');
 const { createMetaStore } = require('../services/metaProgression');
+
+// Lazy load mating.yaml gene_slots schema + mutation catalog for offspring rolls.
+// Both non-blocking: if files missing, falls back to {} / null.
+let _matingSchemaCache = null;
+function loadMatingSchema() {
+  if (_matingSchemaCache !== null) return _matingSchemaCache;
+  try {
+    const yaml = require('js-yaml');
+    const root = path.resolve(__dirname, '..', '..', '..');
+    const p = path.join(root, 'data', 'core', 'mating.yaml');
+    if (!fs.existsSync(p)) {
+      _matingSchemaCache = {};
+      return _matingSchemaCache;
+    }
+    const raw = fs.readFileSync(p, 'utf8');
+    const doc = yaml.load(raw) || {};
+    _matingSchemaCache = doc.gene_slots || {};
+    return _matingSchemaCache;
+  } catch (_err) {
+    _matingSchemaCache = {};
+    return _matingSchemaCache;
+  }
+}
+
+let _mutationCatalogCache = null;
+function loadCatalog() {
+  if (_mutationCatalogCache !== null) return _mutationCatalogCache;
+  try {
+    const { loadMutationCatalog } = require('../services/mutations/mutationCatalogLoader');
+    _mutationCatalogCache = loadMutationCatalog();
+    return _mutationCatalogCache;
+  } catch (_err) {
+    _mutationCatalogCache = null;
+    return _mutationCatalogCache;
+  }
+}
 
 /**
  * @param {object} [opts]
@@ -113,7 +151,62 @@ function createMetaRouter(opts = {}) {
     }
   });
 
+  // ─── Sprint C — squad-mate offspring roll (MHS 3-tier visual) ─────
+  // Distinct from /mating (NPC pair-bond DC roll). This rolls offspring
+  // spec from two squad creatures + biome at mating time.
+  router.post('/mating/roll', async (req, res, next) => {
+    try {
+      const { parent_a, parent_b, biome_id } = req.body || {};
+      if (!parent_a || !parent_b) {
+        return res.status(400).json({ error: 'parent_a and parent_b (objects with id) required' });
+      }
+      if (!parent_a.id || !parent_b.id) {
+        return res.status(400).json({ error: 'parent_a.id and parent_b.id required' });
+      }
+      const geneSlotsSchema = loadMatingSchema();
+      const mutationCatalog = loadCatalog();
+      const result = await store.rollOffspring({
+        parentA: parent_a,
+        parentB: parent_b,
+        biomeId: biome_id || null,
+        context: { geneSlotsSchema, mutationCatalog },
+      });
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.get('/nest/offspring', async (_req, res, next) => {
+    try {
+      const offspring = await store.listOffspring();
+      res.json({ offspring });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.post('/nest/add_offspring', async (req, res, next) => {
+    try {
+      const { offspring } = req.body || {};
+      if (!offspring || typeof offspring !== 'object') {
+        return res.status(400).json({ error: 'offspring object required' });
+      }
+      const entry = await store.addOffspring(offspring);
+      if (!entry) return res.status(400).json({ error: 'invalid offspring shape' });
+      res.json({ added: entry });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   return router;
 }
 
-module.exports = { createMetaRouter };
+// Test surface — reset module-level YAML caches between tests.
+function _resetCachesForTest() {
+  _matingSchemaCache = null;
+  _mutationCatalogCache = null;
+}
+
+module.exports = { createMetaRouter, _resetCachesForTest };
