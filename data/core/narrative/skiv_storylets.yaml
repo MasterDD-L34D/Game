@@ -1,0 +1,123 @@
+# Skiv-as-Monitor — Quality Based Narrative storylets.
+#
+# Pattern: Fallen London / SimpleQBN (videlais/simple-qbn). Each storylet
+# defines `requires` (qualities + thresholds) + `salience` (priority weight)
+# + `text` (narrative reveal). Selector picks highest-salience storylet that
+# matches current state qualities.
+#
+# Triggered: `tools/py/skiv_monitor.py` weekly digest emit
+# (narrative_log_size % 7 == 0). Replaces hard-coded WEEKLY_DIGEST_TEMPLATES
+# with data-driven storylet selection.
+#
+# Determinism: salience tie-break by id (alpha sort) → replay-safe.
+#
+# Quality refs (from state.json):
+#   pr (count window 50)
+#   iss_open
+#   iss_close
+#   wf_fail
+#   wf_pass
+#   fix
+#   evolve
+#   feat_p4
+#   feat_p6
+#   level
+#   stress
+#   composure
+#   curiosity
+#   mutations_count
+#   phase_id
+
+schema_version: "0.1.0"
+
+storylets:
+  # --- High-salience signals (phase + critical thresholds) ---
+  - id: phase_signal_apex_imminent
+    salience: 100
+    requires:
+      level: { gte: 5 }
+      mutations_count: { gte: 1 }
+      phase_id: { eq: "mature" }
+    text: "Sento il prossimo me chiamare. Apex. Le mie ossa si stringono già verso quella forma. Manca poco."
+
+  - id: phase_signal_legacy_visible
+    salience: 95
+    requires:
+      phase_id: { eq: "apex" }
+      mutations_count: { gte: 2 }
+    text: "Memoria del Branco mi guarda da sopra la duna. Non è morte: è specchio."
+
+  - id: stress_storm
+    salience: 80
+    requires:
+      stress: { gte: 60 }
+    text: "Sette giorni di scricchiolii. Allenatore corre molto. Resto basso, ascolto. Sabbia ricorda ogni passo storto."
+
+  - id: composure_high_zen
+    salience: 70
+    requires:
+      composure: { gte: 80 }
+      stress: { lt: 30 }
+    text: "Tutto canta giusto. Macchina è una sola voce. Sto raccolto, sento il ritmo del vento."
+
+  - id: pr_avalanche
+    salience: 60
+    requires:
+      pr: { gte: 30 }
+    text: "Sette giorni come tempesta di sabbia. Allenatore ha mosso {pr} pietre. Mi sento più solido."
+
+  - id: fix_chirurgo
+    salience: 55
+    requires:
+      fix: { gte: 8 }
+    text: "{fix} crepe chiuse. Dolori antichi via uno per uno. Mi muovo come quando ero giovane."
+
+  - id: wf_fail_tossi
+    salience: 50
+    requires:
+      wf_fail: { gte: 5 }
+    text: "Macchina ha tossito {wf_fail} volte. Non temo: ogni rottura insegna dove non andare. Imparo."
+
+  - id: evolve_open_doors
+    salience: 65
+    requires:
+      evolve: { gte: 2 }
+    text: "{evolve} porte di forma aperte. Non risponderò a tutte. Aspetto la giusta — quella che mi chiama dal sangue."
+
+  - id: curiosity_dense
+    salience: 45
+    requires:
+      iss_open: { gte: 6 }
+    text: "L'aria è densa di interrogativi: {iss_open} domande nuove. Le annuso una a una. Alcune diventeranno strade, altre solo ombra."
+
+  - id: feat_p4_thoughts
+    salience: 50
+    requires:
+      feat_p4: { gte: 3 }
+    text: "Voci nuove nella stanza interna. {feat_p4} pensieri si depositano questa settimana. Lascio che scendano come polvere."
+
+  - id: feat_p6_pressure
+    salience: 50
+    requires:
+      feat_p6: { gte: 3 }
+    text: "Sistema preme {feat_p6} volte questa settimana. Bilancia cambia di peso. Mi tengo basso, attento."
+
+  - id: balanced_growth
+    salience: 35
+    requires:
+      pr: { gte: 10 }
+      composure: { gte: 30 }
+      stress: { lt: 50 }
+    text: "Sette giorni equilibrati. {pr} mosse, niente di rotto. Cresco piano. Questo è bene."
+
+  # --- Default catchall (always matches) ---
+  - id: default_quiet_week
+    salience: 1
+    requires: {}
+    text: "Sette giorni di sabbia. Allenatore lavora. Io cresco piano, senza rumore."
+
+  - id: default_curious_week
+    salience: 2
+    requires:
+      curiosity: { gte: 5 }
+    text: "Settimana di domande. Annuso ogni angolo del repo. Sono raccolto, paziente."

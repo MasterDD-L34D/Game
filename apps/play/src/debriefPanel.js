@@ -66,6 +66,12 @@ export function renderDebriefPanel() {
         <button type="button" class="db-skip-btn" id="db-rewards-skip">⏭ Skip (+1 Frammento Genetico)</button>
       </div>
 
+      <div class="db-section" id="db-mbti-section" style="display:none">
+        <div class="db-section-title">🧬 Personalità — assi rivelati</div>
+        <div class="db-mbti-grid" id="db-mbti-grid"></div>
+        <div class="db-mbti-hidden" id="db-mbti-hidden"></div>
+      </div>
+
       <div class="db-section">
         <div class="db-section-title">Cronaca del round</div>
         <div class="db-narrative" id="db-narrative">
@@ -140,6 +146,7 @@ export function wireDebriefPanel(overlay, bridge) {
     outcome: 'victory',
     partyList: [],
     readySet: new Set(),
+    mbtiRevealed: null,
   };
 
   const outcomeEl = overlay.querySelector('#db-outcome');
@@ -213,6 +220,55 @@ export function wireDebriefPanel(overlay, bridge) {
     }
   };
 
+  // OD-013 Path A — MBTI phased reveal (Disco Elysium pacing).
+  // state.mbtiRevealed = { revealed: [...], hidden: [...] } per current player.
+  const renderMbti = () => {
+    const section = overlay.querySelector('#db-mbti-section');
+    const grid = overlay.querySelector('#db-mbti-grid');
+    const hiddenEl = overlay.querySelector('#db-mbti-hidden');
+    if (!section || !grid || !hiddenEl) return;
+    const data = state.mbtiRevealed;
+    if (!data || (!data.revealed?.length && !data.hidden?.length)) {
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = '';
+    const revealed = Array.isArray(data.revealed) ? data.revealed : [];
+    const hidden = Array.isArray(data.hidden) ? data.hidden : [];
+    if (revealed.length === 0) {
+      grid.innerHTML = '<div class="db-empty">Nessun asse ancora rivelato</div>';
+    } else {
+      grid.innerHTML = revealed
+        .map((r) => {
+          const pct = Math.round(Math.max(0, Math.min(1, Number(r.confidence) || 0)) * 100);
+          const safeLabel = String(r.label || '').replace(/[<>&"]/g, '');
+          const safeAxis = String(r.axis_label || '').replace(/[<>&"]/g, '');
+          const safeLetter = String(r.letter || '?').replace(/[<>&"]/g, '');
+          return `<div class="db-mbti-card" data-axis="${r.axis}">
+            <div class="db-mbti-letter">${safeLetter}</div>
+            <div class="db-mbti-meta">
+              <div class="db-mbti-axis">${safeAxis}</div>
+              <div class="db-mbti-label">${safeLabel}</div>
+              <div class="db-mbti-bar"><div class="db-mbti-bar-fill" style="width:${pct}%"></div></div>
+              <div class="db-mbti-conf">${pct}%</div>
+            </div>
+          </div>`;
+        })
+        .join('');
+    }
+    if (hidden.length === 0) {
+      hiddenEl.innerHTML = '';
+    } else {
+      hiddenEl.innerHTML = hidden
+        .map((h) => {
+          const safeAxis = String(h.axis_label || '').replace(/[<>&"]/g, '');
+          const safeHint = String(h.hint || '').replace(/[<>&"]/g, '');
+          return `<div class="db-mbti-hidden-row"><span class="db-mbti-q">?</span><span class="db-mbti-axis-name">${safeAxis}</span><span class="db-mbti-hint">${safeHint}</span></div>`;
+        })
+        .join('');
+    }
+  };
+
   const renderParty = () => {
     const list = overlay.querySelector('#db-party');
     const count = overlay.querySelector('#db-party-count');
@@ -239,6 +295,7 @@ export function wireDebriefPanel(overlay, bridge) {
     renderPgCard();
     renderNarrative();
     renderParty();
+    renderMbti();
     // Fire-and-forget: Skiv card refresh ad ogni render debrief.
     renderSkivMonitorCard();
   };
@@ -348,6 +405,15 @@ export function wireDebriefPanel(overlay, bridge) {
         .filter((p) => p.role !== 'host')
         .map((p) => ({ id: p.id, name: p.name || p.id }));
       renderParty();
+    },
+    // OD-013 Path A — set MBTI phased reveal payload for current player.
+    // Accepts either {revealed, hidden} or null. Graceful: no section if null.
+    setMbtiRevealed(payload) {
+      state.mbtiRevealed =
+        payload && typeof payload === 'object' && (payload.revealed || payload.hidden)
+          ? payload
+          : null;
+      renderMbti();
     },
     show() {
       overlay.classList.remove('db-hidden');
