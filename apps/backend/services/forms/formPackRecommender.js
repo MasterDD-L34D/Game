@@ -23,6 +23,29 @@ const yaml = require('js-yaml');
 const BIAS_FILE = path.join(process.cwd(), 'data', 'core', 'forms', 'form_pack_bias.yaml');
 let _cache = null;
 
+// QW2 / M-017: Form -> starter bioma mapping (slot `starter_bioma` resolution).
+// Each Form has a thematic biome + dedicated trait `starter_bioma_<form_id>`
+// defined in data/core/traits/active_effects.yaml + glossary.json.
+// Wire UI onboarding panel = follow-up PR.
+const STARTER_BIOMA_MAP = Object.freeze({
+  ISTJ: { biome_id: 'steppe_algoritmiche', trait_id: 'starter_bioma_istj' },
+  ISFJ: { biome_id: 'foresta_temperata', trait_id: 'starter_bioma_isfj' },
+  INFJ: { biome_id: 'foresta_miceliale', trait_id: 'starter_bioma_infj' },
+  INTJ: { biome_id: 'rovine_planari', trait_id: 'starter_bioma_intj' },
+  ISTP: { biome_id: 'caverna', trait_id: 'starter_bioma_istp' },
+  ISFP: { biome_id: 'reef_luminescente', trait_id: 'starter_bioma_isfp' },
+  INFP: { biome_id: 'foresta_acida', trait_id: 'starter_bioma_infp' },
+  INTP: { biome_id: 'canyons_risonanti', trait_id: 'starter_bioma_intp' },
+  ESTP: { biome_id: 'savana', trait_id: 'starter_bioma_estp' },
+  ESFP: { biome_id: 'dorsale_termale_tropicale', trait_id: 'starter_bioma_esfp' },
+  ENFP: { biome_id: 'canopia_ionica', trait_id: 'starter_bioma_enfp' },
+  ENTP: { biome_id: 'atollo_obsidiana', trait_id: 'starter_bioma_entp' },
+  ESTJ: { biome_id: 'badlands', trait_id: 'starter_bioma_estj' },
+  ESFJ: { biome_id: 'pianura_salina_iperarida', trait_id: 'starter_bioma_esfj' },
+  ENFJ: { biome_id: 'palude', trait_id: 'starter_bioma_enfj' },
+  ENTJ: { biome_id: 'abisso_vulcanico', trait_id: 'starter_bioma_entj' },
+});
+
 function loadBias() {
   if (_cache) return _cache;
   if (!fs.existsSync(BIAS_FILE)) return null;
@@ -42,6 +65,9 @@ function _resetCache() {
 
 /**
  * Get form-specific packs.
+ *
+ * Returns {pack_a, pack_b, pack_c, d12_bias, starter_bioma}.
+ * starter_bioma is the resolved biome+trait pair for slot `starter_bioma`.
  */
 function getFormPacks(formId) {
   const bias = loadBias();
@@ -54,7 +80,37 @@ function getFormPacks(formId) {
     pack_b: form.pack_b,
     pack_c: form.pack_c,
     d12_bias: form.d12_bias,
+    starter_bioma: resolveStarterBioma(formId),
   };
+}
+
+/**
+ * Resolve `starter_bioma` slot for a given Form to {biome_id, trait_id}.
+ *
+ * QW2 / M-017: every MBTI Form maps to a thematic biome + a dedicated
+ * trait `starter_bioma_<form_id>` (defined in active_effects.yaml).
+ * NEUTRA / unknown forms return null (caller handles fallback).
+ *
+ * @param {string} formId  MBTI form id (e.g. 'INTJ')
+ * @returns {{biome_id: string, trait_id: string}|null}
+ */
+function resolveStarterBioma(formId) {
+  if (!formId || typeof formId !== 'string') return null;
+  return STARTER_BIOMA_MAP[formId] || null;
+}
+
+/**
+ * List all 16 form -> starter bioma mappings.
+ * Used by UI onboarding + tests + diagnostics.
+ *
+ * @returns {Array<{form_id, biome_id, trait_id}>}
+ */
+function listStarterBiomas() {
+  return Object.entries(STARTER_BIOMA_MAP).map(([form_id, v]) => ({
+    form_id,
+    biome_id: v.biome_id,
+    trait_id: v.trait_id,
+  }));
 }
 
 /**
@@ -103,6 +159,8 @@ function recommendPacks({ form_id, job_id, d20_roll = null, d12_roll = null } = 
   if (!bias) return { error: 'bias data missing' };
   const form = bias.forms[form_id] || bias.forms.NEUTRA;
   const jobBias = bias.job_bias[job_id] || bias.job_bias.any;
+  // QW2 / M-017: starter bioma resolution (null for NEUTRA / unknown forms).
+  const starterBioma = resolveStarterBioma(form_id);
 
   // If no d20 given, return form packs as default recommendation
   if (d20_roll == null) {
@@ -114,6 +172,7 @@ function recommendPacks({ form_id, job_id, d20_roll = null, d12_roll = null } = 
         { key: 'pack_c', ...form.pack_c },
       ],
       job_bias: jobBias,
+      starter_bioma: starterBioma,
       reason: 'form-based default (no d20 provided)',
     };
   }
@@ -126,6 +185,7 @@ function recommendPacks({ form_id, job_id, d20_roll = null, d12_roll = null } = 
       d20_roll,
       pack_key: d20.pack,
       combo: bias.universal_packs[d20.pack],
+      starter_bioma: starterBioma,
       reason: `d20=${d20_roll} → universal pack ${d20.pack}`,
     };
   }
@@ -140,6 +200,7 @@ function recommendPacks({ form_id, job_id, d20_roll = null, d12_roll = null } = 
       pack_key: key,
       combo: pack?.combo || 'form pack missing',
       tags: pack?.tags || [],
+      starter_bioma: starterBioma,
       reason: `d20=${d20_roll} Bias Forma → d12=${d12_roll} → ${key}`,
     };
   }
@@ -153,6 +214,7 @@ function recommendPacks({ form_id, job_id, d20_roll = null, d12_roll = null } = 
       pack_key: packKey,
       combo: bias.universal_packs[packKey],
       alternatives: jobBias.slice(1).map((k) => ({ key: k, combo: bias.universal_packs[k] })),
+      starter_bioma: starterBioma,
       reason: `d20=${d20_roll} Bias Job (${job_id}) → ${packKey}`,
     };
   }
@@ -162,6 +224,7 @@ function recommendPacks({ form_id, job_id, d20_roll = null, d12_roll = null } = 
     d20_roll,
     all_packs: Object.entries(bias.universal_packs).map(([k, v]) => ({ key: k, combo: v })),
     form_packs: [form.pack_a, form.pack_b, form.pack_c],
+    starter_bioma: starterBioma,
     reason: `d20=${d20_roll} Scelta → player choice`,
   };
 }
@@ -172,5 +235,8 @@ module.exports = {
   recommendPacks,
   resolveD12Pack,
   resolveD20Pack,
+  resolveStarterBioma,
+  listStarterBiomas,
+  STARTER_BIOMA_MAP,
   _resetCache,
 };
