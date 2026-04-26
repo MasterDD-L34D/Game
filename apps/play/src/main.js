@@ -23,6 +23,7 @@ import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
 import { initFormsPanel, openFormsPanel } from './formsPanel.js';
 import { initThoughtsPanel, openThoughtsPanel } from './thoughtsPanel.js';
+import { initCharacterPanel, openCharacterPanel } from './characterPanel.js';
 import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
 import { initSkivPanel, openSkivPanel } from './skivPanel.js';
 
@@ -1766,6 +1767,17 @@ initThoughtsPanel({
       : null,
 });
 
+// Sprint 2026-04-26 telemetria VC compromesso — Carattere panel (🎭).
+// 4 MBTI bars (E↔I/S↔N/T↔F/J↔P) + Ennea badge grid. Phone-side dettaglio
+// numerico. TV side rimane pulito (vcTvHud flash diegetici).
+initCharacterPanel({
+  getSessionId: () => state.sid,
+  getSelectedUnit: () =>
+    state.world && state.selected
+      ? getUnits(state.world).find((u) => u.id === state.selected) || null
+      : null,
+});
+
 window.__evo = {
   state,
   api,
@@ -1774,6 +1786,7 @@ window.__evo = {
   advanceCampaignWithEvolvePrompt,
   openFormsPanel,
   openThoughtsPanel,
+  openCharacterPanel,
   openSkivPanel,
   lobbyBridge,
 };

@@ -15,6 +15,11 @@
 //
 // Threshold default 0.7 (Disco Elysium pacing). Override via env
 // MBTI_REVEAL_THRESHOLD=0.5 per A/B test. Range valido [0..1].
+//
+// Sprint 2026-04-26 (telemetria VC compromesso): se vcSnapshot fornisce
+// `meta.events_count < 30` (sessione breve), threshold default abbassata
+// a 0.6 per permettere reveal precoce su pochi eventi rumorosi.
+// Override esplicito (opts.threshold/env) ha priorità sul gating events.
 
 const COVERAGE_FACTOR = {
   full: 1.0,
@@ -111,6 +116,10 @@ function computeRevealedAxes(actorVc, opts = {}) {
 /**
  * Build the `mbti_revealed` map keyed by unit_id from a full vcSnapshot.
  *
+ * Sprint 2026-04-26: se vcSnapshot.meta.events_count < 30 e nessun
+ * threshold esplicito è stato fornito, usa default 0.6 invece di 0.7
+ * (short-session boost). Useful per Disco-Elysium-style reveal precoce.
+ *
  * @param {object} vcSnapshot - output of buildVcSnapshot.
  * @param {object} [opts]
  * @returns {Object<string, {revealed, hidden}>}
@@ -120,11 +129,25 @@ function buildMbtiRevealedMap(vcSnapshot, opts = {}) {
   if (!vcSnapshot || typeof vcSnapshot !== 'object') return out;
   const perActor = vcSnapshot.per_actor;
   if (!perActor || typeof perActor !== 'object') return out;
+  // Short-session threshold boost: 0.6 invece di 0.7 quando events_count < 30.
+  // Si applica solo se il caller NON ha già specificato opts.threshold ed env
+  // MBTI_REVEAL_THRESHOLD non è settato.
+  const optsResolved = { ...opts };
+  if (optsResolved.threshold === undefined && !process.env.MBTI_REVEAL_THRESHOLD) {
+    const eventsCount = vcSnapshot?.meta?.events_count;
+    if (Number.isFinite(eventsCount) && eventsCount < SHORT_SESSION_EVENTS) {
+      optsResolved.threshold = SHORT_SESSION_THRESHOLD;
+    }
+  }
   for (const [uid, actorVc] of Object.entries(perActor)) {
-    out[uid] = computeRevealedAxes(actorVc, opts);
+    out[uid] = computeRevealedAxes(actorVc, optsResolved);
   }
   return out;
 }
+
+const DEFAULT_THRESHOLD = 0.7;
+const SHORT_SESSION_THRESHOLD = 0.6;
+const SHORT_SESSION_EVENTS = 30;
 
 function resolveThreshold(override) {
   if (Number.isFinite(override) && override >= 0 && override <= 1) return override;
@@ -133,7 +156,7 @@ function resolveThreshold(override) {
     const parsed = Number(envRaw);
     if (Number.isFinite(parsed) && parsed >= 0 && parsed <= 1) return parsed;
   }
-  return 0.7;
+  return DEFAULT_THRESHOLD;
 }
 
 module.exports = {

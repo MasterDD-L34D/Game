@@ -419,3 +419,196 @@ test('deriveMbtiType: nessun X in output string (ever)', () => {
     }
   }
 });
+
+// ─────────────────────────────────────────────────────────────────
+// Sprint 2026-04-26 — dead-band adattivo per session brevi
+// ─────────────────────────────────────────────────────────────────
+
+test('deriveMbtiType: short session (events_count < 30) usa dead-band largo 0.35-0.65', () => {
+  // Value 0.40 cade in dead-band largo (0.35..0.65) → letter null.
+  // Value 0.40 NON cade in dead-band stretto (0.45..0.55) → letter 'lo' (E).
+  const axes = {
+    E_I: { value: 0.4 },
+    S_N: { value: 0.8 },
+    T_F: { value: 0.8 },
+    J_P: { value: 0.2 },
+  };
+  // Short session: dead-band largo → axis E_I in band → null
+  assert.equal(deriveMbtiType(axes, { events_count: 10 }), null);
+  // Long session: dead-band stretto → 0.4 < 0.45 → 'E' → tipo completo
+  assert.equal(deriveMbtiType(axes, { events_count: 50 }), 'ESTP');
+});
+
+test('deriveMbtiType: short session value 0.30 fuori dead-band largo → letter assigned', () => {
+  // 0.30 < 0.35 anche in short → resta classificato.
+  const axes = {
+    E_I: { value: 0.3 },
+    S_N: { value: 0.8 },
+    T_F: { value: 0.8 },
+    J_P: { value: 0.2 },
+  };
+  assert.equal(deriveMbtiType(axes, { events_count: 5 }), 'ESTP');
+});
+
+test('deriveMbtiType: events_count omesso → comportamento iter1 (dead-band stretto, backward compat)', () => {
+  const axes = {
+    E_I: { value: 0.4 },
+    S_N: { value: 0.8 },
+    T_F: { value: 0.8 },
+    J_P: { value: 0.2 },
+  };
+  // No opts → dead-band stretto (legacy)
+  assert.equal(deriveMbtiType(axes), 'ESTP');
+});
+
+// ─────────────────────────────────────────────────────────────────
+// Sprint 2026-04-26 — Stoico + Architetto fire-able (proxy reformulation)
+// ─────────────────────────────────────────────────────────────────
+
+test('Stoico(9) fires: kills<1 && damage_taken>0 && total_actions>5', () => {
+  // 6 attacks, all miss, took damage from u2 → Stoico endurance proxy.
+  const events = [];
+  for (let i = 1; i <= 6; i += 1) {
+    events.push({
+      actor_id: 'unit_1',
+      action_type: 'attack',
+      target_id: 'unit_2',
+      result: 'miss',
+      turn: i,
+    });
+  }
+  events.push({
+    actor_id: 'unit_2',
+    action_type: 'attack',
+    target_id: 'unit_1',
+    result: 'hit',
+    damage_dealt: 5,
+    turn: 1,
+    target_hp_before: 10,
+    target_hp_after: 5,
+  });
+  const snap = buildVcSnapshot(makeSession({ events }), telemetryConfig);
+  const stoico = snap.per_actor.unit_1.ennea_archetypes.find((a) => a.id === 'Stoico(9)');
+  assert.ok(stoico, 'Stoico(9) presente nella lista archetipi');
+  assert.equal(stoico.triggered, true, 'Stoico deve fire con 6 attack miss + danno preso');
+});
+
+test('Stoico(9) NO fire: con kill', () => {
+  // 1 attack, hit, killed target → kills>=1 → no Stoico.
+  const events = [
+    {
+      actor_id: 'unit_1',
+      action_type: 'attack',
+      target_id: 'unit_2',
+      result: 'hit',
+      damage_dealt: 10,
+      turn: 1,
+      target_hp_before: 10,
+      target_hp_after: 0,
+    },
+    { actor_id: 'unit_1', action_type: 'kill', target_id: 'unit_2', turn: 1 },
+    {
+      actor_id: 'unit_2',
+      action_type: 'attack',
+      target_id: 'unit_1',
+      result: 'hit',
+      damage_dealt: 3,
+      turn: 1,
+      target_hp_before: 10,
+      target_hp_after: 7,
+    },
+  ];
+  const snap = buildVcSnapshot(makeSession({ events }), telemetryConfig);
+  const stoico = snap.per_actor.unit_1.ennea_archetypes.find((a) => a.id === 'Stoico(9)');
+  assert.equal(stoico.triggered, false);
+});
+
+test('Architetto(5) fires: setup_ratio>0.4 && damage_taken_ratio<0.2', () => {
+  // 2 move + 2 attack pattern (move-attack-move-attack) + low damage taken.
+  const events = [
+    {
+      actor_id: 'unit_1',
+      action_type: 'move',
+      position_from: { x: 0, y: 0 },
+      position_to: { x: 1, y: 0 },
+      turn: 1,
+    },
+    {
+      actor_id: 'unit_1',
+      action_type: 'attack',
+      target_id: 'unit_2',
+      result: 'hit',
+      damage_dealt: 3,
+      turn: 1,
+      target_hp_before: 10,
+      target_hp_after: 7,
+    },
+    {
+      actor_id: 'unit_1',
+      action_type: 'move',
+      position_from: { x: 1, y: 0 },
+      position_to: { x: 2, y: 0 },
+      turn: 2,
+    },
+    {
+      actor_id: 'unit_1',
+      action_type: 'attack',
+      target_id: 'unit_2',
+      result: 'hit',
+      damage_dealt: 3,
+      turn: 2,
+      target_hp_before: 7,
+      target_hp_after: 4,
+    },
+    {
+      actor_id: 'unit_2',
+      action_type: 'attack',
+      target_id: 'unit_1',
+      result: 'hit',
+      damage_dealt: 1,
+      turn: 1,
+      target_hp_before: 10,
+      target_hp_after: 9,
+    },
+  ];
+  const snap = buildVcSnapshot(makeSession({ events }), telemetryConfig);
+  const arch = snap.per_actor.unit_1.ennea_archetypes.find((a) => a.id === 'Architetto(5)');
+  assert.ok(arch, 'Architetto(5) presente nella lista archetipi');
+  assert.equal(arch.triggered, true, 'Architetto deve fire con setup metodico + low damage taken');
+});
+
+test('Architetto(5) NO fire: high damage taken', () => {
+  // setup_ratio buono ma damage_taken_ratio alto (> 0.2) → no Architetto.
+  const events = [
+    {
+      actor_id: 'unit_1',
+      action_type: 'move',
+      position_from: { x: 0, y: 0 },
+      position_to: { x: 1, y: 0 },
+      turn: 1,
+    },
+    {
+      actor_id: 'unit_1',
+      action_type: 'attack',
+      target_id: 'unit_2',
+      result: 'hit',
+      damage_dealt: 1,
+      turn: 1,
+      target_hp_before: 10,
+      target_hp_after: 9,
+    },
+    {
+      actor_id: 'unit_2',
+      action_type: 'attack',
+      target_id: 'unit_1',
+      result: 'hit',
+      damage_dealt: 8,
+      turn: 1,
+      target_hp_before: 10,
+      target_hp_after: 2,
+    },
+  ];
+  const snap = buildVcSnapshot(makeSession({ events }), telemetryConfig);
+  const arch = snap.per_actor.unit_1.ennea_archetypes.find((a) => a.id === 'Architetto(5)');
+  assert.equal(arch.triggered, false);
+});
