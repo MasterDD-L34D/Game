@@ -1,5 +1,5 @@
 ---
-title: Gallery Ancestors — 289 trait wired (RFC v0.1 closed)
+title: Gallery Ancestors — 290 trait wired (RFC v0.1 closed, v07 residual covered)
 museum_id: G-2026-04-25-001
 type: gallery
 domain: ancestors
@@ -13,38 +13,38 @@ excavated_on: 2026-04-25
 last_verified: '2026-04-25'
 ---
 
-# Gallery Ancestors — 289 trait neuroni-derived runtime
+# Gallery Ancestors — 290 trait neuroni-derived runtime
 
 ## Overview
 
-Sessione 2026-04-25 sera ha chiuso RFC v0.1 promise (`docs/planning/research/sentience-rfc/RFC_Sentience_Traits_v0.1.md`) di 297 neuroni Ancestors recovery completi. Ramo Self-Control + Attack + Dodge wired prima ([PR #1813](https://github.com/MasterDD-L34D/Game/pull/1813)) tramite 22 trigger from CSV `ancestors_neurons_dump_01B_sanitized.csv`. Path B 297-row CSV via Fandom wiki MediaWiki API ([PR #1815](https://github.com/MasterDD-L34D/Game/pull/1815)) + wire batch 267 nuovi entry ([PR #1817](https://github.com/MasterDD-L34D/Game/pull/1817)).
+Sessione 2026-04-25 sera ha chiuso RFC v0.1 promise (`docs/planning/research/sentience-rfc/RFC_Sentience_Traits_v0.1.md`) di 297 neuroni Ancestors recovery completi. Ramo Self-Control + Attack + Dodge wired prima ([PR #1813](https://github.com/MasterDD-L34D/Game/pull/1813)) tramite 22 trigger from CSV `ancestors_neurons_dump_01B_sanitized.csv`. Path B 297-row CSV via Fandom wiki MediaWiki API ([PR #1815](https://github.com/MasterDD-L34D/Game/pull/1815)) + wire batch 267 nuovi entry ([PR #1817](https://github.com/MasterDD-L34D/Game/pull/1817)). Sessione 2026-04-26 ha chiuso v07 residual gap: diff CSV 297 codes vs YAML rilevò 7 codes truly missing (BB CO 02, BB DO 01/02/03-2, BB FR 02-04). Coverage chiusa via 2 range-extension provenance updates (BB CO 01-02, BB FR 01-04 collapsed semantica) + 1 nuovo entry `ancestor_dodge_infundibular_pathway` T2 collassante BB DO 01/02/03-2 (Infundibular Pathway = genetic version di DO 06 Atarassia, focused 2t target). All 297 v07 codes ora hanno mapping YAML.
 
-**Total ancestor entries in `data/core/traits/active_effects.yaml`**: 22 (Path A) + 267 (Path B) = **289**.
+**Total ancestor entries in `data/core/traits/active_effects.yaml`**: 22 (Path A) + 267 (Path B) + 1 (v07 residual) = **290**. **Codes covered**: 297/297 v07 wiki recovery (con range-collapse semantics).
 
 ## Distribution per branch
 
-| Branch                     |    Count | Mechanic primaria               | Card ref        |
-| -------------------------- | -------: | ------------------------------- | --------------- |
-| Self-Control (FR)          | 8 + 1 BB | actor MoS-gated extra_damage    | M-004           |
-| Attack/Counter (CO)        | 6 + 1 BB | actor melee+MoS extra_damage    | M-004           |
-| Dodge (DO)                 | 7 + 0 BB | target damage_reduction         | M-004           |
-| Senses (SE)                |       37 | apply_status:focused 1t         | RFC §2 priority |
-| Dexterity (DX)             |       33 | actor extra_damage on hit       | RFC §2          |
-| Ambulation (AB)            |       26 | buff_stat:move_bonus            | RFC §2          |
-| Communication (CM)         |       20 | apply_status:linked 2t          | bonus           |
-| Intelligence (IN)          |       14 | apply_status:focused on miss    | bonus           |
-| Motricity (MT)             |       20 | buff_stat:move_bonus            | bonus           |
-| Omnivore (OM)              |       11 | apply_status:fed 3t             | bonus           |
-| Settlement (ST)            |       10 | damage_reduction target         | bonus           |
-| Swim (SW)                  |        5 | buff_stat:move_bonus water_only | bonus           |
-| Metabolism (MB)            |        4 | apply_status:fed 3t             | bonus           |
-| Preventive Med (PM)        |       30 | damage_reduction target         | bonus           |
-| Therapeutic Med (TM)       |       24 | apply_status:healing 2t         | bonus           |
-| Orrorin Tugenensis         |        8 | per-name fit                    | hominid         |
-| Ardipithecus Ramidus       |       13 | per-name fit                    | hominid         |
-| Australopithecus Afarensis |       12 | per-name fit                    | hominid         |
+| Branch                     |    Count | Mechanic primaria                 | Card ref        |
+| -------------------------- | -------: | --------------------------------- | --------------- |
+| Self-Control (FR)          | 8 + 1 BB | actor MoS-gated extra_damage      | M-004           |
+| Attack/Counter (CO)        | 6 + 1 BB | actor melee+MoS extra_damage      | M-004           |
+| Dodge (DO)                 | 7 + 1 BB | target damage_reduction + focused | M-004           |
+| Senses (SE)                |       37 | apply_status:focused 1t           | RFC §2 priority |
+| Dexterity (DX)             |       33 | actor extra_damage on hit         | RFC §2          |
+| Ambulation (AB)            |       26 | buff_stat:move_bonus              | RFC §2          |
+| Communication (CM)         |       20 | apply_status:linked 2t            | bonus           |
+| Intelligence (IN)          |       14 | apply_status:focused on miss      | bonus           |
+| Motricity (MT)             |       20 | buff_stat:move_bonus              | bonus           |
+| Omnivore (OM)              |       11 | apply_status:fed 3t               | bonus           |
+| Settlement (ST)            |       10 | damage_reduction target           | bonus           |
+| Swim (SW)                  |        5 | buff_stat:move_bonus water_only   | bonus           |
+| Metabolism (MB)            |        4 | apply_status:fed 3t               | bonus           |
+| Preventive Med (PM)        |       30 | damage_reduction target           | bonus           |
+| Therapeutic Med (TM)       |       24 | apply_status:healing 2t           | bonus           |
+| Orrorin Tugenensis         |        8 | per-name fit                      | hominid         |
+| Ardipithecus Ramidus       |       13 | per-name fit                      | hominid         |
+| Australopithecus Afarensis |       12 | per-name fit                      | hominid         |
 
-**Tier split**: 178 T1 + 89 T2 (BB-genetic) + 0 T3.
+**Tier split**: 178 T1 + 90 T2 (BB-genetic) + 0 T3 (post-v07 residual: +1 T2 Infundibular Pathway).
 
 ## Job archetype mapping (proposal post-playtest)
 

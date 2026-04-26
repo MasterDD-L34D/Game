@@ -3174,10 +3174,12 @@ traits:
       Determinazione (BB FR 01-04 collapsed, genetic=Yes) — meno dopamina
       richiesta nella risposta a minacce. Genetica T2: ogni colpo riuscito
       con MoS >= 5 infligge +2 PT (versione potenziata di Tachipsichia).
-      Source: ancestors_csv_01B BB FR 01 (4 righe duplicate collassate).
+      Source: ancestors_csv_v07_wiki BB FR 01-04 (4 righe duplicate collassate).
     provenance:
-      source: ancestors_csv_01B
-      code: BB FR 01
+      source: ancestors_csv_v07_wiki
+      code: BB FR 01-04
+      license: CC BY-NC-SA 3.0 Fandom
+      branch: Self-Control
 
   ancestor_attack_released_strength:
     tier: T2
@@ -3195,11 +3197,42 @@ traits:
     description_it: |
       Forza Liberata (BB CO 01-02 collapsed, genetic=Yes) — colpo
       controattacco infligge piu' danno. Genetica T2: melee MoS >= 5 +2 PT
-      (versione potenziata di Startle Response). Source: ancestors_csv_01B
-      BB CO 01 (2 righe collassate).
+      (versione potenziata di Startle Response). Source: ancestors_csv_v07_wiki
+      BB CO 01-02 (2 righe collassate).
     provenance:
-      source: ancestors_csv_01B
-      code: BB CO 01
+      source: ancestors_csv_v07_wiki
+      code: BB CO 01-02
+      license: CC BY-NC-SA 3.0 Fandom
+      branch: Attack
+
+  ancestor_dodge_infundibular_pathway:
+    tier: T2
+    category: neurologico
+    applies_to: target
+    trigger:
+      action_type: attack
+      on_result: hit
+      min_mos: 3
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: focused
+      turns: 2
+      log_tag: ancestor_dodge_infundibular_pathway
+    description_it: |
+      Via Infundibolare (BB DO 01, BB DO 02, BB DO 03-2 collapsed,
+      genetic=Yes) — dose dopaminica genetica dopo schivata o controattacco
+      riuscito. Genetica T2: focused 2t sull'unita' colpita (versione
+      potenziata di Atarassia DO 06 che da' focused 1t). Reward loop
+      dopaminergico runtime-inert, status applicato come marker resilienza
+      al panic. Source: ancestors_csv_v07_wiki BB DO 01/02/03-2 (3 righe
+      duplicate collassate).
+    provenance:
+      source: ancestors_csv_v07_wiki
+      code: BB DO 01-03
+      related_codes: ["BB DO 01", "BB DO 02", "BB DO 03-2"]
+      license: CC BY-NC-SA 3.0 Fandom
+      branch: Dodge
 
   # --- OD-011 Path B (v07 wiki recovery, 267 entries across 15 branches) ---
   # Source: ancestors_neurons_dump_v07_wiki_recovery.csv (Fandom wiki, CC BY-NC-SA 3.0).
