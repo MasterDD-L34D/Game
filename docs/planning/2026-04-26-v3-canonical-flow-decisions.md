@@ -264,6 +264,32 @@ Tutti 5 decision points C1-C5 SIGNED OFF. ADR `proposed → accepted` ready (pos
 | **Boss Leviatano A→B→C**               | 🟡 ADR signed, pending Nido merge | Effort: ~75-90h post-Nido                          |
 | **Telemetria VC compromesso**          |        ✅ shipped PR #1868        | Done                                               |
 
+## 6.2 Master-DD batch 2 decisions 2026-04-26 sera (post 5 specs)
+
+User survey 15 questions risposta (master-dd 2026-04-26 sera, post-5-specs delivery):
+
+- **N1** ✅ `Stadio I-X` (NOT Forma) — collisione MBTI canonical evitata
+- **M1** ✅ 3-axes radar Personalità + Agile/Memoria stat scheda Specie. **Vincolo UX**: collegamento UI deve essere intuitivo (no jargon disconnesso)
+- **M2** ✅ **Stat ibrido (base specie + modifier perk)** — user pick: max variabilità + unicità. Validation industry in research agent in volo
+- **S1** ⏳ Skiv legato campagna MA esportabile come **compagno tamagotchi-like innovativo** — research agent in volo per pattern moderno (non Tamagotchi 1996 base)
+- **S2** ✅ Avatar diverso per bioma (silhouette specie del bioma)
+- **S3** ✅ Skiv-instance **visibile sulla TV agli altri player** + **interagibile dal phone** del singolo player. Mix shared identity + private interaction
+- **W1** ✅ Nier-style staged unlock **MA** "deve essere possibile vedere quasi tutto in una sola campagna QUASI almeno a livello di team" — single team campaign può idealmente unlock ~80%+ entries
+- **W2** ⏳ Skiv-note 44 specie non-Skiv: user incerto. **Inferenza Claude da incrocio risposte precedenti** (B1 worldgen-aware + B3 ibrido): per le 44 specie non-`dune_stalker`, voice è dell'**istanza Skiv del run corrente** (es. Echo per foresta parla di specie foresta). Voice template adattato al bioma del run.
+- **W3** ✅ Tab Lignaggi **NON include ancestors OD-011** (297 neuroni) — user clarification: ancestors WIP non passato through style guide, ~90% repo work pending review style. Tab Lignaggi solo da mating Nido chain.
+- **E1** ✅ Trait `strappo_planare` = nuovo trait (crea spec)
+- **E2** ⏳ user "non capito" → default prudente (c) aspetta sprint M14 wire dedicato
+- **E3** ✅ Bias bioma `nodo_neurale_rilascio` ampliato a tutti biomi `diff_base >= 4` (12 biomi totali). Applicato in `data/core/events/mutagen_events.yaml`.
+- **P1** ✅ ADR Boss Leviatano `proposed → accepted` (3 ADR) 2026-04-26 sera
+- **P2** ✅ Merge order accept (Wave A → B → C → D → E). Esecuzione pending P2-execution authorization
+- **P3** ✅ Promote v3 → SoT v6 **dopo prossima review master-dd** (NOT subito, NOT dopo merge — aspetta review formale)
+
+### Open clarifications residui
+
+- **W2** Skiv-note 44 specie non-Skiv: validation user su inferenza incrocio (voice istanza Skiv del run = osservatore esterno della specie target). Default proposto se silenzio: applico inferenza.
+- **E2** temp_traits schema spiegazione: schema dove memorizzare modifier temporanei eventi mutageni (es. `frenesia 3 round` da `nodo_neurale`). Default scelto (c) aspetta M14 wire = riusa M14 mutation_catalog quando wired runtime.
+- **P2 execution**: confermi merge autonomous (Claude esegue Wave A→D) o manual (master-dd via GitHub UI)?
+
 ## 7. Reference inventory
 
 **Reports created today**:

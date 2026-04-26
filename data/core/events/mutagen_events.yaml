@@ -60,10 +60,25 @@ events:
   - event_id: nodo_neurale_rilascio
     type: mutagen
     origin: promoted_from_vertical_slice
+    # E3 master-dd 2026-04-26 sera: scope ampliato a tutti biomi diff_base >= 4
+    # (era solo frattura+rovine_planari+caldera). Più flessibile, evento può
+    # trigger in qualsiasi bioma "duro". Lista esplicita per validazione static.
+    biome_scope_filter:
+      rule: diff_base_gte
+      value: 4
     biome_scope:
-      - frattura_abissale_sinaptica
-      - rovine_planari
+      - abisso_vulcanico
+      - atollo_obsidiana
+      - badlands
       - caldera_glaciale
+      - canyons_risonanti
+      - dorsale_termale_tropicale
+      - foresta_acida
+      - frattura_abissale_sinaptica
+      - mezzanotte_orbitale
+      - pianura_salina_iperarida
+      - rovine_planari
+      - stratosfera_tempestosa
     trigger:
       type: pressure_threshold
       value: 0.50
@@ -283,15 +298,23 @@ balance:
     3. surge_mnemonico_ko
     4. corruzione_ferrosa_gear
   biome_exclusivity:
-    # Ogni bioma triggera al massimo 1 tipo di evento mutageno
-    frattura_abissale_sinaptica: [nodo_neurale_rilascio, spillover_genetico_apex]
-    rovine_planari: [nodo_neurale_rilascio, spillover_genetico_apex]
+    # Ogni bioma triggera al massimo 1-2 tipi di evento mutageno
+    # E3 update 2026-04-26 sera: nodo_neurale ora applicabile a tutti biomi diff_base >= 4
+    abisso_vulcanico: [nodo_neurale_rilascio]
+    atollo_obsidiana: [nodo_neurale_rilascio, corruzione_ferrosa_gear]
+    badlands: [nodo_neurale_rilascio, corruzione_ferrosa_gear]
     caldera_glaciale: [nodo_neurale_rilascio]
+    canyons_risonanti: [nodo_neurale_rilascio]
+    dorsale_termale_tropicale: [nodo_neurale_rilascio]
+    foresta_acida: [nodo_neurale_rilascio]
+    frattura_abissale_sinaptica: [nodo_neurale_rilascio, spillover_genetico_apex]
+    mezzanotte_orbitale: [nodo_neurale_rilascio]
+    pianura_salina_iperarida: [nodo_neurale_rilascio]
+    rovine_planari: [nodo_neurale_rilascio, spillover_genetico_apex]
+    stratosfera_tempestosa: [nodo_neurale_rilascio]
     steppe_algoritmiche: [surge_mnemonico_ko]
     foresta_temperata: [surge_mnemonico_ko]
     canopia_ionica: [surge_mnemonico_ko]
-    badlands: [corruzione_ferrosa_gear]
-    atollo_obsidiana: [corruzione_ferrosa_gear]
 
 # ── Validation rules ──────────────────────────────────────────────────────
 
