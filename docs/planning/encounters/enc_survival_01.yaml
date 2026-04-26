@@ -1,6 +1,6 @@
 # =============================================================================
 # Encounter: "Ultimo Fiato" — Survival Hardcore
-# Difficulty: 4/5 · Grid: 8×8 · Bioma: caverna_sotterranea
+# Difficulty: 4/5 · Grid: 8×8 · Bioma: caverna (canonical biomes.yaml)
 # Objective: sopravvivere 10 turni contro wave continue.
 # Pilastro coverage: 1 (tattica leggibile) — obiettivo endurance
 # Schema: schemas/evo/encounter.schema.json
@@ -9,7 +9,7 @@
 
 encounter_id: enc_survival_01
 name: 'Ultimo Fiato'
-biome_id: caverna_sotterranea
+biome_id: caverna
 grid_size: [8, 8]
 difficulty_rating: 4
 estimated_turns: 10
