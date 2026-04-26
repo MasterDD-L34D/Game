@@ -19,12 +19,18 @@
 - [Sentience Traits v1.0 — tier T1-T6 + interoception](cards/cognitive_traits-sentience-tiers-v1.md) — **5/5** · Skiv Sprint C diary unblock 3h · unintegrated
 - [Enneagramma Mechanics Registry — 16 hook stub](cards/enneagramma-mechanics-registry.md) — **5/5** · plug-in `enneaEffects.js` 3h · unintegrated
 - [Enneagramma Dataset — 9 tipi canonical](cards/enneagramma-dataset-9-types.md) — **5/5** · Skiv voice palette type 5/7 · unintegrated
+- [Worldgen Stack 4-livelli](cards/worldgen-bioma-ecosistema-foodweb-network-stack.md) — **5/5** · bioma→ecosistema→foodweb→network, 3 livelli runtime zero · forgotten
+- [Bioma come pacchetto gameplay+fiction](cards/worldgen-biome-as-gameplay-fiction-package.md) — **5/5** · 5/7 campi biomes.yaml non consumati, P6 fix ~3h · forgotten
 - [Nido Itinerante D-Canvas](cards/mating_nido-canvas-nido-itinerante.md) — **4/5** · Skiv vagans direct fit, 3 mechanics legacy mai migrate · superseded
 - [MBTI Gates Ghost](cards/personality-mbti-gates-ghost.md) — **4/5** · recoverable via `git show 5c704524:...` · deleted
 - [BiomeMemory + Trait Cost Exploration](cards/architecture-biome-memory-trait-cost.md) — **4/5** · Skiv biome-mover differentiation · deferred
 - [Ancestors Neurons Dump — 34 trigger combat](cards/ancestors-neurons-dump-csv.md) — **4/5** · 22 reaction trigger Self-Control · unintegrated
 - [Magnetic Rift Resonance — swarm trait T2](cards/old_mechanics-magnetic-rift-resonance.md) — **4/5** · Skiv Sprint A biomeResonance 2h · deferred
 - [enneaEffects.js — orphan canonical 93 LOC](cards/enneagramma-enneaeffects-orphan.md) — **4/5** · wire onRoundEnd 2h · abandoned
+- [Ruoli trofici validator-time — gap M-future](cards/worldgen-trophic-roles-validator-not-runtime.md) — **4/5** · trophic_roles.py completo, zero runtime · deferred
+- [16 Forme MBTI come seed evolutivi](cards/worldgen-forme-mbti-as-evolutionary-seed.md) — **4/5** · starter_bioma undefined, ~3h quick win · forgotten
+- [Emergenza specie da ecosistema](cards/worldgen-species-emergence-from-ecosystem.md) — **4/5** · biome_pools.json role_templates caricati non esposti · deferred
+- [Cross-bioma event propagation](cards/worldgen-cross-bioma-events-propagation.md) — **4/5** · 3 eventi, propagation logic esiste nel validator · unintegrated
 
 ---
 
@@ -82,6 +88,18 @@ _Pool secco. 10/10 species in `incoming/species/*.json` già canonical via commi
 
 _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial supersedes + DEPRECATED.md cleanup + concept-explorations vertical-slice). Vedi [excavations/2026-04-25-architecture-inventory.md](excavations/2026-04-25-architecture-inventory.md)._
 
+### Worldgen / Ecosystem-PCG
+
+- [Worldgen Stack 4-livelli](cards/worldgen-bioma-ecosistema-foodweb-network-stack.md) — score 5/5 · bioma→ecosistema→foodweb→network, 3 livelli runtime zero · forgotten
+- [Bioma come pacchetto gameplay+fiction](cards/worldgen-biome-as-gameplay-fiction-package.md) — score 5/5 · 5/7 campi biomes.yaml non consumati a runtime · forgotten
+- [Ruoli trofici validator-time](cards/worldgen-trophic-roles-validator-not-runtime.md) — score 4/5 · trophic_roles.py + foodweb.py completi, zero runtime · deferred
+- [16 Forme MBTI come seed evolutivi](cards/worldgen-forme-mbti-as-evolutionary-seed.md) — score 4/5 · starter_bioma undefined, d12 bias live ma sconnesso da bioma · forgotten
+- [Emergenza specie da ecosistema](cards/worldgen-species-emergence-from-ecosystem.md) — score 4/5 · biome_pools.json role_templates caricati non esposti a spawn · deferred
+- [Cross-bioma event propagation](cards/worldgen-cross-bioma-events-propagation.md) — score 4/5 · 3 eventi, propagation logic validator, zero runtime · unintegrated
+- [Bridge species network glue](cards/worldgen-bridge-species-network-glue.md) — score 3/5 · 3 bridge species nel pack ecosystem, non in data/core · unintegrated
+
+📎 **Gallery**: [galleries/worldgen.md](galleries/worldgen.md) — 7 card worldgen, gap analysis completo, reuse path consolidato tier 1/2/3.
+
 ### Other
 
 Reserved per artifact che non match domain sopra.
@@ -90,12 +108,12 @@ Reserved per artifact che non match domain sopra.
 
 ## 📊 Stats
 
-- **Excavations run**: 8 totali (4 session-1: ancestors/cognitive/enneagramma/old_mechanics + 4 session-2: personality/mating_nido/species_candidate/architecture)
-- **Artifact identificati**: ~78 totali (28 session-1 + 50 session-2)
-- **Cards total**: 11 curate (5 score 5/5: 5 · 4 score 4/5: 6)
-- **Galleries**: 1 (enneagramma — 3 card aggregate)
-- **Last excavate**: 2026-04-25 (session 2)
-- **Coverage**: **100%** (8/8 priority domains explored)
+- **Excavations run**: 9 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen)
+- **Artifact identificati**: ~85 totali (78 sessioni precedenti + 7 worldgen session-3)
+- **Cards total**: 18 curate (7 score 5/5 · 9 score 4/5 · 1 score 3/5 · 1 score uncertain)
+- **Galleries**: 3 (enneagramma + ancestors + worldgen)
+- **Last excavate**: 2026-04-26 (session 3: worldgen)
+- **Coverage**: **100%+** (9/9 domain: +worldgen/ecosystem-pcg nuovo domain)
 - **Skiv unblock**: 8/11 card hanno reuse path Skiv-aware (Sprint A: 2, Sprint B: 1, Sprint C: 4, biome-mover differentiation: 1)
 - **Cross-agent validation**: ✅ PASS 2026-04-25 (creature-aspect-illuminator consulted MUSEUM.md spontaneously, 6 GAP found, 10-15min saved)
 
@@ -105,31 +123,40 @@ Reserved per artifact che non match domain sopra.
 
 ```
 docs/museum/
-├── MUSEUM.md                                          # this file (index)
-├── README.md                                          # how to use the museum
+├── MUSEUM.md                                                # this file (index)
+├── README.md                                                # how to use the museum
 ├── excavations/
-│   ├── 2026-04-25-ancestors-inventory.md             # 9 artifact
-│   ├── 2026-04-25-cognitive_traits-inventory.md      # 2 artifact
-│   ├── 2026-04-25-enneagramma-inventory.md           # 9 artifact
-│   ├── 2026-04-25-old_mechanics-inventory.md         # 8 artifact
-│   ├── 2026-04-25-personality-inventory.md           # 8 artifact (session 2)
-│   ├── 2026-04-25-mating_nido-inventory.md           # 10 artifact (session 2)
-│   ├── 2026-04-25-species_candidate-inventory.md     # 10 false positive (pool secco)
-│   └── 2026-04-25-architecture-inventory.md          # 22 artifact (session 2)
+│   ├── 2026-04-25-ancestors-inventory.md                   # 9 artifact
+│   ├── 2026-04-25-cognitive_traits-inventory.md            # 2 artifact
+│   ├── 2026-04-25-enneagramma-inventory.md                 # 9 artifact
+│   ├── 2026-04-25-old_mechanics-inventory.md               # 8 artifact
+│   ├── 2026-04-25-personality-inventory.md                 # 8 artifact (session 2)
+│   ├── 2026-04-25-mating_nido-inventory.md                 # 10 artifact (session 2)
+│   ├── 2026-04-25-species_candidate-inventory.md           # 10 false positive (pool secco)
+│   └── 2026-04-25-architecture-inventory.md                # 22 artifact (session 2)
 ├── cards/
-│   ├── ancestors-neurons-dump-csv.md                  # M-2026-04-25-004 score 4/5
-│   ├── architecture-biome-memory-trait-cost.md       # M-2026-04-25-011 score 4/5 (NEW)
-│   ├── cognitive_traits-sentience-tiers-v1.md        # M-2026-04-25-001 score 5/5
-│   ├── enneagramma-dataset-9-types.md                # M-2026-04-25-003 score 5/5
-│   ├── enneagramma-enneaeffects-orphan.md            # M-2026-04-25-006 score 4/5
-│   ├── enneagramma-mechanics-registry.md             # M-2026-04-25-002 score 5/5
-│   ├── mating_nido-canvas-nido-itinerante.md         # M-2026-04-25-008 score 4/5 (NEW)
-│   ├── mating_nido-engine-orphan.md                  # M-2026-04-25-007 score 5/5 (NEW)
-│   ├── old_mechanics-magnetic-rift-resonance.md      # M-2026-04-25-005 score 4/5
-│   ├── personality-mbti-gates-ghost.md               # M-2026-04-25-010 score 4/5 (NEW)
-│   └── personality-triangle-strategy-transfer.md     # M-2026-04-25-009 score 5/5 (NEW)
+│   ├── ancestors-neurons-dump-csv.md                        # M-2026-04-25-004 score 4/5
+│   ├── architecture-biome-memory-trait-cost.md             # M-2026-04-25-011 score 4/5
+│   ├── cognitive_traits-sentience-tiers-v1.md              # M-2026-04-25-001 score 5/5
+│   ├── enneagramma-dataset-9-types.md                      # M-2026-04-25-003 score 5/5
+│   ├── enneagramma-enneaeffects-orphan.md                  # M-2026-04-25-006 score 4/5
+│   ├── enneagramma-mechanics-registry.md                   # M-2026-04-25-002 score 5/5
+│   ├── mating_nido-canvas-nido-itinerante.md               # M-2026-04-25-008 score 4/5
+│   ├── mating_nido-engine-orphan.md                        # M-2026-04-25-007 score 5/5
+│   ├── old_mechanics-magnetic-rift-resonance.md            # M-2026-04-25-005 score 4/5
+│   ├── personality-mbti-gates-ghost.md                     # M-2026-04-25-010 score 4/5
+│   ├── personality-triangle-strategy-transfer.md           # M-2026-04-25-009 score 5/5
+│   ├── worldgen-bioma-ecosistema-foodweb-network-stack.md  # M-2026-04-26-012 score 5/5 (NEW)
+│   ├── worldgen-species-emergence-from-ecosystem.md        # M-2026-04-26-013 score 4/5 (NEW)
+│   ├── worldgen-cross-bioma-events-propagation.md          # M-2026-04-26-014 score 4/5 (NEW)
+│   ├── worldgen-bridge-species-network-glue.md             # M-2026-04-26-015 score 3/5 (NEW)
+│   ├── worldgen-trophic-roles-validator-not-runtime.md     # M-2026-04-26-016 score 4/5 (NEW)
+│   ├── worldgen-forme-mbti-as-evolutionary-seed.md         # M-2026-04-26-017 score 4/5 (NEW)
+│   └── worldgen-biome-as-gameplay-fiction-package.md       # M-2026-04-26-018 score 5/5 (NEW)
 └── galleries/
-    └── enneagramma.md                                 # 3 cards aggregato
+    ├── ancestors.md                                         # 1 card aggregato
+    ├── enneagramma.md                                       # 3 cards aggregato
+    └── worldgen.md                                          # 7 cards aggregato (NEW)
 ```
 
 ---
@@ -147,6 +174,8 @@ docs/museum/
 ---
 
 ## 📅 Last verified
+
+**2026-04-26** — Session 3 worldgen complete. 9/9 domain coverage (+worldgen), 18 card curate, 3 gallery (+worldgen). 7 nuove card: M-012→M-018. Gap analysis: 12 componenti worldgen, 3 wired, 8 zero runtime. Quick wins tier 1 (~3-6h ciascuno) pronti per autonomous execution.
 
 **2026-04-25 sera** — Session 2 complete. 8/8 domain coverage, 11 card curate, 1 gallery, agent refined post-lessons-learned, cross-agent validation PASS.
 
