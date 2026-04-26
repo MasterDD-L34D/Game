@@ -1,9 +1,14 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.2.0",
   "generated_at": "2026-04-25T12:55:34Z",
   "unit_id": "skiv",
   "species_id": "dune_stalker",
   "biome_id": "savana",
+  "lineage_id": "skiv-savana-2026-0425-canonical",
+  "companion_card_signature": null,
+  "crossbreed_history": [],
+  "voice_diary_portable": [],
+  "share_url": null,
   "mbti_axes": {
     "E_I": {
       "value": 0.68,
@@ -223,5 +228,5 @@
       }
     }
   ],
-  "_notes": "Canonical creature state showcasing 2026-04-25 content sprint #1776 + Skiv 5/8 wishlist + lifecycle/aspect (this PR). Regenerate via tools/py/seed_skiv_saga.py."
+  "_notes": "Canonical creature state showcasing 2026-04-25 content sprint #1776 + Skiv 5/8 wishlist + lifecycle/aspect (this PR). Regenerate via tools/py/seed_skiv_saga.py. Schema 0.2.0 (S1 polish Phase 1) adds lineage_id + companion_card_signature + crossbreed_history[] + voice_diary_portable[] + share_url additive (ADR-2026-04-27)."
 }
