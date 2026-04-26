@@ -129,6 +129,14 @@ evo-validate:
 	else \
 		echo "Skipping traits validation: directory not found (${EVO_VALIDATE_TRAITS})"; \
 	fi
+	@# 2026-04-26 P1 — Voidling Bound Pattern 6 mutation visual_swap_it linter (PR #1893).
+	@# Skip se linter o catalog mancano (graceful prima del merge PR #1893).
+	@if [ -f "tools/py/lint_mutations.py" ] && [ -f "data/core/mutations/mutation_catalog.yaml" ]; then \
+		echo "Running mutation visual_swap_it linter (Voidling Bound Pattern 6)..."; \
+		$(PYTHON) tools/py/lint_mutations.py; \
+	else \
+		echo "Skipping mutation linter: lint_mutations.py o catalog non trovati (pre PR #1893 merge)"; \
+	fi
 
 evo-backlog:
 	@if [ -z "${EVO_BACKLOG_FILE}" ]; then \

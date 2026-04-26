@@ -1272,6 +1272,27 @@ function createSessionRouter(options = {}) {
         sistema_count: units.filter((u) => u.controlled_by === 'sistema').length,
         automatic: true,
       });
+      // 2026-04-26 P1 — Pathfinder XP budget audit log su session start.
+      // Best-effort + lazy require: missing module non blocca session creation.
+      // Audit out_of_band -> warn console (future: telemetry event).
+      try {
+        const { auditEncounter } = require('../services/balance/xpBudget');
+        const partySize = units.filter((u) => u.controlled_by === 'player').length;
+        const audit = auditEncounter(session.encounter, partySize);
+        if (
+          audit &&
+          audit.status &&
+          !['in_band', 'no_encounter', 'no_budget_config'].includes(audit.status)
+        ) {
+          console.warn(
+            `[xpBudget audit] session=${sessionId} class=${audit.encounter_class} ` +
+              `party=${audit.party_size} budget=${audit.budget} used=${audit.used} ` +
+              `ratio=${audit.ratio} status=${audit.status}`,
+          );
+        }
+      } catch {
+        // xpBudget optional
+      }
       // SPRINT_020: se la prima unita' in ordine di iniziativa e' un SIS,
       // esegui immediatamente i suoi turni (e di eventuali successivi SIS)
       // fino a fermarsi al primo player. Il frontend riceve gia' lo stato
