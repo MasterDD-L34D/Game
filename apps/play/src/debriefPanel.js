@@ -2,6 +2,12 @@
 // Post-combat summary: outcome + XP + narrative + ready button.
 // ADR coop-mvp-spec.md §2.6.
 
+// OD-013 Path B integration: dialogue color codes (gated by Path A reveal).
+// `renderMbtiTaggedHtml` wraps `<mbti axis="X">...</mbti>` segments con `<span
+// class="mbti-axis-X">` SOLO se l'asse è rivelato in `mbtiRevealed.revealed[]`.
+// Plain text passa-through invariato (escape HTML safety lo gestisce il helper).
+import { renderMbtiTaggedHtml } from './dialogueRender.js';
+
 // OD-001 Path A V3 Mating/Nido (2026-04-26): pure helper DOM-free per identify
 // recruitable enemies post-combat. Filtra unit team !== player/ally con hp<=0.
 // Preserva name/hp_max/mbti_type per UI label downstream.
@@ -198,7 +204,15 @@ export function wireDebriefPanel(overlay, bridge) {
       list.innerHTML = '<div class="db-empty">Nessun evento registrato</div>';
       return;
     }
-    list.innerHTML = lines.map((l) => `<div class="db-narrative-row">${l}</div>`).join('');
+    // OD-013 Path B: render con MBTI color spans gated da state.mbtiRevealed.
+    // Combat events da `narrativeFromEvents` non hanno tag MBTI → passa-through
+    // come plain text (helper escapa HTML safety). Quando narrativeEngine
+    // emetterà linee con `<mbti axis="X">`, qui si colorano se asse rivelato.
+    list.innerHTML = lines
+      .map(
+        (l) => `<div class="db-narrative-row">${renderMbtiTaggedHtml(l, state.mbtiRevealed)}</div>`,
+      )
+      .join('');
     list.scrollTop = list.scrollHeight;
   };
 
