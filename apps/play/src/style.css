@@ -4,7 +4,7 @@
   --accent: #ffcc00;
   --player: #00b8d4;
   --sistema: #ff5252;
-  --dim: #666;
+  --dim: #888;
   --cell: #2a2a2a;
   --cell-alt: #303030;
   --panel: #222;
@@ -848,11 +848,11 @@ canvas#grid {
   overflow-y: auto;
 }
 .unit-log li {
-  padding: 1px 4px;
+  padding: 2px 5px;
   margin-bottom: 1px;
   border-left: 2px solid rgba(0, 184, 212, 0.45);
   background: rgba(0, 184, 212, 0.05);
-  font-size: 0.65rem;
+  font-size: 0.85rem;
 }
 
 /* W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" fullscreen flash. */
@@ -1058,9 +1058,9 @@ canvas#grid:hover {
   letter-spacing: -0.01em;
 }
 .unit-tech-id {
-  font-size: 0.62rem;
+  font-size: 0.8rem;
   color: var(--dim);
-  opacity: 0.6;
+  opacity: 0.7;
   margin-left: 4px;
   font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
 }

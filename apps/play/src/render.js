@@ -580,6 +580,45 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
 }
 
 // M4 P0.3 — SIS intent icon above unit (fist=attack, arrow=move, shield=defend).
+// 2026-04-26 ITB telegraph — threat tile overlay (semi-transparent rosso/giallo/blu per intent type).
+// Schema row: { actor_id, intent_type, intent_icon, target_id, threat_tiles: [{x, y}, ...] }
+// Colore: attack=rosso (kill zone), move=giallo (movement preview), defend/overwatch/skip=blu.
+// Pulse: alpha oscilla 0.25-0.45 a 1Hz per attirare attenzione (Into the Breach pattern).
+function drawThreatTileOverlay(ctx, threatPreview, gridH) {
+  const t = (Date.now() % 1000) / 1000; // 0..1 ciclico
+  const pulse = 0.35 + Math.sin(t * Math.PI * 2) * 0.1; // 0.25..0.45
+  for (const row of threatPreview) {
+    if (!row || !Array.isArray(row.threat_tiles) || row.threat_tiles.length === 0) continue;
+    let fill;
+    let stroke;
+    if (row.intent_type === 'attack') {
+      fill = `rgba(244, 67, 54, ${pulse})`; // rosso #f44336
+      stroke = 'rgba(244, 67, 54, 0.85)';
+    } else if (
+      row.intent_type === 'move' ||
+      row.intent_type === 'approach' ||
+      row.intent_type === 'retreat'
+    ) {
+      fill = `rgba(255, 170, 0, ${pulse * 0.7})`; // giallo
+      stroke = 'rgba(255, 170, 0, 0.7)';
+    } else {
+      fill = `rgba(79, 195, 247, ${pulse * 0.55})`; // blu defensive
+      stroke = 'rgba(79, 195, 247, 0.55)';
+    }
+    for (const tile of row.threat_tiles) {
+      if (!tile || typeof tile.x !== 'number' || typeof tile.y !== 'number') continue;
+      const yPx = gridH - 1 - tile.y;
+      const px = tile.x * CELL;
+      const py = yPx * CELL;
+      ctx.fillStyle = fill;
+      ctx.fillRect(px + 1, py + 1, CELL - 2, CELL - 2);
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(px + 2, py + 2, CELL - 4, CELL - 4);
+    }
+  }
+}
+
 function drawSisIntentIcon(ctx, unit, cx, yPxTop, kind = 'fist') {
   const ix = cx + CELL * 0.25;
   const iy = yPxTop + CELL * 0.08;
@@ -707,6 +746,12 @@ export function render(canvas, state, highlight = {}) {
 
   // W3.1 — Range overlay BEFORE units (so unit rings/icons overlap on top).
   if (highlight.selected) drawRangeOverlay(ctx, state, h, highlight.selected);
+
+  // 2026-04-26 ITB telegraph — threat tile overlay rosso/giallo per SIS pending intents.
+  // Disegnato DOPO range overlay (player vede sue mosse possibili) e PRIMA delle unità.
+  if (Array.isArray(highlight.threatPreview) && highlight.threatPreview.length > 0) {
+    drawThreatTileOverlay(ctx, highlight.threatPreview, h);
+  }
 
   // Units
   for (const u of state.units || []) drawUnit(ctx, u, h, highlight);
