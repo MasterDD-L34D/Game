@@ -172,10 +172,15 @@ function resolveAttack({ actor, target, rng }) {
  * Simula N attacchi con la stessa formula di resolveAttack e ritorna
  * distribuzione statistica per il client.
  *
- * @param {{ mod?: number }} actor
- * @param {{ dc?: number, dc_difesa?: number, mod?: number }} target
- * @param {number} [n=1000] — simulazioni
- * @returns {{ simulations, hit_pct, crit_pct, fumble_pct, avg_mos, dc, attack_mod, avg_pt }}
+ * M14-A residuo (TKT-09 2026-04-26): ora include `elevation_multiplier` e
+ * `expected_damage` derivati dall'elevation delta tra actor e target. Il
+ * baseline damage = 1 + avg_pt (mirror resolveAttack damage step). Mantiene
+ * backward-compat: signature invariata, campi nuovi additivi.
+ *
+ * @param {{ mod?: number, elevation?: number }} actor
+ * @param {{ dc?: number, dc_difesa?: number, mod?: number, elevation?: number }} target
+ * @param {number} [n=1000] — simulazioni (analytic over 20 faces, n ignored)
+ * @returns {{ simulations, hit_pct, crit_pct, fumble_pct, avg_mos, dc, attack_mod, avg_pt, elevation_multiplier, elevation_delta, expected_damage }}
  */
 function predictCombat(actor, target, n = 1000) {
   const attackMod = Number(actor.mod || 0) + Number(actor.attack_mod_bonus || 0);
@@ -213,15 +218,41 @@ function predictCombat(actor, target, n = 1000) {
   }
 
   const total = 20; // exact enumeration over d20
+  const hitPct = (hits / total) * 100;
+  const avgPt = hits > 0 ? totalPt / hits : 0;
+  // M14-A residuo: elevation multiplier — match computePositionalDamage default
+  // coeffs (bonus 0.30, penalty -0.15). Ignora flank (richiede facing —
+  // non disponibile in predict pure stat call) + adjacency/rage/backstab
+  // (richiedono runtime state). Halfway lesson: surface FIRST-ORDER signal.
+  let elevationMul = 1;
+  let elevationDelta = 0;
+  try {
+    const aElev = Number.isFinite(Number(actor?.elevation)) ? Number(actor.elevation) : 0;
+    const tElev = Number.isFinite(Number(target?.elevation)) ? Number(target.elevation) : 0;
+    elevationDelta = aElev - tElev;
+    if (elevationDelta >= 1) elevationMul = 1.3;
+    else if (elevationDelta <= -1) elevationMul = 0.85;
+    elevationMul = Math.max(0.1, elevationMul);
+  } catch {
+    elevationMul = 1;
+    elevationDelta = 0;
+  }
+  // expected_damage proxy: hit_pct * (1 + avg_pt) * elevation_multiplier.
+  const baseDmgPerHit = 1 + avgPt;
+  const expectedDamage = (hitPct / 100) * baseDmgPerHit * elevationMul;
+
   return {
     simulations: total,
-    hit_pct: Math.round((hits / total) * 1000) / 10,
+    hit_pct: Math.round(hitPct * 10) / 10,
     crit_pct: Math.round((crits / total) * 1000) / 10,
     fumble_pct: Math.round((fumbles / total) * 1000) / 10,
     avg_mos: hits > 0 ? Math.round((totalMos / hits) * 10) / 10 : 0,
-    avg_pt: hits > 0 ? Math.round((totalPt / hits) * 10) / 10 : 0,
+    avg_pt: hits > 0 ? Math.round(avgPt * 10) / 10 : 0,
     dc,
     attack_mod: attackMod,
+    elevation_multiplier: elevationMul,
+    elevation_delta: elevationDelta,
+    expected_damage: Math.round(expectedDamage * 100) / 100,
   };
 }
 
