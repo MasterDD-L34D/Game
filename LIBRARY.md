@@ -36,6 +36,38 @@
 
 ---
 
+## 📦 Online libraries shipped inline (Skiv-as-Monitor 2026-04-25)
+
+> 3 industry pattern adopted **inline Python** (zero npm deps — vincolo CLAUDE.md). Combinatorial expansion + data-driven storylets + typed commit parser. Reference doc: [docs/research/2026-04-25-skiv-online-imports.md](docs/research/2026-04-25-skiv-online-imports.md).
+
+| Library / Spec                                                                                                                 | License     | Pattern adopted                                                     | Adopted as                                                                                                                       | ROI |
+| ------------------------------------------------------------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --- |
+| [tracery-grammar](https://www.npmjs.com/package/tracery-grammar) ([galaxykate/tracery](https://github.com/galaxykate/tracery)) | Apache 2.0  | Story-grammar `dict[symbol, list]` + `#sym#` reference + seeded RNG | `tools/py/skiv_tracery.py` — 218 LOC inline. **131→662 voci** combinatorial                                                      | 5/5 |
+| [SimpleQBN](https://github.com/videlais/simple-qbn) (videlais)                                                                 | MIT         | Quality-Based Narrative storylets YAML + salience tie-break by id   | `tools/py/skiv_qbn.py` + `data/core/narrative/skiv_storylets.yaml` — 14 storylets data-driven, predicates gte/lte/eq/in          | 4/5 |
+| [Conventional Commits spec](https://www.conventionalcommits.org/en/v1.0.0/)                                                    | Public spec | `<type>[(scope)][!]: <description>` regex + breaking change         | `parse_conventional_commit()` in `tools/py/skiv_monitor.py` — typed feat/fix/chore/docs/style/refactor/perf/test/build/ci/revert | 3/5 |
+
+### Deferred (require npm dep approval o license dual)
+
+| Library                                                                          | License          | Why deferred                                              |
+| -------------------------------------------------------------------------------- | ---------------- | --------------------------------------------------------- |
+| [@octokit/webhooks-types](https://www.npmjs.com/package/@octokit/webhooks-types) | MIT              | npm dep approval pending. Inline mapping già funziona.    |
+| [@octokit/webhooks](https://github.com/octokit/webhooks.js/) (Node handler)      | MIT              | HMAC verify già inline 10 LOC. Octokit dep adds 50KB.     |
+| [OpenGameArt CC0 sprites](https://opengameart.org/content/cc0-resources)         | CC0              | Manual download richiesto (WebFetch ritorna thumbnail).   |
+| [LPC reptile expansion](https://lpc.opengameart.org/)                            | CC-BY-SA 3.0+GPL | Dual-license overhead vs CC0. SVG hand-craft già shipped. |
+
+### Skipped (low ROI)
+
+| Library                        | Skip reason                                      |
+| ------------------------------ | ------------------------------------------------ |
+| Storyboard (lazerwalker)       | Alpha, non su npm                                |
+| TinyQBN                        | Twine/SugarCube specific (not standalone JS)     |
+| Pixilart Tamagotchi sprites    | License unclear (UGC)                            |
+| Freepik vectors                | Attribution required, non sempre commercial-safe |
+| ChronicleHub QBN               | Not released open source                         |
+| Tamagotchi On official sprites | Bandai copyright                                 |
+
+---
+
 ## 🤖 Claude Code skills installate (40+)
 
 **Built-in**: Explore, general-purpose, Plan, claude-code-guide, statusline-setup.
