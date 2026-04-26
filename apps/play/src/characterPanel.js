@@ -13,6 +13,12 @@
 //
 // Pattern: open via header btn 🎭 Carattere → overlay polling /vc ogni open.
 // Lifecycle: openCharacterPanel() / closeCharacterPanel() / initCharacterPanel(opts).
+//
+// Sprint v3.5 2026-04-27 — Conviction surfacing (Triangle Strategy pattern).
+// Aggiunge `flashConvictionBadge(badge)` overlay animato 3s con color-coded
+// background per asse. Riferimento `docs/research/triangle-strategy-transfer-plan.md`
+// Mechanic 1 Proposal A. Backend produce badge via `buildConvictionBadges()`
+// in mbtiSurface.js — vcSnapshot.per_actor[uid].conviction_badges (additive).
 
 import { api } from './api.js';
 
@@ -30,6 +36,18 @@ const AXIS_LABELS = {
   T_F: { label: 'Decisione', lo: 'Sentimento', hi: 'Pensiero' },
   J_P: { label: 'Stile', lo: 'Percezione', hi: 'Giudizio' },
 };
+
+// Sprint v3.5 — Conviction badge color palette (mirror backend mbtiSurface.AXIS_COLORS).
+const CONVICTION_COLORS = {
+  E_I: { color: '#3b82f6', glow: 'rgba(59, 130, 246, 0.5)' }, // blue
+  S_N: { color: '#10b981', glow: 'rgba(16, 185, 129, 0.5)' }, // green
+  T_F: { color: '#ef4444', glow: 'rgba(239, 68, 68, 0.5)' }, // red
+  J_P: { color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.5)' }, // yellow
+};
+
+const CONVICTION_BADGE_DURATION_MS = 3000;
+let _convictionBadgeTimer = null;
+const _seenBadgeKeys = new Set();
 
 // Ennea archetypes label/icon (italiano evocativo, no numeri).
 const ENNEA_META = {
@@ -163,6 +181,37 @@ function injectStyles() {
     .character-empty {
       padding: 24px 10px; text-align: center; color: #9aa3b5;
       font-style: italic;
+    }
+    /* Sprint v3.5 — Conviction badge (Triangle Strategy pattern) */
+    .conviction-badge {
+      position: fixed; top: 18%; left: 50%; transform: translateX(-50%) scale(0.9);
+      z-index: 9996; pointer-events: none;
+      padding: 14px 22px; border-radius: 14px;
+      background: rgba(10, 12, 18, 0.92);
+      border: 2px solid var(--cv-color, #ffd166);
+      box-shadow: 0 0 24px var(--cv-glow, rgba(255, 209, 102, 0.5));
+      color: #ffffff; font-family: Inter, system-ui, sans-serif;
+      text-align: center; min-width: 180px; max-width: 320px;
+      opacity: 0;
+      transition: opacity 220ms ease-out, transform 220ms ease-out;
+    }
+    .conviction-badge.visible {
+      opacity: 1; transform: translateX(-50%) scale(1);
+    }
+    .conviction-badge .cv-axis-label {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: #b8c1d4; margin-bottom: 4px;
+    }
+    .conviction-badge .cv-letter {
+      font-size: 2.4rem; font-weight: 800; line-height: 1;
+      color: var(--cv-color, #ffd166); text-shadow: 0 0 12px var(--cv-glow, rgba(255,209,102,0.6));
+    }
+    .conviction-badge .cv-pole-label {
+      font-size: 0.95rem; font-weight: 600; margin-top: 6px;
+      color: #e8eaf0;
+    }
+    .conviction-badge .cv-delta {
+      font-size: 0.78rem; color: #8aa0c7; margin-top: 4px; font-style: italic;
     }
   `;
   document.head.appendChild(s);
@@ -311,6 +360,95 @@ function render(unit, actorVc) {
   body.innerHTML = renderMbtiSection(actorVc) + renderEnneaSection(actorVc);
 }
 
+/**
+ * Sprint v3.5 — Flash conviction badge (Triangle Strategy pattern).
+ * Shows a color-coded badge for ~3s then fades. Idempotent per badge "key"
+ * (axis+letter+value) to prevent re-flash on repeated polls of same vc state.
+ *
+ * @param {object} badge - {axis, letter, label, axis_label, color, color_name, confidence, value, delta?}
+ * @param {object} [opts]
+ * @param {number} [opts.duration=3000]
+ * @param {boolean} [opts.force=false] - bypass dedup
+ */
+export function flashConvictionBadge(badge, opts = {}) {
+  if (!badge || !badge.axis || !badge.letter) return;
+  injectStyles();
+
+  const dedupKey = `${badge.axis}:${badge.letter}:${(badge.value || 0).toFixed(2)}`;
+  if (!opts.force && _seenBadgeKeys.has(dedupKey)) return;
+  _seenBadgeKeys.add(dedupKey);
+
+  // Cap dedup memory (last 32 badge)
+  if (_seenBadgeKeys.size > 32) {
+    const first = _seenBadgeKeys.values().next().value;
+    _seenBadgeKeys.delete(first);
+  }
+
+  const colors = CONVICTION_COLORS[badge.axis] || {
+    color: '#ffd166',
+    glow: 'rgba(255,209,102,0.5)',
+  };
+
+  // Re-use existing element if present, else create new
+  let el = document.getElementById('conviction-badge-overlay');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'conviction-badge-overlay';
+    el.className = 'conviction-badge';
+    document.body.appendChild(el);
+  }
+  el.style.setProperty('--cv-color', badge.color || colors.color);
+  el.style.setProperty('--cv-glow', colors.glow);
+
+  const deltaHtml =
+    badge.delta != null && Number.isFinite(badge.delta)
+      ? `<div class="cv-delta">${badge.delta > 0 ? '↑' : '↓'} ${Math.abs(badge.delta).toFixed(2)}</div>`
+      : '';
+
+  el.innerHTML = `
+    <div class="cv-axis-label">${escapeHtml(badge.axis_label || badge.axis)}</div>
+    <div class="cv-letter">${escapeHtml(badge.letter)}</div>
+    <div class="cv-pole-label">${escapeHtml(badge.label || '')}</div>
+    ${deltaHtml}
+  `;
+
+  // Force reflow for transition trigger
+  // eslint-disable-next-line no-unused-expressions
+  el.offsetHeight;
+  el.classList.add('visible');
+
+  if (_convictionBadgeTimer) {
+    clearTimeout(_convictionBadgeTimer);
+  }
+  const duration = Number.isFinite(opts.duration) ? opts.duration : CONVICTION_BADGE_DURATION_MS;
+  _convictionBadgeTimer = setTimeout(() => {
+    el.classList.remove('visible');
+  }, duration);
+}
+
+/** Reset internal dedup cache. Test-only helper. */
+export function _resetConvictionBadgeCache() {
+  _seenBadgeKeys.clear();
+  if (_convictionBadgeTimer) {
+    clearTimeout(_convictionBadgeTimer);
+    _convictionBadgeTimer = null;
+  }
+}
+
+/**
+ * Auto-flash conviction badges from a vcSnapshot actor entry, se presente
+ * `conviction_badges` (additive backend payload Sprint v3.5).
+ *
+ * @param {object} actorVc - per_actor[uid] entry.
+ */
+export function flashConvictionBadgesFromActor(actorVc) {
+  if (!actorVc || !Array.isArray(actorVc.conviction_badges)) return;
+  // Stagger multipli badge: trigger primo subito, prossimi a delay 800ms
+  actorVc.conviction_badges.forEach((badge, idx) => {
+    setTimeout(() => flashConvictionBadge(badge), idx * 800);
+  });
+}
+
 export async function openCharacterPanel() {
   const overlay = buildOverlay();
   overlay.classList.add('visible');
@@ -329,6 +467,8 @@ export async function openCharacterPanel() {
   const uid = unit?.id || null;
   const entry = uid ? res.data.per_actor?.[uid] : null;
   render(unit, entry);
+  // Sprint v3.5 — surface conviction badges se presenti nel payload
+  if (entry) flashConvictionBadgesFromActor(entry);
 }
 
 export function closeCharacterPanel() {

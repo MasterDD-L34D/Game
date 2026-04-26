@@ -462,6 +462,28 @@
       "review_cycle_days": 30
     },
     {
+      "path": "docs/adr/ADR-2026-04-27-pilastri-canonical-6.md",
+      "title": "ADR-2026-04-27: Pilastri canonical — 6-pilastri (P1-P6) wins",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-27",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/operativo/README-biodiversita-connessa.md",
+      "title": "Biodiversità Connessa — Bundle canonical + drift validator (runbook)",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-27",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
       "path": "docs/adr/ADR-2026-04-26-pincer-followup-queue.md",
       "title": "ADR 2026-04-26 — Pincer follow-up intent queue (Triangle Strategy Mechanic 3B)",
       "doc_status": "draft",
@@ -2639,12 +2661,12 @@
     },
     {
       "path": "docs/core/02-PILASTRI.md",
-      "title": "Pilastri di Design (sintesi)",
+      "title": "Pilastri di Design (canonical 6-pilastri)",
       "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
-      "last_verified": "2026-04-14",
-      "source_of_truth": false,
+      "last_verified": "2026-04-27",
+      "source_of_truth": true,
       "language": "it-en",
       "review_cycle_days": 14,
       "primary": false,
@@ -2903,7 +2925,7 @@
       "doc_status": "active",
       "doc_owner": "platform-docs",
       "workstream": "cross-cutting",
-      "last_verified": "2026-04-14",
+      "last_verified": "2026-04-27",
       "source_of_truth": false,
       "language": "it-en",
       "review_cycle_days": 14,

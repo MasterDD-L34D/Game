@@ -49,6 +49,9 @@ reports/backups/**/*.zip
 # Claude Code per-user whitelist (auto-aggiornato dai hook)
 .claude/settings.local.json
 
+# Biodiversity bundle build artifact (Sprint v3.5)
+out/bio/
+
 # Claude Code sub-worktrees (local dev state, non da committare)
 .claude/worktrees/
 
