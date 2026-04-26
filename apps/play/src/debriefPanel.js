@@ -7,6 +7,9 @@
 // class="mbti-axis-X">` SOLO se l'asse è rivelato in `mbtiRevealed.revealed[]`.
 // Plain text passa-through invariato (escape HTML safety lo gestisce il helper).
 import { renderMbtiTaggedHtml } from './dialogueRender.js';
+// OD-001 Path A Sprint B: recruit POST goes through api client (network retry +
+// graceful failure handling). Lazy import only if api ever becomes circular.
+import { api } from './api.js';
 
 // OD-001 Path A V3 Mating/Nido (2026-04-26): pure helper DOM-free per identify
 // recruitable enemies post-combat. Filtra unit team !== player/ally con hp<=0.
@@ -24,6 +27,59 @@ export function findRecruitableEnemies(world) {
     return true;
   });
 }
+
+// OD-001 Path A Sprint B (2026-04-26): debrief recruit wire — affinity scoring.
+// Wildermyth/Hades pattern: defeated enemy → recruitable when affinity exceeds
+// threshold. Scoring rules (additive):
+//   +2 same MBTI type (best resonance)
+//   +1 MBTI compat: enemy in player.compat_forme[player.mbti].likes
+//   -1 MBTI compat: enemy in player.compat_forme[player.mbti].dislikes
+//   +1 enemy is non-boss (regular kill — easier rapport)
+//   +1 enemy is boss defeated (Wildermyth iconic foe — narrative resonance)
+// Default fallback (no MBTI on either side): regular=1 / boss=2 baseline.
+// Threshold 1 = recruitable. Returns {affinity:Number, reasons:string[]}.
+export function computeRecruitAffinity(enemyUnit, playerMember, compatTable = {}) {
+  const reasons = [];
+  let affinity = 0;
+  if (!enemyUnit || typeof enemyUnit !== 'object') {
+    return { affinity: 0, reasons: ['enemy invalido'] };
+  }
+  const enemyMbti = enemyUnit.mbti_type || enemyUnit.mbti || null;
+  const playerMbti = playerMember?.mbti_type || playerMember?.mbti || null;
+  const isBoss = Boolean(
+    enemyUnit.is_boss || enemyUnit.boss || (enemyUnit.tags && enemyUnit.tags.includes?.('boss')),
+  );
+  if (isBoss) {
+    affinity += 1;
+    reasons.push('+1 boss defeated');
+  } else {
+    affinity += 1;
+    reasons.push('+1 regular defeat');
+  }
+  if (enemyMbti && playerMbti) {
+    if (enemyMbti === playerMbti) {
+      affinity += 2;
+      reasons.push(`+2 MBTI risonanza (${playerMbti})`);
+    } else {
+      const compat =
+        compatTable && typeof compatTable === 'object' ? compatTable[playerMbti] : null;
+      if (compat) {
+        if (Array.isArray(compat.likes) && compat.likes.includes(enemyMbti)) {
+          affinity += 1;
+          reasons.push(`+1 MBTI like ${playerMbti}→${enemyMbti}`);
+        } else if (Array.isArray(compat.dislikes) && compat.dislikes.includes(enemyMbti)) {
+          affinity -= 1;
+          reasons.push(`-1 MBTI dislike ${playerMbti}→${enemyMbti}`);
+        }
+      }
+    }
+  }
+  return { affinity, reasons };
+}
+
+// Affinity threshold for showing recruit button (UI gate). Backend bypass
+// threshold is in routes/meta.js. Match them: any positive affinity → eligible.
+export const RECRUIT_AFFINITY_UI_THRESHOLD = 1;
 
 export function renderDebriefPanel() {
   if (typeof document === 'undefined') return null;
@@ -62,6 +118,14 @@ export function renderDebriefPanel() {
             <button type="button" class="db-skip-btn" id="db-evolve-no">⏭ Mantieni</button>
           </div>
         </div>
+      </div>
+
+      <div class="db-section" id="db-recruit-section" style="display:none">
+        <div class="db-section-title">🤝 Reclutabili dal Nido</div>
+        <div class="db-recruit-list" id="db-recruit-list">
+          <div class="db-empty">Nessun nemico reclutabile</div>
+        </div>
+        <div class="db-recruit-hint" id="db-recruit-hint"></div>
       </div>
 
       <div class="db-section" id="db-rewards-section" style="display:none">
@@ -153,6 +217,10 @@ export function wireDebriefPanel(overlay, bridge) {
     partyList: [],
     readySet: new Set(),
     mbtiRevealed: null,
+    // OD-001 Path A Sprint B (2026-04-26): debrief recruit wire.
+    recruitedNpcIds: new Set(),
+    recruitInFlight: new Set(),
+    compatTable: null,
   };
 
   const outcomeEl = overlay.querySelector('#db-outcome');
@@ -283,6 +351,142 @@ export function wireDebriefPanel(overlay, bridge) {
     }
   };
 
+  // OD-001 Path A Sprint B (2026-04-26): debrief recruit section render.
+  // Wildermyth/Hades — defeated enemies con affinity≥threshold get a recruit
+  // button. Player MBTI scored against enemy MBTI via state.compatTable
+  // (loaded async on first render via `loadCompatTable`).
+  const renderRecruit = () => {
+    const section = overlay.querySelector('#db-recruit-section');
+    const list = overlay.querySelector('#db-recruit-list');
+    const hint = overlay.querySelector('#db-recruit-hint');
+    if (!section || !list) return;
+    // Solo su victory (defeat = niente recluta sopra cadaveri tuoi).
+    if (state.outcome !== 'victory') {
+      section.style.display = 'none';
+      return;
+    }
+    const enemies = findRecruitableEnemies(state.lastState);
+    if (!enemies.length) {
+      section.style.display = 'none';
+      return;
+    }
+    const playerMember = readPlayerMember();
+    const compat = state.compatTable || {};
+    // Score + filter affinity >= threshold OR fallback always-show con score.
+    const candidates = enemies.map((u) => {
+      const { affinity, reasons } = computeRecruitAffinity(u, playerMember, compat);
+      return { unit: u, affinity, reasons };
+    });
+    const eligible = candidates.filter((c) => c.affinity >= RECRUIT_AFFINITY_UI_THRESHOLD);
+    if (!eligible.length) {
+      section.style.display = '';
+      list.innerHTML =
+        '<div class="db-empty">Nessun nemico con affinità sufficiente per il reclutamento.</div>';
+      if (hint) hint.textContent = '';
+      return;
+    }
+    section.style.display = '';
+    list.innerHTML = '';
+    for (const c of eligible) {
+      const u = c.unit;
+      const npcId = String(u.id || u.npc_id || u.unit_id || '');
+      if (!npcId) continue;
+      const recruited = state.recruitedNpcIds.has(npcId);
+      const inFlight = state.recruitInFlight.has(npcId);
+      const card = document.createElement('div');
+      card.className = `db-recruit-card${recruited ? ' recruited' : ''}`;
+      card.dataset.npcId = npcId;
+      const safeName = String(u.name || npcId).replace(/[<>&"]/g, '');
+      const safeSpecies = String(u.species || u.species_id || u.archetype || '').replace(
+        /[<>&"]/g,
+        '',
+      );
+      const mbtiLabel = u.mbti_type ? String(u.mbti_type).replace(/[<>&"]/g, '') : '—';
+      const hpMax = u.hp_max ?? u.max_hp ?? '?';
+      const atk = u.atk ?? u.attack ?? u.attack_mod ?? '?';
+      card.innerHTML = `
+        <div class="db-recruit-avatar" aria-hidden="true">${recruited ? '⚡' : '🪺'}</div>
+        <div class="db-recruit-meta">
+          <div class="db-recruit-name">${safeName}</div>
+          <div class="db-recruit-sub">
+            ${safeSpecies ? `<span class="db-recruit-tag">${safeSpecies}</span>` : ''}
+            <span class="db-recruit-tag mbti">MBTI ${mbtiLabel}</span>
+            <span class="db-recruit-tag">HP ${hpMax}</span>
+            <span class="db-recruit-tag">ATK ${atk}</span>
+          </div>
+          <div class="db-recruit-aff" title="${c.reasons.join(' · ')}">
+            Affinità: <strong>${c.affinity}</strong>
+          </div>
+        </div>
+        <button type="button" class="db-recruit-btn" data-npc-id="${npcId}"
+          ${recruited || inFlight ? 'disabled' : ''}>
+          ${recruited ? '✓ Alleato' : inFlight ? '…' : '🤝 Recluta'}
+        </button>
+      `;
+      const btn = card.querySelector('.db-recruit-btn');
+      if (btn) {
+        btn.addEventListener('click', () => handleRecruitClick(npcId, c.affinity));
+      }
+      list.appendChild(card);
+    }
+    if (hint) {
+      hint.textContent = `${eligible.length} reclutabile${eligible.length === 1 ? '' : 'i'}`;
+    }
+  };
+
+  // Toast/feedback in main status line. Reuse setStatus channel.
+  const recruitToast = (msg, kind) => setStatus(msg, kind);
+
+  function readPlayerMember() {
+    // Provider chain: bridge.getPartyMember() (preferred) → my unit → null.
+    let pm = null;
+    try {
+      pm = bridge.getPartyMember?.() || null;
+    } catch {
+      /* optional */
+    }
+    if (pm) return pm;
+    const myUnit = findMyUnit(state.lastState, bridge.session?.player_id);
+    if (myUnit) {
+      return {
+        mbti_type: myUnit.mbti_type || myUnit.mbti || null,
+        trait_ids: myUnit.trait_ids || myUnit.traits || [],
+      };
+    }
+    return null;
+  }
+
+  async function handleRecruitClick(npcId, affinity) {
+    if (state.recruitedNpcIds.has(npcId) || state.recruitInFlight.has(npcId)) return;
+    state.recruitInFlight.add(npcId);
+    renderRecruit();
+    recruitToast(`Reclutamento di ${npcId}…`);
+    try {
+      const sessionId = bridge.session?.session_id || bridge.session?.code || null;
+      const res = await api.metaRecruit(npcId, sessionId, affinity);
+      if (!res.ok) {
+        recruitToast(`✖ Errore rete: HTTP ${res.status}`, 'err');
+        state.recruitInFlight.delete(npcId);
+        renderRecruit();
+        return;
+      }
+      const data = res.data || {};
+      if (data.success) {
+        state.recruitedNpcIds.add(npcId);
+        state.recruitInFlight.delete(npcId);
+        recruitToast(`🤝 ${npcId} si unisce al Nido!`, 'ok');
+      } else {
+        const reason = data.reason || 'unknown';
+        recruitToast(`✖ Reclutamento fallito: ${reason}`, 'err');
+        state.recruitInFlight.delete(npcId);
+      }
+    } catch (err) {
+      recruitToast(`✖ Errore: ${err?.message || String(err)}`, 'err');
+      state.recruitInFlight.delete(npcId);
+    }
+    renderRecruit();
+  }
+
   const renderParty = () => {
     const list = overlay.querySelector('#db-party');
     const count = overlay.querySelector('#db-party-count');
@@ -310,9 +514,31 @@ export function wireDebriefPanel(overlay, bridge) {
     renderNarrative();
     renderParty();
     renderMbti();
+    renderRecruit();
     // Fire-and-forget: Skiv card refresh ad ogni render debrief.
     renderSkivMonitorCard();
+    // Fire-and-forget: lazy-load MBTI compat table on first render.
+    if (state.compatTable === null) {
+      state.compatTable = {}; // mark as loading
+      loadCompatTable().then((tbl) => {
+        state.compatTable = tbl || {};
+        renderRecruit();
+      });
+    }
   };
+
+  // OD-001 Path A Sprint B (2026-04-26): lazy-load MBTI compat table from
+  // backend if exposed via /api/meta/compat. Graceful fallback {} on miss.
+  async function loadCompatTable() {
+    try {
+      const res = await fetch('/api/meta/compat', { cache: 'force-cache' });
+      if (!res.ok) return {};
+      const data = await res.json();
+      return data?.compat_forme || data || {};
+    } catch {
+      return {};
+    }
+  }
 
   readyBtn.addEventListener('click', async () => {
     if (state.submitted) return;
@@ -439,7 +665,22 @@ export function wireDebriefPanel(overlay, bridge) {
       state.submitted = false;
       state.readySet.clear();
       readyBtn.disabled = false;
+      // OD-001 Path A Sprint B: clear recruit state on phase reset.
+      state.recruitedNpcIds.clear();
+      state.recruitInFlight.clear();
       setStatus('');
+    },
+    // OD-001 Path A Sprint B test seam: inject compat table directly.
+    setCompatTable(table) {
+      state.compatTable = table && typeof table === 'object' ? table : {};
+      renderRecruit();
+    },
+    // OD-001 Path A Sprint B test seam: read internal state for assertions.
+    _getRecruitState() {
+      return {
+        recruited: [...state.recruitedNpcIds],
+        inFlight: [...state.recruitInFlight],
+      };
     },
   };
 }

@@ -260,10 +260,22 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ npc_id, delta }),
     }),
-  metaRecruit: (npc_id) =>
+  // OD-001 Path A Sprint B (2026-04-26): debrief recruit wire.
+  // Optional sourceSessionId + affinityAtRecruit unlock Wildermyth-style
+  // direct recruit from debrief (defeated enemy → ally) bypassing the
+  // affinity grind gate when affinityAtRecruit >= 1.
+  metaRecruit: (npc_id, sourceSessionId = null, affinityAtRecruit = null) =>
     jsonFetch('/api/meta/recruit', {
       method: 'POST',
-      body: JSON.stringify({ npc_id }),
+      body: JSON.stringify({
+        npc_id,
+        ...(sourceSessionId ? { source_session_id: sourceSessionId } : {}),
+        ...(affinityAtRecruit !== null &&
+        affinityAtRecruit !== undefined &&
+        Number.isFinite(Number(affinityAtRecruit))
+          ? { affinity_at_recruit: Number(affinityAtRecruit) }
+          : {}),
+      }),
     }),
   metaMating: (npc_id, party_member) =>
     jsonFetch('/api/meta/mating', {
@@ -276,6 +288,11 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ biome, requirements_met }),
     }),
+  // OD-001 Path A Sprint D — lineage chain + tribe emergent (2026-04-26).
+  // Tribe = lineage_id with >= 3 members (emergent from mating chain).
+  metaLineageChain: (lineageId) => jsonFetch(`/api/meta/lineage/${encodeURIComponent(lineageId)}`),
+  metaTribesEmergent: () => jsonFetch('/api/meta/tribes'),
+  metaTribeForUnit: (unitId) => jsonFetch(`/api/meta/tribe/unit/${encodeURIComponent(unitId)}`),
   // Skiv-as-Monitor — git-event-driven creature feed (Phase 2 wire 2026-04-25).
   skivStatus: () => jsonFetch('/api/skiv/status'),
   skivFeed: (limit = 20) => jsonFetch(`/api/skiv/feed?limit=${encodeURIComponent(limit)}`),
