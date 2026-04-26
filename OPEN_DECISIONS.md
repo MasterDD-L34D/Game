@@ -157,10 +157,10 @@
 - **Skiv-voice motivation** override: "tracce fresche + scava le coperte. Vento o no, tutte le 297 marche o niente".
 - **Skiv-voice motivation precedente**: "tracce fresche nelle dune — 34 marche chiare. Le altre 263... vento le ha coperte. Prima caccia ciò che vedi. Sabbia profonda dopo" (superseded).
 
-### [OD-013] MBTI surface presentation — phased reveal vs accrual silenzioso vs full upfront ✅ RISOLTA Path A 2026-04-25 sera
+### [OD-013] MBTI surface presentation — phased reveal vs accrual silenzioso vs full upfront ✅ RISOLTA Path A+B 2026-04-26
 
 - **Livello**: game + system
-- **Stato**: **RISOLTA 2026-04-25 sera** — verdict user A+B (entrambi). **Path A shipped** branch `feat/d1a-mbti-phased-reveal`: `mbtiSurface.js` helper + `/vc` + `/pf` extension `mbti_revealed` + `debriefPanel` `#db-mbti-section` UI + 12/12 test. Threshold 0.7 default (env `MBTI_REVEAL_THRESHOLD` A/B). Path B (dialogue color codes) prossimo, residual P4 closure. Card M-009 reuse_path eseguito.
+- **Stato**: **RISOLTA 2026-04-26** — verdict user A+B entrambi shipped. **Path A** branch `feat/d1a-mbti-phased-reveal` (PR #1848 merged): `mbtiSurface.js` helper + `/vc` + `/pf` extension `mbti_revealed` + `debriefPanel` `#db-mbti-section` UI + 12/12 test. Threshold 0.7 default (env `MBTI_REVEAL_THRESHOLD` A/B). **Path B** branch `feat/d1b-mbti-dialogue-color-codes`: palette canonical 8 colori in `data/core/personality/mbti_axis_palette.yaml` (WCAG AA ≥5.02:1) + `mbtiPalette.js` (loader/lookup/tag/contrast helpers) + `dialogueRender.js` (DOM-free renderer reveal-gated compose Path A) + CSS axis classes con hover tooltip + print-safe + 26/26 test. P4 🟡 → 🟡++ (Path A+B both shipped; integration narrativeEngine + render.js pendente). Card M-009 reuse_path completato.
 - **Stato precedente**: proposta 2026-04-25 (museum card [M-2026-04-25-009 Triangle Strategy](docs/museum/cards/personality-triangle-strategy-transfer.md) trigger)
 - **Ambiguità**: P4 MBTI/Ennea attualmente 🟡. Triangle Strategy research doc propone 3 path per surface MBTI al player:
   - **Proposal A — Phased reveal** (Disco Elysium pacing): solo axis con `confidence_per_axis > 0.7` mostrato, reveal progressivo durante campaign

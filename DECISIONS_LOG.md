@@ -98,6 +98,7 @@
 | [ADR-2026-04-21 meta](docs/adr/ADR-2026-04-21-meta-progression-prisma.md)   | Meta progression Prisma persistence (Prompt B / L06 partial) | Accepted | `#progression` `#persistence` |
 | [ADR-2026-04-21b](docs/adr/ADR-2026-04-21b-onboarding-narrative-60s.md)     | Onboarding narrativo 60s (3 scelte identitarie pre-Act 0)    | Accepted | `#onboarding` `#narrative`    |
 | [ADR-2026-04-21c](docs/adr/ADR-2026-04-21c-trait-environmental-costs.md)    | Costo ambientale trait (pilot 4 trait × 3 biomi)             | Accepted | `#content` `#balance`         |
+| [ADR-2026-04-25](docs/adr/ADR-2026-04-25-skiv-as-monitor.md)                | Skiv-as-Monitor — creature canonica reagisce a git events    | Accepted | `#cross-cutting` `#skiv`      |
 
 ---
 
