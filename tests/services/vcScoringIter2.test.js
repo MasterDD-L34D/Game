@@ -184,24 +184,49 @@ test('iter2 axes: null raw metric → axis null', () => {
 // ---------------------------------------------------------------------------
 // buildVcSnapshot gating
 // ---------------------------------------------------------------------------
-test('buildVcSnapshot: default (no flag) uses iter1 axes', () => {
+test('buildVcSnapshot: default (no flag) uses iter2 axes (sprint 2026-04-26)', () => {
   delete process.env.VC_AXES_ITER;
   const session = {
     session_id: 's1',
     units: UNITS,
     events: [
-      ev('u1', 'attack', { target_id: 'u2', result: 'miss', position_from: { x: 0, y: 0 } }),
+      ev('u1', 'attack', { target_id: 'u2', result: 'miss' }),
+      ev('u1', 'ability', { target_id: 'u2' }),
     ],
     grid: { width: 6 },
   };
   const config = loadTelemetryConfig();
+  delete config.use_axes_iter2; // assicura defaults entrambi unset
   const snap = buildVcSnapshot(session, config);
-  // iter1 E_I formula uses close_engage + support_bias + time_to_commit.
-  // With single attack and no move, time_to_commit = 0, close_engage = 0 (no
-  // position_from + target_position_at_attack). iter1 E_I may be null or
-  // partial; iter2 would be derivable from the attack alone.
-  // Just assert snapshot returned a structure.
-  assert.ok(snap.per_actor.u1);
+  // iter2 default ON: E_I deriva da enemy_target_ratio (1.0 → value 0 → E pole).
+  const axes = snap.per_actor.u1.mbti_axes;
+  assert.ok(axes.E_I !== null, 'iter2 default → E_I derivabile da single attack');
+  assert.equal(axes.E_I.coverage, 'full');
+});
+
+test('buildVcSnapshot: env VC_AXES_ITER=1 forces iter1 (rollback knob)', () => {
+  process.env.VC_AXES_ITER = '1';
+  try {
+    const session = {
+      session_id: 's1',
+      units: UNITS,
+      events: [ev('u1', 'attack', { target_id: 'u2', result: 'miss' })],
+      grid: { width: 6 },
+    };
+    const config = loadTelemetryConfig();
+    delete config.use_axes_iter2;
+    const snap = buildVcSnapshot(session, config);
+    // iter1 vs iter2 differ on E_I per single-attack:
+    //   iter1 formula: 1 - 0.5*close_engage(0) - 0.25*support_bias(0)
+    //                  - 0.25*(1-time_to_commit(0)) = 0.75
+    //   iter2 formula: 1 - enemy_target_ratio(1.0) = 0 → E pole
+    // VC_AXES_ITER=1 force should produce iter1 value (~0.75), NOT iter2 (~0).
+    const ei = snap.per_actor.u1.mbti_axes.E_I;
+    assert.ok(ei !== null, 'iter1 E_I should be derivable');
+    assert.ok(ei.value > 0.45, `iter1 forced via env: E_I=${ei.value} should be ~0.75 not ~0`);
+  } finally {
+    delete process.env.VC_AXES_ITER;
+  }
 });
 
 test('buildVcSnapshot: config.use_axes_iter2=true enables iter2', () => {
@@ -224,7 +249,7 @@ test('buildVcSnapshot: config.use_axes_iter2=true enables iter2', () => {
   assert.ok(axes.S_N !== null);
 });
 
-test('buildVcSnapshot: env VC_AXES_ITER=2 enables iter2 (config unset)', () => {
+test('buildVcSnapshot: env VC_AXES_ITER=2 confirms iter2 (config unset)', () => {
   process.env.VC_AXES_ITER = '2';
   try {
     const session = {
@@ -233,7 +258,7 @@ test('buildVcSnapshot: env VC_AXES_ITER=2 enables iter2 (config unset)', () => {
       events: [ev('u1', 'attack', { target_id: 'u2', result: 'miss' })],
       grid: { width: 6 },
     };
-    // Pass a config WITHOUT use_axes_iter2 to exercise env fallback.
+    // Pass a config WITHOUT use_axes_iter2 to exercise env path.
     const config = loadTelemetryConfig();
     delete config.use_axes_iter2;
     const snap = buildVcSnapshot(session, config);
@@ -243,7 +268,23 @@ test('buildVcSnapshot: env VC_AXES_ITER=2 enables iter2 (config unset)', () => {
   }
 });
 
-test('buildVcSnapshot: config.use_axes_iter2=false overrides env ON', () => {
+test('buildVcSnapshot: config.use_axes_iter2=false overrides default iter2', () => {
+  delete process.env.VC_AXES_ITER;
+  const session = {
+    session_id: 's1',
+    units: UNITS,
+    events: [ev('u1', 'attack', { target_id: 'u2', result: 'miss' })],
+    grid: { width: 6 },
+  };
+  // Explicit false: caller can pin iter1 even if default is iter2.
+  const config = { ...loadTelemetryConfig(), use_axes_iter2: false };
+  const snap = buildVcSnapshot(session, config);
+  // iter1 single-attack → E_I ~0.75 (vedi test iter1 forced sopra).
+  const ei = snap.per_actor.u1.mbti_axes.E_I;
+  assert.ok(ei !== null && ei.value > 0.45, 'iter1 forced via config: E_I value > 0.45');
+});
+
+test('buildVcSnapshot: config.use_axes_iter2=false overrides env VC_AXES_ITER=2', () => {
   process.env.VC_AXES_ITER = '2';
   try {
     const session = {
@@ -252,16 +293,11 @@ test('buildVcSnapshot: config.use_axes_iter2=false overrides env ON', () => {
       events: [ev('u1', 'attack', { target_id: 'u2', result: 'miss' })],
       grid: { width: 6 },
     };
-    // Explicit false should respect caller over env.
     const config = { ...loadTelemetryConfig(), use_axes_iter2: false };
     const snap = buildVcSnapshot(session, config);
-    // With iter1 on 1 attack + no move, E_I should be null (requires
-    // close_engage + support_bias + time_to_commit chain).
     const ei = snap.per_actor.u1.mbti_axes.E_I;
-    // iter1 path — E_I may be partial/null depending on raw; just assert it's
-    // different from iter2 result (iter2 would be derivable from attack).
-    // Fallback: axes.E_I coverage 'partial' or null (iter1 needs more data).
-    assert.ok(ei === null || ei.coverage !== 'full' || ei.value !== 0);
+    // config esplicita ha priorità su env ON → iter1 path → E_I value ~0.75.
+    assert.ok(ei !== null && ei.value > 0.45, 'config false beats env=2: iter1 path');
   } finally {
     delete process.env.VC_AXES_ITER;
   }

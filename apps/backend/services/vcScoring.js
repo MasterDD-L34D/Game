@@ -586,6 +586,14 @@ function computeMbtiAxes(raw) {
  * VC Calibration iter1 (2026-04-17): dead-band 0.45-0.55 considerato
  * indeterminato per evitare false classification da rumore in sessioni corte.
  *
+ * Sprint 2026-04-26 (telemetria VC compromesso): dead-band stretto
+ * 0.45-0.55 per session lunghe (events_count >= 30); dead-band largo
+ * 0.35-0.65 per session brevi (events_count < 30) per ridurre false
+ * classification da pochi eventi rumorosi. La logica resta:
+ *   value < band_low  → lettera "lo"
+ *   value > band_high → lettera "hi"
+ *   altrimenti        → null (indeterminato, propaga al deriveMbtiType)
+ *
  * Returns null se (a) uno degli assi è null oppure (b) almeno un asse cade
  * in dead-band. Rationale: downstream mating logic usa
  * `partyMember.mbti_type || 'NEUTRA'` come fallback. Ritornare una stringa
@@ -594,10 +602,22 @@ function computeMbtiAxes(raw) {
  */
 const MBTI_DEAD_BAND_LOW = 0.45;
 const MBTI_DEAD_BAND_HIGH = 0.55;
+const MBTI_DEAD_BAND_LOW_SHORT = 0.35;
+const MBTI_DEAD_BAND_HIGH_SHORT = 0.65;
+const MBTI_SHORT_SESSION_EVENTS = 30;
 
-function letterOrUncertain(value, lo, hi) {
-  if (value < MBTI_DEAD_BAND_LOW) return lo;
-  if (value > MBTI_DEAD_BAND_HIGH) return hi;
+function resolveDeadBand(eventsCount) {
+  if (Number.isFinite(eventsCount) && eventsCount < MBTI_SHORT_SESSION_EVENTS) {
+    return { lo: MBTI_DEAD_BAND_LOW_SHORT, hi: MBTI_DEAD_BAND_HIGH_SHORT };
+  }
+  return { lo: MBTI_DEAD_BAND_LOW, hi: MBTI_DEAD_BAND_HIGH };
+}
+
+function letterOrUncertain(value, lo, hi, band = null) {
+  const lowT = band?.lo ?? MBTI_DEAD_BAND_LOW;
+  const highT = band?.hi ?? MBTI_DEAD_BAND_HIGH;
+  if (value < lowT) return lo;
+  if (value > highT) return hi;
   return null; // dead-band: indeterminato → propaga null
 }
 
@@ -651,7 +671,7 @@ function computeMbtiAxesIter2(raw) {
   return axes;
 }
 
-function deriveMbtiType(axes) {
+function deriveMbtiType(axes, opts = {}) {
   if (!axes) return null;
   const get = (axis) => (axis && axis.value !== undefined ? axis.value : null);
   const ei = get(axes.E_I);
@@ -659,11 +679,14 @@ function deriveMbtiType(axes) {
   const tf = get(axes.T_F);
   const jp = get(axes.J_P);
   if (ei === null || sn === null || tf === null || jp === null) return null;
+  // Sprint 2026-04-26: events_count gating. Short session → dead-band largo
+  // (0.35-0.65); long session → dead-band stretto (0.45-0.55).
+  const band = resolveDeadBand(opts.events_count);
   const letters = [
-    letterOrUncertain(ei, 'E', 'I'),
-    letterOrUncertain(sn, 'N', 'S'),
-    letterOrUncertain(tf, 'F', 'T'),
-    letterOrUncertain(jp, 'P', 'J'),
+    letterOrUncertain(ei, 'E', 'I', band),
+    letterOrUncertain(sn, 'N', 'S', band),
+    letterOrUncertain(tf, 'F', 'T', band),
+    letterOrUncertain(jp, 'P', 'J', band),
   ];
   if (letters.some((l) => l === null)) return null;
   return letters.join('');
@@ -823,15 +846,28 @@ function buildVcSnapshot(session, config) {
   const gridSize = session?.grid?.width || 6;
   const raw = computeRawMetrics(events, units, gridSize);
 
-  // P4 iter2 opt-in: env VC_AXES_ITER=2 o config.use_axes_iter2.
-  // Default = iter1 (backward compat). Config override ha priorità su env
-  // per permettere test isolati.
-  const iter2 =
-    config?.use_axes_iter2 === true ||
-    (config?.use_axes_iter2 === undefined && process.env.VC_AXES_ITER === '2');
+  // P4 iter2 opt-in (sprint 2026-04-26 telemetria VC compromesso, REVERTED 2026-04-27:
+  // iter2 default ON rompeva tutorial seed thought unlock — axes null in iter2
+  // quando events_count=0 mentre iter1 deriva da setup_ratio anche senza eventi).
+  // Default = iter1 (backward compat). Opt-in via env VC_AXES_ITER=2 o config.
+  let iter2;
+  if (config?.use_axes_iter2 === true) {
+    iter2 = true;
+  } else if (config?.use_axes_iter2 === false) {
+    iter2 = false;
+  } else if (process.env.VC_AXES_ITER === '1') {
+    iter2 = false;
+  } else if (process.env.VC_AXES_ITER === '2') {
+    iter2 = true;
+  } else {
+    iter2 = false; // default OFF (revert: tutorial seed thoughts compat)
+  }
   const axesFn = iter2 ? computeMbtiAxesIter2 : computeMbtiAxes;
 
   const perActor = {};
+  // Sprint 2026-04-26: pass events_count a deriveMbtiType per dead-band
+  // adattivo (short session < 30 eventi → 0.35/0.65, altrimenti 0.45/0.55).
+  const eventsCount = events.length;
   for (const [unitId, rawMetrics] of Object.entries(raw)) {
     const aggregate = computeAggregateIndices(rawMetrics, config);
     const mbti = axesFn(rawMetrics);
@@ -840,7 +876,7 @@ function buildVcSnapshot(session, config) {
       raw_metrics: rawMetrics,
       aggregate_indices: aggregate,
       mbti_axes: mbti,
-      mbti_type: deriveMbtiType(mbti),
+      mbti_type: deriveMbtiType(mbti, { events_count: eventsCount }),
       ennea_archetypes: ennea,
     };
   }
