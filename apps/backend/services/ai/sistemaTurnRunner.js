@@ -142,7 +142,7 @@ function createSistemaTurnRunner(deps) {
       if (policy.intent === 'attack') {
         const hpBefore = target.hp;
         const targetPositionAtAttack = { ...target.position };
-        const { result, evaluation, damageDealt, killOccurred, parry } = performAttack(
+        const { result, evaluation, damageDealt, killOccurred, parry, positional } = performAttack(
           session,
           actor,
           target,
@@ -156,6 +156,7 @@ function createSistemaTurnRunner(deps) {
           damageDealt,
           hpBefore,
           targetPositionAtAttack,
+          positional: positional || null,
         });
         event.actor_id = 'sistema';
         event.actor_species = actor.species;

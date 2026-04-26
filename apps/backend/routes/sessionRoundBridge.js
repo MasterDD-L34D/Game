@@ -362,6 +362,7 @@ function createRoundBridge(deps) {
       killOccurred: false,
       parry: null,
       terrainReaction: null,
+      positional: null,
     };
 
     const realResolveAction = (state, action, _catalog, _rng) => {
@@ -376,6 +377,7 @@ function createRoundBridge(deps) {
         capturedResults.parry = res.parry;
         capturedResults.intercept = res.intercept || null;
         capturedResults.terrainReaction = res.terrain_reaction || null;
+        capturedResults.positional = res.positional || null;
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
         // stesso target in questo round, +1 dmg al secondo/terzo attacco.
         // Fix flake (iter6): combo metadata esposta anche su hit con damage=0
@@ -488,6 +490,7 @@ function createRoundBridge(deps) {
         hpBefore,
         targetPositionAtAttack,
         terrainReaction: capturedResults.terrainReaction,
+        positional: capturedResults.positional,
       });
       if (capturedResults.parry) event.parry = capturedResults.parry;
       if (capturedResults.intercept) event.intercept = capturedResults.intercept;
@@ -901,6 +904,7 @@ function createRoundBridge(deps) {
             hpBefore,
             targetPositionAtAttack: targetPosAtk,
             terrainReaction: res.terrain_reaction || null,
+            positional: res.positional || null,
           });
           if (isSis) {
             event.actor_id = 'sistema';
@@ -1127,6 +1131,7 @@ function createRoundBridge(deps) {
             hpBefore,
             targetPositionAtAttack: targetPosAtk,
             terrainReaction: res.terrain_reaction || null,
+            positional: res.positional || null,
           });
           event.actor_id = 'sistema';
           event.actor_species = actor.species;

@@ -437,6 +437,10 @@ function createSessionRouter(options = {}) {
     let parryResult = null;
     let interceptResult = null;
     let terrainReactionResult = null;
+    // M14-A residuo close (TKT-09 2026-04-26): surface positional info
+    // (elevation_delta + multiplier) on performAttack return so callers can
+    // emit `elevation_multiplier` field for log/telemetry consumers.
+    let positionalInfo = null;
     if (result.hit) {
       const baseDamage = 1 + result.pt;
       // SPRINT_007 fase 1 (issue #4): bonus damage +1 quando l'attaccante
@@ -486,6 +490,13 @@ function createSessionRouter(options = {}) {
         baseDamage: Math.max(0, adjusted),
       });
       damageDealt = positional.damage;
+      positionalInfo = {
+        multiplier: Number(positional.multiplier) || 1,
+        elevation_delta: Number(positional.elevation_delta) || 0,
+        elevation_multiplier: (positional.parts && Number(positional.parts.elevation)) || 1,
+        flank_multiplier: (positional.parts && Number(positional.parts.flank)) || 1,
+        quadrant: positional.quadrant || 'front',
+      };
       if (perkBonus.applied.some((p) => p.tag === 'first_strike_bonus')) {
         actor._first_strike_used = true;
       }
@@ -669,6 +680,7 @@ function createSessionRouter(options = {}) {
       parry: parryResult,
       intercept: interceptResult,
       terrain_reaction: terrainReactionResult,
+      positional: positionalInfo,
     };
   }
 
@@ -750,6 +762,7 @@ function createSessionRouter(options = {}) {
     hpBefore,
     targetPositionAtAttack,
     terrainReaction,
+    positional,
   }) {
     const event = {
       ts: new Date().toISOString(),
@@ -779,6 +792,22 @@ function createSessionRouter(options = {}) {
     // M14-A: surface terrain reaction on attack event for round log + clients.
     if (terrainReaction && terrainReaction.new_state !== terrainReaction.prev_state) {
       event.terrain_reaction = terrainReaction;
+    }
+    // M14-A residuo (TKT-09 2026-04-26): surface elevation/positional multiplier
+    // su attack event SOLO se delta != 0 (rumor reduction — front+same-elev = 1.0
+    // dominante, log gets noisy se sempre presente). Telemetry consumers (Atlas
+    // live, calibration harness) si aspettano i campi solo quando rilevanti.
+    if (
+      positional &&
+      ((Number(positional.elevation_delta) || 0) !== 0 ||
+        (Number(positional.multiplier) || 1) !== 1)
+    ) {
+      event.elevation_multiplier = Number(positional.elevation_multiplier) || 1;
+      event.elevation_delta = Number(positional.elevation_delta) || 0;
+      event.positional_multiplier = Number(positional.multiplier) || 1;
+      if (positional.quadrant && positional.quadrant !== 'front') {
+        event.attack_quadrant = positional.quadrant;
+      }
     }
     return event;
   }

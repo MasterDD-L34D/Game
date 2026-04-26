@@ -251,6 +251,7 @@ function createAbilityExecutor(deps) {
       damageDealt: res.damageDealt,
       hpBefore,
       targetPositionAtAttack: targetPositionAtAttack,
+      positional: res.positional || null,
     });
     attackEvent.action_type = 'ability';
     attackEvent.ability_id = ability.ability_id;
@@ -332,6 +333,7 @@ function createAbilityExecutor(deps) {
       damageDealt: res.damageDealt,
       hpBefore,
       targetPositionAtAttack: targetPositionAtAttack,
+      positional: res.positional || null,
     });
     attackEvent.action_type = 'ability';
     attackEvent.ability_id = ability.ability_id;
@@ -595,6 +597,7 @@ function createAbilityExecutor(deps) {
         damageDealt: adjustedDamage,
         hpBefore,
         targetPositionAtAttack,
+        positional: res.positional || null,
       });
       event.action_type = 'ability';
       event.ability_id = ability.ability_id;
@@ -708,6 +711,7 @@ function createAbilityExecutor(deps) {
       damageDealt: res.damageDealt,
       hpBefore,
       targetPositionAtAttack,
+      positional: res.positional || null,
     });
     event.action_type = 'ability';
     event.ability_id = ability.ability_id;
@@ -890,6 +894,7 @@ function createAbilityExecutor(deps) {
       damageDealt: adjustedDamage,
       hpBefore,
       targetPositionAtAttack,
+      positional: res.positional || null,
     });
     event.action_type = 'ability';
     event.ability_id = ability.ability_id;
@@ -971,6 +976,7 @@ function createAbilityExecutor(deps) {
       damageDealt: res.damageDealt,
       hpBefore,
       targetPositionAtAttack,
+      positional: res.positional || null,
     });
     event.action_type = 'ability';
     event.ability_id = ability.ability_id;
@@ -1088,6 +1094,7 @@ function createAbilityExecutor(deps) {
       damageDealt: adjustedDamage,
       hpBefore,
       targetPositionAtAttack,
+      positional: res.positional || null,
     });
     event.action_type = 'ability';
     event.ability_id = ability.ability_id;
