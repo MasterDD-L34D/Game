@@ -127,3 +127,9 @@ Auth: JWT honored quando configurato. CORS-enabled.
 - **OPEN_DECISIONS.md OD-001 CORRECTION** (P0): mark current text as "based on incomplete audit", add note "engine LIVE per code review 2026-04-25, decisione product Path A/B/C pending"
 - **Skiv link weak**: questo card NON sblocca Skiv direct. Path A potrebbe abilitare "recruit ex-nemico nel debrief" come Skiv narrative beat (vagans seguendo vincente)
 - **Cross-card link**: M-2026-04-25-008 (Nido Itinerante D-CANVAS) ha details mai migrati che Path A potrebbe usare come content
+
+## 2026-04-25 update — mutation_catalog scope clarification
+
+- `mutation_catalog.yaml` (30 entries shipped 2026-04-25 sprint) **NOT wired to V3 mating** per design semantics. È un framework M14 unit-self post-encounter mutation, separato dal mating offspring genetics.
+- Path A faithful M14 implementation: `apps/backend/services/mutations/mutationCatalogLoader.js` + `apps/backend/routes/mutations.js` + plugin wire. 4 REST endpoint live (`/registry`, `/:id`, `/eligible`, `/apply`). PE/PI charging deferred a M13.P3 progression integration.
+- Effetto su questo card: il pool D2 mutation_catalog NON è un orfano dello stesso modo che lo è il mating engine — è un framework distinct, additive-only, con runtime entrypoint pulito. Card M-007 resta valido per `metaProgression.js` + `meta.js` (V3 mating engine), ma `mutation_catalog.yaml` esce dallo scope orphan.

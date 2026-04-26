@@ -152,6 +152,10 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 
 **Lesson**: CLAUDE.md narrative sprint context tende a fossilizzarsi — BACKLOG.md è single source of truth per stato ticket. Sync manuale post-merge PR importanti, o via skill `sprint-close`.
 
+**2026-04-25** (D2 Path A faithful pivot — M14 mutation framework foundation):
+
+- ✅ D2 mutation_catalog Path A — M14 framework loader + routes. `apps/backend/services/mutations/mutationCatalogLoader.js` + `apps/backend/routes/mutations.js` + plugin wire. 30 entries shipped, 4 endpoint REST (`/registry`, `/:id`, `/eligible`, `/apply`). +12 test (8 loader + 4 routes). PE/PI charging deferred a M13.P3 wire (display-only). Decoupled da V3 mating per design semantics — vedi card M-007.
+
 ## Ref
 
 - CLAUDE.md sezione "Sprint context" e "Pilastri" = dettagli completi stato

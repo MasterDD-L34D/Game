@@ -716,6 +716,7 @@ Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrat
 | §17 Screen Flow            | `17-SCREEN_FLOW.md` (mermaid)                             | ✅ Formalizzato                                                                                                                                                                                                                                |
 | §18 Audience/Accessibilità | —                                                         | 🟡 Proposte, attesa Master DD                                                                                                                                                                                                                  |
 | §19 Decisioni GDD          | 28 domande                                                | 12✅ 9🟡 7🔴                                                                                                                                                                                                                                   |
+| M14 Mutations (Path A)     | `mutationCatalogLoader.js` + `routes/mutations.js`        | 🟡 Foundation live (30 entries, 4 endpoint REST `/registry`, `/:id`, `/eligible`, `/apply`). PE/PI charging deferred a M13.P3 wire. Decoupled da V3 mating per design semantics 2026-04-25.                                                    |
 
 ---
 
