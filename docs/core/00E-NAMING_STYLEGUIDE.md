@@ -312,6 +312,40 @@ Vedi `docs/core/26-ECONOMY_CANONICAL.md` per glossario completo. Sintesi drift r
 - Code + YAML: `form` (EN lowercase) — `mbti_forms.yaml`, `form_seed_bias`
 - Plurale IT: `Forme` (title case quando riferito al sistema 16 Forms)
 
+### Stadio / Stage / stage
+
+Termine canonical Dimension 2 ("a che punto del ciclo di vita una creatura
+si trova"). Distinto da `Forma` (Dimension 1, MBTI temperament). Vedi
+`docs/planning/2026-04-27-forme-10-stadi-naming-spec.md` per spec completa.
+
+- Prose IT + title canonical: `Stadio` (10 stadi anatomici I-X)
+- Plurale IT: `Stadi`
+- Code + YAML: `stadio` (integer 1-10) + `stadio_roman` (`I`..`X` ASCII)
+- Player-facing label: `Stadio + roman + bullet + label` (es. `Stadio VI · Maturo`)
+- 16 MBTI Forms × 10 Stadi sono assi ortogonali — mai confondere
+
+**Mapping a 5 macro-fasi Skiv canonical (2:1 sub-divisione)**:
+
+| Macro-fase  | Stadi    | Stadi label IT canonical (tier generico) |
+| ----------- | -------- | ---------------------------------------- |
+| `hatchling` | I-II     | Schiuso, Cucciolo                        |
+| `juvenile`  | III-IV   | Giovane, Adolescente                     |
+| `mature`    | V-VI     | Adulto, Maturo                           |
+| `apex`      | VII-VIII | Veterano, Apice                          |
+| `legacy`    | IX-X     | Antico, Lascito                          |
+
+**Dual-layer label**:
+
+- `stadio_label_it` / `stadio_label_en` = tier generico cross-specie (es. `Maturo` / `Mature`)
+- `<species>_specific_label_it` / `<species>_specific_label_en` = override specie-specifico (es. `Predatore Maturo` / `Mature Stalker`)
+- Regola cascade: se species_specific_label assente → fallback tier generico.
+
+**ASCII-only canonical fields**: `stadio` integer + `stadio_roman` ASCII (no diacritici).
+Display label può contenere diacritici se servono.
+
+**Termini scartati** (vedi spec): `Fase` collide con round phase combat; `Età` non
+copre `legacy` post-mortem; `Forma` riservato MBTI.
+
 ### Trait / tratto
 
 - Code + schemas: `trait` (EN) — `trait_mechanics.yaml`, `active_effects.yaml`, `trait_T1/T2/T3`

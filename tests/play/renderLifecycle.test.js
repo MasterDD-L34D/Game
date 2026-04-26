@@ -196,3 +196,92 @@ describe('getAspectTokenOverlay — mutation morphology marker da YAML', () => {
     assert.deepEqual(upper, lower);
   });
 });
+
+// Stadio Phase A (2026-04-27) — 10-stadi I-X scaling refined.
+// Linear interp 0.55 (stadio 1) → 1.20 (stadio 10) over 9 steps.
+// Roman numeral badges I..X.
+describe('getStadioStyle — 10 stadi I-X refined scaling', () => {
+  test('stadio 1 → sizeMul 0.55 (smallest), badge I', async () => {
+    const { getStadioStyle } = await loadRender();
+    const s = getStadioStyle(1);
+    assert.equal(s.sizeMul, 0.55);
+    assert.equal(s.badge, 'I');
+    assert.ok(s.tint && typeof s.tint === 'string');
+  });
+
+  test('stadio 10 → sizeMul 1.20 (largest), badge X', async () => {
+    const { getStadioStyle } = await loadRender();
+    const s = getStadioStyle(10);
+    assert.equal(s.sizeMul, 1.2);
+    assert.equal(s.badge, 'X');
+  });
+
+  test('stadio 5 → sizeMul ~0.838 (mature early), badge V', async () => {
+    const { getStadioStyle } = await loadRender();
+    const s = getStadioStyle(5);
+    assert.ok(Math.abs(s.sizeMul - 0.838) < 0.01, `expected ~0.838, got ${s.sizeMul}`);
+    assert.equal(s.badge, 'V');
+  });
+
+  test('size scaling è strettamente crescente da stadio 1 a 10', async () => {
+    const { getStadioStyle } = await loadRender();
+    const sizes = Array.from({ length: 10 }, (_, i) => getStadioStyle(i + 1).sizeMul);
+    for (let i = 1; i < sizes.length; i += 1) {
+      assert.ok(
+        sizes[i] > sizes[i - 1],
+        `stadio ${i + 1} (${sizes[i]}) deve essere > stadio ${i} (${sizes[i - 1]})`,
+      );
+    }
+  });
+
+  test('roman numerals coprono I..X', async () => {
+    const { getStadioStyle } = await loadRender();
+    const expected = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+    for (let i = 1; i <= 10; i += 1) {
+      assert.equal(getStadioStyle(i).badge, expected[i - 1]);
+    }
+  });
+
+  test('out-of-range stadio → default (sizeMul 1.0, no badge)', async () => {
+    const { getStadioStyle } = await loadRender();
+    assert.equal(getStadioStyle(0).sizeMul, 1.0);
+    assert.equal(getStadioStyle(0).badge, null);
+    assert.equal(getStadioStyle(11).badge, null);
+    assert.equal(getStadioStyle(-1).badge, null);
+    assert.equal(getStadioStyle(2.5).badge, null, 'fractional rejected');
+    assert.equal(getStadioStyle('5').badge, null, 'string rejected');
+    assert.equal(getStadioStyle(null).badge, null);
+    assert.equal(getStadioStyle(undefined).badge, null);
+  });
+});
+
+describe('resolveUnitVisualStyle — backward-compat fallback chain', () => {
+  test('unit.stadio (1-10) takes precedence over lifecycle_phase', async () => {
+    const { resolveUnitVisualStyle } = await loadRender();
+    const s = resolveUnitVisualStyle({ stadio: 8, lifecycle_phase: 'hatchling' });
+    // Stadio 8 should win; sizeMul ~ 1.06, NOT hatchling 0.6.
+    assert.ok(s.sizeMul > 1.0, `stadio 8 sizeMul (${s.sizeMul}) deve essere > 1.0`);
+    assert.equal(s.badge, 'VIII');
+  });
+
+  test('unit without stadio falls back to lifecycle_phase 5-fasi mapping', async () => {
+    const { resolveUnitVisualStyle } = await loadRender();
+    const s = resolveUnitVisualStyle({ lifecycle_phase: 'mature' });
+    assert.equal(s.sizeMul, 1.0);
+    assert.equal(s.badge, 'MTR');
+  });
+
+  test('unit without any phase data → safe default', async () => {
+    const { resolveUnitVisualStyle } = await loadRender();
+    const s = resolveUnitVisualStyle({});
+    assert.equal(s.sizeMul, 1.0);
+    assert.equal(s.badge, null);
+  });
+
+  test('null unit → safe default (no crash)', async () => {
+    const { resolveUnitVisualStyle } = await loadRender();
+    const s = resolveUnitVisualStyle(null);
+    assert.equal(s.sizeMul, 1.0);
+    assert.equal(s.badge, null);
+  });
+});

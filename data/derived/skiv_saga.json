@@ -68,6 +68,12 @@
   ],
   "aspect": {
     "lifecycle_phase": "mature",
+    "current_stadio": 5,
+    "current_stadio_roman": "V",
+    "stadio_label_it": "Adulto",
+    "stadio_label_en": "Adult",
+    "dune_stalker_specific_label_it": "Predatore Adulto",
+    "dune_stalker_specific_label_en": "Adult Stalker",
     "polarity_stable": true,
     "mbti_form_label": "INTP-leaning-I",
     "aspect_it": "Forma adulta consolidata. Gli artigli a sette vie si vetrificano\n(mutation artigli_grip_to_glass) → punte trasparenti come ossidiana\nche riflettono il sole. Le orecchie hanno scolpito conche per\nl'echolocation, visibili come solchi. Il pelo lungo il dorso si è\ncondensato in una cresta scura. Lo sguardo è fisso, leggero\nsocchiudere — primo segno di voce interna. Il branco lo riconosce\ncome predatore-stalker, non più cucciolo.",

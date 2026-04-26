@@ -174,6 +174,59 @@ export function getLifecyclePhaseStyle(phase) {
   return LIFECYCLE_PHASE_STYLE[phase.toLowerCase()] || LIFECYCLE_DEFAULT_STYLE;
 }
 
+// Stadio Phase A (2026-04-27) — 10-stadi sub-divisione (I-X) refined scaling.
+// Linear interpolation 0.55 → 1.20 over 10 stadi, badge = roman numeral.
+// Backward-compat: se `stadio` mancante / fuori range, fallback a
+// getLifecyclePhaseStyle(lifecycle_phase). Vedi docs/planning/2026-04-27-forme-10-stadi-naming-spec.md
+// + data/core/species/dune_stalker_lifecycle.yaml § stadi.
+const STADIO_ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+// Tint progressivi mappati 2:1 sui 5 macro-fasi (early/late dello stesso macro condividono tint base).
+const STADIO_TINT = [
+  '#bdbdbd', // I  (hatchling early)
+  '#bdbdbd', // II (hatchling late) — same tint, sizeMul differenzia
+  '#d9a45b', // III (juvenile early)
+  '#d9a45b', // IV  (juvenile late)
+  '#7e57c2', // V  (mature early)
+  '#7e57c2', // VI (mature late)
+  '#1565c0', // VII (apex early)
+  '#1565c0', // VIII (apex late)
+  '#9e9e9e', // IX (legacy early)
+  '#9e9e9e', // X  (legacy late)
+];
+
+/**
+ * Returns size multiplier + tint + roman badge per a given stadio integer 1-10.
+ * Linear interpolation: stadio 1 = 0.55, stadio 10 = 1.20 (delta 0.65 / 9 steps ≈ 0.0722).
+ * Returns LIFECYCLE_DEFAULT_STYLE if stadio invalid (missing / non-int / out of 1-10 range).
+ *
+ * @param {number} stadio integer 1..10
+ * @returns {{sizeMul: number, tint: string|null, badge: string|null}}
+ */
+export function getStadioStyle(stadio) {
+  if (!Number.isInteger(stadio) || stadio < 1 || stadio > 10) {
+    return LIFECYCLE_DEFAULT_STYLE;
+  }
+  const sizeMul = 0.55 + (stadio - 1) * (0.65 / 9);
+  return {
+    sizeMul: Math.round(sizeMul * 1000) / 1000,
+    tint: STADIO_TINT[stadio - 1],
+    badge: STADIO_ROMAN[stadio - 1],
+  };
+}
+
+/**
+ * Resolve unit visual style with backward-compat. Prefer `unit.stadio` (1-10
+ * Phase A schema). Fallback `unit.lifecycle_phase` (5-fasi legacy) if stadio
+ * missing. Both missing → default safe style.
+ */
+export function resolveUnitVisualStyle(unit) {
+  if (!unit) return LIFECYCLE_DEFAULT_STYLE;
+  if (Number.isInteger(unit.stadio)) {
+    return getStadioStyle(unit.stadio);
+  }
+  return getLifecyclePhaseStyle(unit.lifecycle_phase);
+}
+
 // QW4 — Aspect token visual overlay. Token = mutation morphology marker
 // (claws_glass, claws_glacial, scales_chameleon, ears_radar). Reso come
 // piccolo glifo in alto-sinistra del corpo unit. Multi-creature: qualsiasi
@@ -375,7 +428,10 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
   // scaling + tint + badge (token sconosciuto / phase mancante = fallback safe).
   const jobKey = (unit.job || unit.class || '').toString().toLowerCase();
   const isBoss = jobKey === 'boss' || unit.is_boss === true;
-  const lifecycleStyle = getLifecyclePhaseStyle(unit.lifecycle_phase);
+  // Stadio Phase A: prefer unit.stadio (1-10) for refined size scaling, fallback
+  // to unit.lifecycle_phase (5-fasi legacy). Backward-compat granted by
+  // resolveUnitVisualStyle helper.
+  const lifecycleStyle = resolveUnitVisualStyle(unit);
   const sizeMul = (isBoss ? 1.5 : 1) * lifecycleStyle.sizeMul;
   const jobColor = JOB_COLORS[jobKey] || null;
   // Outer job ring
