@@ -46,6 +46,7 @@ const {
   traitMechanicsSchema,
   glossarySchema,
   narrativeSchema,
+  skivCompanionSchema,
 } = require('@game/contracts');
 const qualitySuggestionSchema = require('../../schemas/quality/suggestion.schema.json');
 const qualitySuggestionApplySchema = require('../../schemas/quality/suggestions-apply-request.schema.json');
@@ -354,6 +355,11 @@ function createApp(options = {}) {
   schemaValidator.registerSchema(
     speciesBiomesSchema.$id || 'contract://atlas/species-biomes',
     speciesBiomesSchema,
+  );
+  // S1 polish Phase 1 — Skiv portable companion (ADR-2026-04-27).
+  schemaValidator.registerSchema(
+    skivCompanionSchema.$id || 'contract://skiv/companion',
+    skivCompanionSchema,
   );
 
   function validateWithSchema(payload, schemaId) {
