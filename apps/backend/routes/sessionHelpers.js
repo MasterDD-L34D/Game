@@ -264,6 +264,29 @@ function timestampStamp(date) {
     .replace('T', '_');
 }
 
+// OD-001 Path A Sprint A — Nido unlock gating helper.
+//
+// Checks whether the Nido hub should be exposed to clients (and visible in the
+// HUD header). Sblocco diegetic via narrative arc:
+//   - `state.meta.nido_unlocked === true` (set by narrative engine, Wave 9+)
+//   - OR `state.meta.biome_arc_completed === true` AND
+//        `state.meta.missions_in_biome_count >= 3`
+//   - OR env override `NIDO_UNLOCKED=true` (dev/test bypass)
+//
+// Returns boolean. Pure (no side effects).
+//
+// NOTE: Sprint A non wire ancora trigger reale al narrative engine. Il check
+// supporta sia dev-mode (env flag) che signal narrative future.
+function checkNidoUnlock(session) {
+  if (process.env.NIDO_UNLOCKED === 'true') return true;
+  const meta = (session && session.meta) || {};
+  if (meta.nido_unlocked === true) return true;
+  const biomeArcDone = meta.biome_arc_completed === true;
+  const missionsCount = Number(meta.missions_in_biome_count) || 0;
+  if (biomeArcDone && missionsCount >= 3) return true;
+  return false;
+}
+
 function publicSessionView(session) {
   // A2: expose PP/SG/surge_ready per unit for UI consumption.
   // V5 (ADR-2026-04-26): `sg` è ora pool integer 0..3 (Seed of Growth),
@@ -332,6 +355,8 @@ function publicSessionView(session) {
       session.biome_modifiers && typeof session.biome_modifiers === 'object'
         ? session.biome_modifiers
         : { diff_base: 1.0, hp_mult: 1.0, pressure_mult: 0, pressure_initial_bonus: 0 },
+    // OD-001 Path A Sprint A — Nido unlock flag for HUD btn visibility.
+    nido_unlocked: checkNidoUnlock(session),
   };
 }
 
@@ -617,4 +642,5 @@ module.exports = {
   SISTEMA_PRESSURE_TIERS,
   PRESSURE_DELTAS,
   buildSynergyPreview,
+  checkNidoUnlock,
 };

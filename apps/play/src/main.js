@@ -25,6 +25,7 @@ import { initFormsPanel, openFormsPanel } from './formsPanel.js';
 import { initThoughtsPanel, openThoughtsPanel } from './thoughtsPanel.js';
 import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
 import { initSkivPanel, openSkivPanel } from './skivPanel.js';
+import { initNestHub, openNestHub } from './nestHub.js';
 
 const state = {
   sid: null,
@@ -854,6 +855,9 @@ async function refresh() {
       if (!sel || sel.hp <= 0) state.selected = null;
     }
     redraw();
+    // OD-001 Path A Sprint A — toggle Nido btn visibility quando state.world.nido_unlocked.
+    // Hidden by default (display:none in index.html); inline override via JS.
+    updateNestButtonVisibility(state.world?.nido_unlocked === true);
     // M11 Phase B — if host of a lobby, broadcast world snapshot to players.
     // Players render it as read-only spectator state. Payload kept small:
     // only fields players need to understand the board.
@@ -1781,3 +1785,25 @@ window.__evo = {
 // Skiv-as-Monitor — overlay panel + header btn 🦎 Skiv (Phase 2 wire 2026-04-25).
 // Indipendente da session/campaign — feed creatura da git events sempre disponibile.
 initSkivPanel();
+
+// OD-001 Path A Sprint A — Nest Hub overlay + header btn 🏠 Nido.
+// Visibility gated by state.world.nido_unlocked (toggled in refresh()).
+function updateNestButtonVisibility(unlocked) {
+  const btn = document.getElementById('nest-open');
+  if (!btn) return;
+  btn.style.display = unlocked ? '' : 'none';
+}
+initNestHub({
+  getPartyMember: () => {
+    if (!state.world || !state.selected) return null;
+    const u = getUnits(state.world).find((u) => u.id === state.selected);
+    if (!u) return null;
+    return {
+      mbti_type: u.mbti_type || 'NEUTRA',
+      trait_ids: Array.isArray(u.trait_ids) ? u.trait_ids : [],
+    };
+  },
+  openCodex: () => toggleCodex(),
+});
+window.__evo = window.__evo || {};
+window.__evo.openNestHub = openNestHub;
