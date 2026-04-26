@@ -4,7 +4,20 @@
 
 'use strict';
 
-const PHASES = ['lobby', 'character_creation', 'world_setup', 'combat', 'debrief', 'ended'];
+// V1 flow: lobby → character_creation → world_setup → combat → debrief → ended
+// V2 flow: lobby → imprint → combat → debrief → ended (CAP-15, audit Impronta v2)
+const PHASES = [
+  'lobby',
+  'character_creation',
+  'world_setup',
+  'imprint', // CAP-15: fonde character_creation + world_setup in unica fase
+  'combat',
+  'debrief',
+  'ended',
+];
+
+// Schema body parts axes per V2 (validation upstream usa biomeResolver VALID_*)
+const IMPRINT_AXES = ['locomotion', 'offense', 'defense', 'senses'];
 
 /**
  * Build a unit payload for /session/start from a coop character spec.
@@ -36,10 +49,14 @@ class CoopOrchestrator {
     this.hostId = hostId || null;
     this.now = now;
     this.phase = 'lobby';
-    this.run = null; // populated by startRun()
-    this.characters = new Map(); // player_id → character spec
-    this.worldVotes = new Map(); // player_id → scenario_id|null
+    this.run = null; // populated by startRun() / startImprint()
+    this.characters = new Map(); // player_id → character spec (V1)
+    this.worldVotes = new Map(); // player_id → scenario_id|null (V1)
     this.debriefChoices = new Map();
+    // CAP-15 (V2 flow): imprintChoices map player_id → { axis, value }
+    // axis ∈ IMPRINT_AXES, value validato upstream con biomeResolver VALID_*
+    this.imprintChoices = new Map();
+    this.imprintBiome = null; // populated quando 4 scelte fatte
     this.log = [];
     this._listeners = new Set();
   }
@@ -163,6 +180,129 @@ class CoopOrchestrator {
     this._emit('world_confirmed', { scenario_id: sid });
     this._setPhase('combat');
     return { scenario_id: sid };
+  }
+
+  // ─── CAP-15 — L'Impronta v2 phase: lobby → imprint → combat ───────
+  //
+  // V2 flow fonde character_creation + world_setup in singola fase 'imprint'.
+  // 4 player parallel choice su body parts (1 axis ciascuno):
+  //   p1=locomotion, p2=offense, p3=defense, p4=senses.
+  // Auto-advance a 'combat' quando 4 scelte fatte. Bioma resolution via
+  // biomeResolver (CAP-11) — applicata tramite getImprintBiomeResolution().
+
+  /**
+   * V2: Start a new run in imprint mode (CAP-15).
+   * Moves phase lobby/ended → imprint.
+   */
+  startImprint({ scenarioStack = ['enc_tutorial_01'] } = {}) {
+    if (this.phase !== 'lobby' && this.phase !== 'ended') {
+      throw new Error(`cannot_start_from_phase:${this.phase}`);
+    }
+    this.run = {
+      id: `run_${Date.now().toString(36)}`,
+      scenarioStack: Array.isArray(scenarioStack) ? scenarioStack : ['enc_tutorial_01'],
+      currentIndex: 0,
+      partyXp: 0,
+      partyPi: 0,
+      outcome: null,
+      mode: 'imprint_v2', // marker per consumers
+    };
+    this.characters.clear();
+    this.worldVotes.clear();
+    this.imprintChoices.clear();
+    this.imprintBiome = null;
+    this.debriefChoices.clear();
+    this._setPhase('imprint');
+    this._emit('run_started', { run_id: this.run.id, mode: 'imprint_v2' });
+    return this.run;
+  }
+
+  /**
+   * V2: submit imprint choice (body part axis) per player.
+   * Quando 4 player hanno tutti scelto, auto-advance a 'combat'.
+   *
+   * @param playerId
+   * @param choice — { axis: 'locomotion'|'offense'|'defense'|'senses', value: string }
+   * @param opts.allPlayerIds — set di player ids attesi (solitamente 4)
+   */
+  submitImprintChoice(playerId, choice, { allPlayerIds = [] } = {}) {
+    if (this.phase !== 'imprint') {
+      throw new Error('not_in_imprint');
+    }
+    if (!playerId) throw new Error('player_id_required');
+    if (!choice || typeof choice !== 'object') throw new Error('choice_invalid');
+    const axis = String(choice.axis || '').toLowerCase();
+    const value = String(choice.value || '').toUpperCase();
+    if (!IMPRINT_AXES.includes(axis)) {
+      throw new Error(`invalid_axis:${choice.axis}. Allowed: ${IMPRINT_AXES.join('|')}`);
+    }
+    if (!value) throw new Error('value_required');
+    // F-3-style: reject ghost client (player not in expected set)
+    if (allPlayerIds.length > 0 && !allPlayerIds.includes(playerId)) {
+      throw new Error('player_not_in_room');
+    }
+    const normalized = {
+      player_id: playerId,
+      axis,
+      value,
+      submitted_at: this.now(),
+    };
+    this.imprintChoices.set(playerId, normalized);
+    this._emit('imprint_choice', normalized);
+
+    // Auto-advance se tutti i player attesi hanno scelto
+    const expected = new Set(allPlayerIds.filter(Boolean));
+    if (expected.size > 0 && expected.size === this.imprintChoices.size) {
+      const allReady = Array.from(expected).every((pid) => this.imprintChoices.has(pid));
+      if (allReady) {
+        // Validate axes coverage: ogni axis dovrebbe essere stato scelto da un player
+        const axesSelected = new Set(Array.from(this.imprintChoices.values()).map((c) => c.axis));
+        const allAxesCovered = IMPRINT_AXES.every((a) => axesSelected.has(a));
+        if (allAxesCovered) {
+          this._setPhase('combat');
+          this._emit('imprint_complete', {
+            choices: this.getImprintChoicesAggregate(),
+          });
+        } else {
+          // Edge case: 4 player ma assi duplicati / mancanti — emit warning, no advance
+          this._emit('imprint_axes_incomplete', {
+            covered: [...axesSelected],
+            missing: IMPRINT_AXES.filter((a) => !axesSelected.has(a)),
+          });
+        }
+      }
+    }
+    return normalized;
+  }
+
+  /**
+   * V2: ready-state per imprint phase. Format analogo a characterReadyList.
+   */
+  imprintReadyList(allPlayerIds = []) {
+    return allPlayerIds.map((pid) => {
+      const c = this.imprintChoices.get(pid);
+      return {
+        player_id: pid,
+        axis: c?.axis || null,
+        value: c?.value || null,
+        ready: Boolean(c),
+      };
+    });
+  }
+
+  /**
+   * V2: aggregate choices come oggetto { locomotion, offense, defense, senses }.
+   * Usabile come input a biomeResolver.resolveBiome(aggregated).
+   * Ritorna null se 4 axes non ancora coperti.
+   */
+  getImprintChoicesAggregate() {
+    if (this.imprintChoices.size === 0) return null;
+    const aggregate = {};
+    for (const c of this.imprintChoices.values()) {
+      aggregate[c.axis] = c.value;
+    }
+    const allCovered = IMPRINT_AXES.every((a) => aggregate[a]);
+    return allCovered ? aggregate : null;
   }
 
   /**
@@ -307,4 +447,4 @@ class CoopOrchestrator {
   }
 }
 
-module.exports = { CoopOrchestrator, characterToUnit, PHASES };
+module.exports = { CoopOrchestrator, characterToUnit, PHASES, IMPRINT_AXES };

@@ -9,11 +9,16 @@ const {
   PHASES,
 } = require('../../apps/backend/services/coop/coopOrchestrator');
 
-test('PHASES covers lobby→character_creation→world_setup→combat→debrief→ended', () => {
+test('PHASES covers V1 (lobby→character_creation→world_setup→combat→debrief→ended) + V2 imprint (CAP-15)', () => {
+  // V1 phases canonical (M16) + V2 'imprint' phase added by CAP-15.
+  // Ordering: V1 stati prima, poi 'imprint' inserito tra world_setup e combat.
+  // V1 flow: lobby → character_creation → world_setup → combat → debrief → ended
+  // V2 flow: lobby → imprint → combat → debrief → ended (CAP-15)
   assert.deepEqual(PHASES, [
     'lobby',
     'character_creation',
     'world_setup',
+    'imprint',
     'combat',
     'debrief',
     'ended',
