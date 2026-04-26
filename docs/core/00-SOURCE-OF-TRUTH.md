@@ -639,6 +639,8 @@ Implementato in `apps/backend/services/statusEffectsMachine.js` come FSM xstate 
 
 **Endpoint**: `GET /api/session/:id/pf` → proiezione personalità con tipo MBTI, assi e archetipi Ennea per ogni attore.
 
+**MBTI surface phased reveal** (OD-013 Path A, 2026-04-25 sera, branch `feat/d1a-mbti-phased-reveal`): `apps/backend/services/mbtiSurface.js` helper espone `mbti_revealed` per_actor su `/vc` + `/pf` (additive, lazy-import). Pattern Disco Elysium pacing: solo assi con confidence ≥ 0.7 (default, override env `MBTI_REVEAL_THRESHOLD`) mostrati al player; assi sotto soglia o in dead-band restano hint diegetici ("Sei socievole o solitario? Ancora non lo sai."). Confidence derivata da coverage (full=1.0/partial=0.6) × decisiveness (|value-0.5|×2). Frontend `apps/play/src/debriefPanel.js` sezione `#db-mbti-section` (4 axis card + hidden hints + confidence bar). 12/12 unit test in `tests/services/mbtiSurface.test.js`. P4 🟢 candidato → 🟢 verificable (UI surface live, playtest pending).
+
 ### 13.5 AI SIS — il Sistema come avversario
 
 **Policy engine** (`services/ai/policy.js`): funzione pura `selectAiPolicy(actor, target)` → regola + intento.

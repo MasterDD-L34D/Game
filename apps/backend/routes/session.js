@@ -2065,6 +2065,19 @@ function createSessionRouter(options = {}) {
       const { error, session } = resolveSession(req.params.id);
       if (error) return res.status(error.status).json(error.body);
       const snapshot = buildVcSnapshot(session, telemetryConfig);
+      // OD-013 Path A: additive `mbti_revealed` per-actor (Disco Elysium pacing).
+      // Lazy-import + try/catch non-blocking: se fallisce snapshot resta intatto.
+      try {
+        const { buildMbtiRevealedMap } = require('../services/mbtiSurface');
+        const revealedMap = buildMbtiRevealedMap(snapshot);
+        if (snapshot && snapshot.per_actor) {
+          for (const [uid, entry] of Object.entries(snapshot.per_actor)) {
+            if (revealedMap[uid]) entry.mbti_revealed = revealedMap[uid];
+          }
+        }
+      } catch {
+        /* ignore: shape resta legacy */
+      }
       res.json(snapshot);
     } catch (err) {
       next(err);
@@ -2088,7 +2101,17 @@ function createSessionRouter(options = {}) {
       for (const [unitId, actorVc] of Object.entries(snapshot.per_actor || {})) {
         pfResult[unitId] = computePfSession(actorVc, formsData);
       }
-      res.json({ session_id: session.session_id, pf_session: pfResult });
+      // OD-013 Path A: piggyback mbti_revealed nel PF response (additive).
+      let mbtiRevealed = null;
+      try {
+        const { buildMbtiRevealedMap } = require('../services/mbtiSurface');
+        mbtiRevealed = buildMbtiRevealedMap(snapshot);
+      } catch {
+        mbtiRevealed = null;
+      }
+      const payload = { session_id: session.session_id, pf_session: pfResult };
+      if (mbtiRevealed) payload.mbti_revealed = mbtiRevealed;
+      res.json(payload);
     } catch (err) {
       next(err);
     }

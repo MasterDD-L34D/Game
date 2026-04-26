@@ -306,3 +306,91 @@
   overflow-x: auto;
   margin: 0;
 }
+
+/* OD-013 Path A — MBTI phased reveal section */
+.db-mbti-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.db-mbti-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #1e2433 0%, #131722 100%);
+  border: 1px solid #3a4060;
+  border-radius: 10px;
+}
+.db-mbti-letter {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #b9d1ff;
+  min-width: 32px;
+  text-align: center;
+}
+.db-mbti-meta {
+  flex: 1;
+  min-width: 0;
+}
+.db-mbti-axis {
+  font-size: 0.72rem;
+  color: #8893b0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.db-mbti-label {
+  font-size: 0.92rem;
+  color: #e8eaf0;
+  font-weight: 600;
+}
+.db-mbti-bar {
+  height: 4px;
+  background: #2a3045;
+  border-radius: 2px;
+  margin: 4px 0 2px;
+  overflow: hidden;
+}
+.db-mbti-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #66bb6a, #aed581);
+  transition: width 0.3s ease;
+}
+.db-mbti-conf {
+  font-size: 0.7rem;
+  color: #8893b0;
+}
+.db-mbti-hidden {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.db-mbti-hidden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #11151f;
+  border: 1px dashed #2f3550;
+  border-radius: 8px;
+  color: #6b7390;
+  font-size: 0.82rem;
+  font-style: italic;
+}
+.db-mbti-q {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #4a5078;
+  min-width: 20px;
+  text-align: center;
+}
+.db-mbti-axis-name {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.7rem;
+  color: #8893b0;
+}
+.db-mbti-hint {
+  flex: 1;
+}
