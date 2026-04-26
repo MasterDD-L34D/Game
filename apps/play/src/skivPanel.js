@@ -130,6 +130,23 @@ function injectStyles() {
       font-weight: bold; margin-bottom: 6px; font-size: 0.78rem;
       letter-spacing: 0.05em; text-transform: uppercase;
     }
+    /* Responsive: phone/tablet adjust card width + sprite + bar overflow. */
+    @media (max-width: 720px) {
+      .skiv-card-wrap { padding: 14px 12px; max-width: 100vw; }
+      .skiv-head h2 { font-size: 1.05rem; }
+      .skiv-head .skiv-status-chip { font-size: 0.72rem; padding: 3px 8px; }
+      .skiv-sprite-frame img { max-width: 220px; }
+      .skiv-ascii-card { font-size: 0.62rem; padding: 8px 10px; }
+      .skiv-phase-cell { min-width: 60px; font-size: 0.65rem; padding: 5px 4px; }
+      .skiv-feed-entry { font-size: 0.78rem; padding: 6px 8px; }
+      .skiv-digest-box { font-size: 0.85rem; padding: 10px; }
+      .skiv-next-gate { font-size: 0.78rem; }
+    }
+    @media (max-width: 420px) {
+      .skiv-lifecycle-bar { gap: 2px; padding: 6px; }
+      .skiv-phase-cell { min-width: 48px; font-size: 0.58rem; }
+      .skiv-ascii-card { font-size: 0.55rem; }
+    }
   `;
   document.head.appendChild(style);
 }
@@ -148,7 +165,10 @@ function buildOverlay() {
         <button class="skiv-close-btn" id="skiv-close" aria-label="Chiudi">✕</button>
       </div>
       <div class="skiv-sprite-frame" id="skiv-sprite-frame">
-        <img id="skiv-sprite-img" src="/skiv/mature.svg" alt="Skiv sprite" />
+        <picture id="skiv-sprite-picture">
+          <source id="skiv-sprite-source-raster" type="image/png" srcset="/skiv/raster/mature.png" />
+          <img id="skiv-sprite-img" src="/skiv/mature.svg" alt="Skiv sprite" />
+        </picture>
         <div class="skiv-sprite-caption" id="skiv-sprite-caption">Predatore Maturo</div>
       </div>
       <pre class="skiv-ascii-card" id="skiv-card">${FALLBACK_CARD}</pre>
@@ -182,6 +202,7 @@ function buildOverlay() {
   STATE.digestTextEl = overlay.querySelector('#skiv-digest-text');
   STATE.spriteImgEl = overlay.querySelector('#skiv-sprite-img');
   STATE.spriteCaptionEl = overlay.querySelector('#skiv-sprite-caption');
+  STATE.spriteSourceEl = overlay.querySelector('#skiv-sprite-source-raster');
   overlay.querySelector('#skiv-close').addEventListener('click', closeSkivPanel);
   overlay.addEventListener('click', (ev) => {
     if (ev.target === overlay) closeSkivPanel();
@@ -236,7 +257,14 @@ function renderSprite(state) {
   const phaseId = lc.phase_id || 'mature';
   const validPhases = ['hatchling', 'juvenile', 'mature', 'apex', 'legacy'];
   const sprite = validPhases.includes(phaseId) ? phaseId : 'mature';
-  STATE.spriteImgEl.src = `/skiv/${sprite}.svg?_=${Date.now()}`;
+  const ts = Date.now();
+  // <picture> raster source preferred, SVG fallback (browser auto-selects).
+  const rasterSrc = `/skiv/raster/${sprite}.png?_=${ts}`;
+  const svgSrc = `/skiv/${sprite}.svg?_=${ts}`;
+  if (STATE.spriteSourceEl) {
+    STATE.spriteSourceEl.srcset = rasterSrc;
+  }
+  STATE.spriteImgEl.src = svgSrc;
   STATE.spriteImgEl.alt = `Skiv ${lc.phase_label_it || sprite}`;
   if (STATE.spriteCaptionEl) {
     STATE.spriteCaptionEl.textContent = lc.phase_label_it || 'Predatore Maturo';
