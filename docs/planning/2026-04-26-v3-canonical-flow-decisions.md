@@ -219,6 +219,51 @@ Ordine consigliato (bias: low-effort high-impact first, dependencies resolved):
 - Lore mutagen prima di Leviatano perché Leviatano è l'incarnazione del mutagen (presumibilmente). Ordine narrativo.
 - Boss Leviatano alla fine perché 75-90h è impegno grosso che richiede tutti i precedenti chiusi.
 
+## 6.1 Master-DD decisions captured 2026-04-26 sera (post-survey)
+
+User ha risposto a 15 design call survey 2026-04-26 sera (post-Nido sprint shipping). Decisioni below superano i defaults proposti dove diverso. **Status: A3 sintesi → promotable a SoT v6**.
+
+### A. Forme naming
+
+- **A1** ✅ **10 stadi (I-X)** — NON 5 canonical. Granularità fine-grained richiesta. Sub-divisione delle 5 macro-fasi Skiv (`hatchling/juvenile/mature/apex/legacy`) o scala parallela — agent design in volo decide.
+- **A2** ✅ **Consulta `docs/core/00E-NAMING_STYLEGUIDE.md`** + applica naming convention canonical
+- **A3** ✅ **Dual layer** (tier generico + specie-specifico) **+ valuta opzione (d) cross-dimension** — label finale legata a 6+ dimensioni (Forma + Stadio + Sentience + Lineage + Bioma + Mutation). Esempio aspirazionale: _"Skiv (Stadio III · Apprendista) — Forma Analista (INTP, Tier 0.6) — Lineage KRNA-3 — Adattato Deserto"_
+
+### B. Skiv narrator+companion
+
+- **B1** ✅ **Pool ricco (8-12 nomi per bioma) + combo specie/tipo/bioma generata dalla worldgen** — non lookup hardcoded. Selezione vincolata: `worldgen.primary_biome → biome_pool[species_id × name_pool × closing_ritual] → istanza`
+- **B2** ✅ **Codex unlock progressivo Hades-style** (encounter completato → entry unlock + Skiv-instance note diegetic)
+- **B3** ✅ **Ibrido**: Skiv (`Arenavenator vagans` / `dune_stalker`) canonical SOLO per allenatore. Altri allenatori → istanza desertica con nome diverso pescato dal pool
+
+### C. Boss Leviatano — 3 ADR sign-off
+
+Tutti 5 decision points C1-C5 SIGNED OFF. ADR `proposed → accepted` ready (post-Nido sequencing C5).
+
+- **C1** ✅ `enter_condition` flessibilità: **HP + turn count + objective** (pattern espressivo, vertical slice ha "round 3 hazard" + "HP threshold collapse")
+- **C2** ✅ `retreat` outcome: **fail-state-lite** (penalty light, run continues)
+- **C3** ✅ `parley` threshold: **5 azioni simbiotiche/comunicative** (vertical slice baseline)
+- **C4** ✅ `WorldState` scope: **ibrido** (alcune cose campaign-level, altre account-level — es. lore unlocks account, biome health campaign)
+- **C5** ✅ Sequencing: **Nido FIRST (~23h, shipped) → Leviatano (~75-90h)** — confermato
+
+### D. V3 Open Questions residui
+
+- **D1** ⏳ Mapping 5 axes UI ↔ 4 MBTI engine: **research industry pattern in volo** (agent `balance-illuminator`). User non ha certezze, vuole evidence prima di committare. Pattern candidates: Creatures, Spore, B&W, Pokemon natures+IVs, CK 2-3, DF Big-Five, Sims, Wildermyth.
+- **D2** ✅ Wiki in-game pattern: **ibrido container Hades-style + content schema A.L.I.E.N.A. 6-dimensioni** (Ambiente / Linee evolutive / Impianto morfo-fisiologico / Ecologia / Norme socio / Ancoraggio narrativo). Skiv-instance note diegetic per entry come Hades Codex Zagreus pattern.
+- **D3** ✅ Mutagen events: **a+b combinati** — pull from vertical-slice canon promotion + write 2-3 NEW spec per varietà. Anti-pattern UO: NON simulation runtime, eventi = modifier flat su pressure/hazard.
+
+### Sprint pipeline post-decisions
+
+| Sprint                                 |              Status               | Trigger                                            |
+| -------------------------------------- | :-------------------------------: | -------------------------------------------------- |
+| **OD-001 Path A** (Nido 4 sub-sprint)  |   ✅ shipped 4 PR (#1874-#1877)   | Done                                               |
+| **Forme 10-stadi naming spec**         |      ⏳ design agent in volo      | Output: doc + naming proposal                      |
+| **Skiv worldgen-aware companion pool** |      ⏳ design agent in volo      | Output: pool YAML + integration spec               |
+| **5-axes UI mapping research**         |     ⏳ research agent in volo     | Output: industry pattern + raccomandazione formula |
+| **Wiki Hades + ALIENA 6-dim schema**   |      ⏳ design agent in volo      | Output: schema YAML + 1 entry esempio              |
+| **Mutagen events variety pack**        |      ⏳ design agent in volo      | Output: 3-4 events YAML draft + spec               |
+| **Boss Leviatano A→B→C**               | 🟡 ADR signed, pending Nido merge | Effort: ~75-90h post-Nido                          |
+| **Telemetria VC compromesso**          |        ✅ shipped PR #1868        | Done                                               |
+
 ## 7. Reference inventory
 
 **Reports created today**:
