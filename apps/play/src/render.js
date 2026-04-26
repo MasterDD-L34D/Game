@@ -538,6 +538,30 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     ctx.textBaseline = 'bottom';
     const maxHp = unit.max_hp || unit.hp || 0;
     ctx.fillText(`${unit.hp}/${maxHp}`, cx, barY - 1);
+
+    // 2026-04-26 P0 quick-win — Tactics Ogre AP indicator float sotto HP bar.
+    // Pattern donor: Tactics Ogre Reborn ATB pip overhead unit (scan TV-first).
+    // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md (Tactics Ogre)
+    // Mostra ap_remaining come pip discreti (es. ●●○ = 2/3 AP). Posizione
+    // 4px sotto HP bar. Solo per unit player o sistema attivo (non KO).
+    const apRemaining = Number(unit.ap_remaining ?? unit.ap ?? 0);
+    const apMax = Number(unit.ap ?? 0);
+    if (apMax > 0 && apMax <= 5) {
+      const pipRadius = 2.5;
+      const pipGap = 2;
+      const pipsW = apMax * pipRadius * 2 + (apMax - 1) * pipGap;
+      const pipsX = cx - pipsW / 2 + pipRadius;
+      const pipsY = barY + 9;
+      for (let i = 0; i < apMax; i += 1) {
+        ctx.beginPath();
+        ctx.arc(pipsX + i * (pipRadius * 2 + pipGap), pipsY, pipRadius, 0, Math.PI * 2);
+        ctx.fillStyle = i < apRemaining ? '#ffcc00' : 'rgba(0,0,0,0.5)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
   }
 
   // Status icons (top-right)
