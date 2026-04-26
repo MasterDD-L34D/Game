@@ -1129,6 +1129,21 @@ function createSessionRouter(options = {}) {
       const pressureStart = Number.isFinite(Number(req.body?.pressure_start))
         ? Number(req.body.pressure_start)
         : null;
+      // 2026-04-26 (PCG G1 fix): encounter YAML loader opt-in.
+      // Se body.encounter_id passato + YAML trovato → popola encounter payload.
+      // Sblocca: objectiveEvaluator non-elim + biomeSpawnBias initial waves + conditions.
+      // Non override se body.encounter già fornito (preserve scenario JS flow).
+      let encounterPayload = req.body?.encounter ?? null;
+      const encounterIdFromBody = req.body?.encounter_id;
+      if (!encounterPayload && encounterIdFromBody) {
+        try {
+          const { loadEncounter } = require('../services/combat/encounterLoader');
+          const loaded = loadEncounter(encounterIdFromBody);
+          if (loaded) encounterPayload = loaded;
+        } catch (err) {
+          console.warn('[session/start] encounterLoader failed:', err.message);
+        }
+      }
       const session = {
         session_id: sessionId,
         scenario_id: scenarioId,
@@ -1172,8 +1187,8 @@ function createSessionRouter(options = {}) {
         // Q-001 T2.3: difficulty profile scaling metadata (null se profile invalid)
         _difficultyProfile: difficultyProfileMeta,
         // ADR-2026-04-19 + 04-20: encounter payload per reinforcementSpawner + objectiveEvaluator.
-        // Feature flag OFF default: se undefined, entrambi moduli ritornano no-op.
-        encounter: req.body?.encounter ?? null,
+        // 2026-04-26: anche YAML-loaded via encounter_id (PCG G1 wire).
+        encounter: encounterPayload,
         // M11 pilot (ADR-2026-04-21c): biome_id + log trait env deltas applicati.
         biome_id: biomeIdRaw,
         biome_costs_log: biomeCostsLog,
