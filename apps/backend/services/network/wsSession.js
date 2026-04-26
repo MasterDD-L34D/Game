@@ -579,6 +579,54 @@ class LobbyService {
 }
 
 /**
+ * P1-14 2026-04-26 — coop snapshot mirato al solo player riconnesso.
+ * Send (NON broadcast) gli stessi messaggi di rebroadcastCoopState ma a
+ * destinatario singolo. Chiamato in attachSocket post-reconnect per evitare
+ * stale lobby state mid-coop (player drop combat → rejoin → wrong overlay).
+ * Best-effort: swallow errori upstream.
+ */
+function sendCoopSnapshotToPlayer(room, orch, playerId) {
+  if (!room || !orch || !playerId) return;
+  const player = room.players?.get?.(playerId);
+  const socket = player?.socket;
+  if (!socket || socket.readyState !== 1) return;
+  const allIds = Array.from(room.players.values())
+    .filter((p) => p.id !== room.hostId && p.role !== 'host')
+    .map((p) => p.id);
+  const send = (msg) => {
+    try {
+      socket.send(JSON.stringify(msg));
+    } catch {
+      // best-effort
+    }
+  };
+  send({
+    type: 'phase_change',
+    payload: {
+      phase: orch.phase,
+      round: orch.run?.currentIndex ?? 0,
+      scenario: orch.run?.scenarioStack?.[orch.run?.currentIndex] || null,
+      reason: 'reconnect',
+    },
+  });
+  if (typeof orch.characterReadyList === 'function') {
+    send({ type: 'character_ready_list', payload: orch.characterReadyList(allIds) });
+  }
+  if (orch.phase === 'world_setup' && typeof orch.worldTally === 'function') {
+    send({ type: 'world_tally', payload: orch.worldTally(allIds) });
+  }
+  if (orch.phase === 'debrief' && typeof orch.debriefReadyList === 'function') {
+    send({
+      type: 'debrief_ready_list',
+      payload: {
+        outcome: orch.run?.outcome || 'victory',
+        ready_list: orch.debriefReadyList(allIds),
+      },
+    });
+  }
+}
+
+/**
  * F-1 2026-04-25 — rebroadcast coop phase snapshot to room after host transfer.
  * Mirrors the key messages from routes/coop.js:broadcastCoopState (not imported
  * to avoid circular module load). Pure best-effort; swallows errors upstream.
@@ -687,11 +735,26 @@ function createWsServer({
       return;
     }
 
+    const wasReconnect = !!room.players?.get?.(playerId)?.socket;
     room.attachSocket(playerId, socket);
     // TKT-M11B-05 — if the returning player is (now or still) host, any
     // pending host-transfer timer must be cancelled.
     if (playerId === room.hostId) {
       room.clearHostTransferTimer();
+    }
+    // P1-14 2026-04-26 — coop snapshot push su reconnect mid-coop.
+    // Player riconnesso mid-world_setup/combat/debrief altrimenti vede
+    // lobby state stale, deve manualmente call GET /api/coop/state.
+    if (wasReconnect && coopStore && typeof coopStore.get === 'function') {
+      try {
+        const orch = coopStore.get(room.code);
+        if (orch && orch.phase && orch.phase !== 'lobby') {
+          // Defer 1 tick so hello message arriva prima dello snapshot.
+          setImmediate(() => sendCoopSnapshotToPlayer(room, orch, playerId));
+        }
+      } catch {
+        // best-effort, no block
+      }
     }
     // Hello ack + snapshot. Note: player.role reflects the latest mutation,
     // including a potential mid-session transferHost promotion.
