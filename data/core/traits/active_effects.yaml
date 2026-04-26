@@ -8410,3 +8410,64 @@ traits:
       code: "BB CT 05"
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
+
+  # =====================================================================
+  # EVO-SWARM CONTRIBUTIONS — synergy active effects from external swarm
+  # =====================================================================
+  # Source: evo-swarm meta-orchestration repo (MasterDD-L34D/evo-swarm).
+  # Lo swarm AI ha prodotto 30+ cicli di design su `dune_stalker`
+  # (Arenavenator vagans) tra 22-25/04/2026, raggiungendo proposte
+  # tangibili gameplay (cycle 27 dev-tooling: "Echo Backstab prototipo",
+  # cycle 18-19 25/04 species-curator + balancer: "thermal compensation").
+  # Questa sezione promuove synergy gia' dichiarate in species.yaml a
+  # active_effects runtime-evaluable, citando i cicli swarm sorgente.
+  #
+  # Cross-ref: docs/exports/EXPORT-FOR-GAME-REPO-2026-04-25-FINAL.md
+  # (swarm-side, in evo-swarm repo) elenca match diretto
+  # `dune_stalker -> canonical dune_stalker` con cicli #2/#119/#2.
+  #
+  # Schema notes:
+  # - effect.kind = extra_damage (esistente, no schema extension).
+  # - trigger fields tutti gia' supportati da passesBasicTriggers().
+  # - Synergy parts gating (echolocation + sand_claws) e' resp. del
+  #   composition layer (data/core/species.yaml synergy block riga ~41).
+  #   A runtime, se il mob non ha le parts richieste, il trait viene
+  #   gated upstream e non istanziato.
+
+  # --- DUNE_STALKER — Echo Backstab synergy (swarm-prototyped) ---
+  echo_backstab:
+    tier: T2
+    category: tattico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+      requires_ally_adjacent: true
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: echo_backstab_synergy
+    description_it: |
+      Echo Backstab — synergy tattica del Predatore delle Dune
+      (Arenavenator vagans). Quando il branco coordina via
+      echolocation, gli artigli sand_claws colpiscono punti deboli
+      rivelati dall'eco. Effetto runtime: +1 PT su melee hit con
+      alleato adiacente (tattica di branco). La synergy parts
+      (senses.echolocation + offense.sand_claws) e' gated al
+      composition layer in data/core/species.yaml (synergy block).
+    description_en: |
+      Echo Backstab — tactical synergy of the Dune Stalker
+      (Arenavenator vagans). When the pack coordinates via
+      echolocation, sand_claws strike weak points revealed by the
+      echo. Runtime effect: +1 HP on melee hit with adjacent ally
+      (pack tactic). The synergy parts gate (senses.echolocation +
+      offense.sand_claws) is enforced at composition layer in
+      data/core/species.yaml (synergy block).
+    provenance:
+      source: evo-swarm
+      cycle: "cycle 27 (gameplay-prototyper) + cycle 2 25/04 (species-curator)"
+      species_match: dune_stalker
+      synergy_block: "species.yaml#L41 echo_backstab"
+      cross_ref: "docs/exports/EXPORT-FOR-GAME-REPO-2026-04-25-FINAL.md (evo-swarm repo)"
+      license: MIT

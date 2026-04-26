@@ -647,6 +647,12 @@
       "description_it": "Echi Risonanti permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
       "description_en": "Echi Risonanti allow squads to interpret minute signals and unstable psionic patterns within caverna risonante."
     },
+    "echo_backstab": {
+      "label_it": "Eco Backstab",
+      "label_en": "Echo Backstab",
+      "description_it": "Synergy tattica del Predatore delle Dune: il branco coordina via echolocation, gli artigli colpiscono punti deboli rivelati dall'eco. +1 PT su melee hit con alleato adiacente.",
+      "description_en": "Tactical synergy of the Dune Stalker: the pack coordinates via echolocation, claws strike weak points revealed by the echo. +1 HP on melee hit with adjacent ally."
+    },
     "eco_interno_riflesso": {
       "label_en": "Internal Echo Reflex",
       "label_it": "Riflesso dell'Eco Interno",
