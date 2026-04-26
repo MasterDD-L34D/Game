@@ -22,7 +22,7 @@ const TUTORIAL_SCENARIO = {
   difficulty_rating: 1,
   estimated_turns: 6,
   grid_size: 6,
-  objective: 'elimination',
+  objective: { type: 'elimination' },
   objective_text: 'Sconfiggi tutte le unità nemiche.',
   briefing_pre:
     'Due predoni nomadi hanno preso posizione nella savana. Avvicinati con cautela e eliminali.',
@@ -39,7 +39,7 @@ const TUTORIAL_SCENARIO_02 = {
   difficulty_rating: 2,
   estimated_turns: 8,
   grid_size: 6,
-  objective: 'elimination',
+  objective: { type: 'elimination' },
   objective_text: 'Sconfiggi tutta la pattuglia: due predoni e un cacciatore corazzato.',
   briefing_pre:
     'La pattuglia nomade questa volta include un cacciatore con corazza pesante. Coordina scout e tank: il danno asimmetrico premia chi sceglie il bersaglio giusto.',
@@ -57,7 +57,7 @@ const TUTORIAL_SCENARIO_03 = {
   difficulty_rating: 3,
   estimated_turns: 10,
   grid_size: 6,
-  objective: 'elimination',
+  objective: { type: 'elimination' },
   objective_text:
     'Elimina i guardiani sotterranei. Attento alle fumarole tossiche: tile (2,2) e (3,3) infliggono danno a fine turno se occupate.',
   briefing_pre:
@@ -82,7 +82,7 @@ const TUTORIAL_SCENARIO_05 = {
   difficulty_rating: 5,
   estimated_turns: 14,
   grid_size: 6,
-  objective: 'elimination',
+  objective: { type: 'elimination' },
   objective_text:
     "Sconfiggi l'apex predatore. Singolo nemico con HP altissimo, attacchi multipli e bonus su critico.",
   briefing_pre:
@@ -102,7 +102,7 @@ const TUTORIAL_SCENARIO_04 = {
   difficulty_rating: 4,
   estimated_turns: 12,
   grid_size: 6,
-  objective: 'elimination',
+  objective: { type: 'elimination' },
   objective_text:
     'Sconfiggi i 3 guardiani della pozza. Attento al lanciere: il suo morso causa emorragia.',
   briefing_pre:
