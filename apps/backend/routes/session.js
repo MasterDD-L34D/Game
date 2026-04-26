@@ -1499,6 +1499,45 @@ function createSessionRouter(options = {}) {
         });
       }
 
+      // 2026-04-26 P0 quick-win — FFT Wait action (Tier S donor pattern).
+      // Player rinuncia all'azione corrente in cambio di +1 initiative_bonus
+      // sul prossimo round (defer turn, riprendi prima next round).
+      // Costa AP rimanenti (mette a 0) ma NON consuma PT/PP.
+      // Cost zero: pure tactical timing tool, no resource trade.
+      // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md (FFT)
+      if (actionType === 'wait') {
+        const apBefore = Number(actor.ap_remaining ?? actor.ap ?? 0);
+        if (apBefore <= 0) {
+          return res
+            .status(400)
+            .json({ error: 'wait richiede almeno 1 AP rimanente (turno gia consumato)' });
+        }
+        actor.ap_remaining = 0;
+        // Initiative bonus persistente fino a next round_clear (decay manuale via roundOrchestrator).
+        actor.initiative_bonus_next_round = Number(actor.initiative_bonus_next_round || 0) + 1;
+        await appendEvent(session, {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          actor_id: actor.id,
+          actor_species: actor.species,
+          actor_job: actor.job,
+          action_type: 'wait',
+          turn: session.turn,
+          ap_spent: apBefore,
+          ap_before: apBefore,
+          ap_after: 0,
+          initiative_bonus_next_round: actor.initiative_bonus_next_round,
+          trait_effects: [],
+        });
+        return res.json({
+          ok: true,
+          actor_id: actor.id,
+          ap_remaining: 0,
+          initiative_bonus_next_round: actor.initiative_bonus_next_round,
+          state: publicSessionView(session),
+        });
+      }
+
       // SPRINT_022: nuova azione 'turn' per ruotare senza muoversi.
       // Costa 0 AP (libera, come reazione) — cosi' il giocatore puo'
       // riposizionarsi visivamente a fine turno per prevenire backstab
