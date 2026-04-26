@@ -74,6 +74,12 @@
 | [ADR-2026-04-18 zero-cost](docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md)  | Zero-cost asset policy + AI-generated legal framework    | Accepted | `#policy` `#legal` |
 | [ADR-2026-04-18 plan-reveal](docs/adr/ADR-2026-04-18-plan-reveal-round.md)     | Plan & Reveal round model (contemporary hybrid)          | Accepted | `#combat` `#coop`  |
 
+### 2026-04-25 — Skiv-as-Monitor
+
+| ID                                                           | Titolo                                                    | Status   | Tag                      |
+| ------------------------------------------------------------ | --------------------------------------------------------- | -------- | ------------------------ |
+| [ADR-2026-04-25](docs/adr/ADR-2026-04-25-skiv-as-monitor.md) | Skiv-as-Monitor — creature canonica reagisce a git events | Accepted | `#cross-cutting` `#skiv` |
+
 ### 2026-04-19 — Combat systems consolidation
 
 | ID                                                                                    | Titolo                                                    | Status                                                           | Tag                      |

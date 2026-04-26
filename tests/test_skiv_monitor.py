@@ -36,8 +36,9 @@ def test_map_event_pr_p2_evolve():
     assert out["category"] == "feat_p2"
     assert out["state_delta"].get("evolve_opportunity") == 1
     assert out["state_delta"].get("currencies.pe") == 5
-    # Voice from feat_p2 palette (8 frasi post-expansion).
-    assert out["voice"] in sm.VOICE["feat_p2"]
+    # Voice may come from static palette OR tracery grammar (50/50 deterministic).
+    assert isinstance(out["voice"], str) and len(out["voice"]) > 0
+    assert "#" not in out["voice"]  # no unresolved tracery symbols
 
 
 def test_map_event_pr_p3_xp():
@@ -131,4 +132,124 @@ def test_voice_palette_deterministic_for_same_seed():
 
 
 def test_unknown_category_falls_back_to_default():
-    assert sm.voice_pick("nonexistent", "any") in sm.VOICE["default"]
+    # 50% chance tracery, 50% static. Both should produce some string.
+    out = sm.voice_pick("nonexistent", "any")
+    assert isinstance(out, str) and len(out) > 0
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Conventional Commits parser tests
+# ──────────────────────────────────────────────────────────────────────
+
+def test_parse_conventional_feat_basic():
+    p = sm.parse_conventional_commit("feat: add new endpoint")
+    assert p["type"] == "feat"
+    assert p["scope"] is None
+    assert p["breaking"] is False
+    assert p["desc"] == "add new endpoint"
+
+
+def test_parse_conventional_with_scope():
+    p = sm.parse_conventional_commit("fix(combat): clamp HP on damage")
+    assert p["type"] == "fix"
+    assert p["scope"] == "combat"
+    assert p["breaking"] is False
+
+
+def test_parse_conventional_breaking():
+    p = sm.parse_conventional_commit("feat(api)!: remove deprecated endpoint")
+    assert p["type"] == "feat"
+    assert p["scope"] == "api"
+    assert p["breaking"] is True
+
+
+def test_parse_conventional_all_types():
+    for t in ["feat", "fix", "chore", "docs", "style", "refactor",
+              "perf", "test", "build", "ci", "revert"]:
+        p = sm.parse_conventional_commit(f"{t}: sample")
+        assert p["type"] == t
+
+
+def test_parse_conventional_non_conventional():
+    p = sm.parse_conventional_commit("Random commit message no prefix")
+    assert p["type"] is None
+    assert p["desc"] == "Random commit message no prefix"
+
+
+def test_parse_conventional_case_insensitive():
+    p = sm.parse_conventional_commit("FEAT: uppercase type")
+    assert p["type"] == "feat"
+
+
+def test_parse_conventional_empty_or_invalid_input():
+    for bad in [None, "", 123, [], {}]:
+        p = sm.parse_conventional_commit(bad)
+        assert p["type"] is None
+        assert p["breaking"] is False
+
+
+def test_map_event_uses_cc_parser_for_fix():
+    ev = {"id": "pr-cc-1", "kind": "pr_merged", "ts": "x",
+          "title": "fix(combat): clamp HP", "labels": []}
+    out = sm.map_event(ev)
+    assert out["category"] == "fix"
+    assert out["state_delta"].get("gauges.hp") == 1
+
+
+def test_map_event_breaking_change_adds_stress():
+    ev = {"id": "pr-cc-2", "kind": "pr_merged", "ts": "x",
+          "title": "feat!: drop legacy API", "labels": []}
+    out = sm.map_event(ev)
+    # Breaking change → +1 stress (cosmetic shock).
+    assert out["state_delta"].get("stress") == 1
+
+
+def test_map_event_perf_to_services_with_composure():
+    ev = {"id": "pr-cc-3", "kind": "pr_merged", "ts": "x",
+          "title": "perf: optimize hot path", "labels": []}
+    out = sm.map_event(ev)
+    assert out["category"] == "services"
+    assert out["state_delta"].get("composure") == 1
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Tracery + QBN + lifecycle wire tests
+# ──────────────────────────────────────────────────────────────────────
+
+def test_tracery_expand_voice_produces_string():
+    import skiv_tracery
+    out = skiv_tracery.expand_voice("feat_p2", "test-seed-1")
+    assert isinstance(out, str) and len(out) > 0
+    # Should not contain unresolved #symbol# references.
+    assert "#" not in out
+
+
+def test_tracery_deterministic_same_seed():
+    import skiv_tracery
+    a = skiv_tracery.expand_voice("feat_p3", "deterministic-seed")
+    b = skiv_tracery.expand_voice("feat_p3", "deterministic-seed")
+    assert a == b
+
+
+def test_tracery_phase_voice_injection():
+    import skiv_tracery
+    # With phase_id, augmented grammar should accept phase_voice symbol.
+    g = skiv_tracery._augment_with_lifecycle(skiv_tracery.SKIV_GRAMMAR)
+    # If lifecycle YAML loaded, phase_voice symbols exist.
+    if "phase_voice" in g:
+        assert isinstance(g["phase_voice"], list)
+        assert len(g["phase_voice"]) > 0
+
+
+def test_qbn_select_storylet_default_catchall():
+    import skiv_qbn
+    out = skiv_qbn.select_storylet({}, {})
+    assert out is not None
+    assert "id" in out
+
+
+def test_qbn_high_stress_picks_stress_storm():
+    import skiv_qbn
+    out = skiv_qbn.select_storylet({}, {"stress": 80})
+    # Storylet 'stress_storm' should be picked when stress >= 60.
+    assert out["id"] == "stress_storm"

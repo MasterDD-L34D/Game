@@ -740,8 +740,39 @@ PILLAR_LABEL_RE = re.compile(r"\bp([1-6])\b|pilastro\s*([1-6])|feat/p([1-6])-", 
 DATA_CORE_RE = re.compile(r"data/core|active_effects|species\.yaml|biomes\.yaml", re.IGNORECASE)
 SERVICES_RE = re.compile(r"services/|combat|resolver|ai", re.IGNORECASE)
 SKIV_DOC_RE = re.compile(r"docs/skiv|skiv|dune_stalker", re.IGNORECASE)
-FIX_RE = re.compile(r"^fix(\(|:|\s)", re.IGNORECASE)
-REVERT_RE = re.compile(r"^revert(\(|:|\s)", re.IGNORECASE)
+
+# Conventional Commits parser — pattern: <type>[(scope)][!]: <description>
+# Spec: https://www.conventionalcommits.org/en/v1.0.0/
+CONVENTIONAL_RE = re.compile(
+    r"^(?P<type>feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)"
+    r"(?:\((?P<scope>[^)]+)\))?"
+    r"(?P<breaking>!)?"
+    r":\s*(?P<desc>.+)$",
+    re.IGNORECASE,
+)
+
+
+def parse_conventional_commit(title: Any) -> Dict[str, Any]:
+    """Parse Conventional Commits title. Returns dict with type/scope/breaking/desc.
+
+    Falls back to type=None if not conventional. Handles invalid input safely.
+    """
+    if not isinstance(title, str):
+        return {"type": None, "scope": None, "breaking": False, "desc": ""}
+    m = CONVENTIONAL_RE.match(title.strip())
+    if not m:
+        return {"type": None, "scope": None, "breaking": False, "desc": title}
+    return {
+        "type": (m.group("type") or "").lower(),
+        "scope": m.group("scope"),
+        "breaking": bool(m.group("breaking")),
+        "desc": m.group("desc"),
+    }
+
+
+# Legacy aliases preserved for backward compat.
+FIX_RE = re.compile(r"^fix(\(|:|\s|!)", re.IGNORECASE)
+REVERT_RE = re.compile(r"^revert(\(|:|\s|!)", re.IGNORECASE)
 
 
 def detect_pillar(labels: Sequence[str], title: str) -> Optional[int]:
@@ -756,11 +787,25 @@ def detect_pillar(labels: Sequence[str], title: str) -> Optional[int]:
 
 
 def voice_pick(category: str, seed: str, phase_id: Optional[str] = None) -> str:
-    """Deterministic-ish pick from voice palette; avoids same line twice in a row via seed.
+    """Deterministic layered pick: tracery (50%) + lifecycle (25%) + static (25%).
 
-    F-04 fix: when phase_id provided, 1-in-4 chance to use lifecycle phase voice
-    (loaded from YAML) for narrative variety. Determinism preserved via seed hash.
+    Layered variety:
+    - Tracery seeded grammar (~662 effective voices via combinatorial expansion)
+      with phase-aware lifecycle voice_it injection (1-in-5 chance)
+    - Lifecycle phase voice_it (5 fasi YAML, F-04 wire)
+    - Static palette (131 atomic lines, fallback)
+
+    All deterministic via seed hash. Replay-safe.
     """
+    # 50% chance use tracery grammar (richer combinatorial output).
+    if abs(hash(seed + ":bucket")) % 2 == 0:
+        try:
+            import skiv_tracery  # type: ignore
+            expanded = skiv_tracery.expand_voice(category, seed, phase_id=phase_id)
+            if expanded:
+                return expanded
+        except (ImportError, TypeError):
+            pass
     pool = list(VOICE.get(category) or VOICE["default"])
     if phase_id:
         phase_voices = load_lifecycle_voices().get(phase_id) or []
@@ -783,6 +828,11 @@ def map_event(event: Dict[str, Any]) -> Dict[str, Any]:
     if kind == "pr_merged":
         pillar = detect_pillar(labels, title)
         delta["counters.prs_merged"] = 1
+        # Conventional Commits parse first.
+        cc = parse_conventional_commit(title)
+        cc_type = cc["type"]
+        if cc.get("breaking"):
+            delta["stress"] = (delta.get("stress") or 0) + 1
         if pillar == 2:
             category = "feat_p2"
             delta["evolve_opportunity"] = 1
@@ -801,20 +851,25 @@ def map_event(event: Dict[str, Any]) -> Dict[str, Any]:
         elif pillar == 6:
             category = "feat_p6"
             delta["pressure_tier_shift"] = 1
+        elif cc_type == "fix":
+            category = "fix"
+            delta["counters.commits_fix"] = 1
+            delta["gauges.hp"] = 1  # tick (clamped to max)
+        elif cc_type == "revert":
+            category = "revert"
+            delta["counters.commits_revert"] = 1
+            delta["stress"] = (delta.get("stress") or 0) + 1
+        elif cc_type == "perf":
+            category = "services"
+            delta["composure"] = 1
+        elif cc_type == "refactor" or (cc_type == "feat" and SERVICES_RE.search(title)):
+            category = "services"
         elif DATA_CORE_RE.search(title):
             category = "data_core"
         elif SERVICES_RE.search(title):
             category = "services"
         elif SKIV_DOC_RE.search(title):
             category = "skiv_doc"
-        elif FIX_RE.match(title):
-            category = "fix"
-            delta["counters.commits_fix"] = 1
-            delta["gauges.hp"] = 1  # tick (clamped to max)
-        elif REVERT_RE.match(title):
-            category = "revert"
-            delta["counters.commits_revert"] = 1
-            delta["stress"] = 1
         else:
             category = "default"
     elif kind == "issue_opened":

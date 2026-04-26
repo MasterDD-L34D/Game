@@ -75,9 +75,14 @@ SKIV_GRAMMAR: Dict[str, List[str]] = {
         "vento", "sabbia", "branco", "Sistema", "vuoto", "ridge",
         "duna", "ombra del sole",
     ],
+    # Body parts feminine plural — gender-coherent for templates "le #body_part#".
     "body_part": [
-        "zampe", "ossa", "pelle", "occhi", "stomaco", "cresta",
-        "artigli", "lingua",
+        "zampe", "ossa", "pelle", "orecchie", "scaglie", "creste",
+        "narici", "vibrisse",
+    ],
+    # Body parts singular feminine — for "la #body_part_sing#".
+    "body_part_sing": [
+        "lingua", "coda", "pelle", "cresta", "schiena",
     ],
     "creature_state": [
         "calmo", "vigile", "teso", "curioso", "fermo", "in attesa",
@@ -87,13 +92,17 @@ SKIV_GRAMMAR: Dict[str, List[str]] = {
         "vento basso", "sole alto", "buio", "luce di sale", "polvere d'oro",
         "brezza secca",
     ],
+    # Place SOTTO articolato (cohesive "il #place_subj#"/"al #place_subj#").
+    "place_subj": [
+        "vento", "branco", "Sistema", "vuoto", "ridge", "sole basso",
+    ],
     # Sub-templates by category
     "feat_p2_origin": [
         "Sento il #sense# nuovo lungo le #body_part#.",
         "Forma cambia. Le mie #body_part# non sono più quelle di ieri.",
         "Mutazione preme. Sono #creature_state#, ascolto.",
         "L'evoluzione passa come #weather#: non chiede.",
-        "Una pelle vecchia si stacca. Il #place# ne porta via il ricordo.",
+        "Una pelle vecchia si stacca. Il #place_subj# ne porta via il ricordo.",
     ],
     "feat_p3_origin": [
         "Allenatore mi nomina. Branco mi riconosce nel #place#.",
@@ -186,14 +195,48 @@ CATEGORY_TO_GRAMMAR = {
 }
 
 
+def _augment_with_lifecycle(grammar: Dict[str, List[str]]) -> Dict[str, List[str]]:
+    """Inject lifecycle YAML voice_it as additional templates per phase.
+
+    Lifecycle phase voice_it (5 fasi × 3+ lines) added as `phase_voice_<id>`
+    symbols + union `phase_voice` pool. Preserves grammar structure additive.
+    """
+    try:
+        import skiv_monitor  # type: ignore
+        lv = skiv_monitor.load_lifecycle_voices()
+    except (ImportError, AttributeError):
+        return grammar
+    if not lv:
+        return grammar
+    augmented = {k: list(v) for k, v in grammar.items()}
+    for phase, voices in lv.items():
+        augmented[f"phase_voice_{phase}"] = list(voices)
+    all_phase_voices = []
+    for voices in lv.values():
+        all_phase_voices.extend(voices)
+    if all_phase_voices:
+        augmented["phase_voice"] = all_phase_voices
+    return augmented
+
+
 def expand_voice(category: str, seed: str,
-                 grammar: Optional[Dict[str, List[str]]] = None) -> Optional[str]:
+                 grammar: Optional[Dict[str, List[str]]] = None,
+                 phase_id: Optional[str] = None) -> Optional[str]:
     """Expand grammar template for category with seeded determinism.
 
     Returns expanded string or None if category not in grammar (caller
     falls back to static palette).
+
+    F-04 wire: when phase_id provided, 1-in-5 chance to use lifecycle phase
+    voice directly (richer narrative variety, YAML-authored).
     """
     g = grammar or SKIV_GRAMMAR
+    if phase_id:
+        g = _augment_with_lifecycle(g)
+        phase_sym = f"phase_voice_{phase_id}"
+        if phase_sym in g and abs(hash(seed + ":phasevoice")) % 5 == 0:
+            pool = g[phase_sym]
+            return _seeded_pick(pool, seed, salt="phase_lifecycle")
     sym = CATEGORY_TO_GRAMMAR.get(category)
     if not sym:
         return None
