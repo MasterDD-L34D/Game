@@ -360,13 +360,13 @@ def test_attack_armor_clamps_damage_to_zero(catalog):
 
 def test_attack_with_offensive_trait_attack_mod_increases_total(catalog):
     state = _mini_state(catalog)
-    # attaccante con ipertrofia_muscolare_massiva (attack_mod +1, damage_step +1)
+    # attaccante con ipertrofia_muscolare_massiva (post-nerf #1869: attack_mod +1, damage_step +0)
     state["units"][0]["trait_ids"] = ["ipertrofia_muscolare_massiva"]
     # nat 10 -> total = 10 + 1 = 11; CD=12 -> fail senza trait, ma con trait?
     # 10+1 = 11 < 12 -> fail ancora. Alziamo a nat 12 -> total 13 -> success.
-    # mos = 1, step from mos = 0, step from trait = 1 -> total step 1
-    # 1d8 = 4 (base), step_bonus floor(7.5*0.25) = 1 -> pre = 4+3+1 = 8
-    # armor 4 -> 4
+    # mos = 1, step from mos = 0, step from trait = 0 (post-nerf) -> total step 0
+    # 1d8 = 4 (base) + modifier 3 = 7, no step_bonus -> pre = 7
+    # armor 4 -> 3 damage applied
     rng = rng_from_sequence([11 / 20, 3 / 8])
     result = resolve_action(state, _attack(), catalog, rng)
     roll = result["turn_log_entry"]["roll"]
@@ -374,8 +374,8 @@ def test_attack_with_offensive_trait_attack_mod_increases_total(catalog):
     assert roll["modifier"] == 1
     assert roll["total"] == 13
     assert roll["success"] is True
-    assert roll["damage_step"] == 1  # solo dal trait
-    assert result["turn_log_entry"]["damage_applied"] == 4
+    assert roll["damage_step"] == 0  # post-nerf #1869: damage_step 1→0
+    assert result["turn_log_entry"]["damage_applied"] == 3
 
 
 def test_attack_vs_defensive_trait_raises_cd(catalog):

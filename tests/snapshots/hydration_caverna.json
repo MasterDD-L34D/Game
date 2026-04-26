@@ -63,7 +63,7 @@
         },
         {
           "channel": "fuoco",
-          "modifier_pct": 40
+          "modifier_pct": 30
         }
       ],
       "trait_ids": ["mantello_meteoritico", "sangue_piroforico"],
