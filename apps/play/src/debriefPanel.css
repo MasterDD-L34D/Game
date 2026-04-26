@@ -394,3 +394,123 @@
 .db-mbti-hint {
   flex: 1;
 }
+
+/* OD-001 Path A Sprint B (2026-04-26): debrief recruit section. */
+.db-recruit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.db-recruit-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #1a1f2c 0%, #12161e 100%);
+  border: 1px solid #2a3040;
+  border-radius: 10px;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.db-recruit-card.recruited {
+  border-color: #66bb6a;
+  background: linear-gradient(180deg, #1e2d20 0%, #12161e 100%);
+}
+
+.db-recruit-avatar {
+  font-size: 1.6rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #0b0d12;
+  border: 1px solid #2a3040;
+  flex-shrink: 0;
+}
+
+.db-recruit-card.recruited .db-recruit-avatar {
+  border-color: #66bb6a;
+  color: #aed581;
+}
+
+.db-recruit-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.db-recruit-name {
+  font-weight: 700;
+  color: #ffd180;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.db-recruit-sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.db-recruit-tag {
+  font-family: monospace;
+  font-size: 0.72rem;
+  background: #0b0d12;
+  border: 1px solid #2a3040;
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: #b0b8cc;
+}
+
+.db-recruit-tag.mbti {
+  color: #ffd180;
+}
+
+.db-recruit-aff {
+  font-size: 0.78rem;
+  color: #8891a3;
+}
+
+.db-recruit-aff strong {
+  color: #aed581;
+}
+
+.db-recruit-btn {
+  background: #2d4a2d;
+  color: #e8eaf0;
+  border: 1px solid #3d5542;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: background 0.18s ease;
+}
+
+.db-recruit-btn:hover:not(:disabled) {
+  background: #3d6a3d;
+}
+
+.db-recruit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.db-recruit-card.recruited .db-recruit-btn {
+  background: #1e2d20;
+  border-color: #66bb6a;
+  color: #aed581;
+}
+
+.db-recruit-hint {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #8891a3;
+  text-align: right;
+}

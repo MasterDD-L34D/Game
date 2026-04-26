@@ -1244,11 +1244,19 @@ function createRoundBridge(deps) {
     // Round decay (AI War pattern — sistema_pressure.yaml §deltas.round_decay):
     // pressure cala di 1 per round senza eventi di victory/defeat.
     // Escape valve per non lasciare SIS in stato "Apex" dopo picchi isolati.
+    //
+    // QW1 (M-018): biome hostile (diff_base > 2) aggiunge pressure_mult positivo
+    // su round end. Net delta = round_decay (-1) + pressure_mult. Savana 0+(-1)=-1
+    // (decay normale); abisso_vulcanico +3+(-1)=+2 (escalation lenta diegetica).
     if (typeof session.sistema_pressure === 'number') {
       session.sistema_pressure = applyPressureDelta(
         session.sistema_pressure,
         PRESSURE_DELTAS.round_decay,
       );
+      const biomeTick = Number(session.biome_modifiers?.pressure_mult || 0);
+      if (biomeTick !== 0) {
+        session.sistema_pressure = applyPressureDelta(session.sistema_pressure, biomeTick);
+      }
     }
 
     // ADR-2026-04-19 + 04-20 wiring (feature flag OFF by default).
@@ -1550,6 +1558,11 @@ function createRoundBridge(deps) {
             session.sistema_pressure,
             PRESSURE_DELTAS.round_decay,
           );
+          // QW1 (M-018) — biome pressure tick (commit-round path).
+          const biomeTick = Number(session.biome_modifiers?.pressure_mult || 0);
+          if (biomeTick !== 0) {
+            session.sistema_pressure = applyPressureDelta(session.sistema_pressure, biomeTick);
+          }
         }
 
         // ADR-2026-04-19 + 04-20 wiring (commit-round path).

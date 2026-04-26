@@ -106,6 +106,10 @@ const {
 // Pilot 4×3: thermal_armor, zampe_a_molla, pelle_elastomera, denti_seghettati
 // × savana, caverna_risonante, rovine_planari.
 const { loadTraitEnvironmentalCosts, applyBiomeTraitCosts } = require('../services/traitEffects');
+// QW1 (M-018 worldgen card): biome diff_base + stress_modifiers → runtime
+// pressure / enemy HP. Same encounter on savana vs abisso_vulcanico now
+// produces different numbers, not just different texture.
+const { getBiomeModifiers, applyEnemyHpMultiplier } = require('../services/combat/biomeModifiers');
 // M6-#1 (ADR-2026-04-19 + spike 2026-04-19): Node native resistance engine.
 // Applica channel-specific resist/vuln su damage pre-hp. Evidence spike:
 // 84.6% → 20% win rate hardcore-06 con flat 50% resist (leva confermata).
@@ -1067,6 +1071,15 @@ function createSessionRouter(options = {}) {
         }
       }
 
+      // QW1 (M-018) — biome diff_base + stress_modifiers → runtime knobs.
+      // Compute once per session. Safe defaults if biome_id missing/unknown
+      // (no-op multipliers, zero pressure bonus). Enemy HP scaled here so
+      // downstream pipeline (objectives, balance) reads the modulated values.
+      const biomeModifiers = getBiomeModifiers(biomeIdRaw);
+      if (biomeModifiers.hp_mult !== 1.0) {
+        applyEnemyHpMultiplier(units, biomeModifiers.hp_mult);
+      }
+
       // M13 P3 Phase B — apply progression perks (effectiveStats + passives).
       // Mutates player units in-place: stat bonuses applied, _perk_passives
       // + _perk_ability_mods attached for runtime lookup. No-op se unit
@@ -1157,7 +1170,16 @@ function createSessionRouter(options = {}) {
         // Gate SIS intent pool + reinforcement budget via computeSistemaTier().
         // Updated da roundOrchestrator/session handlers su victory/KO events.
         // Scenario può impostare pressure_start (tutorial_02=25, 03=50, 04=75, 05=95).
-        sistema_pressure: Math.max(0, Math.min(100, Number(req.body?.sistema_pressure_start) || 0)),
+        // QW1 (M-018): hostile biome aggiunge pressure_initial_bonus (savana 0,
+        // abisso_vulcanico +15). Cap 0..100 preserved.
+        sistema_pressure: Math.max(
+          0,
+          Math.min(
+            100,
+            (Number(req.body?.sistema_pressure_start) || 0) +
+              Number(biomeModifiers.pressure_initial_bonus || 0),
+          ),
+        ),
         // Hazard tiles dal scenario (es. enc_tutorial_03 fumarole).
         // Lista {x, y, damage, type}. Applicato a fine turno via
         // applyHazardDamage in handleTurnEndViaRound.
@@ -1177,6 +1199,11 @@ function createSessionRouter(options = {}) {
         // M11 pilot (ADR-2026-04-21c): biome_id + log trait env deltas applicati.
         biome_id: biomeIdRaw,
         biome_costs_log: biomeCostsLog,
+        // QW1 (M-018): runtime knobs derivati da biomes.yaml diff_base +
+        // hazard.stress_modifiers. Esposto via /api/session/state per debug
+        // + future UI hint. Consumed da round bridge (pressure_mult tick) e
+        // applicato in applyEnemyHpMultiplier sopra (hp_mult).
+        biome_modifiers: biomeModifiers,
       };
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
       // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
