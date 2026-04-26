@@ -329,6 +329,15 @@ function publicSessionView(session) {
     sistema_pressure: pressure,
     sistema_tier: tier,
     sistema_counter: Number(session.sistema_counter) || 0,
+    // 2026-04-26 P0 quick-win — AI War Progress meter (Tier S donor).
+    // Lazy require + try/catch: missing module non blocca state response.
+    ai_progress: (() => {
+      try {
+        return require('../services/ai/aiProgressMeter').getProgressMeterState(session);
+      } catch {
+        return null;
+      }
+    })(),
     atlas,
     last_round_combos: Array.isArray(session.last_round_combos) ? session.last_round_combos : [],
     previous_round_combos: Array.isArray(session.previous_round_combos)
