@@ -41,6 +41,9 @@ const {
 const { tick: reinforcementTick } = require('../services/combat/reinforcementSpawner');
 const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
 const { tick: missionTimerTick } = require('../services/combat/missionTimer');
+// 2026-04-26: wire isTurnLimitExceeded (damage_curves.yaml soft cap per encounter_class).
+// Distinto da missionTimer (encounter-declared opt-in); soft cap si applica a ogni session.
+const { isTurnLimitExceeded } = require('../services/balance/damageCurves');
 const { buildThreatPreview } = require('../services/ai/threatPreview');
 // Status engine extension (2026-04-25 audit P0).
 const { applyTurnRegen } = require('../services/combat/statusModifiers');
@@ -1320,6 +1323,26 @@ function createRoundBridge(deps) {
     }
 
     const objectiveResult = evaluateObjective(session, session.encounter);
+
+    // 2026-04-26: soft turn-limit defeat (damage_curves.yaml turn_limit_defeat per class).
+    // Indipendente da missionTimer (opt-in encounter feature). Forza outcome=defeat se turn≥limit.
+    const encClassForLimit =
+      session.encounter_class || session.encounter?.encounter_class || 'standard';
+    const turnLimitExceeded = isTurnLimitExceeded(session.turn, encClassForLimit);
+    if (turnLimitExceeded && !objectiveResult.failed && !objectiveResult.completed) {
+      objectiveResult.failed = true;
+      objectiveResult.reason = `turn_limit_defeat:${encClassForLimit}`;
+      await appendEvent(session, {
+        action_type: 'turn_limit_defeat',
+        turn: session.turn,
+        actor_id: null,
+        target_id: null,
+        damage_dealt: 0,
+        result: 'defeat',
+        encounter_class: encClassForLimit,
+        automatic: true,
+      });
+    }
 
     return {
       session_id: session.session_id,
