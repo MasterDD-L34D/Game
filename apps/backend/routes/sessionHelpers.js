@@ -325,6 +325,13 @@ function publicSessionView(session) {
       session.tile_state_map && typeof session.tile_state_map === 'object'
         ? session.tile_state_map
         : {},
+    // QW1 (M-018) — biome runtime knobs derivati da diff_base +
+    // hazard.stress_modifiers. Read-only debug surface; future UI hook
+    // (hostile-biome banner). Safe defaults se biome_id assente.
+    biome_modifiers:
+      session.biome_modifiers && typeof session.biome_modifiers === 'object'
+        ? session.biome_modifiers
+        : { diff_base: 1.0, hp_mult: 1.0, pressure_mult: 0, pressure_initial_bonus: 0 },
   };
 }
 
