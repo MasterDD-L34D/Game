@@ -8,11 +8,14 @@
 
 'use strict';
 
-// PE generation base values per encounter difficulty
+// PE generation base values per encounter difficulty (encounter_class compatible)
+// Aliases mappano sia categorie legacy (tutorial/standard/elite/boss) sia encounter_class (tutorial_advanced/hardcore).
 const PE_BASE_BY_DIFFICULTY = {
   tutorial: 3,
+  tutorial_advanced: 4,
   standard: 5,
   elite: 8,
+  hardcore: 10,
   boss: 12,
 };
 
@@ -96,7 +99,12 @@ function convertPE(peBalance) {
  * @returns {object} debrief payload
  */
 function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
-  const conversion = convertPE(peResult.session_total);
+  // 2026-04-26 (Q19 resolved Opzione A): PE→PI conversion gated su outcome=victory
+  // (StS gold analogy). Defeat/timeout = PE earned ma non convertito; resta in pool campaign-wide.
+  const isVictory = session?.outcome === 'victory';
+  const conversion = isVictory
+    ? convertPE(peResult.session_total)
+    : { pi_gained: 0, pe_remaining: peResult.session_total };
 
   return {
     session_id: session.session_id,
@@ -107,7 +115,8 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
       pe_session_total: peResult.session_total,
       pi_converted: conversion.pi_gained,
       pe_remaining: conversion.pe_remaining,
-      seed_earned: 0, // Seed from mating/harvester — wired in D2
+      conversion_gate: isVictory ? 'victory' : session?.outcome || 'pending',
+      // seed_earned: rimosso 2026-04-26 — orphan currency (zero sink finché V3 mating/harvester live)
     },
     // VC performance
     vc_summary: {

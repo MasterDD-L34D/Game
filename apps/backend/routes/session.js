@@ -2045,7 +2045,8 @@ function createSessionRouter(options = {}) {
         vcSnapshot = buildVcSnapshot(session, telemetryConfig);
         const { computeSessionPE, buildDebriefSummary } = require('../services/rewardEconomy');
         const peResult = computeSessionPE(vcSnapshot, {
-          difficulty: session.difficulty || 'standard',
+          // 2026-04-26: encounter_class è canonical (tutorial/standard/hardcore/etc.); session.difficulty legacy fallback
+          difficulty: session.encounter_class || session.difficulty || 'standard',
         });
         debrief = buildDebriefSummary(session, vcSnapshot, peResult);
       } catch {
