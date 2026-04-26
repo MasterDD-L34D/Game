@@ -7,6 +7,9 @@ import { renderWorldSetup, wireWorldSetup } from './worldSetup.js';
 import './worldSetup.css';
 import { renderDebriefPanel, wireDebriefPanel } from './debriefPanel.js';
 import './debriefPanel.css';
+// OD-013 Path B — MBTI dialogue color palette CSS (8 axis classes + tooltip).
+// Co-located con debriefPanel: il narrative log è il primo consumer.
+import './dialogueRender.css';
 
 export function createPhaseCoordinator(bridge) {
   if (!bridge) return null;
