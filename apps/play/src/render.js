@@ -147,6 +147,51 @@ const RANGE_TINT = {
   attackBorder: 'rgba(255, 82, 82, 0.75)',
 };
 
+// QW4 (2026-04-26) — Lifecycle phase visual mapping. Skiv (Arenavenator vagans /
+// dune_stalker) è la creatura canonical: phases sono definite in
+// data/core/species/dune_stalker_lifecycle.yaml ma il sistema è multi-creature
+// ready (ogni unit con `lifecycle_phase` riceve scaling + tint + badge).
+//
+// Phases canoniche (5): hatchling → juvenile → mature → apex → legacy.
+// NOTE: lifecycle YAML usa "mature" non "adult" (ref dune_stalker_lifecycle.yaml).
+//
+// Size scaling: cucciolo più piccolo, apex più grande. Legacy = retired (no growth).
+// Tint: shift di hue lungo la curva di vita (grigio polvere → ocra → ossidiana
+// → cristallo notturno → argento spettrale).
+// Badge: 3 char abbrev top-right per scan TV-side (10-foot rule).
+const LIFECYCLE_PHASE_STYLE = {
+  hatchling: { sizeMul: 0.6, tint: '#bdbdbd', badge: 'HJG' }, // grigio polvere
+  juvenile: { sizeMul: 0.8, tint: '#d9a45b', badge: 'JUV' }, // ocra striato
+  mature: { sizeMul: 1.0, tint: '#7e57c2', badge: 'MTR' }, // ossidiana riflessa
+  apex: { sizeMul: 1.15, tint: '#1565c0', badge: 'APX' }, // brina notturna
+  legacy: { sizeMul: 1.0, tint: '#9e9e9e', badge: 'LGC' }, // argento spettrale
+};
+
+const LIFECYCLE_DEFAULT_STYLE = { sizeMul: 1.0, tint: null, badge: null };
+
+export function getLifecyclePhaseStyle(phase) {
+  if (!phase || typeof phase !== 'string') return LIFECYCLE_DEFAULT_STYLE;
+  return LIFECYCLE_PHASE_STYLE[phase.toLowerCase()] || LIFECYCLE_DEFAULT_STYLE;
+}
+
+// QW4 — Aspect token visual overlay. Token = mutation morphology marker
+// (claws_glass, claws_glacial, scales_chameleon, ears_radar). Reso come
+// piccolo glifo in alto-sinistra del corpo unit. Multi-creature: qualsiasi
+// unit con `aspect_token` campo riceve overlay (token sconosciuto = no-op).
+//
+// Source of truth: data/core/species/dune_stalker_lifecycle.yaml § mutation_morphology.
+const ASPECT_TOKEN_OVERLAY = {
+  claws_glass: { glyph: '◆', color: '#b39ddb' }, // ossidiana trasparente
+  claws_glacial: { glyph: '❄', color: '#90caf9' }, // brina permanente
+  scales_chameleon: { glyph: '◐', color: '#a5d6a7' }, // bio-camo
+  ears_radar: { glyph: '◊', color: '#80deea' }, // echolocation 3D
+};
+
+export function getAspectTokenOverlay(token) {
+  if (!token || typeof token !== 'string') return null;
+  return ASPECT_TOKEN_OVERLAY[token.toLowerCase()] || null;
+}
+
 const STATUS_ICONS = {
   panic: { glyph: '!', bg: '#ff9800' },
   rage: { glyph: '⚡', bg: '#f44336' },
@@ -227,6 +272,64 @@ function drawStatusIcons(ctx, unit, cx, yPxTop) {
   }
 }
 
+// QW4 — Lifecycle phase badge: pill scuro + abbrev (HJG/JUV/MTR/APX/LGC).
+// Posizione: bottom-right del tile. Tint ring color come bg, white text + outline.
+function drawLifecycleBadge(ctx, style, cx, yPxTop) {
+  const label = style.badge;
+  const fontSize = Math.max(9, Math.round(CELL * 0.11));
+  ctx.save();
+  ctx.font = `bold ${fontSize}px "SF Mono", "Menlo", monospace`;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  const padX = 4;
+  const padY = 2;
+  const textW = ctx.measureText(label).width;
+  const badgeW = textW + padX * 2;
+  const badgeH = fontSize + padY * 2;
+  const bx = cx + CELL * 0.18;
+  const by = yPxTop + CELL - badgeH - 4;
+  // Pill bg (dark) + tint border
+  ctx.fillStyle = 'rgba(15, 15, 15, 0.88)';
+  ctx.beginPath();
+  if (typeof ctx.roundRect === 'function') {
+    ctx.roundRect(bx, by, badgeW, badgeH, 4);
+  } else {
+    ctx.rect(bx, by, badgeW, badgeH);
+  }
+  ctx.fill();
+  ctx.strokeStyle = style.tint || '#888';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  // White text con outline nero (TV scan ready).
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(label, bx + padX, by + padY);
+  ctx.restore();
+}
+
+// QW4 — Aspect token overlay glifo: piccolo marker top-left del tile per
+// mutation morphology (claws_glass/glacial/scales_chameleon/ears_radar).
+function drawAspectTokenOverlay(ctx, overlay, cx, yPxTop) {
+  const size = Math.max(14, Math.round(CELL * 0.18));
+  const ix = cx - CELL * 0.32;
+  const iy = yPxTop + CELL * 0.55;
+  ctx.save();
+  // Disc bg semi-trans
+  ctx.fillStyle = 'rgba(15, 15, 15, 0.78)';
+  ctx.beginPath();
+  ctx.arc(ix, iy, size / 2 + 1, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = overlay.color;
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  // Glyph
+  ctx.fillStyle = overlay.color;
+  ctx.font = `bold ${size - 2}px "SF Mono", "Menlo", monospace`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(overlay.glyph, ix, iy + 1);
+  ctx.restore();
+}
+
 // W4.3 — Priority rank badge (resolution order 1..N) during resolve phase.
 function drawPriorityBadge(ctx, rank, cx, yPxTop) {
   const size = 18;
@@ -266,15 +369,30 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
 
   // W8M — Body: job-shape silhouette (no more circles). Ring outer = jobColor,
   // interior = faction. Boss scale +50% per drawUnitBody ring/body.
+  // QW4 (2026-04-26) — Lifecycle phase scaling: hatchling 0.6× → apex 1.15×.
+  // Skiv visibility: phase visualmente leggibile da TV scan (10-foot rule).
+  // Multi-creature ready: qualsiasi unit con `lifecycle_phase` campo riceve
+  // scaling + tint + badge (token sconosciuto / phase mancante = fallback safe).
   const jobKey = (unit.job || unit.class || '').toString().toLowerCase();
   const isBoss = jobKey === 'boss' || unit.is_boss === true;
-  const sizeMul = isBoss ? 1.5 : 1;
+  const lifecycleStyle = getLifecyclePhaseStyle(unit.lifecycle_phase);
+  const sizeMul = (isBoss ? 1.5 : 1) * lifecycleStyle.sizeMul;
   const jobColor = JOB_COLORS[jobKey] || null;
   // Outer job ring
   if (!dead && jobColor) {
     ctx.fillStyle = jobColor;
     drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.42 * sizeMul);
     ctx.fill();
+  }
+  // QW4 — Lifecycle phase tint ring (intermediate layer between job ring and
+  // faction body). Visibile solo se phase nota; semi-trans per leggere job sotto.
+  if (!dead && lifecycleStyle.tint) {
+    ctx.save();
+    ctx.globalAlpha = 0.55;
+    ctx.fillStyle = lifecycleStyle.tint;
+    drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.38 * sizeMul);
+    ctx.fill();
+    ctx.restore();
   }
   // Inner faction body
   ctx.fillStyle = color;
@@ -368,6 +486,22 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
 
   // Status icons (top-right)
   if (!dead) drawStatusIcons(ctx, unit, cx, yPx * CELL);
+
+  // QW4 — Lifecycle phase badge (bottom-right, sotto al corpo). Skiv-style:
+  // hatchling/juvenile/mature/apex/legacy abbrev su pill scuro.
+  if (!dead && lifecycleStyle.badge) {
+    drawLifecycleBadge(ctx, lifecycleStyle, cx, yPx * CELL);
+  }
+
+  // QW4 — Aspect token overlay (top-left). Mutation morphology marker
+  // (claws_glass/claws_glacial/scales_chameleon/ears_radar). Glifo piccolo,
+  // colore tematico. No-op se token assente o sconosciuto.
+  if (!dead) {
+    const aspectOverlay = getAspectTokenOverlay(unit.aspect_token);
+    if (aspectOverlay) {
+      drawAspectTokenOverlay(ctx, aspectOverlay, cx, yPx * CELL);
+    }
+  }
 
   // M4 P0.3 — SIS enemy intent icon (Slay the Spire pattern).
   // M8 Plan-Reveal P0 (ADR-2026-04-18): real intent icon da threat_preview
