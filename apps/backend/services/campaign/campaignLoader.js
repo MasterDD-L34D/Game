@@ -190,6 +190,20 @@ function resolveOnboardingTrait(campaign, optionKey) {
 }
 
 /**
+ * L'Impronta v2 (CAP-14, post-mockup CAP-13).
+ * Returns { schema_version, enabled, axes[], default_choices, ... } if present.
+ * V2 = 4 player parallel choices su body parts (locomotion/offense/defense/senses).
+ * Distinto da V1 (1 trait per branco). Backward-compat: legacy campaigns senza
+ * onboarding_v2 ritornano null → V2 endpoint risponde 404.
+ */
+function getOnboardingV2(campaign) {
+  if (!campaign || typeof campaign !== 'object') return null;
+  const ob = campaign.onboarding_v2 || null;
+  if (!ob || ob.enabled === false) return null;
+  return ob;
+}
+
+/**
  * Extract all encounter IDs referenced (for integrity check vs YAML scenarios).
  */
 function extractAllEncounterIds(campaign) {
@@ -213,6 +227,7 @@ module.exports = {
   getEncountersForAct,
   resolveBranch,
   getOnboarding,
+  getOnboardingV2,
   resolveOnboardingTrait,
   extractAllEncounterIds,
   _resetCache,
