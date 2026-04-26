@@ -22,6 +22,7 @@ jobs:
       styleguide: ${{ steps.filter.outputs.styleguide }}
       stack: ${{ steps.filter.outputs.stack }}
       site_audit: ${{ steps.filter.outputs.site_audit }}
+      i18n: ${{ steps.filter.outputs.i18n }}
 
     steps:
       - name: Checkout repository
@@ -76,6 +77,10 @@ jobs:
             site_audit:
               - 'ops/site-audit/**'
               - 'Makefile'
+            i18n:
+              - 'data/i18n/**'
+              - 'tools/py/validate_i18n_parity.py'
+              - 'tests/i18n/**'
 
   playwright-bundle:
     runs-on: ubuntu-latest
@@ -437,6 +442,45 @@ jobs:
             reports/trait_style/ci_trait_style_report.json
             reports/trait_style/ci_trait_style_report.md
           if-no-files-found: warn
+
+  i18n-parity:
+    runs-on: ubuntu-latest
+    needs:
+      - paths-filter
+    if: needs.paths-filter.outputs.i18n == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Verify i18n bundles exist
+        id: check_bundles
+        run: |
+          if [ ! -d data/i18n ]; then
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "data/i18n/ not present, skipping parity validation" >&2
+          else
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run i18n parity validator
+        if: steps.check_bundles.outputs.exists == 'true'
+        run: python tools/py/validate_i18n_parity.py --root data/i18n
+
+      - name: Set up Node.js
+        if: steps.check_bundles.outputs.exists == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run i18n parity Node test wrapper
+        if: steps.check_bundles.outputs.exists == 'true'
+        run: node --test tests/i18n/parity.test.js
 
   site-audit:
     runs-on: ubuntu-latest
