@@ -16,8 +16,9 @@ related:
 
 # ADR-2026-04-26 — Multi-stage encounter schema
 
-**Status**: proposed
+**Status**: accepted (sign-off master-dd 2026-04-26 sera, sprint kickoff pending Nido merge)
 **Decision date**: 2026-04-26
+**Accepted date**: 2026-04-26
 **Effort impl**: 12-15h (Sprint A)
 
 ## Context
