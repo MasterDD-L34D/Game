@@ -31,8 +31,16 @@ const {
   getEncountersForAct,
   resolveBranch,
   getOnboarding,
+  getOnboardingV2,
   resolveOnboardingTrait,
 } = require('../services/campaign/campaignLoader');
+const {
+  resolveBiome,
+  VALID_LOCOMOTION,
+  VALID_OFFENSE,
+  VALID_DEFENSE,
+  VALID_SENSES,
+} = require('../services/imprint/biomeResolver');
 const { summariseCampaign } = require('../services/campaign/campaignEngine');
 const { grantXpToSurvivors } = require('../services/progression/progressionApply');
 const { loadXpCurve } = require('../services/progression/progressionLoader');
@@ -102,6 +110,117 @@ function createCampaignRouter(options = {}) {
         narrative_hook: defDoc.narrative_hook,
         total_acts: defDoc.total_acts,
         onboarding: onboarding || null, // V1: UI consumer picker
+      },
+    });
+  });
+
+  // ─── L'Impronta v2 (CAP-14) — 4 player parallel choices su body parts ───
+  //
+  // POST /api/campaign/start/v2
+  // Body: {
+  //   players: [<playerId1>, <playerId2>, <playerId3>, <playerId4>], // 4 players
+  //   campaign_def_id?: string,                                       // default 'default_campaign_mvp'
+  //   choices: {
+  //     p1: { locomotion: 'VELOCE'|'SILENZIOSA' },
+  //     p2: { offense: 'PROFONDA'|'RAPIDA' },
+  //     p3: { defense: 'DURA'|'FLESSIBILE' },
+  //     p4: { senses: 'LONTANO'|'ACUTO' }
+  //   }
+  // }
+  //
+  // Aggregato per biomeResolver: 4-tuple choices flatten → biome_id + base_biome_id + applied_modulations.
+  // Ritorna campaign object + biome resolution + next_encounter.
+  router.post('/campaign/start/v2', (req, res) => {
+    const { players, campaign_def_id, choices } = req.body || {};
+
+    // Validation: 4 players required
+    if (
+      !Array.isArray(players) ||
+      players.length !== 4 ||
+      !players.every((p) => typeof p === 'string' && p.trim())
+    ) {
+      return res.status(400).json({ error: 'players richiesto (array di 4 string non vuoti)' });
+    }
+    if (!choices || typeof choices !== 'object') {
+      return res.status(400).json({ error: 'choices richiesto (object {p1, p2, p3, p4})' });
+    }
+
+    // Validation: 4 axes required
+    const aggregated = {};
+    const axisExpected = { p1: 'locomotion', p2: 'offense', p3: 'defense', p4: 'senses' };
+    const validators = {
+      locomotion: VALID_LOCOMOTION,
+      offense: VALID_OFFENSE,
+      defense: VALID_DEFENSE,
+      senses: VALID_SENSES,
+    };
+    for (const [slot, axis] of Object.entries(axisExpected)) {
+      const slotChoice = choices[slot];
+      if (!slotChoice || typeof slotChoice !== 'object') {
+        return res.status(400).json({ error: `choices.${slot} richiesto (con ${axis})` });
+      }
+      const value = String(slotChoice[axis] || '').toUpperCase();
+      if (!validators[axis].has(value)) {
+        return res.status(400).json({
+          error: `choices.${slot}.${axis} non valido: "${slotChoice[axis]}". Atteso: ${[...validators[axis]].join('|')}`,
+        });
+      }
+      aggregated[axis] = value;
+    }
+
+    // Load campaign def + check onboarding_v2
+    const defId = campaign_def_id || 'default_campaign_mvp';
+    const defDoc = loadCampaignDef(defId);
+    if (!defDoc) {
+      return res.status(404).json({ error: `campaign def "${defId}" non trovato` });
+    }
+    const onboardingV2 = getOnboardingV2(defDoc);
+    if (!onboardingV2) {
+      return res.status(404).json({
+        error: `campaign def "${defId}" non ha onboarding_v2 (use /api/campaign/start V1 per legacy)`,
+      });
+    }
+
+    // Resolve biome via biomeResolver (CAP-11). Team composition = 4 player choices flatten.
+    const teamComposition = [
+      { ...aggregated, ...{ [axisExpected.p1]: aggregated.locomotion } },
+      { ...aggregated, ...{ [axisExpected.p2]: aggregated.offense } },
+      { ...aggregated, ...{ [axisExpected.p3]: aggregated.defense } },
+      { ...aggregated, ...{ [axisExpected.p4]: aggregated.senses } },
+    ];
+    const biomeResult = resolveBiome(aggregated, { team_composition: teamComposition });
+
+    // Create campaign with first player as primary owner (campaign-level concept).
+    // Other 3 players associated via lobby/coop layer (out-of-scope V2 backend).
+    const primaryPlayer = players[0];
+    const campaign = createCampaign(primaryPlayer, defId, {
+      onboardingChoice: { mode: 'imprint_v2', choices: aggregated },
+      acquiredTraits: [],
+    });
+
+    const firstAct = defDoc.acts[0];
+    const firstEnc = (firstAct?.encounters || []).find((e) => !e.is_choice_node);
+    const transitionLine = (onboardingV2.transition?.line_template || '').replace(
+      '{biome_name}',
+      biomeResult.biome_id,
+    );
+
+    return res.status(201).json({
+      campaign,
+      players,
+      choices: aggregated,
+      biome: {
+        biome_id: biomeResult.biome_id,
+        base_biome_id: biomeResult.base_biome_id,
+        applied_modulations: biomeResult.applied_modulations,
+      },
+      next_encounter_id: firstEnc?.encounter_id || null,
+      transition_line: transitionLine,
+      campaign_def: {
+        name: defDoc.name,
+        narrative_hook: defDoc.narrative_hook,
+        total_acts: defDoc.total_acts,
+        onboarding_v2: onboardingV2,
       },
     });
   });

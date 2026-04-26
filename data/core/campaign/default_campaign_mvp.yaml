@@ -62,6 +62,67 @@ onboarding:
 
   next_encounter: enc_tutorial_01 # Act 0 chapter 1 inception
 
+# ─── L'Impronta v2 (CAP-14, post-mockup CAP-13) ───────────────────────
+# 4 player parallel choice su body parts. Modello "4 creature 1 bioma"
+# (audit Impronta CAP-10). Bioma emerge da 4-tuple via biomeResolver (CAP-11).
+# Backward-compat: V1 (/api/campaign/start) resta invariato.
+# V2 attiva solo via /api/campaign/start/v2.
+
+onboarding_v2:
+  schema_version: '1.0'
+  enabled: true
+  timing_seconds: 60
+
+  briefing:
+    duration_seconds: 8
+    lines:
+      - 'Quattro di voi.'
+      - 'Quattro creature.'
+      - 'Un solo mondo da scoprire.'
+
+  axes:
+    - axis_id: locomotion
+      player_slot: p1
+      body_part: 'le tue zampe'
+      question: 'Veloci o silenziose?'
+      options:
+        - { value: VELOCE, label: 'VELOCE', desc: 'Movimento ampio, hit-and-run' }
+        - { value: SILENZIOSA, label: 'SILENZIOSA', desc: 'Stealth, ambush' }
+    - axis_id: offense
+      player_slot: p2
+      body_part: 'la tua mascella'
+      question: 'Profonda o rapida?'
+      options:
+        - { value: PROFONDA, label: 'PROFONDA', desc: 'Singolo morso devastante' }
+        - { value: RAPIDA, label: 'RAPIDA', desc: 'Attacchi multipli, bleeding' }
+    - axis_id: defense
+      player_slot: p3
+      body_part: 'la tua pelle'
+      question: 'Dura o flessibile?'
+      options:
+        - { value: DURA, label: 'DURA', desc: 'Armatura naturale, lentezza' }
+        - { value: FLESSIBILE, label: 'FLESSIBILE', desc: 'Evasione, parry' }
+    - axis_id: senses
+      player_slot: p4
+      body_part: 'i tuoi occhi'
+      question: 'Lontano o acuto?'
+      options:
+        - { value: LONTANO, label: 'LONTANO', desc: 'Range visivo amplio' }
+        - { value: ACUTO, label: 'ACUTO', desc: 'Dettaglio, rilevamento traps' }
+
+  transition:
+    duration_seconds: 5
+    line_template: 'Il bioma vi accoglie: {biome_name}.'
+
+  next_encounter: enc_tutorial_01
+
+  deliberation_timeout_seconds: 15
+  default_choices:
+    p1: VELOCE
+    p2: PROFONDA
+    p3: DURA
+    p4: LONTANO
+
 acts:
   # ─── Act 0: Onboarding (tutorial 01-05) ──────────────────────────────
   - act_idx: 0
