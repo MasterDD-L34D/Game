@@ -1,6 +1,6 @@
 ---
 title: 'ADR-2026-04-27 — Skiv portable companion + crossbreeding async cross-player'
-doc_status: proposed
+doc_status: accepted
 doc_owner: master-dd
 workstream: cross-cutting
 last_verified: '2026-04-27'
@@ -20,9 +20,10 @@ tags: [skiv, companion, crossbreeding, lineage, portable, async, social]
 
 # ADR-2026-04-27 — Skiv portable companion + crossbreeding async cross-player
 
-**Status**: proposed (sign-off master-dd pending — 5 decision points sezione §7)
+**Status**: accepted (sign-off master-dd 2026-04-27 sera, defaults Q4-Q8 confirmed: privacy whitelist subset, cap 10 ambassador per Nido, permanent ambassador, cooldown 1/campagna, rate-limit 10/h IP. Phase 1 schema + persistence shipped in this PR)
 **Decision date**: 2026-04-27
-**Effort impl**: 25-30h (Sprint S1-polish, 6 phase)
+**Accepted date**: 2026-04-27
+**Effort impl**: 25-30h (Sprint S1-polish, 6 phase). Phase 1 ~7h shipped; Phase 2-6 pending.
 **Prerequisites**: OD-001 Path A Nido shipped (Sprint A→D, 4 PR `9d1182ae`/`9efccc26`/`b7f4fff5`/`639a90f7`), `metaProgression.js:recordOffspring()` + `getLineageChain()` + `getTribesEmergent()` live in main.
 
 ## Context
