@@ -3,6 +3,10 @@
 // Endpoints:
 //   GET  /api/forms/:formId/packs          — static form recommendation
 //   POST /api/forms/:formId/recommend      — d20/d12 dynamic recommendation
+//
+// QW2 / M-017 starter bioma routes (GET /api/forms/starter-biomas + GET
+// /api/forms/:formId/starter-bioma) live in routes/forms.js to avoid
+// shadow conflicts with the /api/forms/:id catch-all registered there.
 
 'use strict';
 

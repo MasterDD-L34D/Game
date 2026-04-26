@@ -45,3 +45,65 @@ test('POST /api/forms/INTJ/recommend: no d20 → static recommendation', async (
   assert.equal(res.body.type, 'static_form_recommendation');
   assert.equal(res.body.form_packs.length, 3);
 });
+
+// ===========================================================================
+// QW2 / M-017: starter bioma route surface
+// ===========================================================================
+
+test('GET /api/forms/starter-biomas: returns 16 form -> bioma map', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app).get('/api/forms/starter-biomas');
+  assert.equal(res.status, 200);
+  assert.equal(res.body.count, 16);
+  assert.equal(res.body.items.length, 16);
+  const intj = res.body.items.find((x) => x.form_id === 'INTJ');
+  assert.ok(intj);
+  assert.equal(intj.trait_id, 'starter_bioma_intj');
+  assert.equal(intj.biome_id, 'rovine_planari');
+});
+
+test('GET /api/forms/INTJ/starter-bioma: resolves single form', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app).get('/api/forms/INTJ/starter-bioma');
+  assert.equal(res.status, 200);
+  assert.equal(res.body.form_id, 'INTJ');
+  assert.equal(res.body.trait_id, 'starter_bioma_intj');
+  assert.equal(res.body.biome_id, 'rovine_planari');
+});
+
+test('GET /api/forms/XXXX/starter-bioma: 404 for unknown form', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app).get('/api/forms/XXXX/starter-bioma');
+  assert.equal(res.status, 404);
+});
+
+test('GET /api/forms/INTJ/packs: payload includes starter_bioma resolved field', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app).get('/api/forms/INTJ/packs');
+  assert.equal(res.status, 200);
+  assert.ok(res.body.starter_bioma);
+  assert.equal(res.body.starter_bioma.trait_id, 'starter_bioma_intj');
+});
+
+test('POST /api/forms/INTJ/recommend: payload includes starter_bioma', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const res = await request(app).post('/api/forms/INTJ/recommend').send({ job_id: 'invoker' });
+  assert.equal(res.status, 200);
+  assert.ok(res.body.starter_bioma);
+  assert.equal(res.body.starter_bioma.biome_id, 'rovine_planari');
+});
