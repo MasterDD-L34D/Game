@@ -2034,6 +2034,17 @@ function createSessionRouter(options = {}) {
       await persistEvents(session);
       const eventsCount = session.events.length;
       const logFile = session.logFilePath;
+      // TKT-08: cancel any pending auto-commit timer prima di delete session.
+      // Senza questo, i timer setTimeout accumulati in planningTimers Map
+      // mantengono closure refs alla session anche post-delete (callback
+      // no-op grazie al guard, ma timer queue cresce N×runs in batch).
+      try {
+        if (typeof roundBridge.cancelPlanningTimer === 'function') {
+          roundBridge.cancelPlanningTimer(session.session_id);
+        }
+      } catch {
+        /* defensive: never block /end on teardown */
+      }
       sessions.delete(session.session_id);
       // P4 Thought Cabinet: release per-session unlock cache on teardown.
       // Prevents linear memory growth over process lifetime (Codex review #1702).

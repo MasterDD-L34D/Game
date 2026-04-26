@@ -21,14 +21,31 @@ MAX_ROUNDS = 15
 DEFAULT_HOST = "http://localhost:3334"
 
 
+def _retry(fn, retries=5, backoff_base=0.5):
+    """Retry exponential backoff su ConnectionRefusedError / URLError.
+    Mitiga TCP port exhaustion Windows + transient backend stalls (TKT-08)."""
+    last_err = None
+    for attempt in range(retries):
+        try:
+            return fn()
+        except urllib.error.HTTPError:
+            raise
+        except (urllib.error.URLError, ConnectionRefusedError, OSError) as e:
+            last_err = e
+            time.sleep(backoff_base * (2 ** attempt))
+    raise last_err
+
+
 def post(url, payload):
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         url, data=data, headers={"Content-Type": "application/json"}, method="POST"
     )
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return resp.status, json.loads(resp.read().decode("utf-8"))
+        def _do():
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return resp.status, json.loads(resp.read().decode("utf-8"))
+        return _retry(_do)
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", errors="replace")
         try:
@@ -36,15 +53,27 @@ def post(url, payload):
         except Exception:
             pass
         return e.code, body
+    except Exception as e:
+        return 0, {"error": f"connection failed after retries: {e}"}
 
 
 def get(url):
     req = urllib.request.Request(url, headers={"Accept": "application/json"})
     try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            return resp.status, json.loads(resp.read().decode("utf-8"))
+        def _do():
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                return resp.status, json.loads(resp.read().decode("utf-8"))
+        return _retry(_do)
     except urllib.error.HTTPError as e:
         return e.code, {}
+    except Exception:
+        return 0, {}
+
+
+def health_check(host):
+    """Probe /api/health. Ritorna True se backend risponde 200."""
+    status, _ = get(f"{host}/api/health")
+    return status == 200
 
 
 def manhattan(a, b):
@@ -219,26 +248,62 @@ def main():
     p.add_argument("--n", type=int, default=10)
     p.add_argument("--host", default=os.environ.get("P6_HOST", DEFAULT_HOST))
     p.add_argument("--out", default=None, help="JSON output path")
+    p.add_argument("--jsonl", default=None, help="JSONL incremental output (resume)")
+    p.add_argument("--cooldown", type=float, default=0.5, help="Sec between runs")
+    p.add_argument("--skip-health", action="store_true", help="Skip /api/health probe")
     args = p.parse_args()
+
+    # TKT-08: health probe fail-fast prima di batch.
+    if not args.skip_health:
+        if not health_check(args.host):
+            print(f"ERROR: backend health check failed at {args.host}/api/health", flush=True)
+            return 1
+        print(f"OK: backend healthy at {args.host}", flush=True)
 
     print(f"Hardcore 07 calibration: N={args.n} host={args.host}", flush=True)
     t0 = time.time()
     runs = []
-    for i in range(args.n):
-        r = run_one(args.host, i + 1)
-        runs.append(r)
-        if "error" in r:
-            print(f"  run {i+1}: ERROR {r['error']}", flush=True)
-        else:
-            print(
-                f"  run {i+1}: {r['outcome']} rounds={r['rounds']} "
-                f"timer_expired={r['timer_expired']} KD={r['kd']}",
-                flush=True,
-            )
+    failures = 0
+    jsonl_fh = open(args.jsonl, "a", encoding="utf-8") if args.jsonl else None
+    try:
+        for i in range(args.n):
+            r = run_one(args.host, i + 1)
+            runs.append(r)
+            if "error" in r:
+                failures += 1
+                print(f"  run {i+1}: ERROR {r['error']}", flush=True)
+            else:
+                print(
+                    f"  run {i+1}: {r['outcome']} rounds={r['rounds']} "
+                    f"timer_expired={r['timer_expired']} KD={r['kd']}",
+                    flush=True,
+                )
+            # TKT-10: incremental JSONL write (resume-friendly).
+            if jsonl_fh:
+                jsonl_fh.write(json.dumps(r) + "\n")
+                jsonl_fh.flush()
+            # TKT-08: inter-run cooldown — mitiga TCP port exhaustion Windows.
+            if i + 1 < args.n and args.cooldown > 0:
+                time.sleep(args.cooldown)
+            # TKT-08: periodic health re-check ogni 10 run (auto-abort on backend death).
+            if (i + 1) % 10 == 0 and not args.skip_health and i + 1 < args.n:
+                if not health_check(args.host):
+                    print(f"WARN: health check failed dopo run {i+1}, retry sleep 5s", flush=True)
+                    time.sleep(5)
+                    if not health_check(args.host):
+                        print(
+                            f"ABORT: backend non recuperato, stop batch (run completati: {i+1})",
+                            flush=True,
+                        )
+                        break
+    finally:
+        if jsonl_fh:
+            jsonl_fh.close()
 
     summary = summarise(runs)
     elapsed = round(time.time() - t0, 1)
     summary["elapsed_s"] = elapsed
+    summary["failures"] = failures
     out = {"scenario": SCENARIO_ID, "runs": runs, "summary": summary}
     print("\n=== SUMMARY ===", flush=True)
     print(json.dumps(summary, indent=2), flush=True)
