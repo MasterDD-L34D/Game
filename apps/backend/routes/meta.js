@@ -20,7 +20,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Router } = require('express');
 const yaml = require('js-yaml');
-const { createMetaStore } = require('../services/metaProgression');
+const {
+  createMetaStore,
+  getLineageChain,
+  getTribesEmergent,
+  getTribeForUnit,
+} = require('../services/metaProgression');
 
 // OD-001 Path A Sprint B (2026-04-26): debrief-recruit affinity-bypass threshold.
 // Defeated enemies with affinity_at_recruit >= this value can be recruited
@@ -180,6 +185,45 @@ function createMetaRouter(opts = {}) {
       const { biome, requirements_met } = req.body || {};
       const nest = await store.setNest(biome || 'default', requirements_met !== false);
       res.json(nest);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // ─── Sprint D — Lineage chain + Tribe emergent ─────────────────────
+  // Tribe = lineage_id chain con >= 3 members. Process-scoped registry
+  // popolato da recordOffspring() (Sprint C wire). Documented in
+  // metaProgression.js + memory feedback_tribe_lineage_emergent_breakthrough.
+
+  router.get('/lineage/:id', (req, res, next) => {
+    try {
+      const { id } = req.params;
+      if (!id) return res.status(400).json({ error: 'lineage id required' });
+      const chain = getLineageChain(id);
+      res.json({ lineage_id: id, members_count: chain.length, chain });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.get('/tribes', (_req, res, next) => {
+    try {
+      const tribes = getTribesEmergent();
+      res.json({ tribes, threshold: 3 });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.get('/tribe/unit/:id', (req, res, next) => {
+    try {
+      const { id } = req.params;
+      if (!id) return res.status(400).json({ error: 'unit id required' });
+      const tribe = getTribeForUnit(id);
+      if (!tribe) {
+        return res.json({ unit_id: id, tribe: null, lone_wolf: true });
+      }
+      res.json({ unit_id: id, tribe, lone_wolf: false });
     } catch (err) {
       next(err);
     }

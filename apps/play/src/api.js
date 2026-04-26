@@ -288,6 +288,11 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ biome, requirements_met }),
     }),
+  // OD-001 Path A Sprint D — lineage chain + tribe emergent (2026-04-26).
+  // Tribe = lineage_id with >= 3 members (emergent from mating chain).
+  metaLineageChain: (lineageId) => jsonFetch(`/api/meta/lineage/${encodeURIComponent(lineageId)}`),
+  metaTribesEmergent: () => jsonFetch('/api/meta/tribes'),
+  metaTribeForUnit: (unitId) => jsonFetch(`/api/meta/tribe/unit/${encodeURIComponent(unitId)}`),
   // Skiv-as-Monitor — git-event-driven creature feed (Phase 2 wire 2026-04-25).
   skivStatus: () => jsonFetch('/api/skiv/status'),
   skivFeed: (limit = 20) => jsonFetch(`/api/skiv/feed?limit=${encodeURIComponent(limit)}`),
