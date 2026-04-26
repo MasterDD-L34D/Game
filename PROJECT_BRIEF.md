@@ -71,6 +71,7 @@
 - **Archivio operativo esterno**: `C:/dev/codemasterdd-ai-station/Archivio_Libreria_Operativa_Progetti/` — prompt library + operating package
 - **Skills installate**: 40+ (vedi `docs/planning/2026-04-24-claude-skills-shopping-list.md` sezione "Già presenti")
 - **Subagenti custom**: 6 in `.claude/agents/` (balance-auditor, migration-planner, schema-ripple, session-debugger, sot-planner, species-reviewer) + 2 P0 nuovi (playtest-analyzer, coop-phase-validator — 2026-04-24)
+- **Skiv-as-Monitor** (2026-04-25): creatura canonical `Arenavenator vagans` reagisce live a git events (PR/issue/workflow) del repo. Stack: `tools/py/skiv_monitor.py` Python poller + cron 4h + `apps/backend/routes/skiv.js` 4 endpoint (`/api/skiv/{status,feed,card,webhook}`) + UI overlay 🦎 + Swarm dashboard cross-origin. Persona canonical `docs/skiv/CANONICAL.md`, ADR `docs/adr/ADR-2026-04-25-skiv-as-monitor.md`, autogen `docs/skiv/MONITOR.md`. Voice deterministic via Tracery seeded grammar (662 voci) + QBN storylets (14 weekly digest) + Conventional Commits parser. 5 lifecycle fasi visual (SVG hand-craft + raster CC0 GrafxKid).
 
 ## Problemi attuali
 
