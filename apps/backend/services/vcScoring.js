@@ -846,9 +846,10 @@ function buildVcSnapshot(session, config) {
   const gridSize = session?.grid?.width || 6;
   const raw = computeRawMetrics(events, units, gridSize);
 
-  // P4 iter2 default ON (sprint 2026-04-26 telemetria VC compromesso).
-  // Rollback: env VC_AXES_ITER=1 oppure config.use_axes_iter2=false.
-  // Config esplicita ha priorità su env. Default (entrambi unset) = iter2.
+  // P4 iter2 opt-in (sprint 2026-04-26 telemetria VC compromesso, REVERTED 2026-04-27:
+  // iter2 default ON rompeva tutorial seed thought unlock — axes null in iter2
+  // quando events_count=0 mentre iter1 deriva da setup_ratio anche senza eventi).
+  // Default = iter1 (backward compat). Opt-in via env VC_AXES_ITER=2 o config.
   let iter2;
   if (config?.use_axes_iter2 === true) {
     iter2 = true;
@@ -859,7 +860,7 @@ function buildVcSnapshot(session, config) {
   } else if (process.env.VC_AXES_ITER === '2') {
     iter2 = true;
   } else {
-    iter2 = true; // default ON
+    iter2 = false; // default OFF (revert: tutorial seed thoughts compat)
   }
   const axesFn = iter2 ? computeMbtiAxesIter2 : computeMbtiAxes;
 
