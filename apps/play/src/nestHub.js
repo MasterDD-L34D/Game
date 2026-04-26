@@ -1,29 +1,39 @@
-// OD-001 Path A — V3 Nest Hub overlay (NEW 2026-04-25).
+// OD-001 Path A — Sprint A: V3 Nest Hub overlay (4-tab scaffold).
 //
-// Minimal viable UI for V3 Mating/Nido meta progression engine wire.
-// Reads /api/meta/npg + /api/meta/nest and renders:
-//   - Nest state (level, biome, requirements_met)
-//   - Nest setup form (biome picker + setup button) when level=0
-//   - NPG list (recruited NPCs + affinity/trust/cooldown chips)
-//   - Mating preview (Phase D, 2-NPG select + roll attempt) — minimal
+// Nido = housing+evolution+mutation hub post-unlock (Pokopia/Stardew CC pattern).
+// Sbloccato da `biome_arc_completed` + ≥3 missioni nel bioma affinity (vedi
+// sessionHelpers.checkNidoUnlock). Una volta sbloccato, sempre accessibile.
 //
-// Pattern clonato da progressionPanel.js (overlay + injectStyles + refresh).
-// Consumer: main.js attaches header btn "🪺 Nido" via id="nest-open".
+// Layout 4 tab:
+//   - Squad   → lista creature owned (NPG recruited via /api/meta/npg)
+//   - Mating  → mating roll UI (Sprint C riempie full UI; Sprint A: stub
+//               minimal preserva engine wire — single NPG select → roll)
+//   - Lineage → placeholder "Coming soon" (Sprint D riempie genealogy tree)
+//   - Codex   → link che apre codexPanel esistente (in-game wiki)
+//
+// Pattern clonato da skivPanel.js / codexPanel.js (overlay + injectStyles).
+// Consumer: main.js attaches header btn "🏠 Nido" via id="nest-open".
+// Visibility: btn-nest hidden by default, mostrato quando state.world.nido_unlocked === true.
 //
 // Engine: apps/backend/services/metaProgression.js
-// Routes: apps/backend/routes/meta.js (mounted at /api/meta and /api/v1/meta)
-// Card: docs/museum/cards/mating_nido-engine-orphan.md (M-007)
+// Routes: apps/backend/routes/meta.js (mounted /api/meta + /api/v1/meta)
+// Report: docs/reports/2026-04-26-nido-pokopia-housing-pattern.md
 
 import { api } from './api.js';
+
+const TAB_IDS = ['squad', 'mating', 'lineage', 'codex'];
 
 const STATE = {
   overlayEl: null,
   cachedNpcs: [],
   cachedNest: { level: 0, biome: null, requirements_met: false },
   selectedNpgIds: new Set(),
-  // Optional partyMember provider for mating roll (Phase D).
-  // Returns { mbti_type, trait_ids } of the active player unit.
+  currentTab: 'squad',
+  // Optional providers wired da main.js.
   getPartyMember: () => null,
+  openCodex: () => {
+    /* fallback no-op */
+  },
 };
 
 const BIOME_OPTIONS = [
@@ -35,6 +45,19 @@ const BIOME_OPTIONS = [
   'deserto',
   'default',
 ];
+
+// Pure helper — Squad tab uses recruited NPCs as "creature owned" placeholder
+// finché schema squad runtime separato non esiste (Sprint B+).
+export function filterSquadMembers(npcs) {
+  if (!Array.isArray(npcs)) return [];
+  return npcs.filter((n) => n && n.recruited === true);
+}
+
+// Pure helper — eligible per mating roll (recruited + non-mated + cooldown ok).
+export function filterMatingEligible(npcs) {
+  if (!Array.isArray(npcs)) return [];
+  return npcs.filter((n) => n && n.recruited === true && !n.mated && (n.mating_cooldown ?? 0) <= 0);
+}
 
 function injectStyles() {
   if (typeof document === 'undefined') return;
@@ -62,6 +85,22 @@ function injectStyles() {
       margin-left: auto; background: transparent; border: none; color: #ef9a9a;
       cursor: pointer; font-size: 1.2rem;
     }
+    .nest-tabs {
+      display: flex; gap: 4px; border-bottom: 1px solid #2a3040;
+      margin-bottom: 14px;
+    }
+    .nest-tab {
+      background: transparent; border: 1px solid transparent; border-bottom: none;
+      color: #8891a3; padding: 8px 14px; cursor: pointer;
+      font-size: 0.9rem; border-radius: 6px 6px 0 0;
+    }
+    .nest-tab.active {
+      background: #0b0d12; border-color: #2a3040; color: #ffd180;
+      position: relative; top: 1px;
+    }
+    .nest-tab:hover:not(.active) { color: #e8eaf0; }
+    .nest-tab-panel { display: none; }
+    .nest-tab-panel.active { display: block; }
     .nest-meta {
       display: flex; gap: 14px; flex-wrap: wrap;
       background: #0b0d12; border: 1px solid #2a3040; border-radius: 8px;
@@ -93,20 +132,38 @@ function injectStyles() {
     .nest-empty {
       color: #8891a3; font-style: italic; padding: 8px 0;
     }
+    .tab-stub {
+      background: #0b0d12; border: 1px dashed #2a3040; border-radius: 8px;
+      padding: 22px; text-align: center; color: #8891a3; font-style: italic;
+    }
+    .tab-stub strong { color: #ffd180; font-style: normal; display: block;
+      margin-bottom: 6px; }
+    .nest-creature-row,
     .nest-npc-row {
       display: flex; align-items: center; gap: 10px;
       background: #0b0d12; border: 1px solid #2a3040; border-radius: 8px;
       padding: 8px 12px; margin-bottom: 6px;
     }
     .nest-npc-row.selected { border-color: #66bb6a; background: #1e2d20; }
+    .nest-creature-avatar,
+    .nest-npc-row .npc-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #1d2230; border: 1px solid #2a3040;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .nest-creature-row .creature-name,
     .nest-npc-row .npc-name { font-weight: 700; color: #ffb74d; min-width: 140px; }
+    .nest-creature-row .creature-stats,
     .nest-npc-row .npc-stats { display: flex; gap: 6px; flex: 1; flex-wrap: wrap; }
-    .nest-npc-row .stat-chip {
+    .stat-chip {
       background: #151922; border: 1px solid #2a3040; border-radius: 4px;
       padding: 2px 8px; font-family: monospace; font-size: 0.78rem;
     }
-    .nest-npc-row .stat-chip.recruited { color: #a5d6a7; border-color: #3d5542; }
-    .nest-npc-row .stat-chip.cooldown { color: #ef9a9a; border-color: #5e3d3d; }
+    .stat-chip.recruited { color: #a5d6a7; border-color: #3d5542; }
+    .stat-chip.cooldown { color: #ef9a9a; border-color: #5e3d3d; }
+    .stat-chip.phase { color: #66d1fb; border-color: #2a4a5e; }
+    .stat-chip.lineage { color: #c4a574; border-color: #5a4a2f; }
     .nest-status {
       margin-top: 12px; min-height: 1.2em; font-size: 0.85rem;
     }
@@ -124,9 +181,9 @@ function buildOverlay() {
   overlay.id = 'nest-overlay';
   overlay.className = 'nest-overlay';
   overlay.innerHTML = `
-    <div class="nest-card" role="dialog" aria-label="Nest Hub">
+    <div class="nest-card" role="dialog" aria-label="Nido Hub">
       <div class="nest-card-head">
-        <h2>🪺 Nido — V3 Mating/Reclutamento</h2>
+        <h2>🏠 Nido</h2>
         <button type="button" class="close-btn" id="nest-close">✕</button>
       </div>
       <div class="nest-meta" id="nest-meta">
@@ -134,30 +191,79 @@ function buildOverlay() {
         <span><strong>Bioma:</strong> <span id="nest-meta-biome">—</span></span>
         <span class="nest-pill" id="nest-meta-req">requisiti?</span>
       </div>
-      <div class="nest-section" id="nest-setup-section" style="display:none">
-        <h3>Setup nido</h3>
-        <div class="nest-setup-row">
-          <select id="nest-biome-select">
-            ${BIOME_OPTIONS.map((b) => `<option value="${b}">${b}</option>`).join('')}
-          </select>
-          <button type="button" class="nest-btn" id="nest-setup-btn">🪺 Inizializza</button>
+      <nav class="nest-tabs" role="tablist">
+        <button type="button" class="nest-tab active" data-tab="squad" role="tab">
+          🐾 Squad
+        </button>
+        <button type="button" class="nest-tab" data-tab="mating" role="tab">
+          🧬 Mating
+        </button>
+        <button type="button" class="nest-tab" data-tab="lineage" role="tab">
+          🌳 Lineage
+        </button>
+        <button type="button" class="nest-tab" data-tab="codex" role="tab">
+          📖 Codex
+        </button>
+      </nav>
+
+      <!-- TAB: Squad (default attivo) -->
+      <div class="nest-tab-panel active" data-tab-panel="squad">
+        <div class="nest-section">
+          <h3>Creature nel nido (<span id="nest-squad-count">0</span>)</h3>
+          <div id="nest-squad-list">
+            <div class="nest-empty">Carico…</div>
+          </div>
         </div>
       </div>
-      <div class="nest-section">
-        <h3>NPG nel nido (<span id="nest-npc-count">0</span>)</h3>
-        <div id="nest-npc-list">
-          <div class="nest-empty">Carico…</div>
+
+      <!-- TAB: Mating (Sprint A stub minimal — Sprint C riempie full UI) -->
+      <div class="nest-tab-panel" data-tab-panel="mating">
+        <div class="nest-section" id="nest-setup-section" style="display:none">
+          <h3>Setup nido</h3>
+          <div class="nest-setup-row">
+            <select id="nest-biome-select">
+              ${BIOME_OPTIONS.map((b) => `<option value="${b}">${b}</option>`).join('')}
+            </select>
+            <button type="button" class="nest-btn" id="nest-setup-btn">🪺 Inizializza</button>
+          </div>
+        </div>
+        <div class="nest-section">
+          <h3>NPG (<span id="nest-npc-count">0</span>) — Sprint A stub</h3>
+          <div id="nest-npc-list">
+            <div class="nest-empty">Carico…</div>
+          </div>
+        </div>
+        <div class="nest-section" id="nest-mating-section" style="display:none">
+          <h3>Mating roll (seleziona 1 NPG)</h3>
+          <div class="nest-setup-row">
+            <button type="button" class="nest-btn" id="nest-mating-btn" disabled>
+              🧬 Tenta riproduzione
+            </button>
+            <span id="nest-mating-hint" style="font-size:0.8rem;color:#8891a3"></span>
+          </div>
         </div>
       </div>
-      <div class="nest-section" id="nest-mating-section" style="display:none">
-        <h3>Mating roll (seleziona 1 NPG)</h3>
-        <div class="nest-setup-row">
-          <button type="button" class="nest-btn" id="nest-mating-btn" disabled>
-            🧬 Tenta riproduzione
-          </button>
-          <span id="nest-mating-hint" style="font-size:0.8rem;color:#8891a3"></span>
+
+      <!-- TAB: Lineage (placeholder Sprint D) -->
+      <div class="nest-tab-panel" data-tab-panel="lineage">
+        <div class="tab-stub">
+          <strong>🌳 Lineage tree</strong>
+          Coming soon — Sprint D wire genealogy multi-gen + inheritance bias.
+          <br>
+          <small>OD-001 Path A 4/4. Engine: <code>metaProgression.js</code> rollMating offspring_traits.</small>
         </div>
       </div>
+
+      <!-- TAB: Codex (link a codexPanel esistente) -->
+      <div class="nest-tab-panel" data-tab-panel="codex">
+        <div class="tab-stub">
+          <strong>📖 Codex — wiki in-game</strong>
+          Apri il Codex completo (Tips / Glossario / Abilità / Statuses).
+          <br><br>
+          <button type="button" class="nest-btn" id="nest-codex-link">Apri Codex →</button>
+        </div>
+      </div>
+
       <div class="nest-status" id="nest-status"></div>
     </div>
   `;
@@ -168,8 +274,33 @@ function buildOverlay() {
   });
   overlay.querySelector('#nest-setup-btn').addEventListener('click', handleSetup);
   overlay.querySelector('#nest-mating-btn').addEventListener('click', handleMating);
+  overlay.querySelector('#nest-codex-link').addEventListener('click', () => {
+    closeNestHub();
+    try {
+      STATE.openCodex?.();
+    } catch {
+      /* ignore */
+    }
+  });
+  overlay.querySelectorAll('.nest-tab').forEach((tabBtn) => {
+    tabBtn.addEventListener('click', () => switchTab(tabBtn.dataset.tab));
+  });
   STATE.overlayEl = overlay;
   return overlay;
+}
+
+export function switchTab(tabName) {
+  if (!TAB_IDS.includes(tabName)) return;
+  STATE.currentTab = tabName;
+  if (typeof document === 'undefined') return;
+  const panel = STATE.overlayEl;
+  if (!panel) return;
+  panel.querySelectorAll('.nest-tab').forEach((t) => {
+    t.classList.toggle('active', t.dataset.tab === tabName);
+  });
+  panel.querySelectorAll('.nest-tab-panel').forEach((p) => {
+    p.classList.toggle('active', p.dataset.tabPanel === tabName);
+  });
 }
 
 function setStatus(text, kind = '') {
@@ -198,6 +329,50 @@ function renderNest(nest) {
   }
 }
 
+// Squad tab — render creature owned (NPG recruited filtered).
+// Sprint A: avatar + nome + lifecycle_phase (placeholder) + MBTI form (se presente)
+// + lineage_id placeholder (Sprint D popola).
+function renderSquad(npcs) {
+  if (typeof document === 'undefined') return;
+  const list = document.getElementById('nest-squad-list');
+  const count = document.getElementById('nest-squad-count');
+  const squad = filterSquadMembers(npcs);
+  if (count) count.textContent = String(squad.length);
+  if (!list) return;
+  if (squad.length === 0) {
+    list.innerHTML =
+      '<div class="nest-empty">Nessuna creatura nel nido. Recluta un NPG dal debrief campagna.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  for (const n of squad) {
+    const row = document.createElement('div');
+    row.className = 'nest-creature-row';
+    const phase = n.lifecycle_phase || 'mature'; // placeholder finché schema runtime non esiste
+    const mbti = n.mbti_revealed && n.mbti_type ? n.mbti_type : null;
+    const lineageId = n.lineage_id || `lin_${String(n.npc_id || '?').slice(0, 6)}`;
+    const avatarGlyph = mbti ? mbti.charAt(0) : (n.npc_id || '?').charAt(0).toUpperCase();
+    row.innerHTML = `
+      <span class="nest-creature-avatar">${avatarGlyph}</span>
+      <span class="creature-name">${escapeHtml(n.npc_id || '?')}</span>
+      <span class="creature-stats">
+        <span class="stat-chip phase">phase: ${escapeHtml(phase)}</span>
+        ${mbti ? `<span class="stat-chip recruited">MBTI: ${escapeHtml(mbti)}</span>` : '<span class="stat-chip">MBTI: ?</span>'}
+        <span class="stat-chip lineage">lineage: ${escapeHtml(lineageId)}</span>
+      </span>
+    `;
+    list.appendChild(row);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 function renderNpcs(npcs) {
   if (typeof document === 'undefined') return;
   const list = document.getElementById('nest-npc-list');
@@ -222,7 +397,7 @@ function renderNpcs(npcs) {
         : '';
     const matedChip = n.mated ? '<span class="stat-chip recruited">✓ mated</span>' : '';
     row.innerHTML = `
-      <span class="npc-name">${n.npc_id}</span>
+      <span class="npc-name">${escapeHtml(n.npc_id || '?')}</span>
       <span class="npc-stats">
         <span class="stat-chip">aff ${n.affinity ?? 0}</span>
         <span class="stat-chip">trust ${n.trust ?? 0}</span>
@@ -231,7 +406,7 @@ function renderNpcs(npcs) {
         ${cooldownChip}
       </span>
     `;
-    if (n.recruited && !n.mated && n.mating_cooldown <= 0) {
+    if (n.recruited && !n.mated && (n.mating_cooldown ?? 0) <= 0) {
       row.style.cursor = 'pointer';
       row.addEventListener('click', () => toggleNpgSelect(n.npc_id));
     }
@@ -242,7 +417,7 @@ function renderNpcs(npcs) {
   const matingBtn = document.getElementById('nest-mating-btn');
   const matingHint = document.getElementById('nest-mating-hint');
   if (matingSection && matingBtn && matingHint) {
-    const eligible = npcs.filter((n) => n.recruited && !n.mated && n.mating_cooldown <= 0);
+    const eligible = filterMatingEligible(npcs);
     matingSection.style.display = eligible.length > 0 ? '' : 'none';
     const sel = [...STATE.selectedNpgIds];
     matingBtn.disabled = sel.length !== 1;
@@ -319,9 +494,11 @@ async function refresh() {
   STATE.cachedNpcs = Array.isArray(res.data?.npcs) ? res.data.npcs : [];
   STATE.cachedNest = res.data?.nest || { level: 0, biome: null, requirements_met: false };
   renderNest(STATE.cachedNest);
+  renderSquad(STATE.cachedNpcs);
   renderNpcs(STATE.cachedNpcs);
+  const squadCount = filterSquadMembers(STATE.cachedNpcs).length;
   setStatus(
-    `${STATE.cachedNpcs.length} NPG · nido Lv ${STATE.cachedNest.level}${STATE.cachedNest.biome ? ' (' + STATE.cachedNest.biome + ')' : ''}`,
+    `${squadCount} creature · ${STATE.cachedNpcs.length} NPG · nido Lv ${STATE.cachedNest.level}${STATE.cachedNest.biome ? ' (' + STATE.cachedNest.biome + ')' : ''}`,
     'ok',
   );
 }
@@ -336,15 +513,24 @@ export function closeNestHub() {
   if (STATE.overlayEl) STATE.overlayEl.classList.remove('visible');
 }
 
-export function initNestHub({ getPartyMember, buttonId = 'nest-open' } = {}) {
+export function initNestHub({ getPartyMember, openCodex, buttonId = 'nest-open' } = {}) {
   STATE.getPartyMember = typeof getPartyMember === 'function' ? getPartyMember : () => null;
+  STATE.openCodex = typeof openCodex === 'function' ? openCodex : () => {};
   buildOverlay();
   if (typeof document === 'undefined') {
-    return { openNestHub, closeNestHub, refresh };
+    return { openNestHub, closeNestHub, refresh, switchTab };
   }
   const btn = document.getElementById(buttonId);
   if (btn) {
     btn.addEventListener('click', openNestHub);
   }
-  return { openNestHub, closeNestHub, refresh };
+  return { openNestHub, closeNestHub, refresh, switchTab };
 }
+
+// Test surface (export DOM-free helpers for unit tests).
+export const __nestHubInternal = {
+  TAB_IDS,
+  filterSquadMembers,
+  filterMatingEligible,
+  escapeHtml,
+};
