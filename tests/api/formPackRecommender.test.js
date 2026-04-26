@@ -11,6 +11,9 @@ const {
   recommendPacks,
   resolveD12Pack,
   resolveD20Pack,
+  resolveStarterBioma,
+  listStarterBiomas,
+  STARTER_BIOMA_MAP,
   _resetCache,
 } = require('../../apps/backend/services/forms/formPackRecommender');
 
@@ -121,5 +124,156 @@ test('all 16 MBTI forms have valid combo strings', () => {
     assert.ok(p.pack_a.combo, `${f} pack_a combo`);
     assert.ok(p.pack_b.combo, `${f} pack_b combo`);
     assert.ok(p.pack_c.combo, `${f} pack_c combo`);
+  }
+});
+
+// ===========================================================================
+// QW2 / M-017: starter_bioma resolution per Form
+// ===========================================================================
+
+const ALL_16_FORMS = [
+  'ISTJ',
+  'ISFJ',
+  'INFJ',
+  'INTJ',
+  'ISTP',
+  'ISFP',
+  'INFP',
+  'INTP',
+  'ESTP',
+  'ESFP',
+  'ENFP',
+  'ENTP',
+  'ESTJ',
+  'ESFJ',
+  'ENFJ',
+  'ENTJ',
+];
+
+test('STARTER_BIOMA_MAP: 16 entries exactly (no NEUTRA)', () => {
+  assert.equal(Object.keys(STARTER_BIOMA_MAP).length, 16);
+  for (const f of ALL_16_FORMS) {
+    assert.ok(STARTER_BIOMA_MAP[f], `${f} present`);
+  }
+});
+
+test('resolveStarterBioma: 16 forms map to {biome_id, trait_id}', () => {
+  for (const f of ALL_16_FORMS) {
+    const r = resolveStarterBioma(f);
+    assert.ok(r, `${f} resolves`);
+    assert.equal(typeof r.biome_id, 'string');
+    assert.equal(typeof r.trait_id, 'string');
+    assert.equal(r.trait_id, `starter_bioma_${f.toLowerCase()}`);
+  }
+});
+
+test('resolveStarterBioma: unknown / NEUTRA returns null', () => {
+  assert.equal(resolveStarterBioma('XXXX'), null);
+  assert.equal(resolveStarterBioma('NEUTRA'), null);
+  assert.equal(resolveStarterBioma(null), null);
+  assert.equal(resolveStarterBioma(''), null);
+  assert.equal(resolveStarterBioma(undefined), null);
+});
+
+test('listStarterBiomas: returns 16 items with form_id+biome_id+trait_id', () => {
+  const list = listStarterBiomas();
+  assert.equal(list.length, 16);
+  for (const item of list) {
+    assert.ok(ALL_16_FORMS.includes(item.form_id));
+    assert.ok(item.biome_id.length > 0);
+    assert.ok(item.trait_id.startsWith('starter_bioma_'));
+  }
+});
+
+test('starter_bioma biome_ids are unique across 16 forms', () => {
+  const biomes = listStarterBiomas().map((x) => x.biome_id);
+  const uniq = new Set(biomes);
+  assert.equal(biomes.length, uniq.size, 'no duplicate biome_id assignments');
+});
+
+test('starter_bioma trait_ids are unique across 16 forms', () => {
+  const traits = listStarterBiomas().map((x) => x.trait_id);
+  const uniq = new Set(traits);
+  assert.equal(traits.length, uniq.size, 'no duplicate trait_id assignments');
+});
+
+test('getFormPacks: includes starter_bioma resolved field', () => {
+  const p = getFormPacks('INTJ');
+  assert.ok(p.starter_bioma);
+  assert.equal(p.starter_bioma.biome_id, 'rovine_planari');
+  assert.equal(p.starter_bioma.trait_id, 'starter_bioma_intj');
+});
+
+test('getFormPacks: NEUTRA fallback has starter_bioma=null', () => {
+  const p = getFormPacks('NEUTRA');
+  assert.equal(p.starter_bioma, null);
+});
+
+test('recommendPacks: static recommendation includes starter_bioma', () => {
+  const r = recommendPacks({ form_id: 'ENFP', job_id: 'invoker' });
+  assert.ok(r.starter_bioma);
+  assert.equal(r.starter_bioma.biome_id, 'canopia_ionica');
+  assert.equal(r.starter_bioma.trait_id, 'starter_bioma_enfp');
+});
+
+test('recommendPacks: universal pack includes starter_bioma for known form', () => {
+  const r = recommendPacks({ form_id: 'INTJ', job_id: 'invoker', d20_roll: 5 });
+  assert.equal(r.type, 'universal');
+  assert.ok(r.starter_bioma);
+  assert.equal(r.starter_bioma.trait_id, 'starter_bioma_intj');
+});
+
+test('recommendPacks: bias_forma includes starter_bioma', () => {
+  const r = recommendPacks({ form_id: 'ISTP', job_id: 'skirmisher', d20_roll: 16, d12_roll: 3 });
+  assert.equal(r.type, 'bias_forma');
+  assert.ok(r.starter_bioma);
+  assert.equal(r.starter_bioma.biome_id, 'caverna');
+});
+
+test('recommendPacks: NEUTRA caller -> starter_bioma null', () => {
+  const r = recommendPacks({ form_id: 'NEUTRA', job_id: 'any' });
+  assert.equal(r.starter_bioma, null);
+});
+
+test('all 16 starter_bioma trait ids present in active_effects.yaml', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const yaml = require('js-yaml');
+  const file = path.join(process.cwd(), 'data', 'core', 'traits', 'active_effects.yaml');
+  const doc = yaml.load(fs.readFileSync(file, 'utf8'));
+  for (const f of ALL_16_FORMS) {
+    const id = `starter_bioma_${f.toLowerCase()}`;
+    assert.ok(doc.traits[id], `${id} defined in active_effects.yaml`);
+    assert.equal(doc.traits[id].tier, 'T1');
+    assert.equal(doc.traits[id].effect.kind, 'extra_damage');
+    assert.equal(doc.traits[id].effect.amount, 1);
+    assert.equal(doc.traits[id].provenance.form_id, f);
+  }
+});
+
+test('all 16 starter_bioma trait ids cross-referenced in glossary.json', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const file = path.join(process.cwd(), 'data', 'core', 'traits', 'glossary.json');
+  const doc = JSON.parse(fs.readFileSync(file, 'utf8'));
+  for (const f of ALL_16_FORMS) {
+    const id = `starter_bioma_${f.toLowerCase()}`;
+    assert.ok(doc.traits[id], `${id} present in glossary`);
+    assert.ok(doc.traits[id].label_it, `${id} label_it`);
+    assert.ok(doc.traits[id].label_en, `${id} label_en`);
+    assert.ok(doc.traits[id].description_it, `${id} description_it`);
+    assert.ok(doc.traits[id].description_en, `${id} description_en`);
+  }
+});
+
+test('all 16 starter_bioma biome_ids exist in data/core/biomes.yaml', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const yaml = require('js-yaml');
+  const file = path.join(process.cwd(), 'data', 'core', 'biomes.yaml');
+  const doc = yaml.load(fs.readFileSync(file, 'utf8'));
+  const biomes = doc.biomes || {};
+  for (const item of listStarterBiomas()) {
+    assert.ok(biomes[item.biome_id], `biome ${item.biome_id} (${item.form_id}) exists`);
   }
 });
