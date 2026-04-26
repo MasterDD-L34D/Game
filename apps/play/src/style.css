@@ -46,6 +46,21 @@
   --hp-full: #4caf50;
   --hp-warn: #ffc107;
   --hp-crit: #f44336;
+
+  /* Phone composer namespace tokens (P1-13 ui-design-illuminator 2026-04-26).
+   * Centralizza palette phoneComposerV2.css per evitare hardcoded hex drift.
+   * Distinct namespace from --bg/--fg/--panel: phone è dark-deep (TV è dark-warm). */
+  --phone-bg-top: #111827;
+  --phone-bg-bot: #05070c;
+  --phone-bg-deep: #0b0d12;
+  --phone-panel: #151922;
+  --phone-panel-alt: #1d2230;
+  --phone-fg: #e8eaf0;
+  --phone-fg-dim: #8891a3;
+  --phone-accent: #4fc3f7;
+  --phone-success: #4caf50;
+  --phone-warn: #ffb74d;
+  --phone-danger: #ef5350;
 }
 
 /* W8 — Bump html base 16→17px per TV-first readability (42-SG).
