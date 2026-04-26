@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@game/contracts": "file:../../packages/contracts",
+    "@octokit/webhooks": "^14.2.0",
+    "@octokit/webhooks-types": "^7.6.1",
     "@prisma/client": "^6.2.1",
     "ajv": "^8.17.1",
     "cors": "^2.8.5",
