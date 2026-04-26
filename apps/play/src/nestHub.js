@@ -24,6 +24,11 @@ const STATE = {
   // Optional partyMember provider for mating roll (Phase D).
   // Returns { mbti_type, trait_ids } of the active player unit.
   getPartyMember: () => null,
+  // Sprint D — lineage tab state (cached tribe + currently expanded lineage).
+  cachedTribes: [],
+  expandedLineageId: null,
+  expandedChain: [],
+  selectedUnitId: null,
 };
 
 const BIOME_OPTIONS = [
@@ -112,6 +117,49 @@ function injectStyles() {
     }
     .nest-status.ok { color: #66bb6a; }
     .nest-status.err { color: #ef5350; }
+    /* Sprint D — Lineage section (tribe list + tree view). */
+    .nest-tribe-list { display: flex; flex-direction: column; gap: 4px; }
+    .nest-tribe-row {
+      display: flex; align-items: center; gap: 8px;
+      background: #0b0d12; border: 1px solid #2a3040; border-radius: 6px;
+      padding: 6px 10px; cursor: pointer; font-size: 0.85rem;
+    }
+    .nest-tribe-row:hover { border-color: #ffd180; }
+    .nest-tribe-row.expanded { border-color: #ffb74d; background: #1f1a10; }
+    .nest-tribe-row .tribe-id {
+      font-family: monospace; color: #ffd180; min-width: 120px;
+    }
+    .nest-tribe-row .tribe-stat {
+      background: #151922; border: 1px solid #2a3040; border-radius: 4px;
+      padding: 1px 6px; font-family: monospace; font-size: 0.75rem;
+    }
+    .nest-lineage-tree {
+      margin-top: 8px; padding: 8px 12px;
+      background: #0b0d12; border: 1px solid #2a3040; border-radius: 6px;
+      font-family: monospace; font-size: 0.78rem;
+    }
+    .nest-lineage-node {
+      padding: 3px 0 3px 0;
+      border-left: 2px solid #2a3040;
+      padding-left: 8px;
+      cursor: pointer;
+    }
+    .nest-lineage-node:hover { background: #151922; }
+    .nest-lineage-node.selected {
+      background: #1e2d20; border-left-color: #66bb6a;
+    }
+    .nest-lineage-node .gen-badge {
+      display: inline-block; background: #1d2230; border: 1px solid #2a3040;
+      color: #ffb74d; padding: 0 5px; border-radius: 3px; margin-right: 6px;
+      font-size: 0.72rem;
+    }
+    .nest-lineage-node .unit-id { color: #e8eaf0; }
+    .nest-lineage-node .unit-meta { color: #8891a3; margin-left: 6px; }
+    .nest-lineage-info {
+      margin-top: 6px; padding: 6px 10px;
+      background: #1d2230; border: 1px solid #ffd180; border-radius: 6px;
+      font-size: 0.78rem; color: #ffd180;
+    }
   `;
   document.head.appendChild(style);
 }
@@ -157,6 +205,15 @@ function buildOverlay() {
           </button>
           <span id="nest-mating-hint" style="font-size:0.8rem;color:#8891a3"></span>
         </div>
+      </div>
+      <div class="nest-section" data-tab="lineage" id="nest-lineage-section">
+        <h3>🧬 Lignaggio &amp; Tribù emergent (<span id="nest-tribes-count">0</span>)</h3>
+        <div class="nest-tribe-list" id="nest-tribe-list">
+          <div class="nest-empty">
+            Nessuna tribù emerge ancora (servono ≥3 unità con lo stesso lineage).
+          </div>
+        </div>
+        <div id="nest-lineage-tree-wrap"></div>
       </div>
       <div class="nest-status" id="nest-status"></div>
     </div>
@@ -309,6 +366,148 @@ async function handleMating() {
   await refresh();
 }
 
+// ─── Sprint D — Lineage tab rendering ───────────────────────────────────
+
+function renderTribes(tribes) {
+  if (typeof document === 'undefined') return;
+  const list = document.getElementById('nest-tribe-list');
+  const count = document.getElementById('nest-tribes-count');
+  if (count) count.textContent = String(tribes?.length || 0);
+  if (!list) return;
+  if (!tribes || tribes.length === 0) {
+    list.innerHTML =
+      '<div class="nest-empty">Nessuna tribù emerge ancora (servono ≥3 unità con lo stesso lineage).</div>';
+    return;
+  }
+  list.innerHTML = '';
+  for (const t of tribes) {
+    const row = document.createElement('div');
+    const isExpanded = STATE.expandedLineageId === t.tribe_id;
+    row.className = `nest-tribe-row${isExpanded ? ' expanded' : ''}`;
+    row.innerHTML = `
+      <span class="tribe-id">${t.tribe_id}</span>
+      <span class="tribe-stat">${t.members_count}m</span>
+      <span class="tribe-stat">gen ${t.oldest_generation}</span>
+      <span class="tribe-stat">${t.primary_biome || '—'}</span>
+      <span style="margin-left:auto;color:#8891a3;font-size:0.78rem">
+        root ${t.lineage_root_unit_id || '—'}
+      </span>
+    `;
+    row.addEventListener('click', () => toggleLineageExpand(t.tribe_id));
+    list.appendChild(row);
+  }
+}
+
+function renderLineageTree() {
+  if (typeof document === 'undefined') return;
+  const wrap = document.getElementById('nest-lineage-tree-wrap');
+  if (!wrap) return;
+  if (!STATE.expandedLineageId || !STATE.expandedChain.length) {
+    wrap.innerHTML = '';
+    return;
+  }
+  // Group by generation, max 3 generations visible.
+  const byGen = new Map();
+  for (const u of STATE.expandedChain) {
+    const g = u.generation ?? 0;
+    if (!byGen.has(g)) byGen.set(g, []);
+    byGen.get(g).push(u);
+  }
+  const sortedGens = [...byGen.keys()].sort((a, b) => a - b).slice(0, 3);
+
+  let html = `<div class="nest-lineage-tree" data-lineage="${STATE.expandedLineageId}">`;
+  html += `<div style="color:#ffd180;margin-bottom:6px">
+    Lineage <strong>${STATE.expandedLineageId}</strong> · chain ${STATE.expandedChain.length} unità
+  </div>`;
+  for (const g of sortedGens) {
+    const units = byGen.get(g) || [];
+    for (const u of units) {
+      const isSel = STATE.selectedUnitId === u.unit_id;
+      const parents =
+        Array.isArray(u.parents) && u.parents.length === 2
+          ? `← ${u.parents[0]} × ${u.parents[1]}`
+          : 'founder';
+      const indent = '  '.repeat(Math.min(g, 2));
+      html += `<div class="nest-lineage-node${isSel ? ' selected' : ''}"
+        data-unit-id="${u.unit_id}" style="margin-left:${g * 14}px">
+        <span class="gen-badge">G${g}</span>
+        <span class="unit-id">${indent}${u.unit_id}</span>
+        <span class="unit-meta">${parents}${u.born_at_biome ? ' · ' + u.born_at_biome : ''}</span>
+      </div>`;
+    }
+  }
+  if (sortedGens.length < byGen.size) {
+    const hidden = byGen.size - sortedGens.length;
+    html += `<div style="margin-top:6px;color:#8891a3;font-style:italic">
+      …e altre ${hidden} generazion${hidden === 1 ? 'e' : 'i'} (max 3 visibili)
+    </div>`;
+  }
+  if (STATE.selectedUnitId) {
+    const sel = STATE.expandedChain.find((u) => u.unit_id === STATE.selectedUnitId);
+    if (sel) {
+      html += `<div class="nest-lineage-info">
+        ▸ <strong>${sel.unit_id}</strong>
+        · gen ${sel.generation ?? 0}
+        · session ${sel.born_at_session || '—'}
+        · biome ${sel.born_at_biome || '—'}
+      </div>`;
+    }
+  }
+  html += '</div>';
+  wrap.innerHTML = html;
+  // Wire click → highlight unit info.
+  wrap.querySelectorAll('.nest-lineage-node').forEach((node) => {
+    node.addEventListener('click', () => {
+      const uid = node.getAttribute('data-unit-id');
+      STATE.selectedUnitId = STATE.selectedUnitId === uid ? null : uid;
+      renderLineageTree();
+    });
+  });
+}
+
+async function toggleLineageExpand(lineageId) {
+  if (STATE.expandedLineageId === lineageId) {
+    STATE.expandedLineageId = null;
+    STATE.expandedChain = [];
+    STATE.selectedUnitId = null;
+    renderTribes(STATE.cachedTribes);
+    renderLineageTree();
+    return;
+  }
+  STATE.expandedLineageId = lineageId;
+  STATE.selectedUnitId = null;
+  STATE.expandedChain = [];
+  renderTribes(STATE.cachedTribes);
+  renderLineageTree();
+  // Fetch chain async.
+  const res = await api.metaLineageChain(lineageId);
+  if (res.ok && Array.isArray(res.data?.chain)) {
+    STATE.expandedChain = res.data.chain;
+    renderLineageTree();
+  }
+}
+
+async function refreshLineage() {
+  const res = await api.metaTribesEmergent();
+  if (!res.ok) {
+    STATE.cachedTribes = [];
+    renderTribes([]);
+    return;
+  }
+  STATE.cachedTribes = Array.isArray(res.data?.tribes) ? res.data.tribes : [];
+  renderTribes(STATE.cachedTribes);
+  // Re-render expanded tree if still expanded (registry may have grown).
+  if (STATE.expandedLineageId) {
+    const stillThere = STATE.cachedTribes.some((t) => t.tribe_id === STATE.expandedLineageId);
+    if (!stillThere) {
+      STATE.expandedLineageId = null;
+      STATE.expandedChain = [];
+      STATE.selectedUnitId = null;
+    }
+    renderLineageTree();
+  }
+}
+
 async function refresh() {
   setStatus('Carico…');
   const res = await api.metaNpgList();
@@ -320,8 +519,10 @@ async function refresh() {
   STATE.cachedNest = res.data?.nest || { level: 0, biome: null, requirements_met: false };
   renderNest(STATE.cachedNest);
   renderNpcs(STATE.cachedNpcs);
+  // Sprint D — fetch tribe emergent in parallel; failure non-fatal.
+  await refreshLineage().catch(() => {});
   setStatus(
-    `${STATE.cachedNpcs.length} NPG · nido Lv ${STATE.cachedNest.level}${STATE.cachedNest.biome ? ' (' + STATE.cachedNest.biome + ')' : ''}`,
+    `${STATE.cachedNpcs.length} NPG · nido Lv ${STATE.cachedNest.level}${STATE.cachedNest.biome ? ' (' + STATE.cachedNest.biome + ')' : ''} · ${STATE.cachedTribes.length} tribù`,
     'ok',
   );
 }

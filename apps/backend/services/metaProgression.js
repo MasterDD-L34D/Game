@@ -454,6 +454,193 @@ function createMetaStore({ prisma, campaignId = null } = {}) {
   };
 }
 
+// ─── Sprint D — Lineage chain + Tribe emergent ───────────────────────────
+//
+// Tribe NON è layer aggiuntivo. È conseguenza emergente catena Nido →
+// offspring con `lineage_id` → catena multi-generazionale → N units stesso
+// lineage = tribù implicita. (Memory: feedback_tribe_lineage_emergent_breakthrough)
+//
+// Sprint C estende `rollMating()` per emettere offspring con shape:
+//   { unit_id, lineage_id, parents: [a,b], born_at_session, born_at_biome }
+// Quel record va passato a `recordOffspring()` qui per popolare il registry.
+//
+// Schema offspring entry:
+//   {
+//     unit_id:         string  (immutable, primary key)
+//     lineage_id:      string  (hash combined parents da Sprint C; root may share)
+//     parents:         [string, string] | []  (root units = [])
+//     generation:      number  (0 = root founder, 1 = first offspring, ...)
+//     born_at_session: string | null
+//     born_at_biome:   string | null
+//   }
+//
+// Tribe = group con >= TRIBE_MIN_MEMBERS (3) units stesso lineage_id.
+// Lone wolf = unit con <3 lineage members → getTribeForUnit returns null.
+//
+// In-memory registry: cross-session persistence non goal in Sprint D.
+// Future: migrate to Prisma quando model `Lineage`+`Offspring` shipped.
+
+const TRIBE_MIN_MEMBERS = 3;
+
+// Shared registry (process-scoped). Sprint C deve invocare recordOffspring()
+// dopo ogni mating successo per popolare il grafo.
+const _offspringRegistry = new Map(); // unit_id → entry
+
+/**
+ * Resetta lo store di lignaggio. Solo per test.
+ * @internal
+ */
+function _resetLineageRegistry() {
+  _offspringRegistry.clear();
+}
+
+/**
+ * Registra un'unità nel grafo di lignaggio.
+ *
+ * Idempotent su unit_id (overwrite). Sprint C → chiamare dopo ogni successo
+ * di rollMating per ogni offspring. Anche root units (parents = []) possono
+ * essere registrati come founder.
+ *
+ * @param {object} entry — schema descritto sopra
+ * @returns {object} entry normalizzata
+ */
+function recordOffspring(entry) {
+  if (!entry || typeof entry !== 'object') {
+    throw new TypeError('recordOffspring: entry object required');
+  }
+  if (!entry.unit_id || typeof entry.unit_id !== 'string') {
+    throw new TypeError('recordOffspring: entry.unit_id (string) required');
+  }
+  const parents = Array.isArray(entry.parents) ? entry.parents.filter(Boolean) : [];
+  const normalized = {
+    unit_id: entry.unit_id,
+    lineage_id: entry.lineage_id || entry.unit_id, // fallback: unit_id stesso = solo lignaggio
+    parents,
+    generation: Number.isFinite(entry.generation) ? entry.generation : parents.length === 0 ? 0 : 1,
+    born_at_session: entry.born_at_session || null,
+    born_at_biome: entry.born_at_biome || null,
+  };
+  _offspringRegistry.set(normalized.unit_id, normalized);
+  return normalized;
+}
+
+/**
+ * Ritorna la catena di lignaggio per un dato lineage_id.
+ *
+ * Output: array di units ordinato per `generation` ascending (root → leaves).
+ * Tie-break: insertion order preservato (Map iteration).
+ *
+ * @param {string} lineageId
+ * @returns {Array<object>} — units con quel lineage_id, ordinati per generation
+ */
+function getLineageChain(lineageId) {
+  if (!lineageId) return [];
+  const members = [];
+  for (const entry of _offspringRegistry.values()) {
+    if (entry.lineage_id === lineageId) members.push(entry);
+  }
+  members.sort((a, b) => (a.generation ?? 0) - (b.generation ?? 0));
+  return members;
+}
+
+/**
+ * Ritorna la lista delle tribe emergent.
+ *
+ * Tribe = lineage_id con >= TRIBE_MIN_MEMBERS units. Per ogni tribe ritorna:
+ *   - tribe_id (= lineage_id)
+ *   - members_count
+ *   - primary_biome (most common biome among members; null se tutti null)
+ *   - oldest_generation (max generation reached in chain)
+ *   - lineage_root_unit_id (founder = unit con parents.length === 0;
+ *     fallback unit con generation minima)
+ *
+ * @returns {Array<object>}
+ */
+function getTribesEmergent() {
+  // Group by lineage_id.
+  const byLineage = new Map();
+  for (const entry of _offspringRegistry.values()) {
+    const lid = entry.lineage_id;
+    if (!byLineage.has(lid)) byLineage.set(lid, []);
+    byLineage.get(lid).push(entry);
+  }
+
+  const tribes = [];
+  for (const [lineageId, members] of byLineage.entries()) {
+    if (members.length < TRIBE_MIN_MEMBERS) continue;
+
+    // primary_biome = most common biome among members.
+    const biomeCounts = new Map();
+    for (const m of members) {
+      if (!m.born_at_biome) continue;
+      biomeCounts.set(m.born_at_biome, (biomeCounts.get(m.born_at_biome) || 0) + 1);
+    }
+    let primaryBiome = null;
+    let primaryCount = 0;
+    for (const [biome, count] of biomeCounts.entries()) {
+      if (count > primaryCount) {
+        primaryBiome = biome;
+        primaryCount = count;
+      }
+    }
+
+    // oldest_generation = max generation index (tribe maturity proxy).
+    let oldestGeneration = 0;
+    for (const m of members) {
+      if ((m.generation ?? 0) > oldestGeneration) oldestGeneration = m.generation ?? 0;
+    }
+
+    // lineage_root_unit_id = founder (parents=[]) o unit con generation min.
+    let root = members.find((m) => Array.isArray(m.parents) && m.parents.length === 0);
+    if (!root) {
+      root = members.reduce(
+        (acc, m) => ((m.generation ?? 0) < (acc.generation ?? 0) ? m : acc),
+        members[0],
+      );
+    }
+
+    tribes.push({
+      tribe_id: lineageId,
+      members_count: members.length,
+      primary_biome: primaryBiome,
+      oldest_generation: oldestGeneration,
+      lineage_root_unit_id: root?.unit_id ?? null,
+    });
+  }
+
+  // Sort: most members first (descending), tie-break alphabetic tribe_id.
+  tribes.sort((a, b) => {
+    if (b.members_count !== a.members_count) return b.members_count - a.members_count;
+    return a.tribe_id.localeCompare(b.tribe_id);
+  });
+  return tribes;
+}
+
+/**
+ * Ritorna la tribe info per un dato unit_id.
+ *
+ * Lone wolf (unit non in registry, o tribe con <3 membri) → null.
+ *
+ * @param {string} unitId
+ * @returns {object|null}
+ */
+function getTribeForUnit(unitId) {
+  if (!unitId) return null;
+  const entry = _offspringRegistry.get(unitId);
+  if (!entry) return null;
+  const tribes = getTribesEmergent();
+  return tribes.find((t) => t.tribe_id === entry.lineage_id) || null;
+}
+
+/**
+ * Snapshot del registry. Read-only utility per debug/UI.
+ *
+ * @returns {Array<object>}
+ */
+function listLineageEntries() {
+  return [..._offspringRegistry.values()].map((e) => ({ ...e, parents: [...(e.parents || [])] }));
+}
+
 module.exports = {
   createMetaTracker,
   createMetaStore,
@@ -466,4 +653,12 @@ module.exports = {
   TRUST_MIN,
   TRUST_MAX,
   MATING_THRESHOLD,
+  // Sprint D — lineage + tribe emergent
+  TRIBE_MIN_MEMBERS,
+  recordOffspring,
+  getLineageChain,
+  getTribesEmergent,
+  getTribeForUnit,
+  listLineageEntries,
+  _resetLineageRegistry,
 };
