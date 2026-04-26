@@ -46,14 +46,14 @@
 | [SimpleQBN](https://github.com/videlais/simple-qbn) (videlais)                                                                 | MIT         | Quality-Based Narrative storylets YAML + salience tie-break by id   | `tools/py/skiv_qbn.py` + `data/core/narrative/skiv_storylets.yaml` — 14 storylets data-driven, predicates gte/lte/eq/in          | 4/5 |
 | [Conventional Commits spec](https://www.conventionalcommits.org/en/v1.0.0/)                                                    | Public spec | `<type>[(scope)][!]: <description>` regex + breaking change         | `parse_conventional_commit()` in `tools/py/skiv_monitor.py` — typed feat/fix/chore/docs/style/refactor/perf/test/build/ci/revert | 3/5 |
 
-### Deferred (require npm dep approval o license dual)
+### Adopted post Master DD verdict 2026-04-26
 
-| Library                                                                          | License          | Why deferred                                              |
-| -------------------------------------------------------------------------------- | ---------------- | --------------------------------------------------------- |
-| [@octokit/webhooks-types](https://www.npmjs.com/package/@octokit/webhooks-types) | MIT              | npm dep approval pending. Inline mapping già funziona.    |
-| [@octokit/webhooks](https://github.com/octokit/webhooks.js/) (Node handler)      | MIT              | HMAC verify già inline 10 LOC. Octokit dep adds 50KB.     |
-| [OpenGameArt CC0 sprites](https://opengameart.org/content/cc0-resources)         | CC0              | Manual download richiesto (WebFetch ritorna thumbnail).   |
-| [LPC reptile expansion](https://lpc.opengameart.org/)                            | CC-BY-SA 3.0+GPL | Dual-license overhead vs CC0. SVG hand-craft già shipped. |
+| Library                                                                            | License          | Adopted as                                                                            |
+| ---------------------------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------- |
+| [@octokit/webhooks](https://github.com/octokit/webhooks.js/)                       | MIT              | `apps/backend/routes/skiv.js` — webhook HMAC verify typed (octokit + inline fallback) |
+| [@octokit/webhooks-types](https://www.npmjs.com/package/@octokit/webhooks-types)   | MIT              | TypeScript types reference future-proofing payload schema                             |
+| [LPC Drakes and lizardfolk](https://opengameart.org/content/drakes-and-lizardfolk) | CC-BY-SA 3.0+GPL | `apps/play/public/skiv/raster/lpc/` 4 sprite + CREDITS.txt full attribution           |
+| [OpenGameArt TL_Creatures CC0](https://opengameart.org/content/various-creatures)  | CC0              | `apps/play/public/skiv/raster/TL_Creatures.png` 7.2KB GrafxKid (PR #1849)             |
 
 ### Skipped (low ROI)
 

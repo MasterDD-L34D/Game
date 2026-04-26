@@ -173,6 +173,38 @@ test('POST /api/skiv/webhook — pull_request merged → appends feed entry', as
   assert.equal(entry.source, 'webhook_live');
 });
 
+test('POST /api/skiv/webhook — handler field reports octokit when lib loaded', async () => {
+  const crypto = require('node:crypto');
+  const secret = 'topsecret';
+  const dir = tmpDir();
+  const feedPath = path.join(dir, 'feed.jsonl');
+  const payload = {
+    action: 'closed',
+    pull_request: {
+      number: 8001,
+      merged: true,
+      merged_at: '2026-04-26T10:00:00Z',
+      title: 'fix: octokit handler verify',
+      labels: [],
+      html_url: 'https://example/pr/8001',
+      user: { login: 'octokit-test' },
+    },
+  };
+  const raw = JSON.stringify(payload);
+  const sig = 'sha256=' + crypto.createHmac('sha256', secret).update(raw).digest('hex');
+  const app = buildApp({ webhookSecret: secret, feedPath });
+  const r = await request(app)
+    .post('/api/skiv/webhook')
+    .set('X-Hub-Signature-256', sig)
+    .set('X-GitHub-Event', 'pull_request')
+    .set('Content-Type', 'application/json')
+    .send(raw);
+  assert.equal(r.status, 200);
+  assert.equal(r.body.processed, true);
+  // Handler should be 'octokit' if @octokit/webhooks loaded, else 'inline'.
+  assert.match(r.body.handler, /^(octokit|inline)$/);
+});
+
 test('POST /api/skiv/webhook — non-actionable event_type returns processed:false', async () => {
   const crypto = require('node:crypto');
   const secret = 'topsecret';

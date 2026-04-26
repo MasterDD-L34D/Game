@@ -32,7 +32,7 @@
 - [ ] **TKT-08** — Backend stability under batch (morì run #14 batch N=30). **Parziale**: PR #1551/#1559 harness migliorato; "backend stability full fix" non esplicitamente confermato.
 - [x] ~~**TKT-09**~~ — `ai_intent_distribution` mancante in `/round/execute` response → **✅ CHIUSO in PR #1551 (`092bff14`)** 2026-04-18. Harness `_ai_actions_from_resp` filtra `results[]` per `actor_id ∈ SIS`.
 - [ ] **TKT-10** — Harness retry+resume incrementale (JSONL write per-run). **Parziale**: PR #1551 probe_one addendum; retry+resume esplicito da confermare.
-- [ ] **TKT-11** — `predict_combat` 8p aggregate sanity boss vs full party. **Aperto** (nessun commit linkato).
+- [x] ~~**TKT-11**~~ — `predict_combat` 8p aggregate sanity boss vs full party → **✅ CHIUSO** (branch `test/tkt-11-predictcombat-8p-sanity`). 11 test additive in `tests/api/predict-combat-8p.test.js` (~200 LOC): no-NaN/Infinity guard 8p × boss, hit% bands sane 40-60%, aggregate hit chance bands 3.5-5.5/round, edge mod 10 vs DC 10 → 95-100%, edge mod 0 vs DC 18 → 5-25%, evasion_bonus_bonus + defense_mod_bonus stack additivo (PR #1830 ripple), attack_mod_bonus buff monotonic, asymmetry boss→tank vs tank→boss, reverse 8 enemies vs tank aggregate sanity, determinism analytic enumeration. AI baseline 311/311 verde, predict-combat baseline 10/10 verde, format:check verde. ADDITIVE test-only (zero production code change).
 
 ### Triangle Strategy MBTI surface tickets (proposed OD-013, pending user verdict)
 
@@ -140,7 +140,7 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
   - TKT-06 listato come aperto → CHIUSO in PR #1588 (`2d6394dd`, 2026-04-18)
   - TKT-09 listato come aperto → CHIUSO in PR #1551 (`092bff14`, 2026-04-18)
   - TKT-08/TKT-10 parzialmente affrontati in PR #1551/#1559, marcati "parziale"
-  - TKT-11 confermato aperto
+  - TKT-11 confermato aperto → CHIUSO 2026-04-26 (branch `test/tkt-11-predictcombat-8p-sanity`, 11 test additive)
 
 **2026-04-24** (coop-phase-validator real run, primo uso post-policy 4-gate DoD):
 
