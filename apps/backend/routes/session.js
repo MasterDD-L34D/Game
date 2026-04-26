@@ -1142,6 +1142,21 @@ function createSessionRouter(options = {}) {
       const pressureStart = Number.isFinite(Number(req.body?.pressure_start))
         ? Number(req.body.pressure_start)
         : null;
+      // 2026-04-26 (PCG G1 fix): encounter YAML loader opt-in.
+      // Se body.encounter_id passato + YAML trovato → popola encounter payload.
+      // Sblocca: objectiveEvaluator non-elim + biomeSpawnBias initial waves + conditions.
+      // Non override se body.encounter già fornito (preserve scenario JS flow).
+      let encounterPayload = req.body?.encounter ?? null;
+      const encounterIdFromBody = req.body?.encounter_id;
+      if (!encounterPayload && encounterIdFromBody) {
+        try {
+          const { loadEncounter } = require('../services/combat/encounterLoader');
+          const loaded = loadEncounter(encounterIdFromBody);
+          if (loaded) encounterPayload = loaded;
+        } catch (err) {
+          console.warn('[session/start] encounterLoader failed:', err.message);
+        }
+      }
       const session = {
         session_id: sessionId,
         scenario_id: scenarioId,
@@ -1194,8 +1209,8 @@ function createSessionRouter(options = {}) {
         // Q-001 T2.3: difficulty profile scaling metadata (null se profile invalid)
         _difficultyProfile: difficultyProfileMeta,
         // ADR-2026-04-19 + 04-20: encounter payload per reinforcementSpawner + objectiveEvaluator.
-        // Feature flag OFF default: se undefined, entrambi moduli ritornano no-op.
-        encounter: req.body?.encounter ?? null,
+        // 2026-04-26: anche YAML-loaded via encounter_id (PCG G1 wire).
+        encounter: encounterPayload,
         // M11 pilot (ADR-2026-04-21c): biome_id + log trait env deltas applicati.
         biome_id: biomeIdRaw,
         biome_costs_log: biomeCostsLog,
@@ -1257,6 +1272,27 @@ function createSessionRouter(options = {}) {
         sistema_count: units.filter((u) => u.controlled_by === 'sistema').length,
         automatic: true,
       });
+      // 2026-04-26 P1 — Pathfinder XP budget audit log su session start.
+      // Best-effort + lazy require: missing module non blocca session creation.
+      // Audit out_of_band -> warn console (future: telemetry event).
+      try {
+        const { auditEncounter } = require('../services/balance/xpBudget');
+        const partySize = units.filter((u) => u.controlled_by === 'player').length;
+        const audit = auditEncounter(session.encounter, partySize);
+        if (
+          audit &&
+          audit.status &&
+          !['in_band', 'no_encounter', 'no_budget_config'].includes(audit.status)
+        ) {
+          console.warn(
+            `[xpBudget audit] session=${sessionId} class=${audit.encounter_class} ` +
+              `party=${audit.party_size} budget=${audit.budget} used=${audit.used} ` +
+              `ratio=${audit.ratio} status=${audit.status}`,
+          );
+        }
+      } catch {
+        // xpBudget optional
+      }
       // SPRINT_020: se la prima unita' in ordine di iniziativa e' un SIS,
       // esegui immediatamente i suoi turni (e di eventuali successivi SIS)
       // fino a fermarsi al primo player. Il frontend riceve gia' lo stato
@@ -1495,6 +1531,45 @@ function createSessionRouter(options = {}) {
           cap_pt_used: session.cap_pt_used,
           cap_pt_max: session.cap_pt_max,
           overwatch: overwatchResult,
+          state: publicSessionView(session),
+        });
+      }
+
+      // 2026-04-26 P0 quick-win — FFT Wait action (Tier S donor pattern).
+      // Player rinuncia all'azione corrente in cambio di +1 initiative_bonus
+      // sul prossimo round (defer turn, riprendi prima next round).
+      // Costa AP rimanenti (mette a 0) ma NON consuma PT/PP.
+      // Cost zero: pure tactical timing tool, no resource trade.
+      // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md (FFT)
+      if (actionType === 'wait') {
+        const apBefore = Number(actor.ap_remaining ?? actor.ap ?? 0);
+        if (apBefore <= 0) {
+          return res
+            .status(400)
+            .json({ error: 'wait richiede almeno 1 AP rimanente (turno gia consumato)' });
+        }
+        actor.ap_remaining = 0;
+        // Initiative bonus persistente fino a next round_clear (decay manuale via roundOrchestrator).
+        actor.initiative_bonus_next_round = Number(actor.initiative_bonus_next_round || 0) + 1;
+        await appendEvent(session, {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          actor_id: actor.id,
+          actor_species: actor.species,
+          actor_job: actor.job,
+          action_type: 'wait',
+          turn: session.turn,
+          ap_spent: apBefore,
+          ap_before: apBefore,
+          ap_after: 0,
+          initiative_bonus_next_round: actor.initiative_bonus_next_round,
+          trait_effects: [],
+        });
+        return res.json({
+          ok: true,
+          actor_id: actor.id,
+          ap_remaining: 0,
+          initiative_bonus_next_round: actor.initiative_bonus_next_round,
           state: publicSessionView(session),
         });
       }
@@ -2045,7 +2120,8 @@ function createSessionRouter(options = {}) {
         vcSnapshot = buildVcSnapshot(session, telemetryConfig);
         const { computeSessionPE, buildDebriefSummary } = require('../services/rewardEconomy');
         const peResult = computeSessionPE(vcSnapshot, {
-          difficulty: session.difficulty || 'standard',
+          // 2026-04-26: encounter_class è canonical (tutorial/standard/hardcore/etc.); session.difficulty legacy fallback
+          difficulty: session.encounter_class || session.difficulty || 'standard',
         });
         debrief = buildDebriefSummary(session, vcSnapshot, peResult);
       } catch {

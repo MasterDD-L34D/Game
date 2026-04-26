@@ -7450,6 +7450,19 @@
       "review_cycle_days": 60,
       "primary": false,
       "track": "new"
+    },
+    {
+      "path": "docs/research/2026-04-26-spore-deep-extraction.md",
+      "title": "Spore Deep Extraction — Pilastro 2 emergent evolution transfer plan",
+      "doc_status": "active",
+      "doc_owner": "creature-aspect-illuminator",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-26",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
     }
   ]
 }

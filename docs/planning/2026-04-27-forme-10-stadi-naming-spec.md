@@ -17,6 +17,8 @@ Spec design (zero codice). Risponde a tre decisioni master-dd 2026-04-26 sera:
 - **A2**: applica `docs/core/00E-NAMING_STYLEGUIDE.md` (style guide canonical).
 - **A3**: **(a) dual layer** (tier generico + specie-specifico) **+ (d) cross-dimension** ("dati tutti collegati").
 
+**User correction 2026-04-27 sera (master-dd)**: confermato **I-X (10 stadi)**, NON I-IX. Originally I-X spec correct — questa è canonical reference per Phase A implementation.
+
 Naming canonical proposto: termine **`Stadio`** IT / **`Stage`** EN (NON `Forma`, riservato MBTI per `00E-NAMING_STYLEGUIDE.md:310-314`). Decisione coerente con audit precedente `docs/reports/2026-04-26-forme-naming-integration.md:166-184`.
 
 ---

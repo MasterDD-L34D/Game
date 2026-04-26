@@ -60,6 +60,24 @@ phases:
     mutations_required: 0
     thoughts_internalized_required: 0
     mbti_polarity_required: false
+    # 10-stadi sub-divisione (Phase A 2026-04-27, user correction I-X). Vedi
+    # docs/planning/2026-04-27-forme-10-stadi-naming-spec.md + style guide
+    # docs/core/00E-NAMING_STYLEGUIDE.md §Stadio. Hatchling → stadi I-II.
+    stadi:
+      - stadio: 1
+        stadio_roman: "I"
+        stadio_label_it: "Schiuso"
+        stadio_label_en: "Hatched"
+        dune_stalker_specific_label_it: "Cucciolo Sabbioso"
+        dune_stalker_specific_label_en: "Sand Cub"
+        promotion_trigger: "spawn / lineage origin event"
+      - stadio: 2
+        stadio_roman: "II"
+        stadio_label_it: "Cucciolo"
+        stadio_label_en: "Cub"
+        dune_stalker_specific_label_it: "Esploratore di Tana"
+        dune_stalker_specific_label_en: "Den Explorer"
+        promotion_trigger: "Lv 1 + 1 encounter completato"
     voice_it: "Non so ancora cosa sono. So dove sono gli altri."
     narrative_beat_it: "Encounter finito. Skiv non ha colpito nessuno. Ha osservato da 5 caselle di distanza, immobile, il modo in cui i compagni cadevano e si rialzavano. L'unica cosa che sa fare bene e non farsi trovare. E abbastanza, per adesso."
     warning_zone_it: null
@@ -85,6 +103,22 @@ phases:
     mutations_required: 0
     thoughts_internalized_required: 0
     mbti_polarity_required: false
+    # juvenile → stadi III-IV.
+    stadi:
+      - stadio: 3
+        stadio_roman: "III"
+        stadio_label_it: "Giovane"
+        stadio_label_en: "Juvenile"
+        dune_stalker_specific_label_it: "Predatore Giovane"
+        dune_stalker_specific_label_en: "Juvenile Stalker"
+        promotion_trigger: "Lv 2 raggiunto"
+      - stadio: 4
+        stadio_roman: "IV"
+        stadio_label_it: "Adolescente"
+        stadio_label_en: "Adolescent"
+        dune_stalker_specific_label_it: "Predatore Adolescente"
+        dune_stalker_specific_label_en: "Adolescent Stalker"
+        promotion_trigger: "Lv 3 + warning_zone trigger primo silenzio"
     voice_it: "Aspetto. Non e paura. E calibrazione."
     narrative_beat_it: "Il silenzio non e assenza. Skiv lo capisce quando si accorge di aspettare che gli altri parlino prima di muoversi. Non e paura: e calcolo. Le orecchie registrano. Qualcosa si sta calibrando dentro — un orologio che non sapeva di avere."
     warning_zone_it: "Lv 3 raggiunto. Primo silenzio prolungato — qualcosa sta per cristallizzarsi."
@@ -111,6 +145,22 @@ phases:
     mutations_required: 1
     thoughts_internalized_required: 2
     mbti_polarity_required: true
+    # mature → stadi V-VI. Skiv saga state oggi (Lv 4 + 1 mut + 2 thought) = stadio V.
+    stadi:
+      - stadio: 5
+        stadio_roman: "V"
+        stadio_label_it: "Adulto"
+        stadio_label_en: "Adult"
+        dune_stalker_specific_label_it: "Predatore Adulto"
+        dune_stalker_specific_label_en: "Adult Stalker"
+        promotion_trigger: "Lv 4 + 1 mutation cumulata"
+      - stadio: 6
+        stadio_roman: "VI"
+        stadio_label_it: "Maturo"
+        stadio_label_en: "Mature"
+        dune_stalker_specific_label_it: "Predatore Maturo"
+        dune_stalker_specific_label_en: "Mature Stalker"
+        promotion_trigger: "Lv 5 + 2 thoughts internalized + mbti polarity stable"
     voice_it: "Il branco non mi segue. Mi evita. La differenza conta."
     narrative_beat_it: "La voce interna non annuncia se stessa. Era gia li. E solo quando i sand_claws cambiano trasparenza — quella prima mattina di sole sulle punte vitrified — che Skiv capisce: il branco non lo segue piu. Lo evita. Non e pericolo. E riconoscimento."
     warning_zone_it: "Secondo thought research-completato — terza voce in arrivo cambierà la manifestazione."
@@ -138,6 +188,22 @@ phases:
     mutations_required: 2
     thoughts_internalized_required: 3
     mbti_polarity_required: true
+    # apex → stadi VII-VIII.
+    stadi:
+      - stadio: 7
+        stadio_roman: "VII"
+        stadio_label_it: "Veterano"
+        stadio_label_en: "Veteran"
+        dune_stalker_specific_label_it: "Cacciatore d'Alto Rango"
+        dune_stalker_specific_label_en: "High Rank Hunter"
+        promotion_trigger: "Lv 6 + 2 mutations + 3 thoughts"
+      - stadio: 8
+        stadio_roman: "VIII"
+        stadio_label_it: "Apice"
+        stadio_label_en: "Apex"
+        dune_stalker_specific_label_it: "Apex delle Dune"
+        dune_stalker_specific_label_en: "Dune Apex"
+        promotion_trigger: "Lv 7 + 3 mutations + Defy usato a Critical+"
     voice_it: "Ho aspettato quando i numeri dicevano di muovermi. Ho avuto ragione. Non e fortuna."
     narrative_beat_it: "Ha tenuto la linea quando non doveva. Il Sistema premeva da tre caselle. Tutti i calcoli dicevano di ritirarsi. Ma c'e una voce — fredda, analitica, esattamente come la sua — che ha detto: aspetta. L'ha aspettato. Ha avuto ragione. Gli artigli ora mostrano brina anche sotto il sole di mezzogiorno. Non si riscalderanno mai piu."
     warning_zone_it: "Defy usato a Critical+ → la voce si stabilizza. Apex transition vicina."
@@ -165,6 +231,22 @@ phases:
     mutations_required: 3
     thoughts_internalized_required: 3
     mbti_polarity_required: true
+    # legacy → stadi IX-X.
+    stadi:
+      - stadio: 9
+        stadio_roman: "IX"
+        stadio_label_it: "Antico"
+        stadio_label_en: "Ancient"
+        dune_stalker_specific_label_it: "Apex Anziano"
+        dune_stalker_specific_label_en: "Elder Apex"
+        promotion_trigger: "Lv 7 + saga arc 80% complete"
+      - stadio: 10
+        stadio_roman: "X"
+        stadio_label_it: "Lascito"
+        stadio_label_en: "Legacy"
+        dune_stalker_specific_label_it: "Memoria del Branco"
+        dune_stalker_specific_label_en: "Pack Memory"
+        promotion_trigger: "retired event, lineage_id propagato"
     voice_it: "Non ero qui. Ero gia li prima che arrivassi."
     narrative_beat_it: "Non e una morte. E un archivio. Qualcosa di Skiv rimane nel biome — nel pattern di caccia dei piu giovani, nel modo in cui uno Stalker neonato inclina le orecchie verso l'interno anziche verso l'esterno. Non lo sa. Ma lo fa. Skiv diventa memoria senza saperlo. E il modo in cui funziona."
     warning_zone_it: null
@@ -241,7 +323,11 @@ mbti_aspect_correlates:
 
 skiv_saga_anchor:
   current_phase: mature  # Lv 4 + 1 mutation + 2 internalized → mature
+  current_stadio: 5      # mature early (V) — Lv 4 + 1 mut, 2 thought polarity stable
+  current_stadio_roman: "V"
   next_phase: apex       # gate: Lv 6 + 1 più mutation + 1 più internalized
+  next_stadio: 6         # mature late (VI) — Lv 5 + 2 thought + polarity stable
+  next_stadio_roman: "VI"
   next_phase_gate:
     level: 6
     mutations: 2

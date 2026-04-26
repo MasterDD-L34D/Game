@@ -306,6 +306,25 @@ model LobbyPlayer {
   @@map("lobby_players")
 }
 
+// ─── S1 polish Phase 1 — Skiv portable companion state (ADR-2026-04-27) ────
+// Promotes companionStateStore in-memory Map → DB-backed write-through cache.
+// Adapter preserves in-memory fallback when DATABASE_URL unset.
+// Scope: portable Skiv card state, share URL, crossbreed history, voice diary.
+// Privacy: NO PII fields persisted (whitelist enforced server-side in store).
+
+model SkivCompanionState {
+  lineageId          String   @id @map("lineage_id")
+  schemaVersion      String   @default("0.2.0") @map("schema_version")
+  signature          String?  // sha256 hex (64 chars) of canonical-JSON whitelist
+  crossbreedHistory  Json     @default("[]") @map("crossbreed_history")
+  voiceDiaryPortable Json     @default("[]") @map("voice_diary_portable")
+  shareUrl           String?  @map("share_url")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("skiv_companion_states")
+}
+
 model MatingEvent {
   id              String      @id @default(uuid())
   relationId      String      @map("relation_id")

@@ -10,6 +10,7 @@ N=10 default. Output: docs/playtest/2026-04-25-hardcore-07-iter0.md report.
 import argparse
 import json
 import os
+import random
 import statistics
 import sys
 import time
@@ -218,6 +219,37 @@ def run_one(host, run_idx):
     }
 
 
+def _bootstrap_ci(samples, statistic_fn, n_boot=1000, alpha=0.05, seed=42):
+    """P1-20 (telemetry-viz-illuminator audit 2026-04-26): bootstrap 95% CI per
+    point estimate. Senza scipy, riproducibile via seed.
+
+    Args:
+        samples: list of values
+        statistic_fn: callable list -> float (es. statistics.mean)
+        n_boot: bootstrap samples (default 1000, plateau accuracy)
+        alpha: significance (0.05 = 95% CI)
+        seed: RNG seed riproducibilita
+
+    Returns:
+        (lo, hi) tuple percentili (alpha/2, 1-alpha/2)
+    """
+    if not samples:
+        return (0.0, 0.0)
+    rng = random.Random(seed)
+    n = len(samples)
+    boots = []
+    for _ in range(n_boot):
+        resample = [samples[rng.randrange(n)] for _ in range(n)]
+        try:
+            boots.append(statistic_fn(resample))
+        except statistics.StatisticsError:
+            continue
+    boots.sort()
+    lo_idx = int(alpha / 2 * len(boots))
+    hi_idx = int((1 - alpha / 2) * len(boots)) - 1
+    return (round(boots[lo_idx], 2), round(boots[hi_idx], 2))
+
+
 def summarise(runs):
     ok = [r for r in runs if "outcome" in r]
     n = len(ok)
@@ -229,15 +261,32 @@ def summarise(runs):
     expired = sum(1 for r in ok if r["timer_expired"])
     rounds = [r["rounds"] for r in ok]
     kds = [r["kd"] for r in ok]
+    # P1-20 bootstrap CI 95% per metriche continue (rounds, kd) + binomial
+    # for rates (win/defeat/timeout). N=10 binomial CI ±15pp tipico.
+    win_indicator = [1 if r["outcome"] == "victory" else 0 for r in ok]
+    defeat_indicator = [1 if r["outcome"] == "defeat" else 0 for r in ok]
+    timeout_indicator = [1 if r["outcome"] == "timeout" else 0 for r in ok]
+    win_ci = _bootstrap_ci(win_indicator, statistics.mean)
     return {
         "n": n,
         "win_rate": round(wins / n * 100, 1),
+        "win_rate_ci95": [round(win_ci[0] * 100, 1), round(win_ci[1] * 100, 1)],
         "defeat_rate": round(defeats / n * 100, 1),
+        "defeat_rate_ci95": [
+            round(_bootstrap_ci(defeat_indicator, statistics.mean)[0] * 100, 1),
+            round(_bootstrap_ci(defeat_indicator, statistics.mean)[1] * 100, 1),
+        ],
         "timeout_rate": round(timeouts / n * 100, 1),
+        "timeout_rate_ci95": [
+            round(_bootstrap_ci(timeout_indicator, statistics.mean)[0] * 100, 1),
+            round(_bootstrap_ci(timeout_indicator, statistics.mean)[1] * 100, 1),
+        ],
         "timer_expire_rate": round(expired / n * 100, 1),
         "rounds_avg": round(statistics.mean(rounds), 1),
+        "rounds_ci95": list(_bootstrap_ci(rounds, statistics.mean)),
         "rounds_median": statistics.median(rounds),
         "kd_avg": round(statistics.mean(kds), 2),
+        "kd_ci95": list(_bootstrap_ci(kds, statistics.mean)),
         "target_band": "win 30-50%",
         "in_band": 30 <= (wins / n * 100) <= 50,
     }

@@ -10,6 +10,7 @@ const glossarySchema = require('./schemas/glossary.schema.json');
 const narrativeSchema = require('./schemas/narrative.schema.json');
 const replaySchema = require('./schemas/replay.schema.json');
 const triSorgenteSchema = require('./schemas/tri-sorgente.schema.json');
+const skivCompanionSchema = require('./schemas/skiv_companion.schema.json');
 
 module.exports = {
   generationSnapshotSchema,
@@ -22,4 +23,5 @@ module.exports = {
   narrativeSchema,
   replaySchema,
   triSorgenteSchema,
+  skivCompanionSchema,
 };

@@ -310,10 +310,10 @@ traits:
   sangue_piroforico:
     attack_mod: 1
     defense_mod: 0
-    damage_step: 1
+    damage_step: 0
     cost_ap: 2
     resistances:
-      - { channel: fuoco, modifier_pct: 20 }
+      - { channel: fuoco, modifier_pct: 10 }
     active_effects:
       - ability_id: ignition_surge
         name_it: "Innesco Piroforico"
@@ -323,6 +323,7 @@ traits:
         buff_amount: 2
         buff_duration: 2
         target: self
+    notes: "nerf 2026-04-26: rimosso damage_step+1 perm + fuoco resist 20%->10% (4-stack benefit eccessivo)"
   respiro_a_scoppio:
     attack_mod: 0
     defense_mod: 0
@@ -528,7 +529,7 @@ traits:
   ipertrofia_muscolare_massiva:
     attack_mod: 1
     defense_mod: 0
-    damage_step: 1
+    damage_step: 0
     cost_ap: 2
     resistances: []
     active_effects:
@@ -539,7 +540,7 @@ traits:
         damage_dice: { count: 2, sides: 6, modifier: 2 }
         channel: fisico
         target: enemy
-    notes: "hybrid (TRT-02): massa muscolare aumenta sia attacco che danno"
+    notes: "hybrid (TRT-02): massa muscolare aumenta attacco; nerf 2026-04-26: rimosso damage_step+1 perm (z=+2.55 outlier — ridotto a singolo bonus offensivo)"
   pelage_idrorepellente_avanzato:
     attack_mod: 0
     defense_mod: 1

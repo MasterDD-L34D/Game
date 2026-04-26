@@ -228,7 +228,7 @@ function buildOffer(pool, context = {}) {
   return {
     offers,
     skip_available: true,
-    skip_fragment_delta: 1, // +1 frammento genetico su skip (M10+ nest consume)
+    skip_fragment_delta: 0, // 2026-04-26: orphan currency disable — re-abilita a 1 quando nest sink (M10+) live
   };
 }
 

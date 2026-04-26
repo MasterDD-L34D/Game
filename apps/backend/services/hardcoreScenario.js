@@ -29,7 +29,7 @@ const HARDCORE_SCENARIO_06 = {
   difficulty_rating: 6,
   estimated_turns: 16,
   grid_size: 10,
-  objective: 'elimination',
+  objective: { type: 'elimination' },
   objective_text:
     'Sconfiggi il BOSS Apex (hp 40, AOE psichica su crit) e i suoi 5 guardiani. Party 8 unità vs 6 nemici: il BOSS singolo regge focus-fire 8-way, attenti alle pozze instabili (2 dmg/turn).',
   briefing_pre:
@@ -270,7 +270,7 @@ const HARDCORE_SCENARIO_07_POD_RUSH = {
   difficulty_rating: 7,
   estimated_turns: 10,
   grid_size: 10,
-  objective: 'elimination',
+  objective: { type: 'elimination' },
   objective_text:
     '10 round per eliminare la pattuglia + 3 pod reinforcement. Timer expire → pressure escalate (Apex). No boss: damage distribuito, priority decisioni conteggia più di burst. Party 4 PG quartet.',
   briefing_pre:

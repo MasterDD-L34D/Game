@@ -174,6 +174,59 @@ export function getLifecyclePhaseStyle(phase) {
   return LIFECYCLE_PHASE_STYLE[phase.toLowerCase()] || LIFECYCLE_DEFAULT_STYLE;
 }
 
+// Stadio Phase A (2026-04-27) — 10-stadi sub-divisione (I-X) refined scaling.
+// Linear interpolation 0.55 → 1.20 over 10 stadi, badge = roman numeral.
+// Backward-compat: se `stadio` mancante / fuori range, fallback a
+// getLifecyclePhaseStyle(lifecycle_phase). Vedi docs/planning/2026-04-27-forme-10-stadi-naming-spec.md
+// + data/core/species/dune_stalker_lifecycle.yaml § stadi.
+const STADIO_ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+// Tint progressivi mappati 2:1 sui 5 macro-fasi (early/late dello stesso macro condividono tint base).
+const STADIO_TINT = [
+  '#bdbdbd', // I  (hatchling early)
+  '#bdbdbd', // II (hatchling late) — same tint, sizeMul differenzia
+  '#d9a45b', // III (juvenile early)
+  '#d9a45b', // IV  (juvenile late)
+  '#7e57c2', // V  (mature early)
+  '#7e57c2', // VI (mature late)
+  '#1565c0', // VII (apex early)
+  '#1565c0', // VIII (apex late)
+  '#9e9e9e', // IX (legacy early)
+  '#9e9e9e', // X  (legacy late)
+];
+
+/**
+ * Returns size multiplier + tint + roman badge per a given stadio integer 1-10.
+ * Linear interpolation: stadio 1 = 0.55, stadio 10 = 1.20 (delta 0.65 / 9 steps ≈ 0.0722).
+ * Returns LIFECYCLE_DEFAULT_STYLE if stadio invalid (missing / non-int / out of 1-10 range).
+ *
+ * @param {number} stadio integer 1..10
+ * @returns {{sizeMul: number, tint: string|null, badge: string|null}}
+ */
+export function getStadioStyle(stadio) {
+  if (!Number.isInteger(stadio) || stadio < 1 || stadio > 10) {
+    return LIFECYCLE_DEFAULT_STYLE;
+  }
+  const sizeMul = 0.55 + (stadio - 1) * (0.65 / 9);
+  return {
+    sizeMul: Math.round(sizeMul * 1000) / 1000,
+    tint: STADIO_TINT[stadio - 1],
+    badge: STADIO_ROMAN[stadio - 1],
+  };
+}
+
+/**
+ * Resolve unit visual style with backward-compat. Prefer `unit.stadio` (1-10
+ * Phase A schema). Fallback `unit.lifecycle_phase` (5-fasi legacy) if stadio
+ * missing. Both missing → default safe style.
+ */
+export function resolveUnitVisualStyle(unit) {
+  if (!unit) return LIFECYCLE_DEFAULT_STYLE;
+  if (Number.isInteger(unit.stadio)) {
+    return getStadioStyle(unit.stadio);
+  }
+  return getLifecyclePhaseStyle(unit.lifecycle_phase);
+}
+
 // QW4 — Aspect token visual overlay. Token = mutation morphology marker
 // (claws_glass, claws_glacial, scales_chameleon, ears_radar). Reso come
 // piccolo glifo in alto-sinistra del corpo unit. Multi-creature: qualsiasi
@@ -375,7 +428,10 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
   // scaling + tint + badge (token sconosciuto / phase mancante = fallback safe).
   const jobKey = (unit.job || unit.class || '').toString().toLowerCase();
   const isBoss = jobKey === 'boss' || unit.is_boss === true;
-  const lifecycleStyle = getLifecyclePhaseStyle(unit.lifecycle_phase);
+  // Stadio Phase A: prefer unit.stadio (1-10) for refined size scaling, fallback
+  // to unit.lifecycle_phase (5-fasi legacy). Backward-compat granted by
+  // resolveUnitVisualStyle helper.
+  const lifecycleStyle = resolveUnitVisualStyle(unit);
   const sizeMul = (isBoss ? 1.5 : 1) * lifecycleStyle.sizeMul;
   const jobColor = JOB_COLORS[jobKey] || null;
   // Outer job ring
@@ -482,6 +538,30 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     ctx.textBaseline = 'bottom';
     const maxHp = unit.max_hp || unit.hp || 0;
     ctx.fillText(`${unit.hp}/${maxHp}`, cx, barY - 1);
+
+    // 2026-04-26 P0 quick-win — Tactics Ogre AP indicator float sotto HP bar.
+    // Pattern donor: Tactics Ogre Reborn ATB pip overhead unit (scan TV-first).
+    // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md (Tactics Ogre)
+    // Mostra ap_remaining come pip discreti (es. ●●○ = 2/3 AP). Posizione
+    // 4px sotto HP bar. Solo per unit player o sistema attivo (non KO).
+    const apRemaining = Number(unit.ap_remaining ?? unit.ap ?? 0);
+    const apMax = Number(unit.ap ?? 0);
+    if (apMax > 0 && apMax <= 5) {
+      const pipRadius = 2.5;
+      const pipGap = 2;
+      const pipsW = apMax * pipRadius * 2 + (apMax - 1) * pipGap;
+      const pipsX = cx - pipsW / 2 + pipRadius;
+      const pipsY = barY + 9;
+      for (let i = 0; i < apMax; i += 1) {
+        ctx.beginPath();
+        ctx.arc(pipsX + i * (pipRadius * 2 + pipGap), pipsY, pipRadius, 0, Math.PI * 2);
+        ctx.fillStyle = i < apRemaining ? '#ffcc00' : 'rgba(0,0,0,0.5)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
   }
 
   // Status icons (top-right)
@@ -524,6 +604,45 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
 }
 
 // M4 P0.3 — SIS intent icon above unit (fist=attack, arrow=move, shield=defend).
+// 2026-04-26 ITB telegraph — threat tile overlay (semi-transparent rosso/giallo/blu per intent type).
+// Schema row: { actor_id, intent_type, intent_icon, target_id, threat_tiles: [{x, y}, ...] }
+// Colore: attack=rosso (kill zone), move=giallo (movement preview), defend/overwatch/skip=blu.
+// Pulse: alpha oscilla 0.25-0.45 a 1Hz per attirare attenzione (Into the Breach pattern).
+function drawThreatTileOverlay(ctx, threatPreview, gridH) {
+  const t = (Date.now() % 1000) / 1000; // 0..1 ciclico
+  const pulse = 0.35 + Math.sin(t * Math.PI * 2) * 0.1; // 0.25..0.45
+  for (const row of threatPreview) {
+    if (!row || !Array.isArray(row.threat_tiles) || row.threat_tiles.length === 0) continue;
+    let fill;
+    let stroke;
+    if (row.intent_type === 'attack') {
+      fill = `rgba(244, 67, 54, ${pulse})`; // rosso #f44336
+      stroke = 'rgba(244, 67, 54, 0.85)';
+    } else if (
+      row.intent_type === 'move' ||
+      row.intent_type === 'approach' ||
+      row.intent_type === 'retreat'
+    ) {
+      fill = `rgba(255, 170, 0, ${pulse * 0.7})`; // giallo
+      stroke = 'rgba(255, 170, 0, 0.7)';
+    } else {
+      fill = `rgba(79, 195, 247, ${pulse * 0.55})`; // blu defensive
+      stroke = 'rgba(79, 195, 247, 0.55)';
+    }
+    for (const tile of row.threat_tiles) {
+      if (!tile || typeof tile.x !== 'number' || typeof tile.y !== 'number') continue;
+      const yPx = gridH - 1 - tile.y;
+      const px = tile.x * CELL;
+      const py = yPx * CELL;
+      ctx.fillStyle = fill;
+      ctx.fillRect(px + 1, py + 1, CELL - 2, CELL - 2);
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 2;
+      ctx.strokeRect(px + 2, py + 2, CELL - 4, CELL - 4);
+    }
+  }
+}
+
 function drawSisIntentIcon(ctx, unit, cx, yPxTop, kind = 'fist') {
   const ix = cx + CELL * 0.25;
   const iy = yPxTop + CELL * 0.08;
@@ -651,6 +770,12 @@ export function render(canvas, state, highlight = {}) {
 
   // W3.1 — Range overlay BEFORE units (so unit rings/icons overlap on top).
   if (highlight.selected) drawRangeOverlay(ctx, state, h, highlight.selected);
+
+  // 2026-04-26 ITB telegraph — threat tile overlay rosso/giallo per SIS pending intents.
+  // Disegnato DOPO range overlay (player vede sue mosse possibili) e PRIMA delle unità.
+  if (Array.isArray(highlight.threatPreview) && highlight.threatPreview.length > 0) {
+    drawThreatTileOverlay(ctx, highlight.threatPreview, h);
+  }
 
   // Units
   for (const u of state.units || []) drawUnit(ctx, u, h, highlight);

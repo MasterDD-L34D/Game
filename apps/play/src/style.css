@@ -4,7 +4,7 @@
   --accent: #ffcc00;
   --player: #00b8d4;
   --sistema: #ff5252;
-  --dim: #666;
+  --dim: #888;
   --cell: #2a2a2a;
   --cell-alt: #303030;
   --panel: #222;
@@ -46,6 +46,21 @@
   --hp-full: #4caf50;
   --hp-warn: #ffc107;
   --hp-crit: #f44336;
+
+  /* Phone composer namespace tokens (P1-13 ui-design-illuminator 2026-04-26).
+   * Centralizza palette phoneComposerV2.css per evitare hardcoded hex drift.
+   * Distinct namespace from --bg/--fg/--panel: phone è dark-deep (TV è dark-warm). */
+  --phone-bg-top: #111827;
+  --phone-bg-bot: #05070c;
+  --phone-bg-deep: #0b0d12;
+  --phone-panel: #151922;
+  --phone-panel-alt: #1d2230;
+  --phone-fg: #e8eaf0;
+  --phone-fg-dim: #8891a3;
+  --phone-accent: #4fc3f7;
+  --phone-success: #4caf50;
+  --phone-warn: #ffb74d;
+  --phone-danger: #ef5350;
 }
 
 /* W8 — Bump html base 16→17px per TV-first readability (42-SG).
@@ -848,11 +863,11 @@ canvas#grid {
   overflow-y: auto;
 }
 .unit-log li {
-  padding: 1px 4px;
+  padding: 2px 5px;
   margin-bottom: 1px;
   border-left: 2px solid rgba(0, 184, 212, 0.45);
   background: rgba(0, 184, 212, 0.05);
-  font-size: 0.65rem;
+  font-size: 0.85rem;
 }
 
 /* W4.2 — Commit reveal overlay: "⚔ ROUND N · X azioni simultanee" fullscreen flash. */
@@ -1058,9 +1073,9 @@ canvas#grid:hover {
   letter-spacing: -0.01em;
 }
 .unit-tech-id {
-  font-size: 0.62rem;
+  font-size: 0.8rem;
   color: var(--dim);
-  opacity: 0.6;
+  opacity: 0.7;
   margin-left: 4px;
   font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
 }

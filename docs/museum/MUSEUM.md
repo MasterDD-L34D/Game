@@ -31,6 +31,7 @@
 - [16 Forme MBTI come seed evolutivi](cards/worldgen-forme-mbti-as-evolutionary-seed.md) — **4/5** · starter_bioma undefined, ~3h quick win · forgotten
 - [Emergenza specie da ecosistema](cards/worldgen-species-emergence-from-ecosystem.md) — **4/5** · biome_pools.json role_templates caricati non esposti · deferred
 - [Cross-bioma event propagation](cards/worldgen-cross-bioma-events-propagation.md) — **4/5** · 3 eventi, propagation logic esiste nel validator · unintegrated
+- [Voidling Bound — 6 Evolution Patterns](cards/evolution_genetics-voidling-bound-patterns.md) — **4/5** · P6 visual_swap_it P0 gap confirm + Apex terminal-endpoint + path-lock · unintegrated
 
 ---
 
@@ -100,6 +101,10 @@ _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial super
 
 📎 **Gallery**: [galleries/worldgen.md](galleries/worldgen.md) — 7 card worldgen, gap analysis completo, reuse path consolidato tier 1/2/3.
 
+### Evolution genetics / Mutation engine
+
+- [Voidling Bound — 6 Evolution & Genetics Patterns](cards/evolution_genetics-voidling-bound-patterns.md) — score 4/5 · 6 patterns P2+P3 (rarity-gated class + path-lock + Apex terminal + 3-currency + archetype affinity + visual_swap_it P0 gap confirm) · unintegrated
+
 ### Other
 
 Reserved per artifact che non match domain sopra.
@@ -109,11 +114,11 @@ Reserved per artifact che non match domain sopra.
 ## 📊 Stats
 
 - **Excavations run**: 9 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen)
-- **Artifact identificati**: ~85 totali (78 sessioni precedenti + 7 worldgen session-3)
-- **Cards total**: 18 curate (7 score 5/5 · 9 score 4/5 · 1 score 3/5 · 1 score uncertain)
+- **Artifact identificati**: ~86 totali (78 sessioni precedenti + 7 worldgen session-3 + 1 evolution_genetics session-3)
+- **Cards total**: 19 curate (7 score 5/5 · 10 score 4/5 · 1 score 3/5 · 1 uncertain)
 - **Galleries**: 3 (enneagramma + ancestors + worldgen)
-- **Last excavate**: 2026-04-26 (session 3: worldgen)
-- **Coverage**: **100%+** (9/9 domain: +worldgen/ecosystem-pcg nuovo domain)
+- **Last excavate**: 2026-04-26 (session 3: worldgen + evolution_genetics)
+- **Coverage**: **100%+** (9/9 domain: +worldgen + evolution_genetics nuovi domain)
 - **Skiv unblock**: 8/11 card hanno reuse path Skiv-aware (Sprint A: 2, Sprint B: 1, Sprint C: 4, biome-mover differentiation: 1)
 - **Cross-agent validation**: ✅ PASS 2026-04-25 (creature-aspect-illuminator consulted MUSEUM.md spontaneously, 6 GAP found, 10-15min saved)
 
@@ -141,6 +146,7 @@ docs/museum/
 │   ├── enneagramma-dataset-9-types.md                      # M-2026-04-25-003 score 5/5
 │   ├── enneagramma-enneaeffects-orphan.md                  # M-2026-04-25-006 score 4/5
 │   ├── enneagramma-mechanics-registry.md                   # M-2026-04-25-002 score 5/5
+│   ├── evolution_genetics-voidling-bound-patterns.md       # M-2026-04-26-001 score 4/5 (NEW)
 │   ├── mating_nido-canvas-nido-itinerante.md               # M-2026-04-25-008 score 4/5
 │   ├── mating_nido-engine-orphan.md                        # M-2026-04-25-007 score 5/5
 │   ├── old_mechanics-magnetic-rift-resonance.md            # M-2026-04-25-005 score 4/5

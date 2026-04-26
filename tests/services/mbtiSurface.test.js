@@ -166,6 +166,74 @@ test('resolveThreshold: opts > env > default; clamp [0..1]', () => {
   delete process.env.MBTI_REVEAL_THRESHOLD;
 });
 
+test('buildMbtiRevealedMap: short session (events_count < 30) uses threshold 0.6 default', () => {
+  // partial coverage + value=0.95 → confidence=0.54.
+  // Default threshold 0.7 → hidden. Short-session threshold 0.6 → still hidden.
+  // value 0.85 + full coverage → conf=0.7 → reveals at 0.7. Lower it: 0.75 + full → 0.5 conf.
+  // We want a case where 0.6 reveals but 0.7 doesn't. value=0.7+full → conf=0.4 (no good).
+  // Use partial+0.85: confidence = 0.6 * (|0.85-0.5|*2) = 0.6 * 0.7 = 0.42. Still below 0.6.
+  // Use full + 0.8: conf = 1.0 * 0.6 = 0.6 → reveals at 0.6 but not 0.7.
+  delete process.env.MBTI_REVEAL_THRESHOLD;
+  const vcSnapshot = {
+    meta: { events_count: 10 },
+    per_actor: {
+      u1: {
+        mbti_axes: {
+          E_I: { value: 0.8, coverage: 'full' }, // conf = 0.6
+          S_N: null,
+          T_F: null,
+          J_P: null,
+        },
+      },
+    },
+  };
+  const map = buildMbtiRevealedMap(vcSnapshot);
+  // events_count=10 < 30 → threshold 0.6 → conf 0.6 reveals.
+  assert.equal(map.u1.revealed.length, 1);
+  assert.equal(map.u1.revealed[0].axis, 'E_I');
+});
+
+test('buildMbtiRevealedMap: long session (events_count >= 30) keeps threshold 0.7', () => {
+  delete process.env.MBTI_REVEAL_THRESHOLD;
+  const vcSnapshot = {
+    meta: { events_count: 100 },
+    per_actor: {
+      u1: {
+        mbti_axes: {
+          E_I: { value: 0.8, coverage: 'full' }, // conf = 0.6
+          S_N: null,
+          T_F: null,
+          J_P: null,
+        },
+      },
+    },
+  };
+  const map = buildMbtiRevealedMap(vcSnapshot);
+  // events_count=100 >= 30 → threshold 0.7 → conf 0.6 below → hidden.
+  assert.equal(map.u1.revealed.length, 0);
+  assert.equal(map.u1.hidden.length, 4);
+});
+
+test('buildMbtiRevealedMap: explicit opts.threshold beats short-session boost', () => {
+  delete process.env.MBTI_REVEAL_THRESHOLD;
+  const vcSnapshot = {
+    meta: { events_count: 10 },
+    per_actor: {
+      u1: {
+        mbti_axes: {
+          E_I: { value: 0.8, coverage: 'full' }, // conf = 0.6
+          S_N: null,
+          T_F: null,
+          J_P: null,
+        },
+      },
+    },
+  };
+  // Explicit higher threshold should win even on short session.
+  const map = buildMbtiRevealedMap(vcSnapshot, { threshold: 0.9 });
+  assert.equal(map.u1.revealed.length, 0);
+});
+
 test('AXIS_LABELS + AXIS_HINTS export coverage for all 4 axes', () => {
   for (const axis of ['E_I', 'S_N', 'T_F', 'J_P']) {
     assert.ok(AXIS_LABELS[axis], `AXIS_LABELS missing ${axis}`);

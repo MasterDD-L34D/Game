@@ -59,8 +59,21 @@ ennea_themes:
   - {id: "Conquistatore(3)", when: "aggro>0.65 && risk>0.55"}
   - {id: "Coordinatore(2)",  when: "cohesion>0.55"}     # da 0.70 (formation_time/support_actions null)
   - {id: "Esploratore(7)",   when: "explore>0.45"}       # da 0.70 (time_in_fow/optionals null)
-  - {id: "Architetto(5)",    when: "setup>0.50"}         # da 0.70 (overwatch/trap/cover null)
-  - {id: "Stoico(9)",        when: "tilt>0.65"}          # tilt non implementato — soglia invariata
+  # Sprint 2026-04-26 telemetria VC compromesso — Architetto + Stoico riformulati.
+  # Spec original handoff:
+  #   Architetto: 1vX_ratio>0.5 && damage_taken_ratio<0.2  (lone strategist)
+  #   Stoico:     kills==0 && damage_taken>0 && turns_played>5  (endurance no-kill)
+  # Parser limitations:
+  #   - 1vX raw key inizia con cifra → tokenizer rifiuta (ident regex /[a-z_]/i).
+  #   - == operator non supportato (solo > < >= <=).
+  #   - turns_played è in meta, non in raw_metrics.
+  # Proxy equivalenti che il tokenizer accetta + raw metrics derivabili:
+  #   Architetto: setup_ratio>0.4 && damage_taken_ratio<0.2
+  #     → setup metodico + low risk = tactical lone wolf proxy.
+  #   Stoico: kills<1 && damage_taken>0 && total_actions>5
+  #     → no kills + danno preso + min 5 azioni = endurance tester proxy.
+  - {id: "Architetto(5)",    when: "setup_ratio>0.4 && damage_taken_ratio<0.2"}
+  - {id: "Stoico(9)",        when: "kills<1 && damage_taken>0 && total_actions>5"}
   # SPRINT_005 fase 2: archetipo mordi-e-fuggi.
   # Trigger multi-criterio che premia il giocatore mobile:
   #   evasion_ratio > 0.6        → la maggioranza degli attacchi e' seguita da ritirata
