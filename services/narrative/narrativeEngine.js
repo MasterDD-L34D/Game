@@ -73,9 +73,13 @@ function bindSessionData(story, sessionData = {}) {
 function runUntilChoice(story) {
   const lines = [];
   while (story.canContinue) {
-    const text = story.Continue().trim();
+    const rawText = story.Continue().trim();
     const tags = story.currentTags || [];
-    if (text) {
+    if (rawText) {
+      // OD-013 Path B: auto-tag con MBTI se ink emette `# mbti:X` tag.
+      // Backward compat: storylets senza tag mbti → text invariato.
+      const axisLetters = extractMbtiAxisFromTags(tags);
+      const text = axisLetters.length > 0 ? tagDialogueLineWithMbti(rawText, axisLetters) : rawText;
       lines.push({ text, tags });
     }
   }
@@ -131,6 +135,72 @@ function listStories() {
   return fs.readdirSync(NARRATIVES_DIR).filter((f) => f.endsWith('.ink.json'));
 }
 
+// OD-013 Path B integration — MBTI dialogue color tagging hook.
+//
+// Lazy-import + try/catch non-blocking: se mbtiPalette mancasse/rotto,
+// il narrative engine continua a emettere testo plain (zero breaking change).
+// Invocato da consumer che ha contesto axis (storylet field `mbti_axis`,
+// QBN event, brief variation tag). Se nessun axis context → passthrough.
+//
+// Forma del tag: `<mbti axis="X">testo</mbti>` (vedi mbtiPalette.mbtiTaggedLine).
+// Frontend renderizza colore SOLO se asse rivelato (Path A gating).
+let _mbtiPaletteCache = null;
+function _loadMbtiPaletteHelper() {
+  if (_mbtiPaletteCache !== null) return _mbtiPaletteCache;
+  try {
+    // eslint-disable-next-line global-require
+    _mbtiPaletteCache = require('../../apps/backend/services/mbtiPalette');
+  } catch {
+    _mbtiPaletteCache = false; // sentinel: tried + failed, do not retry per process
+  }
+  return _mbtiPaletteCache;
+}
+
+/**
+ * Tag una linea di dialogo con asse MBTI (Path B). ADDITIVE only:
+ * input senza axisLetters → passthrough invariato. Errori di import →
+ * passthrough silenzioso.
+ *
+ * @param {string} text — linea dialogue
+ * @param {string[]} [axisLetters] — sottoinsieme di E/I/S/N/T/F/J/P
+ * @returns {string} testo (eventualmente wrapped `<mbti axis="X">...</mbti>`)
+ */
+function tagDialogueLineWithMbti(text, axisLetters) {
+  if (typeof text !== 'string') return '';
+  if (text.length === 0) return '';
+  if (!Array.isArray(axisLetters) || axisLetters.length === 0) return text;
+  const helper = _loadMbtiPaletteHelper();
+  if (!helper || typeof helper.mbtiTaggedLine !== 'function') return text;
+  try {
+    return helper.mbtiTaggedLine(text, axisLetters);
+  } catch {
+    return text;
+  }
+}
+
+/**
+ * Estrae axisLetters da `tags[]` di una line ink. Convention: tag prefix
+ * `mbti:X` (es. `mbti:F`, `mbti:T`). Tag senza prefix → ignorati.
+ *
+ * @param {string[]} tags
+ * @returns {string[]} lettere MBTI valide (può essere [])
+ */
+function extractMbtiAxisFromTags(tags) {
+  if (!Array.isArray(tags) || tags.length === 0) return [];
+  const letters = [];
+  for (const tag of tags) {
+    if (typeof tag !== 'string') continue;
+    const match = tag.match(/^mbti:([EISNTFJP])$/);
+    if (match) letters.push(match[1]);
+  }
+  return letters;
+}
+
+/** Reset cache helper (per test). */
+function _resetMbtiPaletteCache() {
+  _mbtiPaletteCache = null;
+}
+
 module.exports = {
   NARRATIVES_DIR,
   loadStory,
@@ -140,4 +210,7 @@ module.exports = {
   saveState,
   loadState,
   listStories,
+  tagDialogueLineWithMbti,
+  extractMbtiAxisFromTags,
+  _resetMbtiPaletteCache,
 };
