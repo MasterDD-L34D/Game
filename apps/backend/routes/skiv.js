@@ -18,6 +18,20 @@ const fsp = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 
+// @octokit/webhooks — typed payload verify + event handler abstraction.
+// Approved Master DD 2026-04-26 (PR #1849 proposal). Replaces hand-rolled
+// HMAC verify + manual switch with battle-tested Octokit official lib.
+// Backward compat preserved: inline `verifyWebhookSignature` + `buildFeedEntryFromWebhook`
+// still exported for legacy users / tests.
+let octokitWebhooks = null;
+try {
+  const { Webhooks } = require('@octokit/webhooks');
+  octokitWebhooks = Webhooks;
+} catch {
+  // Octokit not installed — fallback to hand-rolled. Should not happen post-merge
+  // but keep graceful degrade for monorepo workspaces without backend deps.
+}
+
 const ROOT_DIR = path.resolve(__dirname, '..', '..', '..');
 const DATA_DIR = path.join(ROOT_DIR, 'data', 'derived', 'skiv_monitor');
 const STATE_PATH = path.join(DATA_DIR, 'state.json');
@@ -389,6 +403,19 @@ function createSkivRouter(opts = {}) {
   const feedPath = opts.feedPath || FEED_PATH;
   const webhookSecret = opts.webhookSecret || process.env.SKIV_WEBHOOK_SECRET || '';
 
+  // Octokit Webhooks instance — used ONLY for HMAC verify (battle-tested
+  // signature comparison + timing-safe). Entry build remains inline to
+  // preserve sync entry_id contract for tests + minimize race conditions.
+  let octokit = null;
+  if (octokitWebhooks && webhookSecret) {
+    try {
+      octokit = new octokitWebhooks({ secret: webhookSecret });
+    } catch (err) {
+      console.warn('[skiv] octokit webhooks init failed, fallback inline', err);
+      octokit = null;
+    }
+  }
+
   router.get('/skiv/status', async (_req, res, next) => {
     try {
       const state = await readStateSafe(statePath);
@@ -432,24 +459,40 @@ function createSkivRouter(opts = {}) {
       },
       limit: '1mb',
     }),
-    (req, res) => {
+    async (req, res) => {
       if (!webhookSecret) {
         return res
           .status(503)
           .json({ error: 'webhook_disabled', detail: 'SKIV_WEBHOOK_SECRET not set' });
       }
       const sig = req.get('X-Hub-Signature-256');
-      if (!verifyWebhookSignature(req.rawBody || Buffer.from(''), sig, webhookSecret)) {
+      const eventType = req.get('X-GitHub-Event') || 'unknown';
+      // Verify HMAC: Octokit preferred (typed + timing-safe), inline fallback.
+      let verified = false;
+      const handler = octokit ? 'octokit' : 'inline';
+      if (octokit) {
+        try {
+          // Octokit verify() returns Promise<boolean>, not throw on bad sig.
+          verified = await octokit.verify(
+            (req.rawBody && req.rawBody.toString('utf8')) || '',
+            sig || '',
+          );
+        } catch {
+          verified = false;
+        }
+      } else {
+        verified = verifyWebhookSignature(req.rawBody || Buffer.from(''), sig, webhookSecret);
+      }
+      if (!verified) {
         return res.status(401).json({ error: 'invalid_signature' });
       }
-      const eventType = req.get('X-GitHub-Event') || 'unknown';
-      // Phase 4 LIVE: parse payload + append to feed real-time.
       const entry = buildFeedEntryFromWebhook(eventType, req.body || {});
       if (!entry) {
         return res.json({
           ok: true,
           event_type: eventType,
           processed: false,
+          handler,
           note: 'event_type not actionable for Skiv (skipped)',
         });
       }
@@ -460,6 +503,7 @@ function createSkivRouter(opts = {}) {
         ok: true,
         event_type: eventType,
         processed: true,
+        handler,
         entry_id: entry.event.id,
       });
     },
