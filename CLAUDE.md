@@ -328,6 +328,34 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — cross-PC absorption + deep extraction pass 2 + 73 pattern residui catalogati)
+
+**Sessione 2026-04-27** (master-dd + Claude): absorption massiccia da origin/main (32 PR mergiati 2026-04-26/27 cross-PC) + seconda passata estrattiva profonda sui 5 cross-game extraction matrix doc + audit 5 nuovi backend services + sintesi v3.7.
+
+**Doc canonical post-sprint**:
+
+- **Stato dell'arte completo + vertical slice**: [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md`](docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md) — §A inventario decisioni, §B 73 pattern residui dettagliati, §C vertical slice 8-fasi, §E 6 decisioni richieste
+- **v3.7 master synthesis**: [`docs/reports/2026-04-27-v3.7-cross-pc-update-synthesis.md`](docs/reports/2026-04-27-v3.7-cross-pc-update-synthesis.md) — 6 opzioni action plan
+- **Cross-game tier matrices synthesis**: [`docs/reports/2026-04-27-cross-game-tier-matrices-synthesis.md`](docs/reports/2026-04-27-cross-game-tier-matrices-synthesis.md) — top 15 ROI ranked
+- **Deep-analysis residual gaps**: [`docs/reports/2026-04-27-deep-analysis-residual-gaps-synthesis.md`](docs/reports/2026-04-27-deep-analysis-residual-gaps-synthesis.md) — 9 domain residual P0/P1/P2
+
+**Pattern residui catalogati**: 73 pattern cross-game (38 Tier S + 11 Tier A + 11 Tier B + 13 Tier E) — quick wins ≤5h totali ~64h, full residual ~509h. Doc dettagliati al §B dello stato-arte.
+
+**Anti-pattern dominante "Engine LIVE Surface DEAD"**: ~30% delle 61 voci catalogate hanno runtime built ma surface player dead. 8 engine orphan diagnosticati (predictCombat/Tactics Ogre HUD/Spore part-pack/Mating gene_slots/objectiveEvaluator/biomeSpawnBias initial wave/QBN debrief/Thought Cabinet). Sweep ~17-32h chiude P1+P2+P4 strategico.
+
+**Pillar status post-wave**: 0/6 🟢 + **2/6 🟢 candidato** (P1+P5) + **3/6 🟡+** (P2/P4/P6) + 1/6 🟡 (P3).
+
+**Trigger consultation rules** (post-sessione):
+
+- ✅ Research/audit dominio cross-game → leggi PRIMA i 4 synthesis 2026-04-27 + tier matrix originale + MUSEUM.md
+- ✅ Sprint planning next session → leggi §C 6 opzioni con effort + outcome
+- ✅ Pattern X gioco Y specifico → tier matrix è canonical, synthesis è index
+- ❌ NON re-research dominio cross-game senza prima consultare i 4 synthesis (waste duplicate)
+
+**Decisione user pending**: quale path attivare? A (polish demo ~10-12h) / C (P2 closure ~30h) / E (surface sweep ~25-35h).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-25 sera-late — workspace audit + drift fixes 8 PR)
 
 **Sessione 2026-04-25 sera-late (workspace ecosystem audit)**: utente segnala "non c'è punto chiaro di ingresso tra Game-Database, game-swarm e altri repo collegati". Audit a fondo scopre ecosystem 3x più grande del precedentemente mappato + multi-PC race condition + drift sistematico BACKLOG.

@@ -1,0 +1,18 @@
+{
+  "id": "TKT-COMBAT-ANCIENTBEAST-ABILITY-R3-R4",
+  "title": "AncientBeast ability r3/r4 tier per job",
+  "pillar": "P3",
+  "effort_hours": 10,
+  "donor_game": {
+    "name": "AncientBeast",
+    "tier": "S",
+    "matrix_anchor": "docs/research/2026-04-26-tier-s-extraction-matrix.md#6-ancientbeast-freezingmoon--p1-hex"
+  },
+  "agent_owner": "balance-illuminator",
+  "status": "proposed",
+  "reuse_level": "moderate",
+  "audit_source_doc": "docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md",
+  "created_at": "2026-04-27",
+  "created_by_agent": "claude-code",
+  "summary": "Estende `abilities.yaml` r1/r2 esistente a 4 tier (M2). Costing scaling per tier."
+}
