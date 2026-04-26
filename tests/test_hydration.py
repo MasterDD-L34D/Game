@@ -115,14 +115,14 @@ def test_hydrate_caverna_matches_snapshot(catalog):
 
 def test_aggregate_resistances_sums_by_channel(catalog):
     # mantello_meteoritico: fisico +20, fuoco +20
-    # sangue_piroforico: fuoco +20
-    # Atteso: fisico 20, fuoco 40
+    # sangue_piroforico: fuoco +10 (post-nerf #1869: 20→10 fuoco resist)
+    # Atteso: fisico 20, fuoco 30
     result = aggregate_resistances(
         ["mantello_meteoritico", "sangue_piroforico"],
         catalog,
     )
     by_channel = {r["channel"]: r["modifier_pct"] for r in result}
-    assert by_channel == {"fisico": 20, "fuoco": 40}
+    assert by_channel == {"fisico": 20, "fuoco": 30}
 
 
 def test_aggregate_resistances_sorts_alphabetically(catalog):
