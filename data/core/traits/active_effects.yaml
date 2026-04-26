@@ -2731,7 +2731,9 @@ traits:
   #   M-future enemy-tag system is wired.
 
   # --- Self-Control branch (FR 01-08): Tachypsychia / Time Dilation ---
-  ancestor_self_control_tachypsychia:
+  ancestor_autocontrollo_tachipsichia_fr_01:
+    label_it: "Tachipsichia"
+    label_en: "Tachypsychia"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2742,7 +2744,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 1
-      log_tag: ancestor_self_control_tachypsychia
+      log_tag: ancestor_autocontrollo_tachipsichia_fr_01
     description_it: |
       Tachipsichia (FR 01) — finestra temporale percepita dilatata durante
       l'attacco. Ogni colpo riuscito con MoS >= 3 sfrutta il timing esteso
@@ -2751,7 +2753,9 @@ traits:
       source: ancestors_csv_01B
       code: FR 01
 
-  ancestor_self_control_temporal_distortion:
+  ancestor_autocontrollo_distorsione_temporale_fr_02:
+    label_it: "Distorsione Temporale"
+    label_en: "Temporal Distortion"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2762,7 +2766,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 1
-      log_tag: ancestor_self_control_temporal_distortion
+      log_tag: ancestor_autocontrollo_distorsione_temporale_fr_02
     description_it: |
       Distorsione temporale (FR 02-03) — finestra di timing ampia in combat.
       Su MoS >= 4 trasforma la lettura del tempo in +1 PT. Source:
@@ -2772,7 +2776,9 @@ traits:
       source: ancestors_csv_01B
       code: FR 02-03
 
-  ancestor_self_control_temporal_max:
+  ancestor_autocontrollo_distorsione_temporale_fr_04:
+    label_it: "Distorsione Temporale"
+    label_en: "Temporal Distortion"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2783,7 +2789,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 2
-      log_tag: ancestor_self_control_temporal_max
+      log_tag: ancestor_autocontrollo_distorsione_temporale_fr_04
     description_it: |
       Distorsione temporale massimizzata (FR 04) — finestra di timing
       maxed. Su MoS >= 6 +2 PT (tier finale della catena Tachipsichia).
@@ -2792,7 +2798,9 @@ traits:
       source: ancestors_csv_01B
       code: FR 04
 
-  ancestor_self_control_perceptual_dilation:
+  ancestor_autocontrollo_dilatazione_temporale_percettiva_fr_05:
+    label_it: "Dilatazione Temporale Percettiva"
+    label_en: "Perceptual Time Dilation"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2803,7 +2811,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 1
-      log_tag: ancestor_self_control_perceptual_dilation
+      log_tag: ancestor_autocontrollo_dilatazione_temporale_percettiva_fr_05
     description_it: |
       Dilatazione percettiva (FR 05) — reazioni piu' rapide a stimoli minacciosi.
       MoS >= 4 su attacco riuscito converte il margine reattivo in +1 PT.
@@ -2812,7 +2820,9 @@ traits:
       source: ancestors_csv_01B
       code: FR 05
 
-  ancestor_self_control_process_speed_predator:
+  ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_06:
+    label_it: "Velocita' di Elaborazione Interna"
+    label_en: "Internal Process Speed"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2826,7 +2836,7 @@ traits:
       target_side: actor
       stato: focused
       turns: 2
-      log_tag: ancestor_self_control_process_speed_predator
+      log_tag: ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_06
     description_it: |
       Velocita' di processo interno vs predatori (FR 06) — l'unita' entra in
       stato focused per 2 turni dopo un colpo MoS >= 5. Nota design: bonus
@@ -2836,7 +2846,9 @@ traits:
       source: ancestors_csv_01B
       code: FR 06
 
-  ancestor_self_control_process_speed_irascible:
+  ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_07:
+    label_it: "Velocita' di Elaborazione Interna"
+    label_en: "Internal Process Speed"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2850,7 +2862,7 @@ traits:
       target_side: actor
       stato: focused
       turns: 2
-      log_tag: ancestor_self_control_process_speed_irascible
+      log_tag: ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_07
     description_it: |
       Velocita' di processo interno vs irascibili (FR 07) — focused 2t dopo
       colpo MoS >= 5. Bonus tag-irascible runtime-inert (M-future).
@@ -2859,7 +2871,9 @@ traits:
       source: ancestors_csv_01B
       code: FR 07
 
-  ancestor_self_control_process_speed_wildlife:
+  ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_08:
+    label_it: "Velocita' di Elaborazione Interna"
+    label_en: "Internal Process Speed"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2873,7 +2887,7 @@ traits:
       target_side: actor
       stato: focused
       turns: 2
-      log_tag: ancestor_self_control_process_speed_wildlife
+      log_tag: ancestor_autocontrollo_velocita_di_elaborazione_interna_fr_08
     description_it: |
       Velocita' di processo interno vs wildlife (FR 08) — focused 2t dopo
       colpo MoS >= 5. Bonus tag-wildlife runtime-inert (M-future).
@@ -2883,7 +2897,9 @@ traits:
       code: FR 08
 
   # --- Attack/Counterattack branch (CO 01-06) ---
-  ancestor_attack_fight_response:
+  ancestor_attacco_risposta_di_combattimento_co_01:
+    label_it: "Risposta di Combattimento"
+    label_en: "Fight Response"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2894,7 +2910,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 1
-      log_tag: ancestor_attack_fight_response
+      log_tag: ancestor_attacco_risposta_di_combattimento_co_01
     description_it: |
       Fight Response (CO 01) — preparazione al contrattacco potenziata.
       Ogni colpo melee riuscito infligge +1 PT extra (proxy: counterattack
@@ -2903,7 +2919,9 @@ traits:
       source: ancestors_csv_01B
       code: CO 01
 
-  ancestor_attack_counter_irascible:
+  ancestor_attacco_contromanovra_co_02:
+    label_it: "Contromanovra"
+    label_en: "Counter Maneuver"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2916,7 +2934,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 1
-      log_tag: ancestor_attack_counter_irascible
+      log_tag: ancestor_attacco_contromanovra_co_02
     description_it: |
       Counter Maneuver vs irascibili (CO 02) — colpo melee MoS >= 3
       capitalizza l'apertura difensiva. +1 PT. Tag-irascible runtime-inert.
@@ -2925,7 +2943,9 @@ traits:
       source: ancestors_csv_01B
       code: CO 02
 
-  ancestor_attack_counter_wildlife:
+  ancestor_attacco_contromanovra_co_03:
+    label_it: "Contromanovra"
+    label_en: "Counter Maneuver"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2938,7 +2958,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 1
-      log_tag: ancestor_attack_counter_wildlife
+      log_tag: ancestor_attacco_contromanovra_co_03
     description_it: |
       Counter Maneuver vs wildlife (CO 03) — colpo melee MoS >= 3 +1 PT.
       Tag-wildlife runtime-inert (M-future). Source: ancestors_csv_01B CO 03.
@@ -2946,7 +2966,9 @@ traits:
       source: ancestors_csv_01B
       code: CO 03
 
-  ancestor_attack_counter_predator:
+  ancestor_attacco_contromanovra_co_04:
+    label_it: "Contromanovra"
+    label_en: "Counter Maneuver"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2959,7 +2981,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 1
-      log_tag: ancestor_attack_counter_predator
+      log_tag: ancestor_attacco_contromanovra_co_04
     description_it: |
       Counter Maneuver vs predatori (CO 04) — colpo melee MoS >= 3 +1 PT.
       Tag-predator runtime-inert (M-future). Source: ancestors_csv_01B CO 04.
@@ -2967,7 +2989,9 @@ traits:
       source: ancestors_csv_01B
       code: CO 04
 
-  ancestor_attack_startle_response:
+  ancestor_attacco_risposta_di_soprassalto_co_05:
+    label_it: "Risposta di Soprassalto"
+    label_en: "Startle Response"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -2979,7 +3003,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 2
-      log_tag: ancestor_attack_startle_response
+      log_tag: ancestor_attacco_risposta_di_soprassalto_co_05
     description_it: |
       Startle Response (CO 05) — counterattack maxed. Su melee MoS >= 5
       infligge +2 PT (proxy: prep speed massima → finestra reattiva
@@ -2988,7 +3012,9 @@ traits:
       source: ancestors_csv_01B
       code: CO 05
 
-  ancestor_attack_group_defense:
+  ancestor_attacco_difesa_di_gruppo_co_06:
+    label_it: "Difesa di Gruppo"
+    label_en: "Group Defense"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3001,7 +3027,7 @@ traits:
       target_side: actor
       stato: focused
       turns: 1
-      log_tag: ancestor_attack_group_defense
+      log_tag: ancestor_attacco_difesa_di_gruppo_co_06
     description_it: |
       Group Defense (CO 06) — alleati armati partecipano alla difesa.
       Colpo melee riuscito → focused 1t (proxy: coordinated stance).
@@ -3012,7 +3038,9 @@ traits:
       code: CO 06
 
   # --- Dodge branch (DO 01-06): target-side damage reduction ---
-  ancestor_dodge_flee_response:
+  ancestor_schivata_risposta_di_fuga_do_01:
+    label_it: "Risposta di Fuga"
+    label_en: "Flee Response"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3023,7 +3051,7 @@ traits:
       kind: damage_reduction
       amount: 1
       min: 0
-      log_tag: ancestor_dodge_flee_response
+      log_tag: ancestor_schivata_risposta_di_fuga_do_01
     description_it: |
       Flee Response (DO 01) — preparazione schivata potenziata. Quando
       l'unita' subisce un hit, riduce il danno di 1 PT (min 0). Source:
@@ -3032,7 +3060,9 @@ traits:
       source: ancestors_csv_01B
       code: DO 01
 
-  ancestor_dodge_evasive_predator:
+  ancestor_schivata_azione_evasiva_do_02:
+    label_it: "Azione Evasiva"
+    label_en: "Evasive Action"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3044,7 +3074,7 @@ traits:
       kind: damage_reduction
       amount: 1
       min: 0
-      log_tag: ancestor_dodge_evasive_predator
+      log_tag: ancestor_schivata_azione_evasiva_do_02
     description_it: |
       Evasive Action vs predatori (DO 02) — schivata mirata. Hit subito →
       -1 PT incoming. Tag-predator runtime-inert. Source: ancestors_csv_01B
@@ -3053,7 +3083,9 @@ traits:
       source: ancestors_csv_01B
       code: DO 02
 
-  ancestor_dodge_evasive_irascible:
+  ancestor_schivata_azione_evasiva_bb_do_03:
+    label_it: "Azione Evasiva"
+    label_en: "Evasive Action"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3065,7 +3097,7 @@ traits:
       kind: damage_reduction
       amount: 1
       min: 0
-      log_tag: ancestor_dodge_evasive_irascible
+      log_tag: ancestor_schivata_azione_evasiva_bb_do_03
     description_it: |
       Evasive Action vs irascibili (BB DO 03 — flag genetic e' false
       nonostante prefisso BB nel CSV, vedi note row). Hit subito → -1 PT.
@@ -3074,7 +3106,9 @@ traits:
       source: ancestors_csv_01B
       code: BB DO 03
 
-  ancestor_dodge_evasive_wildlife:
+  ancestor_schivata_azione_evasiva_do_04:
+    label_it: "Azione Evasiva"
+    label_en: "Evasive Action"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3086,7 +3120,7 @@ traits:
       kind: damage_reduction
       amount: 1
       min: 0
-      log_tag: ancestor_dodge_evasive_wildlife
+      log_tag: ancestor_schivata_azione_evasiva_do_04
     description_it: |
       Evasive Action vs wildlife (DO 04) — hit subito → -1 PT.
       Tag-wildlife runtime-inert. Source: ancestors_csv_01B DO 04.
@@ -3094,7 +3128,9 @@ traits:
       source: ancestors_csv_01B
       code: DO 04
 
-  ancestor_dodge_withdrawal_reflex:
+  ancestor_schivata_riflesso_di_ritiro_do_05:
+    label_it: "Riflesso di Ritiro"
+    label_en: "Withdrawal Reflex"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3106,7 +3142,7 @@ traits:
       kind: damage_reduction
       amount: 2
       min: 0
-      log_tag: ancestor_dodge_withdrawal_reflex
+      log_tag: ancestor_schivata_riflesso_di_ritiro_do_05
     description_it: |
       Withdrawal Reflex (DO 05) — schivata melee massimizzata. Hit melee
       subito → -2 PT (min 0). Source: ancestors_csv_01B DO 05.
@@ -3114,7 +3150,9 @@ traits:
       source: ancestors_csv_01B
       code: DO 05
 
-  ancestor_dodge_ataraxia:
+  ancestor_schivata_atarassia_do_06:
+    label_it: "Atarassia"
+    label_en: "Ataraxia"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3126,7 +3164,7 @@ traits:
       target_side: target
       stato: focused
       turns: 1
-      log_tag: ancestor_dodge_ataraxia
+      log_tag: ancestor_schivata_atarassia_do_06
     description_it: |
       Atarassia (DO 06) — dose dopaminica dopo schivata/contrattacco
       riuscito. Modellata come focused 1t sull'unita' colpita (resilienza
@@ -3136,7 +3174,9 @@ traits:
       source: ancestors_csv_01B
       code: DO 06
 
-  ancestor_dodge_group_preservation:
+  ancestor_schivata_preservazione_di_gruppo_do_07:
+    label_it: "Preservazione di Gruppo"
+    label_en: "Group Preservation"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3147,7 +3187,7 @@ traits:
       kind: damage_reduction
       amount: 1
       min: 0
-      log_tag: ancestor_dodge_group_preservation
+      log_tag: ancestor_schivata_preservazione_di_gruppo_do_07
     description_it: |
       Group Preservation (DO 07) — alleati disarmati possono schivare gli
       attacchi quando l'unita' si muove con il gruppo. Hit subito → -1 PT
@@ -3158,7 +3198,9 @@ traits:
       code: DO 07
 
   # --- BB-genetic exemplars (T2 hereditary) ---
-  ancestor_self_control_determination:
+  ancestor_autocontrollo_determinazione_bb_fr_01:
+    label_it: "Determinazione"
+    label_en: "Determination"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3169,7 +3211,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 2
-      log_tag: ancestor_self_control_determination
+      log_tag: ancestor_autocontrollo_determinazione_bb_fr_01
     description_it: |
       Determinazione (BB FR 01-04 collapsed, genetic=Yes) — meno dopamina
       richiesta nella risposta a minacce. Genetica T2: ogni colpo riuscito
@@ -3181,7 +3223,9 @@ traits:
       license: CC BY-NC-SA 3.0 Fandom
       branch: Self-Control
 
-  ancestor_attack_released_strength:
+  ancestor_attacco_forza_liberata_bb_co_01:
+    label_it: "Forza Liberata"
+    label_en: "Released Strength"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3193,7 +3237,7 @@ traits:
     effect:
       kind: extra_damage
       amount: 2
-      log_tag: ancestor_attack_released_strength
+      log_tag: ancestor_attacco_forza_liberata_bb_co_01
     description_it: |
       Forza Liberata (BB CO 01-02 collapsed, genetic=Yes) — colpo
       controattacco infligge piu' danno. Genetica T2: melee MoS >= 5 +2 PT
@@ -3205,7 +3249,9 @@ traits:
       license: CC BY-NC-SA 3.0 Fandom
       branch: Attack
 
-  ancestor_dodge_infundibular_pathway:
+  ancestor_schivata_via_infundibolare_bb_do_01:
+    label_it: "Via Infundibolare"
+    label_en: "Infundibular Pathway"
     tier: T2
     category: neurologico
     applies_to: target
@@ -3218,7 +3264,7 @@ traits:
       target_side: target
       stato: focused
       turns: 2
-      log_tag: ancestor_dodge_infundibular_pathway
+      log_tag: ancestor_schivata_via_infundibolare_bb_do_01
     description_it: |
       Via Infundibolare (BB DO 01, BB DO 02, BB DO 03-2 collapsed,
       genetic=Yes) — dose dopaminica genetica dopo schivata o controattacco
@@ -3244,7 +3290,9 @@ traits:
   # Statuses linked/fed/healing/awareness are runtime-inert until M-future
   # status-system extension; description_it captures design intent.
 
-  ancestor_ambulation_endurance_01:
+  ancestor_deambulazione_resistenza_ab_01:
+    label_it: "Resistenza"
+    label_en: "Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3263,7 +3311,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_movement_endurance_02:
+  ancestor_deambulazione_resistenza_al_movimento_ab_02:
+    label_it: "Resistenza al Movimento"
+    label_en: "Movement Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3282,7 +3332,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_movement_endurance_03:
+  ancestor_deambulazione_resistenza_al_movimento_ab_03:
+    label_it: "Resistenza al Movimento"
+    label_en: "Movement Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3301,7 +3353,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_climb_endurance_04:
+  ancestor_deambulazione_resistenza_in_arrampicata_ab_04:
+    label_it: "Resistenza in Arrampicata"
+    label_en: "Climb Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3320,7 +3374,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_climb_endurance_05:
+  ancestor_deambulazione_resistenza_in_arrampicata_ab_05:
+    label_it: "Resistenza in Arrampicata"
+    label_en: "Climb Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3339,7 +3395,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_climb_endurance_06:
+  ancestor_deambulazione_resistenza_in_arrampicata_ab_06:
+    label_it: "Resistenza in Arrampicata"
+    label_en: "Climb Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3358,7 +3416,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_carrying_endurance_07:
+  ancestor_deambulazione_resistenza_nel_trasporto_ab_07:
+    label_it: "Resistenza nel Trasporto"
+    label_en: "Carrying Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3377,7 +3437,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_carrying_endurance_08:
+  ancestor_deambulazione_resistenza_nel_trasporto_ab_08:
+    label_it: "Resistenza nel Trasporto"
+    label_en: "Carrying Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3396,7 +3458,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_carrying_endurance_09:
+  ancestor_deambulazione_resistenza_nel_trasporto_ab_09:
+    label_it: "Resistenza nel Trasporto"
+    label_en: "Carrying Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3415,7 +3479,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_pain_endurance_10:
+  ancestor_deambulazione_resistenza_al_dolore_ab_10:
+    label_it: "Resistenza al Dolore"
+    label_en: "Pain Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3434,7 +3500,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_pain_endurance_11:
+  ancestor_deambulazione_resistenza_al_dolore_ab_11:
+    label_it: "Resistenza al Dolore"
+    label_en: "Pain Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3453,7 +3521,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_pain_endurance_12:
+  ancestor_deambulazione_resistenza_al_dolore_ab_12:
+    label_it: "Resistenza al Dolore"
+    label_en: "Pain Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3472,7 +3542,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_ambulation_speed_bb_01:
+  ancestor_deambulazione_velocita_di_deambulazione_bb_ab_01:
+    label_it: "Velocita' di Deambulazione"
+    label_en: "Ambulation Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3491,7 +3563,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_ambulation_speed_bb_02:
+  ancestor_deambulazione_velocita_di_deambulazione_bb_ab_02:
+    label_it: "Velocita' di Deambulazione"
+    label_en: "Ambulation Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3510,7 +3584,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_ambulation_speed_bb_03:
+  ancestor_deambulazione_velocita_di_deambulazione_bb_ab_03:
+    label_it: "Velocita' di Deambulazione"
+    label_en: "Ambulation Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3529,7 +3605,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_lower_body_strength_bb_04:
+  ancestor_deambulazione_forza_degli_arti_inferiori_bb_ab_04:
+    label_it: "Forza degli Arti Inferiori"
+    label_en: "Lower Body Strength"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3548,7 +3626,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_lower_body_strength_bb_05:
+  ancestor_deambulazione_forza_degli_arti_inferiori_bb_ab_05:
+    label_it: "Forza degli Arti Inferiori"
+    label_en: "Lower Body Strength"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3567,7 +3647,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_climb_speed_bb_06:
+  ancestor_deambulazione_velocita_di_arrampicata_bb_ab_06:
+    label_it: "Velocita' di Arrampicata"
+    label_en: "Climb Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3586,7 +3668,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_climb_speed_bb_07:
+  ancestor_deambulazione_velocita_di_arrampicata_bb_ab_07:
+    label_it: "Velocita' di Arrampicata"
+    label_en: "Climb Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3605,7 +3689,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_climb_speed_bb_08:
+  ancestor_deambulazione_velocita_di_arrampicata_bb_ab_08:
+    label_it: "Velocita' di Arrampicata"
+    label_en: "Climb Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3624,7 +3710,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_carrying_speed_bb_09:
+  ancestor_deambulazione_velocita_nel_trasporto_bb_ab_09:
+    label_it: "Velocita' nel Trasporto"
+    label_en: "Carrying Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3643,7 +3731,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_carrying_speed_bb_10:
+  ancestor_deambulazione_velocita_nel_trasporto_bb_ab_10:
+    label_it: "Velocita' nel Trasporto"
+    label_en: "Carrying Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3662,7 +3752,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_carrying_speed_bb_11:
+  ancestor_deambulazione_velocita_nel_trasporto_bb_ab_11:
+    label_it: "Velocita' nel Trasporto"
+    label_en: "Carrying Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3681,7 +3773,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_pain_threshold_bb_12:
+  ancestor_deambulazione_soglia_del_dolore_bb_ab_12:
+    label_it: "Soglia del Dolore"
+    label_en: "Pain Threshold"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3700,7 +3794,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_pain_threshold_bb_13:
+  ancestor_deambulazione_soglia_del_dolore_bb_ab_13:
+    label_it: "Soglia del Dolore"
+    label_en: "Pain Threshold"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3719,7 +3815,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ambulation_pain_threshold_bb_14:
+  ancestor_deambulazione_soglia_del_dolore_bb_ab_14:
+    label_it: "Soglia del Dolore"
+    label_en: "Pain Threshold"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -3738,7 +3836,9 @@ traits:
       branch: "Ambulation"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_cognitive_inhibition_03:
+  ancestor_ardipithecus_ramidus_inibizione_cognitiva_cc_03:
+    label_it: "Inibizione Cognitiva"
+    label_en: "Cognitive Inhibition"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3757,7 +3857,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_mesolimbic_pathway_05:
+  ancestor_ardipithecus_ramidus_via_mesolimbica_dp_05:
+    label_it: "Via Mesolimbica"
+    label_en: "Mesolimbic Pathway"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3776,7 +3878,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_dopaminergic_pathways_06:
+  ancestor_ardipithecus_ramidus_vie_dopaminergiche_dp_06:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3795,7 +3899,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_dopaminergic_pathways_07:
+  ancestor_ardipithecus_ramidus_vie_dopaminergiche_dp_07:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3814,7 +3920,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_dopaminergic_pathways_08:
+  ancestor_ardipithecus_ramidus_vie_dopaminergiche_dp_08:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3833,7 +3941,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_life_expectancy_02:
+  ancestor_ardipithecus_ramidus_aspettativa_di_vita_lf_02:
+    label_it: "Aspettativa di Vita"
+    label_en: "Life Expectancy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3853,7 +3963,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_encephalization_02:
+  ancestor_ardipithecus_ramidus_encefalizzazione_np_02:
+    label_it: "Encefalizzazione"
+    label_en: "Encephalization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -3873,7 +3985,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_hyperfocus_01:
+  ancestor_ardipithecus_ramidus_iperfocalizzazione_zo_01:
+    label_it: "Iperfocalizzazione"
+    label_en: "Hyperfocus"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3892,7 +4006,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_locus_of_control_02:
+  ancestor_ardipithecus_ramidus_locus_di_controllo_zo_02:
+    label_it: "Locus di Controllo"
+    label_en: "Locus of Control"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3911,7 +4027,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_locus_of_control_03:
+  ancestor_ardipithecus_ramidus_locus_di_controllo_zo_03:
+    label_it: "Locus di Controllo"
+    label_en: "Locus of Control"
     tier: T1
     category: neurologico
     applies_to: target
@@ -3930,7 +4048,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_autotelic_personality_bb_01:
+  ancestor_ardipithecus_ramidus_personalita_autotelica_bb_zo_01:
+    label_it: "Personalita' Autotelica"
+    label_en: "Autotelic Personality"
     tier: T2
     category: neurologico
     applies_to: target
@@ -3949,7 +4069,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_autotelic_personality_bb_02:
+  ancestor_ardipithecus_ramidus_personalita_autotelica_bb_zo_02:
+    label_it: "Personalita' Autotelica"
+    label_en: "Autotelic Personality"
     tier: T2
     category: neurologico
     applies_to: target
@@ -3968,7 +4090,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_ardipithecus_autotelic_personality_bb_03:
+  ancestor_ardipithecus_ramidus_personalita_autotelica_bb_zo_03:
+    label_it: "Personalita' Autotelica"
+    label_en: "Autotelic Personality"
     tier: T2
     category: neurologico
     applies_to: target
@@ -3987,7 +4111,9 @@ traits:
       branch: "Ardipithecus Ramidus"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_inhibitory_control_04:
+  ancestor_australopithecus_afarensis_controllo_inibitorio_cc_04:
+    label_it: "Controllo Inibitorio"
+    label_en: "Inhibitory Control"
     tier: T1
     category: neurologico
     applies_to: target
@@ -4006,7 +4132,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_nigrostriatal_pathway_09:
+  ancestor_australopithecus_afarensis_via_nigrostriatale_dp_09:
+    label_it: "Via Nigrostriatale"
+    label_en: "Nigrostriatal Pathway"
     tier: T1
     category: neurologico
     applies_to: target
@@ -4025,7 +4153,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_dopaminergic_pathways_10:
+  ancestor_australopithecus_afarensis_vie_dopaminergiche_dp_10:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -4044,7 +4174,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_dopaminergic_pathways_11:
+  ancestor_australopithecus_afarensis_vie_dopaminergiche_dp_11:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -4063,7 +4195,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_dopaminergic_pathways_12:
+  ancestor_australopithecus_afarensis_vie_dopaminergiche_dp_12:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -4082,7 +4216,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_dopaminergic_pathways_13:
+  ancestor_australopithecus_afarensis_vie_dopaminergiche_dp_13:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -4101,7 +4237,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_life_expectancy_03:
+  ancestor_australopithecus_afarensis_aspettativa_di_vita_lf_03:
+    label_it: "Aspettativa di Vita"
+    label_en: "Life Expectancy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4121,7 +4259,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_encephalization_03:
+  ancestor_australopithecus_afarensis_encefalizzazione_np_03:
+    label_it: "Encefalizzazione"
+    label_en: "Encephalization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4141,7 +4281,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_thermo_regulation_01:
+  ancestor_australopithecus_afarensis_termoregolazione_th_01:
+    label_it: "Termoregolazione"
+    label_en: "Thermo Regulation"
     tier: T1
     category: neurologico
     applies_to: target
@@ -4160,7 +4302,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_thermoreceptors_efficiency_bb_01:
+  ancestor_australopithecus_afarensis_efficienza_dei_termocettori_bb_th_01:
+    label_it: "Efficienza dei Termocettori"
+    label_en: "Thermoreceptors Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -4179,7 +4323,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_preoptic_area_efficiency_bb_02:
+  ancestor_australopithecus_afarensis_efficienza_dell_area_preottica_bb_th_02:
+    label_it: "Efficienza dell'Area Preottica"
+    label_en: "Preoptic Area Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -4198,7 +4344,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_australopithecus_hypothalamic_nucleus_efficiency_bb_03:
+  ancestor_australopithecus_afarensis_efficienza_del_nucleo_ipotalamico_bb_th_03:
+    label_it: "Efficienza del Nucleo Ipotalamico"
+    label_en: "Hypothalamic Nucleus Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -4217,7 +4365,9 @@ traits:
       branch: "Australopithecus Afarensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_kinesics_01:
+  ancestor_comunicazione_cinesica_cm_01:
+    label_it: "Cinesica"
+    label_en: "Kinesics"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4237,7 +4387,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_self_empowerment_02:
+  ancestor_comunicazione_auto_rafforzamento_cm_02:
+    label_it: "Auto-Rafforzamento"
+    label_en: "Self Empowerment"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4257,7 +4409,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_body_language_03:
+  ancestor_comunicazione_linguaggio_del_corpo_cm_03:
+    label_it: "Linguaggio del Corpo"
+    label_en: "Body Language"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4277,7 +4431,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_group_unity_04:
+  ancestor_comunicazione_unita_del_gruppo_cm_04:
+    label_it: "Unita' del Gruppo"
+    label_en: "Group Unity"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4297,7 +4453,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_mirror_neuron_05:
+  ancestor_comunicazione_neurone_specchio_cm_05:
+    label_it: "Neurone Specchio"
+    label_en: "Mirror Neuron"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4317,7 +4475,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_imitation_06:
+  ancestor_comunicazione_imitazione_cm_06:
+    label_it: "Imitazione"
+    label_en: "Imitation"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4337,7 +4497,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_group_unity_07:
+  ancestor_comunicazione_unita_del_gruppo_cm_07:
+    label_it: "Unita' del Gruppo"
+    label_en: "Group Unity"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4357,7 +4519,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_attachment_need_01:
+  ancestor_comunicazione_bisogno_di_attaccamento_hb_01:
+    label_it: "Bisogno di Attaccamento"
+    label_en: "Attachment Need"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4377,7 +4541,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_attachment_need_02:
+  ancestor_comunicazione_bisogno_di_attaccamento_hb_02:
+    label_it: "Bisogno di Attaccamento"
+    label_en: "Attachment Need"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4397,7 +4563,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_deimatic_behavior_01:
+  ancestor_comunicazione_comportamento_deimatico_it_01:
+    label_it: "Comportamento Deimatico"
+    label_en: "Deimatic Behavior"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4417,7 +4585,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_induced_fear_02:
+  ancestor_comunicazione_paura_indotta_it_02:
+    label_it: "Paura Indotta"
+    label_en: "Induced Fear"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4437,7 +4607,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_induced_fear_03:
+  ancestor_comunicazione_paura_indotta_it_03:
+    label_it: "Paura Indotta"
+    label_en: "Induced Fear"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4457,7 +4629,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_danger_perception_04:
+  ancestor_comunicazione_percezione_del_pericolo_it_04:
+    label_it: "Percezione del Pericolo"
+    label_en: "Danger Perception"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4477,7 +4651,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_danger_perception_05:
+  ancestor_comunicazione_percezione_del_pericolo_it_05:
+    label_it: "Percezione del Pericolo"
+    label_en: "Danger Perception"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4497,7 +4673,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_dominant_species_06:
+  ancestor_comunicazione_specie_dominante_it_06:
+    label_it: "Specie Dominante"
+    label_en: "Dominant Species"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4517,7 +4695,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_social_confidence_bb_01:
+  ancestor_comunicazione_sicurezza_sociale_bb_cm_01:
+    label_it: "Sicurezza Sociale"
+    label_en: "Social Confidence"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -4537,7 +4717,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_attachment_need_bb_01:
+  ancestor_comunicazione_bisogno_di_attaccamento_bb_hb_01:
+    label_it: "Bisogno di Attaccamento"
+    label_en: "Attachment Need"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -4557,7 +4739,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_willpower_bb_01:
+  ancestor_comunicazione_forza_di_volonta_bb_it_01:
+    label_it: "Forza di Volonta'"
+    label_en: "Willpower"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -4577,7 +4761,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_willpower_bb_02:
+  ancestor_comunicazione_forza_di_volonta_bb_it_02:
+    label_it: "Forza di Volonta'"
+    label_en: "Willpower"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -4597,7 +4783,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_communication_willpower_bb_03:
+  ancestor_comunicazione_forza_di_volonta_bb_it_03:
+    label_it: "Forza di Volonta'"
+    label_en: "Willpower"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -4617,7 +4805,9 @@ traits:
       branch: "Communication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_controlling_strength_01:
+  ancestor_destrezza_forza_di_controllo_al_01:
+    label_it: "Forza di Controllo"
+    label_en: "Controlling Strength"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4636,7 +4826,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_controlling_strength_02:
+  ancestor_destrezza_forza_di_controllo_al_02:
+    label_it: "Forza di Controllo"
+    label_en: "Controlling Strength"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4655,7 +4847,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_controlling_strength_03:
+  ancestor_destrezza_forza_di_controllo_al_03:
+    label_it: "Forza di Controllo"
+    label_en: "Controlling Strength"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4674,7 +4868,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_stripping_04:
+  ancestor_destrezza_spogliazione_al_04:
+    label_it: "Spogliazione"
+    label_en: "Stripping"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4693,7 +4889,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_stripping_05:
+  ancestor_destrezza_spogliazione_al_05:
+    label_it: "Spogliazione"
+    label_en: "Stripping"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4712,7 +4910,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_stripping_06:
+  ancestor_destrezza_spogliazione_al_06:
+    label_it: "Spogliazione"
+    label_en: "Stripping"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4731,7 +4931,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_fine_motor_skill_07:
+  ancestor_destrezza_abilita_motoria_fine_al_07:
+    label_it: "Abilita' Motoria Fine"
+    label_en: "Fine Motor Skill"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4750,7 +4952,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_item_manipulation_01:
+  ancestor_destrezza_manipolazione_oggetti_de_01:
+    label_it: "Manipolazione Oggetti"
+    label_en: "Item Manipulation"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4769,7 +4973,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_carrying_ability_02:
+  ancestor_destrezza_capacita_di_trasporto_de_02:
+    label_it: "Capacita' di Trasporto"
+    label_en: "Carrying Ability"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4788,7 +4994,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_carrying_ability_03:
+  ancestor_destrezza_capacita_di_trasporto_de_03:
+    label_it: "Capacita' di Trasporto"
+    label_en: "Carrying Ability"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4807,7 +5015,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_carrying_ability_04:
+  ancestor_destrezza_capacita_di_trasporto_de_04:
+    label_it: "Capacita' di Trasporto"
+    label_en: "Carrying Ability"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4826,7 +5036,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_gross_motor_skill_05:
+  ancestor_destrezza_abilita_motoria_grossolana_de_05:
+    label_it: "Abilita' Motoria Grossolana"
+    label_en: "Gross Motor Skill"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4845,7 +5057,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_applied_force_06:
+  ancestor_destrezza_forza_applicata_de_06:
+    label_it: "Forza Applicata"
+    label_en: "Applied Force"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4864,7 +5078,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_handling_01:
+  ancestor_destrezza_manipolazione_ha_01:
+    label_it: "Manipolazione"
+    label_en: "Handling"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4883,7 +5099,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_grasp_control_02:
+  ancestor_destrezza_controllo_della_presa_ha_02:
+    label_it: "Controllo della Presa"
+    label_en: "Grasp Control"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4902,7 +5120,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_grasp_control_03:
+  ancestor_destrezza_controllo_della_presa_ha_03:
+    label_it: "Controllo della Presa"
+    label_en: "Grasp Control"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4921,7 +5141,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_grasp_control_04:
+  ancestor_destrezza_controllo_della_presa_ha_04:
+    label_it: "Controllo della Presa"
+    label_en: "Grasp Control"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4940,7 +5162,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_true_grip_05:
+  ancestor_destrezza_presa_vera_ha_05:
+    label_it: "Presa Vera"
+    label_en: "True Grip"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4959,7 +5183,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_kinesthetic_sense_01:
+  ancestor_destrezza_senso_cinestesico_wh_01:
+    label_it: "Senso Cinestesico"
+    label_en: "Kinesthetic Sense"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4978,7 +5204,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_kinesthetic_sense_02:
+  ancestor_destrezza_senso_cinestesico_wh_02:
+    label_it: "Senso Cinestesico"
+    label_en: "Kinesthetic Sense"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -4997,7 +5225,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_thrusting_aim_03:
+  ancestor_destrezza_mira_di_affondo_wh_03:
+    label_it: "Mira di Affondo"
+    label_en: "Thrusting Aim"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5016,7 +5246,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_thrusting_aim_04:
+  ancestor_destrezza_mira_di_affondo_wh_04:
+    label_it: "Mira di Affondo"
+    label_en: "Thrusting Aim"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5035,7 +5267,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_thrusting_aim_05:
+  ancestor_destrezza_mira_di_affondo_wh_05:
+    label_it: "Mira di Affondo"
+    label_en: "Thrusting Aim"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5054,7 +5288,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_true_aim_06:
+  ancestor_destrezza_mira_vera_wh_06:
+    label_it: "Mira Vera"
+    label_en: "True Aim"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5073,7 +5309,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_manual_dexterity_bb_01:
+  ancestor_destrezza_destrezza_manuale_bb_al_01:
+    label_it: "Destrezza Manuale"
+    label_en: "Manual Dexterity"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5092,7 +5330,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_manual_dexterity_bb_01_2:
+  ancestor_destrezza_destrezza_manuale_bb_al_01_2:
+    label_it: "Destrezza Manuale"
+    label_en: "Manual Dexterity"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5111,7 +5351,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_manual_dexterity_bb_01_3:
+  ancestor_destrezza_destrezza_manuale_bb_al_01_3:
+    label_it: "Destrezza Manuale"
+    label_en: "Manual Dexterity"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5130,7 +5372,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_manual_dexterity_bb_01_4:
+  ancestor_destrezza_destrezza_manuale_bb_al_01_4:
+    label_it: "Destrezza Manuale"
+    label_en: "Manual Dexterity"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5149,7 +5393,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_proprioceptor_efficiency_bb_01:
+  ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01:
+    label_it: "Efficienza dei Propriocettori"
+    label_en: "Proprioceptor Efficiency"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5168,7 +5414,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_proprioceptor_efficiency_bb_01_2:
+  ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01_2:
+    label_it: "Efficienza dei Propriocettori"
+    label_en: "Proprioceptor Efficiency"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5187,7 +5435,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_proprioceptor_efficiency_bb_01_3:
+  ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01_3:
+    label_it: "Efficienza dei Propriocettori"
+    label_en: "Proprioceptor Efficiency"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5206,7 +5456,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_proprioceptor_efficiency_bb_01_4:
+  ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01_4:
+    label_it: "Efficienza dei Propriocettori"
+    label_en: "Proprioceptor Efficiency"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5225,7 +5477,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_dexterity_proprioceptor_efficiency_bb_01_5:
+  ancestor_destrezza_efficienza_dei_propriocettori_bb_wh_01_5:
+    label_it: "Efficienza dei Propriocettori"
+    label_en: "Proprioceptor Efficiency"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5244,7 +5498,9 @@ traits:
       branch: "Dexterity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_spatial_perception_01:
+  ancestor_intelligenza_percezione_spaziale_an_01:
+    label_it: "Percezione Spaziale"
+    label_en: "Spatial Perception"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5265,7 +5521,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_evaluation_speed_02:
+  ancestor_intelligenza_velocita_di_valutazione_an_02:
+    label_it: "Velocita' di Valutazione"
+    label_en: "Evaluation Speed"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5286,7 +5544,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_spatial_perception_03:
+  ancestor_intelligenza_percezione_spaziale_an_03:
+    label_it: "Percezione Spaziale"
+    label_en: "Spatial Perception"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5307,7 +5567,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_spatial_perception_04:
+  ancestor_intelligenza_percezione_spaziale_an_04:
+    label_it: "Percezione Spaziale"
+    label_en: "Spatial Perception"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5328,7 +5590,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_form_recognition_05:
+  ancestor_intelligenza_riconoscimento_delle_forme_an_05:
+    label_it: "Riconoscimento delle Forme"
+    label_en: "Form Recognition"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5349,7 +5613,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_form_recognition_06:
+  ancestor_intelligenza_riconoscimento_delle_forme_an_06:
+    label_it: "Riconoscimento delle Forme"
+    label_en: "Form Recognition"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5370,7 +5636,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_form_recognition_07:
+  ancestor_intelligenza_riconoscimento_delle_forme_an_07:
+    label_it: "Riconoscimento delle Forme"
+    label_en: "Form Recognition"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5391,7 +5659,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_memory_01:
+  ancestor_intelligenza_memoria_in_01:
+    label_it: "Memoria"
+    label_en: "Memory"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5412,7 +5682,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_long_term_memory_bb_01:
+  ancestor_intelligenza_memoria_a_lungo_termine_bb_in_01:
+    label_it: "Memoria a Lungo Termine"
+    label_en: "Long Term Memory"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5433,7 +5705,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_long_term_memory_bb_01_2:
+  ancestor_intelligenza_memoria_a_lungo_termine_bb_in_01_2:
+    label_it: "Memoria a Lungo Termine"
+    label_en: "Long Term Memory"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5454,7 +5728,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_wayfinding_bb_03:
+  ancestor_intelligenza_orientamento_nello_spazio_bb_in_03:
+    label_it: "Orientamento nello Spazio"
+    label_en: "Wayfinding"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5475,7 +5751,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_wayfinding_bb_03_2:
+  ancestor_intelligenza_orientamento_nello_spazio_bb_in_03_2:
+    label_it: "Orientamento nello Spazio"
+    label_en: "Wayfinding"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5496,7 +5774,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_orientation_bb_05:
+  ancestor_intelligenza_orientamento_bb_in_05:
+    label_it: "Orientamento"
+    label_en: "Orientation"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5517,7 +5797,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_intelligence_orientation_bb_05_2:
+  ancestor_intelligenza_orientamento_bb_in_05_2:
+    label_it: "Orientamento"
+    label_en: "Orientation"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5538,7 +5820,9 @@ traits:
       branch: "Intelligence"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_metabolism_prophylactic_ability_01:
+  ancestor_metabolismo_abilita_profilattica_me_01:
+    label_it: "Abilita' Profilattica"
+    label_en: "Prophylactic Ability"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5558,7 +5842,9 @@ traits:
       branch: "Metabolism"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_metabolism_analeptic_ability_02:
+  ancestor_metabolismo_abilita_analettica_me_02:
+    label_it: "Abilita' Analettica"
+    label_en: "Analeptic Ability"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5578,7 +5864,9 @@ traits:
       branch: "Metabolism"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_metabolism_nutrient_absorption_bb_01:
+  ancestor_metabolismo_assorbimento_dei_nutrienti_bb_me_01:
+    label_it: "Assorbimento dei Nutrienti"
+    label_en: "Nutrient Absorption"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5598,7 +5886,9 @@ traits:
       branch: "Metabolism"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_metabolism_nutrient_absorption_bb_02:
+  ancestor_metabolismo_assorbimento_dei_nutrienti_bb_me_02:
+    label_it: "Assorbimento dei Nutrienti"
+    label_en: "Nutrient Absorption"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5618,7 +5908,9 @@ traits:
       branch: "Metabolism"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_bipedalism_01:
+  ancestor_motricita_bipedismo_bi_01:
+    label_it: "Bipedismo"
+    label_en: "Bipedalism"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5637,7 +5929,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_motor_skill_01:
+  ancestor_motricita_abilita_motoria_ms_01:
+    label_it: "Abilita' Motoria"
+    label_en: "Motor Skill"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5656,7 +5950,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_acute_stress_response_02:
+  ancestor_motricita_risposta_acuta_allo_stress_ms_02:
+    label_it: "Risposta Acuta allo Stress"
+    label_en: "Acute Stress Response"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5675,7 +5971,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_orthostasis_senses_00:
+  ancestor_motricita_ortostasi_e_sensi_wa_00:
+    label_it: "Ortostasi e Sensi"
+    label_en: "Orthostasis & Senses"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5694,7 +5992,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_contextual_orthostatis_01:
+  ancestor_motricita_ortostasi_contestuale_wa_01:
+    label_it: "Ortostasi Contestuale"
+    label_en: "Contextual Orthostatis"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5713,7 +6013,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_equilibrioception_02:
+  ancestor_motricita_equilibriocezione_wa_02:
+    label_it: "Equilibriocezione"
+    label_en: "Equilibrioception"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5732,7 +6034,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_proprioception_03:
+  ancestor_motricita_propriocezione_wa_03:
+    label_it: "Propriocezione"
+    label_en: "Proprioception"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5751,7 +6055,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_vestibular_system_05:
+  ancestor_motricita_sistema_vestibolare_wa_05:
+    label_it: "Sistema Vestibolare"
+    label_en: "Vestibular System"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5770,7 +6076,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_medial_lateral_stability_09:
+  ancestor_motricita_stabilita_medio_laterale_wa_09:
+    label_it: "Stabilita' Medio-Laterale"
+    label_en: "Medial-Lateral Stability"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5789,7 +6097,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_postural_balance_11:
+  ancestor_motricita_equilibrio_posturale_wa_11:
+    label_it: "Equilibrio Posturale"
+    label_en: "Postural Balance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5808,7 +6118,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_postural_balance_12:
+  ancestor_motricita_equilibrio_posturale_wa_12:
+    label_it: "Equilibrio Posturale"
+    label_en: "Postural Balance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -5827,7 +6139,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_anabolism_bb_01:
+  ancestor_motricita_anabolismo_bb_wa_01:
+    label_it: "Anabolismo"
+    label_en: "Anabolism"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5846,7 +6160,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_speed_bb_02:
+  ancestor_motricita_velocita_bb_wa_02:
+    label_it: "Velocita'"
+    label_en: "Speed"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5865,7 +6181,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_orientation_bb_03:
+  ancestor_motricita_orientamento_bb_wa_03:
+    label_it: "Orientamento"
+    label_en: "Orientation"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5884,7 +6202,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_lower_body_strength_bb_04:
+  ancestor_motricita_forza_degli_arti_inferiori_bb_wa_04:
+    label_it: "Forza degli Arti Inferiori"
+    label_en: "Lower Body Strength"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5903,7 +6223,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_anabolism_water_bb_05:
+  ancestor_motricita_anabolismo_idrico_bb_wa_05:
+    label_it: "Anabolismo Idrico"
+    label_en: "Anabolism-Water"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5922,7 +6244,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_stability_control_bb_06:
+  ancestor_motricita_controllo_della_stabilita_bb_wa_06:
+    label_it: "Controllo della Stabilita'"
+    label_en: "Stability Control"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5941,7 +6265,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_stability_control_bb_07:
+  ancestor_motricita_controllo_della_stabilita_bb_wa_07:
+    label_it: "Controllo della Stabilita'"
+    label_en: "Stability Control"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5960,7 +6286,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_upper_body_strength_bb_08:
+  ancestor_motricita_forza_degli_arti_superiori_bb_wa_08:
+    label_it: "Forza degli Arti Superiori"
+    label_en: "Upper Body Strength"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5979,7 +6307,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_motricity_anabolism_water_bb_09:
+  ancestor_motricita_anabolismo_idrico_bb_wa_09:
+    label_it: "Anabolismo Idrico"
+    label_en: "Anabolism-Water"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -5998,7 +6328,9 @@ traits:
       branch: "Motricity"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_eumycota_food_acclimatization_01:
+  ancestor_onnivoro_acclimatazione_ai_funghi_eumycota_om_01:
+    label_it: "Acclimatazione ai Funghi (Eumycota)"
+    label_en: "Eumycota Food Acclimatization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6018,7 +6350,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_eumycota_food_acclimatization_02:
+  ancestor_onnivoro_acclimatazione_ai_funghi_eumycota_om_02:
+    label_it: "Acclimatazione ai Funghi (Eumycota)"
+    label_en: "Eumycota Food Acclimatization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6038,7 +6372,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_zygote_food_acclimatization_03:
+  ancestor_onnivoro_acclimatazione_al_cibo_zigotico_om_03:
+    label_it: "Acclimatazione al Cibo Zigotico"
+    label_en: "Zygote Food Acclimatization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6058,7 +6394,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_zygote_food_acclimatization_04:
+  ancestor_onnivoro_acclimatazione_al_cibo_zigotico_om_04:
+    label_it: "Acclimatazione al Cibo Zigotico"
+    label_en: "Zygote Food Acclimatization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6078,7 +6416,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_oviparous_food_acclimatization_05:
+  ancestor_onnivoro_acclimatazione_al_cibo_oviparo_om_05:
+    label_it: "Acclimatazione al Cibo Oviparo"
+    label_en: "Oviparous Food Acclimatization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6098,7 +6438,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_oviparous_food_acclimatization_06:
+  ancestor_onnivoro_acclimatazione_al_cibo_oviparo_om_06:
+    label_it: "Acclimatazione al Cibo Oviparo"
+    label_en: "Oviparous Food Acclimatization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6118,7 +6460,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_mammal_food_acclimatization_07:
+  ancestor_onnivoro_acclimatazione_al_cibo_dei_mammiferi_om_07:
+    label_it: "Acclimatazione al Cibo dei Mammiferi"
+    label_en: "Mammal Food Acclimatization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6138,7 +6482,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_mammal_food_acclimatization_08:
+  ancestor_onnivoro_acclimatazione_al_cibo_dei_mammiferi_om_08:
+    label_it: "Acclimatazione al Cibo dei Mammiferi"
+    label_en: "Mammal Food Acclimatization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6158,7 +6504,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_omnivorous_09:
+  ancestor_onnivoro_onnivoro_om_09:
+    label_it: "Onnivoro"
+    label_en: "Omnivorous"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6178,7 +6526,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_xenobiotic_metabolism_bb_01:
+  ancestor_onnivoro_metabolismo_xenobiotico_bb_om_01:
+    label_it: "Metabolismo Xenobiotico"
+    label_en: "Xenobiotic Metabolism"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -6198,7 +6548,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_omnivore_xenobiotic_metabolism_bb_02:
+  ancestor_onnivoro_metabolismo_xenobiotico_bb_om_02:
+    label_it: "Metabolismo Xenobiotico"
+    label_en: "Xenobiotic Metabolism"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -6218,7 +6570,9 @@ traits:
       branch: "Omnivore"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_orrorin_cognitive_control_01:
+  ancestor_orrorin_tugenensis_controllo_cognitivo_cc_01:
+    label_it: "Controllo Cognitivo"
+    label_en: "Cognitive Control"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6238,7 +6592,9 @@ traits:
       branch: "Orrorin Tugenensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_orrorin_attentional_control_02:
+  ancestor_orrorin_tugenensis_controllo_attentivo_cc_02:
+    label_it: "Controllo Attentivo"
+    label_en: "Attentional Control"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6257,7 +6613,9 @@ traits:
       branch: "Orrorin Tugenensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_orrorin_mesocortical_pathway_01:
+  ancestor_orrorin_tugenensis_via_mesocorticale_dp_01:
+    label_it: "Via Mesocorticale"
+    label_en: "Mesocortical Pathway"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6276,7 +6634,9 @@ traits:
       branch: "Orrorin Tugenensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_orrorin_dopaminergic_pathways_02:
+  ancestor_orrorin_tugenensis_vie_dopaminergiche_dp_02:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6295,7 +6655,9 @@ traits:
       branch: "Orrorin Tugenensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_orrorin_dopaminergic_pathways_03:
+  ancestor_orrorin_tugenensis_vie_dopaminergiche_dp_03:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6314,7 +6676,9 @@ traits:
       branch: "Orrorin Tugenensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_orrorin_dopaminergic_pathways_04:
+  ancestor_orrorin_tugenensis_vie_dopaminergiche_dp_04:
+    label_it: "Vie Dopaminergiche"
+    label_en: "Dopaminergic Pathways"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6333,7 +6697,9 @@ traits:
       branch: "Orrorin Tugenensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_orrorin_life_expectancy_01:
+  ancestor_orrorin_tugenensis_aspettativa_di_vita_lf_01:
+    label_it: "Aspettativa di Vita"
+    label_en: "Life Expectancy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6353,7 +6719,9 @@ traits:
       branch: "Orrorin Tugenensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_orrorin_encephalization_01:
+  ancestor_orrorin_tugenensis_encefalizzazione_np_01:
+    label_it: "Encefalizzazione"
+    label_en: "Encephalization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6373,7 +6741,9 @@ traits:
       branch: "Orrorin Tugenensis"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_laceration_prevention_01:
+  ancestor_medicina_preventiva_prevenzione_delle_lacerazioni_sb_01:
+    label_it: "Prevenzione delle Lacerazioni"
+    label_en: "Laceration Prevention"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6392,7 +6762,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_external_clotting_efficiency_02:
+  ancestor_medicina_preventiva_efficienza_della_coagulazione_esterna_sb_02:
+    label_it: "Efficienza della Coagulazione Esterna"
+    label_en: "External Clotting Efficiency"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6411,7 +6783,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_external_clotting_efficiency_03:
+  ancestor_medicina_preventiva_efficienza_della_coagulazione_esterna_sb_03:
+    label_it: "Efficienza della Coagulazione Esterna"
+    label_en: "External Clotting Efficiency"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6430,7 +6804,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_bleeding_resistance_04:
+  ancestor_medicina_preventiva_resistenza_al_sanguinamento_sb_04:
+    label_it: "Resistenza al Sanguinamento"
+    label_en: "Bleeding Resistance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6449,7 +6825,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_bleeding_resistance_05:
+  ancestor_medicina_preventiva_resistenza_al_sanguinamento_sb_05:
+    label_it: "Resistenza al Sanguinamento"
+    label_en: "Bleeding Resistance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6468,7 +6846,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_analgesia_01:
+  ancestor_medicina_preventiva_analgesia_si_01:
+    label_it: "Analgesia"
+    label_en: "Analgesia"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6487,7 +6867,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_trauma_prevention_02:
+  ancestor_medicina_preventiva_prevenzione_del_trauma_si_02:
+    label_it: "Prevenzione del Trauma"
+    label_en: "Trauma Prevention"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6506,7 +6888,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_trauma_prevention_03:
+  ancestor_medicina_preventiva_prevenzione_del_trauma_si_03:
+    label_it: "Prevenzione del Trauma"
+    label_en: "Trauma Prevention"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6525,7 +6909,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_trauma_prevention_04:
+  ancestor_medicina_preventiva_prevenzione_del_trauma_si_04:
+    label_it: "Prevenzione del Trauma"
+    label_en: "Trauma Prevention"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6544,7 +6930,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_trauma_resistance_05:
+  ancestor_medicina_preventiva_resistenza_al_trauma_si_05:
+    label_it: "Resistenza al Trauma"
+    label_en: "Trauma Resistance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6563,7 +6951,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_trauma_resistance_06:
+  ancestor_medicina_preventiva_resistenza_al_trauma_si_06:
+    label_it: "Resistenza al Trauma"
+    label_en: "Trauma Resistance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6582,7 +6972,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_toxin_immunity_01:
+  ancestor_medicina_preventiva_immunita_alle_tossine_st_01:
+    label_it: "Immunita' alle Tossine"
+    label_en: "Toxin Immunity"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6601,7 +6993,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_venom_tolerance_02:
+  ancestor_medicina_preventiva_tolleranza_al_veleno_st_02:
+    label_it: "Tolleranza al Veleno"
+    label_en: "Venom Tolerance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6620,7 +7014,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_venom_tolerance_03:
+  ancestor_medicina_preventiva_tolleranza_al_veleno_st_03:
+    label_it: "Tolleranza al Veleno"
+    label_en: "Venom Tolerance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6639,7 +7035,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_venom_tolerance_04:
+  ancestor_medicina_preventiva_tolleranza_al_veleno_st_04:
+    label_it: "Tolleranza al Veleno"
+    label_en: "Venom Tolerance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6658,7 +7056,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_venom_resistance_05:
+  ancestor_medicina_preventiva_resistenza_al_veleno_st_05:
+    label_it: "Resistenza al Veleno"
+    label_en: "Venom Resistance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6677,7 +7077,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_venom_resistance_06:
+  ancestor_medicina_preventiva_resistenza_al_veleno_st_06:
+    label_it: "Resistenza al Veleno"
+    label_en: "Venom Resistance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6696,7 +7098,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_food_poisoning_tolerance_07:
+  ancestor_medicina_preventiva_tolleranza_all_avvelenamento_da_cibo_st_07:
+    label_it: "Tolleranza all'Avvelenamento da Cibo"
+    label_en: "Food Poisoning Tolerance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6715,7 +7119,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_food_poisoning_tolerance_08:
+  ancestor_medicina_preventiva_tolleranza_all_avvelenamento_da_cibo_st_08:
+    label_it: "Tolleranza all'Avvelenamento da Cibo"
+    label_en: "Food Poisoning Tolerance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6734,7 +7140,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_food_poisoning_tolerance_09:
+  ancestor_medicina_preventiva_tolleranza_all_avvelenamento_da_cibo_st_09:
+    label_it: "Tolleranza all'Avvelenamento da Cibo"
+    label_en: "Food Poisoning Tolerance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6753,7 +7161,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_food_poisoning_resistance_10:
+  ancestor_medicina_preventiva_resistenza_all_avvelenamento_da_cibo_st_10:
+    label_it: "Resistenza all'Avvelenamento da Cibo"
+    label_en: "Food Poisoning Resistance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6772,7 +7182,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_food_poisoning_resistance_11:
+  ancestor_medicina_preventiva_resistenza_all_avvelenamento_da_cibo_st_11:
+    label_it: "Resistenza all'Avvelenamento da Cibo"
+    label_en: "Food Poisoning Resistance"
     tier: T1
     category: neurologico
     applies_to: target
@@ -6791,7 +7203,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_vitamin_k_efficiency_bb_01:
+  ancestor_medicina_preventiva_efficienza_vitamina_k_bb_sb_01:
+    label_it: "Efficienza Vitamina K"
+    label_en: "Vitamin K Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -6810,7 +7224,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_vitamin_k_efficiency_bb_02:
+  ancestor_medicina_preventiva_efficienza_vitamina_k_bb_sb_02:
+    label_it: "Efficienza Vitamina K"
+    label_en: "Vitamin K Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -6829,7 +7245,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_endorphins_efficiency_bb_01:
+  ancestor_medicina_preventiva_efficienza_delle_endorfine_bb_si_01:
+    label_it: "Efficienza delle Endorfine"
+    label_en: "Endorphins Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -6848,7 +7266,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_endorphins_efficiency_bb_02:
+  ancestor_medicina_preventiva_efficienza_delle_endorfine_bb_si_02:
+    label_it: "Efficienza delle Endorfine"
+    label_en: "Endorphins Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -6867,7 +7287,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_xenobiotic_resistance_bb_01:
+  ancestor_medicina_preventiva_resistenza_xenobiotica_bb_st_01:
+    label_it: "Resistenza Xenobiotica"
+    label_en: "Xenobiotic Resistance"
     tier: T2
     category: neurologico
     applies_to: target
@@ -6886,7 +7308,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_xenobiotic_resistance_bb_02:
+  ancestor_medicina_preventiva_resistenza_xenobiotica_bb_st_02:
+    label_it: "Resistenza Xenobiotica"
+    label_en: "Xenobiotic Resistance"
     tier: T2
     category: neurologico
     applies_to: target
@@ -6905,7 +7329,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_xenobiotic_metabolism_bb_03:
+  ancestor_medicina_preventiva_metabolismo_xenobiotico_bb_st_03:
+    label_it: "Metabolismo Xenobiotico"
+    label_en: "Xenobiotic Metabolism"
     tier: T2
     category: neurologico
     applies_to: target
@@ -6924,7 +7350,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_preventive_med_xenobiotic_metabolism_bb_04:
+  ancestor_medicina_preventiva_metabolismo_xenobiotico_bb_st_04:
+    label_it: "Metabolismo Xenobiotico"
+    label_en: "Xenobiotic Metabolism"
     tier: T2
     category: neurologico
     applies_to: target
@@ -6943,7 +7371,9 @@ traits:
       branch: "Preventive Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_perception_01:
+  ancestor_sensi_percezione_se_01:
+    label_it: "Percezione"
+    label_en: "Perception"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6963,7 +7393,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_olfaction_01:
+  ancestor_sensi_olfatto_so_01:
+    label_it: "Olfatto"
+    label_en: "Olfaction"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -6983,7 +7415,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_chemoreceptor_acuity_02:
+  ancestor_sensi_acuita_chemorecettiva_so_02:
+    label_it: "Acuita' Chemorecettiva"
+    label_en: "Chemoreceptor Acuity"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7003,7 +7437,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_threat_localization_03:
+  ancestor_sensi_localizzazione_delle_minacce_so_03:
+    label_it: "Localizzazione delle Minacce"
+    label_en: "Threat Localization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7023,7 +7459,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_threat_localization_04:
+  ancestor_sensi_localizzazione_delle_minacce_so_04:
+    label_it: "Localizzazione delle Minacce"
+    label_en: "Threat Localization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7043,7 +7481,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sensory_transduction_speed_05:
+  ancestor_sensi_velocita_di_trasduzione_sensoriale_so_05:
+    label_it: "Velocita' di Trasduzione Sensoriale"
+    label_en: "Sensory Transduction Speed"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7063,7 +7503,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_odorant_identification_06:
+  ancestor_sensi_identificazione_odoranti_so_06:
+    label_it: "Identificazione Odoranti"
+    label_en: "Odorant Identification"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7083,7 +7525,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_odorant_identification_07:
+  ancestor_sensi_identificazione_odoranti_so_07:
+    label_it: "Identificazione Odoranti"
+    label_en: "Odorant Identification"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7103,7 +7547,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sensory_transduction_speed_08:
+  ancestor_sensi_velocita_di_trasduzione_sensoriale_so_08:
+    label_it: "Velocita' di Trasduzione Sensoriale"
+    label_en: "Sensory Transduction Speed"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7123,7 +7569,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_odorant_chemotopy_09:
+  ancestor_sensi_chemotopia_odoranti_so_09:
+    label_it: "Chemotopia Odoranti"
+    label_en: "Odorant Chemotopy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7143,7 +7591,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_odorant_chemotopy_10:
+  ancestor_sensi_chemotopia_odoranti_so_10:
+    label_it: "Chemotopia Odoranti"
+    label_en: "Odorant Chemotopy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7163,7 +7613,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_odorant_chemotopy_11:
+  ancestor_sensi_chemotopia_odoranti_so_11:
+    label_it: "Chemotopia Odoranti"
+    label_en: "Odorant Chemotopy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7183,7 +7635,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_odorant_chemotopy_12:
+  ancestor_sensi_chemotopia_odoranti_so_12:
+    label_it: "Chemotopia Odoranti"
+    label_en: "Odorant Chemotopy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7203,7 +7657,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_threat_chemotopy_13:
+  ancestor_sensi_chemotopia_delle_minacce_so_13:
+    label_it: "Chemotopia delle Minacce"
+    label_en: "Threat Chemotopy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7223,7 +7679,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_threat_chemotopy_14:
+  ancestor_sensi_chemotopia_delle_minacce_so_14:
+    label_it: "Chemotopia delle Minacce"
+    label_en: "Threat Chemotopy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7243,7 +7701,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_threat_chemotopy_15:
+  ancestor_sensi_chemotopia_delle_minacce_so_15:
+    label_it: "Chemotopia delle Minacce"
+    label_en: "Threat Chemotopy"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7263,7 +7723,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_localization_01:
+  ancestor_sensi_localizzazione_sonora_ss_01:
+    label_it: "Localizzazione Sonora"
+    label_en: "Sound Localization"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7283,7 +7745,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_interaural_time_difference_02:
+  ancestor_sensi_differenza_temporale_interaurale_ss_02:
+    label_it: "Differenza Temporale Interaurale"
+    label_en: "Interaural Time Difference"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7303,7 +7767,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_interaural_time_difference_03:
+  ancestor_sensi_differenza_temporale_interaurale_ss_03:
+    label_it: "Differenza Temporale Interaurale"
+    label_en: "Interaural Time Difference"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7323,7 +7789,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_interaural_time_difference_04:
+  ancestor_sensi_differenza_temporale_interaurale_ss_04:
+    label_it: "Differenza Temporale Interaurale"
+    label_en: "Interaural Time Difference"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7343,7 +7811,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_localization_speed_05:
+  ancestor_sensi_velocita_di_localizzazione_sonora_ss_05:
+    label_it: "Velocita' di Localizzazione Sonora"
+    label_en: "Sound Localization Speed"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7363,7 +7833,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_detection_06:
+  ancestor_sensi_rilevamento_sonoro_ss_06:
+    label_it: "Rilevamento Sonoro"
+    label_en: "Sound Detection"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7383,7 +7855,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_detection_07:
+  ancestor_sensi_rilevamento_sonoro_ss_07:
+    label_it: "Rilevamento Sonoro"
+    label_en: "Sound Detection"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7403,7 +7877,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_detection_08:
+  ancestor_sensi_rilevamento_sonoro_ss_08:
+    label_it: "Rilevamento Sonoro"
+    label_en: "Sound Detection"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7423,7 +7899,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_localization_speed_09:
+  ancestor_sensi_velocita_di_localizzazione_sonora_ss_09:
+    label_it: "Velocita' di Localizzazione Sonora"
+    label_en: "Sound Localization Speed"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7443,7 +7921,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_awareness_10:
+  ancestor_sensi_consapevolezza_sonora_ss_10:
+    label_it: "Consapevolezza Sonora"
+    label_en: "Sound Awareness"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7463,7 +7943,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_awareness_10_2:
+  ancestor_sensi_consapevolezza_sonora_ss_10_2:
+    label_it: "Consapevolezza Sonora"
+    label_en: "Sound Awareness"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7483,7 +7965,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sound_awareness_10_3:
+  ancestor_sensi_consapevolezza_sonora_ss_10_3:
+    label_it: "Consapevolezza Sonora"
+    label_en: "Sound Awareness"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7503,7 +7987,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sensory_memory_01:
+  ancestor_sensi_memoria_sensoriale_sx_01:
+    label_it: "Memoria Sensoriale"
+    label_en: "Sensory Memory"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7523,7 +8009,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sensory_memory_02:
+  ancestor_sensi_memoria_sensoriale_sx_02:
+    label_it: "Memoria Sensoriale"
+    label_en: "Sensory Memory"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7543,7 +8031,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_sensory_memory_03:
+  ancestor_sensi_memoria_sensoriale_sx_03:
+    label_it: "Memoria Sensoriale"
+    label_en: "Sensory Memory"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7563,7 +8053,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_echoic_memory_bb_01:
+  ancestor_sensi_memoria_ecoica_bb_ss_01:
+    label_it: "Memoria Ecoica"
+    label_en: "Echoic Memory"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -7583,7 +8075,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_echoic_memory_bb_01_2:
+  ancestor_sensi_memoria_ecoica_bb_ss_01_2:
+    label_it: "Memoria Ecoica"
+    label_en: "Echoic Memory"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -7603,7 +8097,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_olfactory_memory_bb_01:
+  ancestor_sensi_memoria_olfattiva_bb_sx_01:
+    label_it: "Memoria Olfattiva"
+    label_en: "Olfactory Memory"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -7623,7 +8119,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_iconic_memory_bb_01_2:
+  ancestor_sensi_memoria_iconica_bb_sx_01_2:
+    label_it: "Memoria Iconica"
+    label_en: "Iconic Memory"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -7643,7 +8141,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_olfactory_memory_bb_01_3:
+  ancestor_sensi_memoria_olfattiva_bb_sx_01_3:
+    label_it: "Memoria Olfattiva"
+    label_en: "Olfactory Memory"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -7663,7 +8163,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_senses_iconic_memory_bb_01_4:
+  ancestor_sensi_memoria_iconica_bb_sx_01_4:
+    label_it: "Memoria Iconica"
+    label_en: "Iconic Memory"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -7683,7 +8185,9 @@ traits:
       branch: "Senses"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_building_01:
+  ancestor_insediamento_costruzione_ne_01:
+    label_it: "Costruzione"
+    label_en: "Building"
     tier: T1
     category: neurologico
     applies_to: target
@@ -7702,7 +8206,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_building_efficiency_02:
+  ancestor_insediamento_efficienza_di_costruzione_ne_02:
+    label_it: "Efficienza di Costruzione"
+    label_en: "Building Efficiency"
     tier: T1
     category: neurologico
     applies_to: target
@@ -7721,7 +8227,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_deep_sleep_06:
+  ancestor_insediamento_sonno_profondo_ne_06:
+    label_it: "Sonno Profondo"
+    label_en: "Deep Sleep"
     tier: T1
     category: neurologico
     applies_to: target
@@ -7740,7 +8248,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_deep_sleep_07:
+  ancestor_insediamento_sonno_profondo_ne_07:
+    label_it: "Sonno Profondo"
+    label_en: "Deep Sleep"
     tier: T1
     category: neurologico
     applies_to: target
@@ -7759,7 +8269,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_sleep_recovery_08:
+  ancestor_insediamento_recupero_del_sonno_ne_08:
+    label_it: "Recupero del Sonno"
+    label_en: "Sleep Recovery"
     tier: T1
     category: neurologico
     applies_to: target
@@ -7778,7 +8290,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_well_rested_boost_09:
+  ancestor_insediamento_bonus_ben_riposato_ne_09:
+    label_it: "Bonus Ben Riposato"
+    label_en: "Well Rested Boost"
     tier: T1
     category: neurologico
     applies_to: target
@@ -7797,7 +8311,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_well_rested_boost_09_2:
+  ancestor_insediamento_bonus_ben_riposato_ne_09_2:
+    label_it: "Bonus Ben Riposato"
+    label_en: "Well Rested Boost"
     tier: T1
     category: neurologico
     applies_to: target
@@ -7816,7 +8332,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_sleep_healing_efficiency_bb_01:
+  ancestor_insediamento_sonno_efficienza_curativa_bb_ne_01:
+    label_it: "Sonno - Efficienza Curativa"
+    label_en: "Sleep - Healing Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -7835,7 +8353,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_sleep_healing_efficiency_bb_01_2:
+  ancestor_insediamento_sonno_efficienza_curativa_bb_ne_01_2:
+    label_it: "Sonno - Efficienza Curativa"
+    label_en: "Sleep - Healing Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -7854,7 +8374,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_settlement_sleep_healing_efficiency_bb_01_3:
+  ancestor_insediamento_sonno_efficienza_curativa_bb_ne_01_3:
+    label_it: "Sonno - Efficienza Curativa"
+    label_en: "Sleep - Healing Efficiency"
     tier: T2
     category: neurologico
     applies_to: target
@@ -7873,7 +8395,9 @@ traits:
       branch: "Settlement"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_swim_aquatic_locomotion_01:
+  ancestor_nuoto_locomozione_acquatica_sw_01:
+    label_it: "Locomozione Acquatica"
+    label_en: "Aquatic Locomotion"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7893,7 +8417,9 @@ traits:
       branch: "Swim"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_swim_swim_endurance_02:
+  ancestor_nuoto_resistenza_al_nuoto_sw_02:
+    label_it: "Resistenza al Nuoto"
+    label_en: "Swim Endurance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7913,7 +8439,9 @@ traits:
       branch: "Swim"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_swim_hydro_dynamics_03:
+  ancestor_nuoto_idrodinamica_sw_03:
+    label_it: "Idrodinamica"
+    label_en: "Hydro-Dynamics"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7933,7 +8461,9 @@ traits:
       branch: "Swim"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_swim_stroke_force_bb_01:
+  ancestor_nuoto_forza_di_bracciata_bb_sw_01:
+    label_it: "Forza di Bracciata"
+    label_en: "Stroke Force"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -7953,7 +8483,9 @@ traits:
       branch: "Swim"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_swim_stroke_force_bb_01_2:
+  ancestor_nuoto_forza_di_bracciata_bb_sw_01_2:
+    label_it: "Forza di Bracciata"
+    label_en: "Stroke Force"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -7973,7 +8505,9 @@ traits:
       branch: "Swim"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_laceration_tolerance_01:
+  ancestor_medicina_terapeutica_tolleranza_alle_lacerazioni_cb_01:
+    label_it: "Tolleranza alle Lacerazioni"
+    label_en: "Laceration Tolerance"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -7993,7 +8527,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_internal_clotting_efficiency_02:
+  ancestor_medicina_terapeutica_efficienza_della_coagulazione_interna_cb_02:
+    label_it: "Efficienza della Coagulazione Interna"
+    label_en: "Internal Clotting Efficiency"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8013,7 +8549,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_internal_clotting_efficiency_03:
+  ancestor_medicina_terapeutica_efficienza_della_coagulazione_interna_cb_03:
+    label_it: "Efficienza della Coagulazione Interna"
+    label_en: "Internal Clotting Efficiency"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8033,7 +8571,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_healing_injury_01:
+  ancestor_medicina_terapeutica_guarigione_delle_ferite_ci_01:
+    label_it: "Guarigione delle Ferite"
+    label_en: "Healing Injury"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8053,7 +8593,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_trauma_relief_02:
+  ancestor_medicina_terapeutica_sollievo_dal_trauma_ci_02:
+    label_it: "Sollievo dal Trauma"
+    label_en: "Trauma Relief"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8073,7 +8615,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_trauma_relief_03:
+  ancestor_medicina_terapeutica_sollievo_dal_trauma_ci_03:
+    label_it: "Sollievo dal Trauma"
+    label_en: "Trauma Relief"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8093,7 +8637,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_trauma_relief_04:
+  ancestor_medicina_terapeutica_sollievo_dal_trauma_ci_04:
+    label_it: "Sollievo dal Trauma"
+    label_en: "Trauma Relief"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8113,7 +8659,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_trauma_relief_efficiency_05:
+  ancestor_medicina_terapeutica_efficienza_del_sollievo_dal_trauma_ci_05:
+    label_it: "Efficienza del Sollievo dal Trauma"
+    label_en: "Trauma Relief Efficiency"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8133,7 +8681,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_metabolic_detoxification_01:
+  ancestor_medicina_terapeutica_detossificazione_metabolica_ct_01:
+    label_it: "Detossificazione Metabolica"
+    label_en: "Metabolic Detoxification"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8153,7 +8703,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_venom_elimination_02:
+  ancestor_medicina_terapeutica_eliminazione_del_veleno_ct_02:
+    label_it: "Eliminazione del Veleno"
+    label_en: "Venom Elimination"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8173,7 +8725,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_venom_elimination_03:
+  ancestor_medicina_terapeutica_eliminazione_del_veleno_ct_03:
+    label_it: "Eliminazione del Veleno"
+    label_en: "Venom Elimination"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8193,7 +8747,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_venom_elimination_04:
+  ancestor_medicina_terapeutica_eliminazione_del_veleno_ct_04:
+    label_it: "Eliminazione del Veleno"
+    label_en: "Venom Elimination"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8213,7 +8769,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_food_poison_elimination_05:
+  ancestor_medicina_terapeutica_eliminazione_del_cibo_avvelenato_ct_05:
+    label_it: "Eliminazione del Cibo Avvelenato"
+    label_en: "Food Poison Elimination"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8233,7 +8791,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_food_poison_elimination_06:
+  ancestor_medicina_terapeutica_eliminazione_del_cibo_avvelenato_ct_06:
+    label_it: "Eliminazione del Cibo Avvelenato"
+    label_en: "Food Poison Elimination"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8253,7 +8813,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_food_poison_elimination_07:
+  ancestor_medicina_terapeutica_eliminazione_del_cibo_avvelenato_ct_07:
+    label_it: "Eliminazione del Cibo Avvelenato"
+    label_en: "Food Poison Elimination"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8273,7 +8835,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_detoxification_efficiency_08:
+  ancestor_medicina_terapeutica_efficienza_della_detossificazione_ct_08:
+    label_it: "Efficienza della Detossificazione"
+    label_en: "Detoxification Efficiency"
     tier: T1
     category: neurologico
     applies_to: actor
@@ -8293,7 +8857,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_nociceptors_tolerance_bb_01:
+  ancestor_medicina_terapeutica_tolleranza_dei_nocicettori_bb_ci_01:
+    label_it: "Tolleranza dei Nocicettori"
+    label_en: "Nociceptors Tolerance"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -8313,7 +8879,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_nociceptors_tolerance_bb_02:
+  ancestor_medicina_terapeutica_tolleranza_dei_nocicettori_bb_ci_02:
+    label_it: "Tolleranza dei Nocicettori"
+    label_en: "Nociceptors Tolerance"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -8333,7 +8901,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_nociceptors_tolerance_bb_03:
+  ancestor_medicina_terapeutica_tolleranza_dei_nocicettori_bb_ci_03:
+    label_it: "Tolleranza dei Nocicettori"
+    label_en: "Nociceptors Tolerance"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -8353,7 +8923,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_hydration_detoxification_efficiency_bb_01:
+  ancestor_medicina_terapeutica_efficienza_idratazione_detossificazione_bb_ct_01:
+    label_it: "Efficienza Idratazione-Detossificazione"
+    label_en: "Hydration-Detoxification Efficiency"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -8373,7 +8945,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_hydration_detoxification_efficiency_bb_02:
+  ancestor_medicina_terapeutica_efficienza_idratazione_detossificazione_bb_ct_02:
+    label_it: "Efficienza Idratazione-Detossificazione"
+    label_en: "Hydration-Detoxification Efficiency"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -8393,7 +8967,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_hydration_detoxification_efficiency_bb_03:
+  ancestor_medicina_terapeutica_efficienza_idratazione_detossificazione_bb_ct_03:
+    label_it: "Efficienza Idratazione-Detossificazione"
+    label_en: "Hydration-Detoxification Efficiency"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -8413,7 +8989,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_xenobiotic_metabolism_bb_04:
+  ancestor_medicina_terapeutica_metabolismo_xenobiotico_bb_ct_04:
+    label_it: "Metabolismo Xenobiotico"
+    label_en: "Xenobiotic Metabolism"
     tier: T2
     category: neurologico
     applies_to: actor
@@ -8433,7 +9011,9 @@ traits:
       branch: "Therapeutic Medication"
       license: "CC BY-NC-SA 3.0 Fandom"
 
-  ancestor_therapeutic_med_xenobiotic_metabolism_bb_05:
+  ancestor_medicina_terapeutica_metabolismo_xenobiotico_bb_ct_05:
+    label_it: "Metabolismo Xenobiotico"
+    label_en: "Xenobiotic Metabolism"
     tier: T2
     category: neurologico
     applies_to: actor
