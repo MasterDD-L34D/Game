@@ -267,7 +267,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Jack Principles guidance toast per phase** (~5h) — V1 onboarding shipped, estendi a phase-by-phase.
 - 🔴 **XCOM 2 points-buy pre-game** (~8h) — point budget shared per build squad.
 
-**Tier S residuo cumulato**: ~32 pattern, **~175h totali** se tutti adottati. (Drift fix 2026-04-27: §B.1.5 channel resistance #1964 + §B.1.8 day pacing #1934 + Thought Cabinet main + §B.1.9 3/3 AI War #1934 shipped — 6 pattern segnati post-merge.)
+**Tier S residuo cumulato**: ~31 pattern, **~170h totali** se tutti adottati. (Drift fix 2026-04-27: §B.1.5 Beast Bond #1965 + channel resistance #1964 + §B.1.8 day pacing #1934 + Thought Cabinet main + §B.1.9 3/3 AI War #1934 shipped — 7 pattern segnati post-merge.)
 
 ### B.2 — Tier A residuo (oltre i 2 shipped: pathfinder + voidling)
 

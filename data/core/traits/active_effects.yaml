@@ -9525,13 +9525,13 @@ traits:
     applies_to: actor
     triggers_on_ally_attack:
       range: 1
-      species_filter: 'pack:predatori_nomadi'
+      species_filter: 'pack:predoni_nomadi'
       atk_delta: 1
       def_delta: 1
       duration: 2
       log_tag: pack_tactics_triggered
     description_it: |
-      Tattica di branco esclusiva dei predatori nomadi. Quando un alleato di
-      specie `predatori_nomadi` adiacente attacca, il portatore guadagna +1
+      Tattica di branco esclusiva dei predoni nomadi. Quando un alleato di
+      specie `predoni_nomadi` adiacente attacca, il portatore guadagna +1
       attack_mod e +1 defense_mod per 2 turni (effetto piu' lungo del legame
       di branco generico, riservato a un'unica specie).

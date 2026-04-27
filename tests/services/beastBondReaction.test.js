@@ -38,7 +38,7 @@ const REGISTRY = {
   pack_tactics: {
     triggers_on_ally_attack: {
       range: 1,
-      species_filter: 'pack:predatori_nomadi',
+      species_filter: 'pack:predoni_nomadi',
       atk_delta: 1,
       def_delta: 1,
       duration: 2,
@@ -54,7 +54,7 @@ const REGISTRY = {
 function unit(overrides) {
   return {
     id: 'u',
-    species: 'predatori_nomadi',
+    species: 'predoni_nomadi',
     controlled_by: 'sistema',
     hp: 5,
     position: { x: 0, y: 0 },
@@ -101,10 +101,10 @@ test('range fail: ally at Manhattan=2 does NOT trigger range=1 trait', () => {
 });
 
 test('species filter `same`: only same-species ally triggers', () => {
-  const attacker = unit({ id: 'A', species: 'predatori_nomadi', position: { x: 0, y: 0 } });
+  const attacker = unit({ id: 'A', species: 'predoni_nomadi', position: { x: 0, y: 0 } });
   const sameSpeciesAlly = unit({
     id: 'B',
-    species: 'predatori_nomadi',
+    species: 'predoni_nomadi',
     position: { x: 1, y: 0 },
     traits: ['legame_di_branco'],
   });
@@ -123,8 +123,8 @@ test('species filter `same`: only same-species ally triggers', () => {
   assert.equal(reactions[0].holder_id, 'B');
 });
 
-test('species filter `pack:predatori_nomadi`: only that species triggers it', () => {
-  const attacker = unit({ id: 'A', species: 'predatori_nomadi', position: { x: 0, y: 0 } });
+test('species filter `pack:predoni_nomadi`: only that species triggers it', () => {
+  const attacker = unit({ id: 'A', species: 'predoni_nomadi', position: { x: 0, y: 0 } });
   const allyPack = unit({
     id: 'B',
     species: 'erbivoro',
@@ -165,10 +165,10 @@ test('dead ally (hp=0) does NOT trigger', () => {
 });
 
 test('apply mutates holder bonuses + arms status[*_buff] for decay', () => {
-  const attacker = unit({ id: 'A', species: 'predatori_nomadi' });
+  const attacker = unit({ id: 'A', species: 'predoni_nomadi' });
   const ally = unit({
     id: 'B',
-    species: 'predatori_nomadi',
+    species: 'predoni_nomadi',
     position: { x: 1, y: 0 },
     traits: ['legame_di_branco'],
   });
@@ -182,11 +182,11 @@ test('apply mutates holder bonuses + arms status[*_buff] for decay', () => {
 });
 
 test('cumulative: two reaction sources stack on same holder', () => {
-  const attacker = unit({ id: 'A', species: 'predatori_nomadi' });
+  const attacker = unit({ id: 'A', species: 'predoni_nomadi' });
   // Holder carries BOTH legame_di_branco + spirito_combattivo → two reactions.
   const ally = unit({
     id: 'B',
-    species: 'predatori_nomadi',
+    species: 'predoni_nomadi',
     position: { x: 1, y: 0 },
     traits: ['legame_di_branco', 'spirito_combattivo'],
   });
@@ -199,7 +199,7 @@ test('cumulative: two reaction sources stack on same holder', () => {
 });
 
 test('duration 2 sets status to higher value via Math.max', () => {
-  const attacker = unit({ id: 'A', species: 'predatori_nomadi' });
+  const attacker = unit({ id: 'A', species: 'predoni_nomadi' });
   const ally = unit({
     id: 'B',
     species: 'erbivoro',
@@ -215,10 +215,10 @@ test('duration 2 sets status to higher value via Math.max', () => {
 });
 
 test('buildBeastBondEvents emits one event per applied reaction', () => {
-  const attacker = unit({ id: 'A', species: 'predatori_nomadi' });
+  const attacker = unit({ id: 'A', species: 'predoni_nomadi' });
   const ally = unit({
     id: 'B',
-    species: 'predatori_nomadi',
+    species: 'predoni_nomadi',
     position: { x: 1, y: 0 },
     traits: ['legame_di_branco'],
   });
