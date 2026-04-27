@@ -20,6 +20,12 @@ species_examples:
     preferred_biomes: [cinder-dunes, ferrous-badlands]
     role_tags: [apex, predator, playable]
     source: docx_2026-04-16
+    # ecology backfill (ADR-2026-05-02): apex sandstorm/dune predator.
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 2
 
   - id: sp_ferriscroba_detrita
     slug: ferriscroba-detrita
@@ -38,6 +44,12 @@ species_examples:
     preferred_biomes: [ferrous-badlands, ironbloom-wastes]
     role_tags: [keystone, scavenger, playable]
     source: docx_2026-04-16
+    # ecology backfill (ADR-2026-05-02): scavenger keystone, ferro-detrital.
+    ecology:
+      trophic_tier: scavenger
+      pack_size:
+        min: 1
+        max: 3
 
   - id: sp_sonapteryx_resonans
     slug: sonapteryx-resonans
@@ -182,6 +194,12 @@ species_examples:
     preferred_biomes: [cinder-dunes, redspur-mesa]
     role_tags: [keystone, grazer]
     source: docx_2026-04-16
+    # ecology backfill (ADR-2026-05-02): grazer keystone, dust-eating herd.
+    ecology:
+      trophic_tier: primary_consumer
+      pack_size:
+        min: 4
+        max: 8
 
   - id: sp_lucinerva_filata
     slug: lucinerva-filata
@@ -506,6 +524,12 @@ species_examples:
     preferred_biomes: [umbral-karst, mistral-hollows]
     role_tags: [apex, predator]
     source: docx_2026-04-16
+    # ecology backfill (ADR-2026-05-02): nocturnal apex, solitary stalker.
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 1
 
   - id: sp_magnetocola_pastoris
     slug: magnetocola-pastoris
@@ -542,3 +566,61 @@ species_examples:
     preferred_biomes: [silt-delta, ember-marsh]
     role_tags: [threat, predator]
     source: docx_2026-04-16
+
+  # === Pulverator gregarius — pack apex savana (ADR-2026-05-02) ===
+  # Aggiunta 2026-05-02: prima entry con ecology block esteso. Compete
+  # con dune_stalker per nicchia apex savana. Howl-Strike combo:
+  # 3+ pack Manhattan <=2 same target -> panic + bleeding + rage_on_kill.
+  - id: pulverator_gregarius
+    slug: pulverator-gregarius
+    genus: Pulverator
+    epithet: gregarius
+    clade_tag: Apex
+    sentience_tier: T2
+    display_name_it: "Razziatore di Polvere"
+    display_name_en: "Dust Reaver"
+    morph_slots:
+      locomotion: cursorial
+      offense: pack_jaws
+      defense: leather_hide
+      senses: scent_pack
+      metabolism: meat_pack
+    preferred_biomes: [savana]
+    role_tags: [apex, predator, pack_alpha]
+    biome_affinity: savana
+    estimated_weight: 11
+    weight_budget: 12
+    mbti_tendency: ESTJ-leaning-J
+    trait_plan:
+      core:
+        - denti_seghettati
+        - artigli_sette_vie
+        - voce_imperiosa
+        - circolazione_doppia
+        - olfatto_risonanza_magnetica
+      synergies:
+        - risonanza_di_branco
+        - tattiche_di_branco
+        - focus_frazionato
+    signature_hook: >-
+      Howl-Strike combo: quando 3+ pack Pulverator si trovano a Manhattan
+      <=2 dallo stesso bersaglio, applicano panic + bleeding + rage_on_kill
+      a cascata sul nodo focalizzato.
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 3
+        max: 5
+      competes_with:
+        - dune_stalker
+      prey_of: []
+      preys_on: []
+      scavenges_from:
+        - dune_stalker
+      mutualism_with:
+        - species_id: dune_stalker
+          type: indirect
+          note: >-
+            Pulverator pack drives prey from cover, indirectly aiding
+            dune_stalker (Skiv) ambush; reverse interaction rare.
+    source: pulverator-ecology-2026-05-02
