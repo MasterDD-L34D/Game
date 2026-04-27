@@ -275,6 +275,12 @@ function createSessionRouter(options = {}) {
     };
   }
 
+  // Status duration caps: previene stati permanenti da kill-chain re-apply.
+  // Aggiornare quando si aggiungono nuovi stati (Phase A: slowed).
+  const STATUS_DURATION_CAPS = {
+    slowed: 3,
+  };
+
   function performAttack(session, actor, target, action = null) {
     // M7-#2 Phase B: boss enrage check. Se actor è boss tier + HP < threshold
     // per encounter class → temporary mod bonus (non-persistente).
@@ -472,7 +478,9 @@ function createSessionRouter(options = {}) {
         const unit = s.target_side === 'actor' ? actor : target;
         if (!unit || unit.hp <= 0 || !unit.status) continue;
         const current = Number(unit.status[s.stato]) || 0;
-        unit.status[s.stato] = Math.max(current, s.turns);
+        const cap = STATUS_DURATION_CAPS[s.stato];
+        const merged = Math.max(current, s.turns);
+        unit.status[s.stato] = cap !== undefined ? Math.min(cap, merged) : merged;
       }
     }
 
@@ -736,7 +744,9 @@ function createSessionRouter(options = {}) {
     const resetAp = (unit) => {
       if (!unit) return;
       const fractureActive = Number(unit.status?.fracture) > 0;
-      unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+      let apCap = fractureActive ? Math.min(1, Number(unit.ap || 0)) : Number(unit.ap || 0);
+      if (Number(unit.status?.slowed) > 0) apCap = Math.max(1, apCap - 1);
+      unit.ap_remaining = apCap;
     };
     const decrement = (unit) => {
       if (!unit || !unit.status) return;
@@ -1646,8 +1656,12 @@ function createSessionRouter(options = {}) {
             }
           }
           // AP reset
-          const fractureActive = Number(unit.status?.fracture) > 0;
-          unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+          {
+            const fractureActive = Number(unit.status?.fracture) > 0;
+            let apCap = fractureActive ? Math.min(1, Number(unit.ap || 0)) : Number(unit.ap || 0);
+            if (Number(unit.status?.slowed) > 0) apCap = Math.max(1, apCap - 1);
+            unit.ap_remaining = apCap;
+          }
           // Status decay + bonus clear
           if (unit.status) {
             for (const key of Object.keys(unit.status)) {

@@ -160,3 +160,25 @@ traits:
       Protuberanza ossea pesante come una mazza. Ogni critico (MoS >= 8)
       applica 2 turni di frattura: il target perde AP al reset di turno
       (ap_remaining = 1 invece di ap pieno), limitando il movimento.
+
+  # STATUS EFFECTS PHASE A — Tier 1 (slowed, marked, burning, chilled, disoriented)
+  # Implementati 2026-04-27 come 5 mini-PR sequenziali.
+
+  tela_appiccicosa:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+      melee_only: true
+    effect:
+      kind: apply_status
+      stato: slowed
+      turns: 2
+      target_side: target
+      log_tag: tela_slowed
+    description_it: |
+      Filamenti appiccicosi che avvolgono gli arti del bersaglio. Ogni hit
+      adiacente riuscito applica 2 turni di slowed: il target ha -1 AP al
+      reset di turno (min 1), rallentando il movimento e il riposizionamento.

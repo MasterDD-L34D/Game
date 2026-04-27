@@ -597,7 +597,9 @@ function createRoundBridge(deps) {
     for (const unit of session.units) {
       if (!unit) continue;
       const fractureActive = Number(unit.status?.fracture) > 0;
-      unit.ap_remaining = fractureActive ? Math.min(1, unit.ap) : unit.ap;
+      let apCap = fractureActive ? Math.min(1, Number(unit.ap || 0)) : Number(unit.ap || 0);
+      if (Number(unit.status?.slowed) > 0) apCap = Math.max(1, apCap - 1);
+      unit.ap_remaining = apCap;
       if (unit.status) {
         for (const key of Object.keys(unit.status)) {
           const v = Number(unit.status[key]);
