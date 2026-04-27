@@ -245,17 +245,27 @@ export function getAspectTokenOverlay(token) {
   return ASPECT_TOKEN_OVERLAY[token.toLowerCase()] || null;
 }
 
+// 2026-04-27 PR-Y1 — Hyper Light Drifter glyph alphabet (forma+colore = doppio canale).
+// Pattern donor: docs/research/2026-04-27-indie-design-perfetto.md (HLD #4).
+// Forma denota CATEGORIA status (mental/physical/temporary/buff). Colore denota URGENZA.
+// Color-blind safe (P2 a11y compliance: 2 canali informativi).
+//
+// Categorie:
+//   triangle = MENTAL (panic/confused/focused) — instabilita psichica
+//   diamond  = PHYSICAL (bleeding/fracture/sbilanciato) — ferita fisica
+//   star     = COMBAT_BUFF (rage/stunned/aggro_locked) — alterazione combat
+//   circle   = SOCIAL (taunted_by) — manipolazione esterna
 const STATUS_ICONS = {
-  panic: { glyph: '!', bg: '#ff9800' },
-  rage: { glyph: '⚡', bg: '#f44336' },
-  stunned: { glyph: '★', bg: '#9c27b0' },
-  focused: { glyph: '◎', bg: '#03a9f4' },
-  confused: { glyph: '?', bg: '#ffc107' },
-  bleeding: { glyph: '☽', bg: '#e91e63' },
-  fracture: { glyph: '✕', bg: '#795548' },
-  sbilanciato: { glyph: '↯', bg: '#ffeb3b' },
-  taunted_by: { glyph: '⎯', bg: '#ffc107' },
-  aggro_locked: { glyph: '◉', bg: '#ff5722' },
+  panic: { glyph: '!', bg: '#ff9800', shape: 'triangle' },
+  rage: { glyph: '⚡', bg: '#f44336', shape: 'star' },
+  stunned: { glyph: '★', bg: '#9c27b0', shape: 'star' },
+  focused: { glyph: '◎', bg: '#03a9f4', shape: 'triangle' },
+  confused: { glyph: '?', bg: '#ffc107', shape: 'triangle' },
+  bleeding: { glyph: '☽', bg: '#e91e63', shape: 'diamond' },
+  fracture: { glyph: '✕', bg: '#795548', shape: 'diamond' },
+  sbilanciato: { glyph: '↯', bg: '#ffeb3b', shape: 'diamond' },
+  taunted_by: { glyph: '⎯', bg: '#ffc107', shape: 'circle' },
+  aggro_locked: { glyph: '◉', bg: '#ff5722', shape: 'star' },
 };
 
 export function fitCanvas(canvas, width, height) {
@@ -295,6 +305,44 @@ function drawCell(ctx, x, yPx, fill, tileImg) {
   ctx.strokeRect(x * CELL + 0.5, yPx * CELL + 0.5, CELL - 1, CELL - 1);
 }
 
+// 2026-04-27 PR-Y1 — HLD shape helper. Disegna forma per categoria status.
+function drawStatusShape(ctx, shape, cx, cy, radius) {
+  ctx.beginPath();
+  switch (shape) {
+    case 'triangle': {
+      ctx.moveTo(cx, cy - radius);
+      ctx.lineTo(cx + radius * 0.92, cy + radius * 0.6);
+      ctx.lineTo(cx - radius * 0.92, cy + radius * 0.6);
+      ctx.closePath();
+      break;
+    }
+    case 'diamond': {
+      ctx.moveTo(cx, cy - radius);
+      ctx.lineTo(cx + radius, cy);
+      ctx.lineTo(cx, cy + radius);
+      ctx.lineTo(cx - radius, cy);
+      ctx.closePath();
+      break;
+    }
+    case 'star': {
+      const points = 5;
+      for (let i = 0; i < points * 2; i += 1) {
+        const a = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
+        const r = i % 2 === 0 ? radius : radius * 0.5;
+        const x = cx + Math.cos(a) * r;
+        const y = cy + Math.sin(a) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      break;
+    }
+    case 'circle':
+    default:
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  }
+}
+
 function drawStatusIcons(ctx, unit, cx, yPxTop) {
   const status = unit.status || {};
   const icons = [];
@@ -312,12 +360,15 @@ function drawStatusIcons(ctx, unit, cx, yPxTop) {
     const ic = icons[i];
     const ix = startX + i * (size + gap);
     const iy = yPxTop + 4;
+    // 2026-04-27 PR-Y1 — HLD shape (forma=categoria) sostituisce circle uniforme.
     ctx.fillStyle = ic.bg;
-    ctx.beginPath();
-    ctx.arc(ix + size / 2, iy + size / 2, size / 2, 0, Math.PI * 2);
+    drawStatusShape(ctx, ic.shape || 'circle', ix + size / 2, iy + size / 2, size / 2);
     ctx.fill();
+    // Stroke per separazione su tile colorato (white outline a11y compliance).
+    ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
     ctx.fillStyle = '#000';
-    // 10-foot rule: dynamic min 12px, scale with CELL (Microsoft TV guidelines).
     ctx.font = `bold ${Math.max(12, Math.round(CELL * 0.16))}px "SF Mono", monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -527,9 +578,30 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     // Background dark per contrast
     ctx.fillStyle = 'rgba(0,0,0,0.7)';
     ctx.fillRect(barX - 1, barY - 1, barW + 2, 7);
-    // Fill color coded
-    ctx.fillStyle = ratio < 0.3 ? COLORS.hpCrit : ratio < 0.6 ? COLORS.hpWarn : COLORS.hpFull;
+    // 2026-04-27 PR-Y2 — HP critico pulse animation (Dead Space diegetic UI pattern).
+    // Quando ratio < 0.3 → HP bar pulsa rosso 1Hz. Alpha 0.6→1.0 sin wave.
+    // Player vede subito chi sta morendo senza dover leggere numeri.
+    let hpFillStyle;
+    let hpAlpha = 1.0;
+    if (ratio < 0.3) {
+      hpFillStyle = COLORS.hpCrit;
+      // Pulse 1Hz: ratio 0..1 mapped on Date.now() % 1000.
+      const t = (Date.now() % 1000) / 1000;
+      hpAlpha = 0.6 + Math.sin(t * Math.PI * 2) * 0.4; // 0.2..1.0
+    } else {
+      hpFillStyle = ratio < 0.6 ? COLORS.hpWarn : COLORS.hpFull;
+    }
+    ctx.save();
+    ctx.globalAlpha = hpAlpha;
+    ctx.fillStyle = hpFillStyle;
     ctx.fillRect(barX, barY, barW * ratio, 5);
+    ctx.restore();
+    // Outline rosso pulse per HP critico (extra visibility)
+    if (ratio < 0.3) {
+      ctx.strokeStyle = `rgba(244, 67, 54, ${hpAlpha * 0.8})`;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(barX - 1, barY - 1, barW + 2, 7);
+    }
     // Numeric value sopra bar (TV-first scan)
     ctx.fillStyle = '#fff';
     // 10-foot rule: HP numeric scales with CELL (min 12px, prev was 9px hard-fail TV).
@@ -608,9 +680,67 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
 // Schema row: { actor_id, intent_type, intent_icon, target_id, threat_tiles: [{x, y}, ...] }
 // Colore: attack=rosso (kill zone), move=giallo (movement preview), defend/overwatch/skip=blu.
 // Pulse: alpha oscilla 0.25-0.45 a 1Hz per attirare attenzione (Into the Breach pattern).
-function drawThreatTileOverlay(ctx, threatPreview, gridH) {
+// 2026-04-27 PR-Y3 — ITB push/pull arrows helper (Tier A donor).
+// Draw freccia direzionale da `from` (cella origine) a `to` (cella destinazione).
+// Usato per intent move/approach/retreat: mostra dove SIS si sposta.
+// Pattern donor: Into the Breach push/pull telegraph arrows.
+function drawDirectionalArrow(ctx, fromX, fromY, toX, toY, color, gridH) {
+  if (!Number.isFinite(fromX) || !Number.isFinite(fromY)) return;
+  if (!Number.isFinite(toX) || !Number.isFinite(toY)) return;
+  // Convert grid coords to canvas pixel center
+  const fromYPx = (gridH - 1 - fromY) * CELL + CELL / 2;
+  const fromXPx = fromX * CELL + CELL / 2;
+  const toYPx = (gridH - 1 - toY) * CELL + CELL / 2;
+  const toXPx = toX * CELL + CELL / 2;
+  // Skip se same tile (no arrow needed)
+  if (fromXPx === toXPx && fromYPx === toYPx) return;
+  // Compute angle + arrow head size
+  const dx = toXPx - fromXPx;
+  const dy = toYPx - fromYPx;
+  const angle = Math.atan2(dy, dx);
+  const arrowHeadSize = Math.max(8, CELL * 0.18);
+  // Shorten line so arrow head doesn't overlap dest center
+  const shortenBy = arrowHeadSize * 0.6;
+  const lineToX = toXPx - Math.cos(angle) * shortenBy;
+  const lineToY = toYPx - Math.sin(angle) * shortenBy;
+  // Line shaft
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(fromXPx, fromYPx);
+  ctx.lineTo(lineToX, lineToY);
+  ctx.stroke();
+  // Arrow head triangle
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(toXPx, toYPx);
+  ctx.lineTo(
+    toXPx - arrowHeadSize * Math.cos(angle - Math.PI / 6),
+    toYPx - arrowHeadSize * Math.sin(angle - Math.PI / 6),
+  );
+  ctx.lineTo(
+    toXPx - arrowHeadSize * Math.cos(angle + Math.PI / 6),
+    toYPx - arrowHeadSize * Math.sin(angle + Math.PI / 6),
+  );
+  ctx.closePath();
+  ctx.fill();
+  // White outline arrowhead per leggibilità su tile colorato
+  ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+}
+
+function drawThreatTileOverlay(ctx, threatPreview, gridH, units) {
   const t = (Date.now() % 1000) / 1000; // 0..1 ciclico
   const pulse = 0.35 + Math.sin(t * Math.PI * 2) * 0.1; // 0.25..0.45
+  // 2026-04-27 PR-Y3 — units lookup map per source position (per arrow from)
+  const unitMap = new Map();
+  if (Array.isArray(units)) {
+    for (const u of units) {
+      if (u && u.id) unitMap.set(u.id, u);
+    }
+  }
   for (const row of threatPreview) {
     if (!row || !Array.isArray(row.threat_tiles) || row.threat_tiles.length === 0) continue;
     let fill;
@@ -639,6 +769,53 @@ function drawThreatTileOverlay(ctx, threatPreview, gridH) {
       ctx.strokeStyle = stroke;
       ctx.lineWidth = 2;
       ctx.strokeRect(px + 2, py + 2, CELL - 4, CELL - 4);
+
+      // 2026-04-27 PR-Y2 — StS damage forecast inline su threat tile attack.
+      // Pattern donor: Slay the Spire intent preview deterministico.
+      // Mostra "−5" (expected_damage) + "62%" (hit_pct) sopra tile attaccata.
+      // Solo per attack (skip move/defensive: payload non ha damage).
+      if (row.intent_type === 'attack' && Number.isFinite(row.expected_damage)) {
+        const tx = px + CELL / 2;
+        const ty = py + CELL * 0.2;
+        const dmgFontSize = Math.max(13, Math.round(CELL * 0.18));
+        ctx.font = `bold ${dmgFontSize}px "SF Mono", monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        // Background pill scuro per leggibilità
+        const dmgText = `−${row.expected_damage.toFixed(1)}`;
+        const textW = ctx.measureText(dmgText).width;
+        ctx.fillStyle = 'rgba(0,0,0,0.85)';
+        ctx.fillRect(tx - textW / 2 - 4, ty - dmgFontSize / 2 - 2, textW + 8, dmgFontSize + 4);
+        ctx.fillStyle = '#ff5555';
+        ctx.fillText(dmgText, tx, ty);
+        // Hit% sotto (smaller)
+        if (Number.isFinite(row.hit_pct)) {
+          const hitFontSize = Math.max(9, Math.round(CELL * 0.11));
+          ctx.font = `${hitFontSize}px "SF Mono", monospace`;
+          ctx.fillStyle = 'rgba(255,255,255,0.85)';
+          ctx.fillText(`${Math.round(row.hit_pct * 100)}%`, tx, ty + dmgFontSize - 2);
+        }
+      }
+    }
+
+    // 2026-04-27 PR-Y3 — ITB push/pull arrow per intent move/approach/retreat.
+    // Da actor.position → tile destinazione (primo threat_tile).
+    // Skip per attack (overlay rosso + damage forecast bastano).
+    const isMoveIntent =
+      row.intent_type === 'move' || row.intent_type === 'approach' || row.intent_type === 'retreat';
+    if (isMoveIntent && row.threat_tiles[0]) {
+      const actor = unitMap.get(row.actor_id);
+      if (actor && actor.position) {
+        drawDirectionalArrow(
+          ctx,
+          actor.position.x,
+          actor.position.y,
+          row.threat_tiles[0].x,
+          row.threat_tiles[0].y,
+          'rgba(255, 170, 0, 0.95)', // giallo intenso (movement intent)
+          gridH,
+        );
+      }
     }
   }
 }
@@ -774,7 +951,8 @@ export function render(canvas, state, highlight = {}) {
   // 2026-04-26 ITB telegraph — threat tile overlay rosso/giallo per SIS pending intents.
   // Disegnato DOPO range overlay (player vede sue mosse possibili) e PRIMA delle unità.
   if (Array.isArray(highlight.threatPreview) && highlight.threatPreview.length > 0) {
-    drawThreatTileOverlay(ctx, highlight.threatPreview, h);
+    // PR-Y3: pass units per arrow source position lookup
+    drawThreatTileOverlay(ctx, highlight.threatPreview, h, state.units || []);
   }
 
   // Units

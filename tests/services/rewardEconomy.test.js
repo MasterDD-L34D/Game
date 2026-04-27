@@ -136,6 +136,8 @@ test('convertPE 5:1 — exact + remainder + zero', () => {
 test('buildDebriefSummary returns expected canonical shape', () => {
   const session = {
     session_id: 'sess_1',
+    // 2026-04-26 Q19 Opzione A: PE→PI conversion gated on outcome=victory.
+    outcome: 'victory',
     events: [{ a: 1 }, { a: 2 }],
     damage_taken: { u1: 0, u2: 5, u3: -3 },
   };
@@ -156,10 +158,10 @@ test('buildDebriefSummary returns expected canonical shape', () => {
   assert.equal(debrief.turns_played, 7);
   assert.ok(debrief.economy);
   assert.equal(debrief.economy.pe_session_total, peResult.session_total);
-  // 5+3+1=9 → 1 PI + 4 remainder
+  // 5+3+1=9 → 1 PI + 4 remainder (post-victory gate)
   assert.equal(debrief.economy.pi_converted, 1);
   assert.equal(debrief.economy.pe_remaining, 4);
-  assert.equal(debrief.economy.seed_earned, 0, 'seed wired in D2 (placeholder 0)');
+  // seed_earned removed 2026-04-26 (orphan currency cleanup PR #1870)
   assert.equal(debrief.combat.total_events, 2);
   // damage_taken values <= 0 count as kill: u1=0 + u3=-3 → 2
   assert.equal(debrief.combat.kills, 2);

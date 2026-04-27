@@ -98,6 +98,24 @@ function applyProgressionToUnits(units, opts = {}) {
       ability_mod_count: abilityMods.length,
     });
   }
+
+  // Sprint Spore Moderate (ADR-2026-04-26 §S6) — hydrate _archetype_passives
+  // for ALL units (player + sistema) post perk application. Bingo state is
+  // pure-derived from applied_mutations[]: zero side effect when zero mutations.
+  // Wrapped in try/catch: missing module / catalog error must NOT block session
+  // start (back-compat con sessioni pre-Spore).
+  try {
+    const { applyMutationBingoToUnit } = require('../mutations/mutationEngine');
+    const { loadMutationCatalog } = require('../mutations/mutationCatalogLoader');
+    const catalog = loadMutationCatalog();
+    for (const unit of units) {
+      if (!unit || typeof unit !== 'object') continue;
+      applyMutationBingoToUnit(unit, catalog);
+    }
+  } catch {
+    // Non-blocking: skip archetype hydration on error.
+  }
+
   return { applied, skipped };
 }
 

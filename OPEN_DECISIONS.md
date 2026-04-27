@@ -9,10 +9,18 @@
 
 ## Aperte
 
-### [OD-001] V3 Mating/Nido — scope e timing ⚠️ CORREZIONE 2026-04-25 (era disinformata)
+### [OD-001] V3 Mating/Nido — scope e timing ✅ RISOLTA Path A 2026-04-27
 
 - **Livello**: game + system
-- **Stato**: **CORREZIONE 2026-04-25** — claim originale "runtime zero / green-field" era basato su audit incomplete. Reality: engine LIVE da 4 mesi. Vedi card [M-2026-04-25-007 Mating Engine Orphan](docs/museum/cards/mating_nido-engine-orphan.md).
+- **Stato**: **RISOLTA 2026-04-27** — verdict user **Path A** confermato. Sprint Nido Path A 4/4 SHIPPED end-to-end:
+  - Sprint A nestHub panel + biome_arc unlock (PR #1876)
+  - Sprint B debrief recruit wire (PR #1875)
+  - Sprint C backend mating roll + 3-tier offspring (PR #1879)
+  - Sprint D lineage chain + tribe emergent (PR #1874)
+  - Lineage tab UI nestHub (PR #1911 just shipped)
+  - **Breakthrough 2026-04-26**: tribe **emerge automaticamente** dalla catena Nido→offspring→`lineage_id` — Path C (replace job system ~40h breaking) deprecato dalla scoperta.
+  - **Pillar P2 → 🟢 candidato def** (post Spore Moderate #1913+#1915+#1916 + Lineage tab #1911).
+- **Storico (preservato)**: claim originale 2026-04-25 "runtime zero / green-field" era basato su audit incomplete. Reality: engine LIVE da 4 mesi. Vedi card [M-2026-04-25-007 Mating Engine Orphan](docs/museum/cards/mating_nido-engine-orphan.md).
 - **Reality verified 2026-04-25**:
   - `apps/backend/services/metaProgression.js` (469 LOC): `canMate`, `rollMating`, `computeMatingRoll`, `setNest`, `tickCooldowns`, `recruitFromDefeat` engine D1+D2 LIVE. Intro `ea945a56` (PR #1435 Design Freeze v0.9), Prisma adapter `3272f844` (PR #1679, 2026-04-23)
   - `apps/backend/routes/meta.js` (119 LOC): 7 endpoint REST `/api/meta/{npg,affinity,trust,recruit,mating,nest,nest/setup}` LIVE

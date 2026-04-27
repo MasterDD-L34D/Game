@@ -116,6 +116,20 @@ const mutationsPlugin = {
   },
 };
 
+// Sprint B Spore S5 (ADR-2026-04-26-spore-part-pack-slots) — generational
+// lineage propagation. Pool indexato (species, biome) populated quando una
+// unit entra in `legacy` lifecycle phase; nuove unit ereditano 1-2 mutation
+// random senza pagare MP cost.
+const lineagePlugin = {
+  name: 'lineage',
+  register(app) {
+    const { createLineageRouter } = require('../routes/lineage');
+    const router = createLineageRouter();
+    app.use('/api/v1/lineage', router);
+    app.use('/api/lineage', router);
+  },
+};
+
 /**
  * Lista plugin built-in. Aggiungere nuovi plugin qui.
  * Ordine = ordine di registrazione.
@@ -128,6 +142,7 @@ const BUILTIN_PLUGINS = [
   formsPlugin,
   progressionPlugin,
   mutationsPlugin,
+  lineagePlugin,
 ];
 
 module.exports = {
@@ -140,4 +155,5 @@ module.exports = {
   formsPlugin,
   progressionPlugin,
   mutationsPlugin,
+  lineagePlugin,
 };

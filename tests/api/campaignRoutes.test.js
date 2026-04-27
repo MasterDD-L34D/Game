@@ -375,6 +375,60 @@ test('advance: victory without survivors → xp_grants empty', async (t) => {
   assert.deepEqual(res.body.xp_grants, []);
 });
 
+// Sprint Spore Moderate (ADR-2026-04-26 §S3) — MP grant hook on victory.
+
+test('advance: victory + survivors + encounter_meta tier=2 → mp_grants emitted', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'victory',
+    pe_earned: 5,
+    survivors: [
+      { id: 'u_a', job: 'skirmisher', mp: 0 },
+      { id: 'u_b', job: 'vanguard', mp: 5 },
+    ],
+    encounter_meta: { tier: 2, kill_with_status: true, biome_match: false },
+  });
+  assert.equal(res.status, 200);
+  assert.ok(Array.isArray(res.body.mp_grants), 'mp_grants array present');
+  assert.equal(res.body.mp_grants.length, 2);
+  const byId = Object.fromEntries(res.body.mp_grants.map((g) => [g.unit_id, g]));
+  // tier_2 (+2) + status_kill (+1) = +3 each
+  assert.equal(byId.u_a.earned, 3);
+  assert.equal(byId.u_b.earned, 3);
+});
+
+test('advance: victory tier=1 no bonus → mp_grants empty', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'victory',
+    pe_earned: 5,
+    survivors: [{ id: 'u_a', job: 'skirmisher', mp: 0 }],
+    encounter_meta: { tier: 1 },
+  });
+  assert.equal(res.status, 200);
+  assert.deepEqual(res.body.mp_grants, []);
+});
+
+test('advance: defeat never grants MP even with survivors', async (t) => {
+  const { url } = startTestServer(t);
+  const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });
+  const id = create.body.campaign.id;
+  const res = await request('POST', `${url}/api/campaign/advance`, {
+    id,
+    outcome: 'defeat',
+    survivors: [{ id: 'u_x', job: 'skirmisher' }],
+    encounter_meta: { tier: 3, kill_with_status: true, biome_match: true },
+  });
+  assert.equal(res.status, 200);
+  assert.deepEqual(res.body.mp_grants, []);
+});
+
 test('advance: defeat never grants XP even with survivors', async (t) => {
   const { url } = startTestServer(t);
   const create = await request('POST', `${url}/api/campaign/start`, { player_id: 'p1' });

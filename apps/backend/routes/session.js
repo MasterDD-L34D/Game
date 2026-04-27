@@ -165,6 +165,12 @@ const {
   applyProgressionToUnits,
   computePerkDamageBonus,
 } = require('../services/progression/progressionApply');
+// Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype passive consumers.
+// DR-1 (defender) + sight+2 (actor). Init+2 lives in roundOrchestrator.
+const {
+  applyDamageReduction: applyArchetypeDR,
+  effectiveAttackRange: archetypeEffectiveRange,
+} = require('../services/combat/archetypePassives');
 // M14-A 2026-04-25 — Triangle Strategy terrain reactions wire (post damage step).
 // Lazy require + try/catch in call sites: missing module never breaks combat.
 const {
@@ -544,6 +550,18 @@ function createSessionRouter(options = {}) {
         damageDealt = Math.max(0, damageDealt - absorbed);
         target.shield_absorbed_last = absorbed;
       }
+      // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype tank_plus DR-1.
+      // Defender-side passive: -1 damage unconditional su ogni colpo subito,
+      // min 0 floor. Applied DOPO shield absorption (shield = ablative HP,
+      // DR = innate mitigation). Back-compat: zero behavior change quando
+      // target._archetype_passives non include archetype_tank_plus_dr1.
+      if (damageDealt > 0) {
+        const drResult = applyArchetypeDR(damageDealt, target);
+        if (drResult.reduced > 0) {
+          damageDealt = drResult.damage;
+          target.archetype_dr_last = drResult.reduced;
+        }
+      }
       // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
       // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
       // dagli eventi per restare stateless.
@@ -621,6 +639,30 @@ function createSessionRouter(options = {}) {
         // Non-blocking: malformed tile state must never break combat.
         // eslint-disable-next-line no-console
         console.warn('[terrain-reaction] skipped:', err && err.message ? err.message : err);
+      }
+    }
+
+    // Sprint Y Spore Moderate (ADR-2026-04-26 §S5) — lineage propagation hook.
+    // Quando target muore (killOccurred) E aveva applied_mutations[], propaga
+    // le sue mutation nel pool lineage (species, biome) per inheritance da
+    // future creature dello stesso species_id nello stesso biome.
+    // Pure side-effect: pool in-memory, no errori bloccano combat.
+    if (
+      killOccurred &&
+      Array.isArray(target.applied_mutations) &&
+      target.applied_mutations.length > 0
+    ) {
+      try {
+        const { propagateLineage } = require('../services/generation/lineagePropagator');
+        const speciesId = target.species_id || target.species || null;
+        const biomeId = session.biome_id || null;
+        if (speciesId && biomeId) {
+          propagateLineage(target, speciesId, biomeId);
+        }
+      } catch (err) {
+        // Non-blocking: lineage failure must never break combat.
+        // eslint-disable-next-line no-console
+        console.warn('[lineage-propagator] skipped:', err && err.message ? err.message : err);
       }
     }
 
@@ -1093,6 +1135,36 @@ function createSessionRouter(options = {}) {
         console.warn('[progression] apply failed:', err.message);
       }
 
+      // Sprint Y Spore Moderate (ADR-2026-04-26 §S5) — lineage inheritance.
+      // Per ogni unit nuova in (species, biome), eredita 1-2 mutation random
+      // dal pool propagato (creature precedenti morte stesso species/biome).
+      // Idempotent: skip unit con applied_mutations già presenti (no doppia
+      // ereditarietà). Pure read da pool in-memory, fallisce silenziosamente.
+      let lineageInherited = [];
+      try {
+        const { inheritFromLineage } = require('../services/generation/lineagePropagator');
+        for (const unit of units) {
+          if (!unit || typeof unit !== 'object') continue;
+          // Skip se già ha mutation (es. preserve da PG persistente).
+          if (Array.isArray(unit.applied_mutations) && unit.applied_mutations.length > 0) continue;
+          const speciesId = unit.species_id || unit.species || null;
+          if (!speciesId || !biomeIdRaw) continue;
+          const result = inheritFromLineage(unit, speciesId, biomeIdRaw, unit.lineage_id || null);
+          if (result && Array.isArray(result.inherited) && result.inherited.length > 0) {
+            // Apply inherited mutation_ids → unit.applied_mutations (free grant).
+            unit.applied_mutations = [...(unit.applied_mutations || []), ...result.inherited];
+            lineageInherited.push({
+              unit_id: unit.id || null,
+              inherited: result.inherited,
+              species_id: speciesId,
+              biome_id: biomeIdRaw,
+            });
+          }
+        }
+      } catch (err) {
+        console.warn('[lineage] inherit failed:', err.message);
+      }
+
       // M7-#2 Phase B: apply damage scaling curves per encounter class.
       // Lo YAML damage_curves.yaml definisce enemy_damage_multiplier per class.
       // Encounter senza class dichiarato → fallback "standard" (1.2x).
@@ -1223,6 +1295,8 @@ function createSessionRouter(options = {}) {
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
       // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
       // save-load + integration tests seed SG after the encounter zero-pass.
+      // A-residual #1 (2026-04-27): tutorial player units start with SG=1
+      // so first ability con cost SG è immediately disponibile (UX onboard).
       try {
         const sgTracker = require('../services/combat/sgTracker');
         for (const u of session.units || []) sgTracker.resetEncounter(u);
@@ -1233,6 +1307,13 @@ function createSessionRouter(options = {}) {
             if (!unit) continue;
             const value = Math.max(0, Math.min(3, Math.floor(Number(pool) || 0)));
             unit.sg = value;
+          }
+        } else if (isTutorialScenario(scenarioId)) {
+          // Tutorial onboard: player units start with SG=1.
+          for (const u of session.units || []) {
+            if (u && u.controlled_by === 'player' && u.hp > 0) {
+              u.sg = 1;
+            }
           }
         }
       } catch {
@@ -1306,6 +1387,10 @@ function createSessionRouter(options = {}) {
         // cosi' il frontend puo' loggare gli eventi in ordine.
         ia_actions: pre.iaActions,
         side_effects: pre.bleedingEvents,
+        // Sprint Y Spore Moderate §S5 — lineage inheritance grants additivi.
+        // Array per-unit con mutation_ids ereditati da pool propagato.
+        // Empty se nessuna lineage propagation precedente o no match.
+        lineage_inherited: lineageInherited,
       });
     } catch (err) {
       next(err);
@@ -1389,7 +1474,11 @@ function createSessionRouter(options = {}) {
             .json({ error: 'AP insufficienti per attaccare (termina il turno)' });
         }
         const attackDist = manhattanDistance(actor.position, target.position);
-        const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+        // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype scout_plus
+        // sight+2: estende attack_range effettivo +2 se actor ha passive.
+        // Back-compat: zero delta quando _archetype_passives assente.
+        const baseRange = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+        const range = archetypeEffectiveRange(actor, baseRange);
         if (attackDist > range) {
           return res.status(400).json({
             error: `bersaglio fuori range (distanza ${attackDist} > range ${range})`,

@@ -117,6 +117,35 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
     // narrative module optional
   }
 
+  // E-residual #2 (2026-04-27) — QBN debrief wire (Surface-DEAD sweep).
+  // QBN engine (qbnEngine.drawEvent) era orphan: 17 events YAML caricati,
+  // zero chiamate da session route. Wire here per esporre 1 narrative event
+  // per debrief, basato su VC qualities + history. Best-effort, non blocca.
+  let narrativeEvent = null;
+  try {
+    const { drawEvent } = require('./narrative/qbnEngine');
+    const result = drawEvent({
+      vcSnapshot,
+      runState: {
+        turns_played: vcSnapshot.turns_played || 0,
+        victories: isVictory ? 1 : 0,
+      },
+      history: session?.qbn_history || {},
+      seed: session?.session_id || 'debrief',
+    });
+    if (result && result.event) {
+      narrativeEvent = {
+        id: result.event.id,
+        title_it: result.event.title_it || result.event.title || null,
+        body_it: result.event.body_it || result.event.body || null,
+        choices: Array.isArray(result.event.choices) ? result.event.choices : [],
+        eligible_count: result.eligible_count,
+      };
+    }
+  } catch {
+    // qbnEngine optional / pack missing — non blocca debrief
+  }
+
   return {
     session_id: session.session_id,
     turns_played: vcSnapshot.turns_played || 0,
@@ -144,6 +173,8 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
     },
     // P0 Tier S — Disco MBTI tag debrief (P4 surfacing, narrative diegetic).
     mbti_insights: mbtiInsights,
+    // E-residual #2 — QBN narrative event (1 event per debrief, eligible by VC).
+    narrative_event: narrativeEvent,
     // Personality projection
     pf_session: pfSession,
     // Combat stats

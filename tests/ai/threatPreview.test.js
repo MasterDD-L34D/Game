@@ -35,13 +35,15 @@ test('buildThreatPreview: attack intent → fist + target tile', () => {
   );
   const result = buildThreatPreview(session);
   assert.equal(result.length, 1);
-  assert.deepEqual(result[0], {
-    actor_id: 'e_nomad_1',
-    intent_type: 'attack',
-    intent_icon: 'fist',
-    target_id: 'p_scout',
-    threat_tiles: [{ x: 1, y: 2 }],
-  });
+  // 2026-04-27 PR-Y2: threatPreview row ora include expected_damage + hit_pct (null se predict fail).
+  assert.equal(result[0].actor_id, 'e_nomad_1');
+  assert.equal(result[0].intent_type, 'attack');
+  assert.equal(result[0].intent_icon, 'fist');
+  assert.equal(result[0].target_id, 'p_scout');
+  assert.deepEqual(result[0].threat_tiles, [{ x: 1, y: 2 }]);
+  // expected_damage e hit_pct presenti come field (valore può essere null se predict fail nel test mock).
+  assert.ok('expected_damage' in result[0]);
+  assert.ok('hit_pct' in result[0]);
 });
 
 test('buildThreatPreview: move intent → arrow + destination tile', () => {

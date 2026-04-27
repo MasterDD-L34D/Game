@@ -265,6 +265,15 @@ phases:
       - "      ~|||~"
     tactical_signature: "Retired da combat live; appare come narrative event QBN."
     diary_milestone_event: form_evolved
+    # Sprint B Spore S5 (ADR-2026-04-26-spore-part-pack-slots):
+    # Pool delle mutation ereditabili dal lineage. Popolato runtime via
+    # `propagateLineage()` quando una unit entra in legacy phase: scrive le sue
+    # `applied_mutations[]` nel pool indexato per (species_id, biome_id).
+    # Una nuova unit dello stesso species nello stesso biome eredita 1-2
+    # mutation random via `inheritFromLineage()` SENZA pagare MP cost.
+    # Schema doc-only: il campo NON è letto staticamente — runtime usa
+    # in-memory Map registry (apps/backend/services/generation/lineagePropagator.js).
+    inheritable_traits: []
 
 # ─────────────────────────────────────────────────────────────────────
 # Mutation morphology — come ogni mutation cambia visivamente

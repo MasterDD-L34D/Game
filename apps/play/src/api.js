@@ -293,6 +293,17 @@ export const api = {
   metaLineageChain: (lineageId) => jsonFetch(`/api/meta/lineage/${encodeURIComponent(lineageId)}`),
   metaTribesEmergent: () => jsonFetch('/api/meta/tribes'),
   metaTribeForUnit: (unitId) => jsonFetch(`/api/meta/tribe/unit/${encodeURIComponent(unitId)}`),
+  // QW-3 Spore Moderate — mutation registry/eligible/apply/bingo client.
+  mutationsRegistry: () => jsonFetch('/api/v1/mutations/registry'),
+  mutationsEligible: (unit) =>
+    jsonFetch('/api/v1/mutations/eligible', { method: 'POST', body: JSON.stringify({ unit }) }),
+  mutationsApply: (unit, mutation_id, session_id = null) =>
+    jsonFetch('/api/v1/mutations/apply', {
+      method: 'POST',
+      body: JSON.stringify({ unit, mutation_id, session_id }),
+    }),
+  mutationsBingo: (unit) =>
+    jsonFetch('/api/v1/mutations/bingo', { method: 'POST', body: JSON.stringify({ unit }) }),
   // Skiv-as-Monitor — git-event-driven creature feed (Phase 2 wire 2026-04-25).
   skivStatus: () => jsonFetch('/api/skiv/status'),
   skivFeed: (limit = 20) => jsonFetch(`/api/skiv/feed?limit=${encodeURIComponent(limit)}`),
