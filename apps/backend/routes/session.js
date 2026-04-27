@@ -65,6 +65,9 @@ const {
 // internalize/forget transitions. Reads cabinet snapshot deltas, mutates
 // unit.attack_mod / defense_dc / hp_max etc per effect_bonus / effect_cost.
 const { updateThoughtPassives } = require('../services/thoughts/thoughtPassiveApply');
+// Skiv ticket #3: Inner Voices — 24 Disco Elysium-style diegetic whispers
+// (4 MBTI axes × 2 directions × 3 tiers). Pure evaluator, no combat effects.
+const { evaluateVoiceTriggers } = require('../services/narrative/innerVoice');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -296,6 +299,8 @@ function createSessionRouter(options = {}) {
   // Phase 1 discovered ids live in `state.unlocked`; Phase 2 tracks research +
   // internalized slots for Disco Elysium-style passive effects.
   const thoughtsStore = new Map();
+  // Skiv #3 Inner Voices: sessionId -> Map<unitId, Set<voiceId>>.
+  const voicesStore = new Map();
 
   function getCabinetBucket(sessionId) {
     let bucket = thoughtsStore.get(sessionId);
@@ -314,6 +319,20 @@ function createSessionRouter(options = {}) {
       bucket.set(unitId, state);
     }
     return { bucket, state };
+  }
+
+  function getVoicesHeard(sessionId, unitId) {
+    let bucket = voicesStore.get(sessionId);
+    if (!bucket) {
+      bucket = new Map();
+      voicesStore.set(sessionId, bucket);
+    }
+    let set = bucket.get(unitId);
+    if (!set) {
+      set = new Set();
+      bucket.set(unitId, set);
+    }
+    return set;
   }
 
   function newSessionId() {
@@ -2476,6 +2495,8 @@ function createSessionRouter(options = {}) {
       // P4 Thought Cabinet: release per-session unlock cache on teardown.
       // Prevents linear memory growth over process lifetime (Codex review #1702).
       thoughtsStore.delete(session.session_id);
+      // Skiv #3: Inner Voices store cleanup.
+      voicesStore.delete(session.session_id);
       if (activeSessionId === session.session_id) {
         activeSessionId = null;
       }
@@ -2578,6 +2599,10 @@ function createSessionRouter(options = {}) {
           actor && session.biome_id
             ? computeResonanceTier(actor.species, session.biome_id, actor.archetype || null)
             : { tier: 'none', label_it: '', discount: 0 };
+        // Skiv #3: Inner Voices — evaluate 24 Disco-style whispers per actor.
+        const voicesHeard = getVoicesHeard(session.session_id, unitId);
+        const { heard, newly_heard } = evaluateVoiceTriggers(axes, voicesHeard);
+        for (const id of newly_heard) voicesHeard.add(id);
         perActor[unitId] = {
           ...snap,
           newly,
@@ -2585,6 +2610,8 @@ function createSessionRouter(options = {}) {
           passive_cost: passives.cost,
           resonance_tier: tierInfo.tier,
           resonance_label: tierInfo.label_it,
+          voices_heard: heard,
+          newly_heard,
         };
       }
       res.json({ session_id: session.session_id, per_actor: perActor });
