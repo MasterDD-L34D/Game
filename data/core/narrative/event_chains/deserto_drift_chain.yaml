@@ -1,0 +1,24 @@
+# Sprint δ Meta Systemic — seed event chain (Stellaris pattern).
+# Placeholder text. D4 writer commission deferred.
+chain_id: deserto_drift_chain
+description_it: |
+  Catena deserto/drift. Branching su asse S_N (sensing vs intuition).
+events:
+  - id: arrival
+    text_it: "Il deserto si estende oltre l'orizzonte. Sabbia rossa al tramonto."
+    text_en: "The desert extends past the horizon. Red sand at dusk."
+    condition: null
+    next_event_id: sense_or_dream
+  - id: sense_or_dream
+    text_it: "Concentri i sensi. Un dettaglio nella sabbia: tracce fresche."
+    text_en: "You focus your senses. A detail in the sand: fresh tracks."
+    condition:
+      vc_axis: S_N
+      threshold: -0.2
+      op: '<'
+    next_event_id: follow
+  - id: follow
+    text_it: "Segui le tracce. Conducono a un'oasi nascosta."
+    text_en: "You follow the tracks. They lead to a hidden oasis."
+    condition: null
+    next_event_id: null
