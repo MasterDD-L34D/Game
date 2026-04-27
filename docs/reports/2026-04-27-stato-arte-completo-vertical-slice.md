@@ -285,7 +285,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 |---:|---|---|:-:|:-:|
 | 1 | Halfway UI surface ALL decision numbers (hit% + status duration + cooldown + MoS) | Halfway | M (~4-6h) | Alta |
 | 2 | Frozen Synapse replay cinematico round 3-5s | Frozen Synapse | M (~10-14h) | Alta |
-| 3 | Cogmind tooltip stratificati base+expand | Cogmind | S (~4-6h) | **Alta — quick win** |
+| 3 | Cogmind tooltip stratificati base+expand | Cogmind | S (~4-6h) | 🟢 **Sprint 4 §I shipped** (Shift hold expand → trait list + resistances + species + lifecycle phase) |
 | 4 | Balatro joker family tagging combo discovery | Balatro | S (~6-8h) | Media |
 | 5 | Magicka 3+ element combo extension | Magicka | M (~8-12h) | Media |
 | 6 | NS2 Strategist role 5p+ async | Natural Selection 2 | L (~25-30h) | Media |

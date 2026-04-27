@@ -594,8 +594,16 @@ export function wireDebriefPanel(overlay, bridge) {
       rewardsList.innerHTML = '';
       for (const o of data.offers) {
         const card = document.createElement('div');
-        card.className = 'db-evolve-card';
+        // Sprint 4 §III (2026-04-27) — Isaac Anomaly glow effect.
+        // Source: docs/research/2026-04-26-tier-b-extraction-matrix.md #7 Isaac.
+        // Pattern: cards tagged `anomaly` get pulsing glow + gold border (transformative).
+        const tags = Array.isArray(o.card?.synergy_tags) ? o.card.synergy_tags : [];
+        const isAnomaly =
+          tags.includes('anomaly') || (o.card?.rarity || '').toLowerCase() === 'legendary';
+        card.className = 'db-evolve-card' + (isAnomaly ? ' db-anomaly-glow' : '');
+        const anomalyBadge = isAnomaly ? '<span class="db-anomaly-badge">⚡ ANOMALIA</span>' : '';
         card.innerHTML = `
+          ${anomalyBadge}
           <div class="db-evolve-title">${o.card?.label || o.card?.id || '—'}</div>
           <div class="db-evolve-blurb">${o.card?.rarity || 'common'} · score ${Number(o.score || 0).toFixed(2)}</div>
         `;
