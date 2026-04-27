@@ -389,6 +389,7 @@ function createRoundBridge(deps) {
         capturedResults.killOccurred = res.killOccurred;
         capturedResults.parry = res.parry;
         capturedResults.intercept = res.intercept || null;
+        capturedResults.bondReaction = res.bond_reaction || null;
         capturedResults.terrainReaction = res.terrain_reaction || null;
         capturedResults.positional = res.positional || null;
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
@@ -507,6 +508,7 @@ function createRoundBridge(deps) {
       });
       if (capturedResults.parry) event.parry = capturedResults.parry;
       if (capturedResults.intercept) event.intercept = capturedResults.intercept;
+      if (capturedResults.bondReaction) event.bond_reaction = capturedResults.bondReaction;
       if (requestedCapPt > 0) {
         event.cost = { cap_pt: requestedCapPt };
         consumeCapPt(session, requestedCapPt);
@@ -547,6 +549,40 @@ function createRoundBridge(deps) {
           );
         }
       }
+      // Sprint 7 Beast Bond — emit reaction_trigger event for traceability.
+      if (capturedResults.bondReaction) {
+        const br = capturedResults.bondReaction;
+        const bondEvent = {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          actor_id: br.ally_id,
+          action_type: 'reaction_trigger',
+          ability_id: `bond:${br.bond_id}`,
+          trigger: br.type === 'shield_ally' ? 'bond_ally_hit' : 'bond_ally_attacked',
+          target_id: br.type === 'counter_attack' ? br.attacker_id : br.ally_id,
+          original_target_id: br.type === 'shield_ally' ? br.target_id : null,
+          attacker_id: br.type === 'counter_attack' ? br.attacker_id : null,
+          turn: session.turn,
+          bond_id: br.bond_id,
+          bond_type: br.type,
+          damage_absorbed: br.damage_absorbed || 0,
+          damage_dealt: br.damage_dealt || 0,
+          ally_hp_before: br.ally_hp_before || null,
+          ally_hp_after: br.ally_hp_after || null,
+          ally_killed: !!br.ally_killed,
+          attacker_killed: !!br.attacker_killed,
+          trait_effects: [],
+        };
+        await appendEvent(session, bondEvent);
+        // Kill chain when counter_attack KOs attacker. Killer = bonded ally
+        // who fired the counter; victim = original attacker.
+        if (br.type === 'counter_attack' && br.attacker_killed && actor) {
+          const allyUnit = (session.units || []).find((u) => u && u.id === br.ally_id);
+          if (allyUnit) {
+            await emitKillAndAssists(session, allyUnit, actor, bondEvent);
+          }
+        }
+      }
       if (capturedResults.killOccurred) {
         await emitKillAndAssists(session, actor, target, event);
         // Sistema pressure (AI War pattern — sistema_pressure.yaml §deltas):
@@ -584,6 +620,7 @@ function createRoundBridge(deps) {
       target_position: targetPositionAtAttack,
       parry: capturedResults.parry,
       intercept: capturedResults.intercept || null,
+      bond_reaction: capturedResults.bondReaction || null,
       combo: capturedResults.combo || null,
       synergy: capturedResults.synergy || null,
       terrain_reaction: capturedResults.terrainReaction || null,

@@ -282,11 +282,41 @@ Resistance entries aggiunti (passive):
 - M-Tier-S #11 Fallout Tactics — pattern source numeric ref doc canonical
 - All `packs/evo_tactics_pack/data/balance/*.yaml` — runtime canonical data
 
+## §11 — Beast Bond reactions (Sprint 7, AncientBeast Tier S #6)
+
+Source: `data/core/companion/creature_bonds.yaml`. Engine: `apps/backend/services/combat/bondReactionTrigger.js`. Schema: `schemas/evo/creature_bond.schema.json`. ADR: `docs/adr/ADR-2026-04-27-creature-bond-reactions.md`.
+
+### Bond pairs canonical (6)
+
+| bond_id            | species_pair                                       | reaction_type  | trigger_range | cooldown |
+| ------------------ | -------------------------------------------------- | -------------- | :-----------: | :------: |
+| pack_alpha         | dune_stalker × dune_stalker (twin)                 | counter_attack |       1       |    2     |
+| hunt_alliance      | dune_stalker × anguis_magnetica                    | counter_attack |       1       |    3     |
+| hive_link          | sciame_larve_neurali × polpo_araldo_sinaptico      | shield_ally    |       2       |    3     |
+| resonant_symbiosis | simbionte_corallino_riflesso × leviatano_risonante | shield_ally    |       2       |    4     |
+| toxin_kinship      | chemnotela_toxica × chemnotela_toxica (twin)       | counter_attack |       1       |    2     |
+| burrow_guard       | gulogluteus_scutiger × terracetus_ambulator        | shield_ally    |       1       |    3     |
+
+### Trigger conditions
+
+- **counter_attack**: target hit + bond ally entro `trigger_range` Manhattan + ally → attacker entro `ally.attack_range`. Damage_step_mod -1 (refund 1 HP, pulled-punch floor → cannot 1-shot kill).
+- **shield_ally**: target hit + bond ally entro `trigger_range`. Absorb `floor(damageDealt / 2)` (transfer math identica intercept reroute).
+
+### Caps
+
+- 1 bond reaction / round / actor (`ally._bond_round_used` gate).
+- Cooldown per-bond (`ally._bond_cooldown[bond_id] = currentTurn + cooldown_turns`).
+- Skip silent quando `interceptResult` già fired (mutually exclusive con M2 intercept).
+
+### Compat
+
+Missing YAML / vuoto → `loadCreatureBonds` ritorna `{ version: 0, bonds: [] }` → no-op silent. Zero behavior change su encounter senza bond pair coverage.
+
 ## Maintenance
 
 **Update trigger**:
 
-- New balance YAML aggiunto → riga in §1-§9
+- New balance YAML aggiunto → riga in §1-§11
 - Numeric value canonical change → ADR + update qui
 - Sprint α/β/γ ship cambio numerico → cross-link PR
 
