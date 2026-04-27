@@ -19,7 +19,7 @@ import { openReplay } from './replayPanel.js';
 import { sfx, setMuted, isMuted } from './sfx.js';
 import { initHelpPanel } from './helpPanel.js';
 import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
-import { toggleCodex, setCodexSessionId } from './codexPanel.js';
+import { toggleCodex, setCodexSessionId, setCodexCampaignId } from './codexPanel.js';
 import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
@@ -1087,6 +1087,10 @@ async function startNewSession() {
   // section AND no trait choice persisted for this session, open identity
   // picker overlay pre-tutorial. User picks (or auto-timeout default) → pass
   // initial_trait_choice to /start. Scoped: host only (first session).
+  // Sprint 3 §I (2026-04-27) — pipe campaign_id to codex panel for glyph progression tab.
+  if (lobbyBridge?.session?.campaign_id) {
+    setCodexCampaignId(lobbyBridge.session.campaign_id);
+  }
   if (lobbyBridge?.isHost && lobbyBridge.session.campaign_id) {
     try {
       let initialTraitChoice = null;

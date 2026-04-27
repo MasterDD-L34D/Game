@@ -221,7 +221,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Beast Bond reaction trigger** (~5h) — adjacency-trigger per-creature trait.
 - 🔴 **3 nuovi elementi** (earth/wind/dark) (~6h con balance pass).
 - 🔴 **Ability r3/r4 tier** (~10h) — estende `abilities.yaml` r1/r2 esistente.
-- 🔴 **Beast Showcase wiki cross-link** (~3h cosmetic).
+- 🟢 **Beast Showcase wiki cross-link** — Sprint 3 §II shipped (wikiLinkBridge service + 3 REST endpoint + audit coverage report + 10 unit test).
 
 #### B.1.6 — XCOM EW (1 pattern residuo)
 - 🔴 **Officer Training School meta perks** (~10h) — campaign-gated 6-8 meta slot. **In v3.7 §4**.
@@ -253,7 +253,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Permanent visible aspect change battle-scar registry** (~12h) — mid-fight events alterano sprite long-term.
 - 🔴 **Portrait stratificati layered overlay** (~15h) — face + scar + age + clothes via canvas compositing.
 - 🔴 **Companion lifecycle aging cross-session** (~10h) — counter cross-session.
-- 🔴 **Choice → permanent consequence flag in campaign state** (~4h).
+- 🟢 **Choice → permanent consequence flag in campaign state** — Sprint 3 §III shipped (campaignStore.permanentFlags + recordPermanentFlag/getPermanentFlag + 3 REST endpoint + 9 unit test, idempotent on key).
 
 #### B.1.12 — Jackbox / XCOM 2 multi (2 pattern residui)
 - 🔴 **Jack Principles guidance toast per phase** (~5h) — V1 onboarding shipped, estendi a phase-by-phase.

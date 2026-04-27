@@ -66,6 +66,12 @@ function createCampaign(playerId, campaignDefId = 'default_campaign_mvp', opts =
     // V1 Onboarding Phase B — trait permanent pre-Act 0 shared roster
     onboardingChoice: opts.onboardingChoice || null, // { option_key, trait_id }
     acquiredTraits: Array.isArray(opts.acquiredTraits) ? [...opts.acquiredTraits] : [],
+    // Sprint 3 §III (2026-04-27) — Wildermyth choice→permanent flag pattern.
+    // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md #12 Wildermyth.
+    // Each flag = { key, value, source_chapter, recorded_at, narrative? }.
+    // Used by debriefPanel + storylets registry for "permanent consequence"
+    // narrative weave (es. mid-fight choice → unlocks unique branch later).
+    permanentFlags: Array.isArray(opts.permanentFlags) ? [...opts.permanentFlags] : [],
     createdAt: now,
     updatedAt: now,
   };
@@ -117,6 +123,49 @@ function recordChapter(id, chapter) {
   return updateCampaign(id, { chapters: nextChapters });
 }
 
+/**
+ * Sprint 3 §III (2026-04-27) — record permanent flag (Wildermyth pattern).
+ * Idempotent: if same `key` already exists, updates value + retains original
+ * recorded_at. Returns updated campaign or null when not found.
+ *
+ * @param {string} id campaign id
+ * @param {{key:string, value:any, source_chapter?:number, narrative?:string}} flag
+ * @returns {object|null}
+ */
+function recordPermanentFlag(id, flag) {
+  if (!flag || !flag.key) return null;
+  const cur = _campaigns.get(id);
+  if (!cur) return null;
+  const existing = (cur.permanentFlags || []).findIndex((f) => f.key === flag.key);
+  const recordedAt = existing >= 0 ? cur.permanentFlags[existing].recorded_at : _now();
+  const entry = {
+    key: String(flag.key),
+    value: flag.value !== undefined ? flag.value : true,
+    source_chapter: Number(flag.source_chapter ?? cur.currentChapter) || null,
+    source_act: Number(flag.source_act ?? cur.currentAct) || null,
+    narrative: flag.narrative || null,
+    recorded_at: recordedAt,
+  };
+  const nextFlags = [...(cur.permanentFlags || [])];
+  if (existing >= 0) nextFlags[existing] = entry;
+  else nextFlags.push(entry);
+  return updateCampaign(id, { permanentFlags: nextFlags });
+}
+
+/**
+ * Sprint 3 §III — query permanent flag by key.
+ *
+ * @param {string} id campaign id
+ * @param {string} key
+ * @returns {object|null} flag entry or null
+ */
+function getPermanentFlag(id, key) {
+  const cur = _campaigns.get(id);
+  if (!cur || !key) return null;
+  const list = cur.permanentFlags || [];
+  return list.find((f) => f.key === key) || null;
+}
+
 function deleteCampaign(id) {
   const cur = _campaigns.get(id);
   if (!cur) return false;
@@ -138,6 +187,8 @@ module.exports = {
   listCampaignsForPlayer,
   updateCampaign,
   recordChapter,
+  recordPermanentFlag,
+  getPermanentFlag,
   deleteCampaign,
   _resetStore,
 };

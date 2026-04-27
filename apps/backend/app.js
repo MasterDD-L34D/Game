@@ -31,6 +31,8 @@ const { createCoopRouter } = require('./routes/coop');
 const { createDiaryRouter } = require('./routes/diary');
 // Skiv-as-Monitor — git-event-driven creature feed (2026-04-25)
 const { createSkivRouter } = require('./routes/skiv');
+// Sprint 3 §II (2026-04-27) — AncientBeast wiki cross-link slug bridge.
+const { createSpeciesWikiRouter } = require('./routes/speciesWiki');
 const { createCoopStore } = require('./services/coop/coopStore');
 const { LobbyService } = require('./services/network/wsSession');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
@@ -779,6 +781,11 @@ function createApp(options = {}) {
   // Reads data/derived/skiv_monitor/{state.json, feed.jsonl} produced by
   // tools/py/skiv_monitor.py via .github/workflows/skiv-monitor.yml.
   app.use('/api', createSkivRouter(options.skiv || {}));
+
+  // Sprint 3 §II (2026-04-27) — AncientBeast wiki cross-link slug bridge.
+  // Cross-link runtime species (data/core/species.yaml) ↔ catalog wiki
+  // (packs/evo_tactics_pack/docs/catalog/species/) via slug normalization.
+  app.use('/api', createSpeciesWikiRouter());
 
   // Bundle B.3 codex routes già registrate sopra (line 758) — single
   // createCodexRouter() ora ospita BOTH glyph-progression (PR #1931) +
