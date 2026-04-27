@@ -140,3 +140,66 @@ test('getMutation: direct lookup', () => {
 test('DEFAULT_CATALOG_PATH points to a real file', () => {
   assert.ok(fs.existsSync(DEFAULT_CATALOG_PATH), `expected ${DEFAULT_CATALOG_PATH} to exist`);
 });
+
+// ─── Sprint Spore Moderate (ADR-2026-04-26) — schema lock ─────────────────
+//
+// Verifica che ogni mutation abbia i 3 nuovi campi shippati nello sprint
+// Spore Moderate (Pattern S1+S2+S3): body_slot + derived_ability_id + mp_cost.
+// Slot canonici: mouth, appendage, sense, tegument, back. Eccezione esplicita:
+// `category: symbiotic` può avere body_slot=null (le simbiosi sono biologicamente
+// soprapposte, no slot fisico esclusivo per ADR §S1).
+
+const VALID_BODY_SLOTS = ['mouth', 'appendage', 'sense', 'tegument', 'back'];
+
+test('Schema lock — every mutation has body_slot (canonical slot or null for symbiotic)', () => {
+  _resetCacheForTest();
+  const data = loadMutationCatalog({ refresh: true });
+  for (const [id, entry] of Object.entries(data.byId)) {
+    assert.ok('body_slot' in entry, `${id} missing body_slot field`);
+    if (entry.body_slot === null) {
+      assert.equal(
+        entry.category,
+        'symbiotic',
+        `${id} has body_slot=null but category=${entry.category} (only symbiotic exempted)`,
+      );
+    } else {
+      assert.ok(
+        VALID_BODY_SLOTS.includes(entry.body_slot),
+        `${id} body_slot=${entry.body_slot} not in canonical set ${VALID_BODY_SLOTS.join('|')}`,
+      );
+    }
+  }
+});
+
+test('Schema lock — every mutation has derived_ability_id field (nullable)', () => {
+  _resetCacheForTest();
+  const data = loadMutationCatalog({ refresh: true });
+  for (const [id, entry] of Object.entries(data.byId)) {
+    assert.ok('derived_ability_id' in entry, `${id} missing derived_ability_id field`);
+    const v = entry.derived_ability_id;
+    assert.ok(
+      v === null || typeof v === 'string',
+      `${id} derived_ability_id must be null or string`,
+    );
+  }
+});
+
+test('Schema lock — every mutation has mp_cost (positive integer per tier)', () => {
+  _resetCacheForTest();
+  const data = loadMutationCatalog({ refresh: true });
+  // Per ADR: tier 1 → 3 MP, tier 2 → 8 MP, tier 3 → 15 MP.
+  const TIER_MP_EXPECTED = { 1: 3, 2: 8, 3: 15 };
+  for (const [id, entry] of Object.entries(data.byId)) {
+    assert.ok('mp_cost' in entry, `${id} missing mp_cost field`);
+    assert.equal(typeof entry.mp_cost, 'number', `${id} mp_cost must be number`);
+    assert.ok(entry.mp_cost > 0, `${id} mp_cost must be > 0`);
+    const expected = TIER_MP_EXPECTED[entry.tier];
+    if (expected !== undefined) {
+      assert.equal(
+        entry.mp_cost,
+        expected,
+        `${id} mp_cost=${entry.mp_cost} expected ${expected} for tier ${entry.tier}`,
+      );
+    }
+  }
+});
