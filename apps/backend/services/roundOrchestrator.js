@@ -261,7 +261,22 @@ function computeResolvePriority(unit, action, speedTable = DEFAULT_ACTION_SPEED)
     if (s.id === 'panic') penalty += intensity * 2;
     else if (s.id === 'disorient') penalty += intensity;
   }
-  return base + speed - penalty;
+  // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype ambush_plus init+2
+  // se action.is_critical OR action.is_flank. Lazy require evita cycle import
+  // cross-module; back-compat: zero delta quando passive assente o trigger
+  // non match. Pattern: passive token check fast-path inline (avoid require
+  // per chiamata se passives empty).
+  let archetypeInitBonus = 0;
+  const passives = Array.isArray(unit && unit._archetype_passives) ? unit._archetype_passives : [];
+  if (passives.length > 0) {
+    try {
+      const { getInitiativeBonus } = require('./combat/archetypePassives');
+      archetypeInitBonus = getInitiativeBonus(unit, action);
+    } catch {
+      archetypeInitBonus = 0;
+    }
+  }
+  return base + speed - penalty + archetypeInitBonus;
 }
 
 /**
