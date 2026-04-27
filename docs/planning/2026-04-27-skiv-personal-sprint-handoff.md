@@ -357,11 +357,11 @@ Push + PR title 'feat(skiv): Goal 4 — legacy death ritual choice (P2 cross-gen
 | ---------------------------- | :--------: | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | G3 Thoughts ritual choice UI | ✅ SHIPPED | [#1983](https://github.com/MasterDD-L34D/Game/pull/1983) | thoughtsRitualPanel.js + GET /thoughts/candidates (top-3 ranked) + auto-open trigger event 'research_completed' + 30s timer + irreversible session lock; 10/10 test, voice preview wired |
 
-### Phase 3 (G4) — gated on G3 merged
+### Phase 3 (G4) — ✅ COMPLETE
 
-| Goal                            |     Status     | PR  | Notes                                                         |
-| ------------------------------- | :------------: | --- | ------------------------------------------------------------- |
-| G4 Legacy death mutation ritual | ⬜ GATED on G3 | —   | Depends on api.js + session.js post Phase 2 (shared additive) |
+| Goal                            |   Status   | PR     | Notes                                                                                                                                                                                                                                                   |
+| ------------------------------- | :--------: | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| G4 Legacy death mutation ritual | ✅ SHIPPED | #PRTBD | propagateLineage `options.mutationsToLeave` opt-in filter (back-compat preserved) + computeBondHeartsDelta narrative beat + POST /api/v1/lineage/legacy-ritual + legacyRitualPanel.js overlay (lifecycle_phase=legacy auto-trigger) + 10/10 ritual test |
 
 ### Phase 4 — synthesis
 

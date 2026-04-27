@@ -26,6 +26,7 @@ const {
   propagateLineage,
   inheritFromLineage,
   inspectPool,
+  computeBondHeartsDelta,
 } = require('../services/generation/lineagePropagator');
 
 function createLineageRouter() {
@@ -97,6 +98,88 @@ function createLineageRouter() {
       return res.status(400).json({ error: 'species and biome route params required' });
     }
     res.json(inspectPool(species, biome));
+  });
+
+  /**
+   * Skiv Goal 4 — legacy death mutation choice ritual endpoint.
+   *
+   * POST /legacy-ritual — body
+   *   { session_id, unit_id, mutationsToLeave: string[],
+   *     legacyUnit?: { id, applied_mutations[] }, species_id, biome_id }
+   *
+   * Allenatore (player) chooses what subset of applied_mutations to leave
+   * to next generation. Decision is irreversible per session (caller-side
+   * lock). Returns narrative beat (bond hearts delta + Skiv voice line)
+   * + propagation result.
+   *
+   * Caller flow (frontend):
+   *   1. legacyRitualPanel.js shows checkbox list of legacyUnit.applied_mutations
+   *   2. User submits subset
+   *   3. Endpoint propagates subset + returns narrative beat
+   *
+   * Note: caller is responsible for passing legacyUnit (server-side has
+   * no notion of "which unit is dying" outside the active session combat
+   * runtime, which already triggers propagateLineage on kill in
+   * routes/session.js). This endpoint exists for the explicit ritual UX
+   * where allenatore wants to pick subset BEFORE the runtime hook fires
+   * (or as override after).
+   */
+  router.post('/legacy-ritual', (req, res) => {
+    const {
+      session_id: sessionId,
+      unit_id: unitId,
+      mutationsToLeave,
+      legacyUnit,
+      species_id: speciesId,
+      biome_id: biomeId,
+    } = req.body || {};
+
+    if (typeof sessionId !== 'string' || !sessionId) {
+      return res.status(400).json({ error: 'session_id (string) required' });
+    }
+    if (typeof unitId !== 'string' || !unitId) {
+      return res.status(400).json({ error: 'unit_id (string) required' });
+    }
+    if (typeof speciesId !== 'string' || !speciesId) {
+      return res.status(400).json({ error: 'species_id (string) required' });
+    }
+    if (typeof biomeId !== 'string' || !biomeId) {
+      return res.status(400).json({ error: 'biome_id (string) required' });
+    }
+    if (!Array.isArray(mutationsToLeave)) {
+      return res.status(400).json({
+        error:
+          'mutationsToLeave (array of mutation_id strings) required — pass [] to leave nothing',
+      });
+    }
+    const cleanLeave = mutationsToLeave.filter((m) => typeof m === 'string' && m);
+
+    // legacyUnit is optional. If absent, fabricate a minimal shape from
+    // mutationsToLeave (allenatore explicitly picked subset; we can still
+    // propagate without the full unit object). This keeps the endpoint
+    // usable from a UI that has only the picked subset in scope.
+    const unit =
+      legacyUnit && typeof legacyUnit === 'object'
+        ? legacyUnit
+        : { id: unitId, applied_mutations: cleanLeave };
+
+    const totalApplied = Array.isArray(unit.applied_mutations) ? unit.applied_mutations.length : 0;
+
+    try {
+      const propagation = propagateLineage(unit, speciesId, biomeId, {
+        mutationsToLeave: cleanLeave,
+      });
+      const narrative = computeBondHeartsDelta(propagation.left_count, totalApplied);
+      res.json({
+        ok: true,
+        session_id: sessionId,
+        unit_id: unitId,
+        propagation,
+        narrative,
+      });
+    } catch (err) {
+      res.status(500).json({ error: 'legacy_ritual_failed', message: err.message });
+    }
   });
 
   return router;
