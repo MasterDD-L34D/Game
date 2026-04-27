@@ -231,6 +231,7 @@ traits:
     cost_ap: 2
     resistances:
       - { channel: mentale, modifier_pct: 15 }
+      - { channel: dark, modifier_pct: 10 }
     active_effects:
       - ability_id: spore_burst
         name_it: "Esplosione di Spore"
@@ -240,13 +241,20 @@ traits:
         status_duration: 2
         status_intensity: 1
         target: enemy
+      - ability_id: umbral_spore
+        name_it: "Spora Abissale"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: dark
+        target: enemy
     on_hit_status:
       status_id: disorient
       duration: 2
       intensity: 1
       trigger_dc: 12
     on_hit_stress_delta: 0.05
-    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status e on_hit_stress_delta giustificati dalla desc_it ('sedano e confondono'). Balance audit 2026-04-25: cost_ap 3→2 (zero damage step, era over-priced vs altri status-only trait)."
+    notes: "classe offensive via desc 'spore psioniche che sedano e confondono' (no tag breaker). on_hit_status e on_hit_stress_delta giustificati dalla desc_it ('sedano e confondono'). Balance audit 2026-04-25: cost_ap 3→2 (zero damage step, era over-priced vs altri status-only trait). Sprint 6: umbral_spore dark ability + resist dark+10."
   nucleo_ovomotore_rotante:
     attack_mod: 0
     defense_mod: 0
@@ -262,7 +270,14 @@ traits:
         buff_amount: 1
         buff_duration: 1
         target: self
-    notes: "mobility con discount FME Alto (3 -> 2)"
+      - ability_id: vortex_spin
+        name_it: "Vortice Cinetico"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 1 }
+        channel: wind
+        target: enemy
+    notes: "mobility con discount FME Alto (3 -> 2). Sprint 6: vortex_spin wind ability."
   focus_frazionato:
     attack_mod: 0
     defense_mod: 0
@@ -329,7 +344,8 @@ traits:
     defense_mod: 0
     damage_step: 0
     cost_ap: 2
-    resistances: []
+    resistances:
+      - { channel: wind, modifier_pct: 10 }
     active_effects:
       - ability_id: explosive_rush
         name_it: "Scatto Esplosivo"
@@ -339,7 +355,14 @@ traits:
         buff_amount: 2
         buff_duration: 1
         target: self
-    notes: "mobility con discount FME Alto (3 -> 2)"
+      - ability_id: gale_burst
+        name_it: "Raffica Vorticosa"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: wind
+        target: enemy
+    notes: "mobility con discount FME Alto (3 -> 2). Sprint 6: gale_burst wind ability + resist wind+10."
   empatia_coordinativa:
     attack_mod: 0
     defense_mod: 0
@@ -458,6 +481,7 @@ traits:
     resistances:
       - { channel: fisico, modifier_pct: 20 }
       - { channel: fuoco, modifier_pct: 20 }
+      - { channel: earth, modifier_pct: 15 }
     active_effects:
       - ability_id: meteoric_shield
         name_it: "Scudo Meteoritico"
@@ -467,7 +491,14 @@ traits:
         buff_amount: 4
         buff_duration: 1
         target: self
-    notes: "T3 bump applied to defense_mod (defensive class + T3)"
+      - ability_id: meteor_strike
+        name_it: "Caduta Meteoritica"
+        cost_ap: 3
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 2 }
+        channel: earth
+        target: enemy
+    notes: "T3 bump applied to defense_mod (defensive class + T3). Sprint 6: ability earth + resistance earth+15."
   lingua_tattile_trama:
     attack_mod: 0
     defense_mod: 0
@@ -540,7 +571,14 @@ traits:
         damage_dice: { count: 2, sides: 6, modifier: 2 }
         channel: fisico
         target: enemy
-    notes: "hybrid (TRT-02): massa muscolare aumenta attacco; nerf 2026-04-26: rimosso damage_step+1 perm (z=+2.55 outlier — ridotto a singolo bonus offensivo)"
+      - ability_id: ground_pound
+        name_it: "Onda Tellurica"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 1 }
+        channel: earth
+        target: enemy
+    notes: "hybrid (TRT-02): massa muscolare aumenta attacco; nerf 2026-04-26: rimosso damage_step+1 perm (z=+2.55 outlier — ridotto a singolo bonus offensivo). Sprint 6: ground_pound earth ability."
   pelage_idrorepellente_avanzato:
     attack_mod: 0
     defense_mod: 1
@@ -572,10 +610,17 @@ traits:
         damage_dice: { count: 2, sides: 6, modifier: 1 }
         channel: mentale
         target: enemy
+      - ability_id: pressure_wave
+        name_it: "Onda di Pressione"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 8, modifier: 1 }
+        channel: wind
+        target: enemy
     on_hit_status:
       status_id: disorient
       trigger_dc: 15
       duration: 2
       intensity: 1
     on_hit_stress_delta: 0.05
-    notes: "offensive (TRT-02): cannone sonico con disorientamento e stress delta"
+    notes: "offensive (TRT-02): cannone sonico con disorientamento e stress delta. Sprint 6: pressure_wave wind ability (sonic = pressure waveform)."
