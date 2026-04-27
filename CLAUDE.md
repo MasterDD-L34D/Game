@@ -328,6 +328,42 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 late — situation report cross-PC)
+
+**50 PR mergiati main today** (cross-PC + multi-session combined). Main HEAD: `a5679e81`.
+
+**Anti-pattern Engine LIVE Surface DEAD — 8/8 chiusi**:
+
+- #1 predict_combat → #1975 hover preview ✅
+- #2 Tactics Ogre HUD → #1901+#1960 ✅
+- #3 Spore part-pack → S1-S6 + UI tab #1922 ✅
+- #4 Mating engine → #1918 propagateLineage + #1924 lifecycle ✅
+- #5 objectiveEvaluator → #1976 Objective HUD ✅
+- #6 biomeSpawnBias → Sprint γ AI YAML + ecology ✅
+- #7 QBN engine → #1979 debrief beats ✅
+- #8 Thought Cabinet → #1966 UI panel + #1945 inner voices ✅
+
+**Pillar score finale**: **5/6 🟢 def + 1/6 🟡++ (P3)**. Demo-ready confirmed.
+
+**In flight**:
+
+- #1979 QBN debrief OPEN
+- #1978 Ability r3/r4 tier OPEN
+- #1977 Skiv Goal 2 echolocation DRAFT (altra sessione personal sprint)
+- #1928 governance drift DRAFT cross-PC
+
+**Skiv personal sprint** (`docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`): G2 in flight, G1+G3+G4 not started.
+
+**Situation report canonical**: [`docs/reports/2026-04-27-situation-report-late.md`](docs/reports/2026-04-27-situation-report-late.md).
+
+**Next priority** (master-dd choice):
+
+- TKT-M11B-06 playtest live userland → chiude P5 🟢 def definitivo
+- Skiv personal sprint completion (4 goals, ~15-16h)
+- Aspect_token authoring batch (~13h P2 visual debt)
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 7 Beast Bond reactions)
 
 **Sessione 2026-04-27 Sprint 7 (autonomous, ~5h)**: AncientBeast Tier S #6 residuo Beast Bond — passive species-pair reaction parallel a M2 reactionEngine. Closes 3/4 Tier S #6 (Sprint 6 channel + Sprint 7 bond; Ability r3/r4 ~10h residuo).
