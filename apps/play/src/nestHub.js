@@ -292,23 +292,21 @@ function buildOverlay() {
         </div>
       </div>
 
-      <!-- TAB: Lineage (placeholder Sprint D) -->
+      <!-- TAB: Lineage — Sprint D wired (OD-001 Path A 4/4 complete). -->
       <div class="nest-tab-panel" data-tab-panel="lineage">
-        <div class="tab-stub">
-          <strong>🌳 Lineage tree</strong>
-          Coming soon — Sprint D wire genealogy multi-gen + inheritance bias.
-          <br>
-          <small>OD-001 Path A 4/4. Engine: <code>metaProgression.js</code> rollMating offspring_traits.</small>
-        </div>
-      </div>
-      <div class="nest-section" data-tab="lineage" id="nest-lineage-section">
-        <h3>🧬 Lignaggio &amp; Tribù emergent (<span id="nest-tribes-count">0</span>)</h3>
-        <div class="nest-tribe-list" id="nest-tribe-list">
-          <div class="nest-empty">
-            Nessuna tribù emerge ancora (servono ≥3 unità con lo stesso lineage).
+        <div class="nest-section" id="nest-lineage-section">
+          <div style="margin-bottom:8px;color:#8891a3;font-size:0.82rem">
+            🌳 Genealogia multi-gen — click su una tribù per espandere il chain (max 3 gen).
+            Engine: <code>metaProgression.js</code> rollMating offspring_traits + inheritance bias.
           </div>
+          <h3>🧬 Lignaggio &amp; Tribù emergent (<span id="nest-tribes-count">0</span>)</h3>
+          <div class="nest-tribe-list" id="nest-tribe-list">
+            <div class="nest-empty">
+              Nessuna tribù emerge ancora (servono ≥3 unità con lo stesso lineage).
+            </div>
+          </div>
+          <div id="nest-lineage-tree-wrap"></div>
         </div>
-        <div id="nest-lineage-tree-wrap"></div>
       </div>
 
       <!-- TAB: Codex (link a codexPanel esistente) -->
