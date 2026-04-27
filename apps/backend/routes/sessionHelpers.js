@@ -415,6 +415,32 @@ function publicSessionView(session) {
     biome_id: session.biome_id || session.encounter?.biome_id || null,
     // OD-001 Path A Sprint A — Nido unlock flag for HUD btn visibility.
     nido_unlocked: checkNidoUnlock(session),
+    // Skiv Goal 2 (2026-04-28) — Echolocation sense surface. Lazy compute:
+    // for every actor with `default_parts.senses` containing 'echolocation',
+    // expose an empty placeholder bag the frontend pulse helper can fill on
+    // hover. Map shape: { actor_id: { has_echolocation: true, radius } }.
+    // No tile coords here (those are computed render-side from hovered
+    // target). Additive field — never breaks legacy clients.
+    tile_visibility: (() => {
+      try {
+        const { BASE_RADIUS, BONUS_TRAIT_ID } = require('../services/combat/senseReveal');
+        const out = {};
+        for (const u of session.units || []) {
+          if (!u || !u.id) continue;
+          const senses = u.default_parts && u.default_parts.senses;
+          if (!Array.isArray(senses)) continue;
+          if (!senses.some((s) => typeof s === 'string' && s.toLowerCase() === 'echolocation')) {
+            continue;
+          }
+          const traitIds = Array.isArray(u.trait_ids) ? u.trait_ids : u.traits;
+          const hasBonus = Array.isArray(traitIds) && traitIds.some((t) => t === BONUS_TRAIT_ID);
+          out[u.id] = { has_echolocation: true, radius: BASE_RADIUS + (hasBonus ? 1 : 0) };
+        }
+        return out;
+      } catch {
+        return {};
+      }
+    })(),
   };
 }
 
