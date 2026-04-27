@@ -238,16 +238,16 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Liberation campaign region map** (~15h) — region grid + liberation% counter. **In v3.7 §4**.
 - 🔴 **Haven recruitment radio passive growth** (~6h) — pool tick over campaign turns.
 
-#### B.1.8 — Disco Elysium (4 pattern residui)
+#### B.1.8 — Disco Elysium (4 pattern, 3 residui)
 - 🔴 **Thought Cabinet UI panel + cooldown round-based** (~8h) — N slot mentali equip-per-N-round → unlock effetto. **Già P0 residuo synthesis**.
 - 🔴 **Internal voice 4-MBTI axes** (~10h) — narrative log debrief con voce-per-axis durante combat hint.
 - 🔴 **Skill check passive vs active popup** (~4h) — surface trigger via popup notification.
-- 🔴 **Day/time pacing flavor copy** (~2h) — "Giorno N di Aurora" nei debrief.
+- 🟢 **Day/time pacing flavor copy** — Sprint 1 §I shipped (PR #1934: `formatDayPacing(currentChapter, currentAct)` in `apps/backend/routes/campaign.js` + 4 response sites: defeat retry + choice_node + advance + act_advanced. "Giorno N di Aurora" diegetic copy).
 
-#### B.1.9 — AI War: Fleet Command (3 pattern residui)
-- 🔴 **Asymmetric rules registry doc** (~2h) — codify pattern AI ha rule diverse.
-- 🔴 **Decentralized unit AI doc** (~1h) — reference utility brain.
-- 🔴 **Defender's advantage modifier** (~3h) — +50% AI defensive vs player aggressive.
+#### B.1.9 — AI War: Fleet Command (3 pattern, 0 residui — ✅ tutti shipped)
+- 🟢 **Asymmetric rules registry doc** — Sprint 1 §III shipped (PR #1934: `docs/design/2026-04-27-ai-war-asymmetric-rules.md` canonical reference, codifica Sistema asymmetric pattern per Pillar 5+6).
+- 🟢 **Decentralized unit AI doc** — Sprint 1 §IV shipped (PR #1934: `docs/design/2026-04-27-ai-war-decentralized-architecture.md` reference utility brain per-unit autonomous).
+- 🟢 **Defender's advantage modifier** — Sprint 1 §II shipped (PR #1934: `apps/backend/services/combat/defenderAdvantageModifier.js` `getDefenderAdvantage` wired in `session.js:445` + `DEFENDER_ADVANTAGE_BONUS=1`).
 
 #### B.1.10 — Fallout Tactics (3 pattern residui)
 - 🔴 **Encounter authoring CLI YAML extension** (~6h) — `tools/py/master_dm.py` REPL → YAML generator + validator.
@@ -265,7 +265,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Jack Principles guidance toast per phase** (~5h) — V1 onboarding shipped, estendi a phase-by-phase.
 - 🔴 **XCOM 2 points-buy pre-game** (~8h) — point budget shared per build squad.
 
-**Tier S residuo cumulato**: ~38 pattern, **~190h totali** se tutti adottati.
+**Tier S residuo cumulato**: ~33 pattern, **~182h totali** se tutti adottati. (Drift fix 2026-04-27: §B.1.5 channel resistance + §B.1.8 day pacing + §B.1.9 3/3 AI War shipped, segnati post-PR #1934/#1964.)
 
 ### B.2 — Tier A residuo (oltre i 2 shipped: pathfinder + voidling)
 
@@ -335,11 +335,11 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 
 | Tier | Pattern residui | Effort cumulato Min |
 |---|---:|---:|
-| Tier S (13 giochi) | 38 | ~190h |
+| Tier S (13 giochi) | 33 | ~182h |
 | Tier A (11 giochi) | 11 | ~54h |
 | Tier B (15 giochi) | 11 (4 archive) | ~115h |
 | Tier E (20 voci tech) | 13 (4 blocked) | ~150h |
-| **TOTALE** | **73 pattern residui** | **~509h Min** |
+| **TOTALE** | **68 pattern residui** | **~501h Min** |
 
 **Quick wins ≤5h totali (cross-tier)**: ~16 pattern × media 4h = **~64h** = ~2 settimane sprint single-dev.
 
