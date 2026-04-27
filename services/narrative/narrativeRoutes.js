@@ -22,6 +22,7 @@ const {
   makeChoice,
   listStories,
   saveState,
+  selectDriftBriefing,
 } = require('./narrativeEngine');
 const {
   drawEvent: qbnDrawEvent,
@@ -103,6 +104,48 @@ function createNarrativeRouter() {
         return res.status(404).json({ error: 'story not found' });
       }
       res.json({ storyId, stateJson: saveState(story) });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ── Drift briefing (Bundle B.1 — Citizen Sleeper drift gating) ─────
+  //
+  // POST /briefing/drift
+  //   body: { session_id?, scenario_id, vc_snapshot?, fallback? }
+  //   → { variant, text, source, scenario_id, session_id }
+  //
+  // Selects pre-mission briefing variant (tech / empatic / neutral) basato su
+  // MBTI T_F mean del vc_snapshot fornito. session_id è opzionale (telemetry
+  // tag only — il route non accede direttamente al session store per
+  // mantenere boundary clean tra narrative e session router).
+  //
+  // Caller pattern: client legge GET /api/session/:id/vc → estrae snapshot →
+  // POST /api/v1/narrative/briefing/drift con vc_snapshot inline.
+  router.post('/briefing/drift', (req, res) => {
+    try {
+      const body = req.body || {};
+      const { session_id = null, scenario_id, vc_snapshot = null, fallback = null } = body;
+      if (!scenario_id || typeof scenario_id !== 'string') {
+        return res.status(400).json({ error: 'scenario_id required (string)' });
+      }
+      if (vc_snapshot !== null && (typeof vc_snapshot !== 'object' || Array.isArray(vc_snapshot))) {
+        return res.status(400).json({ error: 'vc_snapshot must be object or null' });
+      }
+      const result = selectDriftBriefing(scenario_id, vc_snapshot, { fallback });
+      if (!result) {
+        return res.status(404).json({
+          error: 'no briefing pack entry for scenario_id',
+          scenario_id,
+        });
+      }
+      res.json({
+        session_id,
+        scenario_id,
+        variant: result.variant,
+        text: result.text,
+        source: result.source,
+      });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

@@ -376,6 +376,105 @@ function drawStatusIcons(ctx, unit, cx, yPxTop) {
   }
 }
 
+// 2026-04-27 Bundle B.4 — Wildfrost-style counter HUD badges.
+//
+// Disegna fino a 3 badge counter top-right del sprite tile (16x16 corner area).
+// Background semi-transparent (#000a) + numero bianco bold. Mostra in priority
+// order:
+//   1. ability_cooldowns (object map { ability_id: turns_remaining })
+//   2. reaction_cooldown_remaining (singolo numero)
+//   3. status duration numerica (panic, rage, stunned, ...)
+//
+// Hide se counter <= 0 o expired. Anti-pattern guard: max 3 badge per unit
+// (overflow indicator "+N" se più di 3).
+//
+// Ref Tactics Ogre HP bar pattern (PR #1901). Pattern source: Wildfrost
+// counter HUD — vedi docs/research/2026-04-27-indie-meccaniche-perfette.md §2.
+export function collectCounters(unit) {
+  const counters = [];
+  // 1. ability_cooldowns (object): { abilityId: turns }
+  const cds = unit.ability_cooldowns;
+  if (cds && typeof cds === 'object' && !Array.isArray(cds)) {
+    for (const [abilityId, turns] of Object.entries(cds)) {
+      const n = Number(turns);
+      if (Number.isFinite(n) && n > 0) {
+        counters.push({ kind: 'cd', label: String(n), tint: '#5b8def', key: abilityId });
+      }
+    }
+  }
+  // 2. reaction_cooldown_remaining (singolo)
+  const rxCd = Number(unit.reaction_cooldown_remaining || 0);
+  if (rxCd > 0) {
+    counters.push({ kind: 'cd', label: String(rxCd), tint: '#7c4dff', key: 'rx' });
+  }
+  // 3. status durations numeriche (es. panic:2, rage:3, bleeding:1)
+  const status = unit.status || {};
+  for (const [key, val] of Object.entries(status)) {
+    const n = Number(val);
+    if (Number.isFinite(n) && n > 0) {
+      counters.push({ kind: 'status', label: String(n), tint: '#ff7043', key });
+    }
+  }
+  return counters;
+}
+
+function drawCounterBadge(ctx, unit, cx, yPxTop) {
+  const counters = collectCounters(unit);
+  if (counters.length === 0) return;
+  const MAX = 3;
+  const display = counters.slice(0, MAX);
+  const overflow = counters.length - MAX;
+  const size = Math.max(14, Math.round(CELL * 0.18));
+  const gap = 2;
+  // Top-right corner: stack vertically going down from top edge.
+  // Right-align so badges don't collide with status icons (which start from cx + 18%).
+  const startX = cx + CELL * 0.5 - size - 2;
+  const startY = yPxTop + 2;
+  ctx.save();
+  ctx.font = `bold ${Math.max(9, Math.round(size * 0.62))}px "SF Mono", "Menlo", monospace`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  for (let i = 0; i < display.length; i++) {
+    const c = display[i];
+    const bx = startX;
+    const by = startY + i * (size + gap);
+    // Pill bg semi-transparent + tinted border per kind.
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.66)';
+    ctx.beginPath();
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(bx, by, size, size, 3);
+    } else {
+      ctx.rect(bx, by, size, size);
+    }
+    ctx.fill();
+    ctx.strokeStyle = c.tint;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    // Counter number bianco bold.
+    ctx.fillStyle = '#fff';
+    ctx.fillText(c.label, bx + size / 2, by + size / 2 + 0.5);
+  }
+  // Overflow indicator "+N" (sotto al 3o badge).
+  if (overflow > 0) {
+    const bx = startX;
+    const by = startY + MAX * (size + gap);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.66)';
+    ctx.beginPath();
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(bx, by, size, size, 3);
+    } else {
+      ctx.rect(bx, by, size, size);
+    }
+    ctx.fill();
+    ctx.strokeStyle = '#ffd54f';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    ctx.fillStyle = '#fff';
+    ctx.fillText(`+${overflow}`, bx + size / 2, by + size / 2 + 0.5);
+  }
+  ctx.restore();
+}
+
 // QW4 — Lifecycle phase badge: pill scuro + abbrev (HJG/JUV/MTR/APX/LGC).
 // Posizione: bottom-right del tile. Tint ring color come bg, white text + outline.
 function drawLifecycleBadge(ctx, style, cx, yPxTop) {
@@ -638,6 +737,11 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
 
   // Status icons (top-right)
   if (!dead) drawStatusIcons(ctx, unit, cx, yPx * CELL);
+
+  // 2026-04-27 Bundle B.4 — counter badges (Wildfrost HUD).
+  // Stacked top-right area, accanto agli status icon. ability_cooldowns +
+  // reaction_cooldown_remaining + status duration. Skip se nessun counter.
+  if (!dead) drawCounterBadge(ctx, unit, cx, yPx * CELL);
 
   // QW4 — Lifecycle phase badge (bottom-right, sotto al corpo). Skiv-style:
   // hatchling/juvenile/mature/apex/legacy abbrev su pill scuro.
