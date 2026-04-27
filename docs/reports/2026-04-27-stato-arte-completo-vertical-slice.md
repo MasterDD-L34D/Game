@@ -515,19 +515,103 @@ I 73 pattern ora vivono in 3 sistemi proven con trigger automatico:
 |---|---|---|---|
 | 2026-04-27 created | §A-§E | initial | Master synthesis post deep extraction pass-2 |
 | 2026-04-27 update | §F added | persistence | Step 1+2+3 completati: 75 tickets + 11 museum cards + memory entries |
-| 2026-04-27 update | §D | upkeep rule | Pre-cite check + memory rule cross-link aggiunta
+| 2026-04-27 update | §D | upkeep rule | Pre-cite check + memory rule cross-link aggiunta |
+| 2026-04-27 update | §G added | reality check | Audit empirico A+D+E targets dopo wave cross-PC |
+| 2026-04-27 update | §H added | decisions codified | Sprint α merged + Spore Moderate shipped + 3 decisioni user closed |
+
+## §G — REALITY CHECK 2026-04-27 sera (audit empirico A+D+E)
+
+> Audit empirico pre-execution A+D+E ha rivelato che **molti target sono già shipped o bloccati**. Doc §B-§C era stale post wave 32 PR cross-PC. Sprint α successivo (PR #1914) ha shippato 3 residual non-blocked. Spore Moderate β è stato shippato autonomamente da altro PC (PR #1913+#1915+#1916).
+
+### §G.1 — Status engine (Opzione D) — **SHIPPED 100%**
+
+Audit verifica `apps/backend/services/combat/statusModifiers.js` full-feature wired:
+- ✅ 7 status (linked/fed/attuned/sensed/telepatic_link/frenzy/healing)
+- ✅ `computeStatusModifiers` chiamato in `session.js:402` con delta + revert
+- ✅ `evaluateStatusTraits` produce `status_applies[]` → scrive `unit.status[stato]`
+- ✅ `applyTurnRegen` chiamato in entrambi path (sequential + round bridge)
+- ✅ 24/24 test verde (statusModifiers + statusExtension)
+
+I 68 ancestor consumers dichiarati silent dal deep-analysis 2026-04-26 sono **fully consumed**.
+
+### §G.2 — Polish hour (Opzione A) — **SHIPPED Sprint α PR #1914**
+
+3 residual chiusi:
+- ✅ **A1 SG +1 starter tutorial** (`session.js`)
+- ✅ **A2 Reward auto-log JSONL** (`rewards.js`)
+- ✅ **E2 QBN debrief wire** (`rewardEconomy.js` chiama qbnEngine.drawEvent)
+- ⏸️ A3 (light terrain) + A4 (ADR retry) skipped — feature richiede engine extension / no drift detectable
+
+### §G.3 — β Spore Moderate — **SHIPPED 100% autonomously**
+
+PR mergiati altro PC:
+- ✅ **#1913** Spore S1 schema (body_slot + derived_ability_id + mp_cost lock)
+- ✅ **#1915** Spore S2+S3+S6 runtime engine (slot/mp/bingo)
+- ✅ **#1916** Spore S3+S6 polish (MP pool tracker + archetype hydration)
+
+**Pillar P2 Evoluzione → 🟢 candidato definitivo** (era 🟡++).
+
+### §G.4 — Surface-DEAD sweep (Opzione E) — **wave UI 5 PR shipped + Gate 5 DoD policy**
+
+PR mergiati altro PC durante wave UI:
+- ✅ **#1904** Gate 5 DoD policy (anti-pattern Surface-DEAD codified come policy permanente)
+- ✅ **#1905** Y1 design rebrand (Gris palette + HLD glyph + Pentiment font)
+- ✅ **#1906** Y2 StS damage forecast + HP critico pulse
+- ✅ **#1907** Y3 ITB push/pull arrows
+- ✅ **#1908** Step 3 AI Progress meter frontend wire
+- ✅ **#1911** Lineage tab fix (Sprint D engine wired UI exposed)
+- ✅ **#1912** Backbone online deploy roadmap
+
+**Pillar P1 Tattica → 🟢 definitivo** (era 🟢 candidato).
+
+### §G.5 — Pillar status post merge wave + Sprint α
+
+| # | Pillar | Pre | Post | Delta |
+|---|---|:-:|:-:|---|
+| P1 | Tattica leggibile | 🟢c | **🟢 def** | wave UI 5 PR + Gate 5 DoD policy |
+| P2 | Evoluzione | 🟡++ | **🟢 cand def** | Spore Moderate full shipped |
+| P3 | Specie×Job | 🟡 | 🟡+ | Lineage tab UI exposed (#1911) |
+| P4 | MBTI/Ennea | 🟡++ | 🟡++ | QBN debrief wire (#1914) |
+| P5 | Co-op | 🟢c | 🟢c | M11B-06 playtest userland gate (no change) |
+| P6 | Fairness | 🟡+ | 🟡+ | no change |
+
+**Score**: **1/6 🟢 def** (P1) + **1/6 🟢 cand def** (P2) + **1/6 🟢 cand** (P5) + 3/6 🟡+ (P3/P4/P6).
+
+## §H — DECISIONI CODIFIED 2026-04-27 (post Sprint α + β + wave UI)
+
+### §H.1 — OD-001 V3 Mating: **Path A confirmed**
+
+**User verdict 2026-04-27**: Path A (Activate) è il più completo, già shipped Sprint A→D 4/4 + Lineage tab #1911. Path C (replace job system ~40h breaking) deprecato dalla scoperta tribe-emergent (memory `feedback_tribe_lineage_emergent_breakthrough.md`): tribe **emerge automaticamente** dalla catena Nido→offspring→`lineage_id`, senza layer aggiuntivo.
+
+**Closure formale**: `OPEN_DECISIONS.md` OD-001 status → RISOLTA Path A.
+
+### §H.2 — HUD canonical: **Tactics Ogre overlay-rich + cherry-pick Dead Space hybrid**
+
+**User verdict 2026-04-27**: NON archive Dead Space — hybrid pattern selettivo. Canonical = Tactics Ogre overlay-rich (HP bar floating + AP pip + intent forecast + StS damage forecast tutti shipped). Dead Space layer additivo:
+
+- ✅ **HP critico pulse interno sprite** (Dead Space tint) — già shipped #1906 HP critico pulse animation
+- 🆕 **Holographic projection cone per AOE** — `TKT-UI-DEAD-SPACE-HOLOGRAPHIC-AOE-CONE` (~5h proposed)
+- 🆕 **HP sprite tint additive** (precise bar + emozionale tint) — `TKT-UI-DEAD-SPACE-HP-SPRITE-TINT` (~2h proposed, partial overlap #1906)
+
+Combina: precise (Tactics Ogre bar) + emozionale (Dead Space tint) = layered feedback. Museum card M-2026-04-27-002 aggiornata con "Decision codified" section.
+
+### §H.3 — CoQ morphotype: **Soft bias confirmed**
+
+**User verdict 2026-04-27**: soft bias (default V1 onboarding 60s shipped PR #1726). Mutazione della stessa "category" della MBTI personality scelta appare **2× più frequente** in `rewardOffer.js` softmax (NON exclusive — preserva flessibilità). Hard gate **DEFER post-playtest live** — riconsiderato solo se players SI bloccano in soft bias durante TKT-M11B-06.
+
+**Cross-impact Spore S6 bingo** (just shipped): con soft bias, bingo bonus diventa **discovery emergente** (più reward design vs trivial garantito hard gate). Museum card M-2026-04-27-007 aggiornata con "DECISION CODIFIED" section.
 
 ---
 
-## §E — DECISIONI RICHIESTE master-dd
+## §E — DECISIONI RICHIESTE master-dd (legacy — vedi §H per closure 2026-04-27)
 
-1. **Quale path attivare?** A+D+F (polish demo) / C (P2 closure) / E (surface sweep)
-2. **Spore extraction Moderate confermato?** ~21h, ADR `2026-04-26-spore-part-pack-slots.md` da scrivere prima
-3. **OD-001 V3 Mating verdict?** (Path A/B/C) — bloccante CK3 DNA chains + Sprint C↔D adapter gap (~2h)
+1. ~~Quale path attivare?~~ ✅ closed: Sprint α (A+E residuals) + β Spore Moderate auto-shipped altro PC
+2. ~~Spore extraction Moderate confermato?~~ ✅ shipped #1913+#1915+#1916
+3. ~~OD-001 V3 Mating verdict?~~ ✅ Path A confirmed (§H.1)
 4. **Tier B Quick wins (~13h)** raccomandati come parallelo? Cogmind tooltip + Isaac Anomaly + FF7R critical juice
 5. **Tier E Quick wins (~10-15h)** raccomandati post path scelto? Stockfish SPRT + DuckDB + LLM-as-critic
-6. **Engine LIVE Surface DEAD sweep** è la prima cosa da fissare nel DoD policy?
+6. ~~Engine LIVE Surface DEAD sweep~~ ✅ codified Gate 5 DoD policy #1904
 
 ---
 
-_Doc generato 2026-04-27 da claude-code dopo absorption massiccia + deep extraction pass 2. Ready per decision call._
+_Doc generato 2026-04-27 da claude-code dopo absorption massiccia + deep extraction pass 2. §G+§H added 2026-04-27 sera/notte post wave Spore Moderate auto-shipped altro PC + 3 decisioni user closed._

@@ -112,10 +112,21 @@ Tension diegetic-vs-overlay: Dead Space contrario (no overlay), Tactics Ogre = o
 - Tactics Ogre Reborn (Square Enix 2022) — re-release Tactics Ogre Let Us Cling Together (1995), lead Yasumi Matsuno
 - Stato arte: [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md`](../../reports/2026-04-27-stato-arte-completo-vertical-slice.md) §B.1.2
 
+## Decision codified 2026-04-27
+
+**HUD canonical = Tactics Ogre overlay-rich** (no archive Dead Space). Hybrid approach selettivo:
+
+- ✅ **Tactics Ogre base layer**: HP bar floating sopra sprite + AP pip + intent forecast + StS damage forecast (tutti shipped o in-flight)
+- ✅ **Dead Space additive layer** (cherry-pick 2 pattern compatibili):
+  - **HP critico pulse interno sprite** (low HP = pulsing red tint del body) — già shipped #1906 HP critico pulse animation
+  - **Holographic projection cone** per AOE ability targeting — diegetic stretch goal (~5h) per AOE telegraph
+
+**Combina**: precise (Tactics Ogre bar) + emozionale (Dead Space tint) = layered feedback. NON scegli uno O l'altro.
+
 ## Risks / open questions
 
 - **Breaking change cosmetic**: HP floating refactor rompe screenshot snapshot test esistenti. Update + flag transition.
-- **Conflict Dead Space diegetic UI** (M-2026-04-27-008): Tactics Ogre = overlay-rich, Dead Space = zero overlay. Design call needed se entrambi adottati.
+- ~~Conflict Dead Space diegetic UI~~ ✅ **risolta 2026-04-27**: hybrid pattern — vedi Decision codified sopra.
 - **Auto-battle UX**: rischio sostituire decisioni player se troppo accessibile. Limit to "boss escape" / "trivial cleanup" scenarios.
 - **Charm recruit balance**: troppo recruit boss abundance → power creep. Cap 1 boss recruited per campaign.
 

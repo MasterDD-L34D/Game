@@ -85,11 +85,12 @@ Tier A matrix #6-9 mappa cluster "Mutation/Genetics" come donor canonical P2 mul
 2. `progressionEngine.js computeMutationBingo(unit, catalog)` — if 3+ same category → bonus passive (es. 3× physiological → tank_plus +1 DR)
 3. UI: estendi `formsPanel.js` con mutation grid pannello (clone form pattern)
 
-**CoQ morphotype** (~6h):
+**CoQ morphotype — DECISION CODIFIED 2026-04-27 → Soft bias** (~6h):
 
-1. Field `morphotype_pool: [physiological|behavioral|cognitive|...]` su mutation YAML, default empty = universal
-2. Char creation: select 1 morphotype → filter pool in `mutationOffer.js` (V3)
-3. Decision blocking: hard gate (CoQ) vs soft bias (V1 onboarding 60s current). Default raccomandato: soft bias.
+1. Field `morphotype_bias: [physiological|behavioral|cognitive|...]` su mutation YAML (default empty = universal)
+2. Char creation: select 1 MBTI personality → mutation della stessa "category" appaiono **2× più frequenti** in `rewardOffer.js` softmax (NON exclusive — preserva flessibilità)
+3. **Verdict definitivo**: soft bias (allinea V1 onboarding 60s shipped PR #1726). Hard gate **DEFER post-playtest live** — riconsiderato solo se players SI bloccano in soft bias durante TKT-M11B-06.
+4. **Cross-impact Spore S6 bingo**: con soft bias, bingo bonus diventa **discovery emergente** (più reward design vs trivial garantito hard gate).
 
 ### Full — Stack canonical 4-source (~30h, blocked OD-001)
 
@@ -114,7 +115,7 @@ Tier A matrix #6-9 mappa cluster "Mutation/Genetics" come donor canonical P2 mul
 ## Risks / open questions
 
 - **Catalog imbalance**: 14/30 mutations physiological → bingo a 3 quasi garantito per ogni build. Authoring debt: balanciare catalog 7-8 mutation per categoria.
-- **Morphotype hard gate vs soft bias**: decision pending. Default soft bias preserva V1 onboarding pattern.
+- ~~**Morphotype hard gate vs soft bias**~~ ✅ **risolta 2026-04-27**: soft bias confermato (allinea V1 onboarding 60s shipped). Vedi sezione "DECISION CODIFIED" sopra.
 - **CK3 blocked OD-001**: V3 Mating verdict pending. geneEncoder.js può proceedere standalone come preparazione.
 - **MHS bingo balance**: bingo bonus tier proportional o flat? +1 stat conservative; più amplifica meta dominante.
 
