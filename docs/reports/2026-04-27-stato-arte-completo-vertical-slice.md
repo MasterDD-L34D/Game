@@ -314,11 +314,11 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 | 6 | MAP-Elites Quality-Diversity engine | algorithm | Full ~12-15h | 🟡 spec |
 | 7 | MCTS smart playout AI Sistema | algorithm | Full ~15-20h | 🔴 |
 | 8 | LLM-as-critic balance loop auto | methodology | Min ~4-6h | **quick win** |
-| 9 | Tufte sparklines + small multiples HTML dashboard | viz | Min ~6-8h | 🔴 |
+| 9 | Tufte sparklines + small multiples HTML dashboard | viz | Min ~6-8h | 🟢 **Sprint 5 §I shipped** (`tools/py/sparkline_dashboard.py` — 5 metric card + win/duration/kills sparkline + funnel table + 8 unit test) |
 | 10 | Grafana ops monitoring | tooling | Full ~10-12h | 🔴 (blocked dep) |
 | 11 | Riot/Valorant analytics 4 viz canonical | industry | Full ~15-20h | 🔴 |
 | 12 | deck.gl hex WebGL replay analyzer | library | Full ~12h | 🔴 (blocked Mission Console source) |
-| 13 | DuckDB JSONL pipelines analytics | tooling | Min ~3-5h | **quick win** |
+| 13 | DuckDB JSONL pipelines analytics | tooling | Min ~3-5h | 🟢 **Sprint 5 §II expanded** (analyze_telemetry.py +4 query: mbti_distribution + archetype_pickrate + kill_chain_assists + biome_difficulty) |
 | 14 | Machinations.io 4 modelli build | tooling | Min ~8-10h | 🟡 spec |
 
 **Tier E Quick wins ≤5h**: Stockfish SPRT + LLM-as-critic + DuckDB JSONL = **~10-15h totali = 3 patterns**.

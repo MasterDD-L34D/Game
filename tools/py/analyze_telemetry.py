@@ -14,6 +14,10 @@ Available queries (--query):
     reward_skip_rate    — % reward_skip vs reward_offer events
     kill_heatmap        — kill events count per encounter
     retention_d1d7      — D1/D7 retention placeholder (player_id required)
+    mbti_distribution   — MBTI type distribution + win rate per type (Sprint 5 §II)
+    archetype_pickrate  — archetype pick vs skip rates (Sprint 5 §II)
+    kill_chain_assists  — top killers + K/A ratio (Sprint 5 §II)
+    biome_difficulty    — biome win rate + avg duration + avg kills (Sprint 5 §II)
 
 Output (--out):
     json (default)      — single JSON to stdout
@@ -84,6 +88,57 @@ QUERIES = {
             COUNT(DISTINCT player_id) FILTER (WHERE ts > NOW() - INTERVAL 7 DAY) AS d7
         FROM read_json('{path}', format='newline_delimited')
         WHERE player_id IS NOT NULL
+    """,
+    # Sprint 5 §II (2026-04-27) — DuckDB query expansion (Tier E #13).
+    "mbti_distribution": """
+        SELECT
+            COALESCE(payload->>'mbti_type', 'unknown') AS mbti_type,
+            COUNT(*) AS sessions,
+            ROUND(100.0 * COUNT(*) FILTER (WHERE payload->>'outcome' = 'victory')
+                  / NULLIF(COUNT(*), 0), 1) AS win_pct
+        FROM read_json('{path}', format='newline_delimited')
+        WHERE type = 'session_complete'
+        GROUP BY mbti_type
+        ORDER BY sessions DESC
+    """,
+    "archetype_pickrate": """
+        SELECT
+            COALESCE(payload->>'archetype', 'unknown') AS archetype,
+            COUNT(*) FILTER (WHERE type = 'archetype_picked') AS picks,
+            COUNT(*) FILTER (WHERE type = 'archetype_skipped') AS skips,
+            ROUND(100.0 * COUNT(*) FILTER (WHERE type = 'archetype_picked')
+                  / NULLIF(COUNT(*) FILTER (WHERE type IN ('archetype_picked', 'archetype_skipped')), 0), 1) AS pick_pct
+        FROM read_json('{path}', format='newline_delimited')
+        WHERE type IN ('archetype_picked', 'archetype_skipped')
+        GROUP BY archetype
+        ORDER BY picks DESC
+        LIMIT 20
+    """,
+    "kill_chain_assists": """
+        SELECT
+            COALESCE(payload->>'killer_id', 'unknown') AS killer,
+            COUNT(*) FILTER (WHERE type = 'kill') AS kills,
+            COUNT(*) FILTER (WHERE type = 'assist') AS assists,
+            ROUND(1.0 * COUNT(*) FILTER (WHERE type = 'kill')
+                  / NULLIF(COUNT(*) FILTER (WHERE type = 'assist'), 0), 2) AS k_per_a
+        FROM read_json('{path}', format='newline_delimited')
+        WHERE type IN ('kill', 'assist')
+        GROUP BY killer
+        ORDER BY kills DESC
+        LIMIT 25
+    """,
+    "biome_difficulty": """
+        SELECT
+            COALESCE(payload->>'biome_id', 'unknown') AS biome,
+            COUNT(*) AS sessions,
+            ROUND(100.0 * COUNT(*) FILTER (WHERE payload->>'outcome' = 'victory')
+                  / NULLIF(COUNT(*), 0), 1) AS win_pct,
+            ROUND(AVG(CAST(payload->>'duration_s' AS INTEGER)), 1) AS avg_duration_s,
+            ROUND(AVG(CAST(payload->>'kills' AS INTEGER)), 1) AS avg_kills
+        FROM read_json('{path}', format='newline_delimited')
+        WHERE type = 'session_complete'
+        GROUP BY biome
+        ORDER BY sessions DESC
     """,
 }
 
