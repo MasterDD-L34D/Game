@@ -8,8 +8,13 @@
 #
 # Regola di design (§11.1): ogni job ha 1 fantasy flavor, 2 R1 unlock,
 # 1 R2 unlock, clear PI costs, PT/PP/SG usage dichiarato.
+#
+# Sprint 8 2026-04-27 — Ability r3/r4 tier progressive (AncientBeast Tier S #6
+# residuo final closure). Cost ladder canonical: r1=3 / r2=8 / r3=14 / r4=22 PI.
+# Ogni job aggiunge 2 ability nuove: r3 (mid-tier upgrade) + r4 (capstone). Tutte
+# usano effect_type esistenti (18/18 abilityExecutor) — zero nuovi runtime types.
 
-version: "0.1.0"
+version: "0.2.0"
 
 jobs:
   skirmisher:
@@ -70,6 +75,36 @@ jobs:
         pp_per_hit: 1
         target: enemy
         rank: 2
+      unlock_r3:
+        ability_id: phantom_step
+        name_it: "Passo Fantasma"
+        description_it: "Muove di 3 celle ignorando reazioni overwatch e attacca con +1 damage_step. Buff +2 attack_mod per 1 turno post-attacco."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pp: 5
+        effect_type: move_attack
+        move_distance: 3
+        damage_step_mod: 1
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 1
+        ignore_overwatch: true
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: dervish_whirlwind
+        name_it: "Vortice del Derviscio"
+        description_it: "Capstone Tier 4. 4 attacchi rapidi a -1 damage_step. Ogni hit genera +2 PP e applica bleeding (2T) se MoS >= 4. Consuma PP >= 10."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pp: 10
+        effect_type: multi_attack
+        attack_count: 4
+        damage_step_mod: -1
+        pp_per_hit: 2
+        conditional_status: { condition: "mos >= 4", status_id: bleeding, duration: 2 }
+        target: enemy
+        rank: 4
 
   vanguard:
     id: vanguard
@@ -129,6 +164,37 @@ jobs:
         immobilize: true
         target: self
         rank: 2
+      unlock_r3:
+        ability_id: aegis_stance
+        name_it: "Postura dell'Egida"
+        description_it: "Tier 3 buff prolungato. +5 armor e +3 defense_mod per 3 turni. Consumo 5 PT. Si muove ma a -1 movement."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 5
+        effect_type: buff
+        buff_stat: armor
+        buff_amount: 5
+        buff_duration: 3
+        buff_stat_2: defense_mod
+        buff_amount_2: 3
+        movement_penalty: -1
+        target: self
+        rank: 3
+      unlock_r4:
+        ability_id: bulwark_aegis
+        name_it: "Egida del Baluardo"
+        description_it: "Capstone protettivo. Zona 3x3: alleati ottengono +3 defense_mod e -10% stress per 3 turni. Consumo 8 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 8
+        effect_type: aoe_buff
+        aoe_size: 3
+        buff_stat: defense_mod
+        buff_amount: 3
+        stress_reduction: 0.10
+        buff_duration: 3
+        target: area
+        rank: 4
 
   warden:
     id: warden
@@ -187,6 +253,36 @@ jobs:
         buff_duration: 3
         target: area
         rank: 2
+      unlock_r3:
+        ability_id: chain_shackles
+        name_it: "Catene Vincolanti"
+        description_it: "Zona 3x3 a range 2. Nemici dentro: -3 movement per 3 turni. Consumo 5 PT."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 5
+        effect_type: aoe_debuff
+        aoe_size: 3
+        range: 2
+        debuff_stat: movement
+        debuff_amount: -3
+        debuff_duration: 3
+        target: area
+        rank: 3
+      unlock_r4:
+        ability_id: void_collapse
+        name_it: "Collasso del Vuoto"
+        description_it: "Capstone controllo zona. AoE 4x4 a range 3. Nemici: -3 defense_mod per 3 turni. Consumo 10 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 10
+        effect_type: aoe_debuff
+        aoe_size: 4
+        range: 3
+        debuff_stat: defense_mod
+        debuff_amount: -3
+        debuff_duration: 3
+        target: area
+        rank: 4
 
   artificer:
     id: artificer
@@ -246,6 +342,34 @@ jobs:
         range: 3
         target: all_allies
         rank: 2
+      unlock_r3:
+        ability_id: arcane_renewal
+        name_it: "Rinnovamento Arcano"
+        description_it: "Tutti gli alleati in range 3: cura 2d6+2 HP + genera 1 Seed. Consuma 5 PP."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pp: 5
+        effect_type: team_heal
+        heal_dice: { count: 2, sides: 6, modifier: 2 }
+        seed_gain: 1
+        range: 3
+        target: all_allies
+        rank: 3
+      unlock_r4:
+        ability_id: convergence_wave
+        name_it: "Onda di Convergenza"
+        description_it: "Capstone supporto. Tutti gli alleati in range 4: +2 attack_mod e +2 damage_step per 2 turni + 3 PP istantanei. Consuma 10 PP propri."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pp: 10
+        effect_type: team_buff
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 2
+        pp_grant: 3
+        range: 4
+        target: all_allies
+        rank: 4
 
   invoker:
     id: invoker
@@ -302,6 +426,33 @@ jobs:
         stress_reset: 0.25
         target: area
         rank: 2
+      unlock_r3:
+        ability_id: arcane_lance
+        name_it: "Lancia Arcana"
+        description_it: "Attacco a range 4 con +3 damage_step. Se MoS >= 8, applica disorient (2 turni). Consumo 40 SG."
+        cost_ap: 2
+        cost_pi: 14
+        cost_sg: 40
+        effect_type: ranged_attack
+        damage_step_mod: 3
+        range: 4
+        conditional_status: { condition: "mos >= 8", status_id: disorient, duration: 2 }
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: apocalypse_ray
+        name_it: "Raggio Apocalittico"
+        description_it: "Capstone Surge ultimate. AoE 3x3 a range 4. 3d8+5 danno. Richiede SG >= 100. Reset stress a 0. Consuma tutto SG."
+        cost_ap: 3
+        cost_pi: 22
+        cost_sg: 100
+        effect_type: surge_aoe
+        damage_dice: { count: 3, sides: 8, modifier: 5 }
+        aoe_size: 3
+        range: 4
+        stress_reset: 0.0
+        target: area
+        rank: 4
 
   ranger:
     id: ranger
@@ -358,6 +509,37 @@ jobs:
         execute_damage_multiplier: 2
         target: enemy
         rank: 2
+      unlock_r3:
+        ability_id: hunter_mark
+        name_it: "Marchio del Cacciatore"
+        description_it: "Marca il bersaglio: -2 defense_mod e team +2 attack_mod contro di lui per 3 turni. Range 4. Consuma 5 PP."
+        cost_ap: 1
+        cost_pi: 14
+        cost_pp: 5
+        effect_type: debuff
+        range: 4
+        debuff_stat: defense_mod
+        debuff_amount: -2
+        debuff_duration: 3
+        team_bonus: { stat: attack_mod, amount: 2 }
+        extend_status_if_present: 1
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: headshot
+        name_it: "Colpo alla Testa"
+        description_it: "Capstone esecuzione. Attacco singolo a range 4 con +5 damage_step. Se target HP < 50%, danno raddoppiato. Se MoS >= 6, applica stunned (1T). Consuma 12 PP."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pp: 12
+        effect_type: execution_attack
+        damage_step_mod: 5
+        range: 4
+        execute_threshold_hp_pct: 0.5
+        execute_damage_multiplier: 2
+        conditional_status: { condition: "mos >= 6", status_id: stunned, duration: 1 }
+        target: enemy
+        rank: 4
 
   harvester:
     id: harvester
@@ -414,3 +596,29 @@ jobs:
         range: 2
         target: all_allies
         rank: 2
+      unlock_r3:
+        ability_id: vital_drain
+        name_it: "Drenaggio Vitale"
+        description_it: "Attacco mischia che cura per 75% del danno inflitto. +2 Seed. Consumo 4 PT."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 4
+        effect_type: drain_attack
+        lifesteal_pct: 75
+        seed_gain: 2
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: lifegrove
+        name_it: "Boschetto Vitale"
+        description_it: "Capstone supporto vitale. Tutti gli alleati in range 3: cura 3d6 HP + genera 2 Seed + rimuove bleeding. Consuma 10 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 10
+        effect_type: team_heal
+        heal_dice: { count: 3, sides: 6, modifier: 0 }
+        seed_gain: 2
+        range: 3
+        remove_status: bleeding
+        target: all_allies
+        rank: 4

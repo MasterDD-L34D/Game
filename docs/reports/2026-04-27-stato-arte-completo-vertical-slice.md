@@ -232,12 +232,12 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Replay file deterministic /api/session/:id/replay** (~8h) — seed + actions log + ricostruzione.
 - 🔴 **Era system pack-as-era lobby UI** (~4h cosmetic).
 
-#### B.1.5 — AncientBeast (4 pattern, 1 residuo)
+#### B.1.5 — AncientBeast (4 pattern, **0 residui** — Tier S #6 closure 4/4 100%)
 - 🟢 **Beast Bond reaction trigger** — 2 implementazioni complementari shipped:
   - **Pair-bond defensive reaction** (Sprint 7, PR #1971): `creature_bonds.yaml` 6 bond canonical + AJV schema + `bondReactionTrigger.js` + `counter_attack`/`shield_ally` types + 19 test + ADR-2026-04-27 + numeric-reference §11. Hook performAttack post intercept, mutually exclusive con M2 reactionEngine. Trigger: target HIT.
   - **Trait-bond offensive sustain** (PR #1965 successor): `apps/backend/services/combat/beastBondReaction.js` + schema field `triggers_on_ally_attack` in `active_effects.yaml` + 3 trait `legame_di_branco`/`spirito_combattivo`/`pack_tactics` + wire performAttack read-only check + sessionRoundBridge mutation post-sync + raw event `beast_bond_triggered` + 20 test + 5 species catalog adoption. Trigger: actor ATTACK (any hit/miss). Effetto: stat buff atk_mod/def_mod via status[*_buff] decay.
 - 🟢 **3 nuovi elementi** (earth/wind/dark) — Sprint 6 shipped (PR #1964: species_resistances.yaml v0.2.0 8→11 channel + 6 ability nuove + 10 test resistanceEngine + numeric-reference §10. Invariant 6×5 matrix no outlier > 2× / < 0.5×).
-- 🔴 **Ability r3/r4 tier** (~10h) — estende `abilities.yaml` r1/r2 esistente.
+- 🟢 **Ability r3/r4 tier** — Sprint 8 shipped (jobs.yaml v0.2.0 21→35 base ability + cost ladder canonical 3/8/14/22 PI + 14 ability nuove (2/job) tutti usano 18/18 effect_type esistenti zero runtime change + 5 test nuovi cost ladder + naming uniqueness + version bump + ADR-2026-04-27-ability-r3-r4-tier + numeric-reference §12). Pillar P3 🟢c++ → 🟢ⁿ.
 - 🟢 **Beast Showcase wiki cross-link** — Sprint 3 §II shipped (wikiLinkBridge service + 3 REST endpoint + audit coverage report + 10 unit test).
 
 #### B.1.6 — XCOM EW (1 pattern residuo)
@@ -391,6 +391,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
     ├─ Cogmind tooltip stratificati trait (🔴 4-6h)       ← B.3 #3
     ├─ FF7R critical hit juice (🔴 3-5h)                  ← B.3 #12
     ├─ Beast Bond reaction trigger adjacency (✅ pair-bond #1971 + trait-bond) ← B.1.5
+    ├─ Ability r3/r4 tier progressive (✅ Sprint 8)        ← B.1.5
     ├─ Defender's advantage AI (🔴 3h)                    ← B.1.9
     ├─ Squad focus_fire combo (✅)
     ├─ Reinforcement spawner + biome bias (✅ M-018)
