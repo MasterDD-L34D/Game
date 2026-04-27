@@ -328,6 +328,34 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 sera — Spore Moderate FULL + Recovery + Bundle B Indie Quick-Wins)
+
+**Sessione 2026-04-27 sera (continuazione)**: 18 PR mergiati main (Spore S1-S6 stack + lifecycle + UI QW-1/2/3 + recovery 6 deliverables persi + classification + 12 museum cards + Bundle B 4 indie quick-wins).
+
+**Highlights**:
+
+- **P2 Evoluzione 🟡++ → 🟢 def**: Spore Moderate FULL stack chiuso (S1+S2+S3+S5+S6 + lifecycle hooks + 3 UI surfaces). Player loop completo: encounter→MP→mutation pick→ability emerge→archetype passive→cross-gen inherit.
+- **Recovery 6 deliverables persi**: 5 indie research docs (~1370 LOC) + RANKED report (312 LOC) mai-committed → rigenerati PR #1926 + #1927.
+- **Museum +12 cards**: Dublin-Core M-019→M-031 (3×4/5 + 7×3/5 + 2×2/5). Total 19→31.
+- **Bundle B Indie Quick-Wins** (4 patterns ~16h): Citizen Sleeper drift briefing (P4) + Wildfrost counter HUD (P1) + TBW Undo libero (P1) + Tunic decipher Codex pages session-scope (cross). Test +28.
+- **Conflict resolved**: cross-PC race con #1931 Tunic glyph progression — merged campaign-scope + session-scope endpoints in unified codex router.
+
+**Pillar score finale 2026-04-27 sera**: **3/6 🟢 def** (P1++ + P2 + P4 candidato) + 1/6 🟢 cand (P5) + 2/6 🟡+/++ (P3 P6).
+
+**Handoff**: [`docs/planning/2026-04-27-bundle-b-recovery-handoff.md`](docs/planning/2026-04-27-bundle-b-recovery-handoff.md).
+
+**Lessons codified**:
+
+- Untracked file → `git add` immediato anche WIP
+- Background agent + branch ops → isolation worktree raccomandato
+- Audit forensic post-cleanup mandatory
+
+**Decisioni master-dd pendenti** (sblocca next sprint): D3 permadeath, D4 writer budget, D5 mini-map, TKT-09 ai_intent, TKT-M11B-06 playtest live.
+
+**Next session candidati**: A) Resolver adapter+alpha consumption (~3-5h, S6 100%), B) Mutation catalog rebalance (~3-4h, fix bingo physiological dominance), C) Decisioni user, D) Playtest live.
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 — cross-PC absorption + deep extraction pass 2 + 73 pattern residui catalogati)
 
 **Sessione 2026-04-27** (master-dd + Claude): absorption massiccia da origin/main (32 PR mergiati 2026-04-26/27 cross-PC) + seconda passata estrattiva profonda sui 5 cross-game extraction matrix doc + audit 5 nuovi backend services + sintesi v3.7.
