@@ -1140,3 +1140,242 @@ export function needsAnimFrame() {
 }
 
 export const CELL_SIZE = CELL;
+
+// =============================================================================
+// Sprint β Visual UX 2026-04-28 — strategy games extraction (Civ VI + Frostpunk
+// + Phoenix Point patterns). 3 helper esposti per render layer + test puri.
+// =============================================================================
+
+// Civ VI 3-tier tooltip stratificato.
+// Tier 1 @ 300ms (icon + name) → "what".
+// Tier 2 @ 800ms (stats panel)  → "numbers".
+// Tier 3 @ 1500ms (lore + flavor) → "why care".
+export const TOOLTIP_TIER_DELAYS = {
+  tier1: 300,
+  tier2: 800,
+  tier3: 1500,
+};
+
+/**
+ * Pure: dato hover elapsed ms, ritorna il tier max visibile.
+ * @param {number} elapsedMs
+ * @returns {0|1|2|3} tier corrente (0 = nothing, 3 = full)
+ */
+export function tooltipTierForElapsed(elapsedMs) {
+  if (!Number.isFinite(elapsedMs) || elapsedMs < TOOLTIP_TIER_DELAYS.tier1) return 0;
+  if (elapsedMs < TOOLTIP_TIER_DELAYS.tier2) return 1;
+  if (elapsedMs < TOOLTIP_TIER_DELAYS.tier3) return 2;
+  return 3;
+}
+
+/**
+ * Pure: build tooltip data per tier corrente (consumato da DOM layer).
+ * @param {object} unit
+ * @param {number} tier  0-3
+ * @returns {{tier:number, name?:string, icon?:string, stats?:object, lore?:string}}
+ */
+export function buildTooltipData(unit, tier) {
+  if (!unit || tier <= 0) return { tier: 0 };
+  const out = { tier };
+  if (tier >= 1) {
+    out.name = unit.label || unit.id || '?';
+    out.icon = unit.icon || '◆';
+  }
+  if (tier >= 2) {
+    out.stats = {
+      hp: unit.hp ?? null,
+      hp_max: unit.hp_max ?? null,
+      ap: unit.ap ?? null,
+      attack: unit.attack ?? null,
+      defense: unit.defense ?? null,
+    };
+  }
+  if (tier >= 3) {
+    out.lore = unit.flavor || unit.lore || unit.species_label_it || '';
+  }
+  return out;
+}
+
+// =============================================================================
+// Frostpunk chromatic tension gauge (linked a Gris pressure tier palette).
+// Pressure 0..100 → cool blue (#3a4a8c) → warm red (#a83232) gradient.
+// Vignette alpha 0.0 (calm) → 0.4 (apex).
+// =============================================================================
+
+/**
+ * Pure: interpolate 2 hex colors via linear blend.
+ * @param {string} hexA  "#rrggbb"
+ * @param {string} hexB
+ * @param {number} t  0..1
+ * @returns {string} blended hex
+ */
+function lerpHex(hexA, hexB, t) {
+  const clamp = Math.max(0, Math.min(1, t));
+  const a = hexToRgb(hexA);
+  const b = hexToRgb(hexB);
+  const r = Math.round(a.r + (b.r - a.r) * clamp);
+  const g = Math.round(a.g + (b.g - a.g) * clamp);
+  const bl = Math.round(a.b + (b.b - a.b) * clamp);
+  return `#${[r, g, bl].map((x) => x.toString(16).padStart(2, '0')).join('')}`;
+}
+
+function hexToRgb(hex) {
+  const clean = String(hex || '').replace('#', '');
+  if (clean.length !== 6) return { r: 0, g: 0, b: 0 };
+  return {
+    r: parseInt(clean.slice(0, 2), 16),
+    g: parseInt(clean.slice(2, 4), 16),
+    b: parseInt(clean.slice(4, 6), 16),
+  };
+}
+
+const TENSION_COLOR_COLD = '#3a4a8c';
+const TENSION_COLOR_WARM = '#a83232';
+
+/**
+ * Pure: pressure (0..100) → gradient color.
+ * @param {number} pressure
+ * @returns {string} hex color
+ */
+export function tensionGaugeColor(pressure) {
+  const p = Math.max(0, Math.min(100, Number(pressure) || 0));
+  return lerpHex(TENSION_COLOR_COLD, TENSION_COLOR_WARM, p / 100);
+}
+
+/**
+ * Pure: pressure (0..100) → vignette alpha (0.0..0.4).
+ * Soglie: 0-30 calm (alpha 0.0..0.05), 30-60 alert (..0.15),
+ *         60-85 critical (..0.28), 85-100 apex (..0.4).
+ * @param {number} pressure
+ * @returns {number} alpha 0..0.4
+ */
+export function tensionVignetteAlpha(pressure) {
+  const p = Math.max(0, Math.min(100, Number(pressure) || 0));
+  // Smooth curve quadratic per ambient feel (no jump).
+  const t = p / 100;
+  return Math.round(t * t * 0.4 * 1000) / 1000;
+}
+
+/**
+ * Render-side: draw vignette overlay + gauge bar on canvas.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number} canvasW
+ * @param {number} canvasH
+ * @param {number} pressure  0..100
+ */
+export function drawTensionGauge(ctx, canvasW, canvasH, pressure) {
+  const alpha = tensionVignetteAlpha(pressure);
+  if (alpha <= 0.001) return;
+  const color = tensionGaugeColor(pressure);
+  ctx.save();
+  // Radial vignette (corners darker → centro pulito).
+  const gradient = ctx.createRadialGradient(
+    canvasW / 2,
+    canvasH / 2,
+    Math.min(canvasW, canvasH) * 0.3,
+    canvasW / 2,
+    canvasH / 2,
+    Math.max(canvasW, canvasH) * 0.7,
+  );
+  gradient.addColorStop(0, 'rgba(0,0,0,0)');
+  const rgb = hexToRgb(color);
+  gradient.addColorStop(1, `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha})`);
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvasW, canvasH);
+  ctx.restore();
+}
+
+// =============================================================================
+// Phoenix Point free-aim body-part overlay.
+// 3 zone: head 25% top, torso 50% mid, legs 25% bottom.
+// Hit % deterministic da unit baseline + streak bonus opzionale.
+// =============================================================================
+
+/**
+ * Pure: compute hit % distribution per zona body-part.
+ * Default: head 30% (high-risk high-reward), torso 55% (default), legs 15%.
+ * Streak bonus (Sprint α pseudoRng) modifica head bias di +5pp per streak ≥2.
+ * @param {object} [opts]
+ * @param {number} [opts.streak=0]  - consecutive hits/misses streak (Sprint α)
+ * @param {number} [opts.attackRating=50]  - 0..100 attack rating (info)
+ * @returns {{head:number, torso:number, legs:number}}
+ */
+export function bodyPartHitPercent(opts = {}) {
+  const streak = Number(opts.streak) || 0;
+  let head = 30;
+  let torso = 55;
+  let legs = 15;
+  if (streak >= 2) {
+    head += 5;
+    torso -= 3;
+    legs -= 2;
+  }
+  if (streak >= 4) {
+    head += 5;
+    torso -= 3;
+    legs -= 2;
+  }
+  // Clamp + round + normalize sum to 100
+  head = Math.max(0, Math.min(100, head));
+  torso = Math.max(0, Math.min(100, torso));
+  legs = Math.max(0, Math.min(100, legs));
+  const sum = head + torso + legs;
+  if (sum !== 100 && sum > 0) {
+    const scale = 100 / sum;
+    head = Math.round(head * scale);
+    torso = Math.round(torso * scale);
+    legs = 100 - head - torso;
+  }
+  return { head, torso, legs };
+}
+
+/**
+ * Pure: bounding boxes 3 zone in normalized 0..1 vertical fractions.
+ * Used by render layer to draw colored overlay sopra enemy unit cell.
+ * @returns {{head:[number,number], torso:[number,number], legs:[number,number]}}
+ */
+export function bodyPartZones() {
+  return {
+    head: [0.0, 0.25],
+    torso: [0.25, 0.75],
+    legs: [0.75, 1.0],
+  };
+}
+
+/**
+ * Render-side: draw body-part overlay sopra enemy cell.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number} cellX  game x
+ * @param {number} cellYpx pixel y (top-left corner of cell)
+ * @param {object} percentages  output da bodyPartHitPercent
+ */
+export function drawBodyPartOverlay(ctx, cellX, cellYpx, percentages) {
+  if (!ctx || !percentages) return;
+  const cell = CELL;
+  const zones = bodyPartZones();
+  const px = cellX * cell;
+  const py = cellYpx;
+  const colors = {
+    head: 'rgba(255,80,80,0.45)',
+    torso: 'rgba(255,200,80,0.4)',
+    legs: 'rgba(120,200,255,0.4)',
+  };
+  ctx.save();
+  for (const k of ['head', 'torso', 'legs']) {
+    const [t0, t1] = zones[k];
+    const zy = py + t0 * cell;
+    const zh = (t1 - t0) * cell;
+    ctx.fillStyle = colors[k];
+    ctx.fillRect(px, zy, cell, zh);
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(px + 0.5, zy + 0.5, cell - 1, zh - 1);
+    // Percentage label
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `bold ${Math.max(10, Math.round(cell * 0.16))}px "SF Mono", monospace`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`${percentages[k]}%`, px + cell / 2, zy + zh / 2);
+  }
+  ctx.restore();
+}
