@@ -16,6 +16,7 @@ const {
   checkMpBudget,
   applyMutationPure,
   computeMutationBingo,
+  applyMutationBingoToUnit,
   BINGO_ARCHETYPES,
   BINGO_THRESHOLD,
 } = require('../../apps/backend/services/mutations/mutationEngine');
@@ -246,4 +247,46 @@ test('computeMutationBingo: ignora applied_mutations id non in catalog', () => {
   );
   assert.equal(r.counts.physiological, 1);
   assert.equal(r.archetypes.length, 0);
+});
+
+// ─── applyMutationBingoToUnit (resolver-side hydration) ───────────────────
+
+test('applyMutationBingoToUnit: hydrates _archetype_passives + _archetype_meta', () => {
+  const catalog = freshCatalog();
+  const unit = {
+    id: 'u',
+    applied_mutations: [
+      'artigli_freeze_to_glacier',
+      'ali_panic_to_resonance',
+      'denti_bleed_to_chelate',
+    ],
+  };
+  const r = applyMutationBingoToUnit(unit, catalog);
+  assert.deepEqual(unit._archetype_passives, ['archetype_tank_plus_dr1']);
+  assert.equal(unit._archetype_meta.length, 1);
+  assert.equal(unit._archetype_meta[0].archetype, 'tank_plus');
+  assert.equal(r.passive_tokens.length, 1);
+});
+
+test('applyMutationBingoToUnit: zero bingo → empty arrays', () => {
+  const catalog = freshCatalog();
+  const unit = { id: 'u', applied_mutations: ['artigli_freeze_to_glacier'] };
+  applyMutationBingoToUnit(unit, catalog);
+  assert.deepEqual(unit._archetype_passives, []);
+  assert.deepEqual(unit._archetype_meta, []);
+});
+
+test('applyMutationBingoToUnit: idempotent (overwrite, not append)', () => {
+  const catalog = freshCatalog();
+  const unit = {
+    id: 'u',
+    _archetype_passives: ['stale_token'], // pre-existing stale value
+    applied_mutations: [
+      'artigli_freeze_to_glacier',
+      'ali_panic_to_resonance',
+      'denti_bleed_to_chelate',
+    ],
+  };
+  applyMutationBingoToUnit(unit, catalog);
+  assert.deepEqual(unit._archetype_passives, ['archetype_tank_plus_dr1']);
 });

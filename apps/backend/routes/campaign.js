@@ -208,6 +208,40 @@ function createCampaignRouter(options = {}) {
     }
     const xpGrantsPayload = { xp_grants: xpGrants };
 
+    // Sprint Spore Moderate (ADR-2026-04-26 §S3) — MP grant post-encounter.
+    // Pure compute: ritorna mp_grants array nel response, NON muta unit
+    // (caller frontend è responsabile di apply su roster locale).
+    // Caller può passare encounter_meta { tier, kill_with_status, biome_match }.
+    let mpGrants = [];
+    if (outcome === 'victory' && Array.isArray(survivors) && survivors.length > 0) {
+      try {
+        const { accrueEncounter } = require('../services/mutations/mpTracker');
+        const meta = req.body?.encounter_meta || {};
+        for (const s of survivors) {
+          if (!s || typeof s !== 'object') continue;
+          // Pure shadow unit: don't mutate caller, just compute earned.
+          const shadow = { mp: Number(s.mp || 0), mp_earned_total: 0 };
+          const r = accrueEncounter(shadow, {
+            tier: Number(meta.tier || 1),
+            kill_with_status: Boolean(meta.kill_with_status),
+            biome_affinity_match: Boolean(meta.biome_match),
+          });
+          if (r.earned > 0) {
+            mpGrants.push({
+              unit_id: s.id || null,
+              earned: r.earned,
+              new_pool: r.new_pool,
+              sources: r.sources,
+              capped: r.capped,
+            });
+          }
+        }
+      } catch (err) {
+        mpGrants = [];
+      }
+    }
+    const mpGrantsPayload = { mp_grants: mpGrants };
+
     // Compute next state
     let updated;
     if (outcome !== 'victory') {
@@ -219,6 +253,7 @@ function createCampaignRouter(options = {}) {
         retry: true,
         ...evolveFlags,
         ...xpGrantsPayload,
+        ...mpGrantsPayload,
       });
     }
 
@@ -242,6 +277,7 @@ function createCampaignRouter(options = {}) {
         choice_node: nextEncEntry.choice,
         ...evolveFlags,
         ...xpGrantsPayload,
+        ...mpGrantsPayload,
       });
     }
 
@@ -262,6 +298,7 @@ function createCampaignRouter(options = {}) {
           campaign_completed: true,
           ...evolveFlags,
           ...xpGrantsPayload,
+          ...mpGrantsPayload,
         });
       }
       // Advance to next act
@@ -276,6 +313,7 @@ function createCampaignRouter(options = {}) {
         act_advanced: true,
         ...evolveFlags,
         ...xpGrantsPayload,
+        ...mpGrantsPayload,
       });
     }
 
@@ -286,6 +324,7 @@ function createCampaignRouter(options = {}) {
       next_encounter_id: nextEncEntry.encounter_id,
       ...evolveFlags,
       ...xpGrantsPayload,
+      ...mpGrantsPayload,
     });
   });
 
