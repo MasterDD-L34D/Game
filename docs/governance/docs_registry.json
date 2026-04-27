@@ -6742,6 +6742,19 @@
       "track": "active"
     },
     {
+      "path": "docs/reports/2026-04-27-strategy-research-MASTER-synthesis.md",
+      "title": "Strategy Research MASTER Synthesis — 23 games + 58 patterns + ranked roadmap",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-27",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/reports/Frattura_Abissale_Sinaptica_archivist_final.md",
       "title": "'Frattura Abissale Sinaptica – Step 9 (Archivist, STRICT MODE / SANDBOX)'",
       "doc_status": "generated",
