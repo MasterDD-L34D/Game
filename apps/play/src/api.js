@@ -108,6 +108,12 @@ export const api = {
       body: JSON.stringify({ session_id: sid, auto_resolve: autoResolve }),
     }),
   vc: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/vc`),
+  // Sprint 8 (Surface-DEAD #1): predict_combat hover preview.
+  predict: (sid, actorId, targetId) =>
+    jsonFetch('/api/session/predict', {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid, actor_id: actorId, target_id: targetId }),
+    }),
   thoughts: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts`),
   // Sprint 6 (P4 Disco Tier S #9): explicit aliases + research/forget helpers.
   thoughtsList: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts`),

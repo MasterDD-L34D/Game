@@ -8,8 +8,12 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v11 (post Sprint 7 Disco skill check popup 2026-04-27 — Disco bundle 4/4 shipped)
-- **Ultimo aggiornamento**: 2026-04-27 (Sprint 7 B.1.8 #3 closure — `skillCheckPopup.js` module + main.js wire + 22/22 test + smoke E2E preview validato. Bundle Disco Tier S COMPLETO: #1 PR #1966 + #2 PR #1945 + #3 this sprint + #4 PR #1934.)
+- **Versione compact**: v12 (post Sprint 8 predict_combat hover preview — Surface-DEAD #1 chiuso 2026-04-27)
+- **Ultimo aggiornamento**: 2026-04-27 (Sprint 8 §C.2 Surface-DEAD #1 closure — `predictPreviewOverlay.js` + `api.predict` + main.js mousemove wire + CSS band colors + 22/22 test + smoke E2E live in browser. Status §C.2: 3/8 chiusi.)
+
+## ⚡ TL;DR per ripartire (post Sprint 8 — Surface-DEAD #1 chiuso)
+
+**Sprint 8 autonomous shipped** in continuation: predict_combat hover preview live. Module nuovo `apps/play/src/predictPreviewOverlay.js` (pure `formatPredictionRow` + `colorBandForHit` + async cached `getPrediction`). Wire in `main.js mousemove` quando hover su enemy alive + state.selected è player alive → fetch async + inject `.tt-predict` row in tooltip. CSS `style.css` band colors high/medium/low/unknown. Cache invalidated su nuova sessione. Backend route `/api/session/predict` già LIVE (apps/backend/routes/session.js + sessionHelpers.js predictCombat analytic enumeration). 22/22 test + AI 363/363 zero regression. Smoke E2E preview validato live in browser: `⚔ 60% hit · ~1.4 dmg · 5% crit` band medium injected su hover e_nomad_1 con p_scout selezionato. **Pillar P1 🟢 → 🟢++** (decision aid live). **§C.2 Surface-DEAD: 3/8 chiusi** (#1 Sprint 8 + #2 HP floating M4 P0.2 + #8 Thought Cabinet Sprint 6).
 
 ## ⚡ TL;DR per ripartire (post Sprint 7 — Disco bundle 4/4)
 

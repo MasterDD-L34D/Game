@@ -30,6 +30,11 @@ import { initProgressionPanel, openProgressionPanel } from './progressionPanel.j
 import { initSkivPanel, openSkivPanel } from './skivPanel.js';
 import { initNestHub, openNestHub } from './nestHub.js';
 import { renderSkillCheckPopups } from './skillCheckPopup.js';
+import {
+  formatPredictionRow,
+  getPrediction,
+  clearPredictionCache,
+} from './predictPreviewOverlay.js';
 
 const state = {
   sid: null,
@@ -609,6 +614,48 @@ canvas.addEventListener('mousemove', (ev) => {
   }
   tooltipEl.innerHTML = buildUnitTooltip(unit);
   tooltipEl.dataset.lastUnitId = unit.id;
+  // Sprint 8 (Surface-DEAD #1): hover su nemico con player selezionato →
+  // fetch async predict_combat e inietta prediction row in tooltip.
+  // Caller-side gate: target deve essere alive + faction enemy + state.selected
+  // deve essere player vivo. Cache evita flood backend (1 fetch per tuple).
+  const selected = state.selected
+    ? (state.world.units || []).find((u) => u && u.id === state.selected)
+    : null;
+  if (
+    state.sid &&
+    selected &&
+    selected.controlled_by === 'player' &&
+    Number(selected.hp || 0) > 0 &&
+    unit.controlled_by === 'sistema' &&
+    Number(unit.hp || 0) > 0 &&
+    unit.id !== selected.id
+  ) {
+    const targetId = unit.id;
+    const actorId = selected.id;
+    const sid = state.sid;
+    getPrediction(sid, actorId, targetId, api.predict).then((prediction) => {
+      // Re-check tooltip stato: utente potrebbe aver mossa il mouse altrove.
+      if (
+        !tooltipEl ||
+        tooltipEl.classList.contains('hidden') ||
+        tooltipEl.dataset.lastUnitId !== targetId
+      ) {
+        return;
+      }
+      if (!prediction) return;
+      // Append prediction row a fine tooltip, sopra l'expand-hint.
+      const html = formatPredictionRow(prediction);
+      // Idempotent: rimuove vecchia row prima di inserire (sequential hover same target).
+      const existing = tooltipEl.querySelector('.tt-predict');
+      if (existing) existing.remove();
+      const expandHint = tooltipEl.querySelector('.tt-expand-hint');
+      if (expandHint) {
+        expandHint.insertAdjacentHTML('beforebegin', html);
+      } else {
+        tooltipEl.insertAdjacentHTML('beforeend', html);
+      }
+    });
+  }
   // M7 fix: boundary-aware positioning. Se tooltip esce da viewport
   // riposiziona a sx/sopra del cursore. Evita clip dietro canvas/panels.
   tooltipEl.classList.remove('hidden');
@@ -1213,6 +1260,8 @@ async function startNewSession() {
   state.world = st.data.state;
   state.selected = null;
   state.target = null;
+  // Sprint 8: nuova sessione → invalidate predict cache (stale tuple keys).
+  clearPredictionCache();
   // Bundle B.3 — pipe session_id to codex panel for /api/v1/codex/pages.
   setCodexSessionId(state.sid);
   // M11 Phase B+ (TKT-M11B-03) — if host room carries campaign_id, bootstrap

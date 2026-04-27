@@ -485,6 +485,26 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 8 predict_combat hover preview — Surface-DEAD #1 chiuso)
+
+**Sessione 2026-04-27 (Sprint 8, §C.2 Surface-DEAD #1 chiusura)**: predict_combat hover preview live. Player hover su nemico con player selezionato → tooltip mostra `⚔ HIT% · ~DMG · CRIT%` con band color (high/medium/low) + elevation hint. Decision aid <300ms before commit attack.
+
+**Highlights**:
+
+- **Module nuovo** [`apps/play/src/predictPreviewOverlay.js`](apps/play/src/predictPreviewOverlay.js): pure `formatPredictionRow(prediction)` + `colorBandForHit(hitPct)` (semantic band high/medium/low/unknown) + async cached `getPrediction(sid, actorId, targetId, fetcher)` (Map memoization per tuple, prevents flood backend) + `clearPredictionCache()`.
+- **API client** [`apps/play/src/api.js`](apps/play/src/api.js): `api.predict(sid, actorId, targetId)` POST helper.
+- **Wire** [`apps/play/src/main.js`](apps/play/src/main.js): mousemove handler — quando target è enemy alive AND state.selected è player alive → fetch async predict + inietta `.tt-predict` row in tooltip (idempotent, post handleDamageEvent path indipendente). Cache invalidated su `state.sid` change (nuova sessione).
+- **CSS** [`apps/play/src/style.css`](apps/play/src/style.css): `.tt-predict` rules con varianti band (high green / medium amber / low red / unknown gray / error red-italic).
+- **Smoke E2E preview validato live**: bootstrap session → select p_scout → hover su e_nomad_1 → tooltip surfaces `⚔ 60% hit · ~1.4 dmg · 5% crit` con band medium (amber). Tutorial 01 4-unit setup confermato end-to-end.
+- **Test**: 22/22 nuovi `tests/play/predictPreviewOverlay.test.js` (3 describe blocks). AI baseline 363/363 zero regression. Format prettier verde + governance 0 errors.
+- **Status §C.2 Surface-DEAD sweep**: **3/8 chiusi** (#1 Sprint 8 + #2 HP floating M4 P0.2 + #8 Thought Cabinet Sprint 6).
+
+**Pillar P1 Tattica leggibile**: 🟢 → **🟢++** (decision aid live, hit% visibile pre-commit).
+
+**Next session candidato**: Sprint 9 Objective UI HUD (Surface-DEAD #5) o Sprint 10 QBN narrative debrief beats (Surface-DEAD #7).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 7 Disco skill check popup — ✅ B.1.8 BUNDLE COMPLETO)
 
 **Sessione 2026-04-27 (Sprint 7, Disco B.1.8 #3 chiusura — bundle 4/4 shipped)**: stato-arte §B.1.8 closed completely. Bundle Disco Elysium Tier S 4/4 shipped: #1 Thought Cabinet (PR #1966), #2 Internal voice (PR #1945), **#3 Skill check popup (this sprint)**, #4 Day pacing (PR #1934).
