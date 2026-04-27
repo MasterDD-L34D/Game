@@ -41,7 +41,8 @@ related:
 | Sprint α+β+γ+δ wave | #1958-#1962 | Tactical+Visual+Tech+Meta strategy research applied |
 | Spore + Ancestors finalization | #1963 | ADR ancestors retro + Pulverator ecology |
 | Sprint 6-10 cross-PC | #1964-#1979 | Channel resistance + thought cabinet UI + ecology + skill check + Beast Bond + predict hover + Objective HUD + QBN |
-| Skiv handoffs | #1945, #1973, #1977 (in flight) | Inner voices + personal wishlist + echolocation goal 2 (DRAFT) |
+| Skiv handoffs | #1945, #1973 | Inner voices + personal wishlist canonical |
+| **Skiv personal sprint** | **#1977, #1982, #1983, #1984, #1986** | **4/4 goals shipped + Phase 4 close (sessione 2026-04-27/28)** |
 
 ---
 
@@ -64,12 +65,9 @@ related:
 
 | PR | Title | Status | Owner |
 | --- | --- | :-: | --- |
-| #1979 | Sprint 10 QBN narrative debrief beats | OPEN | cross-PC |
-| #1978 | Ability r3/r4 tier progressive — Sprint 8 final closure AncientBeast Tier S #6 (4/4) | OPEN | cross-PC |
-| #1977 | Skiv Goal 2 — echolocation fog-of-war pulse | DRAFT | altra sessione (personal sprint) |
 | #1928 | Weekly governance drift audit | DRAFT | cross-PC |
 
-**Skiv personal sprint progress**: Goal 2 echolocation in flight (DRAFT). Goals 1+3+4 ancora NOT STARTED.
+**Skiv personal sprint progress**: ✅ **4/4 goals shipped + Phase 4 close** (sessione autonomous 2026-04-27/28 ~9h). PR sequence: #1982 G1 + #1977 G2 + #1983 G3 + #1984 G4 + #1986 Phase 4 close. Test +29 baseline AI 382/382 invariato. ~1100 LOC.
 
 ---
 
@@ -87,8 +85,9 @@ Dal `docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md` §C.2:
 | 6 | biomeSpawnBias.js initial wave | universal initial wave wire | ✅ Sprint γ AI personality YAML extension + ecology |
 | 7 | QBN engine 17 events | session debrief wire | ✅ #1979 QBN narrative debrief beats |
 | 8 | Thought Cabinet 18 thoughts | reveal_text_it authoring + UI | ✅ #1966 Thought Cabinet UI panel + #1945 inner voices |
+| 9 | echolocation senses + sensori_geomagnetici | drawEcholocationPulse cyan + tile reveal `?` | ✅ #1977 senseReveal.js + drawEcholocationPulse + installEcholocationOverlay |
 
-**8/8 chiusi**. Anti-pattern bundle dominante completamente eliminato.
+**9/9 chiusi**. Anti-pattern bundle dominante completamente eliminato.
 
 ---
 
@@ -99,7 +98,7 @@ Dal `docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md` §C.2:
 | [1] Lobby | 95% | M11 stack + TKT-M11B-06 playtest userland gate |
 | [2] Char creation | 90% | + portrait + Mutations tab + drift briefing |
 | [3] World setup | 75% | mancano time-of-day Wesnoth + Pact Shards |
-| [4] Combat | **98%** | ALL Tier S patterns shipped, residuo Skiv echolocation in flight |
+| [4] Combat | **99%** | ALL Tier S patterns shipped + Skiv echolocation visual pulse #1977 + encounter solo_vs_pack #1982 + wounded_perma status |
 | [5] Debrief | 90% | + thought cabinet UI + skill check popup + QBN beats |
 | [6] Evolution | 95% | Spore FULL + lineage cross-gen + ecology |
 | [7] Campaign | 85% | + Tunic Codex + biodiversity + Tufte sparklines |
@@ -117,11 +116,13 @@ Dal `docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md` §C.2:
 - **D-design-1** portrait dynamic emotion (default static MVP applied)
 - **D-tech-1** mod hook API scope (default TS plugin scaffold applied)
 
-### Skiv personal sprint (in flight altra sessione)
+### Skiv personal sprint ✅ COMPLETE (sessione 2026-04-27/28)
 
-- G2 echolocation in DRAFT (PR #1977)
-- G1 + G3 + G4 NOT STARTED
-- Resume trigger: `docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`
+- G1 #1982 encounter solo_vs_pack (P1+P5) — calibration N=20 win 45.0% in band
+- G2 #1977 echolocation visual pulse (P1) — anti-pattern surface DEAD chiuso
+- G3 #1983 thoughts ritual choice UI (P4) — Disco voice preview
+- G4 #1984 legacy death mutation ritual (P2) — back-compat preserved
+- Phase 4 close #1986 — handoff §6 ✅ + CLAUDE.md update + memory checkpoint
 
 ### Aspect_token authoring (~15h debt)
 
@@ -153,8 +154,8 @@ File **già aggiornati** da altre sessioni (cross-PC), no overwrite necessario:
 
 Per qualsiasi sessione futura:
 
-1. **Skiv personal sprint** (in flight altra sessione):
-   > _"leggi `docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`, verifica §6 progress, esegui fase corrente"_
+1. **Skiv personal sprint** ✅ COMPLETE (4/4 shipped 2026-04-27/28):
+   > _"leggi `docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`, verifica §6 progress, esegui fase corrente"_ → §6 Phase 4 ✅ + 5 PR merged main
 
 2. **Strategy research wave** (already shipped α+β+γ+δ):
    > Riferimento: `docs/planning/2026-04-27-sprint-abgd-coordinated-handoff.md` §6 all ✅
@@ -169,14 +170,17 @@ Per qualsiasi sessione futura:
 
 ## §9 — Closing
 
-**Stato repo**: solid. **5/6 🟢 def pillar**. Demo-ready confirmed. Anti-pattern Engine LIVE Surface DEAD chiuso 8/8.
+**Stato repo**: solid. **5/6 🟢 def pillar**. Demo-ready confirmed. Anti-pattern Engine LIVE Surface DEAD chiuso **9/9** (echolocation aggiunto via #1977).
 
 **Friction zero**: cross-PC coordination handoff doc canonical funziona. Cross-PC merge wave protocol validated. Lessons codified questa sessione (collision events, file ownership matrix) integrati permanente CLAUDE.md.
 
 **Next priority** (master-dd choice):
 - TKT-M11B-06 playtest live (chiude demo)
-- Skiv personal sprint completion (4 goals)
+- ~~Skiv personal sprint completion (4 goals)~~ ✅ COMPLETE 4/4 shipped 2026-04-27/28
 - Aspect_token authoring batch (P2 polish)
+- Skiv state.json regen post-encounter live playthrough (deferred a Phase 4 — non backfillable senza run reale)
+- Sentience T4 species exploration (T4=0 attualmente, gap noted OD-008)
+- Ennea archetypes UI surface (9 archetypes ZERO surface — gap noted Skiv handoff §1)
 
 ---
 

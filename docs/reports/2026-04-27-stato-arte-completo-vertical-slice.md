@@ -132,8 +132,13 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 | | **#1938** | Sprint 4 UI polish — Cogmind stratified tooltip + Dead Space holographic AOE + Isaac Anomaly glow | P1 |
 | | **#1940** | Sprint 5 telemetry viz — Tufte sparkline HTML dashboard + DuckDB +4 SQL query | P6+ops |
 | OD-001 closure | #1877 ❌ | Sprint C UI — chiuso superseded (backend già via #1879, UI Lineage tab via #1911) | — |
+| **Skiv Personal Sprint (2026-04-27/28)** | **#1982** | **G1 encounter Skiv solo vs Pulverator pack — `wounded_perma` status + `woundedPerma.js` + harness N=20 win 45.0% in band 35-45%** | **P1+P5** |
+| | **#1977** | **G2 echolocation visual fog-of-war pulse — `senseReveal.js` + `drawEcholocationPulse` cyan 800ms + tile reveal `?` glyph + `installEcholocationOverlay` wire-point** | **P1** |
+| | **#1983** | **G3 thoughts ritual choice UI — `thoughtsRitualPanel.js` overlay top-3 candidati + `GET /thoughts/candidates` ranked vcSnapshot + 30s timer + irreversible session lock + voice line preview Disco-style** | **P4** |
+| | **#1984** | **G4 legacy death mutation choice ritual — `propagateLineage` opt-in `options.mutationsToLeave` filter (back-compat preserved) + `computeBondHeartsDelta` narrative beat + `POST /api/v1/lineage/legacy-ritual` + `legacyRitualPanel.js` overlay lifecycle_phase=legacy auto-trigger** | **P2** |
+| | **#1986** | **Phase 4 close — §6 progress all ✅ + CLAUDE.md sprint context update + memory checkpoint** | **docs** |
 
-**Totale 54 PR shipped** in ~4 giorni (2026-04-25→2026-04-27 notte) + 1 PR closed-superseded.
+**Totale 59 PR shipped** in ~4 giorni (2026-04-25→2026-04-28) + 1 PR closed-superseded. Skiv personal sprint = 5 PR addizionali (4 goals + Phase 4 close) + 29 nuovi test (9 G1 + 6 G2 + 10 G3 + 4 G4) + ~1100 LOC.
 
 ### A.3 — Documenti research/design generati (questa thread)
 
@@ -176,19 +181,23 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 | `tools/py/lint_mutations.py` | 101 | Makefile | (CLI tool) |
 | `apps/backend/services/skiv/companionStateStore.js` | (NEW) | S1 Phase 1 | smoke |
 | Migration `0006_skiv_companion_state` | (NEW) | Prisma | — |
+| `apps/backend/services/combat/woundedPerma.js` | (NEW ~80) | session lastMissionWoundedPerma persistence | `tests/services/woundedPerma.test.js` (5) |
+| `apps/backend/services/combat/senseReveal.js` | (NEW ~70) | sessionHelpers tile_visibility | `tests/services/senseReveal.test.js` (6) |
+| `apps/play/src/thoughtsRitualPanel.js` | (NEW ~330) | main.js auto-open `research_completed` | `tests/play/thoughtsRitualPanel.test.js` (4) + `tests/api/thoughtsRitual.test.js` (6) |
+| `apps/play/src/legacyRitualPanel.js` | (NEW ~80) | lifecycle_phase=legacy trigger + bond hearts ±1 | `tests/services/lineagePropagatorRitual.test.js` (4) |
 
-### A.5 — Pillar status corrente (post wave)
+### A.5 — Pillar status corrente (post wave + Skiv personal sprint 2026-04-27/28)
 
-| # | Pilastro | Stato |
-|---|---|:-:|
-| P1 | Tattica leggibile | 🟢 candidato |
-| P2 | Evoluzione | 🟡++ stable (Spore runtime mutation engine 0) |
-| P3 | Specie×Job | 🟡 (44/45 species lifecycle YAML missing) |
-| P4 | MBTI/Ennea | 🟡+ (Disco debrief shipped, Stoico unreachable) |
-| P5 | Co-op | 🟢 candidato (playtest live = unico bloccante) |
-| P6 | Fairness | 🟡+ (trait nerf + cautious + AI Progress + xpBudget shipped) |
+| # | Pilastro | Stato | Skiv impact delta |
+|---|---|:-:|---|
+| P1 | Tattica leggibile | **🟢 def++** | + sense surface visible (echolocation #1977) + Skiv combat showcase (encounter #1982) |
+| P2 | Evoluzione | **🟢 def** | + legacy cross-gen agency (mutationsToLeave #1984) — Spore Moderate FULL + lineage |
+| P3 | Specie×Job | 🟡++ | unchanged questa sessione |
+| P4 | MBTI/Ennea | **🟢 def** | + identity agency at apex (thoughts ritual choice #1983) |
+| P5 | Co-op | 🟢 candidato | + solo-vs-pack base per future co-op pack scenarios (#1982) — playtest live = unico bloccante |
+| P6 | Fairness | 🟡+ | unchanged questa sessione |
 
-**Score**: 0/6 🟢 + **2/6 🟢 candidato** (P1+P5) + **3/6 🟡+** (P2/P4/P6) + 1/6 🟡 (P3).
+**Score post Skiv sprint**: **3/6 🟢 def** (P1++, P2, P4) + **1/6 🟢 candidato** (P5) + **1/6 🟡++** (P3) + **1/6 🟡+** (P6). Demo-ready confirmed con consolidamento P1+P2+P4.
 
 ---
 
@@ -421,7 +430,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 [8] LOOP (next mission OR end campaign)
 ```
 
-### C.2 — Anti-pattern dominante "Engine LIVE Surface DEAD" — 8 fix sweep (3/8 chiusi)
+### C.2 — Anti-pattern dominante "Engine LIVE Surface DEAD" — 9 fix sweep (7/9 chiusi)
 
 Diagnosticato ~30% delle 61 voci catalogate. Surface manca per:
 
@@ -435,8 +444,9 @@ Diagnosticato ~30% delle 61 voci catalogate. Surface manca per:
 | 6 | biomeSpawnBias.js + biome metadata | HUD biome chip surface | 2h | 🟢 Sprint 11 (`biomeChip.js` module + `#biome-chip` HUD slot in header + main.js refresh wire on bootstrap + post-state-fetch + CSS pill style + biome_id propagato in publicSessionView con fallback `session.encounter?.biome_id`. 11 canonical biome IT labels + emoji icons, fallback Title Case + 🌍 default. Tooltip "Biome: X — vedi Codex per dettagli". Engine biomeSpawnBias resta backend (reinforcement spawn pool boost), surface chip è il primo touchpoint player) |
 | 7 | QBN engine 17 events | session debrief wire | 3h | 🟢 Sprint 10 (frontend `qbnDebriefRender.js` + `setNarrativeEvent` setter su debrief panel + phaseCoordinator pipe `bridge.lastDebrief.narrative_event` + CSS journal style. Backend `rewardEconomy.buildDebriefSummary` già emetteva `narrative_event` da PR #1914) |
 | 8 | Thought Cabinet 18 thoughts | reveal_text_it authoring + UI | 8h | 🟢 Sprint 6 PR #1966 (engine + UI + cooldown round-based) |
+| 9 | echolocation senses + sensori_geomagnetici | drawEcholocationPulse cyan + tile reveal `?` glyph | 3-4h | 🟢 Skiv G2 PR #1977 (`senseReveal.js` pure helper + `tile_visibility` in publicSessionView + `drawEcholocationPulse` cyan #66d1fb 800ms 40→120px + `installEcholocationOverlay` wire-point cell-hover ≥500ms) |
 
-**Bundle Surface-DEAD sweep cumulato**: ~32h se incluso authoring. ~17h escluso authoring. **Single biggest strategic ROI** — recupera investimenti già fatti. **Status post-2026-04-27: 6/8 chiusi (#1 hover preview Sprint 8 + #2 HP floating numbers M4 P0.2 + #5 Objective HUD Sprint 9 + #6 Biome chip Sprint 11 + #7 QBN debrief Sprint 10 + #8 Thought Cabinet Sprint 6).** Residui: #3 Spore mutation dots (15h authoring), #4 Mating lifecycle wire (5h).
+**Bundle Surface-DEAD sweep cumulato**: ~32h se incluso authoring. ~17h escluso authoring. **Single biggest strategic ROI** — recupera investimenti già fatti. **Status post-2026-04-28: 7/9 chiusi (#1 hover preview Sprint 8 + #2 HP floating numbers M4 P0.2 + #5 Objective HUD Sprint 9 + #6 Biome chip Sprint 11 + #7 QBN debrief Sprint 10 + #8 Thought Cabinet Sprint 6 + #9 Echolocation Skiv G2).** Residui: #3 Spore mutation dots (15h authoring), #4 Mating lifecycle wire (5h).
 
 ### C.3 — 6 OPZIONI sequenziamento next sprint (rank by ROI)
 
