@@ -18,12 +18,22 @@ workstream: ops-qa
 # Sprint 6 — Thought Cabinet UI panel + cooldown round-based
 
 **Data**: 2026-04-27 · **Sessione**: autonomous · **Modalità**: 5/5 doc upkeep ritual
+**Status**: ✅ **MERGED** — [PR #1966](https://github.com/MasterDD-L34D/Game/pull/1966) squashed to `main` come `584c54c2` (2026-04-27 18:19 UTC).
 
 ## TL;DR
 
 Sprint 6 chiude il pattern P0 residuo `B.1.8 #1` (Disco Tier S #9): **Thought Cabinet UI panel cooldown round-based**. Engine bump `DEFAULT_SLOTS_MAX` 3→8 + nuovo `mode='rounds'` (default) che scala costi T1→3 round, T2→6, T3→9 via `RESEARCH_ROUND_MULTIPLIER=3`. Bridge `sessionRoundBridge.applyEndOfRoundSideEffects` ora decrementa 1 round per fine-turno, auto-internalize quando `cost_remaining==0`, applica passive bonuses live + emette evento `thought_internalized`. Frontend `apps/play/src/thoughtsPanel.js` ottiene Assign/Forget buttons inline, progress bar `done/total round X%`, 8-slot grid e can-research-more gate. Smoke E2E validato in browser preview.
 
 **Pillar P4 status**: 🟢c → **🟢 def**.
+
+## Merge bookkeeping
+
+- **PR**: [#1966](https://github.com/MasterDD-L34D/Game/pull/1966) — `feat(p4): Sprint 6 — Thought Cabinet UI panel + cooldown round-based (Disco Tier S #9)`
+- **Squash commit**: `584c54c2` su `main`
+- **Merged at**: 2026-04-27 18:19 UTC (Mon 27 Apr 2026, 20:19 Europe/Rome)
+- **CI finale**: 19 SUCCESS / 12 SKIPPED / 0 FAIL (1 transient flake `terrainReactionsWire.test.js:240` "eventually hits" risolto via `gh run rerun --failed`; verificato locally 7/7 verdi).
+- **Branch update**: il branch era `BEHIND` post-3-PR landed (ADR Ancestors #1963 + Channel resistance #1964 + Pulverator #1967); aggiornato via `gh pr update-branch 1966`.
+- **Adoption follow-up scheduled**: routine `thought-cabinet-adoption-check` (`trig_01JJsMTpGWaEsBfhE51YFNMx`) firing **2026-05-11 07:00 UTC** (Mon 11 May 2026, 9:00 Europe/Rome) — pull `thought_internalized` telemetry, flag cold-start (Engine LIVE Surface DEAD), recommend P4 status promote/hold/downgrade. Manage: https://claude.ai/code/routines/trig_01JJsMTpGWaEsBfhE51YFNMx
 
 ## Deliverable
 
@@ -60,8 +70,8 @@ Sprint 6 chiude il pattern P0 residuo `B.1.8 #1` (Disco Tier S #9): **Thought Ca
 
 ## Codice ripristinabile
 
-- Branch: `claude/sprint-6-thought-cabinet-ui` (da `origin/main` `f74c1da3`)
-- Stato pre-commit: tutti i layer modificati, format pulito, test verdi
+- Branch (rimosso post-merge): `claude/sprint-6-thought-cabinet-ui` (era da `origin/main` `f74c1da3`, mergiato come `584c54c2`)
+- Stato finale: tutti i layer su main, 76/76 test thoughts verdi, 353/353 AI baseline, format prettier verde, governance 0 errors
 - Pre-existing issue: l'engine inline catalog `CLIENT_CATALOG` in `thoughtsPanel.js` resta come prima (mirror manuale del YAML); refactor a `/api/thoughts/catalog` rimane backlog futuro non bloccante.
 
 ## Pattern Anti "Engine LIVE Surface DEAD" — Gate 5 DoD
@@ -73,20 +83,20 @@ Sprint 6 chiude il pattern P0 residuo `B.1.8 #1` (Disco Tier S #9): **Thought Ca
 - Click su Assign → status visibile immediato (researching class + progress bar `0/3 round`)
 - Auto-tick a fine round visibile come progress bar che avanza + transizione a `internalized` con badge 🧠 Interiorizzato
 
-## Residui Disco B.1.8 (3 pattern, ranking next-session)
+## Residui Disco B.1.8 (1 pattern post-merge — 3/4 shipped)
 
-| #   | Pattern                                                                             | Effort | Surface      |
-| --- | ----------------------------------------------------------------------------------- | ------ | ------------ |
-| 2   | Internal voice 4-MBTI axes (narrative log debrief con voce-per-axis durante combat) | ~10h   | log/debrief  |
-| 3   | Skill check passive vs active popup (surface trigger via popup notification)        | ~4h    | toast/HUD    |
-| 4   | Day/time pacing flavor copy ("Giorno N di Aurora" nei debrief)                      | ~2h    | debrief/copy |
+| #   | Pattern                                                                      | Effort | Surface      | Status                                                                                               |
+| --- | ---------------------------------------------------------------------------- | ------ | ------------ | ---------------------------------------------------------------------------------------------------- |
+| 1   | Thought Cabinet UI panel + cooldown round-based                              | ~8h    | HUD/overlay  | ✅ MERGED ([PR #1966](https://github.com/MasterDD-L34D/Game/pull/1966) `584c54c2`) — _questo sprint_ |
+| 2   | Internal voice 4-MBTI axes                                                   | ~10h   | log/debrief  | ✅ MERGED ([PR #1945](https://github.com/MasterDD-L34D/Game/pull/1945) `de57432c`) — _stesso turno_  |
+| 3   | Skill check passive vs active popup (surface trigger via popup notification) | ~4h    | toast/HUD    | 🔴 open — only residuo                                                                               |
+| 4   | Day/time pacing flavor copy ("Giorno N di Aurora" nei debrief)               | ~2h    | debrief/copy | ✅ MERGED ([PR #1934](https://github.com/MasterDD-L34D/Game/pull/1934)) — _Sprint 1 §I notte_        |
 
 ## Next session candidato
 
-**P4 quick-win**: B.1.8 #4 Day/time pacing flavor copy (~2h, debrief surface, low blast radius). Oppure:
+**Solo residuo Disco**: B.1.8 #3 Skill check passive vs active popup (~4h, popup HUD, leverage surface diegetico esistente). Post-#3 il bundle Disco è 4/4 chiuso.
 
-- **P4 mid**: B.1.8 #3 Skill check popup (~4h, popup HUD, leverage surface diegetico esistente)
-- **P4 deep**: B.1.8 #2 Internal voice 4-MBTI axes (~10h, narrative engine extension, ricco)
+Altri P4 residui (non-Disco): vedi stato-arte §B.1.6 (XCOM EW Officer Training School ~10h) o §B.1.11 (Wildermyth layered storylets ~10h).
 
 ## Files toccati
 

@@ -451,9 +451,11 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 6 Thought Cabinet UI panel + cooldown round-based)
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 6 Thought Cabinet UI panel + cooldown round-based — ✅ MERGED #1966)
 
 **Sessione 2026-04-27 (Sprint 6, Disco Tier S #9 chiusura)**: stato-arte §B.1.8 pattern P0 chiuso. Engine + bridge + UI + tests + smoke E2E live, 76/76 thoughts test verdi, 353/353 AI baseline zero regression.
+
+**Merge bookkeeping**: PR [#1966](https://github.com/MasterDD-L34D/Game/pull/1966) squashed to `main` come `584c54c2` (2026-04-27 18:19 UTC). CI 19 SUCCESS / 12 SKIPPED / 0 FAIL post re-run del flake `terrainReactionsWire` "eventually hits". Adoption check scheduled per 2026-05-11 09:00 Europe/Rome (routine `trig_01JJsMTpGWaEsBfhE51YFNMx`).
 
 **Highlights**:
 
@@ -468,7 +470,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Pillar P4 status**: **🟢c → 🟢 def** (8 slot live + cooldown round-based + UI surface + auto-tick wired).
 
-**Next session candidato**: P4 residui — Internal voice 4-MBTI axes (~10h, B.1.8 #2) o Skill check passive vs active popup (~4h, B.1.8 #3) o Day/time pacing flavor copy (~2h, B.1.8 #4 quick-win).
+**Next session candidato**: P4 residui Disco — solo B.1.8 #3 Skill check passive vs active popup (~4h) resta open. Bundle Disco 3/4 shipped: ~~#1 Thought Cabinet PR #1966~~, ~~#2 Internal voice PR #1945~~, ~~#4 Day pacing PR #1934~~. Post-#3 Disco è 4/4 chiuso.
 
 ---
 
