@@ -7476,19 +7476,6 @@
       "track": "new"
     },
     {
-      "path": "docs/research/2026-04-27-indie-design-perfetto.md",
-      "title": "Indie Design Perfetto — 5 pattern UI adottabili (Pentiment, Gris, Tunic, HLD, Loop Hero)",
-      "doc_status": "active",
-      "doc_owner": "ui-design-illuminator",
-      "workstream": "cross-cutting",
-      "last_verified": "2026-04-26",
-      "source_of_truth": false,
-      "language": "it-en",
-      "review_cycle_days": 90,
-      "primary": false,
-      "track": "new"
-    },
-    {
       "path": "docs/research/2026-04-27-backbone-online-deploy-roadmap.md",
       "title": "Backbone online deploy roadmap — playtest live remoto Evo-Tactics",
       "doc_status": "draft",
