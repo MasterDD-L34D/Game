@@ -150,6 +150,23 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ unit_id: unitId, thought_id: thoughtId, mode: 'rounds' }),
     }),
+  // Skiv Goal 4 — legacy death mutation choice ritual (P2 cross-gen agency).
+  // Allenatore picks subset of applied_mutations to leave to next generation.
+  // Backend propagates filtered subset + returns narrative beat (bond hearts
+  // delta + Skiv canonical voice line). Default behavior preserved if caller
+  // passes mutationsToLeave === all applied_mutations (back-compat).
+  legacyRitualSubmit: (sid, unitId, mutationsToLeave, extra = {}) =>
+    jsonFetch('/api/v1/lineage/legacy-ritual', {
+      method: 'POST',
+      body: JSON.stringify({
+        session_id: sid,
+        unit_id: unitId,
+        mutationsToLeave: Array.isArray(mutationsToLeave) ? mutationsToLeave : [],
+        species_id: extra.species_id || extra.speciesId || null,
+        biome_id: extra.biome_id || extra.biomeId || null,
+        legacyUnit: extra.legacyUnit || null,
+      }),
+    }),
   replay: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/replay`),
   modulations: () => jsonFetch('/api/party/modulations'),
   partyConfig: () => jsonFetch('/api/party/config'),

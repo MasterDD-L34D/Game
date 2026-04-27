@@ -52,12 +52,31 @@ function _getOrCreateMutationSet(speciesId, biomeId) {
 /**
  * Propagate a legacy unit's applied_mutations to the lineage pool.
  *
+ * Skiv Goal 4 (legacy death ritual choice) extension: optional
+ * `options.mutationsToLeave: string[]` filters the applied_mutations subset
+ * to propagate. When omitted (default behavior preserved, BACK-COMPAT) all
+ * applied_mutations propagate as before. When provided, ONLY mutations in
+ * the array intersection of `applied_mutations ∩ mutationsToLeave` are written.
+ * Empty array → nothing propagated (allenatore decided to leave nothing).
+ *
  * @param {object} legacyUnit — unit object with `applied_mutations: string[]`
  * @param {string} speciesId
  * @param {string} biomeId
- * @returns {{ written_traits: string[], pool_size: number, species_id: string, biome_id: string }}
+ * @param {object} [options]
+ * @param {string[]} [options.mutationsToLeave] — opt-in subset filter. When
+ *   omitted, default behavior preserved (all applied_mutations propagated).
+ *   When provided (even if empty), filters to subset.
+ * @returns {{
+ *   written_traits: string[],
+ *   pool_size: number,
+ *   species_id: string,
+ *   biome_id: string,
+ *   filtered: boolean,
+ *   total_applied: number,
+ *   left_count: number,
+ * }}
  */
-function propagateLineage(legacyUnit, speciesId, biomeId) {
+function propagateLineage(legacyUnit, speciesId, biomeId, options) {
   if (!legacyUnit || typeof legacyUnit !== 'object') {
     throw new TypeError('propagateLineage: legacyUnit must be an object');
   }
@@ -69,9 +88,26 @@ function propagateLineage(legacyUnit, speciesId, biomeId) {
   }
 
   const applied = Array.isArray(legacyUnit.applied_mutations) ? legacyUnit.applied_mutations : [];
+
+  // Skiv Goal 4 — opt-in filter. Default (options omitted) preserves
+  // original behavior: tutto lasciato. Anti-foot-gun: malformed
+  // `mutationsToLeave` (non-array) → throw rather than silent drop.
+  let filtered = false;
+  let toPropagate = applied;
+  if (options && Object.prototype.hasOwnProperty.call(options, 'mutationsToLeave')) {
+    if (!Array.isArray(options.mutationsToLeave)) {
+      throw new TypeError(
+        'propagateLineage: options.mutationsToLeave must be an array of mutation_id strings',
+      );
+    }
+    filtered = true;
+    const leaveSet = new Set(options.mutationsToLeave.filter((m) => typeof m === 'string' && m));
+    toPropagate = applied.filter((mid) => leaveSet.has(mid));
+  }
+
   const mutSet = _getOrCreateMutationSet(speciesId, biomeId);
   const written = [];
-  for (const mid of applied) {
+  for (const mid of toPropagate) {
     if (typeof mid === 'string' && mid && !mutSet.has(mid)) {
       mutSet.add(mid);
       written.push(mid);
@@ -82,6 +118,9 @@ function propagateLineage(legacyUnit, speciesId, biomeId) {
     pool_size: mutSet.size,
     species_id: speciesId,
     biome_id: biomeId,
+    filtered,
+    total_applied: applied.length,
+    left_count: toPropagate.length,
   };
 }
 
@@ -204,9 +243,52 @@ function reset() {
   _pool.clear();
 }
 
+/**
+ * Skiv Goal 4 — narrative beat bond hearts delta calculator.
+ *
+ * Pure helper, no side effects. Computes bond hearts delta + Skiv canonical
+ * voice line based on subset choice during legacy death ritual.
+ *
+ * Rules:
+ *   - 0 applied → 0 delta, no voice (graceful, no ritual narrative)
+ *   - leftCount === totalApplied AND totalApplied > 0 → +1 (gave it all)
+ *   - leftCount / totalApplied < 0.5 → -1 (kept too much for self)
+ *   - else → 0 (neutral middle ground)
+ *
+ * @param {number} leftCount — applied_mutations subset propagated
+ * @param {number} totalApplied — applied_mutations.length pre-ritual
+ * @returns {{ delta: number, voice_it: string|null, threshold: string }}
+ */
+function computeBondHeartsDelta(leftCount, totalApplied) {
+  if (!Number.isFinite(leftCount) || !Number.isFinite(totalApplied) || totalApplied <= 0) {
+    return { delta: 0, voice_it: null, threshold: 'no_mutations' };
+  }
+  const ratio = leftCount / totalApplied;
+  if (leftCount === totalApplied) {
+    return {
+      delta: +1,
+      voice_it: 'Hai dato tutto. La sabbia ricorda.',
+      threshold: 'full',
+    };
+  }
+  if (ratio < 0.5) {
+    return {
+      delta: -1,
+      voice_it: 'Il vento porta solo certe ossa.',
+      threshold: 'partial_low',
+    };
+  }
+  return {
+    delta: 0,
+    voice_it: 'La sabbia segue. Quello che lasci lo lasci.',
+    threshold: 'partial_high',
+  };
+}
+
 module.exports = {
   propagateLineage,
   inheritFromLineage,
   inspectPool,
   reset,
+  computeBondHeartsDelta,
 };
