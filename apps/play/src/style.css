@@ -1100,6 +1100,73 @@ canvas#grid:hover {
   color: var(--bg);
 }
 
+/* Bundle B.3 — Tunic decipher Codex pages (blurred → clear via gameplay). */
+.codex-pages-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.codex-page {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+.codex-page.blurred .codex-page-content {
+  filter: blur(3px);
+  opacity: 0.5;
+  user-select: none;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+.codex-page.deciphered {
+  border-color: #6fb04a;
+  background: rgba(111, 176, 74, 0.06);
+}
+.codex-page-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.codex-page-cat {
+  font-size: 0.75em;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+.codex-page-content {
+  white-space: pre-wrap;
+  font-size: 0.85em;
+  margin: 6px 0;
+  line-height: 1.4;
+}
+.codex-page-hint {
+  font-size: 0.8em;
+  font-style: italic;
+  color: #d4b8e8;
+  margin-top: 6px;
+  padding: 4px 6px;
+  background: rgba(139, 111, 176, 0.1);
+  border-left: 2px solid #8b6fb0;
+}
+
+/* Bundle B.2 — Undo button (TBW Tactical Breach Wizards pattern). */
+.undo-btn {
+  background: #4a3a5a !important;
+  border-color: #8b6fb0 !important;
+  color: #d4b8e8 !important;
+}
+.undo-btn:hover {
+  background: #6b4f87 !important;
+  color: #fff !important;
+}
+.undo-btn.hidden {
+  display: none;
+}
+
 .sidebar {
   background: var(--panel);
   padding: 12px;

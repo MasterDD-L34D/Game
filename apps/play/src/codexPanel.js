@@ -1,10 +1,18 @@
 // W8L — Codex MVP minimal (in-game wiki + tip re-reader).
+// Bundle B.3 (2026-04-27) — Tunic decipher Pages tab: blurred → clear via gameplay trigger.
 // User feedback run5: "manca ancora il sistema Aliena o simile dove rileggere
-// i tip e molto altro!". Minimal first-cut: 4 tab (Tips / Glossario / Abilità /
+// i tip e molto altro!". Minimal first-cut: 5 tab (Pagine / Tips / Glossario / Abilità /
 // Statuses). A.L.I.E.N.A. full integration = Wave 9+ (vedi docs/planning/
 // codex-in-game-aliena-integration.md).
 
 import { showTip, hasTipBeenShown, resetAllTips } from './tips.js';
+import { api } from './api.js';
+
+// Bundle B.3 — current session_id holder (set by main.js on session start).
+let _currentSessionId = null;
+export function setCodexSessionId(sid) {
+  _currentSessionId = sid;
+}
 
 // Glossario terms — canonical meccanica Evo-Tactics.
 const GLOSSARIO = [
@@ -145,7 +153,7 @@ const STATUSES_INFO = [
 ];
 
 let isOpen = false;
-let currentTab = 'tips';
+let currentTab = 'pagine';
 
 function getOrCreatePanel() {
   let panel = document.getElementById('codex-panel-root');
@@ -162,13 +170,15 @@ function getOrCreatePanel() {
         <button class="codex-close-btn" title="Chiudi (ESC)">✕</button>
       </div>
       <nav class="codex-tabs" role="tablist">
-        <button class="codex-tab active" data-tab="tips" role="tab">💡 Tips</button>
+        <button class="codex-tab active" data-tab="pagine" role="tab">📜 Pagine</button>
+        <button class="codex-tab" data-tab="tips" role="tab">💡 Tips</button>
         <button class="codex-tab" data-tab="glossario" role="tab">📖 Glossario</button>
         <button class="codex-tab" data-tab="abilita" role="tab">⚔ Abilità</button>
         <button class="codex-tab" data-tab="statuses" role="tab">🌀 Status</button>
       </nav>
       <div class="codex-panel-body">
-        <div class="codex-tab-content" data-tab-content="tips"></div>
+        <div class="codex-tab-content" data-tab-content="pagine"></div>
+        <div class="codex-tab-content hidden" data-tab-content="tips"></div>
         <div class="codex-tab-content hidden" data-tab-content="glossario"></div>
         <div class="codex-tab-content hidden" data-tab-content="abilita"></div>
         <div class="codex-tab-content hidden" data-tab-content="statuses"></div>
@@ -200,10 +210,56 @@ function switchTab(tabName) {
 function renderTabContent(tabName) {
   const container = document.querySelector(`[data-tab-content="${tabName}"]`);
   if (!container) return;
-  if (tabName === 'tips') renderTipsTab(container);
+  if (tabName === 'pagine') renderPagineTab(container);
+  else if (tabName === 'tips') renderTipsTab(container);
   else if (tabName === 'glossario') renderGlossarioTab(container);
   else if (tabName === 'abilita') renderAbilitaTab(container);
   else if (tabName === 'statuses') renderStatusesTab(container);
+}
+
+// Bundle B.3 — Pagine (decipher tab). Fetch da /api/v1/codex/pages?session_id=...
+function renderPagineTab(el) {
+  if (!_currentSessionId) {
+    el.innerHTML = `<p class="codex-intro">Avvia una sessione per consultare le pagine A.L.I.E.N.A.</p>`;
+    return;
+  }
+  el.innerHTML = `<p class="codex-intro">Caricamento pagine A.L.I.E.N.A....</p>`;
+  api
+    .codexPages(_currentSessionId)
+    .then((r) => {
+      if (!r.ok) {
+        el.innerHTML = `<p class="codex-intro">Errore caricamento codex: ${r.data?.error || r.status}</p>`;
+        return;
+      }
+      const pages = Array.isArray(r.data?.pages) ? r.data.pages : [];
+      const total = r.data?.total || 0;
+      const dec = r.data?.deciphered_count || 0;
+      el.innerHTML = `
+        <p class="codex-intro">
+          Archivio enciclopedico A.L.I.E.N.A. — ${dec}/${total} pagine decifrate.
+          Le pagine ███████ si rivelano attraverso il gameplay (entra biomi, uccidi specie, applica trait).
+        </p>
+        <ul class="codex-pages-list">
+          ${pages
+            .map((p) => {
+              const cls = p.deciphered ? 'codex-page deciphered' : 'codex-page blurred';
+              const hint = p.deciphered
+                ? ''
+                : `<div class="codex-page-hint">🔒 Decifra: ${p.decipher_hint || '(trigger sconosciuto)'}</div>`;
+              return `<li class="${cls}" data-page-id="${p.id}">
+                <div class="codex-page-title"><strong>${p.title || p.id}</strong>
+                  <span class="codex-page-cat">${p.category || ''}</span></div>
+                <pre class="codex-page-content">${p.content || ''}</pre>
+                ${hint}
+              </li>`;
+            })
+            .join('')}
+        </ul>
+      `;
+    })
+    .catch((err) => {
+      el.innerHTML = `<p class="codex-intro">Errore: ${err?.message || err}</p>`;
+    });
 }
 
 function renderTipsTab(el) {

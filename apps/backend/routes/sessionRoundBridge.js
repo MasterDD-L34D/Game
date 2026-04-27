@@ -1541,6 +1541,72 @@ function createRoundBridge(deps) {
       }
     });
 
+    // Bundle B.2 — Tactical Breach Wizards Undo libero (2026-04-27).
+    // POP last main intent for actor (LIFO). Reactions preserved.
+    // Restricted to PHASE_PLANNING: undo dopo commit-round → 409.
+    // Empty stack → 200 no-op (idempotent UX).
+    router.post('/undo-action', (req, res, next) => {
+      try {
+        const body = req.body || {};
+        const sessionId = body.session_id;
+        const actorId = body.actor_id;
+        const { error, session } = resolveSession(sessionId);
+        if (error) return res.status(error.status).json(error.body);
+        if (!actorId || typeof actorId !== 'string') {
+          return res.status(400).json({ error: 'actor_id richiesto (string)' });
+        }
+        if (!session.roundState) {
+          return res
+            .status(400)
+            .json({ error: 'roundState non inizializzato (chiama prima /declare-intent)' });
+        }
+        const phase = session.roundState.round_phase;
+        if (phase !== PHASE_PLANNING) {
+          return res.status(409).json({
+            error: `undo-action consentita solo in planning phase (corrente: '${phase}')`,
+            code: 'UNDO_PHASE_INVALID',
+            round_phase: phase,
+          });
+        }
+        const pending = Array.isArray(session.roundState.pending_intents)
+          ? session.roundState.pending_intents
+          : [];
+        // Trova ultimo main intent (non reaction) per actorId. LIFO pop.
+        let popIdx = -1;
+        for (let i = pending.length - 1; i >= 0; i -= 1) {
+          const it = pending[i];
+          if (!it) continue;
+          if (String(it.unit_id || '') !== String(actorId)) continue;
+          if (it.reaction_trigger) continue; // skip reactions
+          popIdx = i;
+          break;
+        }
+        if (popIdx === -1) {
+          // No-op: stack vuoto per actor o solo reactions.
+          return res.json({
+            session_id: session.session_id,
+            round_phase: phase,
+            pending_intents: pending,
+            popped: null,
+          });
+        }
+        const popped = pending[popIdx];
+        const nextPending = pending.slice(0, popIdx).concat(pending.slice(popIdx + 1));
+        session.roundState = {
+          ...session.roundState,
+          pending_intents: nextPending,
+        };
+        res.json({
+          session_id: session.session_id,
+          round_phase: session.roundState.round_phase,
+          pending_intents: nextPending,
+          popped,
+        });
+      } catch (err) {
+        next(err);
+      }
+    });
+
     router.post('/commit-round', async (req, res, next) => {
       try {
         const body = req.body || {};
