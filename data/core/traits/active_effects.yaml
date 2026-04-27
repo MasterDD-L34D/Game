@@ -160,3 +160,25 @@ traits:
       Protuberanza ossea pesante come una mazza. Ogni critico (MoS >= 8)
       applica 2 turni di frattura: il target perde AP al reset di turno
       (ap_remaining = 1 invece di ap pieno), limitando il movimento.
+
+  # SPRINT_020: stato burning (incendio). Apply da trait respiro_acido.
+  # DoT 2 PT/turno (piu' severo di bleeding 1 PT). Tick in tutti e 3 i
+  # path end-of-round: advanceThroughAiTurns, priority-queue, applyEndOfRoundSideEffects.
+
+  respiro_acido:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: burning
+      turns: 3
+      log_tag: respiro_acido_burning
+    description_it: |
+      Ghiandole che spruzzano acido corrosivo incandescente. Ogni hit
+      applica 3 turni di burning: il target subisce 2 PT di danno non
+      riducibile al termine di ogni turno (piu' severo del sanguinamento).
