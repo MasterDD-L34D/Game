@@ -116,8 +116,18 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 | | #1901 | Tactics Ogre AP pip indicator | P1 |
 | Agent integration | #1892 | cross-game extraction matrix + 10 agent step 1+2 | meta |
 | Sprint v3.5 | #1891 | biodiversity bundle + pilastri reconciliation + Conviction surfacing | meta+P4 |
+| Sprint α (mio) | #1914 | A+E residuals — SG starter + reward telemetry + QBN debrief wire | P2+P4+P6 |
+| Decisions codify (mio) | #1921 | 3 user verdicts (OD-001 Path A + HUD hybrid + CoQ soft bias) | meta |
+| Tier B+E QW (mio) | #1923 | Isaac Anomaly + FF7R critical juice + 3 Python tools | P1+P2+P6 |
+| Spore Moderate full | #1917 | QW-1 mp_grants toast (Gate 5 UX fix) | P2 |
+| | #1918 | S5 propagateLineage + inheritFromLineage cross-gen | P2 |
+| | #1920 | S6 resolver — archetype DR/init/sight consumption | P2 |
+| | #1922 | QW-2 MP badge characterPanel + QW-3 Mutations tab nestHub | P2+UI |
+| | #1924 | Sprint Y S5 lifecycle hooks — death propagate + spawn inherit | P2 |
+| Backbone deploy | #1919 | Sprint C backbone Min bundle — Render + CF Pages config | P5 ops |
+| Ticket runtime (mio) | #1909 | Step 7 sync script + ticket-triage skill (M14 runtime) | meta |
 
-**Totale 38 PR shipped** in ~4 giorni (2026-04-25→2026-04-27).
+**Totale 49 PR shipped** in ~4 giorni (2026-04-25→2026-04-27).
 
 ### A.3 — Documenti research/design generati (questa thread)
 
@@ -518,6 +528,7 @@ I 73 pattern ora vivono in 3 sistemi proven con trigger automatico:
 | 2026-04-27 update | §D | upkeep rule | Pre-cite check + memory rule cross-link aggiunta |
 | 2026-04-27 update | §G added | reality check | Audit empirico A+D+E targets dopo wave cross-PC |
 | 2026-04-27 update | §H added | decisions codified | Sprint α merged + Spore Moderate shipped + 3 decisioni user closed |
+| 2026-04-27 sera/notte | §A.2 + §G.5 + §H.4 | wave update | +11 PR mergiati (Spore S5/S6 + lifecycle + UI + Tier B+E mio + backbone deploy) → P2 → 🟢 def + 5 indie candidates verdict (2 ADOPT, 3 DEFER) |
 
 ## §G — REALITY CHECK 2026-04-27 sera (audit empirico A+D+E)
 
@@ -564,18 +575,20 @@ PR mergiati altro PC durante wave UI:
 
 **Pillar P1 Tattica → 🟢 definitivo** (era 🟢 candidato).
 
-### §G.5 — Pillar status post merge wave + Sprint α
+### §G.5 — Pillar status post merge wave + Sprint α (versione 2026-04-27 sera)
 
 | # | Pillar | Pre | Post | Delta |
 |---|---|:-:|:-:|---|
-| P1 | Tattica leggibile | 🟢c | **🟢 def** | wave UI 5 PR + Gate 5 DoD policy |
-| P2 | Evoluzione | 🟡++ | **🟢 cand def** | Spore Moderate full shipped |
-| P3 | Specie×Job | 🟡 | 🟡+ | Lineage tab UI exposed (#1911) |
-| P4 | MBTI/Ennea | 🟡++ | 🟡++ | QBN debrief wire (#1914) |
-| P5 | Co-op | 🟢c | 🟢c | M11B-06 playtest userland gate (no change) |
-| P6 | Fairness | 🟡+ | 🟡+ | no change |
+| P1 | Tattica leggibile | 🟢c | **🟢 def** | wave UI 5 PR + Gate 5 DoD policy + FF7R critical juice (#1923) |
+| P2 | Evoluzione | 🟡++ | **🟢 def** | Spore Moderate FULL stack S1→S6 + S5 lifecycle hooks (#1917-1924) + Isaac Anomaly + biodiversity v3.5 (#1891) |
+| P3 | Specie×Job | 🟡 | 🟡+ | Lineage tab UI + S5 cross-gen inherit (#1924) |
+| P4 | MBTI/Ennea | 🟡++ | 🟡++ | QBN debrief wire (#1914) + pilastri canonical 6 ADR (#1891) |
+| P5 | Co-op | 🟢c | 🟢c | M11B-06 playtest userland gate; backbone deploy roadmap shipped (#1919) |
+| P6 | Fairness | 🟡+ | 🟡++ | + 3 Tier E tools (SPRT + DuckDB + LLM critic, #1923) |
 
-**Score**: **1/6 🟢 def** (P1) + **1/6 🟢 cand def** (P2) + **1/6 🟢 cand** (P5) + 3/6 🟡+ (P3/P4/P6).
+**Score finale 2026-04-27 sera**: **2/6 🟢 def** (P1+P2!) + **1/6 🟢 cand** (P5) + 3/6 🟡+/++ (P3/P4/P6).
+
+**Trend**: P2 Evoluzione passa da 🟡++ stable → **🟢 def** in <12h grazie a wave Spore Moderate altro PC (S1+S2+S3+S5+S6 + UI).
 
 ## §H — DECISIONI CODIFIED 2026-04-27 (post Sprint α + β + wave UI)
 
@@ -603,15 +616,34 @@ Combina: precise (Tactics Ogre bar) + emozionale (Dead Space tint) = layered fee
 
 ---
 
-## §E — DECISIONI RICHIESTE master-dd (legacy — vedi §H per closure 2026-04-27)
+### §H.4 — Indie research candidates (5 verdicts 2026-04-27 sera/notte)
 
-1. ~~Quale path attivare?~~ ✅ closed: Sprint α (A+E residuals) + β Spore Moderate auto-shipped altro PC
-2. ~~Spore extraction Moderate confermato?~~ ✅ shipped #1913+#1915+#1916
-3. ~~OD-001 V3 Mating verdict?~~ ✅ Path A confirmed (§H.1)
-4. **Tier B Quick wins (~13h)** raccomandati come parallelo? Cogmind tooltip + Isaac Anomaly + FF7R critical juice
-5. **Tier E Quick wins (~10-15h)** raccomandati post path scelto? Stockfish SPRT + DuckDB + LLM-as-critic
-6. ~~Engine LIVE Surface DEAD sweep~~ ✅ codified Gate 5 DoD policy #1904
+**Context**: 5 candidati alto-ROI estratti da analisi predittiva indie research (i 5 file `2026-04-27-indie-*.md` **NON ANCORA online** sul repo — drafts locali altro PC).
+
+| # | Candidato | Effort | Pillar | Verdict | Rationale |
+|---:|---|---:|:-:|:-:|---|
+| 1 | **Tactical Breach Wizards Undo libero** | 3-4h | P1 | ✅ **ADOPT** | Quality-of-life potente, sblocca apprendimento tutorial (player sperimenta senza penalty). Pillar P1 già 🟢 def lo rinforza. ROI 7/10. |
+| 2 | Astrea dice deckbuilder dual-resource corruption/purification | 5-7h | P2 | ⏸️ **DEFER** | Spore Moderate ha già MP pool + Mutations + Tribe lineage. Aggiungere altro resource = scope creep. ROI 5/10 con costo coordinazione alto. |
+| 3 | Citizen Sleeper dice allocation week-by-week | 6h | P1 | ⏸️ **DEFER post-playtest** | AP attualmente = numero (2/turno). Cambiare paradigma a dice allocation = breaking profondo (resolveAttack + AI selectAction + UI tutti toccati). Riconsidera SOLO se TKT-M11B-06 playtest mostra AP system "noioso". |
+| 4 | **Tunic decipher Codex pages** | 5h | cross-cutting | ✅ **ADOPT** | Hades Codex panel già spec'd (M-2026-04-27-005). Tunic decipher = layer narrative-decifrabile sopra Codex base. Fits perfectly con A.L.I.E.N.A. wiki in-game progressiva. ROI 8/10. **TOP RECOMMENDATION.** |
+| 5 | Inscryption meta-narrative gimmick | 10-15h | P4 | ⏸️ **DEFER post-MVP** | Easter egg P4 deep, scope niche, blast radius narrative system. Defer permanente fino feedback playtest demonstrato need. |
+
+**Bundle ADOPT (~8-9h totale)**: TBW Undo + Tunic Codex. Tickets nuovi: `TKT-COMBAT-TBW-UNDO-LIBERO` + `TKT-CROSS-TUNIC-DECIPHER-CODEX`.
+
+**Bundle DEFER**: Astrea + Citizen Sleeper + Inscryption. Tutti hanno trigger condition esplicito per riattivazione (post-playtest, post-MVP, scope expand).
 
 ---
 
-_Doc generato 2026-04-27 da claude-code dopo absorption massiccia + deep extraction pass 2. §G+§H added 2026-04-27 sera/notte post wave Spore Moderate auto-shipped altro PC + 3 decisioni user closed._
+## §E — DECISIONI RICHIESTE master-dd (legacy — vedi §H per closure 2026-04-27)
+
+1. ~~Quale path attivare?~~ ✅ closed: Sprint α (A+E residuals) + β Spore Moderate auto-shipped altro PC
+2. ~~Spore extraction Moderate confermato?~~ ✅ shipped #1913+#1915+#1916+#1918+#1920+#1922+#1924 (full S1-S6 stack)
+3. ~~OD-001 V3 Mating verdict?~~ ✅ Path A confirmed (§H.1)
+4. ~~Tier B Quick wins~~ ✅ shipped #1923 (Isaac Anomaly + FF7R critical juice; Cogmind DEFER)
+5. ~~Tier E Quick wins~~ ✅ shipped #1923 (Stockfish SPRT + DuckDB + LLM-as-critic, 3 Python tools)
+6. ~~Engine LIVE Surface DEAD sweep~~ ✅ codified Gate 5 DoD policy #1904
+7. **Indie research integration** — ⏸️ **PENDING tu pushi i 5 file** `2026-04-27-indie-*.md` (drafts locali altro PC, NON ancora online). Decisione candidati shipped §H.4 above.
+
+---
+
+_Doc generato 2026-04-27 da claude-code dopo absorption massiccia + deep extraction pass 2. §G+§H+§H.4 added 2026-04-27 sera/notte post wave Spore Moderate auto-shipped altro PC + 5 decisioni user closed (3 originali + 2 Tier B+E)._
