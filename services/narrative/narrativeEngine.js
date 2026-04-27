@@ -284,6 +284,13 @@ function _resetMbtiPaletteCache() {
   _mbtiPaletteCache = null;
 }
 
+// Sprint δ Meta Systemic — Stellaris event chain scripting bridge.
+// Lazy require to avoid coupling narrative engine startup with chain loader.
+function triggerEventChain(chain_id, session, options = {}) {
+  const { triggerEvent } = require('../../apps/backend/services/meta/eventChainScripting');
+  return triggerEvent(chain_id, session, options);
+}
+
 module.exports = {
   NARRATIVES_DIR,
   DRIFT_BRIEFINGS_DIR,
@@ -299,6 +306,7 @@ module.exports = {
   extractMbtiAxisFromTags,
   classifyDriftVariant,
   selectDriftBriefing,
+  triggerEventChain,
   _resetMbtiPaletteCache,
   _resetDriftPackCache,
 };

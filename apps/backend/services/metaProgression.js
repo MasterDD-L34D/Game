@@ -519,6 +519,29 @@ function rollMatingOffspring({ parentA, parentB, biomeId, context = {} } = {}) {
     biome_id_at_mating: biomeId || null,
   };
 
+  // Sprint δ Meta Systemic — CK3 DNA chain encoding (opt-in).
+  // When context.useGeneEncoder=true, derive offspring DNA chain linking
+  // parent DNA (preserves cross-generation lineage). Additive only.
+  if (context.useGeneEncoder === true) {
+    try {
+      const { encode } = require('./meta/geneEncoder');
+      const offspringMutationSet = [
+        ...(offspring.environmental_mutation?.id ? [offspring.environmental_mutation.id] : []),
+        ...bonus,
+      ];
+      // Prefer parentA.dna_chain if available, else parentB
+      const parentDna = parentA.dna_chain || parentB.dna_chain || null;
+      offspring.dna_chain = encode({
+        lineage_id: lineageId,
+        applied_mutations: offspringMutationSet,
+        parent_dna: parentDna,
+      });
+    } catch (_err) {
+      // Defensive: encoder optional, never block mating roll
+      offspring.dna_chain = null;
+    }
+  }
+
   return {
     success: true,
     offspring,

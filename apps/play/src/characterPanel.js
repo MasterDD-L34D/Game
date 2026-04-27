@@ -21,6 +21,7 @@
 // in mbtiSurface.js — vcSnapshot.per_actor[uid].conviction_badges (additive).
 
 import { api } from './api.js';
+import { renderPortraitPanel } from './portraitPanel.js';
 
 const STATE = {
   overlayEl: null,
@@ -433,7 +434,14 @@ function render(unit, actorVc) {
       '<div class="character-empty">Seleziona un PG per vedere il suo profilo carattere.</div>';
     return;
   }
-  body.innerHTML = renderMpSection(unit) + renderMbtiSection(actorVc) + renderEnneaSection(actorVc);
+  // Sprint β Visual UX 2026-04-28 — CK3 portrait slot above MP section.
+  body.innerHTML =
+    '<div data-role="portrait-slot"></div>' +
+    renderMpSection(unit) +
+    renderMbtiSection(actorVc) +
+    renderEnneaSection(actorVc);
+  const portraitSlot = body.querySelector('[data-role="portrait-slot"]');
+  if (portraitSlot) renderPortraitPanel(portraitSlot, unit);
 }
 
 /**
