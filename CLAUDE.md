@@ -485,6 +485,28 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 9 Objective HUD top-bar — Surface-DEAD #5 chiuso)
+
+**Sessione 2026-04-27 (Sprint 9, §C.2 Surface-DEAD #5 chiusura)**: objective HUD top-bar live. Player vede subito `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2` band active, status colorato (active accent / win green / loss red). Backend `objectiveEvaluator` 6 obj types (elimination/capture_point/escort/sabotage/survival/escape) era LIVE da ADR-2026-04-20 ma surface DEAD: encounter.objective + objective_state non esposti al client.
+
+**Highlights**:
+
+- **Backend route nuovo** [`apps/backend/routes/session.js`](apps/backend/routes/session.js): `GET /api/session/:id/objective` ritorna `{encounter_id, encounter_label_it, objective: {type,...}, evaluation: {completed, failed, progress, reason, outcome?}}` lazy-evaluating tramite `evaluateObjective()`. Graceful 404 / null shape se sessione senza encounter.objective (backward compat tutorial legacy).
+- **Module nuovo** [`apps/play/src/objectivePanel.js`](apps/play/src/objectivePanel.js): pure `labelForObjectiveType(type)` (6 IT canonical labels) + `iconForObjectiveType(type)` (emoji per tipo) + `statusForEvaluation(evaluation)` (win/loss/active/unknown) + `formatProgress(type, progress)` aligned con real backend payload keys (sistema/player, turns_held/target_turns, turns_survived/target, units_escaped/units_alive, escort_hp/extracted, sabotage_progress/required) + side-effect `renderObjectiveBar(containerEl, payload)` (idempotent innerHTML + status class swap).
+- **API client** [`apps/play/src/api.js`](apps/play/src/api.js): `api.objective(sid)` GET helper.
+- **Wire** [`apps/play/src/main.js`](apps/play/src/main.js): import + `refreshObjectiveBar()` chiamato in `refresh()` (post state-fetch) + bootstrap `startSession`. Pipeline encounter_id → backend loadEncounter (docs/planning/encounters/<id>.yaml) → engine.encounter populated → /objective surfaces.
+- **HTML slot** [`apps/play/index.html`](apps/play/index.html): `<div id="objective-bar" class="objective-bar obj-hidden" role="status" aria-live="polite">` in header next to pressure-meter.
+- **CSS** [`apps/play/src/style.css`](apps/play/src/style.css): `.objective-bar` rules con varianti band (status-active accent / status-win green / status-loss red / hidden).
+- **Smoke E2E preview validato live**: bootstrap session enc_tutorial_01 (ora con encounter_id pipe) → HUD render `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2` con band active (accent border) ✓.
+- **Test**: 29/29 nuovi `tests/play/objectivePanel.test.js` (6 describe blocks: labelForObjectiveType + iconForObjectiveType + statusForEvaluation + formatProgress 6 obj types con real backend keys + formatObjectiveBar + renderObjectiveBar fakeContainer DOM). AI baseline 363/363 zero regression. Format prettier verde + governance 0 errors.
+- **Status §C.2 Surface-DEAD sweep**: **4/8 chiusi** (#1 Sprint 8 + #2 HP floating M4 P0.2 + #5 Sprint 9 + #8 Thought Cabinet Sprint 6).
+
+**Pillar P5 Co-op Sistema**: 🟡 → **🟡++** (player vede esplicitamente cosa deve fare). **P1 Tattica leggibile**: 🟢++ → **🟢++ (consolidato)**.
+
+**Next session candidato**: Sprint 10 QBN narrative debrief beats (Surface-DEAD #7) o Sprint 11 biome initial wave universal wire (Surface-DEAD #6 ~2h quick-win).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 8 predict_combat hover preview — Surface-DEAD #1 chiuso)
 
 **Sessione 2026-04-27 (Sprint 8, §C.2 Surface-DEAD #1 chiusura)**: predict_combat hover preview live. Player hover su nemico con player selezionato → tooltip mostra `⚔ HIT% · ~DMG · CRIT%` con band color (high/medium/low) + elevation hint. Decision aid <300ms before commit attack.

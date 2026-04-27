@@ -35,6 +35,7 @@ import {
   getPrediction,
   clearPredictionCache,
 } from './predictPreviewOverlay.js';
+import { renderObjectiveBar } from './objectivePanel.js';
 
 const state = {
   sid: null,
@@ -1018,6 +1019,25 @@ async function refreshVcSnapshot() {
   }
 }
 
+// Sprint 9 (Surface-DEAD #5) — refresh objective HUD bar.
+// Fetch /api/session/:id/objective + render in #objective-bar. Fire-and-forget,
+// HUD silenzia in caso di errore (best-effort surface, no crash session).
+async function refreshObjectiveBar() {
+  if (!state.sid) return;
+  const containerEl = document.getElementById('objective-bar');
+  if (!containerEl) return;
+  try {
+    const r = await api.objective(state.sid);
+    if (r.ok && r.data) {
+      renderObjectiveBar(containerEl, r.data);
+    } else {
+      renderObjectiveBar(containerEl, null);
+    }
+  } catch {
+    /* non-critical */
+  }
+}
+
 // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette (DOM overlay).
 // Driver: state.world.pressure (0..100). CSS vars --tension-alpha + --tension-color
 // applied to .tension-vignette singleton (created lazily). Pure helpers from
@@ -1102,6 +1122,8 @@ async function refresh() {
     state.world = r.data;
     processNewEvents(prev, state.world);
     refreshVcSnapshot();
+    // Sprint 9 (Surface-DEAD #5): refresh objective HUD bar post-state-fetch.
+    refreshObjectiveBar();
     // 2026-04-27 PR-Y1 — Gris pressure palette apply post-state-fetch
     applyPressurePalette(state.world);
     // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette overlay.
@@ -1248,6 +1270,11 @@ async function startNewSession() {
   // M7-#2 Phase C: pipe encounter_class da scenario a backend per apply
   // damage_curves.yaml multiplier + enrage threshold.
   if (sc.data.encounter_class) startOpts.encounter_class = sc.data.encounter_class;
+  // Sprint 9 (Surface-DEAD #5): pipe encounter_id so backend loads encounter
+  // YAML (docs/planning/encounters/<id>.yaml) which contains objective config.
+  // Sblocca HUD top-bar live (#objective-bar). Backward compat: backend ignora
+  // se encounter_id non risolve un YAML.
+  if (sc.data.id) startOpts.encounter_id = sc.data.id;
   if (coopCharacters && coopCharacters.length > 0) {
     startOpts.characters = coopCharacters;
   }
@@ -1262,6 +1289,8 @@ async function startNewSession() {
   state.target = null;
   // Sprint 8: nuova sessione → invalidate predict cache (stale tuple keys).
   clearPredictionCache();
+  // Sprint 9 (Surface-DEAD #5): refresh HUD obiettivo subito su nuova sessione.
+  refreshObjectiveBar();
   // Bundle B.3 — pipe session_id to codex panel for /api/v1/codex/pages.
   setCodexSessionId(state.sid);
   // M11 Phase B+ (TKT-M11B-03) — if host room carries campaign_id, bootstrap
