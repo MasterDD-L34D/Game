@@ -29,6 +29,7 @@ import { initCharacterPanel, openCharacterPanel } from './characterPanel.js';
 import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
 import { initSkivPanel, openSkivPanel } from './skivPanel.js';
 import { initNestHub, openNestHub } from './nestHub.js';
+import { renderSkillCheckPopups } from './skillCheckPopup.js';
 
 const state = {
   sid: null,
@@ -945,6 +946,12 @@ function processNewEvents(prevWorld, newWorld) {
         targetId: ev.target_id,
         result: ev.result,
       });
+      // Sprint 7 (B.1.8 #3): Disco passive→active skill check popup.
+      // Surface trait_effects[] entries triggered=true sopra l'actor con
+      // stile diegetico. No-op se nessun trait passivo è triggerato.
+      if (actor && Array.isArray(ev.trait_effects) && ev.trait_effects.length > 0) {
+        renderSkillCheckPopups(ev, actor, pushPopup);
+      }
     }
   }
   lastEventsCount = (newWorld?.events || []).length;

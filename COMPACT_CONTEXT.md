@@ -8,8 +8,12 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v10 (post Sprint 6 Thought Cabinet UI panel cooldown round-based 2026-04-27 — ✅ MERGED #1966 `584c54c2`)
-- **Ultimo aggiornamento**: 2026-04-27 (Sprint 6 Disco Tier S #9 closure — engine + bridge + UI + tests + smoke E2E + merge bookkeeping + adoption follow-up scheduled 2026-05-11)
+- **Versione compact**: v11 (post Sprint 7 Disco skill check popup 2026-04-27 — Disco bundle 4/4 shipped)
+- **Ultimo aggiornamento**: 2026-04-27 (Sprint 7 B.1.8 #3 closure — `skillCheckPopup.js` module + main.js wire + 22/22 test + smoke E2E preview validato. Bundle Disco Tier S COMPLETO: #1 PR #1966 + #2 PR #1945 + #3 this sprint + #4 PR #1934.)
+
+## ⚡ TL;DR per ripartire (post Sprint 7 — Disco bundle 4/4)
+
+**Sprint 7 autonomous shipped** in continuation: Disco skill check passive→active popup. Module nuovo `apps/play/src/skillCheckPopup.js` (pure `buildSkillCheckPayload` + side-effect `renderSkillCheckPopups`). Wire in `main.js processNewEvents` post damage popup. Filtra `triggered=true`, dedupes, format `[NOME TRAIT]` Disco-style caps, stagger 220ms + y-offset crescente. Zero backend change — `evaluateAttackTraits` già emette trait_effects in event payload. Test 22/22 + AI 363/363 zero regression. Smoke E2E preview validato. **P4 🟢 def → 🟢 def++** (Disco bundle Tier S 4/4 saturated: #1 PR #1966 + #2 PR #1945 + #3 this sprint + #4 PR #1934).
 
 ## ⚡ TL;DR per ripartire (post Sprint 6)
 
