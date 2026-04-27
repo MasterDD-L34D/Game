@@ -353,9 +353,9 @@ Push + PR title 'feat(skiv): Goal 4 — legacy death ritual choice (P2 cross-gen
 
 ### Phase 2 (G3) — gated on Phase 1 merged
 
-| Goal                         |   Status   | PR                                                     | Notes                                                                                                                                                                                    |
-| ---------------------------- | :--------: | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| G3 Thoughts ritual choice UI | ✅ SHIPPED | [#TBD](https://github.com/MasterDD-L34D/Game/pull/TBD) | thoughtsRitualPanel.js + GET /thoughts/candidates (top-3 ranked) + auto-open trigger event 'research_completed' + 30s timer + irreversible session lock; 10/10 test, voice preview wired |
+| Goal                         |   Status   | PR                                                       | Notes                                                                                                                                                                                    |
+| ---------------------------- | :--------: | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| G3 Thoughts ritual choice UI | ✅ SHIPPED | [#1983](https://github.com/MasterDD-L34D/Game/pull/1983) | thoughtsRitualPanel.js + GET /thoughts/candidates (top-3 ranked) + auto-open trigger event 'research_completed' + 30s timer + irreversible session lock; 10/10 test, voice preview wired |
 
 ### Phase 3 (G4) — gated on G3 merged
 
