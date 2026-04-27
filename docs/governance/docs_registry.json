@@ -4851,6 +4851,17 @@
       "review_cycle_days": 14
     },
     {
+      "path": "docs/planning/2026-04-27-skiv-personal-sprint-handoff.md",
+      "title": "Skiv Personal Sprint — desideri canonical handoff (4 goals + execution plan)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-27",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
       "path": "docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md",
       "title": "Evo Final Design — Backlog Register",
       "doc_status": "draft",
