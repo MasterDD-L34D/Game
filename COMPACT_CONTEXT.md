@@ -8,8 +8,20 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v12 (post Sprint 8 predict_combat hover preview — Surface-DEAD #1 chiuso 2026-04-27)
-- **Ultimo aggiornamento**: 2026-04-27 (Sprint 8 §C.2 Surface-DEAD #1 closure — `predictPreviewOverlay.js` + `api.predict` + main.js mousemove wire + CSS band colors + 22/22 test + smoke E2E live in browser. Status §C.2: 3/8 chiusi.)
+- **Versione compact**: v15 (post Sprint 11 Biome chip HUD — Surface-DEAD #6 chiuso 2026-04-27, 6/8 sweep)
+- **Ultimo aggiornamento**: 2026-04-27 (Sprint 11 §C.2 Surface-DEAD #6 closure — `biomeChip.js` + `#biome-chip` HUD slot + main.js refresh wire + CSS pill style + biome_id propagato in publicSessionView fallback session.encounter?.biome_id + 17/17 test + smoke E2E preview validato `🌾 Savana` chip live. Status §C.2: 6/8 chiusi.)
+
+## ⚡ TL;DR per ripartire (post Sprint 11 — Surface-DEAD #6 chiuso, 6/8 sweep)
+
+**Sprint 11 autonomous shipped** in continuation: biome chip HUD live next to objective bar. Backend `biomeSpawnBias.js` (reinforcement spawn boost) era LIVE ma player non vedeva mai il bioma corrente — perdeva lettura tattica ambientale (specie endemiche, hazard, strategia). Backend `publicSessionView` extended con `biome_id: session.biome_id || session.encounter?.biome_id || null` (fallback a encounter YAML loader). Module nuovo `apps/play/src/biomeChip.js` (pure `labelForBiome` 11 canonical IT labels + `iconForBiome` emoji + `formatBiomeChip` HTML + side-effect `renderBiomeChip` idempotent + show/hide). HUD slot `<div id="biome-chip">` in header next to objective-bar. main.js `refreshBiomeChip()` wire on bootstrap + post-state-fetch. CSS pill style (rgba green-tinted bg + border + caps label). 17/17 test + AI 363/363 zero regression. Smoke E2E preview validato live: bootstrap enc_tutorial_01 → HUD chip `🌾 Savana` con tooltip "Biome: savana — vedi Codex per dettagli". **§C.2 Surface-DEAD: 6/8 chiusi** (#1 + #2 + #5 + #6 + #7 + #8). Residui solo #3 Spore mutation dots (15h authoring) + #4 Mating lifecycle wire (5h).
+
+## ⚡ TL;DR per ripartire (post Sprint 10 — Surface-DEAD #7 chiuso)
+
+**Sprint 10 autonomous shipped** in continuation: QBN narrative event diegetic surface live nel debrief panel. Backend `qbnEngine.drawEvent` LIVE da PR #1914 + `rewardEconomy.buildDebriefSummary` già emette `narrative_event` in debrief response, ma frontend ignorava il campo. Modulo nuovo `apps/play/src/qbnDebriefRender.js` (pure `formatNarrativeEventCard` + side-effect `renderNarrativeEvent`) + setter `setNarrativeEvent` aggiunto a `debriefPanel.js` API + `<div id="db-qbn-section">` HTML template + `phaseCoordinator.js` pipe da `bridge.lastDebrief.narrative_event` + CSS journal style (Georgia serif italic body + violet accent border). 15/15 test + AI 363/363 zero regression. Smoke E2E preview validato live: render produces `<div class="db-qbn-event">` con title/body/choices/meta sections. **P4 🟢 def → 🟢++** (cronaca diegetica visibile post-encounter). **§C.2 Surface-DEAD: 5/8 chiusi** (#1 + #2 + #5 + #7 + #8). Residui: #3 Spore mutation dots (15h authoring), #4 Mating lifecycle wire (5h), #6 Biome initial wave (2h quick-win).
+
+## ⚡ TL;DR per ripartire (post Sprint 9 — Surface-DEAD #5 chiuso)
+
+**Sprint 9 autonomous shipped** in continuation: Objective HUD top-bar live. Backend route nuovo `GET /api/session/:id/objective` + module `apps/play/src/objectivePanel.js` (6 obj types: elimination/capture_point/escort/sabotage/survival/escape — IT label + emoji icon + status win/loss/active/unknown + formatProgress aligned con real backend payload keys) + `api.objective` client + main.js `refreshObjectiveBar()` wire on bootstrap + post-state-fetch + index.html HUD slot in header + CSS band colors (status-active accent / status-win green / status-loss red). Tutorial play UI ora pipe `encounter_id` a `/api/session/start` per attivare engine. 29/29 test + AI 363/363 zero regression. Smoke E2E preview validato live: bootstrap enc_tutorial_01 → HUD render `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2` band active. **P5 Co-op Sistema 🟡 → 🟡++** (player vede esplicitamente cosa deve fare). **§C.2 Surface-DEAD: 4/8 chiusi** (#1 Sprint 8 + #2 HP floating + #5 Sprint 9 + #8 Sprint 6).
 
 ## ⚡ TL;DR per ripartire (post Sprint 8 — Surface-DEAD #1 chiuso)
 

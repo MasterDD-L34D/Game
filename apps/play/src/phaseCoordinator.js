@@ -95,6 +95,17 @@ export function createPhaseCoordinator(bridge) {
         } catch {
           /* reward offer optional */
         }
+        // Sprint 10 (Surface-DEAD #7): pipe QBN narrative event quando debrief
+        // payload include narrative_event (rewardEconomy.buildDebriefSummary).
+        // bridge.lastDebrief è una cache del response /api/session/end o del
+        // payload coop debrief broadcast. Fail-safe: setter ignora null.
+        try {
+          const debriefPayload = bridge?.lastDebrief || bridge?.session?.lastDebrief || null;
+          const narrativeEvent = debriefPayload?.narrative_event || null;
+          if (dbApi.setNarrativeEvent) dbApi.setNarrativeEvent(narrativeEvent);
+        } catch {
+          /* narrative event optional */
+        }
         break;
       }
       case 'ended':

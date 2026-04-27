@@ -328,6 +328,42 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 late — situation report cross-PC)
+
+**50 PR mergiati main today** (cross-PC + multi-session combined). Main HEAD: `a5679e81`.
+
+**Anti-pattern Engine LIVE Surface DEAD — 8/8 chiusi**:
+
+- #1 predict_combat → #1975 hover preview ✅
+- #2 Tactics Ogre HUD → #1901+#1960 ✅
+- #3 Spore part-pack → S1-S6 + UI tab #1922 ✅
+- #4 Mating engine → #1918 propagateLineage + #1924 lifecycle ✅
+- #5 objectiveEvaluator → #1976 Objective HUD ✅
+- #6 biomeSpawnBias → Sprint γ AI YAML + ecology ✅
+- #7 QBN engine → #1979 debrief beats ✅
+- #8 Thought Cabinet → #1966 UI panel + #1945 inner voices ✅
+
+**Pillar score finale**: **5/6 🟢 def + 1/6 🟡++ (P3)**. Demo-ready confirmed.
+
+**In flight**:
+
+- #1979 QBN debrief OPEN
+- #1978 Ability r3/r4 tier OPEN
+- #1977 Skiv Goal 2 echolocation DRAFT (altra sessione personal sprint)
+- #1928 governance drift DRAFT cross-PC
+
+**Skiv personal sprint** (`docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`): G2 in flight, G1+G3+G4 not started.
+
+**Situation report canonical**: [`docs/reports/2026-04-27-situation-report-late.md`](docs/reports/2026-04-27-situation-report-late.md).
+
+**Next priority** (master-dd choice):
+
+- TKT-M11B-06 playtest live userland → chiude P5 🟢 def definitivo
+- Skiv personal sprint completion (4 goals, ~15-16h)
+- Aspect_token authoring batch (~13h P2 visual debt)
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 7 Beast Bond reactions)
 
 **Sessione 2026-04-27 Sprint 7 (autonomous, ~5h)**: AncientBeast Tier S #6 residuo Beast Bond — passive species-pair reaction parallel a M2 reactionEngine. Closes 3/4 Tier S #6 (Sprint 6 channel + Sprint 7 bond; Ability r3/r4 ~10h residuo).
@@ -482,6 +518,69 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 **Handoff**: [`docs/planning/2026-04-27-status-effects-phase-a-handoff.md`](docs/planning/2026-04-27-status-effects-phase-a-handoff.md).
 
 **Next session candidati**: A) HUD surface per 5 stati (~3-4h, Gate 5 DoD), B) policy.js consumption per AI awareness (~6-8h), C) merge + rebase PR-1/2 su nuovo main, D) Phase B stati avanzati.
+
+---
+
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 11 Biome chip HUD — Surface-DEAD #6 chiuso, 6/8 sweep)
+
+**Sessione 2026-04-27 (Sprint 11, §C.2 Surface-DEAD #6 chiusura)**: biome chip HUD live next to objective bar. Player vede ora `🌾 Savana` (o equivalente per altri biomi) chip pill style accanto all'obiettivo, con tooltip nativo "Biome: <id> — vedi Codex per dettagli". Sblocca lettura tattica ambiente (specie endemiche favorite, hazard, strategia).
+
+**Highlights**:
+
+- **Backend** [`apps/backend/routes/sessionHelpers.js`](apps/backend/routes/sessionHelpers.js): expose `biome_id` in `publicSessionView` con fallback `session.encounter?.biome_id` (per encounter YAML loaded via encounter_id).
+- **Module nuovo** [`apps/play/src/biomeChip.js`](apps/play/src/biomeChip.js): pure `labelForBiome(biomeId)` (11 canonical IT labels: savana/caverna/foresta/pianura_aperta/rovine_planari/abisso_vulcanico/atollo_obsidiana/cattedrale_apex/frattura_stellare/etc) + `iconForBiome` (emoji per tipo) + `formatBiomeChip(biomeId)` (HTML pill) + side-effect `renderBiomeChip(containerEl, biomeId)` (idempotent + show/hide gracefully).
+- **HTML slot** [`apps/play/index.html`](apps/play/index.html): `<div id="biome-chip" class="biome-chip biome-hidden" role="status" aria-live="polite">` next to objective-bar in header.
+- **Wire** [`apps/play/src/main.js`](apps/play/src/main.js): import + `refreshBiomeChip()` chiamato in `refresh()` (post state-fetch) + bootstrap `startSession`. Reads `state.world.biome_id` (publicSessionView).
+- **CSS** [`apps/play/src/style.css`](apps/play/src/style.css): `.biome-chip` pill style (rgba green-tinted bg + border + caps label).
+- **Smoke E2E preview validato live**: bootstrap session enc_tutorial_01 → backend resolve `biome_id: 'savana'` (via encounter YAML) → HUD chip render `🌾 Savana` con tooltip ✓.
+- **Test**: 17/17 nuovi `tests/play/biomeChip.test.js` (4 describe blocks: labelForBiome 4 + iconForBiome 3 + formatBiomeChip 4 XSS escape + renderBiomeChip 6 idempotent + DOM side effect). AI baseline 363/363 zero regression. Format prettier verde + governance 0 errors.
+- **Status §C.2 Surface-DEAD sweep**: **6/8 chiusi** (#1 Sprint 8 + #2 HP floating + #5 Sprint 9 + #6 Sprint 11 + #7 Sprint 10 + #8 Sprint 6). Residui solo #3 Spore mutation dots (15h authoring) + #4 Mating lifecycle wire (5h).
+
+**Pillar P5 Co-op Sistema**: 🟡++ → **🟡++ (consolidato)**. **P1 Tattica leggibile**: 🟢++ (ambient context).
+
+**Next session candidato**: Sprint 12 Mating lifecycle wire (Surface-DEAD #4 ~5h, sblocca lineage chain visibile post-encounter) oppure pivotare su Tier-A o Tier-B residui non-Surface-DEAD.
+
+---
+
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 10 QBN narrative debrief beats — Surface-DEAD #7 chiuso)
+
+**Sessione 2026-04-27 (Sprint 10, §C.2 Surface-DEAD #7 chiusura)**: QBN narrative event diegetic surface live nel debrief panel. Backend `qbnEngine.drawEvent` LIVE da PR #1914 + `rewardEconomy.buildDebriefSummary` già emette `narrative_event` in debrief response, ma frontend ignorava il campo.
+
+**Highlights**:
+
+- **Module nuovo** [`apps/play/src/qbnDebriefRender.js`](apps/play/src/qbnDebriefRender.js): pure `formatNarrativeEventCard(narrativeEvent)` (HTML card con title + body + choices + meta) + side-effect `renderNarrativeEvent(sectionEl, cardEl, payload)` (idempotent + section show/hide). Accept legacy keys `title`/`body` + canonical `title_it`/`body_it`. XSS escape su tutti i campi.
+- **Setter** [`apps/play/src/debriefPanel.js`](apps/play/src/debriefPanel.js): nuovo `setNarrativeEvent(payload)` API + `state.narrativeEvent` field + `renderQbn()` chiamato in render path principale + `<div id="db-qbn-section">` HTML template + import.
+- **Wire** [`apps/play/src/phaseCoordinator.js`](apps/play/src/phaseCoordinator.js): pipe `bridge.lastDebrief.narrative_event` → `dbApi.setNarrativeEvent(...)` quando phase transitions a 'debrief'.
+- **CSS** [`apps/play/src/debriefPanel.css`](apps/play/src/debriefPanel.css): `.db-qbn-card` journal style (linear-gradient violet + Georgia serif body italic) + `.db-qbn-title/body/choices/meta` typography.
+- **Test**: 15/15 nuovi `tests/play/qbnDebriefRender.test.js` (2 describe blocks: formatNarrativeEventCard + renderNarrativeEvent — null/empty/full payload + legacy keys + XSS escape + choices fallback + idempotency). AI baseline 363/363 zero regression. Format prettier verde + governance 0 errors.
+- **Smoke E2E preview validato live**: backend + play servers, module import OK, render path produces correct DOM `<div class="db-qbn-event"...>` con title/body/choices/meta sections.
+- **Status §C.2 Surface-DEAD sweep**: **5/8 chiusi** (#1 Sprint 8 + #2 HP floating + #5 Sprint 9 + #7 Sprint 10 + #8 Sprint 6). Residui: #3 Spore mutation dots (15h authoring), #4 Mating lifecycle wire (5h), #6 Biome initial wave (2h quick-win).
+
+**Pillar P4 Narrative Identità**: 🟢 def → **🟢++** (cronaca diegetica visibile post-encounter).
+
+**Next session candidato**: Sprint 11 biome initial wave universal wire (Surface-DEAD #6 ~2h quick-win).
+
+---
+
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 9 Objective HUD top-bar — Surface-DEAD #5 chiuso)
+
+**Sessione 2026-04-27 (Sprint 9, §C.2 Surface-DEAD #5 chiusura)**: objective HUD top-bar live. Player vede subito `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2` band active, status colorato (active accent / win green / loss red). Backend `objectiveEvaluator` 6 obj types (elimination/capture_point/escort/sabotage/survival/escape) era LIVE da ADR-2026-04-20 ma surface DEAD: encounter.objective + objective_state non esposti al client.
+
+**Highlights**:
+
+- **Backend route nuovo** [`apps/backend/routes/session.js`](apps/backend/routes/session.js): `GET /api/session/:id/objective` ritorna `{encounter_id, encounter_label_it, objective: {type,...}, evaluation: {completed, failed, progress, reason, outcome?}}` lazy-evaluating tramite `evaluateObjective()`. Graceful 404 / null shape se sessione senza encounter.objective (backward compat tutorial legacy).
+- **Module nuovo** [`apps/play/src/objectivePanel.js`](apps/play/src/objectivePanel.js): pure `labelForObjectiveType(type)` (6 IT canonical labels) + `iconForObjectiveType(type)` (emoji per tipo) + `statusForEvaluation(evaluation)` (win/loss/active/unknown) + `formatProgress(type, progress)` aligned con real backend payload keys (sistema/player, turns_held/target_turns, turns_survived/target, units_escaped/units_alive, escort_hp/extracted, sabotage_progress/required) + side-effect `renderObjectiveBar(containerEl, payload)` (idempotent innerHTML + status class swap).
+- **API client** [`apps/play/src/api.js`](apps/play/src/api.js): `api.objective(sid)` GET helper.
+- **Wire** [`apps/play/src/main.js`](apps/play/src/main.js): import + `refreshObjectiveBar()` chiamato in `refresh()` (post state-fetch) + bootstrap `startSession`. Pipeline encounter_id → backend loadEncounter (docs/planning/encounters/<id>.yaml) → engine.encounter populated → /objective surfaces.
+- **HTML slot** [`apps/play/index.html`](apps/play/index.html): `<div id="objective-bar" class="objective-bar obj-hidden" role="status" aria-live="polite">` in header next to pressure-meter.
+- **CSS** [`apps/play/src/style.css`](apps/play/src/style.css): `.objective-bar` rules con varianti band (status-active accent / status-win green / status-loss red / hidden).
+- **Smoke E2E preview validato live**: bootstrap session enc_tutorial_01 (ora con encounter_id pipe) → HUD render `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2` con band active (accent border) ✓.
+- **Test**: 29/29 nuovi `tests/play/objectivePanel.test.js` (6 describe blocks: labelForObjectiveType + iconForObjectiveType + statusForEvaluation + formatProgress 6 obj types con real backend keys + formatObjectiveBar + renderObjectiveBar fakeContainer DOM). AI baseline 363/363 zero regression. Format prettier verde + governance 0 errors.
+- **Status §C.2 Surface-DEAD sweep**: **4/8 chiusi** (#1 Sprint 8 + #2 HP floating M4 P0.2 + #5 Sprint 9 + #8 Thought Cabinet Sprint 6).
+
+**Pillar P5 Co-op Sistema**: 🟡 → **🟡++** (player vede esplicitamente cosa deve fare). **P1 Tattica leggibile**: 🟢++ → **🟢++ (consolidato)**.
+
+**Next session candidato**: Sprint 10 QBN narrative debrief beats (Surface-DEAD #7) o Sprint 11 biome initial wave universal wire (Surface-DEAD #6 ~2h quick-win).
 
 ---
 

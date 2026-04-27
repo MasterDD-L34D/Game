@@ -122,6 +122,59 @@
   margin-bottom: 8px;
 }
 
+/* Sprint 10 (Surface-DEAD #7) — QBN narrative event diegetic card. */
+.db-qbn-section {
+  margin-top: 4px;
+}
+.db-qbn-card {
+  background: linear-gradient(180deg, #1a1626 0%, #0f0c18 100%);
+  border: 1px solid #3a2c5a;
+  border-left: 3px solid #c6a0ff;
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
+}
+.db-qbn-event {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.db-qbn-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #d8c7ff;
+  letter-spacing: 0.01em;
+}
+.db-qbn-body {
+  font-size: 0.95rem;
+  color: #cfd1d5;
+  line-height: 1.5;
+  font-style: italic;
+}
+.db-qbn-choices {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.db-qbn-choice {
+  padding: 6px 10px;
+  background: rgba(198, 160, 255, 0.08);
+  border: 1px solid rgba(198, 160, 255, 0.25);
+  border-radius: 4px;
+  color: #e8eaf0;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+.db-qbn-meta {
+  font-size: 0.7rem;
+  color: #6b6f7d;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
 .db-evolve-card {
   background: linear-gradient(180deg, #2a1540 0%, #1a1027 100%);
   border: 1px solid #7e57c2;
