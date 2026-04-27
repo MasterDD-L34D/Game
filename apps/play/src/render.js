@@ -245,17 +245,27 @@ export function getAspectTokenOverlay(token) {
   return ASPECT_TOKEN_OVERLAY[token.toLowerCase()] || null;
 }
 
+// 2026-04-27 PR-Y1 — Hyper Light Drifter glyph alphabet (forma+colore = doppio canale).
+// Pattern donor: docs/research/2026-04-27-indie-design-perfetto.md (HLD #4).
+// Forma denota CATEGORIA status (mental/physical/temporary/buff). Colore denota URGENZA.
+// Color-blind safe (P2 a11y compliance: 2 canali informativi).
+//
+// Categorie:
+//   triangle = MENTAL (panic/confused/focused) — instabilita psichica
+//   diamond  = PHYSICAL (bleeding/fracture/sbilanciato) — ferita fisica
+//   star     = COMBAT_BUFF (rage/stunned/aggro_locked) — alterazione combat
+//   circle   = SOCIAL (taunted_by) — manipolazione esterna
 const STATUS_ICONS = {
-  panic: { glyph: '!', bg: '#ff9800' },
-  rage: { glyph: '⚡', bg: '#f44336' },
-  stunned: { glyph: '★', bg: '#9c27b0' },
-  focused: { glyph: '◎', bg: '#03a9f4' },
-  confused: { glyph: '?', bg: '#ffc107' },
-  bleeding: { glyph: '☽', bg: '#e91e63' },
-  fracture: { glyph: '✕', bg: '#795548' },
-  sbilanciato: { glyph: '↯', bg: '#ffeb3b' },
-  taunted_by: { glyph: '⎯', bg: '#ffc107' },
-  aggro_locked: { glyph: '◉', bg: '#ff5722' },
+  panic: { glyph: '!', bg: '#ff9800', shape: 'triangle' },
+  rage: { glyph: '⚡', bg: '#f44336', shape: 'star' },
+  stunned: { glyph: '★', bg: '#9c27b0', shape: 'star' },
+  focused: { glyph: '◎', bg: '#03a9f4', shape: 'triangle' },
+  confused: { glyph: '?', bg: '#ffc107', shape: 'triangle' },
+  bleeding: { glyph: '☽', bg: '#e91e63', shape: 'diamond' },
+  fracture: { glyph: '✕', bg: '#795548', shape: 'diamond' },
+  sbilanciato: { glyph: '↯', bg: '#ffeb3b', shape: 'diamond' },
+  taunted_by: { glyph: '⎯', bg: '#ffc107', shape: 'circle' },
+  aggro_locked: { glyph: '◉', bg: '#ff5722', shape: 'star' },
 };
 
 export function fitCanvas(canvas, width, height) {
@@ -295,6 +305,44 @@ function drawCell(ctx, x, yPx, fill, tileImg) {
   ctx.strokeRect(x * CELL + 0.5, yPx * CELL + 0.5, CELL - 1, CELL - 1);
 }
 
+// 2026-04-27 PR-Y1 — HLD shape helper. Disegna forma per categoria status.
+function drawStatusShape(ctx, shape, cx, cy, radius) {
+  ctx.beginPath();
+  switch (shape) {
+    case 'triangle': {
+      ctx.moveTo(cx, cy - radius);
+      ctx.lineTo(cx + radius * 0.92, cy + radius * 0.6);
+      ctx.lineTo(cx - radius * 0.92, cy + radius * 0.6);
+      ctx.closePath();
+      break;
+    }
+    case 'diamond': {
+      ctx.moveTo(cx, cy - radius);
+      ctx.lineTo(cx + radius, cy);
+      ctx.lineTo(cx, cy + radius);
+      ctx.lineTo(cx - radius, cy);
+      ctx.closePath();
+      break;
+    }
+    case 'star': {
+      const points = 5;
+      for (let i = 0; i < points * 2; i += 1) {
+        const a = (i / (points * 2)) * Math.PI * 2 - Math.PI / 2;
+        const r = i % 2 === 0 ? radius : radius * 0.5;
+        const x = cx + Math.cos(a) * r;
+        const y = cy + Math.sin(a) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      break;
+    }
+    case 'circle':
+    default:
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  }
+}
+
 function drawStatusIcons(ctx, unit, cx, yPxTop) {
   const status = unit.status || {};
   const icons = [];
@@ -312,12 +360,15 @@ function drawStatusIcons(ctx, unit, cx, yPxTop) {
     const ic = icons[i];
     const ix = startX + i * (size + gap);
     const iy = yPxTop + 4;
+    // 2026-04-27 PR-Y1 — HLD shape (forma=categoria) sostituisce circle uniforme.
     ctx.fillStyle = ic.bg;
-    ctx.beginPath();
-    ctx.arc(ix + size / 2, iy + size / 2, size / 2, 0, Math.PI * 2);
+    drawStatusShape(ctx, ic.shape || 'circle', ix + size / 2, iy + size / 2, size / 2);
     ctx.fill();
+    // Stroke per separazione su tile colorato (white outline a11y compliance).
+    ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
     ctx.fillStyle = '#000';
-    // 10-foot rule: dynamic min 12px, scale with CELL (Microsoft TV guidelines).
     ctx.font = `bold ${Math.max(12, Math.round(CELL * 0.16))}px "SF Mono", monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

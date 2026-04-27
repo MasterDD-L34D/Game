@@ -844,6 +844,30 @@ async function refreshVcSnapshot() {
   }
 }
 
+// 2026-04-27 PR-Y1 — Gris pressure palette body class apply.
+// Driver: state.world.ai_progress.tier.name (Calm/Alert/Escalated/Critical/Apex)
+// → body.pressure-{calm,alert,critical,apex}. Transition 1.5s in style.css.
+function applyPressurePalette(world) {
+  if (!world || typeof document === 'undefined') return;
+  const tierName = world.ai_progress?.tier?.name || world.sistema_tier?.name || 'Calm';
+  // Map 5 tier engine -> 4 palette buckets (Escalated + Critical share critical bucket).
+  const map = {
+    Calm: 'calm',
+    Alert: 'alert',
+    Escalated: 'critical',
+    Critical: 'critical',
+    Apex: 'apex',
+  };
+  const cls = `pressure-${map[tierName] || 'calm'}`;
+  const body = document.body;
+  if (!body) return;
+  // Remove old pressure-* classes, add new
+  for (const c of Array.from(body.classList)) {
+    if (c.startsWith('pressure-')) body.classList.remove(c);
+  }
+  body.classList.add(cls);
+}
+
 async function refresh() {
   const r = await api.state(state.sid);
   if (r.ok) {
@@ -851,6 +875,8 @@ async function refresh() {
     state.world = r.data;
     processNewEvents(prev, state.world);
     refreshVcSnapshot();
+    // 2026-04-27 PR-Y1 — Gris pressure palette apply post-state-fetch
+    applyPressurePalette(state.world);
     if (state.selected) {
       const sel = state.world.units.find((u) => u.id === state.selected);
       if (!sel || sel.hp <= 0) state.selected = null;

@@ -61,6 +61,73 @@
   --phone-success: #4caf50;
   --phone-warn: #ffb74d;
   --phone-danger: #ef5350;
+
+  /* 2026-04-27 PR-Y1 — Gris pressure palette (color = Sistema mood).
+   * Pattern donor: docs/research/2026-04-27-indie-design-perfetto.md (Gris #2).
+   * Default Calm (pressure 0-30). Body class .pressure-{calm,alert,critical,apex}
+   * cambia bg/cell/accent dinamico. Transition 1.5s ease (ambient feel).
+   * Driver: state.sistema_pressure tier via aiProgressMeter (PR #1898). */
+  --gris-bg-calm: #1a1a1a;
+  --gris-bg-alert: #1e1814; /* warm tint, sabbia bassa */
+  --gris-bg-critical: #2a1212; /* tinta rossastra mood teso */
+  --gris-bg-apex: #3a0a14; /* rosso scuro saturo, panico */
+  --gris-accent-calm: #ffcc00;
+  --gris-accent-alert: #ffaa44;
+  --gris-accent-critical: #ff7755;
+  --gris-accent-apex: #ff3344;
+
+  /* 2026-04-27 PR-Y1 — Pentiment font faction-as-identity.
+   * Pattern donor: docs/research/2026-04-27-indie-design-perfetto.md (Pentiment #4).
+   * Player = serif caldo (Georgia/Cambria). Sistema = monospace tech (SF Mono).
+   * Surface in event log + unit name labels. Identita visiva immediata. */
+  --font-player: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  --font-sistema: 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+  --font-narrative: 'Georgia', 'Cambria', 'Times New Roman', serif;
+}
+
+/* 2026-04-27 PR-Y1 — Gris pressure palette transitions.
+ * body.pressure-{tier} applicata da JS (sessionStateApply) basato su
+ * state.ai_progress.tier.name (Calm/Alert/Escalated/Critical/Apex).
+ * Transition lenta 1.5s ease per "mood ambientale", non flash.
+ *
+ * Implementation note: sovrascrive --bg + --accent base. Tutto il resto
+ * eredita via cascade. Zero edit downstream rules. */
+body {
+  transition:
+    background-color 1.5s ease,
+    color 0.3s ease;
+}
+body.pressure-calm {
+  --bg: var(--gris-bg-calm);
+  --accent: var(--gris-accent-calm);
+}
+body.pressure-alert {
+  --bg: var(--gris-bg-alert);
+  --accent: var(--gris-accent-alert);
+}
+body.pressure-critical {
+  --bg: var(--gris-bg-critical);
+  --accent: var(--gris-accent-critical);
+}
+body.pressure-apex {
+  --bg: var(--gris-bg-apex);
+  --accent: var(--gris-accent-apex);
+}
+
+/* 2026-04-27 PR-Y1 — Pentiment font faction classes.
+ * Apply: .faction-player .name { font-family: var(--font-player); }
+ * In event log: .log-entry.player vs .log-entry.sistema.
+ * Surface integration in main.js / ui.js append class.  */
+.faction-player {
+  font-family: var(--font-player);
+}
+.faction-sistema {
+  font-family: var(--font-sistema);
+  letter-spacing: 0.02em;
+}
+.faction-narrative {
+  font-family: var(--font-narrative);
+  font-style: italic;
 }
 
 /* W8 — Bump html base 16→17px per TV-first readability (42-SG).
