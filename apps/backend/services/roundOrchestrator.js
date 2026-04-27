@@ -589,6 +589,23 @@ function resolveRound(state, catalog, rng, resolveAction, speedTable = DEFAULT_A
   }
   let nextState = _deepClone(state);
   nextState.round_phase = PHASE_RESOLVING;
+  // Sprint α (JA3 pattern) — interrupt fire drain BEFORE main resolve queue.
+  // Light scope: queue ordering only, no full perception graph (deferred).
+  // Caller può addToQueue prima di commitRound; resolveRound flush qui in
+  // priority desc + FIFO. Pure: errori non bloccano resolve principale.
+  try {
+    const interruptFire = require('./combat/interruptFire');
+    if (Array.isArray(nextState._interrupt_queue) && nextState._interrupt_queue.length > 0) {
+      const flushed = interruptFire.resolveQueue(nextState, (intent) => ({
+        executed: false,
+        reason: 'light_scope_no_perception_graph',
+        intent_actor: intent.actor_id,
+      }));
+      nextState._interrupt_resolved = flushed;
+    }
+  } catch {
+    /* interrupt fire optional */
+  }
   const queue = buildResolutionQueue(nextState, speedTable);
   const { reactionsByUnit } = _partitionIntents(nextState);
   const turnLogEntries = [];

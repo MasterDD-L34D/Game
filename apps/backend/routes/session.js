@@ -676,6 +676,22 @@ function createSessionRouter(options = {}) {
       if (target.hp === 0) {
         killOccurred = true;
       }
+      // Sprint α (Hard West 2 pattern): bravado AP refill su chain-kill player.
+      // Solo player (asimmetria risk/reward); cap actor.ap. Lazy require.
+      // Opt-in via BRAVADO_ENABLED=true (default OFF per back-compat con
+      // tutorial AP budget tests). Activation deferred a calibration sprint
+      // (segue pattern LOBBY_WS_ENABLED M11).
+      if (killOccurred && process.env.BRAVADO_ENABLED === 'true') {
+        try {
+          const { onKillRefill } = require('../services/combat/bravado');
+          const bravadoRes = onKillRefill(actor, target);
+          if (bravadoRes.refilled > 0) {
+            actor.bravado_refill_last = bravadoRes.refilled;
+          }
+        } catch {
+          /* bravado optional */
+        }
+      }
       // iter4 reaction engine: intercept reroute damage da target a alleato
       // adiacente con `intercept` armed. Restore target.hp + transfer to interceptor.
       if (damageDealt > 0) {
@@ -1842,8 +1858,46 @@ function createSessionRouter(options = {}) {
         return res.status(result.status).json(payload);
       }
 
+      // Sprint α (XCOM 2 pattern) — pin_down action_type. Costa 1 AP attacker,
+      // imposta target.status.pinned = 2 (-2 attack penalty consumed in
+      // resolveAttack via getPinPenalty). Decay automatico via universal
+      // sessionRoundBridge status loop.
+      if (actionType === 'pin_down') {
+        const targetId = body.target_id || body.target;
+        const target = session.units.find((u) => u.id === targetId);
+        if (!target) {
+          return res.status(400).json({ error: `target "${targetId}" non trovato` });
+        }
+        const { applyPinDown } = require('../services/combat/pinDown');
+        const r = applyPinDown(actor, target);
+        if (!r.ok) {
+          return res.status(400).json({ error: `pin_down failed: ${r.reason}` });
+        }
+        await appendEvent(session, {
+          ts: new Date().toISOString(),
+          session_id: session.session_id,
+          actor_id: actor.id,
+          actor_species: actor.species,
+          actor_job: actor.job,
+          action_type: 'pin_down',
+          target_id: target.id,
+          turn: session.turn,
+          ap_spent: 1,
+          pinned_turns: r.pinned_turns,
+          trait_effects: [],
+        });
+        return res.json({
+          ok: true,
+          actor_id: actor.id,
+          target_id: target.id,
+          ap_remaining: r.ap_remaining,
+          pinned_turns: r.pinned_turns,
+          state: publicSessionView(session),
+        });
+      }
+
       return res.status(400).json({
-        error: `action_type sconosciuto: "${actionType}" (atteso "attack", "move", "turn" o "ability")`,
+        error: `action_type sconosciuto: "${actionType}" (atteso "attack", "move", "turn", "ability" o "pin_down")`,
       });
     } catch (err) {
       next(err);
