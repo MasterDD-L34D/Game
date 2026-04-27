@@ -7,13 +7,14 @@ const assert = require('node:assert/strict');
 const request = require('supertest');
 const { createApp } = require('../../apps/backend/app');
 
-test('GET /api/v1/mutations/registry returns 30 mutations + indexes', async () => {
+test('GET /api/v1/mutations/registry returns 36 mutations + indexes', async () => {
   const { app, close } = createApp({ databasePath: null });
   try {
     const res = await request(app).get('/api/v1/mutations/registry').expect(200);
-    assert.equal(res.body.count, 30);
+    // Path B rebalance 2026-04-27: 30 → 36 entries.
+    assert.equal(res.body.count, 36);
     assert.ok(Array.isArray(res.body.mutations));
-    assert.equal(res.body.mutations.length, 30);
+    assert.equal(res.body.mutations.length, 36);
     assert.equal(res.body.schema_version, '0.1.0');
     assert.ok(res.body.by_category && typeof res.body.by_category === 'object');
     assert.ok(res.body.by_tier && typeof res.body.by_tier === 'object');
