@@ -441,26 +441,26 @@ Commit message: "feat(meta): Sprint δ Meta Systemic — 4 patterns (CK3 DNA + S
 
 ## §6 — Progress tracking
 
-### Phase 1 (α + γ)
+### Phase 1 (α + γ) — ✅ COMPLETE 2026-04-27 sera
 
-| Sprint           |     Status     | PR  | Notes          |
-| ---------------- | :------------: | --- | -------------- |
-| α Tactical Depth | ⬜ NOT STARTED | —   | Ready to spawn |
-| γ Tech Baseline  | ⬜ NOT STARTED | —   | Ready to spawn |
+| Sprint           |   Status   | PR    | Notes                                                         |
+| ---------------- | :--------: | ----- | ------------------------------------------------------------- |
+| α Tactical Depth | ✅ SHIPPED | #1959 | 5 combat services + 19 test, P1 def++, P6 🟡++ → 🟢 cand      |
+| γ Tech Baseline  | ✅ SHIPPED | #1958 | 3 Python tools + 2 JS services + 15 test + Makefile +3 target |
 
-### Phase 2 (β + δ) — gated on Phase 1 merged
+### Phase 2 (β + δ) — ✅ COMPLETE 2026-04-27 sera
 
-| Sprint          |    Status     | PR  | Notes                                           |
-| --------------- | :-----------: | --- | ----------------------------------------------- |
-| β Visual UX     | ⬜ GATED on α | —   | Depends on pseudoRng for body-part overlay      |
-| δ Meta Systemic | ⬜ GATED on β | —   | Depends on UI for conviction voting + writer D4 |
+| Sprint          |   Status   | PR    | Notes                                                             |
+| --------------- | :--------: | ----- | ----------------------------------------------------------------- |
+| β Visual UX     | ✅ SHIPPED | #1960 | 5 visual patterns + 55 test, P3 🟡++, P4 🟢 def, P6 🟢            |
+| δ Meta Systemic | ✅ SHIPPED | #1961 | 4 meta patterns (DNA + event chain + swap + conviction) + 34 test |
 
-### Phase 3 — synthesis (post both waves)
+### Phase 3 — ✅ COMPLETE 2026-04-27 sera
 
-- ⬜ Vertical slice doc update (delta sprints α+β+γ+δ)
-- ⬜ Pillar score recompute
-- ⬜ Memory checkpoint + handoff next session
-- ⬜ Cross-PC sync verify (no work duplicated)
+- ✅ Vertical slice doc update (delta sprints α+β+γ+δ) — questo PR
+- ✅ Pillar score recompute (5/6 🟢 def + 1/6 🟡++ P3)
+- ✅ Memory checkpoint + handoff next session — questo PR
+- ✅ Cross-PC sync verify (no work duplicated, 4 PR merged main isolated branches)
 
 **Update status**: agent che completa sprint deve modificare questa tabella + committare nel PR di chiusura.
 
