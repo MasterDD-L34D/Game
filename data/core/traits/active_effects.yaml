@@ -9430,3 +9430,23 @@ traits:
       Ghiandole che spruzzano acido corrosivo incandescente. Ogni hit
       applica 3 turni di burning: il target subisce 2 PT di danno non
       riducibile al termine di ogni turno (piu' severo del sanguinamento).
+
+  # Stato slowed Tier 1: -1 AP al reset turno, cap 3T. Min 1 AP garantito.
+  # Wire: applyApRefill (sessionHelpers.js) centralizza tutti i modificatori AP.
+
+  tela_appiccicosa:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: slowed
+      turns: 3
+      log_tag: tela_appiccicosa_slowed
+    description_it: |
+      Ghiandole che secernono fili vischiosi. Ogni hit applica 3 turni di
+      slowed: il target riceve -1 AP al reset turno (minimo 1 AP garantito).
