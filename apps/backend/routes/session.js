@@ -275,6 +275,11 @@ function createSessionRouter(options = {}) {
     };
   }
 
+  // Status duration caps — previene stati permanenti da kill-chain re-apply.
+  const STATUS_DURATION_CAPS = {
+    marked: 2,
+  };
+
   function performAttack(session, actor, target, action = null) {
     // M7-#2 Phase B: boss enrage check. Se actor è boss tier + HP < threshold
     // per encounter class → temporary mod bonus (non-persistente).
@@ -315,6 +320,7 @@ function createSessionRouter(options = {}) {
     let adjacencyBonus = 0;
     let rageBonus = 0;
     let backstabBonus = 0;
+    let markedBonus = 0;
     let wasBackstab = false;
     let panicTriggered = false;
     let parryResult = null;
@@ -333,6 +339,11 @@ function createSessionRouter(options = {}) {
       // rage, +1 damage in aggiunta al bonus adiacenza.
       if (actor.status && Number(actor.status.rage) > 0) {
         rageBonus = 1;
+      }
+      // Phase A marked: target marcato → +1 dmg al prossimo attaccante, mark consumato.
+      if (target.status && Number(target.status.marked) > 0) {
+        markedBonus = 1;
+        target.status.marked = 0;
       }
       // SPRINT_022: bonus backstab — se l'actor attacca dalle spalle del
       // target (posizione dietro il suo facing), +1 damage. Cumulativo con
@@ -354,6 +365,7 @@ function createSessionRouter(options = {}) {
         evaluation.damage_modifier +
         adjacencyBonus +
         rageBonus +
+        markedBonus +
         backstabBonus +
         perkBonus.bonus +
         parryDelta;
@@ -472,7 +484,9 @@ function createSessionRouter(options = {}) {
         const unit = s.target_side === 'actor' ? actor : target;
         if (!unit || unit.hp <= 0 || !unit.status) continue;
         const current = Number(unit.status[s.stato]) || 0;
-        unit.status[s.stato] = Math.max(current, s.turns);
+        const cap = STATUS_DURATION_CAPS[s.stato];
+        const merged = Math.max(current, s.turns);
+        unit.status[s.stato] = cap !== undefined ? Math.min(cap, merged) : merged;
       }
     }
 

@@ -160,3 +160,24 @@ traits:
       Protuberanza ossea pesante come una mazza. Ogni critico (MoS >= 8)
       applica 2 turni di frattura: il target perde AP al reset di turno
       (ap_remaining = 1 invece di ap pieno), limitando il movimento.
+
+  # STATUS EFFECTS PHASE A — Tier 1 (marked)
+  # PR-2/5: stato marked — prossimo attacco sul target +1 dmg.
+
+  marchio_predatorio:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      stato: marked
+      turns: 2
+      target_side: target
+      log_tag: marchio_predatorio_marked
+    description_it: |
+      Occhi analizzatori che identificano il punto debole del bersaglio.
+      Ogni hit riuscito marca il target per 2 turni: il prossimo attaccante
+      che colpisce il target marcato ottiene +1 danno (mark consumato al hit).
