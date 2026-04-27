@@ -484,6 +484,17 @@
       "review_cycle_days": 180
     },
     {
+      "path": "docs/adr/ADR-2026-04-26-spore-part-pack-slots.md",
+      "title": "ADR-2026-04-26 — Spore part-pack slots — schema lock + Moderate scope",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-27",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 180
+    },
+    {
       "path": "docs/adr/ADR-XXX-refactor-cli.md",
       "title": "ADR-XXX: Motivazioni refactor CLI e allineamento toolchain",
       "doc_status": "active",
