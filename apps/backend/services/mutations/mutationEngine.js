@@ -222,11 +222,37 @@ function computeMutationBingo(unit, catalog) {
   return { counts, archetypes };
 }
 
+/**
+ * Hydrate unit con `_archetype_passives` derivati dal bingo state corrente.
+ *
+ * Parallelo a `unit._perk_passives` (M13.P3): array di passive_token consumati
+ * runtime nel resolver damage step / sight calc. Idempotent — sostituisce
+ * ogni call con valori freschi da computeMutationBingo.
+ *
+ * @param {object} unit — mutated in-place (campo `_archetype_passives` set)
+ * @param {object} catalog — output loadMutationCatalog()
+ * @returns {{ archetypes: Array, passive_tokens: string[] }}
+ */
+function applyMutationBingoToUnit(unit, catalog) {
+  if (!unit || typeof unit !== 'object') return { archetypes: [], passive_tokens: [] };
+  const bingo = computeMutationBingo(unit, catalog);
+  const passive_tokens = bingo.archetypes.map((a) => a.passive_token);
+  unit._archetype_passives = passive_tokens;
+  unit._archetype_meta = bingo.archetypes.map((a) => ({
+    archetype: a.archetype,
+    category: a.category,
+    passive_token: a.passive_token,
+    label_it: a.label_it,
+  }));
+  return { archetypes: bingo.archetypes, passive_tokens };
+}
+
 module.exports = {
   checkSlotConflict,
   checkMpBudget,
   applyMutationPure,
   computeMutationBingo,
+  applyMutationBingoToUnit,
   BINGO_ARCHETYPES,
   BINGO_THRESHOLD,
 };
