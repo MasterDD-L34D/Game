@@ -26,6 +26,13 @@ const {
   getMutation,
   listEligibleForUnit,
 } = require('../services/mutations/mutationCatalogLoader');
+// Sprint Spore Moderate (ADR-2026-04-26) — slot gating + bingo + applyPure.
+const {
+  checkSlotConflict,
+  checkMpBudget,
+  applyMutationPure,
+  computeMutationBingo,
+} = require('../services/mutations/mutationEngine');
 
 function createMutationsRouter(opts = {}) {
   const router = Router();
@@ -112,37 +119,57 @@ function createMutationsRouter(opts = {}) {
       });
     }
 
-    // Apply trait_swap (additive copy, non muta caller object).
-    const swap = mut.trait_swap || { add: [], remove: [] };
-    const removeSet = new Set(Array.isArray(swap.remove) ? swap.remove : []);
-    const addList = Array.isArray(swap.add) ? swap.add : [];
-    const oldTraits = Array.isArray(unit.trait_ids) ? unit.trait_ids : [];
-    const filteredTraits = oldTraits.filter((t) => !removeSet.has(t));
-    const newTraits = [...filteredTraits];
-    for (const t of addList) {
-      if (!newTraits.includes(t)) newTraits.push(t);
+    // Sprint Spore Moderate (ADR-2026-04-26) §S1 — slot conflict gating.
+    // Blocca apply se body_slot canonical già occupato. Symbiotic exempt.
+    const catalog = loadMutationCatalog();
+    const slotCheck = checkSlotConflict(unit, mutationId, catalog);
+    if (slotCheck.conflict) {
+      return res.status(409).json({
+        error: 'slot_conflict',
+        mutation_id: mutationId,
+        unit_id: unit.id || null,
+        slot: slotCheck.slot,
+        conflicting_mutation_id: slotCheck.conflicting_mutation_id,
+        reason: 'body_slot_already_occupied',
+      });
     }
 
-    const oldApplied = Array.isArray(unit.applied_mutations) ? unit.applied_mutations : [];
-    const newApplied = oldApplied.includes(mutationId) ? oldApplied : [...oldApplied, mutationId];
+    // Sprint Spore Moderate §S3 — MP budget gating (opt-in via flag).
+    // Default: enforce. Disabilita con MUTATION_MP_ENFORCE=false per scenari
+    // free-grant (es. tutorial / debug). Auto-skip se unit.mp non presente
+    // (back-compat: vecchie call senza pool MP non rompono).
+    const enforceMp =
+      process.env.MUTATION_MP_ENFORCE !== 'false' &&
+      Object.prototype.hasOwnProperty.call(unit, 'mp');
+    if (enforceMp) {
+      const mpCheck = checkMpBudget(unit, mut);
+      if (!mpCheck.ok) {
+        return res.status(409).json({
+          error: 'insufficient_mp',
+          mutation_id: mutationId,
+          unit_id: unit.id || null,
+          required: mpCheck.required,
+          available: mpCheck.available,
+          reason: 'mp_budget_exhausted',
+        });
+      }
+    }
 
-    const updatedUnit = {
-      ...unit,
-      trait_ids: newTraits,
-      applied_mutations: newApplied,
-    };
+    // Apply via pure engine (immutable update + emerge derived_ability).
+    const result = applyMutationPure(unit, mutationId, catalog, { deductMp: enforceMp });
+    const updatedUnit = result.unit;
+
+    // §S6 — recompute bingo state on updated unit (after this apply).
+    const bingoState = computeMutationBingo(updatedUnit, catalog);
 
     const event = {
       session_id: sessionId,
       type: 'mutation_applied',
       payload: {
         unit_id: unit.id || null,
-        mutation_id: mutationId,
-        added: addList,
-        removed: Array.from(removeSet),
+        ...result.applied_event,
         pe_cost: mut.pe_cost ?? null,
         pi_cost: mut.pi_cost ?? null,
-        timestamp: new Date().toISOString(),
       },
     };
     if (eventSink && typeof eventSink.recordEvent === 'function') {
@@ -158,11 +185,33 @@ function createMutationsRouter(opts = {}) {
       success: true,
       applied: mutationId,
       unit: updatedUnit,
-      new_traits: newTraits,
+      new_traits: updatedUnit.trait_ids,
+      derived_ability_id: result.derived_ability_id,
+      mp_spent: result.mp_spent,
+      bingo: bingoState,
       pe_cost: mut.pe_cost ?? null,
       pi_cost: mut.pi_cost ?? null,
+      mp_cost: mut.mp_cost ?? null,
+      body_slot: mut.body_slot ?? null,
       cost_charging: 'deferred_m13_p3',
       event,
+    });
+  });
+
+  /**
+   * GET /bingo/:unitId — read-only bingo state preview (used by UI panels).
+   * Body alt: POST /bingo with { unit } per evitare GET con state inline.
+   */
+  router.post('/bingo', (req, res) => {
+    const { unit } = req.body || {};
+    if (!unit || typeof unit !== 'object') {
+      return res.status(400).json({ error: 'unit (object) required' });
+    }
+    const catalog = loadMutationCatalog();
+    const bingo = computeMutationBingo(unit, catalog);
+    res.json({
+      unit_id: unit.id || null,
+      ...bingo,
     });
   });
 
