@@ -400,6 +400,10 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 6 Beast Bond reaction trigger shipped)
+
+**Sessione 2026-04-27 (Sprint 6 autonomous, ~4h)**: AncientBeast Tier S #6 residuo chiuso. Beast Bond reaction trigger live: nuovo schema YAML `triggers_on_ally_attack` per per-creature trait, modulo `apps/backend/services/combat/beastBondReaction.js` (pure check + apply split per round-bridge sync compatibility), wire in `performAttack` (read-only check) + `sessionRoundBridge.handleLegacyAttackViaRound` (mutation post-sync), surface `beast_bond_reactions[]` su attack response + raw event `action_type='beast_bond_triggered'`. 3 trait esempio: `legame_di_branco` (T2 same-species +1 atk +1 def 1 turno), `spirito_combattivo` (T2 any-ally +1 atk 1 turno), `pack_tactics` (T2 pack:predatori_nomadi +1 atk +1 def 2 turni). Tests: 11 unit + 3 E2E + AI baseline 353/353 + abilityExecutor 35/35 + roundExecute coverage 367/367 totale paralleli. P1 🟢++ depth: pattern adjacency già in `squadCombo` focus_fire (globale player-only) ora estendibile per-creature.
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 notte — Sprint α+β+γ+δ FULL coordinated wave shipped)
 
 **Sessione 2026-04-27 notte (continuazione)**: 4 sprint coordinati α/β/γ/δ shipped main via Phase 1+2 paralleli (PR #1958+#1959+#1960+#1961). 19 patterns strategy research applicati end-to-end. Cross-PC ready handoff doc canonical.

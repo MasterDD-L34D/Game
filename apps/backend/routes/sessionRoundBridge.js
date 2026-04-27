@@ -387,6 +387,9 @@ function createRoundBridge(deps) {
         capturedResults.intercept = res.intercept || null;
         capturedResults.terrainReaction = res.terrain_reaction || null;
         capturedResults.positional = res.positional || null;
+        capturedResults.beastBondReactions = Array.isArray(res.beast_bond_reactions)
+          ? res.beast_bond_reactions
+          : [];
         // Pilastro 5: focus_fire combo. Se altri player hanno gia' colpito lo
         // stesso target in questo round, +1 dmg al secondo/terzo attacco.
         // Fix flake (iter6): combo metadata esposta anche su hit con damage=0
@@ -486,6 +489,42 @@ function createRoundBridge(deps) {
     session.roundState = result.nextState;
     syncStatusesFromRoundState(session);
 
+    // Sprint 6 (2026-04-27): apply Beast Bond mutations AFTER sync. Rationale:
+    // syncStatusesFromRoundState clears any unit.status keys not tracked by
+    // the round orchestrator's `statuses` array — applying the buff inside
+    // performAttack would be wiped immediately. Re-resolve the holder by id
+    // (capturedResults.beastBondReactions stores reaction descriptors only).
+    if (
+      Array.isArray(capturedResults.beastBondReactions) &&
+      capturedResults.beastBondReactions.length > 0
+    ) {
+      try {
+        const beastBondReaction = require('../services/combat/beastBondReaction');
+        const inflated = capturedResults.beastBondReactions
+          .map((r) => {
+            const holder = (session.units || []).find((u) => String(u.id) === String(r.holder_id));
+            if (!holder || Number(holder.hp) <= 0) return null;
+            return {
+              holder_id: r.holder_id,
+              holder,
+              trait_id: r.trait_id,
+              effect: {
+                atk_delta: r.atk_delta,
+                def_delta: r.def_delta,
+                duration: r.duration,
+              },
+              log_tag: r.log_tag,
+            };
+          })
+          .filter(Boolean);
+        beastBondReaction.applyBeastBondReactions(inflated);
+      } catch (err) {
+        // Non-blocking: bond apply failure must never break combat.
+        // eslint-disable-next-line no-console
+        console.warn('[beast-bond apply] skipped:', err && err.message ? err.message : err);
+      }
+    }
+
     // Guard: if round queue skipped the action (actor/target dead mid-resolve),
     // capturedResults.result is null. Build a minimal event + return miss.
     if (capturedResults.result) {
@@ -503,6 +542,12 @@ function createRoundBridge(deps) {
       });
       if (capturedResults.parry) event.parry = capturedResults.parry;
       if (capturedResults.intercept) event.intercept = capturedResults.intercept;
+      if (
+        Array.isArray(capturedResults.beastBondReactions) &&
+        capturedResults.beastBondReactions.length > 0
+      ) {
+        event.beast_bond_reactions = capturedResults.beastBondReactions;
+      }
       if (requestedCapPt > 0) {
         event.cost = { cap_pt: requestedCapPt };
         consumeCapPt(session, requestedCapPt);
@@ -541,6 +586,30 @@ function createRoundBridge(deps) {
             capturedResults.intercept.interceptor_unit,
             reactionEvent,
           );
+        }
+      }
+      // Sprint 6 (2026-04-27): emit beast_bond_triggered raw events. One per
+      // ally that gained the buff (visibile via VC scoring + UI tooltip).
+      if (
+        Array.isArray(capturedResults.beastBondReactions) &&
+        capturedResults.beastBondReactions.length > 0
+      ) {
+        for (const reaction of capturedResults.beastBondReactions) {
+          await appendEvent(session, {
+            ts: new Date().toISOString(),
+            session_id: session.session_id,
+            action_type: 'beast_bond_triggered',
+            actor_id: actor.id,
+            actor_species: actor.species,
+            ally_id: reaction.holder_id,
+            trait_id: reaction.trait_id,
+            atk_delta: reaction.atk_delta,
+            def_delta: reaction.def_delta,
+            duration: reaction.duration,
+            log_tag: reaction.log_tag,
+            turn: session.turn,
+            trait_effects: [],
+          });
         }
       }
       if (capturedResults.killOccurred) {
@@ -583,6 +652,9 @@ function createRoundBridge(deps) {
       combo: capturedResults.combo || null,
       synergy: capturedResults.synergy || null,
       terrain_reaction: capturedResults.terrainReaction || null,
+      beast_bond_reactions: Array.isArray(capturedResults.beastBondReactions)
+        ? capturedResults.beastBondReactions
+        : [],
       state: publicSessionView(session),
       round_wrapper: true,
       round_phase: result.nextState.round_phase,

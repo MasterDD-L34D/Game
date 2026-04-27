@@ -224,7 +224,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Era system pack-as-era lobby UI** (~4h cosmetic).
 
 #### B.1.5 — AncientBeast (4 pattern residui)
-- 🔴 **Beast Bond reaction trigger** (~5h) — adjacency-trigger per-creature trait.
+- 🟢 **Beast Bond reaction trigger** — Sprint 6 shipped (`apps/backend/services/combat/beastBondReaction.js` + schema YAML `triggers_on_ally_attack` + 3 trait esempio `legame_di_branco` / `spirito_combattivo` / `pack_tactics` + wire performAttack read-only check + sessionRoundBridge mutation post-sync + raw event `beast_bond_triggered` + 11 unit + 3 E2E test).
 - 🔴 **3 nuovi elementi** (earth/wind/dark) (~6h con balance pass).
 - 🔴 **Ability r3/r4 tier** (~10h) — estende `abilities.yaml` r1/r2 esistente.
 - 🟢 **Beast Showcase wiki cross-link** — Sprint 3 §II shipped (wikiLinkBridge service + 3 REST endpoint + audit coverage report + 10 unit test).
@@ -379,7 +379,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
     │  └─ frontend overlay (deferred)
     ├─ Cogmind tooltip stratificati trait (🔴 4-6h)       ← B.3 #3
     ├─ FF7R critical hit juice (🔴 3-5h)                  ← B.3 #12
-    ├─ Beast Bond reaction trigger adjacency (🔴 5h)      ← B.1.5
+    ├─ Beast Bond reaction trigger adjacency (✅ Sprint 6) ← B.1.5
     ├─ Defender's advantage AI (🔴 3h)                    ← B.1.9
     ├─ Squad focus_fire combo (✅)
     ├─ Reinforcement spawner + biome bias (✅ M-018)

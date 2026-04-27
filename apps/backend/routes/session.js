@@ -75,6 +75,8 @@ const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIn
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
 const { createAbilityExecutor } = require('../services/abilityExecutor');
 const reactionEngine = require('../services/reactionEngine');
+// Sprint 6 (2026-04-27) — Beast Bond reaction (AncientBeast Tier S #6 residuo).
+const beastBondReaction = require('../services/combat/beastBondReaction');
 // Status engine extension (2026-04-25 audit P0): wire 7 ancestor statuses
 // (linked/fed/healing/attuned/sensed/telepatic_link/frenzy) runtime-active.
 const { computeStatusModifiers } = require('../services/combat/statusModifiers');
@@ -832,6 +834,34 @@ function createSessionRouter(options = {}) {
       }
     }
 
+    // Sprint 6 (2026-04-27) — Beast Bond reaction trigger (AncientBeast Tier
+    // S #6 residuo). Pure read-only scan: detect which allies of the actor
+    // (same controlled_by, alive, within Manhattan range, species filter)
+    // would receive the bond. Mutations (attack_mod_bonus, status[*_buff])
+    // are applied by the round bridge AFTER syncStatusesFromRoundState so
+    // the orchestrator does not wipe them as untracked statuses. Fires on
+    // hit OR miss (tactical "ally engaged" signal). Non-blocking.
+    let beastBondReactions = [];
+    try {
+      const detected = beastBondReaction.checkBeastBondReactions(
+        actor,
+        session.units || [],
+        traitRegistry || {},
+      );
+      beastBondReactions = detected.map((r) => ({
+        holder_id: r.holder_id,
+        trait_id: r.trait_id,
+        atk_delta: r.effect.atk_delta,
+        def_delta: r.effect.def_delta,
+        duration: r.effect.duration,
+        log_tag: r.log_tag,
+      }));
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('[beast-bond] skipped:', err && err.message ? err.message : err);
+      beastBondReactions = [];
+    }
+
     return {
       result,
       evaluation,
@@ -851,6 +881,7 @@ function createSessionRouter(options = {}) {
         actor: biomeAffActor.affinity,
         target: biomeAffTarget.affinity,
       },
+      beast_bond_reactions: beastBondReactions,
     };
   }
 
