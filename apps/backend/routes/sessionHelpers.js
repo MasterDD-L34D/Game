@@ -618,6 +618,8 @@ function applyApRefill(unit) {
   let cap = Number(unit.ap || 0);
   if (fractureActive) cap = Math.min(1, cap);
   if (Number(unit.status?.defy_penalty) > 0) cap = Math.max(0, cap - 1);
+  if (Number(unit.status?.chilled) > 0) cap = Math.max(1, cap - 1);
+  if (Number(unit.status?.slowed) > 0) cap = Math.max(1, cap - 1);
   unit.ap_remaining = cap;
 }
 

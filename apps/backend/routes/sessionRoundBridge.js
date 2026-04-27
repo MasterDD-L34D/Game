@@ -677,6 +677,39 @@ function createRoundBridge(deps) {
       });
     }
 
+    // Burning tick (2 PT/turno, più severo di bleeding)
+    for (const unit of session.units) {
+      if (!unit || !unit.status || Number(unit.hp || 0) <= 0) continue;
+      const burnTurns = Number(unit.status.burning) || 0;
+      if (burnTurns <= 0) continue;
+      const dmg = 2;
+      const hpBefore = unit.hp;
+      unit.hp = Math.max(0, unit.hp - dmg);
+      session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'burning',
+        actor_id: unit.id,
+        actor_species: unit.species,
+        actor_job: unit.job,
+        target_id: unit.id,
+        turn: session.turn,
+        damage_dealt: dmg,
+        result: 'hit',
+        hp_before: hpBefore,
+        hp_after: unit.hp,
+        burning_remaining: burnTurns - 1,
+        trait_effects: [],
+      });
+      bleedingEvents.push({
+        unit_id: unit.id,
+        damage: dmg,
+        hp_after: unit.hp,
+        killed: unit.hp === 0,
+      });
+    }
+
     // Status engine extension: HP regen ticks (`fed` + `healing`).
     // Applied AFTER bleeding (KO units skipped automatically) and BEFORE
     // universal status decay so the last live tick still produces regen.

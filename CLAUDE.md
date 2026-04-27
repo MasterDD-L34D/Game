@@ -378,6 +378,28 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Status Effects v2 Phase A COMPLETA)
+
+**Sessione 2026-04-27 (status effects)**: STEP 3 Phase A completo — 5 stati Tier 1 come 5 mini-PR sequenziali. Tutti i CI verdi. 0 regressioni.
+
+**PR shipaiti** (5, tutti draft in attesa merge):
+
+| PR                                                       | Stato       | Trait                | Effetto           | CI  |
+| -------------------------------------------------------- | ----------- | -------------------- | ----------------- | --- |
+| [#1947](https://github.com/MasterDD-L34D/Game/pull/1947) | slowed      | `tela_appiccicosa`   | -1 AP reset/T     | ✅  |
+| [#1948](https://github.com/MasterDD-L34D/Game/pull/1948) | marked      | `marchio_predatorio` | +1 dmg next hit   | ✅  |
+| [#1950](https://github.com/MasterDD-L34D/Game/pull/1950) | burning     | `respiro_acido`      | DoT 2 PT/T        | ✅  |
+| [#1951](https://github.com/MasterDD-L34D/Game/pull/1951) | chilled     | `aura_glaciale`      | -1 AP -1 atk/T    | ✅  |
+| [#1953](https://github.com/MasterDD-L34D/Game/pull/1953) | disoriented | `sussurro_psichico`  | -2 atk/T (1T cap) | ✅  |
+
+**Test baseline**: 311→319 (+8 disoriented, branche separate ~315-321 per PR). AI suite 0 regressioni.
+
+**Handoff**: [`docs/planning/2026-04-27-status-effects-phase-a-handoff.md`](docs/planning/2026-04-27-status-effects-phase-a-handoff.md).
+
+**Next session candidati**: A) HUD surface per 5 stati (~3-4h, Gate 5 DoD), B) policy.js consumption per AI awareness (~6-8h), C) merge + rebase PR-1/2 su nuovo main, D) Phase B stati avanzati.
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 sera — Spore Moderate FULL + Recovery + Bundle B Indie Quick-Wins)
 
 **Sessione 2026-04-27 sera (continuazione)**: 18 PR mergiati main (Spore S1-S6 stack + lifecycle + UI QW-1/2/3 + recovery 6 deliverables persi + classification + 12 museum cards + Bundle B 4 indie quick-wins).

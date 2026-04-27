@@ -92,6 +92,11 @@ const STATUS_DURATION_CAPS = {
   stunned: 3,
   confused: 3,
   bleeding: 5,
+  marked: 2,
+  slowed: 3,
+  burning: 3,
+  chilled: 2,
+  disoriented: 1,
 };
 // M7-#2 Phase B: damage scaling curves runtime (ADR-2026-04-20).
 const {
@@ -476,6 +481,17 @@ function createSessionRouter(options = {}) {
       biomeAffTarget = { attack_mod: 0, defense_mod: 0, affinity: 'unknown', log: '' };
     }
 
+    // Chilled: -1 attack_mod_bonus per turno (freddo rallenta riflessi). Per-attack, revert post.
+    const chilledPenalty = Number(actor.status?.chilled) > 0 ? 1 : 0;
+    if (chilledPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - chilledPenalty;
+    }
+    // Disoriented: -2 attack_mod_bonus (confusione sensoriale, dura 1 turno). Per-attack, revert post.
+    const disorientedPenalty = Number(actor.status?.disoriented) > 0 ? 2 : 0;
+    if (disorientedPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - disorientedPenalty;
+    }
+
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
@@ -510,10 +526,19 @@ function createSessionRouter(options = {}) {
     if (statusMods.defenseDelta !== 0) {
       target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - statusMods.defenseDelta;
     }
+    // Revert chilled attack penalty (per-attack, non-persistente).
+    if (chilledPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + chilledPenalty;
+    }
+    // Revert disoriented attack penalty (per-attack, non-persistente).
+    if (disorientedPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + disorientedPenalty;
+    }
     let damageDealt = 0;
     let killOccurred = false;
     let adjacencyBonus = 0;
     let rageBonus = 0;
+    let markedBonus = 0;
     let backstabBonus = 0;
     let wasBackstab = false;
     let panicTriggered = false;
@@ -539,6 +564,11 @@ function createSessionRouter(options = {}) {
       if (actor.status && Number(actor.status.rage) > 0) {
         rageBonus = 1;
       }
+      // Phase A marked: target marcato → +1 dmg al prossimo attaccante, mark consumato.
+      if (target.status && Number(target.status.marked) > 0) {
+        markedBonus = 1;
+        target.status.marked = 0;
+      }
       // SPRINT_022: bonus backstab — se l'actor attacca dalle spalle del
       // target (posizione dietro il suo facing), +1 damage. Cumulativo con
       // adjacency e rage. Inoltre: un backstab BYPASSA la parata (sorpresa).
@@ -559,6 +589,7 @@ function createSessionRouter(options = {}) {
         evaluation.damage_modifier +
         adjacencyBonus +
         rageBonus +
+        markedBonus +
         backstabBonus +
         perkBonus.bonus +
         parryDelta;
@@ -1071,6 +1102,38 @@ function createSessionRouter(options = {}) {
         killed: unit.hp === 0,
       });
     };
+    const applyBurning = async (unit) => {
+      if (!unit || !unit.status || unit.hp <= 0) return;
+      const burnTurns = Number(unit.status.burning) || 0;
+      if (burnTurns <= 0) return;
+      const dmg = 2;
+      const hpBefore = unit.hp;
+      unit.hp = Math.max(0, unit.hp - dmg);
+      session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'burning',
+        automatic: true,
+        actor_id: unit.id,
+        actor_species: unit.species,
+        actor_job: unit.job,
+        target_id: unit.id,
+        turn: session.turn,
+        damage_dealt: dmg,
+        result: 'hit',
+        hp_before: hpBefore,
+        hp_after: unit.hp,
+        burning_remaining: burnTurns - 1,
+        trait_effects: [],
+      });
+      bleedingEvents.push({
+        unit_id: unit.id,
+        damage: dmg,
+        hp_after: unit.hp,
+        killed: unit.hp === 0,
+      });
+    };
     const resetAp = (unit) => {
       // Skiv #5: applyApRefill centralises fracture + defy_penalty handling.
       applyApRefill(unit);
@@ -1089,6 +1152,7 @@ function createSessionRouter(options = {}) {
       const actor = session.units.find((u) => u.id === session.active_unit);
       if (!actor || actor.controlled_by !== 'sistema' || actor.hp <= 0) break;
       await applyBleeding(actor);
+      if (actor.hp > 0) await applyBurning(actor);
       if (actor.hp > 0) {
         resetAp(actor);
         const actions = await runSistemaTurn(session);
@@ -2146,6 +2210,14 @@ function createSessionRouter(options = {}) {
             unit.hp = Math.max(0, Number(unit.hp) - 1);
             if (session.damage_taken) {
               session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + 1;
+            }
+          }
+          // Burning tick (2 PT/turno)
+          const burnTurns = Number(unit.status?.burning) || 0;
+          if (burnTurns > 0 && unit.hp > 0) {
+            unit.hp = Math.max(0, Number(unit.hp) - 2);
+            if (session.damage_taken) {
+              session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + 2;
             }
           }
           // Status engine extension: HP regen ticks (`fed`/`healing`) before decay.
