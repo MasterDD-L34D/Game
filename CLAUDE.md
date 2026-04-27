@@ -400,6 +400,33 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 notte — Sprint α+β+γ+δ FULL coordinated wave shipped)
+
+**Sessione 2026-04-27 notte (continuazione)**: 4 sprint coordinati α/β/γ/δ shipped main via Phase 1+2 paralleli (PR #1958+#1959+#1960+#1961). 19 patterns strategy research applicati end-to-end. Cross-PC ready handoff doc canonical.
+
+**Highlights**:
+
+- **Sprint α Tactical Depth** (PR #1959): pseudoRng + bravado + pinDown + morale + interruptFire → P1 def++, P6 🟢 cand
+- **Sprint γ Tech Baseline** (PR #1958): perf benchmark + dirty flag + AI personality YAML + patch delta + bug replay → dev/perf/modding foundation
+- **Sprint β Visual UX** (PR #1960): tooltip 3-tier + tension gauge + portrait CK3 + body-part Phoenix Point + voice UI JA3 → P3 🟡++, P4 🟢 def, P6 🟢
+- **Sprint δ Meta Systemic** (PR #1961): DNA encoder + event chain Stellaris + mutation tree swap MYZ + conviction Triangle → P2 🟢 def++, P5 🟢 cand refined
+
+**Pillar score finale 2026-04-27 notte**: **5/6 🟢 def** (P1++/P2++/P4 def/P5 cand/P6) + **1/6 🟡++** (P3). Demo-ready raggiunto.
+
+**Total this run**: 32 PR mergiati main, ~5000+ LOC, 123 nuovi test, 0 regression.
+
+**Coordinated handoff doc**: [`docs/planning/2026-04-27-sprint-abgd-coordinated-handoff.md`](docs/planning/2026-04-27-sprint-abgd-coordinated-handoff.md) — §6 progress all ✅, cross-PC ready.
+
+**Lessons reinforced** (3 collision events questa notte mitigati):
+
+- Worktree isolation raccomandato per agent paralleli (recovery via stash)
+- File ownership esclusivo respect ↔ atomic commit safety
+- Default recommendations per decisioni master-dd (no blocking)
+
+**Next session candidato**: TKT-M11B-06 playtest live userland (chiude P5 🟢 def) o aspect_token authoring 30 mutations (~15h debt) o Bundle Visual-Β extension (Old World aging + Battle Brothers parchment ~8h).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 sera — Spore Moderate FULL + Recovery + Bundle B Indie Quick-Wins)
 
 **Sessione 2026-04-27 sera (continuazione)**: 18 PR mergiati main (Spore S1-S6 stack + lifecycle + UI QW-1/2/3 + recovery 6 deliverables persi + classification + 12 museum cards + Bundle B 4 indie quick-wins).
