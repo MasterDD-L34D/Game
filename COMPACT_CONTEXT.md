@@ -8,8 +8,12 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v13 (post Sprint 9 Objective HUD top-bar — Surface-DEAD #5 chiuso 2026-04-27)
-- **Ultimo aggiornamento**: 2026-04-27 (Sprint 9 §C.2 Surface-DEAD #5 closure — `objectivePanel.js` + `/api/session/:id/objective` route + `api.objective` client + main.js refresh wire + index.html HUD slot + CSS band colors + 29/29 test + smoke E2E live HUD `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2`. Status §C.2: 4/8 chiusi.)
+- **Versione compact**: v14 (post Sprint 10 QBN narrative debrief beats — Surface-DEAD #7 chiuso 2026-04-27)
+- **Ultimo aggiornamento**: 2026-04-27 (Sprint 10 §C.2 Surface-DEAD #7 closure — `qbnDebriefRender.js` + `setNarrativeEvent` setter su debriefPanel + phaseCoordinator pipe `bridge.lastDebrief.narrative_event` + CSS journal style + 15/15 test + smoke E2E preview validato. Status §C.2: 5/8 chiusi.)
+
+## ⚡ TL;DR per ripartire (post Sprint 10 — Surface-DEAD #7 chiuso)
+
+**Sprint 10 autonomous shipped** in continuation: QBN narrative event diegetic surface live nel debrief panel. Backend `qbnEngine.drawEvent` LIVE da PR #1914 + `rewardEconomy.buildDebriefSummary` già emette `narrative_event` in debrief response, ma frontend ignorava il campo. Modulo nuovo `apps/play/src/qbnDebriefRender.js` (pure `formatNarrativeEventCard` + side-effect `renderNarrativeEvent`) + setter `setNarrativeEvent` aggiunto a `debriefPanel.js` API + `<div id="db-qbn-section">` HTML template + `phaseCoordinator.js` pipe da `bridge.lastDebrief.narrative_event` + CSS journal style (Georgia serif italic body + violet accent border). 15/15 test + AI 363/363 zero regression. Smoke E2E preview validato live: render produces `<div class="db-qbn-event">` con title/body/choices/meta sections. **P4 🟢 def → 🟢++** (cronaca diegetica visibile post-encounter). **§C.2 Surface-DEAD: 5/8 chiusi** (#1 + #2 + #5 + #7 + #8). Residui: #3 Spore mutation dots (15h authoring), #4 Mating lifecycle wire (5h), #6 Biome initial wave (2h quick-win).
 
 ## ⚡ TL;DR per ripartire (post Sprint 9 — Surface-DEAD #5 chiuso)
 
