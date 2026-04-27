@@ -97,6 +97,26 @@ species:
         rationale: >-
           Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline
           in cui si rifugia il branco durante le tempeste desertiche.
+    # ecology block additivo (ADR-2026-05-02): apex savana, solitario.
+    # Compete con pulverator_gregarius per nicchia (entrambi apex).
+    # Mutualismo indirect rare (Pulverator pack scaccia prede a Skiv).
+    ecology:
+      trophic_tier: apex
+      pack_size:
+        min: 1
+        max: 1
+      competes_with:
+        - pulverator_gregarius
+      prey_of: []
+      preys_on: []
+      scavenges_from: []
+      mutualism_with:
+        - species_id: pulverator_gregarius
+          type: indirect
+          note: >-
+            Pulverator pack scaccia prede da copertura agevolando ambush
+            di Skiv (effetto raro, non intenzionale dal pack).
+
   - id: polpo_araldo_sinaptico
     legacy_slug: polpo_araldo_sinaptico
     genus: Synaptopus

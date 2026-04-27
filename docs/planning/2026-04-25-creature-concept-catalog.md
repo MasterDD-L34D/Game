@@ -99,6 +99,61 @@ Ogni creatura segue 7 dimensioni canoniche:
   focus_fire combo per +1 dmg condiviso.
 - **mbti_tendency**: E-S (gregario, fisico)
 
+#### `pulverator_gregarius` (data-promoted 2026-05-02, ADR-2026-05-02)
+
+- **name_it**: Razziatore di Polvere
+- **name_en**: Dust Reaver
+- **role**: apex (pack alpha, 3-5 unit)
+- **size**: medium-large (estimated_weight 11)
+- **trait_loadout**:
+  - `denti_seghettati` (offensive — bleeding on hit)
+  - `artigli_sette_vie` (offensive — presa stabile)
+  - `voce_imperiosa` (control — panic adiacenti su howl)
+  - `circolazione_doppia` (utility — rage on kill)
+  - `olfatto_risonanza_magnetica` (sensory — tracking attraverso polvere)
+- **signature_hook**: **Howl-Strike combo** — 3+ pack Manhattan ≤2 stesso
+  bersaglio → cascade panic + bleeding + rage_on_kill. Apex emergente del
+  branco vs apex solitario (Skiv).
+- **mbti_tendency**: ESTJ-leaning-J (dominante, gerarchico)
+- **data location**: `data/core/species_expansion.yaml` (31a entry,
+  primo case-study con blocco `ecology` esteso)
+- **ecology**:
+  - trophic_tier: `apex`
+  - pack_size: `{min: 3, max: 5}`
+  - competes_with: `[dune_stalker]`
+  - scavenges_from: `[dune_stalker]`
+  - mutualism_with: dune_stalker (indirect, raro)
+
+##### Food web savana (post-Pulverator)
+
+```
+                 ┌──────────────────────────────┐
+                 │   pulverator_gregarius (3-5) │
+                 │           [APEX]             │
+                 │  competes_with ◀──┐          │
+                 └─────┬────────────┐│          │
+                       │ scavenges  ││          │
+                       │  from      ││          │
+                       ▼            ▼│          │
+                 ┌──────────────────────────────┐
+                 │   dune_stalker  (1-1)        │
+                 │   "Skiv"  [APEX SOLITARIO]   │
+                 └──────────────────────────────┘
+                       │
+                       │ mutualism (indirect, rare):
+                       │   pack scaccia prede da copertura
+                       │   agevolando ambush Skiv
+                       ▼
+                 [prede catalog-only:
+                    pista_corridor, branco_cucciolo —
+                    NON in data layer, deferred]
+```
+
+I 7 schema fields aggiunti dall'ADR-2026-05-02 (`trophic_tier`,
+`pack_size`, `prey_of`, `preys_on`, `competes_with`, `scavenges_from`,
+`mutualism_with`) sono opzionali e backward compatible. Pulverator
+e dune_stalker sono i primi due case-study con tutti i campi popolati.
+
 ---
 
 ### Biome: `caverna`
