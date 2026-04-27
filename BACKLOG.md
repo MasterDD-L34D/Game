@@ -158,6 +158,21 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 
 - ✅ D2 mutation_catalog Path A — M14 framework loader + routes. `apps/backend/services/mutations/mutationCatalogLoader.js` + `apps/backend/routes/mutations.js` + plugin wire. 30 entries shipped, 4 endpoint REST (`/registry`, `/:id`, `/eligible`, `/apply`). +12 test (8 loader + 4 routes). PE/PI charging deferred a M13.P3 wire (display-only). Decoupled da V3 mating per design semantics — vedi card M-007.
 
+**2026-04-27 notte** (Sprint 1-5 autonomous + OD-001 closure + docs sync):
+
+- ✅ **Sprint 1** (PR #1934) — Wesnoth time-of-day modifier + AI War defender's advantage + Disco day pacing flavor + Fallout numeric reference doc + 2 ADR design AI War. Tier S #5/#9/#10/#11 chiusi.
+- ✅ **Sprint 2** (PR #1935) — Subnautica habitat lifecycle wire (Tier A #9 chiuso). `biomeAffinity` service + `dune_stalker_lifecycle.yaml` + 14 species lifecycle stub + `seed_lifecycle_stubs.py` + biomeSpawnBias init wave universal closure (Engine LIVE / Surface DEAD anti-pattern killed).
+- ✅ **Sprint 3** (PR #1937) — Codex completion (3 chiusure): Tunic Glifi codexPanel tab + AncientBeast `wikiLinkBridge` slug + Wildermyth choice→permanent flag campaign state. Bonus: 4 stale fixture fix opportunistic (sangue_piroforico nerf #1869 + orphan currency #1870 + schema object #1871).
+- ✅ **Sprint 4** (PR #1938) — UI polish: Cogmind stratified tooltip Shift-hold expand + Dead Space holographic AOE cone shimmer + Isaac Anomaly card glow effect. Tier B #3/#7 + Tier S #11 hybrid chiusi.
+- ✅ **Sprint 5** (PR #1940) — Telemetry viz: Tufte sparkline HTML dashboard + DuckDB +4 SQL query (mbti_distribution / archetype_pickrate / kill_chain_assists / biome_difficulty). Tier E #9/#13 chiusi.
+- ❌ **PR #1877 closed-superseded** — OD-001 Sprint C UI 51K LOC stale. Backend già live #1879 + UI Lineage tab #1911. OD-001 Path A 4/4 chiuso end-to-end via combo.
+- ✅ **PR #1952 docs sync** — CLAUDE.md sprint context + COMPACT_CONTEXT v9 + stato-arte §A.2 + OPEN_DECISIONS OD-001 closure + 13 ticket auto-gen `proposed/` → `merged/` + combat hub cross-link.
+
+**Pillars finali**: 5/6 🟢 def/c++/c+ + 1/6 🟢c (P5 unblock playtest live).
+**Test baseline**: 324 → 364 (+40 nuovi + 4 fixture restore + 0 regression).
+**Total PR shipped 2026-04-25 → 2026-04-27 notte**: **54** (+ 1 closed-superseded + 1 docs sync).
+**Handoff**: `docs/planning/2026-04-27-sprint-1-5-autonomous-handoff.md`.
+
 ## Ref
 
 - CLAUDE.md sezione "Sprint context" e "Pilastri" = dettagli completi stato
