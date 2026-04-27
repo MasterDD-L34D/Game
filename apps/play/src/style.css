@@ -269,6 +269,49 @@ header h1 {
   }
 }
 
+/* 2026-04-27 Step 3 — AI War Progress meter frontend (PR #1898 backend wire).
+ * Pattern donor: AI War Fleet Command — visibility + anticipation.
+ * Estende existing .pressure-meter con tier name + threat label + next_tier
+ * anticipation + history sparkline (Tufte pattern). */
+.ai-progress-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.78rem;
+  margin-top: 4px;
+  color: var(--fg);
+}
+.ai-tier-name {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+.ai-threat-label {
+  color: var(--dim);
+  font-style: italic;
+}
+.ai-threat-label strong {
+  color: var(--fg);
+  font-style: normal;
+}
+.ai-next-tier {
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+.ai-history {
+  font-size: 0.7rem;
+  color: var(--dim);
+  margin-top: 2px;
+}
+.ai-history-dot {
+  color: var(--sistema);
+  font-size: 0.85rem;
+  margin: 0 1px;
+}
+
 main {
   flex: 1;
   display: grid;
