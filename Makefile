@@ -2,7 +2,8 @@
         evo-tactics-pack dev-stack test-stack ci-stack \
         evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint \
         evo-help evo-validate evo-backlog traits-review update-tracker \
-        ci-log-harvest lint-mutations
+        ci-log-harvest lint-mutations \
+        perf-benchmark patch-delta-report bug-replay-export
 
 PYTHON ?= python3
 EVO_AUTOMATION := $(PYTHON) -m tools.automation.evo_batch_runner
@@ -182,3 +183,41 @@ ci-log-harvest:
 
 lint-mutations:
 	$(PYTHON) tools/py/lint_mutation_balance.py
+
+# Sprint γ Tech Baseline (2026-04-28) — perf + delta + replay tooling.
+# Patterns: Frostpunk (perf) + CK3 (patch delta) + Old World (bug replay).
+
+PERF_BENCHMARK_OUTPUT ?=
+PERF_BENCHMARK_BASELINE ?=
+PERF_BENCHMARK_FLAGS := \
+	$(if $(PERF_BENCHMARK_OUTPUT),--output "$(PERF_BENCHMARK_OUTPUT)",) \
+	$(if $(PERF_BENCHMARK_BASELINE),--baseline "$(PERF_BENCHMARK_BASELINE)",) \
+	$(if $(filter 1 true yes,$(PERF_DRY_RUN)),--dry-run,)
+
+perf-benchmark:
+	$(PYTHON) tools/py/perf_benchmark.py $(PERF_BENCHMARK_FLAGS)
+
+PATCH_DELTA_FROM ?= origin/main
+PATCH_DELTA_TO ?= HEAD
+PATCH_DELTA_OUTPUT ?=
+SPRINT ?=
+PATCH_DELTA_FLAGS := \
+	--from "$(PATCH_DELTA_FROM)" \
+	--to "$(PATCH_DELTA_TO)" \
+	$(if $(SPRINT),--sprint "$(SPRINT)",) \
+	$(if $(PATCH_DELTA_OUTPUT),--output "$(PATCH_DELTA_OUTPUT)",) \
+	$(if $(filter 1 true yes,$(PATCH_DELTA_DRY_RUN)),--dry-run,)
+
+patch-delta-report:
+	$(PYTHON) tools/py/patch_delta_report.py $(PATCH_DELTA_FLAGS)
+
+BUG_REPLAY_SESSION ?=
+BUG_REPLAY_SOURCE ?=
+BUG_REPLAY_OUTPUT ?=
+BUG_REPLAY_FLAGS := \
+	$(if $(BUG_REPLAY_SESSION),--session "$(BUG_REPLAY_SESSION)",--session demo --synthetic) \
+	$(if $(BUG_REPLAY_SOURCE),--source "$(BUG_REPLAY_SOURCE)",) \
+	$(if $(BUG_REPLAY_OUTPUT),--output "$(BUG_REPLAY_OUTPUT)",)
+
+bug-replay-export:
+	$(PYTHON) tools/py/bug_replay_export.py $(BUG_REPLAY_FLAGS)
