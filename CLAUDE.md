@@ -400,6 +400,27 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 6 Thought Cabinet UI panel + cooldown round-based)
+
+**Sessione 2026-04-27 (Sprint 6, Disco Tier S #9 chiusura)**: stato-arte §B.1.8 pattern P0 chiuso. Engine + bridge + UI + tests + smoke E2E live, 76/76 thoughts test verdi, 353/353 AI baseline zero regression.
+
+**Highlights**:
+
+- **P4 Disco Tier S #9** (Sprint 6 closure): Thought Cabinet UI panel + cooldown round-based shipped end-to-end.
+  - Engine: `DEFAULT_SLOTS_MAX` 3→8; `RESEARCH_ROUND_MULTIPLIER=3` constant; `mode='rounds'|'encounters'` opt; `tickAllResearch(bucket, delta)` bulk helper.
+  - Bridge: `applyEndOfRoundSideEffects` → `tickAllResearch` decrementa 1 round per tick + auto-internalize + apply passives + emit `thought_internalized` event. `getCabinetBucket` injected via deps.
+  - Routes: `/thoughts/research` accetta `mode` body param, default `'rounds'` (T1→3 round, T2→6, T3→9). Risposta plumb `scaled_cost` + `mode`.
+  - Frontend: `apps/play/src/thoughtsPanel.js` Assign/Forget buttons inline per card + progress bar `cost_remaining/cost_total round X%` + 8-slot grid + canResearchMore gate + error banner. Slot counter ●○ aggiornato live.
+  - API client: `api.thoughtsList`/`thoughtsResearch`/`thoughtsForget` aliases.
+- **Smoke E2E preview validato**: backend + play dev server. 8 slots default ✓, mode=rounds default cost_total=3 ✓, end-of-round auto-tick 3 round → internalize ✓, Assign ⇄ Forget round-trip UI ✓.
+- **Test budget**: thoughtCabinet 59/59 (era 30/30; +29 round-mode), sessionThoughts 17/17 (era 12/12; +5 E2E round-tick), AI baseline 353/353 zero regression. Format prettier verde, governance 0 errors / 0 warnings.
+
+**Pillar P4 status**: **🟢c → 🟢 def** (8 slot live + cooldown round-based + UI surface + auto-tick wired).
+
+**Next session candidato**: P4 residui — Internal voice 4-MBTI axes (~10h, B.1.8 #2) o Skill check passive vs active popup (~4h, B.1.8 #3) o Day/time pacing flavor copy (~2h, B.1.8 #4 quick-win).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 notte — Sprint α+β+γ+δ FULL coordinated wave shipped)
 
 **Sessione 2026-04-27 notte (continuazione)**: 4 sprint coordinati α/β/γ/δ shipped main via Phase 1+2 paralleli (PR #1958+#1959+#1960+#1961). 19 patterns strategy research applicati end-to-end. Cross-PC ready handoff doc canonical.

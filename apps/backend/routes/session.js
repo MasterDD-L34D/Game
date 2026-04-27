@@ -1061,6 +1061,9 @@ function createSessionRouter(options = {}) {
     manhattanDistance,
     gridSize: GRID_SIZE,
     defaultAttackRange: DEFAULT_ATTACK_RANGE,
+    // Sprint 6 (P4 Disco Tier S #9): bridge ticks every research timer
+    // by 1 round inside applyEndOfRoundSideEffects.
+    getCabinetBucket,
   });
   const { handleLegacyAttackViaRound, handleTurnEndViaRound } = roundBridge;
 
@@ -2591,9 +2594,13 @@ function createSessionRouter(options = {}) {
   });
 
   // P4 Phase 2 — begin research on an unlocked thought (Disco Elysium
-  // internalization). Body: { unit_id, thought_id }. Fails if the thought
-  // is not unlocked, already researching/internalized, or cabinet has no
-  // free slot (slots_max=3 by default).
+  // internalization). Body: { unit_id, thought_id, mode? }. Fails if the
+  // thought is not unlocked, already researching/internalized, or cabinet
+  // has no free slot (slots_max=8 by default — Sprint 6 round-mode cap).
+  //
+  // Sprint 6 (P4 Disco Tier S #9): mode defaults to 'rounds' so research
+  // ticks per end-of-round in applyEndOfRoundSideEffects (T1 → 3 rounds,
+  // T2 → 6, T3 → 9). Pass mode='encounters' for legacy encounter-pace.
   router.post('/:id/thoughts/research', (req, res, next) => {
     try {
       const { error, session } = resolveSession(req.params.id);
@@ -2602,6 +2609,7 @@ function createSessionRouter(options = {}) {
       if (!unit_id || !thought_id) {
         return res.status(400).json({ error: 'unit_id e thought_id obbligatori' });
       }
+      const mode = req.body?.mode === 'encounters' ? 'encounters' : 'rounds';
       const { state } = getOrCreateCabinet(session.session_id, unit_id);
       const actor = (session.units || []).find((u) => u && u.id === unit_id);
       const tierInfo =
@@ -2610,7 +2618,9 @@ function createSessionRouter(options = {}) {
           : { tier: 'none', label_it: '', discount: 0 };
       const outcome = startThoughtResearch(state, thought_id, {
         encounter: req.body?.encounter ?? null,
+        round: Number.isFinite(session?.turn) ? session.turn : null,
         resonance: tierInfo.discount > 0,
+        mode,
       });
       if (!outcome.ok) {
         return res.status(409).json({ error: outcome.error, thought_id });
@@ -2621,6 +2631,8 @@ function createSessionRouter(options = {}) {
         thought_id,
         cost_total: outcome.cost_total,
         base_cost: outcome.base_cost,
+        scaled_cost: outcome.scaled_cost,
+        mode: outcome.mode,
         resonance_applied: outcome.resonance_applied,
         resonance_tier: tierInfo.tier,
         resonance_label: tierInfo.label_it,

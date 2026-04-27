@@ -109,6 +109,18 @@ export const api = {
     }),
   vc: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/vc`),
   thoughts: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts`),
+  // Sprint 6 (P4 Disco Tier S #9): explicit aliases + research/forget helpers.
+  thoughtsList: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts`),
+  thoughtsResearch: (sid, unitId, thoughtId, mode = 'rounds') =>
+    jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts/research`, {
+      method: 'POST',
+      body: JSON.stringify({ unit_id: unitId, thought_id: thoughtId, mode }),
+    }),
+  thoughtsForget: (sid, unitId, thoughtId) =>
+    jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts/forget`, {
+      method: 'POST',
+      body: JSON.stringify({ unit_id: unitId, thought_id: thoughtId }),
+    }),
   replay: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/replay`),
   modulations: () => jsonFetch('/api/party/modulations'),
   partyConfig: () => jsonFetch('/api/party/config'),
