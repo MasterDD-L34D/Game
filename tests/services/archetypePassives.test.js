@@ -15,11 +15,17 @@ const {
   TANK_PLUS_DR1,
   AMBUSH_PLUS_INIT2,
   SCOUT_PLUS_SIGHT2,
+  ADAPTER_PLUS_HAZARD,
+  ALPHA_PLUS_AFF1,
   getDamageReduction,
   getInitiativeBonus,
   getSightRangeBonus,
   effectiveAttackRange,
   applyDamageReduction,
+  hasHazardImmunity,
+  applyHazardImmunity,
+  countAdjacentAllies,
+  computeAlphaAffinityGrant,
 } = require('../../apps/backend/services/combat/archetypePassives');
 const { computeResolvePriority } = require('../../apps/backend/services/roundOrchestrator');
 
@@ -122,6 +128,86 @@ test('combo: all three passives stack independently without interference', () =>
   const prioCrit = computeResolvePriority(actor, { type: 'attack', is_critical: true });
   const prioCalm = computeResolvePriority(actor, { type: 'attack' });
   assert.equal(prioCrit - prioCalm, 2);
+});
+
+// ─── adapter_plus hazard immunity (Path A 2026-04-27) ─────────
+
+test('adapter_plus: hazard damage 5 → reduced to 0 when passive active', () => {
+  const target = { _archetype_passives: [ADAPTER_PLUS_HAZARD] };
+  assert.equal(hasHazardImmunity(target), true);
+  const r = applyHazardImmunity(5, target);
+  assert.equal(r.damage, 0);
+  assert.equal(r.immune, true);
+});
+
+test('adapter_plus: normal damage path NOT affected (DR helper independent)', () => {
+  // Verifica isolation: adapter passive non triggera DR su attacchi normali.
+  // applyDamageReduction guarda solo TANK_PLUS_DR1, non ADAPTER.
+  const target = { _archetype_passives: [ADAPTER_PLUS_HAZARD] };
+  const r = applyDamageReduction(5, target);
+  assert.equal(r.damage, 5);
+  assert.equal(r.reduced, 0);
+});
+
+test('adapter_plus: back-compat — hazard damage 5 stays 5 when passive absent', () => {
+  assert.equal(hasHazardImmunity({}), false);
+  assert.equal(hasHazardImmunity(null), false);
+  assert.equal(hasHazardImmunity({ _archetype_passives: [] }), false);
+  const r = applyHazardImmunity(5, { hp: 10 });
+  assert.equal(r.damage, 5);
+  assert.equal(r.immune, false);
+});
+
+// ─── alpha_plus affinity grant (Path A 2026-04-27) ────────────
+
+test('alpha_plus: actor with 2 adjacent allies → grant = 2', () => {
+  const actor = {
+    id: 'a1',
+    controlled_by: 'player',
+    position: { x: 3, y: 3 },
+    hp: 10,
+    _archetype_passives: [ALPHA_PLUS_AFF1],
+  };
+  const ally1 = { id: 'a2', controlled_by: 'player', position: { x: 4, y: 3 }, hp: 8 };
+  const ally2 = { id: 'a3', controlled_by: 'player', position: { x: 3, y: 2 }, hp: 8 };
+  const farAlly = { id: 'a4', controlled_by: 'player', position: { x: 5, y: 5 }, hp: 8 };
+  const enemyAdj = { id: 'e1', controlled_by: 'sistema', position: { x: 2, y: 3 }, hp: 8 };
+  const units = [actor, ally1, ally2, farAlly, enemyAdj];
+  assert.equal(countAdjacentAllies(actor, units), 2);
+  assert.equal(computeAlphaAffinityGrant(actor, units), 2);
+});
+
+test('alpha_plus: actor with 0 adjacent allies → grant = 0', () => {
+  const actor = {
+    id: 'a1',
+    controlled_by: 'player',
+    position: { x: 0, y: 0 },
+    hp: 10,
+    _archetype_passives: [ALPHA_PLUS_AFF1],
+  };
+  const farAlly = { id: 'a2', controlled_by: 'player', position: { x: 5, y: 5 }, hp: 8 };
+  assert.equal(computeAlphaAffinityGrant(actor, [actor, farAlly]), 0);
+});
+
+test('alpha_plus: dead allies + enemies excluded from grant count', () => {
+  const actor = {
+    id: 'a1',
+    controlled_by: 'player',
+    position: { x: 2, y: 2 },
+    hp: 10,
+    _archetype_passives: [ALPHA_PLUS_AFF1],
+  };
+  const deadAlly = { id: 'a2', controlled_by: 'player', position: { x: 3, y: 2 }, hp: 0 };
+  const adjEnemy = { id: 'e1', controlled_by: 'sistema', position: { x: 1, y: 2 }, hp: 8 };
+  const liveAlly = { id: 'a3', controlled_by: 'player', position: { x: 2, y: 3 }, hp: 6 };
+  assert.equal(computeAlphaAffinityGrant(actor, [actor, deadAlly, adjEnemy, liveAlly]), 1);
+});
+
+test('alpha_plus: back-compat — actor without passive returns 0', () => {
+  const actor = { id: 'a1', controlled_by: 'player', position: { x: 0, y: 0 }, hp: 10 };
+  const ally = { id: 'a2', controlled_by: 'player', position: { x: 1, y: 0 }, hp: 8 };
+  assert.equal(countAdjacentAllies(actor, [actor, ally]), 0);
+  assert.equal(computeAlphaAffinityGrant(actor, [actor, ally]), 0);
 });
 
 // ─── full back-compat sweep ─────────────────────────────────────
