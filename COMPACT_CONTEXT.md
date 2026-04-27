@@ -8,8 +8,12 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v12 (post Sprint 8 predict_combat hover preview — Surface-DEAD #1 chiuso 2026-04-27)
-- **Ultimo aggiornamento**: 2026-04-27 (Sprint 8 §C.2 Surface-DEAD #1 closure — `predictPreviewOverlay.js` + `api.predict` + main.js mousemove wire + CSS band colors + 22/22 test + smoke E2E live in browser. Status §C.2: 3/8 chiusi.)
+- **Versione compact**: v13 (post Sprint 9 Objective HUD top-bar — Surface-DEAD #5 chiuso 2026-04-27)
+- **Ultimo aggiornamento**: 2026-04-27 (Sprint 9 §C.2 Surface-DEAD #5 closure — `objectivePanel.js` + `/api/session/:id/objective` route + `api.objective` client + main.js refresh wire + index.html HUD slot + CSS band colors + 29/29 test + smoke E2E live HUD `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2`. Status §C.2: 4/8 chiusi.)
+
+## ⚡ TL;DR per ripartire (post Sprint 9 — Surface-DEAD #5 chiuso)
+
+**Sprint 9 autonomous shipped** in continuation: Objective HUD top-bar live. Backend route nuovo `GET /api/session/:id/objective` + module `apps/play/src/objectivePanel.js` (6 obj types: elimination/capture_point/escort/sabotage/survival/escape — IT label + emoji icon + status win/loss/active/unknown + formatProgress aligned con real backend payload keys) + `api.objective` client + main.js `refreshObjectiveBar()` wire on bootstrap + post-state-fetch + index.html HUD slot in header + CSS band colors (status-active accent / status-win green / status-loss red). Tutorial play UI ora pipe `encounter_id` a `/api/session/start` per attivare engine. 29/29 test + AI 363/363 zero regression. Smoke E2E preview validato live: bootstrap enc_tutorial_01 → HUD render `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2` band active. **P5 Co-op Sistema 🟡 → 🟡++** (player vede esplicitamente cosa deve fare). **§C.2 Surface-DEAD: 4/8 chiusi** (#1 Sprint 8 + #2 HP floating + #5 Sprint 9 + #8 Sprint 6).
 
 ## ⚡ TL;DR per ripartire (post Sprint 8 — Surface-DEAD #1 chiuso)
 
