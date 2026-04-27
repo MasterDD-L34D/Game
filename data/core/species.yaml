@@ -88,6 +88,7 @@ species:
         - sacche_galleggianti_ascensoriali
         - criostasi_adattiva
         - lamelle_termoforetiche
+        - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
       synergies:
         - focus_frazionato
         - risonanza_di_branco
@@ -141,7 +142,8 @@ species:
       senses: [echolocation]
     trait_plan:
       core: [nebbia_mnesica, lobi_risonanti_crepuscolo, ghiandole_mnemoniche, organi_metacronici]
-      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo, riverbero_memetico, vortice_nera_flash]
+      # Sprint 6: spirito_combattivo (any-ally morale) fits swarm dynamics
+      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo, riverbero_memetico, vortice_nera_flash, spirito_combattivo]
       synergies: [lobi_risonanti_crepuscolo]
     synergy_hints: []
 
@@ -189,7 +191,8 @@ species:
       senses: [echolocation]
     trait_plan:
       core: [coralli_sinaptici_fotofase, membrane_fotoconvoglianti, placca_diffusione_foschia, organi_metacronici, nodi_sinaptici_superficiali]
-      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante]
+      # Sprint 6: spirito_combattivo (any-ally morale) — Support clade encourages mixed-team buff
+      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante, spirito_combattivo]
       synergies: [coralli_sinaptici_fotofase]
     synergy_hints: []
 
@@ -247,7 +250,8 @@ species:
         - articolazioni_a_leva_idraulica
         - filtrazione_osmotica
         - occhi_analizzatori_di_tensione
-      optional: []
+      optional:
+        - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
       synergies: []
     synergy_hints: []
 
@@ -276,7 +280,8 @@ species:
         - ipertrofia_muscolare_massiva
         - ectotermia_dinamica
         - organi_sismici_cutanei
-      optional: []
+      optional:
+        - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
       synergies: []
     synergy_hints: []
 
