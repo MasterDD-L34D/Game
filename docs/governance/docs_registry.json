@@ -7626,10 +7626,10 @@
       "track": "new"
     },
     {
-      "path": "docs/research/2026-04-27-strategy-games-tech-extraction.md",
-      "title": "Strategy Games Tech Extraction — engine/perf/modding/telemetry patterns Evo-Tactics",
+      "path": "docs/research/2026-04-27-strategy-games-mechanics-extraction.md",
+      "title": "Strategy Games Mechanics Extraction — tactical + gameplay patterns Evo-Tactics",
       "doc_status": "active",
-      "doc_owner": "telemetry-viz-illuminator",
+      "doc_owner": "balance-illuminator",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-27",
       "source_of_truth": false,
@@ -7812,6 +7812,19 @@
       "title": "Strategy Games Design Extraction — visual + UI patterns Evo-Tactics",
       "doc_status": "active",
       "doc_owner": "ui-design-illuminator",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-27",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "research"
+    },
+    {
+      "path": "docs/research/2026-04-27-strategy-games-tech-extraction.md",
+      "title": "Strategy Games Tech Extraction — engine/perf/modding/telemetry patterns Evo-Tactics",
+      "doc_status": "active",
+      "doc_owner": "telemetry-viz-illuminator",
       "workstream": "cross-cutting",
       "last_verified": "2026-04-27",
       "source_of_truth": false,
