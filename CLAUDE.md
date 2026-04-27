@@ -328,7 +328,41 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 6 channel resistance earth/wind/dark)
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 7 Beast Bond reactions)
+
+**Sessione 2026-04-27 Sprint 7 (autonomous, ~5h)**: AncientBeast Tier S #6 residuo Beast Bond — passive species-pair reaction parallel a M2 reactionEngine. Closes 3/4 Tier S #6 (Sprint 6 channel + Sprint 7 bond; Ability r3/r4 ~10h residuo).
+
+**PR shipped** (1): [#1971](https://github.com/MasterDD-L34D/Game/pull/1971) — `data/core/companion/creature_bonds.yaml` (6 bond pair, 5 archetype combo) + AJV schema `creature_bond.schema.json` + engine `apps/backend/services/combat/bondReactionTrigger.js` + wire in `session.js` performAttack + `sessionRoundBridge.js` capture/emit + 19 unit test (loader + eligibility + cooldown + counter/shield fire + back-compat) + ADR-2026-04-27 + numeric-reference §11 + stato-arte §B.1.5.
+
+**Reaction types**:
+
+- `counter_attack`: bonded ally strikes attacker, damage_step_mod=-1 + refund (pulled punch, cannot 1-shot kill); range gate via ally.attack_range.
+- `shield_ally`: bonded ally absorbs floor(damageDealt/2), target restored (math identica intercept reroute, half-only passive).
+
+**Caps**: 1 bond reaction/round/actor (`_bond_round_used`) + cooldown per-bond (`_bond_cooldown[bond_id] = currentTurn + cooldown_turns`). Mutually exclusive con M2 intercept (skip silent quando `interceptResult` fired).
+
+**Compat**: missing YAML / vuoto → loadCreatureBonds returns `{bonds:[]}` → no-op silent. Zero breaking change su encounter esistenti.
+
+**Stato pillars post Sprint 7**:
+
+| #   | Pilastro          | Pre Sprint 7 |  Post  | Delta                                                                |
+| --- | ----------------- | :----------: | :----: | -------------------------------------------------------------------- |
+| P1  | Tattica leggibile |     🟢++     |  🟢ⁿ   | **Creature reactivity surface live (prima solo ability-armed)**      |
+| P2  | Evoluzione        |    🟢 def    | 🟢 def | unchanged                                                            |
+| P3  | Specie×Job        |     🟢c+     | 🟢c++  | **Species_pair semantics emerge dalle 45 specie canonical (6 bond)** |
+| P4  | MBTI/Ennea        |     🟢c      |  🟢c   | unchanged                                                            |
+| P5  | Co-op             |     🟢c      |  🟢c   | unchanged                                                            |
+| P6  | Fairness          |    🟢 def    | 🟢 def | unchanged                                                            |
+
+**Test baseline post-merge**: AI 382/382 ✓ (was 363, +19) · reactionEngine 13/13 ✓ · abilityExecutor 35/35 ✓ · sessionRound 23/23 ✓ · format/lint/schema verde · governance 0/0.
+
+**Backlog Tier S #6 residuo**: Ability r3/r4 tier progressive (~10h, P3+, separate sprint).
+
+**Handoff**: [`docs/planning/2026-04-27-sprint-7-beast-bond-handoff.md`](docs/planning/2026-04-27-sprint-7-beast-bond-handoff.md).
+
+---
+
+## 🎮 Sprint context (precedente: 2026-04-27 — Sprint 6 channel resistance earth/wind/dark)
 
 **Sessione 2026-04-27 Sprint 6 (autonomous quick win, ~6h)**: AncientBeast Tier S #6 residuo candidato C — 3 channel canonical nuovi (earth/wind/dark) integrati 5 archetype + 6 ability routing + 10 test resistanceEngine. P6 Fairness 🟢c++ → 🟢 def.
 
