@@ -92,6 +92,7 @@ const STATUS_DURATION_CAPS = {
   stunned: 3,
   confused: 3,
   bleeding: 5,
+  chilled: 2,
 };
 // M7-#2 Phase B: damage scaling curves runtime (ADR-2026-04-20).
 const {
@@ -476,6 +477,12 @@ function createSessionRouter(options = {}) {
       biomeAffTarget = { attack_mod: 0, defense_mod: 0, affinity: 'unknown', log: '' };
     }
 
+    // Chilled: -1 attack_mod_bonus per turno (freddo rallenta riflessi). Per-attack, revert post.
+    const chilledPenalty = Number(actor.status?.chilled) > 0 ? 1 : 0;
+    if (chilledPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - chilledPenalty;
+    }
+
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
@@ -509,6 +516,10 @@ function createSessionRouter(options = {}) {
     }
     if (statusMods.defenseDelta !== 0) {
       target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - statusMods.defenseDelta;
+    }
+    // Revert chilled attack penalty (per-attack, non-persistente).
+    if (chilledPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + chilledPenalty;
     }
     let damageDealt = 0;
     let killOccurred = false;
