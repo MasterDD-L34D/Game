@@ -20,6 +20,17 @@
 // `meta.events_count < 30` (sessione breve), threshold default abbassata
 // a 0.6 per permettere reveal precoce su pochi eventi rumorosi.
 // Override esplicito (opts.threshold/env) ha priorità sul gating events.
+//
+// Sprint v3.5 2026-04-27 — Conviction surfacing (Triangle Strategy pattern).
+// Aggiunge `buildConvictionBadges()` che produce badge color-coded "diegetic"
+// per ogni shift VC ad alta confidence. Pattern: Triangle Strategy "Conviction"
+// in cui le scelte si manifestano come emoticon/colore prominent al player,
+// riferimento `docs/research/triangle-strategy-transfer-plan.md` Mechanic 1
+// Proposal A. Color mapping coerente CK3 lesson "label > numero":
+//   E_I → blue   (#3b82f6) "Energia sociale"
+//   S_N → green  (#10b981) "Percezione"
+//   T_F → red    (#ef4444) "Decisione"
+//   J_P → yellow (#f59e0b) "Stile"
 
 const COVERAGE_FACTOR = {
   full: 1.0,
@@ -159,11 +170,133 @@ function resolveThreshold(override) {
   return DEFAULT_THRESHOLD;
 }
 
+// === Sprint v3.5 — Conviction surfacing (Triangle Strategy pattern) ===
+//
+// Color-coded badge mapping per asse MBTI. Tinte cromatiche scelte per:
+//   - blue/green/red/yellow = high contrast cross-axis (no confusion bar)
+//   - allineate a Triangle Strategy "Conviction" emoticon palette
+//   - pass-through CK3 lesson "label > numero" (label sempre presente)
+const AXIS_COLORS = {
+  E_I: { color: '#3b82f6', name: 'blue' },
+  S_N: { color: '#10b981', name: 'green' },
+  T_F: { color: '#ef4444', name: 'red' },
+  J_P: { color: '#f59e0b', name: 'yellow' },
+};
+
+const CONVICTION_THRESHOLD = 0.75; // più alto del reveal threshold (0.7) → solo shift davvero decisi
+const CONVICTION_DELTA_MIN = 0.08; // shift |delta value| minimo per badge (anti-rumore micro)
+
+/**
+ * Build conviction badges per actor data un current vcSnapshot e (opzionale)
+ * un previous snapshot. Senza previous, badge generato per ogni asse revealed
+ * con confidence ≥ CONVICTION_THRESHOLD (first-reveal mode).
+ *
+ * @param {object} actorVc - per_actor[uid] entry from buildVcSnapshot.
+ * @param {object} [opts]
+ * @param {object} [opts.previousActorVc] - actor entry from precedente vcSnapshot (per delta).
+ * @param {number} [opts.threshold=CONVICTION_THRESHOLD] - cutoff confidence per badge.
+ * @param {number} [opts.deltaMin=CONVICTION_DELTA_MIN] - delta minimo se previous fornito.
+ * @returns {Array<{axis, letter, label, axis_label, color, color_name, confidence, value, delta}>}
+ *   Badge ordinati per confidence DESC. Empty array se nessuno triggers.
+ */
+function buildConvictionBadges(actorVc, opts = {}) {
+  const threshold = Number.isFinite(opts.threshold) ? opts.threshold : CONVICTION_THRESHOLD;
+  const deltaMin = Number.isFinite(opts.deltaMin) ? opts.deltaMin : CONVICTION_DELTA_MIN;
+  const previous = opts.previousActorVc || null;
+
+  const badges = [];
+  if (!actorVc || typeof actorVc !== 'object') return badges;
+  const axes = actorVc.mbti_axes;
+  if (!axes || typeof axes !== 'object') return badges;
+
+  for (const axis of Object.keys(AXIS_LABELS)) {
+    const entry = axes[axis];
+    if (!entry || entry.value === null || entry.value === undefined) continue;
+    const value = Number(entry.value);
+    if (!Number.isFinite(value)) continue;
+
+    const confidence = computeConfidence(entry);
+    if (confidence < threshold) continue;
+
+    const letterInfo = letterForAxis(axis, value);
+    if (!letterInfo) continue; // dead-band → no badge
+
+    // Delta gate (solo se previous fornito)
+    let delta = null;
+    if (previous && previous.mbti_axes && previous.mbti_axes[axis]) {
+      const prevVal = Number(previous.mbti_axes[axis].value);
+      if (Number.isFinite(prevVal)) {
+        delta = Number((value - prevVal).toFixed(3));
+        if (Math.abs(delta) < deltaMin) continue; // shift non sufficiente
+      }
+    }
+
+    const colorInfo = AXIS_COLORS[axis];
+    const labels = AXIS_LABELS[axis];
+    badges.push({
+      axis,
+      letter: letterInfo.letter,
+      label: letterInfo.label,
+      axis_label: labels.label,
+      color: colorInfo.color,
+      color_name: colorInfo.name,
+      confidence,
+      value: Number(value.toFixed(3)),
+      delta,
+    });
+  }
+
+  // Sort confidence DESC (badge più "convinti" prima)
+  badges.sort((a, b) => b.confidence - a.confidence);
+  return badges;
+}
+
+/**
+ * Build conviction badges map keyed by unit_id, dato un vcSnapshot corrente
+ * + un opzionale previousVcSnapshot (per gating delta).
+ *
+ * @param {object} vcSnapshot - output di buildVcSnapshot corrente.
+ * @param {object} [opts]
+ * @param {object} [opts.previousVcSnapshot] - snapshot precedente per delta.
+ * @param {number} [opts.threshold]
+ * @param {number} [opts.deltaMin]
+ * @returns {Object<string, Array>} badges per unit_id.
+ */
+function buildConvictionBadgesMap(vcSnapshot, opts = {}) {
+  const out = {};
+  if (!vcSnapshot || typeof vcSnapshot !== 'object') return out;
+  const perActor = vcSnapshot.per_actor;
+  if (!perActor || typeof perActor !== 'object') return out;
+
+  const prevPerActor =
+    opts.previousVcSnapshot && opts.previousVcSnapshot.per_actor
+      ? opts.previousVcSnapshot.per_actor
+      : null;
+
+  for (const [uid, actorVc] of Object.entries(perActor)) {
+    const previousActorVc = prevPerActor ? prevPerActor[uid] || null : null;
+    const badges = buildConvictionBadges(actorVc, {
+      threshold: opts.threshold,
+      deltaMin: opts.deltaMin,
+      previousActorVc,
+    });
+    if (badges.length > 0) {
+      out[uid] = badges;
+    }
+  }
+  return out;
+}
+
 module.exports = {
   computeConfidence,
   computeRevealedAxes,
   buildMbtiRevealedMap,
   resolveThreshold,
+  buildConvictionBadges,
+  buildConvictionBadgesMap,
   AXIS_LABELS,
   AXIS_HINTS,
+  AXIS_COLORS,
+  CONVICTION_THRESHOLD,
+  CONVICTION_DELTA_MIN,
 };

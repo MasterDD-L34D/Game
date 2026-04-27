@@ -85,6 +85,6 @@ Definire chi gioca Evo-Tactics, perché ci gioca, e quali aspettative porta al t
 ## Riferimenti
 
 - `docs/core/01-VISIONE.md` — statement di visione
-- `docs/core/02-PILASTRI.md` — 5 pilastri di design
+- `docs/core/02-PILASTRI.md` — 6 pilastri di design canonical (P1-P6, ADR-2026-04-27)
 - `docs/core/03-LOOP.md` — game loop
 - Postmortem AI War (Arcen Games) — pubblico co-op vs AI asimmetrica

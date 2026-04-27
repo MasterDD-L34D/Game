@@ -19,10 +19,28 @@ review_cycle_days: 14
 
 ## Pilastri
 
-1. **Cooperazione situazionale** — Ruoli combinabili, scoreboard StressWave condiviso e strumenti per reagire ai picchi telemetrici.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L43-L46】【F:docs/02-PILASTRI.md†L1-L6】
-2. **Mutazione significativa** — Progressione morfologica e narrativa legata a tratti, parti e mutazioni sbloccate da comportamento.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L47-L52】【F:docs/20-SPECIE_E_PARTI.md†L1-L10】
-3. **Telemetria visibile** — Dashboard risk/cohesion, timeline eventi esportabile (`session-metrics.yaml`) e alert HUD condivisi.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L53-L60】【F:data/core/telemetry.yaml†L1-L40】
-4. **Narrazione reattiva** — Il Director AI adatta missioni, spawn e ricompense in base a affinità, fiducia e scelte morali.【F:docs/appendici/A-CANVAS_ORIGINALE.txt†L61-L73】【F:docs/appendici/C-CANVAS_NPG_BIOMI.txt†L1-L31】
+> **Aggiornamento Sprint v3.5 (2026-04-27)**: i pilastri canonical sono i **6 P1-P6**
+> definiti in [`docs/core/02-PILASTRI.md`](02-PILASTRI.md) (formal: [`ADR-2026-04-27-pilastri-canonical-6.md`](../adr/ADR-2026-04-27-pilastri-canonical-6.md)).
+> Le 4 voci Canvas A storiche restano come baseline narrativa ma vivono dentro i 6 canonical.
+> Cross-ref: [`docs/planning/2026-04-26-v3-canonical-flow-decisions.md`](../planning/2026-04-26-v3-canonical-flow-decisions.md).
+
+1. **P1 — Tattica leggibile** (FFT-like): iniziativa, posizionamento, altezze, facing, reazioni — d20 + MoS + AP budget + reactions first-class.【F:docs/hubs/combat.md†L1-L40】
+2. **P2 — Evoluzione emergente** (Spore-like): tratti, morfologie e job sbloccati da comportamenti. Pattern proven Wesnoth advancement + AI War pack unlock (NON sim continuo).【F:docs/core/PI-Pacchetti-Forme.md†L1-L20】
+3. **P3 — Identità doppia** (Specie × Job): biologia × ruolo → sinergie/counter chiari. 84 specie + 7 job + 4 archetype.【F:docs/20-SPECIE_E_PARTI.md†L1-L10】
+4. **P4 — Temperamenti giocati** (MBTI/Ennea): VC → telemetria ludica + reveal diegetic post-encounter (Disco Elysium pattern). Engine 4 MBTI + UI surface 5 axes player-felt.【F:apps/backend/services/mbtiSurface.js†L1-L30】
+5. **P5 — Co-op vs Sistema** (TV condivisa): 4-8 player vs antagonista AI data-driven. Pattern proven Jackbox room-code (M11).【F:docs/adr/ADR-2026-04-20-m11-jackbox-phase-a.md†L1-L40】
+6. **P6 — Fairness**: budget morfologico, cap stack, counter espliciti, damage scaling curves, verdict GREEN/AMBER/RED, timeout=defeat. MMR post-MVP.【F:docs/adr/ADR-2026-04-20-damage-scaling-curves.md†L1-L40】
+
+### Componenti operative ereditate da Canvas A
+
+I quattro temi Canvas A (cooperazione situazionale, mutazione significativa,
+telemetria visibile, narrazione reattiva) restano vivi come **componenti
+trasversali** dei 6 pilastri canonical. Ad esempio:
+
+- Cooperazione situazionale (Canvas A 1) ⊂ P5 (network) + P1 (reactions/facing).
+- Mutazione significativa (Canvas A 2) ⊂ P2 (Form evolution) + P3 (Specie × Job).
+- Telemetria visibile (Canvas A 3) ⊂ P4 (VC telemetria) + P6 (verdict harness).
+- Narrazione reattiva (Canvas A 4) ⊂ P5 (Sistema antagonist AI) + P4 (reveal diegetic).
 
 ## Loop Principale
 
