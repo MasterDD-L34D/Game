@@ -7626,6 +7626,19 @@
       "track": "new"
     },
     {
+      "path": "docs/research/2026-04-27-strategy-games-tech-extraction.md",
+      "title": "Strategy Games Tech Extraction — engine/perf/modding/telemetry patterns Evo-Tactics",
+      "doc_status": "active",
+      "doc_owner": "telemetry-viz-illuminator",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-27",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/museum/cards/indie-banner-saga-caravan-attrition.md",
       "title": "Museum M-2026-04-27-019: Banner Saga Caravan Supply Attrition",
       "doc_status": "active",
