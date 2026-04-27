@@ -14,6 +14,9 @@
 
 ## 🏆 Top relevance (score 4-5 — revive priority)
 
+- [Cobalt Core Position-Conditional Bonus](cards/indie-cobalt-core-position-bonus.md) — **4/5** · P1+P5 depth, abilityExecutor position_condition, post-Bundle A · deferred
+- [Banner Saga Caravan Supply Attrition](cards/indie-banner-saga-caravan-attrition.md) — **4/5** · P6 supply cross-mission, campaignResourceTracker.js, post-playtest · deferred
+- [Banner Saga Permadeath Opt-In](cards/indie-banner-saga-permadeath-optin.md) — **4/5** · P6 consequences, party.yaml hardcore preset ~4h, pending D3 · deferred
 - [Mating Engine D1+D2 Orphan](cards/mating_nido-engine-orphan.md) — **5/5** · runtime LIVE (469 LOC + 7 endpoint), zero frontend · OD-001 correction needed
 - [Triangle Strategy MBTI Transfer](cards/personality-triangle-strategy-transfer.md) — **5/5** · 3 Proposals concrete P4 closure, mai citato BACKLOG · forgotten
 - [Sentience Traits v1.0 — tier T1-T6 + interoception](cards/cognitive_traits-sentience-tiers-v1.md) — **5/5** · Skiv Sprint C diary unblock 3h · unintegrated
@@ -118,18 +121,36 @@ _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial super
 
 ### Other
 
-Reserved per artifact che non match domain sopra.
+- [Slay the Princess 12-Knot Branching State](cards/indie-slay-princess-branching-state.md) — score 3/5 · P4 debrief reattivo MBTI group×outcome, 12 knot, writer D4 bottleneck · deferred
+- [Pentiment Job Voice + Confessionals](cards/indie-pentiment-job-voice-confessionals.md) — score 3/5 · P3 job identity narrativa, 35 ink stitches 7 job, writer D4 bottleneck · deferred
+- [Inscryption Camera Reveal + Meta-Frame](cards/indie-inscryption-camera-reveal-meta.md) — score 2/5 · P4+P5 Sistema reveal, TKT-09 prereq, post-MVP · deferred
+- [1000xRESIST Memory Layered POV](cards/indie-1000xresist-memory-layered-pov.md) — score 3/5 · P4 campaign biome memory, briefing cita loss precedente · deferred
+- [Loop Hero Mini-Map Visual Emergence](cards/indie-loop-hero-minimap-visual-emergence.md) — score 3/5 · P2+P5 campaign progress hex visual, decisione D5 pending · deferred
+- [Cocoon Biome Rules Layer](cards/indie-cocoon-biome-rules-layer.md) — score 3/5 · P1+P2 regole tattiche bioma, biome_rules.yaml, post-P3 · deferred
+- [Tunic Broader Manual-as-Puzzle](cards/indie-tunic-manual-puzzle-broader.md) — score 2/5 · P3+P4 diegetic knowledge Thought Cabinet ext., post-MVP · deferred
+
+### Indie research (resource attrition)
+
+- [Banner Saga Caravan Supply Attrition](cards/indie-banner-saga-caravan-attrition.md) — score 4/5 · P6 supply cross-mission, campaignResourceTracker.js ~6h, post-playtest TKT-M11B-06 · deferred
+- [Banner Saga Permadeath Opt-In](cards/indie-banner-saga-permadeath-optin.md) — score 4/5 · P6 hardcore preset party.yaml ~4h, decisione D3 pending · deferred
+- [Citizen Sleeper Fatigue Drift Cross-Encounter](cards/indie-citizen-sleeper-fatigue-drift.md) — score 3/5 · P4+P6 VC axis modifier da trauma, post-Bundle C · deferred
+
+### Indie research (combat depth)
+
+- [Astrea Dice Purification Dual-Resource](cards/indie-astrea-dice-purification.md) — score 3/5 · P2+P4 VC axes visual as dice, post-OD-013 MBTI verdict · deferred
+- [Backpack Hero Spatial Inventory Adjacency](cards/indie-backpack-hero-spatial-inventory.md) — score 3/5 · P2+P3 organ_system synergy bonus, post-S6 rebalance · deferred
+- [Cobalt Core Position-Conditional Bonus](cards/indie-cobalt-core-position-bonus.md) — score 4/5 · P1+P5 abilityExecutor position_condition, blast ×1.5, post-Bundle A · deferred
 
 ---
 
 ## 📊 Stats
 
 - **Excavations run**: 9 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen)
-- **Artifact identificati**: ~86 totali (78 sessioni precedenti + 7 worldgen session-3 + 1 evolution_genetics session-3)
-- **Cards total**: 19 curate (7 score 5/5 · 10 score 4/5 · 1 score 3/5 · 1 uncertain)
+- **Artifact identificati**: ~98 totali (86 precedenti + 12 indie research session-4)
+- **Cards total**: 31 curate (7 score 5/5 · 13 score 4/5 · 9 score 3/5 · 2 score 2/5)
 - **Galleries**: 3 (enneagramma + ancestors + worldgen)
-- **Last excavate**: 2026-04-26 (session 3: worldgen + evolution_genetics)
-- **Coverage**: **100%+** (9/9 domain: +worldgen + evolution_genetics nuovi domain)
+- **Last excavate**: 2026-04-27 (session 4: indie research 12 cards, cluster C.1+C.2+C.3+C.4)
+- **Coverage**: **100%+** (9/9 domain + indie research cluster nuovi)
 - **Skiv unblock**: 8/11 card hanno reuse path Skiv-aware (Sprint A: 2, Sprint B: 1, Sprint C: 4, biome-mover differentiation: 1)
 - **Cross-agent validation**: ✅ PASS 2026-04-25 (creature-aspect-illuminator consulted MUSEUM.md spontaneously, 6 GAP found, 10-15min saved)
 
@@ -169,7 +190,20 @@ docs/museum/
 │   ├── worldgen-bridge-species-network-glue.md             # M-2026-04-26-015 score 3/5 (NEW)
 │   ├── worldgen-trophic-roles-validator-not-runtime.md     # M-2026-04-26-016 score 4/5 (NEW)
 │   ├── worldgen-forme-mbti-as-evolutionary-seed.md         # M-2026-04-26-017 score 4/5 (NEW)
-│   └── worldgen-biome-as-gameplay-fiction-package.md       # M-2026-04-26-018 score 5/5 (NEW)
+│   ├── worldgen-biome-as-gameplay-fiction-package.md       # M-2026-04-26-018 score 5/5
+│   ├── indie-banner-saga-caravan-attrition.md               # M-2026-04-27-019 score 4/5 (NEW)
+│   ├── indie-banner-saga-permadeath-optin.md                # M-2026-04-27-020 score 4/5 (NEW)
+│   ├── indie-citizen-sleeper-fatigue-drift.md               # M-2026-04-27-021 score 3/5 (NEW)
+│   ├── indie-astrea-dice-purification.md                    # M-2026-04-27-022 score 3/5 (NEW)
+│   ├── indie-backpack-hero-spatial-inventory.md             # M-2026-04-27-023 score 3/5 (NEW)
+│   ├── indie-cobalt-core-position-bonus.md                  # M-2026-04-27-024 score 4/5 (NEW)
+│   ├── indie-slay-princess-branching-state.md               # M-2026-04-27-025 score 3/5 (NEW)
+│   ├── indie-pentiment-job-voice-confessionals.md           # M-2026-04-27-026 score 3/5 (NEW)
+│   ├── indie-inscryption-camera-reveal-meta.md              # M-2026-04-27-027 score 2/5 (NEW)
+│   ├── indie-1000xresist-memory-layered-pov.md              # M-2026-04-27-028 score 3/5 (NEW)
+│   ├── indie-loop-hero-minimap-visual-emergence.md          # M-2026-04-27-029 score 3/5 (NEW)
+│   ├── indie-cocoon-biome-rules-layer.md                    # M-2026-04-27-030 score 3/5 (NEW)
+│   └── indie-tunic-manual-puzzle-broader.md                 # M-2026-04-27-031 score 2/5 (NEW)
 └── galleries/
     ├── ancestors.md                                         # 1 card aggregato
     ├── enneagramma.md                                       # 3 cards aggregato
@@ -191,6 +225,8 @@ docs/museum/
 ---
 
 ## 📅 Last verified
+
+**2026-04-27** — Session 4 indie research curation complete. 12 nuove card (M-019→M-031). Cluster C.1 resource attrition (3) + C.2 combat depth (3) + C.3 narrative reactivity (4) + C.4 visual emergence (2). Score distribution: 3×4/5, 7×3/5, 2×2/5. Verified ratio: 0/12 (tutti da doc research, nessuna provenance git diretta). Pending decisions: D3/D4/D5 + TKT-09 + Bundle A/B/C/post-playtest trigger conditions.
 
 **2026-04-26** — Session 3 worldgen complete. 9/9 domain coverage (+worldgen), 18 card curate, 3 gallery (+worldgen). 7 nuove card: M-012→M-018. Gap analysis: 12 componenti worldgen, 3 wired, 8 zero runtime. Quick wins tier 1 (~3-6h ciascuno) pronti per autonomous execution.
 
