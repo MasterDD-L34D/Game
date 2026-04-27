@@ -680,9 +680,67 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
 // Schema row: { actor_id, intent_type, intent_icon, target_id, threat_tiles: [{x, y}, ...] }
 // Colore: attack=rosso (kill zone), move=giallo (movement preview), defend/overwatch/skip=blu.
 // Pulse: alpha oscilla 0.25-0.45 a 1Hz per attirare attenzione (Into the Breach pattern).
-function drawThreatTileOverlay(ctx, threatPreview, gridH) {
+// 2026-04-27 PR-Y3 — ITB push/pull arrows helper (Tier A donor).
+// Draw freccia direzionale da `from` (cella origine) a `to` (cella destinazione).
+// Usato per intent move/approach/retreat: mostra dove SIS si sposta.
+// Pattern donor: Into the Breach push/pull telegraph arrows.
+function drawDirectionalArrow(ctx, fromX, fromY, toX, toY, color, gridH) {
+  if (!Number.isFinite(fromX) || !Number.isFinite(fromY)) return;
+  if (!Number.isFinite(toX) || !Number.isFinite(toY)) return;
+  // Convert grid coords to canvas pixel center
+  const fromYPx = (gridH - 1 - fromY) * CELL + CELL / 2;
+  const fromXPx = fromX * CELL + CELL / 2;
+  const toYPx = (gridH - 1 - toY) * CELL + CELL / 2;
+  const toXPx = toX * CELL + CELL / 2;
+  // Skip se same tile (no arrow needed)
+  if (fromXPx === toXPx && fromYPx === toYPx) return;
+  // Compute angle + arrow head size
+  const dx = toXPx - fromXPx;
+  const dy = toYPx - fromYPx;
+  const angle = Math.atan2(dy, dx);
+  const arrowHeadSize = Math.max(8, CELL * 0.18);
+  // Shorten line so arrow head doesn't overlap dest center
+  const shortenBy = arrowHeadSize * 0.6;
+  const lineToX = toXPx - Math.cos(angle) * shortenBy;
+  const lineToY = toYPx - Math.sin(angle) * shortenBy;
+  // Line shaft
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(fromXPx, fromYPx);
+  ctx.lineTo(lineToX, lineToY);
+  ctx.stroke();
+  // Arrow head triangle
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(toXPx, toYPx);
+  ctx.lineTo(
+    toXPx - arrowHeadSize * Math.cos(angle - Math.PI / 6),
+    toYPx - arrowHeadSize * Math.sin(angle - Math.PI / 6),
+  );
+  ctx.lineTo(
+    toXPx - arrowHeadSize * Math.cos(angle + Math.PI / 6),
+    toYPx - arrowHeadSize * Math.sin(angle + Math.PI / 6),
+  );
+  ctx.closePath();
+  ctx.fill();
+  // White outline arrowhead per leggibilità su tile colorato
+  ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+}
+
+function drawThreatTileOverlay(ctx, threatPreview, gridH, units) {
   const t = (Date.now() % 1000) / 1000; // 0..1 ciclico
   const pulse = 0.35 + Math.sin(t * Math.PI * 2) * 0.1; // 0.25..0.45
+  // 2026-04-27 PR-Y3 — units lookup map per source position (per arrow from)
+  const unitMap = new Map();
+  if (Array.isArray(units)) {
+    for (const u of units) {
+      if (u && u.id) unitMap.set(u.id, u);
+    }
+  }
   for (const row of threatPreview) {
     if (!row || !Array.isArray(row.threat_tiles) || row.threat_tiles.length === 0) continue;
     let fill;
@@ -737,6 +795,26 @@ function drawThreatTileOverlay(ctx, threatPreview, gridH) {
           ctx.fillStyle = 'rgba(255,255,255,0.85)';
           ctx.fillText(`${Math.round(row.hit_pct * 100)}%`, tx, ty + dmgFontSize - 2);
         }
+      }
+    }
+
+    // 2026-04-27 PR-Y3 — ITB push/pull arrow per intent move/approach/retreat.
+    // Da actor.position → tile destinazione (primo threat_tile).
+    // Skip per attack (overlay rosso + damage forecast bastano).
+    const isMoveIntent =
+      row.intent_type === 'move' || row.intent_type === 'approach' || row.intent_type === 'retreat';
+    if (isMoveIntent && row.threat_tiles[0]) {
+      const actor = unitMap.get(row.actor_id);
+      if (actor && actor.position) {
+        drawDirectionalArrow(
+          ctx,
+          actor.position.x,
+          actor.position.y,
+          row.threat_tiles[0].x,
+          row.threat_tiles[0].y,
+          'rgba(255, 170, 0, 0.95)', // giallo intenso (movement intent)
+          gridH,
+        );
       }
     }
   }
@@ -873,7 +951,8 @@ export function render(canvas, state, highlight = {}) {
   // 2026-04-26 ITB telegraph — threat tile overlay rosso/giallo per SIS pending intents.
   // Disegnato DOPO range overlay (player vede sue mosse possibili) e PRIMA delle unità.
   if (Array.isArray(highlight.threatPreview) && highlight.threatPreview.length > 0) {
-    drawThreatTileOverlay(ctx, highlight.threatPreview, h);
+    // PR-Y3: pass units per arrow source position lookup
+    drawThreatTileOverlay(ctx, highlight.threatPreview, h, state.units || []);
   }
 
   // Units
