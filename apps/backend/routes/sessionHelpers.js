@@ -105,6 +105,22 @@ function normaliseUnit(raw, fallbackIndex) {
     // V5 SG pool — preserve from input so save-load + tests carry value through.
     // sgTracker.initUnit will keep this if already set, otherwise default to 0.
     sg: Number.isFinite(Number(input.sg)) ? Number(input.sg) : 0,
+    // Sprint Spore Moderate — preserve species_id (alias di species), applied_mutations,
+    // mp pool, lineage_id. Necessari per:
+    // - mutationEngine slot-conflict + bingo hydration (PR #1916)
+    // - lineagePropagator inheritFromLineage / propagateLineage (PR Sprint Y)
+    // Default null/empty cosi back-compat unit senza Spore data resta intatta.
+    species_id: input.species_id
+      ? String(input.species_id)
+      : input.species
+        ? String(input.species)
+        : null,
+    applied_mutations: Array.isArray(input.applied_mutations)
+      ? input.applied_mutations.slice()
+      : [],
+    mp: Number.isFinite(Number(input.mp)) ? Number(input.mp) : 5,
+    lineage_id: input.lineage_id ? String(input.lineage_id) : null,
+    abilities: Array.isArray(input.abilities) ? input.abilities.slice() : [],
   };
 }
 
