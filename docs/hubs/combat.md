@@ -48,6 +48,9 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 - `apps/backend/services/sessionValidation.js` — centralized validation + stateID (B2 pattern)
 - `apps/backend/services/pluginLoader.js` — plugin registration per servizi backend (V1 pattern)
 - `services/narrative/narrativeEngine.js` — inkjs narrative engine (I1/I2 pattern)
+- `apps/backend/services/combat/timeOfDayModifier.js` — Wesnoth time-of-day modifier (lawful/chaotic/neutral × dawn/day/dusk/night) wired in `session.js#performAttack` (Sprint 1 PR #1934, Tier S #5)
+- `apps/backend/services/combat/defenderAdvantageModifier.js` — AI War defender's advantage asymmetric (player→sistema gated, +1 def CD su SIS-defender) (Sprint 1 PR #1934, Tier S #10)
+- `apps/backend/services/species/biomeAffinity.js` — Subnautica habitat lifecycle modifier per phase (preferred biome → +1 atk/+1 def, non-affine → -1 def, apex_free) wired in `session.js#performAttack` (Sprint 2 PR #1935, Tier A #9)
 
 ### Tool di generazione
 
@@ -59,7 +62,7 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 - `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` — fonte unica di verità per i valori meccanici dei trait (attack_mod, defense_mod, damage_step, resistances, cost_ap, active_effects). 33 core trait con supporto `inherits:` per classi (O1 pattern). Allineati con `docs/catalog/traits_inventory.json`.
 - `packs/evo_tactics_pack/data/balance/ai_intent_scores.yaml` — costanti decisionali AI Sistema (soglie retreat, kite buffer, damage dice default). Pattern W3.
 - `packs/evo_tactics_pack/data/balance/ai_profiles.yaml` — profili personalità AI (aggressive/balanced/cautious). Pattern W5.
-- `packs/evo_tactics_pack/data/balance/terrain_defense.yaml` — modificatori CD per tipo terreno (roccia +2, lava -1, etc.). Pattern W4.
+- `packs/evo_tactics_pack/data/balance/terrain_defense.yaml` — modificatori CD per tipo terreno (roccia +2, lava -1, etc.) + Sprint 1 sezione `time_of_day` (4 stati × 3 alignments). Pattern W4 + Wesnoth #5.
 - `packs/evo_tactics_pack/data/balance/movement_profiles.yaml` — profili movimento (heavy/medium/light) con terrain cost multiplier. Pattern W6.
 - `packs/evo_tactics_pack/data/balance/species_resistances.yaml` — matrice resistenze per 5 archetipi specie (corazzato/bioelettrico/psionico/termico/adattivo). Pattern W2.
 - `packs/evo_tactics_pack/data/balance/sistema_pressure.yaml` — AI War "AI Progress" meter: 5 tier da Calm (0) a Apex (95) con intents_per_round + reinforcement_budget + unlocked_intent_types. Gate capabilities SIS via `computeSistemaTier()` in `sessionHelpers.js`.

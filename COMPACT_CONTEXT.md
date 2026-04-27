@@ -8,12 +8,37 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v7 (post P1 follow-up session 2026-04-25 — 3 PR, thought cabinet + MAP-Elites HTTP)
-- **Ultimo aggiornamento**: 2026-04-25 (P1 follow-up autonoma: tier-2/3 effects + resolver wire + MAP-Elites live archive)
+- **Versione compact**: v9 (post Sprint 1-5 autonomous session 2026-04-27 — 5 PR mergiati)
+- **Ultimo aggiornamento**: 2026-04-27 notte (5 sprint autonomous + OD-001 Path A 4/4 closure)
 
-## ⚡ TL;DR per ripartire
+## ⚡ TL;DR per ripartire (post Sprint 1-5)
 
-**6 agent illuminator pronti** + **15 P0 + 3 P1 chiusi** + **Skiv 5/8 wishlist closed**. P1 chiusi: Thought Cabinet tier-2/3 effects (#1778) + resolver wire (#1780) + MAP-Elites HTTP archive 85.2% coverage (#1782). Routine `trig_012Axz6...` lunedì 2026-05-11 + `trig_01SB74yJ...` mercoledì 2026-05-13. Pattern stdlib-only + JSONL + monkeypatch DI validato 11×. **NON perdere Skiv** + **NON saltare workflow research-first**. Vedi handoff: [`docs/planning/2026-04-25-illuminator-orchestra-handoff.md`](docs/planning/2026-04-25-illuminator-orchestra-handoff.md).
+**5 sprint autonomous shipped** in single session: PR #1934 (Wesnoth time-of-day + AI War defender's adv + Disco day pacing + Fallout numeric ref doc) → #1935 (Subnautica habitat lifecycle wire — biomeAffinity + 14 species stub + biomeSpawnBias init wave universal) → #1937 (Tunic Glifi UI + AncientBeast wikiLinkBridge + Wildermyth permanent flags) → #1938 (Cogmind tooltip + Dead Space holographic AOE + Isaac Anomaly glow) → #1940 (Tufte sparkline dashboard + DuckDB +4 query). **+OD-001 Path A 4/4 chiuso** (PR #1877 superseded). Stato pillars: 5/6 🟢 def/cand. Test baseline ~360 verde. Vedi handoff aggiornato: [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md`](docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md).
+
+## 🆕 Sessione 2026-04-27 notte — Sprint 1-5 autonomous (5 PR + 1 closure)
+
+| PR                                                          | Sprint              | Files key                                                                                                                                              | Tests           |
+| ----------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
+| [#1934](https://github.com/MasterDD-L34D/Game/pull/1934)    | 1 backend QW        | `timeOfDayModifier.js` + `defenderAdvantageModifier.js` + `terrain_defense.yaml` time_of_day section + `formatDayPacing` campaign + 3 docs             | +18             |
+| [#1935](https://github.com/MasterDD-L34D/Game/pull/1935)    | 2 mutation pipeline | `services/species/biomeAffinity.js` NEW + `dune_stalker_lifecycle.yaml` + 14 stub + `seed_lifecycle_stubs.py` + `reinforcementSpawner` biome_id derive | +9              |
+| [#1937](https://github.com/MasterDD-L34D/Game/pull/1937)    | 3 codex completion  | `codexPanel.js` Glifi tab + `wikiLinkBridge.js` + `speciesWiki.js` 3 routes + `campaignStore` permanentFlags + 3 routes + 4 stale fixture fix          | +19 + 4 fixture |
+| [#1938](https://github.com/MasterDD-L34D/Game/pull/1938)    | 4 UI polish         | `main.js` Shift-hold expand tooltip + `render.js` `drawHolographicAoe` + `debriefPanel` anomaly badge + CSS keyframes                                  | regression OK   |
+| [#1940](https://github.com/MasterDD-L34D/Game/pull/1940)    | 5 telemetry viz     | `sparkline_dashboard.py` NEW + `analyze_telemetry.py` +4 SQL (mbti_distribution + archetype_pickrate + kill_chain_assists + biome_difficulty)          | +8              |
+| [#1877 ❌](https://github.com/MasterDD-L34D/Game/pull/1877) | OD-001 Path A       | CLOSED as superseded — backend + UI già live via #1874+#1875+#1876+#1879+#1911                                                                         | —               |
+
+**Pillars finali post-sprint**: P1 🟢++ · P2 🟢 def · P3 🟢c+ · P4 🟢c · P5 🟢c · P6 🟢c++.
+
+**Anti-pattern Engine LIVE Surface DEAD**: chiuso su Subnautica habitat (Tier A #9). Pattern killer permanent: ogni new engine richiede surface player visibile <60s gameplay (Gate 5 DoD).
+
+**Lessons codified**:
+
+- **Cherry-pick fixture fix opportunistic** (4 stale post-cross-PC: #1869 nerf + #1870 currency cleanup + #1871 schema)
+- **`gh pr update-branch <num>`** > rebase + force-push quando branch protection blocca
+- **Sandbox guardrail**: force-push + admin merge denied; usa GitHub UI workflow
+
+**Next session candidati ranked**: A) Playtest live TKT-M11B-06 (chiude P5 def), B) Beast Bond reaction trigger 5h (AncientBeast Tier S #6 residuo), C) Thought Cabinet UI panel cooldown 8h (P4 dominante), D) Ability r3/r4 tier 10h (P3+).
+
+---
 
 ## 🆕 Sessione 2026-04-25 P1 follow-up (3 PR)
 
