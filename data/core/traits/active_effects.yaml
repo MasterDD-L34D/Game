@@ -9535,3 +9535,36 @@ traits:
       specie `predoni_nomadi` adiacente attacca, il portatore guadagna +1
       attack_mod e +1 defense_mod per 2 turni (effetto piu' lungo del legame
       di branco generico, riservato a un'unica specie).
+
+  # Skiv Goal 1 (2026-04-28) — wounded_perma "cicatrice" persistente.
+  #
+  # Status NOT trait-applied via apply_status YAML loop (no trigger entry).
+  # Applicato runtime da apps/backend/services/combat/woundedPerma.js quando
+  # actor protagonista (Skiv) finisce KO in encounter con loss_conditions
+  # player_wipe → propagato cross-encounter via session.lastMissionWoundedPerma
+  # map. Effetto: -1 max_hp persistent durata sessione (NON decay per turno).
+  #
+  # Engine wired flow:
+  #   1. enc_savana_skiv_solo_vs_pack.yaml definisce objective.loss_conditions.player_wipe
+  #   2. on player_wipe → woundedPerma.applyWound(unit, sessionMap)
+  #   3. unit.status.wounded_perma = { hp_penalty: 1 } + unit.max_hp -= 1
+  #   4. cross-encounter: woundedPerma.restoreOnEncounterStart(unit, sessionMap)
+  #
+  # Trigger entry "marker_only": evaluator skip silently (no trigger.action_type),
+  # serve solo come dichiarazione formale del status type per glossary/lint.
+  wounded_perma:
+    tier: T1
+    category: persistente
+    applies_to: target
+    trigger:
+      action_type: marker_only
+    effect:
+      kind: persistent_marker
+      stato: wounded_perma
+      log_tag: wounded_perma_marker
+    description_it: |
+      Cicatrice della ferita grave subita in encounter solo. -1 max_hp
+      persistent per la durata della sessione (NON decay turn-based). Applicato
+      runtime via woundedPerma.js quando l'attore protagonista subisce KO in
+      encounter con loss_conditions.player_wipe attivo. Cross-encounter via
+      session.lastMissionWoundedPerma map (riapplica HP penalty allo start).
