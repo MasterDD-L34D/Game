@@ -8,7 +8,9 @@ import { detectEndgame, showEndgame, hideEndgame, nextScenarioId } from './endga
 import {
   recordMove,
   pushPopup,
+  pushPopupCritical,
   flashUnit,
+  flashUnitCritical,
   attackRay,
   ACTION_ANIM_STAGGER_MS,
   COMMIT_REVEAL_MS,
@@ -789,11 +791,19 @@ function handleDamageEvent({ actor, target, damage, targetId, result }) {
     attackRay(actor.position, target.position, rayColor);
   }
   // Damage popup + flash on target (skip if dmg === 0 / miss).
+  // Tier B FF7R critical juice: dmg >= 6 = critical → extended flash (720ms vs 480ms)
+  // + popup gold color + 1.5× scale (rendered by drawPopups via critical flag).
   if (target?.position && dmg !== 0) {
-    const color = dmg < 0 ? FX_COLORS.heal : FX_COLORS.damage;
+    const isCritical = dmg >= 6; // damage threshold matches sfx.crit() heuristic
+    const color = dmg < 0 ? FX_COLORS.heal : isCritical ? '#ffcc00' : FX_COLORS.damage;
     const txt = dmg < 0 ? `+${-dmg}` : `-${dmg}`;
-    pushPopup(target.position.x, target.position.y, txt, color);
-    flashUnit(targetId || target.id, color);
+    if (isCritical && dmg > 0) {
+      pushPopupCritical(target.position.x, target.position.y, txt, color);
+      flashUnitCritical(targetId || target.id, color);
+    } else {
+      pushPopup(target.position.x, target.position.y, txt, color);
+      flashUnit(targetId || target.id, color);
+    }
   }
   // SFX selection: heal / crit (≥6) / hit / miss.
   if (dmg < 0) sfx.heal();

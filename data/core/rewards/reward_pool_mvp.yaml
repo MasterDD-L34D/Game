@@ -221,3 +221,36 @@ cards:
     effect:
       type: pe_bonus
       amount: 20
+
+  # Tier B Quick win — Isaac Anomaly Trait pool (1/20 rare spawn).
+  # Source: docs/research/2026-04-26-tier-b-extraction-matrix.md #7 Binding of Isaac.
+  # Pattern: pack roll d20+BIAS estesa a Anomaly Trait raro 1/20 con effetto
+  # trasformativo cross-pillar. tag `anomaly` consente analytics + special-case
+  # rendering (es. glow effect future PR).
+  - id: rwd_anomaly_resilienza_temporale
+    label: "Anomalia: Resilienza Temporale"
+    rarity: legendary
+    roll_bucket: 20
+    synergy_tags: [anomaly, transformative, defense, time]
+    personality_weights:
+      - { mbti: 'INTJ', weight: 0.9 }
+      - { ennea: '5', weight: 0.7 }
+    action_affinities: []
+    max_copies: 1
+    effect:
+      type: ability_unlock
+      ability_id: temporal_rewind
+
+  - id: rwd_anomaly_simbiosi_apex
+    label: "Anomalia: Simbiosi Apex"
+    rarity: legendary
+    roll_bucket: 20
+    synergy_tags: [anomaly, transformative, mating, evolve]
+    personality_weights:
+      - { mbti: 'ENFJ', weight: 0.9 }
+      - { ennea: '2', weight: 0.7 }
+    action_affinities: []
+    max_copies: 1
+    effect:
+      type: trait_grant
+      trait_id: coscienza_d_alveare_diffusa
