@@ -9450,3 +9450,24 @@ traits:
     description_it: |
       Ghiandole che secernono fili vischiosi. Ogni hit applica 3 turni di
       slowed: il target riceve -1 AP al reset turno (minimo 1 AP garantito).
+
+  # Stato marked Tier 1: prossimo attaccante ottiene +1 dmg, mark consumato.
+  # Wire: performAttack (session.js) controlla + consuma il mark prima del danno.
+
+  marchio_predatorio:
+    tier: T1
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: marked
+      turns: 2
+      log_tag: marchio_predatorio_marked
+    description_it: |
+      Feromoni predatori che segnalano il bersaglio alla squadra. Ogni hit
+      applica 2 turni di marked: il prossimo attacco sul target ottiene
+      +1 danno (il mark viene consumato al primo utilizzo).
