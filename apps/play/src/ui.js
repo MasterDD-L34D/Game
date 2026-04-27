@@ -449,9 +449,50 @@ export function updateStatus(state) {
         ? `<div class="pushback-label">⚔ Pushback ${counter}/30</div>
            <div class="pushback-bar"><div class="pushback-fill" style="width:${counterPct}%"></div></div>`
         : '';
+
+    // 2026-04-27 Step 3 — AI War Progress meter frontend wire (Tier S #1898 backend).
+    // Pattern donor: AI War Fleet Command — visibility + anticipation tier.
+    // Estende meter con next_tier + distance + history sparkline (Tufte pattern).
+    let aiProgressHtml = '';
+    if (state.ai_progress) {
+      const ap = state.ai_progress;
+      const tierName = ap.tier?.name || '';
+      const threatLevel = ap.threat_level || 'minimo';
+      // Next tier anticipation
+      let nextTierHtml = '';
+      if (ap.next_tier && Number.isFinite(ap.distance_to_next)) {
+        nextTierHtml = `<span class="ai-next-tier">→ ${ap.next_tier.name} (${ap.distance_to_next} pp)</span>`;
+      } else if (!ap.next_tier) {
+        nextTierHtml = `<span class="ai-next-tier">apex max</span>`;
+      }
+      // History sparkline: 5 dot last events (Tufte small multiples lite)
+      let historyHtml = '';
+      if (Array.isArray(ap.history) && ap.history.length > 0) {
+        const dots = ap.history
+          .slice(-5)
+          .map((h) => {
+            const p = Number(h.pressure) || 0;
+            const intensity = Math.min(1, p / 100);
+            const op = 0.3 + intensity * 0.7;
+            return `<span class="ai-history-dot" style="opacity:${op}" title="turn ${h.turn} · ${h.pressure}">●</span>`;
+          })
+          .join('');
+        historyHtml = `<div class="ai-history">trend: ${dots}</div>`;
+      }
+      aiProgressHtml = `
+        <div class="ai-progress-info">
+          <span class="ai-tier-name" style="color:${tier.color}">${tierName}</span>
+          <span class="ai-threat-label">minaccia: <strong>${threatLevel}</strong></span>
+          ${nextTierHtml}
+        </div>
+        ${historyHtml}
+      `;
+    }
+
     pressureEl.innerHTML = `
       <div class="pressure-label">SISTEMA <strong style="color:${tier.color}">${tier.label}</strong> · ${tier.value}/100 · cap ${tier.intents} intents/round</div>
       <div class="pressure-bar"><div class="pressure-fill" style="width:${tier.value}%;background:${tier.color}"></div></div>
+      ${aiProgressHtml}
       ${counterHtml}
     `;
   }
