@@ -328,6 +328,48 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-28 — Skiv Personal Sprint 4/4 goals shipped)
+
+**Sessione 2026-04-27/28 (Skiv personal wishlist autonomous)**: 4 goals canonical Skiv shipped end-to-end in singola sessione ~9h via 3-phase wave (G1+G2 parallel → G3 → G4). Plan canonical [`docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`](docs/planning/2026-04-27-skiv-personal-sprint-handoff.md).
+
+**PR shipped main** (4):
+
+| PR                                                       | Goal                                      | Pillar | Scope                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------------- | ----------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [#1982](https://github.com/MasterDD-L34D/Game/pull/1982) | G1 Encounter Skiv solo vs Pulverator pack | P1+P5  | encounter wired via encounterLoader + `wounded_perma` status persistent + `woundedPerma.js` mirror sgTracker + harness N=20 win 45.0% in band 35-45% + 9 test                                                                                                                   |
+| [#1977](https://github.com/MasterDD-L34D/Game/pull/1977) | G2 Echolocation visual fog-of-war pulse   | P1     | `senseReveal.js` pure helper + `tile_visibility` in publicSessionView + `drawEcholocationPulse` cyan #66d1fb 800ms 40→120px + `installEcholocationOverlay` wire-point + 6 test (anti-pattern Engine LIVE Surface DEAD chiuso per echolocation)                                  |
+| [#1983](https://github.com/MasterDD-L34D/Game/pull/1983) | G3 Thoughts ritual choice UI              | P4     | `thoughtsRitualPanel.js` overlay top-3 candidati + `GET /thoughts/candidates` ranked vcSnapshot + 30s timer countdown + irreversible session lock + voice line preview Disco-style ("Il branco non ti vede più. La sabbia segue solo te.") + 10 test                            |
+| [#1984](https://github.com/MasterDD-L34D/Game/pull/1984) | G4 Legacy death mutation choice ritual    | P2     | `propagateLineage` opt-in `options.mutationsToLeave` filter (back-compat preserved) + `computeBondHeartsDelta` narrative beat (50% threshold + 100% bonus) + `POST /api/v1/lineage/legacy-ritual` + `legacyRitualPanel.js` overlay lifecycle_phase=legacy auto-trigger + 4 test |
+
+**Test budget post-merge**: AI baseline 382/382 verde zero regression. +29 nuovi (9 G1 + 6 G2 + 10 G3 + 4 G4). Total ~1100 LOC.
+
+**Skiv impact reale**:
+
+- **P1 Tattica**: Skiv combat showcase live (encounter 35-45% win) + sense surface visible (echolocation pulse + tile reveal `?` glyph)
+- **P2 Evoluzione**: legacy cross-gen agency live (cosa lascio = scelta esplicita)
+- **P4 MBTI**: identity agency at apex (3rd thought = scelta vs auto-pick)
+- **P5 Co-op**: solo-vs-pack base per future co-op pack scenarios
+
+**Lessons codified questa sessione**:
+
+- **Wave-merge gate**: G1+G2 disjoint file ownership = parallel safe. G3+G4 share session.js + api.js = sequential mandatory. Handoff §3.1 collision matrix vincente.
+- **Worktree contention recovery**: agente G1 ha creato worktree `Game-skiv-g1` per evitare collisione G2 nel main repo. Lesson da CLAUDE.md "Worktree isolation raccomandato per agent paralleli" applicata correttamente.
+- **Force-push blocked → merge strategy**: post #1977 merge, branch G1 BEHIND main + force-push denied. Recovery via `git pull --no-rebase` + commit merge + push regular = clean path no force.
+- **CI flake terrainReactionsWire fire**: stesso pattern Sprint 6 (CLAUDE.md riga 491). Re-run GA jobs failed = canonical fix per questo flake. Non-blocking ai PR Skiv.
+
+**Resume trigger phrase canonical** (ANY PC):
+
+> _"leggi docs/planning/2026-04-27-skiv-personal-sprint-handoff.md, verifica §6 progress, esegui fase corrente"_
+
+**Next session candidati**:
+
+- A) **TKT-M11B-06 playtest live** userland (chiude P5 🟢 def, unico bloccante umano)
+- B) Skiv state.json recompute post-encounter live playthrough (deferred a Phase 4 — non backfillable senza run reale)
+- C) Sentience tier 4 species candidate exploration (T4=0 attualmente, gap noted OD-008)
+- D) Ennea archetypes UI surface (gap noted in handoff §1 — 9 archetypes ZERO surface)
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 late — situation report cross-PC)
 
 **50 PR mergiati main today** (cross-PC + multi-session combined). Main HEAD: `a5679e81`.
