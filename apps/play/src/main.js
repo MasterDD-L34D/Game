@@ -25,6 +25,46 @@ import { initFormsPanel, openFormsPanel } from './formsPanel.js';
 import { initThoughtsPanel, openThoughtsPanel } from './thoughtsPanel.js';
 import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
 
+// CAP-14b — Onboarding Phase V2 (L'Impronta): standalone smoke entry point.
+// Activates only when `?imprint_v2=<tv|p1|p2|p3|p4>` query param is present.
+// Bootstraps a demo lobby + 4 join + imprint/start (shared via localStorage so
+// multiple tabs converge on the same room). V1 onboarding flow remains untouched
+// when the flag is absent.
+(async function maybeRunImprintV2Demo() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get('imprint_v2');
+    if (!role) return;
+    if (params.get('imprint_v2_reset') === '1') {
+      localStorage.removeItem('imprintV2DemoSession');
+    }
+    const validRoles = new Set(['tv', 'p1', 'p2', 'p3', 'p4']);
+    if (!validRoles.has(role)) {
+      console.warn(`[imprint-v2] invalid role "${role}", expected tv|p1|p2|p3|p4`);
+      return;
+    }
+    const mod = await import('./onboardingPanelV2.js');
+    if (!document.getElementById('imprintV2Css')) {
+      const link = document.createElement('link');
+      link.id = 'imprintV2Css';
+      link.rel = 'stylesheet';
+      link.href = new URL('./onboardingPanelV2.css', import.meta.url).href;
+      document.head.appendChild(link);
+    }
+    const creds = await mod.bootstrapImprintDemo({ role });
+    const biome = await mod.openImprintPanelV2({
+      code: creds.code,
+      playerId: creds.playerId,
+      playerToken: creds.playerToken,
+      hostToken: creds.hostToken,
+      role: creds.role,
+    });
+    console.info('[imprint-v2] biome resolved:', biome);
+  } catch (err) {
+    console.error('[imprint-v2] demo failed:', err);
+  }
+})();
+
 const state = {
   sid: null,
   world: null, // session state

@@ -1,0 +1,413 @@
+/* CAP-14b — Onboarding Phase V2 styles. Port da prototypes/imprint-v2/index.html. */
+
+.imprint-v2-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a0a0c;
+  color: #e8e8e8;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  --p1: #5fa8d3;
+  --p2: #d35f5f;
+  --p3: #5fd37e;
+  --p4: #d3c95f;
+  --accent: #d4a373;
+  --muted: #555;
+}
+.imprint-v2-overlay.imprint-v2-fade-out {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.imprint-v2-stage {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* ── TV view ─────────────────────────────────────────────────────── */
+.imprint-v2-stage.tv-view .tv-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.imprint-v2-stage.tv-view .tv-header h2 {
+  font-size: 1.3rem;
+  color: var(--accent);
+  margin: 0;
+}
+.imprint-v2-stage.tv-view .tv-subtitle {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.3rem;
+  min-height: 1.2em;
+}
+.imprint-v2-stage.tv-view .tv-creatures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.imprint-v2-stage .creature-card {
+  background: linear-gradient(180deg, #1a1a22, #0f0f15);
+  border: 2px solid var(--muted);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s ease;
+}
+.imprint-v2-stage .creature-card.p1 {
+  border-color: var(--p1);
+}
+.imprint-v2-stage .creature-card.p2 {
+  border-color: var(--p2);
+}
+.imprint-v2-stage .creature-card.p3 {
+  border-color: var(--p3);
+}
+.imprint-v2-stage .creature-card.p4 {
+  border-color: var(--p4);
+}
+.imprint-v2-stage .creature-card .player-tag {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+.imprint-v2-stage .creature-card .player-tag .pnum {
+  display: block;
+  font-size: 2.6rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  margin-bottom: 0.2rem;
+}
+.imprint-v2-stage .creature-card .player-tag .ppart {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+.imprint-v2-stage .creature-card .silhouette {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  opacity: 0.35;
+  transition: opacity 0.5s, transform 0.5s, filter 0.5s;
+}
+.imprint-v2-stage .creature-card.has-choices .silhouette {
+  opacity: 0.9;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px currentColor);
+}
+.imprint-v2-stage .creature-card.p1.has-choices .silhouette {
+  color: var(--p1);
+}
+.imprint-v2-stage .creature-card.p2.has-choices .silhouette {
+  color: var(--p2);
+}
+.imprint-v2-stage .creature-card.p3.has-choices .silhouette {
+  color: var(--p3);
+}
+.imprint-v2-stage .creature-card.p4.has-choices .silhouette {
+  color: var(--p4);
+}
+.imprint-v2-stage .creature-card .glyphs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  min-height: 2em;
+}
+.imprint-v2-stage .creature-card .glyph {
+  background: #2a2a32;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  animation: imprintV2GlyphAppear 0.6s ease;
+}
+@keyframes imprintV2GlyphAppear {
+  from {
+    transform: scale(0.5) translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+.imprint-v2-stage .biome-reveal {
+  text-align: center;
+  padding: 1rem;
+  background: #1a1a22;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  min-height: 4em;
+}
+.imprint-v2-stage .biome-reveal .biome-name {
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+.imprint-v2-stage .biome-reveal .biome-base {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.3rem;
+}
+.imprint-v2-stage .biome-reveal .modulations {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+.imprint-v2-stage .biome-reveal .pending {
+  color: #555;
+  font-style: italic;
+}
+.imprint-v2-stage .foodweb {
+  background: #15151b;
+  border-radius: 6px;
+  padding: 0.7rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #999;
+}
+.imprint-v2-stage .foodweb-title {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #ccc;
+}
+.imprint-v2-stage .foodweb-list {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.imprint-v2-stage .foodweb-item {
+  background: #20202a;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+.imprint-v2-stage .epilogue {
+  background: linear-gradient(135deg, #1a2230, #15151b);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  animation: imprintV2EpilogueIn 0.6s ease;
+}
+@keyframes imprintV2EpilogueIn {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.imprint-v2-stage .epilogue-title {
+  font-size: 1rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.imprint-v2-stage .epilogue-text {
+  font-size: 0.85rem;
+  color: #ccc;
+  line-height: 1.5;
+  margin-bottom: 0.7rem;
+}
+.imprint-v2-stage .epilogue-text strong {
+  color: var(--accent);
+}
+.imprint-v2-stage .epilogue-next {
+  display: block;
+  margin-top: 0.4rem;
+  color: #aaa;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+.imprint-v2-stage .epilogue-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+.imprint-v2-stage .ep-btn {
+  flex: 1;
+  background: #2a2a32;
+  color: #e8e8e8;
+  border: 1px solid #3a3a42;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.imprint-v2-stage .ep-btn:hover {
+  background: #3a3a42;
+  border-color: var(--accent);
+}
+.imprint-v2-stage .ep-btn.primary {
+  background: var(--accent);
+  color: #15151b;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.imprint-v2-stage .ep-btn.primary:hover {
+  filter: brightness(1.15);
+}
+
+/* ── Phone view ─────────────────────────────────────────────────── */
+.imprint-v2-stage.phone-view {
+  width: min(100vw, 500px);
+  margin: 0 auto;
+  gap: 1.2rem;
+  position: relative;
+}
+.imprint-v2-stage.phone-view::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  pointer-events: none;
+  background: var(--phone-color, transparent);
+}
+.imprint-v2-stage.phone-view.color-p1 {
+  --phone-color: var(--p1);
+}
+.imprint-v2-stage.phone-view.color-p2 {
+  --phone-color: var(--p2);
+}
+.imprint-v2-stage.phone-view.color-p3 {
+  --phone-color: var(--p3);
+}
+.imprint-v2-stage.phone-view.color-p4 {
+  --phone-color: var(--p4);
+}
+.imprint-v2-stage.phone-view .my-creature {
+  text-align: center;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid var(--phone-color, var(--muted));
+}
+.imprint-v2-stage.phone-view .my-creature-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #aaa;
+  margin-bottom: 0.2rem;
+}
+.imprint-v2-stage.phone-view .my-creature-emoji {
+  font-size: 4.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 14px var(--phone-color, var(--muted)));
+  transition: transform 0.3s;
+}
+.imprint-v2-stage.phone-view .my-creature-emoji.chosen {
+  transform: scale(1.15);
+}
+.imprint-v2-stage.phone-view .my-creature-id {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--phone-color);
+  margin-top: 0.2rem;
+}
+.imprint-v2-stage.phone-view .phone-header {
+  text-align: center;
+}
+.imprint-v2-stage.phone-view .phone-tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #fff;
+}
+.imprint-v2-stage.phone-view .player-bg-p1 {
+  background: var(--p1);
+}
+.imprint-v2-stage.phone-view .player-bg-p2 {
+  background: var(--p2);
+}
+.imprint-v2-stage.phone-view .player-bg-p3 {
+  background: var(--p3);
+}
+.imprint-v2-stage.phone-view .player-bg-p4 {
+  background: var(--p4);
+}
+.imprint-v2-stage.phone-view .body-part {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin-top: 0.5rem;
+  letter-spacing: 1px;
+}
+.imprint-v2-stage.phone-view .question {
+  text-align: center;
+  font-size: 1rem;
+  color: #ddd;
+  line-height: 1.5;
+  padding: 0 0.5rem;
+}
+.imprint-v2-stage.phone-view .choices {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 1rem;
+  flex: 1;
+  min-height: 220px;
+}
+.imprint-v2-stage.phone-view .choice-btn {
+  background: linear-gradient(135deg, #1a1a22, #0a0a12);
+  border: 2px solid #333;
+  color: #e8e8e8;
+  font-size: 1.4rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.imprint-v2-stage.phone-view .choice-btn:hover {
+  border-color: var(--accent);
+  transform: scale(1.02);
+}
+.imprint-v2-stage.phone-view .choice-btn:active {
+  transform: scale(0.98);
+}
+.imprint-v2-stage.phone-view .choice-btn .choice-label {
+  font-weight: 600;
+}
+.imprint-v2-stage.phone-view .choice-btn .choice-desc {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+.imprint-v2-stage.phone-view .choice-btn.selected {
+  background: linear-gradient(135deg, #2a2a3a, #1a1a2a);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.imprint-v2-stage.phone-view .imprint-v2-status {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #888;
+  padding: 0.4rem 0;
+}
+.imprint-v2-stage.phone-view .imprint-v2-error {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #d35f5f;
+  min-height: 1em;
+}
