@@ -9364,3 +9364,25 @@ traits:
       source: qw2_starter_bioma
       starter_biome: abisso_vulcanico
       form_id: ENTJ
+
+  # SPRINT_020: stato chilled. Apply da trait aura_glaciale.
+  # Effetti: -1 AP reset turno (applyApRefill in sessionHelpers.js) + -1 attack_mod_bonus
+  # per attacco (pre/revert in performAttack session.js). Status_duration_cap 2T.
+
+  aura_glaciale:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: chilled
+      turns: 2
+      log_tag: aura_glaciale_chilled
+    description_it: |
+      Aura criogeina che raffredda i tessuti del bersaglio. Ogni hit
+      applica 2 turni di chilled: il target perde 1 AP al reset di
+      turno e subisce -1 ai tiri d'attacco (riflessi rallentati).
