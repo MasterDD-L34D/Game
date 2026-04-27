@@ -7806,6 +7806,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "museum"
+    },
+    {
+      "path": "docs/research/2026-04-27-strategy-games-design-extraction.md",
+      "title": "Strategy Games Design Extraction — visual + UI patterns Evo-Tactics",
+      "doc_status": "active",
+      "doc_owner": "ui-design-illuminator",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-27",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "research"
     }
   ]
 }
