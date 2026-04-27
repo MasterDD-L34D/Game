@@ -515,7 +515,88 @@ I 73 pattern ora vivono in 3 sistemi proven con trigger automatico:
 |---|---|---|---|
 | 2026-04-27 created | §A-§E | initial | Master synthesis post deep extraction pass-2 |
 | 2026-04-27 update | §F added | persistence | Step 1+2+3 completati: 75 tickets + 11 museum cards + memory entries |
-| 2026-04-27 update | §D | upkeep rule | Pre-cite check + memory rule cross-link aggiunta
+| 2026-04-27 update | §D | upkeep rule | Pre-cite check + memory rule cross-link aggiunta |
+| 2026-04-27 update | §G added | reality check | Audit empirico A+D+E targets dopo wave cross-PC |
+
+## §G — REALITY CHECK 2026-04-27 sera (audit empirico A+D+E)
+
+> Audit empirico pre-execution A+D+E ha rivelato che **molti target sono già shipped o bloccati**. Doc §B-§C era stale post wave 32 PR cross-PC. Questa sezione codifica realtà audit-verified.
+
+### §G.1 — Status engine (Opzione D) — **GIÀ SHIPPED 100%**
+
+Audit verifica: il modulo `apps/backend/services/combat/statusModifiers.js` è full-feature + wired:
+
+- ✅ `computeStatusModifiers` chiamato in `session.js:402` (sequential path) con delta + revert post-attack
+- ✅ `evaluateStatusTraits` (`traitEffects.js:354`) produce `status_applies[]` → `session.js:659-670` scrive `unit.status[stato]` con cap
+- ✅ `applyTurnRegen` chiamato in entrambi path (sequential + round bridge:668)
+- ✅ Universal status decay loop in `sessionRoundBridge.applyEndOfRoundSideEffects`
+- ✅ **24/24 test verde** (`tests/services/statusModifiers.test.js` + `statusExtension.test.js`)
+
+7 status live runtime: `linked` `fed` `attuned` `sensed` `telepatic_link` `frenzy` `healing`. I 68 ancestor consumers dichiarati silent dal deep-analysis residual gaps doc 2026-04-26 sono **fully consumed**.
+
+**Verdict**: Opzione D = no-op. Skip.
+
+### §G.2 — Polish hour (Opzione A) — **~70% SHIPPED**
+
+Audit micro-fix:
+
+- ✅ **PE keys hardcore mapping** (`rewardEconomy.js:13-20` ha `tutorial_advanced:4` + `hardcore:10` + caller `session.js:2124`)
+- ✅ **balanced AI override** intentionally `{}` (default behavior, fix sintomo non desiderato)
+- 🟡 **SG +1 starter tutorial**: `session.js:1229` ha hook `req.body.initial_sg` ma default starter non mostrato YAML
+- 🟡 **Reward auto-log JSONL**: telemetry endpoint shipped, ma reward_accept/skip auto-log da verificare
+- 🟡 **Light terrain penalty seed**: `terrain_defense.yaml` ha 8+ terrain_types con `movement_cost`. Da verificare se "leggero/light" canale è coperto
+- 🟡 **ADR retry text**: ADR M11 dice "retry 20×" linea 59. Eventuale drift "10x" da identificare in altra location
+
+**Verdict**: A polish è in larga parte shipped. I 4 micro-fix residui richiederebbero ~2h totali (effort minimal). Ship come polish bundle separato post-merge altro PC.
+
+### §G.3 — Surface-DEAD sweep (Opzione E) — **per-target audit**
+
+| # | E target | Status real (audit 2026-04-27) | Action |
+|---:|---|---|---|
+| 1 | Tactics Ogre HP floating refactor | 🔴 NOT shipped (no `drawHpFloating` in `apps/play/src/render.js`) | **DEFER** — overlap con #1906 (HP critico pulse) |
+| 2 | `drawMutationDots` overlay (Spore visual swap) | 🔴 NOT shipped | **BLOCKED** — authoring 30 mutations `aspect_token` pending (Spore S4) |
+| 3 | Mating `gene_slots` → lifecycle wire | 🟡 `metaProgression.js` ha funzioni | **BLOCKED OD-001 V3 verdict** |
+| 4 | `objectiveEvaluator` non-elim scenari | ✅ **SHIPPED** — 4+ obj types (escort/holdout/extract) live, 9 YAML scenarios in `docs/planning/encounters/` + `encounterLoader.js` wired (`session.js:1153`) | **NO ACTION** |
+| 5 | `biomeSpawnBias` initial wave universal | 🟡 file shipped (`apps/backend/services/combat/biomeSpawnBias.js`) | **VERIFY** initial wave path |
+| 6 | QBN debrief wire | 🔴 NOT in `session.js` debrief | **PENDING** ~3h |
+| 7 | Thought Cabinet UI panel + reveal_text | 🔴 NOT shipped | **PENDING** ~8h + 18h authoring |
+| 8 | Auto-battle quick-sim button (predict_combat N=1000) | 🟡 `auto_resolve` flag esiste (round commit) ma quick-sim button predict_combat N=1000 NOT shipped | **PENDING** ~3h |
+
+**Verdict**: solo 3-4 E target sono pending non-blocked + non-overlap PR altro PC:
+- QBN debrief wire (~3h)
+- Auto-battle quick-sim button (~3h)
+- biomeSpawnBias initial wave verify (~2h)
+- (Thought Cabinet + Tactics Ogre HP + drawMutationDots = blocked o defer)
+
+**Cumulato pending E reale**: ~8h (vs ~25-35h stima iniziale §C).
+
+### §G.4 — Strategia revised post audit
+
+Visto che **A+D+E è in larga parte già shipped**, raccomandazione cambia:
+
+**Bundle pragmatico ~10-12h** (post-merge altro PC #1904-#1907):
+1. **A residual** (4 micro-fix): ~2h
+2. **E residual non-blocked** (3 target): ~8h
+3. **F userland playtest TKT-M11B-06** (parallel)
+
+**Bundle visione closure ~30h**:
+- **C Spore Moderate** (S1+S2+S3+S6 + visual swap authoring 30 mutations) — chiude P2 → 🟢 candidato definitivo, sblocca drawMutationDots E target
+
+**Recommendation**: Bundle pragmatico breve (~10-12h) + valutare Spore Moderate post-playtest userland feedback.
+
+### §G.5 — State-of-work altro PC (overlap detected 2026-04-27 ~00:06-00:19)
+
+| PR | Scope | Touch | Status |
+|---|---|---|---|
+| #1904 | Gate 5 "Engine wired" DoD policy | `CLAUDE.md` (43 LOC) | 🔵 open — codifica anti-pattern Surface-DEAD policy |
+| #1905 | Design rebrand Gris+HLD+Pentiment | `apps/play/src/{main.js,render.js,style.css}` | 🔵 open — UI palette refresh |
+| #1906 | StS damage forecast + HP critico pulse | `apps/backend/services/ai/threatPreview.js` (NEW), `render.js`, `tests/ai/threatPreview.test.js` | 🔵 open |
+| #1907 | ITB push/pull arrows for SIS movement | `apps/play/src/render.js` | 🔵 open |
+| #1891 | v3.5 sprint allineamento dati (mio thread) | duplicato — assorbito in #1902 | 🔵 open (da chiudere) |
+
+**Conflict zones identified**: `apps/play/src/render.js` toccato da 3 PR aperti contemporaneamente (#1905, #1906, #1907). Da risolvere prima di altre UI work.
+
+**Concettuale alignment**: PR #1904 Gate 5 DoD codifica esattamente il pattern "Engine LIVE Surface DEAD" diagnosticato in §C.2. Mio approccio E è già adottato come **policy permanente** del progetto.
 
 ---
 
