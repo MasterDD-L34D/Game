@@ -163,7 +163,26 @@ function resolveAttack({ actor, target, rng }) {
   // Ability buff bonus temporanei (es. evasive_maneuver defense_mod +1,
   // dash_strike attack_mod +1). Dormono come actor[stat]_bonus finche'
   // status[stat]_buff > 0 (decadimento in sessionRoundBridge.clearExpiredBonuses).
-  const attackMod = Number(actor.mod || 0) + Number(actor.attack_mod_bonus || 0);
+  // Sprint α (Phoenix Point pattern): pseudo-RNG miss-streak bonus.
+  // Lazy require evita cycle, back-compat zero-delta se actor senza fields.
+  let pseudoRngBonus = 0;
+  let pseudoRngMod = null;
+  try {
+    pseudoRngMod = require('../services/combat/pseudoRng');
+    pseudoRngBonus = pseudoRngMod.getStreakBonus(actor);
+  } catch {
+    pseudoRngBonus = 0;
+  }
+  // Sprint α (XCOM 2 pattern): pin down attack penalty consumer.
+  let pinPenalty = 0;
+  try {
+    const { getPinPenalty } = require('../services/combat/pinDown');
+    pinPenalty = getPinPenalty(actor);
+  } catch {
+    pinPenalty = 0;
+  }
+  const attackMod =
+    Number(actor.mod || 0) + Number(actor.attack_mod_bonus || 0) + pseudoRngBonus - pinPenalty;
   const roll = die + attackMod;
   const baseDc = target.dc ?? target.dc_difesa ?? 10 + (target.mod || 0);
   // Ennea Cacciatore(8) evasion_bonus consumer: alza DC del target. Stesso slot
@@ -180,7 +199,15 @@ function resolveAttack({ actor, target, rng }) {
     if (die === 20) pt += 2;
     pt += Math.floor(mos / 5);
   }
-  return { die, roll, mos, hit, dc, pt };
+  // Sprint α: record pseudo-RNG outcome (miss/hit streak update).
+  if (pseudoRngMod && typeof pseudoRngMod.recordRoll === 'function') {
+    try {
+      pseudoRngMod.recordRoll(actor, hit);
+    } catch {
+      /* non-blocking */
+    }
+  }
+  return { die, roll, mos, hit, dc, pt, pseudo_rng_bonus: pseudoRngBonus, pin_penalty: pinPenalty };
 }
 
 /**
