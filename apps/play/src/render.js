@@ -578,9 +578,30 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     // Background dark per contrast
     ctx.fillStyle = 'rgba(0,0,0,0.7)';
     ctx.fillRect(barX - 1, barY - 1, barW + 2, 7);
-    // Fill color coded
-    ctx.fillStyle = ratio < 0.3 ? COLORS.hpCrit : ratio < 0.6 ? COLORS.hpWarn : COLORS.hpFull;
+    // 2026-04-27 PR-Y2 — HP critico pulse animation (Dead Space diegetic UI pattern).
+    // Quando ratio < 0.3 → HP bar pulsa rosso 1Hz. Alpha 0.6→1.0 sin wave.
+    // Player vede subito chi sta morendo senza dover leggere numeri.
+    let hpFillStyle;
+    let hpAlpha = 1.0;
+    if (ratio < 0.3) {
+      hpFillStyle = COLORS.hpCrit;
+      // Pulse 1Hz: ratio 0..1 mapped on Date.now() % 1000.
+      const t = (Date.now() % 1000) / 1000;
+      hpAlpha = 0.6 + Math.sin(t * Math.PI * 2) * 0.4; // 0.2..1.0
+    } else {
+      hpFillStyle = ratio < 0.6 ? COLORS.hpWarn : COLORS.hpFull;
+    }
+    ctx.save();
+    ctx.globalAlpha = hpAlpha;
+    ctx.fillStyle = hpFillStyle;
     ctx.fillRect(barX, barY, barW * ratio, 5);
+    ctx.restore();
+    // Outline rosso pulse per HP critico (extra visibility)
+    if (ratio < 0.3) {
+      ctx.strokeStyle = `rgba(244, 67, 54, ${hpAlpha * 0.8})`;
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(barX - 1, barY - 1, barW + 2, 7);
+    }
     // Numeric value sopra bar (TV-first scan)
     ctx.fillStyle = '#fff';
     // 10-foot rule: HP numeric scales with CELL (min 12px, prev was 9px hard-fail TV).
@@ -690,6 +711,33 @@ function drawThreatTileOverlay(ctx, threatPreview, gridH) {
       ctx.strokeStyle = stroke;
       ctx.lineWidth = 2;
       ctx.strokeRect(px + 2, py + 2, CELL - 4, CELL - 4);
+
+      // 2026-04-27 PR-Y2 — StS damage forecast inline su threat tile attack.
+      // Pattern donor: Slay the Spire intent preview deterministico.
+      // Mostra "−5" (expected_damage) + "62%" (hit_pct) sopra tile attaccata.
+      // Solo per attack (skip move/defensive: payload non ha damage).
+      if (row.intent_type === 'attack' && Number.isFinite(row.expected_damage)) {
+        const tx = px + CELL / 2;
+        const ty = py + CELL * 0.2;
+        const dmgFontSize = Math.max(13, Math.round(CELL * 0.18));
+        ctx.font = `bold ${dmgFontSize}px "SF Mono", monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        // Background pill scuro per leggibilità
+        const dmgText = `−${row.expected_damage.toFixed(1)}`;
+        const textW = ctx.measureText(dmgText).width;
+        ctx.fillStyle = 'rgba(0,0,0,0.85)';
+        ctx.fillRect(tx - textW / 2 - 4, ty - dmgFontSize / 2 - 2, textW + 8, dmgFontSize + 4);
+        ctx.fillStyle = '#ff5555';
+        ctx.fillText(dmgText, tx, ty);
+        // Hit% sotto (smaller)
+        if (Number.isFinite(row.hit_pct)) {
+          const hitFontSize = Math.max(9, Math.round(CELL * 0.11));
+          ctx.font = `${hitFontSize}px "SF Mono", monospace`;
+          ctx.fillStyle = 'rgba(255,255,255,0.85)';
+          ctx.fillText(`${Math.round(row.hit_pct * 100)}%`, tx, ty + dmgFontSize - 2);
+        }
+      }
     }
   }
 }
