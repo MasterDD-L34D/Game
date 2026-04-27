@@ -964,6 +964,59 @@ async function refreshVcSnapshot() {
   }
 }
 
+// Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette (DOM overlay).
+// Driver: state.world.pressure (0..100). CSS vars --tension-alpha + --tension-color
+// applied to .tension-vignette singleton (created lazily). Pure helpers from
+// render.js (tensionGaugeColor/tensionVignetteAlpha).
+function applyTensionVignette(world) {
+  if (!world || typeof document === 'undefined') return;
+  let el = document.querySelector('.tension-vignette');
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'tension-vignette';
+    document.body.appendChild(el);
+  }
+  const pressure = Number(world.pressure || world.sistema_pressure || 0);
+  // Lazy import via global (helpers re-exported from render.js bundle).
+  // Fallback inline approximation se import non disponibile (test-safe).
+  let alpha = 0;
+  let color = '#a83232';
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const r = window.__evoRender || {};
+    if (typeof r.tensionVignetteAlpha === 'function') alpha = r.tensionVignetteAlpha(pressure);
+    if (typeof r.tensionGaugeColor === 'function') color = r.tensionGaugeColor(pressure);
+  } catch {
+    /* no-op */
+  }
+  if (alpha === 0) {
+    const t = Math.max(0, Math.min(100, pressure)) / 100;
+    alpha = Math.round(t * t * 0.4 * 1000) / 1000;
+  }
+  el.style.setProperty('--tension-alpha', String(alpha));
+  el.style.setProperty('--tension-color', color);
+}
+
+// Sprint β Visual UX 2026-04-28 — Civ VI 3-tier tooltip controller.
+// Hover delays: 300/800/1500ms. Stack on cell hover; dismiss onmove/onclick.
+const TOOLTIP_STATE = { el: null, timers: [], hoverStartTs: 0, currentTier: 0 };
+function ensureTooltipEl() {
+  if (TOOLTIP_STATE.el) return TOOLTIP_STATE.el;
+  if (typeof document === 'undefined') return null;
+  const el = document.createElement('div');
+  el.className = 'tooltip-tier';
+  document.body.appendChild(el);
+  TOOLTIP_STATE.el = el;
+  return el;
+}
+function dismissTooltip() {
+  TOOLTIP_STATE.timers.forEach((t) => clearTimeout(t));
+  TOOLTIP_STATE.timers = [];
+  TOOLTIP_STATE.currentTier = 0;
+  if (TOOLTIP_STATE.el) TOOLTIP_STATE.el.classList.remove('visible');
+}
+window.__evoSpritBeta = { dismissTooltip, applyTensionVignette };
+
 // 2026-04-27 PR-Y1 — Gris pressure palette body class apply.
 // Driver: state.world.ai_progress.tier.name (Calm/Alert/Escalated/Critical/Apex)
 // → body.pressure-{calm,alert,critical,apex}. Transition 1.5s in style.css.
@@ -997,6 +1050,8 @@ async function refresh() {
     refreshVcSnapshot();
     // 2026-04-27 PR-Y1 — Gris pressure palette apply post-state-fetch
     applyPressurePalette(state.world);
+    // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette overlay.
+    applyTensionVignette(state.world);
     if (state.selected) {
       const sel = state.world.units.find((u) => u.id === state.selected);
       if (!sel || sel.hp <= 0) state.selected = null;
