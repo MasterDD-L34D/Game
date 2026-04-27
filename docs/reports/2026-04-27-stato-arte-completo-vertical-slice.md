@@ -419,22 +419,22 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 [8] LOOP (next mission OR end campaign)
 ```
 
-### C.2 — Anti-pattern dominante "Engine LIVE Surface DEAD" — 8 fix sweep
+### C.2 — Anti-pattern dominante "Engine LIVE Surface DEAD" — 8 fix sweep (3/8 chiusi)
 
 Diagnosticato ~30% delle 61 voci catalogate. Surface manca per:
 
-| # | Engine LIVE | Surface DEAD | Effort fix |
-|---:|---|---|---:|
-| 1 | predictCombat N=1000 | Auto-battle button UI | 3h |
-| 2 | Tactics Ogre HUD canonical doc | HP floating render.js | 5-7h |
-| 3 | Spore part-pack design doc | drawMutationDots overlay | 3h (+ 15h authoring) |
-| 4 | Mating engine 469 LOC | gene_slots → lifecycle wire | 5h |
-| 5 | objectiveEvaluator 5 obj types | encounter scenarios usage non-elim | 3h |
-| 6 | biomeSpawnBias.js initial wave | universal initial wave wire | 2h |
-| 7 | QBN engine 17 events | session debrief wire | 3h |
-| 8 | Thought Cabinet 18 thoughts | reveal_text_it authoring + UI | 8h |
+| # | Engine LIVE | Surface DEAD | Effort fix | Status |
+|---:|---|---|---:|:-:|
+| 1 | predictCombat N=1000 | Auto-battle button UI | 3h | 🟢 Sprint 8 (hover preview shipped — predictPreviewOverlay.js + tooltip injection) |
+| 2 | Tactics Ogre HUD canonical doc | HP floating render.js | 5-7h | 🟢 already live (M4 P0.2 — render.js line 768 `${unit.hp}/${maxHp}` + crit pulse + AP pips) |
+| 3 | Spore part-pack design doc | drawMutationDots overlay | 3h (+ 15h authoring) | 🔴 |
+| 4 | Mating engine 469 LOC | gene_slots → lifecycle wire | 5h | 🔴 |
+| 5 | objectiveEvaluator 5 obj types | encounter scenarios usage non-elim | 3h | 🔴 |
+| 6 | biomeSpawnBias.js initial wave | universal initial wave wire | 2h | 🔴 |
+| 7 | QBN engine 17 events | session debrief wire | 3h | 🔴 |
+| 8 | Thought Cabinet 18 thoughts | reveal_text_it authoring + UI | 8h | 🟢 Sprint 6 PR #1966 (engine + UI + cooldown round-based) |
 
-**Bundle Surface-DEAD sweep cumulato**: ~32h se incluso authoring. ~17h escluso authoring. **Single biggest strategic ROI** — recupera investimenti già fatti.
+**Bundle Surface-DEAD sweep cumulato**: ~32h se incluso authoring. ~17h escluso authoring. **Single biggest strategic ROI** — recupera investimenti già fatti. **Status post-2026-04-27: 3/8 chiusi (#1 hover preview Sprint 8 + #2 HP floating numbers M4 P0.2 + #8 Thought Cabinet Sprint 6).**
 
 ### C.3 — 6 OPZIONI sequenziamento next sprint (rank by ROI)
 
