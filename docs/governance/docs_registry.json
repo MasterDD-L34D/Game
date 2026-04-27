@@ -4079,6 +4079,19 @@
       "track": "migrated"
     },
     {
+      "path": "docs/ops/deploy-min-checklist.md",
+      "title": "Deploy Min — checklist operativa Sprint C backbone bundle",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-27",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "migrated"
+    },
+    {
       "path": "docs/ops/drive-sync.md",
       "title": "Sincronizzazione YAML ↔ Google Sheets",
       "doc_status": "draft",
