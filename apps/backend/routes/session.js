@@ -92,6 +92,7 @@ const STATUS_DURATION_CAPS = {
   stunned: 3,
   confused: 3,
   bleeding: 5,
+  burning: 3,
   chilled: 2,
   disoriented: 1,
 };
@@ -1092,6 +1093,38 @@ function createSessionRouter(options = {}) {
         killed: unit.hp === 0,
       });
     };
+    const applyBurning = async (unit) => {
+      if (!unit || !unit.status || unit.hp <= 0) return;
+      const burnTurns = Number(unit.status.burning) || 0;
+      if (burnTurns <= 0) return;
+      const dmg = 2;
+      const hpBefore = unit.hp;
+      unit.hp = Math.max(0, unit.hp - dmg);
+      session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'burning',
+        automatic: true,
+        actor_id: unit.id,
+        actor_species: unit.species,
+        actor_job: unit.job,
+        target_id: unit.id,
+        turn: session.turn,
+        damage_dealt: dmg,
+        result: 'hit',
+        hp_before: hpBefore,
+        hp_after: unit.hp,
+        burning_remaining: burnTurns - 1,
+        trait_effects: [],
+      });
+      bleedingEvents.push({
+        unit_id: unit.id,
+        damage: dmg,
+        hp_after: unit.hp,
+        killed: unit.hp === 0,
+      });
+    };
     const resetAp = (unit) => {
       // Skiv #5: applyApRefill centralises fracture + defy_penalty handling.
       applyApRefill(unit);
@@ -1110,6 +1143,7 @@ function createSessionRouter(options = {}) {
       const actor = session.units.find((u) => u.id === session.active_unit);
       if (!actor || actor.controlled_by !== 'sistema' || actor.hp <= 0) break;
       await applyBleeding(actor);
+      if (actor.hp > 0) await applyBurning(actor);
       if (actor.hp > 0) {
         resetAp(actor);
         const actions = await runSistemaTurn(session);
@@ -2167,6 +2201,14 @@ function createSessionRouter(options = {}) {
             unit.hp = Math.max(0, Number(unit.hp) - 1);
             if (session.damage_taken) {
               session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + 1;
+            }
+          }
+          // Burning tick (2 PT/turno)
+          const burnTurns = Number(unit.status?.burning) || 0;
+          if (burnTurns > 0 && unit.hp > 0) {
+            unit.hp = Math.max(0, Number(unit.hp) - 2);
+            if (session.damage_taken) {
+              session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + 2;
             }
           }
           // Status engine extension: HP regen ticks (`fed`/`healing`) before decay.

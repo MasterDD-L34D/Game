@@ -9409,3 +9409,24 @@ traits:
       Sussurro sonico disorientante. Ogni hit solido (MoS >= 5) applica
       1 turno di disoriented: il target subisce -2 ai tiri d'attacco
       (confusione sensoriale profonda, ma breve).
+
+  # DoT 2 PT/turno (piu' severo di bleeding 1 PT). Tick in tutti e 3 i
+  # path end-of-round: advanceThroughAiTurns, priority-queue, applyEndOfRoundSideEffects.
+
+  respiro_acido:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: apply_status
+      target_side: target
+      stato: burning
+      turns: 3
+      log_tag: respiro_acido_burning
+    description_it: |
+      Ghiandole che spruzzano acido corrosivo incandescente. Ogni hit
+      applica 3 turni di burning: il target subisce 2 PT di danno non
+      riducibile al termine di ogni turno (piu' severo del sanguinamento).
