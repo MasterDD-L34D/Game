@@ -449,6 +449,33 @@ function createSessionRouter(options = {}) {
       defenderAdv = { active: false, bonus: 0, reason: '' };
     }
 
+    // Sprint 2 §I (2026-04-27) — Subnautica habitat lifecycle modifier (Tier A #9).
+    // biome_affinity_per_stage YAML in data/core/species/<id>_lifecycle.yaml.
+    // Phase preferred biome → +1 atk +1 def. Non-affine → -1 def. Apex/legacy = free roam.
+    // Mirrors timeMods+defenderAdv pattern (per-attack delta + revert post).
+    let biomeAffActor = { attack_mod: 0, defense_mod: 0, affinity: 'unknown', log: '' };
+    let biomeAffTarget = { attack_mod: 0, defense_mod: 0, affinity: 'unknown', log: '' };
+    try {
+      const { getBiomeAffinityModifier } = require('../services/species/biomeAffinity');
+      const encounterBiome =
+        session?.encounter?.biome_id || session?.encounter?.biome || session?.biome_id || null;
+      if (encounterBiome) {
+        biomeAffActor = getBiomeAffinityModifier(actor, encounterBiome);
+        biomeAffTarget = getBiomeAffinityModifier(target, encounterBiome);
+        if (biomeAffActor.attack_mod !== 0) {
+          actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + biomeAffActor.attack_mod;
+        }
+        // Target's own biome affinity affects its defense (defender ecology bonus).
+        if (biomeAffTarget.defense_mod !== 0) {
+          target.defense_mod_bonus =
+            Number(target.defense_mod_bonus || 0) + biomeAffTarget.defense_mod;
+        }
+      }
+    } catch (err) {
+      biomeAffActor = { attack_mod: 0, defense_mod: 0, affinity: 'unknown', log: '' };
+      biomeAffTarget = { attack_mod: 0, defense_mod: 0, affinity: 'unknown', log: '' };
+    }
+
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
@@ -468,6 +495,13 @@ function createSessionRouter(options = {}) {
     }
     if (defenderAdv.active && defenderAdv.bonus !== 0) {
       target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - defenderAdv.bonus;
+    }
+    // Sprint 2 — Revert biome affinity deltas (per-attack, non-persistent).
+    if (biomeAffActor.attack_mod !== 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - biomeAffActor.attack_mod;
+    }
+    if (biomeAffTarget.defense_mod !== 0) {
+      target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - biomeAffTarget.defense_mod;
     }
     // Revert status engine deltas (per-attack, non-persistente).
     if (statusMods.attackDelta !== 0) {
@@ -766,6 +800,10 @@ function createSessionRouter(options = {}) {
       intercept: interceptResult,
       terrain_reaction: terrainReactionResult,
       positional: positionalInfo,
+      biome_affinity: {
+        actor: biomeAffActor.affinity,
+        target: biomeAffTarget.affinity,
+      },
     };
   }
 

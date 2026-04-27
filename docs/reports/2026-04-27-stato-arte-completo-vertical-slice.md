@@ -273,7 +273,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 | 6 | Caves of Qud morphotype gating | Caves of Qud | 6h / 18h | 🔵 |
 | 7 | MHS gene grid 3×3 + bingo set bonus | Monster Hunter Stories | 4h / 12h | 🔵 — Spore S6 dependency |
 | 8 | CK3 DNA chains geneEncoder | Crusader Kings 3 | 6h / 30h | ⚪ — bloccato OD-001 |
-| 9 | Subnautica habitat lifecycle 5-stage | Subnautica | 3h / 14h | 🟡 — Skiv hooks live |
+| 9 | Subnautica habitat lifecycle 5-stage | Subnautica | 3h / 14h | 🟢 — Sprint 2 §I shipped (biomeAffinity wired performAttack + 15 species lifecycle YAML + biomeSpawnBias universal init wave) |
 | 10 | Spelunky 4×4 grid PCG | Spelunky | 4h / 12h | ⚪ |
 | 11 | Dead Space diegetic UI HP | Dead Space | 5h / 16h | ⚪ — design call vs Tactics Ogre |
 

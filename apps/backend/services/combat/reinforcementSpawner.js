@@ -155,8 +155,18 @@ function tick(session, encounter, opts = {}) {
   const spawned = [];
   const minDist = Number(policy.min_distance_from_pg) || DEFAULT_MIN_DISTANCE_FROM_PG;
   // V7 Biome-aware spawn bias: pass encounter biome config to pickPoolEntry.
-  // opts.biomeConfig opzionale per test; fallback encounter.biome.
-  const biomeConfig = opts.biomeConfig || encounter?.biome || null;
+  // Sprint 2 §II (2026-04-27) — universal initial wave fix: derive biomeConfig
+  // from encounter.biome_id (YAML schema canonical) when explicit `biome` object
+  // not provided. Closes Engine-LIVE/Surface-DEAD anti-pattern: biome_pools.json
+  // role_templates were never loaded because biomeConfig was always null.
+  let biomeConfig = opts.biomeConfig || encounter?.biome || null;
+  if (!biomeConfig && encounter?.biome_id) {
+    biomeConfig = {
+      biome_id: encounter.biome_id,
+      affixes: Array.isArray(encounter.affixes) ? encounter.affixes : [],
+      npc_archetypes: encounter.npc_archetypes || null,
+    };
+  }
 
   for (let i = 0; i < budget; i += 1) {
     const tile = pickEntryTile(entryTiles, session, minDist);

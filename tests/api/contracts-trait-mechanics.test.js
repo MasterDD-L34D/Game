@@ -127,13 +127,20 @@ test('trait_mechanics.yaml rispetta le invarianti euristiche documentate nell AD
   const catalog = loadCatalog();
   const t = catalog.traits;
 
-  const breakerTraits = ['artigli_sette_vie', 'sangue_piroforico', 'frusta_fiammeggiante'];
-  for (const id of breakerTraits) {
+  // Post nerf 2026-04-25 #1869: sangue_piroforico ridotto a damage_step 0 +
+  // resistance fuoco 10 (era 20). Resta breaker per attack_mod >=1 ma damage
+  // step lasciato a 0 dopo audit dominance — quindi escluso dal damage_step
+  // invariant check.
+  const breakerTraitsAttack = ['artigli_sette_vie', 'sangue_piroforico', 'frusta_fiammeggiante'];
+  const breakerTraitsDamageStep = ['artigli_sette_vie', 'frusta_fiammeggiante'];
+  for (const id of breakerTraitsAttack) {
     assert.ok(t[id], `breaker trait ${id} presente`);
     assert.ok(
       t[id].attack_mod >= 1,
       `breaker ${id}: attack_mod >= 1 (attuale ${t[id].attack_mod})`,
     );
+  }
+  for (const id of breakerTraitsDamageStep) {
     assert.ok(
       t[id].damage_step >= 1,
       `breaker ${id}: damage_step >= 1 (attuale ${t[id].damage_step})`,

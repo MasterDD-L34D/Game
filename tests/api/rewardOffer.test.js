@@ -104,7 +104,9 @@ test('buildOffer: returns 3 unique offers', () => {
   const ids = result.offers.map((o) => o.card.id);
   assert.equal(new Set(ids).size, 3);
   assert.equal(result.skip_available, true);
-  assert.equal(result.skip_fragment_delta, 1);
+  // 2026-04-26 #1870 — orphan currency cleanup: skip_fragment_delta resets to 0
+  // (re-enable a 1 quando nest sink M10+ live).
+  assert.equal(result.skip_fragment_delta, 0);
 });
 
 test('buildOffer: empty pool returns empty offers', () => {

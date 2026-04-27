@@ -51,6 +51,19 @@ canonical_unit_id: skiv
 #   tactical_signature: cosa cambia in combat (1 frase)
 #   diary_milestone_event: event_type da appendere al passaggio
 
+# Sprint 2 §I (2026-04-27) — Subnautica habitat lifecycle wire (Tier A #9).
+# biome_affinity_per_stage: ogni phase ha un biome preferito.
+# - in biome affine → bonus stat (defense_mod +1, attack_mod +1)
+# - in biome non-affine → penalty stat (defense_mod -1)
+# Apex roams free (any biome accepted).
+# Pattern Subnautica: Ghost Leviathan migra Lost River → Crater Edge per stage.
+biome_affinity_per_stage:
+  hatchling: savana
+  juvenile: deserto
+  mature: caverna
+  apex: any
+  legacy: any
+
 phases:
   hatchling:
     id: hatchling
