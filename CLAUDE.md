@@ -328,6 +328,57 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 6 channel resistance earth/wind/dark)
+
+**Sessione 2026-04-27 Sprint 6 (autonomous quick win, ~6h)**: AncientBeast Tier S #6 residuo candidato C — 3 channel canonical nuovi (earth/wind/dark) integrati 5 archetype + 6 ability routing + 10 test resistanceEngine. P6 Fairness 🟢c++ → 🟢 def.
+
+**PR shipped main** (1):
+
+| PR                                                       | Sprint | Scope                                                                                                                                                                                                                                                                                                                                                   | Pattern source         |
+| -------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| [#1964](https://github.com/MasterDD-L34D/Game/pull/1964) | 6      | species_resistances.yaml v0.2.0 (8→11 channel: +earth/wind/dark, 15 entry × 5 archetype) + 6 ability nuove trait_mechanics (meteor_strike/ground_pound/gale_burst/vortex_spin/pressure_wave/umbral_spore) + 3 resist passive + tests +10 (matrix 6×5 + 11-channel presence + outlier guard) + numeric-reference §10 canonical channel resistance matrix | AncientBeast Tier S #6 |
+
+**Channel allocation** (range 70-120, delta ±30):
+
+- corazzato: earth 70 (+30 res), wind 80 (+20), dark 100
+- bioelettrico: earth 120 (-20 vul), wind 90 (+10), dark 110
+- psionico: earth 100, wind 100, dark 80 (+20 res abyss-friendly)
+- termico: earth 90 (+10), wind 110 (-10), dark 120 (-20 sun-bound)
+- adattivo: 100/100/100 neutral
+
+**Test baseline post-merge**: AI 363/363 ✓ (was 311 + 21 resistanceEngine = 332; ora 363 = +31 dopo Sprint 6) · API 864/864 ✓ · contracts-trait-mechanics 15/15 ✓ · format/lint/schema verde.
+
+**Stato pillars post Sprint 6**:
+
+| #   | Pilastro          | Pre Sprint 6 |  Post  | Delta                                                                                                              |
+| --- | ----------------- | :----------: | :----: | ------------------------------------------------------------------------------------------------------------------ |
+| P1  | Tattica leggibile |     🟢++     |  🟢++  | unchanged                                                                                                          |
+| P2  | Evoluzione        |    🟢 def    | 🟢 def | unchanged                                                                                                          |
+| P3  | Specie×Job        |     🟢c+     |  🟢c+  | unchanged                                                                                                          |
+| P4  | MBTI/Ennea        |     🟢c      |  🟢c   | unchanged                                                                                                          |
+| P5  | Co-op             |     🟢c      |  🟢c   | unchanged (residuo TKT-M11B-06 userland)                                                                           |
+| P6  | Fairness          |    🟢c++     | 🟢 def | **Parity 11 channel canonical (vs 8 attuali) + invariant test no outlier > 2× baseline (cap 20) e < 0.5× (cap 5)** |
+
+**Score finale post Sprint 1-6**: **5/6 🟢 def + 1/6 🟢c**.
+
+**Lessons codified questa sessione**:
+
+- **Multi-active_effect pattern**: aggiungere ability nuove con `channel: <new>` su trait esistenti (array `active_effects`) = no breaking change ai 33 core trait. Schema permette + test invarianti restano verdi.
+- **CANONICAL_CHANNELS test enforcement**: `tests/api/contracts-trait-mechanics.test.js` controlla allow-list per evitare drift (gelo/cryo/acido pre-2026-04-25 audit). Aggiornare quando si introducono nuovi channel canonical.
+- **Schema `channel: string` (no enum)**: runtime accetta any channel via `applyResistance`. Solo test contracts enforce la lista canonical → no migration cost.
+
+**Handoff**: [`docs/planning/2026-04-27-sprint-6-channel-resistance-handoff.md`](docs/planning/2026-04-27-sprint-6-channel-resistance-handoff.md).
+
+**Next session candidati**:
+
+- A) **TKT-M11B-06 playtest live** (userland 2-4 amici) — chiude P5 🟢 def
+- B) **Beast Bond reaction trigger** (~5h) — AncientBeast Tier S #6 residuo (P1+)
+- D) **Thought Cabinet UI panel cooldown round-based** (~8h) — Disco Tier S #9 residuo, P4 dominante
+- E) **Ability r3/r4 tier progressive** (~10h) — AncientBeast Tier S #6 residuo (P3+)
+- F) **Wildermyth layered storylets pool** (~10h) — Tier S #12 residuo, P4 narrative
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 notte — 5 sprint autonomous + OD-001 closure)
 
 **Sessione 2026-04-27 notte (autonomous full-stack)**: 5 sprint autonomous shipped + 4 fixture maintenance fix + OD-001 Path A 4/4 chiuso definitivamente (PR #1877 superseded).

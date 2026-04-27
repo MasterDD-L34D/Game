@@ -293,6 +293,7 @@ test('Fase 3-bis: resistances presenti e coerenti (permissivo)', () => {
   );
   const allChannels = withRes.flatMap(([, entry]) => entry.resistances.map((r) => r.channel));
   // Balance audit 2026-04-25: canali non-canonici (gelo/cryo/acido) rimossi.
+  // Sprint 6 (2026-04-27): aggiunti earth/wind/dark (AncientBeast Tier S #6 residuo).
   // Tutti i channel devono essere nella lista canonica species_resistances.yaml:9.
   const CANONICAL_CHANNELS = new Set([
     'elettrico',
@@ -303,6 +304,9 @@ test('Fase 3-bis: resistances presenti e coerenti (permissivo)', () => {
     'mentale',
     'taglio',
     'ionico',
+    'earth',
+    'wind',
+    'dark',
   ]);
   const nonCanonical = allChannels.filter((ch) => !CANONICAL_CHANNELS.has(ch));
   assert.deepEqual(

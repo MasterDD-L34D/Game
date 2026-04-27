@@ -180,3 +180,120 @@ test('computeUnitResistances corazzato resist fisico', () => {
   // corazzato.fisico: 80 → +20 resist → factor 0.8 → floor(8)
   assert.equal(damage, 8);
 });
+
+// ─── Sprint 6: 3 nuovi channel earth/wind/dark ────────────────
+// AncientBeast Tier S #6 residuo. Parity 11 channel vs 8 attuali.
+
+test('Sprint 6: earth channel — corazzato strong resist', () => {
+  // corazzato.earth: 70 → +30 resist → factor 0.7 → floor(7)
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const resistances = computeUnitResistances('corazzato', data, []);
+  assert.equal(applyResistance(10, resistances, 'earth'), 7);
+});
+
+test('Sprint 6: earth channel — bioelettrico vulnerable', () => {
+  // bioelettrico.earth: 120 → -20 vuln → factor 1.2 → floor(12)
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const resistances = computeUnitResistances('bioelettrico', data, []);
+  assert.equal(applyResistance(10, resistances, 'earth'), 12);
+});
+
+test('Sprint 6: wind channel — corazzato resist', () => {
+  // corazzato.wind: 80 → +20 resist → factor 0.8 → floor(8)
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const resistances = computeUnitResistances('corazzato', data, []);
+  assert.equal(applyResistance(10, resistances, 'wind'), 8);
+});
+
+test('Sprint 6: wind channel — bioelettrico mild resist', () => {
+  // bioelettrico.wind: 90 → +10 resist → factor 0.9 → floor(9)
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const resistances = computeUnitResistances('bioelettrico', data, []);
+  assert.equal(applyResistance(10, resistances, 'wind'), 9);
+});
+
+test('Sprint 6: wind channel — termico vuln', () => {
+  // termico.wind: 110 → -10 vuln → factor 1.1 → floor(11)
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const resistances = computeUnitResistances('termico', data, []);
+  assert.equal(applyResistance(10, resistances, 'wind'), 11);
+});
+
+test('Sprint 6: dark channel — psionico resist', () => {
+  // psionico.dark: 80 → +20 resist → factor 0.8 → floor(8)
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const resistances = computeUnitResistances('psionico', data, []);
+  assert.equal(applyResistance(10, resistances, 'dark'), 8);
+});
+
+test('Sprint 6: dark channel — termico vuln (sun-bound)', () => {
+  // termico.dark: 120 → -20 vuln → factor 1.2 → floor(12)
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const resistances = computeUnitResistances('termico', data, []);
+  assert.equal(applyResistance(10, resistances, 'dark'), 12);
+});
+
+test('Sprint 6: adattivo neutral su tutti i 3 nuovi channel', () => {
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const resistances = computeUnitResistances('adattivo', data, []);
+  for (const ch of ['earth', 'wind', 'dark']) {
+    assert.equal(
+      applyResistance(10, resistances, ch),
+      10,
+      `adattivo deve passare ${ch} senza modifica (delta 0 filtered)`,
+    );
+  }
+});
+
+test('Sprint 6: tutti gli 11 canali presenti per ogni archetipo', () => {
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const expectedChannels = [
+    'fisico',
+    'taglio',
+    'fuoco',
+    'elettrico',
+    'psionico',
+    'mentale',
+    'gravita',
+    'ionico',
+    'earth',
+    'wind',
+    'dark',
+  ];
+  for (const archetypeId of ['corazzato', 'bioelettrico', 'psionico', 'termico', 'adattivo']) {
+    const arch = data.species_archetypes[archetypeId];
+    for (const ch of expectedChannels) {
+      assert.ok(
+        Object.prototype.hasOwnProperty.call(arch.resistances, ch),
+        `archetype ${archetypeId} manca channel ${ch}`,
+      );
+      const v = arch.resistances[ch];
+      assert.ok(
+        Number.isInteger(v) && v >= 0 && v <= 200,
+        `archetype ${archetypeId} channel ${ch}: pct deve essere intero [0,200], trovato ${v}`,
+      );
+    }
+  }
+});
+
+test('Sprint 6: 6 channel × 5 archetype matrix — no outlier > 2× baseline', () => {
+  // Invariante balance: nessun channel dominante (>2× baseline fisico) per
+  // un archetipo. Baseline = applyResistance(10, fisico) = 10 (adattivo) o
+  // 8 (corazzato resist) o 12 (psionico/bioelettrico vuln). Cap = 20.
+  const data = loadSpeciesResistances(DEFAULT_SPECIES_RESISTANCES_PATH);
+  const channels = ['fisico', 'fuoco', 'ionico', 'earth', 'wind', 'dark'];
+  for (const archetypeId of ['corazzato', 'bioelettrico', 'psionico', 'termico', 'adattivo']) {
+    const resistances = computeUnitResistances(archetypeId, data, []);
+    for (const ch of channels) {
+      const dmg = applyResistance(10, resistances, ch);
+      assert.ok(
+        dmg <= 20,
+        `archetype ${archetypeId} channel ${ch}: damage ${dmg} > 2× baseline (cap 20)`,
+      );
+      assert.ok(
+        dmg >= 5,
+        `archetype ${archetypeId} channel ${ch}: damage ${dmg} < 0.5× baseline (cap 5)`,
+      );
+    }
+  }
+});

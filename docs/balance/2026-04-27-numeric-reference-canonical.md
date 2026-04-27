@@ -197,6 +197,78 @@ Source: `services/rules/resolver.py compute_pt_gained`.
 - 30/30 mutations require `visual_swap_it` field (lint enforced)
 - `aspect_token` field for render layer (drawMutationDots overlay TBD)
 
+## §10 — Channel resistance matrix (Sprint 6, AncientBeast Tier S #6)
+
+Source: `packs/evo_tactics_pack/data/balance/species_resistances.yaml` v0.2.0 (Sprint 6 2026-04-27 ship: +earth/wind/dark).
+
+### Canonical channels (11)
+
+| Channel   | Tipo      | Note runtime                                                            |
+| --------- | --------- | ----------------------------------------------------------------------- |
+| fisico    | physical  | baseline, default `action.channel` quando assente                       |
+| taglio    | physical  | slashing/cutting subtype                                                |
+| fuoco     | elemental | mappa terrainReactions `fire` (CHANNEL_TO_ELEMENT in session.js)        |
+| elettrico | elemental | mappa terrainReactions `lightning`                                      |
+| ionico    | elemental | gelo/cryo/water-corrosive proxy (mappa nessun terrainReaction nativo)   |
+| psionico  | mental    | mind/anti-cognition channel                                             |
+| mentale   | mental    | confusion/disorient subtype                                             |
+| gravita   | esoteric  | physics manipulation channel                                            |
+| **earth** | elemental | **Sprint 6**: terreno/sassi/sabbia. Corazzati resist, leggeri vuln.     |
+| **wind**  | elemental | **Sprint 6**: aria/sonico/cinetico. Volatili resist mild, pesanti vuln. |
+| **dark**  | esoteric  | **Sprint 6**: psionico/abisso/anti-luce. Notturni resist, diurni vuln.  |
+
+### Resistance matrix per archetipo (scala 100-neutral)
+
+> 80 = -20% damage (resist), 100 = neutro, 120 = +20% damage (vuln).
+
+| Archetipo    | fisico | taglio | fuoco | elettrico | ionico | psionico | mentale | gravita | earth | wind | dark |
+| ------------ | :----: | :----: | :---: | :-------: | :----: | :------: | :-----: | :-----: | :---: | :--: | :--: |
+| corazzato    |   80   |   80   |  100  |    100    |  100   |   120    |   120   |   100   |  70   |  80  | 100  |
+| bioelettrico |  120   |  100   |  100  |    70     |   80   |   100    |   100   |   100   |  120  |  90  | 110  |
+| psionico     |  120   |  120   |  100  |    100    |  100   |    70    |   70    |   100   |  100  | 100  |  80  |
+| termico      |  100   |  100   |  70   |    100    |  120   |   100    |   100   |   100   |  90   | 110  | 120  |
+| adattivo     |  100   |  100   |  100  |    100    |  100   |   100    |   100   |   100   |  100  | 100  | 100  |
+
+### Damage matrix per archetipo (input 10 dmg, post `applyResistance`)
+
+> Snapshot output `applyResistance(10, computeUnitResistances(archetype, []), channel)`. Source: `tests/ai/resistanceEngine.test.js` Sprint 6 invariants.
+
+| Archetipo    | fisico | fuoco | ionico | earth | wind | dark |
+| ------------ | :----: | :---: | :----: | :---: | :--: | :--: |
+| corazzato    |   8    |  10   |   10   |   7   |  8   |  10  |
+| bioelettrico |   12   |  10   |   8    |  12   |  9   |  11  |
+| psionico     |   12   |  10   |   10   |  10   |  10  |  8   |
+| termico      |   10   |   7   |   12   |   9   |  11  |  12  |
+| adattivo     |   10   |  10   |   10   |  10   |  10  |  10  |
+
+### Balance invariants (test enforced)
+
+- Nessun outlier dominance: `damage <= 20` (≤ 2× baseline) **e** `damage >= 5` (≥ 0.5× baseline) per ogni archetipo × channel — guardrail.
+- Adattivo neutral su tutti gli 11 channel (delta 0 → filtered da `mergeResistances`, dmg invariato).
+- Tutti gli 11 channel presenti per ogni archetipo (no missing key).
+- Test enforcement: `tests/ai/resistanceEngine.test.js` 31 test (10 nuovi Sprint 6).
+
+### Ability → channel routing
+
+Source: `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` `active_effects[].channel`.
+
+Sprint 6 ha aggiunto 6 ability nuove (canale earth/wind/dark) su trait esistenti:
+
+| Trait                        | Ability ID    | Name IT            | Channel | Effect type | Dice  |
+| ---------------------------- | ------------- | ------------------ | :-----: | ----------- | ----- |
+| mantello_meteoritico         | meteor_strike | Caduta Meteoritica |  earth  | damage      | 1d8+2 |
+| ipertrofia_muscolare_massiva | ground_pound  | Onda Tellurica     |  earth  | damage      | 1d8+1 |
+| respiro_a_scoppio            | gale_burst    | Raffica Vorticosa  |  wind   | damage      | 1d6+2 |
+| nucleo_ovomotore_rotante     | vortex_spin   | Vortice Cinetico   |  wind   | damage      | 1d6+1 |
+| cannone_sonico_a_raggio      | pressure_wave | Onda di Pressione  |  wind   | damage      | 1d8+1 |
+| spore_psichiche_silenziate   | umbral_spore  | Spora Abissale     |  dark   | damage      | 1d6+2 |
+
+Resistance entries aggiunti (passive):
+
+- `mantello_meteoritico` resist earth +15
+- `respiro_a_scoppio` resist wind +10
+- `spore_psichiche_silenziate` resist dark +10
+
 ## Anti-pattern guard
 
 - ❌ NON hardcode numeric values inline nel codice — sempre via YAML config

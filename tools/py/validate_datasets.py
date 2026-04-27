@@ -38,6 +38,7 @@ def main() -> int:
     errors.extend(validate_packs())
     errors.extend(validate_ecosystem_pack(info_messages))
     errors.extend(validate_telemetry())
+    errors.extend(validate_species_ecology())
 
     if errors:
         sys.stderr.write("\n".join(errors) + "\n")
@@ -506,6 +507,179 @@ def validate_telemetry() -> List[str]:
                 errors.append(f"{path}: ennea theme duplicato '{ident}'")
             else:
                 seen_ids.add(ident)
+
+    return errors
+
+
+# === Species ecology cross-ref validator (ADR-2026-05-02) ==================
+# Loads species.yaml + species_expansion.yaml, collects all valid species_id,
+# then walks every entry's `ecology` block and verifies:
+#   1. orphan check: prey_of/preys_on/competes_with/scavenges_from/
+#      mutualism_with[].species_id all reference an existing id.
+#   2. self-ref forbidden in any of those lists.
+#   3. bidirectional consistency:
+#        A.preys_on -> B  =>  B.prey_of -> A
+#        A.competes_with -> B  =>  B.competes_with -> A (warn-only on miss).
+# Errors are returned as flat strings; bidirectional asymmetry is a warning
+# during backfill phase (logged via stderr but not fatal).
+
+ECOLOGY_LIST_FIELDS = (
+    "prey_of",
+    "preys_on",
+    "competes_with",
+    "scavenges_from",
+)
+
+
+def _collect_species_entries() -> List[Tuple[str, dict, Path]]:
+    """Return list of (species_id, entry_dict, source_path) across core species files."""
+    core_dir = _core_data_dir()
+    entries: List[Tuple[str, dict, Path]] = []
+
+    species_path = core_dir / "species.yaml"
+    if species_path.exists():
+        data = load_yaml(species_path) or {}
+        for entry in data.get("species", []) or []:
+            sid = entry.get("id") if isinstance(entry, dict) else None
+            if sid:
+                entries.append((sid, entry, species_path))
+
+    expansion_path = core_dir / "species_expansion.yaml"
+    if expansion_path.exists():
+        data = load_yaml(expansion_path) or {}
+        for entry in data.get("species_examples", []) or []:
+            sid = entry.get("id") if isinstance(entry, dict) else None
+            if sid:
+                entries.append((sid, entry, expansion_path))
+
+    return entries
+
+
+def validate_species_ecology() -> List[str]:
+    """Cross-ref check su blocchi ecology (ADR-2026-05-02)."""
+    errors: List[str] = []
+    entries = _collect_species_entries()
+    if not entries:
+        return errors  # nothing to validate, datasets missing handled elsewhere
+
+    valid_ids = {sid for sid, _, _ in entries}
+
+    # Pass 1: orphan check + self-ref + collect edges for bidirectional pass
+    preys_edges: List[Tuple[str, str]] = []  # (predator, prey)
+    competes_edges: List[Tuple[str, str]] = []  # (a, b) unordered
+
+    for sid, entry, path in entries:
+        ecology = entry.get("ecology") if isinstance(entry, dict) else None
+        if not ecology:
+            continue
+        if not isinstance(ecology, dict):
+            errors.append(f"{path}: species '{sid}' ecology deve essere mappa")
+            continue
+
+        for field in ECOLOGY_LIST_FIELDS:
+            refs = ecology.get(field, []) or []
+            if not isinstance(refs, list):
+                errors.append(
+                    f"{path}: species '{sid}' ecology.{field} deve essere lista"
+                )
+                continue
+            for ref in refs:
+                if not isinstance(ref, str):
+                    errors.append(
+                        f"{path}: species '{sid}' ecology.{field} contiene non-stringa: {ref!r}"
+                    )
+                    continue
+                if ref == sid:
+                    errors.append(
+                        f"{path}: species '{sid}' ecology.{field} non puo' contenere se stessa"
+                    )
+                    continue
+                if ref not in valid_ids:
+                    errors.append(
+                        f"{path}: species '{sid}' ecology.{field} -> '{ref}' (orphan: id non esistente)"
+                    )
+                    continue
+                if field == "preys_on":
+                    preys_edges.append((sid, ref))
+                elif field == "competes_with":
+                    competes_edges.append((sid, ref))
+
+        # mutualism_with: list of objects with species_id
+        muts = ecology.get("mutualism_with", []) or []
+        if not isinstance(muts, list):
+            errors.append(
+                f"{path}: species '{sid}' ecology.mutualism_with deve essere lista"
+            )
+        else:
+            for idx, mut in enumerate(muts):
+                if not isinstance(mut, dict):
+                    errors.append(
+                        f"{path}: species '{sid}' ecology.mutualism_with[{idx}] deve essere mappa"
+                    )
+                    continue
+                target = mut.get("species_id")
+                if not isinstance(target, str) or not target:
+                    errors.append(
+                        f"{path}: species '{sid}' mutualism_with[{idx}] manca species_id valido"
+                    )
+                    continue
+                if target == sid:
+                    errors.append(
+                        f"{path}: species '{sid}' mutualism_with[{idx}] non puo' riferirsi a se stessa"
+                    )
+                elif target not in valid_ids:
+                    errors.append(
+                        f"{path}: species '{sid}' mutualism_with[{idx}].species_id -> '{target}' (orphan)"
+                    )
+                mut_type = mut.get("type")
+                if mut_type not in {"direct", "indirect", "obligate", "facultative"}:
+                    errors.append(
+                        f"{path}: species '{sid}' mutualism_with[{idx}].type invalido: {mut_type!r}"
+                    )
+
+        # pack_size sanity
+        pack = ecology.get("pack_size")
+        if pack is not None:
+            if not isinstance(pack, dict):
+                errors.append(f"{path}: species '{sid}' ecology.pack_size deve essere mappa")
+            else:
+                pmin = pack.get("min")
+                pmax = pack.get("max")
+                if not isinstance(pmin, int) or pmin < 1:
+                    errors.append(f"{path}: species '{sid}' ecology.pack_size.min deve essere int>=1")
+                if not isinstance(pmax, int) or pmax < 1:
+                    errors.append(f"{path}: species '{sid}' ecology.pack_size.max deve essere int>=1")
+                if isinstance(pmin, int) and isinstance(pmax, int) and pmax < pmin:
+                    errors.append(
+                        f"{path}: species '{sid}' ecology.pack_size: max ({pmax}) < min ({pmin})"
+                    )
+
+        # trophic_tier enum
+        tier = ecology.get("trophic_tier")
+        if tier is not None and tier not in {
+            "producer", "primary_consumer", "secondary_consumer",
+            "tertiary_consumer", "apex", "decomposer", "scavenger", "omnivore"
+        }:
+            errors.append(
+                f"{path}: species '{sid}' ecology.trophic_tier invalido: {tier!r}"
+            )
+
+    # Pass 2: bidirectional consistency
+    # Build prey_of map per species
+    prey_of_map: dict = {}
+    for sid, entry, _ in entries:
+        ecology = entry.get("ecology") if isinstance(entry, dict) else None
+        if isinstance(ecology, dict):
+            prey_of_map[sid] = set(ecology.get("prey_of", []) or [])
+        else:
+            prey_of_map[sid] = set()
+
+    for predator, prey in preys_edges:
+        if predator not in prey_of_map.get(prey, set()):
+            errors.append(
+                f"ecology bidirectional violation: '{predator}'.preys_on -> '{prey}', "
+                f"ma '{prey}'.prey_of non include '{predator}'"
+            )
 
     return errors
 

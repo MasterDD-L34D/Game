@@ -109,6 +109,71 @@
             "pattern": "^TR-\\d{4}$"
           },
           "uniqueItems": true
+        },
+        "ecology": {
+          "type": "object",
+          "title": "Food web + social ecology metadata (additive, optional, ADR-2026-05-02)",
+          "additionalProperties": false,
+          "properties": {
+            "trophic_tier": {
+              "type": "string",
+              "enum": [
+                "producer",
+                "primary_consumer",
+                "secondary_consumer",
+                "tertiary_consumer",
+                "apex",
+                "decomposer",
+                "scavenger",
+                "omnivore"
+              ]
+            },
+            "pack_size": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["min", "max"],
+              "properties": {
+                "min": { "type": "integer", "minimum": 1 },
+                "max": { "type": "integer", "minimum": 1 }
+              }
+            },
+            "prey_of": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "uniqueItems": true
+            },
+            "preys_on": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "uniqueItems": true
+            },
+            "competes_with": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "uniqueItems": true
+            },
+            "scavenges_from": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "uniqueItems": true
+            },
+            "mutualism_with": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["species_id", "type"],
+                "properties": {
+                  "species_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+                  "type": {
+                    "type": "string",
+                    "enum": ["direct", "indirect", "obligate", "facultative"]
+                  },
+                  "note": { "type": "string" }
+                }
+              }
+            }
+          }
         }
       }
     },
