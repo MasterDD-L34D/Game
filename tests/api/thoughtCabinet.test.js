@@ -13,6 +13,7 @@ const {
   describeThought,
   matchesThreshold,
   DEFAULT_SLOTS_MAX,
+  RESEARCH_ROUND_MULTIPLIER,
   createCabinetState,
   slotsUsed,
   canResearchMore,
@@ -20,6 +21,7 @@ const {
   mergeUnlocked,
   startResearch,
   tickResearch,
+  tickAllResearch,
   forgetThought,
   passiveBonuses,
   snapshotCabinet,
@@ -180,10 +182,10 @@ test('evaluateThoughts: axes value exactly at threshold is inclusive', () => {
 // Phase 2 — Disco Elysium internalization (research timer + slots + effects)
 // ─────────────────────────────────────────────────────────
 
-test('createCabinetState: defaults to 3 slots, empty collections', () => {
+test('createCabinetState: defaults to 8 slots (Sprint 6 round-mode), empty collections', () => {
   const s = createCabinetState();
   assert.equal(s.slots_max, DEFAULT_SLOTS_MAX);
-  assert.equal(s.slots_max, 3);
+  assert.equal(s.slots_max, 8);
   assert.equal(s.unlocked.size, 0);
   assert.equal(s.internalized.size, 0);
   assert.equal(s.researching.size, 0);
@@ -516,4 +518,181 @@ test('snapshotCabinet: exposes resonance_applied + base_cost on researching entr
   assert.equal(snap.researching[0].cost_total, 1);
   assert.equal(snap.researching[0].base_cost, 2);
   assert.equal(snap.researching[0].resonance_applied, true);
+});
+
+// ─────────────────────────────────────────────────────────
+// Sprint 6 (P4 Disco Tier S #9) — round-based cooldown mode
+// ─────────────────────────────────────────────────────────
+
+test('RESEARCH_ROUND_MULTIPLIER: exported as 3 (Sprint 6 default scaling)', () => {
+  assert.equal(RESEARCH_ROUND_MULTIPLIER, 3);
+});
+
+test('startResearch mode=rounds: tier-1 cost 1 → 3 rounds', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['e_voce_collettiva']); // tier 1 → base 1
+  const out = startResearch(s, 'e_voce_collettiva', { mode: 'rounds' });
+  assert.equal(out.ok, true);
+  assert.equal(out.cost_total, 3);
+  assert.equal(out.base_cost, 1);
+  assert.equal(out.scaled_cost, 3);
+  assert.equal(out.mode, 'rounds');
+  assert.equal(out.resonance_applied, false);
+});
+
+test('startResearch mode=rounds: tier-2 cost 2 → 6 rounds', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['e_scintilla_carisma']); // tier 2 → base 2
+  const out = startResearch(s, 'e_scintilla_carisma', { mode: 'rounds' });
+  assert.equal(out.cost_total, 6);
+  assert.equal(out.scaled_cost, 6);
+  assert.equal(out.mode, 'rounds');
+});
+
+test('startResearch mode=rounds: tier-3 cost 3 → 9 rounds', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['n_visionario']); // tier 3 → base 3
+  const out = startResearch(s, 'n_visionario', { mode: 'rounds' });
+  assert.equal(out.cost_total, 9);
+  assert.equal(out.scaled_cost, 9);
+});
+
+test('startResearch mode=rounds + resonance: -1 from scaled cost (T2 6→5)', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['n_pioniere_possibile']); // tier 2 → base 2 → scaled 6
+  const out = startResearch(s, 'n_pioniere_possibile', { mode: 'rounds', resonance: true });
+  assert.equal(out.cost_total, 5);
+  assert.equal(out.scaled_cost, 6);
+  assert.equal(out.base_cost, 2);
+  assert.equal(out.resonance_applied, true);
+});
+
+test('startResearch mode=encounters (default): preserves legacy cost behavior', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['e_scintilla_carisma']);
+  const out = startResearch(s, 'e_scintilla_carisma'); // no mode → encounters
+  assert.equal(out.cost_total, 2);
+  assert.equal(out.mode, 'encounters');
+});
+
+test('startResearch: round/encounter starting markers persisted on entry', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['e_voce_collettiva']);
+  startResearch(s, 'e_voce_collettiva', { mode: 'rounds', round: 7 });
+  const entry = s.researching.get('e_voce_collettiva');
+  assert.equal(entry.started_at_round, 7);
+  assert.equal(entry.started_at_encounter, null);
+  assert.equal(entry.mode, 'rounds');
+});
+
+test('tickResearch: round-mode T1 (3 rounds) progresses then internalizes on round 3', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['e_voce_collettiva']);
+  startResearch(s, 'e_voce_collettiva', { mode: 'rounds' });
+  // After round 1: 2 left
+  let res = tickResearch(s);
+  assert.equal(res.promoted.length, 0);
+  assert.equal(s.researching.get('e_voce_collettiva').cost_remaining, 2);
+  // After round 2: 1 left
+  res = tickResearch(s);
+  assert.equal(res.promoted.length, 0);
+  assert.equal(s.researching.get('e_voce_collettiva').cost_remaining, 1);
+  // After round 3: promoted
+  res = tickResearch(s);
+  assert.deepEqual(res.promoted, ['e_voce_collettiva']);
+  assert.equal(s.researching.size, 0);
+  assert.ok(s.internalized.has('e_voce_collettiva'));
+});
+
+test('tickAllResearch: bulk decrements every cabinet in bucket + returns promotions', () => {
+  resetCache();
+  const bucket = new Map();
+  // Two units, two thoughts in research with different costs.
+  const s1 = createCabinetState();
+  mergeUnlocked(s1, ['e_voce_collettiva']);
+  startResearch(s1, 'e_voce_collettiva'); // encounters, cost 1
+  bucket.set('unit-A', s1);
+  const s2 = createCabinetState();
+  mergeUnlocked(s2, ['n_pioniere_possibile']);
+  startResearch(s2, 'n_pioniere_possibile'); // encounters, cost 2
+  bucket.set('unit-B', s2);
+  // First tick: only s1 promotes (cost 1 → 0).
+  const round1 = tickAllResearch(bucket);
+  assert.equal(round1.length, 1);
+  assert.equal(round1[0].unit_id, 'unit-A');
+  assert.deepEqual(round1[0].promoted, ['e_voce_collettiva']);
+  // Second tick: s2 promotes.
+  const round2 = tickAllResearch(bucket);
+  assert.equal(round2.length, 1);
+  assert.equal(round2[0].unit_id, 'unit-B');
+  assert.deepEqual(round2[0].promoted, ['n_pioniere_possibile']);
+});
+
+test('tickAllResearch: empty bucket / null input → []', () => {
+  assert.deepEqual(tickAllResearch(null), []);
+  assert.deepEqual(tickAllResearch(undefined), []);
+  assert.deepEqual(tickAllResearch(new Map()), []);
+});
+
+test('tickAllResearch: unit with empty researching is skipped (no entry in result)', () => {
+  resetCache();
+  const bucket = new Map();
+  const s = createCabinetState();
+  // Unlocked but not researching.
+  mergeUnlocked(s, ['e_voce_collettiva']);
+  bucket.set('unit-A', s);
+  const result = tickAllResearch(bucket);
+  assert.deepEqual(result, []);
+});
+
+test('snapshotCabinet round-mode: exposes mode + scaled_cost + progress_pct + started_at_round', () => {
+  resetCache();
+  const s = createCabinetState();
+  mergeUnlocked(s, ['e_scintilla_carisma']); // T2 → base 2 → scaled 6
+  startResearch(s, 'e_scintilla_carisma', { mode: 'rounds', round: 3 });
+  // Tick twice → 4 remaining, 2/6 done = 33%
+  tickResearch(s);
+  tickResearch(s);
+  const snap = snapshotCabinet(s);
+  assert.equal(snap.researching.length, 1);
+  const entry = snap.researching[0];
+  assert.equal(entry.mode, 'rounds');
+  assert.equal(entry.cost_total, 6);
+  assert.equal(entry.scaled_cost, 6);
+  assert.equal(entry.cost_remaining, 4);
+  assert.equal(entry.base_cost, 2);
+  assert.equal(entry.started_at_round, 3);
+  assert.equal(entry.progress_pct, 33);
+});
+
+test('round-mode 8 slot cap: can fill 8 then 9th rejected with no_free_slot', () => {
+  resetCache();
+  const s = createCabinetState(); // default 8 slots
+  // Need 8 unlocked thoughts to research.
+  const ids = [
+    'e_voce_collettiva',
+    'i_osservatore',
+    'n_intuizione_terrena',
+    's_occhio_pratico',
+    'p_adattatore',
+    'j_disciplina',
+    'e_scintilla_carisma',
+    'i_calcolo_silente',
+  ];
+  mergeUnlocked(s, [...ids, 'n_pioniere_possibile']);
+  for (const id of ids) {
+    const r = startResearch(s, id, { mode: 'rounds' });
+    assert.equal(r.ok, true, `slot for ${id} should be acquired`);
+  }
+  assert.equal(slotsUsed(s), 8);
+  assert.equal(canResearchMore(s), false);
+  const overflow = startResearch(s, 'n_pioniere_possibile', { mode: 'rounds' });
+  assert.deepEqual(overflow, { ok: false, error: 'no_free_slot' });
 });

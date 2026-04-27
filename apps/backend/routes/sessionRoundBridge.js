@@ -79,6 +79,10 @@ function createRoundBridge(deps) {
     manhattanDistance,
     gridSize,
     defaultAttackRange,
+    // Sprint 6 (P4 Disco Tier S #9): bucket accessor for end-of-round
+    // Thought Cabinet research tick. Optional — bridge no-ops gracefully
+    // when missing so older callers keep working.
+    getCabinetBucket = null,
   } = deps;
 
   // V5 SG lifecycle helper (ADR-2026-04-26): reset earn-per-turn counter
@@ -887,7 +891,65 @@ function createRoundBridge(deps) {
       }
     }
 
-    return { hazardEvents, bleedingEvents, enneaEvents, terrainDecayEvents, alphaEvents };
+    // Sprint 6 (P4 Disco Tier S #9): Thought Cabinet round-based cooldown.
+    // Decrement cost_remaining for every researching thought across all units
+    // in this session by 1 round. Promoted thoughts (cost_remaining == 0)
+    // auto-internalize and apply passive bonuses to their unit live.
+    // Non-blocking: missing bucket / loader errors logged + ignored so round
+    // flow stays untouched.
+    const thoughtEvents = [];
+    if (typeof getCabinetBucket === 'function') {
+      try {
+        // eslint-disable-next-line global-require
+        const {
+          tickAllResearch,
+          passiveBonuses: thoughtPassiveBonuses,
+        } = require('../services/thoughts/thoughtCabinet');
+        // eslint-disable-next-line global-require
+        const { updateThoughtPassives } = require('../services/thoughts/thoughtPassiveApply');
+        const bucket = getCabinetBucket(session.session_id);
+        const promotions = tickAllResearch(bucket, 1);
+        for (const { unit_id, promoted } of promotions) {
+          if (promoted.length === 0) continue;
+          const state = bucket.get(unit_id);
+          if (!state) continue;
+          const passives = thoughtPassiveBonuses(state);
+          const unit = (session.units || []).find((u) => u && u.id === unit_id);
+          if (unit) updateThoughtPassives(unit, passives.bonus, passives.cost);
+          for (const thoughtId of promoted) {
+            await appendEvent(session, {
+              ts: new Date().toISOString(),
+              session_id: session.session_id,
+              action_type: 'thought_internalized',
+              actor_id: unit_id,
+              actor_species: unit?.species,
+              actor_job: unit?.job,
+              target_id: unit_id,
+              turn: session.turn,
+              damage_dealt: 0,
+              result: 'unlock',
+              thought_id: thoughtId,
+              passive_bonus: passives.bonus,
+              passive_cost: passives.cost,
+              automatic: true,
+            });
+            thoughtEvents.push({ unit_id, thought_id: thoughtId });
+          }
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn('[thought-tick] failed:', err && err.message ? err.message : err);
+      }
+    }
+
+    return {
+      hazardEvents,
+      bleedingEvents,
+      enneaEvents,
+      terrainDecayEvents,
+      alphaEvents,
+      thoughtEvents,
+    };
   }
 
   // ────────────────────────────────────────────────────────────────

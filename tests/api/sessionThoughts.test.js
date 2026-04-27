@@ -273,3 +273,105 @@ test('POST /:id/thoughts/forget — 409 when thought is not active (not research
   assert.equal(res.status, 409);
   assert.equal(res.body.error, 'not_active');
 });
+
+// ─────────────────────────────────────────────────────────
+// Sprint 6 (P4 Disco Tier S #9) — round-mode default + 8 slots
+// ─────────────────────────────────────────────────────────
+
+test('GET /:id/thoughts: slots_max default 8 (Sprint 6 round-mode)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid } = await bootstrap(app);
+  const res = await request(app).get(`/api/session/${sid}/thoughts`);
+  assert.equal(res.status, 200);
+  for (const [, entry] of Object.entries(res.body.per_actor || {})) {
+    assert.equal(entry.slots_max, 8);
+  }
+});
+
+test('POST /:id/thoughts/research: defaults to mode=rounds (T1 cost_total = 3)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid } = await bootstrap(app);
+  const snap = await request(app).get(`/api/session/${sid}/thoughts`);
+  const target = anyUnlockedActor(snap.body.per_actor);
+  assert.ok(target);
+  const res = await request(app)
+    .post(`/api/session/${sid}/thoughts/research`)
+    .send({ unit_id: target.unit_id, thought_id: target.thought_id });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.mode, 'rounds');
+  // Tutorial seed unlocks tier-1 thoughts (cost 1) → scaled to 3 rounds.
+  assert.ok(res.body.cost_total >= 3);
+  assert.ok(res.body.scaled_cost >= 3);
+});
+
+test('POST /:id/thoughts/research mode=encounters: opt-out preserves legacy pace (T1 cost 1)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid } = await bootstrap(app);
+  const snap = await request(app).get(`/api/session/${sid}/thoughts`);
+  const target = anyUnlockedActor(snap.body.per_actor);
+  assert.ok(target);
+  const res = await request(app)
+    .post(`/api/session/${sid}/thoughts/research`)
+    .send({ unit_id: target.unit_id, thought_id: target.thought_id, mode: 'encounters' });
+  assert.equal(res.status, 200);
+  assert.equal(res.body.mode, 'encounters');
+  assert.equal(res.body.cost_total, 1, 'tier-1 encounter cost stays 1');
+});
+
+test('GET /:id/thoughts: researching entries surface mode + scaled_cost + progress_pct', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid } = await bootstrap(app);
+  const snap = await request(app).get(`/api/session/${sid}/thoughts`);
+  const target = anyUnlockedActor(snap.body.per_actor);
+  assert.ok(target);
+  await request(app)
+    .post(`/api/session/${sid}/thoughts/research`)
+    .send({ unit_id: target.unit_id, thought_id: target.thought_id });
+  const after = await request(app).get(`/api/session/${sid}/thoughts`);
+  const entry = after.body.per_actor[target.unit_id];
+  assert.ok(Array.isArray(entry.researching));
+  const research = entry.researching.find((r) => r.id === target.thought_id);
+  assert.ok(research, 'researching entry must surface');
+  assert.equal(research.mode, 'rounds');
+  assert.equal(typeof research.progress_pct, 'number');
+  assert.equal(research.progress_pct, 0);
+});
+
+test('POST /:id/thoughts/tick: round-mode T1 (3) requires 3 ticks to internalize', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+  const { sid } = await bootstrap(app);
+  const snap = await request(app).get(`/api/session/${sid}/thoughts`);
+  const target = anyUnlockedActor(snap.body.per_actor);
+  assert.ok(target);
+  await request(app)
+    .post(`/api/session/${sid}/thoughts/research`)
+    .send({ unit_id: target.unit_id, thought_id: target.thought_id });
+  // tick 1: still researching
+  let tick = await request(app).post(`/api/session/${sid}/thoughts/tick`).send({ delta: 1 });
+  let actor = tick.body.per_actor[target.unit_id];
+  assert.equal(actor.promoted.length, 0);
+  // tick 2: still researching
+  tick = await request(app).post(`/api/session/${sid}/thoughts/tick`).send({ delta: 1 });
+  actor = tick.body.per_actor[target.unit_id];
+  assert.equal(actor.promoted.length, 0);
+  // tick 3: promoted
+  tick = await request(app).post(`/api/session/${sid}/thoughts/tick`).send({ delta: 1 });
+  actor = tick.body.per_actor[target.unit_id];
+  assert.ok(actor.promoted.includes(target.thought_id));
+  assert.ok(actor.internalized.includes(target.thought_id));
+});

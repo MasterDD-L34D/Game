@@ -238,8 +238,8 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Liberation campaign region map** (~15h) — region grid + liberation% counter. **In v3.7 §4**.
 - 🔴 **Haven recruitment radio passive growth** (~6h) — pool tick over campaign turns.
 
-#### B.1.8 — Disco Elysium (4 pattern residui)
-- 🔴 **Thought Cabinet UI panel + cooldown round-based** (~8h) — N slot mentali equip-per-N-round → unlock effetto. **Già P0 residuo synthesis**.
+#### B.1.8 — Disco Elysium (3 pattern residui — Sprint 6 chiuso #9)
+- 🟢 **Thought Cabinet UI panel + cooldown round-based** (Sprint 6 2026-04-27) — 8 slot mentali, mode='rounds' default scala T1→3 / T2→6 / T3→9 round, end-of-round auto-tick via `applyEndOfRoundSideEffects`, Assign/Forget UI con progress bar, 76/76 test verdi.
 - 🔴 **Internal voice 4-MBTI axes** (~10h) — narrative log debrief con voce-per-axis durante combat hint.
 - 🔴 **Skill check passive vs active popup** (~4h) — surface trigger via popup notification.
 - 🔴 **Day/time pacing flavor copy** (~2h) — "Giorno N di Aurora" nei debrief.
@@ -389,7 +389,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 
 [5] DEBRIEF
     ├─ MBTI tag debrief diegetic (Disco ✅ #1897)
-    ├─ Thought Cabinet UI panel (Disco, 🔴 8h)            ← B.1.8
+    ├─ Thought Cabinet UI panel + cooldown round-based (Disco ✅ Sprint 6)
     ├─ XP grant + perk pick (XCOM ✅ M13.P3 #1697)
     ├─ Officer Training School meta perks (XCOM EW, 🔴 10h) ← B.1.6
     ├─ Tri-Sorgente reward offer R/A/P softmax (✅ V2)
