@@ -1,0 +1,253 @@
+# Inner Voices — Evo-Tactics P4 (Disco Elysium diegetic pattern)
+#
+# 24 brevi voci diegetiche (4 assi MBTI × 2 direzioni × 3 soglie) che si
+# attivano quando un'unità attraversa una soglia sull'asse.
+# Pattern ispirato a Disco Elysium: le voci non hanno effetti meccanici, solo
+# peso narrativo. Trigger: threshold crossing in any direction.
+#
+# Convenzione direction (coerente con vcScoring + mbti_thoughts.yaml):
+#   - axis E_I: low → 'E' (estroverso), high → 'I' (introverso)
+#   - axis S_N: low → 'N' (intuitivo), high → 'S' (sensoriale)
+#   - axis J_P: low → 'P' (percepire), high → 'J' (giudicare)
+#   - axis T_F: low → 'F' (sentimento), high → 'T' (pensiero)
+#     (T_F incluso qui: a differenza di mbti_thoughts.yaml, le voci coprono
+#     tutti e 4 gli assi — solo la superficie narrativa, senza effetti.)
+#
+# Cumulativo: una volta sentita, non viene ribroadcastata (alreadyHeard).
+# Volume: esattamente 24 voci (sweet spot Disco Elysium).
+# Delivery: briefing/debrief overlay o tooltip in formsPanel.
+
+version: "0.1.0"
+
+voices:
+  # ───────────────────────── ASSE T_F ─────────────────────────
+
+  # T_F high → 'T' (pensiero / distanza)
+  tf_pensiero_freddo:
+    axis: T_F
+    direction: high
+    threshold: 0.65
+    tier: 1
+    pole_letter: T
+    voice_it: "Hai sempre ragione, anche quando hai torto."
+    flavor_it: "La voce calma della logica pura. Non teme il silenzio."
+
+  tf_distanza_precisa:
+    axis: T_F
+    direction: high
+    threshold: 0.75
+    tier: 2
+    pole_letter: T
+    voice_it: "I sentimenti sono rumore. I dati, no."
+    flavor_it: "La distanza è chiarezza. E solitudine."
+
+  tf_macchina_vivente:
+    axis: T_F
+    direction: high
+    threshold: 0.85
+    tier: 3
+    pole_letter: T
+    voice_it: "Eri umano, una volta. Forse."
+    flavor_it: "A questo punto, la fredda perfezione ha un prezzo invisibile."
+
+  # T_F low → 'F' (sentimento / connessione)
+  tf_voce_empatica:
+    axis: T_F
+    direction: low
+    threshold: 0.35
+    tier: 1
+    pole_letter: F
+    voice_it: "Li senti? Ti stanno guardando."
+    flavor_it: "Ogni azione ha un volto. Ogni scelta, una conseguenza umana."
+
+  tf_peso_connessione:
+    axis: T_F
+    direction: low
+    threshold: 0.25
+    tier: 2
+    pole_letter: F
+    voice_it: "Sei la somma delle loro speranze. Pesano."
+    flavor_it: "La connessione è forza. E vincolo che non si può spezzare."
+
+  tf_confine_dissolto:
+    axis: T_F
+    direction: low
+    threshold: 0.15
+    tier: 3
+    pole_letter: F
+    voice_it: "Loro sono te, e tu sei loro."
+    flavor_it: "A questo livello, il confine tra sé e gli altri svanisce del tutto."
+
+  # ───────────────────────── ASSE E_I ─────────────────────────
+
+  # E_I low → 'E' (estroverso / collettivo)
+  ei_eco_collettivo:
+    axis: E_I
+    direction: low
+    threshold: 0.35
+    tier: 1
+    pole_letter: E
+    voice_it: "Hai bisogno di loro come dell'aria."
+    flavor_it: "L'energia collettiva è carburante, non conforto."
+
+  ei_vuoto_silenzio:
+    axis: E_I
+    direction: low
+    threshold: 0.25
+    tier: 2
+    pole_letter: E
+    voice_it: "Ogni silenzio è una piccola morte."
+    flavor_it: "La presenza degli altri definisce il confine di te stesso."
+
+  ei_palcoscenico:
+    axis: E_I
+    direction: low
+    threshold: 0.15
+    tier: 3
+    pole_letter: E
+    voice_it: "Se nessuno ti vede, esisti davvero?"
+    flavor_it: "All'estremo: l'attenzione non è desiderata. È ossigeno."
+
+  # E_I high → 'I' (introverso / solitario)
+  ei_rifugio_interno:
+    axis: E_I
+    direction: high
+    threshold: 0.65
+    tier: 1
+    pole_letter: I
+    voice_it: "Il silenzio è più rumoroso di qualsiasi parola."
+    flavor_it: "Sente tutto. Dice poco. Sceglie quando agire."
+
+  ei_bastione_solo:
+    axis: E_I
+    direction: high
+    threshold: 0.75
+    tier: 2
+    pole_letter: I
+    voice_it: "Meglio un errore da soli che un successo in compagnia."
+    flavor_it: "L'autarchia non è orgoglio. È metodo."
+
+  ei_ombra_parlante:
+    axis: E_I
+    direction: high
+    threshold: 0.85
+    tier: 3
+    pole_letter: I
+    voice_it: "Anche l'ombra ha una voce. La tua."
+    flavor_it: "A questo livello: l'invisibilità non è assenza. È identità."
+
+  # ───────────────────────── ASSE S_N ─────────────────────────
+
+  # S_N high → 'S' (sensoriale / concreto)
+  sn_senso_concreto:
+    axis: S_N
+    direction: high
+    threshold: 0.65
+    tier: 1
+    pole_letter: S
+    voice_it: "Fidati di ciò che puoi toccare. Il resto è rumore."
+    flavor_it: "Il presente è reale. Il futuro è speculazione."
+
+  sn_mappa_incisa:
+    axis: S_N
+    direction: high
+    threshold: 0.75
+    tier: 2
+    pole_letter: S
+    voice_it: "Ogni pietra ha già un nome. Il tuo."
+    flavor_it: "La memoria del terreno è arma più affilata dell'istinto."
+
+  sn_radici_terreno:
+    axis: S_N
+    direction: high
+    threshold: 0.85
+    tier: 3
+    pole_letter: S
+    voice_it: "Il terreno non mente. Non l'ha mai fatto."
+    flavor_it: "All'estremo, la realtà fisica è l'unica verità accettata."
+
+  # S_N low → 'N' (intuitivo / visionario)
+  sn_intuizione_aperta:
+    axis: S_N
+    direction: low
+    threshold: 0.35
+    tier: 1
+    pole_letter: N
+    voice_it: "Qualcosa non torna. Non ancora."
+    flavor_it: "Percepisce pattern prima che esistano. A volte ha ragione."
+
+  sn_sentiero_invisibile:
+    axis: S_N
+    direction: low
+    threshold: 0.25
+    tier: 2
+    pole_letter: N
+    voice_it: "La mappa è sbagliata. Il territorio è altrove."
+    flavor_it: "L'intuizione supera il presente. A volte troppo."
+
+  sn_visione_aperta:
+    axis: S_N
+    direction: low
+    threshold: 0.15
+    tier: 3
+    pole_letter: N
+    voice_it: "Vede il finale prima che inizi. Ma chi lo ascolta?"
+    flavor_it: "All'estremo, il visionario vive in un futuro che gli altri non vedono ancora."
+
+  # ───────────────────────── ASSE J_P ─────────────────────────
+
+  # J_P high → 'J' (giudicare / struttura)
+  jp_ordine_preferito:
+    axis: J_P
+    direction: high
+    threshold: 0.65
+    tier: 1
+    pole_letter: J
+    voice_it: "Prima il piano. Poi il mondo."
+    flavor_it: "L'ordine non è vincolo. È fondamenta."
+
+  jp_controllo_totale:
+    axis: J_P
+    direction: high
+    threshold: 0.75
+    tier: 2
+    pole_letter: J
+    voice_it: "Il caos è solo un piano che non hai ancora scritto."
+    flavor_it: "La struttura come identità. Il controllo come conforto."
+
+  jp_architettura_assoluta:
+    axis: J_P
+    direction: high
+    threshold: 0.85
+    tier: 3
+    pole_letter: J
+    voice_it: "L'imprevisto non esiste. Solo preparazione insufficiente."
+    flavor_it: "All'estremo: la realtà deve adattarsi al piano, non viceversa."
+
+  # J_P low → 'P' (percepire / flusso)
+  jp_flusso_libero:
+    axis: J_P
+    direction: low
+    threshold: 0.35
+    tier: 1
+    pole_letter: P
+    voice_it: "Il piano è un suggerimento. L'istante, legge."
+    flavor_it: "La flessibilità è libertà. E a volte, caos."
+
+  jp_onde_mutevoli:
+    axis: J_P
+    direction: low
+    threshold: 0.25
+    tier: 2
+    pole_letter: P
+    voice_it: "Perché fermarsi quando si può ancora cambiare?"
+    flavor_it: "L'adattamento continuo. Nessuna certezza è definitiva."
+
+  jp_pura_reazione:
+    axis: J_P
+    direction: low
+    threshold: 0.15
+    tier: 3
+    pole_letter: P
+    voice_it: "Non hai deciso nulla. Hai solo risposto."
+    flavor_it: "All'estremo: la pianificazione è illusione. Solo il presente conta."

@@ -8,10 +8,14 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v9 (post Sprint 1-5 autonomous session 2026-04-27 — 5 PR mergiati)
-- **Ultimo aggiornamento**: 2026-04-27 notte (5 sprint autonomous + OD-001 Path A 4/4 closure)
+- **Versione compact**: v10 (post Sprint 6 Thought Cabinet UI panel cooldown round-based 2026-04-27 — ✅ MERGED #1966 `584c54c2`)
+- **Ultimo aggiornamento**: 2026-04-27 (Sprint 6 Disco Tier S #9 closure — engine + bridge + UI + tests + smoke E2E + merge bookkeeping + adoption follow-up scheduled 2026-05-11)
 
-## ⚡ TL;DR per ripartire (post Sprint 1-5)
+## ⚡ TL;DR per ripartire (post Sprint 6)
+
+**Sprint 6 autonomous shipped** in single session: Thought Cabinet UI panel + cooldown round-based end-to-end. Engine `DEFAULT_SLOTS_MAX` 3→8 + `mode='rounds'` opt + `RESEARCH_ROUND_MULTIPLIER=3` (T1→3 round, T2→6, T3→9) + `tickAllResearch(bucket, delta)` bulk helper. Bridge `applyEndOfRoundSideEffects` decrementa 1 round/fine-turno + auto-internalize + apply passives + emit `thought_internalized` event. Routes `/thoughts/research` accetta body `mode` (default `'rounds'`). Frontend `apps/play/src/thoughtsPanel.js` Assign/Forget buttons inline + progress bar `cost_remaining/cost_total round X%` + 8-slot grid + can-research-more gate + error banner. API client `thoughtsList/thoughtsResearch/thoughtsForget`. Smoke E2E preview validato: 8 slots ✓, mode=rounds default ✓, 3-round auto-tick → internalize ✓. Test 76/76 thoughts + 353/353 AI baseline zero regression. Format prettier verde, governance 0 errors. **P4 🟢c → 🟢 def** (8 slot live + cooldown round-based + UI surface + auto-tick wired). Stato-arte §B.1.8 #1 chiuso (3 pattern Disco residui — internal voice + skill check popup + day pacing flavor).
+
+## ⚡ TL;DR sprint precedenti (reference)
 
 **5 sprint autonomous shipped** in single session: PR #1934 (Wesnoth time-of-day + AI War defender's adv + Disco day pacing + Fallout numeric ref doc) → #1935 (Subnautica habitat lifecycle wire — biomeAffinity + 14 species stub + biomeSpawnBias init wave universal) → #1937 (Tunic Glifi UI + AncientBeast wikiLinkBridge + Wildermyth permanent flags) → #1938 (Cogmind tooltip + Dead Space holographic AOE + Isaac Anomaly glow) → #1940 (Tufte sparkline dashboard + DuckDB +4 query). **+OD-001 Path A 4/4 chiuso** (PR #1877 superseded). Stato pillars: 5/6 🟢 def/cand. Test baseline ~360 verde. Vedi handoff aggiornato: [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md`](docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md).
 

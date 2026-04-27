@@ -97,19 +97,26 @@ function describeThought(id, catalog = loadThoughts()) {
 // Each unit owns a CabinetState:
 //   {
 //     unlocked:    Set<thoughtId>   — discovered via MBTI threshold (Phase 1)
-//     researching: Map<id, {cost_remaining, cost_total, started_at_encounter}>
+//     researching: Map<id, {cost_remaining, cost_total, started_at_encounter, mode}>
 //     internalized: Set<thoughtId>  — permanent, grants effect_bonus + effect_cost
-//     slots_max:   number (default 3)
+//     slots_max:   number (default 8 — Sprint 6 round-mode cap)
 //   }
 //
 // Pure state machines: callers read (unlocked) to offer research, call
-// startResearch() when player clicks, tickResearch() on encounter advance,
+// startResearch() when player clicks, tickResearch() on round/encounter advance,
 // internalize() happens automatically on tick when cost_remaining hits 0,
 // forgetThought() frees a slot.
 // passiveBonuses() aggregates internalized effects into {bonus, cost} deltas
 // for the combat resolver to apply.
+//
+// Sprint 6 (P4 Disco Tier S #9): round-based cooldown mode.
+// `mode='rounds'` scales base cost by RESEARCH_ROUND_MULTIPLIER (default 3),
+// turning encounter-pace costs (1/2/3) into round-pace cooldowns (3/6/9).
+// roundOrchestrator end-of-round side effects tick all cabinets by 1 round,
+// promoting research that hits 0 to internalized + applying passives.
 
-const DEFAULT_SLOTS_MAX = 3;
+const DEFAULT_SLOTS_MAX = 8;
+const RESEARCH_ROUND_MULTIPLIER = 3;
 
 function createCabinetState(opts = {}) {
   const slots = Number.isFinite(opts.slotsMax)
@@ -154,23 +161,33 @@ function startResearch(state, thoughtId, opts = {}) {
   if (state.researching.has(thoughtId)) return { ok: false, error: 'already_researching' };
   if (!canResearchMore(state)) return { ok: false, error: 'no_free_slot' };
   const baseCost = resolveResearchCost(entry);
+  const mode = opts.mode === 'rounds' ? 'rounds' : 'encounters';
+  // Sprint 6: round-mode scales by RESEARCH_ROUND_MULTIPLIER so T1 → 3 rounds,
+  // T2 → 6, T3 → 9. Resonance still subtracts 1 AFTER scaling (rewards biome
+  // affinity even in long round-pace cooldowns).
+  const scaledCost = mode === 'rounds' ? baseCost * RESEARCH_ROUND_MULTIPLIER : baseCost;
   // Skiv ticket #4: biome resonance reduces research cost by 1 (min 1).
   // Caller computes resonance via biomeResonance.hasResonance(species, biome_id).
   const resonance = Boolean(opts.resonance);
-  const cost = resonance ? Math.max(1, baseCost - 1) : baseCost;
-  const resonanceApplied = resonance && cost < baseCost;
+  const cost = resonance ? Math.max(1, scaledCost - 1) : scaledCost;
+  const resonanceApplied = resonance && cost < scaledCost;
   state.researching.set(thoughtId, {
     cost_remaining: cost,
     cost_total: cost,
     base_cost: baseCost,
+    scaled_cost: scaledCost,
+    mode,
     resonance_applied: resonanceApplied,
     started_at_encounter: Number.isFinite(opts.encounter) ? opts.encounter : null,
+    started_at_round: Number.isFinite(opts.round) ? opts.round : null,
   });
   return {
     ok: true,
     state,
     cost_total: cost,
     base_cost: baseCost,
+    scaled_cost: scaledCost,
+    mode,
     resonance_applied: resonanceApplied,
   };
 }
@@ -232,13 +249,34 @@ function snapshotCabinet(state) {
       cost_remaining: e.cost_remaining,
       cost_total: e.cost_total,
       base_cost: e.base_cost ?? e.cost_total,
+      scaled_cost: e.scaled_cost ?? e.cost_total,
+      mode: e.mode || 'encounters',
       resonance_applied: Boolean(e.resonance_applied),
-      started_at_encounter: e.started_at_encounter,
+      started_at_encounter: e.started_at_encounter ?? null,
+      started_at_round: e.started_at_round ?? null,
+      progress_pct:
+        e.cost_total > 0 ? Math.round(((e.cost_total - e.cost_remaining) / e.cost_total) * 100) : 0,
     })),
     internalized: Array.from(state.internalized),
     slots_max: state.slots_max,
     slots_used: slotsUsed(state),
   };
+}
+
+// Sprint 6: bulk tick helper for round-end side effects. Decrements every
+// research timer in `bucket` (Map<unitId, CabinetState>) by `delta` rounds
+// and returns the per-unit promotion list. Caller is responsible for applying
+// passive bonuses on promoted thoughts (see thoughtPassiveApply.updateThoughtPassives).
+function tickAllResearch(bucket, delta = 1) {
+  if (!bucket || typeof bucket.entries !== 'function') return [];
+  const results = [];
+  for (const [unitId, state] of bucket.entries()) {
+    if (!state || state.researching.size === 0) continue;
+    const { promoted } = tickResearch(state, delta);
+    if (promoted.length === 0) continue;
+    results.push({ unit_id: unitId, promoted });
+  }
+  return results;
 }
 
 module.exports = {
@@ -250,6 +288,7 @@ module.exports = {
   matchesThreshold,
   // Phase 2
   DEFAULT_SLOTS_MAX,
+  RESEARCH_ROUND_MULTIPLIER,
   createCabinetState,
   slotsUsed,
   canResearchMore,
@@ -257,6 +296,7 @@ module.exports = {
   mergeUnlocked,
   startResearch,
   tickResearch,
+  tickAllResearch,
   forgetThought,
   passiveBonuses,
   snapshotCabinet,

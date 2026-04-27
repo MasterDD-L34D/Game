@@ -238,16 +238,16 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Liberation campaign region map** (~15h) — region grid + liberation% counter. **In v3.7 §4**.
 - 🔴 **Haven recruitment radio passive growth** (~6h) — pool tick over campaign turns.
 
-#### B.1.8 — Disco Elysium (4 pattern residui)
-- 🔴 **Thought Cabinet UI panel + cooldown round-based** (~8h) — N slot mentali equip-per-N-round → unlock effetto. **Già P0 residuo synthesis**.
-- 🔴 **Internal voice 4-MBTI axes** (~10h) — narrative log debrief con voce-per-axis durante combat hint.
+#### B.1.8 — Disco Elysium (4 pattern, 1 residuo — ✅ 3/4 shipped)
+- 🟢 **Thought Cabinet UI panel + cooldown round-based** (Sprint 6 2026-04-27, PR #1966 `584c54c2`) — 8 slot mentali, mode='rounds' default scala T1→3 / T2→6 / T3→9 round, end-of-round auto-tick via `applyEndOfRoundSideEffects`, Assign/Forget UI con progress bar, 76/76 test verdi. Adoption check scheduled 2026-05-11.
+- 🟢 **Internal voice 4-MBTI axes** (PR #1945 `de57432c` 2026-04-27) — narrative log debrief con voce-per-axis durante combat hint. Engine `apps/backend/services/narrative/innerVoice.js` + 18 voice templates `data/core/thoughts/inner_voices.yaml` + 135 test.
 - 🔴 **Skill check passive vs active popup** (~4h) — surface trigger via popup notification.
-- 🔴 **Day/time pacing flavor copy** (~2h) — "Giorno N di Aurora" nei debrief.
+- 🟢 **Day/time pacing flavor copy** — Sprint 1 §I shipped (PR #1934: `formatDayPacing(currentChapter, currentAct)` in `apps/backend/routes/campaign.js` + 4 response sites: defeat retry + choice_node + advance + act_advanced. "Giorno N di Aurora" diegetic copy).
 
-#### B.1.9 — AI War: Fleet Command (3 pattern residui)
-- 🔴 **Asymmetric rules registry doc** (~2h) — codify pattern AI ha rule diverse.
-- 🔴 **Decentralized unit AI doc** (~1h) — reference utility brain.
-- 🔴 **Defender's advantage modifier** (~3h) — +50% AI defensive vs player aggressive.
+#### B.1.9 — AI War: Fleet Command (3 pattern, 0 residui — ✅ tutti shipped)
+- 🟢 **Asymmetric rules registry doc** — Sprint 1 §III shipped (PR #1934: `docs/design/2026-04-27-ai-war-asymmetric-rules.md` canonical reference, codifica Sistema asymmetric pattern per Pillar 5+6).
+- 🟢 **Decentralized unit AI doc** — Sprint 1 §IV shipped (PR #1934: `docs/design/2026-04-27-ai-war-decentralized-architecture.md` reference utility brain per-unit autonomous).
+- 🟢 **Defender's advantage modifier** — Sprint 1 §II shipped (PR #1934: `apps/backend/services/combat/defenderAdvantageModifier.js` `getDefenderAdvantage` wired in `session.js:445` + `DEFENDER_ADVANTAGE_BONUS=1`).
 
 #### B.1.10 — Fallout Tactics (3 pattern residui)
 - 🔴 **Encounter authoring CLI YAML extension** (~6h) — `tools/py/master_dm.py` REPL → YAML generator + validator.
@@ -265,7 +265,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Jack Principles guidance toast per phase** (~5h) — V1 onboarding shipped, estendi a phase-by-phase.
 - 🔴 **XCOM 2 points-buy pre-game** (~8h) — point budget shared per build squad.
 
-**Tier S residuo cumulato**: ~38 pattern, **~190h totali** se tutti adottati.
+**Tier S residuo cumulato**: ~32 pattern, **~175h totali** se tutti adottati. (Drift fix 2026-04-27: §B.1.5 channel resistance #1964 + §B.1.8 day pacing #1934 + Thought Cabinet main + §B.1.9 3/3 AI War #1934 shipped — 6 pattern segnati post-merge.)
 
 ### B.2 — Tier A residuo (oltre i 2 shipped: pathfinder + voidling)
 
@@ -335,11 +335,11 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 
 | Tier | Pattern residui | Effort cumulato Min |
 |---|---:|---:|
-| Tier S (13 giochi) | 38 | ~190h |
+| Tier S (13 giochi) | 32 | ~175h |
 | Tier A (11 giochi) | 11 | ~54h |
 | Tier B (15 giochi) | 11 (4 archive) | ~115h |
 | Tier E (20 voci tech) | 13 (4 blocked) | ~150h |
-| **TOTALE** | **73 pattern residui** | **~509h Min** |
+| **TOTALE** | **67 pattern residui** | **~494h Min** |
 
 **Quick wins ≤5h totali (cross-tier)**: ~16 pattern × media 4h = **~64h** = ~2 settimane sprint single-dev.
 
@@ -389,11 +389,12 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 
 [5] DEBRIEF
     ├─ MBTI tag debrief diegetic (Disco ✅ #1897)
-    ├─ Thought Cabinet UI panel (Disco, 🔴 8h)            ← B.1.8
+    ├─ Thought Cabinet UI panel + cooldown round-based (Disco ✅ Sprint 6 PR #1966)
+    ├─ Internal voice 4-MBTI axes diegetic (Disco ✅ PR #1945)
     ├─ XP grant + perk pick (XCOM ✅ M13.P3 #1697)
     ├─ Officer Training School meta perks (XCOM EW, 🔴 10h) ← B.1.6
     ├─ Tri-Sorgente reward offer R/A/P softmax (✅ V2)
-    ├─ Day/time pacing flavor "Giorno N di Aurora" (🔴 2h) ← B.1.8
+    ├─ Day/time pacing flavor "Giorno N di Aurora" (Disco ✅ Sprint 1 §I PR #1934)
     └─ Replay cinematico round 3-5s (Frozen Synapse, 🔴 10-14h) ← B.3 #2
 
 [6] EVOLUTION (post-debrief, M12 Phase D shipped)

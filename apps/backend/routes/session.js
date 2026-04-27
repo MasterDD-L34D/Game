@@ -65,6 +65,9 @@ const {
 // internalize/forget transitions. Reads cabinet snapshot deltas, mutates
 // unit.attack_mod / defense_dc / hp_max etc per effect_bonus / effect_cost.
 const { updateThoughtPassives } = require('../services/thoughts/thoughtPassiveApply');
+// Skiv ticket #3: Inner Voices — 24 Disco Elysium-style diegetic whispers
+// (4 MBTI axes × 2 directions × 3 tiers). Pure evaluator, no combat effects.
+const { evaluateVoiceTriggers } = require('../services/narrative/innerVoice');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -299,6 +302,8 @@ function createSessionRouter(options = {}) {
   // Phase 1 discovered ids live in `state.unlocked`; Phase 2 tracks research +
   // internalized slots for Disco Elysium-style passive effects.
   const thoughtsStore = new Map();
+  // Skiv #3 Inner Voices: sessionId -> Map<unitId, Set<voiceId>>.
+  const voicesStore = new Map();
 
   function getCabinetBucket(sessionId) {
     let bucket = thoughtsStore.get(sessionId);
@@ -317,6 +322,20 @@ function createSessionRouter(options = {}) {
       bucket.set(unitId, state);
     }
     return { bucket, state };
+  }
+
+  function getVoicesHeard(sessionId, unitId) {
+    let bucket = voicesStore.get(sessionId);
+    if (!bucket) {
+      bucket = new Map();
+      voicesStore.set(sessionId, bucket);
+    }
+    let set = bucket.get(unitId);
+    if (!set) {
+      set = new Set();
+      bucket.set(unitId, set);
+    }
+    return set;
   }
 
   function newSessionId() {
@@ -1092,6 +1111,9 @@ function createSessionRouter(options = {}) {
     manhattanDistance,
     gridSize: GRID_SIZE,
     defaultAttackRange: DEFAULT_ATTACK_RANGE,
+    // Sprint 6 (P4 Disco Tier S #9): bridge ticks every research timer
+    // by 1 round inside applyEndOfRoundSideEffects.
+    getCabinetBucket,
   });
   const { handleLegacyAttackViaRound, handleTurnEndViaRound } = roundBridge;
 
@@ -2504,6 +2526,8 @@ function createSessionRouter(options = {}) {
       // P4 Thought Cabinet: release per-session unlock cache on teardown.
       // Prevents linear memory growth over process lifetime (Codex review #1702).
       thoughtsStore.delete(session.session_id);
+      // Skiv #3: Inner Voices store cleanup.
+      voicesStore.delete(session.session_id);
       if (activeSessionId === session.session_id) {
         activeSessionId = null;
       }
@@ -2606,6 +2630,10 @@ function createSessionRouter(options = {}) {
           actor && session.biome_id
             ? computeResonanceTier(actor.species, session.biome_id, actor.archetype || null)
             : { tier: 'none', label_it: '', discount: 0 };
+        // Skiv #3: Inner Voices — evaluate 24 Disco-style whispers per actor.
+        const voicesHeard = getVoicesHeard(session.session_id, unitId);
+        const { heard, newly_heard } = evaluateVoiceTriggers(axes, voicesHeard);
+        for (const id of newly_heard) voicesHeard.add(id);
         perActor[unitId] = {
           ...snap,
           newly,
@@ -2613,6 +2641,8 @@ function createSessionRouter(options = {}) {
           passive_cost: passives.cost,
           resonance_tier: tierInfo.tier,
           resonance_label: tierInfo.label_it,
+          voices_heard: heard,
+          newly_heard,
         };
       }
       res.json({ session_id: session.session_id, per_actor: perActor });
@@ -2622,9 +2652,13 @@ function createSessionRouter(options = {}) {
   });
 
   // P4 Phase 2 — begin research on an unlocked thought (Disco Elysium
-  // internalization). Body: { unit_id, thought_id }. Fails if the thought
-  // is not unlocked, already researching/internalized, or cabinet has no
-  // free slot (slots_max=3 by default).
+  // internalization). Body: { unit_id, thought_id, mode? }. Fails if the
+  // thought is not unlocked, already researching/internalized, or cabinet
+  // has no free slot (slots_max=8 by default — Sprint 6 round-mode cap).
+  //
+  // Sprint 6 (P4 Disco Tier S #9): mode defaults to 'rounds' so research
+  // ticks per end-of-round in applyEndOfRoundSideEffects (T1 → 3 rounds,
+  // T2 → 6, T3 → 9). Pass mode='encounters' for legacy encounter-pace.
   router.post('/:id/thoughts/research', (req, res, next) => {
     try {
       const { error, session } = resolveSession(req.params.id);
@@ -2633,6 +2667,7 @@ function createSessionRouter(options = {}) {
       if (!unit_id || !thought_id) {
         return res.status(400).json({ error: 'unit_id e thought_id obbligatori' });
       }
+      const mode = req.body?.mode === 'encounters' ? 'encounters' : 'rounds';
       const { state } = getOrCreateCabinet(session.session_id, unit_id);
       const actor = (session.units || []).find((u) => u && u.id === unit_id);
       const tierInfo =
@@ -2641,7 +2676,9 @@ function createSessionRouter(options = {}) {
           : { tier: 'none', label_it: '', discount: 0 };
       const outcome = startThoughtResearch(state, thought_id, {
         encounter: req.body?.encounter ?? null,
+        round: Number.isFinite(session?.turn) ? session.turn : null,
         resonance: tierInfo.discount > 0,
+        mode,
       });
       if (!outcome.ok) {
         return res.status(409).json({ error: outcome.error, thought_id });
@@ -2652,6 +2689,8 @@ function createSessionRouter(options = {}) {
         thought_id,
         cost_total: outcome.cost_total,
         base_cost: outcome.base_cost,
+        scaled_cost: outcome.scaled_cost,
+        mode: outcome.mode,
         resonance_applied: outcome.resonance_applied,
         resonance_tier: tierInfo.tier,
         resonance_label: tierInfo.label_it,

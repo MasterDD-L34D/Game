@@ -14,6 +14,7 @@ const STATE = {
   getSelectedUnit: () => null,
   lastData: null,
   catalog: null,
+  lastActionError: null,
 };
 
 const AXIS_LABELS = {
@@ -106,6 +107,46 @@ function injectStyles() {
     .thought-card.newly {
       animation: thought-unlock 1.8s ease-out;
       box-shadow: 0 0 18px rgba(198, 160, 255, 0.35);
+    }
+    .thought-card.researching { border-style: dashed; }
+    .thought-card.internalized {
+      background: linear-gradient(180deg, #1a1f2b 0%, #221a30 100%);
+      box-shadow: inset 0 0 12px rgba(198, 160, 255, 0.18);
+    }
+    .thought-card .thought-actions {
+      display: flex; gap: 6px; margin-top: 6px;
+    }
+    .thought-card button.tc-action {
+      background: #2a3040; color: #e8eaf0; border: 1px solid #3a4050;
+      border-radius: 4px; padding: 3px 10px; font-size: 0.75rem;
+      cursor: pointer; transition: background 120ms ease;
+    }
+    .thought-card button.tc-action:hover { background: #3a4050; }
+    .thought-card button.tc-action:disabled {
+      opacity: 0.4; cursor: not-allowed;
+    }
+    .thought-card button.tc-action.assign { color: #c6a0ff; }
+    .thought-card button.tc-action.forget { color: #ef9a9a; }
+    .thought-card button.tc-action.internalize-tag {
+      color: #ffd166; cursor: default; pointer-events: none;
+    }
+    .thought-progress {
+      margin-top: 6px; height: 5px; background: #0b0d12;
+      border-radius: 3px; overflow: hidden;
+      border: 1px solid #2a3040;
+    }
+    .thought-progress-fill {
+      height: 100%; background: linear-gradient(90deg, #66d1fb 0%, #c6a0ff 100%);
+      transition: width 240ms ease;
+    }
+    .thought-progress-label {
+      font-size: 0.7rem; color: #8aa0c7; margin-top: 3px;
+      display: flex; justify-content: space-between;
+    }
+    .thought-action-error {
+      padding: 6px 10px; margin-bottom: 8px; border-radius: 4px;
+      background: rgba(239, 154, 154, 0.12); border: 1px solid #ef9a9a;
+      color: #ef9a9a; font-size: 0.82rem;
     }
     @keyframes thought-unlock {
       0% { transform: scale(0.92); box-shadow: 0 0 0 rgba(198, 160, 255, 0); }
@@ -314,7 +355,8 @@ function buildClientCatalog() {
   };
 }
 
-function renderAxis(axis, unlockedSet, newlySet) {
+function renderAxis(axis, ctx) {
+  const { unlockedSet, newlySet, researchingMap, internalizedSet, canResearchMore } = ctx;
   const entries = Object.entries(CLIENT_CATALOG)
     .filter(([, v]) => v[0] === axis)
     .map(([id, v]) => ({
@@ -335,19 +377,31 @@ function renderAxis(axis, unlockedSet, newlySet) {
     .map((t) => {
       const isUnlocked = unlockedSet.has(t.id);
       const isNewly = newlySet.has(t.id);
+      const research = researchingMap.get(t.id);
+      const isResearching = Boolean(research);
+      const isInternalized = internalizedSet.has(t.id);
       const cls = [
         'thought-card',
         `tier-${t.tier}`,
         isUnlocked ? '' : 'locked',
         isNewly ? 'newly' : '',
+        isResearching ? 'researching' : '',
+        isInternalized ? 'internalized' : '',
       ]
         .filter(Boolean)
         .join(' ');
       const title = isUnlocked ? t.title : '???';
       const flavor = isUnlocked ? t.flavor : '— ancora celato —';
       const hint = isUnlocked ? `<div class="thought-hint">${escapeHtml(t.hint)}</div>` : '';
+      const actions = renderThoughtActions(t.id, {
+        isUnlocked,
+        isResearching,
+        isInternalized,
+        canResearchMore,
+      });
+      const progress = isResearching ? renderProgress(research) : '';
       return `
-        <div class="${cls}">
+        <div class="${cls}" data-thought-id="${escapeHtml(t.id)}">
           <div class="thought-title">
             <span>${escapeHtml(title)}</span>
             <span class="tier-badge">T${t.tier}</span>
@@ -355,6 +409,8 @@ function renderAxis(axis, unlockedSet, newlySet) {
           </div>
           <div class="thought-flavor">${escapeHtml(flavor)}</div>
           ${hint}
+          ${progress}
+          ${actions}
         </div>
       `;
     })
@@ -363,6 +419,61 @@ function renderAxis(axis, unlockedSet, newlySet) {
     <div class="thoughts-axis">
       <div class="thoughts-axis-head">${escapeHtml(AXIS_LABELS[axis])}</div>
       <div class="thoughts-tiers">${cards}</div>
+    </div>
+  `;
+}
+
+function renderThoughtActions(
+  thoughtId,
+  { isUnlocked, isResearching, isInternalized, canResearchMore },
+) {
+  if (!isUnlocked) return '';
+  if (isInternalized) {
+    return `
+      <div class="thought-actions">
+        <span class="tc-action internalize-tag">🧠 Interiorizzato</span>
+        <button class="tc-action forget" data-action="forget" data-thought-id="${escapeHtml(thoughtId)}">
+          Dimentica
+        </button>
+      </div>
+    `;
+  }
+  if (isResearching) {
+    return `
+      <div class="thought-actions">
+        <button class="tc-action forget" data-action="forget" data-thought-id="${escapeHtml(thoughtId)}">
+          Annulla ricerca
+        </button>
+      </div>
+    `;
+  }
+  // Unlocked but not yet started.
+  const disabled = canResearchMore ? '' : 'disabled';
+  const title = canResearchMore
+    ? 'Inizia internalizzazione (round-based)'
+    : 'Slot pieni — dimentica un thought per liberare slot';
+  return `
+    <div class="thought-actions">
+      <button class="tc-action assign" data-action="assign" data-thought-id="${escapeHtml(thoughtId)}" title="${escapeHtml(title)}" ${disabled}>
+        ✦ Inizia ricerca
+      </button>
+    </div>
+  `;
+}
+
+function renderProgress(research) {
+  const total = Number(research.cost_total) || 1;
+  const remaining = Number(research.cost_remaining) || 0;
+  const done = Math.max(0, total - remaining);
+  const pct = Math.max(0, Math.min(100, Math.round((done / total) * 100)));
+  const modeLabel = research.mode === 'rounds' ? 'round' : 'enc';
+  return `
+    <div class="thought-progress" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
+      <div class="thought-progress-fill" style="width: ${pct}%"></div>
+    </div>
+    <div class="thought-progress-label">
+      <span>${escapeHtml(String(done))}/${escapeHtml(String(total))} ${escapeHtml(modeLabel)}</span>
+      <span>${pct}%</span>
     </div>
   `;
 }
@@ -406,17 +517,16 @@ function render(unit, perActorEntry) {
   }
   const unlocked = new Set(perActorEntry.unlocked || []);
   const newly = new Set(perActorEntry.newly || []);
+  const internalized = new Set(perActorEntry.internalized || []);
+  const researchingMap = new Map((perActorEntry.researching || []).map((r) => [r.id, r]));
   // GAP-04 (ui-design-illuminator audit 2026-04-25): slot counter visible.
-  // Backend already ships slots_max + slots_used + internalized + researching;
-  // Phase 2 PR #1769. Cold-start player must know "can I research now?".
-  const slotsMax = Number(perActorEntry.slots_max || 3);
+  // Sprint 6: 8 slots default (Disco round-mode), shows progress bar per
+  // researching thought + Assign/Forget buttons inline per card.
+  const slotsMax = Number(perActorEntry.slots_max || 8);
   const slotsUsed = Number(perActorEntry.slots_used || 0);
-  const researchingCount = Array.isArray(perActorEntry.researching)
-    ? perActorEntry.researching.length
-    : 0;
-  const internalizedCount = Array.isArray(perActorEntry.internalized)
-    ? perActorEntry.internalized.length
-    : 0;
+  const researchingCount = researchingMap.size;
+  const internalizedCount = internalized.size;
+  const canResearchMore = slotsUsed < slotsMax;
   const slotIcons = Array.from({ length: slotsMax })
     .map((_, i) => (i < slotsUsed ? '●' : '○'))
     .join('');
@@ -426,31 +536,80 @@ function render(unit, perActorEntry) {
       <span class="slot-breakdown">· 🧠 ${internalizedCount} internalizzati · 🔬 ${researchingCount} in ricerca</span>
     </div>
   `;
+  const errorBanner = STATE.lastActionError
+    ? `<div class="thought-action-error" role="alert">${escapeHtml(STATE.lastActionError)}</div>`
+    : '';
+  const ctx = {
+    unlockedSet: unlocked,
+    newlySet: newly,
+    researchingMap,
+    internalizedSet: internalized,
+    canResearchMore,
+  };
   if (unlocked.size === 0) {
     body.innerHTML = `
+      ${errorBanner}
       ${slotCounter}
       <div class="thoughts-empty">
         Nessun thought ancora sbloccato. Gioca round con pattern MBTI consistente
         su E_I / S_N / J_P.
       </div>
-      ${['E_I', 'S_N', 'J_P'].map((a) => renderAxis(a, unlocked, newly)).join('')}
+      ${['E_I', 'S_N', 'J_P'].map((a) => renderAxis(a, ctx)).join('')}
     `;
+    bindActionHandlers(body, unit);
     return;
   }
   body.innerHTML =
-    slotCounter + ['E_I', 'S_N', 'J_P'].map((a) => renderAxis(a, unlocked, newly)).join('');
+    errorBanner + slotCounter + ['E_I', 'S_N', 'J_P'].map((a) => renderAxis(a, ctx)).join('');
+  bindActionHandlers(body, unit);
 }
 
-export async function openThoughtsPanel() {
-  const overlay = buildOverlay();
-  overlay.classList.add('visible');
+function bindActionHandlers(body, unit) {
+  const buttons = body.querySelectorAll('button.tc-action[data-action]');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', async (ev) => {
+      ev.stopPropagation();
+      const action = btn.getAttribute('data-action');
+      const thoughtId = btn.getAttribute('data-thought-id');
+      if (!unit || !thoughtId) return;
+      await handleThoughtAction(action, unit.id, thoughtId);
+    });
+  });
+}
+
+async function handleThoughtAction(action, unitId, thoughtId) {
+  const sid = STATE.getSessionId();
+  if (!sid) return;
+  STATE.lastActionError = null;
+  let res;
+  try {
+    if (action === 'assign') {
+      res = await api.thoughtsResearch(sid, unitId, thoughtId, 'rounds');
+    } else if (action === 'forget') {
+      res = await api.thoughtsForget(sid, unitId, thoughtId);
+    } else {
+      return;
+    }
+  } catch (err) {
+    STATE.lastActionError = `Errore di rete: ${err && err.message ? err.message : err}`;
+    await refreshPanel();
+    return;
+  }
+  if (!res || !res.ok) {
+    const errMsg = res?.data?.error || res?.error || 'errore sconosciuto';
+    STATE.lastActionError = `Azione "${action}" rifiutata: ${errMsg}`;
+  }
+  await refreshPanel();
+}
+
+async function refreshPanel() {
   const sid = STATE.getSessionId();
   const unit = STATE.getSelectedUnit();
   if (!sid) {
     render(unit, null);
     return;
   }
-  const res = await api.thoughts(sid);
+  const res = await api.thoughtsList(sid);
   if (!res.ok || !res.data) {
     render(unit, null);
     return;
@@ -459,6 +618,13 @@ export async function openThoughtsPanel() {
   const uid = unit?.id || null;
   const entry = uid ? res.data.per_actor?.[uid] : null;
   render(unit, entry);
+}
+
+export async function openThoughtsPanel() {
+  const overlay = buildOverlay();
+  overlay.classList.add('visible');
+  STATE.lastActionError = null;
+  await refreshPanel();
 }
 
 export function closeThoughtsPanel() {
