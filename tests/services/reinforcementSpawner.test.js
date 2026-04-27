@@ -196,6 +196,50 @@ test('tick returns no_entry_tiles when entry list empty', () => {
   assert.equal(res.reason, 'no_entry_tiles');
 });
 
+test('Sprint 2 §II — biomeConfig derived from encounter.biome_id (universal initial wave)', () => {
+  // Sprint 2 §II — encounter.biome_id only (canonical YAML) → bias must engage.
+  // Pre-fix: biomeConfig was always null, role_templates loader skipped.
+  // Post-fix: biomeConfig fallback synthesized from biome_id → bias active.
+  const session = mockSession({ pressure: 95 }); // Apex budget 4 to trigger picks
+  const enc = mockEncounter({
+    biome_id: 'biome_test_sprint2',
+    reinforcement_pool: [
+      { unit_id: 'fungal_drone', weight: 1, max_spawns: 5, tags: ['fungal', 'spore'] },
+      { unit_id: 'plain_minion', weight: 1, max_spawns: 5, tags: ['neutral'] },
+    ],
+    reinforcement_entry_tiles: [
+      [9, 9],
+      [8, 9],
+      [9, 8],
+      [8, 8],
+    ],
+    affixes: ['spore_diluite'], // Should boost fungal_drone via tag match
+  });
+  // Pass affixes via encounter (canonical YAML path).
+  const res = tick(session, enc, { rng: () => 0.05 });
+  assert.equal(res.budget_used, 4, '4 spawns at Apex');
+  // Affix bias should preferentially pick fungal_drone (low rng + boosted weight).
+  const fungalSpawns = res.spawned.filter((s) => s.unit_id === 'fungal_drone').length;
+  assert.ok(fungalSpawns >= 1, 'biome bias picks fungal_drone via spore_diluite affix');
+});
+
+test('Sprint 2 §II — biomeConfig fallback null when no biome_id + no biome', () => {
+  const session = mockSession({ pressure: 95 });
+  const enc = mockEncounter({
+    reinforcement_pool: [{ unit_id: 'm', weight: 1, max_spawns: 5 }],
+    reinforcement_entry_tiles: [
+      [9, 9],
+      [8, 9],
+      [9, 8],
+      [8, 8],
+    ],
+  });
+  // No biome / biome_id → biomeConfig stays null → bias skipped, no crash.
+  const res = tick(session, enc, { rng: () => 0.5 });
+  assert.equal(res.budget_used, 4);
+  assert.ok(res.spawned.every((s) => s.unit_id === 'm'));
+});
+
 test('_internals: manhattanDistance', () => {
   assert.equal(_internals.manhattanDistance([0, 0], [3, 4]), 7);
   assert.equal(_internals.manhattanDistance([5, 5], [5, 5]), 0);
