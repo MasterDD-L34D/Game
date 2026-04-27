@@ -22,6 +22,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const yaml = require('js-yaml');
 
+// Sprint γ Tech Baseline (Frostpunk pattern §5) — dirty flag fast path.
+// Cached evaluateAttackTraits result reused se actor+target traits non sono
+// mutati. Cache key per attack-result hash. Soft-fail safe (always recompute
+// se cache miss o invalid input).
+const dirtyFlagTracker = require('./perf/dirtyFlagTracker');
+
 const DEFAULT_REGISTRY_PATH = path.resolve(
   __dirname,
   '..',
@@ -283,6 +289,22 @@ function evaluateSingleTrait({ traitId, definition, actor, target, attackResult,
 }
 
 function evaluateAttackTraits({ registry, actor, target, attackResult, allUnits = [] }) {
+  // Sprint γ — dirty flag fast path (Frostpunk §5).
+  // Skip recompute se actor.traits e target.traits non dirty AND cache exists.
+  // Cache key tied to result + mos (granular invalidation).
+  const cacheKey = `${attackResult?.result || 'na'}_${attackResult?.mos ?? 0}`;
+  const actorClean =
+    actor && !dirtyFlagTracker.isDirty(actor, 'traits') && actor._trait_eval_cache?.[cacheKey];
+  const targetClean =
+    target && !dirtyFlagTracker.isDirty(target, 'traits') && target._trait_eval_cache?.[cacheKey];
+  if (actorClean && targetClean) {
+    return {
+      trait_effects: [...actorClean.trait_effects, ...targetClean.trait_effects],
+      damage_modifier: actorClean.damage_modifier + targetClean.damage_modifier,
+      _cache_hit: true,
+    };
+  }
+
   const traitEffects = [];
   let damageModifier = 0;
   const ctx = { allUnits };
