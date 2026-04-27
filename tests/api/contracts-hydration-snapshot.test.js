@@ -47,11 +47,11 @@ test('hydration snapshot aggrega correttamente resistances per canale', () => {
   const party02 = state.units.find((u) => u.id === 'party-02');
   assert.ok(party02, 'party-02 presente');
   // mantello_meteoritico: fisico +20, fuoco +20
-  // sangue_piroforico: fuoco +20
-  // Atteso aggregato: fisico 20, fuoco 40
+  // sangue_piroforico: fuoco +10 (post nerf #1869 — was +20 pre-balance audit)
+  // Atteso aggregato: fisico 20, fuoco 30
   const byChannel = Object.fromEntries(party02.resistances.map((r) => [r.channel, r.modifier_pct]));
   assert.equal(byChannel.fisico, 20);
-  assert.equal(byChannel.fuoco, 40);
+  assert.equal(byChannel.fuoco, 30);
 });
 
 test('hydration snapshot propaga canale ionico (criostasi_adattiva) su party-03', () => {

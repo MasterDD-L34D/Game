@@ -23,7 +23,8 @@ test('GET /api/tutorial/enc_tutorial_01 returns valid scenario', async (t) => {
   assert.equal(res.status, 200);
   assert.equal(res.body.id, 'enc_tutorial_01');
   assert.equal(res.body.name, 'Primi Passi nella Savana');
-  assert.equal(res.body.objective, 'elimination');
+  // PR #1871 (2026-04-25) — objective JS string promoted to schema object {type, ...}.
+  assert.equal(res.body.objective?.type ?? res.body.objective, 'elimination');
   assert.equal(res.body.grid_size, 6);
   assert.ok(Array.isArray(res.body.units));
   assert.equal(res.body.units.length, 4);
