@@ -14,6 +14,12 @@ export function setCodexSessionId(sid) {
   _currentSessionId = sid;
 }
 
+// Sprint 3 §I (2026-04-27) — campaign_id holder for glyph progression.
+let _currentCampaignId = null;
+export function setCodexCampaignId(cid) {
+  _currentCampaignId = cid;
+}
+
 // Glossario terms — canonical meccanica Evo-Tactics.
 const GLOSSARIO = [
   {
@@ -171,6 +177,7 @@ function getOrCreatePanel() {
       </div>
       <nav class="codex-tabs" role="tablist">
         <button class="codex-tab active" data-tab="pagine" role="tab">📜 Pagine</button>
+        <button class="codex-tab" data-tab="glifi" role="tab">⌬ Glifi</button>
         <button class="codex-tab" data-tab="tips" role="tab">💡 Tips</button>
         <button class="codex-tab" data-tab="glossario" role="tab">📖 Glossario</button>
         <button class="codex-tab" data-tab="abilita" role="tab">⚔ Abilità</button>
@@ -178,6 +185,7 @@ function getOrCreatePanel() {
       </nav>
       <div class="codex-panel-body">
         <div class="codex-tab-content" data-tab-content="pagine"></div>
+        <div class="codex-tab-content hidden" data-tab-content="glifi"></div>
         <div class="codex-tab-content hidden" data-tab-content="tips"></div>
         <div class="codex-tab-content hidden" data-tab-content="glossario"></div>
         <div class="codex-tab-content hidden" data-tab-content="abilita"></div>
@@ -211,10 +219,80 @@ function renderTabContent(tabName) {
   const container = document.querySelector(`[data-tab-content="${tabName}"]`);
   if (!container) return;
   if (tabName === 'pagine') renderPagineTab(container);
+  else if (tabName === 'glifi') renderGlifiTab(container);
   else if (tabName === 'tips') renderTipsTab(container);
   else if (tabName === 'glossario') renderGlossarioTab(container);
   else if (tabName === 'abilita') renderAbilitaTab(container);
   else if (tabName === 'statuses') renderStatusesTab(container);
+}
+
+// Sprint 3 §I (2026-04-27) — Glyph progression tab. Tunic decipher pattern:
+// glyphs unlock via gameplay events (kill_species, enter_biome, ecc).
+// Source: data/core/codex/tunic_glyphs.yaml + apps/backend/services/codex/tunicGlyphs.js.
+function renderGlifiTab(el) {
+  if (!_currentCampaignId) {
+    el.innerHTML = `
+      <p class="codex-intro">Avvia una campagna per consultare la lingua degli antichi (Glifi A.L.I.E.N.A.).</p>
+    `;
+    return;
+  }
+  el.innerHTML = `<p class="codex-intro">Caricamento glifi...</p>`;
+  api
+    .codexGlyphs(_currentCampaignId)
+    .then((r) => {
+      if (!r.ok) {
+        el.innerHTML = `<p class="codex-intro">Errore caricamento glifi: ${r.data?.error || r.status}</p>`;
+        return;
+      }
+      const glyphs = Array.isArray(r.data?.glyphs) ? r.data.glyphs : [];
+      const counters = r.data?.counters || {};
+      const unlocked = Number(r.data?.unlocked_count || 0);
+      const total = Number(r.data?.total_count || glyphs.length);
+      const counterRows = Object.entries(counters)
+        .map(([ev, n]) => `<li><code>${ev}</code> · <strong>${n}</strong></li>`)
+        .join('');
+      el.innerHTML = `
+        <p class="codex-intro">
+          Lingua A.L.I.E.N.A. — ${unlocked}/${total} glifi decifrati.
+          Ogni glifo si rivela accumulando eventi specifici (uccidi specie, entra biomi, applica trait).
+        </p>
+        ${
+          counterRows
+            ? `<details class="codex-glyph-counters" open>
+                <summary><strong>Contatori campagna</strong></summary>
+                <ul class="codex-glyph-counter-list">${counterRows}</ul>
+              </details>`
+            : ''
+        }
+        <ul class="codex-glyph-list">
+          ${glyphs
+            .map((g) => {
+              const cls = g.unlocked ? 'codex-glyph unlocked' : 'codex-glyph locked';
+              const sym = g.glyph || '?';
+              const label = g.label || g.id;
+              const prog = g.progress || {};
+              const meaning = g.unlocked
+                ? `<div class="codex-glyph-meaning">${g.description || ''}</div>`
+                : `<div class="codex-glyph-hint">🔒 ${g.hint_unlock || ''} ${
+                    prog.threshold
+                      ? `<span class="codex-glyph-progress">(${prog.current || 0}/${prog.threshold})</span>`
+                      : ''
+                  }</div>`;
+              return `<li class="${cls}" data-glyph-id="${g.id}">
+                <div class="codex-glyph-header">
+                  <span class="codex-glyph-symbol" aria-hidden="true">${g.unlocked ? sym : '███'}</span>
+                  <strong class="codex-glyph-name">${label}</strong>
+                </div>
+                ${meaning}
+              </li>`;
+            })
+            .join('')}
+        </ul>
+      `;
+    })
+    .catch((err) => {
+      el.innerHTML = `<p class="codex-intro">Errore: ${err?.message || err}</p>`;
+    });
 }
 
 // Bundle B.3 — Pagine (decipher tab). Fetch da /api/v1/codex/pages?session_id=...

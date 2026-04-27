@@ -90,6 +90,18 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ session_id: sid, page_id: pageId, trigger_data: triggerData }),
     }),
+  // Sprint 3 §I (2026-04-27) — Tunic glyph progression (campaign-scope).
+  codexGlyphs: (campaignId) =>
+    jsonFetch(`/api/codex/glyphs?campaign_id=${encodeURIComponent(campaignId || '')}`),
+  codexGlyphIncrement: (campaignId, event, delta = 1) =>
+    jsonFetch('/api/codex/glyphs/increment', {
+      method: 'POST',
+      body: JSON.stringify({ campaign_id: campaignId, event, delta }),
+    }),
+  codexGlyphPage: (campaignId, pageId) =>
+    jsonFetch(
+      `/api/codex/page/${encodeURIComponent(pageId)}?campaign_id=${encodeURIComponent(campaignId || '')}`,
+    ),
   commitRound: (sid, autoResolve = true) =>
     jsonFetch('/api/session/commit-round', {
       method: 'POST',

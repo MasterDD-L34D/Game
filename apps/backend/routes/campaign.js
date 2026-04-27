@@ -25,6 +25,8 @@ const {
   listCampaignsForPlayer,
   updateCampaign,
   recordChapter,
+  recordPermanentFlag,
+  getPermanentFlag,
 } = require('../services/campaign/campaignStore');
 const {
   loadCampaign: loadCampaignDef,
@@ -399,6 +401,52 @@ function createCampaignRouter(options = {}) {
       next_encounter_id: nextEncId,
       branch_key,
     });
+  });
+
+  // Sprint 3 §III (2026-04-27) — Wildermyth choice→permanent flag.
+  // POST /api/campaign/flag/record { id, key, value?, narrative?, source_chapter? }
+  router.post('/campaign/flag/record', (req, res) => {
+    const { id, key, value, narrative, source_chapter, source_act } = req.body || {};
+    if (!id) return res.status(400).json({ error: 'id richiesto' });
+    if (!key || typeof key !== 'string')
+      return res.status(400).json({ error: 'key richiesto (string)' });
+    const campaign = getCampaign(id);
+    if (!campaign) return res.status(404).json({ error: 'campaign non trovato' });
+    const updated = recordPermanentFlag(id, {
+      key,
+      value: value !== undefined ? value : true,
+      narrative: narrative || null,
+      source_chapter: source_chapter ?? null,
+      source_act: source_act ?? null,
+    });
+    return res.json({
+      campaign_id: id,
+      flag: updated.permanentFlags.find((f) => f.key === key),
+      total_flags: updated.permanentFlags.length,
+    });
+  });
+
+  // GET /api/campaign/:id/flags — list all permanent flags
+  router.get('/campaign/:id/flags', (req, res) => {
+    const id = req.params.id;
+    const campaign = getCampaign(id);
+    if (!campaign) return res.status(404).json({ error: 'campaign non trovato' });
+    return res.json({
+      campaign_id: id,
+      flags: campaign.permanentFlags || [],
+      total: (campaign.permanentFlags || []).length,
+    });
+  });
+
+  // GET /api/campaign/:id/flag/:key — query single flag
+  router.get('/campaign/:id/flag/:key', (req, res) => {
+    const flag = getPermanentFlag(req.params.id, req.params.key);
+    if (!flag) {
+      return res.status(404).json({
+        error: `flag '${req.params.key}' non trovato per campaign '${req.params.id}'`,
+      });
+    }
+    return res.json({ campaign_id: req.params.id, flag });
   });
 
   // POST /api/campaign/end

@@ -1153,6 +1153,90 @@ canvas#grid:hover {
   border-left: 2px solid #8b6fb0;
 }
 
+/* Sprint 3 §I (2026-04-27) — Tunic glyph progression list. */
+.codex-glyph-counters {
+  margin: 8px 0 12px;
+  padding: 6px 10px;
+  background: rgba(139, 111, 176, 0.08);
+  border-left: 2px solid #8b6fb0;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+.codex-glyph-counter-list {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.codex-glyph-counter-list code {
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+.codex-glyph-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.codex-glyph {
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+.codex-glyph.unlocked {
+  border-color: #6fb04a;
+  background: rgba(111, 176, 74, 0.06);
+}
+.codex-glyph.locked {
+  opacity: 0.7;
+}
+.codex-glyph-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.codex-glyph-symbol {
+  font-size: 1.6em;
+  line-height: 1;
+  width: 1.4em;
+  text-align: center;
+  color: #d4b8e8;
+}
+.codex-glyph.locked .codex-glyph-symbol {
+  letter-spacing: -2px;
+  font-size: 1em;
+  opacity: 0.5;
+}
+.codex-glyph-name {
+  font-size: 0.95em;
+}
+.codex-glyph-meaning {
+  font-size: 0.85em;
+  line-height: 1.4;
+  color: var(--text);
+  opacity: 0.85;
+}
+.codex-glyph-hint {
+  font-size: 0.8em;
+  font-style: italic;
+  color: #d4b8e8;
+  padding: 4px 6px;
+  background: rgba(139, 111, 176, 0.1);
+  border-left: 2px solid #8b6fb0;
+}
+.codex-glyph-progress {
+  font-style: normal;
+  font-weight: bold;
+  margin-left: 4px;
+  opacity: 0.9;
+}
+
 /* Bundle B.2 — Undo button (TBW Tactical Breach Wizards pattern). */
 .undo-btn {
   background: #4a3a5a !important;
