@@ -92,6 +92,7 @@ const STATUS_DURATION_CAPS = {
   stunned: 3,
   confused: 3,
   bleeding: 5,
+  slowed: 3,
   burning: 3,
   chilled: 2,
   disoriented: 1,
