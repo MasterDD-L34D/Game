@@ -93,6 +93,7 @@ const STATUS_DURATION_CAPS = {
   confused: 3,
   bleeding: 5,
   chilled: 2,
+  disoriented: 1,
 };
 // M7-#2 Phase B: damage scaling curves runtime (ADR-2026-04-20).
 const {
@@ -482,6 +483,11 @@ function createSessionRouter(options = {}) {
     if (chilledPenalty > 0) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - chilledPenalty;
     }
+    // Disoriented: -2 attack_mod_bonus (confusione sensoriale, dura 1 turno). Per-attack, revert post.
+    const disorientedPenalty = Number(actor.status?.disoriented) > 0 ? 2 : 0;
+    if (disorientedPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - disorientedPenalty;
+    }
 
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
@@ -520,6 +526,10 @@ function createSessionRouter(options = {}) {
     // Revert chilled attack penalty (per-attack, non-persistente).
     if (chilledPenalty > 0) {
       actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + chilledPenalty;
+    }
+    // Revert disoriented attack penalty (per-attack, non-persistente).
+    if (disorientedPenalty > 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + disorientedPenalty;
     }
     let damageDealt = 0;
     let killOccurred = false;
