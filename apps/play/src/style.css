@@ -2023,6 +2023,57 @@ body.ability-target-mode canvas#grid {
   color: var(--sistema);
 }
 
+/* Sprint 4 §I (2026-04-27) — Cogmind stratified tooltip expand layer.
+   Source: docs/research/2026-04-26-tier-b-extraction-matrix.md #3 Cogmind. */
+.unit-tooltip {
+  max-width: 360px; /* expand allows wider content */
+}
+.unit-tooltip .tt-section {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  font-size: 0.78rem;
+}
+.unit-tooltip .tt-section strong {
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+.unit-tooltip .tt-section code {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  color: var(--fg);
+}
+.unit-tooltip .tt-sentience {
+  display: inline-block;
+  background: rgba(212, 184, 232, 0.18);
+  color: #d4b8e8;
+  padding: 0 5px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-left: 4px;
+}
+.unit-tooltip .tt-expand-hint {
+  margin-top: 6px;
+  font-size: 0.7rem;
+  opacity: 0.55;
+  font-style: italic;
+}
+.unit-tooltip .tt-expand-hint.open {
+  color: var(--accent);
+  opacity: 0.9;
+}
+.unit-tooltip kbd {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 0.7rem;
+  font-family: monospace;
+}
+
 /* Help open button — top-right of header */
 #help-open {
   background: var(--cell);

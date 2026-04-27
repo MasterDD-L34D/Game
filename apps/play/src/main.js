@@ -479,7 +479,39 @@ function findUnitAt(x, y) {
 }
 
 // W2.5 — Hover tooltip su canvas: intent SIS, HP/AP, job, status
+// Sprint 4 §I (2026-04-27) — Cogmind stratified tooltip pattern (Tier B #3).
+// Source: docs/research/2026-04-26-tier-b-extraction-matrix.md.
+// Pattern: BASE info sempre visibile + EXPAND on hold/Shift per dettagli
+// (trait list, resistances, AP cost breakdown). UI a strati = leggibilità.
 const tooltipEl = document.getElementById('unit-tooltip');
+let _tooltipExpanded = false;
+
+function _buildExpandedSection(unit) {
+  // Cogmind expand: trait list (top 6 + count rest) + resistances + ability cost.
+  const traits = Array.isArray(unit.traits) ? unit.traits : [];
+  const headTraits = traits.slice(0, 6);
+  const rest = Math.max(0, traits.length - 6);
+  const traitsTxt = headTraits.length
+    ? `<div class="tt-section"><strong>Trait</strong> · ${headTraits
+        .map((t) => `<code>${String(t).replace(/_/g, ' ')}</code>`)
+        .join(', ')}${rest > 0 ? ` <em>+${rest}</em>` : ''}</div>`
+    : '';
+  const resistances = Array.isArray(unit._resistances) ? unit._resistances : [];
+  const resTxt = resistances.length
+    ? `<div class="tt-section"><strong>Resist</strong> · ${resistances
+        .filter((r) => r && r.modifier_pct != null && r.modifier_pct !== 0)
+        .map((r) => `${r.channel} ${r.modifier_pct > 0 ? '+' : ''}${r.modifier_pct}%`)
+        .join(' · ')}</div>`
+    : '';
+  const sentience = unit.sentience_tier ? `T${String(unit.sentience_tier).replace(/^T/, '')}` : '';
+  const species = unit.species_id || unit.species || '';
+  const speciesTxt = species
+    ? `<div class="tt-section"><strong>Specie</strong> · ${species}${sentience ? ` <span class="tt-sentience">${sentience}</span>` : ''}</div>`
+    : '';
+  const phase = unit.lifecycle_phase || unit.phase || '';
+  const phaseTxt = phase ? `<div class="tt-section"><strong>Fase</strong> · ${phase}</div>` : '';
+  return `${speciesTxt}${phaseTxt}${traitsTxt}${resTxt}`;
+}
 
 function buildUnitTooltip(unit) {
   if (!unit) return '';
@@ -518,13 +550,52 @@ function buildUnitTooltip(unit) {
       intentBlock = `<span class="tt-intent">✊ Intento: attacco</span>`;
     }
   }
+  // Sprint 4 §I — Cogmind expand hint (Shift) for stratified detail layer.
+  const expandHint = _tooltipExpanded
+    ? `<div class="tt-expand-hint open"><kbd>Shift</kbd> rilascia per chiudere</div>`
+    : `<div class="tt-expand-hint">Tieni <kbd>Shift</kbd> per dettagli</div>`;
+  const expanded = _tooltipExpanded ? _buildExpandedSection(unit) : '';
   return `
     <strong>${unit.id}</strong>
     <div class="tt-faction-${faction}">${factionLabel} · <em>${job}</em></div>
     <div>HP ${hp} · AP ${ap}</div>
     ${statusTxt ? `<div>${statusTxt}</div>` : ''}
     ${intentBlock}
+    ${expanded}
+    ${expandHint}
   `;
+}
+
+// Sprint 4 §I — Shift toggle: tooltip expand ON while held.
+window.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Shift' && !_tooltipExpanded) {
+    _tooltipExpanded = true;
+    // Re-render current tooltip if visible.
+    if (tooltipEl && !tooltipEl.classList.contains('hidden')) {
+      const lastUnit = tooltipEl.dataset.lastUnitId;
+      if (lastUnit) {
+        const u = findUnitById(lastUnit);
+        if (u) tooltipEl.innerHTML = buildUnitTooltip(u);
+      }
+    }
+  }
+});
+window.addEventListener('keyup', (ev) => {
+  if (ev.key === 'Shift' && _tooltipExpanded) {
+    _tooltipExpanded = false;
+    if (tooltipEl && !tooltipEl.classList.contains('hidden')) {
+      const lastUnit = tooltipEl.dataset.lastUnitId;
+      if (lastUnit) {
+        const u = findUnitById(lastUnit);
+        if (u) tooltipEl.innerHTML = buildUnitTooltip(u);
+      }
+    }
+  }
+});
+
+function findUnitById(id) {
+  if (!state.world || !Array.isArray(state.world.units)) return null;
+  return state.world.units.find((u) => u && u.id === id) || null;
 }
 
 canvas.addEventListener('mousemove', (ev) => {
@@ -536,6 +607,7 @@ canvas.addEventListener('mousemove', (ev) => {
     return;
   }
   tooltipEl.innerHTML = buildUnitTooltip(unit);
+  tooltipEl.dataset.lastUnitId = unit.id;
   // M7 fix: boundary-aware positioning. Se tooltip esce da viewport
   // riposiziona a sx/sopra del cursore. Evita clip dietro canvas/panels.
   tooltipEl.classList.remove('hidden');

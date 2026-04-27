@@ -147,6 +147,63 @@ const RANGE_TINT = {
   attackBorder: 'rgba(255, 82, 82, 0.75)',
 };
 
+// Sprint 4 §II (2026-04-27) — Dead Space holographic AOE cone overlay.
+// Source: docs/research/2026-04-26-tier-s-extraction-matrix.md #11 Dead Space.
+// Pattern: shimmer + scanline + edge-glow per area abilità non-projettile.
+// Wire opportunity: ability cone telegraph (raggio + angle), AOE radius blast.
+const HOLO_TINT = {
+  fill: 'rgba(120, 220, 255, 0.18)', // ciano elettrico (Dead Space holo blue)
+  edge: 'rgba(180, 240, 255, 0.85)',
+  scanline: 'rgba(120, 220, 255, 0.45)',
+};
+
+/**
+ * Sprint 4 §II — Dead Space holographic AOE preview.
+ * Renders shimmer + scanline overlay on tiles array for ability telegraph.
+ *
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {Array<{x:number,y:number}>} tiles
+ * @param {number} gridH
+ * @param {object} [opts]
+ * @param {number} [opts.scanlinePhase=0] - animation phase for shimmer (0..1)
+ */
+export function drawHolographicAoe(ctx, tiles, gridH, opts = {}) {
+  if (!Array.isArray(tiles) || tiles.length === 0) return;
+  const phase = Number(opts.scanlinePhase) || 0;
+  ctx.save();
+  // Layer 1: holo fill on each tile.
+  ctx.fillStyle = HOLO_TINT.fill;
+  for (const t of tiles) {
+    if (!t) continue;
+    const yPx = gridH - 1 - t.y;
+    ctx.fillRect(t.x * CELL, yPx * CELL, CELL, CELL);
+  }
+  // Layer 2: scanline (horizontal sweep across covered tiles).
+  const minY = Math.min(...tiles.map((t) => gridH - 1 - t.y));
+  const maxY = Math.max(...tiles.map((t) => gridH - 1 - t.y));
+  const scanY = (minY + (maxY - minY + 1) * phase) * CELL;
+  ctx.strokeStyle = HOLO_TINT.scanline;
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 4]);
+  // Find x range from tiles for scanline width.
+  const minX = Math.min(...tiles.map((t) => t.x));
+  const maxX = Math.max(...tiles.map((t) => t.x));
+  ctx.beginPath();
+  ctx.moveTo(minX * CELL, scanY);
+  ctx.lineTo((maxX + 1) * CELL, scanY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  // Layer 3: edge-glow per tile.
+  ctx.strokeStyle = HOLO_TINT.edge;
+  ctx.lineWidth = 1.5;
+  for (const t of tiles) {
+    if (!t) continue;
+    const yPx = gridH - 1 - t.y;
+    ctx.strokeRect(t.x * CELL + 1, yPx * CELL + 1, CELL - 2, CELL - 2);
+  }
+  ctx.restore();
+}
+
 // QW4 (2026-04-26) — Lifecycle phase visual mapping. Skiv (Arenavenator vagans /
 // dune_stalker) è la creatura canonical: phases sono definite in
 // data/core/species/dune_stalker_lifecycle.yaml ma il sistema è multi-creature
@@ -1059,6 +1116,13 @@ export function render(canvas, state, highlight = {}) {
     drawThreatTileOverlay(ctx, highlight.threatPreview, h, state.units || []);
   }
 
+  // Sprint 4 §II (2026-04-27) — Dead Space holographic AOE telegraph.
+  // Wire: ability cone preview pre-attack via highlight.aoePreview (array {x,y}).
+  if (Array.isArray(highlight.aoePreview) && highlight.aoePreview.length > 0) {
+    const phase = (Date.now() / 800) % 1; // ~1.25 Hz scanline sweep
+    drawHolographicAoe(ctx, highlight.aoePreview, h, { scanlinePhase: phase });
+  }
+
   // Units
   for (const u of state.units || []) drawUnit(ctx, u, h, highlight);
 
@@ -1070,6 +1134,8 @@ export function render(canvas, state, highlight = {}) {
 }
 
 export function needsAnimFrame() {
+  // Sprint 4 §II — keep animating when an AOE preview is active (scanline sweep).
+  if (typeof window !== 'undefined' && window.__evoAoePreviewActive === true) return true;
   return hasActiveAnims();
 }
 
