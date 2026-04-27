@@ -406,7 +406,46 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 7 Beast Bond reactions)
+---
+
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 8 Ability r3/r4 tier — Tier S #6 closure 4/4)
+
+**Sessione 2026-04-27 Sprint 8 (autonomous, ~6h)**: AncientBeast Tier S #6 residuo finale Ability r3/r4 tier progressive — chiusura **100% Tier S #6** (4/4 pattern).
+
+**PR shipped** (1): [#1978](https://github.com/MasterDD-L34D/Game/pull/1978) — `data/core/jobs.yaml` v0.1.0 → v0.2.0 (21 → 35 base ability totali, +14 nuove: 2/job × 7 base job) con cost ladder canonical r1=3/r2=8/r3=14/r4=22 PI (curva quasi-quadratica). 5 nuovi test cost ladder + naming uniqueness + version bump + 1 e2e smoke (phantom_step) + ADR-2026-04-27-ability-r3-r4-tier + numeric-reference §12 + stato-arte §B.1.5 marked 0 residui.
+
+**14 ability nuove**:
+
+| Job        | r3             | r4                |
+| ---------- | -------------- | ----------------- |
+| skirmisher | phantom_step   | dervish_whirlwind |
+| vanguard   | aegis_stance   | bulwark_aegis     |
+| warden     | chain_shackles | void_collapse     |
+| artificer  | arcane_renewal | convergence_wave  |
+| invoker    | arcane_lance   | apocalypse_ray    |
+| ranger     | hunter_mark    | headshot          |
+| harvester  | vital_drain    | lifegrove         |
+
+**Vincolo runtime CRITICAL**: tutte le 14 ability nuove **riusano i 18 effect_type esistenti** in abilityExecutor.js. Zero nuovi runtime types, zero modifica all'executor — extension data-only.
+
+**Stato pillars post Sprint 8**:
+
+| #   | Pilastro          | Pre Sprint 8 | Post | Delta                                                                |
+| --- | ----------------- | :----------: | :--: | -------------------------------------------------------------------- |
+| P1  | Tattica leggibile |     🟢ⁿ      | 🟢ⁿ  | unchanged (Beast Bond Sprint 7 active)                               |
+| P3  | Specie×Job        |    🟢c++     | 🟢ⁿ  | **Rank progression complete (3→8→14→22 PI), reward curve canonical** |
+
+**Test baseline post-merge**: jobs 14/14 ✓ (was 9, +5) · abilityExecutor 36/36 ✓ (was 35, +1) · AI 382/382 ✓ zero regression · format/schema/governance verdi.
+
+**AncientBeast Tier S #6**: **100% closed** (channel resist #1964 + Beast Bond #1971 + wiki cross-link #1937 + r3/r4 progression #1978).
+
+**Handoff**: [`docs/planning/2026-04-27-sprint-8-ability-r3-r4-handoff.md`](docs/planning/2026-04-27-sprint-8-ability-r3-r4-handoff.md).
+
+---
+
+---
+
+## 🎮 Sprint context (precedente: 2026-04-27 — Sprint 7
 
 **Sessione 2026-04-27 Sprint 7 (autonomous, ~5h)**: AncientBeast Tier S #6 residuo Beast Bond — passive species-pair reaction parallel a M2 reactionEngine. Closes 3/4 Tier S #6 (Sprint 6 channel + Sprint 7 bond; Ability r3/r4 ~10h residuo).
 
