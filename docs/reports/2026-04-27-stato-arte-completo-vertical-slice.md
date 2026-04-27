@@ -238,10 +238,10 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Liberation campaign region map** (~15h) — region grid + liberation% counter. **In v3.7 §4**.
 - 🔴 **Haven recruitment radio passive growth** (~6h) — pool tick over campaign turns.
 
-#### B.1.8 — Disco Elysium (4 pattern, 1 residuo — ✅ 3/4 shipped)
+#### B.1.8 — Disco Elysium (4 pattern, 0 residui — ✅ 4/4 BUNDLE COMPLETO)
 - 🟢 **Thought Cabinet UI panel + cooldown round-based** (Sprint 6 2026-04-27, PR #1966 `584c54c2`) — 8 slot mentali, mode='rounds' default scala T1→3 / T2→6 / T3→9 round, end-of-round auto-tick via `applyEndOfRoundSideEffects`, Assign/Forget UI con progress bar, 76/76 test verdi. Adoption check scheduled 2026-05-11.
 - 🟢 **Internal voice 4-MBTI axes** (PR #1945 `de57432c` 2026-04-27) — narrative log debrief con voce-per-axis durante combat hint. Engine `apps/backend/services/narrative/innerVoice.js` + 18 voice templates `data/core/thoughts/inner_voices.yaml` + 135 test.
-- 🔴 **Skill check passive vs active popup** (~4h) — surface trigger via popup notification.
+- 🟢 **Skill check passive vs active popup** (Sprint 7 2026-04-27) — `apps/play/src/skillCheckPopup.js` consuma `world.events[].trait_effects` (già emesso da `evaluateAttackTraits`), filtra `triggered=true`, dedupes, schedula popup `[NOME TRAIT]` floating Disco-style sopra l'actor con stagger 220ms. Wired in `main.js processNewEvents` post damage popup. 22/22 test, smoke E2E preview validato.
 - 🟢 **Day/time pacing flavor copy** — Sprint 1 §I shipped (PR #1934: `formatDayPacing(currentChapter, currentAct)` in `apps/backend/routes/campaign.js` + 4 response sites: defeat retry + choice_node + advance + act_advanced. "Giorno N di Aurora" diegetic copy).
 
 #### B.1.9 — AI War: Fleet Command (3 pattern, 0 residui — ✅ tutti shipped)
@@ -391,6 +391,7 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
     ├─ MBTI tag debrief diegetic (Disco ✅ #1897)
     ├─ Thought Cabinet UI panel + cooldown round-based (Disco ✅ Sprint 6 PR #1966)
     ├─ Internal voice 4-MBTI axes diegetic (Disco ✅ PR #1945)
+    ├─ Skill check passive→active popup (Disco ✅ Sprint 7 — `skillCheckPopup.js`)
     ├─ XP grant + perk pick (XCOM ✅ M13.P3 #1697)
     ├─ Officer Training School meta perks (XCOM EW, 🔴 10h) ← B.1.6
     ├─ Tri-Sorgente reward offer R/A/P softmax (✅ V2)

@@ -451,6 +451,23 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 7 Disco skill check popup — ✅ B.1.8 BUNDLE COMPLETO)
+
+**Sessione 2026-04-27 (Sprint 7, Disco B.1.8 #3 chiusura — bundle 4/4 shipped)**: stato-arte §B.1.8 closed completely. Bundle Disco Elysium Tier S 4/4 shipped: #1 Thought Cabinet (PR #1966), #2 Internal voice (PR #1945), **#3 Skill check popup (this sprint)**, #4 Day pacing (PR #1934).
+
+**Highlights**:
+
+- **Module nuovo** [`apps/play/src/skillCheckPopup.js`](apps/play/src/skillCheckPopup.js): pure `buildSkillCheckPayload(traitEffects)` + side-effect `renderSkillCheckPopups(event, actor, pushPopupFn, opts)`. Filtra `triggered=true`, dedupes, formatta in caps Disco-style `[NOME TRAIT]`, schedula popup floating sopra l'actor con stagger 220ms + y-offset crescente.
+- **Wire** [`apps/play/src/main.js processNewEvents`](apps/play/src/main.js): post damage popup, chiamata `renderSkillCheckPopups(ev, actor, pushPopup)` su attack/ability events. Zero backend change — `evaluateAttackTraits` già emette `trait_effects[]` in event payload (verificato live via `/api/session/state`).
+- **Test**: 22/22 nuovi `tests/play/skillCheckPopup.test.js` (3 describe blocks: formatTraitLabel + buildSkillCheckPayload pure transform + renderSkillCheckPopups side effect orchestration). AI baseline 363/363 zero regression. Format prettier verde + governance 0 errors.
+- **Smoke E2E preview**: backend + play servers live, module import verificato, payload transform su 3 trait_effects → 2 popup correttamente filtrati (1 not-triggered escluso), pushPopup signature wire OK.
+
+**Pillar P4 status**: 🟢 def → **🟢 def++ (Disco bundle saturated)**. Sprint chiude tutti i 4 pattern Disco Tier S residui.
+
+**Next session candidato**: P4 non-Disco — XCOM EW Officer Training School ~10h (B.1.6) o Wildermyth layered storylets ~10h (B.1.11). Oppure P3 ability r3/r4 tier ~10h.
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 6 Thought Cabinet UI panel + cooldown round-based — ✅ MERGED #1966)
 
 **Sessione 2026-04-27 (Sprint 6, Disco Tier S #9 chiusura)**: stato-arte §B.1.8 pattern P0 chiuso. Engine + bridge + UI + tests + smoke E2E live, 76/76 thoughts test verdi, 353/353 AI baseline zero regression.
