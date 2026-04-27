@@ -407,6 +407,12 @@ function publicSessionView(session) {
       session.biome_modifiers && typeof session.biome_modifiers === 'object'
         ? session.biome_modifiers
         : { diff_base: 1.0, hp_mult: 1.0, pressure_mult: 0, pressure_initial_bonus: 0 },
+    // Sprint 11 (Surface-DEAD #6): expose biome_id per HUD biome chip surface.
+    // session.biome_id viene popolato in /start dal body biome_id raw. Fallback
+    // a session.encounter?.biome_id quando encounter_id YAML loader popola
+    // encounter ma biome_id raw non passato (e.g. tutorial UI flow).
+    // Null se nessun biome dichiarato (legacy tutorial / scenario JS senza biome).
+    biome_id: session.biome_id || session.encounter?.biome_id || null,
     // OD-001 Path A Sprint A — Nido unlock flag for HUD btn visibility.
     nido_unlocked: checkNidoUnlock(session),
   };

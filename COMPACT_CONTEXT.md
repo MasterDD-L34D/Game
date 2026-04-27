@@ -8,8 +8,12 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v14 (post Sprint 10 QBN narrative debrief beats — Surface-DEAD #7 chiuso 2026-04-27)
-- **Ultimo aggiornamento**: 2026-04-27 (Sprint 10 §C.2 Surface-DEAD #7 closure — `qbnDebriefRender.js` + `setNarrativeEvent` setter su debriefPanel + phaseCoordinator pipe `bridge.lastDebrief.narrative_event` + CSS journal style + 15/15 test + smoke E2E preview validato. Status §C.2: 5/8 chiusi.)
+- **Versione compact**: v15 (post Sprint 11 Biome chip HUD — Surface-DEAD #6 chiuso 2026-04-27, 6/8 sweep)
+- **Ultimo aggiornamento**: 2026-04-27 (Sprint 11 §C.2 Surface-DEAD #6 closure — `biomeChip.js` + `#biome-chip` HUD slot + main.js refresh wire + CSS pill style + biome_id propagato in publicSessionView fallback session.encounter?.biome_id + 17/17 test + smoke E2E preview validato `🌾 Savana` chip live. Status §C.2: 6/8 chiusi.)
+
+## ⚡ TL;DR per ripartire (post Sprint 11 — Surface-DEAD #6 chiuso, 6/8 sweep)
+
+**Sprint 11 autonomous shipped** in continuation: biome chip HUD live next to objective bar. Backend `biomeSpawnBias.js` (reinforcement spawn boost) era LIVE ma player non vedeva mai il bioma corrente — perdeva lettura tattica ambientale (specie endemiche, hazard, strategia). Backend `publicSessionView` extended con `biome_id: session.biome_id || session.encounter?.biome_id || null` (fallback a encounter YAML loader). Module nuovo `apps/play/src/biomeChip.js` (pure `labelForBiome` 11 canonical IT labels + `iconForBiome` emoji + `formatBiomeChip` HTML + side-effect `renderBiomeChip` idempotent + show/hide). HUD slot `<div id="biome-chip">` in header next to objective-bar. main.js `refreshBiomeChip()` wire on bootstrap + post-state-fetch. CSS pill style (rgba green-tinted bg + border + caps label). 17/17 test + AI 363/363 zero regression. Smoke E2E preview validato live: bootstrap enc_tutorial_01 → HUD chip `🌾 Savana` con tooltip "Biome: savana — vedi Codex per dettagli". **§C.2 Surface-DEAD: 6/8 chiusi** (#1 + #2 + #5 + #6 + #7 + #8). Residui solo #3 Spore mutation dots (15h authoring) + #4 Mating lifecycle wire (5h).
 
 ## ⚡ TL;DR per ripartire (post Sprint 10 — Surface-DEAD #7 chiuso)
 

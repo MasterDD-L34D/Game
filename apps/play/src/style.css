@@ -2061,6 +2061,42 @@ body.ability-target-mode canvas#grid {
   opacity: 0.55;
   font-style: italic;
 }
+/* Sprint 11 (Surface-DEAD #6) — Biome chip HUD surface. */
+.biome-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(34, 51, 34, 0.32);
+  border: 1px solid #4a5d3f;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c8d6c0;
+  letter-spacing: 0.02em;
+  cursor: help;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+  user-select: none;
+}
+.biome-chip.biome-hidden {
+  display: none;
+}
+.biome-chip:hover {
+  background: rgba(34, 51, 34, 0.48);
+  border-color: #6b8059;
+}
+.biome-chip .biome-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+.biome-chip .biome-label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.78rem;
+}
+
 /* Sprint 9 (Surface-DEAD #5) — Objective HUD top-bar. */
 .objective-bar {
   display: flex;
