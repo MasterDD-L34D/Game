@@ -16,9 +16,92 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const yaml = require('js-yaml');
 const { Story } = require('inkjs');
 
 const NARRATIVES_DIR = path.resolve(__dirname, '../../data/narrative');
+
+// 2026-04-27 Bundle B.1 — Citizen Sleeper-style drift briefing pack.
+// Lightweight YAML pack (3 scenarios × 3 variants) gated su MBTI T_F asse.
+// Separato da data/narrative/tutorial_briefings.yaml (engine briefingVariations
+// usa quello). Drift è gating dedicato player-aggregate, non per-replay.
+const DRIFT_BRIEFINGS_DIR = path.resolve(__dirname, '../../data/core/narrative/briefings');
+const DRIFT_BRIEFINGS_DEFAULT = path.join(DRIFT_BRIEFINGS_DIR, 'drift_briefings.yaml');
+
+let _driftPackCache = null;
+
+function _loadDriftPack(pathOverride = null) {
+  if (pathOverride === null && _driftPackCache !== null) return _driftPackCache;
+  const target = pathOverride || DRIFT_BRIEFINGS_DEFAULT;
+  try {
+    const raw = fs.readFileSync(target, 'utf-8');
+    const parsed = yaml.load(raw);
+    if (!parsed || typeof parsed !== 'object' || !parsed.scenarios) return null;
+    if (pathOverride === null) _driftPackCache = parsed;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+/** Test hook — invalida cache pack drift. */
+function _resetDriftPackCache() {
+  _driftPackCache = null;
+}
+
+/**
+ * Citizen Sleeper drift gating: classifica un VC snapshot in 3 varianti
+ * basate sul T_F MBTI asse aggregato (mean across actors). Threshold simmetrici
+ * 0.65 / 0.35 coerenti con dead-band MBTI iter1 (vedi services/vcScoring.js
+ * deriveMbtiType, events_count<30 → 0.35/0.65).
+ *
+ * @param {object} vcSnapshot — snapshot da buildVcSnapshot (può essere null)
+ * @returns {'tech'|'empatic'|'neutral'} variant key
+ */
+function classifyDriftVariant(vcSnapshot) {
+  const perActor = vcSnapshot?.per_actor;
+  if (!perActor || typeof perActor !== 'object') return 'neutral';
+  const tfValues = [];
+  for (const actor of Object.values(perActor)) {
+    const tf = actor?.mbti_axes?.T_F;
+    if (tf && typeof tf.value === 'number' && Number.isFinite(tf.value)) {
+      tfValues.push(tf.value);
+    }
+  }
+  if (tfValues.length === 0) return 'neutral';
+  const mean = tfValues.reduce((a, b) => a + b, 0) / tfValues.length;
+  if (mean > 0.65) return 'tech';
+  if (mean < 0.35) return 'empatic';
+  return 'neutral';
+}
+
+/**
+ * Bundle B.1 main: seleziona briefing pre-mission per (scenario, vcSnapshot).
+ * Pattern: Citizen Sleeper drift dialogue gated su MBTI T_F.
+ *
+ * @param {string} scenarioId — es. "enc_tutorial_01"
+ * @param {object|null} vcSnapshot — output di buildVcSnapshot (null OK → neutral)
+ * @param {object} [opts]
+ * @param {string|null} [opts.fallback] — testo da ritornare se pack manca
+ * @param {object|null} [opts.pack] — pack precaricato (test hook)
+ * @returns {{ variant: 'tech'|'empatic'|'neutral', text: string, source: 'drift'|'fallback' }|null}
+ */
+function selectDriftBriefing(scenarioId, vcSnapshot, opts = {}) {
+  const fallback = opts.fallback ?? null;
+  const pack = opts.pack || _loadDriftPack();
+  const variant = classifyDriftVariant(vcSnapshot);
+  const stitches = pack?.scenarios?.[scenarioId]?.pre;
+  if (!stitches || typeof stitches !== 'object') {
+    return fallback ? { variant, text: fallback, source: 'fallback' } : null;
+  }
+  const text = stitches[variant] || stitches.neutral || fallback;
+  if (!text) return null;
+  return {
+    variant,
+    text: String(text).trim(),
+    source: pack ? 'drift' : 'fallback',
+  };
+}
 
 /**
  * Carica e inizializza una Story inkjs da file JSON.
@@ -203,6 +286,8 @@ function _resetMbtiPaletteCache() {
 
 module.exports = {
   NARRATIVES_DIR,
+  DRIFT_BRIEFINGS_DIR,
+  DRIFT_BRIEFINGS_DEFAULT,
   loadStory,
   bindSessionData,
   runUntilChoice,
@@ -212,5 +297,8 @@ module.exports = {
   listStories,
   tagDialogueLineWithMbti,
   extractMbtiAxisFromTags,
+  classifyDriftVariant,
+  selectDriftBriefing,
   _resetMbtiPaletteCache,
+  _resetDriftPackCache,
 };
