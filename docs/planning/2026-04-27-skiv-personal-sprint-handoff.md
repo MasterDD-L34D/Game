@@ -346,16 +346,16 @@ Push + PR title 'feat(skiv): Goal 4 — legacy death ritual choice (P2 cross-gen
 
 ### Phase 1 (G1 + G2 parallel)
 
-| Goal                           |   Status   | PR                                                | Notes                                                                                            |
-| ------------------------------ | :--------: | ------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| G1 Encounter Skiv solo vs pack | ✅ SHIPPED | [#1982](https://github.com/MasterDD-L34D/Game/pull/1982) | calibration N=20 win 45.0% in band 35-45%, 9/9 test, encounter wired via encounterLoader        |
+| Goal                           |   Status   | PR                                                       | Notes                                                                                              |
+| ------------------------------ | :--------: | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| G1 Encounter Skiv solo vs pack | ✅ SHIPPED | [#1982](https://github.com/MasterDD-L34D/Game/pull/1982) | calibration N=20 win 45.0% in band 35-45%, 9/9 test, encounter wired via encounterLoader           |
 | G2 Echolocation visual pulse   | ✅ SHIPPED | [#1977](https://github.com/MasterDD-L34D/Game/pull/1977) | senseReveal.js + drawEcholocationPulse + installEcholocationOverlay; 6/6 test, anti-pattern chiuso |
 
 ### Phase 2 (G3) — gated on Phase 1 merged
 
-| Goal                         |      Status       | PR  | Notes                                     |
-| ---------------------------- | :---------------: | --- | ----------------------------------------- |
-| G3 Thoughts ritual choice UI | ⬜ GATED on G1+G2 | —   | Depends on stable session.js post Phase 1 |
+| Goal                         |   Status   | PR                                                     | Notes                                                                                                                                                                                    |
+| ---------------------------- | :--------: | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| G3 Thoughts ritual choice UI | ✅ SHIPPED | [#TBD](https://github.com/MasterDD-L34D/Game/pull/TBD) | thoughtsRitualPanel.js + GET /thoughts/candidates (top-3 ranked) + auto-open trigger event 'research_completed' + 30s timer + irreversible session lock; 10/10 test, voice preview wired |
 
 ### Phase 3 (G4) — gated on G3 merged
 
