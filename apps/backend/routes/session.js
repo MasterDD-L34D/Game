@@ -417,6 +417,38 @@ function createSessionRouter(options = {}) {
       statusMods = { attackDelta: 0, defenseDelta: 0, log: [] };
     }
 
+    // Sprint 1 §I (2026-04-27) — Wesnoth time-of-day modifier (Tier S #5).
+    // Applies attack_mod + damage_mod based on actor.alignment vs encounter.time_of_day.
+    // Mirrors statusMods pattern (per-attack delta + revert post).
+    let timeMods = { attack_mod: 0, damage_mod: 0, log: '' };
+    try {
+      const { getTimeModifier } = require('../services/combat/timeOfDayModifier');
+      const timeOfDay = session?.encounter?.time_of_day || session?.time_of_day || 'day';
+      timeMods = getTimeModifier(actor, timeOfDay);
+      if (timeMods.attack_mod !== 0) {
+        actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) + timeMods.attack_mod;
+      }
+    } catch (err) {
+      timeMods = { attack_mod: 0, damage_mod: 0, log: '' };
+    }
+
+    // Sprint 1 §II (2026-04-27) — AI War Defender's advantage (Tier S #10).
+    // +1 attack_mod for SIS-defender vs player attacker. Asymmetric pattern.
+    // Stack with statusMods + timeMods (all per-attack delta).
+    let defenderAdv = { active: false, bonus: 0, reason: '' };
+    try {
+      const { getDefenderAdvantage } = require('../services/combat/defenderAdvantageModifier');
+      // Note: terrainCover passed as null — full terrain integration TBD next sprint.
+      defenderAdv = getDefenderAdvantage(actor, target, null);
+      if (defenderAdv.active && defenderAdv.bonus !== 0) {
+        // Defender bonus applies to TARGET's defense_mod_bonus (raises CD).
+        // Pattern: target = AI defender, attacker = player → CD goes up.
+        target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) + defenderAdv.bonus;
+      }
+    } catch (err) {
+      defenderAdv = { active: false, bonus: 0, reason: '' };
+    }
+
     const result = resolveAttack({ actor, target, rng });
     const evaluation = evaluateAttackTraits({
       registry: traitRegistry,
@@ -429,6 +461,13 @@ function createSessionRouter(options = {}) {
     // Revert enrage bonus post-attack (non-persistente, solo per questo hit)
     if (enrageApplied) {
       actor.mod = Number(actor.mod || 0) - enrageModBonus;
+    }
+    // Sprint 1 — Revert time-of-day + defender advantage (per-attack, non-persistent).
+    if (timeMods.attack_mod !== 0) {
+      actor.attack_mod_bonus = Number(actor.attack_mod_bonus || 0) - timeMods.attack_mod;
+    }
+    if (defenderAdv.active && defenderAdv.bonus !== 0) {
+      target.defense_mod_bonus = Number(target.defense_mod_bonus || 0) - defenderAdv.bonus;
     }
     // Revert status engine deltas (per-attack, non-persistente).
     if (statusMods.attackDelta !== 0) {

@@ -42,6 +42,33 @@ const { loadXpCurve } = require('../services/progression/progressionLoader');
 // Consumed frontend-side (formsPanel auto-open) + lobby campaign mirror.
 const PE_EVOLVE_TRIGGER_THRESHOLD = 8;
 
+// Sprint 1 §V (2026-04-27) — Disco Elysium day pacing flavor.
+// Source: docs/research/2026-04-26-tier-s-extraction-matrix.md #9 Disco.
+// Pattern: campaign progress shown as narrative "Day N of Aurora" beat.
+// Computed: currentChapter (0-indexed) → "Giorno N di Aurora" (1-indexed).
+// Variant text per ranges (early/mid/late) per atmospheric variation.
+function formatDayPacing(chapterIdx, currentAct) {
+  const day = Math.max(1, Number(chapterIdx) + 1);
+  const act = Math.max(1, Number(currentAct) + 1);
+  // Variants Disco-style: short title + flavor sub-line.
+  let title;
+  let flavor;
+  if (day <= 2) {
+    title = `Giorno ${day} di Aurora`;
+    flavor = 'Sole basso, sabbia che si scuote dai sogni.';
+  } else if (day <= 5) {
+    title = `Giorno ${day} di Aurora`;
+    flavor = 'Le ombre si allungano verso pattern non ancora letti.';
+  } else if (day <= 9) {
+    title = `Giorno ${day} di Aurora — Atto ${act}`;
+    flavor = 'Il bioma riconosce la creatura. Anche viceversa.';
+  } else {
+    title = `Giorno ${day} di Aurora — Atto ${act}`;
+    flavor = 'Il vento porta tracce di altre creature passate qui.';
+  }
+  return { day, act, title, flavor };
+}
+
 function computeEvolveOpportunity(outcome, peEarned) {
   const pe = Number(peEarned) || 0;
   const eligible = outcome === 'victory' && pe >= PE_EVOLVE_TRIGGER_THRESHOLD;
@@ -242,6 +269,10 @@ function createCampaignRouter(options = {}) {
     }
     const mpGrantsPayload = { mp_grants: mpGrants };
 
+    // Sprint 1 §V — Disco day pacing flavor (campaign narrative beat).
+    const dayPacing = formatDayPacing(campaign.currentChapter, campaign.currentAct);
+    const dayPacingPayload = { day_pacing: dayPacing };
+
     // Compute next state
     let updated;
     if (outcome !== 'victory') {
@@ -254,6 +285,7 @@ function createCampaignRouter(options = {}) {
         ...evolveFlags,
         ...xpGrantsPayload,
         ...mpGrantsPayload,
+        ...dayPacingPayload,
       });
     }
 
@@ -278,6 +310,7 @@ function createCampaignRouter(options = {}) {
         ...evolveFlags,
         ...xpGrantsPayload,
         ...mpGrantsPayload,
+        ...dayPacingPayload,
       });
     }
 
@@ -314,6 +347,7 @@ function createCampaignRouter(options = {}) {
         ...evolveFlags,
         ...xpGrantsPayload,
         ...mpGrantsPayload,
+        ...dayPacingPayload,
       });
     }
 
