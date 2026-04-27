@@ -223,9 +223,9 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Replay file deterministic /api/session/:id/replay** (~8h) — seed + actions log + ricostruzione.
 - 🔴 **Era system pack-as-era lobby UI** (~4h cosmetic).
 
-#### B.1.5 — AncientBeast (4 pattern residui)
+#### B.1.5 — AncientBeast (4 pattern, 2 residui)
 - 🔴 **Beast Bond reaction trigger** (~5h) — adjacency-trigger per-creature trait.
-- 🔴 **3 nuovi elementi** (earth/wind/dark) (~6h con balance pass).
+- 🟢 **3 nuovi elementi** (earth/wind/dark) — Sprint 6 shipped (PR #1964: species_resistances.yaml v0.2.0 8→11 channel + 6 ability nuove + 10 test resistanceEngine + numeric-reference §10. Invariant 6×5 matrix no outlier > 2× / < 0.5×).
 - 🔴 **Ability r3/r4 tier** (~10h) — estende `abilities.yaml` r1/r2 esistente.
 - 🟢 **Beast Showcase wiki cross-link** — Sprint 3 §II shipped (wikiLinkBridge service + 3 REST endpoint + audit coverage report + 10 unit test).
 

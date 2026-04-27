@@ -58,6 +58,10 @@
       "statuses": [],
       "resistances": [
         {
+          "channel": "earth",
+          "modifier_pct": 15
+        },
+        {
           "channel": "fisico",
           "modifier_pct": 20
         },
@@ -179,6 +183,10 @@
       "stress": 0.0,
       "statuses": [],
       "resistances": [
+        {
+          "channel": "dark",
+          "modifier_pct": 10
+        },
         {
           "channel": "mentale",
           "modifier_pct": 15
