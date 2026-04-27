@@ -7,10 +7,16 @@
 //   GET  /api/coop/state?code=ABCD         (any — inspect phase + characters)
 //   POST /api/coop/world/confirm           (host — pick scenario, move to combat)
 //   POST /api/coop/debrief/choice          (player — submit debrief choice)
+//
+// CAP-15b — Imprint phase V2 REST bridge:
+//   POST /api/coop/imprint/start           (host — starts run in imprint mode)
+//   POST /api/coop/imprint/choice          (player — submit body-part axis choice)
+//   GET  /api/coop/imprint/state?code=ABCD (any — ready_list + aggregate + biome)
 
 'use strict';
 
 const express = require('express');
+const { resolveBiome } = require('../services/imprint/biomeResolver');
 
 function createCoopRouter({ lobby, coopStore } = {}) {
   if (!lobby) throw new Error('createCoopRouter: lobby required');
@@ -221,6 +227,91 @@ function createCoopRouter({ lobby, coopStore } = {}) {
     } catch (err) {
       return res.status(400).json({ error: err.message || 'force_advance_failed' });
     }
+  });
+
+  // ─── CAP-15b — Imprint phase V2 REST bridge ────────────────────────
+  // Wraps coopOrchestrator.{startImprint, submitImprintChoice, imprintReadyList}.
+  // When 4/4 axes are covered, /coop/imprint/choice resolves the biome via
+  // biomeResolver (CAP-11) and returns it inline so the frontend can react
+  // without a follow-up call.
+
+  function resolveBiomeIfReady(orch) {
+    const aggregate = orch.getImprintChoicesAggregate();
+    if (!aggregate) return null;
+    try {
+      return resolveBiome(aggregate);
+    } catch (err) {
+      return { error: err.message || 'biome_resolution_failed' };
+    }
+  }
+
+  router.post('/coop/imprint/start', (req, res) => {
+    const { code, host_token: hostToken, scenario_stack: scenarioStack } = req.body || {};
+    const room = authHost(code, hostToken);
+    if (!room) return res.status(403).json({ error: 'host_auth_failed' });
+    try {
+      const orch = coopStore.getOrCreate(code);
+      const run = orch.startImprint({ scenarioStack });
+      broadcastCoopState(room, orch);
+      return res.status(201).json({
+        run_id: run.id,
+        phase: orch.phase,
+        scenario_stack: run.scenarioStack,
+        mode: run.mode,
+      });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'imprint_start_failed' });
+    }
+  });
+
+  router.post('/coop/imprint/choice', (req, res) => {
+    const {
+      code,
+      player_id: playerId,
+      player_token: playerToken,
+      axis,
+      value,
+    } = req.body || {};
+    const auth = authPlayer(code, playerId, playerToken);
+    if (!auth) return res.status(403).json({ error: 'player_auth_failed' });
+    const { room } = auth;
+    const orch = coopStore.get(code);
+    if (!orch) return res.status(409).json({ error: 'run_not_started' });
+    try {
+      const choice = orch.submitImprintChoice(
+        playerId,
+        { axis, value },
+        { allPlayerIds: allPlayerIds(room) },
+      );
+      broadcastCoopState(room, orch);
+      const readyList = orch.imprintReadyList(allPlayerIds(room));
+      const biome = resolveBiomeIfReady(orch);
+      const payload = {
+        choice,
+        phase: orch.phase,
+        ready_list: readyList,
+      };
+      if (biome) payload.biome = biome;
+      return res.json(payload);
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'imprint_choice_failed' });
+    }
+  });
+
+  router.get('/coop/imprint/state', (req, res) => {
+    const code = req.query.code;
+    const orch = code ? coopStore.get(code) : null;
+    if (!orch) return res.status(404).json({ error: 'coop_state_not_found' });
+    const room = lobby.getRoom(code);
+    const ids = room ? allPlayerIds(room) : [];
+    const aggregate = orch.getImprintChoicesAggregate();
+    const biome = resolveBiomeIfReady(orch);
+    return res.json({
+      phase: orch.phase,
+      ready_list: orch.imprintReadyList(ids),
+      choices_aggregate: aggregate,
+      biome: biome || null,
+    });
   });
 
   router.post('/coop/combat/end', (req, res) => {
