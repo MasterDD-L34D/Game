@@ -47,6 +47,12 @@ const { isTurnLimitExceeded } = require('../services/balance/damageCurves');
 const { buildThreatPreview } = require('../services/ai/threatPreview');
 // Status engine extension (2026-04-25 audit P0).
 const { applyTurnRegen } = require('../services/combat/statusModifiers');
+// Sprint Spore Moderate (ADR-2026-04-26 §S6) — Path A 2026-04-27.
+// Adapter (hazard immunity, defender) + alpha (affinity grant, actor) consumers.
+const {
+  applyHazardImmunity: applyArchetypeHazardImmunity,
+  computeAlphaAffinityGrant: computeArchetypeAlphaGrant,
+} = require('../services/combat/archetypePassives');
 // Telepatic-link reveal pipe (2026-04-25 audit follow-up). Lazy-loaded with
 // graceful fallback so missing module never blocks /round/begin-planning.
 let computeTelepathicReveal = null;
@@ -598,10 +604,18 @@ function createRoundBridge(deps) {
             Number(h.x) === Number(unit.position?.x) && Number(h.y) === Number(unit.position?.y),
         );
         if (!hazard) continue;
-        const dmg = Number(hazard.damage) || 1;
+        const baseDmg = Number(hazard.damage) || 1;
+        // Sprint Spore Moderate §S6 — adapter_plus hazard immunity (Path A).
+        // Defender-side passive: damage source = hazard tile → dmg = 0 quando
+        // unit._archetype_passives include archetype_adapter_plus_hazard.
+        // Back-compat: zero behavior change quando passive assente.
+        const immunity = applyArchetypeHazardImmunity(baseDmg, unit);
+        const dmg = immunity.damage;
         const hpBefore = unit.hp;
         unit.hp = Math.max(0, unit.hp - dmg);
-        session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+        if (dmg > 0) {
+          session.damage_taken[unit.id] = (session.damage_taken[unit.id] || 0) + dmg;
+        }
         await appendEvent(session, {
           ts: new Date().toISOString(),
           session_id: session.session_id,
@@ -610,11 +624,14 @@ function createRoundBridge(deps) {
           target_id: unit.id,
           turn: session.turn,
           damage_dealt: dmg,
-          result: 'hit',
+          result: immunity.immune ? 'immune' : 'hit',
           hp_before: hpBefore,
           hp_after: unit.hp,
           hazard_type: hazard.type || 'unknown',
           position: { x: hazard.x, y: hazard.y },
+          ...(immunity.immune
+            ? { trait_effects: [{ token: 'archetype_adapter_plus_hazard', immune: true }] }
+            : {}),
         });
         hazardEvents.push({
           unit_id: unit.id,
@@ -622,6 +639,7 @@ function createRoundBridge(deps) {
           damage: dmg,
           hp_after: unit.hp,
           killed: unit.hp === 0,
+          ...(immunity.immune ? { immune: true } : {}),
         });
       }
     }
@@ -775,6 +793,38 @@ function createRoundBridge(deps) {
       }
     }
 
+    // Sprint Spore Moderate §S6 — alpha_plus affinity grant (Path A 2026-04-27).
+    // Actor-side passive: per ogni unit con archetype_alpha_plus_aff1, count
+    // alleati adiacenti (manhattan=1, stesso controlled_by, vivi). Scrive
+    // unit.alpha_aff_grant_last (consumable da meta NPG layer downstream) e
+    // emette event analytics. Back-compat: zero behavior change quando passive
+    // assente (count = 0 → skip event).
+    const alphaEvents = [];
+    for (const unit of session.units) {
+      if (!unit || Number(unit.hp || 0) <= 0) continue;
+      const grant = computeArchetypeAlphaGrant(unit, session.units);
+      if (grant <= 0) {
+        unit.alpha_aff_grant_last = 0;
+        continue;
+      }
+      unit.alpha_aff_grant_last = grant;
+      await appendEvent(session, {
+        ts: new Date().toISOString(),
+        session_id: session.session_id,
+        action_type: 'alpha_affinity_grant',
+        actor_id: unit.id,
+        actor_species: unit.species,
+        actor_job: unit.job,
+        target_id: unit.id,
+        turn: session.turn,
+        damage_dealt: 0,
+        result: 'grant',
+        affinity_grant: grant,
+        trait_effects: [{ token: 'archetype_alpha_plus_aff1', grant }],
+      });
+      alphaEvents.push({ unit_id: unit.id, grant });
+    }
+
     // M14-A 2026-04-25 — Triangle Strategy terrain reactions tile state decay.
     // Decrement ttl for every active tile. ttl <= 0 → revert to 'normal' state
     // (or delete entry to keep map sparse). Non-blocking; missing map skipped.
@@ -804,7 +854,7 @@ function createRoundBridge(deps) {
       }
     }
 
-    return { hazardEvents, bleedingEvents, enneaEvents, terrainDecayEvents };
+    return { hazardEvents, bleedingEvents, enneaEvents, terrainDecayEvents, alphaEvents };
   }
 
   // ────────────────────────────────────────────────────────────────
