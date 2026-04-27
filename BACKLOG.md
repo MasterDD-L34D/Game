@@ -158,6 +158,10 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 
 - ✅ D2 mutation_catalog Path A — M14 framework loader + routes. `apps/backend/services/mutations/mutationCatalogLoader.js` + `apps/backend/routes/mutations.js` + plugin wire. 30 entries shipped, 4 endpoint REST (`/registry`, `/:id`, `/eligible`, `/apply`). +12 test (8 loader + 4 routes). PE/PI charging deferred a M13.P3 wire (display-only). Decoupled da V3 mating per design semantics — vedi card M-007.
 
+**2026-04-27** (Sprint 7 Beast Bond reactions — AncientBeast Tier S #6 closure 3/4):
+
+- ✅ **Sprint 7** ([PR #1971](https://github.com/MasterDD-L34D/Game/pull/1971)) — Beast Bond creature reaction trigger system. `data/core/companion/creature_bonds.yaml` (6 bond pair canonical, 5 archetype combo) + AJV schema `creature_bond.schema.json` + engine `apps/backend/services/combat/bondReactionTrigger.js` (~250 LOC) + wire `session.js` performAttack post intercept + `sessionRoundBridge.js` capture/emit reaction_trigger event + 19 unit test (loader, eligibility gates, cooldown, counter_attack/shield_ally fire, back-compat) + ADR-2026-04-27 + numeric-reference §11 + stato-arte §B.1.5. Reaction types: counter_attack (-1 dmg_step + refund pulled punch) + shield_ally (50% absorb transfer). Caps: 1/round/actor + cooldown_turns regen + mutually exclusive con M2 intercept. Compat: missing YAML → no-op silent. AI 363→382 verde, format/schema/governance verdi. Pillar delta P1 🟢++ → 🟢ⁿ (creature reactivity surface) + P3 🟢c+ → 🟢c++ (species_pair semantics). Tier S #6 residuo: solo Ability r3/r4 ~10h aperto.
+
 **2026-04-27 notte** (Sprint 1-5 autonomous + OD-001 closure + docs sync):
 
 - ✅ **Sprint 1** (PR #1934) — Wesnoth time-of-day modifier + AI War defender's advantage + Disco day pacing flavor + Fallout numeric reference doc + 2 ADR design AI War. Tier S #5/#9/#10/#11 chiusi.
