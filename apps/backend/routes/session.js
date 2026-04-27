@@ -1646,6 +1646,47 @@ function createSessionRouter(options = {}) {
     res.json(publicSessionView(session));
   });
 
+  // Sprint 9 (Surface-DEAD #5): objective HUD surface.
+  // Espone objective config corrente + valutazione live (live-tick) per HUD
+  // top-bar. Surface DEAD pre-Sprint 9: encounter.objective + objective_state
+  // erano calcolati dal bridge ma non esposti al client.
+  //
+  // Risposta:
+  //   { encounter_id, encounter_label_it, objective: {type, config}, evaluation: {completed, failed, progress, reason, outcome?} }
+  //
+  // Ritorna 404 se sessione non trovata, oggetto vuoto-coerente se la session
+  // non ha encounter.objective (es. tutorial legacy senza objective field).
+  router.get('/:id/objective', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const encounter = session.encounter || {};
+      const objective = encounter.objective || null;
+      let evaluation = null;
+      if (objective && objective.type) {
+        try {
+          // Lazy require — evaluator non blocca path principale.
+          // eslint-disable-next-line global-require
+          const { evaluateObjective } = require('../services/combat/objectiveEvaluator');
+          evaluation = evaluateObjective(session, encounter);
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.warn('[objective-route] evaluator failed:', err && err.message);
+          evaluation = null;
+        }
+      }
+      res.json({
+        session_id: session.session_id,
+        encounter_id: encounter.id || null,
+        encounter_label_it: encounter.label_it || null,
+        objective,
+        evaluation,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   // Halfway lesson (decision surfacing): pre-combat prediction.
   // Ritorna hit%, crit%, fumble%, avg MoS, avg PT per un attacco
   // actor → target senza eseguirlo. Il client mostra questi numeri

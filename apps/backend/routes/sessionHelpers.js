@@ -407,8 +407,40 @@ function publicSessionView(session) {
       session.biome_modifiers && typeof session.biome_modifiers === 'object'
         ? session.biome_modifiers
         : { diff_base: 1.0, hp_mult: 1.0, pressure_mult: 0, pressure_initial_bonus: 0 },
+    // Sprint 11 (Surface-DEAD #6): expose biome_id per HUD biome chip surface.
+    // session.biome_id viene popolato in /start dal body biome_id raw. Fallback
+    // a session.encounter?.biome_id quando encounter_id YAML loader popola
+    // encounter ma biome_id raw non passato (e.g. tutorial UI flow).
+    // Null se nessun biome dichiarato (legacy tutorial / scenario JS senza biome).
+    biome_id: session.biome_id || session.encounter?.biome_id || null,
     // OD-001 Path A Sprint A — Nido unlock flag for HUD btn visibility.
     nido_unlocked: checkNidoUnlock(session),
+    // Skiv Goal 2 (2026-04-28) — Echolocation sense surface. Lazy compute:
+    // for every actor with `default_parts.senses` containing 'echolocation',
+    // expose an empty placeholder bag the frontend pulse helper can fill on
+    // hover. Map shape: { actor_id: { has_echolocation: true, radius } }.
+    // No tile coords here (those are computed render-side from hovered
+    // target). Additive field — never breaks legacy clients.
+    tile_visibility: (() => {
+      try {
+        const { BASE_RADIUS, BONUS_TRAIT_ID } = require('../services/combat/senseReveal');
+        const out = {};
+        for (const u of session.units || []) {
+          if (!u || !u.id) continue;
+          const senses = u.default_parts && u.default_parts.senses;
+          if (!Array.isArray(senses)) continue;
+          if (!senses.some((s) => typeof s === 'string' && s.toLowerCase() === 'echolocation')) {
+            continue;
+          }
+          const traitIds = Array.isArray(u.trait_ids) ? u.trait_ids : u.traits;
+          const hasBonus = Array.isArray(traitIds) && traitIds.some((t) => t === BONUS_TRAIT_ID);
+          out[u.id] = { has_echolocation: true, radius: BASE_RADIUS + (hasBonus ? 1 : 0) };
+        }
+        return out;
+      } catch {
+        return {};
+      }
+    })(),
   };
 }
 

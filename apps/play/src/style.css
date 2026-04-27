@@ -2061,6 +2061,113 @@ body.ability-target-mode canvas#grid {
   opacity: 0.55;
   font-style: italic;
 }
+/* Sprint 11 (Surface-DEAD #6) — Biome chip HUD surface. */
+.biome-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(34, 51, 34, 0.32);
+  border: 1px solid #4a5d3f;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c8d6c0;
+  letter-spacing: 0.02em;
+  cursor: help;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+  user-select: none;
+}
+.biome-chip.biome-hidden {
+  display: none;
+}
+.biome-chip:hover {
+  background: rgba(34, 51, 34, 0.48);
+  border-color: #6b8059;
+}
+.biome-chip .biome-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+.biome-chip .biome-label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.78rem;
+}
+
+/* Sprint 9 (Surface-DEAD #5) — Objective HUD top-bar. */
+.objective-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+  min-width: 240px;
+  max-width: 480px;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+.objective-bar.obj-hidden {
+  display: none;
+}
+.objective-bar .obj-icon {
+  font-size: 1.1rem;
+}
+.objective-bar .obj-label {
+  color: var(--accent);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+.objective-bar .obj-progress {
+  color: var(--dim);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+.objective-bar .obj-status {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+.objective-bar .obj-status-win {
+  background: rgba(76, 175, 80, 0.18);
+  color: #c8f5cb;
+  border: 1px solid #4caf50;
+}
+.objective-bar .obj-status-loss {
+  background: rgba(244, 67, 54, 0.18);
+  color: #ffc8c4;
+  border: 1px solid #f44336;
+}
+.objective-bar.obj-status-win {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.12);
+}
+.objective-bar.obj-status-loss {
+  border-color: #f44336;
+  background: rgba(244, 67, 54, 0.12);
+}
+.objective-bar.obj-status-active {
+  border-color: var(--accent);
+}
+.objective-bar .obj-empty {
+  color: var(--dim);
+  font-style: italic;
+  font-weight: 400;
+}
+
 /* Sprint 8 (Surface-DEAD #1) — predict_combat hover row. */
 .unit-tooltip .tt-predict {
   margin-top: 6px;
@@ -2999,4 +3106,32 @@ body.ability-target-mode canvas#grid {
 .period-typography-narrative {
   font-family: var(--font-narrative);
   font-style: italic;
+}
+
+/* =============================================================================
+ * Skiv Goal 2 (2026-04-28) — Echolocation visual fog-of-war pulse.
+ * Surface for actors with `default_parts.senses: [echolocation]` (Skiv canonical).
+ * Cyan #66d1fb mirrors `focused` status icon to read as a sense overlay.
+ * Animation owned canvas-side (drawEcholocationPulse) — these classes apply
+ * to optional DOM overlays (e.g. lingering hint badges over the canvas wrap).
+ * ============================================================================= */
+@keyframes echolocation-pulse-anim {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.echolocation-pulse-overlay {
+  position: absolute;
+  pointer-events: none;
+  border: 2px solid #66d1fb;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(102, 209, 251, 0.55);
+  animation: echolocation-pulse-anim 800ms ease-out forwards;
+  will-change: transform, opacity;
 }

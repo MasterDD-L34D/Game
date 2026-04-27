@@ -1379,3 +1379,279 @@ export function drawBodyPartOverlay(ctx, cellX, cellYpx, percentages) {
   }
   ctx.restore();
 }
+
+// =============================================================================
+// Skiv Goal 2 (2026-04-28) — Echolocation visual fog-of-war pulse.
+//
+// Anti-pattern killed: Engine LIVE Surface DEAD. Trait `sensori_geomagnetici`
+// + `default_parts.senses: [echolocation]` were silent on the player surface.
+// This module exposes a self-animating pulse helper that the cell-hover
+// pipeline can fire when the player hovers a target ≥500ms.
+//
+// Pure additive: no existing function is modified. Animations live in a
+// process-local registry (`_echoPulses`) consumed by `drawEcholocationPulse`
+// each frame. The render loop already calls `needsAnimFrame()` — we add a
+// `hasActiveEchoPulse()` probe that callers may OR with that signal.
+// =============================================================================
+
+const ECHO_PULSE_DURATION_MS = 800;
+const ECHO_PULSE_R_START = 40;
+const ECHO_PULSE_R_END = 120;
+const ECHO_PULSE_HOVER_THRESHOLD_MS = 500;
+const ECHO_PULSE_COLOR = '#66d1fb';
+
+const _echoPulses = []; // [{ targetId, x, y, startedAt }]
+const _echoLastHover = new Map(); // actorId|targetId → timestamp first hover
+
+/**
+ * Hover threshold (ms) before pulse arms.
+ */
+export function getEcholocationHoverThresholdMs() {
+  return ECHO_PULSE_HOVER_THRESHOLD_MS;
+}
+
+/**
+ * Returns true if at least one echolocation pulse animation is active.
+ * Callers should OR this with `needsAnimFrame()` to keep redraws ticking.
+ */
+export function hasActiveEchoPulse() {
+  if (_echoPulses.length === 0) return false;
+  const now = Date.now();
+  for (const p of _echoPulses) {
+    if (now - p.startedAt < ECHO_PULSE_DURATION_MS) return true;
+  }
+  return false;
+}
+
+/**
+ * Trigger a pulse over `target`. Idempotent within the active window:
+ * re-arming for the same target while a pulse is mid-flight is a no-op.
+ *
+ * @param {object} target — needs `id` + `position.{x,y}` (or `.x`,`.y`).
+ */
+export function armEcholocationPulse(target) {
+  if (!target) return false;
+  const id = target.id || `${target.x},${target.y}`;
+  const x = Number(target.position ? target.position.x : target.x);
+  const y = Number(target.position ? target.position.y : target.y);
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return false;
+  const now = Date.now();
+  // Drop expired entries, also dedupe live pulses for same target.
+  for (let i = _echoPulses.length - 1; i >= 0; i -= 1) {
+    const p = _echoPulses[i];
+    if (now - p.startedAt >= ECHO_PULSE_DURATION_MS) {
+      _echoPulses.splice(i, 1);
+    } else if (p.targetId === id) {
+      return false; // already pulsing
+    }
+  }
+  _echoPulses.push({ targetId: id, x, y, startedAt: now });
+  return true;
+}
+
+/**
+ * Hover-debounce gate. Returns true on the call where `(actorId,targetId)`
+ * has been continuously hovered ≥ threshold ms — the caller should then
+ * fire `armEcholocationPulse(target)` (idempotent).
+ *
+ * @param {string} actorId — the echolocator id (player-controlled).
+ * @param {string} targetId — the hovered enemy id.
+ * @param {number} [now=Date.now()]
+ * @returns {boolean}
+ */
+export function shouldArmPulseForHover(actorId, targetId, now) {
+  if (!actorId || !targetId) return false;
+  const t = Number.isFinite(Number(now)) ? Number(now) : Date.now();
+  const key = `${actorId}|${targetId}`;
+  const first = _echoLastHover.get(key);
+  if (!first) {
+    _echoLastHover.set(key, t);
+    return false;
+  }
+  return t - first >= ECHO_PULSE_HOVER_THRESHOLD_MS;
+}
+
+/**
+ * Reset hover tracker (called when hover leaves any target).
+ */
+export function resetEcholocationHover(actorId, targetId) {
+  if (!actorId || !targetId) {
+    _echoLastHover.clear();
+    return;
+  }
+  _echoLastHover.delete(`${actorId}|${targetId}`);
+}
+
+/**
+ * Clear all pulses + hover state. Test-only escape hatch.
+ */
+export function _resetEcholocationStateForTests() {
+  _echoPulses.length = 0;
+  _echoLastHover.clear();
+}
+
+/**
+ * Self-attaching installer — wires `mousemove` on `canvas` to debounce hover,
+ * arm pulse via `armEcholocationPulse`, and overlay `drawEcholocationPulse`
+ * on top of the existing render(). This is the seam that closes the
+ * Engine LIVE Surface DEAD anti-pattern for echolocation without modifying
+ * any existing render.js function.
+ *
+ * Caller injects accessors so the installer stays decoupled from main.js
+ * state shape. Idempotent: calling twice is a no-op (returns the same
+ * teardown handle).
+ *
+ * @param {HTMLCanvasElement|null} canvas
+ * @param {object} accessors
+ * @param {() => object|null} accessors.getWorld — returns `state.world`.
+ * @param {() => string|null} accessors.getSelectedActorId — currently
+ *   selected (player-controlled) actor id. Pulse only arms if this actor
+ *   has echolocation sense + the hovered unit is an enemy in range.
+ * @returns {{ teardown: () => void } | null}
+ */
+export function installEcholocationOverlay(canvas, accessors) {
+  if (!canvas || !accessors || typeof accessors.getWorld !== 'function') return null;
+  if (canvas.__echolocationInstalled) return canvas.__echolocationInstalled;
+
+  const onMove = (ev) => {
+    const world = accessors.getWorld();
+    if (!world || !world.grid) return;
+    const { x, y } = canvasToCell(canvas, ev, world.grid.height);
+    const units = Array.isArray(world.units) ? world.units : [];
+    const target = units.find((u) => {
+      if (!u || !u.position) return false;
+      return Number(u.position.x) === x && Number(u.position.y) === y;
+    });
+    if (!target) {
+      resetEcholocationHover();
+      return;
+    }
+    const actorId =
+      typeof accessors.getSelectedActorId === 'function' ? accessors.getSelectedActorId() : null;
+    if (!actorId) return;
+    const actor = units.find((u) => u && u.id === actorId);
+    if (!actor) return;
+    // Visibility map (from sessionHelpers tile_visibility) gates eligibility.
+    const tv = world.tile_visibility || {};
+    const entry = tv[actor.id];
+    if (!entry || !entry.has_echolocation) return;
+    // Ignore self-hover.
+    if (target.id === actor.id) return;
+    if (shouldArmPulseForHover(actor.id, target.id, Date.now())) {
+      armEcholocationPulse(target);
+    }
+  };
+
+  const onLeave = () => resetEcholocationHover();
+
+  canvas.addEventListener('mousemove', onMove);
+  canvas.addEventListener('mouseleave', onLeave);
+
+  // Overlay tick — runs at 60Hz while pulses are live, drawing on top of
+  // the canvas without touching `render()`. Self-stops when no pulses.
+  let rafHandle = null;
+  const tick = () => {
+    if (!hasActiveEchoPulse()) {
+      rafHandle = null;
+      return;
+    }
+    const ctx = canvas.getContext && canvas.getContext('2d');
+    const world = accessors.getWorld();
+    const gridH = world && world.grid ? world.grid.height : null;
+    if (ctx) drawEcholocationPulse(ctx, { gridH });
+    rafHandle = typeof requestAnimationFrame === 'function' ? requestAnimationFrame(tick) : null;
+  };
+
+  // Light poll — when armEcholocationPulse pushes, animation kicks in.
+  const armTimer = setInterval(() => {
+    if (hasActiveEchoPulse() && rafHandle == null) {
+      rafHandle = typeof requestAnimationFrame === 'function' ? requestAnimationFrame(tick) : null;
+    }
+  }, 100);
+
+  const handle = {
+    teardown: () => {
+      canvas.removeEventListener('mousemove', onMove);
+      canvas.removeEventListener('mouseleave', onLeave);
+      if (rafHandle != null && typeof cancelAnimationFrame === 'function') {
+        cancelAnimationFrame(rafHandle);
+      }
+      clearInterval(armTimer);
+      delete canvas.__echolocationInstalled;
+    },
+  };
+  canvas.__echolocationInstalled = handle;
+  return handle;
+}
+
+/**
+ * Draw all active pulses onto `ctx`. Pure draw — caller invokes on each
+ * `render()` after units/popups (top of canvas). Pulse is centered on the
+ * target tile screen-space and animates from `R_START → R_END` over 800ms.
+ *
+ * Fog-of-war reveal layer: `revealedTiles` (array of `{x,y}` from
+ * `getRevealedTiles` in the backend) are tinted cyan with a `?` glyph
+ * pre-pulse, fading to transparent post-pulse. Tiles only render while
+ * any pulse is live for the same target.
+ *
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {object} [opts]
+ * @param {number} [opts.gridH] — required for y-flip (canvas grid origin).
+ * @param {Array<{x:number,y:number,targetId?:string}>} [opts.revealedTiles]
+ */
+export function drawEcholocationPulse(ctx, opts = {}) {
+  if (!ctx || _echoPulses.length === 0) return;
+  const now = Date.now();
+  const gridH = Number.isFinite(Number(opts.gridH)) ? Number(opts.gridH) : null;
+  const revealedTiles = Array.isArray(opts.revealedTiles) ? opts.revealedTiles : [];
+
+  ctx.save();
+  for (let i = _echoPulses.length - 1; i >= 0; i -= 1) {
+    const pulse = _echoPulses[i];
+    const elapsed = now - pulse.startedAt;
+    if (elapsed >= ECHO_PULSE_DURATION_MS) {
+      _echoPulses.splice(i, 1);
+      continue;
+    }
+    const t = elapsed / ECHO_PULSE_DURATION_MS; // 0..1
+    const radius = ECHO_PULSE_R_START + (ECHO_PULSE_R_END - ECHO_PULSE_R_START) * t;
+    const alpha = 0.8 * (1 - t);
+    // Target screen-space center. Y flipped if gridH provided.
+    const yPx = gridH != null ? (gridH - 1 - pulse.y) * CELL : pulse.y * CELL;
+    const cx = pulse.x * CELL + CELL / 2;
+    const cy = yPx + CELL / 2;
+    ctx.strokeStyle = ECHO_PULSE_COLOR;
+    ctx.globalAlpha = alpha;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Reveal layer: tiles tagged for THIS target (or untagged = first pulse).
+    const matched = revealedTiles.filter((rt) => !rt.targetId || rt.targetId === pulse.targetId);
+    if (matched.length > 0) {
+      const fadeIn = Math.min(1, t * 2); // glyph appears in first 50%, fades after
+      const glyphAlpha = t < 0.5 ? fadeIn : 1 - (t - 0.5) * 2;
+      ctx.globalAlpha = Math.max(0, glyphAlpha) * 0.7;
+      ctx.fillStyle = ECHO_PULSE_COLOR;
+      const fontSize = Math.max(10, Math.round(CELL * 0.42));
+      ctx.font = `bold ${fontSize}px "SF Mono", monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      for (const rt of matched) {
+        const ry = gridH != null ? (gridH - 1 - rt.y) * CELL : rt.y * CELL;
+        const rcx = rt.x * CELL + CELL / 2;
+        const rcy = ry + CELL / 2;
+        // Tint background.
+        ctx.globalAlpha = Math.max(0, glyphAlpha) * 0.18;
+        ctx.fillStyle = ECHO_PULSE_COLOR;
+        ctx.fillRect(rt.x * CELL, ry, CELL, CELL);
+        // Glyph "?" pre-pulse → fades post.
+        ctx.globalAlpha = Math.max(0, glyphAlpha) * 0.9;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText('?', rcx, rcy);
+      }
+    }
+  }
+  ctx.restore();
+}

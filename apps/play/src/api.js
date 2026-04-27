@@ -114,6 +114,8 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ session_id: sid, actor_id: actorId, target_id: targetId }),
     }),
+  // Sprint 9 (Surface-DEAD #5): objective HUD live evaluation.
+  objective: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/objective`),
   thoughts: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts`),
   // Sprint 6 (P4 Disco Tier S #9): explicit aliases + research/forget helpers.
   thoughtsList: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts`),

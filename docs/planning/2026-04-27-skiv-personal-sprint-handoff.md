@@ -346,10 +346,10 @@ Push + PR title 'feat(skiv): Goal 4 — legacy death ritual choice (P2 cross-gen
 
 ### Phase 1 (G1 + G2 parallel)
 
-| Goal                           |   Status   | PR  | Notes                                                                                                          |
-| ------------------------------ | :--------: | --- | -------------------------------------------------------------------------------------------------------------- |
-| G1 Encounter Skiv solo vs pack | ✅ SHIPPED | TBD | branch `feat/skiv-goal-1-encounter-solo-pack-2026-04-28`, calibration N=20 win 45.0% (in band 35-45%), 9/9 ✓   |
-| G2 Echolocation visual pulse   | ⬜ NOT STARTED | — | Ready to spawn                                                                                                 |
+| Goal                           |   Status   | PR                                                | Notes                                                                                            |
+| ------------------------------ | :--------: | ------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| G1 Encounter Skiv solo vs pack | ✅ SHIPPED | [#1982](https://github.com/MasterDD-L34D/Game/pull/1982) | calibration N=20 win 45.0% in band 35-45%, 9/9 test, encounter wired via encounterLoader        |
+| G2 Echolocation visual pulse   | ✅ SHIPPED | [#1977](https://github.com/MasterDD-L34D/Game/pull/1977) | senseReveal.js + drawEcholocationPulse + installEcholocationOverlay; 6/6 test, anti-pattern chiuso |
 
 ### Phase 2 (G3) — gated on Phase 1 merged
 
