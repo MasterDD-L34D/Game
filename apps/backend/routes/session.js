@@ -92,6 +92,7 @@ const STATUS_DURATION_CAPS = {
   stunned: 3,
   confused: 3,
   bleeding: 5,
+  marked: 2,
   slowed: 3,
   burning: 3,
   chilled: 2,
@@ -537,6 +538,7 @@ function createSessionRouter(options = {}) {
     let killOccurred = false;
     let adjacencyBonus = 0;
     let rageBonus = 0;
+    let markedBonus = 0;
     let backstabBonus = 0;
     let wasBackstab = false;
     let panicTriggered = false;
@@ -562,6 +564,11 @@ function createSessionRouter(options = {}) {
       if (actor.status && Number(actor.status.rage) > 0) {
         rageBonus = 1;
       }
+      // Phase A marked: target marcato → +1 dmg al prossimo attaccante, mark consumato.
+      if (target.status && Number(target.status.marked) > 0) {
+        markedBonus = 1;
+        target.status.marked = 0;
+      }
       // SPRINT_022: bonus backstab — se l'actor attacca dalle spalle del
       // target (posizione dietro il suo facing), +1 damage. Cumulativo con
       // adjacency e rage. Inoltre: un backstab BYPASSA la parata (sorpresa).
@@ -582,6 +589,7 @@ function createSessionRouter(options = {}) {
         evaluation.damage_modifier +
         adjacencyBonus +
         rageBonus +
+        markedBonus +
         backstabBonus +
         perkBonus.bonus +
         parryDelta;
