@@ -3000,3 +3000,31 @@ body.ability-target-mode canvas#grid {
   font-family: var(--font-narrative);
   font-style: italic;
 }
+
+/* =============================================================================
+ * Skiv Goal 2 (2026-04-28) — Echolocation visual fog-of-war pulse.
+ * Surface for actors with `default_parts.senses: [echolocation]` (Skiv canonical).
+ * Cyan #66d1fb mirrors `focused` status icon to read as a sense overlay.
+ * Animation owned canvas-side (drawEcholocationPulse) — these classes apply
+ * to optional DOM overlays (e.g. lingering hint badges over the canvas wrap).
+ * ============================================================================= */
+@keyframes echolocation-pulse-anim {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.echolocation-pulse-overlay {
+  position: absolute;
+  pointer-events: none;
+  border: 2px solid #66d1fb;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(102, 209, 251, 0.55);
+  animation: echolocation-pulse-anim 800ms ease-out forwards;
+  will-change: transform, opacity;
+}
