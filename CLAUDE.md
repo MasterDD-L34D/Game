@@ -485,6 +485,26 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 10 QBN narrative debrief beats — Surface-DEAD #7 chiuso)
+
+**Sessione 2026-04-27 (Sprint 10, §C.2 Surface-DEAD #7 chiusura)**: QBN narrative event diegetic surface live nel debrief panel. Backend `qbnEngine.drawEvent` LIVE da PR #1914 + `rewardEconomy.buildDebriefSummary` già emette `narrative_event` in debrief response, ma frontend ignorava il campo.
+
+**Highlights**:
+
+- **Module nuovo** [`apps/play/src/qbnDebriefRender.js`](apps/play/src/qbnDebriefRender.js): pure `formatNarrativeEventCard(narrativeEvent)` (HTML card con title + body + choices + meta) + side-effect `renderNarrativeEvent(sectionEl, cardEl, payload)` (idempotent + section show/hide). Accept legacy keys `title`/`body` + canonical `title_it`/`body_it`. XSS escape su tutti i campi.
+- **Setter** [`apps/play/src/debriefPanel.js`](apps/play/src/debriefPanel.js): nuovo `setNarrativeEvent(payload)` API + `state.narrativeEvent` field + `renderQbn()` chiamato in render path principale + `<div id="db-qbn-section">` HTML template + import.
+- **Wire** [`apps/play/src/phaseCoordinator.js`](apps/play/src/phaseCoordinator.js): pipe `bridge.lastDebrief.narrative_event` → `dbApi.setNarrativeEvent(...)` quando phase transitions a 'debrief'.
+- **CSS** [`apps/play/src/debriefPanel.css`](apps/play/src/debriefPanel.css): `.db-qbn-card` journal style (linear-gradient violet + Georgia serif body italic) + `.db-qbn-title/body/choices/meta` typography.
+- **Test**: 15/15 nuovi `tests/play/qbnDebriefRender.test.js` (2 describe blocks: formatNarrativeEventCard + renderNarrativeEvent — null/empty/full payload + legacy keys + XSS escape + choices fallback + idempotency). AI baseline 363/363 zero regression. Format prettier verde + governance 0 errors.
+- **Smoke E2E preview validato live**: backend + play servers, module import OK, render path produces correct DOM `<div class="db-qbn-event"...>` con title/body/choices/meta sections.
+- **Status §C.2 Surface-DEAD sweep**: **5/8 chiusi** (#1 Sprint 8 + #2 HP floating + #5 Sprint 9 + #7 Sprint 10 + #8 Sprint 6). Residui: #3 Spore mutation dots (15h authoring), #4 Mating lifecycle wire (5h), #6 Biome initial wave (2h quick-win).
+
+**Pillar P4 Narrative Identità**: 🟢 def → **🟢++** (cronaca diegetica visibile post-encounter).
+
+**Next session candidato**: Sprint 11 biome initial wave universal wire (Surface-DEAD #6 ~2h quick-win).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 9 Objective HUD top-bar — Surface-DEAD #5 chiuso)
 
 **Sessione 2026-04-27 (Sprint 9, §C.2 Surface-DEAD #5 chiusura)**: objective HUD top-bar live. Player vede subito `⚔ Elimina i nemici · Sistema vivi: 2 · PG: 2` band active, status colorato (active accent / win green / loss red). Backend `objectiveEvaluator` 6 obj types (elimination/capture_point/escort/sabotage/survival/escape) era LIVE da ADR-2026-04-20 ma surface DEAD: encounter.objective + objective_state non esposti al client.

@@ -10,6 +10,8 @@ import { renderMbtiTaggedHtml } from './dialogueRender.js';
 // OD-001 Path A Sprint B: recruit POST goes through api client (network retry +
 // graceful failure handling). Lazy import only if api ever becomes circular.
 import { api } from './api.js';
+// Sprint 10 (Surface-DEAD #7): QBN narrative event diegetic render in debrief.
+import { renderNarrativeEvent } from './qbnDebriefRender.js';
 
 // OD-001 Path A V3 Mating/Nido (2026-04-26): pure helper DOM-free per identify
 // recruitable enemies post-combat. Filtra unit team !== player/ally con hp<=0.
@@ -142,6 +144,12 @@ export function renderDebriefPanel() {
         <div class="db-mbti-hidden" id="db-mbti-hidden"></div>
       </div>
 
+      <!-- Sprint 10 (Surface-DEAD #7): QBN narrative event diegetic. -->
+      <div class="db-section db-qbn-section" id="db-qbn-section" style="display:none">
+        <div class="db-section-title">📖 Cronaca diegetica</div>
+        <div class="db-qbn-card" id="db-qbn-card"></div>
+      </div>
+
       <div class="db-section">
         <div class="db-section-title">Cronaca del round</div>
         <div class="db-narrative" id="db-narrative">
@@ -217,6 +225,9 @@ export function wireDebriefPanel(overlay, bridge) {
     partyList: [],
     readySet: new Set(),
     mbtiRevealed: null,
+    // Sprint 10 (Surface-DEAD #7): QBN narrative event payload from debrief.
+    // Shape: {id, title_it, body_it, choices: [{id, label_it}], eligible_count}
+    narrativeEvent: null,
     // OD-001 Path A Sprint B (2026-04-26): debrief recruit wire.
     recruitedNpcIds: new Set(),
     recruitInFlight: new Set(),
@@ -349,6 +360,15 @@ export function wireDebriefPanel(overlay, bridge) {
         })
         .join('');
     }
+  };
+
+  // Sprint 10 (Surface-DEAD #7) — render QBN narrative event diegetic.
+  // Sezione hidden by default, rivela quando narrativeEvent payload presente.
+  // Idempotent: setNarrativeEvent(null) → hide.
+  const renderQbn = () => {
+    const section = overlay.querySelector('#db-qbn-section');
+    const card = overlay.querySelector('#db-qbn-card');
+    renderNarrativeEvent(section, card, state.narrativeEvent);
   };
 
   // OD-001 Path A Sprint B (2026-04-26): debrief recruit section render.
@@ -514,6 +534,7 @@ export function wireDebriefPanel(overlay, bridge) {
     renderNarrative();
     renderParty();
     renderMbti();
+    renderQbn();
     renderRecruit();
     // Fire-and-forget: Skiv card refresh ad ogni render debrief.
     renderSkivMonitorCard();
@@ -662,6 +683,18 @@ export function wireDebriefPanel(overlay, bridge) {
           ? payload
           : null;
       renderMbti();
+    },
+    // Sprint 10 (Surface-DEAD #7) — set QBN narrative event from debrief.
+    // Accepts {id, title_it, body_it, choices, eligible_count} or null.
+    // Graceful: section nascosta quando payload mancante / id+title+body vuoti.
+    setNarrativeEvent(payload) {
+      state.narrativeEvent =
+        payload &&
+        typeof payload === 'object' &&
+        (payload.id || payload.title_it || payload.body_it)
+          ? payload
+          : null;
+      renderQbn();
     },
     show() {
       overlay.classList.remove('db-hidden');

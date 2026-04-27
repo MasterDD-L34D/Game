@@ -433,10 +433,10 @@ Diagnosticato ~30% delle 61 voci catalogate. Surface manca per:
 | 4 | Mating engine 469 LOC | gene_slots → lifecycle wire | 5h | 🔴 |
 | 5 | objectiveEvaluator 6 obj types | HUD top-bar surface | 3h | 🟢 Sprint 9 (`objectivePanel.js` + `/api/session/:id/objective` route + `api.objective` client + main.js refresh wire on session start + post commit. Tutorial play UI passa `encounter_id` per attivare engine. 6 obj types format: elimination/capture_point/escort/sabotage/survival/escape) |
 | 6 | biomeSpawnBias.js initial wave | universal initial wave wire | 2h | 🔴 |
-| 7 | QBN engine 17 events | session debrief wire | 3h | 🔴 |
+| 7 | QBN engine 17 events | session debrief wire | 3h | 🟢 Sprint 10 (frontend `qbnDebriefRender.js` + `setNarrativeEvent` setter su debrief panel + phaseCoordinator pipe `bridge.lastDebrief.narrative_event` + CSS journal style. Backend `rewardEconomy.buildDebriefSummary` già emetteva `narrative_event` da PR #1914) |
 | 8 | Thought Cabinet 18 thoughts | reveal_text_it authoring + UI | 8h | 🟢 Sprint 6 PR #1966 (engine + UI + cooldown round-based) |
 
-**Bundle Surface-DEAD sweep cumulato**: ~32h se incluso authoring. ~17h escluso authoring. **Single biggest strategic ROI** — recupera investimenti già fatti. **Status post-2026-04-27: 4/8 chiusi (#1 hover preview Sprint 8 + #2 HP floating numbers M4 P0.2 + #5 Objective HUD Sprint 9 + #8 Thought Cabinet Sprint 6).**
+**Bundle Surface-DEAD sweep cumulato**: ~32h se incluso authoring. ~17h escluso authoring. **Single biggest strategic ROI** — recupera investimenti già fatti. **Status post-2026-04-27: 5/8 chiusi (#1 hover preview Sprint 8 + #2 HP floating numbers M4 P0.2 + #5 Objective HUD Sprint 9 + #7 QBN debrief Sprint 10 + #8 Thought Cabinet Sprint 6).** Residui: #3 Spore mutation dots (15h authoring), #4 Mating lifecycle wire (5h), #6 Biome initial wave (2h quick-win).
 
 ### C.3 — 6 OPZIONI sequenziamento next sprint (rank by ROI)
 
