@@ -19,7 +19,7 @@ import { openReplay } from './replayPanel.js';
 import { sfx, setMuted, isMuted } from './sfx.js';
 import { initHelpPanel } from './helpPanel.js';
 import { showTip, buildRecoveryTipMessage, resetAllTips } from './tips.js';
-import { toggleCodex } from './codexPanel.js';
+import { toggleCodex, setCodexSessionId } from './codexPanel.js';
 import { initFeedbackPanel } from './feedbackPanel.js';
 import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
@@ -203,6 +203,14 @@ function redraw() {
     predictedOrder,
   );
   updateStatus(state.world);
+  // Bundle B.2 — Undo button visibility (planning phase + selected unit has pending).
+  const undoBtn = document.getElementById('undo-action');
+  if (undoBtn) {
+    const hasPending =
+      state.selected &&
+      state.pendingIntents.some((pi) => pi.unit_id === state.selected && !pi.reaction_trigger);
+    undoBtn.classList.toggle('hidden', !hasPending);
+  }
   // ability panel
   const selUnit = (state.world.units || []).find((u) => u.id === state.selected);
   if (selUnit && selUnit.controlled_by === 'player' && selUnit.hp > 0) {
@@ -381,6 +389,36 @@ document.addEventListener('keydown', (ev) => {
   if (!state.sid) return;
   ev.preventDefault();
   document.getElementById('end-turn').click();
+});
+
+// Bundle B.2 — Ctrl+Z = Undo last action (planning phase only).
+async function handleUndoAction() {
+  if (!state.sid || !state.selected) return;
+  const before = state.pendingIntents.length;
+  // Pop last intent for selected unit client-side (mirror server LIFO).
+  for (let i = state.pendingIntents.length - 1; i >= 0; i -= 1) {
+    if (state.pendingIntents[i].unit_id === state.selected) {
+      state.pendingIntents.splice(i, 1);
+      break;
+    }
+  }
+  const r = await api.undoAction(state.sid, state.selected);
+  if (!r.ok) {
+    appendLog(logEl, `✖ undo: ${r.data?.error || r.status}`, 'warn');
+    return;
+  }
+  if (state.pendingIntents.length < before) {
+    appendLog(logEl, `↶ undo: 1 intent rimosso (${state.selected})`);
+    updateHint(`Ultima azione di ${state.selected} annullata.`);
+    redraw();
+  }
+}
+document.addEventListener('keydown', (ev) => {
+  if (!(ev.ctrlKey || ev.metaKey) || ev.key !== 'z') return;
+  const active = document.activeElement;
+  if (active && /^(input|textarea|select)$/i.test(active.tagName)) return;
+  ev.preventDefault();
+  handleUndoAction();
 });
 
 function handleUnitClick(unit) {
@@ -1041,6 +1079,8 @@ async function startNewSession() {
   state.world = st.data.state;
   state.selected = null;
   state.target = null;
+  // Bundle B.3 — pipe session_id to codex panel for /api/v1/codex/pages.
+  setCodexSessionId(state.sid);
   // M11 Phase B+ (TKT-M11B-03) — if host room carries campaign_id, bootstrap
   // campaign runtime and cache summary so publishWorld mirrors it to players.
   // V1 Onboarding Phase B (2026-04-26): if campaign def carries `onboarding`
@@ -1143,6 +1183,8 @@ document.getElementById('new-session').addEventListener('click', () => {
 document.getElementById('reset-round')?.addEventListener('click', async () => {
   await emergencyResetRound();
 });
+// Bundle B.2 — Undo last action button (planning phase only, Ctrl+Z mirror).
+document.getElementById('undo-action')?.addEventListener('click', () => handleUndoAction());
 // W8L — Codex btn header (in-game wiki: Tips re-read + Glossario + Abilità + Status).
 document.getElementById('codex-open')?.addEventListener('click', () => {
   toggleCodex();

@@ -77,6 +77,19 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ session_id: sid }),
     }),
+  // Bundle B.2 — Tactical Breach Wizards Undo libero (planning-phase only).
+  undoAction: (sid, actorId) =>
+    jsonFetch('/api/session/undo-action', {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid, actor_id: actorId }),
+    }),
+  // Bundle B.3 — Tunic decipher Codex pages.
+  codexPages: (sid) => jsonFetch(`/api/v1/codex/pages?session_id=${encodeURIComponent(sid || '')}`),
+  codexDecipher: (sid, pageId, triggerData = {}) =>
+    jsonFetch('/api/v1/codex/decipher', {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid, page_id: pageId, trigger_data: triggerData }),
+    }),
   commitRound: (sid, autoResolve = true) =>
     jsonFetch('/api/session/commit-round', {
       method: 'POST',

@@ -780,6 +780,10 @@ function createApp(options = {}) {
   // tools/py/skiv_monitor.py via .github/workflows/skiv-monitor.yml.
   app.use('/api', createSkivRouter(options.skiv || {}));
 
+  // Bundle B.3 codex routes già registrate sopra (line 758) — single
+  // createCodexRouter() ora ospita BOTH glyph-progression (PR #1931) +
+  // session decipher pages (Bundle B.3).
+
   app.get('/api/deployments/status', async (req, res) => {
     try {
       const refresh = shouldRefreshStatusFlag(req.query.refresh);
