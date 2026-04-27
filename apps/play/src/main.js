@@ -1758,12 +1758,42 @@ async function advanceCampaignWithEvolvePrompt(campaignId, outcome, peEarned = 0
     }
   }
   // Collect survivors for XP grant (M13 P3 Phase B).
+  // Sprint Spore Moderate (PR #1916) — survivors include `mp` field for MP
+  // accrual server-side. Default mp=5 se unit non lo espone (back-compat).
   const survivors = state.world
     ? getUnits(state.world)
         .filter((u) => u.controlled_by === 'player' && Number(u.hp) > 0)
-        .map((u) => ({ id: u.id, job: u.job, hp: u.hp, controlled_by: u.controlled_by }))
+        .map((u) => ({
+          id: u.id,
+          job: u.job,
+          hp: u.hp,
+          controlled_by: u.controlled_by,
+          mp: Number(u.mp ?? 5),
+        }))
     : [];
-  const extra = survivors.length > 0 ? { survivors } : {};
+  // Sprint Spore Moderate §S3 — encounter_meta per MP accrual.
+  // tier: derive da sistema_tier (Calm/Alert=1, Escalated/Critical=2, Apex=3).
+  // kill_with_status: true se almeno 1 enemy KO'd con status attivo nel round corrente
+  //   (best-effort heuristic; backend valida).
+  // biome_match: stub false per ora (richiede biome metadata wire futura).
+  const tierName =
+    state.world?.ai_progress?.tier?.name || state.world?.sistema_tier?.name || 'Calm';
+  const tierMap = { Calm: 1, Alert: 1, Escalated: 2, Critical: 2, Apex: 3 };
+  const enemyCorpses = state.world
+    ? getUnits(state.world).filter(
+        (u) =>
+          u.controlled_by !== 'player' &&
+          Number(u.hp) <= 0 &&
+          Array.isArray(u.status) &&
+          u.status.length > 0,
+      )
+    : [];
+  const encounter_meta = {
+    tier: tierMap[tierName] || 1,
+    kill_with_status: enemyCorpses.length > 0,
+    biome_match: false,
+  };
+  const extra = survivors.length > 0 ? { survivors, encounter_meta } : { encounter_meta };
   const res = await api.campaignAdvance(campaignId, resolvedOutcome, peEarned, piEarned, extra);
   const data = res.data || {};
   if (res.ok && data.evolve_opportunity) {
@@ -1784,6 +1814,29 @@ async function advanceCampaignWithEvolvePrompt(campaignId, outcome, peEarned = 0
       if (target) state.selected = target.id;
     }
     setTimeout(() => openProgressionPanel(), 200);
+  }
+  // Sprint Spore Moderate §S3 — MP grants toast (Gate 5 DoD: engine wired UX).
+  // Pattern parallelo a xp_grants: 1 log line per survivor con earned > 0,
+  // facoltativo flashUnit + pushPopup quando world units presenti.
+  const mpGrants = Array.isArray(data.mp_grants) ? data.mp_grants : [];
+  for (const grant of mpGrants) {
+    if (!grant || !(grant.earned > 0)) continue;
+    const sources = Array.isArray(grant.sources) ? grant.sources.join(', ') : '';
+    appendLog(
+      logEl,
+      `🧬 ${grant.unit_id || '?'} +${grant.earned} MP (now ${grant.new_pool}/30)${sources ? ' [' + sources + ']' : ''}`,
+    );
+    // Floating popup sopra unit selezionata se presente.
+    if (state.world && grant.unit_id) {
+      const target = getUnits(state.world).find((u) => u.id === grant.unit_id);
+      if (target?.position) {
+        try {
+          pushPopup(target.position.x, target.position.y, `+${grant.earned} MP`, '#a78bfa');
+        } catch {
+          /* popup is best-effort */
+        }
+      }
+    }
   }
   return res;
 }
