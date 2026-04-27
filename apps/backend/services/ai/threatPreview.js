@@ -68,6 +68,16 @@ function buildThreatPreview(session) {
   const pending = session.roundState.pending_intents;
   if (!Array.isArray(pending) || pending.length === 0) return [];
 
+  // 2026-04-27 PR-Y2 — StS damage forecast inline su intent.
+  // Lazy require predictCombat (evitare circular dep + missing module risk).
+  let predictCombatFn = null;
+  try {
+    // eslint-disable-next-line global-require
+    ({ predictCombat: predictCombatFn } = require('../../routes/sessionHelpers'));
+  } catch {
+    predictCombatFn = null;
+  }
+
   const preview = [];
   for (const intent of pending) {
     if (!intent || !intent.unit_id) continue;
@@ -78,12 +88,30 @@ function buildThreatPreview(session) {
     const action = intent.action || {};
     const intentType = action.type || 'unknown';
 
+    // PR-Y2 — expected_damage solo per attack (move/skip = null).
+    let expectedDamage = null;
+    let hitPct = null;
+    if (intentType === 'attack' && action.target_id && predictCombatFn) {
+      const target = _unitById(session, action.target_id);
+      if (target && Number(target.hp || 0) > 0) {
+        try {
+          const pred = predictCombatFn(actor, target, 1000);
+          expectedDamage = pred?.expected_damage ?? null;
+          hitPct = pred?.hit_pct ?? null;
+        } catch {
+          // best-effort
+        }
+      }
+    }
+
     preview.push({
       actor_id: actor.id,
       intent_type: intentType,
       intent_icon: _iconFor(intentType),
       target_id: action.target_id || null,
       threat_tiles: _threatTilesFor(session, intent),
+      expected_damage: expectedDamage,
+      hit_pct: hitPct,
     });
   }
   return preview;
