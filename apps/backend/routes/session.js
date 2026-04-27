@@ -1223,6 +1223,8 @@ function createSessionRouter(options = {}) {
       // V5 SG lifecycle: encounter start reset (ADR-2026-04-26).
       // Optional restore: `req.body.initial_sg = { unit_id: pool }` lets
       // save-load + integration tests seed SG after the encounter zero-pass.
+      // A-residual #1 (2026-04-27): tutorial player units start with SG=1
+      // so first ability con cost SG è immediately disponibile (UX onboard).
       try {
         const sgTracker = require('../services/combat/sgTracker');
         for (const u of session.units || []) sgTracker.resetEncounter(u);
@@ -1233,6 +1235,13 @@ function createSessionRouter(options = {}) {
             if (!unit) continue;
             const value = Math.max(0, Math.min(3, Math.floor(Number(pool) || 0)));
             unit.sg = value;
+          }
+        } else if (isTutorialScenario(scenarioId)) {
+          // Tutorial onboard: player units start with SG=1.
+          for (const u of session.units || []) {
+            if (u && u.controlled_by === 'player' && u.hp > 0) {
+              u.sg = 1;
+            }
           }
         }
       } catch {
