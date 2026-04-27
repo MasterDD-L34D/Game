@@ -840,3 +840,46 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 **Motivation**: l'agent `coop-phase-validator` del 2026-04-24 fu scritto "a tavolino" con path sbagliati (`phaseMachine.js` inesistente). Smoke test trovò il file reale (`coopOrchestrator.js`) via grep. Senza test = commit agent rotto. Policy deriva da lezione diretta.
 
 Ref memoria: [`feedback_smoke_test_agents_before_ready.md`](~/.claude/projects/C--Users-edusc-Desktop-gioco-Game/memory/feedback_smoke_test_agents_before_ready.md).
+
+### Gate 5 — Engine wired (dichiarazione 2026-04-27)
+
+**Policy permanente — ANTI-PATTERN "Engine LIVE Surface DEAD" KILLER**:
+
+Diagnosticato 2026-04-26: ~30% delle 61 voci catalogate (18/61) hanno **runtime built ma surface player dead**. Esempi shipped poi orphan:
+
+- enneaEffects.js 93 LOC mai `require` (revived PR #1825-1830 dopo audit)
+- objectiveEvaluator.js 5 obj types → 0 scenari runtime usavano non-elim
+- biomeSpawnBias.js → 1 scenario opt-in only
+- QBN engine 17 events → 0 chiamate session
+- Tactics Ogre HUD canonical doc → no implementation
+- Spore P2 fonte primaria → ZERO research doc (until PR #1895)
+
+**Regola**: ogni nuovo engine/service/library backend DEVE avere wire frontend (UI/HUD/CLI/log player-visible) **PRIMA di essere ship-ready**. Solo backend = WIP, **non production-ready**.
+
+**Checklist mandatory** pre-merge per nuova feature non triviale:
+
+1. ✅ Backend logic implementato + test
+2. ✅ Schema/contracts aggiornati
+3. ✅ **Surface player exists**: UI overlay / HUD widget / debrief field / log line / CLI output / debug endpoint
+4. ✅ Smoke E2E: utente reale può VEDERE l'effetto della feature in <60s di gameplay
+5. ✅ Documented in changelog: "Player vede X. Prima vedeva Y."
+
+**Eccezioni esplicite** (skip Gate 5 con justification):
+
+- Audit/telemetry internal (es. `xpBudget.auditEncounter` warn console) — surface = log developer
+- Refactor / cleanup tecnico (no behavior change)
+- Schema migration (no UX impact)
+- Methodology tooling (es. linter `lint_mutations.py`)
+
+**Anti-pattern check**: durante PR review chiedi sempre _"un player vede questa feature in 60s di gameplay?"_. Se risposta NO senza justification → blocca merge.
+
+**Motivation**: `mating_engine_orphan.md` museum card score 5/5. 469 LOC + 7 endpoint shipped 4 mesi fa, ZERO frontend. Decision blocking OD-001 ancora aperta. Costo opportunità enorme. Engine wired DoD previene la prossima volta.
+
+**Trigger consultation**:
+
+- Quando proponi nuovo agent/skill/feature
+- Quando audit identifica gap "engine X esiste ma..."
+- Quando spec doc dice "wire deferred / pending"
+- Quando review PR autonomous mode
+
+Ref memoria: vedi pattern dominante in [`docs/research/2026-04-26-cross-game-extraction-MASTER.md §4`](docs/research/2026-04-26-cross-game-extraction-MASTER.md), [`docs/research/2026-04-26-agent-integration-plan-DETAILED.md §4`](docs/research/2026-04-26-agent-integration-plan-DETAILED.md), [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md §C.2`](docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md).
