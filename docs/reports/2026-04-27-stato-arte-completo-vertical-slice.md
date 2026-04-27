@@ -238,9 +238,9 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 - 🔴 **Liberation campaign region map** (~15h) — region grid + liberation% counter. **In v3.7 §4**.
 - 🔴 **Haven recruitment radio passive growth** (~6h) — pool tick over campaign turns.
 
-#### B.1.8 — Disco Elysium (4 pattern, 2 residui — ✅ 2/4 shipped)
-- 🟢 **Thought Cabinet UI panel + cooldown round-based** (Sprint 6 2026-04-27 main) — 8 slot mentali, mode='rounds' default scala T1→3 / T2→6 / T3→9 round, end-of-round auto-tick via `applyEndOfRoundSideEffects`, Assign/Forget UI con progress bar, 76/76 test verdi.
-- 🔴 **Internal voice 4-MBTI axes** (~10h) — narrative log debrief con voce-per-axis durante combat hint.
+#### B.1.8 — Disco Elysium (4 pattern, 1 residuo — ✅ 3/4 shipped)
+- 🟢 **Thought Cabinet UI panel + cooldown round-based** (Sprint 6 2026-04-27, PR #1966 `584c54c2`) — 8 slot mentali, mode='rounds' default scala T1→3 / T2→6 / T3→9 round, end-of-round auto-tick via `applyEndOfRoundSideEffects`, Assign/Forget UI con progress bar, 76/76 test verdi. Adoption check scheduled 2026-05-11.
+- 🟢 **Internal voice 4-MBTI axes** (PR #1945 `de57432c` 2026-04-27) — narrative log debrief con voce-per-axis durante combat hint. Engine `apps/backend/services/narrative/innerVoice.js` + 18 voice templates `data/core/thoughts/inner_voices.yaml` + 135 test.
 - 🔴 **Skill check passive vs active popup** (~4h) — surface trigger via popup notification.
 - 🟢 **Day/time pacing flavor copy** — Sprint 1 §I shipped (PR #1934: `formatDayPacing(currentChapter, currentAct)` in `apps/backend/routes/campaign.js` + 4 response sites: defeat retry + choice_node + advance + act_advanced. "Giorno N di Aurora" diegetic copy).
 
@@ -389,11 +389,12 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 
 [5] DEBRIEF
     ├─ MBTI tag debrief diegetic (Disco ✅ #1897)
-    ├─ Thought Cabinet UI panel + cooldown round-based (Disco ✅ Sprint 6)
+    ├─ Thought Cabinet UI panel + cooldown round-based (Disco ✅ Sprint 6 PR #1966)
+    ├─ Internal voice 4-MBTI axes diegetic (Disco ✅ PR #1945)
     ├─ XP grant + perk pick (XCOM ✅ M13.P3 #1697)
     ├─ Officer Training School meta perks (XCOM EW, 🔴 10h) ← B.1.6
     ├─ Tri-Sorgente reward offer R/A/P softmax (✅ V2)
-    ├─ Day/time pacing flavor "Giorno N di Aurora" (🔴 2h) ← B.1.8
+    ├─ Day/time pacing flavor "Giorno N di Aurora" (Disco ✅ Sprint 1 §I PR #1934)
     └─ Replay cinematico round 3-5s (Frozen Synapse, 🔴 10-14h) ← B.3 #2
 
 [6] EVOLUTION (post-debrief, M12 Phase D shipped)

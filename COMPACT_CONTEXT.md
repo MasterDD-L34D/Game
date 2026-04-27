@@ -8,8 +8,8 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v10 (post Sprint 6 Thought Cabinet UI panel cooldown round-based 2026-04-27)
-- **Ultimo aggiornamento**: 2026-04-27 (Sprint 6 Disco Tier S #9 closure — engine + bridge + UI + tests + smoke E2E)
+- **Versione compact**: v10 (post Sprint 6 Thought Cabinet UI panel cooldown round-based 2026-04-27 — ✅ MERGED #1966 `584c54c2`)
+- **Ultimo aggiornamento**: 2026-04-27 (Sprint 6 Disco Tier S #9 closure — engine + bridge + UI + tests + smoke E2E + merge bookkeeping + adoption follow-up scheduled 2026-05-11)
 
 ## ⚡ TL;DR per ripartire (post Sprint 6)
 
