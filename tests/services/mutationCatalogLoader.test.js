@@ -17,13 +17,20 @@ const {
   _resetCacheForTest,
 } = require('../../apps/backend/services/mutations/mutationCatalogLoader');
 
-test('loadMutationCatalog: returns parsed catalog with all 30 entries + indexes', () => {
+test('loadMutationCatalog: returns parsed catalog with all 36 entries + indexes', () => {
   _resetCacheForTest();
   const data = loadMutationCatalog({ refresh: true });
   const entries = Object.keys(data.byId);
-  assert.equal(entries.length, 30, 'expected 30 mutations in shipped catalog');
+  // Path B rebalance 2026-04-27: 30 → 36 (+3 symbiotic +2 behavioral +1 sensorial).
+  // Fixes anti-pattern S6 (ADR-2026-04-26): physiological dominance 47% → 38.9%.
+  assert.equal(
+    entries.length,
+    36,
+    'expected 36 mutations in shipped catalog (post Path B rebalance)',
+  );
   assert.ok(data.byId.artigli_freeze_to_glacier, 'artigli_freeze_to_glacier present');
   assert.ok(data.byId.ferocia_to_supercritical, 'ferocia_to_supercritical present');
+  assert.ok(data.byId.simbionte_micorriza_radici, 'simbionte_micorriza_radici (Path B) present');
   assert.equal(data.schema_version, '0.1.0');
   assert.ok(data.byCategory.physiological && data.byCategory.physiological.length > 0);
   assert.ok(data.byTier['2'] && data.byTier['2'].length > 0);
@@ -40,11 +47,11 @@ test('byId / byCategory / byTier indexes are correct', () => {
   // byCategory groups all entries.
   let totalByCategory = 0;
   for (const arr of Object.values(data.byCategory)) totalByCategory += arr.length;
-  assert.equal(totalByCategory, 30);
+  assert.equal(totalByCategory, 36);
   // byTier groups all entries.
   let totalByTier = 0;
   for (const arr of Object.values(data.byTier)) totalByTier += arr.length;
-  assert.equal(totalByTier, 30);
+  assert.equal(totalByTier, 36);
 });
 
 test('listEligibleForUnit: filters by trait prerequisites', () => {

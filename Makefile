@@ -2,7 +2,7 @@
         evo-tactics-pack dev-stack test-stack ci-stack \
         evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint \
         evo-help evo-validate evo-backlog traits-review update-tracker \
-        ci-log-harvest
+        ci-log-harvest lint-mutations
 
 PYTHON ?= python3
 EVO_AUTOMATION := $(PYTHON) -m tools.automation.evo_batch_runner
@@ -179,3 +179,6 @@ ci-log-harvest:
 		$(if $(CI_LOG_HARVEST_CONFIG),--config "${CI_LOG_HARVEST_CONFIG}",) \
 		$(if $(CI_LOG_HARVEST_DRY_RUN),--dry-run,) \
 		${CI_LOG_HARVEST_ARGS}
+
+lint-mutations:
+	$(PYTHON) tools/py/lint_mutation_balance.py
