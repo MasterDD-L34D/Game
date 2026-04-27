@@ -312,11 +312,54 @@ Source: `data/core/companion/creature_bonds.yaml`. Engine: `apps/backend/service
 
 Missing YAML / vuoto → `loadCreatureBonds` ritorna `{ version: 0, bonds: [] }` → no-op silent. Zero behavior change su encounter senza bond pair coverage.
 
+## §12 — Ability rank progression r1-r4 (Sprint 8, AncientBeast Tier S #6 final closure)
+
+Source: `data/core/jobs.yaml` v0.2.0. Loader: `apps/backend/services/jobsLoader.js extractAbilities` (sort by rank asc). Executor: `apps/backend/services/abilityExecutor.js` (18/18 effect_type — invariato). ADR: `docs/adr/ADR-2026-04-27-ability-r3-r4-tier.md`.
+
+### Cost ladder canonical
+
+| Rank | cost_pi | cost_ap | Scope                                                                    |
+| :--: | :-----: | :-----: | ------------------------------------------------------------------------ |
+|  r1  |    3    |   0-2   | Utility / single-target base (2 ability/job, default unlock)             |
+|  r2  |    8    |   1-2   | Capstone parziale (1 ability/job, prima maggiore investitura)            |
+|  r3  | **14**  | **1-2** | Mid-tier upgrade (1 ability/job, +1 dmg_step / range +1 / duration +1)   |
+|  r4  | **22**  | **2-3** | Capstone signature (1 ability/job, AoE 3x3-4x4 / +3-5 dmg_step / status) |
+
+Curva quasi-quadratica (3 → 8 → 14 → 22) — late investment reward + scoraggia rush.
+
+### r3/r4 ability per base job (14 nuove)
+
+| Job        | r3 (cost_pi 14) | effect_type   | r4 (cost_pi 22)   | effect_type      |
+| ---------- | --------------- | ------------- | ----------------- | ---------------- |
+| skirmisher | phantom_step    | move_attack   | dervish_whirlwind | multi_attack     |
+| vanguard   | aegis_stance    | buff          | bulwark_aegis     | aoe_buff         |
+| warden     | chain_shackles  | aoe_debuff    | void_collapse     | aoe_debuff       |
+| artificer  | arcane_renewal  | team_heal     | convergence_wave  | team_buff        |
+| invoker    | arcane_lance    | ranged_attack | apocalypse_ray    | surge_aoe        |
+| ranger     | hunter_mark     | debuff        | headshot          | execution_attack |
+| harvester  | vital_drain     | drain_attack  | lifegrove         | team_heal        |
+
+### Resource gating r4 (capstone)
+
+| Job        | Resource | Gate                           |
+| ---------- | -------- | ------------------------------ |
+| skirmisher | PP       | ≥ 10                           |
+| vanguard   | PT       | ≥ 8                            |
+| warden     | PT       | ≥ 10                           |
+| artificer  | PP       | ≥ 10                           |
+| invoker    | SG       | **= 100** (full gauge consume) |
+| ranger     | PP       | ≥ 12                           |
+| harvester  | PT       | ≥ 10                           |
+
+### Constraint runtime
+
+Tutte le 14 ability nuove **riusano i 18 effect_type esistenti** in abilityExecutor.js. Zero nuovi runtime types, zero modifica all'executor — extension data-only.
+
 ## Maintenance
 
 **Update trigger**:
 
-- New balance YAML aggiunto → riga in §1-§11
+- New balance YAML aggiunto → riga in §1-§12
 - Numeric value canonical change → ADR + update qui
 - Sprint α/β/γ ship cambio numerico → cross-link PR
 

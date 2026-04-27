@@ -1269,6 +1269,35 @@ test('iter5 senza aggro_locked, AI sceglie lowest-hp normale (regression)', asyn
   assert.equal(decision.aggro_override, undefined);
 });
 
+// Sprint 8 r3/r4 — smoke check that an r3 ability dispatches via the same
+// move_attack path as r1 dash_strike (no new effect_type runtime needed).
+test('Sprint 8 phantom_step (r3 move_attack): dispatch end-to-end via existing executor', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid, state } = await startSession(app);
+  const scout = state.units.find((u) => u.id === 'p_scout');
+  assert.ok(scout, 'scout presente nel tutorial_01');
+
+  const res = await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'ability',
+      actor_id: 'p_scout',
+      ability_id: 'phantom_step',
+      target_id: 'e_nomad_1',
+      position: { x: 2, y: 2 },
+    });
+  assert.equal(res.status, 200, `phantom_step ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'move_attack');
+  assert.equal(res.body.ability_id, 'phantom_step');
+  assert.deepEqual(res.body.position_to, { x: 2, y: 2 });
+  assert.ok(res.body.attack, 'attack payload presente');
+});
+
 test('raw event persistito con action_type=ability + ability_id', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
