@@ -129,6 +129,27 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ unit_id: unitId, thought_id: thoughtId }),
     }),
+  // Skiv Goal 3 — thoughts ritual choice UI (P4 agency, Disco extension).
+  // candidates: GET top-N ranked-by-vcSnapshot list pre-internalization.
+  // ritualOpen: alias kept for potential future server-side staging hook.
+  // ritualPick: irreversible pick → reuses /thoughts/research with mode=rounds.
+  thoughtsCandidates: (sid, unitId, top = 3) =>
+    jsonFetch(
+      `/api/session/${encodeURIComponent(sid)}/thoughts/candidates?unit_id=${encodeURIComponent(
+        unitId,
+      )}&top=${encodeURIComponent(String(top))}`,
+    ),
+  thoughtsRitualOpen: (sid, unitId, top = 3) =>
+    jsonFetch(
+      `/api/session/${encodeURIComponent(sid)}/thoughts/candidates?unit_id=${encodeURIComponent(
+        unitId,
+      )}&top=${encodeURIComponent(String(top))}`,
+    ),
+  thoughtsRitualPick: (sid, unitId, thoughtId) =>
+    jsonFetch(`/api/session/${encodeURIComponent(sid)}/thoughts/research`, {
+      method: 'POST',
+      body: JSON.stringify({ unit_id: unitId, thought_id: thoughtId, mode: 'rounds' }),
+    }),
   replay: (sid) => jsonFetch(`/api/session/${encodeURIComponent(sid)}/replay`),
   modulations: () => jsonFetch('/api/party/modulations'),
   partyConfig: () => jsonFetch('/api/party/config'),

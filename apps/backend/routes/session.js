@@ -53,6 +53,7 @@ const {
   passiveBonuses: thoughtPassiveBonuses,
   snapshotCabinet,
   mergeUnlocked,
+  describeThought,
 } = require('../services/thoughts/thoughtCabinet');
 // Skiv ticket #4: biome resonance reduces research cost when species
 // biome_affinity matches session.biome_id. Looked up at the route layer
@@ -67,7 +68,7 @@ const {
 const { updateThoughtPassives } = require('../services/thoughts/thoughtPassiveApply');
 // Skiv ticket #3: Inner Voices — 24 Disco Elysium-style diegetic whispers
 // (4 MBTI axes × 2 directions × 3 tiers). Pure evaluator, no combat effects.
-const { evaluateVoiceTriggers } = require('../services/narrative/innerVoice');
+const { evaluateVoiceTriggers, describeVoice } = require('../services/narrative/innerVoice');
 // SPRINT_010 (issue #2): IA estratta in modulo dedicato.
 // Le funzioni decisionali (selectAiPolicy, stepAway) vivono in services/ai/policy.js,
 // l'orchestratore del turno (createSistemaTurnRunner) in services/ai/sistemaTurnRunner.js.
@@ -2838,6 +2839,115 @@ function createSessionRouter(options = {}) {
         };
       }
       res.json({ session_id: session.session_id, delta, per_actor: perActor });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // Skiv Goal 3 — Thoughts ritual choice (P4 agency, Disco extension on top
+  // of #1966). When a unit has unlocked thoughts ready for internalization,
+  // returns top-N candidates ranked by vcSnapshot mbti_axes match strength
+  // (distance from threshold + tier weight). Each candidate includes a
+  // voice line preview pulled from inner_voices.yaml (#1945) when available,
+  // so the player can hear *which* voice ascends pre-internalization.
+  // Query: ?unit_id=<id>&top=3 (default top=3, max 5).
+  router.get('/:id/thoughts/candidates', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const unitId = req.query.unit_id;
+      if (!unitId) return res.status(400).json({ error: 'unit_id obbligatorio' });
+      const topRaw = Number.parseInt(req.query.top, 10);
+      const top = Number.isFinite(topRaw) ? Math.min(5, Math.max(1, topRaw)) : 3;
+      const snapshot = buildVcSnapshot(session, telemetryConfig);
+      const actorVc = snapshot.per_actor?.[unitId] || null;
+      const axes = actorVc && actorVc.mbti_axes ? actorVc.mbti_axes : null;
+      const { state } = getOrCreateCabinet(session.session_id, unitId);
+      // Refresh unlocked set against current axes (mirror /thoughts behavior).
+      const { newly } = evaluateMbtiThoughts(axes, state.unlocked);
+      mergeUnlocked(state, newly);
+      // Build candidate list: unlocked AND not internalized AND not researching.
+      const eligible = [];
+      for (const id of state.unlocked) {
+        if (state.internalized.has(id)) continue;
+        if (state.researching.has(id)) continue;
+        const entry = describeThought(id);
+        if (!entry) continue;
+        const axisData = axes ? axes[entry.axis] : null;
+        const axisValue = axisData && typeof axisData.value === 'number' ? axisData.value : 0.5;
+        const threshold = Number.isFinite(entry.threshold) ? entry.threshold : 0.5;
+        // Match strength: how far past threshold the actor is, normalized 0..1.
+        // direction='high' rewards values above threshold; 'low' rewards below.
+        let strength = 0;
+        if (entry.direction === 'high') strength = Math.max(0, axisValue - threshold);
+        else if (entry.direction === 'low') strength = Math.max(0, threshold - axisValue);
+        // Tier weight: T1=1, T2=1.5, T3=2 (deeper thoughts = higher score base).
+        const tier = Number.isFinite(entry.tier) ? entry.tier : 1;
+        const tierWeight = 1 + (tier - 1) * 0.5;
+        const score = strength * tierWeight;
+        // Voice line preview: pick a voice from inner_voices.yaml that matches
+        // the same axis+direction (any tier <= entry.tier, prefer matching tier).
+        let voicePreview = null;
+        try {
+          // Iterate all voices, find best match same axis+direction.
+          // (Simple linear scan across 24 voices is cheap.)
+          const voicesYaml = require('../services/narrative/innerVoice');
+          const cat = voicesYaml.loadVoices ? voicesYaml.loadVoices() : null;
+          if (cat && cat.voices) {
+            let best = null;
+            let bestTierDelta = Infinity;
+            for (const [vid, v] of Object.entries(cat.voices)) {
+              if (v.axis !== entry.axis) continue;
+              if (v.direction !== entry.direction) continue;
+              const delta = Math.abs((v.tier || 1) - tier);
+              if (delta < bestTierDelta) {
+                bestTierDelta = delta;
+                best = describeVoice(vid, cat);
+              }
+            }
+            if (best) {
+              voicePreview = {
+                id: best.id,
+                voice_it: best.voice_it || best.flavor_it || null,
+                tier: best.tier || 1,
+                pole_letter: best.pole_letter || null,
+              };
+            }
+          }
+        } catch {
+          /* voice preview optional */
+        }
+        eligible.push({
+          thought_id: id,
+          axis: entry.axis,
+          direction: entry.direction,
+          pole_letter: entry.pole_letter || null,
+          tier,
+          title_it: entry.title_it || id,
+          flavor_it: entry.flavor_it || '',
+          effect_hint_it: entry.effect_hint_it || '',
+          effect_bonus: entry.effect_bonus || {},
+          effect_cost: entry.effect_cost || {},
+          axis_value: axisValue,
+          threshold,
+          match_strength: Number(strength.toFixed(3)),
+          score: Number(score.toFixed(3)),
+          voice_preview: voicePreview,
+        });
+      }
+      // Rank by score desc, tiebreaker tier desc.
+      eligible.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return b.tier - a.tier;
+      });
+      const candidates = eligible.slice(0, top);
+      res.json({
+        session_id: session.session_id,
+        unit_id: unitId,
+        top,
+        total_eligible: eligible.length,
+        candidates,
+      });
     } catch (err) {
       next(err);
     }

@@ -25,6 +25,7 @@ import { initCampaignPanel } from './campaignPanel.js';
 import { initLobbyBridgeIfPresent } from './lobbyBridge.js';
 import { initFormsPanel, openFormsPanel } from './formsPanel.js';
 import { initThoughtsPanel, openThoughtsPanel } from './thoughtsPanel.js';
+import { initThoughtsRitualPanel, openRitualPanel } from './thoughtsRitualPanel.js';
 import { initCharacterPanel, openCharacterPanel } from './characterPanel.js';
 import { initProgressionPanel, openProgressionPanel } from './progressionPanel.js';
 import { initSkivPanel, openSkivPanel } from './skivPanel.js';
@@ -2133,6 +2134,18 @@ initThoughtsPanel({
       : null,
 });
 
+// Skiv Goal 3 — Thoughts ritual choice UI (P4 agency, Disco extension).
+// Auto-open trigger: window event 'research_completed' with detail
+// { unit_id, internalized_count } fired when the 3rd thought completes
+// internalization (apex gate moment). Manual debug via __evo.openRitualPanel.
+initThoughtsRitualPanel({
+  getSessionId: () => state.sid,
+  getSelectedUnit: () =>
+    state.world && state.selected
+      ? getUnits(state.world).find((u) => u.id === state.selected) || null
+      : null,
+});
+
 // Sprint 2026-04-26 telemetria VC compromesso — Carattere panel (🎭).
 // 4 MBTI bars (E↔I/S↔N/T↔F/J↔P) + Ennea badge grid. Phone-side dettaglio
 // numerico. TV side rimane pulito (vcTvHud flash diegetici).
@@ -2152,6 +2165,7 @@ window.__evo = {
   advanceCampaignWithEvolvePrompt,
   openFormsPanel,
   openThoughtsPanel,
+  openRitualPanel,
   openCharacterPanel,
   openSkivPanel,
   lobbyBridge,

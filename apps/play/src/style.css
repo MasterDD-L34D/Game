@@ -3135,3 +3135,46 @@ body.ability-target-mode canvas#grid {
   animation: echolocation-pulse-anim 800ms ease-out forwards;
   will-change: transform, opacity;
 }
+
+/* Skiv Goal 3 — Thoughts ritual choice overlay (P4 agency, Disco extension).
+ * Backup styles (panel injects its own via injectStyles for isolation, these
+ * are kept in style.css per handoff §3.1 file ownership matrix +40 LOC). */
+.thoughts-ritual-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  background: rgba(8, 6, 14, 0.86);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.thoughts-ritual-overlay.visible {
+  display: flex;
+}
+.thoughts-ritual-card.urgent {
+  /* When timer falls below 10s, card pulses red to signal urgency.
+   * Mirror handoff D-skiv-3 default countdown rosso → giallo → verde. */
+  animation: ritual-pulse-warning 1.2s ease-in-out infinite;
+}
+@keyframes ritual-countdown {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+@keyframes ritual-pulse-warning {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px 2px rgba(239, 68, 68, 0.55);
+  }
+}
+.ritual-candidate.top-pick {
+  box-shadow:
+    0 0 0 1px #c6a0ff inset,
+    0 0 16px rgba(198, 160, 255, 0.28);
+}
