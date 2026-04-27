@@ -75,6 +75,9 @@ const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIn
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
 const { createAbilityExecutor } = require('../services/abilityExecutor');
 const reactionEngine = require('../services/reactionEngine');
+// Sprint 7 Beast Bond (AncientBeast Tier S #6 residuo) — species-pair passive
+// reactions post damage. Loader soft-fails when YAML missing (no-op silent).
+const bondReactionTrigger = require('../services/combat/bondReactionTrigger');
 // Status engine extension (2026-04-25 audit P0): wire 7 ancestor statuses
 // (linked/fed/healing/attuned/sensed/telepatic_link/frenzy) runtime-active.
 const { computeStatusModifiers } = require('../services/combat/statusModifiers');
@@ -544,6 +547,7 @@ function createSessionRouter(options = {}) {
     let panicTriggered = false;
     let parryResult = null;
     let interceptResult = null;
+    let bondReactionResult = null;
     let terrainReactionResult = null;
     // M14-A residuo close (TKT-09 2026-04-26): surface positional info
     // (elevation_delta + multiplier) on performAttack return so callers can
@@ -709,6 +713,32 @@ function createSessionRouter(options = {}) {
           panicTriggered = false; // panic non si applica se danno deviato
         }
       }
+      // Sprint 7 Beast Bond — species-pair passive reaction post damage.
+      // Skip when intercept already fired (target didn't take the hit, the
+      // interceptor did — bond pre-empted by intercept armed reaction).
+      if (damageDealt > 0 && !interceptResult) {
+        bondReactionResult = bondReactionTrigger.triggerBondReaction(
+          session,
+          actor,
+          target,
+          damageDealt,
+          {
+            performAttack: (allyUnit, attackerUnit) =>
+              performAttack(session, allyUnit, attackerUnit, null),
+          },
+        );
+        if (bondReactionResult) {
+          if (bondReactionResult.type === 'shield_ally') {
+            // Target restored by half damage absorbed → killOccurred reset
+            // when target was put exactly to 0 by this attack and absorb
+            // brought it back to >0. panicTriggered re-eval already happened
+            // pre-bond via target.hp gate; preserve original.
+            if (target.hp > 0) {
+              killOccurred = false;
+            }
+          }
+        }
+      }
       // SPRINT_013 (issue #10): trigger panic nel target se subisce un
       // colpo critico (MoS >= 8). Il target non e' ancora morto (target.hp
       // potrebbe essere a 0 ma panic su un'unita' KO e' innocuo). Applica
@@ -845,6 +875,7 @@ function createSessionRouter(options = {}) {
       status_applies: statusApplies,
       parry: parryResult,
       intercept: interceptResult,
+      bond_reaction: bondReactionResult,
       terrain_reaction: terrainReactionResult,
       positional: positionalInfo,
       biome_affinity: {
