@@ -36,6 +36,7 @@ import {
   clearPredictionCache,
 } from './predictPreviewOverlay.js';
 import { renderObjectiveBar } from './objectivePanel.js';
+import { renderBiomeChip } from './biomeChip.js';
 
 const state = {
   sid: null,
@@ -1038,6 +1039,16 @@ async function refreshObjectiveBar() {
   }
 }
 
+// Sprint 11 (Surface-DEAD #6) — refresh biome chip HUD.
+// Reads state.world.biome_id (publicSessionView surface) e renderizza chip
+// con icon + IT label. Hide gracefully se biome_id null. Fire-and-forget.
+function refreshBiomeChip() {
+  const containerEl = document.getElementById('biome-chip');
+  if (!containerEl) return;
+  const biomeId = state.world?.biome_id || null;
+  renderBiomeChip(containerEl, biomeId);
+}
+
 // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette (DOM overlay).
 // Driver: state.world.pressure (0..100). CSS vars --tension-alpha + --tension-color
 // applied to .tension-vignette singleton (created lazily). Pure helpers from
@@ -1124,6 +1135,8 @@ async function refresh() {
     refreshVcSnapshot();
     // Sprint 9 (Surface-DEAD #5): refresh objective HUD bar post-state-fetch.
     refreshObjectiveBar();
+    // Sprint 11 (Surface-DEAD #6): refresh biome chip post-state-fetch.
+    refreshBiomeChip();
     // 2026-04-27 PR-Y1 — Gris pressure palette apply post-state-fetch
     applyPressurePalette(state.world);
     // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette overlay.
@@ -1291,6 +1304,8 @@ async function startNewSession() {
   clearPredictionCache();
   // Sprint 9 (Surface-DEAD #5): refresh HUD obiettivo subito su nuova sessione.
   refreshObjectiveBar();
+  // Sprint 11 (Surface-DEAD #6): refresh biome chip subito su nuova sessione.
+  refreshBiomeChip();
   // Bundle B.3 — pipe session_id to codex panel for /api/v1/codex/pages.
   setCodexSessionId(state.sid);
   // M11 Phase B+ (TKT-M11B-03) — if host room carries campaign_id, bootstrap
