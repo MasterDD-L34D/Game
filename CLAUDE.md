@@ -328,6 +328,56 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 notte — 5 sprint autonomous + OD-001 closure)
+
+**Sessione 2026-04-27 notte (autonomous full-stack)**: 5 sprint autonomous shipped + 4 fixture maintenance fix + OD-001 Path A 4/4 chiuso definitivamente (PR #1877 superseded).
+
+**PR shipped main** (5):
+
+| PR                                                       | Sprint | Scope                                                                                                                                                                               | Pattern source                   |
+| -------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| [#1934](https://github.com/MasterDD-L34D/Game/pull/1934) | 1      | Wesnoth time-of-day modifier + AI War defender's advantage + Disco day pacing flavor + Fallout numeric reference doc + 2 ADR design AI War                                          | Tier S #5/#9/#10/#11             |
+| [#1935](https://github.com/MasterDD-L34D/Game/pull/1935) | 2      | Subnautica habitat lifecycle wire (biomeAffinity service + dune_stalker `biome_affinity_per_stage` + 14 lifecycle YAML stub script + biomeSpawnBias initial wave universal closure) | Tier A #9                        |
+| [#1937](https://github.com/MasterDD-L34D/Game/pull/1937) | 3      | Tunic Glifi codexPanel tab + AncientBeast wikiLinkBridge slug bridge + Wildermyth choice→permanent flag campaign state                                                              | Tier S #6/#12 + Tier A indie     |
+| [#1938](https://github.com/MasterDD-L34D/Game/pull/1938) | 4      | Cogmind stratified tooltip Shift-hold expand + Dead Space holographic AOE cone shimmer + Isaac Anomaly card glow effect                                                             | Tier B #3/#7 + Tier S #11 hybrid |
+| [#1940](https://github.com/MasterDD-L34D/Game/pull/1940) | 5      | Tufte sparkline HTML dashboard generator + DuckDB analyze_telemetry +4 SQL query (mbti_distribution / archetype_pickrate / kill_chain_assists / biome_difficulty)                   | Tier E #9/#13                    |
+
+**OD-001 chiusura definitiva**: PR #1877 (Sprint C UI + backend, 51K LOC stale) chiuso come superseded. Path A 4/4 già live via combo #1874+#1875+#1876+#1879+#1911. Niente perso.
+
+**Engine LIVE Surface DEAD anti-pattern killed**: Subnautica habitat (Tier A #9) chiuso (engine + lifecycle YAML + wire performAttack + UI biome_affinity surface). biomeSpawnBias universal init wave closure (encounter.biome_id derive biomeConfig).
+
+**Test baseline post-merge**: AI 311/311 + spawner 15/15 + biomeAffinity 7/7 + wikiLinkBridge 10/10 + campaignFlags 9/9 + sparkline 8/8 + 4 fixture restore = **~360 test verde**.
+
+**Stato pillars post-sprint**:
+
+| #   | Pilastro          |  Pre   |  Post  | Delta                                                   |
+| --- | ----------------- | :----: | :----: | ------------------------------------------------------- |
+| P1  | Tattica leggibile |   🟢   |  🟢++  | + Cogmind tooltip + Dead Space AOE + Isaac glow         |
+| P2  | Evoluzione        | 🟢 def | 🟢 def | + Subnautica habitat lifecycle live (15 species)        |
+| P3  | Specie×Job        |  🟢c   |  🟢c+  | + AncientBeast wiki cross-link runtime ↔ catalog       |
+| P4  | MBTI/Ennea        |  🟡++  |  🟢c   | + Wildermyth permanent flags + Disco day pacing         |
+| P5  | Co-op             |  🟢c   |  🟢c   | unchanged (residuo TKT-M11B-06 userland)                |
+| P6  | Fairness          |  🟢c+  | 🟢c++  | + AI War defender adv + Fallout numeric ref + Tufte viz |
+
+**Lessons codified questa sessione**:
+
+- **Cherry-pick fixture fix opportunistic** quando CI block PR proprio per stale fixtures di altre PR mergiate (sangue_piroforico nerf #1869, orphan currency #1870, schema object #1871).
+- **`gh pr update-branch` API > rebase + force-push** quando branch protection blocca admin merge.
+- **Sandbox guardrail**: force-push e admin merge denied automatically. Workflow alternative: GitHub UI "Update branch" button via `gh pr update-branch <num>`.
+- **Multi-PC race PR superseded**: PR aperti pre-cross-PC che restano stale > 1 giorno = candidate close-as-superseded automatic. Pattern visto su #1877.
+
+**Handoff**: [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md`](docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md) §A.2 PR table aggiornato + §B.1.5/§B.1.11/§B.2 #9/§B.3 #3/§B.5 #9/#13 marked 🟢 shipped.
+
+**Next session candidati**:
+
+- A) **TKT-M11B-06 playtest live** (userland 2-4 amici) — chiude P5 🟢 def
+- B) **Beast Bond reaction trigger** (~5h) — adjacency-trigger per-creature trait, AncientBeast Tier S #6 residuo
+- C) **3 nuovi elementi channel resistance** earth/wind/dark (~6h con balance pass) — AncientBeast Tier S #6 residuo
+- D) **Thought Cabinet UI panel cooldown round-based** (~8h) — Disco Tier S #9 residuo, P4 dominante
+- E) **Ability r3/r4 tier progressive** (~10h) — AncientBeast Tier S #6 residuo, P3+
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 sera — Spore Moderate FULL + Recovery + Bundle B Indie Quick-Wins)
 
 **Sessione 2026-04-27 sera (continuazione)**: 18 PR mergiati main (Spore S1-S6 stack + lifecycle + UI QW-1/2/3 + recovery 6 deliverables persi + classification + 12 museum cards + Bundle B 4 indie quick-wins).

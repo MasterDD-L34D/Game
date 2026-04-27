@@ -126,8 +126,14 @@ Fonte: PR #1891 + report Skiv ADR + 5 reconciliation docs.
 | | #1924 | Sprint Y S5 lifecycle hooks — death propagate + spawn inherit | P2 |
 | Backbone deploy | #1919 | Sprint C backbone Min bundle — Render + CF Pages config | P5 ops |
 | Ticket runtime (mio) | #1909 | Step 7 sync script + ticket-triage skill (M14 runtime) | meta |
+| **Sprint 1-5 autonomous (notte)** | **#1934** | Sprint 1 backend QW — Wesnoth time-of-day + AI War defender adv + Disco day pacing + Fallout numeric ref doc | P1+P5+P6 |
+| | **#1935** | Sprint 2 mutation pipeline — Subnautica habitat lifecycle wire (biomeAffinity + 14 species stub + biomeSpawnBias init wave universal) | P2+P3 |
+| | **#1937** | Sprint 3 codex completion — Tunic Glifi UI tab + AncientBeast wikiLinkBridge slug + Wildermyth permanent flag | P3+P4+meta |
+| | **#1938** | Sprint 4 UI polish — Cogmind stratified tooltip + Dead Space holographic AOE + Isaac Anomaly glow | P1 |
+| | **#1940** | Sprint 5 telemetry viz — Tufte sparkline HTML dashboard + DuckDB +4 SQL query | P6+ops |
+| OD-001 closure | #1877 ❌ | Sprint C UI — chiuso superseded (backend già via #1879, UI Lineage tab via #1911) | — |
 
-**Totale 49 PR shipped** in ~4 giorni (2026-04-25→2026-04-27).
+**Totale 54 PR shipped** in ~4 giorni (2026-04-25→2026-04-27 notte) + 1 PR closed-superseded.
 
 ### A.3 — Documenti research/design generati (questa thread)
 

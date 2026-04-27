@@ -9,15 +9,16 @@
 
 ## Aperte
 
-### [OD-001] V3 Mating/Nido — scope e timing ✅ RISOLTA Path A 2026-04-27
+### [OD-001] V3 Mating/Nido — scope e timing ✅ FULL CLOSURE 2026-04-27 notte
 
 - **Livello**: game + system
-- **Stato**: **RISOLTA 2026-04-27** — verdict user **Path A** confermato. Sprint Nido Path A 4/4 SHIPPED end-to-end:
+- **Stato**: **FULL CLOSURE 2026-04-27 notte** — verdict user **Path A** confermato + PR #1877 superseded chiuso definitivamente. Sprint Nido Path A 4/4 SHIPPED end-to-end + UI Mating tab via combo:
   - Sprint A nestHub panel + biome_arc unlock (PR #1876)
   - Sprint B debrief recruit wire (PR #1875)
   - Sprint C backend mating roll + 3-tier offspring (PR #1879)
   - Sprint D lineage chain + tribe emergent (PR #1874)
-  - Lineage tab UI nestHub (PR #1911 just shipped)
+  - Lineage tab UI nestHub (PR #1911)
+  - **PR #1877** (Sprint C UI con conflict frontend) → **CLOSED-superseded 2026-04-27 notte** dopo verifica 51K LOC stale rispetto a main: tutto il content backend già live via #1879, UI Mating tab già coperta da Sprint A scaffold + Lineage tab. Niente perso, doppio shipping evitato.
   - **Breakthrough 2026-04-26**: tribe **emerge automaticamente** dalla catena Nido→offspring→`lineage_id` — Path C (replace job system ~40h breaking) deprecato dalla scoperta.
   - **Pillar P2 → 🟢 candidato def** (post Spore Moderate #1913+#1915+#1916 + Lineage tab #1911).
 - **Storico (preservato)**: claim originale 2026-04-25 "runtime zero / green-field" era basato su audit incomplete. Reality: engine LIVE da 4 mesi. Vedi card [M-2026-04-25-007 Mating Engine Orphan](docs/museum/cards/mating_nido-engine-orphan.md).
