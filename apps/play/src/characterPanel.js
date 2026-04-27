@@ -213,6 +213,45 @@ function injectStyles() {
     .conviction-badge .cv-delta {
       font-size: 0.78rem; color: #8aa0c7; margin-top: 4px; font-style: italic;
     }
+    /* QW-2 Spore Moderate — MP pool + archetype passives section. */
+    .character-mp {
+      background: #0d1118; border: 1px solid #2a3040; border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 16px;
+    }
+    .character-mp h3 {
+      font-size: 0.85rem; color: #8aa0c7; margin: 0 0 10px 0;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .mp-pool-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    }
+    .mp-pool-row .mp-label {
+      flex: 0 0 90px; font-size: 0.85rem; color: #c8cfdd;
+    }
+    .mp-pool-bar {
+      flex: 1 1 auto; height: 14px; background: #1a1f2b; border-radius: 7px;
+      position: relative; overflow: hidden;
+    }
+    .mp-pool-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #a78bfa 0%, #c084fc 100%);
+      transition: width 0.3s ease-out;
+    }
+    .mp-pool-row .mp-value {
+      flex: 0 0 60px; font-size: 0.85rem; color: #c084fc;
+      font-family: monospace; text-align: right;
+    }
+    .archetype-passives {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+    }
+    .archetype-chip {
+      background: #1a1f2b; border: 1px solid #c084fc; border-radius: 999px;
+      padding: 4px 10px; font-size: 0.75rem; color: #e8d4ff;
+    }
+    .archetype-chip .arch-icon { margin-right: 4px; }
+    .archetype-empty {
+      font-size: 0.78rem; color: #6b7790; font-style: italic; padding-top: 4px;
+    }
   `;
   document.head.appendChild(s);
 }
@@ -347,6 +386,43 @@ function renderEnneaSection(actorVc) {
   `;
 }
 
+// QW-2 — Spore Moderate MP pool + archetype passive section.
+// Reads `unit.mp` (default 5 backend hydration) + `unit._archetype_meta`
+// (hydrated da applyMutationBingoToUnit ogni session /start).
+function renderMpSection(unit) {
+  const mp = Number(unit?.mp ?? 0);
+  const cap = 30; // MP_POOL_MAX da mpTracker.js
+  const pct = Math.min(100, (mp / cap) * 100);
+  const archetypes = Array.isArray(unit?._archetype_meta) ? unit._archetype_meta : [];
+  const archetypeIcons = {
+    tank_plus: '🛡',
+    ambush_plus: '🗡',
+    scout_plus: '👁',
+    adapter_plus: '🌿',
+    alpha_plus: '⭐',
+  };
+  const chips =
+    archetypes.length === 0
+      ? '<div class="archetype-empty">Nessun archetipo attivo (servono ≥3 mutation stessa categoria).</div>'
+      : `<div class="archetype-passives">${archetypes
+          .map(
+            (a) =>
+              `<span class="archetype-chip" title="${escapeHtml(a.passive_token || '')}"><span class="arch-icon">${archetypeIcons[a.archetype] || '◆'}</span>${escapeHtml(a.label_it || a.archetype)}</span>`,
+          )
+          .join('')}</div>`;
+  return `
+    <div class="character-mp">
+      <h3>Mutation Points &amp; Archetipi (Spore)</h3>
+      <div class="mp-pool-row">
+        <div class="mp-label">MP pool</div>
+        <div class="mp-pool-bar"><div class="mp-pool-bar-fill" style="width:${pct}%"></div></div>
+        <div class="mp-value">${mp}/${cap}</div>
+      </div>
+      ${chips}
+    </div>
+  `;
+}
+
 function render(unit, actorVc) {
   const overlay = buildOverlay();
   const body = overlay.querySelector('[data-role="body"]');
@@ -357,7 +433,7 @@ function render(unit, actorVc) {
       '<div class="character-empty">Seleziona un PG per vedere il suo profilo carattere.</div>';
     return;
   }
-  body.innerHTML = renderMbtiSection(actorVc) + renderEnneaSection(actorVc);
+  body.innerHTML = renderMpSection(unit) + renderMbtiSection(actorVc) + renderEnneaSection(actorVc);
 }
 
 /**

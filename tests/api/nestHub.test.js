@@ -15,9 +15,9 @@ async function loadHub() {
   return import('../../apps/play/src/nestHub.js');
 }
 
-test('nestHub exports 4 canonical tab ids: squad / mating / lineage / codex', async () => {
+test('nestHub exports 5 canonical tab ids: squad / mating / mutations / lineage / codex', async () => {
   const { __nestHubInternal } = await loadHub();
-  assert.deepEqual(__nestHubInternal.TAB_IDS, ['squad', 'mating', 'lineage', 'codex']);
+  assert.deepEqual(__nestHubInternal.TAB_IDS, ['squad', 'mating', 'mutations', 'lineage', 'codex']);
 });
 
 test('filterSquadMembers returns only NPCs with recruited:true', async () => {

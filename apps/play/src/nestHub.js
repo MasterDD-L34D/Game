@@ -21,7 +21,7 @@
 
 import { api } from './api.js';
 
-const TAB_IDS = ['squad', 'mating', 'lineage', 'codex'];
+const TAB_IDS = ['squad', 'mating', 'mutations', 'lineage', 'codex'];
 
 const STATE = {
   overlayEl: null,
@@ -36,6 +36,9 @@ const STATE = {
   expandedLineageId: null,
   expandedChain: [],
   selectedUnitId: null,
+  // QW-3 Spore Moderate — mutations tab state.
+  cachedEligibleMutations: [],
+  cachedMutationsBingo: { archetypes: [], counts: {} },
   openCodex: () => {
     /* fallback no-op */
   },
@@ -174,6 +177,43 @@ function injectStyles() {
     }
     .nest-status.ok { color: #66bb6a; }
     .nest-status.err { color: #ef5350; }
+    /* QW-3 Spore Moderate — Mutations tab. */
+    .nest-mutation-list { display: flex; flex-direction: column; gap: 4px; }
+    .nest-mutation-row {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      background: #0b0d12; border: 1px solid #2a3040; border-radius: 6px;
+      padding: 8px 10px; font-size: 0.85rem;
+    }
+    .nest-mutation-row.disabled { opacity: 0.5; }
+    .nest-mutation-row .mut-name { flex: 1 1 200px; color: #c084fc; font-weight: 600; }
+    .nest-mutation-row .mut-tier {
+      background: #1d2230; border: 1px solid #2a3040; border-radius: 4px;
+      padding: 1px 6px; font-family: monospace; font-size: 0.72rem;
+    }
+    .nest-mutation-row .mut-slot {
+      background: #1a1f2b; border: 1px solid #5a4a8c; border-radius: 4px;
+      padding: 1px 6px; font-family: monospace; font-size: 0.72rem; color: #c4a574;
+    }
+    .nest-mutation-row .mut-cost { font-family: monospace; font-size: 0.78rem; color: #a78bfa; }
+    .nest-mutation-row .mut-apply-btn {
+      background: #2d2a4a; color: #e8d4ff; border: 1px solid #5a4a8c;
+      border-radius: 4px; padding: 3px 10px; cursor: pointer; font-size: 0.78rem;
+    }
+    .nest-mutation-row .mut-apply-btn:hover:not(:disabled) { background: #3d3a6a; }
+    .nest-mutation-row .mut-apply-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .nest-mutation-bingo {
+      background: #0b0d12; border: 1px solid #5a4a8c; border-radius: 6px;
+      padding: 8px 10px; margin-top: 6px;
+    }
+    .nest-mutation-bingo h4 {
+      margin: 0 0 6px 0; font-size: 0.78rem; color: #c084fc; text-transform: uppercase;
+    }
+    .bingo-counts { display: flex; flex-wrap: wrap; gap: 4px; }
+    .bingo-cat-chip {
+      background: #1a1f2b; border: 1px solid #2a3040; border-radius: 999px;
+      padding: 2px 8px; font-size: 0.75rem; font-family: monospace;
+    }
+    .bingo-cat-chip.completed { border-color: #c084fc; color: #e8d4ff; }
     /* Sprint D — Lineage section (tribe list + tree view). */
     .nest-tribe-list { display: flex; flex-direction: column; gap: 4px; }
     .nest-tribe-row {
@@ -246,6 +286,9 @@ function buildOverlay() {
         <button type="button" class="nest-tab" data-tab="mating" role="tab">
           🧬 Mating
         </button>
+        <button type="button" class="nest-tab" data-tab="mutations" role="tab">
+          🧪 Mutations
+        </button>
         <button type="button" class="nest-tab" data-tab="lineage" role="tab">
           🌳 Lineage
         </button>
@@ -289,6 +332,28 @@ function buildOverlay() {
             </button>
             <span id="nest-mating-hint" style="font-size:0.8rem;color:#8891a3"></span>
           </div>
+        </div>
+      </div>
+
+      <!-- TAB: Mutations — QW-3 Spore Moderate Gate 5 UX. -->
+      <div class="nest-tab-panel" data-tab-panel="mutations">
+        <div class="nest-section" id="nest-mutations-section">
+          <div style="margin-bottom:8px;color:#8891a3;font-size:0.82rem">
+            🧪 Spore Moderate evolution editor — seleziona PG, vedi mutation eligible con MP cost
+            + body_slot, applica per evolvere ability derivata.
+          </div>
+          <div class="nest-setup-row">
+            <select id="nest-mutation-unit-select"></select>
+            <button type="button" class="nest-btn" id="nest-mutation-refresh-btn">
+              🔄 Refresh eligible
+            </button>
+            <span id="nest-mutation-mp" style="font-size:0.85rem;color:#c084fc"></span>
+          </div>
+          <h3>Mutation eligible (<span id="nest-mutations-count">0</span>)</h3>
+          <div class="nest-mutation-list" id="nest-mutation-list">
+            <div class="nest-empty">Seleziona un PG e premi Refresh.</div>
+          </div>
+          <div id="nest-mutation-bingo-wrap" style="margin-top:10px"></div>
         </div>
       </div>
 
@@ -340,6 +405,11 @@ function buildOverlay() {
   overlay.querySelectorAll('.nest-tab').forEach((tabBtn) => {
     tabBtn.addEventListener('click', () => switchTab(tabBtn.dataset.tab));
   });
+  // QW-3 Spore Moderate — mutations tab handlers (refresh-btn + select change).
+  const mutBtn = overlay.querySelector('#nest-mutation-refresh-btn');
+  if (mutBtn) mutBtn.addEventListener('click', () => refreshMutations().catch(() => {}));
+  const mutSel = overlay.querySelector('#nest-mutation-unit-select');
+  if (mutSel) mutSel.addEventListener('change', () => refreshMutations().catch(() => {}));
   STATE.overlayEl = overlay;
   return overlay;
 }
@@ -356,6 +426,10 @@ export function switchTab(tabName) {
   panel.querySelectorAll('.nest-tab-panel').forEach((p) => {
     p.classList.toggle('active', p.dataset.tabPanel === tabName);
   });
+  // QW-3 — auto-refresh mutations tab on switch (lazy fetch).
+  if (tabName === 'mutations') {
+    refreshMutations().catch(() => {});
+  }
 }
 
 function setStatus(text, kind = '') {
@@ -695,11 +769,177 @@ async function refresh() {
   renderNpcs(STATE.cachedNpcs);
   // Sprint D — fetch tribe emergent in parallel; failure non-fatal.
   await refreshLineage().catch(() => {});
+  // QW-3 — populate mutations unit selector from squad list (recruited only).
+  populateMutationUnitSelector();
   const squadCount = filterSquadMembers(STATE.cachedNpcs).length;
   setStatus(
     `${squadCount} creature · ${STATE.cachedNpcs.length} NPG · nido Lv ${STATE.cachedNest.level}${STATE.cachedNest.biome ? ' (' + STATE.cachedNest.biome + ')' : ''} · ${STATE.cachedTribes.length} tribù`,
     'ok',
   );
+}
+
+// ─── QW-3 Spore Moderate — Mutations tab ──────────────────────────────────
+
+function populateMutationUnitSelector() {
+  if (typeof document === 'undefined') return;
+  const sel = document.getElementById('nest-mutation-unit-select');
+  if (!sel) return;
+  const squad = filterSquadMembers(STATE.cachedNpcs);
+  let partyMember = null;
+  try {
+    partyMember = STATE.getPartyMember?.() || null;
+  } catch {
+    /* optional */
+  }
+  const options = [];
+  if (partyMember && (partyMember.id || partyMember.npc_id)) {
+    const pid = partyMember.id || partyMember.npc_id;
+    options.push(`<option value="party:${escapeHtml(pid)}">★ ${escapeHtml(pid)} (you)</option>`);
+  }
+  for (const npc of squad) {
+    options.push(
+      `<option value="npc:${escapeHtml(npc.npc_id)}">${escapeHtml(npc.npc_id)}</option>`,
+    );
+  }
+  if (options.length === 0) {
+    sel.innerHTML = '<option value="">(no eligible units)</option>';
+    sel.disabled = true;
+  } else {
+    sel.innerHTML = options.join('');
+    sel.disabled = false;
+  }
+}
+
+function _selectedMutationUnit() {
+  if (typeof document === 'undefined') return null;
+  const sel = document.getElementById('nest-mutation-unit-select');
+  const v = sel?.value || '';
+  if (!v) return null;
+  const idx = v.indexOf(':');
+  if (idx < 0) return null;
+  const kind = v.slice(0, idx);
+  const id = v.slice(idx + 1);
+  if (kind === 'party') {
+    try {
+      return STATE.getPartyMember?.() || null;
+    } catch {
+      return null;
+    }
+  }
+  if (kind === 'npc') {
+    return STATE.cachedNpcs.find((n) => n && n.npc_id === id) || null;
+  }
+  return null;
+}
+
+function _unitForMutationApi(raw) {
+  if (!raw) return null;
+  return {
+    id: raw.id || raw.npc_id || null,
+    trait_ids: Array.isArray(raw.trait_ids) ? raw.trait_ids : [],
+    applied_mutations: Array.isArray(raw.applied_mutations) ? raw.applied_mutations : [],
+    mp: Number(raw.mp ?? 5),
+  };
+}
+
+async function refreshMutations() {
+  if (typeof document === 'undefined') return;
+  const list = document.getElementById('nest-mutation-list');
+  const count = document.getElementById('nest-mutations-count');
+  const mpEl = document.getElementById('nest-mutation-mp');
+  const raw = _selectedMutationUnit();
+  if (!raw) {
+    if (list) list.innerHTML = '<div class="nest-empty">Seleziona un PG.</div>';
+    if (count) count.textContent = '0';
+    if (mpEl) mpEl.textContent = '';
+    return;
+  }
+  const unit = _unitForMutationApi(raw);
+  if (mpEl) mpEl.textContent = `MP ${unit.mp}/30`;
+  const res = await api.mutationsEligible(unit);
+  const eligible = res.ok && Array.isArray(res.data?.eligible) ? res.data.eligible : [];
+  STATE.cachedEligibleMutations = eligible;
+  if (count) count.textContent = String(eligible.length);
+  if (list) {
+    if (eligible.length === 0) {
+      list.innerHTML = '<div class="nest-empty">Nessuna mutation eligible per questo PG.</div>';
+    } else {
+      list.innerHTML = '';
+      for (const m of eligible) {
+        const row = document.createElement('div');
+        const canAfford = unit.mp >= Number(m.mp_cost ?? 0);
+        row.className = `nest-mutation-row${canAfford ? '' : ' disabled'}`;
+        const slot = m.body_slot ? escapeHtml(m.body_slot) : 'symbiotic';
+        row.innerHTML = `
+          <span class="mut-name">${escapeHtml(m.name_it || m.id)}</span>
+          <span class="mut-tier">T${m.tier}</span>
+          <span class="mut-slot">${slot}</span>
+          <span class="mut-cost">${m.mp_cost} MP</span>
+          <button type="button" class="mut-apply-btn" ${canAfford ? '' : 'disabled'} data-mut-id="${escapeHtml(m.id)}">Apply</button>
+        `;
+        const btn = row.querySelector('.mut-apply-btn');
+        if (btn && canAfford) btn.addEventListener('click', () => handleApplyMutation(m.id));
+        list.appendChild(row);
+      }
+    }
+  }
+  await refreshMutationBingo(unit);
+}
+
+async function refreshMutationBingo(unit) {
+  if (typeof document === 'undefined') return;
+  const wrap = document.getElementById('nest-mutation-bingo-wrap');
+  if (!wrap) return;
+  const res = await api.mutationsBingo(unit);
+  const data = res.ok ? res.data || {} : {};
+  STATE.cachedMutationsBingo = {
+    archetypes: Array.isArray(data.archetypes) ? data.archetypes : [],
+    counts: data.counts || {},
+  };
+  const cats = ['physiological', 'behavioral', 'sensorial', 'environmental', 'symbiotic'];
+  const chips = cats
+    .map((c) => {
+      const n = Number(STATE.cachedMutationsBingo.counts[c] || 0);
+      const completed = n >= 3;
+      return `<span class="bingo-cat-chip${completed ? ' completed' : ''}">${escapeHtml(c)}: ${n}/3${completed ? ' ✓' : ''}</span>`;
+    })
+    .join('');
+  const archetypes = STATE.cachedMutationsBingo.archetypes;
+  const archHtml =
+    archetypes.length > 0
+      ? `<div style="margin-top:6px;color:#e8d4ff;font-size:0.78rem">Archetipo attivo: ${archetypes
+          .map((a) => escapeHtml(a.label_it || a.archetype))
+          .join(', ')}</div>`
+      : '';
+  wrap.innerHTML = `
+    <div class="nest-mutation-bingo">
+      <h4>🧬 Bingo categorie (3-of-a-kind = archetipo passive)</h4>
+      <div class="bingo-counts">${chips}</div>
+      ${archHtml}
+    </div>
+  `;
+}
+
+async function handleApplyMutation(mutationId) {
+  const raw = _selectedMutationUnit();
+  if (!raw) return;
+  const unit = _unitForMutationApi(raw);
+  setStatus(`Applico ${mutationId} → ${unit.id}…`);
+  const res = await api.mutationsApply(unit, mutationId);
+  const d = res.data || {};
+  if (!res.ok || !d.success) {
+    const reason = d.error || `HTTP ${res.status}`;
+    setStatus(`✖ Apply fail: ${reason}`, 'err');
+    return;
+  }
+  if (Array.isArray(d.unit?.trait_ids)) raw.trait_ids = d.unit.trait_ids;
+  if (Array.isArray(d.unit?.applied_mutations)) raw.applied_mutations = d.unit.applied_mutations;
+  if (typeof d.unit?.mp === 'number') raw.mp = d.unit.mp;
+  setStatus(
+    `✓ ${mutationId}: -${d.mp_spent} MP (now ${d.unit?.mp}/30)${d.derived_ability_id ? ' + ability ' + d.derived_ability_id : ''}`,
+    'ok',
+  );
+  await refreshMutations();
 }
 
 export function openNestHub() {
