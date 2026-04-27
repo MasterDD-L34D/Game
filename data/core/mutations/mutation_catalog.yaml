@@ -900,3 +900,189 @@ mutations:
       Ferocia ancestrale evolve in midollo iperattivo: rage 3 turni
       passa a rage 3 turni + cascata neuroendocrina prolungata. Apex
       berserker tier.
+
+  # ============================================================================
+  # SYMBIOTIC — rebalance pass 2026-04-27 (Path B: fix bingo physio dominance)
+  # Aggiunti 3 simbionti per portare category da 2 (6.7%) a 5 (13.9%) — sblocca
+  # archetype "symbiont_plus" reachable in playtest reali, non solo teorici.
+  # ============================================================================
+
+  simbionte_micorriza_radici:
+    tier: 2
+    category: symbiotic
+    body_slot: null
+    name_it: "Mutazione: Simbionte Micorriza Radici"
+    name_en: "Mutation: Mycorrhizal Root Symbiont"
+    prerequisites:
+      traits: [nodi_micorrizici_oracolari]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [mucillagine_simbionte_mangrovie]
+    pe_cost: 14
+    pi_cost: 8
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [foresta_temperata, foresta_miceliale, palude]
+    biome_penalty: [deserto_caldo, pianura_salina_iperarida]
+    mbti_alignment: { I: 1, F: 1 }
+    trigger_examples:
+      - "8 turni cumulativi in biome forestale/palustre"
+      - "alleato adiacente che subisce status physiological 5+ volte"
+    visual_swap_it: "Tier 2: emerge mucillagine simbionte mangrovie. Filamenti radicali visibili (overlay distinct)."
+    description_it: |
+      Acquisisce simbiosi radicale con micorrize fungali: gli alleati
+      adiacenti per 2+ turni ricevono +1 healing/turno. Trade-off:
+      movement penalty -1 finche' simbionte attivo.
+
+  simbionte_lichene_solare:
+    tier: 2
+    category: symbiotic
+    body_slot: null
+    name_it: "Mutazione: Simbionte Lichene Solare"
+    name_en: "Mutation: Solar Lichen Symbiont"
+    prerequisites:
+      traits: [capillari_fluoridici]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [olfatto_risonanza_magnetica]
+    pe_cost: 13
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [altipiani_solari, deserto_caldo, canopia_ionica]
+    biome_penalty: [caverna, abisso_vulcanico, frattura_abissale_sinaptica]
+    mbti_alignment: { N: 1, P: 1 }
+    trigger_examples:
+      - "5 turni cumulativi sotto luce intensa (biome solare)"
+      - "subito 3 hit fotonici/elettrici senza KO"
+    visual_swap_it: "Tier 2: emerge lichene fotosintetico. Patches verdi-dorate sulla pelle (overlay distinct)."
+    description_it: |
+      Sviluppa simbiosi con licheni fotosintetici: in biome solare
+      rigenera +1 mp/turno (cap 3 turni). Apre a sinergie symbiont
+      job archetype.
+
+  simbionte_batteri_termofili:
+    tier: 3
+    category: symbiotic
+    body_slot: null
+    name_it: "Mutazione: Endosimbiosi Termofila Capstone"
+    name_en: "Mutation: Thermophilic Endosymbiosis Capstone"
+    prerequisites:
+      traits: [batteri_termofili_endosimbiosi]
+      mutations: [symbiosis_chemio_endosymbiont]
+    trait_swap:
+      remove: []
+      add: [batteri_endosimbionti_chemio]
+    pe_cost: 22
+    pi_cost: 12
+    derived_ability_id: null
+    mp_cost: 15
+    biome_boost: [abisso_vulcanico, dorsale_termale_tropicale, reef_luminescente]
+    biome_penalty: [cryosteppe, mezzanotte_orbitale]
+    mbti_alignment: { F: 1, J: 1 }
+    trigger_examples:
+      - "completata mutation symbiosis_chemio_endosymbiont"
+      - "10 turni cumulativi con alleato adiacente in biome termale"
+    visual_swap_it: "Tier 3: doppio simbionte attivo. Aura termica visibile + valvole condotti chemio."
+    description_it: |
+      Capstone della linea simbiotica: doppio endosimbionte attivo
+      (chemio + termofilo). Rage on-kill estende +2 turni con alleato
+      adiacente, healing condiviso 1 hp/turno. Sblocca archetype
+      "symbiont_plus" se 3 mutation symbiotic attive.
+
+  # ============================================================================
+  # BEHAVIORAL — rebalance pass 2026-04-27 (Path B)
+  # Aggiunti 2 behavioral per portare category da 4 (13.3%) a 6 (16.7%)
+  # ============================================================================
+
+  branco_cooperazione_segnalata:
+    tier: 2
+    category: behavioral
+    body_slot: mouth
+    name_it: "Mutazione: Cooperazione di Branco"
+    name_en: "Mutation: Pack Cooperation"
+    prerequisites:
+      traits: [tattiche_di_branco]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [risonanza_di_branco]
+    pe_cost: 12
+    pi_cost: 7
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [savana, foresta_temperata, badlands]
+    biome_penalty: [mezzanotte_orbitale]
+    mbti_alignment: { E: 1, F: 1 }
+    trigger_examples:
+      - "3 squad combo focus_fire stesso target stesso round"
+      - "alleato della stessa specie KO in adiacenza"
+    visual_swap_it: "Tier 2: emerge risonanza di branco. Postura sincronizzata, vocalizzi udibili."
+    description_it: |
+      Le tattiche di branco evolvono in risonanza vocale: alleati entro
+      2 tile ricevono +1 attack_mod_bonus quando attaccano stesso target
+      del mutante (focus_fire amplificato). Trade-off: -1 defense_mod
+      durante l'effetto.
+
+  gerarchia_dominanza_ritualizzata:
+    tier: 2
+    category: behavioral
+    body_slot: mouth
+    name_it: "Mutazione: Dominanza Ritualizzata"
+    name_en: "Mutation: Ritualized Dominance"
+    prerequisites:
+      traits: [intimidatore]
+      mutations: [intimidator_to_dispersal]
+    trait_swap:
+      remove: []
+      add: [aura_di_dispersione_mentale]
+    pe_cost: 13
+    pi_cost: 8
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [rovine_planari, frattura_abissale_sinaptica, canyons_risonanti]
+    biome_penalty: [foresta_miceliale]
+    mbti_alignment: { E: 1, J: 1 }
+    trigger_examples:
+      - "completata mutation intimidator_to_dispersal"
+      - "panic applicato 12+ volte cumulato post-mutation precedente"
+    visual_swap_it: "Tier 2: postura dominante esibita. Vocalizzi territoriali ad alta intensita'."
+    description_it: |
+      L'aura di dispersione si ritualizza: i nemici panicked entro 3 tile
+      hanno -1 attack_mod aggiuntivo. Doppio source di pressure controllato.
+      Synergy chain con intimidator_to_dispersal capstone.
+
+  # ============================================================================
+  # SENSORIAL — rebalance pass 2026-04-27 (Path B)
+  # Aggiunto 1 sensorial per portare category da 5 (16.7%) a 6 (16.7%)
+  # ============================================================================
+
+  recettori_chimici_seed_tracking:
+    tier: 2
+    category: sensorial
+    body_slot: sense
+    name_it: "Mutazione: Recettori Chimici da Tracking"
+    name_en: "Mutation: Chemical Tracking Receptors"
+    prerequisites:
+      traits: [chemiorecettori_bromuro]
+      mutations: []
+    trait_swap:
+      remove: []
+      add: [olfatto_risonanza_magnetica]
+    pe_cost: 11
+    pi_cost: 6
+    derived_ability_id: null
+    mp_cost: 8
+    biome_boost: [palude, foresta_acida, atollo_obsidiana]
+    biome_penalty: [stratosfera_tempestosa, mezzanotte_orbitale]
+    mbti_alignment: { S: 1, P: 1 }
+    trigger_examples:
+      - "5 hit MoS >= 5 contro stesso target in 1 encounter (lock cinetico)"
+      - "10 turni cumulativi in biome chimicamente attivo"
+    visual_swap_it: "Tier 2: chemiorecettori ipertrofici. Antenne sensitive estensione visibile."
+    description_it: |
+      I chemiorecettori bromuro si specializzano in tracking persistente:
+      target colpiti ricevono debuff -1 defense_mod 2 turni (estende
+      finestra burst del party). Bias verso job Stalker.

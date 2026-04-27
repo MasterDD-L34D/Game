@@ -117,7 +117,7 @@ test('applyMutationPure: trait_swap applied + mutation tracked + mp deducted', (
 });
 
 test('applyMutationPure: derived_ability_id emerges into unit.abilities when set', () => {
-  // derived_ability_id è null per tutte 30 entries shipped — patch catalog inline
+  // derived_ability_id è null per tutte 36 entries shipped — patch catalog inline
   const catalog = freshCatalog();
   catalog.byId.artigli_freeze_to_glacier.derived_ability_id = 'ability_glacial_bite';
   const unit = {
