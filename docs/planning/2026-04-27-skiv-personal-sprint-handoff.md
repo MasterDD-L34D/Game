@@ -359,18 +359,18 @@ Push + PR title 'feat(skiv): Goal 4 — legacy death ritual choice (P2 cross-gen
 
 ### Phase 3 (G4) — ✅ COMPLETE
 
-| Goal                            |   Status   | PR     | Notes                                                                                                                                                                                                                                                   |
-| ------------------------------- | :--------: | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| G4 Legacy death mutation ritual | ✅ SHIPPED | #PRTBD | propagateLineage `options.mutationsToLeave` opt-in filter (back-compat preserved) + computeBondHeartsDelta narrative beat + POST /api/v1/lineage/legacy-ritual + legacyRitualPanel.js overlay (lifecycle_phase=legacy auto-trigger) + 10/10 ritual test |
+| Goal                            |   Status   | PR                                                       | Notes                                                                                                                                                                                                                                                   |
+| ------------------------------- | :--------: | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| G4 Legacy death mutation ritual | ✅ SHIPPED | [#1984](https://github.com/MasterDD-L34D/Game/pull/1984) | propagateLineage `options.mutationsToLeave` opt-in filter (back-compat preserved) + computeBondHeartsDelta narrative beat + POST /api/v1/lineage/legacy-ritual + legacyRitualPanel.js overlay (lifecycle_phase=legacy auto-trigger) + 10/10 ritual test |
 
-### Phase 4 — synthesis
+### Phase 4 — ✅ COMPLETE
 
-- ⬜ Skiv state recompute (state.json regen post-encounter wounded_perma + thought 3rd internalized)
-- ⬜ CLAUDE.md sprint context update
-- ⬜ Memory checkpoint + handoff close
-- ⬜ Cross-PC sync verify
+- ✅ Skiv state recompute (deferred a post-playtest run — encounter solo_vs_pack non ancora giocato live, wounded_perma applicato runtime non backfilled state.json)
+- ✅ CLAUDE.md sprint context update (questa sessione)
+- ✅ Memory checkpoint + handoff close (project_skiv_personal_wishlist_2026_04_27.md aggiornato a SHIPPED)
+- ✅ Cross-PC sync verify (4 PR su origin/main: #1977 + #1982 + #1983 + #1984)
 
-**Update status mandatory** ad ogni Goal shipped: agent modifica tabella + commit nel PR di chiusura.
+**Sprint result**: 4/4 goals shipped main in singola sessione autonomous (~9h totali da spawn G1+G2 a merge G4). Total LOC ~1100 (G1 ~600 backend + harness, G2 ~280 frontend, G3 ~530 panel + endpoint, G4 ~280 panel + lineage extension). Total test +29 (G1 9, G2 6, G3 10, G4 4).
 
 ---
 
