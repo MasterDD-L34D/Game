@@ -545,6 +545,23 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
+## 🎮 Sprint context (aggiornato: 2026-04-27 — Trait-bond stat buff complement (post-#1971))
+
+**Sessione 2026-04-27 (rebase recovery)**: PR #1965 chiuso cross-PC quando #1971 ha shippato l'implementazione "pair-bond defensive reaction" (`bondReactionTrigger.js` + `creature_bonds.yaml`). Recupero del valore complementare: il mio approach **trait-based offensive sustain** è ortogonale, non duplicato. Re-aperto come PR distinto.
+
+**Differenze chiave vs #1971 (pair-bond)**:
+
+- **Trigger**: il mio fires su **actor ATTACK** (any hit/miss), il loro su **target HIT** (damage > 0).
+- **Effetto**: il mio = **stat buff atk_mod/def_mod** via `status[*_buff]` decay; il loro = **damage redirect** (counter-attack -1 step / shield_ally 50% absorb).
+- **Setup**: il mio = trait in `holder.traits[]` (filtro `any` / `same` / `pack:<id>`); il loro = YAML species_pair espliciti (6 bond canonical).
+- **Cap**: il mio = nessuno (multipli stack); il loro = 1 reaction/round/actor + cooldown_turns.
+
+**Convivono side-by-side**: action_type evento diverso (`beast_bond_triggered` mio vs `reaction_trigger` loro), file diversi (`beastBondReaction.js` vs `bondReactionTrigger.js`), data diversi (`active_effects.yaml` vs `creature_bonds.yaml`), wire in posizioni diverse di `performAttack` (mio post-status-applies, loro post-damage-pre-panic).
+
+**Files**: `apps/backend/services/combat/beastBondReaction.js` (pure check+apply) + 3 trait nuovi in `active_effects.yaml` (`legame_di_branco`, `spirito_combattivo`, `pack_tactics` con schema `triggers_on_ally_attack`) + 5 species catalog adoption in `species.yaml` (dune_stalker / chemnotela_toxica / elastovaranus_hydrus → legame; sciame_larve_neurali / simbionte_corallino_riflesso → spirito) + 20 test (11 unit + 3 E2E + 6 catalog/balance) + handoff doc + memory feedback "round-bridge sync trap pattern". Tests: 39/39 bond suites totali (20 mio + 19 loro), **499/499 regression zero**. P1 🟢++ depth.
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-27 notte — Sprint α+β+γ+δ FULL coordinated wave shipped)
 
 **Sessione 2026-04-27 notte (continuazione)**: 4 sprint coordinati α/β/γ/δ shipped main via Phase 1+2 paralleli (PR #1958+#1959+#1960+#1961). 19 patterns strategy research applicati end-to-end. Cross-PC ready handoff doc canonical.
