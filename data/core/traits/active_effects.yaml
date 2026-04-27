@@ -9471,3 +9471,67 @@ traits:
       Feromoni predatori che segnalano il bersaglio alla squadra. Ogni hit
       applica 2 turni di marked: il prossimo attacco sul target ottiene
       +1 danno (il mark viene consumato al primo utilizzo).
+
+  # Sprint 6 (2026-04-27) — Beast Bond reaction trigger (AncientBeast Tier S #6
+  # residuo). Pattern: "quando un alleato adiacente attacca, il portatore del
+  # trait riceve un buff atk/def per N turni". Estensione per-creature di
+  # squadCombo focus_fire (che e' globale player-only). Schema:
+  #   triggers_on_ally_attack:
+  #     range: <int>            # Manhattan max ally→holder, default 1
+  #     species_filter:         # 'same' | 'any' | 'pack:<species_id>' (opzionale)
+  #     atk_delta: <int>        # delta a holder.attack_mod_bonus
+  #     def_delta: <int>        # delta a holder.defense_mod_bonus
+  #     duration: <int>         # turni status[*_buff] (decay sessionRoundBridge)
+  # Trigger eseguito da apps/backend/services/combat/beastBondReaction.js,
+  # wired post-resolveAttack in routes/session.js performAttack. Surface:
+  # response.beast_bond_reactions[] + raw event action_type='beast_bond_triggered'.
+
+  legame_di_branco:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    triggers_on_ally_attack:
+      range: 1
+      species_filter: same
+      atk_delta: 1
+      def_delta: 1
+      duration: 1
+      log_tag: legame_di_branco_triggered
+    description_it: |
+      Coordinamento istintivo tra esemplari della stessa specie. Quando un
+      compagno della stessa specie adiacente (Manhattan <= 1) attacca, il
+      portatore ottiene +1 attack_mod e +1 defense_mod fino al termine del
+      round (decadimento via status[*_buff]).
+
+  spirito_combattivo:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    triggers_on_ally_attack:
+      range: 1
+      species_filter: any
+      atk_delta: 1
+      def_delta: 0
+      duration: 1
+      log_tag: spirito_combattivo_triggered
+    description_it: |
+      Morale rinforzato dall'iniziativa di chi combatte al proprio fianco.
+      Quando QUALSIASI alleato adiacente (range Manhattan <= 1) attacca, il
+      portatore guadagna +1 attack_mod fino al termine del round.
+
+  pack_tactics:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    triggers_on_ally_attack:
+      range: 1
+      species_filter: 'pack:predatori_nomadi'
+      atk_delta: 1
+      def_delta: 1
+      duration: 2
+      log_tag: pack_tactics_triggered
+    description_it: |
+      Tattica di branco esclusiva dei predatori nomadi. Quando un alleato di
+      specie `predatori_nomadi` adiacente attacca, il portatore guadagna +1
+      attack_mod e +1 defense_mod per 2 turni (effetto piu' lungo del legame
+      di branco generico, riservato a un'unica specie).
