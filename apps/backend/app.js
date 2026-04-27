@@ -33,6 +33,7 @@ const { createDiaryRouter } = require('./routes/diary');
 const { createSkivRouter } = require('./routes/skiv');
 // Sprint 3 §II (2026-04-27) — AncientBeast wiki cross-link slug bridge.
 const { createSpeciesWikiRouter } = require('./routes/speciesWiki');
+const { createConvictionRouter } = require('./routes/conviction');
 const { createCoopStore } = require('./services/coop/coopStore');
 const { LobbyService } = require('./services/network/wsSession');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
@@ -786,6 +787,9 @@ function createApp(options = {}) {
   // Cross-link runtime species (data/core/species.yaml) ↔ catalog wiki
   // (packs/evo_tactics_pack/docs/catalog/species/) via slug normalization.
   app.use('/api', createSpeciesWikiRouter());
+
+  // Sprint δ Meta Systemic (2026-04-28) — Triangle Strategy conviction voting.
+  app.use('/api', createConvictionRouter());
 
   // Bundle B.3 codex routes già registrate sopra (line 758) — single
   // createCodexRouter() ora ospita BOTH glyph-progression (PR #1931) +

@@ -247,12 +247,24 @@ function applyMutationBingoToUnit(unit, catalog) {
   return { archetypes: bingo.archetypes, passive_tokens };
 }
 
+// Sprint δ Meta Systemic — re-export swap helper from meta/ (MYZ pattern).
+// Convenience: callers requiring mutationEngine can also access swap without
+// double require.
+let _swapAppliedMutation = null;
+function swapAppliedMutation(...args) {
+  if (!_swapAppliedMutation) {
+    _swapAppliedMutation = require('../meta/mutationTreeSwap').swapAppliedMutation;
+  }
+  return _swapAppliedMutation(...args);
+}
+
 module.exports = {
   checkSlotConflict,
   checkMpBudget,
   applyMutationPure,
   computeMutationBingo,
   applyMutationBingoToUnit,
+  swapAppliedMutation,
   BINGO_ARCHETYPES,
   BINGO_THRESHOLD,
 };
