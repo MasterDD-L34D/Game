@@ -165,6 +165,12 @@ const {
   applyProgressionToUnits,
   computePerkDamageBonus,
 } = require('../services/progression/progressionApply');
+// Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype passive consumers.
+// DR-1 (defender) + sight+2 (actor). Init+2 lives in roundOrchestrator.
+const {
+  applyDamageReduction: applyArchetypeDR,
+  effectiveAttackRange: archetypeEffectiveRange,
+} = require('../services/combat/archetypePassives');
 // M14-A 2026-04-25 — Triangle Strategy terrain reactions wire (post damage step).
 // Lazy require + try/catch in call sites: missing module never breaks combat.
 const {
@@ -543,6 +549,18 @@ function createSessionRouter(options = {}) {
         target.shield_hp = Math.max(0, Number(target.shield_hp) - absorbed);
         damageDealt = Math.max(0, damageDealt - absorbed);
         target.shield_absorbed_last = absorbed;
+      }
+      // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype tank_plus DR-1.
+      // Defender-side passive: -1 damage unconditional su ogni colpo subito,
+      // min 0 floor. Applied DOPO shield absorption (shield = ablative HP,
+      // DR = innate mitigation). Back-compat: zero behavior change quando
+      // target._archetype_passives non include archetype_tank_plus_dr1.
+      if (damageDealt > 0) {
+        const drResult = applyArchetypeDR(damageDealt, target);
+        if (drResult.reduced > 0) {
+          damageDealt = drResult.damage;
+          target.archetype_dr_last = drResult.reduced;
+        }
       }
       // SPRINT_003 fase 0: traccia damage_taken cumulativo per unita'.
       // Lo stato e' in memoria (non nel log) — VC scoring lo ricalcola
@@ -1398,7 +1416,11 @@ function createSessionRouter(options = {}) {
             .json({ error: 'AP insufficienti per attaccare (termina il turno)' });
         }
         const attackDist = manhattanDistance(actor.position, target.position);
-        const range = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+        // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype scout_plus
+        // sight+2: estende attack_range effettivo +2 se actor ha passive.
+        // Back-compat: zero delta quando _archetype_passives assente.
+        const baseRange = actor.attack_range ?? DEFAULT_ATTACK_RANGE;
+        const range = archetypeEffectiveRange(actor, baseRange);
         if (attackDist > range) {
           return res.status(400).json({
             error: `bersaglio fuori range (distanza ${attackDist} > range ${range})`,
