@@ -642,6 +642,30 @@ function createSessionRouter(options = {}) {
       }
     }
 
+    // Sprint Y Spore Moderate (ADR-2026-04-26 §S5) — lineage propagation hook.
+    // Quando target muore (killOccurred) E aveva applied_mutations[], propaga
+    // le sue mutation nel pool lineage (species, biome) per inheritance da
+    // future creature dello stesso species_id nello stesso biome.
+    // Pure side-effect: pool in-memory, no errori bloccano combat.
+    if (
+      killOccurred &&
+      Array.isArray(target.applied_mutations) &&
+      target.applied_mutations.length > 0
+    ) {
+      try {
+        const { propagateLineage } = require('../services/generation/lineagePropagator');
+        const speciesId = target.species_id || target.species || null;
+        const biomeId = session.biome_id || null;
+        if (speciesId && biomeId) {
+          propagateLineage(target, speciesId, biomeId);
+        }
+      } catch (err) {
+        // Non-blocking: lineage failure must never break combat.
+        // eslint-disable-next-line no-console
+        console.warn('[lineage-propagator] skipped:', err && err.message ? err.message : err);
+      }
+    }
+
     // SPRINT_018: valuta i trait di tipo apply_status (ferocia, intimidatore,
     // stordimento) DOPO l'applicazione del danno, cosi' i trigger possono
     // dipendere da killOccurred. Il risultato muta actor.status /
@@ -1111,6 +1135,36 @@ function createSessionRouter(options = {}) {
         console.warn('[progression] apply failed:', err.message);
       }
 
+      // Sprint Y Spore Moderate (ADR-2026-04-26 §S5) — lineage inheritance.
+      // Per ogni unit nuova in (species, biome), eredita 1-2 mutation random
+      // dal pool propagato (creature precedenti morte stesso species/biome).
+      // Idempotent: skip unit con applied_mutations già presenti (no doppia
+      // ereditarietà). Pure read da pool in-memory, fallisce silenziosamente.
+      let lineageInherited = [];
+      try {
+        const { inheritFromLineage } = require('../services/generation/lineagePropagator');
+        for (const unit of units) {
+          if (!unit || typeof unit !== 'object') continue;
+          // Skip se già ha mutation (es. preserve da PG persistente).
+          if (Array.isArray(unit.applied_mutations) && unit.applied_mutations.length > 0) continue;
+          const speciesId = unit.species_id || unit.species || null;
+          if (!speciesId || !biomeIdRaw) continue;
+          const result = inheritFromLineage(unit, speciesId, biomeIdRaw, unit.lineage_id || null);
+          if (result && Array.isArray(result.inherited) && result.inherited.length > 0) {
+            // Apply inherited mutation_ids → unit.applied_mutations (free grant).
+            unit.applied_mutations = [...(unit.applied_mutations || []), ...result.inherited];
+            lineageInherited.push({
+              unit_id: unit.id || null,
+              inherited: result.inherited,
+              species_id: speciesId,
+              biome_id: biomeIdRaw,
+            });
+          }
+        }
+      } catch (err) {
+        console.warn('[lineage] inherit failed:', err.message);
+      }
+
       // M7-#2 Phase B: apply damage scaling curves per encounter class.
       // Lo YAML damage_curves.yaml definisce enemy_damage_multiplier per class.
       // Encounter senza class dichiarato → fallback "standard" (1.2x).
@@ -1333,6 +1387,10 @@ function createSessionRouter(options = {}) {
         // cosi' il frontend puo' loggare gli eventi in ordine.
         ia_actions: pre.iaActions,
         side_effects: pre.bleedingEvents,
+        // Sprint Y Spore Moderate §S5 — lineage inheritance grants additivi.
+        // Array per-unit con mutation_ids ereditati da pool propagato.
+        // Empty se nessuna lineage propagation precedente o no match.
+        lineage_inherited: lineageInherited,
       });
     } catch (err) {
       next(err);
