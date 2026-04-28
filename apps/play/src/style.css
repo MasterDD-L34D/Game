@@ -3655,3 +3655,45 @@ body.ability-target-mode canvas#grid {
     animation: none;
   }
 }
+
+/* =============================================================================
+ * 2026-04-29 Spike POC BG3-lite Tier 1 — visual classes per toggle pre/post.
+ * Applicate a canvas#grid via main.js bootstrap (load apps/play/public/data/ui_config.json).
+ * Tier 2 (sub-tile float + flanking 5-zone) DEFERRED full Sprint G.2b post-spike-pass.
+ * ============================================================================= */
+
+/* Canvas class quando bg3lite_hide_grid ON — subtle vignette mask edges per
+ * smooth integration con surrounding layout (tile bioma resta visibile). */
+canvas#grid.bg3lite-hide-grid {
+  box-shadow: inset 0 0 32px rgba(15, 20, 30, 0.45);
+  border-radius: 8px;
+}
+
+/* Range circle pulse breathing (~2s ease-in-out, subtle 5% scale).
+ * Wired da render.js drawBg3liteRangeOverlay phase calculation, NOT CSS animation
+ * (canvas redraw frame-driven). Class qui solo per future hooks DOM overlay. */
+canvas#grid.bg3lite-range-circle {
+  /* placeholder per future DOM overlay (range gradient cerchio).
+   * Animation @keyframes range-pulse 2s ease-in-out infinite preserved per spec. */
+  cursor: crosshair;
+}
+
+@keyframes range-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* Smooth movement class — flag per future DOM transitions (HUD slot shift).
+ * Movement curva bezier in canvas è frame-interpolation in anim.js. */
+canvas#grid.bg3lite-smooth-movement {
+  transition:
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}

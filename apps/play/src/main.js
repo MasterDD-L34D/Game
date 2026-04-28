@@ -198,6 +198,28 @@ const unitsUl = document.getElementById('units');
 const logEl = document.getElementById('log');
 const hintEl = document.getElementById('selected-hint');
 
+// 2026-04-29 Spike POC BG3-lite Tier 1 — load ui_config.json on bootstrap.
+// Toggle pre/post side-by-side: hide grid + range circle + AoE shape + smooth move.
+// Fallback: tutto OFF (legacy grid square) se file mancante (back-compat strict).
+async function _loadBg3liteConfig() {
+  try {
+    const res = await fetch('/data/ui_config.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const cfg = await res.json();
+    window.__evoUiConfig = Object.assign({}, window.__evoUiConfig || {}, cfg);
+    if (canvas) {
+      if (cfg.bg3lite_hide_grid) canvas.classList.add('bg3lite-hide-grid');
+      if (cfg.bg3lite_range_circle) canvas.classList.add('bg3lite-range-circle');
+      if (cfg.bg3lite_smooth_movement) canvas.classList.add('bg3lite-smooth-movement');
+    }
+    // Trigger redraw post-load se world già caricato.
+    if (state.sid && state.world) requestAnimationFrame(() => redraw());
+  } catch {
+    /* config opzionale, silent fallback a legacy grid */
+  }
+}
+_loadBg3liteConfig();
+
 function redraw() {
   // W8b — guard: session must be active AND world state loaded.
   if (!state.sid || !state.world) return;
