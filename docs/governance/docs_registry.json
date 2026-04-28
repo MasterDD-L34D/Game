@@ -4862,6 +4862,19 @@
       "review_cycle_days": 30
     },
     {
+      "path": "docs/planning/2026-04-29-sprint-n7-failure-model-parity-spec.md",
+      "title": "Sprint N.7 spec — Failure model parity Godot port (WoundState.gd + LegacyRitualPanel.gd)",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-29",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "planning"
+    },
+    {
       "path": "docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md",
       "title": "Evo Final Design — Backlog Register",
       "doc_status": "draft",
