@@ -303,19 +303,27 @@ Research warn esplicita (F2 §"Raccomandazione progettuale"):
 | 7 — CT bar visual lookahead 3 turni                                | 🟡 pending | TBD         |
 | 8 — Citations BACKLOG/OPEN_DECISIONS/ADR                           | 🟡 pending | TBD         |
 
-## 11. Open questions deferred (pending grid-less feasibility analysis 2026-04-28)
+## 11. Open question Q5 grid-less — RESOLVED 2026-04-28
 
-User dubbio aperto 2026-04-28 sull'opportunità pivot **grid-less** (Midnight Suns / DioField pattern) vs grid square attuale (12 mesi sunk cost). Decision-altering massivo se SÌ.
+User feedback playtest informal 2026-04-28: tester signal "grafica pre-2000" + "movement BG3-like richiesto". Dato data-driven (NOT speculative).
 
-Background agent spawned 2026-04-28 per fattibilità analysis — output atteso `docs/research/2026-04-28-grid-less-feasibility.md` (TBD).
+Background agent feasibility analysis output: [`docs/research/2026-04-28-grid-less-feasibility.md`](../research/2026-04-28-grid-less-feasibility.md).
 
-**4 domande critiche under analysis**:
+**Decision finale**: NEW separate ADR [`ADR-2026-04-28-bg3-lite-plus-movement-layer.md`](./ADR-2026-04-28-bg3-lite-plus-movement-layer.md) — **BG3-lite Plus** scope ~10-12g middle-tier.
 
-1. Cosa di Evo-Tactics OGGI è grid-dependent (catalog + LOC + breaking change cost)?
-2. Quale pattern fit meglio (Midnight Suns card / DioField RTTB / Hybrid arena-free + turn discreto)?
-3. Effort pivot stimato realistic (~6-12 settimane min)?
-4. Trade-off lato gamer per ognuno dei 3 pattern (combat feel + Skiv identity + co-op TV + MBTI + attrition)?
+**Rationale verdict**:
 
-**Verdict pending**: defer Action item se NO pivot, OR major plan v2 → v3 rewrite se SÌ pivot. Anti-pivot guard ADR §4 prevale fino esplicito new ADR.
+- NOT Scenario A (ignora feedback) — tester signal reale
+- NOT Scenario B Hybrid full ~14-18g — overshoot (3 feature low-value skippable: encounter free-form + euclidean + curve native)
+- NOT Scenario C Midnight Suns ~12-16 sett — NO card signal user
+- NOT Scenario D DioField ~20-30 sett — anti-pattern total break round model M17
+
+**BG3-lite Plus** = frontend visual abstraction (Tier 1 ~6-7g) + cherry-pick 3 backend Hybrid features (Tier 2 ~+4-5g): sub-tile positioning + vcScoring float + flanking continuous angle.
+
+**Pillar impact**: 4 pillar lift (P1+P4+P5+P6) con 65% effort vs Hybrid full. Skiv echolocation feel improved.
+
+**Anti-pivot guard ADR §4** rimane intatto — BG3-lite Plus NON è pivot architetturale (mantiene round model M17 + d20 + AP + grid math backend). Solo visual abstraction + 3 add-ons additive.
+
+**New Sprint G.2b** post Sprint G v3 asset swap, pre Sprint I TKT-M11B-06 playtest. Spike POC 1 giorno pre-commit full.
 
 **Next sync**: aggiorna status table when ogni action ship.
