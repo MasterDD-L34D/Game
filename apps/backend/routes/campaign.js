@@ -36,6 +36,13 @@ const {
   resolveOnboardingTrait,
 } = require('../services/campaign/campaignLoader');
 const { summariseCampaign } = require('../services/campaign/campaignEngine');
+const {
+  loadAmbition,
+  progressAmbition,
+  evaluateChoiceRitual,
+  getActiveAmbitions,
+  seedAmbition,
+} = require('../services/campaign/ambitionService');
 const { grantXpToSurvivors } = require('../services/progression/progressionApply');
 const { loadXpCurve } = require('../services/progression/progressionLoader');
 
@@ -466,6 +473,60 @@ function createCampaignRouter(options = {}) {
       completionPct: final_state === 'completed' ? 1.0 : campaign.completionPct,
     });
     return res.json({ campaign: updated });
+  });
+
+  // Action 6 (ADR-2026-04-28 §Action 6) — Ambition routes.
+  // Long-arc campaign goal layer SOPRA session resolver. NO inline session.js edit.
+
+  // GET /api/campaign/ambitions/active
+  // Query: ?session_id=<sid>
+  // Returns: { ambitions: [{ ambition_id, title_it, progress, progress_target, ... }] }
+  router.get('/campaign/ambitions/active', (req, res) => {
+    const sessionId = String(req.query?.session_id || '');
+    if (!sessionId) return res.status(400).json({ error: 'session_id richiesto (query)' });
+    const ambitions = getActiveAmbitions(sessionId);
+    return res.json({ ambitions });
+  });
+
+  // POST /api/campaign/ambitions/:id/seed
+  // Body: { session_id }
+  // Idempotent — initialize progress entry per session.
+  router.post('/campaign/ambitions/:id/seed', (req, res) => {
+    const ambitionId = String(req.params?.id || '');
+    const { session_id } = req.body || {};
+    if (!session_id) return res.status(400).json({ error: 'session_id richiesto' });
+    const ambition = loadAmbition(ambitionId);
+    if (!ambition) return res.status(404).json({ error: `ambition "${ambitionId}" non trovato` });
+    const entry = seedAmbition(session_id, ambitionId);
+    return res.json({ ambition_id: ambitionId, progress: entry });
+  });
+
+  // POST /api/campaign/ambitions/:id/progress
+  // Body: { session_id, encounter_id, outcome }
+  router.post('/campaign/ambitions/:id/progress', (req, res) => {
+    const ambitionId = String(req.params?.id || '');
+    const { session_id, encounter_id, outcome } = req.body || {};
+    if (!session_id) return res.status(400).json({ error: 'session_id richiesto' });
+    if (!encounter_id) return res.status(400).json({ error: 'encounter_id richiesto' });
+    const result = progressAmbition(session_id, ambitionId, { encounter_id, outcome });
+    if (result?.error) return res.status(404).json(result);
+    return res.json(result);
+  });
+
+  // POST /api/campaign/ambitions/:id/choice-ritual
+  // Body: { session_id, choice: 'fame_dominance'|'bond_proposal', bond_hearts? }
+  router.post('/campaign/ambitions/:id/choice-ritual', (req, res) => {
+    const ambitionId = String(req.params?.id || '');
+    const { session_id, choice, bond_hearts } = req.body || {};
+    if (!session_id) return res.status(400).json({ error: 'session_id richiesto' });
+    if (!['fame_dominance', 'bond_proposal'].includes(choice)) {
+      return res.status(400).json({ error: 'choice deve essere fame_dominance|bond_proposal' });
+    }
+    const result = evaluateChoiceRitual(session_id, ambitionId, choice, {
+      bond_hearts: Number(bond_hearts) || 0,
+    });
+    if (result?.error) return res.status(409).json(result);
+    return res.json(result);
   });
 
   return router;
