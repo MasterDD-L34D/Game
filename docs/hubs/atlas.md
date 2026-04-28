@@ -5,7 +5,7 @@ tags: [atlas, dashboard, frontend]
 doc_status: active
 doc_owner: atlas-team
 workstream: atlas
-last_verified: 2026-04-14
+last_verified: '2026-04-28'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
