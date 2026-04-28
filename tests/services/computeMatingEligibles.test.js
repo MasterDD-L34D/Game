@@ -183,6 +183,34 @@ describe('computeMatingEligibles', () => {
     assert.equal(out[0].can_mate, true);
   });
 
+  test('metaTracker async (Promise) → rejected fail-closed (P2 fix)', () => {
+    // Async trackers like createMetaStore return Promises. Boolean(Promise) === true
+    // would silently surface blocked pairs as eligible. Helper must reject non-boolean.
+    const asyncTracker = {
+      canMate: async () => false, // Promise<false> — should be rejected
+    };
+    const out = computeMatingEligibles([playerUnit('a'), playerUnit('b')], 'savana', {
+      metaTracker: asyncTracker,
+    });
+    // can_mate=false → pair excluded from surfaced list.
+    assert.deepEqual(out, []);
+  });
+
+  test('metaTracker non-boolean (number/undefined/object) → rejected fail-closed', () => {
+    const trackers = [
+      { canMate: () => 1 }, // truthy non-boolean
+      { canMate: () => undefined },
+      { canMate: () => ({}) },
+      { canMate: () => null },
+    ];
+    for (const t of trackers) {
+      const out = computeMatingEligibles([playerUnit('a'), playerUnit('b')], 'savana', {
+        metaTracker: t,
+      });
+      assert.deepEqual(out, [], `tracker returning ${typeof t.canMate()} should fail closed`);
+    }
+  });
+
   test('uses parent name fallback to id when name missing', () => {
     const out = computeMatingEligibles(
       [

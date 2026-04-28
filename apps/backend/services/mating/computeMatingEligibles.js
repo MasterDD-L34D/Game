@@ -68,7 +68,14 @@ function pairCombinations(survivors) {
  * @param {Array} survivors — session.units (will be filtered internally)
  * @param {string|null} encounterBiomeId — biome corrente (per offspring spawn)
  * @param {object} [options]
- * @param {object} [options.metaTracker] — opzionale; gate via canMate(npcId)
+ * @param {object} [options.metaTracker] — opzionale; gate via canMate(npcId).
+ *   IMPORTANT: tracker.canMate must be SYNCHRONOUS and return strict boolean.
+ *   Async trackers (createMetaStore which returns a Promise from canMate) are
+ *   NOT supported — this helper rejects non-boolean returns to avoid silent
+ *   bypass (Boolean(Promise) === true would surface blocked pairs as eligible).
+ *   For async path, await tracker.canMate(...) at the call site and pass a
+ *   pre-resolved sync wrapper, OR don't pass options.metaTracker at all
+ *   (default permissive surface, Sprint 12 default behavior).
  * @param {number} [options.maxPairs] — cap coppie (default 6)
  * @returns {Array<{parent_a_id, parent_b_id, parent_a_name, parent_b_name, biome_id, can_mate, expected_offspring_count, reason?}>}
  */
@@ -96,15 +103,27 @@ function computeMatingEligibles(survivors, encounterBiomeId, options = {}) {
     };
     if (tracker && typeof tracker.canMate === 'function') {
       try {
-        const aOk = Boolean(tracker.canMate(a.id));
-        const bOk = Boolean(tracker.canMate(b.id));
-        entry.can_mate = aOk && bOk;
-        if (!entry.can_mate) {
-          entry.reason =
-            !aOk && !bOk ? 'gate_not_met_both' : !aOk ? 'gate_not_met_a' : 'gate_not_met_b';
+        const aRaw = tracker.canMate(a.id);
+        const bRaw = tracker.canMate(b.id);
+        // Strict boolean check: Promise / undefined / number / object → reject.
+        // Boolean(Promise) === true would silently surface blocked pairs as
+        // eligible — explicitly fail-closed for non-boolean tracker returns.
+        const aValid = typeof aRaw === 'boolean';
+        const bValid = typeof bRaw === 'boolean';
+        if (!aValid || !bValid) {
+          entry.can_mate = false;
+          entry.reason = 'tracker_non_boolean_return';
+        } else {
+          entry.can_mate = aRaw && bRaw;
+          if (!entry.can_mate) {
+            entry.reason =
+              !aRaw && !bRaw ? 'gate_not_met_both' : !aRaw ? 'gate_not_met_a' : 'gate_not_met_b';
+          }
         }
       } catch {
-        // tracker malformed — graceful fallback to permissive default.
+        // tracker malformed (throws sync) — graceful fallback to permissive
+        // default. Distinct from non-boolean return: a throw signals an
+        // implementation bug we shouldn't penalize the player for.
       }
     }
     if (entry.can_mate) out.push(entry);
