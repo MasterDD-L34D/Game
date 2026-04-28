@@ -40,6 +40,12 @@ import {
 import { renderObjectiveBar } from './objectivePanel.js';
 import { renderBiomeChip } from './biomeChip.js';
 import { renderCtBar } from './ctBar.js';
+import { renderAmbitionHud } from './ambitionHud.js';
+import {
+  initAmbitionChoicePanel,
+  openChoicePanel as openAmbitionChoicePanel,
+  isChoiceLocked as isAmbitionChoiceLocked,
+} from './ambitionChoicePanel.js';
 
 const state = {
   sid: null,
@@ -1070,6 +1076,34 @@ function refreshCtBar() {
   renderCtBar(containerEl, state.world || null, lookahead);
 }
 
+// Action 6 (ADR-2026-04-28 §Action 6) — refresh Ambition HUD strip.
+// Long-arc campaign goal surface. Fetch active ambitions from backend +
+// render pill HUD. On choice_ready=true → auto-open choice ritual modal
+// (once per session per ambition, locked check reused).
+async function refreshAmbitionHud() {
+  const containerEl = document.getElementById('ambition-hud');
+  if (!containerEl || !state.sid) return;
+  let ambitions = [];
+  try {
+    const r = await api.ambitionsActive(state.sid);
+    if (r && r.ok && Array.isArray(r.data?.ambitions)) {
+      ambitions = r.data.ambitions;
+    }
+  } catch {
+    /* network — graceful degrade, hide chip */
+  }
+  renderAmbitionHud(containerEl, ambitions);
+  // Auto-trigger choice ritual modal on choice_ready (idempotent — locked check).
+  for (const a of ambitions) {
+    if (a.choice_ready && !isAmbitionChoiceLocked(a.ambition_id)) {
+      openAmbitionChoicePanel(a, {
+        onComplete: () => refreshAmbitionHud(),
+      });
+      break; // only one ritual modal at a time.
+    }
+  }
+}
+
 // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette (DOM overlay).
 // Driver: state.world.pressure (0..100). CSS vars --tension-alpha + --tension-color
 // applied to .tension-vignette singleton (created lazily). Pure helpers from
@@ -1160,6 +1194,8 @@ async function refresh() {
     refreshBiomeChip();
     // Action 7 (ADR-2026-04-28 §Action 7): refresh CT bar lookahead 3 turni.
     refreshCtBar();
+    // Action 6 (ADR-2026-04-28 §Action 6): refresh ambition HUD long-arc.
+    refreshAmbitionHud();
     // 2026-04-27 PR-Y1 — Gris pressure palette apply post-state-fetch
     applyPressurePalette(state.world);
     // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette overlay.
@@ -1331,6 +1367,12 @@ async function startNewSession() {
   refreshBiomeChip();
   // Action 7 (ADR-2026-04-28 §Action 7): refresh CT bar subito su nuova sessione.
   refreshCtBar();
+  // Action 6 (ADR-2026-04-28 §Action 6): seed ambition + refresh HUD subito.
+  // Default seed `skiv_pulverator_alliance` per Skiv long-arc demo. Idempotent.
+  api.ambitionSeed(state.sid, 'skiv_pulverator_alliance').catch(() => {
+    /* graceful degrade — HUD hidden if seed fails */
+  });
+  refreshAmbitionHud();
   // Bundle B.3 — pipe session_id to codex panel for /api/v1/codex/pages.
   setCodexSessionId(state.sid);
   // M11 Phase B+ (TKT-M11B-03) — if host room carries campaign_id, bootstrap
@@ -2175,6 +2217,14 @@ initThoughtsRitualPanel({
     state.world && state.selected
       ? getUnits(state.world).find((u) => u.id === state.selected) || null
       : null,
+});
+
+// Action 6 (ADR-2026-04-28 §Action 6) — Ambition choice ritual panel.
+// Triggered automatically by refreshAmbitionHud when choice_ready=true.
+// bond_hearts read from state.world.bond_hearts (publicSessionView).
+initAmbitionChoicePanel({
+  getSessionId: () => state.sid,
+  getBondHearts: () => Number(state.world?.bond_hearts) || 0,
 });
 
 // Sprint 2026-04-26 telemetria VC compromesso — Carattere panel (🎭).

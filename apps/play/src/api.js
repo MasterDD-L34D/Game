@@ -387,6 +387,28 @@ export const api = {
     }),
   mutationsBingo: (unit) =>
     jsonFetch('/api/v1/mutations/bingo', { method: 'POST', body: JSON.stringify({ unit }) }),
+  // Action 6 (ADR-2026-04-28 §Action 6) — Ambition long-arc campaign API.
+  ambitionsActive: (sid) =>
+    jsonFetch(`/api/campaign/ambitions/active?session_id=${encodeURIComponent(sid)}`),
+  ambitionSeed: (sid, ambitionId) =>
+    jsonFetch(`/api/campaign/ambitions/${encodeURIComponent(ambitionId)}/seed`, {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid }),
+    }),
+  ambitionProgress: (sid, ambitionId, encounterId, outcome) =>
+    jsonFetch(`/api/campaign/ambitions/${encodeURIComponent(ambitionId)}/progress`, {
+      method: 'POST',
+      body: JSON.stringify({ session_id: sid, encounter_id: encounterId, outcome }),
+    }),
+  ambitionChoiceRitual: (sid, ambitionId, choice, bondHearts = 0) =>
+    jsonFetch(`/api/campaign/ambitions/${encodeURIComponent(ambitionId)}/choice-ritual`, {
+      method: 'POST',
+      body: JSON.stringify({
+        session_id: sid,
+        choice,
+        bond_hearts: Number(bondHearts) || 0,
+      }),
+    }),
   // Skiv-as-Monitor — git-event-driven creature feed (Phase 2 wire 2026-04-25).
   skivStatus: () => jsonFetch('/api/skiv/status'),
   skivFeed: (limit = 20) => jsonFetch(`/api/skiv/feed?limit=${encodeURIComponent(limit)}`),
