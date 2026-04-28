@@ -3,7 +3,7 @@ title: Pilastri di Design (canonical 6-pilastri)
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-27
+last_verified: '2026-04-28'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -51,19 +51,28 @@ review_cycle_days: 14
    timeout=defeat per force decision pressure (M9 P6 ADR-2026-04-20). MMR per stile/build
    post-MVP. Ref: [`docs/planning/2026-04-20-pilastri-reality-audit.md`](../planning/2026-04-20-pilastri-reality-audit.md).
 
-## Stato runtime (aggiornato 2026-04-27)
+## Stato runtime — vedi doc dedicato
 
-|  #  | Pilastro             |        Stato         | Note                                                        |
-| :-: | -------------------- | :------------------: | ----------------------------------------------------------- |
-|  1  | P1 Tattica leggibile |          🟢          | Combat round + reactions live                               |
-|  2  | P2 Evoluzione        | 🟢 candidato (M12.D) | Phase D shipped, playtest pending                           |
-|  3  | P3 Specie × Job      | 🟢 candidato (P3.B)  | Phase B shipped, calibration userland                       |
-|  4  | P4 Temperamenti      |          🟡          | T_F full, E_I/S_N/J_P partial (M9). Conviction surface v3.5 |
-|  5  | P5 Co-op vs Sistema  |          🟡          | Stack live, playtest live unico bloccante (TKT-M11B-06)     |
-|  6  | P6 Fairness          | 🟢 candidato (P6.B)  | Phase B shipped, calibration userland                       |
+> **Single SOT runtime** (post drift audit 2026-04-28): lo stato live runtime dei 6 pilastri vive in [`docs/reports/PILLAR-LIVE-STATUS.md`](../reports/PILLAR-LIVE-STATUS.md) — bump frequency: ad ogni sprint shipped (volatile).
+>
+> Questo doc (`02-PILASTRI.md`) rimane **canonical design spec** dei 6 pilastri (stable). Bump frequency: ad ogni release o ridefinizione design (mese cadence).
+>
+> Pattern: separazione spec stable + runtime volatile (Opzione B drift audit).
 
-Score: 1/6 🟢 + 3/6 🟢 candidato + 2/6 🟡 (zero 🔴). Roadmap closure
-[`docs/planning/2026-04-20-strategy-m9-m11-evidence-based.md`](../planning/2026-04-20-strategy-m9-m11-evidence-based.md).
+**Snapshot ultima verifica** (2026-04-28, post sprint α/β/γ/δ + Skiv personal sprint):
+
+|  #  | Pilastro             |  Stato   |
+| :-: | -------------------- | :------: |
+|  1  | P1 Tattica leggibile | 🟢 def++ |
+|  2  | P2 Evoluzione        | 🟢 def++ |
+|  3  | P3 Specie × Job      |   🟡++   |
+|  4  | P4 Temperamenti      |  🟢 def  |
+|  5  | P5 Co-op vs Sistema  | 🟢 cand  |
+|  6  | P6 Fairness          |    🟢    |
+
+Score: **5/6 🟢 def + 1/6 🟡++ (P3)**. Demo-ready confirmed.
+
+Per dettaglio per-pillar + delta history + cross-link PR sprint, consulta [`PILLAR-LIVE-STATUS.md`](../reports/PILLAR-LIVE-STATUS.md).
 
 ## Rapporto con baseline storiche
 
