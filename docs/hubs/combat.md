@@ -5,7 +5,7 @@ tags: [combat, rules-engine, d20, tactical]
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-04-17
+last_verified: '2026-04-28'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
@@ -13,7 +13,21 @@ review_cycle_days: 14
 
 # Combat Hub
 
-Il rules engine d20 risolve le azioni tattiche del loop di combat: attack (d20 vs CD con MoS e damage step), parry contestata, PT spend, status effect (bleeding/fracture/disorient/rage/panic) e stress breakpoints. Il codice vive in `services/rules/` ed è completamente decoppiato dal generation pipeline, dal dashboard e dal repo `Game-Database`.
+Il rules engine d20 risolve le azioni tattiche del loop di combat: attack (d20 vs CD con MoS e damage step), parry contestata, PT spend, status effect (bleeding/fracture/disorient/rage/panic) e stress breakpoints.
+
+## ⚠ Stato deprecation Python rules engine (2026-04-19)
+
+**Runtime canonical**: Node (`apps/backend/services/combat/`, `apps/backend/routes/session.js`, `apps/backend/services/roundOrchestrator.js`). User direction 2026-04-19: "1 solo gioco online, senza master DM tabletop" → Python `services/rules/` = dead weight.
+
+Vedi `services/rules/DEPRECATED.md` + [`ADR-2026-04-19-kill-python-rules-engine.md`](../adr/ADR-2026-04-19-kill-python-rules-engine.md). NO new features in Python; tutte estensioni vanno in Node. Phase 2 feature freeze + Phase 3 removal pending.
+
+Doc Python references mantenuti sotto come **storico/legacy** per documentation continuity, NON come fonte runtime canonical.
+
+---
+
+## Doc historical (Python services/rules/) — DEPRECATED, vedi sopra
+
+Il codice Python originariamente viveva in `services/rules/`, decoppiato dal generation pipeline, dal dashboard e dal repo `Game-Database`.
 
 ## Navigazione
 

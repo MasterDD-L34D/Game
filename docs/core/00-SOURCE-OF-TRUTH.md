@@ -2,7 +2,7 @@
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-16
+last_verified: '2026-04-28'
 source_of_truth: true
 language: it
 review_cycle_days: 30
@@ -716,7 +716,7 @@ Pattern Bevy-inspired (V1). Plugin attivi: `narrativePlugin` (monta route narrat
 | Status system              | `statusEffectsMachine.js`                                 | Operativo (xstate v5)                                                                                                                                                                                                                          |
 | §14 Grid & Map             | `hexGrid.js` + `terrain_defense.yaml` v0.2                | 🟢 Engine operativo, 23 test                                                                                                                                                                                                                   |
 | §15 Level Design           | `encounter.schema.json` + 3 encounter YAML                | 🟢 Schema + dati validati                                                                                                                                                                                                                      |
-| §16 Networking/Co-op       | ADR Colyseus (proposto)                                   | 🟡 ADR proposto, non implementato                                                                                                                                                                                                              |
+| §16 Networking/Co-op       | M11 Jackbox WS LIVE (`ws@8.18.3`, port 3341)              | 🟢 Phase A+B+C shipped (ADR-2026-04-20). Colyseus tier-2 fallback solo se scale > 100 player concorrenti                                                                                                                                       |
 | §17 Screen Flow            | `17-SCREEN_FLOW.md` (mermaid)                             | ✅ Formalizzato                                                                                                                                                                                                                                |
 | §18 Audience/Accessibilità | —                                                         | 🟡 Proposte, attesa Master DD                                                                                                                                                                                                                  |
 | §19 Decisioni GDD          | 28 domande                                                | 12✅ 9🟡 7🔴                                                                                                                                                                                                                                   |
