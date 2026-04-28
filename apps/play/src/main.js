@@ -12,6 +12,7 @@ import {
   flashUnit,
   flashUnitCritical,
   attackRay,
+  spawnVFX,
   ACTION_ANIM_STAGGER_MS,
   COMMIT_REVEAL_MS,
 } from './anim.js';
@@ -966,6 +967,12 @@ function handleDamageEvent({ actor, target, damage, targetId, result }) {
       pushPopup(target.position.x, target.position.y, txt, color);
       flashUnit(targetId || target.id, color);
     }
+    // Sprint G v3 — VFX hit on target (Legacy Collection).
+    if (dmg > 0) spawnVFX('hit', target.position.x, target.position.y);
+  }
+  // Sprint G v3 — death VFX se target HP cala a 0.
+  if (target && dmg > 0 && target.hp !== undefined && target.hp - dmg <= 0) {
+    spawnVFX('death', target.position.x, target.position.y);
   }
   // SFX selection: heal / crit (≥6) / hit / miss.
   if (dmg < 0) sfx.heal();

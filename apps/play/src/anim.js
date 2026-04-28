@@ -172,5 +172,130 @@ export function drawPopups(ctx, cellSize, gridH) {
 }
 
 export function hasActiveAnims() {
-  return movers.size > 0 || popups.length > 0 || flashes.size > 0 || rays.length > 0;
+  return (
+    movers.size > 0 ||
+    popups.length > 0 ||
+    flashes.size > 0 ||
+    rays.length > 0 ||
+    vfxList.length > 0
+  );
+}
+
+// =========================================================================
+// 2026-04-29 Sprint G v3 — VFX wire (Legacy Collection Ansimuz CC0).
+// Multi-frame spritesheet/sequence anim per hit/death/explosion/slash/fx magic.
+// API: spawnVFX(type, gx, gy, options) → list update + active until frames done.
+// drawVFX(ctx, cellSize, gridH) chiamato dal render loop dopo drawRays.
+// =========================================================================
+
+const VFX_ATLAS = {
+  hit: { mode: 'sequence', basePath: '/assets/legacy/vfx/hit/hit', frames: 3, fps: 16 },
+  death: { mode: 'sequence', basePath: '/assets/legacy/vfx/death/death', frames: 8, fps: 14 },
+  explosion: {
+    mode: 'sheet',
+    path: '/assets/legacy/vfx/explosion/explosion.png',
+    frames: 7,
+    fps: 14,
+  },
+  slash_h: { mode: 'sheet', path: '/assets/legacy/vfx/slash/horizontal.png', frames: 5, fps: 18 },
+  slash_v: { mode: 'sheet', path: '/assets/legacy/vfx/slash/upward.png', frames: 5, fps: 18 },
+  fireball: { mode: 'sheet', path: '/assets/legacy/vfx/fireball/fireball.png', frames: 5, fps: 14 },
+  electro: { mode: 'sheet', path: '/assets/legacy/vfx/electro/electro.png', frames: 6, fps: 16 },
+  bolt: { mode: 'sheet', path: '/assets/legacy/vfx/bolt/bolt.png', frames: 4, fps: 14 },
+};
+
+const _vfxImageCache = new Map(); // key = path, val = HTMLImageElement | null
+const vfxList = []; // [{ type, x, y, start, scale }]
+
+function _vfxLoadSheet(path) {
+  if (_vfxImageCache.has(path)) return _vfxImageCache.get(path);
+  if (typeof Image === 'undefined') {
+    _vfxImageCache.set(path, null);
+    return null;
+  }
+  const img = new Image();
+  img.onload = () => {
+    if (typeof window !== 'undefined') {
+      window.__evoAssetDirty = true;
+      try {
+        window.dispatchEvent(new CustomEvent('evo:asset-loaded'));
+      } catch {
+        /* */
+      }
+    }
+  };
+  img.onerror = () => _vfxImageCache.set(path, null);
+  img.src = path;
+  _vfxImageCache.set(path, img);
+  return img;
+}
+
+/** Schedule VFX at grid coord (gx, gy). Channel hint via type. */
+export function spawnVFX(type, gx, gy, options = {}) {
+  if (!VFX_ATLAS[type]) return;
+  vfxList.push({
+    type,
+    x: Number(gx) || 0,
+    y: Number(gy) || 0,
+    start: performance.now(),
+    scale: Number(options.scale) || 1.0,
+  });
+  // Pre-warm sheet cache.
+  const meta = VFX_ATLAS[type];
+  if (meta.mode === 'sheet') {
+    _vfxLoadSheet(meta.path);
+  } else {
+    for (let i = 1; i <= meta.frames; i += 1) {
+      _vfxLoadSheet(`${meta.basePath}${i}.png`);
+    }
+  }
+}
+
+export function drawVFX(ctx, cellSize, gridH) {
+  if (vfxList.length === 0) return;
+  const now = performance.now();
+  for (let i = vfxList.length - 1; i >= 0; i -= 1) {
+    const v = vfxList[i];
+    const meta = VFX_ATLAS[v.type];
+    if (!meta) {
+      vfxList.splice(i, 1);
+      continue;
+    }
+    const elapsedMs = now - v.start;
+    const totalMs = (meta.frames / meta.fps) * 1000;
+    if (elapsedMs >= totalMs) {
+      vfxList.splice(i, 1);
+      continue;
+    }
+    const frameIdx = Math.min(meta.frames - 1, Math.floor((elapsedMs / 1000) * meta.fps));
+    const yPx = gridH - 1 - v.y;
+    const cx = v.x * cellSize + cellSize / 2;
+    const cy = yPx * cellSize + cellSize / 2;
+    const drawSize = cellSize * 0.95 * v.scale;
+
+    if (meta.mode === 'sheet') {
+      const img = _vfxLoadSheet(meta.path);
+      if (!img || !img.complete || img.naturalWidth === 0) continue;
+      const frameW = Math.floor(img.naturalWidth / meta.frames);
+      const frameH = img.naturalHeight;
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(
+        img,
+        frameIdx * frameW,
+        0,
+        frameW,
+        frameH,
+        cx - drawSize / 2,
+        cy - drawSize / 2,
+        drawSize,
+        drawSize,
+      );
+    } else {
+      const path = `${meta.basePath}${frameIdx + 1}.png`;
+      const img = _vfxLoadSheet(path);
+      if (!img || !img.complete || img.naturalWidth === 0) continue;
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(img, cx - drawSize / 2, cy - drawSize / 2, drawSize, drawSize);
+    }
+  }
 }
