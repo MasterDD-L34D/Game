@@ -5,7 +5,7 @@ tags: [dataset, pack, taxonomy]
 doc_status: active
 doc_owner: data-pack-team
 workstream: dataset-pack
-last_verified: 2026-04-13
+last_verified: '2026-04-28'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14

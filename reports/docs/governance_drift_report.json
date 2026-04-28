@@ -1,9 +1,130 @@
 {
-  "generated_at": "2026-04-27T22:15:40+00:00",
+  "generated_at": "2026-04-28T00:28:06+00:00",
   "summary": {
-    "total": 0,
+    "total": 20,
     "errors": 0,
-    "warnings": 0
+    "warnings": 20
   },
-  "issues": []
+  "issues": [
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/core/00-GDD_MASTER.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-16)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/core/00-SOURCE-OF-TRUTH.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-16)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/core/00B-CANONICAL_PROMOTION_MATRIX.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-16)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/core/02-PILASTRI.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-27)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/core/90-FINAL-DESIGN-FREEZE.md",
+      "message": "Campo doc_status differente tra frontmatter (active) e registry (draft)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/core/90-FINAL-DESIGN-FREEZE.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-15)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/governance/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/governance/master_realign_plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/governance/required_checks_rollout.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/governance/workstream_matrix.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/hubs/atlas.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-14)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/backend.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/hubs/backend.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-13)"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/hubs/combat.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-17)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/dataset-pack.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/hubs/dataset-pack.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-13)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/flow.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "frontmatter_registry_mismatch",
+      "path": "docs/hubs/flow.md",
+      "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-13)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/ops-qa.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-27"
+    }
+  ]
 }

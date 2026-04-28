@@ -5,7 +5,7 @@ tags: [flow, generation, validation]
 doc_status: active
 doc_owner: flow-team
 workstream: flow
-last_verified: 2026-04-13
+last_verified: '2026-04-28'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14

@@ -5,7 +5,7 @@ tags: [backend, api, services]
 doc_status: active
 doc_owner: backend-team
 workstream: backend
-last_verified: 2026-04-13
+last_verified: '2026-04-28'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
