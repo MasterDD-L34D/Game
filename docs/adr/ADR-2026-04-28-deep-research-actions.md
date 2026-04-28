@@ -244,11 +244,11 @@ Research warn esplicita (F2 §"Raccomandazione progettuale"):
 | 4 — Sprint M.7 re-frame DioField                                   |    P2    | 0h + 30min doc |
 | 5a — Injury severity 3-tier stack                                  |    P2    |      ~3h       |
 | 5b — Slow_down trigger expanded (panic+confused+bleeding+fracture) |    P2    |     ~2.5h      |
-| 6 — Sprint N "1 ambition" minimal long-arc goal NEW                |    P2    |     ~3-5h      |
+| 6 — Sprint N "1 ambition" Skiv-Pulverator alleanza NEW             |    P2    |     ~5-7h      |
 | 7 — CT bar visual lookahead 3 turni NEW (museum M-001 promote)     |    P2    |      ~4h       |
 | 8 — Citations BACKLOG/OPEN_DECISIONS/ADR (renumbered da 6)         |    P3    |     ~45min     |
 
-**Total delta plan v2 REVISED**: ~+27h aggiunti (~+2% base 14 sett, ancora justified). Era ~+19h pre-user-verdict 2026-04-28.
+**Total delta plan v2 REVISED 2x**: ~+29-31h aggiunti (~+2.5% base 14 sett, justified). Trend: +19h pre-verdict → +27h post-Q1-Q9 batch 1 → +29-31h post-Q3 ambition expand "fatto bene" (~5-7h vs 3-5h originale).
 
 ## 7. Esecuzione (REVISED 2026-04-28 user verdict)
 
@@ -278,7 +278,7 @@ Research warn esplicita (F2 §"Raccomandazione progettuale"):
 
 **Negative / risks**:
 
-- ~+19h delta plan v2 effort (~+1.5% vs base 14 sett) — accettabile
+- ~+29-31h delta plan v2 effort (~+2.5% vs base 14 sett, REVISED post-user verdict 2026-04-28) — accettabile
 - Action 1 study time potrebbe estendersi se reference repo arch divergente (cap 7h hard)
 - Action 5 Battle Brothers hardening richiede test regression accurato (~+1h buffer)
 

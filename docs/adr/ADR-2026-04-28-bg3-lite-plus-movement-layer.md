@@ -67,11 +67,11 @@ Adottare **BG3-lite Plus** scope ~10-12g come **Sprint G.2b NEW** post Sprint G 
 
 #### Tier 2 — Plus add-ons (~+4-5g, backend cherry-pick)
 
-| Cherry-pick from Hybrid                                                                                                                                                | Effort |                 Pillar impact                 |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :-------------------------------------------: |
-| **Sub-tile positioning** (unit ferma a 1.7 tile dist, NOT center) — float coord position_from/position_to + **round-to-nearest** semantics range check (Q4 verdict)    | ~+2-3d |      P1 strong lift (tactical precision)      |
-| **vcScoring area_covered float** (P4 MBTI signal richer continuous, NOT discrete new_tiles integer) — **synthetic test 10 scenari hardcoded baseline** (Q8 verdict)    | ~+1-2d | P4 mild lift (S_N exploration axis sensitive) |
-| **Flanking 5-zone smooth angle** (Q5 verdict opt B: 0-30° front ×1.0 / 30-90° fronte-side ×1.1 / 90-150° rear-side ×1.4 / 150-180° rear ×1.6, math angolo float input) |  ~+2d  |      P6 mild lift (flanking satisfying)       |
+| Cherry-pick from Hybrid                                                                                                                                                                                                                                                                                                                                                                                                          | Effort |                 Pillar impact                 |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :-------------------------------------------: |
+| **Sub-tile positioning** (unit ferma a 1.7 tile dist, NOT center) — float coord position_from/position_to + **round-to-nearest** semantics range check (Q4 verdict)                                                                                                                                                                                                                                                              | ~+2-3d |      P1 strong lift (tactical precision)      |
+| **vcScoring area_covered float** (P4 MBTI signal richer continuous, NOT discrete new_tiles integer) — **synthetic test 10 scenari hardcoded baseline** (Q8 verdict)                                                                                                                                                                                                                                                              | ~+1-2d | P4 mild lift (S_N exploration axis sensitive) |
+| **Flanking 5-zone smooth angle** (Q5 verdict opt B). **Default values tunable post-playtest**: 0-30° front ×1.0 / 30-90° fronte-side ×1.1 / 90-150° rear-side ×1.4 / 150-180° rear ×1.6. User verdict approved partition (5-zone NOT 3-zone) ma multipliers default suggested — refine post TKT-M11B-06 playtest data (es. ×1.5 rear se ×1.6 troppo brutal, ×1.05 fronte-side se ×1.1 invisibile feel). Math angolo float input. |  ~+2d  |      P6 mild lift (flanking satisfying)       |
 
 **Total BG3-lite Plus**: ~10-12 giorni (2-2.5 settimane).
 
@@ -141,16 +141,16 @@ Adottare **BG3-lite Plus** scope ~10-12g come **Sprint G.2b NEW** post Sprint G 
 | 2   | Action 7 CT bar lookahead 3 turni               |     ~4h     | parallel Action 5 ship |
 | 3   | **Sprint G v3 Legacy Collection asset swap**    |    ~2.5g    | post Action 5+7        |
 | 4   | **Sprint G.2b BG3-lite Plus NEW**               | **~10-12g** | post Sprint G v3       |
-| 5   | Action 6 (1 ambition Sprint N minimal) parallel |    ~3-5h    | durante G.2b window    |
+| 5   | Action 6 (Skiv-Pulverator alleanza, REVISED Q3) |    ~5-7h    | durante G.2b window    |
 | 6   | Sprint I TKT-M11B-06 playtest userland          |   ~1 sett   | post G.2b ship         |
 
 **Total Fase 1 effort REVISED**: ~5-5.5 settimane vs plan v2 originale ~3-5 sett. Slippage ~+1-1.5 sett, signal user-driven (NOT speculative).
 
-**Plan v2 → v3 effort delta cumulativo**:
+**Plan v2 → v3 effort delta cumulativo (REVISED 2026-04-28 user verdict batch finale)**:
 
-- ADR-2026-04-28-deep-research-actions: +27h
+- ADR-2026-04-28-deep-research-actions: **+29-31h** (8 actions, REVISED post-Q3 ambition expand)
 - ADR-2026-04-28-bg3-lite-plus-movement-layer (this): **+10-12 giorni = +80-96h**
-- **Total v2 → v3**: ~+107-123h aggiunti (~+2.5-3 settimane base 14 sett, ~+18-20%)
+- **Total v2 → v3**: **~+109-127h aggiunti** (~+2.7-3.2 settimane base 14 sett, ~+19-23%)
 
 Ancora justified: tester signal data-driven, NOT speculative.
 
