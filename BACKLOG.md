@@ -11,7 +11,9 @@
 
 ### Userland (richiede azione umana)
 
-- [ ] **TKT-M11B-06** — Playtest live 2-4 amici post PR #1730. Unico bloccante P5 🟢 definitivo. Seguire `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md`. ~2-4h sessione.
+- [ ] **Deep research analysis** (NEW session) — 2 file deep research forniti da user. Trigger phrase: _"leggi docs/planning/2026-04-28-deep-research-staging.md, fornisco i 2 file deep research, esegui §Goals analysis"_. Branch staging: `feat/deep-research-analysis-2026-04-28` (da origin/main). Goal: cross-ref vs master plan v2 + decision-altering check + plan v2→v3 update se needed.
+- [ ] **Sprint G v3 Legacy Collection asset swap** — ~20h ~2.5g. Branch: `feat/sprint-g-legacy-asset-swap-2026-04-28`. Plan: `docs/planning/2026-04-28-master-execution-plan.md §Sprint G v3`. Pre-condition: deep research analysis complete (potrebbe alterare plan).
+- [ ] **TKT-M11B-06** — Playtest live 2-4 amici post PR #1730. Unico bloccante P5 🟢 definitivo. Seguire `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md`. ~2-4h sessione. Pre-condition: Sprint G v3 shipped.
 - [ ] **Playtest round 2** — retest post PR #1730 con browser Ctrl+Shift+R (cache bust). Residuo: narrative log prose feature M18+ (gap non-bug).
 
 ### Autonomous (Claude Code può fare)

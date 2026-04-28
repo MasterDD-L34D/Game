@@ -151,7 +151,46 @@
 
 **P0 residuali rimanenti** (post sessione pomeriggio): balance MCTS (~4h, blocked by session state clone API), ui intent preview (~4h, UI runtime risk), ui threat zone toggle (~3h, UI runtime risk), pcg objective variety (~8h). Thought Cabinet Phase 2 shipped (#1769) — UI reveal + combat resolver wire = follow-up P1.
 
-## Stato attuale (post sessione 2026-04-24/25 notte)
+## Stato attuale (post sessione 2026-04-28 visual+planning + PR #1995 merged)
+
+**Latest merge main**: `4844add6` — `feat(visual+planning): Sprint A-F visual upgrade + Godot migration master plan v2 (#1995)`
+
+**Sessione 2026-04-28 highlights**:
+
+- **Sprint A-F shipped**: tactical RPG visual upgrade web stack (`apps/play/`)
+  - Sprint A: Cinzel/IM Fell English/VT323 fonts + GRIMDARK palette tokens
+  - Sprint B: border-image SVG procedural + scanline 0.12 + vignette radial
+  - Sprint C: 8 SVG icon set + pixel-perfect rendering globale
+  - Sprint D: 27 PNG tile (9 biomi × 3 varianti) + 16 PNG portrait MBTI procedural Python PIL
+  - Sprint E: creature sprite 64×64 RGBA pixel-art per 8 archetype + multi-tone shading 5-tier + drop-shadow + idle bob
+  - Sprint F: borderImage cascade fix + sprite onload event + button/select tactical theming
+- **Godot migration strategy 3-fase** (`docs/planning/2026-04-28-godot-migration-strategy.md`): Fase 1 web ship demo + Fase 2 R&D parallel + Fase 3 cutover, ~14-21 sett
+- **Asset sourcing strategy multi-tier** (`docs/planning/2026-04-28-asset-sourcing-strategy.md`): Legacy Collection (Ansimuz CC0, 1613 PNG fornito user) + itch.io tag-godot + Godot Asset Library
+- **Master execution plan v2 review-fixed** (`docs/planning/2026-04-28-master-execution-plan.md` 980 LOC): 3 CRITICAL gap killed (test cliff + cross-stack untested + MVP wrong gate) + 5 HIGH gap risolti via 2 review agent paralleli
+- **JOB_TO_ARCHETYPE 4 orfani wired** (warden/artificer/invoker/harvester) in `apps/play/src/render.js`
+- **Decision Donchitos cherry-pick** (24 agent + 30 skill, NOT full 49+72), Trilium SKIP (AGPL viral), DevForge SKIP (closed Tauri), HermeticOrmus cherry-pick 10-15 prompt
+- **Visual Map Obsidian** decided (post-playtest), MIT-friendly markdown vault `kb/`
+
+**Pillar status post #1994 + PR #1995**:
+
+| #   | Pilastro                |                      Stato                      |
+| --- | ----------------------- | :---------------------------------------------: |
+| 1   | Tattica leggibile       |                       🟢                        |
+| 2   | Evoluzione emergente    |                     🟢 def                      |
+| 3   | Identità Specie × Job   |               🟢 (post Sprint 8)                |
+| 4   | Temperamenti MBTI/Ennea |                       🟡                        |
+| 5   | Co-op vs Sistema        |          🟡 → 🟢 def post TKT-M11B-06           |
+| 6   | Fairness                | 🟡 (Sprint 13 status engine wave A wired #1994) |
+
+**Next**: deep research analysis NEW session pending (2 file da fornire user). Sprint G v3 Legacy asset swap ready (~20h ~2.5g) post deep research.
+
+**Branch staging NEW session**: `feat/deep-research-analysis-2026-04-28` (da origin/main).
+
+**Trigger phrase NEW session**: _"leggi docs/planning/2026-04-28-deep-research-staging.md, fornisco i 2 file deep research, esegui §Goals analysis"_
+
+---
+
+## Stato precedente (post sessione 2026-04-24/25 notte)
 
 - **20 PR merged** in main da #1736 (M14-A) a #1756 (Observable Plot dashboard)
 - Test suite **AI 307/307 verde** + services 177/177 + 57+ nuovi (telemetry 20, restricted-play 13, funnel 4)
