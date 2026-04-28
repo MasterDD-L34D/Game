@@ -6840,6 +6840,32 @@
       "track": "active"
     },
     {
+      "path": "docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md",
+      "title": "CLAUDE.md Sprint Context Archive — pre-consolidation 2026-04-28",
+      "doc_status": "historical_ref",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-28",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 365,
+      "primary": false,
+      "track": "archived"
+    },
+    {
+      "path": "docs/archive/historical-snapshots/2026-04-28-pre-consolidation/corpus-catalog-v1-archive.md",
+      "title": "Design Corpus Catalog v1 Archive — pre-consolidation 2026-04-28",
+      "doc_status": "historical_ref",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-28",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 365,
+      "primary": false,
+      "track": "archived"
+    },
+    {
       "path": "docs/reports/Frattura_Abissale_Sinaptica_archivist_final.md",
       "title": "'Frattura Abissale Sinaptica – Step 9 (Archivist, STRICT MODE / SANDBOX)'",
       "doc_status": "generated",
