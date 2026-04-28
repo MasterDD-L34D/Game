@@ -122,6 +122,20 @@ traits:
   # SPRINT_019: status fisici (Sanguinamento + Frattura), dal design doc
   # docs/core/10-SISTEMA_TATTICO.md linea 18. Si innestano sul sistema
   # status di sprint-013 + trait pipeline di sprint-018.
+  #
+  # Action 5b (2026-04-29) — severity 3-tier per bleeding + fracture.
+  # Convention shape:
+  #   unit.status.bleeding          = N (turns remaining, esistente)
+  #   unit.status.bleeding_severity = 'minor' | 'medium' | 'major'   (NEW)
+  #   unit.status.fracture          = N (turns remaining, esistente)
+  #   unit.status.fracture_severity = 'minor' | 'medium' | 'major'   (NEW)
+  #
+  # Default `minor` se field assente (backward-compat: graffio leggero =
+  # neutral, NO double-penalty oltre HP drain). Solo `medium`/`major`
+  # triggerano `slow_down` (action_speed -1) in computeSlowDownPenalty
+  # (apps/backend/services/combat/statusModifiers.js).
+  # User verdetto Q2 2026-04-28: minor NO trigger, major SI trigger.
+  # Spec ref: docs/adr/ADR-2026-04-28-deep-research-actions.md §Action 5b.
 
   denti_seghettati:
     tier: T1
@@ -9552,10 +9566,22 @@ traits:
   #
   # Trigger entry "marker_only": evaluator skip silently (no trigger.action_type),
   # serve solo come dichiarazione formale del status type per glossary/lint.
+  # Action 5a (2026-04-29) — injury severity stack 3-tier (Battle Brothers
+  # attrition pattern). `unit.status.wounded_perma.severity` ∈ enum:
+  #   light  → -0 attack_mod (graffio leggero, default backward-compat)
+  #   medium → -1 attack_mod (ferita compromettente)
+  #   severe → -2 attack_mod (ferita grave, "compromesso totale")
+  # Default `light` se field assente (NO surprise difficulty regression).
+  # Letta runtime da apps/backend/services/combat/statusModifiers.js
+  # (computeStatusModifiers — actor-side debuff). Persistenza cross-encounter
+  # via session.lastMissionWoundedPerma map (woundedPerma.applyWound opts.severity).
+  # Spec ref: docs/adr/ADR-2026-04-28-deep-research-actions.md §Action 5a.
   wounded_perma:
     tier: T1
     category: persistente
     applies_to: target
+    severity_enum: [light, medium, severe]
+    severity_default: light
     trigger:
       action_type: marker_only
     effect:
@@ -9568,3 +9594,5 @@ traits:
       runtime via woundedPerma.js quando l'attore protagonista subisce KO in
       encounter con loss_conditions.player_wipe attivo. Cross-encounter via
       session.lastMissionWoundedPerma map (riapplica HP penalty allo start).
+      Severity 3-tier (Action 5a 2026-04-29): light/medium/severe → attack_mod
+      penalty 0/-1/-2 letto da statusModifiers.js. Default `light` backward-compat.
