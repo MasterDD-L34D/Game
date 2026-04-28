@@ -162,7 +162,7 @@ Ancora justified: tester signal data-driven, NOT speculative.
 - **NO** rewrite session.js position_from/to schema (compatibility 382 test)
 - **NO** rewrite encounter YAML grid w/h block (skip from Hybrid full)
 - **NO** vcScoring rewrite full 6 raw metrics (solo `area_covered` add float, `new_tiles` integer **mantenuto** parallel)
-- **NO** drop ADR-2026-04-16 hex grid Proposed (resta Proposed, future-deferred — BG3-lite hidden grid risolve visual SENZA implementare hex)
+- ~~**NO** drop ADR-2026-04-16 hex grid Proposed (resta Proposed, future-deferred — BG3-lite hidden grid risolve visual SENZA implementare hex)~~ **UPDATE 2026-04-28**: ADR-2026-04-16 ora **Superseded** by [ADR-2026-04-28-grid-type-square-final](./ADR-2026-04-28-grid-type-square-final.md). Square wins definitivo. BG3-lite Plus Tier 2 (sub-tile float + flanking angle continuous) = catturano vantaggi hex senza refactor.
 
 ## 7. Risk + mitigation
 

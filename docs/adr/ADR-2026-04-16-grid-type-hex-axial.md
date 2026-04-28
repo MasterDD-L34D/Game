@@ -11,8 +11,10 @@ review_cycle_days: 30
 
 # ADR-2026-04-16: Grid Type — Hex con coordinate axial
 
+> ⚠️ **SUPERSEDED 2026-04-28** by [ADR-2026-04-28-grid-type-square-final.md](./ADR-2026-04-28-grid-type-square-final.md). Hex axial mai shippato (12 giorni Proposto). BG3-lite Plus shipped (ADR-2026-04-28-bg3-lite-plus-movement-layer) con sub-tile positioning float + flanking continuous angle = catturano vantaggi hex senza refactor 30-40h. Square wins definitivo. Doc preservato come historical reference.
+
 - **Data**: 2026-04-16
-- **Stato**: Proposto
+- **Stato**: **Superseded by ADR-2026-04-28-grid-type-square-final**
 - **Owner**: Team Backend & Tools
 - **Stakeholder**: Frontend Squad (rendering), Rules Engine (resolver.py), AI SIS (pathfinding), QA (test grid)
 
