@@ -412,6 +412,58 @@ export function drawHolographicAoe(ctx, tiles, gridH, opts = {}) {
   if (!Array.isArray(tiles) || tiles.length === 0) return;
   const phase = Number(opts.scanlinePhase) || 0;
   ctx.save();
+
+  // 2026-04-29 Spike POC BG3-lite Tier 1 — AoE shape sphere se toggle ON.
+  // Compute tiles bbox center + raggio = max distance tile → centro.
+  // ctx.arc() replace tile-by-tile fill (Layer 1) per BG3-feel sphere/blast.
+  const cfg = _bg3liteCfg();
+  if (cfg.bg3lite_aoe_shape) {
+    let sumX = 0;
+    let sumY = 0;
+    for (const t of tiles) {
+      sumX += t.x;
+      sumY += t.y;
+    }
+    const cxTile = sumX / tiles.length;
+    const cyTile = sumY / tiles.length;
+    const cx = cxTile * CELL + CELL / 2;
+    const cyPx = (gridH - 1 - cyTile) * CELL + CELL / 2;
+    let maxR = 0;
+    for (const t of tiles) {
+      const dx = (t.x - cxTile) * CELL;
+      const dy = (cyTile - t.y) * CELL;
+      const d = Math.sqrt(dx * dx + dy * dy) + CELL * 0.5;
+      if (d > maxR) maxR = d;
+    }
+    // Sphere fill — gradient ciano centro → trasparente edge.
+    const grad = ctx.createRadialGradient(cx, cyPx, CELL * 0.2, cx, cyPx, maxR);
+    grad.addColorStop(0, 'rgba(120, 220, 255, 0.32)');
+    grad.addColorStop(0.7, 'rgba(120, 220, 255, 0.18)');
+    grad.addColorStop(1, 'rgba(120, 220, 255, 0.04)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cyPx, maxR, 0, Math.PI * 2);
+    ctx.fill();
+    // Edge ring (Dead Space holo edge mantenuto).
+    ctx.strokeStyle = HOLO_TINT.edge;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cx, cyPx, maxR, 0, Math.PI * 2);
+    ctx.stroke();
+    // Scanline orizzontale sweep (preserve Dead Space pattern).
+    const scanY = cyPx - maxR + 2 * maxR * phase;
+    ctx.strokeStyle = HOLO_TINT.scanline;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(cx - maxR, scanY);
+    ctx.lineTo(cx + maxR, scanY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+    return;
+  }
+
   // Layer 1: holo fill on each tile.
   ctx.fillStyle = HOLO_TINT.fill;
   for (const t of tiles) {
@@ -600,6 +652,14 @@ export function canvasToCell(canvas, ev, gridH) {
   return { x, y };
 }
 
+// 2026-04-29 Spike POC BG3-lite Tier 1 — config getter centralizzato.
+// Toggle via apps/play/public/data/ui_config.json (loaded da main.js bootstrap).
+// Fallback: tutte le feature OFF se config non caricata (back-compat strict).
+function _bg3liteCfg() {
+  if (typeof window === 'undefined') return {};
+  return window.__evoUiConfig || {};
+}
+
 function drawCell(ctx, x, yPx, fill, tileImg) {
   // M4 step A: tile bg PNG se flag ON + asset loaded.
   // Sprint G v3 — tileImg supports HTMLImageElement (Sprint D procedural) o
@@ -624,6 +684,9 @@ function drawCell(ctx, x, yPx, fill, tileImg) {
     ctx.fillStyle = fill;
     ctx.fillRect(x * CELL, yPx * CELL, CELL, CELL);
   }
+  // 2026-04-29 Spike POC BG3-lite — hide grid lines se toggle ON. Tile bioma
+  // resta visibile (background fill mantiene Ansimuz tile real Sprint G v3).
+  if (_bg3liteCfg().bg3lite_hide_grid) return;
   ctx.strokeStyle = COLORS.border;
   ctx.lineWidth = 1;
   ctx.strokeRect(x * CELL + 0.5, yPx * CELL + 0.5, CELL - 1, CELL - 1);
@@ -1338,6 +1401,67 @@ function drawSisIntentIcon(ctx, unit, cx, yPxTop, kind = 'fist') {
   ctx.fillText(glyph, ix, iy + size / 2 + 1);
 }
 
+// 2026-04-29 Spike POC BG3-lite Tier 1 — range cerchio gradient.
+// Replace cell highlight tile-by-tile con ctx.arc() raggio = range.
+// Movement zone arc + attack range circle gradient. Toggle config-aware.
+function drawBg3liteRangeOverlay(ctx, state, gridH, selectedId) {
+  const unit = (state.units || []).find((u) => u.id === selectedId);
+  if (!unit || !unit.position || unit.hp <= 0) return;
+  const ap = Number(unit.ap ?? 0);
+  const atkRange = Number(unit.range ?? unit.attack_range ?? 1);
+  const ux = unit.position.x;
+  const uy = unit.position.y;
+  const cfg = _bg3liteCfg();
+  const cx = ux * CELL + CELL / 2;
+  const cyPx = (gridH - 1 - uy) * CELL + CELL / 2;
+
+  // Movement zone — arc cerchio raggio = ap * CELL (Manhattan approx → cerchio
+  // circumscritto, BG3-style). Gradient subtle ciano interno → trasparente edge.
+  if (cfg.bg3lite_movement_zone_arc && ap > 0) {
+    const moveR = ap * CELL;
+    ctx.save();
+    const grad = ctx.createRadialGradient(cx, cyPx, CELL * 0.4, cx, cyPx, moveR);
+    grad.addColorStop(0, 'rgba(120, 200, 255, 0.0)');
+    grad.addColorStop(0.7, 'rgba(120, 200, 255, 0.18)');
+    grad.addColorStop(1, 'rgba(120, 200, 255, 0.06)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cyPx, moveR, 0, Math.PI * 2);
+    ctx.fill();
+    // Edge ring sottile (BG3 movement boundary indicator).
+    ctx.strokeStyle = 'rgba(140, 220, 255, 0.55)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  // Attack range — cerchio raggio = atkRange * CELL gradient ambra warm.
+  // Subtle pulse animation (radial gradient cycles via Date.now phase).
+  if (cfg.bg3lite_range_circle && atkRange > 0) {
+    const atkR = atkRange * CELL + CELL / 2;
+    const phase = (Date.now() / 1400) % 1; // ~0.7 Hz pulse
+    const pulseScale = 1 + Math.sin(phase * Math.PI * 2) * 0.03; // ±3% breathing
+    ctx.save();
+    const grad = ctx.createRadialGradient(cx, cyPx, CELL * 0.5, cx, cyPx, atkR * pulseScale);
+    grad.addColorStop(0, 'rgba(255, 200, 100, 0.0)');
+    grad.addColorStop(0.65, 'rgba(255, 180, 80, 0.12)');
+    grad.addColorStop(1, 'rgba(255, 180, 80, 0.28)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cyPx, atkR * pulseScale, 0, Math.PI * 2);
+    ctx.fill();
+    // Outer ring solid sottile per chiarezza edge (10-foot rule).
+    ctx.strokeStyle = 'rgba(255, 200, 100, 0.7)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cx, cyPx, atkR, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
 // W3.1 — Range overlay: movimento (Manhattan <= AP) + attacco (Chebyshev <= range).
 // Wave 3 fix #5: player no sapeva dove poteva muovere/attaccare senza trial-and-error.
 function drawRangeOverlay(ctx, state, gridH, selectedId) {
@@ -1441,7 +1565,16 @@ export function render(canvas, state, highlight = {}) {
   }
 
   // W3.1 — Range overlay BEFORE units (so unit rings/icons overlap on top).
-  if (highlight.selected) drawRangeOverlay(ctx, state, h, highlight.selected);
+  // 2026-04-29 Spike POC BG3-lite Tier 1 — switch overlay style via config.
+  // bg3lite_range_circle ON → cerchio gradient (BG3-style). OFF → tile highlight (legacy).
+  if (highlight.selected) {
+    const cfg = _bg3liteCfg();
+    if (cfg.bg3lite_range_circle || cfg.bg3lite_movement_zone_arc) {
+      drawBg3liteRangeOverlay(ctx, state, h, highlight.selected);
+    } else {
+      drawRangeOverlay(ctx, state, h, highlight.selected);
+    }
+  }
 
   // 2026-04-26 ITB telegraph — threat tile overlay rosso/giallo per SIS pending intents.
   // Disegnato DOPO range overlay (player vede sue mosse possibili) e PRIMA delle unità.
