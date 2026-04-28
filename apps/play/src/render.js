@@ -76,6 +76,13 @@ const JOB_TO_ARCHETYPE = {
   controller: 'controller',
   mage: 'controller',
   boss: 'boss',
+  // 2026-04-28 Sprint G v3 — orfani jobs.yaml v0.2.0 wire (Sprint 8 #1978).
+  // 4 base ability r3/r4 jobs missing visual archetype. Map a closest match
+  // visual silhouette finché authoring sprite custom Sprint Q.
+  warden: 'controller', // chain_shackles + void_collapse → controller-like
+  artificer: 'healer', // arcane_renewal + convergence_wave → healer-supportive
+  invoker: 'controller', // arcane_lance + apocalypse_ray → mage-like
+  harvester: 'skirmisher', // vital_drain + lifegrove → offensive lean
 };
 
 function _loadCreatureSprite(archetype) {
