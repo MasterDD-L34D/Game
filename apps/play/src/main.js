@@ -38,6 +38,7 @@ import {
 } from './predictPreviewOverlay.js';
 import { renderObjectiveBar } from './objectivePanel.js';
 import { renderBiomeChip } from './biomeChip.js';
+import { renderCtBar } from './ctBar.js';
 
 const state = {
   sid: null,
@@ -1050,6 +1051,18 @@ function refreshBiomeChip() {
   renderBiomeChip(containerEl, biomeId);
 }
 
+// Action 7 (ADR-2026-04-28 §Action 7) — refresh CT bar HUD lookahead 3 turni.
+// Reads state.world (publicSessionView units + active_unit + statuses) e
+// renderizza strip top-HUD `current → next1 → next2 → next3`. Lookahead cap
+// configurabile via window.__evoUiConfig.ct_bar_lookahead, default 3.
+function refreshCtBar() {
+  const containerEl = document.getElementById('ct-bar');
+  if (!containerEl) return;
+  const cap = Number(window.__evoUiConfig?.ct_bar_lookahead);
+  const lookahead = Number.isFinite(cap) && cap >= 0 ? cap : 3;
+  renderCtBar(containerEl, state.world || null, lookahead);
+}
+
 // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette (DOM overlay).
 // Driver: state.world.pressure (0..100). CSS vars --tension-alpha + --tension-color
 // applied to .tension-vignette singleton (created lazily). Pure helpers from
@@ -1138,6 +1151,8 @@ async function refresh() {
     refreshObjectiveBar();
     // Sprint 11 (Surface-DEAD #6): refresh biome chip post-state-fetch.
     refreshBiomeChip();
+    // Action 7 (ADR-2026-04-28 §Action 7): refresh CT bar lookahead 3 turni.
+    refreshCtBar();
     // 2026-04-27 PR-Y1 — Gris pressure palette apply post-state-fetch
     applyPressurePalette(state.world);
     // Sprint β Visual UX 2026-04-28 — Frostpunk tension vignette overlay.
@@ -1307,6 +1322,8 @@ async function startNewSession() {
   refreshObjectiveBar();
   // Sprint 11 (Surface-DEAD #6): refresh biome chip subito su nuova sessione.
   refreshBiomeChip();
+  // Action 7 (ADR-2026-04-28 §Action 7): refresh CT bar subito su nuova sessione.
+  refreshCtBar();
   // Bundle B.3 — pipe session_id to codex panel for /api/v1/codex/pages.
   setCodexSessionId(state.sid);
   // M11 Phase B+ (TKT-M11B-03) — if host room carries campaign_id, bootstrap
