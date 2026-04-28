@@ -29,6 +29,17 @@
 const DEFAULT_HP_PENALTY = 1;
 const MAX_STACKS = 3;
 
+// Action 5a (2026-04-29) — injury severity 3-tier (Battle Brothers attrition).
+// Default 'light' backward-compat. Persisted in unit.status.wounded_perma.severity
+// + sessionMap entry. Letto da statusModifiers.js (attack_mod scaling).
+const SEVERITY_ENUM = ['light', 'medium', 'severe'];
+const DEFAULT_SEVERITY = 'light';
+
+function normalizeSeverity(value) {
+  const s = String(value || '').toLowerCase();
+  return SEVERITY_ENUM.includes(s) ? s : DEFAULT_SEVERITY;
+}
+
 /**
  * Initialize an empty session map. Idempotent: returns input map if already
  * an object. Caller stores this on session.lastMissionWoundedPerma.
@@ -57,12 +68,31 @@ function initSessionMap() {
  */
 function applyWound(unit, sessionMap, opts = {}) {
   if (!unit || typeof unit !== 'object' || !unit.id) {
-    return { applied: false, hp_penalty: 0, prior_max_hp: 0, stacks: 0 };
+    return {
+      applied: false,
+      hp_penalty: 0,
+      prior_max_hp: 0,
+      stacks: 0,
+      severity: DEFAULT_SEVERITY,
+    };
   }
   if (!sessionMap || typeof sessionMap !== 'object') {
-    return { applied: false, hp_penalty: 0, prior_max_hp: 0, stacks: 0 };
+    return {
+      applied: false,
+      hp_penalty: 0,
+      prior_max_hp: 0,
+      stacks: 0,
+      severity: DEFAULT_SEVERITY,
+    };
   }
   const requested = Math.max(1, Math.floor(Number(opts.hp_penalty) || DEFAULT_HP_PENALTY));
+  // Action 5a: severity opt-in. Only persisted in status/sessionMap when caller
+  // provides opts.severity (preserva shape pre-Action-5a se non specificato →
+  // back-compat strict per consumer che fanno deepEqual). Read site defaulta
+  // a 'light' se field assent (computeWoundedPermaAttackPenalty), stessa
+  // behavior dell'enum default.
+  const severityProvided = opts.severity !== undefined && opts.severity !== null;
+  const severity = severityProvided ? normalizeSeverity(opts.severity) : DEFAULT_SEVERITY;
   const prior = sessionMap[unit.id] || { hp_penalty: 0, stacks: 0 };
   const priorStacks = Math.max(0, Math.floor(Number(prior.stacks) || 0));
   if (priorStacks >= MAX_STACKS) {
@@ -72,6 +102,7 @@ function applyWound(unit, sessionMap, opts = {}) {
       hp_penalty: prior.hp_penalty || 0,
       prior_max_hp: Number(unit.max_hp || unit.hp || 0),
       stacks: priorStacks,
+      severity: normalizeSeverity(prior.severity),
     };
   }
   const prior_max_hp = Number(unit.max_hp || unit.hp || 0);
@@ -81,13 +112,19 @@ function applyWound(unit, sessionMap, opts = {}) {
   unit.max_hp = newMax;
   if (typeof unit.hp === 'number' && unit.hp > newMax) unit.hp = newMax;
   if (!unit.status || typeof unit.status !== 'object') unit.status = {};
-  unit.status.wounded_perma = { hp_penalty: newPenalty, stacks: newStacks };
-  sessionMap[unit.id] = {
+  const statusEntry = { hp_penalty: newPenalty, stacks: newStacks };
+  const sessionEntry = {
     hp_penalty: newPenalty,
     stacks: newStacks,
     applied_at: new Date().toISOString(),
   };
-  return { applied: true, hp_penalty: newPenalty, prior_max_hp, stacks: newStacks };
+  if (severityProvided || prior.severity !== undefined) {
+    statusEntry.severity = severity;
+    sessionEntry.severity = severity;
+  }
+  unit.status.wounded_perma = statusEntry;
+  sessionMap[unit.id] = sessionEntry;
+  return { applied: true, hp_penalty: newPenalty, prior_max_hp, stacks: newStacks, severity };
 }
 
 /**
@@ -101,34 +138,39 @@ function applyWound(unit, sessionMap, opts = {}) {
  */
 function restoreOnEncounterStart(unit, sessionMap) {
   if (!unit || typeof unit !== 'object' || !unit.id) {
-    return { restored: false, hp_penalty: 0, stacks: 0 };
+    return { restored: false, hp_penalty: 0, stacks: 0, severity: DEFAULT_SEVERITY };
   }
   if (!sessionMap || typeof sessionMap !== 'object') {
-    return { restored: false, hp_penalty: 0, stacks: 0 };
+    return { restored: false, hp_penalty: 0, stacks: 0, severity: DEFAULT_SEVERITY };
   }
   const entry = sessionMap[unit.id];
   if (!entry || !Number(entry.hp_penalty)) {
-    return { restored: false, hp_penalty: 0, stacks: 0 };
+    return { restored: false, hp_penalty: 0, stacks: 0, severity: DEFAULT_SEVERITY };
   }
   const penalty = Math.max(0, Math.floor(Number(entry.hp_penalty) || 0));
   const stacks = Math.max(0, Math.floor(Number(entry.stacks) || 0));
+  const hasSeverity = entry.severity !== undefined && entry.severity !== null;
+  const severity = hasSeverity ? normalizeSeverity(entry.severity) : DEFAULT_SEVERITY;
   if (!unit.status || typeof unit.status !== 'object') unit.status = {};
   const existing = unit.status.wounded_perma;
   if (
     existing &&
     typeof existing === 'object' &&
     Number(existing.hp_penalty) === penalty &&
-    Number(existing.stacks) === stacks
+    Number(existing.stacks) === stacks &&
+    (!hasSeverity || normalizeSeverity(existing.severity) === severity)
   ) {
     // Idempotent: already restored, no double penalty.
-    return { restored: false, hp_penalty: penalty, stacks };
+    return { restored: false, hp_penalty: penalty, stacks, severity };
   }
   const cur_max = Number(unit.max_hp || unit.hp || 0);
   const newMax = Math.max(1, cur_max - penalty);
   unit.max_hp = newMax;
   if (typeof unit.hp === 'number' && unit.hp > newMax) unit.hp = newMax;
-  unit.status.wounded_perma = { hp_penalty: penalty, stacks };
-  return { restored: true, hp_penalty: penalty, stacks };
+  const statusEntry = { hp_penalty: penalty, stacks };
+  if (hasSeverity) statusEntry.severity = severity;
+  unit.status.wounded_perma = statusEntry;
+  return { restored: true, hp_penalty: penalty, stacks, severity };
 }
 
 /**
@@ -140,16 +182,17 @@ function restoreOnEncounterStart(unit, sessionMap) {
  */
 function getActorState(unit, sessionMap) {
   if (!unit || typeof unit !== 'object' || !unit.id) {
-    return { wounded: false, hp_penalty: 0, stacks: 0 };
+    return { wounded: false, hp_penalty: 0, stacks: 0, severity: DEFAULT_SEVERITY };
   }
   if (!sessionMap || typeof sessionMap !== 'object') {
-    return { wounded: false, hp_penalty: 0, stacks: 0 };
+    return { wounded: false, hp_penalty: 0, stacks: 0, severity: DEFAULT_SEVERITY };
   }
   const entry = sessionMap[unit.id];
-  if (!entry) return { wounded: false, hp_penalty: 0, stacks: 0 };
+  if (!entry) return { wounded: false, hp_penalty: 0, stacks: 0, severity: DEFAULT_SEVERITY };
   const penalty = Math.max(0, Math.floor(Number(entry.hp_penalty) || 0));
   const stacks = Math.max(0, Math.floor(Number(entry.stacks) || 0));
-  return { wounded: penalty > 0, hp_penalty: penalty, stacks };
+  const severity = normalizeSeverity(entry.severity);
+  return { wounded: penalty > 0, hp_penalty: penalty, stacks, severity };
 }
 
 /**
@@ -171,6 +214,9 @@ module.exports = {
   restoreOnEncounterStart,
   getActorState,
   clearSession,
+  normalizeSeverity,
   DEFAULT_HP_PENALTY,
   MAX_STACKS,
+  SEVERITY_ENUM,
+  DEFAULT_SEVERITY,
 };

@@ -16,6 +16,8 @@ const assert = require('node:assert/strict');
 const {
   computeStatusModifiers,
   applyTurnRegen,
+  computeWoundedPermaAttackPenalty,
+  computeSlowDownPenalty,
   manhattanDistance,
 } = require('../../apps/backend/services/combat/statusModifiers');
 
@@ -119,4 +121,168 @@ test('applyTurnRegen: status not active (0 turns) → no regen', () => {
 
 test('manhattanDistance basic', () => {
   assert.equal(manhattanDistance({ x: 0, y: 0 }, { x: 3, y: 4 }), 7);
+});
+
+// ──────────────────────────────────────────────────────────────────────
+// Action 5a — wounded_perma severity 3-tier attack_mod scaling
+// ──────────────────────────────────────────────────────────────────────
+
+test('Action 5a: wounded_perma severity light → 0 attack_mod (backward-compat)', () => {
+  const unit = {
+    id: 'a',
+    status: { wounded_perma: { hp_penalty: 1, stacks: 1, severity: 'light' } },
+  };
+  const r = computeWoundedPermaAttackPenalty(unit);
+  assert.equal(r.penalty, 0);
+  assert.equal(r.severity, 'light');
+  assert.equal(r.active, true);
+});
+
+test('Action 5a: wounded_perma severity medium → -1 attack_mod', () => {
+  const unit = {
+    id: 'a',
+    status: { wounded_perma: { hp_penalty: 2, stacks: 2, severity: 'medium' } },
+  };
+  const r = computeWoundedPermaAttackPenalty(unit);
+  assert.equal(r.penalty, -1);
+  assert.equal(r.severity, 'medium');
+});
+
+test('Action 5a: wounded_perma severity severe → -2 attack_mod', () => {
+  const unit = {
+    id: 'a',
+    status: { wounded_perma: { hp_penalty: 3, stacks: 3, severity: 'severe' } },
+  };
+  const r = computeWoundedPermaAttackPenalty(unit);
+  assert.equal(r.penalty, -2);
+  assert.equal(r.severity, 'severe');
+});
+
+test('Action 5a: wounded_perma absent severity field → default light (NO regression)', () => {
+  // Backward-compat: pre-Action-5a wounded_perma instances had no `severity` field.
+  // Expectation: behaves as `light` → 0 penalty (zero surprise difficulty regression).
+  const unit = { id: 'a', status: { wounded_perma: { hp_penalty: 1, stacks: 1 } } };
+  const r = computeWoundedPermaAttackPenalty(unit);
+  assert.equal(r.penalty, 0);
+  assert.equal(r.severity, 'light');
+  assert.equal(r.active, true);
+});
+
+test('Action 5a: wounded_perma absent → no penalty + active=false', () => {
+  const unit = { id: 'a', status: {} };
+  const r = computeWoundedPermaAttackPenalty(unit);
+  assert.equal(r.penalty, 0);
+  assert.equal(r.active, false);
+});
+
+test('Action 5a: computeStatusModifiers wires wounded_perma medium into attackDelta', () => {
+  const actor = {
+    id: 'a',
+    status: { wounded_perma: { hp_penalty: 2, stacks: 2, severity: 'medium' } },
+  };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.attackDelta, -1);
+  assert.ok(r.log.some((e) => e.status === 'wounded_perma' && e.side === 'actor'));
+});
+
+test('Action 5a: computeStatusModifiers severe stacks with linked actor (-2 + +1 ally = -1)', () => {
+  const actor = {
+    id: 'a',
+    controlled_by: 'player',
+    position: { x: 0, y: 0 },
+    status: { linked: 2, wounded_perma: { hp_penalty: 3, stacks: 3, severity: 'severe' } },
+  };
+  const ally = { id: 'b', controlled_by: 'player', position: { x: 1, y: 0 }, hp: 5 };
+  const target = { id: 'enemy', controlled_by: 'sistema', status: {} };
+  const r = computeStatusModifiers(actor, target, [actor, ally, target]);
+  // linked +1 + wounded_perma severe -2 = -1 net
+  assert.equal(r.attackDelta, -1);
+});
+
+// ──────────────────────────────────────────────────────────────────────
+// Action 5b — slow_down trigger (panic / confused / bleeding≥medium / fracture≥medium)
+// ──────────────────────────────────────────────────────────────────────
+
+test('Action 5b: panic > 0 → slow_down trigger (-1 action_speed)', () => {
+  const unit = { id: 'a', status: { panic: 2 } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.includes('panic'));
+});
+
+test('Action 5b: confused > 0 → slow_down trigger', () => {
+  const unit = { id: 'a', status: { confused: 1 } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.includes('confused'));
+});
+
+test('Action 5b: bleeding medium severity → slow_down trigger', () => {
+  const unit = { id: 'a', status: { bleeding: 2, bleeding_severity: 'medium' } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.some((t) => t.startsWith('bleeding:medium')));
+});
+
+test('Action 5b: bleeding minor severity → NO trigger (graffio neutral)', () => {
+  const unit = { id: 'a', status: { bleeding: 2, bleeding_severity: 'minor' } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 0);
+  assert.equal(r.triggers.length, 0);
+});
+
+test('Action 5b: bleeding major severity → slow_down trigger', () => {
+  const unit = { id: 'a', status: { bleeding: 3, bleeding_severity: 'major' } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.some((t) => t.startsWith('bleeding:major')));
+});
+
+test('Action 5b: fracture medium severity → slow_down trigger', () => {
+  const unit = { id: 'a', status: { fracture: 2, fracture_severity: 'medium' } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.some((t) => t.startsWith('fracture:medium')));
+});
+
+// Backward-compat: 2 test (bleeding senza severity = default minor NO trigger /
+// fracture senza severity = default minor NO trigger).
+
+test('Action 5b backward-compat: bleeding senza severity field → default minor, NO trigger', () => {
+  const unit = { id: 'a', status: { bleeding: 2 } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 0);
+});
+
+test('Action 5b backward-compat: fracture senza severity field → default minor, NO trigger', () => {
+  const unit = { id: 'a', status: { fracture: 2 } };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 0);
+});
+
+test('Action 5b: combined panic + confused + bleeding-medium → cap a 1 tier (no stack)', () => {
+  // Spec: trigger combinati NON cumulano. Cap -1 ("1 tier slower" canonical).
+  const unit = {
+    id: 'a',
+    status: { panic: 1, confused: 1, bleeding: 2, bleeding_severity: 'medium' },
+  };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 1);
+  assert.ok(r.triggers.length >= 3);
+});
+
+test('Action 5b: clean unit → no trigger', () => {
+  const unit = { id: 'a', status: {} };
+  const r = computeSlowDownPenalty(unit);
+  assert.equal(r.amount, 0);
+});
+
+test('Action 5b: computeStatusModifiers exports actorSlowDown flag + log entry', () => {
+  const actor = { id: 'a', status: { panic: 1 } };
+  const target = { id: 'b', status: {} };
+  const r = computeStatusModifiers(actor, target, []);
+  assert.equal(r.actorSlowDown, true);
+  assert.equal(r.targetSlowDown, false);
+  assert.ok(r.log.some((e) => e.status === 'slow_down' && e.side === 'actor'));
 });

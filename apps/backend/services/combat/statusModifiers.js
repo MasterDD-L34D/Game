@@ -31,6 +31,29 @@
 
 'use strict';
 
+// Action 5a (2026-04-29) — wounded_perma severity 3-tier attack_mod scaling.
+// Battle Brothers attrition pattern: ferita compromettente compromette accuracy.
+// Mapping integer (attack_mod e' integer scale d20 — 1 step ~5-7% hit chance):
+//   light  → 0   (graffio leggero, default backward-compat — NO regression)
+//   medium → -1  (~ -5/-15% intent ADR §Action 5a)
+//   severe → -2  (~ -30% intent: ferita grave compromesso totale)
+// Default `light` se field assente in unit.status.wounded_perma.
+const WOUNDED_PERMA_ATTACK_PENALTY = Object.freeze({
+  light: 0,
+  medium: -1,
+  severe: -2,
+});
+
+// Action 5b (2026-04-29) — bleeding/fracture severity 3-tier slow_down trigger.
+// User verdetto Q2 2026-04-28: `minor` NO trigger (graffio leggero neutral, NO
+// double-penalty oltre HP drain). `medium` + `major` SI trigger.
+// Convention: unit.status.bleeding_severity / fracture_severity ∈ enum.
+const BLEEDING_FRACTURE_SLOW_DOWN_THRESHOLD = Object.freeze({
+  minor: false, // NO trigger — graffio neutral
+  medium: true, // trigger — ferita compromettente
+  major: true, // trigger — ferita grave totale
+});
+
 function manhattanDistance(a, b) {
   if (!a || !b) return Infinity;
   return Math.abs(Number(a.x) - Number(b.x)) + Math.abs(Number(a.y) - Number(b.y));
@@ -38,6 +61,67 @@ function manhattanDistance(a, b) {
 
 function isPositive(value) {
   return Number(value) > 0;
+}
+
+function normalizeWoundedSeverity(value) {
+  const s = String(value || '').toLowerCase();
+  return s in WOUNDED_PERMA_ATTACK_PENALTY ? s : 'light';
+}
+
+function normalizeBleedingFractureSeverity(value) {
+  const s = String(value || '').toLowerCase();
+  return s in BLEEDING_FRACTURE_SLOW_DOWN_THRESHOLD ? s : 'minor';
+}
+
+/**
+ * Action 5a — read wounded_perma severity off unit.status (object map shape:
+ * { hp_penalty, stacks, severity }) and return integer attack_mod penalty.
+ * Returns 0 if no wound active OR severity unknown (defaults light → 0).
+ *
+ * @param {object} unit
+ * @returns {{ penalty: number, severity: string, active: boolean }}
+ */
+function computeWoundedPermaAttackPenalty(unit) {
+  const status = (unit && unit.status) || {};
+  const wp = status.wounded_perma;
+  if (!wp || typeof wp !== 'object') {
+    return { penalty: 0, severity: 'light', active: false };
+  }
+  const severity = normalizeWoundedSeverity(wp.severity);
+  const penalty = WOUNDED_PERMA_ATTACK_PENALTY[severity] || 0;
+  return { penalty, severity, active: true };
+}
+
+/**
+ * Action 5b — slow_down trigger when ANY of: panic > 0, confused > 0,
+ * bleeding ≥ medium severity, fracture ≥ medium severity. Returns
+ * action_speed reduction amount (1 = "1 tier slower", 0 = no penalty).
+ *
+ * Reads unit.status object-map shape (panic/confused/bleeding/fracture =
+ * turns remaining N; bleeding_severity/fracture_severity = enum string).
+ * Default severity `minor` se field absent (NO trigger — backward-compat).
+ *
+ * @param {object} unit
+ * @returns {{ amount: number, triggers: string[] }}
+ */
+function computeSlowDownPenalty(unit) {
+  const status = (unit && unit.status) || {};
+  const triggers = [];
+  if (isPositive(status.panic)) triggers.push('panic');
+  if (isPositive(status.confused)) triggers.push('confused');
+  if (isPositive(status.bleeding)) {
+    const sev = normalizeBleedingFractureSeverity(status.bleeding_severity);
+    if (BLEEDING_FRACTURE_SLOW_DOWN_THRESHOLD[sev]) {
+      triggers.push(`bleeding:${sev}`);
+    }
+  }
+  if (isPositive(status.fracture)) {
+    const sev = normalizeBleedingFractureSeverity(status.fracture_severity);
+    if (BLEEDING_FRACTURE_SLOW_DOWN_THRESHOLD[sev]) {
+      triggers.push(`fracture:${sev}`);
+    }
+  }
+  return { amount: triggers.length > 0 ? 1 : 0, triggers };
 }
 
 /**
@@ -102,7 +186,44 @@ function computeStatusModifiers(actor, target, units = []) {
     log.push({ status: 'frenzy', side: 'target', effect: '-1 defense_mod (rage exposure)' });
   }
 
-  return { attackDelta, defenseDelta, log };
+  // ─── Action 5a — wounded_perma severity → actor attack_mod penalty ────
+  const wpActor = computeWoundedPermaAttackPenalty(actor);
+  if (wpActor.active && wpActor.penalty !== 0) {
+    attackDelta += wpActor.penalty;
+    log.push({
+      status: 'wounded_perma',
+      side: 'actor',
+      effect: `${wpActor.penalty >= 0 ? '+' : ''}${wpActor.penalty} attack_mod (severity: ${wpActor.severity})`,
+    });
+  }
+
+  // ─── Action 5b — slow_down trigger flags (consumed by roundOrchestrator) ─
+  const actorSlow = computeSlowDownPenalty(actor);
+  const targetSlow = computeSlowDownPenalty(target);
+  if (actorSlow.amount > 0) {
+    log.push({
+      status: 'slow_down',
+      side: 'actor',
+      effect: `-1 action_speed tier (${actorSlow.triggers.join(',')})`,
+    });
+  }
+  if (targetSlow.amount > 0) {
+    log.push({
+      status: 'slow_down',
+      side: 'target',
+      effect: `-1 action_speed tier (${targetSlow.triggers.join(',')})`,
+    });
+  }
+
+  return {
+    attackDelta,
+    defenseDelta,
+    actorSlowDown: actorSlow.amount > 0,
+    targetSlowDown: targetSlow.amount > 0,
+    actorSlowDownTriggers: actorSlow.triggers,
+    targetSlowDownTriggers: targetSlow.triggers,
+    log,
+  };
 }
 
 /**
@@ -139,6 +260,10 @@ function applyTurnRegen(unit) {
 module.exports = {
   computeStatusModifiers,
   applyTurnRegen,
+  computeWoundedPermaAttackPenalty,
+  computeSlowDownPenalty,
   // Exported for tests
   manhattanDistance,
+  WOUNDED_PERMA_ATTACK_PENALTY,
+  BLEEDING_FRACTURE_SLOW_DOWN_THRESHOLD,
 };

@@ -243,12 +243,19 @@ function actionSpeed(action, table = DEFAULT_ACTION_SPEED) {
 }
 
 /**
- * priority = unit.initiative + action_speed - status_penalty
+ * priority = unit.initiative + action_speed - status_penalty - slow_down
  *
- * Status penalty:
+ * Status penalty (legacy `unit.statuses` array shape):
  *   - panic:     -2 per intensity
  *   - disorient: -1 per intensity
  *   - rage / focused / stunned: no penalty here (gestiti altrove)
+ *
+ * Action 5b (2026-04-29) — slow_down trigger (object-map shape `unit.status`):
+ *   - panic > 0 OR confused > 0 → -1
+ *   - bleeding ≥ medium severity → -1
+ *   - fracture ≥ medium severity → -1
+ *   Trigger combinati NON cumulano (cap -1, "1 tier slower" canonical).
+ *   Letto da statusModifiers.computeSlowDownPenalty (lazy require).
  */
 function computeResolvePriority(unit, action, speedTable = DEFAULT_ACTION_SPEED) {
   const base = Number((unit && unit.initiative) || 0);
@@ -261,6 +268,17 @@ function computeResolvePriority(unit, action, speedTable = DEFAULT_ACTION_SPEED)
     if (s.id === 'panic') penalty += intensity * 2;
     else if (s.id === 'disorient') penalty += intensity;
   }
+  // Action 5b — slow_down (object-map status shape). Lazy require evita cycle.
+  let slowDown = 0;
+  if (unit && unit.status && typeof unit.status === 'object') {
+    try {
+      const { computeSlowDownPenalty } = require('./combat/statusModifiers');
+      slowDown = Number(computeSlowDownPenalty(unit).amount) || 0;
+    } catch {
+      slowDown = 0;
+    }
+  }
+  penalty += slowDown;
   // Sprint Spore Moderate (ADR-2026-04-26 §S6) — archetype ambush_plus init+2
   // se action.is_critical OR action.is_flank. Lazy require evita cycle import
   // cross-module; back-compat: zero delta quando passive assente o trigger
