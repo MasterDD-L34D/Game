@@ -259,15 +259,169 @@ img.sprite,
   z-index: 199;
 }
 
-/* 2026-04-28 Visual upgrade Sprint B — Tactical panel frame (border-image SVG procedural).
+/* 2026-04-28 Visual upgrade Sprint B/F — Tactical panel frame (border-image SVG procedural).
  * 9-slice frame parchment + gold ornament. Slice 32px su SVG 96px → safe stretch.
  * Apply: header, .sidebar, .feedback-card, .endgame-card, .ability-bar.
- * Anti-pattern: NON applicare a button (border-image button rotti su rounded radius). */
+ * !important richiesto per override `.sidebar { border: 1px solid var(--border) }`
+ * (Sprint F fix — cascade specificity loss su selettori aside.sidebar / .feedback-card). */
 .tactical-frame {
-  border-style: solid;
-  border-width: 16px;
-  border-image: url('/assets/ui/panel-frame.svg') 32 fill stretch;
-  background-clip: padding-box;
+  border-style: solid !important;
+  border-width: 16px !important;
+  border-image: url('/assets/ui/panel-frame.svg') 32 fill stretch !important;
+  background-clip: padding-box !important;
+}
+
+/* Sprint F — Tactical button + select theming (controls main + scenario picker).
+ * Override .controls button / select default browser styling per look-tactical RPG.
+ * !important critico: specifity loss vs rules legacy section più sotto in style.css. */
+.controls button,
+.controls select,
+#scenario-select,
+#modulation-select,
+#end-turn,
+#new-session,
+#reset-round,
+#open-replay,
+#download-eval,
+#toggle-mute {
+  background: var(--grim-bg-panel) !important;
+  color: var(--grim-text-primary) !important;
+  border: 1px solid var(--grim-accent-bronze) !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  padding: 6px 14px !important;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  box-shadow: inset 0 0 0 1px rgba(176, 163, 106, 0.15);
+}
+.controls button:hover,
+.controls select:hover,
+#end-turn:hover,
+#new-session:hover,
+#reset-round:hover,
+#open-replay:hover,
+#download-eval:hover,
+#toggle-mute:hover {
+  background: var(--grim-bg-elevated);
+  border-color: var(--grim-accent-gold);
+  color: var(--grim-accent-gold);
+  box-shadow:
+    inset 0 0 0 1px rgba(176, 163, 106, 0.4),
+    0 0 8px rgba(176, 163, 106, 0.3);
+}
+.controls button:active,
+#end-turn:active {
+  background: var(--grim-bg-deep);
+  transform: translateY(1px);
+}
+
+/* Sprint F — Ability bar tactical (sticky bottom) — gold band + Cinzel labels. */
+#ability-bar.ability-bar {
+  background: linear-gradient(180deg, var(--grim-bg-panel) 0%, var(--grim-bg-deep) 100%) !important;
+  border-top: 2px solid var(--grim-accent-bronze) !important;
+  box-shadow: 0 -2px 0 rgba(176, 163, 106, 0.3) !important;
+  padding: 10px 24px !important;
+}
+.ability-bar-title {
+  font-family: var(--font-display);
+  color: var(--grim-accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ability-bar-row button {
+  background: var(--grim-bg-elevated);
+  border: 1px solid var(--grim-accent-bronze);
+  color: var(--grim-text-primary);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.ability-bar-row button:hover {
+  background: var(--grim-bg-panel);
+  border-color: var(--grim-accent-gold);
+  color: var(--grim-accent-gold);
+}
+
+/* Sprint F — Pressure meter tactical (Sistema mood) — gold rule + Cinzel label. */
+#pressure-meter.pressure-meter {
+  border-bottom: 1px solid var(--grim-accent-bronze) !important;
+  padding-bottom: 4px !important;
+}
+#pressure-meter .pressure-label {
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--grim-accent-gold) !important;
+  font-size: 0.85rem !important;
+}
+#pressure-meter .pressure-bar {
+  background: rgba(15, 15, 19, 0.8) !important;
+  border: 1px solid var(--grim-accent-bronze) !important;
+  height: 8px !important;
+}
+#pressure-meter .pressure-fill {
+  background: linear-gradient(
+    90deg,
+    var(--grim-mp),
+    var(--grim-accent-gold),
+    var(--grim-hp)
+  ) !important;
+  transition: width 0.5s ease !important;
+}
+
+/* Sprint F — Footer tactical (sticky bottom hint). */
+footer {
+  background: var(--grim-bg-deep) !important;
+  color: var(--grim-text-dim) !important;
+  border-top: 1px solid var(--grim-accent-bronze);
+  font-family: var(--font-body-tactical);
+  font-style: italic;
+}
+
+/* Sprint F — Sidebar list (#units) compact tactical look. */
+#units li.unit-item,
+#units li {
+  border-left: 3px solid var(--grim-accent-bronze) !important;
+  padding: 8px 8px 6px 10px !important;
+  margin-bottom: 6px !important;
+  background: rgba(45, 42, 46, 0.4) !important;
+}
+#units li strong {
+  color: var(--grim-accent-gold) !important;
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  font-size: 0.85rem !important;
+}
+#units li code {
+  font-family: var(--font-mono-game) !important;
+  font-size: 0.95rem !important;
+  color: var(--grim-text-dim) !important;
+}
+
+/* Sprint F — Log panel parchment-tinted bg. */
+#log {
+  background: var(--grim-bg-deep) !important;
+  border: 1px solid var(--grim-accent-bronze);
+  color: var(--grim-text-primary) !important;
+}
+
+/* Sprint F — Objective + biome chip tactical. */
+.objective-bar,
+.biome-chip {
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 header {

@@ -10,6 +10,20 @@ import { getSpeciesDisplayIt } from './speciesNames.js';
 const TILE_VARIANTS_PER_BIOMA = 3;
 const _tileImageCache = new Map(); // key = `${bioma}-${variant}`, val = HTMLImageElement | null
 
+// Sprint F fix — onload trigger redraw. Senza questo callback, primo paint usa
+// fallback (immagine non ancora load) → sprite mai visibile. Window dirty flag +
+// dispatchEvent custom evt 'evo:asset-loaded' ascoltato da main.js render loop.
+function _notifyAssetLoaded() {
+  if (typeof window !== 'undefined') {
+    window.__evoAssetDirty = true;
+    try {
+      window.dispatchEvent(new CustomEvent('evo:asset-loaded'));
+    } catch {
+      /* IE/old engine — flag suffices */
+    }
+  }
+}
+
 function _loadTile(bioma, variant) {
   const key = `${bioma}-${variant}`;
   if (_tileImageCache.has(key)) return _tileImageCache.get(key);
@@ -18,6 +32,7 @@ function _loadTile(bioma, variant) {
     return null;
   }
   const img = new Image();
+  img.onload = _notifyAssetLoaded;
   img.onerror = () => {
     // Asset missing — keep null in cache, drawCell falls back to checkered fill.
     _tileImageCache.set(key, null);
@@ -70,6 +85,7 @@ function _loadCreatureSprite(archetype) {
     return null;
   }
   const img = new Image();
+  img.onload = _notifyAssetLoaded; // Sprint F — redraw on first paint
   img.onerror = () => _creatureImageCache.set(archetype, null);
   img.src = `/assets/creatures/${archetype}.png`;
   _creatureImageCache.set(archetype, img);
