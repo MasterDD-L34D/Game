@@ -3533,3 +3533,60 @@ body.ability-target-mode canvas#grid {
     0 0 0 1px #c6a0ff inset,
     0 0 16px rgba(198, 160, 255, 0.28);
 }
+
+/* =========================================================================
+ * 2026-04-29 Sprint G v3 — Legacy Collection (Ansimuz CC0) parallax bg.
+ * 4 layer parallax (sky/clouds/mountains/forest) dietro al canvas tactical.
+ * Canvas opaque tile-fill copre layer durante gameplay; parallax visibile
+ * sul padding/margin .board (drama atmosphere senza interferire con grid).
+ * ========================================================================= */
+.board {
+  background-image:
+    url('/assets/legacy/parallax/sky.png'), url('/assets/legacy/parallax/clouds.png'),
+    url('/assets/legacy/parallax/mountains.png'), url('/assets/legacy/parallax/back.png');
+  background-size:
+    cover,
+    200% auto,
+    cover,
+    cover;
+  background-position:
+    0 0,
+    0 18%,
+    0 65%,
+    0 90%;
+  background-repeat: no-repeat, repeat-x, no-repeat, no-repeat;
+  background-color: #0d1018;
+  animation: parallax-clouds 90s linear infinite;
+}
+
+@keyframes parallax-clouds {
+  from {
+    background-position:
+      0 0,
+      0 18%,
+      0 65%,
+      0 90%;
+  }
+  to {
+    background-position:
+      0 0,
+      -200% 18%,
+      0 65%,
+      0 90%;
+  }
+}
+
+/* User pref reduce-motion: disabilita slide nuvole. */
+@media (prefers-reduced-motion: reduce) {
+  .board {
+    animation: none;
+  }
+}
+
+/* Sprint G v3 — footer credit line attribution Ansimuz CC0 + UI MIT. */
+.credit-line {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: rgba(232, 232, 232, 0.55);
+  font-style: italic;
+}

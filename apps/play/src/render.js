@@ -1,14 +1,32 @@
 // Canvas 2D rendering — grid + units + animations + status icons.
 
-import { getInterpolatedPos, drawPopups, drawRays, getFlashAlpha, hasActiveAnims } from './anim.js';
+import {
+  getInterpolatedPos,
+  drawPopups,
+  drawRays,
+  drawVFX,
+  getFlashAlpha,
+  hasActiveAnims,
+} from './anim.js';
 import { getSpeciesDisplayIt } from './speciesNames.js';
 
 // 2026-04-28 Visual upgrade Sprint D — Tile bioma loader.
+// 2026-04-29 Sprint G v3 — Legacy Collection (Ansimuz CC0) priority path.
 // Cache Image() per bioma_id, fallback a null (drawCell ha checkered fallback).
-// Asset placeholder generated via tools/py/generate_visual_assets.py.
-// Path: /assets/tiles/<bioma>/tile_<variant>.png (32x32 PNG indexed).
+// Path priority: legacy real PNG > procedural Sprint D > checkered grid.
 const TILE_VARIANTS_PER_BIOMA = 3;
 const _tileImageCache = new Map(); // key = `${bioma}-${variant}`, val = HTMLImageElement | null
+
+// Legacy Collection bioma map — full tileset PNG (single-image, hashed offset).
+// Biome non in mappa fallback al loader procedural Sprint D.
+const LEGACY_BIOMA_TILES = {
+  savana: '/assets/legacy/tiles/savana/tileset.png',
+  foresta_acida: '/assets/legacy/tiles/foresta_acida/tileset.png',
+  caverna: '/assets/legacy/tiles/caverna/tileset.png',
+  tundra: '/assets/legacy/tiles/tundra/tileset.png',
+  town: '/assets/legacy/tiles/town/tileset.png',
+};
+const _legacyTileImageCache = new Map(); // key = bioma, val = HTMLImageElement | null
 
 // Sprint F fix — onload trigger redraw. Senza questo callback, primo paint usa
 // fallback (immagine non ancora load) → sprite mai visibile. Window dirty flag +
@@ -34,7 +52,6 @@ function _loadTile(bioma, variant) {
   const img = new Image();
   img.onload = _notifyAssetLoaded;
   img.onerror = () => {
-    // Asset missing — keep null in cache, drawCell falls back to checkered fill.
     _tileImageCache.set(key, null);
   };
   img.src = `/assets/tiles/${bioma}/tile_${variant}.png`;
@@ -42,25 +59,62 @@ function _loadTile(bioma, variant) {
   return img;
 }
 
-/** Resolve tile image for given biome + grid coord (deterministic variant pick).
+// Sprint G v3 — Legacy tileset loader. Single PNG per bioma, hashed crop offset
+// per cell genera variazione visiva senza necessità sub-asset dedicati.
+function _loadLegacyTileset(bioma) {
+  if (_legacyTileImageCache.has(bioma)) return _legacyTileImageCache.get(bioma);
+  if (typeof Image === 'undefined') {
+    _legacyTileImageCache.set(bioma, null);
+    return null;
+  }
+  const path = LEGACY_BIOMA_TILES[bioma];
+  if (!path) {
+    _legacyTileImageCache.set(bioma, null);
+    return null;
+  }
+  const img = new Image();
+  img.onload = _notifyAssetLoaded;
+  img.onerror = () => _legacyTileImageCache.set(bioma, null);
+  img.src = path;
+  _legacyTileImageCache.set(bioma, img);
+  return img;
+}
+
+/** Resolve tile image for given biome + grid coord.
+ * Sprint G v3 priority: Legacy Collection tileset (single PNG, hashed crop) →
+ * Sprint D procedural per-variant PNG → null (caller draws checkered fallback).
  * @param {string|null|undefined} biomaId
  * @param {number} gx
  * @param {number} gy
- * @returns {HTMLImageElement|null}
+ * @returns {{img: HTMLImageElement, sx: number, sy: number, sw: number, sh: number}|HTMLImageElement|null}
  */
 function resolveTileImg(biomaId, gx, gy) {
   if (!biomaId || typeof biomaId !== 'string') return null;
-  // Hash xy → variant for stable but spread coverage (no flicker on re-render).
+  // Priority 1 — Legacy real tileset (Ansimuz CC0). Crop deterministic da hash xy.
+  if (LEGACY_BIOMA_TILES[biomaId]) {
+    const tileset = _loadLegacyTileset(biomaId);
+    if (tileset && tileset.complete && tileset.naturalWidth > 0) {
+      const tileSize = 32; // Ansimuz Legacy convention 16/32px tile.
+      const cols = Math.max(1, Math.floor(tileset.naturalWidth / tileSize));
+      const rows = Math.max(1, Math.floor(tileset.naturalHeight / tileSize));
+      const idx = Math.abs(gx * 37 + gy * 17) % (cols * rows);
+      const sx = (idx % cols) * tileSize;
+      const sy = Math.floor(idx / cols) * tileSize;
+      return { img: tileset, sx, sy, sw: tileSize, sh: tileSize };
+    }
+  }
+  // Priority 2 — Sprint D procedural variants.
   const variant = Math.abs((gx * 37 + gy * 17) % TILE_VARIANTS_PER_BIOMA);
   const img = _loadTile(biomaId, variant);
-  // Use only when fully loaded — else null (avoids drawImage on empty bitmap).
   return img && img.complete && img.naturalWidth > 0 ? img : null;
 }
 
 // 2026-04-28 Visual upgrade Sprint E — Creature sprite resolver.
-// Cache PNG per archetype (job mapped). Asset: /assets/creatures/<archetype>.png 32×32 RGBA.
-// Fallback: shape geometric (drawUnitBody) preserved se sprite missing/loading.
+// 2026-04-29 Sprint G v3 — Legacy Collection wire (Ansimuz CC0 spritesheet).
+// Cache PNG per archetype. Path priority: Legacy /assets/legacy/creatures/<arch>/sheet.png
+// → Sprint E /assets/creatures/<arch>.png → null (drawUnit shape fallback).
 const _creatureImageCache = new Map();
+const _legacyCreatureCache = new Map();
 const JOB_TO_ARCHETYPE = {
   vanguard: 'vanguard',
   tank: 'vanguard',
@@ -68,22 +122,69 @@ const JOB_TO_ARCHETYPE = {
   skirmisher: 'skirmisher',
   assassin: 'skirmisher',
   scout: 'scout',
-  ranger: 'scout',
-  sniper: 'sniper',
-  ranged: 'sniper',
-  healer: 'healer',
-  support: 'healer',
-  controller: 'controller',
-  mage: 'controller',
+  ranger: 'ranger',
+  sniper: 'ranger',
+  ranged: 'ranger',
+  healer: 'artificer',
+  support: 'artificer',
+  controller: 'invoker',
+  mage: 'invoker',
   boss: 'boss',
-  // 2026-04-28 Sprint G v3 — orfani jobs.yaml v0.2.0 wire (Sprint 8 #1978).
-  // 4 base ability r3/r4 jobs missing visual archetype. Map a closest match
-  // visual silhouette finché authoring sprite custom Sprint Q.
-  warden: 'controller', // chain_shackles + void_collapse → controller-like
-  artificer: 'healer', // arcane_renewal + convergence_wave → healer-supportive
-  invoker: 'controller', // arcane_lance + apocalypse_ray → mage-like
-  harvester: 'skirmisher', // vital_drain + lifegrove → offensive lean
+  // 2026-04-28 Sprint G v3 — orfani jobs.yaml v0.2.0 (Sprint 8 #1978).
+  // Map al rispettivo Legacy sprite (post Sprint G v3 swap) o fallback silhouette.
+  warden: 'warden',
+  artificer: 'artificer',
+  invoker: 'invoker',
+  harvester: 'harvester',
 };
+
+// Sprint G v3 — Legacy Collection asset paths per archetype.
+// Skiv canonical (dune_stalker) NON include override Legacy: preserva LPC palette
+// per identità narrativa stabile (vedi docs/skiv/CANONICAL.md).
+const LEGACY_CREATURE_PATHS = {
+  vanguard: '/assets/legacy/creatures/vanguard/sheet.png',
+  skirmisher: '/assets/legacy/creatures/skirmisher/sheet.png',
+  warden: '/assets/legacy/creatures/warden/sheet.png',
+  artificer: '/assets/legacy/creatures/artificer/sheet.png',
+  invoker: '/assets/legacy/creatures/invoker/sheet.png',
+  ranger: '/assets/legacy/creatures/ranger/sheet.png',
+  harvester: '/assets/legacy/creatures/harvester/sheet.png',
+  boss: '/assets/legacy/creatures/boss/hell_beast_idle.png',
+};
+
+// Multi-frame anim Sprint Q deferred — sheets non hanno metadata frame uniforme,
+// authoring custom richiesto. Sprint G v3 ship: static frame 0 (top-left crop)
+// per uniform CELL fit. Frame size = min(naturalH, naturalW / floor(naturalW / naturalH)).
+function _legacyFrameRect(img) {
+  if (!img || !img.complete || img.naturalWidth === 0) return null;
+  const W = img.naturalWidth;
+  const H = img.naturalHeight;
+  // Heuristic: assume horizontal strip, frameW ≈ frameH (square cell).
+  // Per sheets non-square (es. Mummy 414×83), crop frame square = frameH × frameH.
+  const frameH = H;
+  const guessFrames = Math.max(1, Math.round(W / H));
+  const frameW = Math.floor(W / guessFrames);
+  return { sx: 0, sy: 0, sw: frameW, sh: frameH };
+}
+
+function _loadLegacyCreatureSprite(archetype) {
+  if (_legacyCreatureCache.has(archetype)) return _legacyCreatureCache.get(archetype);
+  if (typeof Image === 'undefined') {
+    _legacyCreatureCache.set(archetype, null);
+    return null;
+  }
+  const path = LEGACY_CREATURE_PATHS[archetype];
+  if (!path) {
+    _legacyCreatureCache.set(archetype, null);
+    return null;
+  }
+  const img = new Image();
+  img.onload = _notifyAssetLoaded;
+  img.onerror = () => _legacyCreatureCache.set(archetype, null);
+  img.src = path;
+  _legacyCreatureCache.set(archetype, img);
+  return img;
+}
 
 function _loadCreatureSprite(archetype) {
   if (_creatureImageCache.has(archetype)) return _creatureImageCache.get(archetype);
@@ -92,21 +193,41 @@ function _loadCreatureSprite(archetype) {
     return null;
   }
   const img = new Image();
-  img.onload = _notifyAssetLoaded; // Sprint F — redraw on first paint
+  img.onload = _notifyAssetLoaded;
   img.onerror = () => _creatureImageCache.set(archetype, null);
   img.src = `/assets/creatures/${archetype}.png`;
   _creatureImageCache.set(archetype, img);
   return img;
 }
 
-/** Resolve creature sprite for unit (job → archetype mapping).
+/** Resolve creature sprite for unit. Legacy first → Sprint E fallback.
+ * Skiv (dune_stalker) preserva LPC sprite originale per coerenza canonical.
  * @param {object} unit
- * @returns {HTMLImageElement|null}
+ * @returns {{img: HTMLImageElement, sx: number, sy: number, sw: number, sh: number}|HTMLImageElement|null}
  */
 function resolveCreatureSprite(unit) {
   const jobKey = (unit?.job || unit?.class || '').toString().toLowerCase();
+  const speciesId = (unit?.species_id || unit?.species || '').toString().toLowerCase();
   const isBoss = jobKey === 'boss' || unit?.is_boss === true;
+
+  // Skiv canonical override — preserve LPC sprite, skip Legacy.
+  if (speciesId === 'dune_stalker') {
+    const img = _loadCreatureSprite('skirmisher');
+    return img && img.complete && img.naturalWidth > 0 ? img : null;
+  }
+
   const archetype = isBoss ? 'boss' : JOB_TO_ARCHETYPE[jobKey] || 'default';
+
+  // Priority 1 — Legacy Collection sprite (Sprint G v3).
+  if (LEGACY_CREATURE_PATHS[archetype]) {
+    const legacyImg = _loadLegacyCreatureSprite(archetype);
+    if (legacyImg && legacyImg.complete && legacyImg.naturalWidth > 0) {
+      const rect = _legacyFrameRect(legacyImg);
+      if (rect) return { img: legacyImg, ...rect };
+    }
+  }
+
+  // Priority 2 — Sprint E procedural / authored single-cell sprite.
   const img = _loadCreatureSprite(archetype);
   return img && img.complete && img.naturalWidth > 0 ? img : null;
 }
@@ -481,8 +602,23 @@ export function canvasToCell(canvas, ev, gridH) {
 
 function drawCell(ctx, x, yPx, fill, tileImg) {
   // M4 step A: tile bg PNG se flag ON + asset loaded.
-  if (tileImg && tileImg.complete && tileImg.naturalWidth > 0) {
-    ctx.imageSmoothingEnabled = false; // pixel art preserve
+  // Sprint G v3 — tileImg supports HTMLImageElement (Sprint D procedural) o
+  // { img, sx, sy, sw, sh } (Legacy tileset hashed crop).
+  if (tileImg && tileImg.img && tileImg.img.complete && tileImg.img.naturalWidth > 0) {
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(
+      tileImg.img,
+      tileImg.sx,
+      tileImg.sy,
+      tileImg.sw,
+      tileImg.sh,
+      x * CELL,
+      yPx * CELL,
+      CELL,
+      CELL,
+    );
+  } else if (tileImg && tileImg.complete && tileImg.naturalWidth > 0) {
+    ctx.imageSmoothingEnabled = false;
     ctx.drawImage(tileImg, x * CELL, yPx * CELL, CELL, CELL);
   } else {
     ctx.fillStyle = fill;
@@ -793,13 +929,34 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
 
   if (sprite) {
     // Sprite raster path — preferred quando asset loaded.
+    // Sprint G v3 — sprite may be HTMLImageElement (Sprint E) o
+    // { img, sx, sy, sw, sh } (Legacy crop). drawImage 9-arg variant per crop.
     const spriteSize = CELL * 0.78 * sizeMul;
     ctx.save();
-    ctx.imageSmoothingEnabled = false; // pixel-perfect
-    // Faction tint layer behind sprite (subtle outer glow per side identification).
+    ctx.imageSmoothingEnabled = false;
     ctx.shadowColor = unit.controlled_by === 'player' ? COLORS.player : COLORS.sistema;
     ctx.shadowBlur = 4;
-    ctx.drawImage(sprite, cx - spriteSize / 2, cy - spriteSize / 2 + bobDy, spriteSize, spriteSize);
+    if (sprite.img) {
+      ctx.drawImage(
+        sprite.img,
+        sprite.sx,
+        sprite.sy,
+        sprite.sw,
+        sprite.sh,
+        cx - spriteSize / 2,
+        cy - spriteSize / 2 + bobDy,
+        spriteSize,
+        spriteSize,
+      );
+    } else {
+      ctx.drawImage(
+        sprite,
+        cx - spriteSize / 2,
+        cy - spriteSize / 2 + bobDy,
+        spriteSize,
+        spriteSize,
+      );
+    }
     ctx.restore();
     // Job ring outer (thin) per job identification senza dover leggere abbrev.
     if (jobColor) {
@@ -1305,6 +1462,9 @@ export function render(canvas, state, highlight = {}) {
 
   // W2.3 — Attack rays (sopra unità, sotto popups)
   drawRays(ctx, CELL, h);
+
+  // Sprint G v3 — VFX Legacy Collection (hit/death/explosion/slash/elemental).
+  drawVFX(ctx, CELL, h);
 
   // Damage popups on top
   drawPopups(ctx, CELL, h);
