@@ -9,6 +9,37 @@
 
 ## Aperte
 
+### [OD-014] P6 Fairness ammortizer — Tactics Ogre rewind/WORLD-Chariot pattern (deferred citation)
+
+- **Livello**: game (combat fairness + anti-frustration ammortizer)
+- **Stato**: deferred citation 2026-04-28 (Action 8 ADR-2026-04-28-deep-research-actions citations P3)
+- **Ambiguità**: research deep research SRPG cita Tactics Ogre Reborn WORLD/Chariot rewind system come anti-frustration ammortizer per SRPG hard. Evo-Tactics P6 status 🟡 (hardcore-iter7 stalemate residue + wounded_perma regret post-Action 5a). Rewind action `N` turns potrebbe complementare attrition design senza rimuoverla. Non urgente — Long War 2 mission timers già shipped (M13.P6.A).
+- **Perché conta**: Battle Brothers attrition Action 5a/5b shippato pre-Godot = potrebbe creare regret loop ("ho ferito severo permanente per sempre"). TO rewind = safety valve player.
+- **Miglior default proposto**: defer post-playtest TKT-M11B-06. Se feedback "wounded_perma feels punitive" emerge → riapri come TKT-P6-REWIND-SAFETY-VALVE (~5-7h). Se feedback positivo → mantieni rigid attrition.
+- **Rischio se ignorata**: bassa. Player feedback driver decision.
+- **File o moduli coinvolti**: `apps/backend/services/combat/` (rewind state snapshot), `apps/backend/routes/session.js` (action endpoint).
+- **Prossima azione consigliata**: review post-playtest, valuta come TKT separato.
+- **Source ref**: F1 §"Tactics Ogre" line 50-51 + ADR-2026-04-28-deep-research-actions §5 citations.
+
+### [OD-015] P2 Macro-loop campaign — Brigandine seasonal Organization Phase pattern (deferred citation M12+)
+
+- **Livello**: game (P2 evoluzione macro-loop campaign-wide)
+- **Stato**: deferred citation 2026-04-28 (Action 8 ADR-2026-04-28-deep-research-actions citations P3)
+- **Ambiguità**: research deep research cita Brigandine `Organization Phase + Battle Phase` stagionale come "grand strategy compressed in SRPG" pattern. Evo-Tactics roadmap M12+ ha "P2 full Form evoluzione (deferred ~35h)" ma scope/pattern non specificato. Brigandine seasonal pattern potrebbe essere reference architecturale per macro-loop campaign-wide post-playtest.
+- **Perché conta**: research domain agent valida P2 already 🟢 def via mating engine + thoughts ritual. Brigandine seasonal pattern = future-proof per "long campaign 5-10 stagioni" feature M12+ (NOT Sprint N MVP scope, confermato research domain agent Q4).
+- **Miglior default proposto**: citation-only ora. Riapri quando M12+ P2 macro-loop sprint planificato. Pre-req: TKT-M11B-06 playtest data + Sprint N MVP shipped + Action 6 ambition Skiv-Pulverator alleanza shipped come pilot single-arc.
+- **Rischio se ignorata**: bassa. Future-proof reference.
+- **File o moduli coinvolti**: `apps/backend/services/campaign/` (NEW seasonal phase + organization), `data/core/campaign/seasons/` (NEW YAML).
+- **Source ref**: F1 §"Brigandine" + F2 §"Brigandine" + ADR-2026-04-28-deep-research-actions §5 citations.
+
+### [OD-016] Midnight Suns 3-card-plays + Heroism economy — design precedent thoughts ritual (citation-only)
+
+- **Livello**: game (P4 MBTI thoughts ritual UI design audit strength)
+- **Stato**: ✅ closure citation 2026-04-28 (Action 8 P3)
+- **Ambiguità**: thoughts ritual G3 (PR #1983) usa pattern 3-card-style (3 candidati + 30s timer + irreversible) — research valida questo è Midnight Suns Hero Combo unlock-by-relationship design precedent. NO design change needed.
+- **Verdict**: cita Midnight Suns canonical URL `https://midnightsuns.2k.com/it-IT/game-guide/gameplay/hero-abilities/` in NEXT thoughts-ritual ADR (rinforza decision audit). Non urgente — già implementato + funziona. Pure citation strength per future ADR thoughts ritual extension.
+- **Source ref**: F1 §"Midnight Suns" + F2 §"Midnight Suns" + ADR-2026-04-28-deep-research-actions §5 citations + PR #1983 G3 Skiv thoughts ritual choice UI shipped 2026-04-27/28.
+
 ### [OD-001] V3 Mating/Nido — scope e timing ✅ FULL CLOSURE 2026-04-27 notte
 
 - **Livello**: game + system

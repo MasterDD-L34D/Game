@@ -8,8 +8,42 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v17 (post Sprint 13 Status engine wave A — passive ancestor wire 2026-04-28)
-- **Ultimo aggiornamento**: 2026-04-28 (Sprint 13 status engine wave A — `passiveStatusApplier.js` producer pure helper + wire in session /start + sessionRoundBridge round-end refresh + 7 STATUS_ICONS extended in render.js + 27/27 test + AI 382/382 zero regression. Recovers 297 ancestor batch ROI dormant; passive ancestor traits ora effettivamente live.)
+- **Versione compact**: v18 (post sessione Deep Research analysis + BG3-lite Plus + grid SQUARE final 2026-04-28)
+- **Ultimo aggiornamento**: 2026-04-28 sera (deep research SRPG/strategy analysis 18 titoli + 5 ADR shipped + tester feedback informal data-driven decision BG3-lite Plus Sprint G.2b + grid type SQUARE final supersede ADR-2026-04-16 hex axial + 9 deferred questions chiuse user verdict).
+
+## ⚡ TL;DR per ripartire (sessione 2026-04-28 sera — Deep research + BG3-lite Plus + grid SQUARE final)
+
+**Sessione documentation-heavy** (5 commit PR #1996 branch `feat/deep-research-analysis-2026-04-28`):
+
+1. **Deep research SRPG synthesis** (18 titoli FFT/Tactics Ogre/Brigandine/Battle Brothers/Midnight Suns/DioField/etc.) — 2 file deep research letti + 2 agent paralleli (general-purpose gap analysis + balance-illuminator domain fit) → 11 cross-ref entries + 6 pillar fit table + 5 actionable. ZERO decision-altering plan v2 decisions 3-10. `docs/research/2026-04-28-deep-research-synthesis.md` shipped.
+
+2. **ADR-2026-04-28-deep-research-actions Accepted** — 8 micro-actions trackable autonomo additive plan v2 (Action 5 BB hardening pre Sprint G v3 + Action 7 CT bar lookahead 3 turni + ordine inverted + gate failure-model parity MANDATORY 5/5).
+
+3. **Tester feedback informal raccolto playtest 2026-04-28** — _"griglia pre-2000 feel"_ + _"movement BG3-like richiesto"_ — trasforma decision Q5 grid-less da speculative a data-driven.
+
+4. **Background agent grid-less feasibility analysis** (`docs/research/2026-04-28-grid-less-feasibility.md`) — catalog 11 surfaces grid-dependent + 4 scenari (A NO pivot / B Hybrid full ~14-18g / C Midnight Suns ~12-16 sett / D DioField ~20-30 sett anti-pattern).
+
+5. **ADR-2026-04-28-bg3-lite-plus-movement-layer Accepted** — Sprint G.2b NEW ~10-12g middle-tier sweet spot. Tier 1 (~6-7g frontend-only): hide grid + click area + smooth move + range cerchio + AOE shape + zone outline arc. Tier 2 (~+4-5g backend): sub-tile positioning float + vcScoring `area_covered` float + flanking 5-zone smooth angle. Cattura 90% valore Hybrid full con 65% effort. 4 pillar lift (P1+P4+P5+P6).
+
+6. **ADR-2026-04-28-grid-type-square-final Accepted** (supersedes ADR-2026-04-16 hex axial Proposto da 12 giorni) — SQUARE WINS definitivo. 5/5 motivazioni hex original obsolete post-BG3-lite Plus (LOS/range ambiguità + pathfinding + flanking = CAPTURED da Tier 2 sub-tile + 5-zone angle). Grid HIDDEN post-BG3-lite Plus = player non vede hex/quadrati. Backend math square preserved zero refactor (~30-40h saved).
+
+7. **9 deferred questions chiuse user verdict 2026-04-28**: Q1 severity enum default light · Q2 bleeding/fracture trigger NOT minor · Q3 ambition seed C "Skiv unisce Pulverator pack fatto bene" + bond/conflict path · Q4 round-to-nearest semantics · Q5 5-zone smooth angle (NOT 3-zone classic) · Q6 tester DIVERSI da TKT-M11B-06 + rubric 4-criteria · Q7 echolocation radius DINAMICO per sense level · Q8 synthetic test 10 scenari hardcoded + replay infra deferred M12+ · Q9 memory save full ritual (this).
+
+**Effort delta cumulativo plan v2 → v3**: ~+107-123h (~+2.5-3 sett base 14 sett, ~+18-20%, justified data-driven).
+
+**Sprint Fase 1 ordine REVISED finale**:
+
+1. Action 5a+5b BB hardening pre Sprint G v3 (~5h)
+2. Action 7 CT bar lookahead 3 turni parallel (~4h)
+3. Sprint G v3 Legacy Collection asset swap (~2.5g)
+4. Spike POC BG3-lite (~1g) — go/no-go gate rubric 4-criteria pass ≥3.5
+5. Sprint G.2b BG3-lite Plus (~10-12g) post-spike SÌ
+6. Action 6 ambition Skiv-Pulverator alleanza (~5-7h) parallel G.2b
+7. Sprint I TKT-M11B-06 playtest (~1 sett)
+
+Total Fase 1 effort: ~5-5.5 settimane.
+
+**PR #1996 status**: 6 commit shipped (sintesi + 4 ADR + grid-less feasibility doc + Q1-Q9 verdict applies). Pending master DD review + merge.
 
 ## ⚡ TL;DR per ripartire (post Sprint 13 — Status engine wave A: passive ancestor producer wire)
 
@@ -151,7 +185,46 @@
 
 **P0 residuali rimanenti** (post sessione pomeriggio): balance MCTS (~4h, blocked by session state clone API), ui intent preview (~4h, UI runtime risk), ui threat zone toggle (~3h, UI runtime risk), pcg objective variety (~8h). Thought Cabinet Phase 2 shipped (#1769) — UI reveal + combat resolver wire = follow-up P1.
 
-## Stato attuale (post sessione 2026-04-24/25 notte)
+## Stato attuale (post sessione 2026-04-28 visual+planning + PR #1995 merged)
+
+**Latest merge main**: `4844add6` — `feat(visual+planning): Sprint A-F visual upgrade + Godot migration master plan v2 (#1995)`
+
+**Sessione 2026-04-28 highlights**:
+
+- **Sprint A-F shipped**: tactical RPG visual upgrade web stack (`apps/play/`)
+  - Sprint A: Cinzel/IM Fell English/VT323 fonts + GRIMDARK palette tokens
+  - Sprint B: border-image SVG procedural + scanline 0.12 + vignette radial
+  - Sprint C: 8 SVG icon set + pixel-perfect rendering globale
+  - Sprint D: 27 PNG tile (9 biomi × 3 varianti) + 16 PNG portrait MBTI procedural Python PIL
+  - Sprint E: creature sprite 64×64 RGBA pixel-art per 8 archetype + multi-tone shading 5-tier + drop-shadow + idle bob
+  - Sprint F: borderImage cascade fix + sprite onload event + button/select tactical theming
+- **Godot migration strategy 3-fase** (`docs/planning/2026-04-28-godot-migration-strategy.md`): Fase 1 web ship demo + Fase 2 R&D parallel + Fase 3 cutover, ~14-21 sett
+- **Asset sourcing strategy multi-tier** (`docs/planning/2026-04-28-asset-sourcing-strategy.md`): Legacy Collection (Ansimuz CC0, 1613 PNG fornito user) + itch.io tag-godot + Godot Asset Library
+- **Master execution plan v2 review-fixed** (`docs/planning/2026-04-28-master-execution-plan.md` 980 LOC): 3 CRITICAL gap killed (test cliff + cross-stack untested + MVP wrong gate) + 5 HIGH gap risolti via 2 review agent paralleli
+- **JOB_TO_ARCHETYPE 4 orfani wired** (warden/artificer/invoker/harvester) in `apps/play/src/render.js`
+- **Decision Donchitos cherry-pick** (24 agent + 30 skill, NOT full 49+72), Trilium SKIP (AGPL viral), DevForge SKIP (closed Tauri), HermeticOrmus cherry-pick 10-15 prompt
+- **Visual Map Obsidian** decided (post-playtest), MIT-friendly markdown vault `kb/`
+
+**Pillar status post #1994 + PR #1995**:
+
+| #   | Pilastro                |                      Stato                      |
+| --- | ----------------------- | :---------------------------------------------: |
+| 1   | Tattica leggibile       |                       🟢                        |
+| 2   | Evoluzione emergente    |                     🟢 def                      |
+| 3   | Identità Specie × Job   |               🟢 (post Sprint 8)                |
+| 4   | Temperamenti MBTI/Ennea |                       🟡                        |
+| 5   | Co-op vs Sistema        |          🟡 → 🟢 def post TKT-M11B-06           |
+| 6   | Fairness                | 🟡 (Sprint 13 status engine wave A wired #1994) |
+
+**Next**: deep research analysis NEW session pending (2 file da fornire user). Sprint G v3 Legacy asset swap ready (~20h ~2.5g) post deep research.
+
+**Branch staging NEW session**: `feat/deep-research-analysis-2026-04-28` (da origin/main).
+
+**Trigger phrase NEW session**: _"leggi docs/planning/2026-04-28-deep-research-staging.md, fornisco i 2 file deep research, esegui §Goals analysis"_
+
+---
+
+## Stato precedente (post sessione 2026-04-24/25 notte)
 
 - **20 PR merged** in main da #1736 (M14-A) a #1756 (Observable Plot dashboard)
 - Test suite **AI 307/307 verde** + services 177/177 + 57+ nuovi (telemetry 20, restricted-play 13, funnel 4)

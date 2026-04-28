@@ -11,8 +11,33 @@
 
 ### Userland (richiede azione umana)
 
-- [ ] **TKT-M11B-06** — Playtest live 2-4 amici post PR #1730. Unico bloccante P5 🟢 definitivo. Seguire `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md`. ~2-4h sessione.
+- [x] ~~**Deep research analysis** (NEW session)~~ → **✅ CHIUSO 2026-04-28 sera** PR #1996 branch `feat/deep-research-analysis-2026-04-28`. 6 commit shipped: synthesis + 4 ADR (deep-research-actions + BG3-lite Plus + grid-type-square-final + supersede ADR-2026-04-16 hex) + grid-less feasibility doc + 9 deferred questions chiuse. Decision-altering check vs decisions 3-10: ZERO altering. NEW Sprint G.2b BG3-lite Plus ~10-12g post Sprint G v3.
+- [ ] **Sprint G.2b BG3-lite Plus movement layer** — NEW ~10-12g (~2-2.5 sett). ADR `docs/adr/ADR-2026-04-28-bg3-lite-plus-movement-layer.md`. Tier 1 frontend (grid hidden + smooth + cerchio range + AOE shape) + Tier 2 backend (sub-tile float round-to-nearest + vcScoring area_covered + flanking 5-zone angle). **Pre-condition**: spike POC ~1g pass rubric 4-criteria threshold ≥3.5 + Sprint G v3 shipped + Action 5+7 BB hardening shipped.
+- [ ] **Spike POC BG3-lite** ~1g — branch `spike/bg3-lite-prototype-2026-04-28`. 1 encounter `enc_tutorial_01` Tier 1 only (NO sub-tile/vcScoring/flanking). 4 amici tester DIVERSI da TKT-M11B-06 pool. Rubric 4-criteria (movement smooth + range readability + 2024 RPG feel + Skiv lore-faithful). Threshold media ≥3.5 + zero score 1.
+- [ ] **Sprint G v3 Legacy Collection asset swap** — ~20h ~2.5g. Branch: `feat/sprint-g-legacy-asset-swap-2026-04-28`. Plan: `docs/planning/2026-04-28-master-execution-plan.md §Sprint G v3`. **Pre-condition**: Action 5a+5b BB hardening + Action 7 CT bar shipped.
+- [ ] **TKT-M11B-06** — Playtest live 2-4 amici post PR #1730. Unico bloccante P5 🟢 definitivo. Seguire `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md`. ~2-4h sessione. **Pre-condition**: Sprint G.2b BG3-lite Plus shipped.
 - [ ] **Playtest round 2** — retest post PR #1730 con browser Ctrl+Shift+R (cache bust). Residuo: narrative log prose feature M18+ (gap non-bug).
+
+### Sprint Fase 1 — Pre Sprint G v3 (Action 5+7 hardening pre asset swap)
+
+- [ ] **Action 5a Injury severity stack** ~3h — `data/core/traits/active_effects.yaml` `wounded_perma` aggiungi enum `severity: light|medium|severe` (default light backward-compat). `apps/backend/services/combat/statusModifiers.js` attack_mod scaling -5%/-15%/-30%. ADR ref `docs/adr/ADR-2026-04-28-deep-research-actions.md §Action 5a`.
+- [ ] **Action 5b Slow_down trigger expanded** ~2.5h — `statusModifiers.js` slow_down trigger su panic+confused (full) + bleeding≥medium + fracture≥medium (NOT minor). Extend `bleeding`/`fracture` con enum severity minor|medium|major. Reduce action_speed -1 tier.
+- [ ] **Action 7 CT bar visual lookahead 3 turni** ~4h — `apps/play/src/render.js` `drawCtBar(unit, cx, cy)` HUD overlay sequenza 3 turni futuri. Read `initiative + action_speed - status_penalty` da `publicSessionView`. Pulsa current actor. Pillar P1 lift.
+
+### Sprint Fase 1 — Parallel Sprint G.2b window
+
+- [ ] **Action 6 Ambition seed Skiv-Pulverator alleanza** ~5-7h (REVISED da 3-5h) — `data/core/campaign/ambitions/skiv_pulverator_alliance.yaml` (NEW). Path completion attraverso combat (defeat alpha) + bond_hearts gate choice ritual (fame vs alliance) + reconciliation narrative beat. Reuse `legacyRitualPanel.js` choice ritual pattern + QBN engine PR #1979 + bond_hearts PR #1984.
+
+### Sprint Fase 2 — Pre Sprint N (Godot vertical slice)
+
+- [ ] **Action 1 Sprint M.4b reference codebase study** ~7h — clone `Project-Tactics` (FFT-like) + `nicourrea/Tactical-RPG` (Godot A\*) + `OpenXcom` (C++ tactical AI) + `Lex Talionis` (FE-like Python free) → `/tmp/`. Output `docs/research/2026-04-28-srpg-engine-reference-extraction.md`.
+- [ ] **Action 2 Sprint N.4 pre-read tactical AI** ~3h — Battle Brothers AI dev blog + XCOM:EU GDC postmortem. 1-page Beehave behavior tree template per archetype (vanguard/skirmisher/healer). Future expand post-playtest.
+- [ ] **Action 3 Sprint N gate row failure-model parity + N.7 micro** ~3h — **MANDATORY 5/5 gate**. WoundState.gd Resource + LegacyRitualPanel.gd parity con web stack PR #1984.
+- [ ] **Action 4 Sprint M.7 re-frame DioField command-latency** 0h re-frame + 30min doc — re-cast existing <100ms cap come round-trip p95 button→WS→backend→state-echo. Web v1 baseline measure first per comparison.
+
+### Future-proof deferred M12+
+
+- [ ] **TKT-FUTURE-REPLAY-INFRASTRUCTURE M12+** — session replay storage tie-in telemetry pipeline. Trigger: post Sprint G.2b ship + post-playtest bug analysis. Synthetic test 10 scenari hardcoded sufficient ora (vedi `tests/services/areaCovered.test.js`).
 
 ### Autonomous (Claude Code può fare)
 
