@@ -8,8 +8,64 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v18 (post sessione Deep Research analysis + BG3-lite Plus + grid SQUARE final 2026-04-28)
-- **Ultimo aggiornamento**: 2026-04-28 sera (deep research SRPG/strategy analysis 18 titoli + 5 ADR shipped + tester feedback informal data-driven decision BG3-lite Plus Sprint G.2b + grid type SQUARE final supersede ADR-2026-04-16 hex axial + 9 deferred questions chiuse user verdict).
+- **Versione compact**: v19 (post Sprint Fase 1 closure 100% autonomous shipped 2026-04-29)
+- **Ultimo aggiornamento**: 2026-04-29 (Sprint Fase 1 9/9 task autonomous shipped: 10 PR mergiati main in ~36h — Action 4-7 + Sprint G v3 Legacy + Action 1+2 reference + Spike POC BG3-lite + Action 6 ambition Skiv-Pulverator + Action 3 Sprint N gate spec. Bottleneck residuo = master-dd rubric session 4 amici tester DIVERSI per Spike POC verdict pass/fail, sblocca Sprint G.2b BG3-lite Plus ~10-12g).
+
+## ⚡ TL;DR per ripartire (sessione 2026-04-29 — Sprint Fase 1 closure 100% autonomous)
+
+**Sprint Fase 1 ondata 3+ shipped end-to-end** (10 PR main, branch deleted o pending worktree cleanup):
+
+| #   | PR    | Squash commit | Topic                                                                                                                                                                                                   |
+| --- | ----- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | #1996 | `16fdebb7`    | Deep research SRPG/strategy synthesis + 5 ADR (deep-research-actions + BG3-lite Plus + grid-type-square-final + supersede ADR-2026-04-16 hex axial + grid-less feasibility) + 9 deferred Q user verdict |
+| 2   | #1997 | `5884e50f`    | Action 4 Sprint M.7 doc re-frame DioField command-latency p95                                                                                                                                           |
+| 3   | #1998 | `bf9b39ff`    | Action 7 CT bar visual lookahead 3 turni FFT-style                                                                                                                                                      |
+| 4   | #1999 | `252593b3`    | Action 5 BB hardening: injury severity 3-tier enum + slow_down trigger expanded (panic/confused/bleeding≥medium/fracture≥medium)                                                                        |
+| 5   | #2000 | `246e1369`    | Action 2 tactical AI archetype templates (Battle Brothers + XCOM:EU postmortem, 3 archetype Beehave)                                                                                                    |
+| 6   | #2001 | `28eeb71a`    | Action 1 SRPG engine reference codebase extraction (Project-Tactics + nicourrea + OpenXcom + Lex Talionis)                                                                                              |
+| 7   | #2002 | `d6f04300`    | Sprint G v3 Legacy Collection asset swap (Ansimuz CC0, 47 PNG 345KB ≤20MB cap, 5 biomi tile + 8 archetype creature + parallax 4-layer + VFX 8 types + Skiv LPC override preserved)                      |
+| 8   | #2003 | `c6587ce5`    | Spike POC BG3-lite Tier 1 — hide grid + smooth movement + range cerchio + AOE shape + ui_config.json toggle                                                                                             |
+| 9   | #2004 | `dcba8295`    | Action 6 ambition Skiv-Pulverator alleanza (combat path + bond gate ritual choice fame vs alliance + reconciliation narrative beat)                                                                     |
+| 10  | #2005 | `88a4fded`    | Action 3 Sprint N gate row failure-model parity MANDATORY 5/5 + N.7 spec doc (WoundState.gd + LegacyRitualPanel.gd)                                                                                     |
+
+**Test baseline post-merge**: AI 382/382 verde zero regression preservato across all 10 PR. Format + governance + paths-filter + python-tests + dataset-checks + styleguide-compliance verdi.
+
+**Pillar status finale post-wave-3**:
+
+| Pillar        |                                              Status                                              |
+| ------------- | :----------------------------------------------------------------------------------------------: |
+| P1 Tattica    |      🟢++ (visual upgrade Legacy + CT bar lookahead 3 turni + BG3-lite Tier 1 toggle live)       |
+| P2 Spore      |   🟢++ (mating engine #1879 + Spore S1-S6 + ambition long-arc Skiv-Pulverator alleanza wired)    |
+| P3 Specie×Job |         🟢ⁿ (35 ability r1-r4 #1978 + Beast Bond + 4 jobs orfani Battle Sprite assigned)         |
+| P4 MBTI       | 🟡++ (T_F full + thought cabinet UI + thoughts ritual G3 + tactical AI archetype templates spec) |
+| P5 Co-op      |  🟢 candidato (long-arc goal closes "combat isolated" risk + M11 lobby/ws + ambition HUD wired)  |
+| P6 Fairness   |      🟢 candidato (BB attrition severity stack + slow_down trigger + status engine wave A)       |
+
+**5/6 🟢++/🟢 candidato** + 1/6 🟡++ (P4). Demo-ready confermato.
+
+**Bottleneck residuo Sprint Fase 1 closure → Fase 2 Godot onset**:
+
+1. **Master-dd rubric session Spike POC** (~1-2h) — 4 amici tester DIVERSI da TKT-M11B-06 pool. Toggle `apps/play/public/data/ui_config.json` `bg3lite_*: false ↔ true` per A/B test. Score rubric 4-criteria (movement smooth + range readability + 2024 RPG feel + Skiv lore-faithful) 1-5 scale. Aggregate scores in `docs/playtest/2026-04-29-bg3-lite-spike-rubric.md` placeholder. Threshold pass: media ≥3.5 + zero score 1.
+2. **Sprint G.2b BG3-lite Plus** (~10-12g, 2-2.5 sett) — solo se rubric pass. Tier 2 add-ons sub-tile float positioning + vcScoring area_covered float + flanking 5-zone smooth angle.
+3. **Sprint I TKT-M11B-06 playtest** (~1 sett userland) — post Sprint G.2b ship.
+
+**Sprint G v3 deferred items** (Sprint H / Sprint Q candidate):
+
+- G.5b Kenney audio CC0 pack (zip Legacy senza audio file, defer Sprint H separato pack autorizzazione user)
+- Multi-frame creature anim (sheet layout non-uniform, defer Sprint Q metadata authoring JSON)
+- Boss VFX wire ability-trigger (6 boss sprite extracted, wire defer Sprint Q)
+
+**Effort delta cumulativo plan v2 → v3**: ~+107-127h (~+19-23% base 14 sett, justified data-driven post tester feedback informal 2026-04-28).
+
+**Resume trigger phrase canonical** per nuova sessione:
+
+> _"leggi COMPACT_CONTEXT.md + BACKLOG.md, master-dd ha eseguito rubric session Spike POC, verdict X/Y/N → procedi Sprint G.2b OR Sprint I"_
+
+Claude (nuova sessione):
+
+1. Read `COMPACT_CONTEXT.md` v19 + `BACKLOG.md` Sprint Fase 1 closure
+2. Se rubric pass → spawn chip Sprint G.2b BG3-lite Plus full ~10-12g (Tier 2 add-ons backend cherry-pick)
+3. Se rubric fail → abort BG3-lite Plus, ship Sprint I TKT-M11B-06 current state + Sprint G v3 visual asset swap solo
 
 ## ⚡ TL;DR per ripartire (sessione 2026-04-28 sera — Deep research + BG3-lite Plus + grid SQUARE final)
 

@@ -332,6 +332,70 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-04-29 — Sprint Fase 1 closure 100% autonomous shipped)
+
+**Sessione 2026-04-28/29 (Sprint Fase 1 ondata 3+ autonomous)**: 10 PR mergiati main in ~36h chiudono Sprint Fase 1 9/9 task autonomous. Bottleneck residuo = master-dd rubric session 4 amici tester DIVERSI per Spike POC verdict.
+
+**PR shipped main** (10 sequenziali, branch deleted o pending worktree cleanup):
+
+| PR                                                       | Squash commit | Topic                                                                                                                                                                                                               | Pillar             |
+| -------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| [#1996](https://github.com/MasterDD-L34D/Game/pull/1996) | `16fdebb7`    | Deep research SRPG/strategy synthesis (18 titoli) + 5 ADR (deep-research-actions + BG3-lite Plus + grid-type-square-final + supersede ADR-2026-04-16 hex axial + grid-less feasibility) + 9 deferred Q user verdict | meta               |
+| [#1997](https://github.com/MasterDD-L34D/Game/pull/1997) | `5884e50f`    | Action 4 Sprint M.7 doc re-frame DioField command-latency p95                                                                                                                                                       | meta               |
+| [#1998](https://github.com/MasterDD-L34D/Game/pull/1998) | `bf9b39ff`    | Action 7 CT bar visual lookahead 3 turni FFT-style HUD                                                                                                                                                              | P1 🟢++            |
+| [#1999](https://github.com/MasterDD-L34D/Game/pull/1999) | `252593b3`    | Action 5 BB hardening: injury severity 3-tier enum + slow_down trigger expanded (panic/confused/bleeding≥medium/fracture≥medium)                                                                                    | P6 🟢 candidato    |
+| [#2000](https://github.com/MasterDD-L34D/Game/pull/2000) | `246e1369`    | Action 2 tactical AI archetype templates (Battle Brothers + XCOM:EU postmortem, 3 archetype Beehave)                                                                                                                | meta P4            |
+| [#2001](https://github.com/MasterDD-L34D/Game/pull/2001) | `28eeb71a`    | Action 1 SRPG engine reference codebase extraction (Project-Tactics + nicourrea + OpenXcom + Lex Talionis)                                                                                                          | meta               |
+| [#2002](https://github.com/MasterDD-L34D/Game/pull/2002) | `d6f04300`    | Sprint G v3 Legacy Collection asset swap (Ansimuz CC0, 47 PNG 345KB ≤20MB cap, 5 biomi tile + 8 archetype creature + parallax 4-layer + VFX 8 types + Skiv LPC override preserved)                                  | P1 visual          |
+| [#2003](https://github.com/MasterDD-L34D/Game/pull/2003) | `c6587ce5`    | Spike POC BG3-lite Tier 1 — hide grid + smooth movement + range cerchio + AOE shape + ui_config.json toggle (gate decision binary)                                                                                  | P1                 |
+| [#2004](https://github.com/MasterDD-L34D/Game/pull/2004) | `dcba8295`    | Action 6 ambition Skiv-Pulverator alleanza (combat path + bond gate ritual choice fame vs alliance + reconciliation narrative beat)                                                                                 | P2+P5 🟢 candidato |
+| [#2005](https://github.com/MasterDD-L34D/Game/pull/2005) | `88a4fded`    | Action 3 Sprint N gate row failure-model parity MANDATORY 5/5 + N.7 spec doc (WoundState.gd + LegacyRitualPanel.gd)                                                                                                 | meta               |
+
+**Test baseline post-merge**: AI 382/382 verde zero regression preservato across all 10 PR. Format + governance + paths-filter + python-tests + dataset-checks + styleguide-compliance verdi.
+
+**Pillar status finale post-wave-3**:
+
+| #   | Pilastro                     |                                              Stato                                               |
+| --- | ---------------------------- | :----------------------------------------------------------------------------------------------: |
+| 1   | Tattica leggibile (FFT)      |      🟢++ (visual upgrade Legacy + CT bar lookahead 3 turni + BG3-lite Tier 1 toggle live)       |
+| 2   | Evoluzione emergente (Spore) |   🟢++ (mating engine #1879 + Spore S1-S6 + ambition long-arc Skiv-Pulverator alleanza wired)    |
+| 3   | Identità Specie × Job        |         🟢ⁿ (35 ability r1-r4 #1978 + Beast Bond + 4 jobs orfani Battle Sprite assigned)         |
+| 4   | Temperamenti MBTI/Ennea      | 🟡++ (T_F full + thought cabinet UI + thoughts ritual G3 + tactical AI archetype templates spec) |
+| 5   | Co-op vs Sistema             |  🟢 candidato (long-arc goal closes "combat isolated" risk + M11 lobby/ws + ambition HUD wired)  |
+| 6   | Fairness                     |      🟢 candidato (BB attrition severity stack + slow_down trigger + status engine wave A)       |
+
+**5/6 🟢++/🟢 candidato** + 1/6 🟡++ (P4). Demo-ready confermato.
+
+**Bottleneck residuo Sprint Fase 1 → Fase 2 Godot onset**:
+
+1. **🚫 Master-dd rubric session Spike POC** (~1-2h userland) — 4 amici tester DIVERSI da TKT-M11B-06 pool. Toggle `apps/play/public/data/ui_config.json` `bg3lite_*: false ↔ true` per A/B test. Score rubric 4-criteria (movement smooth + range readability + 2024 RPG feel + Skiv lore-faithful) 1-5 scale. Aggregate scores in `docs/playtest/2026-04-29-bg3-lite-spike-rubric.md` placeholder. Threshold pass: media ≥3.5 + zero score 1.
+2. **🚫 Sprint G.2b BG3-lite Plus** (~10-12g, 2-2.5 sett) — solo se rubric pass. Tier 2 add-ons sub-tile float positioning + vcScoring area_covered float + flanking 5-zone smooth angle.
+3. **🚫 Sprint I TKT-M11B-06 playtest** (~1 sett userland) — post Sprint G.2b ship.
+
+**Effort delta cumulativo plan v2 → v3**: ~+109-127h (~+19-23% base 14 sett, justified data-driven post tester feedback informal 2026-04-28).
+
+**Lessons codified questa sessione**:
+
+- **10 PR sequential merge zero downtime**: ondata 3+ shipped via chip dispatch + master-dd merge approval. Pattern parallel chips file-disjoint = scalable autonomy.
+- **Force-push blocked recovery via merge strategy**: PR #2001 + #2004 entrambi conflict registry/style.css post-prima-merge → `git pull --no-rebase` + commit merge + regular push (NO force-push per CLAUDE.md policy).
+- **`gh pr update-branch <num>`** > rebase quando branch BEHIND main (PR #2002 esempio post 2000+2001 merge).
+- **Spike POC rubric session pattern**: gate decision-binary pre full G.2b ~10-12g commitment evita scope creep speculative.
+- **Multi-conflict registry post parallel chip**: PR 2000 + 2001 entrambi aggiungono row registry. Manual resolution mantieni BOTH entries come 2 oggetti JSON separati.
+
+**Resume trigger phrase canonical** (ANY PC):
+
+> _"leggi COMPACT_CONTEXT.md v19 + BACKLOG.md, master-dd ha eseguito rubric session Spike POC, verdict X/Y/N → procedi Sprint G.2b OR Sprint I"_
+
+**Next session candidati**:
+
+- A) **Master-dd rubric session Spike POC** (chiude bottleneck Sprint G.2b unblock) — UNICO bloccante autonomous pipeline
+- B) Skiv state.json recompute post-encounter live playthrough (deferred a Phase 4 — non backfillable senza run reale)
+- C) Sentience tier 4 species candidate exploration (T4=0 attualmente, gap noted OD-008)
+- D) Ennea archetypes UI surface (gap noted handoff §1 — 9 archetypes ZERO surface)
+- E) Sprint H itch.io gap-fill OPT (~3-4h, conditional on rubric verdict + Sprint G v3 visual gaps emerge)
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-28 — Skiv Personal Sprint 4/4 goals shipped)
 
 **Sessione 2026-04-27/28 (Skiv personal wishlist autonomous)**: 4 goals canonical Skiv shipped end-to-end in singola sessione ~9h via 3-phase wave (G1+G2 parallel → G3 → G4). Plan canonical [`docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`](docs/planning/2026-04-27-skiv-personal-sprint-handoff.md).
@@ -410,42 +474,10 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
----
-
-## 🎮 Sprint context (aggiornato: 2026-04-27 — Sprint 8 Ability r3/r4 tier — Tier S #6 closure 4/4)
-
-**Sessione 2026-04-27 Sprint 8 (autonomous, ~6h)**: AncientBeast Tier S #6 residuo finale Ability r3/r4 tier progressive — chiusura **100% Tier S #6** (4/4 pattern).
-
-**PR shipped** (1): [#1978](https://github.com/MasterDD-L34D/Game/pull/1978) — `data/core/jobs.yaml` v0.1.0 → v0.2.0 (21 → 35 base ability totali, +14 nuove: 2/job × 7 base job) con cost ladder canonical r1=3/r2=8/r3=14/r4=22 PI (curva quasi-quadratica). 5 nuovi test cost ladder + naming uniqueness + version bump + 1 e2e smoke (phantom_step) + ADR-2026-04-27-ability-r3-r4-tier + numeric-reference §12 + stato-arte §B.1.5 marked 0 residui.
-
-**14 ability nuove**:
-
-| Job        | r3             | r4                |
-| ---------- | -------------- | ----------------- |
-| skirmisher | phantom_step   | dervish_whirlwind |
-| vanguard   | aegis_stance   | bulwark_aegis     |
-| warden     | chain_shackles | void_collapse     |
-| artificer  | arcane_renewal | convergence_wave  |
-| invoker    | arcane_lance   | apocalypse_ray    |
-| ranger     | hunter_mark    | headshot          |
-| harvester  | vital_drain    | lifegrove         |
-
-**Vincolo runtime CRITICAL**: tutte le 14 ability nuove **riusano i 18 effect_type esistenti** in abilityExecutor.js. Zero nuovi runtime types, zero modifica all'executor — extension data-only.
-
-**Stato pillars post Sprint 8**:
-
-| #   | Pilastro          | Pre Sprint 8 | Post | Delta                                                                |
-| --- | ----------------- | :----------: | :--: | -------------------------------------------------------------------- |
-| P1  | Tattica leggibile |     🟢ⁿ      | 🟢ⁿ  | unchanged (Beast Bond Sprint 7 active)                               |
-| P3  | Specie×Job        |    🟢c++     | 🟢ⁿ  | **Rank progression complete (3→8→14→22 PI), reward curve canonical** |
-
-**Test baseline post-merge**: jobs 14/14 ✓ (was 9, +5) · abilityExecutor 36/36 ✓ (was 35, +1) · AI 382/382 ✓ zero regression · format/schema/governance verdi.
-
-**AncientBeast Tier S #6**: **100% closed** (channel resist #1964 + Beast Bond #1971 + wiki cross-link #1937 + r3/r4 progression #1978).
-
-**Handoff**: [`docs/planning/2026-04-27-sprint-8-ability-r3-r4-handoff.md`](docs/planning/2026-04-27-sprint-8-ability-r3-r4-handoff.md).
-
----
+<!-- Sprint 8 Ability r3/r4 tier section (2026-04-27) archived 2026-04-29 per policy max 3 Sprint context.
+     Full content in docs/archive/historical-snapshots/2026-04-29-claude-sprint-context-archive.md.
+     Summary preserved: PR #1978 jobs.yaml v0.2.0 21→35 ability + cost ladder r1=3/r2=8/r3=14/r4=22 PI.
+     AncientBeast Tier S #6 100% closed (channel resist #1964 + Beast Bond #1971 + wiki #1937 + r3/r4 #1978). -->
 
 ### Pilastri di design — stato reale (audit 2026-04-20, rev post deep-audit)
 
