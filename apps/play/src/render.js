@@ -3,6 +3,126 @@
 import { getInterpolatedPos, drawPopups, drawRays, getFlashAlpha, hasActiveAnims } from './anim.js';
 import { getSpeciesDisplayIt } from './speciesNames.js';
 
+// 2026-04-28 Visual upgrade Sprint D — Tile bioma loader.
+// Cache Image() per bioma_id, fallback a null (drawCell ha checkered fallback).
+// Asset placeholder generated via tools/py/generate_visual_assets.py.
+// Path: /assets/tiles/<bioma>/tile_<variant>.png (32x32 PNG indexed).
+const TILE_VARIANTS_PER_BIOMA = 3;
+const _tileImageCache = new Map(); // key = `${bioma}-${variant}`, val = HTMLImageElement | null
+
+// Sprint F fix — onload trigger redraw. Senza questo callback, primo paint usa
+// fallback (immagine non ancora load) → sprite mai visibile. Window dirty flag +
+// dispatchEvent custom evt 'evo:asset-loaded' ascoltato da main.js render loop.
+function _notifyAssetLoaded() {
+  if (typeof window !== 'undefined') {
+    window.__evoAssetDirty = true;
+    try {
+      window.dispatchEvent(new CustomEvent('evo:asset-loaded'));
+    } catch {
+      /* IE/old engine — flag suffices */
+    }
+  }
+}
+
+function _loadTile(bioma, variant) {
+  const key = `${bioma}-${variant}`;
+  if (_tileImageCache.has(key)) return _tileImageCache.get(key);
+  if (typeof Image === 'undefined') {
+    _tileImageCache.set(key, null);
+    return null;
+  }
+  const img = new Image();
+  img.onload = _notifyAssetLoaded;
+  img.onerror = () => {
+    // Asset missing — keep null in cache, drawCell falls back to checkered fill.
+    _tileImageCache.set(key, null);
+  };
+  img.src = `/assets/tiles/${bioma}/tile_${variant}.png`;
+  _tileImageCache.set(key, img);
+  return img;
+}
+
+/** Resolve tile image for given biome + grid coord (deterministic variant pick).
+ * @param {string|null|undefined} biomaId
+ * @param {number} gx
+ * @param {number} gy
+ * @returns {HTMLImageElement|null}
+ */
+function resolveTileImg(biomaId, gx, gy) {
+  if (!biomaId || typeof biomaId !== 'string') return null;
+  // Hash xy → variant for stable but spread coverage (no flicker on re-render).
+  const variant = Math.abs((gx * 37 + gy * 17) % TILE_VARIANTS_PER_BIOMA);
+  const img = _loadTile(biomaId, variant);
+  // Use only when fully loaded — else null (avoids drawImage on empty bitmap).
+  return img && img.complete && img.naturalWidth > 0 ? img : null;
+}
+
+// 2026-04-28 Visual upgrade Sprint E — Creature sprite resolver.
+// Cache PNG per archetype (job mapped). Asset: /assets/creatures/<archetype>.png 32×32 RGBA.
+// Fallback: shape geometric (drawUnitBody) preserved se sprite missing/loading.
+const _creatureImageCache = new Map();
+const JOB_TO_ARCHETYPE = {
+  vanguard: 'vanguard',
+  tank: 'vanguard',
+  guardian: 'vanguard',
+  skirmisher: 'skirmisher',
+  assassin: 'skirmisher',
+  scout: 'scout',
+  ranger: 'scout',
+  sniper: 'sniper',
+  ranged: 'sniper',
+  healer: 'healer',
+  support: 'healer',
+  controller: 'controller',
+  mage: 'controller',
+  boss: 'boss',
+  // 2026-04-28 Sprint G v3 — orfani jobs.yaml v0.2.0 wire (Sprint 8 #1978).
+  // 4 base ability r3/r4 jobs missing visual archetype. Map a closest match
+  // visual silhouette finché authoring sprite custom Sprint Q.
+  warden: 'controller', // chain_shackles + void_collapse → controller-like
+  artificer: 'healer', // arcane_renewal + convergence_wave → healer-supportive
+  invoker: 'controller', // arcane_lance + apocalypse_ray → mage-like
+  harvester: 'skirmisher', // vital_drain + lifegrove → offensive lean
+};
+
+function _loadCreatureSprite(archetype) {
+  if (_creatureImageCache.has(archetype)) return _creatureImageCache.get(archetype);
+  if (typeof Image === 'undefined') {
+    _creatureImageCache.set(archetype, null);
+    return null;
+  }
+  const img = new Image();
+  img.onload = _notifyAssetLoaded; // Sprint F — redraw on first paint
+  img.onerror = () => _creatureImageCache.set(archetype, null);
+  img.src = `/assets/creatures/${archetype}.png`;
+  _creatureImageCache.set(archetype, img);
+  return img;
+}
+
+/** Resolve creature sprite for unit (job → archetype mapping).
+ * @param {object} unit
+ * @returns {HTMLImageElement|null}
+ */
+function resolveCreatureSprite(unit) {
+  const jobKey = (unit?.job || unit?.class || '').toString().toLowerCase();
+  const isBoss = jobKey === 'boss' || unit?.is_boss === true;
+  const archetype = isBoss ? 'boss' : JOB_TO_ARCHETYPE[jobKey] || 'default';
+  const img = _loadCreatureSprite(archetype);
+  return img && img.complete && img.naturalWidth > 0 ? img : null;
+}
+
+/** Idle bob offset (subtle vertical sin wave for liveness). Unit id → phase. */
+function _idleBobOffset(unitId) {
+  if (typeof window === 'undefined' || !window.performance) return 0;
+  // Hash id to phase offset (stable per unit, desync between units).
+  let h = 0;
+  const s = String(unitId || '');
+  for (let i = 0; i < s.length; i += 1) h = (h * 31 + s.charCodeAt(i)) | 0;
+  const phase = (h % 1000) / 1000;
+  const t = (window.performance.now() / 1000 + phase * 2) * Math.PI * 0.6; // ~0.3 Hz
+  return Math.sin(t) * 1.2; // ±1.2px bob
+}
+
 // W8O — CELL ora dinamico (responsive). Era const 64 → canvas sempre w*64 × h*64
 // piccolo in viewport grande. User feedback: "la mappa occupa parte troppo piccola
 // dello schermo, deve adattarsi mantenendo stesso numero quadretti".
@@ -638,12 +758,6 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
       ? COLORS.player
       : COLORS.sistema;
 
-  // W8M — Body: job-shape silhouette (no more circles). Ring outer = jobColor,
-  // interior = faction. Boss scale +50% per drawUnitBody ring/body.
-  // QW4 (2026-04-26) — Lifecycle phase scaling: hatchling 0.6× → apex 1.15×.
-  // Skiv visibility: phase visualmente leggibile da TV scan (10-foot rule).
-  // Multi-creature ready: qualsiasi unit con `lifecycle_phase` campo riceve
-  // scaling + tint + badge (token sconosciuto / phase mancante = fallback safe).
   const jobKey = (unit.job || unit.class || '').toString().toLowerCase();
   const isBoss = jobKey === 'boss' || unit.is_boss === true;
   // Stadio Phase A: prefer unit.stadio (1-10) for refined size scaling, fallback
@@ -652,28 +766,81 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
   const lifecycleStyle = resolveUnitVisualStyle(unit);
   const sizeMul = (isBoss ? 1.5 : 1) * lifecycleStyle.sizeMul;
   const jobColor = JOB_COLORS[jobKey] || null;
-  // Outer job ring
-  if (!dead && jobColor) {
-    ctx.fillStyle = jobColor;
-    drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.42 * sizeMul);
-    ctx.fill();
-  }
-  // QW4 — Lifecycle phase tint ring (intermediate layer between job ring and
-  // faction body). Visibile solo se phase nota; semi-trans per leggere job sotto.
-  if (!dead && lifecycleStyle.tint) {
+
+  // 2026-04-28 Visual upgrade Sprint E — Sprite-first rendering con drop-shadow
+  // + idle bob. Fallback a shape geometric se sprite missing (back-compat W8M).
+  const sprite = !dead ? resolveCreatureSprite(unit) : null;
+  const bobDy = !dead && sprite ? _idleBobOffset(unit.id) : 0;
+
+  // Ground shadow ellipse (depth illusion) — sotto unit, sempre presente vivo.
+  if (!dead) {
     ctx.save();
-    ctx.globalAlpha = 0.55;
-    ctx.fillStyle = lifecycleStyle.tint;
-    drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.38 * sizeMul);
+    ctx.globalAlpha = 0.35;
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.ellipse(
+      cx,
+      cy + CELL * 0.32,
+      CELL * 0.3 * sizeMul,
+      CELL * 0.1 * sizeMul,
+      0,
+      0,
+      Math.PI * 2,
+    );
     ctx.fill();
     ctx.restore();
   }
-  // Inner faction body
-  ctx.fillStyle = color;
-  ctx.globalAlpha = dead ? 0.4 : 1;
-  drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.33 * sizeMul);
-  ctx.fill();
-  ctx.globalAlpha = 1;
+
+  if (sprite) {
+    // Sprite raster path — preferred quando asset loaded.
+    const spriteSize = CELL * 0.78 * sizeMul;
+    ctx.save();
+    ctx.imageSmoothingEnabled = false; // pixel-perfect
+    // Faction tint layer behind sprite (subtle outer glow per side identification).
+    ctx.shadowColor = unit.controlled_by === 'player' ? COLORS.player : COLORS.sistema;
+    ctx.shadowBlur = 4;
+    ctx.drawImage(sprite, cx - spriteSize / 2, cy - spriteSize / 2 + bobDy, spriteSize, spriteSize);
+    ctx.restore();
+    // Job ring outer (thin) per job identification senza dover leggere abbrev.
+    if (jobColor) {
+      ctx.strokeStyle = jobColor;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cx, cy + bobDy, CELL * 0.4 * sizeMul, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    // Lifecycle phase tint ring (semi-trans halo per phase signal).
+    if (lifecycleStyle.tint) {
+      ctx.save();
+      ctx.globalAlpha = 0.4;
+      ctx.strokeStyle = lifecycleStyle.tint;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(cx, cy + bobDy, CELL * 0.36 * sizeMul, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+  } else {
+    // Fallback: shape geometric path (W8M legacy preserved).
+    if (!dead && jobColor) {
+      ctx.fillStyle = jobColor;
+      drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.42 * sizeMul);
+      ctx.fill();
+    }
+    if (!dead && lifecycleStyle.tint) {
+      ctx.save();
+      ctx.globalAlpha = 0.55;
+      ctx.fillStyle = lifecycleStyle.tint;
+      drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.38 * sizeMul);
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.fillStyle = color;
+    ctx.globalAlpha = dead ? 0.4 : 1;
+    drawUnitBody(ctx, cx, cy, jobKey, CELL * 0.33 * sizeMul);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
 
   // W2.3 — Flash overlay on hit/heal
   const flash = !dead ? getFlashAlpha(unit.id) : null;
@@ -717,23 +884,23 @@ function drawUnit(ctx, unit, gridH, highlight = {}) {
     ctx.fill();
   }
 
-  // W8M — Label: species IT abbrev (3 char upper) instead of raw id. Outline
-  // stroke nera per contrast su body color. User feedback: "scritte orribili
-  // p-sc p-ta e-no" replaced with "PRE" (Predatore) / "PRE" (Predoni).
+  // W8M — Label: species IT abbrev (3 char upper). Outline stroke nera per contrast.
+  // 2026-04-28 Sprint E — quando sprite presente, label spostato SOTTO sprite (no overlap pixel art).
+  // Sprite assente → label centrato sopra shape geometric (legacy).
   const speciesIt = getSpeciesDisplayIt(unit.species);
   const abbrev = (speciesIt ? speciesIt : unit.id || '???')
     .replace(/[^\p{L}]/gu, '')
     .slice(0, 3)
     .toUpperCase();
-  // 10-foot rule: dynamic font for species abbrev (min 14px, scale with CELL).
-  ctx.font = `bold ${Math.max(14, Math.round(CELL * 0.18))}px "SF Mono", "Menlo", monospace`;
+  ctx.font = `bold ${Math.max(12, Math.round(CELL * 0.16))}px "SF Mono", "Menlo", monospace`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
+  const labelY = sprite ? cy + CELL * 0.42 : cy;
   ctx.strokeStyle = 'rgba(0,0,0,0.85)';
   ctx.lineWidth = 3;
-  ctx.strokeText(abbrev, cx, cy);
+  ctx.strokeText(abbrev, cx, labelY);
   ctx.fillStyle = '#fff';
-  ctx.fillText(abbrev, cx, cy);
+  ctx.fillText(abbrev, cx, labelY);
 
   // HP bar — M4 P0.2: float sopra unit sprite (visibile da lontano TV-first).
   // Legacy: bar sotto tile. New: bar sopra testa + valore numerico chunky.
@@ -1102,17 +1269,16 @@ export function render(canvas, state, highlight = {}) {
   fitCanvas(canvas, w, h);
 
   const ctx = canvas.getContext('2d');
-  // HOTFIX 2026-04-19: resolveTileImg() era definita in PR #1602 (USE_NEW_ART flag)
-  // ma rimossa inavvertitamente da Wave 8O (#1626) canvas refactor. ReferenceError
-  // in render() interrompeva redraw → units sidebar vuota + canvas non disegnato.
-  // Fallback a null disabilita tile art (opt-in feature), drawCell già gestisce
-  // tileImg falsy con checkered grid fallback (vedi drawCell line 189).
-  const tileImg = null;
-  // Checkered grid (o tile PNG se flag ON + asset loaded)
+  // 2026-04-28 Visual upgrade Sprint D — wire bioma tile loader.
+  // resolveTileImg() returns cached PNG per (bioma, variant). Asset missing → null
+  // → drawCell checkered fallback (back-compat preserved).
+  const biomaId = state?.encounter?.biome_id || state?.biome_id || null;
+  // Checkered grid (o tile PNG se asset loaded per bioma)
   for (let gy = 0; gy < h; gy += 1) {
     for (let gx = 0; gx < w; gx += 1) {
       const yPx = h - 1 - gy;
       const fill = (gx + gy) % 2 === 0 ? COLORS.grid : COLORS.gridAlt;
+      const tileImg = resolveTileImg(biomaId, gx, yPx);
       drawCell(ctx, gx, yPx, fill, tileImg);
     }
   }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Arrow icon · MIT own asset · 2026-04-28 visual upgrade Sprint C -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <path d="M 21 3 L 14.5 3 L 16.5 5 L 3 18.5 L 5.5 21 L 19 7.5 L 21 9.5 L 21 3 Z"/>
+  <path d="M 17 5 L 19 5 L 19 7 L 17.5 5.5 Z" opacity="0.7"/>
+  <circle cx="6" cy="18" r="1.5" opacity="0.5"/>
+</svg>

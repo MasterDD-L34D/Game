@@ -83,6 +83,34 @@
   --font-player: 'Georgia', 'Cambria', 'Times New Roman', serif;
   --font-sistema: 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
   --font-narrative: 'Georgia', 'Cambria', 'Times New Roman', serif;
+
+  /* 2026-04-28 Visual upgrade Sprint A — Tactical typography stack.
+   * User feedback: "sembra app telefono, non gioco". Fix: serif tactical display
+   * tier (Cinzel headers + IM Fell body) + VT323 game-mono per log/coord.
+   * Reference: FFT WotL serif maiuscole, Tactics Ogre LUCT panel, IM Fell oldstyle.
+   * Apply: body base override + h1/h2 + .mono/.log family swap below.
+   * Preserva fallback Inter/Noto/SF Mono → graceful degradation se font CDN down. */
+  --font-display: 'Cinzel', 'Trajan Pro', 'Georgia', serif;
+  --font-body-tactical: 'IM Fell English', 'Georgia', 'Cambria', serif;
+  --font-mono-game: 'VT323', 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+
+  /* 2026-04-28 Visual upgrade Sprint A — GRIMDARK FANTASY palette (Lospec verified).
+   * https://lospec.com/palette-list/grimdark-fantasy
+   * Tactical RPG dark base + parchment text + gold accent + crimson HP.
+   * Coexistence con --bg/--accent base: applicato selettivamente via .game-grimdark
+   * o via override per panel/HUD specifici. Default body resta su Gris pressure
+   * palette (atmospheric shifts driven da AI tier). */
+  --grim-bg-deep: #0f0f13;
+  --grim-bg-panel: #1e1a17;
+  --grim-bg-elevated: #2d2a2e;
+  --grim-accent-gold: #b0a36a;
+  --grim-accent-bronze: #8b6f47;
+  --grim-text-primary: #c2b29a;
+  --grim-text-dim: #8a7d6a;
+  --grim-hp: #bf6b70;
+  --grim-mp: #4f6d76;
+  --grim-purple: #6a5d8c;
+  --grim-silver: #b3b0a8;
 }
 
 /* 2026-04-27 PR-Y1 — Gris pressure palette transitions.
@@ -146,26 +174,36 @@ body {
   padding: 0;
   background: var(--bg);
   color: var(--fg);
-  /* W8 — Inter/Noto Sans per TV-first 42-STYLE-GUIDE-UI.md (spec: 16-48px).
-   * Monospace fallback solo per code/numeric (status chips, event log). */
-  font-family:
-    'Inter',
-    'Noto Sans',
-    system-ui,
-    -apple-system,
-    sans-serif;
+  /* 2026-04-28 Visual upgrade Sprint A — body shift Inter sans → IM Fell English serif tactical.
+   * Inter conservato come fallback (CDN down). Body text leggibile manuscript feel.
+   * Spec 42-STYLE-GUIDE-UI.md §Typography v2 tactical (vedi note in 42-SG). */
+  font-family: var(--font-body-tactical);
   font-size: 16px; /* TV-first body base (spec: 16px minimum @ 3m viewing) */
-  line-height: 1.45;
+  line-height: 1.5;
   height: 100%;
 }
 
-/* W8 — monospace preserved per numeric/stat readability (HP/AP bars, coord, event log). */
+/* 2026-04-28 — VT323 game-mono per stat/log/coord readability.
+ * Cinematic terminal feel vs corporate SF Mono. */
 .mono,
 code,
 .bar-value,
 .unit-stats span,
 #log {
-  font-family: 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+  font-family: var(--font-mono-game);
+  font-size: 1.05em; /* VT323 ottica più piccola → bump leggero per parità */
+}
+
+/* 2026-04-28 Visual upgrade Sprint C — Pixel-crisp rendering globale.
+ * Canvas + sprite rendering via image-rendering: pixelated.
+ * Asset 32×32 / 64×64 ingranditi via CSS rimangono nitidi (no bilinear blur).
+ * Reference: MDN crisp-pixel-art-look. */
+canvas,
+img.sprite,
+.sprite-pixel {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
 }
 
 /* M4 P0.5 — TV-first safe zone 5% (42-STYLE-GUIDE-UI.md).
@@ -180,6 +218,210 @@ code,
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* 2026-04-28 Visual upgrade Sprint B — relative anchor per scanline + vignette pseudo-element overlay. */
+  position: relative;
+}
+
+/* 2026-04-28 Visual upgrade Sprint B — Scanline overlay (CRT diegetic).
+ * 2px-on / 2px-off gradient, opacity 0.15 (sotto WCAG threshold 0.25).
+ * pointer-events: none → no interferenza click. z-index basso → sotto modali (9999 reservato).
+ * Anti-pattern: NON aumentare opacity oltre 0.2 (contrast WCAG fail su low-contrast text). */
+.scanline-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 200;
+  mix-blend-mode: multiply;
+}
+
+/* 2026-04-28 Visual upgrade Sprint B — Vignette radial (atmospheric depth).
+ * Center transparente 60%, edges scuri 75% — focus visivo su grid combat.
+ * Reference: XCOM 2 cinematic camera. */
+.scanline-overlay::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.45) 95%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  pointer-events: none;
+  z-index: 199;
+}
+
+/* 2026-04-28 Visual upgrade Sprint B/F — Tactical panel frame (border-image SVG procedural).
+ * 9-slice frame parchment + gold ornament. Slice 32px su SVG 96px → safe stretch.
+ * Apply: header, .sidebar, .feedback-card, .endgame-card, .ability-bar.
+ * !important richiesto per override `.sidebar { border: 1px solid var(--border) }`
+ * (Sprint F fix — cascade specificity loss su selettori aside.sidebar / .feedback-card). */
+.tactical-frame {
+  border-style: solid !important;
+  border-width: 16px !important;
+  border-image: url('/assets/ui/panel-frame.svg') 32 fill stretch !important;
+  background-clip: padding-box !important;
+}
+
+/* Sprint F — Tactical button + select theming (controls main + scenario picker).
+ * Override .controls button / select default browser styling per look-tactical RPG.
+ * !important critico: specifity loss vs rules legacy section più sotto in style.css. */
+.controls button,
+.controls select,
+#scenario-select,
+#modulation-select,
+#end-turn,
+#new-session,
+#reset-round,
+#open-replay,
+#download-eval,
+#toggle-mute {
+  background: var(--grim-bg-panel) !important;
+  color: var(--grim-text-primary) !important;
+  border: 1px solid var(--grim-accent-bronze) !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  padding: 6px 14px !important;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  box-shadow: inset 0 0 0 1px rgba(176, 163, 106, 0.15);
+}
+.controls button:hover,
+.controls select:hover,
+#end-turn:hover,
+#new-session:hover,
+#reset-round:hover,
+#open-replay:hover,
+#download-eval:hover,
+#toggle-mute:hover {
+  background: var(--grim-bg-elevated);
+  border-color: var(--grim-accent-gold);
+  color: var(--grim-accent-gold);
+  box-shadow:
+    inset 0 0 0 1px rgba(176, 163, 106, 0.4),
+    0 0 8px rgba(176, 163, 106, 0.3);
+}
+.controls button:active,
+#end-turn:active {
+  background: var(--grim-bg-deep);
+  transform: translateY(1px);
+}
+
+/* Sprint F — Ability bar tactical (sticky bottom) — gold band + Cinzel labels. */
+#ability-bar.ability-bar {
+  background: linear-gradient(180deg, var(--grim-bg-panel) 0%, var(--grim-bg-deep) 100%) !important;
+  border-top: 2px solid var(--grim-accent-bronze) !important;
+  box-shadow: 0 -2px 0 rgba(176, 163, 106, 0.3) !important;
+  padding: 10px 24px !important;
+}
+.ability-bar-title {
+  font-family: var(--font-display);
+  color: var(--grim-accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.ability-bar-row button {
+  background: var(--grim-bg-elevated);
+  border: 1px solid var(--grim-accent-bronze);
+  color: var(--grim-text-primary);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.ability-bar-row button:hover {
+  background: var(--grim-bg-panel);
+  border-color: var(--grim-accent-gold);
+  color: var(--grim-accent-gold);
+}
+
+/* Sprint F — Pressure meter tactical (Sistema mood) — gold rule + Cinzel label. */
+#pressure-meter.pressure-meter {
+  border-bottom: 1px solid var(--grim-accent-bronze) !important;
+  padding-bottom: 4px !important;
+}
+#pressure-meter .pressure-label {
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--grim-accent-gold) !important;
+  font-size: 0.85rem !important;
+}
+#pressure-meter .pressure-bar {
+  background: rgba(15, 15, 19, 0.8) !important;
+  border: 1px solid var(--grim-accent-bronze) !important;
+  height: 8px !important;
+}
+#pressure-meter .pressure-fill {
+  background: linear-gradient(
+    90deg,
+    var(--grim-mp),
+    var(--grim-accent-gold),
+    var(--grim-hp)
+  ) !important;
+  transition: width 0.5s ease !important;
+}
+
+/* Sprint F — Footer tactical (sticky bottom hint). */
+footer {
+  background: var(--grim-bg-deep) !important;
+  color: var(--grim-text-dim) !important;
+  border-top: 1px solid var(--grim-accent-bronze);
+  font-family: var(--font-body-tactical);
+  font-style: italic;
+}
+
+/* Sprint F — Sidebar list (#units) compact tactical look. */
+#units li.unit-item,
+#units li {
+  border-left: 3px solid var(--grim-accent-bronze) !important;
+  padding: 8px 8px 6px 10px !important;
+  margin-bottom: 6px !important;
+  background: rgba(45, 42, 46, 0.4) !important;
+}
+#units li strong {
+  color: var(--grim-accent-gold) !important;
+  font-family: var(--font-display) !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  font-size: 0.85rem !important;
+}
+#units li code {
+  font-family: var(--font-mono-game) !important;
+  font-size: 0.95rem !important;
+  color: var(--grim-text-dim) !important;
+}
+
+/* Sprint F — Log panel parchment-tinted bg. */
+#log {
+  background: var(--grim-bg-deep) !important;
+  border: 1px solid var(--grim-accent-bronze);
+  color: var(--grim-text-primary) !important;
+}
+
+/* Sprint F — Objective + biome chip tactical. */
+.objective-bar,
+.biome-chip {
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 header {
@@ -196,7 +438,25 @@ header h1 {
   /* W8 — TV-first: heading 26px (1.6rem base 16). */
   font-size: 1.6rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.04em; /* Cinzel beneficia di tracking maiuscole positivo */
+  /* 2026-04-28 Sprint A — Cinzel Roman serif maiuscole per signal "tactical RPG". */
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--grim-accent-gold);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* 2026-04-28 Sprint A — Display tier headings (sidebar h2 + modal headers + ability titles). */
+.sidebar h2,
+.feedback-header h2,
+.endgame-card h2,
+.tip-modal h2,
+.codex-panel h2,
+.character-panel h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--grim-accent-gold);
 }
 
 .status {

@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Evo-Tactics — Play</title>
-    <!-- W8 visual base — Inter/Noto Sans per TV-first spec 42-STYLE-GUIDE-UI.md -->
+    <!-- Visual base — Inter/Noto Sans (TV-first 42-STYLE-GUIDE-UI.md) + tactical display fonts (Cinzel/IM Fell English/VT323) per visual upgrade 2026-04-28 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans:wght@400;600;700&family=Cinzel:wght@400;600;700;900&family=IM+Fell+English:ital@0;1&family=VT323&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/src/style.css" />
@@ -16,8 +16,8 @@
     <script src="runtime-config.js" onerror="void 0"></script>
   </head>
   <body>
-    <div id="app">
-      <header>
+    <div id="app" class="scanline-overlay">
+      <header class="tactical-frame">
         <h1>🦴 Evo-Tactics</h1>
         <div class="status">
           <span id="turn-info">—</span>
@@ -299,7 +299,7 @@
             </select>
           </div>
         </section>
-        <aside class="sidebar">
+        <aside class="sidebar tactical-frame">
           <h2>Unità</h2>
           <ul id="units"></ul>
           <h2>Log</h2>
@@ -317,7 +317,7 @@
       </footer>
       <!-- M7 demo feedback modal — playtest collection (2026-04-20) -->
       <div id="feedback-overlay" class="hidden">
-        <div class="feedback-card">
+        <div class="feedback-card tactical-frame">
           <div class="feedback-header">
             <h2>📣 Feedback playtest</h2>
             <button id="feedback-close" class="feedback-close">✕</button>
@@ -426,7 +426,7 @@
       </div>
 
       <div id="endgame-overlay" class="hidden">
-        <div class="endgame-card">
+        <div class="endgame-card tactical-frame">
           <h2 id="endgame-title">—</h2>
           <p id="endgame-stats">—</p>
           <div class="endgame-actions">

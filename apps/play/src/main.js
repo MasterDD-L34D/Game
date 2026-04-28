@@ -1989,6 +1989,13 @@ window.addEventListener('resize', () => {
   }, 120);
 });
 
+// 2026-04-28 Sprint F — Asset onload listener. Trigger redraw quando tile/sprite
+// PNG terminano load (resolveTileImg / resolveCreatureSprite). Senza redraw, primo
+// paint usa cache vuota → fallback shape, sprite mai visibile.
+window.addEventListener('evo:asset-loaded', () => {
+  if (state.world) redraw();
+});
+
 // M4 P0 W2 — Fullscreen toggle
 const fsBtn = document.getElementById('fullscreen-toggle');
 if (fsBtn) {
