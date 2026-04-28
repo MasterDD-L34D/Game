@@ -70,7 +70,7 @@ Per background UI (Mission Console evogene-deck stile scuro).
 
 ## Design tokens — Typography
 
-### Font stack
+### Font stack v1 (base TV-safe, fallback)
 
 ```css
 --font-ui: 'Inter', 'Noto Sans', system-ui, -apple-system, sans-serif;
@@ -78,6 +78,32 @@ Per background UI (Mission Console evogene-deck stile scuro).
 ```
 
 **Rationale**: Inter + Noto Sans sono TV-safe (renderedd bene su ClearType + FreeType), supportano esteso set Unicode + pesantezza variabile.
+
+### Font stack v2 — Tactical display (visual upgrade 2026-04-28)
+
+Override del v1 per `apps/play/` dopo feedback user "sembra app telefono / sito Flash". Tier display + body + mono dedicato a tactical RPG feel.
+
+```css
+--font-display: 'Cinzel', 'Trajan Pro', 'Georgia', serif;
+--font-body-tactical: 'IM Fell English', 'Georgia', 'Cambria', serif;
+--font-mono-game: 'VT323', 'SF Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+```
+
+| Tier      | Font            | Uso                                                   | Reference                                    |
+| --------- | --------------- | ----------------------------------------------------- | -------------------------------------------- |
+| Display   | Cinzel          | h1/h2 + headers panel + ability titles + endgame card | FFT WotL serif maiuscole, Tactics Ogre LUCT  |
+| Body      | IM Fell English | body text + descrizioni + dialogue + tooltip          | Disco Elysium aesthetic, manuscript oldstyle |
+| Mono game | VT323           | event log + coord + stat numerici + bar value         | Terminal CRT diegetic, XCOM 2 console        |
+
+**Rationale**: Inter è TV-safe ma "corporate webapp" — non comunica "tactical RPG". Cinzel maiuscole + tracking positivo evoca FFT/Tactics Ogre. IM Fell English oldstyle figures = manuscript fantasy. VT323 mono CRT = combat log diegetic. **Fallback graceful** mantiene leggibilità se Google Fonts CDN down.
+
+**Anti-pattern**:
+
+- ❌ NON usare Press Start 2P body (illeggibile <20px su TV → 10-foot fail)
+- ❌ NON mescolare 4+ font display (Cinzel + IM Fell + VT323 = 3 max)
+- ❌ NON applicare display tier al body principale (Cinzel <18px = blob illeggibile)
+
+**Wire**: `apps/play/src/style.css` :root + body + h1/h2 override (commit 2026-04-28).
 
 ### Scale TV-first (equivalente 1080p a 3m)
 

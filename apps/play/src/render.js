@@ -3,6 +3,45 @@
 import { getInterpolatedPos, drawPopups, drawRays, getFlashAlpha, hasActiveAnims } from './anim.js';
 import { getSpeciesDisplayIt } from './speciesNames.js';
 
+// 2026-04-28 Visual upgrade Sprint D — Tile bioma loader.
+// Cache Image() per bioma_id, fallback a null (drawCell ha checkered fallback).
+// Asset placeholder generated via tools/py/generate_visual_assets.py.
+// Path: /assets/tiles/<bioma>/tile_<variant>.png (32x32 PNG indexed).
+const TILE_VARIANTS_PER_BIOMA = 3;
+const _tileImageCache = new Map(); // key = `${bioma}-${variant}`, val = HTMLImageElement | null
+
+function _loadTile(bioma, variant) {
+  const key = `${bioma}-${variant}`;
+  if (_tileImageCache.has(key)) return _tileImageCache.get(key);
+  if (typeof Image === 'undefined') {
+    _tileImageCache.set(key, null);
+    return null;
+  }
+  const img = new Image();
+  img.onerror = () => {
+    // Asset missing — keep null in cache, drawCell falls back to checkered fill.
+    _tileImageCache.set(key, null);
+  };
+  img.src = `/assets/tiles/${bioma}/tile_${variant}.png`;
+  _tileImageCache.set(key, img);
+  return img;
+}
+
+/** Resolve tile image for given biome + grid coord (deterministic variant pick).
+ * @param {string|null|undefined} biomaId
+ * @param {number} gx
+ * @param {number} gy
+ * @returns {HTMLImageElement|null}
+ */
+function resolveTileImg(biomaId, gx, gy) {
+  if (!biomaId || typeof biomaId !== 'string') return null;
+  // Hash xy → variant for stable but spread coverage (no flicker on re-render).
+  const variant = Math.abs((gx * 37 + gy * 17) % TILE_VARIANTS_PER_BIOMA);
+  const img = _loadTile(biomaId, variant);
+  // Use only when fully loaded — else null (avoids drawImage on empty bitmap).
+  return img && img.complete && img.naturalWidth > 0 ? img : null;
+}
+
 // W8O — CELL ora dinamico (responsive). Era const 64 → canvas sempre w*64 × h*64
 // piccolo in viewport grande. User feedback: "la mappa occupa parte troppo piccola
 // dello schermo, deve adattarsi mantenendo stesso numero quadretti".
@@ -1102,17 +1141,16 @@ export function render(canvas, state, highlight = {}) {
   fitCanvas(canvas, w, h);
 
   const ctx = canvas.getContext('2d');
-  // HOTFIX 2026-04-19: resolveTileImg() era definita in PR #1602 (USE_NEW_ART flag)
-  // ma rimossa inavvertitamente da Wave 8O (#1626) canvas refactor. ReferenceError
-  // in render() interrompeva redraw → units sidebar vuota + canvas non disegnato.
-  // Fallback a null disabilita tile art (opt-in feature), drawCell già gestisce
-  // tileImg falsy con checkered grid fallback (vedi drawCell line 189).
-  const tileImg = null;
-  // Checkered grid (o tile PNG se flag ON + asset loaded)
+  // 2026-04-28 Visual upgrade Sprint D — wire bioma tile loader.
+  // resolveTileImg() returns cached PNG per (bioma, variant). Asset missing → null
+  // → drawCell checkered fallback (back-compat preserved).
+  const biomaId = state?.encounter?.biome_id || state?.biome_id || null;
+  // Checkered grid (o tile PNG se asset loaded per bioma)
   for (let gy = 0; gy < h; gy += 1) {
     for (let gx = 0; gx < w; gx += 1) {
       const yPx = h - 1 - gy;
       const fill = (gx + gy) % 2 === 0 ? COLORS.grid : COLORS.gridAlt;
+      const tileImg = resolveTileImg(biomaId, gx, yPx);
       drawCell(ctx, gx, yPx, fill, tileImg);
     }
   }
