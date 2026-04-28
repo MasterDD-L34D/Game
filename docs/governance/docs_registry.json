@@ -7982,6 +7982,19 @@
       "review_cycle_days": 14,
       "primary": false,
       "track": "research"
+    },
+    {
+      "path": "docs/research/2026-04-28-srpg-engine-reference-extraction.md",
+      "title": "SRPG engine reference codebase extraction — Project-Tactics + nicourrea + OpenXcom + Lex Talionis",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-29",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "research"
     }
   ]
 }
