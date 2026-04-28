@@ -75,7 +75,7 @@ Adottare **5 micro-actions additivi** a plan v2, senza riscrivere il plan stesso
 - Battle Brothers AI dev blog: `https://battlebrothersgame.com/tactical-combat-mechanics/`
 - XCOM:EU GDC postmortem (movement + ability usage degli alieni)
 
-**Output**: 1-page Beehave behavior tree template per archetype (vanguard / skirmisher / healer) seeded da BB enemy taxonomy. File: `docs/research/2026-04-28-tactical-ai-archetype-templates.md`.
+**Output**: 1-page Beehave behavior tree template per archetype (vanguard / skirmisher / healer) seeded da BB enemy taxonomy. File: [`docs/research/2026-04-28-tactical-ai-archetype-templates.md`](../research/2026-04-28-tactical-ai-archetype-templates.md) (shipped 2026-04-29).
 
 **Effort**: ~2h read + ~1h template authoring = ~3h totali.
 
