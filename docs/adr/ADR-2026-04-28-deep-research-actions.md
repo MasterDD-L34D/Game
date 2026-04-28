@@ -119,48 +119,65 @@ Adottare **5 micro-actions additivi** a plan v2, senza riscrivere il plan stesso
 
 **Scope**: 2 hardening additivi ortogonali:
 
-#### 5a — Injury severity stack (~3h)
+#### 5a — Injury severity stack (~3h, REVISED 2026-04-28 user verdict Q1)
 
-- Extend `data/core/traits/active_effects.yaml` `wounded_perma` con `severity: 1|2|3` field
-- `apps/backend/services/combat/statusModifiers.js`: read severity → attack_mod penalty scaling -5% / -15% / -30%
-- Test regression `tests/ai/*.test.js` (esistenti devono passare)
-- Test nuovi: 3 test case severity 1/2/3 attack_mod scaling
+- Extend `data/core/traits/active_effects.yaml` `wounded_perma` con **enum** `severity: light|medium|severe` field (NOT numeric — leggibile playtest debug)
+- Backward-compat: vecchi `wounded_perma` esistenti senza field → **default `light`** (NO surprise difficulty regression spike)
+- `apps/backend/services/combat/statusModifiers.js`: read enum → attack_mod penalty scaling:
+  - `light` → -5%
+  - `medium` → -15%
+  - `severe` → -30%
+- Test regression `tests/ai/*.test.js` (esistenti devono passare con default light)
+- Test nuovi: 3 test case enum light/medium/severe attack_mod scaling + 1 backward-compat test (no field → default light)
 
-#### 5b — Morale → action_speed coupling (~2.5h, EXPANDED 2026-04-28 user verdict)
+#### 5b — Morale → action_speed coupling (~2.5h, REVISED 2026-04-28 user verdict Q2)
 
 - `apps/backend/services/combat/statusModifiers.js`: aggiungi `slow_down` trigger when ANY of:
   - `unit.status.panic > 0` (mental panic — paura)
   - `unit.status.confused > 0` (mental confusion — disorientamento)
-  - `unit.status.bleeding > 0` (physical bleeding — emorragia, "ferito = lento" doppio penalty oltre HP drain)
-  - `unit.status.fracture > 0` (physical fracture — osso rotto, "ferito = lento")
+  - `unit.status.bleeding >= medium` severity (NOT minor — graffio leggero rimane neutral, NO double-penalty)
+  - `unit.status.fracture >= medium` severity (NOT hairline — minor crack rimane neutral)
 - → reduce `action_speed` by 1 tier (esistenti speed tiers in `roundOrchestrator.js`)
-- Rationale user verdict 2026-04-28: "ferito = lento" più realistic anche se doppio penalty (già danno HP). Morale (panic+confused) + ferita grave (bleeding+fracture) condividono semantica "creatura crollante" Battle Brothers attrition feel.
+- **Severity threshold**: bleeding/fracture richiedono enum severity field analogo a `wounded_perma` Q1. Implementation: extend `bleeding` + `fracture` `active_effects.yaml` con `severity: minor|medium|major` field. Default **minor** backward-compat. Trigger `slow_down` solo `medium|major`.
+- **User verdict Q2 2026-04-28**: minor NO trigger (preserva graffio leggero come neutral, NO double-penalty oltre HP drain). Major SÌ trigger ("ferito grave = compromesso totale" Battle Brothers attrition feel).
 - Connect a `computeStatusModifiers` output esistente
-- Test regression + 4 test case nuovi (1 per status type)
+- Test regression + 4 test case nuovi (panic→speed_drop / confused→speed_drop / bleeding-medium→speed_drop / bleeding-minor→NO speed_drop) + 2 backward-compat (bleeding senza severity = minor default, NO trigger)
 
 **Effort**: ~5h totali. Blast-radius: localized a `statusModifiers.js` + `active_effects.yaml`. Pattern segue existing consumer shape esattamente. Zero breaking change.
 
 **Source ref**: F1 §"Battle Brothers": _"sistema di injuries temporanee e permanenti è un asse portante del rischio... fatigue/initiative coupling"_.
 
-### Action 6 — Sprint N "1 ambition" minimal long-arc campaign goal (P2, ~3-5h, NEW user verdict 2026-04-28)
+### Action 6 — Sprint N "1 ambition" minimal long-arc campaign goal (P2, ~5-7h, REVISED 2026-04-28 user verdict Q3)
 
 **Trigger**: research warn (F2 §"Questioni aperte"): _"quanto del gioco deve stare nel meta-loop? Se troppo poco, il combat diventa isolato"_. Senza ambition Sprint N gate pass tecnicamente ma player feel "demo vuota".
 
-**Scope**: 1 ambition hardcoded MVP (NOT QBN full):
+**Scope** (user verdict Q3 2026-04-28: opzione **C "fatto bene"**):
 
-- 1 long-arc campaign goal seed esempio: _"Branco Skiv reclama territorio Pulverator entro 3 stagioni"_
-- Persistence cross-encounter (UnitProgression-like Resource Godot)
-- Status surface UI overlay (1 line top-HUD: "Goal: territorio reclamato 1/3")
-- Trigger reward narrative beat su completion
-- Reuse QBN engine esistente (PR #1979) backend, just 1 hardcoded seed
+**Ambition seed**: _"Branco Skiv unisce Pulverator pack — alleanza emerge attraverso conflict + bond"_
 
-**Effort**: ~3-5h totali (NO QBN full editor authoring, just 1 hardcoded seed + UI). Sprint N.7 micro-feature complementare a wound persistence.
+**Implementation note critica** (user "fatto bene"): NON è "non combattere = win". Path completion **passa attraverso combat** (defeat Pulverator alpha encounter) MA outcome trigger reconciliation narrative beat (NOT slaughter):
 
-**Lato gamer**: senza ambition = "perché continuo encounter dopo encounter?" risposta "diventare più forte" (loop XP) — meccanico. Con ambition = "voglio finire la storia del branco Skiv" (loop narrativo) — engagement.
+- Encounter A-B-C: combat normale Skiv solo vs Pulverator pack (PR #1982 G1 base)
+- Defeat Pulverator alpha → trigger choice ritual: "Fame + dominanza" vs "Bond proposal" (Disco-Elysium-style choice gated da bond_hearts threshold)
+- Bond proposal path → narrative beat reconciliation + lineage_id merged + ambition complete
+- Fame path → standard kill outcome, ambition `failed`, alternative seed proposto next campaign
 
-**Rationale user verdict 2026-04-28**: "sì minimo" (3-5h vale rischio scope creep). Risolve "isolated combat" risk research warning.
+Combat ancora drives loop (4-5 encounter sequenziali per build threshold). Completion = peace narrative MA combat path mandatory. Anti-pattern "ambition = avoid combat" prevented.
 
-**Source ref**: F1 §"Battle Brothers" ambitions + F2 §"Questioni aperte".
+**Tech**:
+
+- Long-arc campaign goal seed in `data/core/campaign/ambitions/skiv_pulverator_alliance.yaml` (NEW)
+- Persistence cross-encounter (UnitProgression-like Resource Godot OR backend `campaignStore` pattern)
+- Status surface UI overlay (1 line top-HUD: `🤝 Alleanza Pulverator: 2/5 incontri`)
+- Trigger reward narrative beat su completion (debrief panel paragraph + voice line Skiv "Sabbia segue branco doppio.")
+- Reuse QBN engine esistente (PR #1979) backend + bond_hearts gate from PR #1984
+- Reuse `legacyRitualPanel.js` overlay pattern per choice ritual
+
+**Effort**: ~5-7h totali REVISED (era ~3-5h, "fatto bene" implementation +2h: choice ritual + bond gate + reconciliation narrative beat).
+
+**Lato gamer**: senza ambition = "perché combatto Pulverator encounter dopo encounter?" risposta "loot/XP" (meccanico). Con ambition C = "voglio capire se posso unire 2 branchi diversi" (narrativo + emotional stake — Skiv solitario alleato del nemico). Apex finale = scelta player (fame vs bond).
+
+**Source ref**: F1 §"Battle Brothers" ambitions + F2 §"Questioni aperte" + PR #1984 legacy_ritual choice ritual pattern + PR #1982 Skiv G1 encounter Pulverator established.
 
 ### Action 7 — CT bar visual lookahead 3 turni (P2, ~4h, PROMOTED user verdict 2026-04-28)
 

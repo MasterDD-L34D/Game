@@ -67,11 +67,11 @@ Adottare **BG3-lite Plus** scope ~10-12g come **Sprint G.2b NEW** post Sprint G 
 
 #### Tier 2 — Plus add-ons (~+4-5g, backend cherry-pick)
 
-| Cherry-pick from Hybrid                                                                                   | Effort |                 Pillar impact                 |
-| --------------------------------------------------------------------------------------------------------- | :----: | :-------------------------------------------: |
-| **Sub-tile positioning** (unit ferma a 1.7 tile dist, NOT center) — float coord position_from/position_to | ~+2-3d |      P1 strong lift (tactical precision)      |
-| **vcScoring area_covered float** (P4 MBTI signal richer continuous, NOT discrete new_tiles integer)       | ~+1-2d | P4 mild lift (S_N exploration axis sensitive) |
-| **Flanking continuous angle** (fianco crit math angolo float, NOT facing 3-zone discrete)                 |  ~+2d  |      P6 mild lift (flanking satisfying)       |
+| Cherry-pick from Hybrid                                                                                                                                                | Effort |                 Pillar impact                 |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :-------------------------------------------: |
+| **Sub-tile positioning** (unit ferma a 1.7 tile dist, NOT center) — float coord position_from/position_to + **round-to-nearest** semantics range check (Q4 verdict)    | ~+2-3d |      P1 strong lift (tactical precision)      |
+| **vcScoring area_covered float** (P4 MBTI signal richer continuous, NOT discrete new_tiles integer) — **synthetic test 10 scenari hardcoded baseline** (Q8 verdict)    | ~+1-2d | P4 mild lift (S_N exploration axis sensitive) |
+| **Flanking 5-zone smooth angle** (Q5 verdict opt B: 0-30° front ×1.0 / 30-90° fronte-side ×1.1 / 90-150° rear-side ×1.4 / 150-180° rear ×1.6, math angolo float input) |  ~+2d  |      P6 mild lift (flanking satisfying)       |
 
 **Total BG3-lite Plus**: ~10-12 giorni (2-2.5 settimane).
 
@@ -126,7 +126,7 @@ Adottare **BG3-lite Plus** scope ~10-12g come **Sprint G.2b NEW** post Sprint G 
 - Range = cerchio radius gradient (BG3-style)
 - Movement curve smooth + sub-tile position (può fermarsi 1.7 tile dist per fianco preciso)
 - AOE = shape sphere/cone visualizzata (BG3-style)
-- Echolocation Skiv = cerchio reveal radiale fedele lore
+- Echolocation Skiv = cerchio reveal radiale **dinamico per sense level** (Q7 verdict): radius scaling base 5 tile, modificato da fame/bond/sense state (es. Skiv affamato → -1 tile radius, Skiv legato → +1 tile radius). Implementation: `senseReveal.js` aggiungi `computeDynamicRadius(unit, baseRadius=5)` + emergent gameplay tie-in P2 Spore lifecycle (fame state). Future-proof per Sprint Q P2 macro-loop sense expansion.
 
 ### Side-by-side test pre-commit
 
@@ -166,14 +166,14 @@ Ancora justified: tester signal data-driven, NOT speculative.
 
 ## 7. Risk + mitigation
 
-| Risk                                                         | Mitigation                                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| Sub-tile positioning rompe ability range tile-based          | Math: round-to-nearest-tile per range check, render position float              |
-| vcScoring `area_covered` float → MBTI signal drift baseline  | A/B test pre/post: replay 10 vecchie sessioni, verifica MBTI scores stabili ±5% |
-| Flanking continuous angle break facing 3-zone (museum M-001) | Mantieni 3-zone come tier-1 + angle continuous come tier-2 sub-precision        |
-| 60-80 test fail per position float                           | Coordinate format `{x: 1.0, y: 2.0}` quando integer = backward-compat           |
-| User feel "BG3 feel non c'è" post-spike                      | Spike 1 giorno enc_tutorial_01 prototype prima commit Sprint G.2b full (~6-12g) |
-| Sprint G v3 visual + G.2b movement merge collision           | Sequential ordine (G v3 ship → poi G.2b branch) — disjoint blast radius         |
+| Risk                                                            | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sub-tile positioning rompe ability range tile-based             | Math: **round-to-nearest-tile** per range check (Q4 user verdict 2026-04-28), render position float                                                                                                                                                                                                                                                                                                                                       |
+| vcScoring `area_covered` float → MBTI signal drift baseline     | **Synthetic test 10 scenari hardcoded coords** (Q8 user verdict 2026-04-28): NEW `tests/services/areaCovered.test.js` con 10 scenari deterministic (5 sparse exploration high-area / 5 dense corner-camp low-area), assert MBTI S_N axis output stabile ±5% pre/post. Future-proof: add ticket `TKT-FUTURE-REPLAY-INFRA M12+` per session replay storage tie-in telemetry pipeline (deferred low-priority, synthetic test sufficient ora) |
+| Flanking 5-zone smooth angle break facing 3-zone (museum M-001) | Q5 user verdict 2026-04-28: adotta **5-zone smooth** (NOT 3-zone classic): 0-30° front ×1.0 / 30-90° fronte-side ×1.1 / 90-150° rear-side ×1.4 / 150-180° rear ×1.6. Museum M-001 facing crit 3-zone superseded by 5-zone (player feel più granular ma ancora leggibile, NOT continuous gradient invisible).                                                                                                                              |
+| 60-80 test fail per position float                              | Coordinate format `{x: 1.0, y: 2.0}` quando integer = backward-compat                                                                                                                                                                                                                                                                                                                                                                     |
+| User feel "BG3 feel non c'è" post-spike                         | Spike 1 giorno enc_tutorial_01 prototype prima commit Sprint G.2b full (~6-12g)                                                                                                                                                                                                                                                                                                                                                           |
+| Sprint G v3 visual + G.2b movement merge collision              | Sequential ordine (G v3 ship → poi G.2b branch) — disjoint blast radius                                                                                                                                                                                                                                                                                                                                                                   |
 
 ## 8. Rollback path
 
@@ -184,22 +184,34 @@ Ancora justified: tester signal data-driven, NOT speculative.
 | Sub-tile positioning break ability range      | Snap-to-tile fallback per range check, mantieni float per render only |
 | User playtest TKT-M11B-06 reject BG3-lite     | Revert Sprint G.2b commit, restore Sprint G v3 final state            |
 
-## 9. Spike POC pre-commit
+## 9. Spike POC pre-commit (REVISED 2026-04-28 user verdict Q6)
 
 **Spike 1 giorno** (~8h budget) PRIMA full Sprint G.2b ~10-12g commitment:
 
 - Branch `spike/bg3-lite-prototype-2026-04-28`
-- Scope: 1 encounter `enc_tutorial_01` rendered con grid hidden + smooth movement + range cerchio
-- NO sub-tile positioning + NO vcScoring float + NO flanking angle (Tier 2 add-ons skip)
+- Scope: 1 encounter `enc_tutorial_01` rendered con grid hidden + smooth movement + range cerchio + AOE shape
+- NO sub-tile positioning + NO vcScoring float + NO flanking 5-zone angle (Tier 2 add-ons skip)
 - NO 14 encounter YAML reformat
-- User judgment + 4 amici tester valutano sì/no
+
+**Tester pool** (Q6 user verdict): **4 amici DIVERSI da TKT-M11B-06 pool** (preserva pool playtest userland fresh, evita "stancare" tester pre-Sprint I).
+
+**Rubric 4-criteria** (1-5 scale per ognuno, Q6 user verdict):
+
+| Criterio                            | 1 (poor)                   | 5 (BG3-tier)                       |
+| ----------------------------------- | -------------------------- | ---------------------------------- |
+| **Movement smoothness**             | Jerky snap-to-tile-center  | BG3-tier curve smooth              |
+| **Range readability**               | Confuso, non capisco range | Immediately clear cerchio gradient |
+| **Combat feel "2024 RPG"**          | Pre-2000 console feel      | BG3 / Pillars Eternity tier        |
+| **Echolocation Skiv lore-faithful** | Tile rigid 5-cell          | Natural sense radiale              |
+
+**Threshold pass**: media ≥3.5 + zero score 1 + zero criterio rigetto unanime.
 
 **Decision binary**:
 
-- SÌ feel BG3 → commit full Sprint G.2b (~10-12g)
-- NO feel BG3 → abort, mantieni grid square + ship Sprint G v3 visual asset swap solo
+- Pass threshold → commit full Sprint G.2b (~10-12g)
+- Fail threshold → abort, mantieni grid square + ship Sprint G v3 visual asset swap solo
 
-**Spike output**: `docs/playtest/2026-04-28-bg3-lite-spike-screenshots.md` con before/after side-by-side.
+**Spike output**: `docs/playtest/2026-04-28-bg3-lite-spike-rubric.md` con before/after side-by-side screenshot + rubric scores per tester + verdict aggregate.
 
 ## 10. Decision-altering check vs plan v2 + ADR-2026-04-28-deep-research-actions
 

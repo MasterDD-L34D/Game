@@ -8,8 +8,46 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v17 (post Sprint 13 Status engine wave A — passive ancestor wire 2026-04-28)
-- **Ultimo aggiornamento**: 2026-04-28 (Sprint 13 status engine wave A — `passiveStatusApplier.js` producer pure helper + wire in session /start + sessionRoundBridge round-end refresh + 7 STATUS_ICONS extended in render.js + 27/27 test + AI 382/382 zero regression. Recovers 297 ancestor batch ROI dormant; passive ancestor traits ora effettivamente live.)
+- **Versione compact**: v18 (post sessione Deep Research analysis + BG3-lite Plus + grid SQUARE final 2026-04-28)
+- **Ultimo aggiornamento**: 2026-04-28 sera (deep research SRPG/strategy analysis 18 titoli + 5 ADR shipped + tester feedback informal data-driven decision BG3-lite Plus Sprint G.2b + grid type SQUARE final supersede ADR-2026-04-16 hex axial + 9 deferred questions chiuse user verdict).
+
+## ⚡ TL;DR per ripartire (sessione 2026-04-28 sera — Deep research + BG3-lite Plus + grid SQUARE final)
+
+**Sessione documentation-heavy** (5 commit PR #1996 branch `feat/deep-research-analysis-2026-04-28`):
+
+1. **Deep research SRPG synthesis** (18 titoli FFT/Tactics Ogre/Brigandine/Battle Brothers/Midnight Suns/DioField/etc.) — 2 file deep research letti + 2 agent paralleli (general-purpose gap analysis + balance-illuminator domain fit) → 11 cross-ref entries + 6 pillar fit table + 5 actionable. ZERO decision-altering plan v2 decisions 3-10. `docs/research/2026-04-28-deep-research-synthesis.md` shipped.
+
+2. **ADR-2026-04-28-deep-research-actions Accepted** — 8 micro-actions trackable autonomo additive plan v2 (Action 5 BB hardening pre Sprint G v3 + Action 7 CT bar lookahead 3 turni + ordine inverted + gate failure-model parity MANDATORY 5/5).
+
+3. **Tester feedback informal raccolto playtest 2026-04-28** — _"griglia pre-2000 feel"_ + _"movement BG3-like richiesto"_ — trasforma decision Q5 grid-less da speculative a data-driven.
+
+4. **Background agent grid-less feasibility analysis** (`docs/research/2026-04-28-grid-less-feasibility.md`) — catalog 11 surfaces grid-dependent + 4 scenari (A NO pivot / B Hybrid full ~14-18g / C Midnight Suns ~12-16 sett / D DioField ~20-30 sett anti-pattern).
+
+5. **ADR-2026-04-28-bg3-lite-plus-movement-layer Accepted** — Sprint G.2b NEW ~10-12g middle-tier sweet spot. Tier 1 (~6-7g frontend-only): hide grid + click area + smooth move + range cerchio + AOE shape + zone outline arc. Tier 2 (~+4-5g backend): sub-tile positioning float + vcScoring `area_covered` float + flanking 5-zone smooth angle. Cattura 90% valore Hybrid full con 65% effort. 4 pillar lift (P1+P4+P5+P6).
+
+6. **ADR-2026-04-28-grid-type-square-final Accepted** (supersedes ADR-2026-04-16 hex axial Proposto da 12 giorni) — SQUARE WINS definitivo. 5/5 motivazioni hex original obsolete post-BG3-lite Plus (LOS/range ambiguità + pathfinding + flanking = CAPTURED da Tier 2 sub-tile + 5-zone angle). Grid HIDDEN post-BG3-lite Plus = player non vede hex/quadrati. Backend math square preserved zero refactor (~30-40h saved).
+
+7. **9 deferred questions chiuse user verdict 2026-04-28**: Q1 severity enum default light · Q2 bleeding/fracture trigger NOT minor · Q3 ambition seed C "Skiv unisce Pulverator pack fatto bene" + bond/conflict path · Q4 round-to-nearest semantics · Q5 5-zone smooth angle (NOT 3-zone classic) · Q6 tester DIVERSI da TKT-M11B-06 + rubric 4-criteria · Q7 echolocation radius DINAMICO per sense level · Q8 synthetic test 10 scenari hardcoded + replay infra deferred M12+ · Q9 memory save full ritual (this).
+
+**Effort delta cumulativo plan v2 → v3**: ~+107-123h (~+2.5-3 sett base 14 sett, ~+18-20%, justified data-driven).
+
+**Sprint Fase 1 ordine REVISED finale**:
+
+1. Action 5a+5b BB hardening pre Sprint G v3 (~5h)
+2. Action 7 CT bar lookahead 3 turni parallel (~4h)
+3. Sprint G v3 Legacy Collection asset swap (~2.5g)
+4. Spike POC BG3-lite (~1g) — go/no-go gate rubric 4-criteria pass ≥3.5
+5. Sprint G.2b BG3-lite Plus (~10-12g) post-spike SÌ
+6. Action 6 ambition Skiv-Pulverator alleanza (~5-7h) parallel G.2b
+7. Sprint I TKT-M11B-06 playtest (~1 sett)
+
+Total Fase 1 effort: ~5-5.5 settimane.
+
+**PR #1996 status**: 6 commit shipped (sintesi + 4 ADR + grid-less feasibility doc + Q1-Q9 verdict applies). Pending master DD review + merge.
+
+## ⚡ TL;DR per ripartire (post Sprint 13 — Status engine wave A: passive ancestor producer wire)
+
+**Sprint 13 autonomous shipped** in continuation: passive ancestor producer wired end-to-end. Pre-Sprint 13: `apps/backend/services/combat/statusModifiers.js` consumer side LIVE da audit P0 fix (computeStatusModifiers + applyTurnRegen handle 7 statuses) MA `traitEffects.js:226` `passesBasicTriggers` returns false per `action_type: passive` → 297 ancestor batch traits con effect kind=apply_status MAI eseguono → unit.status[X] sempre 0 → consumer engine vede niente. Helper backend nuovo `apps/backend/services/combat/passiveStatusApplier.js` (pure: `applyPassiveAncestors(unit, registry)` + `applyPassiveAncestorsToRoster` + `passiveStatusSpec` + `collectTraitIds`). Producer scan unit.traits, per ogni trait passive con apply_status + Wave A status (linked/fed/healing/attuned/sensed/telepatic_link, frenzy esclusa via PASSIVE_BLOCKLIST per balance 2-turn rage canonical), set unit.status[stato] a turns specificato (o 99 default = effectively-permanent). Idempotent max-policy. Wire `apps/backend/routes/session.js /start` (initial wave dopo lineage inheritance) + `apps/backend/routes/sessionRoundBridge.js applyEndOfRoundSideEffects` (refresh wave per traits gained mid-encounter via mating/recruit/evolve, before regen+decay). Frontend extends `apps/play/src/render.js` `STATUS_ICONS` registry con 7 nuove entry (∞ linked gold / ◍ fed brown / ✚ healing green / ⌬ attuned cyan / ⊙ sensed purple / ⚹ telepatic_link violet / ᛞ frenzy red). 27/27 test nuovi + AI 382/382 zero regression + statusModifiers existing test 13/13 baseline. Format + governance verdi. End-to-end integration verificato via direct node: `ancestor_comunicazione_cinesica_cm_01` (CM 01) → unit.status.linked = 2 → computeStatusModifiers emette `+1 attack_mod (ally adjacent)`. **P6 Fairness 🟢** consolidato (status engine extension recupera 297 ancestor batch ROI dormant). Pattern: producer/consumer separation chiusa.
 
 ## ⚡ TL;DR per ripartire (post Sprint 13 — Status engine wave A: passive ancestor producer wire)
 
