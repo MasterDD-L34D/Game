@@ -128,15 +128,32 @@ export function drawRays(ctx, cellSize, gridH) {
   }
 }
 
+// 2026-04-29 Spike POC BG3-lite Tier 1 — cubic-bezier easing toggleable.
+// Approximation cubic-bezier(0.4, 0.0, 0.2, 1.0) (Material standard "BG3-feel"
+// curva: slow-in, fast-mid, slow-out). Fallback ease-out quadratic (legacy).
+// Toggle via window.__evoUiConfig.bg3lite_smooth_movement + bg3lite_smooth_duration_ms.
+function _bezierEase(t) {
+  // Approximation hard-coded curva (0.4, 0, 0.2, 1) tramite polinomio cubico.
+  // Standard easing fn: 3*(1-t)^2*t*p1 + 3*(1-t)*t^2*p2 + t^3, semplificato a y output.
+  const c1 = 0.4;
+  const c2 = 0.2;
+  const inv = 1 - t;
+  // Bezier y(t) con p0=0, p1=c1, p2=1-c2 (effettivamente 0.8), p3=1.
+  return 3 * inv * inv * t * c1 + 3 * inv * t * t * (1 - c2) + t * t * t;
+}
+
 export function getInterpolatedPos(unitId, currentPos) {
   const m = movers.get(unitId);
   if (!m) return currentPos;
-  const t = (performance.now() - m.start) / ANIM_MS;
+  const cfg = (typeof window !== 'undefined' && window.__evoUiConfig) || {};
+  const smooth = cfg.bg3lite_smooth_movement === true;
+  const dur = smooth ? Number(cfg.bg3lite_smooth_duration_ms) || 250 : ANIM_MS;
+  const t = (performance.now() - m.start) / dur;
   if (t >= 1) {
     movers.delete(unitId);
     return currentPos;
   }
-  const eased = 1 - Math.pow(1 - t, 2); // ease-out
+  const eased = smooth ? _bezierEase(t) : 1 - Math.pow(1 - t, 2);
   return {
     x: m.fromX + (m.toX - m.fromX) * eased,
     y: m.fromY + (m.toY - m.fromY) * eased,
