@@ -146,6 +146,23 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
     // qbnEngine optional / pack missing — non blocca debrief
   }
 
+  // Sprint 12 (Surface-DEAD #4) — Mating lifecycle wire.
+  // Engine LIVE in metaProgression (rollMatingOffspring + canMate). Surface
+  // DEAD pre-Sprint 12: ciclo Nido→offspring→lineage_id non visibile a fine
+  // encounter. Wire here per emettere pair-bond candidates dei survivors
+  // player team. Solo su victory (defeat = niente lineage). Best-effort.
+  let matingEligibles = [];
+  if (isVictory) {
+    try {
+      const { computeMatingEligibles } = require('./mating/computeMatingEligibles');
+      const biomeId =
+        session?.encounter?.biome_id || session?.encounter?.biome || session?.biome_id || null;
+      matingEligibles = computeMatingEligibles(session?.units, biomeId);
+    } catch {
+      // mating helper optional — non blocca debrief
+    }
+  }
+
   return {
     session_id: session.session_id,
     turns_played: vcSnapshot.turns_played || 0,
@@ -175,6 +192,10 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
     mbti_insights: mbtiInsights,
     // E-residual #2 — QBN narrative event (1 event per debrief, eligible by VC).
     narrative_event: narrativeEvent,
+    // Sprint 12 (Surface-DEAD #4) — Mating lifecycle eligibles.
+    // Pair survivors (player team) candidates per offspring nel biome corrente.
+    // Empty array quando defeat / 0-1 survivor / engine missing (graceful).
+    mating_eligibles: matingEligibles,
     // Personality projection
     pf_session: pfSession,
     // Combat stats

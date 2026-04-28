@@ -8,8 +8,12 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v15 (post Sprint 11 Biome chip HUD — Surface-DEAD #6 chiuso 2026-04-27, 6/8 sweep)
-- **Ultimo aggiornamento**: 2026-04-27 (Sprint 11 §C.2 Surface-DEAD #6 closure — `biomeChip.js` + `#biome-chip` HUD slot + main.js refresh wire + CSS pill style + biome_id propagato in publicSessionView fallback session.encounter?.biome_id + 17/17 test + smoke E2E preview validato `🌾 Savana` chip live. Status §C.2: 6/8 chiusi.)
+- **Versione compact**: v16 (post Sprint 12 Mating lifecycle wire — Surface-DEAD #4 chiuso 2026-04-28, 7/8 sweep)
+- **Ultimo aggiornamento**: 2026-04-28 (Sprint 12 §C.2 Surface-DEAD #4 closure — `computeMatingEligibles.js` pure helper + `mating_eligibles[]` field in `rewardEconomy.buildDebriefSummary` post-victory + `lineagePanel.js` frontend module + `setLineageEligibles` setter + phaseCoordinator pipe + CSS gold pair-bond card + 38/38 test + AI 382/382 zero regression. Status §C.2: 7/8 chiusi.)
+
+## ⚡ TL;DR per ripartire (post Sprint 12 — Surface-DEAD #4 chiuso, 7/8 sweep)
+
+**Sprint 12 autonomous shipped** in continuation: Mating lifecycle wire end-to-end. Engine LIVE in `metaProgression.js` (`rollMatingOffspring` + `canMate` + offspringRegistry da PR #1879) era invisibile in player loop normale — debrief panel non mostrava mai pair-bond candidates post-victory. Helper backend nuovo `apps/backend/services/mating/computeMatingEligibles.js` (pure: filterPlayerSurvivors + pairCombinations n-choose-2 + cap 6 + opzionale metaTracker.canMate gate graceful). Wire `rewardEconomy.buildDebriefSummary` emette `mating_eligibles[]` solo on victory + best-effort require pattern (mirror QBN Sprint 10). Module frontend nuovo `apps/play/src/lineagePanel.js` (pure `formatLineageCard`+`formatLineageList` con XSS escape + side-effect idempotent `renderLineageEligibles`). Reuse `iconForBiome`+`labelForBiome` da `biomeChip.js`. Plural offspring label quando count>1. Wire frontend: `debriefPanel.js` HTML slot + import + `setLineageEligibles` setter API + `renderLineage()` registered in render() (gated outcome non-defeat). `phaseCoordinator.js` pipe `bridge.lastDebrief.mating_eligibles`. CSS gold pair-bond card (linear-gradient + serif italic + offspring badge + biome chip caps). 38/38 test (19 backend + 19 frontend) + AI 382/382 zero regression. Format + governance verdi. Smoke E2E preview limitazione worktree-path mismatch → validazione end-to-end via direct node integration test (buildDebriefSummary mock session emits 1 pair eligible biome=savana can_mate=true; defeat path → empty array). **P2 🟢 def → 🟢++** (ciclo Nido→pair-bond→offspring visibile post-encounter). **§C.2 Surface-DEAD: 7/8 chiusi** (#1+#2+#4+#5+#6+#7+#8). Residuo solo #3 Spore mutation dots (~15h authoring esterno).
 
 ## ⚡ TL;DR per ripartire (post Sprint 11 — Surface-DEAD #6 chiuso, 6/8 sweep)
 

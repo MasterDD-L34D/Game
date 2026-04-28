@@ -2534,6 +2534,11 @@ function createSessionRouter(options = {}) {
       else outcome = 'abandon';
       // VC snapshot + debrief computed pre-delete so response carries final state
       // (harness scripts no longer need a separate GET /:id/vc before /end).
+      // Normalize session.outcome from local outcome variable BEFORE buildDebriefSummary —
+      // the function gates PE→PI conversion + mating_eligibles on session.outcome === 'victory'.
+      // Local outcome here is 'win'/'wipe'/'draw'/'abandon' (or objective.outcome 'victory'/etc.).
+      // Map 'win' → 'victory' to match downstream gate; preserve other values verbatim.
+      session.outcome = outcome === 'win' ? 'victory' : outcome;
       let vcSnapshot = null;
       let debrief = null;
       try {

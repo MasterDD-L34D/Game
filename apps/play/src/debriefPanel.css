@@ -175,6 +175,67 @@
   opacity: 0.7;
 }
 
+/* Sprint 12 (Surface-DEAD #4) — Lineage eligibili pair-bond cards. */
+.db-lineage-section {
+  margin-top: 4px;
+}
+.db-lineage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.db-lineage-card {
+  background: linear-gradient(180deg, #1f1a14 0%, #14110b 100%);
+  border: 1px solid #6e5a2a;
+  border-left: 3px solid #ffd166;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.db-lineage-pair {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #f1e4c2;
+  font-style: italic;
+  flex-wrap: wrap;
+}
+.db-lineage-parent {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.db-lineage-x {
+  color: #ffd166;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.db-lineage-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: #cfc8b3;
+  flex-wrap: wrap;
+}
+.db-lineage-offspring {
+  background: rgba(255, 209, 102, 0.12);
+  border: 1px solid rgba(255, 209, 102, 0.35);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-weight: 600;
+  color: #ffd166;
+}
+.db-lineage-biome {
+  color: #b9a87c;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 .db-evolve-card {
   background: linear-gradient(180deg, #2a1540 0%, #1a1027 100%);
   border: 1px solid #7e57c2;

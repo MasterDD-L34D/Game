@@ -103,8 +103,14 @@ export function createPhaseCoordinator(bridge) {
           const debriefPayload = bridge?.lastDebrief || bridge?.session?.lastDebrief || null;
           const narrativeEvent = debriefPayload?.narrative_event || null;
           if (dbApi.setNarrativeEvent) dbApi.setNarrativeEvent(narrativeEvent);
+          // Sprint 12 (Surface-DEAD #4): pipe lineage eligibles dal debrief.
+          // mating_eligibles è array di pair-bond candidates (post-victory).
+          const matingEligibles = Array.isArray(debriefPayload?.mating_eligibles)
+            ? debriefPayload.mating_eligibles
+            : [];
+          if (dbApi.setLineageEligibles) dbApi.setLineageEligibles(matingEligibles);
         } catch {
-          /* narrative event optional */
+          /* narrative event + lineage optional */
         }
         break;
       }
