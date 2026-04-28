@@ -1,7 +1,7 @@
 ---
-title: "Design Corpus Catalog — Vision/Spec/Design full inventory"
+title: "Design Corpus Catalog — Vision/Spec/Design full inventory (v1, SUPERSEDED)"
 date: 2026-04-26
-status: active
+status: superseded
 authority: A0
 workstream: cross-cutting
 owners: [eduardo]
@@ -10,6 +10,8 @@ sources:
   - 5 Explore agent paralleli (2026-04-26)
   - Aree coperte: docs/core, docs/planning, docs/hubs, docs/adr, docs/architecture, docs/pipelines, docs/process, docs/qa, root *.md, .claude/, docs/skiv, docs/museum, docs/research, docs/incoming, docs/archive, docs/reports, docs/traits, docs/biomes, docs/species, docs/balance, docs/catalog, docs/evo-tactics*, docs/frontend, docs/tutorials, docs/playtest, docs/ops, docs/ci, docs/logs, packs/, data/, schemas/evo
 ---
+
+> ⚠️ **SUPERSEDED 2026-04-28** — Versione canonical aggiornata: [2026-04-26-design-corpus-catalog-V2.md](2026-04-26-design-corpus-catalog-V2.md). Doc v1 mantenuto come provenance trail (drift audit 2026-04-28 PR #1989). Snapshot historical archiviato in [docs/archive/historical-snapshots/2026-04-28-pre-consolidation/corpus-catalog-v1-archive.md](../archive/historical-snapshots/2026-04-28-pre-consolidation/corpus-catalog-v1-archive.md).
 
 # Design Corpus Catalog
 
