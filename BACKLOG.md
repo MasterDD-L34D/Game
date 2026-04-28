@@ -114,6 +114,10 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 - [ ] **Rate-limit / DoS hardening** (Phase D). Solo se deploy pubblico.
 - [ ] **Alt B Game-Database HTTP runtime** attivazione (flag-OFF attuale, vedi `ADR-2026-04-14-game-database-topology.md`).
 
+### Deferred decisions (gated post-playtest)
+
+- [ ] **Colyseus adoption** — verdetto 2026-04-28 NO ora. Riapri SOLO se TKT-M11B-06 playtest live mostra trigger soglia (state broadcast lag >10KB, stanze concorrenti >50, host drop UX rotto, reconnect replay needed). Se nessun trigger → close decisione "ws native canonical". Vedi addendum 2026-04-28 in `docs/adr/ADR-2026-04-20-m11-jackbox-phase-a.md`.
+
 ---
 
 ## 🚫 Bloccato da

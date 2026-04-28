@@ -158,6 +158,23 @@ Aggiunto in [PR #1685](https://github.com/MasterDD-L34D/Game/pull/1685) post-Pha
 
 **Round state replay (F-2 2026-04-25)**: dopo `transferHostAuto`, il close-handler chiama anche `room.broadcastRoundReady()` per replay di `{ round, phase, ready, missing }` al nuovo host. Senza questo replay, una transizione mid-`resolving` lascia il nuovo host cieco sul canale WS e costretto a fallback REST `GET /api/coop/state`.
 
+## Addendum 2026-04-28 — Colyseus re-evaluation criteria (deferred post-playtest gate)
+
+User check 2026-04-28 "Colyseus si adatta? Va adottato?" → verdetto **NO adozione ora**, conferma decisione originale (Opzione B fallback tier-2). Motivi: (1) scope mismatch (Colyseus = high-freq tick sync; Evo-Tactics = ≤0.1 Hz turn-based), (2) sunk cost reale (Phase A 948 LOC + 38+ test verdi, P5 gating = playtest userland TKT-M11B-06, NON infra), (3) friction CLAUDE.md (nuove deps richiedono approvazione esplicita; ripple cross-stack non giustificato).
+
+**Triggers per riaprire la decisione** (post Phase B + TKT-M11B-06 playtest live):
+
+| Trigger                 | Soglia                                                              | Cosa cambia                                                                      |
+| ----------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| State broadcast lag     | payload >10KB su client mobile, frame stutter osservato             | Valuta `@colyseus/schema` standalone per delta sync (NON full framework migrate) |
+| Stanze concorrenti      | >50 stanze attive simul                                             | Matchmaker built-in Colyseus risparmia LobbyService scaling                      |
+| Host drop UX rotto      | 30s grace window confonde player, serve quorum/voting               | Room lifecycle hooks Colyseus più espressivi (scrivibile anche su ws nativo)     |
+| Reconnect replay needed | Server deve replay-are intent persi (oggi: rejoin = state corrente) | Colyseus presence non risolve auto, app-owned                                    |
+
+Se nessuno dei 4 trigger fires post-playtest → keep `ws@8.18.3` native indefinitely + close decisione.
+
+**Decision plan**: `~/.claude/plans/che-m-idici-di-swirling-sifakis.md`.
+
 ## Riferimenti
 
 - Jackbox architecture writeup — https://www.abtach.ae/blog/how-to-build-a-game-like-jackbox/
