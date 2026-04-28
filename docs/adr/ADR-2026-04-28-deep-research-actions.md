@@ -95,6 +95,8 @@ Adottare **5 micro-actions additivi** a plan v2, senza riscrivere il plan stesso
 
 **Sprint N.7 micro-feature aggiunto**: GDScript `WoundState.gd` Resource (custom class) + `LegacyRitualPanel.gd` overlay parity con web stack PR #1984. ~3h verification.
 
+**Sprint N.7 spec doc**: [`docs/planning/2026-04-29-sprint-n7-failure-model-parity-spec.md`](../planning/2026-04-29-sprint-n7-failure-model-parity-spec.md) — SPEC DRAFT (impl deferred Sprint M.1 Godot bootstrap).
+
 **Gate verdict user 2026-04-28**: gate row **MANDATORY 5/5 SÌ**. Failure-model parity NON è "nice-to-have". Senza preservation cross-encounter Godot port = creatura ferita "magicamente sana" encounter dopo = perdita identità tactical RPG attrition = perdita P2 def status. Gate fail = NO Fase 3 cutover. Documenta esplicito Sprint N.7 spec.
 
 **Source ref**: F1 §"Battle Brothers" + F2 line 78 + Battle Brothers attrition pattern (research valida `wounded_perma` PR #1982 + `legacy_ritual` PR #1984 = architecturally correct attrition design).
@@ -308,17 +310,17 @@ Research warn esplicita (F2 §"Raccomandazione progettuale"):
 
 ## 10. Status tracking (REVISED 2026-04-28 user verdict, 9 actions)
 
-| Action                                                             |   Status   | PR / commit |
-| ------------------------------------------------------------------ | :--------: | ----------- |
-| 1 — Sprint M.4b reference codebase study                           | 🟡 pending | TBD         |
-| 2 — Sprint N.4 pre-read tactical AI (minimal scope)                | 🟡 pending | TBD         |
-| 3 — Sprint N gate row + N.7 micro (MANDATORY 5/5)                  | 🟡 pending | TBD         |
-| 4 — Sprint M.7 re-frame DioField                                   | 🟡 pending | TBD         |
-| 5a — Injury severity 3-tier stack                                  | 🟡 pending | TBD         |
-| 5b — Slow_down trigger expanded (panic+confused+bleeding+fracture) | 🟡 pending | TBD         |
-| 6 — Sprint N "1 ambition" minimal long-arc goal                    | 🟡 pending | TBD         |
-| 7 — CT bar visual lookahead 3 turni                                | 🟡 pending | TBD         |
-| 8 — Citations BACKLOG/OPEN_DECISIONS/ADR                           | 🟡 pending | TBD         |
+| Action                                                             |   Status   | PR / commit                                                                                    |
+| ------------------------------------------------------------------ | :--------: | ---------------------------------------------------------------------------------------------- |
+| 1 — Sprint M.4b reference codebase study                           | 🟡 pending | TBD                                                                                            |
+| 2 — Sprint N.4 pre-read tactical AI (minimal scope)                | 🟡 pending | TBD                                                                                            |
+| 3 — Sprint N gate row + N.7 micro (MANDATORY 5/5)                  | 🟢 shipped | docs PR (gate row + [spec doc](../planning/2026-04-29-sprint-n7-failure-model-parity-spec.md)) |
+| 4 — Sprint M.7 re-frame DioField                                   | 🟡 pending | TBD                                                                                            |
+| 5a — Injury severity 3-tier stack                                  | 🟡 pending | TBD                                                                                            |
+| 5b — Slow_down trigger expanded (panic+confused+bleeding+fracture) | 🟡 pending | TBD                                                                                            |
+| 6 — Sprint N "1 ambition" minimal long-arc goal                    | 🟡 pending | TBD                                                                                            |
+| 7 — CT bar visual lookahead 3 turni                                | 🟡 pending | TBD                                                                                            |
+| 8 — Citations BACKLOG/OPEN_DECISIONS/ADR                           | 🟡 pending | TBD                                                                                            |
 
 ## 11. Open question Q5 grid-less — RESOLVED 2026-04-28
 
