@@ -6801,6 +6801,19 @@
       "track": "active"
     },
     {
+      "path": "docs/reports/PILLAR-LIVE-STATUS.md",
+      "title": "PILLAR-LIVE-STATUS — runtime status canonical (volatile)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-28",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 7,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/reports/2026-04-28-canonical-doc-inventory.md",
       "title": "Inventario canonical doc — cross-reference audit 2026-04-28",
       "doc_status": "active",

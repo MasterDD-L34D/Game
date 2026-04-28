@@ -1,9 +1,9 @@
 ---
 title: Final Design Freeze v0.9 — Evo Tactics
-doc_status: draft
+doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-15
+last_verified: '2026-04-28'
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
