@@ -1473,6 +1473,22 @@ function createSessionRouter(options = {}) {
           console.warn('[session/start] encounterLoader failed:', err.message);
         }
       }
+
+      // Sprint 13 — Status engine wave A: passive ancestor wire.
+      // Scan unit.traits, set unit.status[stato] for the 7 canonical Wave A
+      // statuses (linked/fed/healing/attuned/sensed/telepatic_link/frenzy).
+      // Producer side; consumers in apps/backend/services/combat/statusModifiers.js
+      // (computeStatusModifiers + applyTurnRegen) already wired. Best-effort.
+      let passiveStatusApplied = [];
+      try {
+        const {
+          applyPassiveAncestorsToRoster,
+        } = require('../services/combat/passiveStatusApplier');
+        passiveStatusApplied = applyPassiveAncestorsToRoster(units, traitRegistry);
+      } catch (err) {
+        console.warn('[passive-status] apply failed:', err.message);
+      }
+
       const session = {
         session_id: sessionId,
         scenario_id: scenarioId,

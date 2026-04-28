@@ -825,6 +825,22 @@ function createRoundBridge(deps) {
       });
     }
 
+    // Sprint 13 — Status engine wave A: passive ancestor refresh.
+    // Re-apply passive ancestor statuses BEFORE regen + decay. Catches new
+    // traits gained mid-encounter (mating offspring/recruit/evolve) and
+    // refreshes existing entries so the universal decay loop can never
+    // tick a passive trait below 1 in normal play. Idempotent: max-policy
+    // (won't overwrite a higher remaining count). Best-effort.
+    try {
+      const { applyPassiveAncestorsToRoster } = require('../services/combat/passiveStatusApplier');
+      // Lazy-load registry: traitEffects.loadActiveTraitRegistry caches.
+      const { loadActiveTraitRegistry } = require('../services/traitEffects');
+      const registry = loadActiveTraitRegistry();
+      applyPassiveAncestorsToRoster(session.units || [], registry);
+    } catch {
+      // best-effort: don't block round-end if registry/applier missing
+    }
+
     // Status engine extension: HP regen ticks (`fed` + `healing`).
     // Applied AFTER bleeding (KO units skipped automatically) and BEFORE
     // universal status decay so the last live tick still produces regen.
