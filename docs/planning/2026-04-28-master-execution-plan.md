@@ -680,15 +680,18 @@ Pre-commit Husky port equivalent (mojibake check + path-scoped guard) → `.git/
 
 **Scope minimal POC**:
 
-- Godot HTML5 export → 1 button "ATTACK" pressed → emit WebSocket message → Express WS receive → state log
+- Godot HTML5 export → 1 button "ATTACK" pressed → emit WebSocket message → Express WS receive → state update → echo back → Godot HTML5 client render
 - Test su iOS Safari + Android Chrome real device (browser PWA)
-- Touch input latency measure
+- **Baseline measure web v1 first** (zero-extra-effort, riusa current backend WS `apps/backend/services/lobby/`): 50 sample p95 round-trip via DevTools Network panel + custom timestamp marker su `apps/play` canvas click → `/api/session/action` → state-fetch. Comparison reference per Godot HTML5 measure.
+- **DioField command-latency p95** round-trip button→state-echo (chain: button press → WS upgrade → Express WS receive → state update → echo back → Godot HTML5 client render)
 - Virtual keyboard occlusion test (chat input field)
 - DPI handling 320px width minimum
 
-**Decision binary**: SE prototype works <100ms latency + UI scale OK su 320px → Sprint N gate criterion "phone composer portable" PRE-validated. SE fail → abort Godot decision PRIMA Sprint N.3-N.6 (3-4 settimane risparmio).
+**Decision binary**: SE prototype works **DioField command-latency p95 < 100ms** round-trip + UI scale OK su 320px → Sprint N gate criterion "phone composer portable" PRE-validated. SE p95 > 200ms → abort Godot decision PRIMA Sprint N.3-N.6 (3-4 settimane risparmio).
 
-**Output**: `docs/research/2026-04-28-godot-phone-composer-spike.md` + binary go/no-go signal.
+**Output**: [`docs/research/2026-04-28-godot-phone-composer-spike.md`](../research/2026-04-28-godot-phone-composer-spike.md) + binary go/no-go signal.
+
+**Source ref re-frame**: Action 4 ADR-2026-04-28-deep-research-actions §Action 4 (DioField command-latency design crux F1 + F2 line 97).
 
 **Gate exit Sprint M**: project Godot bootstrappato + plugin install + asset Legacy importati + 1 scene `Main.tscn` aperta + cross-stack spike PASS + CI green + phone composer spike PASS. Tutti 3 spike PASS → Sprint N commitment.
 
