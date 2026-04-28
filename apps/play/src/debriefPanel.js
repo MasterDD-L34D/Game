@@ -12,6 +12,8 @@ import { renderMbtiTaggedHtml } from './dialogueRender.js';
 import { api } from './api.js';
 // Sprint 10 (Surface-DEAD #7): QBN narrative event diegetic render in debrief.
 import { renderNarrativeEvent } from './qbnDebriefRender.js';
+// Sprint 12 (Surface-DEAD #4): Mating lifecycle eligibles render in debrief.
+import { renderLineageEligibles } from './lineagePanel.js';
 
 // OD-001 Path A V3 Mating/Nido (2026-04-26): pure helper DOM-free per identify
 // recruitable enemies post-combat. Filtra unit team !== player/ally con hp<=0.
@@ -150,6 +152,12 @@ export function renderDebriefPanel() {
         <div class="db-qbn-card" id="db-qbn-card"></div>
       </div>
 
+      <!-- Sprint 12 (Surface-DEAD #4): Mating lifecycle eligibles. -->
+      <div class="db-section db-lineage-section" id="db-lineage-section" style="display:none">
+        <div class="db-section-title">🏠 Lineage Eligibili</div>
+        <div class="db-lineage-list" id="db-lineage-list"></div>
+      </div>
+
       <div class="db-section">
         <div class="db-section-title">Cronaca del round</div>
         <div class="db-narrative" id="db-narrative">
@@ -228,6 +236,10 @@ export function wireDebriefPanel(overlay, bridge) {
     // Sprint 10 (Surface-DEAD #7): QBN narrative event payload from debrief.
     // Shape: {id, title_it, body_it, choices: [{id, label_it}], eligible_count}
     narrativeEvent: null,
+    // Sprint 12 (Surface-DEAD #4): Mating lifecycle eligibles from debrief.
+    // Shape: [{parent_a_id, parent_b_id, parent_a_name, parent_b_name, biome_id,
+    // can_mate, expected_offspring_count}]. Empty array hides section.
+    matingEligibles: [],
     // OD-001 Path A Sprint B (2026-04-26): debrief recruit wire.
     recruitedNpcIds: new Set(),
     recruitInFlight: new Set(),
@@ -369,6 +381,19 @@ export function wireDebriefPanel(overlay, bridge) {
     const section = overlay.querySelector('#db-qbn-section');
     const card = overlay.querySelector('#db-qbn-card');
     renderNarrativeEvent(section, card, state.narrativeEvent);
+  };
+
+  // Sprint 12 (Surface-DEAD #4) — render lineage eligibles (pair-bond cards).
+  // Sezione hidden by default, rivela quando matingEligibles non vuota.
+  // Solo su victory (defeat = niente lineage); il backend già filtra ma
+  // doppio-gate qui per safety se setter chiamato fuori contesto.
+  const renderLineage = () => {
+    const section = overlay.querySelector('#db-lineage-section');
+    const list = overlay.querySelector('#db-lineage-list');
+    if (!section || !list) return;
+    const isWin = state.outcome !== 'defeat' && state.outcome !== 'timeout';
+    const eligibles = isWin && Array.isArray(state.matingEligibles) ? state.matingEligibles : [];
+    renderLineageEligibles(section, list, eligibles);
   };
 
   // OD-001 Path A Sprint B (2026-04-26): debrief recruit section render.
@@ -535,6 +560,7 @@ export function wireDebriefPanel(overlay, bridge) {
     renderParty();
     renderMbti();
     renderQbn();
+    renderLineage();
     renderRecruit();
     // Fire-and-forget: Skiv card refresh ad ogni render debrief.
     renderSkivMonitorCard();
@@ -695,6 +721,13 @@ export function wireDebriefPanel(overlay, bridge) {
           ? payload
           : null;
       renderQbn();
+    },
+    // Sprint 12 (Surface-DEAD #4) — set lineage eligibles from debrief.
+    // Accepts mating_eligibles array or null. Graceful: section nascosta
+    // quando array vuoto / null / outcome non-victory.
+    setLineageEligibles(payload) {
+      state.matingEligibles = Array.isArray(payload) ? payload : [];
+      renderLineage();
     },
     show() {
       overlay.classList.remove('db-hidden');
