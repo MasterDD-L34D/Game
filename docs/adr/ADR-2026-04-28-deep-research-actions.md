@@ -79,6 +79,8 @@ Adottare **5 micro-actions additivi** a plan v2, senza riscrivere il plan stesso
 
 **Effort**: ~2h read + ~1h template authoring = ~3h totali.
 
+**Scope user verdict 2026-04-28**: minimal per Sprint N playtest (3 archetype: vanguard / skirmisher / healer). Future expand post-playtest se nemico SISTEMA feel "robot prevedibile" emerge come bug report TKT-M11B-06 → spawn follow-up TKT per Beehave full taxonomy (es. 7-9 archetype con risk-aversion + group cohesion + retreat behavior). Defer expand a post-validation playtest data.
+
 **Source ref**: F1 §"Tactical AI" lines 131-134.
 
 ### Action 3 — Sprint N gate row "failure-model parity" + N.7 micro-feature (P1, ~3h)
@@ -92,6 +94,8 @@ Adottare **5 micro-actions additivi** a plan v2, senza riscrivere il plan stesso
 | **Failure model parity**: `wounded_perma` persists Godot Resource state cross-encounter + `legacy_ritual` fires on death | Required  | Test: encounter A finisce con unit ferita → encounter B unit reload preserved wounded_perma → unit muore → legacy_ritual UI overlay fires |
 
 **Sprint N.7 micro-feature aggiunto**: GDScript `WoundState.gd` Resource (custom class) + `LegacyRitualPanel.gd` overlay parity con web stack PR #1984. ~3h verification.
+
+**Gate verdict user 2026-04-28**: gate row **MANDATORY 5/5 SÌ**. Failure-model parity NON è "nice-to-have". Senza preservation cross-encounter Godot port = creatura ferita "magicamente sana" encounter dopo = perdita identità tactical RPG attrition = perdita P2 def status. Gate fail = NO Fase 3 cutover. Documenta esplicito Sprint N.7 spec.
 
 **Source ref**: F1 §"Battle Brothers" + F2 line 78 + Battle Brothers attrition pattern (research valida `wounded_perma` PR #1982 + `legacy_ritual` PR #1984 = architecturally correct attrition design).
 
@@ -122,15 +126,61 @@ Adottare **5 micro-actions additivi** a plan v2, senza riscrivere il plan stesso
 - Test regression `tests/ai/*.test.js` (esistenti devono passare)
 - Test nuovi: 3 test case severity 1/2/3 attack_mod scaling
 
-#### 5b — Morale → action_speed coupling (~2h)
+#### 5b — Morale → action_speed coupling (~2.5h, EXPANDED 2026-04-28 user verdict)
 
-- `apps/backend/services/combat/statusModifiers.js`: aggiungi `morale_low` trigger when `unit.status.panic > 0` OR `unit.status.confused > 0` → reduce `action_speed` by 1 tier (esistenti speed tiers in `roundOrchestrator.js`)
+- `apps/backend/services/combat/statusModifiers.js`: aggiungi `slow_down` trigger when ANY of:
+  - `unit.status.panic > 0` (mental panic — paura)
+  - `unit.status.confused > 0` (mental confusion — disorientamento)
+  - `unit.status.bleeding > 0` (physical bleeding — emorragia, "ferito = lento" doppio penalty oltre HP drain)
+  - `unit.status.fracture > 0` (physical fracture — osso rotto, "ferito = lento")
+- → reduce `action_speed` by 1 tier (esistenti speed tiers in `roundOrchestrator.js`)
+- Rationale user verdict 2026-04-28: "ferito = lento" più realistic anche se doppio penalty (già danno HP). Morale (panic+confused) + ferita grave (bleeding+fracture) condividono semantica "creatura crollante" Battle Brothers attrition feel.
 - Connect a `computeStatusModifiers` output esistente
-- Test regression + 2 test case nuovi panic→speed_drop / confused→speed_drop
+- Test regression + 4 test case nuovi (1 per status type)
 
 **Effort**: ~5h totali. Blast-radius: localized a `statusModifiers.js` + `active_effects.yaml`. Pattern segue existing consumer shape esattamente. Zero breaking change.
 
 **Source ref**: F1 §"Battle Brothers": _"sistema di injuries temporanee e permanenti è un asse portante del rischio... fatigue/initiative coupling"_.
+
+### Action 6 — Sprint N "1 ambition" minimal long-arc campaign goal (P2, ~3-5h, NEW user verdict 2026-04-28)
+
+**Trigger**: research warn (F2 §"Questioni aperte"): _"quanto del gioco deve stare nel meta-loop? Se troppo poco, il combat diventa isolato"_. Senza ambition Sprint N gate pass tecnicamente ma player feel "demo vuota".
+
+**Scope**: 1 ambition hardcoded MVP (NOT QBN full):
+
+- 1 long-arc campaign goal seed esempio: _"Branco Skiv reclama territorio Pulverator entro 3 stagioni"_
+- Persistence cross-encounter (UnitProgression-like Resource Godot)
+- Status surface UI overlay (1 line top-HUD: "Goal: territorio reclamato 1/3")
+- Trigger reward narrative beat su completion
+- Reuse QBN engine esistente (PR #1979) backend, just 1 hardcoded seed
+
+**Effort**: ~3-5h totali (NO QBN full editor authoring, just 1 hardcoded seed + UI). Sprint N.7 micro-feature complementare a wound persistence.
+
+**Lato gamer**: senza ambition = "perché continuo encounter dopo encounter?" risposta "diventare più forte" (loop XP) — meccanico. Con ambition = "voglio finire la storia del branco Skiv" (loop narrativo) — engagement.
+
+**Rationale user verdict 2026-04-28**: "sì minimo" (3-5h vale rischio scope creep). Risolve "isolated combat" risk research warning.
+
+**Source ref**: F1 §"Battle Brothers" ambitions + F2 §"Questioni aperte".
+
+### Action 7 — CT bar visual lookahead 3 turni (P2, ~4h, PROMOTED user verdict 2026-04-28)
+
+**Trigger**: museum card M-2026-04-27-001 già curate FFT CT-bar + facing crit. User verdict 2026-04-28: lookahead **3 turni** (NOT solo current round).
+
+**Scope**: `apps/play/src/render.js` `drawCtBar(unit, cx, cy)` + HUD overlay sequenza turni futuri:
+
+- Read `initiative + action_speed - status_penalty` da `publicSessionView` (esistente)
+- Compute lookahead 3 turni futuri (chi muove dopo current, dopo-dopo, dopo-dopo-dopo)
+- Render strip top-HUD: `Skiv → nemico1 → healer → nemico2` (avatars 32px + arrow separatori)
+- Pulsa current actor (subtle glow)
+- Update real-time post-action (re-compute initiative)
+
+**Effort**: ~4h totali. Apps/play frontend only, zero backend change.
+
+**Lato gamer**: oggi vedi "turno 3 di X" generic. Con CT bar lookahead 3 turni = pianifichi "se faccio wait, salto avanti vs nemico1?". Equivale lettura intent ITB + ordine FFT. Pillar P1 leggibilità tattica chiusura sostanziale.
+
+**Future expand**: post-playtest se player feel "info overload" → reduce lookahead 2 turni. Se feel "non basta" → expand 5 turni. Cap configurable via `apps/play/public/data/ui_config.json`.
+
+**Source ref**: F1 §"FFT" + museum M-2026-04-27-001 (`docs/museum/cards/combat-fft-ct-bar-wait-facing-crit.md`).
 
 ## 3. Decision-altering check vs plan v2 decisions 3-10
 
@@ -167,32 +217,37 @@ Research warn esplicita (F2 §"Raccomandazione progettuale"):
 
 **Effort cumulativo**: ~45min total citation work.
 
-## 6. Effort delta totale plan v2 → v3 (post-action)
+## 6. Effort delta totale plan v2 → v3 (post-action, REVISED 2026-04-28 user verdict)
 
-| Action                                    | Priority |     Effort     |
-| ----------------------------------------- | :------: | :------------: |
-| 1 — Sprint M.4b reference codebase study  |    P1    |      ~7h       |
-| 2 — Sprint N.4 pre-read tactical AI       |    P1    |      ~3h       |
-| 3 — Sprint N gate row + N.7 micro-feature |    P1    |      ~3h       |
-| 4 — Sprint M.7 re-frame DioField          |    P2    | 0h + 30min doc |
-| 5a — Injury severity stack                |    P2    |      ~3h       |
-| 5b — Morale→action_speed coupling         |    P2    |      ~2h       |
-| 6 — Citations BACKLOG/OPEN_DECISIONS/ADR  |    P3    |     ~45min     |
+| Action                                                             | Priority |     Effort     |
+| ------------------------------------------------------------------ | :------: | :------------: |
+| 1 — Sprint M.4b reference codebase study                           |    P1    |      ~7h       |
+| 2 — Sprint N.4 pre-read tactical AI (minimal scope, future expand) |    P1    |      ~3h       |
+| 3 — Sprint N gate row + N.7 micro-feature (MANDATORY 5/5)          |    P1    |      ~3h       |
+| 4 — Sprint M.7 re-frame DioField                                   |    P2    | 0h + 30min doc |
+| 5a — Injury severity 3-tier stack                                  |    P2    |      ~3h       |
+| 5b — Slow_down trigger expanded (panic+confused+bleeding+fracture) |    P2    |     ~2.5h      |
+| 6 — Sprint N "1 ambition" minimal long-arc goal NEW                |    P2    |     ~3-5h      |
+| 7 — CT bar visual lookahead 3 turni NEW (museum M-001 promote)     |    P2    |      ~4h       |
+| 8 — Citations BACKLOG/OPEN_DECISIONS/ADR (renumbered da 6)         |    P3    |     ~45min     |
 
-**Total delta plan v2**: ~+19h aggiunti (~14.5 sett v3 vs 14 sett v2 master plan totale, justified +1.5%).
+**Total delta plan v2 REVISED**: ~+27h aggiunti (~+2% base 14 sett, ancora justified). Era ~+19h pre-user-verdict 2026-04-28.
 
-## 7. Esecuzione
+## 7. Esecuzione (REVISED 2026-04-28 user verdict)
 
-| Action                         | Quando                                     | Owner                           |
-| ------------------------------ | ------------------------------------------ | ------------------------------- |
-| Action 1 (Sprint M.4b)         | Pre Sprint N start                         | claude-code + master-dd         |
-| Action 2 (Sprint N.4 pre-read) | Pre Sprint N.4                             | claude-code                     |
-| Action 3 (Sprint N gate row)   | Append a Sprint N spec doc                 | claude-code                     |
-| Action 4 (Sprint M.7 re-frame) | Append a Sprint M.7 spec doc               | claude-code                     |
-| Action 5a + 5b (BB hardening)  | **PRE-Godot** (web stack Sprint G+ window) | gameplay-programmer + qa-tester |
-| Action 6 (citations)           | One-shot batch                             | claude-code                     |
+| Action                                    | Quando                                                    | Owner                           |
+| ----------------------------------------- | --------------------------------------------------------- | ------------------------------- |
+| **Action 5a + 5b (BB hardening) PRIMA**   | **PRE Sprint G v3** (chiude P6 🟡→🟢 candidato pre-asset) | gameplay-programmer + qa-tester |
+| Action 7 (CT bar lookahead 3) parallel    | Post Action 5 ship, pre Sprint G v3                       | gameplay-programmer             |
+| Sprint G v3 (asset swap)                  | Dopo Action 5+7                                           | claude-code + master-dd         |
+| Action 6 (1 ambition) parallel Sprint G   | Backend QBN seed + UI overlay during asset swap window    | gameplay-programmer             |
+| Action 1 (Sprint M.4b reference codebase) | Pre Sprint N start (post Sprint I playtest)               | claude-code + master-dd         |
+| Action 2 (Sprint N.4 pre-read AI)         | Pre Sprint N.4                                            | claude-code                     |
+| Action 3 (Sprint N gate row MANDATORY)    | Append a Sprint N spec doc                                | claude-code                     |
+| Action 4 (Sprint M.7 re-frame)            | Append a Sprint M.7 spec doc                              | claude-code                     |
+| Action 8 (citations)                      | One-shot batch end-of-sprint                              | claude-code                     |
 
-**Open question pending master DD**: ordine esecuzione Action 5 — pre Sprint G v3 (asset swap) o post Sprint G v3 ma pre Sprint I (playtest)? **Default**: post Sprint G v3 (no merge collision con asset swap branch).
+**User verdict 2026-04-28**: ordine Action 5 — **PRIMA Sprint G v3 hardening** (NOT post). Rationale user: profondità sistemica precede polish visivo. Risk merge collision asset swap = mitigato (Action 5 tocca `apps/backend/services/combat/` + `data/core/traits/`, Sprint G v3 tocca `apps/play/public/assets/legacy/` + `apps/play/src/render.js` — disjoint file ownership).
 
 ## 8. Conseguenze
 
@@ -234,16 +289,33 @@ Research warn esplicita (F2 §"Raccomandazione progettuale"):
   - Tactics Ogre PSP manual: `https://support.na.square-enix.com/document/manual/1840/ogre.pdf`
   - Fire Emblem Iwata Asks: `https://iwataasks.nintendo.com/interviews/3ds/fire-emblem/0/0/`
 
-## 10. Status tracking
+## 10. Status tracking (REVISED 2026-04-28 user verdict, 9 actions)
 
-| Action                                   |   Status   | PR / commit |
-| ---------------------------------------- | :--------: | ----------- |
-| 1 — Sprint M.4b reference codebase study | 🟡 pending | TBD         |
-| 2 — Sprint N.4 pre-read tactical AI      | 🟡 pending | TBD         |
-| 3 — Sprint N gate row + N.7 micro        | 🟡 pending | TBD         |
-| 4 — Sprint M.7 re-frame DioField         | 🟡 pending | TBD         |
-| 5a — Injury severity stack               | 🟡 pending | TBD         |
-| 5b — Morale→action_speed coupling        | 🟡 pending | TBD         |
-| 6 — Citations BACKLOG/OPEN_DECISIONS/ADR | 🟡 pending | TBD         |
+| Action                                                             |   Status   | PR / commit |
+| ------------------------------------------------------------------ | :--------: | ----------- |
+| 1 — Sprint M.4b reference codebase study                           | 🟡 pending | TBD         |
+| 2 — Sprint N.4 pre-read tactical AI (minimal scope)                | 🟡 pending | TBD         |
+| 3 — Sprint N gate row + N.7 micro (MANDATORY 5/5)                  | 🟡 pending | TBD         |
+| 4 — Sprint M.7 re-frame DioField                                   | 🟡 pending | TBD         |
+| 5a — Injury severity 3-tier stack                                  | 🟡 pending | TBD         |
+| 5b — Slow_down trigger expanded (panic+confused+bleeding+fracture) | 🟡 pending | TBD         |
+| 6 — Sprint N "1 ambition" minimal long-arc goal                    | 🟡 pending | TBD         |
+| 7 — CT bar visual lookahead 3 turni                                | 🟡 pending | TBD         |
+| 8 — Citations BACKLOG/OPEN_DECISIONS/ADR                           | 🟡 pending | TBD         |
+
+## 11. Open questions deferred (pending grid-less feasibility analysis 2026-04-28)
+
+User dubbio aperto 2026-04-28 sull'opportunità pivot **grid-less** (Midnight Suns / DioField pattern) vs grid square attuale (12 mesi sunk cost). Decision-altering massivo se SÌ.
+
+Background agent spawned 2026-04-28 per fattibilità analysis — output atteso `docs/research/2026-04-28-grid-less-feasibility.md` (TBD).
+
+**4 domande critiche under analysis**:
+
+1. Cosa di Evo-Tactics OGGI è grid-dependent (catalog + LOC + breaking change cost)?
+2. Quale pattern fit meglio (Midnight Suns card / DioField RTTB / Hybrid arena-free + turn discreto)?
+3. Effort pivot stimato realistic (~6-12 settimane min)?
+4. Trade-off lato gamer per ognuno dei 3 pattern (combat feel + Skiv identity + co-op TV + MBTI + attrition)?
+
+**Verdict pending**: defer Action item se NO pivot, OR major plan v2 → v3 rewrite se SÌ pivot. Anti-pivot guard ADR §4 prevale fino esplicito new ADR.
 
 **Next sync**: aggiorna status table when ogni action ship.
