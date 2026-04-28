@@ -323,6 +323,17 @@ const STATUS_ICONS = {
   sbilanciato: { glyph: '↯', bg: '#ffeb3b', shape: 'diamond' },
   taunted_by: { glyph: '⎯', bg: '#ffc107', shape: 'circle' },
   aggro_locked: { glyph: '◉', bg: '#ff5722', shape: 'star' },
+  // Sprint 13 — Status engine wave A surface (7 ancestor statuses).
+  // Consumer side wired in apps/backend/services/combat/statusModifiers.js;
+  // producer side wired in apps/backend/services/combat/passiveStatusApplier.js.
+  // Glyph shape coding: circle=persistent kin/sense, diamond=combat-trigger.
+  linked: { glyph: '∞', bg: '#fdd835', shape: 'circle' },
+  fed: { glyph: '◍', bg: '#8d6e63', shape: 'circle' },
+  healing: { glyph: '✚', bg: '#4caf50', shape: 'circle' },
+  attuned: { glyph: '⌬', bg: '#26c6da', shape: 'circle' },
+  sensed: { glyph: '⊙', bg: '#ab47bc', shape: 'circle' },
+  telepatic_link: { glyph: '⚹', bg: '#7e57c2', shape: 'star' },
+  frenzy: { glyph: 'ᛞ', bg: '#ef5350', shape: 'diamond' },
 };
 
 export function fitCanvas(canvas, width, height) {

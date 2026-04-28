@@ -38,7 +38,7 @@ related:
 |  3  | P3 Specie × Job      |    🟡++    |   2026-04-28   |   #1960 portrait + #1967 ecology |
 |  4  | P4 Temperamenti      |   🟢 def   |   2026-04-28   |   #1966 + #1972 + #1945 + #1979 + #1983 |
 |  5  | P5 Co-op vs Sistema  |   🟢 cand  |   2026-04-28   |   M11 stack + #1976 Objective HUD; gate finale TKT-M11B-06 |
-|  6  | P6 Fairness          |    🟢      |   2026-04-28   |   pseudoRng + tension gauge + body-part + wounded_perma |
+|  6  | P6 Fairness          |    🟢      |   2026-04-28   |   pseudoRng + tension gauge + body-part + wounded_perma + #1990s Sprint 13 status engine wave A |
 
 **Score finale**: **5/6 🟢 def + 1/6 🟡++ (P3)**. **Demo-ready confirmed**.
 
@@ -148,6 +148,7 @@ related:
 - Free-aim body-part overlay Phoenix Point (#1960)
 - Status `wounded_perma` Skiv encounter (#1982)
 - Lint mutation balance (#1939)
+- Status engine wave A — passive ancestor producer + 7 status pips frontend (Sprint 13, recovers 297 ancestor batch ROI)
 
 **Gate per 🟢 def**: calibration N=10 hardcore_07 win 30-50% (TKT-M11B-06 dependency).
 
