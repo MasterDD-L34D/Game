@@ -745,7 +745,12 @@ function createWsServer({
     // P1-14 2026-04-26 — coop snapshot push su reconnect mid-coop.
     // Player riconnesso mid-world_setup/combat/debrief altrimenti vede
     // lobby state stale, deve manualmente call GET /api/coop/state.
-    if (wasReconnect && coopStore && typeof coopStore.get === 'function') {
+    //
+    // Bug fix 2026-04-29 master-dd live test: player NEW connect (post host
+    // startRun) NON riceveva snapshot perche' condizione wasReconnect=true.
+    // Result: player stuck su lobby UI mentre server in character_creation.
+    // Fix: trigger snapshot push sempre se orch.phase != lobby (NEW + reconnect).
+    if (coopStore && typeof coopStore.get === 'function') {
       try {
         const orch = coopStore.get(room.code);
         if (orch && orch.phase && orch.phase !== 'lobby') {
