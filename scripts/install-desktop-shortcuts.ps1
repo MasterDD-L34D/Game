@@ -24,6 +24,12 @@ Write-Host ""
 
 $Shortcuts = @(
   @{
+    Name        = 'Evo-Tactics-Setup-Ngrok-Auth'
+    Target      = 'Evo-Tactics-Setup-Ngrok-Auth.bat'
+    Description = 'Setup 1-volta ngrok authtoken. Necessario per Demo launcher (tunnel pubblico). Salta se gia configurato.'
+    IconHint    = 'shell32.dll, 23'
+  },
+  @{
     Name        = 'Evo-Tactics-Demo'
     Target      = 'Evo-Tactics-Demo.bat'
     Description = '1-click launcher: pre-flight + backend + ngrok tunnel pubblico + auto-open browser. Master-dd start qui.'
