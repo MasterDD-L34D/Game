@@ -1,7 +1,8 @@
 @echo off
-REM Evo-Tactics — Sync main + npm install (esegui prima rubric session se nuove PR mergiate).
-REM Doppio clic desktop shortcut → git pull origin main + npm install (se package.json drift).
+REM Evo-Tactics Sync main + npm install esegui prima rubric session se nuove PR mergiate.
+REM Doppio clic desktop shortcut git pull origin main + npm install se package.json drift.
 REM Hotfix 2026-04-29: worktree-aware. Detect main worktree path se main checked out altrove.
+REM ASCII-only per cmd parser compat.
 
 setlocal
 chcp 65001 >nul 2>&1
