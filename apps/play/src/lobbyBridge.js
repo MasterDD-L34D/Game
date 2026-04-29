@@ -658,9 +658,10 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
     }
   });
 
-  client.connect().catch((err) => {
-    if (typeof console !== 'undefined') console.warn('[lobbyBridge] initial connect failed', err);
-  });
+  // Bug fix 2026-04-29 master-dd live test: client.connect() era invocato PRIMA
+  // di registrare client.on('phase_change') etc. WS event arriva pre-handler
+  // register → event lost → player UI stuck su lobby. Fix: connect dopo tutto
+  // l'handler register block (sotto). Vedi fine funzione per chiamata effettiva.
 
   if (bridge.isPlayer) {
     // M15 UI v2 — card PG + action tiles + party roster ready + chat.
@@ -777,6 +778,11 @@ export function initLobbyBridgeIfPresent({ wsImpl = null } = {}) {
   bridge.getLastState = () => ({
     version: bridge._lastStateVersion,
     payload: bridge._lastState,
+  });
+
+  // Connect WS DOPO register handlers (fix race condition 2026-04-29).
+  client.connect().catch((err) => {
+    if (typeof console !== 'undefined') console.warn('[lobbyBridge] initial connect failed', err);
   });
 
   return bridge;
