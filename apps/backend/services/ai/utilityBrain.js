@@ -65,7 +65,12 @@ const CURVES = {
 
 const DEFAULT_CONSIDERATIONS = {
   TargetHealth: {
+    // Action-aware: retreat does not target a kill, treat neutrally (0.5).
+    // Without this gate, full-HP target → linear_inverse(1.0) = 0 annihilated
+    // approach scores under multiplicative aggregation, retreat (no target →
+    // default 0.5) won by default → oscillation Apex tutorial_05 (#2008 bug).
     evaluate: (action, actor, state) => {
+      if (action.type === 'retreat') return 0.5;
       if (!action.target) return 0.5;
       const t = state.units?.[action.target];
       if (!t || !t.max_hp) return 0.5;
@@ -89,9 +94,15 @@ const DEFAULT_CONSIDERATIONS = {
     weight: 0.8,
   },
   SelfHealth: {
+    // Action-aware: retreat utility is HIGH when wounded, approach/attack
+    // utility is HIGH when healthy. Inversion required to differentiate
+    // approach vs retreat when target full-HP (otherwise equally valued
+    // → oscillation post fix #2008 normaliseUnit).
     evaluate: (action, actor) => {
       if (!actor.max_hp) return 1;
-      return actor.hp / actor.max_hp;
+      const ratio = actor.hp / actor.max_hp;
+      if (action.type === 'retreat') return 1 - ratio;
+      return ratio;
     },
     curve: 'linear',
     weight: 0.7,
@@ -163,7 +174,12 @@ function scoreAction(
   considerations = DEFAULT_CONSIDERATIONS,
   weightOverrides = {},
 ) {
-  let totalScore = 1; // multiplicative aggregation
+  // Additive aggregation. Was multiplicative ((weighted+0.01) accumulator)
+  // ma sparse considerations (es. TargetHealth=0 su full-HP target) annichilavano
+  // approach scores → oscillation bug Apex tutorial_05 (#2008). Additive sum
+  // robusto a single-zero contributors + standard utility AI literature pattern.
+  // Test "low-HP target scores higher" preserva (∑weighted con TH alto > ∑ con TH basso).
+  let totalScore = 0;
   const breakdown = [];
 
   for (const [name, config] of Object.entries(considerations)) {
@@ -173,8 +189,7 @@ function scoreAction(
     const weight = weightOverrides[name] ?? config.weight;
     const weighted = curved * weight;
 
-    // Multiplicative: score *= (weighted + epsilon) to avoid zero-kill
-    totalScore *= weighted + 0.01;
+    totalScore += weighted;
     breakdown.push({ name, raw, curved, weighted });
   }
 
@@ -252,6 +267,12 @@ function selectAction(
  * Enumerate legal actions for a SIS unit.
  * Basic version — returns attack/approach/retreat/skip.
  * Extend when grid pathfinding available (§14).
+ *
+ * Faction key compatibility (2026-04-29 fix):
+ * Session units use `controlled_by` (player/sistema), unit tests + utility
+ * literature use `team`. Helper unifies both. Without this, real session
+ * units passed to enumerateLegalActions had `team=undefined` → filter
+ * `u.team !== actor.team` always false → no enemies → only retreat → oscillation.
  */
 function enumerateLegalActions(actor, state) {
   const actions = [];
@@ -261,8 +282,10 @@ function enumerateLegalActions(actor, state) {
     return [{ type: 'skip', reason: 'stunned' }];
   }
 
+  const factionOf = (u) => u.team ?? u.controlled_by;
+  const actorFaction = factionOf(actor);
   const enemies = Object.entries(state.units || {}).filter(
-    ([id, u]) => u.team !== actor.team && u.hp > 0,
+    ([id, u]) => factionOf(u) !== actorFaction && u.hp > 0,
   );
 
   for (const [targetId, target] of enemies) {

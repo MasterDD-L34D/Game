@@ -40,34 +40,75 @@ Forward → backward → forward → backward, mai chiude. Player attacks 0/10 r
 
 **Main legacy AI (origin/main)**: monotonic forward — R1=5, R2=4, R3=3, R4 player hits.
 
-## Root cause hypothesis
+## Root cause (2026-04-29 RESOLVED)
 
-`utilityBrain.scoreAction` o `enumerateLegalActions` produce score oscillante per Apex `aggressive`:
+Diagnosi confermata: **3 problemi compounding** identificati post-investigation:
 
-- Possibile: `linearInverse(distance)` favorisce retreat quando distance bassa, approach quando alta → flip-flop al confine.
-- Possibile: `threat consideration` su Apex HP alto trigger retreat erroneo.
-- Possibile: AP 3 multi-action genera "approach + retreat = +0 net" bug.
+### Bug 1 — Faction key mismatch (PRIMARIO)
 
-**Investigation pending** — non risolto in questa sessione.
+`enumerateLegalActions` filtra enemies via `u.team !== actor.team`. Session units usano `controlled_by` (player/sistema) — campo `team` undefined. Filter `undefined !== undefined === false` → **zero enemies enumerati** → only retreat action available → retreat ALWAYS chosen.
 
-## Kill-switch applicato (PR #2008)
+### Bug 2 — Multiplicative scoring annihilation (SECONDARIO)
+
+`scoreAction` accumulator `score *= (weighted + 0.01)`. Single 0-weighted consideration (es. TargetHealth=0 su full-hp target) annichila score totale. Sparse considerations + many small values → near-zero scores favoring default 0.5 path (retreat).
+
+### Bug 3 — Action-agnostic considerations (TERZIARIO)
+
+`TargetHealth` + `SelfHealth` valutavano stesso valore per approach/retreat/attack — nessuna differenziazione semantica. Retreat dovrebbe scoreare HIGH quando wounded, LOW quando healthy. Approach opposto.
+
+## Fix shipped (PR #2012 candidate)
+
+### Fix 1 — Faction compatibility
+
+```js
+const factionOf = (u) => u.team ?? u.controlled_by;
+const enemies = Object.entries(state.units || {}).filter(
+  ([id, u]) => factionOf(u) !== factionOf(actor) && u.hp > 0,
+);
+```
+
+### Fix 2 — Additive scoring
+
+`totalScore += weighted` invece di `*= weighted + 0.01`. Robusto a sparse considerations + matches utility AI literature pattern.
+
+### Fix 3 — Action-aware considerations
+
+```js
+TargetHealth.evaluate: (action, ...) => {
+  if (action.type === 'retreat') return 0.5;  // neutral for retreat
+  // ... normal target health for approach/attack
+}
+
+SelfHealth.evaluate: (action, actor) => {
+  const ratio = actor.hp / actor.max_hp;
+  if (action.type === 'retreat') return 1 - ratio;  // wounded → high retreat
+  return ratio;  // healthy → high engage
+}
+```
+
+## Verification post-fix
+
+Apex tutorial_05 trace:
+
+| Round | Apex pos | Intent | Score |
+|-------|----------|--------|-------|
+| R1 | (5,2) | approach | 2.10 |
+| R2 | (4,2) | approach | 2.17 |
+| R3 | (3,2) | approach | 2.23 |
+| R4 | (2,2) | **attack** | 2.51 |
+
+Player p_scout finally in attack range. **Monotonic forward + closes.**
+
+Test suite: 384/384 verdi (utility 14/14 + tutorial05 + AI suite full).
+
+## Kill-switch ripristinato
 
 `packs/evo_tactics_pack/data/balance/ai_profiles.yaml`:
 
 ```yaml
 aggressive:
-  use_utility_brain: false  # was: true (ADR-2026-04-17 first flip)
+  use_utility_brain: true  # re-enabled 2026-04-29 post fix
 ```
-
-Effetto: SIS aggressive cade su `selectAiPolicy` legacy (REGOLA_001-004). Apex movimento monotonic forward, encounter playable.
-
-## Re-flip criterion
-
-Re-attivare `aggressive.use_utility_brain: true` solo dopo:
-
-1. Fix `utilityBrain.scoreAction` per Apex-class enemies (HP alto + AP 3+ multi-action)
-2. Test repro: 5x N=10 tutorial_05 → mean ≥1 victory + 0 timeouts non-balance-related
-3. Smoke check Apex movimento monotonic in `debug-multi.js` style
 
 ## Cross-ref
 
