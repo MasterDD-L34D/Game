@@ -121,8 +121,9 @@ User verdict cross-check questions:
 
 - AI 384/384 verde (tutti 22 PR)
 - Format + governance + paths-filter + python-tests + dataset-checks + styleguide-compliance verdi
-- 458 trait `active_effects.yaml` preserved
-- 60+ encounter YAML preserved
+- 458 trait entries `data/core/traits/active_effects.yaml` preserved (verified `grep -c '^  [a-z_]'`)
+- 14 encounter YAML preserved (4 `data/encounters/` + 10 `docs/planning/encounters/`)
+- 15 species lifecycle YAML preserved (`data/core/species/*_lifecycle.yaml`)
 - Skiv canon `docs/skiv/CANONICAL.md` preserved
 
 ### Pillar status finale post-Fase 1
@@ -468,10 +469,13 @@ Authoring tutorial_01 grid 8x6 hand-placed savana tile.
 
 #### N.3 — D20 resolver port + smooth movement BG3-lite native (~3 giorni)
 
-Port `services/rules/resolver.py` → `scripts/combat/d20_resolver.gd` (~200 LOC):
+> **Source canonical** (post ADR-2026-04-19 kill Python rules engine): port da Node runtime, NOT da `services/rules/resolver.py` deprecated. Read source: `apps/backend/services/combat/resistanceEngine.js` + `apps/backend/routes/session.js` (1967 LOC, action handler d20 logic) + `apps/backend/services/roundOrchestrator.js`.
+
+Port d20 logic Node → `scripts/combat/d20_resolver.gd` (~200 LOC):
 
 - `func resolve_attack(attacker, target, channel) -> AttackResult`
 - d20 + bonus vs DC + Margin of Success + damage step
+- Channel resistance per archetype (input `resistanceEngine.js`)
 - Return Resource `AttackResult.gd` (immutable struct)
 
 **BG3-lite Plus features NATIVE Godot 2D** (zero extra effort):
@@ -555,24 +559,28 @@ Screenshot comparison Godot v2 MVP vs web stack archive:
 
 **Gate exit Sprint N (Decision gate Fase 2)** — v3 confermato:
 
-| Q                                                                               | Threshold                    | Verifica                                  |
-| ------------------------------------------------------------------------------- | ---------------------------- | ----------------------------------------- |
-| Visual quality MVP Godot ≥ 80% Tactics Ogre target                              | Required                     | Subjective user judgment                  |
-| Effort MVP entro 5 settimane (cap)                                              | Required                     | git log Sprint M+N elapsed                |
-| Godot HTML5 export funzionante                                                  | Required                     | Browser test export deployable            |
-| Phone composer V2 portable Control nodes                                        | Required (M.7 PRE-validated) | Mobile real device test                   |
-| Backend Express + WS unchanged                                                  | Mandatory (M.5 spike PASS)   | API call cross-stack test                 |
-| **GATE 0 — Failure-model parity** wounded_perma + legacy_ritual cross-encounter | MANDATORY 5/5                | Test integrato per spec PR #2005          |
-| **P1 Tattica** combat playable + ITB telegraph                                  | Required                     | predict_combat hover + threat tile        |
-| **P2 Spore** mating trigger funzionante post-combat                             | Required                     | propagateLineage + child stat preview UI  |
-| **P4 MBTI** thoughts ritual + vcProxy 4-axes visible                            | Required                     | 3 candidate UI + voice line + status_lock |
-| **P6 Fairness** combat balance check non-trivial                                | Required                     | hardcore subset 1 scenario non-stalemate  |
+| Q                                                                               | Threshold                    | Verifica                                                              |
+| ------------------------------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------- |
+| Visual quality MVP Godot ≥ 80% Tactics Ogre target                              | Required                     | Subjective user judgment                                              |
+| Effort MVP entro 5 settimane (cap)                                              | Required                     | git log Sprint M+N elapsed                                            |
+| Godot HTML5 export funzionante                                                  | Required                     | Browser test export deployable                                        |
+| Phone composer V2 portable Control nodes                                        | Required (M.7 PRE-validated) | Mobile real device test                                               |
+| Backend Express + WS unchanged                                                  | Mandatory (M.5 spike PASS)   | API call cross-stack test                                             |
+| **GATE 0 — Failure-model parity** wounded_perma + legacy_ritual cross-encounter | MANDATORY 5/5                | Test integrato per spec PR #2005                                      |
+| **P1 Tattica** combat playable + ITB telegraph                                  | Required                     | predict_combat hover + threat tile                                    |
+| **P2 Spore** mating trigger funzionante post-combat                             | Required                     | propagateLineage + child stat preview UI                              |
+| **P3 Specie×Job** ability menu UI + bond reactions live                         | Required                     | 7 jobs ability r1-r2 selectable + Beast Bond reactive trigger visible |
+| **P4 MBTI** thoughts ritual + vcProxy 4-axes visible                            | Required                     | 3 candidate UI + voice line + status_lock                             |
+| **P5 Co-op** room-code lobby + 4-player WS sync (TKT-M11B-06 playtest)          | Required                     | 4 device connect + character_creation propagate + combat sync         |
+| **P6 Fairness** combat balance check non-trivial                                | Required                     | hardcore subset 1 scenario non-stalemate                              |
 
-**Verdict**:
+**Verdict** (10 row total: 5 baseline + GATE 0 + 6 pillar P1-P6):
 
-- 6/6 SÌ → cutover Fase 3
-- 5/6 → re-evaluate, possible patch + retry
-- ≤4/6 → archive Godot R&D, accept web stack v1 final + restore Sprint G.2b BG3-lite Plus rubric
+- 10/10 SÌ → cutover Fase 3
+- 8-9/10 → re-evaluate, possible patch + retry
+- ≤7/10 → archive Godot R&D, accept web stack v1 final + restore Sprint G.2b BG3-lite Plus rubric
+
+> **Gap audit 2026-04-30**: P3 + P5 row added (precedente plan v3 mancante). Pillar promotion threshold formal in [`ADR-2026-04-30-pillar-promotion-criteria.md`](../adr/ADR-2026-04-30-pillar-promotion-criteria.md).
 
 ---
 
@@ -595,14 +603,14 @@ GUT test: port 100/384 critical test → `tests/`.
 
 ### Sprint P — Trait + lifecycle + mating port (~1-2 settimane)
 
-- 458 trait `active_effects.yaml` → Godot `Resource` custom class `TraitEffect.gd`
-- `propagateLineage` + mating + legacy ritual → `scripts/lifecycle/`
-- Lifecycle phase + stadio system → `Resource`
+- 458 trait entries `data/core/traits/active_effects.yaml` → Godot `Resource` custom class `TraitEffect.gd`
+- `propagateLineage` + mating + legacy ritual (Node `apps/backend/services/lineage/`) → `scripts/lifecycle/`
+- Lifecycle phase + stadio system (15 species `*_lifecycle.yaml`) → `Resource`
 
 ### Sprint Q — Encounter + data ETL + test parity audit (~1.5-2 settimane)
 
-- 60+ encounter YAML → import via `EncounterLoader.gd` ResourceLoader
-- 250+ trait + 100+ species + 9 biome data → Godot `Resource` ETL one-shot
+- 14 encounter YAML (4 `data/encounters/` + 10 `docs/planning/encounters/`) → import via `EncounterLoader.gd` ResourceLoader
+- 458 trait entries + 15 species lifecycle + 9 biome data → Godot `Resource` ETL one-shot
 - LDtk integration per encounter authoring future
 - **Q.1 test parity audit**: target ≥250/384 GUT test critical pre-cutover
 

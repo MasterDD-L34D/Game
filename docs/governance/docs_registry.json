@@ -4932,6 +4932,28 @@
       "review_cycle_days": 14
     },
     {
+      "path": "docs/adr/ADR-2026-04-30-pillar-promotion-criteria.md",
+      "title": "ADR-2026-04-30: Pillar promotion criteria — formalize tier ladder thresholds",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-30",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 60
+    },
+    {
+      "path": "docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md",
+      "title": "Gap audit plan v3 → v3.2 — synthesis 3 agent paralleli (plan + design docs + repo files)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-30",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
       "path": "docs/planning/2026-04-29-ermes-cleanup-handoff.md",
       "title": "ERMES + Sprint Fase 1 cleanup handoff — resume next session canonical",
       "doc_status": "active",
