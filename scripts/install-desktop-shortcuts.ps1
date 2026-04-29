@@ -24,6 +24,12 @@ Write-Host ""
 
 $Shortcuts = @(
   @{
+    Name        = 'Evo-Tactics-Install-Ngrok-Official'
+    Target      = 'Evo-Tactics-Install-Ngrok-Official.bat'
+    Description = 'Install ngrok official ZIP da ngrok.com (fix bug Microsoft Store ngrok issue 505 panic disabled updater). Esegui PRIMA di Setup-Ngrok-Auth.'
+    IconHint    = 'shell32.dll, 271'
+  },
+  @{
     Name        = 'Evo-Tactics-Setup-Ngrok-Auth'
     Target      = 'Evo-Tactics-Setup-Ngrok-Auth.bat'
     Description = 'Setup 1-volta ngrok authtoken. Necessario per Demo launcher (tunnel pubblico). Salta se gia configurato.'
