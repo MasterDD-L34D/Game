@@ -15,6 +15,27 @@ Guida operativa per creare/acquisire asset visivi per Evo-Tactics nel rispetto d
 
 3 path canonici, applicabili in parallelo o sequenza. Tutti compatibili con build pubblica + license commerciale.
 
+## Workspace locale (out-of-repo)
+
+Reference asset library + tools vivono **fuori repo** in `~/Documents/evo-tactics-refs/` (mai sync con repo Game, gitignore by design — vedi `docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md`).
+
+Bootstrap pattern (~30-60 min download bandwidth):
+
+1. Crea folder: `mkdir -p ~/Documents/evo-tactics-refs/{tools-install,references,output-staging,session-logs}`
+2. Genera URL lists per fonte (Kenney pack URLs scraped da `kenney.nl/assets/<slug>`, HF dataset via `huggingface.co/api/datasets/nyuuzyou/OpenGameArt-CC0/tree/main`, Sonniss bundles via `archive.org/metadata/<id>`).
+3. Run robust download script con verify+retry+size-check (canonical helper in workspace).
+4. Estrai pack rilevanti per workflow Path 1 (esistenti) o Path 2 (placeholder AI) o Path 3 (reference + redraw).
+
+**Vincoli workspace**:
+
+- ❌ Mai committare reference asset locali a repo (DMCA fastlane on public repo)
+- ❌ Mai sync workspace via cloud Drive condiviso
+- ✅ License coverage 100% (CC0 + PD + Sonniss royalty-free perpetual + tool licenses GPL/MIT/Apache2)
+- ✅ MANIFEST.json file-level index searchable
+- ✅ Workflow recipes per Skiv portrait/run cycle/echolocation/idle vocal/combat roar in workspace HANDOFF.md
+
+Asset finali polished → copy a `Game/assets/<category>/` + provenance log mandatory `CREDITS.md`.
+
 ## Path 1 — Kenney / itch.io CC0 base + modifica
 
 **Quando**: asset standard riconoscibili (icone UI, tile dungeon, creature low-poly, sprite generici).
