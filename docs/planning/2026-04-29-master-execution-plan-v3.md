@@ -50,6 +50,15 @@ related:
 - ❌ Hex grid pivot (square confermato ADR-2026-04-28-grid-type-square-final, anche Godot TileMap square-mode)
 - ❌ Midnight Suns / DioField anti-pattern (round model M17 + d20 + AP preserved)
 
+## Master-dd inputs (2026-04-30)
+
+User verdict cross-check questions:
+
+1. ✅ **Sprint M.5 race condition diagnose**: **frontend** (lobbyBridge.js handler register order race + first-connect snapshot push timing). Backend wsSession.js + coopOrchestrator.js diagnosed clean post fix #2020-#2021. Cross-stack spike Sprint M.5 valida Godot HTML5 client implementation no equivalent race (handler register PRE-connect via Godot WebSocketClient signal).
+2. ⏸️ **Sprint J Visual Map Obsidian**: deferred — valuta quando appropriato (post Sprint N gate o post-cutover). Default: defer post-Fase 3.
+3. ✅ **GitHub repo create**: AUTHORIZED `gh repo create MasterDD-L34D/Game-Godot-v2 --private --description "Evo-Tactics Godot 4.x port" --license mit`.
+4. ✅ **ERMES + asset workflow + Skiv asset + Donchitos asset skill**: integrated in §"ASSET PIPELINE" + §"ERMES ROADMAP" (NEW sections plan v3.1 below).
+
 ---
 
 ## FASE 1 — Web stack ship demo CHIUSA 2026-04-29
@@ -112,8 +121,9 @@ related:
 
 - AI 384/384 verde (tutti 22 PR)
 - Format + governance + paths-filter + python-tests + dataset-checks + styleguide-compliance verdi
-- 458 trait `active_effects.yaml` preserved
-- 60+ encounter YAML preserved
+- 458 trait entries `data/core/traits/active_effects.yaml` preserved (verified `grep -c '^  [a-z_]'`)
+- 14 encounter YAML preserved (4 `data/encounters/` + 10 `docs/planning/encounters/`)
+- 15 species lifecycle YAML preserved (`data/core/species/*_lifecycle.yaml`)
 - Skiv canon `docs/skiv/CANONICAL.md` preserved
 
 ### Pillar status finale post-Fase 1
@@ -128,6 +138,163 @@ related:
 | P6 Fairness                |  🟢 candidato   |           🟢 candidato (BB attrition severity + slow_down trigger)           |
 
 **5/6 stable post-pivot** + P5 regressed 🟢→🟡 pending Godot rebuild (architecturally correct fix vs whack-a-mole).
+
+---
+
+## ASSET PIPELINE — 3-path + Skiv asset + Donchitos asset skill (parallel a tutte fasi)
+
+> **Scope plan v3.1**: integra workflow asset esistente (PR #2011 + #2014) + Skiv asset spec (workspace HANDOFF.md) + Donchitos `/art-bible` `/asset-spec` `/asset-audit` skill (pendente Sprint K, ora incorporato Sprint M.1).
+
+### A.1 — Workspace locale out-of-repo (already shipped #2014)
+
+Reference asset library + tools vivono **fuori repo** in `~/Documents/evo-tactics-refs/` (gitignore by design — vedi `docs/adr/ADR-2026-04-18-zero-cost-asset-policy.md`).
+
+Bootstrap pattern (~30-60 min, una volta):
+
+- Crea folder: `~/Documents/evo-tactics-refs/{tools-install,references,output-staging,session-logs}`
+- URL lists per fonte (Kenney pack scraped, HF dataset, Sonniss bundles via archive.org)
+- Robust download script verify + retry + size check
+- License coverage 100% (CC0 + PD + Sonniss royalty-free perpetual + tool licenses GPL/MIT/Apache2)
+- MANIFEST.json file-level index searchable
+
+Asset finali polished → copy a `Game-Godot-v2/assets/<category>/` + provenance log mandatory `CREDITS.md`.
+
+Spec canonical: `docs/guide/asset-creation-workflow.md` (PR #2011 + #2014 shipped 2026-04-29).
+
+### A.2 — 3-path canonical (parallel + ibridi)
+
+| Path                                            | Quando                                                                                    | Tool                                                        | License                                    |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------ |
+| **Path 1 — Kenney/itch.io CC0 base + modifica** | Asset standard riconoscibili (icone UI, tile dungeon, creature low-poly, sprite generici) | Aseprite/Krita/Blender                                      | CC0 esplicita modify+commercial            |
+| **Path 2 — Retro Diffusion AI + human edit**    | Concept esplorativo + custom species/creature/ambienti unici                              | Retro Diffusion (CC0 commercial) + Aseprite/Krita post-edit | CC0 output AI tool ToS verified            |
+| **Path 3 — Reference + redraw fresh**           | Asset signature (Skiv portrait apex narrative beat, boss legendary, key UI hero)          | Aseprite/Krita                                              | 100% human authorship, max indemnification |
+
+**Ibridi**:
+
+- Path 1 + 2: base Kenney CC0 + img2img Retro Diffusion style transfer + human edit finalize (triple-source provenance)
+- Path 1 + 3: Kenney blocking + redraw scratch sopra (sei owner blocking)
+- Path 2 + 3: AI concept exploration + redraw fresh fuori AI output (100% human)
+
+### A.3 — Skiv asset spec (signature creature canonical)
+
+Per `docs/skiv/CANONICAL.md` + workspace `HANDOFF.md`:
+
+| Asset                                                               |                Path consigliato                |                  Priority                   | Dimensioni                  |
+| ------------------------------------------------------------------- | :--------------------------------------------: | :-----------------------------------------: | --------------------------- |
+| Skiv portrait (recap card)                                          |               Path 3 (signature)               |                P0 Sprint M.3                | 256×256 + 128×128 thumbnail |
+| Skiv lifecycle 5 stages (egg + hatchling + juvenile + apex + elder) |      Path 1+3 ibrido (LPC base + custom)       |                P0 Sprint M.3                | 64×64 atlas 5-frame         |
+| Skiv run cycle anim (8-frame)                                       | Path 1 ibrido (LPC lizard CC-BY-SA + override) | P0 Sprint M.3 (preserved Sprint G v3 #2002) | 64×64 atlas                 |
+| Skiv echolocation visual (Light2D + Particle2D radial)              |           Native Godot 2D (no asset)           |                P1 Sprint N.6                | n/a (shader-based)          |
+| Skiv idle vocal SFX                                                 |       Path 2 AI generated o Sonniss CC0        | P2 Sprint M.3 (deferred Sprint N.6 polish)  | 1-2s OGG                    |
+| Skiv combat roar SFX                                                |       Path 2 AI generated o Sonniss CC0        |                P2 Sprint M.3                | 0.5-1s OGG                  |
+| Skiv attack VFX (claw slash)                                        |             Path 1 Kenney VFX pack             |                P1 Sprint M.3                | 32×32 atlas 5-frame         |
+| Skiv death anim (final lifecycle)                                   |                Path 3 signature                |                P1 Sprint N.6                | 64×64 atlas 8-frame         |
+
+**Skiv canon preservation**: LPC sprite override (PR #2002) preserved cross-stack. Ulteriori asset Path 1+3 ibrido per polish post-import Godot Sprint M.3.
+
+### A.4 — Donchitos asset skill cherry-pick (Sprint M.1 INCORPORATED)
+
+Plan v2 §Decision 10 era "Donchitos `/art-bible` `/asset-spec` `/asset-audit` defer Sprint K Fase 2". Plan v3 incorpora Sprint K in Sprint M.1.
+
+**5 Donchitos asset skill** cherry-picked Game-Godot-v2 `.claude/skills/`:
+
+| Skill                     | Function                                                                                          | Workflow integration                |
+| ------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `donchitos-art-bible`     | Generate art bible doc da `41-ART-DIRECTION.md` + `42-STYLE-GUIDE-UI.md` + `43-ASSET-SOURCING.md` | Sprint M.1 + ongoing                |
+| `donchitos-asset-spec`    | Generate asset spec sheet (size + style + license + provenance) per task                          | Sprint M.3 + ongoing                |
+| `donchitos-asset-audit`   | Audit asset esistenti coverage gap vs design bible                                                | Sprint N.7 polish + Q.1 audit       |
+| `donchitos-create-icon`   | Workflow Path 1+2 ibrido per icon UI (game-icons.net + Retro Diffusion + redraw)                  | Sprint M.3 + Sprint N.5 (HUD theme) |
+| `donchitos-create-sprite` | Workflow Path 1+2+3 per creature sprite (Kenney/LPC + Retro Diffusion + custom redraw)            | Sprint M.3 + Sprint N.6 polish      |
+
+**NEW custom skill** (eveolve dal cherry-pick):
+
+- `evo-tactics-create-sfx` — workflow Path 2 (Retro Diffusion audio o Sonniss CC0 perpetual) + Audacity post-edit per Skiv vocals + combat hits + ambient bioma. Sprint M.3 + Sprint N.6.
+
+**Anti-pattern**: NO commit binary asset reference workspace (DMCA fastlane public repo). Asset finali polished only → `assets/<category>/`.
+
+### A.5 — Asset pipeline timeline plan v3
+
+| Sprint         | Asset focus                                                                                                                                                                                                               |           Effort           | Path priority  |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------: | -------------- |
+| M.1            | Donchitos asset skill cherry-pick + adopt                                                                                                                                                                                 | ~4h (incluso M.1 6-8g cap) | meta           |
+| M.3            | Asset Legacy import (47 PNG CC0 #2002) + Skiv portrait (Path 3) + Skiv idle/run cycle anim (Path 1+3) + 8 archetype Battle Sprite + 5 biomi tile + parallax 4-layer + VFX 8 types + Skiv vocals SFX (Path 2 AI o Sonniss) |           ~2-3g            | Path 1+2+3 mix |
+| N.5            | HUD Cinzel theme + ambition HUD UI icons (Path 1+2)                                                                                                                                                                       |            ~2g             | Path 1+2       |
+| N.6            | Particles + Skiv echolocation Light2D + lighting + dissolve shader                                                                                                                                                        |            ~3g             | native Godot   |
+| N.7            | LegacyRitualPanel UI + thoughts ritual + mating UI (Path 1+2 icons)                                                                                                                                                       |            ~2g             | Path 1+2       |
+| Q.1            | Asset audit donchitos-asset-audit (coverage gap pre-cutover)                                                                                                                                                              |            ~1g             | meta           |
+| Polish ongoing | Skiv apex narrative beat portrait redraw (Path 3 signature)                                                                                                                                                               |           ~1-2g            | Path 3         |
+
+---
+
+## ERMES ROADMAP — E0-E6 shipped + E7-E8 future (parallel isolated Python)
+
+> **Scope**: ERMES (Ecosystem Research, Measurement & Evolution System) modulo prototype/lab Python isolated `prototypes/ermes_lab/`. NON nuovo gioco — laboratorio + dashboard + JSON exporter + tuning harness. Out-of-scope Godot port.
+
+### Stato attuale (2026-04-30)
+
+E0-E6 shipped PR #2009 + #2010:
+
+| Stato |  Fase  | Task                         | Output                                               |
+| ----- | :----: | ---------------------------- | ---------------------------------------------------- |
+| ☑    |   E0   | Doc integration              | `docs/planning/2026-04-29-ermes-integration-plan.md` |
+| ☑    |   E1   | Prototype isolated           | `prototypes/ermes_lab/` directory                    |
+| ☑    |   E2   | CLI + deterministic sim      | `ermes_sim.py`                                       |
+| ☑    |   E3   | Dashboard optional           | `ermes_dashboard.py`                                 |
+| ☑    |   E4   | JSON export                  | `outputs/latest_eco_pressure_report.json`            |
+| ☑    |   E5   | Experiment loop              | `scoring.py`                                         |
+| ☑    |   E6   | Codex validation             | tests + README                                       |
+| ☐     | **E7** | **Future runtime candidate** | crossEventEngine design only                         |
+| ☐     | **E8** | **Future foodweb candidate** | ecosystemLoader design only                          |
+
+### E7 — Future runtime candidate (deferred POST-CUTOVER Fase 3)
+
+**Trigger**: post Sprint S Fase 3 cutover Godot v2 stabile + ADR dedicata + test regression.
+
+**Scope**: ERMES output JSON `eco_pressure_report.json` consumed da Godot Sprint S+ campaign engine come bias source per:
+
+- Encounter spawn weighting (biome → species mix probability)
+- Mutation bias hint (biome pressure → trait roll modifier)
+- Debrief notes generation (narrative beat enrichment)
+
+**Effort estimate**: ~1-2 settimane post-cutover. NON urgente, NON gating Sprint Fase 3 cutover gate.
+
+**Spec**: `crossEventEngine.gd` Godot Resource che legge JSON ERMES + integra QBN narrative engine output.
+
+### E8 — Future foodweb candidate (deferred ULTERIORE)
+
+**Trigger**: post E7 shipped + playtest data 5+ session post-cutover.
+
+**Scope**: full foodweb runtime simulation Godot. ERMES Python lab pre-compute → Godot ResourceLoader runtime use. NON real-time eco simulation (Godot client-only).
+
+**Effort estimate**: ~2-3 settimane post-E7. Optional feature M14+.
+
+**Spec**: `ecosystemLoader.gd` + `foodweb_state.tres` Resource Godot.
+
+### ERMES guard policy
+
+Per `docs/planning/2026-04-29-ermes-integration-plan.md` §Out of scope:
+
+- ❌ Modifiche combat runtime (Sprint M-N + Fase 3)
+- ❌ Modifiche `apps/backend/`
+- ❌ Modifiche `apps/play/` (deprecated post-pivot anyway)
+- ❌ Modifica dataset canonici
+- ❌ Integrazione diretta Game-Database
+- ❌ Full foodweb runtime simulation pre-cutover
+- ❌ Mappe tattiche procedurali ERMES-driven pre-Fase 3
+
+**Principio guida**: _"ERMES misura e suggerisce. Evo Tactics decide e gioca."_
+
+### ERMES timeline plan v3
+
+| Fase               | ERMES involvement                                       |     Effort cumulativo     |
+| ------------------ | ------------------------------------------------------- | :-----------------------: |
+| Fase 1 (CHIUSA)    | E0-E6 shipped (#2009 + #2010)                           |       already done        |
+| Fase 2 (Godot R&D) | NESSUNO — ERMES out-of-scope Godot Sprint M-N           |             0             |
+| Fase 3 (cutover)   | NESSUNO — ERMES isolated                                |             0             |
+| Post-cutover       | E7 design + impl crossEventEngine.gd consumo JSON ERMES |     ~1-2 sett (M14+)      |
+| Long-term          | E8 ecosystemLoader full foodweb runtime                 | ~2-3 sett (M16+ optional) |
+
+**ERMES NON gating Sprint Fase 2/3 + NON in roadmap critical path**. Deferred natural post-cutover.
 
 ---
 
@@ -302,10 +469,13 @@ Authoring tutorial_01 grid 8x6 hand-placed savana tile.
 
 #### N.3 — D20 resolver port + smooth movement BG3-lite native (~3 giorni)
 
-Port `services/rules/resolver.py` → `scripts/combat/d20_resolver.gd` (~200 LOC):
+> **Source canonical** (post ADR-2026-04-19 kill Python rules engine): port da Node runtime, NOT da `services/rules/resolver.py` deprecated. Read source: `apps/backend/services/combat/resistanceEngine.js` + `apps/backend/routes/session.js` (1967 LOC, action handler d20 logic) + `apps/backend/services/roundOrchestrator.js`.
+
+Port d20 logic Node → `scripts/combat/d20_resolver.gd` (~200 LOC):
 
 - `func resolve_attack(attacker, target, channel) -> AttackResult`
 - d20 + bonus vs DC + Margin of Success + damage step
+- Channel resistance per archetype (input `resistanceEngine.js`)
 - Return Resource `AttackResult.gd` (immutable struct)
 
 **BG3-lite Plus features NATIVE Godot 2D** (zero extra effort):
@@ -389,24 +559,28 @@ Screenshot comparison Godot v2 MVP vs web stack archive:
 
 **Gate exit Sprint N (Decision gate Fase 2)** — v3 confermato:
 
-| Q                                                                               | Threshold                    | Verifica                                  |
-| ------------------------------------------------------------------------------- | ---------------------------- | ----------------------------------------- |
-| Visual quality MVP Godot ≥ 80% Tactics Ogre target                              | Required                     | Subjective user judgment                  |
-| Effort MVP entro 5 settimane (cap)                                              | Required                     | git log Sprint M+N elapsed                |
-| Godot HTML5 export funzionante                                                  | Required                     | Browser test export deployable            |
-| Phone composer V2 portable Control nodes                                        | Required (M.7 PRE-validated) | Mobile real device test                   |
-| Backend Express + WS unchanged                                                  | Mandatory (M.5 spike PASS)   | API call cross-stack test                 |
-| **GATE 0 — Failure-model parity** wounded_perma + legacy_ritual cross-encounter | MANDATORY 5/5                | Test integrato per spec PR #2005          |
-| **P1 Tattica** combat playable + ITB telegraph                                  | Required                     | predict_combat hover + threat tile        |
-| **P2 Spore** mating trigger funzionante post-combat                             | Required                     | propagateLineage + child stat preview UI  |
-| **P4 MBTI** thoughts ritual + vcProxy 4-axes visible                            | Required                     | 3 candidate UI + voice line + status_lock |
-| **P6 Fairness** combat balance check non-trivial                                | Required                     | hardcore subset 1 scenario non-stalemate  |
+| Q                                                                               | Threshold                    | Verifica                                                              |
+| ------------------------------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------- |
+| Visual quality MVP Godot ≥ 80% Tactics Ogre target                              | Required                     | Subjective user judgment                                              |
+| Effort MVP entro 5 settimane (cap)                                              | Required                     | git log Sprint M+N elapsed                                            |
+| Godot HTML5 export funzionante                                                  | Required                     | Browser test export deployable                                        |
+| Phone composer V2 portable Control nodes                                        | Required (M.7 PRE-validated) | Mobile real device test                                               |
+| Backend Express + WS unchanged                                                  | Mandatory (M.5 spike PASS)   | API call cross-stack test                                             |
+| **GATE 0 — Failure-model parity** wounded_perma + legacy_ritual cross-encounter | MANDATORY 5/5                | Test integrato per spec PR #2005                                      |
+| **P1 Tattica** combat playable + ITB telegraph                                  | Required                     | predict_combat hover + threat tile                                    |
+| **P2 Spore** mating trigger funzionante post-combat                             | Required                     | propagateLineage + child stat preview UI                              |
+| **P3 Specie×Job** ability menu UI + bond reactions live                         | Required                     | 7 jobs ability r1-r2 selectable + Beast Bond reactive trigger visible |
+| **P4 MBTI** thoughts ritual + vcProxy 4-axes visible                            | Required                     | 3 candidate UI + voice line + status_lock                             |
+| **P5 Co-op** room-code lobby + 4-player WS sync (TKT-M11B-06 playtest)          | Required                     | 4 device connect + character_creation propagate + combat sync         |
+| **P6 Fairness** combat balance check non-trivial                                | Required                     | hardcore subset 1 scenario non-stalemate                              |
 
-**Verdict**:
+**Verdict** (10 row total: 5 baseline + GATE 0 + 6 pillar P1-P6):
 
-- 6/6 SÌ → cutover Fase 3
-- 5/6 → re-evaluate, possible patch + retry
-- ≤4/6 → archive Godot R&D, accept web stack v1 final + restore Sprint G.2b BG3-lite Plus rubric
+- 10/10 SÌ → cutover Fase 3
+- 8-9/10 → re-evaluate, possible patch + retry
+- ≤7/10 → archive Godot R&D, accept web stack v1 final + restore Sprint G.2b BG3-lite Plus rubric
+
+> **Gap audit 2026-04-30**: P3 + P5 row added (precedente plan v3 mancante). Pillar promotion threshold formal in [`ADR-2026-04-30-pillar-promotion-criteria.md`](../adr/ADR-2026-04-30-pillar-promotion-criteria.md).
 
 ---
 
@@ -429,14 +603,14 @@ GUT test: port 100/384 critical test → `tests/`.
 
 ### Sprint P — Trait + lifecycle + mating port (~1-2 settimane)
 
-- 458 trait `active_effects.yaml` → Godot `Resource` custom class `TraitEffect.gd`
-- `propagateLineage` + mating + legacy ritual → `scripts/lifecycle/`
-- Lifecycle phase + stadio system → `Resource`
+- 458 trait entries `data/core/traits/active_effects.yaml` → Godot `Resource` custom class `TraitEffect.gd`
+- `propagateLineage` + mating + legacy ritual (Node `apps/backend/services/lineage/`) → `scripts/lifecycle/`
+- Lifecycle phase + stadio system (15 species `*_lifecycle.yaml`) → `Resource`
 
 ### Sprint Q — Encounter + data ETL + test parity audit (~1.5-2 settimane)
 
-- 60+ encounter YAML → import via `EncounterLoader.gd` ResourceLoader
-- 250+ trait + 100+ species + 9 biome data → Godot `Resource` ETL one-shot
+- 14 encounter YAML (4 `data/encounters/` + 10 `docs/planning/encounters/`) → import via `EncounterLoader.gd` ResourceLoader
+- 458 trait entries + 15 species lifecycle + 9 biome data → Godot `Resource` ETL one-shot
 - LDtk integration per encounter authoring future
 - **Q.1 test parity audit**: target ≥250/384 GUT test critical pre-cutover
 
