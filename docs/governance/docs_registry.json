@@ -3605,6 +3605,19 @@
       "track": "new"
     },
     {
+      "path": "docs/guide/asset-creation-workflow.md",
+      "title": "Asset Creation Workflow — 3-path canonical (Kenney + AI + Redraw)",
+      "doc_status": "active",
+      "doc_owner": "platform-docs",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-28",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 90,
+      "primary": false,
+      "track": "new"
+    },
+    {
       "path": "docs/guide/faq.md",
       "title": "Domande frequenti — Support & QA",
       "doc_status": "active",
