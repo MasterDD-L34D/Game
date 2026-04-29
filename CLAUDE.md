@@ -619,3 +619,22 @@ Diagnosticato 2026-04-26: ~30% delle 61 voci catalogate (18/61) hanno **runtime 
 - Quando review PR autonomous mode
 
 Ref memoria: vedi pattern dominante in [`docs/research/2026-04-26-cross-game-extraction-MASTER.md §4`](docs/research/2026-04-26-cross-game-extraction-MASTER.md), [`docs/research/2026-04-26-agent-integration-plan-DETAILED.md §4`](docs/research/2026-04-26-agent-integration-plan-DETAILED.md), [`docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md §C.2`](docs/reports/2026-04-27-stato-arte-completo-vertical-slice.md).
+
+## 🎨 Asset workflow (canonical 2026-04-29)
+
+Per creare/acquisire asset visivi/audio Evo-Tactics:
+
+1. **Workflow doc primary**: [`docs/guide/asset-creation-workflow.md`](docs/guide/asset-creation-workflow.md) — Path 1 (Kenney+modify) / Path 2 (AI Retro Diffusion + human edit) / Path 3 (reference legali + redraw fresh).
+2. **Workspace locale** (out-of-repo, gitignored by design DMCA mitigation): `~/Documents/evo-tactics-refs/` 184GB — 32136 file CC0+PD+Sonniss royalty-free 100% license-classified, 10/14 tools auto-installed, recipes Skiv asset class in `HANDOFF.md` + `SKIV_REFS_EXTRACTED.md`.
+3. **Backup meta repo** (private): [`MasterDD-L34D/evo-tactics-refs-meta`](https://github.com/MasterDD-L34D/evo-tactics-refs-meta) — doc + scripts (`robust_download.py` + `gen_manifest.py`) + URL lists pre-scraped (Kenney/HF/Sonniss/archive.org) + MANIFEST.json file-level index. Asset binaries NON committati (rebuildable cross-PC ~2h via bootstrap).
+4. **Skill on-demand**: invoca `/asset-workflow` per orchestrate Path 1+2+3+4 con recipes Skiv direct.
+5. **Trigger phrase user**: _"asset workflow / Skiv asset / Path 1|2|3 / crea icona|sprite|SFX / recipe Skiv"_ → leggi workflow doc + apri `~/Documents/evo-tactics-refs/HANDOFF.md`.
+
+**Anti-pattern check** (vedi ADR-2026-04-18 + workflow doc):
+
+- ❌ Commit reference asset locali a repo (DMCA fastlane on public repo)
+- ❌ Trace su sprite proprietary
+- ❌ Paint-over fan-rip
+- ❌ AI img2img da asset proprietary
+- ❌ Style prompt artisti viventi
+- ❌ Skip provenance log `CREDITS.md`
