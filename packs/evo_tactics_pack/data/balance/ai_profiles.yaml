@@ -25,7 +25,10 @@ profiles:
   aggressive:
     label: "Aggressivo"
     description: "Attacca con poca considerazione per HP. Retreat solo in extremis."
-    # Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1): primo profile flip
+    # Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1): primo profile flip.
+    # 2026-04-29 fix utilityBrain oscillation (action-aware TargetHealth/SelfHealth +
+    # additive scoring) → kill-switch ripristinato a true. Apex tutorial_05 verificato
+    # monotonic forward 5→4→3→2 (range scout). Vedi docs/reports/2026-04-29-utility-ai-oscillation-bug.md.
     use_utility_brain: true
     overrides:
       retreat_hp_pct: 0.15
