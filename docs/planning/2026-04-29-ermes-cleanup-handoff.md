@@ -2,7 +2,7 @@
 title: 2026-04-29 ERMES + Sprint Fase 1 cleanup handoff — resume next session canonical
 doc_status: active
 doc_owner: master-dd
-workstream: planning
+workstream: cross-cutting
 last_verified: 2026-04-29
 source_of_truth: false
 language: it

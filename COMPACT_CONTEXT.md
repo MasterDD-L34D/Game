@@ -8,14 +8,67 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v20 (post Sprint Fase 1 closure + ondata 4 cleanup + ERMES E0-E6 + AI fixes 2026-04-29)
-- **Ultimo aggiornamento**: 2026-04-29 sera (17 PR ondata 3+4 mergiati main ~36h — Sprint Fase 1 100% autonomous + Spike POC + Action 6 + ERMES drop-in E0-E6 + AI ai_profile + utility oscillation fixes + launcher rubric desktop suite 4 .lnk + asset workflow doc + Workspace locale doc. Master-dd action pending = rubric session Spike POC 4 amici tester DIVERSI).
+- **Versione compact**: v21 (post Godot pivot decision-altering 2026-04-29 sera + plan v3 unified)
+- **Ultimo aggiornamento**: 2026-04-30 mattina (Pivot Godot v2 immediate confermato master-dd: web stack co-op 7-PR cascade fix race conditions cascade UNRESOLVED → architecturally rebuild Godot meglio. Sprint Fase 1 CHIUSA con scope ridotto, 22 PR mergiati main preserved come reference port. Sprint G.2b BG3-lite Plus + A1 rubric + Sprint H DEPRECATED. Sprint M.1 onset Game-Godot-v2 NEW repo. Plan v3 ~13-19 sett vs plan v2 14-21 sett net savings).
 
 ## ⚡ Resume trigger phrase canonical (next session)
 
-> _"leggi docs/planning/2026-04-29-ermes-cleanup-handoff.md, verifica stato main + master-dd ha eseguito rubric session Spike POC verdict X/Y/N → procedi A1 OR Sprint G.2b OR ERMES E7"_
+> _"leggi docs/adr/ADR-2026-04-29-pivot-godot-immediate.md + docs/planning/2026-04-29-master-execution-plan-v3.md, conferma stato post-pivot Godot, spawn chip Sprint M.1 Game-Godot-v2 bootstrap + Donchitos cherry-pick"_
 
-Handoff doc canonical: [`docs/planning/2026-04-29-ermes-cleanup-handoff.md`](docs/planning/2026-04-29-ermes-cleanup-handoff.md) — stato main + master-dd action + decision tree A1/G.2b/E7 + desktop icons routine + pending deferred items.
+Handoff doc canonical: [`docs/adr/ADR-2026-04-29-pivot-godot-immediate.md`](docs/adr/ADR-2026-04-29-pivot-godot-immediate.md) (decision pivot) + [`docs/planning/2026-04-29-master-execution-plan-v3.md`](docs/planning/2026-04-29-master-execution-plan-v3.md) (sequenza Sprint M.1-S).
+
+## ⚡ TL;DR pivot Godot v2 (2026-04-29 sera)
+
+**Trigger**: web stack co-op 7-PR cascade fix #2016-#2022 NON risolve race conditions architetturali. HOST clicca Nuova Sessione → server character*creation phase → player UI stuck "in attesa host" perma. Master-dd verdict: *"rifarlo bene seguendo le vertical sheet e usando godot e i nuovi asset e un design meglio studiato"\_.
+
+**Decision**: Path B accelerated cap (cross-check + risk agent convergent verdict). Pivot Godot immediate, preserve Express backend cross-stack, drop Sprint G.2b + A1 rubric + Sprint H. Native Godot 2D = BG3-lite Plus features ZERO extra effort.
+
+**Status doc**:
+
+| Doc                                                |                   Status                   |
+| -------------------------------------------------- | :----------------------------------------: |
+| ADR-2026-04-29-pivot-godot-immediate.md            | NEW Accepted (decision-altering canonical) |
+| master-execution-plan-v3.md                        |    NEW Active (replace plan v2 §FASE 1)    |
+| ADR-2026-04-28-bg3-lite-plus-movement-layer.md     |                 Superseded                 |
+| ADR-2026-04-28-deep-research-actions.md §G.2b/H/A1 |           Superseded items only            |
+| ADR-2026-04-28-grid-type-square-final.md           |   Confermato Active (square anche Godot)   |
+| Cross-check report 2026-04-29                      | Shipped reference (general-purpose agent)  |
+
+**Sprint Fase 1 closure**:
+
+- 22 PR mergiati main (10 ondata 3 + 7 ondata 4 + 5 cascade fix launcher partial useful)
+- 4 items DEPRECATED post-pivot: Sprint G.2b BG3-lite Plus + A1 rubric + Sprint H + Sprint I (defer post-Godot)
+- Backend services + research docs + Skiv canon + ERMES E0-E6 PRESERVED
+
+**Sprint Fase 2 ACCELERATED**:
+
+- Sprint M.1 (~3-4g): NEW repo Game-Godot-v2 + Godot 4.x + Donchitos template incorporated
+- Sprint M.2 (~2g): plugin Asset Library priority install
+- Sprint M.3 (~2-3g): Asset Legacy import (47 PNG CC0 from #2002)
+- Sprint M.4 (~1g): Reference codebase study application (research #2001)
+- Sprint M.5 (~4h): Cross-stack spike Godot HTML5 ↔ Express WS backend MANDATORY
+- Sprint M.6 (~3h): CI minimal Godot project MANDATORY
+- Sprint M.7 (~2g): Phone composer Godot HTML5 spike MANDATORY P5 gate
+- Sprint N.1-N.7 (~4-5 sett): Vertical slice MVP 3-feature + GATE 0 failure-model parity
+
+**Sprint Fase 3 cutover**: ~4-8 sett (Sprint O-S session engine + co-op WS port + cutover hybrid stable).
+
+**Total revised plan v3**: ~13-19 sett (vs plan v2 14-21 sett, net savings ~1-2 sett).
+
+**Pillar status post-pivot Fase 1 closure**:
+
+| Pillar        |                                        Stato                                         |
+| ------------- | :----------------------------------------------------------------------------------: |
+| P1 Tattica    |                       🟢++ archive (re-impl Godot Sprint N.1)                        |
+| P2 Spore      |                 🟢++ backend preserved (re-impl UI Godot Sprint N.7)                 |
+| P3 Specie×Job |                 🟢ⁿ backend preserved (re-impl UI Godot Sprint N.5)                  |
+| P4 MBTI       |                   🟡++ (re-impl Godot Sprint N.4 vcScoring iter2)                    |
+| P5 Co-op      | 🟡 regressed (web stack race conditions UNRESOLVED, defer Godot Sprint M.7 + R port) |
+| P6 Fairness   |                            🟢 candidato backend preserved                            |
+
+**5/6 stable** + 1/6 regressed (P5) pending Godot rebuild architecturally correct.
+
+## ⚡ TL;DR ondata 4 follow-up (2026-04-29 — post Sprint Fase 1 closure)
 
 ## ⚡ TL;DR ondata 4 follow-up (2026-04-29 — post Sprint Fase 1 closure)
 

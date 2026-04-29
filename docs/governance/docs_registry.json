@@ -4899,11 +4899,44 @@
       "review_cycle_days": 14
     },
     {
+      "path": "docs/research/2026-04-29-godot-pivot-cross-check.md",
+      "title": "2026-04-29 Godot pivot cross-check — 19 doc audit + 16 item classification",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-29",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/adr/ADR-2026-04-29-pivot-godot-immediate.md",
+      "title": "ADR-2026-04-29: Pivot Godot immediate — drop Sprint G.2b + rubric + accelerate Sprint M",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-29",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 30
+    },
+    {
+      "path": "docs/planning/2026-04-29-master-execution-plan-v3.md",
+      "title": "2026-04-29 Master execution plan v3 — post Godot pivot decision",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-30",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 14
+    },
+    {
       "path": "docs/planning/2026-04-29-ermes-cleanup-handoff.md",
       "title": "ERMES + Sprint Fase 1 cleanup handoff — resume next session canonical",
       "doc_status": "active",
       "doc_owner": "master-dd",
-      "workstream": "planning",
+      "workstream": "cross-cutting",
       "last_verified": "2026-04-29",
       "source_of_truth": false,
       "language": "it",

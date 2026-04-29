@@ -9,13 +9,19 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### 🛑 PIVOT GODOT 2026-04-29 sera — Sprint Fase 1 CHIUSA (web stack co-op race conditions UNRESOLVED, pivot Godot immediate)
+
+**Decision-altering**: ADR-2026-04-29-pivot-godot-immediate.md + master-execution-plan-v3.md SHIPPED. Path B accelerated cap. 22 PR mergiati main preserved come reference port Godot. Sprint G.2b BG3-lite Plus + A1 rubric + Sprint H + Sprint I DEPRECATED post-pivot.
+
 ### Userland (richiede azione umana)
 
 - [x] ~~**Deep research analysis** (NEW session)~~ → **✅ CHIUSO 2026-04-28 sera** PR #1996.
-- [x] ~~**Sprint G v3 Legacy Collection asset swap**~~ → **✅ CHIUSO 2026-04-29** PR #2002 (Ansimuz CC0 47 PNG 345KB ≤20MB cap, 5 biomi tile + 8 archetype creature + parallax 4-layer + VFX 8 types + Skiv LPC override preserved).
-- [x] ~~**Spike POC BG3-lite**~~ → **✅ CHIUSO 2026-04-29** PR #2003 (Tier 1 frontend hide grid + smooth movement + range cerchio + AOE shape + ui_config.json toggle). **Pending master-dd rubric session 4 amici tester DIVERSI da TKT-M11B-06 pool** per verdict pass/fail rubric 4-criteria threshold ≥3.5.
-- [x] ~~**Rubric launcher desktop suite**~~ → **✅ CHIUSO 2026-04-29** PR #2007 (`be07ebae`). 4 icone Desktop + Install-Desktop-Shortcuts.bat installer cross-PC. Workflow rubric session zero-terminal: Sync-Main → Demo → Toggle-A → Toggle-B. Cross-PC support via 1-click installer.
-- [ ] **🚫 BLOCKED — A1 Master-dd rubric session Spike POC BG3-lite** ~1-2h userland. Output: `docs/playtest/2026-04-29-bg3-lite-spike-rubric.md` aggregate scores + verdict. Sblocca Sprint G.2b BG3-lite Plus full ~10-12g OR Sprint I direct se FAIL. **Workflow zero-terminal**: doppio clic Evo-Tactics-Sync-Main → Evo-Tactics-Demo → condividi ngrok URL 4 amici → Toggle-A → Toggle-B → score → verdict. Resume trigger phrase: vedi `docs/planning/2026-04-29-ermes-cleanup-handoff.md` §1.
+- [x] ~~**Sprint G v3 Legacy Collection asset swap**~~ → **✅ CHIUSO 2026-04-29** PR #2002 (Ansimuz CC0 47 PNG re-import Godot Sprint M.3).
+- [x] ~~**Spike POC BG3-lite**~~ → **✅ CHIUSO 2026-04-29** PR #2003 (Tier 1 frontend, archive web-v1-final post-pivot, native Godot 2D 0 effort).
+- [x] ~~**Rubric launcher desktop suite**~~ → **✅ CHIUSO 2026-04-29** PR #2007 (DEPRECATED post-pivot, archive web-v1-final).
+- [x] ~~**A1 Master-dd rubric session Spike POC BG3-lite**~~ → **❌ FORMAL ABORT 2026-04-29 sera** post-pivot Godot decision. No tester recruited. Reasoning: web stack co-op race conditions cascade architecturally broken (7-PR fix #2016-#2022 NOT enough), rubric value zero gating G.2b decision-binary (G.2b DEPRECATED post-pivot anyway).
+- [ ] **NEW — Sprint M.1 Game-Godot-v2 bootstrap** (~3-4g) — NEW repo `MasterDD-L34D/Game-Godot-v2` create + Godot 4.x install + Donchitos template adopt + 18 agent + 32 skill cherry-pick. Spec: `docs/planning/2026-04-29-master-execution-plan-v3.md §FASE 2 Sprint M.1`. Resume trigger phrase: vedi `docs/adr/ADR-2026-04-29-pivot-godot-immediate.md`.
+- [ ] **NEW — Master-dd input Sprint M.5 race condition diagnose** (~30min) — frontend (lobbyBridge handler register order) o backend (broadcastCoopState first connect ordering)? Determine pre Sprint M.5 cross-stack spike commitment. Spec: ADR-2026-04-29-pivot-godot-immediate §5 deferred questions.
 - [ ] **🚫 BLOCKED — Sprint G.2b BG3-lite Plus movement layer** ~10-12g (~2-2.5 sett). ADR `docs/adr/ADR-2026-04-28-bg3-lite-plus-movement-layer.md`. Tier 2 backend cherry-pick (sub-tile float round-to-nearest + vcScoring area_covered + flanking 5-zone angle). **Pre-condition**: rubric session pass.
 - [ ] **🚫 BLOCKED — TKT-M11B-06 playtest userland** ~2-4h. Seguire `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md`. **Pre-condition**: Sprint G.2b BG3-lite Plus shipped.
 - [ ] **Playtest round 2** — retest post PR #1730 con browser Ctrl+Shift+R (cache bust). Residuo: narrative log prose feature M18+ (gap non-bug).

@@ -17,8 +17,10 @@ related:
 
 # ADR-2026-04-28: BG3-lite Plus movement layer — Sprint G.2b NEW
 
+> ⚠️ **SUPERSEDED 2026-04-29 sera** by [ADR-2026-04-29-pivot-godot-immediate.md](./ADR-2026-04-29-pivot-godot-immediate.md). Sprint G.2b ~10-12g DEPRECATED post-pivot Godot. BG3-lite Plus features (hide grid + smooth movement + range cerchio + AOE shape + sub-tile float + flanking 5-zone angle) sono native Godot 2D primitives = ZERO extra effort post-pivot. A1 rubric session formal abort. Doc preservato come historical reference.
+
 - **Data**: 2026-04-28
-- **Stato**: Accepted
+- **Stato**: **Superseded by ADR-2026-04-29-pivot-godot-immediate**
 - **Owner**: Master DD
 - **Stakeholder**: gameplay-programmer + ui-programmer + qa-tester (Sprint G.2b execution)
 - **Supersedes**: ADR-2026-04-28 §11 open question Q5 grid-less feasibility deferred
