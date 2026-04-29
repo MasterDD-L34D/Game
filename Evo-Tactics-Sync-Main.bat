@@ -31,9 +31,9 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Detect se main e' checked out in altro worktree
+REM Detect se main e' checked out in altro worktree (Node helper, no shell escape issues)
 set "MAIN_WT="
-for /f "delims=" %%P in ('powershell -NoProfile -Command "& { (git worktree list ^| Select-String '\[main\]') -replace '\s+\[main\].*', '' -replace '\s+[a-f0-9]{7,}\s*$', '' -replace '^\s+', '' | Select-Object -First 1 }"') do set "MAIN_WT=%%P"
+for /f "usebackq delims=" %%P in (`node scripts\find-main-worktree.cjs 2^>nul`) do set "MAIN_WT=%%P"
 
 REM Detect current branch
 for /f "delims=" %%B in ('git rev-parse --abbrev-ref HEAD') do set "CURRENT_BRANCH=%%B"

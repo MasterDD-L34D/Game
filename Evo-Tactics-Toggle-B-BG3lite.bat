@@ -8,9 +8,9 @@ chcp 65001 >nul 2>&1
 cd /d "%~dp0"
 title Evo-Tactics Rubric Toggle B (BG3-lite Tier 1)
 
-REM Hotfix 2026-04-29: detect main worktree, write config there (Demo launcher legge da main worktree)
+REM Hotfix 2026-04-29: detect main worktree (Node helper, no shell escape issues)
 set "MAIN_WT="
-for /f "delims=" %%P in ('powershell -NoProfile -Command "& { (git worktree list ^| Select-String '\[main\]') -replace '\s+\[main\].*', '' -replace '\s+[a-f0-9]{7,}\s*$', '' -replace '^\s+', '' | Select-Object -First 1 }"') do set "MAIN_WT=%%P"
+for /f "usebackq delims=" %%P in (`node scripts\find-main-worktree.cjs 2^>nul`) do set "MAIN_WT=%%P"
 
 if defined MAIN_WT (
     if /i not "%MAIN_WT%"=="%cd%" (
