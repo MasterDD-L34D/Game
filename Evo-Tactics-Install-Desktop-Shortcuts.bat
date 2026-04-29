@@ -1,5 +1,5 @@
 @echo off
-REM Evo-Tactics — installer 1-click 4 desktop shortcuts.
+REM Evo-Tactics installer 1-click 5 desktop shortcuts ASCII-only.
 REM Run UNA volta per setup (o re-run per refresh post repo move).
 REM Crea: Evo-Tactics-Demo, Evo-Tactics-Sync-Main, Evo-Tactics-Toggle-A-Classic, Evo-Tactics-Toggle-B-BG3lite.
 
