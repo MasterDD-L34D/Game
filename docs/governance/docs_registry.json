@@ -4875,6 +4875,28 @@
       "track": "planning"
     },
     {
+      "path": "docs/planning/2026-04-29-ermes-codex-execution-brief.md",
+      "title": "ERMES Codex Execution Brief",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-29",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14
+    },
+    {
+      "path": "docs/planning/2026-04-29-ermes-integration-plan.md",
+      "title": "ERMES Integration Plan — Ecosystem Research, Measurement & Evolution System",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-04-29",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 14
+    },
+    {
       "path": "docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md",
       "title": "Evo Final Design — Backlog Register",
       "doc_status": "draft",
