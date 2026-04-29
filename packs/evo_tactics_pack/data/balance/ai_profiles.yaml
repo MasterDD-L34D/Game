@@ -25,8 +25,12 @@ profiles:
   aggressive:
     label: "Aggressivo"
     description: "Attacca con poca considerazione per HP. Retreat solo in extremis."
-    # Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1): primo profile flip
-    use_utility_brain: true
+    # Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1): primo profile flip.
+    # KILL-SWITCH 2026-04-29: utilityBrain.scoreAction oscilla approach↔retreat
+    # quando ai_profile preserved (post fix normaliseUnit). Apex tutorial_05
+    # forward(5→4)→backward(4→5) loop, encounter unwinnable. Tracked separately —
+    # re-flip a `true` dopo fix utilityBrain scoring (vedi PR #2008 description).
+    use_utility_brain: false
     overrides:
       retreat_hp_pct: 0.15
       kite_buffer: 0

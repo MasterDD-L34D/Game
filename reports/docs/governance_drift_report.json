@@ -1,11 +1,917 @@
 {
-  "generated_at": "2026-04-28T23:04:01+00:00",
+  "generated_at": "2026-04-29T18:58:12+00:00",
   "summary": {
-    "total": 20,
+    "total": 458,
     "errors": 0,
-    "warnings": 20
+    "warnings": 458
   },
   "issues": [
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "AGENTS.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "AGENT_WORKFLOW_GUIDE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "CLAUDE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "CONTRIBUTING.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "MASTER_PROMPT.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "PULL_REQUEST_TEMPLATE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "agent.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "agent_constitution.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/adr/ADR-2025-11-18-cli-rollout.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/adr/ADR-2025-11-refactor-cli.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/adr/ADR-2025-12-07-generation-orchestrator.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/adr/ADR-2026-04-13-rules-engine-d20.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/adr/ADR-XXX-refactor-cli.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/appendici/ALIENA_documento_integrato.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/appendici/STYLE_GUIDE_NAMING.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/appendici/prontuario_metriche_ucum.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/appendici/sandbox/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/architecture/flusso-richieste-idea-engine.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/architecture/tri-sorgente/overview.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/architecture/tri-sorgente/qa.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guida-ai-tratti-1.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guida-ai-tratti-2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guida-ai-tratti-3-database.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guida-ai-tratti-3-evo-tactics.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guides/codex-readme.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guides/ptpf-seed-template.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guides/security-ops.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guides/template-ptpf.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guides/vision-and-structure-notes.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/guides/visione-struttura.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/integration-log.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/integrazioni-v2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/evo-tactics/security-readme.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/generatore.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/homepage.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/GDD.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/INTEGRAZIONE_GUIDE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_CI.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_HOWTO_AUTHOR_TRAIT.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_NO_PROXY.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/GDD.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/INTEGRAZIONE_GUIDE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/QA_TRAITS_V2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/README_HOWTO_AUTHOR_TRAIT.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/STYLE_GUIDE_NAMING.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_analysis_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_review_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/prontuario_metriche_ucum.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/incident_response.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/policy.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/risk_register.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/threat_model.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/traits_reference.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_database_guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/games_overview.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_analysis_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_catalog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/step1_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/step2_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/step3_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/step4_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/step5_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/step6_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/step7_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/trait_merge_proposals.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/lavoro_da_classificare/traits_catalog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/playbook_security_ops.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/playbook_template_ptpf.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2025-12-19_inventory_cleanup/playbook_visione_struttura.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2026-04-14_incoming_backlog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/02A_validator_rerun.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/memo_verifiche_2026-09-14.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/orchestrator_load_review.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/pipeline_simulation.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/2026-04-16_reports_cleanup/readiness_01B01C_status.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/INDEX.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/decompressed-index.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/documents/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/historical-snapshots/incoming-scripts-readme.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/02A_validator_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_BACKUP_AND_ROLLBACK.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_CORE_DERIVED_MATRIX.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_INCOMING_CATALOG.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE0-4_LOG.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE0_KICKOFF.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE1_DESIGN.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE2_MODELING.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE3_BALANCING.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE4_VALIDATION.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE5_ASSET_CATALOG.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE6_DOC_ARCHIVE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_MIGRATION_PHASE7_EXEC_PLAN_PATCHSET.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_PACKS_AND_DERIVED.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_PATCHSET_02A_TO_03AB_RUNBOOK.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_PATCHSET_03A_03B_CHECKLIST.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_PLANNING_RIPRESA_2026.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_REDIRECT_PLAN_STAGING.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_REPO_MIGRATION_PLAN.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_REPO_PATCH_PROPOSTA.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_REPO_SCOPE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_REPO_SOURCES_OF_TRUTH.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/REF_TOOLING_AND_CI.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/TKT-03AB-FREEZE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/agenda_PATCHSET-00_2025-12-07.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/ci-inventory.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/ci-log-automation.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/planning-reference/migration_targeted_workplan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/archive/qa-playbook.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/balance/Frattura_Abissale_Sinaptica_balance_draft.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/biomes/Frattura_Abissale_Sinaptica_biome.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/biomes/Frattura_Abissale_Sinaptica_lore.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/biomes/biomes.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/biomes/manifest.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/catalog/Frattura_Abissale_Sinaptica_assets_draft.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/catalog/bioma_frattura_abissale_sinaptica.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/catalog/trait_reference.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ci/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/action-types-guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/data-flow.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/determinism.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/resolver-api.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/status-effects-guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/testing.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/trait-mechanics-guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/worker-bridge.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
     {
       "level": "warning",
       "code": "frontmatter_registry_mismatch",
@@ -26,9 +932,75 @@
     },
     {
       "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/01-VISIONE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
       "code": "frontmatter_registry_mismatch",
       "path": "docs/core/02-PILASTRI.md",
       "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-27)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/03-LOOP.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/10-SISTEMA_TATTICO.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/20-SPECIE_E_PARTI.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/22-FORME_BASE_16.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/24-TELEMETRIA_VC.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/25-REGOLE_SBLOCCO_PE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/27-MATING_NIDO.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/28-NPC_BIOMI_SPAWN.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/30-UI_TV_IDENTITA.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/40-ROADMAP.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
     },
     {
       "level": "warning",
@@ -41,6 +1013,210 @@
       "code": "frontmatter_registry_mismatch",
       "path": "docs/core/90-FINAL-DESIGN-FREEZE.md",
       "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-15)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/Guida_Evo_Tactics_Pack_v2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/Mating-Reclutamento-Nido.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/PI-Pacchetti-Forme.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/SistemaNPG-PF-Mutazioni.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/Telemetria-VC.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/DEPLOYING.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/db-schema.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/deploy.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/ennea-themes.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/generator-benchmarks.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/handover-summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics-pack/internal-announcement.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/evo_tactics_game_guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/evo_tactics_guide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guida-ai-tratti-1.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guida-ai-tratti-2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guida-ai-tratti-3-database.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guides/codex-readme.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guides/ptpf-seed-template.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guides/security-ops.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guides/template-ptpf.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guides/vision-and-structure-notes.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/guides/visione-struttura.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/evo-tactics/integrazioni-v2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/frontend/feature-updates.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/frontend/mockups_evo.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/frontend/styleguide.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/frontend/wireframes/evo/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/frontend/wireframes/evo/mockup_evo_tactics.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/frontend/wireframes/generatore.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/frontend/wireframes/homepage.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
     },
     {
       "level": "warning",
@@ -63,14 +1239,98 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/governance/rollout_plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/governance/workstream_matrix.md",
       "message": "Documento stale: revisione scaduta il 2026-04-27"
     },
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/guide/CONTRIBUTING_SITE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/INTEGRAZIONE_GUIDE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/README_HOWTO_AUTHOR_TRAIT.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/README_SENTIENCE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/contributing/traits.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/data-guidelines.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/faq.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/git-setup.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/structure_overview.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/templates/MODELLI_RIF_EVO_TACTICS.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/templates/incoming_triage_meeting.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/guide/templates/obsidian_template.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/hubs/README.md",
       "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/atlas.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
     },
     {
       "level": "warning",
@@ -125,6 +1385,1374 @@
       "code": "stale_document",
       "path": "docs/hubs/ops-qa.md",
       "message": "Documento stale: revisione scaduta il 2026-04-27"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/exports/2025-11-08-filter-selections.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/incoming_triage_agenti.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/incoming_triage_slack_plan_2025-11-10.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/link-fix-2025-12-21.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/pilot-2025-11-12/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/pilot-2025-11-12/media/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/playtests/2025-02-26/media/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/playtests/2025-02-27-vc/media/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/tooling/2025-10-24-tooling.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/tooling/accessibility-generator.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/tooling/generator_ui_mock.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/trait_audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/traits_tracking.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/logs/web_status.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/AGENT_COMMANDS_CHEATSHEET.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/AI_AGENT_AUDIT_LOG.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/COMMAND_LIBRARY.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/agent_telemetry.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/chatgpt_sync_status.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/cli-tools.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/dependency_audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/drive-sync.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/evo-tooling.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/nebula-rollout.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/npm-proxy-migration.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/observability.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/publishing_calendar.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/qa-window-checklist.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/site-audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/tool_run_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/ops/workflow_diff.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/BIOME_FEATURE_CHECKS.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/FAS2D_step1_briefing.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/Frattura_Abissale_Sinaptica_execution_plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/Frattura_Abissale_Sinaptica_pipeline_run.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/GOLDEN_PATH.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/GOLDEN_PATH_FEATURE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/GOLDEN_PATH_FEATURE_Urban_Flood_Missions.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step1.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step10.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step3.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step4.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step5.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step6.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step7.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step8.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_EXECUTION_Frattura_Abissale_Step9.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_SIMULATION_Frattura_Abissale_Sinaptica.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_SPECIES_BIOMES_Frattura_Abissale_Sinaptica.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_SPECIES_BIOMES_STANDARD.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_SPECIE_BIOMA_Frattura_Abissale_Sinaptica.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_TEMPLATES.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/PIPELINE_TRAIT_STANDARD.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/ci-gap-analysis.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/ci-pipeline.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/ci.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/drive_sync.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/ema-metrics.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/gh-cli-manual-dispatch.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/pipelines/roadmap_generator.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EchoWake/EchoWake_Modules_Expanded_v2_2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EchoWake/README_DEVKIT.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EchoWake/flowchart-game-design-framework.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/changelog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/evo-enum-review.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/feature-map/FEATURE_MAP_EVO_TACTICS.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/ideas/IDEAS_INDEX.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/ideas/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/ideas/changelog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/ideas/feedback.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/ideas/refresh-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/readme-refresh-notes.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/enneagram-addon/GAME_COMPAT_README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/enneagram-addon/README_ADDON_PER_PACCHETTO.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/enneagram-addon/README_ENNEAGRAMMA.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/enneagram-addon/README_INTEGRAZIONE_MECCANICHE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/enneagram-addon/README_INTEGRAZIONE_MECCANICHE_v2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/enneagram-addon/README_SCAN_STAT_EVENTI.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/enneagram-addon/dataset/README_ENNEAGRAMMA.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/lore_concepts.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/refs/2008_spore.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/sentience-branch-layout/CHANGELOG.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/sentience-branch-layout/CHECKLIST_TODO.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/sentience-branch-layout/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/sentience-branch-layout/ROADMAP.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/sentience-branch-layout/pull_request_template.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/sentience-rfc/RFC_Sentience_Traits_v0.1.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/research/sentience-rfc/sources.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/roadmap/evo-rollout-checklists.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/roadmap/evo-rollout-schedule.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/roadmap/evo-rollout-status.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/roadmap/maintenance.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/roadmap/status/evo-weekly-20251029.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/roadmap/status/evo-weekly-20251202.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/roadmap/status/evo-weekly-20251203.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/roadmap_operativa.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/BAL-03-ondata4-playbook.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/EVT-02-session-plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/INSIGHTS-2025-11.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/REPORT-2025-11-06-bal03.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/SESSION-2025-02-26.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/SESSION-2025-02-26/feedback/andrea-conti.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/SESSION-2025-02-26/feedback/giulia-parodi.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/SESSION-2025-02-26/feedback/luca-rinaldi.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/SESSION-2025-02-26/feedback/sara-neri.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/SESSION-2025-11-12.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/SESSION-2025-11-12/feedback/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/SESSION-template.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/feedback-template.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/pilot-session-2025-11-12.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/procedura-post-sessione.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/scenari-critici.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/scenari-test.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/tickets/EVT-02-event-special.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/tickets/encounter-bug-146-evt02-nar-01.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/playtest/tickets/encounter-bug-147-evt02-nar-02.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/presentations/2025-02-vc-briefing.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/presentations/2025-11-18-onboarding.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/presentations/2025-11-onboarding-recordings.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/presentations/assets/vc-hud-briefing-deck.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/presentations/demo-walkthrough-script.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/presentations/walkthrough-demo-vc.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/action-items.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/bug-intake.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/bug-template.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/clone-setup.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/demo-release.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/feedback_collection_pipeline.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/incident_reporting_table.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/incoming_agent_streams.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/incoming_review_log.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/incoming_triage.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/incoming_triage_pipeline.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/localization.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/milestones.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/operations_calendar.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/project-setup-todo.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/qa_hud.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/qa_reporting_schema.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sentience_rollout_plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/telemetry.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/telemetry_ingestion_pipeline.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/ticket-2025-10-27-playwright-deploy-checks.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/token-rotation.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/tooling_maintenance_log.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/training/trait_style_session.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/trait_data_reference.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/trait_review.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/trait_rollout_plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/traits_checklist.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/vc_playtest_plan.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/web_handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/web_pipeline.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/public/sentience_sdk.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/QA.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/QA_TRAITS_V2.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/nebula-webapp-checklist.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/playbooks/eventi.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/playbooks/loadout.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/playbooks/moderazione.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/playtest-log-guidelines.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/qa-checklist.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/qa/rollout_checklist.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/Frattura_Abissale_Sinaptica_archivist_final.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/Frattura_Abissale_Sinaptica_patchset.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/Frattura_Abissale_Sinaptica_validation_commands.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/Frattura_Abissale_Sinaptica_validation_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/analytics-toolkit.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/data_inventory.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo-tactics-showcase-dossier-report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/integration_propagation_review.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/inventory_audit.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/qa/status.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/rollout/documentation_gap.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/rollout/next_batch_checklist.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/rollout/species_ecosystem_gap.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/species_analysis_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/species_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/evo/trait_review_report.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/incoming/inventory-2025-10-30.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/progress-dashboard.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/qa-changelog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/species/species_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/styleguide_compliance.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/styleguide_status_review.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/trait-env-alignment.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/trait_balance_summary.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/trait_merge_proposals.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/trait_progress.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/trait_taxonomy_analysis.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/traits/audit_duplicates_TRT-01.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/traits/merge_analysis.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/traits/pipeline_executor_step1_locomotivo.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/traits/pipeline_simulator_locomotivo.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/species/Frattura_Abissale_Sinaptica_species_draft.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/Frattura_Abissale_Sinaptica_trait_draft.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/README_TRAITS.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/01-introduzione.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/02-modello-dati.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/03-tassonomia-famiglie.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/04-collegamenti-cross-dataset.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/05-workflow-strumenti.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/06-standalone-trait-editor.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/manuale/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/next_steps_trait_migration.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/trait-editor-api.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/trait-editor.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/trait_reference_manual.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/traits_evo_pack_alignment.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/traits_scheda_operativa.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/traits/traits_template.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/README.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/adaptive-engine-quickstart.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/cli-quickstart.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/dashboard-tour.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/feedback-form.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/hud-overlay-quickstart.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/idea-engine-feedback.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/tutorials/idea-engine.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "reports/qa-changelog.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "reports/trait_progress.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "router.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-28"
     }
   ]
 }
