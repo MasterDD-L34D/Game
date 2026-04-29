@@ -8,8 +8,80 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v19 (post Sprint Fase 1 closure 100% autonomous shipped 2026-04-29)
-- **Ultimo aggiornamento**: 2026-04-29 (Sprint Fase 1 9/9 task autonomous shipped: 10 PR mergiati main in ~36h — Action 4-7 + Sprint G v3 Legacy + Action 1+2 reference + Spike POC BG3-lite + Action 6 ambition Skiv-Pulverator + Action 3 Sprint N gate spec. Bottleneck residuo = master-dd rubric session 4 amici tester DIVERSI per Spike POC verdict pass/fail, sblocca Sprint G.2b BG3-lite Plus ~10-12g).
+- **Versione compact**: v20 (post Sprint Fase 1 closure + ondata 4 cleanup + ERMES E0-E6 + AI fixes 2026-04-29)
+- **Ultimo aggiornamento**: 2026-04-29 sera (17 PR ondata 3+4 mergiati main ~36h — Sprint Fase 1 100% autonomous + Spike POC + Action 6 + ERMES drop-in E0-E6 + AI ai_profile + utility oscillation fixes + launcher rubric desktop suite 4 .lnk + asset workflow doc + Workspace locale doc. Master-dd action pending = rubric session Spike POC 4 amici tester DIVERSI).
+
+## ⚡ Resume trigger phrase canonical (next session)
+
+> _"leggi docs/planning/2026-04-29-ermes-cleanup-handoff.md, verifica stato main + master-dd ha eseguito rubric session Spike POC verdict X/Y/N → procedi A1 OR Sprint G.2b OR ERMES E7"_
+
+Handoff doc canonical: [`docs/planning/2026-04-29-ermes-cleanup-handoff.md`](docs/planning/2026-04-29-ermes-cleanup-handoff.md) — stato main + master-dd action + decision tree A1/G.2b/E7 + desktop icons routine + pending deferred items.
+
+## ⚡ TL;DR ondata 4 follow-up (2026-04-29 — post Sprint Fase 1 closure)
+
+**6 PR shipped post launcher suite** (corrente HEAD `6a9bcc43`):
+
+| PR    | Squash commit | Topic                                                           |
+| ----- | ------------- | --------------------------------------------------------------- |
+| #2008 | `83f26050`    | fix(ai): preserve ai_profile in normaliseUnit (PR #1495 bot P1) |
+| #2009 | `2259634e`    | feat(ermes): drop-in self-install — prototype lab E0-E6         |
+| #2010 | `8b5d4ab9`    | chore(governance): registry add ERMES planning docs             |
+| #2011 | `8acc7389`    | docs(guide): asset-creation-workflow 3-path canonical           |
+| #2013 | `0fdd2853`    | fix(ai): utilityBrain oscillation root cause — re-enable        |
+| #2014 | `6a9bcc43`    | docs(guide): Workspace locale (out-of-repo) section             |
+
+**ERMES = Ecosystem Research, Measurement & Evolution System**. Modulo prototype/lab isolato `prototypes/ermes_lab/`. NON nuovo gioco — laboratorio + dashboard + JSON exporter + tuning harness. Roadmap E0-E8 (E0-E6 shipped, E7-E8 future runtime/foodweb deferred post-playtest).
+
+**Fix AI critical 2026-04-29**:
+
+1. **Bug ai_profile dropped** (PR #2008) — `normaliseUnit` perde `ai_profile` field → SIS unit fall-back legacy AI invece Utility AI. Fix preserve field.
+2. **Utility AI oscillation** (PR #2013) — bug latente expose by ai_profile fix. Apex `aggressive` oscilla R1=5/R2=4/R3=5/R4=4 mai chiude. 3 root causes: faction key mismatch (`team` vs `controlled_by`), multiplicative scoring annihilation, action-agnostic considerations. Fix all 3 + re-enable `aggressive.use_utility_brain: true`.
+
+**Test baseline post-fix**: AI 384/384 verde + utility 23/23 verde.
+
+## 🖥️ Desktop icons + routine canonical (zero-terminal master-dd)
+
+**Shipped PR #2007** (`be07ebae`). 4 icone su `C:\Users\VGit\Desktop\` cliccabili:
+
+| Icona                           | Function                                                             | Click order |
+| ------------------------------- | -------------------------------------------------------------------- | :---------: |
+| 🔄 Evo-Tactics-Sync-Main        | Pre-rubric: git pull main + npm install se drift                     |     Pre     |
+| 🚀 Evo-Tactics-Demo             | Backend + ngrok pubblico + auto-open browser + clipboard URL         |     1°      |
+| ⚙️ Evo-Tactics-Toggle-A-Classic | Set ui*config.json all bg3lite*\*: false (modalità A grid square)    |     2°      |
+| ⚙️ Evo-Tactics-Toggle-B-BG3lite | Set ui*config.json all bg3lite*\*: true (modalità B BG3-lite Tier 1) |     3°      |
+
+**Cross-PC**: doppio clic `Evo-Tactics-Install-Desktop-Shortcuts.bat` (repo root) → 4 .lnk recreated automatic su Desktop di nuovo PC.
+
+**Routine rubric session 90min** (full desktop click, zero terminal):
+
+```
+PRE: Sync-Main (5 min)
+  → git pull origin main + npm install se drift
+
+LIVE: Demo + Toggle A/B (60-90 min)
+  1. Demo → ngrok URL pubblico → condividi 4 amici tester DIVERSI da TKT-M11B-06 pool
+  2. Toggle-A-Classic → amici Ctrl+Shift+R → score 4 criteri 1-5
+  3. Toggle-B-BG3lite → amici Ctrl+Shift+R → score 4 criteri 1-5
+
+POST: Aggregate (15 min)
+  4. Compila docs/playtest/2026-04-29-bg3-lite-spike-rubric.md tabella scores
+  5. Verifica threshold pass: media B ≥3.5 + zero score 1 + zero criterio rigetto unanime
+
+STOP:
+  6. Chiudi finestra nera Demo launcher
+
+VERDICT:
+  7. Apri nuova sessione Claude + trigger phrase canonical (sopra)
+```
+
+## 🚫 Bottleneck residuo Sprint Fase 1 → Fase 2 Godot onset
+
+1. **🚫 A1 — Master-dd rubric session Spike POC** (~1-2h userland) — 4 amici tester DIVERSI da TKT-M11B-06 pool. Stato: TBD scores in `docs/playtest/2026-04-29-bg3-lite-spike-rubric.md`. Sblocca Sprint G.2b OR Sprint I.
+2. **🚫 Sprint G.2b BG3-lite Plus** (~10-12g) — solo se A1 PASS. Tier 2 backend cherry-pick.
+3. **🚫 Sprint I TKT-M11B-06 playtest** (~1 sett userland) — post Sprint G.2b ship OR direct se A1 FAIL.
+4. **🚫 ERMES E7-E8** — future runtime/foodweb candidate. Defer post Sprint I + ADR + test regression.
+
+## ⚡ TL;DR per ripartire (sessione 2026-04-29 — Sprint Fase 1 closure 100% autonomous)
 
 ## ⚡ TL;DR per ripartire (sessione 2026-04-29 — Sprint Fase 1 closure 100% autonomous)
 
