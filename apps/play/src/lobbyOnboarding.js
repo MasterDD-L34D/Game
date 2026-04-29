@@ -100,10 +100,16 @@ export function renderHostShareHint({ session, container }) {
   hint.id = 'lobby-host-share-hint';
   hint.className = 'lobby-host-share-hint';
   const shareUrl = buildShareUrl(session.code);
+  // 2026-04-29 master-dd request: QR code per join rapido smartphone.
+  const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=8&data=${encodeURIComponent(shareUrl)}`;
   hint.innerHTML = `
     <div class="lobby-host-share-card">
       <div class="lobby-host-share-title">📢 Condividi con i tuoi amici</div>
       <div class="lobby-host-share-code" title="Codice stanza">${session.code}</div>
+      <div class="lobby-host-share-qr">
+        <img src="${qrApi}" alt="QR code stanza" width="180" height="180" />
+        <div class="lobby-host-share-qr-hint">Scansiona per join rapido</div>
+      </div>
       <div class="lobby-host-share-row">
         <input type="text" readonly value="${shareUrl}" class="lobby-host-share-url" />
         <button type="button" class="lobby-host-share-copy">Copia</button>

@@ -115,6 +115,15 @@ function initCreateForm() {
       const url = `${window.location.origin}${window.location.pathname.replace(/[^/]*$/, '')}lobby.html?code=${code}`;
       shareUrl.value = url;
       sharePanel.classList.add('visible');
+      // 2026-04-29 master-dd request: QR code visibile per join rapido smartphone.
+      // api.qrserver.com gratis, zero npm dep, zero approval. Online OK (ngrok pubblico = require internet anyway).
+      const qrWrap = document.getElementById('share-qr-wrap');
+      const qrImg = document.getElementById('share-qr');
+      if (qrWrap && qrImg) {
+        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=${encodeURIComponent(url)}`;
+        qrImg.src = qrApi;
+        qrWrap.classList.add('visible');
+      }
     }
     setStatus('status-create', `✓ Stanza ${code} creata. Premi Entra nella TV per avviare.`, 'ok');
   });

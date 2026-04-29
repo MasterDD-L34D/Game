@@ -568,6 +568,32 @@
   font-family: 'Noto Sans', monospace;
 }
 
+/* 2026-04-29 master-dd request: QR code per join rapido smartphone */
+.lobby-host-share-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 8px auto 12px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #2a3040;
+  width: fit-content;
+}
+
+.lobby-host-share-qr img {
+  display: block;
+  border-radius: 4px;
+}
+
+.lobby-host-share-qr-hint {
+  color: #333;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-align: center;
+}
+
 .lobby-host-share-row {
   display: flex;
   gap: 6px;
