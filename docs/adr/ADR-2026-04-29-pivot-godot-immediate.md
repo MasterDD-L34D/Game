@@ -229,13 +229,24 @@ NOT shipped (DEPRECATED):
 - Sprint M.7 spike fail: hybrid acceptable (phone stays web PWA, Godot = TV view only)
 - Sprint N gate ≤3/5 fail: archive Godot v2 + restore web stack v1 final + accept feasibility study
 
-## 12. Open questions deferred plan v3
+## 12. Open questions RESOLVED master-dd 2026-04-30
 
-1. Sprint J Visual Map Obsidian: defer post-N gate o eliminate (default raccomanda defer)
-2. Sprint K Donchitos cherry-pick: pre-execute o incorporate M.1 (default incorporate M.1)
-3. Sprint M.5 race condition diagnose: frontend o backend (master-dd input richiesto)
-4. Sprint N.7 failure-model parity gate: defer M.1 o ELEVATE GATE 0 (default ELEVATE)
-5. Spike POC #2003 + Rubric launcher #2007 archive method: branch tag o silent drop (default branch tag)
+1. ⏸️ Sprint J Visual Map Obsidian: **deferred** — valuta quando appropriato (post Sprint N gate o post-cutover). Default: defer post-Fase 3.
+2. ✅ Sprint K Donchitos cherry-pick: **incorporate M.1** confermato (no separate Sprint K). 18 agent + 32 skill + 5 asset skill cherry-picked.
+3. ✅ Sprint M.5 race condition diagnose: **frontend** (lobbyBridge.js handler register order race + first-connect snapshot push). Backend wsSession.js + coopOrchestrator.js diagnosed clean post fix #2020-#2021. Cross-stack spike Sprint M.5 valida Godot HTML5 client implementation no equivalent race (handler register PRE-connect via Godot WebSocketClient signal pattern).
+4. ✅ Sprint N.7 failure-model parity gate: **ELEVATE GATE 0** mandatory pre Sprint N.1.
+5. ✅ Spike POC #2003 + Rubric launcher #2007 archive method: **branch tag `web-v1-final`** Sprint S checklist.
+6. ✅ GitHub repo create: **AUTHORIZED** `gh repo create MasterDD-L34D/Game-Godot-v2 --private --license mit`.
+7. ✅ ERMES E7-E8 + asset workflow + Skiv asset + Donchitos asset skill: **integrated plan v3.1** §"ASSET PIPELINE" + §"ERMES ROADMAP" sections.
+
+## 13. Plan v3.1 update master-dd input (2026-04-30)
+
+Plan v3 v3.1 update post-pivot include:
+
+- §"ASSET PIPELINE" 5 subsection: A.1 Workspace locale + A.2 3-path (Path 1|2|3 + ibridi) + A.3 Skiv asset spec (8 asset categorie portrait/lifecycle/run/echo/SFX/VFX/death) + A.4 Donchitos asset skill cherry-pick (`/art-bible` `/asset-spec` `/asset-audit` + create-icon + create-sprite + NEW `evo-tactics-create-sfx`) + A.5 timeline integrated Sprint M.1-Q.1
+- §"ERMES ROADMAP" 4 subsection: stato E0-E6 shipped + E7 future runtime candidate (post-cutover ~1-2 sett) + E8 future foodweb candidate (post-E7 ~2-3 sett) + ERMES guard policy (NON gating Sprint Fase 2/3, isolated Python `prototypes/ermes_lab/`)
+
+ERMES + asset workflow + Skiv asset + Donchitos asset skill TUTTI integrated in plan v3.1.
 
 ---
 
