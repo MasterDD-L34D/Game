@@ -8,14 +8,19 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v21 (post Godot pivot decision-altering 2026-04-29 sera + plan v3 unified)
-- **Ultimo aggiornamento**: 2026-04-30 mattina (Pivot Godot v2 immediate confermato master-dd: web stack co-op 7-PR cascade fix race conditions cascade UNRESOLVED → architecturally rebuild Godot meglio. Sprint Fase 1 CHIUSA con scope ridotto, 22 PR mergiati main preserved come reference port. Sprint G.2b BG3-lite Plus + A1 rubric + Sprint H DEPRECATED. Sprint M.1 onset Game-Godot-v2 NEW repo. Plan v3 ~13-19 sett vs plan v2 14-21 sett net savings).
+- **Versione compact**: v22 (post plan v3.2 gap audit + ADR pillar promotion criteria 2026-04-30)
+- **Ultimo aggiornamento**: 2026-04-30 (PR #2026 merged main `e8967285`. Plan v3.2 P0 fix: line 305 ADR-19 contraddizione Python rules → Node canonical, counts inflated 60+→14 enc + 100+→15 species, Sprint N gate exit P3+P5 row 10/10 verdict. NEW ADR-2026-04-30 pillar promotion criteria tier ladder formal. NEW gap audit synthesis 3 agent paralleli ~30 gap classified, 4 P0 fixed, 8 P1 deferred plan v3.3 non bloccante).
 
-## ⚡ Resume trigger phrase canonical (next session)
+## ⚡ Resume trigger phrase canonical (next session — Sprint M.1 spawn)
 
-> _"leggi docs/adr/ADR-2026-04-29-pivot-godot-immediate.md + docs/planning/2026-04-29-master-execution-plan-v3.md, conferma stato post-pivot Godot, spawn chip Sprint M.1 Game-Godot-v2 bootstrap + Donchitos cherry-pick"_
+> _"leggi COMPACT_CONTEXT.md v22 + docs/planning/2026-04-29-master-execution-plan-v3.md v3.2 + docs/adr/ADR-2026-04-29-pivot-godot-immediate.md + docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md. Spawn Sprint M.1 chip: NEW repo Game-Godot-v2 + Donchitos template adopt + Godot 4.x install + 3 spike (M.5 cross-stack + M.7 phone + M.6 CI)."_
 
-Handoff doc canonical: [`docs/adr/ADR-2026-04-29-pivot-godot-immediate.md`](docs/adr/ADR-2026-04-29-pivot-godot-immediate.md) (decision pivot) + [`docs/planning/2026-04-29-master-execution-plan-v3.md`](docs/planning/2026-04-29-master-execution-plan-v3.md) (sequenza Sprint M.1-S).
+Handoff doc canonical:
+
+- [`docs/adr/ADR-2026-04-29-pivot-godot-immediate.md`](docs/adr/ADR-2026-04-29-pivot-godot-immediate.md) — decision pivot
+- [`docs/planning/2026-04-29-master-execution-plan-v3.md`](docs/planning/2026-04-29-master-execution-plan-v3.md) — sequenza Sprint M.1-S v3.2
+- [`docs/adr/ADR-2026-04-30-pillar-promotion-criteria.md`](docs/adr/ADR-2026-04-30-pillar-promotion-criteria.md) — tier ladder Sprint N gate
+- [`docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md`](docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md) — 8 P1 deferred plan v3.3
 
 ## ⚡ TL;DR pivot Godot v2 (2026-04-29 sera)
 
