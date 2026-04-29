@@ -1,6 +1,7 @@
 @echo off
 REM Evo-Tactics — Sync main + npm install (esegui prima rubric session se nuove PR mergiate).
 REM Doppio clic desktop shortcut → git pull origin main + npm install (se package.json drift).
+REM Hotfix 2026-04-29: worktree-aware. Detect main worktree path se main checked out altrove.
 
 setlocal
 chcp 65001 >nul 2>&1
@@ -22,10 +23,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM Save package.json hash pre-pull per detect dep drift
-for /f "delims=" %%H in ('certutil -hashfile package.json SHA1 ^| find /v ":" ^| find /v "CertUtil"') do set "PRE_PKG_HASH=%%H"
-
-echo   [setup] git fetch + pull origin main...
+echo   [setup] git fetch origin main...
 git fetch origin main >nul 2>&1
 if errorlevel 1 (
     echo   [X] git fetch fallito. Verifica connessione internet + remote origin.
@@ -33,47 +31,86 @@ if errorlevel 1 (
     exit /b 1
 )
 
+REM Detect se main e' checked out in altro worktree
+set "MAIN_WT="
+for /f "delims=" %%P in ('powershell -NoProfile -Command "& { (git worktree list ^| Select-String '\[main\]') -replace '\s+\[main\].*', '' -replace '\s+[a-f0-9]{7,}\s*$', '' -replace '^\s+', '' | Select-Object -First 1 }"') do set "MAIN_WT=%%P"
+
 REM Detect current branch
 for /f "delims=" %%B in ('git rev-parse --abbrev-ref HEAD') do set "CURRENT_BRANCH=%%B"
 
+if defined MAIN_WT (
+    if /i not "%MAIN_WT%"=="%cd%" (
+        echo   [!]  Main checked out in worktree separato:
+        echo        %MAIN_WT%
+        echo.
+        echo   [setup] Pull main da quel worktree...
+        pushd "%MAIN_WT%"
+        git pull --ff-only origin main 2>&1
+        if errorlevel 1 (
+            echo   [!]  Pull diverged o conflict. Fallback: fetch ref only.
+            git fetch origin main:main 2>&1
+        )
+        popd
+        echo   [OK]  Main worktree synced.
+        goto :checkdeps
+    )
+)
+
 if /i "%CURRENT_BRANCH%"=="main" (
-    git pull origin main 2>&1
-) else (
-    echo   [!] Branch corrente: %CURRENT_BRANCH% ^(non main^)
-    echo       Switch a main + pull...
-    git checkout main 2>&1
+    git pull --ff-only origin main 2>&1
     if errorlevel 1 (
-        echo   [X] git checkout main fallito. Working tree dirty? Stash o commit prima.
+        echo   [!]  Pull main fallito. Working tree dirty? Stash o commit prima.
         pause
         exit /b 1
     )
-    git pull origin main 2>&1
+    echo   [OK]  Main aggiornato.
+) else (
+    echo   [!]  Branch corrente: %CURRENT_BRANCH% (non main)
+    echo        Update local main ref via fetch (NO checkout)...
+    git fetch origin main:main 2>&1
+    if errorlevel 1 (
+        echo   [!]  Local main divergente. Fetch only senza ref update.
+        git fetch origin main 2>&1
+    )
+    echo   [OK]  origin/main fetched.
+    echo.
+    echo   NOTA: per usare apps/play da main, switch a main worktree
+    echo         o checkout main qui (richiede working tree pulito^).
 )
 
-echo.
-echo   [OK]   main aggiornato.
+:checkdeps
+REM Determine target worktree per package.json check
+set "TARGET_DIR=%cd%"
+if defined MAIN_WT (
+    if /i not "%MAIN_WT%"=="%cd%" set "TARGET_DIR=%MAIN_WT%"
+)
 
-REM Compare package.json hash post-pull
+REM Compare package.json hash post-pull (in target dir)
+echo.
+echo   [setup] Verifica package.json drift in %TARGET_DIR%...
+pushd "%TARGET_DIR%"
 for /f "delims=" %%H in ('certutil -hashfile package.json SHA1 ^| find /v ":" ^| find /v "CertUtil"') do set "POST_PKG_HASH=%%H"
 
-if not "%PRE_PKG_HASH%"=="%POST_PKG_HASH%" (
-    echo.
-    echo   [!]   package.json modificato. Run npm install...
+REM Check se node_modules esiste
+if not exist node_modules (
+    echo   [!]   node_modules mancante. Run npm install...
     call npm install
     if errorlevel 1 (
         echo   [X] npm install fallito.
+        popd
         pause
         exit /b 1
     )
-    echo   [OK]  dependencies aggiornate.
+    echo   [OK]  dependencies installate.
 ) else (
-    echo   [OK]  package.json invariato. Skip npm install.
+    echo   [OK]  node_modules presente. Skip npm install salvo drift critico.
 )
+popd
 
 echo.
 echo   ===========================================================
-echo   HEAD corrente:
-git log --oneline -3
+echo   HEAD corrente origin/main:
+git log origin/main --oneline -3
 echo   ===========================================================
 echo.
 echo   PRONTO per rubric session.
@@ -82,6 +119,11 @@ echo   Prossimo step:
 echo         Doppio clic icona desktop "Evo-Tactics-Demo"
 echo         per avviare backend + ngrok tunnel + auto-open browser.
 echo.
+if defined MAIN_WT (
+    echo   NOTA worktree: Demo launcher esegue da:
+    echo         %MAIN_WT%
+    echo.
+)
 echo   ===========================================================
 echo.
 pause

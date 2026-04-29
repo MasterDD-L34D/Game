@@ -1,6 +1,7 @@
 @echo off
 REM Evo-Tactics 1-click demo launcher.
 REM Doppio clic (o tramite shortcut Desktop) = go.
+REM Hotfix 2026-04-29: worktree-aware. Detect main worktree path se main checked out altrove.
 
 setlocal
 chcp 65001 >nul 2>&1
@@ -17,9 +18,24 @@ if errorlevel 1 (
     exit /b 1
 )
 
+REM Detect se main e' checked out in altro worktree
+set "MAIN_WT="
+for /f "delims=" %%P in ('powershell -NoProfile -Command "& { (git worktree list ^| Select-String '\[main\]') -replace '\s+\[main\].*', '' -replace '\s+[a-f0-9]{7,}\s*$', '' -replace '^\s+', '' | Select-Object -First 1 }"') do set "MAIN_WT=%%P"
+
+REM Detect current branch
+for /f "delims=" %%B in ('git rev-parse --abbrev-ref HEAD 2^>nul') do set "CURRENT_BRANCH=%%B"
+
+REM Switch a main worktree se diverso da current
+if defined MAIN_WT (
+    if /i not "%MAIN_WT%"=="%cd%" (
+        echo   [!]  Demo runs from main worktree: %MAIN_WT%
+        cd /d "%MAIN_WT%"
+    )
+)
+
 REM Build frontend (sincronizza asset hash: evita .html ref file non esistenti)
 echo.
-echo   [setup] build frontend in corso...
+echo   [setup] build frontend in corso (path: %cd%^)...
 call npm run play:build >nul 2>&1
 if errorlevel 1 (
     echo.
