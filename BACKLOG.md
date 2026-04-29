@@ -13,6 +13,21 @@
 
 **Decision-altering**: ADR-2026-04-29-pivot-godot-immediate.md + master-execution-plan-v3.md SHIPPED. Path B accelerated cap. 22 PR mergiati main preserved come reference port Godot. Sprint G.2b BG3-lite Plus + A1 rubric + Sprint H + Sprint I DEPRECATED post-pivot.
 
+### ✅ Plan v3.2 gap audit shipped 2026-04-30 — PR #2026 merged main `e8967285`
+
+**Scope**: P0 fix plan v3 (line 305 ADR-19 contraddizione, counts inflated 60+→14 enc + 100+→15 species, Sprint N gate P3+P5 row 10/10 verdict). NEW ADR-2026-04-30 pillar promotion criteria (tier ladder formal). NEW gap audit synthesis 3 agent paralleli (~30 gap classified, 4 P0 fixed, 8 P1 deferred plan v3.3).
+
+**P1 deferred plan v3.3** (non bloccanti Sprint M.1 spawn — quando reach Sprint M-N-O):
+
+- [ ] **§Sprint O combat services 16+ port matrix** — archetypePassives + beastBondReaction + bondReactionTrigger + bravado + defyEngine + interruptFire + missionTimer + morale + pinDown + sgTracker + synergyDetector + telepathicReveal + terrainReactions + timeOfDayModifier + defenderAdvantageModifier + pseudoRng + fairnessCap + biomeSpawnBias/Resonance/Modifiers
+- [ ] **§Sprint R 26 routes HTTP backend whitelist** — Godot HTTPClient adapter spec
+- [ ] **§Sprint O.4 8 AI services list** — aiProgressMeter + aiPersonalityLoader + aiProfilesLoader + threatAssessment + threatPreview + sistemaActor + sistemaTurnRunner + declareSistemaIntents
+- [ ] **ADR drop HermeticOrmus formal** ~30min — Sprint L mini-system out-of-scope MVP
+- [ ] **Sprint S Mission Console deprecation row** — `docs/mission-console/` Vue bundle archive in branch `web-v1-final`
+- [ ] **Path drift correction table** — `data/skiv/` not exist, ennea_voices path TBD, balance/terrain_defense + ai_profiles paths audit (1h grep)
+- [ ] **§Sprint M.3 7 silhouette spec addendum** — job-to-shape Godot AnimatedSprite2D import (30min `docs/core/22-IDENTITA-VISIVA.md`)
+- [ ] **§Sprint N.5 accessibility parity bullet** — colorblind shape + aria-label + prefers-reduced-motion port Godot
+
 ### Userland (richiede azione umana)
 
 - [x] ~~**Deep research analysis** (NEW session)~~ → **✅ CHIUSO 2026-04-28 sera** PR #1996.
