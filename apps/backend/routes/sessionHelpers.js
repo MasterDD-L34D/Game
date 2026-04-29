@@ -121,6 +121,11 @@ function normaliseUnit(raw, fallbackIndex) {
     mp: Number.isFinite(Number(input.mp)) ? Number(input.mp) : 5,
     lineage_id: input.lineage_id ? String(input.lineage_id) : null,
     abilities: Array.isArray(input.abilities) ? input.abilities.slice() : [],
+    // ADR-2026-04-17 Q-001 T3.1: preserve ai_profile per Utility AI gradual rollout.
+    // Senza questo campo, declareSistemaIntents.resolveUseUtilityBrain() cade su
+    // useUtilityAi global (default false) → Utility AI mai attivo per /start sessions.
+    // Bot-flagged 2026-04-29 PR #1495 review.
+    ai_profile: input.ai_profile ? String(input.ai_profile) : null,
   };
 }
 

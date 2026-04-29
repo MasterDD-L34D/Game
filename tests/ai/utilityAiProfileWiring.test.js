@@ -12,14 +12,18 @@
 
 'use strict';
 
+process.env.IDEA_ENGINE_DISABLE_STATUS_REFRESH = '1';
+
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
+const request = require('supertest');
 
 const { loadAiProfiles } = require('../../apps/backend/services/ai/aiProfilesLoader');
 const {
   createDeclareSistemaIntents,
 } = require('../../apps/backend/services/ai/declareSistemaIntents');
+const { createApp } = require('../../apps/backend/app');
 
 // Silent logger per non inquinare test output.
 const silentLogger = { log: () => {}, warn: () => {} };
@@ -34,13 +38,12 @@ test('loadAiProfiles: carica ai_profiles.yaml e ritorna 3+ profile', () => {
   assert.ok(names.includes('cautious'), 'profile cautious presente');
 });
 
-test('loadAiProfiles: profile aggressive ha use_utility_brain=true (ADR first flip)', () => {
+test('loadAiProfiles: profile aggressive use_utility_brain campo presente (boolean)', () => {
+  // KILL-SWITCH 2026-04-29 PR #2008: aggressive.use_utility_brain=false
+  // dopo bug oscillazione utilityBrain.scoreAction (Apex tutorial_05).
+  // Re-flip a true post-fix utilityBrain. Test verifica field shape, non value.
   const data = loadAiProfiles(undefined, silentLogger);
-  assert.equal(
-    data.profiles.aggressive.use_utility_brain,
-    true,
-    'aggressive.use_utility_brain deve essere true (ADR-2026-04-17)',
-  );
+  assert.equal(typeof data.profiles.aggressive.use_utility_brain, 'boolean');
 });
 
 test('loadAiProfiles: profile balanced/cautious hanno use_utility_brain=false (gradual rollout)', () => {
@@ -147,4 +150,81 @@ test('declareSistemaIntents: aiProfiles=null ignora profile, fallback useUtility
     /^REGOLA_/.test(d.rule) || d.rule === 'no_target' || d.rule === 'intents_cap_reached',
     `aiProfiles=null + ai_profile valido → fallback legacy, ha ricevuto: ${d.rule}`,
   );
+});
+
+// ── Integration test: bot review fix 2026-04-29 ──
+// Bug catched: normaliseUnit dropped ai_profile field → /api/session/start
+// stripped ai_profile, Utility AI never active for real API sessions despite
+// loader being wired. Smoke test missed because used factory directly.
+// Fix: ai_profile preserved in normaliseUnit. Verify end-to-end via HTTP.
+
+test('POST /api/session/start preserves ai_profile through normaliseUnit', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const units = [
+    {
+      id: 'p1',
+      species: 'velox',
+      job: 'skirmisher',
+      controlled_by: 'player',
+      hp: 10,
+      mod: 3,
+      dc: 12,
+      position: { x: 0, y: 0 },
+    },
+    {
+      id: 'sis_aggressive',
+      species: 'apex_predatore',
+      job: 'vanguard',
+      controlled_by: 'sistema',
+      hp: 8,
+      mod: 3,
+      dc: 13,
+      ai_profile: 'aggressive',
+      position: { x: 5, y: 5 },
+    },
+    {
+      id: 'sis_balanced',
+      species: 'predoni_nomadi',
+      job: 'skirmisher',
+      controlled_by: 'sistema',
+      hp: 4,
+      mod: 2,
+      dc: 12,
+      ai_profile: 'balanced',
+      position: { x: 4, y: 5 },
+    },
+  ];
+
+  const startRes = await request(app).post('/api/session/start').send({ units });
+  assert.equal(startRes.status, 200);
+  const sid = startRes.body.session_id;
+  assert.ok(sid, 'session_id present');
+
+  const stateRes = await request(app).get('/api/session/state').query({ session_id: sid });
+  assert.equal(stateRes.status, 200);
+
+  const sisAggressive = stateRes.body.units.find((u) => u.id === 'sis_aggressive');
+  const sisBalanced = stateRes.body.units.find((u) => u.id === 'sis_balanced');
+  const player = stateRes.body.units.find((u) => u.id === 'p1');
+  assert.ok(sisAggressive, 'sis_aggressive present in state');
+  assert.ok(sisBalanced, 'sis_balanced present in state');
+  assert.ok(player, 'p1 present in state');
+
+  // Critical assertion: ai_profile preserved through normaliseUnit
+  assert.equal(
+    sisAggressive.ai_profile,
+    'aggressive',
+    'ai_profile preserved on sis_aggressive (was dropped pre-fix)',
+  );
+  assert.equal(
+    sisBalanced.ai_profile,
+    'balanced',
+    'ai_profile preserved on sis_balanced (was dropped pre-fix)',
+  );
+  // Player without ai_profile → null (not undefined)
+  assert.equal(player.ai_profile, null, 'unit senza ai_profile → null');
 });

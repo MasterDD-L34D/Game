@@ -6836,6 +6836,19 @@
       "track": "active"
     },
     {
+      "path": "docs/reports/2026-04-29-utility-ai-oscillation-bug.md",
+      "title": "Utility AI Oscillation Bug — Kill-Switch 2026-04-29",
+      "doc_status": "active",
+      "doc_owner": "ai-team",
+      "workstream": "ops-qa",
+      "last_verified": "2026-04-29",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/reports/PILLAR-LIVE-STATUS.md",
       "title": "PILLAR-LIVE-STATUS — runtime status canonical (volatile)",
       "doc_status": "active",
