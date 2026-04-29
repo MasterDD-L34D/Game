@@ -88,15 +88,38 @@ function portFree(port) {
   });
 }
 
-// ngrok presence
-const ngrokWhich = spawnSync(process.platform === 'win32' ? 'where' : 'which', ['ngrok'], {
-  encoding: 'utf8',
-});
-const ngrokPath = (ngrokWhich.stdout || '').split(/\r?\n/).filter(Boolean)[0];
-if (ngrokPath) ok(`ngrok trovato (${ngrokPath})`);
-else {
-  fail('ngrok non trovato', 'installa da https://ngrok.com/download');
-  preflightFail = true;
+// ngrok presence — priority: repo-local .tools/ngrok/ngrok.exe (official, fix MS Store bug)
+// → fallback PATH-resolved ngrok.
+// Bug ref: ngrok issue #505 "panic: disabled updater should never run" (Microsoft Store ngrok).
+let ngrokPath = null;
+const localNgrok = path.join(
+  REPO_ROOT,
+  '.tools',
+  'ngrok',
+  process.platform === 'win32' ? 'ngrok.exe' : 'ngrok',
+);
+if (fs.existsSync(localNgrok)) {
+  ngrokPath = localNgrok;
+  ok(`ngrok trovato local (${ngrokPath})`);
+} else {
+  const ngrokWhich = spawnSync(process.platform === 'win32' ? 'where' : 'which', ['ngrok'], {
+    encoding: 'utf8',
+  });
+  ngrokPath = (ngrokWhich.stdout || '').split(/\r?\n/).filter(Boolean)[0];
+  if (ngrokPath) {
+    ok(`ngrok trovato PATH (${ngrokPath})`);
+    if (process.platform === 'win32' && /WindowsApps/i.test(ngrokPath)) {
+      info(
+        'ngrok Microsoft Store rilevato (bug noto issue #505). Se Demo crash, run "Evo-Tactics-Install-Ngrok-Official" per official ZIP.',
+      );
+    }
+  } else {
+    fail(
+      'ngrok non trovato',
+      'doppio clic "Evo-Tactics-Install-Ngrok-Official" per setup automatic (raccomandato), OR install manuale da https://ngrok.com/download',
+    );
+    preflightFail = true;
+  }
 }
 
 // ngrok authtoken
@@ -231,10 +254,12 @@ function start() {
 function startTunnel(demoLogPath) {
   console.log(bold('▸ Avvio ngrok tunnel'));
   const demoLog = fs.createWriteStream(demoLogPath, { flags: 'a' });
-  const ngrok = spawn('ngrok', ['http', String(PORT), '--log=stdout'], {
+  // Use detected ngrokPath (repo-local .tools/ngrok preferred over MS Store bug).
+  const ngrokBin = ngrokPath || 'ngrok';
+  const ngrok = spawn(ngrokBin, ['http', String(PORT), '--log=stdout'], {
     stdio: ['ignore', 'pipe', 'pipe'],
     env: process.env,
-    shell: process.platform === 'win32',
+    shell: false, // avoid shell escape + MS Store WindowsApps redirect
   });
   ngrok.stdout.pipe(demoLog);
   ngrok.stderr.pipe(demoLog);
