@@ -14,7 +14,8 @@
 - [x] ~~**Deep research analysis** (NEW session)~~ → **✅ CHIUSO 2026-04-28 sera** PR #1996.
 - [x] ~~**Sprint G v3 Legacy Collection asset swap**~~ → **✅ CHIUSO 2026-04-29** PR #2002 (Ansimuz CC0 47 PNG 345KB ≤20MB cap, 5 biomi tile + 8 archetype creature + parallax 4-layer + VFX 8 types + Skiv LPC override preserved).
 - [x] ~~**Spike POC BG3-lite**~~ → **✅ CHIUSO 2026-04-29** PR #2003 (Tier 1 frontend hide grid + smooth movement + range cerchio + AOE shape + ui_config.json toggle). **Pending master-dd rubric session 4 amici tester DIVERSI da TKT-M11B-06 pool** per verdict pass/fail rubric 4-criteria threshold ≥3.5.
-- [ ] **🚫 BLOCKED — Master-dd rubric session Spike POC BG3-lite** ~1-2h userland. Output: `docs/playtest/2026-04-29-bg3-lite-spike-rubric.md` aggregate scores + verdict. Sblocca Sprint G.2b BG3-lite Plus full ~10-12g.
+- [x] ~~**Rubric launcher desktop suite**~~ → **✅ CHIUSO 2026-04-29** PR #2007 (`be07ebae`). 4 icone Desktop + Install-Desktop-Shortcuts.bat installer cross-PC. Workflow rubric session zero-terminal: Sync-Main → Demo → Toggle-A → Toggle-B. Cross-PC support via 1-click installer.
+- [ ] **🚫 BLOCKED — A1 Master-dd rubric session Spike POC BG3-lite** ~1-2h userland. Output: `docs/playtest/2026-04-29-bg3-lite-spike-rubric.md` aggregate scores + verdict. Sblocca Sprint G.2b BG3-lite Plus full ~10-12g OR Sprint I direct se FAIL. **Workflow zero-terminal**: doppio clic Evo-Tactics-Sync-Main → Evo-Tactics-Demo → condividi ngrok URL 4 amici → Toggle-A → Toggle-B → score → verdict. Resume trigger phrase: vedi `docs/planning/2026-04-29-ermes-cleanup-handoff.md` §1.
 - [ ] **🚫 BLOCKED — Sprint G.2b BG3-lite Plus movement layer** ~10-12g (~2-2.5 sett). ADR `docs/adr/ADR-2026-04-28-bg3-lite-plus-movement-layer.md`. Tier 2 backend cherry-pick (sub-tile float round-to-nearest + vcScoring area_covered + flanking 5-zone angle). **Pre-condition**: rubric session pass.
 - [ ] **🚫 BLOCKED — TKT-M11B-06 playtest userland** ~2-4h. Seguire `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md`. **Pre-condition**: Sprint G.2b BG3-lite Plus shipped.
 - [ ] **Playtest round 2** — retest post PR #1730 con browser Ctrl+Shift+R (cache bust). Residuo: narrative log prose feature M18+ (gap non-bug).
@@ -28,6 +29,15 @@
 - [x] ~~**Action 2 Sprint N.4 pre-read tactical AI**~~ → **✅ CHIUSO 2026-04-29** PR #2000. `docs/research/2026-04-28-tactical-ai-archetype-templates.md` shipped (Battle Brothers AI + XCOM:EU postmortem + 3 archetype Beehave templates: vanguard / skirmisher / healer).
 - [x] ~~**Action 3 Sprint N gate row failure-model parity + N.7 spec**~~ → **✅ CHIUSO 2026-04-29** PR #2005. Master plan v2 §Sprint N gate row MANDATORY 5/5 + `docs/planning/2026-04-29-sprint-n7-failure-model-parity-spec.md` (WoundState.gd + LegacyRitualPanel.gd Godot impl deferred Sprint M.1).
 - [x] ~~**Action 6 Ambition seed Skiv-Pulverator alleanza**~~ → **✅ CHIUSO 2026-04-29** PR #2004. `data/core/campaign/ambitions/skiv_pulverator_alliance.yaml` + `apps/backend/services/campaign/ambitionService.js` + `apps/play/src/ambitionHud.js` + `apps/play/src/ambitionChoicePanel.js` + 10 test verdi + AI 382/382 zero regression. P2 🟢 def → 🟢++ + P5 🟡 → 🟢 candidato.
+
+### Sprint Fase 1 ondata 4 follow-up — TUTTI CHIUSI ✅ (6 PR 2026-04-29 post launcher suite)
+
+- [x] ~~**fix(ai) ai_profile preserve in normaliseUnit**~~ → **✅ CHIUSO 2026-04-29** PR #2008 (`83f26050`). PR #1495 bot review P1 risolto. Side-effect: expone bug latente Utility AI oscillation (vedi #2013 below).
+- [x] ~~**ERMES drop-in self-install E0-E6**~~ → **✅ CHIUSO 2026-04-29** PR #2009 (`2259634e`). `prototypes/ermes_lab/` modulo isolato (sim deterministica + JSON eco_pressure_report + experiment loop scoring). E7-E8 future runtime/foodweb deferred post-playtest + ADR.
+- [x] ~~**governance registry ERMES planning docs**~~ → **✅ CHIUSO 2026-04-29** PR #2010 (`8b5d4ab9`). Frontmatter compliance.
+- [x] ~~**asset-creation-workflow 3-path canonical**~~ → **✅ CHIUSO 2026-04-29** PR #2011 (`8acc7389`).
+- [x] ~~**fix(ai) utilityBrain oscillation root cause**~~ → **✅ CHIUSO 2026-04-29** PR #2013 (`0fdd2853`). 3 root cause compounding: (1) faction key mismatch `team` vs `controlled_by` PRIMARY (2) multiplicative scoring annihilation SECONDARY (3) action-agnostic considerations TERTIARY. Re-enable `aggressive.use_utility_brain: true`. AI 384/384 verde + utility 23/23 verde. Doc: `docs/reports/2026-04-29-utility-ai-oscillation-bug.md`.
+- [x] ~~**Workspace locale (out-of-repo) section asset workflow**~~ → **✅ CHIUSO 2026-04-29** PR #2014 (`6a9bcc43`).
 
 ### Future-proof deferred M12+
 
