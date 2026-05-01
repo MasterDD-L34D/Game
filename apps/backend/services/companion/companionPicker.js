@@ -152,8 +152,27 @@ function pick(opts = {}) {
   };
 }
 
+/**
+ * W5.5 — Enumerate species archetypes available for a biome (debug-only).
+ * Used by GET /api/companion/pool endpoint.
+ *
+ * @param {string} biomeId
+ * @param {object} [opts] {poolPath?}
+ * @returns {Array} species_pool entries (or [] when biome unknown)
+ */
+function listArchetypesForBiome(biomeId, opts = {}) {
+  if (!biomeId || typeof biomeId !== 'string') return [];
+  const { poolPath = DEFAULT_POOL_PATH } = opts;
+  const pool = _loadPool(poolPath);
+  if (!pool) return [];
+  const { biomePool } = _resolveBiomePool(pool, biomeId);
+  if (!biomePool) return [];
+  return Array.isArray(biomePool.species_pool) ? biomePool.species_pool.slice() : [];
+}
+
 module.exports = {
   pick,
+  listArchetypesForBiome,
   CANONICAL_SKIV,
   _resetCache,
   DEFAULT_POOL_PATH,
