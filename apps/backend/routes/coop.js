@@ -161,21 +161,42 @@ function createCoopRouter({ lobby, coopStore } = {}) {
   });
 
   router.post('/coop/world/confirm', (req, res) => {
-    const { code, host_token: hostToken, scenario_id: scenarioId } = req.body || {};
+    const {
+      code,
+      host_token: hostToken,
+      scenario_id: scenarioId,
+      // W5-bb cross-repo (Godot v2 mirror): rich payload inputs.
+      biome_id: biomeId,
+      form_axes: formAxes,
+      run_seed: runSeed,
+      trainer_canonical: trainerCanonical,
+    } = req.body || {};
     const room = authHost(code, hostToken);
     if (!room) return res.status(403).json({ error: 'host_auth_failed' });
     const orch = coopStore.get(code);
     if (!orch) return res.status(409).json({ error: 'run_not_started' });
     try {
-      const result = orch.confirmWorld({ scenarioId });
+      const result = orch.confirmWorld({
+        scenarioId,
+        biomeId,
+        formAxes,
+        runSeed,
+        trainerCanonical,
+      });
       broadcastCoopState(room, orch);
       // Return session-start payload so host can forward to /api/session/start.
       const startPayload = orch.buildSessionStartPayload();
-      return res.json({
+      const response = {
         scenario_id: result.scenario_id,
         phase: orch.phase,
         session_start_payload: startPayload,
-      });
+      };
+      // W5-bb: surface enriched world (world/ermes/aliena/custode) when
+      // biomeId provided. Godot v2 WorldSetupState consumes these fields.
+      if (result.enriched_world) {
+        Object.assign(response, result.enriched_world);
+      }
+      return res.json(response);
     } catch (err) {
       return res.status(400).json({ error: err.message || 'world_confirm_failed' });
     }

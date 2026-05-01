@@ -30,7 +30,7 @@ function characterToUnit(character, { index = 0 } = {}) {
 }
 
 class CoopOrchestrator {
-  constructor({ roomCode, hostId, now = Date.now }) {
+  constructor({ roomCode, hostId, now = Date.now, worldEnricher = null } = {}) {
     if (!roomCode) throw new Error('room_code_required');
     this.roomCode = roomCode;
     this.hostId = hostId || null;
@@ -42,6 +42,17 @@ class CoopOrchestrator {
     this.debriefChoices = new Map();
     this.log = [];
     this._listeners = new Set();
+    // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
+    // Default lazy-loads the canonical service module on first use.
+    this._worldEnricher = worldEnricher;
+    this.enrichedWorld = null; // populated by confirmWorld() with rich schema
+  }
+
+  _getWorldEnricher() {
+    if (this._worldEnricher) return this._worldEnricher;
+    // eslint-disable-next-line global-require
+    this._worldEnricher = require('./worldEnricher');
+    return this._worldEnricher;
   }
 
   _emit(kind, payload = {}) {
@@ -155,14 +166,37 @@ class CoopOrchestrator {
    * Confirm scenario for this run. Moves phase world_setup → combat.
    * Voting logic deferred to M17 (host confirm for MVP).
    */
-  confirmWorld({ scenarioId } = {}) {
+  confirmWorld({ scenarioId, biomeId, formAxes, runSeed, trainerCanonical } = {}) {
     if (this.phase !== 'world_setup') throw new Error('not_in_world_setup');
     const sid = scenarioId || this.run?.scenarioStack?.[this.run.currentIndex];
     if (!sid) throw new Error('scenario_required');
     this.run.scenarioStack[this.run.currentIndex] = sid;
-    this._emit('world_confirmed', { scenario_id: sid });
+    // W5-bb cross-repo: enrich with rich W5 schema (world+ermes+aliena+custode)
+    // when biomeId provided. Backwards-compat: caller may omit biomeId for
+    // legacy paths; enriched_world stays null.
+    let enrichedWorld = null;
+    if (biomeId && typeof biomeId === 'string') {
+      try {
+        const enricher = this._getWorldEnricher();
+        enrichedWorld = enricher.enrichWorld({
+          biomeId,
+          formAxes: formAxes || {},
+          runSeed: Number.isFinite(runSeed) ? runSeed : 0,
+          trainerCanonical: Boolean(trainerCanonical),
+        });
+        this.enrichedWorld = enrichedWorld;
+      } catch (err) {
+        // Enricher failure must not break confirmWorld phase transition.
+        // Log but proceed — Godot client falls back to sample JSON gracefully.
+        this._emit('world_enricher_failed', { error: String(err && err.message) });
+      }
+    }
+    this._emit('world_confirmed', { scenario_id: sid, biome_id: biomeId || null });
     this._setPhase('combat');
-    return { scenario_id: sid };
+    return {
+      scenario_id: sid,
+      enriched_world: enrichedWorld,
+    };
   }
 
   /**
