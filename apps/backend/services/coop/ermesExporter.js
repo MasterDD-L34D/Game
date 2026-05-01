@@ -72,6 +72,27 @@ const NEUTRAL_FALLBACK = Object.freeze({
   bias: {},
 });
 
+// W5.5 — per-biome canonical role demands. Mirror Godot v2
+// `scripts/session/ermes_role_gap.gd` BIOME_ROLE_DEMANDS verbatim.
+// Cross-repo parity: any edit here MUST land in Godot side too.
+const BIOME_ROLE_DEMANDS = Object.freeze({
+  savana: { esploratore: 1, guerriero: 1 },
+  caverna: { esploratore: 1, custode: 1 },
+  atollo_obsidiana: { tessitore: 1, esploratore: 1 },
+  foresta_temperata: { tessitore: 1, custode: 1 },
+  badlands: { guerriero: 1, esploratore: 1 },
+  foresta_miceliale: { tessitore: 2 },
+  abisso_vulcanico: { guerriero: 1, esploratore: 1 },
+  reef_luminescente: { esploratore: 1, tessitore: 1 },
+  caldera_glaciale: { custode: 1, guerriero: 1 },
+  pianura_salina_iperarida: { esploratore: 2 },
+  mezzanotte_orbitale: { tessitore: 1, esploratore: 1 },
+  frattura_abissale_sinaptica: { tessitore: 1, custode: 1 },
+  foresta_acida: { custode: 1, tessitore: 1 },
+});
+
+const FALLBACK_DEMAND = Object.freeze({});
+
 let _cachedReport = null;
 let _cachedPath = null;
 let _cachedMissing = false;
@@ -143,8 +164,55 @@ function getErmesForBiome(biomeId, opts = {}) {
   return { ...NEUTRAL_FALLBACK };
 }
 
+/**
+ * W5.5 — Compute role_gap = party_count[role] - biome_demand[role].
+ *
+ * Mirror of Godot v2 `scripts/session/ermes_role_gap.gd` ErmesRoleGap.compute.
+ * Pure function. Cross-repo parity: identical input → identical output.
+ *
+ * @param {Array<string|object>} partyJobs — Array of job_id strings OR
+ *   Array of player dicts with .job_id field
+ * @param {string} biomeId — biome slug (unknown → fallback empty demand)
+ * @returns {object} Dict[role_id → int delta]
+ */
+function computeRoleGap(partyJobs, biomeId) {
+  const partyCounts = _countPartyRoles(partyJobs || []);
+  const demand = BIOME_ROLE_DEMANDS[biomeId] || FALLBACK_DEMAND;
+  const gap = {};
+  // Roles in demand → compute delta.
+  for (const roleId of Object.keys(demand)) {
+    const demanded = Number(demand[roleId]) || 0;
+    const present = Number(partyCounts[roleId] || 0);
+    gap[roleId] = present - demanded;
+  }
+  // Roles in party but not in demand → positive over-rep.
+  for (const roleId of Object.keys(partyCounts)) {
+    if (!(roleId in demand)) {
+      gap[roleId] = Number(partyCounts[roleId]);
+    }
+  }
+  return gap;
+}
+
+function _countPartyRoles(partyJobs) {
+  const out = {};
+  for (const entry of partyJobs) {
+    let roleId = '';
+    if (typeof entry === 'string') {
+      roleId = entry;
+    } else if (entry && typeof entry === 'object') {
+      roleId = String(entry.job_id || '');
+    }
+    if (!roleId) continue;
+    out[roleId] = (out[roleId] || 0) + 1;
+  }
+  return out;
+}
+
 module.exports = {
   getErmesForBiome,
+  computeRoleGap,
+  BIOME_ROLE_DEMANDS,
   STATIC_FALLBACKS,
   NEUTRAL_FALLBACK,
   _resetCache,

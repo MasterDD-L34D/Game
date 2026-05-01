@@ -27,6 +27,8 @@ const { createCodexRouter } = require('./routes/codex');
 const { createFormPackRouter } = require('./routes/formPackRoutes');
 const { createLobbyRouter } = require('./routes/lobby');
 const { createCoopRouter } = require('./routes/coop');
+// W5.5 — companion picker REST endpoint.
+const { createCompanionRouter } = require('./routes/companion');
 // Skiv ticket #7 — unit diary persistence (cross-session memoria)
 const { createDiaryRouter } = require('./routes/diary');
 // Skiv-as-Monitor — git-event-driven creature feed (2026-04-25)
@@ -774,6 +776,7 @@ function createApp(options = {}) {
   // M17 — Co-op run orchestrator (character creation + world setup + debrief).
   const coopStore = createCoopStore({ lobby });
   app.use('/api', createCoopRouter({ lobby, coopStore }));
+  app.use('/api', createCompanionRouter());
 
   // Skiv ticket #7 — unit diary persistence MVP (backend-only, JSONL append).
   app.use('/api', createDiaryRouter(options.diary || {}));

@@ -8,10 +8,17 @@
 // Phase A (W5-bb MVP): static per-biome template lookup. Static strings
 // match Godot v2 sample JSON (`data/world_setup/sample_world_setup_*.json`).
 //
-// Phase B (deferred W5.5+): LLM-prompted dynamic generation OR
-// template-based with biome × party form_axes parameterization.
+// Phase B (W5.5): LLM-prompted dynamic generation hook + version
+// discriminator field (`aliena_version`) for migration/parity tests.
+// LLM call optional via injectable opts.llmCall; default fallback to
+// template_v1 (deterministic) when LLM absent or fails.
 
 'use strict';
+
+// Schema version discriminator for cross-repo parity (mirror
+// scripts/session/world_setup_state.gd ALIENA_VERSION_*).
+const ALIENA_VERSION_TEMPLATE_V1 = 'template_v1';
+const ALIENA_VERSION_LLM_V1 = 'llm_v1';
 
 // Static per-biome aliena_summary_it. Mirrors Godot v2 sample JSON content.
 // Keys MUST match biomes.yaml ids verbatim.
@@ -67,9 +74,42 @@ function generateAuthoringTags(_biomeId, _opts = {}) {
   return [];
 }
 
+/**
+ * W5.5 — Generate ALIENA envelope with summary + version discriminator.
+ *
+ * Hybrid path: when opts.llmCall provided + succeeds → llm_v1 envelope.
+ * Otherwise (LLM absent, throws, returns empty) → template_v1 fallback
+ * (deterministic, mirrors Godot v2 AlienaTemplateFallback offline).
+ *
+ * @param {string} biomeId — biome slug
+ * @param {object} [opts]
+ * @param {Function} [opts.llmCall] — async (biomeId, ctx) => string|null|throw
+ * @param {object} [opts.llmContext] — passed to llmCall (formAxes, partyJobs, etc.)
+ * @returns {Promise<{summary: string, version: string}>} envelope
+ */
+async function generateAlienaEnvelope(biomeId, opts = {}) {
+  const templateSummary = generateAlienaSummary(biomeId);
+  const { llmCall, llmContext = {} } = opts;
+  if (typeof llmCall !== 'function') {
+    return { summary: templateSummary, version: ALIENA_VERSION_TEMPLATE_V1 };
+  }
+  try {
+    const llmOut = await llmCall(biomeId, llmContext);
+    if (typeof llmOut === 'string' && llmOut.trim().length > 0) {
+      return { summary: llmOut.trim(), version: ALIENA_VERSION_LLM_V1 };
+    }
+  } catch (_err) {
+    // LLM failure: graceful fallback to template, never crash request.
+  }
+  return { summary: templateSummary, version: ALIENA_VERSION_TEMPLATE_V1 };
+}
+
 module.exports = {
   generateAlienaSummary,
+  generateAlienaEnvelope,
   generateAuthoringTags,
   STATIC_SUMMARIES,
   FALLBACK_SUMMARY,
+  ALIENA_VERSION_TEMPLATE_V1,
+  ALIENA_VERSION_LLM_V1,
 };
