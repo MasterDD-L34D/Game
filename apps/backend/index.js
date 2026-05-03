@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// Load .env from repo root before any module reads process.env. Silent if absent
+// (dev fallbacks kick in upstream — see jwtAuth.js AUTH_SECRET handling).
+require('dotenv').config({ path: require('node:path').resolve(__dirname, '..', '..', '.env') });
 const http = require('node:http');
 const path = require('node:path');
 const { createApp } = require('./app');
