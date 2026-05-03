@@ -178,9 +178,14 @@ class CoopOrchestrator {
     if (biomeId && typeof biomeId === 'string') {
       try {
         const enricher = this._getWorldEnricher();
+        // Codex W5.5 P1 fix: pass confirmed party to enricher so
+        // ermes.role_gap reflects the actual party composition. Without
+        // this, role_gap was always computed from [] → every demanded
+        // role reported as fully under-represented (false negative).
         enrichedWorld = enricher.enrichWorld({
           biomeId,
           formAxes: formAxes || {},
+          party: Array.from(this.characters.values()),
           runSeed: Number.isFinite(runSeed) ? runSeed : 0,
           trainerCanonical: Boolean(trainerCanonical),
         });
