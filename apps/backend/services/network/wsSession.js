@@ -421,6 +421,93 @@ class Room {
     return this.stateVersion;
   }
 
+  /**
+   * Sprint R.5 — generic event publisher. Bumps stateVersion, ledger-
+   * records the entry, broadcasts `{type, version, payload}` to all
+   * peers. Used for non-state event classes (phase_change,
+   * action_resolved, status_apply, etc.) that callers want preserved
+   * in the resume ledger so reconnecting clients can dispatch
+   * registered handlers.
+   *
+   * Reserved type names (already used by Phase A protocol — DO NOT
+   * publish via this helper to avoid collision):
+   *   hello, state, state_patch, intent, intent_cancel, chat,
+   *   replay, error, ping, pong, player_joined, player_left,
+   *   player_disconnected, player_connected, host_transferred,
+   *   round_ready, room_closed, phase
+   *
+   * Phase change uses dedicated convenience `publishPhaseChange(phase)`
+   * which delegates here with `type = 'phase_change'`.
+   *
+   * @param {string} type - event class
+   * @param {object} payload - opaque payload dispatched to client
+   *   handlers via ResumeTokenManager.register_handler(type, ...)
+   * @returns {number} new stateVersion
+   */
+  publishEvent(type, payload) {
+    if (!type || typeof type !== 'string') {
+      throw new Error('event_type_required');
+    }
+    const RESERVED = new Set([
+      'hello',
+      'state',
+      'state_patch',
+      'intent',
+      'intent_cancel',
+      'chat',
+      'replay',
+      'error',
+      'ping',
+      'pong',
+      'player_joined',
+      'player_left',
+      'player_disconnected',
+      'player_connected',
+      'host_transferred',
+      'round_ready',
+      'room_closed',
+      'phase',
+    ]);
+    if (RESERVED.has(type)) {
+      throw new Error(`reserved_event_type: ${type}`);
+    }
+    this.stateVersion += 1;
+    this._appendLedger(type, payload ?? null);
+    this.broadcast({
+      type,
+      version: this.stateVersion,
+      payload: payload ?? null,
+    });
+    this._notifyMutate({ kind: 'event_published', event_type: type, version: this.stateVersion });
+    return this.stateVersion;
+  }
+
+  /**
+   * Sprint R.5 — convenience wrapper for phase transitions. Differs
+   * from M15 `setPhase()` (lifecycle hint) — this version-stamps the
+   * change so reconnect-replay can dispatch it via registered handler.
+   * Callers driving combat phase transitions should prefer this.
+   */
+  publishPhaseChange(phase) {
+    if (typeof phase !== 'string' || phase.length === 0) {
+      throw new Error('phase_required');
+    }
+    this.phase = phase;
+    return this.publishEvent('phase_change', { phase });
+  }
+
+  /**
+   * Sprint R.5 — convenience wrapper for combat resolver outcomes.
+   * Payload is opaque; canonical shape per `services/combat/` resolver
+   * is `{actor_id, target_id, action_type, result, ...}`.
+   */
+  publishActionResolved(payload) {
+    if (!payload || typeof payload !== 'object') {
+      throw new Error('action_payload_required');
+    }
+    return this.publishEvent('action_resolved', payload);
+  }
+
   pushIntent({ from, payload }) {
     const entry = {
       id: `i_${crypto.randomBytes(4).toString('hex')}`,
