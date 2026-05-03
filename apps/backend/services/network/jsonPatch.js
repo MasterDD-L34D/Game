@@ -18,7 +18,15 @@
 'use strict';
 
 function decodePointer(path) {
-  if (typeof path !== 'string' || path.length === 0) return [];
+  // Codex PR #2033 P2 fix: distinguish missing/non-string path
+  // (invalid input) from intentional empty-string root pointer (RFC
+  // 6901 §5). Pre-fix: both produced `[]` segments and applyOp
+  // silently treated them as root replacement → malformed ops without
+  // a path field could corrupt entire room state.
+  if (typeof path !== 'string') {
+    throw new Error('invalid_pointer: path must be string');
+  }
+  if (path.length === 0) return []; // RFC 6901 root pointer.
   if (path === '/') return [''];
   if (path[0] !== '/') throw new Error(`invalid_pointer: ${path}`);
   return path

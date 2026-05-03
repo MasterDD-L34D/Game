@@ -229,9 +229,24 @@ class Room {
     return true;
   }
 
-  detachSocket(playerId) {
+  detachSocket(playerId, socket = null) {
     const p = this.players.get(playerId);
     if (!p) return false;
+    // Codex PR #2034 P1 fix: when attachSocket closes a previous
+    // socket as `superseded`, that older socket later fires `close`
+    // → handler calls detachSocket. By then the NEW socket is already
+    // attached (p.socket === newSocket). Pre-fix: detachSocket
+    // unconditionally cleared p.socket + scheduled ghost cleanup,
+    // marking the actively-connected player as a ghost during the
+    // reconnect race.
+    //
+    // Now: if caller passes the socket that just closed AND it's not
+    // p.socket (i.e. it was already superseded), this call is a stale
+    // close-event no-op. Caller without socket arg keeps legacy
+    // behavior for back-compat.
+    if (socket !== null && p.socket !== null && p.socket !== socket) {
+      return false;
+    }
     p.socket = null;
     p.connected = false;
     // Sprint R.4 — schedule ghost cleanup. Host path is unchanged
@@ -1004,20 +1019,37 @@ function createWsServer({
     // signature authority; client never verifies. On expired token,
     // emit `auth_expired` so clients can trigger REST re-join (mint
     // fresh JWT) without inferring from generic `auth_failed`.
+    //
+    // Codex PR #2031 P1 fix: hydrated pre-JWT rooms retain raw token
+    // strings in player.token (LobbyService.hydrate() restores them
+    // verbatim). Pure JWT-only verify locks out those active rooms on
+    // deploy. Fallback path: if JWT decode fails AND the raw token
+    // matches the stored player record, accept it (legacy compat).
+    // Expired-JWT close is preserved (must re-mint via REST), but
+    // signature/format errors degrade to legacy-token attempt.
     let claims = null;
+    let legacyTokenAccepted = false;
     try {
       claims = verifyPlayerToken(token);
     } catch (err) {
-      const errCode = err.code === 'auth_expired' ? 'auth_expired' : 'auth_failed';
-      const closeCode = errCode === 'auth_expired' ? 4002 : 4003;
-      socket.send(JSON.stringify({ type: 'error', payload: { code: errCode } }));
-      socket.close(closeCode, errCode);
-      return;
+      if (err.code === 'auth_expired') {
+        socket.send(JSON.stringify({ type: 'error', payload: { code: 'auth_expired' } }));
+        socket.close(4002, 'auth_expired');
+        return;
+      }
+      // Not a JWT (or malformed signature) — try legacy token match.
+      // room.authenticate compares against stored raw token.
+      const legacyPlayer = room.authenticate(playerId, token);
+      if (!legacyPlayer) {
+        socket.send(JSON.stringify({ type: 'error', payload: { code: 'auth_failed' } }));
+        socket.close(4003, 'auth_failed');
+        return;
+      }
+      legacyTokenAccepted = true;
     }
-    // Cross-check claims align with query params + stored player record.
-    // Defense in depth: token must match the player record under the
-    // same room_code AND identity must match the URL player_id.
-    if (claims.room_code !== code || claims.player_id !== playerId) {
+    // Cross-check JWT claims (skip when legacy raw token accepted —
+    // raw tokens carry no claims).
+    if (!legacyTokenAccepted && (claims.room_code !== code || claims.player_id !== playerId)) {
       socket.send(JSON.stringify({ type: 'error', payload: { code: 'auth_failed' } }));
       socket.close(4003, 'auth_failed');
       return;
@@ -1085,10 +1117,21 @@ function createWsServer({
           }),
         );
       } else if (room.needsFullSnapshot(lastVersion)) {
+        // Codex PR #98 (Godot v2 paired) P1 fix: client has no path to
+        // surface authoritative snapshot via entries[]-only payload.
+        // Attach current room state + version so client emits its
+        // existing state_received signal directly. Pre-fix clients
+        // without paired update simply ignore the extra fields
+        // (back-compat).
         socket.send(
           JSON.stringify({
             type: 'replay',
-            payload: { entries: [], reason: 'snapshot_required' },
+            payload: {
+              entries: [],
+              reason: 'snapshot_required',
+              state: room.state,
+              state_version: room.stateVersion,
+            },
           }),
         );
       } else {
@@ -1205,7 +1248,9 @@ function createWsServer({
     });
 
     socket.on('close', () => {
-      room.detachSocket(playerId);
+      // Codex PR #2034 P1 fix: pass closing socket so detachSocket can
+      // skip stale close events (superseded reconnect race).
+      room.detachSocket(playerId, socket);
       room.broadcast({
         type: 'player_disconnected',
         payload: { player_id: playerId },
