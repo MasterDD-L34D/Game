@@ -19,6 +19,7 @@
     "@prisma/client": "^6.2.1",
     "ajv": "^8.17.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
     "express": "^4.19.2",
     "js-yaml": "^4.1.0",
     "jsonwebtoken": "^9.0.3",
