@@ -45,6 +45,10 @@ const DEFAULT_HEARTBEAT_MS = 30_000;
 // does not reattach within this window, the oldest connected player is
 // promoted to host role. Set to 0 to disable automatic host transfer.
 const DEFAULT_HOST_TRANSFER_GRACE_MS = 30_000;
+// Sprint R.2 — intent/state ledger size cap. On reconnect, if
+// `state_version - last_seen_version <= MAX_LEDGER_SIZE`, server replays
+// missed entries; else falls back to full state snapshot.
+const MAX_LEDGER_SIZE = 100;
 
 function generateRoomCode() {
   let out = '';
@@ -100,6 +104,13 @@ class Room {
     this.phase = 'idle';
     // Round counter (advances on clearRoundIntents).
     this.roundIndex = 0;
+    // Sprint R.2 — versioned event ledger for resume-on-reconnect.
+    // Each entry: { version, type, payload, ts }. Capped at
+    // MAX_LEDGER_SIZE (oldest evicted). `version` shares the
+    // monotonic counter with stateVersion (incremented on every
+    // append). A reconnect with `last_version=N` replays entries
+    // > N; if delta exceeds cap, full state snapshot used instead.
+    this._ledger = [];
     this._onMutate = typeof onMutate === 'function' ? onMutate : null;
 
     if (hydrateFromSeed?.players?.length) {
@@ -244,9 +255,61 @@ class Room {
     }
   }
 
+  /**
+   * Sprint R.2 — append an entry to the resume ledger. Each entry carries
+   * the monotonic `version` (== current stateVersion AFTER bump on state
+   * pushes; for non-state events, an in-band tick that does NOT advance
+   * stateVersion is fine — but for the R.2 baseline we only ledger entries
+   * that bump version). Returns the appended entry.
+   */
+  _appendLedger(type, payload) {
+    const entry = {
+      version: this.stateVersion,
+      type,
+      payload,
+      ts: Date.now(),
+    };
+    this._ledger.push(entry);
+    if (this._ledger.length > MAX_LEDGER_SIZE) {
+      this._ledger.shift();
+    }
+    return entry;
+  }
+
+  /**
+   * Sprint R.2 — return ledger entries with version > sinceVersion.
+   * Empty array when sinceVersion is at or beyond ledger head.
+   */
+  ledgerSince(sinceVersion) {
+    if (!Number.isFinite(sinceVersion)) return this._ledger.slice();
+    return this._ledger.filter((e) => e.version > sinceVersion);
+  }
+
+  /**
+   * Sprint R.2 — diagnostic / test accessor.
+   */
+  ledgerSize() {
+    return this._ledger.length;
+  }
+
+  /**
+   * Sprint R.2 — true when full snapshot needed (delta exceeds cap OR
+   * ledger empty / pre-version request older than oldest entry).
+   */
+  needsFullSnapshot(sinceVersion) {
+    if (!Number.isFinite(sinceVersion) || sinceVersion < 0) return true;
+    if (sinceVersion >= this.stateVersion) return false; // up to date
+    if (this._ledger.length === 0) return true;
+    const oldest = this._ledger[0].version;
+    return sinceVersion < oldest - 1; // requested range pre-dates ledger
+  }
+
   publishState(newState) {
     this.stateVersion += 1;
     this.state = newState;
+    // Sprint R.2 — record state push in resume ledger BEFORE broadcast
+    // so reconnecting peers can replay.
+    this._appendLedger('state', newState);
     this.broadcast({
       type: 'state',
       version: this.stateVersion,
@@ -732,6 +795,12 @@ function createWsServer({
     const code = (url.searchParams.get('code') || '').toUpperCase();
     const playerId = url.searchParams.get('player_id') || '';
     const token = url.searchParams.get('token') || '';
+    // Sprint R.2 — optional resume cursor. Client sends
+    // `?last_version=N` on reconnect to request ledger replay of state
+    // pushes since N. Absent / non-finite → fresh hello path (no replay).
+    const lastVersionRaw = url.searchParams.get('last_version');
+    const lastVersion = Number(lastVersionRaw);
+    const hasResumeCursor = lastVersionRaw !== null && Number.isFinite(lastVersion);
 
     const room = lobby.getRoom(code);
     if (!room) {
@@ -809,6 +878,37 @@ function createWsServer({
         },
       }),
     );
+    // Sprint R.2 — resume replay dispatch. After hello, if client sent
+    // `last_version=N` and the ledger covers the gap, send a `replay`
+    // message with the missed entries. Otherwise (delta too large or
+    // pre-ledger) the hello state already represents authoritative
+    // current snapshot — client falls back to full-state path.
+    if (hasResumeCursor) {
+      if (lastVersion === room.stateVersion) {
+        // Up to date — no replay needed.
+        socket.send(
+          JSON.stringify({
+            type: 'replay',
+            payload: { entries: [], reason: 'up_to_date' },
+          }),
+        );
+      } else if (room.needsFullSnapshot(lastVersion)) {
+        socket.send(
+          JSON.stringify({
+            type: 'replay',
+            payload: { entries: [], reason: 'snapshot_required' },
+          }),
+        );
+      } else {
+        const entries = room.ledgerSince(lastVersion);
+        socket.send(
+          JSON.stringify({
+            type: 'replay',
+            payload: { entries, reason: 'incremental' },
+          }),
+        );
+      }
+    }
     // Announce (re)connection.
     room.broadcast(
       {
