@@ -34,6 +34,7 @@
 
 const { WebSocketServer } = require('ws');
 const crypto = require('node:crypto');
+const { signPlayerToken, verifyPlayerToken } = require('./jwtAuth');
 
 const ROOM_CODE_ALPHABET = 'BCDFGHJKLMNPQRSTVWXZ'; // 20 consonants, no vowels, no Y (avoid words)
 const ROOM_CODE_LENGTH = 4;
@@ -52,10 +53,6 @@ function generateRoomCode() {
     out += ROOM_CODE_ALPHABET[idx];
   }
   return out;
-}
-
-function generateToken() {
-  return crypto.randomBytes(16).toString('hex');
 }
 
 function generatePlayerId() {
@@ -118,7 +115,15 @@ class Room {
         });
       }
     } else {
-      const hostToken = generateToken();
+      // Sprint R.1 — token is now a signed JWT (HS256) bearing
+      // { player_id, room_code, role }. Backward-compat: still stored
+      // in `.token` and string-compared in legacy host-auth paths
+      // (closeRoom). Defense in depth: WS connect verifies signature.
+      const hostToken = signPlayerToken({
+        player_id: hostId,
+        room_code: code,
+        role: 'host',
+      });
       this.players.set(hostId, {
         id: hostId,
         name: hostName,
@@ -149,7 +154,13 @@ class Room {
       throw new Error('room_full');
     }
     const playerId = generatePlayerId();
-    const token = generateToken();
+    // Sprint R.1 — JWT replaces raw random token. Same `.token` field
+    // semantics for legacy callers; verify on WS connect path below.
+    const token = signPlayerToken({
+      player_id: playerId,
+      room_code: this.code,
+      role,
+    });
     this.players.set(playerId, {
       id: playerId,
       name,
@@ -726,6 +737,28 @@ function createWsServer({
     if (!room) {
       socket.send(JSON.stringify({ type: 'error', payload: { code: 'room_not_found' } }));
       socket.close(4004, 'room_not_found');
+      return;
+    }
+    // Sprint R.1 — JWT verify gates the WS connection. Server is sole
+    // signature authority; client never verifies. On expired token,
+    // emit `auth_expired` so clients can trigger REST re-join (mint
+    // fresh JWT) without inferring from generic `auth_failed`.
+    let claims = null;
+    try {
+      claims = verifyPlayerToken(token);
+    } catch (err) {
+      const errCode = err.code === 'auth_expired' ? 'auth_expired' : 'auth_failed';
+      const closeCode = errCode === 'auth_expired' ? 4002 : 4003;
+      socket.send(JSON.stringify({ type: 'error', payload: { code: errCode } }));
+      socket.close(closeCode, errCode);
+      return;
+    }
+    // Cross-check claims align with query params + stored player record.
+    // Defense in depth: token must match the player record under the
+    // same room_code AND identity must match the URL player_id.
+    if (claims.room_code !== code || claims.player_id !== playerId) {
+      socket.send(JSON.stringify({ type: 'error', payload: { code: 'auth_failed' } }));
+      socket.close(4003, 'auth_failed');
       return;
     }
     const player = room.authenticate(playerId, token);
