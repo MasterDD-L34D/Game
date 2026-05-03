@@ -165,7 +165,11 @@ function listArchetypesForBiome(biomeId, opts = {}) {
   const { poolPath = DEFAULT_POOL_PATH } = opts;
   const pool = _loadPool(poolPath);
   if (!pool) return [];
-  const { biomePool } = _resolveBiomePool(pool, biomeId);
+  // Codex W5.5 P2 fix: don't use _resolveBiomePool's savana fallback —
+  // /api/companion/pool consumers expect [] for unknown biome (per
+  // function doc), not echo of unknown id with savana archetypes.
+  const pools = pool && pool.biome_pools ? pool.biome_pools : {};
+  const biomePool = pools[biomeId];
   if (!biomePool) return [];
   return Array.isArray(biomePool.species_pool) ? biomePool.species_pool.slice() : [];
 }
