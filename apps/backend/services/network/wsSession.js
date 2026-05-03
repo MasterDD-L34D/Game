@@ -35,6 +35,7 @@
 const { WebSocketServer } = require('ws');
 const crypto = require('node:crypto');
 const { signPlayerToken, verifyPlayerToken } = require('./jwtAuth');
+const { applyOps: applyJsonPatchOps } = require('./jsonPatch');
 
 const ROOM_CODE_ALPHABET = 'BCDFGHJKLMNPQRSTVWXZ'; // 20 consonants, no vowels, no Y (avoid words)
 const ROOM_CODE_LENGTH = 4;
@@ -316,6 +317,42 @@ class Room {
       payload: newState,
     });
     this._notifyMutate({ kind: 'state_published', version: this.stateVersion });
+    return this.stateVersion;
+  }
+
+  /**
+   * Sprint R.3 — incremental state diff broadcast via JSON-Patch ops.
+   *
+   * Applies `ops` against current `this.state` (no-op safe), bumps
+   * `stateVersion`, ledger-records as `state_patch` so reconnecting
+   * peers can replay the diff. Broadcasts `{type:'state_patch', version,
+   * ops}` to all members.
+   *
+   * Falls back to a full-state record in the ledger when current state
+   * is null (no baseline) — this preserves the resume invariant that
+   * any in-window cursor can rebuild authoritative state.
+   *
+   * @param {Array<{op, path, value?}>} ops - JSON-Patch ops (subset:
+   *   replace, add, remove)
+   * @returns {number} new stateVersion
+   */
+  publishStatePatch(ops) {
+    if (!Array.isArray(ops) || ops.length === 0) {
+      throw new Error('ops_required');
+    }
+    // Apply locally so authoritative state stays current. If state was
+    // null, treat as empty object (caller should publishState() first
+    // for non-trivial roots — patch is incremental).
+    const baseline = this.state == null ? {} : this.state;
+    this.state = applyJsonPatchOps(baseline, ops);
+    this.stateVersion += 1;
+    this._appendLedger('state_patch', { ops });
+    this.broadcast({
+      type: 'state_patch',
+      version: this.stateVersion,
+      ops,
+    });
+    this._notifyMutate({ kind: 'state_patch_published', version: this.stateVersion });
     return this.stateVersion;
   }
 
