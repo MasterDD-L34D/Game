@@ -53,3 +53,26 @@ test('absent .env: dotenv config silent (no throw, status 0)', () => {
   assert.equal(result.status, 0, result.stderr.toString());
   assert.equal(result.stdout.toString(), 'ok');
 });
+
+test('process.env precedence: CLI/Docker env wins over .env (no override)', () => {
+  // Codex follow-up — explicit guarantee that pre-existing process.env values
+  // are preserved when dotenv loads. Critical for Docker compose flows that
+  // inject secrets via env vars and for test files that pin AUTH_SECRET
+  // BEFORE require('./app') (e.g. tests/api/lobby-jwt.test.js line 13).
+  const tmpEnv = path.join(REPO_ROOT, `.env.precedence-fixture-${process.pid}`);
+  fs.writeFileSync(tmpEnv, 'PRECEDENCE_VAR=value-from-file\n');
+  try {
+    const child = spawnSync(
+      process.execPath,
+      [
+        '-e',
+        `process.env.PRECEDENCE_VAR='value-from-cli';require('dotenv').config({path:${JSON.stringify(tmpEnv)}});process.stdout.write(process.env.PRECEDENCE_VAR)`,
+      ],
+      { cwd: REPO_ROOT },
+    );
+    assert.equal(child.status, 0, child.stderr.toString());
+    assert.equal(child.stdout.toString(), 'value-from-cli');
+  } finally {
+    fs.unlinkSync(tmpEnv);
+  }
+});
