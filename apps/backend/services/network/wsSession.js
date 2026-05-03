@@ -50,6 +50,13 @@ const DEFAULT_HOST_TRANSFER_GRACE_MS = 30_000;
 // `state_version - last_seen_version <= MAX_LEDGER_SIZE`, server replays
 // missed entries; else falls back to full state snapshot.
 const MAX_LEDGER_SIZE = 100;
+// Sprint R.4 — phantom-disconnect cleanup grace window. If a non-host
+// player's socket closes and they do not reconnect within this window,
+// they are removed from `room.players` and a `player_left` broadcast
+// fires with `reason = "ghost_timeout"`. Set to 0 to disable cleanup
+// (keeps M11 Phase A semantics — players linger forever). Host path
+// is unchanged (existing host_transfer_grace_ms drives host promotion).
+const DEFAULT_GHOST_TIMEOUT_MS = 120_000;
 
 function generateRoomCode() {
   let out = '';
@@ -77,6 +84,9 @@ class Room {
     maxPlayers = DEFAULT_MAX_PLAYERS,
     campaignId = null,
     hostTransferGraceMs = DEFAULT_HOST_TRANSFER_GRACE_MS,
+    // Sprint R.4 — phantom-disconnect cleanup window for non-host
+    // players. 0 disables (lingering players, M11 Phase A baseline).
+    ghostTimeoutMs = DEFAULT_GHOST_TIMEOUT_MS,
     // Opzione C: optional persistence hook. Fire-and-forget after mutation.
     onMutate = null,
     // Hydrate path: reuse data from Prisma snapshot (skips host player seed).
@@ -89,8 +99,11 @@ class Room {
     this.createdAt = hydrateFromSeed?.createdAt || Date.now();
     this.closed = Boolean(hydrateFromSeed?.closed);
     this.hostTransferGraceMs = hostTransferGraceMs;
+    this.ghostTimeoutMs = ghostTimeoutMs;
     // TKT-M11B-05 — pending host-transfer timer handle.
     this._hostTransferTimer = null;
+    // Sprint R.4 — pending ghost-cleanup timers per player_id.
+    this._ghostTimers = new Map();
     // player_id → { id, name, role, token, socket?, connected, joinedAt }
     this.players = new Map();
     // Host state published, last-write-wins; version monotonic.
@@ -210,6 +223,9 @@ class Room {
     }
     p.socket = socket;
     p.connected = true;
+    // Sprint R.4 — clear pending ghost-cleanup timer when player
+    // reconnects within the grace window.
+    this._clearGhostTimer(playerId);
     return true;
   }
 
@@ -218,7 +234,56 @@ class Room {
     if (!p) return false;
     p.socket = null;
     p.connected = false;
+    // Sprint R.4 — schedule ghost cleanup. Host path is unchanged
+    // (host_transfer_grace handles host promotion); only non-host
+    // players get auto-removed on grace timeout.
+    if (playerId !== this.hostId) {
+      this._scheduleGhostCleanup(playerId);
+    }
     return true;
+  }
+
+  /**
+   * Sprint R.4 — schedule auto-removal for a disconnected player.
+   * After ghostTimeoutMs ms with no reconnect, the player record is
+   * deleted from `room.players` and `player_left` broadcasts with
+   * `reason = "ghost_timeout"`. Idempotent: re-scheduling resets the
+   * timer (legitimate when same player re-disconnects).
+   */
+  _scheduleGhostCleanup(playerId) {
+    if (!this.ghostTimeoutMs || this.ghostTimeoutMs <= 0) return;
+    if (this.closed) return;
+    this._clearGhostTimer(playerId);
+    const timer = setTimeout(() => {
+      this._ghostTimers.delete(playerId);
+      const p = this.players.get(playerId);
+      // Only fire when player still disconnected. Defense against
+      // races where attachSocket fired between timer schedule and
+      // callback dispatch.
+      if (!p || p.connected) return;
+      this.players.delete(playerId);
+      this.broadcast({
+        type: 'player_left',
+        payload: { player_id: playerId, reason: 'ghost_timeout' },
+      });
+      this._notifyMutate({ kind: 'player_ghost_removed', playerId });
+    }, this.ghostTimeoutMs);
+    timer.unref?.();
+    this._ghostTimers.set(playerId, timer);
+  }
+
+  _clearGhostTimer(playerId) {
+    const timer = this._ghostTimers.get(playerId);
+    if (!timer) return;
+    clearTimeout(timer);
+    this._ghostTimers.delete(playerId);
+  }
+
+  _clearAllGhostTimers() {
+    for (const t of this._ghostTimers.values()) {
+      clearTimeout(t);
+    }
+    this._ghostTimers.clear();
   }
 
   publicPlayerList() {
@@ -509,6 +574,9 @@ class Room {
 
   close(reason = 'host_closed') {
     this.closed = true;
+    // Sprint R.4 — clear any pending ghost timers on hard close.
+    this._clearAllGhostTimers();
+    this.clearHostTransferTimer();
     for (const p of this.players.values()) {
       if (p.socket && p.socket.readyState === 1) {
         try {
