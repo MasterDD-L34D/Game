@@ -15,6 +15,35 @@ import { renderNarrativeEvent } from './qbnDebriefRender.js';
 // Sprint 12 (Surface-DEAD #4): Mating lifecycle eligibles render in debrief.
 import { renderLineageEligibles } from './lineagePanel.js';
 
+// Sprint Surface-DEAD ennea archetypes — 9 archetypes player surface in debrief.
+// Mirror ENNEA_META da characterPanel.js (kept self-contained per debrief scope).
+const ENNEA_META = {
+  'Riformatore(1)': { icon: '⚖️', label: 'Riformatore', desc: 'Setup metodico, alta precisione.' },
+  'Coordinatore(2)': { icon: '🤝', label: 'Coordinatore', desc: 'Coesione di squadra.' },
+  'Conquistatore(3)': { icon: '🔥', label: 'Conquistatore', desc: 'Aggressione e rischio.' },
+  'Individualista(4)': {
+    icon: '🌙',
+    label: 'Individualista',
+    desc: 'Resilienza in zona critica.',
+  },
+  'Architetto(5)': {
+    icon: '🏛️',
+    label: 'Architetto',
+    desc: 'Strategia metodica, basso rischio.',
+  },
+  'Lealista(6)': { icon: '🛡️', label: 'Lealista', desc: 'Vigilanza e supporto attivo.' },
+  'Esploratore(7)': { icon: '🧭', label: 'Esploratore', desc: 'Scoperta e mobilità.' },
+  'Cacciatore(8)': { icon: '🏹', label: 'Cacciatore', desc: 'Mordi-e-fuggi mirato.' },
+  'Stoico(9)': { icon: '🗿', label: 'Stoico', desc: 'Endurance sotto pressione.' },
+};
+
+function escapeEnneaHtml(s) {
+  return String(s || '').replace(
+    /[<>&"]/g,
+    (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[c],
+  );
+}
+
 // OD-001 Path A V3 Mating/Nido (2026-04-26): pure helper DOM-free per identify
 // recruitable enemies post-combat. Filtra unit team !== player/ally con hp<=0.
 // Preserva name/hp_max/mbti_type per UI label downstream.
@@ -146,6 +175,12 @@ export function renderDebriefPanel() {
         <div class="db-mbti-hidden" id="db-mbti-hidden"></div>
       </div>
 
+      <!-- Sprint R+1 (Surface-DEAD #X ennea archetypes): 9 archetypes player surface. -->
+      <div class="db-section" id="db-ennea-section" style="display:none">
+        <div class="db-section-title">🌀 Archetipi Ennea — manifestati</div>
+        <div class="db-ennea-grid" id="db-ennea-grid"></div>
+      </div>
+
       <!-- Sprint 10 (Surface-DEAD #7): QBN narrative event diegetic. -->
       <div class="db-section db-qbn-section" id="db-qbn-section" style="display:none">
         <div class="db-section-title">📖 Cronaca diegetica</div>
@@ -233,6 +268,9 @@ export function wireDebriefPanel(overlay, bridge) {
     partyList: [],
     readySet: new Set(),
     mbtiRevealed: null,
+    // Sprint Surface-DEAD ennea: archetype list per current player.
+    // Shape accepted: ["Conquistatore(3)", ...] (string) OR [{id, triggered}, ...] (object).
+    enneaArchetypes: [],
     // Sprint 10 (Surface-DEAD #7): QBN narrative event payload from debrief.
     // Shape: {id, title_it, body_it, choices: [{id, label_it}], eligible_count}
     narrativeEvent: null,
@@ -372,6 +410,38 @@ export function wireDebriefPanel(overlay, bridge) {
         })
         .join('');
     }
+  };
+
+  // Sprint Surface-DEAD ennea — render 9 archetypes manifested per current player.
+  // Sezione hidden quando enneaArchetypes vuoto. Accetta shape misto:
+  // - "Conquistatore(3)" (string) → triggered=true implicit
+  // - {id: "Conquistatore(3)", triggered: bool} (object)
+  const renderEnnea = () => {
+    const section = overlay.querySelector('#db-ennea-section');
+    const grid = overlay.querySelector('#db-ennea-grid');
+    if (!section || !grid) return;
+    const archetypes = Array.isArray(state.enneaArchetypes) ? state.enneaArchetypes : [];
+    if (archetypes.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = '';
+    grid.innerHTML = archetypes
+      .map((a) => {
+        const id = typeof a === 'string' ? a : a?.id;
+        const triggered = typeof a === 'string' ? true : !!a?.triggered;
+        if (!id) return '';
+        const meta = ENNEA_META[id] || { icon: '◯', label: id, desc: '' };
+        const cls = triggered ? 'db-ennea-badge triggered' : 'db-ennea-badge';
+        return `
+          <div class="${cls}" data-archetype="${escapeEnneaHtml(id)}">
+            <span class="db-ennea-icon">${meta.icon}</span>
+            <span class="db-ennea-label">${escapeEnneaHtml(meta.label)}</span>
+            <div class="db-ennea-desc">${escapeEnneaHtml(meta.desc)}</div>
+          </div>
+        `;
+      })
+      .join('');
   };
 
   // Sprint 10 (Surface-DEAD #7) — render QBN narrative event diegetic.
@@ -728,6 +798,13 @@ export function wireDebriefPanel(overlay, bridge) {
     setLineageEligibles(payload) {
       state.matingEligibles = Array.isArray(payload) ? payload : [];
       renderLineage();
+    },
+    // Sprint Surface-DEAD ennea — set archetypes manifested for current player.
+    // Accepts ["Conquistatore(3)", ...] OR [{id, triggered}, ...] OR null.
+    // Graceful: section nascosta quando vuoto/null.
+    setEnneaArchetypes(payload) {
+      state.enneaArchetypes = Array.isArray(payload) ? payload : [];
+      renderEnnea();
     },
     show() {
       overlay.classList.remove('db-hidden');
