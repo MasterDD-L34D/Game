@@ -109,8 +109,15 @@ export function createPhaseCoordinator(bridge) {
             ? debriefPayload.mating_eligibles
             : [];
           if (dbApi.setLineageEligibles) dbApi.setLineageEligibles(matingEligibles);
+          // Sprint Surface-DEAD ennea: pipe ennea_archetypes per current player
+          // dal debriefPayload.vc_summary.per_actor[playerId].
+          const playerId = bridge?.session?.player_id || bridge?.session?.actor_id || null;
+          const enneaArchetypes = playerId
+            ? debriefPayload?.vc_summary?.per_actor?.[playerId]?.ennea_archetypes
+            : null;
+          if (dbApi.setEnneaArchetypes) dbApi.setEnneaArchetypes(enneaArchetypes);
         } catch {
-          /* narrative event + lineage optional */
+          /* narrative event + lineage + ennea optional */
         }
         break;
       }
