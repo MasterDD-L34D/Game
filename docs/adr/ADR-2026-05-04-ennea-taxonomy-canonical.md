@@ -16,7 +16,8 @@ related:
 # ADR-2026-05-04: Ennea taxonomy canonical decision
 
 - **Data**: 2026-05-04
-- **Stato**: **DRAFT — master-dd verdict pending**
+- **Stato**: **Accepted — master-dd verdict 2026-05-05 = Opzione A + T1 + D1**
+- **Implementation**: Game-Godot-v2 PR #167 ([feat(ennea): port 9 full enneagram canon](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/167))
 - **Owner**: Master DD
 - **Stakeholder**: gameplay-programmer Game/ + Godot v2 + dataset-pack curator
 
@@ -129,13 +130,20 @@ Master-dd verdict richiesto su 3 dimensioni:
 | B — 6 simplified     | 3-5h Game migrate | 🟡 reduced  |  T1 mandatory  |  ❌ archive   |   🟡 ad-hoc   |
 | C — Hybrid 6+3       | 6-10h cross-repo  |    ✅✅     |  T1 mandatory  |  ✅ preserve  | 🟡 dual-track |
 
-## 6. Master-dd verdict request
+## 6. Master-dd verdict 2026-05-05
 
-Per accettare ADR, master-dd specifica:
+✅ **Opzione A + T1 + D1 ACCEPTED**:
 
-1. **Taxonomy**: A / B / C
-2. **Timing**: T1 (pre-cutover) / T2 (post-cutover)
-3. **Dataset**: D1 (preserve) / D2 (archive)
-4. **Authorize impl**: ✅ proceed Fase 1-3 OR ❌ defer
+1. **Taxonomy**: A — 9 full enneagram canonical
+2. **Timing**: T1 — pre-cutover mandatory
+3. **Dataset**: D1 — preserve `enneagramma_master.yaml`
+4. **Authorize impl**: ✅ proceed Fase 1-3
 
-**Default se no verdict 7gg**: Opzione A + T1 + D1 (raccomandazione tecnica) trigger automatic.
+## 7. Implementation status
+
+- ✅ Fase 1 — Godot side port: PR #167 (Game-Godot-v2)
+  - `scripts/ai/vc_scoring.gd::ENNEA_ARCHETYPES` const 6 → 9 (canonical Italian names)
+  - `compute_ennea_archetypes()` rewrite multi-trigger + 9 hardcoded conditions mirror `telemetry.yaml`
+  - GUT 19 vc_scoring tests pass + 1501/1501 baseline zero regression
+- ✅ Fase 2 — Cross-stack verification: 0 schema drift cross-stack post merge (Game backend `vcScoring.js` 9-type + Game frontend `debriefPanel.js` PR #2041 + Godot `vc_scoring.gd` PR #167 + telemetry.yaml ennea_themes)
+- 🟡 Fase 3 — Godot debrief view UI wire: deferred Sprint M.x post merge (Engine LIVE Surface DEAD anti-pattern follow-up ticket, ~2-3h, mirror Game/ PR #2041 pattern)
