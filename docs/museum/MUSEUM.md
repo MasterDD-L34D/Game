@@ -174,6 +174,7 @@ docs/museum/
 ├── cards/
 │   ├── ancestors-neurons-dump-csv.md                        # M-2026-04-25-004 score 4/5
 │   ├── architecture-biome-memory-trait-cost.md             # M-2026-04-25-011 score 4/5
+│   ├── architecture-recovery-wip-rules-combat-2026-04-14.md # M-2026-05-04-001 score 3/5 (NEW snapshot pre-prune)
 │   ├── cognitive_traits-sentience-tiers-v1.md              # M-2026-04-25-001 score 5/5
 │   ├── enneagramma-dataset-9-types.md                      # M-2026-04-25-003 score 5/5
 │   ├── enneagramma-enneaeffects-orphan.md                  # M-2026-04-25-006 score 4/5
