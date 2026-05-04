@@ -30,7 +30,7 @@ def make_valid_entry(**overrides):
         "doc_status": "active",
         "doc_owner": "platform-docs",
         "workstream": "cross-cutting",
-        "last_verified": "2026-04-14",
+        "last_verified": (date.today() - timedelta(days=1)).isoformat(),
         "source_of_truth": False,
         "language": "it-en",
         "review_cycle_days": 14,
