@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-29T22:56:23+00:00",
+  "generated_at": "2026-05-04T07:42:06+00:00",
   "summary": {
-    "total": 458,
+    "total": 476,
     "errors": 0,
-    "warnings": 458
+    "warnings": 476
   },
   "issues": [
     {
@@ -83,6 +83,18 @@
       "code": "stale_document",
       "path": "docs/adr/ADR-2026-04-13-rules-engine-d20.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/adr/ADR-2026-04-15-round-based-combat-model.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/adr/ADR-2026-04-16-session-engine-round-migration.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-30"
     },
     {
       "level": "warning",
@@ -873,6 +885,12 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/combat/combat-canon.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-01"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/combat/data-flow.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
     },
@@ -891,6 +909,12 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/combat/round-loop.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/combat/status-effects-guide.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
     },
@@ -905,6 +929,12 @@
       "code": "stale_document",
       "path": "docs/combat/trait-mechanics-guide.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/combat/trait-trade-offs.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-01"
     },
     {
       "level": "warning",
@@ -933,6 +963,18 @@
     {
       "level": "warning",
       "code": "stale_document",
+      "path": "docs/core/00C-WHERE_TO_USE_WHAT.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-30"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/00D-ENGINES_AS_GAME_FEATURES.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-30"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
       "path": "docs/core/01-VISIONE.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
     },
@@ -953,6 +995,12 @@
       "code": "stale_document",
       "path": "docs/core/10-SISTEMA_TATTICO.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/11-REGOLE_D20_TV.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-01"
     },
     {
       "level": "warning",
@@ -1001,6 +1049,12 @@
       "code": "stale_document",
       "path": "docs/core/40-ROADMAP.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/core/90-FINAL-DESIGN-FREEZE.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
     },
     {
       "level": "warning",
@@ -1352,6 +1406,12 @@
     },
     {
       "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/combat.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-01"
+    },
+    {
+      "level": "warning",
       "code": "frontmatter_registry_mismatch",
       "path": "docs/hubs/combat.md",
       "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-17)"
@@ -1379,6 +1439,12 @@
       "code": "frontmatter_registry_mismatch",
       "path": "docs/hubs/flow.md",
       "message": "Campo last_verified differente tra frontmatter (2026-04-28) e registry (2026-04-13)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/hubs/incoming.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-02"
     },
     {
       "level": "warning",
@@ -1763,6 +1829,48 @@
       "code": "stale_document",
       "path": "docs/pipelines/roadmap_generator.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EVO_FINAL_DESIGN_CODEX_EXECUTION_PLAYBOOK.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EVO_FINAL_DESIGN_GAME_DATABASE_SYNC.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EVO_FINAL_DESIGN_MASTER_ROADMAP.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EVO_FINAL_DESIGN_MILESTONES_AND_GATES.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EVO_FINAL_DESIGN_ROADMAPS_INDEX.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md",
+      "message": "Documento stale: revisione scaduta il 2026-04-29"
     },
     {
       "level": "warning",
