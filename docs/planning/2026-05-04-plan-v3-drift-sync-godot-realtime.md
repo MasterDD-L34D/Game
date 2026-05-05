@@ -3,7 +3,7 @@ title: 2026-05-04 Plan v3 drift sync — Godot v2 realtime confronto
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-04
+last_verified: 2026-05-05
 source_of_truth: false
 language: it
 review_cycle_days: 14
@@ -31,7 +31,7 @@ related:
 | NOT yet shipped Godot       | Cutover Fase 3 decision gate                  |           ❌ no formal ADR           |
 | NOT yet shipped Godot       | ERMES E7-E8 runtime bridge                    |        ⏸ deferred (correct)         |
 | NOT yet shipped Godot       | Character creation TV scene Bible §0          |           ❌ gap concreto            |
-| NOT yet shipped Godot       | Phone composer real-device smoke              |       ⏸ master-dd manual ops        |
+| NOT yet shipped Godot       | Phone composer real-device smoke              |    🟡 GUIDA SHIPPED, EXEC PENDING    |
 | **NEW drift discovered**    | Ennea taxonomy schema mismatch 9 vs 6         |           ❌ schema drift            |
 
 **Pillar realignment**:
@@ -289,28 +289,31 @@ Effort residual: ~10-15h Sprint Q polish. Non-gating Fase 3 cutover.
 
 ---
 
-## Item 10 — Phone composer real-device smoke test — master-dd manual ops ⏸
+## Item 10 — Phone composer real-device smoke test — master-dd manual ops 🟡 GUIDA SHIPPED, EXEC PENDING
 
 **Plan v3**: W6 deploy ops shipped (PR #74) — `tools/web/build_web.sh` + `serve_local.sh` + `PhoneComposerBoot.tscn` + `docs/godot-v2/deploy-w6.md`.
 
-**Pending manual ops** (master-dd):
+**Closure 2026-05-05** — pre-flight + tooling + guida shipped:
 
-- Cloudflare account + tunnel credentials
-- DNS records (`evo-phone.cf.example`, `evo-api.cf.example`, `wss://evo-ws.cf.example`)
-- Game/ Express backend startup public mode
-- Phone real-device smoke test (iOS Safari + Android Chrome, WiFi + LTE 4G)
+| Sub-item                                  | Stato | Ref                                                                                                                                                                          |
+| ----------------------------------------- | :---: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Userland step-by-step guida               |  ✅   | [`docs/playtest/2026-05-05-phone-smoke-step-by-step.md`](../playtest/2026-05-05-phone-smoke-step-by-step.md) (Game/ PR #2045 + #2047 + #2048 + #2050)                        |
+| Doc redirect → upstream canonical         |  ✅   | Game/ PR #2048 — punta a `Game-Godot-v2/docs/godot-v2/deploy-quickstart.md` (Quick Tunnel) + `deploy-master-dd-checklist.md` (named tunnel) + `tools/deploy/deploy-quick.sh` |
+| `Game/.env` AUTH_SECRET gitignored        |  ✅   | Game/ PR #2048 (`.gitignore` +13 LOC)                                                                                                                                        |
+| `build_web.sh` MSYS Windows compat        |  ✅   | Game-Godot-v2 PR #168 — `$USER` fallback bilingual + `command -v` `.cmd` resolve fix + `.exe` direct fallback                                                                |
+| `serve_local.sh` path traversal guard     |  ✅   | Game-Godot-v2 PR #168 — `path.resolve` both sides + traversal blocked                                                                                                        |
+| Pre-flight 5/5 verified locale            |  ✅   | Sessione 2026-05-05: Godot 4.6.2 + preset.0 Web + main post #166/#167 + cloudflared 2025.8.1 + npm deps                                                                      |
+| Smoke verify `deploy-quick.sh` end-to-end |  ✅   | Tunnel URL ephemeral live verified `https://sub-answering-copies-classics.trycloudflare.com/phone/` (subsequent runs use new random subdomain)                               |
 
-**Verdict**: **NON automatable**. Master-dd userland action.
+**Pending manual ops** (master-dd userland, NON automatable):
 
-**Action items**:
+- Phone real-device smoke test (iOS Safari + Android Chrome) — segui [`2026-05-05-phone-smoke-step-by-step.md`](../playtest/2026-05-05-phone-smoke-step-by-step.md) §"Smoke test scenarios" 5a-5d
+- Compila verdict template + submit results doc `docs/playtest/2026-05-XX-phone-smoke-results.md`
+- Drift sync Item 10 final close mark (post-results submission)
 
-1. Master-dd setup Cloudflare tunnel free OR ngrok paid (~1-2h)
-2. DNS record propagate (~5min after setup)
-3. Express backend boot + Godot HTML5 export deploy (~30min)
-4. 2-device smoke test (1 iOS + 1 Android) (~30min)
-5. Documenta verdict in `docs/playtest/2026-05-XX-phone-real-device-smoke.md`
+**Verdict**: **GUIDA + TOOLING COMPLETE**. Master-dd userland action solo per phone test execution + verdict capture (~30 min run + 15 min compile results).
 
-**Effort userland**: ~2-4h. **Gating**: cutover Fase 3 ADR pre-condition (Item 7).
+**Effort residuo userland**: ~45 min (no più 2-4h originale — pre-flight + tooling automated). **Gating**: cutover Fase 3 ADR pre-condition (Item 7) — sblocca quando results PASS p95 <100ms o CONDITIONAL accettato.
 
 ---
 
