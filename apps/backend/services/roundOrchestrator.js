@@ -2,8 +2,9 @@
 //
 // Porta il loop shared-planning -> commit -> ordered-resolution sopra
 // un `resolveAction` atomico iniettato dal caller. Mirror della
-// `services/rules/round_orchestrator.py` del rules engine Python
-// (source of truth del contratto).
+// ex-`services/rules/round_orchestrator.py` del rules engine Python
+// (rimosso PR #2059, ADR-2026-04-19 Phase 3). Contratto semantico canonical
+// ora vive qui in JS.
 //
 // Funzioni pubbliche:
 //   - beginRound(state) -> { nextState, expired, bleedingTotal }
@@ -33,8 +34,8 @@
 //   - Reaction matching: prima reaction non consumata per (targetId, event).
 //   - Nessun uso di Date.now/Math.random: il rng viene dal caller.
 //
-// Contratto semantico: vedi `services/rules/round_orchestrator.py` e
-// `docs/combat/round-loop.md` §3 (round lifecycle) + §4 (CombatState).
+// Contratto semantico: vedi `docs/combat/round-loop.md` §3 (round lifecycle)
+// + §4 (CombatState). Reference storica ex-Python rimossa PR #2059.
 
 'use strict';
 

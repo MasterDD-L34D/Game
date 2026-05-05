@@ -1,5 +1,5 @@
 // Tests M6-#1 resistance engine Node native.
-// Parity semantic con Python services/rules/resolver.py.
+// Parity semantic con ex-Python services/rules/resolver.py (rimosso #2059).
 
 'use strict';
 

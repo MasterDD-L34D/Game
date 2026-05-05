@@ -2,7 +2,7 @@
 //
 // Context: parallel-agent audit 2026-04-19 scoprì che Node session engine
 // (apps/backend/routes/session.js) non implementava channel resistance logic,
-// mentre Python rules engine (services/rules/resolver.py) sì. Spike 2026-04-19
+// mentre Python rules engine (ex-services/rules/resolver.py, rimosso #2059) sì. Spike 2026-04-19
 // validò che resistance è la leva calibrazione hardcore-06 (84.6% → 20% win
 // rate con flat 50% resist).
 //
@@ -15,8 +15,8 @@
 // - mergeResistances è unico convertitore species→delta
 // - applyResistance accetta solo delta format
 //
-// Semantic parity con Python services/rules/resolver.py (apply_resistance +
-// merge_resistances) per future contract test.
+// Semantic parity con ex-Python services/rules/resolver.py (apply_resistance +
+// merge_resistances). Python rimosso PR #2059 (ADR-2026-04-19 Phase 3 closed).
 
 'use strict';
 

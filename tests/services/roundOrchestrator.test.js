@@ -1,13 +1,14 @@
 // Round orchestrator JS foundation — unit test suite.
 //
 // Copre il modulo `apps/backend/services/roundOrchestrator.js`, port
-// in JS della reference Python `services/rules/round_orchestrator.py`.
+// in JS della reference ex-Python `services/rules/round_orchestrator.py`
+// (rimosso PR #2059, ADR-2026-04-19 Phase 3).
 //
 // Il modulo e' completamente isolato: zero wiring a session.js, zero
 // endpoint, zero import da apps/backend/routes/*. Tutti i test
 // costruiscono lo state minimale inline e usano un mock resolveAction
-// deterministico (nessuna dipendenza da catalog reale, da
-// services/traitEffects, o da resolver Python).
+// deterministico (nessuna dipendenza da catalog reale o da
+// services/traitEffects).
 //
 // Sezioni di test (25 test totali):
 //   1. Phase machine (5)
