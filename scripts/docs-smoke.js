@@ -110,9 +110,13 @@ function streamFile(filePath, res) {
 }
 
 function startApi() {
+  // Node v22+ tightened Windows .cmd/.bat spawn security: require shell:true
+  // or fully-qualified path. Without it, spawn EINVAL fires on emit listen
+  // path. Ref Node v22.12+ release notes — CVE-2024-27980 mitigation.
   const child = spawn(API_COMMAND, API_ARGS, {
     stdio: 'inherit',
     env: process.env,
+    shell: process.platform === 'win32',
   });
 
   child.on('exit', (code, signal) => {
