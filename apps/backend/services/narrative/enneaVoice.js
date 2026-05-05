@@ -28,9 +28,17 @@ const VOICES_DIR = path.join(
 );
 
 // Mapping vcSnapshot ennea_archetypes[].id (canonical "Architetto(5)") -> file basename.
+// 9/9 archetype coverage post BACKLOG TKT-MUSEUM-SKIV-VOICES + extension 2026-05-05.
 const FILE_BY_ARCHETYPE = {
+  'Riformatore(1)': 'type_1.yaml',
+  'Coordinatore(2)': 'type_2.yaml',
+  'Conquistatore(3)': 'type_3.yaml',
+  'Individualista(4)': 'type_4.yaml',
   'Architetto(5)': 'type_5.yaml',
+  'Lealista(6)': 'type_6.yaml',
   'Esploratore(7)': 'type_7.yaml',
+  'Cacciatore(8)': 'type_8.yaml',
+  'Stoico(9)': 'type_9.yaml',
 };
 
 let _cache = null;

@@ -17,12 +17,23 @@ function seededRand(seed) {
   };
 }
 
-test('enneaVoice — loads catalog with Type 5 + Type 7 palettes', () => {
+test('enneaVoice — loads catalog with all 9 ennea archetype palettes', () => {
   enneaVoice._resetVoiceCache();
   const archetypes = enneaVoice.listSupportedArchetypes();
-  assert.ok(archetypes.includes('Architetto(5)'), 'Architetto(5) loaded');
-  assert.ok(archetypes.includes('Esploratore(7)'), 'Esploratore(7) loaded');
-  assert.equal(archetypes.length, 2, 'only 2 archetypes supported (Type 5 + Type 7)');
+  for (const expected of [
+    'Riformatore(1)',
+    'Coordinatore(2)',
+    'Conquistatore(3)',
+    'Individualista(4)',
+    'Architetto(5)',
+    'Lealista(6)',
+    'Esploratore(7)',
+    'Cacciatore(8)',
+    'Stoico(9)',
+  ]) {
+    assert.ok(archetypes.includes(expected), `${expected} loaded`);
+  }
+  assert.equal(archetypes.length, 9, 'exactly 9 ennea archetypes supported');
 });
 
 test('enneaVoice — listSupportedBeats returns canonical beat ids', () => {
@@ -45,11 +56,12 @@ test('getCandidateArchetypes — filtra solo triggered + supportati', () => {
   const ennea = [
     { id: 'Architetto(5)', triggered: true },
     { id: 'Esploratore(7)', triggered: false },
-    { id: 'Conquistatore(3)', triggered: true }, // supportato? no
-    { id: 'Cacciatore(8)', triggered: true }, // supportato? no
+    { id: 'Conquistatore(3)', triggered: true }, // ora supportato (9/9 coverage)
+    { id: 'Cacciatore(8)', triggered: true },
+    { id: 'BogusArchetype(99)', triggered: true }, // non in FILE_BY_ARCHETYPE
   ];
   const candidates = enneaVoice.getCandidateArchetypes(ennea);
-  assert.deepEqual(candidates, ['Architetto(5)']);
+  assert.deepEqual(candidates, ['Architetto(5)', 'Conquistatore(3)', 'Cacciatore(8)']);
 });
 
 test('getCandidateArchetypes — null/undefined input safe', () => {
@@ -156,4 +168,60 @@ test('listSupportedBeats — 7 canonical beats per palette', () => {
   enneaVoice._resetVoiceCache();
   const beats = enneaVoice.listSupportedBeats();
   assert.equal(beats.length, 7, 'exactly 7 beat types defined');
+});
+
+test('selectEnneaVoice — picks Type 1 line for Riformatore triggered', () => {
+  const out = enneaVoice.selectEnneaVoice(
+    [{ id: 'Riformatore(1)', triggered: true }],
+    'combat_attack_committed',
+    { rand: seededRand(11) },
+  );
+  assert.ok(out);
+  assert.equal(out.archetype_id, 'Riformatore(1)');
+  assert.equal(out.ennea_type, 1);
+  assert.match(out.line_id, /^v1_atk_/);
+});
+
+test('selectEnneaVoice — picks Type 8 line for Cacciatore triggered', () => {
+  const out = enneaVoice.selectEnneaVoice(
+    [{ id: 'Cacciatore(8)', triggered: true }],
+    'victory_solo',
+    { rand: seededRand(33) },
+  );
+  assert.ok(out);
+  assert.equal(out.archetype_id, 'Cacciatore(8)');
+  assert.equal(out.ennea_type, 8);
+  assert.match(out.line_id, /^v8_vct_/);
+});
+
+test('selectEnneaVoice — 9/9 archetype roundtrip — every archetype trigger returns line', () => {
+  enneaVoice._resetVoiceCache();
+  const archetypes = enneaVoice.listSupportedArchetypes();
+  assert.equal(archetypes.length, 9);
+  for (const archetypeId of archetypes) {
+    const out = enneaVoice.selectEnneaVoice(
+      [{ id: archetypeId, triggered: true }],
+      'idle_round_start',
+      { rand: seededRand(7) },
+    );
+    assert.ok(out, `archetype ${archetypeId} returns selection`);
+    assert.equal(out.archetype_id, archetypeId);
+    assert.ok(out.text && out.text.length > 0, `${archetypeId} text non vuoto`);
+  }
+});
+
+test('selectEnneaVoice — every beat returns line for every archetype', () => {
+  enneaVoice._resetVoiceCache();
+  const archetypes = enneaVoice.listSupportedArchetypes();
+  const beats = enneaVoice.listSupportedBeats();
+  for (const archetypeId of archetypes) {
+    for (const beatId of beats) {
+      const out = enneaVoice.selectEnneaVoice([{ id: archetypeId, triggered: true }], beatId, {
+        rand: seededRand(101),
+      });
+      assert.ok(out, `${archetypeId} × ${beatId} returns selection`);
+      assert.equal(out.archetype_id, archetypeId);
+      assert.equal(out.beat_id, beatId);
+    }
+  }
 });
