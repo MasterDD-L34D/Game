@@ -355,6 +355,28 @@ Curva quasi-quadratica (3 → 8 → 14 → 22) — late investment reward + scor
 
 Tutte le 14 ability nuove **riusano i 18 effect_type esistenti** in abilityExecutor.js. Zero nuovi runtime types, zero modifica all'executor — extension data-only.
 
+### Sprint 8.1 (2026-05-05) — Expansion roster gap-fill (8 nuove ability r3/r4)
+
+Source: `data/core/jobs_expansion.yaml` v0.3.0. Stesso cost ladder canonical (r3=14 / r4=22 cost_pi). Stesso vincolo runtime (effect_type ∈ 18/18 supportati).
+
+| Job         | r3 (cost_pi 14)     | effect_type | r4 (cost_pi 22)    | effect_type      |
+| ----------- | ------------------- | ----------- | ------------------ | ---------------- |
+| stalker     | shadow_mark         | debuff      | shadow_assassinate | execution_attack |
+| symbiont    | bond_amplify        | team_buff   | unity_surge        | team_heal        |
+| beastmaster | feral_dominion      | aoe_buff    | apex_pack          | aoe_buff         |
+| aberrant    | stabilized_mutation | buff        | perfect_mutation   | surge_aoe        |
+
+Resource gating r4 expansion (mirror archetype primary):
+
+| Job         | Resource | Gate |
+| ----------- | -------- | ---- |
+| stalker     | PP       | ≥ 10 |
+| symbiont    | PT       | ≥ 8  |
+| beastmaster | PT       | ≥ 10 |
+| aberrant    | SG       | ≥ 80 |
+
+Coverage roster: **11/11 job (7 base + 4 expansion) con r1→r4 wired**. Total ability shipped: 35 base + 14 expansion (4 jobs × {2 r1 + 1 r2 + 1 r3 + 1 r4}) = **49 ability**. Test enforcement: `tests/api/jobs.test.js` (18 test, +4 nuovi su Sprint 8.1).
+
 ## Maintenance
 
 **Update trigger**:

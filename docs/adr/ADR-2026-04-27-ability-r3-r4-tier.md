@@ -3,15 +3,17 @@ title: 'ADR-2026-04-27: Ability r3/r4 tier progressive — Sprint 8 final closur
 doc_status: active
 doc_owner: combat-design
 workstream: cross-cutting
-last_verified: 2026-04-27
+last_verified: 2026-05-05
 source_of_truth: false
 language: it
 review_cycle_days: 30
 related:
   - data/core/jobs.yaml
+  - data/core/jobs_expansion.yaml
   - apps/backend/services/jobsLoader.js
   - apps/backend/services/abilityExecutor.js
   - tests/api/jobs.test.js
+  - tests/api/abilityExecutor.test.js
   - docs/adr/ADR-2026-04-27-creature-bond-reactions.md
   - docs/balance/2026-04-27-numeric-reference-canonical.md
 ---
@@ -113,3 +115,22 @@ Post Sprint 8: **100% Tier S #6** chiuso.
 - Test enforcement: `tests/api/jobs.test.js` (14 test, +5 nuovi su Sprint 8)
 - Sprint 7 handoff: `docs/planning/2026-04-27-sprint-7-beast-bond-handoff.md`
 - Numeric reference: `docs/balance/2026-04-27-numeric-reference-canonical.md` §12
+
+## 6. Expansion roster gap-fill (Sprint 8.1, 2026-05-05)
+
+Audit 2026-05-05 ha rilevato 4 expansion job orphan (`data/core/jobs_expansion.yaml`): Stalker, Symbiont, Beastmaster, Aberrant — solo r1/r2 wired. Sprint 8 originale chiudeva i 7 base; expansion roster restava parziale.
+
+**Decisione**: estendere stesso cost ladder canonical (r3=14 / r4=22 cost_pi) ai 4 expansion job. Stesso vincolo runtime (effect_type ∈ 18/18 supportati). 8 ability nuove (4 job × 2 tier).
+
+| Job         | r3                  | effect_type | r4                 | effect_type      | Resource gate r4 |
+| ----------- | ------------------- | ----------- | ------------------ | ---------------- | ---------------- |
+| stalker     | shadow_mark         | debuff      | shadow_assassinate | execution_attack | PP ≥ 10          |
+| symbiont    | bond_amplify        | team_buff   | unity_surge        | team_heal        | PT ≥ 8           |
+| beastmaster | feral_dominion      | aoe_buff    | apex_pack          | aoe_buff         | PT ≥ 10          |
+| aberrant    | stabilized_mutation | buff        | perfect_mutation   | surge_aoe        | SG ≥ 80          |
+
+**Version bump**: `jobs_expansion.yaml` v0.2.0 → v0.3.0 per signal Game-Database catalog import.
+
+**Outcome**: roster 11/11 job (7 base + 4 expansion) con r1→r4 wired. Pillar 3 (Identità Specie × Job) consolida 🟢ⁿ → 🟢++. Test coverage uplift: jobs.test +4 (expansion ladder + naming + version) = 18 test totali; abilityExecutor.test +5 r4 smoke (dervish/headshot/apocalypse/lifegrove + shadow_assassinate expansion) = 41 test totali. AI baseline 382/382 invariato (zero regression).
+
+**Out of scope**: balance playtest expansion (deferred a calibration sprint successivo), frontend (auto-respect via JSON catalog), nuovi effect_type runtime (vincolo PR #1978 preservato).

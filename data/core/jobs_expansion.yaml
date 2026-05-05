@@ -23,9 +23,9 @@
 #   - apps/backend/services/progression/progressionEngine.js (perk runtime)
 #   - data/core/forms/mbti_forms.yaml (MBTI alignment hooks)
 
-version: "0.2.0"
+version: "0.3.0"
 status: expansion
-generated_at: "2026-04-25"
+generated_at: "2026-05-05"
 
 jobs:
   # ============================================================================
@@ -90,6 +90,36 @@ jobs:
         debuff_duration: 3
         target: enemy
         rank: 2
+      unlock_r3:
+        ability_id: shadow_mark
+        name_it: "Marchio d'Ombra"
+        description_it: "Tier 3 mark a range 4. Bersaglio: -3 defense_mod per 3 turni e team +2 attack_mod contro di lui. Consumo 5 PP."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pp: 5
+        effect_type: debuff
+        range: 4
+        debuff_stat: defense_mod
+        debuff_amount: -3
+        debuff_duration: 3
+        team_bonus: { stat: attack_mod, amount: 2 }
+        target: enemy
+        rank: 3
+      unlock_r4:
+        ability_id: shadow_assassinate
+        name_it: "Assassinio d'Ombra"
+        description_it: "Capstone esecuzione apex predator. Attacco singolo a range 4 con +5 damage_step. Se target HP < 30%, danno raddoppiato. Se MoS >= 6, applica stunned (1T). Consumo 10 PP."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pp: 10
+        effect_type: execution_attack
+        damage_step_mod: 5
+        range: 4
+        execute_threshold_hp_pct: 0.3
+        execute_damage_multiplier: 2
+        conditional_status: { condition: "mos >= 6", status_id: stunned, duration: 1 }
+        target: enemy
+        rank: 4
 
   # ============================================================================
   # JOB 2 — SYMBIONT (linked-pair support)
@@ -148,6 +178,33 @@ jobs:
         buff_duration: 2
         target: ally
         rank: 2
+      unlock_r3:
+        ability_id: bond_amplify
+        name_it: "Amplificazione del Legame"
+        description_it: "Tier 3 buff partner. Tutti gli alleati a range 3: +3 defense_mod e +2 attack_mod per 3 turni. Consumo 4 PT."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 4
+        effect_type: team_buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 3
+        range: 3
+        target: all_allies
+        rank: 3
+      unlock_r4:
+        ability_id: unity_surge
+        name_it: "Onda di Unione"
+        description_it: "Capstone simbiotico. Tutti gli alleati a range 3: cura 3d6 HP + rimuove tutti gli status negativi (bleeding/panic/stunned). Consumo 8 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 8
+        effect_type: team_heal
+        heal_dice: { count: 3, sides: 6, modifier: 0 }
+        range: 3
+        remove_status: bleeding
+        target: all_allies
+        rank: 4
 
   # ============================================================================
   # JOB 3 — BEASTMASTER (summoner / pack leader)
@@ -208,6 +265,36 @@ jobs:
         heal_amount: 6
         target: self
         rank: 2
+      unlock_r3:
+        ability_id: feral_dominion
+        name_it: "Dominio Feroce"
+        description_it: "Tier 3 zona controllo branco. AoE 3x3 a range 4: minion e alleati ottengono +2 attack_mod e +1 defense_mod per 3 turni. Consumo 5 PT."
+        cost_ap: 2
+        cost_pi: 14
+        cost_pt: 5
+        effect_type: aoe_buff
+        aoe_size: 3
+        range: 4
+        buff_stat: attack_mod
+        buff_amount: 2
+        buff_duration: 3
+        target: area
+        rank: 3
+      unlock_r4:
+        ability_id: apex_pack
+        name_it: "Branco Apex"
+        description_it: "Capstone pack leader. AoE 4x4 a range 4: minion e alleati ottengono +3 attack_mod, +2 defense_mod, +2 movement per 3 turni. Consumo 10 PT."
+        cost_ap: 3
+        cost_pi: 22
+        cost_pt: 10
+        effect_type: aoe_buff
+        aoe_size: 4
+        range: 4
+        buff_stat: attack_mod
+        buff_amount: 3
+        buff_duration: 3
+        target: area
+        rank: 4
 
   # ============================================================================
   # JOB 4 — ABERRANT (mutation specialist / glass cannon)
@@ -268,6 +355,36 @@ jobs:
         damage_step_mod: 4
         target: enemy
         rank: 2
+      unlock_r3:
+        ability_id: stabilized_mutation
+        name_it: "Mutazione Stabile"
+        description_it: "Tier 3 self-buff mutativo. Self: +3 attack_mod, +2 damage_step e +1 random status apply (rage/focus/stunned su MoS >= 4 nel prossimo attacco) per 2 turni. Consumo 5 SG."
+        cost_ap: 2
+        cost_pi: 14
+        cost_sg: 5
+        effect_type: buff
+        buff_stat: attack_mod
+        buff_amount: 3
+        buff_stat_2: damage_step
+        buff_amount_2: 2
+        buff_duration: 2
+        target: self
+        rank: 3
+      unlock_r4:
+        ability_id: perfect_mutation
+        name_it: "Mutazione Perfetta"
+        description_it: "Capstone caos incarnato. AoE 3x3 a range 3. 3d6+2 danno + applica cascade status (bleeding/stunned/panic su MoS >= 4 a tutti). Consumo 80 SG. Reset stress a 0.1."
+        cost_ap: 3
+        cost_pi: 22
+        cost_sg: 80
+        effect_type: surge_aoe
+        damage_dice: { count: 3, sides: 6, modifier: 2 }
+        aoe_size: 3
+        range: 3
+        stress_reset: 0.1
+        conditional_status: { condition: "mos >= 4", status_id: bleeding, duration: 2 }
+        target: area
+        rank: 4
 
 # ============================================================================
 # PERK POOLS — 4 jobs × 6 levels × 2 perks = 48 perks expansion
