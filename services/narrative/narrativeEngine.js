@@ -291,6 +291,31 @@ function triggerEventChain(chain_id, session, options = {}) {
   return triggerEvent(chain_id, session, options);
 }
 
+// TKT-MUSEUM-SKIV-VOICES — Type 5 + Type 7 voice palette selector.
+// Lazy require: ennea voice module legge YAML at first access, cached per process.
+// Caller pattern: selectEnneaVoice(vcSnapshot.ennea_archetypes, beat_id, { rand })
+//   -> { archetype_id, line_id, text } | null. Se non null, caller emette
+//   buildVoiceTelemetryEvent(actor_id, selection) come session event.
+function selectEnneaVoice(enneaArchetypes, beatId, options = {}) {
+  const mod = require('../../apps/backend/services/narrative/enneaVoice');
+  return mod.selectEnneaVoice(enneaArchetypes, beatId, options);
+}
+
+function buildEnneaVoiceTelemetryEvent(actorId, selection, options = {}) {
+  const mod = require('../../apps/backend/services/narrative/enneaVoice');
+  return mod.buildVoiceTelemetryEvent(actorId, selection, options);
+}
+
+function listEnneaVoiceBeats() {
+  const mod = require('../../apps/backend/services/narrative/enneaVoice');
+  return mod.listSupportedBeats();
+}
+
+function listEnneaVoiceArchetypes() {
+  const mod = require('../../apps/backend/services/narrative/enneaVoice');
+  return mod.listSupportedArchetypes();
+}
+
 module.exports = {
   NARRATIVES_DIR,
   DRIFT_BRIEFINGS_DIR,
@@ -307,6 +332,10 @@ module.exports = {
   classifyDriftVariant,
   selectDriftBriefing,
   triggerEventChain,
+  selectEnneaVoice,
+  buildEnneaVoiceTelemetryEvent,
+  listEnneaVoiceBeats,
+  listEnneaVoiceArchetypes,
   _resetMbtiPaletteCache,
   _resetDriftPackCache,
 };
