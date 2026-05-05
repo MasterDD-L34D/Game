@@ -507,10 +507,48 @@ function applyBiomeTraitCosts(unit, biomeId, data) {
   return applied;
 }
 
+/**
+ * Evaluate movement-triggered buff_stat traits for a unit.
+ *
+ * Handles traits with trigger.action_type === 'movement' and
+ * effect.kind === 'buff_stat'. Currently only 'move_bonus' stat is
+ * wired (reduces AP cost of movement by effect.amount per trait).
+ *
+ * @param {{ registry: object, actor: object }} opts
+ * @returns {{ move_bonus: number, trait_effects: Array }}
+ */
+function evaluateMovementTraits({ registry, actor } = {}) {
+  if (!registry || !actor) return { move_bonus: 0, trait_effects: [] };
+  const traitIds = Array.isArray(actor.traits) ? actor.traits : [];
+  let moveBonus = 0;
+  const traitEffects = [];
+  for (const traitId of traitIds) {
+    const definition = registry[traitId];
+    if (!definition) continue;
+    const trigger = definition.trigger || {};
+    if (trigger.action_type !== 'movement') continue;
+    const effect = definition.effect || {};
+    if (effect.kind !== 'buff_stat') continue;
+    if (effect.stat !== 'move_bonus') continue;
+    const amount = Number(effect.amount) || 0;
+    if (amount <= 0) continue;
+    moveBonus += amount;
+    traitEffects.push({
+      trait: traitId,
+      triggered: true,
+      effect: effect.log_tag || traitId,
+      stat: 'move_bonus',
+      amount,
+    });
+  }
+  return { move_bonus: moveBonus, trait_effects: traitEffects };
+}
+
 module.exports = {
   loadActiveTraitRegistry,
   evaluateAttackTraits,
   evaluateStatusTraits,
+  evaluateMovementTraits,
   isElevated,
   DEFAULT_REGISTRY_PATH,
   // M11 pilot — biome penalty
