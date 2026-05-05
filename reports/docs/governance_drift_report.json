@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-04T18:10:01+00:00",
+  "generated_at": "2026-05-05T21:49:25+00:00",
   "summary": {
-    "total": 459,
+    "total": 460,
     "errors": 0,
-    "warnings": 459
+    "warnings": 460
   },
   "issues": [
     {
@@ -2399,6 +2399,12 @@
       "code": "stale_document",
       "path": "docs/qa/rollout_checklist.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/reports/2026-04-27-situation-report-late.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-04"
     },
     {
       "level": "warning",
