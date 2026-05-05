@@ -92,9 +92,9 @@
 - [x] ~~**TKT-GATE5-ENNEAEFFECTS**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (telemetry/vcScoring surface).
 - [x] ~~**TKT-GATE5-EVENTCHAIN**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (design-complete infra, M18+ trigger).
 - [x] ~~**TKT-GATE5-SPECIESWIKI**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (dev-tooling).
-- [ ] **TKT-GATE5-CONVICTION** — `routes/conviction.js` + `meta/convictionVoting.js`: voting API registered, zero FE caller. NOT exempted. Wire conviction voting UI OR deprecate route. **Effort ~4h**. Gate 5 TODO comment added PR #2058.
-- [ ] **TKT-TRAITS-ANCESTOR-BUFF-STAT** — 51 `ancestor_deambulazione/motricita/nuoto` traits have `effect.kind: buff_stat`, no handler in `traitEffects.js` or `passiveStatusApplier.js`. Add `buff_stat` case → activates 51 ancestor loco traits. **Effort ~3h**. See museum card `ancestors-neurons-dump-csv.md` (score 4/5).
-- [ ] **TKT-RULES-SIMULATE-BALANCE** — `tools/py/simulate_balance.py` has live `import` of `services/rules/resolver` + `hydration`. Must port or delete BEFORE `services/rules/` Phase 3 removal. **Effort ~1h**. Non-CI dev tool.
+- [x] ~~**TKT-GATE5-CONVICTION**~~ → **✅ CHIUSO PR #2058** — Deprecated: route+service+tests deleted (zero FE callers, Godot cutover in progress). vcScoring conviction_badge unaffected.
+- [x] ~~**TKT-TRAITS-ANCESTOR-BUFF-STAT**~~ → **✅ CHIUSO PR #2058** — `evaluateMovementTraits` added to `traitEffects.js`. Wired in `session.js` move handler: `apCost = max(1, dist - move_bonus)`. 51 ancestor locomotion traits now reduce AP cost. 9 new tests verde.
+- [x] ~~**TKT-RULES-SIMULATE-BALANCE**~~ → **✅ CHIUSO PR #2058** — `tools/py/simulate_balance.py` deleted. Unblocks `services/rules/` Phase 3 removal.
 
 ### Bug / tech debt identificati
 
