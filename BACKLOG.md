@@ -23,9 +23,9 @@
 - [ ] **§Sprint R 26 routes HTTP backend whitelist** — Godot HTTPClient adapter spec
 - [ ] **§Sprint O.4 8 AI services list** — aiProgressMeter + aiPersonalityLoader + aiProfilesLoader + threatAssessment + threatPreview + sistemaActor + sistemaTurnRunner + declareSistemaIntents
 - [x] ~~**ADR drop HermeticOrmus formal**~~ → **✅ CHIUSO 2026-05-06** [ADR-2026-05-06](docs/adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md). Sprint L DROP formal, plan v3.3 effort -2g.
-- [ ] **Sprint S Mission Console deprecation row** — `docs/mission-console/` Vue bundle archive in branch `web-v1-final`
+- [x] ~~**Sprint S Mission Console deprecation row**~~ → **✅ CHIUSO 2026-05-06** plan v3 §Sprint S checklist updated con riga deprecation + nota inline rationale.
 - [x] ~~**Path drift correction table**~~ → **✅ CHIUSO 2026-05-06** audit grep: solo `data/skiv/` drift reale (2 ref attivi fixati: `docs/planning/2026-04-28-godot-migration-strategy.md:145` + `data/core/narrative/beats/skiv_pulverator_alliance.yaml:4` → `docs/skiv/CANONICAL.md`). Altri 3 path (ennea_voices + terrain_defense + ai_profiles) canonical correct, false-alarm.
-- [ ] **§Sprint M.3 7 silhouette spec addendum** — job-to-shape Godot AnimatedSprite2D import (30min `docs/core/22-IDENTITA-VISIVA.md`)
+- [x] ~~**§Sprint M.3 7 silhouette spec addendum**~~ → **✅ CHIUSO 2026-05-06** addendum in `docs/core/41-ART-DIRECTION.md §Job-to-shape silhouette spec` (canonical path è 41 non 22). 7 job × archetype base + key marker + frame budget +2/+3 + override scene `.tres`. Sprint M.3 Godot import pronto.
 - [ ] **§Sprint N.5 accessibility parity bullet** — colorblind shape + aria-label + prefers-reduced-motion port Godot
 
 ### Userland (richiede azione umana)
@@ -214,11 +214,27 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 
 ## Audit log
 
-**2026-05-06** (Wave 1 docs sweep — gap audit P1.4 + P1.6 close):
+**2026-05-06** (Wave 1-4 + closure bundle — 5 PR shipped main, 7 gap audit close):
 
-- ✅ **ADR-2026-05-06-drop-hermeticormus-sprint-l.md** shipped — Sprint L formal DROP, plan v3.3 effort -2g (~14% saving Sprint K-M phase). Cherry-pick on-demand mantiene optionality.
-- ✅ **Path drift correction** — audit grep 2026-05-06 trova solo `data/skiv/` drift reale (false-alarm originale gap audit P1.6). 2 reference attivi fixati: `docs/planning/2026-04-28-godot-migration-strategy.md:145` + `data/core/narrative/beats/skiv_pulverator_alliance.yaml:4` → `docs/skiv/CANONICAL.md`. Altri 3 path (ennea_voices + terrain_defense + ai_profiles) canonical correct.
-- 📝 **Cross-ref**: `docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md` §P1.4 + §P1.6 marcati CLOSED.
+- ✅ **Wave 1 docs sweep** PR [#2065](https://github.com/MasterDD-L34D/Game/pull/2065) (`42727de3`):
+  - ADR-2026-05-06-drop-hermeticormus-sprint-l.md shipped — Sprint L formal DROP, plan v3.3 effort -2g.
+  - Path drift correction: solo `data/skiv/` reale (2 ref fixati → `docs/skiv/`). Altri 3 path canonical.
+  - COMPACT_CONTEXT v23 → v24, BACKLOG audit log entry, gap audit §P1.4 + §P1.6 CLOSED.
+- ✅ **Wave 2 governance batch** PR [#2066](https://github.com/MasterDD-L34D/Game/pull/2066) (`a59985ed`):
+  - 460 → 218 stale_document warnings (-52.6%). 249 entries updated (archive 112 + root 10 + planning/reports/playtest 98 + qa/logs/presentations 29).
+  - `docs/reports/2026-05-06-governance-drift-audit-wave-2.md` audit report.
+- ✅ **Wave 3 coop test coverage** PR [#2067](https://github.com/MasterDD-L34D/Game/pull/2067) (`e4447575`):
+  - +9 negative tests audit 2026-04-24 §coop (items #1, #4, #5 + 4 defensive extras).
+  - Items #2 (multi-disconnect race) + #3 (host-transfer e2e full) DEFERRED — port Godot Sprint M.7 incoming.
+- ✅ **Wave 4 docs:smoke fix** PR [#2068](https://github.com/MasterDD-L34D/Game/pull/2068) (`50cbb04d`):
+  - Fix spawn EINVAL Windows Node v22+ (CVE-2024-27980 mitigation): shell:true gate win32.
+  - Item #7 TKT-07 Tutorial sweep N=10 DEFERRED — backend+telemetry infra dep, separate session.
+- ✅ **Closure bundle** (this PR — pending):
+  - Sprint S Mission Console deprecation row (gap audit P1.5 CLOSED) → plan v3 §Sprint S checklist + nota inline.
+  - Sprint M.3 silhouette spec addendum (gap audit P1.7 CLOSED) → `docs/core/41-ART-DIRECTION.md §Job-to-shape` (path canonical 41 non 22).
+  - Handoff doc sessione 2026-05-06 + BACKLOG cleanup row.
+
+**Sessione totals 2026-05-05/06**: **15 PR shipped main** (cumulative #2056-#2068 + this bundle). 9+4 BACKLOG ticket chiusi. Plan v3.3 effort -2g. Governance -52.6% warnings. Coop test +9. Pillar P4 🟡 → 🟢 candidato.
 
 **2026-05-05** (cutover Phase 3 + Sprint 8.1 expansion — 9 PR shipped main):
 

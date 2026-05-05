@@ -136,11 +136,13 @@ Agent A: Sprint L (HermeticOrmus alchemy mini-system) presente in IDEAS_INDEX re
 
 **Resolution**: ADR formal DROP shipped — [`ADR-2026-05-06-drop-hermeticormus-sprint-l.md`](../adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md). Cherry-pick on-demand mantiene optionality, plan v3.3 effort -2g.
 
-### P1.5 Mission Console deprecation explicit checklist
+### P1.5 Mission Console deprecation explicit checklist — ✅ CLOSED 2026-05-06
 
 Agent A: `docs/mission-console/` Vue bundle pre-built (legacy). Sprint S cutover NON specifica deprecation Mission Console step.
 
 **Action**: Sprint S checklist add row `- [ ] Mission Console deprecation: tag + archive docs/mission-console/ in branch web-v1-final, add deprecated note in README`.
+
+**Resolution**: Sprint S checklist updated — `docs/planning/2026-04-29-master-execution-plan-v3.md §Sprint S` riga aggiunta + nota inline deprecation rationale.
 
 ### P1.6 Path drift dataset — 🟡 PARTIAL 2026-05-06 (audit findings)
 
@@ -158,11 +160,13 @@ Agent C: cross-ref CLAUDE.md path con repo reale rivela (revisited via grep audi
 
 **Action**: ✅ CLOSED — 2 path drift fixati this session. BACKLOG.md `Path drift correction table` ticket → closed.
 
-### P1.7 7 silhouette job-to-shape spec mancante
+### P1.7 7 silhouette job-to-shape spec mancante — ✅ CLOSED 2026-05-06
 
 Agent B: design doc `docs/core/22-IDENTITA-VISIVA.md` definisce 7 job (vanguard, skirmisher, healer, ranger, mage, ...) ma nessuna spec silhouette/shape per Godot AnimatedSprite2D import.
 
 **Action**: Sprint M.3 asset import pre Sprint N add 30 min "draft 7 silhouette spec doc → docs/core/22-IDENTITA-VISIVA.md addendum".
+
+**Resolution**: addendum scritto in `docs/core/41-ART-DIRECTION.md §Job-to-shape silhouette spec` (path `22-IDENTITA-VISIVA.md` not exist, real canonical doc è `41-ART-DIRECTION.md`). 7 job × archetype base (skirmisher+ranger=scout, vanguard, warden+invoker=controller, artificer+harvester=support) + key marker visual + frame budget extra (+2/+3) + override scene path `.tres`. Composition logic Godot Sprint M.3 pronto per import.
 
 ### P1.8 Pre-Sprint M.1 quick wins
 

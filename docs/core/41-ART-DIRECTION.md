@@ -97,6 +97,34 @@ Job-to-shape canonico (Pilastro 3).
 | controller | Tentacolata, etereo   | Medium + irregular    | Tentacoli/filamenti, bioluminescenza       |
 | civilian   | Neutra, non-armata    | Variable + round      | No artigli/corazze, movimento lento        |
 
+## Job-to-shape silhouette spec (Godot AnimatedSprite2D import)
+
+> **Sprint M.3 addendum 2026-05-06** — gap audit P1.7 plan v3.3. 7 player job (`data/core/jobs.yaml`) mappati su creature archetype base + key visual marker. Sprint M.3 Godot import usa questa tabella per AnimatedSprite2D node setup (silhouette base layer + job-specific marker overlay).
+
+| Job (player) | Archetype base | Key marker visual                         | Frame budget extra | Override scene              |
+| ------------ | -------------- | ----------------------------------------- | ------------------ | --------------------------- |
+| `skirmisher` | scout          | Lama curva +1 frame attack pose dynamic   | +2 frame           | `skirmisher_<species>.tres` |
+| `vanguard`   | vanguard       | Scudo frontale +1 frame block pose        | +2 frame           | `vanguard_<species>.tres`   |
+| `warden`     | controller     | Aura nera tentacle pulse +1 frame channel | +3 frame           | `warden_<species>.tres`     |
+| `artificer`  | support        | Strumento esagonale +1 frame craft pose   | +2 frame           | `artificer_<species>.tres`  |
+| `invoker`    | controller     | Glow runico arancio +1 frame channel      | +3 frame           | `invoker_<species>.tres`    |
+| `ranger`     | scout          | Arco lungo + freccia ready pose           | +2 frame           | `ranger_<species>.tres`     |
+| `harvester`  | support        | Falce curva +1 frame drain pose           | +2 frame           | `harvester_<species>.tres`  |
+
+**Composition logic Godot Sprint M.3**:
+
+1. Layer 0 = species archetype base (10 frame default — vedi §"Budget frame MVP")
+2. Layer 1 = job marker overlay (2-3 frame extra)
+3. Total budget species×job: 12-13 frame (well under 16-frame Godot AtlasTexture cap)
+
+**Ranger vs skirmisher** entrambi mappano `scout` archetype: differenziazione via marker (arco lungo vs lama curva) + posture default (ranged stance vs melee dynamic). Tested visual readability requires playtest userland post Sprint M.3 import.
+
+**Warden vs invoker** entrambi mappano `controller` archetype: differenziazione tramite aura color (nera vs arancio runico) + channel pose (telekinetic pull vs spell-cast).
+
+**Civilian + assassin archetype** preservati per NPC + future enemy (NON player job). Total 7 job player + 2 archetype enemy = 9 silhouette canon.
+
+**Scope esplicito**: questo addendum è **spec doc**, non implementation. Sprint M.3 Godot wire produrrà i `.tres` resource file effettivi. Se lo spec rivela contraddizioni post-import (es. ranger pose conflict skirmisher), Sprint M.3 può rivisitare via PR successivo.
+
 ## Palette matrix 9 biomi shipping
 
 Biomi usati negli encounter correnti (data/core/biomes.yaml allinea ulteriori 11 biomi non-shipping):

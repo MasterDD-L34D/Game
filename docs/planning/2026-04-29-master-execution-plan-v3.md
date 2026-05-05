@@ -631,7 +631,10 @@ GUT test: port 100/384 critical test → `tests/`.
 - [ ] Web v1 archive: branch `archive/web-v1-2026-04-29` + tag `web-v1-final`
 - [ ] CLAUDE.md update repo Game/ → mark deprecated, point Game-Godot-v2/
 - [ ] Memory PC-local backport selettivo: museum cards score ≥4/5 + ADR ACCEPTED + Skiv canon → Game-Godot-v2 paths
+- [ ] Mission Console deprecation: tag + archive `docs/mission-console/` Vue bundle in branch `web-v1-final`, add deprecated note in `docs/mission-console/README.md` puntando Godot HTML5 export, rimuovere reference live da `apps/backend/index.js` static-serve mount path
 ```
+
+> **Mission Console deprecation row** added 2026-05-06 (gap audit P1.5 close). `docs/mission-console/` Vue bundle pre-built (legacy) era servito static da Express backend — Sprint S cutover archive completo + redirect HTML5 export.
 
 **Hybrid stable maintenance**: web v1 stable maintained 2 settimane post-cutover Godot v2 = "experimental channel" → archive solo dopo userland validation Godot v2 stabile.
 
