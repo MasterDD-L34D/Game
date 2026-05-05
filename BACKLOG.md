@@ -81,6 +81,21 @@
 
 ## 🟡 Priorità media
 
+### Audit 2026-05-05 — pre-cutover cleanup tickets
+
+> **Source**: `docs/reports/2026-05-05-repo-audit-static-scan.md` — Phase 3 triage.
+> **Shipped 2026-05-05**: PR [#2058](https://github.com/MasterDD-L34D/Game/pull/2058) (Game/) + [#177](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/177) (Godot v2).
+
+- [x] ~~**TKT-SERVICES-ORPHAN**~~ → **✅ CHIUSO PR #2058** — deleted `aiPersonalityLoader.js` (121 LOC) + `sistemaActor.js` (zero callers).
+- [x] ~~**TKT-SPECIES-BIOME-AFFINITY-FIX**~~ → **✅ CHIUSO PR #2058** — 10 species `biome_affinity` → canonical biome slugs. `isPerfectMatch()` now eligible for all 15 species.
+- [x] ~~**TKT-GODOT-AI-STUB-DROP**~~ → **✅ CHIUSO PR #177** — `sistema_turn_runner.gd` Tier 3 abandoned.
+- [x] ~~**TKT-GATE5-ENNEAEFFECTS**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (telemetry/vcScoring surface).
+- [x] ~~**TKT-GATE5-EVENTCHAIN**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (design-complete infra, M18+ trigger).
+- [x] ~~**TKT-GATE5-SPECIESWIKI**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (dev-tooling).
+- [x] ~~**TKT-GATE5-CONVICTION**~~ → **✅ CHIUSO PR #2058** — Deprecated: route+service+tests deleted (zero FE callers, Godot cutover in progress). vcScoring conviction_badge unaffected.
+- [x] ~~**TKT-TRAITS-ANCESTOR-BUFF-STAT**~~ → **✅ CHIUSO PR #2058** — `evaluateMovementTraits` added to `traitEffects.js`. Wired in `session.js` move handler: `apCost = max(1, dist - move_bonus)`. 51 ancestor locomotion traits now reduce AP cost. 9 new tests verde.
+- [x] ~~**TKT-RULES-SIMULATE-BALANCE**~~ → **✅ CHIUSO PR #2058** — `tools/py/simulate_balance.py` deleted. Unblocks `services/rules/` Phase 3 removal.
+
 ### Bug / tech debt identificati
 
 > **Audit 2026-04-24**: CLAUDE.md "Backlog ticket aperti" era stale. Verificato contro git history.

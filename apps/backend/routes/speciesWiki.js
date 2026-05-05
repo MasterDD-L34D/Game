@@ -3,6 +3,10 @@
 // Surface AncientBeast wiki cross-link slug bridge via REST.
 // Source: docs/research/2026-04-26-tier-s-extraction-matrix.md #6 AncientBeast.
 //
+// Gate 5 exemption (2026-05-05 audit): wiki endpoints are dev-tooling /
+// data-exploration surface (no player-facing wiki UI in current scope).
+// FE wire deferred post M18. Endpoints remain registered for developer use.
+//
 // Endpoints:
 //   GET /api/species/:id/wiki         → { id, slug, url, has_runtime, has_catalog }
 //   GET /api/species/:id/wiki/entry   → full catalog JSON or 404

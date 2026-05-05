@@ -66,25 +66,25 @@ ERMES è:
 {
   "biome_id": "badlands",
   "eco_pressure": 0.52,
-  "encounter_bias": {"ambush": 0.12, "scavenger": 0.08},
-  "mutation_bias": {"heat_resistance": 0.10},
+  "encounter_bias": { "ambush": 0.12, "scavenger": 0.08 },
+  "mutation_bias": { "heat_resistance": 0.1 },
   "debrief_notes": ["Il bioma mostra pressione ecosistemica moderata."]
 }
 ```
 
 ## Roadmap
 
-| Stato | Fase | Task | Output |
-|---|---|---|---|
-| ☐→☑ | E0 | Doc integration | questo file |
-| ☐→☑ | E1 | Prototype isolated | `prototypes/ermes_lab/` |
-| ☐ | E2 | CLI + deterministic sim | `ermes_sim.py` |
-| ☐ | E3 | Dashboard optional | `ermes_dashboard.py` |
-| ☐ | E4 | JSON export | `latest_eco_pressure_report.json` |
-| ☐ | E5 | Experiment loop | `scoring.py` |
-| ☐ | E6 | Codex validation | tests + README |
-| ☐ | E7 | Future runtime candidate | crossEventEngine design only |
-| ☐ | E8 | Future foodweb candidate | ecosystemLoader design only |
+| Stato | Fase | Task                     | Output                            |
+| ----- | ---- | ------------------------ | --------------------------------- |
+| ☐→☑  | E0   | Doc integration          | questo file                       |
+| ☐→☑  | E1   | Prototype isolated       | `prototypes/ermes_lab/`           |
+| ☐     | E2   | CLI + deterministic sim  | `ermes_sim.py`                    |
+| ☐     | E3   | Dashboard optional       | `ermes_dashboard.py`              |
+| ☐     | E4   | JSON export              | `latest_eco_pressure_report.json` |
+| ☐     | E5   | Experiment loop          | `scoring.py`                      |
+| ☐     | E6   | Codex validation         | tests + README                    |
+| ☐     | E7   | Future runtime candidate | crossEventEngine design only      |
+| ☐     | E8   | Future foodweb candidate | ecosystemLoader design only       |
 
 ## Runtime gate futuro
 

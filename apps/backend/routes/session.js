@@ -40,6 +40,7 @@ const {
   loadActiveTraitRegistry,
   evaluateAttackTraits,
   evaluateStatusTraits,
+  evaluateMovementTraits,
 } = require('../services/traitEffects');
 const { loadFairnessConfig, checkCapPtBudget, consumeCapPt } = require('../services/fairnessCap');
 const { loadTelemetryConfig, buildVcSnapshot } = require('../services/vcScoring');
@@ -1848,7 +1849,10 @@ function createSessionRouter(options = {}) {
         // e basta, o 2 attacchi. Il validation e' ora contro ap_remaining
         // anziche' actor.ap (max) — cosi' possiamo fare piu' move nello
         // stesso turno solo se abbiamo AP residui sufficienti.
-        if (dist > (actor.ap_remaining ?? 0)) {
+        // buff_stat move_bonus (ancestor locomotion traits) reduces AP cost.
+        const movTraits = evaluateMovementTraits({ registry: traitRegistry, actor });
+        const apCost = Math.max(1, dist - movTraits.move_bonus);
+        if (apCost > (actor.ap_remaining ?? 0)) {
           return res.status(400).json({
             error: `AP insufficienti per muoversi di ${dist} celle (ap residui: ${actor.ap_remaining ?? 0})`,
           });
@@ -1864,7 +1868,7 @@ function createSessionRouter(options = {}) {
             .status(400)
             .json({ error: `casella (${dest.x},${dest.y}) occupata da ${blocker.id}` });
         }
-        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - dist);
+        actor.ap_remaining = Math.max(0, (actor.ap_remaining ?? actor.ap) - apCost);
         const positionFrom = { ...actor.position };
         actor.position = { x: dest.x, y: dest.y };
         // SPRINT_022: auto-facing sul movimento. L'unita' "guarda" nella
@@ -1873,6 +1877,9 @@ function createSessionRouter(options = {}) {
         const newFacing = facingFromMove(positionFrom, actor.position);
         if (newFacing) actor.facing = newFacing;
         const event = buildMoveEvent({ session, actor, positionFrom });
+        if (movTraits.trait_effects.length > 0) {
+          event.trait_effects = movTraits.trait_effects;
+        }
         // SPRINT_003 fase 1: il costo cap_pt si applica anche al move
         // se passato nel body (utile per abilita' movimento potenziato).
         if (requestedCapPt > 0) {

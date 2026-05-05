@@ -4,6 +4,12 @@
 // session state (vcSnapshot axes / session.* fields). Supports linear
 // chain walks + conditional branching (next_event_id selection).
 //
+// Gate 5 exemption (2026-05-05 audit): triggerEventChain() is plumbed in
+// narrativeEngine.js but no live session path calls it yet. Engine is
+// design-complete infrastructure; narrative trigger wiring deferred to
+// narrative sprint (M18+ scope). Surface will be combat log + debrief panel
+// when wired.
+//
 // Pattern source: docs/research/2026-04-27-strategy-games-tech-extraction.md §2
 // (Stellaris event chains) — Paradox uses scripted scripted_triggers + on_actions
 // to build narrative cascades. We do simplified version: chain = ordered list

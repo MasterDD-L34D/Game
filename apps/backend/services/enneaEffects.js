@@ -4,6 +4,11 @@
 // questo modulo applica gli effetti in-game corrispondenti.
 // Effetti sono buff/debuff temporanei applicati all'actor.
 //
+// Gate 5 exemption (2026-05-05 audit): ennea effects fire into session raw
+// event log (action_type='ennea_effects') — surface = vcScoring telemetry
+// input + debrief MBTI/Ennea badge (vcSnapshot-driven). Dedicated in-combat
+// HUD panel for ennea effect visualization deferred to P4 sprint.
+//
 // Integrazione: chiamato alla fine di ogni round dal round bridge,
 // dopo il VC snapshot aggiornato.
 
