@@ -22,9 +22,9 @@
 - [ ] **§Sprint O combat services 16+ port matrix** — archetypePassives + beastBondReaction + bondReactionTrigger + bravado + defyEngine + interruptFire + missionTimer + morale + pinDown + sgTracker + synergyDetector + telepathicReveal + terrainReactions + timeOfDayModifier + defenderAdvantageModifier + pseudoRng + fairnessCap + biomeSpawnBias/Resonance/Modifiers
 - [ ] **§Sprint R 26 routes HTTP backend whitelist** — Godot HTTPClient adapter spec
 - [ ] **§Sprint O.4 8 AI services list** — aiProgressMeter + aiPersonalityLoader + aiProfilesLoader + threatAssessment + threatPreview + sistemaActor + sistemaTurnRunner + declareSistemaIntents
-- [ ] **ADR drop HermeticOrmus formal** ~30min — Sprint L mini-system out-of-scope MVP
+- [x] ~~**ADR drop HermeticOrmus formal**~~ → **✅ CHIUSO 2026-05-06** [ADR-2026-05-06](docs/adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md). Sprint L DROP formal, plan v3.3 effort -2g.
 - [ ] **Sprint S Mission Console deprecation row** — `docs/mission-console/` Vue bundle archive in branch `web-v1-final`
-- [ ] **Path drift correction table** — `data/skiv/` not exist, ennea_voices path TBD, balance/terrain_defense + ai_profiles paths audit (1h grep)
+- [x] ~~**Path drift correction table**~~ → **✅ CHIUSO 2026-05-06** audit grep: solo `data/skiv/` drift reale (2 ref attivi fixati: `docs/planning/2026-04-28-godot-migration-strategy.md:145` + `data/core/narrative/beats/skiv_pulverator_alliance.yaml:4` → `docs/skiv/CANONICAL.md`). Altri 3 path (ennea_voices + terrain_defense + ai_profiles) canonical correct, false-alarm.
 - [ ] **§Sprint M.3 7 silhouette spec addendum** — job-to-shape Godot AnimatedSprite2D import (30min `docs/core/22-IDENTITA-VISIVA.md`)
 - [ ] **§Sprint N.5 accessibility parity bullet** — colorblind shape + aria-label + prefers-reduced-motion port Godot
 
@@ -213,6 +213,21 @@ Da `docs/research/triangle-strategy-transfer-plan.md` — 10 meccaniche identifi
 ---
 
 ## Audit log
+
+**2026-05-06** (Wave 1 docs sweep — gap audit P1.4 + P1.6 close):
+
+- ✅ **ADR-2026-05-06-drop-hermeticormus-sprint-l.md** shipped — Sprint L formal DROP, plan v3.3 effort -2g (~14% saving Sprint K-M phase). Cherry-pick on-demand mantiene optionality.
+- ✅ **Path drift correction** — audit grep 2026-05-06 trova solo `data/skiv/` drift reale (false-alarm originale gap audit P1.6). 2 reference attivi fixati: `docs/planning/2026-04-28-godot-migration-strategy.md:145` + `data/core/narrative/beats/skiv_pulverator_alliance.yaml:4` → `docs/skiv/CANONICAL.md`. Altri 3 path (ennea_voices + terrain_defense + ai_profiles) canonical correct.
+- 📝 **Cross-ref**: `docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md` §P1.4 + §P1.6 marcati CLOSED.
+
+**2026-05-05** (cutover Phase 3 + Sprint 8.1 expansion — 9 PR shipped main):
+
+- ✅ 9 PR mergiati main: #2056 (handoff doc) + #2057 (Sprint 8.1 expansion r3/r4) + #2058 (cleanup audit Phase 3) + #2059 (services/rules/ removal Phase 3) + #2060 (mutation aspect_token 36/36) + #2061 (ennea voice Type 5+7) + #2062 (ennea voice 9/9) + #2063 (cleanup stale comments) + #2064 (test artifacts refresh).
+- ✅ ADR-2026-04-19 ACCEPTED + Phase 3 closed (services/rules/ Python rimosso).
+- ✅ ADR-2026-04-13 superseded.
+- ✅ 7 BACKLOG ticket chiusi: TKT-RULES-PHASE-3 + TKT-RULES-SIMULATE-BALANCE + TKT-TRAITS-ANCESTOR-BUFF-STAT + TKT-GATE5-CONVICTION + TKT-MUTATION-P6-VISUAL + TKT-MUSEUM-SKIV-VOICES + TKT-SERVICES-ORPHAN.
+- 📊 **Pillar shift**: P4 Temperamenti MBTI/Ennea 🟡 → 🟢 candidato (9/9 archetype voice live + endpoint + telemetry).
+- 📊 **Test baseline post-merge**: AI 383/383 + pytest 735/735 + format clean + governance 0 errors.
 
 **2026-04-24** (backlog audit post-Sprint 3):
 

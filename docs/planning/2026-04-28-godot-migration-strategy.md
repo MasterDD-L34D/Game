@@ -142,7 +142,7 @@ Godot client only. Backend Express + Prisma + Postgres + WS = **unchanged**. God
 
 - 49 ADR keep — port relevant a `design/adr/`, archive obsoleti
 - Museum cards keep — port a `docs/museum/`
-- Skiv canon keep — `data/skiv/CANONICAL.md` mantenuto
+- Skiv canon keep — `docs/skiv/CANONICAL.md` mantenuto
 - 12 mesi memory cross-PC handoff → `~/.claude/projects/<godot-repo>/memory/` paths nuovi
 
 ### Cutover checklist

@@ -1,7 +1,7 @@
 # Action 6 (ADR-2026-04-28 §Action 6) — Narrative beats Skiv-Pulverator alleanza.
 #
 # Skiv canonical voice (italiano, prima persona implicita, metafore desertiche).
-# Reference: data/skiv/CANONICAL.md → "sabbia, vento, ridge, sole basso".
+# Reference: docs/skiv/CANONICAL.md → "sabbia, vento, ridge, sole basso".
 
 beats:
   - beat_id: skiv_pulverator_kill_outcome
