@@ -83,3 +83,16 @@ data/derived/unit_diaries/
 
 # Repo-local tools (ngrok official ZIP, etc) - installed per-PC, NOT committed
 .tools/
+
+# Local secrets — AUTH_SECRET et al, populated by deploy-quick.sh / setup-once.sh.
+# Canonical secret path is ~/.config/api-keys/keys.env (vedi CLAUDE.md API Keys section).
+# Game/.env locale OK ma NON committable per evitare AUTH_SECRET / token leak.
+.env
+.env.local
+.env.*.local
+
+# Phone HTML5 build artifacts (mounted by deploy-quick.sh from Game-Godot-v2/dist/web)
+apps/backend/public/phone/
+
+# Cloudflare Tunnel deploy logs
+.deploy-logs/
