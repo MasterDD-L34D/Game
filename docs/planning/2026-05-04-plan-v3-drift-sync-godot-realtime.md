@@ -22,9 +22,9 @@ related:
 
 | Categoria                   | Item                                          |             Stato realtà             |
 | --------------------------- | --------------------------------------------- | :----------------------------------: |
-| Plan v3 anticipa, NON wired | M.7 DioField command-latency p95              |              🟡 PARTIAL              |
-| Plan v3 anticipa, NON wired | N.7 failure-model parity 5/5                  |           🟡 PARTIAL (3/5)           |
-| Godot anticipa plan v3      | Beehave AI tactical tree                      |           ✅ OPEN PR #164            |
+| Plan v3 anticipa, NON wired | M.7 DioField command-latency p95              |  🟢 ENGINE+WIRE LIVE (surface debt)  |
+| Plan v3 anticipa, NON wired | N.7 failure-model parity 5/5                  |      🟢 GATE 0 NEAR-PASS (4/5)       |
+| Godot anticipa plan v3      | Beehave AI tactical tree                      |           ✅ shipped #164            |
 | Godot anticipa plan v3      | Caller-wire pipeline LIVE                     |           ✅ shipped W7.x            |
 | Godot anticipa plan v3      | Combat stubs ported                           | ✅ 9/14 ported (vs plan v3 deferred) |
 | NOT yet shipped Godot       | Asset Legacy Skiv portrait + lifecycle stages |           ❌ gap concreto            |
@@ -32,16 +32,16 @@ related:
 | NOT yet shipped Godot       | ERMES E7-E8 runtime bridge                    |        ⏸ deferred (correct)         |
 | NOT yet shipped Godot       | Character creation TV scene Bible §0          |           ❌ gap concreto            |
 | NOT yet shipped Godot       | Phone composer real-device smoke              |    🟡 GUIDA SHIPPED, EXEC PENDING    |
-| **NEW drift discovered**    | Ennea taxonomy schema mismatch 9 vs 6         |           ❌ schema drift            |
+| **NEW drift discovered**    | Ennea taxonomy schema mismatch 9 vs 6         |       ✅ RESOLVED #167 + #2041       |
 
 **Pillar realignment**:
 
 - P5 Co-op (plan v3 🟡 → expected 🟢 candidato): ✅ shipped Sprint R + W4-W6 phone composer
-- P4 MBTI/Ennea (plan v3 🟡++): rimane 🟡 — taxonomy drift + Godot UI surface non wired
+- P4 MBTI/Ennea (plan v3 🟡++): 🟢 cross-stack parity restored (PR #167 + #2041) — taxonomy drift CHIUSA. Surface debrief Godot side 9 archetype wire residuo (~2-3h) NON blocker.
 
 ---
 
-## Item 1 — M.7 DioField command-latency p95 — PARTIAL
+## Item 1 — M.7 DioField command-latency p95 — 🟢 ENGINE+WIRE LIVE (surface debrief HUD pending)
 
 **Game side spec** (PR #1997):
 
@@ -50,27 +50,27 @@ related:
 - Threshold: p95 <100ms PASS / 100-200ms CONDITIONAL / >200ms ABORT
 - Test vectors: iOS Safari + Android Chrome, WiFi + LTE 4G
 
-**Godot W7.x evidence** (PR #160-#162):
+**Closure 2026-05-05** — Godot v2 PR #166 shipped TelemetryCollector + wire main.gd:
 
-- ✅ `scripts/ui/forecast_panel_adapter.gd` 51 LOC — signal listener `forecast_updated` → panel.set_forecast (NO timing)
-- ✅ `scripts/ui/board_overlay_adapter.gd` 52 LOC — signal listener `overlay_requested` → overlay.set_overlay (NO timing)
-- ✅ `scripts/main.gd` Sprint W7 caller integration — click-to-target ATTACK mode wired (NO request lifecycle telemetry)
-- CLAUDE.md status Godot: "2/4 adapters wired live (UnitInfoPanel + BattleFeed); ForecastPanel + BoardOverlay adapters DEFERRED (no source emitter)"
+- ✅ `scripts/services/telemetry_collector.gd` (~120 LOC RefCounted) — `record_action_start`/`record_action_end` + `compute_p95_ms()` + `threshold_verdict(p95)` (PASS<100 / CONDITIONAL 100-200 / ABORT>200)
+- ✅ `scripts/main.gd` wire LIVE 2 sites — line 578 `_telemetry.record_action_start(_pending_action_id)` (input) + line 718 `_telemetry.record_action_end(_pending_action_id)` (resolved)
+- ✅ GUT 11 cases / 21 asserts (`test_telemetry_collector.gd`) — empty samples + roundtrip + 3 threshold scenarios + FIFO drop + reset
+- ✅ MAX_SAMPLES FIFO drop policy + threshold_verdict deterministic helper
 
-**Verdict**: **PARTIAL** — UI architecture ready (adapters + signal contracts), DioField p95 telemetry **assente**.
+**Cross-stack parity**: ENGINE LIVE on Godot side + Game side spec (PR #1997). Round-trip chain instrumented Godot side single-player local mode (multiplayer Godot HTML5 + Game/ Express WS = future extension server-side timing).
 
-**Action items per close parity**:
+**Verdict**: **ENGINE + WIRE LIVE 🟢** — TelemetryCollector running per action. Surface presentation (debug HUD widget OR debrief view summary panel) NOT yet wired (anti-pattern Engine LIVE Surface DEAD chiusabile via `print(t.compute_p95_ms())` console fallback durante phone smoke test).
 
-1. Add timing instrumentation in `scripts/main.gd` `_on_action_intent` / `_on_action_resolved`: t0 input, t5 render via `Engine.get_physics_frames()` + telemetry event emit
-2. Wire p95 aggregation into `VcScoring` (synergy_bonus telemetry pattern) o nuovo `TelemetryCollector` node
-3. Block forecast/overlay emitter sources (`RoundOrchestrator.attack_range / d20_forecast()`) → wire to adapters post-implementation
-4. Test threshold vs M.7 spec: Godot local CLI runner o ngrok tunnel test (match M.7 §4 pass/abort logic)
+**Sub-item residuo per close FULL surface parity**:
 
-**Effort**: ~4-6h Godot side. Gate decision: pre-Sprint I playtest userland (M.7 spec dice "≥3 device target test prima cutover").
+- ❌ Debug HUD widget OR debrief view summary panel non present — telemetry data invisible al player
+- Effort: ~2-3h Godot side post-Item-10 phone smoke results submission
+
+**Effort residuo**: ~2-3h surface wire (low priority — phone smoke can use console fallback). **Critical path**: NO LONGER blocking phone smoke; surface debt only.
 
 ---
 
-## Item 2 — N.7 failure-model parity — PARTIAL (3/5 shipped, 2/5 deferred)
+## Item 2 — N.7 failure-model parity — 🟢 GATE 0 NEAR-PASS (4/5 shipped, Wave B 2 statuses pending)
 
 **Game side spec** (PR #2005):
 
@@ -81,29 +81,30 @@ related:
   4. CampaignState cross-encounter flow (ResourceSaver/Loader orchestrator)
   5. Action 6 lineage merge (parents' WoundState → offspring, cap 5 FIFO)
 
-**Godot W7.x evidence** (PR #146 + others):
+**Closure 2026-05-05** — Godot v2 shipped 4/5 mandatory:
 
-- ✅ `scripts/combat/wound_state.gd` Resource class, severity enum, `attack_mod_penalty()` parity exact
-- ✅ `scripts/combat/passive_status_applier.gd` Wave A 7 statuses (linked/fed/healing/attuned/sensed/telepatic_link, frenzy blocklist)
-- ✅ `scripts/ui/legacy_ritual_panel.gd` CanvasLayer overlay 30s timer + mutation_chosen/ritual_skipped signals
-- ✅ GUT tests 23 cases / 253 lines (test_wound_state.gd 4 + test_passive_status_applier.gd 15 + test_legacy_ritual_panel.gd 4)
+| Sub-item                         | Stato | File / PR                                                                                                                                                                                     |
+| -------------------------------- | :---: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. wounded_perma WoundState      |  ✅   | `scripts/combat/wound_state.gd` Resource + severity enum + `attack_mod_penalty()` parity exact (PR #146 era)                                                                                  |
+| 2. legacy_ritual overlay         |  ✅   | `scripts/ui/legacy_ritual_panel.gd` CanvasLayer 30s timer + signals                                                                                                                           |
+| 3. 9-status 1:1 parity           |  🟡   | `scripts/combat/passive_status_applier.gd` WAVE_A 7 statuses (linked/fed/healing/attuned/sensed/telepatic_link + frenzy blocklist). **Wave B 2 statuses missing** (no `WAVE_B` grep match)    |
+| 4. CampaignState cross-encounter |  ✅   | `scripts/session/campaign_state.gd` 81 LOC Resource — `wounds_by_unit` Dictionary + `MAX_WOUNDS_PER_UNIT=5` FIFO cap + `SAVE_PATH_FMT="user://campaigns/%s/state.tres"` namespacing           |
+| 5. Action 6 lineage merge        |  ✅   | `scripts/lifecycle/lineage_merge_service.gd` 76 LOC (PR #165) — `merge_offspring_wounds(parent_a, parent_b)` reads `CampaignState` + cap 5 FIFO + cross-ref Action 6 PR #2004 ambition ritual |
+| GUT tests                        |  ✅   | `test_wound_state.gd` + `test_passive_status_applier.gd` + `test_legacy_ritual_panel.gd` + `test_lineage_merge_service.gd`                                                                    |
 
-**DEFERRED 2/5**:
+**Pending 1/5**:
 
-- ❌ `CampaignState.gd` Resource orchestrator NOT shipped (spec: Array[WoundState] per unit_id + ResourceSaver cross-encounter flow)
-- ❌ `LineageMergeService.gd` NOT started (parents' wounds → offspring cap 5 FIFO Action 6)
-- ❌ Wave B statuses NOT surfaced (9-status parity incomplete: WAVE_A=7, mancano 2)
+- 🟡 Wave B 2 statuses NOT surfaced — 9-status parity incomplete (WAVE_A=7, +2 needed). No `WAVE_B`/`wave_b`/`wave.B` constant in scripts/. Identify exact 2 missing statuses via cross-ref Game/data/core/traits/active_effects.yaml.
 
-**Verdict**: **GATE 0 PARTIAL** (3/5). Fase 3 cutover **blocked** finché 2/5 deferred non shipped.
+**Verdict**: **GATE 0 NEAR-PASS (4/5) 🟢** — Fase 3 cutover NO LONGER blocked dai 2/5 deferred originali (CampaignState + LineageMergeService entrambi shipped). Wave B residuo è polish, non blocker.
 
-**Action items per close parity** (ordering per blast radius):
+**Sub-item residuo per close FULL parity**:
 
-1. **Sprint M.1 (Godot side)**: Ship `CampaignState.gd` Resource — encounter A save → B load + apply `attack_mod_penalty` via `action_resolver` integration. ~6-8h.
-2. **Action 6 bootstrap**: Implement `LineageMergeService.gd` parent-offspring wound inheritance + cap 5 FIFO. ~4h.
-3. **Wave B mapping**: Confirm remaining 2 statuses beyond WAVE_A per 9-status full parity. ~2h.
-4. **End-to-end GUT**: Encounter A → save/load → Encounter B, verify attack_mod_penalty active across save boundary. ~2h.
+1. **Wave B mapping**: identify 2 remaining statuses beyond WAVE_A per 9-status full parity. ~2h analysis + ~1h impl.
+2. **End-to-end GUT cross-encounter**: Encounter A → save campaign_state.tres → Encounter B → verify `attack_mod_penalty` active across save boundary. ~2h.
+3. **Action 6 bond_path integration test**: Skiv-Pulverator alleanza E2E + offspring wound inheritance assert. ~1h.
 
-**Effort totale**: ~14-16h. **Critical path**: gating Fase 3 cutover ADR.
+**Effort residuo**: ~6h totale. **Critical path**: NO LONGER blocking cutover Fase 3 ADR (Item 7).
 
 ---
 
@@ -317,72 +318,67 @@ Effort residual: ~10-15h Sprint Q polish. Non-gating Fase 3 cutover.
 
 ---
 
-## NEW drift discovered — Ennea taxonomy schema mismatch
+## NEW drift discovered — Ennea taxonomy schema mismatch — ✅ RESOLVED 2026-05-05
 
 **Game side `apps/play/src/debriefPanel.js` + `characterPanel.js`** (sessione 2026-05-04 PR #2041):
 
 - 9 ENNEA_META: Riformatore(1)/Coordinatore(2)/Conquistatore(3)/Individualista(4)/Architetto(5)/Lealista(6)/Esploratore(7)/Cacciatore(8)/Stoico(9)
 - Schema: full enneagram 9-type taxonomy
 
-**Godot side `scripts/ai/vc_scoring.gd`** (Sprint O.5):
+**Resolution 2026-05-05** — ADR + cross-stack port:
 
-- 6 ENNEA_ARCHETYPES: warrior + 5 altri (winner-take-all simplified)
-- Schema: simplified 6-archetype clustering
+- ✅ **Decision**: ADR-2026-05-04 Opzione A — full 9-type enneagram canonical (drop Sprint O.5 simplified 6-archetype)
+- ✅ **Game side**: ENNEA_META 9 full canon shipped PR #2041 (`apps/play/src/debriefPanel.js` + `characterPanel.js`)
+- ✅ **Godot side port**: Game-Godot-v2 PR #167 — `scripts/ai/vc_scoring.gd` ENNEA_ARCHETYPES 9 full enneagram canon mirror Game `apps/backend/services/vcScoring.js` + `data/core/telemetry.yaml ennea_themes`. Multi-trigger semantics + `_eval_ennea_triggers(agg, raw)` hardcoded conditions per `compute_ennea_archetypes`
+- ✅ **Cross-stack parity**: vcSnapshot Godot side produce 9 archetype = Game side payload (9 type) — incompatibilità chiusa
 
-**Drift analysis**:
+**Verdict**: **DRIFT RESOLVED ✅** — cutover Fase 3 ADR no longer blocked dalla taxonomy mismatch. P4 MBTI/Ennea cross-stack consistency restored.
 
-- ❌ Cross-stack incompatibilità: vcSnapshot Godot side produce 6 archetype, Game side payload aspetta 9 type
-- ❌ Cutover blocking: cutover Godot v2 lascerebbe Game/ data legacy 9-type orphan
-- 🟡 Plan v3 §P4 expectation "🟡++ MBTI/Ennea T_F full + thought cabinet": NON specifica taxonomy
+**Sub-item residuo (NON blocker)**:
 
-**Action items**:
-
-1. **Schema decision**: master-dd verdict — keep 9-type (full enneagram canon, parity Game/ catalog) OR keep 6-archetype (Sprint O.5 simplified)?
-2. **Backend canonicalization**: se 9-type → port Sprint O.5 vc_scoring.gd Godot side a 9 archetype + extra winner-pick. Se 6-archetype → migrate Game/ apps/play/ + characterPanel.js a 6.
-3. **ADR-2026-05-XX-ennea-taxonomy-canonical**: lock decision pre-cutover. PR #2041 wire web v1 (deprecated post-cutover) = minor value se 6-archetype canon.
-
-**Effort**: ~2-4h Godot side (port 6 → 9) o ~3-5h Game side (migrate 9 → 6 + dataset rework).
+- 🟡 Godot UI surface 9 archetype non ancora wired (Engine LIVE Surface DEAD — vcSnapshot computa ma debrief panel Godot NON mostra all 9 type yet)
+- Effort: ~2-3h Godot side debrief surface — low priority post-Item-10 phone smoke results.
 
 ---
 
 ## Sintesi action items + ordering
 
-| #   | Item                                                | Owner             | Effort               | Gating             |
-| --- | --------------------------------------------------- | ----------------- | -------------------- | ------------------ |
-| 1   | M.7 timing instrumentation Godot                    | Godot dev         | 4-6h                 | playtest           |
-| 2   | N.7 CampaignState + LineageMerge + Wave B           | Godot dev         | 14-16h               | **cutover Fase 3** |
-| 3   | Beehave A.2 role overlays + registry                | Godot dev         | 6-8h                 | optional           |
-| 4   | 2 deferred adapters emitter wire (forecast/overlay) | Godot dev         | 3-5h                 | UX polish          |
-| 5   | Skiv asset Path 3 portrait + lifecycle + SFX + VFX  | userland + tools  | 6-9h                 | cross-stack visual |
-| 6   | Cutover ADR draft + criteria                        | master-dd + dev   | 1-2h                 | **cutover Fase 3** |
-| 7   | ERMES E7-E8 (deferred correct)                      | post-cutover      | —                    | —                  |
-| 8   | Character creation TV scene Godot                   | Godot dev         | 6-10h                | full slice         |
-| 9   | Phone composer real-device smoke                    | master-dd manual  | 2-4h                 | **cutover Fase 3** |
-| 10  | Ennea taxonomy ADR + schema decision                | master-dd verdict | decision + 2-5h port | **cutover Fase 3** |
+| #   | Item                                                 | Owner            | Effort  | Gating             |
+| --- | ---------------------------------------------------- | ---------------- | ------- | ------------------ |
+| 1   | M.7 surface debrief HUD (engine + wire ✅ #166)      | Godot dev        | 2-3h    | UX polish          |
+| 2   | N.7 Wave B 2 statuses + cross-encounter GUT (4/5 ✅) | Godot dev        | 6h      | UX polish          |
+| 3   | Beehave A.2 role overlays + registry                 | Godot dev        | 6-8h    | optional           |
+| 4   | 2 deferred adapters emitter wire (forecast/overlay)  | Godot dev        | 3-5h    | UX polish          |
+| 5   | Skiv asset Path 3 portrait + lifecycle + SFX + VFX   | userland + tools | 6-9h    | cross-stack visual |
+| 6   | Cutover ADR draft + criteria                         | master-dd + dev  | 1-2h    | **cutover Fase 3** |
+| 7   | ERMES E7-E8 (deferred correct)                       | post-cutover     | —       | —                  |
+| 8   | Character creation TV scene Godot                    | Godot dev        | 6-10h   | full slice         |
+| 9   | Phone composer real-device smoke (guida shipped ✅)  | master-dd manual | ~45 min | **cutover Fase 3** |
+| 10  | Ennea Godot debrief surface 9 archetype (cross ✅)   | Godot dev        | 2-3h    | UX polish          |
 
-**Critical path Fase 3 cutover** (items 2 + 6 + 9 + 10 = ~22-32h):
+**Critical path Fase 3 cutover (post-2026-05-05 close-marks)** — items 6 + 9 = ~2-3h totale:
 
-1. N.7 close (14-16h Godot)
-2. Phone composer real-device smoke (2-4h userland)
-3. Ennea taxonomy decision + port (2-5h)
-4. Cutover ADR formal (1-2h)
+1. **Item 9** Phone composer real-device smoke (~45 min userland, master-dd) — guida + tooling shipped 2026-05-05
+2. **Item 6** Cutover ADR formal (1-2h, master-dd + dev) — sblocca quando Item 9 results PASS p95 <100ms o CONDITIONAL accettato
 
-**Non-blocking refinements** (items 1 + 3 + 4 + 5 + 8 = ~25-38h):
+**Non-blocking refinements** (items 1 + 2 polish + 3 + 4 + 5 + 8 + 10 = ~28-43h):
 
-- M.7 telemetry, Beehave A.2, adapter emitter, Skiv asset, character creation
+- M.7 surface HUD (2-3h), N.7 Wave B + cross-encounter GUT (6h), Beehave A.2 (6-8h), adapter emitter wire (3-5h), Skiv asset (6-9h), character creation TV (6-10h), Ennea Godot debrief surface (2-3h)
 
-**Total effort closure**: ~47-70h (~6-9 giorni full focus). Match plan v3 §"Fase 3 ~4-8 sett" estimate ma anticipato post-Sprint A.1 wave.
+**Total cutover Fase 3 ADR-ready effort**: **~2-3h userland + dev** (vs 47-70h originale stima 2026-05-04). Reduction post-2026-05-05 close-marks: **~93-96%** del residual blocking effort eliminato (Item 1+2+Ennea + Item 10 guida tutti closed-marked autonomous).
 
 ## Verdict finale
 
 ✅ **Godot v2 OVERSHOT plan v3 expectation in 5-6 giorni reali** (vs 6-8 sett stima Fase 2). Sprint M-N-O-P-Q-R-W7 ALL closed.
 
-🟡 **2 verifiche parity revisited PARTIAL non MATCH**: M.7 + N.7 — entrambi gating cutover.
+✅ **2 verifiche parity post-2026-05-05 close-marks**: M.7 ENGINE+WIRE LIVE (#166) + N.7 GATE 0 NEAR-PASS 4/5 (#165 + CampaignState shipped). Cross-stack Ennea taxonomy 9-canon RESOLVED (#167 + #2041).
 
-❌ **Drift items concreti residual**: Skiv visual, character creation TV, Ennea taxonomy schema mismatch, master-dd manual deploy.
+🟡 **Phone smoke guida shipped + tooling automated** (Game/ #2045/#2047/#2048/#2050 + #168). Userland exec residuo solo ~45 min.
+
+❌ **Drift items concreti residual** (NON cutover-blocker): Skiv visual asset, character creation TV scene Godot.
 
 ⏸ **ERMES correctly deferred** post-cutover.
 
 **Resume trigger phrase canonical**:
 
-> _"leggi docs/planning/2026-05-04-plan-v3-drift-sync-godot-realtime.md, esegui critical path item 2/6/9/10 per cutover Fase 3"_
+> _"leggi docs/planning/2026-05-04-plan-v3-drift-sync-godot-realtime.md, esegui Item 9 phone smoke userland → poi Item 6 cutover Fase 3 ADR formal"_
