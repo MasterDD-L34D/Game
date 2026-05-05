@@ -17,7 +17,7 @@ tags: [playtest, phone, smoke, godot-v2, w6, deploy, cloudflare-tunnel, telemetr
 >
 > Originale Cloudflare account / cloudflared install / tunnel auth / ingress sezioni rimosse — risultavano duplicate vs upstream e divergenti rispetto allo shared-mode (1 porta 3334 invece di 3 separate). History pre-rewrite: PR #2045 + #2047.
 
-Closes drift sync 2026-05-04 Item C3 critical path Fase 3 cutover ADR.
+Closes drift sync 2026-05-04 [Item 10 — Phone composer real-device smoke test](../planning/2026-05-04-plan-v3-drift-sync-godot-realtime.md#item-10--phone-composer-real-device-smoke-test--master-dd-manual-ops-) critical path Fase 3 cutover ADR.
 
 ## Telemetry verdict gate
 
@@ -136,7 +136,7 @@ echo "Phone deep-link: $TUNNEL/phone/?room=$CODE"
 
 ## Verdict template
 
-Compila tabella post-smoke. Se p95 >100ms → flag CONDITIONAL/ABORT, escalation drift sync Item C3.
+Compila tabella post-smoke. Se p95 >100ms → flag CONDITIONAL/ABORT, escalation drift sync Item 10.
 
 | Metrica                      | Valore  |          Verdict           |
 | ---------------------------- | ------- | :------------------------: |
@@ -163,7 +163,7 @@ Compila tabella post-smoke. Se p95 >100ms → flag CONDITIONAL/ABORT, escalation
 - Verdict overall: ship-ready / iter-needed / abort
 ```
 
-📋 **Submit verdict**: salva tabella compilata in nuovo doc `docs/playtest/2026-05-XX-phone-smoke-results.md` + cross-ref drift sync 2026-05-04 Item C3 close.
+📋 **Submit verdict**: salva tabella compilata in nuovo doc `docs/playtest/2026-05-XX-phone-smoke-results.md` + cross-ref drift sync 2026-05-04 Item 10 close.
 
 ---
 
