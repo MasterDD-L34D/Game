@@ -582,12 +582,50 @@ export function resolveUnitVisualStyle(unit) {
 // piccolo glifo in alto-sinistra del corpo unit. Multi-creature: qualsiasi
 // unit con `aspect_token` campo riceve overlay (token sconosciuto = no-op).
 //
-// Source of truth: data/core/species/dune_stalker_lifecycle.yaml § mutation_morphology.
+// Source of truth: data/core/species/dune_stalker_lifecycle.yaml § mutation_morphology
+// + data/core/mutations/mutation_catalog.yaml § aspect_token (36 mutations).
+// Glyph alphabet by morphology family: ◆=claws ▲=wings ◇=teeth ◉=eyes ✦=core
+// ❄=cold/elemental ◊=ear/sense ▼=skeleton ⬢=carapace ◈=organ ⌬=symbiote ☉=swarm
 const ASPECT_TOKEN_OVERLAY = {
-  claws_glass: { glyph: '◆', color: '#b39ddb' }, // ossidiana trasparente
-  claws_glacial: { glyph: '❄', color: '#90caf9' }, // brina permanente
-  scales_chameleon: { glyph: '◐', color: '#a5d6a7' }, // bio-camo
-  ears_radar: { glyph: '◊', color: '#80deea' }, // echolocation 3D
+  claws_glass: { glyph: '◆', color: '#b39ddb' },
+  claws_glacial: { glyph: '❄', color: '#90caf9' },
+  scales_chameleon: { glyph: '◐', color: '#a5d6a7' },
+  ears_radar: { glyph: '◊', color: '#80deea' },
+  // mutation_catalog.yaml backfill 2026-05-05
+  wings_resonant: { glyph: '▲', color: '#ce93d8' },
+  wings_solar: { glyph: '▲', color: '#fff176' },
+  wings_phono: { glyph: '▲', color: '#80deea' },
+  teeth_chelating: { glyph: '◇', color: '#aed581' },
+  skeleton_buffered: { glyph: '▼', color: '#90caf9' },
+  carapace_phasing: { glyph: '⬢', color: '#b39ddb' },
+  carapace_luminescent: { glyph: '⬢', color: '#fff59d' },
+  core_supercritical: { glyph: '✦', color: '#ff8a65' },
+  voice_summon: { glyph: '◈', color: '#ffb74d' },
+  aura_disperse: { glyph: '◈', color: '#ffcc80' },
+  eyes_crystal: { glyph: '◉', color: '#b39ddb' },
+  eyes_kinetic: { glyph: '◉', color: '#80deea' },
+  antennae_storm: { glyph: '◊', color: '#ce93d8' },
+  endosymbiont_chemio: { glyph: '⌬', color: '#a5d6a7' },
+  skin_dielectric: { glyph: '◈', color: '#fff176' },
+  gills_metalloid: { glyph: '◈', color: '#90a4ae' },
+  capillaries_photovoltaic: { glyph: '◈', color: '#ffd54f' },
+  cuticle_neutralize: { glyph: '◈', color: '#aed581' },
+  tail_counter: { glyph: '◇', color: '#90caf9' },
+  tail_kinetic: { glyph: '◇', color: '#ff8a65' },
+  glands_acid: { glyph: '◈', color: '#aed581' },
+  enzymes_rapid: { glyph: '◈', color: '#80cbc4' },
+  hammer_osseo: { glyph: '◆', color: '#bcaaa4' },
+  cartilage_metallic: { glyph: '▼', color: '#90a4ae' },
+  membrane_photonic: { glyph: '◈', color: '#fff176' },
+  filaments_echo: { glyph: '◊', color: '#80deea' },
+  legs_radiant: { glyph: '◇', color: '#fff176' },
+  ferocity_supercritical: { glyph: '✦', color: '#ef5350' },
+  symbiote_mycorrhiza: { glyph: '⌬', color: '#8d6e63' },
+  symbiote_lichen: { glyph: '⌬', color: '#a5d6a7' },
+  symbiote_thermofile: { glyph: '⌬', color: '#ff8a65' },
+  pack_signaling: { glyph: '☉', color: '#90caf9' },
+  hierarchy_ritual: { glyph: '☉', color: '#ce93d8' },
+  receptors_seed: { glyph: '◊', color: '#aed581' },
 };
 
 export function getAspectTokenOverlay(token) {

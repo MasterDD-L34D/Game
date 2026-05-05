@@ -45,6 +45,7 @@ mutations:
       - "3 stunned applicati in 1 encounter"
       - "1 turno passato in biome glaciale post-Sistema pressure tier 2"
     visual_swap_it: "Tier 2: artigli ipo termici -> artigli sghiaccio glaciale. Morfologia visibilmente ristrutturata."
+    aspect_token: "claws_glacial"
     description_it: |
       Le falangi criogeniche evolvono da shock localizzato a congelamento
       profondo: gli stun vengono sostituiti da fracture (limitazione AP)
@@ -73,6 +74,7 @@ mutations:
       - "5 hit melee da posizione sopraelevata in 1 encounter"
       - "panic applicato 8+ volte cumulato"
     visual_swap_it: "Tier 2: ali membrana sonica -> ali fono risonanti. Morfologia visibilmente ristrutturata."
+    aspect_token: "wings_resonant"
     description_it: |
       Le ali si specializzano: dal terror sonico generico passano a
       risonanza ad alta frequenza che provoca stunned su critico.
@@ -101,6 +103,7 @@ mutations:
       - "10 turni cumulativi in biome palustre"
       - "bleeding applicato 12+ volte"
     visual_swap_it: "Tier 2: denti seghettati -> denti chelatanti. Morfologia visibilmente ristrutturata."
+    aspect_token: "teeth_chelating"
     description_it: |
       I denti seghettati si arricchiscono di enzimi che chelano metalli nel
       sangue del bersaglio: il sanguinamento dura 3 turni invece di 2 e si
@@ -129,6 +132,7 @@ mutations:
       - "subito 5 hit con MoS >= 5 (sopravvive a colpi solidi)"
       - "5 turni cumulativi in biome acquatico"
     visual_swap_it: "Tier 2: scheletro pneumatico a maglie -> scheletro idro regolante. Morfologia visibilmente ristrutturata."
+    aspect_token: "skeleton_buffered"
     description_it: |
       Lo scheletro pneumatico evolve in un sistema idro-regolante che
       modula la propria densità. Da DR1 always passa a DR2 condizionato
@@ -157,6 +161,7 @@ mutations:
       - "subito 8 hit con MoS >= 5 in 3 encounter consecutivi"
       - "completata mutation precedente scheletro_buffer_upgrade"
     visual_swap_it: "Tier 3: carapace segmenti logici -> carapace fase variabile. Morfologia visibilmente ristrutturata."
+    aspect_token: "carapace_phasing"
     description_it: |
       Capstone della linea difensiva: il carapace acquisisce capacità di
       variare densità molecolare on-demand, raggiungendo DR3 sui colpi
@@ -189,6 +194,7 @@ mutations:
       - "5 kill consecutivi senza prendere danno tra uno e l'altro"
       - "rage attivo per 8+ turni cumulativi in 1 sessione"
     visual_swap_it: "Tier 3: circolazione doppia -> circolazione supercritica. Postura e movimento alterati visibilmente."
+    aspect_token: "core_supercritical"
     description_it: |
       La circolazione bifasica entra in fase supercritica: rage da 2 a 3
       turni, e il bonus +1 dmg persiste 1 turno extra dopo il decay.
@@ -217,6 +223,7 @@ mutations:
       - "alleato della stessa specie ucciso adiacente"
       - "panic applicato 15+ volte cumulato"
     visual_swap_it: "Tier 2: voce imperiosa -> canto di richiamo. Postura e movimento alterati visibilmente."
+    aspect_token: "voice_summon"
     description_it: |
       La voce imperiosa shifta da terror-source a kill-amplifier: il
       panic on-hit viene rimpiazzato da rage on-kill. La creatura passa
@@ -245,6 +252,7 @@ mutations:
       - "panic applicato 10+ volte da intimidator"
       - "Sistema pressure tier 2+ mantenuto 5 turni"
     visual_swap_it: "Tier 2: intimidatore -> aura di dispersione mentale. Postura e movimento alterati visibilmente."
+    aspect_token: "aura_disperse"
     description_it: |
       L'intimidatore diventa un'aura passiva: panic non più on-hit
       condizionato, ma applicato a tutti gli attaccanti melee
@@ -278,6 +286,7 @@ mutations:
       - "10+ critici (MoS >= 8) in 3 encounter consecutivi"
       - "Sistema warning_signals 'precision_predator' attivo"
     visual_swap_it: "Tier 2: occhi cinetici -> occhi cristallo modulare. Organi sensoriali emissivi."
+    aspect_token: "eyes_crystal"
     description_it: |
       Gli occhi cinetici si raffinano in prismi cristallini: MoS5+ +1 dmg
       diventa MoS8+ +2 dmg. Trade-off: meno trigger ma più devastante
@@ -306,6 +315,7 @@ mutations:
       - "1 critico MoS >= 12 (estremo)"
       - "antenne_tesla attive in 5 encounter, 30+ turni cumulativi"
     visual_swap_it: "Tier 3: antenne tesla -> antenne plasmatiche tempesta. Organi sensoriali emissivi."
+    aspect_token: "antennae_storm"
     description_it: |
       Capstone sensory: antenne tesla evolvono in plasma-tempesta. Critico
       MoS >= 8 infligge +3 dmg invece di +2 su MoS5+. Apex predator-tier
@@ -338,6 +348,7 @@ mutations:
       - "1 critico MoS >= 10 da posizione sopraelevata"
       - "5 turni in biome solare cumulativi"
     visual_swap_it: "Tier 2: ali ioniche -> ali solari fotoni. Organi sensoriali emissivi."
+    aspect_token: "wings_solar"
     description_it: |
       Le ali ioniche evolvono in fotoniche: dive da stunned (control) a
       +3 dmg pure damage (MoS5+). Shift da control role a glass cannon
@@ -366,6 +377,7 @@ mutations:
       - "5 hit melee MoS >= 8 (alta precisione)"
       - "5 turni in biome cavernoso"
     visual_swap_it: "Tier 2: ali fulminee -> ali fono risonanti. Organi sensoriali emissivi."
+    aspect_token: "wings_phono"
     description_it: |
       Le ali fulminee si specializzano in risonanza acustica: dive +2
       dmg da elevato passa a stunned 1 turno on critico (MoS8+). Shift
@@ -398,6 +410,7 @@ mutations:
       - "alleato adiacente per 8 turni cumulativi"
       - "kill assistito da alleato 5+ volte"
     visual_swap_it: "Tier 2: emerge batteri termofili endosimbiosi. Simbionte visibile (overlay distinct)."
+    aspect_token: "endosymbiont_chemio"
     description_it: |
       Acquisisce un secondo endosimbionte termofilo: rage on-kill aumenta
       di 1 turno per ogni alleato adiacente al momento del kill. Forte
@@ -430,6 +443,7 @@ mutations:
       - "subito 5 hit elettrici/ionici in 2 encounter"
       - "5 turni in biome ionico"
     visual_swap_it: "Tier 2: pelli anti ustione -> epidermide dielettrica. Aura biome-reactive percettibile."
+    aspect_token: "skin_dielectric"
     description_it: |
       Le pelli anti-ustione si elettrificano: stesso DR1 always ma resiste
       anche ai colpi ionici (sblocca biome boost in canopia/stratosfera).
@@ -456,6 +470,7 @@ mutations:
     trigger_examples:
       - "5 turni in biome ricco di metalli (atollo_obsidiana, abisso_vulcanico)"
     visual_swap_it: "Tier 2: branchie microfiltri -> branchie metalloidi. Aura biome-reactive percettibile."
+    aspect_token: "gills_metalloid"
     description_it: |
       Le branchie a microfiltri integrano deposito metalloide: stesso DR1
       ma scudo accessorio funge da counter-armor leggera.
@@ -482,6 +497,7 @@ mutations:
     trigger_examples:
       - "5 turni cumulativi sotto luce intensa (biome solare)"
     visual_swap_it: "Tier 2: capillari fluoridici -> capillari fotovoltaici. Aura biome-reactive percettibile."
+    aspect_token: "capillaries_photovoltaic"
     description_it: |
       I capillari fluoridici evolvono in fotovoltaici: bleeding on-hit
       shifta in rage on-kill (assorbe il flash di morte del bersaglio).
@@ -513,6 +529,7 @@ mutations:
     trigger_examples:
       - "subito 6 hit chimici/acidi in 2 encounter"
     visual_swap_it: "Tier 2: cuticole cerose -> cuticole neutralizzanti. Morfologia visibilmente ristrutturata."
+    aspect_token: "cuticle_neutralize"
     description_it: |
       Le cuticole cerose imparano a neutralizzare composti reattivi:
       DR1 always passa a DR2 condizionato a MoS5+. Più potente vs
@@ -541,6 +558,7 @@ mutations:
       - "5 turni in biome abissale cumulativi"
       - "subito 4 hit in mappa con luminosità ambient bassa"
     visual_swap_it: "Tier 2: carapaci ferruginosi -> carapace luminiscente abissale. Morfologia visibilmente ristrutturata."
+    aspect_token: "carapace_luminescent"
     description_it: |
       Il carapace ferruginoso si arricchisce di pigmenti bioluminescenti:
       DR2 always passa a DR1 always + confusione mira (riduce attacchi
@@ -573,6 +591,7 @@ mutations:
       - "5 hit MoS >= 8 (alta precisione)"
       - "completate 5 mutation di altre creature (esperienza accumulata)"
     visual_swap_it: "Tier 2: artigli sette vie -> artigli vetrificati. Morfologia visibilmente ristrutturata."
+    aspect_token: "claws_glass"
     description_it: |
       Gli artigli a sette vie si vetrificano per durezza estrema: +1 dmg
       always passa a +2 dmg condizionato MoS5+. Più burst, meno DPS
@@ -600,6 +619,7 @@ mutations:
     trigger_examples:
       - "8 hit melee in 2 encounter"
     visual_swap_it: "Tier 2: coda balanciere -> coda contrappeso. Morfologia visibilmente ristrutturata."
+    aspect_token: "tail_counter"
     description_it: |
       La coda balanciere muscoleggia in contrappeso pesante: +1 dmg always
       passa a +2 dmg condizionato MoS5+. Specializzazione melee precisa.
@@ -627,6 +647,7 @@ mutations:
       - "completata mutation precedente coda_balanced_to_counter"
       - "5 critici MoS >= 8 con coda_contrappeso"
     visual_swap_it: "Tier 3: coda contrappeso -> coda frusta cinetica. Morfologia visibilmente ristrutturata."
+    aspect_token: "tail_kinetic"
     description_it: |
       Capstone della linea coda: contrappeso evolve in frusta cinetica.
       +2 dmg MoS5+ passa a fracture 2 turni MoS5+. Shift offensivo →
@@ -659,6 +680,7 @@ mutations:
       - "panic applicato 10+ volte da inchiostro"
       - "5 turni in biome palustre"
     visual_swap_it: "Tier 2: ghiandole inchiostro luce -> ghiandole nebbia acida. Morfologia visibilmente ristrutturata."
+    aspect_token: "glands_acid"
     description_it: |
       Le ghiandole evolvono da inchiostro luminescente (panic 2) a nebbia
       acida (bleeding 3). Shift da control → DoT.
@@ -686,6 +708,7 @@ mutations:
       - "bleeding applicato 15+ volte cumulato"
       - "5 turni in biome chimicamente attivo"
     visual_swap_it: "Tier 2: enzimi chelanti -> enzimi chelatori rapidi. Morfologia visibilmente ristrutturata."
+    aspect_token: "enzymes_rapid"
     description_it: |
       Gli enzimi chelanti accelerano la cinetica: bleeding 2 always passa
       a bleeding 3 condizionato MoS5+. Più severo ma meno frequente.
@@ -717,6 +740,7 @@ mutations:
       - "completata mutation coda_kinetic_chain"
       - "fracture applicato 12+ volte cumulato"
     visual_swap_it: "Tier 2: emerge martello osseo. Morfologia visibilmente ristrutturata."
+    aspect_token: "hammer_osseo"
     description_it: |
       Sviluppa una protuberanza ossea pesante in aggiunta alla coda
       cinetica: doppia fonte fracture (coda + martello). Synergy
@@ -748,6 +772,7 @@ mutations:
     trigger_examples:
       - "5 hit MoS >= 5 in 1 encounter"
     visual_swap_it: "Tier 2: occhi analizzatori di tensione -> occhi cinetici. Organi sensoriali emissivi."
+    aspect_token: "eyes_kinetic"
     description_it: |
       Gli occhi analizzatori di tensione si specializzano in lettura
       cinetica: +1 dmg always passa a +1 dmg MoS5+. Più focalizzato
@@ -779,6 +804,7 @@ mutations:
     trigger_examples:
       - "5 turni in biome metallico/cristallino"
     visual_swap_it: "Tier 2: cartilagini biofibre -> cartilagini pseudometalliche. Aura biome-reactive percettibile."
+    aspect_token: "cartilage_metallic"
     description_it: |
       Le cartilagini biofibre mineralizzano: DR1 melee passa a DR2 always.
       Più potente difesa, meno mobilità (implicit slowdown +0 ma weight
@@ -806,6 +832,7 @@ mutations:
     trigger_examples:
       - "5 turni in biome luminoso/luminescente cumulativi"
     visual_swap_it: "Tier 2: membrane pneumatofori -> membrane fotoconvoglianti. Aura biome-reactive percettibile."
+    aspect_token: "membrane_photonic"
     description_it: |
       Le membrane pneumatofori si convertono a fotoconvoglianti: DR1
       always passa a DR2 MoS5+. Specializzazione vs colpi precisi.
@@ -837,6 +864,7 @@ mutations:
       - "alleato adiacente per 10 turni cumulativi"
       - "10 hit subiti senza KO in 1 encounter"
     visual_swap_it: "Tier 2: emerge filamenti echo. Simbionte visibile (overlay distinct)."
+    aspect_token: "filaments_echo"
     description_it: |
       Sviluppa filamenti aggiuntivi che rilanciano frequenze di squadra:
       offensive +2 melee MoS5+ (filamenti_super) + defensive DR1 always
@@ -869,6 +897,7 @@ mutations:
       - "10 attacchi sopraelevati MoS >= 5 in 3 encounter"
       - "Sistema warning_signals 'air_dominator' attivo"
     visual_swap_it: "Tier 3: zampe a molla -> zampe radianti. Morfologia visibilmente ristrutturata."
+    aspect_token: "legs_radiant"
     description_it: |
       Le zampe a molla diventano radianti: bonus sopraelevato passa da
       +1 dmg (MoS5+) a +2 dmg (any hit). Apex jumping predator.
@@ -896,6 +925,7 @@ mutations:
       - "completata mutation rage_simple_to_super"
       - "10+ kill consecutivi senza prendere danno"
     visual_swap_it: "Tier 3: ferocia -> midollo iperattivo. Postura e movimento alterati visibilmente."
+    aspect_token: "ferocity_supercritical"
     description_it: |
       Ferocia ancestrale evolve in midollo iperattivo: rage 3 turni
       passa a rage 3 turni + cascata neuroendocrina prolungata. Apex
@@ -930,6 +960,7 @@ mutations:
       - "8 turni cumulativi in biome forestale/palustre"
       - "alleato adiacente che subisce status physiological 5+ volte"
     visual_swap_it: "Tier 2: emerge mucillagine simbionte mangrovie. Filamenti radicali visibili (overlay distinct)."
+    aspect_token: "symbiote_mycorrhiza"
     description_it: |
       Acquisisce simbiosi radicale con micorrize fungali: gli alleati
       adiacenti per 2+ turni ricevono +1 healing/turno. Trade-off:
@@ -958,6 +989,7 @@ mutations:
       - "5 turni cumulativi sotto luce intensa (biome solare)"
       - "subito 3 hit fotonici/elettrici senza KO"
     visual_swap_it: "Tier 2: emerge lichene fotosintetico. Patches verdi-dorate sulla pelle (overlay distinct)."
+    aspect_token: "symbiote_lichen"
     description_it: |
       Sviluppa simbiosi con licheni fotosintetici: in biome solare
       rigenera +1 mp/turno (cap 3 turni). Apre a sinergie symbiont
@@ -986,6 +1018,7 @@ mutations:
       - "completata mutation symbiosis_chemio_endosymbiont"
       - "10 turni cumulativi con alleato adiacente in biome termale"
     visual_swap_it: "Tier 3: doppio simbionte attivo. Aura termica visibile + valvole condotti chemio."
+    aspect_token: "symbiote_thermofile"
     description_it: |
       Capstone della linea simbiotica: doppio endosimbionte attivo
       (chemio + termofilo). Rage on-kill estende +2 turni con alleato
@@ -1020,6 +1053,7 @@ mutations:
       - "3 squad combo focus_fire stesso target stesso round"
       - "alleato della stessa specie KO in adiacenza"
     visual_swap_it: "Tier 2: emerge risonanza di branco. Postura sincronizzata, vocalizzi udibili."
+    aspect_token: "pack_signaling"
     description_it: |
       Le tattiche di branco evolvono in risonanza vocale: alleati entro
       2 tile ricevono +1 attack_mod_bonus quando attaccano stesso target
@@ -1049,6 +1083,7 @@ mutations:
       - "completata mutation intimidator_to_dispersal"
       - "panic applicato 12+ volte cumulato post-mutation precedente"
     visual_swap_it: "Tier 2: postura dominante esibita. Vocalizzi territoriali ad alta intensita'."
+    aspect_token: "hierarchy_ritual"
     description_it: |
       L'aura di dispersione si ritualizza: i nemici panicked entro 3 tile
       hanno -1 attack_mod aggiuntivo. Doppio source di pressure controllato.
@@ -1082,6 +1117,7 @@ mutations:
       - "5 hit MoS >= 5 contro stesso target in 1 encounter (lock cinetico)"
       - "10 turni cumulativi in biome chimicamente attivo"
     visual_swap_it: "Tier 2: chemiorecettori ipertrofici. Antenne sensitive estensione visibile."
+    aspect_token: "receptors_seed"
     description_it: |
       I chemiorecettori bromuro si specializzano in tracking persistente:
       target colpiti ricevono debuff -1 defense_mod 2 turni (estende

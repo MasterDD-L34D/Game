@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Mutations linter — Voidling Bound Pattern 6 enforcement.
+"""Mutations linter — Voidling Bound + Wildermyth Pattern 6 enforcement.
 
 Source: docs/research/2026-04-26-voidling-bound-evolution-patterns.md (Pattern 6).
-Voidling Bound design rule: ogni mutation tier-up DEVE avere visual change visible.
-Senza visual_swap_it: player non vede effetto della mutation = invisible feature.
+Design rule: ogni mutation tier-up DEVE avere visual change visible.
+Required fields:
+  - visual_swap_it (str): textual description del cambio morfologico
+  - aspect_token (str): render-layer key per portrait/sprite overlay
+                        (apps/play/src/render.js ASPECT_TOKEN_OVERLAY).
+                        Token unknown = no-op render (graceful).
+
+Senza questi: player non vede effetto della mutation = invisible feature.
 
 Pattern adoption: docs/research/2026-04-26-cross-game-extraction-MASTER.md §2 + §4.
 
@@ -11,8 +17,8 @@ Usage:
     python tools/py/lint_mutations.py [--fix] [--catalog PATH]
 
 Exit codes:
-    0 = all mutations compliant (visual_swap_it present + non-empty)
-    1 = lint failures (missing or empty visual_swap_it)
+    0 = all mutations compliant (visual_swap_it + aspect_token present + non-empty)
+    1 = lint failures (missing or empty required field)
     2 = file/parse error
 """
 
@@ -28,7 +34,10 @@ except ImportError:
 
 
 DEFAULT_CATALOG = "data/core/mutations/mutation_catalog.yaml"
-PLACEHOLDER = "TODO: descrivi visual change post-mutation (Pattern 6 Voidling Bound)"
+PLACEHOLDER_VSI = "TODO: descrivi visual change post-mutation (Pattern 6 Voidling Bound)"
+PLACEHOLDER_TOKEN = "TODO_aspect_token"
+
+REQUIRED_FIELDS = ("visual_swap_it", "aspect_token")
 
 
 def lint_mutations(catalog_path: Path, fix: bool = False) -> int:
@@ -55,36 +64,38 @@ def lint_mutations(catalog_path: Path, fix: bool = False) -> int:
         if not isinstance(mdata, dict):
             violations.append((mid, "not a dict"))
             continue
-        vsi = mdata.get("visual_swap_it")
-        if vsi is None:
-            violations.append((mid, "missing visual_swap_it"))
-            if fix:
-                mdata["visual_swap_it"] = PLACEHOLDER
-                fix_count += 1
-        elif not isinstance(vsi, str) or not vsi.strip():
-            violations.append((mid, "empty visual_swap_it"))
-            if fix:
-                mdata["visual_swap_it"] = PLACEHOLDER
-                fix_count += 1
+        for field in REQUIRED_FIELDS:
+            value = mdata.get(field)
+            placeholder = PLACEHOLDER_VSI if field == "visual_swap_it" else PLACEHOLDER_TOKEN
+            if value is None:
+                violations.append((mid, f"missing {field}"))
+                if fix:
+                    mdata[field] = placeholder
+                    fix_count += 1
+            elif not isinstance(value, str) or not value.strip():
+                violations.append((mid, f"empty {field}"))
+                if fix:
+                    mdata[field] = placeholder
+                    fix_count += 1
 
     total = len(mutations)
     if not violations:
-        print(f"OK: {total}/{total} mutations have visual_swap_it (Pattern 6 compliant)")
+        print(f"OK: {total}/{total} mutations have {' + '.join(REQUIRED_FIELDS)} (Pattern 6 compliant)")
         return 0
 
-    print(f"FAIL: {len(violations)}/{total} mutations violate Pattern 6:")
+    print(f"FAIL: {len(violations)} violations on {total} mutations (Pattern 6):")
     for mid, reason in violations:
         print(f"  - {mid}: {reason}")
 
     if fix:
         with catalog_path.open("w", encoding="utf-8") as fh:
             yaml.safe_dump(data, fh, allow_unicode=True, sort_keys=False)
-        print(f"\nFIXED: {fix_count} placeholder visual_swap_it added.")
-        print("ACTION: replace placeholders with real visual descriptions.")
+        print(f"\nFIXED: {fix_count} placeholder fields added.")
+        print("ACTION: replace placeholders with real values.")
         return 1  # still failure (placeholders need real content)
 
-    print("\nFix: rerun with --fix to add placeholder visual_swap_it.")
-    print("Then replace placeholders with real visual descriptions.")
+    print("\nFix: rerun with --fix to add placeholder fields.")
+    print("Then replace placeholders with real values.")
     return 1
 
 
