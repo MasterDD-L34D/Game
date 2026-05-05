@@ -157,6 +157,100 @@ test('F-2: forceAdvance from debrief delegates to advanceScenarioOrEnd', () => {
   assert.equal(result.action, 'next_scenario');
 });
 
+// ─────────────────────────────────────────────────────────────────
+// Wave 3 negative-tests (audit 2026-04-24 §coop-phase-validator)
+// ─────────────────────────────────────────────────────────────────
+
+test('Wave 3 #1 — confirmWorld() from lobby throws not_in_world_setup', () => {
+  // Phase-skip negative: confirmWorld() must reject when phase is lobby
+  // (no run started). Audit list §1.
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  assert.equal(co.phase, 'lobby');
+  assert.throws(
+    () => co.confirmWorld({ scenarioId: 'enc_tutorial_01' }),
+    /not_in_world_setup/,
+    'confirmWorld() in lobby phase must throw not_in_world_setup',
+  );
+  // Phase invariato post-throw
+  assert.equal(co.phase, 'lobby');
+});
+
+test('Wave 3 #1b — confirmWorld() from character_creation throws not_in_world_setup', () => {
+  // Defensive: confirmWorld() must also reject mid character_creation
+  // (caratteri non ancora completati). Strengthen audit §1.
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun();
+  assert.equal(co.phase, 'character_creation');
+  assert.throws(() => co.confirmWorld({ scenarioId: 'enc_tutorial_01' }), /not_in_world_setup/);
+  assert.equal(co.phase, 'character_creation');
+});
+
+test('Wave 3 #5 — startRun() from combat phase throws cannot_start_from_phase', () => {
+  // Audit list §5: startRun() from combat phase untested.
+  // Expected: throws `cannot_start_from_phase:combat` per existing
+  // guard in coopOrchestrator.js:90.
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun();
+  const all = ['p_a'];
+  co.submitCharacter('p_a', { name: 'Aria', form_id: 'istj' }, { allPlayerIds: all });
+  co.confirmWorld({ scenarioId: 'enc_tutorial_01' });
+  assert.equal(co.phase, 'combat');
+  assert.throws(
+    () => co.startRun({ scenarioStack: ['enc_other'] }),
+    /cannot_start_from_phase:combat/,
+    'startRun() in combat must throw',
+  );
+  assert.equal(co.phase, 'combat'); // phase invariato
+});
+
+test('Wave 3 #5b — startRun() from character_creation + world_setup + debrief throws', () => {
+  // Defensive sweep: startRun() reject from all non-(lobby|ended) phases.
+  // Documented contract via guard `if (this.phase !== 'lobby' && this.phase !== 'ended')`.
+  const all = ['p_a'];
+
+  // Phase character_creation
+  const coCC = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  coCC.startRun();
+  assert.throws(() => coCC.startRun(), /cannot_start_from_phase:character_creation/);
+
+  // Phase world_setup
+  const coWS = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  coWS.startRun();
+  coWS.submitCharacter('p_a', { name: 'Aria', form_id: 'istj' }, { allPlayerIds: all });
+  assert.equal(coWS.phase, 'world_setup');
+  assert.throws(() => coWS.startRun(), /cannot_start_from_phase:world_setup/);
+
+  // Phase debrief
+  const coDB = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  coDB.startRun();
+  coDB.submitCharacter('p_a', { name: 'Aria', form_id: 'istj' }, { allPlayerIds: all });
+  coDB.confirmWorld({ scenarioId: 'enc_tutorial_01' });
+  coDB.endCombat({ outcome: 'victory' });
+  assert.equal(coDB.phase, 'debrief');
+  assert.throws(() => coDB.startRun(), /cannot_start_from_phase:debrief/);
+});
+
+test('Wave 3 #5c — startRun() from ended phase succeeds (re-run after run completion)', () => {
+  // Companion contract: phase=ended is the SECOND legal entry to startRun()
+  // (lobby + ended). Verify re-run path lavora end-to-end.
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_tutorial_01'] });
+  const all = ['p_a'];
+  co.submitCharacter('p_a', { name: 'Aria', form_id: 'istj' }, { allPlayerIds: all });
+  co.confirmWorld({ scenarioId: 'enc_tutorial_01' });
+  co.endCombat({ outcome: 'victory' });
+  co.submitDebriefChoice('p_a', { choice: 'skip' }, { allPlayerIds: all });
+  assert.equal(co.phase, 'ended');
+
+  // Re-run from ended must work
+  const run2 = co.startRun({ scenarioStack: ['enc_tutorial_02'] });
+  assert.equal(co.phase, 'character_creation');
+  assert.ok(run2.id.startsWith('run_'));
+  assert.deepEqual(run2.scenarioStack, ['enc_tutorial_02']);
+  // Characters cleared on new run (verified via internal state)
+  assert.equal(co.characters.size, 0);
+});
+
 test('F-2: forceAdvance rejected from combat/lobby/ended', () => {
   const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
   assert.throws(() => co.forceAdvance(), /force_advance_not_allowed_from:lobby/);
