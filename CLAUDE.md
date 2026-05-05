@@ -332,6 +332,86 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-05 — phone smoke runtime 5-bug bundle + drift sync close-marks)
+
+**Sessione 2026-05-04→05 (drift sync deep clean + phone smoke userland)**: Game-Godot-v2 main HEAD `ddacd860` (post #169). Game/ main HEAD `97185317` (post #2053). 8 PR Game/ + 3 Game-Godot-v2 merged main in ~36h. Drift sync 2026-05-04 critical path Fase 3 cutover ridotto **47-70h → ~30 min** userland retry + 1-2h ADR formal (-99%).
+
+**PR Game/ shipped main 2026-05-04→05** (8):
+
+| PR                                                       | Squash commit | Topic                                                             |
+| -------------------------------------------------------- | ------------- | ----------------------------------------------------------------- |
+| [#2045](https://github.com/MasterDD-L34D/Game/pull/2045) | `2f0b94b9`    | docs origin phone smoke step-by-step userland                     |
+| [#2047](https://github.com/MasterDD-L34D/Game/pull/2047) | `dd677908`    | fix Codex P1+P2 review (Quick Tunnel coherent path + config.yml)  |
+| [#2048](https://github.com/MasterDD-L34D/Game/pull/2048) | `b3fbde5c`    | gitignore `.env` + doc redirect upstream `deploy-quickstart.md`   |
+| [#2050](https://github.com/MasterDD-L34D/Game/pull/2050) | `beec9bda`    | drop MSYS workaround section (post Game-Godot-v2 #168 fix)        |
+| [#2051](https://github.com/MasterDD-L34D/Game/pull/2051) | `5aba1fff`    | drift sync Item 10 close-mark (phone smoke guida shipped)         |
+| [#2052](https://github.com/MasterDD-L34D/Game/pull/2052) | `e53368cd`    | drift sync Items 1+2+Ennea close-marks (M.7 + N.7 + 9-canon)      |
+| [#2053](https://github.com/MasterDD-L34D/Game/pull/2053) | `97185317`    | fix ws grace 30→90s + setPhase→publishPhaseChange + smoke results |
+
+**PR Game-Godot-v2 shipped main 2026-05-04→05** (3 today + 6 prior 2026-05-04):
+
+| PR                                                              | Topic                                                                                                                  |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [#168](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/168) | fix MSYS build_web + serve_local (Windows compat + path traversal guard)                                               |
+| [#169](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/169) | fix phone smoke bug bundle (B1 share screen + B3 host start button + B4 presence broadcasts + B5 phase_change handler) |
+
+**Phone smoke runtime 2026-05-05 — 5 bug bundle shipped iter1**:
+
+| Bug    | Sintomo                                                              | Fix shipped                                                             |
+| ------ | -------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **B1** | Phone Crea Stanza non mostra codice (composer transitions immediato) | Share screen overlay codice + deep-link + Continue CTA                  |
+| **B2** | 30s host-transfer grace troppo corto cross-device mobile             | 30s → 90s + env override `LOBBY_HOST_TRANSFER_GRACE_MS`                 |
+| **B3** | Host stuck MODE_WAITING senza UI advance phase                       | Bottone "Inizia mondo (host)" runtime in MODE_WAITING                   |
+| **B4** | "Errore [unknown_type]: player_connected" toast cover-screen         | Riconosci 3 presence broadcasts info-only (push_warning)                |
+| **B5** | setPhase non trigger phone transition                                | `publishPhaseChange` versionato + composer `event_received` → swap mode |
+
+**Verdict smoke**: **CONDITIONAL** — B1+B2+B3+B4 runtime-verified ✅, B5 shipped post-build runtime-retest pending. Combat 5 round + p95 capture + airplane reconnect DEFERRED next session.
+
+**Drift sync 2026-05-04 status post-close-marks**:
+
+| Item           |         Pre         |                                    Post                                    |
+| -------------- | :-----------------: | :------------------------------------------------------------------------: |
+| 1 M.7 p95      |     🟡 PARTIAL      |                         🟢 ENGINE+WIRE LIVE (#166)                         |
+| 2 N.7 5/5      |       🟡 3/5        | 🟢 4/5 GATE 0 NEAR-PASS (CampaignState + LineageMergeService #165 shipped) |
+| 10 Phone smoke | ⏸ master-dd manual |          🟡 GUIDA SHIPPED + RUNTIME ITER1 BUG-FIX (5 bug bundle)           |
+| Ennea drift    |  ❌ schema 9 vs 6   |                 ✅ RESOLVED (#167 Godot v2 + #2041 Game/)                  |
+
+**Pillar realignment post-2026-05-05**:
+
+- P5 Co-op (plan v3 🟡): 🟢 candidato — phone smoke runtime crossed cross-device 2-phone end-to-end
+- P4 MBTI/Ennea (plan v3 🟡++): 🟢 cross-stack parity restored, surface debt residuo Godot debrief 9 archetype wire (~2-3h)
+
+**Cross-repo sequence reality (vs plan v3 stima)**:
+
+Plan v3 originale stima Godot v2 Sprint M+N+O+P+Q+R+S = 13-19 settimane. Reality: M+N+O+R **closed** in ~1 settimana (Sprint R closed 2026-05-04 — vedi `Game-Godot-v2/docs/godot-v2/sprint-r-plan.md` status complete). Sprint P+Q ETL parzialmente shipped via W7.x bundle (combat stubs registry 14→9). OVERSHOT enorme.
+
+**Lessons codified questa sessione**:
+
+- **Iterative bug fix loop**: 4 rebuild cycles deploy-quick.sh + master-dd phone retest per fix → 5 bug critici caught + fixati senza spec dettagliato. Pattern self-healing senza CI infra dedicata mobile.
+- **Mobile cross-device WS grace**: 30s default troppo corto per mobile browser tab pause. 90s min per playtest userland (env override per stricter SLA).
+- **Phone composer host UX gap**: TV-driven phase transitions ASSUMPTION rotta in phone-only smoke flow. Surface CTA host-only era mancante (M11 spec implicit assumption). Fix runtime button ad-hoc + TODO scene-level redesign.
+- **Versioned event subscription gap**: Sprint R.5 versioned events (phase_change + action_resolved + status_apply) richiedono explicit `event_received` subscription. Phone composer subscribed solo `state_received` originale → silently dropped phase transitions.
+- **Doc fate evolution**: PR #2045 origin doc → #2048 redirect upstream `deploy-quickstart.md` → #2050 drop MSYS workaround post-#168 fix → 244 LOC final. Pattern "doc-as-code" iterativo invece di freezing first-draft.
+
+**Resume trigger phrase canonical** (ANY PC):
+
+> _"resume phone smoke retry 2026-05-05, verify B5 phase transition runtime + combat 5 round p95 capture + airplane reconnect"_
+
+OR
+
+> _"leggi memory/project_phone_smoke_session_2026_05_05.md, procedi cutover Fase 3 ADR formal post-smoke-retry"_
+
+**Critical path Fase 3 cutover post-2026-05-05**: ~30 min userland retry + 1-2h ADR formal. **Items 6 + 9 only blocking**.
+
+**Next session candidati**:
+
+- A) **Master-dd phone smoke retry** (B5 verify + combat 5c + airplane 5d) → unblocks cutover
+- B) Cutover Fase 3 ADR formal draft (master-dd + dev) — sblocca quando results PASS o CONDITIONAL accettato
+- C) Surface debt M.7 debug HUD widget + Godot debrief 9 archetype wire (~5h)
+- D) Sprint P/Q ETL formalization vs reality post-W7.x bundle (combat stubs registry update)
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-04-29 — Sprint Fase 1 closure 100% autonomous shipped)
 
 **Sessione 2026-04-28/29 (Sprint Fase 1 ondata 3+ autonomous)**: 10 PR mergiati main in ~36h chiudono Sprint Fase 1 9/9 task autonomous. Bottleneck residuo = master-dd rubric session 4 amici tester DIVERSI per Spike POC verdict.
@@ -438,41 +518,12 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ---
 
-## 🎮 Sprint context (aggiornato: 2026-04-27 late — situation report cross-PC)
-
-**50 PR mergiati main today** (cross-PC + multi-session combined). Main HEAD: `a5679e81`.
-
-**Anti-pattern Engine LIVE Surface DEAD — 8/8 chiusi**:
-
-- #1 predict_combat → #1975 hover preview ✅
-- #2 Tactics Ogre HUD → #1901+#1960 ✅
-- #3 Spore part-pack → S1-S6 + UI tab #1922 ✅
-- #4 Mating engine → #1918 propagateLineage + #1924 lifecycle ✅
-- #5 objectiveEvaluator → #1976 Objective HUD ✅
-- #6 biomeSpawnBias → Sprint γ AI YAML + ecology ✅
-- #7 QBN engine → #1979 debrief beats ✅
-- #8 Thought Cabinet → #1966 UI panel + #1945 inner voices ✅
-
-**Pillar score finale**: **5/6 🟢 def + 1/6 🟡++ (P3)**. Demo-ready confirmed.
-
-**In flight**:
-
-- #1979 QBN debrief OPEN
-- #1978 Ability r3/r4 tier OPEN
-- #1977 Skiv Goal 2 echolocation DRAFT (altra sessione personal sprint)
-- #1928 governance drift DRAFT cross-PC
-
-**Skiv personal sprint** (`docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`): G2 in flight, G1+G3+G4 not started.
-
-**Situation report canonical**: [`docs/reports/2026-04-27-situation-report-late.md`](docs/reports/2026-04-27-situation-report-late.md).
-
-**Next priority** (master-dd choice):
-
-- TKT-M11B-06 playtest live userland → chiude P5 🟢 def definitivo
-- Skiv personal sprint completion (4 goals, ~15-16h)
-- Aspect_token authoring batch (~13h P2 visual debt)
-
----
+<!-- Sprint context 2026-04-27 (50 PR mergiati cross-PC + 8/8 anti-pattern Engine LIVE Surface DEAD chiusi)
+     archived 2026-05-05 per policy max 3 Sprint context. Full content preservato in
+     docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
+     Summary preserved: PR #1975 predict_combat hover + #1901+#1960 Tactics Ogre HUD + #1922 Spore S1-S6 +
+     #1918 mating engine propagateLineage + #1976 Objective HUD + #1966 Thought Cabinet UI. Pillar score
+     5/6 🟢 def + 1/6 🟡++ (P3). Situation report `docs/reports/2026-04-27-situation-report-late.md`. -->
 
 <!-- Sprint 8 Ability r3/r4 tier section (2026-04-27) archived 2026-04-29 per policy max 3 Sprint context.
      Full content in docs/archive/historical-snapshots/2026-04-29-claude-sprint-context-archive.md.
