@@ -2677,6 +2677,69 @@ function createSessionRouter(options = {}) {
     }
   });
 
+  // TKT-MUSEUM-SKIV-VOICES — Ennea voice palette selector endpoint.
+  // GET /:id/voice?actor=<unit_id>&beat=<beat_id>[&seed=<int>]
+  // Ritorna la voice line per il primo archetype Ennea triggered (Type 5/7
+  // attualmente supportati) e l'attore richiesto. Emette session event
+  // ennea_voice_type_used in modo additive (non muta stato di combat).
+  router.get('/:id/voice', (req, res, next) => {
+    try {
+      const { error, session } = resolveSession(req.params.id);
+      if (error) return res.status(error.status).json(error.body);
+      const actorId = String(req.query.actor || '').trim();
+      const beatId = String(req.query.beat || '').trim();
+      if (!actorId || !beatId) {
+        return res.status(400).json({ error: 'missing_actor_or_beat' });
+      }
+      const snapshot = buildVcSnapshot(session, telemetryConfig);
+      const actorVc = snapshot?.per_actor?.[actorId];
+      if (!actorVc) return res.status(404).json({ error: 'actor_not_found' });
+      const {
+        selectEnneaVoice,
+        buildEnneaVoiceTelemetryEvent,
+      } = require('../../../services/narrative/narrativeEngine');
+      let rand = Math.random;
+      const seed = req.query.seed;
+      if (seed !== undefined && seed !== '') {
+        const n = Number(seed);
+        if (Number.isFinite(n)) {
+          // Mulberry32 deterministic per smoke E2E + replay determinism.
+          let s = Math.floor(n) >>> 0;
+          rand = () => {
+            s = (s + 0x6d2b79f5) >>> 0;
+            let t = s;
+            t = Math.imul(t ^ (t >>> 15), t | 1);
+            t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+      }
+      const selection = selectEnneaVoice(actorVc.ennea_archetypes || [], beatId, { rand });
+      if (!selection) {
+        return res.json({
+          session_id: session.session_id,
+          actor_id: actorId,
+          beat_id: beatId,
+          voice: null,
+        });
+      }
+      const event = buildEnneaVoiceTelemetryEvent(actorId, selection, {
+        turn: session.turn || null,
+      });
+      if (event && Array.isArray(session.events)) {
+        session.events.push(event);
+      }
+      return res.json({
+        session_id: session.session_id,
+        actor_id: actorId,
+        beat_id: beatId,
+        voice: selection,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   // P4: PF_session endpoint — personality form projection on-demand.
   router.get('/:id/pf', (req, res, next) => {
     try {
