@@ -8,18 +8,42 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v23 (post repo content audit 2026-05-05 — Phase 1+3 cleanup)
-- **Ultimo aggiornamento**: 2026-05-05 (Phase 1 static scan 3 agent parallel + Phase 3 triage. 2 dead services deleted, 10 species biome_affinity fixed, 1 Godot stub deleted, Gate 5 4 violations documented. 2 cleanup PRs open: #2058 Game/ + #177 Godot v2. 3 tickets open: TKT-GATE5-CONVICTION + TKT-TRAITS-ANCESTOR-BUFF-STAT + TKT-RULES-SIMULATE-BALANCE. Phase 2 runtime probe pending.)
+- **Versione compact**: v24 (post Wave 1 docs sweep 2026-05-06 — 9 PR cumulative + ADR HermeticOrmus DROP + path drift fix)
+- **Ultimo aggiornamento**: 2026-05-06 (Wave 1 docs sweep autonomous: ADR drop HermeticOrmus formal + path drift correction `data/skiv/` → `docs/skiv/CANONICAL.md`. Sessione 2026-05-05/06 cumulative: 9 PR shipped main #2056-#2064 (cutover Phase 3 + ennea voice 9/9 + cleanup commenti + test artifacts). 7 BACKLOG ticket chiusi. P4 Pillar 🟡 → 🟢 candidato. Test baseline AI 383/383 + pytest 735/735 verde.)
 
-## ⚡ Resume trigger phrase canonical (next session — post-audit)
+## ⚡ Resume trigger phrase canonical (next session — post-Wave 1)
 
-> _"leggi COMPACT_CONTEXT.md v23 + docs/planning/2026-05-05-audit-triage-handoff.md. PRs #2058 + #177 mergiati? Prosegui con TKT-GATE5-CONVICTION o TKT-TRAITS-ANCESTOR-BUFF-STAT o Phase 2 runtime probe."_
+> _"leggi COMPACT_CONTEXT.md v24 + BACKLOG.md. Wave 1 docs sweep mergiata? Prosegui Wave 2 (governance 460 warnings batch) o Wave 3 (coop test coverage 5 negative tests) o Master-dd phone smoke retry."_
 
 OR (phone smoke retry first):
 
 > _"resume phone smoke retry 2026-05-05, verify B5 phase transition runtime + combat 5 round p95 + airplane reconnect → unblocks cutover Phase A"_
 
-Handoff doc canonical: [`docs/planning/2026-05-05-audit-triage-handoff.md`](docs/planning/2026-05-05-audit-triage-handoff.md)
+Handoff doc canonical (precedente, ancora valido per phone smoke residual): [`docs/planning/2026-05-05-audit-triage-handoff.md`](docs/planning/2026-05-05-audit-triage-handoff.md)
+
+## ⚡ TL;DR sessione 2026-05-06 — Wave 1 docs sweep autonomous
+
+**Scope**: docs sync + ADR drop + path drift fix + audit log update. Bundle low-risk additive zero side-quest.
+
+| Action                                                 | File                                                                                                                     |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| ADR formal DROP Sprint L HermeticOrmus                 | `docs/adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md` (NEW)                                                           |
+| Path drift correction `data/skiv/` → `docs/skiv/`      | `docs/planning/2026-04-28-godot-migration-strategy.md:145` + `data/core/narrative/beats/skiv_pulverator_alliance.yaml:4` |
+| Gap audit P1.4 + P1.6 close                            | `docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md`                                                              |
+| BACKLOG audit log entry 2026-05-05/06 + 2 ticket close | `BACKLOG.md`                                                                                                             |
+| Compact context v24 sync                               | `COMPACT_CONTEXT.md` (this file)                                                                                         |
+
+**Plan v3.3 effort delta**: -2g (Sprint L drop). Sprint K-M phase 14g → 12g cumulative.
+
+**Path drift findings revisited**: gap audit P1.6 originale claim `data/core/narrative/ennea_voices/` not exist + `balance/terrain_defense` + `balance/ai_profiles` non al path = **false-alarm**. Audit grep 2026-05-06 confirma 3/4 path canonical correct. Solo `data/skiv/` drift reale (2 ref attivi → fixati).
+
+**Wave 2-4 remainder** (questa sessione continua O next):
+
+- Wave 2 (~2h): #3 governance 460 warnings batch
+- Wave 3 (~3-5h): #2 coop test coverage 5 negative tests
+- Wave 4 timeboxed: #6 docs:smoke EINVAL Windows + #7 TKT-07 Tutorial sweep
+
+---
 
 ## ⚡ TL;DR sessione 2026-05-05 — Repo content audit Phase 1+3
 

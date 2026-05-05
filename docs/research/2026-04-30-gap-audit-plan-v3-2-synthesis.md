@@ -128,11 +128,13 @@ Agent C: Godot client HTML5 dovrà consume backend Express via HTTP. Routes attu
 
 **Action**: §Sprint O.4 explicit list. No effort delta.
 
-### P1.4 Sprint L HermeticOrmus dropped silent
+### P1.4 Sprint L HermeticOrmus dropped silent — ✅ CLOSED 2026-05-06
 
 Agent A: Sprint L (HermeticOrmus alchemy mini-system) presente in IDEAS_INDEX rev pre-pivot, dropped silent in plan v2 → v3.
 
 **Action**: scrivere ADR formal "drop HermeticOrmus" o decision "incorporate Sprint M.1b decision later". Default raccomanda **DROP formal** (out-of-scope vertical slice MVP). Effort: 30 min ADR scrivere.
+
+**Resolution**: ADR formal DROP shipped — [`ADR-2026-05-06-drop-hermeticormus-sprint-l.md`](../adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md). Cherry-pick on-demand mantiene optionality, plan v3.3 effort -2g.
 
 ### P1.5 Mission Console deprecation explicit checklist
 
@@ -140,15 +142,21 @@ Agent A: `docs/mission-console/` Vue bundle pre-built (legacy). Sprint S cutover
 
 **Action**: Sprint S checklist add row `- [ ] Mission Console deprecation: tag + archive docs/mission-console/ in branch web-v1-final, add deprecated note in README`.
 
-### P1.6 Path drift dataset
+### P1.6 Path drift dataset — 🟡 PARTIAL 2026-05-06 (audit findings)
 
-Agent C: cross-ref CLAUDE.md path con repo reale rivela:
+Agent C: cross-ref CLAUDE.md path con repo reale rivela (revisited via grep audit 2026-05-06):
 
-- ❌ `data/skiv/` not exist → real path `docs/skiv/CANONICAL.md` + `data/derived/skiv_saga.json`
-- ❌ `data/core/narrative/ennea_voices/` not exist → real source TBD (grep needed)
-- ⚠️ `balance/terrain_defense` / `balance/ai_profiles` non al path documentato
+- ❌ **`data/skiv/` not exist** → real paths `docs/skiv/CANONICAL.md` + `data/derived/skiv_saga.json` + `data/derived/unit_diaries/skiv.jsonl` + `data/core/narrative/ennea_voices/skiv_*` (multiple). **CONFIRMED drift**.
+- ✅ **`data/core/narrative/ennea_voices/` EXISTS** at canonical path (grep 2026-05-06). False-alarm originale, NO drift.
+- ✅ **`balance/terrain_defense` EXISTS** at `packs/evo_tactics_pack/data/balance/terrain_defense.yaml`. False-alarm.
+- ✅ **`balance/ai_profiles` EXISTS** at `packs/evo_tactics_pack/data/balance/ai_profiles.yaml` + `data/core/ai/ai_profiles_extended.yaml` (extended overlay). False-alarm.
 
-**Action**: §Asset pipeline + §Sprint Q add path drift correction table. Audit needed: 1h grep.
+**Resolution 2026-05-06**: solo `data/skiv/` reference è drift reale. Altri 3 path sono canonical correct. Audit grep 2026-05-06 trova 2 reference attivi → fixati questa sessione:
+
+- `docs/planning/2026-04-28-godot-migration-strategy.md:145` — `data/skiv/CANONICAL.md` → `docs/skiv/CANONICAL.md`
+- `data/core/narrative/beats/skiv_pulverator_alliance.yaml:4` — comment ref idem
+
+**Action**: ✅ CLOSED — 2 path drift fixati this session. BACKLOG.md `Path drift correction table` ticket → closed.
 
 ### P1.7 7 silhouette job-to-shape spec mancante
 
