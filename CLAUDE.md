@@ -185,8 +185,7 @@ The monorepo uses npm workspaces declared in root `package.json`:
 
 - `apps/backend/` — Express "Idea Engine" API (entry `index.js`, Prisma schema under `apps/backend/prisma/`). Serves `/api/*` including `/api/v1/generation/species`, `/api/v1/atlas/*`, `/api/mock/*`, `/api/ideas/*`.
 - `services/generation/` — Node/Python bridge: `SpeciesBuilder`, `TraitCatalog`, biome synthesizer, runtime validators. The Python orchestrator (`services/generation/orchestrator.py`) is called from Node via a pool configured by `config/orchestrator.json` (`poolSize`, `requestTimeoutMs`).
-- `services/rules/` — ⚠️ **DEPRECATED (M6-#4 Phase 1, 2026-04-19)**. Rules engine d20 Python pensato per tabletop Master DM. **User direction**: "1 solo gioco online, senza master" → Python engine = dead weight. **Runtime canonical**: Node (`apps/backend/services/combat/`, `apps/backend/routes/session.js`). Phase 2 feature freeze + Phase 3 removal pending. Vedi `services/rules/DEPRECATED.md` + `docs/adr/ADR-2026-04-19-kill-python-rules-engine.md`. NO new features; porting a Node.
-- `apps/backend/services/combat/` — Node native combat logic canonical (M6-#1 2026-04-19). `resistanceEngine.js` (channel resistance per archetype), `reinforcementSpawner.js`, `objectiveEvaluator.js`. Replace Python `services/rules/`.
+- `apps/backend/services/combat/` — Node native combat logic canonical (M6-#1 2026-04-19). `resistanceEngine.js` (channel resistance per archetype), `reinforcementSpawner.js`, `objectiveEvaluator.js`. Sostituisce ex-`services/rules/` Python (Phase 3 removal completata 2026-05-05, ADR-2026-04-19).
 - `packages/contracts/` — shared JSON Schema + TypeScript types used by backend, CLI mocks, and dashboard for Flow/Atlas payloads.
 - `packages/ui/` — shared UI components.
 - `tools/py/` — unified Python CLI (`game_cli.py`), validators, showcase builders. Legacy wrappers (`roll_pack.py`, `generate_encounter.py`) redirect to the shared parser.
@@ -240,7 +239,6 @@ Node 18+ (22.19.0 recommended) and npm 11+; Python 3.10+. Install once with `npm
 - **tools/ts tests**: `npm --prefix tools/ts test` (compiles, runs Node unit tests + Playwright). Playwright-only: `npm run test:web`.
 - **Python suites**: `PYTHONPATH=tools/py pytest` from the repo root. Single test: `PYTHONPATH=tools/py pytest tests/test_species_builder.py::test_case`.
 - **Docs generator Vitest**: `npm run test:docs-generator` (uses `vitest.config.docs-generator.ts`).
-- **Rules engine tests**: `PYTHONPATH=services/rules pytest tests/test_rules_engine.py`. Demo CLI: `PYTHONPATH=services/rules python3 services/rules/demo_cli.py`.
 - **AI/session tests (sprint 006–019)**: `node --test tests/ai/*.test.js` — 45 test, ~120ms.
 
 ### Build, lint, format
@@ -273,7 +271,7 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 ## Architecture notes worth reading multiple files for
 
 - **Generation pipeline (Flow)**. HTTP request → `apps/backend/routes/*` → `services/generation/*` (Node) → Python bridge (`services/generation/orchestrator.py`) via a worker pool sized by `config/orchestrator.json`. Inputs are normalized (slug, trait_ids, seed, biome_id); when trait validation fails, a hardcoded fallback set (`artigli_sette_vie`, `coda_frusta_cinetica`, `scheletro_idro_regolante`) is applied and logged as structured JSON (`component = generation-orchestrator`). Responses always combine `blueprint` + `validation` + `meta` — don't change that shape without also updating `packages/contracts` and the dashboard renderers.
-- **Combat pipeline (Rules Engine)**. Il rules engine d20 in `services/rules/` risolve azioni tattiche (attacco d20 vs DC, Margin of Success, damage step, parata reattiva, status fisici/mentali). `hydration.py` carica i valori meccanici da `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`; `resolver.py` esegue la risoluzione; `worker.py` espone il bridge per il backend. Lo schema payload è in `packages/contracts/schemas/combat.schema.json`. Vedi `docs/hubs/combat.md` per il canonical hub e `docs/adr/ADR-2026-04-13-rules-engine-d20.md` per le decisioni architetturali.
+- **Combat pipeline (Rules Engine)**. Il rules engine d20 vive nel runtime Node canonical: `apps/backend/services/combat/` (resistanceEngine, reinforcementSpawner, objectiveEvaluator, passiveStatusApplier), `apps/backend/services/roundOrchestrator.js` (round phases planning→commit→resolve), `apps/backend/services/traitEffects.js` (trait evaluation 2-pass, `evaluateMovementTraits` per ancestor buff_stat). I valori meccanici provengono da `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml`. Lo schema payload è in `packages/contracts/schemas/combat.schema.json`. Vedi `docs/hubs/combat.md` per il canonical hub e [ADR-2026-04-19](docs/adr/ADR-2026-04-19-kill-python-rules-engine.md) per la rimozione del rules engine Python (ex-`services/rules/`, Phase 3 closed 2026-05-05).
 - **Session engine (sprint 006–019, round model since ADR-2026-04-16)**. Split in 4 moduli (851+602+248+58 LOC): `session.js` (createSessionRouter closure, /start /action /turn/end /end /state /:id/vc), `sessionRoundBridge.js` (round flow wrappers + 4 round endpoints), `sessionHelpers.js` (15 pure functions), `sessionConstants.js` (constants + defaults). **Round model ON by default** (M17 complete): `/action` attack e `/turn/end` passano attraverso il round orchestrator (`apps/backend/services/roundOrchestrator.js`). AI SIS usa `declareSistemaIntents.js` (intents puri). Legacy sequential-turn code rimosso. Schema raw event: `{ action_type, turn, actor_id, target_id, damage_dealt, result, position_from, position_to }` — non rompere questo formato, è usato da vcScoring.
 - **Contracts are the seam**. `packages/contracts` holds AJV schemas + TS types loaded by the backend (schema registry validates live responses). A schema change ripples to backend tests — keep `apps/backend/app.js` AJV registration in sync with `packages/contracts/index.js`.
 - **Mock parity**. `/api/mock/*` endpoints serve static JSON shipped under `apps/backend/data/` and `docs/mission-console/data/`. The production Mission Console bundle (`docs/mission-console/`) reads the same data. The former `npm run mock:generate` regenerator was removed with the dashboard scaffold (PR #1343); mocks are now hand-curated fixtures.
@@ -587,7 +585,7 @@ Revisione honest post-M7 + deep-audit Explore agent. Statuses precedenti 6/6 �
 3. `git status` → working tree pulito
 4. Nessun nuovo file in cartelle vietate
 5. Se toccato `vcScoring.js` o `policy.js` → aggiorna `docs/architecture/ai-policy-engine.md`
-6. Se toccato `services/rules/` → aggiorna `docs/hubs/combat.md`
+6. Se toccato `apps/backend/services/combat/` o `roundOrchestrator.js` → aggiorna `docs/hubs/combat.md`
 
 ### DoD nuovi agent / skill / feature — 4-gate policy (dichiarazione 2026-04-24)
 

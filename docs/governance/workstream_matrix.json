@@ -77,7 +77,9 @@
       "status": "active",
       "dependencies": ["dataset-pack", "backend"],
       "components": [
-        { "path": "services/rules", "kind": "code", "state": "active" },
+        { "path": "apps/backend/services/combat", "kind": "code", "state": "active" },
+        { "path": "apps/backend/services/roundOrchestrator.js", "kind": "code", "state": "active" },
+        { "path": "apps/backend/services/traitEffects.js", "kind": "code", "state": "active" },
         {
           "path": "packs/evo_tactics_pack/data/balance",
           "kind": "runtime-data",

@@ -95,6 +95,7 @@
 - [x] ~~**TKT-GATE5-CONVICTION**~~ → **✅ CHIUSO PR #2058** — Deprecated: route+service+tests deleted (zero FE callers, Godot cutover in progress). vcScoring conviction_badge unaffected.
 - [x] ~~**TKT-TRAITS-ANCESTOR-BUFF-STAT**~~ → **✅ CHIUSO PR #2058** — `evaluateMovementTraits` added to `traitEffects.js`. Wired in `session.js` move handler: `apCost = max(1, dist - move_bonus)`. 51 ancestor locomotion traits now reduce AP cost. 9 new tests verde.
 - [x] ~~**TKT-RULES-SIMULATE-BALANCE**~~ → **✅ CHIUSO PR #2058** — `tools/py/simulate_balance.py` deleted. Unblocks `services/rules/` Phase 3 removal.
+- [x] ~~**TKT-RULES-PHASE-3-REMOVAL**~~ → **✅ CHIUSO 2026-05-05** branch `chore/services-rules-phase-3-removal`. Deleted `services/rules/` (8 file Python) + 7 test Python (resolver/hydration/round_orchestrator/trait_effects/demo_cli/grid/master_dm_parser) + `tests/server/rules-bridge.spec.js` + `tools/py/master_dm.py` + `tools/py/mark_python_rules_deprecated.py`. Patched `gen_trait_types.py` (drop PY codegen, mantenuto TS+Schema). YAML comments + CLAUDE.md + combat hub + ADR-2026-04-19 status → CLOSED. ADR-2026-04-13 superseded.
 
 ### Bug / tech debt identificati
 

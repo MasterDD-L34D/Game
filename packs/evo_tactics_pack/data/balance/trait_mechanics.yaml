@@ -8,7 +8,8 @@ generated_from: >
   di riferimento, traits/parts_scaling.yaml per la baseline attack per_level.
 notes: >
   Layer di bilanciamento meccanico per il rules engine d20. Questo file e' la
-  fonte unica di verita' consumata dal resolver in services/rules/. I valori
+  fonte unica di verita' consumata dal resolver Node canonical
+  (apps/backend/services/combat/ + traitEffects.js). I valori
   sono prodotti dal pass Balancer manuale della Fase 3-bis applicando le 5
   classi del framework (offensive / defensive / hybrid / mobility / utility)
   con regole deterministiche ancorate a fatti del repo: ogni mod e' giustificato
@@ -21,7 +22,7 @@ notes: >
 
 # O1 pattern (OpenRA template inheritance): baseline defaults per classe.
 # Trait possono usare `inherits: <class>` per ereditare campi dalla classe.
-# hydration.py risolve inherits depth-first: campi espliciti sovrascrivono.
+# Loader Node (apps/backend/services/) risolve inherits depth-first: campi espliciti sovrascrivono.
 _defaults:
   offensive:
     attack_mod: 1

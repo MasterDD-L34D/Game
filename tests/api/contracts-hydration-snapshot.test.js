@@ -29,7 +29,7 @@ test('hydration snapshot valida contro combat.schema.json (cross-lang integrity)
   const state = loadSnapshot();
   assert.doesNotThrow(
     () => validator.validate(SCHEMA_ID, state),
-    'lo snapshot generato da services/rules/hydration.py deve essere accettato dal combat schema',
+    'lo snapshot hydration_caverna.json (frozen pre-Phase-3-removal) deve essere accettato dal combat schema',
   );
 });
 
