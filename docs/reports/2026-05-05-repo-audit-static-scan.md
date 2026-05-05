@@ -192,19 +192,18 @@ The 29 unreferenced map to deferred art polish sprints (parallax scenes + VFX an
 | YAML entries | 458 |
 | Loaded at runtime | 458 (100%) |
 | Handled by working handler OR hardcoded | **404 (88.2%)** |
-| Orphaned (loaded, handler always no-op) | **54** |
+| Orphaned (loaded, handler always no-op) | **51** |
 | Hardcoded IDs consumed NOT in YAML | **0** |
 
-### Orphan breakdown (54 total)
+### Orphan breakdown (51 total)
+
+> **Correction 2026-05-05**: initial scan classified `legame_di_branco`, `spirito_combattivo`, `pack_tactics` as null-effect stubs. Post-verification they have `triggers_on_ally_attack` data and ARE handled by `beastBondReaction.js`. True orphan count = 51.
 
 | Group | Count | Kind | Issue |
 |---|---|---|---|
 | `ancestor_deambulazione_*` | 26 | `buff_stat` | NO handler in `traitEffects.js` or `passiveStatusApplier.js` |
 | `ancestor_motricita_*` | 20 | `buff_stat` | Same |
 | `ancestor_nuoto_*` | 5 | `buff_stat` | Same |
-| `legame_di_branco` | 1 | null effect | Stub — superseded by `beastBondReaction.js`? |
-| `spirito_combattivo` | 1 | null effect | Stub |
-| `pack_tactics` | 1 | null effect | Stub |
 
 **Root cause**: `buff_stat` effect.kind handler missing from backend. Museum card `ancestors-neurons-dump-csv.md` (score 4/5) covers this gap. `abilityExecutor.js` uses `buff_stat` as an ability field (different pipeline) — not the trait pipeline.
 
@@ -273,7 +272,7 @@ Trait effects are player-visible: `skillCheckPopup.js` (backend), `vfx_spawner.g
 | `TKT-SPECIES-BIOME-AFFINITY-FIX` | Game/ data | P1 | ~1h | Update 10 species `biome_affinity` to canonical biome slugs for `isPerfectMatch()` eligibility |
 | `TKT-GATE5-ENNEAEFFECTS` | Game/ Gate 5 | P2 | ~2h | Surface `enneaEffects` in debrief panel OR add Gate 5 exemption ADR |
 | `TKT-GATE5-CONVICTION` | Game/ Gate 5 | P2 | ~4h | Wire FE conviction voting UI OR deprecate conviction route |
-| `TKT-TRAITS-NULL-STUBS` | Game/ traits | P2 | ~1h | Decide fate of `legame_di_branco`/`spirito_combattivo`/`pack_tactics` (wire `beast_bond_ally_buff` or `deprecated: true` in YAML) |
+| ~~TKT-TRAITS-NULL-STUBS~~ | ~~Game/ traits~~ | — | — | ~~`legame_di_branco`/`spirito_combattivo`/`pack_tactics`~~ — **CLOSED**: these ARE live via `beastBondReaction.js` (`triggers_on_ally_attack`), not null stubs |
 | `TKT-SERVICES-ORPHAN` | Game/ backend | P2 | ~1h | Delete `ai/aiPersonalityLoader.js` (121 LOC, test-only) + verify `ai/sistemaActor.js` |
 | `TKT-RULES-SIMULATE-BALANCE` | Game/ cleanup | P3 | ~1h | Port or delete `tools/py/simulate_balance.py` — last blocker before `services/rules/` removal |
 | `TKT-GODOT-AI-STUB-DROP` | Godot v2 | P3 | ~30min | Delete `scripts/ai/stubs/sistema_turn_runner.gd` + museum card score 2 |
@@ -287,7 +286,7 @@ Trait effects are player-visible: `skillCheckPopup.js` (backend), `vfx_spawner.g
 | Gate 5 violations | 4 |
 | Orphan backend services | 1 confirmed + 1 needs-verify |
 | Orphan routes | 2 |
-| Trait orphans (YAML, no-op handler) | 54 |
+| Trait orphans (YAML, no-op handler) | 51 (ancestor buff_stat only) |
 | Hardcoded traits missing from YAML | 0 |
 | Species biome cross-ref broken | 10/15 |
 | Godot combat stubs remaining Tier 1 | 0 |

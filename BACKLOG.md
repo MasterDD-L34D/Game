@@ -81,6 +81,21 @@
 
 ## 🟡 Priorità media
 
+### Audit 2026-05-05 — pre-cutover cleanup tickets
+
+> **Source**: `docs/reports/2026-05-05-repo-audit-static-scan.md` — Phase 3 triage.
+> **Shipped 2026-05-05**: PR [#2058](https://github.com/MasterDD-L34D/Game/pull/2058) (Game/) + [#177](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/177) (Godot v2).
+
+- [x] ~~**TKT-SERVICES-ORPHAN**~~ → **✅ CHIUSO PR #2058** — deleted `aiPersonalityLoader.js` (121 LOC) + `sistemaActor.js` (zero callers).
+- [x] ~~**TKT-SPECIES-BIOME-AFFINITY-FIX**~~ → **✅ CHIUSO PR #2058** — 10 species `biome_affinity` → canonical biome slugs. `isPerfectMatch()` now eligible for all 15 species.
+- [x] ~~**TKT-GODOT-AI-STUB-DROP**~~ → **✅ CHIUSO PR #177** — `sistema_turn_runner.gd` Tier 3 abandoned.
+- [x] ~~**TKT-GATE5-ENNEAEFFECTS**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (telemetry/vcScoring surface).
+- [x] ~~**TKT-GATE5-EVENTCHAIN**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (design-complete infra, M18+ trigger).
+- [x] ~~**TKT-GATE5-SPECIESWIKI**~~ → **✅ CHIUSO PR #2058** — Gate 5 exemption documented (dev-tooling).
+- [ ] **TKT-GATE5-CONVICTION** — `routes/conviction.js` + `meta/convictionVoting.js`: voting API registered, zero FE caller. NOT exempted. Wire conviction voting UI OR deprecate route. **Effort ~4h**. Gate 5 TODO comment added PR #2058.
+- [ ] **TKT-TRAITS-ANCESTOR-BUFF-STAT** — 51 `ancestor_deambulazione/motricita/nuoto` traits have `effect.kind: buff_stat`, no handler in `traitEffects.js` or `passiveStatusApplier.js`. Add `buff_stat` case → activates 51 ancestor loco traits. **Effort ~3h**. See museum card `ancestors-neurons-dump-csv.md` (score 4/5).
+- [ ] **TKT-RULES-SIMULATE-BALANCE** — `tools/py/simulate_balance.py` has live `import` of `services/rules/resolver` + `hydration`. Must port or delete BEFORE `services/rules/` Phase 3 removal. **Effort ~1h**. Non-CI dev tool.
+
 ### Bug / tech debt identificati
 
 > **Audit 2026-04-24**: CLAUDE.md "Backlog ticket aperti" era stale. Verificato contro git history.
