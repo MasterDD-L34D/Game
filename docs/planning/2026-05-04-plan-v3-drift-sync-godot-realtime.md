@@ -28,7 +28,7 @@ related:
 | Godot anticipa plan v3      | Caller-wire pipeline LIVE                     |           ✅ shipped W7.x            |
 | Godot anticipa plan v3      | Combat stubs ported                           | ✅ 9/14 ported (vs plan v3 deferred) |
 | NOT yet shipped Godot       | Asset Legacy Skiv portrait + lifecycle stages |           ❌ gap concreto            |
-| NOT yet shipped Godot       | Cutover Fase 3 decision gate                  |           ❌ no formal ADR           |
+| NOT yet shipped Godot       | Cutover Fase 3 decision gate                  |      🟡 ADR PROPOSED 2026-05-05      |
 | NOT yet shipped Godot       | ERMES E7-E8 runtime bridge                    |        ⏸ deferred (correct)         |
 | NOT yet shipped Godot       | Character creation TV scene Bible §0          |           ❌ gap concreto            |
 | NOT yet shipped Godot       | Phone composer real-device smoke              |    🟡 GUIDA SHIPPED, EXEC PENDING    |
@@ -216,9 +216,41 @@ Effort residual: ~10-15h Sprint Q polish. Non-gating Fase 3 cutover.
 
 ---
 
-## Item 7 — Cutover Fase 3 decision gate — no formal ADR ❌
+## Item 7 — Cutover Fase 3 decision gate — 🟡 ADR PROPOSED 2026-05-05
 
-**Plan v3 §FASE 3** (~4-8 sett): full session engine port + co-op WS Godot HTML5 + cutover Godot v2 OR archive R&D web v1 final.
+**Closure 2026-05-05** — formal ADR shipped:
+
+- ✅ **Decision gate criteria**: [`ADR-2026-05-04-cutover-godot-v2-decision-gate.md`](../adr/ADR-2026-05-04-cutover-godot-v2-decision-gate.md) (superseded 2026-05-05)
+- 🟡 **Formal cutover ADR PROPOSED**: [`ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md`](../adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md) — Scenario 3 STAGED canary, 5/6 critical path PASS, C3 phone smoke retry pending
+- ✅ **Web v1 archive plan codified**: §6 ADR-formal — tag preservation + frontend deprecate + backend preserve + documentation update
+- ✅ **Rollback plan**: §7 ADR-formal — Phase A rollback + Phase B rollback procedures
+
+**Critical path post-2026-05-05** (vs originale 24-31h decision-gate stima):
+
+| #                  | Pre-condition                                             | Stato 2026-05-05 |
+| ------------------ | --------------------------------------------------------- | :--------------: |
+| C1 N.7 5/5         | 🟢 4/5 NEAR-PASS (Wave B residual non blocker)            |
+| C2 M.7 p95         | 🟢 ENGINE+WIRE LIVE (#166)                                |
+| C3 phone smoke     | 🟡 CONDITIONAL iter1 (B5 retest pending ~30 min userland) |
+| C4 Ennea ACCEPTED  | ✅ #167 + #2041                                           |
+| C5 cross-repo sync | ✅ LIVE                                                   |
+| C6 GUT ≥1500       | 🟡 1499 (99.9%)                                           |
+
+**Effort residuo Phase A trigger**: ~30 min userland (C3 retry) — vs originale stima 24-31h (-99% reduction).
+
+**Verdict cutover readiness**: **PRE-PHASE-A (~95%)** — gating solo C3 phone smoke retry results.
+
+**Action items chiusi 2026-05-05**:
+
+1. ✅ Draft ADR decision-gate criteria — `ADR-2026-05-04` shipped (superseded by `ADR-2026-05-05`)
+2. ✅ Web v1 archive plan — codified §6 ADR-formal (tag + frontend deprecate + backend preserve)
+3. ✅ Cutover trigger phrase formalizzata — "phone smoke retry results PASS or CONDITIONAL accettato → Phase A ACCEPTED" (ADR-formal §3)
+
+**Pending residuo**:
+
+1. 🟡 Master-dd phone smoke retry (~30 min userland) — unblocks Phase A trigger
+2. 🟡 Phase A ACCEPTED verdict (post-retry) — master-dd dichiarazione
+3. ⏸ Phase B trigger (post 7gg grace + 1+ playtest pass) — soft criteria selection
 
 **Decision criteria plan v3** (implicit):
 

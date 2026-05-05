@@ -1,13 +1,14 @@
 ---
 title: 'ADR-2026-05-04: Cutover Godot v2 decision gate — criteria + web v1 archive plan'
-doc_status: draft
+doc_status: superseded
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-04
+last_verified: 2026-05-05
 source_of_truth: false
 language: it
 review_cycle_days: 30
 related:
+  - docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md
   - docs/planning/2026-05-04-plan-v3-drift-sync-godot-realtime.md
   - docs/planning/2026-04-29-master-execution-plan-v3.md
   - docs/adr/ADR-2026-04-29-pivot-godot-immediate.md
@@ -15,10 +16,12 @@ related:
   - docs/planning/2026-04-29-sprint-n7-failure-model-parity-spec.md
 ---
 
+> **SUPERSEDED 2026-05-05** by [`ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md`](ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md). Quel doc collapsa criteri (questo ADR) + decisione formale Scenario 3 STAGED canary + Phase A/B trigger conditions + rollback plan in single canonical ADR. Mantenere questo doc per provenance criteria origin.
+
 # ADR-2026-05-04: Cutover Godot v2 decision gate
 
 - **Data**: 2026-05-04
-- **Stato**: **DRAFT — pre-conditions pending**
+- **Stato**: **SUPERSEDED — see ADR-2026-05-05 formal**
 - **Owner**: Master DD
 - **Stakeholder**: Tutti workstream + master-dd manual ops
 
