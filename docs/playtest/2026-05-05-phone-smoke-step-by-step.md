@@ -45,17 +45,6 @@ Prima di iniziare, verifica che TUTTI i 5 punti siano OK:
 
 Se uno fallisce → ferma, fix prima di procedere.
 
-### Workaround bug script Game-Godot-v2 (Windows MSYS, non ancora upstream-fixed)
-
-`tools/web/build_web.sh` ha 2 issue su Windows MSYS shell:
-
-- Linea 57 `$USER` unbound (`set -u` enforce). **Fix**: `export USER="$USERNAME"`.
-- Linea 53-58 `command -v "$LOCALAPPDATA/Godot/godot.cmd"` fallisce su MSYS. **Fix**: `export GODOT_BIN="$LOCALAPPDATA/Godot/Godot_v4.6.2-stable_win64_console.exe"` (.exe direct).
-
-`tools/web/serve_local.sh` ha bug `path.join(ROOT, url).startsWith(path.resolve(ROOT))` relative-vs-absolute → 403 forbidden. **Workaround**: NON usare serve_local. Usa `deploy-quick.sh` shared-mode che mounta phone in `Game/apps/backend/public/phone/` via Express (route bypass bug).
-
-⏳ **TODO upstream PR**: fix `build_web.sh` USER/GODOT_BIN + `serve_local.sh` path resolve. Tracking: [docs/playtest/2026-05-05 follow-ups](#).
-
 ---
 
 ## Boot stack — `deploy-quick.sh` shared mode (~30s)
@@ -64,9 +53,10 @@ Single-command end-to-end. Sostituisce 3-terminal setup precedente:
 
 ```bash
 cd /c/Users/VGit/Desktop/Game-Godot-v2
-export USER=VGit GODOT_BIN="$LOCALAPPDATA/Godot/Godot_v4.6.2-stable_win64_console.exe"
 bash tools/deploy/deploy-quick.sh
 ```
+
+> ℹ️ Windows MSYS shell: bug `$USER` unbound + `command -v godot.cmd` fix-shipped via [Game-Godot-v2 PR #168](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/168). Pre-#168 user dovevano `export USER=$USERNAME GODOT_BIN=…/.exe` manuale; post-merge zero env required.
 
 Cosa fa:
 
@@ -237,6 +227,7 @@ Compila tabella post-smoke. Se p95 >100ms → flag CONDITIONAL/ABORT, escalation
 - [Game-Godot-v2 PR #166 TelemetryCollector](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/166) — round-trip command-latency p95
 - [Game/ ADR-2026-04-29 master execution plan v3](../planning/2026-04-29-master-execution-plan-v3.md) — M.7 spec parity
 - [`tools/deploy/deploy-quick.sh`](https://github.com/MasterDD-L34D/Game-Godot-v2/blob/main/tools/deploy/deploy-quick.sh) — single-command shared-mode boot
+- [Game-Godot-v2 PR #168](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/168) — MSYS compat fix `build_web.sh` + `serve_local.sh` (post-merge: zero env required)
 
 ## Out of scope
 
@@ -244,4 +235,3 @@ Compila tabella post-smoke. Se p95 >100ms → flag CONDITIONAL/ABORT, escalation
 - Master-dd actual phone test execution (questo doc IS deliverable; user esegue manualmente post-merge)
 - Production cert hardening (Cloudflare Tunnel managed cert sufficient per smoke + demo public)
 - CI integration `.github/workflows/web-build.yml` (deferred follow-up Game-Godot-v2 side)
-- Upstream fix `build_web.sh` + `serve_local.sh` (separate PR Game-Godot-v2)
