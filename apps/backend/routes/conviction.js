@@ -1,5 +1,10 @@
 // Sprint δ Meta Systemic — Pattern 4 wiring (conviction voting routes).
 //
+// Gate 5 NOTE (2026-05-05 audit): conviction voting API is registered but FE
+// only reads conviction_badge from vcSnapshot. Full voting flow (init/vote/
+// results/close) has NO FE caller. NOT exempted — requires FE wire (~4h).
+// TKT-GATE5-CONVICTION: wire conviction voting UI or formally deprecate route.
+//
 // Endpoints:
 //   POST /api/v1/conviction/init   → init ballot for session
 //   POST /api/v1/conviction/vote   → cast/update player vote

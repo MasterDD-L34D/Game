@@ -1,9 +1,9 @@
 ---
 title: Task board — `incoming/lavoro_da_classificare`
-doc_status: draft
+doc_status: integrato
 doc_owner: incoming-archivist
 workstream: incoming
-last_verified: 2026-04-14
+last_verified: 2026-05-05
 source_of_truth: false
 language: it-en
 review_cycle_days: 14

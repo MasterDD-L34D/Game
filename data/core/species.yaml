@@ -227,7 +227,7 @@ species:
     display_name: Anguis Magnetica
     estimated_weight: 9
     weight_budget: 10
-    biome_affinity: acquatico_costiero
+    biome_affinity: atollo_obsidiana
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -256,7 +256,7 @@ species:
     display_name: Chemnotela Toxica
     estimated_weight: 11
     weight_budget: 12
-    biome_affinity: terrestre_forestale
+    biome_affinity: foresta_acida
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -286,7 +286,7 @@ species:
     display_name: Elastovaranus Hydrus
     estimated_weight: 12
     weight_budget: 12
-    biome_affinity: terrestre_pianeggiante
+    biome_affinity: pianura_salina_iperarida
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -316,7 +316,7 @@ species:
     display_name: Gulogluteus Scutiger
     estimated_weight: 10
     weight_budget: 10
-    biome_affinity: terrestre_roccioso
+    biome_affinity: canyons_risonanti
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -345,7 +345,7 @@ species:
     display_name: Perfusuas Pedes
     estimated_weight: 13
     weight_budget: 13
-    biome_affinity: sotterraneo
+    biome_affinity: caverna
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -374,7 +374,7 @@ species:
     display_name: Proteus Plasma
     estimated_weight: 8
     weight_budget: 8
-    biome_affinity: acquatico_dolce
+    biome_affinity: palude
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -403,7 +403,7 @@ species:
     display_name: Rupicapra Sensoria
     estimated_weight: 16
     weight_budget: 16
-    biome_affinity: terrestre_montano
+    biome_affinity: caldera_glaciale
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -432,7 +432,7 @@ species:
     display_name: Soniptera Resonans
     estimated_weight: 7
     weight_budget: 8
-    biome_affinity: terrestre_forestale
+    biome_affinity: canopia_ionica
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -461,7 +461,7 @@ species:
     display_name: Terracetus Ambulator
     estimated_weight: 14
     weight_budget: 14
-    biome_affinity: terrestre_pianeggiante
+    biome_affinity: steppe_algoritmiche
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -490,7 +490,7 @@ species:
     display_name: Umbra Alaris
     estimated_weight: 6
     weight_budget: 7
-    biome_affinity: terrestre_umido
+    biome_affinity: dorsale_termale_tropicale
     default_parts:
       locomotion: burrower
       metabolism: sand_digest

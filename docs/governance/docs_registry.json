@@ -8148,6 +8148,19 @@
       "review_cycle_days": 90,
       "primary": false,
       "track": "generated"
+    },
+    {
+      "path": "docs/reports/2026-05-05-repo-audit-static-scan.md",
+      "title": "Repo audit static scan 2026-05-05 — pre-cutover Phase A",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-05",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
     }
   ]
 }
