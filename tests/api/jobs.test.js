@@ -121,7 +121,7 @@ test('GET /api/jobs/nonexistent → 404 con error message', async (t) => {
 // EXPANSION jobs (data/core/jobs_expansion.yaml — wave 2026-04-25 sprint).
 // Loader merge additivo: 4 nuovi job + 48 perks (12/job).
 
-test('GET /api/jobs/stalker (expansion) ritorna 3 abilities con effect_type validi', async (t) => {
+test('GET /api/jobs/stalker (expansion) ritorna 5 abilities con effect_type validi (Sprint 8.1 r3/r4)', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -132,12 +132,18 @@ test('GET /api/jobs/stalker (expansion) ritorna 3 abilities con effect_type vali
   assert.equal(res.body.id, 'stalker');
   assert.equal(res.body.status, 'expansion');
   assert.equal(res.body.role, 'damage');
-  assert.equal(res.body.abilities.length, 3);
+  assert.equal(res.body.abilities.length, 5);
   const ids = res.body.abilities.map((a) => a.ability_id);
-  assert.deepEqual(ids, ['alpha_strike', 'silent_step', 'deathmark']);
+  assert.deepEqual(ids, [
+    'alpha_strike',
+    'silent_step',
+    'deathmark',
+    'shadow_mark',
+    'shadow_assassinate',
+  ]);
 });
 
-test('GET /api/jobs/symbiont (expansion) abilities + role support', async (t) => {
+test('GET /api/jobs/symbiont (expansion) abilities + role support (Sprint 8.1 r3/r4)', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -148,10 +154,16 @@ test('GET /api/jobs/symbiont (expansion) abilities + role support', async (t) =>
   assert.equal(res.body.status, 'expansion');
   assert.equal(res.body.role, 'support');
   const ids = res.body.abilities.map((a) => a.ability_id);
-  assert.deepEqual(ids, ['symbiotic_bond', 'shared_vitality', 'synaptic_burst']);
+  assert.deepEqual(ids, [
+    'symbiotic_bond',
+    'shared_vitality',
+    'synaptic_burst',
+    'bond_amplify',
+    'unity_surge',
+  ]);
 });
 
-test('GET /api/jobs/beastmaster (expansion) abilities + role control', async (t) => {
+test('GET /api/jobs/beastmaster (expansion) abilities + role control (Sprint 8.1 r3/r4)', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -162,10 +174,16 @@ test('GET /api/jobs/beastmaster (expansion) abilities + role control', async (t)
   assert.equal(res.body.status, 'expansion');
   assert.equal(res.body.role, 'control');
   const ids = res.body.abilities.map((a) => a.ability_id);
-  assert.deepEqual(ids, ['summon_companion', 'pack_command', 'feral_sacrifice']);
+  assert.deepEqual(ids, [
+    'summon_companion',
+    'pack_command',
+    'feral_sacrifice',
+    'feral_dominion',
+    'apex_pack',
+  ]);
 });
 
-test('GET /api/jobs/aberrant (expansion) abilities + role damage', async (t) => {
+test('GET /api/jobs/aberrant (expansion) abilities + role damage (Sprint 8.1 r3/r4)', async (t) => {
   const { app, close } = createApp({ databasePath: null });
   t.after(async () => {
     if (typeof close === 'function') await close().catch(() => {});
@@ -176,7 +194,13 @@ test('GET /api/jobs/aberrant (expansion) abilities + role damage', async (t) => 
   assert.equal(res.body.status, 'expansion');
   assert.equal(res.body.role, 'damage');
   const ids = res.body.abilities.map((a) => a.ability_id);
-  assert.deepEqual(ids, ['mutation_burst', 'phenotype_shift', 'aberrant_overdrive']);
+  assert.deepEqual(ids, [
+    'mutation_burst',
+    'phenotype_shift',
+    'aberrant_overdrive',
+    'stabilized_mutation',
+    'perfect_mutation',
+  ]);
 });
 
 test('progressionLoader.loadPerks() merges expansion perks (stalker level_2)', async () => {
@@ -343,4 +367,96 @@ test('jobs.yaml version bump 0.1.0 → 0.2.0 (Sprint 8 r3/r4)', async () => {
   const { loadJobs } = require('../../apps/backend/services/jobsLoader');
   const data = loadJobs();
   assert.equal(data.version, '0.2.0', 'version reflects Sprint 8 r3/r4 ladder');
+});
+
+// Sprint 8.1 (2026-05-05) — Expansion job r3/r4 gap-fill.
+// Estende cost ladder canonical (r3=14 / r4=22) ai 4 expansion job
+// (stalker / symbiont / beastmaster / aberrant). Stesso vincolo
+// effect_type ∈ 18/18 supportati (zero nuovi runtime).
+
+const EXPANSION_JOB_IDS = ['stalker', 'symbiont', 'beastmaster', 'aberrant'];
+
+test('Sprint 8.1 r3/r4 progression: tutti i 4 expansion job hanno 5 abilities con rank 1-1-2-3-4 sorted', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  for (const jobId of EXPANSION_JOB_IDS) {
+    const res = await request(app).get(`/api/jobs/${jobId}`);
+    assert.equal(res.status, 200, `${jobId} reachable`);
+    assert.equal(res.body.abilities.length, 5, `${jobId} ha 5 abilities`);
+    const ranks = res.body.abilities.map((a) => Number(a.rank));
+    assert.deepEqual(ranks, [1, 1, 2, 3, 4], `${jobId} rank progression sorted asc`);
+  }
+});
+
+test('Sprint 8.1 r3/r4 cost ladder canonical: cost_pi 14 (r3) + 22 (r4) per tutti i expansion job', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  for (const jobId of EXPANSION_JOB_IDS) {
+    const res = await request(app).get(`/api/jobs/${jobId}`);
+    assert.equal(res.status, 200);
+    const r3 = res.body.abilities.find((a) => Number(a.rank) === 3);
+    const r4 = res.body.abilities.find((a) => Number(a.rank) === 4);
+    assert.ok(r3, `${jobId} ha ability r3`);
+    assert.ok(r4, `${jobId} ha ability r4`);
+    assert.equal(r3.cost_pi, 14, `${jobId} r3 cost_pi=14`);
+    assert.equal(r4.cost_pi, 22, `${jobId} r4 cost_pi=22`);
+    assert.ok(
+      SUPPORTED_EFFECT_TYPES.has(r3.effect_type),
+      `${jobId} r3 effect_type supportato (${r3.effect_type})`,
+    );
+    assert.ok(
+      SUPPORTED_EFFECT_TYPES.has(r4.effect_type),
+      `${jobId} r4 effect_type supportato (${r4.effect_type})`,
+    );
+    // Capstone monotonic gate: r4 cost_ap >= r3 cost_ap.
+    assert.ok(
+      Number(r4.cost_ap || 0) >= Number(r3.cost_ap || 0),
+      `${jobId} r4 cost_ap (${r4.cost_ap}) monotonic >= r3 (${r3.cost_ap})`,
+    );
+  }
+});
+
+test('Sprint 8.1 r3/r4 expansion ability_id naming: lowercase snake_case + globally unique (no collision base)', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  // Collect all base abilities IDs first
+  const baseIds = new Set();
+  for (const jobId of BASE_JOB_IDS) {
+    const res = await request(app).get(`/api/jobs/${jobId}`);
+    for (const a of res.body.abilities) {
+      baseIds.add(a.ability_id);
+    }
+  }
+  // Expansion abilities must not collide with base.
+  const seen = new Set();
+  for (const jobId of EXPANSION_JOB_IDS) {
+    const res = await request(app).get(`/api/jobs/${jobId}`);
+    for (const a of res.body.abilities) {
+      assert.match(a.ability_id, /^[a-z][a-z0-9_]*$/, `${jobId}.${a.ability_id} naming snake_case`);
+      assert.ok(
+        !baseIds.has(a.ability_id),
+        `${a.ability_id} in expansion ${jobId} collide con base job`,
+      );
+      assert.ok(!seen.has(a.ability_id), `${a.ability_id} unique across expansion jobs`);
+      seen.add(a.ability_id);
+    }
+  }
+});
+
+test('Sprint 8.1 jobs_expansion.yaml version bump 0.2.0 → 0.3.0 (r3/r4 gap-fill)', async () => {
+  const path = require('node:path');
+  const fs = require('node:fs');
+  const yaml = require('js-yaml');
+  const file = path.join(process.cwd(), 'data', 'core', 'jobs_expansion.yaml');
+  const data = yaml.load(fs.readFileSync(file, 'utf8'));
+  assert.equal(data.version, '0.3.0', 'expansion version reflects Sprint 8.1 r3/r4 ladder');
 });

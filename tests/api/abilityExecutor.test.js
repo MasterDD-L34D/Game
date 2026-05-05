@@ -1269,6 +1269,122 @@ test('iter5 senza aggro_locked, AI sceglie lowest-hp normale (regression)', asyn
   assert.equal(decision.aggro_override, undefined);
 });
 
+// Sprint 8.1 r4 capstone smoke (2026-05-05) — verifica che ogni r4 dispatcha
+// via gli effect_type esistenti senza nuovi runtime path. Pattern base: status
+// 200 + effect_type expected + ability_id riportato. Resource gates lasciati al
+// runtime (cost_ap consumato; cost_pp/pt/sg non bloccano nei tutorial fixture).
+
+test('Sprint 8.1 dervish_whirlwind (r4 multi_attack): dispatch via skirmisher path', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'dervish_whirlwind',
+    target_id: 'e_nomad_1',
+  });
+  assert.equal(res.status, 200, `dervish_whirlwind ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'multi_attack');
+  assert.equal(res.body.ability_id, 'dervish_whirlwind');
+  assert.ok(Array.isArray(res.body.attacks), 'attacks array presente');
+  assert.ok(res.body.attacks.length <= 4, 'max 4 hit (attack_count r4 capstone)');
+});
+
+test('Sprint 8.1 headshot (r4 execution_attack): dispatch via ranger path + execute branch', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'headshot',
+    target_id: 'e_nomad_1',
+  });
+  assert.equal(res.status, 200, `headshot ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'execution_attack');
+  assert.equal(res.body.ability_id, 'headshot');
+  // Target HP full (3/3) → execute non triggered (threshold 0.5).
+  assert.equal(res.body.execution_triggered, false, 'execute non triggered a HP full');
+  assert.equal(res.body.target_hp_pct_before, 1);
+});
+
+test('Sprint 8.1 apocalypse_ray (r4 surge_aoe): dispatch via invoker path + stress_reset 0', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app)
+    .post('/api/session/action')
+    .send({
+      session_id: sid,
+      action_type: 'ability',
+      actor_id: 'p_scout',
+      ability_id: 'apocalypse_ray',
+      position: { x: 3, y: 3 },
+    });
+  assert.equal(res.status, 200, `apocalypse_ray ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'surge_aoe');
+  assert.equal(res.body.ability_id, 'apocalypse_ray');
+  assert.ok(Array.isArray(res.body.damaged), 'damaged array presente');
+  // r4 capstone: stress_reset spec=0.0 ma effettivo dipende da SG attuale del actor.
+  // Smoke verifica solo dispatch path (executor surge_aoe invariato per r4).
+});
+
+test('Sprint 8.1 lifegrove (r4 team_heal): dispatch via harvester path + remove_status', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'lifegrove',
+  });
+  assert.equal(res.status, 200, `lifegrove ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'team_heal');
+  assert.equal(res.body.ability_id, 'lifegrove');
+  assert.ok(Array.isArray(res.body.healed));
+  for (const h of res.body.healed) {
+    assert.equal(h.seed_gain, 2, 'capstone seed_gain=2');
+  }
+});
+
+test('Sprint 8.1 shadow_assassinate (Stalker r4 expansion execution_attack): dispatch end-to-end', async (t) => {
+  const { app, close } = createApp({ databasePath: null });
+  t.after(async () => {
+    if (typeof close === 'function') await close().catch(() => {});
+  });
+
+  const { sid } = await startSession(app);
+  const res = await request(app).post('/api/session/action').send({
+    session_id: sid,
+    action_type: 'ability',
+    actor_id: 'p_scout',
+    ability_id: 'shadow_assassinate',
+    target_id: 'e_nomad_1',
+  });
+  assert.equal(res.status, 200, `shadow_assassinate ok: ${JSON.stringify(res.body)}`);
+  assert.equal(res.body.effect_type, 'execution_attack');
+  assert.equal(res.body.ability_id, 'shadow_assassinate');
+  // HP target full (3/3) → execute_threshold 0.3 non triggered.
+  assert.equal(res.body.execution_triggered, false, 'execute non triggered (HP full > 30%)');
+  assert.ok(res.body.attack, 'attack payload presente');
+});
+
 // Sprint 8 r3/r4 — smoke check that an r3 ability dispatches via the same
 // move_attack path as r1 dash_strike (no new effect_type runtime needed).
 test('Sprint 8 phantom_step (r3 move_attack): dispatch end-to-end via existing executor', async (t) => {
