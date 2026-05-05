@@ -15,7 +15,7 @@ related:
 
 # ADR-2026-04-19 · Kill Python rules engine (deprecation + removal roadmap)
 
-**Stato**: 🟡 PROPOSED (accept on user confirmation)
+**Stato**: 🟢 ACCEPTED + Phase 3 closed 2026-05-05
 **Trigger**: user direction 2026-04-19 "1 solo gioco online, senza master"
 **Supersedes**: `ADR-2026-04-13-rules-engine-d20.md` (porzione Python runtime)
 
@@ -99,14 +99,16 @@ Post M6-#1, Python rules engine = **duplicato dead code** rispetto al runtime ca
 - Nuove regole combat solo in Node
 - Python tests rimangono CI ma solo as regression safety net finché Phase 3
 
-**Phase 3 — Remove** — ~2-3h, separate PR
+**Phase 3 — Remove** — closed 2026-05-05 (PR `chore/services-rules-phase-3-removal`)
 
-- Delete `services/rules/` subdir
-- Delete `tests/test_resolver.py`, `tests/test_hydration.py`, `tests/test_round_orchestrator.py`
-- Update `tests/test_trait_effects.py` eventuale porting a Node
-- Delete `tools/py/master_dm.py`, `services/rules/demo_cli.py`
-- Update `package.json` test:api / CI workflow → rimuove Python rules dalle suite
-- Update `CLAUDE.md` — remove Python rules engine section
+- ✅ Deleted `services/rules/` subdir (8 file Python + DEPRECATED.md)
+- ✅ Deleted Python tests: `test_resolver.py`, `test_hydration.py`, `test_round_orchestrator.py`, `test_trait_effects.py`, `test_demo_cli.py`, `test_grid.py`, `test_master_dm_parser.py`
+- ✅ Deleted `tools/py/master_dm.py`, `tools/py/mark_python_rules_deprecated.py`
+- ✅ Deleted `tests/server/rules-bridge.spec.js` (worker bridge spawn integration test)
+- ✅ Patched `tools/py/gen_trait_types.py` (dropped Python dataclass codegen, mantenuto TS + JSON Schema)
+- ✅ Aggiornati commenti YAML (`action_speed.yaml`, `trait_mechanics.yaml`) → consumer Node
+- ✅ Aggiornato `CLAUDE.md` (rimosso bullet repository layout + Rules engine tests + Combat pipeline pointer aggiornato a Node canonical)
+- ✅ Aggiornato `docs/hubs/combat.md` (sezione "Phase 3 removal completata" + Comandi demo riallineati a Node)
 - Retention: git history preserva codice per ref futuro
 
 ### Alternative considerate

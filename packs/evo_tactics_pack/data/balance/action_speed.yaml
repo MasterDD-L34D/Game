@@ -1,7 +1,7 @@
 # Tabella dei modificatori di velocita' di risoluzione per action type.
 #
 # Fonte: ADR-2026-04-15-round-based-combat-model.md
-# Consumer: services/rules/round_orchestrator.py::load_action_speed_table
+# Consumer: apps/backend/services/roundOrchestrator.js (Node canonical post Phase 3 removal Python rules)
 #
 # Semantica: il valore e' sommato a unit.initiative (reaction speed) per
 # calcolare resolve_priority. Alto = risolve prima nel round.

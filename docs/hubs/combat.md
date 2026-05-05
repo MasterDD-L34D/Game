@@ -15,19 +15,17 @@ review_cycle_days: 14
 
 Il rules engine d20 risolve le azioni tattiche del loop di combat: attack (d20 vs CD con MoS e damage step), parry contestata, PT spend, status effect (bleeding/fracture/disorient/rage/panic) e stress breakpoints.
 
-## ⚠ Stato deprecation Python rules engine (2026-04-19)
+## ✅ Phase 3 removal completata (2026-05-05)
 
-**Runtime canonical**: Node (`apps/backend/services/combat/`, `apps/backend/routes/session.js`, `apps/backend/services/roundOrchestrator.js`). User direction 2026-04-19: "1 solo gioco online, senza master DM tabletop" → Python `services/rules/` = dead weight.
+**Runtime canonical**: Node (`apps/backend/services/combat/`, `apps/backend/routes/session.js`, `apps/backend/services/roundOrchestrator.js`, `apps/backend/services/traitEffects.js`). Ex-`services/rules/` Python rimosso fisicamente in Phase 3 ([ADR-2026-04-19](../adr/ADR-2026-04-19-kill-python-rules-engine.md)).
 
-Vedi `services/rules/DEPRECATED.md` + [`ADR-2026-04-19-kill-python-rules-engine.md`](../adr/ADR-2026-04-19-kill-python-rules-engine.md). NO new features in Python; tutte estensioni vanno in Node. Phase 2 feature freeze + Phase 3 removal pending.
-
-Doc Python references mantenuti sotto come **storico/legacy** per documentation continuity, NON come fonte runtime canonical.
+Sezioni "File principali" sotto fanno riferimento storico ai path Python rimossi — preservate per archeologia git blame + ADR continuity. NON usare come fonte runtime: il codice non esiste più in main post-Phase-3.
 
 ---
 
-## Doc historical (Python services/rules/) — DEPRECATED, vedi sopra
+## Doc historical (ex-`services/rules/` Python) — REMOVED 2026-05-05
 
-Il codice Python originariamente viveva in `services/rules/`, decoppiato dal generation pipeline, dal dashboard e dal repo `Game-Database`.
+Il codice Python originariamente viveva in `services/rules/`, decoppiato dal generation pipeline, dal dashboard e dal repo `Game-Database`. Phase 3 removal completata 2026-05-05.
 
 ## Navigazione
 
@@ -49,11 +47,8 @@ Per una panoramica e mappa completa dei doc del workstream vedi [docs/combat/REA
 
 ## File principali
 
-- `services/rules/resolver.py` — resolver d20 puro (attack, MoS, damage_step, resistenze, armor, status modifiers, `predict_combat()` W1, `merge_resistances()` W2, `compute_swarm_attacks()` W7, terrain_defense_mod W4)
-- `services/rules/round_orchestrator.py` — orchestratore di round (planning → commit → resolve) sopra il resolver atomico
-- `services/rules/hydration.py` — idratazione encounter/party → CombatState, caricamento trait_mechanics.yaml con supporto `inherits:` (O1 pattern)
-- `services/rules/demo_cli.py` — CLI dimostrativa con modalità interactive e auto
-- `services/rules/worker.py` — bridge JSON-line stdin/stdout verso backend Node
+> Sezione "File principali" — i 5 path `services/rules/*.py` sono stati rimossi in Phase 3 (2026-05-05). Riferimento storico per archeologia (resolver/round_orchestrator/hydration/demo_cli/worker = tutto portato a Node canonical). Sotto i file Node attivi runtime.
+
 - `apps/backend/services/roundOrchestrator.js` — orchestratore round Node con `shouldAutoAdvance()` (B1 pattern)
 - `apps/backend/services/roundStatechart.js` — round lifecycle come xstate statechart (X1 pattern)
 - `apps/backend/services/statusEffectsMachine.js` — status effects come xstate parallel FSM (X2 pattern)
@@ -95,7 +90,6 @@ Stabiliti 2026-04-17 da lezioni AI War + Fallout Tactics postmortem (vedi `memor
 - `packages/contracts/schemas/traitMechanics.schema.json` — shape del catalog
 - `packages/contracts/generated/traitTypes.ts` — TypeScript interfaces generati da YAML (L1 pattern)
 - `packages/contracts/generated/traitMechanics.generated.schema.json` — JSON Schema generato
-- `services/rules/generated/trait_types.py` — Python dataclass stubs generati
 - `docs/generated/trait-reference.md` — reference doc auto-generato (O3 pattern)
 
 ## ADR
@@ -111,18 +105,13 @@ Stabiliti 2026-04-17 da lezioni AI War + Fallout Tactics postmortem (vedi `memor
 ## Comandi demo
 
 ```bash
-# Simulazione interattiva di un turno di combattimento
-PYTHONPATH=services/rules python3 services/rules/demo_cli.py
-
-# Modalità auto (AI attacca il primo vivo) — utile per smoke test
-PYTHONPATH=services/rules python3 services/rules/demo_cli.py --auto --max-rounds 10
-
-# Test unitari resolver + hydration
-PYTHONPATH=services/rules pytest tests/test_resolver.py tests/test_hydration.py
-
-# Validazione schema e allineamento inventory ↔ mechanics
+# Smoke combat Node (post Phase 3 rimozione Python rules engine 2026-05-05)
+node --test tests/ai/*.test.js                       # AI baseline 383 tests
 node --test tests/api/contracts-combat.test.js tests/api/contracts-trait-mechanics.test.js
+node --test tests/services/movementTraitEffects.test.js
 ```
+
+> Comandi Python `demo_cli.py` rimossi in Phase 3 (vedi ADR-2026-04-19). Per smoke runtime end-to-end usa `npm run start:api` + `curl /api/v1/session/start`.
 
 ## Stato implementazione (Phase 2)
 

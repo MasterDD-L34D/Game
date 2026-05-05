@@ -1,18 +1,19 @@
 ---
 title: ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile
-doc_status: active
+doc_status: superseded
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-14
+last_verified: 2026-05-05
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
+superseded_by: docs/adr/ADR-2026-04-19-kill-python-rules-engine.md
 ---
 
 # ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile
 
 - **Data**: 2026-04-13
-- **Stato**: Proposto
+- **Stato**: Superseded da [ADR-2026-04-19](ADR-2026-04-19-kill-python-rules-engine.md) (Phase 3 closed 2026-05-05). Runtime canonical = Node, ex-`services/rules/` Python rimosso.
 - **Owner**: Team Backend & Tools
 - **Stakeholder**: Narrative Ops (regole), Trait Curator (schema trait), Frontend Squad (futuro consumer UI), QA Automation (snapshot test)
 
