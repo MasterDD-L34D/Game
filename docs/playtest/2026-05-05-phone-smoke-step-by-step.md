@@ -147,15 +147,40 @@ nslookup evo-phone.<YOUR-DOMAIN>
 # Atteso: CNAME → <UUID>.cfargotunnel.com
 ```
 
-### 3e. Path B ephemeral (no domain)
+### 3e. Path B ephemeral (no domain) — Quick Tunnel
 
-Se NO domain Cloudflare-managed:
+Se NO domain Cloudflare-managed → use Quick Tunnel (`*.trycloudflare.com`).
+
+⚠️ **Incompatibility con config.yml**: Cloudflare Quick Tunnels NON funzionano se esiste `~/.cloudflared/config.yml` (conflict: cloudflared tenta load named-tunnel config). Se hai già fatto Step 3b+3c e stai switchando a Path B → **rinomina temp** il config:
 
 ```bash
-cloudflared tunnel --url http://localhost:8080
+# Linux/macOS:
+mv ~/.cloudflared/config.yml ~/.cloudflared/config.yml.bak
+# Windows PowerShell:
+Rename-Item ~/.cloudflared/config.yml config.yml.bak
 ```
 
-Stampa subdomain auto-generato `https://<random>.trycloudflare.com`. **Limitazione**: 1 subdomain per istanza → serve apri 3 terminali separati per phone/api/ws (1 cloudflared per service). Ricorda di copiare i 3 URL — phone player serve api+ws URL espliciti.
+Restore con `mv ... .bak` reverse quando torni a named tunnel.
+
+Then run **3 separate terminali** (Quick Tunnel = 1 subdomain per istanza):
+
+```bash
+# Terminal A — phone HTML5 (port 8080)
+cloudflared tunnel --url http://localhost:8080
+# Stampa: https://<random-A>.trycloudflare.com
+
+# Terminal B — Game/ REST API (port 3334)
+cloudflared tunnel --url http://localhost:3334
+# Stampa: https://<random-B>.trycloudflare.com
+
+# Terminal C — Game/ WebSocket (port 3341)
+cloudflared tunnel --url http://localhost:3341
+# Stampa: https://<random-C>.trycloudflare.com
+```
+
+📋 **Salva i 3 URL** — phone player serve `<random-B>` come host API + `<random-C>` come host WS (vedi Step 5 sostituzione `<YOUR-DOMAIN>`).
+
+**Limitazione**: subdomain auto-generato cambia ogni restart. Per smoke test one-off OK. Per sessioni ripetute → use Path A named tunnel (Step 3a-3d).
 
 ---
 
@@ -196,12 +221,28 @@ cd C:/Users/VGit/Desktop/Game-Godot-v2
 
 ### Terminal 3 — Cloudflare Tunnel
 
+**Path A — named tunnel** (se hai seguito Step 3a-3d con domain):
+
 ```bash
 cloudflared tunnel run evo-tactics-demo
 # Atteso log: "Connection registered" x4 (4 edge replicas)
 ```
 
-**Smoke locale pre-phone**: apri `https://evo-phone.<YOUR-DOMAIN>` in browser desktop → deve caricare phone composer identica a `http://localhost:8080`. Se fail → vedi Troubleshooting #1.
+**Path B — Quick Tunnel** (se hai seguito Step 3e no-domain): hai già 3 cloudflared istanze attive (Terminal A/B/C dello Step 3e). NON lanciare `tunnel run` qui — Path B sostituisce Terminal 3 con quei 3 processi separati.
+
+📋 **Smoke locale pre-phone**:
+
+- Path A → apri `https://evo-phone.<YOUR-DOMAIN>` in browser desktop, deve caricare phone composer identica a `http://localhost:8080`.
+- Path B → apri `https://<random-A>.trycloudflare.com` (Step 3e Terminal A output).
+
+Se fail → vedi Troubleshooting #1.
+
+**Step 5 sostituzione hostname** (Path B):
+
+- Sostituisci `evo-phone.<YOUR-DOMAIN>` → `<random-A>.trycloudflare.com` (HTML5 phone)
+- Sostituisci `evo-api.<YOUR-DOMAIN>` → `<random-B>.trycloudflare.com` (REST host field)
+- Sostituisci `evo-ws.<YOUR-DOMAIN>` → `<random-C>.trycloudflare.com` (WSS host field)
+- Port: lascia `443` (Cloudflare TLS termination uguale per entrambi i path).
 
 ---
 
