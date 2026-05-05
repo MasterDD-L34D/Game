@@ -8,10 +8,53 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v22 (post plan v3.2 gap audit + ADR pillar promotion criteria 2026-04-30)
-- **Ultimo aggiornamento**: 2026-04-30 (PR #2026 merged main `e8967285`. Plan v3.2 P0 fix: line 305 ADR-19 contraddizione Python rules → Node canonical, counts inflated 60+→14 enc + 100+→15 species, Sprint N gate exit P3+P5 row 10/10 verdict. NEW ADR-2026-04-30 pillar promotion criteria tier ladder formal. NEW gap audit synthesis 3 agent paralleli ~30 gap classified, 4 P0 fixed, 8 P1 deferred plan v3.3 non bloccante).
+- **Versione compact**: v23 (post repo content audit 2026-05-05 — Phase 1+3 cleanup)
+- **Ultimo aggiornamento**: 2026-05-05 (Phase 1 static scan 3 agent parallel + Phase 3 triage. 2 dead services deleted, 10 species biome_affinity fixed, 1 Godot stub deleted, Gate 5 4 violations documented. 2 cleanup PRs open: #2058 Game/ + #177 Godot v2. 3 tickets open: TKT-GATE5-CONVICTION + TKT-TRAITS-ANCESTOR-BUFF-STAT + TKT-RULES-SIMULATE-BALANCE. Phase 2 runtime probe pending.)
 
-## ⚡ Resume trigger phrase canonical (next session — Sprint M.1 spawn)
+## ⚡ Resume trigger phrase canonical (next session — post-audit)
+
+> _"leggi COMPACT_CONTEXT.md v23 + docs/planning/2026-05-05-audit-triage-handoff.md. PRs #2058 + #177 mergiati? Prosegui con TKT-GATE5-CONVICTION o TKT-TRAITS-ANCESTOR-BUFF-STAT o Phase 2 runtime probe."_
+
+OR (phone smoke retry first):
+
+> _"resume phone smoke retry 2026-05-05, verify B5 phase transition runtime + combat 5 round p95 + airplane reconnect → unblocks cutover Phase A"_
+
+Handoff doc canonical: [`docs/planning/2026-05-05-audit-triage-handoff.md`](docs/planning/2026-05-05-audit-triage-handoff.md)
+
+## ⚡ TL;DR sessione 2026-05-05 — Repo content audit Phase 1+3
+
+**Phase 1 static scan** (3 agent parallel): report `docs/reports/2026-05-05-repo-audit-static-scan.md`.
+
+**Phase 3 triage cleanup**:
+
+| Action              | Target                                                          | Result                        |
+| ------------------- | --------------------------------------------------------------- | ----------------------------- |
+| Delete dead service | `aiPersonalityLoader.js` + `sistemaActor.js` + test             | 121+ LOC removed              |
+| Fix biome_affinity  | 10 species in `data/core/species.yaml`                          | Risonanza Perfetta now works  |
+| Delete Godot stub   | `sistema_turn_runner.gd` (Tier 3 abandon)                       | Zero callers confirmed        |
+| Gate 5 document     | `enneaEffects.js` / `eventChainScripting.js` / `speciesWiki.js` | 3 exempt w/ inline note       |
+| Gate 5 TODO         | `routes/conviction.js`                                          | TKT-GATE5-CONVICTION ~4h      |
+| Update docs status  | `docs/incoming/lavoro_da_classificare/`                         | doc_status → integrato        |
+| BACKLOG update      | `BACKLOG.md`                                                    | 6 closed + 3 new open tickets |
+
+**2 PRs open** (awaiting master-dd merge):
+
+- [#2058 Game/](https://github.com/MasterDD-L34D/Game/pull/2058) — pre-cutover cleanup Phase 3
+- [#177 Godot v2](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/177) — drop sistema_turn_runner stub
+
+**Gate 5 count: 4** (≤5 = does NOT block cutover Phase A)
+
+**Open tickets**:
+
+- `TKT-GATE5-CONVICTION` ~4h — wire FE or deprecate conviction voting
+- `TKT-TRAITS-ANCESTOR-BUFF-STAT` ~3h — buff_stat handler = 51 ancestor traits inactive
+- `TKT-RULES-SIMULATE-BALANCE` ~1h — prereq for services/rules/ Phase 3 removal
+
+**Phase 2** (runtime probe) NOT executed — not blocking.
+
+---
+
+## ⚡ Resume trigger phrase canonical (sessione precedente — Sprint M.1 spawn)
 
 > _"leggi COMPACT_CONTEXT.md v22 + docs/planning/2026-04-29-master-execution-plan-v3.md v3.2 + docs/adr/ADR-2026-04-29-pivot-godot-immediate.md + docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md. Spawn Sprint M.1 chip: NEW repo Game-Godot-v2 + Donchitos template adopt + Godot 4.x install + 3 spike (M.5 cross-stack + M.7 phone + M.6 CI)."_
 
