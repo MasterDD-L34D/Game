@@ -45,7 +45,15 @@ const DEFAULT_HEARTBEAT_MS = 30_000;
 // TKT-M11B-05 — host-transfer grace window. If the host socket closes and
 // does not reattach within this window, the oldest connected player is
 // promoted to host role. Set to 0 to disable automatic host transfer.
-const DEFAULT_HOST_TRANSFER_GRACE_MS = 30_000;
+//
+// Sprint deploy-quick FU4 — bumped 30s → 90s to accommodate mobile
+// cross-device flow: phone host backgrounds tab to grab another device or
+// share code via SMS/Slack, mobile browser pauses WS, backend triggered
+// host-transfer + room close before user could re-foreground. 90s gives
+// enough buffer for typical "switch app, copy URL, paste, switch back"
+// without breaking smoke test scenarios. Override via env if production
+// loads need stricter SLA.
+const DEFAULT_HOST_TRANSFER_GRACE_MS = Number(process.env.LOBBY_HOST_TRANSFER_GRACE_MS || 90_000);
 // Sprint R.2 — intent/state ledger size cap. On reconnect, if
 // `state_version - last_seen_version <= MAX_LEDGER_SIZE`, server replays
 // missed entries; else falls back to full state snapshot.
@@ -1218,7 +1226,30 @@ function createWsServer({
             socket.send(JSON.stringify({ type: 'error', payload: { code: 'not_host' } }));
             return;
           }
-          room.setPhase(msg.payload?.phase);
+          // Sprint deploy-quick FU4 — use publishPhaseChange instead of
+          // setPhase: setPhase only updates `this.phase` + sends
+          // `round_ready` (which phone composer doesn't bind to phase
+          // transitions). publishPhaseChange emits the versioned
+          // `phase_change` event consumed by clients via
+          // `event_received` → phone composer maps to `_swap_mode(phase)`.
+          // Also retain round_ready broadcast for legacy listeners.
+          {
+            const phaseArg = typeof msg.payload?.phase === 'string' ? msg.payload.phase : '';
+            if (phaseArg.length > 0) {
+              try {
+                room.publishPhaseChange(phaseArg);
+              } catch (err) {
+                socket.send(
+                  JSON.stringify({
+                    type: 'error',
+                    payload: { code: 'phase_invalid', message: String(err.message || err) },
+                  }),
+                );
+                return;
+              }
+              room.broadcastRoundReady();
+            }
+          }
           break;
 
         case 'round_clear':
