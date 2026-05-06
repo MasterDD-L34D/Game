@@ -87,13 +87,15 @@ In phase=`character_creation` ENTRAMBI host e player non possono submit. Ws v1 w
 
 ## Gap residui (deferred ticket)
 
-| ID | Action | Status | Ticket | Effort |
-|---|---|---|---|---|
-| W4 | `form_pulse_submit` | NOT drained, no orch method | TKT-P5-WS-FORM-PULSE-DRAIN | ~2h |
-| W7 | `next_macro` | NOT drained, design decision needed | TKT-P5-WS-NEXT-MACRO-DESIGN | ~2h |
-| W8b | `reveal_acknowledge` action drain | NOT drained, no orch method | TKT-P5-WS-REVEAL-ACK-DRAIN | ~1h |
+| ID  | Action               | Status                              | Ticket                       | Effort |
+| --- | -------------------- | ----------------------------------- | ---------------------------- | ------ |
+| W7  | `next_macro`         | NOT drained, design decision needed | TKT-P5-WS-NEXT-MACRO-DESIGN  | ~2h    |
 
-W7 design question: drain server-side via `orch.advanceScenarioOrEnd()` OR keep host-arbiter pattern? Current relay = silent drop su Godot host.
+**W7 design question**: drain server-side via `orch.advanceScenarioOrEnd()` OR keep host-arbiter pattern? Current relay = silent drop su Godot host.
+
+### Closed addendum 2026-05-06 (autonomous)
+
+- **W4 `form_pulse_submit`** ✅ shipped — `coopOrchestrator.submitFormPulse(playerId, {axes}, {allPlayerIds})` + `formPulseList()` + drain branch in `wsSession.js` mirror voteWorld pattern. Phase-agnostic per-player axes Map; non-numeric/NaN axes filtered. +4 unit test (W4 series). Harness scenario 4a GAP→PASS verified live.
 
 ## Combat E2E + reconnect — DEFERRED
 
@@ -103,16 +105,18 @@ Scenario combat 5 round + airplane reconnect non testati programmatic (richiedon
 
 - Harness Node script: `tools/testing/phone-flow-harness.js` (committable, ws node_modules from main repo)
 - Run command: `node tools/testing/phone-flow-harness.js` (backend up :3334 prerequisito)
-- Output: 15 scenari (lobby join + phase transition + char create + lifecycle gap matrix + B6 host gate + W8 phase whitelist + stateVersion)
-- Final: 12 PASS / 0 FAIL / 3 GAP-DOCUMENTED
+- Output: 18 scenari (lobby join + phase transition + char create + lifecycle gap matrix + B6 host gate + W8 phase whitelist + stateVersion + onboarding host-only)
+- Final post-W4 close: **17 PASS / 0 FAIL / 1 GAP-DOCUMENTED** (W7 next_macro residuo, design pending)
 
 Cross-repo tests passing:
 - `node --test tests/api/wsRoomCode.test.js tests/api/coopOrchestrator.test.js` → 23/23 verde
 
 ## Files modified
 
-- `apps/backend/services/network/wsSession.js` — case 'intent' split + 3 lifecycle drain branches (character_create, world_vote, lineage_choice) + KNOWN_PHASES whitelist + case 'phase' auto-bootstrap coop run
-- `tools/testing/phone-flow-harness.js` — extended scenario 4b + 4c + 7a + 7b PASS expectations post-fix
+- `apps/backend/services/network/wsSession.js` — case 'intent' split + 4 lifecycle drain branches (character_create, world_vote, lineage_choice, **form_pulse_submit** W4) + reveal_acknowledge (W8b) + KNOWN_PHASES whitelist + case 'phase' auto-bootstrap coop run
+- `apps/backend/services/coop/coopOrchestrator.js` — `submitFormPulse` + `formPulseList` + `formPulses` Map (W4 close)
+- `tools/testing/phone-flow-harness.js` — extended scenario 4a (W4 PASS) + 4b + 4c + 7a + 7b PASS expectations post-fix
+- `tests/api/coopOrchestrator.test.js` — +4 W4 unit tests (axes filter + ready_set + run_not_started + clear-on-advance)
 
 ## Reversibility
 

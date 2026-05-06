@@ -314,6 +314,67 @@ test('F-2: forceAdvance rejected from combat/lobby/ended', () => {
   assert.throws(() => co.forceAdvance(), /force_advance_not_allowed_from:combat/);
 });
 
+// ─────────────────────────────────────────────────────────────────
+// W4 phone smoke fix — submitFormPulse drain (2026-05-06)
+// ─────────────────────────────────────────────────────────────────
+
+test('W4 — submitFormPulse stores per-player axes + returns ready_set', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun();
+  const all = ['p_a', 'p_b'];
+  const r1 = co.submitFormPulse('p_a', { axes: { alpha: 0.5, beta: 0.3 } }, { allPlayerIds: all });
+  assert.equal(r1.ready_count, 1);
+  assert.equal(r1.total, 2);
+  assert.equal(r1.all_ready, false);
+  assert.deepEqual(r1.submitted, ['p_a']);
+  const r2 = co.submitFormPulse('p_b', { axes: { alpha: 0.2 } }, { allPlayerIds: all });
+  assert.equal(r2.ready_count, 2);
+  assert.equal(r2.all_ready, true);
+});
+
+test('W4 — submitFormPulse drops non-numeric axes + accepts re-submit overwrite', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun();
+  const all = ['p_a'];
+  co.submitFormPulse(
+    'p_a',
+    { axes: { alpha: 0.7, beta: 'bad', gamma: NaN, delta: '0.4' } },
+    { allPlayerIds: all },
+  );
+  const list = co.formPulseList(all);
+  assert.equal(list[0].player_id, 'p_a');
+  assert.equal(list[0].ready, true);
+  // 'bad' string + NaN dropped; '0.4' string coerces via Number().
+  assert.deepEqual(list[0].axes, { alpha: 0.7, delta: 0.4 });
+  // Re-submit overwrites.
+  co.submitFormPulse('p_a', { axes: { alpha: 0.1 } }, { allPlayerIds: all });
+  const list2 = co.formPulseList(all);
+  assert.deepEqual(list2[0].axes, { alpha: 0.1 });
+});
+
+test('W4 — submitFormPulse throws when run not started or playerId missing', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  // No run yet.
+  assert.throws(() => co.submitFormPulse('p_a', { axes: { alpha: 0.5 } }), /run_not_started/);
+  co.startRun();
+  assert.throws(() => co.submitFormPulse(null, { axes: { alpha: 0.5 } }), /player_id_required/);
+});
+
+test('W4 — formPulses cleared on advanceScenarioOrEnd', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a', 'enc_b'] });
+  const all = ['p_a'];
+  co.submitCharacter('p_a', { name: 'Aria', form_id: 'istj' }, { allPlayerIds: all });
+  co.submitFormPulse('p_a', { axes: { alpha: 0.9 } }, { allPlayerIds: all });
+  assert.equal(co.formPulses.size, 1);
+  co.confirmWorld();
+  co.endCombat({ outcome: 'victory' });
+  co.submitDebriefChoice('p_a', { choice: 'skip' }, { allPlayerIds: all });
+  // Next scenario started → formPulses reset.
+  assert.equal(co.phase, 'world_setup');
+  assert.equal(co.formPulses.size, 0);
+});
+
 test('log captures phase_change + run_started events', () => {
   const co = new CoopOrchestrator({ roomCode: 'ABCD' });
   co.startRun();

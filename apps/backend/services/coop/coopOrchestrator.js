@@ -61,6 +61,12 @@ class CoopOrchestrator {
     // for the UI-only `world_seed_reveal` transient phase. When all
     // expected players ack, auto-advance world_seed_reveal → world_setup.
     this.revealAcks = new Set();
+    // 2026-05-06 phone smoke W4 — per-player form_pulse axes submitted
+    // during the post-character_creation evolution-tuning step. Drained
+    // server-side via submitFormPulse; phase-agnostic storage so Godot
+    // UI-only `form_pulse` transient phase can populate without strict
+    // coupling to PHASES enum (mirror revealAcks pattern).
+    this.formPulses = new Map(); // player_id → { axes: {k:Number}, ts }
     this.log = [];
     this._listeners = new Set();
     // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
@@ -123,6 +129,7 @@ class CoopOrchestrator {
     this.worldVotes.clear();
     this.debriefChoices.clear();
     this.revealAcks.clear();
+    this.formPulses.clear();
     this.onboardingChoice = null;
     this._setPhase('character_creation');
     this._emit('run_started', { run_id: this.run.id });
@@ -156,6 +163,7 @@ class CoopOrchestrator {
     this.worldVotes.clear();
     this.debriefChoices.clear();
     this.revealAcks.clear();
+    this.formPulses.clear();
     this.onboardingChoice = null;
     this._setPhase('onboarding');
     this._emit('run_started', { run_id: this.run.id, with_onboarding: true });
@@ -376,6 +384,64 @@ class CoopOrchestrator {
   }
 
   /**
+   * 2026-05-06 phone smoke W4 — Submit form_pulse axes for player. UI-only
+   * transient phase between character_creation and world_setup (Godot
+   * Sprint W7 form_pulse view). Per-player axes stored independently of
+   * `phase` enum so caller can drain submissions during any post-bootstrap
+   * phase. Mirrors voteWorld pattern (no auto-advance; caller decides
+   * when all axes collected to publishPhaseChange next).
+   *
+   * Pre-fix: phone player sent `intent {action: form_pulse_submit}` →
+   * pushIntent relay to host → Godot host has no GDScript drain → silent
+   * drop. Now drained via this method, broadcast `form_pulse_list`.
+   *
+   * @param playerId — submitting player
+   * @param axes — { [axisKey]: Number } map (alpha/beta/gamma/delta…). Only
+   *               numeric values retained; non-numeric or NaN dropped.
+   * @param allPlayerIds — set of player ids expected to submit (for ready_set tally)
+   * @returns { ready_count, total, all_ready, submitted: [player_id…] }
+   */
+  submitFormPulse(playerId, { axes = {} } = {}, { allPlayerIds = [] } = {}) {
+    if (!playerId) throw new Error('player_id_required');
+    if (!this.run) throw new Error('run_not_started');
+    const cleanAxes = {};
+    if (axes && typeof axes === 'object' && !Array.isArray(axes)) {
+      for (const [k, v] of Object.entries(axes)) {
+        const num = Number(v);
+        if (Number.isFinite(num)) cleanAxes[k] = num;
+      }
+    }
+    this.formPulses.set(playerId, { axes: cleanAxes, ts: this.now() });
+    this._emit('form_pulse_submit', { player_id: playerId, axes: cleanAxes });
+    const expected = new Set(allPlayerIds.filter(Boolean));
+    const total = expected.size || this.formPulses.size;
+    const readyCount = this.formPulses.size;
+    const allReady =
+      expected.size > 0 && Array.from(expected).every((pid) => this.formPulses.has(pid));
+    return {
+      ready_count: readyCount,
+      total,
+      all_ready: allReady,
+      submitted: Array.from(this.formPulses.keys()),
+    };
+  }
+
+  /**
+   * 2026-05-06 phone smoke W4 — Form pulse list for broadcast (per-player
+   * ready + axes snapshot).
+   */
+  formPulseList(allPlayerIds = []) {
+    return allPlayerIds.map((pid) => {
+      const entry = this.formPulses.get(pid);
+      return {
+        player_id: pid,
+        ready: Boolean(entry),
+        axes: entry?.axes || null,
+      };
+    });
+  }
+
+  /**
    * M18 — Tally current world votes. Returns counts + breakdown.
    */
   worldTally(allPlayerIds = []) {
@@ -474,6 +540,8 @@ class CoopOrchestrator {
     });
     this.debriefChoices.clear();
     this.worldVotes.clear();
+    this.formPulses.clear();
+    this.revealAcks.clear();
     this._setPhase('world_setup');
     return { action: 'next_scenario', index: this.run.currentIndex };
   }
