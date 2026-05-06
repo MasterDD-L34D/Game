@@ -3,7 +3,7 @@ title: Adattamento TV/d20 — Regole canoniche turno
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-17
+last_verified: 2026-05-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14

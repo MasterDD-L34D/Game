@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-06T19:03:28+00:00",
+  "generated_at": "2026-05-06T19:12:24+00:00",
   "summary": {
-    "total": 156,
+    "total": 137,
     "errors": 0,
-    "warnings": 156
+    "warnings": 137
   },
   "issues": [
     {
@@ -214,120 +214,6 @@
       "level": "warning",
       "code": "stale_document",
       "path": "docs/combat/worker-bridge.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/00C-WHERE_TO_USE_WHAT.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-30"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/00D-ENGINES_AS_GAME_FEATURES.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-30"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/01-VISIONE.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/03-LOOP.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/10-SISTEMA_TATTICO.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/11-REGOLE_D20_TV.md",
-      "message": "Documento stale: revisione scaduta il 2026-05-01"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/20-SPECIE_E_PARTI.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/22-FORME_BASE_16.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/24-TELEMETRIA_VC.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/25-REGOLE_SBLOCCO_PE.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/27-MATING_NIDO.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/28-NPC_BIOMI_SPAWN.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/30-UI_TV_IDENTITA.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/40-ROADMAP.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/Guida_Evo_Tactics_Pack_v2.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/Mating-Reclutamento-Nido.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/PI-Pacchetti-Forme.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/SistemaNPG-PF-Mutazioni.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/core/Telemetria-VC.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
     },
     {
