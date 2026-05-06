@@ -621,7 +621,7 @@ GUT test: port 100/384 critical test → `tests/`.
 | `objectiveEvaluator.js`      | ✅ ported                    | shipped |
 | `passiveStatusApplier.js`    | ⚠️ partial (status enum gap) | ~3h     |
 | `encounterLoader.js`         | ✅ ported                    | shipped |
-| `traitEffects.js` (root svc) | ⚠️ partial (2-pass eval gap) | ~5h     |
+| `timeOfDayModifier.js`       | ✅ ported (Bundle 2a)        | shipped |
 | `senseReveal.js` (Skiv echo) | ⚠️ stub                      | ~2h     |
 | `woundedPerma.js`            | ⚠️ stub                      | ~2h     |
 | `bondReactionTrigger.js`     | ❌ not ported                | ~4h     |
@@ -645,6 +645,8 @@ GUT test: port 100/384 critical test → `tests/`.
 **Tier C — OPTIONAL (8, Sprint R+ extension)**:
 
 `biomeModifiers.js` + `biomePoolLoader.js` + `biomeResonance.js` + `biomeSpawnBias.js` + `missionTimer.js` (Long War 2) + `sgTracker.js` + `statusModifiers.js` + `pseudoRng.js` (deterministic seed). All ❌ not ported. Total effort ~10h.
+
+> **Codex P2 review #2076 fix**: Tier A row `traitEffects.js` REMOVED — file lives at `apps/backend/services/traitEffects.js` (root services/ directory), NOT `combat/`. Replaced with `timeOfDayModifier.js` (genuine combat/ service, already ported Bundle 2a). `traitEffects.js` 2-pass eval port tracked separately in Sprint P (trait+lifecycle wave). Verified with `ls apps/backend/services/combat/` (28 files) + `ls apps/backend/services/ | grep trait`.
 
 **Tier A+B mandatory effort**: ~38-42h (~1 settimana). Tier C deferrable.
 
@@ -687,47 +689,48 @@ Plus Beehave behavior trees (3 archetype templates from PR #2000): `scripts/ai/b
 
 #### R.6 — HTTP backend routes whitelist for HTTPClient adapter (added 2026-05-06, gap audit P1.7 — Item H prep)
 
-`apps/backend/routes/` 27 top-level + `api/` subdir. Godot HTTPClient adapter must expose typed wrappers for each. Whitelist ordered by Sprint priority:
+`apps/backend/routes/` 27 top-level + `api/generation/` subdir. Godot HTTPClient adapter must expose typed wrappers for each. Whitelist ordered by Sprint priority.
 
-**Tier A — MANDATORY (Sprint M.5/M.7 cross-stack spike + Sprint N.1 vertical slice)** (8):
+> **Codex P2 review #2076 fix**: paths VERIFIED via `grep app.use apps/backend/app.js` + `grep app.use apps/backend/services/pluginLoader.js`. Some routers mount UN-versioned (`/api/*` only, NOT `/api/v1/*`) — Godot HTTPClient adapter MUST use the actual mounted path or backend would 404. Aliases for routes with both `/api/*` + `/api/v1/*` mounts annotated explicitly. **`/api/auth/*` REMOVED from Tier A** — verified `apps/backend/routes/api/` only contains `generation/`, no auth router exists; auth is currently middleware-only via JWT secret env (lobby.js mints token internally). Sprint R authoritative endpoint requires backend addition + ADR before adapter wrapping.
 
-- `/api/lobby/*` (lobby.js) — create + join + state — ✅ already wired Sprint M.7
-- `/api/coop/*` (coop.js) — character + run + world + debrief — ⚠️ partial (`CoopApi.gd` has 60% coverage)
-- `/api/session/*` (session.js + sessionRoundBridge.js) — start + action + turn/end + round — ❌ not ported (Sprint O priority)
+**Tier A — MANDATORY (Sprint M.5/M.7 cross-stack spike + Sprint N.1 vertical slice)** (7):
+
+- `/api/lobby/*` (lobby.js, mounted `/api`) — create + join + state — ✅ already wired Sprint M.7
+- `/api/coop/*` (coop.js, mounted `/api`) — character + run + world + debrief — ⚠️ partial (`CoopApi.gd` has 60% coverage)
+- `/api/session/*` (session.js + sessionRoundBridge.js, mounted `/api/session`) — start + action + turn/end + round — ❌ not ported (Sprint O priority)
+- `/api/generation/snapshot` + `/api/v1/generation/snapshot` (generationSnapshot.js, both aliases registered) — Flow snapshot — ❌ not ported
 - `/api/v1/generation/species` (generation.js) — species blueprint — ❌ not ported
-- `/api/v1/generation/snapshot` (generationSnapshot.js) — Flow snapshot — ❌ not ported
-- `/api/v1/atlas/*` (atlas.js) — telemetry — ❌ not ported
-- `/api/health` — already wired
-- `/api/auth/*` (api subdir) — JWT mint + verify — ❌ not ported (Sprint R polish auth_expired re-mint pattern)
+- `/api/v1/atlas/*` (atlas.js, mounted `/api/v1/atlas` + `/api/nebula` alias) — telemetry — ❌ not ported
+- `/api/health` (app.js) — already wired
 
 **Tier B — RECOMMENDED (Sprint N.7 GATE 0 + Sprint O.3 trait+lifecycle wave)** (10):
 
-- `/api/v1/lineage/*` (lineage.js) — propagate + ritual — ❌ not ported
-- `/api/v1/mating/*` — mating engine endpoints (subset routes/coop.js) — ❌ not ported
-- `/api/v1/companion/*` (companion.js) — Skiv companion narrative beats — ❌ not ported
-- `/api/v1/diary/*` (diary.js) — unit diary export — ❌ not ported
-- `/api/v1/skiv/*` (skiv.js) — Skiv recap card endpoint — ❌ not ported
-- `/api/v1/jobs/*` (jobs.js) — job catalog — ❌ not ported
-- `/api/v1/forms/*` (forms.js) + `/api/v1/form-pack/*` (formPackRoutes.js) — form catalog — ❌ not ported
-- `/api/v1/progression/*` (progression.js) — XP + perks — ❌ not ported
-- `/api/v1/mutations/*` (mutations.js) — mutation aspect_token — ❌ not ported
-- `/api/v1/traits/*` (traits.js) — trait catalog + glossary — ❌ not ported
+- `/api/v1/lineage/*` + `/api/lineage/*` (lineage.js, dual alias via pluginLoader.js) — propagate + ritual — ❌ not ported
+- `/api/coop/*` mating subset (mating engine endpoints embedded in coop.js, mounted `/api`) — ❌ not ported
+- `/api/companion/*` (companion.js, mounted `/api` only — NO `/api/v1` alias) — Skiv companion narrative beats — ❌ not ported
+- `/api/diary/*` (diary.js, mounted `/api` only) — unit diary export — ❌ not ported
+- `/api/skiv/*` (skiv.js, mounted `/api` only) — Skiv recap card endpoint — ❌ not ported
+- `/api/jobs/*` (jobs.js, mounted `/api/jobs` only — NO `/api/v1/jobs` alias) — job catalog — ❌ not ported
+- `/api/v1/forms/*` + `/api/forms/*` (forms.js, dual alias) + `/api/form-pack/*` (formPackRoutes.js, mounted `/api`) — form catalog — ❌ not ported
+- `/api/v1/progression/*` + `/api/progression/*` (progression.js, dual alias) — XP + perks — ❌ not ported
+- `/api/v1/mutations/*` + `/api/mutations/*` (mutations.js, dual alias) — mutation aspect_token — ❌ not ported
+- `/api/traits/*` (traits.js, mounted `/api/traits`) — trait catalog + glossary — ❌ not ported
 
 **Tier C — OPTIONAL (Sprint S+ deferred)** (9):
 
-- `/api/v1/campaign/*` (campaign.js)
-- `/api/v1/codex/*` (codex.js)
-- `/api/v1/feedback/*` (feedback.js)
-- `/api/v1/meta/*` (meta.js)
-- `/api/v1/monitoring/*` (monitoring.js)
-- `/api/v1/nebula/*` (nebula.js)
-- `/api/v1/party/*` (party.js)
-- `/api/v1/quality/*` (quality.js) + `/api/v1/rewards/*` (rewards.js)
-- `/api/v1/species-biomes/*` (speciesBiomes.js) + `/api/v1/species-wiki/*` (speciesWiki.js) + `/api/v1/tutorial/*` (tutorial.js) + `/api/v1/validators/*` (validators.js)
+- `/api/campaign/*` (campaign.js, mounted `/api`)
+- `/api/codex/*` (codex.js, mounted `/api`)
+- `/api/feedback/*` (feedback.js, mounted `/api`)
+- `/api/v1/meta/*` + `/api/meta/*` (meta.js, dual alias)
+- `/api/v1/narrative/*` + `/api/narrative/*` (narrative plugin, dual alias)
+- `/monitoring/*` (monitoring.js, mounted `/monitoring` — NOT under `/api`)
+- `/api/party/*` (party.js, mounted `/api/party`)
+- `/api/quality/*` (quality.js) + `/api/rewards/*` (rewards.js, both mounted `/api`)
+- `/api/species-biomes/*` (speciesBiomes.js, mounted `/api`) + `/api/species-wiki/*` (speciesWiki.js, mounted `/api`) + `/api/tutorial/*` (tutorial.js, mounted `/api/tutorial`) + `/api/validators/*` (validators.js, mounted `/api`)
 
-**HTTPClient adapter spec**: typed `Result[T, Error]` wrapper per route + retry/backoff (3 attempts max + exponential 100/300/900ms) + auth header injection via `JwtStore` autoload + JSON body serialization via `JSON.stringify`. Reference: existing `scripts/net/coop_ws_peer.gd` (WebSocket) + `scripts/net/lobby_api.gd` (REST) Sprint M.7. Document API contract in `docs/godot-v2/http-routes-spec.md`.
+**HTTPClient adapter spec**: typed `Result[T, Error]` wrapper per route + retry/backoff (3 attempts max + exponential 100/300/900ms) + JSON body serialization via `JSON.stringify`. Auth header injection deferred until backend `/api/auth` mount lands (Sprint R polish ADR pending). Reference: existing `scripts/net/coop_ws_peer.gd` (WebSocket) + `scripts/net/lobby_api.gd` (REST) Sprint M.7. Document API contract in `docs/godot-v2/http-routes-spec.md`.
 
-**Tier A mandatory effort**: ~3-4g (auth + session + generation + atlas). Tier B+C deferrable per scope sprint.
+**Tier A mandatory effort**: ~3-4g (session + generation + atlas + coop completion). Tier B+C deferrable per scope sprint.
 
 ### Sprint S — Cutover checklist + hybrid stable channel (~5-7 giorni)
 
