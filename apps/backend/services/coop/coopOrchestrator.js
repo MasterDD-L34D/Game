@@ -40,6 +40,10 @@ class CoopOrchestrator {
     this.characters = new Map(); // player_id → character spec
     this.worldVotes = new Map(); // player_id → scenario_id|null
     this.debriefChoices = new Map();
+    // 2026-05-06 phone smoke W8b — track per-player reveal acknowledgment
+    // for the UI-only `world_seed_reveal` transient phase. When all
+    // expected players ack, auto-advance world_seed_reveal → world_setup.
+    this.revealAcks = new Set();
     this.log = [];
     this._listeners = new Set();
     // W5-bb (cross-repo Godot v2 mirror) — world enricher service injection.
@@ -101,6 +105,7 @@ class CoopOrchestrator {
     this.characters.clear();
     this.worldVotes.clear();
     this.debriefChoices.clear();
+    this.revealAcks.clear();
     this._setPhase('character_creation');
     this._emit('run_started', { run_id: this.run.id });
     return this.run;
@@ -229,6 +234,43 @@ class CoopOrchestrator {
       player_id: pid,
       ready: this.debriefChoices.has(pid),
       choice: this.debriefChoices.get(pid) || null,
+    }));
+  }
+
+  /**
+   * 2026-05-06 W8b — Acknowledge reveal screen for player. Used during
+   * UI-only `world_seed_reveal` transient phase. Returns ready-set
+   * snapshot. Caller should auto-advance to world_setup when all
+   * expected players have acknowledged.
+   *
+   * @param playerId
+   * @param allPlayerIds — set of player ids expected to acknowledge
+   * @returns { acknowledged: Set, ready_count, total, all_ready }
+   */
+  acknowledgeReveal(playerId, { allPlayerIds = [] } = {}) {
+    if (!playerId) throw new Error('player_id_required');
+    this.revealAcks.add(playerId);
+    this._emit('reveal_ack', { player_id: playerId });
+    const expected = new Set(allPlayerIds.filter(Boolean));
+    const total = expected.size || this.revealAcks.size;
+    const readyCount = this.revealAcks.size;
+    const allReady =
+      expected.size > 0 && Array.from(expected).every((pid) => this.revealAcks.has(pid));
+    return {
+      ready_count: readyCount,
+      total,
+      all_ready: allReady,
+      acknowledged: Array.from(this.revealAcks),
+    };
+  }
+
+  /**
+   * 2026-05-06 W8b — Reveal ack list for broadcast.
+   */
+  revealAckList(allPlayerIds = []) {
+    return allPlayerIds.map((pid) => ({
+      player_id: pid,
+      acknowledged: this.revealAcks.has(pid),
     }));
   }
 

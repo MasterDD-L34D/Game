@@ -1370,8 +1370,47 @@ function createWsServer({
             }
             return;
           }
-          // Other lifecycle intents (form_pulse_submit, reveal_acknowledge,
-          // next_macro): TODO drain server-side via coopStore. Tracked as
+          // 2026-05-06 phone smoke W8b fix — drain reveal_acknowledge
+          // (UI-only world_seed_reveal phase) server-side via
+          // coopOrchestrator.acknowledgeReveal. Auto-advance phase to
+          // world_setup when all expected players ack. Pre-fix relay to
+          // Godot host → silent drop.
+          if (action === 'reveal_acknowledge' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const status = orch.acknowledgeReveal(playerId, { allPlayerIds: allPids });
+              room.broadcast({
+                type: 'reveal_ack_list',
+                payload: orch.revealAckList(allPids),
+              });
+              if (status.all_ready) {
+                room.publishPhaseChange('world_setup');
+              }
+              socket.send(
+                JSON.stringify({
+                  type: 'reveal_acknowledge_accepted',
+                  payload: { status, phase: room.phase },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'reveal_acknowledge_failed' },
+                }),
+              );
+            }
+            return;
+          }
+          // Other lifecycle intents (form_pulse_submit, next_macro):
+          // TODO drain server-side via coopStore. Tracked as
           // TKT-P5-WS-FORM-PULSE-DRAIN + TKT-P5-WS-NEXT-MACRO-DESIGN.
           // For now relay to host (legacy web v1 path) — Godot host drops.
           room.pushIntent({ from: playerId, payload: msg.payload ?? null });

@@ -608,13 +608,29 @@ async function main() {
     `GAP-W7: next_macro falls through to pushIntent. No coopOrchestrator method maps to it directly (maps to host confirming next scenario). Design question: should next_macro trigger orch.advanceScenarioOrEnd() or remain host-arbiter? Current: silent relay → Godot host drops it.`,
   );
 
-  // 4e: reveal_acknowledge — NOT drained
-  gapDoc(
-    '4e: reveal_acknowledge',
-    'reveal_acknowledge server-side ack (phase gate to world_setup)',
-    'relayed to host via pushIntent (no drain)',
-    `GAP-W8: reveal_acknowledge not drained. No orch method. Phase world_seed_reveal is NOT in PHASES = ['lobby','character_creation','world_setup','combat','debrief','ended']. Godot composer has MODE_WORLD_REVEAL but backend has no matching PHASES entry. Phase mismatch: backend will never emit 'world_seed_reveal' phase_change.`,
-  );
+  // 4e: reveal_acknowledge — W8b fix verify (drains via acknowledgeReveal)
+  console.log('\n  4e: reveal_acknowledge (expect: W8b fix → reveal_ack_list broadcast)');
+  try {
+    player.send({ type: 'intent', payload: { action: 'reveal_acknowledge' } });
+    const ackMsg = await player.waitFor((m) => m.type === 'reveal_acknowledge_accepted', 2000);
+    const listMsg = await player.waitFor((m) => m.type === 'reveal_ack_list', 2000);
+    console.log(
+      `    reveal_acknowledge_accepted: ready_count=${ackMsg.payload?.status?.ready_count} all_ready=${ackMsg.payload?.status?.all_ready}`,
+    );
+    console.log(`    reveal_ack_list: ${JSON.stringify(listMsg.payload).slice(0, 100)}`);
+    pass(
+      '4e: reveal_acknowledge',
+      'reveal_acknowledge drains via acknowledgeReveal → reveal_ack_list broadcast',
+      `ready_count=${ackMsg.payload?.status?.ready_count} all_ready=${ackMsg.payload?.status?.all_ready}`,
+    );
+  } catch (err) {
+    fail(
+      '4e: reveal_acknowledge',
+      'reveal_ack_list broadcast + reveal_acknowledge_accepted',
+      err.message,
+      'W8b fix REGRESSED — reveal_acknowledge drain not engaged or wrong response shape',
+    );
+  }
 
   // ── SCENARIO 5: host-cannot-intent check for combat_action ───────────────
   console.log('\n--- SCENARIO 5: combat_action host-gate (B6 fix) ---');
