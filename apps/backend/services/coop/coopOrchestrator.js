@@ -214,12 +214,30 @@ class CoopOrchestrator {
     if (allPlayerIds.length > 0 && !allPlayerIds.includes(playerId)) {
       throw new Error('player_not_in_room');
     }
+    // 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT — apply innata trait from form.
+    // Canonical PI-Pacchetti-Forme: ogni Forma assegna 1 trait garantito.
+    // Pool 16 form × 1 trait_id mapped in mbti_forms.yaml.
+    let baseTraits = Array.isArray(spec.traits) ? [...spec.traits] : [];
+    try {
+      // eslint-disable-next-line global-require
+      const { applyInnataTraitGrant } = require('../forms/formInnataTrait');
+      const granted = applyInnataTraitGrant({
+        form_id: spec.form_id,
+        traits: baseTraits,
+      });
+      if (Array.isArray(granted?.traits)) {
+        baseTraits = granted.traits;
+      }
+    } catch {
+      // formInnataTrait helper optional — non blocca character submit.
+    }
     const normalized = {
       player_id: playerId,
       name: String(spec.name).slice(0, 30),
       form_id: String(spec.form_id),
       species_id: spec.species_id ? String(spec.species_id) : null,
       job_id: spec.job_id ? String(spec.job_id) : 'guerriero',
+      traits: baseTraits,
       ready: true,
       submitted_at: this.now(),
     };

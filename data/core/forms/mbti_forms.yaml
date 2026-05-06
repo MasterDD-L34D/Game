@@ -18,6 +18,7 @@ forms:
     job_affinities: [tattico, controllore]
     job_penalties: [guaritore]
     temperament: NT
+    innata_trait_id: coda_balanciere  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   INTP:
     label: "Analista"
@@ -27,6 +28,7 @@ forms:
     job_affinities: [esploratore, tattico]
     job_penalties: [sentinella]
     temperament: NT
+    innata_trait_id: artigli_induzione  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ENTJ:
     label: "Comandante"
@@ -36,6 +38,7 @@ forms:
     job_affinities: [assaltatore, tattico]
     job_penalties: [furtivo]
     temperament: NT
+    innata_trait_id: intimidatore  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ENTP:
     label: "Inventore"
@@ -45,6 +48,7 @@ forms:
     job_affinities: [esploratore, assaltatore]
     job_penalties: [sentinella]
     temperament: NT
+    innata_trait_id: denti_tuning_fork  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   # --- NF: Idealisti (Diplomati) ---
   INFJ:
@@ -55,6 +59,7 @@ forms:
     job_affinities: [guaritore, controllore]
     job_penalties: [assaltatore]
     temperament: NF
+    innata_trait_id: pelle_piezo_satura  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   INFP:
     label: "Mediatore"
@@ -64,6 +69,7 @@ forms:
     job_affinities: [guaritore, esploratore]
     job_penalties: [assaltatore]
     temperament: NF
+    innata_trait_id: cuticole_cerose  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ENFJ:
     label: "Protagonista"
@@ -73,6 +79,7 @@ forms:
     job_affinities: [guaritore, tattico]
     job_penalties: [furtivo]
     temperament: NF
+    innata_trait_id: coda_prensile_muscolare  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ENFP:
     label: "Campione"
@@ -82,6 +89,7 @@ forms:
     job_affinities: [esploratore, guaritore]
     job_penalties: [sentinella]
     temperament: NF
+    innata_trait_id: ali_fulminee  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   # --- SJ: Guardiani (Sentinelle) ---
   ISTJ:
@@ -92,6 +100,7 @@ forms:
     job_affinities: [sentinella, controllore]
     job_penalties: [esploratore]
     temperament: SJ
+    innata_trait_id: pelle_elastomera  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ISFJ:
     label: "Difensore"
@@ -101,6 +110,7 @@ forms:
     job_affinities: [sentinella, guaritore]
     job_penalties: [assaltatore]
     temperament: SJ
+    innata_trait_id: corazze_ferro_magnetico  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ESTJ:
     label: "Esecutore"
@@ -110,6 +120,7 @@ forms:
     job_affinities: [assaltatore, sentinella]
     job_penalties: [furtivo]
     temperament: SJ
+    innata_trait_id: martello_osseo  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ESFJ:
     label: "Console"
@@ -119,6 +130,7 @@ forms:
     job_affinities: [guaritore, sentinella]
     job_penalties: [furtivo]
     temperament: SJ
+    innata_trait_id: cuticole_neutralizzanti  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   # --- SP: Artigiani (Esploratori) ---
   ISTP:
@@ -129,6 +141,7 @@ forms:
     job_affinities: [furtivo, assaltatore]
     job_penalties: [guaritore]
     temperament: SP
+    innata_trait_id: denti_seghettati  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ISFP:
     label: "Avventuriero"
@@ -138,6 +151,7 @@ forms:
     job_affinities: [esploratore, furtivo]
     job_penalties: [sentinella]
     temperament: SP
+    innata_trait_id: artigli_radice  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ESTP:
     label: "Imprenditore"
@@ -147,6 +161,7 @@ forms:
     job_affinities: [assaltatore, furtivo]
     job_penalties: [controllore]
     temperament: SP
+    innata_trait_id: zampe_a_molla  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
   ESFP:
     label: "Intrattenitore"
@@ -156,6 +171,7 @@ forms:
     job_affinities: [esploratore, assaltatore]
     job_penalties: [controllore]
     temperament: SP
+    innata_trait_id: ali_solari_fotoni  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
 
 # Soft-gate penalty: se il job scelto e' in job_penalties del form,
 # il giocatore subisce un malus al primo turno.
