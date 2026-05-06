@@ -3,7 +3,7 @@ title: 'ADR-2026-04-15: Round-based combat model (shared planning → commit →
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-04-15
+last_verified: 2026-05-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14

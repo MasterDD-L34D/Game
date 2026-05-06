@@ -4,7 +4,7 @@ description: Modello shared-planning → commit → ordered-resolution. Orchestr
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-04-15
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14

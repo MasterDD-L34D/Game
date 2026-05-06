@@ -3,7 +3,7 @@ title: Temi Ennea — Biome Coherence & Telemetry Sync
 doc_status: draft
 doc_owner: data-pack-team
 workstream: dataset-pack
-last_verified: 2026-04-14
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14

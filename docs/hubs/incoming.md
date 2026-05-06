@@ -5,7 +5,7 @@ tags: [incoming, archive, triage]
 doc_status: active
 doc_owner: incoming-archivist
 workstream: incoming
-last_verified: 2026-04-25
+last_verified: 2026-05-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 7

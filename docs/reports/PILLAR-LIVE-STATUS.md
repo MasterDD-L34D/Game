@@ -4,7 +4,7 @@ date: 2026-04-28
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: '2026-04-28'
+last_verified: '2026-05-06'
 source_of_truth: true
 language: it
 review_cycle_days: 7

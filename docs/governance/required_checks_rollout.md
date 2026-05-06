@@ -5,7 +5,7 @@ tags: [governance, ci, required-checks]
 doc_status: active
 doc_owner: ops-qa-team
 workstream: ops-qa
-last_verified: 2026-04-13
+last_verified: 2026-05-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14

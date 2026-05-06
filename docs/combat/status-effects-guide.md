@@ -4,7 +4,7 @@ description: Catalog dei 5 status effect implementati e procedura per aggiungern
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-04-14
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14

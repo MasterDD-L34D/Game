@@ -3,7 +3,7 @@ title: 'ADR-2026-04-16: Migrazione Node session engine al round-based combat mod
 doc_status: active
 doc_owner: combat-team
 workstream: combat
-last_verified: 2026-04-16
+last_verified: 2026-05-06
 source_of_truth: true
 language: it-en
 review_cycle_days: 14
