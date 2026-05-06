@@ -612,43 +612,54 @@ GUT test: port 100/384 critical test → `tests/`.
 
 `apps/backend/services/combat/` 28 services → `scripts/combat/` Godot equivalents. Port priority tier:
 
-**Tier A — MANDATORY (10, blocking N.7 GATE 0)**:
+> **2026-05-06 drift sync (post W7.x audit + PR #142 SenseReveal + PR #195 woundedPerma)**: matrix was systemically stale (claims 6 stubs/partials; ground-truth `ls Game-Godot-v2/scripts/combat/` shows 23/28 ported). Re-verified per service. **Tier A 10/10 ✅ ported**. Tier B 9/10 ✅ ported (1 missing). Tier C 4/8 ✅ ported (4 missing).
 
-| Service                      | Status (Godot v2)            | Effort  |
-| ---------------------------- | ---------------------------- | ------- |
-| `resistanceEngine.js`        | ✅ ported (Bundle 1)         | shipped |
-| `reinforcementSpawner.js`    | ✅ ported                    | shipped |
-| `objectiveEvaluator.js`      | ✅ ported                    | shipped |
-| `passiveStatusApplier.js`    | ⚠️ partial (status enum gap) | ~3h     |
-| `encounterLoader.js`         | ✅ ported                    | shipped |
-| `timeOfDayModifier.js`       | ✅ ported (Bundle 2a)        | shipped |
-| `senseReveal.js` (Skiv echo) | ⚠️ stub                      | ~2h     |
-| `woundedPerma.js`            | ⚠️ stub                      | ~2h     |
-| `bondReactionTrigger.js`     | ❌ not ported                | ~4h     |
-| `beastBondReaction.js`       | ❌ not ported                | ~3h     |
+**Tier A — MANDATORY (10, blocking N.7 GATE 0) — ALL ✅ shipped**:
 
-**Tier B — RECOMMENDED (10, Sprint Q ETL coupling)**:
+| Service                      | Status (Godot v2)                     | Effort  |
+| ---------------------------- | ------------------------------------- | ------- |
+| `resistanceEngine.js`        | ✅ ported (Bundle 1)                  | shipped |
+| `reinforcementSpawner.js`    | ✅ ported                             | shipped |
+| `objectiveEvaluator.js`      | ✅ ported                             | shipped |
+| `passiveStatusApplier.js`    | ✅ ported (163 LOC)                   | shipped |
+| `encounterLoader.js`         | ✅ ported                             | shipped |
+| `timeOfDayModifier.js`       | ✅ ported (Bundle 2a)                 | shipped |
+| `senseReveal.js` (Skiv echo) | ✅ ported (Sprint W7.x #142, 136 LOC) | shipped |
+| `woundedPerma.js`            | ✅ ported (Sprint O.3 #195, 220 LOC)  | shipped |
+| `bondReactionTrigger.js`     | ✅ ported (259 LOC)                   | shipped |
+| `beastBondReaction.js`       | ✅ ported (239 LOC)                   | shipped |
 
-| Service                        | Status                        | Effort |
-| ------------------------------ | ----------------------------- | ------ |
-| `morale.js`                    | ❌ not ported                 | ~2h    |
-| `bravado.js`                   | ❌ not ported                 | ~1h    |
-| `defyEngine.js`                | ❌ not ported                 | ~2h    |
-| `pinDown.js`                   | ❌ not ported                 | ~1.5h  |
-| `interruptFire.js`             | ❌ not ported                 | ~1.5h  |
-| `defenderAdvantageModifier.js` | ❌ not ported                 | ~1h    |
-| `archetypePassives.js`         | ⚠️ partial (3 archetype done) | ~3h    |
-| `synergyDetector.js`           | ❌ not ported                 | ~3h    |
-| `telepathicReveal.js`          | ❌ not ported                 | ~1h    |
-| `terrainReactions.js`          | ⚠️ stub                       | ~3h    |
+**Tier B — RECOMMENDED (10, Sprint Q ETL coupling) — 9/10 ✅ shipped**:
 
-**Tier C — OPTIONAL (8, Sprint R+ extension)**:
+| Service                        | Status (Godot v2)   | Effort  |
+| ------------------------------ | ------------------- | ------- |
+| `morale.js`                    | ✅ ported (61 LOC)  | shipped |
+| `bravado.js`                   | ✅ ported (38 LOC)  | shipped |
+| `defyEngine.js`                | ✅ ported (101 LOC) | shipped |
+| `pinDown.js`                   | ✅ ported (55 LOC)  | shipped |
+| `interruptFire.js`             | ✅ ported (101 LOC) | shipped |
+| `defenderAdvantageModifier.js` | ❌ not ported       | ~1h     |
+| `archetypePassives.js`         | ✅ ported (202 LOC) | shipped |
+| `synergyDetector.js`           | ✅ ported (198 LOC) | shipped |
+| `telepathicReveal.js`          | ✅ ported (156 LOC) | shipped |
+| `terrainReactions.js`          | ✅ ported (96 LOC)  | shipped |
 
-`biomeModifiers.js` + `biomePoolLoader.js` + `biomeResonance.js` + `biomeSpawnBias.js` + `missionTimer.js` (Long War 2) + `sgTracker.js` + `statusModifiers.js` + `pseudoRng.js` (deterministic seed). All ❌ not ported. Total effort ~10h.
+**Tier C — OPTIONAL (8, Sprint R+ extension) — 4/8 ✅ shipped**:
 
-> **Codex P2 review #2076 fix**: Tier A row `traitEffects.js` REMOVED — file lives at `apps/backend/services/traitEffects.js` (root services/ directory), NOT `combat/`. Replaced with `timeOfDayModifier.js` (genuine combat/ service, already ported Bundle 2a). `traitEffects.js` 2-pass eval port tracked separately in Sprint P (trait+lifecycle wave). Verified with `ls apps/backend/services/combat/` (28 files) + `ls apps/backend/services/ | grep trait`.
+| Service              | Status (Godot v2)   | Effort  |
+| -------------------- | ------------------- | ------- |
+| `biomeModifiers.js`  | ✅ ported (62 LOC)  | shipped |
+| `biomePoolLoader.js` | ❌ not ported       | ~2h     |
+| `biomeResonance.js`  | ✅ ported (96 LOC)  | shipped |
+| `biomeSpawnBias.js`  | ❌ not ported       | ~2h     |
+| `missionTimer.js`    | ❌ not ported       | ~2h     |
+| `sgTracker.js`       | ✅ ported (120 LOC) | shipped |
+| `statusModifiers.js` | ✅ ported (49 LOC)  | shipped |
+| `pseudoRng.js`       | ❌ not ported       | ~1h     |
 
-**Tier A+B mandatory effort**: ~38-42h (~1 settimana). Tier C deferrable.
+> **Codex P2 review #2076 fix**: Tier A row `traitEffects.js` REMOVED — file lives at `apps/backend/services/traitEffects.js` (root services/ directory), NOT `combat/`. Replaced with `timeOfDayModifier.js` (genuine combat/ service). `traitEffects.js` 2-pass eval port tracked separately in Sprint P.
+
+**Effort residuo**: Tier A 0h (✅ closed). Tier B ~1h (defenderAdvantageModifier only). Tier C ~7h (4 missing biome/timer/rng). **Total recovered effort**: ~36-38h saved vs original stale estimate (~38-42h).
 
 #### O.4 — AI services port list (added 2026-05-06, gap audit P1.7 — Item I prep)
 
