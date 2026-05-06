@@ -516,6 +516,13 @@ Re-impl ambition HUD (PR #2004 frontend reference):
 - Pressure meter bronze frame
 - **Ambition HUD top-strip**: `🤝 Alleanza Pulverator: 2/5 incontri` (mirror PR #2004 frontend)
 
+**Accessibility parity bullet** (added 2026-05-06, gap audit P1.7 close — Item F autonomous prep):
+
+- **Colorblind shape encoding**: tile threat overlay + ability bar slot status (active/locked/cooling) MUST encode state as shape (square/triangle/hex/dot) in addition to color. Mirror web stack `apps/play/public/data/ui_config.json` `colorblind_shape: true` toggle. Implementation: AtlasTexture region per state pre-built in `assets/ui/accessibility/shapes_v1/` (8 PNG 32x32 + 64x64) loaded via Theme resource override.
+- **aria-label equivalent for Godot Control nodes**: every Button + Slider + CheckBox in HUD + ability bar + ambition top-strip MUST set `tooltip_text` (screen reader path) + `theme_type_variation` distinct (visual focus ring on focus_entered signal). Document in `docs/godot-v2/accessibility-spec.md`.
+- **prefers-reduced-motion**: VFX particle emitters + ability flash anim Tween MUST honor a global `Global.reduced_motion: bool` flag (default `false`, set via `OS.get_user_data_dir() + "/settings.json"` or auto-detect via `OS.get_environment("PREFERS_REDUCED_MOTION")` on Linux/Windows). When true: skip `GPUParticles2D.emitting`, skip Tween anim, render final state instantly. Test in Sprint N.6 GUT.
+- **Effort**: ~30min spec + bullets above; impl deferred Sprint N.6 (HUD+VFX wave). Surface debt tracked in N.7 GATE 0 row but NOT mandatory blocking (Sprint Q userland accessibility audit gate).
+
 #### N.6 — Particles + lighting + Skiv echolocation Light2D (~3 giorni)
 
 - `GPUParticles2D` per hit/death/explosion (port da Sprint G v3 VFX wire)
@@ -601,6 +608,67 @@ Map:
 
 GUT test: port 100/384 critical test → `tests/`.
 
+#### O.3 — Combat services port matrix (added 2026-05-06, gap audit P1.7 — Item G prep)
+
+`apps/backend/services/combat/` 28 services → `scripts/combat/` Godot equivalents. Port priority tier:
+
+**Tier A — MANDATORY (10, blocking N.7 GATE 0)**:
+
+| Service                      | Status (Godot v2)            | Effort  |
+| ---------------------------- | ---------------------------- | ------- |
+| `resistanceEngine.js`        | ✅ ported (Bundle 1)         | shipped |
+| `reinforcementSpawner.js`    | ✅ ported                    | shipped |
+| `objectiveEvaluator.js`      | ✅ ported                    | shipped |
+| `passiveStatusApplier.js`    | ⚠️ partial (status enum gap) | ~3h     |
+| `encounterLoader.js`         | ✅ ported                    | shipped |
+| `timeOfDayModifier.js`       | ✅ ported (Bundle 2a)        | shipped |
+| `senseReveal.js` (Skiv echo) | ⚠️ stub                      | ~2h     |
+| `woundedPerma.js`            | ⚠️ stub                      | ~2h     |
+| `bondReactionTrigger.js`     | ❌ not ported                | ~4h     |
+| `beastBondReaction.js`       | ❌ not ported                | ~3h     |
+
+**Tier B — RECOMMENDED (10, Sprint Q ETL coupling)**:
+
+| Service                        | Status                        | Effort |
+| ------------------------------ | ----------------------------- | ------ |
+| `morale.js`                    | ❌ not ported                 | ~2h    |
+| `bravado.js`                   | ❌ not ported                 | ~1h    |
+| `defyEngine.js`                | ❌ not ported                 | ~2h    |
+| `pinDown.js`                   | ❌ not ported                 | ~1.5h  |
+| `interruptFire.js`             | ❌ not ported                 | ~1.5h  |
+| `defenderAdvantageModifier.js` | ❌ not ported                 | ~1h    |
+| `archetypePassives.js`         | ⚠️ partial (3 archetype done) | ~3h    |
+| `synergyDetector.js`           | ❌ not ported                 | ~3h    |
+| `telepathicReveal.js`          | ❌ not ported                 | ~1h    |
+| `terrainReactions.js`          | ⚠️ stub                       | ~3h    |
+
+**Tier C — OPTIONAL (8, Sprint R+ extension)**:
+
+`biomeModifiers.js` + `biomePoolLoader.js` + `biomeResonance.js` + `biomeSpawnBias.js` + `missionTimer.js` (Long War 2) + `sgTracker.js` + `statusModifiers.js` + `pseudoRng.js` (deterministic seed). All ❌ not ported. Total effort ~10h.
+
+> **Codex P2 review #2076 fix**: Tier A row `traitEffects.js` REMOVED — file lives at `apps/backend/services/traitEffects.js` (root services/ directory), NOT `combat/`. Replaced with `timeOfDayModifier.js` (genuine combat/ service, already ported Bundle 2a). `traitEffects.js` 2-pass eval port tracked separately in Sprint P (trait+lifecycle wave). Verified with `ls apps/backend/services/combat/` (28 files) + `ls apps/backend/services/ | grep trait`.
+
+**Tier A+B mandatory effort**: ~38-42h (~1 settimana). Tier C deferrable.
+
+#### O.4 — AI services port list (added 2026-05-06, gap audit P1.7 — Item I prep)
+
+`apps/backend/services/ai/` 8 services → `scripts/ai/`:
+
+| Service                    | Godot equivalent                    | Status                      | Effort  |
+| -------------------------- | ----------------------------------- | --------------------------- | ------- |
+| `policy.js`                | `scripts/ai/policy.gd`              | ⚠️ partial (legacy AI only) | ~4h     |
+| `utilityBrain.js`          | `scripts/ai/utility_brain.gd`       | ⚠️ stub (Aggressive only)   | ~6h     |
+| `declareSistemaIntents.js` | `scripts/ai/sistema_intents.gd`     | ❌ not ported               | ~3h     |
+| `sistemaTurnRunner.js`     | `scripts/ai/sistema_turn_runner.gd` | ⚠️ partial                  | ~4h     |
+| `threatAssessment.js`      | `scripts/ai/threat_assessment.gd`   | ❌ not ported               | ~2h     |
+| `threatPreview.js`         | `scripts/ai/threat_preview.gd`      | ❌ not ported               | ~2h     |
+| `aiProgressMeter.js`       | `scripts/ai/ai_progress_meter.gd`   | ✅ ported                   | shipped |
+| `aiProfilesLoader.js`      | `scripts/ai/ai_profiles_loader.gd`  | ✅ ported                   | shipped |
+
+Plus Beehave behavior trees (3 archetype templates from PR #2000): `scripts/ai/beehave_factories/` already partial, expand to 6 templates Sprint O.
+
+**Total Sprint O.4 AI port effort**: ~21-25h.
+
 ### Sprint P — Trait + lifecycle + mating port (~1-2 settimane)
 
 - 458 trait entries `data/core/traits/active_effects.yaml` → Godot `Resource` custom class `TraitEffect.gd`
@@ -618,6 +686,51 @@ GUT test: port 100/384 critical test → `tests/`.
 
 - Lobby + Room + host-transfer + reconnect token → custom `WebSocketClient` in Godot HTML5 (NO Godot MultiplayerAPI — keep Express WS server authoritative)
 - Phone composer V2 → Control nodes Godot (mantenere PWA web alternative come fallback se Godot phone troppo limitato)
+
+#### R.6 — HTTP backend routes whitelist for HTTPClient adapter (added 2026-05-06, gap audit P1.7 — Item H prep)
+
+`apps/backend/routes/` 27 top-level + `api/generation/` subdir. Godot HTTPClient adapter must expose typed wrappers for each. Whitelist ordered by Sprint priority.
+
+> **Codex P2 review #2076 fix**: paths VERIFIED via `grep app.use apps/backend/app.js` + `grep app.use apps/backend/services/pluginLoader.js`. Some routers mount UN-versioned (`/api/*` only, NOT `/api/v1/*`) — Godot HTTPClient adapter MUST use the actual mounted path or backend would 404. Aliases for routes with both `/api/*` + `/api/v1/*` mounts annotated explicitly. **`/api/auth/*` REMOVED from Tier A** — verified `apps/backend/routes/api/` only contains `generation/`, no auth router exists; auth is currently middleware-only via JWT secret env (lobby.js mints token internally). Sprint R authoritative endpoint requires backend addition + ADR before adapter wrapping.
+
+**Tier A — MANDATORY (Sprint M.5/M.7 cross-stack spike + Sprint N.1 vertical slice)** (7):
+
+- `/api/lobby/*` (lobby.js, mounted `/api`) — create + join + state — ✅ already wired Sprint M.7
+- `/api/coop/*` (coop.js, mounted `/api`) — character + run + world + debrief — ⚠️ partial (`CoopApi.gd` has 60% coverage)
+- `/api/session/*` (session.js + sessionRoundBridge.js, mounted `/api/session`) — start + action + turn/end + round — ❌ not ported (Sprint O priority)
+- `/api/generation/snapshot` + `/api/v1/generation/snapshot` (generationSnapshot.js, both aliases registered) — Flow snapshot — ❌ not ported
+- `/api/v1/generation/species` (generation.js) — species blueprint — ❌ not ported
+- `/api/v1/atlas/*` (atlas.js, mounted `/api/v1/atlas` + `/api/nebula` alias) — telemetry — ❌ not ported
+- `/api/health` (app.js) — already wired
+
+**Tier B — RECOMMENDED (Sprint N.7 GATE 0 + Sprint O.3 trait+lifecycle wave)** (10):
+
+- `/api/v1/lineage/*` + `/api/lineage/*` (lineage.js, dual alias via pluginLoader.js) — propagate + ritual — ❌ not ported
+- `/api/coop/*` mating subset (mating engine endpoints embedded in coop.js, mounted `/api`) — ❌ not ported
+- `/api/companion/*` (companion.js, mounted `/api` only — NO `/api/v1` alias) — Skiv companion narrative beats — ❌ not ported
+- `/api/diary/*` (diary.js, mounted `/api` only) — unit diary export — ❌ not ported
+- `/api/skiv/*` (skiv.js, mounted `/api` only) — Skiv recap card endpoint — ❌ not ported
+- `/api/jobs/*` (jobs.js, mounted `/api/jobs` only — NO `/api/v1/jobs` alias) — job catalog — ❌ not ported
+- `/api/v1/forms/*` + `/api/forms/*` (forms.js, dual alias) + `/api/form-pack/*` (formPackRoutes.js, mounted `/api`) — form catalog — ❌ not ported
+- `/api/v1/progression/*` + `/api/progression/*` (progression.js, dual alias) — XP + perks — ❌ not ported
+- `/api/v1/mutations/*` + `/api/mutations/*` (mutations.js, dual alias) — mutation aspect_token — ❌ not ported
+- `/api/traits/*` (traits.js, mounted `/api/traits`) — trait catalog + glossary — ❌ not ported
+
+**Tier C — OPTIONAL (Sprint S+ deferred)** (9):
+
+- `/api/campaign/*` (campaign.js, mounted `/api`)
+- `/api/codex/*` (codex.js, mounted `/api`)
+- `/api/feedback/*` (feedback.js, mounted `/api`)
+- `/api/v1/meta/*` + `/api/meta/*` (meta.js, dual alias)
+- `/api/v1/narrative/*` + `/api/narrative/*` (narrative plugin, dual alias)
+- `/monitoring/*` (monitoring.js, mounted `/monitoring` — NOT under `/api`)
+- `/api/party/*` (party.js, mounted `/api/party`)
+- `/api/quality/*` (quality.js) + `/api/rewards/*` (rewards.js, both mounted `/api`)
+- `/api/species-biomes/*` (speciesBiomes.js, mounted `/api`) + `/api/species-wiki/*` (speciesWiki.js, mounted `/api`) + `/api/tutorial/*` (tutorial.js, mounted `/api/tutorial`) + `/api/validators/*` (validators.js, mounted `/api`)
+
+**HTTPClient adapter spec**: typed `Result[T, Error]` wrapper per route + retry/backoff (3 attempts max + exponential 100/300/900ms) + JSON body serialization via `JSON.stringify`. Auth header injection deferred until backend `/api/auth` mount lands (Sprint R polish ADR pending). Reference: existing `scripts/net/coop_ws_peer.gd` (WebSocket) + `scripts/net/lobby_api.gd` (REST) Sprint M.7. Document API contract in `docs/godot-v2/http-routes-spec.md`.
+
+**Tier A mandatory effort**: ~3-4g (session + generation + atlas + coop completion). Tier B+C deferrable per scope sprint.
 
 ### Sprint S — Cutover checklist + hybrid stable channel (~5-7 giorni)
 
