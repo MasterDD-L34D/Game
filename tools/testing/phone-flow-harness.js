@@ -11,20 +11,40 @@
 'use strict';
 
 const http = require('node:http');
-// Resolve ws from the main repo's node_modules regardless of cwd.
+const path = require('node:path');
+// Codex P2-2 fix — resolve ws lazily, deferring require.resolve fallback
+// inside try/catch so non-Windows checkouts (Linux CI, /workspace/Game)
+// do not fail with MODULE_NOT_FOUND at parse time when the hardcoded
+// path candidate doesn't exist.
 const WS_MODULE = (() => {
-  const candidates = [
-    'ws', // in PATH if run from repo root
-    require.resolve('ws', { paths: ['/c/Users/VGit/Desktop/Game', 'C:/Users/VGit/Desktop/Game'] }),
-  ];
-  for (const c of candidates) {
+  // 1. Plain require — succeeds when harness is run from a directory whose
+  //    node_modules graph already exposes `ws` (repo root, CI workspace).
+  try {
+    return require('ws');
+  } catch {
+    /* fall through to resolve fallback */
+  }
+  // 2. Try resolving relative to common host paths (Linux CI workspace +
+  //    Windows local dev). Each resolve guarded individually so a missing
+  //    candidate path never throws across the whole module import.
+  const fallbackRoots = [
+    process.env.GAME_REPO_ROOT,
+    path.join(__dirname, '..', '..'),
+    '/workspace/Game',
+    '/c/Users/VGit/Desktop/Game',
+    'C:/Users/VGit/Desktop/Game',
+  ].filter(Boolean);
+  for (const root of fallbackRoots) {
     try {
-      return require(c);
+      const resolved = require.resolve('ws', { paths: [root] });
+      return require(resolved);
     } catch {
       /* try next */
     }
   }
-  throw new Error('ws module not found. Run: npm --prefix /c/Users/VGit/Desktop/Game install');
+  throw new Error(
+    'ws module not found. Run `npm install` in the repo root or set GAME_REPO_ROOT to the path containing node_modules/ws.',
+  );
 })();
 const WebSocket = WS_MODULE;
 

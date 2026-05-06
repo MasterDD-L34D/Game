@@ -1248,8 +1248,20 @@ function createWsServer({
           // emits unknown_type error on host phone.
           if (action === 'character_create' && coopStore) {
             try {
-              const orch = coopStore.getOrCreate(room.code);
-              if (orch.phase === 'lobby') orch.startRun({});
+              // Codex P2-1 fix — do NOT auto-bootstrap run from non-host
+              // intent. /coop/run/start is host-only and case 'phase'
+              // already bootstraps when host transitions to
+              // character_creation. Allowing player to startRun() here
+              // would let any authenticated client mutate coop state
+              // before host start, leaving subsequent host start to
+              // fail with `cannot_start_from_phase:character_creation`.
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
               const allPids = Array.from(room.players.values()).map((p) => p.id);
               const speciesId =
                 typeof msg.payload?.species_id === 'string' ? msg.payload.species_id : '';
