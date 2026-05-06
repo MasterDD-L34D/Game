@@ -19,6 +19,7 @@ forms:
     job_penalties: [guaritore]
     temperament: NT
     innata_trait_id: coda_balanciere  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: -1, ap: +0, mod: +1, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   INTP:
     label: "Analista"
@@ -29,6 +30,7 @@ forms:
     job_penalties: [sentinella]
     temperament: NT
     innata_trait_id: artigli_induzione  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: -1, ap: +1, mod: +1, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ENTJ:
     label: "Comandante"
@@ -39,6 +41,7 @@ forms:
     job_penalties: [furtivo]
     temperament: NT
     innata_trait_id: intimidatore  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +0, ap: +0, mod: +2, guardia: -2}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ENTP:
     label: "Inventore"
@@ -49,6 +52,7 @@ forms:
     job_penalties: [sentinella]
     temperament: NT
     innata_trait_id: denti_tuning_fork  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: -1, ap: +1, mod: +1, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   # --- NF: Idealisti (Diplomati) ---
   INFJ:
@@ -60,6 +64,7 @@ forms:
     job_penalties: [assaltatore]
     temperament: NF
     innata_trait_id: pelle_piezo_satura  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +1, ap: +0, mod: +0, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   INFP:
     label: "Mediatore"
@@ -70,6 +75,7 @@ forms:
     job_penalties: [assaltatore]
     temperament: NF
     innata_trait_id: cuticole_cerose  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +1, ap: +0, mod: -1, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ENFJ:
     label: "Protagonista"
@@ -80,6 +86,7 @@ forms:
     job_penalties: [furtivo]
     temperament: NF
     innata_trait_id: coda_prensile_muscolare  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +1, ap: +1, mod: +0, guardia: -2}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ENFP:
     label: "Campione"
@@ -90,6 +97,7 @@ forms:
     job_penalties: [sentinella]
     temperament: NF
     innata_trait_id: ali_fulminee  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +0, ap: +1, mod: +0, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   # --- SJ: Guardiani (Sentinelle) ---
   ISTJ:
@@ -101,6 +109,7 @@ forms:
     job_penalties: [esploratore]
     temperament: SJ
     innata_trait_id: pelle_elastomera  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +1, ap: -1, mod: +0, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ISFJ:
     label: "Difensore"
@@ -111,6 +120,7 @@ forms:
     job_penalties: [assaltatore]
     temperament: SJ
     innata_trait_id: corazze_ferro_magnetico  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +1, ap: -1, mod: -1, guardia: +1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ESTJ:
     label: "Esecutore"
@@ -121,6 +131,7 @@ forms:
     job_penalties: [furtivo]
     temperament: SJ
     innata_trait_id: martello_osseo  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +0, ap: +0, mod: +1, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ESFJ:
     label: "Console"
@@ -131,6 +142,7 @@ forms:
     job_penalties: [furtivo]
     temperament: SJ
     innata_trait_id: cuticole_neutralizzanti  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +1, ap: +0, mod: -1, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   # --- SP: Artigiani (Esploratori) ---
   ISTP:
@@ -142,6 +154,7 @@ forms:
     job_penalties: [guaritore]
     temperament: SP
     innata_trait_id: denti_seghettati  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +0, ap: +1, mod: +1, guardia: -2}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ISFP:
     label: "Avventuriero"
@@ -152,6 +165,7 @@ forms:
     job_penalties: [sentinella]
     temperament: SP
     innata_trait_id: artigli_radice  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +0, ap: +0, mod: +0, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ESTP:
     label: "Imprenditore"
@@ -162,6 +176,7 @@ forms:
     job_penalties: [controllore]
     temperament: SP
     innata_trait_id: zampe_a_molla  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: -1, ap: +1, mod: +1, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
   ESFP:
     label: "Intrattenitore"
@@ -172,6 +187,7 @@ forms:
     job_penalties: [controllore]
     temperament: SP
     innata_trait_id: ali_solari_fotoni  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
+    stat_seed: {hp: +0, ap: +1, mod: +0, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
 
 # Soft-gate penalty: se il job scelto e' in job_penalties del form,
 # il giocatore subisce un malus al primo turno.
