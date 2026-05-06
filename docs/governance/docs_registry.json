@@ -8174,6 +8174,32 @@
       "review_cycle_days": 14,
       "primary": false,
       "track": "active"
+    },
+    {
+      "path": "docs/reports/2026-05-06-world-gen-audit.md",
+      "title": "World Gen Audit 2026-05-06 — pipeline canonical vs shipped + Q3 onboarding",
+      "doc_status": "active",
+      "doc_owner": "pcg-level-design-illuminator",
+      "workstream": "dataset-pack",
+      "last_verified": "2026-05-06",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/reports/2026-05-06-mbti-ennea-audit.md",
+      "title": "MBTI + Ennea System Audit 2026-05-06 — P4 drift matrix + pillar reality check",
+      "doc_status": "draft",
+      "doc_owner": "narrative-design-illuminator",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-06",
+      "source_of_truth": false,
+      "language": "it-en",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
     }
   ]
 }
