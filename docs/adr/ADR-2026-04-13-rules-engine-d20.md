@@ -3,7 +3,7 @@ title: ADR-2026-04-13: Rules Engine d20 per il loop tattico giocabile
 doc_status: superseded
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-05-05
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
