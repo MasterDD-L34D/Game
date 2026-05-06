@@ -19,14 +19,25 @@
 
 **P1 deferred plan v3.3** (non bloccanti Sprint M.1 spawn — quando reach Sprint M-N-O):
 
-- [ ] **§Sprint O combat services 16+ port matrix** — archetypePassives + beastBondReaction + bondReactionTrigger + bravado + defyEngine + interruptFire + missionTimer + morale + pinDown + sgTracker + synergyDetector + telepathicReveal + terrainReactions + timeOfDayModifier + defenderAdvantageModifier + pseudoRng + fairnessCap + biomeSpawnBias/Resonance/Modifiers
-- [ ] **§Sprint R 26 routes HTTP backend whitelist** — Godot HTTPClient adapter spec
-- [ ] **§Sprint O.4 8 AI services list** — aiProgressMeter + aiPersonalityLoader + aiProfilesLoader + threatAssessment + threatPreview + sistemaActor + sistemaTurnRunner + declareSistemaIntents
+- [x] ~~**§Sprint O combat services 16+ port matrix**~~ → **✅ CHIUSO 2026-05-06** [PR #2076](https://github.com/MasterDD-L34D/Game/pull/2076) squash `b8a666f5`. 28 combat services classificati Tier A (10 mandatory N.7 GATE 0, ~36-40h) + Tier B (10 recommended Sprint Q ETL, ~22h) + Tier C (8 optional Sprint R+, ~10h). Codex P2 catch traitEffects.js misclassified (root services/, NOT combat/) → swap timeOfDayModifier.js. Fix `01286f0d` squashed in.
+- [x] ~~**§Sprint R 26 routes HTTP backend whitelist**~~ → **✅ CHIUSO 2026-05-06** [PR #2076](https://github.com/MasterDD-L34D/Game/pull/2076). 27 routes Tier A (7) + B (10) + C (9). HTTPClient adapter spec con Result[T,Error] + retry/backoff. Codex P2 catch unversioned mounts (companion/diary/skiv use `/api/*` only) + `/api/auth` doesn't exist (rimosso Tier A).
+- [x] ~~**§Sprint O.4 8 AI services list**~~ → **✅ CHIUSO 2026-05-06** [PR #2076](https://github.com/MasterDD-L34D/Game/pull/2076). 8 AI services + Beehave 6-archetype expand. Total ~21-25h.
 - [x] ~~**ADR drop HermeticOrmus formal**~~ → **✅ CHIUSO 2026-05-06** [ADR-2026-05-06](docs/adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md). Sprint L DROP formal, plan v3.3 effort -2g.
 - [x] ~~**Sprint S Mission Console deprecation row**~~ → **✅ CHIUSO 2026-05-06** plan v3 §Sprint S checklist updated con riga deprecation + nota inline rationale.
 - [x] ~~**Path drift correction table**~~ → **✅ CHIUSO 2026-05-06** audit grep: solo `data/skiv/` drift reale (2 ref attivi fixati: `docs/planning/2026-04-28-godot-migration-strategy.md:145` + `data/core/narrative/beats/skiv_pulverator_alliance.yaml:4` → `docs/skiv/CANONICAL.md`). Altri 3 path (ennea_voices + terrain_defense + ai_profiles) canonical correct, false-alarm.
 - [x] ~~**§Sprint M.3 7 silhouette spec addendum**~~ → **✅ CHIUSO 2026-05-06** addendum in `docs/core/41-ART-DIRECTION.md §Job-to-shape silhouette spec` (canonical path è 41 non 22). 7 job × archetype base + key marker + frame budget +2/+3 + override scene `.tres`. Sprint M.3 Godot import pronto.
-- [ ] **§Sprint N.5 accessibility parity bullet** — colorblind shape + aria-label + prefers-reduced-motion port Godot
+- [x] ~~**§Sprint N.5 accessibility parity bullet**~~ → **✅ CHIUSO 2026-05-06** [PR #2076](https://github.com/MasterDD-L34D/Game/pull/2076). Spec colorblind shape encoding + aria-label tooltip + prefers-reduced-motion (Global flag, OS env auto-detect). Sprint N.6 impl wave.
+
+### ✅ Coop WS audit 6/6 closed 2026-05-06 — gap matrix complete
+
+3 PR shipped main close audit `docs/reports/2026-05-06-coop-phase-ws-audit.md`. Harness 18 PASS / 0 FAIL / 0 GAP. 5/5 lifecycle action drained server-side (character_create + form_pulse_submit + lineage_choice + reveal_acknowledge + next_macro).
+
+- [x] ~~**TKT-P5-WS-FORM-PULSE-DRAIN**~~ → **✅ CHIUSO 2026-05-06** [PR #2073](https://github.com/MasterDD-L34D/Game/pull/2073) squash `9f24791c`. `coopOrchestrator.submitFormPulse` + `formPulseList()` + `formPulses` Map mirror voteWorld pattern. +4 unit test (W4 series). Codex P2 #2073: host filter (excluding hostId from allPids) → fix `26758887` squashed in.
+- [x] ~~**TKT-P5-WS-NEXT-MACRO-DESIGN**~~ → **✅ CHIUSO 2026-05-06** [PR #2075](https://github.com/MasterDD-L34D/Game/pull/2075) squash `19fccaad`. Design verdict: host-only post-debrief macro {advance, branch, retreat}. retreat forces phase=ended. +5 unit test. Codex P2 #2075: phase gate widen `world_setup` (post-auto-advance edge) → fix `3b820153` squashed in.
+
+### ✅ Sprint M.6 Phase B Godot port shipped 2026-05-06
+
+- [x] ~~**Sprint M.6 Phase B — phone_onboarding_view BASE port (Godot)**~~ → **✅ CHIUSO 2026-05-06** [PR #193 Game-Godot-v2](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/193) squash `9105c169`. Backend Phase A live (PR #2071). Frontend port: `phone_onboarding_view.gd` ~280 LOC + `PhoneOnboardingView.tscn` 3-stage Control + `phone_composer_view.gd` MODE_ONBOARDING + payload bind + `coop_ws_peer.gd` 3 dedicated signal + 18 GUT test. **3 round Codex P2 review** all addressed: round 1 retryable choices (`b28d00c`) + round 2 countdown reset + non-host transition (`0415239`) + round 3 defer phase_change swap until transition_complete (`50d28e7`). Total 758 insertions. 64/64 GUT pass + gdformat + gdlint clean.
 
 ### Userland (richiede azione umana)
 
