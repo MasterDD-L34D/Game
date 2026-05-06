@@ -3,7 +3,7 @@ title: BIOME_FEATURE_CHECKS.md
 doc_status: draft
 doc_owner: backend-team
 workstream: backend
-last_verified: 2026-04-14
+last_verified: 2026-05-06
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
