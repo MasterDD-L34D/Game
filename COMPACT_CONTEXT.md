@@ -8,18 +8,18 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v24 (post Wave 1 docs sweep 2026-05-06 — 9 PR cumulative + ADR HermeticOrmus DROP + path drift fix)
-- **Ultimo aggiornamento**: 2026-05-06 (Wave 1 docs sweep autonomous: ADR drop HermeticOrmus formal + path drift correction `data/skiv/` → `docs/skiv/CANONICAL.md`. Sessione 2026-05-05/06 cumulative: 9 PR shipped main #2056-#2064 (cutover Phase 3 + ennea voice 9/9 + cleanup commenti + test artifacts). 7 BACKLOG ticket chiusi. P4 Pillar 🟡 → 🟢 candidato. Test baseline AI 383/383 + pytest 735/735 verde.)
+- **Versione compact**: v25 (post sessione 2026-05-06 parte 2 — PR #2071 mega cumulative `35c0e266`)
+- **Ultimo aggiornamento**: 2026-05-06 sera (Mega-PR #2071 squash 8 commit shipped main: phone smoke architectural fix bundle B6+B7+W5+W6+W8+W8b + Sprint M.6 narrative onboarding Phase A backend + multi-system audit 4-domain + Opt C foundation 3 track [Ennea voice + Innata trait + form stat applier] + Sprint N+ COMBO plan draft. **Pillar P3 + P4 entrambi 🟡++ → 🟢 candidato**. 11 doc nuovi. Test baseline AI 383/383 + coop 27/27 + form helpers 21/21 + ennea 14/14 + harness 16/18 PASS / 0 FAIL / 2 GAP.)
 
-## ⚡ Resume trigger phrase canonical (next session — post-Wave 1)
+## ⚡ Resume trigger phrase canonical (next session — post-PR #2071)
 
-> _"leggi COMPACT_CONTEXT.md v24 + BACKLOG.md. Wave 1 docs sweep mergiata? Prosegui Wave 2 (governance 460 warnings batch) o Wave 3 (coop test coverage 5 negative tests) o Master-dd phone smoke retry."_
+> _"leggi COMPACT_CONTEXT.md v25 + docs/planning/2026-05-06-sessione-2-closure-handoff.md. Spawn Sprint M.6 Phase B Godot chip OR procedi W4 form_pulse_submit drain autonomous OR coordina playtest BASE userland."_
 
-OR (phone smoke retry first):
+Handoff doc canonical: [`docs/planning/2026-05-06-sessione-2-closure-handoff.md`](docs/planning/2026-05-06-sessione-2-closure-handoff.md)
 
-> _"resume phone smoke retry 2026-05-05, verify B5 phase transition runtime + combat 5 round p95 + airplane reconnect → unblocks cutover Phase A"_
+OR (playtest BASE):
 
-Handoff doc canonical (precedente, ancora valido per phone smoke residual): [`docs/planning/2026-05-05-audit-triage-handoff.md`](docs/planning/2026-05-05-audit-triage-handoff.md)
+> _"organizza playtest BASE userland ≥4 amici Sprint M.6 BASE — verifica P3+P4 🟢 candidato hold + cite choice in debrief + <60s onboarding ≥80%. Greenlight gate Sprint N+ COMBO."_
 
 ## ⚡ TL;DR sessione 2026-05-06 — Wave 1 docs sweep autonomous
 
