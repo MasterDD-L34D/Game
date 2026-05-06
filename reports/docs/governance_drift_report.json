@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-06T19:12:24+00:00",
+  "generated_at": "2026-05-06T19:55:45+00:00",
   "summary": {
-    "total": 137,
+    "total": 104,
     "errors": 0,
-    "warnings": 137
+    "warnings": 104
   },
   "issues": [
     {
@@ -524,108 +524,6 @@
     },
     {
       "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/AGENT_COMMANDS_CHEATSHEET.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/AI_AGENT_AUDIT_LOG.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/COMMAND_LIBRARY.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/agent_telemetry.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/chatgpt_sync_status.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/cli-tools.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/dependency_audit.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/drive-sync.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/evo-tooling.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/nebula-rollout.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/npm-proxy-migration.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/observability.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/publishing_calendar.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/qa-window-checklist.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/site-audit.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/tool_run_report.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/ops/workflow_diff.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
       "code": "frontmatter_registry_mismatch",
       "path": "docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md",
       "message": "Campo doc_status differente tra frontmatter (draft) e registry (historical_ref)"
@@ -670,102 +568,6 @@
       "level": "warning",
       "code": "stale_document",
       "path": "docs/species/Frattura_Abissale_Sinaptica_species_draft.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/Frattura_Abissale_Sinaptica_trait_draft.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/README_TRAITS.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/manuale/01-introduzione.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/manuale/02-modello-dati.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/manuale/03-tassonomia-famiglie.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/manuale/04-collegamenti-cross-dataset.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/manuale/05-workflow-strumenti.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/manuale/06-standalone-trait-editor.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/manuale/README.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/next_steps_trait_migration.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/trait-editor-api.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/trait-editor.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/trait_reference_manual.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/traits_evo_pack_alignment.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/traits_scheda_operativa.md",
-      "message": "Documento stale: revisione scaduta il 2026-04-28"
-    },
-    {
-      "level": "warning",
-      "code": "stale_document",
-      "path": "docs/traits/traits_template.md",
       "message": "Documento stale: revisione scaduta il 2026-04-28"
     },
     {
