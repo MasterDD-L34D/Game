@@ -21,6 +21,58 @@ OR (playtest BASE):
 
 > _"organizza playtest BASE userland ≥4 amici Sprint M.6 BASE — verifica P3+P4 🟢 candidato hold + cite choice in debrief + <60s onboarding ≥80%. Greenlight gate Sprint N+ COMBO."_
 
+## ⚡ TL;DR sessione 2026-05-06 sera — Wave 1-6 full closure (20 PR)
+
+**Scope**: 6 wave end-of-session ad ~36h. Cross-stack Game/ + Game-Godot-v2.
+
+**Game/ shipped (12 PR W4-W6)**:
+
+| PR    | SHA        | Topic                                       | Wave   |
+| ----- | ---------- | ------------------------------------------- | ------ |
+| #2072 | `d46fdaa2` | handoff session parte 2                     | bridge |
+| #2073 | `9f24791c` | W4 form_pulse_submit drain                  | W4     |
+| #2074 | `55a8b5f3` | supersede ADR Godot pivot + hosting cleanup | W4     |
+| #2075 | `19fccaad` | W7 next_macro drain + design                | W4     |
+| #2076 | `b8a666f5` | plan v3 §N.5+O.3+O.4+R.6 prep               | W5     |
+| #2077 | `6c2a81a9` | BACKLOG closure ticket                      | W5     |
+| #2078 | `a0ffc2f9` | governance process chunk (218→186)          | W6     |
+| #2079 | `c868a850` | governance pipelines chunk (186→156)        | W6     |
+| #2080 | `c07449a2` | plan v3 §O.3 drift sync Tier A/B/C matrix   | W6     |
+| #2081 | `20f91212` | governance core chunk (156→137)             | W6     |
+| #2082 | `abee7c02` | governance ops+traits chunk (137→104)       | W6     |
+| #2083 | `afc0cb70` | governance residue cleanup (104→4)          | W6     |
+| #2084 | `25d6a35d` | plan v3 §O.4 AI services drift sync         | W6     |
+
+**Game-Godot-v2 shipped (8 PR Sprint M.6+M.7+O.3+O.4)**:
+
+| PR   | SHA        | Topic                                                 |
+| ---- | ---------- | ----------------------------------------------------- |
+| #193 | `9105c169` | Sprint M.6 Phase B onboarding port (758 LOC + 18 GUT) |
+| #194 | `39aceba7` | CLAUDE.md M.6 closure                                 |
+| #195 | `23b7e2ea` | Sprint O.3 woundedPerma port                          |
+| #196 | `a60e17bd` | Sprint M.7 next_macro composer wire                   |
+| #197 | `63b8e574` | Sprint M.7 lifecycle events composer wire             |
+| #198 | `a0cbb31f` | Sprint O.3 defenderAdvantageModifier port             |
+| #199 | `e26b4a11` | Sprint O.3 Tier C bundle port                         |
+
+**Deltas finali**:
+
+- Game/ governance: **460 → 4** (-99.1%) via 5 chunk batch
+- Godot v2 GUT: **1757 → 1834** (+77, +4.4%)
+- Coop WS audit: **6/6 closed** (5/5 lifecycle drained: form_pulse + next_macro + reveal_ack + world_vote + lineage_choice)
+- Sprint M.7 lifecycle composer wire: **5/5 done**
+- Sprint O.3 combat services Godot: **28/28 ✅** tutti porti
+- Sprint O.4 AI services Godot: **8/8 ✅** tutti porti
+- 8× Codex P2 review iterations addressed in 4 PR (PR #193 round 3 most valuable per state machine race conditions)
+
+**Lessons codified**:
+
+1. **Codex P2 iteration pattern** (memory): default workflow ritrigger `@codex review` post-fix. Round 3 spesso cattura subtle state machine edge case (race condition cross-stack).
+2. **Hosting stack cleanup** (PR #2074): supersede ADR-2026-04-26 CF Pages + Render dormant per reversibility se Godot cutover regredisce.
+3. **Drift sync close-marks pattern** (PR #2076-#2080-#2084): plan v3 sezioni Tier A/B/C matrix vs Godot v2 reality bridging. Audit grep verify obbligatorio prima di marcare ✅.
+
+---
+
 ## ⚡ TL;DR sessione 2026-05-06 — Wave 1 docs sweep autonomous
 
 **Scope**: docs sync + ADR drop + path drift fix + audit log update. Bundle low-risk additive zero side-quest.
