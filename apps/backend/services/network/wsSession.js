@@ -1494,9 +1494,62 @@ function createWsServer({
             }
             return;
           }
-          // Other lifecycle intents (form_pulse_submit, next_macro):
+          // 2026-05-06 phone smoke W4 fix — drain form_pulse_submit
+          // server-side via coopOrchestrator.submitFormPulse. Pre-fix the
+          // intent was relayed to host Godot via pushIntent → Godot host
+          // has no GDScript drain → silent drop. Now broadcasts
+          // `form_pulse_list` (per-player ready+axes snapshot) so all
+          // clients can render progress + send `form_pulse_accepted` to
+          // sender for ack.
+          if (action === 'form_pulse_submit' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              // Exclude host from expected players: Godot phone host doesn't
+              // submit form_pulse_submit (host = arbiter, players = phones).
+              // Without filter, status.total inflates by 1 + all_ready stuck
+              // false. Mirrors routes/coop.js allPlayerIds() helper +
+              // sendCoopSnapshotToPlayer/rebroadcastCoopState exclusion.
+              // Codex review P2 #2073.
+              const allPids = Array.from(room.players.values())
+                .filter((p) => p.id !== room.hostId && p.role !== 'host')
+                .map((p) => p.id);
+              const status = orch.submitFormPulse(
+                playerId,
+                { axes: msg.payload?.form_axes || msg.payload?.axes || {} },
+                { allPlayerIds: allPids },
+              );
+              room.broadcast({
+                type: 'form_pulse_list',
+                payload: {
+                  status,
+                  list: orch.formPulseList(allPids),
+                },
+              });
+              socket.send(
+                JSON.stringify({
+                  type: 'form_pulse_accepted',
+                  payload: { status },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'form_pulse_failed' },
+                }),
+              );
+            }
+            return;
+          }
+          // Other lifecycle intents (next_macro):
           // TODO drain server-side via coopStore. Tracked as
-          // TKT-P5-WS-FORM-PULSE-DRAIN + TKT-P5-WS-NEXT-MACRO-DESIGN.
+          // TKT-P5-WS-NEXT-MACRO-DESIGN.
           // For now relay to host (legacy web v1 path) — Godot host drops.
           room.pushIntent({ from: playerId, payload: msg.payload ?? null });
           break;
