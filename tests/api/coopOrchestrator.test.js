@@ -315,6 +315,123 @@ test('F-2: forceAdvance rejected from combat/lobby/ended', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────
+// W7 phone smoke fix — submitNextMacro drain (2026-05-06)
+// ─────────────────────────────────────────────────────────────────
+
+test('W7 — submitNextMacro advance from debrief delegates to advanceScenarioOrEnd', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a', 'enc_b'] });
+  const all = ['p_h', 'p_a'];
+  co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
+  co.submitCharacter('p_a', { name: 'Aria', form_id: 'enfp' }, { allPlayerIds: all });
+  co.confirmWorld();
+  co.endCombat({ outcome: 'victory' });
+  assert.equal(co.phase, 'debrief');
+  const result = co.submitNextMacro('p_h', { choice: 'advance' }, { hostId: 'p_h' });
+  assert.equal(result.choice, 'advance');
+  assert.equal(co.phase, 'world_setup');
+  assert.equal(result.advance.action, 'next_scenario');
+  assert.equal(co.run.lastMacro.choice, 'advance');
+});
+
+test('W7 — submitNextMacro retreat from debrief forces ended + records outcome', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a', 'enc_b', 'enc_c'] });
+  const all = ['p_h'];
+  co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
+  co.confirmWorld();
+  co.endCombat({ outcome: 'victory' });
+  const result = co.submitNextMacro('p_h', { choice: 'retreat' }, { hostId: 'p_h' });
+  assert.equal(co.phase, 'ended');
+  assert.equal(co.run.outcome, 'victory'); // pre-existing outcome preserved
+  assert.equal(result.advance.reason, 'retreat');
+});
+
+test('W7 — submitNextMacro retreat preserves run.outcome=retreated when null', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a'] });
+  const all = ['p_h'];
+  co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
+  co.confirmWorld();
+  // Simulate debrief without endCombat outcome (defensive scenario).
+  co.phase = 'debrief';
+  co.run.outcome = null;
+  co.submitNextMacro('p_h', { choice: 'retreat' }, { hostId: 'p_h' });
+  assert.equal(co.run.outcome, 'retreated');
+  assert.equal(co.phase, 'ended');
+});
+
+test('W7 — submitNextMacro rejects non-host + invalid choice + wrong phase', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a'] });
+  const all = ['p_h', 'p_a'];
+  co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
+  co.submitCharacter('p_a', { name: 'Aria', form_id: 'enfp' }, { allPlayerIds: all });
+  co.confirmWorld();
+  // Wrong phase: combat → reject not_in_post_combat_phase. Codex P2 #2075
+  // expanded gate to {debrief, world_setup, ended}; combat still rejected.
+  assert.throws(
+    () => co.submitNextMacro('p_h', { choice: 'advance' }, { hostId: 'p_h' }),
+    /not_in_post_combat_phase:combat/,
+  );
+  co.endCombat({ outcome: 'victory' });
+  // Non-host rejected.
+  assert.throws(
+    () => co.submitNextMacro('p_a', { choice: 'advance' }, { hostId: 'p_h' }),
+    /host_only/,
+  );
+  // Invalid choice.
+  assert.throws(
+    () => co.submitNextMacro('p_h', { choice: 'sideways' }, { hostId: 'p_h' }),
+    /macro_choice_invalid/,
+  );
+  // Missing playerId.
+  assert.throws(
+    () => co.submitNextMacro(null, { choice: 'advance' }, { hostId: 'p_h' }),
+    /player_id_required/,
+  );
+});
+
+test('W7 — submitNextMacro from world_setup post-debrief auto-advance is no-op (Codex P2 #2075)', () => {
+  // Reproduce Codex P2 scenario: last lineage_choice triggers
+  // advanceScenarioOrEnd → phase=world_setup. Subsequent host next_macro
+  // must succeed as no-op (not throw not_in_post_combat_phase).
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a', 'enc_b'] });
+  const all = ['p_h'];
+  co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
+  co.confirmWorld();
+  co.endCombat({ outcome: 'victory' });
+  // submitDebriefChoice last submission → auto-advance to world_setup.
+  const advance = co.submitDebriefChoice('p_h', { choice: 'skip' }, { allPlayerIds: all });
+  assert.equal(advance.action, 'next_scenario');
+  assert.equal(co.phase, 'world_setup');
+  // Now host next_macro advance — must succeed as no-op, NOT throw.
+  const r = co.submitNextMacro('p_h', { choice: 'advance' }, { hostId: 'p_h' });
+  assert.equal(r.advance.action, 'noop_post_advance');
+  assert.equal(r.choice, 'advance');
+  assert.equal(co.phase, 'world_setup');
+  // Retreat from world_setup also valid → forces ended.
+  const r2 = co.submitNextMacro('p_h', { choice: 'retreat' }, { hostId: 'p_h' });
+  assert.equal(co.phase, 'ended');
+  assert.equal(r2.advance.reason, 'retreat');
+});
+
+test('W7 — submitNextMacro from ended phase no-ops cleanly', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a'] });
+  const all = ['p_h'];
+  co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
+  co.confirmWorld();
+  co.endCombat({ outcome: 'victory' });
+  co.submitDebriefChoice('p_h', { choice: 'skip' }, { allPlayerIds: all });
+  assert.equal(co.phase, 'ended');
+  // Already ended — advance/retreat both no-op or already_ended.
+  const r = co.submitNextMacro('p_h', { choice: 'retreat' }, { hostId: 'p_h' });
+  assert.equal(r.advance.action, 'already_ended');
+});
+
+// ─────────────────────────────────────────────────────────────────
 // W4 phone smoke fix — submitFormPulse drain (2026-05-06)
 // ─────────────────────────────────────────────────────────────────
 

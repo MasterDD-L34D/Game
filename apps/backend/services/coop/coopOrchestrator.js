@@ -464,6 +464,68 @@ class CoopOrchestrator {
   }
 
   /**
+   * 2026-05-06 phone smoke W7 — submit post-debrief macro navigation choice.
+   * Host-only (mirror submitOnboardingChoice pattern). Choice ∈
+   * {advance, branch, retreat}. Phase must be `debrief` or `ended` (post
+   * debrief auto-advance). Records in `run.lastMacro` for telemetry +
+   * downstream UI surface.
+   *
+   * Semantics:
+   *  - `advance` — proceed to next scenario in stack. Delegates to
+   *               advanceScenarioOrEnd() if phase=='debrief'. No-op if
+   *               already advanced (phase != debrief).
+   *  - `branch`  — same as advance for MVP; future Sprint Q ETL may pick
+   *               an alternate scenario_id from a branch table.
+   *  - `retreat` — early end. Forces phase='ended' + run.outcome ||=
+   *               'retreated'. Players exit run without next scenario.
+   *
+   * Pre-fix: phone host sent `intent {action: next_macro, choice}` →
+   * pushIntent relay → Godot host had no GDScript drain → silent drop.
+   * Now drained server-side. Audit doc 2026-05-06-coop-phase-ws-audit.md
+   * tracked as TKT-P5-WS-NEXT-MACRO-DESIGN ~2h.
+   *
+   * @param playerId — submitting player (must equal hostId)
+   * @param choice — { choice: 'advance'|'branch'|'retreat' }
+   * @param hostId — current host player id (host-only gate)
+   * @returns { choice, phase, run_state, advance? }
+   */
+  submitNextMacro(playerId, { choice } = {}, { hostId } = {}) {
+    if (!playerId) throw new Error('player_id_required');
+    if (hostId && playerId !== hostId) throw new Error('host_only');
+    if (!this.run) throw new Error('run_not_started');
+    // Codex P2 review #2075: include `world_setup` to handle the case
+    // where submitDebriefChoice already auto-advanced (last lineage
+    // submission triggered advanceScenarioOrEnd → phase moved to
+    // world_setup). UI may still emit next_macro post-ack; gate must
+    // accept the no-op path documented for advance/branch when already
+    // advanced.
+    const VALID_PHASES = new Set(['debrief', 'world_setup', 'ended']);
+    if (!VALID_PHASES.has(this.phase)) {
+      throw new Error(`not_in_post_combat_phase:${this.phase}`);
+    }
+    const VALID_CHOICES = new Set(['advance', 'branch', 'retreat']);
+    if (!VALID_CHOICES.has(choice)) throw new Error('macro_choice_invalid');
+    this.run.lastMacro = { choice, player_id: playerId, ts: this.now() };
+    this._emit('next_macro', { player_id: playerId, choice });
+    let advance = null;
+    if (choice === 'retreat') {
+      if (this.phase !== 'ended') {
+        this.run.outcome = this.run.outcome || 'retreated';
+        this._setPhase('ended');
+        this._emit('run_ended', { run_id: this.run.id, reason: 'retreat' });
+        advance = { action: 'ended', reason: 'retreat' };
+      } else {
+        advance = { action: 'already_ended' };
+      }
+    } else if (this.phase === 'debrief') {
+      advance = this.advanceScenarioOrEnd();
+    } else {
+      advance = { action: 'noop_post_advance' };
+    }
+    return { choice, phase: this.phase, run_state: this.run, advance };
+  }
+
+  /**
    * Build the /session/start payload from current characters.
    * Used by M17+ host handler that forwards to existing session route.
    */

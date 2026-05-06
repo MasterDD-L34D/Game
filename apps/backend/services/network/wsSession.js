@@ -1547,10 +1547,56 @@ function createWsServer({
             }
             return;
           }
-          // Other lifecycle intents (next_macro):
-          // TODO drain server-side via coopStore. Tracked as
-          // TKT-P5-WS-NEXT-MACRO-DESIGN.
-          // For now relay to host (legacy web v1 path) — Godot host drops.
+          // 2026-05-06 phone smoke W7 fix — drain next_macro server-side via
+          // coopOrchestrator.submitNextMacro. Host-only post-debrief macro
+          // navigation choice {advance, branch, retreat}. Pre-fix relay
+          // to Godot host → silent drop, run stuck post-debrief.
+          if (action === 'next_macro' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const result = orch.submitNextMacro(
+                playerId,
+                { choice: msg.payload?.choice },
+                { hostId: room.hostId },
+              );
+              room.broadcast({
+                type: 'next_macro_committed',
+                payload: {
+                  choice: result.choice,
+                  phase: result.phase,
+                  advance: result.advance || null,
+                },
+              });
+              if (result.phase === 'world_setup') {
+                room.publishPhaseChange('world_setup');
+              } else if (result.phase === 'ended') {
+                room.publishPhaseChange('ended');
+              }
+              socket.send(
+                JSON.stringify({
+                  type: 'next_macro_accepted',
+                  payload: { choice: result.choice, phase: result.phase },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'next_macro_failed' },
+                }),
+              );
+            }
+            return;
+          }
+          // No more lifecycle drain branches — all 5 server-side now.
+          // Defensive fallback: relay to host (legacy web v1 path) for
+          // any unrecognized lifecycle intent.
           room.pushIntent({ from: playerId, payload: msg.payload ?? null });
           break;
         }

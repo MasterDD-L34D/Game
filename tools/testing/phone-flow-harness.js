@@ -624,13 +624,46 @@ async function main() {
     );
   }
 
-  // 4d: next_macro — NOT drained
-  gapDoc(
-    '4d: next_macro',
-    'next_macro calls coopOrchestrator or advances scenario',
-    'relayed to host via pushIntent (no drain)',
-    `GAP-W7: next_macro falls through to pushIntent. No coopOrchestrator method maps to it directly (maps to host confirming next scenario). Design question: should next_macro trigger orch.advanceScenarioOrEnd() or remain host-arbiter? Current: silent relay → Godot host drops it.`,
-  );
+  // 4d: next_macro — W7 fix verify (drains via submitNextMacro, host-only).
+  // Phase here is world_setup (post W5 vote). Codex P2 review #2075:
+  // world_setup is valid post-debrief auto-advance phase, advance/branch
+  // become no-op. We test 2 paths: (a) non-host gets host_only, (b) host
+  // sends invalid choice gets macro_choice_invalid (proves drain engaged).
+  console.log('\n  4d: next_macro (expect: W7 fix → host-only + choice validation)');
+  try {
+    // Player (non-host) sends → expect host_only error.
+    player.send({ type: 'intent', payload: { action: 'next_macro', choice: 'advance' } });
+    const errMsgPlayer = await player.waitFor(
+      (m) => m.type === 'error' && m.payload?.code === 'host_only',
+      2000,
+    );
+    console.log(`    Player got expected host_only: ${errMsgPlayer.payload?.code}`);
+    // Host sends invalid choice → expect macro_choice_invalid.
+    host.send({ type: 'intent', payload: { action: 'next_macro', choice: 'sideways' } });
+    const errMsgHost = await host.waitFor(
+      (m) => m.type === 'error' && m.payload?.code === 'macro_choice_invalid',
+      2000,
+    );
+    console.log(`    Host got expected macro_choice_invalid: ${errMsgHost.payload?.code}`);
+    // Host sends valid 'advance' in world_setup → expect next_macro_accepted (no-op path).
+    host.send({ type: 'intent', payload: { action: 'next_macro', choice: 'advance' } });
+    const acceptedMsg = await host.waitFor((m) => m.type === 'next_macro_accepted', 2000);
+    console.log(
+      `    Host got next_macro_accepted: choice=${acceptedMsg.payload?.choice} phase=${acceptedMsg.payload?.phase}`,
+    );
+    pass(
+      '4d: next_macro',
+      'next_macro drains via submitNextMacro (host-only + choice validation + world_setup no-op accepted)',
+      `player_err=${errMsgPlayer.payload?.code} host_err=${errMsgHost.payload?.code} accepted=${acceptedMsg.payload?.choice}`,
+    );
+  } catch (err) {
+    fail(
+      '4d: next_macro',
+      'next_macro drain branch host-only + choice + phase no-op',
+      err.message,
+      'W7 fix issue — drain branch not engaged or wrong response path',
+    );
+  }
 
   // 4e: reveal_acknowledge — W8b fix verify (drains via acknowledgeReveal)
   console.log('\n  4e: reveal_acknowledge (expect: W8b fix → reveal_ack_list broadcast)');
