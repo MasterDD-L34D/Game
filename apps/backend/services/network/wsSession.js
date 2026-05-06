@@ -58,6 +58,26 @@ const DEFAULT_HOST_TRANSFER_GRACE_MS = Number(process.env.LOBBY_HOST_TRANSFER_GR
 // `state_version - last_seen_version <= MAX_LEDGER_SIZE`, server replays
 // missed entries; else falls back to full state snapshot.
 const MAX_LEDGER_SIZE = 100;
+// 2026-05-06 phone smoke W8 fix — phase whitelist guard. Pre-fix
+// `Room.publishPhaseChange` accepted any string, allowing room.phase
+// to drift from coopOrchestrator.PHASES (lobby, character_creation,
+// world_setup, combat, debrief, ended). Whitelist superset adds known
+// UI-only transient phases used by Godot phone composer.
+const KNOWN_PHASES = new Set([
+  'lobby',
+  'onboarding', // 2026-05-06 narrative onboarding port (Sprint M.6)
+  'character_creation',
+  'world_setup',
+  'world_seed_reveal', // UI-only transient between world_setup → combat
+  'combat',
+  'debrief',
+  'ended',
+  // Combat lifecycle hints (not orch phases, but used by round model).
+  'planning',
+  'ready',
+  'resolving',
+  'idle',
+]);
 // Sprint R.4 — phantom-disconnect cleanup grace window. If a non-host
 // player's socket closes and they do not reconnect within this window,
 // they are removed from `room.players` and a `player_left` broadcast
@@ -514,6 +534,9 @@ class Room {
   publishPhaseChange(phase) {
     if (typeof phase !== 'string' || phase.length === 0) {
       throw new Error('phase_required');
+    }
+    if (!KNOWN_PHASES.has(phase)) {
+      throw new Error(`phase_not_whitelisted:${phase}`);
     }
     this.phase = phase;
     return this.publishEvent('phase_change', { phase });
@@ -1188,23 +1211,296 @@ function createWsServer({
           room.publishState(msg.payload ?? null);
           break;
 
-        case 'intent':
-          if (player.role === 'host') {
-            socket.send(JSON.stringify({ type: 'error', payload: { code: 'host_cannot_intent' } }));
+        case 'intent': {
+          // 2026-05-06 phone smoke retry B6 fix — split lifecycle vs combat.
+          // Godot phone composer (Sprint W7) sends 7 action types via
+          // `intent` msg: 5 lifecycle (character_create, form_pulse_submit,
+          // lineage_choice, reveal_acknowledge, next_macro) + 2 combat
+          // (combat_action, end_turn). Pre-fix gate rejected ALL host
+          // intents + non-host intents outside planning/idle, locking
+          // every player out of submitting characters in
+          // character_creation phase.
+          const action = typeof msg.payload?.action === 'string' ? msg.payload.action : '';
+          const COMBAT_ACTIONS = new Set(['combat_action', 'end_turn']);
+          const isCombatIntent = COMBAT_ACTIONS.has(action);
+          if (isCombatIntent) {
+            // Combat intents: host cannot act (Sistema-driven), phase must
+            // be planning/idle.
+            if (player.role === 'host') {
+              socket.send(
+                JSON.stringify({ type: 'error', payload: { code: 'host_cannot_intent' } }),
+              );
+              return;
+            }
+            if (room.phase && room.phase !== 'planning' && room.phase !== 'idle') {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: 'phase_locked', phase: room.phase },
+                }),
+              );
+              return;
+            }
+          }
+          // 2026-05-06 phone smoke retry B7 fix — Godot phone has no
+          // host-side drain JS (web v1 had it). Lifecycle intents must
+          // be drained server-side directly via coopStore. Otherwise
+          // pushIntent only relays to host (no-op for Godot host) and
+          // emits unknown_type error on host phone.
+          // 2026-05-06 narrative onboarding port — drain onboarding_choice
+          // intent server-side. Host-only enforcement at orch layer.
+          // Resolves choice from campaign onboarding YAML, calls
+          // orch.submitOnboardingChoice (auto-advances onboarding →
+          // character_creation), broadcasts onboarding_chosen.
+          if (action === 'onboarding_choice' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const optionKeyRaw =
+                typeof msg.payload?.option_key === 'string' ? msg.payload.option_key : '';
+              const autoSelected = Boolean(msg.payload?.auto_selected);
+              // eslint-disable-next-line global-require
+              const { loadCampaign, getOnboarding } = require('../campaign/campaignLoader');
+              const campaignDefId =
+                typeof msg.payload?.campaign_def_id === 'string'
+                  ? msg.payload.campaign_def_id
+                  : 'default_campaign_mvp';
+              const defDoc = loadCampaign(campaignDefId);
+              const onboarding = getOnboarding(defDoc);
+              if (!onboarding || !Array.isArray(onboarding.choices)) {
+                socket.send(
+                  JSON.stringify({
+                    type: 'error',
+                    payload: { code: 'onboarding_not_configured' },
+                  }),
+                );
+                return;
+              }
+              const validKeys = onboarding.choices.map((c) => c.option_key);
+              const optionKey = validKeys.includes(optionKeyRaw)
+                ? optionKeyRaw
+                : onboarding.default_choice_on_timeout || validKeys[0];
+              const choiceDef = onboarding.choices.find((c) => c.option_key === optionKey);
+              const normalized = orch.submitOnboardingChoice(
+                playerId,
+                {
+                  option_key: choiceDef.option_key,
+                  trait_id: choiceDef.trait_id,
+                  label: choiceDef.label,
+                  narrative: choiceDef.narrative,
+                  auto_selected: autoSelected,
+                },
+                { hostId: room.hostId },
+              );
+              room.broadcast({
+                type: 'onboarding_chosen',
+                payload: normalized,
+              });
+              // Auto-advance phase via versioned phase_change broadcast.
+              room.publishPhaseChange('character_creation');
+              socket.send(
+                JSON.stringify({
+                  type: 'onboarding_choice_accepted',
+                  payload: { choice: normalized, phase: orch.phase },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'onboarding_choice_failed' },
+                }),
+              );
+            }
             return;
           }
-          // M15 — reject if phase != planning OR player already committed.
-          if (room.phase && room.phase !== 'planning' && room.phase !== 'idle') {
-            socket.send(
-              JSON.stringify({
-                type: 'error',
-                payload: { code: 'phase_locked', phase: room.phase },
-              }),
-            );
+          if (action === 'character_create' && coopStore) {
+            try {
+              // Codex P2-1 fix — do NOT auto-bootstrap run from non-host
+              // intent. /coop/run/start is host-only and case 'phase'
+              // already bootstraps when host transitions to
+              // character_creation. Allowing player to startRun() here
+              // would let any authenticated client mutate coop state
+              // before host start, leaving subsequent host start to
+              // fail with `cannot_start_from_phase:character_creation`.
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const speciesId =
+                typeof msg.payload?.species_id === 'string' ? msg.payload.species_id : '';
+              const formIdRaw = typeof msg.payload?.form_id === 'string' ? msg.payload.form_id : '';
+              const spec = orch.submitCharacter(
+                playerId,
+                {
+                  name: msg.payload?.name,
+                  // Phone composer Sprint W7 doesn't pick form_id yet;
+                  // synthesize from species_id so submitCharacter passes.
+                  form_id: formIdRaw || (speciesId ? `form_${speciesId}` : 'form_default'),
+                  species_id: speciesId || null,
+                  job_id: msg.payload?.job_id || 'guerriero',
+                },
+                { allPlayerIds: allPids },
+              );
+              room.broadcast({
+                type: 'character_ready_list',
+                payload: orch.characterReadyList(allPids),
+              });
+              if (orch.phase === 'world_setup') {
+                room.publishPhaseChange('world_setup');
+              }
+              socket.send(
+                JSON.stringify({
+                  type: 'character_accepted',
+                  payload: { spec, phase: orch.phase },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'character_create_failed' },
+                }),
+              );
+            }
             return;
           }
+          // 2026-05-06 phone smoke W5 fix — drain world_vote intents
+          // server-side via coopOrchestrator.voteWorld. Pre-fix the intent
+          // was relayed to host Godot which has no GDScript handler →
+          // silent drop. World tally never updated.
+          if (action === 'world_vote' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const tally = orch.voteWorld(playerId, {
+                scenarioId: msg.payload?.scenario_id,
+                accept: msg.payload?.choice === 'accept' || msg.payload?.accept === true,
+                allPlayerIds: allPids,
+              });
+              room.broadcast({ type: 'world_tally', payload: tally });
+              socket.send(JSON.stringify({ type: 'world_vote_accepted', payload: { tally } }));
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'world_vote_failed' },
+                }),
+              );
+            }
+            return;
+          }
+          // 2026-05-06 phone smoke W6 fix — drain lineage_choice (debrief
+          // phase) server-side via coopOrchestrator.submitDebriefChoice.
+          // Pre-fix the intent was relayed to host Godot → silent drop,
+          // debrief phase never auto-advanced to next scenario or ended.
+          if (action === 'lineage_choice' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const choice = {
+                mutations_to_leave: Array.isArray(msg.payload?.mutations_to_leave)
+                  ? msg.payload.mutations_to_leave
+                  : [],
+              };
+              const advance = orch.submitDebriefChoice(playerId, choice, {
+                allPlayerIds: allPids,
+              });
+              room.broadcast({
+                type: 'debrief_ready_list',
+                payload: {
+                  outcome: orch.run?.outcome || 'victory',
+                  ready_list: orch.debriefReadyList(allPids),
+                },
+              });
+              if (advance?.action === 'ended') {
+                room.publishPhaseChange('ended');
+              } else if (orch.phase === 'world_setup') {
+                room.publishPhaseChange('world_setup');
+              }
+              socket.send(
+                JSON.stringify({
+                  type: 'lineage_choice_accepted',
+                  payload: { phase: orch.phase, advance: advance || null },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'lineage_choice_failed' },
+                }),
+              );
+            }
+            return;
+          }
+          // 2026-05-06 phone smoke W8b fix — drain reveal_acknowledge
+          // (UI-only world_seed_reveal phase) server-side via
+          // coopOrchestrator.acknowledgeReveal. Auto-advance phase to
+          // world_setup when all expected players ack. Pre-fix relay to
+          // Godot host → silent drop.
+          if (action === 'reveal_acknowledge' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              const status = orch.acknowledgeReveal(playerId, { allPlayerIds: allPids });
+              room.broadcast({
+                type: 'reveal_ack_list',
+                payload: orch.revealAckList(allPids),
+              });
+              if (status.all_ready) {
+                room.publishPhaseChange('world_setup');
+              }
+              socket.send(
+                JSON.stringify({
+                  type: 'reveal_acknowledge_accepted',
+                  payload: { status, phase: room.phase },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'reveal_acknowledge_failed' },
+                }),
+              );
+            }
+            return;
+          }
+          // Other lifecycle intents (form_pulse_submit, next_macro):
+          // TODO drain server-side via coopStore. Tracked as
+          // TKT-P5-WS-FORM-PULSE-DRAIN + TKT-P5-WS-NEXT-MACRO-DESIGN.
+          // For now relay to host (legacy web v1 path) — Godot host drops.
           room.pushIntent({ from: playerId, payload: msg.payload ?? null });
           break;
+        }
 
         case 'intent_cancel':
           if (player.role === 'host') return;
@@ -1248,6 +1544,52 @@ function createWsServer({
                 return;
               }
               room.broadcastRoundReady();
+              // 2026-05-06 phone smoke retry B7 fix — phone-only flow lacks
+              // POST /api/coop/run/start call (web v1 host JS made it).
+              // When host transitions to character_creation, bootstrap
+              // coopOrchestrator inline so submitCharacter intents work.
+              if (phaseArg === 'character_creation' && coopStore) {
+                try {
+                  const orch = coopStore.getOrCreate(room.code);
+                  if (orch.phase === 'lobby') {
+                    orch.startRun({});
+                  }
+                } catch (err) {
+                  // Non-fatal — log and continue. Character submit will
+                  // surface error if orch unhealthy.
+                  console.warn('[ws] coop bootstrap failed:', err.message);
+                }
+              }
+              // 2026-05-06 narrative onboarding port — bootstrap orch in
+              // onboarding phase. Loads campaign onboarding YAML and
+              // broadcasts to all clients so phones can render briefing.
+              if (phaseArg === 'onboarding' && coopStore) {
+                try {
+                  const orch = coopStore.getOrCreate(room.code);
+                  if (orch.phase === 'lobby') {
+                    orch.startOnboarding({});
+                  }
+                  // Lazy-load campaign loader (avoids circular dep at
+                  // module init time when wsSession.js is imported by
+                  // app.js before campaign service initializes).
+                  // eslint-disable-next-line global-require
+                  const { loadCampaign, getOnboarding } = require('../campaign/campaignLoader');
+                  const campaignDefId =
+                    typeof msg.payload?.campaign_def_id === 'string'
+                      ? msg.payload.campaign_def_id
+                      : 'default_campaign_mvp';
+                  const defDoc = loadCampaign(campaignDefId);
+                  const onboarding = getOnboarding(defDoc);
+                  if (onboarding) {
+                    room.broadcast({
+                      type: 'onboarding_payload',
+                      payload: { campaign_def_id: campaignDefId, onboarding },
+                    });
+                  }
+                } catch (err) {
+                  console.warn('[ws] onboarding bootstrap failed:', err.message);
+                }
+              }
             }
           }
           break;

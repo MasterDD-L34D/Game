@@ -116,8 +116,15 @@ export function createPhaseCoordinator(bridge) {
             ? debriefPayload?.vc_summary?.per_actor?.[playerId]?.ennea_archetypes
             : null;
           if (dbApi.setEnneaArchetypes) dbApi.setEnneaArchetypes(enneaArchetypes);
+          // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND: pipe 9/9 voice palette
+          // dal debriefPayload.ennea_voices (rewardEconomy.buildDebriefSummary
+          // emit array of {actor_id, archetype_id, beat_id, line_id, text}).
+          const enneaVoices = Array.isArray(debriefPayload?.ennea_voices)
+            ? debriefPayload.ennea_voices
+            : [];
+          if (dbApi.setEnneaVoices) dbApi.setEnneaVoices(enneaVoices);
         } catch {
-          /* narrative event + lineage + ennea optional */
+          /* narrative event + lineage + ennea + voices optional */
         }
         break;
       }

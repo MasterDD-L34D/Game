@@ -708,3 +708,78 @@
   color: #8891a3;
   text-align: right;
 }
+
+/* 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND — 9/9 ennea voice palette quotes. */
+/* Engine LIVE Surface DEAD #1 P4 fix — diegetic per actor archetype voice. */
+.db-ennea-voices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.db-ennea-voice {
+  background: linear-gradient(180deg, #1a1828 0%, #0e0c18 100%);
+  border: 1px solid #2a2438;
+  border-left: 3px solid #6a5a9a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.db-ennea-voice-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #b0a8c8;
+  margin-bottom: 6px;
+}
+.db-ennea-voice-icon {
+  font-size: 1rem;
+}
+.db-ennea-voice-label {
+  flex: 1;
+}
+.db-ennea-voice-beat {
+  background: rgba(106, 90, 154, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+.db-ennea-voice-text {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #e6e2f0;
+  line-height: 1.4;
+  margin: 0;
+}
+/* 9 archetype color accent (border-left). */
+.db-ennea-voice.archetype-1 {
+  border-left-color: #d4a017;
+}
+.db-ennea-voice.archetype-2 {
+  border-left-color: #e87a4f;
+}
+.db-ennea-voice.archetype-3 {
+  border-left-color: #d44848;
+}
+.db-ennea-voice.archetype-4 {
+  border-left-color: #8a4a9c;
+}
+.db-ennea-voice.archetype-5 {
+  border-left-color: #4a90c4;
+}
+.db-ennea-voice.archetype-6 {
+  border-left-color: #5fa05f;
+}
+.db-ennea-voice.archetype-7 {
+  border-left-color: #f0c040;
+}
+.db-ennea-voice.archetype-8 {
+  border-left-color: #b8633a;
+}
+.db-ennea-voice.archetype-9 {
+  border-left-color: #8891a3;
+}

@@ -77,7 +77,7 @@ function normaliseUnit(raw, fallbackIndex) {
   const resistanceArchetype = input.resistance_archetype
     ? String(input.resistance_archetype)
     : JOB_ARCHETYPE[job] || null;
-  return {
+  const unit = {
     id,
     species: input.species ? String(input.species) : 'unknown',
     job,
@@ -127,6 +127,18 @@ function normaliseUnit(raw, fallbackIndex) {
     // Bot-flagged 2026-04-29 PR #1495 review.
     ai_profile: input.ai_profile ? String(input.ai_profile) : null,
   };
+  // 2026-05-06 TKT-P3-FORM-STAT-APPLIER — apply form stat_seed delta to
+  // baseline. Pre-fix: form_id was cosmetic only — NO mech link to combat.
+  // Now: form_id (e.g. INTJ) shifts hp/ap/mod/guardia per stat_seed YAML
+  // mapping (16 form × 4 stat). Idempotent via _form_stat_applied flag.
+  // Best-effort: missing helper non blocca normalize.
+  try {
+    // eslint-disable-next-line global-require
+    const { applyStatSeed } = require('../services/forms/formStatApplier');
+    return applyStatSeed(unit);
+  } catch {
+    return unit;
+  }
 }
 
 function buildDefaultUnits() {

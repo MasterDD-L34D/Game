@@ -14,6 +14,9 @@ import { api } from './api.js';
 import { renderNarrativeEvent } from './qbnDebriefRender.js';
 // Sprint 12 (Surface-DEAD #4): Mating lifecycle eligibles render in debrief.
 import { renderLineageEligibles } from './lineagePanel.js';
+// 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND: 9/9 ennea voice palette wire.
+// Engine LIVE Surface DEAD #1 P4 fix — ~189 line authorate visibili in debrief.
+import { renderEnneaVoices } from './enneaVoiceRender.js';
 
 // Sprint Surface-DEAD ennea archetypes — 9 archetypes player surface in debrief.
 // Mirror ENNEA_META da characterPanel.js (kept self-contained per debrief scope).
@@ -181,6 +184,12 @@ export function renderDebriefPanel() {
         <div class="db-ennea-grid" id="db-ennea-grid"></div>
       </div>
 
+      <!-- 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND: 9/9 voice palette diegetic per actor. -->
+      <div class="db-section" id="db-ennea-voices-section" style="display:none">
+        <div class="db-section-title">🗣️ Voci dell'archetipo</div>
+        <div class="db-ennea-voices-list" id="db-ennea-voices-list"></div>
+      </div>
+
       <!-- Sprint 10 (Surface-DEAD #7): QBN narrative event diegetic. -->
       <div class="db-section db-qbn-section" id="db-qbn-section" style="display:none">
         <div class="db-section-title">📖 Cronaca diegetica</div>
@@ -278,6 +287,10 @@ export function wireDebriefPanel(overlay, bridge) {
     // Shape: [{parent_a_id, parent_b_id, parent_a_name, parent_b_name, biome_id,
     // can_mate, expected_offspring_count}]. Empty array hides section.
     matingEligibles: [],
+    // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND: ennea voice palette per actor.
+    // Shape: [{actor_id, archetype_id, ennea_type, beat_id, line_id, text}].
+    // Empty array hides section.
+    enneaVoices: [],
     // OD-001 Path A Sprint B (2026-04-26): debrief recruit wire.
     recruitedNpcIds: new Set(),
     recruitInFlight: new Set(),
@@ -451,6 +464,16 @@ export function wireDebriefPanel(overlay, bridge) {
     const section = overlay.querySelector('#db-qbn-section');
     const card = overlay.querySelector('#db-qbn-card');
     renderNarrativeEvent(section, card, state.narrativeEvent);
+  };
+
+  // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND — render 9/9 ennea voice quotes.
+  // Sezione hidden by default, rivela quando enneaVoices payload non vuoto.
+  // Idempotent: setEnneaVoices([]) → hide.
+  const renderEnneaVoicesSection = () => {
+    const section = overlay.querySelector('#db-ennea-voices-section');
+    const list = overlay.querySelector('#db-ennea-voices-list');
+    if (!section || !list) return;
+    renderEnneaVoices(section, list, state.enneaVoices);
   };
 
   // Sprint 12 (Surface-DEAD #4) — render lineage eligibles (pair-bond cards).
@@ -631,6 +654,7 @@ export function wireDebriefPanel(overlay, bridge) {
     renderMbti();
     renderQbn();
     renderLineage();
+    renderEnneaVoicesSection();
     renderRecruit();
     // Fire-and-forget: Skiv card refresh ad ogni render debrief.
     renderSkivMonitorCard();
@@ -805,6 +829,13 @@ export function wireDebriefPanel(overlay, bridge) {
     setEnneaArchetypes(payload) {
       state.enneaArchetypes = Array.isArray(payload) ? payload : [];
       renderEnnea();
+    },
+    // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND — set ennea voice palette per actor.
+    // Accepts [{actor_id, archetype_id, ennea_type, beat_id, line_id, text}].
+    // Empty / null → hide section.
+    setEnneaVoices(payload) {
+      state.enneaVoices = Array.isArray(payload) ? payload : [];
+      renderEnneaVoicesSection();
     },
     show() {
       overlay.classList.remove('db-hidden');

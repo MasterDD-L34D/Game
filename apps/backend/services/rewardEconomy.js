@@ -146,6 +146,48 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
     // qbnEngine optional / pack missing — non blocca debrief
   }
 
+  // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND — wire ennea voice in debrief
+  // payload (Engine LIVE Surface DEAD #1 P4). Engine 9/9 archetype + 7
+  // beat × ~189 line authorate + endpoint /:id/voice live, ZERO frontend
+  // caller in-session pre-fix. Wire here per emit 1 voice line per actor
+  // con triggered ennea archetypes, beat=victory_solo|defeat_critical
+  // basato outcome. Best-effort: missing module non blocca debrief.
+  let enneaVoices = [];
+  try {
+    const { selectEnneaVoice } = require('../../../services/narrative/narrativeEngine');
+    const beatId = isVictory ? 'victory_solo' : 'defeat_critical';
+    // Deterministic seed per session_id per reproducibility (test).
+    const seedSrc = String(session?.session_id || 'debrief');
+    let seedHash = 0;
+    for (let i = 0; i < seedSrc.length; i += 1) {
+      seedHash = (seedHash + seedSrc.charCodeAt(i) * 16777619) >>> 0;
+    }
+    let s = seedHash >>> 0;
+    const rand = () => {
+      s = (s + 0x6d2b79f5) >>> 0;
+      let t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    for (const [actorId, vc] of Object.entries(vcSnapshot.per_actor || {})) {
+      if (!Array.isArray(vc.ennea_archetypes) || vc.ennea_archetypes.length === 0) continue;
+      const selection = selectEnneaVoice(vc.ennea_archetypes, beatId, { rand });
+      if (selection) {
+        enneaVoices.push({
+          actor_id: actorId,
+          archetype_id: selection.archetype_id,
+          ennea_type: selection.ennea_type,
+          beat_id: selection.beat_id,
+          line_id: selection.line_id,
+          text: selection.text,
+        });
+      }
+    }
+  } catch {
+    // narrativeEngine / enneaVoice module optional — non blocca debrief
+  }
+
   // Sprint 12 (Surface-DEAD #4) — Mating lifecycle wire.
   // Engine LIVE in metaProgression (rollMatingOffspring + canMate). Surface
   // DEAD pre-Sprint 12: ciclo Nido→offspring→lineage_id non visibile a fine
@@ -196,6 +238,10 @@ function buildDebriefSummary(session, vcSnapshot, peResult, pfSession = {}) {
     // Pair survivors (player team) candidates per offspring nel biome corrente.
     // Empty array quando defeat / 0-1 survivor / engine missing (graceful).
     mating_eligibles: matingEligibles,
+    // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND — Ennea voice palette per actor.
+    // 1 line per actor con triggered ennea archetypes. Beat selected by outcome
+    // (victory_solo | defeat_critical). Empty quando no archetypes triggered.
+    ennea_voices: enneaVoices,
     // Personality projection
     pf_session: pfSession,
     // Combat stats
