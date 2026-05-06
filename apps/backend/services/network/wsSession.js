@@ -1510,7 +1510,15 @@ function createWsServer({
                 );
                 return;
               }
-              const allPids = Array.from(room.players.values()).map((p) => p.id);
+              // Exclude host from expected players: Godot phone host doesn't
+              // submit form_pulse_submit (host = arbiter, players = phones).
+              // Without filter, status.total inflates by 1 + all_ready stuck
+              // false. Mirrors routes/coop.js allPlayerIds() helper +
+              // sendCoopSnapshotToPlayer/rebroadcastCoopState exclusion.
+              // Codex review P2 #2073.
+              const allPids = Array.from(room.players.values())
+                .filter((p) => p.id !== room.hostId && p.role !== 'host')
+                .map((p) => p.id);
               const status = orch.submitFormPulse(
                 playerId,
                 { axes: msg.payload?.form_axes || msg.payload?.axes || {} },

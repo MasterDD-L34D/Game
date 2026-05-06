@@ -540,11 +540,11 @@ async function main() {
     console.log(
       `    form_pulse_list received: ready_count=${status.ready_count} total=${status.total} all_ready=${status.all_ready}`,
     );
-    if (status.ready_count >= 1 && Array.isArray(list)) {
+    if (status.ready_count >= 1 && status.all_ready === true && Array.isArray(list)) {
       pass(
         '4a: form_pulse_submit',
-        'form_pulse_submit drains via submitFormPulse → form_pulse_list broadcast',
-        `ready_count=${status.ready_count} total=${status.total} list_len=${list.length}`,
+        'form_pulse_submit drains via submitFormPulse → form_pulse_list broadcast (host excluded)',
+        `ready_count=${status.ready_count} total=${status.total} all_ready=${status.all_ready} list_len=${list.length}`,
       );
     } else {
       gapDoc(
