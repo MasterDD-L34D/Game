@@ -25,7 +25,7 @@ related:
   - docs/playtest/2026-04-26-demo-one-command.md
 ---
 
-> ⚠️ **SUPERSEDED 2026-05-06** — Pivot Godot v2 (ADR-2026-04-29) + cutover Fase 3 STAGED canary (ADR-2026-05-05 PROPOSED) hanno spostato production target da `apps/play/` web stack a `Game-Godot-v2` HTML5 export + Cloudflared Quick Tunnel. TKT-M11B-06 playtest userland mai eseguito su CF Pages + Render. Config (`wrangler.toml`, `render.yaml`, `scripts/deploy-min.sh`) parked, NON rimossi: re-attivabili se Godot cutover fallisce. Rimozione effettiva quando ADR-2026-05-05 → ACCEPTED + 1 playtest live Godot success.
+> ⚠️ **SUPERSEDED 2026-05-06** — Pivot Godot v2 (ADR-2026-04-29) + cutover Fase 3 STAGED canary (ADR-2026-05-05 PROPOSED) hanno spostato production target da `apps/play/` web stack a `Game-Godot-v2` HTML5 export + Cloudflared Quick Tunnel. TKT-M11B-06 playtest userland mai eseguito su CF Pages + Render. Config infra **rimossi 2026-05-06** in stesso PR: `wrangler.toml`, `render.yaml`, `scripts/deploy-min.sh`, `tests/scripts/deploy-min-bundle.test.js`. ADR mantenuto come historical record. `apps/play/` source TREE-INTACT (frontend Game/ ancora attivo per Spike POC + wave-3 UI + phone smoke), solo deploy bundle Min infra deprecato. Re-add cost ~20 min se Godot cutover regredisce + serve fallback web stack.
 
 # ADR 2026-04-26 — Hosting stack co-op online
 
