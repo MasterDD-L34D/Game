@@ -785,6 +785,109 @@ async function main() {
     );
   }
 
+  // ── SCENARIO 9: narrative onboarding port (Sprint M.6 backend Phase A) ───
+  // Fresh lobby (state from previous scenarios is in world_seed_reveal/combat
+  // — onboarding requires phase=lobby). New WS clients new room.
+  console.log('\n--- SCENARIO 9: narrative onboarding port (host-only choice) ---');
+  let onbHost = null;
+  let onbPlayer = null;
+  try {
+    const createRes2 = await httpPost('/api/lobby/create', { host_name: 'OnbHost' });
+    const room2 = createRes2.body.code;
+    const hostTk2 = createRes2.body.host_token;
+    const hostId2 = createRes2.body.host_id;
+    const joinRes2 = await httpPost('/api/lobby/join', {
+      code: room2,
+      player_name: 'OnbPlayer',
+    });
+    const playerTk2 = joinRes2.body.player_token;
+    const playerId2 = joinRes2.body.player_id;
+    onbHost = await openWs(`${WS_BASE}/ws?code=${room2}&player_id=${hostId2}&token=${hostTk2}`);
+    onbPlayer = await openWs(
+      `${WS_BASE}/ws?code=${room2}&player_id=${playerId2}&token=${playerTk2}`,
+    );
+    await onbHost.waitFor((m) => m.type === 'hello', 2000);
+    await onbPlayer.waitFor((m) => m.type === 'hello', 2000);
+
+    // 9a: host transitions to onboarding phase + receives campaign payload
+    onbHost.send({ type: 'phase', payload: { phase: 'onboarding' } });
+    const payloadMsg = await onbPlayer.waitFor((m) => m.type === 'onboarding_payload', 3000);
+    if (
+      payloadMsg.payload?.onboarding?.choices?.length === 3 &&
+      payloadMsg.payload?.campaign_def_id === 'default_campaign_mvp'
+    ) {
+      pass(
+        '9a: onboarding-payload-broadcast',
+        'phase=onboarding bootstraps orch + broadcasts onboarding_payload with 3 choices',
+        `choices=${payloadMsg.payload.onboarding.choices.length} campaign=${payloadMsg.payload.campaign_def_id}`,
+      );
+    } else {
+      fail(
+        '9a: onboarding-payload-broadcast',
+        '3 choices in payload + campaign_def_id present',
+        JSON.stringify(payloadMsg.payload).slice(0, 150),
+        'Onboarding bootstrap missing fields',
+      );
+    }
+
+    // 9b: non-host cannot submit onboarding_choice (host_only error)
+    onbPlayer.send({
+      type: 'intent',
+      payload: { action: 'onboarding_choice', option_key: 'option_a' },
+    });
+    const errMsg = await onbPlayer.waitFor(
+      (m) =>
+        m.type === 'error' &&
+        (m.payload?.code === 'host_only' || m.payload?.code === 'onboarding_choice_failed'),
+      2000,
+    );
+    pass(
+      '9b: onboarding-host-only',
+      'non-host onboarding_choice rejected',
+      `error code=${errMsg.payload?.code}`,
+    );
+
+    // 9c: host submits onboarding_choice → onboarding_chosen broadcast +
+    // auto-advance to character_creation
+    onbHost.send({
+      type: 'intent',
+      payload: { action: 'onboarding_choice', option_key: 'option_b' },
+    });
+    const chosenMsg = await onbPlayer.waitFor((m) => m.type === 'onboarding_chosen', 3000);
+    const phaseMsg2 = await onbPlayer.waitFor(
+      (m) => m.type === 'phase_change' && m.payload?.phase === 'character_creation',
+      3000,
+    );
+    if (
+      chosenMsg.payload?.option_key === 'option_b' &&
+      chosenMsg.payload?.trait_id === 'pelle_elastomera' &&
+      phaseMsg2.payload?.phase === 'character_creation'
+    ) {
+      pass(
+        '9c: onboarding-host-submit-advance',
+        'host onboarding_choice → onboarding_chosen + auto phase=character_creation',
+        `trait=${chosenMsg.payload.trait_id} next_phase=${phaseMsg2.payload.phase}`,
+      );
+    } else {
+      fail(
+        '9c: onboarding-host-submit-advance',
+        'option_b → pelle_elastomera + phase character_creation',
+        `chosen=${JSON.stringify(chosenMsg.payload).slice(0, 80)} phase=${phaseMsg2.payload?.phase}`,
+        'Onboarding submit drain wiring error',
+      );
+    }
+  } catch (err) {
+    fail(
+      '9: onboarding-flow',
+      'narrative onboarding port end-to-end',
+      err.message,
+      'Sprint M.6 Phase A backend regression',
+    );
+  } finally {
+    if (onbHost) onbHost.close();
+    if (onbPlayer) onbPlayer.close();
+  }
+
   // ── cleanup ───────────────────────────────────────────────────────────────
   host.close();
   player.close();

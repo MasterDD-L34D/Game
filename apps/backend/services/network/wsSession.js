@@ -65,6 +65,7 @@ const MAX_LEDGER_SIZE = 100;
 // UI-only transient phases used by Godot phone composer.
 const KNOWN_PHASES = new Set([
   'lobby',
+  'onboarding', // 2026-05-06 narrative onboarding port (Sprint M.6)
   'character_creation',
   'world_setup',
   'world_seed_reveal', // UI-only transient between world_setup → combat
@@ -1246,6 +1247,78 @@ function createWsServer({
           // be drained server-side directly via coopStore. Otherwise
           // pushIntent only relays to host (no-op for Godot host) and
           // emits unknown_type error on host phone.
+          // 2026-05-06 narrative onboarding port — drain onboarding_choice
+          // intent server-side. Host-only enforcement at orch layer.
+          // Resolves choice from campaign onboarding YAML, calls
+          // orch.submitOnboardingChoice (auto-advances onboarding →
+          // character_creation), broadcasts onboarding_chosen.
+          if (action === 'onboarding_choice' && coopStore) {
+            try {
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const optionKeyRaw =
+                typeof msg.payload?.option_key === 'string' ? msg.payload.option_key : '';
+              const autoSelected = Boolean(msg.payload?.auto_selected);
+              // eslint-disable-next-line global-require
+              const { loadCampaign, getOnboarding } = require('../campaign/campaignLoader');
+              const campaignDefId =
+                typeof msg.payload?.campaign_def_id === 'string'
+                  ? msg.payload.campaign_def_id
+                  : 'default_campaign_mvp';
+              const defDoc = loadCampaign(campaignDefId);
+              const onboarding = getOnboarding(defDoc);
+              if (!onboarding || !Array.isArray(onboarding.choices)) {
+                socket.send(
+                  JSON.stringify({
+                    type: 'error',
+                    payload: { code: 'onboarding_not_configured' },
+                  }),
+                );
+                return;
+              }
+              const validKeys = onboarding.choices.map((c) => c.option_key);
+              const optionKey = validKeys.includes(optionKeyRaw)
+                ? optionKeyRaw
+                : onboarding.default_choice_on_timeout || validKeys[0];
+              const choiceDef = onboarding.choices.find((c) => c.option_key === optionKey);
+              const normalized = orch.submitOnboardingChoice(
+                playerId,
+                {
+                  option_key: choiceDef.option_key,
+                  trait_id: choiceDef.trait_id,
+                  label: choiceDef.label,
+                  narrative: choiceDef.narrative,
+                  auto_selected: autoSelected,
+                },
+                { hostId: room.hostId },
+              );
+              room.broadcast({
+                type: 'onboarding_chosen',
+                payload: normalized,
+              });
+              // Auto-advance phase via versioned phase_change broadcast.
+              room.publishPhaseChange('character_creation');
+              socket.send(
+                JSON.stringify({
+                  type: 'onboarding_choice_accepted',
+                  payload: { choice: normalized, phase: orch.phase },
+                }),
+              );
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'onboarding_choice_failed' },
+                }),
+              );
+            }
+            return;
+          }
           if (action === 'character_create' && coopStore) {
             try {
               // Codex P2-1 fix — do NOT auto-bootstrap run from non-host
@@ -1485,6 +1558,36 @@ function createWsServer({
                   // Non-fatal — log and continue. Character submit will
                   // surface error if orch unhealthy.
                   console.warn('[ws] coop bootstrap failed:', err.message);
+                }
+              }
+              // 2026-05-06 narrative onboarding port — bootstrap orch in
+              // onboarding phase. Loads campaign onboarding YAML and
+              // broadcasts to all clients so phones can render briefing.
+              if (phaseArg === 'onboarding' && coopStore) {
+                try {
+                  const orch = coopStore.getOrCreate(room.code);
+                  if (orch.phase === 'lobby') {
+                    orch.startOnboarding({});
+                  }
+                  // Lazy-load campaign loader (avoids circular dep at
+                  // module init time when wsSession.js is imported by
+                  // app.js before campaign service initializes).
+                  // eslint-disable-next-line global-require
+                  const { loadCampaign, getOnboarding } = require('../campaign/campaignLoader');
+                  const campaignDefId =
+                    typeof msg.payload?.campaign_def_id === 'string'
+                      ? msg.payload.campaign_def_id
+                      : 'default_campaign_mvp';
+                  const defDoc = loadCampaign(campaignDefId);
+                  const onboarding = getOnboarding(defDoc);
+                  if (onboarding) {
+                    room.broadcast({
+                      type: 'onboarding_payload',
+                      payload: { campaign_def_id: campaignDefId, onboarding },
+                    });
+                  }
+                } catch (err) {
+                  console.warn('[ws] onboarding bootstrap failed:', err.message);
                 }
               }
             }

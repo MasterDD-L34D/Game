@@ -4,7 +4,20 @@
 
 'use strict';
 
-const PHASES = ['lobby', 'character_creation', 'world_setup', 'combat', 'debrief', 'ended'];
+// 2026-05-06 narrative onboarding port — `onboarding` phase added per
+// canonical `docs/core/51-ONBOARDING-60S.md` Phase B. Sequence:
+// lobby → onboarding → character_creation → world_setup → combat → debrief.
+// Onboarding = host-only single-choice identity step (60s timer, 3 cards
+// pre-Act 0). character_creation = per-player PG submit (Jackbox M17).
+const PHASES = [
+  'lobby',
+  'onboarding',
+  'character_creation',
+  'world_setup',
+  'combat',
+  'debrief',
+  'ended',
+];
 
 /**
  * Build a unit payload for /session/start from a coop character spec.
@@ -40,6 +53,10 @@ class CoopOrchestrator {
     this.characters = new Map(); // player_id → character spec
     this.worldVotes = new Map(); // player_id → scenario_id|null
     this.debriefChoices = new Map();
+    // 2026-05-06 narrative onboarding port — host single-choice identity
+    // for entire branco. Pre-assigned trait propagated to all party
+    // members on character_creation transition.
+    this.onboardingChoice = null; // { option_key, trait_id, label, narrative, auto_selected, ts }
     // 2026-05-06 phone smoke W8b — track per-player reveal acknowledgment
     // for the UI-only `world_seed_reveal` transient phase. When all
     // expected players ack, auto-advance world_seed_reveal → world_setup.
@@ -106,9 +123,75 @@ class CoopOrchestrator {
     this.worldVotes.clear();
     this.debriefChoices.clear();
     this.revealAcks.clear();
+    this.onboardingChoice = null;
     this._setPhase('character_creation');
     this._emit('run_started', { run_id: this.run.id });
     return this.run;
+  }
+
+  /**
+   * 2026-05-06 narrative onboarding port — start a run with onboarding
+   * phase. Sequence: lobby → onboarding → character_creation. Backwards-
+   * compatible alternative to startRun() (which goes directly to
+   * character_creation). Used by Godot phone Sprint M.6+ flow.
+   *
+   * Caller (wsSession.js intent handler `phase=onboarding`) is
+   * responsible for loading the campaign onboarding definition + sending
+   * it to clients via state broadcast. submitOnboardingChoice() then
+   * receives a pre-resolved choice object.
+   */
+  startOnboarding({ scenarioStack = ['enc_tutorial_01'] } = {}) {
+    if (this.phase !== 'lobby' && this.phase !== 'ended') {
+      throw new Error(`cannot_start_from_phase:${this.phase}`);
+    }
+    this.run = {
+      id: `run_${Date.now().toString(36)}`,
+      scenarioStack: Array.isArray(scenarioStack) ? scenarioStack : ['enc_tutorial_01'],
+      currentIndex: 0,
+      partyXp: 0,
+      partyPi: 0,
+      outcome: null,
+    };
+    this.characters.clear();
+    this.worldVotes.clear();
+    this.debriefChoices.clear();
+    this.revealAcks.clear();
+    this.onboardingChoice = null;
+    this._setPhase('onboarding');
+    this._emit('run_started', { run_id: this.run.id, with_onboarding: true });
+    return this.run;
+  }
+
+  /**
+   * 2026-05-06 narrative onboarding port — host submits identity choice
+   * for entire branco. Auto-advances onboarding → character_creation on
+   * success. Host-only enforcement: only `hostId` may submit. Choice
+   * object pre-resolved by caller from campaign onboarding YAML.
+   *
+   * @param playerId — submitting player (must equal hostId)
+   * @param choice — { option_key, trait_id, label, narrative, auto_selected }
+   * @param hostId — current host player id (host-only gate)
+   */
+  submitOnboardingChoice(playerId, choice, { hostId } = {}) {
+    if (this.phase !== 'onboarding') throw new Error('not_in_onboarding');
+    if (!playerId) throw new Error('player_id_required');
+    if (hostId && playerId !== hostId) throw new Error('host_only');
+    if (!choice || !choice.option_key || !choice.trait_id) {
+      throw new Error('choice_invalid');
+    }
+    const normalized = {
+      option_key: String(choice.option_key),
+      trait_id: String(choice.trait_id),
+      label: choice.label ? String(choice.label) : null,
+      narrative: choice.narrative ? String(choice.narrative) : null,
+      auto_selected: Boolean(choice.auto_selected),
+      submitted_by: playerId,
+      submitted_at: this.now(),
+    };
+    this.onboardingChoice = normalized;
+    this._emit('onboarding_chosen', normalized);
+    this._setPhase('character_creation');
+    return normalized;
   }
 
   /**

@@ -9,15 +9,69 @@ const {
   PHASES,
 } = require('../../apps/backend/services/coop/coopOrchestrator');
 
-test('PHASES covers lobby→character_creation→world_setup→combat→debrief→ended', () => {
+test('PHASES covers lobby→onboarding→character_creation→world_setup→combat→debrief→ended', () => {
+  // 2026-05-06 narrative onboarding port — `onboarding` inserted between
+  // lobby and character_creation per canonical 51-ONBOARDING-60S.md.
   assert.deepEqual(PHASES, [
     'lobby',
+    'onboarding',
     'character_creation',
     'world_setup',
     'combat',
     'debrief',
     'ended',
   ]);
+});
+
+test('startOnboarding transitions lobby → onboarding', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  assert.equal(co.phase, 'lobby');
+  const run = co.startOnboarding({ scenarioStack: ['enc_tutorial_01'] });
+  assert.equal(co.phase, 'onboarding');
+  assert.ok(run.id.startsWith('run_'));
+});
+
+test('submitOnboardingChoice host-only + auto-advance to character_creation', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startOnboarding();
+  const choice = {
+    option_key: 'option_a',
+    trait_id: 'zampe_a_molla',
+    label: 'Come veloce e sfuggente',
+    narrative: 'Non saremo mai abbastanza forti.',
+    auto_selected: false,
+  };
+  // Non-host rejected with host_only.
+  assert.throws(() => co.submitOnboardingChoice('p_other', choice, { hostId: 'p_h' }), /host_only/);
+  // Host accepted, auto-advance to character_creation.
+  const result = co.submitOnboardingChoice('p_h', choice, { hostId: 'p_h' });
+  assert.equal(co.phase, 'character_creation');
+  assert.equal(result.option_key, 'option_a');
+  assert.equal(result.trait_id, 'zampe_a_molla');
+  assert.equal(co.onboardingChoice.trait_id, 'zampe_a_molla');
+});
+
+test('submitOnboardingChoice rejects invalid choice + wrong phase', () => {
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  // wrong phase: no run started
+  assert.throws(
+    () => co.submitOnboardingChoice('p_h', { option_key: 'a', trait_id: 't' }),
+    /not_in_onboarding/,
+  );
+  co.startOnboarding();
+  // missing trait_id
+  assert.throws(() => co.submitOnboardingChoice('p_h', { option_key: 'a' }), /choice_invalid/);
+  // missing option_key
+  assert.throws(() => co.submitOnboardingChoice('p_h', { trait_id: 't' }), /choice_invalid/);
+});
+
+test('startRun (legacy) still skips onboarding → character_creation', () => {
+  // Backwards-compat: web v1 callers (REST /coop/run/start) skip
+  // onboarding entirely. Sprint M.6 only Godot phone uses startOnboarding.
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun();
+  assert.equal(co.phase, 'character_creation');
+  assert.equal(co.onboardingChoice, null);
 });
 
 test('startRun transitions lobby → character_creation', () => {
