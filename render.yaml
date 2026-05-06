@@ -3,6 +3,13 @@
 # Roadmap: docs/research/2026-04-27-backbone-online-deploy-roadmap.md (Opzione B Min).
 # Checklist deploy: docs/ops/deploy-min-checklist.md
 #
+# ⚠️ DEPRECATED 2026-05-06 — ADR-2026-04-26 SUPERSEDED da ADR-2026-04-29 (pivot
+# Godot v2) + ADR-2026-05-05 (cutover Fase 3 STAGED canary PROPOSED). Production
+# co-op WS = Godot host + Cloudflared Quick Tunnel, NON apps/backend Express+ws
+# Render. Blueprint parked (NOT removed) per reversibility se Godot cutover
+# fallisce. Remove trigger: ADR-2026-05-05 → ACCEPTED + 1 playtest live Godot
+# success.
+#
 # Deploy:
 #   1. Commit questo file su main (o target branch).
 #   2. Render dashboard → New → Blueprint → connect repo → apply.

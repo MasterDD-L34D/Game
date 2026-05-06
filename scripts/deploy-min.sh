@@ -4,6 +4,12 @@
 # Roadmap:   docs/research/2026-04-27-backbone-online-deploy-roadmap.md (Opzione B Min)
 # Checklist: docs/ops/deploy-min-checklist.md
 #
+# ⚠️ DEPRECATED 2026-05-06 — ADR-2026-04-26 SUPERSEDED. Pivot Godot v2 (ADR-
+# 2026-04-29) + cutover Fase 3 STAGED canary (ADR-2026-05-05 PROPOSED) hanno
+# spostato production target su Game-Godot-v2 HTML5 + Cloudflared Quick Tunnel.
+# Script parked (NOT removed) per reversibility. Remove trigger: ADR-2026-05-05
+# → ACCEPTED + 1 playtest live Godot success.
+#
 # Cosa fa:
 #   1. Preflight: verifica gh, wrangler, RENDER_API_KEY, keys.env canonical.
 #   2. Build frontend (npm --prefix apps/play run build).

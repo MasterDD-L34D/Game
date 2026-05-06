@@ -3,6 +3,13 @@
 # Roadmap: docs/research/2026-04-27-backbone-online-deploy-roadmap.md
 # Checklist: docs/ops/deploy-min-checklist.md
 #
+# ⚠️ DEPRECATED 2026-05-06 — ADR-2026-04-26 SUPERSEDED da ADR-2026-04-29 (pivot
+# Godot v2) + ADR-2026-05-05 (cutover Fase 3 STAGED canary PROPOSED). Production
+# target = Game-Godot-v2 HTML5 export + Cloudflared Quick Tunnel, NON apps/play/
+# CF Pages. TKT-M11B-06 playtest mai eseguito su questo stack. Config parked
+# (NOT removed) per reversibility se Godot cutover fallisce. Remove trigger:
+# ADR-2026-05-05 → ACCEPTED + 1 playtest live Godot success.
+#
 # Deploy paths supportati:
 #   1. CF Pages (raccomandato Min): wrangler pages deploy apps/play/dist
 #      --project-name=evo-tactics-play
