@@ -665,20 +665,26 @@ GUT test: port 100/384 critical test → `tests/`.
 
 `apps/backend/services/ai/` 8 services → `scripts/ai/`:
 
-| Service                    | Godot equivalent                    | Status                      | Effort  |
-| -------------------------- | ----------------------------------- | --------------------------- | ------- |
-| `policy.js`                | `scripts/ai/policy.gd`              | ⚠️ partial (legacy AI only) | ~4h     |
-| `utilityBrain.js`          | `scripts/ai/utility_brain.gd`       | ⚠️ stub (Aggressive only)   | ~6h     |
-| `declareSistemaIntents.js` | `scripts/ai/sistema_intents.gd`     | ❌ not ported               | ~3h     |
-| `sistemaTurnRunner.js`     | `scripts/ai/sistema_turn_runner.gd` | ⚠️ partial                  | ~4h     |
-| `threatAssessment.js`      | `scripts/ai/threat_assessment.gd`   | ❌ not ported               | ~2h     |
-| `threatPreview.js`         | `scripts/ai/threat_preview.gd`      | ❌ not ported               | ~2h     |
-| `aiProgressMeter.js`       | `scripts/ai/ai_progress_meter.gd`   | ✅ ported                   | shipped |
-| `aiProfilesLoader.js`      | `scripts/ai/ai_profiles_loader.gd`  | ✅ ported                   | shipped |
+> **2026-05-06 drift sync (post Sprint AC #177 + N.4 Beehave triumvirate)**: matrix was systemically stale (claims 2 ✅ + 6 stubs/partials/missing; ground-truth `ls Game-Godot-v2/scripts/ai/` shows 13 .gd files all ported). Re-verified per service. **8/8 ✅ ported** (1 via alias `sis_policy.gd`, 1 subsumed Sprint AC #177). Effort residuo Sprint O.4 = **0h core port** (Beehave expansion ~3-4h optional).
 
-Plus Beehave behavior trees (3 archetype templates from PR #2000): `scripts/ai/beehave_factories/` already partial, expand to 6 templates Sprint O.
+| Service                    | Godot equivalent                                                               | Status                                    | Effort  |
+| -------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------- | ------- |
+| `policy.js`                | `scripts/ai/sis_policy.gd` (canonical) + `scripts/ai/sistema_ai_dispatcher.gd` | ✅ ported (Sprint N.4, 175+105 LOC)       | shipped |
+| `utilityBrain.js`          | `scripts/ai/utility_brain.gd`                                                  | ✅ ported (118 LOC)                       | shipped |
+| `declareSistemaIntents.js` | `scripts/ai/sistema_intents.gd`                                                | ✅ ported (112 LOC, alias)                | shipped |
+| `sistemaTurnRunner.js`     | (subsumed by `sistema_intents.gd` + `round_orchestrator.gd`)                   | ✅ subsumed (Sprint AC #177 stub dropped) | shipped |
+| `threatAssessment.js`      | `scripts/ai/threat_assessment.gd`                                              | ✅ ported (133 LOC)                       | shipped |
+| `threatPreview.js`         | `scripts/ai/threat_preview.gd`                                                 | ✅ ported (72 LOC)                        | shipped |
+| `aiProgressMeter.js`       | `scripts/ai/ai_progress_meter.gd`                                              | ✅ ported (142 LOC)                       | shipped |
+| `aiProfilesLoader.js`      | `scripts/ai/ai_profiles_loader.gd`                                             | ✅ ported (66 LOC)                        | shipped |
 
-**Total Sprint O.4 AI port effort**: ~21-25h.
+> **Naming note**: `policy.js` ports as `sis_policy.gd` (file header line 2 explicit: "Port da Game/apps/backend/services/ai/policy.js"). High-level facade `sistema_ai_dispatcher.gd` (Sprint AC.4, master-dd parallel-run choice) selects SisPolicy fallback vs Beehave tree per actor `ai_profile_id`. Original chip claim `scripts/ai/policy.gd` path was incorrect; file does not exist nor is planned (alias resolved).
+
+> **Sprint AC #177 dispatch**: `sistemaTurnRunner.js` stub explicitly dropped per CLAUDE.md log — turn-runner responsibility absorbed by `sistema_intents.gd` (intents puri) + `round_orchestrator.gd` (round phases). No Godot file planned.
+
+Plus Beehave behavior trees (Sprint N.4 wave): `scripts/ai/beehave_factories/` 9 factory files (aggressive/cautious/opportunist personality + tank/skirmisher/support role overlays + selector/sequence/tactical nodes) + `scripts/ai/beehave_leaves/` 11+ condition/action leaves shipped. Original spec "expand to 6 templates Sprint O" already overshot — 3 personality archetypes + 3 role overlays = 6 composable templates live.
+
+**Total Sprint O.4 AI port effort**: **~0h core port residuo** (was estimated ~21-25h; 100% recovered via Sprint N.4 Beehave triumvirate + Sprint AC.4 dispatcher + Sprint AC #177 dispatch). Optional Beehave expansion (additional archetypes / leaves) tracked Sprint R+ extension.
 
 ### Sprint P — Trait + lifecycle + mating port (~1-2 settimane)
 
