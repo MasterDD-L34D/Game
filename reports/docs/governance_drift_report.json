@@ -1,34 +1,9 @@
 {
-  "generated_at": "2026-05-06T20:30:15+00:00",
+  "generated_at": "2026-05-06T22:11:06+00:00",
   "summary": {
-    "total": 4,
+    "total": 0,
     "errors": 0,
-    "warnings": 4
+    "warnings": 0
   },
-  "issues": [
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md",
-      "message": "Campo doc_status differente tra frontmatter (draft) e registry (historical_ref)"
-    },
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/planning/EVO_FINAL_DESIGN_SOURCE_AUTHORITY_MAP.md",
-      "message": "Campo review_cycle_days differente tra frontmatter (14) e registry (180)"
-    },
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/reports/PILLAR-LIVE-STATUS.md",
-      "message": "Campo doc_status differente tra frontmatter (active) e registry (historical_ref)"
-    },
-    {
-      "level": "warning",
-      "code": "frontmatter_registry_mismatch",
-      "path": "docs/reports/PILLAR-LIVE-STATUS.md",
-      "message": "Campo review_cycle_days differente tra frontmatter (7) e registry (180)"
-    }
-  ]
+  "issues": []
 }
