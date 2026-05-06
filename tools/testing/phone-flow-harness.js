@@ -624,13 +624,40 @@ async function main() {
     );
   }
 
-  // 4d: next_macro — NOT drained
-  gapDoc(
-    '4d: next_macro',
-    'next_macro calls coopOrchestrator or advances scenario',
-    'relayed to host via pushIntent (no drain)',
-    `GAP-W7: next_macro falls through to pushIntent. No coopOrchestrator method maps to it directly (maps to host confirming next scenario). Design question: should next_macro trigger orch.advanceScenarioOrEnd() or remain host-arbiter? Current: silent relay → Godot host drops it.`,
-  );
+  // 4d: next_macro — W7 fix verify (drains via submitNextMacro, host-only).
+  // Phase here is world_setup (post W5 vote). submitNextMacro phase gate
+  // requires debrief|ended → expect not_in_post_combat_phase error
+  // confirming drain branch engaged + host-only check.
+  console.log('\n  4d: next_macro (expect: W7 fix → host-only phase-gated)');
+  try {
+    // Player (non-host) sends → expect host_only error.
+    player.send({ type: 'intent', payload: { action: 'next_macro', choice: 'advance' } });
+    const errMsgPlayer = await player.waitFor(
+      (m) => m.type === 'error' && m.payload?.code === 'host_only',
+      2000,
+    );
+    console.log(`    Player got expected host_only: ${errMsgPlayer.payload?.code}`);
+    // Host sends in wrong phase → expect not_in_post_combat_phase error.
+    host.send({ type: 'intent', payload: { action: 'next_macro', choice: 'advance' } });
+    const errMsgHost = await host.waitFor(
+      (m) =>
+        m.type === 'error' && String(m.payload?.code || '').startsWith('not_in_post_combat_phase'),
+      2000,
+    );
+    console.log(`    Host got expected phase gate: ${errMsgHost.payload?.code}`);
+    pass(
+      '4d: next_macro',
+      'next_macro drains via submitNextMacro (host-only + phase-gated)',
+      `player_err=${errMsgPlayer.payload?.code} host_err=${errMsgHost.payload?.code}`,
+    );
+  } catch (err) {
+    fail(
+      '4d: next_macro',
+      'next_macro drain branch host-only + phase gate',
+      err.message,
+      'W7 fix issue — drain branch not engaged or wrong error code path',
+    );
+  }
 
   // 4e: reveal_acknowledge — W8b fix verify (drains via acknowledgeReveal)
   console.log('\n  4e: reveal_acknowledge (expect: W8b fix → reveal_ack_list broadcast)');
