@@ -31,22 +31,23 @@ ACCEPTED — 2026-05-06
 
 ## PR shipped main (15 cumulative)
 
-| #   | PR                                                       | SHA        | Topic                                           | Wave        |
-| --- | -------------------------------------------------------- | ---------- | ----------------------------------------------- | ----------- |
-| 1   | [#2056](https://github.com/MasterDD-L34D/Game/pull/2056) | `7bf0523a` | docs handoff repo audit next session            | pre-cutover |
-| 2   | [#2057](https://github.com/MasterDD-L34D/Game/pull/2057) | `626ecb51` | Sprint 8.1 ability r3/r4 expansion              | pre-cutover |
-| 3   | [#2058](https://github.com/MasterDD-L34D/Game/pull/2058) | `87ea9ccf` | pre-cutover cleanup audit Phase 3               | cutover     |
-| 4   | [#2059](https://github.com/MasterDD-L34D/Game/pull/2059) | `d0c86c60` | services/rules/ Phase 3 removal                 | cutover     |
-| 5   | [#2060](https://github.com/MasterDD-L34D/Game/pull/2060) | `5dc65315` | mutation aspect_token 36/36                     | feature     |
-| 6   | [#2061](https://github.com/MasterDD-L34D/Game/pull/2061) | `d16cd941` | ennea voice palette Type 5+7                    | feature     |
-| 7   | [#2062](https://github.com/MasterDD-L34D/Game/pull/2062) | `5595c968` | ennea voice 9/9 archetype coverage              | feature     |
-| 8   | [#2063](https://github.com/MasterDD-L34D/Game/pull/2063) | `d109f143` | cleanup stale services/rules comments           | verify      |
-| 9   | [#2064](https://github.com/MasterDD-L34D/Game/pull/2064) | `309741f2` | refresh test artifacts post-verification        | verify      |
-| 10  | [#2065](https://github.com/MasterDD-L34D/Game/pull/2065) | `42727de3` | ADR drop HermeticOrmus + path drift fix         | Wave 1      |
-| 11  | [#2066](https://github.com/MasterDD-L34D/Game/pull/2066) | `a59985ed` | governance drift batch 460 → 218 (-52.6%)       | Wave 2      |
-| 12  | [#2067](https://github.com/MasterDD-L34D/Game/pull/2067) | `e4447575` | coop test coverage +9 negative tests            | Wave 3      |
-| 13  | [#2068](https://github.com/MasterDD-L34D/Game/pull/2068) | `50cbb04d` | docs:smoke fix Windows Node v22+                | Wave 4      |
-| 14  | this PR pending                                          | TBD        | closure bundle: P1.5 + P1.7 gap audit + handoff | bundle      |
+| #   | PR                                                       | SHA        | Topic                                                  | Wave        |
+| --- | -------------------------------------------------------- | ---------- | ------------------------------------------------------ | ----------- |
+| 1   | [#2056](https://github.com/MasterDD-L34D/Game/pull/2056) | `7bf0523a` | docs handoff repo audit next session                   | pre-cutover |
+| 2   | [#2057](https://github.com/MasterDD-L34D/Game/pull/2057) | `626ecb51` | Sprint 8.1 ability r3/r4 expansion                     | pre-cutover |
+| 3   | [#2058](https://github.com/MasterDD-L34D/Game/pull/2058) | `87ea9ccf` | pre-cutover cleanup audit Phase 3                      | cutover     |
+| 4   | [#2059](https://github.com/MasterDD-L34D/Game/pull/2059) | `d0c86c60` | services/rules/ Phase 3 removal                        | cutover     |
+| 5   | [#2060](https://github.com/MasterDD-L34D/Game/pull/2060) | `5dc65315` | mutation aspect_token 36/36                            | feature     |
+| 6   | [#2061](https://github.com/MasterDD-L34D/Game/pull/2061) | `d16cd941` | ennea voice palette Type 5+7                           | feature     |
+| 7   | [#2062](https://github.com/MasterDD-L34D/Game/pull/2062) | `5595c968` | ennea voice 9/9 archetype coverage                     | feature     |
+| 8   | [#2063](https://github.com/MasterDD-L34D/Game/pull/2063) | `d109f143` | cleanup stale services/rules comments                  | verify      |
+| 9   | [#2064](https://github.com/MasterDD-L34D/Game/pull/2064) | `309741f2` | refresh test artifacts post-verification               | verify      |
+| 10  | [#2065](https://github.com/MasterDD-L34D/Game/pull/2065) | `42727de3` | ADR drop HermeticOrmus + path drift fix                | Wave 1      |
+| 11  | [#2066](https://github.com/MasterDD-L34D/Game/pull/2066) | `a59985ed` | governance drift batch 460 → 218 (-52.6%)              | Wave 2      |
+| 12  | [#2067](https://github.com/MasterDD-L34D/Game/pull/2067) | `e4447575` | coop test coverage +9 negative tests                   | Wave 3      |
+| 13  | [#2068](https://github.com/MasterDD-L34D/Game/pull/2068) | `50cbb04d` | docs:smoke fix Windows Node v22+                       | Wave 4      |
+| 14  | this PR pending                                          | TBD        | closure bundle: P1.5 + P1.7 gap audit + handoff        | bundle      |
+| 15  | next PR                                                  | TBD        | W4 `form_pulse_submit` server-side drain (audit close) | post-bundle |
 
 ## Closures sessione (cumulative)
 

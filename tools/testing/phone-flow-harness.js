@@ -527,35 +527,39 @@ async function main() {
     '\n--- SCENARIO 4: lifecycle intents gap matrix (form_pulse_submit, world_vote, etc.) ---',
   );
 
-  // 4a: form_pulse_submit — NOT drained server-side (relay to host = pushIntent)
-  console.log('\n  4a: form_pulse_submit (expect: relayed to host, NOT drained)');
+  // 4a: form_pulse_submit — W4 fix verify (drains server-side via submitFormPulse)
+  console.log('\n  4a: form_pulse_submit (expect: W4 fix → form_pulse_list broadcast)');
   try {
-    // Player sends form_pulse_submit
     player.send({
       type: 'intent',
       payload: { action: 'form_pulse_submit', form_axes: { alpha: 0.5, beta: 0.3 } },
     });
-    // Host should receive intent relay (type='intent' from pushIntent path)
-    const intentRelay = await host.waitFor(
-      (m) => m.type === 'intent' && m.payload?.payload?.action === 'form_pulse_submit',
-      2000,
-    );
+    const listMsg = await player.waitFor((m) => m.type === 'form_pulse_list', 2000);
+    const status = listMsg.payload?.status || {};
+    const list = listMsg.payload?.list || [];
     console.log(
-      `    Host received relay: type=${intentRelay.type} action=${intentRelay.payload?.payload?.action}`,
+      `    form_pulse_list received: ready_count=${status.ready_count} total=${status.total} all_ready=${status.all_ready}`,
     );
-    gapDoc(
-      '4a: form_pulse_submit',
-      'form_pulse_submit drains server-side via coopOrchestrator (MISSING)',
-      'relayed to host via pushIntent (legacy web v1 path — Godot host has no drain JS)',
-      `GAP-W4: form_pulse_submit NOT server-side drained. wsSession.js:1273 comment "TODO drain server-side". Godot host receives WS intent but has no GDScript handler to process it → silent drop. Fix: add case in intent handler similar to character_create.`,
-    );
+    if (status.ready_count >= 1 && Array.isArray(list)) {
+      pass(
+        '4a: form_pulse_submit',
+        'form_pulse_submit drains via submitFormPulse → form_pulse_list broadcast',
+        `ready_count=${status.ready_count} total=${status.total} list_len=${list.length}`,
+      );
+    } else {
+      gapDoc(
+        '4a: form_pulse_submit',
+        'form_pulse_list payload schema',
+        `received but status.ready_count=${status.ready_count}`,
+        `GAP-W4-residue: drain branch reached but ready_count not incremented. Check submitFormPulse method or formPulses Map state.`,
+      );
+    }
   } catch (err) {
-    // pushIntent relay goes to host socket — if host is the sender this self-echos
     gapDoc(
       '4a: form_pulse_submit',
-      'form_pulse_submit relay to host',
+      'form_pulse_submit drain (W4 fix)',
       `timeout/error: ${err.message}`,
-      `GAP-W4: form_pulse_submit fallthrough to pushIntent. Host may receive but we couldn't detect within 2s. Manually verify host.messages for intent type.`,
+      `GAP-W4-regression: form_pulse_list not broadcast within 2s. Check wsSession.js intent action='form_pulse_submit' branch + coopOrchestrator.submitFormPulse.`,
     );
   }
 
