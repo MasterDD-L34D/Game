@@ -625,10 +625,11 @@ async function main() {
   }
 
   // 4d: next_macro — W7 fix verify (drains via submitNextMacro, host-only).
-  // Phase here is world_setup (post W5 vote). submitNextMacro phase gate
-  // requires debrief|ended → expect not_in_post_combat_phase error
-  // confirming drain branch engaged + host-only check.
-  console.log('\n  4d: next_macro (expect: W7 fix → host-only phase-gated)');
+  // Phase here is world_setup (post W5 vote). Codex P2 review #2075:
+  // world_setup is valid post-debrief auto-advance phase, advance/branch
+  // become no-op. We test 2 paths: (a) non-host gets host_only, (b) host
+  // sends invalid choice gets macro_choice_invalid (proves drain engaged).
+  console.log('\n  4d: next_macro (expect: W7 fix → host-only + choice validation)');
   try {
     // Player (non-host) sends → expect host_only error.
     player.send({ type: 'intent', payload: { action: 'next_macro', choice: 'advance' } });
@@ -637,25 +638,30 @@ async function main() {
       2000,
     );
     console.log(`    Player got expected host_only: ${errMsgPlayer.payload?.code}`);
-    // Host sends in wrong phase → expect not_in_post_combat_phase error.
-    host.send({ type: 'intent', payload: { action: 'next_macro', choice: 'advance' } });
+    // Host sends invalid choice → expect macro_choice_invalid.
+    host.send({ type: 'intent', payload: { action: 'next_macro', choice: 'sideways' } });
     const errMsgHost = await host.waitFor(
-      (m) =>
-        m.type === 'error' && String(m.payload?.code || '').startsWith('not_in_post_combat_phase'),
+      (m) => m.type === 'error' && m.payload?.code === 'macro_choice_invalid',
       2000,
     );
-    console.log(`    Host got expected phase gate: ${errMsgHost.payload?.code}`);
+    console.log(`    Host got expected macro_choice_invalid: ${errMsgHost.payload?.code}`);
+    // Host sends valid 'advance' in world_setup → expect next_macro_accepted (no-op path).
+    host.send({ type: 'intent', payload: { action: 'next_macro', choice: 'advance' } });
+    const acceptedMsg = await host.waitFor((m) => m.type === 'next_macro_accepted', 2000);
+    console.log(
+      `    Host got next_macro_accepted: choice=${acceptedMsg.payload?.choice} phase=${acceptedMsg.payload?.phase}`,
+    );
     pass(
       '4d: next_macro',
-      'next_macro drains via submitNextMacro (host-only + phase-gated)',
-      `player_err=${errMsgPlayer.payload?.code} host_err=${errMsgHost.payload?.code}`,
+      'next_macro drains via submitNextMacro (host-only + choice validation + world_setup no-op accepted)',
+      `player_err=${errMsgPlayer.payload?.code} host_err=${errMsgHost.payload?.code} accepted=${acceptedMsg.payload?.choice}`,
     );
   } catch (err) {
     fail(
       '4d: next_macro',
-      'next_macro drain branch host-only + phase gate',
+      'next_macro drain branch host-only + choice + phase no-op',
       err.message,
-      'W7 fix issue — drain branch not engaged or wrong error code path',
+      'W7 fix issue — drain branch not engaged or wrong response path',
     );
   }
 

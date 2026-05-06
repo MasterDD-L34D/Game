@@ -493,7 +493,14 @@ class CoopOrchestrator {
     if (!playerId) throw new Error('player_id_required');
     if (hostId && playerId !== hostId) throw new Error('host_only');
     if (!this.run) throw new Error('run_not_started');
-    if (this.phase !== 'debrief' && this.phase !== 'ended') {
+    // Codex P2 review #2075: include `world_setup` to handle the case
+    // where submitDebriefChoice already auto-advanced (last lineage
+    // submission triggered advanceScenarioOrEnd → phase moved to
+    // world_setup). UI may still emit next_macro post-ack; gate must
+    // accept the no-op path documented for advance/branch when already
+    // advanced.
+    const VALID_PHASES = new Set(['debrief', 'world_setup', 'ended']);
+    if (!VALID_PHASES.has(this.phase)) {
       throw new Error(`not_in_post_combat_phase:${this.phase}`);
     }
     const VALID_CHOICES = new Set(['advance', 'branch', 'retreat']);

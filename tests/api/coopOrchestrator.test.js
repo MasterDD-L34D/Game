@@ -368,10 +368,11 @@ test('W7 — submitNextMacro rejects non-host + invalid choice + wrong phase', (
   co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
   co.submitCharacter('p_a', { name: 'Aria', form_id: 'enfp' }, { allPlayerIds: all });
   co.confirmWorld();
-  // Wrong phase: world_setup.
+  // Wrong phase: combat → reject not_in_post_combat_phase. Codex P2 #2075
+  // expanded gate to {debrief, world_setup, ended}; combat still rejected.
   assert.throws(
     () => co.submitNextMacro('p_h', { choice: 'advance' }, { hostId: 'p_h' }),
-    /not_in_post_combat_phase/,
+    /not_in_post_combat_phase:combat/,
   );
   co.endCombat({ outcome: 'victory' });
   // Non-host rejected.
@@ -389,6 +390,31 @@ test('W7 — submitNextMacro rejects non-host + invalid choice + wrong phase', (
     () => co.submitNextMacro(null, { choice: 'advance' }, { hostId: 'p_h' }),
     /player_id_required/,
   );
+});
+
+test('W7 — submitNextMacro from world_setup post-debrief auto-advance is no-op (Codex P2 #2075)', () => {
+  // Reproduce Codex P2 scenario: last lineage_choice triggers
+  // advanceScenarioOrEnd → phase=world_setup. Subsequent host next_macro
+  // must succeed as no-op (not throw not_in_post_combat_phase).
+  const co = new CoopOrchestrator({ roomCode: 'ABCD', hostId: 'p_h' });
+  co.startRun({ scenarioStack: ['enc_a', 'enc_b'] });
+  const all = ['p_h'];
+  co.submitCharacter('p_h', { name: 'Host', form_id: 'istj' }, { allPlayerIds: all });
+  co.confirmWorld();
+  co.endCombat({ outcome: 'victory' });
+  // submitDebriefChoice last submission → auto-advance to world_setup.
+  const advance = co.submitDebriefChoice('p_h', { choice: 'skip' }, { allPlayerIds: all });
+  assert.equal(advance.action, 'next_scenario');
+  assert.equal(co.phase, 'world_setup');
+  // Now host next_macro advance — must succeed as no-op, NOT throw.
+  const r = co.submitNextMacro('p_h', { choice: 'advance' }, { hostId: 'p_h' });
+  assert.equal(r.advance.action, 'noop_post_advance');
+  assert.equal(r.choice, 'advance');
+  assert.equal(co.phase, 'world_setup');
+  // Retreat from world_setup also valid → forces ended.
+  const r2 = co.submitNextMacro('p_h', { choice: 'retreat' }, { hostId: 'p_h' });
+  assert.equal(co.phase, 'ended');
+  assert.equal(r2.advance.reason, 'retreat');
 });
 
 test('W7 — submitNextMacro from ended phase no-ops cleanly', () => {
