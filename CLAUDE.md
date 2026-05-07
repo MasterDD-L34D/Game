@@ -379,6 +379,39 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 - P5 Co-op (plan v3 🟡): 🟢 candidato — phone smoke runtime crossed cross-device 2-phone end-to-end
 - P4 MBTI/Ennea (plan v3 🟡++): 🟢 cross-stack parity restored, surface debt residuo Godot debrief 9 archetype wire (~2-3h)
 
+**Pillar realignment post-2026-05-07 audit (HONEST CHECK)**:
+
+3 agent paralleli audit cross-repo 2026-05-07 hanno rivelato pattern Engine LIVE Surface DEAD pervasivo (~67% Godot v2). CLAUDE.md sprint context Wave 6 era aspirational vs reality. Stato post-β fix shipped (PR #2089 + Godot v2 #203):
+
+| Pillar                   | Pre-audit claim       | Reality post-β + γ leftover                                                                                                        |
+| ------------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| P1 Tattica               | 🟢++                  | 🟡 candidato — 3 surface debt (TelemetryCollector HUD shipped via γ, MissionTimer countdown PARTIAL, Reinforcement telegraph DEAD) |
+| P2 Evoluzione            | 🟢++                  | 🟢 candidato — apex ritual now reachable post #203 ThoughtsRitual wire                                                             |
+| P3 Identità Specie × Job | 🟢ⁿ                   | 🟢ⁿ confirmed (no major audit gap)                                                                                                 |
+| P4 MBTI/Ennea            | 🟢 cross-stack parity | 🟢 candidato — Ennea 9-canon debrief view live (#203) + ThoughtsRitual reachable                                                   |
+| P5 Co-op vs Sistema      | 🟢 candidato          | 🟢 confirmed — threatAssessment now injected (#2089), depends post-validation                                                      |
+| P6 Fairness              | 🟢 candidato          | 🟡 candidato — WoundState badge shipped via γ, xpBudget surface DEAD, threatAssessment surface still silent                        |
+
+**Audit reports canonical** (read PRIMA di reclaim 🟢++ o 🟢 def stato):
+
+- `docs/research/2026-05-07-orphan-engine-audit-game.md` (8 orphan flagged Game/)
+- `Game-Godot-v2/docs/godot-v2/qa/2026-05-07-godot-surface-coverage-audit.md` (15 system audited Godot v2)
+- `docs/reports/2026-05-07-cross-repo-audit-synthesis.md` (synthesis cross-repo + α/β/γ strategy)
+- `docs/planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md` (Sprint P+Q reality CLOSED + GUT 4095 asserts measured)
+
+**β fix shipped 2026-05-07**:
+
+- Game/ #2089: threatAssessment inject + replay schema register + tri-sorgente schema register (~1.5h, low blast radius)
+- Godot v2 #203: GAP-2 Ennea debrief view + GAP-9 ThoughtsRitual wire (apex P4 surface reachable, +19 GUT tests)
+
+**γ leftover in flight 2026-05-07**:
+
+- Godot v2 GAP-1 TelemetryCollector p95 HUD label (~1h, P1 boost)
+- Godot v2 GAP-4 WoundState severity badge unit_info_panel (~1h, P6 boost)
+- D3 Ennea expand toggle (top archetype A + click expand to full 9 list B, ~30min UX)
+
+**Anti-pattern observation pervasive**: 67% Godot v2 surface debt post-Wave 1-7 dimostra che port-velocity + Gate 5 enforcement insufficient. Tighten policy: ogni Tier port (O.3, M, N, R) deve includere surface wire ASSERTION nel PR DoD. Aggiunto a Gate 5 §enforcement.
+
 **Cross-repo sequence reality (vs plan v3 stima)**:
 
 Plan v3 originale stima Godot v2 Sprint M+N+O+P+Q+R+S = 13-19 settimane. Reality: M+N+O+R **closed** in ~1 settimana (Sprint R closed 2026-05-04 — vedi `Game-Godot-v2/docs/godot-v2/sprint-r-plan.md` status complete). Sprint P+Q ETL parzialmente shipped via W7.x bundle (combat stubs registry 14→9). OVERSHOT enorme.
