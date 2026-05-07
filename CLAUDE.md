@@ -302,11 +302,27 @@ Other automation: `make evo-list|evo-plan|evo-run` (`tools/automation/evo_batch_
 ## Contribution gates (from CONTRIBUTING.md)
 
 - PRs must reference a passing release validator report; regressions block merge.
-- **Master DD approval** must be documented (link a comment/issue) before merging.
+- **Master DD approval** must be documented (link a comment/issue) before merging — **EXCEPT auto-merge L3 PR Claude-shipped** (vedi sotto).
 - Include a changelog entry and a **03A rollback plan** in the PR notes.
 - Run `npm run format:check` + `npm run test` locally; for frontend changes, also `npm run build` + `npm run preview` (or `npm run webapp:deploy`).
 - Do not commit binary archives under `reports/backups/**` — upload externally and update the `manifest.txt` (Archive/SHA256/Location/On-call/Last verified) per `docs/planning/REF_BACKUP_AND_ROLLBACK.md`, then log in `logs/agent_activity.md`. `npm run lint:backups` enforces this.
 - Husky runs a Prettier pre-commit on staged files; re-run `npm run prepare` after a fresh checkout.
+
+### Auto-merge L3 (ACCEPTED 2026-05-07)
+
+Per [ADR-2026-05-07-auto-merge-authorization-l3](docs/adr/ADR-2026-05-07-auto-merge-authorization-l3.md): Claude-shipped PR su `Game/` + `Game-Godot-v2` autorizzati auto-merge via `gh pr merge --squash --auto --delete-branch` SE TUTTI i 7 safety gate verdi:
+
+1. CI 100% verde (zero `fail` o `pending`; skip OK)
+2. Codex review resolved (no outstanding `requested_changes` su latest commit)
+3. Format + governance verde (Prettier + docs-governance Game/, gdformat + gdlint Godot v2)
+4. Test baseline preserved (AI ≥382/382 Game/, GUT ≥1877 Godot v2)
+5. ZERO file in forbidden paths: `.github/workflows/`, `migrations/`, `packages/contracts/`, `services/generation/`, `services/rules/`
+6. No regola 50 righe violation fuori `apps/backend/`
+7. No nuove dipendenze npm/pip
+
+OUT of scope auto-merge (require master-dd manual): multi-author PR, schema breaking change, migration, new dep, direct push main.
+
+Master-dd preserve veto via: post-merge `git revert`, branch protection rule, "stop auto-merge" comment, new ADR supersede.
 
 ## Session workflow patterns (Claude Code)
 
