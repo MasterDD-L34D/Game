@@ -9,6 +9,38 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ Phase A Day 2/7 monitoring — sessione 2026-05-08 — 4 PR shipped autonomous
+
+Phase A LIVE Day 2/7 monitoring window 2026-05-08. Master-dd silenzioso (no playtest signal). Claude autonomous research-only scoping + RCA + synthetic supplement.
+
+| #   | PR                                                       | SHA        | Topic                                                                      |
+| --- | -------------------------------------------------------- | ---------- | -------------------------------------------------------------------------- |
+| 1   | [#2109](https://github.com/MasterDD-L34D/Game/pull/2109) | `66bfc200` | Sprint Q+ GAP-12 LineageMergeService ETL scoping (design-only, NO impl)    |
+| 2   | [#2110](https://github.com/MasterDD-L34D/Game/pull/2110) | `009c812c` | Tier 2 PlayGodot integration prep — kill-60 verdict reject (research-only) |
+| 3   | [#2111](https://github.com/MasterDD-L34D/Game/pull/2111) | `3c588278` | Skiv Monitor scheduled fail RCA + 4-option fix menu                        |
+| 4   | [#2112](https://github.com/MasterDD-L34D/Game/pull/2112) | `c4515b31` | Phase B synthetic supplement iter1 (Tier 1 fresh capture localhost)        |
+
+**Pillar deltas**: zero regression Day 1→Day 2. Phase A LIVE stable confirmed.
+
+**Outstanding master-dd action items** (5 nuove decisioni — vedi `OPEN_DECISIONS.md`):
+
+- OD-017 Phase B trigger 2/3 Option α/β/γ
+- OD-018 Tier 2 PlayGodot kill-60 accept/reject
+- OD-019 Skiv Monitor fix Option A/B/C/D
+- OD-020 Sprint Q+ pre-kickoff 5 sub-decisione (gated post-Phase-B)
+- OD-021 Continuous synthetic monitoring Day 3-7 schedule
+
+### 🟢 STALE TICKET CLEANUP — closed/superseded post Phase A LIVE 2026-05-07
+
+Cleanup batch 2026-05-08. Ticket pre-pivot e pre-Phase-A-LIVE marcati closed/superseded:
+
+- [x] ~~**Sprint M.1 Game-Godot-v2 bootstrap**~~ → **✅ CHIUSO 2026-04-29→2026-05-07** Game-Godot-v2 repo created, Godot 4.x installed, Sprint M-N-O-P-Q-R progressivamente shipped (audit godot-surface-coverage 14/15 closed Day 2 2026-05-07).
+- [x] ~~**Master-dd input Sprint M.5 race condition diagnose**~~ → **✅ SUPERSEDED 2026-05-07** Phase A LIVE cutover Godot v2 = web stack v1 race conditions OBSOLETE (web v1 archive deferred Phase B). NON applicable.
+- [x] ~~**🚫 BLOCKED Sprint G.2b BG3-lite Plus movement layer**~~ → **❌ FORMAL ABORT 2026-04-29 sera** post-pivot Godot decision. ADR-2026-04-29-pivot-godot-immediate. Godot v2 native 2D = zero porting effort.
+- [x] ~~**🚫 BLOCKED TKT-M11B-06 playtest userland**~~ → **✅ SUPERSEDED 2026-05-07** Phase B trigger 2/3 (OD-017) replace. Playtest scope = full social 4 amici + master-dd post-cutover Godot v2.
+- [x] ~~**Playtest round 2 PR #1730 retest**~~ → **❌ OBSOLETE 2026-04-29** post-pivot Godot. Web v1 archive Phase B target. Narrative log prose feature M18+ deferred (gap non-bug, post-pivot reframe).
+- [x] ~~**🛑 PIVOT GODOT 2026-04-29 sera** Sprint Fase 1 chiusa~~ → **✅ DONE 2026-05-07** Phase A LIVE cutover ACCEPTED ([PR #2088](https://github.com/MasterDD-L34D/Game/pull/2088) `7247656`). Web stack v1 secondary fallback, Godot v2 phone HTML5 primary.
+
 ### ✅ Cascade auto-merge L3 sessione 2026-05-07 sera — 4 PR shipped ~17min
 
 **User formal authorization** 2026-05-07 sera grant L3 blanket auto-merge codified [`ADR-2026-05-07-auto-merge-authorization-l3`](docs/adr/ADR-2026-05-07-auto-merge-authorization-l3.md). 7 safety gate verification mandatory pre-merge.
@@ -77,11 +109,10 @@
 - [x] ~~**Spike POC BG3-lite**~~ → **✅ CHIUSO 2026-04-29** PR #2003 (Tier 1 frontend, archive web-v1-final post-pivot, native Godot 2D 0 effort).
 - [x] ~~**Rubric launcher desktop suite**~~ → **✅ CHIUSO 2026-04-29** PR #2007 (DEPRECATED post-pivot, archive web-v1-final).
 - [x] ~~**A1 Master-dd rubric session Spike POC BG3-lite**~~ → **❌ FORMAL ABORT 2026-04-29 sera** post-pivot Godot decision. No tester recruited. Reasoning: web stack co-op race conditions cascade architecturally broken (7-PR fix #2016-#2022 NOT enough), rubric value zero gating G.2b decision-binary (G.2b DEPRECATED post-pivot anyway).
-- [ ] **NEW — Sprint M.1 Game-Godot-v2 bootstrap** (~3-4g) — NEW repo `MasterDD-L34D/Game-Godot-v2` create + Godot 4.x install + Donchitos template adopt + 18 agent + 32 skill cherry-pick. Spec: `docs/planning/2026-04-29-master-execution-plan-v3.md §FASE 2 Sprint M.1`. Resume trigger phrase: vedi `docs/adr/ADR-2026-04-29-pivot-godot-immediate.md`.
-- [ ] **NEW — Master-dd input Sprint M.5 race condition diagnose** (~30min) — frontend (lobbyBridge handler register order) o backend (broadcastCoopState first connect ordering)? Determine pre Sprint M.5 cross-stack spike commitment. Spec: ADR-2026-04-29-pivot-godot-immediate §5 deferred questions.
-- [ ] **🚫 BLOCKED — Sprint G.2b BG3-lite Plus movement layer** ~10-12g (~2-2.5 sett). ADR `docs/adr/ADR-2026-04-28-bg3-lite-plus-movement-layer.md`. Tier 2 backend cherry-pick (sub-tile float round-to-nearest + vcScoring area_covered + flanking 5-zone angle). **Pre-condition**: rubric session pass.
-- [ ] **🚫 BLOCKED — TKT-M11B-06 playtest userland** ~2-4h. Seguire `docs/playtest/2026-04-21-m11-coop-ngrok-playbook.md`. **Pre-condition**: Sprint G.2b BG3-lite Plus shipped.
-- [ ] **Playtest round 2** — retest post PR #1730 con browser Ctrl+Shift+R (cache bust). Residuo: narrative log prose feature M18+ (gap non-bug).
+- [ ] **NEW — Phase B trigger 2/3 master-dd action** (Option α full social ~1-2h | β solo hardware ~30min | γ synthetic only ❌ NON satisfies). Vedi OD-017. Window 7gg termina 2026-05-14. Default proposed: Option α weekend 2026-05-10/11.
+- [ ] **NEW — Skiv Monitor fix master-dd action** Option A repo setting toggle (30s 1-click). Vedi OD-019. Restore pre-2026-04-25 verde state.
+
+**Stale ticket marcati closed/superseded sopra in §"STALE TICKET CLEANUP"** (Sprint M.1 + Sprint M.5 race + Sprint G.2b BG3-lite Plus + TKT-M11B-06 + Playtest round 2 + Pivot Godot tutti chiusi).
 
 ### Sprint Fase 1 — TUTTI CHIUSI ✅ (10 PR ondata 3+ shipped 2026-04-28/29)
 

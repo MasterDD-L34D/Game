@@ -8,18 +8,47 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v29 (post sessione 2026-05-07 Day 2 tarda sera audit closure 14/15 — +1 PR GAP-11)
-- **Ultimo aggiornamento**: 2026-05-07 Day 2 tarda sera (audit godot-surface-coverage chiuso 14/15 via #215 GAP-11 PseudoRng `42307516`. GAP-12 LineageMergeService P2 deferred Sprint Q+ — requires bond_path completion + offspring instantiation pipeline. **5/6 pillar 🟢++ rinforzati invariati**. GUT 1957→1964 (+7 GAP-11). Cumulative Day 2 = 10 Game-Godot-v2 PR + 3 Game/ docs PR.)
+- **Versione compact**: v30 (post sessione 2026-05-08 Day 2/7 monitoring window — +4 PR Phase A guard + 5 OD aperte tracking)
+- **Ultimo aggiornamento**: 2026-05-08 Day 2/7 monitoring (4 PR shipped autonomous: #2109 Sprint Q+ scoping + #2110 Tier 2 kill-60 + #2111 Skiv Monitor RCA + #2112 Phase B synthetic supplement iter1. Master-dd silenzioso playtest signal. **5/6 pillar 🟢++ invariati post sessione**. Cumulative Phase A Day 1+2 = 18 PR Claude-shipped autonomous.)
 
-## ⚡ Resume trigger phrase canonical (next session — post-Day-2-sera-cascade)
+## ⚡ Resume trigger phrase canonical (next session — post-Day-2-monitoring)
 
-> _"leggi COMPACT_CONTEXT.md v28 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day N/7 monitoring + verifica master-dd playtest trigger Phase B OR Sprint Q lifecycle ETL OR Tier 2 PlayGodot integration."_
+> _"leggi COMPACT_CONTEXT.md v30 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day N/7 monitoring + verifica master-dd playtest trigger Phase B OR Sprint Q lifecycle ETL OR continuous synthetic monitoring iter2."_
 
 Handoff doc canonical: [`docs/planning/2026-05-07-phase-a-handoff-next-session.md`](docs/planning/2026-05-07-phase-a-handoff-next-session.md)
 
 OR (post 7gg grace 2026-05-14):
 
 > _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
+
+## ⚡ TL;DR sessione 2026-05-08 Day 2/7 monitoring — 4 PR autonomous + 5 OD aperte
+
+**Trigger**: user post-handoff-resume Day 2/7 monitoring window. Master-dd silenzioso playtest signal. Claude autonomous research-only scoping + RCA + synthetic supplement.
+
+**4 PR Game/ shipped autonomous** (~10min cumulative auto-merge L3 cascade):
+
+| #   | PR                                                       | SHA        | Topic                                                                                                    | Tipo          |
+| --- | -------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------- | ------------- |
+| 1   | [#2109](https://github.com/MasterDD-L34D/Game/pull/2109) | `66bfc200` | Sprint Q+ GAP-12 LineageMergeService ETL scoping (12 ticket Q-1→Q-12, ~14-17h)                           | design-only   |
+| 2   | [#2110](https://github.com/MasterDD-L34D/Game/pull/2110) | `009c812c` | Tier 2 PlayGodot integration prep — kill-60 verdict reject (PlayGodot 20-40h custom Godot fork burden)   | research-only |
+| 3   | [#2111](https://github.com/MasterDD-L34D/Game/pull/2111) | `3c588278` | Skiv Monitor RCA — 30/30 fail post 2026-04-25 + 4-option fix menu (Option A repo toggle 30s recommended) | RCA forensic  |
+| 4   | [#2112](https://github.com/MasterDD-L34D/Game/pull/2112) | `c4515b31` | Phase B synthetic supplement iter1 (Tier 1 phone smoke 15/16 verde localhost, ZERO regression Day 1→2)   | live evidence |
+
+**5 OD aperte tracking master-dd action** (vedi `OPEN_DECISIONS.md`):
+
+- OD-017 Phase B trigger 2/3 Option α/β/γ (🔴 hard gate)
+- OD-018 Tier 2 PlayGodot kill-60 accept/reject (🟡 strategic)
+- OD-019 Skiv Monitor fix Option A/B/C/D (🟡 cosmetic)
+- OD-020 Sprint Q+ pre-kickoff 5 sub-decisione (🔴 gated post-Phase-B)
+- OD-021 Continuous synthetic monitoring Day 3-7 schedule (🟢 low-risk)
+
+**Stale ticket cleanup**: 6 ticket pre-pivot/pre-Phase-A marcati closed/superseded (Sprint M.1 + Sprint M.5 race + Sprint G.2b BG3-lite Plus + TKT-M11B-06 + Playtest round 2 + Pivot Godot).
+
+**Test baseline post-cascade**: Tier 1 phone smoke 15/16 + 1 skip (39.4s, ZERO regression Day 1→Day 2). CI Game/ + Godot v2 main verde.
+
+**Cumulative Phase A Day 1+2** = 18 PR Claude-shipped autonomous (sera 4 + Day 2 morning 3 + Day 2 sera 5 + Day 2 tarda sera 1 + Day 2/7 monitoring oggi 4 + 1 docs PR session memory).
+
+---
 
 ## ⚡ TL;DR sessione 2026-05-07 Day 2 tarda sera — audit closure 14/15 (+1 PR GAP-11)
 
