@@ -9,6 +9,82 @@
 
 ## Aperte
 
+### [OD-017] Phase B trigger 2/3 — Option α full social vs β solo hardware vs γ synthetic only
+
+- **Livello**: workflow + ADR contract gate
+- **Stato**: aperta 2026-05-08 Day 2/7 monitoring window (post PR #2112 synthetic supplement iter1)
+- **Ambiguità**: ADR-2026-05-05 §5 trigger 2/3 require "1+ playtest pass post-cutover (4 amici + master-dd, full combat scenario)". Master-dd silenzioso Day 2/7. Window 7gg termina 2026-05-14. Tre path:
+  - **Option α canonical** (4 amici Discord/WhatsApp + master-dd, ~1-2h userland, satisfies trigger ✅)
+  - **Option β fallback** (master-dd solo 2 device, 5 round combat + 3 hardware-only check, ~30min, trigger ⚠️ borderline)
+  - **Option γ synthetic only** (Claude rerun Tier 1 Day 3-7 ~5min/giorno, supplement evidence ❌ NON satisfies trigger)
+- **Perché conta**: Phase B archive web v1 formal (ADR §6) GATED su trigger 2/3. Sprint Q+ scoping (#2109) bloccato. Senza trigger entro 2026-05-14 → window grace estende OR Phase B abort.
+- **Miglior default proposto**: **Option α canonical** weekend 2026-05-10/11 (sabato/domenica massima disponibilità amici). Plan: master-dd setup tunnel `./tools/deploy/deploy-quick.sh` + share URL Discord 4 amici + 30-60min combat session + verdict explicit "Phase B ACCEPTED". Effort modesto vs evidence canonical massima.
+- **Rischio se ignorata**: 🔴 Phase B trigger fallisce. Web v1 archive deferred indefinitely. Sprint Q+ kickoff bloccato. Auto-merge L3 cascade Day 2 work potential lost momentum.
+- **Evidence supplement**: PR #2112 iter1 confirma functional gate ZERO regression Day 1→Day 2. Tier 1 functional baseline solido pre-canonical-playtest.
+- **Source ref**: [ADR-2026-05-05 §5](docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md), [PR #2112](https://github.com/MasterDD-L34D/Game/pull/2112), [docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md](docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md), [docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md](docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md).
+
+### [OD-018] Tier 2 PlayGodot integration — kill-60 verdict accept/reject
+
+- **Livello**: workflow (test infra)
+- **Stato**: aperta 2026-05-08 (post PR #2110 research kill-60 verdict)
+- **Ambiguità**: handoff `docs/playtest/AGENT_DRIVEN_WORKFLOW.md` §"Adoption roadmap" lista PlayGodot Tier 2 ~5h post Phase A. Research PR #2110 reveal stima 5h era WRONG. Reality:
+  - PlayGodot ~20-40h (custom Godot fork build + scons C++ + 2-platform maintenance)
+  - GodotTestDriver ~10-15h (C# stack mismatch GDScript)
+  - GUT scenario ext ~3-5h (stack-native, recommended)
+- **Perché conta**: AGENT_DRIVEN_WORKFLOW.md row 5+6 contiene stima sbagliata = futuro agent rischia adoption sbagliata. Cross-stack signal→DOM bridge gap ~5% NON giustifica 20-40h custom Godot fork burden solo-dev.
+- **Miglior default proposto**: **REJECT PlayGodot + GodotTestDriver, ACCEPT GUT scenario fixture extension** (~3-5h Sprint M9+). Update workflow doc strikethrough row 5+6 + redirect "GUT scenario ext".
+- **Rischio se ignorata**: 🟡 LOW. Workflow doc claim 5h stima conservata = risk waste 20-40h se future master-dd accept "as written". Esplicito kill-60 = doc-aligned con reality.
+- **Evidence**: [PR #2110 research](https://github.com/MasterDD-L34D/Game/pull/2110) + [PlayGodot README](https://github.com/Randroids-Dojo/PlayGodot) (custom fork explicit) + [GodotTestDriver README](https://github.com/chickensoft-games/GodotTestDriver) (C# only).
+- **Source ref**: [docs/playtest/2026-05-08-tier-2-playgodot-integration-prep.md](docs/playtest/2026-05-08-tier-2-playgodot-integration-prep.md).
+
+### [OD-019] Skiv Monitor scheduled fail fix — Option A repo toggle vs B/C/D workflow edit
+
+- **Livello**: ops (CI cosmetic)
+- **Stato**: aperta 2026-05-08 (post PR #2111 RCA forensic)
+- **Ambiguità**: workflow `Skiv Monitor` 30/30 last runs failure (~12 days, post 2026-04-25 ultimo successo PR auto #1836). Root cause: `gh pr create` exit 1 perm denied. Branch `auto/skiv-monitor-update` push OK. 4 fix path:
+  - **Option A** repo setting toggle (Settings → Actions → "Allow GitHub Actions to create PRs", 30s 1-click, 🟢 LOW risk)
+  - **Option B** workflow graceful fallback (`.github/workflows/` forbidden path, master-dd manual review)
+  - **Option C** notification-only skip create (forbidden path)
+  - **Option D** PAT secret swap (heavier, 🔴 MED-HIGH risk)
+- **Perché conta**: continuous red CI badge falsifica handoff "CI verde" assertion Phase A. Branch updated 4h cron OK ma PR auto NON aperto = master-dd manual workflow gap.
+- **Miglior default proposto**: **Option A** 30s 1-click. Restore pre-2026-04-25 verde state, zero code change, zero risk. Option B/C fallback se A blocked da org policy.
+- **Rischio se ignorata**: 🟡 cosmetic. NON blocca Phase A o Phase B. Solo notification noise.
+- **Evidence**: PR #2111 RCA + GraphQL error quote evidence + 30/30 fail rate.
+- **Source ref**: [docs/reports/2026-05-08-skiv-monitor-rca.md](docs/reports/2026-05-08-skiv-monitor-rca.md).
+
+### [OD-020] Sprint Q+ pre-kickoff scope freeze — 5 sub-decisione
+
+- **Livello**: game (cross-stack ETL)
+- **Stato**: aperta 2026-05-08, **GATED post-Phase-B-accept** (post PR #2109 design doc)
+- **Ambiguità**: Sprint Q+ LineageMergeService ETL chiusura GAP-12 audit godot-surface-coverage. 14-17h effort total. 5 sub-decisione master-dd richieste pre-kickoff:
+  - **Q-1** Schema contract `lineage_ritual.schema.json` review obbligatorio (forbidden path `packages/contracts/`)
+  - **Q-2** Prisma migration `Offspring { id, parent_a_id, parent_b_id, mutations, born_at, lineage_id }` master-dd manual approve (forbidden path `migrations/`)
+  - **Q-3** MUTATION_LIST canonical (3 mutation choice in LegacyRitualPanel) — narrative call. Default proposed: 6 mutation generic (vedi PR #2109 Appendice A: armatura_residua + tendine_rapide + cuore_doppio + vista_predatore + lingua_chimica + memoria_ferita)
+  - **Q-4** HTTP API auth: `/api/v1/lineage/legacy-ritual` JWT required? Default: usa JWT esistente cross-stack
+  - **Q-5** Scope freeze vs incremental: full ETL Q.A→Q.E in 1 settimana, OR Q.A only ship + master-dd review pre-Q.B kickoff?
+- **Perché conta**: ETL pipeline cross-stack contract break tra `ambitionService.evaluateChoiceRitual` (Game/ LIVE) + `propagateLineage` (stub deferred) + Godot v2 engine LIVE. Sblocca P2+P5 narrative arc Skiv-Pulverator alleanza completion (mating + offspring + debrief surface).
+- **Miglior default proposto**: **Hard gate Phase B ACCEPTED** prima di toccare Q-1→Q-5. Pre-Phase-B impl rischia regressione `DebriefView` cutover-critical surface. Default Q-3 mutation list 6-canonical accept-as-spec'd. Default Q-5 incremental Q.A only first.
+- **Rischio se ignorata**: 🟡 zero immediate (Sprint Q+ deferred per design). Solo importante post-Phase-B trigger 2/3.
+- **Evidence**: [PR #2109 scoping doc](https://github.com/MasterDD-L34D/Game/pull/2109) + [docs/planning/2026-04-29-sprint-n7-failure-model-parity-spec.md](docs/planning/2026-04-29-sprint-n7-failure-model-parity-spec.md) §6 + Game-Godot-v2 `scripts/lifecycle/lineage_merge_service.gd` (77 LOC LIVE) + `scripts/session/mating_trigger.gd` (164 LOC LIVE).
+- **Source ref**: [docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md](docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md).
+
+### [OD-021] Continuous synthetic monitoring Day 3-7 — confirm/reject Claude autonomous schedule
+
+- **Livello**: workflow
+- **Stato**: aperta 2026-05-08 (post PR #2112 §7)
+- **Ambiguità**: PR #2112 Phase B synthetic supplement propone schedule Day 3-7 monitoring window: Claude rerun Tier 1 phone smoke harness ~5min/giorno per regression detection autonomous. Total ~25-30min cumulative cycle 7gg. Master-dd burden invariato.
+- **Perché conta**: regression detection earlier vs Day 7 master-dd verdict. Synthetic supplement evidence growing dataset pre-Phase-B-trigger. Zero-cost Claude vs ZERO master-dd action.
+- **Miglior default proposto**: **CONFIRM schedule**. Cadence proposta:
+  - Day 3 2026-05-09 — synthetic iter2
+  - Day 4 2026-05-10 — skip weekend opzionale
+  - Day 5 2026-05-11 — synthetic iter3
+  - Day 6 2026-05-12 — synthetic iter4
+  - Day 7 2026-05-13 — synthetic iter5 final
+  - Day 8 2026-05-14 — master-dd Option α/β verdict
+- **Rischio se ignorata**: 🟢 LOW. NON eseguire synthetic = solo regression catch later. Phase A ZERO regression Day 1+2 = stable.
+- **Evidence**: [PR #2112 §7](https://github.com/MasterDD-L34D/Game/pull/2112) + Day 1+2 zero regression baseline.
+- **Source ref**: [docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md](docs/playtest/2026-05-08-phase-b-synthetic-supplement-iter1.md) §7.
+
 ### [OD-014] P6 Fairness ammortizer — Tactics Ogre rewind/WORLD-Chariot pattern (deferred citation)
 
 - **Livello**: game (combat fairness + anti-frustration ammortizer)

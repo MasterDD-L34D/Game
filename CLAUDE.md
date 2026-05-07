@@ -346,6 +346,33 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-08 — Phase A Day 2/7 monitoring + autonomous research-only cascade)
+
+**Sessione 2026-05-08 (Day 2/7 monitoring window post-Phase-A-LIVE)**: Master-dd silenzioso playtest signal. Claude autonomous research-only scoping + RCA + synthetic supplement. **4 PR Game/ shipped autonomous** (~10min cumulative auto-merge L3 cascade):
+
+| PR                                                       | Squash     | Topic                                                                                               |
+| -------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| [#2109](https://github.com/MasterDD-L34D/Game/pull/2109) | `66bfc200` | Sprint Q+ GAP-12 LineageMergeService ETL scoping (12 ticket Q-1→Q-12 ~14-17h, design-only NO impl)  |
+| [#2110](https://github.com/MasterDD-L34D/Game/pull/2110) | `009c812c` | Tier 2 PlayGodot integration prep — kill-60 verdict reject (custom Godot fork burden 20-40h)        |
+| [#2111](https://github.com/MasterDD-L34D/Game/pull/2111) | `3c588278` | Skiv Monitor RCA + 4-option fix menu (30/30 fail post 2026-04-25, Option A 30s 1-click recommended) |
+| [#2112](https://github.com/MasterDD-L34D/Game/pull/2112) | `c4515b31` | Phase B synthetic supplement iter1 (Tier 1 phone smoke 15/16 verde, ZERO regression Day 1→2)        |
+
+**Stato outstanding master-dd**: 5 OD aperte tracking decisioni canonical (vedi `OPEN_DECISIONS.md`):
+
+- OD-017 Phase B trigger 2/3 Option α full social vs β solo hardware vs γ synthetic only
+- OD-018 Tier 2 PlayGodot kill-60 accept/reject
+- OD-019 Skiv Monitor fix Option A repo toggle vs B/C/D workflow edit
+- OD-020 Sprint Q+ pre-kickoff 5 sub-decisione (gated post-Phase-B)
+- OD-021 Continuous synthetic monitoring Day 3-7 schedule confirm/reject
+
+**Stale ticket cleanup BACKLOG.md**: 6 ticket pre-pivot/pre-Phase-A marcati closed/superseded (Sprint M.1 + Sprint M.5 race + Sprint G.2b BG3-lite Plus + TKT-M11B-06 + Playtest round 2 + Pivot Godot).
+
+**Test baseline**: Tier 1 phone smoke fresh 15/16 + 1 skip (39.4s, ZERO regression Day 1→Day 2). CI Game/ + Godot v2 main verde.
+
+**Cumulative Phase A Day 1+2** = 18 PR Claude-shipped autonomous.
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-05-07 — Cutover Phase A LIVE + Tier 1 layered QA complete)
 
 **Sessione 2026-05-07 (alternative QA infra + ADR cutover Phase A)**: 17 PR shipped (12 Game/ + 5 Godot v2) tutti merged main. ADR-2026-05-05 status `PROPOSED → ACCEPTED Phase A 2026-05-07` ([#2088](https://github.com/MasterDD-L34D/Game/pull/2088) MERGED `7247656`). Tier 1 layered QA infra (handoff doc canonical: 70% Functional + 20% Integration + 10% Physical) **completo** in singola sessione ~10h.
