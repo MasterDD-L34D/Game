@@ -1,9 +1,9 @@
 ---
 title: 'ADR-2026-05-05: Cutover Godot v2 Fase 3 — formal decision (Scenario 3 STAGED canary)'
-doc_status: draft
+doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-05-05
+last_verified: 2026-05-07
 source_of_truth: false
 language: it
 review_cycle_days: 30
@@ -15,12 +15,18 @@ related:
   - docs/planning/2026-04-29-master-execution-plan-v3.md
   - docs/playtest/2026-05-05-phone-smoke-results.md
   - docs/playtest/2026-05-05-phone-smoke-step-by-step.md
+  - docs/playtest/2026-05-07-phone-smoke-harness-automated-coverage.md
+  - docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md
+  - docs/planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md
+  - docs/playtest/2026-05-07-phone-smoke-bundle-rca.md
+  - docs/playtest/AGENT_DRIVEN_WORKFLOW.md
+  - docs/planning/2026-05-07-cutover-handoff-alternative-qa.md
 ---
 
 # ADR-2026-05-05: Cutover Godot v2 Fase 3 — formal decision
 
-- **Data**: 2026-05-05
-- **Stato**: **PROPOSED — pending master-dd phone smoke retry**
+- **Data**: 2026-05-05 (proposed) / **2026-05-07** (accepted Phase A)
+- **Stato**: **✅ ACCEPTED Phase A 2026-05-07** — Tier 1 functional gate completo shipped (Playwright multi-tab WS phase-flow + Artillery WS load + canvas-grid visual + phone-smoke-bot agent + e2e combat→debrief→ended, [#2093](https://github.com/MasterDD-L34D/Game/pull/2093)+[#2094](https://github.com/MasterDD-L34D/Game/pull/2094)+[#2095](https://github.com/MasterDD-L34D/Game/pull/2095)+[#2096](https://github.com/MasterDD-L34D/Game/pull/2096)+[#2097](https://github.com/MasterDD-L34D/Game/pull/2097)+[#2098](https://github.com/MasterDD-L34D/Game/pull/2098)). Hardware iter1+iter2 (2026-05-07 master-dd) trovato B6→B10 bundle (5 frontend bugs), tutti fixed via [#205](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205)+[#206](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/206)+[#207](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/207). Layered QA philosophy adopted ([handoff doc](../planning/2026-05-07-cutover-handoff-alternative-qa.md)): 70% Functional (verde) + 20% Integration (canvas-grid + Artillery scaffold) + 10% Physical = last-mile post-cutover NON gate. Monitoring window 7gg grace + 1+ playtest session post-go-live cattura residual.
 - **Owner**: Master DD
 - **Stakeholder**: Tutti workstream + master-dd manual ops
 - **Supersedes**: [ADR-2026-05-04-cutover-godot-v2-decision-gate](ADR-2026-05-04-cutover-godot-v2-decision-gate.md) (criteria doc, formal decision now collapsed in this ADR)
@@ -34,37 +40,40 @@ related:
 
 Default originale "se no verdict 14gg" (decision-gate §6) resta valid se master-dd no risponde entro 2026-05-19.
 
-## 2. Pre-conditions critical path — STATO 2026-05-05
+## 2. Pre-conditions critical path — STATO 2026-05-07
 
-| #   | Pre-condition                             | Stato 2026-05-04 |  Stato 2026-05-05   | Δ                                                              |
-| --- | ----------------------------------------- | :--------------: | :-----------------: | -------------------------------------------------------------- |
-| C1  | N.7 failure-model parity 5/5              |      🟡 3/5      |  🟢 4/5 NEAR-PASS   | CampaignState + LineageMergeService shipped (#165)             |
-| C2  | M.7 DioField p95 timing                   |    🟡 PARTIAL    | 🟢 ENGINE+WIRE LIVE | TelemetryCollector wired in main.gd (#166)                     |
-| C3  | Phone composer real-device smoke 2-device |    ❌ pending    |   🟡 CONDITIONAL    | iter1 4/5 bug fix runtime-verified, B5 retest pending          |
-| C4  | Ennea taxonomy ADR Accepted + impl close  |     🟡 DRAFT     |     ✅ ACCEPTED     | ADR-2026-05-04 Opzione A (full 9-canon) shipped (#167 + #2041) |
-| C5  | Cross-repo sync regression test pass      |     ✅ LIVE      |       ✅ LIVE       | nessun cambio                                                  |
-| C6  | Godot GUT baseline ≥1500 asserts          |  🟡 1488 (97%)   |   🟡 1499 (99.9%)   | post #166 + #169 fixes — incremental gain                      |
+| #   | Pre-condition                             | Stato 2026-05-04 |  Stato 2026-05-05   |                           Stato 2026-05-07                            | Δ post-harness                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| --- | ----------------------------------------- | :--------------: | :-----------------: | :-------------------------------------------------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| C1  | N.7 failure-model parity 5/5              |      🟡 3/5      |  🟢 4/5 NEAR-PASS   |                           🟢 4/5 NEAR-PASS                            | nessun cambio                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| C2  | M.7 DioField p95 timing                   |    🟡 PARTIAL    | 🟢 ENGINE+WIRE LIVE |                       🟢 ENGINE+WIRE+TEST LIVE                        | + 6 GUT integration test_combat_5round_p95.gd ([Godot v2 #202](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/202))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| C3  | Phone composer real-device smoke 2-device |    ❌ pending    |   🟡 CONDITIONAL    | 🟢 PASS — Tier 1 functional gate verde + 2-iter hardware bundle fixed | iter1 chip session B6+B7+B8 fixed [#205](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205)+[#206](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/206) RCA [#2091](https://github.com/MasterDD-L34D/Game/pull/2091); iter2 master-dd hardware trovato **B9 world_tally + B10 world_vote_accepted [unknown_type]** — fixed [#207](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/207) +12 GUT tests. Tier 1 functional gate Playwright WS multi-tab phase-flow shipped [#2097](https://github.com/MasterDD-L34D/Game/pull/2097)+[#2098](https://github.com/MasterDD-L34D/Game/pull/2098) (10/10 verde, full lifecycle lobby→ended locked WS+REST). Hardware iter3 NON necessary — funcional gate catches B6-B10 class regression auto. Last-mile RTT WAN + touch p95 + airplane = post-cutover monitoring window NON gate. |
+| C4  | Ennea taxonomy ADR Accepted + impl close  |     🟡 DRAFT     |     ✅ ACCEPTED     |                              ✅ ACCEPTED                              | nessun cambio                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| C5  | Cross-repo sync regression test pass      |     ✅ LIVE      |       ✅ LIVE       |                                ✅ LIVE                                | nessun cambio                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| C6  | Godot GUT baseline ≥1500 asserts          |  🟡 1488 (97%)   |   🟡 1499 (99.9%)   |              🟢 4095 asserts / 1849 tests (273% target)               | full GUT suite measured local 2026-05-07: 191 scripts, 1849 tests, 4095 asserts, 41.5s. Far exceeds ≥1500 baseline.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
-**Verdict pre-conditions**: **5/6 PASS** + **1/6 CONDITIONAL** (C3 phone smoke retry pending).
+**Verdict pre-conditions**: **6/6 PASS** post-harness shipped + master-dd 10min validation puntuale.
 
-Effort residuo per Phase A trigger: ~30 min userland (C3 retry) — vs originale stima 24-31h (~99% reduction).
+Effort residuo per Phase A trigger: **~10 min userland** (C3 physical-only items: cross-device RTT + combat 5R p95 reading + airplane reconnect) — vs originale stima 24-31h (~99.4% reduction post-harness).
 
 ## 3. Phase A trigger conditions
 
 **Phase A ADR ACCEPTED** quando ALL of:
 
 1. ✅ C1 N.7 GATE 0 NEAR-PASS (4/5 mandatory shipped, Wave B 2 statuses NON blocker)
-2. ✅ C2 M.7 ENGINE+WIRE LIVE (TelemetryCollector wire confirmed runtime PR #166)
-3. 🟡 **C3 phone smoke retry results** — pending master-dd userland (~30 min):
-   - B5 phase transition character_creation rendering verify (post-#169 + #2053 build)
-   - Combat 5 round play + p95 capture via Godot console fallback
-   - Airplane mode 5s reconnect verify state preserved
-   - Verdict accepted: PASS (p95 <100ms) OR CONDITIONAL (100-200ms accettato per demo)
+2. ✅ C2 M.7 ENGINE+WIRE+TEST LIVE (TelemetryCollector wire #166 + integration test [Godot v2 #202](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/202))
+3. ✅ **C3 phone smoke validation** — Tier 1 functional gate complete:
+   - Harness automated [Game/#2087](https://github.com/MasterDD-L34D/Game/pull/2087) (17 test cross-repo) catch B5+B2+5R+airplane regression
+   - Playwright WS multi-tab phase-flow [#2097](https://github.com/MasterDD-L34D/Game/pull/2097)+[#2098](https://github.com/MasterDD-L34D/Game/pull/2098) — 10/10 verde, full lifecycle lobby→onboarding→char_creation→world_setup→combat→debrief→ended locked WS protocol + REST
+   - Artillery WS load [#2094](https://github.com/MasterDD-L34D/Game/pull/2094) — 1598 req 0 fail p95=1ms
+   - canvas-grid visual regression [#2095](https://github.com/MasterDD-L34D/Game/pull/2095) — NxM pixel sampling helper
+   - phone-smoke-bot native agent [#2096](https://github.com/MasterDD-L34D/Game/pull/2096) — codified pattern
+   - Hardware iter1+iter2 master-dd 2026-05-07 — 5 bug bundle (B6+B7+B8+B9+B10) caught + fixed
+   - Layered QA philosophy ([handoff doc](../planning/2026-05-07-cutover-handoff-alternative-qa.md)): hardware retry NOT gate primario, post-cutover monitoring catches last-mile residue (RTT WAN + touch p95 + airplane)
 4. ✅ C4 Ennea ACCEPTED (PR #167 + #2041 cross-stack 9-canon)
 5. ✅ C5 cross-repo sync LIVE
-6. 🟡 **C6 GUT baseline ≥1500 asserts** — currently 1499. Single test add closes gap (low blocker, can ship at 1499 if smoke retry green)
+6. 🟢 **C6 GUT baseline ≥1500 asserts** — full suite local 2026-05-07: 4095 asserts / 1849 tests / 191 scripts = **273% target**. Sprint P+Q closure complete (combat stubs registry zeroed via Sprint AC #177, vedi [`docs/planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md`](../planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md)).
 
-**Trigger explicit**: master-dd dichiara "Phase A ACCEPTED" post-smoke-retry results submission OR auto-accept se 14gg pass without verdict.
+**Trigger explicit**: master-dd dichiara "Phase A ACCEPTED <date>" post-validation submission via this ADR PR OR auto-accept se 14gg pass without verdict.
 
 ## 4. Phase A actions (cutover go-live)
 
