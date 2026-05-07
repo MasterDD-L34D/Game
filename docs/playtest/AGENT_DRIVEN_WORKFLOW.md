@@ -23,21 +23,21 @@ Default workflow per playtest co-op multiplayer state-machine bugs. Master-dd ha
 
 ## Decision matrix — quale path
 
-| Bug type | Browser-automatable | Mobile hardware required |
-|---|:-:|:-:|
-| Phase transition / state machine | ✅ | |
-| Defer guards / event ordering | ✅ | |
-| Broadcast handler / `[unknown_type]` toast | ✅ | |
-| Host transfer / room lifecycle | ✅ | |
-| WS reconnect logic | ✅ via DevTools offline | |
-| Multi-client coordination (4+ players) | ✅ N-context | |
-| Visual regression UI | ✅ canvas-grid | |
-| API surface (REST + WS event) | ✅ curl + JS fetch | |
-| Stale build / cache invalidation | ✅ mtime+git log | |
-| **Real WAN RTT geographic LTE** | | ✅ |
-| **Touch p95 mobile fingertip** | | ✅ |
-| **Airplane hardware + WS pause** | | ✅ |
-| **Device thermal/memory throttling** | | ✅ |
+| Bug type                                   |   Browser-automatable   | Mobile hardware required |
+| ------------------------------------------ | :---------------------: | :----------------------: |
+| Phase transition / state machine           |           ✅            |                          |
+| Defer guards / event ordering              |           ✅            |                          |
+| Broadcast handler / `[unknown_type]` toast |           ✅            |                          |
+| Host transfer / room lifecycle             |           ✅            |                          |
+| WS reconnect logic                         | ✅ via DevTools offline |                          |
+| Multi-client coordination (4+ players)     |      ✅ N-context       |                          |
+| Visual regression UI                       |     ✅ canvas-grid      |                          |
+| API surface (REST + WS event)              |   ✅ curl + JS fetch    |                          |
+| Stale build / cache invalidation           |    ✅ mtime+git log     |                          |
+| **Real WAN RTT geographic LTE**            |                         |            ✅            |
+| **Touch p95 mobile fingertip**             |                         |            ✅            |
+| **Airplane hardware + WS pause**           |                         |            ✅            |
+| **Device thermal/memory throttling**       |                         |            ✅            |
 
 ## Pattern A — Browser MCP smoke (current sessione 2026-05-07)
 
@@ -80,6 +80,7 @@ cp -R dist/web/. /c/Users/VGit/Desktop/Game/apps/backend/public/phone/
 ### Lock bug
 
 Write failing test PRE-fix at logic layer:
+
 - Composer state (`tests/unit/test_phone_composer_view_*.gd`)
 - WS handler dispatch (`tests/api/*.test.js`)
 - Defer guard (vedi PR #205 esempio)
@@ -140,7 +141,7 @@ Run: `npx playwright test tests/e2e/phone-multi.spec.ts`.
 
 ```yaml
 config:
-  target: "wss://<tunnel>/ws"
+  target: 'wss://<tunnel>/ws'
   phases:
     - duration: 60
       arrivalRate: 10
@@ -179,12 +180,12 @@ GitHub Actions cron `0 3 * * *` UTC.
 
 Solo:
 
-| Item | Why hardware-only | Frequency |
-|---|---|---|
-| Real WAN RTT geographic | LTE → CF edge → backend (vs localhost roundtrip) | Per ADR cutover, post-major-network-change |
-| Touch p95 mobile | Capacitive sensor + iOS Safari render path differs from desktop cursor | Pre Phase A cutover, every quarter |
-| Airplane hardware + WS pause | Mobile browser tab background pause OS-level (no DevTools equivalent) | Pre demo userland |
-| Device thermal/memory throttling | Sustained combat 5R+ on mid-tier phone | Pre demo + when adding sprite/VFX heavy features |
+| Item                             | Why hardware-only                                                      | Frequency                                        |
+| -------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------ |
+| Real WAN RTT geographic          | LTE → CF edge → backend (vs localhost roundtrip)                       | Per ADR cutover, post-major-network-change       |
+| Touch p95 mobile                 | Capacitive sensor + iOS Safari render path differs from desktop cursor | Pre Phase A cutover, every quarter               |
+| Airplane hardware + WS pause     | Mobile browser tab background pause OS-level (no DevTools equivalent)  | Pre demo userland                                |
+| Device thermal/memory throttling | Sustained combat 5R+ on mid-tier phone                                 | Pre demo + when adding sprite/VFX heavy features |
 
 **Master-dd checklist 3-item physical** ([docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md](docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md)) resta canonical per Phase A cutover gate. Tutto altro = pattern A/B/C/D agent-driven.
 
@@ -199,17 +200,17 @@ Solo:
 
 ## Adoption roadmap (kill-60 ranked)
 
-| # | Tool | Effort | Sprint target |
-|---|---|:-:|---|
-| 1 | Playwright multi-context | low ~3h | Sprint successivo |
-| 2 | Artillery WS scenarios | low ~2h | Sprint successivo |
-| 3 | canvas-grid Playwright addon | low ~1h | Sprint successivo (visual regression Skiv pulse) |
-| 4 | gamestudio-subagents profile mining | low ~1h | Sprint successivo |
-| 5 | PlayGodot full integration | med ~5h | Post Phase A cutover |
-| 6 | GodotTestDriver in-engine | low ~2h | Post Phase A cutover |
-| 7 | Wesnoth AI vs AI nightly | med ~6h | Sprint M9+ fairness gate |
-| - | TITAN academic LLM agent testers | high | **SKIP** solo-dev overkill |
-| - | Riot Vanguard enterprise QA | high | **SKIP** enterprise scale |
+| #   | Tool                                |                                                        Effort                                                        | Sprint target                                           |
+| --- | ----------------------------------- | :------------------------------------------------------------------------------------------------------------------: | ------------------------------------------------------- |
+| 1   | Playwright multi-context            |                                                       low ~3h                                                        | Sprint successivo                                       |
+| 2   | Artillery WS scenarios              |                                                       low ~2h                                                        | Sprint successivo                                       |
+| 3   | canvas-grid Playwright addon        |                                                       low ~1h                                                        | Sprint successivo (visual regression Skiv pulse)        |
+| 4   | gamestudio-subagents profile mining |                                                       low ~1h                                                        | Sprint successivo                                       |
+| 5   | PlayGodot full integration          | **high ~20-40h** ⚠️ requires custom Godot fork build (scons C++ + cross-platform maintenance), see PR #2110 research | Post Phase A cutover, master-dd verdict 2026-05-08 keep |
+| 6   | GodotTestDriver in-engine           |        **med ~10-15h** ⚠️ requires C# enable + GDScript-C# bridge ergonomics overhead, see PR #2110 research         | Post Phase A cutover, master-dd verdict 2026-05-08 keep |
+| 7   | Wesnoth AI vs AI nightly            |                                                       med ~6h                                                        | Sprint M9+ fairness gate                                |
+| -   | TITAN academic LLM agent testers    |                                                         high                                                         | **SKIP** solo-dev overkill                              |
+| -   | Riot Vanguard enterprise QA         |                                                         high                                                         | **SKIP** enterprise scale                               |
 
 ## Cross-ref
 
