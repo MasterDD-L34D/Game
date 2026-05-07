@@ -78,6 +78,7 @@ const { DEFAULT_ATTACK_RANGE } = require('../services/ai/policy');
 const { createSistemaTurnRunner } = require('../services/ai/sistemaTurnRunner');
 const { createDeclareSistemaIntents } = require('../services/ai/declareSistemaIntents');
 const { loadAiProfiles } = require('../services/ai/aiProfilesLoader');
+const { computeThreatIndex } = require('../services/ai/threatAssessment');
 const { createAbilityExecutor } = require('../services/abilityExecutor');
 const reactionEngine = require('../services/reactionEngine');
 // Sprint 7 Beast Bond (AncientBeast Tier S #6 residuo) — species-pair passive
@@ -1119,6 +1120,11 @@ function createSessionRouter(options = {}) {
     manhattanDistance,
     gridSize: GRID_SIZE,
     aiProfiles,
+    // AI War pattern: inject threat index computation. Allows declareSistemaIntents
+    // to factor escalation tier (passive/normal/aggressive/critical) into intent
+    // selection. See apps/backend/services/ai/threatAssessment.js + audit
+    // 2026-05-07 (orphan engine wire).
+    computeThreatIndex,
   });
 
   // Round bridge factory — all round-model functions live in sessionRoundBridge.js.

@@ -51,6 +51,8 @@ const {
   traitMechanicsSchema,
   glossarySchema,
   narrativeSchema,
+  replaySchema,
+  triSorgenteSchema,
   skivCompanionSchema,
 } = require('@game/contracts');
 const qualitySuggestionSchema = require('../../schemas/quality/suggestion.schema.json');
@@ -365,6 +367,15 @@ function createApp(options = {}) {
   schemaValidator.registerSchema(
     skivCompanionSchema.$id || 'contract://skiv/companion',
     skivCompanionSchema,
+  );
+  // Audit 2026-05-07 quick-win: register orphan contract schemas.
+  // replay.schema.json — GET /api/session/:id/replay payload (Q-001 T2.4 PR-2).
+  // tri-sorgente.schema.json — POST /api/v1/tri-sorgente/offer payload (Q-001 T3.2).
+  // See docs/research/2026-05-07-orphan-engine-audit-game.md.
+  schemaValidator.registerSchema(replaySchema.$id || 'contract://session/replay', replaySchema);
+  schemaValidator.registerSchema(
+    triSorgenteSchema.$id || 'contract://rewards/tri-sorgente',
+    triSorgenteSchema,
   );
 
   function validateWithSchema(payload, schemaId) {
