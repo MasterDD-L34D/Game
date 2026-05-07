@@ -23,6 +23,7 @@
     "i18n:check:strict": "python tools/py/validate_i18n_parity.py --root data/i18n --strict",
     "ci:stack": "npm run lint:stack && npm run test:backend",
     "test:api": "node scripts/run-test-api.cjs",
+    "test:load:lobby": "npx artillery@2.0.31 run tests/load/lobby-flood.yml",
     "start:api": "node apps/backend/index.js",
     "start:console": "node scripts/serve-mission-console.mjs",
     "docs:lint": "python tools/check_site_links.py docs",
