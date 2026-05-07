@@ -8,18 +8,49 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v26 (post sessione 2026-05-07 sera cascade auto-merge L3 — 4 PR ~17min)
-- **Ultimo aggiornamento**: 2026-05-07 sera (cascade auto-merge L3 codified ADR-2026-05-07-auto-merge-authorization-l3 `6a3880ef` + Plan v3.2 audit final close `98dbf058` + Godot v2 lint debt cleanup `87dd88df` + GAP-10 AiProgressMeter wire `29640c5f`. **Pillar P5 🟢 → 🟢++** Sistema escalation HUD live. **Auto-merge L3 ATTIVO**: 7 safety gate ADR codificate, ~2-3x speedup pipeline. Phase A monitoring Day 1/7 — Godot v2 main CI hygiene blocker resolved.)
+- **Versione compact**: v27 (post sessione 2026-05-07 Day 2/7 Sprint M.7 chip cascade — 2 PR ~50min)
+- **Ultimo aggiornamento**: 2026-05-07 Day 2 (Sprint M.7 chip kickoff: GAP-7 PassiveStatusApplier wire `c89f7bfd` + GAP-5 MissionTimer countdown HUD `db745302`. **ADR-2026-05-07-abort-web reincarnate target 3/3 CLOSED** (incl GAP-10 sera). **Pillar P3 🟢ⁿ → 🟢++** + **P6 🟢 cand → 🟢++**. GUT 1877→1925 (+48). Phase A Day 2/7 monitoring verde — CI Game/ + Godot v2 main verde, zero regression.)
 
-## ⚡ Resume trigger phrase canonical (next session — post-cascade L3)
+## ⚡ Resume trigger phrase canonical (next session — post-Day-2 chip)
 
-> _"leggi COMPACT_CONTEXT.md v26 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day 2/7 monitoring + Sprint M.7 chip kickoff (GAP-5 MissionTimer + GAP-7 PassiveStatusApplier re-incarnate ADR-2026-05-07-abort-web)."_
+> _"leggi COMPACT_CONTEXT.md v27 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day N/7 monitoring + check master-dd playtest trigger Phase B OR surface debt residuo audit (GAP-3+GAP-6+GAP-8+GAP-13+GAP-14)."_
 
 Handoff doc canonical: [`docs/planning/2026-05-07-phase-a-handoff-next-session.md`](docs/planning/2026-05-07-phase-a-handoff-next-session.md)
 
 OR (post 7gg grace 2026-05-14):
 
 > _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
+
+## ⚡ TL;DR sessione 2026-05-07 Day 2/7 — Sprint M.7 chip cascade (2 PR ~50min)
+
+**Trigger**: user _"Phase A Day 2/7 monitoring + Sprint M.7 chip kickoff GAP-5+GAP-7 reincarnate"_.
+
+**2 PR shipped UTC 19:51-20:40** (~50min cumulative, Game-Godot-v2 cascade L3):
+
+| #   | PR                                                              | SHA        | Topic                            | Pillar        |
+| --- | --------------------------------------------------------------- | ---------- | -------------------------------- | ------------- |
+| 1   | [#210](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/210) | `c89f7bfd` | GAP-7 PassiveStatusApplier wire  | P3 🟢ⁿ → 🟢++ |
+| 2   | [#211](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/211) | `db745302` | GAP-5 MissionTimer countdown HUD | P6 🟢 → 🟢++  |
+
+**ADR-2026-05-07-abort-web reincarnate target 3/3 CLOSED**:
+
+- ✅ GAP-10 AiProgressMeter #208 sera
+- ✅ GAP-7 PassiveStatusApplier #210 Day 2
+- ✅ GAP-5 MissionTimer #211 Day 2
+
+**Test baseline**: GUT 1877 → 1911 (+14 GAP-7) → 1925 (+14 GAP-5). Format + gdlint verde. main.gd 981 LOC under 1000 (TUTORIAL_01_UNITS relocated to MainCombatSetup per budget).
+
+**Phase A Day 2/7 monitoring**: CI Game/ + Godot v2 main verde, zero regression.
+
+**Pillar deltas Day 2**: P3 🟢ⁿ → 🟢++ (297 ancestor passive unblock + Skiv linked demo) + P6 🟢 cand → 🟢++ (Long War 2 mission timer visibility).
+
+**Pillar status finale post-Day-2**: 5/6 🟢++ + 2/6 🟢 cand (P2 + P4 unchanged).
+
+**Auto-merge L3 cumulative session 2026-05-07**: 6 PR Claude-shipped autonomous (sera 4 + Day 2 cascade 2). ~4-5x speedup confirmed.
+
+**Resume**: see canonical handoff `docs/planning/2026-05-07-phase-a-handoff-next-session.md`.
+
+---
 
 ## ⚡ TL;DR sessione 2026-05-07 sera — cascade auto-merge L3 (4 PR ~17min)
 
