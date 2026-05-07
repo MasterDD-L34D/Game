@@ -3,7 +3,7 @@ title: 2026-04-29 Master execution plan v3 — post Godot pivot decision
 doc_status: active
 doc_owner: master-dd
 workstream: cross-cutting
-last_verified: 2026-04-30
+last_verified: 2026-05-07
 source_of_truth: true
 language: it
 review_cycle_days: 14
@@ -19,6 +19,8 @@ related:
 ---
 
 # Master execution plan v3 — post Godot pivot decision
+
+> **2026-05-07 — Fase 3 Phase A LIVE**: cutover Godot v2 ACCEPTED ([ADR-2026-05-05](../adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md)). Primary frontend = Godot v2 phone HTML5, web v1 secondary fallback. Monitoring window 7gg grace started. Phase B archive trigger post 7gg + 1+ playtest pass.
 
 > **Scope**: piano esecutivo unificato post-pivot Godot v2 immediate (ADR-2026-04-29-pivot-godot-immediate). Replace plan v2 §FASE 1 Sprint G v3 + G.2b + H + I + relativa rubric session.
 

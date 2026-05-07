@@ -3,13 +3,15 @@ title: Evo-Tactics — Starter Monorepo
 doc_status: active
 doc_owner: platform-docs
 workstream: cross-cutting
-last_verified: 2026-04-17
+last_verified: 2026-05-07
 source_of_truth: false
 language: it-en
 review_cycle_days: 14
 ---
 
 # 🦴 Evo-Tactics
+
+> **2026-05-07 — Cutover Phase A LIVE**: primary frontend = **Godot v2 phone HTML5** ([sibling repo](https://github.com/MasterDD-L34D/Game-Godot-v2), `dist/web/`). Web v1 (`apps/play/`) = secondary fallback alive (no archive yet). Phase B archive trigger post 7gg grace + 1+ playtest pass. Vedi [ADR-2026-05-05](docs/adr/ADR-2026-05-05-cutover-godot-v2-fase-3-formal.md).
 
 ## Why
 

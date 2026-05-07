@@ -330,6 +330,102 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-07 — Cutover Phase A LIVE + Tier 1 layered QA complete)
+
+**Sessione 2026-05-07 (alternative QA infra + ADR cutover Phase A)**: 16 PR shipped (12 Game/ + 4 Godot v2) tutti merged main. ADR-2026-05-05 status `PROPOSED → ACCEPTED Phase A 2026-05-07` ([#2088](https://github.com/MasterDD-L34D/Game/pull/2088) MERGED `7247656`). Tier 1 layered QA infra (handoff doc canonical: 70% Functional + 20% Integration + 10% Physical) **completo** in singola sessione ~10h.
+
+**PR shipped main 2026-05-07** (12 Game/):
+
+| PR | Squash | Topic | Pillar |
+|---|---|---|---|
+| [#2087](https://github.com/MasterDD-L34D/Game/pull/2087) | `a1a88d7` | Phone smoke harness 17 test (Node 11 + GUT 6) | meta |
+| [#2091](https://github.com/MasterDD-L34D/Game/pull/2091) | `77644e8` | RCA forensic B6+B7+B8 bundle | meta |
+| [#2092](https://github.com/MasterDD-L34D/Game/pull/2092) | `b3667b2` | Canonical agent-driven workflow doc | meta |
+| [#2093](https://github.com/MasterDD-L34D/Game/pull/2093) | `4662e1c` | Tier 1 #1 Playwright multi-context REST | meta |
+| [#2094](https://github.com/MasterDD-L34D/Game/pull/2094) | `31b198f` | Tier 1 #2 Artillery WS load (1598 req 0 fail p95=1ms) | meta |
+| [#2095](https://github.com/MasterDD-L34D/Game/pull/2095) | `0a6105b` | Tier 1 #3 canvas-grid visual regression | meta |
+| [#2096](https://github.com/MasterDD-L34D/Game/pull/2096) | `1965b46` | Tier 1 #4 phone-smoke-bot native agent | meta |
+| [#2097](https://github.com/MasterDD-L34D/Game/pull/2097) | `6d41ebc` | Playwright WS multi-tab phase-flow B5-B10 | meta |
+| [#2098](https://github.com/MasterDD-L34D/Game/pull/2098) | `8a0ec55` | combat → debrief → ended e2e closes Tier 1 gap | meta |
+| [#2099](https://github.com/MasterDD-L34D/Game/pull/2099) | `196f606` | Iter3 hardware-equivalent agent + browser smoke | meta |
+| [#2088](https://github.com/MasterDD-L34D/Game/pull/2088) | **`7247656`** | 🎯 **ADR-2026-05-05 ACCEPTED Phase A** | meta |
+
+**PR Godot v2 shipped main 2026-05-07** (4):
+
+| PR | Topic |
+|---|---|
+| [#205](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205) | B8 non-host transition stuck fix (defer guard helper extract) |
+| [#206](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/206) | deploy-quick rebuild dist by default (B6/B7 prevention) |
+| [#207](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/207) | B9+B10 phone composer subscription handlers + 12 GUT tests |
+
+**Bug bundle 2026-05-07 audit trail complete**:
+
+| Bug | Severity | Fix PR | Status |
+|---|---|---|---|
+| B5 phase_change | functional | #2087 harness catch | shipped + harness |
+| B6 stale-dist char_create | infra | #206 deploy rebuild | shipped + RCA |
+| B7 stale-dist host preserve | infra | #206 deploy rebuild | shipped + RCA |
+| B8 defer guard re-fire | functional | #205 helper extract | shipped + RCA |
+| B9 world_tally unknown_type | functional | #207 phone composer subscribe | shipped + 12 GUT |
+| B10 world_vote_accepted unknown_type | functional | #207 phone composer subscribe | shipped + 12 GUT |
+
+**Tier 1 layered QA infra adoption complete**:
+
+| Tier | Tool | Effort actual | Coverage |
+|---|---|:-:|---|
+| 1 #1 | Playwright multi-context REST | ~1.5h | host create + player join + 4-context scaling |
+| 1 #2 | Artillery WS scenarios | ~1.5h | HTTP throughput stress p95<500ms |
+| 1 #3 | canvas-grid visual regression | ~45min | NxM pixel sampling helper |
+| 1 #4 | phone-smoke-bot native agent | ~30min | Codified pattern via .claude/agents/ |
+| 1 ext | WS multi-tab phase-flow | ~3h subagent | Full lifecycle lobby → ended |
+| 1 ext | combat→debrief→ended e2e | ~30min | Closes coverage gap |
+| 1 ext | Iter3 hardware-equivalent | ~1.5h | Reconnect + p95 baseline + tunnel-gated |
+
+**~10h totale Tier 1 vs ~7h budget**. ~+43% over budget per ext deliverables (WS + e2e + iter3).
+
+**ADR-2026-05-05 status post-sessione**:
+
+- Pre: PROPOSED — hardware iter3 deferred a alternative QA infra
+- Post: ✅ **ACCEPTED Phase A 2026-05-07** — Tier 1 functional gate verde + 2-iter hardware campaign 5 bug bundle fixed + iter3 hardware-equivalent ~70-90% fidelity automated
+
+**Phase A actions GO** (this session):
+
+- 4.1 Frontend primary switch: Godot v2 phone HTML5 primary, web v1 secondary
+- 4.2 README.md root: primary frontend banner aggiunto
+- 4.2 Plan v3: Fase 3 Phase A LIVE marker
+- 4.2 CLAUDE.md sprint context: this section
+- 4.3 Monitoring window 7gg grace start: 2026-05-07 → 2026-05-14
+
+**Pillar status post-Phase A LIVE**:
+
+| Pillar | Stato |
+|---|:-:|
+| P1 Tattica | 🟢 (Telemetry HUD + p95 wire live) |
+| P2 Evoluzione | 🟢 candidato (apex ritual reachable) |
+| P3 Identità | 🟢ⁿ (11/11 jobs r1→r4) |
+| P4 MBTI/Ennea | 🟢 candidato (cross-stack 9-canon) |
+| P5 Co-op | 🟢 confirmed (post #2089 inject + B9+B10 fix + Tier 1 gate) |
+| P6 Fairness | 🟢 candidato (Wound badge live) |
+
+**Resume trigger phrase canonical** (any PC, next session):
+
+> _"leggi docs/planning/2026-05-07-phase-a-handoff-next-session.md, monitoring window day N + Phase B trigger eval"_
+
+OR
+
+> _"Phase B archive web v1: post 7gg grace + 1+ playtest pass, eseguire ADR §6"_
+
+**Next session candidati**:
+
+- A) Master-dd 1+ playtest session post-cutover (4 amici + master-dd, full combat) → Phase B trigger 1/3
+- B) 7gg monitoring window day-by-day check (no critical bug regression, p95 stable, WS reconnect <5%) → Phase B trigger 3/3 baseline
+- C) Phase B archive web v1 formal post 7gg + playtest pass (ADR §6) — `apps/play/src/` → `apps/play.archive/`, deprecate banner, web-v1-final tag refresh
+- D) Tier 2 PlayGodot full integration (~5h) — post Phase A stable
+- E) GodotTestDriver in-engine (~2h) — post Phase A stable
+- F) Wesnoth AI vs AI nightly (~6h) — Sprint M9+ fairness gate
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-05-05 — phone smoke runtime 5-bug bundle + drift sync close-marks)
 
 **Sessione 2026-05-04→05 (drift sync deep clean + phone smoke userland)**: Game-Godot-v2 main HEAD `ddacd860` (post #169). Game/ main HEAD `97185317` (post #2053). 8 PR Game/ + 3 Game-Godot-v2 merged main in ~36h. Drift sync 2026-05-04 critical path Fase 3 cutover ridotto **47-70h → ~30 min** userland retry + 1-2h ADR formal (-99%).
@@ -507,6 +603,15 @@ OR
 
 ---
 
+<!-- Sprint context 2026-04-28 (Skiv Personal Sprint 4/4 goals) archived 2026-05-07
+     per policy max 3 Sprint context. Full content in
+     docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
+     Summary: PR #1982/#1977/#1983/#1984. P1 Skiv combat showcase + echolocation pulse +
+     P2 legacy cross-gen agency + P4 thoughts ritual choice + P5 solo-vs-pack base.
+     Memory: project_skiv_personal_wishlist_2026_04_27.md. -->
+
+<!-- ARCHIVED below: Sprint context 2026-04-28 — replaced 2026-05-07 by Phase A LIVE section above.
+
 ## 🎮 Sprint context (aggiornato: 2026-04-28 — Skiv Personal Sprint 4/4 goals shipped)
 
 **Sessione 2026-04-27/28 (Skiv personal wishlist autonomous)**: 4 goals canonical Skiv shipped end-to-end in singola sessione ~9h via 3-phase wave (G1+G2 parallel → G3 → G4). Plan canonical [`docs/planning/2026-04-27-skiv-personal-sprint-handoff.md`](docs/planning/2026-04-27-skiv-personal-sprint-handoff.md).
@@ -546,6 +651,8 @@ OR
 - B) Skiv state.json recompute post-encounter live playthrough (deferred a Phase 4 — non backfillable senza run reale)
 - C) Sentience tier 4 species candidate exploration (T4=0 attualmente, gap noted OD-008)
 - D) Ennea archetypes UI surface (gap noted in handoff §1 — 9 archetypes ZERO surface)
+
+ARCHIVED end. -->
 
 ---
 
