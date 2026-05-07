@@ -35,7 +35,7 @@
 - [x] ~~**§Sprint N.5 accessibility parity (P2.4)**~~ → ✅ vedi sopra (PR #2076).
 - [x] ~~**Ennea archetypes UI surface (P2.2)**~~ → **✅ CHIUSO 2026-05-07** Godot v2 [PR #203](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/203) `5d098e7b` (GAP-2 debrief view top archetype) + [PR #204](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/204) `194a68da` (D3 expand toggle full 9 list).
 
-**P2.3 sentience T4 audit** — completed 2026-05-07 (T4=0 confirmed, 38 species across 2 catalog file). Distribution T0:2 / T1:23 / T2:15 / T3:3 / T4:**0** / T5:3. Bridge gap T3→T5. Candidate A `umbra_alaris` (Playable, Skiv-bond ritual T3→T4 trigger) + Candidate B `terracetus_ambulator` (Keystone, legacy ritual T3→T4 trigger). ADR formal deferred post-cutover Phase B + 1+ playtest. Default fallback no signal entro 2026-06-01: promote A only. Synthesis: [`docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md §P2.3`](docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md).
+**P2.3 sentience T4 audit** — completed 2026-05-07 (T4=0 confirmed, 46 species across 2 catalog file). Distribution T0:2 / T1:23 / T2:15 / T3:3 / T4:**0** / T5:3. Bridge gap T3→T5. Candidate A `umbra_alaris` (Playable, Skiv-bond ritual T3→T4 trigger) + Candidate B `terracetus_ambulator` (Keystone, legacy ritual T3→T4 trigger). ADR formal deferred post-cutover Phase B + 1+ playtest. Default fallback no signal entro 2026-06-01: promote A only. Synthesis: [`docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md §P2.3`](docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md).
 
 ### ✅ Coop WS audit 6/6 closed 2026-05-06 — gap matrix complete
 

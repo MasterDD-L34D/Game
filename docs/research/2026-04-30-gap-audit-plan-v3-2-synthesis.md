@@ -250,7 +250,7 @@ Deferred Phase 4 — non backfillable senza run reale. NO action.
 
 ## P2.3 sentience T4 candidate audit — completed 2026-05-07
 
-**Distribution sentience tier post-audit (38 species across `data/core/species.yaml` + `data/core/species_expansion.yaml`)**:
+**Distribution sentience tier post-audit (46 species across `data/core/species.yaml` + `data/core/species_expansion.yaml`)**:
 
 |         Tier         | Count | Slug examples                                                                                    |
 | :------------------: | :---: | ------------------------------------------------------------------------------------------------ |
