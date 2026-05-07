@@ -171,6 +171,40 @@ User formal authorization 2026-05-07 sera grant L3 blanket auto-merge. Codified 
 - GAP-7 PassiveStatusApplier wire `main.gd` (~1-2h, P3 — ex-MUTATION-P6-VISUAL reincarnate, 297 ancestor passive trait unblock)
 - GAP-10 AiProgressMeter ✅ already shipped #208 (originally bonus, completed sera 2026-05-07)
 
+## Day 2/7 sera 2026-05-07 — Sprint M.7 chip cascade (post-handoff update 2)
+
+User trigger _"Phase A Day 2/7 + Sprint M.7 chip kickoff GAP-5+GAP-7 reincarnate"_. 2 PR Game-Godot-v2 cascade L3 ~50min UTC 19:51-20:40.
+
+| #   | PR                                                              | Repo     | SHA        | Topic                            | Pillar        |
+| --- | --------------------------------------------------------------- | -------- | ---------- | -------------------------------- | ------------- |
+| 1   | [#210](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/210) | Godot v2 | `c89f7bfd` | GAP-7 PassiveStatusApplier wire  | P3 🟢ⁿ → 🟢++ |
+| 2   | [#211](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/211) | Godot v2 | `db745302` | GAP-5 MissionTimer countdown HUD | P6 🟢 → 🟢++  |
+
+**ADR-2026-05-07-abort-web reincarnate target 3/3 CLOSED**:
+
+- ✅ GAP-10 AiProgressMeter #208 `29640c5f` (sera 2026-05-07)
+- ✅ GAP-7 PassiveStatusApplier #210 `c89f7bfd` (Day 2)
+- ✅ GAP-5 MissionTimer #211 `db745302` (Day 2)
+
+**Test baseline post-cascade**: GUT 1877 → 1911 (+14 GAP-7) → 1925 (+14 GAP-5). Format + gdlint verde tutte PR. main.gd 981 LOC under 1000 max-file-lines (TUTORIAL_01_UNITS relocated to MainCombatSetup per budget).
+
+**Phase A guard verified Day 2**:
+
+- ✅ CI Game/ main verde + CI Godot v2 main verde post merges
+- ✅ Zero regression detected
+- ✅ Tier 1 functional gate stable
+
+**Pillar deltas Day 2**:
+
+- P3 Identità Specie × Job 🟢ⁿ → 🟢++ (297 ancestor passive trait surface unblock + Skiv/Pulverator linked Beast Bond demo)
+- P6 Fairness 🟢 cand → 🟢++ (Mission timer Long War 2 visibility closes "why did I lose?" gap)
+
+**Auto-merge L3 cascade cumulative session 2026-05-07**: 6 PR Claude-shipped autonomous (sera 4 + Day 2 attuale 2). ~4-5x speedup vs master-dd manual gate cycle confirmed.
+
+**Pillar status post-Day-2**: 5/6 🟢++ + 2/6 🟢 cand (P2 + P4 unchanged).
+
+**Bloccante residuo**: NESSUNO autonomous. Master-dd 1+ playtest pass cross-cutover = Phase B trigger 1/3.
+
 ## Resume trigger canonical (any PC)
 
 > _"leggi docs/planning/2026-05-07-phase-a-handoff-next-session.md, monitoring window day N + Phase B trigger eval"_
