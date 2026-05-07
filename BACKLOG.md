@@ -9,6 +9,25 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ Cascade auto-merge L3 sessione 2026-05-07 sera — 4 PR shipped ~17min
+
+**User formal authorization** 2026-05-07 sera grant L3 blanket auto-merge codified [`ADR-2026-05-07-auto-merge-authorization-l3`](docs/adr/ADR-2026-05-07-auto-merge-authorization-l3.md). 7 safety gate verification mandatory pre-merge.
+
+| #   | PR                                                              | Repo     | SHA        | Topic                                                      |
+| --- | --------------------------------------------------------------- | -------- | ---------- | ---------------------------------------------------------- |
+| 1   | [#209](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/209) | Godot v2 | `87dd88df` | Lint debt cleanup main.gd 1101→999                         |
+| 2   | [#2101](https://github.com/MasterDD-L34D/Game/pull/2101)        | Game/    | `98dbf058` | Plan v3.2 final close 8/8 P1 + 3/3 P2 + sentience T4 audit |
+| 3   | [#2103](https://github.com/MasterDD-L34D/Game/pull/2103)        | Game/    | `6a3880ef` | Auto-merge L3 ADR codify                                   |
+| 4   | [#208](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/208) | Godot v2 | `29640c5f` | GAP-10 AiProgressMeter wire (P5 🟢→🟢++)                   |
+
+**Pillar deltas**:
+
+- P5 Co-op vs Sistema 🟢 → 🟢++ (Sistema escalation HUD top-strip live)
+- meta plan v3.2 audit synthesis 100% closed
+- policy auto-merge L3 ATTIVO
+
+**Phase A Day 1/7 monitoring**: Godot v2 main CI hygiene blocker resolved (#209 unblocks 5 consecutive lint failures post-#205).
+
 ### 🛑 PIVOT GODOT 2026-04-29 sera — Sprint Fase 1 CHIUSA (web stack co-op race conditions UNRESOLVED, pivot Godot immediate)
 
 **Decision-altering**: ADR-2026-04-29-pivot-godot-immediate.md + master-execution-plan-v3.md SHIPPED. Path B accelerated cap. 22 PR mergiati main preserved come reference port Godot. Sprint G.2b BG3-lite Plus + A1 rubric + Sprint H + Sprint I DEPRECATED post-pivot.

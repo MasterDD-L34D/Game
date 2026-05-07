@@ -25,10 +25,12 @@ Session 2026-05-07 close — ADR-2026-05-05 ACCEPTED Phase A. Monitoring window 
 **16 PR shipped tutte MERGED** (12 Game/ + 4 Godot v2). Tier 1 layered QA infra completa. Bug bundle B5+B6+B7+B8+B9+B10 tutti fixed cross-repo.
 
 ADR cutover Phase A:
+
 - **Pre**: PROPOSED — hardware iter3 deferred
 - **Post**: ✅ **ACCEPTED Phase A 2026-05-07** ([#2088](https://github.com/MasterDD-L34D/Game/pull/2088) `7247656`)
 
 Monitoring window:
+
 - Start: 2026-05-07
 - End: 2026-05-14 (+7gg grace per ADR §4.3)
 - Phase B trigger: post-end + 1+ playtest pass + soft criteria S1+S2+S5
@@ -108,15 +110,15 @@ git mv apps/play/src apps/play.archive/src
 
 Per next-session reference + future Sprint M9+ Tier 2/3:
 
-| Spec | Path | Coverage |
-|---|---|---|
-| REST lobby smoke | `tools/ts/tests/playwright/phone/phone-multi.spec.ts` | host create + player join + 4-context scaling |
-| WS phase-flow | `tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts` | Full lifecycle lobby → ended + B5-B10 + iter3 |
-| Canvas visual | `tools/ts/tests/playwright/phone/canvas-visual.spec.ts` | NxM pixel sampling baseline (3 test) |
-| Helper lib | `tools/ts/tests/playwright/phone/lib/canvasGrid.ts` | sampleCanvasGrid + colorMatchesApprox |
-| Artillery load | `tests/load/lobby-flood.yml` | HTTP throughput stress 1598 req p95<500ms |
-| Native agent | `.claude/agents/phone-smoke-bot.md` | Codified pattern + decision matrix |
-| Workflow doc | `docs/playtest/AGENT_DRIVEN_WORKFLOW.md` | Canonical 4-pattern workflow |
+| Spec             | Path                                                    | Coverage                                      |
+| ---------------- | ------------------------------------------------------- | --------------------------------------------- |
+| REST lobby smoke | `tools/ts/tests/playwright/phone/phone-multi.spec.ts`   | host create + player join + 4-context scaling |
+| WS phase-flow    | `tools/ts/tests/playwright/phone/phase-flow-ws.spec.ts` | Full lifecycle lobby → ended + B5-B10 + iter3 |
+| Canvas visual    | `tools/ts/tests/playwright/phone/canvas-visual.spec.ts` | NxM pixel sampling baseline (3 test)          |
+| Helper lib       | `tools/ts/tests/playwright/phone/lib/canvasGrid.ts`     | sampleCanvasGrid + colorMatchesApprox         |
+| Artillery load   | `tests/load/lobby-flood.yml`                            | HTTP throughput stress 1598 req p95<500ms     |
+| Native agent     | `.claude/agents/phone-smoke-bot.md`                     | Codified pattern + decision matrix            |
+| Workflow doc     | `docs/playtest/AGENT_DRIVEN_WORKFLOW.md`                | Canonical 4-pattern workflow                  |
 
 **Run commands**:
 
@@ -136,15 +138,38 @@ PHONE_BASE_URL=https://<random>.trycloudflare.com \
 
 Per `docs/playtest/AGENT_DRIVEN_WORKFLOW.md` adoption roadmap:
 
-| Tier | Tool | Effort | Trigger |
-|---|---|:-:|---|
-| 2 | PlayGodot full integration | ~5h | Post Phase A stable (post 2026-05-14) |
-| 2 | GodotTestDriver in-engine | ~2h | Post Phase A stable |
-| 3 | Wesnoth AI vs AI nightly fairness gate | ~6h | Sprint M9+ |
+| Tier | Tool                                   | Effort | Trigger                               |
+| ---- | -------------------------------------- | :----: | ------------------------------------- |
+| 2    | PlayGodot full integration             |  ~5h   | Post Phase A stable (post 2026-05-14) |
+| 2    | GodotTestDriver in-engine              |  ~2h   | Post Phase A stable                   |
+| 3    | Wesnoth AI vs AI nightly fairness gate |  ~6h   | Sprint M9+                            |
 
 ## Bloccante residuo
 
 **NESSUNO** per Phase A LIVE. Cutover live-ready, monitoring window in corso.
+
+## Cascade auto-merge L3 — Day 1 sera 2026-05-07 (post-handoff update)
+
+User formal authorization 2026-05-07 sera grant L3 blanket auto-merge. Codified [`ADR-2026-05-07-auto-merge-authorization-l3`](../adr/ADR-2026-05-07-auto-merge-authorization-l3.md). 4 PR cascade ~17min (~2-3x speedup vs master-dd manual gate baseline):
+
+| #   | PR                                                              | Repo     | SHA        | UTC merge time            |
+| --- | --------------------------------------------------------------- | -------- | ---------- | ------------------------- |
+| 1   | [#209](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/209) | Godot v2 | `87dd88df` | 19:15 (lint debt cleanup) |
+| 2   | [#2101](https://github.com/MasterDD-L34D/Game/pull/2101)        | Game/    | `98dbf058` | 19:16 (plan v3.2 close)   |
+| 3   | [#2103](https://github.com/MasterDD-L34D/Game/pull/2103)        | Game/    | `6a3880ef` | 19:21 (ADR L3 codify)     |
+| 4   | [#208](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/208) | Godot v2 | `29640c5f` | 19:33 (GAP-10 wire)       |
+
+**Phase A guard verified**:
+
+- ✅ Godot v2 main CI hygiene blocker resolved (#209 unblocked 5 consecutive lint failures post-#205)
+- ✅ P5 Co-op 🟢 → 🟢++ (Sistema escalation HUD top-strip live)
+- ⚠ Skiv Monitor scheduled fail = pre-existing GH Actions PR-create permission denied (cosmetic, defer Day 2+)
+
+**ADR-2026-05-07-abort-web reincarnate target Sprint M.7 chip post Phase A stable**:
+
+- GAP-5 MissionTimer countdown HUD (~2-3h, P6 — ex-QBN debrief reincarnate)
+- GAP-7 PassiveStatusApplier wire `main.gd` (~1-2h, P3 — ex-MUTATION-P6-VISUAL reincarnate, 297 ancestor passive trait unblock)
+- GAP-10 AiProgressMeter ✅ already shipped #208 (originally bonus, completed sera 2026-05-07)
 
 ## Resume trigger canonical (any PC)
 

@@ -8,18 +8,43 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v25 (post sessione 2026-05-06 parte 2 — PR #2071 mega cumulative `35c0e266`)
-- **Ultimo aggiornamento**: 2026-05-06 sera (Mega-PR #2071 squash 8 commit shipped main: phone smoke architectural fix bundle B6+B7+W5+W6+W8+W8b + Sprint M.6 narrative onboarding Phase A backend + multi-system audit 4-domain + Opt C foundation 3 track [Ennea voice + Innata trait + form stat applier] + Sprint N+ COMBO plan draft. **Pillar P3 + P4 entrambi 🟡++ → 🟢 candidato**. 11 doc nuovi. Test baseline AI 383/383 + coop 27/27 + form helpers 21/21 + ennea 14/14 + harness 16/18 PASS / 0 FAIL / 2 GAP.)
+- **Versione compact**: v26 (post sessione 2026-05-07 sera cascade auto-merge L3 — 4 PR ~17min)
+- **Ultimo aggiornamento**: 2026-05-07 sera (cascade auto-merge L3 codified ADR-2026-05-07-auto-merge-authorization-l3 `6a3880ef` + Plan v3.2 audit final close `98dbf058` + Godot v2 lint debt cleanup `87dd88df` + GAP-10 AiProgressMeter wire `29640c5f`. **Pillar P5 🟢 → 🟢++** Sistema escalation HUD live. **Auto-merge L3 ATTIVO**: 7 safety gate ADR codificate, ~2-3x speedup pipeline. Phase A monitoring Day 1/7 — Godot v2 main CI hygiene blocker resolved.)
 
-## ⚡ Resume trigger phrase canonical (next session — post-PR #2071)
+## ⚡ Resume trigger phrase canonical (next session — post-cascade L3)
 
-> _"leggi COMPACT_CONTEXT.md v25 + docs/planning/2026-05-06-sessione-2-closure-handoff.md. Spawn Sprint M.6 Phase B Godot chip OR procedi W4 form_pulse_submit drain autonomous OR coordina playtest BASE userland."_
+> _"leggi COMPACT_CONTEXT.md v26 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day 2/7 monitoring + Sprint M.7 chip kickoff (GAP-5 MissionTimer + GAP-7 PassiveStatusApplier re-incarnate ADR-2026-05-07-abort-web)."_
 
-Handoff doc canonical: [`docs/planning/2026-05-06-sessione-2-closure-handoff.md`](docs/planning/2026-05-06-sessione-2-closure-handoff.md)
+Handoff doc canonical: [`docs/planning/2026-05-07-phase-a-handoff-next-session.md`](docs/planning/2026-05-07-phase-a-handoff-next-session.md)
 
-OR (playtest BASE):
+OR (post 7gg grace 2026-05-14):
 
-> _"organizza playtest BASE userland ≥4 amici Sprint M.6 BASE — verifica P3+P4 🟢 candidato hold + cite choice in debrief + <60s onboarding ≥80%. Greenlight gate Sprint N+ COMBO."_
+> _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
+
+## ⚡ TL;DR sessione 2026-05-07 sera — cascade auto-merge L3 (4 PR ~17min)
+
+**Trigger**: user formal authorization _"hai la mia autorizzazione formale a modificare le policy e fare i merge futuri"_. First Claude-shipped autonomous cascade su Game/ + Game-Godot-v2.
+
+**4 PR shipped UTC 19:15-19:33** (~17min cumulative):
+
+| #   | PR                                                              | Repo     | SHA        | Topic                                                      |
+| --- | --------------------------------------------------------------- | -------- | ---------- | ---------------------------------------------------------- |
+| 1   | [#209](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/209) | Godot v2 | `87dd88df` | Lint debt cleanup main.gd 1101→999 LOC                     |
+| 2   | [#2101](https://github.com/MasterDD-L34D/Game/pull/2101)        | Game/    | `98dbf058` | Plan v3.2 final close 8/8 P1 + 3/3 P2 + sentience T4 audit |
+| 3   | [#2103](https://github.com/MasterDD-L34D/Game/pull/2103)        | Game/    | `6a3880ef` | Auto-merge L3 ADR + CLAUDE.md gates codified               |
+| 4   | [#208](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/208) | Godot v2 | `29640c5f` | GAP-10 AiProgressMeter wire (P5 🟢→🟢++)                   |
+
+**Pillar deltas**:
+
+- P5 Co-op vs Sistema 🟢 → 🟢++ (Sistema escalation HUD top-strip live)
+- meta: plan v3.2 audit synthesis 100% closed → archived
+- policy: auto-merge L3 codified, master-dd preserve veto
+
+**Phase A monitoring Day 1/7**: Godot v2 main CI hygiene blocker resolved (#209 unblocks 5 consecutive lint failures post-#205). Day 2-7 grace continua.
+
+**Resume**: see canonical handoff `docs/planning/2026-05-07-phase-a-handoff-next-session.md`.
+
+---
 
 ## ⚡ TL;DR sessione 2026-05-06 sera — Wave 1-6 full closure (20 PR)
 
