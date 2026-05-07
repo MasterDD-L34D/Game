@@ -336,50 +336,52 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **PR shipped main 2026-05-07** (12 Game/):
 
-| PR | Squash | Topic | Pillar |
-|---|---|---|---|
-| [#2087](https://github.com/MasterDD-L34D/Game/pull/2087) | `a1a88d7` | Phone smoke harness 17 test (Node 11 + GUT 6) | meta |
-| [#2091](https://github.com/MasterDD-L34D/Game/pull/2091) | `77644e8` | RCA forensic B6+B7+B8 bundle | meta |
-| [#2092](https://github.com/MasterDD-L34D/Game/pull/2092) | `b3667b2` | Canonical agent-driven workflow doc | meta |
-| [#2093](https://github.com/MasterDD-L34D/Game/pull/2093) | `4662e1c` | Tier 1 #1 Playwright multi-context REST | meta |
-| [#2094](https://github.com/MasterDD-L34D/Game/pull/2094) | `31b198f` | Tier 1 #2 Artillery WS load (1598 req 0 fail p95=1ms) | meta |
-| [#2095](https://github.com/MasterDD-L34D/Game/pull/2095) | `0a6105b` | Tier 1 #3 canvas-grid visual regression | meta |
-| [#2096](https://github.com/MasterDD-L34D/Game/pull/2096) | `1965b46` | Tier 1 #4 phone-smoke-bot native agent | meta |
-| [#2097](https://github.com/MasterDD-L34D/Game/pull/2097) | `6d41ebc` | Playwright WS multi-tab phase-flow B5-B10 | meta |
-| [#2098](https://github.com/MasterDD-L34D/Game/pull/2098) | `8a0ec55` | combat → debrief → ended e2e closes Tier 1 gap | meta |
-| [#2099](https://github.com/MasterDD-L34D/Game/pull/2099) | `196f606` | Iter3 hardware-equivalent agent + browser smoke | meta |
-| [#2088](https://github.com/MasterDD-L34D/Game/pull/2088) | **`7247656`** | 🎯 **ADR-2026-05-05 ACCEPTED Phase A** | meta |
+| PR                                                       | Squash        | Topic                                                 | Pillar |
+| -------------------------------------------------------- | ------------- | ----------------------------------------------------- | ------ |
+| [#2087](https://github.com/MasterDD-L34D/Game/pull/2087) | `a1a88d7`     | Phone smoke harness 17 test (Node 11 + GUT 6)         | meta   |
+| [#2091](https://github.com/MasterDD-L34D/Game/pull/2091) | `77644e8`     | RCA forensic B6+B7+B8 bundle                          | meta   |
+| [#2092](https://github.com/MasterDD-L34D/Game/pull/2092) | `b3667b2`     | Canonical agent-driven workflow doc                   | meta   |
+| [#2093](https://github.com/MasterDD-L34D/Game/pull/2093) | `4662e1c`     | Tier 1 #1 Playwright multi-context REST               | meta   |
+| [#2094](https://github.com/MasterDD-L34D/Game/pull/2094) | `31b198f`     | Tier 1 #2 Artillery WS load (1598 req 0 fail p95=1ms) | meta   |
+| [#2095](https://github.com/MasterDD-L34D/Game/pull/2095) | `0a6105b`     | Tier 1 #3 canvas-grid visual regression               | meta   |
+| [#2096](https://github.com/MasterDD-L34D/Game/pull/2096) | `1965b46`     | Tier 1 #4 phone-smoke-bot native agent                | meta   |
+| [#2097](https://github.com/MasterDD-L34D/Game/pull/2097) | `6d41ebc`     | Playwright WS multi-tab phase-flow B5-B10             | meta   |
+| [#2098](https://github.com/MasterDD-L34D/Game/pull/2098) | `8a0ec55`     | combat → debrief → ended e2e closes Tier 1 gap        | meta   |
+| [#2099](https://github.com/MasterDD-L34D/Game/pull/2099) | `196f606`     | Iter3 hardware-equivalent agent + browser smoke       | meta   |
+| [#2088](https://github.com/MasterDD-L34D/Game/pull/2088) | **`7247656`** | 🎯 **ADR-2026-05-05 ACCEPTED Phase A**                | meta   |
 
-**PR Godot v2 shipped main 2026-05-07** (4):
+**PR Godot v2 shipped main 2026-05-07** (5):
 
-| PR | Topic |
-|---|---|
-| [#205](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205) | B8 non-host transition stuck fix (defer guard helper extract) |
-| [#206](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/206) | deploy-quick rebuild dist by default (B6/B7 prevention) |
-| [#207](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/207) | B9+B10 phone composer subscription handlers + 12 GUT tests |
+| PR                                                              | Squash     | Topic                                                                                                          |
+| --------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------- |
+| [#203](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/203) | `5d098e7b` | β fix GAP-2 Ennea debrief view top archetype + GAP-9 ThoughtsRitual instance (+19 GUT)                         |
+| [#204](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/204) | `194a68da` | γ leftover GAP-1 TelemetryCollector p95 HUD + GAP-4 WoundState badge + D3 Ennea expand toggle 9-list (+15 GUT) |
+| [#205](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205) |            | B8 non-host transition stuck fix (defer guard helper extract)                                                  |
+| [#206](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/206) |            | deploy-quick rebuild dist by default (B6/B7 prevention)                                                        |
+| [#207](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/207) |            | B9+B10 phone composer subscription handlers + 12 GUT tests                                                     |
 
 **Bug bundle 2026-05-07 audit trail complete**:
 
-| Bug | Severity | Fix PR | Status |
-|---|---|---|---|
-| B5 phase_change | functional | #2087 harness catch | shipped + harness |
-| B6 stale-dist char_create | infra | #206 deploy rebuild | shipped + RCA |
-| B7 stale-dist host preserve | infra | #206 deploy rebuild | shipped + RCA |
-| B8 defer guard re-fire | functional | #205 helper extract | shipped + RCA |
-| B9 world_tally unknown_type | functional | #207 phone composer subscribe | shipped + 12 GUT |
-| B10 world_vote_accepted unknown_type | functional | #207 phone composer subscribe | shipped + 12 GUT |
+| Bug                                  | Severity   | Fix PR                        | Status            |
+| ------------------------------------ | ---------- | ----------------------------- | ----------------- |
+| B5 phase_change                      | functional | #2087 harness catch           | shipped + harness |
+| B6 stale-dist char_create            | infra      | #206 deploy rebuild           | shipped + RCA     |
+| B7 stale-dist host preserve          | infra      | #206 deploy rebuild           | shipped + RCA     |
+| B8 defer guard re-fire               | functional | #205 helper extract           | shipped + RCA     |
+| B9 world_tally unknown_type          | functional | #207 phone composer subscribe | shipped + 12 GUT  |
+| B10 world_vote_accepted unknown_type | functional | #207 phone composer subscribe | shipped + 12 GUT  |
 
 **Tier 1 layered QA infra adoption complete**:
 
-| Tier | Tool | Effort actual | Coverage |
-|---|---|:-:|---|
-| 1 #1 | Playwright multi-context REST | ~1.5h | host create + player join + 4-context scaling |
-| 1 #2 | Artillery WS scenarios | ~1.5h | HTTP throughput stress p95<500ms |
-| 1 #3 | canvas-grid visual regression | ~45min | NxM pixel sampling helper |
-| 1 #4 | phone-smoke-bot native agent | ~30min | Codified pattern via .claude/agents/ |
-| 1 ext | WS multi-tab phase-flow | ~3h subagent | Full lifecycle lobby → ended |
-| 1 ext | combat→debrief→ended e2e | ~30min | Closes coverage gap |
-| 1 ext | Iter3 hardware-equivalent | ~1.5h | Reconnect + p95 baseline + tunnel-gated |
+| Tier  | Tool                          | Effort actual | Coverage                                      |
+| ----- | ----------------------------- | :-----------: | --------------------------------------------- |
+| 1 #1  | Playwright multi-context REST |     ~1.5h     | host create + player join + 4-context scaling |
+| 1 #2  | Artillery WS scenarios        |     ~1.5h     | HTTP throughput stress p95<500ms              |
+| 1 #3  | canvas-grid visual regression |    ~45min     | NxM pixel sampling helper                     |
+| 1 #4  | phone-smoke-bot native agent  |    ~30min     | Codified pattern via .claude/agents/          |
+| 1 ext | WS multi-tab phase-flow       | ~3h subagent  | Full lifecycle lobby → ended                  |
+| 1 ext | combat→debrief→ended e2e      |    ~30min     | Closes coverage gap                           |
+| 1 ext | Iter3 hardware-equivalent     |     ~1.5h     | Reconnect + p95 baseline + tunnel-gated       |
 
 **~10h totale Tier 1 vs ~7h budget**. ~+43% over budget per ext deliverables (WS + e2e + iter3).
 
@@ -398,14 +400,14 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Pillar status post-Phase A LIVE**:
 
-| Pillar | Stato |
-|---|:-:|
-| P1 Tattica | 🟢 (Telemetry HUD + p95 wire live) |
-| P2 Evoluzione | 🟢 candidato (apex ritual reachable) |
-| P3 Identità | 🟢ⁿ (11/11 jobs r1→r4) |
-| P4 MBTI/Ennea | 🟢 candidato (cross-stack 9-canon) |
-| P5 Co-op | 🟢 confirmed (post #2089 inject + B9+B10 fix + Tier 1 gate) |
-| P6 Fairness | 🟢 candidato (Wound badge live) |
+| Pillar        |                            Stato                            |
+| ------------- | :---------------------------------------------------------: |
+| P1 Tattica    |             🟢 (Telemetry HUD + p95 wire live)              |
+| P2 Evoluzione |            🟢 candidato (apex ritual reachable)             |
+| P3 Identità   |                   🟢ⁿ (11/11 jobs r1→r4)                    |
+| P4 MBTI/Ennea |             🟢 candidato (cross-stack 9-canon)              |
+| P5 Co-op      | 🟢 confirmed (post #2089 inject + B9+B10 fix + Tier 1 gate) |
+| P6 Fairness   |               🟢 candidato (Wound badge live)               |
 
 **Resume trigger phrase canonical** (any PC, next session):
 
@@ -500,11 +502,11 @@ OR
 - Game/ #2089: threatAssessment inject + replay schema register + tri-sorgente schema register (~1.5h, low blast radius)
 - Godot v2 #203: GAP-2 Ennea debrief view + GAP-9 ThoughtsRitual wire (apex P4 surface reachable, +19 GUT tests)
 
-**γ leftover in flight 2026-05-07**:
+**γ leftover SHIPPED 2026-05-07** (PR [#204](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/204) `194a68da`, +15 GUT tests, 1877/1877 verde):
 
-- Godot v2 GAP-1 TelemetryCollector p95 HUD label (~1h, P1 boost)
-- Godot v2 GAP-4 WoundState severity badge unit_info_panel (~1h, P6 boost)
-- D3 Ennea expand toggle (top archetype A + click expand to full 9 list B, ~30min UX)
+- ✅ Godot v2 GAP-1 TelemetryCollector p95 HUD label (debug-only) → P1 🟡 → **🟢**
+- ✅ Godot v2 GAP-4 WoundState severity badge unit_info_panel → P6 🟡 → **🟢**
+- ✅ D3 Ennea expand toggle (top archetype + click expand full 9-list) → P4 polish UX
 
 **Anti-pattern observation pervasive**: 67% Godot v2 surface debt post-Wave 1-7 dimostra che port-velocity + Gate 5 enforcement insufficient. Tighten policy: ogni Tier port (O.3, M, N, R) deve includere surface wire ASSERTION nel PR DoD. Aggiunto a Gate 5 §enforcement.
 

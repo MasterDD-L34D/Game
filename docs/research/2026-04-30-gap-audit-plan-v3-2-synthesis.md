@@ -230,18 +230,66 @@ Deferred Phase 4 — non backfillable senza run reale. NO action.
 - [x] Counts corrections 60+ → 14 enc, 100+ → 15 species (P0.2)
 - [x] Add P3 + P5 row Sprint N gate exit (P0.3)
 - [x] NEW ADR pillar promotion criteria (P0.4)
-- [ ] Add §Sprint O combat services 16+ port matrix (P1.1) — TODO plan v3.3 (defer to Sprint M.1 chip pre-port)
-- [ ] Add §Sprint R 26 routes whitelist (P1.2) — TODO plan v3.3
-- [ ] Add §Sprint O.4 8 AI services list (P1.3) — TODO plan v3.3
-- [ ] ADR drop HermeticOrmus formal (P1.4) — TODO Sprint M.1b
-- [ ] Sprint S Mission Console deprecation row (P1.5) — TODO plan v3.3
-- [ ] Path drift correction table (P1.6) — TODO post 1h grep audit
-- [ ] 7 silhouette spec addendum (P1.7) — TODO Sprint M.3 chip
-- [ ] Pre-Sprint M.1 quick wins ~3h opt-in (P1.8) — TODO master-dd decision
-- [ ] §Sprint P bond reactions + Skiv crossbreeding bullet (P2.1) — TODO Sprint P chip
-- [ ] §Sprint N.5 accessibility parity bullet (P2.4) — TODO plan v3.3
+- [x] Add §Sprint O combat services 16+ port matrix (P1.1) — ✅ CLOSED 2026-05-06 PR [#2076](https://github.com/MasterDD-L34D/Game/pull/2076) `b8a666f5`. 28 combat services classificati Tier A/B/C.
+- [x] Add §Sprint R 26 routes whitelist (P1.2) — ✅ CLOSED 2026-05-06 PR #2076. 27 routes Tier A/B/C + HTTPClient adapter spec.
+- [x] Add §Sprint O.4 8 AI services list (P1.3) — ✅ CLOSED 2026-05-06 PR #2076.
+- [x] ADR drop HermeticOrmus formal (P1.4) — ✅ CLOSED 2026-05-06 [`ADR-2026-05-06-drop-hermeticormus-sprint-l.md`](../adr/ADR-2026-05-06-drop-hermeticormus-sprint-l.md). Plan v3.3 effort -2g.
+- [x] Sprint S Mission Console deprecation row (P1.5) — ✅ CLOSED 2026-05-06 plan v3 §Sprint S checklist + nota inline.
+- [x] Path drift correction table (P1.6) — ✅ CLOSED 2026-05-06 audit grep: solo `data/skiv/` drift reale, 2 ref attivi fixati. Altri 3 path canonical correct.
+- [x] 7 silhouette spec addendum (P1.7) — ✅ CLOSED 2026-05-06 addendum in [`docs/core/41-ART-DIRECTION.md`](../core/41-ART-DIRECTION.md) §Job-to-shape silhouette spec.
+- [x] Pre-Sprint M.1 quick wins ~3h opt-in (P1.8) — ✅ CLOSED ABORT 2026-05-07 [`ADR-2026-05-07-abort-web-quickwins-reincarnate-godot.md`](../adr/ADR-2026-05-07-abort-web-quickwins-reincarnate-godot.md). Re-incarnate Godot v2 GAP-5 + GAP-7 + GAP-10 audit.
+- [x] §Sprint P bond reactions + Skiv crossbreeding bullet (P2.1) — ✅ CLOSED 2026-05-07 (verified). Sprint P closure W7.x bundle ([`docs/planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md §2`](../planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md)) shipped BeastBondReaction wire pre-#37 `1172819` + propagateLineage runtime #63 `c8473cd` + caller wire W7.x #127 `2d929c7`. Zero gap residual.
+- [x] §Sprint N.5 accessibility parity bullet (P2.4) — ✅ CLOSED 2026-05-06 PR #2076. Spec colorblind shape + aria-label + prefers-reduced-motion.
+- [x] §P2.2 Ennea archetypes UI surface — ✅ CLOSED 2026-05-07 Godot v2 PR [#203](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/203) `5d098e7b` (GAP-2 debrief view top archetype) + PR [#204](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/204) `194a68da` (D3 expand toggle full 9 list).
 
-**Tactical decision**: ship plan v3.2 con P0 fix complete + ADR pillar criteria. P1 items defer plan v3.3 (post Sprint M.1 spawn — non bloccante Godot bootstrap).
+**Status final 2026-05-07**: 100% P0+P1 closed (8/8). 100% P2 actionable closed (P2.1 + P2.2 + P2.4). P2.3 sentience T4 audit completed below — propose 2 candidate, ADR trigger condition deferred post-cutover Phase B.
+
+**Tactical decision**: synthesis doc → archive status post 2026-05-14 (end monitoring window).
+
+---
+
+## P2.3 sentience T4 candidate audit — completed 2026-05-07
+
+**Distribution sentience tier post-audit (38 species across `data/core/species.yaml` + `data/core/species_expansion.yaml`)**:
+
+|         Tier         | Count | Slug examples                                                                                    |
+| :------------------: | :---: | ------------------------------------------------------------------------------------------------ |
+|   T0 sub-sentient    |   2   | sciame_larve_neurali, ...                                                                        |
+|       T1 basic       |  23   | dune_stalker, anguis_magnetica, chemnotela_toxica, ...                                           |
+|    T2 instinctive    |  15   | ...                                                                                              |
+|   **T3 cognitive**   | **3** | simbionte_corallino_riflesso (Support), terracetus_ambulator (Keystone), umbra_alaris (Playable) |
+| **T4 proto-sapient** | **0** | ⚠ GAP confirmed                                                                                 |
+|   T5 full sapient    |   3   | polpo_araldo_sinaptico (Keystone), leviatano_risonante (Apex), rupicapra_sensoria (Keystone)     |
+
+T4 = 0 = bridge gap T3 → T5 vuoto. Risk: tier ladder discontinua, advancement Spore (P2 Pilastro) salta T4 → fastlane T3→T5 senza rituale intermedio.
+
+### Candidate proposals
+
+**Candidate A — `umbra_alaris` (Ala d'Ombra / Shadow Wing) → T4**
+
+- **Clade**: Playable (already player-companion candidate)
+- **Sentience markers**: silens epithet (silent communicator), wing-based subsonic communication infrastructure
+- **Promotion path**: T3 → T4 trigger via Skiv-bond ritual (proto-sapient via cross-species mating beat). Aligns Skiv-Pulverator alleanza ambition arc PR [#2004](https://github.com/MasterDD-L34D/Game/pull/2004).
+- **Effort**: ~2h YAML edit + lifecycle stage spec + 1 GUT test.
+
+**Candidate B — `terracetus_ambulator` (Cetaceo Terrestre / Walking Cetacean) → T4**
+
+- **Clade**: Keystone
+- **Sentience markers**: ambulator epithet (mobility apex), large social structure (real-world cetacean parity), vocal communication infrastructure
+- **Promotion path**: T3 → T4 trigger via legacy ritual gate (Wildermyth-style cross-encounter persistent change). Mirror Polpo Araldo synaptic path.
+- **Effort**: ~2h YAML edit + cognitive stage spec + 1 GUT test.
+
+### Decision deferral
+
+ADR formal T4 promotion deferred **post-cutover Phase B** (target window ≥ 2026-05-14 + 1+ playtest pass). Rationale:
+
+- Phase A monitoring window in progress (day 1/7).
+- Sentience tier promotion ripple su `vcScoring`/MBTI snapshot — non-zero blast radius.
+- Playtest userland feedback prefer su tier ladder gap detection vs blind promote.
+
+**Trigger ADR draft**: Phase B archive web v1 + 1+ playtest session post-cutover + master-dd verdict candidate A vs B vs both.
+
+**Default fallback if NO playtest signal entro 2026-06-01**: promote candidate A (`umbra_alaris`) only — Playable clade priority + Skiv-bond ritual canonical, lower risk vs Keystone cetacean.
 
 ## References
 

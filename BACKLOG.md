@@ -15,9 +15,9 @@
 
 ### ✅ Plan v3.2 gap audit shipped 2026-04-30 — PR #2026 merged main `e8967285`
 
-**Scope**: P0 fix plan v3 (line 305 ADR-19 contraddizione, counts inflated 60+→14 enc + 100+→15 species, Sprint N gate P3+P5 row 10/10 verdict). NEW ADR-2026-04-30 pillar promotion criteria (tier ladder formal). NEW gap audit synthesis 3 agent paralleli (~30 gap classified, 4 P0 fixed, 8 P1 deferred plan v3.3).
+**Scope**: P0 fix plan v3 (line 305 ADR-19 contraddizione, counts inflated 60+→14 enc + 100+→15 species, Sprint N gate P3+P5 row 10/10 verdict). NEW ADR-2026-04-30 pillar promotion criteria (tier ladder formal). NEW gap audit synthesis 3 agent paralleli (~30 gap classified, 4 P0 fixed, 8 P1 + 3 P2 actionable). **STATUS FINAL 2026-05-07**: 100% P0+P1 closed (8/8) + 100% P2 actionable closed (P2.1+P2.2+P2.4) + P2.3 sentience T4 audit completed (2 candidate proposed, ADR deferred post-cutover Phase B). Synthesis doc → archive status post 2026-05-14.
 
-**P1 deferred plan v3.3** (non bloccanti Sprint M.1 spawn — quando reach Sprint M-N-O):
+**P1 deferred plan v3.3** — TUTTI CHIUSI ✅ (8/8):
 
 - [x] ~~**§Sprint O combat services 16+ port matrix**~~ → **✅ CHIUSO 2026-05-06** [PR #2076](https://github.com/MasterDD-L34D/Game/pull/2076) squash `b8a666f5`. 28 combat services classificati Tier A (10 mandatory N.7 GATE 0, ~36-40h) + Tier B (10 recommended Sprint Q ETL, ~22h) + Tier C (8 optional Sprint R+, ~10h). Codex P2 catch traitEffects.js misclassified (root services/, NOT combat/) → swap timeOfDayModifier.js. Fix `01286f0d` squashed in.
 - [x] ~~**§Sprint R 26 routes HTTP backend whitelist**~~ → **✅ CHIUSO 2026-05-06** [PR #2076](https://github.com/MasterDD-L34D/Game/pull/2076). 27 routes Tier A (7) + B (10) + C (9). HTTPClient adapter spec con Result[T,Error] + retry/backoff. Codex P2 catch unversioned mounts (companion/diary/skiv use `/api/*` only) + `/api/auth` doesn't exist (rimosso Tier A).
@@ -27,6 +27,15 @@
 - [x] ~~**Path drift correction table**~~ → **✅ CHIUSO 2026-05-06** audit grep: solo `data/skiv/` drift reale (2 ref attivi fixati: `docs/planning/2026-04-28-godot-migration-strategy.md:145` + `data/core/narrative/beats/skiv_pulverator_alliance.yaml:4` → `docs/skiv/CANONICAL.md`). Altri 3 path (ennea_voices + terrain_defense + ai_profiles) canonical correct, false-alarm.
 - [x] ~~**§Sprint M.3 7 silhouette spec addendum**~~ → **✅ CHIUSO 2026-05-06** addendum in `docs/core/41-ART-DIRECTION.md §Job-to-shape silhouette spec` (canonical path è 41 non 22). 7 job × archetype base + key marker + frame budget +2/+3 + override scene `.tres`. Sprint M.3 Godot import pronto.
 - [x] ~~**§Sprint N.5 accessibility parity bullet**~~ → **✅ CHIUSO 2026-05-06** [PR #2076](https://github.com/MasterDD-L34D/Game/pull/2076). Spec colorblind shape encoding + aria-label tooltip + prefers-reduced-motion (Global flag, OS env auto-detect). Sprint N.6 impl wave.
+- [x] ~~**Pre-Sprint M.1 quick wins ~3h (P1.8)**~~ → **✅ CHIUSO ABORT 2026-05-07** [ADR-2026-05-07](docs/adr/ADR-2026-05-07-abort-web-quickwins-reincarnate-godot.md). 3 web stack v1 quick wins (TKT-MUTATION-P6-VISUAL + Thought Cabinet 8-slot + QBN debrief) ABORT post-pivot Godot. Re-incarnate target Godot v2 audit GAP-5 MissionTimer + GAP-7 PassiveStatusApplier + GAP-10 AiProgressMeter (Sprint M.7 chip post Phase A stable). GAP-9 already shipped Godot v2 [PR #203](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/203).
+
+**P2 actionable** — TUTTI CHIUSI ✅ (3/3):
+
+- [x] ~~**§Sprint P bond reactions + Skiv crossbreeding (P2.1)**~~ → **✅ CHIUSO 2026-05-07** verified Sprint P closure W7.x bundle. BeastBondReaction wire pre-#37 `1172819` + propagateLineage runtime #63 `c8473cd` + caller wire W7.x #127 `2d929c7`. Zero gap residual.
+- [x] ~~**§Sprint N.5 accessibility parity (P2.4)**~~ → ✅ vedi sopra (PR #2076).
+- [x] ~~**Ennea archetypes UI surface (P2.2)**~~ → **✅ CHIUSO 2026-05-07** Godot v2 [PR #203](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/203) `5d098e7b` (GAP-2 debrief view top archetype) + [PR #204](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/204) `194a68da` (D3 expand toggle full 9 list).
+
+**P2.3 sentience T4 audit** — completed 2026-05-07 (T4=0 confirmed, 38 species across 2 catalog file). Distribution T0:2 / T1:23 / T2:15 / T3:3 / T4:**0** / T5:3. Bridge gap T3→T5. Candidate A `umbra_alaris` (Playable, Skiv-bond ritual T3→T4 trigger) + Candidate B `terracetus_ambulator` (Keystone, legacy ritual T3→T4 trigger). ADR formal deferred post-cutover Phase B + 1+ playtest. Default fallback no signal entro 2026-06-01: promote A only. Synthesis: [`docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md §P2.3`](docs/research/2026-04-30-gap-audit-plan-v3-2-synthesis.md).
 
 ### ✅ Coop WS audit 6/6 closed 2026-05-06 — gap matrix complete
 
