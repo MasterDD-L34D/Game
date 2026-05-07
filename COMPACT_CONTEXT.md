@@ -8,8 +8,8 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v28 (post sessione 2026-05-07 Day 2 sera surface debt cascade 5/5 — 3 PR ~2h)
-- **Ultimo aggiornamento**: 2026-05-07 Day 2 sera (surface debt audit residuo 5/5 closed via 3 PR cascade: #212 GAP-3+6+14 bundle `0b954949` + #213 GAP-8 SgTracker live bar `0ccd8697` + #214 GAP-13 Lifecycle phase label `925933fe`. **5/6 pillar 🟢++ rinforzati**. GUT 1925→1957 (+32). Phase A Day 2/7 monitoring verde, Tier 1 functional smoke 15/16 +1 skip. Cumulative Day 2 = 9 PR shipped Claude-autonomous.)
+- **Versione compact**: v29 (post sessione 2026-05-07 Day 2 tarda sera audit closure 14/15 — +1 PR GAP-11)
+- **Ultimo aggiornamento**: 2026-05-07 Day 2 tarda sera (audit godot-surface-coverage chiuso 14/15 via #215 GAP-11 PseudoRng `42307516`. GAP-12 LineageMergeService P2 deferred Sprint Q+ — requires bond_path completion + offspring instantiation pipeline. **5/6 pillar 🟢++ rinforzati invariati**. GUT 1957→1964 (+7 GAP-11). Cumulative Day 2 = 10 Game-Godot-v2 PR + 3 Game/ docs PR.)
 
 ## ⚡ Resume trigger phrase canonical (next session — post-Day-2-sera-cascade)
 
@@ -20,6 +20,35 @@ Handoff doc canonical: [`docs/planning/2026-05-07-phase-a-handoff-next-session.m
 OR (post 7gg grace 2026-05-14):
 
 > _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
+
+## ⚡ TL;DR sessione 2026-05-07 Day 2 tarda sera — audit closure 14/15 (+1 PR GAP-11)
+
+**Trigger**: user _"continua"_ post Day 2 sera surface debt cascade closure. Audit godot-surface-coverage residuo P2 wires.
+
+**1 PR Game-Godot-v2 ~30min**:
+
+| #   | PR                                                              | SHA        | Topic                                          |
+| --- | --------------------------------------------------------------- | ---------- | ---------------------------------------------- |
+| 1   | [#215](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/215) | `42307516` | GAP-11 PseudoRng miss-streak compensation wire |
+
+**Audit godot-surface-coverage closure status post-#215**:
+
+- ✅ 14/15 closed: GAP-1, GAP-2, GAP-3, GAP-4, GAP-5, GAP-6, GAP-7, GAP-8, GAP-9, GAP-10, GAP-11, GAP-13, GAP-14, GAP-15
+- ⏸ GAP-12 LineageMergeService P2 deferred Sprint Q+ (requires bond_path completion + offspring instantiation pipeline mating_trigger ETL)
+
+**Wire details**:
+
+- combat_session.resolve_attack_action: pre-resolve init_unit + get_streak_bonus folded into attacker_payload, post-resolve record_roll, surface event.pseudo_rng_streak_bonus
+- battle_feed_adapter: emits "🎯 actor: bonus anti-streak +N" line on non-zero
+- Phoenix Point bounded streak: 3 consecutive miss → +5 attack_mod next roll, hit resets streak
+
+**Test baseline**: GUT 1957 → 1964 (+7 GAP-11). Format + gdlint clean.
+
+**Pillar P6 Fairness 🟢++ rinforzato** — anti-frustration tilt without killing variance.
+
+**Cumulative Day 2 PR Godot v2**: 10 (3 morning Sprint M.7 chip + 5 sera + 1 tarda sera + 1 GAP-11). **Cumulative session 2026-05-07**: 14 PR (sera 5 + Day 2 morning 3 + Day 2 sera 5 + Day 2 tarda sera 1).
+
+---
 
 ## ⚡ TL;DR sessione 2026-05-07 Day 2 sera — surface debt cascade 5/5 closed (3 PR ~2h)
 
