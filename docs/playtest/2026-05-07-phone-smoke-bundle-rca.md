@@ -23,7 +23,7 @@ Forensic post-mortem della sessione browser-headless smoke retry 2026-05-07. 3 b
 
 | Bug | Surface | Impact | Root cause | Fix shipped | Prevention |
 |---|---|---|---|---|---|
-| **B6** | Toast `Errore [unknown_type]: character_accepted` su player phone | Player UX broken (toast cover-screen ogni event broadcast non riconosciuto) | dist/web stale May 5 14:39 missing PR #197 (May 6 22:02) char_create handler | `FORCE_REBUILD=1 ./tools/deploy/deploy-quick.sh` + re-mount Game/public/phone/ | Game-Godot-v2 PR #207 invert default — rebuild every run |
+| **B6** | Toast `Errore [unknown_type]: character_accepted` su player phone | Player UX broken (toast cover-screen ogni event broadcast non riconosciuto) | dist/web stale May 5 14:39 missing PR #197 (May 6 22:02) char_create handler | `FORCE_REBUILD=1 ./tools/deploy/deploy-quick.sh` + re-mount Game/public/phone/ | Game-Godot-v2 PR #206 invert default — rebuild every run |
 | **B7** | Host kicked dalla room post-host-pick (host_id flipped, room closed) | Room lost completamente (entrambi player vedono `room_closed` toast) | dist/web stale May 5 14:39 missing PR #169 (May 5 14:44) host preserve fix | Stesso re-mount come B6 | Stesso prevention come B6 |
 | **B8** | Player non-host stuck su STAGE_TRANSITION ("Così sarà.") indefinitely post host pick | Player intero phase character_creation → no progression | Defer guard re-fires da `_on_onboarding_transition_complete` (view stage still "transition" at signal emit) → `_pending_phase_after_onboarding` re-stored loop | [Game-Godot-v2 PR #205](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205): extract `_should_defer_phase_swap` + `_apply_phase_swap` helpers, transition_complete handler bypassa defer | Unit test `test_phone_composer_view_nonhost_transition.gd` 4/4 lock contract |
 
@@ -87,7 +87,7 @@ No scripts/ changes needed — both PR #197 + #169 already in main, just not in 
 
 ### Prevention
 
-Game-Godot-v2 PR #207: invert default in `tools/deploy/deploy-quick.sh`:
+Game-Godot-v2 PR #206: invert default in `tools/deploy/deploy-quick.sh`:
 
 **Before**:
 ```bash
@@ -253,7 +253,7 @@ Cross-device WAN RTT + mobile touch p95 + airplane hardware = solo physical-only
 ## Cross-ref
 
 - [PR #205 Game-Godot-v2 — B8 fix](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/205) (MERGED `d48efe1`)
-- [PR #207 Game-Godot-v2 — deploy-quick rebuild default invert](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/207) (this RCA prevention)
+- [PR #206 Game-Godot-v2 — deploy-quick rebuild default invert](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/206) (this RCA prevention)
 - [PR #2087 Game/ — phone smoke harness 17 test](https://github.com/MasterDD-L34D/Game/pull/2087) (MERGED, regression coverage B5+B2+5R+airplane)
 - [PR #2088 Game/ — ADR-2026-05-05 cutover Phase A](https://github.com/MasterDD-L34D/Game/pull/2088) (DRAFT, pending master-dd phone hardware retry)
 - [docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md](docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md) — physical retry checklist 3-item residue
@@ -262,8 +262,8 @@ Cross-device WAN RTT + mobile touch p95 + airplane hardware = solo physical-only
 
 | Item | Status |
 |---|:-:|
-| B6 fix | ✅ Shipped (immediate FORCE_REBUILD + prevention via PR #207) |
+| B6 fix | ✅ Shipped (immediate FORCE_REBUILD + prevention via PR #206) |
 | B7 fix | ✅ Same as B6 |
 | B8 fix | ✅ PR #205 merged + unit test 4/4 + browser runtime verified |
-| Prevention deploy-quick | ✅ PR #207 invert default rebuild |
+| Prevention deploy-quick | ✅ PR #206 invert default rebuild |
 | ADR-2026-05-05 swap | ⏸ Pending master-dd phone hardware retry (Item 2 mobile p95 + Item 3 airplane physical) |
