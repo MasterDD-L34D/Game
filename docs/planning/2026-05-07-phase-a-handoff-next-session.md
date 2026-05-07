@@ -236,6 +236,25 @@ User choice option B post-Tier-1-functional-smoke 15/16 verde. 3 PR Godot v2 cas
 
 **Cumulative Day 2 PR**: 9 Claude-shipped autonomous. **Cumulative session 2026-05-07**: 13 PR (sera 5 + Day 2 morning 3 + Day 2 sera 5).
 
+## Day 2/7 tarda sera 2026-05-07 — Audit closure 14/15 (post-handoff update 4)
+
+User _"continua"_ post-Day-2-sera-cascade. 1 PR Godot v2 chiude audit residuo P2 (eccetto GAP-12).
+
+| #   | PR                                                              | SHA        | Topic                                          |
+| --- | --------------------------------------------------------------- | ---------- | ---------------------------------------------- |
+| 1   | [#215](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/215) | `42307516` | GAP-11 PseudoRng miss-streak compensation wire |
+
+**Audit godot-surface-coverage closure 14/15**:
+
+- ✅ Closed: GAP-1, GAP-2, GAP-3, GAP-4, GAP-5, GAP-6, GAP-7, GAP-8, GAP-9, GAP-10, GAP-11, GAP-13, GAP-14, GAP-15
+- ⏸ Deferred: GAP-12 LineageMergeService (P2, Sprint Q+ — requires bond_path completion + offspring instantiation mating_trigger ETL)
+
+**Test baseline**: GUT 1957 → 1964 (+7 GAP-11). Format + gdlint clean.
+
+**Pillar P6 Fairness 🟢++ rinforzato** — Phoenix Point bounded miss-streak compensation: 3 consecutive miss → +5 attack_mod next roll. Anti-frustration tilt senza killare varianza.
+
+**Cumulative Day 2 PR**: 10 Claude-shipped autonomous Game-Godot-v2 + 3 docs Game/. **Cumulative session 2026-05-07**: 14 PR.
+
 ## Resume trigger canonical (any PC)
 
 > _"leggi docs/planning/2026-05-07-phase-a-handoff-next-session.md, monitoring window day N + Phase B trigger eval"_
