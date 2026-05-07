@@ -17,7 +17,23 @@ tags: [decisions, evidence, player-friendly, phase-a, master-dd]
 
 # Master-dd decisions outstanding 2026-05-08
 
+> ✅ **CHIUSE 5/5 master-dd verdict 2026-05-08**: vedi sezione "Verdict finale" sotto. Doc preserved come reference + audit trail.
+
 Doc canonical per master-dd review settimana 2026-05-08→14. **5 decisioni aperte** (OD-017→OD-021) tracciate canonical post sessione 2026-05-08 Day 2/7 monitoring window. Per ogni decisione: **contesto player-friendly + opzioni tecniche + raccomandazione + evidenze ricerca/museo**.
+
+## Verdict finale 2026-05-08 — 5/5 chiuse
+
+| OD                                      | Verdict master-dd                                                                                | Action                                        |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------- |
+| OD-017 Phase B trigger 2/3              | **DOWNGRADE nice-to-have** (NOT hard gate). Weekend playtest se launcher 1-2 click usability OK. | ADR-2026-05-05 §5 AMENDED                     |
+| OD-019 Skiv Monitor fix                 | **Option A 1-click toggle**. Master-dd manual quando ha PC.                                      | NO Claude action                              |
+| OD-018 Tier 2 PlayGodot+GodotTestDriver | **OVERRIDE Claude kill-60. KEEP both** in adoption roadmap. ETA realistic update.                | Workflow doc row 5+6 ETA update con caveat    |
+| OD-021 Continuous monitoring            | **Option C ridotto** Day 3+5+7 only. Skip Day 4+6.                                               | Day 3 2026-05-09 trigger Claude rerun         |
+| OD-020 Sprint Q+ scope freeze           | **FULL deep scope** Q.A→Q.E. NO incremental. Default 6 mutation Q-3 accept.                      | Gated post-Phase-B-accept (target 2026-05-14) |
+
+---
+
+## Sezione originale (pre-verdict, audit trail)
 
 > **Lettura ordinata**: 1️⃣ Phase B trigger (più urgente) → 2️⃣ Skiv Monitor (più facile) → 3️⃣ Tier 2 PlayGodot (verdict tecnico) → 4️⃣ Continuous monitoring (low-stakes) → 5️⃣ Sprint Q+ scope freeze (gated, può aspettare).
 

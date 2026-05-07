@@ -106,17 +106,31 @@ Se metrics break → rollback fast a web v1 (4.4).
 
 ## 5. Phase B trigger conditions
 
+**AMENDMENT 2026-05-08 master-dd verdict** (post Day 2/7 monitoring window):
+
+Trigger originale §5 down 4 condizioni → 2 hard + 1 nice-to-have:
+
 **Phase B ACCEPTED** (web v1 archive formal) quando ALL of:
 
-1. ✅ Phase A ACCEPTED + 7gg grace passed
-2. ✅ 1+ playtest session pass post-cutover (~4 amici tester, full combat scenario)
-3. ✅ 0 critical bug regression Phase A
-4. ✅ Soft criteria S1+S2+S5 selectable subset:
-   - S1 Skiv asset Path 3 portrait + lifecycle (~6-9h userland) — desiderata recap-card visual quality
-   - S2 Character creation TV scene Bible §0 (~6-10h Godot) — full vertical slice
-   - S5 Sprint I playtest userland 2-3 device (~1-2 sett userland) — demo readiness validation
+1. ✅ Phase A ACCEPTED + 7gg grace passed (target 2026-05-14)
+2. ✅ 0 critical bug regression Phase A (continuous monitoring synthetic + master-dd)
 
-Master-dd verdict explicit "Phase B ACCEPTED, archive web v1 formal" post 7gg grace.
+**NICE-TO-HAVE** (NOT blocking):
+
+- 🟡 1+ playtest session pass post-cutover (~4 amici tester) — desiderato weekend se launcher 1-2 click usability OK; NOT hard gate. Master-dd verdict 2026-05-08 explicit downgrade.
+- 🟡 Soft criteria S1+S2+S5 selectable (post-Phase-B optional):
+  - S1 Skiv asset Path 3 portrait + lifecycle (~6-9h userland)
+  - S2 Character creation TV scene Bible §0 (~6-10h Godot)
+  - S5 Sprint I playtest userland 2-3 device (~1-2 sett userland)
+
+**Rationale downgrade**:
+
+- Tier 1 layered QA infra (Phase A Day 1+2) coverage functional + iter3 hardware-equivalent ~70-90% fidelity = playtest social = nice supplement, NOT only-evidence-source
+- Master-dd 4-amici social playtest = high-cost (1-2h userland coordinato Discord/WhatsApp) vs marginal evidence delta vs current synthetic + monitoring
+- Phase A Day 1+2 ZERO regression detected = automation-first gate sufficient
+- 7gg grace + zero-regression monitoring = canonical ADR contract auto-satisfies se monitoring confirms
+
+**Master-dd verdict explicit** "Phase B ACCEPTED, archive web v1 formal" post 7gg grace + zero-regression confirmed (2026-05-14 target).
 
 ## 6. Phase B actions (web v1 archive formal)
 
