@@ -163,7 +163,7 @@ function openWs(
           ),
         );
       }, timeoutMs);
-      waiter.resolve = (m: WsMessage) => {
+      waiter.resolve = (m: WsMessage | PromiseLike<WsMessage>) => {
         clearTimeout(timer);
         resolve(m);
       };
