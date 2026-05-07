@@ -1,5 +1,5 @@
 ---
-title: Evo-swarm distillation — stress mechanics + biomi extreme (run #5)
+title: Evo-swarm distillation — run #5 raw output + verification status
 doc_status: active
 doc_owner: docs-team
 workstream: cross-cutting
@@ -9,158 +9,175 @@ language: it
 review_cycle_days: 30
 ---
 
-# Evo-swarm distillation — stress mechanics + biomi extreme
+# Evo-swarm distillation run #5 — raw output + verification status
 
-> Distillazione progettuale dei cicli **25-30 del run #5 evo-swarm** (2026-05-07 sera, 22:20 → 23:28). 6 specialist consecutivi accept score 7.5/10 dopo Dafne intervention al ~ciclo 23 ("swarm bloccato su INFRA non gameplay → forza prototipi giocabili"). Tema emergente: **meccaniche di stress + biomi extreme + feedback ambientale**.
+> **Cosa è questo doc**: registrazione onesta dei cicli **25-30 del run #5 evo-swarm** (2026-05-07 sera, 22:20 → 23:28) con **cross-verification contro canonical Game data**. Non è un design proposal autoritativo: è un audit di cosa lo swarm ha prodotto vs cosa esiste davvero in `data/core/`.
 >
-> Stato Atto 2 evo-swarm (2026-05-07): 1/10 artifact integrati Game (target ≥10 entro 2026-05-24). Questa è la prima distillazione di run #5 verso Game, in seguito alla decisione A "Riavvia swarm runtime" ([evo-swarm#66](https://github.com/MasterDD-L34D/evo-swarm/issues/66)).
+> **Cosa NON è questo doc**: una specifica di sistema da implementare. Diversi claim del swarm sono risultati hallucinati o derivati da inferenze non verificate. Vedi sezione [Verification status](#verification-status) per il dettaglio.
+>
+> **Origine**: 6 specialist consecutivi accept score 7.5/10 nei cicli 25-30, dopo Dafne intervention al ~ciclo 23. Score swarm-side ≠ accuratezza canonical Game.
 
 ## Indice
 
 1. [Contesto run #5](#contesto-run-5)
-2. [Bioma Abisso Vulcanico](#bioma-abisso-vulcanico)
-3. [Bioma Atollo di Ossidiana](#bioma-atollo-di-ossidiana)
+2. [Verification status](#verification-status)
+3. [Output raw del swarm](#output-raw-del-swarm)
 4. [Stress mechanics framework](#stress-mechanics-framework)
-5. [Trait alignment notes](#trait-alignment-notes)
-6. [Open questions per Game-side review](#open-questions-per-game-side-review)
-7. [Source artifacts](#source-artifacts)
+5. [Open questions per Game-side review](#open-questions-per-game-side-review)
+6. [Source artifacts](#source-artifacts)
 
 ---
 
 ## Contesto run #5
 
-| Cycle | Specialist | Output type | Tema |
-|------:|------------|-------------|------|
-| 25 | lore-designer | lore | Verifica lore + bilanciamento per assegnazione coordinator |
-| 26 | species-curator | species | Sezione guida bioma Abisso Vulcanico |
-| 27 | balancer | balance | Stress modifiers + impact player in abisso_vulcanico |
-| 28 | trait-curator | trait | Allineamento definizioni trait per nuovo doc guida |
-| 29 | biome-ecosystem-curator | biome | Guida Atollo di Ossidiana con meccaniche stress |
-| 30 | archivist | schema | Guida meccaniche stress ambientali + feedback |
+| Cycle | Specialist | Tema dichiarato dal swarm |
+|------:|------------|---------------------------|
+| 25 | lore-designer | Verifica lore + bilanciamento |
+| 26 | species-curator | Sezione guida bioma Abisso Vulcanico |
+| 27 | balancer | Stress modifiers per abisso_vulcanico |
+| 28 | trait-curator | Allineamento definizioni trait |
+| 29 | biome-ecosystem-curator | Guida Atollo di Ossidiana |
+| 30 | archivist | Schema meccaniche stress ambientali |
 
-Tutti gli artifact con `co02_validation.status = "complete"`, score 7.5/10. Modello: `qwen3-coder:30b` per i specialist, `qwen3:8b` per coordinator/Builder gate.
+Tutti gli artifact con `co02_validation.status = "complete"`, score 7.5/10. Modello: `qwen3-coder:30b`. **`co02_validation.complete` valida la struttura JSON in output, non l'accuratezza dei contenuti contro canonical Game.**
 
-Gameplay ratio finestra finale: **0.71** (vs target 0.40, vs run #4 baseline 0.50). Direction overrides: 0 (rotation naturale). Errori: 1 (cycle #24 `playtest-coordinator` non trovato — bug di config risolto in [evo-swarm#69](https://github.com/MasterDD-L34D/evo-swarm/pull/69), unrelated a contenuto).
-
----
-
-## Bioma Abisso Vulcanico
-
-**Tipologia**: geothermal con affixes `termico`, `luminescente`, `spore_diluite`, `sabbia`.
-
-**Caratterizzazione ambientale** (cycle 26 species-curator + cycle 27 balancer):
-
-- Stress vector primario: termico (eruzioni periodiche, gradient termico verticale).
-- Stress vector secondario: luminescenza variabile (cicli buio/abbagliamento).
-- Risorsa critica: spore diluite (cibo + segnale chimico per specie endemiche).
-- Substrato: sabbia vulcanica con copertura idrotermale.
-
-**Specie candidate adatte** (citate dal swarm, da verificare contro `data/core/species.yaml` canonical):
-
-| Specie | Trait abilitanti | Affinità bioma |
-|--------|------------------|----------------|
-| `dune_stalker` | `echolocation`, `sand_digest` | Sabbia + segnale chimico |
-| `polpo_araldo_sinaptico` | `impulsi_bioluminescenti`, `nodi_sinaptici_superficiali` | Luminescenza + termico |
-
-**Gap rilevato dallo swarm** (cycle 26 `gaps`):
-
-- Nessuna specie specifica già marcata come `abisso_vulcanico`-native in `species.yaml`.
-- Mancano le interazioni dettagliate specie ↔ ambiente (regole stress applicate, feedback environmental).
-
-**Stress modifiers proposti** (cycle 27 balancer, da ratificare game-side):
-
-- **termico_pulse**: durante eventi eruttivi, stress +X% per N turni → trigger su trait `thermal_resistance` (riduzione %), trigger debuff su specie senza il trait.
-- **luminescenza_cycle**: pattern abbagliamento → riduce `perception_range` di specie senza `impulsi_bioluminescenti` o `eyestalk_protection`.
-- **spore_drift**: corrente di spore = vettore di passive feeding per specie con `spore_filtration`, debuff respiratorio per altre.
-
-Numeri X / N restano da calibrare lato Game balance team.
+Run stats: gameplay ratio 0.71 (vs target 0.40), 26/30 ok, 0 reject, direction_overrides 0. Cycle #24 errore `playtest-coordinator` non trovato (bug config risolto in [evo-swarm#69](https://github.com/MasterDD-L34D/evo-swarm/pull/69)).
 
 ---
 
-## Bioma Atollo di Ossidiana
+## Verification status
 
-**Tipologia**: marine costiero con substrato vulcanico solidificato (cycle 29 biome-ecosystem-curator).
+Ogni claim del swarm verificato contro `data/core/` Game canonical (commit `46e90cab`). Tre livelli:
 
-**Caratterizzazione**:
+- ✅ **VERIFIED** — il claim corrisponde a canonical
+- ⚠️ **PARTIAL** — nome esiste ma in contesto/struttura diversi da quanto detto
+- ❌ **HALLUCINATED** — non esiste in canonical, swarm inferenza non fondata
 
-- Substrato ossidianico: tagliente, riflettente, basso adesivo per piedi/tentacoli senza adattamento.
-- Pool termali costieri: micro-biomi termici dispersi.
-- Stress vector primario: meccanico (taglio + impatto da onde su substrato duro).
-- Stress vector secondario: termico locale (pool isolati, gradient brusco).
+| # | Claim swarm | Status | Note |
+|---|-------------|--------|------|
+| 1 | `abisso_vulcanico` esiste come bioma | ✅ VERIFIED | `data/core/biomes.yaml`, `biome_class: geothermal`, summary "Camini abissali con lava pressurizzata e fauna bio-termica" |
+| 2 | Abisso Vulcanico ha affixes `termico, luminescente, spore_diluite, sabbia` | ❌ HALLUCINATED | biomes.yaml non elenca questi affixes; canonical descrive "lava pressurizzata + bio-termica" — natura diversa (deep vents, non sabbia) |
+| 3 | Bioma "Atollo di Ossidiana" esiste | ⚠️ PARTIAL | Trovato solo in `biome_aliases.yaml` + `active_effects.yaml` (alias/reference), non come entry primaria in `biomes.yaml` |
+| 4 | `dune_stalker` esiste come specie | ✅ VERIFIED | `data/core/species.yaml`, genus Arenavenator, T2 Threat |
+| 5 | `dune_stalker` è "adatto" a Abisso Vulcanico | ❌ HALLUCINATED | Canonical: `biome_affinity: savana`. Lo swarm ha proposto reassign senza dichiararlo come tale |
+| 6 | `polpo_araldo_sinaptico` esiste | ✅ VERIFIED | species.yaml, genus Synaptopus, T5 Keystone |
+| 7 | `echolocation` è un "trait" | ❌ HALLUCINATED come categoria | Canonical: è una voce in `default_parts.senses` di dune_stalker (body part), NON un trait nel `trait_plan` |
+| 8 | `sand_digest` è un "trait" | ❌ HALLUCINATED come categoria | Canonical: voce in `default_parts.metabolism` di dune_stalker, NON un trait |
+| 9 | `impulsi_bioluminescenti` è un trait | ✅ VERIFIED | `data/core/traits/glossary.json` lo definisce come trait |
+| 10 | `nodi_sinaptici_superficiali` è un trait | ✅ VERIFIED | glossary.json |
+| 11 | `thermal_resistance` esiste come trait | ❌ HALLUCINATED | Non trovato in glossary.json, biome_pools.json, active_effects.yaml |
+| 12 | `substrate_grip` è un trait esistente | ❌ HALLUCINATED | Non in alcun file canonical. Lo swarm correttamente lo flagga come "proposto, da creare" |
+| 13 | `spore_filtration`, `eyestalk_protection` proposed nuovi | ✅ correct framing | Sono dichiarati come proposte, non come esistenti |
 
-**Meccaniche feedback ambientale proposte**:
+**Score onestà run #5 vs canonical**: 5/13 verified, 1/13 partial, 7/13 hallucinated. Il swarm ha **riconosciuto specie+trait reali** ma ha **inferito affinità+strutture+attributi non supportati da canonical**.
 
-- **substrate_grip**: trait richiesto per movimento efficiente su ossidiana. Senza, accumulo `damage_micro` per turn → degradation di `mobility_score`.
-- **thermal_pool_haven**: nodi termali fungono da safe zone per specie geothermal-dependent. Crea cluster point per encounter dinamici.
-- **reflection_stealth_break**: ossidiana riflessa interferisce con stealth visivo → bonus a chi attacca, malus a chi si nasconde.
+---
 
-**Sinergia con Abisso Vulcanico**: i due biomi condividono geothermal lineage (entrambi vulcanici) ma divergono per stato fisico (sabbia vs ossidianica solida). Specie con `thermal_resistance` adatte a entrambi; specie con `sand_digest` solo Abisso, specie con `substrate_grip` solo Atollo.
+## Output raw del swarm
+
+### Ciclo 26 — species-curator (claim su Abisso Vulcanico)
+
+Lo swarm ha proposto: "Aggiungere una sezione dedicata al bioma Abisso Vulcanico con dettagli sulle specie adatte, trait e strategie tattiche".
+
+Specie citate dal swarm con relativi default_parts/trait dichiarati come "adatti":
+
+| Specie | Cosa swarm dice | Cosa canonical dice |
+|--------|-----------------|---------------------|
+| `dune_stalker` | "echolocation, sand_digest" come trait | `echolocation` ∈ default_parts.senses; `sand_digest` ∈ default_parts.metabolism. Trait reali (trait_plan): `artigli_sette_vie`, `struttura_elastica_amorfa`, `scheletro_idro_regolante`, `sensori_geomagnetici`. biome_affinity: **savana** (non abisso_vulcanico) |
+| `polpo_araldo_sinaptico` | "impulsi_bioluminescenti, nodi_sinaptici_superficiali" | Entrambi sono trait reali in glossary.json. biome_affinity da verificare |
+
+**Gap rilevato dal swarm** (cycle 26 `gaps`): "Nessuna specie specifica già marcata come `abisso_vulcanico`-native in `species.yaml`." Questo è verificabilmente **vero**: nessuna specie canonical ha `biome_affinity: abisso_vulcanico` in species.yaml. **Ma la conclusione del swarm — che dune_stalker e polpo_araldo siano i candidati — è inferenza non fondata** (dune_stalker è savana-affinity).
+
+### Ciclo 27 — balancer (stress modifiers Abisso Vulcanico)
+
+Lo swarm ha proposto stress modifier framework con vector termico/luminescenza/spore. **Le hook su `thermal_resistance` non sono valide** perché quel trait non esiste canonical. Le altre hook (`impulsi_bioluminescenti`) puntano a trait reali.
+
+### Ciclo 29 — biome-ecosystem-curator (Atollo di Ossidiana)
+
+Lo swarm ha caratterizzato Atollo di Ossidiana come "marine costiero con substrato vulcanico solidificato". Canonical Game ha solo riferimenti ad `atollo_ossidiana` in `biome_aliases.yaml` (alias) e `active_effects.yaml`, non una entry primaria. **Il swarm potrebbe avere caratterizzato un bioma che esiste solo as aliased reference**.
+
+### Cicli 25 (lore), 28 (trait alignment), 30 (archivist schema)
+
+Output meta-design (lore consistency, trait taxonomy, schema framework). Non producono claim verificabili contro canonical specifici.
 
 ---
 
 ## Stress mechanics framework
 
-**Cross-cycle synthesis** (cycle 27 balancer + cycle 30 archivist):
+**Cross-cycle synthesis** (cycle 27 + 30). Lo swarm ha proposto la categoria gameplay "stress ambientale" distinta dal damage diretto:
 
-Lo stress ambientale come categoria gameplay distinta dal damage diretto. Caratteristiche:
+1. **Accumulo graduale**: stress riduce capacità nel tempo, non danneggia direttamente.
+2. **Recovery passivo**: in safe zone (es. nodi termali) decade per turn.
+3. **Trait-mediated**: trait pertinenti annullano o trasformano lo stress.
+4. **Feedback visibile**: leggibilità player (icona/anim/sound).
 
-1. **Accumulo graduale**: stress non danneggia direttamente, ma riduce capacità nel tempo.
-2. **Recovery passivo**: in zone safe (es. `thermal_pool_haven`), stress decade per turn.
-3. **Trait-mediated**: trait pertinenti annullano o trasformano lo stress in vantaggio.
-4. **Feedback visibile**: ogni stress accumulato deve essere leggibile dal player (icona, anim, sound) — pillar leggibilità scacchistica swarm.
+### Schema dati — versione corretta vs swarm output
 
-**Schema dati proposto** (da raffinare con Game data team):
+**❌ Versione swarm (errata)** — il snippet originale era:
 
 ```yaml
 # data/core/traits/active_effects.yaml — addendum proposto
 stress_environmental:
-  source: biome_affixes  # stringa, FK a biomes.yaml
-  vector: [termico, meccanico, chimico, percettivo]
-  accumulation_rate: float  # per turn in tile bioma
-  recovery_rate: float  # per turn in safe zone
-  threshold_debuff: int  # punti stress oltre cui scatta debuff
-  mitigating_traits: [...]  # lista trait che riducono accumulation_rate
-  inverting_traits: [...]   # lista trait che convertono stress in bonus
+  source: biome_affixes
+  vector: [...]
+  ...
 ```
 
----
+**Problema (rilevato da Codex review su PR #2108)**: `active_effects.yaml` ha schema `version + traits:` map. Il loader runtime `loadActiveTraitRegistry` legge solo `parsed.traits`. `stress_environmental` come top-level sibling sarebbe **silently ignored**.
 
-## Trait alignment notes
+**✅ Versione corretta — opzione A: nest sotto traits map** (se stress_environmental è modellato come trait meccanico):
 
-**Cycle 28 trait-curator** ha verificato l'allineamento di trait esistenti vs nuovo framework stress. File toccati nell'analisi (non modificati, solo verificati):
+```yaml
+# data/core/traits/active_effects.yaml — addendum proposto (UNDER traits:)
+version: 1
+traits:
+  # ... trait esistenti SPRINT_002 ...
+  stress_environmental:
+    type: environmental_modifier
+    source: biome_affixes  # FK a biomes.yaml
+    vector: [termico, meccanico, chimico, percettivo]
+    accumulation_rate: 0.0  # placeholder, balance TBD
+    recovery_rate: 0.0      # placeholder
+    threshold_debuff: 0     # placeholder
+    mitigating_traits: []   # lista trait che riducono accumulation
+    inverting_traits: []    # lista trait che convertono stress in bonus
+```
 
-- `data/core/traits/glossary.json`
-- `data/traits/index.json`
-- `apps/trait-editor/docs/trait-guide.md`
+**✅ Versione corretta — opzione B: nuovo file dedicato** (se stress è un sistema separato dai trait):
 
-**Trait esistenti da rivedere** per integrazione stress mechanics:
+```yaml
+# data/core/biomes/stress_modifiers.yaml — NEW FILE
+# Loader nuovo richiesto in apps/backend/services/stressEffects.js
+version: 1
+stress_modifiers:
+  - id: stress_termico_abisso_vulcanico
+    biome_id: abisso_vulcanico  # FK a biomes.yaml
+    vector: termico
+    accumulation_rate: 0.0
+    recovery_rate: 0.0
+    mitigating_trait_ids: []
+    inverting_trait_ids: []
+```
 
-- `thermal_resistance` (esistente) → `mitigating_traits` per `termico` vector.
-- `impulsi_bioluminescenti` → potrebbe essere `inverting_traits` per `percettivo` (luminescenza diventa offesa).
-- `sand_digest` → `mitigating_traits` per `chimico` (digerisce spore).
-- `substrate_grip` (proposto, da creare) → `mitigating_traits` per `meccanico` (Atollo Ossidiana).
-
-**Nuovi trait suggeriti** (da approvare game-side):
-
-- `substrate_grip` (Atollo Ossidiana)
-- `spore_filtration` (Abisso Vulcanico filtri respiratori)
-- `eyestalk_protection` (luminescenza schermata)
+Il design choice (nest vs separate file) dipende da se Game team considera "stress" un trait-effect o un sistema biome-level autonomous. L'output del swarm non si è posto la domanda.
 
 ---
 
 ## Open questions per Game-side review
 
-1. **Calibrazione numerica stress modifiers**: i punti X / N proposti per `termico_pulse` ecc. sono placeholder. Balance team deve assegnare valori in linea con scale damage esistenti.
-2. **Conflitto vs sistema esistente**: lo swarm non ha verificato se Game ha già un sistema "stress" (es. mental stress in altri contesti). Game review richiesta.
-3. **Specie `abisso_vulcanico`-native**: il gap rilevato suggerisce di creare nuove entry in `species.yaml`. Quante? Quali trait combinations? Decidere se generare via swarm cycle dedicato o manualmente.
-4. **Trait validation**: i 3 trait nuovi proposti (`substrate_grip`, `spore_filtration`, `eyestalk_protection`) richiedono review trait-curator-Game (non lo stesso del swarm) per coerenza con glossary.
-5. **Priority Atollo vs Abisso**: il run ha trattato entrambi parallelamente. Per integration in roadmap Game, deciderne ordine di implementazione concreta.
+1. **Scope Atollo di Ossidiana**: esiste come bioma primario (entry biomes.yaml) o solo come alias? Se solo alias, una caratterizzazione completa richiede prima la creazione canonical.
+2. **Reassign biome_affinity**: il swarm propone implicitly che `dune_stalker` potrebbe vivere in `abisso_vulcanico`. Canonical lo dichiara `savana`. Dual-affinity? Reassign? O dune_stalker non c'entra?
+3. **Trait `thermal_resistance` esiste?**: il swarm assume di sì, canonical no. È un trait da creare, è un alias di un altro trait, o è un'invenzione del swarm? Verifica necessaria.
+4. **Distinzione `default_parts` vs `trait_plan`**: il swarm tratta `echolocation`/`sand_digest` come trait, ma canonical li mette in `default_parts`. Differenza intenzionale (parts = body component, trait = ability) — il prompt swarm non sembra distinguerli.
+5. **Sistema "stress" pre-esistente in Game?**: il swarm non ha verificato. Game team confermi se esiste già qualcosa di simile da integrare invece di creare nuovo.
+6. **YAML schema location**: stress_modifiers come trait sub-entry o file separato? Vedi opzioni A/B sopra.
+7. **Calibrazione numerica**: tutti i `0.0` sono placeholder. Balance team Game assegna valori se framework approvato.
 
 ---
 
 ## Source artifacts
 
-Artifact JSON in `evo-swarm/camel-agents/artifacts/` (timestamp 2026-05-07T23:xx, file hash + co02_validation.score in artifact stesso):
+Artifact JSON in `evo-swarm/camel-agents/artifacts/` (timestamp 2026-05-07T23:xx):
 
 | File | Cycle | Score | co02 |
 |------|------:|------:|------|
@@ -171,12 +188,24 @@ Artifact JSON in `evo-swarm/camel-agents/artifacts/` (timestamp 2026-05-07T23:xx
 | `biome-ecosystem-curator_2026-05-07T23-25-01.542030.json` | 29 | 7.5 | complete |
 | `archivist_2026-05-07T23-27-22.513526.json` | 30 | 7.5 | complete |
 
-Modello: `qwen3-coder:30b`, latency media ~55s/artifact. Builder gate (0/10 score) ha approvato tutti e 6 (gate passato).
+Modello: `qwen3-coder:30b`, latency media ~55s/artifact. Builder gate (level 0/10) ha approvato tutti e 6 — ma ricordare che **il gate valida la struttura JSON (CO-02 schema), non la fedeltà al canonical Game**.
 
-**Per pull artifact pieni**: cycle log narrativo in `evo-swarm/camel-agents/artifacts/cycle-log.md` (table format, 1 row per cycle).
+**Per pull artifact pieni**: cycle log narrativo in `evo-swarm/camel-agents/artifacts/cycle-log.md`.
+
+---
+
+## Lezione meta per future distillation
+
+Il run #5 è il primo run post 11gg dormancy con la decisione A "Riavvia swarm runtime" attuata. La verification ha rivelato che **il swarm ha tendenza a hallucinate-by-association**: prende nomi reali (`dune_stalker`, `impulsi_bioluminescenti`, `abisso_vulcanico`) e ne combina attributi non supportati dal canonical. `co02_validation.complete` non protegge da questo perché valida solo la struttura JSON.
+
+**Implicazione per pipeline swarm→Game**: ogni distillation richiede cross-verification automatica contro canonical PRIMA di proporla come PR Game. Possibile follow-up: aggiungere uno script `scripts/verify-swarm-claims.py` che parse artifact + grep canonical, output un verification table tipo questa.
+
+**Implicazione per Atto 2 score**: questa PR conta come 1/10 ma il valore reale è "audit del swarm output run #5", non "feature data integrata". Il counter non distingue le due cose — Game team valuta se è ricognoscibile come "integration" o se è meta-debt.
 
 ---
 
 ## Gate Atto 2
 
-Questa distillazione conta come **1 PR Game** verso il target ≥10 di Atto 2 Scenario A "Integration drive" (decisione [evo-swarm#66](https://github.com/MasterDD-L34D/evo-swarm/issues/66) outcome A). Score corrente: 1/10 → **2/10** post-merge. Watch gate naturale: digest weekly evo-swarm 2026-05-14.
+Conta come **1 PR Game** verso target ≥10 (decisione [evo-swarm#66](https://github.com/MasterDD-L34D/evo-swarm/issues/66) outcome A). Score 1/10 → **2/10** post-merge se Game team accetta come integration valid. Se Game team la considera meta-only, score resta 1/10 ma il doc serve come learning per pipeline swarm→Game.
+
+Watch gate naturale: digest weekly evo-swarm 2026-05-14.
