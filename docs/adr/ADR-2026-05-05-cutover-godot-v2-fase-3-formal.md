@@ -17,6 +17,7 @@ related:
   - docs/playtest/2026-05-05-phone-smoke-step-by-step.md
   - docs/playtest/2026-05-07-phone-smoke-harness-automated-coverage.md
   - docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md
+  - docs/planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md
 ---
 
 # ADR-2026-05-05: Cutover Godot v2 Fase 3 — formal decision
@@ -38,14 +39,14 @@ Default originale "se no verdict 14gg" (decision-gate §6) resta valid se master
 
 ## 2. Pre-conditions critical path — STATO 2026-05-07
 
-| #   | Pre-condition                             | Stato 2026-05-04 |  Stato 2026-05-05   |             Stato 2026-05-07             | Δ post-harness                                                                                                              |
-| --- | ----------------------------------------- | :--------------: | :-----------------: | :--------------------------------------: | --------------------------------------------------------------------------------------------------------------------------- |
-| C1  | N.7 failure-model parity 5/5              |      🟡 3/5      |  🟢 4/5 NEAR-PASS   |             🟢 4/5 NEAR-PASS             | nessun cambio                                                                                                               |
-| C2  | M.7 DioField p95 timing                   |    🟡 PARTIAL    | 🟢 ENGINE+WIRE LIVE |         🟢 ENGINE+WIRE+TEST LIVE         | + 6 GUT integration test_combat_5round_p95.gd ([Godot v2 #202](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/202))    |
-| C3  | Phone composer real-device smoke 2-device |    ❌ pending    |   🟡 CONDITIONAL    | 🟢 PASS (post-harness + master-dd 10min) | harness 17 test cross-repo + checklist 3-item physical-only ([Game/#2087](https://github.com/MasterDD-L34D/Game/pull/2087)) |
-| C4  | Ennea taxonomy ADR Accepted + impl close  |     🟡 DRAFT     |     ✅ ACCEPTED     |               ✅ ACCEPTED                | nessun cambio                                                                                                               |
-| C5  | Cross-repo sync regression test pass      |     ✅ LIVE      |       ✅ LIVE       |                 ✅ LIVE                  | nessun cambio                                                                                                               |
-| C6  | Godot GUT baseline ≥1500 asserts          |  🟡 1488 (97%)   |   🟡 1499 (99.9%)   |           🟢 1520 (≥1500 PASS)           | + 21 asserts test_combat_5round_p95.gd post-merge #202                                                                      |
+| #   | Pre-condition                             | Stato 2026-05-04 |  Stato 2026-05-05   |              Stato 2026-05-07              | Δ post-harness                                                                                                              |
+| --- | ----------------------------------------- | :--------------: | :-----------------: | :----------------------------------------: | --------------------------------------------------------------------------------------------------------------------------- |
+| C1  | N.7 failure-model parity 5/5              |      🟡 3/5      |  🟢 4/5 NEAR-PASS   |              🟢 4/5 NEAR-PASS              | nessun cambio                                                                                                               |
+| C2  | M.7 DioField p95 timing                   |    🟡 PARTIAL    | 🟢 ENGINE+WIRE LIVE |          🟢 ENGINE+WIRE+TEST LIVE          | + 6 GUT integration test_combat_5round_p95.gd ([Godot v2 #202](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/202))    |
+| C3  | Phone composer real-device smoke 2-device |    ❌ pending    |   🟡 CONDITIONAL    |  🟢 PASS (post-harness + master-dd 10min)  | harness 17 test cross-repo + checklist 3-item physical-only ([Game/#2087](https://github.com/MasterDD-L34D/Game/pull/2087)) |
+| C4  | Ennea taxonomy ADR Accepted + impl close  |     🟡 DRAFT     |     ✅ ACCEPTED     |                ✅ ACCEPTED                 | nessun cambio                                                                                                               |
+| C5  | Cross-repo sync regression test pass      |     ✅ LIVE      |       ✅ LIVE       |                  ✅ LIVE                   | nessun cambio                                                                                                               |
+| C6  | Godot GUT baseline ≥1500 asserts          |  🟡 1488 (97%)   |   🟡 1499 (99.9%)   | 🟢 4095 asserts / 1849 tests (273% target) | full GUT suite measured local 2026-05-07: 191 scripts, 1849 tests, 4095 asserts, 41.5s. Far exceeds ≥1500 baseline.         |
 
 **Verdict pre-conditions**: **6/6 PASS** post-harness shipped + master-dd 10min validation puntuale.
 
@@ -65,7 +66,7 @@ Effort residuo per Phase A trigger: **~10 min userland** (C3 physical-only items
    - Checklist canonical: [`docs/playtest/2026-05-07-master-dd-validation-10min-checklist.md`](../playtest/2026-05-07-master-dd-validation-10min-checklist.md)
 4. ✅ C4 Ennea ACCEPTED (PR #167 + #2041 cross-stack 9-canon)
 5. ✅ C5 cross-repo sync LIVE
-6. 🟢 **C6 GUT baseline ≥1500 asserts** — 1499 + 21 nuovi asserts post-#202 = 1520 ≥ 1500 target
+6. 🟢 **C6 GUT baseline ≥1500 asserts** — full suite local 2026-05-07: 4095 asserts / 1849 tests / 191 scripts = **273% target**. Sprint P+Q closure complete (combat stubs registry zeroed via Sprint AC #177, vedi [`docs/planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md`](../planning/2026-05-07-plan-v3-3-drift-sync-pq-formalization.md)).
 
 **Trigger explicit**: master-dd dichiara "Phase A ACCEPTED <date>" post-validation submission via this ADR PR OR auto-accept se 14gg pass without verdict.
 
