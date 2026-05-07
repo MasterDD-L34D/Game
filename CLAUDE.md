@@ -332,7 +332,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 ## 🎮 Sprint context (aggiornato: 2026-05-07 — Cutover Phase A LIVE + Tier 1 layered QA complete)
 
-**Sessione 2026-05-07 (alternative QA infra + ADR cutover Phase A)**: 16 PR shipped (12 Game/ + 4 Godot v2) tutti merged main. ADR-2026-05-05 status `PROPOSED → ACCEPTED Phase A 2026-05-07` ([#2088](https://github.com/MasterDD-L34D/Game/pull/2088) MERGED `7247656`). Tier 1 layered QA infra (handoff doc canonical: 70% Functional + 20% Integration + 10% Physical) **completo** in singola sessione ~10h.
+**Sessione 2026-05-07 (alternative QA infra + ADR cutover Phase A)**: 17 PR shipped (12 Game/ + 5 Godot v2) tutti merged main. ADR-2026-05-05 status `PROPOSED → ACCEPTED Phase A 2026-05-07` ([#2088](https://github.com/MasterDD-L34D/Game/pull/2088) MERGED `7247656`). Tier 1 layered QA infra (handoff doc canonical: 70% Functional + 20% Integration + 10% Physical) **completo** in singola sessione ~10h.
 
 **PR shipped main 2026-05-07** (12 Game/):
 
@@ -349,6 +349,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 | [#2098](https://github.com/MasterDD-L34D/Game/pull/2098) | `8a0ec55`     | combat → debrief → ended e2e closes Tier 1 gap        | meta   |
 | [#2099](https://github.com/MasterDD-L34D/Game/pull/2099) | `196f606`     | Iter3 hardware-equivalent agent + browser smoke       | meta   |
 | [#2088](https://github.com/MasterDD-L34D/Game/pull/2088) | **`7247656`** | 🎯 **ADR-2026-05-05 ACCEPTED Phase A**                | meta   |
+| [#2100](https://github.com/MasterDD-L34D/Game/pull/2100) | `3935074`     | Phase A LIVE handoff doc + closure session            | meta   |
 
 **PR Godot v2 shipped main 2026-05-07** (5):
 
