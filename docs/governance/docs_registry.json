@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-05-07T22:26:19Z",
+  "generated_at": "2026-05-07T22:34:32Z",
   "language_policy": "IT+EN",
   "doc_status_values": [
     "active",
@@ -5919,6 +5919,19 @@
       "source_of_truth": false,
       "language": "it",
       "review_cycle_days": 30
+    },
+    {
+      "path": "docs/playtest/2026-05-08-tier-2-playgodot-integration-prep.md",
+      "title": "Tier 2 PlayGodot integration prep - honest research + kill-60 verdict",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
     },
     {
       "path": "docs/playtest/BAL-03-ondata4-playbook.md",
