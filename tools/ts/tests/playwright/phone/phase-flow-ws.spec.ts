@@ -637,4 +637,148 @@ test.describe('phone smoke — WS phase-flow multi-client', () => {
       await ctx.close();
     }
   });
+
+  test('Combat → debrief → ended e2e: endCombat REST + next_macro retreat closes run', async ({
+    browser,
+  }) => {
+    // Closes ~20% Tier 1 coverage gap flagged by phase-flow-ws spec author.
+    // Validates full lifecycle tail: combat phase → host POST /api/coop/combat/end
+    // (broadcastCoopState debrief) → host WS intent next_macro retreat →
+    // orch.submitNextMacro → next_macro_committed broadcast + next_macro_accepted
+    // ACK host-only + publishPhaseChange('ended') versioned.
+    //
+    // Pre-fix W7 (phone smoke 2026-05-06) phone host emitted next_macro
+    // intent + Godot host silent drop, run stuck post-debrief. wsSession
+    // line 1554-1596 added server-side drain. This spec locks the contract.
+    const ctx = await browser.newContext();
+    const page = await ctx.newPage();
+    await page.goto(PHONE_PATH, { waitUntil: 'domcontentloaded' });
+    const base = getBaseUrl(page);
+
+    const { lobby, hostWs, playerWs } = await setupRoom(page, base);
+
+    try {
+      // Advance orch state machine via REST (NOT WS phase intents — those
+      // only update room.publishPhaseChange broadcast layer, NOT
+      // coopOrchestrator.phase). Sequence required for endCombat (which
+      // throws `not_in_combat` if orch.phase !== 'combat'):
+      //   1. WS phase=character_creation auto-bootstraps orch via
+      //      coopStore.getOrCreate + orch.startRun (line 1650-1655 wsSession.js)
+      //   2. force-advance: character_creation → world_setup
+      //   3. world/confirm: world_setup → combat (orch._setPhase line 314)
+      //   4. combat/end: combat → debrief
+      hostWs.send({ type: 'phase', payload: { phase: 'character_creation' } });
+      await playerWs.waitFor(
+        (m) => m.type === 'phase_change' && m.payload?.phase === 'character_creation',
+      );
+
+      const advRes = await page.request.post('/api/coop/run/force-advance', {
+        data: { code: lobby.code, host_token: lobby.host_token, reason: 'pw_smoke_e2e' },
+        headers: { 'Content-Type': 'application/json' },
+      });
+      expect(advRes.ok(), 'force-advance char_creation→world_setup').toBeTruthy();
+
+      const confirmRes = await page.request.post('/api/coop/world/confirm', {
+        data: {
+          code: lobby.code,
+          host_token: lobby.host_token,
+          scenario_id: 'enc_tutorial_01',
+        },
+        headers: { 'Content-Type': 'application/json' },
+      });
+      expect(confirmRes.ok(), 'world/confirm world_setup→combat').toBeTruthy();
+      // Drain phase_change broadcasts from advance + confirm
+      await playerWs.waitFor(
+        (m) => m.type === 'phase_change' && m.payload?.phase === 'combat',
+      );
+
+      // Combat → debrief via REST host-only (apps/backend/routes/coop.js:247).
+      const endRes = await page.request.post('/api/coop/combat/end', {
+        data: {
+          code: lobby.code,
+          host_token: lobby.host_token,
+          outcome: 'victory',
+          xp_earned: 50,
+        },
+        headers: { 'Content-Type': 'application/json' },
+      });
+      expect(endRes.ok(), 'POST /api/coop/combat/end must succeed').toBeTruthy();
+      const endJson = (await endRes.json()) as { phase: string; result?: unknown };
+      expect(endJson.phase, 'orch.endCombat transitions to debrief').toBe('debrief');
+
+      // broadcastCoopState path (room.broadcast type=phase_change, NO version)
+      // — verify both peers see the debrief phase entry.
+      await Promise.all([
+        hostWs.waitFor(
+          (m) => m.type === 'phase_change' && m.payload?.phase === 'debrief',
+        ),
+        playerWs.waitFor(
+          (m) => m.type === 'phase_change' && m.payload?.phase === 'debrief',
+        ),
+      ]);
+
+      // Drain pre-end next_macro_accepted noise if any (defensive).
+      hostWs.buf.splice(
+        0,
+        hostWs.buf.length,
+        ...hostWs.buf.filter(
+          (m) => m.type !== 'next_macro_committed' && m.type !== 'next_macro_accepted',
+        ),
+      );
+      playerWs.buf.splice(
+        0,
+        playerWs.buf.length,
+        ...playerWs.buf.filter(
+          (m) => m.type !== 'next_macro_committed' && m.type !== 'next_macro_accepted',
+        ),
+      );
+
+      // Host commits next_macro retreat → run ends. wsSession line 1554-1596:
+      //   1. orch.submitNextMacro({choice:'retreat'}) → phase='ended'
+      //   2. room.broadcast next_macro_committed (ALL peers)
+      //   3. socket.send next_macro_accepted (host ONLY, targeted ACK)
+      //   4. room.publishPhaseChange('ended') (versioned event)
+      hostWs.send({
+        type: 'intent',
+        payload: { action: 'next_macro', choice: 'retreat' },
+      });
+
+      // 1+2: BOTH peers receive next_macro_committed (broadcast).
+      const [hostCommit, playerCommit] = await Promise.all([
+        hostWs.waitFor((m) => m.type === 'next_macro_committed'),
+        playerWs.waitFor((m) => m.type === 'next_macro_committed'),
+      ]);
+      expect(hostCommit.payload?.choice, 'commit choice = retreat').toBe('retreat');
+      expect(playerCommit.payload?.phase, 'commit announces phase=ended').toBe('ended');
+
+      // 3: host receives next_macro_accepted ACK targeted (socket.send).
+      const ack = await hostWs.waitFor((m) => m.type === 'next_macro_accepted');
+      expect(ack.payload?.choice).toBe('retreat');
+      expect(ack.payload?.phase).toBe('ended');
+
+      // Negative: player MUST NOT receive ACK (regression catch if server
+      // changes socket.send → broadcast for ACK).
+      await new Promise((r) => setTimeout(r, 250));
+      expect(
+        playerWs.buf.some((m) => m.type === 'next_macro_accepted'),
+        'player MUST NOT receive next_macro_accepted (host-only ACK)',
+      ).toBe(false);
+
+      // 4: versioned phase_change('ended') broadcast.
+      await playerWs.waitFor(
+        (m) =>
+          m.type === 'phase_change' &&
+          m.payload?.phase === 'ended' &&
+          typeof m.version === 'number',
+      );
+
+      // No stray unknown_type cascade from any combat→debrief→ended event.
+      assertNoUnknownType(hostWs, 'host (combat→debrief→ended)');
+      assertNoUnknownType(playerWs, 'player (combat→debrief→ended)');
+    } finally {
+      hostWs.close();
+      playerWs.close();
+      await ctx.close();
+    }
+  });
 });
