@@ -8,12 +8,12 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v27 (post sessione 2026-05-07 Day 2/7 Sprint M.7 chip cascade — 2 PR ~50min)
-- **Ultimo aggiornamento**: 2026-05-07 Day 2 (Sprint M.7 chip kickoff: GAP-7 PassiveStatusApplier wire `c89f7bfd` + GAP-5 MissionTimer countdown HUD `db745302`. **ADR-2026-05-07-abort-web reincarnate target 3/3 CLOSED** (incl GAP-10 sera). **Pillar P3 🟢ⁿ → 🟢++** + **P6 🟢 cand → 🟢++**. GUT 1877→1925 (+48). Phase A Day 2/7 monitoring verde — CI Game/ + Godot v2 main verde, zero regression.)
+- **Versione compact**: v28 (post sessione 2026-05-07 Day 2 sera surface debt cascade 5/5 — 3 PR ~2h)
+- **Ultimo aggiornamento**: 2026-05-07 Day 2 sera (surface debt audit residuo 5/5 closed via 3 PR cascade: #212 GAP-3+6+14 bundle `0b954949` + #213 GAP-8 SgTracker live bar `0ccd8697` + #214 GAP-13 Lifecycle phase label `925933fe`. **5/6 pillar 🟢++ rinforzati**. GUT 1925→1957 (+32). Phase A Day 2/7 monitoring verde, Tier 1 functional smoke 15/16 +1 skip. Cumulative Day 2 = 9 PR shipped Claude-autonomous.)
 
-## ⚡ Resume trigger phrase canonical (next session — post-Day-2 chip)
+## ⚡ Resume trigger phrase canonical (next session — post-Day-2-sera-cascade)
 
-> _"leggi COMPACT_CONTEXT.md v27 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day N/7 monitoring + check master-dd playtest trigger Phase B OR surface debt residuo audit (GAP-3+GAP-6+GAP-8+GAP-13+GAP-14)."_
+> _"leggi COMPACT_CONTEXT.md v28 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day N/7 monitoring + verifica master-dd playtest trigger Phase B OR Sprint Q lifecycle ETL OR Tier 2 PlayGodot integration."_
 
 Handoff doc canonical: [`docs/planning/2026-05-07-phase-a-handoff-next-session.md`](docs/planning/2026-05-07-phase-a-handoff-next-session.md)
 
@@ -21,7 +21,47 @@ OR (post 7gg grace 2026-05-14):
 
 > _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
 
-## ⚡ TL;DR sessione 2026-05-07 Day 2/7 — Sprint M.7 chip cascade (2 PR ~50min)
+## ⚡ TL;DR sessione 2026-05-07 Day 2 sera — surface debt cascade 5/5 closed (3 PR ~2h)
+
+**Trigger**: user choice option B post-Tier-1-smoke-verde _"continua autonomous (B): surface debt audit P1 residuo (GAP-3+6+8+13+14)"_.
+
+**3 PR Game-Godot-v2 cascade L3 ~2h cumulative**:
+
+| #   | PR                                                              | SHA        | Topic                                      | Tests     |
+| --- | --------------------------------------------------------------- | ---------- | ------------------------------------------ | --------- |
+| 1   | [#212](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/212) | `0b954949` | GAP-3 + GAP-6 + GAP-14 surface debt bundle | +8 cases  |
+| 2   | [#213](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/213) | `0ccd8697` | GAP-8 SgTracker live bar PressureMeter     | +12 cases |
+| 3   | [#214](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/214) | `925933fe` | GAP-13 lifecycle phase label UnitInfoPanel | +12 cases |
+
+**Surface debt audit residuo 5/5 closed**:
+
+- ✅ GAP-3 DefenderAdvantageModifier BattleFeed (P6)
+- ✅ GAP-6 ReinforcementSpawner pre-spawn telegraph (P1)
+- ✅ GAP-14 TimeOfDayModifier diegetic HUD (P3 immersion)
+- ✅ GAP-8 SgTracker live bar PressureMeter (P5)
+- ✅ GAP-13 Lifecycle phase label UnitInfoPanel (P3 lifecycle)
+
+**Test baseline**: GUT 1925 → 1933 (+8 bundle) → 1945 (+12 GAP-8) → 1957 (+12 GAP-13). Format + gdlint verde. main.gd 990→993 LOC under 1000.
+
+**Pillar deltas Day 2 sera** (5/6 🟢++ rinforzati):
+
+- P1 Tattica: telegraph reinforcement
+- P3 Identità: passive linked + lifecycle phase + time of day immersion
+- P5 Co-op: SG live bar (Sistema tension visible cross-stack)
+- P6 Fairness: defender advantage feed + mission timer + wound badge
+
+**Cumulative Day 2 PR**: 9 Claude-shipped autonomous (3 morning + 3 sera + 3 docs).
+
+**Phase A Day 2/7 monitoring**:
+
+- ✅ CI Game/ + Godot v2 main verde post 9 PR
+- ✅ Tier 1 functional smoke 15/16 + 1 skip (cloudflare iter3 env-gated)
+- ✅ Zero regression
+- ✅ Auto-merge L3 cascade ~4-5x speedup confirmed
+
+---
+
+## ⚡ TL;DR sessione 2026-05-07 Day 2/7 morning — Sprint M.7 chip cascade (2 PR ~50min)
 
 **Trigger**: user _"Phase A Day 2/7 monitoring + Sprint M.7 chip kickoff GAP-5+GAP-7 reincarnate"_.
 

@@ -205,6 +205,37 @@ User trigger _"Phase A Day 2/7 + Sprint M.7 chip kickoff GAP-5+GAP-7 reincarnate
 
 **Bloccante residuo**: NESSUNO autonomous. Master-dd 1+ playtest pass cross-cutover = Phase B trigger 1/3.
 
+## Day 2/7 sera 2026-05-07 — Surface debt cascade 5/5 (post-handoff update 3)
+
+User choice option B post-Tier-1-functional-smoke 15/16 verde. 3 PR Godot v2 cascade L3 ~2h cumulative chiude TUTTO surface debt audit residuo P1+P2.
+
+| #   | PR                                                              | SHA        | Topic                                      |
+| --- | --------------------------------------------------------------- | ---------- | ------------------------------------------ |
+| 1   | [#212](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/212) | `0b954949` | GAP-3 + GAP-6 + GAP-14 surface debt bundle |
+| 2   | [#213](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/213) | `0ccd8697` | GAP-8 SgTracker live bar PressureMeter     |
+| 3   | [#214](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/214) | `925933fe` | GAP-13 lifecycle phase label UnitInfoPanel |
+
+**Surface debt audit residuo 5/5 CLOSED** (post 3/3 quick-wins reincarnate):
+
+| Gap    | Pri | Wire surface                               | Pillar       |
+| ------ | :-: | ------------------------------------------ | ------------ |
+| GAP-3  | P1  | DefenderAdvantageModifier BattleFeed line  | P6 fairness  |
+| GAP-6  | P1  | ReinforcementSpawner pre-spawn telegraph   | P1 tactica   |
+| GAP-14 | P2  | TimeOfDayModifier diegetic HUD label       | P3 immersion |
+| GAP-8  | P1  | SgTracker live bar PressureMeter top-strip | P5 co-op     |
+| GAP-13 | P1  | Lifecycle phase label UnitInfoPanel badge  | P3 lifecycle |
+
+**Test baseline**: GUT 1925 → 1933 → 1945 → 1957 (+32 cumulative Day 2 sera). Format + gdlint verde. main.gd 990→993 LOC under 1000.
+
+**Pillar deltas Day 2 sera completa** (5/6 🟢++ rinforzati):
+
+- P1 🟢++ rinforzato (reinforcement telegraph)
+- P3 🟢++ rinforzato (passive linked + lifecycle phase + time of day immersion)
+- P5 🟢++ rinforzato (SG live bar cross-stack TV visible)
+- P6 🟢++ rinforzato (defender advantage + mission timer + wound badge)
+
+**Cumulative Day 2 PR**: 9 Claude-shipped autonomous. **Cumulative session 2026-05-07**: 13 PR (sera 5 + Day 2 morning 3 + Day 2 sera 5).
+
 ## Resume trigger canonical (any PC)
 
 > _"leggi docs/planning/2026-05-07-phase-a-handoff-next-session.md, monitoring window day N + Phase B trigger eval"_
