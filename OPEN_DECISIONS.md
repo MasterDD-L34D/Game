@@ -143,6 +143,7 @@
   - Pipeline integration ETL: ~2h
   - Total: ~7-9h, deferred Sprint Q+ candidate
 - **Action followup**: trigger trip-wire — se run #6 ship pre fix → ferma + ratifica OD-022 trigger.
+- **Triage update 2026-05-08 sera (post-merge #2108)**: 5/7 open questions run #5 chiuse autonomous via canonical grep (~25min). Score honesty post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred Sprint Q+. **Net actionable data integration run #5 = ZERO**. Reinforza urgenza OD-022 implementation pre run #6. Vedi [docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md §Triage closure](docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md#triage-closure-2026-05-08-sera).
 - **Source ref**: [PR #2108 honesty pass](https://github.com/MasterDD-L34D/Game/pull/2108#issuecomment-honesty) + [Issue #2102 weekly digest](https://github.com/MasterDD-L34D/Game/issues/2102).
 
 ### [OD-021-original-archive] Continuous monitoring schedule (PRE-VERDICT)

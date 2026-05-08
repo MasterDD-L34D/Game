@@ -30,14 +30,14 @@ review_cycle_days: 30
 
 ## Contesto run #5
 
-| Cycle | Specialist | Tema dichiarato dal swarm |
-|------:|------------|---------------------------|
-| 25 | lore-designer | Verifica lore + bilanciamento |
-| 26 | species-curator | Sezione guida bioma Abisso Vulcanico |
-| 27 | balancer | Stress modifiers per abisso_vulcanico |
-| 28 | trait-curator | Allineamento definizioni trait |
-| 29 | biome-ecosystem-curator | Guida Atollo di Ossidiana |
-| 30 | archivist | Schema meccaniche stress ambientali |
+| Cycle | Specialist              | Tema dichiarato dal swarm             |
+| ----: | ----------------------- | ------------------------------------- |
+|    25 | lore-designer           | Verifica lore + bilanciamento         |
+|    26 | species-curator         | Sezione guida bioma Abisso Vulcanico  |
+|    27 | balancer                | Stress modifiers per abisso_vulcanico |
+|    28 | trait-curator           | Allineamento definizioni trait        |
+|    29 | biome-ecosystem-curator | Guida Atollo di Ossidiana             |
+|    30 | archivist               | Schema meccaniche stress ambientali   |
 
 Tutti gli artifact con `co02_validation.status = "complete"`, score 7.5/10. Modello: `qwen3-coder:30b`. **`co02_validation.complete` valida la struttura JSON in output, non l'accuratezza dei contenuti contro canonical Game.**
 
@@ -53,21 +53,21 @@ Ogni claim del swarm verificato contro `data/core/` Game canonical (commit `46e9
 - ⚠️ **PARTIAL** — nome esiste ma in contesto/struttura diversi da quanto detto
 - ❌ **HALLUCINATED** — non esiste in canonical, swarm inferenza non fondata
 
-| # | Claim swarm | Status | Note |
-|---|-------------|--------|------|
-| 1 | `abisso_vulcanico` esiste come bioma | ✅ VERIFIED | `data/core/biomes.yaml`, `biome_class: geothermal`, summary "Camini abissali con lava pressurizzata e fauna bio-termica" |
-| 2 | Abisso Vulcanico ha affixes `termico, luminescente, spore_diluite, sabbia` | ❌ HALLUCINATED | biomes.yaml non elenca questi affixes; canonical descrive "lava pressurizzata + bio-termica" — natura diversa (deep vents, non sabbia) |
-| 3 | Bioma "Atollo di Ossidiana" esiste | ⚠️ PARTIAL | Trovato solo in `biome_aliases.yaml` + `active_effects.yaml` (alias/reference), non come entry primaria in `biomes.yaml` |
-| 4 | `dune_stalker` esiste come specie | ✅ VERIFIED | `data/core/species.yaml`, genus Arenavenator, T2 Threat |
-| 5 | `dune_stalker` è "adatto" a Abisso Vulcanico | ❌ HALLUCINATED | Canonical: `biome_affinity: savana`. Lo swarm ha proposto reassign senza dichiararlo come tale |
-| 6 | `polpo_araldo_sinaptico` esiste | ✅ VERIFIED | species.yaml, genus Synaptopus, T5 Keystone |
-| 7 | `echolocation` è un "trait" | ❌ HALLUCINATED come categoria | Canonical: è una voce in `default_parts.senses` di dune_stalker (body part), NON un trait nel `trait_plan` |
-| 8 | `sand_digest` è un "trait" | ❌ HALLUCINATED come categoria | Canonical: voce in `default_parts.metabolism` di dune_stalker, NON un trait |
-| 9 | `impulsi_bioluminescenti` è un trait | ✅ VERIFIED | `data/core/traits/glossary.json` lo definisce come trait |
-| 10 | `nodi_sinaptici_superficiali` è un trait | ✅ VERIFIED | glossary.json |
-| 11 | `thermal_resistance` esiste come trait | ❌ HALLUCINATED | Non trovato in glossary.json, biome_pools.json, active_effects.yaml |
-| 12 | `substrate_grip` è un trait esistente | ❌ HALLUCINATED | Non in alcun file canonical. Lo swarm correttamente lo flagga come "proposto, da creare" |
-| 13 | `spore_filtration`, `eyestalk_protection` proposed nuovi | ✅ correct framing | Sono dichiarati come proposte, non come esistenti |
+| #   | Claim swarm                                                                | Status                         | Note                                                                                                                                   |
+| --- | -------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | `abisso_vulcanico` esiste come bioma                                       | ✅ VERIFIED                    | `data/core/biomes.yaml`, `biome_class: geothermal`, summary "Camini abissali con lava pressurizzata e fauna bio-termica"               |
+| 2   | Abisso Vulcanico ha affixes `termico, luminescente, spore_diluite, sabbia` | ❌ HALLUCINATED                | biomes.yaml non elenca questi affixes; canonical descrive "lava pressurizzata + bio-termica" — natura diversa (deep vents, non sabbia) |
+| 3   | Bioma "Atollo di Ossidiana" esiste                                         | ⚠️ PARTIAL                     | Trovato solo in `biome_aliases.yaml` + `active_effects.yaml` (alias/reference), non come entry primaria in `biomes.yaml`               |
+| 4   | `dune_stalker` esiste come specie                                          | ✅ VERIFIED                    | `data/core/species.yaml`, genus Arenavenator, T2 Threat                                                                                |
+| 5   | `dune_stalker` è "adatto" a Abisso Vulcanico                               | ❌ HALLUCINATED                | Canonical: `biome_affinity: savana`. Lo swarm ha proposto reassign senza dichiararlo come tale                                         |
+| 6   | `polpo_araldo_sinaptico` esiste                                            | ✅ VERIFIED                    | species.yaml, genus Synaptopus, T5 Keystone                                                                                            |
+| 7   | `echolocation` è un "trait"                                                | ❌ HALLUCINATED come categoria | Canonical: è una voce in `default_parts.senses` di dune_stalker (body part), NON un trait nel `trait_plan`                             |
+| 8   | `sand_digest` è un "trait"                                                 | ❌ HALLUCINATED come categoria | Canonical: voce in `default_parts.metabolism` di dune_stalker, NON un trait                                                            |
+| 9   | `impulsi_bioluminescenti` è un trait                                       | ✅ VERIFIED                    | `data/core/traits/glossary.json` lo definisce come trait                                                                               |
+| 10  | `nodi_sinaptici_superficiali` è un trait                                   | ✅ VERIFIED                    | glossary.json                                                                                                                          |
+| 11  | `thermal_resistance` esiste come trait                                     | ❌ HALLUCINATED                | Non trovato in glossary.json, biome_pools.json, active_effects.yaml                                                                    |
+| 12  | `substrate_grip` è un trait esistente                                      | ❌ HALLUCINATED                | Non in alcun file canonical. Lo swarm correttamente lo flagga come "proposto, da creare"                                               |
+| 13  | `spore_filtration`, `eyestalk_protection` proposed nuovi                   | ✅ correct framing             | Sono dichiarati come proposte, non come esistenti                                                                                      |
 
 **Score onestà run #5 vs canonical**: 5/13 verified, 1/13 partial, 7/13 hallucinated. Il swarm ha **riconosciuto specie+trait reali** ma ha **inferito affinità+strutture+attributi non supportati da canonical**.
 
@@ -81,10 +81,10 @@ Lo swarm ha proposto: "Aggiungere una sezione dedicata al bioma Abisso Vulcanico
 
 Specie citate dal swarm con relativi default_parts/trait dichiarati come "adatti":
 
-| Specie | Cosa swarm dice | Cosa canonical dice |
-|--------|-----------------|---------------------|
-| `dune_stalker` | "echolocation, sand_digest" come trait | `echolocation` ∈ default_parts.senses; `sand_digest` ∈ default_parts.metabolism. Trait reali (trait_plan): `artigli_sette_vie`, `struttura_elastica_amorfa`, `scheletro_idro_regolante`, `sensori_geomagnetici`. biome_affinity: **savana** (non abisso_vulcanico) |
-| `polpo_araldo_sinaptico` | "impulsi_bioluminescenti, nodi_sinaptici_superficiali" | Entrambi sono trait reali in glossary.json. biome_affinity da verificare |
+| Specie                   | Cosa swarm dice                                        | Cosa canonical dice                                                                                                                                                                                                                                                |
+| ------------------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `dune_stalker`           | "echolocation, sand_digest" come trait                 | `echolocation` ∈ default_parts.senses; `sand_digest` ∈ default_parts.metabolism. Trait reali (trait_plan): `artigli_sette_vie`, `struttura_elastica_amorfa`, `scheletro_idro_regolante`, `sensori_geomagnetici`. biome_affinity: **savana** (non abisso_vulcanico) |
+| `polpo_araldo_sinaptico` | "impulsi_bioluminescenti, nodi_sinaptici_superficiali" | Entrambi sono trait reali in glossary.json. biome_affinity da verificare                                                                                                                                                                                           |
 
 **Gap rilevato dal swarm** (cycle 26 `gaps`): "Nessuna specie specifica già marcata come `abisso_vulcanico`-native in `species.yaml`." Questo è verificabilmente **vero**: nessuna specie canonical ha `biome_affinity: abisso_vulcanico` in species.yaml. **Ma la conclusione del swarm — che dune_stalker e polpo_araldo siano i candidati — è inferenza non fondata** (dune_stalker è savana-affinity).
 
@@ -134,13 +134,13 @@ traits:
   # ... trait esistenti SPRINT_002 ...
   stress_environmental:
     type: environmental_modifier
-    source: biome_affixes  # FK a biomes.yaml
+    source: biome_affixes # FK a biomes.yaml
     vector: [termico, meccanico, chimico, percettivo]
-    accumulation_rate: 0.0  # placeholder, balance TBD
-    recovery_rate: 0.0      # placeholder
-    threshold_debuff: 0     # placeholder
-    mitigating_traits: []   # lista trait che riducono accumulation
-    inverting_traits: []    # lista trait che convertono stress in bonus
+    accumulation_rate: 0.0 # placeholder, balance TBD
+    recovery_rate: 0.0 # placeholder
+    threshold_debuff: 0 # placeholder
+    mitigating_traits: [] # lista trait che riducono accumulation
+    inverting_traits: [] # lista trait che convertono stress in bonus
 ```
 
 **✅ Versione corretta — opzione B: nuovo file dedicato** (se stress è un sistema separato dai trait):
@@ -151,7 +151,7 @@ traits:
 version: 1
 stress_modifiers:
   - id: stress_termico_abisso_vulcanico
-    biome_id: abisso_vulcanico  # FK a biomes.yaml
+    biome_id: abisso_vulcanico # FK a biomes.yaml
     vector: termico
     accumulation_rate: 0.0
     recovery_rate: 0.0
@@ -165,6 +165,8 @@ Il design choice (nest vs separate file) dipende da se Game team considera "stre
 
 ## Open questions per Game-side review
 
+> **Triage 2026-05-08 sera (post-merge #2108)**: 5/7 open questions chiuse autonomous via canonical grep. 2/7 deferred Sprint Q+ (richiedono balance team). Vedi sezione [Triage closure 2026-05-08](#triage-closure-2026-05-08-sera) sotto.
+
 1. **Scope Atollo di Ossidiana**: esiste come bioma primario (entry biomes.yaml) o solo come alias? Se solo alias, una caratterizzazione completa richiede prima la creazione canonical.
 2. **Reassign biome_affinity**: il swarm propone implicitly che `dune_stalker` potrebbe vivere in `abisso_vulcanico`. Canonical lo dichiara `savana`. Dual-affinity? Reassign? O dune_stalker non c'entra?
 3. **Trait `thermal_resistance` esiste?**: il swarm assume di sì, canonical no. È un trait da creare, è un alias di un altro trait, o è un'invenzione del swarm? Verifica necessaria.
@@ -175,18 +177,61 @@ Il design choice (nest vs separate file) dipende da se Game team considera "stre
 
 ---
 
+## Triage closure 2026-05-08 sera
+
+Triage autonomous post-merge #2108 + creazione [OD-022](../../OPEN_DECISIONS.md) (cross-verification gate pre run #6).
+
+### 5/7 chiuse via canonical grep
+
+| #     | Question                              | Verdict canonical                                                                                                                                                                                                                                                                                                     | Status                     |
+| ----- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| **1** | Scope Atollo di Ossidiana             | **PRIMARY canonical** — `data/core/biomes.yaml:93` slug `atollo_obsidiana` (NB ortografia "obsidiana" non "ossidiana") biome_class littoral, magnetic_field_strength 1.0, stress_modifiers: tidal_surge + emp_flash, stresswave baseline 0.33 + escalation_rate 0.05. Alias map in `data/core/biome_aliases.yaml:62`. | ✅ closed                  |
+| **2** | Reassign dune_stalker biome_affinity  | **NO REASSIGN** — `data/core/species.yaml:72` canonical `biome_affinity: savana`. Swarm hallucinated. dune_stalker NON vive Abisso Vulcanico. Dual-affinity NON pattern canonical Game.                                                                                                                               | ✅ closed reject           |
+| **3** | Trait `thermal_resistance` esiste     | **NO** — zero match in `data/core/traits/active_effects.yaml` + glossary + biome_pools. Swarm pure hallucination. Se Game vuole il pattern, candidati esistenti: `endurance` family or new explicit trait Sprint Q+.                                                                                                  | ✅ closed (hallucination)  |
+| **5** | Sistema stress pre-esistente Game     | **YES, già esiste** — pattern canonical: `biomes.yaml > <bioma> > hazard.stress_modifiers: { <vector>: <0.0-1.0 float> }` + biome-level `stresswave: { baseline, escalation_rate, event_thresholds: { rescue/support/overrun } }`. 20+ biomi popolati. NO need new framework.                                         | ✅ closed pre-existing     |
+| **6** | YAML schema location stress_modifiers | **NO new file/trait subentry** — già nest sotto `biomes.yaml > <bioma> > hazard.stress_modifiers`. Swarm proposed framework reinventava wheel canonical. Pattern preserved.                                                                                                                                           | ✅ closed (canonical wins) |
+
+### 2/7 deferred Sprint Q+ (balance team review)
+
+| #     | Question                                           | Why deferred                                                                                                                                                                                                                                                              |
+| ----- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **4** | Distinzione `default_parts` vs `trait_plan` policy | Pattern canonical osservato: `senses` + `metabolism` parts → effetti via parts, NOT trait. Codify policy doc Sprint Q+ candidate. Bassa priorità.                                                                                                                         |
+| **7** | Calibrazione numerica stress modifiers nuovi biomi | Solo se Game ratifica nuovi biomi proposed dal swarm. `Abisso Vulcanico` (canonical line 21+) ha già stress_modifiers calibrati (magma_surge 0.07 + thermal_shock 0.06). Atollo Obsidiana stessa cosa. Net: NO nuova calibrazione necessaria sui canonical pre-esistenti. |
+
+### Verdict aggregato run #5
+
+Score honesty pre-triage: 5/13 verified + 1/13 partial + 7/13 hallucinated.
+
+**Score honesty post-triage** (cross-verification 2026-05-08):
+
+- ✅ **5/13 verified** (invariato)
+- ❌ **8/13 hallucinated** (era 7, +1 perché question 3 `thermal_resistance` confirmed hallucination)
+- ✅ **2 redundant** (questions 5+6: framework swarm reinventa pattern canonical pre-esistente)
+- ⏸ **2 deferred** (questions 4+7: policy / calibration Sprint Q+)
+
+**Net actionable run #5 = ZERO data integration**. Swarm output utile come learning case per OD-022 (cross-verification gate). Atto 2 counter: 1/10 → 2/10 post-merge confermato (audit value, NON data feature).
+
+### Lessons codified
+
+1. **Pattern hallucinate-by-association** = primary failure mode swarm. `co02_validation.complete` non protegge.
+2. **Pattern reinvent-canonical-wheel** = secondary failure mode. Swarm propose framework che già esiste in canonical (qui: stress_environmental nuovo vs hazard.stress_modifiers pre-esistente).
+3. **Cross-verification autonomous in <30min**: triage 5/7 questions via 4 grep + 2 file read. Validator Python (OD-022) ammortizza overhead a zero post-implementation.
+4. **5/13 verified score deceptively low**: nessun "verified" claim era actionable per data integration. Tutti = consistency minor. Real signal-to-noise run #5 = ~0%.
+
+---
+
 ## Source artifacts
 
 Artifact JSON in `evo-swarm/camel-agents/artifacts/` (timestamp 2026-05-07T23:xx):
 
-| File | Cycle | Score | co02 |
-|------|------:|------:|------|
-| `lore-designer_2026-05-07T23-14-31.260316.json` | 25 | 7.5 | complete |
-| `species-curator_2026-05-07T23-17-20.878602.json` | 26 | 7.5 | complete |
-| `balancer_2026-05-07T23-19-51.936905.json` | 27 | 7.5 | complete |
-| `trait-curator_2026-05-07T23-22-43.026815.json` | 28 | 7.5 | complete |
-| `biome-ecosystem-curator_2026-05-07T23-25-01.542030.json` | 29 | 7.5 | complete |
-| `archivist_2026-05-07T23-27-22.513526.json` | 30 | 7.5 | complete |
+| File                                                      | Cycle | Score | co02     |
+| --------------------------------------------------------- | ----: | ----: | -------- |
+| `lore-designer_2026-05-07T23-14-31.260316.json`           |    25 |   7.5 | complete |
+| `species-curator_2026-05-07T23-17-20.878602.json`         |    26 |   7.5 | complete |
+| `balancer_2026-05-07T23-19-51.936905.json`                |    27 |   7.5 | complete |
+| `trait-curator_2026-05-07T23-22-43.026815.json`           |    28 |   7.5 | complete |
+| `biome-ecosystem-curator_2026-05-07T23-25-01.542030.json` |    29 |   7.5 | complete |
+| `archivist_2026-05-07T23-27-22.513526.json`               |    30 |   7.5 | complete |
 
 Modello: `qwen3-coder:30b`, latency media ~55s/artifact. Builder gate (level 0/10) ha approvato tutti e 6 — ma ricordare che **il gate valida la struttura JSON (CO-02 schema), non la fedeltà al canonical Game**.
 
