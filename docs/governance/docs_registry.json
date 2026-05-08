@@ -8343,6 +8343,19 @@
       "review_cycle_days": 14,
       "primary": false,
       "track": "migrated"
+    },
+    {
+      "path": "docs/playtest/2026-05-08-phone-smoke-results-day3-friends.md",
+      "title": "Phone smoke results - 2026-05-08 Day 3/7 friends online retry",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-08",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
     }
   ]
 }
