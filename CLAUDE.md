@@ -107,6 +107,35 @@ Friction concreta `/insights` 2026-04-25: **25 buggy_code incidents** (top frict
 - ❌ Skip test perché "modifica piccola" → 25 buggy_code dimostra falso senso di sicurezza
 - ❌ "I tests should pass" senza eseguirli → speculative claim, ottenuto da rescue pass
 
+## ⚖ No anticipated judgment / no design decision creep (2026-05-08)
+
+Friction concreta sessione 2026-05-08 sera: durante closure cumulative + OD audit, Claude shipped 3 anticipated judgment in canonical docs (BACKLOG + COMPACT + CLAUDE.md sprint + handoff + memory):
+
+1. **Cross-link OD-022 ↔ OD-020** — bundling Sprint Q+ pre-kickoff sub-decisione master-dd-already-resolved con OD-022 OPEN nuovo (master-dd verdict pendente). Anticipato decisione bundle.
+2. **"Net actionable run #5 = ZERO" framing canonical** — subjective Claude judgment shipped come fact in 5 doc canonical (BACKLOG + COMPACT + CLAUDE.md sprint + research doc + memory). Bias futuro evo-swarm decisions.
+3. **"5/13 verified deceptively low" + "Real signal-to-noise = ~0%"** — pre-emptive value framing pre master-dd review.
+
+**Rule**: durante autonomous mode (Auto mode active OR user generic "procedi"/"continua"):
+
+- ✅ **OK**: factual cleanup (move misplaced entry section, fix typo, format align)
+- ✅ **OK**: aggregating data into tables (PR count audit gh ground truth)
+- ✅ **OK**: verify-before-claim (live test capture)
+- ❌ **NOT OK**: design decisions cross-document linking gated user verdict (OD bundle, scope merge)
+- ❌ **NOT OK**: subjective value framing shipped canonical pre master-dd review (e.g., "ZERO actionable", "deceptively low")
+- ❌ **NOT OK**: anticipated bundle/scope decisions su OD-aperte gated da master-dd
+
+**Pattern fix**: se judgment è subjective (value, priority, bundle), markup explicit:
+
+> "Claude autonomous judgment soft — pending master-dd review. Master-dd può valutare value criteria diversi."
+
+**Anti-pattern**: shippare "ZERO" / "deceptively" / "redundant" come canonical fact senza markup soft. Bias futuro decisione downstream.
+
+**Trigger consultation**: prima di committare canonical doc edit autonomous, chiedi: _"Sto facendo factual cleanup OR design judgment gated?"_. Se design judgment + non explicit user OK → markup soft + segnala apertamente.
+
+**Validato 2026-05-08 sera**: PR #2123 cross-link OD-022 ↔ OD-020 reverted via PR successivo (this commit). Net actionable framing softened in 5 doc canonical post user feedback "mi preoccupano il punto 3 il 4 e il 5".
+
+---
+
 ## 🏛 Museum-first protocol (validato 2026-04-25)
 
 Friction concreta: 18 sprint hanno accumulato idee buone in `incoming/`, `docs/archive/`, `reports/incoming/`, branch chiusi, ADR superseded. Future agent rischia duplicate research O re-invent buried work.
@@ -362,7 +391,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Synthetic iter2 evidence**: Tier 1 phone smoke 15/16 PASS + 1 skip in 39.8s vs iter1 39.4s = noise. Iter3 hardware-equivalent reconnect 30.9s + WS RTT p95 441ms = zero degradation.
 
-**evo-swarm run #5 net actionable = ZERO data integration**. Score post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. Reinforza urgenza OD-022 trip-wire armed pre run #6.
+**evo-swarm run #5 score post-triage**: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. Net actionable per data integration **pending master-dd review** (Claude triage judgment soft "zero immediate"; 5 verified consistency-minor potrebbero avere valore baseline pipeline non-data-integration). OD-022 gate trip-wire candidate Sprint Q+ post-Phase-B-accept.
 
 **Cumulative Phase A PR count audit (gh ground truth UTC)**:
 

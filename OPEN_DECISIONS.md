@@ -91,8 +91,7 @@
   - Q-5 **scope freeze full Q.A→Q.E** confirmed (NO incremental Q.A only)
 - **Rationale master-dd**: Sprint Q+ chiude finalmente Engine LIVE Surface DEAD anti-pattern canonical case (`mating_nido-engine-orphan` 5/5 score museum, 469 LOC + 7 endpoint shipped 4 mesi fa con ZERO frontend). Full deep approach = compelete narrative arc Skiv-Pulverator alleanza visible debrief panel + cross-encounter offspring legacy.
 - **Trigger conditions**: Sprint Q+ kickoff = Phase B ACCEPTED (target 2026-05-14 + zero-regression confirmed).
-- **Sprint Q+ prerequisite candidates** (gated insieme): [OD-022](#od-022-evo-swarm-pipeline-cross-verification-gate-pre-run-6) evo-swarm pipeline cross-verification gate pre run #6 (~7-9h) — bundle eligibile Sprint Q+ pre-kickoff se master-dd accetta. Indipendente da Q-1→Q-5 ETL ma stesso trigger window post-Phase-B.
-- **Action followup**: questa PR aggiorna OD-020 verdict + Sprint Q+ scoping doc PR #2109 può essere ampliato post-Phase-B con full execution plan + OD-022 gate addition se accepted.
+- **Action followup**: questa PR aggiorna OD-020 verdict + Sprint Q+ scoping doc PR #2109 può essere ampliato post-Phase-B con full execution plan.
 - **Source ref**: [PR #2109 scoping](https://github.com/MasterDD-L34D/Game/pull/2109) + [docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md](docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md) + master-dd verdict 2026-05-08.
 
 ### [OD-020-original-archive] Sprint Q+ scope freeze (PRE-VERDICT)
@@ -144,7 +143,7 @@
   - Pipeline integration ETL: ~2h
   - Total: ~7-9h, deferred Sprint Q+ candidate
 - **Action followup**: trigger trip-wire — se run #6 ship pre fix → ferma + ratifica OD-022 trigger.
-- **Triage update 2026-05-08 sera (post-merge #2108)**: 5/7 open questions run #5 chiuse autonomous via canonical grep (~25min). Score honesty post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred Sprint Q+. **Net actionable data integration run #5 = ZERO**. Reinforza urgenza OD-022 implementation pre run #6. Vedi [docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md §Triage closure](docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md#triage-closure-2026-05-08-sera).
+- **Triage update 2026-05-08 sera (post-merge #2108)**: 5/7 open questions run #5 chiuse autonomous via canonical grep (~25min). Score honesty post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred Sprint Q+. **Net actionable per data integration run #5 — pending master-dd review** (5 verified claim "consistency minor" potrebbero avere valore non-data-integration: doc audit / pattern reference / cross-canonical diff). Vedi [docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md §Triage closure](docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md#triage-closure-2026-05-08-sera). **NB Claude judgment caveat**: framing "net actionable ZERO" autonomous è subjective — master-dd può valutare value criteria diversi.
 - **Source ref**: [PR #2108 honesty pass](https://github.com/MasterDD-L34D/Game/pull/2108#issuecomment-honesty) + [Issue #2102 weekly digest](https://github.com/MasterDD-L34D/Game/issues/2102).
 
 ### [OD-021-original-archive] Continuous monitoring schedule (PRE-VERDICT)

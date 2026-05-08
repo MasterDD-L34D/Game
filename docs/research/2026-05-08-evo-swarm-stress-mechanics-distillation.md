@@ -209,14 +209,16 @@ Score honesty pre-triage: 5/13 verified + 1/13 partial + 7/13 hallucinated.
 - ✅ **2 redundant** (questions 5+6: framework swarm reinventa pattern canonical pre-esistente)
 - ⏸ **2 deferred** (questions 4+7: policy / calibration Sprint Q+)
 
-**Net actionable run #5 = ZERO data integration**. Swarm output utile come learning case per OD-022 (cross-verification gate). Atto 2 counter: 1/10 → 2/10 post-merge confermato (audit value, NON data feature).
+**Net actionable per data integration run #5 — pending master-dd review** (Claude triage autonomous judgment). 5 verified claim sono consistency-minor (specie esistenti grep-confirmed), nessuno = nuovo data integration immediate. Tuttavia 5 verified potrebbero avere valore non-data-integration: doc audit / pattern reference / cross-canonical baseline diff. Master-dd verdict pendente. Atto 2 counter: 1/10 → 2/10 post-merge confermato (audit value canonical preserved).
+
+**Caveat Claude judgment autonomous**: framing "net actionable ZERO" è subjective Claude verdict — master-dd può valutare value criteria diversi (e.g., 5 verified come "swarm successfully maps canonical" baseline metric per pipeline contract).
 
 ### Lessons codified
 
 1. **Pattern hallucinate-by-association** = primary failure mode swarm. `co02_validation.complete` non protegge.
 2. **Pattern reinvent-canonical-wheel** = secondary failure mode. Swarm propose framework che già esiste in canonical (qui: stress_environmental nuovo vs hazard.stress_modifiers pre-esistente).
 3. **Cross-verification autonomous in <30min**: triage 5/7 questions via 4 grep + 2 file read. Validator Python (OD-022) ammortizza overhead a zero post-implementation.
-4. **5/13 verified score deceptively low**: nessun "verified" claim era actionable per data integration. Tutti = consistency minor. Real signal-to-noise run #5 = ~0%.
+4. **5/13 verified score interpretation pending master-dd**: claim verified = consistency-minor (specie esistenti grep-confirmed). Claude autonomous judgment: zero actionable data integration immediate. Master-dd verdict pendente: 5 verified potrebbero avere valore baseline pipeline (= "swarm successfully maps canonical") oppure essere irrilevanti. Avoid Claude pre-emptive "deceptively low" framing pre master-dd review.
 
 ---
 

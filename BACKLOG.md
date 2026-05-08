@@ -35,7 +35,7 @@ Phase A LIVE Day 3/7 trigger autonomous (OD-021 schedule label `2026-05-09`, exe
 - OD-021 Continuous monitoring Day 3+5+7 ✅ RISOLTA Day 2
 - **OD-022 evo-swarm cross-verification gate pre run #6 🔴 OPEN** (Sprint Q+ candidate ~7-9h, post Phase B accept)
 
-**Net actionable run #5 = ZERO**. Reinforza urgenza OD-022 gate pre run #6.
+**Net actionable per data integration run #5 — pending master-dd review** (Claude autonomous triage judgment soft "zero immediate"; 5 verified consistency-minor potrebbero avere valore baseline pipeline non-data-integration). OD-022 gate pre run #6 candidate Sprint Q+ post-Phase-B-accept.
 
 **Day 5 (2026-05-11) iter3 schedule confermato per OD-021**.
 
