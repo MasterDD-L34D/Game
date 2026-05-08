@@ -35,7 +35,7 @@ Phase A LIVE Day 3/7 trigger autonomous (OD-021 schedule label `2026-05-09`, exe
 - OD-021 Continuous monitoring Day 3+5+7 ✅ RISOLTA Day 2
 - **OD-022 evo-swarm cross-verification gate pre run #6 🔴 OPEN** (Sprint Q+ candidate ~7-9h, post Phase B accept)
 
-**Net actionable run #5 = ZERO**. Reinforza urgenza OD-022 gate pre run #6.
+**Net actionable run #5 per data integration immediate = ZERO** (Claude triage autonomous judgment). 5/13 verified consistency-minor (specie esistenti grep-confirmed) potrebbero avere valore non-data-integration **pending master-dd review** — criteri possibili: baseline pipeline metric ("swarm sa mappare canonical"), pattern reference, doc audit. 8/13 hallucinated + 2 redundant **discarded preserved** in [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). OD-022 gate Sprint Q+ candidate.
 
 **Day 5 (2026-05-11) iter3 schedule confermato per OD-021**.
 

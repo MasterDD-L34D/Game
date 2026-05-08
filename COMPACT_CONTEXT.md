@@ -9,7 +9,7 @@
 
 - **Nome**: Evo-Tactics
 - **Versione compact**: v31 (post sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize + evo-swarm triage closure + Skiv admin — 7 PR Game/ shipped autonomous)
-- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 trigger (label `2026-05-09` per OD-021 schedule, execution UTC `2026-05-08`). **7 PR shipped Game/**: #2118 synthetic iter2 + #2119 normalize chip drift + #2108 evo-swarm distillation merge + #2120 OD-022 add + #2121 triage 5/7 closure + #2117 Skiv Monitor admin + this closure. Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression Day 1→2→3. Net actionable run #5 = ZERO (8/13 hallucinated). OD-022 trip-wire armed pre run #6.
+- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 trigger (label `2026-05-09` per OD-021 schedule, execution UTC `2026-05-08`). **8 PR shipped Game/**: #2117 Skiv admin + #2118 synthetic iter2 + #2108 evo-swarm distill + #2119 normalize + #2120 OD-022 add + #2121 triage 5/7 + #2122 closure cumulative + #2123 OD-016 misplace + this completionist enrichment. Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression Day 1→2→3. evo-swarm run #5 score post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. Net actionable per data integration immediate = ZERO (Claude judgment); 5 verified value non-data-integration pendente master-dd review. 10 discarded items preservati [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). OD-022 trip-wire candidate Sprint Q+.
 
 ## ⚡ Resume trigger phrase canonical (next session — post-Day-3-monitoring)
 

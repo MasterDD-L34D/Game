@@ -209,14 +209,15 @@ Score honesty pre-triage: 5/13 verified + 1/13 partial + 7/13 hallucinated.
 - ✅ **2 redundant** (questions 5+6: framework swarm reinventa pattern canonical pre-esistente)
 - ⏸ **2 deferred** (questions 4+7: policy / calibration Sprint Q+)
 
-**Net actionable run #5 = ZERO data integration**. Swarm output utile come learning case per OD-022 (cross-verification gate). Atto 2 counter: 1/10 → 2/10 post-merge confermato (audit value, NON data feature).
+**Net actionable per data integration immediate run #5 = ZERO** (⚠️ Claude triage autonomous judgment). 5 verified claim sono consistency-minor (specie esistenti grep-confirmed, e.g., `dune_stalker exists`, `polpo_araldo_sinaptico exists`). Nessuno = nuovo data per `data/core/`. **Master-dd verdict pendente** per criteri value diversi: 5 verified potrebbero avere valore non-data-integration come baseline pipeline metric ("swarm sa mappare canonical correctly"), pattern reference, doc audit, cross-canonical baseline diff. **10 discarded items** (8 hallucinated + 2 redundant) preservati in [museum card M-2026-05-08-001](../museum/cards/evo-swarm-run-5-discarded-claims.md) per OD-022 gate design + future agent reference. Swarm output utile come learning case per OD-022 (cross-verification gate). Atto 2 counter: 1/10 → 2/10 post-merge confermato (audit value canonical preserved).
 
 ### Lessons codified
 
 1. **Pattern hallucinate-by-association** = primary failure mode swarm. `co02_validation.complete` non protegge.
 2. **Pattern reinvent-canonical-wheel** = secondary failure mode. Swarm propose framework che già esiste in canonical (qui: stress_environmental nuovo vs hazard.stress_modifiers pre-esistente).
 3. **Cross-verification autonomous in <30min**: triage 5/7 questions via 4 grep + 2 file read. Validator Python (OD-022) ammortizza overhead a zero post-implementation.
-4. **5/13 verified score deceptively low**: nessun "verified" claim era actionable per data integration. Tutti = consistency minor. Real signal-to-noise run #5 = ~0%.
+4. **5/13 verified score interpretation pending master-dd review**: claim verified = consistency-minor (specie esistenti grep-confirmed). Claude autonomous judgment "zero actionable per data integration immediate" è soft (subjective). Master-dd può valutare value diverso: baseline pipeline metric ("swarm sa mappare canonical"), pattern reference, doc audit, cross-canonical diff. Avoid Claude pre-emptive "deceptively low" framing pre master-dd review.
+5. **Discarded items preservation**: 8 hallucinated + 2 redundant items NON cancellati, preservati [museum card M-2026-05-08-001](../museum/cards/evo-swarm-run-5-discarded-claims.md) come failure mode catalog per OD-022 gate design + LLM agent prompt training reference. Completionist-friendly: zero info lost.
 
 ---
 
