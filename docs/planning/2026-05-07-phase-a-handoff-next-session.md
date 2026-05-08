@@ -328,7 +328,10 @@ Causa: user trigger phrase anticipato. Razionale per accettarlo:
 | [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Day 3 synthetic supplement iter2 + handoff Day 3 + COMPACT v31 + memory ritual                 |
 | [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) | `0423001a` | Normalize chip: handoff date clarification + PR count audit gh ground truth + CLAUDE.md sprint |
 | [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) | `1cfd7220` | evo-swarm run #5 distillation honesty pass merge (7/13 hallucinated flagged + verification)    |
-| TBD-od-022                                               | TBD        | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6                              |
+| [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) | `9d57a2c5` | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6                              |
+| [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) | `1ee6fd94` | Triage run #5 5/7 questions closed via canonical grep (2 deferred Sprint Q+)                   |
+| [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) | `2656640c` | Skiv Monitor auto-update admin merge (canonical pattern)                                       |
+| TBD-closure                                              | TBD        | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs           |
 
 ### Synthetic iter2 evidence
 

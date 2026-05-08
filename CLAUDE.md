@@ -346,24 +346,31 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
-## 🎮 Sprint context (aggiornato: 2026-05-08 sera — Phase A Day 3/7 trigger autonomous + normalize chip)
+## 🎮 Sprint context (aggiornato: 2026-05-08 sera — Phase A Day 3/7 trigger autonomous + 7 PR cumulative)
 
-**Sessione 2026-05-08 sera (Day 3/7 trigger autonomous OD-021)**: 1 PR Game/ shipped iter2 + 1 normalize chip count audit. User resume trigger phrase anticipato 1 calendar day vs OD-021 schedule (label = `2026-05-09`, execution UTC = `2026-05-08`). Day 5 iter3 schedule confermato `2026-05-11`.
+**Sessione 2026-05-08 sera (Day 3/7 trigger autonomous OD-021)**: 7 PR Game/ shipped cascade ~2.5h cumulative. User resume trigger phrase anticipato 1 calendar day vs OD-021 schedule (label = `2026-05-09`, execution UTC = `2026-05-08`). Day 5 iter3 schedule confermato `2026-05-11`.
 
-| PR                                                       | Squash     | Topic                                                                              |
-| -------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
-| [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Phase B synthetic supplement iter2 (Tier 1 15/16 verde, ZERO regression Day 1→2→3) |
-| TBD-normalize                                            | TBD        | Normalize chip Day 3: handoff date clarification + PR count audit + this section   |
+| PR                                                       | Squash     | Topic                                                                                              |
+| -------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Phase B synthetic supplement iter2 (Tier 1 15/16 verde, ZERO regression Day 1→2→3)                 |
+| [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) | `0423001a` | Normalize chip drift Day 3: date label + PR count gh ground truth + CLAUDE.md sprint Day 3 section |
+| [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) | `1cfd7220` | evo-swarm run #5 distillation merge (honesty pass pre-shipped: 7/13 hallucinated flagged)          |
+| [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) | `9d57a2c5` | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6 (~7-9h Sprint Q+ candidate)      |
+| [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) | `1ee6fd94` | Triage run #5 5/7 questions closed canonical grep (~25min, 2 deferred Sprint Q+)                   |
+| [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) | `2656640c` | Skiv Monitor auto-update admin merge (canonical pattern post #2115 lesson)                         |
+| TBD-closure                                              | TBD        | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs (this commit) |
 
 **Synthetic iter2 evidence**: Tier 1 phone smoke 15/16 PASS + 1 skip in 39.8s vs iter1 39.4s = noise. Iter3 hardware-equivalent reconnect 30.9s + WS RTT p95 441ms = zero degradation.
 
-**Cumulative Phase A PR count audit (gh ground truth)**:
+**evo-swarm run #5 net actionable = ZERO data integration**. Score post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. Reinforza urgenza OD-022 trip-wire armed pre run #6.
 
-- UTC 2026-05-07 (Day 1 calendar): 26 Game/ + 14 Godot v2 = 40 PR merged main
-- UTC 2026-05-08 (Day 2 calendar): 3 Game/ (#2115 Skiv admin + #2116 memory + #2118 iter2)
-- **Total = 43 PR cross-repo Phase A monitoring window day 1+2 UTC**
+**Cumulative Phase A PR count audit (gh ground truth UTC)**:
 
-Discrepancy vs precedente "21 Claude-shipped autonomous": tracking sotto-stimava cross-repo + Codex iterations. Future canonical = gh ground truth + nota Claude-only filter quando applicabile.
+- UTC 2026-05-07 Day 1: 26 Game/ + 14 Godot v2 = 40 PR
+- UTC 2026-05-08 Day 2 + Day 3 trigger sera: 9 Game/ (#2115 Skiv admin + #2116 memory + #2117 Skiv admin + #2118 iter2 + #2108 swarm + #2119 normalize + #2120 OD-022 + #2121 triage + this closure)
+- **Total = 49 PR cross-repo Phase A monitoring window UTC Day 1+2**
+
+**OD aperte tracking master-dd**: 5 → 6 (+OD-022 evo-swarm cross-verification gate pre run #6).
 
 **Bloccante residuo**: NESSUNO autonomous. Master-dd weekend playtest signal NICE-TO-HAVE (OD-017 downgrade Day 2/7).
 
