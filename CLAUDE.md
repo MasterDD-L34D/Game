@@ -107,6 +107,45 @@ Friction concreta `/insights` 2026-04-25: **25 buggy_code incidents** (top frict
 - ❌ Skip test perché "modifica piccola" → 25 buggy_code dimostra falso senso di sicurezza
 - ❌ "I tests should pass" senza eseguirli → speculative claim, ottenuto da rescue pass
 
+## ⚖ No anticipated judgment / completionist-preserve discarded (2026-05-08 sera)
+
+Friction concreta sessione 2026-05-08 sera: durante closure cumulative + OD audit, Claude shipped 3 anticipated judgment in canonical docs senza explicit user OK. User feedback: "mi preoccupano il punto 3 il 4 e il 5" → reframe via "player completista" lens.
+
+### Pattern fix canonical
+
+**Completionist principle**: zero info lost. Quando subjective Claude judgment non è verificabile factual (gate da master-dd review), preserva tutto + caveat explicit + museum card per discarded items.
+
+### Rule autonomous mode (Auto mode active OR generic "procedi"/"continua")
+
+- ✅ **OK factual cleanup**: move misplace section, fix typo, format align, aggregate data via gh raw count, verify-before-claim live test capture
+- ✅ **OK preserve + caveat**: subjective claim shippable se markup soft `(⚠️ Claude autonomous judgment — pending master-dd review for criteria diversi)` + breakdown alternativi value criteria preserved
+- ✅ **OK museum card per discarded**: ogni item Claude scarta (revert / soften / drop) → `docs/museum/cards/<topic>-<date>-discard.md` Dublin Core entry preserve + reuse paths + lifecycle additive-only
+- ❌ **NOT OK**: design decisions cross-doc linking gated user verdict senza markup soft (e.g., bundle OD-X ↔ OD-Y senza "Claude-proposed pending master-dd")
+- ❌ **NOT OK**: subjective value framing canonical pre master-dd review come fact (e.g., "ZERO actionable", "deceptively low", "Real signal-to-noise = ~0%")
+- ❌ **NOT OK**: silent discard senza museum card preservation
+
+### Pattern markup canonical
+
+Subjective Claude judgment shippato canonical doc:
+
+> **<claim>** (⚠️ Claude autonomous judgment — pending master-dd review per criteri value diversi: <list 2-3 alternative interpretations>). <discarded items count> preservati [museum card M-YYYY-MM-DD-NNN](docs/museum/cards/<topic>-discard.md).
+
+### Trigger consultation pre commit
+
+Prima di committare canonical doc edit autonomous chiedi:
+
+1. Sto facendo **factual cleanup** (path fix, format align, gh raw aggregation)? → ✅ procedi
+2. Sto facendo **design judgment gated** (bundle / scope / value framing)? → markup soft `(⚠️ Claude autonomous — pending master-dd review)`
+3. Sto **discarding items** (revert / soften / drop)? → museum card additive preserve
+
+### Validato 2026-05-08 sera
+
+PR #2123 cross-link OD-022 ↔ OD-020 + 5 doc canonical "ZERO" framing → user spotted drift 3+4+5 → corrective approach via completionist principle: preserve + caveat + museum card M-2026-05-08-001 (10 discarded swarm claim items) shipped (this commit).
+
+**Lesson canonical**: in Auto mode autonomous, NEVER silent revert / soften / drop subjective items. Always preserve via museum card + caveat markup canonical. Future Claude legge regola, evita recurrence.
+
+---
+
 ## 🏛 Museum-first protocol (validato 2026-04-25)
 
 Friction concreta: 18 sprint hanno accumulato idee buone in `incoming/`, `docs/archive/`, `reports/incoming/`, branch chiusi, ADR superseded. Future agent rischia duplicate research O re-invent buried work.
@@ -362,7 +401,7 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 
 **Synthetic iter2 evidence**: Tier 1 phone smoke 15/16 PASS + 1 skip in 39.8s vs iter1 39.4s = noise. Iter3 hardware-equivalent reconnect 30.9s + WS RTT p95 441ms = zero degradation.
 
-**evo-swarm run #5 net actionable = ZERO data integration**. Score post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. Reinforza urgenza OD-022 trip-wire armed pre run #6.
+**evo-swarm run #5 score post-triage**: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. **Net actionable per data integration immediate = ZERO** (Claude triage autonomous judgment); 5 verified consistency-minor pendente master-dd review per criteri value non-data-integration (baseline pipeline metric / pattern reference / doc audit). 10 discarded items preservati [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). OD-022 trip-wire candidate Sprint Q+ post-Phase-B-accept.
 
 **Cumulative Phase A PR count audit (gh ground truth UTC)**:
 

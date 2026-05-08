@@ -101,6 +101,10 @@ _Pool secco. 10/10 species in `incoming/species/*.json` già canonical via commi
 
 - [BiomeMemory + Costo ambientale trait](cards/architecture-biome-memory-trait-cost.md) — score 4/5 · 3 exploration-note + Skiv biome-mover · deferred
 
+### Pipeline failure modes
+
+- [evo-swarm run #5 discarded claims](cards/evo-swarm-run-5-discarded-claims.md) — score 4/5 · 8 hallucinated + 2 redundant, OD-022 gate reference + LLM prompt training · curated (⚠️ user-requested autonomous deviation Museum-first protocol — repo-archaeologist agent review pending)
+
 _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial supersedes + DEPRECATED.md cleanup + concept-explorations vertical-slice). Vedi [excavations/2026-04-25-architecture-inventory.md](excavations/2026-04-25-architecture-inventory.md)._
 
 ### Worldgen / Ecosystem-PCG
