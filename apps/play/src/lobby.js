@@ -46,6 +46,37 @@ function redirectToGame() {
   window.location.href = './index.html';
 }
 
+async function probeRejoin(session) {
+  // B-NEW-4 fix 2026-05-08 — validate localStorage session via REST before
+  // bouncing to game shell. Pre-fix: phone exit + reopen returned to lobby
+  // home with no rejoin path (game shell WS attempt failed silently).
+  // Post-fix: explicit 200 → safe to redirect; 401/404/410 → clear stale.
+  try {
+    const res = await fetch('/api/lobby/rejoin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        code: session.code,
+        player_id: session.player_id,
+        player_token: session.token,
+      }),
+    });
+    if (res.ok) return { ok: true };
+    let reason = `HTTP ${res.status}`;
+    try {
+      const data = await res.json();
+      if (data?.error) reason = data.error;
+    } catch {
+      // body not JSON; keep status code
+    }
+    return { ok: false, status: res.status, reason };
+  } catch (err) {
+    // Network failure → keep banner visible so user can retry instead of
+    // silently dropping the session.
+    return { ok: false, status: 0, reason: err?.message || 'network_error', network: true };
+  }
+}
+
 function renderExistingSession() {
   const existing = loadLobbySession();
   const banner = document.getElementById('existing-session');
@@ -53,8 +84,40 @@ function renderExistingSession() {
   document.getElementById('existing-code').textContent = existing.code;
   document.getElementById('existing-role').textContent = existing.role;
   banner.classList.add('visible');
-  document.getElementById('existing-resume').addEventListener('click', () => {
-    redirectToGame();
+  const resumeBtn = document.getElementById('existing-resume');
+  resumeBtn.addEventListener('click', async () => {
+    resumeBtn.disabled = true;
+    const original = resumeBtn.textContent;
+    resumeBtn.textContent = '⏳ Verifico…';
+    const probe = await probeRejoin(existing);
+    if (probe.ok) {
+      redirectToGame();
+      return;
+    }
+    resumeBtn.disabled = false;
+    resumeBtn.textContent = original;
+    if (probe.network) {
+      // Transient network issue: keep session, surface error.
+      const msg = document.createElement('div');
+      msg.className = 'status err';
+      msg.style.marginTop = '8px';
+      msg.textContent = `Errore rete (${probe.reason}). Riprova.`;
+      banner.appendChild(msg);
+      setTimeout(() => msg.remove(), 4000);
+      return;
+    }
+    // Stale session (room closed / token invalid / not found): clear + hide.
+    clearLobbySession();
+    banner.classList.remove('visible');
+    const codeInput = document.getElementById('join-code');
+    if (codeInput && existing.code) {
+      codeInput.value = existing.code;
+    }
+    const status = document.getElementById('status-join');
+    if (status) {
+      status.className = 'status err';
+      status.textContent = `Sessione precedente non più valida (${probe.reason}). Crea o unisciti di nuovo.`;
+    }
   });
   document.getElementById('existing-forget').addEventListener('click', () => {
     clearLobbySession();
@@ -158,15 +221,40 @@ function initJoinForm() {
     if (up !== ev.target.value) ev.target.value = up;
   });
 
-  // Auto-populate code from ?code= URL param (invite link).
+  // Auto-populate code from ?code= or ?room= URL param (invite link).
+  // B-NEW-3 fix 2026-05-08 — accept both `code` (canonical Game/ share)
+  // and `room` (Godot v2 phone share) aliases. Pre-fix: phone deep-link
+  // `?room=XXXX` only filled the input; user still tapped Create CTA by
+  // default → 3 lobby orfane in <5min during friends-online smoke. Now:
+  // when either param present we promote the Join card visually + scroll
+  // it into view + focus the name input so Join is the obvious action.
   try {
     const params = new URLSearchParams(window.location.search);
-    const urlCode = params.get('code');
+    const urlCode = params.get('code') || params.get('room');
     if (urlCode && codeInput) {
-      codeInput.value = urlCode
+      const sanitized = urlCode
         .toUpperCase()
         .replace(/[^A-Z]/g, '')
         .slice(0, 4);
+      codeInput.value = sanitized;
+      const joinCard = form.closest('.card');
+      if (joinCard) {
+        joinCard.classList.add('card-primary');
+        try {
+          joinCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } catch {
+          // older browsers: scrollIntoView() w/o options
+          joinCard.scrollIntoView();
+        }
+      }
+      // De-emphasize Create card so the user does not default-tap it.
+      const createCard = document.getElementById('form-create')?.closest('.card');
+      if (createCard) createCard.classList.add('card-secondary');
+      const status = document.getElementById('status-join');
+      if (status) {
+        status.className = 'status ok';
+        status.textContent = `Codice ${sanitized} pronto. Inserisci il tuo nome ed entra.`;
+      }
       document.getElementById('player-name')?.focus();
     }
   } catch {

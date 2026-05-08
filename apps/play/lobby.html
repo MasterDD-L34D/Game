@@ -75,6 +75,23 @@
         border: 1px solid var(--border);
         border-radius: 12px;
         padding: 22px 22px 24px;
+        transition:
+          opacity 0.25s,
+          border-color 0.25s,
+          box-shadow 0.25s;
+      }
+      /* B-NEW-3 deep-link priority: when ?code=/?room= present, Join card
+         lights up + Create card fades. Reduces orphan-lobby cascade UX. */
+      .card.card-primary {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.25);
+      }
+      .card.card-secondary {
+        opacity: 0.55;
+      }
+      .card.card-secondary:hover,
+      .card.card-secondary:focus-within {
+        opacity: 1;
       }
       .card h2 {
         margin: 0 0 14px;

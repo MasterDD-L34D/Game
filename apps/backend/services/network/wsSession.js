@@ -37,6 +37,23 @@ const crypto = require('node:crypto');
 const { signPlayerToken, verifyPlayerToken } = require('./jwtAuth');
 const { applyOps: applyJsonPatchOps } = require('./jsonPatch');
 
+// B-NEW-2 RCA aid 2026-05-08 — structured JSON log for lobby lifecycle
+// events (create / join / vote / close / host_grace_fire / ghost_remove).
+// Pre-fix: phone smoke iter3 friends online found 4 lobby orfane in <5min
+// with ZERO log line → root-causing took manual REST snapshot polling.
+// Now: every state-machine transition emits a one-line JSON record on
+// stdout, easy to grep + tail in deploy-quick log capture. Disable via
+// env LOBBY_LOG_DISABLED=1 (smoke runs that prefer silent backend).
+const LOBBY_LOG_DISABLED = process.env.LOBBY_LOG_DISABLED === '1';
+function logLobbyEvent(event, payload = {}) {
+  if (LOBBY_LOG_DISABLED) return;
+  try {
+    console.info(JSON.stringify({ component: 'lobby-service', event, ts: Date.now(), ...payload }));
+  } catch {
+    // log must never break lobby flow.
+  }
+}
+
 const ROOM_CODE_ALPHABET = 'BCDFGHJKLMNPQRSTVWXZ'; // 20 consonants, no vowels, no Y (avoid words)
 const ROOM_CODE_LENGTH = 4;
 const MAX_ROOM_CREATE_RETRIES = 20;
@@ -310,6 +327,7 @@ class Room {
         payload: { player_id: playerId, reason: 'ghost_timeout' },
       });
       this._notifyMutate({ kind: 'player_ghost_removed', playerId });
+      logLobbyEvent('ghost_remove', { code: this.code, player_id: playerId });
     }, this.ghostTimeoutMs);
     timer.unref?.();
     this._ghostTimers.set(playerId, timer);
@@ -706,6 +724,7 @@ class Room {
   }
 
   close(reason = 'host_closed') {
+    if (this.closed) return;
     this.closed = true;
     // Sprint R.4 — clear any pending ghost timers on hard close.
     this._clearAllGhostTimers();
@@ -721,6 +740,11 @@ class Room {
       }
     }
     this._notifyMutate({ kind: 'closed', reason });
+    logLobbyEvent('room_close', {
+      code: this.code,
+      reason,
+      player_count: this.players.size,
+    });
   }
 
   snapshot() {
@@ -831,6 +855,13 @@ class LobbyService {
         .catch(() => {});
     }
     const host = room.getPlayer(hostId);
+    logLobbyEvent('create', {
+      code,
+      host_id: hostId,
+      host_name: hostName,
+      max_players: room.maxPlayers,
+      campaign_id: campaignId,
+    });
     return {
       code,
       host_id: hostId,
@@ -855,6 +886,12 @@ class LobbyService {
       type: 'player_joined',
       payload: { player_id: playerId, name: playerName, role: 'player' },
     });
+    logLobbyEvent('join', {
+      code: normalized,
+      player_id: playerId,
+      player_name: playerName,
+      player_count: room.players.size,
+    });
     return { player_id: playerId, player_token: token, room: room.snapshot() };
   }
 
@@ -873,6 +910,7 @@ class LobbyService {
         .deleteRoomAsync(this.prisma, normalized, { logger: this.logger })
         .catch(() => {});
     }
+    logLobbyEvent('close', { code: normalized, reason: 'host_closed' });
     return { code: normalized, closed: true };
   }
 
@@ -1388,10 +1426,25 @@ function createWsServer({
                 return;
               }
               const allPids = Array.from(room.players.values()).map((p) => p.id);
+              // B-NEW-1 fix 2026-05-08 — connected-only quorum so phone
+              // smoke does not stall when 2nd player WS dropped mid-vote.
+              const connectedPids = Array.from(room.players.values())
+                .filter((p) => p.connected && p.id !== room.hostId && p.role !== 'host')
+                .map((p) => p.id);
               const tally = orch.voteWorld(playerId, {
                 scenarioId: msg.payload?.scenario_id,
                 accept: msg.payload?.choice === 'accept' || msg.payload?.accept === true,
                 allPlayerIds: allPids,
+                connectedPlayerIds: connectedPids,
+              });
+              logLobbyEvent('vote', {
+                code: room.code,
+                player_id: playerId,
+                accept: tally.per_player?.[playerId]?.accept ?? null,
+                accept_count: tally.accept,
+                reject_count: tally.reject,
+                connected_total: tally.connected_total,
+                all_connected_accepted: tally.all_connected_accepted,
               });
               room.broadcast({ type: 'world_tally', payload: tally });
               socket.send(JSON.stringify({ type: 'world_vote_accepted', payload: { tally } }));
@@ -1736,9 +1789,19 @@ function createWsServer({
           if (!promoted) {
             // No eligible candidate; close the room as a fallback so clients
             // stop waiting indefinitely.
+            logLobbyEvent('host_grace_fire_close', {
+              code: room.code,
+              prev_host_id: playerId,
+              reason: 'no_candidate',
+            });
             room.close('host_dropped_no_candidate');
             return;
           }
+          logLobbyEvent('host_grace_fire_transfer', {
+            code: room.code,
+            prev_host_id: playerId,
+            new_host_id: promoted.id,
+          });
           // F-2 2026-04-25 — replay round_ready snapshot to the promoted host
           // (and peers) so combat-phase round state is not lost across host
           // transfer. Without this, a transfer mid-`resolving`/`planning` left

@@ -155,3 +155,91 @@ test('GET /api/lobby/list lists open rooms', async () => {
     await close();
   }
 });
+
+// B-NEW-4 fix 2026-05-08 — phone exit + reopen now probes /lobby/rejoin
+// to validate the localStorage session before bouncing to the game shell.
+test('POST /api/lobby/rejoin returns room snapshot for valid host token', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    const { code, host_id, host_token } = create.body;
+    const res = await request(app)
+      .post('/api/lobby/rejoin')
+      .send({ code, player_id: host_id, player_token: host_token })
+      .expect(200);
+    assert.equal(res.body.code, code);
+    assert.equal(res.body.player_id, host_id);
+    assert.equal(res.body.role, 'host');
+    assert.equal(res.body.room.code, code);
+  } finally {
+    await close();
+  }
+});
+
+test('POST /api/lobby/rejoin works for joined player tokens', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    const code = create.body.code;
+    const join = await request(app)
+      .post('/api/lobby/join')
+      .send({ code, player_name: 'Bob' })
+      .expect(201);
+    const res = await request(app)
+      .post('/api/lobby/rejoin')
+      .send({ code, player_id: join.body.player_id, player_token: join.body.player_token })
+      .expect(200);
+    assert.equal(res.body.role, 'player');
+    assert.equal(res.body.player_id, join.body.player_id);
+  } finally {
+    await close();
+  }
+});
+
+test('POST /api/lobby/rejoin 400 on missing fields', async () => {
+  const { app, close } = newApp();
+  try {
+    await request(app).post('/api/lobby/rejoin').send({}).expect(400);
+    await request(app).post('/api/lobby/rejoin').send({ code: 'ABCD' }).expect(400);
+  } finally {
+    await close();
+  }
+});
+
+test('POST /api/lobby/rejoin 404 on unknown code', async () => {
+  const { app, close } = newApp();
+  try {
+    await request(app)
+      .post('/api/lobby/rejoin')
+      .send({ code: 'ZZZZ', player_id: 'p_x', player_token: 'tok' })
+      .expect(404);
+  } finally {
+    await close();
+  }
+});
+
+test('POST /api/lobby/rejoin 401 on token mismatch', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    await request(app)
+      .post('/api/lobby/rejoin')
+      .send({
+        code: create.body.code,
+        player_id: create.body.host_id,
+        player_token: 'WRONG_TOKEN',
+      })
+      .expect(401);
+  } finally {
+    await close();
+  }
+});

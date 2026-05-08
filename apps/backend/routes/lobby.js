@@ -4,6 +4,7 @@
 // Endpoints:
 //   POST /api/lobby/create  — create room, return code + host token
 //   POST /api/lobby/join    — join by code + name, return player token
+//   POST /api/lobby/rejoin  — validate stored token + return room snapshot
 //   POST /api/lobby/close   — close room (host only)
 //   GET  /api/lobby/state   — inspect room snapshot (?code=ABCD)
 //   GET  /api/lobby/list    — list open rooms (admin/debug)
@@ -62,6 +63,31 @@ function createLobbyRouter({ lobby } = {}) {
       }
       return res.status(400).json({ error: code });
     }
+  });
+
+  // B-NEW-4 fix 2026-05-08 — rejoin path. Phone close-tab / cross-device
+  // resume needs a way to validate the stored localStorage session before
+  // attempting WS reconnect. Pre-fix: no REST probe → frontend redirected
+  // to game shell, WS attempt failed silently, user saw lobby home with
+  // no rejoin CTA (dead-end UX). Now: client calls /lobby/rejoin first,
+  // gets explicit 404 / 401 / 410 to clear stale session, or 200 + room
+  // snapshot to safely resume WS.
+  router.post('/lobby/rejoin', (req, res) => {
+    const { code, player_id: playerId, player_token: playerToken } = req.body || {};
+    if (!code || !playerId || !playerToken) {
+      return res.status(400).json({ error: 'code + player_id + player_token richiesti' });
+    }
+    const room = lobby.getRoom(code);
+    if (!room) return res.status(404).json({ error: 'room_not_found' });
+    if (room.closed) return res.status(410).json({ error: 'room_closed' });
+    const player = room.authenticate?.(playerId, playerToken);
+    if (!player) return res.status(401).json({ error: 'auth_failed' });
+    return res.json({
+      code: room.code,
+      player_id: playerId,
+      role: player.role,
+      room: room.snapshot(),
+    });
   });
 
   router.post('/lobby/close', (req, res) => {
