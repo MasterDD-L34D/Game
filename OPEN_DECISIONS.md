@@ -91,7 +91,8 @@
   - Q-5 **scope freeze full Q.A→Q.E** confirmed (NO incremental Q.A only)
 - **Rationale master-dd**: Sprint Q+ chiude finalmente Engine LIVE Surface DEAD anti-pattern canonical case (`mating_nido-engine-orphan` 5/5 score museum, 469 LOC + 7 endpoint shipped 4 mesi fa con ZERO frontend). Full deep approach = compelete narrative arc Skiv-Pulverator alleanza visible debrief panel + cross-encounter offspring legacy.
 - **Trigger conditions**: Sprint Q+ kickoff = Phase B ACCEPTED (target 2026-05-14 + zero-regression confirmed).
-- **Action followup**: questa PR aggiorna OD-020 verdict + Sprint Q+ scoping doc PR #2109 può essere ampliato post-Phase-B con full execution plan.
+- **Sprint Q+ prerequisite candidates** (gated insieme): [OD-022](#od-022-evo-swarm-pipeline-cross-verification-gate-pre-run-6) evo-swarm pipeline cross-verification gate pre run #6 (~7-9h) — bundle eligibile Sprint Q+ pre-kickoff se master-dd accetta. Indipendente da Q-1→Q-5 ETL ma stesso trigger window post-Phase-B.
+- **Action followup**: questa PR aggiorna OD-020 verdict + Sprint Q+ scoping doc PR #2109 può essere ampliato post-Phase-B con full execution plan + OD-022 gate addition se accepted.
 - **Source ref**: [PR #2109 scoping](https://github.com/MasterDD-L34D/Game/pull/2109) + [docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md](docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md) + master-dd verdict 2026-05-08.
 
 ### [OD-020-original-archive] Sprint Q+ scope freeze (PRE-VERDICT)
@@ -183,14 +184,6 @@
 - **Rischio se ignorata**: bassa. Future-proof reference.
 - **File o moduli coinvolti**: `apps/backend/services/campaign/` (NEW seasonal phase + organization), `data/core/campaign/seasons/` (NEW YAML).
 - **Source ref**: F1 §"Brigandine" + F2 §"Brigandine" + ADR-2026-04-28-deep-research-actions §5 citations.
-
-### [OD-016] Midnight Suns 3-card-plays + Heroism economy — design precedent thoughts ritual (citation-only)
-
-- **Livello**: game (P4 MBTI thoughts ritual UI design audit strength)
-- **Stato**: ✅ closure citation 2026-04-28 (Action 8 P3)
-- **Ambiguità**: thoughts ritual G3 (PR #1983) usa pattern 3-card-style (3 candidati + 30s timer + irreversible) — research valida questo è Midnight Suns Hero Combo unlock-by-relationship design precedent. NO design change needed.
-- **Verdict**: cita Midnight Suns canonical URL `https://midnightsuns.2k.com/it-IT/game-guide/gameplay/hero-abilities/` in NEXT thoughts-ritual ADR (rinforza decision audit). Non urgente — già implementato + funziona. Pure citation strength per future ADR thoughts ritual extension.
-- **Source ref**: F1 §"Midnight Suns" + F2 §"Midnight Suns" + ADR-2026-04-28-deep-research-actions §5 citations + PR #1983 G3 Skiv thoughts ritual choice UI shipped 2026-04-27/28.
 
 ### [OD-001] V3 Mating/Nido — scope e timing ✅ FULL CLOSURE 2026-04-27 notte
 
@@ -386,6 +379,14 @@
 ---
 
 ## Risolte (archivio OD chiuse)
+
+### [OD-016] Midnight Suns 3-card-plays + Heroism economy — design precedent thoughts ritual (citation-only) ✅ RISOLTA 2026-04-28
+
+- **Livello**: game (P4 MBTI thoughts ritual UI design audit strength)
+- **Stato**: ✅ closure citation 2026-04-28 (Action 8 P3) — moved Aperte → Risolte 2026-05-08 sera (audit cleanup misplace)
+- **Ambiguità**: thoughts ritual G3 (PR #1983) usa pattern 3-card-style (3 candidati + 30s timer + irreversible) — research valida questo è Midnight Suns Hero Combo unlock-by-relationship design precedent. NO design change needed.
+- **Verdict**: cita Midnight Suns canonical URL `https://midnightsuns.2k.com/it-IT/game-guide/gameplay/hero-abilities/` in NEXT thoughts-ritual ADR (rinforza decision audit). Non urgente — già implementato + funziona. Pure citation strength per future ADR thoughts ritual extension.
+- **Source ref**: F1 §"Midnight Suns" + F2 §"Midnight Suns" + ADR-2026-04-28-deep-research-actions §5 citations + PR #1983 G3 Skiv thoughts ritual choice UI shipped 2026-04-27/28.
 
 ### [OD-006] Master orchestrator prompt — adottare o no? ✅ RISOLTA
 
