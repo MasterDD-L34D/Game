@@ -124,6 +124,27 @@
 - **Action**: Day 3 2026-05-09 trigger phrase canonical: _"resume synthetic supplement iter2 Day 3 monitoring window"_. Claude execute ~5min Tier 1 phone smoke fresh.
 - **Source ref**: [PR #2112 §7](https://github.com/MasterDD-L34D/Game/pull/2112) + master-dd verdict 2026-05-08.
 
+### [OD-022] evo-swarm pipeline cross-verification gate pre run #6
+
+- **Livello**: workflow + pipeline contract (Atto 2 Scenario A "Integration drive")
+- **Trigger**: post merge PR #2108 `1cfd7220` (run #5 distillation honesty pass — 7/13 swarm claims hallucinated vs canonical Game).
+- **Ambiguità**: evo-swarm pipeline genera output JSON validato da `co02_validation.complete` SOLO struttura, NON fedeltà canonical (lezione meta run #5). Pattern dominante: swarm prende nomi reali (`dune_stalker`, `abisso_vulcanico`, `impulsi_bioluminescenti`) e combina attributi non supportati. Run #5 score 5/13 verified + 1/13 partial + 7/13 hallucinated.
+- **Perché conta**: ogni distillation PR richiede manual cross-verification 30-60min (PR #2108 esempio). Senza gate automatico ogni run #N successivo replica overhead + rischio merge claim hallucinated se honesty pass dimenticato.
+- **Sub-utilizzo evidence**: 11gg dormancy pre run #5 + week 2026-04-30→05-07 0 cicli significativi (Issue [#2102](https://github.com/MasterDD-L34D/Game/issues/2102)) + counter Atto 2 score "Integration drive" 1/10 → 2/10 post-merge (per PR body).
+- **Miglior default proposto**: **gate cross-verification pre run #6**. Specifica:
+  1. Swarm-side: ogni claim su species/biome/trait deve includere field `canonical_ref` con path Game (`data/core/species.yaml#dune_stalker.biome_affinity`)
+  2. Pipeline ETL Game-side: validator Python che match claim vs canonical YAML + emit verification table embedded automatic nel doc generato
+  3. Reject merge se hallucination ratio >30% (run #5 = 54%, sopra soglia)
+- **Rischio se ignorata**: 🟡 MEDIUM. Senza gate, run #6+ ricreano overhead manual + diluiscono trust pipeline. Possibile abandon evo-swarm Atto 2 path se ROI negativo persiste 2+ run consecutivi.
+- **Trigger eval**: **post Phase B accept** (week 2026-05-14+). Phase A monitoring critical path priorità prima.
+- **Effort stima implementation**:
+  - Swarm-side `canonical_ref` field: ~2-3h (cross-repo, evo-swarm autonomous)
+  - Game-side validator Python: ~3-4h (`tools/py/swarm_canonical_validator.py`)
+  - Pipeline integration ETL: ~2h
+  - Total: ~7-9h, deferred Sprint Q+ candidate
+- **Action followup**: trigger trip-wire — se run #6 ship pre fix → ferma + ratifica OD-022 trigger.
+- **Source ref**: [PR #2108 honesty pass](https://github.com/MasterDD-L34D/Game/pull/2108#issuecomment-honesty) + [Issue #2102 weekly digest](https://github.com/MasterDD-L34D/Game/issues/2102).
+
 ### [OD-021-original-archive] Continuous monitoring schedule (PRE-VERDICT)
 
 - **Ambiguità**: PR #2112 Phase B synthetic supplement propone schedule Day 3-7 monitoring window: Claude rerun Tier 1 phone smoke harness ~5min/giorno per regression detection autonomous. Total ~25-30min cumulative cycle 7gg. Master-dd burden invariato.

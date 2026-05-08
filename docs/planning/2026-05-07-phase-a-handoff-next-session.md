@@ -323,10 +323,12 @@ Causa: user trigger phrase anticipato. Razionale per accettarlo:
 
 ### PR shipped Day 3
 
-| #                                                        | PR    | SHA        | Topic                                                                              |
-| -------------------------------------------------------- | ----- | ---------- | ---------------------------------------------------------------------------------- |
-| [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | #2118 | `27dc92e6` | Day 3 synthetic supplement iter2 + handoff Day 3 + COMPACT v31 + memory ritual     |
-| TBD-normalize                                            | TBD   | TBD        | Normalize chip Day 3: PR count audit + CLAUDE.md sprint Day 3 + date clarification |
+| #                                                        | SHA        | Topic                                                                                          |
+| -------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------- |
+| [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Day 3 synthetic supplement iter2 + handoff Day 3 + COMPACT v31 + memory ritual                 |
+| [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) | `0423001a` | Normalize chip: handoff date clarification + PR count audit gh ground truth + CLAUDE.md sprint |
+| [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) | `1cfd7220` | evo-swarm run #5 distillation honesty pass merge (7/13 hallucinated flagged + verification)    |
+| TBD-od-022                                               | TBD        | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6                              |
 
 ### Synthetic iter2 evidence
 
