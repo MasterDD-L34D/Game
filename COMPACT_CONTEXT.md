@@ -8,8 +8,8 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v31 (post sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize chip — synthetic iter2 verde, master-dd playtest absent, count audit gh ground truth)
-- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 trigger (label `2026-05-09` per OD-021 schedule, execution UTC `2026-05-08`). 2 PR shipped: #2118 synthetic iter2 + TBD normalize chip (count audit + CLAUDE.md sprint update + handoff date clarification). Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression. Cumulative gh ground truth Day 1+2 UTC = 43 PR cross-repo (29 Game/ + 14 Godot v2).
+- **Versione compact**: v31 (post sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize + evo-swarm triage closure + Skiv admin — 7 PR Game/ shipped autonomous)
+- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 trigger (label `2026-05-09` per OD-021 schedule, execution UTC `2026-05-08`). **7 PR shipped Game/**: #2118 synthetic iter2 + #2119 normalize chip drift + #2108 evo-swarm distillation merge + #2120 OD-022 add + #2121 triage 5/7 closure + #2117 Skiv Monitor admin + this closure. Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression Day 1→2→3. Net actionable run #5 = ZERO (8/13 hallucinated). OD-022 trip-wire armed pre run #6.
 
 ## ⚡ Resume trigger phrase canonical (next session — post-Day-3-monitoring)
 
@@ -27,10 +27,15 @@ OR (post 7gg grace 2026-05-14):
 
 **Date label convention canonical**: filename + label = `<schedule-day>` (= `2026-05-09` per OD-021), body §setup = real UTC execution timestamp.
 
-**2 PR Game/ shipped autonomous Day 3 trigger**:
+**7 PR Game/ shipped autonomous Day 3 trigger**:
 
 - [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) `27dc92e6` synthetic supplement iter2 + handoff Day 3 + COMPACT v31 + memory ritual
-- TBD-normalize: handoff date clarification + PR count audit gh ground truth + CLAUDE.md sprint Day 3 section
+- [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) `0423001a` normalize chip drift: handoff date label + PR count gh ground truth + CLAUDE.md sprint
+- [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) `1cfd7220` evo-swarm run #5 distillation merge (honesty pass shipped pre)
+- [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) `9d57a2c5` OD-022 add evo-swarm cross-verification gate pre run #6
+- [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) `1ee6fd94` triage run #5 5/7 closed canonical grep (2 deferred Sprint Q+)
+- [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) `2656640c` Skiv Monitor auto-update admin merge
+- TBD closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs (this commit)
 
 **Synthetic iter2 evidence**:
 

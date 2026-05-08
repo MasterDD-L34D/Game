@@ -9,6 +9,36 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ Phase A Day 3/7 trigger autonomous — sessione 2026-05-08 sera — 6 PR shipped
+
+Phase A LIVE Day 3/7 trigger autonomous (OD-021 schedule label `2026-05-09`, execution UTC `2026-05-08`). Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Synthetic iter2 + normalize chip + evo-swarm distillation merge + OD-022 add + triage 5/7 closure + Skiv Monitor admin merge.
+
+| #   | PR                                                       | SHA        | Topic                                                                                           |
+| --- | -------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- |
+| 1   | [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Phase B synthetic supplement iter2 (15/16 PASS 39.8s, ZERO regression Day 1→2→3)                |
+| 2   | [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) | `0423001a` | Normalize chip Day 3 drift: handoff date label + PR count gh ground truth + CLAUDE.md sprint    |
+| 3   | [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) | `1cfd7220` | evo-swarm run #5 distillation merge (honesty pass shipped pre-merge: 7/13 hallucinated flagged) |
+| 4   | [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) | `9d57a2c5` | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6 (~7-9h Sprint Q+ candidate)   |
+| 5   | [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) | `1ee6fd94` | Triage run #5 5/7 questions closed via canonical grep (~25min, 2 deferred Sprint Q+)            |
+| 6   | [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) | `2656640c` | Skiv Monitor auto-update admin merge (canonical pattern post #2115 lesson)                      |
+
+**Test baseline post-cascade**: Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression Day 1 → Day 2 → Day 3. CI Game/ + Godot v2 main verde 5/5.
+
+**Pillar deltas**: invariati 5/6 🟢++ + 2/6 🟢 cand (P2 + P4 unchanged).
+
+**Outstanding master-dd action items** (6 OD aperte tracking, +OD-022):
+
+- OD-017 Phase B trigger downgrade nice-to-have ✅ RISOLTA Day 2
+- OD-018 Tier 2 PlayGodot OVERRIDE kill-60 ✅ RISOLTA Day 2
+- OD-019 Skiv Monitor Option A ✅ RISOLTA Day 2
+- OD-020 Sprint Q+ FULL deep scope ✅ RISOLTA Day 2 (gated post-Phase-B-accept)
+- OD-021 Continuous monitoring Day 3+5+7 ✅ RISOLTA Day 2
+- **OD-022 evo-swarm cross-verification gate pre run #6 🔴 OPEN** (Sprint Q+ candidate ~7-9h, post Phase B accept)
+
+**Net actionable run #5 = ZERO**. Reinforza urgenza OD-022 gate pre run #6.
+
+**Day 5 (2026-05-11) iter3 schedule confermato per OD-021**.
+
 ### ✅ Phase A Day 2/7 monitoring — sessione 2026-05-08 — 4 PR shipped autonomous
 
 Phase A LIVE Day 2/7 monitoring window 2026-05-08. Master-dd silenzioso (no playtest signal). Claude autonomous research-only scoping + RCA + synthetic supplement.
