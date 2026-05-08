@@ -334,6 +334,11 @@ Causa: user trigger phrase anticipato. Razionale per accettarlo:
 | [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) | `95ac1ef3` | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs           |
 | [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) | `bec82f12` | OD audit cleanup OD-016 sposta + OD-022 cross-link (drift, corrected by #2125)                 |
 | [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) | `e6e0ba0a` | Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md              |
+| [#2126](https://github.com/MasterDD-L34D/Game/pull/2126) | `35c1ca31` | Final closure TBD fill + count audit fresh                                                     |
+| [#2129](https://github.com/MasterDD-L34D/Game/pull/2129) | `62cd6b60` | Multi-action: A pre-design preview + B+D+E findings + aggregate doc                            |
+| [#2127](https://github.com/MasterDD-L34D/Game/pull/2127) | `c2e21551` | Skiv Monitor auto-update admin merge (cascade)                                                 |
+| [#2128](https://github.com/MasterDD-L34D/Game/pull/2128) | `20dda146` | Master-dd cross-repo `.ai/GLOBAL_PROFILE.md` CO-02 v0.3 canonical_refs MANDATORY               |
+| [#2130](https://github.com/MasterDD-L34D/Game/pull/2130) | `b492cdd6` | Sprint Q+ kickoff coordination + OD-022 IMPLICIT ACCEPT post cross-repo evidence               |
 
 ### Synthetic iter2 evidence
 

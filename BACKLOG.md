@@ -9,31 +9,41 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
-### ✅ Phase A Day 3/7 trigger autonomous — sessione 2026-05-08 sera — 6 PR shipped
+### ✅ Phase A Day 3/7 trigger autonomous — sessione 2026-05-08 sera — 14 PR shipped (closure final)
 
-Phase A LIVE Day 3/7 trigger autonomous (OD-021 schedule label `2026-05-09`, execution UTC `2026-05-08`). Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Synthetic iter2 + normalize chip + evo-swarm distillation merge + OD-022 add + triage 5/7 closure + Skiv Monitor admin merge.
+Phase A LIVE Day 3/7 trigger autonomous (OD-021 schedule label `2026-05-09`, execution UTC `2026-05-08`). Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Cascade ~3.5h cumulative: synthetic iter2 + normalize chip + evo-swarm distillation + OD-022 add + triage + Skiv admin + closure cumulative + OD audit + completionist enrichment + final closure + multi-action + master-dd cross-repo + coordination + final-final.
 
 | #   | PR                                                       | SHA        | Topic                                                                                           |
 | --- | -------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- |
 | 1   | [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Phase B synthetic supplement iter2 (15/16 PASS 39.8s, ZERO regression Day 1→2→3)                |
-| 2   | [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) | `0423001a` | Normalize chip Day 3 drift: handoff date label + PR count gh ground truth + CLAUDE.md sprint    |
-| 3   | [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) | `1cfd7220` | evo-swarm run #5 distillation merge (honesty pass shipped pre-merge: 7/13 hallucinated flagged) |
+| 2   | [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) | `1cfd7220` | evo-swarm run #5 distillation merge (honesty pass shipped pre-merge: 7/13 hallucinated flagged) |
+| 3   | [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) | `0423001a` | Normalize chip Day 3 drift: handoff date label + PR count gh ground truth + CLAUDE.md sprint    |
 | 4   | [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) | `9d57a2c5` | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6 (~7-9h Sprint Q+ candidate)   |
 | 5   | [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) | `1ee6fd94` | Triage run #5 5/7 questions closed via canonical grep (~25min, 2 deferred Sprint Q+)            |
 | 6   | [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) | `2656640c` | Skiv Monitor auto-update admin merge (canonical pattern post #2115 lesson)                      |
+| 7   | [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) | `95ac1ef3` | Closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs                  |
+| 8   | [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) | `bec82f12` | OD audit cleanup OD-016 sposta Aperte→Risolte + OD-022 cross-link (drift, corrected by #2125)   |
+| 9   | [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) | `e6e0ba0a` | Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md               |
+| 10  | [#2126](https://github.com/MasterDD-L34D/Game/pull/2126) | `35c1ca31` | Final closure TBD fill + count audit fresh post #2125                                           |
+| 11  | [#2129](https://github.com/MasterDD-L34D/Game/pull/2129) | `62cd6b60` | Multi-action: A pre-design preview + B+D+E findings + aggregate doc                             |
+| 12  | [#2127](https://github.com/MasterDD-L34D/Game/pull/2127) | `c2e21551` | Skiv Monitor auto-update admin merge (cascade)                                                  |
+| 13  | [#2128](https://github.com/MasterDD-L34D/Game/pull/2128) | `20dda146` | Master-dd cross-repo `.ai/GLOBAL_PROFILE.md` CO-02 v0.3 canonical_refs MANDATORY                |
+| 14  | [#2130](https://github.com/MasterDD-L34D/Game/pull/2130) | `b492cdd6` | Sprint Q+ kickoff coordination + OD-022 implicit accept                                         |
+
+**Closed senza merge**: #2124 (revert direction wrong, anti-completionist — preserved come learning case in PR thread).
 
 **Test baseline post-cascade**: Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression Day 1 → Day 2 → Day 3. CI Game/ + Godot v2 main verde 5/5.
 
 **Pillar deltas**: invariati 5/6 🟢++ + 2/6 🟢 cand (P2 + P4 unchanged).
 
-**Outstanding master-dd action items** (6 OD aperte tracking, +OD-022):
+**Outstanding master-dd action items** (5 RISOLTA + 1 IMPLICIT ACCEPT post-Day-3-sera):
 
 - OD-017 Phase B trigger downgrade nice-to-have ✅ RISOLTA Day 2
 - OD-018 Tier 2 PlayGodot OVERRIDE kill-60 ✅ RISOLTA Day 2
 - OD-019 Skiv Monitor Option A ✅ RISOLTA Day 2
 - OD-020 Sprint Q+ FULL deep scope ✅ RISOLTA Day 2 (gated post-Phase-B-accept)
 - OD-021 Continuous monitoring Day 3+5+7 ✅ RISOLTA Day 2
-- **OD-022 evo-swarm cross-verification gate pre run #6 🔴 OPEN** (Sprint Q+ candidate ~7-9h, post Phase B accept)
+- **OD-022 evo-swarm cross-verification gate pre run #6 ✅ IMPLICIT ACCEPT Day 3/7 sera** (cross-repo evidence convergente: master-dd #2128 swarm-side + Claude #2129 Game-side pre-design). Status: CANDIDATE-RIPE post-Phase-B-accept. Bundle Sprint Q+ kickoff (~5-6h Game-side residue). Vedi `docs/planning/2026-05-08-sprint-q-kickoff-coordination.md`.
 
 **Net actionable run #5 per data integration immediate = ZERO** (Claude triage autonomous judgment). 5/13 verified consistency-minor (specie esistenti grep-confirmed) potrebbero avere valore non-data-integration **pending master-dd review** — criteri possibili: baseline pipeline metric ("swarm sa mappare canonical"), pattern reference, doc audit. 8/13 hallucinated + 2 redundant **discarded preserved** in [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). OD-022 gate Sprint Q+ candidate.
 

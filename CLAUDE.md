@@ -400,6 +400,11 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) â
 | [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) | `95ac1ef3` | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs               |
 | [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) | `bec82f12` | OD audit cleanup OD-016 sposta + OD-022 cross-link (drift, corrected by #2125)                     |
 | [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) | `e6e0ba0a` | Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md                  |
+| [#2126](https://github.com/MasterDD-L34D/Game/pull/2126) | `35c1ca31` | Final closure TBD fill + count audit fresh                                                         |
+| [#2129](https://github.com/MasterDD-L34D/Game/pull/2129) | `62cd6b60` | Multi-action: A pre-design preview + B+D+E findings + aggregate doc                                |
+| [#2127](https://github.com/MasterDD-L34D/Game/pull/2127) | `c2e21551` | Skiv Monitor auto-update admin merge (cascade)                                                     |
+| [#2128](https://github.com/MasterDD-L34D/Game/pull/2128) | `20dda146` | Master-dd cross-repo `.ai/GLOBAL_PROFILE.md` CO-02 v0.3 canonical_refs MANDATORY                   |
+| [#2130](https://github.com/MasterDD-L34D/Game/pull/2130) | `b492cdd6` | Sprint Q+ kickoff coordination + OD-022 IMPLICIT ACCEPT post cross-repo evidence                   |
 
 **Synthetic iter2 evidence**: Tier 1 phone smoke 15/16 PASS + 1 skip in 39.8s vs iter1 39.4s = noise. Iter3 hardware-equivalent reconnect 30.9s + WS RTT p95 441ms = zero degradation.
 
@@ -408,8 +413,8 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) â
 **Cumulative Phase A PR count audit (gh ground truth UTC)**:
 
 - UTC 2026-05-07 Day 1: 26 Game/ + 14 Godot v2 = 40 PR
-- UTC 2026-05-08 Day 2 + Day 3 trigger sera: 11 Game/ (#2115 Skiv admin + #2116 memory + #2117 Skiv admin + #2118 iter2 + #2108 swarm + #2119 normalize + #2120 OD-022 + #2121 triage + #2122 closure + #2123 OD audit + #2125 completionist)
-- **Total = 51 PR cross-repo Phase A monitoring window UTC Day 1+2** (+1 PR #2124 chiuso senza merge come revert direction wrong)
+- UTC 2026-05-08 Day 2 + Day 3 trigger sera: 16 Game/ (#2115 + #2116 + #2117 + #2118 + #2108 + #2119 + #2120 + #2121 + #2122 + #2123 + #2125 + #2126 + #2129 + #2127 + #2128 master-dd + #2130 + this final-final closure)
+- **Total = 56 PR cross-repo Phase A monitoring window UTC Day 1+2** (+1 PR #2124 chiuso senza merge revert direction wrong)
 
 **OD aperte tracking master-dd**: 5 â†’ 6 (+OD-022 evo-swarm cross-verification gate pre run #6).
 
