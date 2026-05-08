@@ -346,6 +346,29 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-08 sera — Phase A Day 3/7 trigger autonomous + normalize chip)
+
+**Sessione 2026-05-08 sera (Day 3/7 trigger autonomous OD-021)**: 1 PR Game/ shipped iter2 + 1 normalize chip count audit. User resume trigger phrase anticipato 1 calendar day vs OD-021 schedule (label = `2026-05-09`, execution UTC = `2026-05-08`). Day 5 iter3 schedule confermato `2026-05-11`.
+
+| PR                                                       | Squash     | Topic                                                                              |
+| -------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
+| [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Phase B synthetic supplement iter2 (Tier 1 15/16 verde, ZERO regression Day 1→2→3) |
+| TBD-normalize                                            | TBD        | Normalize chip Day 3: handoff date clarification + PR count audit + this section   |
+
+**Synthetic iter2 evidence**: Tier 1 phone smoke 15/16 PASS + 1 skip in 39.8s vs iter1 39.4s = noise. Iter3 hardware-equivalent reconnect 30.9s + WS RTT p95 441ms = zero degradation.
+
+**Cumulative Phase A PR count audit (gh ground truth)**:
+
+- UTC 2026-05-07 (Day 1 calendar): 26 Game/ + 14 Godot v2 = 40 PR merged main
+- UTC 2026-05-08 (Day 2 calendar): 3 Game/ (#2115 Skiv admin + #2116 memory + #2118 iter2)
+- **Total = 43 PR cross-repo Phase A monitoring window day 1+2 UTC**
+
+Discrepancy vs precedente "21 Claude-shipped autonomous": tracking sotto-stimava cross-repo + Codex iterations. Future canonical = gh ground truth + nota Claude-only filter quando applicabile.
+
+**Bloccante residuo**: NESSUNO autonomous. Master-dd weekend playtest signal NICE-TO-HAVE (OD-017 downgrade Day 2/7).
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-05-08 — Phase A Day 2/7 monitoring + autonomous research-only cascade)
 
 **Sessione 2026-05-08 (Day 2/7 monitoring window post-Phase-A-LIVE)**: Master-dd silenzioso playtest signal. Claude autonomous research-only scoping + RCA + synthetic supplement. **4 PR Game/ shipped autonomous** (~10min cumulative auto-merge L3 cascade):
