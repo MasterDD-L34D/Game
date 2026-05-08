@@ -1389,12 +1389,18 @@ function createWsServer({
                 },
                 { allPlayerIds: allPids },
               );
-              room.broadcast({
-                type: 'character_ready_list',
-                payload: orch.characterReadyList(allPids),
-              });
-              if (orch.phase === 'world_setup') {
-                room.publishPhaseChange('world_setup');
+              // B-NEW-5 fix 2026-05-08 — skip downstream broadcast on
+              // idempotent resubmit (phone retry burst / WS reconnect
+              // intent flush). Ack still fires so the client gets visual
+              // confirmation per tap, but ready-list bus stays quiet.
+              if (!spec._deduplicated) {
+                room.broadcast({
+                  type: 'character_ready_list',
+                  payload: orch.characterReadyList(allPids),
+                });
+                if (orch.phase === 'world_setup') {
+                  room.publishPhaseChange('world_setup');
+                }
               }
               socket.send(
                 JSON.stringify({

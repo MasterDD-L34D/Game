@@ -249,6 +249,33 @@ class CoopOrchestrator {
       ready: true,
       submitted_at: this.now(),
     };
+    // B-NEW-5 fix 2026-05-08 — idempotent submission. Phone smoke iter4
+    // friends-online (lobby XHPV) shipped 19 character_ready emissions in
+    // 175s with last 5 within 700ms: phone composer doesn't lock submit
+    // button post-tap, plus WS reconnect flushes buffered intents → backend
+    // re-emits + re-broadcasts identical state. Pre-fix: every retry rebuilt
+    // the character ledger entry + fired character_ready downstream. Now:
+    // when same player resubmits an equivalent spec (name + form_id +
+    // species_id + job_id + traits identical), reuse the prior submitted_at
+    // and skip the emit/setPhase pass. Returned spec stays consistent so
+    // WS handler sends a fresh `character_create_accepted` ack to the
+    // client without polluting the broadcast bus.
+    const prior = this.characters.get(playerId);
+    const sameSpec =
+      prior &&
+      prior.name === normalized.name &&
+      prior.form_id === normalized.form_id &&
+      prior.species_id === normalized.species_id &&
+      prior.job_id === normalized.job_id &&
+      Array.isArray(prior.traits) &&
+      prior.traits.length === baseTraits.length &&
+      prior.traits.every((t, i) => t === baseTraits[i]);
+    if (sameSpec) {
+      // Surface a non-enumerable marker so WS/REST handlers can skip the
+      // downstream broadcast. JSON-serialized response (REST) won't include
+      // the underscore prefix in any case; ack still fires for client UX.
+      return Object.assign({}, prior, { _deduplicated: true });
+    }
     this.characters.set(playerId, normalized);
     this._emit('character_ready', normalized);
 
