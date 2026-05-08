@@ -121,7 +121,10 @@ function createCoopRouter({ lobby, coopStore } = {}) {
         { name, form_id, species_id, job_id },
         { allPlayerIds: allPlayerIds(room) },
       );
-      broadcastCoopState(room, orch);
+      // B-NEW-5 fix 2026-05-08 — skip rebroadcast on idempotent resubmit.
+      if (!spec._deduplicated) {
+        broadcastCoopState(room, orch);
+      }
       return res.status(201).json({
         character: spec,
         phase: orch.phase,

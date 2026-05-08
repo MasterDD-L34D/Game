@@ -9,6 +9,98 @@ const {
   PHASES,
 } = require('../../apps/backend/services/coop/coopOrchestrator');
 
+// B-NEW-5 fix 2026-05-08 — idempotent submitCharacter so phone retry +
+// WS reconnect flush does not flood character_ready emissions (lobby
+// XHPV shipped 19 events in 175s, 5 within 700ms).
+test('submitCharacter idempotent on identical spec (no re-emit, reuse prior)', () => {
+  const co = new CoopOrchestrator({ roomCode: 'IDMP', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('character_creation');
+  const events = [];
+  co.on((evt) => {
+    if (evt.kind === 'character_ready') events.push(evt.payload);
+  });
+  const spec = {
+    name: 'Liev',
+    form_id: 'form_umbra_alaris',
+    species_id: 'umbra_alaris',
+    job_id: 'custode',
+  };
+  const first = co.submitCharacter('p_h', spec, { allPlayerIds: ['p_h', 'p_a'] });
+  const second = co.submitCharacter('p_h', spec, { allPlayerIds: ['p_h', 'p_a'] });
+  // 2nd call returns the SAME submitted_at (prior reused); no fresh emit.
+  assert.equal(events.length, 1);
+  assert.equal(second.submitted_at, first.submitted_at);
+  assert.equal(second._deduplicated, true);
+  assert.equal(first._deduplicated, undefined);
+});
+
+// Codex P2 #2134: dedupe must run BEFORE phase gate. Last ready player
+// retry burst arrives after auto-advance to world_setup → pre-fix threw
+// not_in_character_creation → phone shows spurious error toast post-success.
+test('submitCharacter idempotent dedupe runs after phase advance to world_setup', () => {
+  const co = new CoopOrchestrator({ roomCode: 'IDMP', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('character_creation');
+  const events = [];
+  co.on((evt) => {
+    if (evt.kind === 'character_ready') events.push(evt.payload);
+  });
+  const spec = {
+    name: 'Solo',
+    form_id: 'form_solo',
+    species_id: 's_solo',
+    job_id: 'guerriero',
+  };
+  // Single-player roster: first submit auto-advances to world_setup.
+  const first = co.submitCharacter('p_solo', spec, { allPlayerIds: ['p_solo'] });
+  assert.equal(co.phase, 'world_setup');
+  // Retry of identical spec post auto-advance must dedupe, NOT throw.
+  const second = co.submitCharacter('p_solo', spec, { allPlayerIds: ['p_solo'] });
+  assert.equal(second._deduplicated, true);
+  assert.equal(second.submitted_at, first.submitted_at);
+  // Only 1 event emitted total.
+  assert.equal(events.length, 1);
+});
+
+test('submitCharacter throws not_in_character_creation only when no prior + wrong phase', () => {
+  const co = new CoopOrchestrator({ roomCode: 'IDMP', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  // Fresh player, no prior submission, wrong phase → throw.
+  assert.throws(
+    () =>
+      co.submitCharacter(
+        'p_new',
+        { name: 'A', form_id: 'f', species_id: 's', job_id: 'guerriero' },
+        { allPlayerIds: ['p_new'] },
+      ),
+    /not_in_character_creation/,
+  );
+});
+
+test('submitCharacter re-emits when spec changes (name swap)', () => {
+  const co = new CoopOrchestrator({ roomCode: 'IDMP', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('character_creation');
+  const events = [];
+  co.on((evt) => {
+    if (evt.kind === 'character_ready') events.push(evt.payload);
+  });
+  co.submitCharacter(
+    'p_h',
+    { name: 'Liev', form_id: 'form_a', species_id: 's_a', job_id: 'guerriero' },
+    { allPlayerIds: ['p_h', 'p_b'] },
+  );
+  co.submitCharacter(
+    'p_h',
+    { name: 'Renamed', form_id: 'form_a', species_id: 's_a', job_id: 'guerriero' },
+    { allPlayerIds: ['p_h', 'p_b'] },
+  );
+  assert.equal(events.length, 2);
+  assert.equal(events[1].name, 'Renamed');
+});
+
 // B-NEW-1 fix 2026-05-08 — worldTally now exposes connected-only quorum
 // flags so phone smoke does not stall when a peer drops mid-vote.
 test('worldTally exposes connected-only quorum when connectedPlayerIds passed', () => {

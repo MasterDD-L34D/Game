@@ -211,16 +211,9 @@ class CoopOrchestrator {
    * @param allPlayerIds — set of player ids expected to participate
    */
   submitCharacter(playerId, spec, { allPlayerIds = [] } = {}) {
-    if (this.phase !== 'character_creation') {
-      throw new Error('not_in_character_creation');
-    }
     if (!playerId) throw new Error('player_id_required');
     if (!spec || !spec.form_id || !spec.name) {
       throw new Error('spec_invalid');
-    }
-    // F-3 2026-04-25 — reject stale/ghost client with valid token but no longer in room.
-    if (allPlayerIds.length > 0 && !allPlayerIds.includes(playerId)) {
-      throw new Error('player_not_in_room');
     }
     // 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT — apply innata trait from form.
     // Canonical PI-Pacchetti-Forme: ogni Forma assegna 1 trait garantito.
@@ -238,6 +231,41 @@ class CoopOrchestrator {
       }
     } catch {
       // formInnataTrait helper optional — non blocca character submit.
+    }
+    // B-NEW-5 fix 2026-05-08 — idempotent submission. Phone smoke iter4
+    // friends-online (lobby XHPV) shipped 19 character_ready emissions in
+    // 175s with last 5 within 700ms: phone composer doesn't lock submit
+    // button post-tap, plus WS reconnect flushes buffered intents → backend
+    // re-emits + re-broadcasts identical state. Now: when same player
+    // resubmits an equivalent spec (name + form_id + species_id + job_id +
+    // traits identical), reuse the prior submitted_at + skip emit/setPhase.
+    //
+    // Codex P2 #2134 follow-up: dedupe runs BEFORE the phase gate so a
+    // retry burst arriving after auto-advance to world_setup (last ready
+    // player edge) still short-circuits to a fresh ACK. Pre-fix the gate
+    // threw not_in_character_creation, surfacing a spurious error toast on
+    // the phone immediately after a successful confirmation.
+    const prior = this.characters.get(playerId);
+    const sameSpec =
+      prior &&
+      prior.name === String(spec.name).slice(0, 30) &&
+      prior.form_id === String(spec.form_id) &&
+      prior.species_id === (spec.species_id ? String(spec.species_id) : null) &&
+      prior.job_id === (spec.job_id ? String(spec.job_id) : 'guerriero') &&
+      Array.isArray(prior.traits) &&
+      prior.traits.length === baseTraits.length &&
+      prior.traits.every((t, i) => t === baseTraits[i]);
+    if (sameSpec) {
+      // Returned object surfaces a `_deduplicated` flag so WS/REST handlers
+      // skip the downstream broadcast. ACK still fires for client UX.
+      return Object.assign({}, prior, { _deduplicated: true });
+    }
+    if (this.phase !== 'character_creation') {
+      throw new Error('not_in_character_creation');
+    }
+    // F-3 2026-04-25 — reject stale/ghost client with valid token but no longer in room.
+    if (allPlayerIds.length > 0 && !allPlayerIds.includes(playerId)) {
+      throw new Error('player_not_in_room');
     }
     const normalized = {
       player_id: playerId,
