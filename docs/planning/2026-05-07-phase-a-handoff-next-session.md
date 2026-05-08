@@ -331,7 +331,9 @@ Causa: user trigger phrase anticipato. Razionale per accettarlo:
 | [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) | `9d57a2c5` | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6                              |
 | [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) | `1ee6fd94` | Triage run #5 5/7 questions closed via canonical grep (2 deferred Sprint Q+)                   |
 | [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) | `2656640c` | Skiv Monitor auto-update admin merge (canonical pattern)                                       |
-| TBD-closure                                              | TBD        | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs           |
+| [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) | `95ac1ef3` | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs           |
+| [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) | `bec82f12` | OD audit cleanup OD-016 sposta + OD-022 cross-link (drift, corrected by #2125)                 |
+| [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) | `e6e0ba0a` | Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md              |
 
 ### Synthetic iter2 evidence
 

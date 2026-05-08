@@ -397,7 +397,9 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) â
 | [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) | `9d57a2c5` | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6 (~7-9h Sprint Q+ candidate)      |
 | [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) | `1ee6fd94` | Triage run #5 5/7 questions closed canonical grep (~25min, 2 deferred Sprint Q+)                   |
 | [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) | `2656640c` | Skiv Monitor auto-update admin merge (canonical pattern post #2115 lesson)                         |
-| TBD-closure                                              | TBD        | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs (this commit) |
+| [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) | `95ac1ef3` | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs               |
+| [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) | `bec82f12` | OD audit cleanup OD-016 sposta + OD-022 cross-link (drift, corrected by #2125)                     |
+| [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) | `e6e0ba0a` | Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md                  |
 
 **Synthetic iter2 evidence**: Tier 1 phone smoke 15/16 PASS + 1 skip in 39.8s vs iter1 39.4s = noise. Iter3 hardware-equivalent reconnect 30.9s + WS RTT p95 441ms = zero degradation.
 
@@ -406,8 +408,8 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) â
 **Cumulative Phase A PR count audit (gh ground truth UTC)**:
 
 - UTC 2026-05-07 Day 1: 26 Game/ + 14 Godot v2 = 40 PR
-- UTC 2026-05-08 Day 2 + Day 3 trigger sera: 9 Game/ (#2115 Skiv admin + #2116 memory + #2117 Skiv admin + #2118 iter2 + #2108 swarm + #2119 normalize + #2120 OD-022 + #2121 triage + this closure)
-- **Total = 49 PR cross-repo Phase A monitoring window UTC Day 1+2**
+- UTC 2026-05-08 Day 2 + Day 3 trigger sera: 11 Game/ (#2115 Skiv admin + #2116 memory + #2117 Skiv admin + #2118 iter2 + #2108 swarm + #2119 normalize + #2120 OD-022 + #2121 triage + #2122 closure + #2123 OD audit + #2125 completionist)
+- **Total = 51 PR cross-repo Phase A monitoring window UTC Day 1+2** (+1 PR #2124 chiuso senza merge come revert direction wrong)
 
 **OD aperte tracking master-dd**: 5 â†’ 6 (+OD-022 evo-swarm cross-verification gate pre run #6).
 
