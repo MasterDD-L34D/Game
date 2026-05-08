@@ -255,6 +255,56 @@ User _"continua"_ post-Day-2-sera-cascade. 1 PR Godot v2 chiude audit residuo P2
 
 **Cumulative Day 2 PR**: 10 Claude-shipped autonomous Game-Godot-v2 + 3 docs Game/. **Cumulative session 2026-05-07**: 14 PR.
 
+## Day 2/7 monitoring 2026-05-08 — 7 PR cumulative + master-dd verdict 5/5 + Skiv Monitor restore (post-handoff update 5)
+
+User resume "leggi COMPACT_CONTEXT.md v29 + handoff. Phase A Day 3/7 monitoring + check master-dd playtest". Calendar Day 2/7 (2026-05-07 = Day 1 cutover ACCEPTED, 2026-05-08 = Day 2/7 monitoring).
+
+**7 PR Game/ shipped autonomous** sessione 2026-05-08:
+
+| #   | PR                                                       | SHA        | Topic                                                                            |
+| --- | -------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------- |
+| 1   | [#2109](https://github.com/MasterDD-L34D/Game/pull/2109) | `66bfc200` | Sprint Q+ GAP-12 LineageMergeService ETL scoping (12 ticket Q-1→Q-12 ~14-17h)    |
+| 2   | [#2110](https://github.com/MasterDD-L34D/Game/pull/2110) | `009c812c` | Tier 2 PlayGodot integration prep — kill-60 verdict (research-only)              |
+| 3   | [#2111](https://github.com/MasterDD-L34D/Game/pull/2111) | `3c588278` | Skiv Monitor RCA — 30/30 fail post 2026-04-25 + 4-option fix menu                |
+| 4   | [#2112](https://github.com/MasterDD-L34D/Game/pull/2112) | `c4515b31` | Phase B synthetic supplement iter1 (Tier 1 phone smoke 15/16 verde localhost)    |
+| 5   | [#2113](https://github.com/MasterDD-L34D/Game/pull/2113) | `06ca14bd` | SoT canonical sync (OPEN_DECISIONS + BACKLOG + COMPACT v30 + CLAUDE.md sprint)   |
+| 6   | [#2114](https://github.com/MasterDD-L34D/Game/pull/2114) | `79775a2e` | Master-dd verdicts 5/5 OD chiusi + ADR-2026-05-05 §5 amendment Phase B downgrade |
+| 7   | [#2115](https://github.com/MasterDD-L34D/Game/pull/2115) | `0320ef94` | Skiv Monitor auto-update post-fix (admin override branch protection BLOCKED)     |
+
+**Master-dd verdicts 5/5 chiuse**:
+
+| OD     | Verdict                                                                          | Action shipped                      |
+| ------ | -------------------------------------------------------------------------------- | ----------------------------------- |
+| OD-017 | Phase B trigger DOWNGRADE nice-to-have (NOT hard gate)                           | ADR-2026-05-05 §5 amendment #2114   |
+| OD-018 | OVERRIDE Claude kill-60. KEEP PlayGodot+GodotTestDriver in roadmap               | Workflow doc row 5+6 ETA update     |
+| OD-019 | Option A 1-click toggle GH Settings → Actions checkbox                           | Master-dd manual + restore verified |
+| OD-020 | FULL deep scope Sprint Q+ Q.A→Q.E. NO incremental. Default 6 mutation Q-3 accept | Gated post-Phase-B-accept (~05-14)  |
+| OD-021 | Option C ridotto continuous monitoring Day 3+5+7 only                            | Day 3 trigger 2026-05-09            |
+
+**Skiv Monitor restore**:
+
+- Master-dd manual toggle Repo Settings → Actions → "Allow GH Actions create PRs" checkbox = ON
+- Forced run #25528706556 → conclusion success ✅ (broke 30/30 fail streak)
+- PR #2115 auto-opened + admin merge override (branch protection `auto/*` + path-filter no-match = BLOCKED permanent)
+- Lesson canonical: PR Skiv Monitor auto next time → admin merge override default (NON auto-merge L3 standard)
+
+**Test baseline**: Tier 1 phone smoke fresh 15/16 + 1 skip (39.4s, ZERO regression Day 1→Day 2). CI Game/ + Godot v2 main verde post 7 PR cascade.
+
+**Phase A guard verified Day 2/7 monitoring**:
+
+- ✅ CI Game/ + Godot v2 main verde
+- ✅ Zero crit regression
+- ✅ Auto-merge L3 cascade pattern + post-merge rebase recovery validated 4x today (PR #2110, #2111, #2112, #2113)
+- ✅ Skiv Monitor restored post 12gg fail streak
+
+**Cumulative Phase A Day 1+2** = 21 PR Claude-shipped autonomous (Day 1 = 14 PR + Day 2 = 7 PR + 1 admin Skiv).
+
+**Pillar status post-Day-2 invariati**: 5/6 🟢++ + 2/6 🟢 cand (P2 + P4 unchanged).
+
+**Bloccante residuo**: NESSUNO autonomous. Master-dd weekend playtest signal nice-to-have (OD-017 downgrade).
+
+**Day 3 schedule**: 2026-05-09 synthetic iter2 trigger autonomous (OD-021 confirmed Day 3+5+7 only).
+
 ## Resume trigger canonical (any PC)
 
 > _"leggi docs/planning/2026-05-07-phase-a-handoff-next-session.md, monitoring window day N + Phase B trigger eval"_
