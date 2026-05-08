@@ -35,7 +35,9 @@ OR (post 7gg grace 2026-05-14):
 - [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) `9d57a2c5` OD-022 add evo-swarm cross-verification gate pre run #6
 - [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) `1ee6fd94` triage run #5 5/7 closed canonical grep (2 deferred Sprint Q+)
 - [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) `2656640c` Skiv Monitor auto-update admin merge
-- TBD closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs (this commit)
+- [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) `95ac1ef3` Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs
+- [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) `bec82f12` OD audit cleanup OD-016 sposta Aperte→Risolte (drift, corrected by #2125)
+- [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) `e6e0ba0a` Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md §"No anticipated judgment"
 
 **Synthetic iter2 evidence**:
 
@@ -52,7 +54,7 @@ OR (post 7gg grace 2026-05-14):
 - ✅ Zero functional regression Day 1 → Day 2 → Day 3
 - ✅ ADR §4.4 critical bug regression trigger NOT fired
 
-**Cumulative Phase A gh ground truth Day 1+2 UTC** = 43 PR cross-repo (29 Game/ + 14 Godot v2). Vecchio tracking "21 Claude-shipped autonomous" sotto-stimava cross-repo + Codex iter rounds.
+**Cumulative Phase A gh ground truth Day 1+2 UTC** = 51 PR cross-repo (37 Game/ + 14 Godot v2; +1 PR #2124 closed senza merge revert direction). Vecchio tracking "21 Claude-shipped autonomous" sotto-stimava cross-repo + Codex iter rounds.
 
 **Day 4 (2026-05-10) skip per OD-021** (Day 3+5+7 only). Day 5 scheduled iter3 = 2026-05-11.
 
