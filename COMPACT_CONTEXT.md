@@ -8,18 +8,45 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v30 (post sessione 2026-05-08 Day 2/7 monitoring window — +4 PR Phase A guard + 5 OD aperte tracking)
-- **Ultimo aggiornamento**: 2026-05-08 Day 2/7 monitoring (4 PR shipped autonomous: #2109 Sprint Q+ scoping + #2110 Tier 2 kill-60 + #2111 Skiv Monitor RCA + #2112 Phase B synthetic supplement iter1. Master-dd silenzioso playtest signal. **5/6 pillar 🟢++ invariati post sessione**. Cumulative Phase A Day 1+2 = 18 PR Claude-shipped autonomous.)
+- **Versione compact**: v31 (post sessione 2026-05-09 Day 3/7 monitoring iter2 — synthetic supplement regression check verde, master-dd playtest signal absent)
+- **Ultimo aggiornamento**: 2026-05-09 Day 3/7 monitoring (1 PR shipped autonomous: synthetic supplement iter2 + handoff Day 3 update + Day 3 evidence doc. Master-dd silenzioso 12+h post Day 2/7 closure. Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression vs iter1. **5/6 pillar 🟢++ invariati**. Cumulative Phase A Day 1+2+3 = 22 PR Claude-shipped autonomous.)
 
-## ⚡ Resume trigger phrase canonical (next session — post-Day-2-monitoring)
+## ⚡ Resume trigger phrase canonical (next session — post-Day-3-monitoring)
 
-> _"leggi COMPACT_CONTEXT.md v30 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day N/7 monitoring + verifica master-dd playtest trigger Phase B OR Sprint Q lifecycle ETL OR continuous synthetic monitoring iter2."_
+> _"leggi COMPACT_CONTEXT.md v31 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day N/7 monitoring (Day 5 = 2026-05-11 iter3 trigger autonomous OD-021) + verifica master-dd playtest trigger Phase B."_
 
 Handoff doc canonical: [`docs/planning/2026-05-07-phase-a-handoff-next-session.md`](docs/planning/2026-05-07-phase-a-handoff-next-session.md)
 
 OR (post 7gg grace 2026-05-14):
 
 > _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
+
+## ⚡ TL;DR sessione 2026-05-09 Day 3/7 monitoring — synthetic iter2 PASS + zero regression
+
+**Trigger**: user resume "leggi COMPACT_CONTEXT.md v30 + handoff. Phase A Day 3/7 monitoring 2026-05-09 — synthetic iter2 OR master-dd weekend playtest signal". Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Synthetic iter2 trigger autonomous per OD-021.
+
+**1 PR Game/ shipped autonomous Day 3**: synthetic supplement iter2 + handoff Day 3 update + memory closure (this commit).
+
+**Synthetic iter2 evidence**:
+
+- Tier 1 phone smoke fresh capture localhost main HEAD `51d9df4e`
+- 15/16 PASS + 1 SKIP in 39.8s (vs iter1 39.4s = +0.4s noise)
+- Iter3 hardware-equivalent: host reconnect 30.9s grace + WS RTT p95 441ms (zero degradation)
+- Bug bundle B5+B6+B7+B8+B9+B10 + Iter3 item 2+3 tutti verdi
+- Doc canonical: `docs/playtest/2026-05-09-phase-b-synthetic-supplement-iter2.md`
+
+**Phase A guard verified Day 3/7**:
+
+- ✅ CI Game/ + Godot v2 main verde 5/5 last runs
+- ✅ Skiv Monitor 4 verde post-restore Day 2/7
+- ✅ Zero functional regression Day 1 → Day 2 → Day 3
+- ✅ ADR §4.4 critical bug regression trigger NOT fired
+
+**Cumulative Phase A Day 1+2+3** = 22 PR Claude-shipped autonomous.
+
+**Day 4 (2026-05-10) skip per OD-021** (Day 3+5+7 only). Day 5 scheduled iter3 = 2026-05-11.
+
+---
 
 ## ⚡ TL;DR sessione 2026-05-08 Day 2/7 monitoring — 4 PR autonomous + 5 OD aperte
 

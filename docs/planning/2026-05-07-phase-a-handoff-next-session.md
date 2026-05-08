@@ -305,6 +305,42 @@ User resume "leggi COMPACT_CONTEXT.md v29 + handoff. Phase A Day 3/7 monitoring 
 
 **Day 3 schedule**: 2026-05-09 synthetic iter2 trigger autonomous (OD-021 confirmed Day 3+5+7 only).
 
+## Day 3/7 monitoring 2026-05-09 — synthetic iter2 PASS + zero regression (post-handoff update 6)
+
+User resume trigger phrase canonical "leggi COMPACT_CONTEXT.md v30 + handoff. Phase A Day 3/7 monitoring 2026-05-09 — synthetic iter2 OR master-dd weekend playtest signal". Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Synthetic iter2 trigger autonomous per OD-021.
+
+**1 PR Game/ shipped autonomous Day 3**:
+
+| #   | PR  | SHA | Topic                                                                    |
+| --- | --- | --- | ------------------------------------------------------------------------ |
+| 1   | TBD | TBD | Day 3 synthetic supplement iter2 + handoff update + memory closure Day 3 |
+
+**Synthetic iter2 evidence**:
+
+- Tier 1 phone smoke fresh capture localhost (main HEAD `51d9df4e`)
+- 15/16 PASS + 1 SKIP in 39.8s (vs iter1 Day 2 39.4s)
+- Zero functional regression Day 1 → Day 2 → Day 3
+- Iter3 hardware-equivalent: host reconnect 30.9s grace + WS RTT p95 441ms (zero degradation)
+- Bug bundle B5+B6+B7+B8+B9+B10 + Iter3 item 2+3 tutti verdi
+- Doc canonical: [`docs/playtest/2026-05-09-phase-b-synthetic-supplement-iter2.md`](../playtest/2026-05-09-phase-b-synthetic-supplement-iter2.md)
+
+**Phase A guard verified Day 3/7**:
+
+- ✅ CI Game/ + Godot v2 main verde (5/5 last runs each)
+- ✅ Tier 1 functional gate stable iter1 → iter2
+- ✅ Iter3 zero degradation (reconnect ±0.1s, RTT ±12ms = noise)
+- ✅ Skiv Monitor 4 verde post-restore Day 2/7
+- ✅ Zero critical bug regression (ADR §4.4 trigger NOT fired)
+- ✅ Master-dd verdict 5/5 OD chiusi (#2114 Day 2/7)
+
+**Cumulative Phase A Day 1+2+3** = 22 PR Claude-shipped autonomous (Day 1 = 14 + Day 2 = 7 + 1 Skiv admin + Day 3 = 1 monitoring iter2).
+
+**Pillar status post-Day-3 invariati**: 5/6 🟢++ + 2/6 🟢 cand (P2 + P4 unchanged).
+
+**Day 4 (2026-05-10) skip per OD-021** (Day 3+5+7 only). Day 5 scheduled iter3 = 2026-05-11.
+
+**Bloccante residuo**: NESSUNO autonomous. Master-dd weekend playtest signal NICE-TO-HAVE (OD-017 downgrade Day 2/7).
+
 ## Resume trigger canonical (any PC)
 
 > _"leggi docs/planning/2026-05-07-phase-a-handoff-next-session.md, monitoring window day N + Phase B trigger eval"_
