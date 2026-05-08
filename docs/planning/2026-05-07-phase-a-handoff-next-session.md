@@ -309,13 +309,33 @@ User resume "leggi COMPACT_CONTEXT.md v29 + handoff. Phase A Day 3/7 monitoring 
 
 User resume trigger phrase canonical "leggi COMPACT_CONTEXT.md v30 + handoff. Phase A Day 3/7 monitoring 2026-05-09 — synthetic iter2 OR master-dd weekend playtest signal". Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Synthetic iter2 trigger autonomous per OD-021.
 
-**1 PR Game/ shipped autonomous Day 3**:
+### ⚠ Date label clarification (normalize 2026-05-08 audit)
 
-| #   | PR  | SHA | Topic                                                                    |
-| --- | --- | --- | ------------------------------------------------------------------------ |
-| 1   | TBD | TBD | Day 3 synthetic supplement iter2 + handoff update + memory closure Day 3 |
+User resume phrase scrive `2026-05-09` Day 3. Execution effettiva: **2026-05-08 UTC 12:30** (= 14:30 CET). Day 3 trigger eseguito **1 calendar day in anticipo** vs OD-021 schedule.
 
-**Synthetic iter2 evidence**:
+Causa: user trigger phrase anticipato. Razionale per accettarlo:
+
+- OD-021 = soft-gated (low-risk monitoring). 1 day shift = no SLA breach
+- Phase A guard verified comunque (zero regression captured pre-Day 5)
+- Day 5 iter3 = 2026-05-11 schedule confermato (no shift cascade)
+
+**File label conservato `2026-05-09`** per consistency con OD-021 schedule label, NON con execution timestamp. Convention: filename = `<schedule-day>`, body §2 setup = real UTC execution timestamp.
+
+### PR shipped Day 3
+
+| #                                                        | SHA        | Topic                                                                                          |
+| -------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------- |
+| [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Day 3 synthetic supplement iter2 + handoff Day 3 + COMPACT v31 + memory ritual                 |
+| [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) | `0423001a` | Normalize chip: handoff date clarification + PR count audit gh ground truth + CLAUDE.md sprint |
+| [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) | `1cfd7220` | evo-swarm run #5 distillation honesty pass merge (7/13 hallucinated flagged + verification)    |
+| [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) | `9d57a2c5` | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6                              |
+| [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) | `1ee6fd94` | Triage run #5 5/7 questions closed via canonical grep (2 deferred Sprint Q+)                   |
+| [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) | `2656640c` | Skiv Monitor auto-update admin merge (canonical pattern)                                       |
+| [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) | `95ac1ef3` | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs           |
+| [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) | `bec82f12` | OD audit cleanup OD-016 sposta + OD-022 cross-link (drift, corrected by #2125)                 |
+| [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) | `e6e0ba0a` | Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md              |
+
+### Synthetic iter2 evidence
 
 - Tier 1 phone smoke fresh capture localhost (main HEAD `51d9df4e`)
 - 15/16 PASS + 1 SKIP in 39.8s (vs iter1 Day 2 39.4s)
@@ -324,7 +344,7 @@ User resume trigger phrase canonical "leggi COMPACT_CONTEXT.md v30 + handoff. Ph
 - Bug bundle B5+B6+B7+B8+B9+B10 + Iter3 item 2+3 tutti verdi
 - Doc canonical: [`docs/playtest/2026-05-09-phase-b-synthetic-supplement-iter2.md`](../playtest/2026-05-09-phase-b-synthetic-supplement-iter2.md)
 
-**Phase A guard verified Day 3/7**:
+### Phase A guard verified Day 3/7
 
 - ✅ CI Game/ + Godot v2 main verde (5/5 last runs each)
 - ✅ Tier 1 functional gate stable iter1 → iter2
@@ -333,11 +353,36 @@ User resume trigger phrase canonical "leggi COMPACT_CONTEXT.md v30 + handoff. Ph
 - ✅ Zero critical bug regression (ADR §4.4 trigger NOT fired)
 - ✅ Master-dd verdict 5/5 OD chiusi (#2114 Day 2/7)
 
-**Cumulative Phase A Day 1+2+3** = 22 PR Claude-shipped autonomous (Day 1 = 14 + Day 2 = 7 + 1 Skiv admin + Day 3 = 1 monitoring iter2).
+### Cumulative Phase A PR count audit (gh ground truth)
 
-**Pillar status post-Day-3 invariati**: 5/6 🟢++ + 2/6 🟢 cand (P2 + P4 unchanged).
+Audit gh `merged:>=2026-05-07T00:00:00Z merged:<2026-05-09T00:00:00Z` (UTC):
 
-**Day 4 (2026-05-10) skip per OD-021** (Day 3+5+7 only). Day 5 scheduled iter3 = 2026-05-11.
+| Repo     | Day 1 (UTC 2026-05-07) | Day 2 (UTC 2026-05-08) |   Total   |
+| -------- | :--------------------: | :--------------------: | :-------: |
+| Game/    |           26           |           3            |    29     |
+| Godot v2 |           14           |           0            |    14     |
+| **Tot**  |       **40 PR**        |        **3 PR**        | **43 PR** |
+
+Day 2 UTC PR Game/: #2115 (Skiv admin) + #2116 (memory) + #2118 (iter2 questo run).
+
+Differenza vs precedenti tracking handoff/COMPACT:
+
+- Handoff Day 2 closure stipulava "Cumulative Day 1+2 = 21 PR Claude-shipped autonomous"
+- Vero cumulative gh = 43 PR cross-repo Day 1+2 monitoring window
+- Discrepancy = "Claude-shipped autonomous" filtro vs "all merged on main" gh raw
+
+**Verdict normalize**: tracking precedente sotto-stimava cross-repo + Codex review iterations. Ground-truth gh raw = canonical, "Claude-shipped autonomous" stima soggettiva. Future tracking = riferire **gh ground truth + nota se Claude-only filter** vs cross-repo total.
+
+### Pillar status
+
+5/6 🟢++ + 2/6 🟢 cand (P2 + P4 unchanged). Invariati Day 2 → Day 3.
+
+### Schedule next
+
+- Day 4 (2026-05-10) skip per OD-021 (Day 3+5+7 only)
+- Day 5 (2026-05-11) iter3 trigger autonomous
+- Day 7 (2026-05-13) iter4 final
+- Day 8 (2026-05-14) Phase B trigger eval master-dd userland
 
 **Bloccante residuo**: NESSUNO autonomous. Master-dd weekend playtest signal NICE-TO-HAVE (OD-017 downgrade Day 2/7).
 

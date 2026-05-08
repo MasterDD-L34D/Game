@@ -8,8 +8,8 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v31 (post sessione 2026-05-09 Day 3/7 monitoring iter2 — synthetic supplement regression check verde, master-dd playtest signal absent)
-- **Ultimo aggiornamento**: 2026-05-09 Day 3/7 monitoring (1 PR shipped autonomous: synthetic supplement iter2 + handoff Day 3 update + Day 3 evidence doc. Master-dd silenzioso 12+h post Day 2/7 closure. Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression vs iter1. **5/6 pillar 🟢++ invariati**. Cumulative Phase A Day 1+2+3 = 22 PR Claude-shipped autonomous.)
+- **Versione compact**: v31 (post sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize + evo-swarm triage closure + Skiv admin — 7 PR Game/ shipped autonomous)
+- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 trigger (label `2026-05-09` per OD-021 schedule, execution UTC `2026-05-08`). **8 PR shipped Game/**: #2117 Skiv admin + #2118 synthetic iter2 + #2108 evo-swarm distill + #2119 normalize + #2120 OD-022 add + #2121 triage 5/7 + #2122 closure cumulative + #2123 OD-016 misplace + this completionist enrichment. Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression Day 1→2→3. evo-swarm run #5 score post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. Net actionable per data integration immediate = ZERO (Claude judgment); 5 verified value non-data-integration pendente master-dd review. 10 discarded items preservati [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). OD-022 trip-wire candidate Sprint Q+.
 
 ## ⚡ Resume trigger phrase canonical (next session — post-Day-3-monitoring)
 
@@ -21,11 +21,23 @@ OR (post 7gg grace 2026-05-14):
 
 > _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
 
-## ⚡ TL;DR sessione 2026-05-09 Day 3/7 monitoring — synthetic iter2 PASS + zero regression
+## ⚡ TL;DR sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize chip
 
-**Trigger**: user resume "leggi COMPACT_CONTEXT.md v30 + handoff. Phase A Day 3/7 monitoring 2026-05-09 — synthetic iter2 OR master-dd weekend playtest signal". Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Synthetic iter2 trigger autonomous per OD-021.
+**Trigger**: user resume "leggi COMPACT_CONTEXT.md v30 + handoff. Phase A Day 3/7 monitoring 2026-05-09 — synthetic iter2". Execution UTC = `2026-05-08` (1 calendar day anticipo vs OD-021 schedule label). Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116).
 
-**1 PR Game/ shipped autonomous Day 3**: synthetic supplement iter2 + handoff Day 3 update + memory closure (this commit).
+**Date label convention canonical**: filename + label = `<schedule-day>` (= `2026-05-09` per OD-021), body §setup = real UTC execution timestamp.
+
+**7 PR Game/ shipped autonomous Day 3 trigger**:
+
+- [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) `27dc92e6` synthetic supplement iter2 + handoff Day 3 + COMPACT v31 + memory ritual
+- [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) `0423001a` normalize chip drift: handoff date label + PR count gh ground truth + CLAUDE.md sprint
+- [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) `1cfd7220` evo-swarm run #5 distillation merge (honesty pass shipped pre)
+- [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) `9d57a2c5` OD-022 add evo-swarm cross-verification gate pre run #6
+- [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) `1ee6fd94` triage run #5 5/7 closed canonical grep (2 deferred Sprint Q+)
+- [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) `2656640c` Skiv Monitor auto-update admin merge
+- [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) `95ac1ef3` Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs
+- [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) `bec82f12` OD audit cleanup OD-016 sposta Aperte→Risolte (drift, corrected by #2125)
+- [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) `e6e0ba0a` Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md §"No anticipated judgment"
 
 **Synthetic iter2 evidence**:
 
@@ -42,7 +54,7 @@ OR (post 7gg grace 2026-05-14):
 - ✅ Zero functional regression Day 1 → Day 2 → Day 3
 - ✅ ADR §4.4 critical bug regression trigger NOT fired
 
-**Cumulative Phase A Day 1+2+3** = 22 PR Claude-shipped autonomous.
+**Cumulative Phase A gh ground truth Day 1+2 UTC** = 51 PR cross-repo (37 Game/ + 14 Godot v2; +1 PR #2124 closed senza merge revert direction). Vecchio tracking "21 Claude-shipped autonomous" sotto-stimava cross-repo + Codex iter rounds.
 
 **Day 4 (2026-05-10) skip per OD-021** (Day 3+5+7 only). Day 5 scheduled iter3 = 2026-05-11.
 

@@ -107,6 +107,45 @@ Friction concreta `/insights` 2026-04-25: **25 buggy_code incidents** (top frict
 - ❌ Skip test perché "modifica piccola" → 25 buggy_code dimostra falso senso di sicurezza
 - ❌ "I tests should pass" senza eseguirli → speculative claim, ottenuto da rescue pass
 
+## ⚖ No anticipated judgment / completionist-preserve discarded (2026-05-08 sera)
+
+Friction concreta sessione 2026-05-08 sera: durante closure cumulative + OD audit, Claude shipped 3 anticipated judgment in canonical docs senza explicit user OK. User feedback: "mi preoccupano il punto 3 il 4 e il 5" → reframe via "player completista" lens.
+
+### Pattern fix canonical
+
+**Completionist principle**: zero info lost. Quando subjective Claude judgment non è verificabile factual (gate da master-dd review), preserva tutto + caveat explicit + museum card per discarded items.
+
+### Rule autonomous mode (Auto mode active OR generic "procedi"/"continua")
+
+- ✅ **OK factual cleanup**: move misplace section, fix typo, format align, aggregate data via gh raw count, verify-before-claim live test capture
+- ✅ **OK preserve + caveat**: subjective claim shippable se markup soft `(⚠️ Claude autonomous judgment — pending master-dd review for criteria diversi)` + breakdown alternativi value criteria preserved
+- ✅ **OK museum card per discarded**: ogni item Claude scarta (revert / soften / drop) → `docs/museum/cards/<topic>-<date>-discard.md` Dublin Core entry preserve + reuse paths + lifecycle additive-only
+- ❌ **NOT OK**: design decisions cross-doc linking gated user verdict senza markup soft (e.g., bundle OD-X ↔ OD-Y senza "Claude-proposed pending master-dd")
+- ❌ **NOT OK**: subjective value framing canonical pre master-dd review come fact (e.g., "ZERO actionable", "deceptively low", "Real signal-to-noise = ~0%")
+- ❌ **NOT OK**: silent discard senza museum card preservation
+
+### Pattern markup canonical
+
+Subjective Claude judgment shippato canonical doc:
+
+> **<claim>** (⚠️ Claude autonomous judgment — pending master-dd review per criteri value diversi: <list 2-3 alternative interpretations>). <discarded items count> preservati [museum card M-YYYY-MM-DD-NNN](docs/museum/cards/<topic>-discard.md).
+
+### Trigger consultation pre commit
+
+Prima di committare canonical doc edit autonomous chiedi:
+
+1. Sto facendo **factual cleanup** (path fix, format align, gh raw aggregation)? → ✅ procedi
+2. Sto facendo **design judgment gated** (bundle / scope / value framing)? → markup soft `(⚠️ Claude autonomous — pending master-dd review)`
+3. Sto **discarding items** (revert / soften / drop)? → museum card additive preserve
+
+### Validato 2026-05-08 sera
+
+PR #2123 cross-link OD-022 ↔ OD-020 + 5 doc canonical "ZERO" framing → user spotted drift 3+4+5 → corrective approach via completionist principle: preserve + caveat + museum card M-2026-05-08-001 (10 discarded swarm claim items) shipped (this commit).
+
+**Lesson canonical**: in Auto mode autonomous, NEVER silent revert / soften / drop subjective items. Always preserve via museum card + caveat markup canonical. Future Claude legge regola, evita recurrence.
+
+---
+
 ## 🏛 Museum-first protocol (validato 2026-04-25)
 
 Friction concreta: 18 sprint hanno accumulato idee buone in `incoming/`, `docs/archive/`, `reports/incoming/`, branch chiusi, ADR superseded. Future agent rischia duplicate research O re-invent buried work.
@@ -345,6 +384,38 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
 <!-- Sprint context: policy max 3 sections (drift audit 2026-04-28). Sezioni storiche
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
+
+## 🎮 Sprint context (aggiornato: 2026-05-08 sera — Phase A Day 3/7 trigger autonomous + 7 PR cumulative)
+
+**Sessione 2026-05-08 sera (Day 3/7 trigger autonomous OD-021)**: 7 PR Game/ shipped cascade ~2.5h cumulative. User resume trigger phrase anticipato 1 calendar day vs OD-021 schedule (label = `2026-05-09`, execution UTC = `2026-05-08`). Day 5 iter3 schedule confermato `2026-05-11`.
+
+| PR                                                       | Squash     | Topic                                                                                              |
+| -------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) | `27dc92e6` | Phase B synthetic supplement iter2 (Tier 1 15/16 verde, ZERO regression Day 1→2→3)                 |
+| [#2119](https://github.com/MasterDD-L34D/Game/pull/2119) | `0423001a` | Normalize chip drift Day 3: date label + PR count gh ground truth + CLAUDE.md sprint Day 3 section |
+| [#2108](https://github.com/MasterDD-L34D/Game/pull/2108) | `1cfd7220` | evo-swarm run #5 distillation merge (honesty pass pre-shipped: 7/13 hallucinated flagged)          |
+| [#2120](https://github.com/MasterDD-L34D/Game/pull/2120) | `9d57a2c5` | OD-022 add: evo-swarm pipeline cross-verification gate pre run #6 (~7-9h Sprint Q+ candidate)      |
+| [#2121](https://github.com/MasterDD-L34D/Game/pull/2121) | `1ee6fd94` | Triage run #5 5/7 questions closed canonical grep (~25min, 2 deferred Sprint Q+)                   |
+| [#2117](https://github.com/MasterDD-L34D/Game/pull/2117) | `2656640c` | Skiv Monitor auto-update admin merge (canonical pattern post #2115 lesson)                         |
+| [#2122](https://github.com/MasterDD-L34D/Game/pull/2122) | `95ac1ef3` | Day 3 closure cumulative: BACKLOG + COMPACT + CLAUDE.md + memory + handoff fill TBDs               |
+| [#2123](https://github.com/MasterDD-L34D/Game/pull/2123) | `bec82f12` | OD audit cleanup OD-016 sposta + OD-022 cross-link (drift, corrected by #2125)                     |
+| [#2125](https://github.com/MasterDD-L34D/Game/pull/2125) | `e6e0ba0a` | Completionist enrichment + museum card M-2026-05-08-001 + lesson codify CLAUDE.md                  |
+
+**Synthetic iter2 evidence**: Tier 1 phone smoke 15/16 PASS + 1 skip in 39.8s vs iter1 39.4s = noise. Iter3 hardware-equivalent reconnect 30.9s + WS RTT p95 441ms = zero degradation.
+
+**evo-swarm run #5 score post-triage**: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. **Net actionable per data integration immediate = ZERO** (Claude triage autonomous judgment); 5 verified consistency-minor pendente master-dd review per criteri value non-data-integration (baseline pipeline metric / pattern reference / doc audit). 10 discarded items preservati [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). OD-022 trip-wire candidate Sprint Q+ post-Phase-B-accept.
+
+**Cumulative Phase A PR count audit (gh ground truth UTC)**:
+
+- UTC 2026-05-07 Day 1: 26 Game/ + 14 Godot v2 = 40 PR
+- UTC 2026-05-08 Day 2 + Day 3 trigger sera: 11 Game/ (#2115 Skiv admin + #2116 memory + #2117 Skiv admin + #2118 iter2 + #2108 swarm + #2119 normalize + #2120 OD-022 + #2121 triage + #2122 closure + #2123 OD audit + #2125 completionist)
+- **Total = 51 PR cross-repo Phase A monitoring window UTC Day 1+2** (+1 PR #2124 chiuso senza merge come revert direction wrong)
+
+**OD aperte tracking master-dd**: 5 → 6 (+OD-022 evo-swarm cross-verification gate pre run #6).
+
+**Bloccante residuo**: NESSUNO autonomous. Master-dd weekend playtest signal NICE-TO-HAVE (OD-017 downgrade Day 2/7).
+
+---
 
 ## 🎮 Sprint context (aggiornato: 2026-05-08 — Phase A Day 2/7 monitoring + autonomous research-only cascade)
 

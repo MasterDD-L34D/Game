@@ -91,7 +91,8 @@
   - Q-5 **scope freeze full Q.A→Q.E** confirmed (NO incremental Q.A only)
 - **Rationale master-dd**: Sprint Q+ chiude finalmente Engine LIVE Surface DEAD anti-pattern canonical case (`mating_nido-engine-orphan` 5/5 score museum, 469 LOC + 7 endpoint shipped 4 mesi fa con ZERO frontend). Full deep approach = compelete narrative arc Skiv-Pulverator alleanza visible debrief panel + cross-encounter offspring legacy.
 - **Trigger conditions**: Sprint Q+ kickoff = Phase B ACCEPTED (target 2026-05-14 + zero-regression confirmed).
-- **Action followup**: questa PR aggiorna OD-020 verdict + Sprint Q+ scoping doc PR #2109 può essere ampliato post-Phase-B con full execution plan.
+- **Sprint Q+ prerequisite candidates** (⚠️ **Claude-proposed pending master-dd review** — NON parte di verdict FULL Q.A→Q.E master-dd Day 2/7. Bundle vs standalone decision = master-dd-only): [OD-022](#od-022-evo-swarm-pipeline-cross-verification-gate-pre-run-6) evo-swarm pipeline cross-verification gate pre run #6 (~7-9h). Indipendente da Q-1→Q-5 ETL ma stesso trigger window post-Phase-B-accept. Master-dd può scegliere: (a) bundle insieme Sprint Q+ pre-kickoff, (b) standalone OD-022 separato post-Sprint-Q+, (c) reject OD-022 (= swarm Atto 2 abandoned path).
+- **Action followup**: questa PR aggiorna OD-020 verdict + Sprint Q+ scoping doc PR #2109 può essere ampliato post-Phase-B con full execution plan + OD-022 gate addition se accepted.
 - **Source ref**: [PR #2109 scoping](https://github.com/MasterDD-L34D/Game/pull/2109) + [docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md](docs/planning/2026-05-08-sprint-q-lineage-merge-etl-scoping.md) + master-dd verdict 2026-05-08.
 
 ### [OD-020-original-archive] Sprint Q+ scope freeze (PRE-VERDICT)
@@ -123,6 +124,28 @@
 - **Rationale**: Day 1+2 ZERO regression baseline solido. Cadence sparse sufficient catch regression senza overhead daily. Master-dd zero burden invariato.
 - **Action**: Day 3 2026-05-09 trigger phrase canonical: _"resume synthetic supplement iter2 Day 3 monitoring window"_. Claude execute ~5min Tier 1 phone smoke fresh.
 - **Source ref**: [PR #2112 §7](https://github.com/MasterDD-L34D/Game/pull/2112) + master-dd verdict 2026-05-08.
+
+### [OD-022] evo-swarm pipeline cross-verification gate pre run #6
+
+- **Livello**: workflow + pipeline contract (Atto 2 Scenario A "Integration drive")
+- **Trigger**: post merge PR #2108 `1cfd7220` (run #5 distillation honesty pass — 7/13 swarm claims hallucinated vs canonical Game).
+- **Ambiguità**: evo-swarm pipeline genera output JSON validato da `co02_validation.complete` SOLO struttura, NON fedeltà canonical (lezione meta run #5). Pattern dominante: swarm prende nomi reali (`dune_stalker`, `abisso_vulcanico`, `impulsi_bioluminescenti`) e combina attributi non supportati. Run #5 score 5/13 verified + 1/13 partial + 7/13 hallucinated.
+- **Perché conta**: ogni distillation PR richiede manual cross-verification 30-60min (PR #2108 esempio). Senza gate automatico ogni run #N successivo replica overhead + rischio merge claim hallucinated se honesty pass dimenticato.
+- **Sub-utilizzo evidence**: 11gg dormancy pre run #5 + week 2026-04-30→05-07 0 cicli significativi (Issue [#2102](https://github.com/MasterDD-L34D/Game/issues/2102)) + counter Atto 2 score "Integration drive" 1/10 → 2/10 post-merge (per PR body).
+- **Miglior default proposto**: **gate cross-verification pre run #6**. Specifica:
+  1. Swarm-side: ogni claim su species/biome/trait deve includere field `canonical_ref` con path Game (`data/core/species.yaml#dune_stalker.biome_affinity`)
+  2. Pipeline ETL Game-side: validator Python che match claim vs canonical YAML + emit verification table embedded automatic nel doc generato
+  3. Reject merge se hallucination ratio >30% (run #5 = 54%, sopra soglia)
+- **Rischio se ignorata**: 🟡 MEDIUM. Senza gate, run #6+ ricreano overhead manual + diluiscono trust pipeline. Possibile abandon evo-swarm Atto 2 path se ROI negativo persiste 2+ run consecutivi.
+- **Trigger eval**: **post Phase B accept** (week 2026-05-14+). Phase A monitoring critical path priorità prima.
+- **Effort stima implementation**:
+  - Swarm-side `canonical_ref` field: ~2-3h (cross-repo, evo-swarm autonomous)
+  - Game-side validator Python: ~3-4h (`tools/py/swarm_canonical_validator.py`)
+  - Pipeline integration ETL: ~2h
+  - Total: ~7-9h, deferred Sprint Q+ candidate
+- **Action followup**: trigger trip-wire — se run #6 ship pre fix → ferma + ratifica OD-022 trigger.
+- **Triage update 2026-05-08 sera (post-merge #2108)**: 5/7 open questions run #5 chiuse autonomous via canonical grep (~25min). Score honesty post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred Sprint Q+. **Net actionable per data integration immediate = ZERO** (⚠️ Claude triage autonomous judgment — master-dd verdict pendente per criteri value diversi: 5 verified consistency-minor potrebbero avere valore non-data-integration come baseline pipeline metric / pattern reference / doc audit). 10 discarded items preservati in [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). Vedi [docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md §Triage closure](docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md#triage-closure-2026-05-08-sera).
+- **Source ref**: [PR #2108 honesty pass](https://github.com/MasterDD-L34D/Game/pull/2108#issuecomment-honesty) + [Issue #2102 weekly digest](https://github.com/MasterDD-L34D/Game/issues/2102).
 
 ### [OD-021-original-archive] Continuous monitoring schedule (PRE-VERDICT)
 
@@ -161,14 +184,6 @@
 - **Rischio se ignorata**: bassa. Future-proof reference.
 - **File o moduli coinvolti**: `apps/backend/services/campaign/` (NEW seasonal phase + organization), `data/core/campaign/seasons/` (NEW YAML).
 - **Source ref**: F1 §"Brigandine" + F2 §"Brigandine" + ADR-2026-04-28-deep-research-actions §5 citations.
-
-### [OD-016] Midnight Suns 3-card-plays + Heroism economy — design precedent thoughts ritual (citation-only)
-
-- **Livello**: game (P4 MBTI thoughts ritual UI design audit strength)
-- **Stato**: ✅ closure citation 2026-04-28 (Action 8 P3)
-- **Ambiguità**: thoughts ritual G3 (PR #1983) usa pattern 3-card-style (3 candidati + 30s timer + irreversible) — research valida questo è Midnight Suns Hero Combo unlock-by-relationship design precedent. NO design change needed.
-- **Verdict**: cita Midnight Suns canonical URL `https://midnightsuns.2k.com/it-IT/game-guide/gameplay/hero-abilities/` in NEXT thoughts-ritual ADR (rinforza decision audit). Non urgente — già implementato + funziona. Pure citation strength per future ADR thoughts ritual extension.
-- **Source ref**: F1 §"Midnight Suns" + F2 §"Midnight Suns" + ADR-2026-04-28-deep-research-actions §5 citations + PR #1983 G3 Skiv thoughts ritual choice UI shipped 2026-04-27/28.
 
 ### [OD-001] V3 Mating/Nido — scope e timing ✅ FULL CLOSURE 2026-04-27 notte
 
@@ -364,6 +379,14 @@
 ---
 
 ## Risolte (archivio OD chiuse)
+
+### [OD-016] Midnight Suns 3-card-plays + Heroism economy — design precedent thoughts ritual (citation-only) ✅ RISOLTA 2026-04-28
+
+- **Livello**: game (P4 MBTI thoughts ritual UI design audit strength)
+- **Stato**: ✅ closure citation 2026-04-28 (Action 8 P3) — moved Aperte → Risolte 2026-05-08 sera (audit cleanup misplace)
+- **Ambiguità**: thoughts ritual G3 (PR #1983) usa pattern 3-card-style (3 candidati + 30s timer + irreversible) — research valida questo è Midnight Suns Hero Combo unlock-by-relationship design precedent. NO design change needed.
+- **Verdict**: cita Midnight Suns canonical URL `https://midnightsuns.2k.com/it-IT/game-guide/gameplay/hero-abilities/` in NEXT thoughts-ritual ADR (rinforza decision audit). Non urgente — già implementato + funziona. Pure citation strength per future ADR thoughts ritual extension.
+- **Source ref**: F1 §"Midnight Suns" + F2 §"Midnight Suns" + ADR-2026-04-28-deep-research-actions §5 citations + PR #1983 G3 Skiv thoughts ritual choice UI shipped 2026-04-27/28.
 
 ### [OD-006] Master orchestrator prompt — adottare o no? ✅ RISOLTA
 
