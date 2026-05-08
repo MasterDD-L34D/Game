@@ -61,7 +61,26 @@ async function probeRejoin(session) {
         player_token: session.token,
       }),
     });
-    if (res.ok) return { ok: true };
+    if (res.ok) {
+      // Codex P2 #2133: parse server-canonical role + host_id. Old host
+      // tokens stay valid post host_transfer (TKT-M11B-05 promotes a
+      // player → role moves to candidate, but JWT signature unchanged).
+      // Without this update, a returning ex-host bridge boots `isHost=true`
+      // from stale localStorage and hits host-only UI/API with player
+      // permissions. Caller persists the parsed role pre-redirect.
+      let body = null;
+      try {
+        body = await res.json();
+      } catch {
+        // body absent or non-JSON; ok=true is still trustworthy.
+      }
+      return {
+        ok: true,
+        role: body?.role || null,
+        host_id: body?.room?.host_id || null,
+        campaign_id: body?.room?.campaign_id || null,
+      };
+    }
     let reason = `HTTP ${res.status}`;
     try {
       const data = await res.json();
@@ -91,6 +110,23 @@ function renderExistingSession() {
     resumeBtn.textContent = '⏳ Verifico…';
     const probe = await probeRejoin(existing);
     if (probe.ok) {
+      // Codex P2 #2133: persist server-canonical role/host_id so bridge
+      // boots with current authority (handles host_transfer demotion).
+      const updated = { ...existing };
+      let dirty = false;
+      if (probe.role && probe.role !== existing.role) {
+        updated.role = probe.role;
+        dirty = true;
+      }
+      if (probe.host_id && probe.host_id !== existing.host_id) {
+        updated.host_id = probe.host_id;
+        dirty = true;
+      }
+      if (probe.campaign_id !== null && probe.campaign_id !== existing.campaign_id) {
+        updated.campaign_id = probe.campaign_id;
+        dirty = true;
+      }
+      if (dirty) saveLobbySession(updated);
       redirectToGame();
       return;
     }

@@ -9,7 +9,12 @@ const request = require('supertest');
 const { createApp } = require('../../apps/backend/app');
 
 function newApp() {
-  return createApp({ databasePath: null });
+  const built = createApp({ databasePath: null });
+  // Expose lobby on app.locals for tests that need direct service access
+  // (host_transfer simulation, ghost timers). Routes already receive the
+  // service via DI; this is purely a test ergonomic.
+  built.app.locals.lobby = built.lobby;
+  return built;
 }
 
 test('POST /api/lobby/create returns 4-letter code + host token', async () => {
@@ -219,6 +224,47 @@ test('POST /api/lobby/rejoin 404 on unknown code', async () => {
       .post('/api/lobby/rejoin')
       .send({ code: 'ZZZZ', player_id: 'p_x', player_token: 'tok' })
       .expect(404);
+  } finally {
+    await close();
+  }
+});
+
+// Codex P2 #2133: post host_transfer demotion the old host token still
+// authenticates but the player_role is now `player`. Caller must trust
+// the response role over the local cached one.
+test('POST /api/lobby/rejoin reflects current role after host_transfer demotion', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    const code = create.body.code;
+    const join = await request(app)
+      .post('/api/lobby/join')
+      .send({ code, player_name: 'Bob' })
+      .expect(201);
+    // Promote Bob to host (simulates host_transfer fired by grace timer).
+    const {
+      LobbyService: _LobbyService,
+    } = require('../../apps/backend/services/network/wsSession');
+    void _LobbyService; // silence unused-import lint when present.
+    // Reach into app via supertest indirection: call the same global
+    // service used by routes.
+    const lobby = app.locals.lobby;
+    const room = lobby.getRoom(code);
+    room.transferHostTo(join.body.player_id, { reason: 'test_promotion' });
+    // Old host token still authenticates → response now reports role=player.
+    const ex = await request(app)
+      .post('/api/lobby/rejoin')
+      .send({
+        code,
+        player_id: create.body.host_id,
+        player_token: create.body.host_token,
+      })
+      .expect(200);
+    assert.equal(ex.body.role, 'player');
+    assert.equal(ex.body.room.host_id, join.body.player_id);
   } finally {
     await close();
   }
