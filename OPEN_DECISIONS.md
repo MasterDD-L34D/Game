@@ -125,7 +125,7 @@
 - **Action**: Day 3 2026-05-09 trigger phrase canonical: _"resume synthetic supplement iter2 Day 3 monitoring window"_. Claude execute ~5min Tier 1 phone smoke fresh.
 - **Source ref**: [PR #2112 §7](https://github.com/MasterDD-L34D/Game/pull/2112) + master-dd verdict 2026-05-08.
 
-### [OD-022] evo-swarm pipeline cross-verification gate pre run #6
+### [OD-022] evo-swarm pipeline cross-verification gate pre run #6 ✅ IMPLICIT ACCEPT 2026-05-08 sera (cross-repo evidence convergente)
 
 - **Livello**: workflow + pipeline contract (Atto 2 Scenario A "Integration drive")
 - **Trigger**: post merge PR #2108 `1cfd7220` (run #5 distillation honesty pass — 7/13 swarm claims hallucinated vs canonical Game).
@@ -146,6 +146,7 @@
 - **Action followup**: trigger trip-wire — se run #6 ship pre fix → ferma + ratifica OD-022 trigger.
 - **Triage update 2026-05-08 sera (post-merge #2108)**: 5/7 open questions run #5 chiuse autonomous via canonical grep (~25min). Score honesty post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred Sprint Q+. **Net actionable per data integration immediate = ZERO** (⚠️ Claude triage autonomous judgment — master-dd verdict pendente per criteri value diversi: 5 verified consistency-minor potrebbero avere valore non-data-integration come baseline pipeline metric / pattern reference / doc audit). 10 discarded items preservati in [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). Vedi [docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md §Triage closure](docs/research/2026-05-08-evo-swarm-stress-mechanics-distillation.md#triage-closure-2026-05-08-sera).
 - **Pre-design preview shipped Day 3/7 sera 2026-05-08** (⚠️ Claude autonomous, master-dd verdict accept/reject/defer pendente): skeleton `tools/py/swarm_canonical_validator.py` (6 funzioni `NotImplementedError` + 3 dataclass + GATE_THRESHOLD 0.30) + spec doc [`docs/research/2026-05-08-od-022-validator-pre-design.md`](docs/research/2026-05-08-od-022-validator-pre-design.md) (test corpus 15 cases + 3 gate criteria open questions + effort 8-10h post-accept). Zero impl produzione, zero info lost se reject (skeleton archive read-only).
+- **Cross-repo evidence convergente Day 3/7 sera 2026-05-08 — IMPLICIT ACCEPT**: master-dd ha shippato cross-repo coordinazione [PR #2128](https://github.com/MasterDD-L34D/Game/pull/2128) `20dda146` `.ai/GLOBAL_PROFILE.md` CO-02 v0.3 canonical_refs MANDATORY shared (= swarm-side step 1 evo-swarm PR #85 + #89 cross-repo coordinazione). Parallel a Claude pre-design preview Game-side ([PR #2129](https://github.com/MasterDD-L34D/Game/pull/2129)). Pattern coincidence parallel = path implicit accept. Status: OPEN → **CANDIDATE-RIPE post-Phase-B-accept**. Bundle Sprint Q+ kickoff sequence eseguibile. Vedi [`docs/planning/2026-05-08-sprint-q-kickoff-coordination.md`](docs/planning/2026-05-08-sprint-q-kickoff-coordination.md) per coordination doc canonical.
 - **Source ref**: [PR #2108 honesty pass](https://github.com/MasterDD-L34D/Game/pull/2108#issuecomment-honesty) + [Issue #2102 weekly digest](https://github.com/MasterDD-L34D/Game/issues/2102).
 
 ### [OD-021-original-archive] Continuous monitoring schedule (PRE-VERDICT)

@@ -5214,6 +5214,19 @@
       "track": "active"
     },
     {
+      "path": "docs/planning/2026-05-08-sprint-q-kickoff-coordination.md",
+      "title": "Sprint Q+ kickoff coordination - OD-022 implicit accept (cross-repo Game + evo-swarm + Game-side)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 7,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/planning/EVO_FINAL_DESIGN_BACKLOG_REGISTER.md",
       "title": "Evo Final Design — Backlog Register",
       "doc_status": "historical_ref",
