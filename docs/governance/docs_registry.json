@@ -5947,6 +5947,19 @@
       "track": "active"
     },
     {
+      "path": "docs/playtest/2026-05-09-phase-b-synthetic-supplement-iter2.md",
+      "title": "Phase B synthetic supplement iter2 - Tier 1 phone smoke regression check 2026-05-09",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "ops-qa",
+      "last_verified": "2026-05-09",
+      "source_of_truth": true,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/playtest/2026-05-08-tier-2-playgodot-integration-prep.md",
       "title": "Tier 2 PlayGodot integration prep - honest research + kill-60 verdict",
       "doc_status": "draft",
