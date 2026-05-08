@@ -8,12 +8,16 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v31 (post sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize + evo-swarm triage closure + Skiv admin — 7 PR Game/ shipped autonomous)
-- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 trigger (label `2026-05-09` per OD-021 schedule, execution UTC `2026-05-08`). **8 PR shipped Game/**: #2117 Skiv admin + #2118 synthetic iter2 + #2108 evo-swarm distill + #2119 normalize + #2120 OD-022 add + #2121 triage 5/7 + #2122 closure cumulative + #2123 OD-016 misplace + this completionist enrichment. Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression Day 1→2→3. evo-swarm run #5 score post-triage: 5/13 verified + 8/13 hallucinated + 2 redundant + 2 deferred. Net actionable per data integration immediate = ZERO (Claude judgment); 5 verified value non-data-integration pendente master-dd review. 10 discarded items preservati [museum card M-2026-05-08-001](docs/museum/cards/evo-swarm-run-5-discarded-claims.md). OD-022 trip-wire candidate Sprint Q+.
+- **Versione compact**: v32 (post sessione 2026-05-08 sera Day 3/7 closure final — 14 PR shipped autonomous + master-dd cross-repo + OD-022 IMPLICIT ACCEPT Sprint Q+ kickoff coordinazione)
+- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 final closure. **14 PR Game/ shipped** (~3.5h cumulative): #2118 + #2108 + #2119 + #2120 + #2121 + #2117 + #2122 + #2123 + #2125 + #2126 + #2129 + #2127 + #2128 (master-dd cross-repo) + #2130 (Sprint Q+ coordination). +#2124 closed senza merge. Tier 1 15/16 + 1 skip 39.8s ZERO regression Day 1→2→3. **OD-022 IMPLICIT ACCEPT** cross-repo evidence convergente (master-dd swarm-side #2128 + Claude Game-side #2129 pre-design). Sprint Q+ pre-req 5/5 ready, total effort post-Phase-B-accept ~19-23h.
 
-## ⚡ Resume trigger phrase canonical (next session — post-Day-3-monitoring)
+## ⚡ Resume trigger phrase canonical (next session — post-Day-3-final-closure)
 
-> _"leggi COMPACT_CONTEXT.md v31 + docs/planning/2026-05-07-phase-a-handoff-next-session.md. Phase A Day N/7 monitoring (Day 5 = 2026-05-11 iter3 trigger autonomous OD-021) + verifica master-dd playtest trigger Phase B."_
+> _"leggi COMPACT_CONTEXT.md v32 + docs/planning/2026-05-07-phase-a-handoff-next-session.md + docs/planning/2026-05-08-sprint-q-kickoff-coordination.md. Phase A Day 5/7 monitoring 2026-05-11 (synthetic iter3 trigger OD-021) + verifica master-dd Phase B verdict + OD-022 explicit verdict."_
+
+OR (post 7gg grace 2026-05-14):
+
+> _"Phase B ACCEPTED → Sprint Q+ kickoff bundle (Q-1→Q-12 + OD-022 step 3+4 ~19-23h). Eseguire ADR-2026-05-05 §6 archive + sprint-q-kickoff-coordination.md trigger sequence."_
 
 Handoff doc canonical: [`docs/planning/2026-05-07-phase-a-handoff-next-session.md`](docs/planning/2026-05-07-phase-a-handoff-next-session.md)
 
