@@ -35,6 +35,50 @@ test('submitCharacter idempotent on identical spec (no re-emit, reuse prior)', (
   assert.equal(first._deduplicated, undefined);
 });
 
+// Codex P2 #2134: dedupe must run BEFORE phase gate. Last ready player
+// retry burst arrives after auto-advance to world_setup → pre-fix threw
+// not_in_character_creation → phone shows spurious error toast post-success.
+test('submitCharacter idempotent dedupe runs after phase advance to world_setup', () => {
+  const co = new CoopOrchestrator({ roomCode: 'IDMP', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('character_creation');
+  const events = [];
+  co.on((evt) => {
+    if (evt.kind === 'character_ready') events.push(evt.payload);
+  });
+  const spec = {
+    name: 'Solo',
+    form_id: 'form_solo',
+    species_id: 's_solo',
+    job_id: 'guerriero',
+  };
+  // Single-player roster: first submit auto-advances to world_setup.
+  const first = co.submitCharacter('p_solo', spec, { allPlayerIds: ['p_solo'] });
+  assert.equal(co.phase, 'world_setup');
+  // Retry of identical spec post auto-advance must dedupe, NOT throw.
+  const second = co.submitCharacter('p_solo', spec, { allPlayerIds: ['p_solo'] });
+  assert.equal(second._deduplicated, true);
+  assert.equal(second.submitted_at, first.submitted_at);
+  // Only 1 event emitted total.
+  assert.equal(events.length, 1);
+});
+
+test('submitCharacter throws not_in_character_creation only when no prior + wrong phase', () => {
+  const co = new CoopOrchestrator({ roomCode: 'IDMP', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  // Fresh player, no prior submission, wrong phase → throw.
+  assert.throws(
+    () =>
+      co.submitCharacter(
+        'p_new',
+        { name: 'A', form_id: 'f', species_id: 's', job_id: 'guerriero' },
+        { allPlayerIds: ['p_new'] },
+      ),
+    /not_in_character_creation/,
+  );
+});
+
 test('submitCharacter re-emits when spec changes (name swap)', () => {
   const co = new CoopOrchestrator({ roomCode: 'IDMP', hostId: 'p_h' });
   co.startOnboarding({ scenarioStack: ['enc_demo'] });
