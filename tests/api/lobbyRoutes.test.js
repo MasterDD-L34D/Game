@@ -217,6 +217,28 @@ test('POST /api/lobby/rejoin 400 on missing fields', async () => {
   }
 });
 
+// B-NEW-4-bis fix 2026-05-08 (agent-driven smoke iter4) — distinguish
+// 404 (never existed) from 410 (recently closed) on the rejoin path.
+test('POST /api/lobby/rejoin 410 on room closed within TTL window', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    const { code, host_id, host_token } = create.body;
+    // Close the room → removes from live registry, marks recently_closed.
+    await request(app).post('/api/lobby/close').send({ code, host_token }).expect(200);
+    const res = await request(app)
+      .post('/api/lobby/rejoin')
+      .send({ code, player_id: host_id, player_token: host_token })
+      .expect(410);
+    assert.equal(res.body.error, 'room_closed');
+  } finally {
+    await close();
+  }
+});
+
 test('POST /api/lobby/rejoin 404 on unknown code', async () => {
   const { app, close } = newApp();
   try {

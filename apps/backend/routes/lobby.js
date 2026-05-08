@@ -78,7 +78,16 @@ function createLobbyRouter({ lobby } = {}) {
       return res.status(400).json({ error: 'code + player_id + player_token richiesti' });
     }
     const room = lobby.getRoom(code);
-    if (!room) return res.status(404).json({ error: 'room_not_found' });
+    if (!room) {
+      // B-NEW-4-bis: distinguish "never existed" from "recently closed".
+      // closeRoom drops the room from the live registry but retains the
+      // code in `_recentlyClosed` for RECENTLY_CLOSED_TTL_MS, so the
+      // returning phone gets 410 (session ended) instead of 404 (typo).
+      if (lobby.wasRecentlyClosed?.(code)) {
+        return res.status(410).json({ error: 'room_closed' });
+      }
+      return res.status(404).json({ error: 'room_not_found' });
+    }
     if (room.closed) return res.status(410).json({ error: 'room_closed' });
     const player = room.authenticate?.(playerId, playerToken);
     if (!player) return res.status(401).json({ error: 'auth_failed' });

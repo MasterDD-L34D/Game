@@ -102,6 +102,10 @@ const KNOWN_PHASES = new Set([
 // (keeps M11 Phase A semantics — players linger forever). Host path
 // is unchanged (existing host_transfer_grace_ms drives host promotion).
 const DEFAULT_GHOST_TIMEOUT_MS = 120_000;
+// B-NEW-4-bis: window during which a closed room code maps to HTTP 410
+// (Gone) on /lobby/rejoin instead of 404 (Not Found). 5 minutes covers
+// typical "phone backgrounded → user reopens" recovery.
+const RECENTLY_CLOSED_TTL_MS = 300_000;
 
 function generateRoomCode() {
   let out = '';
@@ -777,6 +781,16 @@ class LobbyService {
     persistence = null,
   } = {}) {
     this.rooms = new Map(); // code → Room
+    // B-NEW-4-bis fix 2026-05-08 (agent-driven smoke iter4) — TTL Set
+    // tracking recently-closed room codes so /api/lobby/rejoin can return
+    // 410 (room_closed) instead of 404 (room_not_found). Pre-fix: closeRoom
+    // dropped the entry from `rooms`, so a phone that exits + reopens
+    // mid-session got "room_not_found" + cleared its localStorage even
+    // though the canonical reason was "room closed by host". UX wise the
+    // distinction matters: 404 means "room never existed" → user creates
+    // new lobby; 410 means "session ended cleanly" → user goes home.
+    // Entries auto-expire after RECENTLY_CLOSED_TTL_MS.
+    this._recentlyClosed = new Map(); // code → expiry_ts
     this.maxPlayers = maxPlayers;
     this.prisma = prisma;
     this.logger = logger || console;
@@ -905,6 +919,7 @@ class LobbyService {
     }
     room.close();
     this.rooms.delete(normalized);
+    this._recentlyClosed.set(normalized, Date.now() + RECENTLY_CLOSED_TTL_MS);
     if (this._persistEnabled) {
       this._persistence
         .deleteRoomAsync(this.prisma, normalized, { logger: this.logger })
@@ -912,6 +927,22 @@ class LobbyService {
     }
     logLobbyEvent('close', { code: normalized, reason: 'host_closed' });
     return { code: normalized, closed: true };
+  }
+
+  /**
+   * B-NEW-4-bis: was this code closed within the recently-closed TTL?
+   * Used by /api/lobby/rejoin to disambiguate 404 vs 410.
+   */
+  wasRecentlyClosed(code) {
+    if (!code) return false;
+    const normalized = String(code).toUpperCase();
+    const expiry = this._recentlyClosed.get(normalized);
+    if (!expiry) return false;
+    if (Date.now() > expiry) {
+      this._recentlyClosed.delete(normalized);
+      return false;
+    }
+    return true;
   }
 
   getRoom(code) {
@@ -1716,6 +1747,32 @@ function createWsServer({
                   // Non-fatal — log and continue. Character submit will
                   // surface error if orch unhealthy.
                   console.warn('[ws] coop bootstrap failed:', err.message);
+                }
+              }
+              // B-NEW-1-bis fix 2026-05-08 (agent-driven smoke iter4) —
+              // phone host advancing manually via `phase=world_setup` WS
+              // intent updated `room.phase` but NEVER `orch.phase`.
+              // Subsequent `world_vote` intents threw `not_in_world_setup`
+              // and surfaced as no-op taps on the phone (no error toast on
+              // Godot composer). Sync orch phase so the connected-only
+              // quorum logic shipped in #2133 actually runs. Same pattern
+              // for combat / debrief / ended for symmetry — manual phase
+              // override on host phone keeps the orch state machine in
+              // sync. world_seed_reveal stays UI-only (transient).
+              if (
+                coopStore &&
+                (phaseArg === 'world_setup' ||
+                  phaseArg === 'combat' ||
+                  phaseArg === 'debrief' ||
+                  phaseArg === 'ended')
+              ) {
+                try {
+                  const orch = coopStore.get(room.code);
+                  if (orch && orch.phase !== phaseArg) {
+                    orch._setPhase(phaseArg);
+                  }
+                } catch (err) {
+                  console.warn(`[ws] orch phase sync to ${phaseArg} failed:`, err && err.message);
                 }
               }
               // 2026-05-06 narrative onboarding port — bootstrap orch in
