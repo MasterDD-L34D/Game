@@ -39,6 +39,27 @@ Phase A LIVE Day 3/7 trigger autonomous (OD-021 schedule label `2026-05-09`, exe
 
 **Day 5 (2026-05-11) iter3 schedule confermato per OD-021**.
 
+### 🟢 Worktree cleanup post-Phase-B-accept — deferred (~10min userland)
+
+8 worktree stale residue locali (eloquent-gagarin-db4e3f current preserved):
+
+- `bold-wiles-5b8e81` (docs/memory-save-day2-sprint-m7-chip)
+- `charming-mahavira-c45d4c` (docs/session-2026-05-07-sera-memory-save)
+- `dazzling-mirzakhani-20117a` (docs/adr-2026-05-05-accepted-phase-a-pending-validation)
+- `interesting-moore-8eddcc` (docs/closure-session-2026-05-06-wave-6-full-recap)
+- `peaceful-chaplygin-b74aa4` (docs/memory-save-audit-14-15-closure)
+- `practical-gauss-954b86` (claude/practical-gauss-954b86)
+- `vibrant-faraday-472863` (claude/vibrant-faraday-472863)
+
+Handoff §"Cleanup eseguito 2026-05-07" notes "left intact (claudia/handoff branches active)". Verify post-Phase-B accept (2026-05-14+) se branches ancora needed o safely removable. Comando:
+
+```bash
+git worktree remove .claude/worktrees/<name>
+git branch -D <branch-name>  # se branch fully merged + pushed
+```
+
+Trigger: post-Phase-B-accept verdict master-dd. Pre-req: verify ogni branch fully merged main via `gh pr list --search "head:<branch> is:merged"`.
+
 ### ✅ Phase A Day 2/7 monitoring — sessione 2026-05-08 — 4 PR shipped autonomous
 
 Phase A LIVE Day 2/7 monitoring window 2026-05-08. Master-dd silenzioso (no playtest signal). Claude autonomous research-only scoping + RCA + synthetic supplement.
