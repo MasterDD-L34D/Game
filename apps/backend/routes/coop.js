@@ -40,6 +40,15 @@ function createCoopRouter({ lobby, coopStore } = {}) {
       .map((p) => p.id);
   }
 
+  // B-NEW-1 fix 2026-05-08 — connected (WS-attached) non-host player ids.
+  // Used by world vote quorum so a disconnected peer doesn't block phase
+  // advance. Mirror of allPlayerIds with extra `connected` filter.
+  function connectedPlayerIds(room) {
+    return Array.from(room.players.values())
+      .filter((p) => p.id !== room.hostId && p.role !== 'host' && p.connected)
+      .map((p) => p.id);
+  }
+
   function broadcastCoopState(room, orch) {
     if (!room || typeof room.broadcast !== 'function') return;
     room.broadcast({
@@ -58,7 +67,7 @@ function createCoopRouter({ lobby, coopStore } = {}) {
     if (orch.phase === 'world_setup') {
       room.broadcast({
         type: 'world_tally',
-        payload: orch.worldTally(allPlayerIds(room)),
+        payload: orch.worldTally(allPlayerIds(room), connectedPlayerIds(room)),
       });
     }
     // M19 — debrief ready list if in debrief.
@@ -152,6 +161,7 @@ function createCoopRouter({ lobby, coopStore } = {}) {
         scenarioId,
         accept,
         allPlayerIds: allPlayerIds(room),
+        connectedPlayerIds: connectedPlayerIds(room),
       });
       broadcastCoopState(room, orch);
       return res.json({ phase: orch.phase, tally });

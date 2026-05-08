@@ -9,7 +9,12 @@ const request = require('supertest');
 const { createApp } = require('../../apps/backend/app');
 
 function newApp() {
-  return createApp({ databasePath: null });
+  const built = createApp({ databasePath: null });
+  // Expose lobby on app.locals for tests that need direct service access
+  // (host_transfer simulation, ghost timers). Routes already receive the
+  // service via DI; this is purely a test ergonomic.
+  built.app.locals.lobby = built.lobby;
+  return built;
 }
 
 test('POST /api/lobby/create returns 4-letter code + host token', async () => {
@@ -151,6 +156,135 @@ test('GET /api/lobby/list lists open rooms', async () => {
     const list = await request(app).get('/api/lobby/list').expect(200);
     assert.equal(list.body.count, 2);
     assert.ok(Array.isArray(list.body.rooms));
+  } finally {
+    await close();
+  }
+});
+
+// B-NEW-4 fix 2026-05-08 — phone exit + reopen now probes /lobby/rejoin
+// to validate the localStorage session before bouncing to the game shell.
+test('POST /api/lobby/rejoin returns room snapshot for valid host token', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    const { code, host_id, host_token } = create.body;
+    const res = await request(app)
+      .post('/api/lobby/rejoin')
+      .send({ code, player_id: host_id, player_token: host_token })
+      .expect(200);
+    assert.equal(res.body.code, code);
+    assert.equal(res.body.player_id, host_id);
+    assert.equal(res.body.role, 'host');
+    assert.equal(res.body.room.code, code);
+  } finally {
+    await close();
+  }
+});
+
+test('POST /api/lobby/rejoin works for joined player tokens', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    const code = create.body.code;
+    const join = await request(app)
+      .post('/api/lobby/join')
+      .send({ code, player_name: 'Bob' })
+      .expect(201);
+    const res = await request(app)
+      .post('/api/lobby/rejoin')
+      .send({ code, player_id: join.body.player_id, player_token: join.body.player_token })
+      .expect(200);
+    assert.equal(res.body.role, 'player');
+    assert.equal(res.body.player_id, join.body.player_id);
+  } finally {
+    await close();
+  }
+});
+
+test('POST /api/lobby/rejoin 400 on missing fields', async () => {
+  const { app, close } = newApp();
+  try {
+    await request(app).post('/api/lobby/rejoin').send({}).expect(400);
+    await request(app).post('/api/lobby/rejoin').send({ code: 'ABCD' }).expect(400);
+  } finally {
+    await close();
+  }
+});
+
+test('POST /api/lobby/rejoin 404 on unknown code', async () => {
+  const { app, close } = newApp();
+  try {
+    await request(app)
+      .post('/api/lobby/rejoin')
+      .send({ code: 'ZZZZ', player_id: 'p_x', player_token: 'tok' })
+      .expect(404);
+  } finally {
+    await close();
+  }
+});
+
+// Codex P2 #2133: post host_transfer demotion the old host token still
+// authenticates but the player_role is now `player`. Caller must trust
+// the response role over the local cached one.
+test('POST /api/lobby/rejoin reflects current role after host_transfer demotion', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    const code = create.body.code;
+    const join = await request(app)
+      .post('/api/lobby/join')
+      .send({ code, player_name: 'Bob' })
+      .expect(201);
+    // Promote Bob to host (simulates host_transfer fired by grace timer).
+    const {
+      LobbyService: _LobbyService,
+    } = require('../../apps/backend/services/network/wsSession');
+    void _LobbyService; // silence unused-import lint when present.
+    // Reach into app via supertest indirection: call the same global
+    // service used by routes.
+    const lobby = app.locals.lobby;
+    const room = lobby.getRoom(code);
+    room.transferHostTo(join.body.player_id, { reason: 'test_promotion' });
+    // Old host token still authenticates → response now reports role=player.
+    const ex = await request(app)
+      .post('/api/lobby/rejoin')
+      .send({
+        code,
+        player_id: create.body.host_id,
+        player_token: create.body.host_token,
+      })
+      .expect(200);
+    assert.equal(ex.body.role, 'player');
+    assert.equal(ex.body.room.host_id, join.body.player_id);
+  } finally {
+    await close();
+  }
+});
+
+test('POST /api/lobby/rejoin 401 on token mismatch', async () => {
+  const { app, close } = newApp();
+  try {
+    const create = await request(app)
+      .post('/api/lobby/create')
+      .send({ host_name: 'Alice' })
+      .expect(201);
+    await request(app)
+      .post('/api/lobby/rejoin')
+      .send({
+        code: create.body.code,
+        player_id: create.body.host_id,
+        player_token: 'WRONG_TOKEN',
+      })
+      .expect(401);
   } finally {
     await close();
   }

@@ -9,6 +9,59 @@ const {
   PHASES,
 } = require('../../apps/backend/services/coop/coopOrchestrator');
 
+// B-NEW-1 fix 2026-05-08 — worldTally now exposes connected-only quorum
+// flags so phone smoke does not stall when a peer drops mid-vote.
+test('worldTally exposes connected-only quorum when connectedPlayerIds passed', () => {
+  const co = new CoopOrchestrator({ roomCode: 'QUOR', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  const allIds = ['p_a', 'p_b'];
+  const connectedIds = ['p_a']; // p_b dropped silently
+  co.voteWorld('p_a', { accept: true, allPlayerIds: allIds, connectedPlayerIds: connectedIds });
+  const tally = co.worldTally(allIds, connectedIds);
+  assert.equal(tally.accept, 1);
+  assert.equal(tally.connected_total, 1);
+  assert.equal(tally.connected_accept, 1);
+  assert.equal(tally.connected_reject, 0);
+  assert.equal(tally.connected_pending, 0);
+  assert.equal(tally.all_connected_accepted, true);
+  // Legacy total/pending unchanged for back-compat callers.
+  assert.equal(tally.total, 2);
+  assert.equal(tally.pending, 1);
+});
+
+test('worldTally all_connected_accepted false when at least one connected reject', () => {
+  const co = new CoopOrchestrator({ roomCode: 'QUOR', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  const allIds = ['p_a', 'p_b'];
+  co.voteWorld('p_a', { accept: true, allPlayerIds: allIds, connectedPlayerIds: allIds });
+  co.voteWorld('p_b', { accept: false, allPlayerIds: allIds, connectedPlayerIds: allIds });
+  const tally = co.worldTally(allIds, allIds);
+  assert.equal(tally.connected_total, 2);
+  assert.equal(tally.connected_accept, 1);
+  assert.equal(tally.connected_reject, 1);
+  assert.equal(tally.all_connected_accepted, false);
+});
+
+test('worldTally all_connected_accepted false when zero connected players', () => {
+  const co = new CoopOrchestrator({ roomCode: 'QUOR', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  const tally = co.worldTally(['p_a'], []);
+  assert.equal(tally.connected_total, 0);
+  assert.equal(tally.all_connected_accepted, false);
+});
+
+test('worldTally back-compat omits connected_* fields when arg missing', () => {
+  const co = new CoopOrchestrator({ roomCode: 'QUOR', hostId: 'p_h' });
+  co.startOnboarding({ scenarioStack: ['enc_demo'] });
+  co._setPhase('world_setup');
+  const tally = co.worldTally(['p_a']);
+  assert.equal(tally.connected_total, undefined);
+  assert.equal(tally.all_connected_accepted, undefined);
+});
+
 test('PHASES covers lobby→onboarding→character_creation→world_setup→combat→debrief→ended', () => {
   // 2026-05-06 narrative onboarding port — `onboarding` inserted between
   // lobby and character_creation per canonical 51-ONBOARDING-60S.md.

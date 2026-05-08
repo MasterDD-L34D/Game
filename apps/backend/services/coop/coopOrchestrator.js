@@ -322,7 +322,7 @@ class CoopOrchestrator {
    * M18 — Player casts vote on proposed scenario. accept=true/false.
    * Host remains arbiter and must still confirmWorld() to commit.
    */
-  voteWorld(playerId, { scenarioId, accept = true, allPlayerIds = [] } = {}) {
+  voteWorld(playerId, { scenarioId, accept = true, allPlayerIds = [], connectedPlayerIds } = {}) {
     if (this.phase !== 'world_setup') throw new Error('not_in_world_setup');
     if (!playerId) throw new Error('player_id_required');
     const sid = scenarioId || this.run?.scenarioStack?.[this.run.currentIndex];
@@ -332,7 +332,7 @@ class CoopOrchestrator {
       ts: this.now(),
     });
     this._emit('world_vote', { player_id: playerId, scenario_id: sid, accept });
-    return this.worldTally(allPlayerIds);
+    return this.worldTally(allPlayerIds, connectedPlayerIds);
   }
 
   /**
@@ -443,8 +443,15 @@ class CoopOrchestrator {
 
   /**
    * M18 — Tally current world votes. Returns counts + breakdown.
+   *
+   * B-NEW-1 fix 2026-05-08 — accept optional `connectedPlayerIds` so phone
+   * smoke (Day 3/7 friends online) can compute quorum on connected players
+   * only. Pre-fix: tally pending counted offline players → vote stuck
+   * indefinitely when 2nd player WS dropped mid-vote. Now: caller may use
+   * `all_connected_accepted` flag to advance phase even with offline peers.
+   * Backward compat: when `connectedPlayerIds` omitted, behaves as before.
    */
-  worldTally(allPlayerIds = []) {
+  worldTally(allPlayerIds = [], connectedPlayerIds) {
     let accept = 0;
     let reject = 0;
     const perPlayer = {};
@@ -453,7 +460,7 @@ class CoopOrchestrator {
       else reject += 1;
       perPlayer[pid] = vote;
     }
-    return {
+    const tally = {
       scenario_id: this.run?.scenarioStack?.[this.run.currentIndex] || null,
       accept,
       reject,
@@ -461,6 +468,29 @@ class CoopOrchestrator {
       pending: Math.max(allPlayerIds.length - (accept + reject), 0),
       per_player: perPlayer,
     };
+    if (Array.isArray(connectedPlayerIds)) {
+      const connected = connectedPlayerIds.filter(Boolean);
+      const connectedTotal = connected.length;
+      let connectedAccept = 0;
+      let connectedReject = 0;
+      for (const pid of connected) {
+        const vote = this.worldVotes.get(pid);
+        if (!vote) continue;
+        if (vote.accept) connectedAccept += 1;
+        else connectedReject += 1;
+      }
+      const connectedVoted = connectedAccept + connectedReject;
+      tally.connected_total = connectedTotal;
+      tally.connected_accept = connectedAccept;
+      tally.connected_reject = connectedReject;
+      tally.connected_pending = Math.max(connectedTotal - connectedVoted, 0);
+      // True only when at least one connected player has voted AND every
+      // connected player voted accept. Empty connected set returns false
+      // (caller should not auto-advance with zero participants).
+      tally.all_connected_accepted =
+        connectedTotal > 0 && connectedAccept === connectedTotal && connectedReject === 0;
+    }
+    return tally;
   }
 
   /**
