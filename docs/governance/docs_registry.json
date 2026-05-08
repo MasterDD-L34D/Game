@@ -7309,6 +7309,32 @@
       "track": "active"
     },
     {
+      "path": "docs/reports/2026-05-08-day-3-completionist-multi-action-audit.md",
+      "title": "Day 3/7 sera completionist multi-action audit (B+D+E + A pre-design)",
+      "doc_status": "active",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 7,
+      "primary": false,
+      "track": "active"
+    },
+    {
+      "path": "docs/research/2026-05-08-od-022-validator-pre-design.md",
+      "title": "OD-022 swarm canonical validator - pre-design preview Day 3/7 sera",
+      "doc_status": "draft",
+      "doc_owner": "master-dd",
+      "workstream": "cross-cutting",
+      "last_verified": "2026-05-08",
+      "source_of_truth": false,
+      "language": "it",
+      "review_cycle_days": 30,
+      "primary": false,
+      "track": "active"
+    },
+    {
       "path": "docs/reports/Frattura_Abissale_Sinaptica_archivist_final.md",
       "title": "'Frattura Abissale Sinaptica – Step 9 (Archivist, STRICT MODE / SANDBOX)'",
       "doc_status": "historical_ref",
