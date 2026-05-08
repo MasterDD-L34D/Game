@@ -8,8 +8,8 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v31 (post sessione 2026-05-09 Day 3/7 monitoring iter2 — synthetic supplement regression check verde, master-dd playtest signal absent)
-- **Ultimo aggiornamento**: 2026-05-09 Day 3/7 monitoring (1 PR shipped autonomous: synthetic supplement iter2 + handoff Day 3 update + Day 3 evidence doc. Master-dd silenzioso 12+h post Day 2/7 closure. Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression vs iter1. **5/6 pillar 🟢++ invariati**. Cumulative Phase A Day 1+2+3 = 22 PR Claude-shipped autonomous.)
+- **Versione compact**: v31 (post sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize chip — synthetic iter2 verde, master-dd playtest absent, count audit gh ground truth)
+- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 trigger (label `2026-05-09` per OD-021 schedule, execution UTC `2026-05-08`). 2 PR shipped: #2118 synthetic iter2 + TBD normalize chip (count audit + CLAUDE.md sprint update + handoff date clarification). Tier 1 phone smoke 15/16 + 1 skip in 39.8s = ZERO regression. Cumulative gh ground truth Day 1+2 UTC = 43 PR cross-repo (29 Game/ + 14 Godot v2).
 
 ## ⚡ Resume trigger phrase canonical (next session — post-Day-3-monitoring)
 
@@ -21,11 +21,16 @@ OR (post 7gg grace 2026-05-14):
 
 > _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
 
-## ⚡ TL;DR sessione 2026-05-09 Day 3/7 monitoring — synthetic iter2 PASS + zero regression
+## ⚡ TL;DR sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize chip
 
-**Trigger**: user resume "leggi COMPACT_CONTEXT.md v30 + handoff. Phase A Day 3/7 monitoring 2026-05-09 — synthetic iter2 OR master-dd weekend playtest signal". Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Synthetic iter2 trigger autonomous per OD-021.
+**Trigger**: user resume "leggi COMPACT_CONTEXT.md v30 + handoff. Phase A Day 3/7 monitoring 2026-05-09 — synthetic iter2". Execution UTC = `2026-05-08` (1 calendar day anticipo vs OD-021 schedule label). Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116).
 
-**1 PR Game/ shipped autonomous Day 3**: synthetic supplement iter2 + handoff Day 3 update + memory closure (this commit).
+**Date label convention canonical**: filename + label = `<schedule-day>` (= `2026-05-09` per OD-021), body §setup = real UTC execution timestamp.
+
+**2 PR Game/ shipped autonomous Day 3 trigger**:
+
+- [#2118](https://github.com/MasterDD-L34D/Game/pull/2118) `27dc92e6` synthetic supplement iter2 + handoff Day 3 + COMPACT v31 + memory ritual
+- TBD-normalize: handoff date clarification + PR count audit gh ground truth + CLAUDE.md sprint Day 3 section
 
 **Synthetic iter2 evidence**:
 
@@ -42,7 +47,7 @@ OR (post 7gg grace 2026-05-14):
 - ✅ Zero functional regression Day 1 → Day 2 → Day 3
 - ✅ ADR §4.4 critical bug regression trigger NOT fired
 
-**Cumulative Phase A Day 1+2+3** = 22 PR Claude-shipped autonomous.
+**Cumulative Phase A gh ground truth Day 1+2 UTC** = 43 PR cross-repo (29 Game/ + 14 Godot v2). Vecchio tracking "21 Claude-shipped autonomous" sotto-stimava cross-repo + Codex iter rounds.
 
 **Day 4 (2026-05-10) skip per OD-021** (Day 3+5+7 only). Day 5 scheduled iter3 = 2026-05-11.
 
