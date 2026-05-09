@@ -40,6 +40,49 @@ const { selectAiPolicy, stepAway, DEFAULT_ATTACK_RANGE, loadAiConfig } = require
 const { selectAiPolicyUtility } = require('./utilityBrain');
 const { ARCHETYPE_VULN_CHANNEL } = require('../../routes/sessionConstants');
 
+// K4 Approach B — commit-window anti-flip guard helpers.
+// Detect direction reversal (oscillation) between consecutive utility-brain
+// move decisions and force previous intent for `commit_window` turns.
+// Reduces 2-unit kite cycles where score gradient flips faster than
+// additive stickiness can compensate (ref PR #2147 negative result).
+function _moveDirection(from, to) {
+  if (!from || !to) return null;
+  const dx = (Number(to.x) || 0) - (Number(from.x) || 0);
+  const dy = (Number(to.y) || 0) - (Number(from.y) || 0);
+  if (dx === 0 && dy === 0) return null;
+  if (Math.abs(dx) >= Math.abs(dy)) return dx > 0 ? 'E' : 'W';
+  return dy > 0 ? 'S' : 'N';
+}
+
+function _isOppositeDir(a, b) {
+  return (
+    (a === 'N' && b === 'S') ||
+    (a === 'S' && b === 'N') ||
+    (a === 'E' && b === 'W') ||
+    (a === 'W' && b === 'E')
+  );
+}
+
+function _detectFlip(actor, newIntent, newDirection) {
+  const lastKind = actor.last_action_type;
+  const lastDir = actor.last_move_direction;
+  if (!lastKind) return false;
+  // Action-kind reversal approach<->retreat
+  if (lastKind === 'retreat' && newIntent === 'approach') return true;
+  if ((lastKind === 'move' || lastKind === 'approach') && newIntent === 'retreat') return true;
+  // Direction reversal during consecutive moves (covers approach->approach with
+  // opposite direction as well — that's the canonical 1-tile kite oscillation)
+  if (
+    lastDir &&
+    newDirection &&
+    _isOppositeDir(lastDir, newDirection) &&
+    (newIntent === 'approach' || newIntent === 'retreat')
+  ) {
+    return true;
+  }
+  return false;
+}
+
 // M6-Z: pick canale attacco che sfrutta vuln del target basato su archetype.
 // Fallback "fisico" default se target senza archetype o archetype adattivo.
 function pickExploitChannel(target) {
@@ -260,6 +303,48 @@ function createDeclareSistemaIntents(deps) {
       } else {
         policy = selectAiPolicy(actor, target, null, threatCtx);
       }
+
+      // K4 Approach B — commit-window anti-flip guard. Reads
+      // `commit_window` (turns) from ai_profiles.yaml profile entry.
+      // When > 0:
+      //   - if a guard window is open (actor.commit_window_remaining > 0),
+      //     force the saved intent for this turn and decrement;
+      //   - else, detect intent/direction flip vs last committed action
+      //     and, if flipped, force previous intent for `commit_window` turns
+      //     (anti-oscillation lock).
+      // commit_window=2 → reverse-flip ignored, last intent commits 2 turns.
+      if (aiProfiles && aiProfiles.profiles && actor.ai_profile) {
+        const prof = aiProfiles.profiles[actor.ai_profile];
+        const cw = prof ? Number(prof.commit_window) || 0 : 0;
+        if (cw > 0) {
+          const remaining = Number(actor.commit_window_remaining) || 0;
+          if (remaining > 0 && actor.commit_window_intent) {
+            policy = { rule: 'COMMIT_WINDOW', intent: actor.commit_window_intent };
+            actor.commit_window_remaining = remaining - 1;
+          } else if (actor.last_action_type) {
+            const candidatePos =
+              policy.intent === 'retreat'
+                ? stepAway(actor.position, target.position, effectiveGrid)
+                : policy.intent === 'approach'
+                  ? stepTowards(actor.position, target.position)
+                  : null;
+            const candidateDir = candidatePos ? _moveDirection(actor.position, candidatePos) : null;
+            if (_detectFlip(actor, policy.intent, candidateDir)) {
+              const lastIntent =
+                actor.last_action_type === 'attack'
+                  ? 'attack'
+                  : actor.last_action_type === 'retreat'
+                    ? 'retreat'
+                    : 'approach';
+              policy = { rule: 'COMMIT_WINDOW_FLIP', intent: lastIntent };
+              // Apply for cw turns total INCLUDING this one — store cw-1.
+              actor.commit_window_remaining = Math.max(0, cw - 1);
+              actor.commit_window_intent = lastIntent;
+            }
+          }
+        }
+      }
+
       const distance = manhattanDistance(actor.position, target.position);
 
       // Fallback cornered: stessa logica di sistemaTurnRunner. Se
