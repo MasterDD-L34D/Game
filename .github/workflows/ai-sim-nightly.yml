@@ -118,6 +118,10 @@ jobs:
       - name: Evaluate thresholds
         id: eval
         run: |
+          # Disable bash -e for this step so a non-zero exit from
+          # check-thresholds.js (regression detected) does not abort
+          # the run before STATUS capture + GITHUB_OUTPUT write.
+          set +e
           node tools/sim/check-thresholds.js \
             --summary /tmp/ai-sim-nightly/batch-current/summary.json \
             --completion-floor "${COMPLETION_RATE_FLOOR}" \
