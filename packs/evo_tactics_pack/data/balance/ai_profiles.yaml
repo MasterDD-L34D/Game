@@ -29,12 +29,40 @@ profiles:
     # 2026-04-29 fix utilityBrain oscillation (action-aware TargetHealth/SelfHealth +
     # additive scoring) → kill-switch ripristinato a true. Apex tutorial_05 verificato
     # monotonic forward 5→4→3→2 (range scout). Vedi docs/reports/2026-04-29-utility-ai-oscillation-bug.md.
-    use_utility_brain: true
+    #
+    # FASE 2.x rollback 2026-05-09 (PR #2145 + K3 ablation):
+    # tutorial_01 multi-unit kite scenarios mostrano 2026-04-29 fix
+    # INCOMPLETO. N=40 K3 ablation ha confermato utility brain causale:
+    #   - aggressive utility ON   → 65% WR (35% timeout, 29.5 avg rounds)
+    #   - aggressive_no_util ABL  → 95% WR (0% timeout, 24.8 avg rounds)
+    # ΔWR +30pp. Flip kill-switch back to false fino a fix utilityBrain
+    # stickiness/commit-window (K4 follow-up audit).
+    # Cross-ref: docs/research/2026-05-09-aggressive-h1-validation-oscillation.md
+    use_utility_brain: false
     overrides:
       retreat_hp_pct: 0.15
       kite_buffer: 0
       default_attack_range: 2
       threat_passivity_threshold: 2 # reagisce prima al turtling
+
+  # FASE 2.x — K3 ablation profile (PR #2145 follow-up). Identical
+  # overrides al profilo `aggressive` ma `use_utility_brain: false` per
+  # isolare il contributo del utility brain alla sottoperformance
+  # osservata (aggressive 53.5% WR vs balanced 100% N=162). Validation
+  # pattern: run batch `--profiles aggressive,aggressive_no_util` +
+  # measure ΔWR delta:
+  #   ΔWR > 30pp → utility brain root cause confirmed → patch shipped
+  #   ΔWR < 10pp → utility brain non causale → escalate K4 stickiness
+  #   ΔWR 10-30pp → partial → combine K3 + K4
+  aggressive_no_util:
+    label: "Aggressivo (utility OFF — K3 ablation)"
+    description: "Aggressive con utility_brain disabilitato per isolare oscillation root cause."
+    use_utility_brain: false
+    overrides:
+      retreat_hp_pct: 0.15
+      kite_buffer: 0
+      default_attack_range: 2
+      threat_passivity_threshold: 2
 
   balanced:
     label: "Bilanciato"
