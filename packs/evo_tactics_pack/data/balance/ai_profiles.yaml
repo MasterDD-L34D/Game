@@ -96,6 +96,28 @@ profiles:
       default_attack_range: 2
       threat_passivity_threshold: 2
 
+  # FASE 2.x — K4 Approach B commit-window (PR-pending). Re-enable utility
+  # brain ma con anti-flip guard deterministico in declareSistemaIntents:
+  # quando la nuova policy intent reverses last_action_type OR la nuova
+  # direzione di movimento e' diametralmente opposta a last_move_direction,
+  # forza l'intent precedente per N turni (commit_window). Diversamente da
+  # Approach A (additive sticky), e' deterministico — non dipende dal peso
+  # relativo nelle considerations dello score utility brain. SPRT plan:
+  # confronto vs aggressive (utility OFF baseline 90% WR):
+  #   ≥ 88% WR → ship come default + supersede sticky variants
+  #   80-88%   → marginal → MAP-Elites grid combinato sticky + commit
+  #   < 80%    → escalate Approach C softmax temperature
+  aggressive_commit_window:
+    label: "Aggressivo (utility ON + K4 commit-window 2)"
+    description: "Aggressive utility ON con anti-flip guard deterministico (forza intent precedente 2 turni dopo flip detection)."
+    use_utility_brain: true
+    commit_window: 2
+    overrides:
+      retreat_hp_pct: 0.15
+      kite_buffer: 0
+      default_attack_range: 2
+      threat_passivity_threshold: 2
+
   balanced:
     label: "Bilanciato"
     description: "Comportamento default del Sistema. Nessun override."

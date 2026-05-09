@@ -1436,6 +1436,10 @@ function createRoundBridge(deps) {
             ia_rule: action.source_ia_rule,
             parry: res.parry,
           });
+          // K4 commit-window state — track last committed action kind so
+          // declareSistemaIntents flip detector has data next round.
+          actor.last_action_type = 'attack';
+          actor.last_move_direction = null;
         }
       } else if (action.type === 'move' && action.move_to) {
         const dest = action.move_to;
@@ -1478,6 +1482,27 @@ function createRoundBridge(deps) {
             position_to: { ...actor.position },
             ia_rule: action.source_ia_rule,
           });
+          // K4 commit-window state — derive committed move kind from
+          // source_ia_rule (REGOLA_002 = retreat, COMMIT_WINDOW* = forced
+          // last intent, else REGOLA_001 = approach/move). Direction
+          // recomputed from actual position delta, not facing (facing may
+          // differ in edge cases like dy>=dx ties).
+          const rule = action.source_ia_rule || '';
+          let kind = 'move';
+          if (rule === 'REGOLA_002') kind = 'retreat';
+          else if (rule === 'COMMIT_WINDOW' || rule === 'COMMIT_WINDOW_FLIP') {
+            kind = actor.commit_window_intent === 'retreat' ? 'retreat' : 'move';
+          }
+          actor.last_action_type = kind;
+          const dxDir = actor.position.x - positionFrom.x;
+          const dyDir = actor.position.y - positionFrom.y;
+          if (dxDir !== 0 || dyDir !== 0) {
+            if (Math.abs(dxDir) >= Math.abs(dyDir)) {
+              actor.last_move_direction = dxDir > 0 ? 'E' : 'W';
+            } else {
+              actor.last_move_direction = dyDir > 0 ? 'S' : 'N';
+            }
+          }
         }
       } else {
         actor.ap_remaining = Math.max(
