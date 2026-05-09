@@ -243,6 +243,22 @@ const DEFAULT_OBJECTIVES = {
       (target.attack_range ?? _cfg.DEFAULT_ATTACK_RANGE),
     weight: 0.4,
   },
+  // Phase A status-awareness (Sprint_020): prefer debuffed targets.
+  // slowed/disoriented/chilled reduce target effectiveness; marked amplifies next hit.
+  // Weight 0.5 = soft preference, does not override HP or range considerations.
+  attack_debuffed_target: {
+    checker: (_actor, target) => {
+      const s = target?.status;
+      if (!s) return false;
+      return (
+        Number(s.slowed) > 0 ||
+        Number(s.disoriented) > 0 ||
+        Number(s.chilled) > 0 ||
+        Number(s.marked) > 0
+      );
+    },
+    weight: 0.5,
+  },
 };
 
 /**

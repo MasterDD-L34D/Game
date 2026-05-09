@@ -164,3 +164,63 @@ describe('disoriented duration cap', () => {
     assert.equal(unit.status.disoriented, 1);
   });
 });
+
+// ── policy AI: hasDebuffStatus + attack_debuffed_target objective ─────────────
+
+function hasDebuffStatusSpec(unit) {
+  const s = unit?.status;
+  if (!s) return false;
+  return (
+    Number(s.slowed) > 0 ||
+    Number(s.disoriented) > 0 ||
+    Number(s.chilled) > 0 ||
+    Number(s.marked) > 0
+  );
+}
+
+describe('hasDebuffStatus: debuff detection', () => {
+  it('slowed > 0 → debuffed', () => {
+    assert.equal(hasDebuffStatusSpec({ status: { slowed: 2 } }), true);
+  });
+  it('disoriented > 0 → debuffed', () => {
+    assert.equal(hasDebuffStatusSpec({ status: { disoriented: 1 } }), true);
+  });
+  it('chilled > 0 → debuffed', () => {
+    assert.equal(hasDebuffStatusSpec({ status: { chilled: 2 } }), true);
+  });
+  it('marked > 0 → debuffed', () => {
+    assert.equal(hasDebuffStatusSpec({ status: { marked: 1 } }), true);
+  });
+  it('status vuoto → non debuffed', () => {
+    assert.equal(hasDebuffStatusSpec({ status: {} }), false);
+  });
+  it('solo burning/rage → non debuffed (non in lista)', () => {
+    assert.equal(hasDebuffStatusSpec({ status: { burning: 2, rage: 1 } }), false);
+  });
+  it('status null → non debuffed', () => {
+    assert.equal(hasDebuffStatusSpec({ status: null }), false);
+  });
+});
+
+function scoreDebuffObjectiveSpec(target) {
+  const DEBUFF_OBJECTIVE = {
+    checker: (_actor, t) => hasDebuffStatusSpec(t),
+    weight: 0.5,
+  };
+  return DEBUFF_OBJECTIVE.checker(null, target) ? DEBUFF_OBJECTIVE.weight : 0;
+}
+
+describe('attack_debuffed_target objective', () => {
+  it('target slowed: objective fires, score += 0.5', () => {
+    const score = scoreDebuffObjectiveSpec({ status: { slowed: 3 } });
+    assert.equal(score, 0.5);
+  });
+  it('target sano: objective non fires, score 0', () => {
+    const score = scoreDebuffObjectiveSpec({ status: {} });
+    assert.equal(score, 0);
+  });
+  it('target marked: objective fires (mark attivo da consumare)', () => {
+    const score = scoreDebuffObjectiveSpec({ status: { marked: 2 } });
+    assert.equal(score, 0.5);
+  });
+});
