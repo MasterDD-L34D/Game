@@ -1,0 +1,160 @@
+name: AI Sim Nightly
+
+# FASE 5 — nightly autonomous AI-vs-AI batch sim per drift detection.
+# Esegue tools/sim/batch-ai-runner.js sul backend locale (no tunnel
+# Cloudflare in CI), aggrega summary.json, confronta WR per-profile vs
+# baseline threshold + emette notifica via GitHub Issue su regression.
+#
+# Trigger:
+#   - cron 02:00 UTC daily
+#   - workflow_dispatch (manual)
+#
+# Outputs:
+#   - artifact `ai-sim-nightly-<run_id>` con runs/ + summary.json + report.md
+#   - GitHub Issue label `ai-sim-regression` se WR drift > 10pp OR completion < 95%
+#
+# Cross-ref:
+#   - tools/sim/batch-ai-runner.js (batch worker)
+#   - tests/smoke/ai-driven-sim.js (per-run sim harness)
+#   - packs/evo_tactics_pack/data/balance/ai_profiles.yaml (profile keys)
+#   - docs/research/2026-05-09-k4-commit-window-implementation.md (current baseline)
+
+on:
+  schedule:
+    # 02:00 UTC every day — off-peak, 10h after master-dd typical session end.
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      seed_count:
+        description: 'Seed count per profile'
+        type: number
+        default: 40
+      profiles:
+        description: 'Comma-separated profile keys'
+        type: string
+        default: 'aggressive,balanced,cautious'
+      max_rounds:
+        description: 'Max rounds per sim'
+        type: number
+        default: 40
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  # Baseline thresholds (PR #2149 verdict 2026-05-09):
+  #   aggressive (utility ON + commit_window 2)  100% WR  — alert <90% (ΔWR -10pp)
+  #   balanced                                   100% WR  — alert <90%
+  #   cautious                                   ~85% WR  — alert <75%
+  # Completion gate: ALL profiles must have completion_rate >= 0.95
+  # Drift gate: any profile WR shift > ±10pp vs canonical baseline
+  WR_DRIFT_THRESHOLD_PP: '10'
+  COMPLETION_RATE_FLOOR: '0.95'
+
+jobs:
+  sim:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start backend
+        run: |
+          mkdir -p /tmp/ai-sim-nightly
+          PORT=3334 nohup node apps/backend/index.js > /tmp/ai-sim-nightly/backend.log 2>&1 &
+          echo $! > /tmp/ai-sim-nightly/backend.pid
+          # Wait for health endpoint
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:3334/api/health > /dev/null 2>&1; then
+              echo "Backend ready after ${i}s"
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:3334/api/health || (cat /tmp/ai-sim-nightly/backend.log; exit 1)
+
+      - name: Run AI batch sweep
+        id: sweep
+        env:
+          TUNNEL: http://127.0.0.1:3334
+          AI_SIM_LOG_DIR: /tmp/ai-sim-nightly/runs-tmp
+        run: |
+          mkdir -p /tmp/ai-sim-runs
+          SEEDS="${{ github.event.inputs.seed_count || 40 }}"
+          PROFILES="${{ github.event.inputs.profiles || 'aggressive,balanced,cautious' }}"
+          MAX_ROUNDS="${{ github.event.inputs.max_rounds || 40 }}"
+          node tools/sim/batch-ai-runner.js \
+            --seed-count "$SEEDS" \
+            --concurrency 2 \
+            --profiles "$PROFILES" \
+            --max-rounds "$MAX_ROUNDS"
+          # batch-ai-runner emits to /tmp/ai-sim-runs/batch-<ISO>/
+          BATCH_DIR=$(ls -dt /tmp/ai-sim-runs/batch-* | head -1)
+          echo "batch_dir=$BATCH_DIR" >> $GITHUB_OUTPUT
+          cp -r "$BATCH_DIR" /tmp/ai-sim-nightly/batch-current
+
+      - name: Stop backend
+        if: always()
+        run: |
+          if [ -f /tmp/ai-sim-nightly/backend.pid ]; then
+            kill "$(cat /tmp/ai-sim-nightly/backend.pid)" 2>/dev/null || true
+          fi
+
+      - name: Evaluate thresholds
+        id: eval
+        run: |
+          node tools/sim/check-thresholds.js \
+            --summary /tmp/ai-sim-nightly/batch-current/summary.json \
+            --completion-floor "${COMPLETION_RATE_FLOOR}" \
+            --wr-drift-pp "${WR_DRIFT_THRESHOLD_PP}" \
+            --out /tmp/ai-sim-nightly/threshold-report.md \
+            >> $GITHUB_STEP_SUMMARY
+          STATUS=$?
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          if [ $STATUS -ne 0 ]; then
+            echo "regression=true" >> $GITHUB_OUTPUT
+          else
+            echo "regression=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-sim-nightly-${{ github.run_id }}
+          path: |
+            /tmp/ai-sim-nightly/batch-current/
+            /tmp/ai-sim-nightly/threshold-report.md
+            /tmp/ai-sim-nightly/backend.log
+          retention-days: 14
+
+      - name: Open regression issue
+        if: steps.eval.outputs.regression == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          BODY=$(cat /tmp/ai-sim-nightly/threshold-report.md)
+          gh issue create \
+            --title "AI sim nightly regression — $DATE" \
+            --body "$BODY" \
+            --label "ai-sim-regression,automated" \
+            --repo "${{ github.repository }}"
+
+      - name: Fail job on regression
+        if: steps.eval.outputs.regression == 'true'
+        run: |
+          echo "::error::AI sim nightly regression detected — see issue + artifact"
+          exit 1
