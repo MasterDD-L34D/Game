@@ -276,6 +276,12 @@ function createDeclareSistemaIntents(deps) {
           intent: 'attack',
           target_id: target.id,
           aggro_override: aggroOverride || undefined,
+          // RCA aggressive timeout (docs/research/2026-05-09-aggressive-profile-calibration.md):
+          // surface utility brain score + per-consideration breakdown when
+          // policy comes from selectAiPolicyUtility. Undefined for legacy
+          // rule-based selectAiPolicy — JSON.stringify drops, no payload bloat.
+          score: policy.score,
+          breakdown: policy.breakdown,
         });
         continue;
       }
@@ -343,6 +349,8 @@ function createDeclareSistemaIntents(deps) {
         target_id: target.id,
         move_to: nextPos,
         aggro_override: aggroOverride || undefined,
+        score: policy.score,
+        breakdown: policy.breakdown,
       });
     }
 
