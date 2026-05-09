@@ -3556,6 +3556,36 @@
       "label_en": "Xenobiotic Metabolism",
       "description_it": "The elements used to fight food poisonings are more effective.",
       "description_en": "The elements used to fight food poisonings are more effective."
+    },
+    "tela_appiccicosa": {
+      "label_it": "Tela Appiccicosa",
+      "label_en": "Sticky Web",
+      "description_it": "Ghiandole che secernono fili vischiosi. Ogni hit applica 3 turni di slowed: il target riceve -1 AP al reset turno (minimo 1 AP garantito).",
+      "description_en": "Glands that secrete sticky threads. Each hit applies 3 turns of slowed: the target loses 1 AP on turn reset (minimum 1 AP guaranteed)."
+    },
+    "marchio_predatorio": {
+      "label_it": "Marchio Predatorio",
+      "label_en": "Predatory Mark",
+      "description_it": "Feromoni predatori che segnalano il bersaglio alla squadra. Ogni hit applica 2 turni di marked: il prossimo attacco sul target ottiene +1 danno (il mark viene consumato al primo utilizzo).",
+      "description_en": "Predatory pheromones that signal the target to the squad. Each hit applies 2 turns of marked: the next attack on the target gains +1 damage (the mark is consumed on first use)."
+    },
+    "respiro_acido": {
+      "label_it": "Respiro Acido",
+      "label_en": "Acid Breath",
+      "description_it": "Ghiandole che spruzzano acido corrosivo incandescente. Ogni hit applica 3 turni di burning: il target subisce 2 PT di danno non riducibile al termine di ogni turno (più severo del sanguinamento).",
+      "description_en": "Glands that spray glowing corrosive acid. Each hit applies 3 turns of burning: the target takes 2 unreducible HP damage at the end of each turn (more severe than bleeding)."
+    },
+    "aura_glaciale": {
+      "label_it": "Aura Glaciale",
+      "label_en": "Glacial Aura",
+      "description_it": "Aura criogeina che raffredda i tessuti del bersaglio. Ogni hit applica 2 turni di chilled: il target perde 1 AP al reset di turno e subisce -1 ai tiri d'attacco (riflessi rallentati).",
+      "description_en": "Cryogenic aura that chills the target's tissues. Each hit applies 2 turns of chilled: the target loses 1 AP on turn reset and suffers -1 to attack rolls (slowed reflexes)."
+    },
+    "sussurro_psichico": {
+      "label_it": "Sussurro Psichico",
+      "label_en": "Psychic Whisper",
+      "description_it": "Sussurro sonico disorientante. Ogni hit solido (MoS >= 5) applica 1 turno di disoriented: il target subisce -2 ai tiri d'attacco (confusione sensoriale profonda, ma breve).",
+      "description_en": "Disorienting sonic whisper. Each solid hit (MoS >= 5) applies 1 turn of disoriented: the target suffers -2 to attack rolls (deep sensory confusion, but brief)."
     }
   }
 }

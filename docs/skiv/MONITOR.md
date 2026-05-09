@@ -3,7 +3,7 @@ title: Skiv Monitor — live creature feed
 doc_status: active
 doc_owner: docs-team
 workstream: cross-cutting
-last_verified: 2026-05-08T13:28:10Z
+last_verified: 2026-05-09T13:13:24Z
 source_of_truth: false
 language: it
 review_cycle_days: 7
@@ -37,40 +37,40 @@ tags: [skiv, monitor, autogen]
 ║  PHASE: Predatore Maturo                               ║
 ║  NEXT:  Apex delle Dune    (Lv 6 · mut 2 · th 3 · )  ║
 ║                                                              ║
-║  Repo pulse:  PR 1773  ISS+ 37  ISS- 35        ║
-║               WF✓ 2494  WF✗ 75  FIX  97        ║
+║  Repo pulse:  PR 1790  ISS+ 37  ISS- 35        ║
+║               WF✓ 2522  WF✗ 75  FIX 102        ║
 ╚══════════════════════════════════════════════════════════════╝
 
 **Lifecycle**: [Cucciolo ] [Predatore] [> Predatore <] [Apex dell] [Memoria d]
 
 ## Digestivo settimanale
 
-> 🦎 _Sento il prossimo me chiamare. Apex. Devo: Lv 6 + mut 2 + pensieri 3._
+> 🦎 _Maturità si stringe. Prossimo passo richiede Lv 6 + mut 2 + pensieri 3. Aspetto paziente._
 ```
 
-_Ultimo evento: wf-25558022451 · aggiornato 2026-05-08T13:28:10Z_
+_Ultimo evento: wf-25602002465 · aggiornato 2026-05-09T13:13:24Z_
 
 ## Eventi recenti (ultimi 10)
 
-- `2026-05-08T13:24:45` · **workflow_passed**  — 
+- `2026-05-09T13:13:23` · **workflow_passed**  — 
   > 🦎 _Test verde è sole sulla cresta._
-- `2026-05-08T13:23:54` · **workflow_passed**  — 
-  > 🦎 _Test verde è sole sulla cresta._
-- `2026-05-08T13:23:40` · **pr_merged** #2126 — 
-  > 🦎 _sole alto. Forse niente._
-- `2026-05-08T13:23:29` · **workflow_passed**  — 
-  > 🦎 _Macchina canta giusto. Sono teso._
-- `2026-05-08T13:23:13` · **workflow_passed**  — 
-  > 🦎 _Tutto in posto. buio. Respiro._
-- `2026-05-08T13:22:39` · **workflow_passed**  — 
+- `2026-05-09T13:00:38` · **workflow_passed**  — 
+  > 🦎 _ridge allineato. Bene così._
+- `2026-05-09T12:59:45` · **workflow_passed**  — 
+  > 🦎 _ridge allineato. Bene così._
+- `2026-05-09T12:59:31` · **pr_merged** #2146 — 
   > 🦎 _La voce interna non annuncia se stessa. Era gia li. E solo quando i sand_claws cambiano trasparenza — quella prima mattina di sole sulle punte vitrified — che Skiv capisce: il branco non lo segue piu. Lo evita. Non e pericolo. E riconoscimento._
-- `2026-05-08T13:22:38` · **workflow_passed**  — 
-  > 🦎 _Macchina canta giusto. Sono vigile._
-- `2026-05-08T13:22:05` · **workflow_passed**  — 
-  > 🦎 _vento allineato. Bene così._
-- `2026-05-08T12:53:56` · **workflow_passed**  — 
-  > 🦎 _Il branco non mi segue. Mi evita. La differenza conta._
-- `2026-05-08T12:53:03` · **workflow_passed**  — 
-  > 🦎 _Macchina canta giusto. Bene così._
+- `2026-05-09T12:59:02` · **workflow_passed**  — 
+  > 🦎 _Tutto in posto. Respiro._
+- `2026-05-09T12:58:58` · **workflow_passed**  — 
+  > 🦎 _Tutto in posto. polvere d'oro. Respiro._
+- `2026-05-09T12:58:23` · **workflow_passed**  — 
+  > 🦎 _vuoto allineato. Bene così._
+- `2026-05-09T12:58:04` · **workflow_passed**  — 
+  > 🦎 _La voce interna non annuncia se stessa. Era gia li. E solo quando i sand_claws cambiano trasparenza — quella prima mattina di sole sulle punte vitrified — che Skiv capisce: il branco non lo segue piu. Lo evita. Non e pericolo. E riconoscimento._
+- `2026-05-09T12:58:03` · **workflow_passed**  — 
+  > 🦎 _Tutto in posto. sole alto. Respiro._
+- `2026-05-09T12:56:42` · **workflow_passed**  — 
+  > 🦎 _Sistema dice sì. Allenatore sorride._
 
 > 🦎 _Sabbia segue._
