@@ -1449,6 +1449,48 @@ function createWsServer({
             }
             return;
           }
+          // B-NEW-14 fix 2026-05-09 — host WS world_confirm intent.
+          // Pre-fix only REST `/api/coop/world/confirm` exposed; phone
+          // composer had no host_token nor REST client wired for the
+          // confirm step → host stuck in MODE_WORLD_VOTE post tally
+          // accept (browser smoke iter6 caught). Now host phone can
+          // emit `intent {action:"world_confirm", scenario_id?, biome_id?}`
+          // and backend mirrors REST flow: validate host role via
+          // room.hostId, call orch.confirmWorld, broadcast phase_change.
+          if (action === 'world_confirm' && coopStore) {
+            try {
+              if (playerId !== room.hostId) {
+                socket.send(JSON.stringify({ type: 'error', payload: { code: 'host_only' } }));
+                return;
+              }
+              const orch = coopStore.get(room.code);
+              if (!orch) {
+                socket.send(
+                  JSON.stringify({ type: 'error', payload: { code: 'run_not_started' } }),
+                );
+                return;
+              }
+              const result = orch.confirmWorld({
+                scenarioId: msg.payload?.scenario_id,
+                biomeId: msg.payload?.biome_id,
+                formAxes: msg.payload?.form_axes,
+                runSeed: msg.payload?.run_seed,
+                trainerCanonical: msg.payload?.trainer_canonical,
+              });
+              room.publishPhaseChange(orch.phase);
+              const ackPayload = { scenario_id: result.scenario_id, phase: orch.phase };
+              if (result.enriched_world) Object.assign(ackPayload, result.enriched_world);
+              socket.send(JSON.stringify({ type: 'world_confirm_accepted', payload: ackPayload }));
+            } catch (err) {
+              socket.send(
+                JSON.stringify({
+                  type: 'error',
+                  payload: { code: err.message || 'world_confirm_failed' },
+                }),
+              );
+            }
+            return;
+          }
           // 2026-05-06 phone smoke W5 fix — drain world_vote intents
           // server-side via coopOrchestrator.voteWorld. Pre-fix the intent
           // was relayed to host Godot which has no GDScript handler →
