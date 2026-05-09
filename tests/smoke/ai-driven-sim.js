@@ -197,6 +197,34 @@ function logSection(title) {
   log('section', { title });
 }
 
+// RCA aggressive timeout (docs/research/2026-05-09-aggressive-profile-calibration.md):
+// extract Sistema AI decisions from /turn/end response (round_decisions array
+// emitted by handleTurnEndViaRound in sessionRoundBridge.js). One JSONL line
+// per Sistema unit per round documenting:
+//   - rule (UTILITY_AI / REGOLA_001 / REGOLA_002 / NO_TARGET / PRESSURE_CAP / STATO_*)
+//   - intent (attack / approach / retreat / skip)
+//   - target_id, score (utility brain), breakdown (per-consideration scores)
+//   - reason (skip cause: cornered / blocked / no enemy alive / stunned)
+// Distinguishes H1 (utility picks retreat, scoring issue), H2 (stepTowards
+// returns null, pathfinding issue), H3 (threat ctx null, injection issue).
+function logSistemaDecisions(round, body) {
+  if (!body || !Array.isArray(body.round_decisions)) return;
+  for (const d of body.round_decisions) {
+    log('sistema_decision', {
+      round,
+      unit_id: d.unit_id,
+      rule: d.rule || null,
+      intent: d.intent || null,
+      target_id: d.target_id ?? null,
+      score: typeof d.score === 'number' ? d.score : null,
+      breakdown: Array.isArray(d.breakdown) ? d.breakdown : null,
+      reason: d.reason || null,
+      move_to: d.move_to || null,
+      aggro_override: d.aggro_override || false,
+    });
+  }
+}
+
 (async () => {
   console.log(`AI sim run → ${LOG_PATH}`);
   console.log(`Tunnel: ${TUNNEL}`);
@@ -360,7 +388,8 @@ function logSection(title) {
     if (activeUnit.controlled_by === 'sistema') {
       // Server-side sistemaTurnRunner should have advanced the turn already
       // (via /turn/end). Force /turn/end to nudge if stuck.
-      await postJson('/api/session/turn/end', { session_id: sessionId });
+      const teRes = await postJson('/api/session/turn/end', { session_id: sessionId });
+      logSistemaDecisions(rounds, teRes.body);
       continue;
     }
 
@@ -368,7 +397,8 @@ function logSection(title) {
     const action = selectPlayerAction(activeUnit, units);
     if (!action) {
       // No valid target — end turn.
-      await postJson('/api/session/turn/end', { session_id: sessionId });
+      const teRes = await postJson('/api/session/turn/end', { session_id: sessionId });
+      logSistemaDecisions(rounds, teRes.body);
       continue;
     }
 
@@ -387,7 +417,8 @@ function logSection(title) {
 
     // End turn after single action (player AP=2 default; second action
     // optional — keep simple, end turn).
-    await postJson('/api/session/turn/end', { session_id: sessionId });
+    const teRes = await postJson('/api/session/turn/end', { session_id: sessionId });
+    logSistemaDecisions(rounds, teRes.body);
   }
 
   if (!outcome && rounds >= MAX_ROUNDS) outcome = 'timeout';
@@ -440,6 +471,15 @@ function logSection(title) {
   const restCalls = events.filter((e) => e.kind === 'rest').length;
   const wsEvents = events.filter((e) => e.kind === 'ws').length;
   const playerActions = events.filter((e) => e.kind === 'player_action').length;
+  const sistemaDecisions = events.filter((e) => e.kind === 'sistema_decision');
+  const intentDist = sistemaDecisions.reduce((acc, e) => {
+    acc[e.intent || 'unknown'] = (acc[e.intent || 'unknown'] || 0) + 1;
+    return acc;
+  }, {});
+  const ruleDist = sistemaDecisions.reduce((acc, e) => {
+    acc[e.rule || 'unknown'] = (acc[e.rule || 'unknown'] || 0) + 1;
+    return acc;
+  }, {});
   const phaseChanges = events.filter((e) => e.kind === 'ws' && e.type === 'phase_change');
   const totalDuration = events.length > 0 ? events[events.length - 1].ts - events[0].ts : 0;
 
@@ -449,6 +489,9 @@ function logSection(title) {
   console.log(`REST calls: ${restCalls}`);
   console.log(`WS events: ${wsEvents}`);
   console.log(`Player AI actions: ${playerActions}`);
+  console.log(`Sistema decisions: ${sistemaDecisions.length}`);
+  console.log(`  intent dist: ${JSON.stringify(intentDist)}`);
+  console.log(`  rule dist:   ${JSON.stringify(ruleDist)}`);
   console.log(`Combat outcome: ${outcome} (${rounds} rounds)`);
   console.log(`Phase progression: ${phaseChanges.map((e) => e.payload?.phase).join(' → ')}`);
   console.log(`Final phase: ${finalPhase}`);
