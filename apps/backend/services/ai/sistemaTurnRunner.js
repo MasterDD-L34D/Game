@@ -187,6 +187,9 @@ function createSistemaTurnRunner(deps) {
           ia_rule: policy.rule,
           parry,
         });
+        // K4 stickiness state tracking (attack branch).
+        actor.last_action_type = 'attack';
+        actor.last_move_direction = null;
         if (killOccurred) break;
         continue;
       }
@@ -252,15 +255,22 @@ function createSistemaTurnRunner(deps) {
       event.ia_controlled_unit = actor.id;
       await appendEvent(session, event);
       actor.ap_remaining = Math.max(0, actor.ap_remaining - 1);
+      const moveKind = policy.intent === 'retreat' ? 'retreat' : 'move';
       actions.push({
         actor: 'sistema',
         unit_id: actor.id,
-        type: policy.intent === 'retreat' ? 'retreat' : 'move',
+        type: moveKind,
         target: target.id,
         position_from: positionFrom,
         position_to: { ...actor.position },
         ia_rule: policy.rule,
       });
+      // K4 Approach A — track last action + move direction per actor so
+      // utilityBrain.scoreAction stickiness branch can reward consistent
+      // commits next turn. Reduces multi-unit kite oscillation observed
+      // in PR #2145 (aggressive 53.5% WR vs 95% K3 ablation).
+      actor.last_action_type = moveKind;
+      actor.last_move_direction = actor.facing || null;
     }
 
     return actions;

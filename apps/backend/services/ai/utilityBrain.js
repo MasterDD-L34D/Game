@@ -167,12 +167,32 @@ function manhattanFallback(a, b) {
  * Score a single action using all considerations.
  * Returns { score, breakdown: [{name, raw, curved, weighted}] }.
  */
+// K4 Approach A 2026-05-09 — stickiness term default weight. Bumped
+// pre-vs-post utility-OFF SPRT (#2146 K3 ablation 65%→95% +30pp WR;
+// production fix +36.5pp). Stickiness inhibits oscillation between
+// near-tie actions by giving the previously-committed action a small
+// additive bonus. Caller (sistemaTurnRunner) sets actor.last_action_type
+// + actor.last_move_direction post-commit each turn. Profile-overridable
+// via `stickiness_weight` in ai_profiles.yaml.
+const DEFAULT_STICKINESS_WEIGHT = 0.15;
+const DEFAULT_STICKINESS_DIRECTION_WEIGHT = 0.075;
+
+function _moveDirection(fromPos, toPos) {
+  if (!fromPos || !toPos) return null;
+  const dx = (toPos.x ?? 0) - (fromPos.x ?? 0);
+  const dy = (toPos.y ?? 0) - (fromPos.y ?? 0);
+  if (dx === 0 && dy === 0) return null;
+  if (Math.abs(dx) >= Math.abs(dy)) return dx > 0 ? 'E' : 'W';
+  return dy > 0 ? 'S' : 'N';
+}
+
 function scoreAction(
   action,
   actor,
   state,
   considerations = DEFAULT_CONSIDERATIONS,
   weightOverrides = {},
+  options = {},
 ) {
   // Additive aggregation. Was multiplicative ((weighted+0.01) accumulator)
   // ma sparse considerations (es. TargetHealth=0 su full-HP target) annichilavano
@@ -191,6 +211,26 @@ function scoreAction(
 
     totalScore += weighted;
     breakdown.push({ name, raw, curved, weighted });
+  }
+
+  // K4 stickiness — additive bonus when current action matches the
+  // previously-committed action_type / move direction. Reduces flip-flop
+  // oscillation in multi-unit kite scenarios (PR #2145 H1 validation
+  // captured 1-tile alternation between Sistema units).
+  const stickWeight = options.stickinessWeight ?? 0;
+  const stickDirWeight = options.stickinessDirectionWeight ?? stickWeight * 0.5;
+  if (stickWeight > 0 && actor && actor.last_action_type) {
+    if (action.type === actor.last_action_type) {
+      totalScore += stickWeight;
+      breakdown.push({ name: 'StickyAction', raw: 1, curved: 1, weighted: stickWeight });
+    }
+  }
+  if (stickDirWeight > 0 && action.type === 'move' && actor && actor.last_move_direction) {
+    const newDir = _moveDirection(actor.position, action.target_position);
+    if (newDir && newDir === actor.last_move_direction) {
+      totalScore += stickDirWeight;
+      breakdown.push({ name: 'StickyDirection', raw: 1, curved: 1, weighted: stickDirWeight });
+    }
   }
 
   return { score: totalScore, breakdown };
@@ -213,11 +253,19 @@ function selectAction(
 ) {
   if (!actions || actions.length === 0) return null;
 
-  const { selection = 'argmax', noise = 0 } = difficultyProfile;
+  const {
+    selection = 'argmax',
+    noise = 0,
+    stickiness_weight: stickinessWeight = 0,
+    stickiness_direction_weight: stickinessDirectionWeight,
+  } = difficultyProfile;
 
   // Score all actions
   const scored = actions.map((action) => {
-    const result = scoreAction(action, actor, state, considerations, weightOverrides);
+    const result = scoreAction(action, actor, state, considerations, weightOverrides, {
+      stickinessWeight,
+      stickinessDirectionWeight,
+    });
     // Add noise
     const noisyScore = result.score + (Math.random() - 0.5) * 2 * noise * result.score;
     return { action, score: Math.max(0, noisyScore), breakdown: result.breakdown };
