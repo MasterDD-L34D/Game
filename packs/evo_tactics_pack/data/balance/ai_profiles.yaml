@@ -27,18 +27,26 @@ profiles:
     description: "Attacca con poca considerazione per HP. Retreat solo in extremis."
     # Utility AI gradual rollout (ADR-2026-04-17 Q-001 T3.1): primo profile flip.
     # 2026-04-29 fix utilityBrain oscillation (action-aware TargetHealth/SelfHealth +
-    # additive scoring) → kill-switch ripristinato a true. Apex tutorial_05 verificato
-    # monotonic forward 5→4→3→2 (range scout). Vedi docs/reports/2026-04-29-utility-ai-oscillation-bug.md.
+    # additive scoring) → kill-switch ripristinato a true.
     #
-    # FASE 2.x rollback 2026-05-09 (PR #2145 + K3 ablation):
-    # tutorial_01 multi-unit kite scenarios mostrano 2026-04-29 fix
-    # INCOMPLETO. N=40 K3 ablation ha confermato utility brain causale:
-    #   - aggressive utility ON   → 65% WR (35% timeout, 29.5 avg rounds)
-    #   - aggressive_no_util ABL  → 95% WR (0% timeout, 24.8 avg rounds)
-    # ΔWR +30pp. Flip kill-switch back to false fino a fix utilityBrain
-    # stickiness/commit-window (K4 follow-up audit).
-    # Cross-ref: docs/research/2026-05-09-aggressive-h1-validation-oscillation.md
-    use_utility_brain: false
+    # FASE 2.x rollback 2026-05-09 (PR #2145 + K3 ablation): rollback to false
+    # post-confirmation utility brain causale (aggressive utility ON 65% WR vs
+    # ablation 95% WR, ΔWR +30pp).
+    #
+    # FASE 2.x SWAP 2026-05-09 sera (PR #2149 K4 Approach B verdict):
+    # commit-window guard deterministico in declareSistemaIntents recovery
+    # +10pp absolute (capped 100% N=40 vs K3 baseline 90% N=20). Re-enable
+    # utility_brain con commit_window: 2 — guard fires su flip detection
+    # (intent reversal OR direzione di movimento opposta a last_move_direction)
+    # forzando intent precedente per 2 turni. Combina exploration utility
+    # brain (weighted considerations) con anti-oscillation determinismo.
+    #
+    # Sweep results validation (PR #2149):
+    #   K3 baseline aggressive utility OFF      90% WR avg 25.0r
+    #   aggressive utility ON + commit_window 2 100% WR avg 24.2r (+10pp, -0.8r)
+    # Cross-ref: docs/research/2026-05-09-k4-commit-window-implementation.md
+    use_utility_brain: true
+    commit_window: 2
     overrides:
       retreat_hp_pct: 0.15
       kite_buffer: 0
