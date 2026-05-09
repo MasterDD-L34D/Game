@@ -385,6 +385,25 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-09 — Status Effects v2 Phase A gaps closed, 2 PR)
+
+**Sessione 2026-05-09 (Status Effects v2 Phase A gap-fill)**: Audit rivelò che i 5 stati Tier 1 (slowed/marked/burning/chilled/disoriented) erano già su main dal 2026-04-27. Sessione pivot su 2 gap residui: glossary sync + AI policy.
+
+| PR | Branch | Topic | CI |
+| -- | ------ | ----- | -- |
+| [#2138](https://github.com/MasterDD-L34D/Game/pull/2138) | `feat/status-phase-a-glossary` | Glossary sync: 5 trait Phase A (592→597 entries) | ✅ verde |
+| [#2139](https://github.com/MasterDD-L34D/Game/pull/2139) | `feat/status-phase-a-policy` | AI policy: `attack_debuffed_target` objective + debuff tie-break in pickTargetExcluding | in progress |
+
+**Test baseline post-sessione**: 52/52 status effects (+10 nuovi vs 42 baseline). AI totale: 220 pass / 10 fail infrastruttura (pre-esistenti, invariati).
+
+**Gap residui deferred**:
+- Gate 5 HUD surface (Priority 2): Godot v2 `unit_info_panel.gd` status icons — ~3-4h frontend
+- Phase B stati: burning+chilled interaction + frozen upgrade (design call master-dd needed)
+
+**Handoff**: `docs/planning/2026-05-09-status-effects-phase-a-handoff.md`
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-05-08 sera — Phase A Day 3/7 trigger autonomous + 7 PR cumulative)
 
 **Sessione 2026-05-08 sera (Day 3/7 trigger autonomous OD-021)**: 7 PR Game/ shipped cascade ~2.5h cumulative. User resume trigger phrase anticipato 1 calendar day vs OD-021 schedule (label = `2026-05-09`, execution UTC = `2026-05-08`). Day 5 iter3 schedule confermato `2026-05-11`.
@@ -948,4 +967,3 @@ Per creare/acquisire asset visivi/audio Evo-Tactics:
 - ❌ Paint-over fan-rip
 - ❌ AI img2img da asset proprietary
 - ❌ Style prompt artisti viventi
-- ❌ Skip provenance log `CREDITS.md`

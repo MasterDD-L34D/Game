@@ -150,6 +150,18 @@ function createDeclareSistemaIntents(deps) {
 
     // Helper inline: ripicka target escludendo IDs gia' presi.
     // Mantenuto inline per non allargare l'API pubblica di pickLowestHpEnemy.
+    // Phase A status-awareness: a parità di HP (±2 PT), preferisce target debuffati
+    // (slowed/disoriented/chilled/marked riducono efficacia del target).
+    function hasDebuffStatus(unit) {
+      const s = unit?.status;
+      if (!s) return false;
+      return (
+        Number(s.slowed) > 0 ||
+        Number(s.disoriented) > 0 ||
+        Number(s.chilled) > 0 ||
+        Number(s.marked) > 0
+      );
+    }
     function pickTargetExcluding(actor, excludeSet) {
       const actorFaction = actor.controlled_by;
       const candidates = session.units.filter(
@@ -161,7 +173,14 @@ function createDeclareSistemaIntents(deps) {
           !excludeSet.has(u.id),
       );
       if (!candidates.length) return null;
-      return candidates.reduce((lowest, c) => (!lowest || c.hp < lowest.hp ? c : lowest), null);
+      return candidates.reduce((best, c) => {
+        if (!best) return c;
+        const hpDiff = c.hp - best.hp;
+        if (Math.abs(hpDiff) > 2) return hpDiff < 0 ? c : best;
+        if (hasDebuffStatus(c) && !hasDebuffStatus(best)) return c;
+        if (!hasDebuffStatus(c) && hasDebuffStatus(best)) return best;
+        return hpDiff < 0 ? c : best;
+      }, null);
     }
 
     for (const actor of session.units) {
