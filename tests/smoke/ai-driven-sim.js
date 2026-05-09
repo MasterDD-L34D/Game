@@ -317,6 +317,29 @@ function logSection(title) {
       enemies: enemies.length,
       active_unit: st.active_unit,
     });
+    // FASE 2.x RCA validation — capture sistema decisions delta per
+    // round. session events tail includes Sistema actions with ia_rule
+    // + actor_id='sistema'. Filter to ia_rule so post-run jq validates
+    // H1 (utility brain retreat picks) vs H2 (move blocked pathfinding)
+    // vs H3 (threat passivity). Tail 30 covers ~3-4 sistema actions
+    // per round.
+    if (Array.isArray(st.events)) {
+      for (const ev of st.events) {
+        if (ev?.actor_id === 'sistema' || ev?.ia_rule) {
+          log('sistema_decision', {
+            round: rounds,
+            unit_id: ev.ia_controlled_unit || null,
+            ia_rule: ev.ia_rule || null,
+            action_type: ev.action_type || ev.type || null,
+            target_id: ev.target_id || ev.target || null,
+            position_from: ev.position_from || null,
+            position_to: ev.position_to || null,
+            damage_dealt: ev.damage_dealt || null,
+            event_ts: ev.ts || null,
+          });
+        }
+      }
+    }
 
     if (enemies.length === 0) {
       outcome = 'victory';
