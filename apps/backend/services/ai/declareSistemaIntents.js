@@ -215,7 +215,29 @@ function createDeclareSistemaIntents(deps) {
       const actorUseUtility = resolveUseUtilityBrain(actor);
       let policy;
       if (actorUseUtility) {
-        policy = selectAiPolicyUtility(actor, target, {}, difficultyProfile);
+        // K4 stickiness — merge per-profile stickiness_weight (and
+        // optional direction weight) into the difficultyProfile passed
+        // to selectAction. ai_profiles.yaml entry can declare:
+        //   <profile>:
+        //     stickiness_weight: 0.15
+        //     stickiness_direction_weight: 0.075   (optional, defaults to half)
+        // Profile fallback to base difficultyProfile (zero stickiness).
+        let stickyDifficulty = difficultyProfile;
+        if (aiProfiles && aiProfiles.profiles && actor && actor.ai_profile) {
+          const prof = aiProfiles.profiles[actor.ai_profile];
+          if (prof) {
+            const sw = prof.stickiness_weight;
+            const sdw = prof.stickiness_direction_weight;
+            if (typeof sw === 'number' || typeof sdw === 'number') {
+              stickyDifficulty = {
+                ...difficultyProfile,
+                ...(typeof sw === 'number' ? { stickiness_weight: sw } : {}),
+                ...(typeof sdw === 'number' ? { stickiness_direction_weight: sdw } : {}),
+              };
+            }
+          }
+        }
+        policy = selectAiPolicyUtility(actor, target, {}, stickyDifficulty);
       } else {
         policy = selectAiPolicy(actor, target, null, threatCtx);
       }
@@ -276,6 +298,12 @@ function createDeclareSistemaIntents(deps) {
           intent: 'attack',
           target_id: target.id,
           aggro_override: aggroOverride || undefined,
+          // RCA aggressive timeout (docs/research/2026-05-09-aggressive-profile-calibration.md):
+          // surface utility brain score + per-consideration breakdown when
+          // policy comes from selectAiPolicyUtility. Undefined for legacy
+          // rule-based selectAiPolicy — JSON.stringify drops, no payload bloat.
+          score: policy.score,
+          breakdown: policy.breakdown,
         });
         continue;
       }
@@ -343,6 +371,8 @@ function createDeclareSistemaIntents(deps) {
         target_id: target.id,
         move_to: nextPos,
         aggro_override: aggroOverride || undefined,
+        score: policy.score,
+        breakdown: policy.breakdown,
       });
     }
 
