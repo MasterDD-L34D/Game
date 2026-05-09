@@ -8,10 +8,18 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v32 (post sessione 2026-05-08 sera Day 3/7 closure final — 14 PR shipped autonomous + master-dd cross-repo + OD-022 IMPLICIT ACCEPT Sprint Q+ kickoff coordinazione)
-- **Ultimo aggiornamento**: 2026-05-08 sera Day 3/7 final closure. **14 PR Game/ shipped** (~3.5h cumulative): #2118 + #2108 + #2119 + #2120 + #2121 + #2117 + #2122 + #2123 + #2125 + #2126 + #2129 + #2127 + #2128 (master-dd cross-repo) + #2130 (Sprint Q+ coordination). +#2124 closed senza merge. Tier 1 15/16 + 1 skip 39.8s ZERO regression Day 1→2→3. **OD-022 IMPLICIT ACCEPT** cross-repo evidence convergente (master-dd swarm-side #2128 + Claude Game-side #2129 pre-design). Sprint Q+ pre-req 5/5 ready, total effort post-Phase-B-accept ~19-23h.
+- **Versione compact**: v33 (post sessione 2026-05-09 sera K4 Approach B + 4 task autonomous closure — 4 PR Game/ shipped main)
+- **Ultimo aggiornamento**: 2026-05-09 sera. **4 PR Game/ shipped** ~2-2.5h cumulative: #2149 K4 Approach B commit-window guard (100% WR N=40 +10pp baseline) + #2150 swap default aggressive utility ON + commit_window 2 + #2151 FASE 1 T1.3 browser sync spectator Playwright harness + #2153 FASE 5 nightly cron `.github/workflows/ai-sim-nightly.yml` + threshold checker. Cumulative Day 5 (2026-05-09 mattina+sera) = **13 PR Game/ shipped** (#2140-#2151 + #2153) + 1 Godot v2 + 1 Godot v2 direct main.
 
-## ⚡ Resume trigger phrase canonical (next session — post-Day-3-final-closure)
+## ⚡ Resume trigger phrase canonical (next session — post-2026-05-09-sera)
+
+> _"verifica primo nightly cron run 2026-05-10 02:00 UTC (artifact + threshold report) + esegui scenario diversity sweep aggressive default × enc_tutorial_02..05 + hardcore-\*"_
+
+OR (post first nightly run pass):
+
+> _"esegui MAP-Elites K4 grid — sticky × commit × softmax cells ~150 runs"_
+
+OR (Phase A Day 5/7 monitoring continua):
 
 > _"leggi COMPACT_CONTEXT.md v32 + docs/planning/2026-05-07-phase-a-handoff-next-session.md + docs/planning/2026-05-08-sprint-q-kickoff-coordination.md. Phase A Day 5/7 monitoring 2026-05-11 (synthetic iter3 trigger OD-021) + verifica master-dd Phase B verdict + OD-022 explicit verdict."_
 
@@ -24,6 +32,35 @@ Handoff doc canonical: [`docs/planning/2026-05-07-phase-a-handoff-next-session.m
 OR (post 7gg grace 2026-05-14):
 
 > _"Phase B archive web v1 formal post 7gg grace + 1+ playtest pass — eseguire ADR-2026-05-05 §6"_
+
+## ⚡ TL;DR sessione 2026-05-09 sera K4 Approach B + 4 task autonomous closure
+
+**Trigger**: user resume "leggi `docs/planning/2026-05-09-fase1-2-handoff-next-session.md`, esegui Option A K4 Approach B commit-window" → escalation "3+5+esegui FASE 1 T1.3" → grant esplicito `.github/workflows/` "si facciamo subito".
+
+**4 PR Game/ shipped main 2026-05-09 sera**:
+
+- [#2149](https://github.com/MasterDD-L34D/Game/pull/2149) `e608ddd8` K4 Approach B commit-window guard 100% WR N=40 (+10pp vs K3 baseline 90%, avg rounds -0.8r). Side-fix critico: state tracking `last_action_type` + `last_move_direction` ora in `sessionRoundBridge.js realResolveAction` post-commit (pre-PR esisteva solo in legacy `sistemaTurnRunner.js` DEAD path → K4 sticky era no-op nel round flow).
+- [#2150](https://github.com/MasterDD-L34D/Game/pull/2150) `94dabd95` swap default aggressive profile → utility ON + commit_window 2. Profile alternativi preservati ablation (`aggressive_no_util`, sticky variants, explicit `aggressive_commit_window`).
+- [#2151](https://github.com/MasterDD-L34D/Game/pull/2151) `9f8bcaae` FASE 1 T1.3 browser sync spectator Playwright headless + visual diff CLI 3 modi. Smoke validato 4 PNG cattura + manifest.json + telemetry.jsonl. Open question phone composer no canvas → DOM bbox vs PNG fallback.
+- [#2153](https://github.com/MasterDD-L34D/Game/pull/2153) `ebb04e8f` FASE 5 nightly cron `.github/workflows/ai-sim-nightly.yml` + `tools/sim/check-thresholds.js`. Cron 02:00 UTC, drift threshold ±10pp, completion floor 95%. Su regression: GH Issue label `ai-sim-regression,automated` + artifact 14d retention. **First scheduled run 2026-05-10 02:00 UTC**.
+
+**Sweep N=40 K4 commit-window evidence**:
+
+- victory: 40/40 = **100% WR** (cap), avg_rounds 24.2 (-0.8 vs baseline 25.0)
+- baseline N=20 K3 prod re-validated stesso tunnel: 18V/2D = **90% WR** avg 25.0r
+- ΔWR +10pp absolute (capped). Zero timeouts, zero defeats.
+- Guard footprint: 90 firings / 1208 SIS decisions = 7.4%. 9/40 runs ZERO firings (target non oscillava → guard dormant, utility brain pulito vince).
+
+**Pillar deltas**: P1 Tattica 🟢++ (commit-window deterministico = AI behavior più readable). P5 Co-op 🟢 confermato. Altri invariati.
+
+**Cumulative Day 5 (2026-05-09)** = 13 PR Game/ shipped main (#2140-#2151 + #2153) + 1 Godot v2 + 1 Godot v2 direct main.
+
+**Lessons codified questa sessione**:
+
+- **Round flow state tracking gap** (PR #2149 side-fix): K4 sticky PR #2147 era no-op nel round flow perché `last_action_type` esisteva solo in legacy `sistemaTurnRunner.js` (DEAD path M17 ADR-2026-04-16). Il fix ha riabilitato retroattivamente sticky variants (out of scope re-test).
+- **Determinismo > additive sticky** in 2-unit kite oscillation: weighted sum considerations (Distance/TargetHealth/SelfHealth) dominava additive 0.30 max. Anti-flip guard con override hard-coded del policy.intent ignora score gradient.
+- **`.github/workflows/` grant explicit user-side**: classifier blocca ogni write/copy senza grant esplicito. User dice "fallo" → autorizzato. Senza esplicito → STOP + surface decision.
+- **Playwright > Chrome MCP per CI-friendly visual regression**: già dev-dep installata, headless di default, no extension/user-profile dipendenza.
 
 ## ⚡ TL;DR sessione 2026-05-08 sera Day 3/7 trigger autonomous + normalize chip
 

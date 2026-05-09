@@ -9,6 +9,43 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ K4 Approach B + 4 task autonomous closure — sessione 2026-05-09 sera — 4 PR shipped
+
+K4 follow-up cycle complete + 3 task scaling parallel. Resume trigger user "leggi handoff PR #2148, esegui Option A K4 Approach B" + escalation "3+5+esegui FASE 1 T1.3" + grant esplicito `.github/workflows/`.
+
+| #   | PR                                                       | SHA        | Topic                                                                          |
+| --- | -------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------ |
+| 1   | [#2149](https://github.com/MasterDD-L34D/Game/pull/2149) | `e608ddd8` | K4 Approach B commit-window guard 100% WR N=40 (+10pp vs K3 baseline 90%)      |
+| 2   | [#2150](https://github.com/MasterDD-L34D/Game/pull/2150) | `94dabd95` | Swap default aggressive profile → utility ON + commit_window 2                 |
+| 3   | [#2151](https://github.com/MasterDD-L34D/Game/pull/2151) | `9f8bcaae` | FASE 1 T1.3 browser sync spectator Playwright harness + visual diff CLI        |
+| 4   | [#2153](https://github.com/MasterDD-L34D/Game/pull/2153) | `ebb04e8f` | FASE 5 nightly cron `.github/workflows/ai-sim-nightly.yml` + threshold checker |
+
+**K4 commit-window evidence (PR #2149 sweep N=40)**:
+
+- victory: 40/40 = **100% WR** (cap), avg_rounds 24.2 (-0.8 vs baseline 25.0)
+- baseline N=20 K3 prod re-validated stesso tunnel: 18V/2D = **90% WR** avg 25.0r
+- ΔWR +10pp absolute (capped). Zero timeouts, zero defeats.
+- Guard footprint: 90 firings / 1208 SIS decisions = 7.4%
+
+**Side-fix critico (PR #2149)**: state tracking `last_action_type` + `last_move_direction` ora in `sessionRoundBridge.js realResolveAction` post-commit. Pre-PR esisteva solo in legacy `sistemaTurnRunner.js` (DEAD path M17 ADR-2026-04-16) → K4 sticky era no-op nel round flow.
+
+**Production state ai_profiles.yaml post-#2150**: `aggressive` profile = utility ON + commit_window 2. Profile alternativi preservati ablation (`aggressive_no_util`, `aggressive_with_stickiness`, `aggressive_sticky_30`, `aggressive_commit_window`).
+
+**FASE 5 nightly cron (PR #2153)**: cron 02:00 UTC daily, drift threshold ±10pp WR + completion floor 95%. Su regression: GH Issue label `ai-sim-regression,automated` + artifact upload 14d retention. **First scheduled run 2026-05-10 02:00 UTC**.
+
+**T1.3 browser sync (PR #2151)**: Playwright chromium headless harness, hook `window.__evoLobbyBridge._currentPhase` poll 200ms, PNG + grid signature 4×4 RGBA su ogni `phase_change`. Smoke validato 4 PNG cattura. Open question master-dd: phone composer no canvas → DOM bbox sample vs PNG-only fallback.
+
+**Cumulative Day 5 (2026-05-09 mattina+sera)** = 13 PR Game/ shipped main (#2140-#2151 + #2153) + 1 Godot v2 + 1 Godot v2 direct main.
+
+**Pillar deltas**: P1 Tattica 🟢++ (commit-window deterministico = AI behavior più readable). Altri invariati.
+
+**Open question pendenti master-dd**:
+
+- T1.3 phone composer no canvas → DOM bbox sample vs PNG fallback (next-iter design call)
+- BASELINE_WR.cautious update post empirical N=40 (default 0.85 placeholder)
+
+**Day 5 (2026-05-11) iter3 schedule confermato per OD-021** (invariato).
+
 ### ✅ Phase A Day 3/7 trigger autonomous — sessione 2026-05-08 sera — 14 PR shipped (closure final)
 
 Phase A LIVE Day 3/7 trigger autonomous (OD-021 schedule label `2026-05-09`, execution UTC `2026-05-08`). Master-dd weekend playtest signal **ABSENT** (12+h silenzio post Day 2/7 closure #2116). Cascade ~3.5h cumulative: synthetic iter2 + normalize chip + evo-swarm distillation + OD-022 add + triage + Skiv admin + closure cumulative + OD audit + completionist enrichment + final closure + multi-action + master-dd cross-repo + coordination + final-final.

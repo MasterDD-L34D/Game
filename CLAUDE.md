@@ -385,18 +385,67 @@ Primary working directory is on Windows, but the shell is bash (Git Bash/MSYS) �
      archived in docs/archive/historical-snapshots/2026-04-28-pre-consolidation/CLAUDE-sprint-context-archive.md.
      Live runtime status pillars → docs/reports/PILLAR-LIVE-STATUS.md (single SOT runtime). -->
 
+## 🎮 Sprint context (aggiornato: 2026-05-09 sera — K4 Approach B + 4 task autonomous closure)
+
+**Sessione 2026-05-09 sera (K4 Approach B commit-window + cascade 4 task autonomous)**: 4 PR Game/ shipped main ~2-2.5h cumulative. Resume trigger user "leggi handoff PR #2148, esegui Option A K4 Approach B commit-window" + escalation "3+5+esegui FASE 1 T1.3" + grant esplicito `.github/workflows/`.
+
+| PR                                                       | Squash     | Topic                                                                          |
+| -------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------ |
+| [#2149](https://github.com/MasterDD-L34D/Game/pull/2149) | `e608ddd8` | K4 Approach B commit-window guard 100% WR N=40 (+10pp vs K3 baseline 90%)      |
+| [#2150](https://github.com/MasterDD-L34D/Game/pull/2150) | `94dabd95` | swap default aggressive profile → utility ON + commit_window 2                 |
+| [#2151](https://github.com/MasterDD-L34D/Game/pull/2151) | `9f8bcaae` | FASE 1 T1.3 browser sync spectator harness Playwright + visual diff            |
+| [#2153](https://github.com/MasterDD-L34D/Game/pull/2153) | `ebb04e8f` | FASE 5 nightly cron `.github/workflows/ai-sim-nightly.yml` + threshold checker |
+
+**K4 Approach B (PR #2149) — anti-flip commit-window guard deterministico**:
+
+- `_detectFlip(actor, newIntent, newDirection)` in `declareSistemaIntents.js` rileva intent reversal (approach↔retreat) OR direction reversal (N↔S, E↔W) vs `last_action_type` / `last_move_direction`.
+- Su flip detected → forza intent precedente per `commit_window` turni (=2 default).
+- **Side-fix critico**: state tracking `last_action_type` + `last_move_direction` ora avviene in `sessionRoundBridge.js realResolveAction` post-commit. Pre-PR esisteva solo in `sistemaTurnRunner.js` (legacy DEAD path M17 ADR-2026-04-16) — K4 sticky era no-op nel round flow.
+- Sweep N=40 vs K3 baseline N=20: 100% WR / avg 24.2r vs 90% WR / 25.0r. Zero timeouts, zero defeats. 7.4% guard footprint (90 firings / 1208 SIS decisions).
+- Hypothesis confirmed: determinismo beats additive sticky (PR #2147 negative result @ 55-60% WR).
+
+**Default aggressive profile swap (PR #2150)**: production state ai_profiles.yaml ora utility ON + commit_window 2. Profile alternativi preservati per ablation testing (`aggressive_no_util`, `aggressive_with_stickiness`, `aggressive_sticky_30`, `aggressive_commit_window`).
+
+**FASE 1 T1.3 browser sync spectator (PR #2151)**: twin-harness di `tests/smoke/ai-driven-sim.js`. Playwright chromium headless, hook su `window.__evoLobbyBridge._currentPhase` (poll 200ms), cattura PNG full-page + grid signature 4×4 RGBA su ogni `phase_change`. Diff utility CLI 3 modi (`--baseline` / `--compare` / `--compare-baseline`). Smoke validato 4 PNG cattura + manifest.json + telemetry.jsonl. Open question master-dd: phone composer no canvas → DOM bbox sample vs PNG-only fallback (PNG fallback shipped).
+
+**FASE 5 nightly cron (PR #2153)**: `ai-sim-nightly.yml` cron 02:00 UTC daily + workflow_dispatch. Backend boot localhost → batch-ai-runner N=40 × 3 profile → `tools/sim/check-thresholds.js` aggrega vs canonical baseline → su regression open GH Issue label `ai-sim-regression,automated` + artifact upload 14d retention. Drift threshold ±10pp WR + completion floor 95%. **First scheduled run 2026-05-10 02:00 UTC**.
+
+**Cumulative Day 5 (2026-05-09)** = 13 PR Game/ shipped main (#2140-#2151 + #2153) + 1 Godot v2 + 1 Godot v2 direct main.
+
+**Pillar deltas**: P1 Tattica 🟢++ (commit-window deterministico = AI behavior più readable). P5 Co-op 🟢 confermato (zero regressione sim baseline). Altri pilastri invariati.
+
+**Resume trigger phrase canonical** (ANY PC, next session):
+
+> _"verifica nightly cron 2026-05-10 02:00 UTC primo run + esegui scenario diversity sweep `aggressive` × enc_tutorial_02..05 + hardcore-\*"_
+
+OR (post first nightly run pass):
+
+> _"esegui MAP-Elites K4 grid — sticky × commit × softmax cells ~150 runs"_
+
+**Next session candidati**:
+
+- A) Verifica primo nightly cron run (artifact + threshold report)
+- B) Scenario diversity sweep aggressive default × 5+ scenari (~10-15min)
+- C) MAP-Elites combo grid sticky × commit × softmax (~150 runs ~2-3h)
+- D) `--with-spectator` flag in `batch-ai-runner.js` (T1.3 next-iter ~1-2h)
+- E) BASELINE_WR.cautious update post empirical N=40 measurement
+- F) Master-dd playtest LIVE balance check post profile swap (NICE-TO-HAVE)
+
+---
+
 ## 🎮 Sprint context (aggiornato: 2026-05-09 — Status Effects v2 Phase A gaps closed, 2 PR)
 
 **Sessione 2026-05-09 (Status Effects v2 Phase A gap-fill)**: Audit rivelò che i 5 stati Tier 1 (slowed/marked/burning/chilled/disoriented) erano già su main dal 2026-04-27. Sessione pivot su 2 gap residui: glossary sync + AI policy.
 
-| PR | Branch | Topic | CI |
-| -- | ------ | ----- | -- |
-| [#2138](https://github.com/MasterDD-L34D/Game/pull/2138) | `feat/status-phase-a-glossary` | Glossary sync: 5 trait Phase A (592→597 entries) | ✅ verde |
-| [#2139](https://github.com/MasterDD-L34D/Game/pull/2139) | `feat/status-phase-a-policy` | AI policy: `attack_debuffed_target` objective + debuff tie-break in pickTargetExcluding | in progress |
+| PR                                                       | Branch                         | Topic                                                                                   | CI          |
+| -------------------------------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------- | ----------- |
+| [#2138](https://github.com/MasterDD-L34D/Game/pull/2138) | `feat/status-phase-a-glossary` | Glossary sync: 5 trait Phase A (592→597 entries)                                        | ✅ verde    |
+| [#2139](https://github.com/MasterDD-L34D/Game/pull/2139) | `feat/status-phase-a-policy`   | AI policy: `attack_debuffed_target` objective + debuff tie-break in pickTargetExcluding | in progress |
 
 **Test baseline post-sessione**: 52/52 status effects (+10 nuovi vs 42 baseline). AI totale: 220 pass / 10 fail infrastruttura (pre-esistenti, invariati).
 
 **Gap residui deferred**:
+
 - Gate 5 HUD surface (Priority 2): Godot v2 `unit_info_panel.gd` status icons — ~3-4h frontend
 - Phase B stati: burning+chilled interaction + frozen upgrade (design call master-dd needed)
 
