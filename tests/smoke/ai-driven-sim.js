@@ -50,7 +50,12 @@ if (!TUNNEL) {
   console.error('FATAL: set TUNNEL=https://<host>.trycloudflare.com');
   process.exit(2);
 }
-const WS_URL = TUNNEL.replace('https:', 'wss:').replace('http:', 'ws:') + '/ws';
+// Cloudflare tunnel collapses HTTP (3334) + WS (3341) onto a single
+// hostname; CI direct-localhost mode keeps them split. Allow explicit
+// override via AI_SIM_WS_URL (full ws:// URL ending in /ws). Default:
+// derive from TUNNEL by swapping scheme.
+const WS_URL =
+  process.env.AI_SIM_WS_URL || TUNNEL.replace('https:', 'wss:').replace('http:', 'ws:') + '/ws';
 const EXTRA_PLAYERS = Math.max(0, Number(process.env.AI_SIM_PLAYERS || 1));
 const MAX_ROUNDS = Math.max(1, Number(process.env.AI_SIM_MAX_ROUNDS || 15));
 const SCENARIO_ID = String(process.env.AI_SIM_SCENARIO || 'enc_tutorial_01');

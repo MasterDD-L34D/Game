@@ -88,6 +88,10 @@ jobs:
         id: sweep
         env:
           TUNNEL: http://127.0.0.1:3334
+          # Lobby WS lives on dedicated port 3341 (LOBBY_WS_PORT default).
+          # Cloudflare tunnel collapses HTTP+WS onto one host; CI direct
+          # localhost keeps them split → must override explicitly.
+          AI_SIM_WS_URL: ws://127.0.0.1:3341/ws
           AI_SIM_LOG_DIR: /tmp/ai-sim-nightly/runs-tmp
         run: |
           mkdir -p /tmp/ai-sim-runs
@@ -114,6 +118,10 @@ jobs:
       - name: Evaluate thresholds
         id: eval
         run: |
+          # Disable bash -e for this step so a non-zero exit from
+          # check-thresholds.js (regression detected) does not abort
+          # the run before STATUS capture + GITHUB_OUTPUT write.
+          set +e
           node tools/sim/check-thresholds.js \
             --summary /tmp/ai-sim-nightly/batch-current/summary.json \
             --completion-floor "${COMPLETION_RATE_FLOOR}" \
