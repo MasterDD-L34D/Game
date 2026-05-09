@@ -19,6 +19,21 @@
 //   AI_SIM_MAX_ROUNDS=15
 //   AI_SIM_LOG_DIR=/tmp/ai-sim-runs
 //   AI_SIM_SCENARIO=enc_tutorial_01
+//   AI_SIM_SISTEMA_PROFILE=aggressive   (FASE 2: ai_profiles.yaml key —
+//                                        aggressive | balanced | cautious;
+//                                        injected on every enemy unit
+//                                        via actor.ai_profile field so
+//                                        declareSistemaIntents.js picks
+//                                        the matching utility brain
+//                                        config)
+//   AI_SIM_SEED=12345                   (FASE 2: deterministic seed
+//                                        forwarded as run_seed to
+//                                        coopOrchestrator.confirmWorld
+//                                        + scenario_id stamp; reproduces
+//                                        identical sim across batch
+//                                        replays for SPRT bookkeeping)
+//   AI_SIM_RUN_LABEL=aggro_v_balanced   (FASE 2: tag for batch runner
+//                                        aggregate filtering)
 //
 // Cross-ref:
 //   docs/playtest/2026-05-09-browser-smoke-iter5-chrome-mcp.md
@@ -40,6 +55,9 @@ const EXTRA_PLAYERS = Math.max(0, Number(process.env.AI_SIM_PLAYERS || 1));
 const MAX_ROUNDS = Math.max(1, Number(process.env.AI_SIM_MAX_ROUNDS || 15));
 const SCENARIO_ID = String(process.env.AI_SIM_SCENARIO || 'enc_tutorial_01');
 const LOG_DIR = process.env.AI_SIM_LOG_DIR || '/tmp/ai-sim-runs';
+const SISTEMA_PROFILE = String(process.env.AI_SIM_SISTEMA_PROFILE || 'balanced');
+const RUN_SEED = process.env.AI_SIM_SEED ? Number(process.env.AI_SIM_SEED) : null;
+const RUN_LABEL = String(process.env.AI_SIM_RUN_LABEL || '');
 
 fs.mkdirSync(LOG_DIR, { recursive: true });
 const RUN_TS = new Date().toISOString().replace(/[:.]/g, '-');
@@ -132,6 +150,11 @@ function selectPlayerAction(actor, units) {
 // Synthetic Sistema scenario units (enc_tutorial_01-equivalent baseline)
 // so the smoke harness does not need to load YAML scenarios. Keeps the
 // driver self-contained + easily inspectable.
+//
+// FASE 2 — every enemy unit carries `ai_profile` referencing
+// ai_profiles.yaml key. declareSistemaIntents.js + sistemaTurnRunner
+// resolve per-unit profile (aggressive | balanced | cautious) and apply
+// utility-brain overrides. Default `balanced` matches v0.2.0 fallback.
 function buildScenarioEnemies() {
   return [
     {
@@ -148,6 +171,7 @@ function buildScenarioEnemies() {
       position: { x: 5, y: 5 },
       species_id: 'razziatore',
       mbti_type: 'aggressive',
+      ai_profile: SISTEMA_PROFILE,
     },
     {
       id: 'sis_02',
@@ -163,6 +187,7 @@ function buildScenarioEnemies() {
       position: { x: 4, y: 5 },
       species_id: 'pulverator',
       mbti_type: 'defensive',
+      ai_profile: SISTEMA_PROFILE,
     },
   ];
 }
@@ -206,6 +231,18 @@ function logSistemaDecisions(round, body) {
   console.log(
     `Players: 1 host + ${EXTRA_PLAYERS} extra | Scenario: ${SCENARIO_ID} | Max rounds: ${MAX_ROUNDS}`,
   );
+  console.log(
+    `Sistema profile: ${SISTEMA_PROFILE}${RUN_SEED !== null ? ` | seed: ${RUN_SEED}` : ''}${RUN_LABEL ? ` | label: ${RUN_LABEL}` : ''}`,
+  );
+  log('config', {
+    tunnel: TUNNEL,
+    extra_players: EXTRA_PLAYERS,
+    scenario: SCENARIO_ID,
+    max_rounds: MAX_ROUNDS,
+    sistema_profile: SISTEMA_PROFILE,
+    run_seed: RUN_SEED,
+    run_label: RUN_LABEL,
+  });
 
   // --- bootstrap lobby ---
   logSection('bootstrap lobby');
@@ -261,7 +298,11 @@ function logSistemaDecisions(round, body) {
   for (const p of wsExtras) p.send({ action: 'world_vote', choice: 'accept' });
   await new Promise((r) => setTimeout(r, 800));
 
-  wsHost.send({ action: 'world_confirm', scenario_id: SCENARIO_ID });
+  wsHost.send({
+    action: 'world_confirm',
+    scenario_id: SCENARIO_ID,
+    run_seed: RUN_SEED,
+  });
   await new Promise((r) => setTimeout(r, 1500));
 
   // --- pull session_start_payload via REST world/confirm idempotent (already
