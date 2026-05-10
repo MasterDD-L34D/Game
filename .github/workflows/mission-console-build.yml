@@ -47,13 +47,21 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      actions: write
     timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Codex P1 fix 2026-05-10: GITHUB_TOKEN-created PR non triggera
+          # `pull_request` CI (GitHub recursion guard). Auto-PR resterebbe
+          # senza required checks → branch protection blocca → Option A
+          # PR-based auto-deploy defeats. Use AUTODEPLOY_PAT (fine-grained
+          # PAT con `contents: write` + `pull-requests: write` + `actions: write`)
+          # se configurato, fallback a GITHUB_TOKEN + dispatch CI esplicito.
+          # Master-dd setup PAT: Settings → Secrets → AUTODEPLOY_PAT.
+          token: ${{ secrets.AUTODEPLOY_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Set up Node 22
         uses: actions/setup-node@v4
@@ -78,10 +86,17 @@ jobs:
 
       - name: Open auto-deploy PR if changed
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PAT preferito per triggerare CI `pull_request` event sulla PR.
+          # Fallback GITHUB_TOKEN se PAT non setup — in quel caso CI viene
+          # esplicitamente dispatched via `gh workflow run` step successivo.
+          GITHUB_TOKEN: ${{ secrets.AUTODEPLOY_PAT || secrets.GITHUB_TOKEN }}
+          # Marker per step successivo: rileva se PAT-based path attivo.
+          AUTODEPLOY_PAT_ACTIVE: ${{ secrets.AUTODEPLOY_PAT != '' }}
+        id: open_pr
         run: |
           if [ -z "$(git status --porcelain docs/mission-console/)" ]; then
             echo "No changes to docs/mission-console/ — skip PR creation."
+            echo "pr_created=false" >> $GITHUB_OUTPUT
             exit 0
           fi
 
@@ -131,7 +146,39 @@ jobs:
           gh pr create \
             --title "chore(mission-console): auto-build dist ${DATE_TAG}" \
             --body "$PR_BODY" \
-            --label "auto-merge-l3-candidate" \
             --label "automation" \
             --base main \
             --head "$BRANCH"
+
+          PR_NUMBER=$(gh pr list --head "$BRANCH" --json number --jq '.[0].number')
+          echo "pr_created=true" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+      # Codex P1 fix 2026-05-10: se GITHUB_TOKEN fallback path attivo (PAT
+      # non setup), CI `pull_request` event NON fired (recursion guard).
+      # Dispatch esplicito CI workflow via workflow_dispatch su branch
+      # auto-PR per popolare required status checks. Skip se PAT attivo
+      # (CI fired natural via PR open).
+      - name: Force CI dispatch if no PAT (recursion guard fallback)
+        if: steps.open_pr.outputs.pr_created == 'true' && env.AUTODEPLOY_PAT_ACTIVE != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.open_pr.outputs.branch }}
+        run: |
+          echo "PAT not configured. Dispatching required CI workflows via workflow_dispatch."
+          echo "Branch: $BRANCH"
+          # Dispatch workflows che hanno workflow_dispatch trigger + paths-filter rilevante.
+          # Nota: workflow_dispatch run NON appare come `pull_request` status check sul PR.
+          # Master-dd review gate: branch protection rule potrebbe bloccare merge se
+          # checks expected richiedono `pull_request` event esattamente. In tal caso
+          # configurare AUTODEPLOY_PAT secret per unblock cascade.
+          for WF in ci.yml docs-governance.yml; do
+            if gh workflow view "$WF" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+              echo "Dispatching $WF on $BRANCH"
+              gh workflow run "$WF" --ref "$BRANCH" --repo "${{ github.repository }}" || \
+                echo "::warning::Failed to dispatch $WF — manual trigger may be required"
+            fi
+          done
+
+          echo "::notice::Auto-PR #${{ steps.open_pr.outputs.pr_number }} created via GITHUB_TOKEN fallback. Required CI checks dispatched explicitly. Merge may require AUTODEPLOY_PAT secret setup if branch protection rule expects native pull_request event checks."
