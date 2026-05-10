@@ -302,6 +302,37 @@ function evaluateSingleTrait({ traitId, definition, actor, target, attackResult,
     };
   }
 
+  // 2026-05-10 TKT-TRAIT-HEAL-HANDLER (verdict #C2 = B new heal handler).
+  // Heal kind canonical wired runtime: actor restores hp post-action.
+  // Pattern: amount = hp restored, dice = "1d4+2" optional alternative.
+  // Side: actor (self-heal). Trigger.action_type defines when (passive,
+  // melee_attack, etc). Returns hp_delta positive marker; consumer in
+  // session.js applies hp restore + cap to max_hp.
+  if (effect.kind === 'heal' && side === 'actor') {
+    const baseAmount = Number(effect.amount) || 0;
+    let healAmount = baseAmount;
+    // Optional dice expression (es. "1d4+2") — RNG-driven heal.
+    if (typeof effect.dice === 'string' && /^\d+d\d+(\+\d+)?$/.test(effect.dice)) {
+      const match = effect.dice.match(/^(\d+)d(\d+)(?:\+(\d+))?$/);
+      if (match) {
+        const numDice = Number(match[1]);
+        const sides = Number(match[2]);
+        const bonus = Number(match[3] || 0);
+        let roll = 0;
+        for (let i = 0; i < numDice; i += 1) {
+          roll += Math.floor((ctx?.rng ? ctx.rng() : Math.random()) * sides) + 1;
+        }
+        healAmount = roll + bonus;
+      }
+    }
+    return {
+      trait: traitId,
+      triggered: true,
+      effect: logTag,
+      hp_delta: healAmount,
+    };
+  }
+
   return { trait: traitId, triggered: false, effect: 'none' };
 }
 

@@ -9978,3 +9978,112 @@ traits:
       Struttura elastica amorfa: +2 defense_mod buff_stat 2t (elastic_absorb).
       Mirror trait_mechanics + fisico resist 10%. Identical shape mimetismo_cromatico
       ma trait_id distinct → runtime collision low risk.
+
+  # ============================================================================
+  # 2026-05-10 TKT-TRAIT-MECH-NO-HANDLER batch 4 YELLOW resolved (Wave 7)
+  # ============================================================================
+  # User verdict #C1 = A (autonomous fix + ship). 3 trait deferred YELLOW
+  # da batch 4 con conservative remapping:
+  # - nucleo_ovomotore_rotante: wind channel kept (engine arbitrary) +
+  #   buff_stat defense_mod 1/1t conservative (ground vs spin_burst)
+  # - lingua_tattile_trama: amount 2 → 1 conservative (cost_ap=1 underpriced
+  #   audit per batch 4 research; downgrade vs nerf cost)
+  # - criostasi_adattiva: defense_mod 3 → 2 conservative (spike playtest
+  #   risk mitigated; mantello_meteoritico already DR1 baseline coverage)
+
+  nucleo_ovomotore_rotante:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 1
+      duration: 1
+      log_tag: nucleo_spin_burst
+    description_it: |
+      Nucleo ovomotore rotante: +1 defense_mod buff_stat 1t (spin_burst self).
+      Conservative single-ability stub (vortex_spin wind-channel attack
+      separato). Mirror trait_mechanics defense_mod 1 base.
+
+  lingua_tattile_trama:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 1
+      log_tag: lingua_taste_weakness
+    # Conservative downgrade 2026-05-10: trait_mechanics buff_stat 2/1t
+    # con cost_ap=1 era underpriced vs focus_frazionato 2/1t cost_ap=2
+    # (audit batch 4). Ship amount 1 fixing AP/value EV ratio.
+    description_it: |
+      Lingua tattile trama: +1 attack_mod buff_stat 1t (taste_weakness).
+      Cost_ap=1 ability gate. Amount 1 conservative (vs spec 2 underpriced
+      audit) — stesso EV/AP di altri buff_stat 1AP class.
+
+  criostasi_adattiva:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 2
+      duration: 1
+      log_tag: criostasi_frozen_stasis
+    # Conservative downgrade 2026-05-10: trait_mechanics buff_stat 3/1t spike
+    # rischio playtest. Ship 2/1t (vs spec 3) per safer integration. Bump
+    # 3 se TKT-M11B-06 playtest signal under-powered.
+    description_it: |
+      Criostasi adattiva: +2 defense_mod buff_stat 1t (frozen_stasis).
+      Cost_ap=3 ability gate appropriate. Amount 2 conservative (vs spec 3)
+      mitigates spike rischio. Channel ionico resist 20% gestito separato
+      via resistanceEngine.
+
+  # ============================================================================
+  # 2026-05-10 TKT-TRAIT-HEAL-HANDLER + 2 stubs (Wave 7, verdict #C2 = B)
+  # ============================================================================
+  # New `heal` kind handler shipped in apps/backend/services/traitEffects.js.
+  # Schema: effect.kind=heal + amount: int (flat hp restored) OR dice: "1d4+2"
+  # (RNG-driven). Trigger.action_type = passive | melee_attack | etc.
+
+  grassi_termici:
+    tier: T1
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: heal
+      amount: 0
+      dice: "1d4+2"
+      log_tag: grassi_thermal_pulse
+    description_it: |
+      Grassi termici: heal 1d4+2 self (thermal_pulse). Mirror trait_mechanics
+      heal ability + fuoco resist 10% (gestito da resistanceEngine).
+      Cost_ap=2 gate appropriate.
+
+  sonno_emisferico_alternato:
+    tier: T1
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: heal
+      amount: 0
+      dice: "1d4+1"
+      log_tag: sonno_vigilant_rest
+    description_it: |
+      Sonno emisferico alternato: heal 1d4+1 self (vigilant_rest). Mirror
+      trait_mechanics heal ability + mentale resist 10%. Half-brain alert
+      narrative — passive emisfero alterna garantisce rest passivo.
