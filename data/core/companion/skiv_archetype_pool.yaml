@@ -324,7 +324,14 @@ biome_pools:
         clade_tag: Threat
         sentience_tier: T0
         ecological_role: threat_swarm
-      # leviatano_risonante (Apex/T5) escluso da companion: clade Apex = boss, non alleato
+      # 2026-05-10 D1 T4 species adoption (PR #2164):
+      # electromanta_abyssalis Apex T4 wired companion pool eccezionalmente
+      # come "apex companion" (rare, ennea Esploratore semantica caregiver).
+      # Note: leviatano_risonante (Apex/T5) escluso companion (boss only).
+      - id: electromanta_abyssalis
+        clade_tag: Apex
+        sentience_tier: T4
+        ecological_role: apex_explorer
     name_pool:
       - Synna   # evoca sinaptico
       - Pholx   # fricativa + liquida, profondo

@@ -10087,3 +10087,41 @@ traits:
       Sonno emisferico alternato: heal 1d4+1 self (vigilant_rest). Mirror
       trait_mechanics heal ability + mentale resist 10%. Half-brain alert
       narrative — passive emisfero alterna garantisce rest passivo.
+
+  # ============================================================================
+  # 2026-05-10 D1 T4 electromanta_abyssalis trait activation (PR #2164 proposal)
+  # ============================================================================
+  # 2 high-priority orphan trait promoted con stub conservative.
+  # Apex T4 frattura_abissale_sinaptica species core trait_plan dependencies.
+
+  elettromagnete_biologico:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: ranged_attack
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: electromanta_em_pulse
+    description_it: |
+      Elettromagnete biologico: +2 damage ranged (em_pulse). Active
+      bioelectric field weapon-grade T4 intentional use. Apex predator
+      magnetic mastery (museum M-2026-04-25-005 magnetic_rift tier ladder).
+
+  scivolamento_magnetico:
+    tier: T1
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      duration: 1
+      log_tag: electromanta_magnetic_glide
+    description_it: |
+      Scivolamento magnetico: +1 move_bonus passive (magnetic glide su
+      iron-rich abyssal floor). Locomotion magnetica per terrain traversal
+      frattura_abissale. Apex T4 mobility advantage.
