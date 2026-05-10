@@ -165,12 +165,40 @@ function selectPlayerAction(actor, units) {
 // Port da tools/py/batch_calibrate_non_elim.py:encounter_to_units.
 // Carica docs/planning/encounters/<scenario_id>.yaml, parsa wave_id=1
 // (turn_trigger=0), espande units per count, applica tier→stat table
-// (base/elite/apex). Ritorna array unit compatibile session/start.
+// (base/elite/apex). Ritorna {enemies, grid_size, modulation, objective_type}
+// per session/start payload completo.
+//
+// Codex P2 #1 fix (2026-05-10) — pass `body.modulation` derivato da YAML
+// grid_size così backend gridSizeFor riceve deployedCount allineato e
+// alloca grid abbastanza grande per spawn points YAML (es. enc_tutorial_02
+// 8x8 → modulation trio_mid deployed=6 → 8x8 grid; 10x10 → duo_hardcore
+// deployed=8 → 10x10).
+//
+// Codex P2 #2 fix (2026-05-10) — whitelist objective types supportati
+// da questo loader. enc_escort_01 (escort) richiede materializzare unit
+// `objective.escort_target`; enc_capture_01 (capture_point) richiede
+// occupare tile capture point per N turni; entrambi richiedono player
+// AI policy estesa. Initial sweep limitato a elimination + survival
+// (objectiveEvaluator built-in handling, completion measurable da player
+// damage output). Future scope: extend buildEnemiesFromYaml a spawn
+// escort target + extend selectPlayerAction a capture-point camp.
 //
 // IMPORTANT: keeps profile injection da AI_SIM_SISTEMA_PROFILE override
 // (master profile sweep) ma rispetta `ai_profile` per-unit YAML come
 // fallback se override non set OR allow per-wave granular control via
 // AI_SIM_USE_YAML_PROFILE=1 opt-in (deferred future).
+const SUPPORTED_OBJECTIVE_TYPES = new Set(['elimination', 'survival']);
+
+function pickModulationForGrid(gridSize) {
+  // Map YAML grid edge → preset deployed count compatibile con
+  // services/party/loader.js gridSizeFor (deployed_1_4=6x6,
+  // deployed_5_6=8x8, deployed_7_8=10x10).
+  const edge = Math.max(gridSize?.[0] || 6, gridSize?.[1] || 6);
+  if (edge >= 9) return 'duo_hardcore'; // deployed=8 → 10x10
+  if (edge >= 7) return 'trio_mid'; // deployed=6 → 8x8
+  return 'solo'; // deployed=4 → 6x6
+}
+
 function buildEnemiesFromYaml(scenarioId, profileOverride) {
   const yamlPath = path.join(ENCOUNTER_DIR, `${scenarioId}.yaml`);
   if (!fs.existsSync(yamlPath)) {
@@ -181,6 +209,10 @@ function buildEnemiesFromYaml(scenarioId, profileOverride) {
   if (!parsed || !Array.isArray(parsed.waves) || parsed.waves.length === 0) {
     throw new Error(`yaml_invalid_waves:${scenarioId}`);
   }
+  const objectiveType = parsed.objective?.type || 'elimination';
+  if (!SUPPORTED_OBJECTIVE_TYPES.has(objectiveType)) {
+    throw new Error(`yaml_unsupported_objective:${objectiveType}`);
+  }
   // Pick wave with smallest turn_trigger (initial spawn).
   const sortedWaves = [...parsed.waves].sort(
     (a, b) => (a.turn_trigger || 0) - (b.turn_trigger || 0),
@@ -189,7 +221,6 @@ function buildEnemiesFromYaml(scenarioId, profileOverride) {
   const spawnPoints = wave1.spawn_points || [[0, 0]];
   const tierToHp = { base: 7, elite: 10, apex: 14 };
   const tierToMod = { base: 1, elite: 2, apex: 4 };
-  const tierToDc = { base: 11, elite: 12, apex: 14 };
   const enemies = [];
   let spIdx = 0;
   for (const unitDef of wave1.units || []) {
@@ -218,7 +249,12 @@ function buildEnemiesFromYaml(scenarioId, profileOverride) {
       });
     }
   }
-  return enemies;
+  return {
+    enemies,
+    grid_size: parsed.grid_size || [8, 8],
+    modulation: pickModulationForGrid(parsed.grid_size),
+    objective_type: objectiveType,
+  };
 }
 
 // Synthetic Sistema scenario units (enc_tutorial_01-equivalent baseline)
@@ -390,14 +426,20 @@ function logSistemaDecisions(round, body) {
   // --- session/start ---
   logSection('session/start');
   let enemies;
+  let yamlMeta = null;
   try {
-    enemies = LOAD_YAML
-      ? buildEnemiesFromYaml(SCENARIO_ID, SISTEMA_PROFILE)
-      : buildScenarioEnemies();
+    if (LOAD_YAML) {
+      const loaded = buildEnemiesFromYaml(SCENARIO_ID, SISTEMA_PROFILE);
+      enemies = loaded.enemies;
+      yamlMeta = loaded;
+    } else {
+      enemies = buildScenarioEnemies();
+    }
   } catch (err) {
     console.error('YAML scenario load failed:', err.message, '— falling back synthetic');
     log('yaml_fallback', { scenario: SCENARIO_ID, error: err.message });
     enemies = buildScenarioEnemies();
+    yamlMeta = null;
   }
   const startBody = {
     characters,
@@ -407,7 +449,12 @@ function logSistemaDecisions(round, body) {
     // encounterLoader populates objective + biomeSpawnBias + conditions
     // (see apps/backend/routes/session.js:1473). Without this, non-elim
     // objectives never trigger objectiveEvaluator.
-    ...(LOAD_YAML ? { encounter_id: SCENARIO_ID } : {}),
+    ...(LOAD_YAML && yamlMeta ? { encounter_id: SCENARIO_ID } : {}),
+    // Codex P2 #1 fix — force party-loader gridSizeFor a allocare grid
+    // adeguata a YAML grid_size via modulation preset matching deployed
+    // count → 8x8 (trio_mid) / 10x10 (duo_hardcore). Senza questo, default
+    // 2-player worker = 6x6 grid, sistema spawn (7,7) etc fuori board.
+    ...(yamlMeta ? { modulation: yamlMeta.modulation } : {}),
   };
   const start = await postJson('/api/session/start', startBody);
   if (start.status !== 200 && start.status !== 201) {
