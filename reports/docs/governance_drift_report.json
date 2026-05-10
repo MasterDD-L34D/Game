@@ -1,16 +1,46 @@
 {
-  "generated_at": "2026-05-08T14:37:17+00:00",
+  "generated_at": "2026-05-10T18:44:39+00:00",
   "summary": {
-    "total": 1,
+    "total": 6,
     "errors": 0,
-    "warnings": 1
+    "warnings": 6
   },
   "issues": [
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-25-content-sprint-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-09"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-25-illuminator-orchestra-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-09"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-25-next-session-kickoff-m13-phase-b.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-09"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/planning/2026-04-25-parallel-sprint-jobs-wire-handoff.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-09"
+    },
     {
       "level": "warning",
       "code": "frontmatter_registry_mismatch",
       "path": "docs/planning/2026-04-29-master-execution-plan-v3.md",
       "message": "Campo last_verified differente tra frontmatter (2026-05-07) e registry (2026-04-30)"
+    },
+    {
+      "level": "warning",
+      "code": "stale_document",
+      "path": "docs/process/sprint-2026-04-25-parallel-validation.md",
+      "message": "Documento stale: revisione scaduta il 2026-05-09"
     }
   ]
 }

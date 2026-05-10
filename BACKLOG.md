@@ -9,6 +9,42 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ Sprint Q+ Q-10 closure + trait orphan ASSIGN-A FULL CLOSURE — sessione 2026-05-10 notte — 5 PR shipped (cumulative Day 5+1+2 = 76 PR)
+
+User resume trigger "verifica PR #217 Game-Godot-v2 master-dd review status + merge se verde — chiude Sprint Q+ Q-10 cross-stack 12/12" → autonomous closure cascade ~2h.
+
+**5 PR shipped delta v37→v38**:
+
+| #   | PR                                                              | Squash     | Topic                                                                             |
+| --- | --------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------- |
+| 1   | [#217](https://github.com/MasterDD-L34D/Game-Godot-v2/pull/217) | `b53f67c7` | Sprint Q+ Q-10 — fix RefCounted add_child + gdformat 2 file (CI red → green)      |
+| 2   | [#2207](https://github.com/MasterDD-L34D/Game/pull/2207)        | `849476d7` | Skiv-monitor auto-update admin merge                                              |
+| 3   | [#2197](https://github.com/MasterDD-L34D/Game/pull/2197)        | `019881b3` | Cautious baseline 3rd empirical data point                                        |
+| 4   | [#2213](https://github.com/MasterDD-L34D/Game/pull/2213)        | `6b5f871e` | Trait orphan ASSIGN-A wave 5+6 — 33 traits / 17 species → 68/91                   |
+| 5   | [#2214](https://github.com/MasterDD-L34D/Game/pull/2214)        | `16e068a7` | Trait orphan ASSIGN-A wave 7 species*expansion — 26 traits / 14 sp*\* → **94/91** |
+
+**Sprint Q+ cross-stack 12/12 CHIUSO**: Q-10 PR #217 fix shipped commit `2d0e4f4` (RefCounted add_child + gdformat) → CI 1974/1974 green → master-dd squash merged.
+
+**Trait orphan ASSIGN-A FULL CLOSURE**: 14+6+15+33+26 = **94/91 effective** (target 91 + 3 wave 0+1 silent recovery − 2 T3 unmappable). Wave 7 schema decision: additive `trait_plan` parallel section alongside `morph_slots` in species_expansion.yaml, validator reads optional. Schema canonical migration ADR (morph_slots → trait_plan) **deferred master-dd**.
+
+**Pillar deltas v38**:
+
+- P3 Identità Specie × Job: 🟢++ → **🟢ⁿ confermato** (94 trait orphan player-visible cross-yaml additive)
+- Altri invariati post-v37
+
+**Outstanding master-DD action queue** (post-FULL-CLOSURE):
+
+1. Phase B Day 8 verify 2026-05-14 (γ default ratificato, 14gg grace)
+2. 2 T3 trait residue (`antenne_plasmatiche_tempesta` + `circolazione_supercritica`) — gated T3-capable species creation lore
+3. species_expansion canonical migration ADR formal (morph_slots → trait_plan)
+4. Mutation Phase 6 ADR + Prisma migration 0009+ (forbidden path bundle ~3-5h)
+5. Vite/Vitest 5/2 → 6/3 major upgrade cross-3-apps (~3-5h, autonomous-actionable next session)
+6. AngularJS migration ADR (~10-20h apps/trait-editor)
+7. AUTODEPLOY_PAT renewal expires 2026-08-08 (90gg)
+8. Worktree disk lock 5 dirs cleanup (reboot Claude Code)
+
+---
+
 ### ✅ FULL Sprint Q+ closure + close-gaps cascade — sessione 2026-05-10 sera continuation — 20 PR shipped (cumulative Day 5+1+2 = 71 PR)
 
 User cascade trigger: "cascade approval" → "facciamo gli auto trigger pending e poi continuiamo con i due next gate in parallel" → "procedi continuando in autonomia" → "3+4 e dopo facciamo 2+1" → power-out resume → "fai i rituali e tutti i passaggi senza tralasciare niente per continuare questa sessione in una nuova con tutto pronto".
