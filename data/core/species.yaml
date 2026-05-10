@@ -110,6 +110,12 @@ catalog:
           resistances:
             res:
               sonic: 2
+      psi_shield:
+        name: Psionic Shield
+        effects:
+          resistances:
+            res:
+              mentale: 2
     senses:
       echolocation:
         name: Echolocation
@@ -410,7 +416,7 @@ species:
       locomotion: cryogenic_climber
       metabolism: cryostasis_adaptive
       offense: [psionic_horn]
-      defense: [thermal_floater]
+      defense: [psi_shield]
       senses: [magnetic_olfaction]
     trait_plan:
       core: [corna_psico_conduttive, focus_frazionato, criostasi_adattiva, olfatto_risonanza_magnetica]
