@@ -8,8 +8,12 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v34 (post sessione 2026-05-09 sera→2026-05-10 nightly cron P0 fix + sweep harness extension)
-- **Ultimo aggiornamento**: 2026-05-10 ~01:25 UTC. **3 PR Game/ shipped main + 1 DRAFT-→ready-review**:
+- **Versione compact**: v35 (post sessione 2026-05-10 FULL AUDIT CLOSURE — 41 PR cumulative + 17/17 audit + 13/13 verdict closed + T4 ladder 5/5)
+- **Ultimo aggiornamento**: 2026-05-10 ~11:05 UTC. **41 PR Game/ shipped main cumulative Day 5+1**. Major: 17/17 cross-domain audit ticket addressed + 13/13 master-dd user-explicit verdict closed + T4 ladder 5/5 species (electromanta + symbiotica + sonaraptor + psionerva + fusomorpha) + Mission Console source recovered + mutation evaluator Phase 1+2+3+4 + heal kind canonical + Prisma migration + bond reaction surface live + F3 Path B 32 trait wired. **Vedi memory: project_session_2026_05_10_full_audit_closure.md**.
+
+Pre-closure history (mantenuta):
+
+- **Versione precedente v34**: post sessione 2026-05-09 sera→2026-05-10 nightly cron P0 fix + sweep harness extension. **3 PR Game/ shipped main + 1 DRAFT-→ready-review**:
   - #2155 `48eaf24a` nightly cron P0 (WS port 3334 vs 3341 + `set +e` regression-detection)
   - #2152 `5466cf45` Skiv Monitor auto-update admin merge
   - labels create direct (3rd P0 — `ai-sim-regression` + `automated` mancavano)

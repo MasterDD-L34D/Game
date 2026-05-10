@@ -9,6 +9,50 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ FULL AUDIT CLOSURE — sessione 2026-05-10 — 27 PR shipped main (cumulative Day 5+1 = 41 PR)
+
+User canonical resume trigger 2026-05-09 sera "verifica primo nightly cron run 2026-05-10 02:00 UTC". Cascade autonomous ~12h waves 7-19 chiude:
+
+**17/17 cross-domain audit ticket addressed**:
+
+- 15 shipped runtime/data
+- 2 docs (ADR + handoff)
+- 0 verdict residue
+
+**13/13 master-dd user-explicit verdict closed**:
+
+- A1-A4 Mission Console (install + bond toast + CI workflow + ADR)
+- B1-B3 Mutation (Prisma migration + manual fill + manual_only)
+- C1-C2 Trait (B4 YELLOW + heal handler new kind)
+- D ship 5 T4 species sequenziali (T4=0→5 LADDER COMPLETE)
+- F1-F3 (nightly NIT + terrain flaky + ancestors research+Path B)
+
+**T4 ladder COMPLETE 5/5**:
+
+- Apex electromanta_abyssalis (frattura_abissale_sinaptica)
+- Keystone symbiotica_thermalis (dorsale_termale_tropicale)
+- Threat sonaraptor_dissonans (canopia_ionica)
+- Bridge psionerva_montis (caldera_glaciale)
+- Playable fusomorpha_palustris (palude)
+
+**Major findings**:
+
+1. Mission Console source recovered (git commit 42d1d6f3) — ADR-2026-05-10 supersede
+2. Mutation Phase 1+2+3+4 evaluator runtime + 12 kinds whitelist (8/12 implemented)
+3. Heal kind canonical wired (effect.kind=heal hp_delta dice rolls)
+4. Cron P0 caught T-7h pre-fire (WS port + set+e bugs)
+5. F3 ancestors corrected — naming migration docs (290/297 already in AE)
+
+**Pillar deltas**: P1 🟢, P2 🟢++, P3 🟢++, P4 🟢++, P5 🟢, P6 🟢.
+
+**Residue deferred non-blocking**:
+
+- Mutation Phase 5 stub kinds (4: ally_killed_adjacent, ally_adjacent_turns, assisted_kill_count, trait_active_cumulative)
+- Aggregate update logic cumulative_biome_turns (end-of-encounter increment)
+- Lifecycle 5-fasi YAML 5 T4 species (master-dd design gate)
+- Sprite assets 5 T4 species (skipped verdict #D)
+- npm audit fix 18 vulnerabilities
+
 ### ✅ Nightly cron P0 fix + scenario diversity sweep harness extension — sessione 2026-05-09 sera→2026-05-10 — 3 PR shipped + 1 DRAFT
 
 Resume trigger user "verifica primo nightly cron run 2026-05-10 02:00 UTC + esegui scenario diversity sweep aggressive default × enc_tutorial_02..05 + hardcore-\*". P0 caught a T-7h pre-prima cron + harness gap discovered.
