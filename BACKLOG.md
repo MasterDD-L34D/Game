@@ -78,7 +78,29 @@ User resume trigger "cascade approval" → "facciamo gli auto trigger pending e 
 
 #### Trait orphan ticket codification 2026-05-10 sera (master-dd verdict "2+3" cascade approval)
 
-- **TKT-P3-TRAIT-ORPHAN-ASSIGN-A** (~4h): 91 A-keep traits assignment to species wave 6. Biome-aligned batch (3-4 traits per new species). Trigger post-Sprint-Q+ closure (avoid context-switch ETL pipeline). Audit table reference: [§1 Wave 0-6 listing](docs/research/2026-05-10-trait-orphan-audit-batch-review.md#1-full-audit-table--109-orphan-traits).
+- **TKT-P3-TRAIT-ORPHAN-ASSIGN-A** (~4h initial → 35/91 shipped sera close-gaps cascade): 91 A-keep traits assignment to species wave 6. Biome-aligned batch (3-4 traits per new species). Audit table reference: [§1 Wave 0-6 listing](docs/research/2026-05-10-trait-orphan-audit-batch-review.md#1-full-audit-table--109-orphan-traits).
+  - ✅ **Wave 0+1 SHIPPED PR #2208** `61042522` — 14 traits / 12 species (8 species_expansion deferred schema mismatch).
+  - ✅ **Wave 2 SHIPPED PR #2209** `e189f4e4` — 6 traits / 6 species (7 species_expansion deferred).
+  - ✅ **Wave 3+4 SHIPPED PR #2210** `9c065375` — 15 traits / 9 species.
+  - ⏳ **Wave 5+6 RESIDUE** ~28 traits — master-dd review TBD biome mapping per audit doc §Wave 5+6.
+  - ⏳ **Species_expansion schema extension** ~22 traits across 8 sp\_\* species (sp_lithoraptor_acutornis + sp_basaltocara_scutata + sp_arenaceros_placidus + sp_ferrimordax_rutilus + sp_pyrosaltus_celeris + sp_ventornis_longiala + sp_sonapteryx_resonans + sp_arenavolux_sagittalis + sp_salifossa_tenebris). Schema species_expansion.yaml uses morph_slots (not trait_plan section) → master-dd review schema extension OR migrate species_expansion entries adopt trait_plan canonical.
+
+**Cumulative ASSIGN-A progress sera close-gaps**: **35/91 traits** (38%) shipped player-visible across 3 PR. Residue 56 traits deferred (28 wave 5+6 master-dd review + 28 schema extension species_expansion).
+
+#### Cluster C ajv-cli investigation closure (2026-05-10 sera close-gaps)
+
+**STUCK upstream**: ajv-cli 5.0.0 = latest stable npm registry (verified `npm view ajv-cli versions` 27 versions, 5.0.0 latest 5.x). Audit `fixAvailable: 0.6.0` = downgrade weird signal. fast-json-patch 3.1.1 latest = upstream still vulnerable.
+
+**Same pattern Cluster A AngularJS**: NO upstream patch. Solo paths:
+
+1. Wait upstream patch (indefinite)
+2. Replace ajv-cli con direct ajv invocation in `tools/ajv-wrapper.sh` (~30min refactor)
+3. Accept residue (low impact: dev tool only, NOT runtime)
+
+**Recommendation**: option 3 accept residue. Used solo via Makefile EVO_VALIDATE_AJV + schema-validate.yml workflow (dev validation, NOT prod runtime).
+
+TKT-DEPS-AJV-CLI-INVESTIGATE ✅ closed (no actionable fix).
+
 - **TKT-P6-TRAIT-ORPHAN-DESIGN-B** (~2h): 14 B-defer traits design call. Categorization audit doc:
   - Swarm cluster (3): `magnetic_rift_resonance` + `magnetic_sensitivity` + `rift_attunement` — non-canonical status strings (telepatic_link/sensed/attuned), need ADR canonical status enum extension OR rename
   - Miscellaneous unclear semantics (5): `aura_glaciale` + `sussurro_psichico` + `tela_appiccicosa` + `marchio_predatorio` + `antenne_wideband` — design call effect spec
