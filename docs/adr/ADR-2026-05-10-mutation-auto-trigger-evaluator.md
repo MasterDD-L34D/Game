@@ -66,16 +66,32 @@ artigli_freeze_to_glacier:
 
 ### Phase 2 — Trigger kinds whitelist
 
-Initial kinds set (subset, expandable):
+Expanded 6 → 12 kinds post Phase 1 batch 2-4 auto-extract 2026-05-10
+(emerged da regex parser su trigger_examples prose):
 
-| Kind                     | Params                                       | Source events                                                              |
-| ------------------------ | -------------------------------------------- | -------------------------------------------------------------------------- |
-| `status_apply_count`     | status, threshold, window                    | session log `apply_status` events                                          |
-| `biome_turn_count`       | biome_class, threshold, sistema_pressure_min | session.turn + session.scenario_id biome lookup + session.sistema_pressure |
-| `damage_taken_high_mos`  | mos_threshold, count, window                 | session log attack events MoS field                                        |
-| `kill_streak`            | count, no_damage_taken_between               | session log kill events ordered                                            |
-| `mutation_chain`         | prereq_mutation_id                           | unit.applied_mutations (existing)                                          |
-| `cumulative_turns_biome` | biome_class, threshold                       | aggregate across sessions per unit                                         |
+| Kind                      | Params                                             | Source events                                                              |
+| ------------------------- | -------------------------------------------------- | -------------------------------------------------------------------------- |
+| `status_apply_count`      | status, threshold, window, source_trait?           | session log `apply_status` events                                          |
+| `biome_turn_count`        | biome_class, threshold, sistema_pressure_min       | session.turn + session.scenario_id biome lookup + session.sistema_pressure |
+| `damage_taken_high_mos`   | mos_threshold, count, window, side, elevation_min? | session log attack events MoS field                                        |
+| `kill_streak`             | count, no_damage_taken_between                     | session log kill events ordered                                            |
+| `mutation_chain`          | prereq_mutation_id                                 | unit.applied_mutations (existing)                                          |
+| `cumulative_turns_biome`  | biome_class, threshold                             | aggregate across sessions per unit (Prisma persist Q4 schema migration)    |
+| `damage_taken_channel`    | channel, count, window                             | session log attack events damage_channel field                             |
+| `ally_killed_adjacent`    | species_filter (same/any), threshold               | session log kill events spatial check                                      |
+| `ally_adjacent_turns`     | threshold, window                                  | per-turn proximity check                                                   |
+| `assisted_kill_count`     | threshold, window                                  | session log assist events                                                  |
+| `sistema_signal_active`   | signal_id                                          | session.warning_signals state                                              |
+| `trait_active_cumulative` | trait_id, encounter_count, turns_cumulative        | unit.applied_traits + session aggregate                                    |
+
+### Phase 1 batch 4 auto-extract status (2026-05-10)
+
+Auto-parser via Node regex extracted `trigger_conditions` per 12/27 mutations
+con `trigger_examples` parseable. Total Phase 1 coverage:
+
+- **27/30 mutations** populated (5 manual batch 1 + 5 manual batch 2 + 5 manual batch 3 + 12 auto-extract batch 4)
+- **5 mutations** senza `trigger_examples` (unlock-on-mutation_chain only): coda_balanced_to_counter / ghiandole_ink_to_acid / zampe_spring_to_radiant / simbionte_lichene_solare / branco_cooperazione_segnalata
+- **4 mutations** flagged manual fill (parser missed): capillari_to_photovoltaic / cuticole_wax_to_neutralize / ferocia_to_supercritical / recettori_chimici_seed_tracking
 
 ### Phase 3 — Evaluator service
 

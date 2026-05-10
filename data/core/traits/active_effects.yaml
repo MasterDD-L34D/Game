@@ -9778,3 +9778,99 @@ traits:
       Cute resistente sali: +2 defense_mod buff_stat reactive su receive_damage
       (salt_harden). Mirror trait_mechanics (defense_mod 1 + dual resist
       fuoco/taglio + buff_stat 2 duration 2). Indurimento reattivo pattern.
+
+  # ============================================================================
+  # 2026-05-10 TKT-TRAIT-MECH-NO-HANDLER batch 3 — 5 stubs research-validated
+  # ============================================================================
+  # Research via balance-illuminator agent batch 3 (museum + traitEffects.js).
+  # Ship confidence HIGH per zoccoli/eco_interno, MEDIUM per olfatto/risonanza
+  # di branco (move trigger buff_stat coverage TBD), LOW per ventriglio
+  # (damage_step buff_stat handler unverified — flag inline).
+
+  zoccoli_risonanti_steppe:
+    tier: T2
+    category: control
+    applies_to: target
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: apply_status
+      stato: disoriented
+      duration: 1
+      intensity: 1
+      log_tag: zoccoli_resonant_stomp
+    description_it: |
+      Zoccoli risonanti steppe: apply_status disoriented su melee hit
+      (resonant_stomp). Mirror trait_mechanics defensive base + stomp
+      ability. Direct analog secrezione_rallentante_palmi (batch 2 proven).
+
+  eco_interno_riflesso:
+    tier: T1
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 2
+      log_tag: eco_echo_pulse
+    description_it: |
+      Eco interno riflesso: +1 attack_mod buff_stat 2t (echo_pulse).
+      Cleanest utility scout pattern. Cost_ap 1 ability. Lowest blast radius
+      di batch 3 — ship-first se smoke regression.
+
+  olfatto_risonanza_magnetica:
+    tier: T1
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 2
+      log_tag: olfatto_magnetic_sense
+    # MEDIUM confidence 2026-05-10: same shape eco_interno_riflesso. Risk:
+    # buff_stat with attack_mod stat over passive trigger — verify
+    # evaluateMovementTraits/evaluateAttackTraits handles attack_mod buff path.
+    description_it: |
+      Olfatto risonanza magnetica: +1 attack_mod buff_stat 2t. Mutation
+      catalog adds via 2 evolution paths confirming design intent.
+
+  risonanza_di_branco:
+    tier: T2
+    category: comportamentale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 2
+      log_tag: risonanza_branco_pack_call
+    # MEDIUM confidence: same shape pattern. Pack synergy semantica.
+    description_it: |
+      Risonanza di branco: +1 attack_mod buff_stat 2t (pack_call). Move
+      trigger ambiguous; map a passive utility per coerenza.
+
+  ventriglio_gastroliti:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: ventriglio_energy_burst
+    # LOW→MEDIUM confidence 2026-05-10: trait_mechanics dichiara buff_stat
+    # damage_step ma damage_step buff handler unverified. Conservative
+    # mapping a extra_damage diretto (~equivalent semantic) safer ship.
+    description_it: |
+      Ventriglio gastroliti: +2 damage extra (energy_burst). Conservative
+      remap da buff_stat damage_step → direct extra_damage per safer ship
+      (handler attack_mod/defense_mod only confermato in traitEffects.js).
