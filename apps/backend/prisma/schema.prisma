@@ -258,6 +258,11 @@ model FormSessionState {
   lastEvolveRound Int?     @map("last_evolve_round")
   evolveCount     Int      @default(0) @map("evolve_count")
   lastDelta       String?  @map("last_delta") // JSON
+  // 2026-05-10 TKT-MUT Q4 cumulative_biome_turns (ADR-2026-05-10).
+  // Schema: { "<biome_class>": <int_turns_cumulative_cross_session> }.
+  // Consumer: mutationTriggerEvaluator kind=cumulative_turns_biome.
+  // Update: end-of-encounter aggregate per session.scenario_biome_class.
+  cumulativeBiomeTurns Json? @map("cumulative_biome_turns")
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
 

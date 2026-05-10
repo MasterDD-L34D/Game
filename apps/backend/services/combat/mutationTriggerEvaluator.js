@@ -159,8 +159,15 @@ function _evaluateCondition(condition, unit, session) {
       const signals = Array.isArray(session?.warning_signals) ? session.warning_signals : [];
       return { triggered: signals.includes(signalId), signalId };
     }
-    // 2026-05-10 — kinds richiede Q4 Prisma migration OR session log enriched.
-    case 'cumulative_turns_biome':
+    case 'cumulative_turns_biome': {
+      // 2026-05-10 TKT-MUT Q4 Phase 5 ship — Prisma migration 0007 done.
+      // unit.cumulative_biome_turns: { "<biome_class>": <int_cross_session> }.
+      const biomeClass = condition.biome_class;
+      const threshold = Number(condition.threshold) || 0;
+      const turns = Number(unit?.cumulative_biome_turns?.[biomeClass]) || 0;
+      return { triggered: turns >= threshold, turns, threshold, biomeClass };
+    }
+    // 2026-05-10 — kinds residue Phase 5 (require enriched session logs).
     case 'ally_killed_adjacent':
     case 'ally_adjacent_turns':
     case 'assisted_kill_count':
