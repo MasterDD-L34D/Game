@@ -4,6 +4,30 @@
 #
 # Fonte: Final Design Freeze v0.9 §7.4, telemetry.yaml mbti_axes.
 # Threshold: 0.5 su ogni asse (sopra = prima lettera, sotto = seconda).
+#
+# 2026-05-10 vocab remap (audit cross-domain BACKLOG TKT-MBTI-JOB-VOCAB):
+# job_affinities/job_penalties usavano role-archetypes generic
+# (tattico/controllore/guaritore/esploratore/assaltatore/furtivo/
+# sentinella) NON resolve contro canonical job IDs in jobs.yaml +
+# jobs_expansion.yaml → 0/176 combo runtime.
+# Mapping role-archetype → canonical job ID (semantic fit):
+#   tattico      → invoker     (psi tactical caster)
+#   controllore  → artificer   (gadget/area control)
+#   guaritore    → warden      (heal/aura support)
+#   esploratore  → ranger      (scout)
+#   assaltatore  → vanguard    (charge/front damage)
+#   furtivo      → skirmisher  (mobility/hit-and-run)
+#   sentinella   → harvester   (control/area denial)
+#
+# 2026-05-10 expansion jobs additive (TKT-MBTI-EXP-JOBS):
+# 4 expansion jobs (stalker/symbiont/beastmaster/aberrant) ora wired
+# per ogni MBTI type via affinity/penalty additive (non override
+# 7 base job mapping). Coverage 16×11 = 176 combo resolve canonical.
+# Semantic fit per temperament:
+#   stalker      → ESTP, INTJ, ISTP, ISFP (lone hunters)
+#   symbiont     → INFJ, ENFJ, ISFJ, INFP (caregivers/bonded)
+#   beastmaster  → ENTJ, ESTJ, ISTJ (commanders)
+#   aberrant     → ENTP, ENFP, INTP, ESFP (chaotic creators)
 
 version: "0.1.0"
 
@@ -15,8 +39,8 @@ forms:
     display_name_en: "Strategist"
     description_it: "Pianificatore freddo, setup meticoloso, poche azioni ma decisive."
     axes: {E_I: 0.75, S_N: 0.35, T_F: 0.80, J_P: 0.75}
-    job_affinities: [tattico, controllore]
-    job_penalties: [guaritore]
+    job_affinities: [invoker, artificer, stalker, beastmaster]
+    job_penalties: [warden, symbiont]
     temperament: NT
     innata_trait_id: coda_balanciere  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: -1, ap: +0, mod: +1, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -26,8 +50,8 @@ forms:
     display_name_en: "Analyst"
     description_it: "Sperimentatore, approccio non convenzionale, improvvisa."
     axes: {E_I: 0.70, S_N: 0.30, T_F: 0.75, J_P: 0.30}
-    job_affinities: [esploratore, tattico]
-    job_penalties: [sentinella]
+    job_affinities: [ranger, invoker, aberrant]
+    job_penalties: [harvester, beastmaster]
     temperament: NT
     innata_trait_id: artigli_induzione  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: -1, ap: +1, mod: +1, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -37,8 +61,8 @@ forms:
     display_name_en: "Commander"
     description_it: "Leader aggressivo, coordina squadra, prima linea."
     axes: {E_I: 0.25, S_N: 0.35, T_F: 0.80, J_P: 0.75}
-    job_affinities: [assaltatore, tattico]
-    job_penalties: [furtivo]
+    job_affinities: [vanguard, invoker, beastmaster]
+    job_penalties: [skirmisher, symbiont]
     temperament: NT
     innata_trait_id: intimidatore  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +0, ap: +0, mod: +2, guardia: -2}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -48,8 +72,8 @@ forms:
     display_name_en: "Inventor"
     description_it: "Creativo tattico, trova soluzioni non ortodosse."
     axes: {E_I: 0.30, S_N: 0.25, T_F: 0.70, J_P: 0.25}
-    job_affinities: [esploratore, assaltatore]
-    job_penalties: [sentinella]
+    job_affinities: [ranger, vanguard, aberrant]
+    job_penalties: [harvester, symbiont]
     temperament: NT
     innata_trait_id: denti_tuning_fork  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: -1, ap: +1, mod: +1, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -60,8 +84,8 @@ forms:
     display_name_en: "Custodian"
     description_it: "Protettore silenzioso, supporta da retrovie, anticipa bisogni."
     axes: {E_I: 0.75, S_N: 0.35, T_F: 0.25, J_P: 0.70}
-    job_affinities: [guaritore, controllore]
-    job_penalties: [assaltatore]
+    job_affinities: [warden, artificer, symbiont]
+    job_penalties: [vanguard, aberrant]
     temperament: NF
     innata_trait_id: pelle_piezo_satura  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +1, ap: +0, mod: +0, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -71,8 +95,8 @@ forms:
     display_name_en: "Mediator"
     description_it: "Empatico, adattivo, risponde ai bisogni della squadra."
     axes: {E_I: 0.70, S_N: 0.30, T_F: 0.20, J_P: 0.30}
-    job_affinities: [guaritore, esploratore]
-    job_penalties: [assaltatore]
+    job_affinities: [warden, ranger, symbiont]
+    job_penalties: [vanguard, stalker]
     temperament: NF
     innata_trait_id: cuticole_cerose  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +1, ap: +0, mod: -1, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -82,8 +106,8 @@ forms:
     display_name_en: "Protagonist"
     description_it: "Ispiratore, motiva la squadra, buff di gruppo."
     axes: {E_I: 0.25, S_N: 0.30, T_F: 0.25, J_P: 0.70}
-    job_affinities: [guaritore, tattico]
-    job_penalties: [furtivo]
+    job_affinities: [warden, invoker, symbiont]
+    job_penalties: [skirmisher, stalker]
     temperament: NF
     innata_trait_id: coda_prensile_muscolare  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +1, ap: +1, mod: +0, guardia: -2}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -93,8 +117,8 @@ forms:
     display_name_en: "Champion"
     description_it: "Entusiasta, esplora, trova risorse inaspettate."
     axes: {E_I: 0.30, S_N: 0.25, T_F: 0.30, J_P: 0.25}
-    job_affinities: [esploratore, guaritore]
-    job_penalties: [sentinella]
+    job_affinities: [ranger, warden, aberrant]
+    job_penalties: [harvester, stalker]
     temperament: NF
     innata_trait_id: ali_fulminee  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +0, ap: +1, mod: +0, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -105,8 +129,8 @@ forms:
     display_name_en: "Inspector"
     description_it: "Disciplinato, segue protocollo, difesa posizionale."
     axes: {E_I: 0.75, S_N: 0.70, T_F: 0.75, J_P: 0.80}
-    job_affinities: [sentinella, controllore]
-    job_penalties: [esploratore]
+    job_affinities: [harvester, artificer, beastmaster]
+    job_penalties: [ranger, aberrant]
     temperament: SJ
     innata_trait_id: pelle_elastomera  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +1, ap: -1, mod: +0, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -116,8 +140,8 @@ forms:
     display_name_en: "Defender"
     description_it: "Protegge alleati, healing, copertura."
     axes: {E_I: 0.70, S_N: 0.65, T_F: 0.30, J_P: 0.75}
-    job_affinities: [sentinella, guaritore]
-    job_penalties: [assaltatore]
+    job_affinities: [harvester, warden, symbiont]
+    job_penalties: [vanguard, stalker]
     temperament: SJ
     innata_trait_id: corazze_ferro_magnetico  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +1, ap: -1, mod: -1, guardia: +1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -127,8 +151,8 @@ forms:
     display_name_en: "Executive"
     description_it: "Organizzatore aggressivo, setup rapido, colpisce duro."
     axes: {E_I: 0.25, S_N: 0.70, T_F: 0.80, J_P: 0.80}
-    job_affinities: [assaltatore, sentinella]
-    job_penalties: [furtivo]
+    job_affinities: [vanguard, harvester, beastmaster]
+    job_penalties: [skirmisher, aberrant]
     temperament: SJ
     innata_trait_id: martello_osseo  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +0, ap: +0, mod: +1, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -138,8 +162,8 @@ forms:
     display_name_en: "Consul"
     description_it: "Supporto sociale, buff di gruppo, coesione."
     axes: {E_I: 0.25, S_N: 0.65, T_F: 0.25, J_P: 0.75}
-    job_affinities: [guaritore, sentinella]
-    job_penalties: [furtivo]
+    job_affinities: [warden, harvester, symbiont]
+    job_penalties: [skirmisher, aberrant]
     temperament: SJ
     innata_trait_id: cuticole_neutralizzanti  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +1, ap: +0, mod: -1, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -150,8 +174,8 @@ forms:
     display_name_en: "Virtuoso"
     description_it: "Operatore solitario, reattivo, mordi e fuggi."
     axes: {E_I: 0.70, S_N: 0.65, T_F: 0.70, J_P: 0.25}
-    job_affinities: [furtivo, assaltatore]
-    job_penalties: [guaritore]
+    job_affinities: [skirmisher, vanguard, stalker]
+    job_penalties: [warden, symbiont]
     temperament: SP
     innata_trait_id: denti_seghettati  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +0, ap: +1, mod: +1, guardia: -2}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -161,8 +185,8 @@ forms:
     display_name_en: "Adventurer"
     description_it: "Adattivo, flessibile, segue l'istinto."
     axes: {E_I: 0.65, S_N: 0.60, T_F: 0.30, J_P: 0.25}
-    job_affinities: [esploratore, furtivo]
-    job_penalties: [sentinella]
+    job_affinities: [ranger, skirmisher, stalker]
+    job_penalties: [harvester, beastmaster]
     temperament: SP
     innata_trait_id: artigli_radice  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +0, ap: +0, mod: +0, guardia: +0}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -172,8 +196,8 @@ forms:
     display_name_en: "Entrepreneur"
     description_it: "Azione diretta, rischio calcolato, primo in campo."
     axes: {E_I: 0.25, S_N: 0.65, T_F: 0.70, J_P: 0.25}
-    job_affinities: [assaltatore, furtivo]
-    job_penalties: [controllore]
+    job_affinities: [vanguard, skirmisher, stalker]
+    job_penalties: [artificer, symbiont]
     temperament: SP
     innata_trait_id: zampe_a_molla  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: -1, ap: +1, mod: +1, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
@@ -183,8 +207,8 @@ forms:
     display_name_en: "Entertainer"
     description_it: "Carismatico, reattivo, risponde alla situazione."
     axes: {E_I: 0.25, S_N: 0.60, T_F: 0.30, J_P: 0.20}
-    job_affinities: [esploratore, assaltatore]
-    job_penalties: [controllore]
+    job_affinities: [ranger, vanguard, aberrant]
+    job_penalties: [artificer, symbiont]
     temperament: SP
     innata_trait_id: ali_solari_fotoni  # 2026-05-06 TKT-P3-INNATA-TRAIT-GRANT
     stat_seed: {hp: +0, ap: +1, mod: +0, guardia: -1}  # 2026-05-06 TKT-P3-FORM-STAT-APPLIER
