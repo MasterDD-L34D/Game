@@ -707,7 +707,7 @@ traits:
         status_intensity: 1
         target: enemy
     on_hit_status:
-      status_id: stunned
+      status_id: disorient
       duration: 1
       intensity: 1
       trigger_dc: 12
@@ -727,7 +727,7 @@ traits:
         status_intensity: 1
         target: enemy
     on_hit_status:
-      status_id: stunned
+      status_id: disorient
       duration: 1
       intensity: 1
       trigger_dc: 12
@@ -834,7 +834,7 @@ traits:
         status_intensity: 1
         target: enemy
     on_hit_status:
-      status_id: stunned
+      status_id: disorient
       duration: 1
       intensity: 1
       trigger_dc: 12
@@ -1208,7 +1208,7 @@ traits:
         status_intensity: 1
         target: enemy
     on_hit_status:
-      status_id: stunned
+      status_id: disorient
       duration: 1
       intensity: 1
       trigger_dc: 12
@@ -1287,7 +1287,7 @@ traits:
         status_intensity: 1
         target: enemy
     on_hit_status:
-      status_id: stunned
+      status_id: disorient
       duration: 1
       intensity: 1
       trigger_dc: 12
@@ -1501,7 +1501,7 @@ traits:
         status_intensity: 1
         target: enemy
     on_hit_status:
-      status_id: stunned
+      status_id: disorient
       duration: 2
       intensity: 1
       trigger_dc: 12
