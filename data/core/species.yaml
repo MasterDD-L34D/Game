@@ -14,6 +14,13 @@ catalog:
           resistances:
             res:
               elettrico: 1
+      # 2026-05-10 D2 T4 symbiotica_thermalis additions:
+      thermal_floater:
+        name: Thermal Floater
+        effects:
+          resistances:
+            res:
+              heat: 1
     metabolism:
       sand_digest:
         name: Sand Digestor
@@ -27,12 +34,21 @@ catalog:
           resistances:
             res:
               elettrico: 2
+      thermal_pulse:
+        name: Thermal Pulse
+        effects:
+          resistances:
+            res:
+              heat: 2
     offense:
       sand_claws:
         name: Sand Claws
         effects: {}
       electric_pulse:
         name: Electric Pulse
+        effects: {}
+      vent_steam_burst:
+        name: Vent Steam Burst
         effects: {}
     defense:
       heat_scales:
@@ -48,6 +64,13 @@ catalog:
             res:
               elettrico: 1
               fisico: 1
+      hydraulic_carapace:
+        name: Hydraulic Carapace
+        effects:
+          resistances:
+            res:
+              fisico: 1
+              heat: 1
     senses:
       echolocation:
         name: Echolocation
@@ -61,6 +84,12 @@ catalog:
           resistances:
             res:
               elettrico: 1
+      thermal_gradient:
+        name: Thermal Gradient Sensor
+        effects:
+          resistances:
+            res:
+              heat: 1
   synergies:
     # Schema (additive, runtime read by apps/backend/services/combat/synergyDetector.js):
     #   id        — slug stabile (telemetria + log)
@@ -252,6 +281,38 @@ species:
       - "Bipolar polarity switching enables attack/defense duality (NT strategic)"
     ennea_archetype: Esploratore
     mbti_form_bias: NT
+
+  # 2026-05-10 D2 T4 species adoption (PR #2164 proposal canonical):
+  # symbiotica_thermalis (Keystone/T4/dorsale_termale_tropicale, Coordinatore NF).
+  # Closes T4 Keystone slot (was T3 umbra_alaris playable only in biome).
+  # Orphan trait shared con rupicapra_sensoria (T5): metabolismo + risonanza_di_branco.
+  - id: symbiotica_thermalis
+    legacy_slug: symbiotica_thermalis
+    genus: Symbiotica
+    epithet: thermalis
+    clade_tag: Keystone
+    sentience_tier: T4
+    display_name_it: Simbionte Termale
+    display_name_en: Thermal Symbiont
+    display_name: Simbionte Termale
+    estimated_weight: 14
+    weight_budget: 18
+    biome_affinity: dorsale_termale_tropicale
+    default_parts:
+      locomotion: thermal_floater
+      metabolism: thermal_pulse
+      offense: [vent_steam_burst]
+      defense: [hydraulic_carapace]
+      senses: [thermal_gradient]
+    trait_plan:
+      core: [metabolismo_di_condivisione_energetica, scheletro_idraulico_a_pistoni, filtro_metallofago, sacche_galleggianti_ascensoriali]
+      optional: [risonanza_di_branco, capillari_fluoridici, branchie_metalloidi, batteri_termofili_endosimbiosi]
+      synergies: [metabolismo_di_condivisione_energetica, risonanza_di_branco]
+    synergy_hints:
+      - "Heat-energy sharing with adjacent allies (Coordinatore archetype)"
+      - "Mutualistic network builder reads inter-species needs (NF empath)"
+    ennea_archetype: Coordinatore
+    mbti_form_bias: NF
 
   - id: simbionte_corallino_riflesso
     legacy_slug: simbionte_corallino_riflesso

@@ -10125,3 +10125,61 @@ traits:
       Scivolamento magnetico: +1 move_bonus passive (magnetic glide su
       iron-rich abyssal floor). Locomotion magnetica per terrain traversal
       frattura_abissale. Apex T4 mobility advantage.
+
+  # ============================================================================
+  # 2026-05-10 D2 T4 symbiotica_thermalis trait activation (PR #2164 proposal)
+  # ============================================================================
+  # 3 high-priority orphan trait promoted con stub conservative.
+  # Keystone T4 dorsale_termale_tropicale species core trait_plan deps.
+  # Note: sacche_galleggianti_ascensoriali + risonanza_di_branco già in AE.
+
+  metabolismo_di_condivisione_energetica:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 1
+      duration: 2
+      log_tag: symbiotica_energy_share
+    description_it: |
+      Metabolismo di condivisione energetica: +1 defense_mod 2t (energy_share).
+      Heat-energy sharing con alleati adiacenti (T4 altruism marker
+      Coordinatore). Keystone ecosystem regulator role.
+
+  scheletro_idraulico_a_pistoni:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 2
+      duration: 2
+      log_tag: symbiotica_hydraulic_skeleton
+    description_it: |
+      Scheletro idraulico a pistoni: +2 defense_mod 2t (hydraulic
+      pressure skeleton). Per deep-vent locomotion + structural integrity
+      under thermal pressure.
+
+  filtro_metallofago:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 2
+      log_tag: symbiotica_metal_filter
+    description_it: |
+      Filtro metallofago: +1 attack_mod 2t (metallic mineral filtration).
+      Cleans vent output, keystone role purifying ecosystem. Mineral
+      accumulation amplifies offensive secretion.

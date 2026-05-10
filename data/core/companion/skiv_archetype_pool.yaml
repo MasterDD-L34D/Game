@@ -431,6 +431,43 @@ biome_pools:
       - "L'eco porta oltre."
       - "Le rovine insegnano chi resisteva."
 
+  # ═══════════════════════════════════════════════════════════════════
+  # DORSALE TERMALE TROPICALE — biome_class: geothermal
+  # 2026-05-10 D2 T4 species adoption (PR #2164):
+  # symbiotica_thermalis Keystone T4 + umbra_alaris T3 esistente.
+  # Pre-PR: biome listed edge_cases biome_not_in_pool. Now wired.
+  # ═══════════════════════════════════════════════════════════════════
+  dorsale_termale_tropicale:
+    species_pool:
+      - id: symbiotica_thermalis
+        clade_tag: Keystone
+        sentience_tier: T4
+        ecological_role: keystone_coordinator
+      - id: umbra_alaris
+        clade_tag: Playable
+        sentience_tier: T3
+        ecological_role: playable_endemic
+    name_pool:
+      - Calys   # caldo + abisso
+      - Therma  # termale
+      - Vento   # corrente termale
+      - Pyrr    # pira tropicale
+      - Solis   # sole
+      - Nephe   # vapore
+      - Volyn   # volo termico
+      - Cinder  # cenere
+      - Plumi   # pluma vapore
+      - Halor   # alone termale
+    biome_metaphor_set:
+      - "il calore sale dalla bocca della dorsale come un saluto"
+      - "le pieghe metalliche cantano quando il vento le tocca"
+      - "ogni gradiente termico è un sentiero invisibile"
+      - "il vapore porta odori profondi, sale dal cuore della terra"
+    closing_pool:
+      - "Il vapore sale."
+      - "La dorsale respira."
+      - "Calore ricorda."
+
 # ─────────────────────────────────────────────────────────────────────
 # SEZIONE 3.5 — Ennea archetype bias per biome (TKT-SKIV-ENNEA-ARCHETYPE)
 # ─────────────────────────────────────────────────────────────────────
@@ -473,6 +510,11 @@ ennea_archetype_bias:
 
   # Ancient + mystery → introspection + reformer
   rovine_planari: [Architetto, Riformatore, Lealista]
+
+  # 2026-05-10 D2 T4 dorsale_termale_tropicale wired post-pool addition:
+  # geothermal mutualism + ecosystem coordinator → Coordinatore primary.
+  # symbiotica_thermalis Keystone T4 ennea_archetype: Coordinatore.
+  dorsale_termale_tropicale: [Coordinatore, Architetto, Stoico]
 
 # ─────────────────────────────────────────────────────────────────────
 # SEZIONE 4 — Edge case + fallback rules
