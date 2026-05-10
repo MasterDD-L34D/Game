@@ -869,10 +869,29 @@ function buildVcSnapshot(session, config) {
   const gridSize = session?.grid?.width || 6;
   const raw = computeRawMetrics(events, units, gridSize);
 
-  // P4 iter2 opt-in (sprint 2026-04-26 telemetria VC compromesso, REVERTED 2026-04-27:
-  // iter2 default ON rompeva tutorial seed thought unlock — axes null in iter2
-  // quando events_count=0 mentre iter1 deriva da setup_ratio anche senza eventi).
-  // Default = iter1 (backward compat). Opt-in via env VC_AXES_ITER=2 o config.
+  // P4 iter2 (sprint 2026-04-26 telemetria VC) — REOPENED 2026-05-10
+  // (TKT-VCSCORING-ITER2-DEFAULT cross-domain audit BACKLOG):
+  //
+  // History:
+  //   2026-04-26: iter2 default ON shipped → broke tutorial seed thought unlock
+  //               (axes null su events_count=0; iter1 derivava da setup_ratio
+  //               anche senza eventi).
+  //   2026-04-27: REVERTED → default iter1 backward compat.
+  //   2026-05-10: REOPEN per chiudere P4 pillar gap (E_I + S_N partial < 30
+  //               events). Hybrid: iter2 default ON ma fallback iter1 quando
+  //               events_count < EVENTS_FALLBACK_THRESHOLD (preserve tutorial
+  //               seed thought unlock + short-session classification).
+  //
+  // Threshold: 10 events = ~5 turni gameplay. Sotto, iter2 axes (enemy_target_ratio
+  // / concrete_action_ratio / action_switch_rate) hanno noise eccessivo. Iter1
+  // più robusto su sample size piccolo.
+  //
+  // Override priority:
+  //   1. config.use_axes_iter2 (telemetry.yaml explicit)
+  //   2. env VC_AXES_ITER=1 OR =2 (force)
+  //   3. events_count >= 10 → iter2 (default reopen)
+  //   4. events_count < 10 → iter1 (fallback short session)
+  const EVENTS_FALLBACK_THRESHOLD = 10;
   let iter2;
   if (config?.use_axes_iter2 === true) {
     iter2 = true;
@@ -883,7 +902,9 @@ function buildVcSnapshot(session, config) {
   } else if (process.env.VC_AXES_ITER === '2') {
     iter2 = true;
   } else {
-    iter2 = false; // default OFF (revert: tutorial seed thoughts compat)
+    // Default reopen 2026-05-10: iter2 ON quando events_count sufficient,
+    // iter1 fallback per tutorial seed thought unlock compat.
+    iter2 = events.length >= EVENTS_FALLBACK_THRESHOLD;
   }
   const axesFn = iter2 ? computeMbtiAxesIter2 : computeMbtiAxes;
 

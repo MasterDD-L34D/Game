@@ -44,6 +44,17 @@ mutations:
     trigger_examples:
       - "3 stunned applicati in 1 encounter"
       - "1 turno passato in biome glaciale post-Sistema pressure tier 2"
+    # 2026-05-10 TKT-MUT-AUTO-TRIGGER Phase 1 (ADR-2026-05-10): machine-readable
+    # parallel a trigger_examples prose. ANY clause vera → mutation unlock available.
+    trigger_conditions:
+      - kind: status_apply_count
+        status: stunned
+        threshold: 3
+        window: encounter
+      - kind: biome_turn_count
+        biome_class: glacial
+        threshold: 1
+        sistema_pressure_min: 50
     visual_swap_it: "Tier 2: artigli ipo termici -> artigli sghiaccio glaciale. Morfologia visibilmente ristrutturata."
     aspect_token: "claws_glacial"
     description_it: |
@@ -73,6 +84,17 @@ mutations:
     trigger_examples:
       - "5 hit melee da posizione sopraelevata in 1 encounter"
       - "panic applicato 8+ volte cumulato"
+    # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 0
+        count: 5
+        window: encounter
+        elevation_min: 1
+      - kind: status_apply_count
+        status: panic
+        threshold: 8
+        window: cumulative
     visual_swap_it: "Tier 2: ali membrana sonica -> ali fono risonanti. Morfologia visibilmente ristrutturata."
     aspect_token: "wings_resonant"
     description_it: |
@@ -102,6 +124,15 @@ mutations:
     trigger_examples:
       - "10 turni cumulativi in biome palustre"
       - "bleeding applicato 12+ volte"
+    # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: swampy
+        threshold: 10
+      - kind: status_apply_count
+        status: bleeding
+        threshold: 12
+        window: cumulative
     visual_swap_it: "Tier 2: denti seghettati -> denti chelatanti. Morfologia visibilmente ristrutturata."
     aspect_token: "teeth_chelating"
     description_it: |
@@ -131,6 +162,15 @@ mutations:
     trigger_examples:
       - "subito 5 hit con MoS >= 5 (sopravvive a colpi solidi)"
       - "5 turni cumulativi in biome acquatico"
+    # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 5
+        count: 5
+        window: encounter
+      - kind: cumulative_turns_biome
+        biome_class: aquatic
+        threshold: 5
     visual_swap_it: "Tier 2: scheletro pneumatico a maglie -> scheletro idro regolante. Morfologia visibilmente ristrutturata."
     aspect_token: "skeleton_buffered"
     description_it: |
@@ -160,6 +200,14 @@ mutations:
     trigger_examples:
       - "subito 8 hit con MoS >= 5 in 3 encounter consecutivi"
       - "completata mutation precedente scheletro_buffer_upgrade"
+    # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 5
+        count: 8
+        window: session
+      - kind: mutation_chain
+        prereq_mutation_id: scheletro_buffer_upgrade
     visual_swap_it: "Tier 3: carapace segmenti logici -> carapace fase variabile. Morfologia visibilmente ristrutturata."
     aspect_token: "carapace_phasing"
     description_it: |
