@@ -636,6 +636,11 @@ mutations:
     mbti_alignment: { E: 1, P: 1 }
     trigger_examples:
       - "5 turni cumulativi sotto luce intensa (biome solare)"
+    # 2026-05-10 Phase 1 batch 5 manual fill (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: cumulative_turns_biome
+        biome_class: arid
+        threshold: 5
     visual_swap_it: "Tier 2: capillari fluoridici -> capillari fotovoltaici. Aura biome-reactive percettibile."
     aspect_token: "capillaries_photovoltaic"
     description_it: |
@@ -668,6 +673,12 @@ mutations:
     mbti_alignment: { S: 1, J: 1 }
     trigger_examples:
       - "subito 6 hit chimici/acidi in 2 encounter"
+    # 2026-05-10 Phase 1 batch 5 manual fill (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_channel
+        channel: chimico
+        count: 6
+        window: session
     visual_swap_it: "Tier 2: cuticole cerose -> cuticole neutralizzanti. Morfologia visibilmente ristrutturata."
     aspect_token: "cuticle_neutralize"
     description_it: |
@@ -767,6 +778,10 @@ mutations:
     biome_boost: [foresta_temperata, savana, badlands]
     biome_penalty: []
     mbti_alignment: { S: 1, J: 1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    # design — no auto-unlock condition. Player chooses via
+    # /api/v1/mutations/apply post unlock prerequisite.
+    trigger_conditions: []
     trigger_examples:
       - "8 hit melee in 2 encounter"
     visual_swap_it: "Tier 2: coda balanciere -> coda contrappeso. Morfologia visibilmente ristrutturata."
@@ -831,6 +846,7 @@ mutations:
     biome_boost: [palude, foresta_acida]
     biome_penalty: [stratosfera_tempestosa]
     mbti_alignment: { S: 1, F: -1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
     trigger_examples:
       - "panic applicato 10+ volte da inchiostro"
       - "5 turni in biome palustre"
@@ -1078,6 +1094,10 @@ mutations:
     biome_boost: [savana, badlands, altipiani_solari]
     biome_penalty: [palude, foresta_acida]
     mbti_alignment: { E: 1, S: 1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    # design — no auto-unlock condition. Player chooses via
+    # /api/v1/mutations/apply post unlock prerequisite.
+    trigger_conditions: []
     trigger_examples:
       - "10 attacchi sopraelevati MoS >= 5 in 3 encounter"
       - "Sistema warning_signals 'air_dominator' attivo"
@@ -1109,10 +1129,13 @@ mutations:
     trigger_examples:
       - "completata mutation rage_simple_to_super"
       - "10+ kill consecutivi senza prendere danno"
-    # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
+    # 2026-05-10 Phase 1 (ADR-2026-05-10) consolidated.
     trigger_conditions:
       - kind: mutation_chain
         prereq_mutation_id: rage_simple_to_super
+      - kind: kill_streak
+        count: 10
+        no_damage_taken_between: true
     visual_swap_it: "Tier 3: ferocia -> midollo iperattivo. Postura e movimento alterati visibilmente."
     aspect_token: "ferocity_supercritical"
     description_it: |
@@ -1179,6 +1202,10 @@ mutations:
     biome_boost: [altipiani_solari, deserto_caldo, canopia_ionica]
     biome_penalty: [caverna, abisso_vulcanico, frattura_abissale_sinaptica]
     mbti_alignment: { N: 1, P: 1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    # design — no auto-unlock condition. Player chooses via
+    # /api/v1/mutations/apply post unlock prerequisite.
+    trigger_conditions: []
     trigger_examples:
       - "5 turni cumulativi sotto luce intensa (biome solare)"
       - "subito 3 hit fotonici/elettrici senza KO"
@@ -1253,6 +1280,10 @@ mutations:
     biome_boost: [savana, foresta_temperata, badlands]
     biome_penalty: [mezzanotte_orbitale]
     mbti_alignment: { E: 1, F: 1 }
+    # 2026-05-10 Phase 1 batch 6 (ADR-2026-05-10): Manual_apply_only
+    # design — no auto-unlock condition. Player chooses via
+    # /api/v1/mutations/apply post unlock prerequisite.
+    trigger_conditions: []
     trigger_examples:
       - "3 squad combo focus_fire stesso target stesso round"
       - "alleato della stessa specie KO in adiacenza"
@@ -1319,6 +1350,13 @@ mutations:
     mbti_alignment: { S: 1, P: 1 }
     trigger_examples:
       - "5 hit MoS >= 5 contro stesso target in 1 encounter (lock cinetico)"
+    # 2026-05-10 Phase 1 batch 5 manual fill (ADR-2026-05-10).
+    trigger_conditions:
+      - kind: damage_taken_high_mos
+        mos_threshold: 5
+        count: 5
+        window: encounter
+        side: actor
       - "10 turni cumulativi in biome chimicamente attivo"
     visual_swap_it: "Tier 2: chemiorecettori ipertrofici. Antenne sensitive estensione visibile."
     aspect_token: "receptors_seed"
