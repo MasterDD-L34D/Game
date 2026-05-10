@@ -24,13 +24,17 @@
 //   - damage_taken_high_mos    ✅ implemented
 //   - kill_streak              ✅ implemented
 //   - mutation_chain           ✅ implemented
-//   - cumulative_turns_biome   ⏳ stub (richiede Prisma persist Q4 migration)
+//   - cumulative_turns_biome   ✅ implemented (Phase 5 ship — Prisma migration 0007 done)
 //   - damage_taken_channel     ✅ implemented
-//   - ally_killed_adjacent     ⏳ stub (richiede session log enriched spatial)
-//   - ally_adjacent_turns      ⏳ stub (richiede per-turn proximity tracker)
-//   - assisted_kill_count      ⏳ stub (richiede session log assist events)
+//   - ally_killed_adjacent     ✅ implemented (Phase 5 partial 2026-05-10 — kill+attack event match + position adjacency)
+//   - ally_adjacent_turns      ⏳ deferred Phase 6 (richiede per-turn proximity tracker, Prisma migration 0008+)
+//   - assisted_kill_count      ✅ implemented (Phase 5 partial 2026-05-10 — assist event filter)
 //   - sistema_signal_active    ✅ implemented
-//   - trait_active_cumulative  ⏳ stub (cross-encounter aggregate)
+//   - trait_active_cumulative  ⏳ deferred Phase 6 (cross-encounter aggregate, Prisma migration 0009+)
+//
+// Phase 5 implementation count: 10/12 kinds. Residue 2/12 require Prisma
+// schema migration (per-turn proximity tracker + cross-encounter trait
+// aggregate) — defer ADR + master-dd grant gate.
 
 'use strict';
 
@@ -167,12 +171,66 @@ function _evaluateCondition(condition, unit, session) {
       const turns = Number(unit?.cumulative_biome_turns?.[biomeClass]) || 0;
       return { triggered: turns >= threshold, turns, threshold, biomeClass };
     }
-    // 2026-05-10 — kinds residue Phase 5 (require enriched session logs).
-    case 'ally_killed_adjacent':
+    case 'ally_killed_adjacent': {
+      // Phase 5 partial 2026-05-10. Match kill events ally-actor + position
+      // adjacency vs unit.position. species_filter: 'same' = ally.species ==
+      // unit.species. Adjacency = Manhattan distance <= 1 from attack.position_to
+      // (where target died) — unit was witness/participant of nearby kill.
+      const speciesFilter = condition.species_filter || null;
+      const threshold = Number(condition.threshold) || 0;
+      const unitTeam = unit?.team || 'players';
+      const unitSpecies = unit?.species || null;
+      const ux = Number(unit?.position?.x);
+      const uy = Number(unit?.position?.y);
+      if (!Number.isFinite(ux) || !Number.isFinite(uy)) {
+        return { triggered: false, reason: 'unit_position_missing' };
+      }
+      const allUnits = Array.isArray(session?.units) ? session.units : [];
+      const allyIds = new Set(
+        allUnits
+          .filter((u) => u && u.id !== unitId && (u.team || 'players') === unitTeam)
+          .map((u) => u.id),
+      );
+      // Build attack event index by (actor_id, target_id, turn) for position lookup.
+      const attackByKey = new Map();
+      for (const e of events) {
+        if (e.action_type === 'attack' && e.position_to) {
+          attackByKey.set(`${e.actor_id}|${e.target_id}|${e.turn}`, e);
+        }
+      }
+      let count = 0;
+      for (const e of events) {
+        if (e.action_type !== 'kill') continue;
+        if (!allyIds.has(e.actor_id)) continue;
+        // species_filter: same → killer.species == unit.species.
+        if (speciesFilter === 'same' && unitSpecies && e.actor_species !== unitSpecies) continue;
+        // Lookup attack position; fallback skip if missing (older events).
+        const attack = attackByKey.get(`${e.actor_id}|${e.target_id}|${e.turn}`);
+        if (!attack || !attack.position_to) continue;
+        const tx = Number(attack.position_to.x);
+        const ty = Number(attack.position_to.y);
+        if (!Number.isFinite(tx) || !Number.isFinite(ty)) continue;
+        const dist = Math.abs(ux - tx) + Math.abs(uy - ty);
+        if (dist <= 1) count += 1;
+      }
+      return { triggered: count >= threshold, count, threshold, speciesFilter };
+    }
+    case 'assisted_kill_count': {
+      // Phase 5 partial 2026-05-10. Filter assist events sourced by this unit.
+      // Assist events già emessi via emitKillAndAssists (apps/backend/routes/session.js).
+      const threshold = Number(condition.threshold) || 0;
+      // window: cumulative (default) | encounter | session.
+      // Currently session.events spans cumulative — window filter is no-op
+      // until per-encounter scoping shipped (defer Phase 6).
+      const count = events.filter(
+        (e) => e.action_type === 'assist' && e.actor_id === unitId,
+      ).length;
+      return { triggered: count >= threshold, count, threshold };
+    }
+    // 2026-05-10 — kinds residue Phase 6 (require Prisma migration 0008+).
     case 'ally_adjacent_turns':
-    case 'assisted_kill_count':
     case 'trait_active_cumulative':
-      return { triggered: false, reason: 'kind_deferred_phase_5', kind };
+      return { triggered: false, reason: 'kind_deferred_phase_6', kind };
     default:
       return { triggered: false, reason: 'unknown_kind', kind };
   }
