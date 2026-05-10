@@ -8,10 +8,33 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v35 (post sessione 2026-05-10 FULL AUDIT CLOSURE — 41 PR cumulative + 17/17 audit + 13/13 verdict closed + T4 ladder 5/5)
-- **Ultimo aggiornamento**: 2026-05-10 ~11:05 UTC. **41 PR Game/ shipped main cumulative Day 5+1**. Major: 17/17 cross-domain audit ticket addressed + 13/13 master-dd user-explicit verdict closed + T4 ladder 5/5 species (electromanta + symbiotica + sonaraptor + psionerva + fusomorpha) + Mission Console source recovered + mutation evaluator Phase 1+2+3+4 + heal kind canonical + Prisma migration + bond reaction surface live + F3 Path B 32 trait wired. **Vedi memory: project_session_2026_05_10_full_audit_closure.md**.
+- **Versione compact**: v36 (post sessione 2026-05-10 sera cascade L3 autonomous + Phase 5 partial + npm audit + MC build PAT E2E — 51 PR cumulative Day 5+1+2)
+- **Ultimo aggiornamento**: 2026-05-10 ~13:50 UTC. **51 PR Game/ shipped main cumulative**. Major sessione sera (10 PR): cascade L3 4 PR (#2185+#2186+#2184+#2187) + MC build PAT E2E #2188 + Sprint Q+ pre-stage #2189+#2190 + npm audit fix #2191 + Mutation Phase 5 partial 10/12 #2193 + browser ops AUTODEPLOY_PAT autonomous Chrome MCP. Pillar P3 Identità Specie × Job 🟢ⁿ → 🟢++ (39 trait abilities runtime live). **Vedi memory: project_session_2026_05_10_sera_cascade_l3_autonomous.md**.
+
+## ⚡ Resume trigger phrase canonical (next session — post-2026-05-10 sera closure)
+
+Phase B Day 8 trigger primary (2026-05-14):
+
+> _"Phase B accept verdict γ/α/β + Sprint Q+ Q.A kickoff cascade — execute Q-1 schema + Q-2 migration forbidden path bundle"_
+
+OR (autonomous γ default fallback se silenzio):
+
+> _"leggi ADR-2026-05-05 §13.3 + commit fill γ default + cascade Sprint Q+ Q.A autonomous"_
+
+OR (Day 8 eseguito già):
+
+> _"Sprint Q+ Q.B Q-3 propagateLineage engine ship + Q-4 HTTP API JWT + Q-5 evaluateChoiceRitual cross-stack contract"_
+
+Spec docs canonical pre-stage:
+
+- [docs/planning/2026-05-10-sprint-q-plus-qa-prestage-bundle.md](docs/planning/2026-05-10-sprint-q-plus-qa-prestage-bundle.md) — Q-1 schema + Q-2 migration + §13.3 fill template
+- [docs/planning/2026-05-10-sprint-q-plus-qbcde-spec-extension.md](docs/planning/2026-05-10-sprint-q-plus-qbcde-spec-extension.md) — Q-3 → Q-12 full pipeline spec
 
 Pre-closure history (mantenuta):
+
+- **Versione v35**: post sessione 2026-05-10 mattina FULL AUDIT CLOSURE — 41 PR cumulative + 17/17 audit + 13/13 verdict closed + T4 ladder 5/5.
+
+Pre-pre-closure history (mantenuta):
 
 - **Versione precedente v34**: post sessione 2026-05-09 sera→2026-05-10 nightly cron P0 fix + sweep harness extension. **3 PR Game/ shipped main + 1 DRAFT-→ready-review**:
   - #2155 `48eaf24a` nightly cron P0 (WS port 3334 vs 3341 + `set +e` regression-detection)

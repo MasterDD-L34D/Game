@@ -9,6 +9,71 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ Cascade L3 autonomous + Phase 5 partial + npm audit + MC build PAT E2E — sessione 2026-05-10 sera — 10 PR shipped (cumulative Day 5+1+2 = 51 PR)
+
+User resume trigger "cascade approval" → "facciamo gli auto trigger pending e poi continuiaimo con i due next gate in parallel" → "procedi continuando in autonomia". Cascade ~5h cumulative post-FULL-AUDIT-CLOSURE (41 PR pre-conv).
+
+| #   | PR                                                       | Squash     | Topic                                                                       |
+| --- | -------------------------------------------------------- | ---------- | --------------------------------------------------------------------------- |
+| 1   | [#2185](https://github.com/MasterDD-L34D/Game/pull/2185) | _silent_   | V13 trait_native pseudo-job 39 abilities + jobs route filter pseudo         |
+| 2   | [#2186](https://github.com/MasterDD-L34D/Game/pull/2186) | `6bbcaae7` | V6 Sprint Q+ FULL scope codification post-Phase-B (12 ticket Q-1 → Q-12)    |
+| 3   | [#2184](https://github.com/MasterDD-L34D/Game/pull/2184) | `f9a9e282` | Workflow bundle V1+V17 — MC build PR-based + nightly NIT-1 + Codex 5 rounds |
+| 4   | [#2187](https://github.com/MasterDD-L34D/Game/pull/2187) | `1b42d18f` | Cascade L3 pre-merge audit + Phase B accept ADR §13 stub                    |
+| 5   | [#2188](https://github.com/MasterDD-L34D/Game/pull/2188) | `e50c49ca` | MC build auto-deploy dist (PAT validation E2E) — first cascade auto-PR live |
+| 6   | [#2189](https://github.com/MasterDD-L34D/Game/pull/2189) | `6dcf2983` | Sprint Q+ Q.A pre-stage bundle (Q-1 schema + Q-2 migration + Day 8 fill)    |
+| 7   | [#2190](https://github.com/MasterDD-L34D/Game/pull/2190) | `7f8dd93b` | Sprint Q+ Q.B+Q.C+Q.D+Q.E spec extension (Q-3 → Q-12 full pipeline)         |
+| 8   | [#2191](https://github.com/MasterDD-L34D/Game/pull/2191) | `f3576a90` | npm audit fix 27 → 9 vulnerabilities (18 fixed semver-compat)               |
+| 9   | [#2193](https://github.com/MasterDD-L34D/Game/pull/2193) | `d43b29d6` | Mutation Phase 5 partial 10/12 + terrain flaky 12→30 iters bundle           |
+
+**Browser ops master-dd autonomous (Chrome MCP)**:
+
+- Azione 1 ✅ AUTODEPLOY_PAT secret created — fine-grained PAT 4 permissions (Actions+Contents+Metadata+PR r+w), repo Game only, expiration 2026-08-08 (90gg). End-to-end via Chrome MCP (sudo OTP master-dd, scopes + repo selection + permissions + token gen + clipboard paste autonomous).
+- Azione 2 ✅ Skiv Monitor toggle verified done (Settings → Actions → workflow permissions allow create/approve PR già checked).
+
+**MC build workflow E2E validation**:
+
+- Workflow_dispatch run [25629460120](https://github.com/MasterDD-L34D/Game/actions/runs/25629460120) SUCCESS post-PAT setup
+- Auto-PR #2188 creato `auto/mission-console-dist-2026-05-10-1304` con labels `automation` + `auto-merge-l3-candidate` ✅
+- PAT path active (no fallback dispatch fired)
+- Native CI `pull_request` event fired (no recursion guard issue)
+- Cascade L3 7-gate verification verde + auto-merge naturale
+
+**Mutation Phase 5 partial (10/12 kinds)**:
+
+- ally_killed_adjacent: kill events + position adjacency Manhattan ≤1 + species_filter
+- assisted_kill_count: assist event filter actor_id (assist events già emessi via emitKillAndAssists SPRINT_003)
+- 8 tests new tests/services/mutationTriggerEvaluatorPhase5.test.js
+- Residue 2/12 deferred Phase 6 (Prisma migration 0008+/0009+): ally_adjacent_turns + trait_active_cumulative
+
+**Codex iter cycle PR #2184 (5 rounds)**:
+
+- Round 1 P1: GITHUB_TOKEN recursion guard → PAT chain + dispatch fallback
+- Round 2 P2+P3: missing L3 label + PAT marker scope → label create + step output
+- Round 3 P2: ci.yml lacks workflow_dispatch → + workflow_dispatch + validation
+- Round 4 P2: DISPATCH_FAILURES exit 0 → exit 1 + ::error
+- Round 5: "Delightful! No major issues" 🟢
+
+**BACKLOG closure**:
+
+- TKT-NIGHTLY-WORKFLOW-NIT-1 ✅ chiuso (PR #2184 top-level env LOBBY_WS_PORT)
+- TKT-NIGHTLY-WORKFLOW-NIT-3 ✅ verified pre-shipped #2155
+- **TKT-TERRAIN-FLAKY** ✅ chiuso (5/5 PASS reproduce post-fix shipped 12→30 iters già live, pre-fix-discovery stale entry)
+- **TKT-TERRAIN-FLAKY-2** (fire channel attack on normal tile + acqua + lightning + ghiaccio) ✅ shipped fix bundled in PR #2193
+
+**Pillar deltas**: P3 Identità Specie × Job 🟢ⁿ → 🟢++ (39 trait abilities runtime live).
+
+**Outstanding master-dd action items** (non-blocking):
+
+- Phase B Day 8 verdict (2026-05-14): ADR-2026-05-05 §13.3 fill template ready (γ default automatic ~5min compile OR α full social ~30min)
+- Sprint Q+ kickoff cascade post-§13.3 commit: Q-1 + Q-2 spec ready ship cascade autonomous (~3h)
+- Sprint Q+ Q.B → Q.E full pipeline spec ready (~21-23h post-Q.A merge)
+
+**Pre-existing residue master-dd** (deferred):
+
+- 9 npm audit residue (--force breaking changes)
+- Mutation Phase 6 (ally_adjacent_turns + trait_active_cumulative) — Prisma migration ADR
+- Lifecycle 5-fasi YAML 5 T4 species (design gate)
+
 ### ✅ FULL AUDIT CLOSURE — sessione 2026-05-10 — 27 PR shipped main (cumulative Day 5+1 = 41 PR)
 
 User canonical resume trigger 2026-05-09 sera "verifica primo nightly cron run 2026-05-10 02:00 UTC". Cascade autonomous ~12h waves 7-19 chiude:
