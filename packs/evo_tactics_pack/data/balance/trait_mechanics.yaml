@@ -625,3 +625,926 @@ traits:
       intensity: 1
     on_hit_stress_delta: 0.05
     notes: "offensive (TRT-02): cannone sonico con disorientamento e stress delta. Sprint 6: pressure_wave wind ability (sonic = pressure waveform)."
+
+  # === Wave 5-7 backfill 2026-05-11 (TKT-P6-TRAIT-MECHANICS-SYNC) ===
+  # 59 traits added: mirror data/core/traits/active_effects.yaml semantics.
+  # Tier-default balance values applied (no new design - match T1/T2/T3 baseline).
+  ali_fulminee:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: ali_fulminee_strike
+        name_it: "Ali Fulminee Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 4, modifier: 2 }
+        channel: fisico
+        target: enemy
+  ali_membrana_sonica:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: ali_membrana_sonica_burst
+        name_it: "Ali Membrana Sonica Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: panic
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: panic
+      duration: 2
+      intensity: 1
+      trigger_dc: 12
+  antenne_eco_turbina:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: antenne_eco_turbina_strike
+        name_it: "Antenne Eco Turbina Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 4, modifier: 1 }
+        channel: fisico
+        target: enemy
+  antenne_flusso_mareale:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: antenne_flusso_mareale_strike
+        name_it: "Antenne Flusso Mareale Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
+  antenne_microonde_cavernose:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: antenne_microonde_cavernose_burst
+        name_it: "Antenne Microonde Cavernose Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: stunned
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: stunned
+      duration: 1
+      intensity: 1
+      trigger_dc: 12
+  antenne_reagenti:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: antenne_reagenti_burst
+        name_it: "Antenne Reagenti Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: stunned
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: stunned
+      duration: 1
+      intensity: 1
+      trigger_dc: 12
+  appendici_risonanti_marea:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: appendici_risonanti_marea_guard
+        name_it: "Appendici Risonanti Marea Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 3
+        target: self
+  armatura_pietra_planare:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: armatura_pietra_planare_guard
+        name_it: "Armatura Pietra Planare Guard"
+        cost_ap: 3
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 4
+        target: self
+  artigli_radice:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: artigli_radice_burst
+        name_it: "Artigli Radice Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: fracture
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+  artigli_vetrificati:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: artigli_vetrificati_strike
+        name_it: "Artigli Vetrificati Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
+  baffi_mareomotori:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: baffi_mareomotori_strike
+        name_it: "Baffi Mareomotori Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 1 }
+        channel: fisico
+        target: enemy
+  barbigli_sensori_plasma:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: barbigli_sensori_plasma_strike
+        name_it: "Barbigli Sensori Plasma Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
+  barriere_miasma_glaciale:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: barriere_miasma_glaciale_burst
+        name_it: "Barriere Miasma Glaciale Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: stunned
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: stunned
+      duration: 1
+      intensity: 1
+      trigger_dc: 12
+  biofilm_glow:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: biofilm_glow_guard
+        name_it: "Biofilm Glow Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  branchie_dual_mode:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: branchie_dual_mode_guard
+        name_it: "Branchie Dual Mode Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 3
+        target: self
+  branchie_eoliche:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: branchie_eoliche_strike
+        name_it: "Branchie Eoliche Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 1 }
+        channel: fisico
+        target: enemy
+  branchie_microfiltri:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: branchie_microfiltri_guard
+        name_it: "Branchie Microfiltri Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  branchie_osmotiche_salmastra:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: branchie_osmotiche_salmastra_guard
+        name_it: "Branchie Osmotiche Salmastra Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 3
+        target: self
+  bulbi_radici_permafrost:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: bulbi_radici_permafrost_burst
+        name_it: "Bulbi Radici Permafrost Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: rage
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+  camere_mirage:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: camere_mirage_guard
+        name_it: "Camere Mirage Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  canto_di_richiamo:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: canto_di_richiamo_burst
+        name_it: "Canto Di Richiamo Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: rage
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+  carapace_luminiscente_abissale:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: carapace_luminiscente_abissale_guard
+        name_it: "Carapace Luminiscente Abissale Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 3
+        target: self
+  carapace_segmenti_logici:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: carapace_segmenti_logici_guard
+        name_it: "Carapace Segmenti Logici Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 3
+        target: self
+  carapaci_ferruginosi:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: carapaci_ferruginosi_guard
+        name_it: "Carapaci Ferruginosi Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 3
+        target: self
+  cartilagini_pseudometalliche:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: cartilagini_pseudometalliche_guard
+        name_it: "Cartilagini Pseudometalliche Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 3
+        target: self
+  circolazione_bifasica:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: circolazione_bifasica_burst
+        name_it: "Circolazione Bifasica Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: rage
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+  coda_contrappeso:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: coda_contrappeso_strike
+        name_it: "Coda Contrappeso Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 4, modifier: 2 }
+        channel: fisico
+        target: enemy
+  coda_coppia_retroattiva:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: coda_coppia_retroattiva_burst
+        name_it: "Coda Coppia Retroattiva Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: fracture
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: fracture
+      duration: 1
+      intensity: 1
+      trigger_dc: 12
+  coda_stabilizzatrice_filo:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: coda_stabilizzatrice_filo_strike
+        name_it: "Coda Stabilizzatrice Filo Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 4, modifier: 1 }
+        channel: fisico
+        target: enemy
+  coda_stabilizzatrice_vortex:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: coda_stabilizzatrice_vortex_strike
+        name_it: "Coda Stabilizzatrice Vortex Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
+  cuore_in_furia:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: cuore_in_furia_burst
+        name_it: "Cuore In Furia Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: rage
+        status_duration: 3
+        status_intensity: 1
+        target: enemy
+  cuore_multicamera_bassa_pressione:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: cuore_multicamera_bassa_pressione_burst
+        name_it: "Cuore Multicamera Bassa Pressione Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: rage
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+  denti_ossidoferro:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: denti_ossidoferro_strike
+        name_it: "Denti Ossidoferro Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 4, modifier: 1 }
+        channel: fisico
+        target: enemy
+  denti_silice_termici:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: denti_silice_termici_burst
+        name_it: "Denti Silice Termici Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: bleeding
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: bleeding
+      duration: 2
+      intensity: 1
+      trigger_dc: 12
+  filamenti_magnetotrofi:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: filamenti_magnetotrofi_strike
+        name_it: "Filamenti Magnetotrofi Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 1 }
+        channel: fisico
+        target: enemy
+  ghiandole_cambio_salino:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: ghiandole_cambio_salino_burst
+        name_it: "Ghiandole Cambio Salino Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: bleeding
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: bleeding
+      duration: 2
+      intensity: 1
+      trigger_dc: 12
+  ghiandole_condensa_ozono:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: ghiandole_condensa_ozono_burst
+        name_it: "Ghiandole Condensa Ozono Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: stunned
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: stunned
+      duration: 1
+      intensity: 1
+      trigger_dc: 12
+  ghiandole_eco_mappanti:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: ghiandole_eco_mappanti_strike
+        name_it: "Ghiandole Eco Mappanti Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 1 }
+        channel: fisico
+        target: enemy
+  ghiandole_fango_calde:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: ghiandole_fango_calde_burst
+        name_it: "Ghiandole Fango Calde Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: fracture
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+  ghiandole_grafene:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: ghiandole_grafene_guard
+        name_it: "Ghiandole Grafene Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 3
+        target: self
+  ghiandole_minerali:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: ghiandole_minerali_guard
+        name_it: "Ghiandole Minerali Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  ghiandole_resina_conduttiva:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: ghiandole_resina_conduttiva_burst
+        name_it: "Ghiandole Resina Conduttiva Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: stunned
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: stunned
+      duration: 1
+      intensity: 1
+      trigger_dc: 12
+  gusci_criovetro:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: gusci_criovetro_guard
+        name_it: "Gusci Criovetro Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 3
+        target: self
+  intimidatore:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: intimidatore_burst
+        name_it: "Intimidatore Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: panic
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+  lamelle_shear:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: lamelle_shear_guard
+        name_it: "Lamelle Shear Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  lamine_filtranti_aeree:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: lamine_filtranti_aeree_guard
+        name_it: "Lamine Filtranti Aeree Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  lingua_cristallina:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: lingua_cristallina_strike
+        name_it: "Lingua Cristallina Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 2 }
+        channel: fisico
+        target: enemy
+  luminescenza_aurorale:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: luminescenza_aurorale_guard
+        name_it: "Luminescenza Aurorale Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 3
+        target: self
+  membrane_eliofiltranti:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: membrane_eliofiltranti_guard
+        name_it: "Membrane Eliofiltranti Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  membrane_pneumatofori:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: membrane_pneumatofori_guard
+        name_it: "Membrane Pneumatofori Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  midollo_antivibrazione:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: midollo_antivibrazione_burst
+        name_it: "Midollo Antivibrazione Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: rage
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+  midollo_iperattivo:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: midollo_iperattivo_burst
+        name_it: "Midollo Iperattivo Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: rage
+        status_duration: 3
+        status_intensity: 1
+        target: enemy
+  pelli_anti_ustione:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: pelli_anti_ustione_guard
+        name_it: "Pelli Anti Ustione Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  pelli_cave:
+    attack_mod: 0
+    defense_mod: 1
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: pelli_cave_guard
+        name_it: "Pelli Cave Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 2
+        buff_duration: 2
+        target: self
+  pelli_fitte:
+    attack_mod: 0
+    defense_mod: 2
+    damage_step: 0
+    cost_ap: 1
+    resistances: []
+    active_effects:
+      - ability_id: pelli_fitte_guard
+        name_it: "Pelli Fitte Guard"
+        cost_ap: 2
+        effect_type: buff
+        buff_stat: defense_mod
+        buff_amount: 3
+        buff_duration: 3
+        target: self
+  pungiglione_paralizzante:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: pungiglione_paralizzante_burst
+        name_it: "Pungiglione Paralizzante Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: stunned
+        status_duration: 2
+        status_intensity: 1
+        target: enemy
+    on_hit_status:
+      status_id: stunned
+      duration: 2
+      intensity: 1
+      trigger_dc: 12
+  sensori_sismici:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 1
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: sensori_sismici_strike
+        name_it: "Sensori Sismici Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 6, modifier: 1 }
+        channel: fisico
+        target: enemy
+  tentacoli_uncinati:
+    attack_mod: 0
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: tentacoli_uncinati_burst
+        name_it: "Tentacoli Uncinati Burst"
+        cost_ap: 2
+        effect_type: apply_status
+        status_id: fracture
+        status_duration: 1
+        status_intensity: 1
+        target: enemy
+  zampe_radianti:
+    attack_mod: 1
+    defense_mod: 0
+    damage_step: 0
+    cost_ap: 2
+    resistances: []
+    active_effects:
+      - ability_id: zampe_radianti_strike
+        name_it: "Zampe Radianti Strike"
+        cost_ap: 2
+        effect_type: damage
+        damage_dice: { count: 1, sides: 4, modifier: 2 }
+        channel: fisico
+        target: enemy
