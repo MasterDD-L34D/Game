@@ -10256,3 +10256,25 @@ traits:
     description_it: |
       Visione multi-spettrale amplificata: +1 attack_mod 2t (multi-spectrum
       UV+IR perception). Canopy hunting precision Conquistatore T4.
+
+  # ============================================================================
+  # 2026-05-10 D4 T4 psionerva_montis trait activation (PR #2164 proposal)
+  # ============================================================================
+  # 1 new orphan stub. Other 4 trait_plan core già in AE batch precedenti
+  # (focus_frazionato + criostasi_adattiva + olfatto_risonanza_magnetica +
+  # metabolismo_di_condivisione_energetica).
+
+  corna_psico_conduttive:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: psionerva_psionic_horn
+    description_it: |
+      Corna psico-conduttive: +2 damage melee (psionic_horn signal
+      amplification). Architetto T4 proto-sapient horn geometry channels
+      psionic intent into melee strike.

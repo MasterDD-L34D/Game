@@ -432,6 +432,42 @@ biome_pools:
       - "Le rovine insegnano chi resisteva."
 
   # ═══════════════════════════════════════════════════════════════════
+  # CALDERA GLACIALE — biome_class: glacial/upland
+  # 2026-05-10 D4 T4 species adoption (PR #2164):
+  # psionerva_montis Bridge T4 + rupicapra_sensoria T5 esistente.
+  # ═══════════════════════════════════════════════════════════════════
+  caldera_glaciale:
+    species_pool:
+      - id: psionerva_montis
+        clade_tag: Bridge
+        sentience_tier: T4
+        ecological_role: bridge_architetto
+      - id: rupicapra_sensoria
+        clade_tag: Keystone
+        sentience_tier: T5
+        ecological_role: keystone_montano
+    name_pool:
+      - Cryos   # cryo
+      - Glaci   # glaciale
+      - Tarn    # lago alpino
+      - Rifte   # frattura glaciale
+      - Volir   # vola alto
+      - Pyran   # piramide ghiacciata
+      - Calda   # caldera
+      - Nivar   # nevoso
+      - Acere   # aspra
+      - Rocco   # roccia
+    biome_metaphor_set:
+      - "il ghiaccio sotto le zampe canta in psicofrequenze"
+      - "ogni gradiente termico apre un sentiero psionico"
+      - "la caldera dorme ma ascolta sempre"
+      - "il vento gelato porta segnali da lontane montagne"
+    closing_pool:
+      - "Il ghiaccio ricorda."
+      - "La caldera respira."
+      - "Pensiero ghiacciato."
+
+  # ═══════════════════════════════════════════════════════════════════
   # CANOPIA IONICA — biome_class: canopy/ionic
   # 2026-05-10 D3 T4 species adoption (PR #2164):
   # sonaraptor_dissonans Threat T4 (apex acoustic predator).
@@ -556,6 +592,10 @@ ennea_archetype_bias:
   # 2026-05-10 D3 T4 canopia_ionica wired (acoustic territorial dominance):
   # sonaraptor_dissonans Threat T4 ennea_archetype: Conquistatore.
   canopia_ionica: [Conquistatore, Cacciatore, Esploratore]
+
+  # 2026-05-10 D4 T4 caldera_glaciale wired (psionic mountain dwellers):
+  # psionerva_montis Bridge T4 ennea_archetype: Architetto.
+  caldera_glaciale: [Architetto, Stoico, Lealista]
 
 # ─────────────────────────────────────────────────────────────────────
 # SEZIONE 4 — Edge case + fallback rules
