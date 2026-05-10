@@ -224,6 +224,8 @@ species:
         - ferocia
         - biofilm_iperarido
         - antenne_dustsense
+        - antenne_reagenti # Wave 5 ASSIGN-A — reactive antennae savana ambush
+        - coda_coppia_retroattiva # Wave 5 ASSIGN-A — counter-torque tail desert burst
       synergies:
         - focus_frazionato
         - risonanza_di_branco
@@ -322,7 +324,17 @@ species:
       senses: [echolocation]
     trait_plan:
       core: [camere_risonanza_abyssal, emettitori_voidsong, corazze_ferro_magnetico, bioantenne_gravitiche]
-      optional: [emolinfa_conducente, placche_pressioniche, filamenti_echo, spicole_canalizzatrici, lobi_risonanti_crepuscolo, pelle_piezo_satura, canto_risonante, vortice_nera_flash]
+      optional:
+        - emolinfa_conducente
+        - placche_pressioniche
+        - filamenti_echo
+        - spicole_canalizzatrici
+        - lobi_risonanti_crepuscolo
+        - pelle_piezo_satura
+        - canto_risonante
+        - vortice_nera_flash
+        - ghiandole_eco_mappanti # Wave 5 ASSIGN-A — echo-mapping glands sonar abyssal
+        - cuore_multicamera_bassa_pressione # Wave 5/6 ASSIGN-A — abyssal pressure heart
       synergies: [emettitori_voidsong]
     synergy_hints: []
 
@@ -351,7 +363,17 @@ species:
       senses: [magnetic_olfaction]
     trait_plan:
       core: [elettromagnete_biologico, scivolamento_magnetico, integumento_bipolare, olfatto_risonanza_magnetica]
-      optional: [seta_conduttiva_elettrica, capillari_fotovoltaici, antenne_tesla, bioantenne_gravitiche, artigli_induzione, epidermide_dielettrica, ghiandole_nebbia_ionica, filamenti_superconduttivi]
+      optional:
+        - seta_conduttiva_elettrica
+        - capillari_fotovoltaici
+        - antenne_tesla
+        - bioantenne_gravitiche
+        - artigli_induzione
+        - epidermide_dielettrica
+        - ghiandole_nebbia_ionica
+        - filamenti_superconduttivi
+        - filamenti_magnetotrofi # Wave 5 ASSIGN-A — magnetotrophic filaments
+        - barbigli_sensori_plasma # Wave 6 ASSIGN-A — plasma sensor barbels
       synergies: [elettromagnete_biologico, scivolamento_magnetico]
     synergy_hints:
       - "Active electromagnetic field doubles as sensing + weapon (Esploratore archetype)"
@@ -383,7 +405,17 @@ species:
       senses: [thermal_gradient]
     trait_plan:
       core: [metabolismo_di_condivisione_energetica, scheletro_idraulico_a_pistoni, filtro_metallofago, sacche_galleggianti_ascensoriali]
-      optional: [risonanza_di_branco, capillari_fluoridici, branchie_metalloidi, batteri_termofili_endosimbiosi, denti_chelatanti, ghiandole_iodoattive, enzimi_antipredatori_algali, batteri_endosimbionti_chemio, filamenti_termoconduzione]
+      optional:
+        - risonanza_di_branco
+        - capillari_fluoridici
+        - branchie_metalloidi
+        - batteri_termofili_endosimbiosi
+        - denti_chelatanti
+        - ghiandole_iodoattive
+        - enzimi_antipredatori_algali
+        - batteri_endosimbionti_chemio
+        - filamenti_termoconduzione
+        - pelli_anti_ustione # Wave 5/6 ASSIGN-A — burn-resistant skin thermal biome
       synergies: [metabolismo_di_condivisione_energetica, risonanza_di_branco]
     synergy_hints:
       - "Heat-energy sharing with adjacent allies (Coordinatore archetype)"
@@ -414,7 +446,14 @@ species:
       senses: [chemo_sonic_array]
     trait_plan:
       core: [cannone_sonico_a_raggio, campo_di_interferenza_acustica, sistemi_chimio_sonici, visione_multi_spettrale_amplificata]
-      optional: [comunicazione_fotonica_coda_coda, ali_fono_risonanti, antenne_tesla, ali_solari_fotoni, denti_tuning_fork]
+      optional:
+        - comunicazione_fotonica_coda_coda
+        - ali_fono_risonanti
+        - antenne_tesla
+        - ali_solari_fotoni
+        - denti_tuning_fork
+        - coda_stabilizzatrice_vortex # Wave 5 ASSIGN-A — vortex stabilizer flight
+        - branchie_eoliche # Wave 5/6 ASSIGN-A — wind gills canopia ionica
       synergies: [cannone_sonico_a_raggio, campo_di_interferenza_acustica]
     synergy_hints:
       - "Sonic territorial dominance + jamming field disruption (Conquistatore)"
@@ -445,7 +484,16 @@ species:
       senses: [magnetic_olfaction]
     trait_plan:
       core: [corna_psico_conduttive, focus_frazionato, criostasi_adattiva, olfatto_risonanza_magnetica]
-      optional: [metabolismo_di_condivisione_energetica, lobi_risonanti_crepuscolo, antenne_tesla, capillari_criogenici, artigli_sghiaccio_glaciale, enzimi_antifase_termica, occhi_cristallo_modulare]
+      optional:
+        - metabolismo_di_condivisione_energetica
+        - lobi_risonanti_crepuscolo
+        - antenne_tesla
+        - capillari_criogenici
+        - artigli_sghiaccio_glaciale
+        - enzimi_antifase_termica
+        - occhi_cristallo_modulare
+        - lingua_cristallina # Wave 6 ASSIGN-A — crystal tongue cryo sensor
+        - gusci_criovetro # Wave 6 ASSIGN-A — cryo-glass shells caldera glaciale
       synergies: [corna_psico_conduttive, focus_frazionato]
     synergy_hints:
       - "Psionic signal amplification via horn geometry (Architetto)"
@@ -477,7 +525,13 @@ species:
       senses: [chemo_sonic_array]
     trait_plan:
       core: [flusso_ameboide_controllato, fagocitosi_assorbente, filtrazione_osmotica, ermafroditismo_cronologico]
-      optional: [moltiplicazione_per_fusione, branchie_metalloidi, capillari_fluoridici, scheletro_idro_regolante, spore_paniche]
+      optional:
+        - moltiplicazione_per_fusione
+        - branchie_metalloidi
+        - capillari_fluoridici
+        - scheletro_idro_regolante
+        - spore_paniche
+        - branchie_microfiltri # Wave 5 ASSIGN-A — filter gills palude
       synergies: [flusso_ameboide_controllato, moltiplicazione_per_fusione]
     synergy_hints:
       - "Empathic shapeshifter reads group emotional state (Individualista)"
@@ -535,7 +589,12 @@ species:
         - scivolamento_magnetico
         - filtro_metallofago
         - bozzolo_magnetico
-      optional: []
+      optional:
+        - antenne_flusso_mareale # Wave 5 ASSIGN-A — tidal sensors atollo obsidiana
+        - branchie_dual_mode # Wave 5 ASSIGN-A — water/air gills transitional
+        - ghiandole_resina_conduttiva # Wave 5 ASSIGN-A — conductive resin electric eel
+        - baffi_mareomotori # Wave 5/6 ASSIGN-A — tidal whiskers
+        - appendici_risonanti_marea # Wave 6 ASSIGN-A — tidal resonant appendages
       synergies: []
     synergy_hints: []
 
@@ -571,6 +630,7 @@ species:
         - cuticole_neutralizzanti
         - ghiandole_nebbia_acida
         - enzimi_chelatori_rapidi
+        - cuore_in_furia # Wave 5/6 ASSIGN-A — rage heart toxic threat
       synergies: []
     synergy_hints: []
 
@@ -602,6 +662,8 @@ species:
       optional:
         - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
         - pelle_elastomera
+        - branchie_osmotiche_salmastra # Wave 5 ASSIGN-A — saltwater osmotic gills
+        - ghiandole_cambio_salino # Wave 6 ASSIGN-A — salt-shift glands hyperarid
       synergies: []
     synergy_hints: []
 
@@ -630,7 +692,10 @@ species:
         - articolazioni_multiassiali
         - coda_prensile_muscolare
         - rostro_linguale_prensile
-      optional: [martello_osseo]
+      optional:
+        - martello_osseo
+        - ghiandole_minerali # Wave 5 ASSIGN-A — mineral glands rock shield
+        - ghiandole_grafene # Wave 5/6 ASSIGN-A — graphene armor canyon shield
       synergies: []
     synergy_hints: []
 
@@ -659,7 +724,8 @@ species:
         - estroflessione_gastrica_acida
         - artiglio_cinetico_a_urto
         - sistemi_chimio_sonici
-      optional: []
+      optional:
+        - sensori_sismici # Wave 5/6 ASSIGN-A — seismic sensors caverna underground
       synergies: []
     synergy_hints: []
 
@@ -688,7 +754,9 @@ species:
         - fagocitosi_assorbente
         - moltiplicazione_per_fusione
         - cisti_di_ibernazione_minerale
-      optional: [cartilagini_biofibre]
+      optional:
+        - cartilagini_biofibre
+        - pelli_cave # Wave 6 ASSIGN-A — hollow skin amorphous malleability
       synergies: []
     synergy_hints: []
 
@@ -717,7 +785,11 @@ species:
         - metabolismo_di_condivisione_energetica
         - unghie_a_micro_adesione
         - coscienza_d_alveare_diffusa
-      optional: [zampe_a_molla, coda_balanciere]
+      optional:
+        - zampe_a_molla
+        - coda_balanciere
+        - barriere_miasma_glaciale # Wave 6 ASSIGN-A — glacial miasma barriers
+        - bulbi_radici_permafrost # Wave 6 ASSIGN-A — permafrost root bulbs
       synergies: []
     synergy_hints: []
 
@@ -746,7 +818,12 @@ species:
         - campo_di_interferenza_acustica
         - cervello_a_bassa_latenza
         - occhi_cinetici
-      optional: [ali_ioniche, cartilagini_flessoacustiche]
+      optional:
+        - ali_ioniche
+        - cartilagini_flessoacustiche
+        - antenne_eco_turbina # Wave 5 ASSIGN-A — turbina antennae wind biome sensors
+        - coda_stabilizzatrice_filo # Wave 5 ASSIGN-A — wire stabilizer flight control
+        - lamine_filtranti_aeree # Wave 6 ASSIGN-A — air filter laminae canopia ionica
       synergies: []
     synergy_hints: []
 
@@ -775,7 +852,11 @@ species:
         - rete_filtro_polmonare
         - canto_infrasonico_tattico
         - siero_anti_gelo_naturale
-      optional: [stordimento]
+      optional:
+        - stordimento
+        - pelli_fitte # Wave 5/6 ASSIGN-A — dense skin steppe walker
+        - midollo_antivibrazione # Wave 5/6 ASSIGN-A — anti-vibration marrow steppe gait
+        - armatura_pietra_planare # Wave 6 ASSIGN-A — T3 planar stone armor (T3-capable)
       synergies: []
     synergy_hints: []
 
@@ -804,6 +885,9 @@ species:
         - motore_biologico_silenzioso
         - artigli_ipo_termici
         - comunicazione_fotonica_coda_coda
-      optional: [artigli_scivolo_silente, ghiandole_inchiostro_luce]
+      optional:
+        - artigli_scivolo_silente
+        - ghiandole_inchiostro_luce
+        - luminescenza_aurorale # Wave 6 ASSIGN-A — aurora luminescence concealment
       synergies: []
     synergy_hints: []
