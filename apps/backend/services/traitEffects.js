@@ -262,6 +262,23 @@ function evaluateSingleTrait({ traitId, definition, actor, target, attackResult,
   if (effect.kind === 'apply_status') {
     return { trait: traitId, triggered: false, effect: 'deferred_status' };
   }
+  // 2026-05-10 audit cross-domain BACKLOG TKT-TRAIT-EFFECT-KIND-MISS:
+  // persistent_marker (es. wounded_perma) è handled da dedicated service
+  // apps/backend/services/combat/woundedPerma.js — NON dispatch via attack
+  // pipeline. Recognize esplicitamente per chiudere gap Engine LIVE /
+  // attack-handler MISS. Trait apply happens runtime via session.js
+  // session.lastMissionWoundedPerma map + woundedPerma.applyWound.
+  if (effect.kind === 'persistent_marker') {
+    return { trait: traitId, triggered: false, effect: 'deferred_marker' };
+  }
+  // 2026-05-10 reactive ally-attack traits (legame_di_branco / pack_tactics
+  // / spirito_combattivo) NON hanno effect.kind blocco, usano top-level
+  // triggers_on_ally_attack data. Handler dedicato:
+  // apps/backend/services/combat/beastBondReaction.js (post-attack reactor).
+  // Recognize qui per chiudere "unknown effect.kind" audit false positive.
+  if (definition.triggers_on_ally_attack) {
+    return { trait: traitId, triggered: false, effect: 'deferred_ally_attack_react' };
+  }
 
   const logTag = effect.log_tag || definition.id || traitId;
 
