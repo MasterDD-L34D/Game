@@ -7,6 +7,13 @@ catalog:
           resistances:
             res:
               sand: 1
+      # 2026-05-10 D1 T4 electromanta_abyssalis additions:
+      glider_magnetic:
+        name: Magnetic Glider
+        effects:
+          resistances:
+            res:
+              elettrico: 1
     metabolism:
       sand_digest:
         name: Sand Digestor
@@ -14,9 +21,18 @@ catalog:
           resistances:
             res:
               sand: 1
+      bioelectric_field:
+        name: Bioelectric Field
+        effects:
+          resistances:
+            res:
+              elettrico: 2
     offense:
       sand_claws:
         name: Sand Claws
+        effects: {}
+      electric_pulse:
+        name: Electric Pulse
         effects: {}
     defense:
       heat_scales:
@@ -25,6 +41,13 @@ catalog:
           resistances:
             res:
               heat: 1
+      bipolar_skin:
+        name: Bipolar Skin
+        effects:
+          resistances:
+            res:
+              elettrico: 1
+              fisico: 1
     senses:
       echolocation:
         name: Echolocation
@@ -32,6 +55,12 @@ catalog:
           resistances:
             res:
               sonic: 1
+      magnetic_olfaction:
+        name: Magnetic Olfaction
+        effects:
+          resistances:
+            res:
+              elettrico: 1
   synergies:
     # Schema (additive, runtime read by apps/backend/services/combat/synergyDetector.js):
     #   id        — slug stabile (telemetria + log)
