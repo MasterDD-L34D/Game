@@ -44,6 +44,7 @@ function parseArgs(argv) {
     extraPlayers: 1,
     tunnel: process.env.TUNNEL || '',
     workerScript: 'tests/smoke/ai-driven-sim.js',
+    loadYaml: process.env.AI_SIM_LOAD_YAML === '1',
   };
   for (let i = 2; i < argv.length; i += 1) {
     const tok = argv[i];
@@ -78,6 +79,9 @@ function parseArgs(argv) {
         break;
       case '--worker':
         args.workerScript = next();
+        break;
+      case '--load-yaml':
+        args.loadYaml = true;
         break;
       default:
         console.warn(`unknown arg: ${tok}`);
@@ -179,6 +183,7 @@ async function runWorker(combo, runDir, args) {
       AI_SIM_SEED: String(combo.seed),
       AI_SIM_RUN_LABEL: combo.label,
       AI_SIM_LOG_DIR: workerDir,
+      AI_SIM_LOAD_YAML: args.loadYaml ? '1' : '',
     };
     const t0 = Date.now();
     const child = spawn('node', [args.workerScript], { env, stdio: ['ignore', 'pipe', 'pipe'] });
