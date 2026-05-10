@@ -221,6 +221,9 @@ species:
         - criostasi_adattiva
         - lamelle_termoforetiche
         - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
+        - ferocia
+        - biofilm_iperarido
+        - antenne_dustsense
       synergies:
         - focus_frazionato
         - risonanza_di_branco
@@ -270,7 +273,7 @@ species:
       senses: [echolocation]
     trait_plan:
       core: [impulsi_bioluminescenti, nodi_sinaptici_superficiali, membrane_fotoconvoglianti, lobi_risonanti_crepuscolo]
-      optional: [filamenti_guidalampo, sensori_planctonici, ghiandole_mnemoniche, secrezioni_antistatiche, scintilla_sinaptica, canto_risonante]
+      optional: [filamenti_guidalampo, sensori_planctonici, ghiandole_mnemoniche, secrezioni_antistatiche, scintilla_sinaptica, canto_risonante, tentacoli_uncinati]
       synergies: [impulsi_bioluminescenti]
     synergy_hints: []
 
@@ -295,7 +298,7 @@ species:
     trait_plan:
       core: [nebbia_mnesica, lobi_risonanti_crepuscolo, ghiandole_mnemoniche, organi_metacronici]
       # Sprint 6: spirito_combattivo (any-ally morale) fits swarm dynamics
-      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo, riverbero_memetico, vortice_nera_flash, spirito_combattivo]
+      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo, riverbero_memetico, vortice_nera_flash, spirito_combattivo, canto_di_richiamo]
       synergies: [lobi_risonanti_crepuscolo]
     synergy_hints: []
 
@@ -348,7 +351,7 @@ species:
       senses: [magnetic_olfaction]
     trait_plan:
       core: [elettromagnete_biologico, scivolamento_magnetico, integumento_bipolare, olfatto_risonanza_magnetica]
-      optional: [seta_conduttiva_elettrica, capillari_fotovoltaici, antenne_tesla, bioantenne_gravitiche]
+      optional: [seta_conduttiva_elettrica, capillari_fotovoltaici, antenne_tesla, bioantenne_gravitiche, artigli_induzione, epidermide_dielettrica, ghiandole_nebbia_ionica, filamenti_superconduttivi]
       synergies: [elettromagnete_biologico, scivolamento_magnetico]
     synergy_hints:
       - "Active electromagnetic field doubles as sensing + weapon (Esploratore archetype)"
@@ -380,7 +383,7 @@ species:
       senses: [thermal_gradient]
     trait_plan:
       core: [metabolismo_di_condivisione_energetica, scheletro_idraulico_a_pistoni, filtro_metallofago, sacche_galleggianti_ascensoriali]
-      optional: [risonanza_di_branco, capillari_fluoridici, branchie_metalloidi, batteri_termofili_endosimbiosi]
+      optional: [risonanza_di_branco, capillari_fluoridici, branchie_metalloidi, batteri_termofili_endosimbiosi, denti_chelatanti, ghiandole_iodoattive, enzimi_antipredatori_algali, batteri_endosimbionti_chemio, filamenti_termoconduzione]
       synergies: [metabolismo_di_condivisione_energetica, risonanza_di_branco]
     synergy_hints:
       - "Heat-energy sharing with adjacent allies (Coordinatore archetype)"
@@ -411,7 +414,7 @@ species:
       senses: [chemo_sonic_array]
     trait_plan:
       core: [cannone_sonico_a_raggio, campo_di_interferenza_acustica, sistemi_chimio_sonici, visione_multi_spettrale_amplificata]
-      optional: [comunicazione_fotonica_coda_coda, ali_fono_risonanti, antenne_tesla, ali_solari_fotoni]
+      optional: [comunicazione_fotonica_coda_coda, ali_fono_risonanti, antenne_tesla, ali_solari_fotoni, denti_tuning_fork]
       synergies: [cannone_sonico_a_raggio, campo_di_interferenza_acustica]
     synergy_hints:
       - "Sonic territorial dominance + jamming field disruption (Conquistatore)"
@@ -442,7 +445,7 @@ species:
       senses: [magnetic_olfaction]
     trait_plan:
       core: [corna_psico_conduttive, focus_frazionato, criostasi_adattiva, olfatto_risonanza_magnetica]
-      optional: [metabolismo_di_condivisione_energetica, lobi_risonanti_crepuscolo, antenne_tesla, capillari_criogenici]
+      optional: [metabolismo_di_condivisione_energetica, lobi_risonanti_crepuscolo, antenne_tesla, capillari_criogenici, artigli_sghiaccio_glaciale, enzimi_antifase_termica, occhi_cristallo_modulare]
       synergies: [corna_psico_conduttive, focus_frazionato]
     synergy_hints:
       - "Psionic signal amplification via horn geometry (Architetto)"
@@ -474,7 +477,7 @@ species:
       senses: [chemo_sonic_array]
     trait_plan:
       core: [flusso_ameboide_controllato, fagocitosi_assorbente, filtrazione_osmotica, ermafroditismo_cronologico]
-      optional: [moltiplicazione_per_fusione, branchie_metalloidi, capillari_fluoridici, scheletro_idro_regolante]
+      optional: [moltiplicazione_per_fusione, branchie_metalloidi, capillari_fluoridici, scheletro_idro_regolante, spore_paniche]
       synergies: [flusso_ameboide_controllato, moltiplicazione_per_fusione]
     synergy_hints:
       - "Empathic shapeshifter reads group emotional state (Individualista)"
@@ -503,7 +506,7 @@ species:
     trait_plan:
       core: [coralli_sinaptici_fotofase, membrane_fotoconvoglianti, placca_diffusione_foschia, organi_metacronici, nodi_sinaptici_superficiali]
       # Sprint 6: spirito_combattivo (any-ally morale) — Support clade encourages mixed-team buff
-      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante, spirito_combattivo]
+      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante, spirito_combattivo, carapace_luminiscente_abissale]
       synergies: [coralli_sinaptici_fotofase]
     synergy_hints: []
 
@@ -563,6 +566,11 @@ species:
         - occhi_analizzatori_di_tensione
       optional:
         - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
+        - artigli_acidofagi
+        - aculei_velenosi
+        - cuticole_neutralizzanti
+        - ghiandole_nebbia_acida
+        - enzimi_chelatori_rapidi
       synergies: []
     synergy_hints: []
 
@@ -593,6 +601,7 @@ species:
         - organi_sismici_cutanei
       optional:
         - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
+        - pelle_elastomera
       synergies: []
     synergy_hints: []
 
@@ -621,7 +630,7 @@ species:
         - articolazioni_multiassiali
         - coda_prensile_muscolare
         - rostro_linguale_prensile
-      optional: []
+      optional: [martello_osseo]
       synergies: []
     synergy_hints: []
 
@@ -679,7 +688,7 @@ species:
         - fagocitosi_assorbente
         - moltiplicazione_per_fusione
         - cisti_di_ibernazione_minerale
-      optional: []
+      optional: [cartilagini_biofibre]
       synergies: []
     synergy_hints: []
 
@@ -708,7 +717,7 @@ species:
         - metabolismo_di_condivisione_energetica
         - unghie_a_micro_adesione
         - coscienza_d_alveare_diffusa
-      optional: []
+      optional: [zampe_a_molla, coda_balanciere]
       synergies: []
     synergy_hints: []
 
@@ -737,7 +746,7 @@ species:
         - campo_di_interferenza_acustica
         - cervello_a_bassa_latenza
         - occhi_cinetici
-      optional: []
+      optional: [ali_ioniche, cartilagini_flessoacustiche]
       synergies: []
     synergy_hints: []
 
@@ -766,7 +775,7 @@ species:
         - rete_filtro_polmonare
         - canto_infrasonico_tattico
         - siero_anti_gelo_naturale
-      optional: []
+      optional: [stordimento]
       synergies: []
     synergy_hints: []
 
@@ -795,6 +804,6 @@ species:
         - motore_biologico_silenzioso
         - artigli_ipo_termici
         - comunicazione_fotonica_coda_coda
-      optional: []
+      optional: [artigli_scivolo_silente, ghiandole_inchiostro_luce]
       synergies: []
     synergy_hints: []
