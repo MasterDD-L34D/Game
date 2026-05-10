@@ -3,7 +3,7 @@ title: Skiv Monitor — live creature feed
 doc_status: active
 doc_owner: docs-team
 workstream: cross-cutting
-last_verified: 2026-05-10T02:44:57Z
+last_verified: 2026-05-10T13:13:54Z
 source_of_truth: false
 language: it
 review_cycle_days: 7
@@ -19,7 +19,7 @@ tags: [skiv, monitor, autogen]
 ╔══════════════════════════════════════════════════════════════╗
 ║           E V O - T A C T I C S   ·   S K I V               ║
 ║                ╱\_/\                                         ║
-║               (  o.o )    "Test verde è sole sulla cresta. "║
+║               (  o.o )    "Secondo thought research-complet"║
 ║                > ^ <                                         ║
 ║                                                              ║
 ║  Arenavenator vagans            · savana              ║
@@ -37,40 +37,40 @@ tags: [skiv, monitor, autogen]
 ║  PHASE: Predatore Maturo                               ║
 ║  NEXT:  Apex delle Dune    (Lv 6 · mut 2 · th 3 · )  ║
 ║                                                              ║
-║  Repo pulse:  PR 1806  ISS+ 37  ISS- 35        ║
-║               WF✓ 2576  WF✗ 77  FIX 105        ║
+║  Repo pulse:  PR 1836  ISS+ 37  ISS- 35        ║
+║               WF✓ 2605  WF✗ 77  FIX 110        ║
 ╚══════════════════════════════════════════════════════════════╝
 
 **Lifecycle**: [Cucciolo ] [Predatore] [> Predatore <] [Apex dell] [Memoria d]
 
 ## Digestivo settimanale
 
-> 🦎 _Sento il prossimo me chiamare. Apex. Devo: Lv 6 + mut 2 + pensieri 3._
+> 🦎 _Maturità si stringe. Prossimo passo richiede Lv 6 + mut 2 + pensieri 3. Aspetto paziente._
 ```
 
-_Ultimo evento: wf-25617957464 · aggiornato 2026-05-10T02:44:57Z_
+_Ultimo evento: wf-25629553187 · aggiornato 2026-05-10T13:13:53Z_
 
 ## Eventi recenti (ultimi 10)
 
-- `2026-05-10T02:44:44` · **workflow_passed**  — 
-  > 🦎 _Test verde è sole sulla cresta._
-- `2026-05-10T02:44:43` · **workflow_passed**  — 
-  > 🦎 _Test verde è sole sulla cresta._
-- `2026-05-10T02:44:37` · **workflow_passed**  — 
-  > 🦎 _Tutto in posto. sole alto. Respiro._
-- `2026-05-10T02:44:29` · **pr_merged** #2157 — 
-  > 🦎 _vento basso. Forse niente._
-- `2026-05-10T02:44:25` · **pr_merged** #2156 — 
-  > 🦎 _Riflessi affilati. Le ossa capiscono prima._
-- `2026-05-10T02:39:05` · **workflow_passed**  — 
+- `2026-05-10T13:08:34` · **workflow_passed**  — 
+  > 🦎 _Secondo thought research-completato — terza voce in arrivo cambierà la manifestazione._
+- `2026-05-10T13:08:34` · **workflow_passed**  — 
+  > 🦎 _Macchina canta giusto. Sono teso._
+- `2026-05-10T13:08:32` · **workflow_passed**  — 
+  > 🦎 _vuoto allineato. Bene così._
+- `2026-05-10T13:08:31` · **workflow_passed**  — 
+  > 🦎 _Macchina canta giusto. Sono curioso._
+- `2026-05-10T13:08:31` · **workflow_passed**  — 
+  > 🦎 _Macchina canta giusto. Bene così._
+- `2026-05-10T13:08:30` · **workflow_passed**  — 
+  > 🦎 _Tutto in posto. Respiro._
+- `2026-05-10T13:08:19` · **pr_merged** #2189 — 
+  > 🦎 _Secondo thought research-completato — terza voce in arrivo cambierà la manifestazione._
+- `2026-05-10T13:07:39` · **workflow_passed**  — 
+  > 🦎 _Macchina canta giusto. Bene così._
+- `2026-05-10T13:07:32` · **workflow_passed**  — 
   > 🦎 _Il branco non mi segue. Mi evita. La differenza conta._
-- `2026-05-10T02:37:05` · **workflow_passed**  — 
-  > 🦎 _Verde compatto. Quiete._
-- `2026-05-10T02:37:02` · **workflow_passed**  — 
-  > 🦎 _vento allineato. Bene così._
-- `2026-05-10T02:36:54` · **workflow_passed**  — 
-  > 🦎 _sabbia allineato. Bene così._
-- `2026-05-10T02:36:50` · **workflow_passed**  — 
-  > 🦎 _Tutto in posto. buio. Respiro._
+- `2026-05-10T13:07:21` · **pr_merged** #2188 — 
+  > 🦎 _Brivido leggero. Forse niente._
 
 > 🦎 _Sabbia segue._
