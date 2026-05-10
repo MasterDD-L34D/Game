@@ -57,6 +57,13 @@ if (!TUNNEL) {
 // derive from TUNNEL by swapping scheme.
 const WS_URL =
   process.env.AI_SIM_WS_URL || TUNNEL.replace('https:', 'wss:').replace('http:', 'ws:') + '/ws';
+if (!/^wss?:\/\//.test(WS_URL)) {
+  console.error(
+    `FATAL: WS_URL must start with ws:// or wss:// (got "${WS_URL}"). ` +
+      `Verify AI_SIM_WS_URL override or TUNNEL scheme.`,
+  );
+  process.exit(2);
+}
 const EXTRA_PLAYERS = Math.max(0, Number(process.env.AI_SIM_PLAYERS || 1));
 const MAX_ROUNDS = Math.max(1, Number(process.env.AI_SIM_MAX_ROUNDS || 15));
 const SCENARIO_ID = String(process.env.AI_SIM_SCENARIO || 'enc_tutorial_01');
