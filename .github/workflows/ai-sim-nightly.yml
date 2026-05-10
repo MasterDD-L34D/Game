@@ -48,6 +48,10 @@ env:
   # Drift gate: any profile WR shift > ±10pp vs canonical baseline
   WR_DRIFT_THRESHOLD_PP: '10'
   COMPLETION_RATE_FLOOR: '0.95'
+  # Lobby WS port. Source canonical: apps/backend/index.js:48 `LOBBY_WS_PORT || '3341'`.
+  # NIT-1 fix 2026-05-10: workflow-level env reference (single source override) vs
+  # hardcoded literal nelle step env. Future CI override = edit single line here.
+  LOBBY_WS_PORT: '3341'
 
 jobs:
   sim:
@@ -88,14 +92,10 @@ jobs:
         id: sweep
         env:
           TUNNEL: http://127.0.0.1:3334
-          # Lobby WS lives on dedicated port (LOBBY_WS_PORT default 3341).
-          # Source: apps/backend/index.js:48 `LOBBY_WS_PORT || '3341'`.
+          # Lobby WS port: top-level env LOBBY_WS_PORT (default 3341).
           # Cloudflare tunnel collapses HTTP+WS onto one host; CI direct
           # localhost keeps them split → must override explicitly.
-          # NIT-1 2026-05-10: hardcoded 3341 acceptable per CI scope (LOBBY_WS_PORT
-          # env override unused in CI). If LOBBY_WS_PORT becomes configurable
-          # in CI futuro, replace literal con `${LOBBY_WS_PORT:-3341}`.
-          AI_SIM_WS_URL: ws://127.0.0.1:3341/ws
+          AI_SIM_WS_URL: ws://127.0.0.1:${{ env.LOBBY_WS_PORT }}/ws
           AI_SIM_LOG_DIR: /tmp/ai-sim-nightly/runs-tmp
         run: |
           mkdir -p /tmp/ai-sim-runs
