@@ -9874,3 +9874,46 @@ traits:
       Ventriglio gastroliti: +2 damage extra (energy_burst). Conservative
       remap da buff_stat damage_step → direct extra_damage per safer ship
       (handler attack_mod/defense_mod only confermato in traitEffects.js).
+
+  # ============================================================================
+  # 2026-05-10 TKT-TRAIT-MECH-NO-HANDLER batch 4 — 2 GREEN ship + 3 YELLOW deferred
+  # ============================================================================
+  # Research via balance-illuminator agent batch 4. 5 candidate ma 3 YELLOW
+  # deferred per master-dd verdict (channel remap / cost_ap audit / playtest):
+  # - nucleo_ovomotore_rotante (wind channel non-canonical, remap needed)
+  # - lingua_tattile_trama (cost_ap=1 +2/1t underpriced vs divided_focus)
+  # - criostasi_adattiva (defense_mod +3 spike playtest verify)
+  # Ship now 2 GREEN (low-risk self-buff): focus_frazionato + empatia_coordinativa.
+
+  focus_frazionato:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 2
+      duration: 1
+      log_tag: focus_frazionato_divided
+    description_it: |
+      Focus frazionato: +2 attack_mod buff_stat 1t (divided_focus). Clean
+      single-ability self-buff. Cost_ap 2 ability gate appropriate.
+
+  empatia_coordinativa:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 2
+      log_tag: empatia_coordinated_boost
+    description_it: |
+      Empatia coordinativa: +1 attack_mod buff_stat 2t (coordinated_boost).
+      Self-buff lower amount + longer duration vs focus_frazionato.
+      Flavor co-op semantica ma engine attualmente solo self-buff.

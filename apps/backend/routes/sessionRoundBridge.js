@@ -957,6 +957,24 @@ function createRoundBridge(deps) {
       }
     }
 
+    // 2026-05-10 TKT-MUT-AUTO-TRIGGER Phase 3+4 wire (ADR-2026-05-10).
+    // Per-unit per-round mutation trigger evaluator. Hybrid auto-acquire
+    // policy (Q3 verdict): tier 1 auto-applied to applied_mutations,
+    // tier 2-3 pushed to unlocked_mutations (player-confirm pending).
+    // Surface via raw event log mutation_unlock + CLI debug log.
+    // Non-blocking: catalog load errors NON rompono round flow.
+    try {
+      // eslint-disable-next-line global-require
+      const { evaluateAndApply } = require('../services/combat/mutationTriggerEvaluator');
+      for (const unit of session.units) {
+        if (!unit || Number(unit.hp || 0) <= 0) continue;
+        evaluateAndApply(unit, session);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('[mutation-trigger] wire failed:', err && err.message ? err.message : err);
+    }
+
     // Sprint Spore Moderate §S6 — alpha_plus affinity grant (Path A 2026-04-27).
     // Actor-side passive: per ogni unit con archetype_alpha_plus_aff1, count
     // alleati adiacenti (manhattan=1, stesso controlled_by, vivi). Scrive
