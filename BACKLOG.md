@@ -76,6 +76,19 @@ User resume trigger "cascade approval" → "facciamo gli auto trigger pending e 
 - ⚠️ BACKLOG correction 2026-05-10 sera (V9 audit reentry): "ancestors 297 zero runtime consumer" era WRONG. **290/297 traits LIVE (97%)** — 3 runtime consumers wired (passiveStatusApplier + evaluateMovementTraits + passesBasicTriggers). Solo 18 branch metadata categories unconsumed. Vedi [docs/research/2026-05-10-ancestors-297-reentry-audit.md](docs/research/2026-05-10-ancestors-297-reentry-audit.md) + museum card [M-2026-05-10-001 ancestors-297-orphan](docs/museum/cards/ancestors-297-orphan-2026-05-10.md). Path A biome seeder ~3h raccomandato future activation.
 - ⚠️ Trait orphan count drift (V10 audit reentry): BACKLOG diceva 59 — **reality 109 core orphans** post waves 1-6 (active_effects.yaml 499 totali). C delete batch 3/4 shipped (agent false positive wounded_perma verified actively wired statusModifiers.js). Residue: A keep 91 + B defer 14 master-dd review window. Vedi [docs/research/2026-05-10-trait-orphan-audit-batch-review.md](docs/research/2026-05-10-trait-orphan-audit-batch-review.md).
 
+#### Trait orphan ticket codification 2026-05-10 sera (master-dd verdict "2+3" cascade approval)
+
+- **TKT-P3-TRAIT-ORPHAN-ASSIGN-A** (~4h): 91 A-keep traits assignment to species wave 6. Biome-aligned batch (3-4 traits per new species). Trigger post-Sprint-Q+ closure (avoid context-switch ETL pipeline). Audit table reference: [§1 Wave 0-6 listing](docs/research/2026-05-10-trait-orphan-audit-batch-review.md#1-full-audit-table--109-orphan-traits).
+- **TKT-P6-TRAIT-ORPHAN-DESIGN-B** (~2h): 14 B-defer traits design call. Categorization audit doc:
+  - Swarm cluster (3): `magnetic_rift_resonance` + `magnetic_sensitivity` + `rift_attunement` — non-canonical status strings (telepatic_link/sensed/attuned), need ADR canonical status enum extension OR rename
+  - Miscellaneous unclear semantics (5): `aura_glaciale` + `sussurro_psichico` + `tela_appiccicosa` + `marchio_predatorio` + `antenne_wideband` — design call effect spec
+  - Balance tuning (2): `mente_lucida` (panic 2t MoS≥3 troppo low threshold) + `cervello_predittivo` (stunned 2t T3 no T3 species slot)
+  - Evaluator gap (2): `biochip_memoria` (`requires_target_status` not implemented in traitEffects.js) + others
+  - Trigger: Sprint M-future window OR bundle Sprint Q+ Q.B per shared evaluator extension
+- **TKT-P6-TRAIT-MECHANICS-SYNC** (~1h): add subset A-class traits to `packs/evo_tactics_pack/data/balance/trait_mechanics.yaml` (wave 1-3 families currently missing balance values). Trigger parallel TKT-P3-A.
+
+Effort cumulative residue ~7h (4h A + 2h B + 1h mechanics sync) post-Sprint-Q+ window.
+
 ### ✅ FULL AUDIT CLOSURE — sessione 2026-05-10 — 27 PR shipped main (cumulative Day 5+1 = 41 PR)
 
 User canonical resume trigger 2026-05-09 sera "verifica primo nightly cron run 2026-05-10 02:00 UTC". Cascade autonomous ~12h waves 7-19 chiude:
