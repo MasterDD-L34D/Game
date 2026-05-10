@@ -1726,21 +1726,9 @@ traits:
       Antenne che reagiscono a stimoli con scariche-flash di feedback.
       Critico (MoS >= 8) genera un impulso che applica 1 turno di stunned.
 
-  antenne_waveguide:
-    tier: T2
-    category: fisiologico
-    applies_to: actor
-    trigger:
-      action_type: attack
-      on_result: hit
-      min_mos: 5
-    effect:
-      kind: extra_damage
-      amount: 1
-      log_tag: antenne_waveguide_focus
-    description_it: |
-      Antenne a guida d'onda che concentrano l'energia in un punto preciso.
-      MoS >= 5 +1 danno extra per puntamento ottimizzato.
+  # 2026-05-10 V10 C delete batch — antenne_waveguide rimosso (duplicate
+  # semantico antenne_dustsense line 1384, stesso tier T1 + min_mos 5 +
+  # extra_damage amount 1). Audit cross-stack zero reference esterna.
 
   antenne_wideband:
     tier: T1
@@ -9427,23 +9415,11 @@ traits:
   # DoT 2 PT/turno (piu' severo di bleeding 1 PT). Tick in tutti e 3 i
   # path end-of-round: advanceThroughAiTurns, priority-queue, applyEndOfRoundSideEffects.
 
-  respiro_acido:
-    tier: T1
-    category: fisiologico
-    applies_to: actor
-    trigger:
-      action_type: attack
-      on_result: hit
-    effect:
-      kind: apply_status
-      target_side: target
-      stato: burning
-      turns: 3
-      log_tag: respiro_acido_burning
-    description_it: |
-      Ghiandole che spruzzano acido corrosivo incandescente. Ogni hit
-      applica 3 turni di burning: il target subisce 2 PT di danno non
-      riducibile al termine di ogni turno (piu' severo del sanguinamento).
+  # 2026-05-10 V10 C delete batch — respiro_acido rimosso (channel `acido`
+  # non-canonical per balance audit 2026-04-25, canonical channels
+  # fisico/elettrico/psionico/mentale/taglio/ionico/fuoco/gravita).
+  # Functional via apply_status burning OK ma naming inconsistente.
+  # Cross-stack ref solo glossary entry (rimossa parallelamente).
 
   # Stato slowed Tier 1: -1 AP al reset turno, cap 3T. Min 1 AP garantito.
   # Wire: applyApRefill (sessionHelpers.js) centralizza tutti i modificatori AP.
@@ -9533,22 +9509,10 @@ traits:
       Quando QUALSIASI alleato adiacente (range Manhattan <= 1) attacca, il
       portatore guadagna +1 attack_mod fino al termine del round.
 
-  pack_tactics:
-    tier: T2
-    category: comportamentale
-    applies_to: actor
-    triggers_on_ally_attack:
-      range: 1
-      species_filter: 'pack:predoni_nomadi'
-      atk_delta: 1
-      def_delta: 1
-      duration: 2
-      log_tag: pack_tactics_triggered
-    description_it: |
-      Tattica di branco esclusiva dei predoni nomadi. Quando un alleato di
-      specie `predoni_nomadi` adiacente attacca, il portatore guadagna +1
-      attack_mod e +1 defense_mod per 2 turni (effetto piu' lungo del legame
-      di branco generico, riservato a un'unica specie).
+  # 2026-05-10 V10 C delete batch — pack_tactics rimosso (species
+  # `predoni_nomadi` non esistente in data/core/species.yaml +
+  # species_expansion.yaml. Trait dead — species_filter dead reference.
+  # Cross-stack ref solo glossary entry (rimossa parallelamente).
 
   # Skiv Goal 1 (2026-04-28) — wounded_perma "cicatrice" persistente.
   #

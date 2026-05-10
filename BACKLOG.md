@@ -73,6 +73,8 @@ User resume trigger "cascade approval" → "facciamo gli auto trigger pending e 
 - 9 npm audit residue (--force breaking changes)
 - Mutation Phase 6 (ally_adjacent_turns + trait_active_cumulative) — Prisma migration ADR
 - Lifecycle 5-fasi YAML 5 T4 species (design gate)
+- ⚠️ BACKLOG correction 2026-05-10 sera (V9 audit reentry): "ancestors 297 zero runtime consumer" era WRONG. **290/297 traits LIVE (97%)** — 3 runtime consumers wired (passiveStatusApplier + evaluateMovementTraits + passesBasicTriggers). Solo 18 branch metadata categories unconsumed. Vedi [docs/research/2026-05-10-ancestors-297-reentry-audit.md](docs/research/2026-05-10-ancestors-297-reentry-audit.md) + museum card [M-2026-05-10-001 ancestors-297-orphan](docs/museum/cards/ancestors-297-orphan-2026-05-10.md). Path A biome seeder ~3h raccomandato future activation.
+- ⚠️ Trait orphan count drift (V10 audit reentry): BACKLOG diceva 59 — **reality 109 core orphans** post waves 1-6 (active_effects.yaml 499 totali). C delete batch 3/4 shipped (agent false positive wounded_perma verified actively wired statusModifiers.js). Residue: A keep 91 + B defer 14 master-dd review window. Vedi [docs/research/2026-05-10-trait-orphan-audit-batch-review.md](docs/research/2026-05-10-trait-orphan-audit-batch-review.md).
 
 ### ✅ FULL AUDIT CLOSURE — sessione 2026-05-10 — 27 PR shipped main (cumulative Day 5+1 = 41 PR)
 
