@@ -14,6 +14,8 @@ import { api } from './api.js';
 import { renderNarrativeEvent } from './qbnDebriefRender.js';
 // Sprint 12 (Surface-DEAD #4): Mating lifecycle eligibles render in debrief.
 import { renderLineageEligibles } from './lineagePanel.js';
+// 2026-05-10 sera Sprint Q+ Q-9: Offspring ritual panel post-mating choice.
+import { setupOffspringRitual } from './offspringRitualPanel.js';
 // 2026-05-06 TKT-P4-ENNEA-VOICE-FRONTEND: 9/9 ennea voice palette wire.
 // Engine LIVE Surface DEAD #1 P4 fix — ~189 line authorate visibili in debrief.
 import { renderEnneaVoices } from './enneaVoiceRender.js';
@@ -201,6 +203,9 @@ export function renderDebriefPanel() {
         <div class="db-section-title">🏠 Lineage Eligibili</div>
         <div class="db-lineage-list" id="db-lineage-list"></div>
       </div>
+
+      <!-- 2026-05-10 sera Sprint Q+ Q-9: Offspring ritual panel (mutation choice 3-of-6). -->
+      <div class="db-section db-offspring-ritual-section" id="db-offspring-ritual-section" style="display:none"></div>
 
       <div class="db-section">
         <div class="db-section-title">Cronaca del round</div>
@@ -822,6 +827,39 @@ export function wireDebriefPanel(overlay, bridge) {
     setLineageEligibles(payload) {
       state.matingEligibles = Array.isArray(payload) ? payload : [];
       renderLineage();
+    },
+    // 2026-05-10 sera Sprint Q+ Q-9 — set offspring ritual pair post-mating.
+    // Accepts { sessionId, parent_a_id, parent_b_id } OR null. Async: fetch
+    // mutations canonical 6-of-6 + render selection grid (3-of-6 max).
+    // POST /api/v1/lineage/offspring-ritual on confirm.
+    async setOffspringRitualPair(pair) {
+      const section = overlay.querySelector('#db-offspring-ritual-section');
+      if (!section) return;
+      if (state.offspringRitualDispose) {
+        try {
+          state.offspringRitualDispose();
+        } catch (_e) {
+          // best-effort
+        }
+        state.offspringRitualDispose = null;
+      }
+      if (!pair || !pair.sessionId || !pair.parent_a_id || !pair.parent_b_id) {
+        section.style.display = 'none';
+        return;
+      }
+      const handle = await setupOffspringRitual(section, pair, {
+        onSuccess: (offspring) => {
+          if (typeof opts.onOffspringRitualSuccess === 'function') {
+            opts.onOffspringRitualSuccess(offspring);
+          }
+        },
+        onError: (err) => {
+          if (typeof opts.onOffspringRitualError === 'function') {
+            opts.onOffspringRitualError(err);
+          }
+        },
+      });
+      state.offspringRitualDispose = handle?.dispose || null;
     },
     // Sprint Surface-DEAD ennea — set archetypes manifested for current player.
     // Accepts ["Conquistatore(3)", ...] OR [{id, triggered}, ...] OR null.

@@ -783,3 +783,89 @@
 .db-ennea-voice.archetype-9 {
   border-left-color: #8891a3;
 }
+
+/* 2026-05-10 sera Sprint Q+ Q-9 — Offspring Ritual Panel. */
+.db-offspring-ritual-section {
+  border: 1px solid #5b3a78;
+  border-radius: 8px;
+  padding: 14px;
+  background: linear-gradient(135deg, #1d1530 0%, #2b1d3f 100%);
+}
+.db-offspring-mutations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.db-offspring-mutation-card {
+  border: 1px solid #4a3560;
+  border-radius: 6px;
+  padding: 10px;
+  background: #15101e;
+  cursor: pointer;
+  transition:
+    border-color 120ms,
+    background 120ms;
+}
+.db-offspring-mutation-card:hover {
+  border-color: #8a5fb8;
+  background: #1f1830;
+}
+.db-offspring-mutation-card.selected {
+  border-color: #c89af0;
+  background: #2a1f3f;
+  box-shadow: inset 0 0 8px rgba(200, 154, 240, 0.3);
+}
+.db-offspring-mutation-name {
+  font-weight: 600;
+  color: #d8b8f0;
+  margin-bottom: 4px;
+}
+.db-offspring-mutation-effect {
+  font-size: 0.8em;
+  color: #9080a0;
+  font-family: monospace;
+  margin-bottom: 4px;
+}
+.db-offspring-mutation-desc {
+  font-size: 0.85em;
+  color: #b0a0c0;
+  line-height: 1.3;
+}
+.db-offspring-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.db-offspring-counter {
+  color: #c89af0;
+  font-family: monospace;
+}
+.db-offspring-confirm {
+  background: #5b3a78;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.db-offspring-confirm:disabled {
+  background: #2a1f3f;
+  color: #6a5a7a;
+  cursor: not-allowed;
+}
+.db-offspring-confirm:not(:disabled):hover {
+  background: #8a5fb8;
+}
+.db-offspring-result {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+.db-offspring-success {
+  color: #c8f0a0;
+}
+.db-offspring-error {
+  color: #f0a0a0;
+}
