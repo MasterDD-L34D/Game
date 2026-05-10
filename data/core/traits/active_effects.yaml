@@ -10183,3 +10183,76 @@ traits:
       Filtro metallofago: +1 attack_mod 2t (metallic mineral filtration).
       Cleans vent output, keystone role purifying ecosystem. Mineral
       accumulation amplifies offensive secretion.
+
+  # ============================================================================
+  # 2026-05-10 D3 T4 sonaraptor_dissonans trait activation (PR #2164 proposal)
+  # ============================================================================
+  # 4 high-priority orphan trait promoted con stub conservative.
+  # Threat T4 canopia_ionica species core trait_plan deps.
+  # Note: cannone_sonico_a_raggio già in AE batch 2.
+
+  campo_di_interferenza_acustica:
+    tier: T2
+    category: control
+    applies_to: target
+    trigger:
+      action_type: ranged_attack
+    effect:
+      kind: apply_status
+      stato: disoriented
+      duration: 2
+      intensity: 1
+      log_tag: sonaraptor_jamming_field
+    description_it: |
+      Campo di interferenza acustica: apply_status disoriented 2t su
+      ranged hit (jamming field). Coordination disruption Conquistatore
+      semantica T4 acoustic intelligence.
+
+  sistemi_chimio_sonici:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 2
+      log_tag: sonaraptor_chemo_sonic
+    description_it: |
+      Sistemi chimio sonici: +1 attack_mod 2t (chemo-acoustic hybrid
+      sensing). Prey-finding + territory marking T4 SJ methodical hunter.
+
+  comunicazione_fotonica_coda_coda:
+    tier: T1
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 2
+      log_tag: sonaraptor_photonic_tail
+    description_it: |
+      Comunicazione fotonica coda-coda: +1 attack_mod 2t (bioluminescent
+      tail-flash pack coordination). Pack synergy when adjacent allies
+      visible.
+
+  visione_multi_spettrale_amplificata:
+    tier: T2
+    category: sensoriale
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: attack_mod
+      amount: 1
+      duration: 2
+      log_tag: sonaraptor_multispectral
+    description_it: |
+      Visione multi-spettrale amplificata: +1 attack_mod 2t (multi-spectrum
+      UV+IR perception). Canopy hunting precision Conquistatore T4.
