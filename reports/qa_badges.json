@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-14T19:23:03.693761Z",
+  "generated_at": "2026-05-10T15:06:28.062394Z",
   "summary": {
     "total_traits": 254,
-    "glossary_ok": 254,
-    "glossary_missing": 0,
+    "glossary_ok": 253,
+    "glossary_missing": 1,
     "matrix_ok": 178,
     "matrix_mismatch": 76,
     "with_conflicts": 34,
@@ -11,15 +11,17 @@
   },
   "checks": {
     "traits": {
-      "passed": 254,
+      "passed": 253,
       "total": 254,
       "conflicts": 34,
-      "missing_glossary": 0,
+      "missing_glossary": 1,
       "matrix_mismatch": 76
     }
   },
   "highlights": {
-    "glossary_missing": [],
+    "glossary_missing": [
+      "antenne_waveguide"
+    ],
     "matrix_only_traits": [
       "Strategist",
       "adattamento_volo",
