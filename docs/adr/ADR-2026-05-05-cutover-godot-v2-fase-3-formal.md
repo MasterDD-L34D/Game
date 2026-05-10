@@ -231,13 +231,60 @@ Master-dd specifica:
 
 ## 11. Status timeline
 
-| Data            | Status                                        | Note                                     |
-| --------------- | --------------------------------------------- | ---------------------------------------- |
-| 2026-05-04      | DRAFT (decision-gate ADR-2026-05-04 separate) | Criteria doc shipped                     |
-| 2026-05-05      | **PROPOSED** (this ADR formal)                | 5/6 critical path PASS, C3 retry pending |
-| 2026-05-XX      | ACCEPTED Phase A (post smoke-retry)           | TBD master-dd verdict                    |
-| 2026-05-XX+7gg  | Eligible Phase B (post grace + playtest)      | TBD                                      |
-| 2026-05-XX+14gg | ACCEPTED Phase B (web v1 archive formal)      | TBD                                      |
+| Data           | Status                                        | Note                                     |
+| -------------- | --------------------------------------------- | ---------------------------------------- |
+| 2026-05-04     | DRAFT (decision-gate ADR-2026-05-04 separate) | Criteria doc shipped                     |
+| 2026-05-05     | **PROPOSED** (this ADR formal)                | 5/6 critical path PASS, C3 retry pending |
+| 2026-05-07     | **ACCEPTED Phase A** (PR #2088 `7247656`)     | Tier 1 layered QA infra complete         |
+| 2026-05-08     | §5 amendment trigger 2/3 → nice-to-have       | OD-017 RISOLTA Day 2/7                   |
+| 2026-05-14     | **ACCEPTED Phase B** (target — STUB §13)      | Master-dd verdict gate Day 8 (γ default) |
+| 2026-05-14+7gg | Phase B execution complete (web v1 archive)   | TBD post-accept                          |
+
+## 13. Phase B accept stub — pending master-dd verdict 2026-05-14
+
+**Status pre-fill 2026-05-10**: Claude autonomous pre-stage. Master-dd Day 8 verdict (Path α/β/γ per OD-017 amendment) compila i campi TBD seguenti + flip `STUB` → `ACCEPTED`.
+
+### 13.1 Trigger conditions verification (Day 8 master-dd fill)
+
+| #   | Condition                                            | Source ref                                        |    Status |
+| --- | ---------------------------------------------------- | ------------------------------------------------- | --------: |
+| 1   | Phase A 7gg grace window completed (2026-05-14)      | `git log --since 2026-05-07 --grep critical`      | TBD ✅/❌ |
+| 2   | Zero critical regression Tier 1 sintetic Day 1+3+5+7 | `docs/playtest/2026-05-08-phase-b-synthetic-*.md` | TBD ✅/❌ |
+| 3   | Master-dd verdict explicit α/β/γ                     | this section §13.3                                | TBD α/β/γ |
+| 4   | Auto-merge L3 cascade pipeline operational           | ADR-2026-05-07-auto-merge-authorization-l3.md     |        ✅ |
+
+### 13.2 Path verdict options (OD-017 amendment 2026-05-08)
+
+- **Option α full social** (4 amici Discord/WhatsApp + master-dd ~1-2h userland) — supplement evidence canonical, NICE-TO-HAVE
+- **Option β solo hardware** (master-dd 2 device ~30min) — supplement evidence borderline
+- **Option γ default automatic accept** — sintetic Tier 1 zero-regression + 7gg grace satisfies amended trigger 2/3 hard conditions
+
+**Default Claude autonomous compile se silenzio master-dd 2026-05-14**: Path γ automatic accept (per OD-017 amendment §5).
+
+### 13.3 Master-dd verdict (fill 2026-05-14)
+
+> **TBD master-dd**: scegli α/β/γ + commit fill-in this section.
+
+```
+Phase B status: TBD ACCEPTED / DEFERRED / REJECTED
+Path:           TBD α / β / γ
+Date:           TBD 2026-05-14 / later
+Rationale:      TBD master-dd note
+```
+
+### 13.4 Phase B actions post-accept (cascade autonomous)
+
+- 6.1 Tag preservation `web-v1-final` refresh HEAD
+- 6.2 Frontend `apps/play/src/` → `apps/play.archive/` + deprecate banner
+- 6.3 Backend preserve unchanged (Phase A web bundle ancora referenziato fallback)
+- 6.4 Documentation update README.md + plan v3 + CLAUDE.md sprint context
+- **OD-022 + Sprint Q+ kickoff trigger** automatic post §13.3 ACCEPTED
+
+### 13.5 Resume trigger phrase canonical post-Phase-B-accept
+
+> _"Sprint Q+ kickoff post-Phase-B-accept — execute Q.A Q-1+Q-2 forbidden path bundle"_
+
+Pipeline 12 ticket Q-1 → Q-12 codified in [`docs/planning/2026-05-10-sprint-q-plus-full-scope-codification.md`](../planning/2026-05-10-sprint-q-plus-full-scope-codification.md).
 
 ## 12. Refs
 
