@@ -3,6 +3,11 @@ name: CI
 on:
   push:
   pull_request:
+  # Codex P2 fix 2026-05-10 (PR #2184): workflow_dispatch enable per
+  # mission-console-build.yml fallback path (GITHUB_TOKEN-created auto-PR
+  # senza recursion guard bypass). Dispatch consente force-fire CI checks
+  # su branch auto/mission-console-dist-* quando PAT non configurato.
+  workflow_dispatch:
 
 env:
   # Opt-in Node.js 24 runtime per actions JavaScript (checkout, setup-node,

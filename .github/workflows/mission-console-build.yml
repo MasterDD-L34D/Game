@@ -191,17 +191,38 @@ jobs:
         run: |
           echo "PAT not configured. Dispatching required CI workflows via workflow_dispatch."
           echo "Branch: $BRANCH"
-          # Dispatch workflows che hanno workflow_dispatch trigger + paths-filter rilevante.
-          # Nota: workflow_dispatch run NON appare come `pull_request` status check sul PR.
+          # Codex P2 fix 2026-05-10 (round 3): valida workflow_dispatch trigger
+          # prima di gh workflow run. Senza dispatch trigger, gh workflow run
+          # restituisce HTTP 422 silently → fallback no-op + auto-PR senza CI.
+          # ci.yml workflow_dispatch enabled in stesso PR commit. Validazione:
+          # checkout repo workflow file + grep `workflow_dispatch:` riga.
           # Master-dd review gate: branch protection rule potrebbe bloccare merge se
           # checks expected richiedono `pull_request` event esattamente. In tal caso
           # configurare AUTODEPLOY_PAT secret per unblock cascade.
-          for WF in ci.yml docs-governance.yml; do
-            if gh workflow view "$WF" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-              echo "Dispatching $WF on $BRANCH"
-              gh workflow run "$WF" --ref "$BRANCH" --repo "${{ github.repository }}" || \
-                echo "::warning::Failed to dispatch $WF — manual trigger may be required"
+          REQUIRED_WORKFLOWS="ci.yml docs-governance.yml"
+          DISPATCH_FAILURES=()
+          for WF in $REQUIRED_WORKFLOWS; do
+            WF_PATH=".github/workflows/$WF"
+            if [ ! -f "$WF_PATH" ]; then
+              echo "::warning::$WF_PATH not found in repo — skip"
+              continue
+            fi
+            # Verifica workflow_dispatch trigger declared.
+            if ! grep -qE '^[[:space:]]*workflow_dispatch:' "$WF_PATH"; then
+              MSG="$WF lacks workflow_dispatch trigger — fallback dispatch impossible. \
+              Master-dd setup AUTODEPLOY_PAT secret OR add workflow_dispatch: to $WF on: block."
+              echo "::error::$MSG"
+              DISPATCH_FAILURES+=("$WF")
+              continue
+            fi
+            echo "Dispatching $WF on $BRANCH"
+            if ! gh workflow run "$WF" --ref "$BRANCH" --repo "${{ github.repository }}"; then
+              echo "::warning::gh workflow run $WF failed — manual trigger may be required"
+              DISPATCH_FAILURES+=("$WF")
             fi
           done
+          if [ ${#DISPATCH_FAILURES[@]} -gt 0 ]; then
+            echo "::warning::Fallback dispatch incomplete: ${DISPATCH_FAILURES[*]}. Auto-PR may lack required CI status checks until manual remediation."
+          fi
 
           echo "::notice::Auto-PR #${{ steps.open_pr.outputs.pr_number }} created via GITHUB_TOKEN fallback. Required CI checks dispatched explicitly. Merge may require AUTODEPLOY_PAT secret setup if branch protection rule expects native pull_request event checks."
