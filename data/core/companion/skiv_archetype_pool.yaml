@@ -432,6 +432,43 @@ biome_pools:
       - "Le rovine insegnano chi resisteva."
 
   # ═══════════════════════════════════════════════════════════════════
+  # PALUDE — biome_class: wetland
+  # 2026-05-10 D5 T4 species adoption (PR #2164):
+  # fusomorpha_palustris Playable T4 (morphic shapeshifter decomposer).
+  # Pre-PR: only T0 proteus_plasma in biome. T4 closes ladder Playable.
+  # ═══════════════════════════════════════════════════════════════════
+  palude:
+    species_pool:
+      - id: fusomorpha_palustris
+        clade_tag: Playable
+        sentience_tier: T4
+        ecological_role: playable_decomposer
+      - id: proteus_plasma
+        clade_tag: Playable
+        sentience_tier: T0
+        ecological_role: playable_simple
+    name_pool:
+      - Mara    # palude
+      - Lyma    # limo
+      - Buol    # bolla
+      - Slugg   # melma
+      - Ooze    # diluvio
+      - Vexa    # diffondersi
+      - Phlu    # flusso
+      - Gilm    # palude antica
+      - Sylph   # spirito acqueo
+      - Bogga   # palude bog
+    biome_metaphor_set:
+      - "ogni respiro palustre porta odori antichi"
+      - "il limo ricorda forme che ho avuto"
+      - "la palude non ha confini, e nemmeno io"
+      - "ascolto lo stagno e sento più di quello che vedo"
+    closing_pool:
+      - "Limo segue."
+      - "La palude ricorda."
+      - "Forma diventa forma."
+
+  # ═══════════════════════════════════════════════════════════════════
   # CALDERA GLACIALE — biome_class: glacial/upland
   # 2026-05-10 D4 T4 species adoption (PR #2164):
   # psionerva_montis Bridge T4 + rupicapra_sensoria T5 esistente.
@@ -596,6 +633,10 @@ ennea_archetype_bias:
   # 2026-05-10 D4 T4 caldera_glaciale wired (psionic mountain dwellers):
   # psionerva_montis Bridge T4 ennea_archetype: Architetto.
   caldera_glaciale: [Architetto, Stoico, Lealista]
+
+  # 2026-05-10 D5 T4 palude wired (morphic shapeshifter ecosystem):
+  # fusomorpha_palustris Playable T4 ennea_archetype: Individualista.
+  palude: [Individualista, Esploratore, Coordinatore]
 
 # ─────────────────────────────────────────────────────────────────────
 # SEZIONE 4 — Edge case + fallback rules

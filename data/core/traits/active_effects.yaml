@@ -10278,3 +10278,84 @@ traits:
       Corna psico-conduttive: +2 damage melee (psionic_horn signal
       amplification). Architetto T4 proto-sapient horn geometry channels
       psionic intent into melee strike.
+
+  # ============================================================================
+  # 2026-05-10 D5 T4 fusomorpha_palustris trait activation (PR #2164 proposal)
+  # ============================================================================
+  # 5 orphan trait promoted con stub conservative.
+  # Playable T4 palude species core trait_plan + optional deps.
+
+  flusso_ameboide_controllato:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: move_bonus
+      amount: 1
+      duration: 1
+      log_tag: fusomorpha_amoeboid_flow
+    description_it: |
+      Flusso ameboide controllato: +1 move_bonus 1t (controlled pseudopod
+      locomotion). Proto-sapient precision T4 Individualista shapeshifter.
+
+  fagocitosi_assorbente:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: fusomorpha_phagocyte_absorb
+    description_it: |
+      Fagocitosi assorbente: +1 damage melee (absorb environmental
+      nutrients). Terrain advantage T4 metabolism-driven offense.
+
+  filtrazione_osmotica:
+    tier: T1
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: receive_damage
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: fusomorpha_osmotic_filter
+    description_it: |
+      Filtrazione osmotica: -1 damage taken (osmotic gradient control).
+      Stealth movement defensive layer T4 NF empath protection.
+
+  ermafroditismo_cronologico:
+    tier: T1
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 1
+      duration: 2
+      log_tag: fusomorpha_chrono_hermaphrodite
+    description_it: |
+      Ermafroditismo cronologico: +1 defense_mod 2t (sex-role seasonal
+      switching). T4 social complexity marker — mutualistic adaptability.
+
+  moltiplicazione_per_fusione:
+    tier: T2
+    category: utility
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: heal
+      amount: 0
+      dice: "1d4+1"
+      log_tag: fusomorpha_fusion_multi
+    description_it: |
+      Moltiplicazione per fusione: heal 1d4+1 self (temporary cell-fusion
+      cooperative action). Squad synergy T4 Playable adaptive shapeshifter.
