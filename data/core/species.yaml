@@ -36,6 +36,13 @@ catalog:
           resistances:
             res:
               cold: 1
+      # 2026-05-10 D5 T4 fusomorpha_palustris additions:
+      amoeboid_flow:
+        name: Amoeboid Flow
+        effects:
+          resistances:
+            res:
+              fisico: 1
     metabolism:
       sand_digest:
         name: Sand Digestor
@@ -67,6 +74,12 @@ catalog:
           resistances:
             res:
               cold: 2
+      phagocyte_absorber:
+        name: Phagocyte Absorber
+        effects:
+          resistances:
+            res:
+              chimico: 1
     offense:
       sand_claws:
         name: Sand Claws
@@ -82,6 +95,9 @@ catalog:
         effects: {}
       psionic_horn:
         name: Psionic Horn
+        effects: {}
+      pseudopod_lash:
+        name: Pseudopod Lash
         effects: {}
     defense:
       heat_scales:
@@ -116,6 +132,12 @@ catalog:
           resistances:
             res:
               mentale: 2
+      osmotic_membrane:
+        name: Osmotic Membrane
+        effects:
+          resistances:
+            res:
+              chimico: 2
     senses:
       echolocation:
         name: Echolocation
@@ -427,6 +449,38 @@ species:
       - "Distributed attention proto-sapient coordination (NT pattern-sensing)"
     ennea_archetype: Architetto
     mbti_form_bias: NT
+
+  # 2026-05-10 D5 T4 species adoption (PR #2164 proposal canonical):
+  # fusomorpha_palustris (Playable/T4/palude, Individualista NF).
+  # Closes T4 Playable slot + ladder COMPLETE (5/5 species T4 ship).
+  # Morphic shapeshifter ecosystem decomposer.
+  - id: fusomorpha_palustris
+    legacy_slug: fusomorpha_palustris
+    genus: Fusomorpha
+    epithet: palustris
+    clade_tag: Playable
+    sentience_tier: T4
+    display_name_it: Fusomorfa Palustre
+    display_name_en: Marsh Fusomorph
+    display_name: Fusomorfa Palustre
+    estimated_weight: 10
+    weight_budget: 14
+    biome_affinity: palude
+    default_parts:
+      locomotion: amoeboid_flow
+      metabolism: phagocyte_absorber
+      offense: [pseudopod_lash]
+      defense: [osmotic_membrane]
+      senses: [chemo_sonic_array]
+    trait_plan:
+      core: [flusso_ameboide_controllato, fagocitosi_assorbente, filtrazione_osmotica, ermafroditismo_cronologico]
+      optional: [moltiplicazione_per_fusione, branchie_metalloidi, capillari_fluoridici, scheletro_idro_regolante]
+      synergies: [flusso_ameboide_controllato, moltiplicazione_per_fusione]
+    synergy_hints:
+      - "Empathic shapeshifter reads group emotional state (Individualista)"
+      - "Mutualistic seasonal sex-role switching social complexity (NF)"
+    ennea_archetype: Individualista
+    mbti_form_bias: NF
 
   - id: simbionte_corallino_riflesso
     legacy_slug: simbionte_corallino_riflesso
