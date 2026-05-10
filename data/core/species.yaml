@@ -21,6 +21,14 @@ catalog:
           resistances:
             res:
               heat: 1
+      # 2026-05-10 D3 T4 sonaraptor_dissonans additions:
+      ionic_glider:
+        name: Ionic Glider
+        effects:
+          resistances:
+            res:
+              elettrico: 1
+              wind: 1
     metabolism:
       sand_digest:
         name: Sand Digestor
@@ -40,6 +48,12 @@ catalog:
           resistances:
             res:
               heat: 2
+      sonic_amplifier:
+        name: Sonic Amplifier
+        effects:
+          resistances:
+            res:
+              sonic: 2
     offense:
       sand_claws:
         name: Sand Claws
@@ -49,6 +63,9 @@ catalog:
         effects: {}
       vent_steam_burst:
         name: Vent Steam Burst
+        effects: {}
+      sonic_lance:
+        name: Sonic Lance
         effects: {}
     defense:
       heat_scales:
@@ -71,6 +88,12 @@ catalog:
             res:
               fisico: 1
               heat: 1
+      sonic_dampener:
+        name: Sonic Dampener
+        effects:
+          resistances:
+            res:
+              sonic: 2
     senses:
       echolocation:
         name: Echolocation
@@ -90,6 +113,13 @@ catalog:
           resistances:
             res:
               heat: 1
+      chemo_sonic_array:
+        name: Chemo Sonic Array
+        effects:
+          resistances:
+            res:
+              sonic: 1
+              chimico: 1
   synergies:
     # Schema (additive, runtime read by apps/backend/services/combat/synergyDetector.js):
     #   id        — slug stabile (telemetria + log)
@@ -313,6 +343,37 @@ species:
       - "Mutualistic network builder reads inter-species needs (NF empath)"
     ennea_archetype: Coordinatore
     mbti_form_bias: NF
+
+  # 2026-05-10 D3 T4 species adoption (PR #2164 proposal canonical):
+  # sonaraptor_dissonans (Threat/T4/canopia_ionica, Conquistatore SJ).
+  # Closes T4 Threat slot. Acoustic apex predator above T2 soniptera_resonans.
+  - id: sonaraptor_dissonans
+    legacy_slug: sonaraptor_dissonans
+    genus: Sonaraptor
+    epithet: dissonans
+    clade_tag: Threat
+    sentience_tier: T4
+    display_name_it: Sonaraptor Dissonante
+    display_name_en: Dissonant Sonaraptor
+    display_name: Sonaraptor Dissonante
+    estimated_weight: 16
+    weight_budget: 20
+    biome_affinity: canopia_ionica
+    default_parts:
+      locomotion: ionic_glider
+      metabolism: sonic_amplifier
+      offense: [sonic_lance]
+      defense: [sonic_dampener]
+      senses: [chemo_sonic_array]
+    trait_plan:
+      core: [cannone_sonico_a_raggio, campo_di_interferenza_acustica, sistemi_chimio_sonici, visione_multi_spettrale_amplificata]
+      optional: [comunicazione_fotonica_coda_coda, ali_fono_risonanti, antenne_tesla, ali_solari_fotoni]
+      synergies: [cannone_sonico_a_raggio, campo_di_interferenza_acustica]
+    synergy_hints:
+      - "Sonic territorial dominance + jamming field disruption (Conquistatore)"
+      - "Methodical territorial hunter + routine acoustic mapping (SJ)"
+    ennea_archetype: Conquistatore
+    mbti_form_bias: SJ
 
   - id: simbionte_corallino_riflesso
     legacy_slug: simbionte_corallino_riflesso

@@ -432,6 +432,43 @@ biome_pools:
       - "Le rovine insegnano chi resisteva."
 
   # ═══════════════════════════════════════════════════════════════════
+  # CANOPIA IONICA — biome_class: canopy/ionic
+  # 2026-05-10 D3 T4 species adoption (PR #2164):
+  # sonaraptor_dissonans Threat T4 (apex acoustic predator).
+  # Pre-PR: biome listed edge_cases. Now wired.
+  # ═══════════════════════════════════════════════════════════════════
+  canopia_ionica:
+    species_pool:
+      - id: sonaraptor_dissonans
+        clade_tag: Threat
+        sentience_tier: T4
+        ecological_role: threat_acoustic
+      - id: soniptera_resonans
+        clade_tag: Threat
+        sentience_tier: T2
+        ecological_role: threat_sonar
+    name_pool:
+      - Resor   # risuona
+      - Tonix   # tono
+      - Sirin   # sirena ionica
+      - Crysn   # cristallino
+      - Echos   # eco
+      - Volir   # volo ionico
+      - Pulsar  # pulsazione
+      - Phonix  # fonema
+      - Stridr  # stridente
+      - Vibre   # vibrante
+    biome_metaphor_set:
+      - "il vento porta cristalli che cantano spettralmente"
+      - "ogni nodo ionico vibra come una corda tesa"
+      - "le canope risuonano in armoniche fratte"
+      - "leggo i pattern ionici come una mappa sonora"
+    closing_pool:
+      - "L'eco si ritira."
+      - "La canopia respira."
+      - "Risonanza scolpisce."
+
+  # ═══════════════════════════════════════════════════════════════════
   # DORSALE TERMALE TROPICALE — biome_class: geothermal
   # 2026-05-10 D2 T4 species adoption (PR #2164):
   # symbiotica_thermalis Keystone T4 + umbra_alaris T3 esistente.
@@ -515,6 +552,10 @@ ennea_archetype_bias:
   # geothermal mutualism + ecosystem coordinator → Coordinatore primary.
   # symbiotica_thermalis Keystone T4 ennea_archetype: Coordinatore.
   dorsale_termale_tropicale: [Coordinatore, Architetto, Stoico]
+
+  # 2026-05-10 D3 T4 canopia_ionica wired (acoustic territorial dominance):
+  # sonaraptor_dissonans Threat T4 ennea_archetype: Conquistatore.
+  canopia_ionica: [Conquistatore, Cacciatore, Esploratore]
 
 # ─────────────────────────────────────────────────────────────────────
 # SEZIONE 4 — Edge case + fallback rules
