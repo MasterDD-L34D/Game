@@ -11,6 +11,7 @@ const narrativeSchema = require('./schemas/narrative.schema.json');
 const replaySchema = require('./schemas/replay.schema.json');
 const triSorgenteSchema = require('./schemas/tri-sorgente.schema.json');
 const skivCompanionSchema = require('./schemas/skiv_companion.schema.json');
+const lineageRitualSchema = require('./schemas/lineage_ritual.schema.json');
 
 module.exports = {
   generationSnapshotSchema,
@@ -24,4 +25,5 @@ module.exports = {
   replaySchema,
   triSorgenteSchema,
   skivCompanionSchema,
+  lineageRitualSchema,
 };
