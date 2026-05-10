@@ -427,3 +427,85 @@ test('triggerBondReaction returns null when no bonded ally available', () => {
     null,
   );
 });
+
+// ─────────────────────────────────────────────────────────────────
+// Gate 5 surface: structured stdout emit (TKT-BOND-HUD-SURFACE)
+// ─────────────────────────────────────────────────────────────────
+
+test('triggerBondReaction emits structured component=bond-reaction stdout on shield_ally fire', () => {
+  // Test pattern: override process.env to enable log + monkeypatch console.info
+  // to capture emit. Restore both after.
+  const target = makeUnit({ id: 't', species_id: 'queen', position: { x: 0, y: 0 }, hp: 8 });
+  const ally = makeUnit({
+    id: 'a',
+    species_id: 'drone',
+    position: { x: 1, y: 0 },
+    hp: 10,
+    max_hp: 10,
+  });
+  const session = makeSession([target, ally], { turn: 3, damage_taken: { t: 0, a: 0 } });
+
+  const captured = [];
+  const origInfo = console.info;
+  const origNodeEnv = process.env.NODE_ENV;
+  const origDisable = process.env.IDEA_ENGINE_DISABLE_BOND_LOG;
+  // eslint-disable-next-line no-console
+  console.info = (msg) => {
+    captured.push(msg);
+  };
+  delete process.env.NODE_ENV;
+  delete process.env.IDEA_ENGINE_DISABLE_BOND_LOG;
+  try {
+    const res = triggerBondReaction(session, null, target, 6, { bonds: [SHIELD_BOND] });
+    assert.ok(res, 'reaction fired');
+    assert.equal(captured.length, 1, 'one structured emit on fire');
+    const parsed = JSON.parse(captured[0]);
+    assert.equal(parsed.component, 'bond-reaction');
+    assert.equal(parsed.event, 'bond_fired');
+    assert.equal(parsed.bond_id, 'hive_link');
+    assert.equal(parsed.bond_type, 'shield_ally');
+    assert.equal(parsed.ally_id, 'a');
+    assert.equal(parsed.target_id, 't');
+    assert.equal(parsed.turn, 3);
+    assert.equal(parsed.damage_absorbed, 3, 'floor(6/2)');
+  } finally {
+    // eslint-disable-next-line no-console
+    console.info = origInfo;
+    if (origNodeEnv !== undefined) process.env.NODE_ENV = origNodeEnv;
+    if (origDisable !== undefined) process.env.IDEA_ENGINE_DISABLE_BOND_LOG = origDisable;
+  }
+});
+
+test('triggerBondReaction structured emit is suppressed by IDEA_ENGINE_DISABLE_BOND_LOG', () => {
+  const target = makeUnit({ id: 't', species_id: 'queen', position: { x: 0, y: 0 }, hp: 8 });
+  const ally = makeUnit({
+    id: 'a',
+    species_id: 'drone',
+    position: { x: 1, y: 0 },
+    hp: 10,
+    max_hp: 10,
+  });
+  const session = makeSession([target, ally], { turn: 1, damage_taken: { t: 0, a: 0 } });
+
+  const captured = [];
+  const origInfo = console.info;
+  const origDisable = process.env.IDEA_ENGINE_DISABLE_BOND_LOG;
+  // eslint-disable-next-line no-console
+  console.info = (msg) => {
+    captured.push(msg);
+  };
+  process.env.IDEA_ENGINE_DISABLE_BOND_LOG = '1';
+  try {
+    const res = triggerBondReaction(session, null, target, 6, { bonds: [SHIELD_BOND] });
+    assert.ok(res, 'reaction still fires (log opt-out is surface-only)');
+    assert.equal(captured.length, 0, 'no emit when disabled');
+  } finally {
+    // eslint-disable-next-line no-console
+    console.info = origInfo;
+    if (origDisable === undefined) {
+      delete process.env.IDEA_ENGINE_DISABLE_BOND_LOG;
+    } else {
+      process.env.IDEA_ENGINE_DISABLE_BOND_LOG = origDisable;
+    }
+  }
+});
