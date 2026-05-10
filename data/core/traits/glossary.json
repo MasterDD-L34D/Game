@@ -1865,12 +1865,6 @@
       "description_it": "Antenne Tesla permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di canopia ionica.",
       "description_en": "Antenne Tesla allow squads to redistribute load and modulate structural rigidity within canopia ionica."
     },
-    "antenne_waveguide": {
-      "label_it": "Antenne Waveguide",
-      "label_en": "Antenne Waveguide",
-      "description_it": "Antenne Waveguide permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di reef luminescente.",
-      "description_en": "Antenne Waveguide allow squads to interpret minute signals and unstable psionic patterns within reef luminescente."
-    },
     "antenne_wideband": {
       "label_it": "Antenne Wideband",
       "label_en": "Antenne Wideband",
@@ -3107,12 +3101,6 @@
       "description_it": "Lamelle meccano-recettive nelle squame che percepiscono vibrazioni del suolo e movimenti occultati.",
       "description_en": "Mechano-receptive lamellae in the scales sensing ground vibrations and hidden movements."
     },
-    "pack_tactics": {
-      "label_it": "Tattiche di Branco",
-      "label_en": "Pack Tactics",
-      "description_it": "Aumenta efficacia degli attacchi quando alleati adiacenti minacciano lo stesso bersaglio (flanking).",
-      "description_en": "Boosts attack effectiveness when adjacent allies threaten the same target (flanking)."
-    },
     "pathfinder": {
       "label_en": "Pathfinder",
       "label_it": "Pathfinder",
@@ -3220,12 +3208,6 @@
       "label_it": "Respiro a scoppio",
       "description_it": "Valvole toraciche che rilasciano getti propulsivi istantanei.",
       "description_en": "Thoracic valves unleashing instantaneous propulsion bursts."
-    },
-    "respiro_acido": {
-      "label_it": "Respiro Acido",
-      "label_en": "Acid Breath",
-      "description_it": "Ghiandole che spruzzano acido corrosivo incandescente. Ogni hit applica 3 turni di burning: il target subisce 2 PT di danno non riducibile al termine di ogni turno (più severo del sanguinamento).",
-      "description_en": "Glands that spray glowing corrosive acid. Each hit applies 3 turns of burning: the target takes 2 unreducible HP damage at the end of each turn (more severe than bleeding)."
     },
     "rete_filtro_polmonare": {
       "label_it": "Rete Filtro-Polmonare",

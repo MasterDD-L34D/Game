@@ -53,9 +53,10 @@
 
 ### Ancestors
 
-- [Ancestors Neurons Dump 01B — 34 trigger combat](cards/ancestors-neurons-dump-csv.md) — score 4/5 · 22 Self-Control reaction trigger · unintegrated
+- [Ancestors Neurons Dump 01B — 34 trigger combat](cards/ancestors-neurons-dump-csv.md) — score 4/5 · 22 Self-Control reaction trigger · integrated (PR #1813+#1817)
+- [Ancestors Rename Proposals v1/v2 — Branch Metadata Archive](cards/ancestors-297-orphan-2026-05-10.md) — score 3/5 · 18 branch groups + CC attribution per row · deferred · reuse: biome seeder Path A ~3h
 
-_Restanti: 8 artifact in inventory + 263 neuroni in binary `.zip` mancanti. Recovery autonomous schedulato 2026-05-16. Vedi [excavations/2026-04-25-ancestors-inventory.md](excavations/2026-04-25-ancestors-inventory.md)._
+_290/297 traits live in active_effects.yaml. Restante unconsumed: branch metadata + legacy_code + wiki sources URLs (proposals only). Vedi [excavations/2026-04-25-ancestors-inventory.md](excavations/2026-04-25-ancestors-inventory.md) + [galleries/ancestors.md](galleries/ancestors.md)._
 
 ### Cognitive traits / Sentience
 
@@ -149,11 +150,11 @@ _Restanti: 22 artifact in inventory (1 ADR formally Superseded + 4 partial super
 
 ## 📊 Stats
 
-- **Excavations run**: 9 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen)
-- **Artifact identificati**: ~98 totali (86 precedenti + 12 indie research session-4)
-- **Cards total**: 31 curate (7 score 5/5 · 13 score 4/5 · 9 score 3/5 · 2 score 2/5)
+- **Excavations run**: 10 totali (4 session-1 + 4 session-2 + 1 session-3: worldgen + 1 session-5: ancestors reentry)
+- **Artifact identificati**: ~99 totali (98 precedenti + 1 ancestors branch metadata)
+- **Cards total**: 32 curate (7 score 5/5 · 13 score 4/5 · 10 score 3/5 · 2 score 2/5)
 - **Galleries**: 3 (enneagramma + ancestors + worldgen)
-- **Last excavate**: 2026-04-27 (session 4: indie research 12 cards, cluster C.1+C.2+C.3+C.4)
+- **Last excavate**: 2026-05-10 (session 5: ancestors 297 reentry audit, M-2026-05-10-001)
 - **Coverage**: **100%+** (9/9 domain + indie research cluster nuovi)
 - **Skiv unblock**: 8/11 card hanno reuse path Skiv-aware (Sprint A: 2, Sprint B: 1, Sprint C: 4, biome-mover differentiation: 1)
 - **Cross-agent validation**: ✅ PASS 2026-04-25 (creature-aspect-illuminator consulted MUSEUM.md spontaneously, 6 GAP found, 10-15min saved)
@@ -230,6 +231,8 @@ docs/museum/
 ---
 
 ## 📅 Last verified
+
+**2026-05-10** — Session 5 ancestors reentry audit. Card M-2026-05-10-001 (score 3/5, branch metadata archive). Major finding: 290/297 traits already live; proposals = provenance + branch metadata only. Path C (sandbox header, 10min) + Path A (biome seeder ~3h) recommended. Audit doc: `docs/research/2026-05-10-ancestors-297-reentry-audit.md`.
 
 **2026-04-27** — Session 4 indie research curation complete. 12 nuove card (M-019→M-031). Cluster C.1 resource attrition (3) + C.2 combat depth (3) + C.3 narrative reactivity (4) + C.4 visual emergence (2). Score distribution: 3×4/5, 7×3/5, 2×2/5. Verified ratio: 0/12 (tutti da doc research, nessuna provenance git diretta). Pending decisions: D3/D4/D5 + TKT-09 + Bundle A/B/C/post-playtest trigger conditions.
 
