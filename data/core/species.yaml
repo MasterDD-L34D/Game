@@ -29,6 +29,13 @@ catalog:
             res:
               elettrico: 1
               wind: 1
+      # 2026-05-10 D4 T4 psionerva_montis additions:
+      cryogenic_climber:
+        name: Cryogenic Climber
+        effects:
+          resistances:
+            res:
+              cold: 1
     metabolism:
       sand_digest:
         name: Sand Digestor
@@ -54,6 +61,12 @@ catalog:
           resistances:
             res:
               sonic: 2
+      cryostasis_adaptive:
+        name: Cryostasis Adaptive
+        effects:
+          resistances:
+            res:
+              cold: 2
     offense:
       sand_claws:
         name: Sand Claws
@@ -66,6 +79,9 @@ catalog:
         effects: {}
       sonic_lance:
         name: Sonic Lance
+        effects: {}
+      psionic_horn:
+        name: Psionic Horn
         effects: {}
     defense:
       heat_scales:
@@ -94,6 +110,12 @@ catalog:
           resistances:
             res:
               sonic: 2
+      psi_shield:
+        name: Psionic Shield
+        effects:
+          resistances:
+            res:
+              mentale: 2
     senses:
       echolocation:
         name: Echolocation
@@ -374,6 +396,37 @@ species:
       - "Methodical territorial hunter + routine acoustic mapping (SJ)"
     ennea_archetype: Conquistatore
     mbti_form_bias: SJ
+
+  # 2026-05-10 D4 T4 species adoption (PR #2164 proposal canonical):
+  # psionerva_montis (Bridge/T4/caldera_glaciale, Architetto NT).
+  # Closes T4 Bridge slot. Proto-sapient psionic mountain dweller.
+  - id: psionerva_montis
+    legacy_slug: psionerva_montis
+    genus: Psionerva
+    epithet: montis
+    clade_tag: Bridge
+    sentience_tier: T4
+    display_name_it: Psionerva Montano
+    display_name_en: Psinerve Highlander
+    display_name: Psionerva Montano
+    estimated_weight: 12
+    weight_budget: 16
+    biome_affinity: caldera_glaciale
+    default_parts:
+      locomotion: cryogenic_climber
+      metabolism: cryostasis_adaptive
+      offense: [psionic_horn]
+      defense: [psi_shield]
+      senses: [magnetic_olfaction]
+    trait_plan:
+      core: [corna_psico_conduttive, focus_frazionato, criostasi_adattiva, olfatto_risonanza_magnetica]
+      optional: [metabolismo_di_condivisione_energetica, lobi_risonanti_crepuscolo, antenne_tesla, capillari_criogenici]
+      synergies: [corna_psico_conduttive, focus_frazionato]
+    synergy_hints:
+      - "Psionic signal amplification via horn geometry (Architetto)"
+      - "Distributed attention proto-sapient coordination (NT pattern-sensing)"
+    ennea_archetype: Architetto
+    mbti_form_bias: NT
 
   - id: simbionte_corallino_riflesso
     legacy_slug: simbionte_corallino_riflesso
