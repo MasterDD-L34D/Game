@@ -9685,3 +9685,96 @@ traits:
       Spore psichiche silenziate: +1 damage stealthed melee. Mirror
       trait_mechanics (attack_mod 1 + damage_step 1 + mentale/dark res).
       Apply_status confused/silenced effect future ticket — stub damage-only.
+
+  # ============================================================================
+  # 2026-05-10 TKT-TRAIT-MECH-NO-HANDLER batch 2 — 5 stubs research-validated
+  # ============================================================================
+  # Research via balance-illuminator agent (museum + traitEffects.js whitelist
+  # canonical). Ship confidence HIGH per traits 1/3/5, MEDIUM per 2/4 (annotato
+  # inline). Strategy C (5/batch) per BACKLOG.md TKT-TRAIT-MECH-NO-HANDLER.
+
+  ipertrofia_muscolare_massiva:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: ipertrofia_power_strike
+    description_it: |
+      Ipertrofia muscolare massiva: +2 damage su melee (power_strike). Mirror
+      trait_mechanics (attack_mod 1 + damage_dice 2d6+2 fisico). Secondary
+      ground_pound earth deferred (dual-ability stub batch 2 ship primary only).
+
+  cannone_sonico_a_raggio:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: ranged_attack
+    effect:
+      kind: extra_damage
+      amount: 2
+      log_tag: cannone_sonic_blast
+    # Comment guard 2026-05-10: on_hit_status disorient handled by session.js
+    # performAttack via on_hit_status field in trait_mechanics.yaml — do NOT
+    # duplicate apply_status here. Stub covers damage contribution only.
+    description_it: |
+      Cannone sonico a raggio: +2 damage ranged (sonic_blast). Mirror
+      trait_mechanics (attack_mod 1 + damage_step 2 max + mentale channel).
+
+  secrezione_rallentante_palmi:
+    tier: T2
+    category: control
+    applies_to: target
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: apply_status
+      stato: disoriented
+      duration: 1
+      intensity: 1
+      log_tag: secrezione_slowing_touch
+    description_it: |
+      Secrezione rallentante palmi: apply_status disoriented su melee hit.
+      Mirror trait_mechanics (defense_mod 1 base + slowing_touch ability
+      enemy-targeting). Status duration 1 + intensity 1 conservative.
+
+  mimetismo_cromatico_passivo:
+    tier: T2
+    category: difensivo
+    applies_to: actor
+    trigger:
+      action_type: passive
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 2
+      duration: 1
+      log_tag: mimetismo_chromatic_fade
+    # Conservative delta 2026-05-10: trait_mechanics buff_stat:3 ma ship 2
+    # batch 2 stay-conservative policy. Bump 3 se TKT-M11B-06 playtest
+    # mostra under-powered.
+    description_it: |
+      Mimetismo cromatico passivo: +2 defense_mod buff_stat (chromatic_fade).
+      Mirror trait_mechanics (defense_mod 1 base + buff_stat 3) con conservative
+      downgrade per ship sicuro batch 2.
+
+  cute_resistente_sali:
+    tier: T2
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: receive_damage
+    effect:
+      kind: buff_stat
+      stat: defense_mod
+      amount: 2
+      duration: 2
+      log_tag: cute_salt_harden
+    description_it: |
+      Cute resistente sali: +2 defense_mod buff_stat reactive su receive_damage
+      (salt_harden). Mirror trait_mechanics (defense_mod 1 + dual resist
+      fuoco/taglio + buff_stat 2 duration 2). Indurimento reattivo pattern.
