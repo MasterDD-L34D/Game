@@ -90,10 +90,18 @@ jobs:
           # Fallback GITHUB_TOKEN se PAT non setup — in quel caso CI viene
           # esplicitamente dispatched via `gh workflow run` step successivo.
           GITHUB_TOKEN: ${{ secrets.AUTODEPLOY_PAT || secrets.GITHUB_TOKEN }}
-          # Marker per step successivo: rileva se PAT-based path attivo.
-          AUTODEPLOY_PAT_ACTIVE: ${{ secrets.AUTODEPLOY_PAT != '' }}
+          # Codex P3 fix 2026-05-10: marker promosso a step OUTPUT (non env)
+          # per visibility cross-step. Step env scope = step only.
+          AUTODEPLOY_PAT_PRESENT: ${{ secrets.AUTODEPLOY_PAT != '' }}
         id: open_pr
         run: |
+          # Persist PAT-presence marker via step output (env scope insufficient).
+          if [ "$AUTODEPLOY_PAT_PRESENT" = "true" ]; then
+            echo "autodeploy_pat_active=true" >> $GITHUB_OUTPUT
+          else
+            echo "autodeploy_pat_active=false" >> $GITHUB_OUTPUT
+          fi
+
           if [ -z "$(git status --porcelain docs/mission-console/)" ]; then
             echo "No changes to docs/mission-console/ — skip PR creation."
             echo "pr_created=false" >> $GITHUB_OUTPUT
@@ -143,9 +151,21 @@ jobs:
           EOF
           )
 
+          # Codex P2 fix 2026-05-10: ensure auto-merge L3 candidate label
+          # exists in repo (create-if-missing idempotent) prima di add a PR.
+          # Originale `gh pr create --label auto-merge-l3-candidate` failed
+          # con "label not found" su test PR #2184 → label droppata. Senza
+          # label, generated dist PR non riconosciuti da L3 cascade
+          # (ADR-2026-05-07).
+          gh label create auto-merge-l3-candidate \
+            --description "PR candidata auto-merge L3 cascade (ADR-2026-05-07 7-gate)" \
+            --color FBCA04 \
+            --force 2>/dev/null || echo "Label auto-merge-l3-candidate already exists or create skipped."
+
           gh pr create \
             --title "chore(mission-console): auto-build dist ${DATE_TAG}" \
             --body "$PR_BODY" \
+            --label "auto-merge-l3-candidate" \
             --label "automation" \
             --base main \
             --head "$BRANCH"
@@ -161,7 +181,10 @@ jobs:
       # auto-PR per popolare required status checks. Skip se PAT attivo
       # (CI fired natural via PR open).
       - name: Force CI dispatch if no PAT (recursion guard fallback)
-        if: steps.open_pr.outputs.pr_created == 'true' && env.AUTODEPLOY_PAT_ACTIVE != 'true'
+        # Codex P3 fix 2026-05-10: condizione legge step OUTPUT (cross-step
+        # visible) invece di step ENV (step-scope only). Senza fix, condition
+        # vedeva sempre empty value → duplicate dispatch su PAT-created PR.
+        if: steps.open_pr.outputs.pr_created == 'true' && steps.open_pr.outputs.autodeploy_pat_active != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ steps.open_pr.outputs.branch }}
