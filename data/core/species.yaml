@@ -223,6 +223,7 @@ species:
         - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
         - ferocia
         - biofilm_iperarido
+        - antenne_dustsense
       synergies:
         - focus_frazionato
         - risonanza_di_branco
@@ -272,7 +273,7 @@ species:
       senses: [echolocation]
     trait_plan:
       core: [impulsi_bioluminescenti, nodi_sinaptici_superficiali, membrane_fotoconvoglianti, lobi_risonanti_crepuscolo]
-      optional: [filamenti_guidalampo, sensori_planctonici, ghiandole_mnemoniche, secrezioni_antistatiche, scintilla_sinaptica, canto_risonante]
+      optional: [filamenti_guidalampo, sensori_planctonici, ghiandole_mnemoniche, secrezioni_antistatiche, scintilla_sinaptica, canto_risonante, tentacoli_uncinati]
       synergies: [impulsi_bioluminescenti]
     synergy_hints: []
 
@@ -297,7 +298,7 @@ species:
     trait_plan:
       core: [nebbia_mnesica, lobi_risonanti_crepuscolo, ghiandole_mnemoniche, organi_metacronici]
       # Sprint 6: spirito_combattivo (any-ally morale) fits swarm dynamics
-      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo, riverbero_memetico, vortice_nera_flash, spirito_combattivo]
+      optional: [secrezioni_antistatiche, spicole_canalizzatrici, filamenti_echo, riverbero_memetico, vortice_nera_flash, spirito_combattivo, canto_di_richiamo]
       synergies: [lobi_risonanti_crepuscolo]
     synergy_hints: []
 
@@ -350,7 +351,7 @@ species:
       senses: [magnetic_olfaction]
     trait_plan:
       core: [elettromagnete_biologico, scivolamento_magnetico, integumento_bipolare, olfatto_risonanza_magnetica]
-      optional: [seta_conduttiva_elettrica, capillari_fotovoltaici, antenne_tesla, bioantenne_gravitiche, artigli_induzione, epidermide_dielettrica]
+      optional: [seta_conduttiva_elettrica, capillari_fotovoltaici, antenne_tesla, bioantenne_gravitiche, artigli_induzione, epidermide_dielettrica, ghiandole_nebbia_ionica, filamenti_superconduttivi]
       synergies: [elettromagnete_biologico, scivolamento_magnetico]
     synergy_hints:
       - "Active electromagnetic field doubles as sensing + weapon (Esploratore archetype)"
@@ -382,7 +383,7 @@ species:
       senses: [thermal_gradient]
     trait_plan:
       core: [metabolismo_di_condivisione_energetica, scheletro_idraulico_a_pistoni, filtro_metallofago, sacche_galleggianti_ascensoriali]
-      optional: [risonanza_di_branco, capillari_fluoridici, branchie_metalloidi, batteri_termofili_endosimbiosi, denti_chelatanti]
+      optional: [risonanza_di_branco, capillari_fluoridici, branchie_metalloidi, batteri_termofili_endosimbiosi, denti_chelatanti, ghiandole_iodoattive, enzimi_antipredatori_algali, batteri_endosimbionti_chemio, filamenti_termoconduzione]
       synergies: [metabolismo_di_condivisione_energetica, risonanza_di_branco]
     synergy_hints:
       - "Heat-energy sharing with adjacent allies (Coordinatore archetype)"
@@ -444,7 +445,7 @@ species:
       senses: [magnetic_olfaction]
     trait_plan:
       core: [corna_psico_conduttive, focus_frazionato, criostasi_adattiva, olfatto_risonanza_magnetica]
-      optional: [metabolismo_di_condivisione_energetica, lobi_risonanti_crepuscolo, antenne_tesla, capillari_criogenici, artigli_sghiaccio_glaciale]
+      optional: [metabolismo_di_condivisione_energetica, lobi_risonanti_crepuscolo, antenne_tesla, capillari_criogenici, artigli_sghiaccio_glaciale, enzimi_antifase_termica, occhi_cristallo_modulare]
       synergies: [corna_psico_conduttive, focus_frazionato]
     synergy_hints:
       - "Psionic signal amplification via horn geometry (Architetto)"
@@ -476,7 +477,7 @@ species:
       senses: [chemo_sonic_array]
     trait_plan:
       core: [flusso_ameboide_controllato, fagocitosi_assorbente, filtrazione_osmotica, ermafroditismo_cronologico]
-      optional: [moltiplicazione_per_fusione, branchie_metalloidi, capillari_fluoridici, scheletro_idro_regolante]
+      optional: [moltiplicazione_per_fusione, branchie_metalloidi, capillari_fluoridici, scheletro_idro_regolante, spore_paniche]
       synergies: [flusso_ameboide_controllato, moltiplicazione_per_fusione]
     synergy_hints:
       - "Empathic shapeshifter reads group emotional state (Individualista)"
@@ -568,6 +569,8 @@ species:
         - artigli_acidofagi
         - aculei_velenosi
         - cuticole_neutralizzanti
+        - ghiandole_nebbia_acida
+        - enzimi_chelatori_rapidi
       synergies: []
     synergy_hints: []
 
@@ -801,6 +804,6 @@ species:
         - motore_biologico_silenzioso
         - artigli_ipo_termici
         - comunicazione_fotonica_coda_coda
-      optional: [artigli_scivolo_silente]
+      optional: [artigli_scivolo_silente, ghiandole_inchiostro_luce]
       synergies: []
     synergy_hints: []
