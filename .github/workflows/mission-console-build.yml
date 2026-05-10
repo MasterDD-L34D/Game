@@ -221,8 +221,14 @@ jobs:
               DISPATCH_FAILURES+=("$WF")
             fi
           done
+          # Codex P2 round 4 fix 2026-05-10: loud-fail step se dispatch
+          # incomplete. Senza exit 1, step appare ✓ + auto-PR resta senza
+          # required CI → branch protection blocca silently. Exit 1 forza
+          # workflow run RED → master-dd notice immediato + remediation
+          # actionable.
           if [ ${#DISPATCH_FAILURES[@]} -gt 0 ]; then
-            echo "::warning::Fallback dispatch incomplete: ${DISPATCH_FAILURES[*]}. Auto-PR may lack required CI status checks until manual remediation."
+            echo "::error::Fallback dispatch incomplete: ${DISPATCH_FAILURES[*]}. Auto-PR #${{ steps.open_pr.outputs.pr_number }} created but required CI status checks NOT dispatched. Remediation: master-dd setup AUTODEPLOY_PAT secret OR add workflow_dispatch: trigger to listed workflows."
+            exit 1
           fi
 
           echo "::notice::Auto-PR #${{ steps.open_pr.outputs.pr_number }} created via GITHUB_TOKEN fallback. Required CI checks dispatched explicitly. Merge may require AUTODEPLOY_PAT secret setup if branch protection rule expects native pull_request event checks."
