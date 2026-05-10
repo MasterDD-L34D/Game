@@ -191,6 +191,39 @@ species:
       synergies: [emettitori_voidsong]
     synergy_hints: []
 
+  # 2026-05-10 D1 T4 species adoption (PR #2164 proposal canonical):
+  # electromanta_abyssalis (Apex/T4/frattura_abissale_sinaptica, Esploratore NT).
+  # Closes T4 ladder Apex gap (was T5 leviatano_risonante only).
+  # 5 orphan trait activated: elettromagnete_biologico + scivolamento_magnetico +
+  # seta_conduttiva_elettrica + integumento_bipolare + olfatto_risonanza_magnetica.
+  - id: electromanta_abyssalis
+    legacy_slug: electromanta_abyssalis
+    genus: Electromanta
+    epithet: abyssalis
+    clade_tag: Apex
+    sentience_tier: T4
+    display_name_it: Electromanta Abissale
+    display_name_en: Abyssal Electromanta
+    display_name: Electromanta Abissale
+    estimated_weight: 18
+    weight_budget: 22
+    biome_affinity: frattura_abissale_sinaptica
+    default_parts:
+      locomotion: glider_magnetic
+      metabolism: bioelectric_field
+      offense: [electric_pulse]
+      defense: [bipolar_skin]
+      senses: [magnetic_olfaction]
+    trait_plan:
+      core: [elettromagnete_biologico, scivolamento_magnetico, integumento_bipolare, olfatto_risonanza_magnetica]
+      optional: [seta_conduttiva_elettrica, capillari_fotovoltaici, antenne_tesla, bioantenne_gravitiche]
+      synergies: [elettromagnete_biologico, scivolamento_magnetico]
+    synergy_hints:
+      - "Active electromagnetic field doubles as sensing + weapon (Esploratore archetype)"
+      - "Bipolar polarity switching enables attack/defense duality (NT strategic)"
+    ennea_archetype: Esploratore
+    mbti_form_bias: NT
+
   - id: simbionte_corallino_riflesso
     legacy_slug: simbionte_corallino_riflesso
     genus: Corallosymbion
