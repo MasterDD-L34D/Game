@@ -52,7 +52,7 @@ mutations:
         threshold: 3
         window: encounter
       - kind: biome_turn_count
-        biome_class: glacial
+        biome_class: upland
         threshold: 1
         sistema_pressure_min: 50
     visual_swap_it: "Tier 2: artigli ipo termici -> artigli sghiaccio glaciale. Morfologia visibilmente ristrutturata."
@@ -127,7 +127,7 @@ mutations:
     # 2026-05-10 Phase 1 schema add (ADR-2026-05-10).
     trigger_conditions:
       - kind: cumulative_turns_biome
-        biome_class: swampy
+        biome_class: wetland
         threshold: 10
       - kind: status_apply_count
         status: bleeding
@@ -169,7 +169,7 @@ mutations:
         count: 5
         window: encounter
       - kind: cumulative_turns_biome
-        biome_class: aquatic
+        biome_class: littoral
         threshold: 5
     visual_swap_it: "Tier 2: scheletro pneumatico a maglie -> scheletro idro regolante. Morfologia visibilmente ristrutturata."
     aspect_token: "skeleton_buffered"
@@ -368,7 +368,7 @@ mutations:
         mos_threshold: 8
         count: 10
         window: session
-        side: actor
+        side: target
       - kind: sistema_signal_active
         signal_id: precision_predator
     visual_swap_it: "Tier 2: occhi cinetici -> occhi cristallo modulare. Organi sensoriali emissivi."
@@ -406,7 +406,7 @@ mutations:
         mos_threshold: 12
         count: 1
         window: session
-        side: actor
+        side: target
       - kind: trait_active_cumulative
         trait_id: antenne_tesla
         encounter_count: 5
@@ -450,10 +450,10 @@ mutations:
         mos_threshold: 10
         count: 1
         window: encounter
-        side: actor
+        side: target
         elevation_min: 1
       - kind: cumulative_turns_biome
-        biome_class: solar
+        biome_class: arid
         threshold: 5
     visual_swap_it: "Tier 2: ali ioniche -> ali solari fotoni. Organi sensoriali emissivi."
     aspect_token: "wings_solar"
@@ -490,9 +490,9 @@ mutations:
         mos_threshold: 8
         count: 5
         window: encounter
-        side: actor
+        side: target
       - kind: cumulative_turns_biome
-        biome_class: cavernous
+        biome_class: subterranean
         threshold: 5
     visual_swap_it: "Tier 2: ali fulminee -> ali fono risonanti. Organi sensoriali emissivi."
     aspect_token: "wings_phono"
@@ -575,7 +575,7 @@ mutations:
         count: 5
         window: session
       - kind: cumulative_turns_biome
-        biome_class: ionico
+        biome_class: canopy
         threshold: 5
     visual_swap_it: "Tier 2: pelli anti ustione -> epidermide dielettrica. Aura biome-reactive percettibile."
     aspect_token: "skin_dielectric"
@@ -607,7 +607,7 @@ mutations:
     # 2026-05-10 Phase 1 batch 3 (ADR-2026-05-10).
     trigger_conditions:
       - kind: cumulative_turns_biome
-        biome_class: metallic
+        biome_class: volcanic
         threshold: 5
     visual_swap_it: "Tier 2: branchie microfiltri -> branchie metalloidi. Aura biome-reactive percettibile."
     aspect_token: "gills_metalloid"
@@ -700,7 +700,7 @@ mutations:
     # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
     trigger_conditions:
       - kind: cumulative_turns_biome
-        biome_class: abissale
+        biome_class: subterranean
         threshold: 5
     visual_swap_it: "Tier 2: carapaci ferruginosi -> carapace luminiscente abissale. Morfologia visibilmente ristrutturata."
     aspect_token: "carapace_luminescent"
@@ -837,7 +837,7 @@ mutations:
     # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
     trigger_conditions:
       - kind: biome_turn_count
-        biome_class: palustre
+        biome_class: wetland
         threshold: 5
     visual_swap_it: "Tier 2: ghiandole inchiostro luce -> ghiandole nebbia acida. Morfologia visibilmente ristrutturata."
     aspect_token: "glands_acid"
@@ -870,7 +870,7 @@ mutations:
     # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
     trigger_conditions:
       - kind: biome_turn_count
-        biome_class: chimicamente
+        biome_class: wetland
         threshold: 5
     visual_swap_it: "Tier 2: enzimi chelanti -> enzimi chelatori rapidi. Morfologia visibilmente ristrutturata."
     aspect_token: "enzymes_rapid"
@@ -981,7 +981,7 @@ mutations:
     # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
     trigger_conditions:
       - kind: biome_turn_count
-        biome_class: metallico
+        biome_class: volcanic
         threshold: 5
     visual_swap_it: "Tier 2: cartilagini biofibre -> cartilagini pseudometalliche. Aura biome-reactive percettibile."
     aspect_token: "cartilage_metallic"
@@ -1014,7 +1014,7 @@ mutations:
     # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
     trigger_conditions:
       - kind: cumulative_turns_biome
-        biome_class: luminoso
+        biome_class: canopy
         threshold: 5
     visual_swap_it: "Tier 2: membrane pneumatofori -> membrane fotoconvoglianti. Aura biome-reactive percettibile."
     aspect_token: "membrane_photonic"
@@ -1151,7 +1151,7 @@ mutations:
     # 2026-05-10 Phase 1 batch 4 auto-extract (ADR-2026-05-10).
     trigger_conditions:
       - kind: cumulative_turns_biome
-        biome_class: forestale
+        biome_class: forest
         threshold: 8
     visual_swap_it: "Tier 2: emerge mucillagine simbionte mangrovie. Filamenti radicali visibili (overlay distinct)."
     aspect_token: "symbiote_mycorrhiza"
