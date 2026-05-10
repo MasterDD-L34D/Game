@@ -8,10 +8,23 @@
 ## Progetto
 
 - **Nome**: Evo-Tactics
-- **Versione compact**: v33 (post sessione 2026-05-09 sera K4 Approach B + 4 task autonomous closure — 4 PR Game/ shipped main)
-- **Ultimo aggiornamento**: 2026-05-09 sera. **4 PR Game/ shipped** ~2-2.5h cumulative: #2149 K4 Approach B commit-window guard (100% WR N=40 +10pp baseline) + #2150 swap default aggressive utility ON + commit_window 2 + #2151 FASE 1 T1.3 browser sync spectator Playwright harness + #2153 FASE 5 nightly cron `.github/workflows/ai-sim-nightly.yml` + threshold checker. Cumulative Day 5 (2026-05-09 mattina+sera) = **13 PR Game/ shipped** (#2140-#2151 + #2153) + 1 Godot v2 + 1 Godot v2 direct main.
+- **Versione compact**: v34 (post sessione 2026-05-09 sera→2026-05-10 nightly cron P0 fix + sweep harness extension)
+- **Ultimo aggiornamento**: 2026-05-10 ~01:25 UTC. **3 PR Game/ shipped main + 1 DRAFT-→ready-review**:
+  - #2155 `48eaf24a` nightly cron P0 (WS port 3334 vs 3341 + `set +e` regression-detection)
+  - #2152 `5466cf45` Skiv Monitor auto-update admin merge
+  - labels create direct (3rd P0 — `ai-sim-regression` + `automated` mancavano)
+  - #2156 DRAFT→ready-review: scenario diversity sweep harness YAML loader opt-in (Codex P2 #1 grid + #2 objective whitelist addressed, NIT 2 WS scheme validation shipped)
+  - Cumulative Day 5 + 2026-05-10 closure = **15 PR Game/ shipped main** (#2140-#2151 + #2153 + #2155 + #2152) + 1 PR open #2156 + 1 Godot v2 + 1 Godot v2 direct main.
 
-## ⚡ Resume trigger phrase canonical (next session — post-2026-05-09-sera)
+## ⚡ Resume trigger phrase canonical (next session — post-2026-05-10 closure)
+
+> _"verifica primo nightly cron run scheduled 2026-05-10 02:00 UTC (artifact + threshold report — auto-fired post wakeup chain), merge PR #2156 master-dd verdict pending (sweep YAML loader + Codex P2 fix), poi MAP-Elites sticky × commit × softmax grid OR scenario diversity sweep run real (aggressive × enc_tutorial_01/02 + savana/caverna/savana_skiv/survival)"_
+
+OR (post-#2156 merge):
+
+> _"esegui scenario diversity sweep aggressive default × 5+ scenari validi (enc_tutorial_01/02 + savana_01 + caverna_02 + savana_skiv + survival_01) N=20 con AI_SIM_LOAD_YAML=1 — ~10-15min compute"_
+
+OR (precedente — invariato):
 
 > _"verifica primo nightly cron run 2026-05-10 02:00 UTC (artifact + threshold report) + esegui scenario diversity sweep aggressive default × enc_tutorial_02..05 + hardcore-\*"_
 
