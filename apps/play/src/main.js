@@ -947,6 +947,31 @@ async function doAction(body) {
       ? `move [${body.position.x},${body.position.y}]`
       : `atk ${body.target_id}`;
   appendLog(logEl, `${body.actor_id}: ${tag}`);
+
+  // 2026-05-10 TKT-BOND-HUD-SURFACE Phase B (verdict #A2 = A).
+  // Surface bond_reaction trigger nel log player-visible. Backend
+  // emette bond_reaction field in /api/session/action response
+  // (apps/backend/routes/session.js:932). Pre-fix: response field
+  // ignorato → engine LIVE / surface DEAD Gate 5 violation.
+  if (r.data?.bond_reaction?.triggered) {
+    const bond = r.data.bond_reaction;
+    const buffSummary = bond.buff_applied
+      ? `${bond.buff_applied.stat} +${bond.buff_applied.amount} (${bond.buff_applied.duration}t)`
+      : '';
+    appendLog(
+      logEl,
+      `🔗 LEGAME ${bond.bond_id || '?'}: ${bond.actor_id}+${bond.ally_id} → ${buffSummary}`,
+      'success',
+    );
+  }
+  // Multi-bond stack (line 939: beast_bond_reactions: [...]).
+  if (Array.isArray(r.data?.beast_bond_reactions) && r.data.beast_bond_reactions.length > 0) {
+    for (const bb of r.data.beast_bond_reactions) {
+      if (bb?.triggered) {
+        appendLog(logEl, `🔗 Bond stack ${bb.bond_id}: ${bb.actor_id}+${bb.ally_id}`, 'success');
+      }
+    }
+  }
   await refresh();
 }
 
