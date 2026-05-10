@@ -425,6 +425,49 @@ biome_pools:
       - "Le rovine insegnano chi resisteva."
 
 # ─────────────────────────────────────────────────────────────────────
+# SEZIONE 3.5 — Ennea archetype bias per biome (TKT-SKIV-ENNEA-ARCHETYPE)
+# ─────────────────────────────────────────────────────────────────────
+#
+# 2026-05-10 audit cross-domain BACKLOG: skiv_archetype_pool aveva
+# 0/9 Ennea archetype assignments → companion worldgen no path per
+# triggerare enneaEffects su instance Skiv-archetype.
+#
+# Mapping biome → 2-3 Ennea types weighted (semantic fit). Future
+# companion service ("companionService.js" — TKT-SKIV-COMPANION-SERVICE,
+# Tier L scope) usa questo lookup per assegnare ennea archetype a
+# istanze companion generative, abilitando enneaEffects runtime.
+#
+# Schema: biome → ennea types ordered by weight (primary, secondary,
+# tertiary). Selection via worldgen seed o squad_dominant_form bias.
+#
+# Cross-ref: apps/backend/services/enneaEffects.js (handler 9/9 wired)
+
+ennea_archetype_bias:
+  # Arid + threat-heavy → predator endurance
+  savana: [Cacciatore, Stoico, Conquistatore]
+
+  # Subterranean + eco-listening → introspection + vigilance
+  caverna: [Architetto, Lealista, Stoico]
+
+  # Balanced + variety → coordinator + explorer
+  foresta_temperata: [Coordinatore, Esploratore, Riformatore]
+
+  # Harsh + survival → endurance + predator
+  badlands: [Stoico, Cacciatore, Riformatore]
+
+  # Volcanic + reef exotic → explorer + individualist
+  atollo_obsidiana: [Esploratore, Individualista, Cacciatore]
+
+  # Strange + neural → introspection + individualist
+  frattura_abissale_sinaptica: [Architetto, Individualista, Esploratore]
+
+  # Heights + isolation → endurance + reformer
+  terrestre_montano: [Stoico, Riformatore, Architetto]
+
+  # Ancient + mystery → introspection + reformer
+  rovine_planari: [Architetto, Riformatore, Lealista]
+
+# ─────────────────────────────────────────────────────────────────────
 # SEZIONE 4 — Edge case + fallback rules
 # ─────────────────────────────────────────────────────────────────────
 
