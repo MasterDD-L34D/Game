@@ -9596,3 +9596,92 @@ traits:
       session.lastMissionWoundedPerma map (riapplica HP penalty allo start).
       Severity 3-tier (Action 5a 2026-04-29): light/medium/severe → attack_mod
       penalty 0/-1/-2 letto da statusModifiers.js. Default `light` backward-compat.
+
+  # ============================================================================
+  # 2026-05-10 TKT-TRAIT-MECH-NO-HANDLER batch 1 — 5 high-impact stubs
+  # ============================================================================
+  # Cross-domain audit BACKLOG: 31 trait_mechanics entries con PT cost +
+  # damage tuned ma ZERO active_effects handler → pure economy dead weight.
+  # Wave 1 conservative stubs per top 5 high-impact traits. Effect kind
+  # mappato su trait_mechanics fields:
+  #   - attack_mod ≥ 1 + damage_step ≥ 1 → extra_damage actor-side
+  #   - defense_mod ≥ 2 → damage_reduction target-side
+  #   - reactive (ability_id ignition_surge / explosive_rush) → extra_damage simple
+  # Future scope (TKT-TRAIT-MECH-NO-HANDLER batch 2-7): per-trait design call
+  # per remaining 26 traits con effect.kind specifici (apply_status / buff_stat /
+  # area_burst). Master-dd verdict needed per design granular.
+
+  frusta_fiammeggiante:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: frusta_fiammeggiante_lash
+    description_it: |
+      Frusta fiammeggiante: +1 damage su attacco melee. Mirror trait_mechanics
+      (attack_mod 1 + damage_step 1). Ability ignition (whip_lash) handler
+      separato — questo stub solo damage delta.
+
+  mantello_meteoritico:
+    tier: T3
+    category: difensivo
+    applies_to: target
+    trigger:
+      action_type: receive_damage
+    effect:
+      kind: damage_reduction
+      amount: 1
+      log_tag: mantello_meteoritico_block
+    description_it: |
+      Mantello meteoritico: -1 damage taken. Mirror trait_mechanics
+      (defense_mod 2 → conservative -1 amount). Resistenze multiple
+      (fisico/fuoco/earth) gestite separately da resistanceEngine.
+
+  respiro_a_scoppio:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: ranged_attack
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: respiro_a_scoppio_burst
+    description_it: |
+      Respiro a scoppio: +1 damage su attacco ranged area. Stub conservativo
+      (full area logic ability explosive_rush handler separato — ticket
+      future per area_burst kind).
+
+  sangue_piroforico:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: sangue_piroforico_ignite
+    description_it: |
+      Sangue piroforico: +1 damage su melee. Mirror trait_mechanics
+      (attack_mod 1 + fuoco res 10%). Ability ignition_surge reactive
+      handler future (apply_status burning) — questo stub damage-only.
+
+  spore_psichiche_silenziate:
+    tier: T2
+    category: offensivo
+    applies_to: actor
+    trigger:
+      action_type: melee_attack
+    effect:
+      kind: extra_damage
+      amount: 1
+      log_tag: spore_psichiche_silenziate_silence
+    description_it: |
+      Spore psichiche silenziate: +1 damage stealthed melee. Mirror
+      trait_mechanics (attack_mod 1 + damage_step 1 + mentale/dark res).
+      Apply_status confused/silenced effect future ticket — stub damage-only.
