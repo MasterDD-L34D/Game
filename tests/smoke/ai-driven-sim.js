@@ -44,6 +44,7 @@
 const WebSocket = require('ws');
 const fs = require('node:fs');
 const path = require('node:path');
+const yaml = require('js-yaml');
 
 const TUNNEL = process.env.TUNNEL;
 if (!TUNNEL) {
@@ -63,6 +64,14 @@ const LOG_DIR = process.env.AI_SIM_LOG_DIR || '/tmp/ai-sim-runs';
 const SISTEMA_PROFILE = String(process.env.AI_SIM_SISTEMA_PROFILE || 'balanced');
 const RUN_SEED = process.env.AI_SIM_SEED ? Number(process.env.AI_SIM_SEED) : null;
 const RUN_LABEL = String(process.env.AI_SIM_RUN_LABEL || '');
+// 2026-05-10 — opt-in YAML scenario loader.
+// Default false → synthetic 2-enemy fallback (cron baseline preserved).
+// True → load docs/planning/encounters/<scenario_id>.yaml + spawn dynamic
+// enemies from wave_id=1 (port of tools/py/batch_calibrate_non_elim.py
+// encounter_to_units). Sblocca real diversity sweep × tutorial 02 +
+// hardcore_reinf_01 + capture/escort/survival/savana/caverna/frattura.
+const LOAD_YAML = process.env.AI_SIM_LOAD_YAML === '1';
+const ENCOUNTER_DIR = path.resolve(__dirname, '../../docs/planning/encounters');
 
 fs.mkdirSync(LOG_DIR, { recursive: true });
 const RUN_TS = new Date().toISOString().replace(/[:.]/g, '-');
@@ -150,6 +159,66 @@ function selectPlayerAction(actor, units) {
     ? { x: actor.position.x + dx, y: actor.position.y }
     : { x: actor.position.x, y: actor.position.y + dy };
   return { action_type: 'move', target_position };
+}
+
+// 2026-05-10 — YAML scenario loader (opt-in via AI_SIM_LOAD_YAML=1).
+// Port da tools/py/batch_calibrate_non_elim.py:encounter_to_units.
+// Carica docs/planning/encounters/<scenario_id>.yaml, parsa wave_id=1
+// (turn_trigger=0), espande units per count, applica tier→stat table
+// (base/elite/apex). Ritorna array unit compatibile session/start.
+//
+// IMPORTANT: keeps profile injection da AI_SIM_SISTEMA_PROFILE override
+// (master profile sweep) ma rispetta `ai_profile` per-unit YAML come
+// fallback se override non set OR allow per-wave granular control via
+// AI_SIM_USE_YAML_PROFILE=1 opt-in (deferred future).
+function buildEnemiesFromYaml(scenarioId, profileOverride) {
+  const yamlPath = path.join(ENCOUNTER_DIR, `${scenarioId}.yaml`);
+  if (!fs.existsSync(yamlPath)) {
+    throw new Error(`yaml_missing:${yamlPath}`);
+  }
+  const raw = fs.readFileSync(yamlPath, 'utf-8');
+  const parsed = yaml.load(raw);
+  if (!parsed || !Array.isArray(parsed.waves) || parsed.waves.length === 0) {
+    throw new Error(`yaml_invalid_waves:${scenarioId}`);
+  }
+  // Pick wave with smallest turn_trigger (initial spawn).
+  const sortedWaves = [...parsed.waves].sort(
+    (a, b) => (a.turn_trigger || 0) - (b.turn_trigger || 0),
+  );
+  const wave1 = sortedWaves[0];
+  const spawnPoints = wave1.spawn_points || [[0, 0]];
+  const tierToHp = { base: 7, elite: 10, apex: 14 };
+  const tierToMod = { base: 1, elite: 2, apex: 4 };
+  const tierToDc = { base: 11, elite: 12, apex: 14 };
+  const enemies = [];
+  let spIdx = 0;
+  for (const unitDef of wave1.units || []) {
+    const tier = unitDef.tier || 'base';
+    const count = unitDef.count || 1;
+    const species = unitDef.species || 'predoni_nomadi';
+    const yamlProfile = unitDef.ai_profile || 'aggressive';
+    for (let i = 0; i < count; i += 1) {
+      const pos = spawnPoints[spIdx % spawnPoints.length];
+      spIdx += 1;
+      enemies.push({
+        id: `sis_${enemies.length + 1}`,
+        name: species,
+        controlled_by: 'sistema',
+        hp: tierToHp[tier] || 7,
+        max_hp: tierToHp[tier] || 7,
+        ap_remaining: 2,
+        ap_max: 2,
+        attack_range: 1,
+        damage: { min: 1, max: 3 },
+        defense: tierToMod[tier] || 1,
+        position: { x: pos[0], y: pos[1] },
+        species_id: species,
+        mbti_type: 'aggressive',
+        ai_profile: profileOverride || yamlProfile,
+      });
+    }
+  }
+  return enemies;
 }
 
 // Synthetic Sistema scenario units (enc_tutorial_01-equivalent baseline)
@@ -247,6 +316,7 @@ function logSistemaDecisions(round, body) {
     sistema_profile: SISTEMA_PROFILE,
     run_seed: RUN_SEED,
     run_label: RUN_LABEL,
+    load_yaml: LOAD_YAML,
   });
 
   // --- bootstrap lobby ---
@@ -319,10 +389,25 @@ function logSistemaDecisions(round, body) {
 
   // --- session/start ---
   logSection('session/start');
+  let enemies;
+  try {
+    enemies = LOAD_YAML
+      ? buildEnemiesFromYaml(SCENARIO_ID, SISTEMA_PROFILE)
+      : buildScenarioEnemies();
+  } catch (err) {
+    console.error('YAML scenario load failed:', err.message, '— falling back synthetic');
+    log('yaml_fallback', { scenario: SCENARIO_ID, error: err.message });
+    enemies = buildScenarioEnemies();
+  }
   const startBody = {
     characters,
-    units: buildScenarioEnemies(),
+    units: enemies,
     scenario_id: SCENARIO_ID,
+    // 2026-05-10 — pass encounter_id when YAML mode so backend
+    // encounterLoader populates objective + biomeSpawnBias + conditions
+    // (see apps/backend/routes/session.js:1473). Without this, non-elim
+    // objectives never trigger objectiveEvaluator.
+    ...(LOAD_YAML ? { encounter_id: SCENARIO_ID } : {}),
   };
   const start = await postJson('/api/session/start', startBody);
   if (start.status !== 200 && start.status !== 201) {
