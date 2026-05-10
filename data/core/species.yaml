@@ -222,6 +222,7 @@ species:
         - lamelle_termoforetiche
         - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
         - ferocia
+        - biofilm_iperarido
       synergies:
         - focus_frazionato
         - risonanza_di_branco
@@ -349,7 +350,7 @@ species:
       senses: [magnetic_olfaction]
     trait_plan:
       core: [elettromagnete_biologico, scivolamento_magnetico, integumento_bipolare, olfatto_risonanza_magnetica]
-      optional: [seta_conduttiva_elettrica, capillari_fotovoltaici, antenne_tesla, bioantenne_gravitiche, artigli_induzione]
+      optional: [seta_conduttiva_elettrica, capillari_fotovoltaici, antenne_tesla, bioantenne_gravitiche, artigli_induzione, epidermide_dielettrica]
       synergies: [elettromagnete_biologico, scivolamento_magnetico]
     synergy_hints:
       - "Active electromagnetic field doubles as sensing + weapon (Esploratore archetype)"
@@ -504,7 +505,7 @@ species:
     trait_plan:
       core: [coralli_sinaptici_fotofase, membrane_fotoconvoglianti, placca_diffusione_foschia, organi_metacronici, nodi_sinaptici_superficiali]
       # Sprint 6: spirito_combattivo (any-ally morale) — Support clade encourages mixed-team buff
-      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante, spirito_combattivo]
+      optional: [filamenti_guidalampo, ghiandole_mnemoniche, sensori_planctonici, emolinfa_conducente, scintilla_sinaptica, riverbero_memetico, canto_risonante, spirito_combattivo, carapace_luminiscente_abissale]
       synergies: [coralli_sinaptici_fotofase]
     synergy_hints: []
 
@@ -566,6 +567,7 @@ species:
         - legame_di_branco # Sprint 6 — bond reaction trigger (same-species pack coord)
         - artigli_acidofagi
         - aculei_velenosi
+        - cuticole_neutralizzanti
       synergies: []
     synergy_hints: []
 
@@ -683,7 +685,7 @@ species:
         - fagocitosi_assorbente
         - moltiplicazione_per_fusione
         - cisti_di_ibernazione_minerale
-      optional: []
+      optional: [cartilagini_biofibre]
       synergies: []
     synergy_hints: []
 
@@ -741,7 +743,7 @@ species:
         - campo_di_interferenza_acustica
         - cervello_a_bassa_latenza
         - occhi_cinetici
-      optional: [ali_ioniche]
+      optional: [ali_ioniche, cartilagini_flessoacustiche]
       synergies: []
     synergy_hints: []
 
