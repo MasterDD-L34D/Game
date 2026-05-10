@@ -19,6 +19,10 @@ species_examples:
       metabolism: heat_saver
     preferred_biomes: [cinder-dunes, ferrous-badlands]
     role_tags: [apex, predator, playable]
+    trait_plan:
+      core: [coda_contrappeso]
+      optional: [midollo_iperattivo, pungiglione_paralizzante]
+      synergies: []
     source: docx_2026-04-16
     # ecology backfill (ADR-2026-05-02): apex sandstorm/dune predator.
     ecology:
@@ -67,6 +71,10 @@ species_examples:
       metabolism: glide_lung
     preferred_biomes: [redspur-mesa, zephyr-steppe]
     role_tags: [bridge, disperser, playable]
+    trait_plan:
+      core: [ali_membrana_sonica]
+      optional: [canto_di_richiamo]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_lithoraptor_acutornis
@@ -85,6 +93,10 @@ species_examples:
       metabolism: fast_burn
     preferred_biomes: [shardfall-ridge, ferrous-badlands]
     role_tags: [threat, predator]
+    trait_plan:
+      core: [intimidatore]
+      optional: [lamelle_shear]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_salifossa_tenebris
@@ -121,6 +133,10 @@ species_examples:
       metabolism: draft_sacs
     preferred_biomes: [redspur-mesa, zephyr-steppe]
     role_tags: [bridge, scout]
+    trait_plan:
+      core: [ali_fulminee]
+      optional: [membrane_pneumatofori]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_ferrimordax_rutilus
@@ -139,6 +155,10 @@ species_examples:
       metabolism: ore_store
     preferred_biomes: [ferrous-badlands, shardfall-ridge]
     role_tags: [apex, predator]
+    trait_plan:
+      core: [denti_ossidoferro]
+      optional: [carapaci_ferruginosi]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_pyrosaltus_celeris
@@ -157,6 +177,10 @@ species_examples:
       metabolism: spark_gland
     preferred_biomes: [cinder-dunes, ashen-sink]
     role_tags: [threat, ambusher]
+    trait_plan:
+      core: [denti_silice_termici]
+      optional: [zampe_radianti]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_basaltocara_scutata
@@ -175,6 +199,10 @@ species_examples:
       metabolism: slow_furnace
     preferred_biomes: [basalt-grottos, hollow-fumaroles]
     role_tags: [support, sentinel]
+    trait_plan:
+      core: [artigli_vetrificati]
+      optional: [ghiandole_fango_calde]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_arenaceros_placidus
@@ -193,6 +221,10 @@ species_examples:
       metabolism: silica_gut
     preferred_biomes: [cinder-dunes, redspur-mesa]
     role_tags: [keystone, grazer]
+    trait_plan:
+      core: [artigli_radice]
+      optional: [membrane_eliofiltranti]
+      synergies: []
     source: docx_2026-04-16
     # ecology backfill (ADR-2026-05-02): grazer keystone, dust-eating herd.
     ecology:
@@ -217,6 +249,10 @@ species_examples:
       metabolism: glow_sac
     preferred_biomes: [lumen-canopy, paleroot-tangle]
     role_tags: [bridge, disperser]
+    trait_plan:
+      core: []
+      optional: [carapace_segmenti_logici]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_radiluma_pendula
@@ -235,6 +271,10 @@ species_examples:
       metabolism: biolamp_gland
     preferred_biomes: [paleroot-tangle, lumen-canopy]
     role_tags: [support, symbiont]
+    trait_plan:
+      core: []
+      optional: [biofilm_glow, carapace_luminiscente_abissale]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_limnofalcis_serrata
@@ -271,6 +311,10 @@ species_examples:
       metabolism: low_oxygen_blood
     preferred_biomes: [umbral-karst, basalt-grottos]
     role_tags: [bridge, scout]
+    trait_plan:
+      core: []
+      optional: [antenne_microonde_cavernose, tentacoli_uncinati]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_calamipes_gracilis
@@ -343,6 +387,10 @@ species_examples:
       metabolism: repair_gel
     preferred_biomes: [umbral-karst, crystal-scree]
     role_tags: [keystone, support]
+    trait_plan:
+      core: []
+      optional: [cartilagini_pseudometalliche, camere_mirage]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_glaciolabis_nitida
@@ -523,6 +571,10 @@ species_examples:
       metabolism: night_liver
     preferred_biomes: [umbral-karst, mistral-hollows]
     role_tags: [apex, predator]
+    trait_plan:
+      core: []
+      optional: [ghiandole_condensa_ozono]
+      synergies: []
     source: docx_2026-04-16
     # ecology backfill (ADR-2026-05-02): nocturnal apex, solitary stalker.
     ecology:
@@ -547,6 +599,10 @@ species_examples:
       metabolism: iron_rumen
     preferred_biomes: [ironbloom-wastes, ferrous-badlands]
     role_tags: [support, playable, grazer]
+    trait_plan:
+      core: []
+      optional: [circolazione_bifasica]
+      synergies: []
     source: docx_2026-04-16
 
   - id: sp_siltovena_bifida
