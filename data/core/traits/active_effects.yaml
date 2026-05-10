@@ -10359,3 +10359,23 @@ traits:
     description_it: |
       Moltiplicazione per fusione: heal 1d4+1 self (temporary cell-fusion
       cooperative action). Squad synergy T4 Playable adaptive shapeshifter.
+
+  # 2026-05-10 V13 TKT-P1-TRAIT-MECH-PASSIVE-FIX — passive trigger gemello
+  # dell'ability attiva digest_heal (jobs.yaml trait_native). Su hit innesca
+  # micro-digestione di contatto: heal 1d6+1 actor.
+  filamenti_digestivi_compattanti:
+    tier: T1
+    category: fisiologico
+    applies_to: actor
+    trigger:
+      action_type: attack
+      on_result: hit
+    effect:
+      kind: heal
+      amount: 0
+      dice: "1d6+1"
+      log_tag: filamenti_digestivi_heal
+    description_it: |
+      Filamenti digestivi compattanti: ogni hit innesca micro-digestione
+      di contatto. Recupera 1d6+1 HP actor passivamente. Gemello passivo
+      della ability attiva digest_heal (trait_native pseudo-job).
