@@ -9,6 +9,41 @@
 
 ## 🔴 Priorità alta (bloccanti o sbloccanti)
 
+### ✅ Nightly cron P0 fix + scenario diversity sweep harness extension — sessione 2026-05-09 sera→2026-05-10 — 3 PR shipped + 1 DRAFT
+
+Resume trigger user "verifica primo nightly cron run 2026-05-10 02:00 UTC + esegui scenario diversity sweep aggressive default × enc_tutorial_02..05 + hardcore-\*". P0 caught a T-7h pre-prima cron + harness gap discovered.
+
+| #   | PR                                                       | SHA                  | Topic                                                                          |
+| --- | -------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------ |
+| 1   | [#2155](https://github.com/MasterDD-L34D/Game/pull/2155) | `48eaf24a`           | nightly cron P0 — WS port 3334 vs 3341 split + `set +e` regression-detection   |
+| 2   | [#2152](https://github.com/MasterDD-L34D/Game/pull/2152) | `5466cf45`           | Skiv Monitor auto-update admin merge (canonical pattern)                       |
+| 3   | _label create_                                           | _direct_             | `ai-sim-regression` + `automated` labels create (3rd P0 surfaced via dispatch) |
+| 4   | [#2156](https://github.com/MasterDD-L34D/Game/pull/2156) | DRAFT → ready-review | scenario diversity sweep harness YAML loader opt-in (master-dd verdict gated)  |
+
+**N=40 verify dispatch [#25609294902](https://github.com/MasterDD-L34D/Game/actions/runs/25609294902)**: ✅ CLEAN — completion 100% × 3 profile, drift ±10pp tolerance, aggressive avg_rounds 24.2 = PR #2149 baseline exact.
+
+**Cumulative Day 5 + 2026-05-10 closure** = 15 PR Game/ shipped main (#2140-#2151 + #2153 + #2155 + #2152) + 1 PR open (#2156).
+
+**Codex P2 review #2156 addressed (commit `072d3e38` + `b3ee75ea`)**:
+
+- P2 #1 grid sizing: `pickModulationForGrid()` mapping YAML grid_size edge → preset deployed count (`solo`/`trio_mid`/`duo_hardcore`) → backend allocates grid coerente
+- P2 #2 objective whitelist: `SUPPORTED_OBJECTIVE_TYPES = [elimination, survival]` — escort/capture_point/etc throw + graceful fallback synthetic
+- NIT 2 (self-review #2155): WS_URL scheme validation `/^wss?:\/\//`
+
+### Deferred follow-up tickets (post-Codex review #2156)
+
+| Ticket                         | Scope                                                                                                                                                                  |         Effort          | Trigger                                                      |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------: | ------------------------------------------------------------ |
+| **TKT-SWEEP-MULTI-WAVE**       | extend `buildEnemiesFromYaml` a wave_id>1 turn_trigger handling (worker drives reinforcement spawn via session/round events)                                           |          ~2-3h          | post-merge #2156 + sweep signal positivo su wave_id=1        |
+| **TKT-SWEEP-ESCORT-TARGET**    | spawn `objective.escort_target` unit + extend `selectPlayerAction` a escort-protect policy                                                                             |           ~2h           | post merge multi-wave OR if master-dd richiede escort sweep  |
+| **TKT-SWEEP-CAPTURE-CAMP**     | extend `selectPlayerAction` a capture-point camp tile policy + tile occupancy detection                                                                                |          ~2-3h          | post merge multi-wave OR if master-dd richiede capture sweep |
+| **TKT-ENCOUNTER-T03-T05**      | crea YAML enc_tutorial_03/04/05 (PCG generation OR designer-authored) — pressure_start 50/75/95 progression                                                            | ~3-5h design + ~1h YAML | post sweep harness validated + designer assigned             |
+| **TKT-SWEEP-HARDCORE-PATH**    | bootstrap path harness per `apps/backend/services/hardcoreScenario.js` programmatic scenarios (separate da YAML loader)                                                |          ~3-4h          | post sweep YAML loader validated                             |
+| **TKT-SWEEP-PER-UNIT-PROFILE** | `AI_SIM_USE_YAML_PROFILE=1` flag opt-in per granular per-wave ai_profile vs sweep override globale                                                                     |         ~30min          | low priority, design call gate                               |
+| **TKT-NIGHTLY-WORKFLOW-NIT-1** | port 3341 hardcoded in workflow comment — pull from `LOBBY_WS_PORT` env block o backend exports                                                                        |         ~30min          | next workflow PR (forbidden path master-dd grant gate)       |
+| **TKT-NIGHTLY-WORKFLOW-NIT-3** | comment workflow eval step exit-code contract reference (`0=clean`, `non-zero=regression`)                                                                             |         ~10min          | come sopra (forbidden path)                                  |
+| **TKT-TERRAIN-FLAKY**          | `tests/api/terrainReactionsWire.test.js:119` `terrain wire: tile state ttl decays at turn end` — flaky failure rerun-on-pass detected 2026-05-10 dispatch #25616222307 |  RCA ~1h + fix ~30min   | next session OR si ripresenta                                |
+
 ### ✅ K4 Approach B + 4 task autonomous closure — sessione 2026-05-09 sera — 4 PR shipped
 
 K4 follow-up cycle complete + 3 task scaling parallel. Resume trigger user "leggi handoff PR #2148, esegui Option A K4 Approach B" + escalation "3+5+esegui FASE 1 T1.3" + grant esplicito `.github/workflows/`.
