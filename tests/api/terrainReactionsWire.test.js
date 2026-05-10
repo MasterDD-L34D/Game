@@ -44,9 +44,12 @@ test('terrain wire: fire channel attack on normal tile → tile becomes fire', a
   const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
 
   // Force-reattempt fino a hit (rng reale): turn loop garantisce AP refresh.
+  // 2026-05-10 flaky-fix consistency con line 132 (12 → 30 iters per RNG safety
+  // margin). 12 iters expected ~8 hits ma RNG variance produced ~5% test fail
+  // rate. 30 iters = effectively 100% probability.
   let hit = false;
   let stateMap = {};
-  for (let i = 0; i < 12 && !hit; i++) {
+  for (let i = 0; i < 30 && !hit; i++) {
     const r = await request(app).post('/api/session/action').send({
       session_id: sid,
       actor_id: 'p1',
@@ -168,8 +171,9 @@ test('terrain wire: lightning + water → electrified + burst damage', async (t)
   const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
 
   // Step 1: water tile via 'acqua' channel (puddle).
+  // 2026-05-10 flaky-fix 12 → 30 iters per RNG safety margin (consistency line 132).
   let waterCreated = false;
-  for (let i = 0; i < 12 && !waterCreated; i++) {
+  for (let i = 0; i < 30 && !waterCreated; i++) {
     const r = await request(app).post('/api/session/action').send({
       session_id: sid,
       actor_id: 'p1',
@@ -185,8 +189,9 @@ test('terrain wire: lightning + water → electrified + burst damage', async (t)
   assert.ok(waterCreated, 'water tile created via acqua channel');
 
   // Step 2: lightning strike on water → electrified + burst 2 dmg.
+  // 2026-05-10 flaky-fix 12 → 30 iters per RNG safety margin (consistency line 132).
   let electrified = false;
-  for (let i = 0; i < 12 && !electrified; i++) {
+  for (let i = 0; i < 30 && !electrified; i++) {
     const r = await request(app).post('/api/session/action').send({
       session_id: sid,
       actor_id: 'p1',
@@ -226,8 +231,9 @@ test('terrain wire: terrain_reaction field surfaced in attack event log', async 
   });
   const sid = await startWithUnits(app, twoUnits({ sisHp: 100 }));
 
+  // 2026-05-10 flaky-fix 12 → 30 iters per RNG safety margin (consistency line 132).
   let hit = false;
-  for (let i = 0; i < 12 && !hit; i++) {
+  for (let i = 0; i < 30 && !hit; i++) {
     const r = await request(app).post('/api/session/action').send({
       session_id: sid,
       actor_id: 'p1',
