@@ -36,7 +36,7 @@ const BASELINE_WR = {
   aggressive_sticky_30: 0.6, // K4 sticky 0.30 (PR #2147)
   aggressive_commit_window: 1.0, // K4 Approach B explicit profile
   balanced: 1.0, // historical 100% WR
-  cautious: 0.85, // historical ~85% WR
+  cautious: 0.95, // empirical N=40 measurement 2026-05-10 (#25609294902 95.0%, #25616775262 97.5%) — was 0.85 placeholder; deferred update flagged PR #2149 closure
 };
 
 function parseArgs(argv) {
